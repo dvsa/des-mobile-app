@@ -1,27 +1,24 @@
+import { PluginListenerHandle } from '@capacitor/core';
 import {
   GetCurrentOrientationResult,
   LockOptions,
   ScreenOrientationChangeListener,
   ScreenOrientationPlugin,
 } from '@capawesome/capacitor-screen-orientation/dist/esm/definitions';
-import { PluginListenerHandle } from '@capacitor/core';
 
 export const ScreenOrientation: ScreenOrientationPlugin = {
-  async lock(options: LockOptions): Promise<void> {
-  },
-  async unlock(): Promise<void> {
-  },
+  async lock(options: LockOptions): Promise<void> {},
+  async unlock(): Promise<void> {},
   async getCurrentOrientation(): Promise<GetCurrentOrientationResult> {
     return {} as GetCurrentOrientationResult;
   },
   addListener(
     eventName: 'screenOrientationChange',
-    listenerFunc: ScreenOrientationChangeListener,
+    listenerFunc: ScreenOrientationChangeListener
   ): Promise<PluginListenerHandle> & PluginListenerHandle {
     return null;
   },
-  async removeAllListeners(): Promise<void> {
-  },
+  async removeAllListeners(): Promise<void> {},
 };
 
 export enum OrientationType {
@@ -48,5 +45,5 @@ export enum OrientationType {
   /**
    * The orientation is in the secondary portrait mode.
    */
-  PORTRAIT_SECONDARY = 'portrait-secondary'
+  PORTRAIT_SECONDARY = 'portrait-secondary',
 }

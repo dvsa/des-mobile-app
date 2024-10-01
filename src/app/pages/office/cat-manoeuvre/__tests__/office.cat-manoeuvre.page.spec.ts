@@ -354,7 +354,7 @@ describe('OfficeCatManoeuvrePage', () => {
       const faultSummary: FaultSummary = {
         competencyIdentifier: 'manoeuvres-reverseParkRoad-control',
         comment: 'Control issue',
-        source: CommentSource.MANOEUVRES + '-reverseParkRoad-control',
+        source: `${CommentSource.MANOEUVRES}-reverseParkRoad-control`,
       } as FaultSummary;
 
       component.dangerousFaultCommentChanged(faultSummary);
@@ -406,7 +406,7 @@ describe('OfficeCatManoeuvrePage', () => {
       const faultSummary: FaultSummary = {
         competencyIdentifier: 'manoeuvres-reverseParkRoad-control',
         comment: 'Control issue',
-        source: CommentSource.MANOEUVRES + '-reverseParkRoad-control',
+        source: `${CommentSource.MANOEUVRES}-reverseParkRoad-control`,
       } as FaultSummary;
 
       component.seriousFaultCommentChanged(faultSummary);

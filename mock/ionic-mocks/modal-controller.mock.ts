@@ -3,7 +3,6 @@ import { ModalOptions, OverlayEventDetail } from '@ionic/core';
 
 @Injectable()
 export class ModalControllerMock {
-
   dismiss = () => Promise.resolve(false);
 
   create(opts?: ModalOptions): Promise<HTMLIonModalElement> {

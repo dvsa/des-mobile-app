@@ -228,14 +228,12 @@ export class ChartComponent implements OnInit, OnChanges {
           */
           if (this.splitLabel) {
             return this.calculatePercentages
-              ? opts.w.globals.labels[opts.seriesIndex].split(/[ ,]+/)[0] + ':  ' + Number(val).toFixed(1) + '%'
-              : opts.w.globals.labels[opts.seriesIndex].split(/[ ,]+/)[0] +
-                  ':  ' +
-                  this.passedData[opts.seriesIndex].percentage;
+              ? `${opts.w.globals.labels[opts.seriesIndex].split(/[ ,]+/)[0]}:  ${Number(val).toFixed(1)}%`
+              : `${opts.w.globals.labels[opts.seriesIndex].split(/[ ,]+/)[0]}:  ${this.passedData[opts.seriesIndex].percentage}`;
           }
           return this.calculatePercentages
-            ? opts.w.globals.labels[opts.seriesIndex] + ':  ' + Number(val).toFixed(1) + '%'
-            : opts.w.globals.labels[opts.seriesIndex] + ':  ' + this.passedData[opts.seriesIndex].percentage;
+            ? `${opts.w.globals.labels[opts.seriesIndex]}:  ${Number(val).toFixed(1)}%`
+            : `${opts.w.globals.labels[opts.seriesIndex]}:  ${this.passedData[opts.seriesIndex].percentage}`;
         },
       },
       //Applies a border to the chart elements
@@ -319,15 +317,7 @@ export class ChartComponent implements OnInit, OnChanges {
         enabled: false,
         //formatting for the tooltip
         custom: ({ series, seriesIndex, dataPointIndex, w }) =>
-          '<div class="ion-padding">' +
-          '<ion-text class="mes-data">' +
-          '' +
-          w.globals.labels[dataPointIndex] +
-          ': ' +
-          series[seriesIndex][dataPointIndex] +
-          '' +
-          '</ion-text>' +
-          '</div>',
+          `<div class="ion-padding"><ion-text class="mes-data">${w.globals.labels[dataPointIndex]}: ${series[seriesIndex][dataPointIndex]}</ion-text></div>`,
       },
       //options for specific graph types
       plotOptions: {

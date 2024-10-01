@@ -26,4 +26,3 @@ interface StyleOptions {
 interface AnimationOptions {
   animation: Animation;
 }
-

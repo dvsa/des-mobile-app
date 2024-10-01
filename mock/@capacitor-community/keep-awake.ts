@@ -1,6 +1,4 @@
 export const KeepAwake = {
-  keepAwake: async () => {
-  },
-  allowSleep: async () => {
-  },
+  keepAwake: async () => {},
+  allowSleep: async () => {},
 };

@@ -1,6 +1,6 @@
-import { ExaminerWorkSchedule } from '@dvsa/mes-journal-schema';
 import { writeFileSync } from 'fs';
 import { dirname, join } from 'path';
+import { ExaminerWorkSchedule } from '@dvsa/mes-journal-schema';
 import { getNextWorkingDayAsIsoDate, getPreviousWorkingDayAsIsoDate, getTodayAsIsoDate } from './mock-date-utils';
 
 const journalSchema = require('@dvsa/mes-journal-schema/index.json');
@@ -70,9 +70,7 @@ export const localJournal: ExaminerWorkSchedule = {
           businessName: 'Business Name',
           telephone: '0234 234433',
         },
-        previousCancellation: [
-          'Act of nature',
-        ],
+        previousCancellation: ['Act of nature'],
       },
       slotDetail: {
         duration: 57,
@@ -124,10 +122,7 @@ export const localJournal: ExaminerWorkSchedule = {
           dateOfBirth: '1979-10-20',
           ethnicityCode: 'A',
         },
-        previousCancellation: [
-          'DSA',
-          'Act of nature',
-        ],
+        previousCancellation: ['DSA', 'Act of nature'],
       },
       slotDetail: {
         duration: 57,

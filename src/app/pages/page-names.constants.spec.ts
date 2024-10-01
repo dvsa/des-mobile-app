@@ -18,7 +18,7 @@ describe('PageNameConstants', () => {
       expect(getPageNameByCategoryAndKey(TestCategory.A, 'OFFICE_PAGE')).toEqual(undefined);
     });
     [TestCategory.ADI3, TestCategory.SC].forEach((value) => {
-      it('should return OfficeCatADIPart3Page if the category is ' + value, () => {
+      it(`should return OfficeCatADIPart3Page if the category is ${value}`, () => {
         expect(getPageNameByCategoryAndKey(value, 'OFFICE_PAGE')).toEqual('OfficeCatADIPart3Page');
       });
     });
@@ -26,32 +26,32 @@ describe('PageNameConstants', () => {
       expect(getPageNameByCategoryAndKey(TestCategory.B, 'OFFICE_PAGE')).toEqual('OfficeCatBPage');
     });
     [TestCategory.C, TestCategory.C1, TestCategory.CE, TestCategory.C1E].forEach((value) => {
-      it('should return OfficeCatCPage if the category is ' + value, () => {
+      it(`should return OfficeCatCPage if the category is ${value}`, () => {
         expect(getPageNameByCategoryAndKey(value, 'OFFICE_PAGE')).toEqual('OfficeCatCPage');
       });
     });
     [TestCategory.CCPC, TestCategory.DCPC].forEach((value) => {
-      it('should return OfficeCatCPCPage if the category is ' + value, () => {
+      it(`should return OfficeCatCPCPage if the category is ${value}`, () => {
         expect(getPageNameByCategoryAndKey(value, 'OFFICE_PAGE')).toEqual('OfficeCatCPCPage');
       });
     });
     [TestCategory.D, TestCategory.D1, TestCategory.DE, TestCategory.D1E].forEach((value) => {
-      it('should return OfficeCatDPage if the category is ' + value, () => {
+      it(`should return OfficeCatDPage if the category is ${value}`, () => {
         expect(getPageNameByCategoryAndKey(value, 'OFFICE_PAGE')).toEqual('OfficeCatDPage');
       });
     });
     [TestCategory.F, TestCategory.G, TestCategory.H, TestCategory.K].forEach((value) => {
-      it('should return OfficeCatHomeTestPage if the category is ' + value, () => {
+      it(`should return OfficeCatHomeTestPage if the category is ${value}`, () => {
         expect(getPageNameByCategoryAndKey(value, 'OFFICE_PAGE')).toEqual('OfficeCatHomeTestPage');
       });
     });
     [TestCategory.EUA1M1, TestCategory.EUA2M1, TestCategory.EUAM1, TestCategory.EUAMM1].forEach((value) => {
-      it('should return OfficeCatAMod1Page if the category is ' + value, () => {
+      it(`should return OfficeCatAMod1Page if the category is ${value}`, () => {
         expect(getPageNameByCategoryAndKey(value, 'OFFICE_PAGE')).toEqual('OfficeCatAMod1Page');
       });
     });
     [TestCategory.EUA1M2, TestCategory.EUA2M2, TestCategory.EUAM2, TestCategory.EUAMM2].forEach((value) => {
-      it('should return OfficeCatAMod2Page if the category is ' + value, () => {
+      it(`should return OfficeCatAMod2Page if the category is ${value}`, () => {
         expect(getPageNameByCategoryAndKey(value, 'OFFICE_PAGE')).toEqual('OfficeCatAMod2Page');
       });
     });
@@ -65,7 +65,7 @@ describe('PageNameConstants', () => {
       TestCategory.DEM,
       TestCategory.D1EM,
     ].forEach((value) => {
-      it('should return OfficeCatManoeuvrePage if the category is ' + value, () => {
+      it(`should return OfficeCatManoeuvrePage if the category is ${value}`, () => {
         expect(getPageNameByCategoryAndKey(value, 'OFFICE_PAGE')).toEqual('OfficeCatManoeuvrePage');
       });
     });

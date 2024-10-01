@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 
 @Injectable()
 export class LoadingControllerMock {
-
   create(opts?: any): Promise<HTMLIonLoadingElement> {
     return Promise.resolve({
       present: () => Promise.resolve(),
@@ -15,5 +14,4 @@ export class LoadingControllerMock {
   getTop(): Promise<HTMLIonLoadingElement | undefined> {
     return Promise.resolve({} as HTMLIonLoadingElement);
   }
-
 }

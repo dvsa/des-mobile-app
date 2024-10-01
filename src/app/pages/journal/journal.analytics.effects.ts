@@ -106,7 +106,7 @@ export class JournalAnalyticsEffects {
         this.analytics.logGAEvent(
           this.getRehydrationPageType(action.page),
           GoogleAnalyticsEventsTitles.REHYDRATION,
-          this.getRehydrationType(action.refreshType) + '_' + GoogleAnalyticsEventsValues.COMPLETED
+          `${this.getRehydrationType(action.refreshType)}_${GoogleAnalyticsEventsValues.COMPLETED}`
         );
         return of(AnalyticRecorded());
       })
@@ -121,7 +121,7 @@ export class JournalAnalyticsEffects {
         this.analytics.logGAEvent(
           this.getRehydrationPageType(action.page),
           GoogleAnalyticsEventsTitles.REHYDRATION,
-          this.getRehydrationType(action.refreshType) + '_' + GoogleAnalyticsEventsValues.NULL
+          `${this.getRehydrationType(action.refreshType)}_${GoogleAnalyticsEventsValues.NULL}`
         );
 
         return of(AnalyticRecorded());
@@ -137,7 +137,7 @@ export class JournalAnalyticsEffects {
         this.analytics.logGAEvent(
           this.getRehydrationPageType(action.page),
           GoogleAnalyticsEventsTitles.REHYDRATION,
-          this.getRehydrationType(action.refreshType) + '_' + GoogleAnalyticsEventsValues.ERROR
+          `${this.getRehydrationType(action.refreshType)}_${GoogleAnalyticsEventsValues.ERROR}`
         );
 
         return of(AnalyticRecorded());
