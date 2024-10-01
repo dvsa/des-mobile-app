@@ -72,7 +72,6 @@
             "noAssignInExpressions": "off",
             "noExplicitAny": "off",
             "noImplicitAnyLet": "off",
-            "useIsArray": "off",
             "noDoubleEquals": "off",
             "noConfusingVoidType": "off"
           },

@@ -32,7 +32,7 @@ export const areTellMeQuestionsCorrect = (state: CatDVehicleChecks) => {
   const tellMeQuestions = get(state, 'tellMeQuestions');
   let correct = true;
 
-  if (typeof tellMeQuestions === 'undefined' || tellMeQuestions === null || !(tellMeQuestions instanceof Array)) {
+  if (typeof tellMeQuestions === 'undefined' || tellMeQuestions === null || !Array.isArray(tellMeQuestions)) {
     correct = false;
   } else {
     tellMeQuestions.forEach((question) => {
@@ -51,7 +51,7 @@ export const hasVehicleChecksBeenCompletedCatD = (data: CatDTestData): boolean =
   let tellMeQuestionComplete = true;
 
   if (
-    !(data.vehicleChecks && data.vehicleChecks.showMeQuestions instanceof Array) ||
+    !(data.vehicleChecks && Array.isArray(data.vehicleChecks.showMeQuestions)) ||
     data.vehicleChecks.showMeQuestions.length !== NUMBER_OF_SHOW_ME_QUESTIONS
   ) {
     showMeQuestionComplete = false;
@@ -64,7 +64,7 @@ export const hasVehicleChecksBeenCompletedCatD = (data: CatDTestData): boolean =
   }
 
   if (
-    !(data.vehicleChecks && data.vehicleChecks.tellMeQuestions instanceof Array) ||
+    !(data.vehicleChecks && Array.isArray(data.vehicleChecks.tellMeQuestions)) ||
     data.vehicleChecks.tellMeQuestions.length !== NUMBER_OF_TELL_ME_QUESTIONS
   ) {
     tellMeQuestionComplete = false;

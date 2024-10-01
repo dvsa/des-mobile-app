@@ -53,7 +53,7 @@ export const areTellMeQuestionsCorrect = (state: CatADI2UniqueTypes.VehicleCheck
   const tellMeQuestions = get(state, 'tellMeQuestions');
   let correct = true;
 
-  if (typeof tellMeQuestions === 'undefined' || tellMeQuestions === null || !(tellMeQuestions instanceof Array)) {
+  if (typeof tellMeQuestions === 'undefined' || tellMeQuestions === null || !Array.isArray(tellMeQuestions)) {
     correct = false;
   } else {
     tellMeQuestions.forEach((question) => {
@@ -68,7 +68,7 @@ export const areTellMeQuestionsCorrect = (state: CatADI2UniqueTypes.VehicleCheck
 
 export const hasVehicleChecksBeenCompletedCatADI2 = (vehicleChecks: CatADI2UniqueTypes.VehicleChecks): boolean => {
   if (
-    !(vehicleChecks && vehicleChecks.tellMeQuestions instanceof Array) ||
+    !(vehicleChecks && Array.isArray(vehicleChecks.tellMeQuestions)) ||
     vehicleChecks.tellMeQuestions.length !== NUMBER_OF_TELL_ME_QUESTIONS ||
     !vehicleChecks.vehicleChecksCompleted
   ) {

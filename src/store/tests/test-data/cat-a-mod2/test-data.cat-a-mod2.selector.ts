@@ -14,7 +14,7 @@ export const haveSafetyAndBalanceQuestionsBeenCompleted = (data: SafetyAndBalanc
   let safetyQuestionComplete = true;
   let balanceQuestionComplete = true;
 
-  if (!(data && data.safetyQuestions instanceof Array) || data.safetyQuestions.length !== NUMBER_OF_SAFETY_QUESTIONS) {
+  if (!(data && Array.isArray(data.safetyQuestions)) || data.safetyQuestions.length !== NUMBER_OF_SAFETY_QUESTIONS) {
     safetyQuestionComplete = false;
   } else {
     data.safetyQuestions.forEach((element) => {
@@ -24,10 +24,7 @@ export const haveSafetyAndBalanceQuestionsBeenCompleted = (data: SafetyAndBalanc
     });
   }
 
-  if (
-    !(data && data.balanceQuestions instanceof Array) ||
-    data.balanceQuestions.length !== NUMBER_OF_BALANCE_QUESTIONS
-  ) {
+  if (!(data && Array.isArray(data.balanceQuestions)) || data.balanceQuestions.length !== NUMBER_OF_BALANCE_QUESTIONS) {
     balanceQuestionComplete = false;
   } else {
     data.balanceQuestions.forEach((element) => {
