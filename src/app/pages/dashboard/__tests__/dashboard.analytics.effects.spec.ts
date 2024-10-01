@@ -25,7 +25,7 @@ import {
 import { journalReducer } from '@store/journal/journal.reducer';
 import { testsReducer } from '@store/tests/tests.reducer';
 import * as dashboardActions from '../dashboard.actions';
-import { DetectDeviceTheme } from '../dashboard.actions';
+// import { DetectDeviceTheme } from '../dashboard.actions';
 import { DashboardAnalyticsEffects } from '../dashboard.analytics.effects';
 
 describe('DashboardAnalyticsEffects', () => {
