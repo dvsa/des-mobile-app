@@ -383,7 +383,7 @@ describe('examiner records selector', () => {
       () => {
         expect(
           getIndependentDrivingStats(
-            startedTests.filter((value) => value.testCategory == TestCategory.B),
+            startedTests.filter((value) => value.testCategory === TestCategory.B),
             TestCategory.B
           )
         ).toEqual([
@@ -398,7 +398,7 @@ describe('examiner records selector', () => {
       () => {
         expect(
           getIndependentDrivingStats(
-            startedTests.filter((value) => value.testCategory == TestCategory.EUAM2),
+            startedTests.filter((value) => value.testCategory === TestCategory.EUAM2),
             TestCategory.EUAM2
           )
         ).toEqual([
@@ -410,7 +410,7 @@ describe('examiner records selector', () => {
     it('should return an empty array if the passed category is F, regardless of the content of startedTests', () => {
       expect(
         getIndependentDrivingStats(
-          startedTests.filter((value) => value.testCategory == TestCategory.EUAM2),
+          startedTests.filter((value) => value.testCategory === TestCategory.EUAM2),
           TestCategory.F
         )
       ).toEqual([]);
@@ -424,7 +424,7 @@ describe('examiner records selector', () => {
       () => {
         expect(
           getCircuits(
-            startedTests.filter((value) => value.testCategory == TestCategory.EUAM1),
+            startedTests.filter((value) => value.testCategory === TestCategory.EUAM1),
             TestCategory.EUAM1
           )
         ).toEqual([
@@ -439,7 +439,7 @@ describe('examiner records selector', () => {
       () => {
         expect(
           getCircuits(
-            startedTests.filter((value) => value.testCategory == TestCategory.B),
+            startedTests.filter((value) => value.testCategory === TestCategory.B),
             TestCategory.B
           )
         ).toEqual([]);
@@ -473,7 +473,7 @@ describe('examiner records selector', () => {
       'should return a list of all route numbers within started tests and the number of times they appear,' +
         'ordered by index',
       () => {
-        expect(getRouteNumbers(startedTests.filter((value) => value.testCategory == TestCategory.ADI2))).toEqual([
+        expect(getRouteNumbers(startedTests.filter((value) => value.testCategory === TestCategory.ADI2))).toEqual([
           { item: 'R2 - Route 2', count: 1, percentage: '50.0%' },
           { item: 'R3 - Route 3', count: 1, percentage: '50.0%' },
         ]);
@@ -488,7 +488,7 @@ describe('examiner records selector', () => {
       () => {
         expect(
           getSafetyQuestions(
-            startedTests.filter((value) => value.testCategory == TestCategory.EUAM2),
+            startedTests.filter((value) => value.testCategory === TestCategory.EUAM2),
             TestCategory.EUAM2
           )
         ).toEqual([
@@ -517,7 +517,7 @@ describe('examiner records selector', () => {
       () => {
         expect(
           getBalanceQuestions(
-            startedTests.filter((value) => value.testCategory == TestCategory.EUAM2),
+            startedTests.filter((value) => value.testCategory === TestCategory.EUAM2),
             TestCategory.EUAM2
           )
         ).toEqual([
@@ -536,7 +536,7 @@ describe('examiner records selector', () => {
       () => {
         expect(
           getShowMeQuestions(
-            startedTests.filter((value) => value.testCategory == TestCategory.B),
+            startedTests.filter((value) => value.testCategory === TestCategory.B),
             TestCategory.B
           )
         ).toEqual([
@@ -559,7 +559,7 @@ describe('examiner records selector', () => {
       () => {
         expect(
           getTellMeQuestions(
-            startedTests.filter((value) => value.testCategory == TestCategory.B),
+            startedTests.filter((value) => value.testCategory === TestCategory.B),
             TestCategory.B
           )
         ).toEqual([
