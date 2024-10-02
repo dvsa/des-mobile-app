@@ -59,7 +59,6 @@
             "noForEach": "off",
             "noThisInStatic": "off",
             "noUselessConstructor": "off",
-            "noExtraBooleanCast": "off",
             "useOptionalChain": "off",
             "noUselessCatch": "off"
           },

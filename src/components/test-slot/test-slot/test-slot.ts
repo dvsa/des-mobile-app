@@ -120,7 +120,7 @@ export class TestSlotComponent implements SlotComponent, OnInit {
           const testStatus = getTestStatus(tests, slotId);
           return testStatus === TestStatus.Autosaved
             ? testStatus
-            : !!this.completedTestRecord?.activityCode
+            : this.completedTestRecord?.activityCode
               ? TestStatus.Submitted
               : testStatus;
         })
