@@ -214,7 +214,7 @@ describe('ChartComponent', () => {
   describe('ngOnChanges', () => {
     it('should run filterData and updateOptions with options if dataChanged is true and chart is present', () => {
       component.chart = {
-        updateOptions(options: any): void {
+        updateOptions(options: any): any {
           return options;
         },
       } as ApexCharts;
@@ -230,7 +230,7 @@ describe('ChartComponent', () => {
     });
     it('should reassign chart if dataChanged is true, chart is present and the changes include chartType', () => {
       component.chart = {
-        updateOptions(options: any): void {
+        updateOptions(options: any): any {
           return options;
         },
         render(): void {
@@ -241,7 +241,7 @@ describe('ChartComponent', () => {
       component.ngOnChanges({ chartType: { previousValue: '1', currentValue: '2' } as SimpleChange });
 
       expect(component.chart).not.toEqual({
-        updateOptions(options: any): void {
+        updateOptions(options: any): any {
           return options;
         },
         render(): void {
