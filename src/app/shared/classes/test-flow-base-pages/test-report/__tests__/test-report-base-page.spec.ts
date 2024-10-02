@@ -102,7 +102,7 @@ describe('TestReportBasePageComponent', () => {
     injector = TestBed.inject(Injector);
 
     class BasePageClass extends TestReportBasePageComponent {
-      constructor(inj: Injector) {
+      constructor(public inj: Injector) {
         super(inj);
       }
     }

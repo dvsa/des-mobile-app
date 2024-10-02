@@ -80,7 +80,7 @@ describe('BasePageComponent', () => {
     spyOn(logHelper, 'createLog');
 
     class BasePageClass extends BasePageComponent {
-      constructor(inj: Injector) {
+      constructor(public inj: Injector) {
         super(inj);
       }
     }
