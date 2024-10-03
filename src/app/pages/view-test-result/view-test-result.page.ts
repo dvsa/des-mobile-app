@@ -341,6 +341,7 @@ export class ViewTestResultPage extends BasePageComponent implements OnInit {
       TestCategory.ADI3, // ADI
       TestCategory.CCPC,
       TestCategory.DCPC,
+      TestCategory.SC,
     ]);
 
   getDrivingFaultSumCount(): number {
