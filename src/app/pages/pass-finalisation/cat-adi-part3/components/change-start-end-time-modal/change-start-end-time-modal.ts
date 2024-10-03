@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import {ModalController} from '@ionic/angular';
 
 @Component({
-  selector: 'terminate-test-modal',
+  selector: 'change-start-end-time-modal',
   templateUrl: './change-start-end-time-modal.html',
   styleUrls: ['./change-start-end-time-modal.scss'],
 })
