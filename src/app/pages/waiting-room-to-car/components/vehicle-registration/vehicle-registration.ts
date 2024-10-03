@@ -69,6 +69,8 @@ export class VehicleRegistrationComponent implements OnChanges {
   motCallAborted = new EventEmitter<MOTAbortedMethod>();
   @Output()
   motServiceUnavailable = new EventEmitter<HttpStatusCodes>();
+  @Output()
+  noMotData = new EventEmitter<boolean>();
 
   formControl: UntypedFormControl;
   motData: MotHistoryWithStatus = null;
@@ -116,6 +118,9 @@ export class VehicleRegistrationComponent implements OnChanges {
           })
         )
         .subscribe(async (val) => {
+          if (+val.status === HttpStatusCodes.NO_CONTENT) {
+            this.noMotData.emit(true);
+          }
           // Assign the API response to the motData property
           this.motData = val;
           // Emit the vehicle registration number to update the search list
