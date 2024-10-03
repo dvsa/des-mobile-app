@@ -77,4 +77,5 @@ export enum Adi3ActivityCodes {
   TRAFFIC = '67',
   NATURAL_DISASTER = '68',
   INDUSTRIAL_ACTION = '74',
+  MOT_INVALID = '89',
 }
