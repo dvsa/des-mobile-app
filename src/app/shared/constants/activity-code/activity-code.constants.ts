@@ -85,6 +85,7 @@ export enum Adi3ActivityCodeDescription {
   TRAFFIC = 'Traffic congestion',
   NATURAL_DISASTER = 'Natural disaster',
   INDUSTRIAL_ACTION = 'Test cancelled due to industrial action',
+  MOT_INVALID = 'No valid MOT',
 }
 
 export function populateActivityCodeModelList(isDelegatedExaminer?: boolean, isAdi3?: boolean): ActivityCodeModel[] {
