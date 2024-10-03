@@ -27,6 +27,7 @@
           <ion-col class="ion-no-padding">
             <vehicle-registration
               (alternateEvidenceChange)="getMOTEvidenceProvided($event)"
+              (noMotData)="noMotData($event)"
               (vrnSearchListUpdate)="updateVRNSearchList($event)"
               (motDetailsUpdate)="motDetailsChanged($event)"
               (motFailedModalToggled)="motFailedModalOpened($event)"
