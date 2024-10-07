@@ -424,7 +424,7 @@ describe('VehicleDetailsCardComponent', () => {
       });
     });
 
-    fdescribe('displayRegistration', () => {
+    describe('displayRegistration', () => {
       it('should return true if category is ADI3', () => {
         component.category = TestCategory.ADI3;
         expect(component.displayRegistration()).toEqual(true);
