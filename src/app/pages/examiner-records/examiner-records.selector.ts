@@ -80,9 +80,8 @@ export const getEligibleTests = (
         (allowExtendedTests ? true : !(get(value, 'extendedTest') === true))
       );
     });
-  } else {
-    return [];
   }
+  return [];
 };
 
 /**
@@ -91,9 +90,8 @@ export const getEligibleTests = (
 export const getEmergencyStopCount = (startedTests: ExaminerRecordModel[]): number => {
   if (startedTests) {
     return startedTests.filter((controlledStop) => get(controlledStop, 'controlledStop', null) === true).length;
-  } else {
-    return 0;
   }
+  return 0;
 };
 
 /**
@@ -122,9 +120,8 @@ export const getLocations = (
       }),
       'item.centreId'
     ).sort((item1, item2) => (item1.item.centreName > item2.item.centreName ? 1 : -1));
-  } else {
-    return [];
   }
+  return [];
 };
 
 /**
@@ -263,9 +260,8 @@ export const getCategories = (
       }),
       'item'
     ).sort((item1, item2) => ((item1.item as string) > (item2.item as string) ? 1 : -1));
-  } else {
-    return [];
   }
+  return [];
 };
 
 /**
@@ -293,9 +289,8 @@ export const getRouteNumbers = (startedTests: ExaminerRecordModel[]): ExaminerRe
       }),
       'item'
     ).sort((item1, item2) => getIndex(item1.item as string) - getIndex(item2.item as string));
-  } else {
-    return [];
   }
+  return [];
 };
 
 /**
@@ -332,9 +327,8 @@ export const getSafetyQuestions = (
         };
       })
       .sort((item1, item2) => getIndex(item1.item as string) - getIndex(item2.item as string));
-  } else {
-    return [];
   }
+  return [];
 };
 
 /**
@@ -369,9 +363,8 @@ export const getBalanceQuestions = (
         };
       })
       .sort((item1, item2) => getIndex(item1.item as string) - getIndex(item2.item as string));
-  } else {
-    return [];
   }
+  return [];
 };
 
 /**
@@ -401,9 +394,8 @@ export const getShowMeQuestions = (
         };
       })
       .sort((item1, item2) => getIndex(item1.item as string) - getIndex(item2.item as string));
-  } else {
-    return [];
   }
+  return [];
 };
 
 /**
@@ -432,9 +424,8 @@ export const getTellMeQuestions = (
         };
       })
       .sort((item1, item2) => getIndex(item1.item as string) - getIndex(item2.item as string));
-  } else {
-    return [];
   }
+  return [];
 };
 
 /**
@@ -443,13 +434,14 @@ export const getTellMeQuestions = (
 export const getManoeuvreTypeLabels = (category: TestCategory, type?: ManoeuvreTypes) => {
   if ([TestCategory.B].includes(category)) {
     return type ? manoeuvreTypeLabelsCatB[type] : manoeuvreTypeLabelsCatB;
-  } else if ([TestCategory.BE].includes(category)) {
-    return type ? manoeuvreTypeLabelsCatBE[type] : manoeuvreTypeLabelsCatBE;
-  } else if ([TestCategory.ADI2].includes(category)) {
-    return type ? manoeuvreTypeLabelsCatADI2[type] : manoeuvreTypeLabelsCatADI2;
-  } else {
-    return {};
   }
+  if ([TestCategory.BE].includes(category)) {
+    return type ? manoeuvreTypeLabelsCatBE[type] : manoeuvreTypeLabelsCatBE;
+  }
+  if ([TestCategory.ADI2].includes(category)) {
+    return type ? manoeuvreTypeLabelsCatADI2[type] : manoeuvreTypeLabelsCatADI2;
+  }
+  return {};
 };
 
 /**
