@@ -240,9 +240,9 @@ export class VehicleDetailsCardComponent {
   displayRegistration() {
     return (
       this.isADI3() ||
-      !this.instructorRegistrationNumber === undefined ||
+      this.instructorRegistrationNumber !== undefined ||
       this.shouldShowDimensions ||
-      !this.vehicleDetails === undefined
+      this.vehicleDetails !== undefined
     );
   }
 
