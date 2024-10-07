@@ -458,7 +458,7 @@ describe('VehicleDetailsCardComponent', () => {
         spyOnProperty(component, 'registrationNumber').and.returnValue(undefined);
         spyOnProperty(component, 'shouldShowDimensions').and.returnValue(false);
         component.vehicleDetails = undefined;
-        expect(component.displayRegistration)!.toBeTruthy();
+        expect(component.displayRegistration).toBeTruthy();
       });
     });
 
