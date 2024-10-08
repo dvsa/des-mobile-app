@@ -134,7 +134,7 @@ describe('AppConfigProvider', () => {
 
   describe('getDebugMode', () => {
     beforeEach(() => {
-      (environment as TestersEnvironmentFile)!.isTest = false;
+      (environment as TestersEnvironmentFile).isTest = false;
     });
 
     it('should return the value from the plugin when not isTest', async () => {

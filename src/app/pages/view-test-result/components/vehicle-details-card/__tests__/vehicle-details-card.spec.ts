@@ -425,40 +425,32 @@ describe('VehicleDetailsCardComponent', () => {
     });
 
     describe('displayRegistration', () => {
-      it('should return the correct value if the category is ADI3', () => {
-        spyOn(component, 'isADI3').and.returnValue(true);
-        spyOnProperty(component, 'registrationNumber').and.returnValue(undefined);
-        spyOnProperty(component, 'shouldShowDimensions').and.returnValue(false);
-        component.vehicleDetails = undefined;
-        expect(component.displayRegistration).toBeTruthy();
+      it('should return true if category is ADI3', () => {
+        component.category = TestCategory.ADI3;
+        expect(component.displayRegistration()).toEqual(true);
       });
-      it('should return the correct value if the registration number is present', () => {
-        spyOn(component, 'isADI3').and.returnValue(false);
-        spyOnProperty(component, 'registrationNumber').and.returnValue('1');
-        spyOnProperty(component, 'shouldShowDimensions').and.returnValue(false);
-        component.vehicleDetails = undefined;
-        expect(component.displayRegistration).toBeTruthy();
+
+      it('should return true if instructorRegistrationNumber is not undefined', () => {
+        spyOnProperty(component, 'instructorRegistrationNumber').and.returnValue(12345);
+        expect(component.displayRegistration()).toEqual(true);
       });
-      it('should return the correct value if should show dimensions is true', () => {
-        spyOn(component, 'isADI3').and.returnValue(false);
-        spyOnProperty(component, 'registrationNumber').and.returnValue(undefined);
+
+      it('should return true if shouldShowDimensions is true', () => {
         spyOnProperty(component, 'shouldShowDimensions').and.returnValue(true);
-        component.vehicleDetails = undefined;
-        expect(component.displayRegistration).toBeTruthy();
+        expect(component.displayRegistration()).toEqual(true);
       });
-      it('should return the correct value if vehicle details is defined', () => {
-        spyOn(component, 'isADI3').and.returnValue(false);
-        spyOnProperty(component, 'registrationNumber').and.returnValue(undefined);
-        spyOnProperty(component, 'shouldShowDimensions').and.returnValue(false);
-        component.vehicleDetails = ['d', 'e', 'f', 'i', 'n', 'e', 'd'];
-        expect(component.displayRegistration).toBeTruthy();
+
+      it('should return true if vehicleDetails is not undefined', () => {
+        component.vehicleDetails = ['detail1', 'detail2'];
+        expect(component.displayRegistration()).toEqual(true);
       });
-      it('should return the correct value if nothing is defined', () => {
-        spyOn(component, 'isADI3').and.returnValue(false);
-        spyOnProperty(component, 'registrationNumber').and.returnValue(undefined);
+
+      it('should return false if all conditions are false or undefined', () => {
+        spyOnProperty(component, 'instructorRegistrationNumber').and.returnValue(undefined);
         spyOnProperty(component, 'shouldShowDimensions').and.returnValue(false);
         component.vehicleDetails = undefined;
-        expect(component.displayRegistration)!.toBeTruthy();
+        component.category = TestCategory.B;
+        expect(component.displayRegistration()).toEqual(false);
       });
     });
 
