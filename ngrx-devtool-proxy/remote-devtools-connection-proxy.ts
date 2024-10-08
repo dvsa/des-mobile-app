@@ -7,7 +7,6 @@ export class RemoteDevToolsConnectionProxy implements ReduxDevtoolsExtensionConn
 
   subscribe(listener: (change: any) => void): any {
     const listenerWrapper = (change: any) => {
-      console.log('change: ', change);
       listener(change);
     };
 
