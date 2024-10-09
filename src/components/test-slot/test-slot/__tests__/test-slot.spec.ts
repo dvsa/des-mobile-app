@@ -175,7 +175,7 @@ describe('TestSlotComponent', () => {
         expect(component.isIndicatorNeededForSlot()).toBe(false);
       });
       it('should return false if specialNeeds is missing', () => {
-        delete component.slot.booking.application;
+        component.slot.booking.application = undefined;
         expect(component.isAdditionalNeedsSlot()).toBe(false);
       });
       it('should return true if entitlementCheck is true (specialNeeds is blank, slotType is Standard)', () => {
@@ -186,7 +186,7 @@ describe('TestSlotComponent', () => {
       });
       it('should return false if entitlementCheck is missing (specialNeeds is blank, slotType is Standard)', () => {
         component.slot.booking.application.specialNeeds = '';
-        delete component.slot.booking.application.entitlementCheck;
+        component.slot.booking.application.entitlementCheck = undefined;
         component.slot.booking.application.specialNeedsCode = SpecialNeedsCode.NONE;
         expect(component.isIndicatorNeededForSlot()).toBe(false);
       });

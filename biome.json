@@ -71,7 +71,6 @@
             "noConfusingVoidType": "off"
           },
           "performance": {
-            "noDelete": "off",
             "noAccumulatingSpread": "off"
           }
         }
