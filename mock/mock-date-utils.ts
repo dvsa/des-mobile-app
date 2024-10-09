@@ -1,9 +1,8 @@
+import { get } from 'lodash';
 // @TODO: File needs access to native `moment` API as is outside of src compilation
 import * as moment from 'moment';
-import { get } from 'lodash';
 
-export const getTodayAsIsoDate = () => new Date().toISOString()
-  .split('T')[0];
+export const getTodayAsIsoDate = () => new Date().toISOString().split('T')[0];
 
 export const getIsoDateDaysInFuture = (daysAhead: number) => {
   const today = moment();
@@ -18,8 +17,7 @@ export const getNextWorkingDayAsIsoDate = () => {
   if (today.day() === sunday) {
     nextWorkingDay = nextWorkingDay.add(1, 'day');
   }
-  return nextWorkingDay.toISOString()
-    .split('T')[0];
+  return nextWorkingDay.toISOString().split('T')[0];
 };
 
 export const getPreviousWorkingDayAsIsoDate = () => {
@@ -29,18 +27,14 @@ export const getPreviousWorkingDayAsIsoDate = () => {
   if (today.day() === sunday) {
     previousWorkingDay = previousWorkingDay.add(-1, 'day');
   }
-  return previousWorkingDay.toISOString()
-    .split('T')[0];
+  return previousWorkingDay.toISOString().split('T')[0];
 };
 
 export const inNext2Days = <T>(section: T): boolean => {
   const slotDate = get(section, 'slotDetail.start', '') as string;
 
-  const today: boolean = moment(slotDate)
-    .isSame(moment(), 'day');
-  const tomorrow: boolean = moment(slotDate)
-    .isSame(moment()
-      .add(1, 'day'), 'day');
+  const today: boolean = moment(slotDate).isSame(moment(), 'day');
+  const tomorrow: boolean = moment(slotDate).isSame(moment().add(1, 'day'), 'day');
 
   return today || tomorrow;
 };

@@ -149,6 +149,6 @@ export class ExaminerReportsCard {
       minWidth *= this.isPortrait ? 1.07 : 1.04;
     }
 
-    return minWidth.toFixed(1) + 'px';
+    return `${minWidth.toFixed(1)}px`;
   }
 }

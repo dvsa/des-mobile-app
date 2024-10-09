@@ -77,7 +77,7 @@ describe('VehicleChecksModalCatCAnalyticsEffects', () => {
       effects.showMeQuestionChanged$.subscribe((result) => {
         expect(result.type === AnalyticRecorded.type).toBe(true);
         expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-          GoogleAnalyticsEvents.SHOW_ME_QUESTION + '2',
+          `${GoogleAnalyticsEvents.SHOW_ME_QUESTION}2`,
           GoogleAnalyticsEventsTitles.QUESTION_NUMBER,
           showMeQuestion.code
         );
@@ -91,7 +91,7 @@ describe('VehicleChecksModalCatCAnalyticsEffects', () => {
       effects.showMeQuestionChanged$.subscribe((result) => {
         expect(result.type === AnalyticRecorded.type).toBe(true);
         expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-          `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEvents.SHOW_ME_QUESTION + '2'}`,
+          `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEvents.SHOW_ME_QUESTION}2`,
           GoogleAnalyticsEventsTitles.QUESTION_NUMBER,
           showMeQuestion.code
         );
@@ -109,7 +109,7 @@ describe('VehicleChecksModalCatCAnalyticsEffects', () => {
       effects.showMeQuestionOutComeChanged$.subscribe((result) => {
         expect(result.type === AnalyticRecorded.type).toBe(true);
         expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-          GoogleAnalyticsEvents.SHOW_ME_QUESTION + '2',
+          `${GoogleAnalyticsEvents.SHOW_ME_QUESTION}2`,
           GoogleAnalyticsEventsTitles.RESULT,
           GoogleAnalyticsEventsValues.CORRECT
         );
@@ -123,7 +123,7 @@ describe('VehicleChecksModalCatCAnalyticsEffects', () => {
       effects.showMeQuestionOutComeChanged$.subscribe((result) => {
         expect(result.type === AnalyticRecorded.type).toBe(true);
         expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-          `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEvents.SHOW_ME_QUESTION + '2'}`,
+          `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEvents.SHOW_ME_QUESTION}2`,
           GoogleAnalyticsEventsTitles.RESULT,
           GoogleAnalyticsEventsValues.CORRECT
         );
@@ -143,7 +143,7 @@ describe('VehicleChecksModalCatCAnalyticsEffects', () => {
       effects.tellMeQuestionChanged$.subscribe((result) => {
         expect(result.type === AnalyticRecorded.type).toBe(true);
         expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-          GoogleAnalyticsEvents.TELL_ME_QUESTION + '2',
+          `${GoogleAnalyticsEvents.TELL_ME_QUESTION}2`,
           GoogleAnalyticsEventsTitles.QUESTION_NUMBER,
           tellMeQuestion.code
         );
@@ -157,7 +157,7 @@ describe('VehicleChecksModalCatCAnalyticsEffects', () => {
       effects.tellMeQuestionChanged$.subscribe((result) => {
         expect(result.type === AnalyticRecorded.type).toBe(true);
         expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-          `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEvents.TELL_ME_QUESTION + '2'}`,
+          `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEvents.TELL_ME_QUESTION}2`,
           GoogleAnalyticsEventsTitles.QUESTION_NUMBER,
           tellMeQuestion.code
         );
@@ -175,7 +175,7 @@ describe('VehicleChecksModalCatCAnalyticsEffects', () => {
       effects.tellMeQuestionOutComeChanged$.subscribe((result) => {
         expect(result.type === AnalyticRecorded.type).toBe(true);
         expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-          GoogleAnalyticsEvents.TELL_ME_QUESTION + '2',
+          `${GoogleAnalyticsEvents.TELL_ME_QUESTION}2`,
           GoogleAnalyticsEventsTitles.RESULT,
           GoogleAnalyticsEventsValues.DRIVING_FAULT
         );
@@ -189,7 +189,7 @@ describe('VehicleChecksModalCatCAnalyticsEffects', () => {
       effects.tellMeQuestionOutComeChanged$.subscribe((result) => {
         expect(result.type === AnalyticRecorded.type).toBe(true);
         expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-          `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEvents.TELL_ME_QUESTION + '2'}`,
+          `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEvents.TELL_ME_QUESTION}2`,
           GoogleAnalyticsEventsTitles.RESULT,
           GoogleAnalyticsEventsValues.DRIVING_FAULT
         );

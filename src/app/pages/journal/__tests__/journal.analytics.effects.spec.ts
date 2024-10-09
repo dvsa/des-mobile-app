@@ -263,7 +263,7 @@ describe('JournalAnalyticsEffects', () => {
           expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
             GoogleAnalyticsEvents.DASHBOARD,
             GoogleAnalyticsEventsTitles.REHYDRATION,
-            GoogleAnalyticsEventsValues.AUTOMATIC + '_' + GoogleAnalyticsEventsValues.COMPLETED
+            `${GoogleAnalyticsEventsValues.AUTOMATIC}_${GoogleAnalyticsEventsValues.COMPLETED}`
           );
           expect(result).toEqual(AnalyticRecorded());
           done();
@@ -280,7 +280,7 @@ describe('JournalAnalyticsEffects', () => {
           expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
             GoogleAnalyticsEvents.JOURNAL,
             GoogleAnalyticsEventsTitles.REHYDRATION,
-            GoogleAnalyticsEventsValues.MANUAL + '_' + GoogleAnalyticsEventsValues.COMPLETED
+            `${GoogleAnalyticsEventsValues.MANUAL}_${GoogleAnalyticsEventsValues.COMPLETED}`
           );
           expect(result).toEqual(AnalyticRecorded());
           done();
@@ -299,7 +299,7 @@ describe('JournalAnalyticsEffects', () => {
           expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
             GoogleAnalyticsEvents.DASHBOARD,
             GoogleAnalyticsEventsTitles.REHYDRATION,
-            GoogleAnalyticsEventsValues.AUTOMATIC + '_' + GoogleAnalyticsEventsValues.NULL
+            `${GoogleAnalyticsEventsValues.AUTOMATIC}_${GoogleAnalyticsEventsValues.NULL}`
           );
           expect(result).toEqual(AnalyticRecorded());
           done();
@@ -316,7 +316,7 @@ describe('JournalAnalyticsEffects', () => {
           expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
             GoogleAnalyticsEvents.JOURNAL,
             GoogleAnalyticsEventsTitles.REHYDRATION,
-            GoogleAnalyticsEventsValues.MANUAL + '_' + GoogleAnalyticsEventsValues.NULL
+            `${GoogleAnalyticsEventsValues.MANUAL}_${GoogleAnalyticsEventsValues.NULL}`
           );
           expect(result).toEqual(AnalyticRecorded());
           done();
@@ -335,7 +335,7 @@ describe('JournalAnalyticsEffects', () => {
           expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
             GoogleAnalyticsEvents.DASHBOARD,
             GoogleAnalyticsEventsTitles.REHYDRATION,
-            GoogleAnalyticsEventsValues.AUTOMATIC + '_' + GoogleAnalyticsEventsValues.ERROR
+            `${GoogleAnalyticsEventsValues.AUTOMATIC}_${GoogleAnalyticsEventsValues.ERROR}`
           );
           expect(result).toEqual(AnalyticRecorded());
           done();
@@ -352,7 +352,7 @@ describe('JournalAnalyticsEffects', () => {
           expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
             GoogleAnalyticsEvents.JOURNAL,
             GoogleAnalyticsEventsTitles.REHYDRATION,
-            GoogleAnalyticsEventsValues.MANUAL + '_' + GoogleAnalyticsEventsValues.ERROR
+            `${GoogleAnalyticsEventsValues.MANUAL}_${GoogleAnalyticsEventsValues.ERROR}`
           );
           expect(result).toEqual(AnalyticRecorded());
           done();

@@ -1,7 +1,7 @@
 const journalSchema = require('@dvsa/mes-journal-schema/index.json');
 import { writeFileSync } from 'fs';
 import { dirname, join } from 'path';
-import { getTodayAsIsoDate, getIsoDateDaysInFuture } from './mock-date-utils';
+import { getIsoDateDaysInFuture, getTodayAsIsoDate } from './mock-date-utils';
 
 const today = getTodayAsIsoDate();
 
@@ -74,11 +74,7 @@ export const localNonTestActivities = {
           testCategory: 'B+E',
           vehicleGearbox: 'Manual',
         },
-        previousCancellation: [
-          'Act of nature',
-          'DSA',
-          'DSA',
-        ],
+        previousCancellation: ['Act of nature', 'DSA', 'DSA'],
         business: {
           businessId: 1000,
           businessName: 'Daves Dodgy Driving Instructors',
@@ -221,5 +217,8 @@ export const localNonTestActivities = {
 };
 
 // tslint:disable-next-line:max-line-length
-writeFileSync(join(`${dirname(process.argv[1])}`, 'local-journal-non-test-activities.json'), JSON.stringify(localNonTestActivities, null, 2));
+writeFileSync(
+  join(`${dirname(process.argv[1])}`, 'local-journal-non-test-activities.json'),
+  JSON.stringify(localNonTestActivities, null, 2)
+);
 console.log('Local NTA journal updated');

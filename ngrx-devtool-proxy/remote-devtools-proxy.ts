@@ -1,10 +1,10 @@
 import {
   ReduxDevtoolsExtension,
-  ReduxDevtoolsExtensionConnection,
   ReduxDevtoolsExtensionConfig,
+  ReduxDevtoolsExtensionConnection,
 } from '@ngrx/store-devtools/src/extension';
-import { RemoteDevToolsConnectionProxy } from './remote-devtools-connection-proxy';
 import { connect } from 'remotedev/lib/devTools';
+import { RemoteDevToolsConnectionProxy } from './remote-devtools-connection-proxy';
 
 export class RemoteDevToolsProxy implements ReduxDevtoolsExtension {
   remotedev: any = null;
@@ -29,9 +29,7 @@ export class RemoteDevToolsProxy implements ReduxDevtoolsExtension {
 
     this.remotedev = connect(connectOptions);
 
-    const connectionProxy = new RemoteDevToolsConnectionProxy(
-      this.remotedev,
-    );
+    const connectionProxy = new RemoteDevToolsConnectionProxy(this.remotedev);
     return connectionProxy;
   }
 
@@ -40,7 +38,7 @@ export class RemoteDevToolsProxy implements ReduxDevtoolsExtension {
     state: any,
     options: ReduxDevtoolsExtensionConfig,
     // shouldStringify?: boolean,
-    instanceId?: string,
+    instanceId?: string
   ): any {
     this.remotedev.send(action, state);
   }

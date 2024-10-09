@@ -294,14 +294,14 @@ export class VehicleDetailsCardComponent {
   getMotStatusText(): string {
     if (this.data?.motStatus === MotStatusCodes.VALID) {
       if (this.data?.testExpiryDate) {
-        return 'Valid until ' + this.data?.testExpiryDate;
+        return `Valid until ${this.data?.testExpiryDate}`;
       }
       return 'Valid';
     }
     if (!this.isInvalidMOT()) {
       return this.data.motStatus;
     }
-    return this.data?.testExpiryDate ? 'Expired ' + this.data?.testExpiryDate : 'Not valid';
+    return this.data?.testExpiryDate ? `Expired ${this.data?.testExpiryDate}` : 'Not valid';
   }
 
   /**
@@ -314,7 +314,7 @@ export class VehicleDetailsCardComponent {
    */
   getNoMOTDataText(): string {
     if (this.registrationNumber && this.getPreviousFilteredVRNs().length > 0) {
-      return 'Unable to determine MOT status for ' + this.registrationNumber;
+      return `Unable to determine MOT status for ${this.registrationNumber}`;
     }
     if (this.getPreviousFilteredVRNs().length > 0) {
       return 'Unable to determine MOT status';

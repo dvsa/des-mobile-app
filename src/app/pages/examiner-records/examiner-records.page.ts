@@ -874,13 +874,7 @@ export class ExaminerRecordsPage implements OnInit {
     let testCount = 0;
     this.pageState.testCount$.subscribe((value) => (testCount = value)).unsubscribe();
 
-    return (
-      `Displaying <strong>${testCount}</strong> Category <strong>${this.currentCategory}</strong> test` +
-      (testCount > 1 ? '<ion-text>s</ion-text>' : '') +
-      `, from <strong>${this.startDateFilter}</strong> to <strong>${this.endDateFilter}</strong>` +
-      (this.accessibilityService.getTextZoomClass() !== 'text-zoom-x-large' ? '<ion-text> <br /></ion-text>' : '') +
-      ` at <strong>${this.locationFilter.centreName}</strong>`
-    );
+    return `Displaying <strong>${testCount}</strong> Category <strong>${this.currentCategory}</strong> test${testCount > 1 ? '<ion-text>s</ion-text>' : ''}, from <strong>${this.startDateFilter}</strong> to <strong>${this.endDateFilter}</strong>${this.accessibilityService.getTextZoomClass() !== 'text-zoom-x-large' ? '<ion-text> <br /></ion-text>' : ''} at <strong>${this.locationFilter.centreName}</strong>`;
   }
 
   /**
