@@ -1,8 +1,8 @@
-import {CatBUniqueTypes} from '@dvsa/mes-test-schema/categories/B';
-import {sumManoeuvreFaults} from '@shared/helpers/faults';
-import {getCompetencyFaults} from '@shared/helpers/get-competency-faults';
-import {CompetencyOutcome} from '@shared/models/competency-outcome';
-import {pickBy} from 'lodash-es';
+import { CatBUniqueTypes } from '@dvsa/mes-test-schema/categories/B';
+import { sumManoeuvreFaults } from '@shared/helpers/faults';
+import { getCompetencyFaults } from '@shared/helpers/get-competency-faults';
+import { CompetencyOutcome } from '@shared/models/competency-outcome';
+import { pickBy } from 'lodash-es';
 
 export class FaultCountBHelper {
   public static getDrivingFaultSumCountCatB = (data: CatBUniqueTypes.TestData): number => {
@@ -16,10 +16,12 @@ export class FaultCountBHelper {
 
     const controlledStopHasDrivingFault = controlledStop && controlledStop.fault === CompetencyOutcome.DF ? 1 : 0;
 
-    return faultTotal +
+    return (
+      faultTotal +
       sumManoeuvreFaults(manoeuvres, CompetencyOutcome.DF) +
       FaultCountBHelper.getVehicleChecksFaultCountCatB(vehicleChecks) +
-      controlledStopHasDrivingFault;
+      controlledStopHasDrivingFault
+    );
   };
 
   public static getSeriousFaultSumCountCatB = (data: CatBUniqueTypes.TestData): number => {
@@ -51,10 +53,12 @@ export class FaultCountBHelper {
       vehicleChecks && vehicleChecks.showMeQuestion.outcome === CompetencyOutcome.D ? 1 : 0;
     const controlledStopDangerousFaults = controlledStop && controlledStop.fault === CompetencyOutcome.D ? 1 : 0;
 
-    return dangerousFaultSumOfSimpleCompetencies +
+    return (
+      dangerousFaultSumOfSimpleCompetencies +
       sumManoeuvreFaults(manoeuvres, CompetencyOutcome.D) +
       vehicleCheckDangerousFaults +
-      controlledStopDangerousFaults;
+      controlledStopDangerousFaults
+    );
   };
 
   private static getVehicleChecksFaultCountCatB = (vehicleChecks: CatBUniqueTypes.VehicleChecks): number => {
