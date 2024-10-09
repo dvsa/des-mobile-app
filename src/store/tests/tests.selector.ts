@@ -145,14 +145,14 @@ export const isDelegatedTest = (tests: TestsModel): boolean => {
 };
 
 export const getActivityCodeBySlotId = (testsModel: TestsModel, id: number): ActivityCode => {
-  if (testsModel && testsModel.startedTests && testsModel.startedTests[id]) {
+  if (testsModel?.startedTests?.[id]) {
     return testsModel.startedTests[id].activityCode;
   }
   return null;
 };
 
 export const getPassCertificateBySlotId = (testsModel: TestsModel, id: number): string => {
-  if (testsModel && testsModel.startedTests && testsModel.startedTests[id]) {
+  if (testsModel?.startedTests?.[id]) {
     return get(testsModel.startedTests[id], 'passCompletion.passCertificateNumber', null);
   }
   return null;

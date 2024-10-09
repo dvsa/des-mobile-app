@@ -50,15 +50,14 @@ export class FaultCountBEHelper {
     getCompetencyFaults(drivingFaults).forEach((fault) => {
       faultTotal += fault.faultCount;
     });
-    const uncoupleRecoupleHasDrivingFault = uncoupleRecouple && uncoupleRecouple.fault === CompetencyOutcome.DF ? 1 : 0;
+    const uncoupleRecoupleHasDrivingFault = uncoupleRecouple?.fault === CompetencyOutcome.DF ? 1 : 0;
 
-    const result =
+    return (
       faultTotal +
       sumManoeuvreFaults(manoeuvres, CompetencyOutcome.DF) +
       FaultCountBEHelper.getVehicleChecksFaultCountCatBE(vehicleChecks).drivingFaults +
-      uncoupleRecoupleHasDrivingFault;
-
-    return result;
+      uncoupleRecoupleHasDrivingFault
+    );
   };
 
   public static getSeriousFaultSumCountCatBE = (data: CatBEUniqueTypes.TestData): number => {
@@ -70,17 +69,16 @@ export class FaultCountBEHelper {
     const vehicleCheckSeriousFaults = vehicleChecks
       ? FaultCountBEHelper.getVehicleChecksFaultCountCatBE(vehicleChecks).seriousFaults
       : 0;
-    const uncoupleRecoupleSeriousFaults = uncoupleRecouple && uncoupleRecouple.fault === CompetencyOutcome.S ? 1 : 0;
-    const eyesightTestSeriousFaults = eyesightTest && eyesightTest.seriousFault ? 1 : 0;
+    const uncoupleRecoupleSeriousFaults = uncoupleRecouple?.fault === CompetencyOutcome.S ? 1 : 0;
+    const eyesightTestSeriousFaults = eyesightTest?.seriousFault ? 1 : 0;
 
-    const result =
+    return (
       seriousFaultSumOfSimpleCompetencies +
       sumManoeuvreFaults(manoeuvres, CompetencyOutcome.S) +
       vehicleCheckSeriousFaults +
       eyesightTestSeriousFaults +
-      uncoupleRecoupleSeriousFaults;
-
-    return result;
+      uncoupleRecoupleSeriousFaults
+    );
   };
 
   public static getDangerousFaultSumCountCatBE = (data: CatBEUniqueTypes.TestData): number => {
@@ -91,11 +89,10 @@ export class FaultCountBEHelper {
     const dangerousFaultSumOfSimpleCompetencies = Object.keys(pickBy(dangerousFaults)).length;
     const uncoupleRecoupleDangerousFaults = uncoupleRecouple && uncoupleRecouple.fault === CompetencyOutcome.D ? 1 : 0;
 
-    const result =
+    return (
       dangerousFaultSumOfSimpleCompetencies +
       sumManoeuvreFaults(manoeuvres, CompetencyOutcome.D) +
-      uncoupleRecoupleDangerousFaults;
-
-    return result;
+      uncoupleRecoupleDangerousFaults
+    );
   };
 }

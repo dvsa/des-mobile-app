@@ -56,7 +56,7 @@ export const dateFilter = (test: ExaminerRecordModel, range: DateRange = null): 
 export const getIndex = (item: string) => {
   const regex = /[A-Za-z]*(\d+)/;
   const match = item.match(regex);
-  return match && match[1] ? Number(match[1]) : null;
+  return match?.[1] ? Number(match[1]) : null;
 };
 
 /**

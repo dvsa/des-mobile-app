@@ -7,7 +7,7 @@ export enum drivingTypeDescription {
 
 export const getDrivingOrRidingLabel = (cat: TestCategory | null): drivingTypeDescription => {
   // switch to determine driving or riding based upon category
-  if (cat && cat.includes('EUA')) {
+  if (cat?.includes('EUA')) {
     return drivingTypeDescription.RIDING;
   }
   return drivingTypeDescription.DRIVING;

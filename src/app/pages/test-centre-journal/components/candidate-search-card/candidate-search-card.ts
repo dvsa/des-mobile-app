@@ -101,7 +101,7 @@ export class CandidateSearchCardComponent implements OnChanges {
   createCandidateSlots(examinersData: Examiner[], candidateName: string): void {
     this.candidateTestSlots = [];
     examinersData.forEach((examiner) => {
-      if (examiner.journal && examiner.journal.testSlots && examiner.journal.testSlots.length > 0) {
+      if (examiner.journal?.testSlots && examiner.journal.testSlots.length > 0) {
         examiner.journal?.testSlots
           .filter((testSlot) => testSlot?.booking?.candidate)
           .forEach((testSlot) => {
@@ -134,7 +134,7 @@ export class CandidateSearchCardComponent implements OnChanges {
 
   onCandidateDidChange(candidate: CandidateData): void {
     this.shouldShowCandidateResults = false;
-    const isValidCandidate: boolean = !!(candidate && candidate.name);
+    const isValidCandidate: boolean = !!candidate?.name;
     this.enableShowBookingButton = isValidCandidate;
 
     if (isValidCandidate) {

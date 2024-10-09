@@ -47,11 +47,9 @@ export class FaultCountAM2Helper {
 
     const seriousFaultSumOfSimpleCompetencies = Object.keys(pickBy(seriousFaults)).length;
 
-    const eyesightTestSeriousFaults = eyesightTest && eyesightTest.seriousFault ? 1 : 0;
+    const eyesightTestSeriousFaults = eyesightTest?.seriousFault ? 1 : 0;
 
-    const result = seriousFaultSumOfSimpleCompetencies + eyesightTestSeriousFaults;
-
-    return result;
+    return seriousFaultSumOfSimpleCompetencies + eyesightTestSeriousFaults;
   };
 
   public static getDangerousFaultSumCountCatAM2 = (data: TestData): number => {
