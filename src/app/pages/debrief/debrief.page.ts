@@ -26,6 +26,7 @@ import { getConductedLanguage } from '@store/tests/communication-preferences/com
 import { getCandidate } from '@store/tests/journal-data/common/candidate/candidate.reducer';
 import { getUntitledCandidateName } from '@store/tests/journal-data/common/candidate/candidate.selector';
 
+import { Style } from '@capacitor/status-bar';
 import {
   LessonAndTheme,
   LessonPlanning,
@@ -37,6 +38,7 @@ import { Avoidance, EmergencyStop } from '@dvsa/mes-test-schema/categories/AM1';
 import { Question, Question5 } from '@dvsa/mes-test-schema/categories/CPC';
 import { ViewDidEnter, ViewDidLeave } from '@ionic/angular';
 import { DASHBOARD_PAGE, TestFlowPageNames } from '@pages/page-names.constants';
+import { AccessibilityService } from '@providers/accessibility/accessibility.service';
 import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
 import { TestDataByCategoryProvider } from '@providers/test-data-by-category/test-data-by-category';
 import { isAnyOf } from '@shared/helpers/simplifiers';
@@ -127,6 +129,7 @@ export class DebriefPage extends PracticeableBasePageComponent implements OnInit
     private faultSummaryProvider: FaultSummaryProvider,
     protected routeByCategoryProvider: RouteByCategoryProvider,
     private testDataByCategoryProvider: TestDataByCategoryProvider,
+    private accessibilityService: AccessibilityService,
     injector: Injector
   ) {
     super(injector, false);
@@ -375,6 +378,7 @@ export class DebriefPage extends PracticeableBasePageComponent implements OnInit
   async endDebrief(): Promise<void> {
     if (this.isTestReportPracticeMode) {
       await this.router.navigate([DASHBOARD_PAGE], { replaceUrl: true });
+      await this.accessibilityService.configureStatusBar(Style.Dark);
       return;
     }
     this.store$.dispatch(EndDebrief());

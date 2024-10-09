@@ -1,10 +1,12 @@
 import { Component } from '@angular/core';
+import { Style } from '@capacitor/status-bar';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { ModalController } from '@ionic/angular';
 import { Store } from '@ngrx/store';
 import { PracticeTestModal } from '@pages/dashboard/components/practice-test-modal/practice-test-modal';
 import { ModalEvent } from '@pages/dashboard/components/practice-test-modal/practice-test-modal.constants';
 import { TestFlowPageNames } from '@pages/page-names.constants';
+import { AccessibilityService } from '@providers/accessibility/accessibility.service';
 import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
 import { StoreModel } from '@shared/models/store.model';
 import { testReportPracticeModeSlot } from '@store/tests/__mocks__/tests.mock';
@@ -13,8 +15,6 @@ import {
   TellMeQuestionDrivingFault,
 } from '@store/tests/test-data/cat-b/vehicle-checks/vehicle-checks.actions';
 import { StartTestReportPracticeTest } from '@store/tests/tests.actions';
-import { AccessibilityService } from '@providers/accessibility/accessibility.service';
-import { Style } from '@capacitor/status-bar';
 
 @Component({
   selector: 'practice-test-report-card',
