@@ -41,9 +41,7 @@ export class RekeyReasonEffects {
             // user exists
             return of(testActions.SendCurrentTest());
           }),
-          catchError(() =>
-            of(rekeyActions.ValidateTransferRekeyFailed(true))
-          )
+          catchError(() => of(rekeyActions.ValidateTransferRekeyFailed(true)))
         );
       })
     )
