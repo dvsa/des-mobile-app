@@ -1,11 +1,13 @@
 import { Injectable } from '@angular/core';
 import { IonicAuth, IonicAuthOptions } from '@ionic-enterprise/auth';
 import { Store } from '@ngrx/store';
+import { CacheExaminerRecords, UpdateLastCached } from '@pages/examiner-records/examiner-records.actions';
 import { CompletedTestPersistenceProvider } from '@providers/completed-test-persistence/completed-test-persistence';
 import { LogHelper } from '@providers/logs/logs-helper';
 import { serialiseLogMessage } from '@shared/helpers/serialise-log-message';
 import { LogType } from '@shared/models/log.model';
 import { StoreModel } from '@shared/models/store.model';
+import { LoadEmployeeId, LoadEmployeeNameSuccess } from '@store/app-info/app-info.actions';
 import { selectEmployeeId } from '@store/app-info/app-info.selectors';
 import { UnloadJournal } from '@store/journal/journal.actions';
 import { SaveLog } from '@store/logs/logs.actions';
@@ -17,8 +19,6 @@ import { AppConfigProvider } from '../app-config/app-config';
 import { DataStoreProvider } from '../data-store/data-store';
 import { ConnectionStatus, NetworkStateProvider } from '../network-state/network-state';
 import { TestPersistenceProvider } from '../test-persistence/test-persistence';
-import { CacheExaminerRecords, UpdateLastCached } from '@pages/examiner-records/examiner-records.actions';
-import { LoadEmployeeId, LoadEmployeeNameSuccess } from '@store/app-info/app-info.actions';
 
 export enum Token {
   ID = 'idToken',
