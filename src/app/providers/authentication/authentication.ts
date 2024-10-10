@@ -1,6 +1,4 @@
 import { Injectable } from '@angular/core';
-import { environment } from '@environments/environment';
-import { TestersEnvironmentFile } from '@environments/models/environment.model';
 import { IonicAuth, IonicAuthOptions } from '@ionic-enterprise/auth';
 import { Store } from '@ngrx/store';
 import { CompletedTestPersistenceProvider } from '@providers/completed-test-persistence/completed-test-persistence';
@@ -19,6 +17,8 @@ import { AppConfigProvider } from '../app-config/app-config';
 import { DataStoreProvider } from '../data-store/data-store';
 import { ConnectionStatus, NetworkStateProvider } from '../network-state/network-state';
 import { TestPersistenceProvider } from '../test-persistence/test-persistence';
+import { CacheExaminerRecords, UpdateLastCached } from '@pages/examiner-records/examiner-records.actions';
+import { LoadEmployeeId, LoadEmployeeNameSuccess } from '@store/app-info/app-info.actions';
 
 export enum Token {
   ID = 'idToken',
@@ -241,22 +241,34 @@ export class AuthenticationProvider {
     return this.authConnect.login();
   }
 
+  clearAppInfo() {
+    this.store$.dispatch(LoadEmployeeId({ employeeId: null }));
+    this.store$.dispatch(LoadEmployeeNameSuccess({ employeeName: null }));
+  }
+
+  clearExaminerRecords() {
+    this.store$.dispatch(CacheExaminerRecords(null));
+    this.store$.dispatch(UpdateLastCached(null));
+  }
+
   public async logout(): Promise<void> {
     try {
       this.logEvent(LogType.DEBUG, 'Logout', 'Started logout flow');
 
-      if (this.appConfig.getAppConfig()?.logoutClearsTestPersistence) {
-        await this.testPersistenceProvider.clearPersistedTests();
-        await this.completedTestPersistenceProvider.clearPersistedCompletedTests();
-      }
+      // if (this.appConfig.getAppConfig()?.logoutClearsTestPersistence) {
+      await this.testPersistenceProvider.clearPersistedTests();
+      await this.completedTestPersistenceProvider.clearPersistedCompletedTests();
+      // }
       // If the user is temporarily unauthorised, we don't want to dump the data in the store as that could be for a
       // genuine reason i.e. poor connectivity so can't re-auth.
 
-      if ((environment as unknown as TestersEnvironmentFile)?.isTest) {
-        this.store$.dispatch(UnloadJournal());
-        this.store$.dispatch(UnloadTests());
-        this.store$.dispatch(ClearTestCentresRefData());
-      }
+      // if ((environment as unknown as TestersEnvironmentFile)?.isTest) {
+      this.store$.dispatch(UnloadJournal());
+      this.store$.dispatch(UnloadTests());
+      this.store$.dispatch(ClearTestCentresRefData());
+      this.clearExaminerRecords();
+      this.clearAppInfo();
+      // }
 
       await this.clearTokens();
 
