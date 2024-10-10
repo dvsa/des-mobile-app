@@ -241,6 +241,16 @@ export class AuthenticationProvider {
     return this.authConnect.login();
   }
 
+  async clearStore() {
+    await this.testPersistenceProvider.clearPersistedTests();
+    await this.completedTestPersistenceProvider.clearPersistedCompletedTests();
+    this.store$.dispatch(UnloadJournal());
+    this.store$.dispatch(UnloadTests());
+    this.store$.dispatch(ClearTestCentresRefData());
+    this.clearExaminerRecords();
+    this.clearAppInfo();
+  }
+
   clearAppInfo() {
     this.store$.dispatch(LoadEmployeeId({ employeeId: null }));
     this.store$.dispatch(LoadEmployeeNameSuccess({ employeeName: null }));
@@ -255,20 +265,7 @@ export class AuthenticationProvider {
     try {
       this.logEvent(LogType.DEBUG, 'Logout', 'Started logout flow');
 
-      // if (this.appConfig.getAppConfig()?.logoutClearsTestPersistence) {
-      await this.testPersistenceProvider.clearPersistedTests();
-      await this.completedTestPersistenceProvider.clearPersistedCompletedTests();
-      // }
-      // If the user is temporarily unauthorised, we don't want to dump the data in the store as that could be for a
-      // genuine reason i.e. poor connectivity so can't re-auth.
-
-      // if ((environment as unknown as TestersEnvironmentFile)?.isTest) {
-      this.store$.dispatch(UnloadJournal());
-      this.store$.dispatch(UnloadTests());
-      this.store$.dispatch(ClearTestCentresRefData());
-      this.clearExaminerRecords();
-      this.clearAppInfo();
-      // }
+      await this.clearStore();
 
       await this.clearTokens();
 
