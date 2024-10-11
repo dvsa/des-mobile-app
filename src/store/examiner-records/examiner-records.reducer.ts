@@ -7,8 +7,8 @@ import {
   UpdateLastCached,
 } from '@pages/examiner-records/examiner-records.actions';
 import { ColourEnum } from '@providers/examiner-records/examiner-records';
+import { UnloadExaminerRecords } from '@store/examiner-records/examiner-records.actions';
 import { ExaminerRecordStateModel } from '@store/examiner-records/examiner-records.model';
-import {UnloadExaminerRecords} from '@store/examiner-records/examiner-records.actions';
 
 export const examinerRecordsFeatureKey = 'examinerRecords';
 
@@ -38,7 +38,7 @@ export const examinerRecordsReducer = createReducer(
     ...state,
     colourScheme: colour,
   })),
-  on(UnloadExaminerRecords, () => initialState),
+  on(UnloadExaminerRecords, () => initialState)
 );
 
 export const getExaminerRecordsState = createFeatureSelector<ExaminerRecordStateModel>('examinerRecords');
