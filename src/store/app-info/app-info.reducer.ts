@@ -5,8 +5,8 @@ import {
   LoadAppVersionSuccess,
   LoadEmployeeId,
   LoadEmployeeNameSuccess,
-  UnloadAppInfo,
   SetDateConfigLoaded,
+  UnloadAppInfo,
 } from './app-info.actions';
 
 import { AppInfoStateModel } from './app-info.model';
