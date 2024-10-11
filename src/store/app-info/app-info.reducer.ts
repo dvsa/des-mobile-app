@@ -5,6 +5,7 @@ import {
   LoadAppVersionSuccess,
   LoadEmployeeId,
   LoadEmployeeNameSuccess,
+  UnloadAppInfo,
   SetDateConfigLoaded,
 } from './app-info.actions';
 
@@ -44,7 +45,8 @@ export const appInfoReducer = createReducer(
   on(HasSeenUpdateAvailablePopup, (state: AppInfoStateModel, { hasSeen }) => ({
     ...state,
     updateAvailablePresented: hasSeen,
-  }))
+  })),
+  on(UnloadAppInfo, () => initialState)
 );
 
 export const getAppInfoState = createFeatureSelector<AppInfoStateModel>('appInfo');

@@ -1,17 +1,15 @@
 import { Injectable } from '@angular/core';
 import { IonicAuth, IonicAuthOptions } from '@ionic-enterprise/auth';
 import { Store } from '@ngrx/store';
-import { CacheExaminerRecords, UpdateLastCached } from '@pages/examiner-records/examiner-records.actions';
 import { CompletedTestPersistenceProvider } from '@providers/completed-test-persistence/completed-test-persistence';
 import { LogHelper } from '@providers/logs/logs-helper';
 import { serialiseLogMessage } from '@shared/helpers/serialise-log-message';
 import { LogType } from '@shared/models/log.model';
 import { StoreModel } from '@shared/models/store.model';
-import { LoadEmployeeId, LoadEmployeeNameSuccess } from '@store/app-info/app-info.actions';
+import { UnloadAppInfo } from '@store/app-info/app-info.actions';
 import { selectEmployeeId } from '@store/app-info/app-info.selectors';
 import { UnloadJournal } from '@store/journal/journal.actions';
 import { SaveLog } from '@store/logs/logs.actions';
-import { ClearTestCentresRefData } from '@store/reference-data/reference-data.actions';
 import { UnloadTests } from '@store/tests/tests.actions';
 import { Subscription } from 'rxjs';
 import { tap } from 'rxjs/operators';
@@ -19,6 +17,9 @@ import { AppConfigProvider } from '../app-config/app-config';
 import { DataStoreProvider } from '../data-store/data-store';
 import { ConnectionStatus, NetworkStateProvider } from '../network-state/network-state';
 import { TestPersistenceProvider } from '../test-persistence/test-persistence';
+import { UnloadAppConfig } from '@store/app-config/app-config.actions';
+import { UnloadExaminerRecords } from '@store/examiner-records/examiner-records.actions';
+import { UnloadRekeySearch } from '@pages/rekey-search/rekey-search.actions';
 
 export enum Token {
   ID = 'idToken',
@@ -246,19 +247,10 @@ export class AuthenticationProvider {
     await this.completedTestPersistenceProvider.clearPersistedCompletedTests();
     this.store$.dispatch(UnloadJournal());
     this.store$.dispatch(UnloadTests());
-    this.store$.dispatch(ClearTestCentresRefData());
-    this.clearExaminerRecords();
-    this.clearAppInfo();
-  }
-
-  clearAppInfo() {
-    this.store$.dispatch(LoadEmployeeId({ employeeId: null }));
-    this.store$.dispatch(LoadEmployeeNameSuccess({ employeeName: null }));
-  }
-
-  clearExaminerRecords() {
-    this.store$.dispatch(CacheExaminerRecords(null));
-    this.store$.dispatch(UpdateLastCached(null));
+    this.store$.dispatch(UnloadAppConfig());
+    this.store$.dispatch(UnloadRekeySearch());
+    this.store$.dispatch(UnloadAppInfo());
+    this.store$.dispatch(UnloadExaminerRecords());
   }
 
   public async logout(): Promise<void> {
