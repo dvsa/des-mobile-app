@@ -4,6 +4,8 @@ import { createAction, union } from '@ngrx/store';
 
 import { RekeySearchError } from './rekey-search-error-model';
 
+export const UnloadRekeySearch = createAction('[RekeySearch] Unload Rekey Search');
+
 export const RekeySearchViewDidEnter = createAction('[RekeySearch] Rekey Search Did Enter');
 
 export const SearchBookedTest = createAction(

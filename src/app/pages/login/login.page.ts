@@ -13,7 +13,7 @@ import { NetworkStateProvider } from '@providers/network-state/network-state';
 import { LogoutBasePageComponent } from '@shared/classes/logout-base-page';
 import { LogType } from '@shared/models/log.model';
 import { LoadAppConfig } from '@store/app-config/app-config.actions';
-import { LoadConfigSuccess, LoadEmployeeId, LoadEmployeeName } from '@store/app-info/app-info.actions';
+import {LoadAppVersion, LoadConfigSuccess, LoadEmployeeId, LoadEmployeeName} from '@store/app-info/app-info.actions';
 import { LoadLog, SaveLog, SendLogs, StartSendingLogs } from '@store/logs/logs.actions';
 import { GetTestCentresRefData } from '@store/reference-data/reference-data.actions';
 import { LoadPersistedTests, StartSendingCompletedTests } from '@store/tests/tests.actions';
@@ -137,6 +137,8 @@ export class LoginPage extends LogoutBasePageComponent implements OnInit {
       this.store$.dispatch(StartSendingCompletedTests());
 
       this.store$.dispatch(GetTestCentresRefData());
+
+      this.store$.dispatch(LoadAppVersion());
 
       await this.handleLoadingUI(false);
 

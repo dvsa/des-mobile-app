@@ -1,7 +1,7 @@
 import { createFeatureSelector, createReducer, on } from '@ngrx/store';
 
 import { AppConfig } from '@providers/app-config/app-config.model';
-import { LoadAppConfig } from './app-config.actions';
+import {LoadAppConfig, UnloadAppConfig} from './app-config.actions';
 
 export const appConfigFeatureKey = 'appConfig';
 
@@ -80,7 +80,8 @@ export const appConfigReducer = createReducer(
       };
     }
     return state;
-  })
+  }),
+on(UnloadAppConfig, () => initialState)
 );
 
 export const getAppConfigState = createFeatureSelector<AppConfig>('appConfig');
