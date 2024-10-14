@@ -66,7 +66,8 @@ export const rekeyReasonReducer = createReducer(
       ...state.uploadStatus,
       hasStaffNumberFailedValidation: false,
     },
-  }))
+  })),
+  on(rekeyReasonActions.ResetRekeyReason, () => initialState)
 );
 
 export const getRekeyReasonState = createFeatureSelector<RekeyReasonModel>('rekeyReason');

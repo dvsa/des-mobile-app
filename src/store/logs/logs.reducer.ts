@@ -14,7 +14,8 @@ export const logsReducer = createReducer(
   on(logsActions.SendLogsSuccess, (state: LogsModel, { timestamps }) => {
     return state.filter((log: Log) => !timestamps.includes(log.timestamp));
   }),
-  on(logsActions.LoadLogState, (state: LogsModel, { payload }) => [...state, ...payload])
+  on(logsActions.LoadLogState, (state: LogsModel, { payload }) => [...state, ...payload]),
+  on(logsActions.ClearLogs, () => initialState)
 );
 
 export const getLogsState = createFeatureSelector<LogsModel>('logs');
