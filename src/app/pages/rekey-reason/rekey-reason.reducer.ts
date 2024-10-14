@@ -3,7 +3,6 @@ import * as rekeyActions from '@store/tests/rekey/rekey.actions';
 import * as testActions from '@store/tests/tests.actions';
 import * as rekeyReasonActions from './rekey-reason.actions';
 import { RekeyReasonModel } from './rekey-reason.model';
-import {ResetRekeyReason} from './rekey-reason.actions';
 
 export const initialState: RekeyReasonModel = {
   uploadStatus: {
@@ -68,7 +67,7 @@ export const rekeyReasonReducer = createReducer(
       hasStaffNumberFailedValidation: false,
     },
   })),
-  on(rekeyReasonActions.ResetRekeyReason, () => initialState),
+  on(rekeyReasonActions.ResetRekeyReason, () => initialState)
 );
 
 export const getRekeyReasonState = createFeatureSelector<RekeyReasonModel>('rekeyReason');
