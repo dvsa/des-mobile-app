@@ -200,7 +200,7 @@ describe('LoginPage', () => {
         expect(appConfigProvider.loadRemoteConfig).toHaveBeenCalled();
         expect(component.handleLoadingUI).toHaveBeenCalled();
         expect(component.validateDeviceType).toHaveBeenCalled();
-        expect(store$.dispatch).toHaveBeenCalledTimes(10);
+        expect(store$.dispatch).toHaveBeenCalledTimes(9);
       }));
     });
     describe('Unsuccessful login flow', () => {

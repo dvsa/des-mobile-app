@@ -138,8 +138,6 @@ export class LoginPage extends LogoutBasePageComponent implements OnInit {
 
       this.store$.dispatch(GetTestCentresRefData());
 
-      this.store$.dispatch(LoadAppVersion());
-
       await this.handleLoadingUI(false);
 
       await this.validateDeviceType();
