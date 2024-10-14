@@ -16,13 +16,12 @@ export class FaultCountBHelper {
 
     const controlledStopHasDrivingFault = controlledStop && controlledStop.fault === CompetencyOutcome.DF ? 1 : 0;
 
-    const result =
+    return (
       faultTotal +
       sumManoeuvreFaults(manoeuvres, CompetencyOutcome.DF) +
       FaultCountBHelper.getVehicleChecksFaultCountCatB(vehicleChecks) +
-      controlledStopHasDrivingFault;
-
-    return result;
+      controlledStopHasDrivingFault
+    );
   };
 
   public static getSeriousFaultSumCountCatB = (data: CatBUniqueTypes.TestData): number => {
@@ -31,19 +30,17 @@ export class FaultCountBHelper {
     const { seriousFaults, manoeuvres, controlledStop, vehicleChecks, eyesightTest } = data;
 
     const seriousFaultSumOfSimpleCompetencies = Object.keys(pickBy(seriousFaults)).length;
-    const vehicleCheckSeriousFaults =
-      vehicleChecks && vehicleChecks.showMeQuestion.outcome === CompetencyOutcome.S ? 1 : 0;
-    const controlledStopSeriousFaults = controlledStop && controlledStop.fault === CompetencyOutcome.S ? 1 : 0;
-    const eyesightTestSeriousFaults = eyesightTest && eyesightTest.seriousFault ? 1 : 0;
+    const vehicleCheckSeriousFaults = vehicleChecks?.showMeQuestion?.outcome === CompetencyOutcome.S ? 1 : 0;
+    const controlledStopSeriousFaults = controlledStop?.fault === CompetencyOutcome.S ? 1 : 0;
+    const eyesightTestSeriousFaults = eyesightTest?.seriousFault ? 1 : 0;
 
-    const result =
+    return (
       seriousFaultSumOfSimpleCompetencies +
       sumManoeuvreFaults(manoeuvres, CompetencyOutcome.S) +
       vehicleCheckSeriousFaults +
       controlledStopSeriousFaults +
-      eyesightTestSeriousFaults;
-
-    return result;
+      eyesightTestSeriousFaults
+    );
   };
 
   public static getDangerousFaultSumCountCatB = (data: CatBUniqueTypes.TestData): number => {
@@ -56,13 +53,12 @@ export class FaultCountBHelper {
       vehicleChecks && vehicleChecks.showMeQuestion.outcome === CompetencyOutcome.D ? 1 : 0;
     const controlledStopDangerousFaults = controlledStop && controlledStop.fault === CompetencyOutcome.D ? 1 : 0;
 
-    const result =
+    return (
       dangerousFaultSumOfSimpleCompetencies +
       sumManoeuvreFaults(manoeuvres, CompetencyOutcome.D) +
       vehicleCheckDangerousFaults +
-      controlledStopDangerousFaults;
-
-    return result;
+      controlledStopDangerousFaults
+    );
   };
 
   private static getVehicleChecksFaultCountCatB = (vehicleChecks: CatBUniqueTypes.VehicleChecks): number => {

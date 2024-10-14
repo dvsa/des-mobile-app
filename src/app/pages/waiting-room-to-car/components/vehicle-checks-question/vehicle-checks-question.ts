@@ -92,7 +92,7 @@ export class VehicleChecksQuestionComponent implements OnChanges {
   }
 
   shouldShowOutcomeFields(): boolean {
-    return !!(this.questionResult && this.questionResult.code && this.questionResult.description);
+    return !!(this.questionResult?.code && this.questionResult.description);
   }
 
   get invalid(): boolean {

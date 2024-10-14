@@ -41,16 +41,15 @@ export class FaultCountHomeTestHelper {
       faultTotal += fault.faultCount;
     });
 
-    const controlledStopHasDrivingFault = controlledStop && controlledStop.fault === CompetencyOutcome.DF ? 1 : 0;
-    const hcodeSafetyHasDrivingFault = highwayCodeSafety && highwayCodeSafety.drivingFault ? 1 : 0;
-    const result =
+    const controlledStopHasDrivingFault = controlledStop?.fault === CompetencyOutcome.DF ? 1 : 0;
+    const hcodeSafetyHasDrivingFault = highwayCodeSafety?.drivingFault ? 1 : 0;
+    return (
       faultTotal +
       FaultCountHomeTestHelper.getManoeuvreCountIfAny(data, CompetencyOutcome.DF) +
       FaultCountHomeTestHelper.getVehicleChecksFaultCountCatHomeTest(vehicleChecks).drivingFaults +
       controlledStopHasDrivingFault +
-      hcodeSafetyHasDrivingFault;
-
-    return result;
+      hcodeSafetyHasDrivingFault
+    );
   };
 
   public static getSeriousFaultSumCountHomeTest = (data: HomeTestData): number => {
@@ -59,18 +58,17 @@ export class FaultCountHomeTestHelper {
     const { seriousFaults, controlledStop, eyesightTest, highwayCodeSafety } = data;
 
     const seriousFaultSumOfSimpleCompetencies = Object.keys(pickBy(seriousFaults)).length;
-    const eyesightTestSeriousFaults = eyesightTest && eyesightTest.seriousFault ? 1 : 0;
-    const controlledStopSeriousFaults = controlledStop && controlledStop.fault === CompetencyOutcome.S ? 1 : 0;
-    const hcodeSafetyHasSeriousFault = highwayCodeSafety && highwayCodeSafety.seriousFault ? 1 : 0;
+    const eyesightTestSeriousFaults = eyesightTest?.seriousFault ? 1 : 0;
+    const controlledStopSeriousFaults = controlledStop?.fault === CompetencyOutcome.S ? 1 : 0;
+    const hcodeSafetyHasSeriousFault = highwayCodeSafety?.seriousFault ? 1 : 0;
 
-    const result =
+    return (
       seriousFaultSumOfSimpleCompetencies +
       FaultCountHomeTestHelper.getManoeuvreCountIfAny(data, CompetencyOutcome.S) +
       controlledStopSeriousFaults +
       hcodeSafetyHasSeriousFault +
-      eyesightTestSeriousFaults;
-
-    return result;
+      eyesightTestSeriousFaults
+    );
   };
 
   public static getDangerousFaultSumCountHomeTest = (data: HomeTestData): number => {
@@ -81,12 +79,11 @@ export class FaultCountHomeTestHelper {
     const dangerousFaultSumOfSimpleCompetencies = Object.keys(pickBy(dangerousFaults)).length;
     const controlledStopDangerousFaults = controlledStop && controlledStop.fault === CompetencyOutcome.D ? 1 : 0;
 
-    const result =
+    return (
       dangerousFaultSumOfSimpleCompetencies +
       FaultCountHomeTestHelper.getManoeuvreCountIfAny(data, CompetencyOutcome.D) +
-      controlledStopDangerousFaults;
-
-    return result;
+      controlledStopDangerousFaults
+    );
   };
 
   public static getVehicleChecksFaultCountCatHomeTest = (vehicleChecks: HomeVehicleChecks): VehicleChecksScore => {

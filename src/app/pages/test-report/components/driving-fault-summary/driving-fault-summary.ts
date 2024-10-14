@@ -56,7 +56,7 @@ export class DrivingFaultSummaryComponent implements OnInit {
   }
 
   ionViewWillEnter(): void {
-    if (this.componentState && this.componentState.count$) {
+    if (this.componentState?.count$) {
       this.subscription = this.componentState.count$.pipe(takeUntil(trDestroy$)).subscribe();
     }
   }

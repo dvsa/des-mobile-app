@@ -40,7 +40,7 @@ const deriveSlotId = (state: TestsModel, action: Action): string | null => {
     return `${(<ReturnType<typeof testsActions.StartTest>>action).slotId}`;
   }
 
-  return state.currentTest && state.currentTest.slotId ? state.currentTest.slotId : null;
+  return state.currentTest?.slotId ? state.currentTest.slotId : null;
 };
 
 const deriveCategory = (state: TestsModel, action: Action, slotId: string | null): TestCategory => {
