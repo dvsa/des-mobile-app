@@ -11,7 +11,7 @@ import { serialiseLogMessage } from '@shared/helpers/serialise-log-message';
 import { LogType } from '@shared/models/log.model';
 import { StoreModel } from '@shared/models/store.model';
 import { UnloadAppConfig } from '@store/app-config/app-config.actions';
-import { UnloadAppInfo } from '@store/app-info/app-info.actions';
+import {LoadAppVersion, UnloadAppInfo} from '@store/app-info/app-info.actions';
 import { selectEmployeeId } from '@store/app-info/app-info.selectors';
 import { UnloadExaminerRecords } from '@store/examiner-records/examiner-records.actions';
 import { UnloadJournal } from '@store/journal/journal.actions';
@@ -247,6 +247,7 @@ export class AuthenticationProvider {
     return this.authConnect.login();
   }
 
+  /**Clears the entire store but keeps the app version*/
   async clearStore() {
     // Clear persisted tests from the test persistence provider
     await this.testPersistenceProvider.clearPersistedTests();
@@ -262,6 +263,9 @@ export class AuthenticationProvider {
 
     // Dispatch action to unload app config
     this.store$.dispatch(UnloadAppConfig());
+
+    // Dispatch action to load app version
+    this.store$.dispatch(LoadAppVersion());
 
     // Dispatch action to unload rekey search data
     this.store$.dispatch(UnloadRekeySearch());
