@@ -1,5 +1,5 @@
 import { createFeatureSelector, createReducer, on } from '@ngrx/store';
-import {ResetTestCentreJournal, SetLastRefreshed} from './test-centre-journal.actions';
+import { ResetTestCentreJournal, SetLastRefreshed } from './test-centre-journal.actions';
 import { TestCentreJournalModel } from './test-centre-journal.model';
 
 export const testCentreJournalFeatureKey = 'testCentreJournal';

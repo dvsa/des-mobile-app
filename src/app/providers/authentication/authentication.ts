@@ -1,7 +1,10 @@
 import { Injectable } from '@angular/core';
 import { IonicAuth, IonicAuthOptions } from '@ionic-enterprise/auth';
 import { Store } from '@ngrx/store';
+import { DelegatedRekeySearchClearState } from '@pages/delegated-rekey-search/delegated-rekey-search.actions';
+import { ResetRekeyReason } from '@pages/rekey-reason/rekey-reason.actions';
 import { UnloadRekeySearch } from '@pages/rekey-search/rekey-search.actions';
+import { ResetFaultMode } from '@pages/test-report/test-report.actions';
 import { CompletedTestPersistenceProvider } from '@providers/completed-test-persistence/completed-test-persistence';
 import { LogHelper } from '@providers/logs/logs-helper';
 import { serialiseLogMessage } from '@shared/helpers/serialise-log-message';
@@ -14,6 +17,7 @@ import { UnloadExaminerRecords } from '@store/examiner-records/examiner-records.
 import { UnloadJournal } from '@store/journal/journal.actions';
 import { ClearLogs, SaveLog } from '@store/logs/logs.actions';
 import { ClearTestCentresRefData } from '@store/reference-data/reference-data.actions';
+import { ResetTestCentreJournal } from '@store/test-centre-journal/test-centre-journal.actions';
 import { UnloadTests } from '@store/tests/tests.actions';
 import { Subscription } from 'rxjs';
 import { tap } from 'rxjs/operators';
@@ -21,10 +25,6 @@ import { AppConfigProvider } from '../app-config/app-config';
 import { DataStoreProvider } from '../data-store/data-store';
 import { ConnectionStatus, NetworkStateProvider } from '../network-state/network-state';
 import { TestPersistenceProvider } from '../test-persistence/test-persistence';
-import { DelegatedRekeySearchClearState } from '@pages/delegated-rekey-search/delegated-rekey-search.actions';
-import { ResetTestCentreJournal } from '@store/test-centre-journal/test-centre-journal.actions';
-import { ResetRekeyReason } from '@pages/rekey-reason/rekey-reason.actions';
-import { ResetFaultMode } from '@pages/test-report/test-report.actions';
 
 export enum Token {
   ID = 'idToken',
