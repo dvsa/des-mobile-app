@@ -48,7 +48,8 @@
       <data-row-custom
         [shouldHaveSeperator]="data.motEvidenceProvided || vehicleDetails"
         [centredData]="true"
-        [label]="'MOT Status'">
+        [label]="'MOT Status'"
+        *ngIf="motFeatureFlag">
         <div class="ion-no-padding" *ngIf="!(data?.motStatus)">
           <ion-text class="mes-data">{{getNoMOTDataText()}}</ion-text>
         </div>
