@@ -12,7 +12,8 @@ import { UnloadAppInfo } from '@store/app-info/app-info.actions';
 import { selectEmployeeId } from '@store/app-info/app-info.selectors';
 import { UnloadExaminerRecords } from '@store/examiner-records/examiner-records.actions';
 import { UnloadJournal } from '@store/journal/journal.actions';
-import { SaveLog } from '@store/logs/logs.actions';
+import { ClearLogs, SaveLog } from '@store/logs/logs.actions';
+import { ClearTestCentresRefData } from '@store/reference-data/reference-data.actions';
 import { UnloadTests } from '@store/tests/tests.actions';
 import { Subscription } from 'rxjs';
 import { tap } from 'rxjs/operators';
@@ -20,6 +21,10 @@ import { AppConfigProvider } from '../app-config/app-config';
 import { DataStoreProvider } from '../data-store/data-store';
 import { ConnectionStatus, NetworkStateProvider } from '../network-state/network-state';
 import { TestPersistenceProvider } from '../test-persistence/test-persistence';
+import { DelegatedRekeySearchClearState } from '@pages/delegated-rekey-search/delegated-rekey-search.actions';
+import { ResetTestCentreJournal } from '@store/test-centre-journal/test-centre-journal.actions';
+import { ResetRekeyReason } from '@pages/rekey-reason/rekey-reason.actions';
+import { ResetFaultMode } from '@pages/test-report/test-report.actions';
 
 export enum Token {
   ID = 'idToken',
@@ -243,14 +248,47 @@ export class AuthenticationProvider {
   }
 
   async clearStore() {
+    // Clear persisted tests from the test persistence provider
     await this.testPersistenceProvider.clearPersistedTests();
+
+    // Clear persisted completed tests from the completed test persistence provider
     await this.completedTestPersistenceProvider.clearPersistedCompletedTests();
+
+    // Dispatch action to unload the journal
     this.store$.dispatch(UnloadJournal());
+
+    // Dispatch action to unload tests
     this.store$.dispatch(UnloadTests());
+
+    // Dispatch action to unload app config
     this.store$.dispatch(UnloadAppConfig());
+
+    // Dispatch action to unload rekey search data
     this.store$.dispatch(UnloadRekeySearch());
+
+    // Dispatch action to unload delegated rekey search data
+    this.store$.dispatch(DelegatedRekeySearchClearState());
+
+    // Dispatch action to unload app information
     this.store$.dispatch(UnloadAppInfo());
+
+    // Dispatch action to unload examiner records
     this.store$.dispatch(UnloadExaminerRecords());
+
+    // Dispatch action to clear test centres reference data
+    this.store$.dispatch(ClearTestCentresRefData());
+
+    // Dispatch action to clear test centre journal state
+    this.store$.dispatch(ResetTestCentreJournal());
+
+    // Dispatch action to clear test centre journal state
+    this.store$.dispatch(ResetRekeyReason());
+
+    // Dispatch action to clear test report
+    this.store$.dispatch(ResetFaultMode());
+
+    // Dispatch action to clear logs
+    this.store$.dispatch(ClearLogs());
   }
 
   public async logout(): Promise<void> {
