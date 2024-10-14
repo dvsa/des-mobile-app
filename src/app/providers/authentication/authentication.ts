@@ -247,7 +247,9 @@ export class AuthenticationProvider {
     return this.authConnect.login();
   }
 
-  /**Clears the entire store but keeps the app version*/
+  /**
+   * Clear items held in the store except app version
+   */
   async clearStore() {
     // Clear persisted tests from the test persistence provider
     await this.testPersistenceProvider.clearPersistedTests();
