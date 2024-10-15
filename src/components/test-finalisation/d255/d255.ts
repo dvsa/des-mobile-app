@@ -50,7 +50,6 @@ export class D255Component implements OnChanges {
     }
   }
 
-
   /**
    * Gets the default value for the D255 field
    * @returns a default value based on the eyesight test or the current value of
