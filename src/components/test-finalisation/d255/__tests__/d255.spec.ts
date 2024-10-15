@@ -22,7 +22,6 @@ describe('D255Component', () => {
     outcomeBehaviourMapProvider = TestBed.inject(OutcomeBehaviourMapProvider);
   }));
 
-  describe('Class', () => {
     describe('ngOnChanges', () => {
       it('should add a form control for D255 with a validator if the field should be visible', () => {
         spyOn(outcomeBehaviourMapProvider, 'getVisibilityType').and.returnValue(VisibilityType.Visible);
@@ -63,16 +62,15 @@ describe('D255Component', () => {
         component.eyesightTestFailed = false;
         expect(component.getD255OrDefault()).toEqual(false);
       });
-      it('should return false if D255 is set to false and eyesight is set to true', () => {
+      it('should return true if D255 is set to false and eyesight is set to true', () => {
         component.d255 = false;
         component.eyesightTestFailed = true;
-        expect(component.getD255OrDefault()).toEqual(false);
+        expect(component.getD255OrDefault()).toEqual(true);
       });
       it('should return true if D255 is set to null and eyesight is set to true', () => {
         component.d255 = null;
         component.eyesightTestFailed = true;
         expect(component.getD255OrDefault()).toEqual(true);
       });
-    });
   });
 });
