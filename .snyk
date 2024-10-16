@@ -33,4 +33,9 @@ ignore:
         reason: Remediation not yet available
         expires: 2024-08-01T09:00:00.0Z
         created: 2024-07-19T09:00:00.0Z
+  SNYK-JS-ELLIPTIC-8187303:
+    - '*':
+        reason: Remediation not yet available
+        expires: 2024-11-01T09:00:00.0Z
+        created: 2024-10-16T00:00:00.0Z
 patch: {}

@@ -1,0 +1,57 @@
+name: 📱 Build Mobile Artefact
+run-name: "📱 ${{ github.ref_name || inputs.branch }} - ${{ github.run_id }}"
+
+on:
+  workflow_dispatch:
+    inputs:
+      branch:
+        description: Branch
+        type: string
+        required: true
+
+  push:
+    branches:
+      - develop
+    tags:
+      - release-*
+
+permissions:
+  id-token: write
+  contents: write
+
+jobs:
+  develop:
+    if: github.ref_name == 'develop'
+    uses: dvsa/des-workflow-actions/.github/workflows/build-mobile-app.yaml@main
+    with:
+      runs_on: mito-2
+      branch: ${{ github.ref_name }}
+      environment: develop
+      app-env: test
+    secrets:
+      AWS_ROLE: ${{ secrets.DES_AWS_ROLE }}
+      DVSA_AWS_REGION: ${{ secrets.DVSA_AWS_REGION }}
+
+  release:
+    if: startsWith(github.ref_name, 'release-')
+    uses: dvsa/des-workflow-actions/.github/workflows/build-mobile-app.yaml@main
+    with:
+      runs_on: mito-2
+      branch: ${{ github.ref_name }}
+      environment: release
+      app-env: dev
+    secrets:
+      AWS_ROLE: ${{ secrets.DES_AWS_ROLE }}
+      DVSA_AWS_REGION: ${{ secrets.DVSA_AWS_REGION }}
+
+  branch:
+    if: inputs.branch != ''
+    uses: dvsa/des-workflow-actions/.github/workflows/build-mobile-app.yaml@main
+    with:
+      runs_on: mito-2
+      branch: ${{ inputs.branch }}
+      environment: ${{ startsWith(inputs.branch, 'release-') && 'release' || 'develop' }}
+      app-env: ${{ startsWith(inputs.branch, 'release-') && 'dev' || 'test' }}
+    secrets:
+      AWS_ROLE: ${{ secrets.DES_AWS_ROLE }}
+      DVSA_AWS_REGION: ${{ secrets.DVSA_AWS_REGION }}
