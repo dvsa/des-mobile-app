@@ -113,7 +113,6 @@ export class AppComponent extends LogoutBasePageComponent implements OnInit {
       this.initialiseAuthentication();
 
       await this.initialisePersistentStorage();
-      console.log('load app version');
       this.store$.dispatch(LoadAppVersion());
       await this.configureStatusBar();
       this.configureLocale();
