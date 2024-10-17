@@ -102,7 +102,6 @@ export class AppComponent extends LogoutBasePageComponent implements OnInit {
 
   async ngOnInit() {
     try {
-      alert('hello');
       await this.platform.ready();
       await this.storage.create();
       if (this.platform.is('cordova')) {
