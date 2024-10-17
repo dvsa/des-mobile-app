@@ -5,7 +5,7 @@ import { StatusBar, Style } from '@capacitor/status-bar';
 import { MenuController } from '@ionic/angular';
 import { Storage } from '@ionic/storage-angular';
 import { TranslateService } from '@ngx-translate/core';
-import { BrowserTracing, init as sentryAngularInit } from '@sentry/angular-ivy';
+import * as SentryAngular from '@sentry/angular';
 import * as Sentry from '@sentry/capacitor';
 import { Observable, Subscription, merge } from 'rxjs';
 
@@ -225,10 +225,10 @@ export class AppComponent extends LogoutBasePageComponent implements OnInit {
         release: `des@${appVersion}`,
         dist: appVersion,
         tracesSampleRate: 0.01, // 1% of transactions are captured;
-        integrations: [new BrowserTracing()],
+        integrations: (integrations) => [...integrations, SentryAngular.browserTracingIntegration()],
         ignoreErrors: SENTRY_ERRORS,
       },
-      sentryAngularInit
+      SentryAngular.init
     );
 
     return Promise.resolve();
