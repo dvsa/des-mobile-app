@@ -1,5 +1,5 @@
 name: 📱 Build Mobile Artefact
-run-name: "📱 ${{ github.ref_name || inputs.branch }} - ${{ github.run_id }}"
+run-name: "📱 ${{ inputs.branch || github.ref_name }} - ${{ github.run_id }}"
 
 on:
   workflow_dispatch:
@@ -21,7 +21,7 @@ permissions:
 
 jobs:
   develop:
-    if: github.ref_name == 'develop'
+    if: github.event_name == 'push' && github.ref_name == 'develop'
     uses: dvsa/des-workflow-actions/.github/workflows/build-mobile-app.yaml@main
     with:
       runs_on: mito-2
@@ -33,7 +33,7 @@ jobs:
       DVSA_AWS_REGION: ${{ secrets.DVSA_AWS_REGION }}
 
   release:
-    if: startsWith(github.ref_name, 'release-')
+    if: github.event_name == 'push' && startsWith(github.ref_name, 'release-')
     uses: dvsa/des-workflow-actions/.github/workflows/build-mobile-app.yaml@main
     with:
       runs_on: mito-2
