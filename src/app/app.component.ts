@@ -225,9 +225,7 @@ export class AppComponent extends LogoutBasePageComponent implements OnInit {
         release: `des@${appVersion}`,
         dist: appVersion,
         tracesSampleRate: 0.01, // 1% of transactions are captured;
-        integrations: (integrations) => [
-          ...integrations,
-          SentryAngular.browserTracingIntegration()],
+        integrations: (integrations) => [...integrations, SentryAngular.browserTracingIntegration()],
         ignoreErrors: SENTRY_ERRORS,
       },
       SentryAngular.init
