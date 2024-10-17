@@ -1,22 +1,22 @@
 PODS:
-  - Capacitor (6.0.0):
+  - Capacitor (6.1.2):
     - CapacitorCordova
-  - CapacitorApp (6.0.0):
+  - CapacitorApp (6.0.1):
     - Capacitor
-  - CapacitorAppLauncher (6.0.0):
+  - CapacitorAppLauncher (6.0.2):
     - Capacitor
   - CapacitorCommunityKeepAwake (5.0.0):
     - Capacitor
-  - CapacitorCordova (6.0.0)
-  - CapacitorDevice (6.0.0):
+  - CapacitorCordova (6.1.2)
+  - CapacitorDevice (6.0.1):
     - Capacitor
   - CapacitorNativeBiometric (0.0.1):
     - Capacitor
-  - CapacitorSplashScreen (6.0.0):
+  - CapacitorSplashScreen (6.0.2):
     - Capacitor
-  - CapacitorStatusBar (6.0.0):
+  - CapacitorStatusBar (6.0.1):
     - Capacitor
-  - CapacitorTextZoom (6.0.0):
+  - CapacitorTextZoom (6.0.2):
     - Capacitor
   - CapawesomeCapacitorManagedConfigurations (6.0.0):
     - Capacitor
@@ -97,16 +97,16 @@ EXTERNAL SOURCES:
     :path: "../../node_modules/@sentry/capacitor"
 
 SPEC CHECKSUMS:
-  Capacitor: 559d073c4ca6c27f8e7002c807eea94c3ba435a9
-  CapacitorApp: 9d53aec7101f7b030a950c5bdc4df8612576b279
-  CapacitorAppLauncher: 24ce4be152a84883378d22114ffe6c492056ced2
+  Capacitor: 679f9673fdf30597493a6362a5d5bf233d46abc2
+  CapacitorApp: 0bc633b4eae40a1f32cd2834788fad3bc42da6a1
+  CapacitorAppLauncher: 9ac785e8d3936388249212b6e16cb32225960c5f
   CapacitorCommunityKeepAwake: c820e5394a74ab73635107f0544378b026562243
-  CapacitorCordova: 8c4bfdf69368512e85b1d8b724dd7546abeb30af
-  CapacitorDevice: f8fd88f9edd1261c55a109f32015b09bbbfdc4a0
+  CapacitorCordova: f48c89f96c319101cd2f0ce8a2b7449b5fb8b3dd
+  CapacitorDevice: 7097a1deb4224b77fd13a6e60a355d0062a5d772
   CapacitorNativeBiometric: b47637a8cd349bdac014424bb4ddcae9ee5d4919
-  CapacitorSplashScreen: 5431ab8d19c1c6e95777d53bfaa7a36a6c3d94c7
-  CapacitorStatusBar: 2e4369f99166125435641b1908d05f561eaba6f6
-  CapacitorTextZoom: 696722e5c479b364f2429584f11ad386d609bd1a
+  CapacitorSplashScreen: 250df9ef8014fac5c7c1fd231f0f8b1d8f0b5624
+  CapacitorStatusBar: b81d4fb5d4e0064c712018071b3ab4b810b39a63
+  CapacitorTextZoom: 013a8dd0887f6bd103171768c91845f2354414b6
   CapawesomeCapacitorManagedConfigurations: e6dbcbcf45d7b1f7acfa9b54a02e15201604a803
   CapawesomeCapacitorScreenOrientation: 82675c41cb616a64630c834b06344515a2849ff3
   CordovaPlugins: c8d12d6cd20cf360d3711e2590712be33b6dbcf5

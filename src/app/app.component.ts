@@ -5,7 +5,7 @@ import { StatusBar, Style } from '@capacitor/status-bar';
 import { MenuController } from '@ionic/angular';
 import { Storage } from '@ionic/storage-angular';
 import { TranslateService } from '@ngx-translate/core';
-import { browserTracingIntegration, init as sentryAngularInit } from '@sentry/angular-ivy';
+import * as SentryAngular from '@sentry/angular';
 import * as Sentry from '@sentry/capacitor';
 import { Observable, Subscription, merge } from 'rxjs';
 
@@ -102,6 +102,7 @@ export class AppComponent extends LogoutBasePageComponent implements OnInit {
 
   async ngOnInit() {
     try {
+      alert('hello');
       await this.platform.ready();
       await this.storage.create();
       if (this.platform.is('cordova')) {
@@ -113,6 +114,7 @@ export class AppComponent extends LogoutBasePageComponent implements OnInit {
       this.initialiseAuthentication();
 
       await this.initialisePersistentStorage();
+      console.log('load app version');
       this.store$.dispatch(LoadAppVersion());
       await this.configureStatusBar();
       this.configureLocale();
@@ -225,10 +227,12 @@ export class AppComponent extends LogoutBasePageComponent implements OnInit {
         release: `des@${appVersion}`,
         dist: appVersion,
         tracesSampleRate: 0.01, // 1% of transactions are captured;
-        integrations: (integrations) => [...integrations, browserTracingIntegration()],
+        integrations: (integrations) => [
+          ...integrations,
+          SentryAngular.browserTracingIntegration()],
         ignoreErrors: SENTRY_ERRORS,
       },
-      sentryAngularInit
+      SentryAngular.init
     );
 
     return Promise.resolve();
