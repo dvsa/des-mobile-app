@@ -18,7 +18,7 @@ import { FakeJournalAnalyticsEffects } from '../fake-journal.analytics.effects';
 describe('FakeJournalAnalyticsEffects', () => {
   let effects: FakeJournalAnalyticsEffects;
   let analyticsProviderMock: AnalyticsProvider;
-  let actions$: ReplaySubject<any>;
+  let actions$: ReplaySubject;
   const screenName = AnalyticsScreenNames.FAKE_JOURNAL;
 
   beforeEach(waitForAsync(() => {

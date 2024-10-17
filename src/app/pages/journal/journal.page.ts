@@ -71,7 +71,7 @@ export class JournalPage extends BasePageComponent implements OnInit {
   pageState: JournalPageState;
   pageRefresher: IonRefresherCustomEvent<RefresherEventDetail>;
   subscription: Subscription;
-  merged$: Observable<any>;
+  merged$: Observable<void>;
   todaysDate: DateTime;
   platformSubscription: Subscription;
 

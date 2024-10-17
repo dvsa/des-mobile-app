@@ -47,7 +47,7 @@ describe('EndTestLinkComponent', () => {
           Promise.resolve({
             present: async () => {},
             onWillDismiss: async () => {},
-          } as any as HTMLIonModalElement)
+          } as HTMLIonModalElement)
         );
         await component.openEndTestModal();
         expect(modalController.create).toHaveBeenCalled();

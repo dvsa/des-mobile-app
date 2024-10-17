@@ -63,7 +63,7 @@ describe('DeviceAuthenticationProvider', () => {
 
     spyOn(NativeBiometricMock, 'isAvailable');
 
-    (NativeBiometricMock.isAvailable as any)
+    (NativeBiometricMock.isAvailable)
       .withArgs({ key: 'useFallback' })
       .and.returnValue(Promise.resolve({ value: { available: true } }));
   });

@@ -31,7 +31,7 @@ export class SentryIonicErrorHandler extends ErrorHandler {
     super();
   }
 
-  async handleError(error: any) {
+  async handleError(error: unknown): Promise<void> {
     try {
       // call through to ionic error handler which is default behaviour
       super.handleError(error);

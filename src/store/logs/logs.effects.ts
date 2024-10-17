@@ -102,7 +102,7 @@ export class LogsEffects {
             const timestamps = logs.map((log: Log) => log.timestamp);
             return logsActions.SendLogsSuccess({ timestamps });
           }),
-          catchError((err: any) => {
+          catchError((err) => {
             return of(logsActions.SendLogsFailure(err));
           })
         );

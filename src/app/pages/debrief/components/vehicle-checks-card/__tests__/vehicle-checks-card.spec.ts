@@ -99,7 +99,7 @@ describe('VehicleChecksCardComponent', () => {
         const tellMeQuestionText = fixture.debugElement.query(By.css('#vehicle-checks .counter-label')).nativeElement;
 
         expect(tellMeQuestionText.innerHTML.trim()).toContain(
-          (<any>englishTranslations).debrief.showMeTellMeQuestions[TestCategory.BE].S01
+          (englishTranslations).debrief.showMeTellMeQuestions[TestCategory.BE].S01
         );
       });
 
@@ -121,8 +121,8 @@ describe('VehicleChecksCardComponent', () => {
           const tellMeQuestionText = fixture.debugElement.query(By.css('#vehicle-checks .counter-label')).nativeElement;
 
           expect(tellMeQuestionText.innerHTML.trim()).toContain(
-            (<any>welshTranslations).debrief.showMeTellMeQuestions[TestCategory.BE].S01
-          );
+            (welshTranslations).debrief.showMeTellMeQuestions[TestCategory.BE].S01
+          )
           done();
         });
       });

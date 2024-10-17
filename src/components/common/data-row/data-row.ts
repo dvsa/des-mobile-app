@@ -10,13 +10,13 @@ export class DataRowComponent {
   label: string;
 
   @Input()
-  dataStyling?: { [p: string]: any } = null;
+  dataStyling?: Partial<CSSStyleDeclaration> = null;
 
   @Input()
-  rowStyling?: { [p: string]: any } = null;
+  rowStyling?: Partial<CSSStyleDeclaration> = null;
 
   @Input()
-  labelStyling?: { [p: string]: any } = null;
+  labelStyling?: Partial<CSSStyleDeclaration> = null;
 
   @Input()
   imgSrc: string;

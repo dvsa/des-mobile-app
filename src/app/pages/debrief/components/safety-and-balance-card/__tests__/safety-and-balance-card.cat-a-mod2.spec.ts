@@ -70,7 +70,7 @@ describe('SafetyAndBalanceCardCatAMod2Component', () => {
         ).nativeElement;
 
         expect(safetyQuestionText.innerHTML.trim()).toContain(
-          (<any>englishTranslations).debrief.safetyAndBalanceQuestions.M4
+          (englishTranslations).debrief.safetyAndBalanceQuestions.M4
         );
       });
 
@@ -94,7 +94,7 @@ describe('SafetyAndBalanceCardCatAMod2Component', () => {
           ).nativeElement;
 
           expect(safetyQuestionText.innerHTML.trim()).toContain(
-            (<any>welshTranslations).debrief.safetyAndBalanceQuestions.M4
+            (welshTranslations).debrief.safetyAndBalanceQuestions.M4
           );
           done();
         });

@@ -197,7 +197,7 @@ export class AuthenticationProvider {
     }
   }
 
-  isTokenExpired(token: any): boolean {
+  isTokenExpired(token: { exp: number }): boolean {
     return token.exp && new Date(token.exp * 1000) < new Date();
   }
 

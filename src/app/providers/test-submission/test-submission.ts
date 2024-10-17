@@ -32,12 +32,12 @@ export class TestSubmissionProvider {
     private appConfig: AppConfigProvider
   ) {}
 
-  submitTests = (testsToSubmit: TestToSubmit[]): Observable<HttpResponse<any>[]> => {
-    const requests: Observable<any>[] = testsToSubmit.map((test) => this.submitTest(test));
+  submitTests = (testsToSubmit: TestToSubmit[]): Observable<(HttpResponse<TestResultSchemasUnion> | HttpErrorResponse)[]> => {
+    const requests: Observable<HttpResponse<TestResultSchemasUnion> | HttpErrorResponse>[] = testsToSubmit.map((test) => this.submitTest(test));
     return forkJoin(requests);
   };
 
-  submitTest = (testToSubmit: TestToSubmit): Observable<HttpResponse<any> | HttpErrorResponse> => {
+  submitTest = (testToSubmit: TestToSubmit): Observable<HttpResponse<TestResultSchemasUnion> | HttpErrorResponse> => {
     // Using cloneDeep() to prevent the initialState of the reducers from being modified
     const deepClonedData = cloneDeep(testToSubmit.payload);
     const cleanData = this.removeNullFieldsDeep(
@@ -48,7 +48,7 @@ export class TestSubmissionProvider {
 
     return (
       this.httpClient
-        .post(this.buildUrl(testToSubmit), this.compressData(cleanData), { observe: 'response' })
+        .post<TestResultSchemasUnion>(this.buildUrl(testToSubmit), this.compressData(cleanData), { observe: 'response' })
         // Note: Catching failures here (the inner observable) is what allows us to coordinate
         // subsequent success/fail actions in sendCompletedTestsEffect$ (the outer observable)
         .pipe(

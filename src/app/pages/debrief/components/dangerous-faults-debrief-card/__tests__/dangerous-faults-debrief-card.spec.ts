@@ -18,6 +18,14 @@ describe('DangerousFaultsDebriefCardComponent', () => {
   let component: DangerousFaultsDebriefCardComponent;
   let translate: TranslateService;
 
+  interface WelshTranslations {
+    debrief: {
+      competencies: {
+        ancillaryControls: string;
+      };
+    };
+  }
+
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [DangerousFaultsDebriefCardComponent],
@@ -51,7 +59,7 @@ describe('DangerousFaultsDebriefCardComponent', () => {
         const dangerousLabels = fixture.debugElement.queryAll(By.css('#dangerous-fault .counter-label'));
         const dangerousCounts = fixture.debugElement.query(By.css('ion-text.fault-heading')).nativeElement;
         expect(dangerousLabels[0].nativeElement.innerHTML.trim()).toBe(
-          (<any>welshTranslations).debrief.competencies.ancillaryControls
+          (welshTranslations as WelshTranslations).debrief.competencies.ancillaryControls
         );
         expect(dangerousCounts.innerHTML).toBe(dangerousFaults.length.toString());
         done();

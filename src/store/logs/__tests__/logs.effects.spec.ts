@@ -22,7 +22,7 @@ import { logsReducer } from '../logs.reducer';
 
 describe('LogsEffects', () => {
   let effects: LogsEffects;
-  let actions$: ReplaySubject<any>;
+  let actions$: ReplaySubject;
   let cacheDays: number;
   let appConfigProviderMock: AppConfigProvider;
   let dataStoreMock: DataStoreProvider;

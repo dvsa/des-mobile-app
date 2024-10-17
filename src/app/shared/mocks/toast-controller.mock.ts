@@ -1,5 +1,5 @@
 export class ToastControllerMock {
-  create(): any {
+  create() {
     return {
       present: () => {},
     };

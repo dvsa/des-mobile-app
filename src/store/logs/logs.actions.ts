@@ -9,7 +9,7 @@ export const SendLogs = createAction('[LogsEffects] Send Logs');
 
 export const SendLogsSuccess = createAction('[LogsEffects] Send Logs Success', props<{ timestamps: number[] }>());
 
-export const SendLogsFailure = createAction('[LogsEffects] Send Logs Failure', props<{ error: any }>());
+export const SendLogsFailure = createAction('[LogsEffects] Send Logs Failure', props<{ error: Error }>());
 
 export const PersistLog = createAction('[LogsEffects] Persist Logs');
 

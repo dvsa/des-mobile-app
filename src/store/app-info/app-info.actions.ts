@@ -8,7 +8,7 @@ export const LoadAppVersionSuccess = createAction(
   props<{ versionNumber: string }>()
 );
 
-export const LoadAppVersionFailure = createAction('[AppInfoEffects] Load App Version Failure', props<{ error: any }>());
+export const LoadAppVersionFailure = createAction('[AppInfoEffects] Load App Version Failure', props<{error}>());
 
 export const LoadEmployeeId = createAction('[LoginComponent] Load Employee ID', props<{ employeeId: string }>());
 

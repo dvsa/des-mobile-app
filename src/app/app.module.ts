@@ -87,7 +87,17 @@ export function localStorageSyncReducer(reducer: ActionReducer<StoreModel>): Act
   })(reducer);
 }
 
-const reducers: ActionReducerMap<any> = {
+export interface AppState {
+  journal: JournalState;
+  appInfo: AppInfoState;
+  appConfig: AppConfigState;
+  tests: TestsState;
+  rekeySearch: RekeySearchState;
+  delegatedRekeySearch: DelegatedSearchState;
+  examinerRecords: ExaminerRecordsState;
+}
+
+const reducers: ActionReducerMap<AppState> = {
   journal: journalReducer,
   appInfo: appInfoReducer,
   appConfig: appConfigReducer,
@@ -97,7 +107,7 @@ const reducers: ActionReducerMap<any> = {
   examinerRecords: examinerRecordsReducer,
 };
 
-const metaReducers: MetaReducer<any, any>[] = [];
+const metaReducers: MetaReducer<AppState>[] = [];
 const enableDevTools = environment && (environment as EnvironmentFile).enableDevTools;
 const enableRehydrationPlugin = environment && (environment as EnvironmentFile).enableRehydrationPlugin;
 

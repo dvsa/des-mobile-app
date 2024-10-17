@@ -7,6 +7,13 @@ import { MockComponent } from 'ng-mocks';
 import { SignatureAreaComponent } from '../signature-area';
 
 class TestStore {}
+interface SignaturePad {
+  ratio?: number;
+  width?: number;
+  height?: number;
+  xOffset?: number;
+  yOffset?: number
+};
 
 describe('SignatureAreaComponent', () => {
   let fixture: ComponentFixture<SignatureAreaComponent>;
@@ -28,7 +35,7 @@ describe('SignatureAreaComponent', () => {
     component = fixture.componentInstance;
     /* eslint-disable*/
     component.signaturePad = {
-      fromDataURL(dataURL: string, options?: any) {},
+      fromDataURL(dataURL: string, options?: SignaturePad) {},
       toDataURL(imageType?: string, quality?: number): string {
         return 'dummyString';
       },

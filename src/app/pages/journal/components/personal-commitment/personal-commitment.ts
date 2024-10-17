@@ -21,7 +21,7 @@ export class PersonalCommitmentSlotComponent implements SlotComponent {
   @Input()
   personalCommitments: PersonalCommitment[];
 
-  formatActivityCode(activityCode: any): string {
+  formatActivityCode(activityCode: string): string {
     if (isNil(activityCode)) {
       return '0';
     }

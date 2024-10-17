@@ -18,7 +18,7 @@ import { ExaminerRecordsEffects } from '@store/examiner-records/examiner-records
 import { ReplaySubject, of } from 'rxjs';
 
 describe('ExaminerRecordsStoreEffects', () => {
-  let actions$: ReplaySubject<any>;
+  let actions$: ReplaySubject;
   let effects: ExaminerRecordsEffects;
   let store$: Store<StoreModel>;
   let dataStore: DataStoreProvider;

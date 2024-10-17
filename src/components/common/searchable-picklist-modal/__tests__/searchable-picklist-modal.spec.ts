@@ -6,8 +6,14 @@ import { ModalControllerMock } from '@mocks/ionic-mocks/modal-controller.mock';
 import { PipesModule } from '@shared/pipes/pipes.module';
 
 describe('SearchablePicklistModal', () => {
-  let fixture: ComponentFixture<SearchablePicklistModal<any>>;
-  let component: SearchablePicklistModal<any>;
+  interface Model {
+    age: number;
+    hairColour: string;
+    id: number;
+    place: string;
+  }
+  let fixture: ComponentFixture<SearchablePicklistModal<Model>>;
+  let component: SearchablePicklistModal<Model>;
   let modalController: ModalController;
 
   beforeEach(waitForAsync(() => {
@@ -17,7 +23,7 @@ describe('SearchablePicklistModal', () => {
       providers: [{ provide: ModalController, useClass: ModalControllerMock }],
     });
 
-    fixture = TestBed.createComponent(SearchablePicklistModal<any>);
+    fixture = TestBed.createComponent(SearchablePicklistModal<Model>);
     component = fixture.componentInstance;
 
     modalController = TestBed.inject(ModalController);
@@ -30,20 +36,20 @@ describe('SearchablePicklistModal', () => {
   describe('Class', () => {
     describe('isActiveSelection', () => {
       beforeEach(() => {
-        component.model = { age: 25, hairColour: 'brown' };
+        component.model = { age: 25, hairColour: 'brown', id: 1, place: 'Wales' };
         component.primaryKey = 'age';
       });
       it('should return true when primary key value matches in both input and value of model', () => {
-        expect(component.isActiveSelection({ age: 25, hairColour: 'blonde' })).toEqual(true);
+        expect(component.isActiveSelection({ age: 25, hairColour: 'blonde', id: 1, place: 'Wales' })).toEqual(true);
       });
       it('should return false when primary key value does not match in both input and value of model', () => {
-        expect(component.isActiveSelection({ age: 63, hairColour: 'brown' })).toEqual(false);
+        expect(component.isActiveSelection({ age: 63, hairColour: 'brown', id: 1, place: 'Wales' })).toEqual(false);
       });
     });
     describe('trackBy', () => {
       it('should return given property of object based on primaryKey', () => {
         component.primaryKey = 'id';
-        expect(component.trackBy(null, { id: 1, place: 'Wales' })).toEqual(1);
+        expect(component.trackBy(null, { age: 34, hairColour: 'blonde', id: 1, place: 'Wales' })).toEqual(1);
       });
     });
     describe('conditionalStyles', () => {

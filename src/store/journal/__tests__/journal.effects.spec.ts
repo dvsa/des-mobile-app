@@ -43,7 +43,7 @@ import { journalReducer } from '../journal.reducer';
 
 describe('JournalEffects', () => {
   let effects: JournalEffects;
-  let actions$: ReplaySubject<any>;
+  let actions$: ReplaySubject;
   let journalProvider: JournalProvider;
   let slotProvider: SlotProvider;
   let store$: Store<JournalModel>;
@@ -110,7 +110,7 @@ describe('JournalEffects', () => {
     // ARRANGE
     actions$ = new ReplaySubject(1);
     journalProvider = TestBed.inject(JournalProvider);
-    (journalProvider as any).resetErrors();
+    (journalProvider).resetErrors();
     effects = TestBed.inject(JournalEffects);
     slotProvider = TestBed.inject(SlotProvider);
     store$ = TestBed.inject(Store);
@@ -150,7 +150,7 @@ describe('JournalEffects', () => {
     spyOn(slotProvider, 'detectSlotChanges').and.callThrough();
     spyOn(slotProvider, 'extendWithEmptyDays').and.callThrough();
     spyOn(slotProvider, 'getRelevantSlots').and.callThrough();
-    (<any>journalProvider).setupHttp304Error();
+    (journalProvider).setupHttp304Error();
     // ACT
     actions$.next(journalActions.LoadJournal());
     // ASSERT
@@ -173,7 +173,7 @@ describe('JournalEffects', () => {
     spyOn(slotProvider, 'extendWithEmptyDays').and.callThrough();
     spyOn(slotProvider, 'getRelevantSlots').and.callThrough();
     spyOn(store$, 'dispatch').and.callThrough();
-    (<any>journalProvider).setupTimeoutError();
+    (journalProvider).setupTimeoutError();
     // ACT
     actions$.next(journalActions.LoadJournal());
     // ASSERT
@@ -197,7 +197,7 @@ describe('JournalEffects', () => {
     spyOn(slotProvider, 'extendWithEmptyDays').and.callThrough();
     spyOn(slotProvider, 'getRelevantSlots').and.callThrough();
     spyOn(store$, 'dispatch').and.callThrough();
-    (<any>journalProvider).setupActualError();
+    (journalProvider).setupActualError();
     // ACT
     actions$.next(journalActions.LoadJournal());
     // ASSERT
@@ -219,7 +219,7 @@ describe('JournalEffects', () => {
     spyOn(slotProvider, 'detectSlotChanges').and.callThrough();
     spyOn(slotProvider, 'extendWithEmptyDays').and.callThrough();
     spyOn(slotProvider, 'getRelevantSlots').and.callThrough();
-    (<any>journalProvider).setupHttpError();
+    (journalProvider).setupHttpError();
     // ACT
     actions$.next(journalActions.LoadJournal());
     // ASSERT
@@ -233,7 +233,7 @@ describe('JournalEffects', () => {
         expect(result.type === '[JournalPage] Journal Refresh Error').toEqual(true);
       } else if (result.type === '[JournalEffects] Load Journal Failure') {
         expect(result.type === '[JournalEffects] Load Journal Failure').toEqual(true);
-        expect((result as any).error.message).toBe('Http failure response for (unknown url): 403 Forbidden');
+        expect((result).error.message).toBe('Http failure response for (unknown url): 403 Forbidden');
       } else {
         fail('Unknown Action Sent');
       }

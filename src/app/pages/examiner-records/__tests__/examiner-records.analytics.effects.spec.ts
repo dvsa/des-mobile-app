@@ -1,7 +1,7 @@
 import { TestBed, waitForAsync } from '@angular/core/testing';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { provideMockActions } from '@ngrx/effects/testing';
-import { Store } from '@ngrx/store';
+import { Store, Action } from '@ngrx/store';
 import {
   ClickDataCard,
   ColourFilterChanged,
@@ -30,7 +30,7 @@ import { ReplaySubject } from 'rxjs';
 describe('ExaminerStatsAnalyticsEffects', () => {
   let effects: ExaminerRecordsAnalyticsEffects;
   let analyticsProviderMock: AnalyticsProvider;
-  let actions$: ReplaySubject<any>;
+  let actions$: ReplaySubject<Action>;
   const screenName = AnalyticsScreenNames.EXAMINER_RECORDS;
 
   beforeEach(waitForAsync(() => {

@@ -35,7 +35,7 @@ import { ReplaySubject, throwError } from 'rxjs';
 
 describe('AppInfoEffects', () => {
   let effects: AppInfoEffects;
-  let actions$: ReplaySubject<any>;
+  let actions$: ReplaySubject;
   let appInfoProvider: AppInfoProvider;
   let dateTimeProvider: DateTimeProvider;
   let store$: Store<StoreModel>;

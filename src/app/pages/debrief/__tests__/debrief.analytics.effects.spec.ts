@@ -1,7 +1,7 @@
 import { TestBed, waitForAsync } from '@angular/core/testing';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { provideMockActions } from '@ngrx/effects/testing';
-import { Store, StoreModule } from '@ngrx/store';
+import { Store, StoreModule, Action } from '@ngrx/store';
 import { AnalyticsProviderMock } from '@providers/analytics/__mocks__/analytics.mock';
 import { AnalyticsProvider } from '@providers/analytics/analytics';
 import { AnalyticRecorded } from '@providers/analytics/analytics.actions';
@@ -22,7 +22,7 @@ import { DebriefAnalyticsEffects } from '../debrief.analytics.effects';
 describe('DebriefAnalyticsEffects', () => {
   let effects: DebriefAnalyticsEffects;
   let analyticsProviderMock: AnalyticsProvider;
-  let actions$: ReplaySubject<any>;
+  let actions$: ReplaySubject<Action>;
   let store$: Store<StoreModel>;
   const screenNamePass = AnalyticsScreenNames.PASS_DEBRIEF;
   const screenNameFail = AnalyticsScreenNames.FAIL_DEBRIEF;

@@ -27,7 +27,7 @@ import * as candidateLicenceActions from '../candidate-licence.actions';
 describe('CommunicationAnalyticsEffects', () => {
   let effects: CandidateLicenceAnalyticsEffects;
   let analyticsProviderMock: AnalyticsProvider;
-  let actions$: ReplaySubject<any>;
+  let actions$: ReplaySubject;
   let store$: Store<StoreModel>;
   const screenName = AnalyticsScreenNames.CANDIDATE_LICENCE_INFO;
   const mockApplication: Application = {

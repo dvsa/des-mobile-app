@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { provideMockActions } from '@ngrx/effects/testing';
-import { Store, StoreModule } from '@ngrx/store';
+import { Store, StoreModule, Action } from '@ngrx/store';
 import { ReplaySubject } from 'rxjs';
 
 import * as fakeJournalActions from '@pages/fake-journal/fake-journal.actions';
@@ -23,7 +23,7 @@ import { RekeyReasonAnalyticsEffects } from '../rekey-reason.analytics.effects';
 describe('RekeyReasonAnalyticsEffects', () => {
   let effects: RekeyReasonAnalyticsEffects;
   let analyticsProviderMock: AnalyticsProvider;
-  let actions$: ReplaySubject<any>;
+  let actions$: ReplaySubject<Action>;
   const screenName = AnalyticsScreenNames.REKEY_REASON;
   let store$: Store<StoreModel>;
 

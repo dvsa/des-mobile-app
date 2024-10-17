@@ -1,4 +1,4 @@
-import { HttpClient, HttpResponse } from '@angular/common/http';
+import {HttpClient, HttpErrorResponse, HttpResponse} from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { PracticeModeMOTType } from '@pages/waiting-room-to-car/components/mot-components/practice-mode-mot-modal/practice-mode-mot-modal.component';
 import { AppConfigProvider } from '@providers/app-config/app-config';
@@ -137,7 +137,7 @@ export class MotHistoryApiService {
    * @param {string} vehicleRegistration - The vehicle registration for which the error occurred.
    * @returns {Observable<MotHistoryWithStatus>} An observable containing the MOT data with status.
    */
-  handleError(err: any, vehicleRegistration: string): Observable<MotHistoryWithStatus> {
+  handleError(err: HttpErrorResponse, vehicleRegistration: string): Observable<MotHistoryWithStatus> {
     const status = err.status ? err.status.toString() : undefined;
     return of({
       status: status,

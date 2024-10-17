@@ -131,7 +131,7 @@ export class DateTime {
     return moment().toDate();
   }
 
-  static datePickerInputToString(date: any) {
+  static datePickerInputToString(date) {
     return moment()
       .year(date.year)
       .month(date.month - 1)

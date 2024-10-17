@@ -266,12 +266,14 @@ describe('WaitingRoomPage', () => {
 
     describe('showCandidateDataMissingError', () => {
       it('should create an error modal', async () => {
-        spyOn(modalController, 'create').and.returnValue(
-          Promise.resolve({
-            present: async () => {},
-            onWillDismiss: async () => {},
-          } as any as HTMLIonModalElement)
-        );
+        const mockModalElement: Partial<HTMLIonModalElement> = {
+          present: async () => {},
+          onWillDismiss: async () => Promise.resolve({ data: null, role: '' }),
+          addEventListener: () => {},
+          removeEventListener: () => {},
+        };
+
+        spyOn(modalController, 'create').and.returnValue(Promise.resolve(mockModalElement as HTMLIonModalElement));
         await component.showCandidateDataMissingError();
         expect(modalController.create).toHaveBeenCalled();
       });

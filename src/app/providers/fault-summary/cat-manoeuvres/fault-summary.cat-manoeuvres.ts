@@ -89,7 +89,7 @@ export class FaultSummaryCatManoeuvreHelper {
     return faultsEncountered;
   }
 
-  private static getUncoupleRecoupleFault(uncoupleRecouple: any, faultType: CompetencyOutcome): FaultSummary[] {
+  private static getUncoupleRecoupleFault(uncoupleRecouple, faultType: CompetencyOutcome): FaultSummary[] {
     const returnCompetencies = [];
     if (!uncoupleRecouple || uncoupleRecouple.fault !== faultType) {
       return returnCompetencies;

@@ -44,7 +44,7 @@ import { AfterViewInit, Directive, ElementRef, EventEmitter, Input, Output } fro
 export class CharacterCountDirective implements AfterViewInit {
   @Input() charLimit: number = null;
 
-  @Output() onCharacterCountChanged: any = new EventEmitter(true);
+  @Output() onCharacterCountChanged = new EventEmitter(true);
 
   constructor(public el: ElementRef) {
     this.charLimit = this.el.nativeElement.getAttribute('charLimit');
