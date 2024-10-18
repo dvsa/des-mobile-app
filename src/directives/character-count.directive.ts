@@ -51,19 +51,44 @@ export class CharacterCountDirective implements AfterViewInit {
   }
 
   ngAfterViewInit() {
-    const valueLength = this.el.nativeElement.value ? this.el.nativeElement.value.length : 0;
+    const valueLength = this.el.nativeElement.value || '';
+    const byteLength = this.getUtf8ByteLength(valueLength);
     if (this.charLimit) {
-      this.onCharacterCountChanged.emit(this.charLimit - valueLength);
+      this.onCharacterCountChanged.emit(this.charLimit - byteLength);
     }
   }
 
   onInput(e: any) {
-    if (!this.charLimit || e.target.value === undefined) return;
-    this.onCharacterCountChanged.emit(this.charLimit - e.target.value.length);
+    const value = e.target.value;
+    const byteLength = this.getUtf8ByteLength(value);
+
+    if (!this.charLimit || value === undefined) return;
+
+    // Emit the remaining character count minus the byte count of the character entered
+    this.onCharacterCountChanged.emit(this.charLimit - byteLength);
   }
 
   onIonChange(e: any) {
-    if (!this.charLimit || e.value === undefined) return;
-    this.onCharacterCountChanged.emit(this.charLimit - e.value.length);
+    const value = e.value || '';
+    const byteLength = this.getUtf8ByteLength(value);
+
+    if (!this.charLimit || value === undefined) return;
+
+    // Emit the remaining character count minus the byte count of the character entered
+    this.onCharacterCountChanged.emit(this.charLimit - byteLength);
+  }
+
+  /**
+   * Get the byte length of a string
+   *
+   * @param input - The string to calculate the byte length of
+   * @returns The byte length of the input
+   *
+   */
+  getUtf8ByteLength(input: string): number {
+    // Using TextEncoder to get the byte length
+    const encoder = new TextEncoder();
+    const encoded = encoder.encode(input);
+    return encoded.length;
   }
 }
