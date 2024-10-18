@@ -50,8 +50,14 @@ export class D255Component implements OnChanges {
     }
   }
 
+  /**
+   * Gets the default value for the D255 field
+   * @returns a default value based on the eyesight test or the current value of
+   * the D255 field if one currently exists
+   */
   getD255OrDefault(): string | boolean {
-    if (this.d255 !== null) {
+    // if d255 is set, return it unless eyesight test failed
+    if (this.d255 !== null && !this.eyesightTestFailed) {
       return this.d255;
     }
 
