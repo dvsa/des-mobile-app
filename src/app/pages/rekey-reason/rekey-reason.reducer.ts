@@ -16,7 +16,7 @@ export const initialState: RekeyReasonModel = {
 
 export const rekeyReasonReducer = createReducer(
   initialState,
-  on(rekeyActions.EndRekey, () => ({ ...initialState })),
+  on(rekeyActions.EndRekey, rekeyReasonActions.ResetRekeyReason, () => ({ ...initialState })),
   on(testActions.SendCurrentTest, (state) => ({
     ...state,
     uploadStatus: {

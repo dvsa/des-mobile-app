@@ -1,6 +1,7 @@
 import { createAction, props } from '@ngrx/store';
 import { UpdateAvailable } from '@pages/dashboard/components/update-available-modal/update-available-modal';
 
+export const UnloadAppInfo = createAction('[AppComponent] Unload App Info');
 export const LoadAppVersion = createAction('[AppComponent] Load App Version');
 export const LoadAppVersionSuccess = createAction(
   '[AppInfoEffects] Load App Version Success',

@@ -1,17 +1,23 @@
 import { Injectable } from '@angular/core';
-import { environment } from '@environments/environment';
-import { TestersEnvironmentFile } from '@environments/models/environment.model';
 import { IonicAuth, IonicAuthOptions } from '@ionic-enterprise/auth';
 import { Store } from '@ngrx/store';
+import { DelegatedRekeySearchClearState } from '@pages/delegated-rekey-search/delegated-rekey-search.actions';
+import { ResetRekeyReason } from '@pages/rekey-reason/rekey-reason.actions';
+import { RekeySearchClearState } from '@pages/rekey-search/rekey-search.actions';
+import { ResetFaultMode } from '@pages/test-report/test-report.actions';
 import { CompletedTestPersistenceProvider } from '@providers/completed-test-persistence/completed-test-persistence';
 import { LogHelper } from '@providers/logs/logs-helper';
 import { serialiseLogMessage } from '@shared/helpers/serialise-log-message';
 import { LogType } from '@shared/models/log.model';
 import { StoreModel } from '@shared/models/store.model';
+import { UnloadAppConfig } from '@store/app-config/app-config.actions';
+import { LoadAppVersion, UnloadAppInfo } from '@store/app-info/app-info.actions';
 import { selectEmployeeId } from '@store/app-info/app-info.selectors';
+import { UnloadExaminerRecords } from '@store/examiner-records/examiner-records.actions';
 import { UnloadJournal } from '@store/journal/journal.actions';
-import { SaveLog } from '@store/logs/logs.actions';
+import { ClearLogs, SaveLog } from '@store/logs/logs.actions';
 import { ClearTestCentresRefData } from '@store/reference-data/reference-data.actions';
+import { ResetTestCentreJournal } from '@store/test-centre-journal/test-centre-journal.actions';
 import { UnloadTests } from '@store/tests/tests.actions';
 import { Subscription } from 'rxjs';
 import { tap } from 'rxjs/operators';
@@ -241,22 +247,59 @@ export class AuthenticationProvider {
     return this.authConnect.login();
   }
 
+  /**Clears the entire store but keeps the app version*/
+  async clearStore() {
+    // Dispatch action to unload the journal
+    this.store$.dispatch(UnloadJournal());
+
+    // Dispatch action to unload tests
+    this.store$.dispatch(UnloadTests());
+
+    // Dispatch action to unload app config
+    this.store$.dispatch(UnloadAppConfig());
+
+    // Dispatch action to load app version
+    this.store$.dispatch(LoadAppVersion());
+
+    // Dispatch action to unload rekey search data
+    this.store$.dispatch(RekeySearchClearState());
+
+    // Dispatch action to unload delegated rekey search data
+    this.store$.dispatch(DelegatedRekeySearchClearState());
+
+    // Dispatch action to unload app information
+    this.store$.dispatch(UnloadAppInfo());
+
+    // Dispatch action to unload examiner records
+    this.store$.dispatch(UnloadExaminerRecords());
+
+    // Dispatch action to clear test centres reference data
+    this.store$.dispatch(ClearTestCentresRefData());
+
+    // Dispatch action to clear test centre journal state
+    this.store$.dispatch(ResetTestCentreJournal());
+
+    // Dispatch action to clear test centre journal state
+    this.store$.dispatch(ResetRekeyReason());
+
+    // Dispatch action to clear test report
+    this.store$.dispatch(ResetFaultMode());
+
+    // Dispatch action to clear logs
+    this.store$.dispatch(ClearLogs());
+
+    // Clear persisted tests from the test persistence provider
+    await this.testPersistenceProvider.clearPersistedTests();
+
+    // Clear persisted completed tests from the completed test persistence provider
+    await this.completedTestPersistenceProvider.clearPersistedCompletedTests();
+  }
+
   public async logout(): Promise<void> {
     try {
       this.logEvent(LogType.DEBUG, 'Logout', 'Started logout flow');
 
-      if (this.appConfig.getAppConfig()?.logoutClearsTestPersistence) {
-        await this.testPersistenceProvider.clearPersistedTests();
-        await this.completedTestPersistenceProvider.clearPersistedCompletedTests();
-      }
-      // If the user is temporarily unauthorised, we don't want to dump the data in the store as that could be for a
-      // genuine reason i.e. poor connectivity so can't re-auth.
-
-      if ((environment as unknown as TestersEnvironmentFile)?.isTest) {
-        this.store$.dispatch(UnloadJournal());
-        this.store$.dispatch(UnloadTests());
-        this.store$.dispatch(ClearTestCentresRefData());
-      }
+      await this.clearStore();
 
       await this.clearTokens();
 
