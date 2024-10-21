@@ -12,7 +12,8 @@ export const StatusBar = {
   },
 };
 export enum Style {
-  Dark = 'Dark',
+  Dark = 'DARK',
+  Light = 'LIGHT'
 }
 
 export enum Animation {
