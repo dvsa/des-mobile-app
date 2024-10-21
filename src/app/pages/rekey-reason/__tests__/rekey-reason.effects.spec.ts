@@ -85,7 +85,7 @@ describe('RekeyReasonEffects', () => {
           asyncSuccess(
             new HttpResponse({
               status: HttpStatusCode.Ok,
-              statusText: 'OK',
+              statusText: 'User found with staff number 789',
             })
           )
         );
@@ -98,17 +98,16 @@ describe('RekeyReasonEffects', () => {
           done();
         });
       });
-      it('should return a failure action with a true payload when the staff number is not valid', (done) => {
+      it('should return a failure action with a true payload when the staff number is not found', (done) => {
         // ARRANGE
         store$.dispatch(testActions.StartTest(12345, TestCategory.B));
         store$.dispatch(SetExaminerBooked(333));
         store$.dispatch(SetExaminerConducted(57463524));
         spyOn(findUserProvider, 'userExists').and.returnValue(
-          asyncError(
-            new HttpErrorResponse({
-              error: 'Error message',
-              status: HttpStatusCode.NotFound,
-              statusText: 'Not Found',
+          asyncSuccess(
+            new HttpResponse({
+              status: HttpStatusCode.NoContent,
+              statusText: null,
             })
           )
         );
@@ -139,7 +138,7 @@ describe('RekeyReasonEffects', () => {
         actions$.next(rekeyReasonActions.ValidateTransferRekey());
         // ASSERT
         effects.rekeyReasonValidateTransferEffect$.subscribe((res) => {
-          expect(res).toEqual(rekeyReasonActions.ValidateTransferRekeyFailed(false));
+          expect(res).toEqual(rekeyReasonActions.ValidateTransferRekeyFailed(true));
           expect(findUserProvider.userExists).toHaveBeenCalled();
           done();
         });

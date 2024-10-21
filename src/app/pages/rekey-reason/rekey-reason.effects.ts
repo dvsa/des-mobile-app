@@ -1,4 +1,4 @@
-import { HttpErrorResponse, HttpStatusCode } from '@angular/common/http';
+import { HttpResponse, HttpStatusCode } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { TestResultCommonSchema } from '@dvsa/mes-test-schema/categories/common';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
@@ -33,10 +33,15 @@ export class RekeyReasonEffects {
         }
 
         return this.findUserProvider.userExists(test.examinerConducted).pipe(
-          switchMap(() => of(testActions.SendCurrentTest())),
-          catchError((error: HttpErrorResponse) =>
-            of(rekeyActions.ValidateTransferRekeyFailed(error.status === HttpStatusCode.NotFound))
-          )
+          switchMap((response: HttpResponse<any>) => {
+            if (response.status === HttpStatusCode.NoContent) {
+              // user does not exist
+              return of(rekeyActions.ValidateTransferRekeyFailed(true));
+            }
+            // user exists
+            return of(testActions.SendCurrentTest());
+          }),
+          catchError(() => of(rekeyActions.ValidateTransferRekeyFailed(true)))
         );
       })
     )
