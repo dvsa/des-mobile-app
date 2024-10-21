@@ -3,6 +3,7 @@ import { UntypedFormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ScreenOrientation } from '@capawesome/capacitor-screen-orientation';
 import { ExaminerRecordModel } from '@dvsa/mes-microservice-common/domain/examiner-records';
+import { TestResultSchemasUnion } from '@dvsa/mes-test-schema/categories';
 import { TestCentre } from '@dvsa/mes-test-schema/categories/common';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { ModalController } from '@ionic/angular';
@@ -10,6 +11,7 @@ import { ScrollDetail } from '@ionic/core';
 import { Store, select } from '@ngrx/store';
 import { ExaminerRecordsLearnMoreModal } from '@pages/examiner-records/components/examiner-records-learn-more-modal/examiner-records-learn-more-modal';
 import { ExaminerReportsCardClick } from '@pages/examiner-records/components/examiner-reports-card/examiner-reports-card';
+import { RecordsExplanationModal } from '@pages/examiner-records/components/records-explanation-modal/records-explanation-modal';
 import {
   ClickDataCard,
   ColourFilterChanged,
@@ -55,6 +57,7 @@ import { OrientationMonitorProvider } from '@providers/orientation-monitor/orien
 import { SearchProvider } from '@providers/search/search';
 import { DateRange, DateTime } from '@shared/helpers/date-time';
 import { isAnyOf } from '@shared/helpers/simplifiers';
+import { ActivityCodes } from '@shared/models/activity-codes';
 import { StoreModel } from '@shared/models/store.model';
 import { selectEmployeeId } from '@store/app-info/app-info.selectors';
 import {
@@ -64,11 +67,9 @@ import {
   selectLastCachedDate,
 } from '@store/examiner-records/examiner-records.selectors';
 import { getTests } from '@store/tests/tests.reducer';
-import { getStartedTests, StartedTests } from '@store/tests/tests.selector';
+import { StartedTests, getStartedTests } from '@store/tests/tests.selector';
 import { BehaviorSubject, Observable, Subscription, combineLatest, merge, of } from 'rxjs';
 import { map, switchMap, take, tap, withLatestFrom } from 'rxjs/operators';
-import { TestResultSchemasUnion } from '@dvsa/mes-test-schema/categories';
-import { ActivityCodes } from '@shared/models/activity-codes';
 
 export interface ExaminerRecordsPageStateData {
   routeGrid: ExaminerRecordDataWithPercentage<string>[];
@@ -610,6 +611,14 @@ export class ExaminerRecordsPage implements OnInit {
     await this.orientationProvider.monitorOrientation();
   }
 
+  async showExplanationModal(): Promise<void> {
+    const modal: HTMLIonModalElement = await this.modalController.create({
+      component: RecordsExplanationModal,
+      cssClass: 'blackout-modal mes-modal-alert',
+      backdropDismiss: false,
+    });
+    await modal.present();
+  }
   /**
    * Pulls the list of the current locations where tests have been conducted, then sets the most common location
    * as the default.

@@ -1,0 +1,70 @@
+<ion-card class="records-explanation-modal-size">
+  <ion-row class="modal-icon ion-justify-content-center">
+    <ion-icon class="info-icon" ios="information-circle"></ion-icon>
+  </ion-row>
+  <ion-row class="ion-justify-content-center">
+    <ion-col class="ion-no-padding">
+      <ion-text id="end test-text" class="modal-header des-header-style-2 flex-center">Data in Examiner Records</ion-text>
+    </ion-col>
+  </ion-row>
+  <ion-row class="content-padding ion-justify-content-center">
+    <ion-col size="84" class="ion-no-padding ion-text-center">
+      <ion-row class="spacing-padding">
+        <ion-text class="one-hundred-percent-width mes-data">
+          These figures are based on tests completed with a successful or unsuccessful outcome.
+        </ion-text>
+      </ion-row>
+
+      <ion-row class="spacing-padding">
+        <ion-text class="one-hundred-percent-width mes-data">
+          Only tests completed with the following activity codes are included:
+        </ion-text>
+      </ion-row>
+
+      <ion-row>
+        <ion-text class="one-hundred-percent-width mes-data">
+          Pass (code 1)
+        </ion-text>
+      </ion-row>
+      <ion-row>
+        <ion-text class="one-hundred-percent-width mes-data">
+          Fail (code 2)
+        </ion-text>
+      </ion-row>
+      <ion-row>
+        <ion-text class="one-hundred-percent-width mes-data">
+          Eyesight fail  (code 3)
+        </ion-text>
+      </ion-row>
+      <ion-row>
+        <ion-text class="one-hundred-percent-width mes-data">
+          Public safety fail (code 4)
+        </ion-text>
+      </ion-row>
+      <ion-row class="spacing-padding">
+        <ion-text class="one-hundred-percent-width mes-data">
+          Candidate chose to stop (code 5)
+        </ion-text>
+      </ion-row>
+
+      <ion-row class="spacing-padding">
+        <ion-text class="one-hundred-percent-width mes-data">
+          Extended Tests are not included.
+        </ion-text>
+      </ion-row>
+
+      <ion-row>
+        <ion-text class="one-hundred-percent-width mes-data">
+          These figures are intended to be a guide only and may not be an exact match to figures in PowerBI/RSIS
+        </ion-text>
+      </ion-row>
+    </ion-col>
+  </ion-row>
+  <ion-row>
+    <ion-col class="ion-no-padding column-border-top">
+      <ion-button id="end-test-return-button" fill="clear" class="return-button" (click)="onDismiss()">
+        Ok
+      </ion-button>
+    </ion-col>
+  </ion-row>
+</ion-card>

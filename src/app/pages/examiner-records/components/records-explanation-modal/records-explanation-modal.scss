@@ -1,0 +1,48 @@
+@import "src/theme/sass-partials/modal";
+
+:host {
+  @extend .modal-alert-wrapper;
+
+  .modal-header {
+    font-size: 28px;
+    letter-spacing: 0.27px;
+    line-height: 40px;
+    text-align: center;
+
+    html .text-zoom-regular & {
+      font-weight: bold;
+    }
+  }
+
+  .records-explanation-modal-size {
+    width: 600px;
+  }
+
+  .one-hundred-percent-width {
+    width: 100%;
+  }
+
+  .info-icon {
+    margin-top: 40px;
+    font-size: 84px;
+    color: var(--gds-black);
+  }
+
+  .modal-icon {
+    min-height: 152px;
+  }
+
+  .spacing-padding {
+    padding-bottom: 20px;
+  }
+
+  .content-padding {
+    padding-bottom: 70px;
+    padding-top: 35px;
+  }
+
+  .return-button {
+    color: var(--gds-black)
+  }
+
+}

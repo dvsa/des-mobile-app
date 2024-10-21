@@ -71,6 +71,17 @@ export const getEligibleTests = (
   filterByCategory = true
 ): ExaminerRecordModel[] => {
   if (startedTests) {
+    console.log(
+      'tests',
+      startedTests.filter((value: ExaminerRecordModel) => {
+        return (
+          (range ? dateFilter(value, range as DateRange) : true) &&
+          (filterByCategory ? (category ? get(value, 'testCategory') === category : true) : true) &&
+          (filterByLocation ? (centreId ? get(value, 'testCentre.centreId') === centreId : true) : true) &&
+          (allowExtendedTests ? true : !(get(value, 'extendedTest') === true))
+        );
+      })
+    );
     return startedTests.filter((value: ExaminerRecordModel) => {
       return (
         (range ? dateFilter(value, range as DateRange) : true) &&
