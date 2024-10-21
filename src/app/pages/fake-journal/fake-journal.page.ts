@@ -20,7 +20,7 @@ export class FakeJournalPage extends BasePageComponent {
 
   constructor(
     private dateTimeProvider: DateTimeProvider,
-    private accessibilityService: AccessibilityService,
+    public accessibilityService: AccessibilityService,
     public orientationMonitorProvider: OrientationMonitorProvider,
     injector: Injector
   ) {

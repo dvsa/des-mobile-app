@@ -8,6 +8,8 @@ import { PracticeTestModal } from '@pages/dashboard/components/practice-test-mod
 import { ModalEvent } from '@pages/dashboard/components/practice-test-modal/practice-test-modal.constants';
 import { PracticeTestReportCardComponent } from '@pages/dashboard/components/practice-test-report-card/practice-test-report-card';
 import { TestFlowPageNames } from '@pages/page-names.constants';
+import { AccessibilityServiceMock } from '@providers/accessibility/__mocks__/accessibility-service.mock';
+import { AccessibilityService } from '@providers/accessibility/accessibility.service';
 import { RouteByCategoryProviderMock } from '@providers/route-by-category/__mocks__/route-by-category.mock';
 import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
 import { StoreModel } from '@shared/models/store.model';
@@ -23,6 +25,7 @@ describe('PracticeTestReportCardComponent', () => {
   let store$: Store<StoreModel>;
   let routeByCategory: RouteByCategoryProvider;
   let modalController: ModalController;
+  let accessibilityService: AccessibilityService;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
@@ -31,6 +34,7 @@ describe('PracticeTestReportCardComponent', () => {
       providers: [
         { provide: ModalController, useClass: ModalControllerMock },
         { provide: RouteByCategoryProvider, useClass: RouteByCategoryProviderMock },
+        { provide: AccessibilityService, useClass: AccessibilityServiceMock },
       ],
     });
 
@@ -40,8 +44,11 @@ describe('PracticeTestReportCardComponent', () => {
     routeByCategory = TestBed.inject(RouteByCategoryProvider);
     store$ = TestBed.inject(Store);
     modalController = TestBed.inject(ModalController);
+    accessibilityService = TestBed.inject(AccessibilityService);
+
     spyOn(routeByCategory, 'navigateToPage');
     spyOn(store$, 'dispatch');
+    spyOn(accessibilityService, 'configureStatusBar');
   }));
 
   it('should create', () => {
