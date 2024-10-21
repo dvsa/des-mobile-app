@@ -3,7 +3,7 @@ import { IonicAuth, IonicAuthOptions } from '@ionic-enterprise/auth';
 import { Store } from '@ngrx/store';
 import { DelegatedRekeySearchClearState } from '@pages/delegated-rekey-search/delegated-rekey-search.actions';
 import { ResetRekeyReason } from '@pages/rekey-reason/rekey-reason.actions';
-import { UnloadRekeySearch } from '@pages/rekey-search/rekey-search.actions';
+import { RekeySearchClearState } from '@pages/rekey-search/rekey-search.actions';
 import { ResetFaultMode } from '@pages/test-report/test-report.actions';
 import { CompletedTestPersistenceProvider } from '@providers/completed-test-persistence/completed-test-persistence';
 import { LogHelper } from '@providers/logs/logs-helper';
@@ -249,12 +249,6 @@ export class AuthenticationProvider {
 
   /**Clears the entire store but keeps the app version*/
   async clearStore() {
-    // Clear persisted tests from the test persistence provider
-    await this.testPersistenceProvider.clearPersistedTests();
-
-    // Clear persisted completed tests from the completed test persistence provider
-    await this.completedTestPersistenceProvider.clearPersistedCompletedTests();
-
     // Dispatch action to unload the journal
     this.store$.dispatch(UnloadJournal());
 
@@ -268,7 +262,7 @@ export class AuthenticationProvider {
     this.store$.dispatch(LoadAppVersion());
 
     // Dispatch action to unload rekey search data
-    this.store$.dispatch(UnloadRekeySearch());
+    this.store$.dispatch(RekeySearchClearState());
 
     // Dispatch action to unload delegated rekey search data
     this.store$.dispatch(DelegatedRekeySearchClearState());
@@ -293,6 +287,12 @@ export class AuthenticationProvider {
 
     // Dispatch action to clear logs
     this.store$.dispatch(ClearLogs());
+
+    // Clear persisted tests from the test persistence provider
+    await this.testPersistenceProvider.clearPersistedTests();
+
+    // Clear persisted completed tests from the completed test persistence provider
+    await this.completedTestPersistenceProvider.clearPersistedCompletedTests();
   }
 
   public async logout(): Promise<void> {

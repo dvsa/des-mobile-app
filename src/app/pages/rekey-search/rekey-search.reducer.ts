@@ -46,8 +46,7 @@ export const rekeySearchReducer = createReducer(
     err,
     isLoading: false,
     hasSearched: true,
-  })),
-  on(rekeySearchActions.UnloadRekeySearch, () => initialState)
+  }))
 );
 
 export const getRekeySearchState = createFeatureSelector<RekeySearchModel>('rekeySearch');
