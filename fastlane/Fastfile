@@ -1,65 +1,236 @@
-# This file contains the fastlane.tools configuration
-# You can find the documentation at https://docs.fastlane.tools
-#
-# For a list of all available actions, check out
-#
-#     https://docs.fastlane.tools/actions
-#
-# For a list of all available plugins, check out
-#
-#     https://docs.fastlane.tools/plugins/available-plugins
-#
-
-# Uncomment the line if you want fastlane to automatically update itself
-# update_fastlane
-
 default_platform(:ios)
 
-platform :ios do
-  desc "Signs and builds the app with the DVSA production distribution certificate & provisioning profile"
+before_all do
+  clean(dirs: './builds ./simulator ./certs ./codes')
+  create_keychain(
+    name: ENV["KEYCHAIN_NAME"],
+    password: ENV["KEYCHAIN_PASSWORD"],
+    unlock: true,
+    timeout: 3600
+  )
+  sync_certs
 
-  automatic_code_signing(
-    path: "ios/App/App.xcodeproj",
-    use_automatic_signing: false,
-    profile_name: "Driving Examiner Services 2025",
-    team_id: "K84TL26V3P",
-    code_sign_identity: "iPhone Distribution: Vehicle and Operator Services Agency"
+end
+
+desc "Build the Simulator File for the Automation Suite"
+lane :simulator do
+  increment_build_number(
+    xcodeproj: "./ios/App/App.xcodeproj",
+    build_number: "#{ENV["RUN_ID"]}",
   )
 
-  lane :build do
-  	upgrade_super_old_xcode_project(
-    	path: "ios/App/App.xcodeproj",
-    	team_id: "K84TL26V3P"
-  	)
+  version = get_version_number(xcodeproj: "./ios/App/App.xcodeproj", target: "App")
+  sh("echo #{version} > latest-version.txt")
+  icon_banner(label: 'QA')
 
-  	update_project_team(
-   		path: "ios/App/App.xcodeproj",
-   		teamid: "K84TL26V3P"
-   	)
+  archive_path = gym(
+    scheme: "App",
+    configuration: "Debug",
+    sdk: "iphonesimulator",
+    skip_package_ipa: true,
+    output_name: "App.app",
+    build_path: "./fastlane/simulator",
+    workspace: "./ios/App/App.xcworkspace",
+    destination: "generic/platform=iOS Simulator",
+    clean: true
+  )
 
-  	update_code_signing_settings(
-       path: "ios/App/App.xcodeproj",
-       use_automatic_signing: false,
-       team_id: "K84TL26V3P",
-       code_sign_identity: "iPhone Distribution: Vehicle and Operator Services Agency",
-       profile_name: "Driving Examiner Services 2025",
-       targets: ".*App.*"
+  zip(
+    path: "#{archive_path}/Products/Applications/App.app",
+    output_path: "./fastlane/simulator/cvs-vta-#{ENV["ENVIRONMENT"]}-#{version}.#{ENV["RUN_ID"]}.app.zip"
+  )
+
+  sh("echo '✅ Fastlane Simulator Built' >> $GITHUB_STEP_SUMMARY")
+
+  if ENV["IS_LOCAL"] == 'NO'
+    path = ENV["ENVIRONMENT"]
+    path = "feature/#{ENV["BRANCH"]}" if path == "feature"
+
+    aws_s3(
+      access_key: ENV["AWS_ACCESS_KEY_ID"],
+      secret_access_key: ENV["AWS_SECRET_ACCESS_KEY"],
+      bucket: "dvsa-cvs-mobile-artefacts",
+      path: "github-actions/#{path}/#{version}/#{ENV["RUN_ID"]}/",
+      html_in_folder: false,
+      upload_metadata: false,
+      region: "eu-west-1",
+      ipa: "./fastlane/simulator/cvs-vta-#{ENV["ENVIRONMENT"]}-#{version}.#{ENV["RUN_ID"]}.app.zip"
     )
 
-	build_ios_app(
-    	export_options: {
-      		provisioningProfiles: {
-        		"uk.gov.dvsa.drivingexaminerservices" => "DrivingExaminerServices",
-      		}
-    	},
-   		workspace:  "ios/App/App.xcworkspace",
-        	scheme: "App",
-        	configuration: "Release",
-        	output_directory: "build",
-        	silent: false,
-        	output_name: "DrivingExaminerService.ipa",
-        	export_method: "enterprise",
-        	codesigning_identity: "iPhone Distribution: Vehicle and Operator Services Agency"
-   )
+    file = "simulator/$BRANCH-#{version}.#{ENV["RUN_ID"]}-APP.txt"
+    sh("echo $S3_IPA_OUTPUT_PATH > #{file}")
+    sh("aws s3 cp #{file} s3://dvsa-cvs-mobile-artefacts/github-actions/files/#{path}/")
+    content = sh("cat #{file}")
+    sh("echo '⬇️ Simulator Location: [cvs-vta-#{ENV["ENVIRONMENT"]}-#{version}.#{ENV["RUN_ID"]}.app.zip](#{content})' >> $GITHUB_STEP_SUMMARY")
+    puts ENV["APP_FILE"] = content
+  else
+    puts "LOCAL RUN NO S3 UPLOAD"
   end
+
+  icon_banner_restore()
+end
+
+desc "Build the Application for Deployment"
+lane :build do
+  version = get_version_number(xcodeproj: "./ios/App/App.xcodeproj", target: "App")
+  path = ENV["ENVIRONMENT"]
+  path = "feature/#{ENV["BRANCH"]}" if path == "feature"
+
+  if ENV["ENVIRONMENT"] != 'prod'
+    icon_banner(label: "#{ENV["ENVIRONMENT"]}")
+    # Comment this out to avoid failures, use more accurate update_info_plist
+    # set_info_plist_value(path: "./ios/App/App/Info.plist", key: "CFBundleDisplayName", value: "Vehicle Testing - #{path}")
+    update_info_plist(
+      xcodeproj: "ios/App/App.xcodeproj",
+      plist_path: "ios/App/App/Info.plist",
+      display_name: "Vehicle Testing - #{path}",
+      scheme: "App"
+    )
+  end
+
+  gym(
+    workspace: "./ios/App/App.xcworkspace",
+    export_method: "enterprise",
+    output_directory: "./fastlane/builds",
+    output_name: "DrivingExaminerService-#{ENV["ENVIRONMENT"]}-#{version}.#{ENV["RUN_ID"]}.ipa",
+    clean: true
+  )
+
+  sh("echo '✅ Fastlane Application Built' >> $GITHUB_STEP_SUMMARY")
+
+  if ENV["IS_LOCAL"] == 'NO'
+    aws_s3(
+      access_key: ENV["AWS_ACCESS_KEY_ID"],
+      secret_access_key: ENV["AWS_SECRET_ACCESS_KEY"],
+      bucket: "dvsa-cvs-mobile-artefacts",
+      path: "github-actions/#{path}/#{version}/#{ENV["RUN_ID"]}/",
+      html_in_folder: true,
+      html_file_name: "cvs-vta-#{ENV["ENVIRONMENT"]}-#{version}-#{ENV["RUN_ID"]}.html",
+      region: "eu-west-1",
+      ipa: "./fastlane/builds/cvs-vta-#{ENV["ENVIRONMENT"]}-#{version}.#{ENV["RUN_ID"]}.ipa",
+      dsym: "./fastlane/builds/cvs-vta-#{ENV["ENVIRONMENT"]}-#{version}.#{ENV["RUN_ID"]}.app.dSYM.zip"
+    )
+
+    file = "builds/$BRANCH-#{version}.#{ENV["RUN_ID"]}-IPA.txt"
+    sh("echo $S3_IPA_OUTPUT_PATH > #{file}")
+    sh("aws s3 cp #{file} s3://dvsa-cvs-mobile-artefacts/github-actions/files/#{path}/")
+    content = sh("cat #{file}")
+    sh("echo '⬇️ Application Location: [cvs-vta-#{ENV["ENVIRONMENT"]}-#{version}.#{ENV["RUN_ID"]}.ipa](#{content})' >> $GITHUB_STEP_SUMMARY")
+
+    generate_qr(file_name: "https://dvsa-cvs-mobile-artefacts.s3.eu-west-1.amazonaws.com/github-actions/#{path}/#{version}/#{ENV["RUN_ID"]}/cvs-vta-#{ENV["ENVIRONMENT"]}-#{version}-#{ENV["RUN_ID"]}.html")
+  else
+    puts "LOCAL RUN NO S3 UPLOAD"
+  end
+
+  icon_banner_restore()
+end
+
+desc "Clean Previous Build Folders"
+lane :clean do |options|
+  clear_derived_data()
+  sh("rm -rf #{options[:dirs]}")
+end
+
+desc "Synchronise the Apple Developer Certificates to the Temporary Keychain"
+lane :sync_certs do
+  update_code_signing_settings(
+    team_id: ENV["TEAM_ID"],
+    use_automatic_signing: false,
+    path: "./ios/App/App.xcodeproj",
+    code_sign_identity: "iPhone Distribution: Vehicle and Operator Services Agency",
+  )
+
+  match(type: 'appstore')
+
+  import_certificate(
+    certificate_path: "fastlane/certs/#{ENV["CERT_NAME"]}.p12",
+    certificate_password: ENV["MATCH_PASSWORD"],
+    keychain_name: ENV["KEYCHAIN_NAME"],
+    keychain_password: ENV["KEYCHAIN_PASSWORD"]
+  )
+
+  update_project_provisioning(
+    xcodeproj: "./ios/App/App.xcodeproj",
+    profile: ENV["sigh_uk.gov.dvsa.cvsmobileapp_appstore_profile-path"],
+  )
+end
+
+desc "Generate QR Code"
+lane :generate_qr do |options|
+  version = get_version_number(xcodeproj: "./ios/App/App.xcodeproj", target: "App")
+  sh("mkdir -p codes && qrencode -o ./codes/#{ENV["BRANCH"]}-#{version}.#{ENV["RUN_ID"]}.png #{options[:file_name]}")
+end
+
+# desc "Send Teams Notification"
+# lane :ms_notify do |options|
+#   # If the Environment matches a potential Appfile generation then send it, otherwise it gets taken
+#   if ENV['ENVIRONMENT'] = 'feature' || ENV['ENVIRONMENT'] = 'develop' && ENV['IS_LOCAL'] == 'NO'
+#     teams(
+#       title: options[:title],
+#       message: options[:message],
+#        facts: [
+#         {
+#           "name"=>"Application",
+#           "value"=> "#{get_info_plist_value(path: "./ios/App/App/Info.plist", key: "CFBundleDisplayName")}"
+#         },
+#         {
+#           "name"=>"Version",
+#           "value"=> "#{get_info_plist_value(path: "./ios/App/App/Info.plist", key: "CFBundleShortVersionString")}"
+#         },
+#         {
+#           "name"=>"Environment",
+#           "value"=> ENV["ENVIRONMENT"]
+#         },
+#         {
+#           "name"=>"IPA Link",
+#           "value"=> options[:ipa_link]
+#         },
+#         {
+#           "name"=>"App.app Link",
+#           "value"=> options[:app_link] || 'NO APP FILE GENERATED'
+#         },
+#       ],
+#       teams_url: ENV["TEAMS_WEBHOOK"]
+#     )
+#   elsif ENV['IS_LOCAL'] == 'NO'
+#     teams(
+#       title: options[:title],
+#       message: options[:message],
+#        facts: [
+#         {
+#           "name"=>"Application",
+#           "value"=> "#{get_info_plist_value(path: "./ios/App/App/Info.plist", key: "CFBundleDisplayName")}"
+#         },
+#         {
+#           "name"=>"Version",
+#           "value"=> "#{get_info_plist_value(path: "./ios/App/App/Info.plist", key: "CFBundleShortVersionString")}"
+#         },
+#         {
+#           "name"=>"Environment",
+#           "value"=> ENV["ENVIRONMENT"]
+#         },
+#         {
+#           "name"=>"IPA Link",
+#           "value"=> options[:ipa_link]
+#         }
+#       ],
+#       teams_url: ENV["TEAMS_WEBHOOK"]
+#     )
+#   end
+# end
+
+after_all do
+  version = get_version_number(xcodeproj: "./ios/App/App.xcodeproj", target: "App")
+
+  # if ENV["IS_LOCAL"] == 'NO'
+  #   ms_notify(
+  #     title: 'CVS-APP-MOBILE',
+  #     message: 'Application Built!',
+  #     ipa_link: sh("cat builds/$BRANCH-#{version}.#{ENV["RUN_ID"]}-IPA.txt"),
+  #     app_link: ENV["APP_FILE"]
+  #   )
+  # end
+
+  clean(dirs: './builds ./simulator ./certs')
+  delete_keychain(name: ENV["KEYCHAIN_NAME"])
 end

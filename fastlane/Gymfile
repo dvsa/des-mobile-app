@@ -1,0 +1,10 @@
+scheme("App")
+output_directory("./fastlane/builds")
+include_bitcode(false)
+include_symbols(false)
+export_options({
+  provisioningProfiles: {
+    "uk.gov.dvsa.drivingexaminerservices" => ENV["sigh_uk.gov.dvsa.drivingexaminerservices_appstore_profile-name"],
+  },
+})
+codesigning_identity(ENV["sigh_uk.gov.dvsa.drivingexaminerservices_appstore_certificate-name"])

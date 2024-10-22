@@ -1,0 +1,14 @@
+readonly(true)
+type("appstore")
+storage_mode("git")
+output_path("./fastlane/certs")
+clone_branch_directly(true)
+git_url(ENV["CERT_REPO_URL"])
+git_branch(ENV["CERT_REPO_BRANCH"])
+
+team_id(ENV["TEAM_ID"])
+username(ENV["APPLE_USERNAME"])
+app_identifier(ENV["APP_IDENTIFIER"])
+
+keychain_name(ENV["KEYCHAIN_NAME"])
+keychain_password(ENV["KEYCHAIN_PASSWORD"])
