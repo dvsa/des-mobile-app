@@ -48,7 +48,7 @@
               [formGroup]="form"
               [isPracticeMode]="isEndToEndPracticeMode"
               [vehicleRegistration]="pageState.registrationNumber$ | async"
-              [isRekeyMode]="pageState.isRekeyMode$ | async"
+              [shouldHideMOTButton]="true"
               [abortSubject]="abortSubject"
             >
             </vehicle-registration>
