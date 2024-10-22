@@ -1,10 +1,10 @@
 :host {
+  background-color: transparent;
   .content-background {
     font-size: 19px;
     --ion-background-color: var(--mes-theme-main-colour);
     border-radius: 10px !important;
     border: 10px solid var(--mes-theme-main-colour) !important;
-    mix-blend-mode: exclusion;
   }
 
   .button-style {
@@ -27,9 +27,9 @@
     font-weight: bold;
   }
 
-  .dark-mode-override {
-    --background: white;
-    color: black;
-    --background-activated: gray;
+  .cancel-button {
+    --background: var(--mes-theme-main-colour);
+    color: var(--mes-theme-opposing-colour);
+    --background-activated: var(--mes-theme-main-variant5);
   }
 }
