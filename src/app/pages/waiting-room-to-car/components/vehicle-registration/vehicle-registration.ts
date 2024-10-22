@@ -42,7 +42,7 @@ export class VehicleRegistrationComponent implements OnChanges {
   @Input()
   isPracticeMode: boolean;
   @Input()
-  isRekeyMode: boolean;
+  shouldHideMOTButton: boolean;
   @Input()
   abortSubject: Subject<void> = new Subject<void>();
 
