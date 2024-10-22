@@ -19,7 +19,6 @@ export class AccompanimentComponent implements OnChanges {
   accompanimentChange = new EventEmitter();
 
   formControl: UntypedFormControl;
-
   ngOnChanges(): void {
     if (!this.formControl) {
       this.formControl = new UntypedFormControl(null);

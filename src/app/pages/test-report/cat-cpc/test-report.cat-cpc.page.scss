@@ -7,7 +7,7 @@ $toolbar-height: 56px;
     @media (orientation: portrait) {
       --overflow: hidden;
     }
-    --ion-background-color: var(--gds-grey-3);
+    --ion-background-color: var(--mes-theme-main-variant3);
     div, span, .grid-layout {
       .text-zoom-regular &,
       .text-zoom-large &,
@@ -21,7 +21,7 @@ $toolbar-height: 56px;
   .grid-layout {
     box-sizing: border-box;
     height: calc(100% - #{$toolbar-height});
-    border: $report-mode-border-width solid var(--gds-grey-3);
+    border: $report-mode-border-width solid var(--mes-theme-main-variant3);
     &.serious-mode {
       border: $report-mode-border-width solid var(--gds-yellow);
     }
@@ -29,7 +29,7 @@ $toolbar-height: 56px;
       border: $report-mode-border-width solid var(--gds-red);
     }
     &.remove-mode {
-      border: $report-mode-border-width solid var(--gds-black);
+      border: $report-mode-border-width solid var(--gds-theme-opposite);
     }
   }
   .grid[no-padding] {
@@ -46,7 +46,7 @@ $toolbar-height: 56px;
   }
 
   .section-header {
-    color: var(--gds-black);
+    color: var(--gds-theme-opposite);
     .text-zoom-regular &,
     .text-zoom-large &,
     .text-zoom-x-large & {
@@ -63,7 +63,7 @@ $toolbar-height: 56px;
 
   .dark-divider {
     border-top: 1px solid #2f3233;
-    box-shadow: 0 1px 0 0 var(--mes-white);
+    box-shadow: 0 1px 0 0 var(--mes-theme-main-colour);
     margin: 4px 8px;
   }
   .blank-spacer{

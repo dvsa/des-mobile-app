@@ -10,7 +10,7 @@
   --background: none;
 
   .des-header-style-1, .des-header-style-4 {
-    color: var(--mes-white);
+    color: var(--mes-theme-main-colour);
   }
 
   ion-row {
@@ -34,11 +34,11 @@
     align-items: center;
     height: 240px;
     padding: 24px;
-    background: var(--mes-white);
+    background: var(--mes-theme-main-colour);
     width: 100%;
 
     &:active {
-      background: var(--mes-white-darken-10);
+      background: var(--mes-theme-main-variant1);
     }
   }
 }

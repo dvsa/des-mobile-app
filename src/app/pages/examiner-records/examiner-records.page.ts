@@ -136,6 +136,15 @@ export class ExaminerRecordsPage implements OnInit {
   public testResults: ExaminerRecordModel[];
   subscription: Subscription;
 
+  labelColour: string = this.getColourSchemeDefault('Opposing');
+  strokeColour: string = this.getColourSchemeDefault('Main');
+  dataLabelBackgroundColour: string = this.getColourSchemeDefault('Opposing');
+  averageColour: string = this.getColourSchemeDefault('Opposing');
+  dataLabelFontColour: string = this.getColourSchemeDefault('Main');
+
+  darkModeListener: EventListener = null;
+  windowMedia: MediaQueryList = window.matchMedia('(prefers-color-scheme: dark)');
+
   constructor(
     public store$: Store<StoreModel>,
     public router: Router,
@@ -146,6 +155,56 @@ export class ExaminerRecordsPage implements OnInit {
     public searchProvider: SearchProvider,
     private cdr: ChangeDetectorRef
   ) {}
+
+  /**
+   * Retrieves the default color scheme value based on the specified color type.
+   *
+   * This method uses the `getComputedStyle` function to get the value of CSS variables
+   * that define the main and opposing colors of the current theme. If the specified color type
+   * is not recognized, it returns a default color value of white.
+   *
+   * @param {'Main' | 'Opposing'} colourNeeded - The type of color needed ('Main' or 'Opposing').
+   * @returns {string} The color value associated with the specified color type.
+   */
+  getColourSchemeDefault(colourNeeded: 'Main' | 'Opposing'): string {
+    //Switch has been commented out to force light mode,
+    // comment back in and delete the switch below if dark mode is fully integrated
+    // switch (colourNeeded) {
+    //   case 'Main':
+    //     return getComputedStyle(document.documentElement).getPropertyValue('--mes-theme-main-colour').trim();
+    //   case 'Opposing':
+    //     return getComputedStyle(document.documentElement).getPropertyValue('--mes-theme-opposing-colour').trim();
+    //   default:
+    //     return getComputedStyle(document.documentElement).getPropertyValue('--gds-white').trim();
+    // }
+    switch (colourNeeded) {
+      case 'Main':
+        return getComputedStyle(document.documentElement).getPropertyValue('--gds-white').trim();
+      case 'Opposing':
+        return getComputedStyle(document.documentElement).getPropertyValue('--gds-black').trim();
+      default:
+        return getComputedStyle(document.documentElement).getPropertyValue('--gds-white').trim();
+    }
+  }
+
+  /**
+   * Listens for changes in the user's device theme (dark mode) and updates
+   * the component's color properties accordingly.
+   *
+   * This method uses the `matchMedia` API to detect changes to the `prefers-color-scheme` media query.
+   * When the user switches to dark mode or light mode, the color properties of the component are updated
+   * to reflect the appropriate device theme.
+   */
+  listenForDarkMode(): void {
+    this.darkModeListener = () => {
+      this.labelColour = this.getColourSchemeDefault('Opposing');
+      this.strokeColour = this.getColourSchemeDefault('Main');
+      this.dataLabelBackgroundColour = this.getColourSchemeDefault('Opposing');
+      this.averageColour = this.getColourSchemeDefault('Opposing');
+      this.dataLabelFontColour = this.getColourSchemeDefault('Main');
+    };
+    this.windowMedia.addEventListener('change', this.darkModeListener);
+  }
 
   /**
    * Handles the scroll event and updates the displayScrollBanner property.
@@ -461,6 +520,8 @@ export class ExaminerRecordsPage implements OnInit {
    * @returns {Promise<void>} A promise that resolves when the initialization is complete.
    */
   async ngOnInit(): Promise<void> {
+    //Commented out to force light mode, comment back in if dark mode is fully integrated
+    this.listenForDarkMode();
     this.testResults = this.removeDuplicatesAndSort(this.getLocalResults());
     if (this.testResults.length > 0) {
       this.testSubject$.next(this.testResults);
@@ -555,6 +616,7 @@ export class ExaminerRecordsPage implements OnInit {
       this.subscription.unsubscribe();
     }
     await ScreenOrientation.removeAllListeners();
+    this.windowMedia.removeAllListeners();
   }
 
   /**

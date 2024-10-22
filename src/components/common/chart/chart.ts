@@ -60,6 +60,12 @@ export class ChartComponent implements OnInit, OnChanges {
   @Input()
   public averageColour = '#FF0000';
 
+  @Input()
+  public dataLabelFontColour = '#FFFFFF';
+
+  @Input()
+  public dataLabelBackgroundColour = '#000000';
+
   public dataValues: ApexAxisChartSeries | ApexNonAxisChartSeries = [];
   public labels: string[] = [];
   public average = 0;
@@ -205,11 +211,13 @@ export class ChartComponent implements OnInit, OnChanges {
           fontFamily: 'system-ui, -apple-system, BlinkMacSystemFont, Roboto',
           fontSize: this.getFontSize(),
           fontWeight: 'bold',
-          colors: [this.labelColour],
+          colors: [this.dataLabelBackgroundColour],
         },
         //gives the label a background color
         background: {
           enabled: true,
+          foreColor: this.dataLabelFontColour,
+          borderColor: this.dataLabelFontColour,
         },
         //disables drop shadow on the label
         dropShadow: {
@@ -237,7 +245,10 @@ export class ChartComponent implements OnInit, OnChanges {
         },
       },
       //Applies a border to the chart elements
-      stroke: { show: true, colors: [this.strokeColour] },
+      stroke: {
+        show: true,
+        colors: [this.strokeColour],
+      },
       xaxis: {
         //disable the x-axis from darkening when the user clicks on it
         crosshairs: {

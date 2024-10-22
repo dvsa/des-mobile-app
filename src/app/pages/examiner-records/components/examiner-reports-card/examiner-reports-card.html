@@ -30,6 +30,8 @@
             [averageColour]="averageColour"
             [strokeColour]="strokeColour"
             [labelColour]="labelColour"
+            [dataLabelBackgroundColour]="dataLabelBackgroundColour"
+            [dataLabelFontColour]="dataLabelFontColour"
             [passedData]="passedData"
           >
           </chart>
@@ -54,6 +56,7 @@
       <ion-row class="ion-padding-top" *ngIf="useGrid && showExpandedData">
         <ion-col class="ion-no-padding">
           <data-grid
+            class="mes-opposing-colour"
             [headers]="gridHeaders"
             [colourScheme]="colourScheme"
             [padDataTable]="chartType === 'pie'"
@@ -82,9 +85,13 @@
       <div *ngIf="canExpand && (useGrid || hasCustomExpandedContent)">
         <ion-row class="padding-top-18 mes-row-separator"></ion-row>
         <ion-row class="padding-top-18 display-flex ion-justify-content-center">
-          <ion-text>{{ getTapText('Tap to hide data', 'Tap to show data') }}</ion-text>
+          <ion-text class="mes-opposing-colour">{{ getTapText('Tap to hide data', 'Tap to show data') }}</ion-text>
           <ion-col size="2"></ion-col>
-          <ion-icon size="large" [name]="getTapText('chevron-up-outline','chevron-down-outline')"></ion-icon>
+          <ion-icon
+            class="mes-opposing-colour"
+            size="large"
+            [name]="getTapText('chevron-up-outline','chevron-down-outline')"
+          ></ion-icon>
         </ion-row>
       </div>
     </div>

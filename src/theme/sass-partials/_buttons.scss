@@ -25,7 +25,6 @@ ion-modal {
     }
 
     min-height: 44px;
-    padding-top: 1px
   }
 }
 
@@ -37,7 +36,7 @@ ion-modal {
   margin: 0 0.2rem;
   --outline: none;
   .des-header-style-3 {
-    color: var(--mes-white) !important;
+    color: var(--gds-white) !important;
 
     .text-zoom-regular &,
     .text-zoom-large &,
@@ -73,20 +72,20 @@ ion-modal {
 
 .mes-neutral-button {
   @extend .generic-button;
-  --background: var(--mes-white);
-  --box-shadow: 0 0px 0 0 rgba(0, 0, 0, 0.5);
+  --background: var(--mes-theme-main-colour);
+  --box-shadow: 0 0 0 0 rgba(0, 0, 0, 0.5);
   --background-activated: var(--gds-grey-1);
 
   &.activated {
     background: var(--gds-grey-1);
   }
   .des-header-style-3 {
-    color: var(--mes-black);
+    color: var(--mes-theme-opposing-colour);
   }
 }
 
 .mes-transparent-button {
-  color: var(--gds-black);
+  color: var(--gds-theme-opposite);
   border-radius: 4px;
   padding: 0 0.8rem;
   margin: 0 0.2rem;
@@ -105,7 +104,7 @@ ion-modal {
   @extend .generic-button;
   --background: var(--gds-grey-3);
   --background-activated: var(--gds-grey-1);
-  color: var(--gds-black);
+  color: var(--gds-theme-opposite);
   --box-shadow: inset 0 -2px 0 0 rgba(0, 0, 0, 0.5);
   .des-header-style-3 {
     color: var(--gds-black) !important;
@@ -113,14 +112,14 @@ ion-modal {
 }
 
 .mes-link-button {
-  --background: var(--mes-white);
-  color: var(--gds-black);
+  --background: var(--mes-theme-main-colour);
+  color: var(--gds-theme-opposite);
   --border-radius: 4px;
   padding: 0 0.8rem;
   margin: 0 0.2rem;
   line-height: 2.6rem;
   &.activated {
-    --background: var(--mes-white);
+    --background: var(--mes-theme-main-colour);
     span {
       color: var(--gds-light-blue);
     }
@@ -164,7 +163,7 @@ ion-modal {
 .mes-test-report-button {
 
   text-rendering: auto;
-  color: initial;
+  color: var(--mes-theme-opposing-colour);
   word-spacing: normal;
   text-transform: none;
   text-indent: 0;
@@ -178,7 +177,7 @@ ion-modal {
 
   display: flex;
 
-  background: var(--mes-white);
+  background: var(--mes-theme-main-colour);
   border: 1px solid rgba(11, 12, 12, 0.4);
   border-radius: 10px;
   box-shadow: 0 1px 0 0 var(--gds-grey-1);
@@ -190,7 +189,7 @@ ion-modal {
   font-weight: 500;
 
   &.activated {
-    background: #eee;
+    background: var(--mes-theme-test-report-hold);
   }
 
   .competency-label {
@@ -241,7 +240,7 @@ ion-modal {
   --background: var(--gds-blue);
   --background-activated: var(--gds-blue-darken);
   --box-shadow: inset 0 -2px 0 0 var(--gds-blue);
-  .des-header-style-3{
+  .des-header-style-3 {
     color: var(--mes-white) !important;
   }
 }
@@ -255,7 +254,7 @@ ion-modal {
 }
 
 ion-back-button {
-  --color: var(--mes-white);
+  --color: var(--gds-white);
   font-size: 18px;
     .text-zoom-regular & {
       font-size: 18px;

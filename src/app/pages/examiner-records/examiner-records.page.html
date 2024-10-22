@@ -6,7 +6,9 @@
     <ion-title role="heading" aria-level="1" id="page-title">Examiner records</ion-title>
   </ion-toolbar>
   <div *ngIf="!cachedExaminerRecords" id="unauthenticated-mode-indicator">
-    <label role="alert" id="unauth-text">Unable to access all data. Some date ranges are not available.</label>
+    <label role="alert" class="mes-black" id="no-data-banner"
+      >Unable to access all data. Some date ranges are not available.</label
+    >
   </div>
   <ion-row
     class="background-colour ion-padding-top ion-padding-bottom position-fixed width-100-percent"
@@ -136,7 +138,7 @@
   </ion-row>
   <ion-row *ngIf="((pageState.locationList$ | async).length > 0)" class="ion-padding-top ion-padding-bottom">
     <ion-text
-      [style.color]="displayScrollBanner ? 'transparent' : 'black'"
+      [style.color]="displayScrollBanner ? 'transparent' : 'var(--mes-theme-opposing-colour)'"
       [innerHTML]="getLabelText()"
       class="records-label-padding mes-data"
     >
@@ -151,7 +153,7 @@
           [showExpandedData]="showExpandedData"
           [cardTitle]="'Test routes completed'"
           [showMainContent]="!hideMainContent"
-          [averageColour]="colourOption.average"
+          [averageColour]="averageColour"
           [isPortrait]="orientationProvider.isPortraitMode$ | async"
           [gridHeaders]="['Route', 'Amount', '%']"
           [chartID]="'testRoutes'"
@@ -159,6 +161,10 @@
           [chartType]="'bar'"
           [colourScheme]="colourOption.bar"
           [passedData]="data.routeGrid"
+          [labelColour]="labelColour"
+          [strokeColour]="strokeColour"
+          [dataLabelBackgroundColour]="dataLabelBackgroundColour"
+          [dataLabelFontColour]="dataLabelFontColour"
           (onCardClick)="cardClicked($event)"
         >
         </examiner-reports-card>
@@ -327,7 +333,6 @@
           [showExpandedData]="showExpandedData"
           [showMainContent]="!hideMainContent"
           [cardTitle]="'Manoeuvres completed'"
-          [averageColour]="colourOption.average"
           [isPortrait]="orientationProvider.isPortraitMode$ | async"
           [gridHeaders]="['Question', 'Amount', '%']"
           [chartID]="'manoeuvresChart'"
@@ -336,6 +341,11 @@
           [colourScheme]="colourOption.bar"
           [passedData]="data.manoeuvresGrid"
           (onCardClick)="cardClicked($event)"
+          [labelColour]="labelColour"
+          [strokeColour]="strokeColour"
+          [dataLabelBackgroundColour]="dataLabelBackgroundColour"
+          [dataLabelFontColour]="dataLabelFontColour"
+          [averageColour]="averageColour"
         >
         </examiner-reports-card>
       </ion-col>
@@ -345,7 +355,6 @@
           [showExpandedData]="showExpandedData"
           [showMainContent]="!hideMainContent"
           [cardTitle]="'Show me questions asked'"
-          [averageColour]="colourOption.average"
           [isPortrait]="orientationProvider.isPortraitMode$ | async"
           [gridHeaders]="['Question', 'Amount', '%']"
           [chartID]="'showMeChart'"
@@ -354,6 +363,11 @@
           [colourScheme]="colourOption.bar"
           [passedData]="data.showMeQuestionsGrid"
           (onCardClick)="cardClicked($event)"
+          [labelColour]="labelColour"
+          [strokeColour]="strokeColour"
+          [dataLabelBackgroundColour]="dataLabelBackgroundColour"
+          [dataLabelFontColour]="dataLabelFontColour"
+          [averageColour]="averageColour"
         >
         </examiner-reports-card>
       </ion-col>
@@ -363,7 +377,6 @@
           [showExpandedData]="showExpandedData"
           [showMainContent]="!hideMainContent"
           [cardTitle]="'Tell me questions asked'"
-          [averageColour]="colourOption.average"
           [isPortrait]="orientationProvider.isPortraitMode$ | async"
           [gridHeaders]="['Question', 'Amount', '%']"
           [chartID]="'tellMeChart'"
@@ -372,6 +385,11 @@
           [colourScheme]="colourOption.bar"
           [passedData]="data.tellMeQuestionsGrid"
           (onCardClick)="cardClicked($event)"
+          [labelColour]="labelColour"
+          [strokeColour]="strokeColour"
+          [dataLabelBackgroundColour]="dataLabelBackgroundColour"
+          [dataLabelFontColour]="dataLabelFontColour"
+          [averageColour]="averageColour"
         >
         </examiner-reports-card>
       </ion-col>
@@ -381,7 +399,6 @@
           [showExpandedData]="showExpandedData"
           [showMainContent]="!hideMainContent"
           [cardTitle]="'Balance questions asked'"
-          [averageColour]="colourOption.average"
           [isPortrait]="orientationProvider.isPortraitMode$ | async"
           [gridHeaders]="['Question', 'Amount', '%']"
           [displayColoursOnDataGrid]="!hideMainContent"
@@ -392,6 +409,11 @@
           [colourScheme]="colourOption.pie"
           [passedData]="data.balanceGrid"
           (onCardClick)="cardClicked($event)"
+          [labelColour]="labelColour"
+          [strokeColour]="strokeColour"
+          [dataLabelBackgroundColour]="dataLabelBackgroundColour"
+          [dataLabelFontColour]="dataLabelFontColour"
+          [averageColour]="averageColour"
         >
         </examiner-reports-card>
       </ion-col>
@@ -401,7 +423,6 @@
           [showExpandedData]="showExpandedData"
           [showMainContent]="!hideMainContent"
           [cardTitle]="'Safety questions asked'"
-          [averageColour]="colourOption.average"
           [isPortrait]="orientationProvider.isPortraitMode$ | async"
           [gridHeaders]="['Question', 'Amount', '%']"
           [chartID]="'safetyChart'"
@@ -410,6 +431,11 @@
           [colourScheme]="colourOption.bar"
           [passedData]="data.safetyGrid"
           (onCardClick)="cardClicked($event)"
+          [labelColour]="labelColour"
+          [strokeColour]="strokeColour"
+          [dataLabelBackgroundColour]="dataLabelBackgroundColour"
+          [dataLabelFontColour]="dataLabelFontColour"
+          [averageColour]="averageColour"
         >
         </examiner-reports-card>
       </ion-col>
@@ -419,7 +445,6 @@
           [showMainContent]="!hideMainContent"
           [canExpand]="!hideMainContent"
           [cardTitle]="'Circuits'"
-          [averageColour]="colourOption.average"
           [isPortrait]="orientationProvider.isPortraitMode$ | async"
           [gridHeaders]="['Circuit', 'Amount', '%']"
           [displayColoursOnDataGrid]="!hideMainContent"
@@ -430,6 +455,11 @@
           [colourScheme]="colourOption.pie"
           [passedData]="data.circuits"
           (onCardClick)="cardClicked($event)"
+          [labelColour]="labelColour"
+          [strokeColour]="strokeColour"
+          [dataLabelBackgroundColour]="dataLabelBackgroundColour"
+          [dataLabelFontColour]="dataLabelFontColour"
+          [averageColour]="averageColour"
         >
         </examiner-reports-card>
       </ion-col>

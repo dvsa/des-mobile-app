@@ -2,13 +2,13 @@
   <ion-col>
     <ion-text class="des-header-style-2" id="candidateName">{{data.candidateName}}</ion-text>
     <br />
-    <span id="candidateDriverNumber" class="driver-number-class">{{data.candidateDriverNumber}}</span>
+    <span id="candidateDriverNumber" class="opposing-text driver-number-class">{{data.candidateDriverNumber}}</span>
   </ion-col>
   <ion-col size="auto" class="ion-text-end">
     <ion-text class="des-header-style-2" id="activityCode">{{data.activityCode}}</ion-text>
     <br />
-    <ion-text [ngClass]="['des-header-style-3', data.grade ? 'grade-styling' : '']"
-      >Test outcome:
+    <ion-text [ngClass]="['des-header-style-3', data.grade ? 'grade-styling' : '']">
+      Test outcome:
       <span
         *ngIf="!data.grade"
         id="testOutcome"

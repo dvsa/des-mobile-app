@@ -1,7 +1,7 @@
 #pass-final-background {
   text-align: center;
   padding: 16px 0;
-  background: var(--mes-white);
+  background: var(--mes-theme-main-colour);
   height: 110px;
   box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.5);
 }
@@ -15,11 +15,11 @@
   padding-right: 32px;
 }
 ion-content {
-  --ion-background-color: var(--mes-white);
+  --ion-background-color: var(--mes-theme-main-colour);
 }
 
 .character-count {
-  color: var(--gds-grey-1);
+  color: var(--mes-theme-main-variant5);
   font-weight: initial;
   letter-spacing: initial;
 }

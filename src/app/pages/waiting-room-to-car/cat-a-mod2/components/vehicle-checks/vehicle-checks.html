@@ -12,7 +12,7 @@
           class="mes-return-button select-questions-btn"
           (click)="openVehicleChecksModal()"
         >
-          <label id="select-questions-label">Select questions</label>
+          <label class="mes-black" id="select-questions-label">Select questions</label>
         </ion-button>
       </ion-col>
       <ion-col size="48" class="vehicle-check-score ion-align-self-center" *ngIf="everyQuestionHasOutcome()">
@@ -23,7 +23,7 @@
         <ion-row class="vehicle-checks-result" *ngIf="hasDrivingFault()">
           <driving-faults-badge class="badge" showOnZero="true" [count]="safetyAndBalanceQuestionsScore.drivingFaults">
           </driving-faults-badge>
-          <span class="black-text">riding fault</span>
+          <span class="opposing-text">riding fault</span>
         </ion-row>
       </ion-col>
       <ion-col size="47" *ngIf="everyQuestionHasOutcome()" class="see-answer-link-container ion-padding-end">

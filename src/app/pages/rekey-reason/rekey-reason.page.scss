@@ -11,7 +11,7 @@
   }
 
   ion-footer {
-    --background-color: var(--mes-white);
+    --background-color: var(--mes-theme-main-colour);
 
     button {
       width: 100%;
@@ -48,7 +48,7 @@
   }
 
   .character-count {
-    color: var(--gds-grey-1);
+    color: var(--mes-theme-main-variant5);
     font-weight: initial;
     letter-spacing: initial;
 
