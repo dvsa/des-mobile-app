@@ -69,6 +69,25 @@ describe('VehicleRegistrationComponent', () => {
     });
   });
 
+  describe('updateMotList', () => {
+    it('should emit vrnSearchListUpdate with passed param', () => {
+      spyOn(component.vrnSearchListUpdate, 'emit');
+      component.updateMotList('ABC123');
+      expect(component.vrnSearchListUpdate.emit).toHaveBeenCalledWith('ABC123');
+    });
+    it('should set hasCalledMOT to true', () => {
+      component.hasCalledMOT = false;
+      component.updateMotList('ABC123');
+      expect(component.hasCalledMOT).toBeTrue();
+    });
+    it('should call updateIsSearchingForMOT with false', () => {
+      spyOn(component, 'updateIsSearchingForMOT');
+      component.hasCalledMOT = false;
+      component.updateMotList('ABC123');
+      expect(component.updateIsSearchingForMOT).toHaveBeenCalledWith(false);
+    });
+  });
+
   describe('updateIsSearchingForMOT', () => {
     it('should set isSearchingForMOT to true and emit the new value', () => {
       spyOn(component.motSearchingStatusChange, 'emit');
