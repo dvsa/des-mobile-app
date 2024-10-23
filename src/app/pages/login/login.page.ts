@@ -1,7 +1,7 @@
 import { Component, Injector, OnInit } from '@angular/core';
 import { Capacitor } from '@capacitor/core';
 import { SplashScreen } from '@capacitor/splash-screen';
-import { MenuController } from '@ionic/angular';
+import { AlertController, MenuController } from '@ionic/angular';
 import { LoadingOptions } from '@ionic/core';
 import { AnalyticsProvider } from '@providers/analytics/analytics';
 import { AppConfigProvider } from '@providers/app-config/app-config';
@@ -46,6 +46,7 @@ export class LoginPage extends LogoutBasePageComponent implements OnInit {
     private menuController: MenuController,
     private analytics: AnalyticsProvider,
     public networkStateProvider: NetworkStateProvider,
+    public alertController: AlertController,
     injector: Injector
   ) {
     super(injector);
