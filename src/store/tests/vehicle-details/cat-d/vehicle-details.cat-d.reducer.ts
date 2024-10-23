@@ -98,7 +98,9 @@ export const vehicleDetailsCatDReducer = createReducer(
   ),
   on(vehicleDetailsActions.VRNListUpdated, (state, { vrn }) => ({
     ...state,
-    previouslySearchedRegNumbers: [...(state?.previouslySearchedRegNumbers || []), vrn],
+    previouslySearchedRegNumbers: state?.previouslySearchedRegNumbers?.includes(vrn)
+      ? state.previouslySearchedRegNumbers
+      : [...(state?.previouslySearchedRegNumbers || []), vrn],
   }))
 );
 
