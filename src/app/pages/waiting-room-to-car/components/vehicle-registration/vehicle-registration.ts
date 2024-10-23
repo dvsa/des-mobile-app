@@ -322,7 +322,6 @@ export class VehicleRegistrationComponent implements OnChanges {
   }
 
   isSearchFailed(): boolean {
-    console.log(this.motData.status);
     return (
       +this.motData.status === HttpStatusCodes.UNDEFINED ||
       +this.motData.status === HttpStatusCodes.INTERNAL_SERVER_ERROR ||
