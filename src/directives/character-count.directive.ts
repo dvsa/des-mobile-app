@@ -51,7 +51,7 @@ export class CharacterCountDirective implements AfterViewInit {
   }
 
   ngAfterViewInit() {
-    const valueLength = this.el.nativeElement.value || '';
+    const valueLength = this.el.nativeElement.value || 0;
     const byteLength = this.getUtf8ByteLength(valueLength);
     if (this.charLimit) {
       this.onCharacterCountChanged.emit(this.charLimit - byteLength);
@@ -69,10 +69,14 @@ export class CharacterCountDirective implements AfterViewInit {
   }
 
   onIonChange(e: any) {
-    const value = e.value || '';
-    const byteLength = this.getUtf8ByteLength(value);
+    console.log('e', e);
+    const valueLength = this.el.nativeElement.value ? this.el.nativeElement.value.length : 0;
+    const byteLength = this.getUtf8ByteLength(valueLength);
 
-    if (!this.charLimit || value === undefined) return;
+    console.log('valueLength', valueLength);
+    console.log('byteLength', byteLength);
+
+    if (!this.charLimit || valueLength === undefined) return;
 
     // Emit the remaining character count minus the byte count of the character entered
     this.onCharacterCountChanged.emit(this.charLimit - byteLength);

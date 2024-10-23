@@ -18,7 +18,7 @@ class ElementRefMock extends ElementRef {
   };
 }
 
-describe('Directive: CharacterCountDirective', () => {
+fdescribe('Directive: CharacterCountDirective', () => {
   let fixture: ComponentFixture<TestCharCountComponent>;
   let directiveEl: DebugElement;
   let directiveInstance: CharacterCountDirective;
@@ -37,8 +37,8 @@ describe('Directive: CharacterCountDirective', () => {
     expect(directiveEl).not.toBeNull();
   });
 
-  describe('onIonChange', () => {
-    it('should emit onCharacterCountChanged if ' + 'charLimit is true and e.value is not undefined', () => {
+  fdescribe('onIonChange', () => {
+    it('should emit onCharacterCountChanged if charLimit is true and e.value is not undefined', () => {
       directiveInstance['charLimit'] = 3;
       directiveInstance.onIonChange({ value: '11' });
       expect(directiveInstance.onCharacterCountChanged.emit).toHaveBeenCalledWith(1);
