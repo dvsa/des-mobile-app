@@ -100,6 +100,15 @@ export class VehicleRegistrationComponent implements OnChanges {
     this.motDetailsUpdate.emit(undefined);
   }
 
+  updateMotList(vrn: string) {
+    // Emit the vehicle registration number to update the search list
+    this.vrnSearchListUpdate.emit(vrn);
+    // Set the flag indicating that the MOT call has been made
+    this.hasCalledMOT = true;
+    // Stop the search spinner
+    this.updateIsSearchingForMOT(false);
+  }
+
   async getMOT(value: string) {
     this.motButtonPressed.emit();
     this.clearData();
@@ -118,13 +127,14 @@ export class VehicleRegistrationComponent implements OnChanges {
           })
         )
         .subscribe(async (val) => {
-          if (+val.status === HttpStatusCodes.NO_CONTENT) {
-            this.noMotData.emit(true);
-          }
           // Assign the API response to the motData property
           this.motData = val;
-          // Emit the vehicle registration number to update the search list
-          this.vrnSearchListUpdate.emit(value);
+          // If there is mot data, emit noMotData and leave the function early
+          if (+this.motData.status === HttpStatusCodes.NO_CONTENT) {
+            this.noMotData.emit(true);
+            this.updateMotList(value);
+            return;
+          }
 
           // If the MOT status is not valid, open the reconfirm modal
           if (this.motData?.data?.status === MotStatusCodes.NOT_VALID) {
@@ -137,10 +147,7 @@ export class VehicleRegistrationComponent implements OnChanges {
             }
             this.failedMOTModalOutcome.emit(ModalEvent.CONFIRM);
           }
-          // Set the flag indicating that the MOT call has been made
-          this.hasCalledMOT = true;
-          // Stop the search spinner
-          this.updateIsSearchingForMOT(false);
+          this.updateMotList(value);
           // If motData is not null, emit the vehicle details
           if (this.motData) {
             this.motDetailsUpdate.emit(this.motData?.data);
@@ -315,6 +322,7 @@ export class VehicleRegistrationComponent implements OnChanges {
   }
 
   isSearchFailed(): boolean {
+    console.log(this.motData.status);
     return (
       +this.motData.status === HttpStatusCodes.UNDEFINED ||
       +this.motData.status === HttpStatusCodes.INTERNAL_SERVER_ERROR ||
