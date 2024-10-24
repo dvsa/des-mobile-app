@@ -1,7 +1,7 @@
 import { Component, Injector, OnInit } from '@angular/core';
 import { map } from 'rxjs/operators';
 
-import { StatusBar, Style } from '@capacitor/status-bar';
+import { Style } from '@capacitor/status-bar';
 import { MenuController } from '@ionic/angular';
 import { Storage } from '@ionic/storage-angular';
 import { TranslateService } from '@ngx-translate/core';
@@ -10,7 +10,6 @@ import * as Sentry from '@sentry/capacitor';
 import { Observable, Subscription, merge } from 'rxjs';
 
 import { SENTRY_ERRORS } from '@app/sentry-error-handler';
-import { Capacitor } from '@capacitor/core';
 import { SideMenuClosed, SideMenuItemSelected, SideMenuOpened } from '@pages/dashboard/dashboard.actions';
 import { DASHBOARD_PAGE, EXAMINER_RECORDS, LOGIN_PAGE, UNUPLOADED_TESTS_PAGE } from '@pages/page-names.constants';
 import { unsubmittedTestSlotsCount$ } from '@pages/unuploaded-tests/unuploaded-tests.selector';
@@ -79,7 +78,7 @@ export class AppComponent extends LogoutBasePageComponent implements OnInit {
   constructor(
     private slotProvider: SlotProvider,
     private dateTimeProvider: DateTimeProvider,
-    protected accessibilityService: AccessibilityService,
+    public accessibilityService: AccessibilityService,
     protected menuController: MenuController,
     protected dataStore: DataStoreProvider,
     protected networkStateProvider: NetworkStateProvider,
@@ -114,7 +113,7 @@ export class AppComponent extends LogoutBasePageComponent implements OnInit {
 
       await this.initialisePersistentStorage();
       this.store$.dispatch(LoadAppVersion());
-      await this.configureStatusBar();
+      await this.accessibilityService.configureStatusBar(Style.Dark);
       this.configureLocale();
       if (this.platform.is('cordova')) {
         await this.accessibilityService.configureAccessibility();
@@ -189,12 +188,6 @@ export class AppComponent extends LogoutBasePageComponent implements OnInit {
     this.store$.dispatch(StopPolling());
     this.store$.dispatch(StopLogPolling());
     this.store$.dispatch(StopSendingCompletedTests());
-  };
-
-  configureStatusBar = async (): Promise<void> => {
-    if (Capacitor.isPluginAvailable('StatusBar')) {
-      await StatusBar.setStyle({ style: Style.Dark });
-    }
   };
 
   disableMenuSwipe = async (): Promise<void> => {

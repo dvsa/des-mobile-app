@@ -5,7 +5,9 @@ import { Store, select } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { map, take } from 'rxjs/operators';
 
+import { Style } from '@capacitor/status-bar';
 import { DASHBOARD_PAGE } from '@pages/page-names.constants';
+import { AccessibilityService } from '@providers/accessibility/accessibility.service';
 import { CategoryWhitelistProvider } from '@providers/category-whitelist/category-whitelist';
 import { trDestroy$ } from '@shared/classes/test-flow-base-pages/test-report/test-report-base-page';
 import { wrtcDestroy$ } from '@shared/classes/test-flow-base-pages/waiting-room-to-car/waiting-room-to-car-base-page';
@@ -15,7 +17,7 @@ import { getTests } from '@store/tests/tests.reducer';
 import { getCurrentTest } from '@store/tests/tests.selector';
 
 enum DisplayMessage {
-  PRACTICE = "You're in practice mode",
+  PRACTICE = 'Practice mode',
   PREVIEW = 'This is a preview of a category not yet available in DES',
 }
 
@@ -33,6 +35,7 @@ export class PracticeModeBanner implements OnInit {
   constructor(
     public router: Router,
     private categoryWhitelistProvider: CategoryWhitelistProvider,
+    private accessibilityService: AccessibilityService,
     private store$: Store<StoreModel>
   ) {}
 
@@ -53,6 +56,7 @@ export class PracticeModeBanner implements OnInit {
   }
 
   async exitPracticeMode(): Promise<void> {
+    await this.accessibilityService.configureStatusBar(Style.Dark);
     this.destroyTestSubs();
     await this.router.navigate([DASHBOARD_PAGE], { replaceUrl: true });
   }

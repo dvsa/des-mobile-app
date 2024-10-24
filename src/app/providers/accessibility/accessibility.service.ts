@@ -1,4 +1,6 @@
 import { Injectable } from '@angular/core';
+import { Capacitor } from '@capacitor/core';
+import { StatusBar, Style } from '@capacitor/status-bar';
 import { TextZoom } from '@capacitor/text-zoom';
 
 @Injectable({
@@ -17,6 +19,12 @@ export class AccessibilityService {
   afterAppResume = async (): Promise<void> => {
     const { value } = await TextZoom.getPreferred();
     this.getTextZoomCallback(this.decimalToPercentage(value));
+  };
+
+  configureStatusBar = async (style: Style): Promise<void> => {
+    if (Capacitor.isPluginAvailable('StatusBar')) {
+      await StatusBar.setStyle({ style: style });
+    }
   };
 
   getTextZoomCallback = (zoomLevel: number) => {

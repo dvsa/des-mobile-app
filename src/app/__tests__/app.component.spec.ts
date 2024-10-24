@@ -1,8 +1,6 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed, fakeAsync, flushMicrotasks, waitForAsync } from '@angular/core/testing';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Capacitor } from '@capacitor/core';
-import { StatusBar, Style } from '@capacitor/status-bar';
 import { AlertController, MenuController, Platform } from '@ionic/angular';
 import {
   ActivatedRouteMock,
@@ -169,7 +167,7 @@ describe('AppComponent', () => {
       spyOn(component, 'configureLocale');
       spyOn(component, 'initialiseSentry').and.returnValue(Promise.resolve());
       spyOn(component, 'initialisePersistentStorage').and.returnValue(Promise.resolve());
-      spyOn(component, 'configureStatusBar').and.returnValue(Promise.resolve());
+      spyOn(component.accessibilityService, 'configureStatusBar').and.returnValue(Promise.resolve());
       spyOn(component, 'disableMenuSwipe').and.returnValue(Promise.resolve());
       spyOn(appConfigProvider, 'initialiseAppConfig').and.returnValue(Promise.resolve());
     });
@@ -183,7 +181,7 @@ describe('AppComponent', () => {
       expect(component.initialiseAuthentication).toHaveBeenCalled();
       expect(component.initialisePersistentStorage).toHaveBeenCalled();
       expect(store$.dispatch).toHaveBeenCalledWith(LoadAppVersion());
-      expect(component.configureStatusBar).toHaveBeenCalled();
+      expect(component.accessibilityService.configureStatusBar).toHaveBeenCalled();
       expect(component.disableMenuSwipe).toHaveBeenCalled();
       expect(component.configureLocale).toHaveBeenCalled();
     }));
@@ -272,15 +270,6 @@ describe('AppComponent', () => {
       component.initialisePersistentStorage().catch((err) => {
         expect(err).toEqual('Failed to create container');
       });
-    });
-  });
-
-  describe('configureStatusBar', () => {
-    it('should set status bar styles when plugin is available', async () => {
-      spyOn(StatusBar, 'setStyle');
-      spyOn(Capacitor, 'isPluginAvailable').and.returnValue(true);
-      await component.configureStatusBar();
-      expect(StatusBar.setStyle).toHaveBeenCalledWith({ style: Style.Dark });
     });
   });
 

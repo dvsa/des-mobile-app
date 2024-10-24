@@ -4,6 +4,7 @@ import { IonicModule, Platform } from '@ionic/angular';
 import { ActivatedRouteMock, PlatformMock, RouterMock } from '@mocks/index.mock';
 import { MockComponent } from 'ng-mocks';
 
+import { Style } from '@capacitor/status-bar';
 import { PracticeModeBanner } from '@components/common/practice-mode-banner/practice-mode-banner';
 import { LocationComponent } from '@components/test-slot/location/location';
 import { TestSlotComponent } from '@components/test-slot/test-slot/test-slot';
@@ -11,6 +12,8 @@ import { Store } from '@ngrx/store';
 import { provideMockStore } from '@ngrx/store/testing';
 import { FakeJournalDidEnter } from '@pages/fake-journal/fake-journal.actions';
 import { JournalNavigationComponent } from '@pages/journal/components/journal-navigation/journal-navigation';
+import { AccessibilityServiceMock } from '@providers/accessibility/__mocks__/accessibility-service.mock';
+import { AccessibilityService } from '@providers/accessibility/accessibility.service';
 import { AuthenticationProviderMock } from '@providers/authentication/__mocks__/authentication.mock';
 import { AuthenticationProvider } from '@providers/authentication/authentication';
 import { DateTimeProviderMock } from '@providers/date-time/__mocks__/date-time.mock';
@@ -68,6 +71,10 @@ describe('FakeJournalPage', () => {
           provide: ActivatedRoute,
           useClass: ActivatedRouteMock,
         },
+        {
+          provide: AccessibilityService,
+          useClass: AccessibilityServiceMock,
+        },
         provideMockStore({ initialState: {} }),
       ],
     });
@@ -99,10 +106,14 @@ describe('FakeJournalPage', () => {
   });
 
   describe('ionViewWillEnter', () => {
-    it('should call monitorOrientation', () => {
-      spyOn(component.orientationMonitorProvider, 'monitorOrientation');
-      component.ionViewWillEnter();
+    it('should call monitorOrientation and configureStatusBar', async () => {
+      spyOn(component.orientationMonitorProvider, 'monitorOrientation').and.resolveTo();
+      spyOn(component.accessibilityService, 'configureStatusBar').and.resolveTo();
+
+      await component.ionViewWillEnter();
+
       expect(component.orientationMonitorProvider.monitorOrientation).toHaveBeenCalled();
+      expect(component.accessibilityService.configureStatusBar).toHaveBeenCalledWith(Style.Light);
     });
   });
 });

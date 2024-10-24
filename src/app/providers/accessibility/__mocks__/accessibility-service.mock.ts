@@ -18,4 +18,8 @@ export class AccessibilityServiceMock {
   public getTextZoomClass(): string {
     return 'text-zoom-regular';
   }
+
+  async configureStatusBar() {
+    return Promise.resolve();
+  }
 }
