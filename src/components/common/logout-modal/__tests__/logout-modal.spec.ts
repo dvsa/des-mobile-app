@@ -1,9 +1,9 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { AppModule } from '@app/app.module';
 import { IonicModule, ModalController } from '@ionic/angular';
+import { TestStatus } from '@store/tests/test-status/test-status.model';
+import { BehaviorSubject } from 'rxjs';
 import { LogoutModal, LogoutModalEvent } from '../logout-modal';
-import {BehaviorSubject} from 'rxjs';
-import {TestStatus} from '@store/tests/test-status/test-status.model';
 
 describe('LogoutModal', () => {
   let fixture: ComponentFixture<LogoutModal>;
@@ -14,7 +14,7 @@ describe('LogoutModal', () => {
     TestBed.configureTestingModule({
       declarations: [LogoutModal],
       imports: [IonicModule, AppModule],
-      providers: [ ModalController ],
+      providers: [ModalController],
     });
 
     fixture = TestBed.createComponent(LogoutModal);

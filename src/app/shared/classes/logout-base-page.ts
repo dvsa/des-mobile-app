@@ -4,7 +4,6 @@ import { ModalController } from '@ionic/angular';
 import { OverlayEventDetail } from '@ionic/core';
 import { select } from '@ngrx/store';
 import { AccessibilityService } from '@providers/accessibility/accessibility.service';
-import { TestStatus } from '@store/tests/test-status/test-status.model';
 import { getTests } from '@store/tests/tests.reducer';
 import { getTestStatuses } from '@store/tests/tests.selector';
 import { BasePageComponent } from './base-page';
@@ -18,9 +17,7 @@ export abstract class LogoutBasePageComponent extends BasePageComponent {
   }
 
   async openLogoutModal() {
-    const testStatuses = this.store$
-      .select(getTests)
-      .pipe(select(getTestStatuses))
+    const testStatuses = this.store$.select(getTests).pipe(select(getTestStatuses));
 
     const modal: HTMLIonModalElement = await this.modalController.create({
       id: 'logOutModal',

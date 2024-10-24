@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { ModalController } from '@ionic/angular';
-import {TestStatus} from '@store/tests/test-status/test-status.model';
-import {Observable} from 'rxjs';
+import { TestStatus } from '@store/tests/test-status/test-status.model';
+import { Observable } from 'rxjs';
 
 export enum LogoutModalEvent {
   LOGOUT = 'logout',
@@ -21,10 +21,12 @@ export class LogoutModal {
 
   getUnsubmittedTestsCount(): number {
     let count = 0;
-    this.testStatuses.subscribe((testStatuses) => {
-      count = Object.values(testStatuses).filter((key: TestStatus) => key === TestStatus.Completed).length;
-    }).unsubscribe();
-    return count
+    this.testStatuses
+      .subscribe((testStatuses) => {
+        count = Object.values(testStatuses).filter((key: TestStatus) => key === TestStatus.Completed).length;
+      })
+      .unsubscribe();
+    return count;
   }
 
   async onCancel() {
