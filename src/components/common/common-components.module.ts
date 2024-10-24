@@ -30,6 +30,7 @@ import { TransmissionComponent } from '@components/common/transmission/transmiss
 
 import { ChartComponent } from '@components/common/chart/chart';
 import { DataGridComponent } from '@components/common/data-grid/data-grid';
+import { LogoutModal } from '@components/common/logout-modal/logout-modal';
 import { TestRecoveredBannerComponent } from '@components/common/test-recovered-banner/test-recovered-banner';
 import { DirectivesModule } from '@directives/directives.module';
 import { NgApexchartsModule } from 'ng-apexcharts';
@@ -47,7 +48,6 @@ import { TabComponent } from './tab/tab';
 import { TabsComponent } from './tabs/tabs';
 import { VRNCaptureModalModule } from './vrn-capture-modal/vrn-capture-modal.module';
 import { WarningBannerComponent } from './warning-banner/warning-banner';
-import {LogoutModal} from '@components/common/logout-modal/logout-modal';
 
 @NgModule({
   declarations: [
