@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 
 export enum LogoutModalEvent {
@@ -13,6 +13,9 @@ export enum LogoutModalEvent {
 })
 export class LogoutModal {
   constructor(public modalController: ModalController) {}
+
+  @Input()
+  unsubmittedCount: number;
 
   async onCancel() {
     await this.modalController.dismiss({ event: LogoutModalEvent.CANCEL });
