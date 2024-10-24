@@ -47,6 +47,7 @@ import { TabComponent } from './tab/tab';
 import { TabsComponent } from './tabs/tabs';
 import { VRNCaptureModalModule } from './vrn-capture-modal/vrn-capture-modal.module';
 import { WarningBannerComponent } from './warning-banner/warning-banner';
+import {LogoutModal} from '@components/common/logout-modal/logout-modal';
 
 @NgModule({
   declarations: [
@@ -87,6 +88,7 @@ import { WarningBannerComponent } from './warning-banner/warning-banner';
     DataGridComponent,
     ChartComponent,
     DataRowComponent,
+    LogoutModal,
   ],
   imports: [
     AngularSignaturePadModule,
