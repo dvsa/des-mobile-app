@@ -1,0 +1,37 @@
+<ion-card id="logout-modal-card" class="modal-alert">
+  <ion-row class="ion-justify-content-center">
+    <ion-col class="center-items no-padding">
+      <ion-text id="logout-title" class="des-header-style-2 header-padding">
+        Logout?
+      </ion-text>
+    </ion-col>
+  </ion-row>
+  <ion-row [hidden]="getUnsubmittedTestsCount() < 1" class="ion-justify-content-center">
+    <ion-col class="message-container center-items no-padding message-padding">
+      <ion-text id="unsubmitted-warning" class="mes-data ion-text-center">
+        {{getUnsubmittedTestsCount() > 1 ?
+        'You have ' + getUnsubmittedTestsCount() + ' tests that have not been uploaded. If you logout, you will lose these tests.' :
+        'You have a test that has not been uploaded. If you logout, you will lose this test.'}}
+      </ion-text>
+    </ion-col>
+  </ion-row>
+  <ion-row class="ion-justify-content-center">
+    <ion-col class="message-container center-items no-padding message-padding">
+      <ion-text id="logout-message" class="mes-data ion-text-center">
+        {{getUnsubmittedTestsCount() > 0 ? 'Do you want to cancel or continue to logout?' : 'Are you sure you want to logout? '}}
+      </ion-text>
+    </ion-col>
+  </ion-row>
+  <ion-row>
+    <ion-col class="column-border-top column-border-right ion-no-padding">
+      <ion-button id="cancel-button" fill="clear" (click)="onCancel()">
+        <ion-text class="mes-data">Cancel</ion-text>
+      </ion-button>
+    </ion-col>
+    <ion-col class="column-border-top ion-no-padding">
+      <ion-button id="logout-button" fill="clear" (click)="onLogout()">
+        <ion-text class="mes-data">Logout</ion-text>
+      </ion-button>
+    </ion-col>
+  </ion-row>
+</ion-card>

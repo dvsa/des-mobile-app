@@ -30,6 +30,7 @@ import { TransmissionComponent } from '@components/common/transmission/transmiss
 
 import { ChartComponent } from '@components/common/chart/chart';
 import { DataGridComponent } from '@components/common/data-grid/data-grid';
+import { LogoutModal } from '@components/common/logout-modal/logout-modal';
 import { TestRecoveredBannerComponent } from '@components/common/test-recovered-banner/test-recovered-banner';
 import { DirectivesModule } from '@directives/directives.module';
 import { NgApexchartsModule } from 'ng-apexcharts';
@@ -87,6 +88,7 @@ import { WarningBannerComponent } from './warning-banner/warning-banner';
     DataGridComponent,
     ChartComponent,
     DataRowComponent,
+    LogoutModal,
   ],
   imports: [
     AngularSignaturePadModule,

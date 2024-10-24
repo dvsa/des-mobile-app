@@ -3,11 +3,12 @@ import { ComponentFixture, TestBed, fakeAsync, flushMicrotasks, waitForAsync } f
 import { ActivatedRoute, Router } from '@angular/router';
 import { Capacitor } from '@capacitor/core';
 import { StatusBar, Style } from '@capacitor/status-bar';
-import { AlertController, MenuController, Platform } from '@ionic/angular';
+import { AlertController, MenuController, ModalController, Platform } from '@ionic/angular';
 import {
   ActivatedRouteMock,
   AlertControllerMock,
   MenuControllerMock,
+  ModalControllerMock,
   PlatformMock,
   RouterMock,
 } from '@mocks/index.mock';
@@ -133,6 +134,10 @@ describe('AppComponent', () => {
         {
           provide: LogHelper,
           useClass: LogHelperMock,
+        },
+        {
+          provide: ModalController,
+          useClass: ModalControllerMock,
         },
       ],
     });
