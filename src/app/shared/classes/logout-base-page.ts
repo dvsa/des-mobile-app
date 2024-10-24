@@ -18,18 +18,15 @@ export abstract class LogoutBasePageComponent extends BasePageComponent {
   }
 
   async openLogoutModal() {
-    let unsubmittedTestsCount = 0;
-    this.store$
+    const testStatuses = this.store$
       .select(getTests)
       .pipe(select(getTestStatuses))
-      .subscribe((tests) => {
-        unsubmittedTestsCount = Object.values(tests).filter((key: TestStatus) => key === TestStatus.Submitted).length;
-      });
+
     const modal: HTMLIonModalElement = await this.modalController.create({
       id: 'logOutModal',
       component: LogoutModal,
       componentProps: {
-        unsubmittedCount: unsubmittedTestsCount,
+        testStatuses: testStatuses,
       },
       cssClass: `${this.accessibilityService.getTextZoomClass()} mes-modal-alert`,
       backdropDismiss: false,
