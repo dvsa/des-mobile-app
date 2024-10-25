@@ -17,11 +17,12 @@
       </transmission-display>
 
       <data-row-custom
+        [id]="'vehicle-registration-number'"
         [centeredLabel]="(getPreviousFilteredVRNs().length == 0)"
         [centredData]="(getPreviousFilteredVRNs().length == 0)"
         [label]="'Vehicle registration number'"
       >
-        <ion-text class="mes-data">
+        <ion-text id="current-vrn" class="mes-data">
           {{ getRegistrationText() }}
           <div *ngIf="(getPreviousFilteredVRNs().length > 0)">
             <br/>
@@ -29,6 +30,7 @@
         </ion-text>
         <ion-accordion-group *ngIf="getPreviousFilteredVRNs().length > 0">
           <ion-accordion
+            id="other-vehicles-checked-for-mot"
             [toggleIcon]="'chevron-down'"
             value="first"
           >
@@ -36,7 +38,7 @@
               <label>{{ 'Other VRNs checked for MOT' }}</label>
             </ion-item>
             <div class="ion-padding mes-black" slot="content">
-              <ion-text *ngFor="let VRN of getPreviousFilteredVRNs()">{{ VRN }}<br/></ion-text>
+              <ion-text *ngFor="let VRN of getPreviousFilteredVRNs(); let i = index" [id]="'previously-searched-vrn-'+i">{{ VRN }}<br/></ion-text>
             </div>
           </ion-accordion>
         </ion-accordion-group>

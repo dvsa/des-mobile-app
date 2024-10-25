@@ -11,7 +11,7 @@
           <ion-text class="bold-font"> MOT Status</ion-text>
         </ion-col>
         <ion-col>
-          <ion-text>
+          <ion-text id="mot-status">
             {{ isValidMOT() ? data?.expiryDate ? 'Valid until ' + data?.expiryDate : 'Valid' : data?.expiryDate ? 'Expired ' + data?.expiryDate : 'Not valid' }}
           </ion-text>
         </ion-col>
@@ -21,7 +21,7 @@
           <ion-text class="bold-font"> Make/Model</ion-text>
         </ion-col>
         <ion-col size="50">
-          <ion-text> {{ data?.make }} {{ data?.model }}</ion-text>
+          <ion-text id="make-and-model"> {{ data?.make }} {{ data?.model }}</ion-text>
         </ion-col>
       </ion-row>
     </ion-col>
