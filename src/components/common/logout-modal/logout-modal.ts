@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { ModalController } from '@ionic/angular';
-import {Observable} from "rxjs";
+import { Observable } from 'rxjs';
 
 export enum LogoutModalEvent {
   LOGOUT = 'logout',
