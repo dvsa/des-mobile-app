@@ -50,7 +50,6 @@ export class CharacterCountDirective implements AfterViewInit {
     this.charLimit = this.el.nativeElement.getAttribute('charLimit');
   }
 
-
   /**
    * Lifecycle hook that is called after a component's view has been fully initialized.
    *
