@@ -1,8 +1,6 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { AppModule } from '@app/app.module';
 import { IonicModule, ModalController } from '@ionic/angular';
-import { TestStatus } from '@store/tests/test-status/test-status.model';
-import { BehaviorSubject } from 'rxjs';
 import { LogoutModal, LogoutModalEvent } from '../logout-modal';
 
 describe('LogoutModal', () => {
@@ -27,40 +25,6 @@ describe('LogoutModal', () => {
       spyOn(component.modalController, 'dismiss').and.resolveTo(true);
       await component.onCancel();
       expect(modalController.dismiss).toHaveBeenCalledWith({ event: LogoutModalEvent.CANCEL });
-    });
-  });
-
-  describe('getUnsubmittedTestsCount', () => {
-    it('should return the correct count of completed tests', () => {
-      const testStatuses = new BehaviorSubject<{ [slotId: string]: TestStatus }>({
-        '1': TestStatus.Completed,
-        '2': TestStatus.Completed,
-        '3': TestStatus.Submitted,
-      });
-      component.testStatuses = testStatuses.asObservable();
-      const count = component.getUnsubmittedTestsCount();
-      expect(count).toBe(2);
-    });
-
-    it('should return zero when there are no completed tests', () => {
-      const testStatuses = new BehaviorSubject<{ [slotId: string]: TestStatus }>({
-        '1': TestStatus.Submitted,
-        '2': TestStatus.Submitted,
-      });
-      component.testStatuses = testStatuses.asObservable();
-
-      const count = component.getUnsubmittedTestsCount();
-
-      expect(count).toBe(0);
-    });
-
-    it('should return zero when testStatuses is empty', () => {
-      const testStatuses = new BehaviorSubject<{ [slotId: string]: TestStatus }>({});
-      component.testStatuses = testStatuses.asObservable();
-
-      const count = component.getUnsubmittedTestsCount();
-
-      expect(count).toBe(0);
     });
   });
 

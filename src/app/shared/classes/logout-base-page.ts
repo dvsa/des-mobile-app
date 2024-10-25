@@ -7,6 +7,9 @@ import { AccessibilityService } from '@providers/accessibility/accessibility.ser
 import { getTests } from '@store/tests/tests.reducer';
 import { getTestStatuses } from '@store/tests/tests.selector';
 import { BasePageComponent } from './base-page';
+import {map} from 'rxjs/operators';
+import {TestStatus} from '@store/tests/test-status/test-status.model';
+import {Observable} from 'rxjs';
 
 export abstract class LogoutBasePageComponent extends BasePageComponent {
   protected modalController = this.injector.get(ModalController);
@@ -17,13 +20,20 @@ export abstract class LogoutBasePageComponent extends BasePageComponent {
   }
 
   async openLogoutModal() {
-    const testStatuses = this.store$.select(getTests).pipe(select(getTestStatuses));
+    const unuploadedTestCount: Observable<number> = this.store$.select(getTests).pipe(
+      select(getTestStatuses),
+      map((statuses) => {
+        return Object.values(statuses).filter((testStasus: TestStatus) => {
+          return testStasus === TestStatus.Completed
+        }).length
+      }),
+    );
 
     const modal: HTMLIonModalElement = await this.modalController.create({
       id: 'logOutModal',
       component: LogoutModal,
       componentProps: {
-        testStatuses: testStatuses,
+        unuploadedTestCount: unuploadedTestCount,
       },
       cssClass: `${this.accessibilityService.getTextZoomClass()} mes-modal-alert`,
       backdropDismiss: false,
