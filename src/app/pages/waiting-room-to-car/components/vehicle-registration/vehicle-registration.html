@@ -32,6 +32,7 @@
       </ion-col>
       <ion-col class="display-flex ion-align-items-center" *ngIf="!shouldHideMOTButton" [size]="getMOTButtonColSize(accessibilityService.getTextZoomClass())">
         <ion-button
+          id="check-mot-button"
           [disabled]="shouldDisableMOTButton()"
           class="mes-grey-button"
           (click)="getMOT(vehicleRegistration)"
