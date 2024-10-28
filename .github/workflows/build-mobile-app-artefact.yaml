@@ -36,7 +36,7 @@ jobs:
     if: github.event_name == 'push' && startsWith(github.ref_name, 'release-')
     uses: dvsa/des-workflow-actions/.github/workflows/build-mobile-app.yaml@main
     with:
-      runs_on: mito-2
+      runs_on: mito-1
       branch: ${{ github.ref_name }}
       environment: release
       app-env: dev
