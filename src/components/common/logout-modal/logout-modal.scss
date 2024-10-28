@@ -1,0 +1,35 @@
+@import "src/theme/sass-partials/modal";
+
+#logout-modal-card {
+  padding: 0 0 0 0;
+  min-width: 400px;
+
+  @extend .modal-alert-wrapper;
+
+  .header-padding {
+    margin-top: 25px;
+    margin-bottom: 10px;
+  }
+
+  .message-padding {
+    margin-bottom: 18px;
+  }
+
+  .message-container {
+    padding-left: 25px;
+    padding-right: 25px;
+  }
+
+  .center-items {
+    display: flex;
+    justify-content: center;
+  }
+
+  .center-icon {
+    text-align: center;
+  }
+
+  .blue-button {
+    color: var(--ion-color-primary);
+  }
+}

@@ -74,6 +74,8 @@ export const getJournalData = (test: TestResultCommonSchema): JournalData => tes
 
 export const getTestStatus = (tests: TestsModel, slotId: number) => tests.testStatus[slotId] || TestStatus.Booked;
 
+export const getTestStatuses = (tests: TestsModel) => tests.testStatus;
+
 export const getTestOutcome = (test: TestResultCommonSchema) => test.activityCode;
 
 export const getTestOutcomeText = (test: TestResultSchemasUnion) => {
