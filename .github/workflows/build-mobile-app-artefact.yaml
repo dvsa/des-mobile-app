@@ -48,7 +48,7 @@ jobs:
     if: inputs.branch != ''
     uses: dvsa/des-workflow-actions/.github/workflows/build-mobile-app.yaml@main
     with:
-      runs_on: mito-2
+      runs_on: mito-1
       branch: ${{ inputs.branch }}
       environment: ${{ startsWith(inputs.branch, 'release-') && 'release' || 'develop' }}
       app-env: ${{ startsWith(inputs.branch, 'release-') && 'dev' || 'test' }}
