@@ -1,4 +1,6 @@
 import { TestBed, waitForAsync } from '@angular/core/testing';
+import { Capacitor } from '@capacitor/core';
+import { StatusBar, Style } from '@capacitor/status-bar';
 import { AccessibilityService } from '@providers/accessibility/accessibility.service';
 
 describe('AccessibilityService', () => {
@@ -53,6 +55,15 @@ describe('AccessibilityService', () => {
         expect(accessibilityService.getTextZoomCallback).toHaveBeenCalledWith(150);
       }
     );
+  });
+
+  describe('configureStatusBar', () => {
+    it('should set status bar styles when plugin is available', async () => {
+      spyOn(StatusBar, 'setStyle');
+      spyOn(Capacitor, 'isPluginAvailable').and.returnValue(true);
+      await accessibilityService.configureStatusBar(Style.Dark);
+      expect(StatusBar.setStyle).toHaveBeenCalledWith({ style: Style.Dark });
+    });
   });
 
   describe('getTextZoomCallback', () => {

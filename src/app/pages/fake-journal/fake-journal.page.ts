@@ -1,6 +1,8 @@
 import { Component, Injector } from '@angular/core';
+import { Style } from '@capacitor/status-bar';
 import { fakeJournalTestSlots } from '@pages/fake-journal/__mocks__/fake-journal.mock';
 import { FakeJournalDidEnter } from '@pages/fake-journal/fake-journal.actions';
+import { AccessibilityService } from '@providers/accessibility/accessibility.service';
 import { DateTimeProvider } from '@providers/date-time/date-time';
 import { OrientationMonitorProvider } from '@providers/orientation-monitor/orientation-monitor.provider';
 import { BasePageComponent } from '@shared/classes/base-page';
@@ -18,6 +20,7 @@ export class FakeJournalPage extends BasePageComponent {
 
   constructor(
     private dateTimeProvider: DateTimeProvider,
+    public accessibilityService: AccessibilityService,
     public orientationMonitorProvider: OrientationMonitorProvider,
     injector: Injector
   ) {
@@ -32,6 +35,7 @@ export class FakeJournalPage extends BasePageComponent {
   }
 
   async ionViewWillEnter() {
+    await this.accessibilityService.configureStatusBar(Style.Light);
     await this.orientationMonitorProvider.monitorOrientation();
   }
 
