@@ -20,6 +20,15 @@ permissions:
   contents: write
 
 jobs:
+  get_branch:
+    outputs:
+      branch: ${{ steps.get_branch.outputs.branch }}
+    if: github.event_name == 'push' && startsWith(github.ref_name, 'release-')
+    runs-on: ubuntu-latest
+      - name: 🔍 Get Branch
+        id: get_branch
+        run: echo "branch=$(echo ${{ github.ref_name }} | cut -d '.' -f -3)" >> $GITHUB_OUTPUT
+
   develop:
     if: github.event_name == 'push' && github.ref_name == 'develop'
     uses: dvsa/des-workflow-actions/.github/workflows/build-mobile-app.yaml@main
@@ -33,13 +42,15 @@ jobs:
       DVSA_AWS_REGION: ${{ secrets.DVSA_AWS_REGION }}
 
   release:
+    needs: get_branch
     if: github.event_name == 'push' && startsWith(github.ref_name, 'release-')
     uses: dvsa/des-workflow-actions/.github/workflows/build-mobile-app.yaml@main
     with:
       runs_on: mito-2
-      branch: ${{ github.ref_name }}
+      branch: ${{ needs.get_branch.outputs.branch }}
       environment: release
       app-env: dev
+      build-ipa: true
     secrets:
       AWS_ROLE: ${{ secrets.DES_AWS_ROLE }}
       DVSA_AWS_REGION: ${{ secrets.DVSA_AWS_REGION }}
@@ -50,8 +61,8 @@ jobs:
     with:
       runs_on: mito-2
       branch: ${{ inputs.branch }}
-      environment: ${{ startsWith(inputs.branch, 'release-') && 'release' || 'develop' }}
-      app-env: ${{ startsWith(inputs.branch, 'release-') && 'dev' || 'test' }}
+      environment: develop
+      app-env: test
     secrets:
       AWS_ROLE: ${{ secrets.DES_AWS_ROLE }}
       DVSA_AWS_REGION: ${{ secrets.DVSA_AWS_REGION }}
