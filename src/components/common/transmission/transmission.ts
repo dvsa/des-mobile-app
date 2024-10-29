@@ -9,6 +9,9 @@ import { v4 as uuidv4 } from 'uuid';
 })
 export class TransmissionComponent implements OnChanges {
   @Input()
+  startingTabIndex: number;
+
+  @Input()
   transmission: GearboxCategory;
 
   @Input()
@@ -40,6 +43,7 @@ export class TransmissionComponent implements OnChanges {
   }
 
   transmissionChanged(transmission: GearboxCategory): void {
+    console.log(transmission)
     this.transmissionChange.emit(transmission);
   }
 

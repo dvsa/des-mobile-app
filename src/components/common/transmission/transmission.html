@@ -6,37 +6,39 @@
   </ion-col>
   <ion-col class="ion-align-self-center ion-padding-start">
     <ion-row class="spacing-row"></ion-row>
-    <ion-row [formGroup]="formGroup">
-      <ion-col class="ion-align-items-center display-flex" size="48">
-        <input
-          type="radio"
-          [id]="'transmission-manual-'+uniqueId"
-          formControlName="transmissionCtrl"
-          name="transmissionCtrl"
-          class="gds-radio-button"
-          [class.ng-invalid]="isInvalid()"
-          (change)="transmissionChanged($event.target.value)"
-          value="Manual"
-        />
-        <label [for]="'transmission-manual-'+uniqueId" class="radio-label" id="transmission-manual-label">
-          Manual
-        </label>
-      </ion-col>
-      <ion-col class="ion-align-items-center display-flex">
-        <input
-          type="radio"
-          [id]="'transmission-automatic-'+uniqueId"
-          formControlName="transmissionCtrl"
-          name="transmissionCtrl"
-          class="gds-radio-button"
-          [class.ng-invalid]="isInvalid()"
-          (change)="transmissionChanged($event.target.value)"
-          value="Automatic"
-        />
-        <label [for]="'transmission-automatic-'+uniqueId" class="radio-label" id="transmission-automatic-label">
-          Automatic
-        </label>
-      </ion-col>
+    <ion-row
+      class="display-flex direction-column"
+      [formGroup]="formGroup">
+      <ion-radio-group
+        class="display-flex radio-group-width"
+        formControlName="transmissionCtrl"
+        (ionChange)="transmissionChanged($event.detail.value)">
+        <ion-col class="ion-align-items-center display-flex" size="auto">
+          <ion-radio
+            [id]="'transmission-manual-'+uniqueId"
+            [class.ng-invalid]="isInvalid()"
+            mode="md"
+            labelPlacement="end"
+            value="Manual">
+            <label class="radio-label" id="transmission-manual-label">
+              Manual
+            </label>
+          </ion-radio>
+        </ion-col>
+        <ion-col></ion-col>
+        <ion-col size="auto">
+          <ion-radio
+            [id]="'transmission-automatic-'+uniqueId"
+            [class.ng-invalid]="isInvalid()"
+            mode="md"
+            value="Automatic"
+            labelPlacement="end">
+            <label class="radio-label" id="transmission-automatic-label">
+              Automatic
+            </label>
+          </ion-radio>
+        </ion-col>
+      </ion-radio-group>
     </ion-row>
     <ion-row class="validation-message-row ion-align-items-center">
       <div class="validation-text" id="transmission-validation-text" [class.ng-invalid]="isInvalid()">
