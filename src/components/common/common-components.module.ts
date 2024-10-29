@@ -48,6 +48,7 @@ import { TabComponent } from './tab/tab';
 import { TabsComponent } from './tabs/tabs';
 import { VRNCaptureModalModule } from './vrn-capture-modal/vrn-capture-modal.module';
 import { WarningBannerComponent } from './warning-banner/warning-banner';
+import { ExitSamButton } from '@components/common/exit-sam-button/exit-sam-button';
 
 @NgModule({
   declarations: [
@@ -87,6 +88,7 @@ import { WarningBannerComponent } from './warning-banner/warning-banner';
     SearchablePicklistModal,
     DataGridComponent,
     ChartComponent,
+    ExitSamButton,
     DataRowComponent,
   ],
   imports: [
@@ -142,6 +144,7 @@ import { WarningBannerComponent } from './warning-banner/warning-banner';
     SearchablePicklistModal,
     DataGridComponent,
     ChartComponent,
+    ExitSamButton,
     DataRowComponent,
   ],
 })
