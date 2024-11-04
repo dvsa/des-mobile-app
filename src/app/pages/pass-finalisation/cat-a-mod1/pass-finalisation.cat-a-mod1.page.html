@@ -31,7 +31,7 @@
         >
         </bike-category-type>
 
-        <transmission (transmissionChange)="transmissionChanged($event)" [formGroup]="form"> </transmission>
+        <transmission [transmission]="pageState.transmission$ | async" (transmissionChange)="transmissionChanged($event)" [formGroup]="form"> </transmission>
 
         <warning-banner *ngIf="displayTransmissionBanner()" warningText="An automatic licence will be issued.">
         </warning-banner>

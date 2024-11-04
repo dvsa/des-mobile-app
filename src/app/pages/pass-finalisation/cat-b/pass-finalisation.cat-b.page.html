@@ -43,7 +43,7 @@
         <danger-banner *ngIf="isNorthernIreland(pageState.candidateDriverNumber$ | async )" [dangerText]="niMessage">
         </danger-banner>
 
-        <transmission (transmissionChange)="transmissionChanged($event)" [formGroup]="form"> </transmission>
+        <transmission [transmission]="pageState.transmission$ | async" (transmissionChange)="transmissionChanged($event)" [formGroup]="form"> </transmission>
 
         <warning-banner
           *ngIf="displayTransmissionBanner()"
