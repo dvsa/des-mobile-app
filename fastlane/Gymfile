@@ -4,7 +4,7 @@ include_bitcode(false)
 include_symbols(false)
 export_options({
   provisioningProfiles: {
-    "uk.gov.dvsa.drivingexaminerservices" => ENV["PROVISIONING_PROFILE_NAME"],
+    "uk.gov.dvsa.drivingexaminerservices" => ENV["FASTLANE_CONFIG_PROVISIONING_PROFILE_NAME"],
   },
 })
-codesigning_identity(ENV["CODESIGNING_CERT_NAME"])
+codesigning_identity(ENV["FASTLANE_CONFIG_CODESIGNING_CERT_NAME"])

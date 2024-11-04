@@ -27,7 +27,7 @@ lane :simulator do
 
   sh("echo '✅ Fastlane Simulator Built' >> $GITHUB_STEP_SUMMARY")
 
-  if ENV["IS_LOCAL"] == 'NO'
+  if ENV["FASTLANE_CONFIG_IS_LOCAL"] == 'NO'
     path = ENV["ENVIRONMENT"]
     path = "feature/#{ENV["BRANCH"]}" if path == "feature"
 
@@ -64,8 +64,8 @@ lane :release_build do
     short_hash = commit[:abbreviated_commit_hash]
 
     create_keychain(
-      name: ENV["KEYCHAIN_NAME"],
-      password: ENV["KEYCHAIN_PASSWORD"],
+      name: ENV["FASTLANE_CONFIG_KEYCHAIN_NAME"],
+      password: ENV["FASTLANE_CONFIG_KEYCHAIN_PASSWORD"],
       unlock: true,
       timeout: 3600
     )
@@ -82,7 +82,7 @@ lane :release_build do
 
     sh("echo '✅ Fastlane Application Built' >> $GITHUB_STEP_SUMMARY")
 
-    if ENV["IS_LOCAL"] == 'NO'
+    if ENV["FASTLANE_CONFIG_IS_LOCAL"] == 'NO'
       aws_s3(
         access_key: ENV["AWS_ACCESS_KEY_ID"],
         secret_access_key: ENV["AWS_SECRET_ACCESS_KEY"],
@@ -105,7 +105,7 @@ lane :release_build do
       puts "LOCAL RUN NO S3 UPLOAD"
     end
   ensure
-    delete_keychain(name: ENV["KEYCHAIN_NAME"])
+    delete_keychain(name: ENV["FASTLANE_CONFIG_KEYCHAIN_NAME"])
   end
 end
 
@@ -120,7 +120,7 @@ lane :sync_certs do
   cert_path = "/Users/jenkins/certs"
 
   update_code_signing_settings(
-    team_id: ENV["TEAM_ID"],
+    team_id: ENV["FASTLANE_CONFIG_TEAM_ID"],
     use_automatic_signing: false,
     path: "./ios/App/App.xcodeproj",
     code_sign_identity: "iPhone Distribution: Vehicle and Operator Services Agency",
@@ -130,19 +130,19 @@ lane :sync_certs do
 #   match(type: 'appstore')
 
   import_certificate(
-    certificate_path: "#{cert_path}/#{ENV["CERT_NAME"]}.p12",
-    certificate_password: ENV["CERT_PASSWORD"],
-    keychain_name: ENV["KEYCHAIN_NAME"],
-    keychain_password: ENV["KEYCHAIN_PASSWORD"]
+    certificate_path: "#{cert_path}/#{ENV["FASTLANE_CONFIG_CERT_NAME"]}.p12",
+    certificate_password: ENV["FASTLANE_CONFIG_CERT_PASSWORD"],
+    keychain_name: ENV["FASTLANE_CONFIG_KEYCHAIN_NAME"],
+    keychain_password: ENV["FASTLANE_CONFIG_KEYCHAIN_PASSWORD"]
   )
 
   update_project_provisioning(
     xcodeproj: "./ios/App/App.xcodeproj",
-    profile: "#{cert_path}/#{ENV["PROVISIONING_PROFILE_NAME"]}",
+    profile: "#{cert_path}/#{ENV["FASTLANE_CONFIG_PROVISIONING_PROFILE_NAME"]}",
   )
 
   install_provisioning_profile(
-    path: "#{cert_path}/#{ENV["PROVISIONING_PROFILE_NAME"]}"
+    path: "#{cert_path}/#{ENV["FASTLANE_CONFIG_PROVISIONING_PROFILE_NAME"]}"
   )
 end
 
