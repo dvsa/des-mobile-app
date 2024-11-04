@@ -25,17 +25,17 @@ describe('LanguagePreferencesComponent', () => {
       expect(component.formGroup.get('languagePreferences')).not.toBeNull();
     });
     it('should set the value of the validation to true if isWelsh is true', () => {
-      component.isWelsh = true;
+      component.currentLanguage = true;
       component.ngOnChanges();
       expect(component.formGroup.get('languagePreferences').value).toEqual('true');
     });
     it('should set the value of the validation to false if isWelsh is false', () => {
-      component.isWelsh = false;
+      component.currentLanguage = false;
       component.ngOnChanges();
       expect(component.formGroup.get('languagePreferences').value).toEqual('false');
     });
     it('should set the value to isWelsh if not a delegated test', () => {
-      component.isWelsh = false;
+      component.currentLanguage = false;
       component.isDelegated = false;
       component.ngOnChanges();
       expect(component.formGroup.get('languagePreferences').value).toEqual('false');

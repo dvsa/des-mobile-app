@@ -8,8 +8,6 @@ import { v4 as uuidv4 } from 'uuid';
   templateUrl: 'transmission.html',
 })
 export class TransmissionComponent implements OnChanges {
-  @Input()
-  startingTabIndex: number;
 
   @Input()
   transmission: GearboxCategory;
@@ -43,7 +41,6 @@ export class TransmissionComponent implements OnChanges {
   }
 
   transmissionChanged(transmission: GearboxCategory): void {
-    console.log(transmission)
     this.transmissionChange.emit(transmission);
   }
 

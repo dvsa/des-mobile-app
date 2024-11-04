@@ -5,33 +5,38 @@
   </ion-col>
   <ion-col class="ion-align-self-center ion-padding-start">
     <ion-row class="spacing-row"></ion-row>
-    <ion-row>
-      <ion-col class="ion-align-self-center">
-        <input
-          type="radio"
-          id="true-likeness-yes"
-          class="gds-radio-button"
-          name="trueLikeness"
-          formControlName="trueLikeness"
-          value="true"
-          [checked]="trueLikeness === true"
-          (change)="trueLikenessChanged($event.target.value)"
-        />
-        <label for="true-likeness-yes" class="radio-label" id="true-likeness-yes-label">Yes</label>
-      </ion-col>
-      <ion-col class="ion-align-self-center">
-        <input
-          type="radio"
-          id="true-likeness-no"
-          class="gds-radio-button"
-          name="trueLikeness"
-          formControlName="trueLikeness"
-          value="false"
-          [checked]="trueLikeness === false"
-          (change)="trueLikenessChanged($event.target.value)"
-        />
-        <label for="true-likeness-no" class="radio-label" id="true-likeness-no-label">No</label>
-      </ion-col>
+    <ion-row class="display-flex direction-column">
+      <ion-radio-group
+        formControlName="trueLikeness"
+        class="display-flex radio-group-width"
+        [value]="formControl.value"
+        (ionChange)="trueLikenessChanged($event.target.value)">
+        <ion-col size="40">
+          <ion-radio
+            class="gds-refactor-radio"
+            id="true-likeness-yes"
+            [class.ng-invalid]="invalid"
+            labelPlacement="end"
+            value="true">
+            <label class="radio-label" id="true-likeness-yes-label">
+              Yes
+            </label>
+          </ion-radio>
+        </ion-col>
+        <ion-col></ion-col>
+        <ion-col size="40">
+          <ion-radio
+            class="gds-refactor-radio"
+            id="true-likeness-no"
+            [class.ng-invalid]="invalid"
+            labelPlacement="end"
+            value="false">
+            <label class="radio-label" id="true-likeness-no-label">
+              No
+            </label>
+          </ion-radio>
+        </ion-col>
+      </ion-radio-group>
     </ion-row>
     <ion-row class="validation-message-row ion-align-items-center">
       <div class="validation-text" id="true-likeness-validation-text" [class.ng-invalid]="invalid">

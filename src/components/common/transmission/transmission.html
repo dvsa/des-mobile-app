@@ -12,12 +12,13 @@
       <ion-radio-group
         class="display-flex radio-group-width"
         formControlName="transmissionCtrl"
+        [value]="formControl.value"
         (ionChange)="transmissionChanged($event.detail.value)">
-        <ion-col class="ion-align-items-center display-flex" size="auto">
+        <ion-col class="ion-align-items-center display-flex" size="40">
           <ion-radio
+            class="gds-refactor-radio"
             [id]="'transmission-manual-'+uniqueId"
             [class.ng-invalid]="isInvalid()"
-            mode="md"
             labelPlacement="end"
             value="Manual">
             <label class="radio-label" id="transmission-manual-label">
@@ -25,12 +26,12 @@
             </label>
           </ion-radio>
         </ion-col>
-        <ion-col></ion-col>
-        <ion-col size="auto">
+        <ion-col size="16"></ion-col>
+        <ion-col>
           <ion-radio
+            class="gds-refactor-radio"
             [id]="'transmission-automatic-'+uniqueId"
             [class.ng-invalid]="isInvalid()"
-            mode="md"
             value="Automatic"
             labelPlacement="end">
             <label class="radio-label" id="transmission-automatic-label">

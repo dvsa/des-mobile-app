@@ -145,10 +145,6 @@ export class OfficeCatDPage extends OfficeBasePageComponent implements OnInit {
     return this.testOutcomeText === TestOutcome.Passed;
   }
 
-  isWelsh(): boolean {
-    return this.conductedLanguage === Language.CYMRAEG;
-  }
-
   passCertificateNumberChanged(passCertificateNumber: string): void {
     this.store$.dispatch(PassCertificateNumberChanged(passCertificateNumber));
     this.store$.dispatch(PassCertificateNumberReceived(this.form.get('passCertificateNumberCtrl').valid));

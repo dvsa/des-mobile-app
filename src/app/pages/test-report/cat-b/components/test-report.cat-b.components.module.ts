@@ -6,10 +6,11 @@ import { TestReportComponentsModule } from '../../components/test-report-compone
 import { ManoeuvresPopoverComponent } from './manoeuvres-popover/manoeuvres-popover';
 import { ManoeuvresComponent } from './manoeuvres/manoeuvres';
 import { VehicleCheckComponent } from './vehicle-check/vehicle-check';
+import {ReactiveFormsModule} from "@angular/forms";
 
 @NgModule({
   declarations: [ManoeuvresComponent, ManoeuvresPopoverComponent, VehicleCheckComponent],
-  imports: [IonicModule, CommonModule, ComponentsModule, TestReportComponentsModule],
+    imports: [IonicModule, CommonModule, ComponentsModule, TestReportComponentsModule, ReactiveFormsModule],
   exports: [ManoeuvresComponent, ManoeuvresPopoverComponent, VehicleCheckComponent],
 })
 export class TestReportCatBComponentsModule {}

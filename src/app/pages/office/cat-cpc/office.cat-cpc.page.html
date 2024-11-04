@@ -78,7 +78,7 @@
               *ngIf="isDelegated"
               [isDelegated]="isDelegated"
               [formGroup]="form"
-              [isWelsh]="false"
+              [currentLanguage]="pageState.conductedLanguage$ | async"
               (welshChanged)="isWelshChanged($event)"
             >
             </language-preferences>

@@ -6,32 +6,37 @@
   <ion-col class="ion-align-self-center mes-padding-left">
     <ion-row class="spacing-row"></ion-row>
     <ion-row>
-      <ion-col size="48">
-        <input
-          type="radio"
-          id="d255-yes"
-          class="gds-radio-button"
-          name="d255"
-          formControlName="d255"
-          [value]="true"
-          [class.ng-invalid]="invalid"
-          (change)="d255Changed($event.target.id)"
-        />
-        <label for="d255-yes" class="radio-label" id="d255-yes-label">Yes</label>
-      </ion-col>
-      <ion-col>
-        <input
-          type="radio"
-          id="d255-no"
-          class="gds-radio-button"
-          name="d255"
-          formControlName="d255"
-          [value]="false"
-          [class.ng-invalid]="invalid"
-          (change)="d255Changed($event.target.id)"
-        />
-        <label for="d255-no" class="radio-label" id="d255-no-label">No</label>
-      </ion-col>
+      <ion-radio-group
+        class="display-flex radio-group-width"
+        formControlName="d255"
+        [value]="formControl.value"
+        (ionChange)="d255Changed($event.detail.value)">
+        <ion-col size="40">
+          <ion-radio
+            class="gds-refactor-radio"
+            id="d255-yes"
+            [class.ng-invalid]="invalid"
+            labelPlacement="end"
+            [value]="true">
+            <label class="radio-label" id="d255-yes-label">
+              Yes
+            </label>
+          </ion-radio>
+        </ion-col>
+        <ion-col></ion-col>
+        <ion-col size="40">
+          <ion-radio
+            class="gds-refactor-radio"
+            id="d255-no"
+            [class.ng-invalid]="invalid"
+            [value]="false"
+            labelPlacement="end">
+            <label class="radio-label" id="d255-no-label">
+              No
+            </label>
+          </ion-radio>
+        </ion-col>
+      </ion-radio-group>
     </ion-row>
     <ion-row class="validation-message-row ion-align-items-center">
       <div class="validation-text" [class.ng-invalid]="invalid" id="d255-validation-text">Select D255</div>

@@ -1,41 +1,48 @@
-ion-radio::part(container) {
-  width: 44px;
-  height: 44px;
+.gds-refactor-radio {
+  &::part(container) {
+    width: 44px;
+    height: 44px;
+    border-radius: 100%;
+    border: 2px solid var(--gds-black);
+  }
 
-  border-radius: 100%;
-  border: 2px solid var(--gds-black);
+  &.ion-focused::part(container),
+  &.ion-activated::part(container) {
+    border-radius: 100%;
+    border: 4px solid var(--gds-black);
+    outline: 4px solid var(--gds-yellow);
+  }
+
+  &.ion-focused::part(container)::after,
+  &.ion-activated::part(container)::after {
+    background-color: transparent;
+  }
+
+  &.ng-invalid::part(container) {
+    border: 4px solid var(--gds-red);
+  }
+
+  &::part(mark) {
+    background: none;
+    transition: none;
+    transform: none;
+    border-radius: 0;
+  }
+
+  &.radio-checked::part(mark) {
+    width: 22.5px;
+    height: 22.5px;
+    border-width: 2px;
+    border-style: solid;
+    border-color: var(--gds-black);
+    background: var(--gds-black);
+    border-radius: 100%;
+  }
 }
 
 .radio-group-width {
-  width: 85%
+  width: 86%;
 }
-
-ion-radio.ion-focused::part(container),
-ion-radio.ion-activated::part(container) {
-  border-radius: 100%;
-  border: 4px solid var(--gds-black);
-  outline: 4px solid var(--gds-yellow);
-
-}
-
-ion-radio::part(mark) {
-  background: none;
-  transition: none;
-  transform: none;
-  border-radius: 0;
-}
-
-ion-radio.radio-checked::part(mark) {
-  width: 22.5px;
-  height: 22.5px;
-
-  border-width: 2px;
-  border-style: solid;
-  border-color: var(--gds-black);
-  background: var(--gds-black);
-  border-radius: 100%;
-}
-
 .gds-radio-button {
   position: absolute;
   opacity: 0;

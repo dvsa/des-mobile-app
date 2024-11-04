@@ -63,7 +63,7 @@
         <language-preferences
           *ngIf="showLanguage()"
           [formGroup]="form"
-          [isWelsh]="pageState.isWelshTest$ | async"
+          [currentLanguage]="pageState.conductedLanguage$ | async"
           (welshChanged)="isWelshChanged($event)"
         >
         </language-preferences>

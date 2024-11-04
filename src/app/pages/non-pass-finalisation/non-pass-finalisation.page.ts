@@ -35,8 +35,6 @@ import {
   getCandidatePrn,
   getUntitledCandidateName,
 } from '@store/tests/journal-data/common/candidate/candidate.selector';
-import { getTestSlotAttributes } from '@store/tests/journal-data/common/test-slot-attributes/test-slot-attributes.reducer';
-import { isWelshTest } from '@store/tests/journal-data/common/test-slot-attributes/test-slot-attributes.selector';
 import { EndTimeChanged } from '@store/tests/test-data/cat-adi-part3/end-time/end-time.actions';
 import { getTestEndTime } from '@store/tests/test-data/cat-adi-part3/end-time/end-time.selector';
 import {
@@ -69,6 +67,8 @@ import {
 import { Observable, Subscription, merge } from 'rxjs';
 import { filter, map, withLatestFrom } from 'rxjs/operators';
 import { TestFinalisationInvalidTestDataModal } from '../test-report/components/test-finalisation-invalid-test-data-modal/test-finalisation-invalid-test-data-modal';
+import {getCommunicationPreference} from '@store/tests/communication-preferences/communication-preferences.reducer';
+import {getConductedLanguage} from '@store/tests/communication-preferences/communication-preferences.selector';
 
 interface NonPassFinalisationPageState {
   candidateName$: Observable<string>;
@@ -82,7 +82,7 @@ interface NonPassFinalisationPageState {
   debriefWitnessed$: Observable<boolean>;
   displayD255$: Observable<boolean>;
   d255$: Observable<boolean>;
-  isWelshTest$: Observable<boolean>;
+  conductedLanguage$: Observable<string>;
   testData$: Observable<CatBUniqueTypes.TestData>;
   eyesightTestFailed$: Observable<boolean>;
   testCategory$: Observable<CategoryCode>;
@@ -170,7 +170,7 @@ export class NonPassFinalisationPage extends PracticeableBasePageComponent imple
         map(([outcome, d255]) => this.outcomeBehaviourProvider.isVisible(outcome, 'd255', d255))
       ),
       d255$: currentTest$.pipe(select(getTestSummary), select(getD255)),
-      isWelshTest$: currentTest$.pipe(select(getJournalData), select(getTestSlotAttributes), select(isWelshTest)),
+      conductedLanguage$: currentTest$.pipe(select(getCommunicationPreference), select(getConductedLanguage)),
       testData$: currentTest$.pipe(select(getTestData)),
       eyesightTestFailed$: currentTest$.pipe(select(getTestData), select(hasEyesightTestGotSeriousFault)),
       testCategory$: currentTest$.pipe(select(getTestCategory)),

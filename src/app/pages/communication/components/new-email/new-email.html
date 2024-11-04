@@ -1,18 +1,16 @@
 <ion-row class="communication-option" [formGroup]="formGroup">
   <div class="validation-bar communication-validation-bar" [class.ng-invalid]="invalid"></div>
-  <input
+  <ion-radio
+    class="gds-refactor-radio"
     type="radio"
     id="newEmail"
-    class="gds-radio-button"
-    formControlName="radioCtrl"
-    name="radioCtrl"
-    (click)="newEmailRadioSelected()"
-    [checked]="isNewEmailAddressChosen"
-    [value]="isNewEmailAddressChosen"
-  />
-  <label addOrRemoveLangCy for="newEmail" class="radio-label" id="new-email-label">
-    {{ 'communication.newEmailLabel' | translate }}
-  </label>
+    labelPlacement="end"
+    [value]=CommunicationPage.updatedEmail
+  >
+    <label addOrRemoveLangCy class="radio-label" id="new-email-label">
+      {{ 'communication.newEmailLabel' | translate }}
+    </label>
+  </ion-radio>
 </ion-row>
 
 <div class="ion-no-padding" [hidden]="!isNewEmailAddressChosen">

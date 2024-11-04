@@ -105,7 +105,7 @@
             <language-preferences
               *ngIf="isDelegated"
               [formGroup]="form"
-              [isWelsh]="isWelsh()"
+              [currentLanguage]="pageState.conductedLanguage$ | async"
               [isDelegated]="isDelegated"
               (welshChanged)="isWelshChanged($event)"
             >

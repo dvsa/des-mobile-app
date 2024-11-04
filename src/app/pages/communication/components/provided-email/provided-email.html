@@ -1,19 +1,17 @@
 <div *ngIf="shouldRender" [formGroup]="formGroup">
   <ion-row class="communication-option">
     <div class="validation-bar communication-validation-bar"></div>
-    <input
+    <ion-radio
       type="radio"
       id="providedEmail"
-      formControlName="radioCtrl"
-      name="radioCtrl"
-      class="gds-radio-button communication-radio"
-      (click)="providedEmailRadioSelected()"
-      [checked]="isProvidedEmailAddressChosen"
-      [value]="isProvidedEmailAddressChosen"
-    />
-    <label addOrRemoveLangCy for="providedEmail" class="radio-label" id="by-email-label">
-      {{ 'communication.byEmailLabel' | translate }}
-    </label>
+      class="communication-radio gds-refactor-radio"
+      labelPlacement="end"
+      [value]=CommunicationPage.providedEmail
+    >
+      <label addOrRemoveLangCy class="radio-label" id="by-email-label">
+        {{ 'communication.byEmailLabel' | translate }}
+      </label>
+    </ion-radio>
   </ion-row>
   <ion-row *ngIf="isProvidedEmailAddressChosen" class="communication-box">
     <ion-col size="6"></ion-col>

@@ -34,6 +34,8 @@ import { getCurrentTest } from '@store/tests/tests.selector';
 import { Observable, Subscription, merge } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { getTestOutcome as getTestOutcomeDebrief } from '../../debrief/debrief.selector';
+import {getCommunicationPreference} from '@store/tests/communication-preferences/communication-preferences.reducer';
+import {getConductedLanguage} from '@store/tests/communication-preferences/communication-preferences.selector';
 
 interface CatCPCOfficePageState {
   testResult$: Observable<string>;
@@ -46,6 +48,7 @@ interface CatCPCOfficePageState {
   question5$: Observable<Question5>;
   combination$: Observable<CombinationCodes>;
   passCertificateNumberReceived$: Observable<boolean>;
+  conductedLanguage$: Observable<string>;
 }
 
 type OfficePageState = CommonOfficePageState & CatCPCOfficePageState;
@@ -80,6 +83,8 @@ export class OfficeCatCPCPage extends OfficeBasePageComponent implements OnInit 
     this.pageState = {
       ...this.commonPageState,
       testResult$: currentTest$.pipe(select(getTestOutcomeDebrief)),
+      conductedLanguage$: currentTest$.pipe(select(getCommunicationPreference), select(getConductedLanguage)),
+      delegatedTest$: currentTest$.pipe(select(getDelegatedTestIndicator), select(isDelegatedTest)),
       assessmentReport$: currentTest$.pipe(select(getTestSummary), select(getAssessmentReport)),
       overallScore$: currentTest$.pipe(select(getTestData), select(getTotalPercent)),
       question1$: currentTest$.pipe(select(getTestData), select(getQuestion1)),

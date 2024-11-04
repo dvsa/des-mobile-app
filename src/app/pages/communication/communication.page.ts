@@ -75,6 +75,7 @@ export class CommunicationPage extends PracticeableBasePageComponent implements 
   static readonly post: CommunicationMethod = 'Post';
   static readonly notProvided: CommunicationMethod = 'Not provided';
 
+  defaultRadioValue: string = CommunicationPage.notProvided;
   form: UntypedFormGroup;
   subscription: Subscription;
   emailType: string;
@@ -263,6 +264,9 @@ export class CommunicationPage extends PracticeableBasePageComponent implements 
   restoreRadiosFromState() {
     if (this.communicationType === CommunicationPage.email) {
       this.assertEmailType();
+      this.defaultRadioValue = this.emailType;
+    } else {
+      this.defaultRadioValue = CommunicationPage.post;
     }
   }
 
@@ -286,11 +290,13 @@ export class CommunicationPage extends PracticeableBasePageComponent implements 
       this.emailType = CommunicationPage.providedEmail;
       this.form.controls.radioCtrl.setValue(true);
       this.dispatchCandidateChoseProvidedEmail();
+      this.defaultRadioValue = CommunicationPage.providedEmail;
     }
 
     if (!this.candidateProvidedEmail) {
       this.emailType = CommunicationPage.updatedEmail;
       this.form.controls.radioCtrl.setValue(true);
+      this.defaultRadioValue = CommunicationPage.updatedEmail;
     }
   }
 
@@ -328,6 +334,20 @@ export class CommunicationPage extends PracticeableBasePageComponent implements 
       return true;
     } catch {
       return false;
+    }
+  }
+
+  communicationMethodChanged(value: string): void {
+    switch (value) {
+      case CommunicationPage.providedEmail:
+        this.dispatchCandidateChoseProvidedEmail();
+        break;
+      case CommunicationPage.updatedEmail:
+        this.conditionalDispatchCandidateChoseNewEmail();
+        break;
+      case CommunicationPage.post:
+        this.dispatchCandidateChosePost();
+        break;
     }
   }
 }
