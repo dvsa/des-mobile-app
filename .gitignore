@@ -42,6 +42,9 @@ sonar-project.properties
 test/e2e/test.config.ts
 test-reports/
 e2e-app/
+Gemfile.lock
+.bundle/**
+.gem
 
 ios/App/App/public
 ios/DerivedData
@@ -54,3 +57,7 @@ mock/local-journal.json
 mock/local-journal-non-test-activities.json
 mock/local-test-centre-journal.json
 remotedev-server/
+
+fastlane/builds
+fastlane/simulator
+fastlane/report.xml

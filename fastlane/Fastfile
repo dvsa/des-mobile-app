@@ -6,7 +6,6 @@ end
 
 desc "Build the Simulator File for the Automation Suite"
 lane :simulator do
-  version = get_version_number(xcodeproj: "./ios/App/App.xcodeproj", target: "App")
   icon_banner(label: 'QA')
 
   archive_path = gym(
@@ -58,51 +57,55 @@ end
 
 desc "Build the Application for Deployment"
 lane :release_build do
-  version = get_version_number(xcodeproj: "./ios/App/App.xcodeproj", target: "App")
-  path = ENV["ENVIRONMENT"]
-  commit = last_git_commit
-  short_hash = commit[:abbreviated_commit_hash]
+  begin
+    version = get_version_number(xcodeproj: "./ios/App/App.xcodeproj", target: "App")
+    path = ENV["ENVIRONMENT"]
+    commit = last_git_commit
+    short_hash = commit[:abbreviated_commit_hash]
 
-  create_keychain(
-    name: ENV["KEYCHAIN_NAME"],
-    password: ENV["KEYCHAIN_PASSWORD"],
-    unlock: true,
-    timeout: 3600
-  )
-
-  sync_certs
-
-  gym(
-    workspace: "./ios/App/App.xcworkspace",
-    export_method: "enterprise",
-    output_directory: "./fastlane/builds",
-    output_name: "DrivingExaminerService-#{version}-#{ENV["RUN_ID"]}-#{short_hash}.ipa",
-    clean: true
-  )
-
-  sh("echo '✅ Fastlane Application Built' >> $GITHUB_STEP_SUMMARY")
-
-  if ENV["IS_LOCAL"] == 'NO'
-    aws_s3(
-      access_key: ENV["AWS_ACCESS_KEY_ID"],
-      secret_access_key: ENV["AWS_SECRET_ACCESS_KEY"],
-      bucket: ENV["DES_GLOBALS_ENV_DES4_ARTEFACT_S3"],
-      path: "github-actions/#{path}/#{version}/",
-      html_in_folder: true,
-      html_file_name: "DrivingExaminerService-#{version}-#{ENV["RUN_ID"]}-#{short_hash}.html",
-      region: ENV["AWS_REGION"],
-      ipa: "./fastlane/builds/DrivingExaminerService-#{version}-#{ENV["RUN_ID"]}-#{short_hash}.ipa",
-      dsym: "./fastlane/builds/DrivingExaminerService-#{version}-#{ENV["RUN_ID"]}-#{short_hash}.app.dSYM.zip"
+    create_keychain(
+      name: ENV["KEYCHAIN_NAME"],
+      password: ENV["KEYCHAIN_PASSWORD"],
+      unlock: true,
+      timeout: 3600
     )
 
-    file = "builds/$BRANCH-#{version}.#{ENV["RUN_ID"]}-#{short_hash}-IPA.txt"
-    sh("echo $S3_IPA_OUTPUT_PATH > #{file}")
-    sh("aws s3 cp #{file} s3://#{ENV["DES_GLOBALS_ENV_DES4_ARTEFACT_S3"]}/github-actions/files/#{path}/")
-    content = sh("cat #{file}")
-    sh("echo '⬇️ Application Location: [DrivingExaminerService-#{version}-#{ENV["RUN_ID"]}-#{short_hash}.ipa](#{content})' >> $GITHUB_STEP_SUMMARY")
+    sync_certs
 
-  else
-    puts "LOCAL RUN NO S3 UPLOAD"
+    gym(
+      workspace: "./ios/App/App.xcworkspace",
+      export_method: "enterprise",
+      output_directory: "./fastlane/builds",
+      output_name: "DrivingExaminerService-#{version}-#{ENV["RUN_ID"]}-#{short_hash}.ipa",
+      clean: true
+    )
+
+    sh("echo '✅ Fastlane Application Built' >> $GITHUB_STEP_SUMMARY")
+
+    if ENV["IS_LOCAL"] == 'NO'
+      aws_s3(
+        access_key: ENV["AWS_ACCESS_KEY_ID"],
+        secret_access_key: ENV["AWS_SECRET_ACCESS_KEY"],
+        bucket: ENV["DES_GLOBALS_ENV_DES4_ARTEFACT_S3"],
+        path: "github-actions/#{path}/#{version}/",
+        html_in_folder: true,
+        html_file_name: "DrivingExaminerService-#{version}-#{ENV["RUN_ID"]}-#{short_hash}.html",
+        region: ENV["AWS_REGION"],
+        ipa: "./fastlane/builds/DrivingExaminerService-#{version}-#{ENV["RUN_ID"]}-#{short_hash}.ipa",
+        dsym: "./fastlane/builds/DrivingExaminerService-#{version}-#{ENV["RUN_ID"]}-#{short_hash}.app.dSYM.zip"
+      )
+
+      file = "builds/$BRANCH-#{version}.#{ENV["RUN_ID"]}-#{short_hash}-IPA.txt"
+      sh("echo $S3_IPA_OUTPUT_PATH > #{file}")
+      sh("aws s3 cp #{file} s3://#{ENV["DES_GLOBALS_ENV_DES4_ARTEFACT_S3"]}/github-actions/files/#{path}/")
+      content = sh("cat #{file}")
+      sh("echo '⬇️ Application Location: [DrivingExaminerService-#{version}-#{ENV["RUN_ID"]}-#{short_hash}.ipa](#{content})' >> $GITHUB_STEP_SUMMARY")
+
+    else
+      puts "LOCAL RUN NO S3 UPLOAD"
+    end
+  ensure
+    delete_keychain(name: ENV["KEYCHAIN_NAME"])
   end
 end
 
@@ -114,6 +117,8 @@ end
 
 desc "Synchronise the Apple Developer Certificates to the Temporary Keychain"
 lane :sync_certs do
+  cert_path = "/Users/jenkins/certs"
+
   update_code_signing_settings(
     team_id: ENV["TEAM_ID"],
     use_automatic_signing: false,
@@ -121,24 +126,26 @@ lane :sync_certs do
     code_sign_identity: "iPhone Distribution: Vehicle and Operator Services Agency",
   )
 
-  match(type: 'appstore')
+#   Match to be used once DES certs are in shared repo
+#   match(type: 'appstore')
 
   import_certificate(
-    certificate_path: "fastlane/certs/#{ENV["CERT_NAME"]}.p12",
-    certificate_password: ENV["MATCH_PASSWORD"],
+    certificate_path: "#{cert_path}/#{ENV["CERT_NAME"]}.p12",
+    certificate_password: ENV["CERT_PASSWORD"],
     keychain_name: ENV["KEYCHAIN_NAME"],
     keychain_password: ENV["KEYCHAIN_PASSWORD"]
   )
 
   update_project_provisioning(
     xcodeproj: "./ios/App/App.xcodeproj",
-    profile: ENV["sigh_uk.gov.dvsa.drivingexaminerservices_appstore_profile-path"],
+    profile: "#{cert_path}/#{ENV["PROVISIONING_PROFILE_NAME"]}",
+  )
+
+  install_provisioning_profile(
+    path: "#{cert_path}/#{ENV["PROVISIONING_PROFILE_NAME"]}"
   )
 end
 
 after_all do
-  version = get_version_number(xcodeproj: "./ios/App/App.xcodeproj", target: "App")
-
   clean(dirs: './builds ./simulator ./certs')
-  delete_keychain(name: ENV["KEYCHAIN_NAME"])
 end
