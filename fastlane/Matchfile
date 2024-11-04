@@ -4,7 +4,7 @@ storage_mode("git")
 output_path("./fastlane/certs")
 clone_branch_directly(true)
 git_url(ENV["FASTLANE_CONFIG_CERT_REPO_URL"])
-git_branch(ENV["FASTLANE_CONFIG_CERT_REPO_BRANCH"])
+git_branch("des")
 
 team_id(ENV["FASTLANE_CONFIG_TEAM_ID"])
 username(ENV["FASTLANE_CONFIG_APPLE_USERNAME"])
