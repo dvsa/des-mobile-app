@@ -50,20 +50,69 @@ export class CharacterCountDirective implements AfterViewInit {
     this.charLimit = this.el.nativeElement.getAttribute('charLimit');
   }
 
+  /**
+   * Lifecycle hook that is called after a component's view has been fully initialized.
+   *
+   * This method calculates the remaining character count based on the initial value
+   * of the input field and emits the result through the `onCharacterCountChanged` event.
+   */
   ngAfterViewInit() {
-    const valueLength = this.el.nativeElement.value ? this.el.nativeElement.value.length : 0;
+    const valueLength = this.el.nativeElement.value || '';
+    const byteLength = this.getUtf8ByteLength(valueLength);
     if (this.charLimit) {
-      this.onCharacterCountChanged.emit(this.charLimit - valueLength);
+      this.onCharacterCountChanged.emit(this.charLimit - byteLength);
     }
   }
 
-  onInput(e: any) {
-    if (!this.charLimit || e.target.value === undefined) return;
-    this.onCharacterCountChanged.emit(this.charLimit - e.target.value.length);
+  /**
+   * Handles the input event for the input field.
+   *
+   * This method is triggered when the input event occurs on the input field.
+   * It delegates the handling of the event to the handleChange method.
+   *
+   * @param event - The event object containing the new value of the input field.
+   */
+  onInput(event: any) {
+    this.handleChange(event.target.value);
   }
 
-  onIonChange(e: any) {
-    if (!this.charLimit || e.value === undefined) return;
-    this.onCharacterCountChanged.emit(this.charLimit - e.value.length);
+  /**
+   * Handles the ionChange event for the input field.
+   *
+   * This method is triggered when the ionChange event occurs on the input field.
+   * It delegates the handling of the event to the handleChange method.
+   *
+   * @param event - The event object containing the new value of the input field.
+   */
+  onIonChange(event: any) {
+    this.handleChange(event.target.value);
+  }
+
+  /**
+   * Handles the change event for the input field.
+   *
+   * This method calculates the remaining character count based on the UTF-8 byte length
+   * of the input value and emits the result through the `onCharacterCountChanged` event.
+   *
+   * @param value - The current value of the input field.
+   */
+  handleChange(value: string) {
+    if (this.charLimit !== null && value !== undefined) {
+      const byteLength = this.getUtf8ByteLength(value);
+      this.onCharacterCountChanged.emit(this.charLimit - byteLength);
+    }
+  }
+
+  /**
+   * Get the byte length of a string
+   *
+   * @param input - The string to calculate the byte length of
+   * @returns The byte length of the input
+   *
+   */
+  getUtf8ByteLength(input: string): number {
+    if (input === null) return 0;
+    // Using TextEncoder to get the byte length
+    return new TextEncoder().encode(input).length;
   }
 }
