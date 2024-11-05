@@ -33,15 +33,42 @@ describe('AdvancedSearchComponent', () => {
     });
   });
 
-  describe('upperCaseAlphaNum', () => {
-    const testItem: Event = {
-      target: {
-        value: '12!abC',
-      },
-    };
-    it('should change the string within the object to contain only uppercase alphanumeric characters', () => {
-      component.onInputChange(testItem.target, 'testCentre');
-      expect(testItem.target.value).toEqual('12ABC');
+  describe('onInputChange', () => {
+    it('should set rekeySearch to false if event value is empty, field is staffId, and selectedTestCentre is null', () => {
+      component.selectedTestCentre = null;
+      component.rekeySearch = true;
+      component.onInputChange({ value: '' } as HTMLInputElement, 'staffId');
+      expect(component.rekeySearch).toBe(false);
+    });
+
+    it('should not change rekeySearch if event value is not empty', () => {
+      component.rekeySearch = true;
+      component.onInputChange({ value: '123' } as HTMLInputElement, 'staffId');
+      expect(component.rekeySearch).toBe(true);
+    });
+
+    it('should not change rekeySearch if field is not staffId', () => {
+      component.rekeySearch = true;
+      component.onInputChange({ value: '' } as HTMLInputElement, 'otherField');
+      expect(component.rekeySearch).toBe(true);
+    });
+
+    it('should remove non-alphanumeric characters and convert to uppercase', () => {
+      const event: HTMLInputElement = { value: '12!abC' } as HTMLInputElement;
+      component.onInputChange(event, 'testField');
+      expect(event.value).toBe('12ABC');
+    });
+
+    it('should convert value to uppercase if it contains only alphanumeric characters', () => {
+      const event: HTMLInputElement = { value: 'abc' } as HTMLInputElement;
+      component.onInputChange(event, 'testField');
+      expect(event.value).toBe('ABC');
+    });
+
+    it('should not change value if it is already uppercase alphanumeric', () => {
+      const event: HTMLInputElement = { value: 'ABC123' } as HTMLInputElement;
+      component.onInputChange(event, 'testField');
+      expect(event.value).toBe('ABC123');
     });
   });
 

@@ -10,5 +10,5 @@ export type Log = {
   message: string;
   timestamp: number;
   drivingExaminerId: string;
-  [propName: string]: string|number|{};
+  [propName: string]: string | number | {};
 };

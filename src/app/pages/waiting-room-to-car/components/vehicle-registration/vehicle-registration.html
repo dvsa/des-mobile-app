@@ -23,7 +23,7 @@
           class="ion-input-styling"
           [class.ng-invalid]="invalid"
           [value]="vehicleRegistration"
-          (ionInput)="registrationInput($event)"
+          (ionInput)="registrationInput($event.target)"
           [maxlength]="registrationNumberValidator.maxLength"
           (ionChange)="VRNChanged()"
           emojiBlock

@@ -11,7 +11,7 @@ export type PassedData = [string, number, string];
 })
 export class DataGridComponent implements OnInit {
   @Input() headers: string[] = null;
-  @Input() passedData: number[][] = null;
+  @Input() passedData: number[][] | string[][] = null;
   @Input() colourScheme: string[] = null;
   @Input() displayColour = false;
   @Input() showSeparator = true;

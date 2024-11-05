@@ -1,6 +1,6 @@
 import { TestBed, fakeAsync, tick } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
-import {Action, Store, StoreModule} from '@ngrx/store';
+import { Action, Store, StoreModule } from '@ngrx/store';
 import { ReplaySubject } from 'rxjs';
 
 import { AppConfigProviderMock } from '@providers/app-config/__mocks__/app-config.mock';

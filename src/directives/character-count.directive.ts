@@ -72,8 +72,9 @@ export class CharacterCountDirective implements AfterViewInit {
    *
    * @param event - The event object containing the new value of the input field.
    */
-  onInput(event: any) {
-    this.handleChange(event.target.value);
+  onInput(event: Event) {
+    const inputElement = event.target as HTMLInputElement;
+    this.handleChange(inputElement.value);
   }
 
   /**
@@ -84,8 +85,10 @@ export class CharacterCountDirective implements AfterViewInit {
    *
    * @param event - The event object containing the new value of the input field.
    */
-  onIonChange(event: any) {
-    this.handleChange(event.target.value);
+  onIonChange(event: CustomEvent) {
+    const inputElement = event.detail.target as HTMLInputElement;
+    console.log('inputElement2', inputElement);
+    this.handleChange(inputElement.value);
   }
 
   /**

@@ -26,7 +26,7 @@ describe('DeviceAuthenticationProvider', () => {
     TestBed.configureTestingModule({
       providers: [
         DeviceAuthenticationProvider,
-        {provide: Store, useClass: MockStore},
+        { provide: Store, useClass: MockStore },
         provideMockStore({}),
         {
           provide: LogHelper,
@@ -58,20 +58,20 @@ describe('DeviceAuthenticationProvider', () => {
     spyOn(loadingProvider, 'handleUILoading').and.returnValue(Promise.resolve());
     spyOn(platform, 'ready').and.returnValue(Promise.resolve(''));
     spyOn(platform, 'is').and.returnValue(true);
-    spyOn(deviceAuthenticationProvider.appConfig, 'getAppConfig').and.returnValue({role: 'DE'} as AppConfig);
+    spyOn(deviceAuthenticationProvider.appConfig, 'getAppConfig').and.returnValue({ role: 'DE' } as AppConfig);
     (environment as unknown as TestersEnvironmentFile).isTest = false;
 
-    spyOn(NativeBiometricMock, 'isAvailable');
+    // spyOn(NativeBiometricMock, 'isAvailable');
 
     // (NativeBiometricMock.isAvailable)
     //   .withArgs({ key: 'useFallback' })
     //   .and.returnValue(Promise.resolve({ value: { available: true } }));
 
-    spyOn(NativeBiometricMock, 'isAvailable').and.callFake((args) => {
+    spyOn(NativeBiometricMock, 'isAvailable').and.callFake((args: { useFallback: boolean }) => {
       if (args.useFallback) {
         return Promise.resolve({ biometryType: 'fingerprint', isAvailable: true });
       }
-      return Promise.resolve({value: {available: false}});
+      return Promise.resolve({ biometryType: 'none', isAvailable: false });
     });
   });
 

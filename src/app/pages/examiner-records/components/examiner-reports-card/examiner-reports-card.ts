@@ -18,7 +18,7 @@ export class ExaminerReportsCard {
   onCardClick: EventEmitter<ExaminerReportsCardClick> = new EventEmitter<ExaminerReportsCardClick>();
 
   @Input()
-  passedData: ExaminerRecordDataWithPercentage<unknown>[] = null;
+  passedData: ExaminerRecordDataWithPercentage<string>[] = null;
   @Input()
   chartID: string = null;
   @Input()

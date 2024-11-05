@@ -330,7 +330,7 @@ export class AuthenticationProvider {
     this.employeeId = numericEmployeeId.toString();
   }
 
-  private logEvent = (logType: LogType, desc: string, msg: unknown) => {
+  logEvent = (logType: LogType, desc: string, msg: unknown) => {
     this.store$.dispatch(
       SaveLog({
         payload: this.logHelper.createLog(logType, desc, `AuthenticationProvider => ${serialiseLogMessage(msg)}`),

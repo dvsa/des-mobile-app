@@ -1,6 +1,6 @@
 import { CatADI2UniqueTypes } from '@dvsa/mes-test-schema/categories/ADI2';
 import { Action, combineReducers } from '@ngrx/store';
-import { nullReducer } from '@shared/classes/null.reducer';
+import { passCompletionReducer } from '@store/tests/pass-completion/pass-completion.reducer';
 import { accompanimentReducer } from './accompaniment/accompaniment.reducer';
 import { activityCodeReducer } from './activity-code/activity-code.reducer';
 import { appVersionReducer } from './app-version/app-version.reducer';
@@ -22,7 +22,6 @@ import { testDataCatADI2Reducer } from './test-data/cat-adi-part2/test-data.cat-
 import { testSummaryReducer } from './test-summary/test-summary.reducer';
 import { trainerDetailsCatADIPart2Reducer } from './trainer-details/cat-adi-part2/trainer-details.cat-adi-part2.reducer';
 import { vehicleDetailsCatADIPart2Reducer } from './vehicle-details/cat-adi-part2/vehicle-details.cat-adi-part2.reducer';
-import {passCompletionReducer} from '@store/tests/pass-completion/pass-completion.reducer';
 
 export function testsCatADIPart2Reducer(
   action: Action,

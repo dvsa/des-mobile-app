@@ -33,8 +33,7 @@ export class TrainerRegistrationNumberCatAdiPart2Component implements OnChanges 
     this.formControl.patchValue(this.trainerRegistration);
   }
 
-  trainerRegistrationChanged(event: Event): void {
-    const input = event.target as HTMLInputElement;
+  trainerRegistrationChanged(input: HTMLInputElement): void {
     if (typeof input.value === 'string' && !this.trainerRegistrationNumberValidator.pattern.test(input.value)) {
       input.value = input.value.replace(leadingZero, '').replace(nonNumericValues, '');
     }

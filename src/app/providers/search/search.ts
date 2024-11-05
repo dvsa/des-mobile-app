@@ -73,12 +73,11 @@ export class SearchProvider {
       .pipe(timeout(this.appConfig.getAppConfig().requestTimeout));
   }
 
-  getTestResult(applicationReference: string, staffNumber: string): Observable<HttpResponse<SearchResultTestSchema[]>> {
+  getTestResult(applicationReference: string, staffNumber: string): Observable<HttpResponse<string>> {
     return this.http
-      .get<SearchResultTestSchema[]>(
-        this.urlProvider.getTestResultServiceUrl().concat(`/${applicationReference}/${staffNumber}`),
-        { observe: 'response' }
-      )
+      .get<string>(this.urlProvider.getTestResultServiceUrl().concat(`/${applicationReference}/${staffNumber}`), {
+        observe: 'response',
+      })
       .pipe(timeout(this.appConfig.getAppConfig().requestTimeout));
   }
 
