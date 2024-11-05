@@ -31,7 +31,7 @@ export class PasteSanitiserDirective {
 
         const maxLength = Number(inputField.getAttribute('maxLength') || Number(inputField.getAttribute('charLimit')));
         // Apply maxLength or charLimit check after sanitizing
-        if (maxLength && (inputField.value.length + sanitisedData.length) > maxLength) {
+        if (maxLength && inputField.value.length + sanitisedData.length > maxLength) {
           sanitisedData = sanitisedData.substring(0, maxLength - inputField.value.length);
         }
 
