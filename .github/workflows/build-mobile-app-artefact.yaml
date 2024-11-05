@@ -33,7 +33,6 @@ jobs:
       build-simulator: ${{ inputs.build-simulator }}
     secrets:
       AWS_ROLE: ${{ secrets.DES_AWS_ROLE }}
-      DVSA_AWS_REGION: ${{ secrets.DVSA_AWS_REGION }}
 
   release:
     needs: get_release_branch
@@ -48,4 +47,3 @@ jobs:
       build-ipa: true
     secrets:
       AWS_ROLE: ${{ secrets.DES_AWS_ROLE }}
-      DVSA_AWS_REGION: ${{ secrets.DVSA_AWS_REGION }}
