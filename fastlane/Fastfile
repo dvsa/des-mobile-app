@@ -34,7 +34,7 @@ lane :simulator do
     aws_s3(
       access_key: ENV["AWS_ACCESS_KEY_ID"],
       secret_access_key: ENV["AWS_SECRET_ACCESS_KEY"],
-      bucket: des-mobile-artefacts,
+      bucket: "des-mobile-artefacts",
       path: "github-actions/#{path}/#{ENV["RUN_ID"]}/",
       html_in_folder: false,
       upload_metadata: false,
@@ -86,7 +86,7 @@ lane :release_build do
       aws_s3(
         access_key: ENV["AWS_ACCESS_KEY_ID"],
         secret_access_key: ENV["AWS_SECRET_ACCESS_KEY"],
-        bucket: des-mobile-artefacts,
+        bucket: "des-mobile-artefacts",
         path: "github-actions/#{path}/#{version}/",
         html_in_folder: true,
         html_file_name: "DrivingExaminerService-#{version}-#{ENV["RUN_ID"]}-#{short_hash}.html",
