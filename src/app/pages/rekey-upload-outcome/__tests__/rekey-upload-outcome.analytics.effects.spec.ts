@@ -1,7 +1,7 @@
 import { TestBed, waitForAsync } from '@angular/core/testing';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { provideMockActions } from '@ngrx/effects/testing';
-import { Store, StoreModule, Action } from '@ngrx/store';
+import { Action, Store, StoreModule } from '@ngrx/store';
 import * as fakeJournalActions from '@pages/fake-journal/fake-journal.actions';
 import { AnalyticsProviderMock } from '@providers/analytics/__mocks__/analytics.mock';
 import { AnalyticsProvider } from '@providers/analytics/analytics';

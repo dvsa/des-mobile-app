@@ -1,5 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
+import { Action } from '@ngrx/store';
 import { PassCertificatedViewDidEnter } from '@pages/pass-certificates/pass-certificates.actions';
 import { PassCertificatesAnalyticsEffects } from '@pages/pass-certificates/pass-certificates.analytics.effects';
 import { AnalyticsProviderMock } from '@providers/analytics/__mocks__/analytics.mock';
@@ -11,7 +12,7 @@ import { ReplaySubject } from 'rxjs';
 describe('PassCertificatesAnalyticsEffects', () => {
   let effects: PassCertificatesAnalyticsEffects;
   let analyticsProvider: AnalyticsProvider;
-  let actions$: ReplaySubject<any>;
+  let actions$: ReplaySubject<Action>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({

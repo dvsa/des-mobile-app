@@ -1,6 +1,6 @@
 import { TestBed, waitForAsync } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
-import { Store, StoreModule } from '@ngrx/store';
+import { Action, Store, StoreModule } from '@ngrx/store';
 import * as testStatusActions from '@store/tests/test-status/test-status.actions';
 import * as testsActions from '@store/tests/tests.actions';
 import { ReplaySubject } from 'rxjs';
@@ -9,7 +9,7 @@ import { CommunicationEffects } from '../communication.effects';
 
 describe('CommunicationEffects', () => {
   let effects: CommunicationEffects;
-  let actions$: ReplaySubject<any>;
+  let actions$: ReplaySubject<Action>;
   const currentSlotId = '1234';
 
   beforeEach(waitForAsync(() => {

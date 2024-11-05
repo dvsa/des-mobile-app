@@ -179,8 +179,8 @@ describe('TestCenterJournalPage', () => {
   describe('getTestCentreData', () => {
     beforeEach(() => {
       spyOn(store$, 'dispatch');
-      spyOn<any>(component, 'setOfflineError');
-      spyOn<any>(component, 'mapError');
+      spyOn(component, 'setOfflineError');
+      spyOn(component, 'mapError');
       spyOn(logHelper, 'createLog');
       spyOn(loadingController, 'create').and.callThrough();
       component.isOffline = false;

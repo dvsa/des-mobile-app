@@ -38,40 +38,40 @@ export class DelegatedRekeySearchEffects {
           catchError((err: HttpErrorResponse): Observable<DelegatedRekeySearchActions> => {
             if (err.status === HttpStatusCode.BadRequest) {
               return this.delegatedRekeySearchProvider.getDelegatedExaminerBookingByAppRef(action.appRef).pipe(
-                switchMap((response: any): Observable<any> => {
+                switchMap((response: DelegatedExaminerTestSlot): Observable<DelegatedRekeySearchActions> => {
                   let delegatedExaminerTestSlot: DelegatedExaminerTestSlot;
                   try {
                     delegatedExaminerTestSlot = {
                       testCentre: {
-                        centreId: response.testSlot.testCentre.centreId,
-                        centreName: response.testSlot.testCentre.centreName,
-                        costCode: response.testSlot.testCentre.costCode,
+                        centreId: response.testCentre.centreId,
+                        centreName: response.testCentre.centreName,
+                        costCode: response.testCentre.costCode,
                       },
                       booking: {
                         application: {
-                          applicationId: response.testSlot.booking.application.applicationId,
-                          bookingSequence: response.testSlot.booking.application.bookingSequence,
-                          checkDigit: response.testSlot.booking.application.checkDigit,
-                          testCategory: response.testSlot.booking.application.testCategory,
+                          applicationId: response.booking.application.applicationId,
+                          bookingSequence: response.booking.application.bookingSequence,
+                          checkDigit: response.booking.application.checkDigit,
+                          testCategory: response.booking.application.testCategory,
                           welshTest: false,
                           extendedTest: false,
                         },
                         candidate: {
-                          candidateId: response.testSlot.booking.candidate.candidateId,
+                          candidateId: response.booking.candidate.candidateId,
                           candidateName: {
-                            firstName: response.testSlot.booking.candidate.candidateName.firstName,
-                            lastName: response.testSlot.booking.candidate.candidateName.lastName,
+                            firstName: response.booking.candidate.candidateName.firstName,
+                            lastName: response.booking.candidate.candidateName.lastName,
                           },
-                          driverNumber: response.testSlot.booking.candidate.driverNumber,
-                          dateOfBirth: response.testSlot.booking.candidate.dateOfBirth,
-                          gender: response.testSlot.booking.candidate.gender,
+                          driverNumber: response.booking.candidate.driverNumber,
+                          dateOfBirth: response.booking.candidate.dateOfBirth,
+                          gender: response.booking.candidate.gender,
                         },
                       },
                       slotDetail: {
-                        slotId: response.testSlot.slotDetail.slotId,
-                        start: response.testSlot.slotDetail.start,
+                        slotId: response.slotDetail.slotId,
+                        start: response.slotDetail.start,
                       },
-                      vehicleTypeCode: response.testSlot.vehicleTypeCode,
+                      vehicleTypeCode: response.vehicleTypeCode,
                       examinerId: response.examinerId,
                     };
                     return of(SearchBookedDelegatedTestSuccess(delegatedExaminerTestSlot));

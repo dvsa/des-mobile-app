@@ -26,7 +26,7 @@ export class SlotSelectorProvider {
     return !this.checkPropertiesHaveValues((<TestSlot>slotData).booking);
   };
 
-  public checkPropertiesHaveValues = (obj: any): boolean => {
+  public checkPropertiesHaveValues = (obj: {}): boolean => {
     let gotValue = false;
 
     forOwn(obj, (value, key) => {

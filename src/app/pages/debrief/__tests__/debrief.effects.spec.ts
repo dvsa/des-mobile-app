@@ -1,7 +1,7 @@
 import { TestBed, waitForAsync } from '@angular/core/testing';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { provideMockActions } from '@ngrx/effects/testing';
-import { Store, StoreModule, Action } from '@ngrx/store';
+import { Action, Store, StoreModule } from '@ngrx/store';
 import { ActivityCodes } from '@shared/models/activity-codes';
 import { StoreModel } from '@shared/models/store.model';
 import * as activityCodeActions from '@store/tests/activity-code/activity-code.actions';

@@ -1,5 +1,6 @@
 import { TestBed, waitForAsync } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
+import { Action } from '@ngrx/store';
 import { AnalyticsProviderMock } from '@providers/analytics/__mocks__/analytics.mock';
 import { AnalyticsProvider } from '@providers/analytics/analytics';
 import { AnalyticRecorded } from '@providers/analytics/analytics.actions';
@@ -11,7 +12,7 @@ import { RekeySearchAnalyticsEffects } from '../rekey-search.analytics.effects';
 describe('RekeySearchAnalyticsEffects', () => {
   let effects: RekeySearchAnalyticsEffects;
   let analyticsProviderMock: AnalyticsProvider;
-  let actions$: ReplaySubject<any>;
+  let actions$: ReplaySubject<Action>;
   const screenName = AnalyticsScreenNames.REKEY_SEARCH;
 
   beforeEach(waitForAsync(() => {

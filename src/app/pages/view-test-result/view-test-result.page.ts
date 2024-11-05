@@ -1,5 +1,6 @@
 import { HttpResponse } from '@angular/common/http';
 import { ChangeDetectorRef, Component, Injector, Input, OnInit } from '@angular/core';
+import { SearchResultTestSchema } from '@dvsa/mes-search-schema';
 import { TestResultSchemasUnion } from '@dvsa/mes-test-schema/categories';
 import { CatADI2UniqueTypes } from '@dvsa/mes-test-schema/categories/ADI2';
 import {
@@ -87,7 +88,7 @@ export class ViewTestResultPage extends BasePageComponent implements OnInit {
     this.subscription = this.searchProvider
       .getTestResult(this.applicationReference, this.authenticationProvider.getEmployeeId())
       .pipe(
-        map((response: HttpResponse<any>): string => response.body),
+        map((response: HttpResponse<SearchResultTestSchema>): SearchResultTestSchema => response.body),
         map((data) => (this.testResult = this.compressionProvider.extract<TestResultSchemasUnion>(data))),
         tap(async () => this.handleLoadingUI(false)),
         catchError(async (err) => {

@@ -4,7 +4,7 @@ export interface DelegatedExaminerTestSlot extends TestSlot {
   examinerId: number;
 }
 
-export function mockGetDelegatedBooking(): any {
+export function mockGetDelegatedBooking(): unknown {
   return {
     examinerId: 4583912,
     testSlot: {

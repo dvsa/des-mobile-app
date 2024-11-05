@@ -72,6 +72,19 @@
           }
         }
       }
+    },
+    {
+      "include": [
+        "**/*.spec.ts"
+      ],
+      "linter": {
+        "enabled": true,
+        "rules": {
+          "suspicious": {
+            "noExplicitAny": "off"
+          }
+        }
+      }
     }
   ]
 }

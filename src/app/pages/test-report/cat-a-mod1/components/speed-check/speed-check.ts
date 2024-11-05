@@ -118,7 +118,7 @@ export class SpeedCheckComponent {
     return this.secondAttempt || null;
   };
 
-  onFirstAttemptChange = (attemptedSpeed: any): void => {
+  onFirstAttemptChange = (attemptedSpeed: { target: { value: string } }): void => {
     const firstAttempt = this.formatSpeedAttempt(attemptedSpeed);
 
     if (this.competency === Competencies.speedCheckEmergency) {
@@ -130,7 +130,7 @@ export class SpeedCheckComponent {
     }
   };
 
-  onSecondAttemptChange = (attemptedSpeed: any): void => {
+  onSecondAttemptChange = (attemptedSpeed: { target: { value: string } }): void => {
     const secondAttempt = this.formatSpeedAttempt(attemptedSpeed);
 
     if (this.competency === Competencies.speedCheckEmergency) {
@@ -142,12 +142,13 @@ export class SpeedCheckComponent {
     }
   };
 
-  formatSpeedAttempt = (event: any): number | undefined => {
-    if (event.target.value === '') return undefined;
-    if (typeof event.target.value === 'string' && !this.speedCheckValidator.pattern.test(event.target.value)) {
-      event.target.value = event.target.value.replace(nonNumericValues, '');
+  formatSpeedAttempt = (event: { target: { value: string } }): number | undefined => {
+    const input = event.target as HTMLInputElement;
+    if (input.value === '') return undefined;
+    if (typeof input.value === 'string' && !this.speedCheckValidator.pattern.test(input.value)) {
+      input.value = input.value.replace(nonNumericValues, '');
     }
-    return Number(event.target.value);
+    return Number(input.value);
   };
 
   getNotMet(): boolean {

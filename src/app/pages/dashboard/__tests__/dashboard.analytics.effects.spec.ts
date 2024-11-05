@@ -13,7 +13,7 @@ import {
 } from '@providers/analytics/analytics.model';
 
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
-import { Store, StoreModule } from '@ngrx/store';
+import { Action, Store, StoreModule } from '@ngrx/store';
 import { UpdateAvailable } from '@pages/dashboard/components/update-available-modal/update-available-modal';
 import { AppConfigProviderMock } from '@providers/app-config/__mocks__/app-config.mock';
 import { AppConfigProvider } from '@providers/app-config/app-config';
@@ -31,7 +31,7 @@ import { DashboardAnalyticsEffects } from '../dashboard.analytics.effects';
 describe('DashboardAnalyticsEffects', () => {
   let effects: DashboardAnalyticsEffects;
   let analyticsProviderMock: AnalyticsProvider;
-  let actions$: ReplaySubject<any>;
+  let actions$: ReplaySubject<Action>;
   const screenName = AnalyticsScreenNames.DASHBOARD;
 
   beforeEach(waitForAsync(() => {

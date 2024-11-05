@@ -34,7 +34,7 @@ describe('AdvancedSearchComponent', () => {
   });
 
   describe('upperCaseAlphaNum', () => {
-    const testItem: any = {
+    const testItem: Event = {
       target: {
         value: '12!abC',
       },

@@ -45,9 +45,11 @@ describe('EndTestLinkComponent', () => {
       it('should create an error modal', async () => {
         spyOn(modalController, 'create').and.returnValue(
           Promise.resolve({
-            present: async () => {},
-            onWillDismiss: async () => {},
-          } as HTMLIonModalElement)
+            present: async () => {
+            },
+            onWillDismiss: async () => {
+            },
+          } as unknown as HTMLIonModalElement)
         );
         await component.openEndTestModal();
         expect(modalController.create).toHaveBeenCalled();

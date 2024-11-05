@@ -387,7 +387,7 @@ export class TestsEffects {
         }
 
         return this.testSubmissionProvider.submitTests(completedTests).pipe(
-          switchMap((responses: HttpResponse<any>[]) => {
+          switchMap((responses: HttpResponse<never>[]) => {
             return responses.map((response, index) => {
               const matchedTests = find(completedTests, ['index', index]);
               if (response.status === HttpStatusCode.Created) {
@@ -450,7 +450,7 @@ export class TestsEffects {
         };
 
         return this.testSubmissionProvider.submitTest(testToSubmit).pipe(
-          map((response: HttpResponse<any> | HttpErrorResponse) => {
+          map((response: HttpResponse<unknown> | HttpErrorResponse) => {
             if (response.status === HttpStatusCode.Created) {
               return testActions.SendCurrentTestSuccess();
             }

@@ -63,7 +63,10 @@ describe('TestResultCalculatorProvider', () => {
 
     [TestCategory.EUAM1, TestCategory.EUA1M1, TestCategory.EUA2M1, TestCategory.EUAMM1].forEach((cat) => {
       it(`should call calculateCatEUAM1AndSubCategoryTestResult if testCategory is ${cat}`, () => {
-        spyOn<TestResultProvider>(testResultProvider, 'calculateCatEUAM1AndSubCategoryTestResult' as keyof TestResultProvider);
+        spyOn<TestResultProvider>(
+          testResultProvider,
+          'calculateCatEUAM1AndSubCategoryTestResult' as keyof TestResultProvider
+        );
         testResultProvider.calculateTestResult(cat, null);
         expect(testResultProvider['calculateCatEUAM1AndSubCategoryTestResult']).toHaveBeenCalled();
       });
@@ -71,7 +74,10 @@ describe('TestResultCalculatorProvider', () => {
 
     [TestCategory.EUAM2, TestCategory.EUA1M2, TestCategory.EUA2M2, TestCategory.EUAMM2].forEach((cat) => {
       it(`should call calculateCatEUAM2AndSubCategoryTestResult if testCategory is ${cat}`, () => {
-        spyOn<TestResultProvider>(testResultProvider, 'calculateCatEUAM2AndSubCategoryTestResult' as keyof TestResultProvider);
+        spyOn<TestResultProvider>(
+          testResultProvider,
+          'calculateCatEUAM2AndSubCategoryTestResult' as keyof TestResultProvider
+        );
         testResultProvider.calculateTestResult(cat, null);
         expect(testResultProvider['calculateCatEUAM2AndSubCategoryTestResult']).toHaveBeenCalled();
       });

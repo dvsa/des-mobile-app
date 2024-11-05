@@ -14,7 +14,7 @@ import {
 } from '@providers/analytics/analytics.model';
 
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
-import { Store, StoreModule } from '@ngrx/store';
+import { Action, Store, StoreModule } from '@ngrx/store';
 import * as fakeJournalActions from '@pages/fake-journal/fake-journal.actions';
 import { DASHBOARD_PAGE } from '@pages/page-names.constants';
 import { TestReportDashboardAnalyticsEffects } from '@pages/test-report-dashboard/test-report-dashboard.analytics.effects';
@@ -34,7 +34,7 @@ import { TestReportDashboardModalOpened, TestReportDashboardNavigateToPage } fro
 describe('TestReportDashboardAnalyticsEffects', () => {
   let effects: TestReportDashboardAnalyticsEffects;
   let analyticsProviderMock: AnalyticsProvider;
-  let actions$: ReplaySubject<any>;
+  let actions$: ReplaySubject<Action>;
   let store$: Store<StoreModel>;
 
   beforeEach(() => {

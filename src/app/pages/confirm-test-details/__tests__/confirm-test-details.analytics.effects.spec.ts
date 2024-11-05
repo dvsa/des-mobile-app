@@ -1,6 +1,6 @@
 import { TestBed, waitForAsync } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
-import { Store, StoreModule } from '@ngrx/store';
+import { Action, Store, StoreModule } from '@ngrx/store';
 import { testsReducer } from '@store/tests/tests.reducer';
 import { ReplaySubject } from 'rxjs';
 
@@ -25,7 +25,7 @@ import * as confirmTestDetailsActions from '../confirm-test-details.actions';
 describe('ConfirmTestDetailsAnalyticsEffects', () => {
   let effects: ConfirmTestDetailsAnalyticsEffects;
   let analyticsProviderMock: AnalyticsProvider;
-  let actions$: ReplaySubject<any>;
+  let actions$: ReplaySubject<Action>;
   let store$: Store<StoreModel>;
   const screenName = AnalyticsScreenNames.CONFIRM_TEST_DETAILS;
 

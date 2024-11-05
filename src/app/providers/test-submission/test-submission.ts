@@ -32,8 +32,12 @@ export class TestSubmissionProvider {
     private appConfig: AppConfigProvider
   ) {}
 
-  submitTests = (testsToSubmit: TestToSubmit[]): Observable<(HttpResponse<TestResultSchemasUnion> | HttpErrorResponse)[]> => {
-    const requests: Observable<HttpResponse<TestResultSchemasUnion> | HttpErrorResponse>[] = testsToSubmit.map((test) => this.submitTest(test));
+  submitTests = (
+    testsToSubmit: TestToSubmit[]
+  ): Observable<(HttpResponse<TestResultSchemasUnion> | HttpErrorResponse)[]> => {
+    const requests: Observable<HttpResponse<TestResultSchemasUnion> | HttpErrorResponse>[] = testsToSubmit.map((test) =>
+      this.submitTest(test)
+    );
     return forkJoin(requests);
   };
 
@@ -48,7 +52,9 @@ export class TestSubmissionProvider {
 
     return (
       this.httpClient
-        .post<TestResultSchemasUnion>(this.buildUrl(testToSubmit), this.compressData(cleanData), { observe: 'response' })
+        .post<TestResultSchemasUnion>(this.buildUrl(testToSubmit), this.compressData(cleanData), {
+          observe: 'response',
+        })
         // Note: Catching failures here (the inner observable) is what allows us to coordinate
         // subsequent success/fail actions in sendCompletedTestsEffect$ (the outer observable)
         .pipe(

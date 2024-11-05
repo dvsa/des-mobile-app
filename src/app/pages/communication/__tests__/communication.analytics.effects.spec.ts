@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { Application } from '@dvsa/mes-journal-schema';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { provideMockActions } from '@ngrx/effects/testing';
-import { Store, StoreModule } from '@ngrx/store';
+import { Action, Store, StoreModule } from '@ngrx/store';
 import { TestFlowPageNames } from '@pages/page-names.constants';
 import { AnalyticsProviderMock } from '@providers/analytics/__mocks__/analytics.mock';
 import { AnalyticsProvider } from '@providers/analytics/analytics';
@@ -39,7 +39,7 @@ import { CommunicationAnalyticsEffects } from '../communication.analytics.effect
 describe('CommunicationAnalyticsEffects', () => {
   let effects: CommunicationAnalyticsEffects;
   let analyticsProviderMock: AnalyticsProvider;
-  let actions$: ReplaySubject<any>;
+  let actions$: ReplaySubject<Action>;
   let store$: Store<StoreModel>;
   const screenName = AnalyticsScreenNames.COMMUNICATION;
   const screenNamePM = `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${AnalyticsScreenNames.COMMUNICATION}`;

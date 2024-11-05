@@ -71,27 +71,27 @@ describe('InstructorRegistrationComponent', () => {
     });
 
     it('should recognise a valid numeric string and emit the value as a number', () => {
-      component.instructorRegistrationChanged(mockValidInstructorRegistrationNumber);
+      component.instructorRegistrationChanged(mockValidInstructorRegistrationNumber.target.value);
       expect(component.instructorRegistrationChange.emit).toHaveBeenCalledWith(1234567);
     });
 
     it('should remove non-numeric characters and emit the value as number', () => {
-      component.instructorRegistrationChanged(mockInvalidInstructorRegistrationNumber);
+      component.instructorRegistrationChanged(mockInvalidInstructorRegistrationNumber.target.value);
       expect(component.instructorRegistrationChange.emit).toHaveBeenCalledWith(12457);
     });
 
     it('should remove preceding zeros and emit rest of valid result', () => {
-      component.instructorRegistrationChanged(mockLeadingZeroRegistrationNumber);
+      component.instructorRegistrationChanged(mockLeadingZeroRegistrationNumber.target.value);
       expect(component.instructorRegistrationChange.emit).toHaveBeenCalledWith(4567);
     });
 
     it('should remove preceding zeros and emit undefined as empty', () => {
-      component.instructorRegistrationChanged(mockOnlyZeroRegistrationNumber);
+      component.instructorRegistrationChanged(mockOnlyZeroRegistrationNumber.target.value);
       expect(component.instructorRegistrationChange.emit).toHaveBeenCalledWith(undefined);
     });
 
     it('should emit undefined as the value can`t be cast to a number', () => {
-      component.instructorRegistrationChanged(mockBlankInstructorRegistrationNumber);
+      component.instructorRegistrationChanged(mockBlankInstructorRegistrationNumber.target.value);
       expect(component.instructorRegistrationChange.emit).toHaveBeenCalledWith(undefined);
     });
   });

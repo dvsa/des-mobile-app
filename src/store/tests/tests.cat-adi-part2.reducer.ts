@@ -22,6 +22,7 @@ import { testDataCatADI2Reducer } from './test-data/cat-adi-part2/test-data.cat-
 import { testSummaryReducer } from './test-summary/test-summary.reducer';
 import { trainerDetailsCatADIPart2Reducer } from './trainer-details/cat-adi-part2/trainer-details.cat-adi-part2.reducer';
 import { vehicleDetailsCatADIPart2Reducer } from './vehicle-details/cat-adi-part2/vehicle-details.cat-adi-part2.reducer';
+import {passCompletionReducer} from '@store/tests/pass-completion/pass-completion.reducer';
 
 export function testsCatADIPart2Reducer(
   action: Action,
@@ -39,7 +40,7 @@ export function testsCatADIPart2Reducer(
     examinerConducted: examinerConductedReducer,
     examinerKeyed: examinerKeyedReducer,
     journalData: journalDataCatADIPart2Reducer,
-    passCompletion: nullReducer,
+    passCompletion: passCompletionReducer,
     postTestDeclarations: postTestDeclarationsReducer,
     preTestDeclarations: preTestDeclarationsReducer,
     rekey: rekeyReducer,

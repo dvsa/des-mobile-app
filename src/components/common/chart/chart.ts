@@ -25,7 +25,7 @@ export class ChartComponent implements OnInit, OnChanges {
   public chartType: ChartType = 'pie';
 
   @Input()
-  public passedData: ExaminerRecordDataWithPercentage<ExaminerRecord>[] = null;
+  public passedData: ExaminerRecordDataWithPercentage<string>[] = null;
 
   @Input()
   public showLegend = false;
@@ -356,7 +356,7 @@ export class ChartComponent implements OnInit, OnChanges {
    * and sets the `dataValues` property based on the chart type.
    */
   filterData() {
-    this.labels = this.passedData.map((val) => val.item.item);
+    this.labels = this.passedData.map((val) => val.item);
     const values: number[] = this.passedData.map((val) => val.count);
     this.average = values.reduce((a, b) => a + b, 0) / values.length || 0;
     this.tickCount = this.getTickCount(values);

@@ -65,7 +65,7 @@ describe('AuthenticationProvider', () => {
 
   describe('Provider', () => {
     beforeEach(() => {
-      spyOn(authenticationProvider as unknown, 'logEvent');
+      spyOn(authenticationProvider, 'logEvent');
     });
     it('should compile', () => {
       expect(authenticationProvider).toBeDefined();

@@ -102,7 +102,7 @@ interface ExaminerRecordsState {
   styleUrls: ['./examiner-records.page.scss'],
 })
 export class ExaminerRecordsPage implements OnInit {
-  merged$: Observable<any>;
+  merged$: Observable<ExaminerRecordModel[] | void>;
   form: UntypedFormGroup = new UntypedFormGroup({});
   testSubject$: BehaviorSubject<ExaminerRecordModel[]> = new BehaviorSubject<ExaminerRecordModel[]>(null);
   testsInRangeSubject$: BehaviorSubject<ExaminerRecordModel[]> = new BehaviorSubject<ExaminerRecordModel[]>(null);

@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { Application } from '@dvsa/mes-journal-schema';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { provideMockActions } from '@ngrx/effects/testing';
-import { Store, StoreModule } from '@ngrx/store';
+import { Action, Store, StoreModule } from '@ngrx/store';
 import * as fakeJournalActions from '@pages/fake-journal/fake-journal.actions';
 import { TestFlowPageNames } from '@pages/page-names.constants';
 import { AnalyticsProviderMock } from '@providers/analytics/__mocks__/analytics.mock';
@@ -30,7 +30,7 @@ import { WaitingRoomAnalyticsEffects } from '../waiting-room.analytics.effects';
 
 describe('WaitingRoomAnalyticsEffects', () => {
   let effects: WaitingRoomAnalyticsEffects;
-  let actions$: ReplaySubject<any>;
+  let actions$: ReplaySubject<Action>;
   let store$: Store<StoreModel>;
   const mockApplication: Application = {
     applicationId: 123456,

@@ -232,7 +232,9 @@ describe('HealthDeclarationPage', () => {
         translate.onLangChange.subscribe(() => {
           fixture.detectChanges();
           const declarationIntent = fixture.debugElement.query(By.css('ion-text.des-header-style-4')).nativeElement;
-          expect(declarationIntent.innerHTML).toBe(`${(welshTranslations as WelshTranslations).healthDeclaration.declarationIntent}:`);
+          expect(declarationIntent.innerHTML).toBe(
+            `${(welshTranslations as WelshTranslations).healthDeclaration.declarationIntent}:`
+          );
           done();
         });
       });

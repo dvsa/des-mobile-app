@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { Application } from '@dvsa/mes-journal-schema';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { provideMockActions } from '@ngrx/effects/testing';
-import { Store, StoreModule } from '@ngrx/store';
+import { Action, Store, StoreModule } from '@ngrx/store';
 import { CAT_B } from '@pages/page-names.constants';
 import { AnalyticsProviderMock } from '@providers/analytics/__mocks__/analytics.mock';
 import { AnalyticsProvider } from '@providers/analytics/analytics';
@@ -40,7 +40,7 @@ import { WaitingRoomToCarAnalyticsEffects } from '../waiting-room-to-car.analyti
 describe('WaitingRoomToCarAnalyticsEffects', () => {
   let effects: WaitingRoomToCarAnalyticsEffects;
   let analyticsProviderMock: AnalyticsProvider;
-  let actions$: ReplaySubject<any>;
+  let actions$: ReplaySubject<Action>;
   let store$: Store<StoreModel>;
   const screenName = AnalyticsScreenNames.WAITING_ROOM_TO_CAR;
   const mockApplication: Application = {

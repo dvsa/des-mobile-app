@@ -47,15 +47,15 @@ export class MotFailedModal implements OnInit {
     return !this.formControl.valid && this.formControl.dirty;
   }
 
-  vehicleRegistrationChanged(event: any): void {
-    if (typeof event.target.value === 'string' && !this.registrationNumberValidator.pattern.test(event.target.value)) {
-      event.target.value = event.target.value?.replace(nonAlphaNumericValues, '');
+  vehicleRegistrationChanged(value: string): void {
+    if (typeof value === 'string' && !this.registrationNumberValidator.pattern.test(value)) {
+      value = value?.replace(nonAlphaNumericValues, '');
 
-      if (isEmpty(event.target.value)) {
-        this.formControl.setErrors({ invalidValue: event.target.value });
+      if (isEmpty(value)) {
+        this.formControl.setErrors({ invalidValue: value });
       }
     }
-    this.vehicleRegistration = event.target.value?.toUpperCase();
+    this.vehicleRegistration = value?.toUpperCase();
   }
 
   async onConfirm() {

@@ -188,10 +188,10 @@ describe('FaultCountHomeTestHelper', () => {
   describe('getVehicleChecksFaultCountCatHomeTest', () => {
     it('2 driving faults result in 1 driving fault', () => {
       expect(
-        (FaultCountHomeTestHelper as any).getVehicleChecksFaultCountCatHomeTest(vehicleChecksTwoFaults).drivingFaults
+        FaultCountHomeTestHelper.getVehicleChecksFaultCountCatHomeTest(vehicleChecksTwoFaults).drivingFaults
       ).toEqual(1);
       expect(
-        (FaultCountHomeTestHelper as any).getVehicleChecksFaultCountCatHomeTest(vehicleChecksTwoFaults).seriousFaults
+        FaultCountHomeTestHelper.getVehicleChecksFaultCountCatHomeTest(vehicleChecksTwoFaults).seriousFaults
       ).toEqual(0);
     });
   });

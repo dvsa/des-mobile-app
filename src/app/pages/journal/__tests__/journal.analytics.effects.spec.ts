@@ -1,7 +1,7 @@
 import { TestBed, waitForAsync } from '@angular/core/testing';
 import { Candidate } from '@dvsa/mes-test-schema/categories/common';
 import { provideMockActions } from '@ngrx/effects/testing';
-import { Store, StoreModule, Action } from '@ngrx/store';
+import { Action, Store, StoreModule } from '@ngrx/store';
 import { AnalyticsProviderMock } from '@providers/analytics/__mocks__/analytics.mock';
 import { AnalyticsProvider } from '@providers/analytics/analytics';
 import { AnalyticRecorded } from '@providers/analytics/analytics.actions';

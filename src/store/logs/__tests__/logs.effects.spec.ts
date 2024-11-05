@@ -1,6 +1,6 @@
 import { TestBed, fakeAsync, tick } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
-import { Store, StoreModule } from '@ngrx/store';
+import {Action, Store, StoreModule} from '@ngrx/store';
 import { ReplaySubject } from 'rxjs';
 
 import { AppConfigProviderMock } from '@providers/app-config/__mocks__/app-config.mock';
@@ -22,7 +22,7 @@ import { logsReducer } from '../logs.reducer';
 
 describe('LogsEffects', () => {
   let effects: LogsEffects;
-  let actions$: ReplaySubject;
+  let actions$: ReplaySubject<Action>;
   let cacheDays: number;
   let appConfigProviderMock: AppConfigProvider;
   let dataStoreMock: DataStoreProvider;

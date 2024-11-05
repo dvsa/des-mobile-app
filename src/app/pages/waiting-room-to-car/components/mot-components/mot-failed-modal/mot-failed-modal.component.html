@@ -19,7 +19,7 @@
         aria-labelledby="vehicle-registration-number-title"
         formControlName="vehicleRegistration"
         class="ion-input-styling"
-        (ionChange)="vehicleRegistrationChanged($event)"
+        (ionChange)="vehicleRegistrationChanged($event.target.value)"
         [class.ng-invalid]="invalid"
         [maxlength]="registrationNumberValidator.maxLength"
       >

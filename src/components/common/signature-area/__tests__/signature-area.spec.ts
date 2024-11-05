@@ -12,8 +12,8 @@ interface SignaturePad {
   width?: number;
   height?: number;
   xOffset?: number;
-  yOffset?: number
-};
+  yOffset?: number;
+}
 
 describe('SignatureAreaComponent', () => {
   let fixture: ComponentFixture<SignatureAreaComponent>;

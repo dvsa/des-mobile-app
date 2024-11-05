@@ -11,7 +11,7 @@ export class SearchProviderMock {
 
   advancedSearch = jasmine.createSpy('advancedSearch').and.returnValue(of(searchResultsMock));
 
-  getTestResult(): Observable<any> {
+  getTestResult(): Observable<unknown> {
     return of(
       new HttpResponse({
         // eslint-disable-next-line max-len
@@ -22,7 +22,7 @@ export class SearchProviderMock {
     );
   }
 
-  getTestResults(): Observable<any> {
+  getTestResults(): Observable<unknown> {
     return of(
       new HttpResponse({
         // eslint-disable-next-line max-len

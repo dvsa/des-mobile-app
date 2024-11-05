@@ -1,6 +1,6 @@
 import { TestBed, waitForAsync } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
-import { Store, StoreModule, Action } from '@ngrx/store';
+import { Action, Store, StoreModule } from '@ngrx/store';
 import * as testsActions from '@store/tests/tests.actions';
 import { ReplaySubject } from 'rxjs';
 import * as healthDeclarationActions from '../health-declaration.actions';

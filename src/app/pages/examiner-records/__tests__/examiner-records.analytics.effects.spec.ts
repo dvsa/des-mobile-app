@@ -1,7 +1,7 @@
 import { TestBed, waitForAsync } from '@angular/core/testing';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { provideMockActions } from '@ngrx/effects/testing';
-import { Store, Action } from '@ngrx/store';
+import { Action, Store } from '@ngrx/store';
 import {
   ClickDataCard,
   ColourFilterChanged,

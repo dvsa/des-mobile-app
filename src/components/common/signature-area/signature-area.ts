@@ -158,7 +158,7 @@ export class SignatureAreaComponent implements ControlValueAccessor, AfterViewIn
     }
   }
 
-  registerOnChange(fn: string) {
+  registerOnChange(fn: (_: string) => void) {
     this.propagateChange = fn;
   }
 
