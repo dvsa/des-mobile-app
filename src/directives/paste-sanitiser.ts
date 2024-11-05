@@ -31,12 +31,12 @@ export class PasteSanitiserDirective {
 
         const maxLength = Number(inputField.getAttribute('maxLength') || Number(inputField.getAttribute('charLimit')));
         // Apply maxLength or charLimit check after sanitizing
-        if (maxLength && sanitisedData.length > maxLength) {
-          sanitisedData = sanitisedData.substring(0, maxLength);
+        if (maxLength && (inputField.value.length + sanitisedData.length) > maxLength) {
+          sanitisedData = sanitisedData.substring(0, maxLength - inputField.value.length);
         }
 
-        // Cast sanitisedData as a number if numbersOnly attribute is present, otherwise just use sanitisedData
-        inputField.value = numbersOnly ? Number(sanitisedData) : sanitisedData;
+        // Append sanitisedData to the existing value
+        inputField.value += numbersOnly ? Number(sanitisedData) : sanitisedData;
       });
     }
   }
