@@ -8,7 +8,6 @@ import { v4 as uuidv4 } from 'uuid';
   templateUrl: 'transmission.html',
 })
 export class TransmissionComponent implements OnChanges {
-
   @Input()
   transmission: GearboxCategory;
 

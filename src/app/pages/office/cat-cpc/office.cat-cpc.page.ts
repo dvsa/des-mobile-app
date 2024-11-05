@@ -34,8 +34,6 @@ import { getCurrentTest } from '@store/tests/tests.selector';
 import { Observable, Subscription, merge } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { getTestOutcome as getTestOutcomeDebrief } from '../../debrief/debrief.selector';
-import {getCommunicationPreference} from '@store/tests/communication-preferences/communication-preferences.reducer';
-import {getConductedLanguage} from '@store/tests/communication-preferences/communication-preferences.selector';
 
 interface CatCPCOfficePageState {
   testResult$: Observable<string>;

@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
 import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
-import {CommunicationPage} from '@pages/communication/communication.page';
+import { CommunicationPage } from '@pages/communication/communication.page';
 
 @Component({
   selector: 'new-email',

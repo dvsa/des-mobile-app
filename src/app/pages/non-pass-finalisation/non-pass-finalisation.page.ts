@@ -27,6 +27,8 @@ import {
   CandidateChoseToProceedWithTestInEnglish,
   CandidateChoseToProceedWithTestInWelsh,
 } from '@store/tests/communication-preferences/communication-preferences.actions';
+import { getCommunicationPreference } from '@store/tests/communication-preferences/communication-preferences.reducer';
+import { getConductedLanguage } from '@store/tests/communication-preferences/communication-preferences.selector';
 import { getCandidate } from '@store/tests/journal-data/common/candidate/candidate.reducer';
 import {
   formatDriverNumber,
@@ -67,8 +69,6 @@ import {
 import { Observable, Subscription, merge } from 'rxjs';
 import { filter, map, withLatestFrom } from 'rxjs/operators';
 import { TestFinalisationInvalidTestDataModal } from '../test-report/components/test-finalisation-invalid-test-data-modal/test-finalisation-invalid-test-data-modal';
-import {getCommunicationPreference} from '@store/tests/communication-preferences/communication-preferences.reducer';
-import {getConductedLanguage} from '@store/tests/communication-preferences/communication-preferences.selector';
 
 interface NonPassFinalisationPageState {
   candidateName$: Observable<string>;

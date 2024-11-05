@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { UntypedFormGroup } from '@angular/forms';
 import { Address } from '@dvsa/mes-test-schema/categories/common';
-import {CommunicationPage} from '@pages/communication/communication.page';
+import { CommunicationPage } from '@pages/communication/communication.page';
 
 @Component({
   selector: 'postal-address',
