@@ -15,21 +15,23 @@ import { FaultSummaryProvider } from '@providers/fault-summary/fault-summary';
 import { TestResultsSearchComponentsModule } from './components/test-results-search-components.module';
 import { TestResultsSearchPage } from './test-results-search';
 import { TestResultsSearchAnalyticsEffects } from './test-results-search.analytics.effects';
+import {ReactiveFormsModule} from "@angular/forms";
 
 @NgModule({
   declarations: [TestResultsSearchPage],
-  imports: [
-    ComponentsModule,
-    TestResultsSearchComponentsModule,
-    IonicModule,
-    CommonModule,
-    ErrorPageModule,
-    TestResultsSearchRoutingModule,
-    ScrollingModule,
-    EffectsModule.forFeature([TestResultsSearchAnalyticsEffects]),
-    DirectivesModule,
-    ViewTestResultPageModule,
-  ],
+    imports: [
+        ComponentsModule,
+        TestResultsSearchComponentsModule,
+        IonicModule,
+        CommonModule,
+        ErrorPageModule,
+        TestResultsSearchRoutingModule,
+        ScrollingModule,
+        EffectsModule.forFeature([TestResultsSearchAnalyticsEffects]),
+        DirectivesModule,
+        ViewTestResultPageModule,
+        ReactiveFormsModule,
+    ],
   providers: [SearchProvider, CompressionProvider, FaultSummaryProvider],
 })
 export class TestResultsSearchPageModule {}
