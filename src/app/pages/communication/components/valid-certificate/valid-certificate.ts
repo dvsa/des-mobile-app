@@ -15,7 +15,7 @@ export class ValidCertificateComponent implements OnChanges {
   @Output()
   validCertificateChange = new EventEmitter<boolean>();
 
-  private formControl: UntypedFormControl;
+  protected formControl: UntypedFormControl;
   private formField = 'validCertificate';
 
   ngOnChanges(): void {
@@ -29,8 +29,8 @@ export class ValidCertificateComponent implements OnChanges {
     }
   }
 
-  validCertificateChanged(validCertificate: string): void {
-    this.validCertificateChange.emit(validCertificate === 'valid-certificate-yes');
+  validCertificateChanged(validCertificate: boolean): void {
+    this.validCertificateChange.emit(validCertificate);
   }
 
   get invalid(): boolean {
