@@ -48,4 +48,12 @@ export class Code78Component implements OnChanges {
   code78IsNotPresent(): void {
     this.code78Present.emit(false);
   }
+
+  code78IsChanged(value) {
+    if (value === ValidCode78Values.YES) {
+      this.code78IsPresent();
+    } else {
+      this.code78IsNotPresent();
+    }
+  }
 }
