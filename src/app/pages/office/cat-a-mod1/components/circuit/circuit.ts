@@ -46,6 +46,7 @@ export class CircuitComponent implements OnChanges {
 
   circuitChanged(circuit: Circuit): void {
     if (this.formControl.valid) {
+      console.log('circuit changed', circuit);
       this.circuitChange.emit(circuit);
     }
   }
