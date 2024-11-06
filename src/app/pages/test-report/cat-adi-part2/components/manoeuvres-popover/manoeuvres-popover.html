@@ -7,62 +7,86 @@
   <ion-grid class="popover-content">
     <ion-row>
       <ion-col size="36">
-        <ion-row>
-          <ion-col>
-            <input
-              type="radio"
-              name="manoeuvres1"
-              [attr.disabled]="(shouldManoeuvreDisable(manoeuvreTypes.reverseRight, 0) | async) ? 'disabled' : null"
-              [checked]="asyncData1.manoeuvres.reverseRight?.selected"
-              (click)="recordManoeuvreSelection(manoeuvreTypes.reverseRight, 0)"
-              id="manoeuvres-reverse-right-radio1"
-              class="gds-radio-button"
-            />
-            <label for="manoeuvres-reverse-right-radio1" class="radio-label">Reverse right</label>
-          </ion-col>
-        </ion-row>
-        <ion-row>
-          <ion-col>
-            <input
-              type="radio"
-              name="manoeuvres1"
-              [attr.disabled]="(shouldManoeuvreDisable(manoeuvreTypes.reverseParkRoad, 0) | async) ? 'disabled' : null"
-              [checked]="asyncData1.manoeuvres.reverseParkRoad?.selected"
-              (click)="recordManoeuvreSelection(manoeuvreTypes.reverseParkRoad, 0)"
-              id="manoeuvres-reverse-park-road-radio1"
-              class="gds-radio-button"
-            />
-            <label for="manoeuvres-reverse-park-road-radio1" class="radio-label">Reverse park (road)</label>
-          </ion-col>
-        </ion-row>
-        <ion-row>
-          <ion-col>
-            <input
-              type="radio"
-              name="manoeuvres1"
-              [attr.disabled]="(shouldManoeuvreDisable(manoeuvreTypes.reverseParkCarpark, 0) | async) ? 'disabled' : null"
-              [checked]="asyncData1.manoeuvres.reverseParkCarpark?.selected"
-              (click)="recordManoeuvreSelection(manoeuvreTypes.reverseParkCarpark, 0)"
-              id="manoeuvres-reverse-park-carpark-radio1"
-              class="gds-radio-button"
-            />
-            <label for="manoeuvres-reverse-park-carpark-radio1" class="radio-label">Reverse park (car park)</label>
-          </ion-col>
-        </ion-row>
-        <ion-row>
-          <ion-col>
-            <input
-              type="radio"
-              name="manoeuvres1"
-              [attr.disabled]="(shouldManoeuvreDisable(manoeuvreTypes.forwardPark, 0) | async) ? 'disabled' : null"
-              [checked]="asyncData1.manoeuvres.forwardPark?.selected"
-              (click)="recordManoeuvreSelection(manoeuvreTypes.forwardPark, 0)"
-              id="manoeuvres-forward-park-radio1"
-              class="gds-radio-button"
-            />
-            <label for="manoeuvres-forward-park-radio1" class="radio-label">Forward park</label>
-          </ion-col>
-        </ion-row>
+        <ion-radio-group
+          name="manoeuvres1"
+          tabindex="0"
+          (focus)="manageGroupFocus($event.target, 0)"
+          (ionChange)="recordManoeuvreSelection($event.detail.value, 0)"
+          [value]="getSelectedManoeuvre(asyncData1)"
+          class="display-flex direction-column">
+          <ion-row class="bottom-padding">
+            <ion-col>
+              <ion-radio
+                class="gds-refactor-radio"
+                (ionFocus)="manageRadioFocus($event.target)"
+                [disabled]="(shouldHideManoeuvre(manoeuvreTypes.reverseRight, 0) | async)"
+                id="manoeuvres-reverse-right-radio1"
+                labelPlacement="end"
+                [value]="manoeuvreTypes.reverseRight">
+                <label
+                  class="radio-label"
+                  id="manoeuvres-reverse-right-radio-label1"
+                >
+                  Reverse right
+                </label>
+              </ion-radio>
+            </ion-col>
+          </ion-row>
+          <ion-row class="bottom-padding">
+            <ion-col>
+              <ion-radio
+                class="gds-refactor-radio"
+                (ionFocus)="manageRadioFocus($event.target)"
+                [disabled]="(shouldHideManoeuvre(manoeuvreTypes.reverseParkRoad, 0) | async)"
+                id="manoeuvres-reverse-park-road-radio1"
+                labelPlacement="end"
+                [value]="manoeuvreTypes.reverseParkRoad">
+                <label
+                  class="radio-label"
+                  id="manoeuvres-reverse-park-road-radio-label1"
+                >
+                  Reverse park (road)
+                </label>
+              </ion-radio>
+            </ion-col>
+          </ion-row>
+          <ion-row class="bottom-padding">
+            <ion-col>
+              <ion-radio
+                class="gds-refactor-radio"
+                (ionFocus)="manageRadioFocus($event.target)"
+                [disabled]="(shouldHideManoeuvre(manoeuvreTypes.reverseParkCarpark, 0) | async)"
+                id="manoeuvres-reverse-park-carpark-radio1"
+                labelPlacement="end"
+                [value]="manoeuvreTypes.reverseParkCarpark">
+                <label
+                  class="radio-label"
+                  id="manoeuvres-reverse-park-carpark-label1"
+                >
+                  Reverse park (car park)
+                </label>
+              </ion-radio>
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col>
+              <ion-radio
+                class="gds-refactor-radio"
+                (ionFocus)="manageRadioFocus($event.target)"
+                [disabled]="(shouldHideManoeuvre(manoeuvreTypes.forwardPark, 0) | async)"
+                id="manoeuvres-forward-park-radio1"
+                labelPlacement="end"
+                [value]="manoeuvreTypes.forwardPark">
+                <label
+                  class="radio-label"
+                  id="manoeuvres-forward-park-radio-label1"
+                >
+                  Forward park
+                </label>
+              </ion-radio>
+            </ion-col>
+          </ion-row>
+        </ion-radio-group>
       </ion-col>
       <ion-col
         class="manoeuvre-competencies-container manoeuvre-competency-button"
@@ -149,62 +173,86 @@
   <ion-grid class="popover-content">
     <ion-row>
       <ion-col size="36">
-        <ion-row>
-          <ion-col>
-            <input
-              type="radio"
-              name="manoeuvres2"
-              [attr.disabled]="(shouldHideManoeuvre(manoeuvreTypes.reverseRight, 1) | async) || (shouldManoeuvreDisable(manoeuvreTypes.reverseRight, 1) | async) ? 'disabled' : null"
-              [checked]="asyncData2.manoeuvres.reverseRight?.selected"
-              (click)="recordManoeuvreSelection(manoeuvreTypes.reverseRight, 1)"
-              id="manoeuvres-reverse-right-radio2"
-              class="gds-radio-button"
-            />
-            <label for="manoeuvres-reverse-right-radio2" class="radio-label">Reverse right</label>
-          </ion-col>
-        </ion-row>
-        <ion-row>
-          <ion-col>
-            <input
-              type="radio"
-              name="manoeuvres2"
-              [attr.disabled]="(shouldHideManoeuvre(manoeuvreTypes.reverseParkRoad, 1) | async) || (shouldManoeuvreDisable(manoeuvreTypes.reverseParkRoad, 1) | async) ? 'disabled' : null"
-              [checked]="asyncData2.manoeuvres.reverseParkRoad?.selected"
-              (click)="recordManoeuvreSelection(manoeuvreTypes.reverseParkRoad, 1)"
-              id="manoeuvres-reverse-park-road-radio2"
-              class="gds-radio-button"
-            />
-            <label for="manoeuvres-reverse-park-road-radio2" class="radio-label">Reverse park (Road)</label>
-          </ion-col>
-        </ion-row>
-        <ion-row>
-          <ion-col>
-            <input
-              type="radio"
-              name="manoeuvres2"
-              [attr.disabled]="(shouldHideManoeuvre(manoeuvreTypes.reverseParkCarpark, 1) | async) || (shouldManoeuvreDisable(manoeuvreTypes.reverseParkCarpark, 1) | async) ? 'disabled' : null"
-              [checked]="asyncData2.manoeuvres.reverseParkCarpark?.selected"
-              (click)="recordManoeuvreSelection(manoeuvreTypes.reverseParkCarpark, 1)"
-              id="manoeuvres-reverse-park-carpark-radio2"
-              class="gds-radio-button"
-            />
-            <label for="manoeuvres-reverse-park-carpark-radio2" class="radio-label">Reverse park (Car park)</label>
-          </ion-col>
-        </ion-row>
-        <ion-row>
-          <ion-col>
-            <input
-              type="radio"
-              name="manoeuvres2"
-              [attr.disabled]="(shouldHideManoeuvre(manoeuvreTypes.forwardPark, 1) | async) || (shouldManoeuvreDisable(manoeuvreTypes.forwardPark, 1) | async) ? 'disabled' : null"
-              [checked]="asyncData2.manoeuvres.forwardPark?.selected"
-              (click)="recordManoeuvreSelection(manoeuvreTypes.forwardPark, 1)"
-              id="manoeuvres-forward-park-radio2"
-              class="gds-radio-button"
-            />
-            <label for="manoeuvres-forward-park-radio2" class="radio-label">Forward park</label>
-          </ion-col>
-        </ion-row>
+        <ion-radio-group
+          tabindex="1"
+          name="manoeuvres2"
+          (focus)="manageGroupFocus($event.target, 1)"
+          (ionChange)="recordManoeuvreSelection($event.detail.value, 1)"
+          [value]="getSelectedManoeuvre(asyncData2)"
+          class="display-flex direction-column">
+          <ion-row class="bottom-padding">
+            <ion-col>
+              <ion-radio
+                class="gds-refactor-radio"
+                (ionFocus)="manageRadioFocus($event.target)"
+                [disabled]="(shouldHideManoeuvre(manoeuvreTypes.reverseRight, 1) | async) || (shouldManoeuvreDisable(manoeuvreTypes.reverseRight, 1) | async) "
+                id="manoeuvres-reverse-right-radio2"
+                labelPlacement="end"
+                [value]="manoeuvreTypes.reverseRight">
+                <label
+                  class="radio-label"
+                  id="manoeuvres-reverse-right-radio-label2"
+                >
+                  Reverse right
+                </label>
+              </ion-radio>
+            </ion-col>
+          </ion-row>
+          <ion-row class="bottom-padding">
+            <ion-col>
+              <ion-radio
+                class="gds-refactor-radio"
+                (ionFocus)="manageRadioFocus($event.target)"
+                [disabled]="(shouldHideManoeuvre(manoeuvreTypes.reverseParkRoad, 1) | async) || (shouldManoeuvreDisable(manoeuvreTypes.reverseParkRoad, 1) | async) "
+                id="manoeuvres-reverse-park-road-radio2"
+                labelPlacement="end"
+                [value]="manoeuvreTypes.reverseParkRoad">
+                <label
+                  class="radio-label"
+                  id="manoeuvres-reverse-park-road-radio-label2"
+                >
+                  Reverse park (road)
+                </label>
+              </ion-radio>
+            </ion-col>
+          </ion-row>
+          <ion-row class="bottom-padding">
+            <ion-col>
+              <ion-radio
+                class="gds-refactor-radio"
+                (ionFocus)="manageRadioFocus($event.target)"
+                [disabled]="(shouldHideManoeuvre(manoeuvreTypes.reverseParkCarpark, 1) | async) || (shouldManoeuvreDisable(manoeuvreTypes.reverseParkCarpark, 1) | async)"
+                id="manoeuvres-reverse-park-carpark-radio2"
+                labelPlacement="end"
+                [value]="manoeuvreTypes.reverseParkCarpark">
+                <label
+                  class="radio-label"
+                  id="manoeuvres-reverse-park-carpark-label2"
+                >
+                  Reverse park (car park)
+                </label>
+              </ion-radio>
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col>
+              <ion-radio
+                class="gds-refactor-radio"
+                (ionFocus)="manageRadioFocus($event.target)"
+                [disabled]="(shouldHideManoeuvre(manoeuvreTypes.forwardPark, 1) | async) || (shouldManoeuvreDisable(manoeuvreTypes.forwardPark, 1) | async)"
+                id="manoeuvres-forward-park-radio2"
+                labelPlacement="end"
+                [value]="manoeuvreTypes.forwardPark">
+                <label
+                  class="radio-label"
+                  id="manoeuvres-forward-park-radio-label2"
+                >
+                  Forward park
+                </label>
+              </ion-radio>
+            </ion-col>
+          </ion-row>
+        </ion-radio-group>
       </ion-col>
       <ion-col class="manoeuvre-competencies-container" size="8" *ngIf="asyncData2.manoeuvres.reverseRight?.selected">
         <manoeuvre-competency-adi-part2

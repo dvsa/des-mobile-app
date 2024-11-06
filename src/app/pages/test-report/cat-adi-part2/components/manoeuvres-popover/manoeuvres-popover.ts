@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { CatADI2UniqueTypes } from '@dvsa/mes-test-schema/categories/ADI2';
 import { Store, select } from '@ngrx/store';
 import { trDestroy$ } from '@shared/classes/test-flow-base-pages/test-report/test-report-base-page';
@@ -15,6 +15,8 @@ import { getCurrentTest } from '@store/tests/tests.selector';
 import { omit, some } from 'lodash-es';
 import { Observable, Subscription, merge, of } from 'rxjs';
 import { map, takeUntil, tap } from 'rxjs/operators';
+import { Manoeuvres } from '@dvsa/mes-test-schema/categories/ADI2/partial';
+import { IonRadio } from '@ionic/angular';
 
 interface ManoeuvresFaultState {
   reverseRight: boolean;
@@ -143,6 +145,81 @@ export class ManoeuvresPopoverComponentAdiPart2 implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     if (this.subscription) {
       this.subscription.unsubscribe();
+    }
+  }
+
+  /**
+   * Finds the selected manoeuvre from the provided data.
+   *
+   * @param {Object} asyncData - The data containing manoeuvres.
+   * @param {Manoeuvres} asyncData.manoeuvres - The manoeuvres object.
+   * @returns {string | null} - The selected manoeuvre type if only one is selected, otherwise null.
+   */
+  getSelectedManoeuvre(asyncData: { manoeuvres: Manoeuvres }): ManoeuvreTypes | null {
+    // Get the keys of the manoeuvres object as an array of strings.
+    const manoeuvres: string[] = Object.keys(asyncData.manoeuvres);
+
+    // Filter the manoeuvres to find the one that is selected.
+    const filtered = manoeuvres.filter((manoeuvre: string) => {
+      if (asyncData.manoeuvres[manoeuvre].selected) {
+        return manoeuvre;
+      }
+    });
+
+    // If exactly one manoeuvre is selected, return it. Otherwise, return null.
+    if (filtered.length === 1) {
+      return filtered[0] as ManoeuvreTypes;
+    }
+    return null;
+  }
+
+  /**
+   * Manages the focus within a radio group.
+   *
+   * @param {EventTarget} radioGroup - The radio group element.
+   * @param {number} radioGroupIndex - The index of the radio group.
+   */
+  manageGroupFocus(
+    radioGroup: EventTarget,
+    radioGroupIndex: number,
+  ): void {
+    // Get all ion-radio elements within the radio group
+    const radios: HTMLIonRadioElement[] = Array.from((radioGroup as Element).querySelectorAll('ion-radio'));
+
+    // Find the radio element that is checked
+    const selectedRadio: HTMLIonRadioElement = radios.find((radio: HTMLIonRadioElement) => {
+      return radio.classList.contains('radio-checked');
+    });
+
+    // If a checked radio is found, focus on it
+    if (selectedRadio) {
+      selectedRadio.focus();
+    } else {
+      // If no radio is checked, focus on the first radio in the sequence based on the group index
+      switch (radioGroupIndex) {
+        case 0:
+          radios[0].focus();
+          return;
+        case 1:
+          // If the first radio in the second sequence is disabled, focus on the second radio
+          if (radios[0].classList.contains('radio-disabled')) {
+            radios[1].focus();
+            return;
+          }
+          radios[0].focus();
+          return;
+      }
+    }
+  }
+
+  /**
+   * Manages the focus of a radio element.
+   *
+   * @param {EventTarget} radio - The radio element to manage focus for.
+   */
+  manageRadioFocus(radio: EventTarget): void {
+    if ((radio as Element).classList.contains('radio-disabled')) {
+      (radio as HTMLIonRadioElement).blur();
     }
   }
 }

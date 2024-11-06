@@ -77,6 +77,15 @@ export class VehicleChecksQuestionComponent implements OnChanges {
     this.vehicleChecksQuestionChange.emit(result);
   }
 
+  vehicleChecksSelected(value: string) {
+    if (value === 'P') {
+      this.vehicleChecksPassSelected();
+    }
+    else if (value === 'DF') {
+      this.vehicleChecksDrivingFaultSelected();
+    }
+  }
+
   vehicleChecksPassSelected() {
     const result: QuestionOutcome = CompetencyOutcome.P;
     this.vehicleChecksQuestionOutcomeChange.emit(result);

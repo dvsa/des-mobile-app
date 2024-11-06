@@ -6,34 +6,36 @@
   <ion-col class="ion-align-self-center ion-padding-start">
     <ion-row class="spacing-row"></ion-row>
     <ion-row>
-      <ion-col size="48">
-        <input
-          type="radio"
-          formControlName="trainingRecordCtrl"
-          name="trainingRecordCtrl"
-          id="training-record-yes"
-          class="gds-radio-button"
-          [checked]="trainingRecordRadioChecked === true"
-          [class.ng-invalid]="invalid"
-          (change)="trainingRecordOutcomeChanged($event.target.value)"
-          value="Y"
-        />
-        <label for="training-record-yes" class="radio-label">Yes</label>
-      </ion-col>
-      <ion-col size="48">
-        <input
-          type="radio"
-          formControlName="trainingRecordCtrl"
-          name="trainingRecordCtrl"
-          id="training-record-no"
-          class="gds-radio-button"
-          [checked]="trainingRecordRadioChecked === false"
-          [class.ng-invalid]="invalid"
-          (change)="trainingRecordOutcomeChanged($event.target.value)"
-          value="N"
-        />
-        <label for="training-record-no" class="radio-label">No</label>
-      </ion-col>
+      <ion-radio-group
+        class="display-flex radio-group-width"
+        formControlName="trainingRecordCtrl"
+        (ionChange)="trainingRecordOutcomeChanged($event.target.value)">
+        <ion-col size="40">
+          <ion-radio
+            id="training-record-yes"
+            class="gds-refactor-radio"
+            [class.ng-invalid]="invalid"
+            labelPlacement="end"
+            [value]="true">
+            <label class="radio-label" id="training-record-yes-label">
+              Yes
+            </label>
+          </ion-radio>
+        </ion-col>
+        <ion-col size="16"></ion-col>
+        <ion-col>
+          <ion-radio
+            id="training-record-no"
+            class="gds-refactor-radio"
+            [class.ng-invalid]="invalid"
+            labelPlacement="end"
+            [value]="false">
+            <label class="radio-label" id="training-record-no-label">
+              No
+            </label>
+          </ion-radio>
+        </ion-col>
+      </ion-radio-group>
     </ion-row>
     <ion-row class="validation-message-row ion-align-items-center">
       <div

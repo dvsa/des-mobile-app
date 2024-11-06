@@ -1,11 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 
-enum TrainingRecorded {
-  YES = 'Y',
-  NO = 'N',
-}
-
 @Component({
   selector: 'training-records-cat-adi-part2',
   templateUrl: 'training-records.cat-adi-part2.html',
@@ -34,9 +29,9 @@ export class TrainingRecordsCatAdiPart2Component {
     return !this.formControl.valid && this.formControl.dirty;
   }
 
-  trainingRecordOutcomeChanged(trainingRecorded: string): void {
+  trainingRecordOutcomeChanged(trainingRecorded: boolean): void {
     if (this.formControl.valid) {
-      this.trainingRecordOutcomeChange.emit(trainingRecorded === TrainingRecorded.YES);
+      this.trainingRecordOutcomeChange.emit(trainingRecorded);
     }
   }
 }

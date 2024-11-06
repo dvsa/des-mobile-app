@@ -27,34 +27,42 @@
             [disabled]="isOptionDisabled(showMeQuestion)"
             [value]="showMeQuestion"
           >
-            {{showMeQuestion.code}} - {{showMeQuestion.shortName}}
+            {{ showMeQuestion.code }} - {{ showMeQuestion.shortName }}
           </ion-select-option>
         </ion-select>
       </ion-col>
       <ion-col size="4"></ion-col>
-      <ion-col class="ion-align-self-center" size="24">
-        <input
-          (change)="showMeOutcomeChanged($event.target.value)"
-          [checked]="showMeChecked"
-          [disabled]="showMeDisabled"
-          class="gds-radio-button"
-          id="showMe_{{questionNumber}}_btn1"
-          type="radio"
-          value="P"
-        />
-        <label class="radio-label" for="showMe_{{questionNumber}}_btn1">Correct</label>
-      </ion-col>
-      <ion-col class="ion-align-self-center" size="24">
-        <input
-          (change)="showMeOutcomeChanged($event.target.value)"
-          [checked]="!showMeChecked"
-          [disabled]="showMeDisabled"
-          class="gds-radio-button"
-          id="showMe_{{questionNumber}}_btn2"
-          type="radio"
-          value="DF"
-        />
-        <label class="radio-label" for="showMe_{{questionNumber}}_btn2">Incorrect</label>
+      <ion-col>
+        <ion-radio-group
+          class="display-flex radio-group-width"
+          [value]="showMeChecked ? 'P' : 'DF'"
+          (ionChange)="showMeOutcomeChanged($event.target.value)">
+          <ion-col size="40">
+            <ion-radio
+              id="showMe_{{questionNumber}}_btn1"
+              class="gds-refactor-radio"
+              [disabled]="showMeDisabled"
+              labelPlacement="end"
+              value="P">
+              <label class="radio-label" id="showMe_{{questionNumber}}_btn1">
+                Correct
+              </label>
+            </ion-radio>
+          </ion-col>
+          <ion-col size="12"></ion-col>
+          <ion-col>
+            <ion-radio
+              id="showMe_{{questionNumber}}_btn2"
+              class="gds-refactor-radio"
+              [disabled]="showMeDisabled"
+              labelPlacement="end"
+              value="DF">
+              <label class="radio-label" id="showMe_{{questionNumber}}_btn2">
+                Incorrect
+              </label>
+            </ion-radio>
+          </ion-col>
+        </ion-radio-group>
       </ion-col>
     </ion-row>
     <ion-row class="validation-message-row ion-align-items-center">
