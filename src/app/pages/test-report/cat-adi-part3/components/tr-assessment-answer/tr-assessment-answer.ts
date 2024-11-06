@@ -25,6 +25,7 @@ export class TestReportAssessmentAnswer {
   answerChanged = new EventEmitter<string>();
 
   valueChanged = (key: string): void => {
+    console.log('key', Number(key) === this.answer ? null : key);
     this.answerChanged.emit(Number(key) === this.answer ? null : key);
   };
 
