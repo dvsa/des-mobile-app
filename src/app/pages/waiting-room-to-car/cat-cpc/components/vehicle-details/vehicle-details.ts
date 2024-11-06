@@ -5,6 +5,7 @@ import { Configuration } from '@dvsa/mes-test-schema/categories/CPC';
 @Component({
   selector: 'vehicle-details-cat-cpc',
   templateUrl: 'vehicle-details.html',
+  styleUrls: ['vehicle-details.scss'],
 })
 export class VehicleDetailsCatCPCComponent {
   @Input()
