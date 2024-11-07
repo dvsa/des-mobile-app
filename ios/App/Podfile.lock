@@ -97,26 +97,26 @@ EXTERNAL SOURCES:
     :path: "../../node_modules/@sentry/capacitor"
 
 SPEC CHECKSUMS:
-  Capacitor: 679f9673fdf30597493a6362a5d5bf233d46abc2
-  CapacitorApp: 0bc633b4eae40a1f32cd2834788fad3bc42da6a1
-  CapacitorAppLauncher: 9ac785e8d3936388249212b6e16cb32225960c5f
-  CapacitorCommunityKeepAwake: c820e5394a74ab73635107f0544378b026562243
+  Capacitor: 69c7f687aabb8d85e543497411e40638b5cc08c0
+  CapacitorApp: f51c08c64df914fc934239fd1b3fc809d62a02f6
+  CapacitorAppLauncher: b957226d48108ecba7b33f02553f85d5e11c4455
+  CapacitorCommunityKeepAwake: d8829717ab37e6aa3c466f52af0a52c91a37f495
   CapacitorCordova: f48c89f96c319101cd2f0ce8a2b7449b5fb8b3dd
-  CapacitorDevice: 7097a1deb4224b77fd13a6e60a355d0062a5d772
-  CapacitorNativeBiometric: b47637a8cd349bdac014424bb4ddcae9ee5d4919
-  CapacitorSplashScreen: 250df9ef8014fac5c7c1fd231f0f8b1d8f0b5624
-  CapacitorStatusBar: b81d4fb5d4e0064c712018071b3ab4b810b39a63
-  CapacitorTextZoom: 013a8dd0887f6bd103171768c91845f2354414b6
-  CapawesomeCapacitorManagedConfigurations: e6dbcbcf45d7b1f7acfa9b54a02e15201604a803
-  CapawesomeCapacitorScreenOrientation: 82675c41cb616a64630c834b06344515a2849ff3
-  CordovaPlugins: c8d12d6cd20cf360d3711e2590712be33b6dbcf5
+  CapacitorDevice: da1884f895e17992648b27f6c8ee2be72cd0ce2e
+  CapacitorNativeBiometric: 78cf21304251a512e4597437325b5e9b0cd9f7b3
+  CapacitorSplashScreen: b46e61cc4345d73d510530b0c845a30e3602db40
+  CapacitorStatusBar: 9ed7f06318fd436917072a9bf60fda56d12c8bdb
+  CapacitorTextZoom: b33a52272f225fc70f581418f0168670b652b4c5
+  CapawesomeCapacitorManagedConfigurations: 5f8ae5e10feab63776e9b9d8ae73812d148aca45
+  CapawesomeCapacitorScreenOrientation: e4da84c33fb7fc0615742dd3804e8dae75621c7a
+  CordovaPlugins: 305ae03e57fcb69e656b432105cb4a9eac03f596
   CordovaPluginsResources: 0c211f770ed91763a179ebcd9b9346e120b70662
-  CordovaPluginsStatic: 923a56e48bad79010d7c84d405625ec8d0b46b41
-  DvsaCapacitorPluginAsam: 608d4ae7a0888671ccab43802a7c04d98407daf4
+  CordovaPluginsStatic: cd2af30cf73949914fb40519196915d6f9345e36
+  DvsaCapacitorPluginAsam: 5c13d1ce370a2158261299f0f204c74a2b1a56bb
   GoogleAnalytics: 01e4c5a04544a3608f93e970ce0817836897c5a5
   Sentry: f8374b5415bc38dfb5645941b3ae31230fbeae57
-  SentryCapacitor: 2137257959f06553337c81be4ed0c10acefef58b
+  SentryCapacitor: 5d67a6d21758f4a6d1272d3a1f75a7a3bf04f063
 
 PODFILE CHECKSUM: 61573ea5bd18f943e4e59ed5bae05613b2fe01a7
 
-COCOAPODS: 1.15.2
+COCOAPODS: 1.16.2
