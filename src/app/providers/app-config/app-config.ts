@@ -151,7 +151,6 @@ export class AppConfigProvider {
       },
       daysToCacheLogs: await this.getManagedConfigValueNumber('daysToCacheLogs'),
       logsPostApiKey: await this.getManagedConfigValueString('logsPostApiKey'),
-      taxMotApiKey: await this.getManagedConfigValueString('taxMotApiKey'),
       logsApiUrl: await this.getManagedConfigValueString('logsApiUrl'),
       logsAutoSendInterval: await this.getManagedConfigValueNumber('logsAutoSendInterval'),
       authentication: {
@@ -296,7 +295,6 @@ export class AppConfigProvider {
       },
       logoutClearsTestPersistence: data.logoutClearsTestPersistence,
       logsPostApiKey: data.logsPostApiKey,
-      taxMotApiKey: data.taxMotApiKey,
       logsApiUrl: data.logsApiUrl,
       logsAutoSendInterval: data.logsAutoSendInterval,
       authentication: {
@@ -350,9 +348,6 @@ export class AppConfigProvider {
         signatureUrl: data.driver.signatureUrl,
         photographUrl: data.driver.photographUrl,
         standardUrl: data.driver.standardUrl,
-      },
-      vehicle: {
-        taxMotUrl: data.vehicle.taxMotUrl,
       },
       mot: {
         motHistoryUrl: data.mot.motHistoryUrl,

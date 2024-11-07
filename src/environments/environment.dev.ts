@@ -12,7 +12,6 @@ export const environment: EnvironmentFile = {
   enableDevTools: false,
   logoutClearsTestPersistence: true,
   logsPostApiKey: '',
-  taxMotApiKey: '7d804a0461126d0ebee4128af69bb8dc',
   logsApiUrl: 'https://dev.mes.dev-dvsacloud.uk/v1/logs',
   logsAutoSendInterval: 60000,
   authentication: {

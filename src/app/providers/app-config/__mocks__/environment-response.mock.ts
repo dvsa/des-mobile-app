@@ -30,9 +30,6 @@ export const environmentResponseMock = {
   mot: {
     motHistoryUrl: 'https://www.example.com/api/v1/mot/12345',
   },
-  vehicle: {
-    taxMotUrl: 'https://www.example.com/api/v1/vehicle/12345',
-  },
   refData: {
     testCentreUrl: 'some url',
   },

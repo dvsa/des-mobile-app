@@ -11,7 +11,6 @@ export class AppConfigProviderMock {
     daysToCacheLogs: localEnvironmentMock.daysToCacheLogs,
     logoutClearsTestPersistence: localEnvironmentMock.logoutClearsTestPersistence,
     logsPostApiKey: localEnvironmentMock.logsPostApiKey,
-    taxMotApiKey: localEnvironmentMock.taxMotApiKey,
     logsApiUrl: localEnvironmentMock.logsApiUrl,
     logsAutoSendInterval: localEnvironmentMock.logsAutoSendInterval,
     authentication: {
@@ -58,9 +57,6 @@ export class AppConfigProviderMock {
     },
     mot: {
       motHistoryUrl: localEnvironmentMock.mot.motHistoryUrl,
-    },
-    vehicle: {
-      taxMotUrl: localEnvironmentMock.vehicle.taxMotUrl,
     },
     refData: {
       testCentreUrl: localEnvironmentMock.refData.testCentreUrl,

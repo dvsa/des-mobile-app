@@ -42,12 +42,6 @@ describe('UrlProvider', () => {
       expect(urlProvider.getLogsServiceApiKey()).toBe('key');
     });
   });
-  describe('getTaxMotApiKey', () => {
-    it('should get taxMotApiKey', () => {
-      spyOn(urlProvider.appConfigProvider, 'getAppConfig').and.returnValue({ taxMotApiKey: 'key' } as AppConfig);
-      expect(urlProvider.getTaxMotApiKey()).toBe('key');
-    });
-  });
   describe('getMotUrl', () => {
     it('should get Mot Url', () => {
       spyOn(urlProvider.appConfigProvider, 'getAppConfig').and.returnValue({
