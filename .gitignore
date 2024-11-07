@@ -42,7 +42,6 @@ sonar-project.properties
 test/e2e/test.config.ts
 test-reports/
 e2e-app/
-Gemfile.lock
 .bundle/**
 .gem
 
