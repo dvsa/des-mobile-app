@@ -254,6 +254,11 @@ export class VehicleRegistrationComponent implements OnChanges {
    * @param input
    */
   registrationInput(input: HTMLInputElement): void {
+    this.clearData();
+    if (this.isSearchingForMOT) {
+      this.abortMOTCall(MOTAbortedMethod.VRN_CHANGED);
+    }
+    this.hasCalledMOT = false;
     if (typeof input.value === 'string' && !this.registrationNumberValidator.pattern.test(input.value)) {
       input.value = input.value.replace(nonAlphaNumericValues, '');
 
