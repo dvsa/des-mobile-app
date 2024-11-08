@@ -74,6 +74,7 @@ lane :release_build do
       password: ENV["KEYCHAIN_PASSWORD"],
       unlock: true,
       timeout: 3600
+      default_keychain: true
     )
 
     sync_certs
