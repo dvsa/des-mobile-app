@@ -73,7 +73,7 @@ lane :release_build do
       name: ENV["KEYCHAIN_NAME"],
       password: ENV["KEYCHAIN_PASSWORD"],
       unlock: true,
-      timeout: 3600
+      timeout: 3600,
       default_keychain: true
     )
 
