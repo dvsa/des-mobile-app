@@ -24,7 +24,7 @@ module.exports = function(config) {
     frameworks: ['parallel', 'jasmine', '@angular-devkit/build-angular'],
     plugins: [
       require('karma-jasmine'),
-      require('karma-chrome-launcher'),
+      require('karma-firefox-launcher'),
       require('karma-jasmine-html-reporter'),
       require('karma-coverage'),
       require('karma-parallel'),
@@ -66,14 +66,14 @@ module.exports = function(config) {
       suppressSkipped: true,
       showSpecTiming: true,
     },
-    browsers: ['ChromeHeadlessNoSandbox'],
+    browsers: ['FirefoxHeadless'],
     singleRun: true,
     parallelOptions: {
       executors,
     },
     customLaunchers: {
-      ChromeHeadlessNoSandbox: {
-        base: 'ChromeHeadless',
+      FirefoxHeadless: {
+        base: 'Firefox',
         flags: [
           '--headless',
           '--disable-gpu',
