@@ -114,6 +114,5 @@ export class VehicleChecksQuestionCatAMod2Component implements OnChanges {
     } else {
       this.safetyAndBalanceDrivingFaultSelected();
     }
-
   }
 }

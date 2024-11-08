@@ -80,8 +80,7 @@ export class VehicleChecksQuestionComponent implements OnChanges {
   vehicleChecksSelected(value: string) {
     if (value === 'P') {
       this.vehicleChecksPassSelected();
-    }
-    else if (value === 'DF') {
+    } else if (value === 'DF') {
       this.vehicleChecksDrivingFaultSelected();
     }
   }

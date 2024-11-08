@@ -1,5 +1,6 @@
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { CatADI2UniqueTypes } from '@dvsa/mes-test-schema/categories/ADI2';
+import { Manoeuvres } from '@dvsa/mes-test-schema/categories/ADI2/partial';
 import { Store, select } from '@ngrx/store';
 import { trDestroy$ } from '@shared/classes/test-flow-base-pages/test-report/test-report-base-page';
 import { StoreModel } from '@shared/models/store.model';
@@ -15,8 +16,6 @@ import { getCurrentTest } from '@store/tests/tests.selector';
 import { omit, some } from 'lodash-es';
 import { Observable, Subscription, merge, of } from 'rxjs';
 import { map, takeUntil, tap } from 'rxjs/operators';
-import { Manoeuvres } from '@dvsa/mes-test-schema/categories/ADI2/partial';
-import { IonRadio } from '@ionic/angular';
 
 interface ManoeuvresFaultState {
   reverseRight: boolean;
@@ -179,10 +178,7 @@ export class ManoeuvresPopoverComponentAdiPart2 implements OnInit, OnDestroy {
    * @param {EventTarget} radioGroup - The radio group element.
    * @param {number} radioGroupIndex - The index of the radio group.
    */
-  manageGroupFocus(
-    radioGroup: EventTarget,
-    radioGroupIndex: number,
-  ): void {
+  manageGroupFocus(radioGroup: EventTarget, radioGroupIndex: number): void {
     // Get all ion-radio elements within the radio group
     const radios: HTMLIonRadioElement[] = Array.from((radioGroup as Element).querySelectorAll('ion-radio'));
 
