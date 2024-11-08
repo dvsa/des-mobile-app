@@ -9,7 +9,6 @@ import {
   getEmergencyStopCount,
   getIndependentDrivingStats,
   getIndex,
-  getLocations,
   getManoeuvreTypeLabels,
   getManoeuvresUsed,
   getRouteNumbers,
