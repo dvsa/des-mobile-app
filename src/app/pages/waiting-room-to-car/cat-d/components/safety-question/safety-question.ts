@@ -74,4 +74,8 @@ export class SafetyQuestionComponent implements OnChanges {
     }
     return false;
   }
+
+  safetyQuestionChanged(value: QuestionOutcome) {
+    this.safetyQuestionOutcomeChange.emit(value);
+  }
 }

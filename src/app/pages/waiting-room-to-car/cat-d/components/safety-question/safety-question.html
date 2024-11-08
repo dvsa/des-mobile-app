@@ -9,46 +9,42 @@
     <ion-row>
       <ion-col size="40" class="ion-align-self-center">
         <ion-row>
-          <div class="safety-question-text">{{questions[questionIndex].description}}</div>
+          <div class="safety-question-text">{{ questions[questionIndex].description }}</div>
         </ion-row>
       </ion-col>
-      <ion-col size="28" class="ion-align-self-center">
-        <ion-row>
-          <input
-            type="radio"
-            [attr.name]="safetyQuestionOutcomeFieldName"
-            [attr.id]="'safetyQuestionsCorrect_'+safetyQuestionId"
-            class="gds-radio-button"
-            value="P"
-            [formControlName]="safetyQuestionOutcomeFieldName"
-            (change)="safetyQuestionsPassSelected()"
-          />
-          <label
-            [for]="'safetyQuestionsCorrect_'+safetyQuestionId"
-            class="radio-label"
+      <ion-radio-group
+        class="display-flex ion-align-items-center"
+        [formControlName]="safetyQuestionOutcomeFieldName"
+        [value]="safetyQuestionOutcomeFormControl.value"
+        (ionChange)="safetyQuestionChanged($event.detail.value)">
+        <ion-col size="40">
+          <ion-radio
+            class="gds-refactor-radio"
             id="safety-question-correct-{{safetyQuestionId}}"
-            >Correct</label
-          >
-        </ion-row>
-      </ion-col>
-      <ion-col size="28" class="ion-align-self-center">
-        <ion-row>
-          <input
-            type="radio"
-            [attr.name]="safetyQuestionOutcomeFieldName"
-            [attr.id]="'safetyQuestionsFault_'+safetyQuestionId"
-            class="gds-radio-button"
+            labelPlacement="end"
+            value="P">
+            <label class="radio-label" id="safety-question-correct-{{safetyQuestionId}}-label">
+              Correct
+            </label>
+          </ion-radio>
+        </ion-col>
+        <ion-col size="16"></ion-col>
+        <ion-col>
+          <ion-radio
+            class="gds-refactor-radio"
+            id="safety-question-incorrect-{{safetyQuestionId}}"
             value="DF"
-            [formControlName]="safetyQuestionOutcomeFieldName"
-            (change)="safetyQuestionsDrivingFaultSelected()"
-          />
-          <label [for]="'safetyQuestionsFault_'+safetyQuestionId" class="radio-label">Wrong answer</label>
-        </ion-row>
-      </ion-col>
+            labelPlacement="end">
+            <label class="ion-text-wrap radio-label" id="safety-question-incorrect-{{safetyQuestionId}}-label">
+              Wrong answer
+            </label>
+          </ion-radio>
+        </ion-col>
+      </ion-radio-group>
     </ion-row>
-    <ion-row *ngIf="isInvalid()" class="validation-message-row">
+    <ion-row class="validation-message-row">
       <ion-col size="40"></ion-col>
-      <ion-col>
+      <ion-col *ngIf="isInvalid()">
         <div class="validation-text ion-no-padding ng-invalid">Question Incomplete</div>
       </ion-col>
     </ion-row>
