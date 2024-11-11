@@ -2,12 +2,7 @@ default_platform(:ios)
 
 before_all do
   clean(dirs: './builds ./simulator ./certs ./codes')
-#   xcode_select("/Applications/#{ENV["XCODE_VERSION"]}.app")
-  xcversion(version: "#{ENV['XCODE_VERSION']}")
-  cocoapods(
-   clean_install: true,
-   podfile: "ios/App/Podfile"
-  )
+  xcode_select("/Applications/Xcode-#{ENV["XCODE_VERSION"]}.app")
 end
 
 desc "Build the Simulator File for the Automation Suite"
