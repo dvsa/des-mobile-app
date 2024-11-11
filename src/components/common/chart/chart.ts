@@ -4,12 +4,6 @@ import ApexCharts from 'apexcharts';
 import { isEqual } from 'lodash-es';
 import { ApexAxisChartSeries, ApexNonAxisChartSeries, ApexOptions, ChartType } from 'ng-apexcharts';
 
-interface ExaminerRecord {
-  item: string;
-  count: number;
-  percentage: number;
-}
-
 @Component({
   selector: 'chart',
   templateUrl: 'chart.html',

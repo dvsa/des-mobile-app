@@ -1,4 +1,4 @@
-import { SignaturePadComponent } from '@almothafar/angular-signature-pad';
+import { NgSignaturePadOptions, SignaturePadComponent } from '@almothafar/angular-signature-pad';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { IonicModule } from '@ionic/angular';
@@ -7,14 +7,6 @@ import { MockComponent } from 'ng-mocks';
 import { SignatureAreaComponent } from '../signature-area';
 
 class TestStore {}
-interface SignaturePad {
-  ratio?: number;
-  width?: number;
-  height?: number;
-  xOffset?: number;
-  yOffset?: number;
-}
-
 describe('SignatureAreaComponent', () => {
   let fixture: ComponentFixture<SignatureAreaComponent>;
   let component: SignatureAreaComponent;
@@ -35,7 +27,7 @@ describe('SignatureAreaComponent', () => {
     component = fixture.componentInstance;
     /* eslint-disable*/
     component.signaturePad = {
-      fromDataURL(dataURL: string, options?: SignaturePad) {},
+      fromDataURL(dataURL: string, options?: NgSignaturePadOptions) {},
       toDataURL(imageType?: string, quality?: number): string {
         return 'dummyString';
       },

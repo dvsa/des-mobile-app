@@ -60,13 +60,6 @@ describe('DeviceAuthenticationProvider', () => {
     spyOn(platform, 'is').and.returnValue(true);
     spyOn(deviceAuthenticationProvider.appConfig, 'getAppConfig').and.returnValue({ role: 'DE' } as AppConfig);
     (environment as unknown as TestersEnvironmentFile).isTest = false;
-
-    // spyOn(NativeBiometricMock, 'isAvailable');
-
-    // (NativeBiometricMock.isAvailable)
-    //   .withArgs({ key: 'useFallback' })
-    //   .and.returnValue(Promise.resolve({ value: { available: true } }));
-
     spyOn(NativeBiometricMock, 'isAvailable').and.callFake((args: { useFallback: boolean }) => {
       if (args.useFallback) {
         return Promise.resolve({ biometryType: 'fingerprint', isAvailable: true });
