@@ -1,3 +1,4 @@
+// TODO: MES-10108 - fix these tests
 // import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 // import { TranslateModule, TranslateService } from '@ngx-translate/core';
 // import { translateServiceMock } from '@shared/helpers/__mocks__/translate.mock';

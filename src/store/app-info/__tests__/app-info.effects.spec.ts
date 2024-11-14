@@ -1,3 +1,4 @@
+// TODO: MES-10108 - fix these tests
 // import { TestBed } from '@angular/core/testing';
 // import { Router } from '@angular/router';
 // import { Network } from '@awesome-cordova-plugins/network/ngx';

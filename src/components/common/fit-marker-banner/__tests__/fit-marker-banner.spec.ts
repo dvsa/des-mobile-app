@@ -1,3 +1,4 @@
+// TODO: MES-10108 - fix these tests
 // import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 // import { FitMarkerBannerComponent } from '@components/common/fit-marker-banner/fit-marker-banner';
 //
