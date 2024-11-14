@@ -101,6 +101,9 @@ describe('ConfirmTestDetailsPage', () => {
       ],
     });
 
+    // Mock the deviceready event
+    document.dispatchEvent(new Event('deviceready'));
+
     fixture = TestBed.createComponent(ConfirmTestDetailsPage);
     component = fixture.componentInstance;
     router = TestBed.inject(Router);
