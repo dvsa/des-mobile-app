@@ -1,4 +1,4 @@
-import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
+import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { PracticeModeMOTType } from '@pages/waiting-room-to-car/components/mot-components/practice-mode-mot-modal/practice-mode-mot-modal.component';
 import { AppConfigProvider } from '@providers/app-config/app-config';
@@ -75,10 +75,7 @@ export class MotHistoryApiService {
     if (this.isResultCached(vehicleRegistration)) {
       return this.getCachedMotHistory();
     }
-
-    const headers = this.getRequestHeaders();
-
-    return this.http.get(this.urlProvider.getMotUrl(vehicleRegistration), { observe: 'response', headers }).pipe(
+    return this.http.get(this.urlProvider.getMotUrl(vehicleRegistration), { observe: 'response' }).pipe(
       tap((response: HttpResponse<MotHistory>) => this.cacheMotHistory(response)),
       map((value): MotHistoryWithStatus => this.mapResponseToMotData(value)),
       timeout(this.appConfig.getAppConfig().requestTimeout),
@@ -103,15 +100,6 @@ export class MotHistoryApiService {
    */
   getCachedMotHistory(): Observable<MotHistoryWithStatus> {
     return of({ status: 'Already Saved', data: this.motHistoryResponse });
-  }
-
-  /**
-   * Generates the HTTP headers required for the API request.
-   *
-   * @returns {HttpHeaders} The HTTP headers with the API key set.
-   */
-  getRequestHeaders(): HttpHeaders {
-    return new HttpHeaders().set('x-api-key', this.urlProvider.getTaxMotApiKey());
   }
 
   /**

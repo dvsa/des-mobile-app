@@ -36,8 +36,6 @@ export class UrlProviderMock {
     .createSpy('getCandidateStandardDataUrl')
     .and.returnValue('https://www.example.com/standard');
 
-  getTaxMotApiKey = jasmine.createSpy().and.returnValue('x-api-key');
-
   getRefDataTestCentreUrl = jasmine.createSpy('getRefDataTestCentreUrl').and.returnValue('https://ref-data/testcentre');
 
   getDelegatedExaminerSearchBookingUrl = jasmine

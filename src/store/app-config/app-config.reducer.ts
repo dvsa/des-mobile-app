@@ -13,7 +13,6 @@ export const initialState: AppConfig = {
   daysToCacheLogs: null,
   logoutClearsTestPersistence: null,
   logsPostApiKey: null,
-  taxMotApiKey: null,
   logsApiUrl: null,
   logsAutoSendInterval: null,
   authentication: {
@@ -60,9 +59,6 @@ export const initialState: AppConfig = {
   },
   mot: {
     motHistoryUrl: null,
-  },
-  vehicle: {
-    taxMotUrl: null,
   },
   refData: {
     testCentreUrl: null,

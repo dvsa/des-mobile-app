@@ -30,10 +30,6 @@ export class UrlProvider {
     return this.appConfigProvider.getAppConfig()?.tests.multipleTestResultsUrl;
   }
 
-  getTaxMotApiKey(): string {
-    return this.appConfigProvider.getAppConfig()?.taxMotApiKey;
-  }
-
   getMotUrl(vehicleRegistration: string): string {
     const urlTemplate = this.appConfigProvider.getAppConfig()?.mot.motHistoryUrl;
     return urlTemplate.replace('{vrn}', vehicleRegistration);

@@ -85,9 +85,6 @@ export const localEnvironmentMock: LocalEnvironmentFile = {
   mot: {
     motHistoryUrl: null,
   },
-  vehicle: {
-    taxMotUrl: null,
-  },
   driver: {
     photographUrl: null,
     signatureUrl: null,

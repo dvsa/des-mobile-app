@@ -12,7 +12,6 @@ export type AppConfig = {
   daysToCacheLogs: number;
   logoutClearsTestPersistence?: boolean;
   logsPostApiKey: string;
-  taxMotApiKey: string;
   logsApiUrl: string;
   logsAutoSendInterval: number;
   authentication: {
@@ -59,9 +58,6 @@ export type AppConfig = {
   };
   mot: {
     motHistoryUrl: string;
-  };
-  vehicle: {
-    taxMotUrl: string;
   };
   refData: {
     testCentreUrl: string;

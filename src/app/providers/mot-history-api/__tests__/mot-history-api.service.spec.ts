@@ -1,4 +1,4 @@
-import { HttpHeaders, HttpResponse } from '@angular/common/http';
+import { HttpResponse } from '@angular/common/http';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { PracticeModeMOTType } from '@pages/waiting-room-to-car/components/mot-components/practice-mode-mot-modal/practice-mode-mot-modal.component';
@@ -296,14 +296,6 @@ describe('MotHistoryApiService', () => {
     });
   });
 
-  describe('getRequestHeaders', () => {
-    it('should return a header with the correct key', () => {
-      spyOn(vehicleDetailsService['urlProvider'], 'getTaxMotApiKey').and.returnValue('test-key');
-      const result = vehicleDetailsService['getRequestHeaders']();
-      expect(result.get('x-api-key')).toBe('test-key');
-    });
-  });
-
   describe('getVehicleByIdentifier', () => {
     it('should return cached vehicle details if vehicle is cached', (done) => {
       spyOn(vehicleDetailsService, 'isResultCached').and.returnValue(true);
@@ -323,7 +315,6 @@ describe('MotHistoryApiService', () => {
 
     it('should fetch vehicle details from API if vehicle is not cached', (done) => {
       spyOn(vehicleDetailsService, 'isResultCached').and.returnValue(false);
-      spyOn(vehicleDetailsService, 'getRequestHeaders').and.returnValue(new HttpHeaders());
       spyOn(vehicleDetailsService['http'], 'get').and.returnValue(
         of(
           new HttpResponse<MotHistory>({
@@ -345,7 +336,6 @@ describe('MotHistoryApiService', () => {
 
     it('should handle API error and return default error response', (done) => {
       spyOn(vehicleDetailsService, 'isResultCached').and.returnValue(false);
-      spyOn(vehicleDetailsService, 'getRequestHeaders').and.returnValue(new HttpHeaders());
       spyOn(vehicleDetailsService['http'], 'get').and.returnValue(throwError({ status: 500 }));
       spyOn(vehicleDetailsService, 'handleError').and.returnValue(
         of({
