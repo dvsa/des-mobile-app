@@ -5,29 +5,17 @@ const puppeteer = require('puppeteer');
 const os = require('os');
 process.env.CHROME_BIN = puppeteer.executablePath();
 
-const DEFAULT_PROCESSES_TO_SHARD = 2;
 const JASMINE_DEFAULT_TIMEOUT = 15000;
-
-let executors = os ? Math.ceil(os.cpus().length / 2) : DEFAULT_PROCESSES_TO_SHARD;
-
-if (os) {
-  console.log('Total number of CPU\'s available:', os.cpus().length);
-
-  if (os.cpus().length <= 2) {
-    executors = os.cpus().length;
-  }
-}
 
 module.exports = function(config) {
   config.set({
     basePath: '',
-    frameworks: ['parallel', 'jasmine', '@angular-devkit/build-angular'],
+    frameworks: ['jasmine', '@angular-devkit/build-angular'],
     plugins: [
       require('karma-jasmine'),
       require('karma-chrome-launcher'),
       require('karma-jasmine-html-reporter'),
       require('karma-coverage'),
-      require('karma-parallel'),
       require('@angular-devkit/build-angular/plugins/karma'),
       require('karma-spec-reporter'),
     ],
@@ -37,7 +25,7 @@ module.exports = function(config) {
       clearContext: false, // leave Jasmine Spec Runner output visible in browser
       jasmine: {
         random: false,
-        timeoutInterval: (executors <= 2) ? (JASMINE_DEFAULT_TIMEOUT * 2) : JASMINE_DEFAULT_TIMEOUT,
+        timeoutInterval: JASMINE_DEFAULT_TIMEOUT * 2,
       },
     },
     jasmineHtmlReporter: {
@@ -68,9 +56,6 @@ module.exports = function(config) {
     },
     browsers: ['ChromeHeadlessNoSandbox'],
     singleRun: true,
-    parallelOptions: {
-      executors,
-    },
     customLaunchers: {
       ChromeHeadlessNoSandbox: {
         base: 'ChromeHeadless',

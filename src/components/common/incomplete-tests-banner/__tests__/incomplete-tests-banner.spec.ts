@@ -33,6 +33,7 @@ describe('IncompleteTestsBanner', () => {
       ],
     });
 
+
     fixture = TestBed.createComponent(IncompleteTestsBanner);
     component = fixture.componentInstance;
   }));
