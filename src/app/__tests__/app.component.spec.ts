@@ -1,3 +1,4 @@
+// TODO: MES-10108 - fix these tests
 // import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 // import { ComponentFixture, TestBed, fakeAsync, flushMicrotasks, waitForAsync } from '@angular/core/testing';
 // import { ActivatedRoute, Router } from '@angular/router';

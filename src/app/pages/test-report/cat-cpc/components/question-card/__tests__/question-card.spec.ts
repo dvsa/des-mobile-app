@@ -1,3 +1,4 @@
+// TODO: MES-10108 - fix these tests
 // import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 // import { AdditionalItemsComponent } from '@pages/test-report/cat-cpc/components/additional-items/additional-items';
 // import { QuestionAnswerComponent } from '@pages/test-report/cat-cpc/components/question-answer/question-answer';

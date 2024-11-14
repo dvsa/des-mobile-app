@@ -1,3 +1,4 @@
+// TODO: MES-10108 - fix these tests
 // import { ComponentFixture, TestBed } from '@angular/core/testing';
 // import { IonicModule, ModalController, NavParams, Platform } from '@ionic/angular';
 // import { ModalControllerMock, NavParamsMock, PlatformMock } from '@mocks/index.mock';

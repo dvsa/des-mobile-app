@@ -1,4 +1,5 @@
-`// import { CommonModule } from '@angular/common';
+// TODO: MES-10108 - fix these tests
+// import { CommonModule } from '@angular/common';
 // import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 // import { IonicModule, LoadingController } from '@ionic/angular';
 // import { StoreModule } from '@ngrx/store';
@@ -216,4 +217,3 @@
 //     });
 //   });
 // });
-`

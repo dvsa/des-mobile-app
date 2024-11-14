@@ -1,3 +1,4 @@
+// TODO: MES-10108 - fix these tests
 // import { ComponentFixture, TestBed } from '@angular/core/testing';
 // import { KeepAwake as Insomnia } from '@capacitor-community/keep-awake';
 // import { IonicModule, ModalController, NavParams, Platform } from '@ionic/angular';
