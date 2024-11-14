@@ -6,7 +6,7 @@ import { LocalEnvironmentFile } from './models/environment.model';
 export const environment: LocalEnvironmentFile = {
   // this is required by main.ts so that Ionic knows when to enable production mode
   ...devEnvironment,
-  liveAppVersion: '4.8.0.0',
+  liveAppVersion: '4.16.0.0',
   isRemote: false,
   enableDevTools: true,
   enableRehydrationPlugin: true,
@@ -265,6 +265,9 @@ export const environment: LocalEnvironmentFile = {
   },
   vehicle: {
     taxMotUrl: 'https://api.mot.test.smc.dvsacloud.uk/1.0/checkMot',
+  },
+  mot: {
+    motHistoryUrl: 'https://dev.mes.dev-dvsacloud.uk/v1/mot-history/{vrn}',
   },
   refData: {
     testCentreUrl: '/assets/mock/ref-data/local-test-centres.json',
