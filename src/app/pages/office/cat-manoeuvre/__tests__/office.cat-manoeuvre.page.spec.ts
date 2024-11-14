@@ -137,6 +137,9 @@ describe('OfficeCatManoeuvrePage', () => {
       ],
     });
 
+    // Mock the deviceready event
+    document.dispatchEvent(new Event('deviceready'));
+
     fixture = TestBed.createComponent(OfficeCatManoeuvrePage);
     component = fixture.componentInstance;
     store$ = TestBed.inject(Store);

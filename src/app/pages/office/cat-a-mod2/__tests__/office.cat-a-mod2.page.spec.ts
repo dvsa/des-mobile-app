@@ -158,6 +158,9 @@ describe('OfficeCatAMod2Page', () => {
       ],
     });
 
+    // Mock the deviceready event
+    document.dispatchEvent(new Event('deviceready'));
+
     fixture = TestBed.createComponent(OfficeCatAMod2Page);
     component = fixture.componentInstance;
     store$ = TestBed.inject(Store);
