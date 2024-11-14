@@ -2,7 +2,7 @@
 // https://karma-runner.github.io/1.0/config/configuration-file.html
 
 const puppeteer = require('puppeteer');
-const os = require('os');
+const os = require('node:os');
 process.env.CHROME_BIN = puppeteer.executablePath();
 
 const DEFAULT_PROCESSES_TO_SHARD = 2;
@@ -18,13 +18,14 @@ if (os) {
   }
 }
 
-module.exports = function(config) {
+module.exports = (config) => {
   config.set({
     basePath: '',
     frameworks: ['parallel', 'jasmine', '@angular-devkit/build-angular'],
     plugins: [
       require('karma-jasmine'),
       require('karma-chrome-launcher'),
+      require('karma-firefox-launcher'),
       require('karma-jasmine-html-reporter'),
       require('karma-coverage'),
       require('karma-parallel'),
@@ -44,7 +45,7 @@ module.exports = function(config) {
       suppressAll: false, // removes the duplicated traces
     },
     coverageReporter: {
-      dir: require('path')
+      dir: require('node:path')
         .join(__dirname, './coverage/ngv'),
       subdir: '.',
       instrumenterOptions: {
@@ -66,7 +67,7 @@ module.exports = function(config) {
       suppressSkipped: true,
       showSpecTiming: true,
     },
-    browsers: ['ChromeHeadlessNoSandbox'],
+    browsers: ['FirefoxHeadless'],
     singleRun: true,
     parallelOptions: {
       executors,
@@ -80,6 +81,13 @@ module.exports = function(config) {
           // Without a remote debugging port, Google Chrome exits immediately.
           '--remote-debugging-port=9222',
           '--no-sandbox',
+        ],
+      },
+      FirefoxHeadless: {
+        base: 'Firefox',
+        flags: [
+          '-headless',
+          '--remote-debugging-port=9222',
         ],
       },
     },
