@@ -1,29 +1,54 @@
 fastlane documentation
-================
+----
+
 # Installation
 
 Make sure you have the latest version of the Xcode command line tools installed:
 
-```
+```sh
 xcode-select --install
 ```
 
-Install _fastlane_ using
-```
-[sudo] gem install fastlane -NV
-```
-or alternatively using `brew cask install fastlane`
+For _fastlane_ installation instructions, see [Installing _fastlane_](https://docs.fastlane.tools/#installing-fastlane)
 
 # Available Actions
-## iOS
-### ios build
+
+### simulator
+
+```sh
+[bundle exec] fastlane simulator
 ```
-fastlane ios build
+
+Build the Simulator File for the Automation Suite
+
+### release_build
+
+```sh
+[bundle exec] fastlane release_build
 ```
-Signs and builds the app with the DVSA production distribution certificate & provisoning profile
+
+Build the Application for Deployment
+
+### clean
+
+```sh
+[bundle exec] fastlane clean
+```
+
+Clean Previous Build Folders
+
+### sync_certs
+
+```sh
+[bundle exec] fastlane sync_certs
+```
+
+Synchronise the Apple Developer Certificates to the Temporary Keychain
 
 ----
 
-This README.md is auto-generated and will be re-generated every time [fastlane](https://fastlane.tools) is run.
-More information about fastlane can be found on [fastlane.tools](https://fastlane.tools).
-The documentation of fastlane can be found on [docs.fastlane.tools](https://docs.fastlane.tools).
+This README.md is auto-generated and will be re-generated every time [_fastlane_](https://fastlane.tools) is run.
+
+More information about _fastlane_ can be found on [fastlane.tools](https://fastlane.tools).
+
+The documentation of _fastlane_ can be found on [docs.fastlane.tools](https://docs.fastlane.tools).
