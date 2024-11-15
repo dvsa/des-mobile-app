@@ -18,28 +18,29 @@ jobs:
       branch: ${{ steps.get_release_branch.outputs.branch }}
     if: github.event_name == 'push' && startsWith(github.ref_name, 'release-')
     runs-on: ubuntu-latest
+    steps:
       - name: 🔍 Get Release Branch
         id: get_release_branch
         run: echo "branch=$(echo ${{ github.ref_name }} | cut -d '.' -f -3)" >> $GITHUB_OUTPUT
 
   develop:
-    if: github.ref_name == 'develop'
+    if: github.event_name == 'push' && github.ref_name == 'develop'
     uses: dvsa/des-workflow-actions/.github/workflows/build-mobile-app.yaml@main
     with:
-      runs_on: mito-2
+      runs-on: mito-2
       branch: ${{ github.ref_name }}
       environment: develop
       config-type: test
-      build-simulator: ${{ inputs.build-simulator }}
+      build-simulator: true
     secrets:
       AWS_ROLE: ${{ secrets.DES_AWS_ROLE }}
 
   release:
     needs: get_release_branch
-    if: startsWith(github.ref_name, 'release-')
+    if: github.event_name == 'push' && startsWith(github.ref_name, 'release-')
     uses: dvsa/des-workflow-actions/.github/workflows/build-mobile-app.yaml@main
     with:
-      runs_on: mito-2
+      runs-on: mito-2
       branch: ${{ needs.get_release_branch.outputs.branch }}
       environment: release
       config-type: dev
