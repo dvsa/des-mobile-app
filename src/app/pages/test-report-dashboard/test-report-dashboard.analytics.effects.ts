@@ -115,19 +115,17 @@ export class TestReportDashboardAnalyticsEffects {
       filter(([, , , practiceMode]) =>
         !practiceMode ? true : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics
       ),
-      switchMap(
-        ([, tests, category]: [ReturnType<typeof FeedbackChanged>, TestsModel, CategoryCode, boolean]) => {
-          // GA4 Analytics
-          this.analytics.logGAEvent(
-            analyticsEventTypePrefix(GoogleAnalyticsEvents.FEEDBACK, tests),
-            GoogleAnalyticsEventsTitles.TEST_CATEGORY,
-            category,
-            GoogleAnalyticsEventsTitles.REASON,
-            GoogleAnalyticsEventsValues.FREE_TEXT_ENTERED
-          );
-          return of(AnalyticRecorded());
-        }
-      )
+      switchMap(([, tests, category]: [ReturnType<typeof FeedbackChanged>, TestsModel, CategoryCode, boolean]) => {
+        // GA4 Analytics
+        this.analytics.logGAEvent(
+          analyticsEventTypePrefix(GoogleAnalyticsEvents.FEEDBACK, tests),
+          GoogleAnalyticsEventsTitles.TEST_CATEGORY,
+          category,
+          GoogleAnalyticsEventsTitles.REASON,
+          GoogleAnalyticsEventsValues.FREE_TEXT_ENTERED
+        );
+        return of(AnalyticRecorded());
+      })
     )
   );
 }
