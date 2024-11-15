@@ -20,9 +20,6 @@ import { analyticsEventTypePrefix } from '@shared/helpers/format-analytics-text'
 import { StoreModel } from '@shared/models/store.model';
 import { getTestCategory } from '@store/tests/category/category.reducer';
 import { FeedbackChanged } from '@store/tests/test-data/cat-adi-part3/review/review.actions';
-import { getReview } from '@store/tests/test-data/cat-adi-part3/review/review.reducer';
-import { getFeedback } from '@store/tests/test-data/cat-adi-part3/review/review.selector';
-import { getTestData } from '@store/tests/test-data/cat-adi-part3/test-data.cat-adi-part3.reducer';
 import { TestsModel } from '@store/tests/tests.model';
 import { getTests } from '@store/tests/tests.reducer';
 import { getCurrentTest, isPracticeMode } from '@store/tests/tests.selector';
@@ -110,23 +107,16 @@ export class TestReportDashboardAnalyticsEffects {
         of(action).pipe(
           withLatestFrom(
             this.store$.pipe(select(getTests)),
-            this.store$.pipe(
-              select(getTests),
-              select(getCurrentTest),
-              select(getTestData),
-              select(getReview),
-              select(getFeedback)
-            ),
             this.store$.pipe(select(getTests), select(getCurrentTest), select(getTestCategory)),
             this.store$.pipe(select(getTests), select(isPracticeMode))
           )
         )
       ),
-      filter(([, , , , practiceMode]) =>
+      filter(([, , , practiceMode]) =>
         !practiceMode ? true : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics
       ),
       switchMap(
-        ([, tests, , category]: [ReturnType<typeof FeedbackChanged>, TestsModel, string, CategoryCode, boolean]) => {
+        ([, tests, category]: [ReturnType<typeof FeedbackChanged>, TestsModel, CategoryCode, boolean]) => {
           // GA4 Analytics
           this.analytics.logGAEvent(
             analyticsEventTypePrefix(GoogleAnalyticsEvents.FEEDBACK, tests),
