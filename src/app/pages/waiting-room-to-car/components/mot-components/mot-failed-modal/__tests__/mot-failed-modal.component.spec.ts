@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 
 import { CommonModule } from '@angular/common';
-import {ReactiveFormsModule, UntypedFormControl} from '@angular/forms';
+import { ReactiveFormsModule, UntypedFormControl } from '@angular/forms';
 import { ModalAlertTitleComponent } from '@components/common/modal-alert-title/modal-alert-title';
 import { Store, StoreModule } from '@ngrx/store';
 import { StoreModel } from '@shared/models/store.model';

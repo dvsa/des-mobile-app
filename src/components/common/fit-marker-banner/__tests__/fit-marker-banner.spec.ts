@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { FitMarkerBannerComponent } from '@components/common/fit-marker-banner/fit-marker-banner';
-import {IonicModule} from '@ionic/angular';
+import { IonicModule } from '@ionic/angular';
 
 describe('FitMarkerBannerComponent', () => {
   let fixture: ComponentFixture<FitMarkerBannerComponent>;
