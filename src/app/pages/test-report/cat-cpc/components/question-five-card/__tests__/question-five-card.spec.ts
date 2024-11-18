@@ -1,6 +1,6 @@
+import { CUSTOM_ELEMENTS_SCHEMA, EventEmitter } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { QuestionFiveCardComponent } from '@pages/test-report/cat-cpc/components/question-five-card/question-five-card';
-import { CUSTOM_ELEMENTS_SCHEMA, EventEmitter } from '@angular/core';
 
 describe('QuestionFiveCardComponent', () => {
   let fixture: ComponentFixture<QuestionFiveCardComponent>;
@@ -9,9 +9,7 @@ describe('QuestionFiveCardComponent', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      declarations: [
-        QuestionFiveCardComponent,
-      ],
+      declarations: [QuestionFiveCardComponent],
     });
 
     fixture = TestBed.createComponent(QuestionFiveCardComponent);
