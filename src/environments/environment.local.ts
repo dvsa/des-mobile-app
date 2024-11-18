@@ -263,6 +263,12 @@ export const environment: LocalEnvironmentFile = {
     photographUrl: 'https://dev.mes.dev-dvsacloud.uk/v1/driver/photograph/{drivingLicenceNumber}',
     standardUrl: 'https://dev.mes.dev-dvsacloud.uk/v1/driver/standard',
   },
+  vehicle: {
+    taxMotUrl: 'https://api.mot.test.smc.dvsacloud.uk/1.0/checkMot',
+  },
+  mot: {
+    motHistoryUrl: 'https://dev.mes.dev-dvsacloud.uk/v1/mot-history/{vrn}',
+  },
   refData: {
     testCentreUrl: '/assets/mock/ref-data/local-test-centres.json',
   },
