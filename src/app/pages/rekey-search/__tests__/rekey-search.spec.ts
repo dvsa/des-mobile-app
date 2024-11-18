@@ -1,3 +1,4 @@
+import { CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ActivatedRoute } from '@angular/router';
 import { Platform } from '@ionic/angular';
@@ -20,7 +21,6 @@ import { OrientationMonitorProvider } from '@providers/orientation-monitor/orien
 import { PipesModule } from '@shared/pipes/pipes.module';
 import { of } from 'rxjs';
 import { RekeySearchPage } from '../rekey-search';
-import { CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from '@angular/core';
 
 describe('RekeySearchPage', () => {
   let fixture: ComponentFixture<RekeySearchPage>;

@@ -1,3 +1,4 @@
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { AdditionalItemsComponent } from '@pages/test-report/cat-cpc/components/additional-items/additional-items';
 import { QuestionAnswerComponent } from '@pages/test-report/cat-cpc/components/question-answer/question-answer';
@@ -6,7 +7,6 @@ import { QuestionScoreComponent } from '@pages/test-report/cat-cpc/components/qu
 import { QuestionSubtitleComponent } from '@pages/test-report/cat-cpc/components/question-subtitle/question-subtitle';
 import { QuestionTitleComponent } from '@pages/test-report/cat-cpc/components/question-title/question-title';
 import { MockComponent } from 'ng-mocks';
-import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
 describe('QuestionCardComponent', () => {
   let fixture: ComponentFixture<QuestionCardComponent>;

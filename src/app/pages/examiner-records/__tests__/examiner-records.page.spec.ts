@@ -1,10 +1,12 @@
 import { CommonModule } from '@angular/common';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { Router } from '@angular/router';
 import { ScreenOrientation } from '@capawesome/capacitor-screen-orientation';
 import { ExaminerRecordModel } from '@dvsa/mes-microservice-common/domain/examiner-records';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { IonicModule } from '@ionic/angular';
 import { ScrollDetail } from '@ionic/core';
+import { RouterMock } from '@mocks/angular-mocks/router-mock';
 import { Store } from '@ngrx/store';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { ColourFilterRadioComponent } from '@pages/examiner-records/components/colour-filter-radio/colour-filter-radio';
@@ -17,18 +19,12 @@ import {
   HideChartsChanged,
   LoadingExaminerRecords,
   LocationChanged,
-  ReturnToDashboardPressed,
   TestCategoryChanged,
 } from '@pages/examiner-records/examiner-records.actions';
 import { DASHBOARD_PAGE } from '@pages/page-names.constants';
 import { CompressionProvider } from '@providers/compression/compression';
 import { ExaminerRecordsProviderMock } from '@providers/examiner-records/__mocks__/examiner-records.mock';
-import {
-  ColourEnum,
-  ColourScheme,
-  ExaminerRecordsProvider,
-  SelectableDateRange,
-} from '@providers/examiner-records/examiner-records';
+import { ColourEnum, ExaminerRecordsProvider, SelectableDateRange } from '@providers/examiner-records/examiner-records';
 import { SearchProviderMock } from '@providers/search/__mocks__/search.mock';
 import { SearchProvider } from '@providers/search/search';
 import { DateRange } from '@shared/helpers/date-time';
@@ -37,8 +33,6 @@ import moment from 'moment';
 import { MockComponent } from 'ng-mocks';
 import { Subscription, of } from 'rxjs';
 import { ExaminerRecordsPage, ExaminerRecordsPageStateData } from '../examiner-records.page';
-import { Router } from '@angular/router';
-import { RouterMock } from '@mocks/angular-mocks/router-mock';
 
 describe('ExaminerRecordsPage', () => {
   let component: ExaminerRecordsPage;
