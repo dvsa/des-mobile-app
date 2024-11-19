@@ -2,10 +2,10 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { MockComponent } from 'ng-mocks';
 
+import { CommonModule } from '@angular/common';
 import { Adi3DebriefCardBox } from '@components/common/adi3-debrief-card-box/adi3-debrief-card-box';
 import { Adi3DebriefCard } from '@components/common/adi3-debrief-card/adi3-debrief-card';
-import {IonicModule} from '@ionic/angular';
-import {CommonModule} from '@angular/common';
+import { IonicModule } from '@ionic/angular';
 
 describe('Adi3DebriefCard', () => {
   let fixture: ComponentFixture<Adi3DebriefCard>;
@@ -14,10 +14,7 @@ describe('Adi3DebriefCard', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [Adi3DebriefCard, MockComponent(Adi3DebriefCardBox)],
-      imports: [
-        CommonModule,
-        IonicModule,
-      ],
+      imports: [CommonModule, IonicModule],
     });
 
     fixture = TestBed.createComponent(Adi3DebriefCard);

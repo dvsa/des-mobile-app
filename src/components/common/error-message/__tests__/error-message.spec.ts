@@ -1,8 +1,8 @@
 import { CommonModule, Location } from '@angular/common';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { IonicModule } from '@ionic/angular';
 import { ErrorTypes } from '@shared/models/error-message';
 import { ErrorMessageComponent, additionalText } from '../error-message';
-import { IonicModule } from '@ionic/angular';
 
 describe('ErrorMessageComponent', () => {
   let fixture: ComponentFixture<ErrorMessageComponent>;
@@ -13,10 +13,7 @@ describe('ErrorMessageComponent', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ErrorMessageComponent],
-      imports: [
-        CommonModule,
-        IonicModule,
-      ],
+      imports: [CommonModule, IonicModule],
       providers: [{ provide: Location, useValue: locationSpy }],
     });
 

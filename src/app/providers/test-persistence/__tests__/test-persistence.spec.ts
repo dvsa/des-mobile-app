@@ -6,7 +6,7 @@ import { TestsModel } from '@store/tests/tests.model';
 import { AppConfigProviderMock } from '../../app-config/__mocks__/app-config.mock';
 import { AppConfigProvider } from '../../app-config/app-config';
 import { DataStoreProviderMock } from '../../data-store/__mocks__/data-store.mock';
-import {DataStoreProvider, LocalStorageKey} from '../../data-store/data-store';
+import { DataStoreProvider, LocalStorageKey } from '../../data-store/data-store';
 import { TestPersistenceProvider } from '../test-persistence';
 import Spy = jasmine.Spy;
 
