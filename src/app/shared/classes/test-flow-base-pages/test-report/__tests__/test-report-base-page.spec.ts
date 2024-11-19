@@ -9,6 +9,10 @@ import { Injector } from '@angular/core';
 import { CatADI2UniqueTypes } from '@dvsa/mes-test-schema/categories/ADI2';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { TestFlowPageNames } from '@pages/page-names.constants';
+import { EndTestModal } from '@pages/test-report/components/end-test-modal/end-test-modal';
+import { EtaInvalidModal } from '@pages/test-report/components/eta-invalid-modal/eta-invalid-modal';
+import { LegalRequirementsModal } from '@pages/test-report/components/legal-requirements-modal/legal-requirements-modal';
+import { SpecialLegalRequirementModal } from '@pages/test-report/components/special-legal-requirement-modal/special-legal-requirement-modal';
 import {
   CalculateTestResult,
   ReturnToTest,
@@ -242,6 +246,74 @@ describe('TestReportBasePageComponent', () => {
       basePageComponent.displayOverlay = false;
       basePageComponent.toggleReportOverlay();
       expect(basePageComponent.displayOverlay).toEqual(true);
+    });
+  });
+
+  describe('onEndTestClick', () => {
+    it('should create LegalRequirementsModal if test report is invalid', async () => {
+      basePageComponent.isTestReportValid = false;
+      spyOn(basePageComponent.modalController, 'create').and.callThrough();
+      await basePageComponent.onEndTestClick();
+      expect(basePageComponent.modalController.create).toHaveBeenCalledWith({
+        component: LegalRequirementsModal,
+        componentProps: {
+          legalRequirements: basePageComponent.missingLegalRequirements,
+          isDelegated: basePageComponent.delegatedTest,
+        },
+        cssClass: 'mes-modal-alert text-zoom-regular',
+      });
+    });
+
+    it('should create EtaInvalidModal if ETA is invalid', async () => {
+      basePageComponent.isTestReportValid = true;
+      basePageComponent.isEtaValid = false;
+      spyOn(basePageComponent.modalController, 'create').and.callThrough();
+      await basePageComponent.onEndTestClick();
+      expect(basePageComponent.modalController.create).toHaveBeenCalledWith({
+        component: EtaInvalidModal,
+        cssClass: 'mes-modal-alert text-zoom-regular',
+      });
+    });
+
+    it('should create SpecialLegalRequirementModal if manoeuvres are not completed and category is F, G, or H', async () => {
+      basePageComponent.isTestReportValid = true;
+      basePageComponent.isEtaValid = true;
+      basePageComponent.manoeuvresCompleted = false;
+      basePageComponent.testCategory = TestCategory.F;
+      spyOn(basePageComponent.modalController, 'create').and.callThrough();
+      await basePageComponent.onEndTestClick();
+      expect(basePageComponent.modalController.create).toHaveBeenCalledWith({
+        component: SpecialLegalRequirementModal,
+        cssClass: 'mes-modal-alert text-zoom-regular',
+      });
+    });
+
+    it('should create EndTestModal if all conditions are met', async () => {
+      basePageComponent.isTestReportValid = true;
+      basePageComponent.isEtaValid = true;
+      basePageComponent.manoeuvresCompleted = true;
+      spyOn(basePageComponent.modalController, 'create').and.callThrough();
+      await basePageComponent.onEndTestClick();
+      expect(basePageComponent.modalController.create).toHaveBeenCalledWith({
+        component: EndTestModal,
+        cssClass: 'mes-modal-alert text-zoom-regular',
+      });
+    });
+
+    it('should call onModalDismiss with data from modal onWillDismiss', async () => {
+      const modalData = { data: ModalEvent.CONTINUE };
+      basePageComponent.isTestReportValid = true;
+      basePageComponent.isEtaValid = true;
+      basePageComponent.manoeuvresCompleted = true;
+      spyOn(basePageComponent.modalController, 'create').and.returnValue(
+        Promise.resolve({
+          present: () => Promise.resolve(),
+          onWillDismiss: () => Promise.resolve(modalData),
+        } as any)
+      );
+      spyOn(basePageComponent, 'onModalDismiss');
+      await basePageComponent.onEndTestClick();
+      expect(basePageComponent.onModalDismiss).toHaveBeenCalledWith(modalData.data);
     });
   });
 
