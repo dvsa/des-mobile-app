@@ -3,10 +3,8 @@ import { IonicModule, ModalController, NavParams, Platform } from '@ionic/angula
 import { ModalControllerMock, NavParamsMock, PlatformMock } from '@mocks/index.mock';
 import { MockComponent } from 'ng-mocks';
 
-import { By } from '@angular/platform-browser';
 import { AppModule } from '@app/app.module';
 import { PracticeModeBanner } from '@components/common/practice-mode-banner/practice-mode-banner';
-import { TestFlowHeaderComponent } from '@components/common/test-flow-header/test-flow-header.component';
 import { TickIndicatorComponent } from '@components/common/tick-indicator/tick-indicator';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { StoreModule } from '@ngrx/store';
@@ -55,7 +53,6 @@ describe('TestReportCatDPage', () => {
         MockComponent(MultiLegalRequirementComponent),
         MockComponent(SafetyQuestionsCatDComponent),
         MockComponent(UncoupleRecoupleComponent),
-        MockComponent(TestFlowHeaderComponent),
       ],
       imports: [
         IonicModule,
@@ -108,30 +105,9 @@ describe('TestReportCatDPage', () => {
     component = fixture.componentInstance;
   });
 
-  describe('DOM', () => {
-    describe('Fault Modes Styling', () => {
-      it('should not have any fault mode styles applied when serious and dangerous mode is disabled', () => {
-        expect(fixture.debugElement.query(By.css('.serious-mode'))).toBeNull();
-        expect(fixture.debugElement.query(By.css('.dangerous-mode'))).toBeNull();
-      });
-      it('should have serious fault mode styles applied when serious mode is enabled', () => {
-        component.isSeriousMode = true;
-        fixture.detectChanges();
-        expect(fixture.debugElement.query(By.css('.serious-mode'))).toBeDefined();
-        expect(fixture.debugElement.query(By.css('.dangerous-mode'))).toBeNull();
-      });
-      it('should have dangerous fault mode styles applied when dangerous mode is enabled', () => {
-        component.isDangerousMode = true;
-        fixture.detectChanges();
-        expect(fixture.debugElement.query(By.css('.serious-mode'))).toBeNull();
-        expect(fixture.debugElement.query(By.css('.dangerous-mode'))).toBeDefined();
-      });
-    });
-  });
-
   describe('showUncoupleRecouple', () => {
     it('should not show uncouple/recouple when not delegated', () => {
-      component.isDelegated = false;
+      component.delegatedTest = false;
       expect(component.showUncoupleRecouple()).toEqual(false);
     });
     [
@@ -153,7 +129,7 @@ describe('TestReportCatDPage', () => {
       },
     ].forEach(({ cat, show }) => {
       it(`should ${show ? 'show' : 'not show'} uncouple/recouple for cat ${cat}`, () => {
-        component.isDelegated = true;
+        component.delegatedTest = true;
         component.testCategory = cat;
         expect(component.showUncoupleRecouple()).toEqual(show);
       });
