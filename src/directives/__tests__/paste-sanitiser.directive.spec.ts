@@ -6,31 +6,60 @@ describe('PasteSanitiserDirective', () => {
   let elementRefMock: jasmine.SpyObj<ElementRef>;
 
   beforeEach(() => {
-    elementRefMock = {
-      nativeElement: {
-        value: '',
-        setAttribute: jasmine.createSpy(),
-        getAttribute: jasmine.createSpy(),
-        hasAttribute: jasmine.createSpy(),
-      },
-    };
+    elementRefMock = { nativeElement: document.createElement('input') };
     directive = new PasteSanitiserDirective(elementRefMock as ElementRef);
   });
 
-  it('should sanitize pasted data', () => {
-    const event = new ClipboardEvent('paste', {
-      clipboardData: new DataTransfer(),
+  it('should sanitize pasted data by removing non-numeric characters when numbersOnly is true', (done) => {
+    elementRefMock.nativeElement.setAttribute('numbersOnly', 'true');
+    elementRefMock.nativeElement.value = '123abc456';
+    directive.onInput();
+
+    setTimeout(() => {
+      expect(elementRefMock.nativeElement.value).toBe('123456');
+      done()
     });
-    const maxLength = '5';
-    elementRefMock.nativeElement.getAttribute.and.returnValue(maxLength);
-    event.clipboardData.setData('text', 'text😊123');
-    elementRefMock.nativeElement.hasAttribute.and.returnValue(false);
-    spyOn(window, 'setTimeout')
-      .and // @ts-ignore
-      .callFake((fn) => fn());
+  });
 
-    directive.onInput(event);
+  it('should strip emojis from pasted data', (done) => {
+    elementRefMock.nativeElement.value = 'Hello 😊 World';
+    directive.onInput();
 
-    expect(elementRefMock.nativeElement.value).toBe('text1');
+    setTimeout(() => {
+      expect(elementRefMock.nativeElement.value).toBe('Hello  World');
+      done()
+    });
+  });
+
+  it('should truncate pasted data to maxLength', (done) => {
+    elementRefMock.nativeElement.setAttribute('maxLength', '5');
+    elementRefMock.nativeElement.value = '1234567890';
+    directive.onInput();
+
+    setTimeout(() => {
+      expect(elementRefMock.nativeElement.value).toBe('12345');
+      done()
+    });
+  });
+
+  it('should truncate pasted data to charLimit', (done) => {
+    elementRefMock.nativeElement.setAttribute('charLimit', '3');
+    elementRefMock.nativeElement.value = 'abcdef';
+    directive.onInput();
+
+    setTimeout(() => {
+      expect(elementRefMock.nativeElement.value).toBe('abc');
+      done()
+    });
+  });
+
+  it('should handle empty pasted data gracefully', (done) => {
+    elementRefMock.nativeElement.value = '';
+    directive.onInput();
+
+    setTimeout(() => {
+      expect(elementRefMock.nativeElement.value).toBe('');
+      done()
+    });
   });
 });

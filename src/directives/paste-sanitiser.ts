@@ -9,7 +9,7 @@ export class PasteSanitiserDirective {
 
   constructor(private el: ElementRef) {}
   @HostListener('paste', ['$event'])
-  onInput(event: ClipboardEvent): void {
+  onInput(): void {
     const inputField = this.el.nativeElement;
     if (!inputField) return;
     const numbersOnly = inputField.hasAttribute('numbersOnly');
