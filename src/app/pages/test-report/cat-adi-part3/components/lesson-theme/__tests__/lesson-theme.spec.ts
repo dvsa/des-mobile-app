@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { UntypedFormGroup } from '@angular/forms';
+import { FormControl, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { AssessmentAnswerComponent } from '@pages/test-report/cat-adi-part3/components/assessment-answer/assessment-answer';
 import { LessonThemeComponent } from '@pages/test-report/cat-adi-part3/components/lesson-theme/lesson-theme';
@@ -63,8 +63,15 @@ describe('LessonThemeComponent', () => {
 
   describe('characterCountChanged', () => {
     it('should change feedbackCharsRemaining to the parameter passed in', () => {
+      component.formControl = new FormControl();
       component.characterCountChanged(1);
       expect(component.feedbackCharsRemaining).toBe(1);
+    });
+    it('should check the validity of the form control', () => {
+      component.formControl = new FormControl();
+      spyOn(component.formControl, 'updateValueAndValidity');
+      component.characterCountChanged(1);
+      expect(component.formControl.updateValueAndValidity).toHaveBeenCalled();
     });
   });
 
@@ -81,17 +88,17 @@ describe('LessonThemeComponent', () => {
 
   describe('invalid', () => {
     it('should return true if the formControl is invalid and dirty', () => {
-      component.formControl = null;
+      component.formControl = new UntypedFormControl(null, [Validators.required]);
       component.formGroup = new UntypedFormGroup({});
       component.ngOnChanges();
 
-      component.formControl.setValue('test'.repeat(250));
+      component.formControl.setValue(null);
       component.formControl.markAsDirty();
 
       expect(component.invalid).toBeTruthy();
     });
     it('should return false if the formControl is valid and dirty', () => {
-      component.formControl = null;
+      component.formControl = new UntypedFormControl(null, [Validators.required]);
       component.formGroup = new UntypedFormGroup({});
       component.ngOnChanges();
 
@@ -101,7 +108,7 @@ describe('LessonThemeComponent', () => {
       expect(component.invalid).toBeFalsy();
     });
     it('should return false if the formControl is invalid and clean', () => {
-      component.formControl = null;
+      component.formControl = new UntypedFormControl(null, [Validators.required]);
       component.formGroup = new UntypedFormGroup({});
       component.ngOnChanges();
 
@@ -111,7 +118,7 @@ describe('LessonThemeComponent', () => {
       expect(component.invalid).toBeFalsy();
     });
     it('should return false if the formControl is valid and clean', () => {
-      component.formControl = null;
+      component.formControl = new UntypedFormControl(null, [Validators.required]);
       component.formGroup = new UntypedFormGroup({});
       component.ngOnChanges();
 

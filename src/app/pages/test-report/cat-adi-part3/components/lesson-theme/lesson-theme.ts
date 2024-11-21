@@ -58,7 +58,7 @@ export class LessonThemeComponent implements OnChanges {
 
   characterCountChanged(charactersRemaining: number) {
     this.feedbackCharsRemaining = charactersRemaining;
-    this.formGroup.get(LessonThemeComponent.fieldName).updateValueAndValidity();
+    this.formControl.updateValueAndValidity();
   }
 
   getCharacterCountText() {

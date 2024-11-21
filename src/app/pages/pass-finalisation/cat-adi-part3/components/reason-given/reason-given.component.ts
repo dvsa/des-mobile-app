@@ -64,7 +64,7 @@ export class ReasonGivenComponent implements OnChanges {
 
   characterCountChanged(charactersRemaining: number) {
     this.noAdviceCharsRemaining = charactersRemaining;
-    this.formGroup.get(ReasonGivenComponent.fieldName).updateValueAndValidity();
+    this.formControl.updateValueAndValidity();
   }
 
   adviceReasonChange(text: string) {

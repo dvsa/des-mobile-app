@@ -63,7 +63,7 @@ export class CandidateDescriptionComponent implements OnChanges {
 
   characterCountChanged(charactersRemaining: number) {
     this.candidateDescriptionCharsRemaining = charactersRemaining;
-    this.formGroup.get(CANDIDATE_DESCRIPTION_CONTROL).updateValueAndValidity();
+    this.formControl.updateValueAndValidity();
   }
 
   getCharacterCountText() {

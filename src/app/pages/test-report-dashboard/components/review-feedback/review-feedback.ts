@@ -41,7 +41,7 @@ export class ReviewFeedback {
 
   characterCountChanged(charactersRemaining: number) {
     this.feedbackCharsRemaining = charactersRemaining;
-    this.form.get('feedback').updateValueAndValidity();
+    this.formControl.updateValueAndValidity();
   }
 
   charactersExceededValidator(): ValidatorFn {

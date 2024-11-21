@@ -71,7 +71,7 @@ export class OtherReasonComponent implements OnChanges {
 
   characterCountChanged(charactersRemaining: number): void {
     this.reasonDescriptionCharsRemaining = charactersRemaining;
-    this.formGroup.get(OtherReasonComponent.fieldName).updateValueAndValidity();
+    this.formControl.updateValueAndValidity();
   }
 
   getCharacterCountText(): string {
