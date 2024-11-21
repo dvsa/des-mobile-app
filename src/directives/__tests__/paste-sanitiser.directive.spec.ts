@@ -17,7 +17,7 @@ describe('PasteSanitiserDirective', () => {
 
     setTimeout(() => {
       expect(elementRefMock.nativeElement.value).toBe('123456');
-      done()
+      done();
     });
   });
 
@@ -27,7 +27,7 @@ describe('PasteSanitiserDirective', () => {
 
     setTimeout(() => {
       expect(elementRefMock.nativeElement.value).toBe('Hello  World');
-      done()
+      done();
     });
   });
 
@@ -38,7 +38,7 @@ describe('PasteSanitiserDirective', () => {
 
     setTimeout(() => {
       expect(elementRefMock.nativeElement.value).toBe('12345');
-      done()
+      done();
     });
   });
 
@@ -49,7 +49,7 @@ describe('PasteSanitiserDirective', () => {
 
     setTimeout(() => {
       expect(elementRefMock.nativeElement.value).toBe('abc');
-      done()
+      done();
     });
   });
 
@@ -59,7 +59,7 @@ describe('PasteSanitiserDirective', () => {
 
     setTimeout(() => {
       expect(elementRefMock.nativeElement.value).toBe('');
-      done()
+      done();
     });
   });
 });
