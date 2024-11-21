@@ -150,8 +150,8 @@
           <ion-row>
             <ion-col class="textarea-input">
               <textarea
-                charLimit="950"
-                maxlength="950"
+                [charLimit]="characterLimit"
+                [maxlength]="characterLimit"
                 charCount
                 [class.ng-invalid]="invalid"
                 [value]="otherReason"

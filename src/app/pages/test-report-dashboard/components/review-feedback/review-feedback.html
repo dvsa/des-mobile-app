@@ -27,8 +27,8 @@
               id="review-card-feedback-textarea"
               formControlName="feedback"
               class="vehicle-reg-input mes-data input-styling-background"
-              charLimit="950"
-              [maxlength]="950"
+              [charLimit]="feedbackMaxLength"
+              [maxlength]="feedbackMaxLength"
               charCount
               [value]="feedback"
               (onCharacterCountChanged)="characterCountChanged($event)"

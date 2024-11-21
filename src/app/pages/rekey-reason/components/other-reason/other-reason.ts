@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
-import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 
 @Component({
   selector: 'other-reason',
@@ -11,6 +11,7 @@ export class OtherReasonComponent implements OnChanges {
   private checkBoxFormControl: UntypedFormControl;
   private formControl: UntypedFormControl;
   public reasonDescriptionCharsRemaining: number = null;
+  public otherReasonMaxLength = 200;
 
   @Input()
   selected: boolean;
@@ -41,13 +42,20 @@ export class OtherReasonComponent implements OnChanges {
     if (this.selected) {
       this.formGroup
         .get(OtherReasonComponent.fieldName)
-        .setValidators([Validators.required, Validators.maxLength(200)]);
+        .setValidators([Validators.required, this.charactersExceededValidator()]);
     } else {
       this.formGroup.get(OtherReasonComponent.fieldName).clearValidators();
     }
 
     this.checkBoxFormControl.patchValue(!!this.selected);
     this.formControl.patchValue(this.reason);
+    this.formGroup.get(OtherReasonComponent.fieldName).updateValueAndValidity();
+  }
+
+  charactersExceededValidator(): ValidatorFn {
+    return (): ValidationErrors | null => {
+      return this.charactersExceeded() ? { charactersExceeded: true } : null;
+    };
   }
 
   selectedValueChanged(selected: boolean): void {
@@ -63,6 +71,7 @@ export class OtherReasonComponent implements OnChanges {
 
   characterCountChanged(charactersRemaining: number): void {
     this.reasonDescriptionCharsRemaining = charactersRemaining;
+    this.formGroup.get(OtherReasonComponent.fieldName).updateValueAndValidity();
   }
 
   getCharacterCountText(): string {

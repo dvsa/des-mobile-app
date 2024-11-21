@@ -19,7 +19,7 @@
           id="candidate-description-text"
           formControlName="candidateDescription"
           class="vehicle-reg-input mes-data input-styling-background"
-          charLimit="1000"
+          [charLimit]="CANDIDATE_DESCRIPTION_MAX_LENGTH"
           charCount
           [class.ng-invalid]="invalid"
           [value]="candidateDescription"

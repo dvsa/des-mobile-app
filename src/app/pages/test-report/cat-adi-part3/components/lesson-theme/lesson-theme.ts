@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
-import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup, ValidationErrors, ValidatorFn } from '@angular/forms';
 import { LessonTheme } from '@dvsa/mes-test-schema/categories/ADI3';
 
 @Component({
@@ -24,14 +24,21 @@ export class LessonThemeComponent implements OnChanges {
 
   formControl: UntypedFormControl;
   feedbackCharsRemaining: number;
+  characterLimit = 1000;
   static readonly fieldName: string = 'otherReason';
 
   ngOnChanges(): void {
     if (!this.formControl) {
-      this.formControl = new UntypedFormControl(null, [Validators.maxLength(950)]);
+      this.formControl = new UntypedFormControl(null, [this.charactersExceededValidator()]);
       this.formGroup.addControl(LessonThemeComponent.fieldName, this.formControl);
     }
     this.formControl.patchValue(this.otherReason);
+  }
+
+  charactersExceededValidator(): ValidatorFn {
+    return (): ValidationErrors | null => {
+      return this.charactersExceeded() ? { charactersExceeded: true } : null;
+    };
   }
 
   lessonThemeChanged = (lessonTheme: string): void => {
@@ -51,6 +58,7 @@ export class LessonThemeComponent implements OnChanges {
 
   characterCountChanged(charactersRemaining: number) {
     this.feedbackCharsRemaining = charactersRemaining;
+    this.formGroup.get(LessonThemeComponent.fieldName).updateValueAndValidity();
   }
 
   getCharacterCountText() {

@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
-import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { OutcomeBehaviourMapProvider, VisibilityType } from '@providers/outcome-behaviour-map/outcome-behaviour-map';
 
 @Component({
@@ -27,6 +27,7 @@ export class ReasonGivenComponent implements OnChanges {
   adviceReason = new EventEmitter<string>();
 
   noAdviceCharsRemaining: number = null;
+  noAdviceMaxLength = 10;
   formControl: UntypedFormControl = null;
   static readonly fieldName: string = 'reasonGiven';
 
@@ -48,15 +49,22 @@ export class ReasonGivenComponent implements OnChanges {
     } else if (this.furtherDevelopment === false) {
       this.formGroup
         .get(ReasonGivenComponent.fieldName)
-        .setValidators([Validators.required, Validators.maxLength(950)]);
+        .setValidators([Validators.required, this.charactersExceededValidator()]);
     }
 
     this.formControl.updateValueAndValidity();
     this.formControl.patchValue(this.reasonGivenText);
   }
 
+  charactersExceededValidator(): ValidatorFn {
+    return (): ValidationErrors | null => {
+      return this.charactersExceeded() ? { charactersExceeded: true } : null;
+    };
+  }
+
   characterCountChanged(charactersRemaining: number) {
     this.noAdviceCharsRemaining = charactersRemaining;
+    this.formGroup.get(ReasonGivenComponent.fieldName).updateValueAndValidity();
   }
 
   adviceReasonChange(text: string) {

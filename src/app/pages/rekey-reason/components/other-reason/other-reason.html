@@ -17,7 +17,7 @@
         id="otherReason"
         class="mes-data input-styling-background"
         formControlName="reason"
-        charLimit="200"
+        [charLimit]="otherReasonMaxLength"
         charCount
         (onCharacterCountChanged)="characterCountChanged($event)"
         [value]="reason"

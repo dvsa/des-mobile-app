@@ -32,7 +32,7 @@
  * ```
  *
  * */
-import { AfterViewInit, Directive, ElementRef, EventEmitter, Output } from '@angular/core';
+import { AfterViewInit, Directive, ElementRef, EventEmitter, Input, Output } from '@angular/core';
 
 @Directive({
   selector: '[charCount]',
@@ -42,7 +42,7 @@ import { AfterViewInit, Directive, ElementRef, EventEmitter, Output } from '@ang
   },
 })
 export class CharacterCountDirective implements AfterViewInit {
-  private charLimit: number = null;
+  @Input() charLimit: number = null;
 
   @Output() onCharacterCountChanged: any = new EventEmitter(true);
 

@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 
 @Component({
   selector: 'review-feedback',
@@ -18,6 +18,7 @@ export class ReviewFeedback {
 
   formControl: UntypedFormControl;
   feedbackCharsRemaining: number = null;
+  feedbackMaxLength = 1000;
 
   ngOnChanges(): void {
     if (!this.formControl) {
@@ -25,7 +26,7 @@ export class ReviewFeedback {
       this.form.addControl('feedback', this.formControl);
     }
 
-    this.form.get('feedback').setValidators([Validators.required, Validators.maxLength(950)]);
+    this.form.get('feedback').setValidators([Validators.required, this.charactersExceededValidator()]);
 
     this.formControl.patchValue(this.feedback);
   }
@@ -40,6 +41,13 @@ export class ReviewFeedback {
 
   characterCountChanged(charactersRemaining: number) {
     this.feedbackCharsRemaining = charactersRemaining;
+    this.form.get('feedback').updateValueAndValidity();
+  }
+
+  charactersExceededValidator(): ValidatorFn {
+    return (): ValidationErrors | null => {
+      return this.charactersExceeded() ? { charactersExceeded: true } : null;
+    };
   }
 
   getCharacterCountText() {
