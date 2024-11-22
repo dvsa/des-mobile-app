@@ -24,7 +24,7 @@ export class PasteSanitiserDirective {
       // Strip emojis from string
       sanitisedData = sanitisedData.replace(this.emojiPattern, '');
 
-      const maxLength = Number(inputField.getAttribute('maxLength') || Number(inputField.getAttribute('charLimit')));
+      const maxLength = Number(inputField.getAttribute('maxLength'));
       // Apply maxLength or charLimit check after sanitizing
       if (maxLength && sanitisedData.length > maxLength) {
         sanitisedData = sanitisedData.substring(0, maxLength);
