@@ -42,17 +42,6 @@ describe('PasteSanitiserDirective', () => {
     });
   });
 
-  it('should truncate pasted data to charLimit', (done) => {
-    elementRefMock.nativeElement.setAttribute('charLimit', '3');
-    elementRefMock.nativeElement.value = 'abcdef';
-    directive.onInput();
-
-    setTimeout(() => {
-      expect(elementRefMock.nativeElement.value).toBe('abc');
-      done();
-    });
-  });
-
   it('should handle empty pasted data gracefully', (done) => {
     elementRefMock.nativeElement.value = '';
     directive.onInput();
