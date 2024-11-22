@@ -1,12 +1,12 @@
 import { ComponentFixture, TestBed, fakeAsync, waitForAsync } from '@angular/core/testing';
-import { IonicModule, ModalController, NavParams } from '@ionic/angular';
+import { IonicModule, ModalController } from '@ionic/angular';
 
 import { Router } from '@angular/router';
 import { DataRowCustomComponent } from '@components/common/data-row-custom/data-row-custom';
 import { DataRowComponent } from '@components/common/data-row/data-row';
 import { DisplayAddressComponent } from '@components/common/display-address/display-address';
 import { InappropriateUseBannerComponent } from '@components/common/inappropriate-use-banner/inappropriate-use-banner';
-import { Application, TestSlot } from '@dvsa/mes-journal-schema';
+import { Application } from '@dvsa/mes-journal-schema';
 import { SearchResultTestSchema } from '@dvsa/mes-search-schema';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { RouterMock } from '@mocks/angular-mocks/router-mock';
@@ -32,36 +32,6 @@ describe('CandidateDetailsPage', () => {
   let fixture: ComponentFixture<CandidateDetailsPage>;
   let store$: MockStore;
 
-  const mockNavParams = {
-    get: (param: string) => {
-      const data = {
-        slot: {
-          slotDetail: {
-            slotId: 123,
-            start: '123',
-          },
-          booking: {
-            candidate: {
-              candidateName: {
-                firstName: 'Tim',
-                lastName: 'Burr',
-                title: 'Mr',
-              },
-              driverNumber: 'ABC123',
-            },
-            application: {
-              testCategory: TestCategory.B,
-              meetingPlace: 'Somewhere',
-            },
-            business: {},
-          },
-        } as TestSlot,
-        slotChanged: false,
-      };
-      return data[param];
-    },
-  };
-
   const initialState = {
     journal: {
       slots: {
@@ -86,7 +56,6 @@ describe('CandidateDetailsPage', () => {
       providers: [
         { provide: DateTimeProvider, useClass: DateTimeProviderMock },
         { provide: ModalController, useClass: ModalControllerMock },
-        { provide: NavParams, useValue: mockNavParams },
         { provide: Router, useClass: RouterMock },
         { provide: SlotProvider, useClass: SlotProvider },
         { provide: AppConfigProvider, useClass: AppConfigProviderMock },

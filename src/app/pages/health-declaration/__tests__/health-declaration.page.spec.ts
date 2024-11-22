@@ -7,8 +7,8 @@ import { AppModule } from '@app/app.module';
 import { default as welshTranslations } from '@assets/i18n/cy.json';
 import { ComponentsModule } from '@components/common/common-components.module';
 import { TestSlotAttributes } from '@dvsa/mes-test-schema/categories/common';
-import { AlertController, NavController, NavParams, Platform } from '@ionic/angular';
-import { AlertControllerMock, NavControllerMock, NavParamsMock, PlatformMock, RouterMock } from '@mocks/index.mock';
+import { AlertController, NavController, Platform } from '@ionic/angular';
+import { AlertControllerMock, NavControllerMock, PlatformMock, RouterMock } from '@mocks/index.mock';
 import { Store, StoreModule } from '@ngrx/store';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { HealthDeclarationComponent } from '@pages/health-declaration/components/health-declaration/health-declaration';
@@ -92,10 +92,6 @@ describe('HealthDeclarationPage', () => {
         {
           provide: AlertController,
           useClass: AlertControllerMock,
-        },
-        {
-          provide: NavParams,
-          useClass: NavParamsMock,
         },
         {
           provide: Platform,

@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { AbstractControl, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { AppComponent } from '@app/app.component';
-import { ModalController, NavParams } from '@ionic/angular';
+import { ModalController } from '@ionic/angular';
 import { Store, select } from '@ngrx/store';
 import {
   FieldValidators,
@@ -26,6 +26,8 @@ interface ComponentState {
   styleUrls: ['./vrn-capture-modal.scss'],
 })
 export class VRNCaptureModal implements OnInit {
+  @Input()
+  public textZoom: string;
   componentState: ComponentState;
   merged$: Observable<string>;
   subscription: Subscription;
@@ -33,15 +35,13 @@ export class VRNCaptureModal implements OnInit {
   formGroup: UntypedFormGroup;
   vehicleRegistrationFormControlName = 'vehicleRegistration';
   formInvalid = false;
-  textZoom: string = this.navParams.get('textZoom');
 
   readonly registrationNumberValidator: FieldValidators = getRegistrationNumberValidator();
 
   constructor(
     public modalController: ModalController,
     private store$: Store<StoreModel>,
-    public appComponent: AppComponent,
-    public navParams: NavParams
+    public appComponent: AppComponent
   ) {
     this.formGroup = new UntypedFormGroup({});
     this.formGroup.addControl(

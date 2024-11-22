@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { IonicModule, ModalController, NavController, NavParams, Platform } from '@ionic/angular';
-import { ModalControllerMock, NavParamsMock, PlatformMock } from '@mocks/index.mock';
+import { IonicModule, ModalController, NavController, Platform } from '@ionic/angular';
+import { ModalControllerMock, PlatformMock } from '@mocks/index.mock';
 import { MockComponent } from 'ng-mocks';
 
 import { AppModule } from '@app/app.module';
@@ -72,10 +72,6 @@ describe('TestReportCatADI3Page', () => {
         StoreModule.forFeature('testReport', testReportReducer),
       ],
       providers: [
-        {
-          provide: NavParams,
-          useClass: NavParamsMock,
-        },
         {
           provide: Platform,
           useClass: PlatformMock,

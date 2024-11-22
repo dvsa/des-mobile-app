@@ -1,8 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { UntypedFormGroup } from '@angular/forms';
 import { QuestionOutcome, QuestionResult } from '@dvsa/mes-test-schema/categories/common';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
-import { ModalController, NavController, NavParams } from '@ionic/angular';
+import { ModalController, NavController } from '@ionic/angular';
 import { Store, select } from '@ngrx/store';
 import { FaultCountProvider } from '@providers/fault-count/fault-count';
 import { QuestionProvider } from '@providers/question/question';
@@ -42,6 +42,7 @@ interface VehicleChecksModalState {
 export class VehicleChecksCatAMod2Modal {
   pageState: VehicleChecksModalState;
   formGroup: UntypedFormGroup;
+  @Input()
   submitClicked: boolean;
 
   safetyQuestions: VehicleChecksQuestion[];
@@ -59,11 +60,9 @@ export class VehicleChecksCatAMod2Modal {
     private navController: NavController,
     private faultCountProvider: FaultCountProvider,
     public modalCtrl: ModalController,
-    questionProvider: QuestionProvider,
-    params: NavParams
+    questionProvider: QuestionProvider
   ) {
     this.formGroup = new UntypedFormGroup({});
-    this.submitClicked = params.get('submitClicked');
     this.safetyQuestions = questionProvider.getSafetyQuestions(TestCategory.EUAM2);
     this.balanceQuestions = questionProvider.getBalanceQuestions(TestCategory.EUAM2);
   }

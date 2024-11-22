@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
-import { IonicModule, NavParams } from '@ionic/angular';
+import { IonicModule, ModalController } from '@ionic/angular';
+import { ModalControllerMock } from '@mocks/ionic-mocks/modal-controller.mock';
 import { provideMockStore } from '@ngrx/store/testing';
 import { Adi3EndTestModal } from '@pages/test-report/cat-adi-part3/components/adi3-end-test-modal/adi3-end-test-modal';
 import { ADI3AssessmentProvider } from '@providers/adi3-assessment/adi3-assessment';
@@ -11,27 +12,12 @@ describe('Adi3EndTestModal', () => {
   let fixture: ComponentFixture<Adi3EndTestModal>;
   let component: Adi3EndTestModal;
 
-  const mockNavParams = {
-    get: (param: string) => {
-      const data = {
-        testData: { totalScore: 10 },
-        testResult: { activityCode: '1', grade: 'grade' },
-        totalScore: 10,
-        feedback: 'feedback',
-        isValidDashboard: false,
-        isTestReportPopulated: true,
-        riskToPublicSafety: false,
-      };
-      return data[param];
-    },
-  };
-
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [IonicModule, ReactiveFormsModule],
       providers: [
+        { provide: ModalController, useClass: ModalControllerMock },
         { provide: ADI3AssessmentProvider, useClass: ADI3AssessmentProvider },
-        { provide: NavParams, useValue: mockNavParams },
         provideMockStore({ ...{} }),
       ],
     });
@@ -57,20 +43,6 @@ describe('Adi3EndTestModal', () => {
       component.onCancel();
 
       expect(component.modalCtrl.dismiss).toHaveBeenCalledWith(ModalEvent.CANCEL);
-    });
-  });
-
-  describe('ngOnInit', () => {
-    it('should allocate variables correctly', () => {
-      component.ngOnInit();
-
-      expect(component.testData).toEqual({ totalScore: 10 });
-      expect(component.testResult).toEqual({ activityCode: '1', grade: 'grade' });
-      expect(component.totalScore).toBe(10);
-      expect(component.feedback).toBe('feedback');
-      expect(component.isValidDashboard).toBe(false);
-      expect(component.isTestReportPopulated).toBe(true);
-      expect(component.riskToPublicSafety).toBe(false);
     });
   });
 

@@ -1,5 +1,4 @@
-import { Component } from '@angular/core';
-import { NavParams } from '@ionic/angular';
+import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'test-finalisation-invalid-test-data-modal',
@@ -7,13 +6,12 @@ import { NavParams } from '@ionic/angular';
   styleUrls: ['test-finalisation-invalid-test-data-modal.scss'],
 })
 export class TestFinalisationInvalidTestDataModal {
+  @Input()
   onCancel: Function;
+  @Input()
   onReturnToTestReport: Function;
+  @Input()
   message: string;
 
-  constructor(public navParams: NavParams) {
-    this.onCancel = this.navParams.get('onCancel');
-    this.onReturnToTestReport = this.navParams.get('onReturnToTestReport');
-    this.message = this.navParams.get('message');
-  }
+  constructor() {}
 }

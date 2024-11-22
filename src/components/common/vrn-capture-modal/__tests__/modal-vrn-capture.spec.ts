@@ -4,8 +4,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MockAppComponent } from '@app/__mocks__/app.component.mock';
 import { AppComponent } from '@app/app.component';
 import { VRNCaptureModal } from '@components/common/vrn-capture-modal/vrn-capture-modal';
-import { IonicModule, NavParams } from '@ionic/angular';
-import { NavParamsMock } from '@mocks/index.mock';
+import { IonicModule, ModalController, NavParams } from '@ionic/angular';
+import { ModalControllerMock, NavParamsMock } from '@mocks/index.mock';
 import { Store } from '@ngrx/store';
 
 describe('VRNCaptureModal', () => {
@@ -19,6 +19,7 @@ describe('VRNCaptureModal', () => {
       declarations: [VRNCaptureModal],
       imports: [FormsModule, ReactiveFormsModule, IonicModule, CommonModule],
       providers: [
+        { provide: ModalController, useClass: ModalControllerMock },
         { provide: NavParams, useClass: NavParamsMock },
         { provide: Store, useClass: StoreMock },
         { provide: AppComponent, useClass: MockAppComponent },

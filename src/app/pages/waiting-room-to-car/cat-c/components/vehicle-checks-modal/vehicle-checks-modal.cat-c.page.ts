@@ -1,8 +1,8 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input } from '@angular/core';
 import { UntypedFormGroup } from '@angular/forms';
 import { QuestionOutcome, QuestionResult } from '@dvsa/mes-test-schema/categories/common';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
-import { ModalController, NavParams } from '@ionic/angular';
+import { ModalController } from '@ionic/angular';
 import { Store, select } from '@ngrx/store';
 import { FaultCountProvider } from '@providers/fault-count/fault-count';
 import { QuestionProvider } from '@providers/question/question';
@@ -68,7 +68,9 @@ export class VehicleChecksCatCModal {
   showMeQuestions: VehicleChecksQuestion[];
   tellMeQuestions: VehicleChecksQuestion[];
 
+  @Input()
   category: TestCategory;
+  @Input()
   submitClicked: boolean;
   fullLicenceHeld: boolean = null;
   showMeQuestionsNumberArray: number[];
@@ -83,11 +85,8 @@ export class VehicleChecksCatCModal {
     private faultCountProvider: FaultCountProvider,
     private ref: ChangeDetectorRef,
     public modalCtrl: ModalController,
-    questionProvider: QuestionProvider,
-    params: NavParams
+    questionProvider: QuestionProvider
   ) {
-    this.category = params.get('category');
-    this.submitClicked = params.get('submitClicked');
     this.formGroup = new UntypedFormGroup({});
     this.showMeQuestions = questionProvider.getShowMeQuestions(this.category);
     this.tellMeQuestions = questionProvider.getTellMeQuestions(this.category);

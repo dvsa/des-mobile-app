@@ -4,9 +4,9 @@ import { DrivingFaultsBadgeComponent } from '@components/common/driving-faults-b
 import { SeriousFaultBadgeComponent } from '@components/common/serious-fault-badge/serious-fault-badge';
 import { TickIndicatorComponent } from '@components/common/tick-indicator/tick-indicator';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
-import { IonicModule, ModalController, NavParams } from '@ionic/angular';
+import { IonicModule, ModalController } from '@ionic/angular';
 import { OverlayEventDetail } from '@ionic/core';
-import { ModalControllerMock, NavParamsMock } from '@mocks/index.mock';
+import { ModalControllerMock } from '@mocks/index.mock';
 import { Store, StoreModule } from '@ngrx/store';
 import { VehicleChecksCatCModal } from '@pages/waiting-room-to-car/cat-c/components/vehicle-checks-modal/vehicle-checks-modal.cat-c.page';
 import { VehicleChecksCatDModal } from '@pages/waiting-room-to-car/cat-d/components/vehicle-checks-modal/vehicle-checks-modal.cat-d.page';
@@ -45,7 +45,6 @@ describe('VehicleChecksComponent', () => {
       providers: [
         { provide: AccessibilityService, useClass: AccessibilityServiceMock },
         { provide: ModalController, useClass: ModalControllerMock },
-        { provide: NavParams, useClass: NavParamsMock },
         Store,
       ],
     });

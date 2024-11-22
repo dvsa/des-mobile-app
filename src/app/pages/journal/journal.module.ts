@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { IonicModule, NavParams } from '@ionic/angular';
+import { IonicModule } from '@ionic/angular';
 import { EffectsModule } from '@ngrx/effects';
 
 import { ComponentsModule } from '@components/common/common-components.module';
@@ -36,7 +36,6 @@ import { JournalPage } from './journal.page';
   providers: [
     OrientationMonitorProvider,
     JournalProvider,
-    NavParams,
     SlotProvider,
     SlotSelectorProvider,
     CompressionProvider,

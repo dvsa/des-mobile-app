@@ -1,7 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { CategoryCode } from '@dvsa/mes-test-schema/categories/common';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
-import { NavParams } from '@ionic/angular';
 import { Store, select } from '@ngrx/store';
 import { ReversingDistancesProvider } from '@providers/reversing-distances/reversing-distances';
 import { VehicleDetailsByCategoryProvider } from '@providers/vehicle-details-by-category/vehicle-details-by-category';
@@ -31,6 +30,9 @@ export class ReverseDiagramPage implements OnInit {
   vehicleLength: number;
 
   @Input()
+  onClose: OnCloseFunc;
+
+  @Input()
   vehicleWidth: number;
 
   componentState: ReverseDiagramPageState;
@@ -42,16 +44,12 @@ export class ReverseDiagramPage implements OnInit {
   reversingWidth: number;
   multiplierText: string;
   category: TestCategory;
-  onClose: OnCloseFunc;
 
   constructor(
-    private navParams: NavParams,
     public store$: Store<StoreModel>,
     public reversingDistancesProvider: ReversingDistancesProvider,
     public vehicleDetailsProvider: VehicleDetailsByCategoryProvider
-  ) {
-    this.onClose = this.navParams.get('onClose');
-  }
+  ) {}
 
   ngOnInit(): void {
     const currentTest$ = this.store$.pipe(select(getTests), select(getCurrentTest));

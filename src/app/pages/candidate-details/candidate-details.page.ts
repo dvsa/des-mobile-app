@@ -1,10 +1,10 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Business, TestSlot } from '@dvsa/mes-journal-schema';
 import { ActivityCode, SearchResultTestSchema } from '@dvsa/mes-search-schema';
 import { ApplicationReference } from '@dvsa/mes-test-schema/categories/common';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
-import { ModalController, NavParams, ViewDidEnter } from '@ionic/angular';
+import { ModalController, ViewDidEnter } from '@ionic/angular';
 import { Store, select } from '@ngrx/store';
 import { SlotProvider } from '@providers/slot/slot';
 import { formatApplicationReference } from '@shared/helpers/formatters';
@@ -47,12 +47,17 @@ interface CandidateDetailsPageState {
   styleUrls: ['candidate-details.page.scss'],
 })
 export class CandidateDetailsPage implements OnInit, OnDestroy, ViewDidEnter {
+  @Input()
+  public slots: TestSlot[];
+  @Input()
+  public slot: TestSlot;
+  @Input()
+  public slotChanged: boolean;
+  @Input()
+  public isTeamJournal: boolean;
+
   pageState: CandidateDetailsPageState;
   selectedDate: string;
-  slot: TestSlot;
-  slots: TestSlot[];
-  slotChanged = false;
-  isTeamJournal = false;
   testCategory: TestCategory = null;
   idPrefix = 'candidate-details';
   prevSlot: TestSlot;
@@ -62,7 +67,6 @@ export class CandidateDetailsPage implements OnInit, OnDestroy, ViewDidEnter {
 
   constructor(
     public modalController: ModalController,
-    public navParams: NavParams,
     public store$: Store<StoreModel>,
     public router: Router,
     public slotProvider: SlotProvider
@@ -74,19 +78,8 @@ export class CandidateDetailsPage implements OnInit, OnDestroy, ViewDidEnter {
   }
 
   ngOnInit(): void {
-    const navSlot = this.navParams.get('slot');
-    const navSlots = this.navParams.get('slots');
-    this.slotChanged = this.navParams.get('slotChanged');
-    this.isTeamJournal = this.navParams.get('isTeamJournal');
-
-    // if `slot` is not defined, then use the slot value from `navParams`
-    // it will be undefined, when using the next/prev buttons as the value wouldn't be set via the Journal navigation
-    if (!this.slot) this.slot = navSlot;
-
     // if `slots` is defined, we want to determine the prev/next slots using the navSlots
-    if (navSlots) {
-      if (!this.slots) this.slots = navSlots;
-
+    if (this.slots) {
       // some slot types won't be displayed in the candidate details page (Corporate Connectivity), we remove those here
       this.slots = this.slots.filter((slot) => !!slot?.booking?.candidate);
 

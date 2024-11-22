@@ -2,8 +2,8 @@ import { ComponentFixture, TestBed, fakeAsync, waitForAsync } from '@angular/cor
 import { By } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ErrorMessageComponent } from '@components/common/error-message/error-message';
-import { AlertController, IonicModule, ModalController, NavParams } from '@ionic/angular';
-import { ActivatedRouteMock, AlertControllerMock, NavParamsMock, RouterMock } from '@mocks/index.mock';
+import { AlertController, IonicModule, ModalController } from '@ionic/angular';
+import { ActivatedRouteMock, AlertControllerMock, RouterMock } from '@mocks/index.mock';
 import { ModalControllerMock } from '@mocks/ionic-mocks/modal-controller.mock';
 import { provideMockStore } from '@ngrx/store/testing';
 import { AuthenticationProviderMock } from '@providers/authentication/__mocks__/authentication.mock';
@@ -27,10 +27,6 @@ describe('ErrorPage', () => {
         {
           provide: Router,
           useClass: RouterMock,
-        },
-        {
-          provide: NavParams,
-          useClass: NavParamsMock,
         },
         {
           provide: ModalController,

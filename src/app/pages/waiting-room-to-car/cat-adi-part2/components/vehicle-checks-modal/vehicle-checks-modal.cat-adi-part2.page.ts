@@ -1,8 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { UntypedFormGroup } from '@angular/forms';
 import { QuestionOutcome, QuestionResult } from '@dvsa/mes-test-schema/categories/common';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
-import { ModalController, NavParams } from '@ionic/angular';
+import { ModalController } from '@ionic/angular';
 import { Store, select } from '@ngrx/store';
 import { FaultCountProvider } from '@providers/fault-count/fault-count';
 import { QuestionProvider } from '@providers/question/question';
@@ -45,16 +45,15 @@ export class VehicleChecksCatADIPart2Modal {
   readonly tellMeQuestionsNumberArray: number[] = Array(NUMBER_OF_TELL_ME_QUESTIONS);
   vehicleChecksScore: VehicleChecksScore;
   subscription: Subscription;
+  @Input()
   submitClicked: boolean;
 
   constructor(
     public store$: Store<StoreModel>,
     private faultCountProvider: FaultCountProvider,
     public modalCtrl: ModalController,
-    questionProvider: QuestionProvider,
-    params: NavParams
+    questionProvider: QuestionProvider
   ) {
-    this.submitClicked = params.get('submitClicked');
     this.formGroup = new UntypedFormGroup({});
     this.tellMeQuestions = questionProvider.getTellMeQuestions(TestCategory.ADI2);
   }

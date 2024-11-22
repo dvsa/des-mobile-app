@@ -4,8 +4,8 @@ import { WarningBannerComponent } from '@components/common/warning-banner/warnin
 import { CatADI2UniqueTypes } from '@dvsa/mes-test-schema/categories/ADI2';
 import { QuestionOutcome, QuestionResult } from '@dvsa/mes-test-schema/categories/common';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
-import { IonicModule, ModalController, NavController, NavParams } from '@ionic/angular';
-import { NavControllerMock, NavParamsMock } from '@mocks/index.mock';
+import { IonicModule, ModalController, NavController } from '@ionic/angular';
+import { NavControllerMock } from '@mocks/index.mock';
 import { ModalControllerMock } from '@mocks/ionic-mocks/modal-controller.mock';
 import { Store, StoreModule } from '@ngrx/store';
 import { provideMockStore } from '@ngrx/store/testing';
@@ -113,10 +113,6 @@ describe('VehicleChecksCatADIPart2Modal', () => {
         {
           provide: NavController,
           useClass: NavControllerMock,
-        },
-        {
-          provide: NavParams,
-          useClass: NavParamsMock,
         },
         provideMockStore({ initialState }),
       ],
