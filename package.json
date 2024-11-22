@@ -135,7 +135,7 @@
     "@capacitor/cli": "^6.0.0",
     "@dvsa/biome-config": "^0.1.0",
     "@ionic/angular-toolkit": "^11.0.0",
-    "@ionic/cli": "^7.1.5",
+    "@ionic/cli": "^7.2.0",
     "@sentry/cli": "^2.37.0",
     "@types/deep-diff": "^1.0.5",
     "@types/hammerjs": "^2.0.45",
