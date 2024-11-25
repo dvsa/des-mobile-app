@@ -1,5 +1,5 @@
 ion-button {
-  min-height: 56px;
+  min-height: 44px;
   --background-hover: transparent;
 }
 
@@ -12,6 +12,7 @@ ion-modal {
   }
 }
 .generic-button {
+  min-height: 56px;
   --border-radius: 10px;
   margin: 0 3.2px;
   --outline: none;
