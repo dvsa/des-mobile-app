@@ -1,6 +1,6 @@
 <div id="wrapper" class="toolbar-wrapper">
   <ion-row class="ion-no-padding">
-    <ion-col size="20" class="ion-no-padding">
+    <ion-col size="31" class="ion-no-padding">
       <ion-button
         fill="clear"
         id="remove-button"
@@ -12,12 +12,12 @@
         'inactive': !isRemoveFaultMode
       }"
       >
-        <ion-text class="padding-bottom-6-pixels">
+        <ion-text class="des-header-style-3 padding-bottom-6-pixels">
           {{ isRemoveFaultMode ? 'Exit remove mode' : 'Remove'}}
         </ion-text>
       </ion-button>
     </ion-col>
-    <ion-col size="13"></ion-col>
+    <ion-col size="2"></ion-col>
     <ion-col size="11" class="ion-no-padding button-wrapper">
       <ion-button
         fill="clear"
@@ -52,7 +52,7 @@
       <driving-fault-summary></driving-fault-summary>
     </ion-col>
     <ion-col></ion-col>
-    <ion-col size="15" class="display-flex ion-no-padding" [hidden]="isSeriousMode || isDangerousMode">
+    <ion-col size="auto" class="display-flex ion-no-padding" [hidden]="isSeriousMode || isDangerousMode">
       <timer class="ion-float-end"></timer>
     </ion-col>
     <ion-col size="35" *ngIf="isSeriousMode" class="ion-no-padding">

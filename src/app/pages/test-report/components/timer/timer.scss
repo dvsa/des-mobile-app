@@ -9,7 +9,9 @@
   #start-timer-button {
     --background: #02477b;
     --border-radius: 10px;
-    --color: #ffffff;
+    ion-text {
+      color: var(--mes-white) !important;
+    }
   }
 
   #timer-text {
