@@ -88,7 +88,7 @@ export class VehicleChecksCatCModal {
     private ref: ChangeDetectorRef,
     public modalCtrl: ModalController,
     public accessibilityService: AccessibilityService,
-    public questionProvider: QuestionProvider,
+    public questionProvider: QuestionProvider
   ) {
     this.formGroup = new UntypedFormGroup({});
   }
