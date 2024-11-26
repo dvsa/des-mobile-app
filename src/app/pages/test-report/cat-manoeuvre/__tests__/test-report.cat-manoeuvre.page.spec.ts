@@ -1,8 +1,8 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { ModalController, NavParams, Platform, ToastController } from '@ionic/angular';
-import { ModalControllerMock, NavParamsMock, PlatformMock } from '@mocks/index.mock';
+import { ModalController, Platform, ToastController } from '@ionic/angular';
+import { ModalControllerMock, PlatformMock } from '@mocks/index.mock';
 import { Store, StoreModule } from '@ngrx/store';
 import { MockComponent } from 'ng-mocks';
 
@@ -63,10 +63,6 @@ describe('TestReportCatManoeuvrePage', () => {
         })),
       ],
       providers: [
-        {
-          provide: NavParams,
-          useClass: NavParamsMock,
-        },
         {
           provide: Platform,
           useClass: PlatformMock,

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { UntypedFormGroup } from '@angular/forms';
 import { QuestionOutcome, QuestionResult, SafetyQuestionResult } from '@dvsa/mes-test-schema/categories/common';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
@@ -29,7 +29,7 @@ import { SafetyQuestionOutcomeChanged } from '@store/tests/test-data/cat-d/safet
 
 import { NUMBER_OF_SAFETY_QUESTIONS } from '@shared/constants/safety-questions.cat-d.constants';
 
-import { ModalController, NavParams } from '@ionic/angular';
+import { ModalController } from '@ionic/angular';
 import { FaultCountProvider } from '@providers/fault-count/fault-count';
 import {
   NUMBER_OF_SHOW_ME_QUESTIONS as NUMBER_OF_SHOW_ME_QUESTIONS_TRAILER,
@@ -82,7 +82,9 @@ export class VehicleChecksCatDModal {
   tellMeQuestions: VehicleChecksQuestion[];
   safetyQuestions: SafetyQuestion[];
 
+  @Input()
   category: TestCategory;
+  @Input()
   submitClicked: boolean;
 
   showMeQuestionsNumberArray: number[];
@@ -102,19 +104,16 @@ export class VehicleChecksCatDModal {
     public store$: Store<StoreModel>,
     private faultCountProvider: FaultCountProvider,
     public modalCtrl: ModalController,
-    questionProvider: QuestionProvider,
-    params: NavParams
+    public questionProvider: QuestionProvider
   ) {
-    this.category = params.get('category');
-    this.submitClicked = params.get('submitClicked');
     this.formGroup = new UntypedFormGroup({});
     this.safetyQuestionsNumberArray = Array(NUMBER_OF_SAFETY_QUESTIONS);
-    this.showMeQuestions = questionProvider.getShowMeQuestions(this.category);
-    this.tellMeQuestions = questionProvider.getTellMeQuestions(this.category);
-    this.safetyQuestions = questionProvider.getVocationalSafetyQuestions(this.category);
   }
 
   ngOnInit(): void {
+    this.showMeQuestions = this.questionProvider.getShowMeQuestions(this.category);
+    this.tellMeQuestions = this.questionProvider.getTellMeQuestions(this.category);
+    this.safetyQuestions = this.questionProvider.getVocationalSafetyQuestions(this.category);
     const currentTest$ = this.store$.pipe(select(getTests), select(getCurrentTest));
     this.pageState = {
       candidateName$: currentTest$.pipe(select(getJournalData), select(getCandidate), select(getUntitledCandidateName)),

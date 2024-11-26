@@ -5,32 +5,22 @@ import { By } from '@angular/platform-browser';
 import { provideMockStore } from '@ngrx/store/testing';
 
 import { ComponentsModule } from '@components/common/common-components.module';
-import { IonicModule, ModalController, NavParams } from '@ionic/angular';
+import { IonicModule, ModalController } from '@ionic/angular';
 import { ModalControllerMock } from '@mocks/ionic-mocks/modal-controller.mock';
 import { EarlyStartDidContinue, EarlyStartDidReturn } from '@store/journal/journal.actions';
-import { JournalEarlyStartModalMock } from '../__mocks__/journal-early-start-modal.mock';
-import { NavParamsMock } from '../__mocks__/nav-params.mock';
 import { JournalEarlyStartModal } from '../journal-early-start-modal';
 import { ModalEvent } from '../journal-early-start-modal.constants';
 
 describe('JournalEarlyStartModal', () => {
   let modalFixture: ComponentFixture<JournalEarlyStartModal>;
   let modalComponent: JournalEarlyStartModal;
-  const mockFile: JournalEarlyStartModalMock = new JournalEarlyStartModalMock();
-  const navMock: NavParamsMock = new NavParamsMock();
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [JournalEarlyStartModal],
       imports: [CommonModule, FormsModule, IonicModule, ComponentsModule],
-      providers: [
-        { provide: ModalController, useClass: ModalControllerMock },
-        { provide: NavParams, useFactory: () => navMock },
-        provideMockStore({}),
-      ],
+      providers: [{ provide: ModalController, useClass: ModalControllerMock }, provideMockStore({})],
     });
-    const mockValue = mockFile.mockSlotDetail();
-    spyOn(navMock, 'get').and.returnValue(mockValue);
     modalFixture = TestBed.createComponent(JournalEarlyStartModal);
     modalComponent = modalFixture.componentInstance;
     spyOn(modalComponent, 'getStartTime');
@@ -39,12 +29,6 @@ describe('JournalEarlyStartModal', () => {
   }));
 
   describe('DOM', () => {
-    it('should return slot details from nav param', () => {
-      modalFixture.detectChanges();
-      const slotData = modalComponent.getSlotData();
-      const mockValue = mockFile.mockSlotDetail();
-      expect(slotData).toEqual(mockValue);
-    });
     it('should call onStart when the Start test button is clicked', () => {
       modalFixture.detectChanges();
       spyOn(modalComponent, 'onStart').and.callThrough();

@@ -2,8 +2,8 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { AppModule } from '@app/app.module';
 import { WarningBannerComponent } from '@components/common/warning-banner/warning-banner';
 import { QuestionOutcome, QuestionResult } from '@dvsa/mes-test-schema/categories/common';
-import { IonicModule, ModalController, NavParams } from '@ionic/angular';
-import { ModalControllerMock, NavParamsMock } from '@mocks/index.mock';
+import { IonicModule, ModalController } from '@ionic/angular';
+import { ModalControllerMock } from '@mocks/index.mock';
 import { Store, StoreModule } from '@ngrx/store';
 import { VehicleChecksQuestionCatAMod2Component } from '@pages/waiting-room-to-car/cat-a-mod2/components/vehicle-checks-question/vehicle-checks-question';
 import { StoreModel } from '@shared/models/store.model';
@@ -31,10 +31,7 @@ describe('VehicleChecksCatAMod2Modal', () => {
         WarningBannerComponent,
       ],
       imports: [IonicModule, AppModule, StoreModule.forRoot({})],
-      providers: [
-        { provide: ModalController, useClass: ModalControllerMock },
-        { provide: NavParams, useClass: NavParamsMock },
-      ],
+      providers: [{ provide: ModalController, useClass: ModalControllerMock }],
     });
 
     fixture = TestBed.createComponent(VehicleChecksCatAMod2Modal);

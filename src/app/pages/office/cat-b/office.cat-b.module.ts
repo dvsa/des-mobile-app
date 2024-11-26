@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ComponentsModule } from '@components/common/common-components.module';
-import { IonicModule, NavParams } from '@ionic/angular';
+import { IonicModule } from '@ionic/angular';
 import { EffectsModule } from '@ngrx/effects';
 import { OfficeCatBPageRoutingModule } from '@pages/office/cat-b/office.cat-b-routing.module';
 import { OfficeComponentsModule } from '@pages/office/components/office.components.module';
@@ -24,6 +24,6 @@ import { OfficeCatBPage } from './office.cat-b.page';
     CommonModule,
     WaitingRoomToCarComponentsModule,
   ],
-  providers: [FaultSummaryProvider, NavParams],
+  providers: [FaultSummaryProvider],
 })
 export class OfficeCatBPageModule {}

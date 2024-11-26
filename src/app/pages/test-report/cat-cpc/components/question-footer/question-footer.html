@@ -2,17 +2,17 @@
   <ion-row>
     <ion-col class="ion-text-center" *ngIf="showPreviousPageButton()">
       <ion-button expand="block" class="mes-grey-button" id="previous-page-button" (click)="goToPreviousQuestion()">
-        Previous question
+        <ion-text class="des-header-style-3"> Previous question</ion-text>
       </ion-button>
     </ion-col>
     <ion-col class="ion-text-center" *ngIf="showNextPageButton()">
       <ion-button expand="block" class="mes-primary-button" id="next-page-button" (click)="goToNextQuestion()">
-        Next question
+        <ion-text class="des-header-style-3"> Next question</ion-text>
       </ion-button>
     </ion-col>
     <ion-col class="ion-text-center" *ngIf="showViewSummaryButton()">
       <ion-button expand="block" class="mes-primary-button" id="view-summary-button" (click)="goToSummary()">
-        View test summary
+        <ion-text class="des-header-style-3"> View test summary</ion-text>
       </ion-button>
     </ion-col>
   </ion-row>

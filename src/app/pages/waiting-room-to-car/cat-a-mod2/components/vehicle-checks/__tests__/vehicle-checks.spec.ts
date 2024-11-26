@@ -3,9 +3,9 @@ import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
 import { DrivingFaultsBadgeComponent } from '@components/common/driving-faults-badge/driving-faults-badge';
 import { SeriousFaultBadgeComponent } from '@components/common/serious-fault-badge/serious-fault-badge';
 import { TickIndicatorComponent } from '@components/common/tick-indicator/tick-indicator';
-import { IonicModule, ModalController, NavParams } from '@ionic/angular';
+import { IonicModule, ModalController } from '@ionic/angular';
 import { OverlayEventDetail } from '@ionic/core';
-import { ModalControllerMock, NavParamsMock } from '@mocks/index.mock';
+import { ModalControllerMock } from '@mocks/index.mock';
 import { Store } from '@ngrx/store';
 import { VehicleChecksCatAMod2Modal } from '@pages/waiting-room-to-car/cat-a-mod2/components/vehicle-checks-modal/vehicle-checks-modal.cat-a-mod2.page';
 import { AccessibilityServiceMock } from '@providers/accessibility/__mocks__/accessibility-service.mock';
@@ -34,7 +34,6 @@ describe('VehicleChecksCatAMod2Component', () => {
         { provide: ModalController, useClass: ModalControllerMock },
         { provide: AccessibilityService, useClass: AccessibilityServiceMock },
         { provide: Store, useClass: MockStore },
-        { provide: NavParams, useClass: NavParamsMock },
       ],
     });
 

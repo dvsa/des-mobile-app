@@ -1,5 +1,4 @@
-import { Component } from '@angular/core';
-import { NavParams } from '@ionic/angular';
+import { Component, Input } from '@angular/core';
 import { DeviceAuthenticationProvider } from '@providers/device-authentication/device-authentication';
 
 @Component({
@@ -8,22 +7,16 @@ import { DeviceAuthenticationProvider } from '@providers/device-authentication/d
   styleUrls: ['./terminate-test-modal.scss'],
 })
 export class TerminateTestModal {
+  @Input()
   onCancel: Function;
-
+  @Input()
   onTerminate: Function;
-
+  @Input()
   shouldAuthenticate = true;
+  @Input()
   isPracticeMode = false;
 
-  constructor(
-    private navParams: NavParams,
-    private deviceAuthenticationProvider: DeviceAuthenticationProvider
-  ) {
-    this.onCancel = this.navParams.get('onCancel');
-    this.onTerminate = this.navParams.get('onTerminate');
-    this.shouldAuthenticate = this.navParams.get('shouldAuthenticate');
-    this.isPracticeMode = this.navParams.get('isPracticeMode');
-  }
+  constructor(private deviceAuthenticationProvider: DeviceAuthenticationProvider) {}
 
   /**
    * Fired when the termination of the test is confirmed.

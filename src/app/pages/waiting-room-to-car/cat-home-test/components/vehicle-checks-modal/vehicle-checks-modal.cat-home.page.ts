@@ -1,8 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { UntypedFormGroup } from '@angular/forms';
 import { QuestionOutcome, QuestionResult } from '@dvsa/mes-test-schema/categories/common';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
-import { ModalController, NavParams } from '@ionic/angular';
+import { ModalController } from '@ionic/angular';
 import { Store, select } from '@ngrx/store';
 import { FaultCountProvider } from '@providers/fault-count/fault-count';
 import { QuestionProvider } from '@providers/question/question';
@@ -48,7 +48,9 @@ export class VehicleChecksCatHomeTestModal {
   formGroup: UntypedFormGroup;
   showMeQuestions: VehicleChecksQuestion[];
   tellMeQuestions: VehicleChecksQuestion[];
+  @Input()
   category: TestCategory;
+  @Input()
   submitClicked: boolean;
   readonly showMeQuestionsNumberArray: number[] = Array(NUMBER_OF_SHOW_ME_QUESTIONS);
   readonly tellMeQuestionsNumberArray: number[] = Array(NUMBER_OF_TELL_ME_QUESTIONS);
@@ -59,17 +61,14 @@ export class VehicleChecksCatHomeTestModal {
     public store$: Store<StoreModel>,
     public modalCtrl: ModalController,
     private faultCountProvider: FaultCountProvider,
-    private questionProvider: QuestionProvider,
-    params: NavParams
+    private questionProvider: QuestionProvider
   ) {
-    this.category = params.get('category');
-    this.submitClicked = params.get('submitClicked');
     this.formGroup = new UntypedFormGroup({});
-    this.showMeQuestions = this.questionProvider.getShowMeQuestions(this.category);
-    this.tellMeQuestions = this.questionProvider.getTellMeQuestions(this.category);
   }
 
   ngOnInit(): void {
+    this.showMeQuestions = this.questionProvider.getShowMeQuestions(this.category);
+    this.tellMeQuestions = this.questionProvider.getTellMeQuestions(this.category);
     const currentTest$ = this.store$.pipe(select(getTests), select(getCurrentTest));
 
     this.pageState = {

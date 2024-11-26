@@ -23,7 +23,9 @@ import { JournalModel } from '@store/journal/journal.model';
 import { TestStatus } from '@store/tests/test-status/test-status.model';
 import { ActivateTest, StartTest } from '@store/tests/tests.actions';
 
+import { ModalController } from '@ionic/angular';
 import { RouterMock } from '@mocks/angular-mocks/router-mock';
+import { ModalControllerMock } from '@mocks/ionic-mocks/modal-controller.mock';
 import { AccessibilityServiceMock } from '@providers/accessibility/__mocks__/accessibility-service.mock';
 import { AccessibilityService } from '@providers/accessibility/accessibility.service';
 import { SetExaminerBooked } from '@store/tests/examiner-booked/examiner-booked.actions';
@@ -158,6 +160,7 @@ describe('TestOutcomeComponent', () => {
         TestSlotComponentsModule,
       ],
       providers: [
+        { provide: ModalController, useClass: ModalControllerMock },
         {
           provide: LogHelper,
           useClass: LogHelperMock,

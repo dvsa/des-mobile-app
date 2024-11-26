@@ -1,8 +1,8 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { ComponentsModule } from '@components/common/common-components.module';
-import { IonicModule, ModalController, NavParams } from '@ionic/angular';
-import { ModalControllerMock, NavParamsMock } from '@mocks/index.mock';
+import { IonicModule, ModalController } from '@ionic/angular';
+import { ModalControllerMock } from '@mocks/index.mock';
 import { ModalEvent } from '@pages/test-report/test-report.constants';
 import { AppModule } from 'src/app/app.module';
 import { SpecialLegalRequirementModal } from '../special-legal-requirement-modal';
@@ -16,10 +16,7 @@ describe('LegalRequirementsModal', () => {
     TestBed.configureTestingModule({
       declarations: [SpecialLegalRequirementModal],
       imports: [AppModule, IonicModule, ComponentsModule],
-      providers: [
-        { provide: NavParams, useClass: NavParamsMock },
-        { provide: ModalController, useClass: ModalControllerMock },
-      ],
+      providers: [{ provide: ModalController, useClass: ModalControllerMock }],
     });
 
     fixture = TestBed.createComponent(SpecialLegalRequirementModal);

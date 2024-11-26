@@ -3,8 +3,8 @@ import { AppModule } from '@app/app.module';
 import { PracticeModeBanner } from '@components/common/practice-mode-banner/practice-mode-banner';
 import { TickIndicatorComponent } from '@components/common/tick-indicator/tick-indicator';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
-import { IonicModule, ModalController, NavParams, Platform } from '@ionic/angular';
-import { ModalControllerMock, NavParamsMock, PlatformMock } from '@mocks/index.mock';
+import { IonicModule, ModalController, Platform } from '@ionic/angular';
+import { ModalControllerMock, PlatformMock } from '@mocks/index.mock';
 import { StoreModule } from '@ngrx/store';
 import { VehicleChecksComponent } from '@pages/test-report/cat-c/components/vehicle-checks/vehicle-checks';
 import { ReverseLeftPopoverComponent } from '@pages/test-report/components/reverse-left-popover/reverse-left-popover';
@@ -76,10 +76,6 @@ describe('TestReportCatCPage', () => {
         StoreModule.forFeature('testReport', testReportReducer),
       ],
       providers: [
-        {
-          provide: NavParams,
-          useClass: NavParamsMock,
-        },
         {
           provide: Platform,
           useClass: PlatformMock,

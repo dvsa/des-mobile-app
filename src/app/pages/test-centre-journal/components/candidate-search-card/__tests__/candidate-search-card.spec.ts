@@ -1,10 +1,11 @@
 import { CommonModule } from '@angular/common';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { IonicModule } from '@ionic/angular';
+import { IonicModule, ModalController } from '@ionic/angular';
 import { provideMockStore } from '@ngrx/store/testing';
 
 import { ComponentsModule } from '@components/common/common-components.module';
 import { TestCentre } from '@dvsa/mes-journal-schema';
+import { ModalControllerMock } from '@mocks/ionic-mocks/modal-controller.mock';
 import { TestCentreDetailResponse } from '@shared/models/test-centre-journal.model';
 import { TestCentreJournalComponentsModule } from '../../test-centre-journal-components.module';
 import * as mockData from '../__mocks__/candidate-search-card.mock';
@@ -18,7 +19,7 @@ describe('CandidateSearchCardComponent', () => {
     TestBed.configureTestingModule({
       declarations: [CandidateSearchCardComponent],
       imports: [IonicModule, CommonModule, ComponentsModule, TestCentreJournalComponentsModule],
-      providers: [provideMockStore({ initialState: {} })],
+      providers: [{ provide: ModalController, useClass: ModalControllerMock }, provideMockStore({ initialState: {} })],
     });
 
     fixture = TestBed.createComponent(CandidateSearchCardComponent);

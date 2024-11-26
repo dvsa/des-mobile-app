@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { ActivityCode, Question, Question5 } from '@dvsa/mes-test-schema/categories/CPC';
-import { ModalController, NavParams } from '@ionic/angular';
+import { ModalController } from '@ionic/angular';
 import { ActivityCodes } from '@shared/models/activity-codes';
 import { TestOutcome } from '@store/tests/tests.constants';
 import { ModalEvent } from '../../../test-report.constants';
@@ -10,21 +10,15 @@ import { ModalEvent } from '../../../test-report.constants';
   templateUrl: 'cpc-end-test-modal.html',
   styleUrls: ['cpc-end-test-modal.scss'],
 })
-export class CPCEndTestModal implements OnInit {
-  questions: (Question | Question5)[];
+export class CPCEndTestModal {
+  @Input()
+  cpcQuestions: (Question | Question5)[];
+  @Input()
   totalPercentage: number;
+  @Input()
   testResult: ActivityCode;
 
-  constructor(
-    private modalCtrl: ModalController,
-    private navParams: NavParams
-  ) {}
-
-  ngOnInit(): void {
-    this.questions = this.navParams.get('cpcQuestions');
-    this.totalPercentage = this.navParams.get('totalPercentage');
-    this.testResult = this.navParams.get('testResult');
-  }
+  constructor(private modalCtrl: ModalController) {}
 
   async onCancel(): Promise<void> {
     await this.modalCtrl.dismiss(ModalEvent.CANCEL);

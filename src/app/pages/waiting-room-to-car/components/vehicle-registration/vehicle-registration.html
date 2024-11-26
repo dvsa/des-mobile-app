@@ -30,14 +30,14 @@
           pasteSanitiser
         ></ion-input>
       </ion-col>
-      <ion-col class="display-flex ion-align-items-center" *ngIf="!shouldHideMOTButton" [size]="getMOTButtonColSize(accessibilityService.getTextZoomClass())">
+      <ion-col size="40" class="display-flex ion-align-items-center" *ngIf="!shouldHideMOTButton" [size]="getMOTButtonColSize(accessibilityService.getTextZoomClass())">
         <ion-button
           id="check-mot-button"
           [disabled]="shouldDisableMOTButton()"
           class="mes-grey-button"
           (click)="getMOT(vehicleRegistration)"
         >
-          <ion-text class="des-header-style-3">Check MOT</ion-text>
+          <ion-text class="ion-text-nowrap des-header-style-3">Check MOT</ion-text>
         </ion-button>
       </ion-col>
       <ion-col size="10">

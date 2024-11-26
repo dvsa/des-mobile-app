@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { ModalController, NavParams } from '@ionic/angular';
+import { Component, Input } from '@angular/core';
+import { ModalController } from '@ionic/angular';
 import { legalRequirementsLabels } from '@shared/constants/legal-requirements/legal-requirements.constants';
 import { ModalEvent } from '../../test-report.constants';
 
@@ -9,15 +9,15 @@ import { ModalEvent } from '../../test-report.constants';
   styleUrls: ['legal-requirements-modal.scss'],
 })
 export class LegalRequirementsModal {
+  @Input()
   legalRequirements: legalRequirementsLabels[];
+  @Input()
   isDelegated: boolean;
 
-  constructor(
-    private modalCtrl: ModalController,
-    private navParams: NavParams
-  ) {
-    this.legalRequirements = this.navParams.get('legalRequirements');
-    this.isDelegated = this.navParams.get('isDelegated') === null ? false : this.navParams.get('isDelegated');
+  constructor(private modalCtrl: ModalController) {
+    if (this.isDelegated === null) {
+      this.isDelegated = false;
+    }
   }
 
   async onContinue() {

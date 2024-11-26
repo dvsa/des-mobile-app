@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { SlotDetail } from '@dvsa/mes-journal-schema';
-import { ModalController, NavParams } from '@ionic/angular';
+import { ModalController } from '@ionic/angular';
 import { Store } from '@ngrx/store';
 import { StoreModel } from '@shared/models/store.model';
 import { EarlyStartDidContinue, EarlyStartDidReturn } from '@store/journal/journal.actions';
@@ -13,18 +13,14 @@ import { ModalEvent } from './journal-early-start-modal.constants';
   templateUrl: './journal-early-start-modal.html',
   styleUrls: ['./journal-early-start-modal.scss'],
 })
-export class JournalEarlyStartModal implements OnInit {
+export class JournalEarlyStartModal {
+  @Input()
   private slotData: SlotDetail;
 
   constructor(
     public store$: Store<StoreModel>,
-    public modalController: ModalController,
-    private params: NavParams
+    public modalController: ModalController
   ) {}
-
-  ngOnInit(): void {
-    this.slotData = this.params.get('slotData');
-  }
 
   getSlotData() {
     return this.slotData;

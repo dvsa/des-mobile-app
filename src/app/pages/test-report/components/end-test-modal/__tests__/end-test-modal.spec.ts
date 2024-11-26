@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { IonicModule, ModalController, NavParams } from '@ionic/angular';
-import { ModalControllerMock, NavParamsMock } from '@mocks/index.mock';
+import { IonicModule, ModalController } from '@ionic/angular';
+import { ModalControllerMock } from '@mocks/index.mock';
 import { ModalEvent } from '@pages/test-report/test-report.constants';
 import { AppModule } from 'src/app/app.module';
 import { EndTestModal } from '../end-test-modal';
@@ -15,10 +15,7 @@ describe('EndTestModal', () => {
     TestBed.configureTestingModule({
       declarations: [EndTestModal],
       imports: [AppModule, IonicModule],
-      providers: [
-        { provide: NavParams, useClass: NavParamsMock },
-        { provide: ModalController, useClass: ModalControllerMock },
-      ],
+      providers: [{ provide: ModalController, useClass: ModalControllerMock }],
     });
 
     fixture = TestBed.createComponent(EndTestModal);

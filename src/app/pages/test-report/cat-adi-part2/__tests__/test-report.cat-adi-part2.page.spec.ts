@@ -5,8 +5,8 @@ import { PracticeModeBanner } from '@components/common/practice-mode-banner/prac
 import { TickIndicatorComponent } from '@components/common/tick-indicator/tick-indicator';
 import { CatADI2UniqueTypes } from '@dvsa/mes-test-schema/categories/ADI2';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
-import { IonicModule, ModalController, NavParams, Platform } from '@ionic/angular';
-import { ModalControllerMock, NavParamsMock, PlatformMock } from '@mocks/index.mock';
+import { IonicModule, ModalController, Platform } from '@ionic/angular';
+import { ModalControllerMock, PlatformMock } from '@mocks/index.mock';
 import { StoreModule } from '@ngrx/store';
 import { ManoeuvresPopoverComponentAdiPart2 } from '@pages/test-report/cat-adi-part2/components/manoeuvres-popover/manoeuvres-popover';
 import { ManoeuvresComponent } from '@pages/test-report/cat-adi-part2/components/manoeuvres/manoeuvres';
@@ -77,10 +77,6 @@ describe('TestReportCatADI2Page', () => {
         StoreModule.forFeature('testReport', testReportReducer),
       ],
       providers: [
-        {
-          provide: NavParams,
-          useClass: NavParamsMock,
-        },
         {
           provide: Platform,
           useClass: PlatformMock,

@@ -1,9 +1,10 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { IonicModule } from '@ionic/angular';
+import { IonicModule, ModalController } from '@ionic/angular';
 
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, UntypedFormControl } from '@angular/forms';
 import { ModalAlertTitleComponent } from '@components/common/modal-alert-title/modal-alert-title';
+import { ModalControllerMock } from '@mocks/ionic-mocks/modal-controller.mock';
 import { Store, StoreModule } from '@ngrx/store';
 import { StoreModel } from '@shared/models/store.model';
 import { MockComponent } from 'ng-mocks';
@@ -18,7 +19,7 @@ describe('MotFailedModal', () => {
     TestBed.configureTestingModule({
       declarations: [MotFailedModal, MockComponent(ModalAlertTitleComponent)],
       imports: [IonicModule, CommonModule, StoreModule.forRoot(), ReactiveFormsModule],
-      providers: [Store],
+      providers: [Store, { provide: ModalController, useClass: ModalControllerMock }],
     }).compileComponents();
 
     fixture = TestBed.createComponent(MotFailedModal);

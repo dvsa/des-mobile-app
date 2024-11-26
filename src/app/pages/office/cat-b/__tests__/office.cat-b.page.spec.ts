@@ -4,8 +4,8 @@ import { By } from '@angular/platform-browser';
 import { ActivityCodeComponent } from '@components/common/activity-code/activity-code';
 import { ComponentsModule } from '@components/common/common-components.module';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
-import { IonicModule, ModalController, NavController, NavParams, Platform, ToastController } from '@ionic/angular';
-import { ModalControllerMock, NavParamsMock, PlatformMock } from '@mocks/index.mock';
+import { IonicModule, ModalController, NavController, Platform, ToastController } from '@ionic/angular';
+import { ModalControllerMock, PlatformMock } from '@mocks/index.mock';
 import { Store, StoreModule } from '@ngrx/store';
 import { DrivingFaultsComponent } from '@pages/office/components/driving-faults/driving-faults.component';
 import { OfficeFooterComponent } from '@pages/office/components/office-footer/office-footer.component';
@@ -155,7 +155,6 @@ describe('OfficeCatBPage', () => {
         { provide: AuthenticationProvider, useClass: AuthenticationProviderMock },
         { provide: NavController, useClass: NavControllerMock },
         { provide: ToastController, useClass: ToastControllerMock },
-        { provide: NavParams, useClass: NavParamsMock },
         { provide: ModalController, useClass: ModalControllerMock },
         { provide: OutcomeBehaviourMapProvider, useClass: OutcomeBehaviourMapProviderMock },
         WeatherConditionProvider,

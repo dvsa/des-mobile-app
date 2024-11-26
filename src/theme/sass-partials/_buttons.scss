@@ -12,63 +12,43 @@ ion-modal {
   }
 }
 .generic-button {
+  min-height: 56px;
   --border-radius: 10px;
-  margin: 0 0.2rem;
+  margin: 0 3.2px;
   --outline: none;
-  .des-header-style-3 {
-    color: var(--mes-white);
+  color: var(--gds-black);
 
-    .text-zoom-regular &,
-    .text-zoom-large &,
-    .text-zoom-x-large & {
-      line-height: 2em;
-    }
+  &::part(native) {
+    padding-inline-start: 0.8em !important;
+    padding-inline-end: 0.8em !important;
+  }
 
-    min-height: 44px;
-    padding-top: 1px
+  ion-text {
+    display: flex;
+    align-items: center;
+    color: var(--gds-black);
+    line-height: 2em;
+    min-height: 57px;
+    padding: 1px 0 0 0;
   }
 }
 
 .mes-primary-button {
+  @extend .generic-button;
   --background: var(--gds-dark-green);
   --background-activated: var(--gds-dark-green-2);
   --box-shadow: inset 0 -2px 0 0 var(--gds-green);
-  --border-radius: 10px;
-  margin: 0 0.2rem;
-  --outline: none;
-  .des-header-style-3 {
+    font-size: 15px;
+  ion-text {
     color: var(--mes-white) !important;
-
-    .text-zoom-regular &,
-    .text-zoom-large &,
-    .text-zoom-x-large & {
-      line-height: 2em;
-    }
-
-    min-height: 44px;
-    padding-top: 1px
   }
 }
 
 .mes-secondary-button {
+  @extend .generic-button;
   --background: var(--gds-yellow);
   --background-activated: var(--gds-yellow-darken-15);
   --box-shadow: 0 2px 0 0 rgba(0, 0, 0, 0.5);
-  --border-radius: 10px;
-  margin: 0 0.2em;
-  height: initial;
-  .des-header-style-3 {
-    color: var(--gds-black) !important;
-
-    .text-zoom-regular &,
-    .text-zoom-large &,
-    .text-zoom-x-large & {
-      line-height: 2em;
-    }
-
-    min-height: 44px;
-    padding-top: 1px
-  }
 }
 
 .mes-neutral-button {
@@ -76,12 +56,8 @@ ion-modal {
   --background: var(--mes-white);
   --box-shadow: 0 0px 0 0 rgba(0, 0, 0, 0.5);
   --background-activated: var(--gds-grey-1);
-
   &.activated {
     background: var(--gds-grey-1);
-  }
-  .des-header-style-3 {
-    color: var(--mes-black);
   }
 }
 
@@ -105,11 +81,7 @@ ion-modal {
   @extend .generic-button;
   --background: var(--gds-grey-3);
   --background-activated: var(--gds-grey-1);
-  color: var(--gds-black);
   --box-shadow: inset 0 -2px 0 0 rgba(0, 0, 0, 0.5);
-  .des-header-style-3 {
-    color: var(--gds-black) !important;
-  }
 }
 
 .mes-link-button {
@@ -132,8 +104,7 @@ ion-modal {
   --background-activated: var(--gds-grey-2);
   --box-shadow: inset 0 -2px 0 0 var(--gds-grey-1);
   --border-radius: 10px;
-  margin: 0 0.2rem;
-  margin-bottom: 36px;
+  margin: 0 0.2rem 36px;
   width: 100%;
   height: 56px;
   .des-header-style-3 {

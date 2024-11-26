@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
-import { IonicModule, ModalController, NavParams, Platform } from '@ionic/angular';
-import { ModalControllerMock, NavParamsMock, PlatformMock } from '@mocks/index.mock';
+import { IonicModule, ModalController, Platform } from '@ionic/angular';
+import { ModalControllerMock, PlatformMock } from '@mocks/index.mock';
 import { Store, StoreModule } from '@ngrx/store';
 import { MockComponent } from 'ng-mocks';
 import { Subscription, of } from 'rxjs';
@@ -93,10 +93,6 @@ describe('TestReportCatCPCPage', () => {
         StoreModule.forFeature('testReport', testReportReducer),
       ],
       providers: [
-        {
-          provide: NavParams,
-          useClass: NavParamsMock,
-        },
         {
           provide: Platform,
           useClass: PlatformMock,
