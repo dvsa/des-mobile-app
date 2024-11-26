@@ -26,6 +26,8 @@ import { getCurrentTest, getJournalData } from '@store/tests/tests.selector';
 import { Observable, Subscription, merge } from 'rxjs';
 import { map } from 'rxjs/operators';
 import * as vehicleChecksModalActions from './vehicle-checks-modal.cat-adi-part2.actions';
+import { AccessibilityService } from '@providers/accessibility/accessibility.service';
+import { Style } from '@capacitor/status-bar';
 
 interface VehicleChecksModalCatADIPart2State {
   candidateName$: Observable<string>;
@@ -52,7 +54,8 @@ export class VehicleChecksCatADIPart2Modal {
     public store$: Store<StoreModel>,
     private faultCountProvider: FaultCountProvider,
     public modalCtrl: ModalController,
-    public questionProvider: QuestionProvider
+    public accessibilityService: AccessibilityService,
+    public questionProvider: QuestionProvider,
   ) {
     this.formGroup = new UntypedFormGroup({});
   }
@@ -89,6 +92,7 @@ export class VehicleChecksCatADIPart2Modal {
   }
 
   async onClose() {
+    await this.accessibilityService.configureStatusBar(Style.Default);
     await this.modalCtrl.dismiss();
   }
 

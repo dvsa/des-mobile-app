@@ -14,6 +14,7 @@ import { SafetyQuestionsScore } from '@shared/models/safety-questions-score.mode
 import { VehicleChecksScore } from '@shared/models/vehicle-checks-score.model';
 import { CatCVehicleChecks, CatDVehicleChecks, CatHomeTestVehicleChecks } from '@shared/unions/test-schema-unions';
 import { get } from 'lodash-es';
+import { Style } from '@capacitor/status-bar';
 
 interface VehicleCheckFormState {
   vehicleChecks: boolean;
@@ -80,6 +81,7 @@ export class VehicleChecksComponent implements OnChanges {
   }
 
   async openVehicleChecksModal(): Promise<void> {
+    await this.accessibilityService.configureStatusBar(Style.Dark);
     const modal = await this.modalController.create({
       component: this.getVehicleCheckModal(),
       componentProps: {

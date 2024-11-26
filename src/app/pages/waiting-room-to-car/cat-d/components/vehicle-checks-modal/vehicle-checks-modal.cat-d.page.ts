@@ -55,6 +55,8 @@ import {
   getVehicleChecksCatD,
 } from '@store/tests/test-data/cat-d/vehicle-checks/vehicle-checks.cat-d.selector';
 import * as vehicleChecksModalActions from './vehicle-checks-modal.cat-d.actions';
+import { AccessibilityService } from '@providers/accessibility/accessibility.service';
+import { Style } from '@capacitor/status-bar';
 
 interface VehicleChecksModalCatDState {
   candidateName$: Observable<string>;
@@ -104,6 +106,7 @@ export class VehicleChecksCatDModal {
     public store$: Store<StoreModel>,
     private faultCountProvider: FaultCountProvider,
     public modalCtrl: ModalController,
+    public accessibilityService: AccessibilityService,
     public questionProvider: QuestionProvider
   ) {
     this.formGroup = new UntypedFormGroup({});
@@ -204,6 +207,7 @@ export class VehicleChecksCatDModal {
   }
 
   async onClose() {
+    await this.accessibilityService.configureStatusBar(Style.Default);
     await this.modalCtrl.dismiss();
   }
 

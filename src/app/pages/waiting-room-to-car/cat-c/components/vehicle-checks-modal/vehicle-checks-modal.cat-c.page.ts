@@ -43,6 +43,8 @@ import {
 } from '../../../../../shared/constants/tell-me-questions/tell-me-questions.vocational-trailer.constants';
 import { NUMBER_OF_TELL_ME_QUESTIONS as NUMBER_OF_TELL_ME_QUESTIONS_NON_TRAILER } from '../../../../../shared/constants/tell-me-questions/tell-me-questions.vocational.constants';
 import * as vehicleChecksModalActions from './vehicle-checks-modal.cat-c.actions';
+import { AccessibilityService } from '@providers/accessibility/accessibility.service';
+import { Style } from '@capacitor/status-bar';
 
 interface VehicleChecksModalCatCState {
   candidateName$: Observable<string>;
@@ -85,7 +87,8 @@ export class VehicleChecksCatCModal {
     private faultCountProvider: FaultCountProvider,
     private ref: ChangeDetectorRef,
     public modalCtrl: ModalController,
-    public questionProvider: QuestionProvider
+    public accessibilityService: AccessibilityService,
+    public questionProvider: QuestionProvider,
   ) {
     this.formGroup = new UntypedFormGroup({});
   }
@@ -178,6 +181,7 @@ export class VehicleChecksCatCModal {
   }
 
   async onClose() {
+    await this.accessibilityService.configureStatusBar(Style.Default);
     await this.modalCtrl.dismiss();
   }
 
