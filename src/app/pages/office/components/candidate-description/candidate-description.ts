@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
-import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { OutcomeBehaviourMapProvider, VisibilityType } from '@providers/outcome-behaviour-map/outcome-behaviour-map';
 import { CANDIDATE_DESCRIPTION_CONTROL, CANDIDATE_DESCRIPTION_MAX_LENGTH } from './candidate-description.constants';
 
@@ -28,6 +28,7 @@ export class CandidateDescriptionComponent implements OnChanges {
 
   formControl: UntypedFormControl;
   candidateDescriptionCharsRemaining: number = null;
+  protected readonly CANDIDATE_DESCRIPTION_MAX_LENGTH = CANDIDATE_DESCRIPTION_MAX_LENGTH;
 
   constructor(public outcomeBehaviourProvider: OutcomeBehaviourMapProvider) {}
 
@@ -41,15 +42,19 @@ export class CandidateDescriptionComponent implements OnChanges {
     if (visibilityType === VisibilityType.NotVisible) {
       this.formGroup.get(CANDIDATE_DESCRIPTION_CONTROL).clearValidators();
     } else if (this.trueLikenessToPhoto) {
-      this.formGroup
-        .get(CANDIDATE_DESCRIPTION_CONTROL)
-        .setValidators([Validators.maxLength(CANDIDATE_DESCRIPTION_MAX_LENGTH)]);
+      this.formGroup.get(CANDIDATE_DESCRIPTION_CONTROL).setValidators([this.charactersExceededValidator()]);
     } else {
       this.formGroup
         .get(CANDIDATE_DESCRIPTION_CONTROL)
-        .setValidators([Validators.required, Validators.maxLength(CANDIDATE_DESCRIPTION_MAX_LENGTH)]);
+        .setValidators([Validators.required, this.charactersExceededValidator()]);
     }
     this.formControl.patchValue(this.candidateDescription);
+  }
+
+  charactersExceededValidator(): ValidatorFn {
+    return (): ValidationErrors | null => {
+      return this.charactersExceeded() ? { charactersExceeded: true } : null;
+    };
   }
 
   candidateDescriptionChanged(candidateDescription: string): void {
@@ -58,6 +63,7 @@ export class CandidateDescriptionComponent implements OnChanges {
 
   characterCountChanged(charactersRemaining: number) {
     this.candidateDescriptionCharsRemaining = charactersRemaining;
+    this.formControl.updateValueAndValidity();
   }
 
   getCharacterCountText() {

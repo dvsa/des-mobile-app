@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { UntypedFormGroup, Validators } from '@angular/forms';
+import { FormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { behaviourMap } from '@pages/office/office-behaviour-map';
 import { OutcomeBehaviourMapProvider } from '@providers/outcome-behaviour-map/outcome-behaviour-map';
@@ -96,8 +96,15 @@ describe('CandidateDescriptionComponent', () => {
 
   describe('characterCountChanged', () => {
     it('should edit the variable to the value parsed into the function', () => {
+      component.formControl = new FormControl();
       component.characterCountChanged(1);
       expect(component.candidateDescriptionCharsRemaining).toEqual(1);
+    });
+    it('should check the validity of the form control', () => {
+      component.formControl = new FormControl();
+      spyOn(component.formControl, 'updateValueAndValidity');
+      component.characterCountChanged(1);
+      expect(component.formControl.updateValueAndValidity).toHaveBeenCalled();
     });
   });
 

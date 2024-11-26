@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { ReactiveFormsModule, UntypedFormGroup, Validators } from '@angular/forms';
+import { FormControl, ReactiveFormsModule, UntypedFormGroup, Validators } from '@angular/forms';
 import { AppModule } from '@app/app.module';
 import { IonicModule } from '@ionic/angular';
 import { ReasonGivenComponent } from '../reason-given.component';
@@ -25,8 +25,15 @@ describe('ReasonGivenComponent', () => {
 
   describe('characterCountChanged', () => {
     it('should edit the variable to the value parsed into the function', () => {
+      component.formControl = new FormControl();
       component.characterCountChanged(1);
       expect(component.noAdviceCharsRemaining).toEqual(1);
+    });
+    it('should check the validity of the form control', () => {
+      component.formControl = new FormControl();
+      spyOn(component.formControl, 'updateValueAndValidity');
+      component.characterCountChanged(1);
+      expect(component.formControl.updateValueAndValidity).toHaveBeenCalled();
     });
   });
 

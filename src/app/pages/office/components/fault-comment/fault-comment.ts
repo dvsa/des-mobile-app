@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
-import { UntypedFormGroup, Validators } from '@angular/forms';
+import { UntypedFormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { AccessibilityService } from '@providers/accessibility/accessibility.service';
 import { OutcomeBehaviourMapProvider, VisibilityType } from '@providers/outcome-behaviour-map/outcome-behaviour-map';
@@ -17,6 +17,8 @@ export enum ValidFaultTypes {
   styleUrls: ['fault-comment.scss'],
 })
 export class FaultCommentComponent implements OnChanges {
+  faultCommentMaxLength = 1000;
+
   @Input()
   outcome: string;
 
@@ -52,6 +54,7 @@ export class FaultCommentComponent implements OnChanges {
 
   faultCommentCharsRemaining: number = null;
   static readonly fieldName: string = 'faultComment';
+
   constructor(
     private outcomeBehaviourProvider: OutcomeBehaviourMapProvider,
     protected accessibilityService: AccessibilityService
@@ -63,9 +66,17 @@ export class FaultCommentComponent implements OnChanges {
     if (this.isFieldNotVisible || this.shouldClearDrivingFaultValidators()) {
       this.parentForm.get(this.formControlName).clearValidators();
     } else {
-      this.parentForm.get(this.formControlName).setValidators([Validators.required, Validators.maxLength(950)]);
+      this.parentForm
+        .get(this.formControlName)
+        .setValidators([Validators.required, this.charactersExceededValidator()]);
     }
     this.parentForm.get(this.formControlName).patchValue(this.faultComment.comment);
+  }
+
+  charactersExceededValidator(): ValidatorFn {
+    return (): ValidationErrors | null => {
+      return this.charactersExceeded() ? { charactersExceeded: true } : null;
+    };
   }
 
   shouldClearDrivingFaultValidators(): boolean {
@@ -93,6 +104,7 @@ export class FaultCommentComponent implements OnChanges {
 
   characterCountChanged(charactersRemaining: number) {
     this.faultCommentCharsRemaining = charactersRemaining;
+    this.parentForm.get(this.formControlName).updateValueAndValidity();
   }
 
   getCharacterCountText() {

@@ -48,7 +48,7 @@
             class="mes-data text-area-colour"
             [formControlName]="formControlName"
             [class.ng-invalid]="invalid"
-            charLimit="950"
+            [charLimit]="faultCommentMaxLength"
             id="fault-comment-text-{{faultType}}-{{faultComment.competencyIdentifier}}"
             charCount
             (onCharacterCountChanged)="characterCountChanged($event)"

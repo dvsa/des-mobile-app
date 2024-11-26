@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { UntypedFormGroup } from '@angular/forms';
+import { FormControl, UntypedFormGroup } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { ReviewFeedback } from '@pages/test-report-dashboard/components/review-feedback/review-feedback';
 
@@ -15,6 +15,7 @@ describe('ReviewFeedback', () => {
 
     fixture = TestBed.createComponent(ReviewFeedback);
     component = fixture.componentInstance;
+    component.form = new UntypedFormGroup({});
   }));
 
   describe('charactersExceeded', () => {
@@ -51,8 +52,15 @@ describe('ReviewFeedback', () => {
 
   describe('characterCountChanged', () => {
     it('should change feedbackCharsRemaining to the parameter passed in', () => {
+      component.formControl = new FormControl();
       component.characterCountChanged(1);
       expect(component.feedbackCharsRemaining).toBe(1);
+    });
+    it('should check the validity of the form control', () => {
+      component.formControl = new FormControl();
+      spyOn(component.formControl, 'updateValueAndValidity');
+      component.characterCountChanged(1);
+      expect(component.formControl.updateValueAndValidity).toHaveBeenCalled();
     });
   });
 
