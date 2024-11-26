@@ -85,14 +85,15 @@ export class VehicleChecksCatCModal {
     private faultCountProvider: FaultCountProvider,
     private ref: ChangeDetectorRef,
     public modalCtrl: ModalController,
-    questionProvider: QuestionProvider
+    public questionProvider: QuestionProvider
   ) {
     this.formGroup = new UntypedFormGroup({});
-    this.showMeQuestions = questionProvider.getShowMeQuestions(this.category);
-    this.tellMeQuestions = questionProvider.getTellMeQuestions(this.category);
   }
 
   ngOnInit(): void {
+    this.showMeQuestions = this.questionProvider.getShowMeQuestions(this.category);
+    this.tellMeQuestions = this.questionProvider.getTellMeQuestions(this.category);
+
     const currentTest$ = this.store$.pipe(select(getTests), select(getCurrentTest));
     this.pageState = {
       candidateName$: currentTest$.pipe(select(getJournalData), select(getCandidate), select(getUntitledCandidateName)),

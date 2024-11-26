@@ -52,13 +52,14 @@ export class VehicleChecksCatADIPart2Modal {
     public store$: Store<StoreModel>,
     private faultCountProvider: FaultCountProvider,
     public modalCtrl: ModalController,
-    questionProvider: QuestionProvider
+    public questionProvider: QuestionProvider
   ) {
     this.formGroup = new UntypedFormGroup({});
-    this.tellMeQuestions = questionProvider.getTellMeQuestions(TestCategory.ADI2);
   }
 
   ngOnInit(): void {
+    this.tellMeQuestions = this.questionProvider.getTellMeQuestions(TestCategory.ADI2);
+
     const currentTest$ = this.store$.pipe(select(getTests), select(getCurrentTest));
     this.pageState = {
       candidateName$: currentTest$.pipe(select(getJournalData), select(getCandidate), select(getUntitledCandidateName)),
