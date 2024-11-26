@@ -72,4 +72,8 @@ export class PracticeModeBanner implements OnInit {
     trDestroy$.next(null);
     trDestroy$.complete();
   };
+
+  getTextZoomClass(): string {
+    return this.accessibilityService.getTextZoomClass();
+  }
 }
