@@ -108,7 +108,6 @@ export class VehicleChecksCatDModal {
   ) {
     this.formGroup = new UntypedFormGroup({});
     this.safetyQuestionsNumberArray = Array(NUMBER_OF_SAFETY_QUESTIONS);
-
   }
 
   ngOnInit(): void {
