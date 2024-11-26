@@ -1,8 +1,8 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { AppModule } from '@app/app.module';
-import { IonicModule, NavController, NavParams, Platform } from '@ionic/angular';
-import { NavControllerMock, NavParamsMock, PlatformMock } from '@mocks/index.mock';
+import { IonicModule, NavController, Platform } from '@ionic/angular';
+import { NavControllerMock, PlatformMock } from '@mocks/index.mock';
 import { AuthenticationProviderMock } from '@providers/authentication/__mocks__/authentication.mock';
 import { AuthenticationProvider } from '@providers/authentication/authentication';
 import { DateTimeProviderMock } from '@providers/date-time/__mocks__/date-time.mock';
@@ -22,7 +22,6 @@ describe('TerminateTestModal', () => {
       imports: [IonicModule, AppModule],
       providers: [
         { provide: NavController, useClass: NavControllerMock },
-        { provide: NavParams, useClass: NavParamsMock },
         { provide: Platform, useClass: PlatformMock },
         { provide: AuthenticationProvider, useClass: AuthenticationProviderMock },
         { provide: DateTimeProvider, useClass: DateTimeProviderMock },
