@@ -31,6 +31,8 @@ import { getCurrentTest, getJournalData } from '@store/tests/tests.selector';
 import { Observable, Subscription, merge } from 'rxjs';
 import { map } from 'rxjs/operators';
 
+import { Style } from '@capacitor/status-bar';
+import { AccessibilityService } from '@providers/accessibility/accessibility.service';
 import { isAnyOf } from '@shared/helpers/simplifiers';
 import {
   NUMBER_OF_SHOW_ME_QUESTIONS as NUMBER_OF_SHOW_ME_QUESTIONS_TRAILER,
@@ -43,8 +45,6 @@ import {
 } from '../../../../../shared/constants/tell-me-questions/tell-me-questions.vocational-trailer.constants';
 import { NUMBER_OF_TELL_ME_QUESTIONS as NUMBER_OF_TELL_ME_QUESTIONS_NON_TRAILER } from '../../../../../shared/constants/tell-me-questions/tell-me-questions.vocational.constants';
 import * as vehicleChecksModalActions from './vehicle-checks-modal.cat-c.actions';
-import { AccessibilityService } from '@providers/accessibility/accessibility.service';
-import { Style } from '@capacitor/status-bar';
 
 interface VehicleChecksModalCatCState {
   candidateName$: Observable<string>;

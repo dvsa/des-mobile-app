@@ -1,18 +1,16 @@
 import { Component, Input } from '@angular/core';
 import { UntypedFormGroup } from '@angular/forms';
+import { Style } from '@capacitor/status-bar';
 import { QuestionOutcome, QuestionResult } from '@dvsa/mes-test-schema/categories/common';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { ModalController } from '@ionic/angular';
-import { select, Store } from '@ngrx/store';
+import { Store, select } from '@ngrx/store';
+import { AccessibilityService } from '@providers/accessibility/accessibility.service';
 import { FaultCountProvider } from '@providers/fault-count/fault-count';
 import { QuestionProvider } from '@providers/question/question';
 import { VehicleChecksQuestion } from '@providers/question/vehicle-checks-question.model';
-import {
-  NUMBER_OF_SHOW_ME_QUESTIONS,
-} from '@shared/constants/show-me-questions/show-me-questions.cat-home-test.constants';
-import {
-  NUMBER_OF_TELL_ME_QUESTIONS,
-} from '@shared/constants/tell-me-questions/tell-me-questions.cat-home-test.constants';
+import { NUMBER_OF_SHOW_ME_QUESTIONS } from '@shared/constants/show-me-questions/show-me-questions.cat-home-test.constants';
+import { NUMBER_OF_TELL_ME_QUESTIONS } from '@shared/constants/tell-me-questions/tell-me-questions.cat-home-test.constants';
 import { StoreModel } from '@shared/models/store.model';
 import { VehicleChecksScore } from '@shared/models/vehicle-checks-score.model';
 import { getCandidate } from '@store/tests/journal-data/cat-home/candidate/candidate.cat-home.reducer';
@@ -31,11 +29,9 @@ import {
 } from '@store/tests/test-data/cat-home/vehicle-checks/vehicle-checks.cat-home.selector';
 import { getTests } from '@store/tests/tests.reducer';
 import { getCurrentTest, getJournalData } from '@store/tests/tests.selector';
-import { merge, Observable, Subscription } from 'rxjs';
+import { Observable, Subscription, merge } from 'rxjs';
 import { map } from 'rxjs/operators';
 import * as vehicleChecksModalActions from './vehicle-checks-modal.cat-home.actions';
-import { AccessibilityService } from '@providers/accessibility/accessibility.service';
-import { Style } from '@capacitor/status-bar';
 
 interface VehicleChecksModalCatHomeTestState {
   candidateName$: Observable<string>;

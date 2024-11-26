@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
 import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
+import { Style } from '@capacitor/status-bar';
 import { CatDUniqueTypes } from '@dvsa/mes-test-schema/categories/D';
 import { CategoryCode, QuestionResult } from '@dvsa/mes-test-schema/categories/common';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
@@ -14,7 +15,6 @@ import { SafetyQuestionsScore } from '@shared/models/safety-questions-score.mode
 import { VehicleChecksScore } from '@shared/models/vehicle-checks-score.model';
 import { CatCVehicleChecks, CatDVehicleChecks, CatHomeTestVehicleChecks } from '@shared/unions/test-schema-unions';
 import { get } from 'lodash-es';
-import { Style } from '@capacitor/status-bar';
 
 interface VehicleCheckFormState {
   vehicleChecks: boolean;
