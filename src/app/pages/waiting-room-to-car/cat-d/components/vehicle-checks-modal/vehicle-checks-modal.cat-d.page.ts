@@ -207,7 +207,7 @@ export class VehicleChecksCatDModal {
   }
 
   async onClose() {
-    await this.accessibilityService.configureStatusBar(Style.Default);
+    await this.accessibilityService.configureStatusBar(Style['Default']);
     await this.modalCtrl.dismiss();
   }
 

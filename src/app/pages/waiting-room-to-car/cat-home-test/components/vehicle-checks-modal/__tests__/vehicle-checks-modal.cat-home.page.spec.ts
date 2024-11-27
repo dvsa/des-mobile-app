@@ -30,6 +30,7 @@ import {
 import { TestsModel } from '@store/tests/tests.model';
 import { Subscription } from 'rxjs';
 import { take } from 'rxjs/operators';
+import { Style } from '@capacitor/status-bar';
 
 describe('VehicleChecksCatHomeTestModal', () => {
   let component: VehicleChecksCatHomeTestModal;
@@ -126,10 +127,13 @@ describe('VehicleChecksCatHomeTestModal', () => {
 
   describe('Class', () => {
     describe('onClose', () => {
-      it('should dismiss the modal when the function is run', () => {
+      it('should dismiss the modal when the function is run & set the status bar to default styling', async() => {
         spyOn(component.modalCtrl, 'dismiss');
-        component.onClose();
-        expect(component.modalCtrl.dismiss).toHaveBeenCalled();
+        spyOn(component.accessibilityService, 'configureStatusBar')
+        await component.onClose().then(() => {
+          expect(component.accessibilityService.configureStatusBar).toHaveBeenCalledWith(Style['Default']);
+          expect(component.modalCtrl.dismiss).toHaveBeenCalled();
+        });
       });
     });
 
