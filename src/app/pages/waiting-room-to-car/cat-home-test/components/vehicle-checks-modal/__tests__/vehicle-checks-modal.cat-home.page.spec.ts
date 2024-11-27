@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { FormsModule, ReactiveFormsModule, UntypedFormGroup } from '@angular/forms';
+import { Style } from '@capacitor/status-bar';
 import { ComponentsModule } from '@components/common/common-components.module';
 import { CatFUniqueTypes } from '@dvsa/mes-test-schema/categories/F';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
@@ -30,7 +31,6 @@ import {
 import { TestsModel } from '@store/tests/tests.model';
 import { Subscription } from 'rxjs';
 import { take } from 'rxjs/operators';
-import { Style } from '@capacitor/status-bar';
 
 describe('VehicleChecksCatHomeTestModal', () => {
   let component: VehicleChecksCatHomeTestModal;
@@ -127,9 +127,9 @@ describe('VehicleChecksCatHomeTestModal', () => {
 
   describe('Class', () => {
     describe('onClose', () => {
-      it('should dismiss the modal when the function is run & set the status bar to default styling', async() => {
+      it('should dismiss the modal when the function is run & set the status bar to default styling', async () => {
         spyOn(component.modalCtrl, 'dismiss');
-        spyOn(component.accessibilityService, 'configureStatusBar')
+        spyOn(component.accessibilityService, 'configureStatusBar');
         await component.onClose().then(() => {
           expect(component.accessibilityService.configureStatusBar).toHaveBeenCalledWith(Style['Default']);
           expect(component.modalCtrl.dismiss).toHaveBeenCalled();
