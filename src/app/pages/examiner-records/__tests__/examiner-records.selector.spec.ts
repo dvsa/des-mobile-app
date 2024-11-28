@@ -362,8 +362,7 @@ describe('examiner records selector', () => {
     });
   });
 
-  // TODO: MES-10108 - fix these tests
-  xdescribe('getLocations', () => {
+  describe('getLocations', () => {
     it(
       'should return an array of all the locations in the passed tests with the amount of times they appear,' +
         'ordered alphabetically',

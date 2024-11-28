@@ -25,7 +25,6 @@ module.exports = (config) => {
     plugins: [
       require('karma-jasmine'),
       require('karma-chrome-launcher'),
-      require('karma-firefox-launcher'),
       require('karma-jasmine-html-reporter'),
       require('karma-coverage'),
       require('karma-parallel'),
@@ -35,7 +34,7 @@ module.exports = (config) => {
     webpackMiddleware: { stats: 'errors-only' },
     webpackServer: { noInfo: true },
     client: {
-      clearContext: false, // leave Jasmine Spec Runner output visible in browser
+      clearContext: config.singleRun, // leave Jasmine Spec Runner output visible in browser
       jasmine: {
         random: false,
         timeoutInterval: (executors <= 2) ? (JASMINE_DEFAULT_TIMEOUT * 2) : JASMINE_DEFAULT_TIMEOUT,
@@ -67,8 +66,8 @@ module.exports = (config) => {
       suppressSkipped: true,
       showSpecTiming: true,
     },
-    browsers: ['FirefoxHeadless'],
-    singleRun: true,
+    browsers: ['ChromeHeadlessNoSandbox'],
+    singleRun: false,
     parallelOptions: {
       executors,
     },
@@ -83,13 +82,6 @@ module.exports = (config) => {
           '--no-sandbox',
         ],
       },
-      FirefoxHeadless: {
-        base: 'Firefox',
-        flags: [
-          '-headless',
-          '--remote-debugging-port=9222',
-        ],
-      },
     },
     browserNoActivityTimeout: 120000,
     browserSocketTimeout: 60000,
@@ -97,3 +89,5 @@ module.exports = (config) => {
     captureTimeout: 240000,
   });
 };
+
+
