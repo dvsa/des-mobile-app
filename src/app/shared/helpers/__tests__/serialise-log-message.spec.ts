@@ -11,6 +11,12 @@ describe('serialiseLogMessage', () => {
     expect(res).toContain('Error');
     expect(res).toContain('test');
   });
+  it('should return an error that contains the name, message and code for a DOM Exception', () => {
+    const res = serialiseLogMessage(new DOMException('test'));
+    expect(res).toContain('name');
+    expect(res).toContain('message');
+    expect(res).toContain('code');
+  });
   it('should return the stringified data if the data is not a string or an instance of Error', () => {
     const res = serialiseLogMessage({ key: 'value' });
     expect(res).toEqual('{"key":"value"}');

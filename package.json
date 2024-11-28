@@ -118,6 +118,7 @@
     "ngrx-store-localstorage": "^17.0.0",
     "rxjs": "~7.8.1",
     "rxjs-compat": "^6.6.7",
+    "serialize-error": "^11.0.3",
     "stream-browserify": "^3.0.0",
     "tslib": "^2.6.2",
     "url": "^0.11.3",
