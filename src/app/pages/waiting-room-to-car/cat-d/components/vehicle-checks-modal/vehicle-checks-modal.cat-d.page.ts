@@ -29,7 +29,9 @@ import { SafetyQuestionOutcomeChanged } from '@store/tests/test-data/cat-d/safet
 
 import { NUMBER_OF_SAFETY_QUESTIONS } from '@shared/constants/safety-questions.cat-d.constants';
 
+import { Style } from '@capacitor/status-bar';
 import { ModalController } from '@ionic/angular';
+import { AccessibilityService } from '@providers/accessibility/accessibility.service';
 import { FaultCountProvider } from '@providers/fault-count/fault-count';
 import {
   NUMBER_OF_SHOW_ME_QUESTIONS as NUMBER_OF_SHOW_ME_QUESTIONS_TRAILER,
@@ -104,6 +106,7 @@ export class VehicleChecksCatDModal {
     public store$: Store<StoreModel>,
     private faultCountProvider: FaultCountProvider,
     public modalCtrl: ModalController,
+    public accessibilityService: AccessibilityService,
     public questionProvider: QuestionProvider
   ) {
     this.formGroup = new UntypedFormGroup({});
@@ -204,10 +207,12 @@ export class VehicleChecksCatDModal {
   }
 
   async onClose() {
+    await this.accessibilityService.configureStatusBar(Style.Light);
     await this.modalCtrl.dismiss();
   }
 
   async onSubmit() {
+    await this.accessibilityService.configureStatusBar(Style.Light);
     await this.modalCtrl.dismiss();
   }
 

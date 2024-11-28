@@ -195,7 +195,6 @@ export abstract class TestReportBasePageComponent extends PracticeableBasePageCo
     if (super.isIos() && this.isPracticeMode) {
       await ScreenOrientation.lock({ type: OrientationType.PORTRAIT_PRIMARY });
       await Insomnia.keepAwake();
-      await StatusBar.hide();
     }
   }
 

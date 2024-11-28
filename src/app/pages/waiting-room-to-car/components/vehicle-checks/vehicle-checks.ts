@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
 import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
+import { Style } from '@capacitor/status-bar';
 import { CatDUniqueTypes } from '@dvsa/mes-test-schema/categories/D';
 import { CategoryCode, QuestionResult } from '@dvsa/mes-test-schema/categories/common';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
@@ -80,6 +81,7 @@ export class VehicleChecksComponent implements OnChanges {
   }
 
   async openVehicleChecksModal(): Promise<void> {
+    await this.accessibilityService.configureStatusBar(Style.Dark);
     const modal = await this.modalController.create({
       component: this.getVehicleCheckModal(),
       componentProps: {

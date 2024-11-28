@@ -31,6 +31,8 @@ import { getCurrentTest, getJournalData } from '@store/tests/tests.selector';
 import { Observable, Subscription, merge } from 'rxjs';
 import { map } from 'rxjs/operators';
 
+import { Style } from '@capacitor/status-bar';
+import { AccessibilityService } from '@providers/accessibility/accessibility.service';
 import { isAnyOf } from '@shared/helpers/simplifiers';
 import {
   NUMBER_OF_SHOW_ME_QUESTIONS as NUMBER_OF_SHOW_ME_QUESTIONS_TRAILER,
@@ -85,6 +87,7 @@ export class VehicleChecksCatCModal {
     private faultCountProvider: FaultCountProvider,
     private ref: ChangeDetectorRef,
     public modalCtrl: ModalController,
+    public accessibilityService: AccessibilityService,
     public questionProvider: QuestionProvider
   ) {
     this.formGroup = new UntypedFormGroup({});
@@ -178,10 +181,12 @@ export class VehicleChecksCatCModal {
   }
 
   async onClose() {
+    await this.accessibilityService.configureStatusBar(Style.Light);
     await this.modalCtrl.dismiss();
   }
 
   async onSubmit() {
+    await this.accessibilityService.configureStatusBar(Style.Light);
     await this.modalCtrl.dismiss();
   }
 

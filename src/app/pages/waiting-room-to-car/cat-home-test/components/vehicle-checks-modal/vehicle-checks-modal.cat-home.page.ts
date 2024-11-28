@@ -1,9 +1,11 @@
 import { Component, Input } from '@angular/core';
 import { UntypedFormGroup } from '@angular/forms';
+import { Style } from '@capacitor/status-bar';
 import { QuestionOutcome, QuestionResult } from '@dvsa/mes-test-schema/categories/common';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { ModalController } from '@ionic/angular';
 import { Store, select } from '@ngrx/store';
+import { AccessibilityService } from '@providers/accessibility/accessibility.service';
 import { FaultCountProvider } from '@providers/fault-count/fault-count';
 import { QuestionProvider } from '@providers/question/question';
 import { VehicleChecksQuestion } from '@providers/question/vehicle-checks-question.model';
@@ -60,6 +62,7 @@ export class VehicleChecksCatHomeTestModal {
   constructor(
     public store$: Store<StoreModel>,
     public modalCtrl: ModalController,
+    public accessibilityService: AccessibilityService,
     private faultCountProvider: FaultCountProvider,
     private questionProvider: QuestionProvider
   ) {
@@ -108,10 +111,12 @@ export class VehicleChecksCatHomeTestModal {
   }
 
   async onClose() {
+    await this.accessibilityService.configureStatusBar(Style.Light);
     await this.modalCtrl.dismiss();
   }
 
   async onSubmit() {
+    await this.accessibilityService.configureStatusBar(Style.Light);
     await this.modalCtrl.dismiss();
   }
 
