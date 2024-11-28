@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 
 @Component({
-  selector: 'end-test-modal',
+  selector: 'records-explanation-modal',
   templateUrl: 'records-explanation-modal.html',
   styleUrls: ['records-explanation-modal.scss'],
 })

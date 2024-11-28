@@ -8,6 +8,7 @@ import { ExaminerRecordsLabelTextComponentModule } from '@pages/examiner-records
 import { ExaminerRecordsLearnMoreModalModule } from '@pages/examiner-records/components/examiner-records-learn-more-modal/examiner-records-learn-more-modal.module';
 import { ExaminerReportsCard } from '@pages/examiner-records/components/examiner-reports-card/examiner-reports-card';
 import { CompressionProvider } from '@providers/compression/compression';
+import { CustomDateRangeModalModule } from '@pages/examiner-records/components/custom-date-range-modal/custom-date-range-modal.module';
 
 @NgModule({
   declarations: [ColourFilterRadioComponent, ExaminerReportsCard],
@@ -18,6 +19,7 @@ import { CompressionProvider } from '@providers/compression/compression';
     ReactiveFormsModule,
     ExaminerRecordsLearnMoreModalModule,
     ExaminerRecordsLabelTextComponentModule,
+    CustomDateRangeModalModule,
   ],
   providers: [CompressionProvider],
   exports: [ColourFilterRadioComponent, ExaminerReportsCard],

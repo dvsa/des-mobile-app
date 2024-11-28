@@ -12,6 +12,7 @@ import { Store, select } from '@ngrx/store';
 import { ExaminerRecordsLearnMoreModal } from '@pages/examiner-records/components/examiner-records-learn-more-modal/examiner-records-learn-more-modal';
 import { ExaminerReportsCardClick } from '@pages/examiner-records/components/examiner-reports-card/examiner-reports-card';
 import { RecordsExplanationModal } from '@pages/examiner-records/components/records-explanation-modal/records-explanation-modal';
+import {CustomDateRangeModal} from '@pages/examiner-records/components/custom-date-range-modal/custom-date-range-modal';
 import {
   ClickDataCard,
   ColourFilterChanged,
@@ -27,6 +28,7 @@ import {
   TestCategoryChanged,
 } from '@pages/examiner-records/examiner-records.actions';
 import {
+  CustomDateRange,
   ExaminerRecordData,
   ExaminerRecordDataWithPercentage,
   getBalanceQuestions,
@@ -44,32 +46,32 @@ import {
   getStartedTestCount,
   getTellMeQuestions,
 } from '@pages/examiner-records/examiner-records.selector';
-import { DASHBOARD_PAGE } from '@pages/page-names.constants';
-import { AccessibilityService } from '@providers/accessibility/accessibility.service';
-import { CompressionProvider } from '@providers/compression/compression';
+import {DASHBOARD_PAGE} from '@pages/page-names.constants';
+import {AccessibilityService} from '@providers/accessibility/accessibility.service';
+import {CompressionProvider} from '@providers/compression/compression';
 import {
   ColourEnum,
   ColourScheme,
   ExaminerRecordsProvider,
   SelectableDateRange,
 } from '@providers/examiner-records/examiner-records';
-import { OrientationMonitorProvider } from '@providers/orientation-monitor/orientation-monitor.provider';
-import { SearchProvider } from '@providers/search/search';
-import { DateRange, DateTime } from '@shared/helpers/date-time';
-import { isAnyOf } from '@shared/helpers/simplifiers';
-import { ActivityCodes } from '@shared/models/activity-codes';
-import { StoreModel } from '@shared/models/store.model';
-import { selectEmployeeId } from '@store/app-info/app-info.selectors';
+import {OrientationMonitorProvider} from '@providers/orientation-monitor/orientation-monitor.provider';
+import {SearchProvider} from '@providers/search/search';
+import {DateRange, DateTime} from '@shared/helpers/date-time';
+import {isAnyOf} from '@shared/helpers/simplifiers';
+import {ActivityCodes} from '@shared/models/activity-codes';
+import {StoreModel} from '@shared/models/store.model';
+import {selectEmployeeId} from '@store/app-info/app-info.selectors';
 import {
   getIsLoadingRecords,
   selectCachedExaminerRecords,
   selectColourScheme,
   selectLastCachedDate,
 } from '@store/examiner-records/examiner-records.selectors';
-import { getTests } from '@store/tests/tests.reducer';
-import { StartedTests, getStartedTests } from '@store/tests/tests.selector';
-import { BehaviorSubject, Observable, Subscription, combineLatest, merge, of } from 'rxjs';
-import { map, switchMap, take, tap, withLatestFrom } from 'rxjs/operators';
+import {getTests} from '@store/tests/tests.reducer';
+import {getStartedTests, StartedTests} from '@store/tests/tests.selector';
+import {BehaviorSubject, combineLatest, merge, Observable, of, Subscription} from 'rxjs';
+import {map, switchMap, take, tap, withLatestFrom} from 'rxjs/operators';
 
 export interface ExaminerRecordsPageStateData {
   routeGrid: ExaminerRecordDataWithPercentage<string>[];
@@ -115,6 +117,7 @@ export class ExaminerRecordsPage implements OnInit {
   testsInRangeSubject$: BehaviorSubject<ExaminerRecordModel[]> = new BehaviorSubject<ExaminerRecordModel[]>(null);
   eligTestSubject$: BehaviorSubject<ExaminerRecordModel[]> = new BehaviorSubject<ExaminerRecordModel[]>(null);
   rangeSubject$: BehaviorSubject<DateRange> = new BehaviorSubject<DateRange>(null);
+  customDateRangeSubject$: BehaviorSubject<CustomDateRange> = new BehaviorSubject<CustomDateRange>(null);
   locationSubject$: BehaviorSubject<number> = new BehaviorSubject<number>(null);
   categorySubject$: BehaviorSubject<TestCategory> = new BehaviorSubject<TestCategory>(null);
   pageState: ExaminerRecordsState;
@@ -297,6 +300,7 @@ export class ExaminerRecordsPage implements OnInit {
         this.testSubject$.value,
         this.categorySubject$.value,
         this.rangeSubject$.value,
+        this.customDateRangeSubject$.value,
         this.locationSubject$.value
       )
     );
@@ -310,7 +314,7 @@ export class ExaminerRecordsPage implements OnInit {
    * with the filtered results.
    */
   filterDates() {
-    this.testsInRangeSubject$.next(getEligibleTests(this.testSubject$.value, null, this.rangeSubject$.value, null));
+    this.testsInRangeSubject$.next(getEligibleTests(this.testSubject$.value, null, this.rangeSubject$.value, this.customDateRangeSubject$.value));
   }
 
   /**
@@ -377,7 +381,7 @@ export class ExaminerRecordsPage implements OnInit {
    * date range, category, and location.
    */
   getLocationsByParameters = <T>(
-    fn: (tests: ExaminerRecordModel[], range: DateRange, category: string, location: number) => T
+    fn: (tests: ExaminerRecordModel[]) => T
   ): Observable<T> =>
     combineLatest([this.testsInRangeSubject$.asObservable()]).pipe(
       // return an observable using the generic `fn`
@@ -385,9 +389,6 @@ export class ExaminerRecordsPage implements OnInit {
         return of(
           fn(
             this.testsInRangeSubject$.value,
-            this.rangeSubject$.value,
-            this.categorySubject$.value,
-            this.locationSubject$.value
           )
         );
       })
@@ -668,6 +669,37 @@ export class ExaminerRecordsPage implements OnInit {
     return data.reduce((max, obj) => (obj.count > max.count ? obj : max));
   }
 
+  async handleCustomDateRange() {
+    const today = new Date();
+    const modal: HTMLIonModalElement = await this.modalController.create({
+      component: CustomDateRangeModal,
+      componentProps: {
+        startDate: this.customDateRangeSubject$.value?.startDate?.toISOString(),
+        endDate: this.customDateRangeSubject$.value?.endDate?.toISOString(),
+        startDateMin: this.examinerRecordsProvider.getRangeDate(DateRange.EIGHTEEN_MONTHS).toISOString(),
+        startDateMax: today.toISOString(),
+        endDateMin: this.examinerRecordsProvider.getRangeDate(DateRange.EIGHTEEN_MONTHS).toISOString(),
+        endDateMax: today.toISOString(),
+      },
+      cssClass: 'blackout-modal mes-modal-alert',
+      backdropDismiss: false,
+    });
+    await modal.present();
+    const { data } = await modal.onWillDismiss<{startDate: DateTime, endDate: DateTime}>();
+    if (data) {
+      this.startDateFilter = data.startDate.format('DD/MM/YYYY');
+      this.endDateFilter = data.endDate.format('DD/MM/YYYY');
+      this.rangeSubject$.next(DateRange.CUSTOM);
+      this.customDateRangeSubject$.next({startDate: data.startDate, endDate: data.endDate});
+      this.filterDates();
+
+      this.store$.dispatch(DateRangeChanged({
+        display: 'Custom',
+        val: DateRange.CUSTOM,
+      },));
+    }
+  }
+
   /**
    * Sets the date range filter to the event value and sends that value to the behavior subject.
    *
@@ -680,13 +712,16 @@ export class ExaminerRecordsPage implements OnInit {
    *
    * @param {CustomEvent} event - The event containing the new date range value.
    */
-  handleDateFilter(event: CustomEvent) {
-    this.dateFilter = event.detail?.value.display ?? null;
-    this.rangeSubject$.next(event.detail?.value.val ?? null);
-    this.startDateFilter = this.examinerRecordsProvider.getRangeDate(event.detail?.value.val).format('DD/MM/YYYY');
-    this.filterDates();
-
-    this.store$.dispatch(DateRangeChanged(event.detail?.value));
+  async handleDateFilter(event: CustomEvent) {
+    if (event.detail?.value.val === DateRange.CUSTOM) {
+      await this.handleCustomDateRange();
+    } else {
+      this.dateFilter = event.detail?.value.display ?? null;
+      this.rangeSubject$.next(event.detail?.value.val ?? null);
+      this.startDateFilter = this.examinerRecordsProvider.getRangeDate(event.detail?.value.val).format('DD/MM/YYYY');
+      this.filterDates();
+      this.store$.dispatch(DateRangeChanged(event.detail?.value));
+    }
   }
 
   /**

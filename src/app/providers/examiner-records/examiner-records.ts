@@ -86,6 +86,10 @@ export class ExaminerRecordsProvider {
       display: 'Last 18 months',
       val: DateRange.EIGHTEEN_MONTHS,
     },
+    {
+      display: 'Custom',
+      val: DateRange.CUSTOM,
+    },
   ];
 
   currentlyLoading = false;
@@ -135,9 +139,10 @@ export class ExaminerRecordsProvider {
    * one year ago for '1 year', and 18 months ago for '18 months'.
    *
    * @param {DateRange} range - The date range to calculate the date from.
+   * @param customDayCount
    * @returns {moment.Moment} The calculated date based on the provided range.
    */
-  getRangeDate(range: DateRange): moment.Moment {
+  getRangeDate(range: DateRange, customDayCount = 0): moment.Moment {
     switch (range) {
       case DateRange.TODAY:
         return moment(new Date());

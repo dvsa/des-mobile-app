@@ -17,6 +17,11 @@ export interface ExaminerRecordData<T> {
   count: number;
 }
 
+export interface CustomDateRange {
+  startDate: DateTime;
+  endDate: DateTime;
+}
+
 // Generic `T` is the configurable type of the item
 export interface ExaminerRecordDataWithPercentage<T> extends ExaminerRecordData<T> {
   percentage: string;
@@ -43,12 +48,24 @@ const unwantedCategories: TestCategory[] = [
 ];
 
 // add date range filter
-export const dateFilter = (test: ExaminerRecordModel, range: DateRange = null): boolean =>
-  range
+export const dateFilter = (
+  test: ExaminerRecordModel,
+  range: DateRange = null,
+  customDateRange: CustomDateRange = null
+): boolean => {
+  // if custom date range is provided, use it
+  if (customDateRange && range === DateRange.CUSTOM) {
+    // get the start date of the test
+    const startDate = new DateTime(get(test, 'startDate'));
+    // check if the start date is within the custom date range
+    return startDate.isBetweenTwoDates(customDateRange.startDate, customDateRange.endDate, true);
+  }
+  return range
     ? // use range when provided
       new DateTime(get(test, 'startDate')).isDuringDateRange(range)
     : // return true to get all tests when no range provided
       true;
+};
 
 /**
  * strip out the prefix letter to get the numerical value in the code of the string
@@ -66,16 +83,16 @@ export const getEligibleTests = (
   startedTests: ExaminerRecordModel[],
   category: TestCategory = null,
   range: DateRange = null,
+  customDateRange: CustomDateRange = null,
   centreId: number = null,
   filterByLocation = true,
   filterByCategory = true
 ): ExaminerRecordModel[] => {
   if (startedTests) {
     console.log(
-      'tests',
       startedTests.filter((value: ExaminerRecordModel) => {
         return (
-          (range ? dateFilter(value, range as DateRange) : true) &&
+          (range ? dateFilter(value, range, customDateRange) : true) &&
           (filterByCategory ? (category ? get(value, 'testCategory') === category : true) : true) &&
           (filterByLocation ? (centreId ? get(value, 'testCentre.centreId') === centreId : true) : true) &&
           (allowExtendedTests ? true : !(get(value, 'extendedTest') === true))
@@ -83,8 +100,10 @@ export const getEligibleTests = (
       })
     );
     return startedTests.filter((value: ExaminerRecordModel) => {
+      // console.log(value, range, customDateRange);
+      // console.log(range ? dateFilter(value, range, customDateRange) : true);
       return (
-        (range ? dateFilter(value, range as DateRange) : true) &&
+        (range ? dateFilter(value, range, customDateRange) : true) &&
         (filterByCategory ? (category ? get(value, 'testCategory') === category : true) : true) &&
         (filterByLocation ? (centreId ? get(value, 'testCentre.centreId') === centreId : true) : true)
       );
@@ -109,12 +128,9 @@ export const getEmergencyStopCount = (startedTests: ExaminerRecordModel[]): numb
  * Returns an array of locations the examiner has conducted a test in within the date range and
  * the amount of tests they have conducted there
  */
-export const getLocations = (
-  startedTests: ExaminerRecordModel[],
-  range: DateRange = null
-): ExaminerRecordData<TestCentre>[] => {
+export const getLocations = (startedTests: ExaminerRecordModel[]): ExaminerRecordData<TestCentre>[] => {
   if (startedTests) {
-    const data: ExaminerRecordModel[] = getEligibleTests(startedTests, null, range, null).filter((record) => {
+    const data: ExaminerRecordModel[] = getEligibleTests(startedTests).filter((record) => {
       //Do not return tests that are categories we do not want to track to avoid test centres with no tests in them
       if (!unwantedCategories.includes(get(record, 'testCategory', null))) {
         return !!get(record, 'testCentre', null).centreId;
