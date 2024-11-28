@@ -88,7 +88,6 @@ module.exports = (config) => {
     browserDisconnectTimeout: 200000,
     captureTimeout: 240000,
   });
-  console.log(config.singleRun);
 };
 
 
