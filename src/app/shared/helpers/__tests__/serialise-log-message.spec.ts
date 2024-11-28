@@ -5,8 +5,7 @@ describe('serialiseLogMessage', () => {
     const res = serialiseLogMessage('test');
     expect(res).toEqual('test');
   });
-  // TODO: MES-10108 - fix these tests
-  xit('should return an error that contains the stack, class and information', () => {
+  it('should return an error that contains the stack, class and information', () => {
     const res = serialiseLogMessage(new Error('test'));
     expect(res).toContain('stack');
     expect(res).toContain('Error');
