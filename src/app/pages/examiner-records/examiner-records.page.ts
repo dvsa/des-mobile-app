@@ -11,8 +11,7 @@ import { ScrollDetail } from '@ionic/core';
 import { Store, select } from '@ngrx/store';
 import { ExaminerRecordsLearnMoreModal } from '@pages/examiner-records/components/examiner-records-learn-more-modal/examiner-records-learn-more-modal';
 import { ExaminerReportsCardClick } from '@pages/examiner-records/components/examiner-reports-card/examiner-reports-card';
-import { RecordsExplanationModal } from '@pages/examiner-records/components/records-explanation-modal/records-explanation-modal';
-import {CustomDateRangeModal} from '@pages/examiner-records/components/custom-date-range-modal/custom-date-range-modal';
+import { RecordsExplanationModal } from '@pages/examiner-records/components/records-explanation-modal/records-explanation-modal';import {CustomDateRangeModal} from '@pages/examiner-records/components/custom-date-range-modal/custom-date-range-modal';
 import {
   ClickDataCard,
   ColourFilterChanged,
@@ -46,32 +45,32 @@ import {
   getStartedTestCount,
   getTellMeQuestions,
 } from '@pages/examiner-records/examiner-records.selector';
-import {DASHBOARD_PAGE} from '@pages/page-names.constants';
-import {AccessibilityService} from '@providers/accessibility/accessibility.service';
-import {CompressionProvider} from '@providers/compression/compression';
+import { DASHBOARD_PAGE } from '@pages/page-names.constants';
+import { AccessibilityService } from '@providers/accessibility/accessibility.service';
+import { CompressionProvider } from '@providers/compression/compression';
 import {
   ColourEnum,
   ColourScheme,
   ExaminerRecordsProvider,
   SelectableDateRange,
 } from '@providers/examiner-records/examiner-records';
-import {OrientationMonitorProvider} from '@providers/orientation-monitor/orientation-monitor.provider';
-import {SearchProvider} from '@providers/search/search';
-import {DateRange, DateTime} from '@shared/helpers/date-time';
-import {isAnyOf} from '@shared/helpers/simplifiers';
-import {ActivityCodes} from '@shared/models/activity-codes';
-import {StoreModel} from '@shared/models/store.model';
-import {selectEmployeeId} from '@store/app-info/app-info.selectors';
+import { OrientationMonitorProvider } from '@providers/orientation-monitor/orientation-monitor.provider';
+import { SearchProvider } from '@providers/search/search';
+import { DateRange, DateTime } from '@shared/helpers/date-time';
+import { isAnyOf } from '@shared/helpers/simplifiers';
+import { ActivityCodes } from '@shared/models/activity-codes';
+import { StoreModel } from '@shared/models/store.model';
+import { selectEmployeeId } from '@store/app-info/app-info.selectors';
 import {
   getIsLoadingRecords,
   selectCachedExaminerRecords,
   selectColourScheme,
   selectLastCachedDate,
 } from '@store/examiner-records/examiner-records.selectors';
-import {getTests} from '@store/tests/tests.reducer';
-import {getStartedTests, StartedTests} from '@store/tests/tests.selector';
-import {BehaviorSubject, combineLatest, merge, Observable, of, Subscription} from 'rxjs';
-import {map, switchMap, take, tap, withLatestFrom} from 'rxjs/operators';
+import { getTests } from '@store/tests/tests.reducer';
+import { StartedTests, getStartedTests } from '@store/tests/tests.selector';
+import { BehaviorSubject, Observable, Subscription, combineLatest, merge, of } from 'rxjs';
+import { map, switchMap, take, tap, withLatestFrom } from 'rxjs/operators';
 
 export interface ExaminerRecordsPageStateData {
   routeGrid: ExaminerRecordDataWithPercentage<string>[];
@@ -314,7 +313,9 @@ export class ExaminerRecordsPage implements OnInit {
    * with the filtered results.
    */
   filterDates() {
-    this.testsInRangeSubject$.next(getEligibleTests(this.testSubject$.value, null, this.rangeSubject$.value, this.customDateRangeSubject$.value));
+    this.testsInRangeSubject$.next(
+      getEligibleTests(this.testSubject$.value, null, this.rangeSubject$.value, this.customDateRangeSubject$.value)
+    );
   }
 
   /**
@@ -380,17 +381,11 @@ export class ExaminerRecordsPage implements OnInit {
    * @returns {Observable<T>} An observable that emits the result of applying the function `fn` to the eligible tests,
    * date range, category, and location.
    */
-  getLocationsByParameters = <T>(
-    fn: (tests: ExaminerRecordModel[]) => T
-  ): Observable<T> =>
+  getLocationsByParameters = <T>(fn: (tests: ExaminerRecordModel[]) => T): Observable<T> =>
     combineLatest([this.testsInRangeSubject$.asObservable()]).pipe(
       // return an observable using the generic `fn`
       switchMap(() => {
-        return of(
-          fn(
-            this.testsInRangeSubject$.value,
-          )
-        );
+        return of(fn(this.testsInRangeSubject$.value));
       })
     );
 
@@ -685,18 +680,20 @@ export class ExaminerRecordsPage implements OnInit {
       backdropDismiss: false,
     });
     await modal.present();
-    const { data } = await modal.onWillDismiss<{startDate: DateTime, endDate: DateTime}>();
+    const { data } = await modal.onWillDismiss<{ startDate: DateTime; endDate: DateTime }>();
     if (data) {
       this.startDateFilter = data.startDate.format('DD/MM/YYYY');
       this.endDateFilter = data.endDate.format('DD/MM/YYYY');
       this.rangeSubject$.next(DateRange.CUSTOM);
-      this.customDateRangeSubject$.next({startDate: data.startDate, endDate: data.endDate});
+      this.customDateRangeSubject$.next({ startDate: data.startDate, endDate: data.endDate });
       this.filterDates();
 
-      this.store$.dispatch(DateRangeChanged({
-        display: 'Custom',
-        val: DateRange.CUSTOM,
-      },));
+      this.store$.dispatch(
+        DateRangeChanged({
+          display: 'Custom',
+          val: DateRange.CUSTOM,
+        })
+      );
     }
   }
 

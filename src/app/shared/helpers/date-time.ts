@@ -69,8 +69,8 @@ export class DateTime {
   }
 
   isBetweenTwoDates(startDate: DateTime, endDate: DateTime, isTimeless = true): boolean {
-    const compareStartDate = isTimeless ? startDate.moment.startOf(Duration.DAY): startDate.moment;
-    const compareEndDate = isTimeless? endDate.moment.endOf(Duration.DAY) : endDate.moment;
+    const compareStartDate = isTimeless ? startDate.moment.startOf(Duration.DAY) : startDate.moment;
+    const compareEndDate = isTimeless ? endDate.moment.endOf(Duration.DAY) : endDate.moment;
     console.log('compareStartDate', compareStartDate);
     console.log('current', this.moment);
     console.log('compareEndDate', compareEndDate);
