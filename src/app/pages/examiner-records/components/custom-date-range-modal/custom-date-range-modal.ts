@@ -67,7 +67,7 @@ export class CustomDateRangeModal {
         date: date.format('YYYY-MM-DD'),
         textColor: '#000000',
         backgroundColor: 'rgb(169,210,255)',
-      }
+      };
     });
   }
 }

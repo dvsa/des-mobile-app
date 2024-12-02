@@ -1,6 +1,6 @@
 import * as moment from 'moment';
-import { DurationInputArg1, MomentInput } from 'moment/moment';
 import { Moment } from 'moment';
+import { DurationInputArg1, MomentInput } from 'moment/moment';
 
 export enum Duration {
   YEAR = 'year',
@@ -140,18 +140,18 @@ export class DateTime {
     return moment().toDate();
   }
 
-   getDatesBetweenTwoDates(endDate: DateTime): DateTime[] {
+  getDatesBetweenTwoDates(endDate: DateTime): DateTime[] {
     const dates: DateTime[] = [];
 
     const currDate = this.moment.startOf('day');
     const lastDate: Moment = endDate.moment.startOf('day');
 
-    while(currDate.add(1, 'days').diff(lastDate) < 0) {
+    while (currDate.add(1, 'days').diff(lastDate) < 0) {
       dates.push(new DateTime(currDate.clone().toDate()));
     }
 
     return dates;
-  };
+  }
 
   static datePickerInputToString(date) {
     return moment()
