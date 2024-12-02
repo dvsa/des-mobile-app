@@ -1,7 +1,8 @@
 <ion-card class="custom-date-range-modal-size">
   <ion-row class="padding-top-22 ion-justify-content-center">
     <ion-col class="ion-no-padding">
-      <ion-text id="end test-text" class="modal-header des-header-style-2 flex-center">Select start and end dates</ion-text>
+      <ion-text id="end test-text" class="modal-header des-header-style-2 flex-center">Select start and end dates
+      </ion-text>
     </ion-col>
   </ion-row>
   <ion-row class="content-padding bottom-padding ion-justify-content-center">
@@ -12,6 +13,7 @@
         </ion-text>
       </ion-row>
       <ion-datetime
+        class="date-modal"
         [value]="startDate"
         [max]="startDateMax"
         [min]="startDateMin"
@@ -20,6 +22,7 @@
         size="cover"
         presentation="date"
         (ionChange)="onDateChanged($event, 'start')"
+        [highlightedDates]="getHighlightedDates()"
       >
       </ion-datetime>
     </ion-col>
@@ -30,6 +33,7 @@
         </ion-text>
       </ion-row>
       <ion-datetime
+        class="date-modal"
         [value]="endDate"
         [max]="endDateMax"
         [min]="endDateMin"
@@ -37,13 +41,14 @@
         [showDefaultButtons]="false"
         size="cover"
         presentation="date"
+        [highlightedDates]="getHighlightedDates()"
         (ionChange)="onDateChanged($event, 'end')"
       >
       </ion-datetime>
     </ion-col>
   </ion-row>
   <ion-row class="bottom-padding ion-justify-content-center display-flex">
-    <ion-text class="mes-data">{{getDateRange()}} days selected</ion-text>
+    <ion-text class="mes-data">{{ getDateRange() }} days selected</ion-text>
   </ion-row>
   <ion-row>
     <ion-col class="ion-no-padding column-border-top column-border-right">

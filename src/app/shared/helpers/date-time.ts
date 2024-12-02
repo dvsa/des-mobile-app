@@ -1,5 +1,6 @@
 import * as moment from 'moment';
 import { DurationInputArg1, MomentInput } from 'moment/moment';
+import { Moment } from 'moment';
 
 export enum Duration {
   YEAR = 'year',
@@ -71,9 +72,7 @@ export class DateTime {
   isBetweenTwoDates(startDate: DateTime, endDate: DateTime, isTimeless = true): boolean {
     const compareStartDate = isTimeless ? startDate.moment.startOf(Duration.DAY) : startDate.moment;
     const compareEndDate = isTimeless ? endDate.moment.endOf(Duration.DAY) : endDate.moment;
-    console.log('compareStartDate', compareStartDate);
-    console.log('current', this.moment);
-    console.log('compareEndDate', compareEndDate);
+
     return this.moment.isSameOrBefore(compareEndDate) && this.moment.isSameOrAfter(compareStartDate);
   }
 
@@ -140,6 +139,19 @@ export class DateTime {
   static today(): Date {
     return moment().toDate();
   }
+
+   getDatesBetweenTwoDates(endDate: DateTime): DateTime[] {
+    const dates: DateTime[] = [];
+
+    const currDate = this.moment.startOf('day');
+    const lastDate: Moment = endDate.moment.startOf('day');
+
+    while(currDate.add(1, 'days').diff(lastDate) < 0) {
+      dates.push(new DateTime(currDate.clone().toDate()));
+    }
+
+    return dates;
+  };
 
   static datePickerInputToString(date) {
     return moment()

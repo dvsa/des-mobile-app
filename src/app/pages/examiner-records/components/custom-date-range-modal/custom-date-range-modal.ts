@@ -60,4 +60,14 @@ export class CustomDateRangeModal {
         break;
     }
   }
+
+  getHighlightedDates() {
+    return new DateTime(this.startDate).getDatesBetweenTwoDates(new DateTime(this.endDate)).map((date: DateTime) => {
+      return {
+        date: date.format('YYYY-MM-DD'),
+        textColor: '#000000',
+        backgroundColor: 'rgb(169,210,255)',
+      }
+    });
+  }
 }
