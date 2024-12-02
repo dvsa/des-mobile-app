@@ -29,8 +29,12 @@ export class PasteSanitiserDirective {
       if (maxLength && sanitisedData.length > maxLength) {
         sanitisedData = sanitisedData.substring(0, maxLength);
       }
-      // Cast sanitisedData as a number if numbersOnly attribute is present, otherwise just use sanitisedData
-      inputField.value = numbersOnly ? Number(sanitisedData) : sanitisedData;
+      if (sanitisedData.length > 0) {
+        // Cast sanitisedData as a number if numbersOnly attribute is present, otherwise just use sanitisedData
+        inputField.value = numbersOnly ? Number(sanitisedData) : sanitisedData;
+      } else {
+        inputField.value = null;
+      }
     });
   }
 }
