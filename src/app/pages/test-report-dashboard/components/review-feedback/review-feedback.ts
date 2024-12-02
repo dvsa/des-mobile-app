@@ -21,6 +21,7 @@ export class ReviewFeedback {
   feedbackMaxLength = 1000;
 
   ngOnChanges(): void {
+    console.log();
     if (!this.formControl) {
       this.formControl = new UntypedFormControl(null);
       this.form.addControl('feedback', this.formControl);
@@ -52,7 +53,8 @@ export class ReviewFeedback {
 
   getCharacterCountText() {
     const characterString = Math.abs(this.feedbackCharsRemaining) === 1 ? 'character' : 'characters';
-    return `You have ${Math.abs(this.feedbackCharsRemaining)} ${characterString} remaining`;
+    const endString = this.feedbackCharsRemaining < 0 ? 'too many' : 'remaining';
+    return `You have ${Math.abs(this.feedbackCharsRemaining)} ${characterString} ${endString}`;
   }
 
   charactersExceeded(): boolean {

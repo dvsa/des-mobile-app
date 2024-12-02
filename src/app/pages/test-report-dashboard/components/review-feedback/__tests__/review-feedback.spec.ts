@@ -48,6 +48,11 @@ describe('ReviewFeedback', () => {
 
       expect(component.getCharacterCountText()).toBe('You have 2 characters remaining');
     });
+    it('should display "You have 2 characters remaining" when only 1 is remaining', () => {
+      component.feedbackCharsRemaining = -2;
+
+      expect(component.getCharacterCountText()).toBe('You have 2 characters too many');
+    });
   });
 
   describe('characterCountChanged', () => {
