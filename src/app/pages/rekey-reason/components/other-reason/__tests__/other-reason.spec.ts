@@ -3,8 +3,8 @@ import { ReactiveFormsModule, UntypedFormGroup } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { AppModule } from '@app/app.module';
 import { IonicModule } from '@ionic/angular';
-import { OtherReasonComponent } from '../other-reason';
 import { CharacterCountService } from '@providers/character-count/character-count.service';
+import { OtherReasonComponent } from '../other-reason';
 
 describe('OtherReasonComponent', () => {
   let characterCountService: CharacterCountService;

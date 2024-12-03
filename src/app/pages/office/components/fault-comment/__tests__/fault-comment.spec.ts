@@ -4,13 +4,13 @@ import { By } from '@angular/platform-browser';
 import { ComponentsModule } from '@components/common/common-components.module';
 import { DrivingFaultsBadgeComponent } from '@components/common/driving-faults-badge/driving-faults-badge';
 import { IonicModule } from '@ionic/angular';
+import { CharacterCountService } from '@providers/character-count/character-count.service';
 import { OutcomeBehaviourMapProvider } from '@providers/outcome-behaviour-map/outcome-behaviour-map';
 import { CommentSource } from '@shared/models/fault-marking.model';
 import { PipesModule } from '@shared/pipes/pipes.module';
 import { AppModule } from 'src/app/app.module';
 import { behaviourMap } from '../../../office-behaviour-map';
 import { FaultCommentComponent } from '../fault-comment';
-import { CharacterCountService } from '@providers/character-count/character-count.service';
 
 describe('FaultCommentComponent', () => {
   let fixture: ComponentFixture<FaultCommentComponent>;

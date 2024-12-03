@@ -2,10 +2,10 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { FormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { behaviourMap } from '@pages/office/office-behaviour-map';
+import { CharacterCountService } from '@providers/character-count/character-count.service';
 import { OutcomeBehaviourMapProvider } from '@providers/outcome-behaviour-map/outcome-behaviour-map';
 import { AppModule } from 'src/app/app.module';
 import { CandidateDescriptionComponent } from '../candidate-description';
-import { CharacterCountService } from '@providers/character-count/character-count.service';
 
 describe('CandidateDescriptionComponent', () => {
   let characterCountService: CharacterCountService;
@@ -79,9 +79,9 @@ describe('CandidateDescriptionComponent', () => {
 
   describe('getCharacterCountText', () => {
     it('should call service with charsRemaining', () => {
-      spyOn(characterCountService, 'getCharacterCountText')
+      spyOn(characterCountService, 'getCharacterCountText');
       component.charsRemaining = 1;
-      component.getCharacterCountText()
+      component.getCharacterCountText();
 
       expect(characterCountService.getCharacterCountText).toHaveBeenCalledWith(component.charsRemaining);
     });
@@ -103,9 +103,9 @@ describe('CandidateDescriptionComponent', () => {
 
   describe('charactersExceeded', () => {
     it('should call service with charsRemaining', () => {
-      spyOn(characterCountService, 'charactersExceeded')
+      spyOn(characterCountService, 'charactersExceeded');
       component.charsRemaining = 1;
-      component.charactersExceeded()
+      component.charactersExceeded();
 
       expect(characterCountService.charactersExceeded).toHaveBeenCalledWith(component.charsRemaining);
     });

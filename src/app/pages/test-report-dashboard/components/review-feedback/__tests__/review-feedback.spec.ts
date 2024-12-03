@@ -32,9 +32,9 @@ describe('ReviewFeedback', () => {
 
   describe('getCharacterCountText', () => {
     it('should call service with charsRemaining', () => {
-      spyOn(characterCountService, 'getCharacterCountText')
+      spyOn(characterCountService, 'getCharacterCountText');
       component.charsRemaining = 1;
-      component.getCharacterCountText()
+      component.getCharacterCountText();
 
       expect(characterCountService.getCharacterCountText).toHaveBeenCalledWith(component.charsRemaining);
     });

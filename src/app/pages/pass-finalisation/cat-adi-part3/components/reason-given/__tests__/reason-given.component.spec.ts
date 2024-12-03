@@ -2,8 +2,8 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { FormControl, ReactiveFormsModule, UntypedFormGroup, Validators } from '@angular/forms';
 import { AppModule } from '@app/app.module';
 import { IonicModule } from '@ionic/angular';
-import { ReasonGivenComponent } from '../reason-given.component';
 import { CharacterCountService } from '@providers/character-count/character-count.service';
+import { ReasonGivenComponent } from '../reason-given.component';
 
 describe('ReasonGivenComponent', () => {
   let characterCountService: CharacterCountService;
@@ -43,9 +43,9 @@ describe('ReasonGivenComponent', () => {
 
   describe('charactersExceeded', () => {
     it('should call service with charsRemaining', () => {
-      spyOn(characterCountService, 'charactersExceeded')
+      spyOn(characterCountService, 'charactersExceeded');
       component.charsRemaining = 1;
-      component.charactersExceeded()
+      component.charactersExceeded();
 
       expect(characterCountService.charactersExceeded).toHaveBeenCalledWith(component.charsRemaining);
     });
@@ -53,9 +53,9 @@ describe('ReasonGivenComponent', () => {
 
   describe('getCharacterCountText', () => {
     it('should call service with charsRemaining', () => {
-      spyOn(characterCountService, 'getCharacterCountText')
+      spyOn(characterCountService, 'getCharacterCountText');
       component.charsRemaining = 1;
-      component.getCharacterCountText()
+      component.getCharacterCountText();
 
       expect(characterCountService.getCharacterCountText).toHaveBeenCalledWith(component.charsRemaining);
     });

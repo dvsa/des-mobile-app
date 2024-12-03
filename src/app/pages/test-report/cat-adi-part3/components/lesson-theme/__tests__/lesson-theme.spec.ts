@@ -3,8 +3,8 @@ import { FormControl, UntypedFormControl, UntypedFormGroup, Validators } from '@
 import { IonicModule } from '@ionic/angular';
 import { AssessmentAnswerComponent } from '@pages/test-report/cat-adi-part3/components/assessment-answer/assessment-answer';
 import { LessonThemeComponent } from '@pages/test-report/cat-adi-part3/components/lesson-theme/lesson-theme';
-import { MockComponent } from 'ng-mocks';
 import { CharacterCountService } from '@providers/character-count/character-count.service';
+import { MockComponent } from 'ng-mocks';
 
 describe('LessonThemeComponent', () => {
   let characterCountService: CharacterCountService;
