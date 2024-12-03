@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
 import { UntypedFormControl, UntypedFormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
+import { CharacterCountService } from '@providers/character-count/character-count.service';
 
 @Component({
   selector: 'other-reason',
@@ -10,7 +11,7 @@ export class OtherReasonComponent implements OnChanges {
   static readonly fieldName: string = 'reason';
   private checkBoxFormControl: UntypedFormControl;
   private formControl: UntypedFormControl;
-  public reasonDescriptionCharsRemaining: number = null;
+  public charsRemaining: number = null;
   public otherReasonMaxLength = 200;
 
   @Input()
@@ -27,6 +28,8 @@ export class OtherReasonComponent implements OnChanges {
 
   @Output()
   reasonChange = new EventEmitter<string>();
+
+  constructor(public characterCountService: CharacterCountService) {}
 
   ngOnChanges(): void {
     if (!this.checkBoxFormControl) {
@@ -54,7 +57,7 @@ export class OtherReasonComponent implements OnChanges {
 
   charactersExceededValidator(): ValidatorFn {
     return (): ValidationErrors | null => {
-      return this.charactersExceeded() ? { charactersExceeded: true } : null;
+      return this.characterCountService.charactersExceeded(this.charsRemaining) ? { charactersExceeded: true } : null;
     };
   }
 
@@ -70,18 +73,22 @@ export class OtherReasonComponent implements OnChanges {
   }
 
   characterCountChanged(charactersRemaining: number): void {
-    this.reasonDescriptionCharsRemaining = charactersRemaining;
+    this.charsRemaining = charactersRemaining;
     this.formControl.updateValueAndValidity();
   }
 
+  /**
+   * Request appropriate character count text based upon how many characters are remaining
+   */
   getCharacterCountText(): string {
-    const characterString = Math.abs(this.reasonDescriptionCharsRemaining) === 1 ? 'character' : 'characters';
-    const endString = this.reasonDescriptionCharsRemaining < 0 ? 'too many' : 'remaining';
-    return `You have ${Math.abs(this.reasonDescriptionCharsRemaining)} ${characterString} ${endString}`;
+    return this.characterCountService.getCharacterCountText(this.charsRemaining);
   }
 
+  /**
+   * Request whether the character count has been exceeded
+   */
   charactersExceeded(): boolean {
-    return this.reasonDescriptionCharsRemaining < 0;
+    return this.characterCountService.charactersExceeded(this.charsRemaining);
   }
 
   get invalid(): boolean {

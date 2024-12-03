@@ -3,9 +3,11 @@ import { ReactiveFormsModule, UntypedFormGroup } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { AppModule } from '@app/app.module';
 import { IonicModule } from '@ionic/angular';
+import { CharacterCountService } from '@providers/character-count/character-count.service';
 import { OtherReasonComponent } from '../other-reason';
 
 describe('OtherReasonComponent', () => {
+  let characterCountService: CharacterCountService;
   let fixture: ComponentFixture<OtherReasonComponent>;
   let component: OtherReasonComponent;
 
@@ -13,9 +15,11 @@ describe('OtherReasonComponent', () => {
     TestBed.configureTestingModule({
       declarations: [OtherReasonComponent],
       imports: [IonicModule, AppModule, ReactiveFormsModule],
+      providers: [{ providers: CharacterCountService, useValue: CharacterCountService }],
     });
 
     fixture = TestBed.createComponent(OtherReasonComponent);
+    characterCountService = TestBed.inject(CharacterCountService);
     component = fixture.componentInstance;
     component.formGroup = new UntypedFormGroup({});
     component.ngOnChanges();
@@ -49,6 +53,26 @@ describe('OtherReasonComponent', () => {
         const reasonText = 'reason for change';
         component.reasonTextChanged(reasonText);
         expect(component.reasonChange.emit).toHaveBeenCalledWith(reasonText);
+      });
+    });
+
+    describe('getCharacterCountText', () => {
+      it('should call service with charsRemaining', () => {
+        spyOn(characterCountService, 'getCharacterCountText');
+        component.charsRemaining = 1;
+        component.getCharacterCountText();
+
+        expect(characterCountService.getCharacterCountText).toHaveBeenCalledWith(component.charsRemaining);
+      });
+    });
+
+    describe('charactersExceeded', () => {
+      it('should call service with charsRemaining', () => {
+        spyOn(characterCountService, 'charactersExceeded');
+        component.charsRemaining = 1;
+        component.charactersExceeded();
+
+        expect(characterCountService.charactersExceeded).toHaveBeenCalledWith(component.charsRemaining);
       });
     });
   });

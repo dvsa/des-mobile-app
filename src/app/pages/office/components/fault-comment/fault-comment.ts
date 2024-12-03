@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core
 import { UntypedFormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { AccessibilityService } from '@providers/accessibility/accessibility.service';
+import { CharacterCountService } from '@providers/character-count/character-count.service';
 import { OutcomeBehaviourMapProvider, VisibilityType } from '@providers/outcome-behaviour-map/outcome-behaviour-map';
 import { FaultSummary } from '@shared/models/fault-marking.model';
 
@@ -52,12 +53,13 @@ export class FaultCommentComponent implements OnChanges {
   @Output()
   faultCommentChange = new EventEmitter<FaultSummary>();
 
-  faultCommentCharsRemaining: number = null;
+  charsRemaining: number = null;
   static readonly fieldName: string = 'faultComment';
 
   constructor(
     private outcomeBehaviourProvider: OutcomeBehaviourMapProvider,
-    protected accessibilityService: AccessibilityService
+    protected accessibilityService: AccessibilityService,
+    public characterCountService: CharacterCountService
   ) {}
 
   ngOnChanges(): void {
@@ -75,7 +77,7 @@ export class FaultCommentComponent implements OnChanges {
 
   charactersExceededValidator(): ValidatorFn {
     return (): ValidationErrors | null => {
-      return this.charactersExceeded() ? { charactersExceeded: true } : null;
+      return this.characterCountService.charactersExceeded(this.charsRemaining) ? { charactersExceeded: true } : null;
     };
   }
 
@@ -103,18 +105,8 @@ export class FaultCommentComponent implements OnChanges {
   }
 
   characterCountChanged(charactersRemaining: number) {
-    this.faultCommentCharsRemaining = charactersRemaining;
+    this.charsRemaining = charactersRemaining;
     this.parentForm.get(this.formControlName).updateValueAndValidity();
-  }
-
-  getCharacterCountText() {
-    const characterString = Math.abs(this.faultCommentCharsRemaining) === 1 ? 'character' : 'characters';
-    const endString = this.faultCommentCharsRemaining < 0 ? 'too many' : 'remaining';
-    return `You have ${Math.abs(this.faultCommentCharsRemaining)} ${characterString} ${endString}`;
-  }
-
-  charactersExceeded(): boolean {
-    return this.faultCommentCharsRemaining < 0;
   }
 
   get invalid(): boolean {
@@ -132,5 +124,19 @@ export class FaultCommentComponent implements OnChanges {
     );
 
     return fieldVisibility === VisibilityType.NotVisible || this.isDelegatedTest;
+  }
+
+  /**
+   * Request appropriate character count text based upon how many characters are remaining
+   */
+  getCharacterCountText(): string {
+    return this.characterCountService.getCharacterCountText(this.charsRemaining);
+  }
+
+  /**
+   * Request whether the character count has been exceeded
+   */
+  charactersExceeded(): boolean {
+    return this.characterCountService.charactersExceeded(this.charsRemaining);
   }
 }

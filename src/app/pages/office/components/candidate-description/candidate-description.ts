@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
 import { UntypedFormControl, UntypedFormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
+import { CharacterCountService } from '@providers/character-count/character-count.service';
 import { OutcomeBehaviourMapProvider, VisibilityType } from '@providers/outcome-behaviour-map/outcome-behaviour-map';
 import { CANDIDATE_DESCRIPTION_CONTROL, CANDIDATE_DESCRIPTION_MAX_LENGTH } from './candidate-description.constants';
 
@@ -27,10 +28,13 @@ export class CandidateDescriptionComponent implements OnChanges {
   candidateDescriptionChange = new EventEmitter<string>();
 
   formControl: UntypedFormControl;
-  candidateDescriptionCharsRemaining: number = null;
+  charsRemaining: number = null;
   protected readonly CANDIDATE_DESCRIPTION_MAX_LENGTH = CANDIDATE_DESCRIPTION_MAX_LENGTH;
 
-  constructor(public outcomeBehaviourProvider: OutcomeBehaviourMapProvider) {}
+  constructor(
+    public outcomeBehaviourProvider: OutcomeBehaviourMapProvider,
+    public characterCountService: CharacterCountService
+  ) {}
 
   ngOnChanges(): void {
     if (!this.formControl) {
@@ -53,7 +57,7 @@ export class CandidateDescriptionComponent implements OnChanges {
 
   charactersExceededValidator(): ValidatorFn {
     return (): ValidationErrors | null => {
-      return this.charactersExceeded() ? { charactersExceeded: true } : null;
+      return this.characterCountService.charactersExceeded(this.charsRemaining) ? { charactersExceeded: true } : null;
     };
   }
 
@@ -62,21 +66,25 @@ export class CandidateDescriptionComponent implements OnChanges {
   }
 
   characterCountChanged(charactersRemaining: number) {
-    this.candidateDescriptionCharsRemaining = charactersRemaining;
+    this.charsRemaining = charactersRemaining;
     this.formControl.updateValueAndValidity();
   }
 
-  getCharacterCountText() {
-    const characterString = Math.abs(this.candidateDescriptionCharsRemaining) === 1 ? 'character' : 'characters';
-    const endString = this.candidateDescriptionCharsRemaining < 0 ? 'too many' : 'remaining';
-    return `You have ${Math.abs(this.candidateDescriptionCharsRemaining)} ${characterString} ${endString}`;
-  }
-
-  charactersExceeded(): boolean {
-    return this.candidateDescriptionCharsRemaining < 0;
+  /**
+   * Request appropriate character count text based upon how many characters are remaining
+   */
+  getCharacterCountText(): string {
+    return this.characterCountService.getCharacterCountText(this.charsRemaining);
   }
 
   get invalid(): boolean {
     return !this.formControl.valid && this.formControl.dirty;
+  }
+
+  /**
+   * Request whether the character count has been exceeded
+   */
+  charactersExceeded(): boolean {
+    return this.characterCountService.charactersExceeded(this.charsRemaining);
   }
 }

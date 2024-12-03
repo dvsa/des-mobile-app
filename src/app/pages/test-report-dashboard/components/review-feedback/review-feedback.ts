@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { UntypedFormControl, UntypedFormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
+import { CharacterCountService } from '@providers/character-count/character-count.service';
 
 @Component({
   selector: 'review-feedback',
@@ -17,10 +18,13 @@ export class ReviewFeedback {
   feedbackChange = new EventEmitter<string>();
 
   formControl: UntypedFormControl;
-  feedbackCharsRemaining: number = null;
+  charsRemaining: number = null;
   feedbackMaxLength = 1000;
 
+  constructor(public characterCountService: CharacterCountService) {}
+
   ngOnChanges(): void {
+    console.log();
     if (!this.formControl) {
       this.formControl = new UntypedFormControl(null);
       this.form.addControl('feedback', this.formControl);
@@ -40,22 +44,20 @@ export class ReviewFeedback {
   }
 
   characterCountChanged(charactersRemaining: number) {
-    this.feedbackCharsRemaining = charactersRemaining;
+    this.charsRemaining = charactersRemaining;
     this.formControl.updateValueAndValidity();
   }
 
   charactersExceededValidator(): ValidatorFn {
     return (): ValidationErrors | null => {
-      return this.charactersExceeded() ? { charactersExceeded: true } : null;
+      return this.characterCountService.charactersExceeded(this.charsRemaining) ? { charactersExceeded: true } : null;
     };
   }
 
-  getCharacterCountText() {
-    const characterString = Math.abs(this.feedbackCharsRemaining) === 1 ? 'character' : 'characters';
-    return `You have ${Math.abs(this.feedbackCharsRemaining)} ${characterString} remaining`;
-  }
-
-  charactersExceeded(): boolean {
-    return this.feedbackCharsRemaining < 0;
+  /**
+   * Request appropriate character count text based upon how many characters are remaining
+   */
+  getCharacterCountText(): string {
+    return this.characterCountService.getCharacterCountText(this.charsRemaining);
   }
 }

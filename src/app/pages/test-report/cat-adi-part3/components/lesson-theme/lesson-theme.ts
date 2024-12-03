@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
 import { UntypedFormControl, UntypedFormGroup, ValidationErrors, ValidatorFn } from '@angular/forms';
 import { LessonTheme } from '@dvsa/mes-test-schema/categories/ADI3';
+import { CharacterCountService } from '@providers/character-count/character-count.service';
 
 @Component({
   selector: 'lesson-theme',
@@ -23,9 +24,11 @@ export class LessonThemeComponent implements OnChanges {
   otherReasoningChange = new EventEmitter<string>();
 
   formControl: UntypedFormControl;
-  feedbackCharsRemaining: number;
+  charsRemaining: number;
   characterLimit = 1000;
   static readonly fieldName: string = 'otherReason';
+
+  constructor(public characterCountService: CharacterCountService) {}
 
   ngOnChanges(): void {
     if (!this.formControl) {
@@ -37,7 +40,7 @@ export class LessonThemeComponent implements OnChanges {
 
   charactersExceededValidator(): ValidatorFn {
     return (): ValidationErrors | null => {
-      return this.charactersExceeded() ? { charactersExceeded: true } : null;
+      return this.characterCountService.charactersExceeded(this.charsRemaining) ? { charactersExceeded: true } : null;
     };
   }
 
@@ -57,16 +60,21 @@ export class LessonThemeComponent implements OnChanges {
   }
 
   characterCountChanged(charactersRemaining: number) {
-    this.feedbackCharsRemaining = charactersRemaining;
+    this.charsRemaining = charactersRemaining;
     this.formControl.updateValueAndValidity();
   }
 
-  getCharacterCountText() {
-    const characterString = Math.abs(this.feedbackCharsRemaining) === 1 ? 'character' : 'characters';
-    return `You have ${Math.abs(this.feedbackCharsRemaining)} ${characterString} remaining`;
+  /**
+   * Request appropriate character count text based upon how many characters are remaining
+   */
+  getCharacterCountText(): string {
+    return this.characterCountService.getCharacterCountText(this.charsRemaining);
   }
 
+  /**
+   * Request whether the character count has been exceeded
+   */
   charactersExceeded(): boolean {
-    return this.feedbackCharsRemaining < 0;
+    return this.characterCountService.charactersExceeded(this.charsRemaining);
   }
 }

@@ -3,9 +3,11 @@ import { FormControl, UntypedFormControl, UntypedFormGroup, Validators } from '@
 import { IonicModule } from '@ionic/angular';
 import { AssessmentAnswerComponent } from '@pages/test-report/cat-adi-part3/components/assessment-answer/assessment-answer';
 import { LessonThemeComponent } from '@pages/test-report/cat-adi-part3/components/lesson-theme/lesson-theme';
+import { CharacterCountService } from '@providers/character-count/character-count.service';
 import { MockComponent } from 'ng-mocks';
 
 describe('LessonThemeComponent', () => {
+  let characterCountService: CharacterCountService;
   let fixture: ComponentFixture<LessonThemeComponent>;
   let component: LessonThemeComponent;
 
@@ -13,22 +15,13 @@ describe('LessonThemeComponent', () => {
     TestBed.configureTestingModule({
       declarations: [LessonThemeComponent, MockComponent(AssessmentAnswerComponent)],
       imports: [IonicModule],
+      providers: [{ provider: CharacterCountService, useClass: CharacterCountService }],
     });
 
     fixture = TestBed.createComponent(LessonThemeComponent);
+    characterCountService = TestBed.inject(CharacterCountService);
     component = fixture.componentInstance;
   }));
-
-  describe('charactersExceeded', () => {
-    it('should return true if feedbackCharsRemaining is less than 0', () => {
-      component.feedbackCharsRemaining = -1;
-      expect(component.charactersExceeded()).toBe(true);
-    });
-    it('should return false if feedbackCharsRemaining is not less than 0', () => {
-      component.feedbackCharsRemaining = 1;
-      expect(component.charactersExceeded()).toBe(false);
-    });
-  });
 
   describe('otherReasoningChanged', () => {
     it('should emit getCharacterCountText with correct parameters', () => {
@@ -48,24 +41,11 @@ describe('LessonThemeComponent', () => {
     });
   });
 
-  describe('getCharacterCountText', () => {
-    it('should display "You have 1 character remaining" when only 1 is remaining', () => {
-      component.feedbackCharsRemaining = 1;
-
-      expect(component.getCharacterCountText()).toBe('You have 1 character remaining');
-    });
-    it('should display "You have 2 characters remaining" when only 1 is remaining', () => {
-      component.feedbackCharsRemaining = 2;
-
-      expect(component.getCharacterCountText()).toBe('You have 2 characters remaining');
-    });
-  });
-
   describe('characterCountChanged', () => {
     it('should change feedbackCharsRemaining to the parameter passed in', () => {
       component.formControl = new FormControl();
       component.characterCountChanged(1);
-      expect(component.feedbackCharsRemaining).toBe(1);
+      expect(component.charsRemaining).toBe(1);
     });
     it('should check the validity of the form control', () => {
       component.formControl = new FormControl();
@@ -126,6 +106,26 @@ describe('LessonThemeComponent', () => {
       component.formControl.markAsPristine();
 
       expect(component.invalid).toBeFalsy();
+    });
+  });
+
+  describe('getCharacterCountText', () => {
+    it('should call service with charsRemaining', () => {
+      spyOn(characterCountService, 'getCharacterCountText');
+      component.charsRemaining = 1;
+      component.getCharacterCountText();
+
+      expect(characterCountService.getCharacterCountText).toHaveBeenCalledWith(component.charsRemaining);
+    });
+  });
+
+  describe('charactersExceeded', () => {
+    it('should call service with charsRemaining', () => {
+      spyOn(characterCountService, 'charactersExceeded');
+      component.charsRemaining = 1;
+      component.charactersExceeded();
+
+      expect(characterCountService.charactersExceeded).toHaveBeenCalledWith(component.charsRemaining);
     });
   });
 });
