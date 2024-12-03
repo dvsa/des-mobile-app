@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
 import { UntypedFormControl, UntypedFormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
+import { CharacterCountService } from '@providers/character-count/character-count.service';
 import { OutcomeBehaviourMapProvider, VisibilityType } from '@providers/outcome-behaviour-map/outcome-behaviour-map';
 
 @Component({
@@ -26,12 +27,15 @@ export class ReasonGivenComponent implements OnChanges {
   @Output()
   adviceReason = new EventEmitter<string>();
 
-  noAdviceCharsRemaining: number = null;
+  charsRemaining: number = null;
   noAdviceMaxLength = 1000;
   formControl: UntypedFormControl = null;
   static readonly fieldName: string = 'reasonGiven';
 
-  constructor(private outcomeBehaviourProvider: OutcomeBehaviourMapProvider) {}
+  constructor(
+    private outcomeBehaviourProvider: OutcomeBehaviourMapProvider,
+    public characterCountService: CharacterCountService
+  ) {}
 
   ngOnChanges(): void {
     if (!this.formControl) {
@@ -58,12 +62,12 @@ export class ReasonGivenComponent implements OnChanges {
 
   charactersExceededValidator(): ValidatorFn {
     return (): ValidationErrors | null => {
-      return this.charactersExceeded() ? { charactersExceeded: true } : null;
+      return this.characterCountService.charactersExceeded(this.charsRemaining) ? { charactersExceeded: true } : null;
     };
   }
 
   characterCountChanged(charactersRemaining: number) {
-    this.noAdviceCharsRemaining = charactersRemaining;
+    this.charsRemaining = charactersRemaining;
     this.formControl.updateValueAndValidity();
   }
 
@@ -71,17 +75,21 @@ export class ReasonGivenComponent implements OnChanges {
     this.adviceReason.emit(text);
   }
 
-  charactersExceeded(): boolean {
-    return this.noAdviceCharsRemaining < 0;
-  }
-
-  getCharacterCountText() {
-    const characterString = Math.abs(this.noAdviceCharsRemaining) === 1 ? 'character' : 'characters';
-    const endString = this.noAdviceCharsRemaining < 0 ? 'too many' : 'remaining';
-    return `You have ${Math.abs(this.noAdviceCharsRemaining)} ${characterString} ${endString}`;
-  }
-
   get invalid(): boolean {
     return this.formControl.invalid && this.formControl.dirty;
+  }
+
+  /**
+   * Request appropriate character count text based upon how many characters are remaining
+   */
+  getCharacterCountText(): string {
+    return this.characterCountService.getCharacterCountText(this.charsRemaining);
+  }
+
+  /**
+   * Request whether the character count has been exceeded
+   */
+  charactersExceeded(): boolean {
+    return this.characterCountService.charactersExceeded(this.charsRemaining);
   }
 }

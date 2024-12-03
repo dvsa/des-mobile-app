@@ -5,8 +5,10 @@ import { behaviourMap } from '@pages/office/office-behaviour-map';
 import { OutcomeBehaviourMapProvider } from '@providers/outcome-behaviour-map/outcome-behaviour-map';
 import { AppModule } from 'src/app/app.module';
 import { CandidateDescriptionComponent } from '../candidate-description';
+import { CharacterCountService } from '@providers/character-count/character-count.service';
 
 describe('CandidateDescriptionComponent', () => {
+  let characterCountService: CharacterCountService;
   let fixture: ComponentFixture<CandidateDescriptionComponent>;
   let component: CandidateDescriptionComponent;
   let behaviourMapProvider: OutcomeBehaviourMapProvider;
@@ -15,10 +17,14 @@ describe('CandidateDescriptionComponent', () => {
     TestBed.configureTestingModule({
       declarations: [CandidateDescriptionComponent],
       imports: [IonicModule, AppModule],
-      providers: [{ provide: OutcomeBehaviourMapProvider, useClass: OutcomeBehaviourMapProvider }],
+      providers: [
+        { provide: OutcomeBehaviourMapProvider, useClass: OutcomeBehaviourMapProvider },
+        { provide: CharacterCountService, useClass: CharacterCountService },
+      ],
     });
 
     fixture = TestBed.createComponent(CandidateDescriptionComponent);
+    characterCountService = TestBed.inject(CharacterCountService);
     behaviourMapProvider = TestBed.inject(OutcomeBehaviourMapProvider);
     behaviourMapProvider.setBehaviourMap(behaviourMap);
     component = fixture.componentInstance;
@@ -72,25 +78,12 @@ describe('CandidateDescriptionComponent', () => {
   });
 
   describe('getCharacterCountText', () => {
-    it('should display "You have 1 character remaining" when only 1 is remaining', () => {
-      component.candidateDescriptionCharsRemaining = 1;
+    it('should call service with charsRemaining', () => {
+      spyOn(characterCountService, 'getCharacterCountText')
+      component.charsRemaining = 1;
+      component.getCharacterCountText()
 
-      expect(component.getCharacterCountText()).toBe('You have 1 character remaining');
-    });
-    it('should display "You have 2 characters remaining" when only 1 is remaining', () => {
-      component.candidateDescriptionCharsRemaining = 2;
-
-      expect(component.getCharacterCountText()).toBe('You have 2 characters remaining');
-    });
-    it('should display "You have 1 character too many" when there is 1 over the limit', () => {
-      component.candidateDescriptionCharsRemaining = -1;
-
-      expect(component.getCharacterCountText()).toBe('You have 1 character too many');
-    });
-    it('should display "You have 2 characters too many" when there is 2 over the limit', () => {
-      component.candidateDescriptionCharsRemaining = -2;
-
-      expect(component.getCharacterCountText()).toBe('You have 2 characters too many');
+      expect(characterCountService.getCharacterCountText).toHaveBeenCalledWith(component.charsRemaining);
     });
   });
 
@@ -98,7 +91,7 @@ describe('CandidateDescriptionComponent', () => {
     it('should edit the variable to the value parsed into the function', () => {
       component.formControl = new FormControl();
       component.characterCountChanged(1);
-      expect(component.candidateDescriptionCharsRemaining).toEqual(1);
+      expect(component.charsRemaining).toEqual(1);
     });
     it('should check the validity of the form control', () => {
       component.formControl = new FormControl();
@@ -109,17 +102,16 @@ describe('CandidateDescriptionComponent', () => {
   });
 
   describe('charactersExceeded', () => {
-    it('should return true if noAdviceCharsRemaining is less than 0 ', () => {
-      component.candidateDescriptionCharsRemaining = -100;
-      expect(component.charactersExceeded()).toEqual(true);
-    });
-    it('should return false if noAdviceCharsRemaining is more than 0 ', () => {
-      component.candidateDescriptionCharsRemaining = 100;
-      expect(component.charactersExceeded()).toEqual(false);
+    it('should call service with charsRemaining', () => {
+      spyOn(characterCountService, 'charactersExceeded')
+      component.charsRemaining = 1;
+      component.charactersExceeded()
+
+      expect(characterCountService.charactersExceeded).toHaveBeenCalledWith(component.charsRemaining);
     });
   });
 
-  describe('class', () => {
+  describe('candidateDescriptionChanged', () => {
     it('should emit candidate description', () => {
       spyOn(component.candidateDescriptionChange, 'emit');
       const candidateDescription = 'this is the candidate description';

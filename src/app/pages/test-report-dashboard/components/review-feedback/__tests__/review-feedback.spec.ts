@@ -2,8 +2,10 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { FormControl, UntypedFormGroup } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { ReviewFeedback } from '@pages/test-report-dashboard/components/review-feedback/review-feedback';
+import { CharacterCountService } from '@providers/character-count/character-count.service';
 
 describe('ReviewFeedback', () => {
+  let characterCountService: CharacterCountService;
   let fixture: ComponentFixture<ReviewFeedback>;
   let component: ReviewFeedback;
 
@@ -11,23 +13,14 @@ describe('ReviewFeedback', () => {
     TestBed.configureTestingModule({
       declarations: [ReviewFeedback],
       imports: [IonicModule],
+      providers: [{ provide: CharacterCountService, useClass: CharacterCountService }],
     });
 
     fixture = TestBed.createComponent(ReviewFeedback);
     component = fixture.componentInstance;
     component.form = new UntypedFormGroup({});
+    characterCountService = TestBed.inject(CharacterCountService);
   }));
-
-  describe('charactersExceeded', () => {
-    it('should return true if charactersExceeded is less than 0', () => {
-      component.feedbackCharsRemaining = -1;
-      expect(component.charactersExceeded()).toBe(true);
-    });
-    it('should return false if charactersExceeded is not less than 0', () => {
-      component.feedbackCharsRemaining = 1;
-      expect(component.charactersExceeded()).toBe(false);
-    });
-  });
 
   describe('feedbackChanged', () => {
     it('should emit getCharacterCountText with correct parameters', () => {
@@ -38,20 +31,12 @@ describe('ReviewFeedback', () => {
   });
 
   describe('getCharacterCountText', () => {
-    it('should display "You have 1 character remaining" when only 1 is remaining', () => {
-      component.feedbackCharsRemaining = 1;
+    it('should call service with charsRemaining', () => {
+      spyOn(characterCountService, 'getCharacterCountText')
+      component.charsRemaining = 1;
+      component.getCharacterCountText()
 
-      expect(component.getCharacterCountText()).toBe('You have 1 character remaining');
-    });
-    it('should display "You have 2 characters remaining" when only 1 is remaining', () => {
-      component.feedbackCharsRemaining = 2;
-
-      expect(component.getCharacterCountText()).toBe('You have 2 characters remaining');
-    });
-    it('should display "You have 2 characters remaining" when only 1 is remaining', () => {
-      component.feedbackCharsRemaining = -2;
-
-      expect(component.getCharacterCountText()).toBe('You have 2 characters too many');
+      expect(characterCountService.getCharacterCountText).toHaveBeenCalledWith(component.charsRemaining);
     });
   });
 
@@ -59,7 +44,7 @@ describe('ReviewFeedback', () => {
     it('should change feedbackCharsRemaining to the parameter passed in', () => {
       component.formControl = new FormControl();
       component.characterCountChanged(1);
-      expect(component.feedbackCharsRemaining).toBe(1);
+      expect(component.charsRemaining).toBe(1);
     });
     it('should check the validity of the form control', () => {
       component.formControl = new FormControl();

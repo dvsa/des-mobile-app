@@ -10,9 +10,11 @@ import { PipesModule } from '@shared/pipes/pipes.module';
 import { AppModule } from 'src/app/app.module';
 import { behaviourMap } from '../../../office-behaviour-map';
 import { FaultCommentComponent } from '../fault-comment';
+import { CharacterCountService } from '@providers/character-count/character-count.service';
 
 describe('FaultCommentComponent', () => {
   let fixture: ComponentFixture<FaultCommentComponent>;
+  let characterCountService: CharacterCountService;
   let component: FaultCommentComponent;
   let behaviourMapProvider: OutcomeBehaviourMapProvider;
 
@@ -20,11 +22,15 @@ describe('FaultCommentComponent', () => {
     TestBed.configureTestingModule({
       declarations: [FaultCommentComponent],
       imports: [IonicModule, AppModule, ComponentsModule, PipesModule, ReactiveFormsModule],
-      providers: [{ provide: OutcomeBehaviourMapProvider, useClass: OutcomeBehaviourMapProvider }],
+      providers: [
+        { provide: OutcomeBehaviourMapProvider, useClass: OutcomeBehaviourMapProvider },
+        { provider: CharacterCountService, useClass: CharacterCountService },
+      ],
     });
 
     fixture = TestBed.createComponent(FaultCommentComponent);
     behaviourMapProvider = TestBed.inject(OutcomeBehaviourMapProvider);
+    characterCountService = TestBed.inject(CharacterCountService);
     behaviourMapProvider.setBehaviourMap(behaviourMap);
     component = fixture.componentInstance;
     component.parentForm = new UntypedFormGroup({});
@@ -146,6 +152,28 @@ describe('FaultCommentComponent', () => {
       component.faultType = 'driving';
       component.faultCommentChanged(faultComment);
       expect(component.faultCommentChange.emit).toHaveBeenCalled();
+    });
+  });
+
+  describe('class', () => {
+    describe('getCharacterCountText', () => {
+      it('should call service with charsRemaining', () => {
+        spyOn(characterCountService, 'getCharacterCountText');
+        component.charsRemaining = 1;
+        component.getCharacterCountText();
+
+        expect(characterCountService.getCharacterCountText).toHaveBeenCalledWith(component.charsRemaining);
+      });
+    });
+
+    describe('charactersExceeded', () => {
+      it('should call service with charsRemaining', () => {
+        spyOn(characterCountService, 'charactersExceeded');
+        component.charsRemaining = 1;
+        component.charactersExceeded();
+
+        expect(characterCountService.charactersExceeded).toHaveBeenCalledWith(component.charsRemaining);
+      });
     });
   });
 });
