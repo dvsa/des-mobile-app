@@ -9,7 +9,7 @@
       <ion-col size="48" *ngIf="!everyQuestionHasOutcome()">
         <ion-button
           id="vehicle-check-cat-c-select-questions-btn"
-          class="mes-return-button select-questions-btn"
+          [class]="'mes-return-button select-questions-btn ' + getTextZoomClass()"
           (click)="openVehicleChecksModal()"
         >
           <label id="select-questions-label">Select questions</label>
