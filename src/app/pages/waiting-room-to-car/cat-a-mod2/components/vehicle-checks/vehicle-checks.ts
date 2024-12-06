@@ -74,10 +74,6 @@ export class VehicleChecksCatAMod2Component implements OnChanges {
     return this.everyQuestionHasOutcome() ? null : this.incompleteVehicleChecks();
   }
 
-  getTextZoomClass(): string {
-    return this.accessibilityService.getTextZoomClass();
-  }
-
   ngOnChanges(): void {
     if (!this.formControl) {
       this.formControl = new UntypedFormControl(
