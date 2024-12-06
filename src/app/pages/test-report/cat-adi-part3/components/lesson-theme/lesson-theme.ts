@@ -24,7 +24,7 @@ export class LessonThemeComponent implements OnChanges {
   otherReasoningChange = new EventEmitter<string>();
 
   formControl: UntypedFormControl;
-  charsRemaining: number;
+  charsRemaining: number = null;
   characterLimit = 1000;
   static readonly fieldName: string = 'otherReason';
 

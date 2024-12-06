@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
+import { CharacterCountService } from '@providers/character-count/character-count.service';
 
 @Component({
   selector: 'eco-capture-reason',
@@ -7,7 +8,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 })
 export class EcoCaptureReasonComponent implements OnChanges {
   @Input()
-  formGroup: FormGroup;
+  formGroup: UntypedFormGroup;
 
   @Input()
   ecoCaptureReason: string;
@@ -18,20 +19,34 @@ export class EcoCaptureReasonComponent implements OnChanges {
   @Output()
   ecoCaptureReasonChange = new EventEmitter<string>();
 
-  private formControl: FormControl;
+  formControl: UntypedFormControl;
+  charsRemaining: number = null;
+  characterLimit = 1000;
+  static readonly controlName: string = 'ecoCaptureReason';
+
+  constructor(public characterCountService: CharacterCountService) {}
 
   ngOnChanges(): void {
     if (!this.formControl) {
-      this.formControl = new FormControl(null);
-      this.formGroup.addControl('ecoCaptureReason', this.formControl);
+      this.formControl = new UntypedFormControl(null);
+      this.formGroup.addControl(EcoCaptureReasonComponent.controlName, this.formControl);
     }
 
-    this.formControl.setValidators(
-      this.fuelEfficientDriving ? Validators.compose([Validators.required, Validators.maxLength(1000)]) : null
-    );
-    this.formControl.updateValueAndValidity({ onlySelf: true, emitEvent: false });
+    if (this.fuelEfficientDriving) {
+      this.formGroup
+        .get(EcoCaptureReasonComponent.controlName)
+        .setValidators([Validators.required, this.charactersExceededValidator()]);
+    } else {
+      this.formGroup.get(EcoCaptureReasonComponent.controlName).setValidators([this.charactersExceededValidator()]);
+    }
 
-    this.formControl.patchValue(this.ecoCaptureReason, { onlySelf: true, emitEvent: false });
+    this.formControl.patchValue(this.ecoCaptureReason);
+  }
+
+  charactersExceededValidator(): ValidatorFn {
+    return (): ValidationErrors | null => {
+      return this.characterCountService.charactersExceeded(this.charsRemaining) ? { charactersExceeded: true } : null;
+    };
   }
 
   ecoCaptureReasonChanged(ecoCaptureReason: string): void {
@@ -42,5 +57,24 @@ export class EcoCaptureReasonComponent implements OnChanges {
 
   get invalid(): boolean {
     return !this.formControl.valid && this.formControl.dirty;
+  }
+
+  characterCountChanged(charactersRemaining: number) {
+    this.charsRemaining = charactersRemaining;
+    this.formControl.updateValueAndValidity();
+  }
+
+  /**
+   * Request appropriate character count text based upon how many characters are remaining
+   */
+  getCharacterCountText(): string {
+    return this.characterCountService.getCharacterCountText(this.charsRemaining);
+  }
+
+  /**
+   * Request whether the character count has been exceeded
+   */
+  charactersExceeded(): boolean {
+    return this.characterCountService.charactersExceeded(this.charsRemaining);
   }
 }
