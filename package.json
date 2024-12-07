@@ -91,7 +91,7 @@
     "@ngx-translate/core": "^15.0.0",
     "@ngx-translate/http-loader": "^8.0.0",
     "@popperjs/core": "^2.11.8",
-    "@sentry/angular": "8.33.0",
+    "@sentry/angular": "8.38.0",
     "@sentry/capacitor": "1.0.1",
     "apexcharts": "^3.46.0",
     "assert": "^2.1.0",
