@@ -55,6 +55,13 @@ export class ReviewFeedback {
   }
 
   /**
+   * Request whether the character count has been exceeded
+   */
+  charactersExceeded(): boolean {
+    return this.characterCountService.charactersExceeded(this.charsRemaining);
+  }
+
+  /**
    * Request appropriate character count text based upon how many characters are remaining
    */
   getCharacterCountText(): string {
