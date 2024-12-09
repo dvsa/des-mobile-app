@@ -1,4 +1,4 @@
-import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { HttpClient, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule, UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { By } from '@angular/platform-browser';
@@ -17,7 +17,6 @@ describe('ProvidedEmailComponent', () => {
       declarations: [ProvidedEmailComponent],
       imports: [
         IonicModule,
-        HttpClientModule,
         ReactiveFormsModule,
         TranslateModule.forRoot({
           loader: {
@@ -27,6 +26,7 @@ describe('ProvidedEmailComponent', () => {
           },
         }),
       ],
+      providers: [provideHttpClient(withInterceptorsFromDi())],
     });
 
     fixture = TestBed.createComponent(ProvidedEmailComponent);

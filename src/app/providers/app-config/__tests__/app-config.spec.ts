@@ -1,4 +1,5 @@
-import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
 import { TestBed, fakeAsync, tick } from '@angular/core/testing';
 import { IsDebug } from '@awesome-cordova-plugins/is-debug/ngx';
 import { environment } from '@environments/environment';
@@ -32,7 +33,6 @@ describe('AppConfigProvider', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
-        HttpClientTestingModule,
         StoreModule.forRoot({
           tests: testsReducer,
           appConfig: appConfigReducer,
@@ -75,6 +75,8 @@ describe('AppConfigProvider', () => {
           provide: IsDebug,
           useClass: IsDebugMock,
         },
+        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClientTesting(),
       ],
     });
 

@@ -2,9 +2,7 @@ import { ApplicationRef } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { ScreenOrientation } from '@capawesome/capacitor-screen-orientation';
 import { GetCurrentOrientationResult } from '@capawesome/capacitor-screen-orientation/dist/esm/definitions';
-import { ApplicationRefMock } from '@mocks/angular-mocks/application-ref.mock';
 import { OrientationMonitorProvider } from '@providers/orientation-monitor/orientation-monitor.provider';
-import { take } from 'rxjs/operators';
 
 describe('OrientationMonitorProvider', () => {
   let provider: OrientationMonitorProvider;
@@ -18,7 +16,6 @@ describe('OrientationMonitorProvider', () => {
         OrientationMonitorProvider,
         {
           provide: ApplicationRef,
-          useClass: ApplicationRefMock,
         },
       ],
     });
@@ -30,24 +27,25 @@ describe('OrientationMonitorProvider', () => {
   });
 
   afterAll(() => {
-    ScreenOrientation.removeAllListeners();
+    void ScreenOrientation.removeAllListeners();
   });
 
   describe('tearDownListener', () => {
-    it('should call removeAllListeners', () => {
-      provider.tearDownListener();
+    it('should call removeAllListeners', async () => {
+      await provider.tearDownListener();
+
       expect(ScreenOrientation.removeAllListeners).toHaveBeenCalled();
     });
   });
 
   describe('monitorOrientation', () => {
-    it('should set iisPortraitMode$ to true if the device is in portrait mode', async () => {
+    it('should set isPortraitMode$ to true if the device is in portrait mode', async () => {
+      spyOn(provider.isPortraitMode$, 'next');
+
       await provider.monitorOrientation();
 
       expect(ScreenOrientation.getCurrentOrientation).toHaveBeenCalled();
-      provider.isPortraitMode$.pipe(take(1)).subscribe((value) => {
-        expect(value).toEqual(true);
-      });
+      expect(provider.isPortraitMode$.next).toHaveBeenCalledWith(true);
       expect(ScreenOrientation.addListener).toHaveBeenCalled();
     });
   });

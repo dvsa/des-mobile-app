@@ -21,15 +21,6 @@ import { catchError, map, switchMap } from 'rxjs/operators';
 
 @Injectable()
 export class ExaminerRecordsEffects {
-  constructor(
-    private searchProvider: SearchProvider,
-    private actions$: Actions,
-    public store$: Store<StoreModel>,
-    public router: Router,
-    public compressionProvider: CompressionProvider,
-    private logHelper: LogHelper
-  ) {}
-
   onlineExaminerRecordsCalled$ = createEffect(
     () =>
       this.actions$.pipe(
@@ -76,4 +67,13 @@ export class ExaminerRecordsEffects {
       ),
     { dispatch: false }
   );
+
+  constructor(
+    private searchProvider: SearchProvider,
+    private actions$: Actions,
+    public store$: Store<StoreModel>,
+    public router: Router,
+    public compressionProvider: CompressionProvider,
+    private logHelper: LogHelper
+  ) {}
 }

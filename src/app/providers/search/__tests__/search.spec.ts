@@ -1,4 +1,5 @@
-import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { take } from 'rxjs/operators';
 import { AppConfigProviderMock } from '../../app-config/__mocks__/app-config.mock';
@@ -26,7 +27,7 @@ describe('SearchProvider', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule],
+      imports: [],
       providers: [
         SearchProvider,
         {
@@ -37,6 +38,8 @@ describe('SearchProvider', () => {
           provide: AppConfigProvider,
           useClass: AppConfigProviderMock,
         },
+        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClientTesting(),
       ],
     });
 

@@ -1,4 +1,5 @@
-import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
 import { TestBed, waitForAsync } from '@angular/core/testing';
 import { take } from 'rxjs/operators';
 import { AppConfigProviderMock } from '../../app-config/__mocks__/app-config.mock';
@@ -17,7 +18,7 @@ describe('TestCentreJournalProvider', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule],
+      imports: [],
       providers: [
         TestCentreJournalProvider,
         {
@@ -28,6 +29,8 @@ describe('TestCentreJournalProvider', () => {
           provide: AppConfigProvider,
           useClass: AppConfigProviderMock,
         },
+        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClientTesting(),
       ],
     });
 

@@ -31,6 +31,7 @@ import {
 } from 'rxjs/operators';
 import { SaveLog } from '../logs/logs.actions';
 import * as journalActions from './journal.actions';
+import { JournalRehydrationError, JournalRehydrationNull, JournalRehydrationSuccess } from './journal.actions';
 import { ExaminerSlotItems, ExaminerSlotItemsByDate } from './journal.model';
 import { getJournalState } from './journal.reducer';
 import {
@@ -50,7 +51,6 @@ import { LoadRemoteTests } from '@store/tests/tests.actions';
 import { TestResultsRehydrated } from '@store/tests/tests.model';
 import { TestResultRehydration, getTests } from '@store/tests/tests.reducer';
 import { get } from 'lodash-es';
-import { JournalRehydrationError, JournalRehydrationNull, JournalRehydrationSuccess } from './journal.actions';
 
 export enum JournalRehydrationType {
   AUTO = 'Automatic',

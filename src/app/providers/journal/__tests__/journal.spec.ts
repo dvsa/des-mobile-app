@@ -1,4 +1,5 @@
-import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
 import { TestBed, fakeAsync, flushMicrotasks } from '@angular/core/testing';
 import { ExaminerWorkSchedule } from '@dvsa/mes-journal-schema';
 import { JournalData } from '@dvsa/mes-test-schema/categories/common';
@@ -33,7 +34,7 @@ describe('JournalProvider', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule],
+      imports: [],
       providers: [
         JournalProvider,
         {
@@ -60,6 +61,8 @@ describe('JournalProvider', () => {
           provide: DateTimeProvider,
           useClass: DateTimeProviderMock,
         },
+        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClientTesting(),
       ],
     });
 

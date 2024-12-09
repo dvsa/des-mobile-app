@@ -17,6 +17,7 @@ import { DeviceProvider } from '@providers/device/device';
 import { LogHelperMock } from '@providers/logs/__mocks__/logs-helper.mock';
 import { LogHelper } from '@providers/logs/logs-helper';
 import { NetworkStateProvider } from '@providers/network-state/network-state';
+import { OrientationMonitorProviderMock } from '@providers/orientation-monitor/__mocks/orientation-monitor.provider.mock';
 import { OrientationMonitorProvider } from '@providers/orientation-monitor/orientation-monitor.provider';
 import { PipesModule } from '@shared/pipes/pipes.module';
 import { of } from 'rxjs';
@@ -30,11 +31,6 @@ describe('RekeySearchPage', () => {
   beforeEach(async () => {
     const appConfigProviderMock = {
       getAppConfig: jasmine.createSpy('getAppConfig').and.returnValue({ role: ExaminerRole.LDTM }),
-    };
-
-    const orientationMonitorProviderMock = {
-      monitorOrientation: jasmine.createSpy('monitorOrientation').and.returnValue(Promise.resolve()),
-      tearDownListener: jasmine.createSpy('tearDownListener').and.returnValue(Promise.resolve()),
     };
 
     const networkStateProviderMock = {
@@ -72,7 +68,7 @@ describe('RekeySearchPage', () => {
         },
         {
           provide: OrientationMonitorProvider,
-          useValue: orientationMonitorProviderMock,
+          useClass: OrientationMonitorProviderMock,
         },
         {
           provide: NetworkStateProvider,
