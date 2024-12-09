@@ -26,10 +26,10 @@
             <textarea
               id="review-card-feedback-textarea"
               formControlName="feedback"
-              class="vehicle-reg-input mes-data input-styling-background"
+              class="mes-data input-styling-background"
               [charLimit]="feedbackMaxLength"
-              [maxlength]="feedbackMaxLength"
               charCount
+              [class.ng-invalid]="invalid"
               [value]="feedback"
               (onCharacterCountChanged)="characterCountChanged($event)"
               (change)="feedbackChanged($event.target.value)"
@@ -39,7 +39,8 @@
             </textarea>
             <div
               class="character-count validation-text"
-              id="review-character-count-text">
+              id="review-character-count-text"
+              [ngClass]="{'ng-invalid': charactersExceeded()}">
               {{getCharacterCountText()}}
             </div>
           </ion-col>
