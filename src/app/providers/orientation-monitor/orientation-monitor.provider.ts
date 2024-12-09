@@ -19,8 +19,6 @@ export class OrientationMonitorProvider {
     // Detect `orientation` upon entry
     const { type: orientationType } = await ScreenOrientation.getCurrentOrientation();
 
-    console.log('orientationType', orientationType);
-
     // Update isPortraitMode$ with current value
     this.isPortraitMode$.next(isPortrait(orientationType));
     this.ref.tick();
