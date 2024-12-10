@@ -46,6 +46,7 @@ import {
   selectVersionNumber,
 } from '@store/app-info/app-info.selectors';
 import { LoadJournalSilent } from '@store/journal/journal.actions';
+import { DeletePracticeModeTests } from '@store/tests/tests.actions';
 import { Subscription, of } from 'rxjs';
 import { DashboardComponentsModule } from '../components/dashboard-components.module';
 import { DashboardPageRoutingModule } from '../dashboard-routing.module';
@@ -265,14 +266,15 @@ describe('DashboardPage', () => {
         expect(store$.dispatch).toHaveBeenCalledWith(PracticeTestReportCard());
       });
     });
-    describe('ionViewDidLeave', () => {
+    describe('ionViewWillLeave', () => {
       it('should dispatch a clear action and unsubscribe from page subs', () => {
         component.subscription = new Subscription();
 
         spyOn(component.subscription, 'unsubscribe');
 
-        component.ionViewDidLeave();
+        component.ionViewWillLeave();
         expect(store$.dispatch).toHaveBeenCalledWith(RekeySearchClearState());
+        expect(store$.dispatch).toHaveBeenCalledWith(DeletePracticeModeTests());
         expect(component.subscription.unsubscribe).toHaveBeenCalled();
       });
     });

@@ -3,7 +3,7 @@ import { get } from 'lodash-es';
 
 import { Action, createFeatureSelector } from '@ngrx/store';
 import * as fakeJournalActions from '@pages/fake-journal/fake-journal.actions';
-import { testReportPracticeSlotId } from '@shared/mocks/test-slot-ids.mock';
+import { end2endPracticeSlotId, testReportPracticeSlotId } from '@shared/mocks/test-slot-ids.mock';
 import * as testsActions from './tests.actions';
 import { LoadPersistedTestsSuccess, LoadRemoteTests } from './tests.actions';
 import { TestsModel } from './tests.model';
@@ -132,6 +132,16 @@ export function testsReducer(
   switch (action.type) {
     case testsActions.UnloadTests.type:
       return initialState;
+    case testsActions.DeletePracticeModeTests.type:
+      let newState: TestsModel = state;
+      // Get every practice mode slot and delete it
+      const practiceSlots: string[] = Object.keys(state.startedTests).filter(
+        (key) => key.startsWith(end2endPracticeSlotId) || key.startsWith(testReportPracticeSlotId)
+      );
+      practiceSlots.forEach((slot: string) => {
+        newState = removeTest(newState, slot);
+      });
+      return newState;
     case testsActions.LoadRemoteTests.type:
       return hydrateRemoteTests(state, (<ReturnType<typeof LoadRemoteTests>>action).tests);
     case testsActions.LoadPersistedTestsSuccess.type:
