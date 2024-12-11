@@ -1,6 +1,5 @@
 import * as console from 'node:console';
-import { Component, Input } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component } from '@angular/core';
 import { AppLauncher } from '@capacitor/app-launcher';
 import {
   ExitSAMConfirmationModal,
@@ -10,7 +9,6 @@ import { ModalController } from '@ionic/angular';
 import { OverlayEventDetail } from '@ionic/core';
 import { AccessibilityService } from '@providers/accessibility/accessibility.service';
 import { DeviceProvider } from '@providers/device/device';
-import { Observable } from 'rxjs';
 
 @Component({
   selector: 'exit-SAM-banner',
@@ -18,13 +16,8 @@ import { Observable } from 'rxjs';
   styleUrls: ['exit-SAM-banner.scss'],
 })
 export class ExitSAMBannerComponent {
-  @Input()
-  practiceJournal = false;
-
-  public displayMsg$: Observable<string>;
 
   constructor(
-    public router: Router,
     public deviceProvider: DeviceProvider,
     public modalController: ModalController,
     public accessibilityService: AccessibilityService
@@ -52,8 +45,8 @@ export class ExitSAMBannerComponent {
     try {
       // Go to teams
       await AppLauncher.openUrl({ url: 'msteams://teams.microsoft.com' });
-      // Go to settings
-      // await AppLauncher.openUrl({ url: 'App-prefs://'});
-    } catch (e) {}
+    } catch (e) {
+        console.error('Error opening teams', e);
+    }
   }
 }
