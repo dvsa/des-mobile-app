@@ -46,6 +46,7 @@ import * as journalActions from '@store/journal/journal.actions';
 import { JournalRehydrationPage, JournalRehydrationType } from '@store/journal/journal.effects';
 import { getJournalState } from '@store/journal/journal.reducer';
 import { getAllSlots } from '@store/journal/journal.selector';
+import { DeletePracticeModeTests } from '@store/tests/tests.actions';
 import { getTests } from '@store/tests/tests.reducer';
 import { Observable, Subscription, combineLatest, from, merge, takeWhile } from 'rxjs';
 import { filter, map, switchMap, tap, withLatestFrom } from 'rxjs/operators';
@@ -167,8 +168,9 @@ export class DashboardPage extends BasePageComponent implements OnInit, ViewDidE
     return true;
   }
 
-  ionViewDidLeave(): void {
+  ionViewWillLeave(): void {
     this.store$.dispatch(RekeySearchClearState());
+    this.store$.dispatch(DeletePracticeModeTests());
 
     if (this.subscription) {
       this.subscription.unsubscribe();
