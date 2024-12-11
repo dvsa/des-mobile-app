@@ -1,0 +1,45 @@
+.exit-sam-base {
+  border-radius: 0;
+  padding-bottom: 0;
+  padding-top: 0;
+  width: 100%;
+  left: 0;
+}
+
+.exit-sam-top-banner {
+  @extend .exit-sam-base;
+  position: fixed;
+  background: #434343;
+  height: 40px;
+  top: 0;
+}
+
+.exit-sam-banner-text {
+  @extend .exit-sam-base;
+  font-size: 18px;
+  font-weight: bold;
+  color: var(--mes-white);
+  position: relative;
+  bottom: 3pt;
+}
+
+.status-bar-spacing {
+  height: 15px;
+}
+
+.exit-sam-toolbar-sizing {
+  padding-top: 0;
+  padding-bottom: 0;
+  height: 40px;
+}
+
+.exit-sam-icon {
+  margin-top: 2px;
+  align-items: center;
+}
+
+.exit-sam-title-text {
+  text-align: center;
+  font-size: 16px !important;
+  line-height: 24px !important;
+}

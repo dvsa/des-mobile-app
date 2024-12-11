@@ -1,5 +1,6 @@
 <ion-header>
   <practice-mode-banner *ngIf="isEndToEndPracticeMode"></practice-mode-banner>
+  <exit-SAM-banner *ngIf="!isEndToEndPracticeMode"></exit-SAM-banner>
   <ion-toolbar [ngClass]="{'toolbar-no-padding': isEndToEndPracticeMode}" mode="ios">
     <ion-title role="heading" aria-level="1" id="waiting-room-to-car-page-title"
     >{{ pageState.candidateName$ | async }}
@@ -9,7 +10,6 @@
       <ion-back-button></ion-back-button>
     </ion-buttons>
     <ion-buttons id="end-test-button" slot="end">
-      <exit-sam-button></exit-sam-button>
       <end-test-link
         [category]="pageState.category$ | async"
         [isPracticeMode]="isPracticeMode"
