@@ -16,7 +16,6 @@ import { DeviceProvider } from '@providers/device/device';
   styleUrls: ['exit-SAM-banner.scss'],
 })
 export class ExitSAMBannerComponent {
-
   constructor(
     public deviceProvider: DeviceProvider,
     public modalController: ModalController,
@@ -46,7 +45,7 @@ export class ExitSAMBannerComponent {
       // Go to teams
       await AppLauncher.openUrl({ url: 'msteams://teams.microsoft.com' });
     } catch (e) {
-        console.error('Error opening teams', e);
+      console.error('Error opening teams', e);
     }
   }
 }
