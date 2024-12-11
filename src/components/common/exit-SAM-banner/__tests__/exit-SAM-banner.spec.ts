@@ -4,8 +4,8 @@ import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/
 import { IonicModule } from '@ionic/angular';
 import { StoreModule } from '@ngrx/store';
 
-import {ExitSAMBannerComponent} from '@components/common/exit-SAM-banner/exit-SAM-banner';
-import {AppLauncher} from '@capacitor/app-launcher';
+import { AppLauncher } from '@capacitor/app-launcher';
+import { ExitSAMBannerComponent } from '@components/common/exit-SAM-banner/exit-SAM-banner';
 
 describe('ExitSAMBannerComponent', () => {
   let fixture: ComponentFixture<ExitSAMBannerComponent>;

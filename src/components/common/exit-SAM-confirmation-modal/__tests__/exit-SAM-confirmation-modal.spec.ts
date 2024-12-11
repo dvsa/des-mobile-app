@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { AppModule } from '@app/app.module';
 import { IonicModule, ModalController } from '@ionic/angular';
-import {ExitSAMConfirmationModal, ExitSAMModalEvent} from '../exit-SAM-confirmation-modal';
+import { ExitSAMConfirmationModal, ExitSAMModalEvent } from '../exit-SAM-confirmation-modal';
 
 describe('ExitSAMConfirmationModal', () => {
   let fixture: ComponentFixture<ExitSAMConfirmationModal>;

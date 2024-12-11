@@ -30,6 +30,7 @@ import { TransmissionComponent } from '@components/common/transmission/transmiss
 
 import { ChartComponent } from '@components/common/chart/chart';
 import { DataGridComponent } from '@components/common/data-grid/data-grid';
+import { ExitSAMConfirmationModalModule } from '@components/common/exit-SAM-confirmation-modal/exit-SAM-confirmation-modal.module';
 import { LogoutModalModule } from '@components/common/logout-modal/logout-modal.module';
 import { TestRecoveredBannerComponent } from '@components/common/test-recovered-banner/test-recovered-banner';
 import { DirectivesModule } from '@directives/directives.module';
@@ -43,15 +44,12 @@ import { DisplayAddressComponent } from './display-address/display-address';
 import { DrivingFaultsBadgeComponent } from './driving-faults-badge/driving-faults-badge';
 import { EndTestLinkComponent } from './end-test-link/end-test-link';
 import { ErrorMessageComponent } from './error-message/error-message';
+import { ExitSAMBannerComponent } from './exit-SAM-banner/exit-SAM-banner';
 import { OfflineBannerComponent } from './offline-banner/offline-banner';
 import { TabComponent } from './tab/tab';
 import { TabsComponent } from './tabs/tabs';
 import { VRNCaptureModalModule } from './vrn-capture-modal/vrn-capture-modal.module';
 import { WarningBannerComponent } from './warning-banner/warning-banner';
-import { ExitSAMBannerComponent } from './exit-SAM-banner/exit-SAM-banner';
-import {
-  ExitSAMConfirmationModalModule
-} from '@components/common/exit-SAM-confirmation-modal/exit-SAM-confirmation-modal.module';
 
 @NgModule({
   declarations: [

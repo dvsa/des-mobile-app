@@ -1,16 +1,16 @@
+import * as console from 'node:console';
 import { Component, Input } from '@angular/core';
 import { Router } from '@angular/router';
-import { Observable } from 'rxjs';
 import { AppLauncher } from '@capacitor/app-launcher';
-import { DeviceProvider } from '@providers/device/device';
-import {ModalController} from '@ionic/angular';
-import {OverlayEventDetail} from '@ionic/core';
 import {
   ExitSAMConfirmationModal,
-  ExitSAMModalEvent
+  ExitSAMModalEvent,
 } from '@components/common/exit-SAM-confirmation-modal/exit-SAM-confirmation-modal';
-import * as console from 'node:console';
-import {AccessibilityService} from '@providers/accessibility/accessibility.service';
+import { ModalController } from '@ionic/angular';
+import { OverlayEventDetail } from '@ionic/core';
+import { AccessibilityService } from '@providers/accessibility/accessibility.service';
+import { DeviceProvider } from '@providers/device/device';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'exit-SAM-banner',
@@ -39,7 +39,7 @@ export class ExitSAMBannerComponent {
       showBackdrop: true,
     });
     await modal.present();
-    const {data}: OverlayEventDetail = await modal.onDidDismiss<ExitSAMModalEvent>();
+    const { data }: OverlayEventDetail = await modal.onDidDismiss<ExitSAMModalEvent>();
     console.log(data.event);
     if (data.event === ExitSAMModalEvent.EXIT) {
       await this.disableSAMAndExit();
@@ -47,14 +47,13 @@ export class ExitSAMBannerComponent {
   }
 
   async disableSAMAndExit() {
-    console.log('leaving SAM')
+    console.log('leaving SAM');
     await this.deviceProvider.disableSingleAppMode();
     try {
       // Go to teams
       await AppLauncher.openUrl({ url: 'msteams://teams.microsoft.com' });
       // Go to settings
       // await AppLauncher.openUrl({ url: 'App-prefs://'});
-    } catch (e) {
-    }
+    } catch (e) {}
   }
 }
