@@ -2,7 +2,7 @@ default_platform(:ios)
 
 before_all do
   clean(dirs: './builds ./simulator ./certs ./codes')
-  xcode_select("/Applications/Xcode-#{ENV["XCODE_VERSION"]}.app")
+  xcode_select("/Applications/Xcode.app")
 end
 
 desc "Build the Simulator File for the Automation Suite"
