@@ -1,6 +1,7 @@
 <ion-header>
+  <exit-sam-banner *ngIf="!isEndToEndPracticeMode"></exit-sam-banner>
   <practice-mode-banner *ngIf="isEndToEndPracticeMode"></practice-mode-banner>
-  <ion-toolbar [ngClass]="{'toolbar-no-padding': isEndToEndPracticeMode}" mode="ios">
+  <ion-toolbar class="toolbar-no-padding" mode="ios">
     <ion-title role="heading" aria-level="1" id="waiting-room-to-car-page-title"
     >{{ pageState.candidateName$ | async }}
     </ion-title

@@ -1,23 +1,32 @@
 import {ComponentFixture, fakeAsync, TestBed, tick, waitForAsync} from '@angular/core/testing';
+import { Router } from '@angular/router';
+import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { IonicModule, ModalController } from '@ionic/angular';
+import { Store } from '@ngrx/store';
 
 import { AppModule } from '@app/app.module';
+import { RouterMock } from '@mocks/angular-mocks/router-mock';
 import { ModalControllerMock } from '@mocks/ionic-mocks/modal-controller.mock';
-import {ExitSamButton} from '../exit-sam-button';
-import {AppLauncher, OpenURLResult} from '@capacitor/app-launcher';
+import { TestFlowPageNames } from '@pages/page-names.constants';
+import { RouteByCategoryProviderMock } from '@providers/route-by-category/__mocks__/route-by-category.mock';
+import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
+import { StoreModel } from '@shared/models/store.model';
+import {EndTestLinkComponent, ExitSamBanner} from '../exit-sam-banner';
+import {ExitSamButton} from '@components/common/exit-sam-button/exit-sam-button';
 import {DeviceProvider} from '@providers/device/device';
-import {ExitSAMModalEvent} from '@components/common/exit-sam-modal/exit-sam-modal';
 import {DeviceProviderMock} from '@providers/device/__mocks__/device.mock';
+import {ExitSAMModalEvent} from '@components/common/exit-sam-modal/exit-sam-modal';
+import {AppLauncher, OpenURLResult} from '@capacitor/app-launcher';
 
-describe('ExitSamButton', () => {
-  let fixture: ComponentFixture<ExitSamButton>;
-  let component: ExitSamButton;
+describe('ExitSamBanner', () => {
+  let fixture: ComponentFixture<ExitSamBanner>;
+  let component: ExitSamBanner;
   let modalController: ModalController;
   let deviceProvider: DeviceProvider;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ExitSamButton],
+      declarations: [ExitSamBanner],
       imports: [IonicModule, AppModule],
       providers: [
         { provide: ModalController, useClass: ModalControllerMock },
@@ -25,7 +34,7 @@ describe('ExitSamButton', () => {
       ],
     });
 
-    fixture = TestBed.createComponent(ExitSamButton);
+    fixture = TestBed.createComponent(ExitSamBanner);
     component = fixture.componentInstance;
     modalController = TestBed.inject(ModalController);
     deviceProvider = TestBed.inject(DeviceProvider);

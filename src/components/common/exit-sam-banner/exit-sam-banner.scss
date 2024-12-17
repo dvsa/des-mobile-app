@@ -1,0 +1,41 @@
+.exit-banner-base {
+  border-radius: 0;
+  padding-bottom: 0;
+  padding-top: 0;
+  width: 100%;
+  left: 0;
+}
+
+.exit-banner-top-banner {
+  @extend .exit-banner-base;
+  position: fixed;
+  background: #646465;
+  height: 40px;
+  top: 0;
+}
+
+.exit-banner-text {
+  @extend .exit-banner-base;
+  font-size: 18px;
+  font-weight: bold;
+  color: var(--mes-white);
+  position: relative;
+  bottom: 3pt;
+  text-align: center;
+  line-height: 24px !important;
+}
+
+.status-bar-spacing {
+  height: 15px;
+}
+
+.exit-banner-toolbar-sizing {
+  padding-top: 0;
+  padding-bottom: 0;
+  height: 40px;
+}
+
+.exit-icon {
+  margin-top: 2px;
+  align-items: center;
+}

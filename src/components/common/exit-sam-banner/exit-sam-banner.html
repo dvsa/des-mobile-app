@@ -1,0 +1,19 @@
+<ion-toolbar class="exit-banner-toolbar-sizing">
+  <ion-row class="exit-banner-top-banner"></ion-row>
+  <ion-row class="status-bar-spacing"></ion-row>
+  <ion-row>
+    <ion-col></ion-col>
+    <ion-col
+      (touchstart)="onTouchStart()"
+      (touchend)="onTouchEnd()"
+      size="auto"
+      id="exit-banner-title-text"
+      class="practice-title-text ion-no-padding"
+    >
+      <ion-text class="exit-banner-text">
+        You are in Single App Mode - Hold here to exit
+      </ion-text>
+    </ion-col>
+    <ion-col></ion-col>
+  </ion-row>
+</ion-toolbar>

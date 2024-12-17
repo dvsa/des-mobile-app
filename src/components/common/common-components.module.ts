@@ -49,6 +49,8 @@ import { TabsComponent } from './tabs/tabs';
 import { VRNCaptureModalModule } from './vrn-capture-modal/vrn-capture-modal.module';
 import { WarningBannerComponent } from './warning-banner/warning-banner';
 import { ExitSamButton } from '@components/common/exit-sam-button/exit-sam-button';
+import {ExitSamModalModule} from '@components/common/exit-sam-modal/exit-sam-modal.module';
+import {ExitSamBanner} from '@components/common/exit-sam-banner/exit-sam-banner';
 
 @NgModule({
   declarations: [
@@ -89,6 +91,7 @@ import { ExitSamButton } from '@components/common/exit-sam-button/exit-sam-butto
     DataGridComponent,
     ChartComponent,
     ExitSamButton,
+    ExitSamBanner,
     DataRowComponent,
   ],
   imports: [
@@ -101,6 +104,7 @@ import { ExitSamButton } from '@components/common/exit-sam-button/exit-sam-butto
     VRNCaptureModalModule,
     PipesModule,
     LogoutModalModule,
+    ExitSamModalModule,
     TerminateTestModalModule,
     NgOptimizedImage,
     DirectivesModule,
@@ -145,6 +149,7 @@ import { ExitSamButton } from '@components/common/exit-sam-button/exit-sam-butto
     DataGridComponent,
     ChartComponent,
     ExitSamButton,
+    ExitSamBanner,
     DataRowComponent,
   ],
 })

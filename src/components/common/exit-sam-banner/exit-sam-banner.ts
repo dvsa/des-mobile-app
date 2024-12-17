@@ -7,11 +7,11 @@ import {ExitSamModal, ExitSAMModalEvent} from '@components/common/exit-sam-modal
 import {AccessibilityService} from '@providers/accessibility/accessibility.service';
 
 @Component({
-  selector: 'exit-sam-button',
-  templateUrl: './exit-sam-button.html',
-  styleUrls: ['./exit-sam-button.scss'],
+  selector: 'exit-sam-banner',
+  templateUrl: './exit-sam-banner.html',
+  styleUrls: ['./exit-sam-banner.scss'],
 })
-export class ExitSamButton {
+export class ExitSamBanner {
   constructor(
     public deviceProvider: DeviceProvider,
     public modalController: ModalController,
