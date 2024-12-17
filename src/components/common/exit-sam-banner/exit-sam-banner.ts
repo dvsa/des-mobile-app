@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
-import { DeviceProvider } from '@providers/device/device';
 import { AppLauncher } from '@capacitor/app-launcher';
-import {OverlayEventDetail} from '@ionic/core';
-import {ModalController} from '@ionic/angular';
-import {ExitSamModal, ExitSAMModalEvent} from '@components/common/exit-sam-modal/exit-sam-modal';
-import {AccessibilityService} from '@providers/accessibility/accessibility.service';
+import { ExitSAMModalEvent, ExitSamModal } from '@components/common/exit-sam-modal/exit-sam-modal';
+import { ModalController } from '@ionic/angular';
+import { OverlayEventDetail } from '@ionic/core';
+import { AccessibilityService } from '@providers/accessibility/accessibility.service';
+import { DeviceProvider } from '@providers/device/device';
 
 @Component({
   selector: 'exit-sam-banner',
@@ -18,8 +18,8 @@ export class ExitSamBanner {
     public accessibilityService: AccessibilityService
   ) {}
 
-  timeToHold = 1000
-  isPressed = false
+  timeToHold = 1000;
+  isPressed = false;
 
   onTouchStart() {
     this.isPressed = true;
@@ -44,10 +44,10 @@ export class ExitSamBanner {
       showBackdrop: true,
     });
     await modal.present();
-    const {data}: OverlayEventDetail = await modal.onDidDismiss<ExitSAMModalEvent>();
+    const { data }: OverlayEventDetail = await modal.onDidDismiss<ExitSAMModalEvent>();
     console.log(data.event);
     if (data.event === ExitSAMModalEvent.EXIT) {
-      await this.disableSAMAndExit()
+      await this.disableSAMAndExit();
     }
   }
 

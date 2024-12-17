@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { AppModule } from '@app/app.module';
 import { IonicModule, ModalController } from '@ionic/angular';
-import { ExitSamModal, ExitSAMModalEvent } from '../exit-sam-modal';
+import { ExitSAMModalEvent, ExitSamModal } from '../exit-sam-modal';
 
 describe('LogoutModal', () => {
   let fixture: ComponentFixture<ExitSamModal>;

@@ -1,13 +1,13 @@
-import {ComponentFixture, fakeAsync, TestBed, tick, waitForAsync} from '@angular/core/testing';
+import { ComponentFixture, TestBed, fakeAsync, tick, waitForAsync } from '@angular/core/testing';
 import { IonicModule, ModalController } from '@ionic/angular';
 
 import { AppModule } from '@app/app.module';
+import { AppLauncher, OpenURLResult } from '@capacitor/app-launcher';
+import { ExitSAMModalEvent } from '@components/common/exit-sam-modal/exit-sam-modal';
 import { ModalControllerMock } from '@mocks/ionic-mocks/modal-controller.mock';
-import {ExitSamButton} from '../exit-sam-button';
-import {AppLauncher, OpenURLResult} from '@capacitor/app-launcher';
-import {DeviceProvider} from '@providers/device/device';
-import {ExitSAMModalEvent} from '@components/common/exit-sam-modal/exit-sam-modal';
-import {DeviceProviderMock} from '@providers/device/__mocks__/device.mock';
+import { DeviceProviderMock } from '@providers/device/__mocks__/device.mock';
+import { DeviceProvider } from '@providers/device/device';
+import { ExitSamButton } from '../exit-sam-button';
 
 describe('ExitSamButton', () => {
   let fixture: ComponentFixture<ExitSamButton>;
@@ -89,7 +89,7 @@ describe('ExitSamButton', () => {
       });
 
       it('should open settings URL', async () => {
-        spyOn(AppLauncher, 'openUrl').and.returnValue(Promise.resolve({completed: true} as OpenURLResult));
+        spyOn(AppLauncher, 'openUrl').and.returnValue(Promise.resolve({ completed: true } as OpenURLResult));
         await component.disableSAMAndExit();
         expect(AppLauncher.openUrl).toHaveBeenCalledWith({ url: 'App-prefs://' });
       });
