@@ -276,7 +276,9 @@ describe('examiner records selector', () => {
     });
 
     it('should retrieve 7 eligible tests that are within test centre 1', () => {
-      expect(getEligibleTests(startedTests, TestCategory.C, DateRange.EIGHTEEN_MONTHS, null, 1, true, false).length).toBe(7);
+      expect(
+        getEligibleTests(startedTests, TestCategory.C, DateRange.EIGHTEEN_MONTHS, null, 1, true, false).length
+      ).toBe(7);
       expect(getEligibleTests(startedTests, TestCategory.C, DateRange.EIGHTEEN_MONTHS, null, 1, true, false)).toEqual([
         {
           appRef: 1234567,
