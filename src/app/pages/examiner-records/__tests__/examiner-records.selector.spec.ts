@@ -227,8 +227,8 @@ describe('examiner records selector', () => {
 
   describe('getEligibleTests', () => {
     it('should retrieve 1 eligible test that is cat b within the last 2 weeks', () => {
-      expect(getEligibleTests(startedTests, TestCategory.B, DateRange.WEEK, 1).length).toBe(1);
-      expect(getEligibleTests(startedTests, TestCategory.B, DateRange.WEEK, 1)).toEqual([
+      expect(getEligibleTests(startedTests, TestCategory.B, DateRange.WEEK, null, 1).length).toBe(1);
+      expect(getEligibleTests(startedTests, TestCategory.B, DateRange.WEEK, null, 1)).toEqual([
         {
           appRef: 1234567,
           testCategory: TestCategory.B,
@@ -245,8 +245,8 @@ describe('examiner records selector', () => {
     });
 
     it('should retrieve 2 eligible tests that is cat c within the last month', () => {
-      expect(getEligibleTests(startedTests, TestCategory.C, DateRange.FORTNIGHT, 1).length).toBe(2);
-      expect(getEligibleTests(startedTests, TestCategory.C, DateRange.FORTNIGHT, 1)).toEqual([
+      expect(getEligibleTests(startedTests, TestCategory.C, DateRange.FORTNIGHT, null, 1).length).toBe(2);
+      expect(getEligibleTests(startedTests, TestCategory.C, DateRange.FORTNIGHT, null, 1)).toEqual([
         {
           appRef: 1234567,
           testCategory: TestCategory.C,
@@ -276,8 +276,8 @@ describe('examiner records selector', () => {
     });
 
     it('should retrieve 7 eligible tests that are within test centre 1', () => {
-      expect(getEligibleTests(startedTests, TestCategory.C, DateRange.EIGHTEEN_MONTHS, 1, true, false).length).toBe(7);
-      expect(getEligibleTests(startedTests, TestCategory.C, DateRange.EIGHTEEN_MONTHS, 1, true, false)).toEqual([
+      expect(getEligibleTests(startedTests, TestCategory.C, DateRange.EIGHTEEN_MONTHS, null, 1, true, false).length).toBe(7);
+      expect(getEligibleTests(startedTests, TestCategory.C, DateRange.EIGHTEEN_MONTHS, null, 1, true, false)).toEqual([
         {
           appRef: 1234567,
           testCategory: TestCategory.B,

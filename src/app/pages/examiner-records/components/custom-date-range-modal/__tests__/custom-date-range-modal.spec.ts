@@ -24,7 +24,7 @@ describe('RecordsExplanationModal', () => {
 
   describe('onDismiss', () => {
     it('should dismiss the view controller', async () => {
-      await component.onDismiss();
+      await component.onCancel();
       expect(modalController.dismiss).toHaveBeenCalled();
     });
   });
