@@ -20,11 +20,12 @@ export class ExitSamButton {
 
   timeToHold = 1000;
   isPressed = false;
+  timeout: NodeJS.Timeout;
 
   onTouchStart() {
     this.isPressed = true;
 
-    setTimeout(async () => {
+    this.timeout = setTimeout(async () => {
       if (this.isPressed) {
         await this.openConfirmationModal();
       }
@@ -33,6 +34,7 @@ export class ExitSamButton {
 
   onTouchEnd() {
     this.isPressed = false;
+    clearTimeout(this.timeout);
   }
 
   async openConfirmationModal() {
