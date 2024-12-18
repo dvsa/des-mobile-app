@@ -4,8 +4,11 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
 import { catchError, switchMap } from 'rxjs/operators';
 
-import { DelegatedRekeySearchProvider } from '@providers/delegated-rekey-search/delegated-rekey-search';
-import { DelegatedExaminerTestSlot } from '@providers/delegated-rekey-search/mock-data/delegated-mock-data';
+import {
+  DelegatedExaminerBooking,
+  DelegatedRekeySearchProvider,
+} from '@providers/delegated-rekey-search/delegated-rekey-search';
+import { DelegatedExaminerTestSlot } from '@providers/delegated-rekey-search/delegated-rekey-search';
 import { SearchProvider } from '@providers/search/search';
 import { DelegatedRekeySearchErrorMessages } from './delegated-rekey-search-error-model';
 import {
@@ -23,6 +26,15 @@ export class DelegatedRekeySearchEffects {
     private testSearchProvider: SearchProvider
   ) {}
 
+  /**
+   * Effect to handle the search for a booked delegated test.
+   *
+   * Listens for the `SearchBookedDelegatedTest` action and attempts to retrieve the test result.
+   * If the test result is already completed, it dispatches `SearchBookedDelegatedTestFailure`.
+   * If a bad request error occurs, it attempts to retrieve the delegated examiner booking by application reference.
+   * If successful, it dispatches `SearchBookedDelegatedTestSuccess` with the retrieved data.
+   * If any error occurs, it dispatches `SearchBookedDelegatedTestFailure` with the error message.
+   */
   getBooking$ = createEffect(() =>
     this.actions$.pipe(
       ofType(SearchBookedDelegatedTest),
@@ -38,40 +50,40 @@ export class DelegatedRekeySearchEffects {
           catchError((err: HttpErrorResponse): Observable<DelegatedRekeySearchActions> => {
             if (err.status === HttpStatusCode.BadRequest) {
               return this.delegatedRekeySearchProvider.getDelegatedExaminerBookingByAppRef(action.appRef).pipe(
-                switchMap((response: DelegatedExaminerTestSlot): Observable<DelegatedRekeySearchActions> => {
+                switchMap((response: DelegatedExaminerBooking): Observable<DelegatedRekeySearchActions> => {
                   let delegatedExaminerTestSlot: DelegatedExaminerTestSlot;
                   try {
                     delegatedExaminerTestSlot = {
                       testCentre: {
-                        centreId: response.testCentre.centreId,
-                        centreName: response.testCentre.centreName,
-                        costCode: response.testCentre.costCode,
+                        centreId: response.testSlot.testCentre.centreId,
+                        centreName: response.testSlot.testCentre.centreName,
+                        costCode: response.testSlot.testCentre.costCode,
                       },
                       booking: {
                         application: {
-                          applicationId: response.booking.application.applicationId,
-                          bookingSequence: response.booking.application.bookingSequence,
-                          checkDigit: response.booking.application.checkDigit,
-                          testCategory: response.booking.application.testCategory,
+                          applicationId: response.testSlot.booking.application.applicationId,
+                          bookingSequence: response.testSlot.booking.application.bookingSequence,
+                          checkDigit: response.testSlot.booking.application.checkDigit,
+                          testCategory: response.testSlot.booking.application.testCategory,
                           welshTest: false,
                           extendedTest: false,
                         },
                         candidate: {
-                          candidateId: response.booking.candidate.candidateId,
+                          candidateId: response.testSlot.booking.candidate.candidateId,
                           candidateName: {
-                            firstName: response.booking.candidate.candidateName.firstName,
-                            lastName: response.booking.candidate.candidateName.lastName,
+                            firstName: response.testSlot.booking.candidate.candidateName.firstName,
+                            lastName: response.testSlot.booking.candidate.candidateName.lastName,
                           },
-                          driverNumber: response.booking.candidate.driverNumber,
-                          dateOfBirth: response.booking.candidate.dateOfBirth,
-                          gender: response.booking.candidate.gender,
+                          driverNumber: response.testSlot.booking.candidate.driverNumber,
+                          dateOfBirth: response.testSlot.booking.candidate.dateOfBirth,
+                          gender: response.testSlot.booking.candidate.gender,
                         },
                       },
                       slotDetail: {
-                        slotId: response.slotDetail.slotId,
-                        start: response.slotDetail.start,
+                        slotId: response.testSlot.slotDetail.slotId,
+                        start: response.testSlot.slotDetail.start,
                       },
-                      vehicleTypeCode: response.vehicleTypeCode,
+                      vehicleTypeCode: response.testSlot.vehicleTypeCode,
                       examinerId: response.examinerId,
                     };
                     return of(SearchBookedDelegatedTestSuccess(delegatedExaminerTestSlot));
