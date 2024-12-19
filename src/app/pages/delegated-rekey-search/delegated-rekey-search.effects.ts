@@ -4,8 +4,11 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
 import { catchError, switchMap } from 'rxjs/operators';
 
-import { DelegatedRekeySearchProvider } from '@providers/delegated-rekey-search/delegated-rekey-search';
-import { DelegatedExaminerTestSlot } from '@providers/delegated-rekey-search/mock-data/delegated-mock-data';
+import {
+  DelegatedExaminerBooking,
+  DelegatedRekeySearchProvider,
+} from '@providers/delegated-rekey-search/delegated-rekey-search';
+import { DelegatedExaminerTestSlot } from '@providers/delegated-rekey-search/delegated-rekey-search';
 import { SearchProvider } from '@providers/search/search';
 import { DelegatedRekeySearchErrorMessages } from './delegated-rekey-search-error-model';
 import {
@@ -23,6 +26,15 @@ export class DelegatedRekeySearchEffects {
     private testSearchProvider: SearchProvider
   ) {}
 
+  /**
+   * Effect to handle the search for a booked delegated test.
+   *
+   * Listens for the `SearchBookedDelegatedTest` action and attempts to retrieve the test result.
+   * If the test result is already completed, it dispatches `SearchBookedDelegatedTestFailure`.
+   * If a bad request error occurs, it attempts to retrieve the delegated examiner booking by application reference.
+   * If successful, it dispatches `SearchBookedDelegatedTestSuccess` with the retrieved data.
+   * If any error occurs, it dispatches `SearchBookedDelegatedTestFailure` with the error message.
+   */
   getBooking$ = createEffect(() =>
     this.actions$.pipe(
       ofType(SearchBookedDelegatedTest),
@@ -38,7 +50,7 @@ export class DelegatedRekeySearchEffects {
           catchError((err: HttpErrorResponse): Observable<DelegatedRekeySearchActions> => {
             if (err.status === HttpStatusCode.BadRequest) {
               return this.delegatedRekeySearchProvider.getDelegatedExaminerBookingByAppRef(action.appRef).pipe(
-                switchMap((response: any): Observable<any> => {
+                switchMap((response: DelegatedExaminerBooking): Observable<DelegatedRekeySearchActions> => {
                   let delegatedExaminerTestSlot: DelegatedExaminerTestSlot;
                   try {
                     delegatedExaminerTestSlot = {

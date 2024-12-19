@@ -1,6 +1,6 @@
 import { CatADI2UniqueTypes } from '@dvsa/mes-test-schema/categories/ADI2';
 import { Action, combineReducers } from '@ngrx/store';
-import { nullReducer } from '@shared/classes/null.reducer';
+import { passCompletionReducer } from '@store/tests/pass-completion/pass-completion.reducer';
 import { accompanimentReducer } from './accompaniment/accompaniment.reducer';
 import { activityCodeReducer } from './activity-code/activity-code.reducer';
 import { appVersionReducer } from './app-version/app-version.reducer';
@@ -39,7 +39,7 @@ export function testsCatADIPart2Reducer(
     examinerConducted: examinerConductedReducer,
     examinerKeyed: examinerKeyedReducer,
     journalData: journalDataCatADIPart2Reducer,
-    passCompletion: nullReducer,
+    passCompletion: passCompletionReducer,
     postTestDeclarations: postTestDeclarationsReducer,
     preTestDeclarations: preTestDeclarationsReducer,
     rekey: rekeyReducer,

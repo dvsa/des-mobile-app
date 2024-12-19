@@ -21,7 +21,7 @@ import { RefDataStateModel, referenceDataReducer } from '@store/reference-data/r
 
 describe('ReferenceDataEffects', () => {
   let effects: ReferenceDataEffects;
-  let actions$: ReplaySubject<any>;
+  let actions$: ReplaySubject<unknown>;
   let referenceDataProvider: ReferenceDataProvider;
   let dateTimeProvider: DateTimeProvider;
   let store$: Store<RefDataStateModel>;

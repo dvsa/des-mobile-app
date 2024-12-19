@@ -1,7 +1,7 @@
 import { TestBed, waitForAsync } from '@angular/core/testing';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { provideMockActions } from '@ngrx/effects/testing';
-import { Store, StoreModule } from '@ngrx/store';
+import { Action, Store, StoreModule } from '@ngrx/store';
 import { FaultCountProvider } from '@providers/fault-count/fault-count';
 import { TestResultProvider } from '@providers/test-result/test-result';
 import { ActivityCodes } from '@shared/models/activity-codes';
@@ -18,7 +18,7 @@ import { TestReportEffects } from '../test-report.effects';
 
 describe('TestReportEffects', () => {
   let effects: TestReportEffects;
-  let actions$: ReplaySubject<any>;
+  let actions$: ReplaySubject<Action>;
   let testResultProvider: TestResultProvider;
   let store$: Store<StoreModel>;
 

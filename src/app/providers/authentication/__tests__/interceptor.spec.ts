@@ -96,13 +96,13 @@ describe('Authentication interceptor', () => {
     it('should add the authentication header to the request if running on ios', (done) => {
       platform.is = jasmine.createSpy('platform.is').and.returnValue(true);
       const next = {
-        handle: (request: HttpRequest<any>) => {
+        handle: (request: HttpRequest<unknown>) => {
           expect(request.headers.has('Authorization')).toEqual(true);
           expect(request.headers.get('Authorization')).toEqual('token');
           return of({});
         },
       } as HttpHandler;
-      const req = new HttpRequest<any>('GET', journalUrl);
+      const req = new HttpRequest<unknown>('GET', journalUrl);
       interceptor.intercept(req, next).subscribe(() => done());
     });
   });

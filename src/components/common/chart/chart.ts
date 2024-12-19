@@ -19,7 +19,7 @@ export class ChartComponent implements OnInit, OnChanges {
   public chartType: ChartType = 'pie';
 
   @Input()
-  public passedData: ExaminerRecordDataWithPercentage<any>[] = null;
+  public passedData: ExaminerRecordDataWithPercentage<string>[] = null;
 
   @Input()
   public showLegend = false;

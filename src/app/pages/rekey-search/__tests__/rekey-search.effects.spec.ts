@@ -1,7 +1,7 @@
 import { HttpErrorResponse, HttpStatusCode } from '@angular/common/http';
 import { TestBed, waitForAsync } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
-import { Store, StoreModule } from '@ngrx/store';
+import { Action, Store, StoreModule } from '@ngrx/store';
 import { ReplaySubject, defer } from 'rxjs';
 
 import { TestSlot } from '@dvsa/mes-journal-schema';
@@ -16,13 +16,13 @@ import * as rekeySearchActions from '../rekey-search.actions';
 import { RekeySearchEffects } from '../rekey-search.effects';
 import { rekeySearchReducer } from '../rekey-search.reducer';
 
-function asyncError(errorObject: any) {
+function asyncError(errorObject: Error) {
   return defer(() => Promise.reject(errorObject));
 }
 
 describe('RekeySearchEffects', () => {
   let effects: RekeySearchEffects;
-  let actions$: ReplaySubject<any>;
+  let actions$: ReplaySubject<Action>;
   let rekeySearchProvider: RekeySearchProvider;
   let compressionProvider: CompressionProvider;
   let testSearchProvider: SearchProvider;

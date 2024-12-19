@@ -26,7 +26,7 @@ export class OutcomeBehaviourMapProvider {
     return field.display;
   }
 
-  isVisible(outcomeId: string, fieldName: string, value: any): boolean {
+  isVisible(outcomeId: string, fieldName: string, value: unknown): boolean {
     const mappedOutcome = this.behaviourMap[outcomeId];
 
     if (!mappedOutcome) {

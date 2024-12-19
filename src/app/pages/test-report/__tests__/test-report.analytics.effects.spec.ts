@@ -2,7 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import * as testReportAdi3Actions from '@app/pages/test-report/cat-adi-part3/test-report.cat-adi-part3.actions';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { provideMockActions } from '@ngrx/effects/testing';
-import { Store, StoreModule } from '@ngrx/store';
+import { Action, Store, StoreModule } from '@ngrx/store';
 import { ValidFaultTypes } from '@pages/office/components/fault-comment/fault-comment';
 import { testReportReducer } from '@pages/test-report/test-report.reducer';
 import { AnalyticsProviderMock } from '@providers/analytics/__mocks__/analytics.mock';
@@ -73,7 +73,7 @@ import { TestReportAnalyticsEffects } from '../test-report.analytics.effects';
 
 describe('TestReportAnalyticsEffects', () => {
   let effects: TestReportAnalyticsEffects;
-  let actions$: ReplaySubject<any>;
+  let actions$: ReplaySubject<Action>;
   let analyticsProviderMock: AnalyticsProvider;
   let store$: Store<StoreModel>;
   let appConfigProvider: AppConfigProvider;

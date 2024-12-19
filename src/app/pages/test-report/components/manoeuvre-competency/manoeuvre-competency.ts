@@ -204,12 +204,12 @@ export class ManoeuvreCompetencyComponent implements OnInit, OnDestroy {
    * Manages the addition and removal of the ripple effect animation css class
    * @returns any
    */
-  applyRippleEffect = (): any => {
+  applyRippleEffect = (): void => {
     this.rippleState = true;
     this.rippleTimeout = setTimeout(() => this.removeRippleEffect(), this.rippleEffectAnimationDuration);
   };
 
-  removeRippleEffect = (): any => {
+  removeRippleEffect = (): void => {
     this.rippleState = false;
     clearTimeout(this.rippleTimeout);
   };

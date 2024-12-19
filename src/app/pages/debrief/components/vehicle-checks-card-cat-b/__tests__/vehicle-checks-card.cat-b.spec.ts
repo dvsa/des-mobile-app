@@ -105,7 +105,7 @@ describe('VehicleChecksCardCatBComponent', () => {
           translate.use('cy').subscribe(() => {
             fixture.detectChanges();
             const tellMeQuestionText = fixture.debugElement.query(By.css('#tell-me-question')).nativeElement;
-            const { tellMeQuestion, incorrect } = (<any>welshTranslations).debrief;
+            const { tellMeQuestion, incorrect } = welshTranslations.debrief;
             expect(tellMeQuestionText.innerHTML.trim()).toBe(`${tellMeQuestion} - ${incorrect}`);
             done();
           });
@@ -128,7 +128,7 @@ describe('VehicleChecksCardCatBComponent', () => {
           translate.use('cy').subscribe(() => {
             fixture.detectChanges();
             const showMeQuestionText = fixture.debugElement.query(By.css('#show-me-question-outcome-df')).nativeElement;
-            const { showMeQuestion, incorrect } = (<any>welshTranslations).debrief;
+            const { showMeQuestion, incorrect } = welshTranslations.debrief;
             const expectedTranslation = `${showMeQuestion} - ${incorrect}`;
             expect(showMeQuestionText.innerHTML.trim()).toBe(expectedTranslation);
             done();
@@ -150,7 +150,7 @@ describe('VehicleChecksCardCatBComponent', () => {
           translate.use('cy').subscribe(() => {
             fixture.detectChanges();
             const showMeQuestionText = fixture.debugElement.query(By.css('#show-me-question-outcome-s')).nativeElement;
-            const { showMeQuestion, seriousFault } = (<any>welshTranslations).debrief;
+            const { showMeQuestion, seriousFault } = welshTranslations.debrief;
             const expectedTranslation = `${showMeQuestion} - ${seriousFault}`;
             expect(showMeQuestionText.innerHTML.trim()).toBe(expectedTranslation);
             done();
@@ -172,7 +172,7 @@ describe('VehicleChecksCardCatBComponent', () => {
           translate.use('cy').subscribe(() => {
             fixture.detectChanges();
             const showMeQuestionText = fixture.debugElement.query(By.css('#show-me-question-outcome-d')).nativeElement;
-            const { showMeQuestion, dangerousFault } = (<any>welshTranslations).debrief;
+            const { showMeQuestion, dangerousFault } = welshTranslations.debrief;
             const expectedTranslation = `${showMeQuestion} - ${dangerousFault}`;
             expect(showMeQuestionText.innerHTML.trim()).toBe(expectedTranslation);
             done();

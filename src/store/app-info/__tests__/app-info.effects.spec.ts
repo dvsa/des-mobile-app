@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { Network } from '@awesome-cordova-plugins/network/ngx';
 import { RouterMock } from '@mocks/angular-mocks/router-mock';
 import { provideMockActions } from '@ngrx/effects/testing';
-import { Store, StoreModule } from '@ngrx/store';
+import { Action, Store, StoreModule } from '@ngrx/store';
 import { DetectDeviceTheme } from '@pages/dashboard/dashboard.actions';
 import { LOGIN_PAGE } from '@pages/page-names.constants';
 import { AppInfoProviderMock } from '@providers/app-info/__mocks__/app-info.mock';
@@ -35,7 +35,7 @@ import { ReplaySubject, throwError } from 'rxjs';
 
 describe('AppInfoEffects', () => {
   let effects: AppInfoEffects;
-  let actions$: ReplaySubject<any>;
+  let actions$: ReplaySubject<Action>;
   let appInfoProvider: AppInfoProvider;
   let dateTimeProvider: DateTimeProvider;
   let store$: Store<StoreModel>;

@@ -24,6 +24,10 @@ const SENTRY_ERRORS_NODE_MODULES: SentryError[] = ['this._data[this._data.length
 
 export const SENTRY_ERRORS: SentryError[] = [...SENTRY_ERRORS_LIVERELOAD, ...SENTRY_ERRORS_NODE_MODULES];
 
+interface CustomError extends Error {
+  originalError?: Error;
+}
+
 @Injectable()
 export class SentryIonicErrorHandler extends ErrorHandler {
   // Cyclic DI dependency error if injecting services via the constructor
@@ -31,7 +35,7 @@ export class SentryIonicErrorHandler extends ErrorHandler {
     super();
   }
 
-  async handleError(error: any) {
+  async handleError(error: CustomError): Promise<void> {
     try {
       // call through to ionic error handler which is default behaviour
       super.handleError(error);

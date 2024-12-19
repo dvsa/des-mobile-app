@@ -56,7 +56,7 @@ export class DeviceAuthenticationProvider {
     }
   };
 
-  public logEvent = (err: any) => {
+  public logEvent = (err: Error) => {
     this.store$.dispatch(
       SaveLog({
         payload: this.logHelper.createLog(LogType.ERROR, 'Device auth', err),

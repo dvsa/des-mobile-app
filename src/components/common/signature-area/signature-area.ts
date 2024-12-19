@@ -148,17 +148,17 @@ export class SignatureAreaComponent implements ControlValueAccessor, AfterViewIn
 
   // we use it to emit changes back to the form
   /* eslint-disable */
-  private propagateChange = (_: any) => {};
-  private touchChange = (_: any) => {};
+  private propagateChange = (_: string) => {};
+  private touchChange = (_) => {};
   /* eslint-enable */
 
-  public writeValue(value: any) {
+  public writeValue(value: string) {
     if (value !== undefined) {
       this.signature = value;
     }
   }
 
-  registerOnChange(fn: any) {
+  registerOnChange(fn: (_: string) => void) {
     this.propagateChange = fn;
   }
 
@@ -166,7 +166,7 @@ export class SignatureAreaComponent implements ControlValueAccessor, AfterViewIn
     this.touchChange(null);
   }
 
-  registerOnTouched(fn: any) {
+  registerOnTouched(fn: () => void) {
     this.touchChange = fn;
   }
 }

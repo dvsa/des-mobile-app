@@ -6,6 +6,17 @@ import { timeout } from 'rxjs/operators';
 import { AppConfigProvider } from '../app-config/app-config';
 import { UrlProvider } from '../url/url';
 
+import { TestSlot } from '@dvsa/mes-journal-schema';
+
+export interface DelegatedExaminerTestSlot extends TestSlot {
+  examinerId: number;
+}
+
+export interface DelegatedExaminerBooking {
+  examinerId: number;
+  testSlot: TestSlot;
+}
+
 @Injectable()
 export class DelegatedRekeySearchProvider {
   constructor(

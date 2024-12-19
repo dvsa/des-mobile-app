@@ -84,7 +84,7 @@ export class RekeyReasonPage extends BasePageComponent implements OnInit {
   examinerConducted: number = null;
   examinerKeyed: number = null;
   fromRekeySearch = false;
-  merged$: Observable<any>;
+  merged$: Observable<number | boolean | Promise<void>>;
 
   constructor(
     public store$: Store<StoreModel>,

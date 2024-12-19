@@ -1,10 +1,6 @@
-import { TestSlot } from '@dvsa/mes-journal-schema';
+import { DelegatedExaminerBooking } from '@providers/delegated-rekey-search/delegated-rekey-search';
 
-export interface DelegatedExaminerTestSlot extends TestSlot {
-  examinerId: number;
-}
-
-export function mockGetDelegatedBooking(): any {
+export function mockGetDelegatedBooking(): DelegatedExaminerBooking {
   return {
     examinerId: 4583912,
     testSlot: {
@@ -14,11 +10,11 @@ export function mockGetDelegatedBooking(): any {
         costCode: 'cost code',
       },
       slotDetail: {
-        slotId: '35294119',
+        slotId: 35294119,
         start: '2020-09-17T08:00:00',
       },
       vehicleTypeCode: 'V4',
-      vehicleSlotTypeCode: '122',
+      vehicleSlotTypeCode: 122,
       booking: {
         candidate: {
           candidateId: 1,
@@ -30,7 +26,7 @@ export function mockGetDelegatedBooking(): any {
           },
         },
         application: {
-          applicationId: '24306741',
+          applicationId: 24306741,
           bookingSequence: 1,
           checkDigit: 0,
           testCategory: 'CCPC',

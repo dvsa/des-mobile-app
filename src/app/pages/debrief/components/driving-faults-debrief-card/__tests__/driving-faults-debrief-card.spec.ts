@@ -81,10 +81,10 @@ describe('DrivingFaultsDebriefCardComponent', () => {
         const drivingFaultsLabels = fixture.debugElement.queryAll(By.css('#driving-fault .counter-label'));
         const drivingFaultCount = fixture.debugElement.query(By.css('ion-text.fault-heading')).nativeElement;
         expect(drivingFaultsLabels[0].nativeElement.innerHTML.trim()).toBe(
-          (<any>welshTranslations).debrief.competencies.useOfSpeed
+          welshTranslations.debrief.competencies.useOfSpeed
         );
         expect(drivingFaultsLabels[1].nativeElement.innerHTML.trim()).toBe(
-          (<any>welshTranslations).debrief.competencies.signalsTimed
+          welshTranslations.debrief.competencies.signalsTimed
         );
         expect(drivingFaultCount.innerHTML).toBe(drivingFaults.length.toString());
         done();

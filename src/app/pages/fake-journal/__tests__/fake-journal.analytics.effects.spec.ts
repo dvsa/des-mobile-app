@@ -12,13 +12,14 @@ import {
   GoogleAnalyticsEventsTitles,
 } from '@providers/analytics/analytics.model';
 
+import { Action } from '@ngrx/store';
 import * as fakeJournalActions from '../fake-journal.actions';
 import { FakeJournalAnalyticsEffects } from '../fake-journal.analytics.effects';
 
 describe('FakeJournalAnalyticsEffects', () => {
   let effects: FakeJournalAnalyticsEffects;
   let analyticsProviderMock: AnalyticsProvider;
-  let actions$: ReplaySubject<any>;
+  let actions$: ReplaySubject<Action>;
   const screenName = AnalyticsScreenNames.FAKE_JOURNAL;
 
   beforeEach(waitForAsync(() => {

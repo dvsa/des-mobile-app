@@ -33,14 +33,11 @@ export class InstructorRegistrationComponent implements OnChanges {
     this.formControl.patchValue(this.instructorRegistration);
   }
 
-  instructorRegistrationChanged(event: any): void {
-    if (
-      typeof event.target.value === 'string' &&
-      !this.instructorRegistrationNumberValidator.pattern.test(event.target.value)
-    ) {
-      event.target.value = event.target.value.replace(leadingZero, '').replace(nonNumericValues, '');
+  instructorRegistrationChanged(value: string): void {
+    if (typeof value === 'string' && !this.instructorRegistrationNumberValidator.pattern.test(value)) {
+      value = value.replace(leadingZero, '').replace(nonNumericValues, '');
     }
-    this.instructorRegistrationChange.emit(Number(event.target.value) || undefined);
+    this.instructorRegistrationChange.emit(Number(value) || undefined);
   }
 
   get invalid(): boolean {

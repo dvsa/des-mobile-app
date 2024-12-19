@@ -93,7 +93,7 @@ export class LoginPage extends LogoutBasePageComponent implements OnInit {
     this.queryParamSub?.unsubscribe();
   }
 
-  login = async (): Promise<any> => {
+  login = async (): Promise<void> => {
     try {
       await this.handleLoadingUI(true);
 

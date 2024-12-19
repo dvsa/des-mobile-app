@@ -40,6 +40,12 @@ describe('HealthDeclarationPage', () => {
   let translate: TranslateService;
   let router: Router;
 
+  interface WelshTranslations {
+    healthDeclaration: {
+      declarationIntent: string;
+    };
+  }
+
   const testSlotAttributes: TestSlotAttributes = {
     welshTest: false,
     extendedTest: false,
@@ -226,7 +232,9 @@ describe('HealthDeclarationPage', () => {
         translate.onLangChange.subscribe(() => {
           fixture.detectChanges();
           const declarationIntent = fixture.debugElement.query(By.css('ion-text.des-header-style-4')).nativeElement;
-          expect(declarationIntent.innerHTML).toBe(`${(<any>welshTranslations).healthDeclaration.declarationIntent}:`);
+          expect(declarationIntent.innerHTML).toBe(
+            `${(welshTranslations as WelshTranslations).healthDeclaration.declarationIntent}:`
+          );
           done();
         });
       });

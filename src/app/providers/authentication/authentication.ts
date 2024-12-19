@@ -197,7 +197,7 @@ export class AuthenticationProvider {
     }
   }
 
-  isTokenExpired(token: any): boolean {
+  isTokenExpired(token: { exp: number }): boolean {
     return token.exp && new Date(token.exp * 1000) < new Date();
   }
 
@@ -330,7 +330,7 @@ export class AuthenticationProvider {
     this.employeeId = numericEmployeeId.toString();
   }
 
-  private logEvent = (logType: LogType, desc: string, msg: unknown) => {
+  logEvent = (logType: LogType, desc: string, msg: unknown) => {
     this.store$.dispatch(
       SaveLog({
         payload: this.logHelper.createLog(logType, desc, `AuthenticationProvider => ${serialiseLogMessage(msg)}`),

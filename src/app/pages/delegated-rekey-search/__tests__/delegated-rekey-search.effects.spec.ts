@@ -2,7 +2,7 @@ import { HttpErrorResponse, HttpStatusCode } from '@angular/common/http';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TestBed, waitForAsync } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
-import { Store, StoreModule } from '@ngrx/store';
+import { Action, Store, StoreModule } from '@ngrx/store';
 import { AppConfigProviderMock } from '@providers/app-config/__mocks__/app-config.mock';
 import { AppConfigProvider } from '@providers/app-config/app-config';
 import { DelegatedRekeySearchProvider } from '@providers/delegated-rekey-search/delegated-rekey-search';
@@ -17,13 +17,13 @@ import * as delegatedRekeySearchActions from '../delegated-rekey-search.actions'
 import { DelegatedRekeySearchEffects } from '../delegated-rekey-search.effects';
 import { delegatedSearchReducer } from '../delegated-rekey-search.reducer';
 
-function asyncError(errorObject: any) {
+function asyncError(errorObject: { status: number; error: string }) {
   return defer(() => Promise.reject(errorObject));
 }
 
 describe('DelegatedRekeySearchEffects', () => {
   let effects: DelegatedRekeySearchEffects;
-  let actions$: ReplaySubject<any>;
+  let actions$: ReplaySubject<Action>;
   let delegatedRekeySearchProvider: DelegatedRekeySearchProvider;
   let searchProvider: SearchProvider;
 
@@ -81,6 +81,7 @@ describe('DelegatedRekeySearchEffects', () => {
     actions$.next(delegatedRekeySearchActions.SearchBookedDelegatedTest('12345678910'));
 
     effects.getBooking$.subscribe((result) => {
+      console.log(result.type);
       expect(result.type === delegatedRekeySearchActions.SearchBookedDelegatedTestSuccess.type).toBeTruthy();
       done();
     });

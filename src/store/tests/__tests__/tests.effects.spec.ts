@@ -3,7 +3,7 @@ import { TestSlot } from '@dvsa/mes-journal-schema';
 import { CategoryCode } from '@dvsa/mes-test-schema/categories/common';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { provideMockActions } from '@ngrx/effects/testing';
-import { Store, StoreModule } from '@ngrx/store';
+import { Action, Store, StoreModule } from '@ngrx/store';
 import * as delegatedRekeySearchActions from '@pages/delegated-rekey-search/delegated-rekey-search.actions';
 import { delegatedSearchReducer } from '@pages/delegated-rekey-search/delegated-rekey-search.reducer';
 import * as rekeySearchActions from '@pages/rekey-search/rekey-search.actions';
@@ -50,7 +50,7 @@ import { initialState, testsReducer } from '../tests.reducer';
 
 describe('TestsEffects', () => {
   let effects: TestsEffects;
-  let actions$: ReplaySubject<any>;
+  let actions$: ReplaySubject<Action>;
   let testPersistenceProviderMock;
   let store$: Store<StoreModel>;
   let logHelper: LogHelper;

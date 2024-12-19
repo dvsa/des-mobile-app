@@ -121,7 +121,7 @@ export class DeviceProvider {
     );
   };
 
-  private logEvent = (desc: string, err: any) => {
+  private logEvent = (desc: string, err: string) => {
     this.store$.dispatch(
       SaveLog({
         payload: this.logHelper.createLog(LogType.ERROR, desc, err),

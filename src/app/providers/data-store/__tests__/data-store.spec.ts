@@ -181,7 +181,7 @@ describe('DataStoreProvider', () => {
             iosVersion: '1.0.0',
             deviceId: 'fb455c20-c025-4d6b-bbf2-aab80af6efb8',
             drivingExaminerId: 'testData',
-          } as Log,
+          } as unknown as Log,
         })
       );
     });

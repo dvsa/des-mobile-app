@@ -137,7 +137,7 @@ describe('VehicleRegistrationComponent', () => {
       spyOn(component, 'abortMOTCall');
       component.isSearchingForMOT = true;
 
-      component.registrationInput({ target: { value: 'ABC123' } });
+      component.registrationInput({ value: 'ABC123' } as HTMLInputElement);
 
       expect(component.clearData).toHaveBeenCalled();
       expect(component.abortMOTCall).toHaveBeenCalled();
@@ -145,25 +145,25 @@ describe('VehicleRegistrationComponent', () => {
 
     it('sets hasCalledMOT to false', () => {
       component.hasCalledMOT = true;
-      component.registrationInput({ target: { value: 'ABC123' } });
+      component.registrationInput({ value: 'ABC123' } as HTMLInputElement);
       expect(component.hasCalledMOT).toBeFalse();
     });
 
     it('removes non-alphanumeric characters from input value', () => {
-      const event = { target: { value: 'ABC@123!' } };
+      const event = { value: 'ABC@123!' } as HTMLInputElement;
       component.registrationInput(event);
-      expect(event.target.value).toBe('ABC123');
+      expect(event.value).toBe('ABC123');
     });
 
     it('sets form control error if input value is empty after removing non-alphanumeric characters', () => {
-      const event = { target: { value: '@!#$' } };
+      const event: HTMLInputElement = { value: '@!#$' } as HTMLInputElement;
       spyOn(component.formControl, 'setErrors');
       component.registrationInput(event);
       expect(component.formControl.setErrors).toHaveBeenCalledWith({ invalidValue: '' });
     });
 
     it('updates vehicleRegistration to uppercase', () => {
-      const event = { target: { value: 'abc123' } };
+      const event: HTMLInputElement = { value: 'abc123' } as HTMLInputElement;
       component.registrationInput(event);
       expect(component.vehicleRegistration).toBe('ABC123');
     });

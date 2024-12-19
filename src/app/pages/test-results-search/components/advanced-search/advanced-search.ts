@@ -2,8 +2,6 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { DisplayType } from '@components/common/datetime-input/date-time-input.component';
 import { TestCentre } from '@dvsa/mes-journal-schema';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
-import { InputChangeEventDetail } from '@ionic/angular';
-import { InputInputEventDetail } from '@ionic/core';
 import { AccessibilityService } from '@providers/accessibility/accessibility.service';
 import { AdvancedSearchParams } from '@providers/search/search.models';
 import { activityCodeModelList } from '@shared/constants/activity-code/activity-code.constants';
@@ -106,7 +104,7 @@ export class AdvancedSearchComponent {
     }
   }
 
-  onInputChange(event: InputChangeEventDetail | InputInputEventDetail, field: string): void {
+  onInputChange(event: HTMLInputElement, field: string): void {
     if (typeof event.value !== 'string') return;
 
     // Added logic here as it is used on the (ionInput) attribute of the staffNo. input field, sets toggle to unchecked

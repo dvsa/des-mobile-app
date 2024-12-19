@@ -82,7 +82,12 @@ describe('SentryIonicErrorHandler', () => {
       );
       spyOn(sentryErrorHandler.logHelper, 'createLog').and.returnValue(mockLog);
 
-      await sentryErrorHandler.handleError({ err: 'some error' });
+      await sentryErrorHandler.handleError({
+        message: 'message',
+        name: 'name',
+        stack: 'stack',
+        originalError: { name: 'originalName', message: 'originalMessage' },
+      });
       expect(sentryErrorHandler.store$.dispatch).toHaveBeenCalledWith(SaveLog({ payload: mockLog }));
     });
     it('should not call to any provider if an instance of HttpErrorResponse', async () => {

@@ -69,9 +69,7 @@ describe('SafetyAndBalanceCardCatAMod2Component', () => {
           By.css('#safety-and-balance-questions .counter-label')
         ).nativeElement;
 
-        expect(safetyQuestionText.innerHTML.trim()).toContain(
-          (<any>englishTranslations).debrief.safetyAndBalanceQuestions.M4
-        );
+        expect(safetyQuestionText.innerHTML.trim()).toContain(englishTranslations.debrief.safetyAndBalanceQuestions.M4);
       });
 
       it('should show results in Welsh for a Welsh test', (done) => {
@@ -93,9 +91,7 @@ describe('SafetyAndBalanceCardCatAMod2Component', () => {
             By.css('#safety-and-balance-questions .counter-label')
           ).nativeElement;
 
-          expect(safetyQuestionText.innerHTML.trim()).toContain(
-            (<any>welshTranslations).debrief.safetyAndBalanceQuestions.M4
-          );
+          expect(safetyQuestionText.innerHTML.trim()).toContain(welshTranslations.debrief.safetyAndBalanceQuestions.M4);
           done();
         });
       });

@@ -12,7 +12,7 @@ import { AccessibilityService } from '@providers/accessibility/accessibility.ser
 import { AppConfigProvider } from '@providers/app-config/app-config';
 import { CategoryWhitelistProvider } from '@providers/category-whitelist/category-whitelist';
 import { DateTimeProvider } from '@providers/date-time/date-time';
-import { DelegatedExaminerTestSlot } from '@providers/delegated-rekey-search/mock-data/delegated-mock-data';
+import { DelegatedExaminerTestSlot } from '@providers/delegated-rekey-search/delegated-rekey-search';
 import { SlotProvider } from '@providers/slot/slot';
 import { formatApplicationReference } from '@shared/helpers/formatters';
 import { getSlotType } from '@shared/helpers/get-slot-type';

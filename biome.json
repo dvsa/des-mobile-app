@@ -64,12 +64,24 @@
           },
           "suspicious": {
             "noAssignInExpressions": "off",
-            "noExplicitAny": "off",
             "noImplicitAnyLet": "off",
             "noConfusingVoidType": "off"
           },
           "performance": {
             "noAccumulatingSpread": "off"
+          }
+        }
+      }
+    },
+    {
+      "include": [
+        "**/*.spec.ts"
+      ],
+      "linter": {
+        "enabled": true,
+        "rules": {
+          "suspicious": {
+            "noExplicitAny": "off"
           }
         }
       }

@@ -49,12 +49,12 @@ export class CompetencyButtonComponent {
     }
   }
 
-  applyRippleEffect = (): any => {
+  applyRippleEffect = (): void => {
     this.rippleState = true;
     this.rippleTimeout = setTimeout(() => this.removeRippleEffect(), this.rippleEffectAnimationDuration);
   };
 
-  removeRippleEffect = (): any => {
+  removeRippleEffect = (): void => {
     this.rippleState = false;
     clearTimeout(this.rippleTimeout);
   };

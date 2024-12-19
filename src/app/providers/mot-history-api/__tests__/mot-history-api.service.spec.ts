@@ -1,4 +1,4 @@
-import { HttpResponse } from '@angular/common/http';
+import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { PracticeModeMOTType } from '@pages/waiting-room-to-car/components/mot-components/practice-mode-mot-modal/practice-mode-mot-modal.component';
@@ -248,7 +248,7 @@ describe('MotHistoryApiService', () => {
 
   describe('handleError', () => {
     it('should return default response with status and vehicle registration', () => {
-      const error = { status: 500 };
+      const error = new HttpErrorResponse({ error: {}, status: 500 });
       vehicleDetailsService.handleError(error, 'ABC123').subscribe((val) => {
         expect(val).toEqual({
           status: '500',
@@ -264,7 +264,7 @@ describe('MotHistoryApiService', () => {
     });
 
     it('should handle error with status 404', () => {
-      const error = { status: 404 };
+      const error = new HttpErrorResponse({ error: {}, status: 404 });
       vehicleDetailsService.handleError(error, 'XYZ789').subscribe((val) => {
         expect(val).toEqual({
           status: '404',
@@ -280,7 +280,7 @@ describe('MotHistoryApiService', () => {
     });
 
     it('should handle error with no status', () => {
-      const error = {};
+      const error = new HttpErrorResponse({ error: {}, status: 0 });
       vehicleDetailsService.handleError(error, 'NO_STATUS').subscribe((val) => {
         expect(val).toEqual({
           status: undefined,

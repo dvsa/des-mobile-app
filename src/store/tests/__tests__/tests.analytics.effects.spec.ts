@@ -4,7 +4,7 @@ import { Application } from '@dvsa/mes-journal-schema';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { RouterMock } from '@mocks/angular-mocks/router-mock';
 import { provideMockActions } from '@ngrx/effects/testing';
-import { Store, StoreModule } from '@ngrx/store';
+import { Action, Store, StoreModule } from '@ngrx/store';
 import { AnalyticsProviderMock } from '@providers/analytics/__mocks__/analytics.mock';
 import { AnalyticsProvider } from '@providers/analytics/analytics';
 import { AnalyticRecorded } from '@providers/analytics/analytics.actions';
@@ -42,7 +42,7 @@ describe('TestsAnalyticsEffects', () => {
   let effects: TestsAnalyticsEffects;
   let analyticsProviderMock: AnalyticsProvider;
   let navigationStateProviderMock: NavigationStateProvider;
-  let actions$: ReplaySubject<any>;
+  let actions$: ReplaySubject<Action>;
   let store$: Store<StoreModel>;
   const mockApplication: Application = {
     applicationId: 123456,

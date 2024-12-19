@@ -16,7 +16,7 @@
           class="ion-input-styling increase-width"
           formControlName="instructorRegistration"
           [maxlength]="instructorRegistrationNumberValidator.maxLength"
-          (ionChange)="instructorRegistrationChanged($event)"
+          (ionChange)="instructorRegistrationChanged($event.target.value)"
         >
         </ion-input>
       </ion-col>

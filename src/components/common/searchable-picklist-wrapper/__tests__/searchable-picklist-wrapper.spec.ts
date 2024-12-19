@@ -5,8 +5,8 @@ import { ModalControllerMock } from '@mocks/ionic-mocks/modal-controller.mock';
 import { PipesModule } from '@shared/pipes/pipes.module';
 
 describe('SearchablePicklistComponentWrapper', () => {
-  let fixture: ComponentFixture<SearchablePicklistComponentWrapper<any>>;
-  let component: SearchablePicklistComponentWrapper<any>;
+  let fixture: ComponentFixture<SearchablePicklistComponentWrapper<unknown>>;
+  let component: SearchablePicklistComponentWrapper<unknown>;
   let modalController: ModalController;
 
   beforeEach(waitForAsync(() => {
@@ -16,7 +16,7 @@ describe('SearchablePicklistComponentWrapper', () => {
       providers: [{ provide: ModalController, useClass: ModalControllerMock }],
     });
 
-    fixture = TestBed.createComponent(SearchablePicklistComponentWrapper<any>);
+    fixture = TestBed.createComponent(SearchablePicklistComponentWrapper);
     component = fixture.componentInstance;
 
     modalController = TestBed.inject(ModalController);

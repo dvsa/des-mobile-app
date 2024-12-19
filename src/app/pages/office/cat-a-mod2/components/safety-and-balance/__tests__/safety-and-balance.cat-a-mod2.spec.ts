@@ -92,13 +92,13 @@ describe('SafetyAndBalanceCardCatAMod2Component', () => {
 
         expect(safetyAndBalanceQuestions.length).toBe(3);
         expect(safetyAndBalanceQuestions[0].nativeElement.innerHTML.trim()).toContain(
-          (<any>englishTranslations).debrief.safetyAndBalanceQuestions.M4
+          englishTranslations.debrief.safetyAndBalanceQuestions.M4
         );
         expect(safetyAndBalanceQuestions[1].nativeElement.innerHTML.trim()).toContain(
-          (<any>englishTranslations).debrief.safetyAndBalanceQuestions.M6
+          englishTranslations.debrief.safetyAndBalanceQuestions.M6
         );
         expect(safetyAndBalanceQuestions[2].nativeElement.innerHTML.trim()).toContain(
-          (<any>englishTranslations).debrief.safetyAndBalanceQuestions.B1
+          englishTranslations.debrief.safetyAndBalanceQuestions.B1
         );
       });
 
@@ -112,13 +112,13 @@ describe('SafetyAndBalanceCardCatAMod2Component', () => {
           const safetyAndBalanceQuestions = fixture.debugElement.queryAll(By.css('.counter-label'));
 
           expect(safetyAndBalanceQuestions[0].nativeElement.innerHTML.trim()).toContain(
-            (<any>welshTranslations).debrief.safetyAndBalanceQuestions.M4
+            welshTranslations.debrief.safetyAndBalanceQuestions.M4
           );
           expect(safetyAndBalanceQuestions[1].nativeElement.innerHTML.trim()).toContain(
-            (<any>welshTranslations).debrief.safetyAndBalanceQuestions.M6
+            welshTranslations.debrief.safetyAndBalanceQuestions.M6
           );
           expect(safetyAndBalanceQuestions[2].nativeElement.innerHTML.trim()).toContain(
-            (<any>welshTranslations).debrief.safetyAndBalanceQuestions.B1
+            welshTranslations.debrief.safetyAndBalanceQuestions.B1
           );
           done();
         });

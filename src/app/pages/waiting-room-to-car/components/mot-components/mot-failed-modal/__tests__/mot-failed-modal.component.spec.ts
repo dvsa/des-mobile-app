@@ -52,12 +52,12 @@ describe('MotFailedModal', () => {
   describe('vehicleRegistrationChanged', () => {
     it('should set vehicleRegistration to an uppercase version of the data inputted into the modal', () => {
       component.vehicleRegistration = '';
-      component.vehicleRegistrationChanged({ target: { value: 'string' } });
+      component.vehicleRegistrationChanged('string');
       expect(component.vehicleRegistration).toEqual('STRING');
     });
     it('should remove all non alphanumeric characters from the passed parameter', () => {
       component.vehicleRegistration = '';
-      component.vehicleRegistrationChanged({ target: { value: '!s!t!r!i!n!g!' } });
+      component.vehicleRegistrationChanged('!s!t!r!i!n!g!');
       expect(component.vehicleRegistration).toEqual('STRING');
     });
   });

@@ -1,4 +1,4 @@
-import { SimpleChange } from '@angular/core';
+import { SimpleChanges } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ChartComponent } from '@components/common/chart/chart';
 import { IonicModule } from '@ionic/angular';
@@ -214,7 +214,7 @@ describe('ChartComponent', () => {
   describe('ngOnChanges', () => {
     it('should run filterData and updateOptions with options if dataChanged is true and chart is present', () => {
       component.chart = {
-        updateOptions(options: any): any {
+        updateOptions(options: ApexOptions): ApexOptions {
           return options;
         },
       } as ApexCharts;
@@ -223,14 +223,23 @@ describe('ChartComponent', () => {
       spyOnProperty(component, 'options').and.returnValue({} as ApexOptions);
       spyOn(component.chart, 'updateOptions');
 
-      component.ngOnChanges({ data: { previousValue: '1', currentValue: '2' } as SimpleChange });
+      const changes: SimpleChanges = {
+        data: {
+          previousValue: '1',
+          currentValue: '2',
+          firstChange: false,
+          isFirstChange: () => false,
+        },
+      };
+
+      component.ngOnChanges(changes);
 
       expect(component.filterData).toHaveBeenCalled();
       expect(component.chart.updateOptions).toHaveBeenCalledWith(component.options);
     });
     it('should reassign chart if dataChanged is true, chart is present and the changes include chartType', () => {
       component.chart = {
-        updateOptions(options: any): any {
+        updateOptions(options: ApexOptions): ApexOptions {
           return options;
         },
         render(): void {
@@ -238,10 +247,19 @@ describe('ChartComponent', () => {
         },
       } as ApexCharts;
 
-      component.ngOnChanges({ chartType: { previousValue: '1', currentValue: '2' } as SimpleChange });
+      const changes: SimpleChanges = {
+        chartType: {
+          previousValue: '1',
+          currentValue: '2',
+          firstChange: false,
+          isFirstChange: () => false,
+        },
+      };
+
+      component.ngOnChanges(changes);
 
       expect(component.chart).not.toEqual({
-        updateOptions(options: any): any {
+        updateOptions(options: ApexOptions): ApexOptions {
           return options;
         },
         render(): void {

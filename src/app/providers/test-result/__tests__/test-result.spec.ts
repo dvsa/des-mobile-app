@@ -55,7 +55,7 @@ describe('TestResultCalculatorProvider', () => {
       TestCategory.D1EM,
     ].forEach((cat) => {
       it(`should call calculateCatCPCTestResult if testCategory is ${cat}`, () => {
-        spyOn<any>(testResultProvider, 'calculateCatManoeuvreTestResult');
+        spyOn<TestResultProvider>(testResultProvider, 'calculateCatManoeuvreTestResult' as keyof TestResultProvider);
         testResultProvider.calculateTestResult(cat, null);
         expect(testResultProvider['calculateCatManoeuvreTestResult']).toHaveBeenCalled();
       });
@@ -63,7 +63,10 @@ describe('TestResultCalculatorProvider', () => {
 
     [TestCategory.EUAM1, TestCategory.EUA1M1, TestCategory.EUA2M1, TestCategory.EUAMM1].forEach((cat) => {
       it(`should call calculateCatEUAM1AndSubCategoryTestResult if testCategory is ${cat}`, () => {
-        spyOn<any>(testResultProvider, 'calculateCatEUAM1AndSubCategoryTestResult');
+        spyOn<TestResultProvider>(
+          testResultProvider,
+          'calculateCatEUAM1AndSubCategoryTestResult' as keyof TestResultProvider
+        );
         testResultProvider.calculateTestResult(cat, null);
         expect(testResultProvider['calculateCatEUAM1AndSubCategoryTestResult']).toHaveBeenCalled();
       });
@@ -71,7 +74,10 @@ describe('TestResultCalculatorProvider', () => {
 
     [TestCategory.EUAM2, TestCategory.EUA1M2, TestCategory.EUA2M2, TestCategory.EUAMM2].forEach((cat) => {
       it(`should call calculateCatEUAM2AndSubCategoryTestResult if testCategory is ${cat}`, () => {
-        spyOn<any>(testResultProvider, 'calculateCatEUAM2AndSubCategoryTestResult');
+        spyOn<TestResultProvider>(
+          testResultProvider,
+          'calculateCatEUAM2AndSubCategoryTestResult' as keyof TestResultProvider
+        );
         testResultProvider.calculateTestResult(cat, null);
         expect(testResultProvider['calculateCatEUAM2AndSubCategoryTestResult']).toHaveBeenCalled();
       });
@@ -79,7 +85,7 @@ describe('TestResultCalculatorProvider', () => {
 
     [TestCategory.CCPC, TestCategory.DCPC].forEach((cat) => {
       it(`should call calculateCatCPCTestResult if testCategory is ${cat}`, () => {
-        spyOn<any>(testResultProvider, 'calculateCatCPCTestResult');
+        spyOn<TestResultProvider>(testResultProvider, 'calculateCatCPCTestResult' as keyof TestResultProvider);
         testResultProvider.calculateTestResult(cat, null);
         expect(testResultProvider['calculateCatCPCTestResult']).toHaveBeenCalled();
       });

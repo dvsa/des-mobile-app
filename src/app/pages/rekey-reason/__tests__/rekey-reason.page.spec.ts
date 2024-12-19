@@ -320,7 +320,7 @@ describe('RekeyReasonPage', () => {
     });
     describe('ionViewWillEnter', () => {
       it('should setup subscription if merged is present', () => {
-        component.merged$ = new Observable<string | boolean>();
+        component.merged$ = new Observable<number | boolean | Promise<void>>();
         component.ionViewWillEnter();
 
         expect(component.subscription).toBeDefined();

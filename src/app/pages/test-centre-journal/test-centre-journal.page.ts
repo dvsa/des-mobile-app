@@ -180,12 +180,12 @@ export class TestCentreJournalPage extends BasePageComponent implements OnDestro
     );
   };
 
-  private mapError = (error: string): void => {
+  mapError = (error: string): void => {
     if (error === undefined || error === '') return;
     this.errorMessage = error;
   };
 
-  private setOfflineError = (): void => {
+  setOfflineError = (): void => {
     this.didError = true;
     this.testCentreResults = null;
     this.showSearchSpinner = false;

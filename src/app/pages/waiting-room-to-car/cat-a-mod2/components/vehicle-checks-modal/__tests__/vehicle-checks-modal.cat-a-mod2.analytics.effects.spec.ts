@@ -2,7 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { QuestionOutcome, QuestionResult } from '@dvsa/mes-test-schema/categories/common';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { provideMockActions } from '@ngrx/effects/testing';
-import { Store, StoreModule } from '@ngrx/store';
+import { Action, Store, StoreModule } from '@ngrx/store';
 import * as fakeJournalActions from '@pages/fake-journal/fake-journal.actions';
 import { AnalyticsProviderMock } from '@providers/analytics/__mocks__/analytics.mock';
 import { AnalyticsProvider } from '@providers/analytics/analytics';
@@ -26,7 +26,7 @@ import { VehicleChecksModalCatAMod2AnalyticsEffects } from '../vehicle-checks-mo
 describe('VehicleChecksModalCatAMod2AnalyticsEffects', () => {
   let effects: VehicleChecksModalCatAMod2AnalyticsEffects;
   let analyticsProviderMock: AnalyticsProvider;
-  let actions$: ReplaySubject<any>;
+  let actions$: ReplaySubject<Action>;
   let store$: Store<StoreModel>;
   const screenName = AnalyticsScreenNames.VEHICLE_CHECKS;
 

@@ -68,19 +68,13 @@ export class VRNCaptureModal implements OnInit {
     this.subscription = this.merged$?.subscribe();
   }
 
-  ngOnDestroy(): void {
-    this.subscription?.unsubscribe();
-  }
-
-  inputChange(input: any) {
-    if (typeof input === 'string') {
-      input = input.toUpperCase().replace(nonAlphaNumericValues, '');
-      this.vehicleRegistrationNumber = input;
-      this.vehicleRegistrationFormControl.patchValue(input, {
-        emitEvent: false,
-        emitViewToModelChange: false,
-      });
-    }
+  inputChange(input: string) {
+    input = input.toUpperCase().replace(nonAlphaNumericValues, '');
+    this.vehicleRegistrationNumber = input;
+    this.vehicleRegistrationFormControl.patchValue(input, {
+      emitEvent: false,
+      emitViewToModelChange: false,
+    });
     this.formInvalid = this.vehicleRegistrationFormControl.dirty && this.vehicleRegistrationFormControl.invalid;
   }
 

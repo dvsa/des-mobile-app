@@ -1,7 +1,7 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { TestSlot } from '@dvsa/mes-journal-schema';
 import { createAction, union } from '@ngrx/store';
-import { DelegatedExaminerTestSlot } from '@providers/delegated-rekey-search/mock-data/delegated-mock-data';
+import { DelegatedExaminerTestSlot } from '@providers/delegated-rekey-search/delegated-rekey-search';
 import { DelegatedRekeySearchError } from './delegated-rekey-search-error-model';
 
 export const DelegatedRekeySearchViewDidEnter = createAction('[DelegatedRekeySearch] Delegated Rekey Search Did Enter');

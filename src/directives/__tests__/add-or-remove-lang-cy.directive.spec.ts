@@ -29,7 +29,7 @@ describe('AddOrRemoveLangCyDirective', () => {
       setAttribute: jasmine.createSpy(),
     } as SpyObj<Renderer2>;
     translateMock = {
-      use(lang: string): Observable<any> {
+      use(lang: string): Observable<unknown> {
         translateMock.store.onLangChange.emit({
           lang: lang,
           translations: null,

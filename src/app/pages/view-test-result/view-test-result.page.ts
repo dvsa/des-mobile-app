@@ -87,7 +87,7 @@ export class ViewTestResultPage extends BasePageComponent implements OnInit {
     this.subscription = this.searchProvider
       .getTestResult(this.applicationReference, this.authenticationProvider.getEmployeeId())
       .pipe(
-        map((response: HttpResponse<any>): string => response.body),
+        map((response: HttpResponse<string>): string => response.body),
         map((data) => (this.testResult = this.compressionProvider.extract<TestResultSchemasUnion>(data))),
         tap(async () => this.handleLoadingUI(false)),
         catchError(async (err) => {

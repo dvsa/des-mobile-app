@@ -151,7 +151,7 @@ describe('ExaminerReportsCard', () => {
         ['1', 1, 'test'],
         ['2', 2, 'test'],
         ['3', 7, 'test'],
-      ] as any[][]);
+      ] as string[][]);
     });
     it('should return an empty array if the passed data is empty', () => {
       expect(component.filterDataForGrid(null)).toEqual([[]]);

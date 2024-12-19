@@ -87,7 +87,7 @@ export function localStorageSyncReducer(reducer: ActionReducer<StoreModel>): Act
   })(reducer);
 }
 
-const reducers: ActionReducerMap<any> = {
+const reducers: ActionReducerMap<unknown> = {
   journal: journalReducer,
   appInfo: appInfoReducer,
   appConfig: appConfigReducer,
@@ -97,7 +97,7 @@ const reducers: ActionReducerMap<any> = {
   examinerRecords: examinerRecordsReducer,
 };
 
-const metaReducers: MetaReducer<any, any>[] = [];
+const metaReducers: MetaReducer<unknown>[] = [];
 const enableDevTools = environment && (environment as EnvironmentFile).enableDevTools;
 const enableRehydrationPlugin = environment && (environment as EnvironmentFile).enableRehydrationPlugin;
 

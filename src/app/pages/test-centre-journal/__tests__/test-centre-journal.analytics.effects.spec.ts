@@ -13,13 +13,14 @@ import {
   JournalRefreshModes,
 } from '@providers/analytics/analytics.model';
 
+import { Action } from '@ngrx/store';
 import { TestCentreJournalAnalyticsEffects } from '@pages/test-centre-journal/test-centre-journal.analytics.effects';
 import * as testCentreJournalActions from '../test-centre-journal.actions';
 
 describe('TestCentreJournalAnalyticsEffects', () => {
   let effects: TestCentreJournalAnalyticsEffects;
   let analyticsProviderMock: AnalyticsProvider;
-  let actions$: ReplaySubject<any>;
+  let actions$: ReplaySubject<Action>;
   const screenName = AnalyticsScreenNames.TEST_CENTRE_JOURNAL;
 
   beforeEach(() => {

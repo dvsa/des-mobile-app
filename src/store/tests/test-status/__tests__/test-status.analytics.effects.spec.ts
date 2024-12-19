@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
-import { Store, StoreModule } from '@ngrx/store';
+import { Action, Store, StoreModule } from '@ngrx/store';
 import { ReplaySubject } from 'rxjs';
 
 import { AnalyticsProviderMock } from '@providers/analytics/__mocks__/analytics.mock';
@@ -16,7 +16,7 @@ import { TestStatusAnalyticsEffects } from '../test-status.analytics.effects';
 describe('TestStatusAnalyticsEffects', () => {
   let effects: TestStatusAnalyticsEffects;
   let analyticsProviderMock: AnalyticsProvider;
-  let actions$: ReplaySubject<any>;
+  let actions$: ReplaySubject<Action>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({

@@ -39,7 +39,7 @@ export class SearchablePicklistModal<T> {
 
   isActiveSelection = (data: T): boolean => get(data, this.primaryKey) === get(this.model, this.primaryKey);
 
-  trackBy = (_: any, data: T) => get(data, this.primaryKey, null);
+  trackBy = (_: unknown, data: T) => get(data, this.primaryKey, null);
 
   conditionalStyles = (data: T) => ({
     selected: this.isActiveSelection(data),
@@ -63,7 +63,7 @@ export class SearchablePicklistModal<T> {
     this.searchedValue = null;
   }
 
-  onClick = async (data: T): Promise<void> => {
+  async onClick(data: string): Promise<void> {
     await this.modalController.dismiss(data, SearchablePicklistModalEvent.SUBMIT);
-  };
+  }
 }

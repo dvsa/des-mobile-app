@@ -44,7 +44,8 @@ import { AfterViewInit, Directive, ElementRef, EventEmitter, Input, Output } fro
 export class CharacterCountDirective implements AfterViewInit {
   @Input() charLimit: number = null;
 
-  @Output() onCharacterCountChanged: any = new EventEmitter(true);
+  @Output() onCharacterCountChanged: EventEmitter<number> = new EventEmitter(true);
+  $event: Event;
 
   constructor(public el: ElementRef) {
     this.charLimit = this.el.nativeElement.getAttribute('charLimit');
@@ -72,8 +73,9 @@ export class CharacterCountDirective implements AfterViewInit {
    *
    * @param event - The event object containing the new value of the input field.
    */
-  onInput(event: any) {
-    this.handleChange(event.target.value);
+  onInput(event: { target: { value: string } }) {
+    const inputElement = event.target as HTMLInputElement;
+    this.handleChange(inputElement.value);
   }
 
   /**
@@ -84,8 +86,9 @@ export class CharacterCountDirective implements AfterViewInit {
    *
    * @param event - The event object containing the new value of the input field.
    */
-  onIonChange(event: any) {
-    this.handleChange(event.target.value);
+  onIonChange(event: { target: { value: string } }) {
+    const inputElement = event.target as HTMLInputElement;
+    this.handleChange(inputElement.value);
   }
 
   /**

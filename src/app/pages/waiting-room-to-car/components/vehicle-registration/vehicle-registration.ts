@@ -251,22 +251,22 @@ export class VehicleRegistrationComponent implements OnChanges {
    * they are removed. If the resulting value is empty, an error is set on the form control.
    * Finally, the vehicle registration value is updated and converted to uppercase.
    *
-   * @param {any} event - The input event containing the new value for the vehicle registration field.
+   * @param input
    */
-  registrationInput(event: any): void {
+  registrationInput(input: HTMLInputElement): void {
     this.clearData();
     if (this.isSearchingForMOT) {
       this.abortMOTCall(MOTAbortedMethod.VRN_CHANGED);
     }
     this.hasCalledMOT = false;
-    if (typeof event.target.value === 'string' && !this.registrationNumberValidator.pattern.test(event.target.value)) {
-      event.target.value = event.target.value?.replace(nonAlphaNumericValues, '');
+    if (typeof input.value === 'string' && !this.registrationNumberValidator.pattern.test(input.value)) {
+      input.value = input.value.replace(nonAlphaNumericValues, '');
 
-      if (isEmpty(event.target.value)) {
-        this.formControl.setErrors({ invalidValue: event.target.value });
+      if (isEmpty(input.value)) {
+        this.formControl.setErrors({ invalidValue: input.value });
       }
     }
-    this.vehicleRegistration = event.target.value?.toUpperCase();
+    this.vehicleRegistration = input.value.toUpperCase();
   }
 
   isMOTNotValid() {
