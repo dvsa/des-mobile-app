@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Output} from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { AppLauncher } from '@capacitor/app-launcher';
 import { ModalController } from '@ionic/angular';
 import { AccessibilityService } from '@providers/accessibility/accessibility.service';
@@ -37,7 +37,7 @@ export class ExitSamBanner {
   }
 
   cancelButtonClicked() {
-    this.cancelClicked.emit()
+    this.cancelClicked.emit();
   }
 
   async disableSAMAndExit() {
@@ -47,7 +47,7 @@ export class ExitSamBanner {
       // Go to teams
       // await AppLauncher.openUrl({ url: 'msteams://teams.microsoft.com' });
       // Go to settings
-      await AppLauncher.openUrl({ url: 'App-prefs://'});
+      await AppLauncher.openUrl({ url: 'App-prefs://' });
     } catch (e) {
       console.log(e);
     }

@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, Output} from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { AppLauncher } from '@capacitor/app-launcher';
 import { ModalController } from '@ionic/angular';
 import { AccessibilityService } from '@providers/accessibility/accessibility.service';
@@ -17,7 +17,7 @@ export class ExitSamButton {
   ) {}
 
   @Input()
-  isButtonActive = false
+  isButtonActive = false;
 
   @Output()
   escapeSamButtonClicked = new EventEmitter<boolean>();
