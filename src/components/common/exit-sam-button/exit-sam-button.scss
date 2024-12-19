@@ -6,10 +6,12 @@
 }
 
 .call-icon-button {
-  background-color: #7984EF;
-  border-radius: 100px;
   padding-left: 5px;
   padding-right: 5px;
+}
+
+.purple-background {
+  background-color: var(--escape-SAM-Purple);
 }
 
 .end-test-text {

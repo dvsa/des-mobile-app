@@ -6,11 +6,20 @@
   left: 0;
 }
 
+.cancel-button {
+  position: relative;
+  bottom: 2px;
+  min-height: 24px;
+  --background: var(--mes-white);
+  --background-activated: var(--gds-grey-1);
+  border-radius: 100px;
+}
+
 .exit-banner-top-banner {
   @extend .exit-banner-base;
   position: fixed;
-  background: #646465;
-  height: 40px;
+  background: var(--escape-SAM-Purple);
+  height: 50px;
   top: 0;
 }
 
@@ -19,8 +28,6 @@
   font-size: 18px;
   font-weight: bold;
   color: var(--mes-white);
-  position: relative;
-  bottom: 3pt;
   text-align: center;
   line-height: 24px !important;
 }
@@ -32,7 +39,7 @@
 .exit-banner-toolbar-sizing {
   padding-top: 0;
   padding-bottom: 0;
-  height: 40px;
+  height: 50px;
 }
 
 .exit-icon {

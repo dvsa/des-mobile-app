@@ -3,7 +3,6 @@ import { IonicModule, ModalController } from '@ionic/angular';
 
 import { AppModule } from '@app/app.module';
 import { AppLauncher, OpenURLResult } from '@capacitor/app-launcher';
-import { ExitSAMModalEvent } from '@components/common/exit-sam-modal/exit-sam-modal';
 import { ModalControllerMock } from '@mocks/ionic-mocks/modal-controller.mock';
 import { DeviceProviderMock } from '@providers/device/__mocks__/device.mock';
 import { DeviceProvider } from '@providers/device/device';
@@ -30,12 +29,6 @@ describe('ExitSamButton', () => {
     modalController = TestBed.inject(ModalController);
     deviceProvider = TestBed.inject(DeviceProvider);
 
-    spyOn(modalController, 'create').and.returnValue(
-      Promise.resolve({
-        present: async () => {},
-        onDidDismiss: async () => ({ data: { event: ExitSAMModalEvent.EXIT } }),
-      } as any as HTMLIonModalElement)
-    );
     spyOn(deviceProvider, 'disableSingleAppMode').and.returnValue(Promise.resolve(true));
   }));
 
@@ -46,19 +39,29 @@ describe('ExitSamButton', () => {
         expect(component.isPressed).toBeTrue();
       });
 
-      it('should call openConfirmationModal after timeToHold if still pressed', fakeAsync(() => {
-        spyOn(component, 'openConfirmationModal');
+      it('should call disableSAMAndExit after timeToHold if still pressed and button is active', fakeAsync(() => {
+        spyOn(component, 'disableSAMAndExit');
+        component.isButtonActive = true;
         component.onTouchStart();
         tick(component.timeToHold);
-        expect(component.openConfirmationModal).toHaveBeenCalled();
+        expect(component.disableSAMAndExit).toHaveBeenCalled();
       }));
 
-      it('should not call openConfirmationModal if not pressed', fakeAsync(() => {
-        spyOn(component, 'openConfirmationModal');
+      it('should not call disableSAMAndExit if button is not active', fakeAsync(() => {
+        spyOn(component, 'disableSAMAndExit');
+        component.isButtonActive = false;
+        component.onTouchStart();
+        tick(component.timeToHold);
+        expect(component.disableSAMAndExit).not.toHaveBeenCalled();
+      }));
+
+      it('should not call disableSAMAndExit if not pressed', fakeAsync(() => {
+        spyOn(component, 'disableSAMAndExit');
+        component.isButtonActive = true;
         component.onTouchStart();
         component.onTouchEnd();
         tick(component.timeToHold);
-        expect(component.openConfirmationModal).not.toHaveBeenCalled();
+        expect(component.disableSAMAndExit).not.toHaveBeenCalled();
       }));
     });
 
@@ -67,18 +70,25 @@ describe('ExitSamButton', () => {
         component.onTouchEnd();
         expect(component.isPressed).toBeFalse();
       });
+
+      it('should clear the timeout', () => {
+        spyOn(window, 'clearTimeout');
+        component.onTouchEnd();
+        expect(clearTimeout).toHaveBeenCalledWith(component.timeout);
+      });
     });
 
-    describe('openConfirmationModal', () => {
-      it('should create and present the modal', async () => {
-        await component.openConfirmationModal();
-        expect(modalController.create).toHaveBeenCalled();
+    describe('onClick', () => {
+      it('should toggle isButtonActive', () => {
+        const initialStatus = component.isButtonActive;
+        component.onClick();
+        expect(component.isButtonActive).toBe(!initialStatus);
       });
 
-      it('should call disableSAMAndExit if event is EXIT', async () => {
-        spyOn(component, 'disableSAMAndExit');
-        await component.openConfirmationModal();
-        expect(component.disableSAMAndExit).toHaveBeenCalled();
+      it('should emit escapeSamButtonClicked with the new status', () => {
+        spyOn(component.escapeSamButtonClicked, 'emit');
+        component.onClick();
+        expect(component.escapeSamButtonClicked.emit).toHaveBeenCalledWith(component.isButtonActive);
       });
     });
 

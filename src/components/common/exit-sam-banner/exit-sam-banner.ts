@@ -1,8 +1,6 @@
-import { Component } from '@angular/core';
+import {Component, EventEmitter, Output} from '@angular/core';
 import { AppLauncher } from '@capacitor/app-launcher';
-import { ExitSAMModalEvent, ExitSamModal } from '@components/common/exit-sam-modal/exit-sam-modal';
 import { ModalController } from '@ionic/angular';
-import { OverlayEventDetail } from '@ionic/core';
 import { AccessibilityService } from '@providers/accessibility/accessibility.service';
 import { DeviceProvider } from '@providers/device/device';
 
@@ -18,6 +16,9 @@ export class ExitSamBanner {
     public accessibilityService: AccessibilityService
   ) {}
 
+  @Output()
+  cancelClicked = new EventEmitter<void>();
+
   timeToHold = 1000;
   isPressed = false;
 
@@ -26,7 +27,7 @@ export class ExitSamBanner {
 
     setTimeout(async () => {
       if (this.isPressed) {
-        await this.openConfirmationModal();
+        await this.disableSAMAndExit();
       }
     }, this.timeToHold);
   }
@@ -35,20 +36,8 @@ export class ExitSamBanner {
     this.isPressed = false;
   }
 
-  async openConfirmationModal() {
-    const modal: HTMLIonModalElement = await this.modalController.create({
-      id: 'exitSAMConfirmModal',
-      component: ExitSamModal,
-      cssClass: `${this.accessibilityService.getTextZoomClass()} mes-modal-alert`,
-      backdropDismiss: false,
-      showBackdrop: true,
-    });
-    await modal.present();
-    const { data }: OverlayEventDetail = await modal.onDidDismiss<ExitSAMModalEvent>();
-    console.log(data.event);
-    if (data.event === ExitSAMModalEvent.EXIT) {
-      await this.disableSAMAndExit();
-    }
+  cancelButtonClicked() {
+    this.cancelClicked.emit()
   }
 
   async disableSAMAndExit() {
@@ -56,9 +45,9 @@ export class ExitSamBanner {
     await this.deviceProvider.disableSingleAppMode();
     try {
       // Go to teams
-      await AppLauncher.openUrl({ url: 'msteams://teams.microsoft.com' });
+      // await AppLauncher.openUrl({ url: 'msteams://teams.microsoft.com' });
       // Go to settings
-      // await AppLauncher.openUrl({ url: 'App-prefs://'});
+      await AppLauncher.openUrl({ url: 'App-prefs://'});
     } catch (e) {
       console.log(e);
     }

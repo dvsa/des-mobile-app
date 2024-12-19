@@ -3,7 +3,6 @@ import { IonicModule, ModalController } from '@ionic/angular';
 
 import { AppModule } from '@app/app.module';
 import { AppLauncher, OpenURLResult } from '@capacitor/app-launcher';
-import { ExitSAMModalEvent } from '@components/common/exit-sam-modal/exit-sam-modal';
 import { ModalControllerMock } from '@mocks/ionic-mocks/modal-controller.mock';
 import { DeviceProviderMock } from '@providers/device/__mocks__/device.mock';
 import { DeviceProvider } from '@providers/device/device';
@@ -30,12 +29,7 @@ describe('ExitSamBanner', () => {
     modalController = TestBed.inject(ModalController);
     deviceProvider = TestBed.inject(DeviceProvider);
 
-    spyOn(modalController, 'create').and.returnValue(
-      Promise.resolve({
-        present: async () => {},
-        onDidDismiss: async () => ({ data: { event: ExitSAMModalEvent.EXIT } }),
-      } as any as HTMLIonModalElement)
-    );
+    spyOn(AppLauncher, 'openUrl').and.returnValue(Promise.resolve({ completed: true } as OpenURLResult));
     spyOn(deviceProvider, 'disableSingleAppMode').and.returnValue(Promise.resolve(true));
   }));
 
@@ -46,19 +40,19 @@ describe('ExitSamBanner', () => {
         expect(component.isPressed).toBeTrue();
       });
 
-      it('should call openConfirmationModal after timeToHold if still pressed', fakeAsync(() => {
-        spyOn(component, 'openConfirmationModal');
+      it('should call disableSAMAndExit after timeToHold if still pressed', fakeAsync(() => {
+        spyOn(component, 'disableSAMAndExit');
         component.onTouchStart();
         tick(component.timeToHold);
-        expect(component.openConfirmationModal).toHaveBeenCalled();
+        expect(component.disableSAMAndExit).toHaveBeenCalled();
       }));
 
-      it('should not call openConfirmationModal if not pressed', fakeAsync(() => {
-        spyOn(component, 'openConfirmationModal');
+      it('should not call disableSAMAndExit if not pressed', fakeAsync(() => {
+        spyOn(component, 'disableSAMAndExit');
         component.onTouchStart();
         component.onTouchEnd();
         tick(component.timeToHold);
-        expect(component.openConfirmationModal).not.toHaveBeenCalled();
+        expect(component.disableSAMAndExit).not.toHaveBeenCalled();
       }));
     });
 
@@ -69,16 +63,11 @@ describe('ExitSamBanner', () => {
       });
     });
 
-    describe('openConfirmationModal', () => {
-      it('should create and present the modal', async () => {
-        await component.openConfirmationModal();
-        expect(modalController.create).toHaveBeenCalled();
-      });
-
-      it('should call disableSAMAndExit if event is EXIT', async () => {
-        spyOn(component, 'disableSAMAndExit');
-        await component.openConfirmationModal();
-        expect(component.disableSAMAndExit).toHaveBeenCalled();
+    describe('cancelButtonClicked', () => {
+      it('should emit cancelClicked event', () => {
+        spyOn(component.cancelClicked, 'emit');
+        component.cancelButtonClicked();
+        expect(component.cancelClicked.emit).toHaveBeenCalled();
       });
     });
 

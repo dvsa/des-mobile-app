@@ -1,16 +1,17 @@
 <ion-header>
-  <exit-sam-banner *ngIf="!isEndToEndPracticeMode"></exit-sam-banner>
+  <exit-sam-banner *ngIf="!isEndToEndPracticeMode && isExitSAMActivated" (cancelClicked)="isExitSAMActivated = false"></exit-sam-banner>
   <practice-mode-banner *ngIf="isEndToEndPracticeMode"></practice-mode-banner>
-  <ion-toolbar class="toolbar-no-padding" mode="ios">
+  <ion-toolbar [ngClass]="{'toolbar-no-padding': isEndToEndPracticeMode || isExitSAMActivated}" mode="ios">
     <ion-title role="heading" aria-level="1" id="waiting-room-to-car-page-title"
     >{{ pageState.candidateName$ | async }}
     </ion-title
     >
     <ion-buttons id="wrtc-back-button" slot="start">
       <ion-back-button></ion-back-button>
+      <exit-sam-button [isButtonActive]="isExitSAMActivated" (escapeSamButtonClicked)="isExitSAMActivated = $event"></exit-sam-button>
+
     </ion-buttons>
     <ion-buttons id="end-test-button" slot="end">
-      <exit-sam-button></exit-sam-button>
       <end-test-link
         [category]="pageState.category$ | async"
         [isPracticeMode]="isPracticeMode"

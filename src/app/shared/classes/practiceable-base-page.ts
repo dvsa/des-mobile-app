@@ -22,6 +22,7 @@ export abstract class PracticeableBasePageComponent extends BasePageComponent im
   public isPracticeMode: boolean;
   public isTestReportPracticeMode: boolean;
   public isEndToEndPracticeMode: boolean;
+  public isExitSAMActivated = false;
 
   private practiceableBasePageState: PracticeableBasePageState;
   private practiceableBasePageSubscription: Subscription;
