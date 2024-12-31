@@ -44,7 +44,7 @@ export class ExitSamButton {
   }
 
   onClick() {
-    this.isButtonActive = !this.isButtonActive;
+    this.isButtonActive = true;
     this.escapeSamButtonClicked.emit(this.isButtonActive);
   }
 
