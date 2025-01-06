@@ -1,30 +1,58 @@
-  <exit-sam-banner
-    *ngIf="!isEndToEndPracticeMode && isExitSAMActivated"
-    (cancelClicked)="isExitSAMActivated = false"
-  ></exit-sam-banner>
-  <practice-mode-banner *ngIf="isEndToEndPracticeMode"></practice-mode-banner>
-  <ion-toolbar [ngClass]="{'toolbar-no-padding': isEndToEndPracticeMode || isExitSAMActivated}" mode="ios">
-    <ion-title role="heading" aria-level="1" [id]="textId">{{ headerText }}</ion-title>
-    <ion-buttons id="back-button" slot="start">
-      <ion-back-button *ngIf="shouldShowBackButton"></ion-back-button>
-      <ion-button *ngIf="shouldShowCloseButton" id="close-button" (click)="onCloseClicked()">
-        <ion-icon class="close-btn" id="close-icon" name="close-outline"></ion-icon>
-        <ion-label class="close-btn" id="close-label">Close</ion-label>
-      </ion-button>
-      <exit-sam-button
-        *ngIf="shouldShowEscapeFromSamButton"
-        [isButtonActive]="isExitSAMActivated"
-        (escapeSamButtonClicked)="isExitSAMActivated = $event">
-      </exit-sam-button>
+<ion-row *ngIf="isEndToEndPracticeMode">
+    <practice-mode-banner></practice-mode-banner>
+</ion-row>
+<ion-row *ngIf="!isEndToEndPracticeMode && isExitSAMActivated">
+    <exit-sam-banner (cancelClicked)="isExitSAMActivated = false"></exit-sam-banner>
+</ion-row>
+<ion-row>
+    <ion-col>
+        <ion-buttons id="back-button">
+            <ion-back-button *ngIf="shouldShowBackButton"></ion-back-button>
+            <ion-button *ngIf="shouldShowCloseButton" id="close-button" (click)="onCloseClicked()">
+                <ion-icon class="close-btn" id="close-icon" name="close-outline"></ion-icon>
+                <ion-label class="close-btn" id="close-label">Close</ion-label>
+            </ion-button>
+            <exit-sam-button
+                    *ngIf="shouldShowEscapeFromSamButton"
+                    [isButtonActive]="isExitSAMActivated"
+                    (escapeSamButtonClicked)="isExitSAMActivated = $event">
+            </exit-sam-button>
+        </ion-buttons>
+    </ion-col>
+    <ion-col>
+        <ion-title id="waiting-room-to-car-page-title">{{ 'pageState.candidateName$ | async' }}</ion-title>
+    </ion-col>
+    <ion-col>
+        <ion-buttons id="end-test-button">
+            <end-test-link
+                    [category]="'B'"
+                    [isPracticeMode]="false"
+                    [shouldAuthenticate]="false">
+            </end-test-link>
+        </ion-buttons>
+    </ion-col>
+</ion-row>
+<!--<ion-title role="heading" aria-level="1" [id]="textId">{{ headerText }}</ion-title>-->
+<!--<ion-buttons id="back-button" slot="start">-->
+<!--    <ion-back-button *ngIf="shouldShowBackButton"></ion-back-button>-->
+<!--    <ion-button *ngIf="shouldShowCloseButton" id="close-button" (click)="onCloseClicked()">-->
+<!--        <ion-icon class="close-btn" id="close-icon" name="close-outline"></ion-icon>-->
+<!--        <ion-label class="close-btn" id="close-label">Close</ion-label>-->
+<!--    </ion-button>-->
+<!--    <exit-sam-button-->
+<!--            *ngIf="shouldShowEscapeFromSamButton"-->
+<!--            [isButtonActive]="isExitSAMActivated"-->
+<!--            (escapeSamButtonClicked)="isExitSAMActivated = $event">-->
+<!--    </exit-sam-button>-->
 
-    </ion-buttons>
-    <ion-buttons id="end-test-button" slot="end">
-      <end-test-link
-        [category]="testCategory"
-        [isPracticeMode]="isEndToEndPracticeMode"
-        [shouldAuthenticate]="false"
-        (endTestLinkClicked)="endTestClicked()"
-      >
-      </end-test-link>
-    </ion-buttons>
-  </ion-toolbar>
+<!--</ion-buttons>-->
+<!--<ion-buttons id="end-test-button" slot="end">-->
+<!--    <end-test-link-->
+<!--            [category]="testCategory"-->
+<!--            [isPracticeMode]="isEndToEndPracticeMode"-->
+<!--            [shouldAuthenticate]="false"-->
+<!--            (endTestLinkClicked)="endTestClicked()"-->
+<!--    >-->
+<!--    </end-test-link>-->
+<!--</ion-buttons>-->
+

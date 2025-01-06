@@ -1,12 +1,14 @@
 <ion-header>
-  <page-header
-    [headerText]="pageState.candidateName$ | async"
-    [textId]="'waiting-room-to-car-page-title'"
-    [shouldShowEscapeFromSamButton]="!isEndToEndPracticeMode"
-    [isEndToEndPracticeMode]="isEndToEndPracticeMode"
-    [isExitSAMActivated]="isExitSAMActivated"
-    (endTestButtonClicked)="abortMOTCall(MOTAbortedMethod.END_TEST)"
-  ></page-header>
+  <ion-toolbar [ngClass]="{'toolbar-no-padding': isEndToEndPracticeMode || isExitSAMActivated}" mode="ios">
+    <page-header
+      [headerText]="pageState.candidateName$ | async"
+      [textId]="'waiting-room-to-car-page-title'"
+      [shouldShowEscapeFromSamButton]="!isEndToEndPracticeMode"
+      [isEndToEndPracticeMode]="isEndToEndPracticeMode"
+      [isExitSAMActivated]="isExitSAMActivated"
+      (endTestButtonClicked)="abortMOTCall(MOTAbortedMethod.END_TEST)"
+    ></page-header>
+  </ion-toolbar>
 </ion-header>
 
 <ion-content [class.hidden]="failedMOTModalCurrentlyOpen" forceOverscroll="false">
