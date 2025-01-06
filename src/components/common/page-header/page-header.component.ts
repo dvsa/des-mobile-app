@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { title } from '@ionic/cli/lib/color';
 
 @Component({
   selector: 'page-header',
@@ -38,4 +39,6 @@ export class PageHeaderComponent implements OnInit {
   onCloseClicked() {
     this.onCloseButtonClicked.emit();
   }
+
+  protected readonly title = title;
 }

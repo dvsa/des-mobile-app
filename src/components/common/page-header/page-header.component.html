@@ -1,36 +1,40 @@
 <ion-row *ngIf="isEndToEndPracticeMode">
+  <ion-col>
     <practice-mode-banner></practice-mode-banner>
+  </ion-col>
 </ion-row>
 <ion-row *ngIf="!isEndToEndPracticeMode && isExitSAMActivated">
+  <ion-col>
     <exit-sam-banner (cancelClicked)="isExitSAMActivated = false"></exit-sam-banner>
+  </ion-col>
 </ion-row>
 <ion-row>
-    <ion-col>
-        <ion-buttons id="back-button">
-            <ion-back-button *ngIf="shouldShowBackButton"></ion-back-button>
-            <ion-button *ngIf="shouldShowCloseButton" id="close-button" (click)="onCloseClicked()">
-                <ion-icon class="close-btn" id="close-icon" name="close-outline"></ion-icon>
-                <ion-label class="close-btn" id="close-label">Close</ion-label>
-            </ion-button>
-            <exit-sam-button
-                    *ngIf="shouldShowEscapeFromSamButton"
-                    [isButtonActive]="isExitSAMActivated"
-                    (escapeSamButtonClicked)="isExitSAMActivated = $event">
-            </exit-sam-button>
-        </ion-buttons>
-    </ion-col>
-    <ion-col>
-        <ion-title id="waiting-room-to-car-page-title">{{ 'pageState.candidateName$ | async' }}</ion-title>
-    </ion-col>
-    <ion-col>
-        <ion-buttons id="end-test-button">
-            <end-test-link
-                    [category]="'B'"
-                    [isPracticeMode]="false"
-                    [shouldAuthenticate]="false">
-            </end-test-link>
-        </ion-buttons>
-    </ion-col>
+  <ion-col class="display-flex ion-justify-content-start" size="20">
+    <ion-buttons id="back-button">
+      <ion-back-button *ngIf="shouldShowBackButton"></ion-back-button>
+      <ion-button *ngIf="shouldShowCloseButton" id="close-button" (click)="onCloseClicked()">
+        <ion-icon class="close-btn" id="close-icon" name="close-outline"></ion-icon>
+        <ion-label class="close-btn" id="close-label">Close</ion-label>
+      </ion-button>
+      <exit-sam-button
+        *ngIf="shouldShowEscapeFromSamButton"
+        [isButtonActive]="isExitSAMActivated"
+        (escapeSamButtonClicked)="isExitSAMActivated = $event">
+      </exit-sam-button>
+    </ion-buttons>
+  </ion-col>
+  <ion-col>
+    <ion-title id="waiting-room-to-car-page-title">{{ headerText }}</ion-title>
+  </ion-col>
+  <ion-col class="display-flex ion-justify-content-end" size="20">
+    <ion-buttons id="end-test-button">
+      <end-test-link
+        [category]="'B'"
+        [isPracticeMode]="false"
+        [shouldAuthenticate]="false">
+      </end-test-link>
+    </ion-buttons>
+  </ion-col>
 </ion-row>
 <!--<ion-title role="heading" aria-level="1" [id]="textId">{{ headerText }}</ion-title>-->
 <!--<ion-buttons id="back-button" slot="start">-->
