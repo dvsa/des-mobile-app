@@ -1,5 +1,11 @@
-import { HTTP_INTERCEPTORS, HttpHandler, HttpRequest } from '@angular/common/http';
-import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+import {
+  HTTP_INTERCEPTORS,
+  HttpHandler,
+  HttpRequest,
+  provideHttpClient,
+  withInterceptorsFromDi,
+} from '@angular/common/http';
+import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { Platform } from '@ionic/angular';
 import { PlatformMock } from '@mocks/index.mock';
@@ -29,7 +35,7 @@ describe('Authentication interceptor', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule],
+      imports: [],
       providers: [
         AuthInterceptor,
         JournalProvider,
@@ -66,6 +72,8 @@ describe('Authentication interceptor', () => {
           provide: DateTimeProvider,
           useClass: DateTimeProviderMock,
         },
+        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClientTesting(),
       ],
     });
     platform = TestBed.inject(Platform);

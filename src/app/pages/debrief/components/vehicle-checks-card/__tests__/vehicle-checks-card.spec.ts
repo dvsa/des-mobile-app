@@ -1,4 +1,4 @@
-import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { HttpClient, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { createTranslateLoader } from '@app/app.module';
@@ -21,7 +21,6 @@ describe('VehicleChecksCardComponent', () => {
       declarations: [VehicleChecksCardComponent],
       imports: [
         IonicModule,
-        HttpClientModule,
         TranslateModule.forRoot({
           loader: {
             provide: TranslateLoader,
@@ -30,6 +29,7 @@ describe('VehicleChecksCardComponent', () => {
           },
         }),
       ],
+      providers: [provideHttpClient(withInterceptorsFromDi())],
     });
 
     fixture = TestBed.createComponent(VehicleChecksCardComponent);

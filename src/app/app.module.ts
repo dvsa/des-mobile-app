@@ -1,4 +1,4 @@
-import { HTTP_INTERCEPTORS, HttpClient, HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClient, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { ErrorHandler, NgModule } from '@angular/core';
 import { BrowserModule, HAMMER_GESTURE_CONFIG, HammerModule } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
@@ -120,6 +120,7 @@ if (enableRehydrationPlugin) {
 
 @NgModule({
   declarations: [AppComponent],
+  bootstrap: [AppComponent],
   imports: [
     DirectivesModule,
     BrowserModule,
@@ -131,7 +132,6 @@ if (enableRehydrationPlugin) {
       scrollPadding: false,
     }),
     AppRoutingModule,
-    HttpClientModule,
     IonicStorageModule.forRoot(),
     StoreModule.forRoot(reducers, { metaReducers }),
     EffectsModule.forRoot(),
@@ -208,7 +208,7 @@ if (enableRehydrationPlugin) {
     CPCQuestionProvider,
     ADI3AssessmentProvider,
     PassCertificateValidationProvider,
+    provideHttpClient(withInterceptorsFromDi()),
   ],
-  bootstrap: [AppComponent],
 })
 export class AppModule {}

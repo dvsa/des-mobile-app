@@ -22,6 +22,7 @@ import { DeviceProviderMock } from '@providers/device/__mocks__/device.mock';
 import { DeviceProvider } from '@providers/device/device';
 import { LogHelperMock } from '@providers/logs/__mocks__/logs-helper.mock';
 import { LogHelper } from '@providers/logs/logs-helper';
+import { OrientationMonitorProviderMock } from '@providers/orientation-monitor/__mocks/orientation-monitor.provider.mock';
 import { OrientationMonitorProvider } from '@providers/orientation-monitor/orientation-monitor.provider';
 import { StoreModel } from '@shared/models/store.model';
 import { FakeJournalPage } from '../fake-journal.page';
@@ -42,7 +43,10 @@ describe('FakeJournalPage', () => {
       ],
       imports: [IonicModule],
       providers: [
-        OrientationMonitorProvider,
+        {
+          provide: OrientationMonitorProvider,
+          useClass: OrientationMonitorProviderMock,
+        },
         {
           provide: Platform,
           useClass: PlatformMock,

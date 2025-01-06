@@ -1,5 +1,5 @@
-import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { HttpErrorResponse, HttpResponse, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { PracticeModeMOTType } from '@pages/waiting-room-to-car/components/mot-components/practice-mode-mot-modal/practice-mode-mot-modal.component';
 import { AppConfigProviderMock } from '@providers/app-config/__mocks__/app-config.mock';
@@ -18,7 +18,7 @@ describe('MotHistoryApiService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule],
+      imports: [],
       providers: [
         SearchProvider,
         {
@@ -29,6 +29,8 @@ describe('MotHistoryApiService', () => {
           provide: AppConfigProvider,
           useClass: AppConfigProviderMock,
         },
+        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClientTesting(),
       ],
     });
 

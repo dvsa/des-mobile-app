@@ -6,41 +6,6 @@ ignore:
   SNYK-JS-INFLIGHT-6095116:
     - '*':
         reason: Missing Release of Resource after Effective Lifetime - Remediation not yet available
-        expires: 2025-01-01T09:00:00.119Z
+        expires: 2025-03-01T09:00:00.119Z
         created: 2023-12-04T09:00:00.122Z
-  SNYK-JS-MICROMATCH-6838728:
-    - '*':
-        reason: Remediation not yet available
-        expires: 2024-10-01T09:00:00.119Z
-        created: 2024-05-14T09:00:00.0Z
-  SNYK-JS-BRACES-6838727:
-    - '*':
-        reason: Remediation not yet available
-        expires: 2024-08-01T09:00:00.119Z
-        created: 2024-05-14T09:00:00.0Z
-  SNYK-JS-BOOTSTRAP-7444580:
-    - '*':
-        reason: Remediation not yet available
-        expires: 2024-08-01T09:00:00.0Z
-        created: 2024-07-19T09:00:00.0Z
-  SNYK-JS-BOOTSTRAP-7444593:
-    - '*':
-        reason: Remediation not yet available
-        expires: 2024-08-01T09:00:00.0Z
-        created: 2024-07-19T09:00:00.0Z
-  SNYK-JS-BOOTSTRAP-7444617:
-    - '*':
-        reason: Remediation not yet available
-        expires: 2024-08-01T09:00:00.0Z
-        created: 2024-07-19T09:00:00.0Z
-  SNYK-JS-ELLIPTIC-8187303:
-    - '*':
-        reason: Remediation not yet available
-        expires: 2024-12-01T09:00:00.0Z
-        created: 2024-10-16T00:00:00.0Z
-  SNYK-JS-CROSSSPAWN-8303230:
-   - '*':
-        reason: Remediation not yet available
-        expires: 2025-01-01T09:00:00.0Z
-        created: 2024-11-14T00:00:00.0Z
 patch: {}

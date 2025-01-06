@@ -1,4 +1,4 @@
-import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { HttpClient, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { createTranslateLoader } from '@app/app.module';
 import { QuestionResult } from '@dvsa/mes-test-schema/categories/common';
@@ -16,7 +16,6 @@ describe('SafetyQuestionsCardComponent', () => {
       declarations: [SafetyQuestionsCardComponent],
       imports: [
         IonicModule,
-        HttpClientModule,
         TranslateModule.forRoot({
           loader: {
             provide: TranslateLoader,
@@ -25,6 +24,7 @@ describe('SafetyQuestionsCardComponent', () => {
           },
         }),
       ],
+      providers: [provideHttpClient(withInterceptorsFromDi())],
     });
 
     fixture = TestBed.createComponent(SafetyQuestionsCardComponent);

@@ -1,4 +1,4 @@
-import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { HttpClient, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { createTranslateLoader } from '@app/app.module';
@@ -33,7 +33,6 @@ describe('SafetyAndBalanceCardCatAMod2Component', () => {
       declarations: [SafetyAndBalanceCardCatAMod2Component],
       imports: [
         IonicModule,
-        HttpClientModule,
         StoreModule.forRoot({ tests: testsReducer }),
         TranslateModule.forRoot({
           loader: {
@@ -43,6 +42,7 @@ describe('SafetyAndBalanceCardCatAMod2Component', () => {
           },
         }),
       ],
+      providers: [provideHttpClient(withInterceptorsFromDi())],
     });
 
     fixture = TestBed.createComponent(SafetyAndBalanceCardCatAMod2Component);

@@ -1,5 +1,5 @@
-import { HttpErrorResponse, HttpStatusCode } from '@angular/common/http';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { HttpErrorResponse, HttpStatusCode, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { TestBed, waitForAsync } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { Action, Store, StoreModule } from '@ngrx/store';
@@ -40,7 +40,6 @@ describe('DelegatedRekeySearchEffects', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [
-        HttpClientTestingModule,
         StoreModule.forRoot({
           delegatedRekeySearch: delegatedSearchReducer,
         }),
@@ -62,6 +61,8 @@ describe('DelegatedRekeySearchEffects', () => {
           provide: AppConfigProvider,
           useClass: AppConfigProviderMock,
         },
+        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClientTesting(),
       ],
     });
 

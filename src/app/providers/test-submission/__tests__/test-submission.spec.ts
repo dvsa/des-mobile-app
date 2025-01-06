@@ -1,5 +1,6 @@
 import { gunzipSync } from 'zlib';
-import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
 import { TestBed, waitForAsync } from '@angular/core/testing';
 import { TestResultSchemasUnion } from '@dvsa/mes-test-schema/categories';
 import { CatBUniqueTypes } from '@dvsa/mes-test-schema/categories/B';
@@ -28,7 +29,6 @@ describe('TestSubmissionProvider', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [
-        HttpClientTestingModule,
         StoreModule.forRoot({
           appInfo: () => ({
             versionNumber: '5',
@@ -50,6 +50,8 @@ describe('TestSubmissionProvider', () => {
           provide: LogHelper,
           useClass: LogHelperMock,
         },
+        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClientTesting(),
       ],
     });
 
