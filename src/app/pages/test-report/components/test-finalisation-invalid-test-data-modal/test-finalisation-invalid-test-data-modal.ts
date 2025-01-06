@@ -12,6 +12,4 @@ export class TestFinalisationInvalidTestDataModal {
   onReturnToTestReport: Function;
   @Input()
   message: string;
-
-  constructor() {}
 }
