@@ -33,6 +33,7 @@ import { DataGridComponent } from '@components/common/data-grid/data-grid';
 import { ExitSamBanner } from '@components/common/exit-sam-banner/exit-sam-banner';
 import { ExitSamButton } from '@components/common/exit-sam-button/exit-sam-button';
 import { LogoutModalModule } from '@components/common/logout-modal/logout-modal.module';
+import { PageHeaderComponent } from '@components/common/page-header/page-header.component';
 import { TestRecoveredBannerComponent } from '@components/common/test-recovered-banner/test-recovered-banner';
 import { DirectivesModule } from '@directives/directives.module';
 import { NgApexchartsModule } from 'ng-apexcharts';
@@ -50,7 +51,6 @@ import { TabComponent } from './tab/tab';
 import { TabsComponent } from './tabs/tabs';
 import { VRNCaptureModalModule } from './vrn-capture-modal/vrn-capture-modal.module';
 import { WarningBannerComponent } from './warning-banner/warning-banner';
-import { PageHeaderComponent } from '@components/common/page-header/page-header.component';
 
 @NgModule({
   declarations: [

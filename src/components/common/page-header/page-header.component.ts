@@ -1,12 +1,11 @@
-import { Component, OnInit, Output, Input, EventEmitter } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
 @Component({
   selector: 'page-header',
   templateUrl: './page-header.component.html',
   styleUrls: ['./page-header.component.scss'],
 })
-export class PageHeaderComponent  implements OnInit {
-
+export class PageHeaderComponent implements OnInit {
   @Input()
   isEndToEndPracticeMode = false;
   @Input()
@@ -29,14 +28,14 @@ export class PageHeaderComponent  implements OnInit {
   @Output()
   onCloseButtonClicked = new EventEmitter<void>();
 
-  constructor() { }
+  constructor() {}
 
   ngOnInit() {}
 
   endTestClicked() {
-    this.endTestButtonClicked.emit()
+    this.endTestButtonClicked.emit();
   }
   onCloseClicked() {
-    this.onCloseButtonClicked.emit()
+    this.onCloseButtonClicked.emit();
   }
 }

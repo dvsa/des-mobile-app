@@ -9,8 +9,8 @@ describe('PageHeaderComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ PageHeaderComponent ],
-      imports: [IonicModule.forRoot()]
+      declarations: [PageHeaderComponent],
+      imports: [IonicModule.forRoot()],
     }).compileComponents();
 
     fixture = TestBed.createComponent(PageHeaderComponent);
