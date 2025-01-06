@@ -50,6 +50,7 @@ import { TabComponent } from './tab/tab';
 import { TabsComponent } from './tabs/tabs';
 import { VRNCaptureModalModule } from './vrn-capture-modal/vrn-capture-modal.module';
 import { WarningBannerComponent } from './warning-banner/warning-banner';
+import { PageHeaderComponent } from '@components/common/page-header/page-header.component';
 
 @NgModule({
   declarations: [
@@ -68,6 +69,7 @@ import { WarningBannerComponent } from './warning-banner/warning-banner';
     TabComponent,
     TabsComponent,
     WarningBannerComponent,
+    PageHeaderComponent,
     HealthDeclarationSignedComponent,
     IncompleteTestsBanner,
     ModalAlertTitleComponent,
@@ -142,6 +144,7 @@ import { WarningBannerComponent } from './warning-banner/warning-banner';
     CPCDebriefCardComponent,
     Adi3DebriefCard,
     Adi3DebriefCardBox,
+    PageHeaderComponent,
     SearchablePicklistComponentWrapper,
     SearchablePicklistModal,
     DataGridComponent,
