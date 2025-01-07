@@ -1,39 +1,50 @@
-<ion-row *ngIf="!isEndToEndPracticeMode && isExitSAMActivated">
-    <ion-col class="ion-no-padding">
-        <exit-sam-banner (cancelClicked)="changeExitSAMValue(false)"></exit-sam-banner>
-    </ion-col>
+<ion-row *ngIf="isExitSAMActivated">
+  <ion-col class="ion-no-padding">
+    <exit-sam-banner (cancelClicked)="changeExitSAMValue(false)"></exit-sam-banner>
+  </ion-col>
 </ion-row>
 <ion-row class="set-header-height">
-    <ion-col class="display-flex ion-no-padding ion-justify-content-start" size="20">
-        <ion-buttons id="back-button">
-            <ion-col *ngIf="shouldShowBackButton">
-                <ion-back-button></ion-back-button>
-            </ion-col>
-            <ion-col *ngIf="shouldShowCloseButton">
-                <ion-button id="close-button" (click)="onCloseClicked()">
-                    <ion-icon class="close-btn" id="close-icon" name="close-outline"></ion-icon>
-                    <ion-label class="close-btn" id="close-label">Close</ion-label>
-                </ion-button>
-            </ion-col>
-            <ion-col class="height-100 ion-no-padding" *ngIf="shouldShowEscapeFromSamButton">
-                <exit-sam-button
-                        [isButtonActive]="isExitSAMActivated"
-                        (escapeSamButtonClicked)="changeExitSAMValue($event)">
-                </exit-sam-button>
-            </ion-col>
-        </ion-buttons>
+  <ion-col class="display-flex ion-no-padding ion-justify-content-start" size="21">
+    <ion-col class="display-flex ion-align-items-center" *ngIf="shouldShowBackButton">
+      <ion-buttons>
+        <ion-back-button id="back-button"></ion-back-button>
+      </ion-buttons>
     </ion-col>
-    <ion-col class="ion-no-padding">
-        <ion-title id="waiting-room-to-car-page-title">{{ headerText }}</ion-title>
+    <ion-col *ngIf="shouldShowCloseButton">
+      <ion-buttons>
+        <ion-button id="close-button" (click)="onCloseClicked()">
+          <ion-icon class="close-btn" id="close-icon" name="close-outline"></ion-icon>
+          <ion-label class="close-btn" id="close-label">Close</ion-label>
+        </ion-button>
+      </ion-buttons>
     </ion-col>
-    <ion-col class="display-flex ion-no-padding ion-justify-content-end" size="20">
-        <ion-buttons id="end-test-button">
-            <end-test-link
-                    (click)="onEndTestClicked()"
-                    [category]="testCategory"
-                    [isPracticeMode]="isEndToEndPracticeMode"
-                    [shouldAuthenticate]="shouldAuthenticateOnTestEnd">
-            </end-test-link>
-        </ion-buttons>
+    <ion-col class="display-flex ion-no-padding" *ngIf="shouldShowEscapeFromSamButton">
+      <ion-buttons>
+        <exit-sam-button
+          class="height-100"
+          [isButtonActive]="isExitSAMActivated"
+          (escapeSamButtonClicked)="changeExitSAMValue($event)">
+        </exit-sam-button>
+      </ion-buttons>
     </ion-col>
+  </ion-col>
+  <ion-col class="ion-no-padding">
+    <ion-title id="waiting-room-to-car-page-title">{{ headerText }}</ion-title>
+  </ion-col>
+  <ion-col class="display-flex ion-no-padding ion-justify-content-end" size="21">
+    <ion-buttons>
+      <end-test-link
+        *ngIf="shouldShowEndTestLink"
+        id="end-test-button-link"
+        (endTestLinkClicked)="onEndTestClicked()"
+        [category]="testCategory"
+        [isDelegated]="isDelegatedRekey"
+        [isPracticeMode]="isEndToEndPracticeMode"
+        [shouldAuthenticate]="shouldAuthenticateOnTestEnd">
+      </end-test-link>
+      <ion-button *ngIf="shouldShowGenericEndTest" (click)="onEndTestClicked()" class="end-test-font-size"
+                  id="end-test-button">End test
+      </ion-button>
+    </ion-buttons>
+  </ion-col>
 </ion-row>

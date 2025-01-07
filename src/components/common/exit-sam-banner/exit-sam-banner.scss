@@ -25,15 +25,23 @@
 
 .exit-banner-text {
   @extend .exit-banner-base;
+  display: flex;
+  align-items: center;
+  padding-bottom: 5px;
+  text-align: center;
   font-size: 18px;
   font-weight: bold;
   color: var(--mes-white);
-  text-align: center;
   line-height: 24px !important;
 }
 
 .status-bar-spacing {
   height: 15px;
+}
+
+.exit-banner-text-column {
+  display: flex;
+  align-items: center;
 }
 
 .exit-banner-toolbar-sizing {

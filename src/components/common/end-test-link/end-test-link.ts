@@ -63,7 +63,7 @@ export class EndTestLinkComponent {
 
   onTerminate = async (): Promise<void> => {
     await this.terminateTestModal.dismiss();
-
+    console.log('End test', this.category);
     if (this.isDelegated) {
       await this.routerByCategory.navigateToPage(TestFlowPageNames.OFFICE_PAGE, this.category as TestCategory);
       return;

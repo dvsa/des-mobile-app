@@ -1,17 +1,19 @@
 <ion-header>
   <practice-mode-banner *ngIf="isEndToEndPracticeMode"></practice-mode-banner>
-  <ion-toolbar class="no-internal-padding" [ngClass]="{'toolbar-no-padding': isEndToEndPracticeMode || isExitSAMActivated}" mode="ios">
-     <des-header
-       class="display-flex flex-direction-column"
-          [headerText]="pageState.candidateName$ | async"
-          [textId]="'waiting-room-to-car-page-title'"
-          [shouldShowEscapeFromSamButton]="!isEndToEndPracticeMode"
-          [isEndToEndPracticeMode]="isEndToEndPracticeMode"
-          [isExitSAMActivated]="isExitSAMActivated"
-          [shouldAuthenticateOnTestEnd]="false"
-          (onExitSAMActivatedChanged)="isExitSAMActivated = $event"
-          (endTestButtonClicked)="abortMOTCall(MOTAbortedMethod.END_TEST)">
-     </des-header>
+  <ion-toolbar class="no-internal-padding"
+               [ngClass]="{'toolbar-no-padding': isEndToEndPracticeMode || isExitSAMActivated}" mode="ios">
+    <des-header
+      class="display-flex flex-direction-column"
+      [headerText]="pageState.candidateName$ | async"
+      [testCategory]="pageState.category$ | async"
+      [textId]="'waiting-room-to-car-page-title'"
+      [shouldShowEscapeFromSamButton]="!isEndToEndPracticeMode"
+      [isEndToEndPracticeMode]="isEndToEndPracticeMode"
+      [isExitSAMActivated]="isExitSAMActivated"
+      [shouldAuthenticateOnTestEnd]="false"
+      (onExitSAMActivatedChanged)="isExitSAMActivated = $event"
+      (endTestButtonClicked)="abortMOTCall(MOTAbortedMethod.END_TEST)">
+    </des-header>
   </ion-toolbar>
 </ion-header>
 

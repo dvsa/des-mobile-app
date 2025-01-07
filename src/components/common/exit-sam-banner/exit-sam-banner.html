@@ -1,21 +1,22 @@
-<ion-toolbar class="exit-banner-toolbar-sizing">
+<ion-toolbar
+  (touchstart)="onTouchStart()"
+  (touchend)="onTouchEnd()"
+  class="exit-banner-toolbar-sizing">
   <ion-row class="exit-banner-top-banner"></ion-row>
   <ion-row class="status-bar-spacing"></ion-row>
   <ion-row>
     <ion-col></ion-col>
     <ion-col
-      (touchstart)="onTouchStart()"
-      (touchend)="onTouchEnd()"
       size="auto"
       id="exit-banner-title-text"
-      class="practice-title-text ion-no-padding"
+      class="exit-banner-text-column ion-no-padding"
     >
       <ion-text class="exit-banner-text">
         Press and hold to open Microsoft Teams
       </ion-text>
     </ion-col>
     <ion-col size="2"></ion-col>
-    <ion-col size="auto" class="practice-title-text ion-no-padding">
+    <ion-col size="auto" class="ion-no-padding">
       <ion-button (click)="cancelButtonClicked()" class="cancel-button">
         <ion-text class="mes-black">Cancel</ion-text>
       </ion-button>

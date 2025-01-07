@@ -14,7 +14,13 @@ export class PageHeaderComponent {
   @Input()
   isEndToEndPracticeMode = false;
   @Input()
+  shouldShowGenericEndTest = false;
+  @Input()
+  shouldShowEndTestLink = true;
+  @Input()
   shouldShowBackButton = true;
+  @Input()
+  isDelegatedRekey = false;
   @Input()
   shouldAuthenticateOnTestEnd = true;
   @Input()
