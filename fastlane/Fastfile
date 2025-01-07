@@ -23,7 +23,7 @@ lane :simulator do
 
   zip(
     path: "#{archive_path}/Products/Applications/App.app",
-    output_path: "./fastlane/simulator/des-#{ENV["ENVIRONMENT"]}-#{ENV["BRANCH"]}.#{ENV["RUN_ID"]}.app.zip"
+    output_path: "./fastlane/simulator/des-#{ENV["ENVIRONMENT"]}-#{ENV["BRANCH"]}-#{ENV["RUN_ID"]}.app.zip"
   )
 
   sh("echo '✅ Fastlane Simulator Built' >> $GITHUB_STEP_SUMMARY")
@@ -40,7 +40,7 @@ lane :simulator do
       html_in_folder: false,
       upload_metadata: false,
       region: ENV["AWS_REGION"],
-      ipa: "./fastlane/simulator/des-#{ENV["ENVIRONMENT"]}-#{ENV["BRANCH"]}.#{ENV["RUN_ID"]}.app.zip"
+      ipa: "./fastlane/simulator/des-#{ENV["ENVIRONMENT"]}-#{ENV["BRANCH"]}-#{ENV["RUN_ID"]}.app.zip"
     )
 
     file = "simulator/$BRANCH-#{ENV["RUN_ID"]}-APP.txt"
