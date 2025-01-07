@@ -1,8 +1,8 @@
 import { Component, EventEmitter, Input, Output, ViewChild, ViewEncapsulation } from '@angular/core';
-import { IonDatetime } from '@ionic/angular';
-import { DateTime } from '@shared/helpers/date-time';
 import { MatCalendar } from '@angular/material/datepicker';
 import { DateHeaderComponent } from '@components/common/datetime-input/date-header/date-header.component';
+import { IonDatetime } from '@ionic/angular';
+import { DateTime } from '@shared/helpers/date-time';
 
 export enum DisplayType {
   Date = 'date',
@@ -17,7 +17,6 @@ export enum DisplayType {
 })
 export class DateTimeInputComponent {
   @ViewChild(MatCalendar) datePicker!: MatCalendar<string>;
-
 
   @Input()
   maxValue?: string;
@@ -66,22 +65,24 @@ export class DateTimeInputComponent {
   protected readonly DisplayType = DisplayType;
   protected readonly DateHeaderComponent = DateHeaderComponent;
 
-
   @Output()
   onDataPicked = new EventEmitter<{ control?: string; data: string }>();
 
   @Output()
   customButtonEvent = new EventEmitter<{ buttonType: string; data: IonDatetime | string }>();
 
+  /**
+   * Handles the selection of a month.
+   * @param {string} event - The selected date in string format.
+   * @param {string} minDate - The minimum date allowed in string format.
+   */
   handleMonthSelected(event: string, minDate: string) {
-    let selected = DateTime.at(this.selectedBuffer ? this.selectedBuffer : '');
-    let current = DateTime.at(event)
-    let minimum = DateTime.at(minDate)
+    const selected = DateTime.at(this.selectedBuffer ? this.selectedBuffer : '');
+    const current = DateTime.at(event);
+    const minimum = DateTime.at(minDate);
 
-    if (!(current.month() === selected.month() &&
-      current.year() === selected.year())) {
-      if (current.format('YYYY-MM-DD') <
-        minimum.format('YYYY-MM-DD')) {
+    if (!(current.month() === selected.month() && current.year() === selected.year())) {
+      if (current.format('YYYY-MM-DD') < minimum.format('YYYY-MM-DD')) {
         this.selectedBuffer = minDate;
       } else {
         this.selectedBuffer = event;
@@ -89,23 +90,51 @@ export class DateTimeInputComponent {
     }
   }
 
+  /**
+   * Handles the back button action.
+   * @returns {'month'} - Returns the string 'month'.
+   */
   handleBackButton(): 'month' {
     if (this.selectedValue) {
-      this.datePicker.activeDate = this.selectedValue
+      this.datePicker.activeDate = this.selectedValue;
     } else {
       this.datePicker.activeDate = this.selectedBuffer ? this.selectedBuffer : this.datePicker.maxDate;
     }
-    return 'month'
+    return 'month';
   }
 
+  /**
+   * Formats a date string to 'DD/MM/YYYY'.
+   * @param {string} date - The date string to format.
+   * @returns {string} - The formatted date string.
+   */
   formatDisplayDate(date: string) {
     return DateTime.at(date).format('DD/MM/YYYY');
   }
 
+  /**
+   * Formats a time string to 'HH:mm'.
+   * @param {string} time - The time string to format.
+   * @returns {string} - The formatted time string.
+   */
   formatDisplayTime(time: string) {
     return DateTime.at(time).format('HH:mm');
   }
 
+  /**
+   * Handles the change of the selected date.
+   * @param {any} event - The event containing the new selected date.
+   */
+  onSelectedChange(event) {
+    this.selectedBuffer = event;
+    console.log(this.selectedBuffer);
+  }
+
+  /**
+   * Handles the selection of a date or time.
+   * @param {string} event - The selected date or time in string format.
+   * @param {DisplayType} control - The type of display (date or time).
+   */
   onSelected(event: string, control: DisplayType) {
     let output: string;
     this.selectedValue = this.selectedBuffer ? this.selectedBuffer : this.selectedValue;
@@ -119,10 +148,7 @@ export class DateTimeInputComponent {
         break;
       case DisplayType.Time:
         this.displayValue = this.formatDisplayTime(val);
-
-        this.outputValue = DateTime
-          .at(val)
-          .format('YYYY-MM-DDTHH:mm');
+        this.outputValue = DateTime.at(val).format('YYYY-MM-DDTHH:mm');
         output = this.outputValue;
         break;
       default:
@@ -136,6 +162,11 @@ export class DateTimeInputComponent {
     });
   }
 
+  /**
+   * Emits a custom button event.
+   * @param {IonDatetime | string} dateTime - The date/time or string to emit.
+   * @param {string} buttonType - The type of button event.
+   */
   buttonEmit(dateTime: IonDatetime | string, buttonType: string) {
     if (buttonType !== 'back') {
       this.selectedBuffer = null;
@@ -145,5 +176,4 @@ export class DateTimeInputComponent {
       data: dateTime,
     });
   }
-
 }
