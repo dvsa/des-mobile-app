@@ -64,6 +64,7 @@ import { TestCentreJournalStoreModule } from '@store/test-centre-journal/test-ce
 import { TestsModule } from '@store/tests/tests.module';
 import { testsReducer } from '@store/tests/tests.reducer';
 
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ExaminerRecordsComponentsModule } from '@pages/examiner-records/components/examiner-records-components.module';
 import { CompressionProvider } from '@providers/compression/compression';
 import { ExaminerRecordsProvider } from '@providers/examiner-records/examiner-records';
@@ -75,7 +76,6 @@ import { RemoteDevToolsProxy } from '../../ngrx-devtool-proxy/remote-devtools-pr
 import { IonicGestureConfig } from '../gestures/ionic-gesture-config';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, 'assets/i18n/', '.json');

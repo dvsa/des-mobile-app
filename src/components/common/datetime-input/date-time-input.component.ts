@@ -137,7 +137,7 @@ export class DateTimeInputComponent {
    */
   onSelected(event: string, control: DisplayType) {
     let output: string;
-    this.selectedValue = this.selectedBuffer ? this.selectedBuffer : this.selectedValue;
+    this.selectedValue = this.selectedBuffer ? this.selectedBuffer : event;
 
     const val = this.selectedValue as string;
 
