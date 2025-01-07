@@ -32,9 +32,9 @@
               [maxDate]="maxValue"
               [minDate]="minValue"
               (monthSelected)="handleMonthSelected($event, datePicker.minDate)"
-              (selectedChange)="selectedBuffer = $event"
+              (selectedChange)="onSelectedChange($event)"
               [startAt]="selectedValue"
-              [(selected)]="selectedBuffer ? selectedBuffer : selectedValue"
+              [selected]="selectedBuffer ? selectedBuffer : selectedValue"
               [headerComponent]="DateHeaderComponent"
             >
             </mat-calendar>
