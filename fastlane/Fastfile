@@ -23,7 +23,7 @@ lane :simulator do
 
   zip(
     path: "#{archive_path}/Products/Applications/App.app",
-    output_path: "./fastlane/simulator/des-#{ENV["ENVIRONMENT"]}-#{ENV["BRANCH"]}.#{ENV["RUN_ID"]}.app.zip"
+    output_path: "./fastlane/simulator/des-#{ENV["ENVIRONMENT"]}-#{ENV["BRANCH"]}-#{ENV["RUN_ID"]}.app.zip"
   )
 
   sh("echo '✅ Fastlane Simulator Built' >> $GITHUB_STEP_SUMMARY")
@@ -35,20 +35,17 @@ lane :simulator do
     aws_s3(
       access_key: ENV["AWS_ACCESS_KEY_ID"],
       secret_access_key: ENV["AWS_SECRET_ACCESS_KEY"],
-      bucket: "dvsa-des-mobile-artefacts",
+      bucket: ENV["DES_MOBILE_ARTEFACTS_BUCKET"],
       path: "github-actions/#{path}/#{ENV["RUN_ID"]}/",
       html_in_folder: false,
       upload_metadata: false,
       region: ENV["AWS_REGION"],
-      ipa: "./fastlane/simulator/des-#{ENV["ENVIRONMENT"]}-#{ENV["BRANCH"]}.#{ENV["RUN_ID"]}.app.zip"
+      ipa: "./fastlane/simulator/des-#{ENV["ENVIRONMENT"]}-#{ENV["BRANCH"]}-#{ENV["RUN_ID"]}.app.zip"
     )
 
     file = "simulator/$BRANCH-#{ENV["RUN_ID"]}-APP.txt"
     sh("echo $S3_IPA_OUTPUT_PATH > #{file}")
-    sh("aws s3 cp #{file} s3://dvsa-des-mobile-artefacts/github-actions/files/#{path}/")
-    content = sh("cat #{file}")
-    sh("echo '⬇️ Simulator Location: [des-#{ENV["ENVIRONMENT"]}-#{ENV["BRANCH"]}.#{ENV["RUN_ID"]}.app.zip](#{content})' >> $GITHUB_STEP_SUMMARY")
-    puts ENV["APP_FILE"] = content
+    sh("aws s3 cp #{file} s3://#{ENV["DES_MOBILE_ARTEFACTS_BUCKET"]}/github-actions/files/#{path}/")
   else
     puts "LOCAL RUN NO S3 UPLOAD"
   end
@@ -88,7 +85,7 @@ lane :release_build do
       aws_s3(
         access_key: ENV["AWS_ACCESS_KEY_ID"],
         secret_access_key: ENV["AWS_SECRET_ACCESS_KEY"],
-        bucket: "dvsa-des-mobile-artefacts",
+        bucket: ENV["DES_MOBILE_ARTEFACTS_BUCKET"],
         path: "github-actions/#{path}/#{version}/",
         html_in_folder: true,
         html_file_name: "DrivingExaminerService-#{version}-#{ENV["RUN_ID"]}-#{short_hash}.html",
@@ -99,10 +96,7 @@ lane :release_build do
 
       file = "builds/$BRANCH-#{version}.#{ENV["RUN_ID"]}-#{short_hash}-IPA.txt"
       sh("echo $S3_IPA_OUTPUT_PATH > #{file}")
-      sh("aws s3 cp #{file} s3://dvsa-des-mobile-artefacts/github-actions/files/#{path}/")
-      content = sh("cat #{file}")
-      sh("echo '⬇️ Application Location: [DrivingExaminerService-#{version}-#{ENV["RUN_ID"]}-#{short_hash}.ipa](#{content})' >> $GITHUB_STEP_SUMMARY")
-
+      sh("aws s3 cp #{file} s3://#{ENV["DES_MOBILE_ARTEFACTS_BUCKET"]}/github-actions/files/#{path}/")
     else
       puts "LOCAL RUN NO S3 UPLOAD"
     end
