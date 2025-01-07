@@ -28,8 +28,14 @@ import { TickIndicatorComponent } from '@components/common/tick-indicator/tick-i
 import { TransmissionDisplayComponent } from '@components/common/transmission-display/transmission-display';
 import { TransmissionComponent } from '@components/common/transmission/transmission';
 
+import { MatCard } from '@angular/material/card';
+import { MatNativeDateModule } from '@angular/material/core';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatFormField } from '@angular/material/form-field';
+import { MatInput } from '@angular/material/input';
 import { ChartComponent } from '@components/common/chart/chart';
 import { DataGridComponent } from '@components/common/data-grid/data-grid';
+import { DateHeaderComponent } from '@components/common/datetime-input/date-header/date-header.component';
 import { LogoutModalModule } from '@components/common/logout-modal/logout-modal.module';
 import { TestRecoveredBannerComponent } from '@components/common/test-recovered-banner/test-recovered-banner';
 import { DirectivesModule } from '@directives/directives.module';
@@ -48,12 +54,6 @@ import { TabComponent } from './tab/tab';
 import { TabsComponent } from './tabs/tabs';
 import { VRNCaptureModalModule } from './vrn-capture-modal/vrn-capture-modal.module';
 import { WarningBannerComponent } from './warning-banner/warning-banner';
-import { MatFormField } from '@angular/material/form-field';
-import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatInput } from '@angular/material/input';
-import { MatNativeDateModule } from '@angular/material/core';
-import { MatCard } from '@angular/material/card';
-import { DateHeaderComponent } from '@components/common/datetime-input/date-header/date-header.component';
 
 @NgModule({
   declarations: [
@@ -116,9 +116,7 @@ import { DateHeaderComponent } from '@components/common/datetime-input/date-head
     MatCard,
     NgApexchartsModule,
   ],
-  providers: [
-    MatDatepickerModule,
-  ],
+  providers: [MatDatepickerModule],
   exports: [
     DateHeaderComponent,
     DateTimeInputComponent,
