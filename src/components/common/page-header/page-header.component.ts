@@ -1,16 +1,22 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { title } from '@ionic/cli/lib/color';
+import { NgIf } from '@angular/common';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { ComponentsModule } from '@components/common/common-components.module';
+import { IonicModule } from '@ionic/angular';
 
 @Component({
-  selector: 'page-header',
+  selector: 'des-header',
   templateUrl: './page-header.component.html',
   styleUrls: ['./page-header.component.scss'],
+  standalone: true,
+  imports: [IonicModule, ComponentsModule, NgIf],
 })
-export class PageHeaderComponent implements OnInit {
+export class PageHeaderComponent {
   @Input()
   isEndToEndPracticeMode = false;
   @Input()
   shouldShowBackButton = true;
+  @Input()
+  shouldAuthenticateOnTestEnd = true;
   @Input()
   shouldShowCloseButton = false;
   @Input()
@@ -28,17 +34,20 @@ export class PageHeaderComponent implements OnInit {
   endTestButtonClicked = new EventEmitter<void>();
   @Output()
   onCloseButtonClicked = new EventEmitter<void>();
+  @Output()
+  onExitSAMActivatedChanged = new EventEmitter<boolean>();
 
-  constructor() {}
-
-  ngOnInit() {}
-
-  endTestClicked() {
+  onEndTestClicked() {
     this.endTestButtonClicked.emit();
   }
   onCloseClicked() {
     this.onCloseButtonClicked.emit();
   }
 
-  protected readonly title = title;
+  changeExitSAMValue(newValue: boolean) {
+    this.isExitSAMActivated = newValue;
+    this.onExitSAMActivatedChanged.emit(newValue);
+  }
+
+  protected readonly event = event;
 }

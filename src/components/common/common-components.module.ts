@@ -33,7 +33,6 @@ import { DataGridComponent } from '@components/common/data-grid/data-grid';
 import { ExitSamBanner } from '@components/common/exit-sam-banner/exit-sam-banner';
 import { ExitSamButton } from '@components/common/exit-sam-button/exit-sam-button';
 import { LogoutModalModule } from '@components/common/logout-modal/logout-modal.module';
-import { PageHeaderComponent } from '@components/common/page-header/page-header.component';
 import { TestRecoveredBannerComponent } from '@components/common/test-recovered-banner/test-recovered-banner';
 import { DirectivesModule } from '@directives/directives.module';
 import { NgApexchartsModule } from 'ng-apexcharts';
@@ -69,7 +68,6 @@ import { WarningBannerComponent } from './warning-banner/warning-banner';
     TabComponent,
     TabsComponent,
     WarningBannerComponent,
-    PageHeaderComponent,
     HealthDeclarationSignedComponent,
     IncompleteTestsBanner,
     ModalAlertTitleComponent,
@@ -144,7 +142,6 @@ import { WarningBannerComponent } from './warning-banner/warning-banner';
     CPCDebriefCardComponent,
     Adi3DebriefCard,
     Adi3DebriefCardBox,
-    PageHeaderComponent,
     SearchablePicklistComponentWrapper,
     SearchablePicklistModal,
     DataGridComponent,

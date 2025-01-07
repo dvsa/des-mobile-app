@@ -5,6 +5,7 @@ import { IonicModule } from '@ionic/angular';
 import { EffectsModule } from '@ngrx/effects';
 
 import { ComponentsModule } from '@components/common/common-components.module';
+import { PageHeaderComponent } from '@components/common/page-header/page-header.component';
 import { WaitingRoomToCarCatBComponentsModule } from '@pages/waiting-room-to-car/cat-b/components/waiting-room-to-car.cat-b.components.module';
 import { WaitingRoomToCarComponentsModule } from '@pages/waiting-room-to-car/components/waiting-room-to-car.components.module';
 import { WaitingRoomToCarAnalyticsEffects } from '@pages/waiting-room-to-car/waiting-room-to-car.analytics.effects';
@@ -23,6 +24,7 @@ import { WaitingRoomToCarCatBPage } from './waiting-room-to-car.cat-b.page';
     WaitingRoomToCarComponentsModule,
     WaitingRoomToCarCatBComponentsModule,
     EffectsModule.forFeature([WaitingRoomToCarAnalyticsEffects]),
+    PageHeaderComponent,
   ],
 })
 export class WaitingRoomToCarCatBPageModule {}
