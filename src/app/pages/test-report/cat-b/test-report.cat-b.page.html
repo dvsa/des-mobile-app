@@ -13,7 +13,7 @@
       [isEndToEndPracticeMode]="isEndToEndPracticeMode || isPracticeMode"
       [isExitSAMActivated]="isExitSAMActivated"
       (endTestButtonClicked)="onEndTestClick()"
-      (onExitSAMActivatedChanged)="isExitSAMActivated = $event">
+      (onExitSAMActivatedChanged)="isSamActivatedChanged($event)">
     </des-header>
   </ion-toolbar>
 </ion-header>

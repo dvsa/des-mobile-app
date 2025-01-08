@@ -58,6 +58,10 @@ export abstract class PracticeableBasePageComponent extends BasePageComponent im
     }
   }
 
+  isSamActivatedChanged(isActive: boolean): void {
+    this.isExitSAMActivated = isActive;
+  }
+
   exitPracticeMode = async () => {
     await this.router.navigate([FAKE_JOURNAL_PAGE]);
   };

@@ -8,11 +8,11 @@
       [testCategory]="pageState.category$ | async"
       [isDelegatedRekey]="pageState.delegatedTest$ | async"
       [textId]="'waiting-room-to-car-page-title'"
-      [shouldShowEscapeFromSamButton]="!isEndToEndPracticeMode"
+      [shouldShowEscapeFromSamButton]="!isEndToEndPracticeMode && !isDelegated"
       [isEndToEndPracticeMode]="isEndToEndPracticeMode"
       [isExitSAMActivated]="isExitSAMActivated"
       [shouldAuthenticateOnTestEnd]="false"
-      (onExitSAMActivatedChanged)="isExitSAMActivated = $event"
+      (onExitSAMActivatedChanged)="isSamActivatedChanged($event)"
       (endTestButtonClicked)="abortMOTCall(MOTAbortedMethod.END_TEST)">
     </des-header>
   </ion-toolbar>

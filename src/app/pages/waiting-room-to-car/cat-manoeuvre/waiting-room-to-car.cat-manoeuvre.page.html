@@ -12,7 +12,7 @@
       [isEndToEndPracticeMode]="isEndToEndPracticeMode"
       [isExitSAMActivated]="isExitSAMActivated"
       [shouldAuthenticateOnTestEnd]="false"
-      (onExitSAMActivatedChanged)="isExitSAMActivated = $event"
+      (onExitSAMActivatedChanged)="isSamActivatedChanged($event)"
       (endTestButtonClicked)="abortMOTCall(MOTAbortedMethod.END_TEST)">
     </des-header>
   </ion-toolbar>
