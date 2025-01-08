@@ -49,6 +49,8 @@ export class ExitSamButton {
   }
 
   async disableSAMAndExit() {
+    this.isButtonActive = false;
+    this.escapeSamButtonClicked.emit(this.isButtonActive);
     //disable single app mode
     await this.deviceProvider.disableSingleAppMode();
     try {

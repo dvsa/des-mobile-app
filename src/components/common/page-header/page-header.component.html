@@ -5,9 +5,9 @@
 </ion-row>
 <ion-row class="set-header-height">
   <ion-col class="display-flex ion-no-padding ion-justify-content-start" size="21">
-    <ion-col class="display-flex ion-align-items-center" *ngIf="shouldShowBackButton">
+    <ion-col class="display-flex ion-align-items-center">
       <ion-buttons>
-        <ion-back-button id="back-button"></ion-back-button>
+        <ion-back-button *ngIf="shouldShowBackButton" id="back-button"></ion-back-button>
       </ion-buttons>
     </ion-col>
     <ion-col *ngIf="shouldShowCloseButton">

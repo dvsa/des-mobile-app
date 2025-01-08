@@ -90,6 +90,7 @@
             <vehicle-checks-completed
               (vehicleChecksCompletedOutcomeChange)="vehicleChecksCompletedOutcomeChanged($event)"
               (vehicleChecksDrivingFaultsNumberChange)="vehicleChecksDrivingFaultsNumberChanged($event)"
+              *ngIf="pageState.delegatedTest$ | async"
               [formGroup]="form"
               [testCategory]="pageState.category$ | async"
               [vehicleChecksCompleted]="pageState.vehicleChecksCompleted$ | async"
