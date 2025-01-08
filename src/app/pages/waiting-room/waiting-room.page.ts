@@ -49,6 +49,8 @@ import { AccessibilityService } from '@providers/accessibility/accessibility.ser
 import { isAnyOf } from '@shared/helpers/simplifiers';
 import { ErrorTypes } from '@shared/models/error-message';
 import { getTestCategory } from '@store/tests/category/category.reducer';
+import { getDelegatedTestIndicator } from '@store/tests/delegated-test/delegated-test.reducer';
+import { isDelegatedTest } from '@store/tests/delegated-test/delegated-test.selector';
 import { getPreTestDeclarationsCatAMod1 } from '@store/tests/pre-test-declarations/cat-a-mod1/pre-test-declarations.cat-a-mod1.reducer';
 import { getCBTNumberStatus } from '@store/tests/pre-test-declarations/cat-a-mod1/pre-test-declarations.cat-a-mod1.selector';
 import { CbtNumberChanged } from '@store/tests/pre-test-declarations/cat-a/pre-test-declarations.cat-a.actions';
@@ -75,6 +77,7 @@ interface WaitingRoomPageState {
   showResidencyDec$: Observable<boolean>;
   cbtNumber$: Observable<string>;
   isRekey$: Observable<boolean>;
+  delegatedTest$: Observable<boolean>;
 }
 
 @Component({
@@ -115,6 +118,7 @@ export class WaitingRoomPage extends PracticeableBasePageComponent implements On
     const currentTest$ = this.store$.pipe(select(getTests), select(getCurrentTest));
 
     this.pageState = {
+      delegatedTest$: currentTest$.pipe(select(getDelegatedTestIndicator), select(isDelegatedTest)),
       insuranceDeclarationAccepted$: currentTest$.pipe(
         select(getPreTestDeclarations),
         select(getInsuranceDeclarationStatus)

@@ -4,7 +4,6 @@
                [ngClass]="{'toolbar-no-padding': isEndToEndPracticeMode || isExitSAMActivated}" mode="ios">
     <des-header
       class="display-flex flex-direction-column"
-      [headerText]="'Test report - ' + (pageState.candidateUntitledName$ | async)"
       [textId]="'test-report-page-title'"
       [shouldShowGenericEndTest]="true"
       [shouldShowEndTestLink]="false"
@@ -14,6 +13,7 @@
       [isExitSAMActivated]="isExitSAMActivated"
       (endTestButtonClicked)="onEndTestClick()"
       (onExitSAMActivatedChanged)="isSamActivatedChanged($event)">
+      {{'Test report - ' + (pageState.candidateUntitledName$ | async)}}
     </des-header>
   </ion-toolbar>
 </ion-header>

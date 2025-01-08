@@ -32,8 +32,6 @@ export class PageHeaderComponent {
   @Input()
   textId: string;
   @Input()
-  headerText: string;
-  @Input()
   testCategory: string;
 
   @Output()
