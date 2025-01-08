@@ -76,6 +76,8 @@ export class DashboardPage extends BasePageComponent implements OnInit, ViewDidE
   liveAppVersion: string;
   subscription: Subscription;
   hasRehydrated = false;
+  shouldClearPracticeModeOnExit = true;
+
   private merged$: Observable<void | string>;
   private static readonly CompanyPortalURLScheme = 'companyportal://apps';
 
@@ -156,6 +158,8 @@ export class DashboardPage extends BasePageComponent implements OnInit, ViewDidE
     if (this.merged$) {
       this.subscription = this.merged$.subscribe();
     }
+
+    this.shouldClearPracticeModeOnExit = true;
   }
 
   async ionViewWillEnter(): Promise<boolean> {
@@ -170,7 +174,10 @@ export class DashboardPage extends BasePageComponent implements OnInit, ViewDidE
 
   ionViewWillLeave(): void {
     this.store$.dispatch(RekeySearchClearState());
-    this.store$.dispatch(DeletePracticeModeTests());
+
+    if (this.shouldClearPracticeModeOnExit) {
+      this.store$.dispatch(DeletePracticeModeTests());
+    }
 
     if (this.subscription) {
       this.subscription.unsubscribe();
