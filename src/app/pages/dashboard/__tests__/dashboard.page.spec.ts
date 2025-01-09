@@ -278,17 +278,27 @@ describe('DashboardPage', () => {
         expect(component.subscription.unsubscribe).toHaveBeenCalled();
       });
     });
-    describe('showUpdateAvailableModal', () => {
-      it('should dispatch UpdateAvailableBadgeClicked when manualClick is false', async () => {
-        spyOn(modalController, 'dismiss').and.returnValue(Promise.resolve(true));
-        await component.showUpdateAvailableModal(true);
-        expect(store$.dispatch).toHaveBeenCalledWith(UpdateAvailableBadgeClicked());
-      });
-      it('should create and dismiss the modal, then dispatch HasSeenUpdateAvailablePopup', async () => {
-        spyOn(modalController, 'dismiss').and.returnValue(Promise.resolve(true));
-        await component.showUpdateAvailableModal(false);
-        expect(store$.dispatch).toHaveBeenCalledWith(HasSeenUpdateAvailablePopup(true));
-      });
+    it('should dispatch practice mode clear if shouldClearPracticeModeOnExit is true', () => {
+      component.shouldClearPracticeModeOnExit = true;
+      component.ionViewWillLeave();
+      expect(store$.dispatch).toHaveBeenCalledWith(DeletePracticeModeTests());
+    });
+    it('should dispatch practice mode clear if shouldClearPracticeModeOnExit is true', () => {
+      component.shouldClearPracticeModeOnExit = false;
+      component.ionViewWillLeave();
+      expect(store$.dispatch).not.toHaveBeenCalledWith(DeletePracticeModeTests());
+    });
+  });
+  describe('showUpdateAvailableModal', () => {
+    it('should dispatch UpdateAvailableBadgeClicked when manualClick is false', async () => {
+      spyOn(modalController, 'dismiss').and.returnValue(Promise.resolve(true));
+      await component.showUpdateAvailableModal(true);
+      expect(store$.dispatch).toHaveBeenCalledWith(UpdateAvailableBadgeClicked());
+    });
+    it('should create and dismiss the modal, then dispatch HasSeenUpdateAvailablePopup', async () => {
+      spyOn(modalController, 'dismiss').and.returnValue(Promise.resolve(true));
+      await component.showUpdateAvailableModal(false);
+      expect(store$.dispatch).toHaveBeenCalledWith(HasSeenUpdateAvailablePopup(true));
     });
   });
   describe('DOM', () => {
