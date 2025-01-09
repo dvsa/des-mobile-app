@@ -53,6 +53,7 @@ export class PracticeTestReportCardComponent {
         this.store$.dispatch(StartTestReportPracticeTest(this.slotId));
         this.store$.dispatch(TellMeQuestionDrivingFault());
         await this.accessibilityService.configureStatusBar(Style.Light);
+        this.startPracticeModeTestReport.emit();
         await this.routeByCat.navigateToPage(TestFlowPageNames.TEST_REPORT_PAGE, TestCategory.B);
         break;
       case ModalEvent.NO_FAULT:
