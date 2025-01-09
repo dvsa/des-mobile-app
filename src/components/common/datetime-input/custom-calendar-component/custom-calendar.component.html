@@ -1,0 +1,61 @@
+<ion-row class="ion-justify-content-center" *ngIf="customTitle">
+    <label class="padding-top-10">{{ customTitle }}</label>
+  </ion-row>
+  <ion-row class="calendar-row-height">
+    <ion-col class="display-flex ion-justify-content-center">
+      <mat-calendar
+        #datePicker
+        [maxDate]="maxValue"
+        [minDate]="minValue"
+        (monthSelected)="handleMonthSelected($event, datePicker.minDate)"
+        (selectedChange)="onSelectedChange($event)"
+        [startAt]="selectedValue"
+        [selected]="selectedBuffer ? selectedBuffer : selectedValue"
+        [headerComponent]="DateHeaderComponent"
+      >
+      </mat-calendar>
+    </ion-col>
+  </ion-row>
+  <ion-row class="top-border button-row-height">
+    <ion-col
+      *ngIf="datePicker.currentView === 'month'"
+      class="right-border display-flex ion-justify-content-center ion-no-padding"
+    >
+      <ion-button
+        fill="clear"
+        class="terminate-button full-width"
+        id="cancel-datepicker-button"
+        (click)="buttonEmit(datePicker.selected, 'cancel')"
+      >
+        <ion-text> Cancel</ion-text>
+      </ion-button>
+    </ion-col>
+    <ion-col
+      *ngIf="datePicker.currentView === 'month'"
+      class="display-flex ion-justify-content-center ion-no-padding"
+    >
+      <ion-button
+        fill="clear"
+        class="black-text full-width"
+        id="confirm-datepicker-button"
+        (click)="
+                onSelected(selectedBuffer); buttonEmit(datePicker.selected, 'done')
+              "
+      >
+        <ion-text> OK</ion-text>
+      </ion-button>
+    </ion-col>
+    <ion-col
+      *ngIf="datePicker.currentView !== 'month'"
+      class="display-flex ion-justify-content-center ion-no-padding"
+    >
+      <ion-button
+        fill="clear"
+        class="black-text full-width"
+        id="back-datepicker-button"
+        (click)="datePicker.currentView = handleBackButton(); buttonEmit(datePicker.selected, 'back')"
+      >
+        <ion-text> Back</ion-text>
+      </ion-button>
+    </ion-col>
+  </ion-row>

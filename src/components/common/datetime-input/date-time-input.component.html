@@ -21,69 +21,17 @@
     (didDismiss)="selectedBuffer = null"
   >
     <ng-template>
-      <div *ngIf="displayType === DisplayType.Date">
-        <ion-row class="ion-justify-content-center" *ngIf="customTitle">
-          <label class="padding-top-10">{{ customTitle }}</label>
-        </ion-row>
-        <ion-row class="calendar-row-height">
-          <ion-col class="display-flex ion-justify-content-center">
-            <mat-calendar
-              #datePicker
-              [maxDate]="maxValue"
-              [minDate]="minValue"
-              (monthSelected)="handleMonthSelected($event, datePicker.minDate)"
-              (selectedChange)="onSelectedChange($event)"
-              [startAt]="selectedValue"
-              [selected]="selectedBuffer ? selectedBuffer : selectedValue"
-              [headerComponent]="DateHeaderComponent"
-            >
-            </mat-calendar>
-          </ion-col>
-        </ion-row>
-        <ion-row class="top-border button-row-height">
-          <ion-col
-            *ngIf="datePicker.currentView === 'month'"
-            class="right-border display-flex ion-justify-content-center ion-no-padding"
-          >
-            <ion-button
-              fill="clear"
-              class="terminate-button full-width"
-              id="cancel-datepicker-button"
-              (click)="modal.dismiss(); buttonEmit(datePicker.selected, 'cancel')"
-            >
-              <ion-text> Cancel </ion-text>
-            </ion-button>
-          </ion-col>
-          <ion-col
-            *ngIf="datePicker.currentView === 'month'"
-            class="display-flex ion-justify-content-center ion-no-padding"
-          >
-            <ion-button
-              fill="clear"
-              class="black-text full-width"
-              id="confirm-datepicker-button"
-              (click)="
-                modal.dismiss(); onSelected(selectedBuffer, displayType); buttonEmit(datePicker.selected, 'done')
-              "
-            >
-              <ion-text> OK </ion-text>
-            </ion-button>
-          </ion-col>
-          <ion-col
-            *ngIf="datePicker.currentView !== 'month'"
-            class="display-flex ion-justify-content-center ion-no-padding"
-          >
-            <ion-button
-              fill="clear"
-              class="black-text full-width"
-              id="back-datepicker-button"
-              (click)="datePicker.currentView = handleBackButton(); buttonEmit(datePicker.selected, 'back')"
-            >
-              <ion-text> Back </ion-text>
-            </ion-button>
-          </ion-col>
-        </ion-row>
-      </div>
+      <custom-calendar-component
+        *ngIf="displayType === DisplayType.Date"
+        class="date-modal-content"
+        id="{{ pickerId }}"
+        [customTitle]="customTitle"
+        [minValue]="minValue"
+        [maxValue]="maxValue"
+        [selectedValue]="initialValue"
+        (customButtonEvent)="modal.dismiss()"
+        (onDataPicked)="onSelected($event.toISOString(), displayType)"
+      ></custom-calendar-component>
       <ion-datetime
         *ngIf="displayType === DisplayType.Time"
         class="time-modal-content"
@@ -100,13 +48,14 @@
       >
         <ion-buttons slot="buttons" *ngIf="emitButtonEvents">
           <ion-button color="primary" (click)="timePicker.cancel(); buttonEmit(timePicker, 'cancel')"
-            >Cancel</ion-button
+          >Cancel
+          </ion-button
           >
           <ion-button
             *ngIf="showClearButton"
             color="primary"
             (click)="timePicker.reset(); buttonEmit(timePicker, 'clear')"
-            >Clear
+          >Clear
           </ion-button>
           <ion-button color="primary" (click)="timePicker.confirm(); buttonEmit(timePicker, 'done')">Done</ion-button>
         </ion-buttons>

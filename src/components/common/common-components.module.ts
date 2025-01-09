@@ -35,6 +35,7 @@ import { MatFormField } from '@angular/material/form-field';
 import { MatInput } from '@angular/material/input';
 import { ChartComponent } from '@components/common/chart/chart';
 import { DataGridComponent } from '@components/common/data-grid/data-grid';
+import { CustomCalendarComponent } from '@components/common/datetime-input/custom-calendar-component/custom-calendar.component';
 import { DateHeaderComponent } from '@components/common/datetime-input/date-header/date-header.component';
 import { LogoutModalModule } from '@components/common/logout-modal/logout-modal.module';
 import { TestRecoveredBannerComponent } from '@components/common/test-recovered-banner/test-recovered-banner';
@@ -115,6 +116,7 @@ import { WarningBannerComponent } from './warning-banner/warning-banner';
     MatFormField,
     MatCard,
     NgApexchartsModule,
+    CustomCalendarComponent,
   ],
   providers: [MatDatepickerModule],
   exports: [
