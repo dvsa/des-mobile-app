@@ -1,10 +1,11 @@
-import { Component } from '@angular/core';
+import {Component, Input} from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { Store } from '@ngrx/store';
 import { ReverseDiagramPage } from '@pages/test-report/components/reverse-diagram-modal/reverse-diagram-modal';
 import { AccessibilityService } from '@providers/accessibility/accessibility.service';
 import { StoreModel } from '@shared/models/store.model';
 import { ReverseDiagramClosed, ReverseDiagramOpened } from '../reverse-diagram-modal/reverse-diagram-modal.actions';
+import {Style} from '@capacitor/status-bar';
 
 @Component({
   selector: 'reverse-diagram-link',
@@ -12,6 +13,9 @@ import { ReverseDiagramClosed, ReverseDiagramOpened } from '../reverse-diagram-m
   styleUrls: ['reverse-diagram-link.scss'],
 })
 export class ReverseDiagramLinkComponent {
+  @Input()
+  isPracticeMode: boolean;
+
   constructor(
     public modalController: ModalController,
     private accessibilityService: AccessibilityService,
@@ -19,11 +23,16 @@ export class ReverseDiagramLinkComponent {
   ) {}
 
   async openReverseDiagramModal(): Promise<void> {
+
+    await this.accessibilityService.configureStatusBar(Style.Dark);
     this.store$.dispatch(ReverseDiagramOpened());
 
     const reverseDiagramModal = await this.modalController.create({
       component: ReverseDiagramPage,
-      componentProps: { onClose: async () => this.modalController.dismiss() },
+      componentProps: {
+        onClose: async () => this.modalController.dismiss(),
+        isPracticeMode: this.isPracticeMode,
+      },
       cssClass: `modal-fullscreen ${this.accessibilityService.getTextZoomClass()}`,
     });
     await reverseDiagramModal.present();

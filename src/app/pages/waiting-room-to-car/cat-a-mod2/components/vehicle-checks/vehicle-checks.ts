@@ -7,6 +7,7 @@ import { VehicleChecksCatAMod2Modal } from '@pages/waiting-room-to-car/cat-a-mod
 import { AccessibilityService } from '@providers/accessibility/accessibility.service';
 import { SafetyQuestionsScore } from '@shared/models/safety-questions-score.model';
 import { get } from 'lodash-es';
+import {Style} from '@capacitor/status-bar';
 
 @Component({
   selector: 'vehicle-checks-cat-a-mod2',
@@ -30,6 +31,9 @@ export class VehicleChecksCatAMod2Component implements OnChanges {
   @Input()
   submitClicked: boolean;
 
+  @Input()
+  isPracticeMode: boolean;
+
   formControl: UntypedFormControl;
 
   constructor(
@@ -38,9 +42,13 @@ export class VehicleChecksCatAMod2Component implements OnChanges {
   ) {}
 
   async openVehicleChecksModal(): Promise<void> {
+    await this.accessibilityService.configureStatusBar(Style.Dark);
     const modal = await this.modalController.create({
       component: VehicleChecksCatAMod2Modal,
-      componentProps: { submitClicked: this.submitClicked },
+      componentProps: {
+        submitClicked: this.submitClicked,
+        isPracticeMode: this.isPracticeMode,
+      },
       cssClass: `modal-fullscreen ${this.accessibilityService.getTextZoomClass()}`,
     });
     await modal.present();

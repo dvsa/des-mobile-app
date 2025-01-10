@@ -49,6 +49,8 @@ export class VehicleChecksCatADIPart2Modal {
   subscription: Subscription;
   @Input()
   submitClicked: boolean;
+  @Input()
+  isPracticeMode: boolean;
 
   constructor(
     public store$: Store<StoreModel>,
@@ -92,12 +94,17 @@ export class VehicleChecksCatADIPart2Modal {
   }
 
   async onClose() {
-    await this.accessibilityService.configureStatusBar(Style.Light);
-    await this.modalCtrl.dismiss();
+    await this.closeModal();
   }
 
   async onSubmit() {
-    await this.accessibilityService.configureStatusBar(Style.Light);
+    await this.closeModal();
+  }
+
+  async closeModal() {
+    if (this.isPracticeMode) {
+      await this.accessibilityService.configureStatusBar(Style.Light);
+    }
     await this.modalCtrl.dismiss();
   }
 

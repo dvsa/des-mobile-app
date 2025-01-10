@@ -27,6 +27,8 @@ import { getTests } from '@store/tests/tests.reducer';
 import { getTestStatus } from '@store/tests/tests.selector';
 import { Observable, Subject } from 'rxjs';
 import { Details } from './candidate-details.page.model';
+import {Style} from '@capacitor/status-bar';
+import {AccessibilityService} from '@providers/accessibility/accessibility.service';
 
 interface CandidateDetailsPageState {
   name: string;
@@ -55,6 +57,8 @@ export class CandidateDetailsPage implements OnInit, OnDestroy, ViewDidEnter {
   public slotChanged: boolean;
   @Input()
   public isTeamJournal: boolean;
+  @Input()
+  public isPracticeMode: boolean;
 
   pageState: CandidateDetailsPageState;
   selectedDate: string;
@@ -69,7 +73,8 @@ export class CandidateDetailsPage implements OnInit, OnDestroy, ViewDidEnter {
     public modalController: ModalController,
     public store$: Store<StoreModel>,
     public router: Router,
-    public slotProvider: SlotProvider
+    public slotProvider: SlotProvider,
+    public accessibilityService: AccessibilityService
   ) {}
 
   ngOnDestroy(): void {
@@ -160,6 +165,9 @@ export class CandidateDetailsPage implements OnInit, OnDestroy, ViewDidEnter {
   }
 
   async dismiss(): Promise<void> {
+    if (this.isPracticeMode) {
+      await this.accessibilityService.configureStatusBar(Style.Light);
+    }
     await this.modalController.dismiss().then(() => {
       this.store$.dispatch(
         candidateDetailActions.CandidateDetailsModalDismiss({ sourcePage: this.formatUrl(this.router.url) })

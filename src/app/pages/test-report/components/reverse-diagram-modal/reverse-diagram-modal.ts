@@ -11,6 +11,8 @@ import { getTests } from '@store/tests/tests.reducer';
 import { Observable, Subscription, merge } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { ReverseDiagramLengthChanged, ReverseDiagramWidthChanged } from './reverse-diagram-modal.actions';
+import {Style} from '@capacitor/status-bar';
+import {AccessibilityService} from '@providers/accessibility/accessibility.service';
 
 interface ReverseDiagramPageState {
   vehicleLength$: Observable<number>;
@@ -35,6 +37,9 @@ export class ReverseDiagramPage implements OnInit {
   @Input()
   vehicleWidth: number;
 
+  @Input()
+  isPracticeMode: boolean;
+
   componentState: ReverseDiagramPageState;
   subscription: Subscription;
   catSubscription: Subscription;
@@ -47,6 +52,7 @@ export class ReverseDiagramPage implements OnInit {
 
   constructor(
     public store$: Store<StoreModel>,
+    public accessibilityService: AccessibilityService,
     public reversingDistancesProvider: ReversingDistancesProvider,
     public vehicleDetailsProvider: VehicleDetailsByCategoryProvider
   ) {}
@@ -143,6 +149,9 @@ export class ReverseDiagramPage implements OnInit {
   }
 
   async closeModal() {
+      if (this.isPracticeMode) {
+        await this.accessibilityService.configureStatusBar(Style.Light);
+      }
     await this.onClose();
   }
 

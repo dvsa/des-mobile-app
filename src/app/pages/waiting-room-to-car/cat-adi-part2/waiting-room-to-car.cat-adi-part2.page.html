@@ -45,6 +45,7 @@
 
             <vehicle-checks-vocational
               (onCloseVehicleChecksModal)="closeVehicleChecksModal()"
+              [practiceMode]="isEndToEndPracticeMode"
               [category]="pageState.category$ | async"
               [formGroup]="form"
               [fullLicenceHeld]="false"
