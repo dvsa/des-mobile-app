@@ -1,11 +1,13 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { Style } from '@capacitor/status-bar';
 import { Business, TestSlot } from '@dvsa/mes-journal-schema';
 import { ActivityCode, SearchResultTestSchema } from '@dvsa/mes-search-schema';
 import { ApplicationReference } from '@dvsa/mes-test-schema/categories/common';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { ModalController, ViewDidEnter } from '@ionic/angular';
 import { Store, select } from '@ngrx/store';
+import { AccessibilityService } from '@providers/accessibility/accessibility.service';
 import { SlotProvider } from '@providers/slot/slot';
 import { formatApplicationReference } from '@shared/helpers/formatters';
 import { StoreModel } from '@shared/models/store.model';
@@ -27,8 +29,6 @@ import { getTests } from '@store/tests/tests.reducer';
 import { getTestStatus } from '@store/tests/tests.selector';
 import { Observable, Subject } from 'rxjs';
 import { Details } from './candidate-details.page.model';
-import {Style} from '@capacitor/status-bar';
-import {AccessibilityService} from '@providers/accessibility/accessibility.service';
 
 interface CandidateDetailsPageState {
   name: string;

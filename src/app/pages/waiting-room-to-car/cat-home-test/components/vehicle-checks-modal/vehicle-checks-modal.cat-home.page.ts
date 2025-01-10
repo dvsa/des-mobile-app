@@ -127,7 +127,6 @@ export class VehicleChecksCatHomeTestModal {
     await this.modalCtrl.dismiss();
   }
 
-
   showMeQuestionChanged(result: QuestionResult, index: number): void {
     this.store$.dispatch(ShowMeQuestionSelected(result, index));
   }

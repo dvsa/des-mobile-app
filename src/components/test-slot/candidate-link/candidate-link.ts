@@ -1,9 +1,9 @@
 import { Component, Input } from '@angular/core';
+import { Style } from '@capacitor/status-bar';
 import { Name, TestSlot } from '@dvsa/mes-journal-schema';
 import { ModalController } from '@ionic/angular';
 import { CandidateDetailsPage } from '@pages/candidate-details/candidate-details.page';
 import { AccessibilityService } from '@providers/accessibility/accessibility.service';
-import {Style} from '@capacitor/status-bar';
 
 @Component({
   selector: 'candidate-link',

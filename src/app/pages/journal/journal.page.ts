@@ -33,8 +33,8 @@ import {
   getSelectedDate,
   getSlotsOnSelectedDate,
 } from '@store/journal/journal.selector';
+import { isEndToEndPracticeTest } from '@store/tests/tests.selector';
 import { ErrorPage } from '../error-page/error';
-import {isEndToEndPracticeTest} from '@store/tests/tests.selector';
 
 interface JournalPageState {
   selectedDate$: Observable<string>;
