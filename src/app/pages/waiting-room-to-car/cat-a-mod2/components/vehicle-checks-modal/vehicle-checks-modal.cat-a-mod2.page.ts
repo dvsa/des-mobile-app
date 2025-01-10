@@ -1,9 +1,11 @@
 import { Component, Input } from '@angular/core';
 import { UntypedFormGroup } from '@angular/forms';
+import { Style } from '@capacitor/status-bar';
 import { QuestionOutcome, QuestionResult } from '@dvsa/mes-test-schema/categories/common';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { ModalController } from '@ionic/angular';
 import { Store, select } from '@ngrx/store';
+import { AccessibilityService } from '@providers/accessibility/accessibility.service';
 import { FaultCountProvider } from '@providers/fault-count/fault-count';
 import { QuestionProvider } from '@providers/question/question';
 import { VehicleChecksQuestion } from '@providers/question/vehicle-checks-question.model';
@@ -26,8 +28,6 @@ import { getCurrentTest, getJournalData } from '@store/tests/tests.selector';
 import { Observable, Subscription, merge } from 'rxjs';
 import { map } from 'rxjs/operators';
 import * as vehicleChecksModalActions from './vehicle-checks-modal.cat-a-mod2.actions';
-import {Style} from '@capacitor/status-bar';
-import {AccessibilityService} from '@providers/accessibility/accessibility.service';
 
 interface VehicleChecksModalState {
   candidateName$: Observable<string>;
