@@ -55,13 +55,13 @@ describe('VehicleChecksCatAMod2Component', () => {
   describe('Class', () => {
     describe('openVehicleChecksModal', () => {
       it('should call through to the create method of modalController', async () => {
-        component.isPracticeMode = true
+        component.isPracticeMode = true;
         await component.openVehicleChecksModal();
         expect(modalController.create).toHaveBeenCalledWith({
           component: VehicleChecksCatAMod2Modal,
           componentProps: {
             submitClicked: undefined,
-            isPracticeMode: true
+            isPracticeMode: true,
           },
           cssClass: 'modal-fullscreen regular',
         });

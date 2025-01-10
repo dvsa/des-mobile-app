@@ -68,7 +68,7 @@ describe('VehicleChecksComponent', () => {
   describe('Class', () => {
     describe('openVehicleChecksModal', () => {
       it('should create the correct model', async () => {
-        component.practiceMode = true
+        component.practiceMode = true;
         component.category = TestCategory.C1E;
         await component.openVehicleChecksModal();
         expect(modalController.create).toHaveBeenCalledWith({
@@ -76,7 +76,8 @@ describe('VehicleChecksComponent', () => {
           componentProps: {
             category: TestCategory.C1E,
             isPracticeMode: true,
-            submitClicked: undefined },
+            submitClicked: undefined,
+          },
           cssClass: 'modal-fullscreen regular',
         });
       });
