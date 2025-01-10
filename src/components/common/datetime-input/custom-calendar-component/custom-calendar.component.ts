@@ -30,6 +30,9 @@ export class CustomCalendarComponent {
   @Input()
   selectedValue: string;
 
+  @Input()
+  showCancelAndConfirm = true;
+
   @Output()
   customButtonEvent = new EventEmitter<{ buttonType: string; data: IonDatetime | string }>();
 
@@ -80,15 +83,13 @@ export class CustomCalendarComponent {
 
   /**
    * Handles the back button action.
-   * @returns {'month'} - Returns the string 'month'.
    */
-  handleBackButton(): 'month' {
+  handleBackButton() {
     if (this.selectedValue) {
       this.datePicker.activeDate = this.selectedValue;
     } else {
       this.datePicker.activeDate = this.selectedBuffer ? this.selectedBuffer : this.datePicker.maxDate;
     }
-    return 'month';
   }
 
   onSelected(event: string) {

@@ -1,65 +1,69 @@
 <ion-card class="custom-date-range-modal-size">
-  <ion-row class="padding-top-22 ion-justify-content-center">
-    <ion-col class="ion-no-padding">
-      <ion-text id="end test-text" class="modal-header des-header-style-2 flex-center">Select start and end dates
-      </ion-text>
-    </ion-col>
-  </ion-row>
-  <ion-row class="content-padding bottom-padding ion-justify-content-center">
-    <ion-col size="48">
-      <ion-row class="ion-justify-content-center display-flex">
-        <ion-text class="des-header-style-3">
-          Start date
-        </ion-text>
-      </ion-row>
-      <ion-datetime
-        class="date-modal"
-        [value]="startDate"
-        [max]="startDateMax"
-        [min]="startDateMin"
-        id="start-date-picker"
-        [showDefaultButtons]="false"
-        size="cover"
-        presentation="date"
-        (ionChange)="onDateChanged($event, 'start')"
-        [highlightedDates]="getHighlightedDates()"
-      >
-      </ion-datetime>
-    </ion-col>
-    <ion-col size="48">
-      <ion-row class="ion-justify-content-center display-flex">
-        <ion-text class="des-header-style-3">
-          End date
-        </ion-text>
-      </ion-row>
-      <ion-datetime
-        class="date-modal"
-        [value]="endDate"
-        [max]="endDateMax"
-        [min]="endDateMin"
-        id="end-date-picker"
-        [showDefaultButtons]="false"
-        size="cover"
-        presentation="date"
-        [highlightedDates]="getHighlightedDates()"
-        (ionChange)="onDateChanged($event, 'end')"
-      >
-      </ion-datetime>
-    </ion-col>
-  </ion-row>
-  <ion-row class="bottom-padding ion-justify-content-center display-flex">
-    <ion-text class="mes-data">{{ getDateRange() }} days selected</ion-text>
-  </ion-row>
-  <ion-row>
-    <ion-col class="ion-no-padding column-border-top column-border-right">
-      <ion-button id="custom-date-range-cancel-button" fill="clear" class="return-button" (click)="onCancel()">
-        Cancel
-      </ion-button>
-    </ion-col>
-    <ion-col class="ion-no-padding column-border-top">
-      <ion-button id="custom-date-range-confirm-button" fill="clear" class="return-button" (click)="onConfirm()">
-        Confirm
-      </ion-button>
-    </ion-col>
-  </ion-row>
+    <ion-row class="padding-top-22 ion-justify-content-center">
+        <ion-col class="ion-no-padding">
+            <ion-text id="end test-text" class="modal-header des-header-style-2 flex-center">Select start and end dates
+            </ion-text>
+        </ion-col>
+    </ion-row>
+    <ion-row class="content-padding bottom-padding ion-justify-content-center">
+        <ion-col size="48">
+            <custom-calendar-component
+                    id="start-date-picker"
+                    [customTitle]="'Start date'"
+                    [minValue]="startDateMin"
+                    [maxValue]="startDateMax"
+                    [showCancelAndConfirm]="false"
+                    [selectedValue]="startDate"
+                    (onDataPicked)="onDateChanged($event, 'start')"
+            ></custom-calendar-component>
+<!--            <ion-datetime-->
+<!--                    class="date-modal"-->
+<!--                    [value]="startDate"-->
+<!--                    [max]="startDateMax"-->
+<!--                    [min]="startDateMin"-->
+<!--                    id="start-date-picker"-->
+<!--                    [showDefaultButtons]="false"-->
+<!--                    size="cover"-->
+<!--                    presentation="date"-->
+<!--                    (ionChange)="onDateChanged($event, 'start')"-->
+<!--                    [highlightedDates]="getHighlightedDates()"-->
+<!--            >-->
+<!--            </ion-datetime>-->
+        </ion-col>
+        <ion-col size="48">
+            <ion-row class="ion-justify-content-center display-flex">
+                <ion-text class="des-header-style-3">
+                    End date
+                </ion-text>
+            </ion-row>
+            <ion-datetime
+                    class="date-modal"
+                    [value]="endDate"
+                    [max]="endDateMax"
+                    [min]="endDateMin"
+                    id="end-date-picker"
+                    [showDefaultButtons]="false"
+                    size="cover"
+                    presentation="date"
+                    [highlightedDates]="getHighlightedDates()"
+                    (ionChange)="onDateChanged($event, 'end')"
+            >
+            </ion-datetime>
+        </ion-col>
+    </ion-row>
+    <ion-row class="bottom-padding ion-justify-content-center display-flex">
+        <ion-text class="mes-data">{{ getDateRange() }} days selected</ion-text>
+    </ion-row>
+    <ion-row>
+        <ion-col class="ion-no-padding column-border-top column-border-right">
+            <ion-button id="custom-date-range-cancel-button" fill="clear" class="return-button" (click)="onCancel()">
+                Cancel
+            </ion-button>
+        </ion-col>
+        <ion-col class="ion-no-padding column-border-top">
+            <ion-button id="custom-date-range-confirm-button" fill="clear" class="return-button" (click)="onConfirm()">
+                Confirm
+            </ion-button>
+        </ion-col>
+    </ion-row>
 </ion-card>

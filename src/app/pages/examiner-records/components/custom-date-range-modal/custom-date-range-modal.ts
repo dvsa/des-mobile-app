@@ -46,7 +46,7 @@ export class CustomDateRangeModal {
    * @param event - The event object containing the new date value.
    * @param dateType - The type of date being changed ('start' or 'end').
    */
-  onDateChanged(event: CustomEvent, dateType: 'start' | 'end') {
+  onDateChanged(event, dateType: 'start' | 'end') {
     switch (dateType) {
       case 'start':
         this.startDate = event.detail.value;
