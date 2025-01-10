@@ -36,6 +36,9 @@ export class VehicleChecksComponent implements OnChanges {
   safetyQuestionsScore: SafetyQuestionsScore;
 
   @Input()
+  practiceMode: boolean;
+
+  @Input()
   vehicleChecks: CatCVehicleChecks | CatDVehicleChecks | CatHomeTestVehicleChecks;
 
   @Input()
@@ -85,6 +88,7 @@ export class VehicleChecksComponent implements OnChanges {
     const modal = await this.modalController.create({
       component: this.getVehicleCheckModal(),
       componentProps: {
+        isPracticeMode: this.practiceMode,
         category: this.category,
         submitClicked: this.submitClicked,
       },

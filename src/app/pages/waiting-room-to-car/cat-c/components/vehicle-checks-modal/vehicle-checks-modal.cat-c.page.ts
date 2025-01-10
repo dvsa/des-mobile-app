@@ -74,6 +74,9 @@ export class VehicleChecksCatCModal {
   category: TestCategory;
   @Input()
   submitClicked: boolean;
+  @Input()
+  isPracticeMode: boolean;
+
   fullLicenceHeld: boolean = null;
   showMeQuestionsNumberArray: number[];
   tellMeQuestionsNumberArray: number[];
@@ -181,12 +184,17 @@ export class VehicleChecksCatCModal {
   }
 
   async onClose() {
-    await this.accessibilityService.configureStatusBar(Style.Light);
-    await this.modalCtrl.dismiss();
+    await this.closeModal();
   }
 
   async onSubmit() {
-    await this.accessibilityService.configureStatusBar(Style.Light);
+    await this.closeModal();
+  }
+
+  async closeModal() {
+    if (this.isPracticeMode) {
+      await this.accessibilityService.configureStatusBar(Style.Light);
+    }
     await this.modalCtrl.dismiss();
   }
 
