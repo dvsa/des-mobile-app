@@ -6,6 +6,10 @@
   left: 0;
 }
 
+.static-font-size {
+  font-size: 16px !important;
+}
+
 .cancel-button {
   //margin-bottom: 4px;
   //margin-top: 0;
@@ -14,14 +18,6 @@
   --background: var(--mes-white);
   --background-activated: var(--gds-grey-1);
   border-radius: 100px;
-}
-
-.exit-banner-top-banner {
-  @extend .exit-banner-base;
-  position: fixed;
-  background: var(--escape-SAM-Purple);
-  height: 50px;
-  top: 0;
 }
 
 .exit-banner-text {
@@ -40,12 +36,17 @@
   height: 15px;
 }
 
+.banner-details-spacing {
+  height: 32px;
+}
+
 .exit-banner-text-column {
   display: flex;
   align-items: center;
 }
 
 .exit-banner-toolbar-sizing {
+  --background: var(--escape-SAM-Purple);
   padding-top: 0;
   padding-bottom: 0;
   height: 50px;

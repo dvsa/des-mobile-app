@@ -2,9 +2,8 @@
   (touchstart)="onTouchStart()"
   (touchend)="onTouchEnd()"
   class="exit-banner-toolbar-sizing">
-  <ion-row class="exit-banner-top-banner"></ion-row>
   <ion-row class="status-bar-spacing"></ion-row>
-  <ion-row>
+  <ion-row class="banner-details-spacing">
     <ion-col></ion-col>
     <ion-col
       size="auto"
@@ -17,8 +16,8 @@
     </ion-col>
     <ion-col size="2"></ion-col>
     <ion-col size="auto" class="ion-no-padding">
-      <ion-button (click)="cancelButtonClicked()" class="cancel-button">
-        <ion-text class="mes-black">Cancel</ion-text>
+      <ion-button (click)="cancelButtonClicked()" class="display-flex cancel-button">
+        <ion-text class="static-font-size mes-black">Cancel</ion-text>
       </ion-button>
     </ion-col>
     <ion-col></ion-col>

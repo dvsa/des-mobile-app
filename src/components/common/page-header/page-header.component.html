@@ -1,11 +1,10 @@
 <ion-row *ngIf="isExitSAMActivated">
-  <ion-col class="ion-no-padding">
     <exit-sam-banner
+      class="width-100"
       (samEscaped)="disableSAMAndExit()"
       (escapeSamBannerClicked)="changeExitSAMValue(false)"
       (cancelClicked)="changeExitSAMValue(false)">
     </exit-sam-banner>
-  </ion-col>
 </ion-row>
 <ion-row class="set-header-height">
   <ion-col class="display-flex ion-no-padding ion-justify-content-start" size="21">
