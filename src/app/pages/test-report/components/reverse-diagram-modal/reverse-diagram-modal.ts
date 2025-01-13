@@ -1,7 +1,9 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { Style } from '@capacitor/status-bar';
 import { CategoryCode } from '@dvsa/mes-test-schema/categories/common';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { Store, select } from '@ngrx/store';
+import { AccessibilityService } from '@providers/accessibility/accessibility.service';
 import { ReversingDistancesProvider } from '@providers/reversing-distances/reversing-distances';
 import { VehicleDetailsByCategoryProvider } from '@providers/vehicle-details-by-category/vehicle-details-by-category';
 import { StoreModel } from '@shared/models/store.model';
@@ -35,6 +37,9 @@ export class ReverseDiagramPage implements OnInit {
   @Input()
   vehicleWidth: number;
 
+  @Input()
+  isPracticeMode: boolean;
+
   componentState: ReverseDiagramPageState;
   subscription: Subscription;
   catSubscription: Subscription;
@@ -47,6 +52,7 @@ export class ReverseDiagramPage implements OnInit {
 
   constructor(
     public store$: Store<StoreModel>,
+    public accessibilityService: AccessibilityService,
     public reversingDistancesProvider: ReversingDistancesProvider,
     public vehicleDetailsProvider: VehicleDetailsByCategoryProvider
   ) {}
@@ -143,6 +149,9 @@ export class ReverseDiagramPage implements OnInit {
   }
 
   async closeModal() {
+    if (this.isPracticeMode) {
+      await this.accessibilityService.configureStatusBar(Style.Light);
+    }
     await this.onClose();
   }
 

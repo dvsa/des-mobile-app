@@ -54,6 +54,8 @@ export class VehicleChecksCatHomeTestModal {
   category: TestCategory;
   @Input()
   submitClicked: boolean;
+  @Input()
+  isPracticeMode: boolean;
   readonly showMeQuestionsNumberArray: number[] = Array(NUMBER_OF_SHOW_ME_QUESTIONS);
   readonly tellMeQuestionsNumberArray: number[] = Array(NUMBER_OF_TELL_ME_QUESTIONS);
   vehicleChecksScore: VehicleChecksScore;
@@ -111,12 +113,17 @@ export class VehicleChecksCatHomeTestModal {
   }
 
   async onClose() {
-    await this.accessibilityService.configureStatusBar(Style.Light);
-    await this.modalCtrl.dismiss();
+    await this.closeModal();
   }
 
   async onSubmit() {
-    await this.accessibilityService.configureStatusBar(Style.Light);
+    await this.closeModal();
+  }
+
+  async closeModal() {
+    if (this.isPracticeMode) {
+      await this.accessibilityService.configureStatusBar(Style.Light);
+    }
     await this.modalCtrl.dismiss();
   }
 

@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
 import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
+import { Style } from '@capacitor/status-bar';
 import { SafetyAndBalanceQuestions } from '@dvsa/mes-test-schema/categories/AM2';
 import { QuestionResult } from '@dvsa/mes-test-schema/categories/common';
 import { ModalController } from '@ionic/angular';
@@ -30,6 +31,9 @@ export class VehicleChecksCatAMod2Component implements OnChanges {
   @Input()
   submitClicked: boolean;
 
+  @Input()
+  isPracticeMode: boolean;
+
   formControl: UntypedFormControl;
 
   constructor(
@@ -38,9 +42,13 @@ export class VehicleChecksCatAMod2Component implements OnChanges {
   ) {}
 
   async openVehicleChecksModal(): Promise<void> {
+    await this.accessibilityService.configureStatusBar(Style.Dark);
     const modal = await this.modalController.create({
       component: VehicleChecksCatAMod2Modal,
-      componentProps: { submitClicked: this.submitClicked },
+      componentProps: {
+        submitClicked: this.submitClicked,
+        isPracticeMode: this.isPracticeMode,
+      },
       cssClass: `modal-fullscreen ${this.accessibilityService.getTextZoomClass()}`,
     });
     await modal.present();

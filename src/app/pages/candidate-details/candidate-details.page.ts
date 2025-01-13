@@ -1,11 +1,13 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { Style } from '@capacitor/status-bar';
 import { Business, TestSlot } from '@dvsa/mes-journal-schema';
 import { ActivityCode, SearchResultTestSchema } from '@dvsa/mes-search-schema';
 import { ApplicationReference } from '@dvsa/mes-test-schema/categories/common';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { ModalController, ViewDidEnter } from '@ionic/angular';
 import { Store, select } from '@ngrx/store';
+import { AccessibilityService } from '@providers/accessibility/accessibility.service';
 import { SlotProvider } from '@providers/slot/slot';
 import { formatApplicationReference } from '@shared/helpers/formatters';
 import { StoreModel } from '@shared/models/store.model';
@@ -55,6 +57,8 @@ export class CandidateDetailsPage implements OnInit, OnDestroy, ViewDidEnter {
   public slotChanged: boolean;
   @Input()
   public isTeamJournal: boolean;
+  @Input()
+  public isPracticeMode: boolean;
 
   pageState: CandidateDetailsPageState;
   selectedDate: string;
@@ -69,7 +73,8 @@ export class CandidateDetailsPage implements OnInit, OnDestroy, ViewDidEnter {
     public modalController: ModalController,
     public store$: Store<StoreModel>,
     public router: Router,
-    public slotProvider: SlotProvider
+    public slotProvider: SlotProvider,
+    public accessibilityService: AccessibilityService
   ) {}
 
   ngOnDestroy(): void {
@@ -160,6 +165,9 @@ export class CandidateDetailsPage implements OnInit, OnDestroy, ViewDidEnter {
   }
 
   async dismiss(): Promise<void> {
+    if (this.isPracticeMode) {
+      await this.accessibilityService.configureStatusBar(Style.Light);
+    }
     await this.modalController.dismiss().then(() => {
       this.store$.dispatch(
         candidateDetailActions.CandidateDetailsModalDismiss({ sourcePage: this.formatUrl(this.router.url) })

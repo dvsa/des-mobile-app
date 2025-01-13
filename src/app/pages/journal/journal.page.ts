@@ -33,6 +33,7 @@ import {
   getSelectedDate,
   getSlotsOnSelectedDate,
 } from '@store/journal/journal.selector';
+import { isEndToEndPracticeTest } from '@store/tests/tests.selector';
 import { ErrorPage } from '../error-page/error';
 
 interface JournalPageState {
@@ -227,4 +228,6 @@ export class JournalPage extends BasePageComponent implements OnInit {
   onNextDayClick(): void {
     this.store$.dispatch(journalActions.SelectNextDay());
   }
+
+  protected readonly isEndToEndPracticeTest = isEndToEndPracticeTest;
 }

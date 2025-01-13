@@ -100,7 +100,11 @@
       <ion-col size="44">
         <ion-row>
           <ion-col>
-            <span><reverse-diagram-link></reverse-diagram-link></span>
+            <span>
+              <reverse-diagram-link
+                [isPracticeMode]="isEndToEndPracticeMode"
+            ></reverse-diagram-link>
+            </span>
           </ion-col>
         </ion-row>
         <br />
