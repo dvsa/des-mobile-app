@@ -87,6 +87,7 @@
                 <vehicle-checks-cat-a-mod2
                   (onCloseVehicleChecksModal)="closeVehicleChecksModal()"
                   [formGroup]="form"
+                  [isPracticeMode]="isEndToEndPracticeMode"
                   [safetyAndBalanceQuestionsScore]="pageState.safetyAndBalanceQuestionsScore$ | async"
                   [safetyAndBalanceQuestions]="pageState.safetyAndBalanceQuestions$ | async"
                   [submitClicked]="submitClicked"

@@ -1,4 +1,5 @@
 import { Component, Input } from '@angular/core';
+import { Style } from '@capacitor/status-bar';
 import { Name, TestSlot } from '@dvsa/mes-journal-schema';
 import { ModalController } from '@ionic/angular';
 import { CandidateDetailsPage } from '@pages/candidate-details/candidate-details.page';
@@ -22,6 +23,9 @@ export class CandidateLinkComponent {
   name: Name;
 
   @Input()
+  isPracticeMode = false;
+
+  @Input()
   isTeamJournal = false;
 
   @Input()
@@ -39,6 +43,7 @@ export class CandidateLinkComponent {
   ) {}
 
   async openCandidateDetailsModal(): Promise<void> {
+    await this.accessibilityService.configureStatusBar(Style.Dark);
     if (await this.modalController.getTop()) {
       // stop double clicks spawning multiple modals;
       return;
@@ -51,6 +56,7 @@ export class CandidateLinkComponent {
       component: CandidateDetailsPage,
       cssClass: zoomClass,
       componentProps: {
+        isPracticeMode: this.isPracticeMode,
         slots: this.slots,
         slot: this.slot,
         slotChanged: this.slotChanged,

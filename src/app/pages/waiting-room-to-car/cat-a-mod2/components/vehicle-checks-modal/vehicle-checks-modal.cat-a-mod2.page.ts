@@ -1,9 +1,11 @@
 import { Component, Input } from '@angular/core';
 import { UntypedFormGroup } from '@angular/forms';
+import { Style } from '@capacitor/status-bar';
 import { QuestionOutcome, QuestionResult } from '@dvsa/mes-test-schema/categories/common';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
-import { ModalController, NavController } from '@ionic/angular';
+import { ModalController } from '@ionic/angular';
 import { Store, select } from '@ngrx/store';
+import { AccessibilityService } from '@providers/accessibility/accessibility.service';
 import { FaultCountProvider } from '@providers/fault-count/fault-count';
 import { QuestionProvider } from '@providers/question/question';
 import { VehicleChecksQuestion } from '@providers/question/vehicle-checks-question.model';
@@ -44,6 +46,8 @@ export class VehicleChecksCatAMod2Modal {
   formGroup: UntypedFormGroup;
   @Input()
   submitClicked: boolean;
+  @Input()
+  isPracticeMode: boolean;
 
   safetyQuestions: VehicleChecksQuestion[];
   balanceQuestions: VehicleChecksQuestion[];
@@ -57,7 +61,7 @@ export class VehicleChecksCatAMod2Modal {
 
   constructor(
     public store$: Store<StoreModel>,
-    private navController: NavController,
+    public accessibilityService: AccessibilityService,
     private faultCountProvider: FaultCountProvider,
     public modalCtrl: ModalController,
     questionProvider: QuestionProvider
@@ -105,11 +109,18 @@ export class VehicleChecksCatAMod2Modal {
     }
   }
 
-  async onSubmit() {
-    await this.modalCtrl.dismiss();
+  async onClose() {
+    await this.closeModal();
   }
 
-  async onClose() {
+  async onSubmit() {
+    await this.closeModal();
+  }
+
+  async closeModal() {
+    if (this.isPracticeMode) {
+      await this.accessibilityService.configureStatusBar(Style.Light);
+    }
     await this.modalCtrl.dismiss();
   }
 

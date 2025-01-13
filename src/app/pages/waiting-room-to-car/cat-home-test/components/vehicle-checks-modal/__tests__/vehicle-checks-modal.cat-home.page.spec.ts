@@ -127,9 +127,10 @@ describe('VehicleChecksCatHomeTestModal', () => {
 
   describe('Class', () => {
     describe('onClose', () => {
-      it('should dismiss the modal when the function is run & set the status bar to Light styling', async () => {
+      it('should dismiss the modal when the function is run & set the status bar to Light styling if practice mode is true', async () => {
         spyOn(component.modalCtrl, 'dismiss');
         spyOn(component.accessibilityService, 'configureStatusBar');
+        component.isPracticeMode = true;
         await component.onClose().then(() => {
           expect(component.accessibilityService.configureStatusBar).toHaveBeenCalledWith(Style.Light);
           expect(component.modalCtrl.dismiss).toHaveBeenCalled();
@@ -177,9 +178,10 @@ describe('VehicleChecksCatHomeTestModal', () => {
     });
 
     describe('onSubmit', () => {
-      it('should dismiss the modal when the function is run & set the status bar to Light styling', async () => {
+      it('should dismiss the modal when the function is run & set the status bar to Light styling if practice mode is true', async () => {
         spyOn(component.accessibilityService, 'configureStatusBar');
         spyOn(component.modalCtrl, 'dismiss');
+        component.isPracticeMode = true;
         await component.onSubmit().then(() => {
           expect(component.accessibilityService.configureStatusBar).toHaveBeenCalledWith(Style.Light);
           expect(component.modalCtrl.dismiss).toHaveBeenCalled();
