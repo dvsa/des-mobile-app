@@ -1,6 +1,7 @@
 <ion-row *ngIf="isExitSAMActivated">
   <ion-col class="ion-no-padding">
     <exit-sam-banner
+      (samEscaped)="disableSAMAndExit()"
       (escapeSamBannerClicked)="changeExitSAMValue(false)"
       (cancelClicked)="changeExitSAMValue(false)">
     </exit-sam-banner>
@@ -26,6 +27,7 @@
         <exit-sam-button
           class="height-100"
           [isButtonActive]="isExitSAMActivated"
+          (samEscaped)="disableSAMAndExit()"
           (escapeSamButtonClicked)="changeExitSAMValue($event)">
         </exit-sam-button>
       </ion-buttons>

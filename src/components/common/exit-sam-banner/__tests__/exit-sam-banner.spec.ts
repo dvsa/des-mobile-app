@@ -1,9 +1,8 @@
 import { ComponentFixture, TestBed, fakeAsync, tick, waitForAsync } from '@angular/core/testing';
-import { IonicModule, ModalController } from '@ionic/angular';
+import { IonicModule } from '@ionic/angular';
 
 import { AppModule } from '@app/app.module';
 import { AppLauncher, OpenURLResult } from '@capacitor/app-launcher';
-import { ModalControllerMock } from '@mocks/ionic-mocks/modal-controller.mock';
 import { DeviceProviderMock } from '@providers/device/__mocks__/device.mock';
 import { DeviceProvider } from '@providers/device/device';
 import { ExitSamBanner } from '../exit-sam-banner';
@@ -11,22 +10,17 @@ import { ExitSamBanner } from '../exit-sam-banner';
 describe('ExitSamBanner', () => {
   let fixture: ComponentFixture<ExitSamBanner>;
   let component: ExitSamBanner;
-  let modalController: ModalController;
   let deviceProvider: DeviceProvider;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ExitSamBanner],
       imports: [IonicModule, AppModule],
-      providers: [
-        { provide: ModalController, useClass: ModalControllerMock },
-        { provide: DeviceProvider, useClass: DeviceProviderMock },
-      ],
+      providers: [{ provide: DeviceProvider, useClass: DeviceProviderMock }],
     });
 
     fixture = TestBed.createComponent(ExitSamBanner);
     component = fixture.componentInstance;
-    modalController = TestBed.inject(ModalController);
     deviceProvider = TestBed.inject(DeviceProvider);
 
     spyOn(AppLauncher, 'openUrl').and.returnValue(Promise.resolve({ completed: true } as OpenURLResult));
@@ -41,18 +35,18 @@ describe('ExitSamBanner', () => {
       });
 
       it('should call disableSAMAndExit after timeToHold if still pressed', fakeAsync(() => {
-        spyOn(component, 'disableSAMAndExit');
+        spyOn(component, 'escapeSAM');
         component.onTouchStart();
         tick(component.timeToHold);
-        expect(component.disableSAMAndExit).toHaveBeenCalled();
+        expect(component.escapeSAM).toHaveBeenCalled();
       }));
 
       it('should not call disableSAMAndExit if not pressed', fakeAsync(() => {
-        spyOn(component, 'disableSAMAndExit');
+        spyOn(component, 'escapeSAM');
         component.onTouchStart();
         component.onTouchEnd();
         tick(component.timeToHold);
-        expect(component.disableSAMAndExit).not.toHaveBeenCalled();
+        expect(component.escapeSAM).not.toHaveBeenCalled();
       }));
     });
 
@@ -71,24 +65,11 @@ describe('ExitSamBanner', () => {
       });
     });
 
-    describe('disableSAMAndExit', () => {
-      it('should disable single app mode', async () => {
-        await component.disableSAMAndExit();
-        expect(deviceProvider.disableSingleAppMode).toHaveBeenCalled();
-      });
-
-      it('should open settings URL', async () => {
-        spyOn(AppLauncher, 'openUrl').and.returnValue(Promise.resolve({ completed: true } as OpenURLResult));
-        await component.disableSAMAndExit();
-        expect(AppLauncher.openUrl).toHaveBeenCalledWith({ url: 'App-prefs://' });
-      });
-
-      it('should log error if openUrl fails', async () => {
-        const error = new Error('Failed to open URL');
-        spyOn(AppLauncher, 'openUrl').and.returnValue(Promise.reject(error));
-        spyOn(console, 'log');
-        await component.disableSAMAndExit();
-        expect(console.log).toHaveBeenCalledWith(error);
+    describe('escapeSAM', () => {
+      it('should emit the escape sam event', async () => {
+        spyOn(component.escapeSamBannerClicked, 'emit');
+        await component.escapeSAM();
+        expect(component.escapeSamBannerClicked.emit).toHaveBeenCalled();
       });
     });
   });

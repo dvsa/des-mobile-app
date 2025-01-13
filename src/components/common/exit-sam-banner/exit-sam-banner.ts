@@ -1,5 +1,4 @@
 import { Component, EventEmitter, Output } from '@angular/core';
-import { AppLauncher } from '@capacitor/app-launcher';
 import { ModalController } from '@ionic/angular';
 import { AccessibilityService } from '@providers/accessibility/accessibility.service';
 import { DeviceProvider } from '@providers/device/device';
@@ -22,6 +21,9 @@ export class ExitSamBanner {
   @Output()
   cancelClicked = new EventEmitter<void>();
 
+  @Output()
+  samEscaped = new EventEmitter<void>();
+
   timeToHold = 1000;
   isPressed = false;
 
@@ -30,7 +32,7 @@ export class ExitSamBanner {
 
     setTimeout(async () => {
       if (this.isPressed) {
-        await this.disableSAMAndExit();
+        this.escapeSAM();
       }
     }, this.timeToHold);
   }
@@ -43,17 +45,8 @@ export class ExitSamBanner {
     this.cancelClicked.emit();
   }
 
-  async disableSAMAndExit() {
+  escapeSAM() {
     this.escapeSamBannerClicked.emit(false);
-    //disable single app mode
-    await this.deviceProvider.disableSingleAppMode();
-    try {
-      // Go to teams
-      await AppLauncher.openUrl({ url: 'msteams://teams.microsoft.com' });
-      // Go to settings
-      // await AppLauncher.openUrl({ url: 'App-prefs://' });
-    } catch (e) {
-      console.log(e);
-    }
+    this.samEscaped.emit();
   }
 }
