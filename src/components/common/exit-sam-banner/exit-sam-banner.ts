@@ -17,6 +17,9 @@ export class ExitSamBanner {
   ) {}
 
   @Output()
+  escapeSamBannerClicked = new EventEmitter<boolean>();
+
+  @Output()
   cancelClicked = new EventEmitter<void>();
 
   timeToHold = 1000;
@@ -41,13 +44,14 @@ export class ExitSamBanner {
   }
 
   async disableSAMAndExit() {
+    this.escapeSamBannerClicked.emit(false);
     //disable single app mode
     await this.deviceProvider.disableSingleAppMode();
     try {
       // Go to teams
-      // await AppLauncher.openUrl({ url: 'msteams://teams.microsoft.com' });
+      await AppLauncher.openUrl({ url: 'msteams://teams.microsoft.com' });
       // Go to settings
-      await AppLauncher.openUrl({ url: 'App-prefs://' });
+      // await AppLauncher.openUrl({ url: 'App-prefs://' });
     } catch (e) {
       console.log(e);
     }

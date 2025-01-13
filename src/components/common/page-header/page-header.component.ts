@@ -52,6 +52,4 @@ export class PageHeaderComponent {
     this.isExitSAMActivated = newValue;
     this.onExitSAMActivatedChanged.emit(newValue);
   }
-
-  protected readonly event = event;
 }

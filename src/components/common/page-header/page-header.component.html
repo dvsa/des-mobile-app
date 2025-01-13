@@ -1,6 +1,9 @@
 <ion-row *ngIf="isExitSAMActivated">
   <ion-col class="ion-no-padding">
-    <exit-sam-banner (cancelClicked)="changeExitSAMValue(false)"></exit-sam-banner>
+    <exit-sam-banner
+      (escapeSamBannerClicked)="changeExitSAMValue(false)"
+      (cancelClicked)="changeExitSAMValue(false)">
+    </exit-sam-banner>
   </ion-col>
 </ion-row>
 <ion-row class="set-header-height">

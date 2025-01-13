@@ -55,9 +55,9 @@ export class ExitSamButton {
     await this.deviceProvider.disableSingleAppMode();
     try {
       // Go to teams
-      // await AppLauncher.openUrl({ url: 'msteams://teams.microsoft.com' });
+      await AppLauncher.openUrl({ url: 'msteams://teams.microsoft.com' });
       // Go to settings
-      await AppLauncher.openUrl({ url: 'App-prefs://' });
+      // await AppLauncher.openUrl({ url: 'App-prefs://' });
     } catch (e) {
       console.log(e);
     }
