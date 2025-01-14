@@ -28,7 +28,7 @@ describe('UrlProvider', () => {
     });
 
     it('should format the URL with an unmapped staffNumber when no staffNumber is provided', () => {
-      let url;
+      let url: string;
       url = urlProvider.getPersonalJournalUrl(null);
       expect(url).toBe('https://www.example.com/api/v1/journals/00000000/personal');
       url = urlProvider.getPersonalJournalUrl(undefined);

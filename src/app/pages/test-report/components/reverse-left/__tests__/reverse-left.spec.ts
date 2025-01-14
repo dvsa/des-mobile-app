@@ -126,8 +126,8 @@ describe('ReverseLeftComponent', () => {
     });
 
     describe('togglePopoverDisplay', () => {
-      let storeDispatchSpy;
-      let toggleOverlaySpy;
+      let storeDispatchSpy: jasmine.Spy;
+      let toggleOverlaySpy: jasmine.Spy;
       beforeEach(() => {
         storeDispatchSpy = spyOn(store$, 'dispatch');
         toggleOverlaySpy = spyOn(component, 'toggleOverlay');

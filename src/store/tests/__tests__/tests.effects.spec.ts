@@ -51,7 +51,7 @@ import { initialState, testsReducer } from '../tests.reducer';
 describe('TestsEffects', () => {
   let effects: TestsEffects;
   let actions$: ReplaySubject<Action>;
-  let testPersistenceProviderMock;
+  let testPersistenceProviderMock: TestPersistenceProvider;
   let store$: Store<StoreModel>;
   let logHelper: LogHelper;
   let navigationStateProviderMock: NavigationStateProviderMock;
@@ -129,13 +129,15 @@ describe('TestsEffects', () => {
     store$ = TestBed.inject(Store);
     logHelper = TestBed.inject(LogHelper);
     spyOn(logHelper, 'createLog');
+    spyOn(testPersistenceProviderMock, 'persistTests').and.returnValue(Promise.resolve(''));
+    spyOn(testPersistenceProviderMock, 'loadPersistedTests').and.returnValue(Promise.resolve({} as TestsModel));
   });
 
   describe('persistTestsEffect', () => {
     it('should respond to a PERSIST_TESTS action and delegate to the persistence provider', (done) => {
       // ARRANGE
       store$.dispatch(testsActions.StartTest(12345, TestCategory.B));
-      testPersistenceProviderMock.persistTests.and.returnValue(Promise.resolve());
+      spyOn(testPersistenceProviderMock, 'persistTests').and.returnValue(Promise.resolve(''));
       // ACT
       actions$.next(testsActions.PersistTests());
       // ASSERT
@@ -156,7 +158,7 @@ describe('TestsEffects', () => {
           slotId: '123',
         },
       };
-      testPersistenceProviderMock.loadPersistedTests.and.returnValue(Promise.resolve(persistedTests));
+      spyOn(testPersistenceProviderMock, 'loadPersistedTests').and.returnValue(Promise.resolve(persistedTests));
       // ACT
       actions$.next(testsActions.LoadPersistedTests());
       // ASSERT

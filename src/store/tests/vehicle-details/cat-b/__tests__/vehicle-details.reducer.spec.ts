@@ -1,3 +1,4 @@
+import { VehicleDetails } from '@dvsa/mes-test-schema/categories/common';
 import { MotStatusCodes } from '@providers/mot-history-api/mot-interfaces';
 import {
   ClearGearboxCategory,
@@ -74,7 +75,7 @@ describe('vehicle details reducer', () => {
   });
 
   it('should toggle the state of school car when school car toggled action is received', () => {
-    let result;
+    let result: VehicleDetails & { schoolCar?: boolean };
     result = vehicleDetailsReducer({}, SchoolCarToggled());
     expect(result.schoolCar).toBe(true);
     result = vehicleDetailsReducer(result, SchoolCarToggled());
@@ -82,7 +83,7 @@ describe('vehicle details reducer', () => {
   });
 
   it('should toggle the state of dual controls when dual controls toggled action is received', () => {
-    let result;
+    let result: VehicleDetails & { dualControls?: boolean };
     result = vehicleDetailsReducer({}, DualControlsToggled());
     expect(result.dualControls).toBe(true);
     result = vehicleDetailsReducer(result, DualControlsToggled());

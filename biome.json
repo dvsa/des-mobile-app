@@ -1,7 +1,5 @@
 {
-  "extends": [
-    "@dvsa/biome-config/biome"
-  ],
+  "extends": ["@dvsa/biome-config/biome"],
   "formatter": {
     "enabled": true,
     "formatWithErrors": true,
@@ -10,10 +8,7 @@
     "lineEnding": "lf",
     "lineWidth": 120,
     "attributePosition": "auto",
-    "ignore": [
-      "**/*.html",
-      "**/*.json"
-    ]
+    "ignore": ["**/*.html", "**/*.json"]
   },
   "files": {
     "ignore": [
@@ -38,9 +33,7 @@
   },
   "overrides": [
     {
-      "include": [
-        "**/*.ts"
-      ],
+      "include": ["**/*.ts"],
       "linter": {
         "enabled": true,
         "rules": {
@@ -63,7 +56,6 @@
           },
           "suspicious": {
             "noAssignInExpressions": "off",
-            "noImplicitAnyLet": "off",
             "noConfusingVoidType": "off"
           },
           "performance": {
@@ -73,9 +65,7 @@
       }
     },
     {
-      "include": [
-        "**/*.spec.ts"
-      ],
+      "include": ["**/*.spec.ts"],
       "linter": {
         "enabled": true,
         "rules": {

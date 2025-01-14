@@ -2,7 +2,8 @@ import { TestBed } from '@angular/core/testing';
 import { cloneDeep } from 'lodash-es';
 
 import { TestSlotComponent } from '@components/test-slot/test-slot/test-slot';
-import { TestSlot } from '@dvsa/mes-journal-schema';
+import { ExaminerWorkSchedule, Gender, NonTestActivity, TestSlot, VehicleGearbox } from '@dvsa/mes-journal-schema';
+import { Initiator } from '@dvsa/mes-test-schema/categories/common';
 import { Store, StoreModule } from '@ngrx/store';
 import { DateTime, Duration } from '@shared/helpers/date-time';
 import { SpecialNeedsCode } from '@shared/helpers/get-slot-type';
@@ -16,8 +17,8 @@ import { SlotProvider } from '../slot';
 const journalSlotsMissingDays = require('../__mocks__/journal-slots-missing-days-mock.json');
 
 describe('SlotProvider', () => {
-  let slotProvider;
-  let appConfigProvider;
+  let slotProvider: SlotProvider;
+  let appConfigProvider: AppConfigProvider;
   let store$: Store<StoreModel>;
 
   const startTime = '2019-02-01T11:22:33+00:00';
@@ -73,7 +74,7 @@ describe('SlotProvider', () => {
         testCategory: 'B',
         vehicleGearbox: 'Manual',
       },
-      previousCancellation: ['Act of nature'],
+      previousCancellation: ['Act of nature' as Initiator],
     },
   };
 
@@ -105,6 +106,7 @@ describe('SlotProvider', () => {
         {
           component: TestSlotComponent,
           hasSlotChanged: false,
+          hasSeenCandidateDetails: false,
           slotData: {
             slotDetail: {
               slotId: 1001,
@@ -127,7 +129,7 @@ describe('SlotProvider', () => {
                   lastName: 'Pearson',
                 },
                 driverNumber: 'PEARS015220A99HC',
-                gender: 'Female',
+                gender: 'F' as Gender,
                 candidateAddress: {
                   addressLine1: '1 Station Street',
                   addressLine2: 'Someplace',
@@ -151,15 +153,16 @@ describe('SlotProvider', () => {
                 specialNeeds: 'Candidate has dyslexia',
                 entitlementCheck: false,
                 testCategory: 'B',
-                vehicleGearbox: 'Manual',
+                vehicleGearbox: 'Manual' as VehicleGearbox,
               },
-              previousCancellation: ['Act of nature'],
+              previousCancellation: ['Act of nature' as Initiator],
             },
           },
         },
         {
           component: TestSlotComponent,
           hasSlotChanged: false,
+          hasSeenCandidateDetails: false,
           slotData: {
             slotDetail: {
               slotId: 1002,
@@ -182,7 +185,7 @@ describe('SlotProvider', () => {
                   lastName: 'Zielinski',
                 },
                 driverNumber: 'ZIELI965220A99HC',
-                gender: 'Male',
+                gender: 'M' as Gender,
                 candidateAddress: {
                   addressLine1: '10 High Street',
                   addressLine2: 'Someplace',
@@ -205,7 +208,7 @@ describe('SlotProvider', () => {
                 specialNeeds: '',
                 entitlementCheck: false,
                 testCategory: 'B',
-                vehicleGearbox: 'Manual',
+                vehicleGearbox: 'Manual' as VehicleGearbox,
               },
             },
           },
@@ -228,26 +231,13 @@ describe('SlotProvider', () => {
           costCode: 'EXTC',
         },
       },
-    ];
+    ] satisfies NonTestActivity[];
 
     const newJournal = {
-      staffNumber: 12345,
-      examinerName: {
-        title: 'Mr',
-        firstName: 'Joe',
-        secondName: 'Frederic',
-        thirdName: 'Englbert',
-        lastName: 'Bloggs',
-      },
-      permTestCentre: {
-        centreId: 54321,
-        centreName: 'Example Test Centre',
-        costCode: 'EXTC1',
-      },
       testSlots: cloneDeep(oldSlots['2019-01-21'].map((slot) => slot.slotData)),
       nonTestActivities: cloneDeep(oldNonTestActivities),
       personalCommitments: [],
-    };
+    } satisfies ExaminerWorkSchedule;
 
     describe('when there are no slots in the new journal', () => {
       it('should return a blank array', () => {
@@ -298,7 +288,7 @@ describe('SlotProvider', () => {
     describe('when the journal payload contains nonTestActivities', () => {
       it('should mix them into the TestSlots such that they appear in date order', () => {
         const result = slotProvider.detectSlotChanges(oldSlots, newJournal);
-        expect(result[1].slotData.activityCode).toBe('091');
+        expect((result[1].slotData as NonTestActivity).activityCode).toBe('091');
       });
     });
   });
@@ -311,6 +301,8 @@ describe('SlotProvider', () => {
             start: '2019-01-21T08:10:00+00:00',
           },
         },
+        hasSlotChanged: false,
+        hasSeenCandidateDetails: false,
       };
 
       const result = slotProvider.getSlotDate(slot);
@@ -330,7 +322,7 @@ describe('SlotProvider', () => {
   });
 
   describe('canStartTest', () => {
-    let getAppConfigSpy;
+    let getAppConfigSpy: jasmine.Spy;
     beforeEach(() => {
       getAppConfigSpy = jasmine.createSpy('getAppConfig');
       appConfigProvider.getAppConfig = getAppConfigSpy;
