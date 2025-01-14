@@ -2,7 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { cloneDeep } from 'lodash-es';
 
 import { TestSlotComponent } from '@components/test-slot/test-slot/test-slot';
-import { Gender, TestSlot, VehicleGearbox } from '@dvsa/mes-journal-schema';
+import { ExaminerWorkSchedule, Gender, NonTestActivity, TestSlot, VehicleGearbox } from '@dvsa/mes-journal-schema';
 import { Initiator } from '@dvsa/mes-test-schema/categories/common';
 import { Store, StoreModule } from '@ngrx/store';
 import { DateTime, Duration } from '@shared/helpers/date-time';
@@ -231,26 +231,13 @@ describe('SlotProvider', () => {
           costCode: 'EXTC',
         },
       },
-    ];
+    ] satisfies NonTestActivity[];
 
     const newJournal = {
-      staffNumber: 12345,
-      examinerName: {
-        title: 'Mr',
-        firstName: 'Joe',
-        secondName: 'Frederic',
-        thirdName: 'Englbert',
-        lastName: 'Bloggs',
-      },
-      permTestCentre: {
-        centreId: 54321,
-        centreName: 'Example Test Centre',
-        costCode: 'EXTC1',
-      },
       testSlots: cloneDeep(oldSlots['2019-01-21'].map((slot) => slot.slotData)),
       nonTestActivities: cloneDeep(oldNonTestActivities),
       personalCommitments: [],
-    };
+    } satisfies ExaminerWorkSchedule;
 
     describe('when there are no slots in the new journal', () => {
       it('should return a blank array', () => {
@@ -301,7 +288,7 @@ describe('SlotProvider', () => {
     describe('when the journal payload contains nonTestActivities', () => {
       it('should mix them into the TestSlots such that they appear in date order', () => {
         const result = slotProvider.detectSlotChanges(oldSlots, newJournal);
-        expect(result[1].slotData['activityCode']).toBe('091');
+        expect((result[1].slotData as NonTestActivity).activityCode).toBe('091');
       });
     });
   });
