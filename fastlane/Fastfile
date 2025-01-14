@@ -7,6 +7,9 @@ end
 
 desc "Build the Simulator File for the Automation Suite"
 lane :simulator do
+  filename = "des-#{ENV["ENVIRONMENT"]}-#{ENV["BRANCH"]}-#{ENV["RUN_ID"]}.app.zip"
+  sh("echo ARTEFACT_FILENAME=#{filename} >> $GITHUB_ENV")
+
   icon_banner(label: 'QA')
 
   archive_path = gym(
@@ -23,7 +26,7 @@ lane :simulator do
 
   zip(
     path: "#{archive_path}/Products/Applications/App.app",
-    output_path: "./fastlane/simulator/des-#{ENV["ENVIRONMENT"]}-#{ENV["BRANCH"]}-#{ENV["RUN_ID"]}.app.zip"
+    output_path: "./fastlane/simulator/#{filename}"
   )
 
   sh("echo '✅ Fastlane Simulator Built' >> $GITHUB_STEP_SUMMARY")
@@ -40,7 +43,7 @@ lane :simulator do
       html_in_folder: false,
       upload_metadata: false,
       region: ENV["AWS_REGION"],
-      ipa: "./fastlane/simulator/des-#{ENV["ENVIRONMENT"]}-#{ENV["BRANCH"]}-#{ENV["RUN_ID"]}.app.zip"
+      ipa: "./fastlane/simulator/#{filename}"
     )
 
     file = "simulator/$BRANCH-#{ENV["RUN_ID"]}-APP.txt"
@@ -58,8 +61,12 @@ lane :release_build do
   begin
     version = get_version_number(xcodeproj: "./ios/App/App.xcodeproj", target: "App")
     path = ENV["ENVIRONMENT"]
+    path = "feature/#{ENV["BRANCH"]}" if path == "feature"
     commit = last_git_commit
     short_hash = commit[:abbreviated_commit_hash]
+    filename = "DrivingExaminerService-#{version}-#{ENV["RUN_ID"]}-#{short_hash}"
+
+    sh("echo ARTEFACT_FILENAME=#{filename}.ipa >> $GITHUB_ENV")
 
     create_keychain(
       name: ENV["KEYCHAIN_NAME"],
@@ -75,7 +82,7 @@ lane :release_build do
       workspace: "./ios/App/App.xcworkspace",
       export_method: "enterprise",
       output_directory: "./fastlane/builds",
-      output_name: "DrivingExaminerService-#{version}-#{ENV["RUN_ID"]}-#{short_hash}.ipa",
+      output_name: "#{filename}.ipa",
       clean: true
     )
 
@@ -88,13 +95,13 @@ lane :release_build do
         bucket: ENV["DES_MOBILE_ARTEFACTS_BUCKET"],
         path: "github-actions/#{path}/#{version}/",
         html_in_folder: true,
-        html_file_name: "DrivingExaminerService-#{version}-#{ENV["RUN_ID"]}-#{short_hash}.html",
+        html_file_name: "#{filename}.html",
         region: ENV["AWS_REGION"],
-        ipa: "./fastlane/builds/DrivingExaminerService-#{version}-#{ENV["RUN_ID"]}-#{short_hash}.ipa",
-        dsym: "./fastlane/builds/DrivingExaminerService-#{version}-#{ENV["RUN_ID"]}-#{short_hash}.app.dSYM.zip"
+        ipa: "./fastlane/builds/#{filename}.ipa",
+        dsym: "./fastlane/builds/#{filename}.app.dSYM.zip"
       )
 
-      file = "builds/$BRANCH-#{version}.#{ENV["RUN_ID"]}-#{short_hash}-IPA.txt"
+      file = "builds/#{version}.#{ENV["RUN_ID"]}-#{short_hash}-IPA.txt"
       sh("echo $S3_IPA_OUTPUT_PATH > #{file}")
       sh("aws s3 cp #{file} s3://#{ENV["DES_MOBILE_ARTEFACTS_BUCKET"]}/github-actions/files/#{path}/")
     else
