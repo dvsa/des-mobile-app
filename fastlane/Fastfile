@@ -61,9 +61,11 @@ lane :release_build do
   begin
     version = get_version_number(xcodeproj: "./ios/App/App.xcodeproj", target: "App")
     path = ENV["ENVIRONMENT"]
+    path = "feature/#{ENV["BRANCH"]}" if path == "feature"
     commit = last_git_commit
     short_hash = commit[:abbreviated_commit_hash]
     filename = "DrivingExaminerService-#{version}-#{ENV["RUN_ID"]}-#{short_hash}"
+
     sh("echo ARTEFACT_FILENAME=#{filename}.ipa >> $GITHUB_ENV")
 
     create_keychain(
