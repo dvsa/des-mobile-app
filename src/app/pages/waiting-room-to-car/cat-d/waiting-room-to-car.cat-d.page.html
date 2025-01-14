@@ -67,6 +67,7 @@
               *ngIf="!(pageState.delegatedTest$ | async)"
               [category]="pageState.category$ | async"
               [formGroup]="form"
+              [practiceMode]="isEndToEndPracticeMode"
               [fullLicenceHeld]="pageState.fullLicenceHeld$ | async"
               [safetyQuestionsScore]="pageState.safetyQuestionsScore$ | async"
               [safetyQuestions]="pageState.safetyQuestions$ | async"
