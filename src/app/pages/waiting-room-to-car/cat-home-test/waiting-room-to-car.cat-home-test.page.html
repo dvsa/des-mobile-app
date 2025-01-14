@@ -79,6 +79,7 @@
               (onCloseVehicleChecksModal)="closeVehicleChecksModal()"
               [category]="pageState.category$ | async"
               [formGroup]="form"
+              [practiceMode]="isEndToEndPracticeMode"
               [fullLicenceHeld]="false"
               [vehicleChecksScore]="pageState.vehicleChecksScore$ | async"
               [vehicleChecks]="pageState.vehicleChecks$ | async"
