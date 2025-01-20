@@ -13,6 +13,8 @@ import { CandidateLicenceErr, CandidateLicenceProvider } from '@providers/candid
 import { PracticeableBasePageComponent } from '@shared/classes/practiceable-base-page';
 import { DateTime, Duration } from '@shared/helpers/date-time';
 import { getTestCategory } from '@store/tests/category/category.reducer';
+import { getDelegatedTestIndicator } from '@store/tests/delegated-test/delegated-test.reducer';
+import { isDelegatedTest } from '@store/tests/delegated-test/delegated-test.selector';
 import { getApplicationReference } from '@store/tests/journal-data/common/application-reference/application-reference.reducer';
 import { getApplicationNumber } from '@store/tests/journal-data/common/application-reference/application-reference.selector';
 import { getCandidate } from '@store/tests/journal-data/common/candidate/candidate.reducer';
@@ -43,6 +45,8 @@ interface CandidateLicencePageState {
   genderDescription$: Observable<string>;
   age$: Observable<number>;
   candidateData$: Observable<DriverLicenceSchema>;
+  delegatedTest$: Observable<boolean>;
+  isRekey$: Observable<boolean>;
 }
 
 @Component({
@@ -74,6 +78,8 @@ export class CandidateLicencePage extends PracticeableBasePageComponent implemen
     const currentTest$ = this.store$.pipe(select(getTests), select(getCurrentTest));
 
     this.pageState = {
+      isRekey$: currentTest$.pipe(select(getRekeyIndicator), select(isRekey)),
+      delegatedTest$: currentTest$.pipe(select(getDelegatedTestIndicator), select(isDelegatedTest)),
       candidateUntitledName$: currentTest$.pipe(
         select(getJournalData),
         select(getCandidate),

@@ -49,14 +49,10 @@ import { AccessibilityService } from '@providers/accessibility/accessibility.ser
 import { isAnyOf } from '@shared/helpers/simplifiers';
 import { ErrorTypes } from '@shared/models/error-message';
 import { getTestCategory } from '@store/tests/category/category.reducer';
-import { getDelegatedTestIndicator } from '@store/tests/delegated-test/delegated-test.reducer';
-import { isDelegatedTest } from '@store/tests/delegated-test/delegated-test.selector';
 import { getPreTestDeclarationsCatAMod1 } from '@store/tests/pre-test-declarations/cat-a-mod1/pre-test-declarations.cat-a-mod1.reducer';
 import { getCBTNumberStatus } from '@store/tests/pre-test-declarations/cat-a-mod1/pre-test-declarations.cat-a-mod1.selector';
 import { CbtNumberChanged } from '@store/tests/pre-test-declarations/cat-a/pre-test-declarations.cat-a.actions';
 import { getManoeuvrePassCertificateNumber } from '@store/tests/pre-test-declarations/cat-c/pre-test-declarations.cat-c.selector';
-import { getRekeyIndicator } from '@store/tests/rekey/rekey.reducer';
-import { isRekey } from '@store/tests/rekey/rekey.selector';
 import { showVrnButton } from '@store/tests/vehicle-details/vehicle-details.selector';
 import * as waitingRoomActions from './waiting-room.actions';
 
@@ -76,8 +72,6 @@ interface WaitingRoomPageState {
   showCbtNumber$: Observable<boolean>;
   showResidencyDec$: Observable<boolean>;
   cbtNumber$: Observable<string>;
-  isRekey$: Observable<boolean>;
-  delegatedTest$: Observable<boolean>;
 }
 
 @Component({
@@ -118,7 +112,6 @@ export class WaitingRoomPage extends PracticeableBasePageComponent implements On
     const currentTest$ = this.store$.pipe(select(getTests), select(getCurrentTest));
 
     this.pageState = {
-      delegatedTest$: currentTest$.pipe(select(getDelegatedTestIndicator), select(isDelegatedTest)),
       insuranceDeclarationAccepted$: currentTest$.pipe(
         select(getPreTestDeclarations),
         select(getInsuranceDeclarationStatus)
@@ -190,10 +183,9 @@ export class WaitingRoomPage extends PracticeableBasePageComponent implements On
         )
       ),
       cbtNumber$: currentTest$.pipe(select(getPreTestDeclarationsCatAMod1), select(getCBTNumberStatus)),
-      isRekey$: currentTest$.pipe(select(getRekeyIndicator), select(isRekey)),
     };
 
-    const { welshTest$, conductedLanguage$, testCategory$, isRekey$ } = this.pageState;
+    const { welshTest$, conductedLanguage$, testCategory$ } = this.pageState;
 
     this.merged$ = merge(
       currentTest$.pipe(
@@ -206,8 +198,7 @@ export class WaitingRoomPage extends PracticeableBasePageComponent implements On
       ),
       welshTest$,
       conductedLanguage$.pipe(tap((value) => configureI18N(value as Language, this.translate))),
-      testCategory$.pipe(tap((value) => (this.testCategory = value as TestCategory))),
-      isRekey$.pipe(tap((value) => (this.isRekey = value)))
+      testCategory$.pipe(tap((value) => (this.testCategory = value as TestCategory)))
     );
   }
 

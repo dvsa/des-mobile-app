@@ -24,7 +24,6 @@
   @extend .exit-banner-base;
   display: flex;
   align-items: center;
-  padding-bottom: 2px;
   text-align: center;
   font-size: 18px;
   font-weight: bold;
@@ -49,7 +48,6 @@
   --background: var(--escape-SAM-Purple);
   padding-top: 0;
   padding-bottom: 0;
-  height: 50px;
 }
 
 .exit-icon {

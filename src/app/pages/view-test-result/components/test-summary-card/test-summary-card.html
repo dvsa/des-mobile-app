@@ -4,7 +4,7 @@
   </ion-card-header>
   <ion-card-content>
     <ion-grid>
-      <data-row [label]="'Accompanied by'" [value]="accompaniedBy"> </data-row>
+      <data-row [label]="'Accompanied by'" [value]="accompaniedBy"></data-row>
 
       <data-row
         *ngIf="shouldDisplayLicenceProvided()"
@@ -13,17 +13,17 @@
       >
       </data-row>
 
-      <data-row *ngIf="code78 != null" [label]="'Code 78'" [value]="code78"> </data-row>
+      <data-row *ngIf="code78 != null" [label]="'Code 78'" [value]="code78"></data-row>
 
       <data-row *ngIf="passCertificateNumber" [label]="'Certificate number'" [value]="passCertificateNumber">
       </data-row>
 
-      <data-row *ngIf="!isADI3() && !isSC()" [label]="'Route number'" [value]="routeNumber"> </data-row>
+      <data-row *ngIf="!isADI3() && !isSC()" [label]="'Route number'" [value]="routeNumber"></data-row>
 
       <data-row *ngIf="shouldDisplayTestConductedOn()" [label]="'Test conducted on'" [value]="testConductedOn">
       </data-row>
 
-      <data-row *ngIf="!isADI3() && !isSC()" [label]="'Independent driving'" [value]="independentDriving"> </data-row>
+      <data-row *ngIf="!isADI3() && !isSC()" [label]="'Independent driving'" [value]="independentDriving"></data-row>
 
       <data-row
         *ngIf="!isADI3() && !isSC()"
@@ -35,17 +35,27 @@
       <data-row *ngIf="!isADI3() && !isSC()" [label]="'Distinguishing features'" [value]="candidateDescription">
       </data-row>
 
-      <data-row *ngIf="isSC()" [label]="'Valid certificate'" [value]="validCertificate"> </data-row>
+      <data-row *ngIf="isSC()" [label]="'Valid certificate'" [value]="validCertificate"></data-row>
 
-      <data-row [label]="'Debrief witnessed'" [value]="debriefWitnessed"> </data-row>
+      <data-row [label]="'Debrief witnessed'" [value]="debriefWitnessed"></data-row>
 
-      <data-row *ngIf="!isADI3() && !isSC()" [label]="'Weather conditions'" [value]="weatherConditions"> </data-row>
+      <data-row *ngIf="!isADI3() && !isSC()" [label]="'Weather conditions'" [value]="weatherConditions"></data-row>
 
-      <data-row *ngIf="!isADI3() && !isSC()" [label]="'D255'" [value]="d255"> </data-row>
+      <data-row *ngIf="!isADI3() && !isSC()" [label]="'D255'" [value]="d255"></data-row>
 
-      <data-row [label]="'Conducted language'" [value]="conductedLanguage"> </data-row>
+      <data-row [label]="'Conducted language'" [value]="conductedLanguage"></data-row>
 
-      <data-row [label]="'Additional information'" [shouldHaveSeperator]="false" [value]="additionalInformation">
+      <data-row
+        [label]="'Additional information'"
+        [shouldHaveSeperator]="userExitedApp.exitFlag"
+        [value]="additionalInformation">
+      </data-row>
+
+      <data-row
+        *ngIf="userExitedApp.exitFlag"
+        [label]="'Reason for leaving DES during the test'"
+        [shouldHaveSeperator]="false"
+        [value]="reasonForExitingApp">
       </data-row>
     </ion-grid>
   </ion-card-content>

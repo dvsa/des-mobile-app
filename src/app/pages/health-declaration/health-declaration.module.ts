@@ -4,6 +4,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 
 import { ComponentsModule } from '@components/common/common-components.module';
+import { PageHeaderComponent } from '@components/common/page-header/page-header.component';
 import { DirectivesModule } from '@directives/directives.module';
 import { EffectsModule } from '@ngrx/effects';
 import { TranslateModule } from '@ngx-translate/core';
@@ -25,6 +26,7 @@ import { HealthDeclarationPage } from './health-declaration.page';
     HealthDeclarationComponentsModule,
     EffectsModule.forFeature([HealthDeclarationAnalyticsEffects, HealthDeclarationEffects]),
     DirectivesModule,
+    PageHeaderComponent,
   ],
   declarations: [HealthDeclarationPage],
 })

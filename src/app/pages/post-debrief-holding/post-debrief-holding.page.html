@@ -1,13 +1,25 @@
 <ion-header>
   <practice-mode-banner *ngIf="isEndToEndPracticeMode"></practice-mode-banner>
-  <ion-toolbar [ngClass]="{'toolbar-no-padding': isEndToEndPracticeMode}" mode="ios">
-    <ion-title id="post-debrief-title" role="heading" aria-level="1">Post debrief screen</ion-title>
+  <ion-toolbar class="no-internal-padding"
+               [ngClass]="{'toolbar-no-padding': isEndToEndPracticeMode || isExitSAMActivated}" mode="ios">
+    <des-header
+      class="display-flex flex-direction-column"
+      [pageName]="'post-debrief'"
+      [shouldShowEscapeFromSamButton]="!isRekey && !isDelegatedTest"
+      [shouldShowBackButton]="false"
+      [isPracticeMode]="isEndToEndPracticeMode"
+      [isExitSAMActivated]="isExitSAMActivated"
+      [shouldShowEndTestLink]="false"
+      (exitSamUsed)="onUsedExitSam()"
+      (onExitSAMActivatedChanged)="isSamActivatedChanged($event)">
+      Post debrief screen
+    </des-header>
   </ion-toolbar>
 </ion-header>
 
 <ion-content id="post-debrief-holding-page" class="content-styling" forceOverscroll="false">
   <div class="container">
-    <img id="dvsa-logo" src="assets/imgs/back-to-office/logo.png" alt="DVSA Logo" />
+    <img id="dvsa-logo" src="assets/imgs/back-to-office/logo.png" alt="DVSA Logo"/>
   </div>
 
   <div class="container">

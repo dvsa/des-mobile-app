@@ -11,6 +11,7 @@ import { BackToOfficeEffects } from '@pages/back-to-office/back-to-office.effect
 import { AsamFailureNotificationModal } from '@pages/back-to-office/components/asam-failure-notification/asam-failure-notification-modal';
 import { BackToOfficePageRoutingModule } from './back-to-office-routing.module';
 
+import { PageHeaderComponent } from '@components/common/page-header/page-header.component';
 import { BackToOfficePage } from './back-to-office.page';
 
 @NgModule({
@@ -21,6 +22,7 @@ import { BackToOfficePage } from './back-to-office.page';
     BackToOfficePageRoutingModule,
     ComponentsModule,
     EffectsModule.forFeature([BackToOfficeEffects, BackToOfficeAnalyticsEffects]),
+    PageHeaderComponent,
   ],
   declarations: [BackToOfficePage, AsamFailureNotificationModal],
 })

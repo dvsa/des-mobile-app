@@ -7,6 +7,7 @@ import { IonicModule } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
 
 import { ComponentsModule } from '@components/common/common-components.module';
+import { PageHeaderComponent } from '@components/common/page-header/page-header.component';
 import { DirectivesModule } from '@directives/directives.module';
 import { EffectsModule } from '@ngrx/effects';
 import { DebriefComponentsModule } from '@pages/debrief/components/debrief-components.module';
@@ -29,6 +30,7 @@ import { DebriefPageRoutingModule } from './debrief.routing.module';
     EffectsModule.forFeature([DebriefEffects, DebriefAnalyticsEffects]),
     ViewTestResultComponentsModule,
     DirectivesModule,
+    PageHeaderComponent,
   ],
   declarations: [DebriefPage],
   providers: [FaultSummaryProvider],

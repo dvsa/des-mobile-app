@@ -5,9 +5,10 @@
     <des-header
       class="display-flex flex-direction-column"
       [testCategory]="pageState.category$ | async"
-      [textId]="'waiting-room-to-car-page-title'"
-      [shouldShowEscapeFromSamButton]="!isEndToEndPracticeMode"
-      [isEndToEndPracticeMode]="isEndToEndPracticeMode"
+      [pageName]="'waiting-room-to-car-page-b'"
+      [shouldShowEscapeFromSamButton]="!isRekey && !isDelegatedTest"
+      [isPracticeMode]="isEndToEndPracticeMode"
+      (exitSamUsed)="onUsedExitSam()"
       [isExitSAMActivated]="isExitSAMActivated"
       [shouldAuthenticateOnTestEnd]="false"
       (onExitSAMActivatedChanged)="isSamActivatedChanged($event)"

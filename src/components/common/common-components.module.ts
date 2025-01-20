@@ -30,8 +30,6 @@ import { TransmissionComponent } from '@components/common/transmission/transmiss
 
 import { ChartComponent } from '@components/common/chart/chart';
 import { DataGridComponent } from '@components/common/data-grid/data-grid';
-import { ExitSamBanner } from '@components/common/exit-sam-banner/exit-sam-banner';
-import { ExitSamButton } from '@components/common/exit-sam-button/exit-sam-button';
 import { LogoutModalModule } from '@components/common/logout-modal/logout-modal.module';
 import { TestRecoveredBannerComponent } from '@components/common/test-recovered-banner/test-recovered-banner';
 import { DirectivesModule } from '@directives/directives.module';
@@ -89,8 +87,6 @@ import { WarningBannerComponent } from './warning-banner/warning-banner';
     SearchablePicklistModal,
     DataGridComponent,
     ChartComponent,
-    ExitSamButton,
-    ExitSamBanner,
     DataRowComponent,
   ],
   imports: [
@@ -146,8 +142,6 @@ import { WarningBannerComponent } from './warning-banner/warning-banner';
     SearchablePicklistModal,
     DataGridComponent,
     ChartComponent,
-    ExitSamButton,
-    ExitSamBanner,
     DataRowComponent,
   ],
 })

@@ -7,11 +7,12 @@
     <des-header
       class="display-flex flex-direction-column"
       [testCategory]="pageState.testCategory$ | async"
-      [isDelegatedRekey]="pageState.delegatedTest$ | async"
-      [textId]="'waiting-room-page-title'"
-      [shouldShowEscapeFromSamButton]="!isEndToEndPracticeMode && !(pageState.delegatedTest$ | async)"
-      [isEndToEndPracticeMode]="isEndToEndPracticeMode"
+      [isDelegatedRekey]="isDelegatedTest"
+      [shouldShowEscapeFromSamButton]="!isDelegatedTest && !isRekey"
+      [pageName]="'waiting-room-page'"
+      [isPracticeMode]="isEndToEndPracticeMode"
       [isExitSAMActivated]="isExitSAMActivated"
+      (exitSamUsed)="onUsedExitSam()"
       (onExitSAMActivatedChanged)="isSamActivatedChanged($event)">
       {{ 'waitingRoom.title' | translate }} - {{ pageState.candidateUntitledName$ | async }}
     </des-header>

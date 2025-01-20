@@ -64,6 +64,7 @@ import { TestCentreJournalStoreModule } from '@store/test-centre-journal/test-ce
 import { TestsModule } from '@store/tests/tests.module';
 import { testsReducer } from '@store/tests/tests.reducer';
 
+import { ExitSingleAppModeEffects } from '@components/common/page-header/exit-sam.effects';
 import { ExaminerRecordsComponentsModule } from '@pages/examiner-records/components/examiner-records-components.module';
 import { CompressionProvider } from '@providers/compression/compression';
 import { ExaminerRecordsProvider } from '@providers/examiner-records/examiner-records';
@@ -135,6 +136,7 @@ if (enableRehydrationPlugin) {
     IonicStorageModule.forRoot(),
     StoreModule.forRoot(reducers, { metaReducers }),
     EffectsModule.forRoot(),
+    EffectsModule.forFeature([ExitSingleAppModeEffects]),
     ...(enableDevTools ? [StoreDevtoolsModule.instrument()] : []),
     AppInfoStoreModule,
     ReferenceDataStoreModule,

@@ -1,0 +1,31 @@
+<ion-row
+  *ngIf="display"
+  class="mes-component-row mes-row-separator"
+  id="reason-for-entering-teams-row"
+  [formGroup]="formGroup"
+>
+  <ion-col class="component-label ion-align-self-start" size="32">
+    <ion-row class="spacing-row"></ion-row>
+    <label id="reason-for-entering-teams-label">Reason for leaving DES during the test</label>
+  </ion-col>
+
+  <ion-col class="ion-align-self-center ion-padding-start" size="58">
+    <ion-row class="spacing-row"></ion-row>
+    <ion-row>
+      <ion-col class="textarea-input">
+        <textarea
+          id="reason-for-entering-teams-text"
+          class="mes-data input-styling-background"
+          name="additionalInformation"
+          formControlName="additionalInformation"
+          [value]="reasonForOpeningTeams"
+          (change)="additionalInformationChanged($event.target.value)"
+          emojiBlock
+          pasteSanitiser
+        >
+        </textarea>
+      </ion-col>
+    </ion-row>
+    <ion-row class="spacing-row"></ion-row>
+  </ion-col>
+</ion-row>

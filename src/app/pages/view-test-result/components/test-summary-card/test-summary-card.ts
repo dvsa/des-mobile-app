@@ -6,6 +6,7 @@ import {
   CommunicationPreferences,
   PassCompletion,
   TestSummary,
+  UserExitedApp,
 } from '@dvsa/mes-test-schema/categories/common';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { get } from 'lodash-es';
@@ -18,6 +19,9 @@ import { convertBooleanToString, flattenArray } from '../../view-test-result-hel
 export class TestSummaryCardComponent {
   @Input()
   accompaniment: Accompaniment;
+
+  @Input()
+  userExitedApp: UserExitedApp;
 
   @Input()
   passCompletion: PassCompletion;
@@ -99,6 +103,10 @@ export class TestSummaryCardComponent {
 
   public get d255(): string {
     return convertBooleanToString(get(this.testSummary, 'D255'));
+  }
+
+  public get reasonForExitingApp(): string {
+    return get(this.userExitedApp, 'reason', 'None');
   }
 
   public get additionalInformation(): string {

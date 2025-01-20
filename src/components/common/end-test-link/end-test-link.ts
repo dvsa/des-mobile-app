@@ -21,6 +21,9 @@ export class EndTestLinkComponent {
   category: string;
 
   @Input()
+  pageTitle = '';
+
+  @Input()
   shouldAuthenticate = true;
 
   @Input()

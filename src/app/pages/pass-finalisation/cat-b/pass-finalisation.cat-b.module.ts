@@ -6,6 +6,7 @@ import { IonicModule } from '@ionic/angular';
 
 import { ComponentsModule } from '@components/common/common-components.module';
 import { DangerBannerComponent } from '@components/common/danger-banner/danger-banner';
+import { PageHeaderComponent } from '@components/common/page-header/page-header.component';
 import { TestFinalisationComponentsModule } from '@components/test-finalisation/test-finalisation-components.module';
 import { EffectsModule } from '@ngrx/effects';
 import { PassFinalisationCatBPageRoutingModule } from '@pages/pass-finalisation/cat-b/pass-finalisation.cat-b-routing.module';
@@ -26,6 +27,7 @@ import { PassFinalisationCatBPage } from './pass-finalisation.cat-b.page';
     PassFinalisationCatBPageRoutingModule,
     ReactiveFormsModule,
     EffectsModule.forFeature([PassFinalisationAnalyticsEffects]),
+    PageHeaderComponent,
   ],
   providers: [OutcomeBehaviourMapProvider, PassCertificateValidationProvider],
   declarations: [PassFinalisationCatBPage, DangerBannerComponent],

@@ -174,6 +174,13 @@
               [outcome]="pageState.testOutcome$ | async"
               (additionalInformationChange)="additionalInformationChanged($event)"
             ></additional-information>
+
+            <reason-for-entering-teams
+              [display]="pageState.hasEnteredTeamsOnThisTest$ | async"
+              [reasonForOpeningTeams]="pageState.reasonForEnteringTeams$ | async"
+              [formGroup]="form"
+              (reasonForOpeningTeamsChange)="reasonForEnteringTeamsChanged($event)"
+            ></reason-for-entering-teams>
           </div>
         </ion-grid>
       </ion-card-content>

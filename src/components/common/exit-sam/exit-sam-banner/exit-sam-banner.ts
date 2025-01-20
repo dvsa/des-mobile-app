@@ -1,5 +1,7 @@
-import { Component, EventEmitter, Output } from '@angular/core';
-import { ModalController } from '@ionic/angular';
+import { NgIf } from '@angular/common';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { ComponentsModule } from '@components/common/common-components.module';
+import { IonicModule, ModalController } from '@ionic/angular';
 import { AccessibilityService } from '@providers/accessibility/accessibility.service';
 import { DeviceProvider } from '@providers/device/device';
 
@@ -7,6 +9,8 @@ import { DeviceProvider } from '@providers/device/device';
   selector: 'exit-sam-banner',
   templateUrl: './exit-sam-banner.html',
   styleUrls: ['./exit-sam-banner.scss'],
+  standalone: true,
+  imports: [IonicModule, ComponentsModule, NgIf],
 })
 export class ExitSamBanner {
   constructor(
@@ -24,21 +28,23 @@ export class ExitSamBanner {
   @Output()
   samEscaped = new EventEmitter<void>();
 
+  @Input()
+  showSpacingBanner = true;
+
+  @Input()
+  pageTitle: string;
+
   timeToHold = 1000;
-  isPressed = false;
+  holdTimeout: NodeJS.Timeout;
 
   onTouchStart() {
-    this.isPressed = true;
-
-    setTimeout(async () => {
-      if (this.isPressed) {
-        this.escapeSAM();
-      }
+    this.holdTimeout = setTimeout(() => {
+      this.escapeSAM();
     }, this.timeToHold);
   }
 
   onTouchEnd() {
-    this.isPressed = false;
+    clearTimeout(this.holdTimeout);
   }
 
   cancelButtonClicked() {
