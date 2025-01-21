@@ -1,5 +1,5 @@
 import { NgIf } from '@angular/common';
-import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { AppLauncher, CanOpenURLResult, OpenURLResult } from '@capacitor/app-launcher';
 import { ComponentsModule } from '@components/common/common-components.module';
 import { ExitSamDESLockedModal } from '@components/common/exit-sam/exit-sam-DES-locked-modal/exit-sam-DES-locked-modal';
@@ -23,7 +23,7 @@ import { Subscription } from 'rxjs';
   standalone: true,
   imports: [IonicModule, ComponentsModule, NgIf, ExitSamBanner, ExitSamButton, DirectivesModule],
 })
-export class PageHeaderComponent implements OnInit, OnDestroy {
+export class PageHeaderComponent {
   @Input()
   isPracticeMode = false;
   @Input()
@@ -67,7 +67,7 @@ export class PageHeaderComponent implements OnInit, OnDestroy {
     public store$: Store<StoreModel>
   ) {}
 
-  ngOnInit() {
+  setupSubscription() {
     this.resumeSubscription = this.platform.resume.subscribe(async () => {
       if (this.shouldShowEscapeFromSamButton) {
         try {
@@ -76,6 +76,8 @@ export class PageHeaderComponent implements OnInit, OnDestroy {
             if (!didEnable) {
               this.store$.dispatch(ExitSamError('Could not enable single app mode', didEnable));
             }
+            //Destroy the subscription to prevent memory leaks
+            this.destroySubscription();
           });
         } catch (e) {
           this.store$.dispatch(ExitSamError('Enable single app mode error', e));
@@ -84,10 +86,10 @@ export class PageHeaderComponent implements OnInit, OnDestroy {
     });
   }
 
-  ngOnDestroy() {
-    console.log('Destroying page header');
+  destroySubscription() {
     if (this.resumeSubscription) {
       this.resumeSubscription.unsubscribe();
+      this.resumeSubscription = null;
     }
   }
 
@@ -120,9 +122,21 @@ export class PageHeaderComponent implements OnInit, OnDestroy {
     await desUnlockedModal.present();
   }
 
+  /**
+   * Disables Single App Mode (SAM) and exits the application.
+   *
+   * This method handles the process of disabling SAM and exiting the application.
+   * It emits an event indicating that SAM has been used, and based on the mode (practice or regular),
+   * it either opens a practice mode modal or attempts to disable SAM and open Microsoft Teams.
+   *
+   * @returns {Promise<void>}
+   */
   async disableSAMAndExit() {
+    // Emit event indicating SAM has been used
     this.exitSamUsed.emit();
+
     if (this.isPracticeMode) {
+      // If in practice mode, open the practice mode modal
       const practiceModal = await this.modalController.create({
         component: ExitSamPracticeModeModal,
         cssClass: 'mes-modal-alert text-zoom-regular',
@@ -130,46 +144,50 @@ export class PageHeaderComponent implements OnInit, OnDestroy {
       await practiceModal.present();
     } else {
       try {
-        //disable single app mode
+        // Attempt to disable single app mode
         await this.deviceProvider.disableSingleAppMode().then(async (didDisable) => {
           if (didDisable) {
             try {
-              AppLauncher.canOpenUrl({ url: 'msteams://teams.microsoft.com' }).then(
-                async (canOpenURLResult: CanOpenURLResult) => {
-                  console.log('Can open url result', canOpenURLResult);
-                  if (canOpenURLResult.value) {
-                    try {
-                      // Go to teams
-                      AppLauncher.openUrl({ url: 'msteams://teams.microsoft.com' }).then(
-                        async (openURLResult: OpenURLResult) => {
-                          if (!openURLResult.completed) {
-                            this.store$.dispatch(ExitSamError('Could not exit to teams', openURLResult));
-                            await this.openDESUnlockedModal();
-                          }
-                        }
-                      );
-                      // Go to settings
-                      // await AppLauncher.openUrl({ url: 'App-prefs://' });
-                    } catch (e) {
-                      await this.openDESUnlockedModal();
-                      this.store$.dispatch(ExitSamError('Finding teams error catch', e));
-                    }
-                  } else {
+              const teamsURL = 'msteams://teams.microsoft.com';
+              // Check if Microsoft Teams can be opened
+              AppLauncher.canOpenUrl({ url: teamsURL }).then(async (canOpenURLResult: CanOpenURLResult) => {
+                if (canOpenURLResult.value) {
+                  try {
+                    // Attempt to open Microsoft Teams
+                    AppLauncher.openUrl({ url: teamsURL }).then(async (openURLResult: OpenURLResult) => {
+                      if (!openURLResult.completed) {
+                        // Dispatch error if unable to exit to Teams and open the unlocked modal
+                        this.store$.dispatch(ExitSamError('Could not exit to teams', openURLResult));
+                        await this.openDESUnlockedModal();
+                      } else {
+                        // Setup subscription to listen for when the user returns if successful
+                        this.setupSubscription();
+                      }
+                    });
+                  } catch (e) {
+                    // Handle error and open the unlocked modal
                     await this.openDESUnlockedModal();
-                    this.store$.dispatch(ExitSamError('Could not find teams'));
+                    this.store$.dispatch(ExitSamError('Finding teams error catch', e));
                   }
+                } else {
+                  // Handle case where Teams cannot be found and open the unlocked modal
+                  await this.openDESUnlockedModal();
+                  this.store$.dispatch(ExitSamError('Could not find teams'));
                 }
-              );
+              });
             } catch (e) {
+              // Handle error and open the unlocked modal
               await this.openDESUnlockedModal();
               this.store$.dispatch(ExitSamError('Exit to teams error catch', e));
             }
           } else {
+            // Handle case where SAM could not be disabled and open the locked modal
             await this.openDESDidNotUnlockModal();
             this.store$.dispatch(ExitSamError('Could not disable single app mode'));
           }
         });
       } catch (e) {
+        // Handle error and open the locked modal
         await this.openDESDidNotUnlockModal();
         this.store$.dispatch(ExitSamError('Disable single app mode error catch', e));
       }
