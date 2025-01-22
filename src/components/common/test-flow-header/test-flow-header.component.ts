@@ -7,7 +7,7 @@ import { ExitSamDESUnlockedModal } from '@components/common/exit-sam/exit-sam-DE
 import { ExitSamBanner } from '@components/common/exit-sam/exit-sam-banner/exit-sam-banner';
 import { ExitSamButton } from '@components/common/exit-sam/exit-sam-button/exit-sam-button';
 import { ExitSamPracticeModeModal } from '@components/common/exit-sam/exit-sam-practice-mode-modal/exit-sam-practice-mode-modal';
-import { ExitSamError } from '@components/common/page-header/exit-sam.actions';
+import { ExitSamError } from '@components/common/test-flow-header/exit-sam.actions';
 import { DirectivesModule } from '@directives/directives.module';
 import { IonicModule, ModalController } from '@ionic/angular';
 import { Platform } from '@ionic/angular';
@@ -17,37 +17,25 @@ import { StoreModel } from '@shared/models/store.model';
 import { Subscription } from 'rxjs';
 
 @Component({
-  selector: 'des-header',
-  templateUrl: './page-header.component.html',
-  styleUrls: ['./page-header.component.scss'],
+  selector: 'test-flow-header',
+  templateUrl: './test-flow-header.component.html',
+  styleUrls: ['./test-flow-header.component.scss'],
   standalone: true,
   imports: [IonicModule, ComponentsModule, NgIf, ExitSamBanner, ExitSamButton, DirectivesModule],
 })
-export class PageHeaderComponent {
-  @Input()
-  isPracticeMode = false;
-  @Input()
-  defaultBackButtonHref: string;
-  @Input()
-  shouldShowGenericEndTest = false;
-  @Input()
-  shouldShowEndTestLink = true;
-  @Input()
-  shouldShowBackButton = true;
-  @Input()
-  isDelegatedRekey = false;
-  @Input()
-  shouldAuthenticateOnTestEnd = true;
-  @Input()
-  shouldShowCloseButton = false;
-  @Input()
-  shouldShowEscapeFromSamButton = true;
-  @Input()
-  isExitSAMActivated = false;
-  @Input()
-  pageName: string;
-  @Input()
-  testCategory: string;
+export class TestFlowHeaderComponent {
+  @Input() isPracticeMode = false;
+  @Input() defaultBackButtonHref: string;
+  @Input() shouldShowGenericEndTest = false;
+  @Input() shouldShowEndTestLink = true;
+  @Input() shouldShowBackButton = true;
+  @Input() isDelegatedRekey = false;
+  @Input() shouldAuthenticateOnTestEnd = true;
+  @Input() shouldShowCloseButton = false;
+  @Input() shouldShowEscapeFromSamButton = true;
+  @Input() isExitSAMActivated = false;
+  @Input() pageName: string;
+  @Input() testCategory: string;
 
   @Output()
   endTestButtonClicked = new EventEmitter<void>();
@@ -60,6 +48,13 @@ export class PageHeaderComponent {
 
   resumeSubscription: Subscription;
 
+  /**
+   * Constructor for the PageHeaderComponent.
+   * @param deviceProvider - Service for device-related operations.
+   * @param platform - Ionic platform service.
+   * @param modalController - Controller for managing modals.
+   * @param store$ - NgRx store for state management.
+   */
   constructor(
     public deviceProvider: DeviceProvider,
     public platform: Platform,
@@ -67,16 +62,19 @@ export class PageHeaderComponent {
     public store$: Store<StoreModel>
   ) {}
 
+  /**
+   * Sets up the subscription to the platform resume event.
+   */
   setupSubscription() {
     this.resumeSubscription = this.platform.resume.subscribe(async () => {
       if (this.shouldShowEscapeFromSamButton) {
         try {
-          //Re-enable single app mode to lock the user back in when they come back
+          // Re-enable single app mode to lock the user back in when they come back
           await this.deviceProvider.enableSingleAppMode().then((didEnable) => {
             if (!didEnable) {
               this.store$.dispatch(ExitSamError('Could not enable single app mode', didEnable));
             }
-            //Destroy the subscription to prevent memory leaks
+            // Destroy the subscription to prevent memory leaks
             this.destroySubscription();
           });
         } catch (e) {
@@ -86,6 +84,9 @@ export class PageHeaderComponent {
     });
   }
 
+  /**
+   * Destroys the subscription to the platform resume event.
+   */
   destroySubscription() {
     if (this.resumeSubscription) {
       this.resumeSubscription.unsubscribe();
@@ -93,19 +94,32 @@ export class PageHeaderComponent {
     }
   }
 
+  /**
+   * Handles the end test button click event.
+   */
   onEndTestClicked() {
     this.endTestButtonClicked.emit();
   }
 
+  /**
+   * Handles the close button click event.
+   */
   onCloseClicked() {
     this.onCloseButtonClicked.emit();
   }
 
+  /**
+   * Changes the Exit SAM activation status.
+   * @param newValue - New activation status.
+   */
   changeExitSAMValue(newValue: boolean) {
     this.isExitSAMActivated = newValue;
     this.onExitSAMActivatedChanged.emit(newValue);
   }
 
+  /**
+   * Opens the DES unlocked modal.
+   */
   async openDESUnlockedModal() {
     const desUnlockedModal = await this.modalController.create({
       component: ExitSamDESUnlockedModal,
@@ -114,6 +128,9 @@ export class PageHeaderComponent {
     await desUnlockedModal.present();
   }
 
+  /**
+   * Opens the DES did not unlock modal.
+   */
   async openDESDidNotUnlockModal() {
     const desUnlockedModal = await this.modalController.create({
       component: ExitSamDESLockedModal,
@@ -123,13 +140,7 @@ export class PageHeaderComponent {
   }
 
   /**
-   * Disables Single App Mode (SAM) and exits the application.
-   *
-   * This method handles the process of disabling SAM and exiting the application.
-   * It emits an event indicating that SAM has been used, and based on the mode (practice or regular),
-   * it either opens a practice mode modal or attempts to disable SAM and open Microsoft Teams.
-   *
-   * @returns {Promise<void>}
+   * Disables SAM and exits the application.
    */
   async disableSAMAndExit() {
     // Emit event indicating SAM has been used

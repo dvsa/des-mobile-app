@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 
 import { ComponentsModule } from '@components/common/common-components.module';
-import { PageHeaderComponent } from '@components/common/page-header/page-header.component';
+import { TestFlowHeaderComponent } from '@components/common/test-flow-header/test-flow-header.component';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 import { TestReportCatADIPart3ComponentsModule } from '@pages/test-report-dashboard/components/test-report-dashboard.components.module';
@@ -32,7 +32,7 @@ import { TestReportDashboardPageRoutingModule } from './test-report-dashboard.ro
     TestReportComponentsModule,
     Adi3EndTestModalModule,
     TestReportCatADIPart3ComponentsModule,
-    PageHeaderComponent,
+    TestFlowHeaderComponent,
   ],
   providers: [TestReportValidatorProvider, TestResultProvider],
 })

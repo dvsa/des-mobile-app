@@ -47,12 +47,12 @@
 
       <data-row
         [label]="'Additional information'"
-        [shouldHaveSeperator]="userExitedApp.exitFlag"
+        [shouldHaveSeperator]="shouldDisplayReasonForLeaving()"
         [value]="additionalInformation">
       </data-row>
 
       <data-row
-        *ngIf="userExitedApp.exitFlag"
+        *ngIf="shouldDisplayReasonForLeaving()"
         [label]="'Reason for leaving DES during the test'"
         [shouldHaveSeperator]="false"
         [value]="reasonForExitingApp">

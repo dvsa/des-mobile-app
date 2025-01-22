@@ -2,7 +2,6 @@ import { ComponentFixture, TestBed, fakeAsync, tick, waitForAsync } from '@angul
 import { IonicModule } from '@ionic/angular';
 
 import { AppModule } from '@app/app.module';
-import { AppLauncher, OpenURLResult } from '@capacitor/app-launcher';
 import { DeviceProviderMock } from '@providers/device/__mocks__/device.mock';
 import { DeviceProvider } from '@providers/device/device';
 import { ExitSamBanner } from '../exit-sam-banner';
@@ -10,67 +9,81 @@ import { ExitSamBanner } from '../exit-sam-banner';
 describe('ExitSamBanner', () => {
   let fixture: ComponentFixture<ExitSamBanner>;
   let component: ExitSamBanner;
-  let deviceProvider: DeviceProvider;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ExitSamBanner],
-      imports: [IonicModule, AppModule],
+      imports: [IonicModule, AppModule, ExitSamBanner],
       providers: [{ provide: DeviceProvider, useClass: DeviceProviderMock }],
     });
 
     fixture = TestBed.createComponent(ExitSamBanner);
     component = fixture.componentInstance;
-    deviceProvider = TestBed.inject(DeviceProvider);
-
-    spyOn(AppLauncher, 'openUrl').and.returnValue(Promise.resolve({ completed: true } as OpenURLResult));
-    spyOn(deviceProvider, 'disableSingleAppMode').and.returnValue(Promise.resolve(true));
   }));
 
-  describe('Class', () => {
-    describe('onTouchStart', () => {
-      it('should set isPressed to true', () => {
-        component.onTouchStart();
-        expect(component.isPressed).toBeTrue();
-      });
-
-      it('should call disableSAMAndExit after timeToHold if still pressed', fakeAsync(() => {
-        spyOn(component, 'escapeSAM');
-        component.onTouchStart();
-        tick(component.timeToHold);
-        expect(component.escapeSAM).toHaveBeenCalled();
-      }));
-
-      it('should not call disableSAMAndExit if not pressed', fakeAsync(() => {
-        spyOn(component, 'escapeSAM');
-        component.onTouchStart();
-        component.onTouchEnd();
-        tick(component.timeToHold);
-        expect(component.escapeSAM).not.toHaveBeenCalled();
-      }));
+  describe('onTouchEnd', () => {
+    it('should clear the hold timeout on touch end', () => {
+      spyOn(window, 'clearTimeout');
+      component.onTouchStart();
+      component.onTouchEnd();
+      expect(clearTimeout).toHaveBeenCalledWith(component.holdTimeout);
     });
 
-    describe('onTouchEnd', () => {
-      it('should set isPressed to false', () => {
-        component.onTouchEnd();
-        expect(component.isPressed).toBeFalse();
-      });
+    it('should not throw an error if onTouchEnd is called without onTouchStart', () => {
+      spyOn(window, 'clearTimeout');
+      expect(() => component.onTouchEnd()).not.toThrow();
+      expect(clearTimeout).toHaveBeenCalledWith(undefined);
+    });
+  });
+
+  describe('cancelButtonClicked', () => {
+    it('should emit cancelClicked event', () => {
+      spyOn(component.cancelClicked, 'emit');
+      component.cancelButtonClicked();
+      expect(component.cancelClicked.emit).toHaveBeenCalled();
+    });
+  });
+
+  describe('escapeSAM', () => {
+    it('should emit escapeSamBannerClicked with false', () => {
+      spyOn(component.escapeSamBannerClicked, 'emit');
+      component.escapeSAM();
+      expect(component.escapeSamBannerClicked.emit).toHaveBeenCalledWith(false);
     });
 
-    describe('cancelButtonClicked', () => {
-      it('should emit cancelClicked event', () => {
-        spyOn(component.cancelClicked, 'emit');
-        component.cancelButtonClicked();
-        expect(component.cancelClicked.emit).toHaveBeenCalled();
-      });
+    it('should emit samEscaped', () => {
+      spyOn(component.samEscaped, 'emit');
+      component.escapeSAM();
+      expect(component.samEscaped.emit).toHaveBeenCalled();
+    });
+  });
+
+  describe('onTouchStart', () => {
+    it('should start the hold timeout on touch start', fakeAsync(() => {
+      spyOn(component.escapeSamBannerClicked, 'emit');
+      spyOn(component.samEscaped, 'emit');
+      component.onTouchStart();
+      tick(component.timeToHold);
+      expect(component.escapeSamBannerClicked.emit).toHaveBeenCalledWith(false);
+      expect(component.samEscaped.emit).toHaveBeenCalled();
+    }));
+
+    it('should clear the hold timeout on touch end', () => {
+      spyOn(window, 'clearTimeout');
+      component.onTouchStart();
+      component.onTouchEnd();
+      expect(clearTimeout).toHaveBeenCalledWith(component.holdTimeout);
     });
 
-    describe('escapeSAM', () => {
-      it('should emit the escape sam event', async () => {
-        spyOn(component.escapeSamBannerClicked, 'emit');
-        await component.escapeSAM();
-        expect(component.escapeSamBannerClicked.emit).toHaveBeenCalled();
-      });
-    });
+    it('should not trigger escapeSAM if touch end is called before timeout', fakeAsync(() => {
+      spyOn(component.escapeSamBannerClicked, 'emit');
+      spyOn(component.samEscaped, 'emit');
+
+      component.onTouchStart();
+      tick(component.timeToHold / 2);
+      component.onTouchEnd();
+      tick(component.timeToHold / 2);
+      expect(component.escapeSamBannerClicked.emit).not.toHaveBeenCalled();
+      expect(component.samEscaped.emit).not.toHaveBeenCalled();
+    }));
   });
 });

@@ -5,7 +5,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 
 import { ComponentsModule } from '@components/common/common-components.module';
-import { PageHeaderComponent } from '@components/common/page-header/page-header.component';
+import { TestFlowHeaderComponent } from '@components/common/test-flow-header/test-flow-header.component';
 import { TestFinalisationComponentsModule } from '@components/test-finalisation/test-finalisation-components.module';
 import { EffectsModule } from '@ngrx/effects';
 import { PassFinalisationCatManoeuvrePage } from '@pages/pass-finalisation/cat-manoeuvre/pass-finalisation.cat-manoeuvre.page';
@@ -27,7 +27,7 @@ import { PassFinalisationComponentsModule } from '../components/pass-finalisatio
     ReactiveFormsModule,
     EffectsModule.forFeature([PassFinalisationAnalyticsEffects]),
     TestFinalisationComponentsModule,
-    PageHeaderComponent,
+    TestFlowHeaderComponent,
   ],
   providers: [OutcomeBehaviourMapProvider, PassCertificateValidationProvider],
 })

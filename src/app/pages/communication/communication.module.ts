@@ -5,7 +5,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 
 import { ComponentsModule } from '@components/common/common-components.module';
-import { PageHeaderComponent } from '@components/common/page-header/page-header.component';
+import { TestFlowHeaderComponent } from '@components/common/test-flow-header/test-flow-header.component';
 import { DirectivesModule } from '@directives/directives.module';
 import { EffectsModule } from '@ngrx/effects';
 import { TranslateModule } from '@ngx-translate/core';
@@ -27,7 +27,7 @@ import { CommunicationPage } from './communication.page';
     ReactiveFormsModule,
     EffectsModule.forFeature([CommunicationEffects, CommunicationAnalyticsEffects]),
     DirectivesModule,
-    PageHeaderComponent,
+    TestFlowHeaderComponent,
   ],
   declarations: [CommunicationPage],
 })

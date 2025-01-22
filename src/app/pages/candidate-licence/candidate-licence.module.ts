@@ -4,7 +4,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 
 import { ComponentsModule } from '@components/common/common-components.module';
-import { PageHeaderComponent } from '@components/common/page-header/page-header.component';
+import { TestFlowHeaderComponent } from '@components/common/test-flow-header/test-flow-header.component';
 import { EffectsModule } from '@ngrx/effects';
 import { CandidateDetailsComponentsModule } from '@pages/candidate-details/components/candidate-details-components.module';
 import { CandidateLicenceAnalyticsEffects } from '@pages/candidate-licence/candidate-licence.analytics.effects';
@@ -27,7 +27,7 @@ import { CandidateLicencePage } from './candidate-licence.page';
     OfficeComponentsModule,
     EffectsModule.forFeature([CandidateLicenceEffects, CandidateLicenceAnalyticsEffects]),
     CandidateDetailsComponentsModule,
-    PageHeaderComponent,
+    TestFlowHeaderComponent,
   ],
 })
 export class CandidateLicencePageModule {}

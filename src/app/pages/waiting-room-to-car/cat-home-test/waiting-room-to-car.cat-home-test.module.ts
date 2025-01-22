@@ -10,7 +10,7 @@ import { WaitingRoomToCarComponentsModule } from '@pages/waiting-room-to-car/com
 import { WaitingRoomToCarAnalyticsEffects } from '@pages/waiting-room-to-car/waiting-room-to-car.analytics.effects';
 import { WaitingRoomToCarCatHomeTestPageRoutingModule } from './waiting-room-to-car.cat-home-test-routing.module';
 
-import { PageHeaderComponent } from '@components/common/page-header/page-header.component';
+import { TestFlowHeaderComponent } from '@components/common/test-flow-header/test-flow-header.component';
 import { WaitingRoomToCarCatHomeTestPage } from './waiting-room-to-car.cat-home-test.page';
 
 @NgModule({
@@ -25,7 +25,7 @@ import { WaitingRoomToCarCatHomeTestPage } from './waiting-room-to-car.cat-home-
     WaitingRoomToCarCatHomeComponentsModule,
     WaitingRoomToCarComponentsModule,
     EffectsModule.forFeature([WaitingRoomToCarAnalyticsEffects]),
-    PageHeaderComponent,
+    TestFlowHeaderComponent,
   ],
 })
 export class WaitingRoomToCarCatHomeTestPageModule {}

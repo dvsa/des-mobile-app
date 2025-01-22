@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { AppModule } from '@app/app.module';
 import { IonicModule, ModalController } from '@ionic/angular';
-import { ExitSamPracticeModeModal, LogoutModalEvent } from '../exit-sam-practice-mode-modal';
+import { ExitSamPracticeModeModal } from '../exit-sam-practice-mode-modal';
 
 describe('LogoutModal', () => {
   let fixture: ComponentFixture<ExitSamPracticeModeModal>;
@@ -20,19 +20,11 @@ describe('LogoutModal', () => {
     modalController = TestBed.inject(ModalController);
   }));
 
-  describe('onCancel', () => {
+  describe('onOk', () => {
     it('should dismiss the modal with CANCEL event', async () => {
       spyOn(component.modalController, 'dismiss').and.resolveTo(true);
-      await component.onCancel();
-      expect(modalController.dismiss).toHaveBeenCalledWith({ event: LogoutModalEvent.CANCEL });
-    });
-  });
-
-  describe('onLogout', () => {
-    it('should dismiss the modal with LOGOUT event', async () => {
-      spyOn(modalController, 'dismiss').and.resolveTo(true);
-      await component.onLogout();
-      expect(modalController.dismiss).toHaveBeenCalledWith({ event: LogoutModalEvent.LOGOUT });
+      await component.onOk();
+      expect(modalController.dismiss).toHaveBeenCalled();
     });
   });
 });

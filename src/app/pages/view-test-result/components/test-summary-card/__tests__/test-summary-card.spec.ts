@@ -19,18 +19,39 @@ describe('TestSummaryCardComponent', () => {
 
     fixture = TestBed.createComponent(TestSummaryCardComponent);
     component = fixture.componentInstance;
+    component.userExitedApp = { exitFlag: true };
   }));
 
   describe('Class', () => {
+    describe('getReasonForExitingApp', () => {
+      it('should return the correct reason if userExitedApp is populated', () => {
+        component.userExitedApp = {
+          exitFlag: true,
+          exitReason: 'Network issue',
+        };
+        fixture.detectChanges();
+        expect(component.reasonForExitingApp).toEqual('Network issue');
+      });
+
+      it('should return None if userExitedApp is missing', () => {
+        expect(component.reasonForExitingApp).toEqual('None');
+      });
+
+      it('should return None if reason is not provided in userExitedApp', () => {
+        component.userExitedApp = { exitFlag: true };
+        fixture.detectChanges();
+        expect(component.reasonForExitingApp).toEqual('None');
+      });
+    });
+
     describe('getAccompaniedBy', () => {
       it('should return the correct data', () => {
-        const accompaniment = {
+        component.accompaniment = {
           ADI: true,
           interpreter: true,
           other: true,
           supervisor: true,
         };
-        component.accompaniment = accompaniment;
         fixture.detectChanges();
         expect(component.accompaniedBy).toEqual('ADI, Interpreter, Supervisor and Other');
       });
@@ -42,21 +63,19 @@ describe('TestSummaryCardComponent', () => {
 
     describe('getProvisionalLicenceProvided', () => {
       it('should return yes if the licence has been provided', () => {
-        const passCompletion = {
+        component.passCompletion = {
           provisionalLicenceProvided: true,
           passCertificateNumber: 'A123456X',
         };
-        component.passCompletion = passCompletion;
         fixture.detectChanges();
         expect(component.provisionalLicenceProvided).toEqual('Yes');
       });
 
       it('should return no if the licence has not been provided', () => {
-        const passCompletion = {
+        component.passCompletion = {
           provisionalLicenceProvided: false,
           passCertificateNumber: 'A123456X',
         };
-        component.passCompletion = passCompletion;
         fixture.detectChanges();
         expect(component.provisionalLicenceProvided).toEqual('No');
       });
@@ -100,11 +119,10 @@ describe('TestSummaryCardComponent', () => {
 
     describe('getPassCertificateNumber', () => {
       it('should return the correct data', () => {
-        const passCompletion = {
+        component.passCompletion = {
           passCertificateNumber: 'A123456X',
           provisionalLicenceProvided: false,
         };
-        component.passCompletion = passCompletion;
         fixture.detectChanges();
         expect(component.passCertificateNumber).toEqual('A123456X');
       });
@@ -116,10 +134,9 @@ describe('TestSummaryCardComponent', () => {
 
     describe('getRouteNumber', () => {
       it('should return the correct data', () => {
-        const testSummary = {
+        component.testSummary = {
           routeNumber: 57,
         };
-        component.testSummary = testSummary;
         fixture.detectChanges();
         expect(component.routeNumber).toEqual(57);
       });
@@ -131,10 +148,9 @@ describe('TestSummaryCardComponent', () => {
 
     describe('getIndependentDriving', () => {
       it('should return the correct data', () => {
-        const testSummary = {
+        component.testSummary = {
           independentDriving: 'Diagram' as IndependentDriving,
         };
-        component.testSummary = testSummary;
         fixture.detectChanges();
         expect(component.independentDriving).toEqual('Diagram');
       });
@@ -146,10 +162,9 @@ describe('TestSummaryCardComponent', () => {
 
     describe('getCandidateDescription', () => {
       it('should return the correct data', () => {
-        const testSummary = {
+        component.testSummary = {
           candidateDescription: 'Test Description',
         };
-        component.testSummary = testSummary;
         fixture.detectChanges();
         expect(component.candidateDescription).toEqual('Test Description');
       });
@@ -161,19 +176,17 @@ describe('TestSummaryCardComponent', () => {
 
     describe('getDebriefWitnessed', () => {
       it('should return yes if the debrief was witnessed ', () => {
-        const testSummary = {
+        component.testSummary = {
           debriefWitnessed: true,
         };
-        component.testSummary = testSummary;
         fixture.detectChanges();
         expect(component.debriefWitnessed).toEqual('Yes');
       });
 
       it('should return no if the debrief was not witnessed ', () => {
-        const testSummary = {
+        component.testSummary = {
           debriefWitnessed: false,
         };
-        component.testSummary = testSummary;
         fixture.detectChanges();
         expect(component.debriefWitnessed).toEqual('No');
       });
@@ -185,10 +198,9 @@ describe('TestSummaryCardComponent', () => {
 
     describe('getWeatherConditions', () => {
       it('should return the correct data', () => {
-        const testSummary = {
+        component.testSummary = {
           weatherConditions: ['Icy', 'Showers', 'Windy'] as WeatherConditions[],
         };
-        component.testSummary = testSummary;
         fixture.detectChanges();
         expect(component.weatherConditions).toEqual('Icy, Showers and Windy');
       });
@@ -200,19 +212,17 @@ describe('TestSummaryCardComponent', () => {
 
     describe('getD255', () => {
       it('should return yes if a D255 was needed ', () => {
-        const testSummary = {
+        component.testSummary = {
           D255: true,
         };
-        component.testSummary = testSummary;
         fixture.detectChanges();
         expect(component.d255).toEqual('Yes');
       });
 
       it('should return no if a D255 was not needed ', () => {
-        const testSummary = {
+        component.testSummary = {
           D255: false,
         };
-        component.testSummary = testSummary;
         fixture.detectChanges();
         expect(component.d255).toEqual('No');
       });
@@ -224,10 +234,9 @@ describe('TestSummaryCardComponent', () => {
 
     describe('getAdditionalInformation', () => {
       it('should return the correct data', () => {
-        const testSummary = {
+        component.testSummary = {
           additionalInformation: 'Test Additional Information',
         };
-        component.testSummary = testSummary;
         fixture.detectChanges();
         expect(component.additionalInformation).toEqual('Test Additional Information');
       });

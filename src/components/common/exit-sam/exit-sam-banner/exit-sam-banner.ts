@@ -37,20 +37,32 @@ export class ExitSamBanner {
   timeToHold = 1000;
   holdTimeout: NodeJS.Timeout;
 
+  /**
+   * Handler for touch start event. Sets a timeout to trigger escapeSAM.
+   */
   onTouchStart() {
     this.holdTimeout = setTimeout(() => {
       this.escapeSAM();
     }, this.timeToHold);
   }
 
+  /**
+   * Handler for touch end event. Clears the hold timeout.
+   */
   onTouchEnd() {
     clearTimeout(this.holdTimeout);
   }
 
+  /**
+   * Handler for cancel button click. Emits the cancelClicked event.
+   */
   cancelButtonClicked() {
     this.cancelClicked.emit();
   }
 
+  /**
+   * Triggers the escape SAM process. Emits escapeSamBannerClicked and samEscaped events.
+   */
   escapeSAM() {
     this.escapeSamBannerClicked.emit(false);
     this.samEscaped.emit();

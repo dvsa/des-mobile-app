@@ -106,7 +106,7 @@ export class TestSummaryCardComponent {
   }
 
   public get reasonForExitingApp(): string {
-    return get(this.userExitedApp, 'reason', 'None');
+    return get(this.userExitedApp, 'exitReason', 'None');
   }
 
   public get additionalInformation(): string {
@@ -131,6 +131,10 @@ export class TestSummaryCardComponent {
 
   isADI3() {
     return this.category === TestCategory.ADI3;
+  }
+
+  shouldDisplayReasonForLeaving(): boolean {
+    return this.userExitedApp.exitFlag;
   }
 
   isSC() {

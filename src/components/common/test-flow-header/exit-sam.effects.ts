@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ExitSamError } from '@components/common/page-header/exit-sam.actions';
+import { ExitSamError } from '@components/common/test-flow-header/exit-sam.actions';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import { LogHelper } from '@providers/logs/logs-helper';

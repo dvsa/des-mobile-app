@@ -5,7 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 
 import { ComponentsModule } from '@components/common/common-components.module';
-import { PageHeaderComponent } from '@components/common/page-header/page-header.component';
+import { TestFlowHeaderComponent } from '@components/common/test-flow-header/test-flow-header.component';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 import { TestReportCatCPCComponentsModule } from '@pages/test-report/cat-cpc/components/test-report.cat-cpc.components.module';
@@ -28,7 +28,7 @@ import { TestReportCatCPCPage } from './test-report.cat-cpc.page';
     StoreModule.forFeature('testReport', testReportReducer),
     EffectsModule.forFeature([TestReportAnalyticsEffects, TestReportEffects]),
     ComponentsModule,
-    PageHeaderComponent,
+    TestFlowHeaderComponent,
   ],
   providers: [TestReportValidatorProvider, TestResultProvider],
 })
