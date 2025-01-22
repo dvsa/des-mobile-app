@@ -1,6 +1,6 @@
 import { NgIf } from '@angular/common';
 import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
-import { ReactiveFormsModule, UntypedFormControl, UntypedFormGroup } from '@angular/forms';
+import { ReactiveFormsModule, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { DirectivesModule } from '@directives/directives.module';
 import { IonicModule } from '@ionic/angular';
 
@@ -24,17 +24,26 @@ export class ReasonForEnteringTeamsComponent implements OnChanges {
   reasonForOpeningTeamsChange = new EventEmitter<string>();
 
   formControl: UntypedFormControl;
-  static readonly fieldName: string = 'reasonForOpeningTeams';
+  readonly fieldName: string = 'reasonForOpeningTeams';
 
   ngOnChanges(): void {
     if (!this.formControl) {
-      this.formControl = new UntypedFormControl(null);
-      this.formGroup.addControl(ReasonForEnteringTeamsComponent.fieldName, this.formControl);
+      this.formControl = new UntypedFormControl('', [Validators.required]);
+      if (this.formGroup.contains(this.fieldName)) {
+        this.formControl.patchValue(this.formGroup.controls[this.fieldName].value);
+        this.formGroup.setControl(this.fieldName, this.formControl);
+      } else {
+        this.formGroup.addControl(this.fieldName, this.formControl);
+      }
     }
     this.formControl.patchValue(this.reasonForOpeningTeams);
   }
 
   additionalInformationChanged(newReason: string): void {
     this.reasonForOpeningTeamsChange.emit(newReason);
+  }
+
+  get invalid(): boolean {
+    return !this.formControl.valid && this.formControl.dirty;
   }
 }

@@ -12,6 +12,7 @@ import { TestFinalisationComponentsModule } from '@components/test-finalisation/
 import { DirectivesModule } from '@directives/directives.module';
 import { EffectsModule } from '@ngrx/effects';
 import { OfficeComponentsModule } from '@pages/office/components/office.components.module';
+import { ReasonForEnteringTeamsComponent } from '@pages/office/components/reason-for-entering-teams/reason-for-entering-teams';
 import { OfficeAnalyticsEffects } from '@pages/office/office.analytics.effects';
 import { OfficeEffects } from '@pages/office/office.effects';
 import { PassFinalisationComponentsModule } from '@pages/pass-finalisation/components/pass-finalisation-components.module';
@@ -43,6 +44,7 @@ import { OfficeCatCPCPage } from './office.cat-cpc.page';
     PassFinalisationComponentsModule,
     WaitingRoomToCarCatCPCComponentsModule,
     DirectivesModule,
+    ReasonForEnteringTeamsComponent,
   ],
   providers: [FaultSummaryProvider],
 })

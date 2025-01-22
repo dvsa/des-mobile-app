@@ -12,6 +12,7 @@ import { OutcomeBehaviourMapProvider } from '@providers/outcome-behaviour-map/ou
 import { PassCertificateValidationProvider } from '@providers/pass-certificate-validation/pass-certificate-validation';
 import { PassFinalisationCatADIPart2PageRoutingModule } from './pass-finalisation.cat-adi-part2-routing.module';
 
+import { PageHeaderComponent } from '@components/common/page-header/page-header.component';
 import { PassFinalisationCatADI2Page } from './pass-finalisation.cat-adi-part2.page';
 
 @NgModule({
@@ -25,6 +26,7 @@ import { PassFinalisationCatADI2Page } from './pass-finalisation.cat-adi-part2.p
     TestFinalisationComponentsModule,
     ReactiveFormsModule,
     EffectsModule.forFeature([PassFinalisationAnalyticsEffects]),
+    PageHeaderComponent,
   ],
   providers: [OutcomeBehaviourMapProvider, PassCertificateValidationProvider],
 })

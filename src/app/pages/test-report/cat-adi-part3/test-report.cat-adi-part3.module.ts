@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 
 import { ComponentsModule } from '@components/common/common-components.module';
+import { PageHeaderComponent } from '@components/common/page-header/page-header.component';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 import { TestReportCatADIPart3ComponentsModule } from '@pages/test-report/cat-adi-part3/components/test-report.cat-adi-part3.components.module';
@@ -30,6 +31,7 @@ import { TestReportCatADIPart3PageRoutingModule } from './test-report.cat-adi-pa
     StoreModule.forFeature('testReport', testReportReducer),
     EffectsModule.forFeature([TestReportAnalyticsEffects, TestReportEffects]),
     TestReportComponentsModule,
+    PageHeaderComponent,
   ],
   providers: [TestReportValidatorProvider, TestResultProvider],
 })

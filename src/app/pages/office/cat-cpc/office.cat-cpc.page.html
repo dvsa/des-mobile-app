@@ -145,6 +145,13 @@
             >
             </additional-information>
 
+            <reason-for-entering-teams
+              [display]="pageState.hasEnteredTeamsOnThisTest$ | async"
+              [reasonForOpeningTeams]="pageState.reasonForEnteringTeams$ | async"
+              [formGroup]="form"
+              (reasonForOpeningTeamsChange)="reasonForEnteringTeamsChanged($event)"
+            ></reason-for-entering-teams>
+
             <accompaniment-card-cat-cpc
               [formGroup]="form"
               [supervisorAccompaniment]="pageState.supervisorAccompaniment$ | async"

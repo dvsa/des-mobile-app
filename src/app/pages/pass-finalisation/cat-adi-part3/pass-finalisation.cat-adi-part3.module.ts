@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { ComponentsModule } from '@components/common/common-components.module';
+import { PageHeaderComponent } from '@components/common/page-header/page-header.component';
 import { TestFinalisationComponentsModule } from '@components/test-finalisation/test-finalisation-components.module';
 import { DirectivesModule } from '@directives/directives.module';
 import { IonicModule } from '@ionic/angular';
@@ -24,6 +25,7 @@ import { PassFinalisationCatADIPart3Page } from './pass-finalisation.cat-adi-par
     ReactiveFormsModule,
     PassFinalisationCatADI3ComponentsModule,
     EffectsModule.forFeature([PassFinalisationAnalyticsEffects]),
+    PageHeaderComponent,
   ],
   declarations: [PassFinalisationCatADIPart3Page],
 })

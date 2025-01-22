@@ -8,6 +8,7 @@ import { DirectivesModule } from '@directives/directives.module';
 import { ModeOfTransportCatAMod2Component } from '@pages/office/cat-a-mod2/components/mode-of-transport/mode-of-transport.cat-a-mod2';
 import { SafetyAndBalanceCardCatAMod2Component } from '@pages/office/cat-a-mod2/components/safety-and-balance/safety-and-balance.cat-a-mod2';
 import { OfficeComponentsModule } from '@pages/office/components/office.components.module';
+import { ReasonForEnteringTeamsComponent } from '@pages/office/components/reason-for-entering-teams/reason-for-entering-teams';
 import { WaitingRoomToCarComponentsModule } from '@pages/waiting-room-to-car/components/waiting-room-to-car.components.module';
 import { FaultSummaryProvider } from '@providers/fault-summary/fault-summary';
 import { PipesModule } from '@shared/pipes/pipes.module';
@@ -26,6 +27,7 @@ import { OfficeCatAMod2Page } from './office.cat-a-mod2.page';
     PipesModule,
     WaitingRoomToCarComponentsModule,
     DirectivesModule,
+    ReasonForEnteringTeamsComponent,
   ],
   declarations: [OfficeCatAMod2Page, ModeOfTransportCatAMod2Component, SafetyAndBalanceCardCatAMod2Component],
   providers: [FaultSummaryProvider],

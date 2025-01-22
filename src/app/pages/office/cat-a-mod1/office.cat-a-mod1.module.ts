@@ -9,6 +9,7 @@ import { EffectsModule } from '@ngrx/effects';
 import { DebriefComponentsModule } from '@pages/debrief/components/debrief-components.module';
 import { CircuitComponent } from '@pages/office/cat-a-mod1/components/circuit/circuit';
 import { OfficeComponentsModule } from '@pages/office/components/office.components.module';
+import { ReasonForEnteringTeamsComponent } from '@pages/office/components/reason-for-entering-teams/reason-for-entering-teams';
 import { OfficeAnalyticsEffects } from '@pages/office/office.analytics.effects';
 import { OfficeEffects } from '@pages/office/office.effects';
 import { WaitingRoomToCarComponentsModule } from '@pages/waiting-room-to-car/components/waiting-room-to-car.components.module';
@@ -31,6 +32,7 @@ import { OfficeCatAMod1Page } from './office.cat-a-mod1.page';
     PipesModule,
     EffectsModule.forFeature([OfficeAnalyticsEffects, OfficeEffects]),
     WaitingRoomToCarComponentsModule,
+    ReasonForEnteringTeamsComponent,
   ],
   providers: [FaultSummaryProvider],
 })

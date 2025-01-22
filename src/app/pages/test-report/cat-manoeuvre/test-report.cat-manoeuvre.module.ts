@@ -5,6 +5,7 @@ import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 
 import { ComponentsModule } from '@components/common/common-components.module';
+import { PageHeaderComponent } from '@components/common/page-header/page-header.component';
 import { TestReportCatManoeuvreComponentsModule } from '@pages/test-report/cat-manoeuvre/components/test-report.cat-manoeuvre.components.module';
 import { ReverseDiagramModalComponentsModule } from '@pages/test-report/components/reverse-diagram-modal/reverse-diagram-modal.components.module';
 import { TestReportComponentsModule } from '@pages/test-report/components/test-report-components.module';
@@ -28,6 +29,7 @@ import { TestReportCatManoeuvrePageRoutingModule } from './test-report.cat-manoe
     TestReportCatManoeuvrePageRoutingModule,
     ReverseDiagramModalComponentsModule,
     TestReportCatManoeuvreComponentsModule,
+    PageHeaderComponent,
   ],
   providers: [TestReportValidatorProvider, TestResultProvider],
 })

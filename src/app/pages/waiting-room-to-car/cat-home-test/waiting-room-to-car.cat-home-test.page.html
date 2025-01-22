@@ -5,8 +5,8 @@
     <des-header
       class="display-flex flex-direction-column"
       [testCategory]="pageState.category$ | async"
-      [pageName]="'waiting-room-to-car-page-home'"
-      [shouldShowEscapeFromSamButton]="!isEndToEndPracticeMode"
+      [pageName]="'waiting-room-to-car-page-cat-home'"
+      [shouldShowEscapeFromSamButton]="!isRekey"
       [isPracticeMode]="isEndToEndPracticeMode"
       (exitSamUsed)="onUsedExitSam()"
       [isExitSAMActivated]="isExitSAMActivated"
