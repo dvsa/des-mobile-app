@@ -317,7 +317,7 @@ export class WaitingRoomPage extends PracticeableBasePageComponent implements On
     await this.router.navigate([DASHBOARD_PAGE], { replaceUrl: true });
   }
 
-  private shouldNavigateToCandidateLicenceDetails = (): boolean => {
+  shouldNavigateToCandidateLicenceDetails = (): boolean => {
     // skip the candidate licence page when test is marked as a re-key or for non licence acquisition based categories.
     if (this.isRekey || isAnyOf(this.testCategory, [TestCategory.ADI3, TestCategory.SC])) {
       return false;

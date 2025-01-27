@@ -61,7 +61,7 @@ export class QuestionFooterComponent {
     return false;
   }
 
-  private createToast = (errorMessage: string) => {
+  createToast = (errorMessage: string) => {
     return this.toastController.create({
       message: errorMessage,
       position: 'top',

@@ -301,7 +301,7 @@ export class NonPassFinalisationPage extends PracticeableBasePageComponent imple
     await this.invalidTestDataModal.present();
   };
 
-  private get testDataValidationMsg(): string {
+  get testDataValidationMsg(): string {
     switch (this.testCategory) {
       case TestCategory.ADI3:
       case TestCategory.SC:

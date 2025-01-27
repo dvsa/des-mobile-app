@@ -331,18 +331,18 @@ describe('WaitingRoomPage', () => {
       it('should return true if rekey is false and test category is not ADI3 or SC', () => {
         component.isRekey = false;
         component.testCategory = TestCategory.B;
-        expect(component['shouldNavigateToCandidateLicenceDetails']()).toEqual(true);
+        expect(component.shouldNavigateToCandidateLicenceDetails()).toEqual(true);
       });
       it('should return false if rekey is true and test category is not ADI3 or SC', () => {
         component.isRekey = true;
         component.testCategory = TestCategory.B;
-        expect(component['shouldNavigateToCandidateLicenceDetails']()).toEqual(false);
+        expect(component.shouldNavigateToCandidateLicenceDetails()).toEqual(false);
       });
       [TestCategory.ADI3, TestCategory.SC].forEach((val) => {
         it(`should return false if rekey is false and test category is ${val}`, () => {
           component.isRekey = false;
           component.testCategory = val;
-          expect(component['shouldNavigateToCandidateLicenceDetails']()).toEqual(false);
+          expect(component.shouldNavigateToCandidateLicenceDetails()).toEqual(false);
         });
       });
     });

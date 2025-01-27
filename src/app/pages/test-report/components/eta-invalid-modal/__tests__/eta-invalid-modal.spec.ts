@@ -35,9 +35,9 @@ describe('EtaInvalidModal', () => {
   });
   describe('onCancel', () => {
     it('should invoke the correct event when modalController is dismissed - cancel', async () => {
-      spyOn(component['modalCtrl'], 'dismiss');
+      spyOn(component.modalCtrl, 'dismiss');
       await component.onCancel();
-      expect(component['modalCtrl'].dismiss).toHaveBeenCalledWith(ModalEvent.CANCEL);
+      expect(component.modalCtrl.dismiss).toHaveBeenCalledWith(ModalEvent.CANCEL);
     });
   });
 });

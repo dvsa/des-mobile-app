@@ -49,7 +49,7 @@ describe('AlternateMotEvidenceComponent', () => {
 
       expect(component.formControl).toBeDefined();
       expect(component.formControl instanceof UntypedFormControl).toBe(true);
-      expect(component.formGroup.controls['alternateEvidenceCtrl']).toBe(component.formControl);
+      expect(component.formGroup.controls.alternateEvidenceCtrl).toBe(component.formControl);
     });
 
     it('should set the form control value based on alternate evidence test result', () => {

@@ -173,7 +173,7 @@ describe('VehicleRegistrationComponent', () => {
     it('should return true if the search spinner is shown', () => {
       component.isSearchingForMOT = true;
       component.formControl.setValue('valid');
-      spyOn(component['networkState'], 'getNetworkState').and.returnValue(ConnectionStatus.ONLINE);
+      spyOn(component.networkState, 'getNetworkState').and.returnValue(ConnectionStatus.ONLINE);
 
       expect(component.shouldDisableMOTButton()).toBeTrue();
     });
@@ -181,7 +181,7 @@ describe('VehicleRegistrationComponent', () => {
     it('should return true if the form control is not valid', () => {
       component.isSearchingForMOT = false;
       component.formControl.setValue(null);
-      spyOn(component['networkState'], 'getNetworkState').and.returnValue(ConnectionStatus.ONLINE);
+      spyOn(component.networkState, 'getNetworkState').and.returnValue(ConnectionStatus.ONLINE);
 
       expect(component.shouldDisableMOTButton()).toBeTrue();
     });
@@ -190,7 +190,7 @@ describe('VehicleRegistrationComponent', () => {
       component.isSearchingForMOT = false;
       component.formControl.setValue('valid');
       component.isPracticeMode = false;
-      spyOn(component['networkState'], 'getNetworkState').and.returnValue(ConnectionStatus.OFFLINE);
+      spyOn(component.networkState, 'getNetworkState').and.returnValue(ConnectionStatus.OFFLINE);
 
       expect(component.shouldDisableMOTButton()).toBeTrue();
     });
@@ -198,7 +198,7 @@ describe('VehicleRegistrationComponent', () => {
     it('should return false if the search spinner is not shown, form control is valid, and network state is online', () => {
       component.isSearchingForMOT = false;
       component.formControl.setValue('valid');
-      spyOn(component['networkState'], 'getNetworkState').and.returnValue(ConnectionStatus.ONLINE);
+      spyOn(component.networkState, 'getNetworkState').and.returnValue(ConnectionStatus.ONLINE);
 
       expect(component.shouldDisableMOTButton()).toBeFalse();
     });
@@ -207,7 +207,7 @@ describe('VehicleRegistrationComponent', () => {
       component.isSearchingForMOT = false;
       component.formControl.setValue('valid');
       component.isPracticeMode = true;
-      spyOn(component['networkState'], 'getNetworkState').and.returnValue(ConnectionStatus.OFFLINE);
+      spyOn(component.networkState, 'getNetworkState').and.returnValue(ConnectionStatus.OFFLINE);
 
       expect(component.shouldDisableMOTButton()).toBeFalse();
     });

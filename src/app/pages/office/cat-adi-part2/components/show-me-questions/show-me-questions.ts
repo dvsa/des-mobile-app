@@ -41,7 +41,7 @@ export class ShowMeQuestionsCatADI2Component implements OnChanges, OnInit {
   @Output()
   showMeQuestionsChange = new EventEmitter<QuestionResult>();
 
-  private formControl: UntypedFormControl;
+  formControl: UntypedFormControl;
 
   readonly questionId: string = uniqueId();
   fieldName: string;

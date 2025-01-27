@@ -317,7 +317,7 @@ describe('MotHistoryApiService', () => {
 
     it('should fetch vehicle details from API if vehicle is not cached', (done) => {
       spyOn(vehicleDetailsService, 'isResultCached').and.returnValue(false);
-      spyOn(vehicleDetailsService['http'], 'get').and.returnValue(
+      spyOn(vehicleDetailsService.http, 'get').and.returnValue(
         of(
           new HttpResponse<MotHistory>({
             body: { registration: 'ABC123' } as MotHistory,
@@ -338,7 +338,7 @@ describe('MotHistoryApiService', () => {
 
     it('should handle API error and return default error response', (done) => {
       spyOn(vehicleDetailsService, 'isResultCached').and.returnValue(false);
-      spyOn(vehicleDetailsService['http'], 'get').and.returnValue(throwError({ status: 500 }));
+      spyOn(vehicleDetailsService.http, 'get').and.returnValue(throwError({ status: 500 }));
       spyOn(vehicleDetailsService, 'handleError').and.returnValue(
         of({
           status: '500',

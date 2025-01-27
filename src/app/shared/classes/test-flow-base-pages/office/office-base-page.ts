@@ -557,7 +557,7 @@ export abstract class OfficeBasePageComponent extends PracticeableBasePageCompon
     const { showMeQuestion } = this.form.controls;
     if (showMeQuestion) {
       if (showMeQuestion.value && showMeQuestion.value.code === 'N/A') {
-        this.form.controls['showMeQuestion'].setValue({});
+        this.form.controls.showMeQuestion.setValue({});
       }
     }
     this.store$.dispatch(SetActivityCode(activityCodeModel.activityCode));

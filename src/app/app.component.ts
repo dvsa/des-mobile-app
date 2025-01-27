@@ -73,7 +73,7 @@ export class AppComponent extends LogoutBasePageComponent implements OnInit {
 
   pageState: AppComponentPageState;
 
-  private platformSubscription: Subscription;
+  platformSubscription: Subscription;
 
   constructor(
     private slotProvider: SlotProvider,
@@ -103,6 +103,7 @@ export class AppComponent extends LogoutBasePageComponent implements OnInit {
     try {
       await this.platform.ready();
       await this.storage.create();
+      alert('alright');
       if (this.platform.is('cordova')) {
         await this.deviceProvider.disableSingleAppMode();
       }

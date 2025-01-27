@@ -87,7 +87,7 @@ describe('QuestionFooterComponent', () => {
   describe('createToast', () => {
     it('should call toastController.create with the correct params', async () => {
       spyOn(component.toastController, 'create');
-      await component['createToast']('string');
+      await component.createToast('string');
       expect(component.toastController.create).toHaveBeenCalledWith({
         message: 'string',
         position: 'top',

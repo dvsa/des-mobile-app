@@ -70,7 +70,7 @@ describe('EtaComponent', () => {
       component.eta = ExaminerActions.physical;
       component.toggleETA();
 
-      expect(component['store$'].dispatch).toHaveBeenCalledWith(ToggleETA(ExaminerActions.physical));
+      expect(component.store$.dispatch).toHaveBeenCalledWith(ToggleETA(ExaminerActions.physical));
     });
   });
 });

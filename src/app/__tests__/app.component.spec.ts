@@ -360,23 +360,23 @@ describe('AppComponent', () => {
   describe('configurePlatformSubscriptions', () => {
     it('should check the value of platformSubscription gets set', () => {
       // check platform starts as nullish
-      expect(component['platformSubscription']).toEqual(undefined);
+      expect(component.platformSubscription).toEqual(undefined);
 
       // start sub
       component.configurePlatformSubscriptions();
-      expect(component['platformSubscription']).not.toEqual(undefined);
+      expect(component.platformSubscription).not.toEqual(undefined);
 
       // clean up
-      component['platformSubscription'].unsubscribe();
+      component.platformSubscription.unsubscribe();
     });
   });
 
   describe('ionViewWillUnload', () => {
     it('should unsubscribe from subscription if there is one', () => {
-      component['platformSubscription'] = new Subscription();
-      spyOn(component['platformSubscription'], 'unsubscribe');
+      component.platformSubscription = new Subscription();
+      spyOn(component.platformSubscription, 'unsubscribe');
       component.ionViewWillUnload();
-      expect(component['platformSubscription'].unsubscribe).toHaveBeenCalled();
+      expect(component.platformSubscription.unsubscribe).toHaveBeenCalled();
     });
   });
 

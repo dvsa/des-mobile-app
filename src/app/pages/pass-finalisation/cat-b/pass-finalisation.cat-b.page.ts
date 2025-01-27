@@ -64,14 +64,14 @@ export class PassFinalisationCatBPage extends PassFinalisationPageComponent impl
         select(getVehicleDetails),
         map(isAutomatic),
         tap((val) => {
-          if (val) this.form.controls['transmissionCtrl'].setValue('Automatic');
+          if (val) this.form.controls.transmissionCtrl.setValue('Automatic');
         })
       ),
       transmissionManualRadioChecked$: currentTest$.pipe(
         select(getVehicleDetails),
         map(isManual),
         tap((val) => {
-          if (val) this.form.controls['transmissionCtrl'].setValue('Manual');
+          if (val) this.form.controls.transmissionCtrl.setValue('Manual');
         })
       ),
     };
@@ -99,7 +99,7 @@ export class PassFinalisationCatBPage extends PassFinalisationPageComponent impl
   }
 
   displayTransmissionBanner(): boolean {
-    return !this.form.controls['transmissionCtrl'].pristine && this.transmission === TransmissionType.Automatic;
+    return !this.form.controls.transmissionCtrl.pristine && this.transmission === TransmissionType.Automatic;
   }
 
   async onSubmit() {

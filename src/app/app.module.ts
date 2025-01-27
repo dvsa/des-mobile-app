@@ -113,6 +113,9 @@ if (!window['devToolsExtension'] && !window['__REDUX_DEVTOOLS_EXTENSION__'] && e
   window['devToolsExtension'] = remoteDevToolsProxy;
   window['__REDUX_DEVTOOLS_EXTENSION__'] = remoteDevToolsProxy;
 }
+console.log('===================================================================');
+console.log('window:', window);
+console.log('===================================================================');
 
 if (enableRehydrationPlugin) {
   metaReducers.push(localStorageSyncReducer);

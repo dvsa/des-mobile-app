@@ -154,7 +154,7 @@ export class TestResultProvider {
     return of(ActivityCodes.PASS);
   };
 
-  private calculateCatEUAM1AndSubCategoryTestResult = (
+  calculateCatEUAM1AndSubCategoryTestResult = (
     category: TestCategory,
     testData: TestDataAM1
   ): Observable<ActivityCode> => {
@@ -174,7 +174,7 @@ export class TestResultProvider {
     return of(ActivityCodes.PASS);
   };
 
-  private calculateCatEUAM2AndSubCategoryTestResult = (
+  calculateCatEUAM2AndSubCategoryTestResult = (
     category: TestCategory,
     testData: TestDataAM2
   ): Observable<ActivityCode> => {
@@ -230,7 +230,7 @@ export class TestResultProvider {
     return of(ActivityCodes.PASS);
   };
 
-  private calculateCatCPCTestResult = (testData: TestData): Observable<ActivityCode> => {
+  calculateCatCPCTestResult = (testData: TestData): Observable<ActivityCode> => {
     const { question1, question2, question3, question4, question5 } = testData;
 
     const scores: number[] = [question1.score, question2.score, question3.score, question4.score, question5.score];
@@ -246,7 +246,7 @@ export class TestResultProvider {
     return of(ActivityCodes.PASS);
   };
 
-  private calculateCatManoeuvreTestResult = (
+  calculateCatManoeuvreTestResult = (
     category: TestCategory,
     testData: CatManoeuvreTestData
   ): Observable<ActivityCode> => {

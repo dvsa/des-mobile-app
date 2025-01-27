@@ -122,8 +122,8 @@ export class WaitingRoomToCarCatBPage extends WaitingRoomToCarBasePageComponent 
   tellMeQuestionChanged(newTellMeQuestion: VehicleChecksQuestion): void {
     this.store$.dispatch(TellMeQuestionSelected(newTellMeQuestion));
 
-    if (this.form.controls['tellMeQuestionOutcome']) {
-      this.form.controls['tellMeQuestionOutcome'].setValue('');
+    if (this.form.controls.tellMeQuestionOutcome) {
+      this.form.controls.tellMeQuestionOutcome.setValue('');
     }
   }
 

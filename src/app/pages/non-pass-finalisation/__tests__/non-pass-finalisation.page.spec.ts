@@ -478,14 +478,14 @@ describe('NonPassFinalisationPage', () => {
       [TestCategory.ADI3, TestCategory.SC].forEach((value) => {
         it(`should return Code 4 message if Test category is ${value}`, () => {
           component.testCategory = value;
-          expect(component['testDataValidationMsg']).toEqual(
+          expect(component.testDataValidationMsg).toEqual(
             'Code 4 cannot be selected because the PDI has a Risk Management score of more than 7'
           );
         });
       });
       it('should return level of faults message if Test category is not on the case list', () => {
         component.testCategory = TestCategory.C;
-        expect(component['testDataValidationMsg']).toEqual(
+        expect(component.testDataValidationMsg).toEqual(
           'The level of faults on this practical test does not meet the requirement for code 4 or 5.'
         );
       });

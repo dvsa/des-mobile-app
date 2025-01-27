@@ -170,7 +170,7 @@ describe('PassFinalisationCatBPage', () => {
         component.ngOnInit();
         component.pageState.transmissionManualRadioChecked$.subscribe();
 
-        expect(component.form.controls['transmissionCtrl'].value).toEqual('Manual');
+        expect(component.form.controls.transmissionCtrl.value).toEqual('Manual');
       });
     });
 
@@ -239,25 +239,25 @@ describe('PassFinalisationCatBPage', () => {
     it('should return true if transmission is automatic and form is dirty', () => {
       component.transmission = 'Automatic';
       component.form = new UntypedFormGroup({ transmissionCtrl: new UntypedFormControl() });
-      component.form.controls['transmissionCtrl'].markAsDirty();
+      component.form.controls.transmissionCtrl.markAsDirty();
       expect(component.displayTransmissionBanner()).toEqual(true);
     });
     it('should return false if transmission is not automatic and form is dirty', () => {
       component.transmission = 'Manual';
       component.form = new UntypedFormGroup({ transmissionCtrl: new UntypedFormControl() });
-      component.form.controls['transmissionCtrl'].markAsDirty();
+      component.form.controls.transmissionCtrl.markAsDirty();
       expect(component.displayTransmissionBanner()).toEqual(false);
     });
     it('should return false if transmission is automatic and form is not dirty', () => {
       component.transmission = 'Automatic';
       component.form = new UntypedFormGroup({ transmissionCtrl: new UntypedFormControl() });
-      component.form.controls['transmissionCtrl'].markAsPristine();
+      component.form.controls.transmissionCtrl.markAsPristine();
       expect(component.displayTransmissionBanner()).toEqual(false);
     });
     it('should return false if transmission is not automatic and form is not dirty', () => {
       component.transmission = 'Manual';
       component.form = new UntypedFormGroup({ transmissionCtrl: new UntypedFormControl() });
-      component.form.controls['transmissionCtrl'].markAsPristine();
+      component.form.controls.transmissionCtrl.markAsPristine();
       expect(component.displayTransmissionBanner()).toEqual(false);
     });
   });

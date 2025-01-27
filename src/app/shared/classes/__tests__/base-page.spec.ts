@@ -30,7 +30,7 @@ describe('BasePageComponent', () => {
   let basePageComponent: BasePageComponent;
   const activatedRouteMock = {
     snapshot: {
-      ['_routerState']: {
+      _routerState: {
         url: '/test',
       },
     } as Data,

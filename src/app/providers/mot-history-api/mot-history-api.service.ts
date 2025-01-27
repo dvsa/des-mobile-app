@@ -20,7 +20,7 @@ export interface MotHistoryWithStatus {
 })
 export class MotHistoryApiService {
   constructor(
-    private http: HttpClient,
+    public http: HttpClient,
     private urlProvider: UrlProvider,
     public appConfig: AppConfigProvider
   ) {}

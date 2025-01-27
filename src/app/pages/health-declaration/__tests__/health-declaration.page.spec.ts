@@ -169,7 +169,7 @@ describe('HealthDeclarationPage', () => {
         component.pageState.healthDeclarationAccepted$ = of(true);
         component.pageState.receiptDeclarationAccepted$ = of(true);
         component.pageState.signature$ = of('sig');
-        component.formGroup.controls['signature'].patchValue('heuhrheru');
+        component.formGroup.controls.signature.patchValue('heuhrheru');
         component.healthDeclarationAccepted = true;
         component.onSubmit();
         fixture.detectChanges();
@@ -185,7 +185,7 @@ describe('HealthDeclarationPage', () => {
         component.pageState.healthDeclarationAccepted$ = of(false);
         component.pageState.receiptDeclarationAccepted$ = of(true);
         component.pageState.signature$ = of('sig');
-        component.formGroup.controls['signature'].patchValue('heuhrheru');
+        component.formGroup.controls.signature.patchValue('heuhrheru');
         component.onSubmit();
         fixture.detectChanges();
         expect(formGroup.valid).toEqual(true);

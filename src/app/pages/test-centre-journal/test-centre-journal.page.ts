@@ -60,7 +60,7 @@ export class TestCentreJournalPage extends BasePageComponent implements OnDestro
   @ViewChild('viewJournalsCard')
   viewJournalsCard: ViewJournalsCardComponent;
 
-  private destroy$ = new Subject<{}>();
+  destroy$ = new Subject<{}>();
 
   constructor(
     public orientationMonitorProvider: OrientationMonitorProvider,

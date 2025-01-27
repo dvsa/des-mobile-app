@@ -44,7 +44,7 @@
             "noParameterAssign": "off"
           },
           "complexity": {
-            "useLiteralKeys": "off",
+            "useLiteralKeys": "error",
             "noBannedTypes": "off",
             "noForEach": "off",
             "noThisInStatic": "off",

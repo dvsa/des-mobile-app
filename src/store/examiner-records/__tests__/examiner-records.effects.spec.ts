@@ -50,7 +50,7 @@ describe('ExaminerRecordsStoreEffects', () => {
 
       effects.persistExaminerRecordsPreferences$.subscribe(() => {
         expect(dataStore.setItem).toHaveBeenCalledWith(
-          ExaminerRecordsEffects['EXAMINER_RECORDS_KEY'],
+          ExaminerRecordsEffects.EXAMINER_RECORDS_KEY,
           JSON.stringify(examinerRecordsPreferences)
         );
         done();
@@ -65,7 +65,7 @@ describe('ExaminerRecordsStoreEffects', () => {
 
       effects.persistExaminerRecordsPreferences$.subscribe(() => {
         expect(dataStore.setItem).toHaveBeenCalledWith(
-          ExaminerRecordsEffects['EXAMINER_RECORDS_KEY'],
+          ExaminerRecordsEffects.EXAMINER_RECORDS_KEY,
           JSON.stringify(examinerRecordsPreferences)
         );
         done();
@@ -80,7 +80,7 @@ describe('ExaminerRecordsStoreEffects', () => {
 
       effects.persistExaminerRecordsPreferences$.subscribe(() => {
         expect(dataStore.setItem).toHaveBeenCalledWith(
-          ExaminerRecordsEffects['EXAMINER_RECORDS_KEY'],
+          ExaminerRecordsEffects.EXAMINER_RECORDS_KEY,
           JSON.stringify(examinerRecordsPreferences)
         );
         done();
