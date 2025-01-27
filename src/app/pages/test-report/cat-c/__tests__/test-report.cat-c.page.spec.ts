@@ -124,7 +124,7 @@ describe('TestReportCatCPage', () => {
 
     describe('showUncoupleRecouple', () => {
       it('should not show uncouple/recouple when not delegated', () => {
-        component.delegatedTest = false;
+        component.isDelegatedTest = false;
         expect(component.showUncoupleRecouple()).toEqual(false);
       });
       [
@@ -146,7 +146,7 @@ describe('TestReportCatCPage', () => {
         },
       ].forEach(({ cat, show }) => {
         it(`should ${show ? 'show' : 'not show'} uncouple/recouple for cat ${cat}`, () => {
-          component.delegatedTest = true;
+          component.isDelegatedTest = true;
           component.testCategory = cat;
           expect(component.showUncoupleRecouple()).toEqual(show);
         });

@@ -2,12 +2,12 @@
   <practice-mode-banner *ngIf="isEndToEndPracticeMode"></practice-mode-banner>
   <ion-toolbar class="no-internal-padding"
                [ngClass]="{'toolbar-no-padding': isEndToEndPracticeMode || isExitSAMActivated}" mode="ios">
-    <des-header
+    <test-flow-header
       class="display-flex flex-direction-column"
       [pageName]="'test-report-page-cat-c'"
       [shouldShowGenericEndTest]="true"
       [shouldShowEndTestLink]="false"
-      [shouldShowBackButton]="(pageState.delegatedTest$ | async)"
+      [shouldShowBackButton]="isDelegatedTest"
       [shouldShowEscapeFromSamButton]="!isRekey && !isDelegatedTest"
       [isPracticeMode]="isEndToEndPracticeMode"
       (exitSamUsed)="onUsedExitSam()"
@@ -15,11 +15,11 @@
       (endTestButtonClicked)="onEndTestClick()"
       (onExitSAMActivatedChanged)="isSamActivatedChanged($event)">
       {{'Test report - ' + (pageState.candidateUntitledName$ | async)}}
-    </des-header>
+    </test-flow-header>
   </ion-toolbar>
 </ion-header>
 
-<ion-content class="ion-no-padding" [ngClass]="{'overflow': !delegatedTest}" force-overscroll="false">
+<ion-content class="ion-no-padding" [ngClass]="{'overflow': !isDelegatedTest}" force-overscroll="false">
   <toolbar></toolbar>
   <ion-grid
     class="grid-layout"
@@ -44,7 +44,7 @@
             <legal-requirement
               [legalRequirement]="legalRequirements.normalStart1"
               [ticked]="(pageState.testRequirements$ | async)![legalRequirements.normalStart1]"
-              [disabled]="(pageState.delegatedTest$ | async)"
+              [disabled]="isDelegatedTest"
             >
             </legal-requirement>
           </ion-col>
@@ -52,7 +52,7 @@
             <legal-requirement
               [legalRequirement]="legalRequirements.normalStart2"
               [ticked]="(pageState.testRequirements$ | async)![legalRequirements.normalStart2]"
-              [disabled]="(pageState.delegatedTest$ | async)"
+              [disabled]="isDelegatedTest"
             >
             </legal-requirement>
           </ion-col>
@@ -62,7 +62,7 @@
             <legal-requirement
               [legalRequirement]="legalRequirements.uphillStart"
               [ticked]="(pageState.testRequirements$ | async)![legalRequirements.uphillStart]"
-              [disabled]="(pageState.delegatedTest$ | async)"
+              [disabled]="isDelegatedTest"
             >
             </legal-requirement>
           </ion-col>
@@ -70,7 +70,7 @@
             <legal-requirement
               [legalRequirement]="legalRequirements.downhillStart"
               [ticked]="(pageState.testRequirements$ | async)![legalRequirements.downhillStart]"
-              [disabled]="(pageState.delegatedTest$ | async)"
+              [disabled]="isDelegatedTest"
             >
             </legal-requirement>
           </ion-col>
@@ -87,7 +87,7 @@
             <div class="dark-divider"></div>
           </ion-col>
         </ion-row>
-        <ion-row *ngIf="pageState.delegatedTest$ | async">
+        <ion-row *ngIf="isDelegatedTest">
           <ion-col>
             <reverse-left
               [completed]="manoeuvresCompleted"
@@ -100,7 +100,7 @@
             </reverse-left>
           </ion-col>
         </ion-row>
-        <ion-row *ngIf="pageState.delegatedTest$ | async">
+        <ion-row *ngIf="isDelegatedTest">
           <ion-col class="ion-no-padding">
             <div class="dark-divider"></div>
           </ion-col>
@@ -115,7 +115,7 @@
             <div class="dark-divider"></div>
           </ion-col>
         </ion-row>
-        <ion-row [ngClass]="{'blank-spacer': !delegatedTest}">
+        <ion-row [ngClass]="{'blank-spacer': !isDelegatedTest}">
           <ion-col class="ion-no-padding">
             <h2 class="section-header">Vehicle check</h2>
           </ion-col>

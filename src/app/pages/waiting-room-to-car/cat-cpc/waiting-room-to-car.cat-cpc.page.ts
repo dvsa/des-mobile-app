@@ -34,7 +34,7 @@ import {
   MotEvidenceProvidedReset,
   PopulateVehicleConfiguration,
 } from '@store/tests/vehicle-details/vehicle-details.actions';
-import { Observable, merge } from 'rxjs';
+import { Observable } from 'rxjs';
 import { map, take } from 'rxjs/operators';
 
 interface CatCWaitingRoomToCarPageState {
@@ -57,7 +57,6 @@ type WaitingRoomToCarPageState = CommonWaitingRoomToCarPageState & CatCWaitingRo
 export class WaitingRoomToCarCatCPCPage extends WaitingRoomToCarBasePageComponent implements OnInit {
   form: UntypedFormGroup;
   pageState: WaitingRoomToCarPageState;
-  isDelegated = false;
 
   constructor(
     private cpcQuestionProvider: CPCQuestionProvider,
@@ -95,7 +94,6 @@ export class WaitingRoomToCarCatCPCPage extends WaitingRoomToCarBasePageComponen
       combination$: currentTest$.pipe(select(getTestData), select(getCombination)),
       configuration$: currentTest$.pipe(select(getVehicleDetails), select(getVehicleConfiguration)),
     };
-    this.setupSubscription();
   }
 
   motNoEvidenceCancelled = (): void => {
@@ -107,13 +105,6 @@ export class WaitingRoomToCarCatCPCPage extends WaitingRoomToCarBasePageComponen
     super.ionViewDidLeave();
     this.subscription?.unsubscribe();
   }
-
-  setupSubscription(): void {
-    const { delegatedTest$ } = this.pageState;
-
-    this.subscription = merge(delegatedTest$.pipe(map((result) => (this.isDelegated = result)))).subscribe();
-  }
-
   onSubmit = async (): Promise<void> => {
     Object.keys(this.form.controls).forEach((controlName: string) => this.form.controls[controlName].markAsDirty());
 
@@ -121,7 +112,7 @@ export class WaitingRoomToCarCatCPCPage extends WaitingRoomToCarBasePageComponen
       this.store$.dispatch(ClearCandidateLicenceData());
 
       await this.routeByCategoryProvider.navigateToPage(TestFlowPageNames.TEST_REPORT_PAGE, this.testCategory, {
-        replaceUrl: !this.isDelegated,
+        replaceUrl: !this.isDelegatedTest,
       });
       return;
     }

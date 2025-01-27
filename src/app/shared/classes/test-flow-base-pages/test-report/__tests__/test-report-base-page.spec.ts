@@ -258,7 +258,7 @@ describe('TestReportBasePageComponent', () => {
         component: LegalRequirementsModal,
         componentProps: {
           legalRequirements: basePageComponent.missingLegalRequirements,
-          isDelegated: basePageComponent.delegatedTest,
+          isDelegated: basePageComponent.isDelegatedTest,
         },
         cssClass: 'mes-modal-alert text-zoom-regular',
       });
@@ -319,7 +319,7 @@ describe('TestReportBasePageComponent', () => {
 
   describe('onModalDismiss', () => {
     it('should navigate to DEBRIEF_PAGE on CONTINUE event when test is not delegated', async () => {
-      basePageComponent.delegatedTest = false;
+      basePageComponent.isDelegatedTest = false;
       spyOn(basePageComponent.router, 'navigate');
       await basePageComponent.onModalDismiss(ModalEvent.CONTINUE);
       expect(basePageComponent.router.navigate).toHaveBeenCalledWith([TestFlowPageNames.DEBRIEF_PAGE]);
@@ -332,7 +332,7 @@ describe('TestReportBasePageComponent', () => {
     });
 
     it('should navigate to OFFICE_PAGE on CONTINUE event when test is delegated', async () => {
-      basePageComponent.delegatedTest = true;
+      basePageComponent.isDelegatedTest = true;
       spyOn(basePageComponent['routeByCategory'], 'getNextPage').and.returnValue(TestFlowPageNames.OFFICE_PAGE);
       spyOn(basePageComponent.router, 'navigate');
       await basePageComponent.onModalDismiss(ModalEvent.CONTINUE);

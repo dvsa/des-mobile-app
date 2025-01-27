@@ -2,16 +2,17 @@
   <practice-mode-banner *ngIf="isEndToEndPracticeMode"></practice-mode-banner>
   <ion-toolbar class="no-internal-padding"
                [ngClass]="{'toolbar-no-padding': isEndToEndPracticeMode || isExitSAMActivated}" mode="ios">
-    <des-header
+    <test-flow-header
       class="display-flex flex-direction-column"
       [pageName]="'health-declaration'"
       [shouldShowEscapeFromSamButton]="!isRekey && !isDelegatedTest"
+      [shouldIncludeLanguageDirectiveOnTitle]="true"
       [isPracticeMode]="isEndToEndPracticeMode"
       [isExitSAMActivated]="isExitSAMActivated"
       [shouldShowEndTestLink]="false"
       (onExitSAMActivatedChanged)="isSamActivatedChanged($event)">
       {{ 'healthDeclaration.title' | translate }} - {{pageState.candidateUntitledName$ | async}}
-    </des-header>
+    </test-flow-header>
   </ion-toolbar>
 </ion-header>
 

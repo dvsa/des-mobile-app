@@ -3,17 +3,18 @@
   <ion-toolbar
     class="no-internal-padding"
     [ngClass]="{'toolbar-no-padding': isEndToEndPracticeMode || isExitSAMActivated}" mode="ios">
-    <des-header
+    <test-flow-header
       class="display-flex flex-direction-column"
       [testCategory]="pageState.testCategory$ | async"
       [shouldShowEscapeFromSamButton]="!isRekey"
+      [shouldIncludeLanguageDirectiveOnTitle]="true"
       [pageName]="'communication-page-title'"
       [isPracticeMode]="isEndToEndPracticeMode"
       [isExitSAMActivated]="isExitSAMActivated"
       (exitSamUsed)="onUsedExitSam()"
       (onExitSAMActivatedChanged)="isSamActivatedChanged($event)">
       {{ 'communication.title' | translate }} - {{pageState.candidateUntitledName$ | async}}
-    </des-header>
+    </test-flow-header>
   </ion-toolbar>
 </ion-header>
 

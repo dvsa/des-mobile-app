@@ -2,6 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { AppModule } from '@app/app.module';
 import { PracticeModeBanner } from '@components/common/practice-mode-banner/practice-mode-banner';
+import { TestFlowHeaderComponent } from '@components/common/test-flow-header/test-flow-header.component';
 import { TickIndicatorComponent } from '@components/common/tick-indicator/tick-indicator';
 import { CatADI2UniqueTypes } from '@dvsa/mes-test-schema/categories/ADI2';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
@@ -74,6 +75,7 @@ describe('TestReportCatADI2Page', () => {
             } as CatADI2UniqueTypes.TestResult,
           },
         })),
+        TestFlowHeaderComponent,
         StoreModule.forFeature('testReport', testReportReducer),
       ],
       providers: [
@@ -132,15 +134,6 @@ describe('TestReportCatADI2Page', () => {
 
       expect(TestReportBasePageComponent.prototype.ionViewDidLeave).toHaveBeenCalled();
       expect(TestReportBasePageComponent.prototype.cancelSubscription).toHaveBeenCalled();
-    });
-  });
-
-  describe('End Test Button', () => {
-    it('should call the end test function', () => {
-      spyOn(component, 'onEndTestClick');
-      const endTestButton = fixture.debugElement.query(By.css('#end-test-button'));
-      endTestButton.triggerEventHandler('click', null);
-      expect(component.onEndTestClick).toHaveBeenCalled();
     });
   });
 });

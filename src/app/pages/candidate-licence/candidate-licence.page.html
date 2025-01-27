@@ -3,7 +3,7 @@
   <ion-toolbar
     class="no-internal-padding"
     [ngClass]="{'toolbar-no-padding': isEndToEndPracticeMode || isExitSAMActivated}" mode="ios">
-    <des-header
+    <test-flow-header
       class="display-flex flex-direction-column"
       [defaultBackButtonHref]="'WaitingRoomPage'"
       [testCategory]="pageState.testCategory$ | async"
@@ -14,7 +14,7 @@
       (exitSamUsed)="onUsedExitSam()"
       (onExitSAMActivatedChanged)="isSamActivatedChanged($event)">
       DVLA licence information - {{ pageState.candidateUntitledName$ | async }}
-    </des-header>
+    </test-flow-header>
   </ion-toolbar>
 </ion-header>
 

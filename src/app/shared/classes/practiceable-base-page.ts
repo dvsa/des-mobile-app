@@ -85,6 +85,7 @@ export abstract class PracticeableBasePageComponent extends BasePageComponent im
   isSamActivatedChanged(isActive: boolean): void {
     this.isExitSAMActivated = isActive;
   }
+
   onUsedExitSam(): void {
     this.store$.dispatch(SetHasExitedApp());
   }

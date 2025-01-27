@@ -2,7 +2,7 @@
   <practice-mode-banner *ngIf="isEndToEndPracticeMode"></practice-mode-banner>
   <ion-toolbar class="no-internal-padding"
                [ngClass]="{'toolbar-no-padding': isEndToEndPracticeMode || isExitSAMActivated}" mode="ios">
-    <des-header
+    <test-flow-header
       class="display-flex flex-direction-column"
       [testCategory]="pageState.category$ | async"
       [isDelegatedRekey]="pageState.delegatedTest$ | async"
@@ -15,7 +15,7 @@
       (onExitSAMActivatedChanged)="isSamActivatedChanged($event)"
       (endTestButtonClicked)="abortMOTCall(MOTAbortedMethod.END_TEST)">
       {{pageState.candidateName$ | async}}
-    </des-header>
+    </test-flow-header>
   </ion-toolbar>
 </ion-header>
 
@@ -94,7 +94,7 @@
 
 <ion-footer [class.hidden]="failedMOTModalCurrentlyOpen">
   <ion-row [hidden]="(pageState.motEvidenceProvided$ | async) === false" class="mes-full-width-card box-shadow">
-    <ion-col *ngIf="!isDelegated" class="ion-text-center" size="45">
+    <ion-col *ngIf="!isDelegatedTest" class="ion-text-center" size="45">
       <ion-button
         (click)="onViewTestCentreJournal()"
         class="mes-grey-button wrtc-footer-btn"
@@ -104,8 +104,8 @@
         <ion-text class="des-header-style-3">View test centre journal</ion-text>
       </ion-button>
     </ion-col>
-    <ion-col *ngIf="!isDelegated" size="6"></ion-col>
-    <ion-col [size]="isDelegated ? 96 : 45" class="ion-text-center">
+    <ion-col *ngIf="!isDelegatedTest" size="6"></ion-col>
+    <ion-col [size]="isDelegatedTest ? 96 : 45" class="ion-text-center">
       <ion-button
         (click)="onSubmit()"
         class="mes-primary-button wrtc-footer-btn"

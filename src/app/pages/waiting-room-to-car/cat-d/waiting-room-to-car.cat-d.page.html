@@ -2,10 +2,10 @@
   <practice-mode-banner *ngIf="isEndToEndPracticeMode"></practice-mode-banner>
   <ion-toolbar class="no-internal-padding"
                [ngClass]="{'toolbar-no-padding': isEndToEndPracticeMode || isExitSAMActivated}" mode="ios">
-    <des-header
+    <test-flow-header
       class="display-flex flex-direction-column"
       [testCategory]="pageState.category$ | async"
-      [isDelegatedRekey]="pageState.delegatedTest$ | async"
+      [isDelegatedRekey]="isDelegatedTest"
       [pageName]="'waiting-room-to-car-page-cat-d'"
       [shouldShowEscapeFromSamButton]="!isRekey && !isDelegatedTest"
       [isPracticeMode]="isEndToEndPracticeMode"
@@ -15,7 +15,7 @@
       (onExitSAMActivatedChanged)="isSamActivatedChanged($event)"
       (endTestButtonClicked)="abortMOTCall(MOTAbortedMethod.END_TEST)">
       {{pageState.candidateName$ | async}}
-    </des-header>
+    </test-flow-header>
   </ion-toolbar>
 </ion-header>
 
@@ -28,7 +28,7 @@
           <ion-col class="ion-no-padding">
             <candidate-declaration-signed
               (candidateDeclarationChange)="candidateDeclarationOutcomeChanged($event)"
-              *ngIf="pageState.delegatedTest$ | async"
+              *ngIf="isDelegatedTest"
               [candidateSigned]="pageState.candidateDeclarationSigned$ | async"
               [declarationSelected]="(pageState.insuranceDeclarationAccepted$ | async) && (pageState.residencyDeclarationAccepted$ | async)"
               [formGroup]="form"
@@ -65,7 +65,7 @@
 
             <vehicle-checks-vocational
               (onCloseVehicleChecksModal)="closeVehicleChecksModal()"
-              *ngIf="!(pageState.delegatedTest$ | async)"
+              *ngIf="!isDelegatedTest"
               [category]="pageState.category$ | async"
               [formGroup]="form"
               [practiceMode]="isEndToEndPracticeMode"
@@ -80,7 +80,7 @@
 
             <full-licence-held-toggle
               (fullLicenceHeldChange)="fullLicenceHeldChange($event)"
-              *ngIf="(pageState.delegatedTest$ | async) && showFullLicenceHeld()"
+              *ngIf="isDelegatedTest && showFullLicenceHeld()"
               [formGroup]="form"
               [fullLicenceHeld]="pageState.fullLicenceHeldSelection$ | async"
               [required]="true"
@@ -91,7 +91,7 @@
             <vehicle-checks-completed
               (vehicleChecksCompletedOutcomeChange)="vehicleChecksCompletedOutcomeChanged($event)"
               (vehicleChecksDrivingFaultsNumberChange)="vehicleChecksDrivingFaultsNumberChanged($event)"
-              *ngIf="pageState.delegatedTest$ | async"
+              *ngIf="isDelegatedTest"
               [formGroup]="form"
               [testCategory]="pageState.category$ | async"
               [vehicleChecksCompleted]="pageState.vehicleChecksCompleted$ | async"
@@ -114,7 +114,7 @@
           </ion-col>
         </ion-row>
 
-        <div [hidden]="(pageState.motEvidenceProvided$ | async) === false" *ngIf="!(pageState.delegatedTest$ | async)">
+        <div [hidden]="(pageState.motEvidenceProvided$ | async) === false" *ngIf="!isDelegatedTest">
           <warning-banner class="banner-space" warningText="Is cab locked down? (if applicable)"></warning-banner>
           <warning-banner warningText="Is load secure? (if applicable)"></warning-banner>
         </div>
@@ -125,7 +125,7 @@
 
 <ion-footer [class.hidden]="failedMOTModalCurrentlyOpen">
   <ion-row [hidden]="(pageState.motEvidenceProvided$ | async) === false" class="mes-full-width-card box-shadow">
-    <ion-col *ngIf="!isDelegated" class="ion-text-center" size="45">
+    <ion-col *ngIf="!isDelegatedTest" class="ion-text-center" size="45">
       <ion-button
         (click)="onViewTestCentreJournal()"
         class="mes-grey-button wrtc-footer-btn"
@@ -135,8 +135,8 @@
         <ion-text class="des-header-style-3">View test centre journal</ion-text>
       </ion-button>
     </ion-col>
-    <ion-col *ngIf="!isDelegated" size="6"></ion-col>
-    <ion-col [size]="isDelegated ? 96 : 45" class="ion-text-center">
+    <ion-col *ngIf="!isDelegatedTest" size="6"></ion-col>
+    <ion-col [size]="isDelegatedTest ? 96 : 45" class="ion-text-center">
       <ion-button
         (click)="onSubmit()"
         class="mes-primary-button wrtc-footer-btn"

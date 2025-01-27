@@ -2,7 +2,7 @@
   <practice-mode-banner *ngIf="isEndToEndPracticeMode || isPracticeMode"></practice-mode-banner>
   <ion-toolbar class="no-internal-padding"
                [ngClass]="{'toolbar-no-padding': isEndToEndPracticeMode || isPracticeMode || isExitSAMActivated}" mode="ios">
-    <des-header
+    <test-flow-header
       class="display-flex flex-direction-column"
       [pageName]="'test-report-page-cat-home'"
       [shouldShowGenericEndTest]="true"
@@ -15,11 +15,11 @@
       (endTestButtonClicked)="onEndTestClick()"
       (onExitSAMActivatedChanged)="isSamActivatedChanged($event)">
       {{'Test report - ' + (pageState.candidateUntitledName$ | async)}}
-    </des-header>
+    </test-flow-header>
   </ion-toolbar>
 </ion-header>
 
-<ion-content class="ion-no-padding" [ngClass]="{'overflow': !delegatedTest}" force-overscroll="false">
+<ion-content class="ion-no-padding" [ngClass]="{'overflow': !isDelegatedTest}" force-overscroll="false">
   <toolbar></toolbar>
   <ion-grid
     class="grid-layout"

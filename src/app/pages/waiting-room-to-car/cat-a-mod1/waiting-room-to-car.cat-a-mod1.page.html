@@ -2,7 +2,7 @@
   <practice-mode-banner *ngIf="isEndToEndPracticeMode"></practice-mode-banner>
   <ion-toolbar class="no-internal-padding"
                [ngClass]="{'toolbar-no-padding': isEndToEndPracticeMode || isExitSAMActivated}" mode="ios">
-    <des-header
+    <test-flow-header
       class="display-flex flex-direction-column"
       [testCategory]="pageState.category$ | async"
       [pageName]="'waiting-room-to-car-page-a-mod1'"
@@ -14,7 +14,7 @@
       (onExitSAMActivatedChanged)="isSamActivatedChanged($event)"
       (endTestButtonClicked)="abortMOTCall(MOTAbortedMethod.END_TEST)">
       {{pageState.candidateName$ | async}}
-    </des-header>
+    </test-flow-header>
   </ion-toolbar>
 </ion-header>
 

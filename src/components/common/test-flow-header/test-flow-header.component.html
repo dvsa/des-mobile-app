@@ -13,14 +13,14 @@
     <ion-col class="display-flex ion-align-items-center">
       <ion-buttons>
         <ion-back-button *ngIf="shouldShowBackButton" defaultHref="{{defaultBackButtonHref}}"
-                         [id]="pageName+'back-button'"></ion-back-button>
+                         [id]="pageName+'-back-button'"></ion-back-button>
       </ion-buttons>
     </ion-col>
     <ion-col *ngIf="shouldShowCloseButton">
       <ion-buttons>
         <ion-button id="close-button" (click)="onCloseClicked()">
-          <ion-icon class="close-btn" [id]="pageName+'close-icon'" name="close-outline"></ion-icon>
-          <ion-label class="close-btn" [id]="pageName+'close-label'">Close</ion-label>
+          <ion-icon class="close-btn" [id]="pageName+'-close-icon'" name="close-outline"></ion-icon>
+          <ion-label class="close-btn" [id]="pageName+'-close-label'">Close</ion-label>
         </ion-button>
       </ion-buttons>
     </ion-col>
@@ -37,7 +37,12 @@
     </ion-col>
   </ion-col>
   <ion-col class="ion-no-padding">
-    <ion-title addOrRemoveLangCy role="heading" aria-level="1" [id]="pageName+'title'">
+    <ion-title
+      addOrRemoveLangCy
+      [shouldListenToLanguageChanges]="shouldIncludeLanguageDirectiveOnTitle"
+      role="heading"
+      aria-level="1"
+      [id]="pageName+'-title'">
       <ng-content></ng-content>
     </ion-title>
   </ion-col>
@@ -45,7 +50,7 @@
     <ion-buttons>
       <end-test-link
         *ngIf="shouldShowEndTestLink"
-        [id]="pageName+'end-test-button-link'"
+        [id]="pageName+'-end-test-button-link'"
         (endTestLinkClicked)="onEndTestClicked()"
         [category]="testCategory"
         [isDelegated]="isDelegatedRekey"

@@ -4,6 +4,7 @@ import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms
 import { Router, RouterModule } from '@angular/router';
 import { AppModule } from '@app/app.module';
 import { PracticeModeBanner } from '@components/common/practice-mode-banner/practice-mode-banner';
+import { TestFlowHeaderComponent } from '@components/common/test-flow-header/test-flow-header.component';
 import { WarningBannerComponent } from '@components/common/warning-banner/warning-banner';
 import { DebriefWitnessedComponent } from '@components/test-finalisation/debrief-witnessed/debrief-witnessed';
 import { FinalisationHeaderComponent } from '@components/test-finalisation/finalisation-header/finalisation-header';
@@ -40,7 +41,7 @@ describe('PassFinalisationCatCPCPage', () => {
         MockComponent(LanguagePreferencesComponent),
         MockComponent(WarningBannerComponent),
       ],
-      imports: [RouterModule.forRoot([]), AppModule],
+      imports: [RouterModule.forRoot([]), AppModule, MockComponent(TestFlowHeaderComponent)],
       providers: [
         {
           provide: Platform,

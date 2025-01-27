@@ -2,10 +2,10 @@
   <practice-mode-banner *ngIf="isEndToEndPracticeMode"></practice-mode-banner>
   <ion-toolbar class="no-internal-padding"
                [ngClass]="{'toolbar-no-padding': isEndToEndPracticeMode || isExitSAMActivated}" mode="ios">
-    <des-header
+    <test-flow-header
       class="display-flex flex-direction-column"
       [testCategory]="pageState.category$ | async"
-      [isDelegatedRekey]="pageState.delegatedTest$ | async"
+      [isDelegatedRekey]="isDelegatedTest"
       [pageName]="'waiting-room-to-car-page-cat-manoeuvre'"
       [shouldShowEscapeFromSamButton]="!isRekey"
       [isPracticeMode]="isEndToEndPracticeMode"
@@ -15,7 +15,7 @@
       (onExitSAMActivatedChanged)="isSamActivatedChanged($event)"
       (endTestButtonClicked)="abortMOTCall(MOTAbortedMethod.END_TEST)">
       {{pageState.candidateName$ | async}}
-    </des-header>
+    </test-flow-header>
   </ion-toolbar>
 </ion-header>
 
@@ -90,7 +90,7 @@
 <ion-footer
   [class.hidden]="failedMOTModalCurrentlyOpen"
   *ngIf="{
-  delegatedTest: pageState.delegatedTest$ | async
+  delegatedTest: isDelegatedTest
 } as data"
 >
   <ion-row [hidden]="(pageState.motEvidenceProvided$ | async) === false" class="mes-full-width-card box-shadow">

@@ -6,7 +6,6 @@ import { ExitSamDESUnlockedModal } from '../exit-sam-DES-unlocked-modal';
 describe('ExitSamDESUnlockedModal', () => {
   let fixture: ComponentFixture<ExitSamDESUnlockedModal>;
   let component: ExitSamDESUnlockedModal;
-  let modalController: ModalController;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
@@ -16,14 +15,13 @@ describe('ExitSamDESUnlockedModal', () => {
 
     fixture = TestBed.createComponent(ExitSamDESUnlockedModal);
     component = fixture.componentInstance;
-    modalController = TestBed.inject(ModalController);
   }));
 
   describe('onOk', () => {
     it('should dismiss the modal with CANCEL event', async () => {
       spyOn(component.modalController, 'dismiss').and.resolveTo(true);
       await component.onOk();
-      expect(modalController.dismiss).toHaveBeenCalled();
+      expect(component.modalController.dismiss).toHaveBeenCalled();
     });
   });
 });

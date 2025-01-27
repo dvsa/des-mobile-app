@@ -2,12 +2,12 @@
   <practice-mode-banner *ngIf="isEndToEndPracticeMode || isPracticeMode"></practice-mode-banner>
   <ion-toolbar class="no-internal-padding"
                [ngClass]="{'toolbar-no-padding': isEndToEndPracticeMode || isExitSAMActivated}" mode="ios">
-    <des-header
+    <test-flow-header
       class="display-flex flex-direction-column"
       [pageName]="'test-report-page-cat-cpc'"
       [shouldShowGenericEndTest]="true"
       [shouldShowEndTestLink]="false"
-      [shouldShowBackButton]="(pageState.delegatedTest$ | async)"
+      [shouldShowBackButton]="isDelegatedTest"
       [shouldShowEscapeFromSamButton]="!isRekey && !isDelegatedTest"
       [isPracticeMode]="isEndToEndPracticeMode"
       (exitSamUsed)="onUsedExitSam()"
@@ -15,14 +15,14 @@
       (endTestButtonClicked)="onEndTestClick()"
       (onExitSAMActivatedChanged)="isSamActivatedChanged($event)">
       {{'Test report - ' + (pageState.candidateUntitledName$ | async)}}
-    </des-header>
+    </test-flow-header>
   </ion-toolbar>
 </ion-header>
 
 <ion-content class="ion-no-padding">
   <module-assessment [combinationCode]="pageState.combinationCode$ | async"></module-assessment>
 
-  <div *ngIf="!isDelegated">
+  <div *ngIf="!isDelegatedTest">
     <question-card
       *ngIf="pageNumber === 1"
       (answerPayload)="populateAnswer($event)"
@@ -63,7 +63,7 @@
     </question-five-card>
   </div>
 
-  <div *ngIf="isDelegated">
+  <div *ngIf="isDelegatedTest">
     <question-del-ex-radio-card
       *ngFor="let number of [1,2,3,4,5]"
       [formGroup]="form"
@@ -79,7 +79,7 @@
   [questionNumber]="pageNumber"
   (questionPageChange)="questionPageChanged($event)"
   (testSummaryRequested)="onEndTestClick()"
-  [isDelegated]="isDelegated"
+  [isDelegated]="isDelegatedTest"
   [formGroup]="form"
 >
 </question-footer>

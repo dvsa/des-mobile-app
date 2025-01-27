@@ -23,7 +23,7 @@
       <ion-card-content class="card-content-ios ion-no-padding">
         <ion-grid class="grid">
           <date-of-test
-            *ngIf="isDelegated || (pageState.isRekey$ | async)"
+            *ngIf="isDelegatedTest || isRekey"
             [dateOfTest]="pageState.startDate$ | async"
             (setIsValidStartDateTime)="setIsValidStartDateTime($event)"
             (dateOfTestChange)="dateOfTestChanged($event)"
@@ -33,7 +33,7 @@
           <ion-row
             class="mes-component-row mes-row-separator ion-align-items-center"
             id="application-reference-card"
-            *ngIf="isDelegated"
+            *ngIf="isDelegatedTest"
           >
             <ion-col class="component-label" size="32">
               <label>Application reference</label>
@@ -49,13 +49,13 @@
             [activityCodeModel]="pageState.activityCode$ | async"
             [activityCodeOptions]="activityCodeOptions"
             (activityCodeChange)="activityCodeChanged($event)"
-            [disabled]="!isDelegated"
+            [disabled]="!isDelegatedTest"
           >
           </activity-code>
 
           <div class="ion-no-padding" [hidden]="!(pageState.isTestOutcomeSet$ | async)">
             <pass-certificate-number
-              *ngIf="isDelegated && isPass()"
+              *ngIf="isDelegatedTest && isPass()"
               [form]="form"
               [passCertificateNumberInput]="pageState.passCertificateNumber$ | async"
               (passCertificateNumberChange)="passCertificateNumberChanged($event)"
@@ -63,7 +63,7 @@
             </pass-certificate-number>
 
             <health-declaration-signed
-              *ngIf="isDelegated && isPass()"
+              *ngIf="isDelegatedTest && isPass()"
               [formGroup]="form"
               [label]="'Health declaration'"
               [healthDeclaration]="pageState.healthDeclarationAccepted$ | async"
@@ -72,7 +72,7 @@
             </health-declaration-signed>
 
             <d255
-              *ngIf="isDelegated"
+              *ngIf="isDelegatedTest"
               [display]="true"
               [d255]="pageState.d255$ | async"
               [outcome]="pageState.testOutcome$ | async"
@@ -82,16 +82,16 @@
             </d255>
 
             <language-preferences
-              *ngIf="isDelegated"
+              *ngIf="isDelegatedTest"
               [formGroup]="form"
               [isWelsh]="isWelsh()"
-              [isDelegated]="isDelegated"
+              [isDelegated]="isDelegatedTest"
               (welshChanged)="isWelshChanged($event)"
             >
             </language-preferences>
 
             <debrief-witnessed
-              *ngIf="isDelegated"
+              *ngIf="isDelegatedTest"
               [display]="true"
               [formGroup]="form"
               [debriefWitnessed]="pageState.debriefWitnessed$ | async"
@@ -109,7 +109,7 @@
             </true-likeness>
 
             <candidate-description
-              *ngIf="!isDelegated"
+              *ngIf="!isDelegatedTest"
               [display]="pageState.displayCandidateDescription$ | async"
               [formGroup]="form"
               [candidateDescription]="pageState.candidateDescription$ | async"
@@ -120,7 +120,7 @@
             </candidate-description>
 
             <identification
-              *ngIf="!isDelegated"
+              *ngIf="!isDelegatedTest"
               [display]="pageState.displayIdentification$ | async"
               [formGroup]="form"
               [identification]="pageState.identification$ | async"
@@ -130,7 +130,7 @@
             </identification>
 
             <weather-conditions
-              *ngIf="!isDelegated"
+              *ngIf="!isDelegatedTest"
               [display]="pageState.displayWeatherConditions$ | async"
               [weatherConditions]="pageState.weatherConditions$ | async"
               [formGroup]="form"
@@ -177,6 +177,7 @@
             </additional-information>
 
             <reason-for-entering-teams
+              *ngIf="pageState.hasEnteredTeamsOnThisTest$ | async"
               [display]="pageState.hasEnteredTeamsOnThisTest$ | async"
               [reasonForOpeningTeams]="pageState.reasonForEnteringTeams$ | async"
               [formGroup]="form"
@@ -202,11 +203,11 @@
       <fault-comment-card
         [formGroup]="form"
         [faultComments]="pageState.dangerousFaults$ | async"
-        [shouldRender]="(pageState.dangerousFaults$ | async)?.length > 0 && ((pageState.displayDangerousFault$ | async) || isDelegated)"
-        [isDelegatedTest]="pageState.delegatedTest$ | async"
+        [shouldRender]="(pageState.dangerousFaults$ | async)?.length > 0 && ((pageState.displayDangerousFault$ | async) || isDelegatedTest)"
+        [isDelegatedTest]="isDelegatedTest"
         [outcome]="pageState.testOutcome$ | async"
         faultType="dangerous"
-        header="Dangerous faults {{isDelegated ? (pageState.dangerousFaultCount$ | async) : null}}"
+        header="Dangerous faults {{isDelegatedTest ? (pageState.dangerousFaultCount$ | async) : null}}"
         (faultCommentsChange)="dangerousFaultCommentChanged($event)"
       >
       </fault-comment-card>
@@ -214,11 +215,11 @@
       <fault-comment-card
         [formGroup]="form"
         [faultComments]="pageState.seriousFaults$ | async"
-        [shouldRender]="(pageState.seriousFaults$ | async)?.length > 0  && ((pageState.displaySeriousFault$ | async) || isDelegated)"
-        [isDelegatedTest]="pageState.delegatedTest$ | async"
+        [shouldRender]="(pageState.seriousFaults$ | async)?.length > 0  && ((pageState.displaySeriousFault$ | async) || isDelegatedTest)"
+        [isDelegatedTest]="isDelegatedTest"
         [outcome]="pageState.testOutcome$ | async"
         faultType="serious"
-        header="Serious faults {{isDelegated ? (pageState.seriousFaultCount$ | async) : null}}"
+        header="Serious faults {{isDelegatedTest ? (pageState.seriousFaultCount$ | async) : null}}"
         (faultCommentsChange)="seriousFaultCommentChanged($event)"
       >
       </fault-comment-card>
@@ -228,8 +229,8 @@
 
 <ion-footer>
   <office-footer
-    [isDelegated]="isDelegated"
-    [isRekey]="(pageState.isRekey$ | async)"
+    [isDelegated]="isDelegatedTest"
+    [isRekey]="isRekey"
     [isValidStartDateTime]="isValidStartDateTime"
     (saveClicked)="defer()"
     (submitClicked)="onSubmit($event)"

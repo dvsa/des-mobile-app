@@ -12,6 +12,7 @@ import { DirectivesModule } from '@directives/directives.module';
 import { IonicModule, ModalController } from '@ionic/angular';
 import { Platform } from '@ionic/angular';
 import { Store } from '@ngrx/store';
+import { TranslateService } from '@ngx-translate/core';
 import { DeviceProvider } from '@providers/device/device';
 import { StoreModel } from '@shared/models/store.model';
 import { Subscription } from 'rxjs';
@@ -22,9 +23,11 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./test-flow-header.component.scss'],
   standalone: true,
   imports: [IonicModule, ComponentsModule, NgIf, ExitSamBanner, ExitSamButton, DirectivesModule],
+  providers: [TranslateService],
 })
 export class TestFlowHeaderComponent {
   @Input() isPracticeMode = false;
+  @Input() shouldIncludeLanguageDirectiveOnTitle = false;
   @Input() defaultBackButtonHref: string;
   @Input() shouldShowGenericEndTest = false;
   @Input() shouldShowEndTestLink = true;

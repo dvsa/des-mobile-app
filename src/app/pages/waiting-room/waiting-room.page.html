@@ -4,7 +4,7 @@
     class="no-internal-padding"
     [ngClass]="{'toolbar-no-padding': isEndToEndPracticeMode || isExitSAMActivated}"
     mode="ios">
-    <des-header
+    <test-flow-header
       class="display-flex flex-direction-column"
       [testCategory]="pageState.testCategory$ | async"
       [isDelegatedRekey]="isDelegatedTest"
@@ -12,10 +12,11 @@
       [pageName]="'waiting-room-page'"
       [isPracticeMode]="isEndToEndPracticeMode"
       [isExitSAMActivated]="isExitSAMActivated"
+      [shouldIncludeLanguageDirectiveOnTitle]="true"
       (exitSamUsed)="onUsedExitSam()"
       (onExitSAMActivatedChanged)="isSamActivatedChanged($event)">
       {{ 'waitingRoom.title' | translate }} - {{ pageState.candidateUntitledName$ | async }}
-    </des-header>
+    </test-flow-header>
   </ion-toolbar>
 </ion-header>
 

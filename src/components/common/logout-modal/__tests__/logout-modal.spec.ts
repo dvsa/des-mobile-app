@@ -6,7 +6,6 @@ import { LogoutModal, LogoutModalEvent } from '../logout-modal';
 describe('LogoutModal', () => {
   let fixture: ComponentFixture<LogoutModal>;
   let component: LogoutModal;
-  let modalController: ModalController;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
@@ -17,22 +16,21 @@ describe('LogoutModal', () => {
 
     fixture = TestBed.createComponent(LogoutModal);
     component = fixture.componentInstance;
-    modalController = TestBed.inject(ModalController);
   }));
 
   describe('onCancel', () => {
     it('should dismiss the modal with CANCEL event', async () => {
       spyOn(component.modalController, 'dismiss').and.resolveTo(true);
       await component.onCancel();
-      expect(modalController.dismiss).toHaveBeenCalledWith({ event: LogoutModalEvent.CANCEL });
+      expect(component.modalController.dismiss).toHaveBeenCalledWith({ event: LogoutModalEvent.CANCEL });
     });
   });
 
   describe('onLogout', () => {
     it('should dismiss the modal with LOGOUT event', async () => {
-      spyOn(modalController, 'dismiss').and.resolveTo(true);
+      spyOn(component.modalController, 'dismiss').and.resolveTo(true);
       await component.onLogout();
-      expect(modalController.dismiss).toHaveBeenCalledWith({ event: LogoutModalEvent.LOGOUT });
+      expect(component.modalController.dismiss).toHaveBeenCalledWith({ event: LogoutModalEvent.LOGOUT });
     });
   });
 });

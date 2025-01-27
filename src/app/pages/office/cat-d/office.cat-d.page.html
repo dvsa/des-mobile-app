@@ -2,7 +2,7 @@
   <practice-mode-banner *ngIf="isEndToEndPracticeMode"></practice-mode-banner>
   <ion-toolbar mode="ios" [ngClass]="{'toolbar-no-padding': isEndToEndPracticeMode}">
     <ion-title>Office</ion-title>
-    <ion-buttons *ngIf="isDelegated" id="office-back-button" slot="start">
+    <ion-buttons *ngIf="isDelegatedTest" id="office-back-button" slot="start">
       <ion-back-button></ion-back-button>
     </ion-buttons>
   </ion-toolbar>
@@ -26,7 +26,7 @@
       <ion-card-content class="card-content-ios ion-no-padding">
         <ion-grid class="grid">
           <date-of-test
-            *ngIf="isDelegated || (pageState.isRekey$ | async)"
+            *ngIf="isDelegatedTest || isRekey"
             [dateOfTest]="pageState.startDate$ | async"
             (setIsValidStartDateTime)="setIsValidStartDateTime($event)"
             (dateOfTestChange)="dateOfTestChanged($event)"
@@ -36,7 +36,7 @@
           <ion-row
             class="mes-component-row mes-row-separator ion-align-items-center"
             id="application-reference-card"
-            *ngIf="isDelegated"
+            *ngIf="isDelegatedTest"
           >
             <ion-col class="component-label" size="32">
               <label>Application reference</label>
@@ -52,13 +52,13 @@
             [activityCodeModel]="pageState.activityCode$ | async"
             [activityCodeOptions]="activityCodeOptions"
             (activityCodeChange)="activityCodeChanged($event)"
-            [disabled]="!isDelegated"
+            [disabled]="!isDelegatedTest"
           >
           </activity-code>
 
           <div class="ion-no-padding" [hidden]="!(pageState.isTestOutcomeSet$ | async)">
             <license-provided
-              *ngIf="isDelegated && isPass()"
+              *ngIf="isDelegatedTest && isPass()"
               [form]="form"
               [license]="pageState.provisionalLicense$ | async"
               [licenseReceivedLabel]="'Provisional licence received'"
@@ -68,7 +68,7 @@
             </license-provided>
 
             <transmission
-              *ngIf="isDelegated && isPass()"
+              *ngIf="isDelegatedTest && isPass()"
               [formGroup]="form"
               [transmission]="pageState.transmission$ | async"
               (transmissionChange)="transmissionChanged($event)"
@@ -76,7 +76,7 @@
             </transmission>
 
             <pass-certificate-number
-              *ngIf="isDelegated && isPass()"
+              *ngIf="isDelegatedTest && isPass()"
               [form]="form"
               [passCertificateNumberInput]="pageState.passCertificateNumber$ | async"
               (passCertificateNumberChange)="passCertificateNumberChanged($event)"
@@ -84,7 +84,7 @@
             </pass-certificate-number>
 
             <health-declaration-signed
-              *ngIf="isDelegated && isPass()"
+              *ngIf="isDelegatedTest && isPass()"
               [formGroup]="form"
               [label]="'Health declaration'"
               [healthDeclaration]="pageState.healthDeclarationAccepted$ | async"
@@ -93,7 +93,7 @@
             </health-declaration-signed>
 
             <d255
-              *ngIf="isDelegated"
+              *ngIf="isDelegatedTest"
               [display]="true"
               [d255]="pageState.d255$ | async"
               [outcome]="testOutcome"
@@ -103,16 +103,16 @@
             </d255>
 
             <language-preferences
-              *ngIf="isDelegated"
+              *ngIf="isDelegatedTest"
               [formGroup]="form"
               [isWelsh]="isWelsh()"
-              [isDelegated]="isDelegated"
+              [isDelegatedTest]="isDelegatedTest"
               (welshChanged)="isWelshChanged($event)"
             >
             </language-preferences>
 
             <debrief-witnessed
-              *ngIf="isDelegated"
+              *ngIf="isDelegatedTest"
               [display]="true"
               [formGroup]="form"
               [debriefWitnessed]="pageState.debriefWitnessed$ | async"
@@ -131,7 +131,7 @@
             </route-number>
 
             <independent-driving
-              *ngIf="!isDelegated"
+              *ngIf="!isDelegatedTest"
               [display]="pageState.displayIndependentDriving$ | async"
               option1="Diagram"
               option1label="Diagram"
@@ -145,7 +145,7 @@
             </independent-driving>
 
             <true-likeness
-              *ngIf="(pageState.displayCandidateDescription$ | async) && !isDelegated"
+              *ngIf="(pageState.displayCandidateDescription$ | async) && !isDelegatedTest"
               [formGroup]="form"
               [trueLikeness]="pageState.trueLikenessToPhoto$ | async"
               (trueLikenessChange)="trueLikenessToPhotoChanged($event)"
@@ -153,7 +153,7 @@
             </true-likeness>
 
             <candidate-description
-              *ngIf="!isDelegated"
+              *ngIf="!isDelegatedTest"
               [display]="pageState.displayCandidateDescription$ | async"
               [formGroup]="form"
               [candidateDescription]="pageState.candidateDescription$ | async"
@@ -164,7 +164,7 @@
             </candidate-description>
 
             <identification
-              *ngIf="!isDelegated"
+              *ngIf="!isDelegatedTest"
               [display]="pageState.displayIdentification$ | async"
               [formGroup]="form"
               [identification]="pageState.identification$ | async"
@@ -174,14 +174,14 @@
             </identification>
 
             <vehicle-checks-office-card
-              *ngIf="!isDelegated"
+              *ngIf="!isDelegatedTest"
               [display]="pageState.displayVehicleChecks$ | async"
               [checks]="pageState.vehicleChecks$ | async"
             >
             </vehicle-checks-office-card>
 
             <weather-conditions
-              *ngIf="!isDelegated"
+              *ngIf="!isDelegatedTest"
               [display]="pageState.displayWeatherConditions$ | async"
               [weatherConditions]="pageState.weatherConditions$ | async"
               [formGroup]="form"
@@ -201,6 +201,7 @@
             </additional-information>
 
             <reason-for-entering-teams
+              *ngIf="pageState.hasEnteredTeamsOnThisTest$ | async"
               [display]="pageState.hasEnteredTeamsOnThisTest$ | async"
               [reasonForOpeningTeams]="pageState.reasonForEnteringTeams$ | async"
               [formGroup]="form"
@@ -253,11 +254,11 @@
       <fault-comment-card
         [formGroup]="form"
         [faultComments]="pageState.dangerousFaults$ | async"
-        [shouldRender]="(pageState.dangerousFaults$ | async)?.length > 0 && ((pageState.displayDangerousFault$ | async) || isDelegated)"
-        [isDelegatedTest]="pageState.delegatedTest$ | async"
+        [shouldRender]="(pageState.dangerousFaults$ | async)?.length > 0 && ((pageState.displayDangerousFault$ | async) || isDelegatedTest)"
+        [isDelegatedTestTest]="pageState.delegatedTest$ | async"
         [outcome]="pageState.testOutcome$ | async"
         faultType="dangerous"
-        header="Dangerous faults {{isDelegated ? (pageState.dangerousFaultCount$ | async) : null}}"
+        header="Dangerous faults {{isDelegatedTest ? (pageState.dangerousFaultCount$ | async) : null}}"
         (faultCommentsChange)="dangerousFaultCommentChanged($event)"
       >
       </fault-comment-card>
@@ -265,11 +266,11 @@
       <fault-comment-card
         [formGroup]="form"
         [faultComments]="pageState.seriousFaults$ | async"
-        [shouldRender]="(pageState.seriousFaults$ | async)?.length > 0  && ((pageState.displaySeriousFault$ | async) || isDelegated)"
-        [isDelegatedTest]="pageState.delegatedTest$ | async"
+        [shouldRender]="(pageState.seriousFaults$ | async)?.length > 0  && ((pageState.displaySeriousFault$ | async) || isDelegatedTest)"
+        [isDelegatedTestTest]="pageState.delegatedTest$ | async"
         [outcome]="pageState.testOutcome$ | async"
         faultType="serious"
-        header="Serious faults {{isDelegated ? (pageState.seriousFaultCount$ | async) : null}}"
+        header="Serious faults {{isDelegatedTest ? (pageState.seriousFaultCount$ | async) : null}}"
         (faultCommentsChange)="seriousFaultCommentChanged($event)"
       >
       </fault-comment-card>
@@ -278,11 +279,11 @@
         id="driving-fault-comment-card"
         [formGroup]="form"
         [faultComments]="pageState.drivingFaults$ | async"
-        [shouldRender]="((pageState.displayDrivingFaultComments$ | async) && (pageState.displayDrivingFault$ | async)) || (isDelegated && (pageState.drivingFaults$ | async)?.length > 0 )"
-        [isDelegatedTest]="pageState.delegatedTest$ | async"
+        [shouldRender]="((pageState.displayDrivingFaultComments$ | async) && (pageState.displayDrivingFault$ | async)) || (isDelegatedTest && (pageState.drivingFaults$ | async)?.length > 0 )"
+        [isDelegatedTest]="isDelegatedTest"
         [outcome]="pageState.testOutcome$ | async"
         faultType="driving"
-        header="Driving faults {{isDelegated ? (pageState.drivingFaultCount$ | async) : null}}"
+        header="Driving faults {{isDelegatedTest ? (pageState.drivingFaultCount$ | async) : null}}"
         badgeLabel="Driving"
         [faultCount]="pageState.drivingFaultCount$ | async"
         (faultCommentsChange)="drivingFaultCommentChanged($event)"
@@ -290,7 +291,7 @@
       </fault-comment-card>
 
       <driving-faults
-        *ngIf="(!(pageState.displayDrivingFaultComments$ | async) && (pageState.drivingFaultCount$ | async) > 0 && pageState.displayDrivingFault$ | async) && !isDelegated"
+        *ngIf="(!(pageState.displayDrivingFaultComments$ | async) && (pageState.drivingFaultCount$ | async) > 0 && pageState.displayDrivingFault$ | async) && !isDelegatedTest"
         [label]="'Driving faults'"
         badgeLabel="Driving"
         [faults]="(pageState.drivingFaults$ | async)"
@@ -302,8 +303,8 @@
 
 <ion-footer>
   <office-footer
-    [isDelegated]="isDelegated"
-    [isRekey]="(pageState.isRekey$ | async)"
+    [isDelegated]="isDelegatedTest"
+    [isRekey]="isRekey"
     [isValidStartDateTime]="isValidStartDateTime"
     (saveClicked)="defer()"
     (submitClicked)="onSubmit($event)"

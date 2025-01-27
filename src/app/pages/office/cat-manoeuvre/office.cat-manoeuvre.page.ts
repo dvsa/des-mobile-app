@@ -20,8 +20,6 @@ import { getTestCategory } from '@store/tests/category/category.reducer';
 import { Language } from '@store/tests/communication-preferences/communication-preferences.model';
 import { getCommunicationPreference } from '@store/tests/communication-preferences/communication-preferences.reducer';
 import { getConductedLanguage } from '@store/tests/communication-preferences/communication-preferences.selector';
-import { getDelegatedTestIndicator } from '@store/tests/delegated-test/delegated-test.reducer';
-import { isDelegatedTest } from '@store/tests/delegated-test/delegated-test.selector';
 import { PassCertificateNumberChanged } from '@store/tests/pass-completion/pass-completion.actions';
 import { PassCertificateNumberReceived } from '@store/tests/post-test-declarations/post-test-declarations.actions';
 import { getTestData } from '@store/tests/test-data/cat-b/test-data.reducer';
@@ -34,7 +32,6 @@ import { getTests } from '@store/tests/tests.reducer';
 import { getCurrentTest } from '@store/tests/tests.selector';
 
 interface CatManoeuvreOfficePageState {
-  delegatedTest$: Observable<boolean>;
   conductedLanguage$: Observable<string>;
 }
 
@@ -51,7 +48,6 @@ export class OfficeCatManoeuvrePage extends OfficeBasePageComponent implements O
   form: UntypedFormGroup;
   testOutcomeText: string;
   conductedLanguage: string;
-  isDelegated: boolean;
 
   constructor(
     private appConfig: AppConfigProvider,
@@ -70,7 +66,6 @@ export class OfficeCatManoeuvrePage extends OfficeBasePageComponent implements O
     this.pageState = {
       ...this.commonPageState,
       conductedLanguage$: currentTest$.pipe(select(getCommunicationPreference), select(getConductedLanguage)),
-      delegatedTest$: currentTest$.pipe(select(getDelegatedTestIndicator), select(isDelegatedTest)),
       dangerousFaults$: currentTest$.pipe(
         select(getTestData),
         withLatestFrom(currentTest$.pipe(select(getTestCategory))),
@@ -95,12 +90,11 @@ export class OfficeCatManoeuvrePage extends OfficeBasePageComponent implements O
   setupSubscription(): void {
     super.setupSubscriptions();
 
-    const { testOutcomeText$, conductedLanguage$, delegatedTest$ } = this.pageState;
+    const { testOutcomeText$, conductedLanguage$ } = this.pageState;
 
     this.pageSubscription = merge(
       conductedLanguage$.pipe(map((result) => (this.conductedLanguage = result))),
-      testOutcomeText$.pipe(map((result) => (this.testOutcomeText = result))),
-      delegatedTest$.pipe(map((result) => (this.isDelegated = result)))
+      testOutcomeText$.pipe(map((result) => (this.testOutcomeText = result)))
     ).subscribe();
   }
 

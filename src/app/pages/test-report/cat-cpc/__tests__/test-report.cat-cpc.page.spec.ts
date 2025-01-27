@@ -234,7 +234,6 @@ describe('TestReportCatCPCPage', () => {
         question4$: of(lgvQuestions[3]),
         question5$: of(lgvQuestion5[0]),
         overallPercentage$: of(10),
-        delegatedTest$: of(null),
         testDataCPC$: of(null),
         candidateUntitledName$: of(null),
         isRemoveFaultMode$: of(null),

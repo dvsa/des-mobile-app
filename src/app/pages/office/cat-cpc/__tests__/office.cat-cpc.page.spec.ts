@@ -365,14 +365,14 @@ describe('OfficeCatCPCPage', () => {
 
     describe('passCertificateNumberChanged', () => {
       it('should dispatch PassCertificateNumberChanged with the parameter passed', () => {
-        component.isDelegated = true;
+        component.isDelegatedTest = true;
         component.passCertificateNumberChanged('test');
         expect(store$.dispatch).toHaveBeenCalledWith(PassCertificateNumberChanged('test'));
       });
       it(
-        'should dispatch PassCertificateNumberReceived with passCertificateNumberCtrl' + ' if isDelegated is false',
+        'should dispatch PassCertificateNumberReceived with passCertificateNumberCtrl' + ' if isDelegatedTest is false',
         () => {
-          component.isDelegated = false;
+          component.isDelegatedTest = false;
 
           component.form.setControl('passCertificateNumberCtrl', new FormControl());
           component.form.controls['passCertificateNumberCtrl'].setValue(true);

@@ -62,6 +62,7 @@
           </div>
 
           <reason-for-entering-teams
+            *ngIf="pageState.hasEnteredTeamsOnThisTest$ | async"
             [display]="pageState.hasEnteredTeamsOnThisTest$ | async"
             [reasonForOpeningTeams]="pageState.reasonForEnteringTeams$ | async"
             [formGroup]="form"
@@ -75,7 +76,7 @@
 
 <ion-footer>
   <office-footer
-    [isRekey]="(pageState.isRekey$ | async)"
+    [isRekey]="isRekey"
     [isValidStartDateTime]="isValidStartDateTime"
     (saveClicked)="defer()"
     (submitClicked)="onSubmit($event)"

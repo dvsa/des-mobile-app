@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 import { AppModule } from '@app/app.module';
 import { default as welshTranslations } from '@assets/i18n/cy.json';
 import { ComponentsModule } from '@components/common/common-components.module';
+import { TestFlowHeaderComponent } from '@components/common/test-flow-header/test-flow-header.component';
 import { TestSlotAttributes } from '@dvsa/mes-test-schema/categories/common';
 import { AlertController, NavController, Platform } from '@ionic/angular';
 import { AlertControllerMock, NavControllerMock, PlatformMock, RouterMock } from '@mocks/index.mock';
@@ -64,6 +65,7 @@ describe('HealthDeclarationPage', () => {
         MockComponent(ReceiptDeclarationComponent),
       ],
       imports: [
+        MockComponent(TestFlowHeaderComponent),
         ReactiveFormsModule,
         AppModule,
         ComponentsModule,

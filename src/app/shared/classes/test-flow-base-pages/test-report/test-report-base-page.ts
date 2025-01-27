@@ -42,8 +42,6 @@ import { isAnyOf } from '@shared/helpers/simplifiers';
 import { TestDataUnion, TestRequirementsUnion } from '@shared/unions/test-schema-unions';
 import { SetActivityCode } from '@store/tests/activity-code/activity-code.actions';
 import { getTestCategory } from '@store/tests/category/category.reducer';
-import { getDelegatedTestIndicator } from '@store/tests/delegated-test/delegated-test.reducer';
-import { isDelegatedTest } from '@store/tests/delegated-test/delegated-test.selector';
 import { hasManoeuvreBeenCompletedCatADIPart2 } from '@store/tests/test-data/cat-adi-part2/test-data.cat-adi-part2.selector';
 import { hasManoeuvreBeenCompletedCatB } from '@store/tests/test-data/cat-b/test-data.cat-b.selector';
 import { getTestData } from '@store/tests/test-data/cat-b/test-data.reducer';
@@ -66,7 +64,6 @@ export interface CommonTestReportPageState {
   testData$: Observable<TestDataUnion>;
   testRequirements$: Observable<TestRequirementsUnion>;
   category$: Observable<CategoryCode>;
-  delegatedTest$: Observable<boolean>;
 }
 
 export const trDestroy$ = new Subject<{}>();
@@ -87,7 +84,6 @@ export abstract class TestReportBasePageComponent extends PracticeableBasePageCo
   isSeriousMode = false;
   isDangerousMode = false;
   manoeuvresCompleted = false;
-  delegatedTest = false;
   isTestReportValid = false;
   isEtaValid = true;
   testCategory: TestCategory;
@@ -138,7 +134,6 @@ export abstract class TestReportBasePageComponent extends PracticeableBasePageCo
         select(getTestCategory),
         map((category) => category as TestCategory)
       ),
-      delegatedTest$: currentTest$.pipe(select(getDelegatedTestIndicator), select(isDelegatedTest)),
     };
   }
 
@@ -226,7 +221,6 @@ export abstract class TestReportBasePageComponent extends PracticeableBasePageCo
       isDangerousMode$,
       manoeuvres$,
       testData$,
-      delegatedTest$,
       category$,
     } = this.commonPageState;
 
@@ -236,7 +230,6 @@ export abstract class TestReportBasePageComponent extends PracticeableBasePageCo
       isSeriousMode$.pipe(map((result) => (this.isSeriousMode = result))),
       isDangerousMode$.pipe(map((result) => (this.isDangerousMode = result))),
       manoeuvres$.pipe(map((result) => (this.manoeuvresCompleted = result))),
-      delegatedTest$.pipe(map((result) => (this.delegatedTest = result))),
       testData$.pipe(
         withLatestFrom(category$),
         map(([data, category]) => {
@@ -244,12 +237,12 @@ export abstract class TestReportBasePageComponent extends PracticeableBasePageCo
           this.isTestReportValid = this.testReportValidatorProvider.isTestReportValid(
             data,
             category as TestCategory,
-            this.delegatedTest
+            this.isDelegatedTest
           );
           this.missingLegalRequirements = this.testReportValidatorProvider.getMissingLegalRequirements(
             data,
             category as TestCategory,
-            this.delegatedTest
+            this.isDelegatedTest
           );
           this.isEtaValid = this.testReportValidatorProvider.isETAValid(data, category as TestCategory);
         })
@@ -270,7 +263,7 @@ export abstract class TestReportBasePageComponent extends PracticeableBasePageCo
         component: LegalRequirementsModal,
         componentProps: {
           legalRequirements: this.missingLegalRequirements,
-          isDelegated: this.delegatedTest,
+          isDelegated: this.isDelegatedTest,
         },
         cssClass: modalCssClass,
       });
@@ -303,7 +296,7 @@ export abstract class TestReportBasePageComponent extends PracticeableBasePageCo
   };
 
   onModalDismiss = async (event: ModalEvent): Promise<void> => {
-    const nextPage: string = this.delegatedTest
+    const nextPage: string = this.isDelegatedTest
       ? this.routeByCategory.getNextPage(TestFlowPageNames.OFFICE_PAGE, this.testCategory)
       : TestFlowPageNames.DEBRIEF_PAGE;
 
