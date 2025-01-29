@@ -115,7 +115,7 @@
     "jsonschema": "^1.4.1",
     "lodash-es": "^4.17.21",
     "moment": "^2.29.4",
-    "ng-apexcharts": "1.11.0",
+    "ng-apexcharts": "1.15.0",
     "ngrx-store-localstorage": "^18.0.0",
     "rxjs": "~7.8.1",
     "rxjs-compat": "^6.6.7",
