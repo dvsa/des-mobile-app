@@ -540,10 +540,10 @@ export class DebriefCardComponent implements OnInit {
   isValidEmergencyStopOrAvoidance(): boolean {
     return (
       this.isMod1() &&
-      (this.data['emergencyStop']?.firstAttempt ||
-        this.data['emergencyStop']?.secondAttempt ||
-        this.data['avoidance']?.firstAttempt ||
-        this.data['avoidance']?.secondAttempt)
+      (get(this.data, 'emergencyStop.firstAttempt') ||
+        get(this.data, 'emergencyStop.secondAttempt') ||
+        get(this.data, 'avoidance.firstAttempt') ||
+        get(this.data, 'avoidance.secondAttempt'))
     );
   }
 

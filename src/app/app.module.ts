@@ -71,6 +71,7 @@ import { LoadingProvider } from '@providers/loader/loader';
 import { StoreModel } from '@shared/models/store.model';
 import { ExaminerRecordsStoreModule } from '@store/examiner-records/examiner-records.module';
 import { examinerRecordsReducer } from '@store/examiner-records/examiner-records.reducer';
+import { get, set } from 'lodash-es';
 import { RemoteDevToolsProxy } from '../../ngrx-devtool-proxy/remote-devtools-proxy';
 import { IonicGestureConfig } from '../gestures/ionic-gesture-config';
 import { AppRoutingModule } from './app-routing.module';
@@ -102,7 +103,7 @@ const enableDevTools = environment && (environment as EnvironmentFile).enableDev
 const enableRehydrationPlugin = environment && (environment as EnvironmentFile).enableRehydrationPlugin;
 
 // Register our remote devtools if we're on-device and not in a browser and dev tools enabled
-if (!window['devToolsExtension'] && !window['__REDUX_DEVTOOLS_EXTENSION__'] && enableDevTools) {
+if (!get(window, 'devToolsExtension') && !get(window, '__REDUX_DEVTOOLS_EXTENSION__') && enableDevTools) {
   const remoteDevToolsProxy = new RemoteDevToolsProxy({
     connectTimeout: 300000, // extend for pauses during debugging
     ackTimeout: 120000, // extend for pauses during debugging
@@ -110,12 +111,9 @@ if (!window['devToolsExtension'] && !window['__REDUX_DEVTOOLS_EXTENSION__'] && e
   });
 
   // support both the legacy and new keys, for now
-  window['devToolsExtension'] = remoteDevToolsProxy;
-  window['__REDUX_DEVTOOLS_EXTENSION__'] = remoteDevToolsProxy;
+  set(window, 'devToolsExtension', remoteDevToolsProxy);
+  set(window, '__REDUX_DEVTOOLS_EXTENSION__', remoteDevToolsProxy);
 }
-console.log('===================================================================');
-console.log('window:', window);
-console.log('===================================================================');
 
 if (enableRehydrationPlugin) {
   metaReducers.push(localStorageSyncReducer);

@@ -103,7 +103,6 @@ export class AppComponent extends LogoutBasePageComponent implements OnInit {
     try {
       await this.platform.ready();
       await this.storage.create();
-      alert('alright');
       if (this.platform.is('cordova')) {
         await this.deviceProvider.disableSingleAppMode();
       }

@@ -1,6 +1,5 @@
 import { isEmpty } from 'lodash-es';
 import { DelegatedRekeySearchModel } from './delegated-rekey-search.reducer';
-import { TestSlot } from '@dvsa/mes-journal-schema';
 
 export const getIsLoading = (rekeySearch: DelegatedRekeySearchModel) => rekeySearch.isLoading;
 
