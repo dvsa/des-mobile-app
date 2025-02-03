@@ -26,7 +26,7 @@
       <ion-card-content class="card-content-ios ion-no-padding">
         <ion-grid class="grid">
           <date-of-test
-            *ngIf="isDelegated || (pageState.isRekey$ | async)"
+            *ngIf="isDelegated || isRekey"
             [dateOfTest]="pageState.startDate$ | async"
             (setIsValidStartDateTime)="setIsValidStartDateTime($event)"
             (dateOfTestChange)="dateOfTestChanged($event)"
@@ -189,7 +189,7 @@
 <ion-footer>
   <office-footer
     [isDelegated]="isDelegated"
-    [isRekey]="(pageState.isRekey$ | async)"
+    [isRekey]="isRekey"
     [isValidStartDateTime]="isValidStartDateTime"
     (saveClicked)="defer()"
     (submitClicked)="onSubmit($event)"

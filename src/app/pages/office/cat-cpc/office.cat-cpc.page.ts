@@ -12,8 +12,6 @@ import {
 import { ActivityCodeModel, getActivityCodeOptions } from '@shared/constants/activity-code/activity-code.constants';
 import { Combination, questionCombinations } from '@shared/constants/cpc-questions/cpc-question-combinations.constants';
 import { TestOutcome } from '@shared/models/test-outcome';
-import { getDelegatedTestIndicator } from '@store/tests/delegated-test/delegated-test.reducer';
-import { isDelegatedTest } from '@store/tests/delegated-test/delegated-test.selector';
 import { PassCertificateNumberChanged } from '@store/tests/pass-completion/pass-completion.actions';
 import { PassCertificateNumberReceived } from '@store/tests/post-test-declarations/post-test-declarations.actions';
 import { getPostTestDeclarations } from '@store/tests/post-test-declarations/post-test-declarations.reducer';
@@ -39,7 +37,6 @@ import { getTestOutcome as getTestOutcomeDebrief } from '../../debrief/debrief.s
 
 interface CatCPCOfficePageState {
   testResult$: Observable<string>;
-  delegatedTest$: Observable<boolean>;
   assessmentReport$: Observable<string>;
   overallScore$: Observable<number>;
   question1$: Observable<Question>;
@@ -62,7 +59,6 @@ export class OfficeCatCPCPage extends OfficeBasePageComponent implements OnInit 
   pageState: OfficePageState;
   pageSubscription: Subscription;
   form: UntypedFormGroup;
-  isDelegated: boolean;
   testOutcome: string;
   public outcome: TestOutcome;
   activityCodeOptions: ActivityCodeModel[];
@@ -84,7 +80,6 @@ export class OfficeCatCPCPage extends OfficeBasePageComponent implements OnInit 
     this.pageState = {
       ...this.commonPageState,
       testResult$: currentTest$.pipe(select(getTestOutcomeDebrief)),
-      delegatedTest$: currentTest$.pipe(select(getDelegatedTestIndicator), select(isDelegatedTest)),
       assessmentReport$: currentTest$.pipe(select(getTestSummary), select(getAssessmentReport)),
       overallScore$: currentTest$.pipe(select(getTestData), select(getTotalPercent)),
       question1$: currentTest$.pipe(select(getTestData), select(getQuestion1)),
@@ -104,12 +99,11 @@ export class OfficeCatCPCPage extends OfficeBasePageComponent implements OnInit 
   setupSubscription() {
     super.setupSubscriptions();
 
-    const { testResult$, delegatedTest$, testOutcome$ } = this.pageState;
+    const { testResult$, testOutcome$ } = this.pageState;
 
     this.pageSubscription = merge(
       testResult$.pipe(map((result) => (this.outcome = result as TestOutcome))),
-      testOutcome$.pipe(map((result) => (this.testOutcome = result))),
-      delegatedTest$.pipe(map((result) => (this.isDelegated = result)))
+      testOutcome$.pipe(map((result) => (this.testOutcome = result)))
     ).subscribe();
   }
 

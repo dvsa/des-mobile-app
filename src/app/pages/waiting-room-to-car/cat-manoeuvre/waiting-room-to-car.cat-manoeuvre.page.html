@@ -8,7 +8,7 @@
     <ion-buttons id="end-test-button" slot="end">
       <end-test-link
         [category]="pageState.category$ | async"
-        [isDelegated]="pageState.delegatedTest$ | async"
+        [isDelegated]="isDelegated"
         [isPracticeMode]="isPracticeMode"
         [shouldAuthenticate]="false"
         (endTestLinkClicked)="abortMOTCall(MOTAbortedMethod.END_TEST)"
@@ -89,7 +89,7 @@
 <ion-footer
   [class.hidden]="failedMOTModalCurrentlyOpen"
   *ngIf="{
-  delegatedTest: pageState.delegatedTest$ | async
+  delegatedTest: isDelegated
 } as data"
 >
   <ion-row [hidden]="(pageState.motEvidenceProvided$ | async) === false" class="mes-full-width-card box-shadow">

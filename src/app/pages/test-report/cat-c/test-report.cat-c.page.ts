@@ -38,7 +38,7 @@ export class TestReportCatCPage extends TestReportBasePageComponent implements O
   }
 
   showUncoupleRecouple = (): boolean => {
-    if (!this.delegatedTest) {
+    if (!this.isDelegated) {
       return false;
     }
     return this.testCategory === TestCategory.CE || this.testCategory === TestCategory.C1E;

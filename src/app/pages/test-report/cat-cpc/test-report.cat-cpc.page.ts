@@ -12,8 +12,6 @@ import {
   trDestroy$,
 } from '@shared/classes/test-flow-base-pages/test-report/test-report-base-page';
 import { QuestionNumber } from '@shared/constants/cpc-questions/cpc-question-combinations.constants';
-import { getDelegatedTestIndicator } from '@store/tests/delegated-test/delegated-test.reducer';
-import { isDelegatedTest } from '@store/tests/delegated-test/delegated-test.selector';
 import { PopulateTestScore } from '@store/tests/test-data/cat-cpc/overall-score/total-percentage.action';
 import { AnswerToggled, PopulateQuestionScore } from '@store/tests/test-data/cat-cpc/questions/questions.action';
 import { getTestData } from '@store/tests/test-data/cat-cpc/test-data.cat-cpc.reducer';
@@ -39,7 +37,6 @@ interface CatCPCTestReportPageState {
   question4$: Observable<Question>;
   question5$: Observable<Question5>;
   overallPercentage$: Observable<number>;
-  delegatedTest$: Observable<boolean>;
   testDataCPC$: Observable<TestData>;
 }
 
@@ -99,7 +96,6 @@ export class TestReportCatCPCPage extends TestReportBasePageComponent implements
       question4$: currentTest$.pipe(select(getTestData), select(getQuestion4)),
       question5$: currentTest$.pipe(select(getTestData), select(getQuestion5)),
       overallPercentage$: currentTest$.pipe(select(getTestData), select(getTotalPercent)),
-      delegatedTest$: currentTest$.pipe(select(getDelegatedTestIndicator), select(isDelegatedTest)),
       testDataCPC$: currentTest$.pipe(select(getTestData)),
     };
     this.setupSubscription();
@@ -190,11 +186,10 @@ export class TestReportCatCPCPage extends TestReportBasePageComponent implements
       this.pageState.question5$,
       this.pageState.overallPercentage$,
       this.pageState.category$,
-      this.pageState.delegatedTest$,
     ])
       .pipe(takeUntil(trDestroy$))
       .subscribe(
-        ([question1, question2, question3, question4, question5, overallPercentage, category, delegated]: [
+        ([question1, question2, question3, question4, question5, overallPercentage, category]: [
           Question,
           Question,
           Question,
@@ -202,12 +197,10 @@ export class TestReportCatCPCPage extends TestReportBasePageComponent implements
           Question5,
           number,
           CategoryCode,
-          boolean,
         ]) => {
           this.questions = [question1, question2, question3, question4, question5];
           this.overallPercentage = overallPercentage;
           this.category = category;
-          this.isDelegated = delegated;
         }
       );
   }

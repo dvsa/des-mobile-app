@@ -14,8 +14,6 @@ import { isAnyOf } from '@shared/helpers/simplifiers';
 import { CompetencyOutcome } from '@shared/models/competency-outcome';
 import { VehicleChecksScore } from '@shared/models/vehicle-checks-score.model';
 import { getTestCategory } from '@store/tests/category/category.reducer';
-import { getDelegatedTestIndicator } from '@store/tests/delegated-test/delegated-test.reducer';
-import { isDelegatedTest } from '@store/tests/delegated-test/delegated-test.selector';
 import { getPreTestDeclarations } from '@store/tests/pre-test-declarations/pre-test-declarations.reducer';
 import {
   getCandidateDeclarationSignedStatus,
@@ -47,7 +45,6 @@ import { Observable, merge } from 'rxjs';
 import { map, withLatestFrom } from 'rxjs/operators';
 
 interface CatCWaitingRoomToCarPageState {
-  delegatedTest$: Observable<boolean>;
   candidateDeclarationSigned$: Observable<boolean>;
   insuranceDeclarationAccepted$: Observable<boolean>;
   residencyDeclarationAccepted$: Observable<boolean>;
@@ -69,7 +66,6 @@ export class WaitingRoomToCarCatCPage extends WaitingRoomToCarBasePageComponent 
   form: UntypedFormGroup;
   pageState: WaitingRoomToCarPageState;
   fullLicenceHeld: boolean = null;
-  isDelegated = false;
   submitClicked = false;
 
   constructor(injector: Injector) {
@@ -84,7 +80,6 @@ export class WaitingRoomToCarCatCPage extends WaitingRoomToCarBasePageComponent 
 
     this.pageState = {
       ...this.commonPageState,
-      delegatedTest$: currentTest$.pipe(select(getDelegatedTestIndicator), select(isDelegatedTest)),
       insuranceDeclarationAccepted$: currentTest$.pipe(
         select(getPreTestDeclarations),
         select(getInsuranceDeclarationStatus)
@@ -141,12 +136,9 @@ export class WaitingRoomToCarCatCPage extends WaitingRoomToCarBasePageComponent 
   }
 
   setupSubscription(): void {
-    const { delegatedTest$, fullLicenceHeld$ } = this.pageState;
+    const { fullLicenceHeld$ } = this.pageState;
 
-    this.subscription = merge(
-      delegatedTest$.pipe(map((result) => (this.isDelegated = result))),
-      fullLicenceHeld$.pipe(map((result) => (this.fullLicenceHeld = result)))
-    ).subscribe();
+    this.subscription = merge(fullLicenceHeld$.pipe(map((result) => (this.fullLicenceHeld = result)))).subscribe();
   }
 
   vehicleChecksCompletedOutcomeChanged(toggled: boolean): void {

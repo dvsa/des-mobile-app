@@ -96,8 +96,6 @@ import { HealthDeclarationAccepted } from '@store/tests/post-test-declarations/p
 import { getPostTestDeclarations } from '@store/tests/post-test-declarations/post-test-declarations.reducer';
 import { getHealthDeclarationStatus } from '@store/tests/post-test-declarations/post-test-declarations.selector';
 import { SetRekeyDate } from '@store/tests/rekey-date/rekey-date.actions';
-import { getRekeyIndicator } from '@store/tests/rekey/rekey.reducer';
-import { isRekey } from '@store/tests/rekey/rekey.selector';
 import { getTestData } from '@store/tests/test-data/cat-b/test-data.reducer';
 import { getETA, getETAFaultText, getEco, getEcoFaultText } from '@store/tests/test-data/common/test-data.selector';
 import { CircuitTypeChanged } from '@store/tests/test-summary/cat-a-mod1/test-summary.cat-a-mod1.actions';
@@ -142,7 +140,6 @@ import { map, withLatestFrom } from 'rxjs/operators';
 
 export interface CommonOfficePageState {
   activityCode$: Observable<ActivityCodeModel>;
-  isRekey$: Observable<boolean>;
   startTime$: Observable<string>;
   startDate$: Observable<string>;
   startDateTime$: Observable<string>;
@@ -235,7 +232,6 @@ export abstract class OfficeBasePageComponent extends PracticeableBasePageCompon
 
     this.commonPageState = {
       activityCode$: currentTest$.pipe(select(getActivityCode)),
-      isRekey$: currentTest$.pipe(select(getRekeyIndicator), select(isRekey)),
       testOutcome$: currentTest$.pipe(select(getTestOutcome)),
       testOutcomeText$: currentTest$.pipe(select(getTestOutcomeText)),
       isPassed$: currentTest$.pipe(select(isPassed)),
