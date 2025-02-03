@@ -7,7 +7,9 @@ import { AppModule } from '@app/app.module';
 import { ScreenOrientation } from '@capawesome/capacitor-screen-orientation';
 import { PracticeModeBanner } from '@components/common/practice-mode-banner/practice-mode-banner';
 import { TickIndicatorComponent } from '@components/common/tick-indicator/tick-indicator';
+import { TestResultSchemasUnion } from '@dvsa/mes-test-schema/categories';
 import { StoreModule } from '@ngrx/store';
+import { provideMockStore } from '@ngrx/store/testing';
 import { AuthenticationProviderMock } from '@providers/authentication/__mocks__/authentication.mock';
 import { AuthenticationProvider } from '@providers/authentication/authentication';
 import { DateTimeProviderMock } from '@providers/date-time/__mocks__/date-time.mock';
@@ -16,6 +18,10 @@ import { TestReportValidatorProviderMock } from '@providers/test-report-validato
 import { TestReportValidatorProvider } from '@providers/test-report-validator/test-report-validator';
 import { BasePageComponent } from '@shared/classes/base-page';
 import { TestReportBasePageComponent } from '@shared/classes/test-flow-base-pages/test-report/test-report-base-page';
+import { CompetencyOutcome } from '@shared/models/competency-outcome';
+import { StoreModel } from '@shared/models/store.model';
+import { AppInfoStateModel } from '@store/app-info/app-info.model';
+import { TestsModel } from '@store/tests/tests.model';
 import { testsReducer } from '@store/tests/tests.reducer';
 import { CompetencyButtonComponent } from '../../components/competency-button/competency-button';
 import { CompetencyComponent } from '../../components/competency/competency';
@@ -35,6 +41,31 @@ import { TestReportCatBPage } from '../test-report.cat-b.page';
 describe('TestReportCatBPage', () => {
   let fixture: ComponentFixture<TestReportCatBPage>;
   let component: TestReportCatBPage;
+
+  const initialState = {
+    appInfo: { versionNumber: '4.0' } as AppInfoStateModel,
+    tests: {
+      currentTest: { slotId: '123' },
+      testStatus: {},
+      startedTests: {
+        123: {
+          vehicleDetails: {},
+          accompaniment: {},
+          instructorDetails: {},
+          testData: {
+            vehicleChecks: {
+              tellMeQuestion: { code: 'T1', description: 'desc', outcome: CompetencyOutcome.P },
+            },
+            eyesightTest: {},
+            seriousFaults: {},
+          },
+          journalData: {
+            candidate: { candidateName: { firstName: 'Joe', lastName: 'Bloggs' } },
+          },
+        } as TestResultSchemasUnion,
+      },
+    } as TestsModel,
+  } as StoreModel;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -84,6 +115,7 @@ describe('TestReportCatBPage', () => {
           provide: TestReportValidatorProvider,
           useClass: TestReportValidatorProviderMock,
         },
+        provideMockStore({ initialState }),
       ],
     });
 

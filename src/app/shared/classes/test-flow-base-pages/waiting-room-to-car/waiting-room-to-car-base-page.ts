@@ -55,8 +55,6 @@ import {
   CandidateDeclarationSigned,
   SetDeclarationStatus,
 } from '@store/tests/pre-test-declarations/pre-test-declarations.actions';
-import { getRekeyIndicator } from '@store/tests/rekey/rekey.reducer';
-import { isRekey } from '@store/tests/rekey/rekey.selector';
 import {
   hasEyesightTestBeenCompleted,
   hasEyesightTestGotSeriousFault,
@@ -115,7 +113,6 @@ export interface CommonWaitingRoomToCarPageState {
   motEvidenceProvided$: Observable<boolean>;
   isOffline$: Observable<boolean>;
   motEvidenceDescription$: Observable<string>;
-  isRekeyMode$: Observable<boolean>;
 }
 
 export const wrtcDestroy$ = new Subject<{}>();
@@ -183,12 +180,6 @@ export abstract class WaitingRoomToCarBasePageComponent extends PracticeableBase
       motEvidenceProvided$: currentTest$.pipe(select(getVehicleDetails), select(getMotEvidenceProvided)),
       motEvidenceDescription$: currentTest$.pipe(select(getVehicleDetails), select(getMotEvidence)),
       isOffline$: this.networkStateProvider.isOffline$,
-      isRekeyMode$: this.store$.pipe(
-        select(getTests),
-        select(getCurrentTest),
-        select(getRekeyIndicator),
-        select(isRekey)
-      ),
     };
   }
 

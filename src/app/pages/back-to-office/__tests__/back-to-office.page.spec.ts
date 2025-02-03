@@ -12,7 +12,6 @@ import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-c
 import { BasePageComponent } from '@shared/classes/base-page';
 import { StoreModel } from '@shared/models/store.model';
 import { MockComponent } from 'ng-mocks';
-import { of } from 'rxjs';
 import { AppModule } from 'src/app/app.module';
 import { BackToOfficePage, NavigationTarget } from '../back-to-office.page';
 
@@ -128,7 +127,7 @@ describe('BackToOfficePage', () => {
     });
     it('should hide the return to journal button when this is a rekey', () => {
       fixture.detectChanges();
-      component.pageState.isRekey$ = of(true);
+      component.isRekey = true;
       fixture.detectChanges();
       expect(fixture.debugElement.query(By.css('.bottom-button'))).toBeNull();
     });
