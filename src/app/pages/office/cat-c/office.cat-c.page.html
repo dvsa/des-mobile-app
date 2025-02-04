@@ -26,7 +26,7 @@
       <ion-card-content class="card-content-ios ion-no-padding">
         <ion-grid class="grid">
           <date-of-test
-            *ngIf="isDelegated || (pageState.isRekey$ | async)"
+            *ngIf="isDelegated || isRekey"
             [dateOfTest]="pageState.startDate$ | async"
             (setIsValidStartDateTime)="setIsValidStartDateTime($event)"
             (dateOfTestChange)="dateOfTestChanged($event)"
@@ -247,7 +247,7 @@
         [formGroup]="form"
         [faultComments]="pageState.dangerousFaults$ | async"
         [shouldRender]="(pageState.dangerousFaults$ | async)?.length > 0 && ((pageState.displayDangerousFault$ | async) || isDelegated)"
-        [isDelegatedTest]="pageState.delegatedTest$ | async"
+        [isDelegatedTest]="isDelegated"
         [outcome]="pageState.testOutcome$ | async"
         faultType="dangerous"
         header="Dangerous faults {{isDelegated ? (pageState.dangerousFaultCount$ | async) : null}}"
@@ -259,7 +259,7 @@
         [formGroup]="form"
         [faultComments]="pageState.seriousFaults$ | async"
         [shouldRender]="(pageState.seriousFaults$ | async)?.length > 0  && ((pageState.displaySeriousFault$ | async) || isDelegated)"
-        [isDelegatedTest]="pageState.delegatedTest$ | async"
+        [isDelegatedTest]="isDelegated"
         [outcome]="pageState.testOutcome$ | async"
         faultType="serious"
         header="Serious faults {{isDelegated ? (pageState.seriousFaultCount$ | async) : null}}"
@@ -272,7 +272,7 @@
         [formGroup]="form"
         [faultComments]="pageState.drivingFaults$ | async"
         [shouldRender]="((pageState.displayDrivingFaultComments$ | async) && (pageState.displayDrivingFault$ | async)) || (isDelegated && (pageState.drivingFaults$ | async)?.length > 0 )"
-        [isDelegatedTest]="pageState.delegatedTest$ | async"
+        [isDelegatedTest]="isDelegated"
         [outcome]="pageState.testOutcome$ | async"
         faultType="driving"
         header="Driving faults {{isDelegated ? (pageState.drivingFaultCount$ | async) : null}}"
@@ -295,7 +295,7 @@
 <ion-footer>
   <office-footer
     [isDelegated]="isDelegated"
-    [isRekey]="(pageState.isRekey$ | async)"
+    [isRekey]="isRekey"
     [isValidStartDateTime]="isValidStartDateTime"
     (saveClicked)="defer()"
     (submitClicked)="onSubmit($event)"

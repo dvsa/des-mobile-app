@@ -21,8 +21,6 @@ import { getTestCategory } from '@store/tests/category/category.reducer';
 import { Language } from '@store/tests/communication-preferences/communication-preferences.model';
 import { getCommunicationPreference } from '@store/tests/communication-preferences/communication-preferences.reducer';
 import { getConductedLanguage } from '@store/tests/communication-preferences/communication-preferences.selector';
-import { getDelegatedTestIndicator } from '@store/tests/delegated-test/delegated-test.reducer';
-import { isDelegatedTest } from '@store/tests/delegated-test/delegated-test.selector';
 import { getPassCompletion } from '@store/tests/pass-completion/cat-c/pass-completion.cat-c.reducer';
 import { PassCertificateNumberChanged } from '@store/tests/pass-completion/pass-completion.actions';
 import { isProvisionalLicenseProvided } from '@store/tests/pass-completion/pass-completion.selector';
@@ -45,7 +43,6 @@ import { getGearboxCategory } from '@store/tests/vehicle-details/vehicle-details
 
 interface CatCOfficePageState {
   testCategory$: Observable<CategoryCode>;
-  delegatedTest$: Observable<boolean>;
   conductedLanguage$: Observable<string>;
   transmission$: Observable<GearboxCategory>;
   provisionalLicense$: Observable<boolean>;
@@ -69,7 +66,6 @@ export class OfficeCatCPage extends OfficeBasePageComponent implements OnInit {
 
   activityCodeOptions: ActivityCodeModel[];
   testCategory: CategoryCode;
-  isDelegated: boolean;
   testOutcome: string;
   testOutcomeText: string;
   conductedLanguage: string;
@@ -95,7 +91,6 @@ export class OfficeCatCPage extends OfficeBasePageComponent implements OnInit {
         map((result) => (this.testCategory = result))
       ),
       conductedLanguage$: currentTest$.pipe(select(getCommunicationPreference), select(getConductedLanguage)),
-      delegatedTest$: currentTest$.pipe(select(getDelegatedTestIndicator), select(isDelegatedTest)),
       transmission$: currentTest$.pipe(select(getVehicleDetails), select(getGearboxCategory)),
       provisionalLicense$: currentTest$.pipe(select(getPassCompletion), map(isProvisionalLicenseProvided)),
       displayDrivingFaultComments$: currentTest$.pipe(
@@ -124,13 +119,12 @@ export class OfficeCatCPage extends OfficeBasePageComponent implements OnInit {
   setupSubscription() {
     super.setupSubscriptions();
 
-    const { testCategory$, delegatedTest$, testOutcome$, testOutcomeText$, conductedLanguage$ } = this.pageState;
+    const { testCategory$, testOutcome$, testOutcomeText$, conductedLanguage$ } = this.pageState;
 
     this.pageSubscription = merge(
       conductedLanguage$.pipe(map((result) => (this.conductedLanguage = result))),
       testOutcomeText$.pipe(map((result) => (this.testOutcomeText = result))),
       testOutcome$.pipe(map((result) => (this.testOutcome = result))),
-      delegatedTest$.pipe(map((result) => (this.isDelegated = result))),
       testCategory$.pipe(map((result) => (this.testCategory = result)))
     ).subscribe();
   }

@@ -19,13 +19,10 @@ import { PracticeableBasePageComponent } from '@shared/classes/practiceable-base
 import { trDestroy$ } from '@shared/classes/test-flow-base-pages/test-report/test-report-base-page';
 import { wrtcDestroy$ } from '@shared/classes/test-flow-base-pages/waiting-room-to-car/waiting-room-to-car-base-page';
 import { getTestCategory } from '@store/tests/category/category.reducer';
-import { getRekeyIndicator } from '@store/tests/rekey/rekey.reducer';
-import { isRekey } from '@store/tests/rekey/rekey.selector';
 import { getTests } from '@store/tests/tests.reducer';
 import { getCurrentTest } from '@store/tests/tests.selector';
 
 interface BackToOfficePageState {
-  isRekey$: Observable<boolean>;
   testCategory$: Observable<CategoryCode>;
 }
 
@@ -42,7 +39,6 @@ export enum NavigationTarget {
 export class BackToOfficePage extends PracticeableBasePageComponent implements OnInit, ViewDidEnter, ViewDidLeave {
   pageState: BackToOfficePageState;
   testCategory: TestCategory;
-  isRekey: boolean;
   merged$: Observable<string | boolean>;
   subscription: Subscription;
   singleAppModeEnabled: boolean;
@@ -61,16 +57,12 @@ export class BackToOfficePage extends PracticeableBasePageComponent implements O
     super.ngOnInit();
 
     this.pageState = {
-      isRekey$: this.store$.pipe(select(getTests), select(getCurrentTest), select(getRekeyIndicator), select(isRekey)),
       testCategory$: this.store$.pipe(select(getTests), select(getCurrentTest), select(getTestCategory)),
     };
 
-    const { testCategory$, isRekey$ } = this.pageState;
+    const { testCategory$ } = this.pageState;
 
-    this.merged$ = merge(
-      testCategory$.pipe(map((value) => (this.testCategory = value as TestCategory))),
-      isRekey$.pipe(map((value) => (this.isRekey = value)))
-    );
+    this.merged$ = merge(testCategory$.pipe(map((value) => (this.testCategory = value as TestCategory))));
 
     this.subscription = this.merged$.subscribe();
     this.destroyTestSubs();

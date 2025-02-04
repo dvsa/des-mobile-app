@@ -10,8 +10,6 @@ import {
   CommonWaitingRoomToCarPageState,
   WaitingRoomToCarBasePageComponent,
 } from '@shared/classes/test-flow-base-pages/waiting-room-to-car/waiting-room-to-car-base-page';
-import { getDelegatedTestIndicator } from '@store/tests/delegated-test/delegated-test.reducer';
-import { isDelegatedTest } from '@store/tests/delegated-test/delegated-test.selector';
 import { getTests } from '@store/tests/tests.reducer';
 import { getCurrentTest } from '@store/tests/tests.selector';
 import { getVehicleDetails } from '@store/tests/vehicle-details/cat-manoeuvres/vehicle-details.cat-manoeuvre.reducer';
@@ -24,7 +22,6 @@ import {
 import { MotEvidenceProvidedReset } from '@store/tests/vehicle-details/vehicle-details.actions';
 
 interface CatManoeuvreWaitingRoomToCarPageState {
-  delegatedTest$: Observable<boolean>;
   vehicleLength$: Observable<number>;
   vehicleWidth$: Observable<number>;
   vehicleHeight$: Observable<number>;
@@ -55,7 +52,6 @@ export class WaitingRoomToCarCatManoeuvrePage extends WaitingRoomToCarBasePageCo
 
     this.pageState = {
       ...this.commonPageState,
-      delegatedTest$: currentTest$.pipe(select(getDelegatedTestIndicator), select(isDelegatedTest)),
       vehicleLength$: currentTest$.pipe(select(getVehicleDetails), select(getVehicleLength)),
       vehicleWidth$: currentTest$.pipe(select(getVehicleDetails), select(getVehicleWidth)),
       vehicleHeight$: currentTest$.pipe(select(getVehicleDetails), select(getVehicleHeight)),

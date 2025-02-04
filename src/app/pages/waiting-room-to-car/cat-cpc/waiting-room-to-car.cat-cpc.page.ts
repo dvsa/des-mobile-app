@@ -13,8 +13,6 @@ import {
 } from '@shared/classes/test-flow-base-pages/waiting-room-to-car/waiting-room-to-car-base-page';
 import { Combination } from '@shared/constants/cpc-questions/cpc-question-combinations.constants';
 import { getTestCategory } from '@store/tests/category/category.reducer';
-import { getDelegatedTestIndicator } from '@store/tests/delegated-test/delegated-test.reducer';
-import { isDelegatedTest } from '@store/tests/delegated-test/delegated-test.selector';
 import { getPreTestDeclarations } from '@store/tests/pre-test-declarations/pre-test-declarations.reducer';
 import {
   getCandidateDeclarationSignedStatus,
@@ -34,11 +32,10 @@ import {
   MotEvidenceProvidedReset,
   PopulateVehicleConfiguration,
 } from '@store/tests/vehicle-details/vehicle-details.actions';
-import { Observable, merge } from 'rxjs';
+import { Observable } from 'rxjs';
 import { map, take } from 'rxjs/operators';
 
 interface CatCWaitingRoomToCarPageState {
-  delegatedTest$: Observable<boolean>;
   candidateDeclarationSigned$: Observable<boolean>;
   insuranceDeclarationAccepted$: Observable<boolean>;
   residencyDeclarationAccepted$: Observable<boolean>;
@@ -57,7 +54,6 @@ type WaitingRoomToCarPageState = CommonWaitingRoomToCarPageState & CatCWaitingRo
 export class WaitingRoomToCarCatCPCPage extends WaitingRoomToCarBasePageComponent implements OnInit {
   form: UntypedFormGroup;
   pageState: WaitingRoomToCarPageState;
-  isDelegated = false;
 
   constructor(
     private cpcQuestionProvider: CPCQuestionProvider,
@@ -74,7 +70,6 @@ export class WaitingRoomToCarCatCPCPage extends WaitingRoomToCarBasePageComponen
 
     this.pageState = {
       ...this.commonPageState,
-      delegatedTest$: currentTest$.pipe(select(getDelegatedTestIndicator), select(isDelegatedTest)),
       insuranceDeclarationAccepted$: currentTest$.pipe(
         select(getPreTestDeclarations),
         select(getInsuranceDeclarationStatus)
@@ -95,7 +90,6 @@ export class WaitingRoomToCarCatCPCPage extends WaitingRoomToCarBasePageComponen
       combination$: currentTest$.pipe(select(getTestData), select(getCombination)),
       configuration$: currentTest$.pipe(select(getVehicleDetails), select(getVehicleConfiguration)),
     };
-    this.setupSubscription();
   }
 
   motNoEvidenceCancelled = (): void => {
@@ -106,12 +100,6 @@ export class WaitingRoomToCarCatCPCPage extends WaitingRoomToCarBasePageComponen
   ionViewDidLeave(): void {
     super.ionViewDidLeave();
     this.subscription?.unsubscribe();
-  }
-
-  setupSubscription(): void {
-    const { delegatedTest$ } = this.pageState;
-
-    this.subscription = merge(delegatedTest$.pipe(map((result) => (this.isDelegated = result)))).subscribe();
   }
 
   onSubmit = async (): Promise<void> => {

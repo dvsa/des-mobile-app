@@ -8,7 +8,7 @@
     <ion-buttons slot="end">
       <end-test-link
         [category]="pageState.category$ | async"
-        [isDelegated]="pageState.delegatedTest$ | async"
+        [isDelegated]="isDelegated"
         [isPracticeMode]="isPracticeMode"
         [shouldAuthenticate]="false"
         (endTestLinkClicked)="abortMOTCall(MOTAbortedMethod.END_TEST)"
@@ -27,7 +27,7 @@
           <ion-col class="ion-no-padding">
             <candidate-declaration-signed
               (candidateDeclarationChange)="candidateDeclarationOutcomeChanged($event)"
-              *ngIf="pageState.delegatedTest$ | async"
+              *ngIf="isDelegated"
               [candidateSigned]="pageState.candidateDeclarationSigned$ | async"
               [declarationSelected]="(pageState.insuranceDeclarationAccepted$ | async) && (pageState.residencyDeclarationAccepted$ | async)"
               [formGroup]="form"
@@ -61,7 +61,7 @@
 
             <vehicle-details-cat-cpc
               (vehicleDetailsChange)="vehicleConfiguration($event)"
-              *ngIf="showVehicleDetails() && !(pageState.delegatedTest$ | async)"
+              *ngIf="showVehicleDetails() && !isDelegated"
               [configuration]="pageState?.configuration$ | async"
               [formGroup]="form"
             >
