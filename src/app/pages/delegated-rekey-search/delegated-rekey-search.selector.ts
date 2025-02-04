@@ -15,6 +15,5 @@ export const getBookedTestSlot = (rekeySearch: DelegatedRekeySearchModel) => {
   if (isEmpty(rekeySearch)) {
     return null;
   }
-
   return rekeySearch.bookedTestSlot;
 };

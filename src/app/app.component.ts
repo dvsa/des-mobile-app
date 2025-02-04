@@ -73,7 +73,7 @@ export class AppComponent extends LogoutBasePageComponent implements OnInit {
 
   pageState: AppComponentPageState;
 
-  private platformSubscription: Subscription;
+  platformSubscription: Subscription;
 
   constructor(
     private slotProvider: SlotProvider,

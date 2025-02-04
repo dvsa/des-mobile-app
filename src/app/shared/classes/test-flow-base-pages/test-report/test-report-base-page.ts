@@ -71,7 +71,7 @@ export const trDestroy$ = new Subject<{}>();
 export abstract class TestReportBasePageComponent extends PracticeableBasePageComponent {
   public modalController = this.injector.get(ModalController);
   protected testReportValidatorProvider = this.injector.get(TestReportValidatorProvider);
-  protected routeByCategory = this.injector.get(RouteByCategoryProvider);
+  routeByCategory = this.injector.get(RouteByCategoryProvider);
 
   commonPageState: CommonTestReportPageState;
   subscription: Subscription;

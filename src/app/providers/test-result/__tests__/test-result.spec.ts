@@ -57,7 +57,7 @@ describe('TestResultCalculatorProvider', () => {
       it(`should call calculateCatCPCTestResult if testCategory is ${cat}`, () => {
         spyOn<TestResultProvider>(testResultProvider, 'calculateCatManoeuvreTestResult' as keyof TestResultProvider);
         testResultProvider.calculateTestResult(cat, null);
-        expect(testResultProvider['calculateCatManoeuvreTestResult']).toHaveBeenCalled();
+        expect(testResultProvider.calculateCatManoeuvreTestResult).toHaveBeenCalled();
       });
     });
 
@@ -68,7 +68,7 @@ describe('TestResultCalculatorProvider', () => {
           'calculateCatEUAM1AndSubCategoryTestResult' as keyof TestResultProvider
         );
         testResultProvider.calculateTestResult(cat, null);
-        expect(testResultProvider['calculateCatEUAM1AndSubCategoryTestResult']).toHaveBeenCalled();
+        expect(testResultProvider.calculateCatEUAM1AndSubCategoryTestResult).toHaveBeenCalled();
       });
     });
 
@@ -79,7 +79,7 @@ describe('TestResultCalculatorProvider', () => {
           'calculateCatEUAM2AndSubCategoryTestResult' as keyof TestResultProvider
         );
         testResultProvider.calculateTestResult(cat, null);
-        expect(testResultProvider['calculateCatEUAM2AndSubCategoryTestResult']).toHaveBeenCalled();
+        expect(testResultProvider.calculateCatEUAM2AndSubCategoryTestResult).toHaveBeenCalled();
       });
     });
 
@@ -87,7 +87,7 @@ describe('TestResultCalculatorProvider', () => {
       it(`should call calculateCatCPCTestResult if testCategory is ${cat}`, () => {
         spyOn<TestResultProvider>(testResultProvider, 'calculateCatCPCTestResult' as keyof TestResultProvider);
         testResultProvider.calculateTestResult(cat, null);
-        expect(testResultProvider['calculateCatCPCTestResult']).toHaveBeenCalled();
+        expect(testResultProvider.calculateCatCPCTestResult).toHaveBeenCalled();
       });
     });
 
@@ -119,7 +119,7 @@ describe('TestResultCalculatorProvider', () => {
     it('should return FAIL if getDangerousFaultSumCount returns more than 0', () => {
       spyOn(faultCountProvider, 'getDangerousFaultSumCount').and.returnValue(1);
 
-      testResultProvider['calculateCatManoeuvreTestResult'](TestCategory.B, {}).subscribe((val) => {
+      testResultProvider.calculateCatManoeuvreTestResult(TestCategory.B, {}).subscribe((val) => {
         expect(val).toEqual(ActivityCodes.FAIL);
       });
     });
@@ -127,7 +127,7 @@ describe('TestResultCalculatorProvider', () => {
       spyOn(faultCountProvider, 'getDangerousFaultSumCount').and.returnValue(0);
       spyOn(faultCountProvider, 'getSeriousFaultSumCount').and.returnValue(1);
 
-      testResultProvider['calculateCatManoeuvreTestResult'](TestCategory.B, {}).subscribe((val) => {
+      testResultProvider.calculateCatManoeuvreTestResult(TestCategory.B, {}).subscribe((val) => {
         expect(val).toEqual(ActivityCodes.FAIL);
       });
     });
@@ -135,7 +135,7 @@ describe('TestResultCalculatorProvider', () => {
       spyOn(faultCountProvider, 'getDangerousFaultSumCount').and.returnValue(0);
       spyOn(faultCountProvider, 'getSeriousFaultSumCount').and.returnValue(0);
 
-      testResultProvider['calculateCatManoeuvreTestResult'](TestCategory.B, {}).subscribe((val) => {
+      testResultProvider.calculateCatManoeuvreTestResult(TestCategory.B, {}).subscribe((val) => {
         expect(val).toEqual(ActivityCodes.PASS);
       });
     });
@@ -143,41 +143,49 @@ describe('TestResultCalculatorProvider', () => {
 
   describe('calculateCatEUAM1AndSubCategoryTestResult', () => {
     it('should return FAIL_PUBLIC_SAFETY if getSpeedRequirementNotMet returns true', () => {
-      testResultProvider['calculateCatEUAM1AndSubCategoryTestResult'](TestCategory.B, {
-        emergencyStop: { outcome: CompetencyOutcome.S },
-      }).subscribe((val) => {
-        expect(val).toEqual(ActivityCodes.FAIL_PUBLIC_SAFETY);
-      });
+      testResultProvider
+        .calculateCatEUAM1AndSubCategoryTestResult(TestCategory.B, {
+          emergencyStop: { outcome: CompetencyOutcome.S },
+        })
+        .subscribe((val) => {
+          expect(val).toEqual(ActivityCodes.FAIL_PUBLIC_SAFETY);
+        });
     });
     it('should return FAIL if getDangerousFaultSumCount returns more than 0', () => {
       spyOn(faultCountProvider, 'getDangerousFaultSumCount').and.returnValue(1);
 
-      testResultProvider['calculateCatEUAM1AndSubCategoryTestResult'](TestCategory.B, {
-        emergencyStop: { outcome: null },
-      }).subscribe((val) => {
-        expect(val).toEqual(ActivityCodes.FAIL);
-      });
+      testResultProvider
+        .calculateCatEUAM1AndSubCategoryTestResult(TestCategory.B, {
+          emergencyStop: { outcome: null },
+        })
+        .subscribe((val) => {
+          expect(val).toEqual(ActivityCodes.FAIL);
+        });
     });
     it('should return FAIL if getSeriousFaultSumCount returns more than 0', () => {
       spyOn(faultCountProvider, 'getDangerousFaultSumCount').and.returnValue(0);
       spyOn(faultCountProvider, 'getSeriousFaultSumCount').and.returnValue(1);
 
-      testResultProvider['calculateCatEUAM1AndSubCategoryTestResult'](TestCategory.B, {
-        emergencyStop: { outcome: null },
-      }).subscribe((val) => {
-        expect(val).toEqual(ActivityCodes.FAIL);
-      });
+      testResultProvider
+        .calculateCatEUAM1AndSubCategoryTestResult(TestCategory.B, {
+          emergencyStop: { outcome: null },
+        })
+        .subscribe((val) => {
+          expect(val).toEqual(ActivityCodes.FAIL);
+        });
     });
     it('should return FAIL if getDrivingFaultSumCount returns 6 or more', () => {
       spyOn(faultCountProvider, 'getDangerousFaultSumCount').and.returnValue(0);
       spyOn(faultCountProvider, 'getSeriousFaultSumCount').and.returnValue(0);
       spyOn(faultCountProvider, 'getDrivingFaultSumCount').and.returnValue(6);
 
-      testResultProvider['calculateCatEUAM1AndSubCategoryTestResult'](TestCategory.B, {
-        emergencyStop: { outcome: null },
-      }).subscribe((val) => {
-        expect(val).toEqual(ActivityCodes.FAIL);
-      });
+      testResultProvider
+        .calculateCatEUAM1AndSubCategoryTestResult(TestCategory.B, {
+          emergencyStop: { outcome: null },
+        })
+        .subscribe((val) => {
+          expect(val).toEqual(ActivityCodes.FAIL);
+        });
     });
     it(
       'should return PASS if getDangerousFaultSumCount and ' +
@@ -187,11 +195,13 @@ describe('TestResultCalculatorProvider', () => {
         spyOn(faultCountProvider, 'getSeriousFaultSumCount').and.returnValue(0);
         spyOn(faultCountProvider, 'getDrivingFaultSumCount').and.returnValue(0);
 
-        testResultProvider['calculateCatEUAM1AndSubCategoryTestResult'](TestCategory.B, {
-          emergencyStop: { outcome: null },
-        }).subscribe((val) => {
-          expect(val).toEqual(ActivityCodes.PASS);
-        });
+        testResultProvider
+          .calculateCatEUAM1AndSubCategoryTestResult(TestCategory.B, {
+            emergencyStop: { outcome: null },
+          })
+          .subscribe((val) => {
+            expect(val).toEqual(ActivityCodes.PASS);
+          });
       }
     );
   });
@@ -199,7 +209,7 @@ describe('TestResultCalculatorProvider', () => {
     it('should return FAIL if getDangerousFaultSumCount returns more than 0', () => {
       spyOn(faultCountProvider, 'getDangerousFaultSumCount').and.returnValue(1);
 
-      testResultProvider['calculateCatEUAM2AndSubCategoryTestResult'](TestCategory.B, {}).subscribe((val) => {
+      testResultProvider.calculateCatEUAM2AndSubCategoryTestResult(TestCategory.B, {}).subscribe((val) => {
         expect(val).toEqual(ActivityCodes.FAIL);
       });
     });
@@ -207,7 +217,7 @@ describe('TestResultCalculatorProvider', () => {
       spyOn(faultCountProvider, 'getDangerousFaultSumCount').and.returnValue(0);
       spyOn(faultCountProvider, 'getSeriousFaultSumCount').and.returnValue(1);
 
-      testResultProvider['calculateCatEUAM2AndSubCategoryTestResult'](TestCategory.B, {}).subscribe((val) => {
+      testResultProvider.calculateCatEUAM2AndSubCategoryTestResult(TestCategory.B, {}).subscribe((val) => {
         expect(val).toEqual(ActivityCodes.FAIL);
       });
     });
@@ -216,7 +226,7 @@ describe('TestResultCalculatorProvider', () => {
       spyOn(faultCountProvider, 'getSeriousFaultSumCount').and.returnValue(0);
       spyOn(faultCountProvider, 'getDrivingFaultSumCount').and.returnValue(11);
 
-      testResultProvider['calculateCatEUAM2AndSubCategoryTestResult'](TestCategory.B, {}).subscribe((val) => {
+      testResultProvider.calculateCatEUAM2AndSubCategoryTestResult(TestCategory.B, {}).subscribe((val) => {
         expect(val).toEqual(ActivityCodes.FAIL);
       });
     });
@@ -228,7 +238,7 @@ describe('TestResultCalculatorProvider', () => {
         spyOn(faultCountProvider, 'getSeriousFaultSumCount').and.returnValue(0);
         spyOn(faultCountProvider, 'getDrivingFaultSumCount').and.returnValue(0);
 
-        testResultProvider['calculateCatEUAM2AndSubCategoryTestResult'](TestCategory.B, {}).subscribe((val) => {
+        testResultProvider.calculateCatEUAM2AndSubCategoryTestResult(TestCategory.B, {}).subscribe((val) => {
           expect(val).toEqual(ActivityCodes.PASS);
         });
       }
@@ -237,175 +247,189 @@ describe('TestResultCalculatorProvider', () => {
 
   describe('calculateTestResultADI3', () => {
     it('should return FAIL if riskManagement is less than 8', () => {
-      testResultProvider['calculateTestResultADI3']({
-        lessonPlanning: { score: 0 },
-        teachingLearningStrategies: { score: 0 },
-        riskManagement: { score: 0 },
-      } as TestDataADI3).subscribe((val) => {
-        expect(val.activityCode).toEqual(ActivityCodes.FAIL);
-      });
+      testResultProvider
+        .calculateTestResultADI3({
+          lessonPlanning: { score: 0 },
+          teachingLearningStrategies: { score: 0 },
+          riskManagement: { score: 0 },
+        } as TestDataADI3)
+        .subscribe((val) => {
+          expect(val.activityCode).toEqual(ActivityCodes.FAIL);
+        });
     });
     it('should return FAIL if totalScore is less than 31', () => {
-      testResultProvider['calculateTestResultADI3']({
-        lessonPlanning: { score: 10 },
-        teachingLearningStrategies: { score: 10 },
-        riskManagement: { score: 10 },
-      } as TestDataADI3).subscribe((val) => {
-        expect(val.activityCode).toEqual(ActivityCodes.FAIL);
-      });
+      testResultProvider
+        .calculateTestResultADI3({
+          lessonPlanning: { score: 10 },
+          teachingLearningStrategies: { score: 10 },
+          riskManagement: { score: 10 },
+        } as TestDataADI3)
+        .subscribe((val) => {
+          expect(val.activityCode).toEqual(ActivityCodes.FAIL);
+        });
     });
     it(
       'should return PASS with grade B if totalScore is ' + 'more than or equal to 31 and less than or equal to 42',
       () => {
-        testResultProvider['calculateTestResultADI3']({
-          lessonPlanning: { score: 20 },
-          teachingLearningStrategies: { score: 10 },
-          riskManagement: { score: 10 },
-        } as TestDataADI3).subscribe((val) => {
-          expect(val).toEqual({
-            activityCode: ActivityCodes.PASS,
-            grade: 'B',
+        testResultProvider
+          .calculateTestResultADI3({
+            lessonPlanning: { score: 20 },
+            teachingLearningStrategies: { score: 10 },
+            riskManagement: { score: 10 },
+          } as TestDataADI3)
+          .subscribe((val) => {
+            expect(val).toEqual({
+              activityCode: ActivityCodes.PASS,
+              grade: 'B',
+            });
           });
-        });
       }
     );
     it('should return PASS with grade A if totalScore is more than 42', () => {
-      testResultProvider['calculateTestResultADI3']({
-        lessonPlanning: { score: 30 },
-        teachingLearningStrategies: { score: 10 },
-        riskManagement: { score: 10 },
-      } as TestDataADI3).subscribe((val) => {
-        expect(val).toEqual({
-          activityCode: ActivityCodes.PASS,
-          grade: 'A',
+      testResultProvider
+        .calculateTestResultADI3({
+          lessonPlanning: { score: 30 },
+          teachingLearningStrategies: { score: 10 },
+          riskManagement: { score: 10 },
+        } as TestDataADI3)
+        .subscribe((val) => {
+          expect(val).toEqual({
+            activityCode: ActivityCodes.PASS,
+            grade: 'A',
+          });
         });
-      });
     });
   });
 
   describe('calculateCatCPCTestResult', () => {
     it('should return FAIL if scores.some returns less than 0', () => {
-      testResultProvider['calculateCatCPCTestResult']({
-        question1: {
-          score: 1,
-          answer1: {
-            label: 'test',
-            selected: true,
+      testResultProvider
+        .calculateCatCPCTestResult({
+          question1: {
+            score: 1,
+            answer1: {
+              label: 'test',
+              selected: true,
+            },
           },
-        },
-        question2: {
-          score: 1,
-          answer1: {
-            label: 'test',
-            selected: true,
+          question2: {
+            score: 1,
+            answer1: {
+              label: 'test',
+              selected: true,
+            },
           },
-        },
-        question3: {
-          score: 1,
-          answer1: {
-            label: 'test',
-            selected: true,
+          question3: {
+            score: 1,
+            answer1: {
+              label: 'test',
+              selected: true,
+            },
           },
-        },
-        question4: {
-          score: 1,
-          answer1: {
-            label: 'test',
-            selected: true,
+          question4: {
+            score: 1,
+            answer1: {
+              label: 'test',
+              selected: true,
+            },
           },
-        },
-        question5: {
-          score: 1,
-          answer1: {
-            label: 'test',
-            selected: true,
+          question5: {
+            score: 1,
+            answer1: {
+              label: 'test',
+              selected: true,
+            },
           },
-        },
-      } as TestDataCPC).subscribe((val) => {
-        expect(val).toEqual(ActivityCodes.FAIL);
-      });
+        } as TestDataCPC)
+        .subscribe((val) => {
+          expect(val).toEqual(ActivityCodes.FAIL);
+        });
     });
     it('should return FAIL if at least no scores 20 and the total score is more than 15', () => {
-      testResultProvider['calculateCatCPCTestResult']({
-        question1: {
-          score: 19,
-          answer1: {
-            label: 'test',
-            selected: true,
+      testResultProvider
+        .calculateCatCPCTestResult({
+          question1: {
+            score: 19,
+            answer1: {
+              label: 'test',
+              selected: true,
+            },
           },
-        },
-        question2: {
-          score: 19,
-          answer1: {
-            label: 'test',
-            selected: true,
+          question2: {
+            score: 19,
+            answer1: {
+              label: 'test',
+              selected: true,
+            },
           },
-        },
-        question3: {
-          score: 19,
-          answer1: {
-            label: 'test',
-            selected: true,
+          question3: {
+            score: 19,
+            answer1: {
+              label: 'test',
+              selected: true,
+            },
           },
-        },
-        question4: {
-          score: 19,
-          answer1: {
-            label: 'test',
-            selected: true,
+          question4: {
+            score: 19,
+            answer1: {
+              label: 'test',
+              selected: true,
+            },
           },
-        },
-        question5: {
-          score: 19,
-          answer1: {
-            label: 'test',
-            selected: true,
+          question5: {
+            score: 19,
+            answer1: {
+              label: 'test',
+              selected: true,
+            },
           },
-        },
-      } as TestDataCPC).subscribe((val) => {
-        expect(val).toEqual(ActivityCodes.FAIL);
-      });
+        } as TestDataCPC)
+        .subscribe((val) => {
+          expect(val).toEqual(ActivityCodes.FAIL);
+        });
     });
     it('should return PASS if at least 1 score is 20 ' + 'and the total score is more than 15', () => {
-      testResultProvider['calculateCatCPCTestResult']({
-        question1: {
-          score: 20,
-          answer1: {
-            label: 'test',
-            selected: true,
+      testResultProvider
+        .calculateCatCPCTestResult({
+          question1: {
+            score: 20,
+            answer1: {
+              label: 'test',
+              selected: true,
+            },
           },
-        },
-        question2: {
-          score: 19,
-          answer1: {
-            label: 'test',
-            selected: true,
+          question2: {
+            score: 19,
+            answer1: {
+              label: 'test',
+              selected: true,
+            },
           },
-        },
-        question3: {
-          score: 19,
-          answer1: {
-            label: 'test',
-            selected: true,
+          question3: {
+            score: 19,
+            answer1: {
+              label: 'test',
+              selected: true,
+            },
           },
-        },
-        question4: {
-          score: 19,
-          answer1: {
-            label: 'test',
-            selected: true,
+          question4: {
+            score: 19,
+            answer1: {
+              label: 'test',
+              selected: true,
+            },
           },
-        },
-        question5: {
-          score: 19,
-          answer1: {
-            label: 'test',
-            selected: true,
+          question5: {
+            score: 19,
+            answer1: {
+              label: 'test',
+              selected: true,
+            },
           },
-        },
-      } as TestDataCPC).subscribe((val) => {
-        expect(val).toEqual(ActivityCodes.PASS);
-      });
+        } as TestDataCPC)
+        .subscribe((val) => {
+          expect(val).toEqual(ActivityCodes.PASS);
+        });
     });
   });
 

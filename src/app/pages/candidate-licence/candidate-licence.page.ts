@@ -169,7 +169,7 @@ export class CandidateLicencePage extends PracticeableBasePageComponent implemen
     return this.offlineError || this.candidateDataError || this.candidateDataUnavailable || this.niLicenceDetected;
   }
 
-  private setError(err: Error): void {
+  setError(err: Error): void {
     switch (err.message) {
       case CandidateLicenceErr.OFFLINE:
         this.offlineError = true;

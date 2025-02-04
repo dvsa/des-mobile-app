@@ -124,9 +124,9 @@ describe('TestResultsSearchPage', () => {
 
     describe('ionViewDidEnter', () => {
       it('should dispatch the view did enter action', () => {
-        spyOn(component['store$'], 'dispatch');
+        spyOn(component.store$, 'dispatch');
         component.ionViewDidEnter();
-        expect(component['store$'].dispatch).toHaveBeenCalledWith(TestResultSearchViewDidEnter());
+        expect(component.store$.dispatch).toHaveBeenCalledWith(TestResultSearchViewDidEnter());
       });
     });
 

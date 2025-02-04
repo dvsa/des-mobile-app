@@ -16,7 +16,7 @@ describe('ExitRekeyModal', () => {
 
     fixture = TestBed.createComponent(ExitRekeyModal);
     component = fixture.componentInstance;
-    spyOn(component['modalCtrl'], 'dismiss');
+    spyOn(component.modalCtrl, 'dismiss');
   }));
 
   describe('DOM', () => {
@@ -27,13 +27,13 @@ describe('ExitRekeyModal', () => {
   describe('onCancel', () => {
     it('should invoke the correct event when modalController is dismissed - cancel', async () => {
       await component.onCancel();
-      expect(component['modalCtrl'].dismiss).toHaveBeenCalledWith(ExitRekeyModalEvent.CANCEL);
+      expect(component.modalCtrl.dismiss).toHaveBeenCalledWith(ExitRekeyModalEvent.CANCEL);
     });
   });
   describe('onExitRekey', () => {
     it('should invoke the correct event when modalController is dismissed - exitRekey', async () => {
       await component.onExitRekey();
-      expect(component['modalCtrl'].dismiss).toHaveBeenCalledWith(ExitRekeyModalEvent.EXIT_REKEY);
+      expect(component.modalCtrl.dismiss).toHaveBeenCalledWith(ExitRekeyModalEvent.EXIT_REKEY);
     });
   });
 });

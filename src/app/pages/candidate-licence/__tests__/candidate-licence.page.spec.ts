@@ -209,7 +209,7 @@ describe('CandidateLicencePage', () => {
       it('should set offlineError to true if CandidateLicenceErr is OFFLINE', () => {
         component.offlineError = false;
 
-        component['setError']({
+        component.setError({
           message: CandidateLicenceErr.OFFLINE,
           name: '',
         });
@@ -219,7 +219,7 @@ describe('CandidateLicencePage', () => {
       it('should set candidateDataUnavailable to true if CandidateLicenceErr is UNAVAILABLE', () => {
         component.candidateDataUnavailable = false;
 
-        component['setError']({
+        component.setError({
           message: CandidateLicenceErr.UNAVAILABLE,
           name: '',
         });
@@ -229,7 +229,7 @@ describe('CandidateLicencePage', () => {
       it('should set niLicenceDetected to true if CandidateLicenceErr is NI_LICENCE', () => {
         component.niLicenceDetected = false;
 
-        component['setError']({
+        component.setError({
           message: CandidateLicenceErr.NI_LICENCE,
           name: '',
         });
@@ -239,7 +239,7 @@ describe('CandidateLicencePage', () => {
       it('should set candidateDataError to true if the switch defaults', () => {
         component.candidateDataError = false;
 
-        component['setError']({
+        component.setError({
           message: null,
           name: '',
         });

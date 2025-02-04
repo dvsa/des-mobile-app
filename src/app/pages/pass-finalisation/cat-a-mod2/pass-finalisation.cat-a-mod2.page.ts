@@ -67,7 +67,7 @@ export class PassFinalisationCatAMod2Page extends PassFinalisationPageComponent 
   }
 
   displayTransmissionBanner(): boolean {
-    return !this.form.controls['transmissionCtrl'].pristine && this.transmission === TransmissionType.Automatic;
+    return !this.form.controls.transmissionCtrl.pristine && this.transmission === TransmissionType.Automatic;
   }
 
   async onSubmit(): Promise<void> {

@@ -136,7 +136,7 @@ describe('PassFinalisationCatAMod2Page', () => {
       it('return false if transmissionCtrl is pristine and transmission is automatic', () => {
         component.form = new UntypedFormGroup({ transmissionCtrl: new UntypedFormControl(null) });
 
-        component.form.controls['transmissionCtrl'].markAsPristine();
+        component.form.controls.transmissionCtrl.markAsPristine();
         component.transmission = TransmissionType.Automatic;
 
         expect(component.displayTransmissionBanner()).toEqual(false);
@@ -144,7 +144,7 @@ describe('PassFinalisationCatAMod2Page', () => {
       it('return false if transmissionCtrl is dirty and transmission is manual', () => {
         component.form = new UntypedFormGroup({ transmissionCtrl: new UntypedFormControl(null) });
 
-        component.form.controls['transmissionCtrl'].markAsDirty();
+        component.form.controls.transmissionCtrl.markAsDirty();
         component.transmission = TransmissionType.Manual;
 
         expect(component.displayTransmissionBanner()).toEqual(false);
@@ -152,7 +152,7 @@ describe('PassFinalisationCatAMod2Page', () => {
       it('return true if transmissionCtrl is dirty and transmission is automatic', () => {
         component.form = new UntypedFormGroup({ transmissionCtrl: new UntypedFormControl(null) });
 
-        component.form.controls['transmissionCtrl'].markAsDirty();
+        component.form.controls.transmissionCtrl.markAsDirty();
         component.transmission = TransmissionType.Automatic;
 
         expect(component.displayTransmissionBanner()).toEqual(true);

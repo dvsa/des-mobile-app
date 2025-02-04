@@ -8,7 +8,7 @@ import { ModalEvent } from '../../test-report.constants';
   styleUrls: ['eta-invalid-modal.scss'],
 })
 export class EtaInvalidModal {
-  constructor(private modalCtrl: ModalController) {}
+  constructor(public modalCtrl: ModalController) {}
 
   async onCancel() {
     await this.modalCtrl.dismiss(ModalEvent.CANCEL);

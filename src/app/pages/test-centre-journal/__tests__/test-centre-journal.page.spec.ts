@@ -158,12 +158,12 @@ describe('TestCenterJournalPage', () => {
 
   describe('ngOnDestroy', () => {
     it('should close subscriptions on page destroy', () => {
-      spyOn(component['destroy$'], 'next');
-      spyOn(component['destroy$'], 'complete');
+      spyOn(component.destroy$, 'next');
+      spyOn(component.destroy$, 'complete');
       spyOn(component.subscription, 'unsubscribe');
       component.ngOnDestroy();
-      expect(component['destroy$'].next).toHaveBeenCalled();
-      expect(component['destroy$'].complete).toHaveBeenCalled();
+      expect(component.destroy$.next).toHaveBeenCalled();
+      expect(component.destroy$.complete).toHaveBeenCalled();
       expect(component.subscription.unsubscribe).toHaveBeenCalled();
     });
   });
@@ -215,7 +215,7 @@ describe('TestCenterJournalPage', () => {
       expect(component.didError).toEqual(true);
       expect(component.testCentreResults).toEqual(null);
       expect(component.showSearchSpinner).toEqual(false);
-      expect(component['mapError']).toHaveBeenCalled();
+      expect(component.mapError).toHaveBeenCalled();
     });
   });
 

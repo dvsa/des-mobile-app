@@ -164,8 +164,8 @@ export class CommunicationPage extends PracticeableBasePageComponent implements 
     if (this.shouldPreselectADefaultValue()) {
       this.initialiseDefaultSelections();
     } else if (this.emailType !== CommunicationPage.updatedEmail) {
-      this.form.controls['newEmailCtrl'].clearValidators();
-      this.form.controls['newEmailCtrl'].updateValueAndValidity(this.maximumCallStackHandler);
+      this.form.controls.newEmailCtrl.clearValidators();
+      this.form.controls.newEmailCtrl.updateValueAndValidity(this.maximumCallStackHandler);
     }
     this.restoreRadiosFromState();
     this.restoreRadioValidators();
@@ -277,20 +277,20 @@ export class CommunicationPage extends PracticeableBasePageComponent implements 
   }
 
   restoreRadioValidators() {
-    this.form.controls['radioCtrl'].setValue(true);
+    this.form.controls.radioCtrl.setValue(true);
   }
 
   initialiseDefaultSelections() {
     this.communicationType = CommunicationPage.email;
     if (this.candidateProvidedEmail) {
       this.emailType = CommunicationPage.providedEmail;
-      this.form.controls['radioCtrl'].setValue(true);
+      this.form.controls.radioCtrl.setValue(true);
       this.dispatchCandidateChoseProvidedEmail();
     }
 
     if (!this.candidateProvidedEmail) {
       this.emailType = CommunicationPage.updatedEmail;
-      this.form.controls['radioCtrl'].setValue(true);
+      this.form.controls.radioCtrl.setValue(true);
     }
   }
 

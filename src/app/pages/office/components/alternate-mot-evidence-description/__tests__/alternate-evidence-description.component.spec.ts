@@ -42,7 +42,7 @@ describe('AlternateEvidenceDescriptionComponent', () => {
 
       expect(component.formControl).toBeDefined();
       expect(component.formControl instanceof UntypedFormControl).toBe(true);
-      expect(component.formGroup.controls['altEvidenceDetailsCtrl']).toBe(component.formControl);
+      expect(component.formGroup.controls.altEvidenceDetailsCtrl).toBe(component.formControl);
     });
     it('should patch altEvidenceDetailsCtrl into the formControl when it does exist', () => {
       spyOn(component.formGroup, 'contains').and.returnValue(true);
@@ -53,7 +53,7 @@ describe('AlternateEvidenceDescriptionComponent', () => {
 
       expect(component.formControl).toBeDefined();
       expect(component.formControl instanceof UntypedFormControl).toBe(true);
-      expect(component.formGroup.controls['altEvidenceDetailsCtrl']).toBe(component.formControl);
+      expect(component.formGroup.controls.altEvidenceDetailsCtrl).toBe(component.formControl);
       expect(component.formControl.value).toEqual('string');
     });
   });

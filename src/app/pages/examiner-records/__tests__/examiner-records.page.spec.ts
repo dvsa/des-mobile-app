@@ -564,7 +564,7 @@ describe('ExaminerRecordsPage', () => {
     });
     it('should set currentCategory to the passed value', () => {
       component.handleCategoryFilter(TestCategory.B);
-      expect(component['currentCategory']).toEqual(TestCategory.B);
+      expect(component.currentCategory).toEqual(TestCategory.B);
       expect(component.categorySelectPristine).toEqual(true);
     });
     it('should set categorySubject$ to the passed value', () => {
@@ -613,11 +613,11 @@ describe('ExaminerRecordsPage', () => {
 
   describe('showControlledStop', () => {
     it('should return true if currentCategory is in the approved list', () => {
-      component['currentCategory'] = TestCategory.B;
+      component.currentCategory = TestCategory.B;
       expect(component.showEmergencyStop()).toEqual(true);
     });
     it('should return false if currentCategory is not in the approved list', () => {
-      component['currentCategory'] = TestCategory.ADI3;
+      component.currentCategory = TestCategory.ADI3;
       expect(component.showEmergencyStop()).toEqual(false);
     });
   });

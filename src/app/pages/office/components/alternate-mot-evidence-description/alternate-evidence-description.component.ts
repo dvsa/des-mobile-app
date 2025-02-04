@@ -24,7 +24,7 @@ export class AlternateEvidenceDescriptionComponent {
     if (!this.formControl) {
       this.formControl = new UntypedFormControl('', [Validators.required]);
       if (this.formGroup.contains('altEvidenceDetailsCtrl')) {
-        this.formControl.patchValue(this.formGroup.controls['altEvidenceDetailsCtrl'].value);
+        this.formControl.patchValue(this.formGroup.controls.altEvidenceDetailsCtrl.value);
         this.formGroup.setControl('altEvidenceDetailsCtrl', this.formControl);
       } else {
         this.formGroup.addControl('altEvidenceDetailsCtrl', this.formControl);

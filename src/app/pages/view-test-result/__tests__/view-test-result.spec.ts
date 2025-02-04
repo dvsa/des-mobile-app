@@ -733,14 +733,14 @@ describe('ViewTestResultPage', () => {
     it('should call dispatch with a saveLog if it is unable to get a testResult', async () => {
       component.testResult = null;
       spyOn(component, 'handleLoadingUI').and.callThrough();
-      spyOn(component['store$'], 'dispatch');
+      spyOn(component.store$, 'dispatch');
       spyOn(compressionProvider, 'extract').and.throwError('test');
 
       await component.ngOnInit();
 
-      expect(component['store$'].dispatch).toHaveBeenCalledWith(
+      expect(component.store$.dispatch).toHaveBeenCalledWith(
         SaveLog({
-          payload: component['logHelper'].createLog(
+          payload: component.logHelper.createLog(
             LogType.ERROR,
             `Getting test result for app ref (${component.applicationReference})`,
             'test'

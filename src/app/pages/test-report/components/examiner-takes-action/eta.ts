@@ -30,7 +30,7 @@ export class EtaComponent implements OnInit {
 
   componentState: ETAComponentState;
 
-  constructor(private store$: Store<StoreModel>) {}
+  constructor(public store$: Store<StoreModel>) {}
 
   ngOnInit(): void {
     this.componentState = {

@@ -37,7 +37,7 @@ describe('Directive: CharacterCountDirective', () => {
 
   describe('ngAfterViewInit', () => {
     it('should emit onCharacterCountChanged if charLimit is true', () => {
-      directiveInstance['charLimit'] = 3;
+      directiveInstance.charLimit = 3;
       directiveInstance.el.nativeElement.value = '11';
       directiveInstance.ngAfterViewInit();
       expect(directiveInstance.onCharacterCountChanged.emit).toHaveBeenCalledWith(1);
@@ -62,31 +62,31 @@ describe('Directive: CharacterCountDirective', () => {
 
   describe('handleChange', () => {
     it('should emit remaining character count when charLimit is set and value is provided', () => {
-      directiveInstance['charLimit'] = 10;
+      directiveInstance.charLimit = 10;
       directiveInstance.handleChange('hello');
       expect(directiveInstance.onCharacterCountChanged.emit).toHaveBeenCalledWith(5);
     });
 
     it('should not emit when charLimit is not set', () => {
-      directiveInstance['charLimit'] = null;
+      directiveInstance.charLimit = null;
       directiveInstance.handleChange('hello');
       expect(directiveInstance.onCharacterCountChanged.emit).not.toHaveBeenCalled();
     });
 
     it('should not emit when value is undefined', () => {
-      directiveInstance['charLimit'] = 10;
+      directiveInstance.charLimit = 10;
       directiveInstance.handleChange(undefined);
       expect(directiveInstance.onCharacterCountChanged.emit).not.toHaveBeenCalled();
     });
 
     it('should emit remaining character count when input is empty string', () => {
-      directiveInstance['charLimit'] = 10;
+      directiveInstance.charLimit = 10;
       directiveInstance.handleChange('');
       expect(directiveInstance.onCharacterCountChanged.emit).toHaveBeenCalledWith(10);
     });
 
     it('should emit remaining character count when input is null', () => {
-      directiveInstance['charLimit'] = 10;
+      directiveInstance.charLimit = 10;
       directiveInstance.handleChange(null);
       expect(directiveInstance.onCharacterCountChanged.emit).toHaveBeenCalledWith(10);
     });

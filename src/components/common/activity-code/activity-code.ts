@@ -30,7 +30,7 @@ export class ActivityCodeComponent implements OnChanges {
   @Output()
   activityCodeChange = new EventEmitter<ActivityCodeModel>();
 
-  private formControl: UntypedFormControl;
+  formControl: UntypedFormControl;
   static readonly fieldName: string = 'activityCode';
 
   constructor(

@@ -375,7 +375,7 @@ describe('OfficeCatCPCPage', () => {
           component.isDelegated = false;
 
           component.form.setControl('passCertificateNumberCtrl', new FormControl());
-          component.form.controls['passCertificateNumberCtrl'].setValue(true);
+          component.form.controls.passCertificateNumberCtrl.setValue(true);
 
           component.passCertificateNumberChanged('test');
           expect(store$.dispatch).toHaveBeenCalledWith(PassCertificateNumberReceived(true));

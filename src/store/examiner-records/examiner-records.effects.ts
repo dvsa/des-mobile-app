@@ -20,7 +20,7 @@ import { concatMap, switchMap, withLatestFrom } from 'rxjs/operators';
 
 @Injectable()
 export class ExaminerRecordsEffects {
-  private static readonly EXAMINER_RECORDS_KEY: StorageKey = LocalStorageKey.EXAMINER_STATS_KEY;
+  static readonly EXAMINER_RECORDS_KEY: StorageKey = LocalStorageKey.EXAMINER_STATS_KEY;
 
   constructor(
     private actions$: Actions,

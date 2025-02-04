@@ -63,7 +63,7 @@ export class PassFinalisationCatAMod1Page extends PassFinalisationPageComponent 
   }
 
   displayTransmissionBanner(): boolean {
-    return !this.form.controls['transmissionCtrl'].pristine && this.transmission === TransmissionType.Automatic;
+    return !this.form.controls.transmissionCtrl.pristine && this.transmission === TransmissionType.Automatic;
   }
 
   ionViewDidLeave(): void {

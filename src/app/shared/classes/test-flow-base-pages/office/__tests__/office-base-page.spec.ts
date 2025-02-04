@@ -254,7 +254,7 @@ describe('OfficeBasePageComponent', () => {
   describe('activityCodeChanged', () => {
     beforeEach(() => {
       basePageComponent.form.addControl('showMeQuestion', new UntypedFormControl('', []));
-      spyOn(basePageComponent.form.controls['showMeQuestion'], 'setValue');
+      spyOn(basePageComponent.form.controls.showMeQuestion, 'setValue');
     });
     it('should dispatch a SetActivityCode action with the activity code', () => {
       basePageComponent.form.controls = { showMeQuestion: null };
@@ -264,22 +264,22 @@ describe('OfficeBasePageComponent', () => {
     it('should setValue of showMeQuestion to {}', () => {
       basePageComponent.form.controls = {
         showMeQuestion: {
-          ...basePageComponent.form.controls['showMeQuestion'],
+          ...basePageComponent.form.controls.showMeQuestion,
           value: { code: 'N/A' },
         } as AbstractControl,
       };
       basePageComponent.activityCodeChanged(activityCodeModelList[0]);
-      expect(basePageComponent.form.controls['showMeQuestion'].setValue).toHaveBeenCalledWith({});
+      expect(basePageComponent.form.controls.showMeQuestion.setValue).toHaveBeenCalledWith({});
     });
     it('should not setValue of showMeQuestion when value is not N/A', () => {
       basePageComponent.form.controls = {
         showMeQuestion: {
-          ...basePageComponent.form.controls['showMeQuestion'],
+          ...basePageComponent.form.controls.showMeQuestion,
           value: { code: 'A1' },
         } as AbstractControl,
       };
       basePageComponent.activityCodeChanged(activityCodeModelList[0]);
-      expect(basePageComponent.form.controls['showMeQuestion'].setValue).not.toHaveBeenCalled();
+      expect(basePageComponent.form.controls.showMeQuestion.setValue).not.toHaveBeenCalled();
     });
   });
 

@@ -28,7 +28,7 @@ export class CandidateLicenceProvider {
     private http: HttpClient,
     private urlProvider: UrlProvider,
     private appConfig: AppConfigProvider,
-    private networkStateProvider: NetworkStateProvider
+    public networkStateProvider: NetworkStateProvider
   ) {}
 
   public getCandidateData = (drivingLicenceNumber: string, appRef: string): Observable<DriverLicenceSchema> => {

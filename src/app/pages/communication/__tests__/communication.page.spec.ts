@@ -248,7 +248,7 @@ describe('CommunicationPage', () => {
   describe('restoreRadioValidators', () => {
     it('should set radioCtrl to true', () => {
       component.restoreRadioValidators();
-      expect(component.form.controls['radioCtrl'].value).toEqual(true);
+      expect(component.form.controls.radioCtrl.value).toEqual(true);
     });
   });
 
@@ -267,7 +267,7 @@ describe('CommunicationPage', () => {
       component.candidateProvidedEmail = 'test';
       component.initialiseDefaultSelections();
 
-      expect(component.form.controls['radioCtrl'].value).toEqual(true);
+      expect(component.form.controls.radioCtrl.value).toEqual(true);
     });
     it('should call dispatchCandidateChoseProvidedEmail if candidateProvidedEmail is present', () => {
       component.candidateProvidedEmail = 'test';

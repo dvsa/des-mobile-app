@@ -5,7 +5,7 @@ import { CategoryCode, ConductedLanguage, Examiner, TestSlotAttributes } from '@
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Action, Store, select } from '@ngrx/store';
-import { find, has, omit, startsWith } from 'lodash-es';
+import { find, get, has, omit, startsWith } from 'lodash-es';
 import { from, interval, of } from 'rxjs';
 import { catchError, concatMap, filter, map, switchMap, takeUntil, withLatestFrom } from 'rxjs/operators';
 
@@ -192,7 +192,7 @@ export class TestsEffects {
           if (isDelegatedRekeySearch) {
             slot = getDelegatedBookedTestSlot(delegatedRekeySearch);
             examiner = {
-              staffNumber: slot['examinerId'],
+              staffNumber: get(slot, 'examinerId'),
             };
           } else if (isRekeySearch) {
             examinerBooked = getStaffNumber(rekeySearch);

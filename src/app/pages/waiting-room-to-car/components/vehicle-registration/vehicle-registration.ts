@@ -85,7 +85,7 @@ export class VehicleRegistrationComponent implements OnChanges {
   constructor(
     public motApiService: MotHistoryApiService,
     public modalController: ModalController,
-    protected networkState: NetworkStateProvider,
+    public networkState: NetworkStateProvider,
     protected accessibilityService: AccessibilityService
   ) {}
 

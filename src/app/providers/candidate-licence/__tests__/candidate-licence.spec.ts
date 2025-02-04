@@ -84,9 +84,7 @@ describe('CandidateLicenceProvider', () => {
     });
 
     it('should throw an error if offline and no cached data', () => {
-      spyOn(candidateLicenceProvider['networkStateProvider'], 'getNetworkState').and.returnValue(
-        ConnectionStatus.OFFLINE
-      );
+      spyOn(candidateLicenceProvider.networkStateProvider, 'getNetworkState').and.returnValue(ConnectionStatus.OFFLINE);
 
       expect(() => candidateLicenceProvider.getCandidateData('ABC1', '1231212')).toThrowError(
         CandidateLicenceErr.OFFLINE

@@ -333,7 +333,7 @@ describe('TestReportBasePageComponent', () => {
 
     it('should navigate to OFFICE_PAGE on CONTINUE event when test is delegated', async () => {
       basePageComponent.isDelegated = true;
-      spyOn(basePageComponent['routeByCategory'], 'getNextPage').and.returnValue(TestFlowPageNames.OFFICE_PAGE);
+      spyOn(basePageComponent.routeByCategory, 'getNextPage').and.returnValue(TestFlowPageNames.OFFICE_PAGE);
       spyOn(basePageComponent.router, 'navigate');
       await basePageComponent.onModalDismiss(ModalEvent.CONTINUE);
       expect(basePageComponent.router.navigate).toHaveBeenCalledWith([TestFlowPageNames.OFFICE_PAGE]);

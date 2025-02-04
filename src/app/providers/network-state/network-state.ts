@@ -10,7 +10,7 @@ export enum ConnectionStatus {
 
 @Injectable()
 export class NetworkStateProvider {
-  private networkStatus$: BehaviorSubject<ConnectionStatus> = new BehaviorSubject(ConnectionStatus.OFFLINE);
+  networkStatus$: BehaviorSubject<ConnectionStatus> = new BehaviorSubject(ConnectionStatus.OFFLINE);
   public isOffline$: BehaviorSubject<boolean> = new BehaviorSubject(true);
 
   constructor(
@@ -27,7 +27,7 @@ export class NetworkStateProvider {
     });
   }
 
-  private initialiseNetworkEvents(): void {
+  initialiseNetworkEvents(): void {
     this.network.onDisconnect().subscribe(() => {
       this.updateNetworkStatus(ConnectionStatus.OFFLINE);
     });

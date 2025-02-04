@@ -164,7 +164,7 @@ describe('testsReducer', () => {
     };
 
     const result = testsReducer(state, testsActions.StartTest(123, TestCategory.B));
-    expect(result.startedTests['123']['preTestDeclarations']).toBe(preTestDeclarations);
+    expect(result.startedTests['123'].preTestDeclarations).toBe(preTestDeclarations);
   });
 
   it('should assign the slot ID as the current test when a test is activated', () => {

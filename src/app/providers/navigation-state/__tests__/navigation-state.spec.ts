@@ -23,21 +23,21 @@ describe('NavigationStateProvider', () => {
 
   describe('isRekeySearch', () => {
     it('should return true if the url contains REKEY_SEARCH_PAGE', () => {
-      navProvider['router'] = { url: REKEY_SEARCH_PAGE } as Router;
+      navProvider.router = { url: REKEY_SEARCH_PAGE } as Router;
       expect(navProvider.isRekeySearch()).toEqual(true);
     });
     it('should return false if the url does not contain REKEY_SEARCH_PAGE', () => {
-      navProvider['router'] = { url: 'test' } as Router;
+      navProvider.router = { url: 'test' } as Router;
       expect(navProvider.isRekeySearch()).toEqual(false);
     });
   });
   describe('isDelegatedExaminerRekeySearch', () => {
     it('should return true if the url contains DELEGATED_REKEY_SEARCH_PAGE', () => {
-      navProvider['router'] = { url: DELEGATED_REKEY_SEARCH_PAGE } as Router;
+      navProvider.router = { url: DELEGATED_REKEY_SEARCH_PAGE } as Router;
       expect(navProvider.isDelegatedExaminerRekeySearch()).toEqual(true);
     });
     it('should return false if the url does not contain DELEGATED_REKEY_SEARCH_PAGE', () => {
-      navProvider['router'] = { url: 'test' } as Router;
+      navProvider.router = { url: 'test' } as Router;
       expect(navProvider.isDelegatedExaminerRekeySearch()).toEqual(false);
     });
   });

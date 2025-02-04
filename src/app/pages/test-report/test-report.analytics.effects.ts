@@ -488,7 +488,7 @@ export class TestReportAnalyticsEffects {
             `${analyticsEventTypePrefix(
               GoogleAnalyticsEvents.ADD_FAULT,
               tests
-            )}_${fullAnalyticCompetencyLabels['outcomeControlledStop']}`,
+            )}_${fullAnalyticCompetencyLabels.outcomeControlledStop}`,
             GoogleAnalyticsEventsTitles.SEVERITY,
             ValidFaultTypes.DRIVING
           );
@@ -516,7 +516,7 @@ export class TestReportAnalyticsEffects {
             `${analyticsEventTypePrefix(
               GoogleAnalyticsEvents.ADD_FAULT,
               tests
-            )}_${fullAnalyticCompetencyLabels['outcomeControlledStop']}`,
+            )}_${fullAnalyticCompetencyLabels.outcomeControlledStop}`,
             GoogleAnalyticsEventsTitles.SEVERITY,
             ValidFaultTypes.SERIOUS
           );
@@ -567,7 +567,7 @@ export class TestReportAnalyticsEffects {
             `${analyticsEventTypePrefix(
               GoogleAnalyticsEvents.ADD_FAULT,
               tests
-            )}_${fullAnalyticCompetencyLabels['outcomeControlledStop']}`,
+            )}_${fullAnalyticCompetencyLabels.outcomeControlledStop}`,
             GoogleAnalyticsEventsTitles.SEVERITY,
             ValidFaultTypes.DANGEROUS
           );
@@ -599,7 +599,7 @@ export class TestReportAnalyticsEffects {
             `${analyticsEventTypePrefix(
               GoogleAnalyticsEvents.ADD_FAULT,
               tests
-            )}_${fullAnalyticCompetencyLabels['outcomeHighwayCodeSafety']}`,
+            )}_${fullAnalyticCompetencyLabels.outcomeHighwayCodeSafety}`,
             GoogleAnalyticsEventsTitles.SEVERITY,
             ValidFaultTypes.DRIVING
           );
@@ -631,7 +631,7 @@ export class TestReportAnalyticsEffects {
             `${analyticsEventTypePrefix(
               GoogleAnalyticsEvents.ADD_FAULT,
               tests
-            )}_${fullAnalyticCompetencyLabels['outcomeHighwayCodeSafety']}`,
+            )}_${fullAnalyticCompetencyLabels.outcomeHighwayCodeSafety}`,
             GoogleAnalyticsEventsTitles.SEVERITY,
             ValidFaultTypes.SERIOUS
           );
@@ -659,7 +659,7 @@ export class TestReportAnalyticsEffects {
             `${analyticsEventTypePrefix(
               GoogleAnalyticsEvents.ADD_FAULT,
               tests
-            )}_${fullAnalyticCompetencyLabels['showMeQuestion']}`,
+            )}_${fullAnalyticCompetencyLabels.showMeQuestion}`,
             GoogleAnalyticsEventsTitles.SEVERITY,
             ValidFaultTypes.DRIVING
           );
@@ -687,7 +687,7 @@ export class TestReportAnalyticsEffects {
             `${analyticsEventTypePrefix(
               GoogleAnalyticsEvents.ADD_FAULT,
               tests
-            )}_${fullAnalyticCompetencyLabels['showMeQuestion']}`,
+            )}_${fullAnalyticCompetencyLabels.showMeQuestion}`,
             GoogleAnalyticsEventsTitles.SEVERITY,
             ValidFaultTypes.SERIOUS
           );
@@ -715,7 +715,7 @@ export class TestReportAnalyticsEffects {
             `${analyticsEventTypePrefix(
               GoogleAnalyticsEvents.ADD_FAULT,
               tests
-            )}_${fullAnalyticCompetencyLabels['showMeQuestion']}`,
+            )}_${fullAnalyticCompetencyLabels.showMeQuestion}`,
             GoogleAnalyticsEventsTitles.SEVERITY,
             ValidFaultTypes.DANGEROUS
           );
@@ -883,7 +883,7 @@ export class TestReportAnalyticsEffects {
             `${analyticsEventTypePrefix(
               GoogleAnalyticsEvents.REMOVE_FAULT,
               tests
-            )}_${fullAnalyticCompetencyLabels['outcomeControlledStop']}`,
+            )}_${fullAnalyticCompetencyLabels.outcomeControlledStop}`,
             GoogleAnalyticsEventsTitles.SEVERITY,
             CompetencyOutcomeGA4Event(action.faultLevel)
           );
@@ -915,7 +915,7 @@ export class TestReportAnalyticsEffects {
             `${analyticsEventTypePrefix(
               GoogleAnalyticsEvents.ADD_FAULT,
               tests
-            )}_${fullAnalyticCompetencyLabels['outcomeHighwayCodeSafety']}`
+            )}_${fullAnalyticCompetencyLabels.outcomeHighwayCodeSafety}`
           );
           return of(AnalyticRecorded());
         }
@@ -1610,7 +1610,7 @@ export class TestReportAnalyticsEffects {
           this.analytics.logGAEvent(
             analyticsEventTypePrefix(GoogleAnalyticsEvents.AVOIDANCE_MANOEUVRE, tests),
             GoogleAnalyticsEventsTitles.FIRST_ATTEMPT,
-            `${competencyLabels['speedCheckAvoidance']} - ${attemptValue}`
+            `${competencyLabels.speedCheckAvoidance} - ${attemptValue}`
           );
           return of(AnalyticRecorded());
         }
@@ -1651,7 +1651,7 @@ export class TestReportAnalyticsEffects {
           this.analytics.logGAEvent(
             analyticsEventTypePrefix(GoogleAnalyticsEvents.AVOIDANCE_MANOEUVRE, tests),
             GoogleAnalyticsEventsTitles.SECOND_ATTEMPT,
-            `${competencyLabels['speedCheckAvoidance']} - ${attemptValue}`
+            `${competencyLabels.speedCheckAvoidance} - ${attemptValue}`
           );
           return of(AnalyticRecorded());
         }
@@ -1719,7 +1719,7 @@ export class TestReportAnalyticsEffects {
           this.analytics.logGAEvent(
             analyticsEventTypePrefix(GoogleAnalyticsEvents.EMERGENCY_STOP, tests),
             GoogleAnalyticsEventsTitles.FIRST_ATTEMPT,
-            `${competencyLabels['speedCheckEmergency']} - ${attemptValue}`
+            `${competencyLabels.speedCheckEmergency} - ${attemptValue}`
           );
           return of(AnalyticRecorded());
         }
@@ -1760,7 +1760,7 @@ export class TestReportAnalyticsEffects {
           this.analytics.logGAEvent(
             analyticsEventTypePrefix(GoogleAnalyticsEvents.EMERGENCY_STOP, tests),
             GoogleAnalyticsEventsTitles.SECOND_ATTEMPT,
-            `${competencyLabels['speedCheckEmergency']} - ${attemptValue}`
+            `${competencyLabels.speedCheckEmergency} - ${attemptValue}`
           );
           return of(AnalyticRecorded());
         }
