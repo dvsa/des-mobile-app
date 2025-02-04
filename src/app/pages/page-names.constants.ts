@@ -12,6 +12,7 @@ export const ERROR_PAGE = 'ErrorPage';
 export const DASHBOARD_PAGE = 'DashboardPage';
 export const EXAMINER_RECORDS = 'ExaminerRecordsPage';
 export const UNUPLOADED_TESTS_PAGE = 'UnuploadedTestsPage';
+export const USEFUL_LINKS_PAGE = 'UsefulLinksPage';
 export const REKEY_SEARCH_PAGE = 'RekeySearchPage';
 export const TEST_RESULTS_SEARCH_PAGE = 'TestResultsSearchPage';
 export const LEGAL_REQUIREMENTS_MODAL = 'LegalRequirementsModal';
