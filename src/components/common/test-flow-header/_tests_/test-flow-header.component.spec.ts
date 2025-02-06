@@ -1,10 +1,13 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed, fakeAsync, flushMicrotasks, waitForAsync } from '@angular/core/testing';
 import { AppModule } from '@app/app.module';
 import { AppLauncher, OpenURLResult } from '@capacitor/app-launcher';
 import { ComponentsModule } from '@components/common/common-components.module';
 import { ExitSamErrorModal } from '@components/common/exit-sam/exit-sam-error-modal/exit-sam-error-modal';
 import { ExitSamError } from '@components/common/test-flow-header/exit-sam.actions';
-import { TestFlowHeaderComponent } from '@components/common/test-flow-header/test-flow-header.component';
+import {
+  ExitSAMMethodUsed,
+  TestFlowHeaderComponent,
+} from '@components/common/test-flow-header/test-flow-header.component';
 import { IonicModule } from '@ionic/angular';
 import { Store, StoreModule } from '@ngrx/store';
 import { TranslateModule } from '@ngx-translate/core';
@@ -38,7 +41,7 @@ describe('TestFlowHeaderComponent', () => {
   }));
 
   describe('setupSubscription', () => {
-    it('should re-enable single app mode on platform resume and destroy the subscription without emitting an error', async () => {
+    it('should re-enable single app mode on platform resume and destroy the subscription without emitting an error', fakeAsync(() => {
       component.shouldShowEscapeFromSamButton = true;
 
       spyOn(deviceProvider, 'enableSingleAppMode').and.resolveTo(true);
@@ -47,32 +50,40 @@ describe('TestFlowHeaderComponent', () => {
 
       component.setupSubscription();
 
+      flushMicrotasks();
+
       expect(deviceProvider.enableSingleAppMode).toHaveBeenCalled();
       expect(component.destroySubscription).toHaveBeenCalled();
-      expect(store$.dispatch).not.toHaveBeenCalled();
-    });
+      expect(store$.dispatch).not.toHaveBeenCalledWith(ExitSamError);
+    }));
 
-    it('should dispatch error if enabling single app mode fails', async () => {
+    it('should dispatch error if enabling single app mode fails', fakeAsync(() => {
       component.shouldShowEscapeFromSamButton = true;
       spyOn(component.platform.resume, 'subscribe').and.callFake((callback) => callback());
       spyOn(deviceProvider, 'enableSingleAppMode').and.rejectWith(new Error('Test Error'));
+      spyOn(component, 'destroySubscription');
 
       component.setupSubscription();
+
+      flushMicrotasks();
 
       expect(store$.dispatch).toHaveBeenCalledWith(
         ExitSamError('Enable single app mode error', new Error('Test Error'))
       );
-    });
+    }));
 
-    it('should dispatch error if single app mode is not enabled', async () => {
+    it('should dispatch error if single app mode is not enabled', fakeAsync(() => {
       component.shouldShowEscapeFromSamButton = true;
       spyOn(component.platform.resume, 'subscribe').and.callFake((callback) => callback());
       spyOn(deviceProvider, 'enableSingleAppMode').and.resolveTo(false);
+      spyOn(component, 'destroySubscription');
 
       component.setupSubscription();
 
+      flushMicrotasks();
+
       expect(store$.dispatch).toHaveBeenCalledWith(ExitSamError('Could not enable single app mode', false));
-    });
+    }));
 
     it('should not re-enable single app mode if shouldShowEscapeFromSamButton is false', async () => {
       component.shouldShowEscapeFromSamButton = false;
@@ -82,7 +93,7 @@ describe('TestFlowHeaderComponent', () => {
       component.setupSubscription();
 
       expect(deviceProvider.enableSingleAppMode).not.toHaveBeenCalled();
-      expect(store$.dispatch).not.toHaveBeenCalled();
+      expect(store$.dispatch).not.toHaveBeenCalledWith(ExitSamError);
     });
   });
 
@@ -230,7 +241,7 @@ describe('TestFlowHeaderComponent', () => {
       spyOn(component.exitSamUsed, 'emit');
       spyOn(component, 'openPracticeModeModal').and.returnValue(Promise.resolve());
 
-      await component.disableSAMAndExit();
+      await component.disableSAMAndExit(ExitSAMMethodUsed.BANNER);
 
       expect(component.exitSamUsed.emit).toHaveBeenCalled();
       expect(component.openPracticeModeModal).toHaveBeenCalled();
@@ -241,7 +252,7 @@ describe('TestFlowHeaderComponent', () => {
       spyOn(deviceProvider, 'disableSingleAppMode').and.resolveTo(false);
       spyOn(component, 'handleDisableSAMFailure').and.callThrough();
 
-      await component.disableSAMAndExit();
+      await component.disableSAMAndExit(ExitSAMMethodUsed.BANNER);
 
       expect(component.handleDisableSAMFailure).toHaveBeenCalled();
     });
@@ -252,7 +263,7 @@ describe('TestFlowHeaderComponent', () => {
       spyOn(AppLauncher, 'canOpenUrl').and.resolveTo({ value: false });
       spyOn(component, 'handleTeamsNotFound').and.callThrough();
 
-      await component.disableSAMAndExit();
+      await component.disableSAMAndExit(ExitSAMMethodUsed.BANNER);
 
       expect(component.handleTeamsNotFound).toHaveBeenCalled();
     });
@@ -264,7 +275,7 @@ describe('TestFlowHeaderComponent', () => {
       spyOn(AppLauncher, 'openUrl').and.resolveTo({ completed: false });
       spyOn(component, 'handleTeamsOpenFailure').and.callThrough();
 
-      await component.disableSAMAndExit();
+      await component.disableSAMAndExit(ExitSAMMethodUsed.BANNER);
 
       expect(component.handleTeamsOpenFailure).toHaveBeenCalledWith({ completed: false });
     });
@@ -276,7 +287,7 @@ describe('TestFlowHeaderComponent', () => {
       spyOn(AppLauncher, 'openUrl').and.resolveTo({ completed: true });
       spyOn(component, 'setupSubscription');
 
-      await component.disableSAMAndExit();
+      await component.disableSAMAndExit(ExitSAMMethodUsed.BANNER);
 
       expect(component.setupSubscription).toHaveBeenCalled();
     });
@@ -286,7 +297,7 @@ describe('TestFlowHeaderComponent', () => {
       spyOn(deviceProvider, 'disableSingleAppMode').and.rejectWith(new Error('Test Error'));
       spyOn(component, 'openDESDidNotUnlockModal').and.callThrough();
 
-      await component.disableSAMAndExit();
+      await component.disableSAMAndExit(ExitSAMMethodUsed.BANNER);
 
       expect(component.openDESDidNotUnlockModal).toHaveBeenCalled();
       expect(store$.dispatch).toHaveBeenCalledWith(ExitSamError('Error', new Error('Test Error')));

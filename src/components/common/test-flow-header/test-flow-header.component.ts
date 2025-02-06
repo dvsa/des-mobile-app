@@ -78,22 +78,17 @@ export class TestFlowHeaderComponent {
   setupSubscription() {
     this.resumeSubscription = this.platform.resume.subscribe(async () => {
       this.store$.dispatch(ExitSAMUserReturned());
-      console.log('Platform resumed', this.shouldShowEscapeFromSamButton);
       if (this.shouldShowEscapeFromSamButton) {
-        console.log('enabling single app mode');
         try {
           // Re-enable single app mode to lock the user back in when they come back
-          await this.deviceProvider.enableSingleAppMode().then((didEnable) => {
-            console.log('Single app mode enabled', didEnable);
-            if (!didEnable) {
-              console.log('Could not enable single app mode log');
-              this.store$.dispatch(ExitSamError('Could not enable single app mode', didEnable));
-            }
-          });
+          const didEnable = await this.deviceProvider.enableSingleAppMode();
+
+          if (!didEnable) {
+            this.store$.dispatch(ExitSamError('Could not enable single app mode', didEnable));
+          }
         } catch (e) {
           this.store$.dispatch(ExitSamError('Enable single app mode error', e));
         }
-        console.log('time to destroy subscription');
         // Destroy the subscription to prevent memory leaks
         this.destroySubscription();
       }
@@ -104,7 +99,6 @@ export class TestFlowHeaderComponent {
    * Destroys the subscription to the platform resume event.
    */
   destroySubscription() {
-    console.log('has subscription', this.resumeSubscription);
     if (this.resumeSubscription) {
       this.resumeSubscription.unsubscribe();
       this.resumeSubscription = null;
