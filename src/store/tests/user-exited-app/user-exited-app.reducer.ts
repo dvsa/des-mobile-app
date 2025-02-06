@@ -18,7 +18,7 @@ export const userExitedAppReducer = createReducer(
   })),
   on(userExitedAppActions.SetReasonForExitingApp, (state: UserExitedApp, { reason }) => ({
     ...state,
-    reason,
+    exitReason: reason,
   }))
 );
 
