@@ -38,6 +38,6 @@
         Reason for leaving DES during the test required
       </div>
     </ion-row>
-    <ion-row class="spacing-row"></ion-row>
+    <ion-row *ngIf="invalid" class="spacing-row"></ion-row>
   </ion-col>
 </ion-row>
