@@ -4,6 +4,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 
 import { ComponentsModule } from '@components/common/common-components.module';
+import { TestFlowHeaderComponent } from '@components/common/test-flow-header/test-flow-header.component';
 import { EffectsModule } from '@ngrx/effects';
 import { WaitingRoomToCarCatDComponentsModule } from '@pages/waiting-room-to-car/cat-d/components/waiting-room-to-car.cat-d.components.module';
 import { WaitingRoomToCarComponentsModule } from '@pages/waiting-room-to-car/components/waiting-room-to-car.components.module';
@@ -23,6 +24,7 @@ import { WaitingRoomToCarCatDPage } from './waiting-room-to-car.cat-d.page';
     ReactiveFormsModule,
     WaitingRoomToCarComponentsModule,
     EffectsModule.forFeature([WaitingRoomToCarAnalyticsEffects]),
+    TestFlowHeaderComponent,
   ],
 })
 export class WaitingRoomToCarCatDPageModule {}

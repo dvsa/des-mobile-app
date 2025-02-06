@@ -7,6 +7,7 @@ import { ComponentsModule } from '@components/common/common-components.module';
 import { TestFinalisationComponentsModule } from '@components/test-finalisation/test-finalisation-components.module';
 import { EffectsModule } from '@ngrx/effects';
 import { OfficeComponentsModule } from '@pages/office/components/office.components.module';
+import { ReasonForEnteringTeamsComponent } from '@pages/office/components/reason-for-entering-teams/reason-for-entering-teams';
 import { OfficeAnalyticsEffects } from '@pages/office/office.analytics.effects';
 import { OfficeEffects } from '@pages/office/office.effects';
 import { PassFinalisationComponentsModule } from '@pages/pass-finalisation/components/pass-finalisation-components.module';
@@ -28,6 +29,7 @@ import { OfficeCatDPage } from './office.cat-d.page';
     PassFinalisationComponentsModule,
     TestFinalisationComponentsModule,
     WaitingRoomToCarComponentsModule,
+    ReasonForEnteringTeamsComponent,
   ],
   providers: [FaultSummaryProvider],
 })

@@ -1,4 +1,6 @@
 .end-test-link-button {
+  display: flex;
+  align-items: center;
   background: transparent;
   &.activated {
     background: transparent;

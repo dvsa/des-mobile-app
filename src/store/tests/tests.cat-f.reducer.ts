@@ -4,6 +4,7 @@ import { changeMarkerReducer } from '@store/tests/change-marker/change-marker.re
 import { preTestDeclarationsReducer } from '@store/tests/pre-test-declarations/pre-test-declarations.reducer';
 import { testDataCatFReducer } from '@store/tests/test-data/cat-home/test-data.cat-f.reducer';
 import { testSummaryReducer } from '@store/tests/test-summary/test-summary.reducer';
+import { userExitedAppReducer } from '@store/tests/user-exited-app/user-exited-app.reducer';
 import { vehicleDetailsReducer } from '@store/tests/vehicle-details/vehicle-details.reducer';
 import { accompanimentReducer } from './accompaniment/accompaniment.reducer';
 import { activityCodeReducer } from './activity-code/activity-code.reducer';
@@ -48,5 +49,6 @@ export function testsCatFReducer(
     examinerConducted: examinerConductedReducer,
     examinerKeyed: examinerKeyedReducer,
     changeMarker: changeMarkerReducer,
+    userExitedApp: userExitedAppReducer,
   })(state as Required<CatFUniqueTypes.TestResult>, action);
 }

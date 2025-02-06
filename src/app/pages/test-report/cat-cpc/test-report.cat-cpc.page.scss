@@ -139,7 +139,7 @@ $toolbar-height: 56px;
     color: white;
   }
 
-  #end-test-button {
+  .end-test-button {
     --color: var(--gds-grey-5);
     --background: transparent;
     &.activated {

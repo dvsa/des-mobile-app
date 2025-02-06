@@ -8,6 +8,7 @@ import { ComponentsModule } from '@components/common/common-components.module';
 import { OfficeCatADIPart3PageRoutingModule } from '@pages/office/cat-adi-part3/office.cat-adi-part3-routing.module';
 import { OfficeCatADI3Page } from '@pages/office/cat-adi-part3/office.cat-adi-part3.page';
 import { OfficeComponentsModule } from '@pages/office/components/office.components.module';
+import { ReasonForEnteringTeamsComponent } from '@pages/office/components/reason-for-entering-teams/reason-for-entering-teams';
 import { OfficeAnalyticsEffects } from '@pages/office/office.analytics.effects';
 import { OfficeEffects } from '@pages/office/office.effects';
 import { WaitingRoomToCarComponentsModule } from '@pages/waiting-room-to-car/components/waiting-room-to-car.components.module';
@@ -25,6 +26,7 @@ import { FaultSummaryProvider } from '@providers/fault-summary/fault-summary';
     ReactiveFormsModule,
     EffectsModule.forFeature([OfficeAnalyticsEffects, OfficeEffects]),
     WaitingRoomToCarComponentsModule,
+    ReasonForEnteringTeamsComponent,
   ],
   providers: [FaultSummaryProvider],
 })

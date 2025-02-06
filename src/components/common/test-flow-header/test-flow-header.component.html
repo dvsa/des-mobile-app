@@ -1,0 +1,69 @@
+<ion-row *ngIf="isExitSAMActivated">
+  <exit-sam-banner
+    [pageTitle]="pageName"
+    class="width-100"
+    [showSpacingBanner]="!isPracticeMode"
+    (samEscaped)="disableSAMAndExit($event)"
+    (escapeSamBannerClicked)="changeExitSAMValue(false)"
+    (cancelClicked)="cancelButtonClicked()">
+  </exit-sam-banner>
+</ion-row>
+<ion-row class="set-header-height">
+  <ion-col class="display-flex ion-no-padding ion-justify-content-start" size="21">
+    <ion-col class="display-flex ion-align-items-center">
+      <ion-buttons>
+        <ion-back-button *ngIf="shouldShowBackButton" defaultHref="{{defaultBackButtonHref}}"
+                         [id]="pageName+'-back-button'"></ion-back-button>
+      </ion-buttons>
+    </ion-col>
+    <ion-col *ngIf="shouldShowCloseButton">
+      <ion-buttons>
+        <ion-button id="close-button" (click)="onCloseClicked()">
+          <ion-icon class="close-btn" [id]="pageName+'-close-icon'" name="close-outline"></ion-icon>
+          <ion-label class="close-btn" [id]="pageName+'-close-label'">Close</ion-label>
+        </ion-button>
+      </ion-buttons>
+    </ion-col>
+    <ion-col class="display-flex ion-no-padding" *ngIf="shouldShowEscapeFromSamButton">
+      <ion-buttons>
+        <exit-sam-button
+          class="height-100"
+          [pageTitle]="pageName"
+          [isButtonActive]="isExitSAMActivated"
+          (samEscaped)="disableSAMAndExit($event)"
+          (escapeSamButtonClicked)="changeExitSAMValue($event)">
+        </exit-sam-button>
+      </ion-buttons>
+    </ion-col>
+  </ion-col>
+  <ion-col class="ion-no-padding">
+    <ion-title
+      addOrRemoveLangCy
+      [shouldListenToLanguageChanges]="shouldIncludeLanguageDirectiveOnTitle"
+      role="heading"
+      aria-level="1"
+      [id]="pageName+'-title'">
+      <ng-content></ng-content>
+    </ion-title>
+  </ion-col>
+  <ion-col class="display-flex ion-no-padding ion-justify-content-end" size="21">
+    <ion-buttons>
+      <end-test-link
+        *ngIf="shouldShowEndTestLink"
+        [id]="pageName+'-end-test-button-link'"
+        (endTestLinkClicked)="onEndTestClicked()"
+        [category]="testCategory"
+        [isDelegated]="isDelegatedRekey"
+        [pageTitle]="pageName"
+        [isPracticeMode]="isPracticeMode"
+        [shouldAuthenticate]="shouldAuthenticateOnTestEnd">
+      </end-test-link>
+      <ion-button
+        *ngIf="shouldShowGenericEndTest" (click)="onEndTestClicked()"
+        class="end-test-font-size end-test-button"
+        [id]="pageName+'end-test-button'">
+        End test
+      </ion-button>
+    </ion-buttons>
+  </ion-col>
+</ion-row>

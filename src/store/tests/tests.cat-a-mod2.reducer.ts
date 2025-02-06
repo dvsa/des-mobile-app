@@ -3,6 +3,7 @@ import { Action, combineReducers } from '@ngrx/store';
 import { changeMarkerReducer } from '@store/tests/change-marker/change-marker.reducer';
 
 import { appVersionReducer } from '@store/tests/app-version/app-version.reducer';
+import { userExitedAppReducer } from '@store/tests/user-exited-app/user-exited-app.reducer';
 import { accompanimentReducer } from './accompaniment/accompaniment.reducer';
 import { activityCodeReducer } from './activity-code/activity-code.reducer';
 import { categoryReducer } from './category/category.reducer';
@@ -44,5 +45,6 @@ export function testsCatAMod2Reducer(action: Action, state: TestResultCatAM2Sche
     testSummary: testSummaryMod2Reducer,
     version: schemaVersionReducer,
     vehicleDetails: vehicleDetailsCatAMod2Reducer,
+    userExitedApp: userExitedAppReducer,
   })(state as Required<TestResultCatAM2Schema>, action);
 }

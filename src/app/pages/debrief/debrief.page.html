@@ -1,12 +1,20 @@
 <ion-header>
   <practice-mode-banner *ngIf="isEndToEndPracticeMode || isPracticeMode"></practice-mode-banner>
-  <ion-toolbar mode="ios" [ngClass]="{'toolbar-no-padding': isEndToEndPracticeMode}">
-    <ion-buttons id="back-button" slot="start">
-      <ion-back-button></ion-back-button>
-    </ion-buttons>
-    <ion-title addOrRemoveLangCy role="heading" aria-level="1" id="debrief-page-title"
-      >{{ 'debrief.title' | translate }} - {{pageState.candidateName$ | async}}</ion-title
-    >
+  <ion-toolbar class="no-internal-padding"
+               [ngClass]="{'toolbar-no-padding': isEndToEndPracticeMode || isExitSAMActivated}" mode="ios">
+    <test-flow-header
+      class="display-flex flex-direction-column"
+      [testCategory]="pageState.category$ | async"
+      [shouldIncludeLanguageDirectiveOnTitle]="true"
+      [pageName]="'debrief-page'"
+      [shouldShowEscapeFromSamButton]="!isDelegatedTest && !isRekey"
+      [isPracticeMode]="isEndToEndPracticeMode"
+      [isExitSAMActivated]="isExitSAMActivated"
+      [shouldShowEndTestLink]="false"
+      (exitSamUsed)="onUsedExitSam()"
+      (onExitSAMActivatedChanged)="isSamActivatedChanged($event)">
+      {{ 'debrief.title' | translate }} - {{pageState.candidateName$ | async}}
+    </test-flow-header>
   </ion-toolbar>
 </ion-header>
 

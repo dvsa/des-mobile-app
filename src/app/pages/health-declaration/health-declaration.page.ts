@@ -83,7 +83,7 @@ export class HealthDeclarationPage
 
   constructor(
     public deviceAuthenticationProvider: DeviceAuthenticationProvider,
-    private translate: TranslateService,
+    public translate: TranslateService,
     public modalController: ModalController,
     injector: Injector
   ) {
@@ -193,7 +193,9 @@ export class HealthDeclarationPage
   }
 
   async onSubmit(): Promise<void> {
-    Object.keys(this.formGroup.controls).forEach((controlName) => this.formGroup.controls[controlName].markAsDirty());
+    Object.keys(this.formGroup.controls).forEach((controlName) => {
+      this.formGroup.controls[controlName].markAsDirty();
+    });
 
     if (this.formGroup.valid) {
       if (!this.healthDeclarationAccepted && this.showHealthDec) {

@@ -22,7 +22,7 @@ describe('LogoutModal', () => {
 
   describe('onCancel', () => {
     it('should dismiss the modal with CANCEL event', async () => {
-      spyOn(component.modalController, 'dismiss').and.resolveTo(true);
+      spyOn(modalController, 'dismiss').and.resolveTo(true);
       await component.onCancel();
       expect(modalController.dismiss).toHaveBeenCalledWith({ event: LogoutModalEvent.CANCEL });
     });

@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { PracticeModeBanner } from '@components/common/practice-mode-banner/practice-mode-banner';
+import { TestFlowHeaderComponent } from '@components/common/test-flow-header/test-flow-header.component';
 import { IonicModule, ModalController } from '@ionic/angular';
 import { ModalControllerMock } from '@mocks/ionic-mocks/modal-controller.mock';
 import { Store, StoreModule } from '@ngrx/store';
@@ -25,7 +26,7 @@ describe('BackToOfficePage', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [BackToOfficePage, MockComponent(PracticeModeBanner)],
-      imports: [IonicModule, AppModule, StoreModule.forRoot({})],
+      imports: [IonicModule, AppModule, StoreModule.forRoot({}), MockComponent(TestFlowHeaderComponent)],
       providers: [
         {
           provide: RouteByCategoryProvider,

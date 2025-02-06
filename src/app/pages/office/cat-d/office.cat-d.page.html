@@ -200,6 +200,14 @@
             >
             </additional-information>
 
+            <reason-for-entering-teams
+              *ngIf="pageState.hasEnteredTeamsOnThisTest$ | async"
+              [display]="pageState.hasEnteredTeamsOnThisTest$ | async"
+              [reasonForOpeningTeams]="pageState.reasonForEnteringTeams$ | async"
+              [formGroup]="form"
+              (reasonForOpeningTeamsChange)="reasonForEnteringTeamsChanged($event)"
+            ></reason-for-entering-teams>
+
             <alternate-mot-evidence-provided
               *ngIf="(pageState.motAlternativeEvidenceProvided | async) != null"
               [alternativeEvidenceProvided]="pageState.motAlternativeEvidenceProvided | async"

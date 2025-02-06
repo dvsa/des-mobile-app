@@ -1,12 +1,18 @@
 <ion-header>
   <practice-mode-banner *ngIf="isEndToEndPracticeMode"></practice-mode-banner>
-  <ion-toolbar mode="ios" [ngClass]="{'toolbar-no-padding': isEndToEndPracticeMode}">
-    <ion-title id="confirm-test-details-title" role="heading" aria-level="1">
-      Confirm test details - {{pageState.candidateUntitledName$ | async}}
-    </ion-title>
-    <ion-buttons id="confirm-test-details-back-button" slot="start" (click)="backButtonClick()">
-      <ion-back-button></ion-back-button>
-    </ion-buttons>
+  <ion-toolbar class="no-internal-padding"
+               [ngClass]="{'toolbar-no-padding': isEndToEndPracticeMode || isExitSAMActivated}" mode="ios">
+    <test-flow-header
+      class="display-flex flex-direction-column"
+      [pageName]="'confirm-test-details'"
+      [shouldShowEscapeFromSamButton]="!isRekey && !isDelegatedTest"
+      [isPracticeMode]="isEndToEndPracticeMode"
+      [isExitSAMActivated]="isExitSAMActivated"
+      (exitSamUsed)="onUsedExitSam()"
+      [shouldShowEndTestLink]="false"
+      (onExitSAMActivatedChanged)="isSamActivatedChanged($event)">
+      Confirm test details - {{ pageState.candidateUntitledName$ | async }}
+    </test-flow-header>
   </ion-toolbar>
 </ion-header>
 
@@ -102,7 +108,8 @@
             [label]="'Lesson theme'"
             [shouldHaveSeperator]="true"
           >
-              <span class="mes-data" [id]="'lesson-theme-'+lesson+'-'+i" *ngFor="let lesson of (pageState.lessonTheme$ | async); let i = index">{{lesson}}<br></span>
+              <span class="mes-data" [id]="'lesson-theme-'+lesson+'-'+i"
+                    *ngFor="let lesson of (pageState.lessonTheme$ | async); let i = index">{{lesson}}<br></span>
           </data-row-custom>
           <!-- Lesson planning -->
           <data-row

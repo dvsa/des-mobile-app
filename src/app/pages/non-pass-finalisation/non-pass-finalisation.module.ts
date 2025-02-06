@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ComponentsModule } from '@components/common/common-components.module';
+import { TestFlowHeaderComponent } from '@components/common/test-flow-header/test-flow-header.component';
 import { TestFinalisationComponentsModule } from '@components/test-finalisation/test-finalisation-components.module';
 import { IonicModule } from '@ionic/angular';
 import { EffectsModule } from '@ngrx/effects';
@@ -25,6 +26,7 @@ import { NonPassFinalisationPage } from './non-pass-finalisation.page';
     TestFinalisationComponentsModule,
     ReactiveFormsModule,
     PassFinalisationCatADI3ComponentsModule,
+    TestFlowHeaderComponent,
   ],
   providers: [OutcomeBehaviourMapProvider, ActivityCodeFinalisationProvider, TestResultProvider],
   declarations: [NonPassFinalisationPage],

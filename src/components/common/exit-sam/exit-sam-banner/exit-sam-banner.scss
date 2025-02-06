@@ -1,0 +1,56 @@
+.exit-banner-base {
+  border-radius: 0;
+  padding-bottom: 0;
+  padding-top: 0;
+  width: 100%;
+  left: 0;
+}
+
+.static-font-size {
+  font-size: 16px !important;
+}
+
+.cancel-button {
+  //margin-bottom: 4px;
+  //margin-top: 0;
+  position: relative;
+  min-height: 24px;
+  --background: var(--mes-white);
+  --background-activated: var(--gds-grey-1);
+  border-radius: 100px;
+}
+
+.exit-banner-text {
+  @extend .exit-banner-base;
+  display: flex;
+  align-items: center;
+  text-align: center;
+  font-size: 18px;
+  font-weight: bold;
+  color: var(--mes-white);
+  line-height: 24px !important;
+}
+
+.status-bar-spacing {
+  height: 15px;
+}
+
+.banner-details-spacing {
+  height: 32px;
+}
+
+.exit-banner-text-column {
+  display: flex;
+  align-items: center;
+}
+
+.exit-banner-toolbar-sizing {
+  --background: var(--escape-SAM-Purple);
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+.exit-icon {
+  margin-top: 2px;
+  align-items: center;
+}

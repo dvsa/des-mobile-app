@@ -6,6 +6,7 @@ import { IonicModule } from '@ionic/angular';
 import { EffectsModule } from '@ngrx/effects';
 import { OfficeCatBPageRoutingModule } from '@pages/office/cat-b/office.cat-b-routing.module';
 import { OfficeComponentsModule } from '@pages/office/components/office.components.module';
+import { ReasonForEnteringTeamsComponent } from '@pages/office/components/reason-for-entering-teams/reason-for-entering-teams';
 import { WaitingRoomToCarComponentsModule } from '@pages/waiting-room-to-car/components/waiting-room-to-car.components.module';
 import { FaultSummaryProvider } from '@providers/fault-summary/fault-summary';
 import { OfficeAnalyticsEffects } from '../office.analytics.effects';
@@ -23,6 +24,7 @@ import { OfficeCatBPage } from './office.cat-b.page';
     ReactiveFormsModule,
     CommonModule,
     WaitingRoomToCarComponentsModule,
+    ReasonForEnteringTeamsComponent,
   ],
   providers: [FaultSummaryProvider],
 })

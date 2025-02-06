@@ -1,7 +1,19 @@
 <ion-header>
   <practice-mode-banner *ngIf="isEndToEndPracticeMode"></practice-mode-banner>
-  <ion-toolbar [ngClass]="{'toolbar-no-padding': isEndToEndPracticeMode}" mode="ios">
-    <ion-title id="post-debrief-title" role="heading" aria-level="1">Post debrief screen</ion-title>
+  <ion-toolbar class="no-internal-padding"
+               [ngClass]="{'toolbar-no-padding': isEndToEndPracticeMode || isExitSAMActivated}" mode="ios">
+    <test-flow-header
+      class="display-flex flex-direction-column"
+      [pageName]="'post-debrief'"
+      [shouldShowEscapeFromSamButton]="!isRekey && !isDelegatedTest"
+      [shouldShowBackButton]="false"
+      [isPracticeMode]="isEndToEndPracticeMode"
+      [isExitSAMActivated]="isExitSAMActivated"
+      [shouldShowEndTestLink]="false"
+      (exitSamUsed)="onUsedExitSam()"
+      (onExitSAMActivatedChanged)="isSamActivatedChanged($event)">
+      Post debrief screen
+    </test-flow-header>
   </ion-toolbar>
 </ion-header>
 

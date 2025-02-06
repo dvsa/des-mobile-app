@@ -5,6 +5,7 @@ import { journalDataCatDReducer } from '@store/tests/journal-data/cat-d/journal-
 import { passCompletionCatDReducer } from '@store/tests/pass-completion/cat-d/pass-completion.cat-d.reducer';
 import { preTestDeclarationsCatDReducer } from '@store/tests/pre-test-declarations/cat-d/pre-test-declarations.cat-d.reducer';
 import { testSummaryReducer } from '@store/tests/test-summary/test-summary.reducer';
+import { userExitedAppReducer } from '@store/tests/user-exited-app/user-exited-app.reducer';
 import { vehicleDetailsCatDReducer } from '@store/tests/vehicle-details/cat-d/vehicle-details.cat-d.reducer';
 import { accompanimentReducer } from './accompaniment/accompaniment.reducer';
 import { activityCodeReducer } from './activity-code/activity-code.reducer';
@@ -48,5 +49,6 @@ export function testsCatDReducer(
     examinerConducted: examinerConductedReducer,
     examinerKeyed: examinerKeyedReducer,
     changeMarker: changeMarkerReducer,
+    userExitedApp: userExitedAppReducer,
   })(state as Required<CatDUniqueTypes.TestResult>, action);
 }

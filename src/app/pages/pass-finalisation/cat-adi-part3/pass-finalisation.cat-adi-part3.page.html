@@ -1,10 +1,18 @@
 <ion-header>
   <practice-mode-banner *ngIf="isEndToEndPracticeMode"></practice-mode-banner>
-  <ion-toolbar [ngClass]="{'toolbar-no-padding': isEndToEndPracticeMode}" mode="ios">
-    <ion-title id="pass-finalisation-title">Finalise outcome - {{pageState.candidateUntitledName$ | async}}</ion-title>
-    <ion-buttons id="back-button" slot="start">
-      <ion-back-button></ion-back-button>
-    </ion-buttons>
+  <ion-toolbar class="no-internal-padding"
+               [ngClass]="{'toolbar-no-padding': isEndToEndPracticeMode || isExitSAMActivated}" mode="ios">
+    <test-flow-header
+      class="display-flex flex-direction-column"
+      [pageName]="'pass-finalisation-cat-adi3'"
+      [shouldShowEscapeFromSamButton]="!isRekey && !isDelegatedTest"
+      [isPracticeMode]="isEndToEndPracticeMode"
+      [isExitSAMActivated]="isExitSAMActivated"
+      (exitSamUsed)="onUsedExitSam()"
+      [shouldShowEndTestLink]="false"
+      (onExitSAMActivatedChanged)="isSamActivatedChanged($event)">
+      Finalise outcome - {{pageState.candidateUntitledName$ | async}}
+    </test-flow-header>
   </ion-toolbar>
 </ion-header>
 

@@ -1,20 +1,21 @@
 <ion-header>
   <practice-mode-banner *ngIf="isEndToEndPracticeMode"></practice-mode-banner>
-  <ion-toolbar [ngClass]="{'toolbar-no-padding': isEndToEndPracticeMode}" mode="ios">
-    <ion-title>{{pageState.candidateName$ | async}}</ion-title>
-    <ion-buttons id="wrtc-back-button" slot="start">
-      <ion-back-button></ion-back-button>
-    </ion-buttons>
-    <ion-buttons slot="end">
-      <end-test-link
-        [category]="pageState.category$ | async"
-        [isDelegated]="isDelegated"
-        [isPracticeMode]="isPracticeMode"
-        [shouldAuthenticate]="false"
-        (endTestLinkClicked)="abortMOTCall(MOTAbortedMethod.END_TEST)"
-      >
-      </end-test-link>
-    </ion-buttons>
+  <ion-toolbar class="no-internal-padding"
+               [ngClass]="{'toolbar-no-padding': isEndToEndPracticeMode || isExitSAMActivated}" mode="ios">
+    <test-flow-header
+      class="display-flex flex-direction-column"
+      [testCategory]="pageState.category$ | async"
+      [isDelegatedRekey]="isDelegated"
+      [pageName]="'waiting-room-to-car-page-cat-cpc'"
+      [shouldShowEscapeFromSamButton]="!isRekey && !isDelegatedTest"
+      [isPracticeMode]="isEndToEndPracticeMode"
+      (exitSamUsed)="onUsedExitSam()"
+      [isExitSAMActivated]="isExitSAMActivated"
+      [shouldAuthenticateOnTestEnd]="false"
+      (onExitSAMActivatedChanged)="isSamActivatedChanged($event)"
+      (endTestButtonClicked)="abortMOTCall(MOTAbortedMethod.END_TEST)">
+      {{pageState.candidateName$ | async}}
+    </test-flow-header>
   </ion-toolbar>
 </ion-header>
 

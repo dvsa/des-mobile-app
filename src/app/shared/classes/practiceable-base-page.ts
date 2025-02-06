@@ -13,6 +13,7 @@ import {
   isPracticeMode,
   isTestReportPracticeTest,
 } from '@store/tests/tests.selector';
+import { SetHasExitedApp } from '@store/tests/user-exited-app/user-exited-app.actions';
 import { Observable, Subscription, merge } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { StoreModel } from '../models/store.model';
@@ -35,6 +36,8 @@ export abstract class PracticeableBasePageComponent extends BasePageComponent im
   public isEndToEndPracticeMode: boolean;
   public isRekey: boolean;
   public isDelegated: boolean;
+  public isExitSAMActivated = false;
+  public isDelegatedTest: boolean;
 
   private practiceableBasePageState: PracticeableBasePageState;
   private practiceableBasePageSubscription: Subscription;
@@ -78,6 +81,14 @@ export abstract class PracticeableBasePageComponent extends BasePageComponent im
     if (this.practiceableBasePageSubscription) {
       this.practiceableBasePageSubscription.unsubscribe();
     }
+  }
+
+  isSamActivatedChanged(isActive: boolean): void {
+    this.isExitSAMActivated = isActive;
+  }
+
+  onUsedExitSam(): void {
+    this.store$.dispatch(SetHasExitedApp());
   }
 
   exitPracticeMode = async () => {

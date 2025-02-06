@@ -1,5 +1,6 @@
 import { CatBUniqueTypes } from '@dvsa/mes-test-schema/categories/B';
 import { Action, combineReducers } from '@ngrx/store';
+import { userExitedAppReducer } from '@store/tests/user-exited-app/user-exited-app.reducer';
 import { accompanimentReducer } from './accompaniment/accompaniment.reducer';
 import { activityCodeReducer } from './activity-code/activity-code.reducer';
 import { appVersionReducer } from './app-version/app-version.reducer';
@@ -50,5 +51,6 @@ export function testsCatBReducer(
     examinerConducted: examinerConductedReducer,
     examinerKeyed: examinerKeyedReducer,
     changeMarker: changeMarkerReducer,
+    userExitedApp: userExitedAppReducer,
   })(state as Required<CatBUniqueTypes.TestResult>, action);
 }

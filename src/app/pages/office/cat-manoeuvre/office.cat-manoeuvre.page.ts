@@ -48,7 +48,6 @@ export class OfficeCatManoeuvrePage extends OfficeBasePageComponent implements O
   form: UntypedFormGroup;
   testOutcomeText: string;
   conductedLanguage: string;
-  isDelegated: boolean;
 
   constructor(
     private appConfig: AppConfigProvider,
