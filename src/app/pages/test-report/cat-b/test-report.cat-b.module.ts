@@ -4,6 +4,7 @@ import { StoreModule } from '@ngrx/store';
 
 import { CommonModule } from '@angular/common';
 import { ComponentsModule } from '@components/common/common-components.module';
+import { TestFlowHeaderComponent } from '@components/common/test-flow-header/test-flow-header.component';
 import { IonicModule } from '@ionic/angular';
 import { TestReportCatBPageRoutingModule } from '@pages/test-report/cat-b/test-report.cat-b-routing.module';
 import { TestReportValidatorProvider } from '@providers/test-report-validator/test-report-validator';
@@ -26,6 +27,7 @@ import { TestReportCatBPage } from './test-report.cat-b.page';
     CommonModule,
     IonicModule,
     TestReportCatBPageRoutingModule,
+    TestFlowHeaderComponent,
   ],
   providers: [TestReportValidatorProvider, TestResultProvider],
 })

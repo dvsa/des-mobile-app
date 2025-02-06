@@ -1,15 +1,20 @@
 <ion-header>
   <practice-mode-banner *ngIf="isEndToEndPracticeMode || isPracticeMode"></practice-mode-banner>
-  <ion-toolbar mode="ios" [ngClass]="{'toolbar-no-padding': isEndToEndPracticeMode || isPracticeMode }">
-    <ion-buttons slot="start">
-      <ion-back-button id="test-report-back-button"></ion-back-button>
-    </ion-buttons>
-    <ion-title id="test-report-page-title" role="heading" aria-level="1">
-      Test report - {{pageState.candidateUntitledName$ | async}}
-    </ion-title>
-    <ion-buttons slot="end">
-      <ion-button (click)="onEndTestClick()" id="end-test-button">End test</ion-button>
-    </ion-buttons>
+  <ion-toolbar class="no-internal-padding"
+               [ngClass]="{'toolbar-no-padding': isEndToEndPracticeMode || isExitSAMActivated}" mode="ios">
+    <test-flow-header
+      class="display-flex flex-direction-column"
+      [pageName]="'test-report-page-cat-manoeuvre'"
+      [shouldShowGenericEndTest]="true"
+      [shouldShowEndTestLink]="false"
+      [shouldShowEscapeFromSamButton]="!isRekey && !isDelegatedTest"
+      [isPracticeMode]="isEndToEndPracticeMode"
+      (exitSamUsed)="onUsedExitSam()"
+      [isExitSAMActivated]="isExitSAMActivated"
+      (endTestButtonClicked)="onEndTestClick()"
+      (onExitSAMActivatedChanged)="isSamActivatedChanged($event)">
+      {{'Test report - ' + (pageState.candidateUntitledName$ | async)}}
+    </test-flow-header>
   </ion-toolbar>
 </ion-header>
 

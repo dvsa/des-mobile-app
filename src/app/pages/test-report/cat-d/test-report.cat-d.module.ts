@@ -5,6 +5,7 @@ import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 
 import { ComponentsModule } from '@components/common/common-components.module';
+import { TestFlowHeaderComponent } from '@components/common/test-flow-header/test-flow-header.component';
 import { TestReportCatDComponentsModule } from '@pages/test-report/cat-d/components/test-report.cat-d.components.module';
 import { TestReportCatDPageRoutingModule } from '@pages/test-report/cat-d/test-report.cat-d-routing.module';
 import { ReverseDiagramModalComponentsModule } from '@pages/test-report/components/reverse-diagram-modal/reverse-diagram-modal.components.module';
@@ -28,6 +29,7 @@ import { TestReportCatDPage } from './test-report.cat-d.page';
     IonicModule,
     TestReportCatDPageRoutingModule,
     ReverseDiagramModalComponentsModule,
+    TestFlowHeaderComponent,
   ],
   providers: [TestReportValidatorProvider, TestResultProvider],
 })

@@ -1,12 +1,12 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { By } from '@angular/platform-browser';
 import { ModalController, Platform, ToastController } from '@ionic/angular';
 import { ModalControllerMock, PlatformMock } from '@mocks/index.mock';
 import { Store, StoreModule } from '@ngrx/store';
 import { MockComponent } from 'ng-mocks';
 
 import { AppModule } from '@app/app.module';
+import { TestFlowHeaderComponent } from '@components/common/test-flow-header/test-flow-header.component';
 import { ToastControllerMock } from '@mocks/ionic-mocks/toast-controller.mock';
 import { ReverseManoeuvreComponent } from '@pages/test-report/cat-manoeuvre/components/reverse-manoeuvre/reverse-manoeuvre';
 import { EtaComponent } from '@pages/test-report/components/examiner-takes-action/eta';
@@ -43,6 +43,7 @@ describe('TestReportCatManoeuvrePage', () => {
         MockComponent(UncoupleRecoupleComponent),
         MockComponent(ReverseManoeuvreComponent),
         MockComponent(EtaComponent),
+        MockComponent(TestFlowHeaderComponent),
       ],
       imports: [
         AppModule,
@@ -155,14 +156,6 @@ describe('TestReportCatManoeuvrePage', () => {
       spyOn(toastController, 'getTop').and.returnValue(Promise.resolve(null));
       await component.competencyClick();
       expect(toastController.create).toHaveBeenCalled();
-    });
-  });
-  describe('End Test Button', () => {
-    it('should call the end test function', () => {
-      spyOn(component, 'onEndTestClick');
-      const endTestButton = fixture.debugElement.query(By.css('#end-test-button'));
-      endTestButton.triggerEventHandler('click', null);
-      expect(component.onEndTestClick).toHaveBeenCalled();
     });
   });
   describe('ionViewWillEnter', () => {

@@ -45,7 +45,17 @@
 
       <data-row [label]="'Conducted language'" [value]="conductedLanguage"> </data-row>
 
-      <data-row [label]="'Additional information'" [shouldHaveSeperator]="false" [value]="additionalInformation">
+      <data-row
+        [label]="'Additional information'"
+        [shouldHaveSeperator]="shouldDisplayReasonForLeaving()"
+        [value]="additionalInformation">
+      </data-row>
+
+      <data-row
+        *ngIf="shouldDisplayReasonForLeaving()"
+        [label]="'Reason for leaving DES during the test'"
+        [shouldHaveSeperator]="false"
+        [value]="reasonForExitingApp">
       </data-row>
     </ion-grid>
   </ion-card-content>

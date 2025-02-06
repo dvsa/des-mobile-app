@@ -5,6 +5,7 @@ import { MockComponent } from 'ng-mocks';
 
 import { AppModule } from '@app/app.module';
 import { PracticeModeBanner } from '@components/common/practice-mode-banner/practice-mode-banner';
+import { TestFlowHeaderComponent } from '@components/common/test-flow-header/test-flow-header.component';
 import { TestResultCatADI3Schema } from '@dvsa/mes-test-schema/categories/ADI3';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { Action, Store, StoreModule } from '@ngrx/store';
@@ -50,6 +51,7 @@ describe('TestReportCatADI3Page', () => {
         MockComponent(StudentComponent),
         MockComponent(LessonThemeComponent),
         MockComponent(TestReportAssessmentCard),
+        MockComponent(TestFlowHeaderComponent),
       ],
       imports: [
         IonicModule,

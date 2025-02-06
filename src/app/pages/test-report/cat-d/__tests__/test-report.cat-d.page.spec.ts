@@ -6,6 +6,7 @@ import { MockComponent } from 'ng-mocks';
 import { By } from '@angular/platform-browser';
 import { AppModule } from '@app/app.module';
 import { PracticeModeBanner } from '@components/common/practice-mode-banner/practice-mode-banner';
+import { TestFlowHeaderComponent } from '@components/common/test-flow-header/test-flow-header.component';
 import { TickIndicatorComponent } from '@components/common/tick-indicator/tick-indicator';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { StoreModule } from '@ngrx/store';
@@ -54,6 +55,7 @@ describe('TestReportCatDPage', () => {
         MockComponent(MultiLegalRequirementComponent),
         MockComponent(SafetyQuestionsCatDComponent),
         MockComponent(UncoupleRecoupleComponent),
+        MockComponent(TestFlowHeaderComponent),
       ],
       imports: [
         IonicModule,
@@ -124,15 +126,6 @@ describe('TestReportCatDPage', () => {
         expect(fixture.debugElement.query(By.css('.serious-mode'))).toBeNull();
         expect(fixture.debugElement.query(By.css('.dangerous-mode'))).toBeDefined();
       });
-    });
-  });
-
-  describe('End Test Button', () => {
-    it('should call the end test function', () => {
-      spyOn(component, 'onEndTestClick');
-      const endTestButton = fixture.debugElement.query(By.css('#end-test-button'));
-      endTestButton.triggerEventHandler('click', null);
-      expect(component.onEndTestClick).toHaveBeenCalled();
     });
   });
 
