@@ -7,6 +7,7 @@ import { ExitSamButton } from '@components/common/exit-sam/exit-sam-button/exit-
 import { ExitSamErrorModal } from '@components/common/exit-sam/exit-sam-error-modal/exit-sam-error-modal';
 import {
   ExitSAMCancelButtonClicked,
+  ExitSAMErrorMessages,
   ExitSAMUserReturned,
   ExitSamActivated,
   ExitSamError,
