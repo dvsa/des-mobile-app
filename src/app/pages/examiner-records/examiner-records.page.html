@@ -12,7 +12,7 @@
     class="background-colour ion-padding-top ion-padding-bottom position-fixed width-100-percent"
     *ngIf="displayScrollBanner && ((pageState.locationList$ | async).length > 0)"
   >
-    <ion-text [innerHTML]="getLabelText()" class="records-label-padding mes-data"> </ion-text>
+    <ion-text [innerHTML]="getLabelText()" class="records-label-padding mes-data"></ion-text>
   </ion-row>
 </ion-header>
 
@@ -134,14 +134,26 @@
       <label [for]="'chart-toggle-input'"></label>
     </ion-col>
   </ion-row>
-  <ion-row *ngIf="((pageState.locationList$ | async).length > 0)" class="ion-padding-top ion-padding-bottom">
-    <ion-text
-      [style.color]="displayScrollBanner ? 'transparent' : 'black'"
-      [innerHTML]="getLabelText()"
-      class="records-label-padding mes-data"
-    >
-    </ion-text>
-  </ion-row>
+  <div>
+    <ion-row class="ion-padding">
+      <ion-col *ngIf="((pageState.locationList$ | async).length > 0)"
+               size="70"
+      >
+        <ion-text
+          [style.color]="displayScrollBanner ? 'transparent' : 'black'"
+          [innerHTML]="getLabelText()"
+          class="mes-data"
+        >
+        </ion-text>
+      </ion-col>
+      <ion-col size="26" class="ion-align-self-end">
+        <ion-button id="examiner-records-learn-more-btn"
+                    class="ion-float-end mes-grey-button"
+                    (click)="showLearnMoreModal()">Learn more
+        </ion-button>
+      </ion-col>
+    </ion-row>
+  </div>
 
   <div *ngIf="data.categoryList?.length > 0 && data.locationList?.length > 0">
     <ion-row class="ion-justify-content-center display-flex">

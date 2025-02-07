@@ -27,7 +27,7 @@ export const examinerRecordsReducer = createReducer(
   })),
   on(CacheExaminerRecords, (state: ExaminerRecordStateModel, { tests }) => ({
     ...state,
-    cachedRecords: tests,
+    cachedRecords: tests.filter((record) => [1, 2, 3, 4, 5].includes(record.activityCode)),
     isLoading: false,
   })),
   on(LoadingExaminerRecords, (state: ExaminerRecordStateModel) => ({

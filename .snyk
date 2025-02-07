@@ -10,7 +10,7 @@ ignore:
         created: 2023-12-04T09:00:00.122Z
   SNYK-JS-ELLIPTIC-8187303:
     - '*':
-        reason: No upgrade or patch available
-        expires: 2025-03-06T09:00:00.119Z
-        created: 2025-02-06T10:00:00.122Z
+        reason: Improper Verification of Cryptographic Signature - No upgrade or patch available
+        expires: 2025-04-01T09:00:00.119Z
+        created: 2025-02-07T09:00:00.122Z
 patch: {}

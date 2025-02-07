@@ -7,6 +7,7 @@ import {
   DisplayPartialBanner,
   ExaminerRecordsViewDidEnter,
   HideChartsChanged,
+  LearnMoreClicked,
   LocationChanged,
   ReturnToDashboardPressed,
   TestCategoryChanged,
@@ -150,6 +151,20 @@ export class ExaminerRecordsAnalyticsEffects {
             ? GoogleAnalyticsEventsTitles.TAP_TO_SHOW
             : GoogleAnalyticsEventsTitles.TAP_TO_HIDE,
           onClickData.title
+        );
+        return of(AnalyticRecorded());
+      })
+    )
+  );
+
+  onLearnMoreClicked$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(LearnMoreClicked),
+      switchMap(() => {
+        this.analytics.logGAEvent(
+          GoogleAnalyticsEvents.EXAMINER_RECORDS,
+          GoogleAnalyticsEventsTitles.BUTTON_SELECTION,
+          GoogleAnalyticsEventsValues.LEARN_MORE
         );
         return of(AnalyticRecorded());
       })

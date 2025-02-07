@@ -59,3 +59,5 @@ export const NoExaminerRecordSetting = createAction(
   '[ExaminerRecordsPage] No Examiner record setting was found',
   (setting: string) => ({ setting })
 );
+
+export const LearnMoreClicked = createAction('[ExaminerRecordsPage] Learn more button clicked');

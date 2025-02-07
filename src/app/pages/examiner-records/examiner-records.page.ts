@@ -5,8 +5,10 @@ import { ScreenOrientation } from '@capawesome/capacitor-screen-orientation';
 import { ExaminerRecordModel } from '@dvsa/mes-microservice-common/domain/examiner-records';
 import { TestCentre } from '@dvsa/mes-test-schema/categories/common';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
+import { ModalController } from '@ionic/angular';
 import { ScrollDetail } from '@ionic/core';
 import { Store, select } from '@ngrx/store';
+import { ExaminerRecordsLearnMoreModal } from '@pages/examiner-records/components/examiner-records-learn-more-modal/examiner-records-learn-more-modal';
 import { ExaminerReportsCardClick } from '@pages/examiner-records/components/examiner-reports-card/examiner-reports-card';
 import {
   ClickDataCard,
@@ -16,6 +18,7 @@ import {
   ExaminerRecordsViewDidEnter,
   GetExaminerRecords,
   HideChartsChanged,
+  LearnMoreClicked,
   LoadingExaminerRecords,
   LocationChanged,
   ReturnToDashboardPressed,
@@ -144,7 +147,8 @@ export class ExaminerRecordsPage implements OnInit {
     public accessibilityService: AccessibilityService,
     public examinerRecordsProvider: ExaminerRecordsProvider,
     public searchProvider: SearchProvider,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private modalController: ModalController
   ) {}
 
   /**
@@ -874,7 +878,7 @@ export class ExaminerRecordsPage implements OnInit {
     let testCount = 0;
     this.pageState.testCount$.subscribe((value) => (testCount = value)).unsubscribe();
 
-    return `Displaying <strong>${testCount}</strong> Category <strong>${this.currentCategory}</strong> test${testCount > 1 ? '<ion-text>s</ion-text>' : ''}, from <strong>${this.startDateFilter}</strong> to <strong>${this.endDateFilter}</strong>${this.accessibilityService.getTextZoomClass() !== 'text-zoom-x-large' ? '<ion-text> <br /></ion-text>' : ''} at <strong>${this.locationFilter.centreName}</strong>`;
+    return `Displaying <strong>${testCount}</strong> Category <strong>${this.currentCategory}</strong> test${testCount > 1 ? '<ion-text>s</ion-text>' : ''}, from <strong>${this.startDateFilter}</strong> to <strong>${this.endDateFilter}</strong> at <strong>${this.locationFilter.centreName}</strong>`;
   }
 
   /**
@@ -886,5 +890,15 @@ export class ExaminerRecordsPage implements OnInit {
    */
   cardClicked(event: ExaminerReportsCardClick) {
     this.store$.dispatch(ClickDataCard(event));
+  }
+
+  async showLearnMoreModal(): Promise<void> {
+    this.store$.dispatch(LearnMoreClicked());
+    const modal: HTMLIonModalElement = await this.modalController.create({
+      component: ExaminerRecordsLearnMoreModal,
+      cssClass: 'mes-modal-alert',
+      backdropDismiss: false,
+    });
+    await modal.present();
   }
 }
