@@ -1,10 +1,11 @@
-import { NgIf } from '@angular/common';
+import { AsyncPipe, NgIf } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { AppLauncher, OpenURLResult } from '@capacitor/app-launcher';
 import { ComponentsModule } from '@components/common/common-components.module';
 import { ExitSamBanner } from '@components/common/exit-sam/exit-sam-banner/exit-sam-banner';
 import { ExitSamButton } from '@components/common/exit-sam/exit-sam-button/exit-sam-button';
 import { ExitSamErrorModal } from '@components/common/exit-sam/exit-sam-error-modal/exit-sam-error-modal';
+import { RefreshButtonComponent } from '@components/common/refresh-button/refresh-button.component';
 import {
   ExitSAMCancelButtonClicked,
   ExitSAMErrorMessages,
@@ -30,12 +31,22 @@ export enum ExitSAMMethodUsed {
   templateUrl: './test-flow-header.component.html',
   styleUrls: ['./test-flow-header.component.scss'],
   standalone: true,
-  imports: [IonicModule, ComponentsModule, NgIf, ExitSamBanner, ExitSamButton, DirectivesModule],
+  imports: [
+    IonicModule,
+    ComponentsModule,
+    NgIf,
+    ExitSamBanner,
+    ExitSamButton,
+    DirectivesModule,
+    AsyncPipe,
+    RefreshButtonComponent,
+  ],
 })
 export class TestFlowHeaderComponent {
   @Input() isPracticeMode = false;
   @Input() shouldIncludeLanguageDirectiveOnTitle = false;
   @Input() defaultBackButtonHref: string;
+  @Input() shouldShowRefreshButton = false;
   @Input() shouldShowGenericEndTest = false;
   @Input() shouldShowEndTestLink = true;
   @Input() shouldShowBackButton = true;
@@ -44,8 +55,10 @@ export class TestFlowHeaderComponent {
   @Input() shouldShowCloseButton = false;
   @Input() shouldShowEscapeFromSamButton = true;
   @Input() isExitSAMActivated = false;
+
   @Input() pageName: string;
   @Input() testCategory: string;
+  @Input() refreshLastSyncTime: string;
 
   @Output()
   endTestButtonClicked = new EventEmitter<void>();
@@ -53,6 +66,8 @@ export class TestFlowHeaderComponent {
   onCloseButtonClicked = new EventEmitter<void>();
   @Output()
   exitSamUsed = new EventEmitter<void>();
+  @Output()
+  refreshButtonClicked = new EventEmitter<void>();
   @Output()
   onExitSAMActivatedChanged = new EventEmitter<boolean>();
 

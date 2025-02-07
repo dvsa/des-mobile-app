@@ -277,7 +277,7 @@ export abstract class WaitingRoomToCarBasePageComponent extends PracticeableBase
       await this.practiceModeTestCentreAlert();
       return;
     }
-    await this.router.navigate([TEST_CENTRE_JOURNAL_PAGE]);
+    await this.router.navigate([TEST_CENTRE_JOURNAL_PAGE, { isDuringTestFlow: true }]);
   }
 
   candidateDeclarationOutcomeChanged(declaration: boolean): void {

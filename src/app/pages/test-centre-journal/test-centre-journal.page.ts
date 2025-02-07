@@ -52,6 +52,7 @@ export class TestCentreJournalPage extends BasePageComponent implements OnDestro
   didError = false;
   errorMessage: string = null;
   isLDTM = false;
+  isDuringTestFlow = false;
   testCentreSelected: JournalTestCentre = null;
 
   @ViewChild('candidateSearchCard')
@@ -74,6 +75,11 @@ export class TestCentreJournalPage extends BasePageComponent implements OnDestro
   }
 
   ngOnInit(): void {
+    // Check if the page is being accessed during a test flow
+    this.isDuringTestFlow = this.route.snapshot.paramMap.get('isDuringTestFlow')
+      ? this.route.snapshot.paramMap.get('isDuringTestFlow') === 'true'
+      : false;
+
     this.pageState = {
       isOffline$: this.networkStateProvider.isOffline$,
       lastRefreshedTime$: this.store$.pipe(

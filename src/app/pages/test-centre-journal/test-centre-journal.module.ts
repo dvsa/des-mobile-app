@@ -10,6 +10,8 @@ import { TestCentreJournalAnalyticsEffects } from '@pages/test-centre-journal/te
 import { SlotSelectorProvider } from '@providers/slot-selector/slot-selector';
 import { SlotProvider } from '@providers/slot/slot';
 
+import { RefreshButtonComponent } from '@components/common/refresh-button/refresh-button.component';
+import { TestFlowHeaderComponent } from '@components/common/test-flow-header/test-flow-header.component';
 import { OrientationMonitorProvider } from '@providers/orientation-monitor/orientation-monitor.provider';
 import { TestCentreJournalComponentsModule } from './components/test-centre-journal-components.module';
 import { TestCentreJournalRoutingModule } from './test-centre-journal-routing.module';
@@ -26,6 +28,8 @@ import { TestCentreJournalPage } from './test-centre-journal.page';
     TestSlotComponentsModule,
     EffectsModule.forFeature([TestCentreJournalAnalyticsEffects]),
     CandidateDetailsPageModule,
+    TestFlowHeaderComponent,
+    RefreshButtonComponent,
   ],
   declarations: [TestCentreJournalPage],
   providers: [SlotSelectorProvider, SlotProvider, OrientationMonitorProvider],

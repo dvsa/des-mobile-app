@@ -13,6 +13,7 @@ import { serialiseLogMessage } from '@shared/helpers/serialise-log-message';
 import { LogType } from '@shared/models/log.model';
 import { StoreModel } from '@shared/models/store.model';
 import { SaveLog } from '@store/logs/logs.actions';
+import { SetHasExitedApp } from '@store/tests/user-exited-app/user-exited-app.actions';
 import { get } from 'lodash-es';
 
 export abstract class BasePageComponent {
@@ -23,6 +24,8 @@ export abstract class BasePageComponent {
   public route = this.injector.get(ActivatedRoute);
   public logHelper = this.injector.get(LogHelper);
   public store$ = this.injector.get<Store<StoreModel>>(Store);
+
+  public isExitSAMActivated = false;
 
   protected constructor(
     public injector: Injector,
@@ -109,6 +112,14 @@ export abstract class BasePageComponent {
         this.reportLog('unlockDevice', err);
       }
     }
+  }
+
+  isSamActivatedChanged(isActive: boolean): void {
+    this.isExitSAMActivated = isActive;
+  }
+
+  onUsedExitSam(): void {
+    this.store$.dispatch(SetHasExitedApp());
   }
 
   private reportLog = (method: string, error: unknown): void => {
