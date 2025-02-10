@@ -7,3 +7,11 @@ export const SetLastRefreshed = createAction(
 export const ResetTestCentreJournal = createAction(
   '[TestCentreJournalEffects] Reset test centre journal last refreshed'
 );
+
+export const TestCentreJournalEnteredFromTest = createAction(
+  '[TestCentreJournalEffects] Test centre journal entered from waiting room to car'
+);
+
+export const TestCentreJournalEnteredFromDashboard = createAction(
+  '[TestCentreJournalEffects] Test centre journal entered from dashboard'
+);

@@ -29,6 +29,7 @@ import { isAnyOf } from '@shared/helpers/simplifiers';
 import { CompetencyOutcome } from '@shared/models/competency-outcome';
 import { HttpStatusCodes } from '@shared/models/http-status-codes';
 import { JournalDataUnion } from '@shared/unions/journal-union';
+import { TestCentreJournalEnteredFromTest } from '@store/test-centre-journal/test-centre-journal.actions';
 import {
   InstructorAccompanimentToggled,
   InterpreterAccompanimentToggled,
@@ -277,7 +278,8 @@ export abstract class WaitingRoomToCarBasePageComponent extends PracticeableBase
       await this.practiceModeTestCentreAlert();
       return;
     }
-    await this.router.navigate([TEST_CENTRE_JOURNAL_PAGE, { isDuringTestFlow: true }]);
+    this.store$.dispatch(TestCentreJournalEnteredFromTest());
+    await this.router.navigate([TEST_CENTRE_JOURNAL_PAGE]);
   }
 
   candidateDeclarationOutcomeChanged(declaration: boolean): void {

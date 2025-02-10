@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { Router } from '@angular/router';
 import { TEST_CENTRE_JOURNAL_PAGE } from '@pages/page-names.constants';
 
@@ -8,9 +8,12 @@ import { TEST_CENTRE_JOURNAL_PAGE } from '@pages/page-names.constants';
   styleUrls: ['test-centre-journal-card.scss'],
 })
 export class TestCentreJournalCardComponent {
+  @Output() navigatedToTestCentreJournal = new EventEmitter<void>();
+
   constructor(private router: Router) {}
 
   navigateToTestCentreJournal = async () => {
+    this.navigatedToTestCentreJournal.emit();
     await this.router.navigate([TEST_CENTRE_JOURNAL_PAGE]);
   };
 }

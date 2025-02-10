@@ -6,7 +6,7 @@
       [pageName]="'test-centre-journal-page'"
       (exitSamUsed)="onUsedExitSam()"
       [shouldShowEndTestLink]="false"
-      [shouldShowEscapeFromSamButton]="isDuringTestFlow"
+      [shouldShowEscapeFromSamButton]="pageState.enteredFromTest$ | async"
       [isExitSAMActivated]="isExitSAMActivated"
       [shouldShowRefreshButton]="true"
       [refreshLastSyncTime]="pageState.lastRefreshedTime$ | async"

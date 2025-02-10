@@ -19,7 +19,11 @@ import { getRefDataState } from '@store/reference-data/reference-data.reducer';
 import { getActiveTestCentres, getTestCentres } from '@store/reference-data/reference-data.selector';
 import { SetLastRefreshed } from '@store/test-centre-journal/test-centre-journal.actions';
 import { getTestCentreJournalState } from '@store/test-centre-journal/test-centre-journal.reducer';
-import { getLastRefreshed, getLastRefreshedTime } from '@store/test-centre-journal/test-centre-journal.selector';
+import {
+  getEnteredFromTest,
+  getLastRefreshed,
+  getLastRefreshedTime,
+} from '@store/test-centre-journal/test-centre-journal.selector';
 import { Observable, Subject, Subscription, merge, of } from 'rxjs';
 import { catchError, finalize, map, takeUntil, tap } from 'rxjs/operators';
 import {
@@ -33,6 +37,7 @@ interface TestCentreJournalPageState {
   isOffline$: Observable<boolean>;
   lastRefreshedTime$: Observable<string>;
   activeTestCentres$: Observable<JournalTestCentre[]>;
+  enteredFromTest$: Observable<boolean>;
 }
 
 @Component({
@@ -52,7 +57,6 @@ export class TestCentreJournalPage extends BasePageComponent implements OnDestro
   didError = false;
   errorMessage: string = null;
   isLDTM = false;
-  isDuringTestFlow = false;
   testCentreSelected: JournalTestCentre = null;
 
   @ViewChild('candidateSearchCard')
@@ -75,11 +79,6 @@ export class TestCentreJournalPage extends BasePageComponent implements OnDestro
   }
 
   ngOnInit(): void {
-    // Check if the page is being accessed during a test flow
-    this.isDuringTestFlow = this.route.snapshot.paramMap.get('isDuringTestFlow')
-      ? this.route.snapshot.paramMap.get('isDuringTestFlow') === 'true'
-      : false;
-
     this.pageState = {
       isOffline$: this.networkStateProvider.isOffline$,
       lastRefreshedTime$: this.store$.pipe(
@@ -88,6 +87,7 @@ export class TestCentreJournalPage extends BasePageComponent implements OnDestro
         map(getLastRefreshedTime)
       ),
       activeTestCentres$: this.store$.pipe(select(getRefDataState), map(getTestCentres), map(getActiveTestCentres)),
+      enteredFromTest$: this.store$.pipe(select(getTestCentreJournalState), map(getEnteredFromTest)),
     };
 
     this.isLDTM = this.appConfig.getAppConfig()?.role === ExaminerRole.LDTM;
