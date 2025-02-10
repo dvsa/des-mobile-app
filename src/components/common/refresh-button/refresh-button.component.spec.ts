@@ -8,8 +8,7 @@ describe('RefreshButtonComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [RefreshButtonComponent],
-      imports: [IonicModule.forRoot()],
+      imports: [RefreshButtonComponent, IonicModule.forRoot()],
     }).compileComponents();
 
     fixture = TestBed.createComponent(RefreshButtonComponent);
