@@ -1,4 +1,4 @@
-import { AsyncPipe, NgIf } from '@angular/common';
+import { NgIf } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { AppLauncher, OpenURLResult } from '@capacitor/app-launcher';
 import { ComponentsModule } from '@components/common/common-components.module';
@@ -38,7 +38,6 @@ export enum ExitSAMMethodUsed {
     ExitSamBanner,
     ExitSamButton,
     DirectivesModule,
-    AsyncPipe,
     RefreshButtonComponent,
   ],
 })
@@ -194,19 +193,16 @@ export class TestFlowHeaderComponent {
   }
 
   async handleDisableSAMFailure() {
-    console.log('Could not disable single app mode log');
     await this.openDESDidNotUnlockModal();
     this.store$.dispatch(ExitSamError(ExitSAMErrorMessages.DISABLE_SAM));
   }
 
   async handleTeamsNotFound() {
-    console.log('Could not find teams log');
     await this.openDESUnlockedModal();
     this.store$.dispatch(ExitSamError(ExitSAMErrorMessages.TEAMS_NOT_FOUND));
   }
 
   async handleTeamsOpenFailure(openURLResult: OpenURLResult) {
-    console.log('Could not exit to teams log');
     await this.openDESUnlockedModal();
     this.store$.dispatch(ExitSamError(ExitSAMErrorMessages.TEAMS_OPEN, openURLResult));
   }
@@ -223,21 +219,17 @@ export class TestFlowHeaderComponent {
 
     // Check if the application is in practice mode
     if (this.isPracticeMode) {
-      console.log('Practice mode log');
       // Open the practice mode modal
       await this.openPracticeModeModal();
       return;
     }
 
     try {
-      console.log('Attempting to disable single app mode');
       // Attempt to disable single app mode
       const didDisable = await this.deviceProvider.disableSingleAppMode();
-      console.log('Disable single app mode result', didDisable);
 
       // If disabling single app mode failed, handle the failure
       if (!didDisable) {
-        console.log('Could not disable single app mode log');
         await this.handleDisableSAMFailure();
         return;
       }
@@ -246,32 +238,25 @@ export class TestFlowHeaderComponent {
       const teamsURL = 'msteams://teams.microsoft.com';
       // Check if the URL can be opened
       const canOpenURLResult = (await AppLauncher.canOpenUrl({ url: teamsURL })).value;
-      console.log('Can open URL result', canOpenURLResult);
 
       // If the URL cannot be opened, handle the failure
       if (!canOpenURLResult) {
-        console.log('Could not find teams log');
         await this.handleTeamsNotFound();
         return;
       }
 
-      console.log('here', await AppLauncher.openUrl({ url: teamsURL }));
       // Attempt to open the URL
       const openURLResult = await AppLauncher.openUrl({ url: teamsURL });
-      console.log('Open URL result', openURLResult);
 
       // If the URL was opened successfully, set up the subscription
       if (openURLResult.completed) {
-        console.log('Teams opened successfully');
         this.setupSubscription();
       } else {
         // If opening the URL failed, handle the failure
-        console.log('Could not exit to teams log');
         await this.handleTeamsOpenFailure(openURLResult);
       }
     } catch (e) {
       // Handle any errors that occurred during the process
-      console.log('Error', e);
       await this.openDESDidNotUnlockModal();
       this.store$.dispatch(ExitSamError('Error', e));
     }
