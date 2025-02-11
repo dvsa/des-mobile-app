@@ -8,7 +8,7 @@
       [shouldShowGenericEndTest]="true"
       [fixHeight]="true"
       [shouldShowEndTestLink]="false"
-      [shouldShowEscapeFromSamButton]="!isRekey"
+      [shouldShowEscapeFromSamButton]="!isRekey && !isDelegated"
       [isPracticeMode]="isEndToEndPracticeMode"
       (exitSamUsed)="onUsedExitSam()"
       [isExitSAMActivated]="isExitSAMActivated"

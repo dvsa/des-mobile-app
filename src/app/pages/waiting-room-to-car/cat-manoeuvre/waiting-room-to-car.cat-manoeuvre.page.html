@@ -7,7 +7,7 @@
       [testCategory]="pageState.category$ | async"
       [isDelegatedRekey]="isDelegated"
       [pageName]="'waiting-room-to-car-page-cat-manoeuvre'"
-      [shouldShowEscapeFromSamButton]="!isRekey"
+      [shouldShowEscapeFromSamButton]="!isRekey && !isDelegated"
       [isPracticeMode]="isEndToEndPracticeMode"
       (exitSamUsed)="onUsedExitSam()"
       [isExitSAMActivated]="isExitSAMActivated"

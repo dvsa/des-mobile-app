@@ -7,7 +7,7 @@
       class="display-flex flex-direction-column"
       [defaultBackButtonHref]="'WaitingRoomPage'"
       [testCategory]="pageState.testCategory$ | async"
-      [shouldShowEscapeFromSamButton]="!isRekey"
+      [shouldShowEscapeFromSamButton]="!isRekey && !isDelegated"
       [pageName]="'candidate-licence-page'"
       [isPracticeMode]="isEndToEndPracticeMode"
       [isExitSAMActivated]="isExitSAMActivated"

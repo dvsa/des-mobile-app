@@ -6,7 +6,7 @@
     <test-flow-header
       class="display-flex flex-direction-column"
       [testCategory]="pageState.testCategory$ | async"
-      [shouldShowEscapeFromSamButton]="!isRekey"
+      [shouldShowEscapeFromSamButton]="!isRekey && !isDelegated"
       [shouldIncludeLanguageDirectiveOnTitle]="true"
       [pageName]="'communication-page-title'"
       [isPracticeMode]="isEndToEndPracticeMode"
