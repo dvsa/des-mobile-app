@@ -514,5 +514,30 @@ describe('NonPassFinalisationPage', () => {
         expect(component.showD255()).toEqual(false);
       });
     });
+
+    describe('handleBackButtonClicked', () => {
+      it('should navigate to debrief if test is not ADI3', async () => {
+        component.testCategory = TestCategory.B;
+        spyOn(component, 'navigateToDebrief');
+        await component.handleBackButtonClicked();
+        expect(component.navigateToDebrief).toHaveBeenCalled();
+      });
+
+      it('should navigate to debrief if test is ADI3 and test is completed', async () => {
+        component.testCategory = TestCategory.ADI3;
+        spyOn(component, 'didTestComplete').and.returnValue(true);
+        spyOn(component, 'navigateToDebrief');
+        await component.handleBackButtonClicked();
+        expect(component.navigateToDebrief).toHaveBeenCalled();
+      });
+
+      it('should not navigate to debrief if test is ADI3 and test is not completed', async () => {
+        component.testCategory = TestCategory.ADI3;
+        spyOn(component, 'didTestComplete').and.returnValue(false);
+        spyOn(component, 'navigateToDebrief');
+        await component.handleBackButtonClicked();
+        expect(component.navigateToDebrief).not.toHaveBeenCalled();
+      });
+    });
   });
 });

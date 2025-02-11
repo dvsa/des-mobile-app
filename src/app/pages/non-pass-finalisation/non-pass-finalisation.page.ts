@@ -431,6 +431,8 @@ export class NonPassFinalisationPage extends PracticeableBasePageComponent imple
   };
 
   async handleBackButtonClicked() {
+    //If the test is not and adi 3 test or the test is an adi 3 test and the test has completed,
+    // navigate to the debrief page directly.
     if (!this.isADI3() || (this.isADI3() && this.didTestComplete())) {
       await this.navigateToDebrief();
     }
