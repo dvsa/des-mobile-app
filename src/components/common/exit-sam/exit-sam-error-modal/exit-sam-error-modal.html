@@ -1,18 +1,18 @@
 <ion-card id="practice-mode-exit-sam-modal-card" class="modal-alert">
   <ion-row *ngIf="modalTitle" class="ion-justify-content-center">
-    <ion-col class="center-items no-padding">
+    <ion-col class="flex-center no-padding">
       <modal-alert-title id="des-locked-exit-sam-title">{{ modalTitle }}</modal-alert-title>
     </ion-col>
   </ion-row>
   <ion-row *ngIf="firstMessage" class="ion-justify-content-center">
-    <ion-col class="message-container center-items no-padding message-padding">
+    <ion-col class="message-container flex-center no-padding message-padding">
       <ion-text id="des-locked-exit-sam-message" class="mes-data ion-text-center">
         {{ firstMessage }}
       </ion-text>
     </ion-col>
   </ion-row>
   <ion-row *ngIf="secondMessage" class="ion-justify-content-center">
-    <ion-col class="message-container center-items no-padding message-padding">
+    <ion-col class="message-container flex-center no-padding message-padding">
       <ion-text id="des-locked-exit-sam-secondary-message" class="mes-data ion-text-center">
         {{ secondMessage }}
       </ion-text>

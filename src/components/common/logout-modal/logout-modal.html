@@ -1,13 +1,13 @@
 <ion-card id="logout-modal-card" class="modal-alert">
   <ion-row class="ion-justify-content-center">
-    <ion-col class="center-items no-padding">
+    <ion-col class="flex-center no-padding">
       <ion-text id="logout-title" class="des-header-style-2 header-padding">
         Logout?
       </ion-text>
     </ion-col>
   </ion-row>
   <ion-row class="ion-justify-content-center">
-    <ion-col class="message-container center-items no-padding message-padding">
+    <ion-col class="message-container flex-center no-padding message-padding">
       <ion-text id="unsubmitted-warning" class="mes-data ion-text-center">
         {{ (unuploadedTestCount | async) > 0 ?
           'You have tests that have not been uploaded. If you logout, you will lose these tests.' :
@@ -16,7 +16,7 @@
     </ion-col>
   </ion-row>
   <ion-row class="ion-justify-content-center">
-    <ion-col class="message-container center-items no-padding message-padding">
+    <ion-col class="message-container flex-center no-padding message-padding">
       <ion-text id="logout-message" class="mes-data ion-text-center">
         Are you sure you want to logout?
       </ion-text>
