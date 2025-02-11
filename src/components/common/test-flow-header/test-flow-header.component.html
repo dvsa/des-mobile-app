@@ -12,8 +12,12 @@
   <ion-col class="display-flex ion-no-padding ion-justify-content-start" size="21">
     <ion-col class="display-flex ion-align-items-center">
       <ion-buttons>
-        <ion-back-button *ngIf="shouldShowBackButton" defaultHref="{{defaultBackButtonHref}}"
-                         [id]="pageName+'-back-button'"></ion-back-button>
+        <ion-back-button
+          *ngIf="shouldShowBackButton"
+          (click)="onBackClicked()"
+          defaultHref="{{defaultBackButtonHref}}"
+          [id]="pageName+'-back-button'">
+        </ion-back-button>
       </ion-buttons>
     </ion-col>
     <ion-col *ngIf="shouldShowCloseButton">

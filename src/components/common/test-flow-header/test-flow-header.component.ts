@@ -70,6 +70,8 @@ export class TestFlowHeaderComponent {
   refreshButtonClicked = new EventEmitter<void>();
   @Output()
   onExitSAMActivatedChanged = new EventEmitter<boolean>();
+  @Output()
+  backButtonClicked = new EventEmitter<void>();
 
   resumeSubscription: Subscription;
 
@@ -260,5 +262,9 @@ export class TestFlowHeaderComponent {
       await this.openDESDidNotUnlockModal();
       this.store$.dispatch(ExitSamError('Error', e));
     }
+  }
+
+  onBackClicked() {
+    this.backButtonClicked.emit();
   }
 }
