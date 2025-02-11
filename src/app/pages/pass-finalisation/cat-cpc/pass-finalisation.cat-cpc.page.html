@@ -5,9 +5,9 @@
     <test-flow-header
       class="display-flex flex-direction-column"
       [testCategory]="pageState.testCategory$ | async"
-      [isDelegatedRekey]="isDelegatedTest"
+      [isDelegatedRekey]="isDelegated"
       [pageName]="'pass-finalisation-page-cat-cpc'"
-      [shouldShowEscapeFromSamButton]="!isRekey && !isDelegatedTest"
+      [shouldShowEscapeFromSamButton]="!isRekey && !isDelegated"
       [isPracticeMode]="isEndToEndPracticeMode"
       [shouldShowEndTestLink]="false"
       (exitSamUsed)="onUsedExitSam()"

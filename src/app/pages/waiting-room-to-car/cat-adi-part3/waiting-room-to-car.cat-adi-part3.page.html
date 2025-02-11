@@ -6,7 +6,7 @@
       class="display-flex flex-direction-column"
       [testCategory]="pageState.category$ | async"
       [pageName]="'waiting-room-to-car-page-adi3'"
-      [shouldShowEscapeFromSamButton]="!isRekey && !isDelegatedTest"
+      [shouldShowEscapeFromSamButton]="!isRekey && !isDelegated"
       [isPracticeMode]="isEndToEndPracticeMode"
       (exitSamUsed)="onUsedExitSam()"
       [isExitSAMActivated]="isExitSAMActivated"

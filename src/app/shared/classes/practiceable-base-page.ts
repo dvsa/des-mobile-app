@@ -35,7 +35,6 @@ export abstract class PracticeableBasePageComponent extends BasePageComponent im
   public isEndToEndPracticeMode: boolean;
   public isRekey: boolean;
   public isDelegated: boolean;
-  public isDelegatedTest: boolean;
 
   private practiceableBasePageState: PracticeableBasePageState;
   private practiceableBasePageSubscription: Subscription;

@@ -7,9 +7,9 @@
     <test-flow-header
       class="display-flex flex-direction-column"
       [testCategory]="pageState.testCategory$ | async"
-      [isDelegatedRekey]="isDelegatedTest"
+      [isDelegatedRekey]="isDelegated"
       [defaultBackButtonHref]="isEndToEndPracticeMode ? 'FakeJournalPage' : 'JournalPage'"
-      [shouldShowEscapeFromSamButton]="!isDelegatedTest && !isRekey"
+      [shouldShowEscapeFromSamButton]="!isDelegated && !isRekey"
       [pageName]="'waiting-room-page'"
       [isPracticeMode]="isEndToEndPracticeMode"
       [isExitSAMActivated]="isExitSAMActivated"
