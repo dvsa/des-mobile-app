@@ -13,7 +13,7 @@
       [isExitSAMActivated]="isExitSAMActivated"
       (endTestButtonClicked)="onEndTestClick()"
       (onExitSAMActivatedChanged)="isSamActivatedChanged($event)">
-      {{'Test report - ' + (pageState.candidateUntitledName$ | async)}}
+      Test report - {{pageState.candidateUntitledName$ | async}}
     </test-flow-header>
   </ion-toolbar>
 </ion-header>
