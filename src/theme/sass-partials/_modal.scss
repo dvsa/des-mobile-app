@@ -15,7 +15,8 @@
 
 .mes-modal-alert {
   --background: none;
-  --height: 100%;
+  --height: auto;
+  --width: auto;
 
   .ion-page {
     display: flex;
@@ -36,8 +37,6 @@
 }
 
 .modal-alert-wrapper {
-  padding: 0 100px;
-
   .modal-alert {
     margin: 0;
     border-radius: 14px;
