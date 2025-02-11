@@ -39,7 +39,7 @@ export class ReasonForEnteringTeamsComponent implements OnChanges {
     this.formControl.patchValue(this.reasonForOpeningTeams);
   }
 
-  additionalInformationChanged(newReason: string): void {
+  reasonForOpeningTeamsChanged(newReason: string): void {
     this.reasonForOpeningTeamsChange.emit(newReason);
   }
 

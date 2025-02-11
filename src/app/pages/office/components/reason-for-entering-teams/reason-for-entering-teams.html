@@ -1,13 +1,13 @@
 <ion-row
   *ngIf="display"
   class="mes-component-row mes-validated-row mes-row-separator"
-  id="reason-for-entering-teams-row"
+  id="reason-for-opening-teams-row"
   [formGroup]="formGroup"
 >
   <div [class.ng-invalid]="invalid" class="validation-bar"></div>
   <ion-col class="component-label ion-align-self-start" size="31">
     <ion-row class="spacing-row"></ion-row>
-    <label id="reason-for-entering-teams-label">Reason for leaving DES during the test</label>
+    <label id="reason-for-opening-teams-label">Reason for leaving DES during the test</label>
   </ion-col>
 
   <ion-col class="ion-align-self-center ion-padding-start" size="58">
@@ -15,13 +15,13 @@
     <ion-row>
       <ion-col class="textarea-input">
         <textarea
-          id="reason-for-entering-teams-text"
+          id="reason-for-opening-teams-text"
           class="mes-data input-styling-background"
-          name="additionalInformation"
+          [name]="fieldName"
           [formControlName]="fieldName"
           [class.ng-invalid]="invalid"
           [value]="reasonForOpeningTeams"
-          (change)="additionalInformationChanged($event.target.value)"
+          (change)="reasonForOpeningTeamsChanged($event.target.value)"
           emojiBlock
           pasteSanitiser
         >
@@ -33,7 +33,7 @@
         class="validation-text"
         [class.ng-invalid]="invalid"
         *ngIf="invalid"
-        id="evidence-description-validation-text"
+        id="reason-for-opening-teams-validation-text"
       >
         Reason for leaving DES during the test required
       </div>
