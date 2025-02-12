@@ -48,7 +48,7 @@ describe('TestFlowHeaderComponent', () => {
       spyOn(component, 'destroySubscription');
       spyOn(component.platform.resume, 'subscribe').and.callFake((callback) => callback());
 
-      component.setupSubscription();
+      component.setupResumeSubscription();
 
       flushMicrotasks();
 
@@ -63,7 +63,7 @@ describe('TestFlowHeaderComponent', () => {
       spyOn(deviceProvider, 'enableSingleAppMode').and.rejectWith(new Error('Test Error'));
       spyOn(component, 'destroySubscription');
 
-      component.setupSubscription();
+      component.setupResumeSubscription();
 
       flushMicrotasks();
 
@@ -78,7 +78,7 @@ describe('TestFlowHeaderComponent', () => {
       spyOn(deviceProvider, 'enableSingleAppMode').and.resolveTo(false);
       spyOn(component, 'destroySubscription');
 
-      component.setupSubscription();
+      component.setupResumeSubscription();
 
       flushMicrotasks();
 
@@ -90,7 +90,7 @@ describe('TestFlowHeaderComponent', () => {
       spyOn(component.platform.resume, 'subscribe').and.callFake((callback) => callback());
       spyOn(deviceProvider, 'enableSingleAppMode');
 
-      component.setupSubscription();
+      component.setupResumeSubscription();
 
       expect(deviceProvider.enableSingleAppMode).not.toHaveBeenCalled();
       expect(store$.dispatch).not.toHaveBeenCalledWith(ExitSamError);
@@ -289,7 +289,7 @@ describe('TestFlowHeaderComponent', () => {
 
       await component.disableSAMAndExit(ExitSAMMethodUsed.BANNER);
 
-      expect(component.setupSubscription).toHaveBeenCalled();
+      expect(component.setupResumeSubscription).toHaveBeenCalled();
     });
 
     it('should handle error during disableSAMAndExit', async () => {

@@ -92,7 +92,7 @@ export class TestFlowHeaderComponent {
   /**
    * Sets up the subscription to the platform resume event.
    */
-  setupSubscription() {
+  setupResumeSubscription() {
     this.resumeSubscription = this.platform.resume.subscribe(async () => {
       this.store$.dispatch(ExitSAMUserReturned());
       if (this.shouldShowEscapeFromSamButton) {
@@ -252,7 +252,7 @@ export class TestFlowHeaderComponent {
 
       // If the URL was opened successfully, set up the subscription
       if (openURLResult.completed) {
-        this.setupSubscription();
+        this.setupResumeSubscription();
       } else {
         // If opening the URL failed, handle the failure
         await this.handleTeamsOpenFailure(openURLResult);
