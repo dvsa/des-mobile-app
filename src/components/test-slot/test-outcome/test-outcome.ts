@@ -295,7 +295,7 @@ export class TestOutcomeComponent implements OnInit {
         slot: this.slot,
         slotChanged: this.slotChanged,
         isTeamJournal: !this.showTestActionButton,
-        textZoomClass: `mes-modal-alert ${this.accessibilityService.getTextZoomClass()}`,
+        textZoomClass: `${this.accessibilityService.getTextZoomClass()}`,
       },
       cssClass: 'mes-modal-alert text-zoom-regular',
     });
