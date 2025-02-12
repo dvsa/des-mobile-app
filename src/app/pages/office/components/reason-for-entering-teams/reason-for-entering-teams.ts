@@ -36,7 +36,9 @@ export class ReasonForEnteringTeamsComponent implements OnChanges {
         this.formGroup.addControl(this.fieldName, this.formControl);
       }
     }
-    this.formControl.patchValue(this.reasonForOpeningTeams);
+    if (this.reasonForOpeningTeams) {
+      this.formControl.patchValue(this.reasonForOpeningTeams);
+    }
   }
 
   reasonForOpeningTeamsChanged(newReason: string): void {
