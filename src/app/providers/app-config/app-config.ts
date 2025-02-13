@@ -309,7 +309,7 @@ export class AppConfigProvider {
   };
 
   private mapRemoteConfig = (data: LocalEnvironmentFile | RemoteConfig): void => {
-    this.appConfig = merge({}, this.appConfig, <AppConfig>(<unknown>{
+    this.appConfig = merge({}, this.appConfig, <AppConfig>{
       liveAppVersion: data.liveAppVersion,
       googleAnalyticsId: data.googleAnalyticsId,
       googleAnalyticsKey: data.googleAnalyticsKey,
@@ -355,12 +355,12 @@ export class AppConfigProvider {
       refData: {
         testCentreUrl: data.refData.testCentreUrl,
       },
-      UsefulLinks: {
+      usefulLinks: {
         drivingExaminationGuidanceURL: data.usefulLinks.drivingExaminationGuidanceURL,
         accessibilityStatementURL: data.usefulLinks.accessibilityStatementURL,
       },
       requestTimeout: data.requestTimeout,
-    }));
+    });
   };
 
   getDebugMode = async (): Promise<void> => {

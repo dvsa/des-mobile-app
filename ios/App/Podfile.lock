@@ -5,6 +5,8 @@ PODS:
     - Capacitor
   - CapacitorAppLauncher (6.0.3):
     - Capacitor
+  - CapacitorBrowser (6.0.5):
+    - Capacitor
   - CapacitorCommunityKeepAwake (5.0.1):
     - Capacitor
   - CapacitorCordova (6.2.0)
@@ -40,6 +42,7 @@ DEPENDENCIES:
   - "Capacitor (from `../../node_modules/@capacitor/ios`)"
   - "CapacitorApp (from `../../node_modules/@capacitor/app`)"
   - "CapacitorAppLauncher (from `../../node_modules/@capacitor/app-launcher`)"
+  - "CapacitorBrowser (from `../../node_modules/@capacitor/browser`)"
   - "CapacitorCommunityKeepAwake (from `../../node_modules/@capacitor-community/keep-awake`)"
   - "CapacitorCordova (from `../../node_modules/@capacitor/ios`)"
   - "CapacitorDevice (from `../../node_modules/@capacitor/device`)"
@@ -67,6 +70,8 @@ EXTERNAL SOURCES:
     :path: "../../node_modules/@capacitor/app"
   CapacitorAppLauncher:
     :path: "../../node_modules/@capacitor/app-launcher"
+  CapacitorBrowser:
+    :path: "../../node_modules/@capacitor/browser"
   CapacitorCommunityKeepAwake:
     :path: "../../node_modules/@capacitor-community/keep-awake"
   CapacitorCordova:
@@ -100,6 +105,7 @@ SPEC CHECKSUMS:
   Capacitor: 1f3c7b9802d958cd8c4eb63895fff85dff2e1eea
   CapacitorApp: 2a8c3a0b0814322e5e6e15fe595f02c3808f0f8b
   CapacitorAppLauncher: a9fb7da942e89fa9cb2bb1e579c8bd2ab81652a5
+  CapacitorBrowser: cba79e25007fbe9bdac8c0568060b21abbb8f453
   CapacitorCommunityKeepAwake: e2ddd50812e3407f8dc3a2c28e97d66e9b59b2f5
   CapacitorCordova: b33e7f4aa4ed105dd43283acdd940964374a87d9
   CapacitorDevice: 1a215717f0b5061503b21a03508b0ec458a57d78
@@ -117,6 +123,6 @@ SPEC CHECKSUMS:
   Sentry: f8374b5415bc38dfb5645941b3ae31230fbeae57
   SentryCapacitor: 9955a523b8cf0bae16f257069e5838a0b1085d5a
 
-PODFILE CHECKSUM: 61573ea5bd18f943e4e59ed5bae05613b2fe01a7
+PODFILE CHECKSUM: ec08b5c45934c7f5d0dd6502b4177d8f8b9ddab4
 
 COCOAPODS: 1.16.2

@@ -8,6 +8,7 @@ export const TEST_CENTRE_JOURNAL_PAGE = 'TestCentreJournalPage';
 export const LOGIN_PAGE = 'LoginPage';
 export const JOURNAL_FORCE_CHECK_MODAL = 'JournalForceCheckModal';
 export const JOURNAL_EARLY_START_MODAL = 'JournalEarlyStartModal';
+export const LINK_MODAL = 'LinkModal';
 export const ERROR_PAGE = 'ErrorPage';
 export const DASHBOARD_PAGE = 'DashboardPage';
 export const EXAMINER_RECORDS = 'ExaminerRecordsPage';

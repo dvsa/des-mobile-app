@@ -74,4 +74,8 @@ export class UrlProvider {
   getRefDataTestCentreUrl(): string {
     return this.appConfigProvider.getAppConfig()?.refData.testCentreUrl;
   }
+
+  getUsefulLinks(): { [key: string]: string } {
+    return this.appConfigProvider.getAppConfig()?.usefulLinks;
+  }
 }

@@ -6,6 +6,7 @@ import { TestSlotComponentsModule } from '@components/test-slot/test-slot-compon
 import { IonicModule } from '@ionic/angular';
 import { DashboardComponentsModule } from '@pages/dashboard/components/dashboard-components.module';
 import { TestReportCatADIPart3ComponentsModule } from '@pages/test-report-dashboard/components/test-report-dashboard.components.module';
+import { UsefulLinksComponentsModule } from '@pages/useful-links/components/useful-links-components.module';
 import { UsefulLinksPageRoutingModule } from './useful-links-routing.module';
 import { UsefulLinksPage } from './useful-links.page';
 
@@ -18,6 +19,7 @@ import { UsefulLinksPage } from './useful-links.page';
     DashboardComponentsModule,
     TestSlotComponentsModule,
     TestReportCatADIPart3ComponentsModule,
+    UsefulLinksComponentsModule,
   ],
   declarations: [UsefulLinksPage],
 })

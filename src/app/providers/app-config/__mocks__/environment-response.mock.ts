@@ -33,4 +33,8 @@ export const environmentResponseMock = {
   refData: {
     testCentreUrl: 'some url',
   },
+  usefulLinks: {
+    drivingExaminationGuidanceURL: 'https://www.example.com/api/v1/guidance',
+    accessibilityStatementURL: 'https://www.example.com/api/v1/accessibility',
+  },
 };
