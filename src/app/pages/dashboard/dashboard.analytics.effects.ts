@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { of } from 'rxjs';
-import { concatMap, mergeMap, switchMap, withLatestFrom } from 'rxjs/operators';
+import { concatMap, mergeMap, switchMap, tap, withLatestFrom } from 'rxjs/operators';
 
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { Store, select } from '@ngrx/store';
@@ -115,6 +115,11 @@ export class DashboardAnalyticsEffects {
       concatMap((action) =>
         of(action).pipe(withLatestFrom(this.store$.pipe(select(getTests), select(isPracticeMode))))
       ),
+      tap((item) => {
+        console.log('============================================================');
+        console.log('item', item);
+        console.log('============================================================');
+      }),
       switchMap(([{ item }]) => {
         // GA4 Analytics
         this.analytics.logGAEvent(GoogleAnalyticsEvents.MENU, GoogleAnalyticsEventsTitles.SELECTION, `${item}`);
