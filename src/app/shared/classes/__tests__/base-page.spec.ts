@@ -145,6 +145,13 @@ describe('BasePageComponent', () => {
     });
   });
 
+  describe('ionViewDidLeave', () => {
+    it('should set escapeFromSam to false', () => {
+      basePageComponent.ionViewDidLeave();
+      expect(basePageComponent.isExitSAMActivated).toBe(false);
+    });
+  });
+
   describe('logout()', () => {
     it('should try to logout when platform is ios', async () => {
       basePageComponent.isIos = jasmine.createSpy().and.returnValue(true);

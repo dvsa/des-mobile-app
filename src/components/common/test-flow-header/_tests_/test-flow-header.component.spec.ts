@@ -40,7 +40,7 @@ describe('TestFlowHeaderComponent', () => {
     fixture.detectChanges();
   }));
 
-  describe('setupSubscription', () => {
+  describe('setupResumeSubscription', () => {
     it('should re-enable single app mode on platform resume and destroy the subscription without emitting an error', fakeAsync(() => {
       component.shouldShowEscapeFromSamButton = true;
 
@@ -285,7 +285,7 @@ describe('TestFlowHeaderComponent', () => {
       spyOn(deviceProvider, 'disableSingleAppMode').and.resolveTo(true);
       spyOn(AppLauncher, 'canOpenUrl').and.resolveTo({ value: true });
       spyOn(AppLauncher, 'openUrl').and.resolveTo({ completed: true });
-      spyOn(component, 'setupSubscription');
+      spyOn(component, 'setupResumeSubscription');
 
       await component.disableSAMAndExit(ExitSAMMethodUsed.BANNER);
 
