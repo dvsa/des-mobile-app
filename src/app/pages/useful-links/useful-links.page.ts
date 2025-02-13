@@ -1,7 +1,9 @@
 import { Component, Injector, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
+import { DASHBOARD_PAGE } from '@pages/page-names.constants';
 import { LinkModalComponent } from '@pages/useful-links/components/link-modal/link-modal.component';
 import * as UsefulLinkActions from '@pages/useful-links/useful-links.actions';
+import { UsefulLinksReturnToDashboardPressed } from '@pages/useful-links/useful-links.actions';
 import { UsefulLinkNames } from '@pages/useful-links/useful-links.model';
 import { AccessibilityService } from '@providers/accessibility/accessibility.service';
 import { OrientationMonitorProvider } from '@providers/orientation-monitor/orientation-monitor.provider';
@@ -55,5 +57,19 @@ export class UsefulLinksPage extends BasePageComponent implements OnInit {
       showBackdrop: true,
     });
     await modal.present();
+  }
+
+  /**
+   * Navigate back to the dashboard.
+   *
+   * This method performs the following actions:
+   * 1. Dispatches the `ReturnToDashboardPressed` action to the store.
+   * 2. Navigates to the dashboard page and replaces the current URL.
+   *
+   * @returns {Promise<void>} A promise that resolves when the navigation is complete.
+   */
+  async goToDashboard(): Promise<void> {
+    this.store$.dispatch(UsefulLinksReturnToDashboardPressed());
+    await this.router.navigate([DASHBOARD_PAGE], { replaceUrl: true });
   }
 }

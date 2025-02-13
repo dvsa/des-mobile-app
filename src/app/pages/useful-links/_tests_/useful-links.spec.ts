@@ -4,6 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { ModalController } from '@ionic/angular';
 import { ActivatedRouteMock } from '@mocks/angular-mocks/activated-route.mock';
 import { Store, StoreModule } from '@ngrx/store';
+import { DASHBOARD_PAGE } from '@pages/page-names.constants';
 import * as UsefulLinkActions from '@pages/useful-links/useful-links.actions';
 import { UsefulLinkNames } from '@pages/useful-links/useful-links.model';
 import { UsefulLinksPage } from '@pages/useful-links/useful-links.page';
@@ -99,6 +100,14 @@ describe('UsefulLinksPage', () => {
       expect(store$.dispatch).toHaveBeenCalledWith(UsefulLinkActions.DTIGuidanceSelected());
       expect(modalController.create).toHaveBeenCalled();
       expect(modalSpy.present).toHaveBeenCalled();
+    });
+  });
+
+  describe('goToDashboard', () => {
+    it('should navigate back to the dashboard page', () => {
+      spyOn(component.router, 'navigate').and.callThrough();
+      component.goToDashboard();
+      expect(component.router.navigate).toHaveBeenCalledWith([DASHBOARD_PAGE], { replaceUrl: true });
     });
   });
 });
