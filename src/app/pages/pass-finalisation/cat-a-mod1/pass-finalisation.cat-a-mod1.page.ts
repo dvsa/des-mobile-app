@@ -1,7 +1,7 @@
 import { Component, Injector, OnInit } from '@angular/core';
 import { UntypedFormGroup } from '@angular/forms';
 import { GearboxCategory } from '@dvsa/mes-test-schema/categories/common';
-import { Observable, Subscription, merge } from 'rxjs';
+import { Observable, merge } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { behaviourMap } from '@pages/office/office-behaviour-map.cat-a-mod1';
@@ -29,7 +29,6 @@ type PassFinalisationPageState = CommonPassFinalisationPageState;
 export class PassFinalisationCatAMod1Page extends PassFinalisationPageComponent implements OnInit {
   form: UntypedFormGroup;
   pageState: PassFinalisationPageState;
-  subscription: Subscription;
   merged$: Observable<string>;
   transmission: GearboxCategory;
 
@@ -64,12 +63,6 @@ export class PassFinalisationCatAMod1Page extends PassFinalisationPageComponent 
 
   displayTransmissionBanner(): boolean {
     return !this.form.controls.transmissionCtrl.pristine && this.transmission === TransmissionType.Automatic;
-  }
-
-  ionViewDidLeave(): void {
-    if (this.subscription) {
-      this.subscription.unsubscribe();
-    }
   }
 
   async onSubmit(): Promise<void> {

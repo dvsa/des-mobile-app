@@ -20,7 +20,7 @@ import { getTests } from '@store/tests/tests.reducer';
 import { getCurrentTest } from '@store/tests/tests.selector';
 import { getVehicleDetails } from '@store/tests/vehicle-details/vehicle-details.reducer';
 import { isAutomatic, isManual } from '@store/tests/vehicle-details/vehicle-details.selector';
-import { Observable, Subscription, merge } from 'rxjs';
+import { Observable, merge } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 import { PASS_CERTIFICATE_NUMBER_CTRL } from '../components/pass-certificate-number/pass-certificate-number.constants';
 
@@ -44,7 +44,6 @@ export class PassFinalisationCatBPage extends PassFinalisationPageComponent impl
   merged$: Observable<string>;
   transmission: GearboxCategory;
   candidateDriverNumber: string;
-  subscription: Subscription;
   niMessage: string =
     'This candidate holds a Northern Irish licence and must retain it. Do not collect ' + 'it from the candidate.';
 
@@ -83,12 +82,6 @@ export class PassFinalisationCatBPage extends PassFinalisationPageComponent impl
       testOutcome$.pipe(map((value) => (this.activityCode = value)))
     );
     this.subscription = this.merged$.subscribe();
-  }
-
-  ionViewDidLeave(): void {
-    if (this.subscription) {
-      this.subscription.unsubscribe();
-    }
   }
 
   ionViewDidEnter(): void {

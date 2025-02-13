@@ -75,6 +75,7 @@ export abstract class PracticeableBasePageComponent extends BasePageComponent im
   }
 
   ionViewDidLeave(): void {
+    super.ionViewDidLeave();
     if (this.practiceableBasePageSubscription) {
       this.practiceableBasePageSubscription.unsubscribe();
     }

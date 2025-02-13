@@ -20,7 +20,7 @@ import { getCode78 } from '@store/tests/pass-completion/cat-c/pass-completion.ca
 import { PersistTests } from '@store/tests/tests.actions';
 import { getTests } from '@store/tests/tests.reducer';
 import { getCurrentTest } from '@store/tests/tests.selector';
-import { Observable, Subscription, merge } from 'rxjs';
+import { Observable, merge } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { behaviourMap } from '../../office/office-behaviour-map.cat-c';
 
@@ -43,7 +43,6 @@ export class PassFinalisationCatCPage extends PassFinalisationPageComponent impl
   automaticMessage = 'An <strong><em>automatic</em></strong> licence will be issued';
   askCandidateLicenseMessage = "Check that the candidate doesn't need their driving licence (e.g CPC Mod4)";
   transmission: GearboxCategory;
-  subscription: Subscription;
   code78Present: boolean = null;
   provisionalLicenseIsReceived: boolean;
   testCategory: TestCategory;
@@ -82,12 +81,6 @@ export class PassFinalisationCatCPage extends PassFinalisationPageComponent impl
       this.subscription = this.merged$.subscribe();
     }
     return true;
-  }
-
-  ionViewDidLeave(): void {
-    if (this.subscription) {
-      this.subscription.unsubscribe();
-    }
   }
 
   shouldShowCandidateDoesntNeedLicenseBanner(): boolean {

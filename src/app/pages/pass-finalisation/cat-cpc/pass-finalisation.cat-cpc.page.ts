@@ -1,7 +1,7 @@
 import { Component, Injector, OnInit } from '@angular/core';
 import { UntypedFormGroup } from '@angular/forms';
 import { select } from '@ngrx/store';
-import { Observable, Subscription, merge } from 'rxjs';
+import { Observable, merge } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { CategoryCode } from '@dvsa/mes-test-schema/categories/common';
@@ -37,7 +37,6 @@ export class PassFinalisationCatCPCPage extends PassFinalisationPageComponent im
   form: UntypedFormGroup;
   pageState: PassFinalisationPageState;
   merged$: Observable<string | boolean>;
-  subscription: Subscription;
   testCategory: TestCategory;
 
   constructor(injector: Injector) {
@@ -67,12 +66,6 @@ export class PassFinalisationCatCPCPage extends PassFinalisationPageComponent im
       this.subscription = this.merged$.subscribe();
     }
     return true;
-  }
-
-  ionViewDidLeave(): void {
-    if (this.subscription) {
-      this.subscription.unsubscribe();
-    }
   }
 
   async onSubmit(): Promise<void> {

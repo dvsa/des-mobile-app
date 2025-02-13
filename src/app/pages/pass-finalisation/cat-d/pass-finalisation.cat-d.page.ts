@@ -21,7 +21,7 @@ import { getCode78 } from '@store/tests/pass-completion/cat-d/pass-completion.ca
 import { PersistTests } from '@store/tests/tests.actions';
 import { getTests } from '@store/tests/tests.reducer';
 import { getCurrentTest } from '@store/tests/tests.selector';
-import { Observable, Subscription, merge } from 'rxjs';
+import { Observable, merge } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 interface CatDPassFinalisationPageState {
@@ -44,7 +44,6 @@ export class PassFinalisationCatDPage extends PassFinalisationPageComponent impl
   automaticMessage = 'An <b><em>automatic</em></b> licence will be issued';
   askCandidateLicenseMessage = "Check that the candidate doesn't need their driving licence (e.g CPC Mod4)";
   transmission: GearboxCategory;
-  subscription: Subscription;
   code78Present: boolean = null;
   provisionalLicenseIsReceived: boolean;
   testCategory: TestCategory;
@@ -82,12 +81,6 @@ export class PassFinalisationCatDPage extends PassFinalisationPageComponent impl
       this.subscription = this.merged$.subscribe();
     }
     return true;
-  }
-
-  ionViewDidLeave(): void {
-    if (this.subscription) {
-      this.subscription.unsubscribe();
-    }
   }
 
   shouldShowCode78Banner(): boolean {

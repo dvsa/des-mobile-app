@@ -60,6 +60,10 @@ export abstract class BasePageComponent {
     }
   }
 
+  ionViewDidLeave() {
+    this.isExitSAMActivated = false;
+  }
+
   isIos(): boolean {
     return this.platform.is('cordova');
   }
