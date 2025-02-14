@@ -4,9 +4,10 @@ import { Router } from '@angular/router';
 import { ScreenOrientation } from '@capawesome/capacitor-screen-orientation';
 import { ExaminerRecordModel } from '@dvsa/mes-microservice-common/domain/examiner-records';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
-import { IonicModule } from '@ionic/angular';
+import { IonicModule, ModalController } from '@ionic/angular';
 import { ScrollDetail } from '@ionic/core';
 import { RouterMock } from '@mocks/angular-mocks/router-mock';
+import { ModalControllerMock } from '@mocks/ionic-mocks/modal-controller.mock';
 import { Store } from '@ngrx/store';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { ColourFilterRadioComponent } from '@pages/examiner-records/components/colour-filter-radio/colour-filter-radio';
@@ -98,6 +99,7 @@ describe('ExaminerRecordsPage', () => {
         { provide: SearchProvider, useClass: SearchProviderMock },
         { provide: Store, useClass: MockStore },
         { provide: Router, useClass: RouterMock },
+        { provide: ModalController, useClass: ModalControllerMock },
         provideMockStore({
           initialState: {
             appInfo: { employeeId: '1' },
@@ -768,9 +770,8 @@ describe('ExaminerRecordsPage', () => {
       component.locationFilter = { centreName: 'Test Centre 1', centreId: 1, costCode: 'TC1' };
 
       const expectedText =
-        'Displaying <strong>1</strong> Category <strong>B</strong>' +
-        ' test, from <strong>01/01/2021</strong> to <strong>31/01/2021</strong><ion-text> <br />' +
-        '</ion-text> at <strong>Test Centre 1</strong>';
+        'Displaying <strong>1</strong> Category <strong>B</strong> test, from <strong>01/01/2021</strong> to ' +
+        '<strong>31/01/2021</strong> at <strong>Test Centre 1</strong>';
       expect(component.getLabelText()).toEqual(expectedText);
     });
 
@@ -784,9 +785,8 @@ describe('ExaminerRecordsPage', () => {
       component.locationFilter = { centreName: 'Test Centre 2', centreId: 2, costCode: 'TC2' };
 
       const expectedText =
-        'Displaying <strong>2</strong> Category <strong>C</strong>' +
-        ' test<ion-text>s</ion-text>, from <strong>01/02/2021</strong> to <strong>28/02/2021</strong>' +
-        '<ion-text> <br /></ion-text> at <strong>Test Centre 2</strong>';
+        'Displaying <strong>2</strong> Category <strong>C</strong> test<ion-text>s</ion-text>, from ' +
+        '<strong>01/02/2021</strong> to <strong>28/02/2021</strong> at <strong>Test Centre 2</strong>';
       expect(component.getLabelText()).toEqual(expectedText);
     });
 
@@ -803,6 +803,57 @@ describe('ExaminerRecordsPage', () => {
         'Displaying <strong>1</strong> Category <strong>C</strong>' +
         ' test, from <strong>01/02/2021</strong> to <strong>28/02/2021</strong> at <strong>Test Centre 2</strong>';
       expect(component.getLabelText()).toEqual(expectedText);
+    });
+  });
+
+  describe('filterResults', () => {
+    it('should return only tests with activityCode in [1, 2, 3, 4, 5] and extendedTest is false', () => {
+      const tests: ExaminerRecordModel[] = [
+        { activityCode: 1, extendedTest: false },
+        { activityCode: 2, extendedTest: true },
+        { activityCode: 3, extendedTest: false },
+        { activityCode: 6, extendedTest: false },
+        { activityCode: 4, extendedTest: false },
+        { activityCode: 5, extendedTest: true },
+      ] as ExaminerRecordModel[];
+      const result = component.filterResults(tests);
+      const expectedResults: ExaminerRecordModel[] = [
+        { activityCode: 1, extendedTest: false },
+        { activityCode: 3, extendedTest: false },
+        { activityCode: 4, extendedTest: false },
+      ] as ExaminerRecordModel[];
+
+      expect(result).toEqual(expectedResults);
+    });
+
+    it('should return an empty array if no tests match the criteria', () => {
+      const tests: ExaminerRecordModel[] = [
+        { activityCode: 6, extendedTest: false },
+        { activityCode: 7, extendedTest: true },
+      ] as ExaminerRecordModel[];
+      const result = component.filterResults(tests);
+
+      expect(result).toEqual([]);
+    });
+
+    it('should return an empty array if input array is empty', () => {
+      const tests: ExaminerRecordModel[] = [] as ExaminerRecordModel[];
+      const result = component.filterResults(tests);
+
+      expect(result).toEqual([]);
+    });
+
+    it('should return only tests with activityCode in [1, 2, 3, 4, 5] and extendedTest is false when all tests match', () => {
+      const tests: ExaminerRecordModel[] = [
+        { activityCode: 1, extendedTest: false },
+        { activityCode: 2, extendedTest: false },
+        { activityCode: 3, extendedTest: false },
+        { activityCode: 4, extendedTest: false },
+        { activityCode: 5, extendedTest: false },
+      ] as ExaminerRecordModel[];
+      const result = component.filterResults(tests);
+
+      expect(result).toEqual(tests);
     });
   });
 });

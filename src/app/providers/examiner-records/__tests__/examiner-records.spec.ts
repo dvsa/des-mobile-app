@@ -101,10 +101,12 @@ describe('ExaminerRecordsProvider', () => {
             },
           } as JournalData,
           category: TestCategory.B,
+          activityCode: '1',
         } as TestResultSchemasUnion)
       ).toEqual({
         appRef: 1023,
         testCategory: TestCategory.B,
+        activityCode: 1,
         testCentre: {
           centreId: 1,
           costCode: 'EXPLE',
@@ -133,11 +135,13 @@ describe('ExaminerRecordsProvider', () => {
             },
           } as JournalData,
           category: TestCategory.B,
+          activityCode: '1',
         } as TestResultSchemasUnion)
       ).toEqual({
         controlledStop: true,
         appRef: 1023,
         testCategory: TestCategory.B,
+        activityCode: 1,
         testCentre: {
           centreId: 1,
           costCode: 'EXPLE',
@@ -166,11 +170,13 @@ describe('ExaminerRecordsProvider', () => {
             },
           } as JournalData,
           category: TestCategory.B,
+          activityCode: '1',
         } as TestResultSchemasUnion)
       ).toEqual({
         routeNumber: 1,
         appRef: 1023,
         testCategory: TestCategory.B,
+        activityCode: 1,
         testCentre: {
           centreId: 1,
           costCode: 'EXPLE',
@@ -207,11 +213,13 @@ describe('ExaminerRecordsProvider', () => {
             },
           } as JournalData,
           category: TestCategory.B,
+          activityCode: '1',
         } as TestResultSchemasUnion)
       ).toEqual({
         showMeQuestions: [{ code: 'code', description: 'description', outcome: 'P' }],
         appRef: 1023,
         testCategory: TestCategory.B,
+        activityCode: 1,
         testCentre: {
           centreId: 1,
           costCode: 'EXPLE',
@@ -250,11 +258,13 @@ describe('ExaminerRecordsProvider', () => {
             },
           } as JournalData,
           category: TestCategory.B,
+          activityCode: '1',
         } as TestResultSchemasUnion)
       ).toEqual({
         showMeQuestions: [{ code: 'code', description: 'description', outcome: 'P' }],
         appRef: 1023,
         testCategory: TestCategory.B,
+        activityCode: 1,
         testCentre: {
           centreId: 1,
           costCode: 'EXPLE',
@@ -291,11 +301,13 @@ describe('ExaminerRecordsProvider', () => {
             },
           } as JournalData,
           category: TestCategory.B,
+          activityCode: '1',
         } as TestResultSchemasUnion)
       ).toEqual({
         tellMeQuestions: [{ code: 'code', description: 'description', outcome: 'P' }],
         appRef: 1023,
         testCategory: TestCategory.B,
+        activityCode: 1,
         testCentre: {
           centreId: 1,
           costCode: 'EXPLE',
@@ -334,11 +346,13 @@ describe('ExaminerRecordsProvider', () => {
             },
           } as JournalData,
           category: TestCategory.B,
+          activityCode: '1',
         } as TestResultSchemasUnion)
       ).toEqual({
         tellMeQuestions: [{ code: 'code', description: 'description', outcome: 'P' }],
         appRef: 1023,
         testCategory: TestCategory.B,
+        activityCode: 1,
         testCentre: {
           centreId: 1,
           costCode: 'EXPLE',
