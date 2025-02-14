@@ -38,6 +38,7 @@ import {
   getRouteNumbers,
   getSafetyQuestions,
   getShowMeQuestions,
+  getStartedNonEyesightFailureTestCount,
   getStartedTestCount,
   getTellMeQuestions,
 } from '@pages/examiner-records/examiner-records.selector';
@@ -127,7 +128,11 @@ export class ExaminerRecordsPage implements OnInit {
 
   public defaultDate: SelectableDateRange = this.examinerRecordsProvider.localFilterOptions[2];
   public dateFilter: string = this.defaultDate.display;
-  public locationFilter: TestCentre = { centreName: null, centreId: null, costCode: null };
+  public locationFilter: TestCentre = {
+    centreName: null,
+    centreId: null,
+    costCode: null,
+  };
   public categoryDisplay: string;
   public currentCategory: string;
   accordionOpen = false;
@@ -338,6 +343,16 @@ export class ExaminerRecordsPage implements OnInit {
   }
 
   /**
+   * Filters the provided array of examiner records to remove any records that are not relevant.
+   * Remove all tests that are Terminated, not completed.
+   * Remove all extended tests.
+   * @param result
+   */
+  filterResults(result: ExaminerRecordModel[]): ExaminerRecordModel[] {
+    return result.filter((test) => [1, 2, 3, 4, 5].includes(test.activityCode)).filter((test) => !test.extendedTest);
+  }
+
+  /**
    * Pulls local tests from the store and performs the following functions:
    * 1. Filters them so that only tests conducted by the examiner are used,
    *    excluding tests they rekeyed on other examiner's behalf.
@@ -446,7 +461,11 @@ export class ExaminerRecordsPage implements OnInit {
         this.locationSelectPristine = true;
       } else if (locations.length === 0) {
         this.locationPlaceholder = '';
-        this.handleLocationFilter({ centreId: null, centreName: '', costCode: '' });
+        this.handleLocationFilter({
+          centreId: null,
+          centreName: '',
+          costCode: '',
+        });
         this.locationSelectPristine = true;
       }
     }
@@ -500,7 +519,7 @@ export class ExaminerRecordsPage implements OnInit {
           this.setupCategorySelectList(value);
         })
       ),
-      emergencyStops$: this.getTestsByParameters(getStartedTestCount).pipe(
+      emergencyStops$: this.getTestsByParameters(getStartedNonEyesightFailureTestCount).pipe(
         withLatestFrom(this.getTestsByParameters(getEmergencyStopCount)),
         //Turn emergency stop count into two objects containing tests with stops and tests without
         map(([testCount, emergencyStopCount]) => [
@@ -524,7 +543,9 @@ export class ExaminerRecordsPage implements OnInit {
       //listen for changes to test result and send the result to the behaviour subject
       cachedRecords$.pipe(
         tap((value) => {
-          this.testResults = this.removeDuplicatesAndSort(this.mergeWithOnlineResults(this.testResults, value));
+          this.testResults = this.filterResults(
+            this.removeDuplicatesAndSort(this.mergeWithOnlineResults(this.testResults, value))
+          );
           if (this.testResults.length > 0) {
             this.testSubject$.next(this.testResults);
           }
