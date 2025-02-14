@@ -134,27 +134,25 @@
       <label [for]="'chart-toggle-input'"></label>
     </ion-col>
   </ion-row>
-  <div>
-    <ion-row class="ion-padding">
-      <ion-col *ngIf="((pageState.locationList$ | async).length > 0)"
-               size="70"
+  <ion-row class="mes-padding-right mes-padding-left">
+    <ion-col *ngIf="((pageState.locationList$ | async).length > 0)"
+             size="70"
+    >
+      <ion-text
+        [style.color]="displayScrollBanner ? 'transparent' : 'black'"
+        [innerHTML]="getLabelText()"
+        class="mes-data"
       >
-        <ion-text
-          [style.color]="displayScrollBanner ? 'transparent' : 'black'"
-          [innerHTML]="getLabelText()"
-          class="mes-data"
-        >
-        </ion-text>
-      </ion-col>
-      <ion-col size="26" class="ion-align-self-end">
-        <ion-button id="examiner-records-learn-more-btn"
-                    class="ion-float-end mes-grey-button width-90-percent"
-                    (click)="showLearnMoreModal()">
-          <ion-text class="mes-data">Learn more</ion-text>
-        </ion-button>
-      </ion-col>
-    </ion-row>
-  </div>
+      </ion-text>
+    </ion-col>
+    <ion-col size="26" class="ion-align-self-end">
+      <ion-button id="examiner-records-learn-more-btn"
+                  class="ion-float-end mes-grey-button width-90-percent"
+                  (click)="showLearnMoreModal()">
+        <ion-text class="mes-data">Learn more</ion-text>
+      </ion-button>
+    </ion-col>
+  </ion-row>
 
   <div *ngIf="data.categoryList?.length > 0 && data.locationList?.length > 0">
     <ion-row class="ion-justify-content-center display-flex">
