@@ -307,7 +307,7 @@ describe('ExaminerRecordsPage', () => {
 
     it('should set displayScrollBanner to false when scrollTop is less than or equal to 203', () => {
       component.displayScrollBanner = true;
-      component.handleScroll({ detail: { scrollTop: 203 } } as CustomEvent<ScrollDetail>);
+      component.handleScroll({ detail: { scrollTop: 199 } } as CustomEvent<ScrollDetail>);
       expect(component.displayScrollBanner).toBe(false);
     });
   });
@@ -756,53 +756,6 @@ describe('ExaminerRecordsPage', () => {
         categoryList: [],
       };
       expect(component.displayNoDataCard(data)).toBeTrue();
-    });
-  });
-
-  describe('getLabelText', () => {
-    it('should return correct label text for single test', () => {
-      component.pageState.testCount$ = of(1);
-      spyOn(component.accessibilityService, 'getTextZoomClass').and.returnValue('text-zoom-large');
-
-      component.currentCategory = 'B';
-      component.startDateFilter = '01/01/2021';
-      component.endDateFilter = '31/01/2021';
-      component.locationFilter = { centreName: 'Test Centre 1', centreId: 1, costCode: 'TC1' };
-
-      const expectedText =
-        'Displaying <strong>1</strong> Category <strong>B</strong> test, from <strong>01/01/2021</strong> to ' +
-        '<strong>31/01/2021</strong> at <strong>Test Centre 1</strong>';
-      expect(component.getLabelText()).toEqual(expectedText);
-    });
-
-    it('should return correct label text for multiple tests', () => {
-      component.pageState.testCount$ = of(2);
-      spyOn(component.accessibilityService, 'getTextZoomClass').and.returnValue('text-zoom-large');
-
-      component.currentCategory = 'C';
-      component.startDateFilter = '01/02/2021';
-      component.endDateFilter = '28/02/2021';
-      component.locationFilter = { centreName: 'Test Centre 2', centreId: 2, costCode: 'TC2' };
-
-      const expectedText =
-        'Displaying <strong>2</strong> Category <strong>C</strong> test<ion-text>s</ion-text>, from ' +
-        '<strong>01/02/2021</strong> to <strong>28/02/2021</strong> at <strong>Test Centre 2</strong>';
-      expect(component.getLabelText()).toEqual(expectedText);
-    });
-
-    it('should not include line break for extra large text', () => {
-      component.pageState.testCount$ = of(1);
-      spyOn(component.accessibilityService, 'getTextZoomClass').and.returnValue('text-zoom-x-large');
-
-      component.currentCategory = 'C';
-      component.startDateFilter = '01/02/2021';
-      component.endDateFilter = '28/02/2021';
-      component.locationFilter = { centreName: 'Test Centre 2', centreId: 2, costCode: 'TC2' };
-
-      const expectedText =
-        'Displaying <strong>1</strong> Category <strong>C</strong>' +
-        ' test, from <strong>01/02/2021</strong> to <strong>28/02/2021</strong> at <strong>Test Centre 2</strong>';
-      expect(component.getLabelText()).toEqual(expectedText);
     });
   });
 

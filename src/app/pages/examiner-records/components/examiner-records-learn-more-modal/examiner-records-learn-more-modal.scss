@@ -4,7 +4,7 @@
   @extend .modal-alert-wrapper;
 
   .modal-width {
-    width: 600px;
+    width: 650px;
   }
 
   .info-icon {
@@ -23,6 +23,11 @@
 
   .general-text-padding {
     padding-top: 10px;
+    padding-left: 30px;
+    padding-right: 30px;
+  }
+
+  .general-text-padding-no-top {
     padding-left: 30px;
     padding-right: 30px;
   }

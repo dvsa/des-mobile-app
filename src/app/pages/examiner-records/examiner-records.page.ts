@@ -166,7 +166,7 @@ export class ExaminerRecordsPage implements OnInit {
    * @param {CustomEvent<ScrollDetail>} ev - The scroll event containing the scroll details.
    */
   handleScroll(ev: CustomEvent<ScrollDetail>) {
-    this.displayScrollBanner = ev.detail.scrollTop > 203;
+    this.displayScrollBanner = ev.detail.scrollTop > 200;
   }
 
   /**
@@ -885,21 +885,6 @@ export class ExaminerRecordsPage implements OnInit {
       }
     });
     return noData || data.categoryList?.length === 0 || data.locationList?.length === 0;
-  }
-
-  /**
-   * Returns the text used on the sticky label.
-   *
-   * This method retrieves the test count from the `testCount$` observable and constructs a string
-   * that displays the number of tests, the current category, the date range, and the location.
-   *
-   * @returns {string} The formatted label text.
-   */
-  getLabelText(): string {
-    let testCount = 0;
-    this.pageState.testCount$.subscribe((value) => (testCount = value)).unsubscribe();
-
-    return `Displaying <strong>${testCount}</strong> Category <strong>${this.currentCategory}</strong> test${testCount > 1 ? '<ion-text>s</ion-text>' : ''}, from <strong>${this.startDateFilter}</strong> to <strong>${this.endDateFilter}</strong> at <strong>${this.locationFilter.centreName}</strong>`;
   }
 
   /**
