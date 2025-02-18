@@ -68,7 +68,6 @@ export class OfficeCatDPage extends OfficeBasePageComponent implements OnInit {
 
   activityCodeOptions: ActivityCodeModel[];
   testCategory: CategoryCode;
-  isDelegated: boolean;
   testOutcome: string;
   testOutcomeText: string;
   conductedLanguage: string;

@@ -1,5 +1,5 @@
 import { select } from '@ngrx/store';
-import { Observable, combineLatest } from 'rxjs';
+import { Observable, Subscription, combineLatest } from 'rxjs';
 
 import { getCandidate } from '@store/tests/journal-data/common/candidate/candidate.reducer';
 import {
@@ -80,6 +80,7 @@ export abstract class PassFinalisationPageComponent extends PracticeableBasePage
 
   commonPageState: CommonPassFinalisationPageState;
   testOutcome: ActivityCodes = ActivityCodes.PASS;
+  subscription: Subscription;
 
   protected constructor(
     injector: Injector,
@@ -129,6 +130,13 @@ export abstract class PassFinalisationPageComponent extends PracticeableBasePage
         ])
       ),
     };
+  }
+
+  ionViewDidLeave(): void {
+    super.ionViewDidLeave();
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
   }
 
   provisionalLicenseReceived(): void {

@@ -14,7 +14,7 @@ import {
 } from '@shared/classes/test-flow-base-pages/pass-finalisation/pass-finalisation-base-page';
 import { TransmissionType } from '@shared/models/transmission-type';
 import { PersistTests } from '@store/tests/tests.actions';
-import { Observable, Subscription, merge } from 'rxjs';
+import { Observable, merge } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { behaviourMap } from '../../office/office-behaviour-map.cat-a-mod2';
 
@@ -30,7 +30,6 @@ export class PassFinalisationCatAMod2Page extends PassFinalisationPageComponent 
   form: UntypedFormGroup;
   merged$: Observable<string | boolean>;
   transmission: GearboxCategory;
-  subscription: Subscription;
 
   constructor(injector: Injector) {
     super(injector);
@@ -58,12 +57,6 @@ export class PassFinalisationCatAMod2Page extends PassFinalisationPageComponent 
       this.subscription = this.merged$.subscribe();
     }
     return true;
-  }
-
-  ionViewDidLeave(): void {
-    if (this.subscription) {
-      this.subscription.unsubscribe();
-    }
   }
 
   displayTransmissionBanner(): boolean {

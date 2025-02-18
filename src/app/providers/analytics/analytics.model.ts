@@ -332,6 +332,7 @@ export enum GoogleAnalyticsEvents {
   TEST_AUTOSAVED = 'test_autosaved',
   TEST_SUBMITTED = 'test_submitted',
   ASAM = 'single_app_mode_modal',
+  EXIT_SAM = 'exit_SAM',
   TEST_BOOKING_SEARCH = 'test_booking_search',
   SELECT_MODE = 'select_mode',
   EXIT_MODE = 'exit_mode',
@@ -351,7 +352,15 @@ export enum GoogleAnalyticsEvents {
 }
 
 export enum GoogleAnalyticsEventsTitles {
+  TEAMS_NOT_FOUND = 'microsoft_teams_could_not_be_found',
+  TEAMS_NOT_OPENED = 'microsoft_teams_cannot_be_opened',
+  SAM_NOT_DISABLED = 'sam_not_disabled',
+  APP_RESUMED = 'app_resumed',
+  APP_EXITED = 'app_exited',
+  REASON_FOR_LEAVING_DES = 'reason_for_leaving_des',
+  PRESS_AND_HOLD = 'press_and_hold',
   API_UNAVAILABLE = 'api_unavailable',
+  EXIT_TO_TEAMS = 'exit_to_teams',
   CHECK_CANCELLED = 'check_cancelled',
   MOT_WARNING = 'mot_warning',
   ALT_EVIDENCE_PROVIDED = 'alt_evidence_provided',
@@ -428,6 +437,9 @@ export enum GoogleAnalyticsEventsTitles {
 }
 
 export enum GoogleAnalyticsEventsValues {
+  ERROR_MODAL = 'error_modal',
+  BUTTON_SELECTED = 'button_selected',
+  BANNER_SELECTED = 'banner_selected',
   AMENDED = 'amended',
   NAVIGATION = 'navigation',
   VRN_EDITED = 'vrn_edited',

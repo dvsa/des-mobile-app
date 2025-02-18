@@ -9,6 +9,7 @@ import { TestReportComponentsModule } from '@pages/test-report/components/test-r
 import { TestReportValidatorProvider } from '@providers/test-report-validator/test-report-validator';
 import { TestResultProvider } from '@providers/test-result/test-result';
 
+import { TestFlowHeaderComponent } from '@components/common/test-flow-header/test-flow-header.component';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 import { TestReportCatAMod1ComponentsModule } from '@pages/test-report/cat-a-mod1/components/test-report.cat-a-mod1.components.module';
@@ -30,6 +31,7 @@ import { TestReportCatAMod1Page } from './test-report.cat-a-mod1.page';
     StoreModule.forFeature('testReport', testReportReducer),
     EffectsModule.forFeature([TestReportAnalyticsEffects, TestReportEffects]),
     TestReportCatAMod1ComponentsModule,
+    TestFlowHeaderComponent,
   ],
   providers: [TestReportValidatorProvider, TestResultProvider],
 })

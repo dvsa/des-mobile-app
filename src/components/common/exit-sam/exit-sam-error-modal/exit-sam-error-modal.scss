@@ -1,0 +1,26 @@
+@import "src/theme/sass-partials/modal";
+
+#practice-mode-exit-sam-modal-card {
+  padding: 0 0 0 0;
+  width: 450px;
+
+  @extend .modal-alert-wrapper;
+
+  .header-padding {
+    margin-top: 25px;
+    margin-bottom: 10px;
+  }
+
+  .message-padding {
+    margin-bottom: 30px;
+  }
+
+  .message-container {
+    padding-left: 25px;
+    padding-right: 25px;
+  }
+
+  .center-icon {
+    text-align: center;
+  }
+}

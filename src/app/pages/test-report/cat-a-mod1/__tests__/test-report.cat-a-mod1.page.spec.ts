@@ -6,6 +6,7 @@ import { MockComponent } from 'ng-mocks';
 import { By } from '@angular/platform-browser';
 import { AppModule } from '@app/app.module';
 import { PracticeModeBanner } from '@components/common/practice-mode-banner/practice-mode-banner';
+import { TestFlowHeaderComponent } from '@components/common/test-flow-header/test-flow-header.component';
 import { TickIndicatorComponent } from '@components/common/tick-indicator/tick-indicator';
 import { OverlayEventDetail } from '@ionic/core';
 import { Store, StoreModule } from '@ngrx/store';
@@ -66,6 +67,7 @@ describe('TestReportCatAMod1Page', () => {
         MockComponent(SingleFaultCompetencyComponent),
         MockComponent(SpeedCheckHeaderComponent),
         MockComponent(SpeedCheckComponent),
+        MockComponent(TestFlowHeaderComponent),
       ],
       imports: [
         IonicModule,
@@ -294,15 +296,6 @@ describe('TestReportCatAMod1Page', () => {
       spyOn(component.subscription, 'unsubscribe');
       component.ionViewDidLeave();
       expect(component.subscription.unsubscribe).toHaveBeenCalled();
-    });
-  });
-
-  describe('End Test Button', () => {
-    it('should call the end test function', () => {
-      spyOn(component, 'onEndTestClick');
-      const endTestButton = fixture.debugElement.query(By.css('#end-test-button'));
-      endTestButton.triggerEventHandler('click', null);
-      expect(component.onEndTestClick).toHaveBeenCalled();
     });
   });
 

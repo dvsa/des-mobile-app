@@ -1,15 +1,22 @@
 <ion-header>
-  <practice-mode-banner *ngIf="isEndToEndPracticeMode || isPracticeMode"></practice-mode-banner>
-  <ion-toolbar mode="ios" [ngClass]="{'toolbar-no-padding': isEndToEndPracticeMode || isPracticeMode }">
-    <ion-buttons id="tr-back-button" slot="start" *ngIf="isDelegated">
-      <ion-back-button></ion-back-button>
-    </ion-buttons>
-    <ion-title id="test-report-page-title" role="heading" aria-level="1">
+  <practice-mode-banner *ngIf="isEndToEndPracticeMode"></practice-mode-banner>
+  <ion-toolbar class="no-internal-padding"
+               [ngClass]="{'toolbar-no-padding': isEndToEndPracticeMode || isExitSAMActivated}" mode="ios">
+    <test-flow-header
+      class="display-flex flex-direction-column"
+      [pageName]="'test-report-page-cat-c'"
+      [shouldShowGenericEndTest]="true"
+      [shouldShowEndTestLink]="false"
+      [fixHeight]="true"
+      [shouldShowBackButton]="isDelegated"
+      [shouldShowEscapeFromSamButton]="!isRekey && !isDelegated"
+      [isPracticeMode]="isEndToEndPracticeMode"
+      (exitSamUsed)="onUsedExitSam()"
+      [isExitSAMActivated]="isExitSAMActivated"
+      (endTestButtonClicked)="onEndTestClick()"
+      (onExitSAMActivatedChanged)="isSamActivatedChanged($event)">
       Test report - {{pageState.candidateUntitledName$ | async}}
-    </ion-title>
-    <ion-buttons slot="end">
-      <ion-button (click)="onEndTestClick()" id="end-test-button">End test</ion-button>
-    </ion-buttons>
+    </test-flow-header>
   </ion-toolbar>
 </ion-header>
 

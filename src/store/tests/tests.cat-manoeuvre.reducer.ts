@@ -12,6 +12,7 @@ import { journalDataCatManoeuvreReducer } from '@store/tests/journal-data/cat-ma
 import { preTestDeclarationsReducer } from '@store/tests/pre-test-declarations/pre-test-declarations.reducer';
 import { testDataCatManoeuvresReducer } from '@store/tests/test-data/cat-manoeuvres/test-data.cat-manoeuvres.reducer';
 import { testSummaryReducer } from '@store/tests/test-summary/test-summary.reducer';
+import { userExitedAppReducer } from '@store/tests/user-exited-app/user-exited-app.reducer';
 import { vehicleDetailsCatManoeuvreReducer } from '@store/tests/vehicle-details/cat-manoeuvres/vehicle-details.cat-manoeuvre.reducer';
 import { accompanimentReducer } from './accompaniment/accompaniment.reducer';
 import { activityCodeReducer } from './activity-code/activity-code.reducer';
@@ -65,5 +66,6 @@ export function testsCatManoeuvreReducer(
     testSummary: testSummaryReducer,
     vehicleDetails: vehicleDetailsCatManoeuvreReducer,
     version: schemaVersionReducer,
+    userExitedApp: userExitedAppReducer,
   })(state as Required<TestResultManoeuvresUnion>, action);
 }

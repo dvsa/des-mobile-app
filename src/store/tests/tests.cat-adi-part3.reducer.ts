@@ -6,6 +6,7 @@ import { preTestDeclarationsCatADI3Reducer } from '@store/tests/pre-test-declara
 import { testDataCatADI3Reducer } from '@store/tests/test-data/cat-adi-part3/test-data.cat-adi-part3.reducer';
 import { testSummaryADIPart3Reducer } from '@store/tests/test-summary/cat-adi-part3/test-summary.cat-adi-part3.reducer';
 import { trainerDetailsCatADIPart3Reducer } from '@store/tests/trainer-details/cat-adi-part3/trainer-details.cat-adi-part3.reducer';
+import { userExitedAppReducer } from '@store/tests/user-exited-app/user-exited-app.reducer';
 import { vehicleDetailsCatADIPart3Reducer } from '@store/tests/vehicle-details/cat-adi-part3/vehicle-details.cat-adi-part3.reducer';
 import { activityCodeReducer } from './activity-code/activity-code.reducer';
 import { appVersionReducer } from './app-version/app-version.reducer';
@@ -50,5 +51,6 @@ export function testsCatADIPart3Reducer(
     testSummary: testSummaryADIPart3Reducer,
     trainerDetails: trainerDetailsCatADIPart3Reducer,
     vehicleDetails: vehicleDetailsCatADIPart3Reducer,
+    userExitedApp: userExitedAppReducer,
   })(state as Required<TestResultCatADI3Schema>, action);
 }

@@ -126,6 +126,9 @@ import {
 } from '@store/tests/test-summary/test-summary.selector';
 import { PersistTests, SendCurrentTest } from '@store/tests/tests.actions';
 import { TestOutcome } from '@store/tests/tests.constants';
+import { SetReasonForExitingApp } from '@store/tests/user-exited-app/user-exited-app.actions';
+import { getUserExitedApp } from '@store/tests/user-exited-app/user-exited-app.reducer';
+import { getReasonForExitingApp, getUserHasExitedApp } from '@store/tests/user-exited-app/user-exited-app.selector';
 import { getVehicleDetails } from '@store/tests/vehicle-details/cat-b/vehicle-details.cat-b.reducer';
 import { getDualControls, getSchoolCar } from '@store/tests/vehicle-details/cat-b/vehicle-details.cat-b.selector';
 import {
@@ -187,6 +190,8 @@ export interface CommonOfficePageState {
   otherAccompaniment$: Observable<boolean>;
   interpreterAccompaniment$: Observable<boolean>;
   motAlternativeEvidenceProvided: Observable<boolean>;
+  hasEnteredTeamsOnThisTest$: Observable<boolean>;
+  reasonForEnteringTeams$: Observable<string>;
 }
 
 export abstract class OfficeBasePageComponent extends PracticeableBasePageComponent {
@@ -231,6 +236,8 @@ export abstract class OfficeBasePageComponent extends PracticeableBasePageCompon
     const category$ = currentTest$.pipe(select(getTestCategory));
 
     this.commonPageState = {
+      hasEnteredTeamsOnThisTest$: currentTest$.pipe(select(getUserExitedApp), select(getUserHasExitedApp)),
+      reasonForEnteringTeams$: currentTest$.pipe(select(getUserExitedApp), select(getReasonForExitingApp)),
       activityCode$: currentTest$.pipe(select(getActivityCode)),
       testOutcome$: currentTest$.pipe(select(getTestOutcome)),
       testOutcomeText$: currentTest$.pipe(select(getTestOutcomeText)),
@@ -481,6 +488,10 @@ export abstract class OfficeBasePageComponent extends PracticeableBasePageCompon
 
   additionalInformationChanged(additionalInformation: string): void {
     this.store$.dispatch(AdditionalInformationChanged(additionalInformation));
+  }
+
+  reasonForEnteringTeamsChanged(reasonForEnteringTeams: string): void {
+    this.store$.dispatch(SetReasonForExitingApp(reasonForEnteringTeams));
   }
 
   provisionalLicenseReceived(): void {

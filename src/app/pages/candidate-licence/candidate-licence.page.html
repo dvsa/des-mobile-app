@@ -1,15 +1,20 @@
 <ion-header>
   <practice-mode-banner *ngIf="isEndToEndPracticeMode"></practice-mode-banner>
-  <ion-toolbar [ngClass]="{'toolbar-no-padding': isEndToEndPracticeMode}" mode="ios">
-    <ion-buttons id="candidate-licence-back-button" slot="start">
-      <ion-back-button defaultHref="WaitingRoomPage"></ion-back-button>
-    </ion-buttons>
-    <ion-title role="heading" aria-level="1" id="candidate-licence-page-title">
-      DVLA licence information - {{pageState.candidateUntitledName$ | async}}
-    </ion-title>
-    <ion-buttons id="end-button" slot="end">
-      <end-test-link [category]="pageState.testCategory$ | async" [isPracticeMode]="isPracticeMode"></end-test-link>
-    </ion-buttons>
+  <ion-toolbar
+    class="no-internal-padding"
+    [ngClass]="{'toolbar-no-padding': isEndToEndPracticeMode || isExitSAMActivated}" mode="ios">
+    <test-flow-header
+      class="display-flex flex-direction-column"
+      [defaultBackButtonHref]="'WaitingRoomPage'"
+      [testCategory]="pageState.testCategory$ | async"
+      [shouldShowEscapeFromSamButton]="!isRekey && !isDelegated"
+      [pageName]="'candidate-licence-page'"
+      [isPracticeMode]="isEndToEndPracticeMode"
+      [isExitSAMActivated]="isExitSAMActivated"
+      (exitSamUsed)="onUsedExitSam()"
+      (onExitSAMActivatedChanged)="isSamActivatedChanged($event)">
+      DVLA licence information - {{ pageState.candidateUntitledName$ | async }}
+    </test-flow-header>
   </ion-toolbar>
 </ion-header>
 

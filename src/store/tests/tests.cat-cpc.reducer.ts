@@ -1,6 +1,7 @@
 import { TestResultCatCPCSchema } from '@dvsa/mes-test-schema/categories/CPC';
 import { Action, combineReducers } from '@ngrx/store';
 
+import { userExitedAppReducer } from '@store/tests/user-exited-app/user-exited-app.reducer';
 import { accompanimentCatCPCReducer } from './accompaniment/cat-cpc/accompaniment.cat-cpc.reducer';
 import { activityCodeReducer } from './activity-code/activity-code.reducer';
 import { appVersionReducer } from './app-version/app-version.reducer';
@@ -46,5 +47,6 @@ export function testsCatCPCReducer(action: Action, state: TestResultCatCPCSchema
     testData: testDataCatCPCReducer,
     vehicleDetails: vehicleDetailsCatCPCReducer,
     version: schemaVersionReducer,
+    userExitedApp: userExitedAppReducer,
   })(state as Required<TestResultCatCPCSchema>, action);
 }

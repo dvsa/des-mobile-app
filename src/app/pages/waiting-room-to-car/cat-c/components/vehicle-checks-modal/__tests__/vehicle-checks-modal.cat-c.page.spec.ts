@@ -453,7 +453,7 @@ describe('VehicleChecksCatCModal', () => {
         });
       });
 
-      xdescribe('fullLicenceHeldChange', () => {
+      describe('fullLicenceHeldChange', () => {
         it('should convert input to a boolean and pass into setNumberOfShowMeTellMeQuestions', () => {
           spyOn(component, 'setNumberOfShowMeTellMeQuestions');
           spyOn(faultCountProvider, 'getVehicleChecksFaultCount').and.returnValue({} as VehicleChecksScore);

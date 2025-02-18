@@ -36,7 +36,7 @@ import { getTestData } from '@store/tests/test-data/cat-adi-part3/test-data.cat-
 import { PersistTests } from '@store/tests/tests.actions';
 import { getTests } from '@store/tests/tests.reducer';
 import { getCurrentTest, getJournalData } from '@store/tests/tests.selector';
-import { Observable, Subscription, merge } from 'rxjs';
+import { Observable, merge } from 'rxjs';
 import { filter, map, withLatestFrom } from 'rxjs/operators';
 
 interface CatAdi3PassFinalisationPageState {
@@ -60,7 +60,6 @@ export class PassFinalisationCatADIPart3Page extends PassFinalisationPageCompone
   form: UntypedFormGroup;
   merged$: Observable<boolean | string>;
   pageState: PassFinalisationPageState;
-  subscription: Subscription;
   furtherDevelopment: boolean;
   scStartTime: string;
   scEndTime: string;
@@ -120,12 +119,6 @@ export class PassFinalisationCatADIPart3Page extends PassFinalisationPageCompone
     super.ionViewWillEnter();
     this.store$.dispatch(PassFinalisationViewDidEnter());
     return true;
-  }
-
-  ionViewDidLeave(): void {
-    if (this.subscription) {
-      this.subscription.unsubscribe();
-    }
   }
 
   furtherDevelopmentChanged(furtherDevelopment: boolean) {

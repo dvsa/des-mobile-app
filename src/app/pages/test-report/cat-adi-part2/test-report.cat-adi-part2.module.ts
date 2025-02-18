@@ -5,6 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 
 import { ComponentsModule } from '@components/common/common-components.module';
+import { TestFlowHeaderComponent } from '@components/common/test-flow-header/test-flow-header.component';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 import { TestReportCatADIPart2ComponentsModule } from '@pages/test-report/cat-adi-part2/components/test-report.cat-adi-part2.components.module';
@@ -29,6 +30,7 @@ import { TestReportCatADI2Page } from './test-report.cat-adi-part2.page';
     TestReportComponentsModule,
     ComponentsModule,
     TestReportCatADIPart2ComponentsModule,
+    TestFlowHeaderComponent,
   ],
   providers: [TestReportValidatorProvider, TestResultProvider],
 })

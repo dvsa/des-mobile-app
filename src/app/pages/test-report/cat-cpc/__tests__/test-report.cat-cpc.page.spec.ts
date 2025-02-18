@@ -8,6 +8,7 @@ import { Subscription, of } from 'rxjs';
 
 import { AppModule } from '@app/app.module';
 import { PracticeModeBanner } from '@components/common/practice-mode-banner/practice-mode-banner';
+import { TestFlowHeaderComponent } from '@components/common/test-flow-header/test-flow-header.component';
 import { OverlayEventDetail } from '@ionic/core';
 import { ModalEvent } from '@pages/dashboard/components/practice-test-modal/practice-test-modal.constants';
 import { catCPCTestData, mockToggleEvent } from '@pages/test-report/cat-cpc/__mocks__/test-report.cat-cpc.mock';
@@ -65,6 +66,7 @@ describe('TestReportCatCPCPage', () => {
         MockComponent(QuestionSubtitleComponent),
         MockComponent(QuestionTitleComponent),
         MockComponent(QuestionDelExRadioCardComponent),
+        MockComponent(TestFlowHeaderComponent),
       ],
       imports: [
         IonicModule,

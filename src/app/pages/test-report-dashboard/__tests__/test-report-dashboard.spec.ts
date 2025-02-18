@@ -3,6 +3,7 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { FormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { AppModule } from '@app/app.module';
 import { ComponentsModule } from '@components/common/common-components.module';
+import { TestFlowHeaderComponent } from '@components/common/test-flow-header/test-flow-header.component';
 import { CatBUniqueTypes } from '@dvsa/mes-test-schema/categories/B';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { IonicModule, ModalController } from '@ionic/angular';
@@ -86,6 +87,7 @@ describe('TestReportDashboardPage', () => {
         MockComponent(TimerComponent),
         MockComponent(DashboardItemComponent),
         MockComponent(ReviewFeedback),
+        MockComponent(TestFlowHeaderComponent),
       ],
       imports: [AppModule, IonicModule, ComponentsModule, CommonModule],
       providers: [

@@ -60,6 +60,14 @@
             >
             </additional-information>
           </div>
+
+          <reason-for-entering-teams
+            *ngIf="pageState.hasEnteredTeamsOnThisTest$ | async"
+            [display]="pageState.hasEnteredTeamsOnThisTest$ | async"
+            [reasonForOpeningTeams]="pageState.reasonForEnteringTeams$ | async"
+            [formGroup]="form"
+            (reasonForOpeningTeamsChange)="reasonForEnteringTeamsChanged($event)"
+          ></reason-for-entering-teams>
         </ion-grid>
       </ion-card-content>
     </ion-card>

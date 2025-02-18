@@ -6,6 +6,7 @@ import { MockComponent } from 'ng-mocks';
 import { AppModule } from '@app/app.module';
 import { ScreenOrientation } from '@capawesome/capacitor-screen-orientation';
 import { PracticeModeBanner } from '@components/common/practice-mode-banner/practice-mode-banner';
+import { TestFlowHeaderComponent } from '@components/common/test-flow-header/test-flow-header.component';
 import { TickIndicatorComponent } from '@components/common/tick-indicator/tick-indicator';
 import { TestResultSchemasUnion } from '@dvsa/mes-test-schema/categories';
 import { StoreModule } from '@ngrx/store';
@@ -93,6 +94,7 @@ describe('TestReportCatBPage', () => {
           tests: testsReducer,
         }),
         StoreModule.forFeature('testReport', testReportReducer),
+        MockComponent(TestFlowHeaderComponent),
       ],
       providers: [
         {

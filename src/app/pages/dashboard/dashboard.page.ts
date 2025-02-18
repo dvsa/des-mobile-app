@@ -46,6 +46,7 @@ import * as journalActions from '@store/journal/journal.actions';
 import { JournalRehydrationPage, JournalRehydrationType } from '@store/journal/journal.effects';
 import { getJournalState } from '@store/journal/journal.reducer';
 import { getAllSlots } from '@store/journal/journal.selector';
+import { TestCentreJournalEnteredFromDashboard } from '@store/test-centre-journal/test-centre-journal.actions';
 import { DeletePracticeModeTests } from '@store/tests/tests.actions';
 import { getTests } from '@store/tests/tests.reducer';
 import { Observable, Subscription, combineLatest, from, merge, takeWhile } from 'rxjs';
@@ -249,5 +250,9 @@ export class DashboardPage extends BasePageComponent implements OnInit, ViewDidE
         }
       }
     }
+  }
+
+  onNavigateToTestCentreJournal() {
+    this.store$.dispatch(TestCentreJournalEnteredFromDashboard());
   }
 }

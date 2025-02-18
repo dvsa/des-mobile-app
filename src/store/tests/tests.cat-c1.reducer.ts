@@ -1,5 +1,6 @@
 import { CatC1UniqueTypes } from '@dvsa/mes-test-schema/categories/C1';
 import { Action, combineReducers } from '@ngrx/store';
+import { userExitedAppReducer } from '@store/tests/user-exited-app/user-exited-app.reducer';
 import { accompanimentReducer } from './accompaniment/accompaniment.reducer';
 import { activityCodeReducer } from './activity-code/activity-code.reducer';
 import { appVersionReducer } from './app-version/app-version.reducer';
@@ -48,5 +49,6 @@ export function testsCatC1Reducer(
     testSummary: testSummaryReducer,
     vehicleDetails: vehicleDetailsCatCReducer,
     version: schemaVersionReducer,
+    userExitedApp: userExitedAppReducer,
   })(state as Required<CatC1UniqueTypes.TestResult>, action);
 }
