@@ -62,5 +62,9 @@ export type AppConfig = {
   refData: {
     testCentreUrl: string;
   };
+  usefulLinks: {
+    drivingExaminationGuidanceURL: string;
+    accessibilityStatementURL: string;
+  };
   requestTimeout: number;
 };

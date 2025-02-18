@@ -1,0 +1,28 @@
+<ion-card class="modal-alert">
+  <modal-alert-title id="special-requirement-model-title">You are about to leave DES</modal-alert-title>
+  <ion-row class="ion-justify-content-center">
+    <ion-col class="ion-no-padding" size="80">
+      <div class="modal-alert-message">
+        <div class="mes-data ion-text-wrap">
+          This link will open a new browser tab.<br><br>
+
+          The content is not managed by the DES team.<br><br>
+
+          To return to DES, you will need to select the DES icon from the iPad home screen.
+        </div>
+      </div>
+    </ion-col>
+  </ion-row>
+  <ion-row class="ion-justify-content-center">
+    <ion-col class="mes-align-content-center ion-no-padding" size="72">
+      <modal-return-button (click)="onContinue()" id="open-link-button"
+      >Continue
+      </modal-return-button>
+    </ion-col>
+  </ion-row>
+  <ion-row>
+    <ion-col class="mes-align-content-center link-cancel-button">
+      <ion-button fill="clear" (click)="onCancel()" id="return-to-journal-button"> Cancel </ion-button>
+    </ion-col>
+  </ion-row>
+</ion-card>

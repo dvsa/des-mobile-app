@@ -14,6 +14,7 @@ import {
   TEST_RESULTS_SEARCH_PAGE,
   TestFlowPageNames,
   UNUPLOADED_TESTS_PAGE,
+  USEFUL_LINKS_PAGE,
 } from '@pages/page-names.constants';
 import { Office_Route } from './routing/office-route';
 import { Pass_Finalisation_Route } from './routing/pass-finalisation-route';
@@ -33,6 +34,10 @@ const routes: Routes = [
   {
     path: UNUPLOADED_TESTS_PAGE,
     loadChildren: () => import('./pages/unuploaded-tests/unuploaded-tests.module').then((m) => m.UnuploadedTestsModule),
+  },
+  {
+    path: USEFUL_LINKS_PAGE,
+    loadChildren: () => import('./pages/useful-links/useful-links.module').then((m) => m.UsefulLinksPageModule),
   },
   {
     path: PASS_CERTIFICATES,

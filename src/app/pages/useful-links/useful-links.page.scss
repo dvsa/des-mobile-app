@@ -1,0 +1,29 @@
+:host {
+  ion-list {
+    background: transparent;
+  }
+
+  ion-menu-button {
+    color: var(--mes-white);
+  }
+
+  .header-divider {
+    border-top: 1px solid black;
+  }
+
+  .chevron-icon {
+    margin: auto;
+    font-size: 30px;
+    padding: 10px;
+    position: relative;
+    float: right;
+  }
+
+  .white-text {
+    --color: white;
+    color: white !important;
+    & ion-text, label, span, p {
+      color: white !important;
+    }
+  }
+}

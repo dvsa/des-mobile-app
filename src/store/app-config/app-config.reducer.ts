@@ -63,6 +63,7 @@ export const initialState: AppConfig = {
   refData: {
     testCentreUrl: null,
   },
+  usefulLinks: null,
   requestTimeout: null,
 };
 

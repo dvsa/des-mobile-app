@@ -33,6 +33,7 @@ export enum AnalyticsScreenNames {
   UN_UPLOADED = 'incomplete tests screen',
   PASS_CERTIFICATES = 'pass certificates screen',
   EXAMINER_RECORDS = 'examiner records screen',
+  USEFUL_LINKS = 'useful links screen',
 }
 
 export enum AnalyticsEventCategories {
@@ -349,6 +350,7 @@ export enum GoogleAnalyticsEvents {
   EMERGENCY_STOP = 'emergency_stop',
   STUDENT_EXPERIENCE = 'student_experience',
   EXAMINER_RECORDS = 'examiner_records',
+  USEFUL_LINKS = 'useful_links',
 }
 
 export enum GoogleAnalyticsEventsTitles {
@@ -434,6 +436,9 @@ export enum GoogleAnalyticsEventsTitles {
   TAP_TO_SHOW = 'tap_to_show_data',
   TAP_TO_HIDE = 'tap_to_hide_data',
   DATA_UNAVAILABLE = 'data_unavailable',
+  SELECTED_LINK_DT1 = 'selected_link_DT1',
+  SELECTED_LINK_AS = 'selected_link_AS',
+  LEAVING_DES_MODAL = 'leaving_DES_modal',
 }
 
 export enum GoogleAnalyticsEventsValues {
@@ -522,4 +527,5 @@ export enum GoogleAnalyticsEventsValues {
   RETURN_TO_DASHBOARD = 'return_to_dashboard',
   DATA_BANNER_DISPLAY = 'data_banner_display',
   SAVED = 'saved',
+  LEAVING_DES_MODAL = 'leaving_DES_modal',
 }

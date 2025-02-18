@@ -1,0 +1,41 @@
+<ion-header>
+  <ion-toolbar mode="ios">
+    <ion-buttons id="useful-links-burger-menu-btn" slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-buttons slot="end">
+      <ion-button
+        class="white-text"
+        id="examiner-records-return-to-dashboard-btn"
+        (click)="goToDashboard()">
+        Exit
+      </ion-button>
+    </ion-buttons>
+    <ion-title id="useful-links-page-title" role="heading" aria-level="1">Useful links</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <ion-text id="useful-links-description" class="des-header-style-3 name">This is an initial list of useful links. More
+    will be added over time.
+  </ion-text>
+
+  <ion-list *ngFor="let link of usefulLinks">
+      <ion-card>
+        <ion-card-content>
+          <ion-row (click)="openLinkModal(link.url, link.actionName)">
+            <ion-col size="82">
+              <h3 id="link-card-header" class="des-header-style-2 bold">{{link.name}}</h3>
+            </ion-col>
+            <ion-col size="14">
+              <ion-icon
+                class="chevron-icon"
+                name="chevron-forward-outline"
+                id="link-chevron">
+              </ion-icon>
+            </ion-col>
+          </ion-row>
+        </ion-card-content>
+      </ion-card>
+  </ion-list>
+</ion-content>

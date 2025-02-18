@@ -90,6 +90,10 @@ export const localEnvironmentMock: LocalEnvironmentFile = {
     signatureUrl: null,
     standardUrl: null,
   },
+  usefulLinks: {
+    drivingExaminationGuidanceURL: 'https://www.example.com/api/v1/guidance',
+    accessibilityStatementURL: 'https://www.example.com/api/v1/accessibility',
+  },
   refData: {
     testCentreUrl: null,
   },
