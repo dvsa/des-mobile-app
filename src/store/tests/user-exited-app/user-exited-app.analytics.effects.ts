@@ -27,8 +27,6 @@ export class UserExitedAppAnalyticsEffects {
     private appConfigProvider: AppConfigProvider
   ) {}
 
-  //To-DO: Implement analytics once defined
-
   userExitedApp$ = createEffect(() =>
     this.actions$.pipe(
       ofType(testStatusActions.SetHasExitedApp),
@@ -42,7 +40,6 @@ export class UserExitedAppAnalyticsEffects {
       ),
       concatMap(([, tests]: [ReturnType<typeof testStatusActions.SetHasExitedApp>, TestsModel, boolean]) => {
         //GA4 Analytics
-        // TO-DO, write adequate analytic
         this.analytics.logGAEvent(
           analyticsEventTypePrefix(GoogleAnalyticsEvents.EXIT_SAM, tests),
           GoogleAnalyticsEventsTitles.APP_EXITED,
@@ -66,7 +63,6 @@ export class UserExitedAppAnalyticsEffects {
       ),
       concatMap(([, tests]: [ReturnType<typeof testStatusActions.SetReasonForExitingApp>, TestsModel, boolean]) => {
         //GA4 Analytics
-        // TO-DO, write adequate analytic
         this.analytics.logGAEvent(
           analyticsEventTypePrefix(GoogleAnalyticsEvents.EXIT_SAM, tests),
           GoogleAnalyticsEventsTitles.REASON_FOR_LEAVING_DES,
