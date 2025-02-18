@@ -3,7 +3,7 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import {
   AccessibilityStatementSelected,
-  DTIGuidanceSelected,
+  DT1GuidanceSelected,
   UsefulLinksReturnToDashboardPressed,
 } from '@pages/useful-links/useful-links.actions';
 import { AnalyticsProvider } from '@providers/analytics/analytics';
@@ -25,14 +25,14 @@ export class UsefulLinksAnalyticsEffects {
     private store$: Store<StoreModel>
   ) {}
 
-  dtiGuidanceSelected$ = createEffect(() =>
+  dt1GuidanceSelected$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(DTIGuidanceSelected),
-      concatMap((action: ReturnType<typeof DTIGuidanceSelected>) => {
+      ofType(DT1GuidanceSelected),
+      concatMap((action: ReturnType<typeof DT1GuidanceSelected>) => {
         // GA4 Analytics
         this.analytics.logGAEvent(
           GoogleAnalyticsEvents.USEFUL_LINKS,
-          GoogleAnalyticsEventsTitles.SELECTED_LINK_DTI,
+          GoogleAnalyticsEventsTitles.SELECTED_LINK_DT1,
           GoogleAnalyticsEventsValues.LEAVING_DES_MODAL
         );
         return of(AnalyticRecorded());

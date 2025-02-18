@@ -1,4 +1,4 @@
 export enum UsefulLinkNames {
-  drivingExaminationGuidanceURL = 'DTI Guidance',
+  drivingExaminationGuidanceURL = 'DT1 Guidance',
   accessibilityStatementURL = 'Accessibility Statement',
 }
