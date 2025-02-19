@@ -11,7 +11,7 @@
       [isPracticeMode]="isEndToEndPracticeMode"
       (exitSamUsed)="onUsedExitSam()"
       [isExitSAMActivated]="isExitSAMActivated"
-      (endTestButtonClicked)="onEndTestClick()"
+      (endTestButtonClicked)="onContinueClick()"
       (onExitSAMActivatedChanged)="isSamActivatedChanged($event)">
       Test report - {{pageState.candidateUntitledName$ | async}}
     </test-flow-header>
