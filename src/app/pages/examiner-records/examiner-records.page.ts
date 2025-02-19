@@ -11,7 +11,6 @@ import { ScrollDetail } from '@ionic/core';
 import { Store, select } from '@ngrx/store';
 import { ExaminerRecordsLearnMoreModal } from '@pages/examiner-records/components/examiner-records-learn-more-modal/examiner-records-learn-more-modal';
 import { ExaminerReportsCardClick } from '@pages/examiner-records/components/examiner-reports-card/examiner-reports-card';
-import { RecordsExplanationModal } from '@pages/examiner-records/components/records-explanation-modal/records-explanation-modal';import {CustomDateRangeModal} from '@pages/examiner-records/components/custom-date-range-modal/custom-date-range-modal';
 import {
   ClickDataCard,
   ColourFilterChanged,
@@ -58,7 +57,6 @@ import { OrientationMonitorProvider } from '@providers/orientation-monitor/orien
 import { SearchProvider } from '@providers/search/search';
 import { DateRange, DateTime } from '@shared/helpers/date-time';
 import { isAnyOf } from '@shared/helpers/simplifiers';
-import { ActivityCodes } from '@shared/models/activity-codes';
 import { StoreModel } from '@shared/models/store.model';
 import { selectEmployeeId } from '@store/app-info/app-info.selectors';
 import {
@@ -455,20 +453,8 @@ export class ExaminerRecordsPage implements OnInit {
         map((value: StartedTests): TestResultSchemasUnion[] => Object.values(value)),
         map((value: TestResultSchemasUnion[]): TestResultSchemasUnion[] => {
           const employeeId = this.store$.selectSignal(selectEmployeeId)();
-
-          //Filter out tests with an activity code that isn't 1,2,3,4 or 5
-          const filteredByActivityCodeTests = value.filter((test: TestResultSchemasUnion): boolean => {
-            return isAnyOf(test.activityCode, [
-              ActivityCodes.PASS,
-              ActivityCodes.FAIL,
-              ActivityCodes.FAIL_EYESIGHT,
-              ActivityCodes.FAIL_PUBLIC_SAFETY,
-              ActivityCodes.FAIL_CANDIDATE_STOPS_TEST,
-            ]);
-          });
-
           //Filter out tests the user rekeyd for other users
-          return filteredByActivityCodeTests.filter((test: TestResultSchemasUnion): boolean => {
+          return value.filter((test) => {
             return test?.examinerConducted ? test.examinerConducted.toString() === employeeId : true;
           });
         }),
@@ -607,14 +593,6 @@ export class ExaminerRecordsPage implements OnInit {
     await this.orientationProvider.monitorOrientation();
   }
 
-  async showExplanationModal(): Promise<void> {
-    const modal: HTMLIonModalElement = await this.modalController.create({
-      component: RecordsExplanationModal,
-      cssClass: 'blackout-modal mes-modal-alert',
-      backdropDismiss: false,
-    });
-    await modal.present();
-  }
   /**
    * Pulls the list of the current locations where tests have been conducted, then sets the most common location
    * as the default.

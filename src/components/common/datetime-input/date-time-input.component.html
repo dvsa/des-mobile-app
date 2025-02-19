@@ -21,16 +21,22 @@
     (didDismiss)="selectedBuffer = null"
   >
     <ng-template>
-      <custom-calendar-component
-        *ngIf="displayType === DisplayType.Date"
-        id="{{ pickerId }}"
-        [customTitle]="customTitle"
-        [minValue]="minValue"
-        [maxValue]="maxValue"
-        [selectedValue]="initialValue"
-        (customButtonEvent)="modal.dismiss()"
-        (onDataPicked)="onSelected($event.toISOString(), displayType)"
-      ></custom-calendar-component>
+      <ion-card class="date-calendar">
+        <ion-row class="calendar-row-height">
+          <ion-col>
+            <custom-calendar-component
+              *ngIf="displayType === DisplayType.Date"
+              id="{{ pickerId }}"
+              [customTitle]="customTitle"
+              [minValue]="minValue"
+              [maxValue]="maxValue"
+              [selectedValue]="initialValue"
+              (customButtonEvent)="modal.dismiss()"
+              (onDataPicked)="onSelected($event.toISOString(), displayType)"
+            ></custom-calendar-component>
+          </ion-col>
+        </ion-row>
+      </ion-card>
       <ion-datetime
         *ngIf="displayType === DisplayType.Time"
         class="time-modal-content"

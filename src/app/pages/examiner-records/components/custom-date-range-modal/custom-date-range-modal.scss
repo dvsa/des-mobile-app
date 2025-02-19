@@ -3,6 +3,10 @@
 :host {
   @extend .modal-alert-wrapper;
 
+  .calendar-sizing {
+    height: 560px
+  }
+
   .modal-header {
     font-size: 28px;
     letter-spacing: 0.27px;
@@ -13,11 +17,6 @@
       font-weight: bold;
     }
   }
-
-  .custom-date-range-modal-size {
-    width: 600px;
-  }
-
   .one-hundred-percent-width {
     width: 100%;
   }
