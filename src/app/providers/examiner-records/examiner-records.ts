@@ -6,6 +6,7 @@ import { QuestionResult } from '@dvsa/mes-test-schema/categories/common';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { Store } from '@ngrx/store';
 import { CompressionProvider } from '@providers/compression/compression';
+import { DataStoreProvider, LocalStorageKey } from '@providers/data-store/data-store';
 import { LoadingProvider } from '@providers/loader/loader';
 import { SearchProvider } from '@providers/search/search';
 import { DateRange, DateTime } from '@shared/helpers/date-time';
@@ -92,10 +93,13 @@ export class ExaminerRecordsProvider {
   constructor(
     public searchProvider: SearchProvider,
     public compressionProvider: CompressionProvider,
+    private dataStoreProvider: DataStoreProvider,
     public store$: Store<StoreModel>,
     public router: Router,
     public loadingProvider: LoadingProvider
   ) {}
+
+  private examinerRecordsKeychainKey = LocalStorageKey.EXAMINER_STATS_KEY;
 
   /**
    * Handler for loading spinner while pulling remote data.
@@ -229,4 +233,15 @@ export class ExaminerRecordsProvider {
     }
     return result;
   };
+
+  /**
+   *  Remove examiner records aspects of examiner records from the store.
+   */
+  async clearExaminerRecordsCache(): Promise<void> {
+    const items: string[] = await this.dataStoreProvider.getKeys();
+    if (items?.indexOf(this.examinerRecordsKeychainKey) >= 0) {
+      await this.dataStoreProvider.removeItem(this.examinerRecordsKeychainKey);
+    }
+    return Promise.resolve();
+  }
 }

@@ -3,12 +3,14 @@ import { TestBed, waitForAsync } from '@angular/core/testing';
 import { provideMockStore } from '@ngrx/store/testing';
 import { CompletedTestPersistenceProviderMock } from '@providers/completed-test-persistence/__mocks__/completed-test-persistence.mock';
 import { CompletedTestPersistenceProvider } from '@providers/completed-test-persistence/completed-test-persistence';
+import { ExaminerRecordsProviderMock } from '@providers/examiner-records/__mocks__/examiner-records.mock';
+import { ExaminerRecordsProvider } from '@providers/examiner-records/examiner-records';
 import { LogHelperMock } from '@providers/logs/__mocks__/logs-helper.mock';
 import { LogHelper } from '@providers/logs/logs-helper';
+import { LogType } from '@shared/models/log.model';
 import { StoreModel } from '@shared/models/store.model';
 import { AppConfigProviderMock } from '../../app-config/__mocks__/app-config.mock';
 import { AppConfigProvider } from '../../app-config/app-config';
-import { AppConfig } from '../../app-config/app-config.model';
 import { DataStoreProviderMock } from '../../data-store/__mocks__/data-store.mock';
 import { DataStoreProvider } from '../../data-store/data-store';
 import { NetworkStateProviderMock } from '../../network-state/__mocks__/network-state.mock';
@@ -20,7 +22,6 @@ import { AuthenticationProvider, Token } from '../authentication';
 describe('AuthenticationProvider', () => {
   let authenticationProvider: AuthenticationProvider;
   let networkStateProvider: NetworkStateProvider;
-  let appConfigProvider: AppConfigProvider;
   let dataStoreProvider: DataStoreProvider;
   const initialState = { appInfo: { employeeId: '1234567' } } as StoreModel;
 
@@ -52,13 +53,16 @@ describe('AuthenticationProvider', () => {
           provide: LogHelper,
           useClass: LogHelperMock,
         },
+        {
+          provide: ExaminerRecordsProvider,
+          useClass: ExaminerRecordsProviderMock,
+        },
         provideMockStore({ initialState }),
       ],
     });
 
     networkStateProvider = TestBed.inject(NetworkStateProvider);
     authenticationProvider = TestBed.inject(AuthenticationProvider);
-    appConfigProvider = TestBed.inject(AppConfigProvider);
     dataStoreProvider = TestBed.inject(DataStoreProvider);
     authenticationProvider.initialiseAuthentication();
   }));
@@ -209,27 +213,44 @@ describe('AuthenticationProvider', () => {
     });
 
     describe('logout', () => {
-      it('should logout successfully', async () => {
-        spyOn(authenticationProvider.ionicAuth, 'logout');
-        await authenticationProvider.logout();
-        expect(authenticationProvider.ionicAuth.logout).toHaveBeenCalled();
-        expect(dataStoreProvider.removeItem).toHaveBeenCalledWith(Token.ID);
-        expect(dataStoreProvider.removeItem).toHaveBeenCalledWith(Token.ACCESS);
-        expect(dataStoreProvider.removeItem).toHaveBeenCalledWith(Token.REFRESH);
+      beforeEach(() => {
+        spyOn(authenticationProvider, 'logEvent');
+        spyOn(authenticationProvider, 'clearStore').and.returnValue(Promise.resolve());
+        spyOn(authenticationProvider, 'clearTokens').and.returnValue(Promise.resolve());
+        spyOn(authenticationProvider.appConfig, 'shutDownStoreSubscription');
+        spyOn(authenticationProvider.subscription, 'unsubscribe');
+        spyOn(authenticationProvider.authConnect, 'logout').and.returnValue(Promise.resolve());
       });
 
-      it('should clear the persisted tests when the configuration to do so is enabled', async () => {
-        const configWithPersistenceClearing: AppConfig = {
-          ...appConfigProvider.getAppConfig(),
-          logoutClearsTestPersistence: true,
-        };
-        spyOn(appConfigProvider, 'getAppConfig').and.returnValue(configWithPersistenceClearing);
-        spyOn(authenticationProvider.ionicAuth, 'logout');
+      it('should log the start and end of the logout flow', async () => {
         await authenticationProvider.logout();
-        expect(authenticationProvider.ionicAuth.logout).toHaveBeenCalled();
-        expect(dataStoreProvider.removeItem).toHaveBeenCalledWith(Token.ID);
-        expect(dataStoreProvider.removeItem).toHaveBeenCalledWith(Token.ACCESS);
-        expect(dataStoreProvider.removeItem).toHaveBeenCalledWith(Token.REFRESH);
+        expect(authenticationProvider.logEvent).toHaveBeenCalledWith(LogType.DEBUG, 'Logout', 'Started logout flow');
+        expect(authenticationProvider.logEvent).toHaveBeenCalledWith(LogType.DEBUG, 'Logout', 'Finished logout flow');
+      });
+
+      it('should clear the store and tokens', async () => {
+        await authenticationProvider.logout();
+        expect(authenticationProvider.clearStore).toHaveBeenCalled();
+        expect(authenticationProvider.clearTokens).toHaveBeenCalled();
+      });
+
+      it('should shut down the store subscription and unsubscribe from the subscription', async () => {
+        await authenticationProvider.logout();
+        expect(authenticationProvider.appConfig.shutDownStoreSubscription).toHaveBeenCalled();
+        expect(authenticationProvider.subscription.unsubscribe).toHaveBeenCalled();
+      });
+
+      it('should call authConnect.logout', async () => {
+        await authenticationProvider.logout();
+        expect(authenticationProvider.authConnect.logout).toHaveBeenCalled();
+      });
+
+      it('should handle errors and log them', async () => {
+        const error = new Error('logout error');
+        spyOn(authenticationProvider.authConnect, 'logout').and.returnValue(Promise.reject(error));
+        spyOn(authenticationProvider, 'onLogoutError');
+        await authenticationProvider.logout();
+        expect(authenticationProvider.onLogoutError).toHaveBeenCalledWith(error, 'Authentication provider');
       });
     });
 

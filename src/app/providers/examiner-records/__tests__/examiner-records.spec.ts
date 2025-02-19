@@ -5,6 +5,8 @@ import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/
 import { Store } from '@ngrx/store';
 import { CompressionProviderMock } from '@providers/compression/__mocks__/compression.mock';
 import { CompressionProvider } from '@providers/compression/compression';
+import { DataStoreProviderMock } from '@providers/data-store/__mocks__/data-store.mock';
+import { DataStoreProvider } from '@providers/data-store/data-store';
 import { SearchProviderMock } from '@providers/search/__mocks__/search.mock';
 import { SearchProvider } from '@providers/search/search';
 import { DateRange } from '@shared/helpers/date-time';
@@ -13,6 +15,7 @@ import { ExaminerRecordsProvider } from '../examiner-records';
 
 describe('ExaminerRecordsProvider', () => {
   let provider: ExaminerRecordsProvider;
+  let dataStore: DataStoreProvider;
 
   class StoreMock {}
 
@@ -25,6 +28,10 @@ describe('ExaminerRecordsProvider', () => {
           useClass: SearchProviderMock,
         },
         {
+          provide: DataStoreProvider,
+          useClass: DataStoreProviderMock,
+        },
+        {
           provide: CompressionProvider,
           useClass: CompressionProviderMock,
         },
@@ -33,6 +40,7 @@ describe('ExaminerRecordsProvider', () => {
     });
 
     provider = TestBed.inject(ExaminerRecordsProvider);
+    dataStore = TestBed.inject(DataStoreProvider);
   });
 
   describe('getRangeDate', () => {
