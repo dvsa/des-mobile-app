@@ -6,6 +6,7 @@ import { ResetRekeyReason } from '@pages/rekey-reason/rekey-reason.actions';
 import { RekeySearchClearState } from '@pages/rekey-search/rekey-search.actions';
 import { ResetFaultMode } from '@pages/test-report/test-report.actions';
 import { CompletedTestPersistenceProvider } from '@providers/completed-test-persistence/completed-test-persistence';
+import { ExaminerRecordsProvider } from '@providers/examiner-records/examiner-records';
 import { LogHelper } from '@providers/logs/logs-helper';
 import { serialiseLogMessage } from '@shared/helpers/serialise-log-message';
 import { LogType } from '@shared/models/log.model';
@@ -34,7 +35,7 @@ export enum Token {
 
 @Injectable()
 export class AuthenticationProvider {
-  private subscription: Subscription;
+  subscription: Subscription;
   private employeeIdKey: string;
   private employeeId: string;
   private inUnAuthenticatedMode: boolean;
@@ -43,11 +44,12 @@ export class AuthenticationProvider {
   constructor(
     private dataStoreProvider: DataStoreProvider,
     private networkState: NetworkStateProvider,
-    private appConfig: AppConfigProvider,
+    public appConfig: AppConfigProvider,
     private testPersistenceProvider: TestPersistenceProvider,
     private store$: Store<StoreModel>,
     private logHelper: LogHelper,
-    private completedTestPersistenceProvider: CompletedTestPersistenceProvider
+    private completedTestPersistenceProvider: CompletedTestPersistenceProvider,
+    private examinerRecordsProvider: ExaminerRecordsProvider
   ) {
     this.setStoreSubscription();
   }
@@ -106,7 +108,7 @@ export class AuthenticationProvider {
     return Promise.resolve();
   }
 
-  private async clearTokens(): Promise<void> {
+  async clearTokens(): Promise<void> {
     await this.dataStoreProvider.removeItem(Token.ACCESS);
     await this.dataStoreProvider.removeItem(Token.ID);
     await this.dataStoreProvider.removeItem(Token.REFRESH);
@@ -290,6 +292,9 @@ export class AuthenticationProvider {
 
     // Clear persisted tests from the test persistence provider
     await this.testPersistenceProvider.clearPersistedTests();
+
+    // Clear all reminiscent of examiner records from storage
+    await this.examinerRecordsProvider.clearExaminerRecordsCache();
 
     // Clear persisted completed tests from the completed test persistence provider
     await this.completedTestPersistenceProvider.clearPersistedCompletedTests();
