@@ -269,6 +269,10 @@ export const environment: LocalEnvironmentFile = {
   mot: {
     motHistoryUrl: 'https://dev.mes.dev-dvsacloud.uk/v1/mot-history/{vrn}',
   },
+  usefulLinks: {
+    drivingExaminationGuidanceURL: 'https://www.example.com/guidance',
+    accessibilityStatementURL: 'https://www.example.com/accessibility',
+  },
   refData: {
     testCentreUrl: '/assets/mock/ref-data/local-test-centres.json',
   },
