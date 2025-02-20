@@ -15,18 +15,20 @@ export class AlternateEvidenceDescriptionComponent {
   @Input()
   formGroup: UntypedFormGroup;
 
+  @Input()
+  alternateEvidenceDescription: string;
+
   @Output()
   evidenceDescriptionTestResultChange = new EventEmitter<string>();
-
-  evidenceDescription: string;
 
   ngOnChanges(): void {
     if (!this.formControl) {
       this.formControl = new UntypedFormControl('', [Validators.required]);
+      this.formControl.patchValue(this.alternateEvidenceDescription);
       if (this.formGroup.contains('altEvidenceDetailsCtrl')) {
-        this.formControl.patchValue(this.formGroup.controls.altEvidenceDetailsCtrl.value);
         this.formGroup.setControl('altEvidenceDetailsCtrl', this.formControl);
       } else {
+        console.log('Adding altEvidenceDetailsCtrl to formGroup', this.formControl);
         this.formGroup.addControl('altEvidenceDetailsCtrl', this.formControl);
       }
     }

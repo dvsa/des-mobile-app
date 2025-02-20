@@ -123,14 +123,15 @@
             </identification>
 
             <alternate-mot-evidence-provided
-              *ngIf="(pageState.motAlternativeEvidenceProvided | async) != null"
-              [alternativeEvidenceProvided]="pageState.motAlternativeEvidenceProvided | async"
-              [shouldHaveSeparator]="(pageState.motAlternativeEvidenceProvided | async) || (pageState.displayAdditionalInformation$ | async)"
+              *ngIf="(pageState.motAlternativeEvidenceProvided$ | async) != null"
+              [alternativeEvidenceProvided]="pageState.motAlternativeEvidenceProvided$ | async"
+              [shouldHaveSeparator]="(pageState.motAlternativeEvidenceProvided$ | async) || (pageState.displayAdditionalInformation$ | async)"
             ></alternate-mot-evidence-provided>
 
             <alternate-mot-evidence-description
               [shouldHaveSeparator]="pageState.displayAdditionalInformation$ | async"
-              *ngIf="pageState.motAlternativeEvidenceProvided | async"
+              *ngIf="pageState.motAlternativeEvidenceProvided$ | async"
+              [alternateEvidenceDescription]="pageState.motAlternativeEvidenceDescription$ | async"
               (evidenceDescriptionTestResultChange)="alternativeMOTEvidenceDescriptionUpdated($event)"
               [formGroup]="form"
             >
