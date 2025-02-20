@@ -172,8 +172,8 @@ export class ExaminerRecordsProvider {
   formatForExaminerRecords = (testResult: TestResultSchemasUnion): ExaminerRecordModel => {
     let result: ExaminerRecordModel = {
       appRef: Number(formatApplicationReference(testResult.journalData.applicationReference)),
-      activityCode: Number(testResult.activityCode),
       testCategory: testResult.category as TestCategory,
+      activityCode: Number(testResult.activityCode),
       testCentre: testResult.journalData.testCentre,
       startDate: new DateTime(testResult.journalData.testSlotAttributes.start).format('YYYY-MM-DD'),
     };

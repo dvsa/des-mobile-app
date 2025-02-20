@@ -52,7 +52,7 @@
   <ion-row class="ion-padding">
     <ion-col [size]="accessibilityService.getTextZoomClass() === 'text-zoom-x-large' ? 45 : 48">
       <ion-row>
-        <label>Location</label>
+        <label id="examiner-records-location-label">Location</label>
       </ion-row>
       <ion-row class="padding-top-10">
         <ion-select
@@ -75,7 +75,7 @@
     <ion-col></ion-col>
     <ion-col [size]="accessibilityService.getTextZoomClass() === 'text-zoom-x-large' ? 23 : 20">
       <ion-row>
-        <label>Test category</label>
+        <label id="examiner-records-test-category-label">Test category</label>
       </ion-row>
       <ion-row class="padding-top-10">
         <ion-select
@@ -98,7 +98,7 @@
     <ion-col></ion-col>
     <ion-col size="25">
       <ion-row>
-        <label>Date range</label>
+        <label id="examiner-records-date-range-label">Date range</label>
       </ion-row>
       <ion-row class="padding-top-10">
         <ion-select
@@ -135,7 +135,7 @@
     </ion-col>
     <ion-col></ion-col>
     <ion-col class="ion-align-items-center display-flex" size="auto">
-      <label>Hide charts</label>
+      <label id="examiner-records-hide-chart-label">Hide charts</label>
     </ion-col>
     <ion-col size="7" class="display-flex ion-float-end ion-align-items-center">
       <input
@@ -457,15 +457,28 @@
       <ion-card-title>
         <ion-row>
           <ion-col>
-            <ion-text class="des-header-style-4 fault-heading">No data available</ion-text>
+            <ion-text id="examiner-records-no-data-text" class="des-header-style-4 fault-heading" >No data available</ion-text>
           </ion-col>
         </ion-row>
       </ion-card-title>
     </ion-card-header>
-    <ion-card-content class="mes-text-align-centre">
-      <ion-text class="mes-data">
-        No driving test data available for this period.<br /><br />Select another date range.
-      </ion-text>
+    <ion-card-content>
+      <ion-row>
+        <ion-col class="mes-text-align-centre">
+          <ion-text id="examiner-records-no-driving-test-data-text" class="mes-data">
+            No driving test data available for this period.
+          </ion-text>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+      </ion-row>
+      <ion-row>
+        <ion-col id="examiner-records-select-another-range-text" class="mes-text-align-centre">
+          <ion-text class="mes-data mes-text-align-centre">
+            Select another date range.
+          </ion-text>
+        </ion-col>
+      </ion-row>
     </ion-card-content>
   </ion-card>
 </ion-content>
