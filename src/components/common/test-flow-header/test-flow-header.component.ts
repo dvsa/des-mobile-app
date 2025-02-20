@@ -44,7 +44,7 @@ export enum ExitSAMMethodUsed {
 export class TestFlowHeaderComponent {
   @Input() isPracticeMode = false;
   @Input() shouldIncludeLanguageDirectiveOnTitle = false;
-  @Input() defaultBackButtonHref: string;
+  @Input() defaultBackButtonHref: string = null;
   @Input() shouldShowRefreshButton = false;
   @Input() shouldShowGenericEndTest = false;
   @Input() shouldShowEndTestLink = true;

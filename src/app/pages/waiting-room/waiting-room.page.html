@@ -8,7 +8,6 @@
       class="display-flex flex-direction-column"
       [testCategory]="pageState.testCategory$ | async"
       [isDelegatedRekey]="isDelegated"
-      [defaultBackButtonHref]="isEndToEndPracticeMode ? 'FakeJournalPage' : 'JournalPage'"
       [shouldShowEscapeFromSamButton]="!isDelegated && !isRekey"
       [pageName]="'waiting-room-page'"
       [isPracticeMode]="isEndToEndPracticeMode"
