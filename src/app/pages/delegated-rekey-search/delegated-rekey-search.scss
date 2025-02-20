@@ -1,7 +1,7 @@
 :host {
   .search-tests {
     margin-top: 20px;
-    min-height: 56px;
+    height: 56px;
     width: 100%;
   }
 
@@ -29,12 +29,6 @@
       margin: 4px 0;
       text-align: center;
     }
-  }
-
-  .search-spinner {
-    margin-top: 32px;
-    margin-left: 700px;
-    position: absolute;
   }
 
   ion-spinner {
