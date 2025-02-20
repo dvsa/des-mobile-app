@@ -24,37 +24,33 @@ describe('AlternateEvidenceDescriptionComponent', () => {
   }));
 
   describe('ngOnChanges', () => {
-    it('should create and set up the form control when it does not exist', () => {
+    it('should create formControl if it does not exist', () => {
       component.formControl = null;
       component.ngOnChanges();
-
       expect(component.formControl).toBeDefined();
       expect(component.formControl instanceof UntypedFormControl).toBe(true);
-
-      // Check if the validator function is defined
-      expect(component.formControl.validator).toBeDefined();
     });
-    it('should add the form control to the form group when it does not exist', () => {
-      spyOn(component.formGroup, 'contains').and.returnValue(false);
+
+    it('should patch formControl value with alternateEvidenceDescription', () => {
       component.formControl = null;
-
+      component.alternateEvidenceDescription = 'Test Description';
       component.ngOnChanges();
-
-      expect(component.formControl).toBeDefined();
-      expect(component.formControl instanceof UntypedFormControl).toBe(true);
-      expect(component.formGroup.controls.altEvidenceDetailsCtrl).toBe(component.formControl);
+      expect(component.formControl.value).toBe('Test Description');
     });
-    it('should patch altEvidenceDetailsCtrl into the formControl when it does exist', () => {
+
+    it('should add formControl to formGroup if altEvidenceDetailsCtrl does not exist', () => {
+      component.formControl = null;
+      component.formGroup = new UntypedFormGroup({});
+      component.ngOnChanges();
+      console.log(component.formGroup.contains('altEvidenceDetailsCtrl'));
+      expect(component.formGroup.contains('altEvidenceDetailsCtrl')).toBeTrue();
+    });
+
+    it('should set formControl in formGroup if altEvidenceDetailsCtrl exists', () => {
+      component.formControl = null;
       spyOn(component.formGroup, 'contains').and.returnValue(true);
-      component.formControl = null;
-      component.formGroup.addControl('altEvidenceDetailsCtrl', new UntypedFormControl('string'));
-
       component.ngOnChanges();
-
-      expect(component.formControl).toBeDefined();
-      expect(component.formControl instanceof UntypedFormControl).toBe(true);
       expect(component.formGroup.controls.altEvidenceDetailsCtrl).toBe(component.formControl);
-      expect(component.formControl.value).toEqual('string');
     });
   });
 

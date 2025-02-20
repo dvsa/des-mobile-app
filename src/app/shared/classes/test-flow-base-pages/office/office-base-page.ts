@@ -138,7 +138,10 @@ import {
   SchoolBikeToggled,
   SchoolCarToggled,
 } from '@store/tests/vehicle-details/vehicle-details.actions';
-import { getMotEvidenceProvided } from '@store/tests/vehicle-details/vehicle-details.selector';
+import {
+  getMotEvidenceDescription,
+  getMotEvidenceProvided,
+} from '@store/tests/vehicle-details/vehicle-details.selector';
 import { map, withLatestFrom } from 'rxjs/operators';
 
 export interface CommonOfficePageState {
@@ -189,9 +192,10 @@ export interface CommonOfficePageState {
   supervisorAccompaniment$: Observable<boolean>;
   otherAccompaniment$: Observable<boolean>;
   interpreterAccompaniment$: Observable<boolean>;
-  motAlternativeEvidenceProvided: Observable<boolean>;
+  motAlternativeEvidenceProvided$: Observable<boolean>;
   hasEnteredTeamsOnThisTest$: Observable<boolean>;
   reasonForEnteringTeams$: Observable<string>;
+  motAlternativeEvidenceDescription$: Observable<string>;
 }
 
 export abstract class OfficeBasePageComponent extends PracticeableBasePageComponent {
@@ -236,6 +240,11 @@ export abstract class OfficeBasePageComponent extends PracticeableBasePageCompon
     const category$ = currentTest$.pipe(select(getTestCategory));
 
     this.commonPageState = {
+      motAlternativeEvidenceProvided$: currentTest$.pipe(select(getVehicleDetails), select(getMotEvidenceProvided)),
+      motAlternativeEvidenceDescription$: currentTest$.pipe(
+        select(getVehicleDetails),
+        select(getMotEvidenceDescription)
+      ),
       hasEnteredTeamsOnThisTest$: currentTest$.pipe(select(getUserExitedApp), select(getUserHasExitedApp)),
       reasonForEnteringTeams$: currentTest$.pipe(select(getUserExitedApp), select(getReasonForExitingApp)),
       activityCode$: currentTest$.pipe(select(getActivityCode)),
@@ -403,7 +412,6 @@ export abstract class OfficeBasePageComponent extends PracticeableBasePageCompon
       supervisorAccompaniment$: currentTest$.pipe(select(getAccompaniment), select(getSupervisorAccompaniment)),
       otherAccompaniment$: currentTest$.pipe(select(getAccompaniment), select(getOtherAccompaniment)),
       interpreterAccompaniment$: currentTest$.pipe(select(getAccompaniment), select(getInterpreterAccompaniment)),
-      motAlternativeEvidenceProvided: currentTest$.pipe(select(getVehicleDetails), select(getMotEvidenceProvided)),
     };
   }
 
