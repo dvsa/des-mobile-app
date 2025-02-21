@@ -94,12 +94,27 @@ describe('ExaminerRecordsPage', () => {
       declarations: [ExaminerRecordsPage, MockComponent(ColourFilterRadioComponent)],
       imports: [IonicModule, CommonModule],
       providers: [
-        { provide: ExaminerRecordsProvider, useClass: ExaminerRecordsProviderMock },
+        {
+          provide: ExaminerRecordsProvider,
+          useClass: ExaminerRecordsProviderMock,
+        },
         CompressionProvider,
-        { provide: SearchProvider, useClass: SearchProviderMock },
-        { provide: Store, useClass: MockStore },
-        { provide: Router, useClass: RouterMock },
-        { provide: ModalController, useClass: ModalControllerMock },
+        {
+          provide: SearchProvider,
+          useClass: SearchProviderMock,
+        },
+        {
+          provide: Store,
+          useClass: MockStore,
+        },
+        {
+          provide: Router,
+          useClass: RouterMock,
+        },
+        {
+          provide: ModalController,
+          useClass: ModalControllerMock,
+        },
         provideMockStore({
           initialState: {
             appInfo: { employeeId: '1' },
@@ -117,8 +132,15 @@ describe('ExaminerRecordsPage', () => {
                   category: 'B',
                   activityCode: '11',
                   journalData: {
-                    examiner: { staffNumber: '1234567', individualId: 9000001 },
-                    testCentre: { centreId: 54322, costCode: 'EXTC1', centreName: 'Example Test Centre' },
+                    examiner: {
+                      staffNumber: '1234567',
+                      individualId: 9000001,
+                    },
+                    testCentre: {
+                      centreId: 54322,
+                      costCode: 'EXTC1',
+                      centreName: 'Example Test Centre',
+                    },
                     testSlotAttributes: {
                       welshTest: false,
                       slotId: 5137,
@@ -143,7 +165,11 @@ describe('ExaminerRecordsPage', () => {
                         postcode: 'AB12 3CD',
                       },
                       candidateId: 126,
-                      candidateName: { firstName: 'test', lastName: 'data', title: 'Mr' },
+                      candidateName: {
+                        firstName: 'test',
+                        lastName: 'data',
+                        title: 'Mr',
+                      },
                       driverNumber: 'COOPE015220A99HC',
                       mobileTelephone: '07654 123456',
                       primaryTelephone: '01234 567890',
@@ -152,7 +178,11 @@ describe('ExaminerRecordsPage', () => {
                       ethnicityCode: 'E',
                       gender: 'F',
                     },
-                    applicationReference: { applicationId: 20654332, bookingSequence: 3, checkDigit: 1 },
+                    applicationReference: {
+                      applicationId: 20654332,
+                      bookingSequence: 3,
+                      checkDigit: 1,
+                    },
                   },
                   preTestDeclarations: {
                     insuranceDeclarationAccepted: true,
@@ -168,17 +198,35 @@ describe('ExaminerRecordsPage', () => {
                   },
                   instructorDetails: {},
                   testData: {
-                    drivingFaults: { moveOffSafety: 1, moveOffControl: 1 },
+                    drivingFaults: {
+                      moveOffSafety: 1,
+                      moveOffControl: 1,
+                    },
                     dangerousFaults: {},
                     seriousFaults: {},
                     vehicleChecks: {
-                      tellMeQuestion: { code: 'T6', description: 'Antilock braking system', outcome: 'P' },
-                      showMeQuestion: { outcome: 'P', code: 'S1', description: 'Rear windscreen' },
+                      tellMeQuestion: {
+                        code: 'T6',
+                        description: 'Antilock braking system',
+                        outcome: 'P',
+                      },
+                      showMeQuestion: {
+                        outcome: 'P',
+                        code: 'S1',
+                        description: 'Rear windscreen',
+                      },
                     },
                     controlledStop: { selected: false },
-                    eco: { completed: true, adviceGivenControl: true, adviceGivenPlanning: true },
+                    eco: {
+                      completed: true,
+                      adviceGivenControl: true,
+                      adviceGivenPlanning: true,
+                    },
                     ETA: {},
-                    eyesightTest: { complete: true, seriousFault: false },
+                    eyesightTest: {
+                      complete: true,
+                      seriousFault: false,
+                    },
                     manoeuvres: { reverseRight: { selected: true } },
                     testRequirements: {
                       normalStart1: true,
@@ -187,7 +235,10 @@ describe('ExaminerRecordsPage', () => {
                       angledStart: true,
                     },
                   },
-                  passCompletion: { passCertificateNumber: 'A123456X', provisionalLicenceProvided: true },
+                  passCompletion: {
+                    passCertificateNumber: 'A123456X',
+                    provisionalLicenceProvided: true,
+                  },
                   postTestDeclarations: {
                     healthDeclarationAccepted: true,
                     passCertificateNumberReceived: true,
@@ -220,7 +271,10 @@ describe('ExaminerRecordsPage', () => {
                       technicalFault: false,
                       stolen: false,
                     },
-                    other: { selected: false, reason: '' },
+                    other: {
+                      selected: false,
+                      reason: '',
+                    },
                     transfer: { selected: false },
                   },
                   delegatedTest: false,
@@ -315,8 +369,14 @@ describe('ExaminerRecordsPage', () => {
   describe('setupCategorySelectList', () => {
     it('should add every completed category to categoryFilterOptions', () => {
       const categories = [
-        { item: TestCategory.B, count: 1 },
-        { item: TestCategory.C, count: 2 },
+        {
+          item: TestCategory.B,
+          count: 1,
+        },
+        {
+          item: TestCategory.C,
+          count: 2,
+        },
       ];
       component.setupCategorySelectList(categories);
       expect(component.categoryFilterOptions).toEqual([TestCategory.B, TestCategory.C]);
@@ -324,8 +384,14 @@ describe('ExaminerRecordsPage', () => {
 
     it('should set the most common category as the default if current category is not included', () => {
       const categories = [
-        { item: TestCategory.B, count: 1 },
-        { item: TestCategory.C, count: 2 },
+        {
+          item: TestCategory.B,
+          count: 1,
+        },
+        {
+          item: TestCategory.C,
+          count: 2,
+        },
       ];
       spyOn(component, 'setDefault').and.returnValue(categories[1]);
       spyOn(component, 'handleCategoryFilter');
@@ -338,8 +404,14 @@ describe('ExaminerRecordsPage', () => {
 
     it('should call changeEligibleTests if current category is included in categoryFilterOptions', () => {
       const categories = [
-        { item: TestCategory.B, count: 1 },
-        { item: TestCategory.C, count: 2 },
+        {
+          item: TestCategory.B,
+          count: 1,
+        },
+        {
+          item: TestCategory.C,
+          count: 2,
+        },
       ];
       component.categorySubject$.next(TestCategory.B);
       spyOn(component, 'changeEligibleTests');
@@ -349,8 +421,14 @@ describe('ExaminerRecordsPage', () => {
 
     it('should set categorySelectPristine to true if most common category is set as default', () => {
       const categories = [
-        { item: TestCategory.B, count: 1 },
-        { item: TestCategory.C, count: 2 },
+        {
+          item: TestCategory.B,
+          count: 1,
+        },
+        {
+          item: TestCategory.C,
+          count: 2,
+        },
       ];
       spyOn(component, 'setDefault').and.returnValue(categories[1]);
       component.categorySubject$.next(TestCategory.A);
@@ -361,8 +439,14 @@ describe('ExaminerRecordsPage', () => {
     it('should not set categorySelectPristine if current category is included in categoryFilterOptions', () => {
       component.categorySelectPristine = false;
       const categories = [
-        { item: TestCategory.B, count: 1 },
-        { item: TestCategory.C, count: 2 },
+        {
+          item: TestCategory.B,
+          count: 1,
+        },
+        {
+          item: TestCategory.C,
+          count: 2,
+        },
       ];
       component.categorySubject$.next(TestCategory.B);
       spyOn(component, 'changeEligibleTests');
@@ -374,32 +458,90 @@ describe('ExaminerRecordsPage', () => {
   describe('setupLocationSelectList', () => {
     it('should add every visited location to locationFilterOptions', () => {
       const locations = [
-        { item: { centreName: 'Centre 1', centreId: 1, costCode: 'X1' }, count: 1 },
-        { item: { centreName: 'Centre 2', centreId: 2, costCode: 'X2' }, count: 2 },
+        {
+          item: {
+            centreName: 'Centre 1',
+            centreId: 1,
+            costCode: 'X1',
+          },
+          count: 1,
+        },
+        {
+          item: {
+            centreName: 'Centre 2',
+            centreId: 2,
+            costCode: 'X2',
+          },
+          count: 2,
+        },
       ];
       component.setupLocationSelectList(locations);
       expect(component.locationFilterOptions).toEqual([
-        { centreName: 'Centre 1', centreId: 1, costCode: 'X1' },
-        { centreName: 'Centre 2', centreId: 2, costCode: 'X2' },
+        {
+          centreName: 'Centre 1',
+          centreId: 1,
+          costCode: 'X1',
+        },
+        {
+          centreName: 'Centre 2',
+          centreId: 2,
+          costCode: 'X2',
+        },
       ]);
     });
 
     it('should display cost code or centre id if centre name is not available', () => {
       const locations = [
-        { item: { centreName: null, centreId: 1, costCode: 'X1' }, count: 1 },
-        { item: { centreName: null, centreId: 2, costCode: null }, count: 2 },
+        {
+          item: {
+            centreName: null,
+            centreId: 1,
+            costCode: 'X1',
+          },
+          count: 1,
+        },
+        {
+          item: {
+            centreName: null,
+            centreId: 2,
+            costCode: null,
+          },
+          count: 2,
+        },
       ];
       component.setupLocationSelectList(locations);
       expect(component.locationFilterOptions).toEqual([
-        { centreName: 'Limited details - X1', centreId: 1, costCode: 'X1' },
-        { centreName: 'Limited details - 2', centreId: 2, costCode: null },
+        {
+          centreName: 'Limited details - X1',
+          centreId: 1,
+          costCode: 'X1',
+        },
+        {
+          centreName: 'Limited details - 2',
+          centreId: 2,
+          costCode: null,
+        },
       ]);
     });
 
     it('should set the most common location as the default if current location is not included', () => {
       const locations = [
-        { item: { centreName: 'Centre 1', centreId: 1, costCode: 'X1' }, count: 1 },
-        { item: { centreName: 'Centre 2', centreId: 2, costCode: 'X2' }, count: 2 },
+        {
+          item: {
+            centreName: 'Centre 1',
+            centreId: 1,
+            costCode: 'X1',
+          },
+          count: 1,
+        },
+        {
+          item: {
+            centreName: 'Centre 2',
+            centreId: 2,
+            costCode: 'X2',
+          },
+          count: 2,
+        },
       ];
       spyOn(component, 'setDefault').and.returnValue(locations[1]);
       spyOn(component, 'handleLocationFilter');
@@ -416,7 +558,11 @@ describe('ExaminerRecordsPage', () => {
 
       component.setupLocationSelectList(locations);
       expect(component.locationPlaceholder).toEqual('');
-      expect(component.handleLocationFilter).toHaveBeenCalledWith({ centreId: null, centreName: '', costCode: '' });
+      expect(component.handleLocationFilter).toHaveBeenCalledWith({
+        centreId: null,
+        centreName: '',
+        costCode: '',
+      });
     });
   });
 
@@ -424,10 +570,19 @@ describe('ExaminerRecordsPage', () => {
     it('should return the value with the highest count within the array', () => {
       expect(
         component.setDefault([
-          { item: 1, count: 1 },
-          { item: 2, count: 2 },
+          {
+            item: 1,
+            count: 1,
+          },
+          {
+            item: 2,
+            count: 2,
+          },
         ])
-      ).toEqual({ item: 2, count: 2 });
+      ).toEqual({
+        item: 2,
+        count: 2,
+      });
     });
   });
 
@@ -474,22 +629,49 @@ describe('ExaminerRecordsPage', () => {
 
   describe('handleLocationFilter', () => {
     it('should set locationFilter to the passed value', () => {
-      component.locationFilter = { centreId: null, centreName: null, costCode: null };
-      component.handleLocationFilter({ centreName: '1', centreId: 1, costCode: '2' }, true);
-      expect(component.locationFilter).toEqual({ centreName: '1', centreId: 1, costCode: '2' });
+      component.locationFilter = {
+        centreId: null,
+        centreName: null,
+        costCode: null,
+      };
+      component.handleLocationFilter(
+        {
+          centreName: '1',
+          centreId: 1,
+          costCode: '2',
+        },
+        true
+      );
+      expect(component.locationFilter).toEqual({
+        centreName: '1',
+        centreId: 1,
+        costCode: '2',
+      });
       expect(component.locationSelectPristine).toEqual(false);
     });
     it('should set locationSubject$ to centreId of the passed value', () => {
-      component.handleLocationFilter({ centreName: '1', centreId: 1, costCode: '2' });
+      component.handleLocationFilter({
+        centreName: '1',
+        centreId: 1,
+        costCode: '2',
+      });
       component.locationSubject$.subscribe((i) => {
         expect(i).toEqual(1);
         expect(component.locationSelectPristine).toEqual(true);
       });
     });
     it('should dispatch LocationChanged with locationFilter', () => {
-      component.handleLocationFilter({ centreName: '1', centreId: 1, costCode: '2' });
+      component.handleLocationFilter({
+        centreName: '1',
+        centreId: 1,
+        costCode: '2',
+      });
       expect(component.store$.dispatch).toHaveBeenCalledWith(
-        LocationChanged({ centreName: '1', centreId: 1, costCode: '2' })
+        LocationChanged({
+          centreName: '1',
+          centreId: 1,
+          costCode: '2',
+        })
       );
     });
   });
@@ -696,53 +878,29 @@ describe('ExaminerRecordsPage', () => {
 
   describe('cardClicked', () => {
     it('should dispatch the store', () => {
-      component.cardClicked({ isExpanded: false, title: 'test' });
-      expect(component.store$.dispatch).toHaveBeenCalledWith(ClickDataCard({ isExpanded: false, title: 'test' }));
+      component.cardClicked({
+        isExpanded: false,
+        title: 'test',
+      });
+      expect(component.store$.dispatch).toHaveBeenCalledWith(
+        ClickDataCard({
+          isExpanded: false,
+          title: 'test',
+        })
+      );
     });
   });
 
   describe('displayNoDataCard', () => {
-    it('should return true when all data grids are empty', () => {
-      const emptyData: ExaminerRecordsPageStateData = {
-        routeGrid: [],
-        manoeuvresGrid: [],
-        showMeQuestionsGrid: [],
-        independentDrivingGrid: [],
-        tellMeQuestionsGrid: [],
-        safetyGrid: [],
-        balanceGrid: [],
-        testCount: 0,
-        emergencyStops: [],
-        circuits: [],
-        locationList: [],
-        categoryList: [],
-      };
-      expect(component.displayNoDataCard(emptyData)).toBeTrue();
-    });
-
-    it('should return false when any data grid has items', () => {
-      const dataWithItems: ExaminerRecordsPageStateData = {
-        routeGrid: [],
-        manoeuvresGrid: [],
-        showMeQuestionsGrid: [],
-        independentDrivingGrid: [],
-        tellMeQuestionsGrid: [],
-        safetyGrid: [],
-        balanceGrid: [],
-        testCount: 1,
-        emergencyStops: [],
-        circuits: [],
-        locationList: [{ item: { centreName: 'Test Centre 1', centreId: 1, costCode: 'TC1' }, count: 1 }],
-        categoryList: [{ item: TestCategory.B, count: 1 }],
-      };
-
-      spyOn(component, 'getTotal').and.returnValue(1);
-      expect(component.displayNoDataCard(dataWithItems)).toBeFalse();
-    });
-
     it('should return true when categoryList and locationList are empty', () => {
       const data: ExaminerRecordsPageStateData = {
-        routeGrid: [{ item: 'Route 1', count: 1, percentage: '10%' }],
+        routeGrid: [
+          {
+            item: 'Route 1',
+            count: 1,
+            percentage: '10%',
+          },
+        ],
         manoeuvresGrid: [],
         showMeQuestionsGrid: [],
         independentDrivingGrid: [],
@@ -756,6 +914,77 @@ describe('ExaminerRecordsPage', () => {
         categoryList: [],
       };
       expect(component.displayNoDataCard(data)).toBeTrue();
+    });
+
+    it('should return true when locationList is not empty but categoryList is', () => {
+      const data: ExaminerRecordsPageStateData = {
+        routeGrid: [
+          {
+            item: 'Route 1',
+            count: 1,
+            percentage: '10%',
+          },
+        ],
+        manoeuvresGrid: [],
+        showMeQuestionsGrid: [],
+        independentDrivingGrid: [],
+        tellMeQuestionsGrid: [],
+        safetyGrid: [],
+        balanceGrid: [],
+        testCount: 1,
+        emergencyStops: [],
+        circuits: [],
+        locationList: [
+          {
+            item: {
+              centreName: 'Centre 1',
+              centreId: 1,
+              costCode: 'X1',
+            },
+            count: 1,
+          },
+        ],
+        categoryList: [],
+      };
+      expect(component.displayNoDataCard(data)).toBeTrue();
+    });
+
+    it('should return false when locationList && categoryList not empty', () => {
+      const data: ExaminerRecordsPageStateData = {
+        routeGrid: [
+          {
+            item: 'Route 1',
+            count: 1,
+            percentage: '10%',
+          },
+        ],
+        manoeuvresGrid: [],
+        showMeQuestionsGrid: [],
+        independentDrivingGrid: [],
+        tellMeQuestionsGrid: [],
+        safetyGrid: [],
+        balanceGrid: [],
+        testCount: 1,
+        emergencyStops: [],
+        circuits: [],
+        locationList: [
+          {
+            item: {
+              centreName: 'Centre 1',
+              centreId: 1,
+              costCode: 'X1',
+            },
+            count: 1,
+          },
+        ],
+        categoryList: [
+          {
+            item: TestCategory.B,
+            count: 1,
+          },
+        ],
+      };
+      expect(component.displayNoDataCard(data)).toBeFalse();
     });
   });
 });

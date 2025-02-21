@@ -861,23 +861,13 @@ export class ExaminerRecordsPage implements OnInit {
   /**
    * Determines if the "No Data" card should be displayed.
    *
-   * This method checks if there is no data available in the provided `ExaminerRecordsPageStateData` object.
-   * It iterates over the keys of the data object and checks if the total count of each key is greater than 0.
-   * If any key has a total count greater than 0, it sets `noData` to false.
-   * Additionally, it checks if the `categoryList` or `locationList` arrays are empty.
+   * This method checks if `categoryList` or `locationList` arrays are empty.
    *
    * @param {ExaminerRecordsPageStateData} data - The data object containing various examiner records.
    * @returns {boolean} `true` if the "No Data" card should be displayed, otherwise `false`.
    */
   displayNoDataCard(data: ExaminerRecordsPageStateData): boolean {
-    let noData = true;
-
-    Object.keys(data).forEach((key) => {
-      if (!isAnyOf(key, ['testCount', 'locationList', 'categoryList'])) {
-        noData = false;
-      }
-    });
-    return noData || data.categoryList?.length === 0 || data.locationList?.length === 0;
+    return data.categoryList?.length === 0 || data.locationList?.length === 0;
   }
 
   /**
