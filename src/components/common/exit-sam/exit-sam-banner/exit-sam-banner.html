@@ -1,6 +1,7 @@
 <ion-toolbar
   (touchstart)="onTouchStart()"
   (touchend)="onTouchEnd()"
+  [id]="pageTitle+'-exit-banner'"
   class="exit-banner-toolbar-sizing">
   <ion-row *ngIf="showSpacingBanner" class="status-bar-spacing"></ion-row>
   <ion-row class="banner-details-spacing">
