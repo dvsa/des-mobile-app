@@ -188,7 +188,7 @@ export class TestFlowHeaderComponent {
       cssClass: 'mes-modal-alert text-zoom-regular',
       componentProps: {
         modalTitle: 'You are in practice mode',
-        firstMessage: 'Opening Microsoft Teams is unavailable in practice mode.',
+        firstMessage: 'Microsoft Teams cannot be opened in practice mode.',
       },
     });
     await practiceModal.present();
