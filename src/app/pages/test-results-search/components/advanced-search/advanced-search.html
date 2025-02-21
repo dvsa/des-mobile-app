@@ -224,11 +224,18 @@
       class="mes-primary-button search-tests"
       id="advanced-search-button"
     >
-      <ion-text id="advanced-search-button-text" class="des-header-style-3">
-        <ion-icon class="search-icon" name="search"></ion-icon>
-        Search
-      </ion-text>
+      <ion-col></ion-col>
+      <ion-col size="20" class="ion-justify-content-center display-flex">
+        <ion-text id="advanced-search-button-text" class="des-header-style-3">
+          <ion-icon class="search-icon" name="search"></ion-icon>
+          Search
+        </ion-text>
+      </ion-col>
+      <ion-col class="display-flex">
+        <ion-col class="ion-justify-content-end display-flex">
+          <ion-spinner *ngIf="showSpinner" id="advanced-search-spinner" name="bubbles"> </ion-spinner>
+        </ion-col>
+      </ion-col>
     </ion-button>
-    <ion-spinner *ngIf="showSpinner" class="search-spinner" id="advanced-search-spinner" name="bubbles"> </ion-spinner>
   </ion-row>
 </ion-grid>

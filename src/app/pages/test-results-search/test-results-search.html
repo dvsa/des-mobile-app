@@ -81,17 +81,24 @@
           </ion-row>
           <ion-row class="ion-padding-top">
             <ion-button
-              id="test-result-search-button"
+              (click)="searchTests()"
               [attr.disabled]="showSearchSpinner || (pageState.isOffline$ | async) ? 'true' : isEmpty(candidateInfo)"
               class="mes-primary-button search-tests"
-              (click)="searchTests()"
+              id="test-result-search-button"
             >
-              <ion-text id="test-result-search-button-text" class="des-header-style-3">
-                <ion-icon name="search" class="search-icon"></ion-icon>
-                Search
-              </ion-text>
+              <ion-col></ion-col>
+              <ion-col size="20" class="ion-justify-content-center display-flex">
+                <ion-text id="test-result-search-button-text" class="des-header-style-3">
+                  <ion-icon class="search-icon" name="search"></ion-icon>
+                  Search
+                </ion-text>
+              </ion-col>
+              <ion-col class="display-flex">
+                <ion-col class="ion-justify-content-end display-flex">
+                  <ion-spinner *ngIf="showSearchSpinner" id="search-spinner" name="bubbles"> </ion-spinner>
+                </ion-col>
+              </ion-col>
             </ion-button>
-            <ion-spinner class="search-spinner" name="bubbles" *ngIf="showSearchSpinner"></ion-spinner>
           </ion-row>
         </ion-grid>
       </tab>

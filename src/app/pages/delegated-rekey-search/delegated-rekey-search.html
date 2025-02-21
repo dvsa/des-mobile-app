@@ -18,7 +18,7 @@
             <ion-col class="ion-align-self-center" size="32">
               <label id="delegated-rekey-search-app-ref-label">Application reference</label>
             </ion-col>
-            <ion-col size="38">
+            <ion-col class="display-flex ion-align-items-center" size="38">
               <ion-input
                 placeholder="Application reference"
                 id="rekey-search-application-reference"
@@ -60,18 +60,23 @@
               id="delegated-rekey-search-search-tests-btn"
               (click)="searchTests()"
             >
-              <ion-text class="des-header-style-3">
-                <ion-icon name="search" class="search-icon" id="rekey-search-search icon"></ion-icon>
-                Search booked tests
-              </ion-text>
+              <ion-col></ion-col>
+              <ion-col size="45" class="ion-justify-content-center display-flex">
+                <ion-text id="advanced-search-button-text" class="des-header-style-3">
+                  <ion-icon id="rekey-search-search icon" class="search-icon" name="search"></ion-icon>
+                  Search booked tests
+                </ion-text>
+              </ion-col>
+              <ion-col class="display-flex">
+                <ion-col class="ion-justify-content-end display-flex">
+                  <ion-spinner
+                    *ngIf="(pageState.isLoading$ | async)"
+                    id="rekey-search-page-spinner"
+                    name="bubbles">
+                  </ion-spinner>
+                </ion-col>
+              </ion-col>
             </ion-button>
-            <ion-spinner
-              class="search-spinner"
-              name="bubbles"
-              *ngIf="(pageState.isLoading$ | async)"
-              id="rekey-search-page-spinner"
-            >
-            </ion-spinner>
           </ion-row>
         </ion-grid>
       </tab>
