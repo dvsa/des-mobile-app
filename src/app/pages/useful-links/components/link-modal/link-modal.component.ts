@@ -1,5 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { Browser } from '@capacitor/browser';
+import { UsefulLink } from '@dvsa/mes-config-schema/remote-config';
 import { ModalController } from '@ionic/angular';
 import { Store } from '@ngrx/store';
 import { StoreModel } from '@shared/models/store.model';
@@ -17,10 +18,7 @@ export enum LinkModalEvent {
 })
 export class LinkModalComponent {
   @Input()
-  link: string;
-
-  @Input()
-  actionName: string;
+  link: UsefulLink;
 
   constructor(
     public modalController: ModalController,
@@ -39,7 +37,7 @@ export class LinkModalComponent {
    */
   async onContinue() {
     this.store$.dispatch(LinkModalActions.ModalContinue());
-    await Browser.open({ url: this.link, toolbarColor: '#000000' });
+    await Browser.open({ url: this.link.url, toolbarColor: '#000000' });
     await this.modalController.dismiss({ event: LinkModalEvent.CONTINUE });
   }
 }

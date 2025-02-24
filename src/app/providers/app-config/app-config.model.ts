@@ -1,4 +1,4 @@
-import { ExaminerRole, TestPermissionPeriod } from '@dvsa/mes-config-schema/remote-config';
+import { ExaminerRole, TestPermissionPeriod, UsefulLink } from '@dvsa/mes-config-schema/remote-config';
 
 export type AppConfig = {
   liveAppVersion: string;
@@ -62,9 +62,6 @@ export type AppConfig = {
   refData: {
     testCentreUrl: string;
   };
-  usefulLinks: {
-    drivingExaminationGuidanceURL: string;
-    accessibilityStatementURL: string;
-  };
+  usefulLinks: UsefulLink[];
   requestTimeout: number;
 };

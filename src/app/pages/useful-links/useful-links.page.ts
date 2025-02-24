@@ -1,10 +1,10 @@
 import { Component, Injector, OnInit } from '@angular/core';
+import { UsefulLink } from '@dvsa/mes-config-schema/remote-config';
 import { ModalController } from '@ionic/angular';
 import { DASHBOARD_PAGE } from '@pages/page-names.constants';
 import { LinkModalComponent } from '@pages/useful-links/components/link-modal/link-modal.component';
 import * as UsefulLinkActions from '@pages/useful-links/useful-links.actions';
 import { UsefulLinksReturnToDashboardPressed } from '@pages/useful-links/useful-links.actions';
-import { UsefulLinkNames } from '@pages/useful-links/useful-links.model';
 import { AccessibilityService } from '@providers/accessibility/accessibility.service';
 import { OrientationMonitorProvider } from '@providers/orientation-monitor/orientation-monitor.provider';
 import { UrlProvider } from '@providers/url/url';
@@ -16,7 +16,7 @@ import { BasePageComponent } from '@shared/classes/base-page';
   styleUrls: ['useful-links.page.scss'],
 })
 export class UsefulLinksPage extends BasePageComponent implements OnInit {
-  usefulLinks: Array<{ name: string; url: string; actionName: string }> = [];
+  usefulLinks: UsefulLink[] = [];
 
   constructor(
     public accessibilityService: AccessibilityService,
@@ -30,27 +30,21 @@ export class UsefulLinksPage extends BasePageComponent implements OnInit {
   protected readonly alert = alert;
 
   ngOnInit() {
-    this.usefulLinks = Object.entries(this.urlProvider.getUsefulLinks()).map(([name, url]) => ({
-      name: UsefulLinkNames[name],
-      url,
-      actionName: UsefulLinkNames[name].replace(/ /g, ''),
-    }));
+    this.usefulLinks = this.urlProvider.getUsefulLinks();
   }
 
   /**
    * Opens the link modal
    * Dispatches the action to set the selected link, it determines this by appending the word Selected to the action name
    * @param link
-   * @param actionName
    */
-  async openLinkModal(link: string, actionName: string) {
-    this.store$.dispatch(UsefulLinkActions[`${actionName}Selected`]());
+  async openLinkModal(link: UsefulLink) {
+    this.store$.dispatch(UsefulLinkActions[`${link.displayText.replace(/ /g, '')}Selected`]());
     const modal: HTMLIonModalElement = await this.modalController.create({
       id: 'linkModal',
       component: LinkModalComponent,
       componentProps: {
         link,
-        actionName,
       },
       cssClass: `${this.accessibilityService.getTextZoomClass()} mes-modal-alert`,
       backdropDismiss: false,

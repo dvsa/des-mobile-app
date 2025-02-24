@@ -23,9 +23,9 @@
   <ion-list *ngFor="let link of usefulLinks">
       <ion-card>
         <ion-card-content>
-          <ion-row (click)="openLinkModal(link.url, link.actionName)">
+          <ion-row (click)="openLinkModal(link)">
             <ion-col size="82">
-              <h3 id="link-card-header" class="des-header-style-2 bold">{{link.name}}</h3>
+              <h3 id="link-card-header" class="des-header-style-2 bold">{{link.displayText}}</h3>
             </ion-col>
             <ion-col size="14">
               <ion-icon

@@ -55,10 +55,7 @@ export class AppConfigProviderMock {
       signatureUrl: localEnvironmentMock.driver.signatureUrl,
       photographUrl: localEnvironmentMock.driver.photographUrl,
     },
-    usefulLinks: {
-      drivingExaminationGuidanceURL: localEnvironmentMock.usefulLinks.drivingExaminationGuidanceURL,
-      accessibilityStatementURL: localEnvironmentMock.usefulLinks.accessibilityStatementURL,
-    },
+    usefulLinks: localEnvironmentMock.usefulLinks,
     mot: {
       motHistoryUrl: localEnvironmentMock.mot.motHistoryUrl,
     },
