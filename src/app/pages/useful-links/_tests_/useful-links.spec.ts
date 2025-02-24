@@ -1,12 +1,12 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ActivatedRoute } from '@angular/router';
+import { UsefulLink } from '@dvsa/mes-config-schema/remote-config';
 import { ModalController } from '@ionic/angular';
 import { ActivatedRouteMock } from '@mocks/angular-mocks/activated-route.mock';
 import { Store, StoreModule } from '@ngrx/store';
 import { DASHBOARD_PAGE } from '@pages/page-names.constants';
 import * as UsefulLinkActions from '@pages/useful-links/useful-links.actions';
-import { UsefulLinkNames } from '@pages/useful-links/useful-links.model';
 import { UsefulLinksPage } from '@pages/useful-links/useful-links.page';
 import { AuthenticationProviderMock } from '@providers/authentication/__mocks__/authentication.mock';
 import { AuthenticationProvider } from '@providers/authentication/authentication';
@@ -60,37 +60,37 @@ describe('UsefulLinksPage', () => {
 
   describe('ngOnInit', () => {
     it('should populate usefulLinks with data from UrlProvider', () => {
-      const mockLinks = {
-        drivingExaminationGuidanceURL: 'http://example.com/dt1',
-        accessibilityStatementURL: 'http://example.com/accessibility',
-      };
+      const mockLinks: UsefulLink[] = [
+        {
+          displayText: 'example 1',
+          url: 'e1',
+        },
+        {
+          displayText: 'example 2',
+          url: 'e2',
+        },
+      ];
       urlProvider.getUsefulLinks.and.returnValue(mockLinks);
 
       component.ngOnInit();
 
-      expect(component.usefulLinks).toEqual([
-        {
-          name: UsefulLinkNames.drivingExaminationGuidanceURL,
-          url: 'http://example.com/dt1',
-          actionName: 'DT1Guidance',
-        },
-        {
-          name: UsefulLinkNames.accessibilityStatementURL,
-          url: 'http://example.com/accessibility',
-          actionName: 'AccessibilityStatement',
-        },
-      ]);
+      expect(component.usefulLinks).toEqual(mockLinks);
     });
   });
 
   describe('openLinkModal', () => {
     it('should open the modal and call present', async () => {
-      const url = 'https://example.com';
-      const actionName = 'DT1Guidance';
+      const mockLinks: UsefulLink[] = [
+        {
+          displayText: 'DT1Guidance',
+          url: 'e1',
+        },
+      ];
+
       const modalSpy = jasmine.createSpyObj('HTMLIonModalElement', ['present']);
       modalController.create.and.returnValue(Promise.resolve(modalSpy));
 
-      await component.openLinkModal(url, actionName);
+      await component.openLinkModal(mockLinks[0]);
 
       expect(store$.dispatch).toHaveBeenCalledWith(UsefulLinkActions.DT1GuidanceSelected());
       expect(modalController.create).toHaveBeenCalled();
