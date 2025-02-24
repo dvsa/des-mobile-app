@@ -39,7 +39,6 @@ export class UsefulLinksPage extends BasePageComponent implements OnInit {
    * @param link
    */
   async openLinkModal(link: UsefulLink) {
-    console.log(`${link.displayText.replace(/ /g, '')}Selected`);
     this.store$.dispatch(UsefulLinkActions[`${link.displayText.replace(/ /g, '')}Selected`]());
     const modal: HTMLIonModalElement = await this.modalController.create({
       id: 'linkModal',
