@@ -1,11 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
-import {
-  AccessibilityStatementSelected,
-  DT1GuidanceSelected,
-  UsefulLinksReturnToDashboardPressed,
-} from '@pages/useful-links/useful-links.actions';
+import { UsefulLinkSelected, UsefulLinksReturnToDashboardPressed } from '@pages/useful-links/useful-links.actions';
 import { AnalyticsProvider } from '@providers/analytics/analytics';
 import { AnalyticRecorded } from '@providers/analytics/analytics.actions';
 import {
@@ -25,29 +21,14 @@ export class UsefulLinksAnalyticsEffects {
     private store$: Store<StoreModel>
   ) {}
 
-  dt1GuidanceSelected$ = createEffect(() =>
+  usefulLinkSelected$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(DT1GuidanceSelected),
-      concatMap((action: ReturnType<typeof DT1GuidanceSelected>) => {
-        // GA4 Analytics
+      ofType(UsefulLinkSelected),
+      concatMap((action: ReturnType<typeof UsefulLinkSelected>) => {
+        const usefulLinkName = action.usefulLinkName;
         this.analytics.logGAEvent(
           GoogleAnalyticsEvents.USEFUL_LINKS,
-          GoogleAnalyticsEventsTitles.SELECTED_LINK_DT1,
-          GoogleAnalyticsEventsValues.LEAVING_DES_MODAL
-        );
-        return of(AnalyticRecorded());
-      })
-    )
-  );
-
-  accessibilityStatementSelected$ = createEffect(() =>
-    this.actions$.pipe(
-      ofType(AccessibilityStatementSelected),
-      concatMap((action: ReturnType<typeof AccessibilityStatementSelected>) => {
-        // GA4 Analytics
-        this.analytics.logGAEvent(
-          GoogleAnalyticsEvents.USEFUL_LINKS,
-          GoogleAnalyticsEventsTitles.SELECTED_LINK_AS,
+          usefulLinkName,
           GoogleAnalyticsEventsValues.LEAVING_DES_MODAL
         );
         return of(AnalyticRecorded());
