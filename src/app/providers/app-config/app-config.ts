@@ -355,10 +355,7 @@ export class AppConfigProvider {
       refData: {
         testCentreUrl: data.refData.testCentreUrl,
       },
-      usefulLinks: {
-        drivingExaminationGuidanceURL: data.usefulLinks.drivingExaminationGuidanceURL,
-        accessibilityStatementURL: data.usefulLinks.accessibilityStatementURL,
-      },
+      usefulLinks: data.usefulLinks,
       requestTimeout: data.requestTimeout,
     });
   };

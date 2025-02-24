@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { UsefulLink } from '@dvsa/mes-config-schema/remote-config';
 import { isNil } from 'lodash-es';
 import { AppConfigProvider } from '../app-config/app-config';
 
@@ -75,7 +76,7 @@ export class UrlProvider {
     return this.appConfigProvider.getAppConfig()?.refData.testCentreUrl;
   }
 
-  getUsefulLinks(): { [key: string]: string } {
+  getUsefulLinks(): UsefulLink[] {
     return this.appConfigProvider.getAppConfig()?.usefulLinks;
   }
 }
