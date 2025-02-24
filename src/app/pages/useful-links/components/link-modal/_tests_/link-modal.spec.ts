@@ -44,14 +44,16 @@ describe('LinkModalComponent', () => {
 
   describe('onContinue', () => {
     it('should dispatch ModalContinue action, open the URL, and dismiss the modal with CONTINUE event', async () => {
-      const url = 'https://example.com';
-      component.link = url;
+      component.link = {
+        url: 'https://example.com',
+        displayText: 'Example',
+      };
       spyOn(Browser, 'open').and.callFake(() => Promise.resolve());
 
       await component.onContinue();
 
       expect(store$.dispatch).toHaveBeenCalledWith(LinkModalActions.ModalContinue());
-      expect(Browser.open).toHaveBeenCalledWith({ url: component.link, toolbarColor: '#000000' });
+      expect(Browser.open).toHaveBeenCalledWith({ url: component.link.url, toolbarColor: '#000000' });
       expect(modalController.dismiss).toHaveBeenCalledWith({ event: LinkModalEvent.CONTINUE });
     });
   });
