@@ -6,7 +6,7 @@ import { ModalController } from '@ionic/angular';
 import { ActivatedRouteMock } from '@mocks/angular-mocks/activated-route.mock';
 import { Store, StoreModule } from '@ngrx/store';
 import { DASHBOARD_PAGE } from '@pages/page-names.constants';
-import * as UsefulLinkActions from '@pages/useful-links/useful-links.actions';
+import { UsefulLinkSelected } from '@pages/useful-links/useful-links.actions';
 import { UsefulLinksPage } from '@pages/useful-links/useful-links.page';
 import { AuthenticationProviderMock } from '@providers/authentication/__mocks__/authentication.mock';
 import { AuthenticationProvider } from '@providers/authentication/authentication';
@@ -82,7 +82,7 @@ describe('UsefulLinksPage', () => {
     it('should open the modal and call present', async () => {
       const mockLinks: UsefulLink[] = [
         {
-          displayText: 'DT1Guidance',
+          displayText: 'DT1 guidance',
           url: 'e1',
         },
       ];
@@ -92,7 +92,9 @@ describe('UsefulLinksPage', () => {
 
       await component.openLinkModal(mockLinks[0]);
 
-      expect(store$.dispatch).toHaveBeenCalledWith(UsefulLinkActions.DT1GuidanceSelected());
+      const displayText = mockLinks[0].displayText.replace(/ /g, '_');
+
+      expect(store$.dispatch).toHaveBeenCalledWith(UsefulLinkSelected(displayText));
       expect(modalController.create).toHaveBeenCalled();
       expect(modalSpy.present).toHaveBeenCalled();
     });
