@@ -28,8 +28,8 @@ export class UsefulLinksAnalyticsEffects {
         const usefulLinkName = action.usefulLinkName;
         this.analytics.logGAEvent(
           GoogleAnalyticsEvents.USEFUL_LINKS,
-          usefulLinkName,
-          GoogleAnalyticsEventsValues.LEAVING_DES_MODAL
+          GoogleAnalyticsEventsTitles.LEAVING_DES_MODAL,
+          usefulLinkName
         );
         return of(AnalyticRecorded());
       })
