@@ -83,6 +83,12 @@ html .text-zoom-regular {
     line-height: 26px;
     color: black;
   }
+  .mes-data-small {
+    @extend .regular-font-family;
+    font-size: 18px;
+    line-height: 26px;
+    color: black;
+  }
 
   div, ion-select, span {
     font-size: 20px;
@@ -153,6 +159,12 @@ html .text-zoom-regular {
     line-height: 30px;
     color: black;
   }
+  .mes-data-small {
+    @extend .regular-font-family;
+    font-size: 23px;
+    line-height: 26px;
+    color: black;
+  }
 
   div, ion-select, span {
     font-size: 22px;
@@ -220,6 +232,12 @@ html .text-zoom-regular {
     @extend .regular-font-family;
     font-size: 28px;
     line-height: 36px;
+    color: black;
+  }
+  .mes-data-small {
+    @extend .regular-font-family;
+    font-size: 25px;
+    line-height: 26px;
     color: black;
   }
 

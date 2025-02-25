@@ -1,32 +1,32 @@
 <ion-row>
-  <ion-col size="23">
-    <ion-button (click)="changeToYear()" class="mes-black button-clear">
-      <ion-text class="mes-data header-label">{{ yearLabel }}</ion-text>
+  <ion-col size="auto">
+    <ion-button (click)="changeToYear()" class="mes-black header-button button-clear">
+      <ion-text class="mes-data-small header-label">{{ yearLabel }}</ion-text>
       <ion-icon [class.rotate]="calendar.currentView === 'multi-year'" name="caret-down-outline"></ion-icon>
     </ion-button>
   </ion-col>
-  <ion-col size="40">
-    <ion-button (click)="changeToMonth()" class="mes-black button-clear">
-      <ion-text class="mes-data header-label">{{ monthLabel }}</ion-text>
+  <ion-col size="auto">
+    <ion-button (click)="changeToMonth()" class="header-button-no-padding mes-black button-clear">
+      <ion-text class="mes-data-small header-label">{{ monthLabel }}</ion-text>
       <ion-icon [class.rotate]="calendar.currentView === 'year'" name="caret-down-outline"></ion-icon>
     </ion-button>
   </ion-col>
   <ion-col></ion-col>
-  <ion-col class="display-flex" size="30" *ngIf="calendar.currentView === 'month'">
-    <ion-col size="45">
+  <ion-col class="display-flex" size="25" *ngIf="calendar.currentView === 'month'">
+    <ion-col>
       <ion-button
         *ngIf="dateAdapter.addCalendarMonths(this.calendar.activeDate, -1) >= calendar.minDate"
         (click)="previousClicked()"
-        class="mes-black button-clear"
+        class="header-button-no-padding mes-black button-clear width-100"
       >
         <ion-icon name="chevron-back-outline"></ion-icon>
       </ion-button>
     </ion-col>
-    <ion-col size="45">
+    <ion-col>
       <ion-button
         *ngIf="dateAdapter.addCalendarMonths(this.calendar.activeDate, 1) <= calendar.maxDate"
         (click)="nextClicked()"
-        class="mes-black button-clear"
+        class="header-button-no-padding mes-black button-clear width-100"
       >
         <ion-icon name="chevron-forward-outline"></ion-icon>
       </ion-button>

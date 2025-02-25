@@ -2,6 +2,20 @@
   rotate: 180deg;
 }
 
+.header-button {
+  --padding-start: 0;
+  --padding-end: 5%;
+}
+
+.header-button-no-padding {
+  --padding-start: 0px;
+  --padding-end: 0px;
+}
+
+.width-100 {
+  width: 100%;
+}
+
 .header {
   display: flex;
   align-items: center;
