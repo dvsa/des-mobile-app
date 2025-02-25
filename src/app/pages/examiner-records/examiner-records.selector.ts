@@ -68,16 +68,14 @@ export const getEligibleTests = (
   range: DateRange = null,
   centreId: number = null,
   filterByLocation = true,
-  filterByCategory = true,
-  allowExtendedTests = false
+  filterByCategory = true
 ): ExaminerRecordModel[] => {
   if (startedTests) {
     return startedTests.filter((value: ExaminerRecordModel) => {
       return (
         (range ? dateFilter(value, range as DateRange) : true) &&
         (filterByCategory ? (category ? get(value, 'testCategory') === category : true) : true) &&
-        (filterByLocation ? (centreId ? get(value, 'testCentre.centreId') === centreId : true) : true) &&
-        (allowExtendedTests ? true : !(get(value, 'extendedTest') === true))
+        (filterByLocation ? (centreId ? get(value, 'testCentre.centreId') === centreId : true) : true)
       );
     });
   }
@@ -85,11 +83,13 @@ export const getEligibleTests = (
 };
 
 /**
- * Return the total amount of tests with an emergency stop from the eligible tests
+ * Return the total amount of tests with an emergency stop from the eligible tests, eyesight tests are excluded
  */
 export const getEmergencyStopCount = (startedTests: ExaminerRecordModel[]): number => {
   if (startedTests) {
-    return startedTests.filter((controlledStop) => get(controlledStop, 'controlledStop', null) === true).length;
+    return startedTests
+      .filter((record) => get(record, 'activityCode') !== 3)
+      .filter((controlledStop) => get(controlledStop, 'controlledStop', null) === true).length;
   }
   return 0;
 };
@@ -270,6 +270,13 @@ export const getCategories = (
  */
 export const getStartedTestCount = (startedTests: ExaminerRecordModel[]): number =>
   startedTests ? startedTests.length : 0;
+
+/**
+ * Returns the total number of conducted tests of the selected category at the selected location within
+ * the selected time frame excluding eyesight failure tests
+ */
+export const getStartedNonEyesightFailureTestCount = (startedTests: ExaminerRecordModel[]): number =>
+  startedTests ? startedTests.filter((record) => get(record, 'activityCode') !== 3).length : 0;
 
 /**
  * Returns an array containing the conducted test routes within the given tests and their frequency of appearance

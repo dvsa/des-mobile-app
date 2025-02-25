@@ -51,8 +51,7 @@ export class ExaminerRecordsEffects {
         }),
         // Remove blank properties from returned records
         map(
-          (examinerHash: string) =>
-            (examinerHash ? this.compressionProvider.extract(examinerHash) : null) as ExaminerRecordModel[]
+          (examinerHash: string) => (examinerHash ? this.compressionProvider.extract(examinerHash) : null) as unknown[]
         ),
         map((examinerRecords): ExaminerRecordModel[] => {
           return examinerRecords
@@ -63,6 +62,9 @@ export class ExaminerRecordsEffects {
                 }
                 if (newRecord.extendedTest) {
                   newRecord.extendedTest = JSON.parse(newRecord.extendedTest);
+                }
+                if (newRecord.activityCode) {
+                  newRecord.activityCode = Number(newRecord.activityCode);
                 }
                 return newRecord as ExaminerRecordModel;
               })

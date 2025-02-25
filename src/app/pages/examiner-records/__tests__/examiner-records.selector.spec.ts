@@ -27,6 +27,7 @@ describe('examiner records selector', () => {
     {
       appRef: 1234567,
       testCategory: TestCategory.ADI2,
+      activityCode: 1,
       testCentre: {
         centreId: 3,
         centreName: 'B',
@@ -39,6 +40,7 @@ describe('examiner records selector', () => {
     {
       appRef: 1234567,
       testCategory: TestCategory.ADI2,
+      activityCode: 1,
       testCentre: {
         centreId: 3,
         centreName: 'B',
@@ -51,6 +53,7 @@ describe('examiner records selector', () => {
     {
       appRef: 1234567,
       testCategory: TestCategory.B,
+      activityCode: 1,
       testCentre: {
         centreId: 3,
         centreName: 'B',
@@ -77,6 +80,7 @@ describe('examiner records selector', () => {
     {
       appRef: 1234567,
       testCategory: TestCategory.B,
+      activityCode: 1,
       testCentre: {
         centreId: 1,
         centreName: 'B',
@@ -88,6 +92,7 @@ describe('examiner records selector', () => {
     {
       appRef: 2345678,
       testCategory: TestCategory.B,
+      activityCode: 1,
       testCentre: {
         centreId: 2,
         centreName: 'A',
@@ -100,6 +105,7 @@ describe('examiner records selector', () => {
     {
       appRef: 3456789,
       testCategory: TestCategory.B,
+      activityCode: 1,
       testCentre: {
         centreName: 'B',
         centreId: 1,
@@ -111,6 +117,7 @@ describe('examiner records selector', () => {
     {
       appRef: 1234567,
       testCategory: TestCategory.C,
+      activityCode: 1,
       testCentre: {
         centreName: 'B',
         centreId: 1,
@@ -123,6 +130,7 @@ describe('examiner records selector', () => {
     {
       appRef: 1234567,
       testCategory: TestCategory.C,
+      activityCode: 1,
       testCentre: {
         centreName: 'B',
         centreId: 1,
@@ -134,6 +142,7 @@ describe('examiner records selector', () => {
     {
       appRef: 1234567,
       testCategory: TestCategory.C,
+      activityCode: 1,
       testCentre: {
         centreName: 'B',
         centreId: 1,
@@ -145,6 +154,7 @@ describe('examiner records selector', () => {
     {
       appRef: 1234567,
       testCategory: TestCategory.EUAM2,
+      activityCode: 1,
       testCentre: {
         centreName: 'B',
         centreId: 1,
@@ -170,6 +180,7 @@ describe('examiner records selector', () => {
     {
       appRef: 1234567,
       testCategory: TestCategory.EUAM1,
+      activityCode: 1,
       testCentre: {
         centreName: 'B',
         centreId: 1,
@@ -221,6 +232,7 @@ describe('examiner records selector', () => {
         {
           appRef: 1234567,
           testCategory: TestCategory.B,
+          activityCode: 1,
           testCentre: {
             centreName: 'B',
             centreId: 1,
@@ -238,6 +250,7 @@ describe('examiner records selector', () => {
         {
           appRef: 1234567,
           testCategory: TestCategory.C,
+          activityCode: 1,
           testCentre: {
             centreName: 'B',
             centreId: 1,
@@ -250,6 +263,7 @@ describe('examiner records selector', () => {
         {
           appRef: 1234567,
           testCategory: TestCategory.C,
+          activityCode: 1,
           testCentre: {
             centreName: 'B',
             centreId: 1,
@@ -267,6 +281,7 @@ describe('examiner records selector', () => {
         {
           appRef: 1234567,
           testCategory: TestCategory.B,
+          activityCode: 1,
           testCentre: {
             centreName: 'B',
             centreId: 1,
@@ -278,6 +293,7 @@ describe('examiner records selector', () => {
         {
           appRef: 3456789,
           testCategory: TestCategory.B,
+          activityCode: 1,
           testCentre: {
             centreName: 'B',
             centreId: 1,
@@ -289,6 +305,7 @@ describe('examiner records selector', () => {
         {
           appRef: 1234567,
           testCategory: TestCategory.C,
+          activityCode: 1,
           testCentre: {
             centreName: 'B',
             centreId: 1,
@@ -301,6 +318,7 @@ describe('examiner records selector', () => {
         {
           appRef: 1234567,
           testCategory: TestCategory.C,
+          activityCode: 1,
           testCentre: {
             centreName: 'B',
             centreId: 1,
@@ -312,6 +330,7 @@ describe('examiner records selector', () => {
         {
           appRef: 1234567,
           testCategory: TestCategory.C,
+          activityCode: 1,
           testCentre: {
             centreName: 'B',
             centreId: 1,
@@ -323,6 +342,7 @@ describe('examiner records selector', () => {
         {
           appRef: 1234567,
           testCategory: TestCategory.EUAM2,
+          activityCode: 1,
           testCentre: {
             centreName: 'B',
             centreId: 1,
@@ -348,6 +368,7 @@ describe('examiner records selector', () => {
         {
           appRef: 1234567,
           testCategory: TestCategory.EUAM1,
+          activityCode: 1,
           testCentre: { centreName: 'B', centreId: 1, costCode: '000090909' },
           circuit: 'Left',
           startDate: moment(new Date(Date.now())).subtract(15, 'days').format('YYYY-MM-DD'),

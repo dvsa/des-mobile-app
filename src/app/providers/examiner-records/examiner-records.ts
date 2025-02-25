@@ -173,6 +173,7 @@ export class ExaminerRecordsProvider {
     let result: ExaminerRecordModel = {
       appRef: Number(formatApplicationReference(testResult.journalData.applicationReference)),
       testCategory: testResult.category as TestCategory,
+      activityCode: Number(testResult.activityCode),
       testCentre: testResult.journalData.testCentre,
       startDate: new DateTime(testResult.journalData.testSlotAttributes.start).format('YYYY-MM-DD'),
     };

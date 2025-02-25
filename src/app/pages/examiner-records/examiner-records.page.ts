@@ -5,8 +5,10 @@ import { ScreenOrientation } from '@capawesome/capacitor-screen-orientation';
 import { ExaminerRecordModel } from '@dvsa/mes-microservice-common/domain/examiner-records';
 import { TestCentre } from '@dvsa/mes-test-schema/categories/common';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
+import { ModalController } from '@ionic/angular';
 import { ScrollDetail } from '@ionic/core';
 import { Store, select } from '@ngrx/store';
+import { ExaminerRecordsLearnMoreModal } from '@pages/examiner-records/components/examiner-records-learn-more-modal/examiner-records-learn-more-modal';
 import { ExaminerReportsCardClick } from '@pages/examiner-records/components/examiner-reports-card/examiner-reports-card';
 import {
   ClickDataCard,
@@ -16,6 +18,7 @@ import {
   ExaminerRecordsViewDidEnter,
   GetExaminerRecords,
   HideChartsChanged,
+  LearnMoreClicked,
   LoadingExaminerRecords,
   LocationChanged,
   ReturnToDashboardPressed,
@@ -35,6 +38,7 @@ import {
   getRouteNumbers,
   getSafetyQuestions,
   getShowMeQuestions,
+  getStartedNonEyesightFailureTestCount,
   getStartedTestCount,
   getTellMeQuestions,
 } from '@pages/examiner-records/examiner-records.selector';
@@ -124,7 +128,11 @@ export class ExaminerRecordsPage implements OnInit {
 
   public defaultDate: SelectableDateRange = this.examinerRecordsProvider.localFilterOptions[2];
   public dateFilter: string = this.defaultDate.display;
-  public locationFilter: TestCentre = { centreName: null, centreId: null, costCode: null };
+  public locationFilter: TestCentre = {
+    centreName: null,
+    centreId: null,
+    costCode: null,
+  };
   public categoryDisplay: string;
   public currentCategory: string;
   accordionOpen = false;
@@ -144,8 +152,104 @@ export class ExaminerRecordsPage implements OnInit {
     public accessibilityService: AccessibilityService,
     public examinerRecordsProvider: ExaminerRecordsProvider,
     public searchProvider: SearchProvider,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private modalController: ModalController
   ) {}
+
+  /**
+   * Initializes the component and sets up the necessary data and subscriptions.
+   *
+   * This method performs the following actions:
+   * 1. Retrieves and sorts local test results.
+   * 2. Sets the default date filter.
+   * 3. Initializes the page state with various observables.
+   * 4. Sets up subscriptions to handle changes in test results and loading state.
+   * 5. Sets the location filter and fetches online records if necessary.
+   *
+   * @returns {Promise<void>} A promise that resolves when the initialization is complete.
+   */
+  async ngOnInit(): Promise<void> {
+    this.testResults = this.removeDuplicatesAndSort(this.getLocalResults());
+    if (this.testResults.length > 0) {
+      this.testSubject$.next(this.testResults);
+    }
+    //Set default date
+    this.handleDateFilter({ detail: { value: this.defaultDate } } as CustomEvent);
+    if (this.categorySubject$.value) {
+      this.categorySelectPristine = false;
+    }
+    if (this.locationSubject$.value) {
+      this.locationSelectPristine = false;
+    }
+
+    this.pageState = {
+      cachedRecords$: this.store$.select(selectCachedExaminerRecords),
+      isLoadingRecords$: this.store$.select(getIsLoadingRecords),
+      routeNumbers$: this.getTestsByParameters(getRouteNumbers),
+      manoeuvres$: this.getTestsByParameters(getManoeuvresUsed),
+      balanceQuestions$: this.getTestsByParameters(getBalanceQuestions),
+      safetyQuestions$: this.getTestsByParameters(getSafetyQuestions),
+      independentDriving$: this.getTestsByParameters(getIndependentDrivingStats),
+      showMeQuestions$: this.getTestsByParameters(getShowMeQuestions),
+      tellMeQuestions$: this.getTestsByParameters(getTellMeQuestions),
+      testCount$: this.getTestsByParameters(getStartedTestCount),
+      circuits$: this.getTestsByParameters(getCircuits),
+      locationList$: this.getLocationsByParameters(getLocations).pipe(
+        tap((value: ExaminerRecordData<TestCentre>[]) => {
+          this.setupLocationSelectList(value);
+        })
+      ),
+      categoryList$: this.getCategoriesByParameters(getCategories).pipe(
+        tap((value: ExaminerRecordData<TestCategory>[]) => {
+          this.setupCategorySelectList(value);
+        })
+      ),
+      emergencyStops$: this.getTestsByParameters(getStartedNonEyesightFailureTestCount).pipe(
+        withLatestFrom(this.getTestsByParameters(getEmergencyStopCount)),
+        //Turn emergency stop count into two objects containing tests with stops and tests without
+        map(([testCount, emergencyStopCount]) => [
+          {
+            item: 'Stop',
+            count: emergencyStopCount,
+            percentage: `${((emergencyStopCount / testCount) * 100).toFixed(1)}%`,
+          },
+          {
+            item: 'No stop',
+            count: testCount - emergencyStopCount,
+            percentage: `${(((testCount - emergencyStopCount) / testCount) * 100).toFixed(1)}%`,
+          },
+        ])
+      ),
+    };
+
+    const { cachedRecords$, isLoadingRecords$ } = this.pageState;
+
+    this.merged$ = merge(
+      //listen for changes to test result and send the result to the behaviour subject
+      cachedRecords$.pipe(
+        tap((value) => {
+          console.log('Hello Rhys', value);
+          this.testResults = this.removeDuplicatesAndSort(this.mergeWithOnlineResults(this.testResults, value));
+          if (this.testResults.length > 0) {
+            this.testSubject$.next(this.testResults);
+          }
+          console.log('this.testResults', this.testResults);
+        })
+      ),
+      //deactivate loading ui when no longer loading
+      isLoadingRecords$.pipe(
+        map((value) => {
+          this.examinerRecordsProvider.handleLoadingUI(value);
+        })
+      )
+    );
+    if (this.merged$) {
+      this.subscription = this.merged$.subscribe();
+    }
+
+    this.setLocationFilter();
+    await this.getOnlineRecords();
+  }
 
   /**
    * Handles the scroll event and updates the displayScrollBanner property.
@@ -157,7 +261,7 @@ export class ExaminerRecordsPage implements OnInit {
    * @param {CustomEvent<ScrollDetail>} ev - The scroll event containing the scroll details.
    */
   handleScroll(ev: CustomEvent<ScrollDetail>) {
-    this.displayScrollBanner = ev.detail.scrollTop > 203;
+    this.displayScrollBanner = ev.detail.scrollTop > 200;
   }
 
   /**
@@ -335,8 +439,10 @@ export class ExaminerRecordsPage implements OnInit {
 
   /**
    * Pulls local tests from the store and performs the following functions:
-   * 1. Filters them so that only tests conducted by the examiner are used,
-   *    excluding tests they rekeyed on other examiner's behalf.
+   * 1. Filters them be the following criteria
+   *    a. activity code 1,2,3,4,5
+   *    b. not extended tests
+   *    c. excluding tests they rekeyed on other examiner's behalf.
    * 2. Formats the tests into the ExaminerRecordModel format.
    *
    * @returns {ExaminerRecordModel[]} The array of formatted examiner records.
@@ -359,9 +465,12 @@ export class ExaminerRecordsPage implements OnInit {
         map((value) => {
           const recordArray: ExaminerRecordModel[] = [];
           //format tests into ExaminerRecordModel
-          value.forEach((test) => {
-            recordArray.push(this.examinerRecordsProvider.formatForExaminerRecords(test));
-          });
+          value
+            .filter((test) => [1, 2, 3, 4, 5].includes(Number(test.activityCode)))
+            .filter((test) => !test.journalData.testSlotAttributes.extendedTest)
+            .forEach((test) => {
+              recordArray.push(this.examinerRecordsProvider.formatForExaminerRecords(test));
+            });
           return recordArray;
         })
       )
@@ -442,103 +551,14 @@ export class ExaminerRecordsPage implements OnInit {
         this.locationSelectPristine = true;
       } else if (locations.length === 0) {
         this.locationPlaceholder = '';
-        this.handleLocationFilter({ centreId: null, centreName: '', costCode: '' });
+        this.handleLocationFilter({
+          centreId: null,
+          centreName: '',
+          costCode: '',
+        });
         this.locationSelectPristine = true;
       }
     }
-  }
-
-  /**
-   * Initializes the component and sets up the necessary data and subscriptions.
-   *
-   * This method performs the following actions:
-   * 1. Retrieves and sorts local test results.
-   * 2. Sets the default date filter.
-   * 3. Initializes the page state with various observables.
-   * 4. Sets up subscriptions to handle changes in test results and loading state.
-   * 5. Sets the location filter and fetches online records if necessary.
-   *
-   * @returns {Promise<void>} A promise that resolves when the initialization is complete.
-   */
-  async ngOnInit(): Promise<void> {
-    this.testResults = this.removeDuplicatesAndSort(this.getLocalResults());
-    if (this.testResults.length > 0) {
-      this.testSubject$.next(this.testResults);
-    }
-    //Set default date
-    this.handleDateFilter({ detail: { value: this.defaultDate } } as CustomEvent);
-    if (this.categorySubject$.value) {
-      this.categorySelectPristine = false;
-    }
-    if (this.locationSubject$.value) {
-      this.locationSelectPristine = false;
-    }
-
-    this.pageState = {
-      cachedRecords$: this.store$.select(selectCachedExaminerRecords),
-      isLoadingRecords$: this.store$.select(getIsLoadingRecords),
-      routeNumbers$: this.getTestsByParameters(getRouteNumbers),
-      manoeuvres$: this.getTestsByParameters(getManoeuvresUsed),
-      balanceQuestions$: this.getTestsByParameters(getBalanceQuestions),
-      safetyQuestions$: this.getTestsByParameters(getSafetyQuestions),
-      independentDriving$: this.getTestsByParameters(getIndependentDrivingStats),
-      showMeQuestions$: this.getTestsByParameters(getShowMeQuestions),
-      tellMeQuestions$: this.getTestsByParameters(getTellMeQuestions),
-      testCount$: this.getTestsByParameters(getStartedTestCount),
-      circuits$: this.getTestsByParameters(getCircuits),
-      locationList$: this.getLocationsByParameters(getLocations).pipe(
-        tap((value: ExaminerRecordData<TestCentre>[]) => {
-          this.setupLocationSelectList(value);
-        })
-      ),
-      categoryList$: this.getCategoriesByParameters(getCategories).pipe(
-        tap((value: ExaminerRecordData<TestCategory>[]) => {
-          this.setupCategorySelectList(value);
-        })
-      ),
-      emergencyStops$: this.getTestsByParameters(getStartedTestCount).pipe(
-        withLatestFrom(this.getTestsByParameters(getEmergencyStopCount)),
-        //Turn emergency stop count into two objects containing tests with stops and tests without
-        map(([testCount, emergencyStopCount]) => [
-          {
-            item: 'Stop',
-            count: emergencyStopCount,
-            percentage: `${((emergencyStopCount / testCount) * 100).toFixed(1)}%`,
-          },
-          {
-            item: 'No stop',
-            count: testCount - emergencyStopCount,
-            percentage: `${(((testCount - emergencyStopCount) / testCount) * 100).toFixed(1)}%`,
-          },
-        ])
-      ),
-    };
-
-    const { cachedRecords$, isLoadingRecords$ } = this.pageState;
-
-    this.merged$ = merge(
-      //listen for changes to test result and send the result to the behaviour subject
-      cachedRecords$.pipe(
-        tap((value) => {
-          this.testResults = this.removeDuplicatesAndSort(this.mergeWithOnlineResults(this.testResults, value));
-          if (this.testResults.length > 0) {
-            this.testSubject$.next(this.testResults);
-          }
-        })
-      ),
-      //deactivate loading ui when no longer loading
-      isLoadingRecords$.pipe(
-        map((value) => {
-          this.examinerRecordsProvider.handleLoadingUI(value);
-        })
-      )
-    );
-    if (this.merged$) {
-      this.subscription = this.merged$.subscribe();
-    }
-
-    this.setLocationFilter();
-    await this.getOnlineRecords();
   }
 
   /**
@@ -841,40 +861,13 @@ export class ExaminerRecordsPage implements OnInit {
   /**
    * Determines if the "No Data" card should be displayed.
    *
-   * This method checks if there is no data available in the provided `ExaminerRecordsPageStateData` object.
-   * It iterates over the keys of the data object and checks if the total count of each key is greater than 0.
-   * If any key has a total count greater than 0, it sets `noData` to false.
-   * Additionally, it checks if the `categoryList` or `locationList` arrays are empty.
+   * This method checks if `categoryList` or `locationList` arrays are empty.
    *
    * @param {ExaminerRecordsPageStateData} data - The data object containing various examiner records.
    * @returns {boolean} `true` if the "No Data" card should be displayed, otherwise `false`.
    */
   displayNoDataCard(data: ExaminerRecordsPageStateData): boolean {
-    let noData = true;
-
-    Object.keys(data).forEach((key) => {
-      if (!isAnyOf(key, ['testCount', 'locationList', 'categoryList'])) {
-        if (this.getTotal(data[key]) > 0) {
-          noData = false;
-        }
-      }
-    });
-    return noData || data.categoryList?.length === 0 || data.locationList?.length === 0;
-  }
-
-  /**
-   * Returns the text used on the sticky label.
-   *
-   * This method retrieves the test count from the `testCount$` observable and constructs a string
-   * that displays the number of tests, the current category, the date range, and the location.
-   *
-   * @returns {string} The formatted label text.
-   */
-  getLabelText(): string {
-    let testCount = 0;
-    this.pageState.testCount$.subscribe((value) => (testCount = value)).unsubscribe();
-
-    return `Displaying <strong>${testCount}</strong> Category <strong>${this.currentCategory}</strong> test${testCount > 1 ? '<ion-text>s</ion-text>' : ''}, from <strong>${this.startDateFilter}</strong> to <strong>${this.endDateFilter}</strong>${this.accessibilityService.getTextZoomClass() !== 'text-zoom-x-large' ? '<ion-text> <br /></ion-text>' : ''} at <strong>${this.locationFilter.centreName}</strong>`;
+    return data.categoryList?.length === 0 || data.locationList?.length === 0;
   }
 
   /**
@@ -886,5 +879,15 @@ export class ExaminerRecordsPage implements OnInit {
    */
   cardClicked(event: ExaminerReportsCardClick) {
     this.store$.dispatch(ClickDataCard(event));
+  }
+
+  async showLearnMoreModal(): Promise<void> {
+    this.store$.dispatch(LearnMoreClicked());
+    const modal: HTMLIonModalElement = await this.modalController.create({
+      component: ExaminerRecordsLearnMoreModal,
+      cssClass: 'mes-modal-alert',
+      backdropDismiss: false,
+    });
+    await modal.present();
   }
 }

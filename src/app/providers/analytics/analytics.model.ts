@@ -525,4 +525,5 @@ export enum GoogleAnalyticsEventsValues {
   RETURN_TO_DASHBOARD = 'return_to_dashboard',
   DATA_BANNER_DISPLAY = 'data_banner_display',
   SAVED = 'saved',
+  LEARN_MORE = 'learn_more',
 }

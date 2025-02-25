@@ -3,17 +3,31 @@
     <ion-buttons id="pass-cert-burger-menu-btn" slot="start">
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
+    <ion-buttons slot="end">
+      <ion-button
+        class="mes-white-button"
+        id="examiner-records-return-to-dashboard-btn"
+        (click)="goToDashboard()">
+        Exit
+      </ion-button>
+    </ion-buttons>
     <ion-title role="heading" aria-level="1" id="examiner-records-page-title">Examiner records</ion-title>
   </ion-toolbar>
   <div *ngIf="!cachedExaminerRecords" id="unauthenticated-mode-indicator">
     <label role="alert" id="unauth-text">Unable to access all data. Some date ranges are not available.</label>
   </div>
-  <ion-row
-    class="background-colour ion-padding-top ion-padding-bottom position-fixed width-100-percent"
-    *ngIf="displayScrollBanner && ((pageState.locationList$ | async).length > 0)"
-  >
-    <ion-text [innerHTML]="getLabelText()" class="records-label-padding mes-data"> </ion-text>
-  </ion-row>
+  <ion-grid
+    class="background-colour ion-padding-bottom position-fixed mes-padding-right mes-padding-left"
+    *ngIf="displayScrollBanner && ((pageState.locationList$ | async).length > 0)">
+    <examiner-records-label-text
+      [testCount]="pageState.testCount$ | async"
+      [currentCategory]="currentCategory"
+      [startDateFilter]="startDateFilter"
+      [endDateFilter]="endDateFilter"
+      [centreName]="locationFilter.centreName"
+      (showLearnMoreModal)="showLearnMoreModal()">
+    </examiner-records-label-text>
+  </ion-grid>
 </ion-header>
 
 <ion-content
@@ -38,7 +52,7 @@
   <ion-row class="ion-padding">
     <ion-col [size]="accessibilityService.getTextZoomClass() === 'text-zoom-x-large' ? 45 : 48">
       <ion-row>
-        <label>Location</label>
+        <label id="examiner-records-location-label">Location</label>
       </ion-row>
       <ion-row class="padding-top-10">
         <ion-select
@@ -61,7 +75,7 @@
     <ion-col></ion-col>
     <ion-col [size]="accessibilityService.getTextZoomClass() === 'text-zoom-x-large' ? 23 : 20">
       <ion-row>
-        <label>Test category</label>
+        <label id="examiner-records-test-category-label">Test category</label>
       </ion-row>
       <ion-row class="padding-top-10">
         <ion-select
@@ -84,7 +98,7 @@
     <ion-col></ion-col>
     <ion-col size="25">
       <ion-row>
-        <label>Date range</label>
+        <label id="examiner-records-date-range-label">Date range</label>
       </ion-row>
       <ion-row class="padding-top-10">
         <ion-select
@@ -121,7 +135,7 @@
     </ion-col>
     <ion-col></ion-col>
     <ion-col class="ion-align-items-center display-flex" size="auto">
-      <label>Hide charts</label>
+      <label id="examiner-records-hide-chart-label">Hide charts</label>
     </ion-col>
     <ion-col size="7" class="display-flex ion-float-end ion-align-items-center">
       <input
@@ -134,14 +148,16 @@
       <label [for]="'chart-toggle-input'"></label>
     </ion-col>
   </ion-row>
-  <ion-row *ngIf="((pageState.locationList$ | async).length > 0)" class="ion-padding-top ion-padding-bottom">
-    <ion-text
-      [style.color]="displayScrollBanner ? 'transparent' : 'black'"
-      [innerHTML]="getLabelText()"
-      class="records-label-padding mes-data"
-    >
-    </ion-text>
-  </ion-row>
+  <ion-grid class="mes-padding-right mes-padding-left" *ngIf="((pageState.locationList$ | async).length > 0)">
+    <examiner-records-label-text
+      [testCount]="pageState.testCount$ | async"
+      [currentCategory]="currentCategory"
+      [startDateFilter]="startDateFilter"
+      [endDateFilter]="endDateFilter"
+      [centreName]="locationFilter.centreName"
+      (showLearnMoreModal)="showLearnMoreModal()">
+    </examiner-records-label-text>
+  </ion-grid>
 
   <div *ngIf="data.categoryList?.length > 0 && data.locationList?.length > 0">
     <ion-row class="ion-justify-content-center display-flex">
@@ -441,29 +457,28 @@
       <ion-card-title>
         <ion-row>
           <ion-col>
-            <ion-text class="des-header-style-4 fault-heading">No data available</ion-text>
+            <ion-text id="examiner-records-no-data-text" class="des-header-style-4 fault-heading" >No data available</ion-text>
           </ion-col>
         </ion-row>
       </ion-card-title>
     </ion-card-header>
-    <ion-card-content class="text-align-center">
-      <ion-text class="mes-data">
-        No driving test data available for this period.<br /><br />Select another date range.
-      </ion-text>
+    <ion-card-content>
+      <ion-row>
+        <ion-col class="mes-text-align-centre">
+          <ion-text id="examiner-records-no-driving-test-data-text" class="mes-data">
+            No driving test data available for this period.
+          </ion-text>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+      </ion-row>
+      <ion-row>
+        <ion-col id="examiner-records-select-another-range-text" class="mes-text-align-centre">
+          <ion-text class="mes-data mes-text-align-centre">
+            Select another date range.
+          </ion-text>
+        </ion-col>
+      </ion-row>
     </ion-card-content>
   </ion-card>
 </ion-content>
-
-<ion-footer class="footer-styling">
-  <ion-row class="ion-padding-top mes-full-width-card-half-padding box-shadow">
-    <ion-col class="ion-text-center">
-      <ion-button
-        id="dlg-return-to-dashboard-btn"
-        class="mes-primary-button width-80-percent"
-        (click)="goToDashboard()"
-      >
-        <ion-text id="dlg-return-to-dashboard-label" class="des-header-style-3">Return to dashboard</ion-text>
-      </ion-button>
-    </ion-col>
-  </ion-row>
-</ion-footer>
