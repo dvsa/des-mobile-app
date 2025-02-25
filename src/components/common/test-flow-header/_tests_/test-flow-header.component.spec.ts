@@ -280,11 +280,9 @@ describe('TestFlowHeaderComponent', () => {
       expect(component.handleTeamsOpenFailure).toHaveBeenCalledWith({ completed: false });
     });
 
-    it('should setup subscription if Microsoft Teams opens successfully', async () => {
+    it('should setup subscription if single app mode is disabled', async () => {
       component.isPracticeMode = false;
       spyOn(deviceProvider, 'disableSingleAppMode').and.resolveTo(true);
-      spyOn(AppLauncher, 'canOpenUrl').and.resolveTo({ value: true });
-      spyOn(AppLauncher, 'openUrl').and.resolveTo({ completed: true });
       spyOn(component, 'setupResumeSubscription');
 
       await component.disableSAMAndExit(ExitSAMMethodUsed.BANNER);

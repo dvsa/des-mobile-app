@@ -236,6 +236,9 @@ export class TestFlowHeaderComponent {
         return;
       }
 
+      // If disabling single app mode was successful, set up the resume subscription
+      this.setupResumeSubscription();
+
       // Define the Microsoft Teams URL
       const teamsURL = 'msteams://teams.microsoft.com';
       // Check if the URL can be opened
@@ -250,12 +253,10 @@ export class TestFlowHeaderComponent {
       // Attempt to open the URL
       const openURLResult = await AppLauncher.openUrl({ url: teamsURL });
 
-      // If the URL was opened successfully, set up the subscription
-      if (openURLResult.completed) {
-        this.setupResumeSubscription();
-      } else {
+      if (!openURLResult.completed) {
         // If opening the URL failed, handle the failure
         await this.handleTeamsOpenFailure(openURLResult);
+        return;
       }
     } catch (e) {
       // Handle any errors that occurred during the process
