@@ -11,13 +11,7 @@ import { Observable, Subscription, merge } from 'rxjs';
 
 import { SENTRY_ERRORS } from '@app/sentry-error-handler';
 import { SideMenuClosed, SideMenuItemSelected, SideMenuOpened } from '@pages/dashboard/dashboard.actions';
-import {
-  DASHBOARD_PAGE,
-  EXAMINER_RECORDS,
-  LOGIN_PAGE,
-  UNUPLOADED_TESTS_PAGE,
-  USEFUL_LINKS_PAGE,
-} from '@pages/page-names.constants';
+import { DASHBOARD_PAGE, LOGIN_PAGE, UNUPLOADED_TESTS_PAGE, USEFUL_LINKS_PAGE } from '@pages/page-names.constants';
 import { unsubmittedTestSlotsCount$ } from '@pages/unuploaded-tests/unuploaded-tests.selector';
 import { AccessibilityService } from '@providers/accessibility/accessibility.service';
 import { AppConfigProvider } from '@providers/app-config/app-config';
@@ -66,11 +60,11 @@ export class AppComponent extends LogoutBasePageComponent implements OnInit {
       showUnSubmittedCount: true,
       hideWhenRole: [ExaminerRole.DLG],
     },
-    {
-      title: EXAMINER_RECORDS,
-      descriptor: 'Examiner records',
-      hideWhenRole: [ExaminerRole.DLG],
-    },
+    // {
+    //   title: EXAMINER_RECORDS,
+    //   descriptor: 'Examiner records',
+    //   hideWhenRole: [ExaminerRole.DLG],
+    // },
     {
       title: USEFUL_LINKS_PAGE,
       descriptor: 'Useful links',
