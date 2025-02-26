@@ -9,6 +9,7 @@ import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/
 import { ModalController } from '@ionic/angular';
 import { ScrollDetail } from '@ionic/core';
 import { Store, select } from '@ngrx/store';
+import { CustomDateRangeModal } from '@pages/examiner-records/components/custom-date-range-modal/custom-date-range-modal';
 import { ExaminerRecordsLearnMoreModal } from '@pages/examiner-records/components/examiner-records-learn-more-modal/examiner-records-learn-more-modal';
 import { ExaminerReportsCardClick } from '@pages/examiner-records/components/examiner-reports-card/examiner-reports-card';
 import {
