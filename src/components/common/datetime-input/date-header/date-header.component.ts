@@ -1,5 +1,5 @@
-import { ChangeDetectorRef, Component, Inject, OnDestroy } from '@angular/core';
-import { DateAdapter, MAT_DATE_FORMATS, MatDateFormats } from '@angular/material/core';
+import { ChangeDetectorRef, Component, OnDestroy } from '@angular/core';
+import { DateAdapter } from '@angular/material/core';
 import { MatCalendar } from '@angular/material/datepicker';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -15,7 +15,6 @@ export class DateHeaderComponent<D> implements OnDestroy {
   constructor(
     protected calendar: MatCalendar<D>,
     protected dateAdapter: DateAdapter<D>,
-    @Inject(MAT_DATE_FORMATS) private _dateFormats: MatDateFormats,
     cdr: ChangeDetectorRef
   ) {
     calendar.stateChanges.pipe(takeUntil(this.destroyed$)).subscribe(() => cdr.markForCheck());

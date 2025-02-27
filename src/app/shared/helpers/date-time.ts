@@ -20,6 +20,7 @@ export enum DateRange {
   EIGHTEEN_MONTHS = '18 months',
   CUSTOM = 'custom',
 }
+
 export class DateTime {
   moment: moment.Moment;
 
@@ -56,9 +57,11 @@ export class DateTime {
   day(): number {
     return this.moment.day();
   }
+
   month(): number {
     return this.moment.month();
   }
+
   year(): number {
     return this.moment.year();
   }
@@ -75,9 +78,16 @@ export class DateTime {
     return this.moment.isAfter(targetDate);
   }
 
-  isBetweenTwoDates(startDate: DateTime, endDate: DateTime, isTimeless = true): boolean {
-    const compareStartDate = isTimeless ? startDate.moment.startOf(Duration.DAY) : startDate.moment;
-    const compareEndDate = isTimeless ? endDate.moment.endOf(Duration.DAY) : endDate.moment;
+  isBetweenTwoDates(date1: DateTime, date2: DateTime, isTimeless = true): boolean {
+    let compareStartDate: moment.Moment = null;
+    let compareEndDate: moment.Moment = null;
+    if (date2.isAfter(date1.moment)) {
+      compareStartDate = isTimeless ? date1.moment.startOf(Duration.DAY) : date1.moment;
+      compareEndDate = isTimeless ? date2.moment.endOf(Duration.DAY) : date2.moment;
+    } else {
+      compareStartDate = isTimeless ? date2.moment.startOf(Duration.DAY) : date2.moment;
+      compareEndDate = isTimeless ? date1.moment.endOf(Duration.DAY) : date1.moment;
+    }
 
     return this.moment.isSameOrBefore(compareEndDate) && this.moment.isSameOrAfter(compareStartDate);
   }

@@ -7,6 +7,16 @@
     height: 600px
   }
 
+  .reduced-padding {
+    padding: 3px;
+  }
+
+  .divider {
+    display: flex;
+    height: 100%;
+    background-color: var(--gds-grey-2);
+  }
+
   .modal-header {
     font-size: 28px;
     letter-spacing: 0.27px;

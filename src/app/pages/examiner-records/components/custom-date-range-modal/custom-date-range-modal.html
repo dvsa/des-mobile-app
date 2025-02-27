@@ -6,58 +6,34 @@
     </ion-col>
   </ion-row>
   <ion-row class="calendar-sizing content-padding bottom-padding ion-justify-content-center">
-    <ion-col class="ion-no-padding" size="48">
+    <ion-col class="ion-no-padding" size="47">
       <custom-calendar-component
         id="start-date-picker"
         [customTitle]="'Start date'"
         [minValue]="startDateMin"
         [maxValue]="startDateMax"
         [showCancelAndConfirm]="false"
+        [shouldDisplayRange]="true"
+        [otherDateInRange]="endDate"
         [selectedValue]="startDate"
         (onDataPicked)="onDateChanged($event, 'start')"
       ></custom-calendar-component>
-      <!--            <ion-datetime-->
-      <!--                    class="date-modal"-->
-      <!--                    [value]="startDate"-->
-      <!--                    [max]="startDateMax"-->
-      <!--                    [min]="startDateMin"-->
-      <!--                    id="start-date-picker"-->
-      <!--                    [showDefaultButtons]="false"-->
-      <!--                    size="cover"-->
-      <!--                    presentation="date"-->
-      <!--                    (ionChange)="onDateChanged($event, 'start')"-->
-      <!--                    [highlightedDates]="getHighlightedDates()"-->
-      <!--            >-->
-      <!--            </ion-datetime>-->
     </ion-col>
-    <ion-col class="ion-no-padding" size="48">
+    <ion-col class="reduced-padding" size="1">
+      <div class="divider"></div>
+    </ion-col>
+    <ion-col class="ion-no-padding" size="47">
       <custom-calendar-component
         id="end-date-picker"
         [customTitle]="'End date'"
         [minValue]="endDateMin"
         [maxValue]="endDateMax"
+        [shouldDisplayRange]="true"
+        [otherDateInRange]="startDate"
         [showCancelAndConfirm]="false"
         [selectedValue]="endDate"
         (onDataPicked)="onDateChanged($event, 'end')"
       ></custom-calendar-component>
-      <!--            <ion-row class="ion-justify-content-center display-flex">-->
-      <!--                <ion-text class="des-header-style-3">-->
-      <!--                    End date-->
-      <!--                </ion-text>-->
-      <!--            </ion-row>-->
-      <!--            <ion-datetime-->
-      <!--                    class="date-modal"-->
-      <!--                    [value]="endDate"-->
-      <!--                    [max]="endDateMax"-->
-      <!--                    [min]="endDateMin"-->
-      <!--                    id="end-date-picker"-->
-      <!--                    [showDefaultButtons]="false"-->
-      <!--                    size="cover"-->
-      <!--                    presentation="date"-->
-      <!--                    [highlightedDates]="getHighlightedDates()"-->
-      <!--                    (ionChange)="onDateChanged($event, 'end')"-->
-      <!--            >-->
-      <!--            </ion-datetime>-->
     </ion-col>
   </ion-row>
   <ion-row>

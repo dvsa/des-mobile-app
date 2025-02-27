@@ -1,19 +1,35 @@
 import { NgIf } from '@angular/common';
 import { Component, EventEmitter, Input, Output, ViewChild } from '@angular/core';
-import { MatCalendar } from '@angular/material/datepicker';
+import { DateAdapter, NativeDateAdapter } from '@angular/material/core';
+import { MatCalendar, MatCalendarCellClassFunction, MatCalendarCellCssClasses } from '@angular/material/datepicker';
 import { DateHeaderComponent } from '@components/common/datetime-input/date-header/date-header.component';
 import { IonDatetime, IonicModule } from '@ionic/angular';
 import { DateTime } from '@shared/helpers/date-time';
+
+export class CustomDateAdapter extends NativeDateAdapter {
+  //Set first day of the week to Monday
+  override getFirstDayOfWeek(): number {
+    return 1;
+  }
+}
 
 @Component({
   selector: 'custom-calendar-component',
   templateUrl: './custom-calendar.component.html',
   styleUrls: ['./custom-calendar.component.scss'],
   imports: [MatCalendar, IonicModule, NgIf],
+  providers: [{ provide: DateAdapter, useClass: CustomDateAdapter }],
+
   standalone: true,
 })
 export class CustomCalendarComponent {
   @ViewChild(MatCalendar) datePicker!: MatCalendar<string>;
+
+  @Input()
+  shouldDisplayRange = false;
+
+  @Input()
+  otherDateInRange: string;
 
   @Input()
   customTitle: string;
@@ -38,6 +54,28 @@ export class CustomCalendarComponent {
 
   @Output()
   onDataPicked = new EventEmitter<DateTime>();
+
+  dateClass: MatCalendarCellClassFunction<string> = (
+    date: string,
+    view: 'month' | 'year' | 'multi-year'
+  ): MatCalendarCellCssClasses => {
+    if (view === 'month') {
+      if (this.shouldDisplayRange && this.otherDateInRange) {
+        if (date === this.otherDateInRange || date === this.selectedBuffer || date === this.selectedValue) {
+          return 'mat-calendar-body-selected';
+        }
+        if (
+          new DateTime(date).isBetweenTwoDates(new DateTime(this.selectedBuffer), new DateTime(this.otherDateInRange))
+        ) {
+          return 'mat-calendar-body-in-range';
+        }
+      }
+    }
+  };
+
+  getDateClass() {
+    return this.dateClass;
+  }
 
   /**
    * Handles the selection of a month.
@@ -79,6 +117,9 @@ export class CustomCalendarComponent {
    */
   onSelectedChange(event) {
     this.selectedBuffer = event;
+    if (!this.showCancelAndConfirm) {
+      this.onSelected(event);
+    }
   }
 
   /**

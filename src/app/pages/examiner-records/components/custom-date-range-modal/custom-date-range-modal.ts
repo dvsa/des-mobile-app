@@ -42,28 +42,19 @@ export class CustomDateRangeModal {
    * @param event - The event object containing the new date value.
    * @param dateType - The type of date being changed ('start' or 'end').
    */
-  onDateChanged(event, dateType: 'start' | 'end') {
+  onDateChanged(event: DateTime, dateType: 'start' | 'end') {
+    console.log('picked', event, dateType);
     switch (dateType) {
       case 'start':
-        this.startDate = event.detail.value;
+        this.startDate = event.toISOString();
         this.endDateMin = this.startDate;
         if (new DateTime(this.endDate).isBefore(this.startDate)) {
           this.endDate = this.startDate;
         }
         break;
       case 'end':
-        this.endDate = event.detail.value;
+        this.endDate = event.toISOString();
         break;
     }
-  }
-
-  getHighlightedDates() {
-    return new DateTime(this.startDate).getDatesBetweenTwoDates(new DateTime(this.endDate)).map((date: DateTime) => {
-      return {
-        date: date.format('YYYY-MM-DD'),
-        textColor: '#000000',
-        backgroundColor: 'rgb(169,210,255)',
-      };
-    });
   }
 }

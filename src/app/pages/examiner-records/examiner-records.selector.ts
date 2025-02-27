@@ -55,6 +55,7 @@ export const dateFilter = (
 ): boolean => {
   // if custom date range is provided, use it
   if (customDateRange && range === DateRange.CUSTOM) {
+    console.log('custom date range', customDateRange);
     // get the start date of the test
     const startDate = new DateTime(get(test, 'startDate'));
     // check if the start date is within the custom date range

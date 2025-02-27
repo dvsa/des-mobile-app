@@ -644,16 +644,19 @@ export class ExaminerRecordsPage implements OnInit {
   }
 
   async handleCustomDateRange() {
-    const today = new Date();
+    const today: string = new Date().toISOString();
+    console.log('start', this.customDateRangeSubject$.value?.startDate?.toISOString());
+    console.log('end', this.customDateRangeSubject$.value?.endDate?.toISOString());
+    const sixMonthsAgo: string = this.examinerRecordsProvider.getRangeDate(DateRange.EIGHTEEN_MONTHS).toISOString();
     const modal: HTMLIonModalElement = await this.modalController.create({
       component: CustomDateRangeModal,
       componentProps: {
-        startDate: this.customDateRangeSubject$.value?.startDate?.toISOString(),
-        endDate: this.customDateRangeSubject$.value?.endDate?.toISOString(),
-        startDateMin: this.examinerRecordsProvider.getRangeDate(DateRange.EIGHTEEN_MONTHS).toISOString(),
-        startDateMax: today.toISOString(),
-        endDateMin: this.examinerRecordsProvider.getRangeDate(DateRange.EIGHTEEN_MONTHS).toISOString(),
-        endDateMax: today.toISOString(),
+        startDate: this.customDateRangeSubject$.value?.startDate?.toISOString() ?? sixMonthsAgo,
+        endDate: this.customDateRangeSubject$.value?.startDate?.toISOString() ?? today,
+        startDateMin: sixMonthsAgo,
+        startDateMax: today,
+        endDateMin: sixMonthsAgo,
+        endDateMax: today,
       },
       cssClass: 'blackout-modal mes-modal-alert',
       backdropDismiss: false,

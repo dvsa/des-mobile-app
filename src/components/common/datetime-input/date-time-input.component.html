@@ -25,12 +25,13 @@
         <ion-row class="calendar-row-height">
           <ion-col>
             <custom-calendar-component
+              class="display-flex calendar-height"
               *ngIf="displayType === DisplayType.Date"
               id="{{ pickerId }}"
               [customTitle]="customTitle"
               [minValue]="minValue"
               [maxValue]="maxValue"
-              [selectedValue]="initialValue"
+              [selectedValue]="selectedValue ? selectedValue : initialValue"
               (customButtonEvent)="modal.dismiss()"
               (onDataPicked)="onSelected($event.toISOString(), displayType)"
             ></custom-calendar-component>
