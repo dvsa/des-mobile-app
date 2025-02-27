@@ -228,12 +228,10 @@ export class ExaminerRecordsPage implements OnInit {
       //listen for changes to test result and send the result to the behaviour subject
       cachedRecords$.pipe(
         tap((value) => {
-          console.log('Hello Rhys', value);
           this.testResults = this.removeDuplicatesAndSort(this.mergeWithOnlineResults(this.testResults, value));
           if (this.testResults.length > 0) {
             this.testSubject$.next(this.testResults);
           }
-          console.log('this.testResults', this.testResults);
         })
       ),
       //deactivate loading ui when no longer loading
