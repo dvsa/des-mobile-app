@@ -1,5 +1,4 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { Browser } from '@capacitor/browser';
 import { IonicModule, ModalController } from '@ionic/angular';
 import { Store, StoreModule } from '@ngrx/store';
 import * as LinkModalActions from '@pages/useful-links/components/link-modal/link-modal.actions';
@@ -48,12 +47,12 @@ describe('LinkModalComponent', () => {
         url: 'https://example.com',
         displayText: 'Example',
       };
-      spyOn(Browser, 'open').and.callFake(() => Promise.resolve());
+      spyOn(window, 'open').and.callThrough();
 
       await component.onContinue();
 
       expect(store$.dispatch).toHaveBeenCalledWith(LinkModalActions.ModalContinue());
-      expect(Browser.open).toHaveBeenCalledWith({ url: component.link.url, toolbarColor: '#000000' });
+      expect(window.open).toHaveBeenCalledWith(component.link.url, '_blank');
       expect(modalController.dismiss).toHaveBeenCalledWith({ event: LinkModalEvent.CONTINUE });
     });
   });
