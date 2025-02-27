@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
-import { Store, StoreModule } from '@ngrx/store';
+import { Action, Store, StoreModule } from '@ngrx/store';
 import {
   CacheExaminerRecords,
   ColourFilterChanged,
@@ -18,7 +18,7 @@ import { ExaminerRecordsEffects } from '@store/examiner-records/examiner-records
 import { ReplaySubject, of } from 'rxjs';
 
 describe('ExaminerRecordsStoreEffects', () => {
-  let actions$: ReplaySubject<any>;
+  let actions$: ReplaySubject<Action>;
   let effects: ExaminerRecordsEffects;
   let store$: Store<StoreModel>;
   let dataStore: DataStoreProvider;
@@ -50,7 +50,7 @@ describe('ExaminerRecordsStoreEffects', () => {
 
       effects.persistExaminerRecordsPreferences$.subscribe(() => {
         expect(dataStore.setItem).toHaveBeenCalledWith(
-          ExaminerRecordsEffects['EXAMINER_RECORDS_KEY'],
+          ExaminerRecordsEffects.EXAMINER_RECORDS_KEY,
           JSON.stringify(examinerRecordsPreferences)
         );
         done();
@@ -65,7 +65,7 @@ describe('ExaminerRecordsStoreEffects', () => {
 
       effects.persistExaminerRecordsPreferences$.subscribe(() => {
         expect(dataStore.setItem).toHaveBeenCalledWith(
-          ExaminerRecordsEffects['EXAMINER_RECORDS_KEY'],
+          ExaminerRecordsEffects.EXAMINER_RECORDS_KEY,
           JSON.stringify(examinerRecordsPreferences)
         );
         done();
@@ -80,7 +80,7 @@ describe('ExaminerRecordsStoreEffects', () => {
 
       effects.persistExaminerRecordsPreferences$.subscribe(() => {
         expect(dataStore.setItem).toHaveBeenCalledWith(
-          ExaminerRecordsEffects['EXAMINER_RECORDS_KEY'],
+          ExaminerRecordsEffects.EXAMINER_RECORDS_KEY,
           JSON.stringify(examinerRecordsPreferences)
         );
         done();
