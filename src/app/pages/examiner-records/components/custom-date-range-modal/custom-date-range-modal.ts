@@ -36,10 +36,6 @@ export class CustomDateRangeModal {
     });
   }
 
-  getDateRange() {
-    return new DateTime(this.startDate).daysDiff(new DateTime(this.endDate)) + 1;
-  }
-
   /**
    * Handles the date change event for the start and end dates.
    *

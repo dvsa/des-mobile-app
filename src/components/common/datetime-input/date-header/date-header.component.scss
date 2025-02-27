@@ -2,9 +2,23 @@
   rotate: 180deg;
 }
 
-.header-button {
-  --padding-start: 0;
-  --padding-end: 5%;
+.header-height {
+  height: 80px;
+}
+
+.header-icon {
+  height: 32px;
+  width: 32px;
+}
+
+.month-button {
+  width: 174px
+}
+
+.year-button {
+  width: 95px;
+  //--padding-start: 0;
+  //--padding-end: 5%;
 }
 
 .header-button-no-padding {

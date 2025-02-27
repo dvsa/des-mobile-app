@@ -1,15 +1,66 @@
-.mat-calendar {
-  width: 96% !important;
-}
-
-.full-height {
+.calendar-container {
+  display: flex;
+  flex-direction: column;
   height: 100%;
 }
 
-.spacing-row {
-  min-height: 10%;
+.calendar-row {
+  flex: 1;
+  min-height: 0;
+}
+
+.calendar-col {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.mat-calendar {
+  width: 96%;
+}
+
+.button-container {
+  position: relative;
+  min-height: 48px;
+}
+
+.action-row {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 48px;
+  margin: 0;
+  background: white;
+}
+
+.action-col {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0;
+}
+
+.action-button {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  --padding-start: 0;
+  --padding-end: 0;
 }
 
 .top-border {
-  border-top: 2px solid var(--gds-grey-2);
+  border-top: 1px solid var(--ion-border-color);
 }
+
+.right-border {
+  border-right: 1px solid var(--ion-border-color);
+}
+
+:host ::ng-deep .mat-calendar-body {
+  min-height: 320px;
+}
+
+.height-100 {
+  height: 100%;
+    }

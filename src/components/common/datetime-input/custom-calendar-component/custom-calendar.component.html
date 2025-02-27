@@ -1,13 +1,12 @@
-<ion-grid class="ion-no-padding">
-  <ion-row class="ion-justify-content-center" *ngIf="customTitle">
-    <label class="padding-top-10">{{ customTitle }}</label>
-  </ion-row>
-  <ion-row class="full-height">
-    <ion-col class="display-flex ion-justify-content-center">
+<ion-grid class="calendar-container">
+  <ion-row class="ion-justify-content-center" *ngIf="customTitle"><label
+    class="padding-top-10">{{ customTitle }}</label></ion-row>
+  <ion-row class="calendar-row">
+    <ion-col class="calendar-col">
       <mat-calendar
+        class="height-100"
         #datePicker
-        [maxDate]="maxValue"
-        [minDate]="minValue"
+        [maxDate]="maxValue" [minDate]="minValue"
         (monthSelected)="handleMonthSelected($event, datePicker.minDate)"
         (selectedChange)="onSelectedChange($event)"
         [startAt]="selectedValue"
@@ -16,45 +15,29 @@
       </mat-calendar>
     </ion-col>
   </ion-row>
-  <ion-row *ngIf="showCancelAndConfirm && datePicker.currentView === 'month'" class="top-border button-row-height">
-    <ion-col
-      class="right-border display-flex ion-justify-content-center ion-no-padding">
-      <ion-button
-        fill="clear"
-        class="terminate-button full-width"
-        id="cancel-datepicker-button"
-        (click)="buttonEmit(datePicker.selected, 'cancel')">
-        <ion-text> Cancel</ion-text>
-      </ion-button>
-    </ion-col>
-    <ion-col
-      class="display-flex ion-justify-content-center ion-no-padding"
-    >
-      <ion-button
-        fill="clear"
-        class="black-text full-width"
-        id="confirm-datepicker-button"
-        (click)="
-                onSelected(selectedBuffer);
-                buttonEmit(datePicker.selected, 'done')
-              "
-      >
-        <ion-text> OK</ion-text>
-      </ion-button>
-    </ion-col>
-  </ion-row>
-  <ion-row *ngIf="datePicker.currentView !== 'month'" class="top-border button-row-height">
-    <ion-col
-      class="display-flex ion-justify-content-center ion-no-padding"
-    >
-      <ion-button
-        fill="clear"
-        class="black-text full-width"
-        id="back-datepicker-button"
-        (click)="datePicker.currentView = 'month'; handleBackButton(); buttonEmit(datePicker.selected, 'back')"
-      >
-        <ion-text> Back</ion-text>
-      </ion-button>
-    </ion-col>
-  </ion-row>
+  <div class="button-container">
+    <ion-row *ngIf="showCancelAndConfirm && datePicker.currentView === 'month'" class="action-row top-border">
+      <ion-col class="action-col right-border">
+        <ion-button fill="clear" class="action-button" id="cancel-datepicker-button"
+                    (click)="buttonEmit(datePicker.selected, 'cancel')">
+          <ion-text>Cancel</ion-text>
+        </ion-button>
+      </ion-col>
+      <ion-col class="action-col">
+        <ion-button fill="clear" class="action-button" id="confirm-datepicker-button"
+                    (click)="onSelected(selectedBuffer); buttonEmit(datePicker.selected, 'done')">
+          <ion-text>Confirm</ion-text>
+        </ion-button>
+      </ion-col>
+    </ion-row>
+    <ion-row *ngIf="datePicker.currentView !== 'month'" class="action-row top-border">
+      <ion-col class="action-col">
+        <ion-button fill="clear" class="action-button" id="back-datepicker-button"
+                    (click)="datePicker.currentView = 'month'; handleBackButton(); buttonEmit(datePicker.selected, 'back')">
+          <ion-text>Back</ion-text>
+        </ion-button>
+      </ion-col>
+    </ion-row>
+  </div>
 </ion-grid>
+
