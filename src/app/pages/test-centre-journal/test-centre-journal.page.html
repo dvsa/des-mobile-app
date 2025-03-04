@@ -1,14 +1,16 @@
 <ion-header>
   <ion-toolbar class="no-internal-padding"
-               [ngClass]="{'toolbar-no-padding': isExitSAMActivated}" mode="ios">
+               [ngClass]="{'toolbar-no-padding': isExitSAMBannerActivated}" mode="ios">
     <test-flow-header
       class="display-flex flex-direction-column"
       [pageName]="'test-centre-journal-page'"
       (exitSamUsed)="onUsedExitSam()"
       [shouldShowEndTestLink]="false"
       [shouldShowEscapeFromSamButton]="pageState.enteredFromTest$ | async"
-      [isExitSAMActivated]="isExitSAMActivated"
+      [isExitSAMActivated]="isExitSAMBannerActivated"
       [shouldShowRefreshButton]="true"
+      (setupLeaveSubscription)="setupEscapeSAMLeaveSubscription()"
+      (setupResumeSubscription)="setupEscapeSAMResumeSubscription()"
       [refreshLastSyncTime]="pageState.lastRefreshedTime$ | async"
       (refreshButtonClicked)="getTestCentreData(true)"
       (onExitSAMActivatedChanged)="isSamActivatedChanged($event)">

@@ -1,7 +1,7 @@
 <ion-header>
   <practice-mode-banner *ngIf="isEndToEndPracticeMode || isPracticeMode"></practice-mode-banner>
   <ion-toolbar class="no-internal-padding"
-               [ngClass]="{'toolbar-no-padding': isEndToEndPracticeMode || isExitSAMActivated}" mode="ios">
+               [ngClass]="{'toolbar-no-padding': isEndToEndPracticeMode || isExitSAMBannerActivated}" mode="ios">
     <test-flow-header
       class="display-flex flex-direction-column"
       [pageName]="'test-report-page-cat-manoeuvre'"
@@ -11,7 +11,9 @@
       [shouldShowEscapeFromSamButton]="!isRekey && !isDelegated"
       [isPracticeMode]="isEndToEndPracticeMode"
       (exitSamUsed)="onUsedExitSam()"
-      [isExitSAMActivated]="isExitSAMActivated"
+      [isExitSAMActivated]="isExitSAMBannerActivated"
+      (setupLeaveSubscription)="setupEscapeSAMLeaveSubscription()"
+      (setupResumeSubscription)="setupEscapeSAMResumeSubscription()"
       (endTestButtonClicked)="onEndTestClick()"
       (onExitSAMActivatedChanged)="isSamActivatedChanged($event)">
       Test report - {{pageState.candidateUntitledName$ | async}}

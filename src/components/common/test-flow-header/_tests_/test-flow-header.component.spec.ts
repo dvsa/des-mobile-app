@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, fakeAsync, flushMicrotasks, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { AppModule } from '@app/app.module';
 import { AppLauncher, OpenURLResult } from '@capacitor/app-launcher';
 import { ComponentsModule } from '@components/common/common-components.module';
@@ -39,78 +39,6 @@ describe('TestFlowHeaderComponent', () => {
     spyOn(store$, 'dispatch');
     fixture.detectChanges();
   }));
-
-  describe('setupResumeSubscription', () => {
-    it('should re-enable single app mode on platform resume and destroy the subscription without emitting an error', fakeAsync(() => {
-      component.shouldShowEscapeFromSamButton = true;
-
-      spyOn(deviceProvider, 'enableSingleAppMode').and.resolveTo(true);
-      spyOn(component, 'destroySubscription');
-      spyOn(component.platform.resume, 'subscribe').and.callFake((callback) => callback());
-
-      component.setupResumeSubscription();
-
-      flushMicrotasks();
-
-      expect(deviceProvider.enableSingleAppMode).toHaveBeenCalled();
-      expect(component.destroySubscription).toHaveBeenCalled();
-      expect(store$.dispatch).not.toHaveBeenCalledWith(ExitSamError);
-    }));
-
-    it('should dispatch error if enabling single app mode fails', fakeAsync(() => {
-      component.shouldShowEscapeFromSamButton = true;
-      spyOn(component.platform.resume, 'subscribe').and.callFake((callback) => callback());
-      spyOn(deviceProvider, 'enableSingleAppMode').and.rejectWith(new Error('Test Error'));
-      spyOn(component, 'destroySubscription');
-
-      component.setupResumeSubscription();
-
-      flushMicrotasks();
-
-      expect(store$.dispatch).toHaveBeenCalledWith(
-        ExitSamError('Enable single app mode error', new Error('Test Error'))
-      );
-    }));
-
-    it('should dispatch error if single app mode is not enabled', fakeAsync(() => {
-      component.shouldShowEscapeFromSamButton = true;
-      spyOn(component.platform.resume, 'subscribe').and.callFake((callback) => callback());
-      spyOn(deviceProvider, 'enableSingleAppMode').and.resolveTo(false);
-      spyOn(component, 'destroySubscription');
-
-      component.setupResumeSubscription();
-
-      flushMicrotasks();
-
-      expect(store$.dispatch).toHaveBeenCalledWith(ExitSamError('Could not enable single app mode', false));
-    }));
-
-    it('should not re-enable single app mode if shouldShowEscapeFromSamButton is false', async () => {
-      component.shouldShowEscapeFromSamButton = false;
-      spyOn(component.platform.resume, 'subscribe').and.callFake((callback) => callback());
-      spyOn(deviceProvider, 'enableSingleAppMode');
-
-      component.setupResumeSubscription();
-
-      expect(deviceProvider.enableSingleAppMode).not.toHaveBeenCalled();
-      expect(store$.dispatch).not.toHaveBeenCalledWith(ExitSamError);
-    });
-  });
-
-  describe('destroySubscription', () => {
-    it('should unsubscribe from resumeSubscription if it exists', () => {
-      component.resumeSubscription = jasmine.createSpyObj('Subscription', ['unsubscribe']);
-      component.destroySubscription();
-      expect(component.resumeSubscription).toBeNull();
-    });
-
-    it('should do nothing if resumeSubscription does not exist', () => {
-      component.resumeSubscription = null;
-      component.destroySubscription();
-
-      expect(component.resumeSubscription).toBeNull();
-    });
-  });
 
   describe('onEndTestClicked', () => {
     it('should emit endTestButtonClicked event', () => {
@@ -278,16 +206,6 @@ describe('TestFlowHeaderComponent', () => {
       await component.disableSAMAndExit(ExitSAMMethodUsed.BANNER);
 
       expect(component.handleTeamsOpenFailure).toHaveBeenCalledWith({ completed: false });
-    });
-
-    it('should setup subscription if single app mode is disabled', async () => {
-      component.isPracticeMode = false;
-      spyOn(deviceProvider, 'disableSingleAppMode').and.resolveTo(true);
-      spyOn(component, 'setupResumeSubscription');
-
-      await component.disableSAMAndExit(ExitSAMMethodUsed.BANNER);
-
-      expect(component.setupResumeSubscription).toHaveBeenCalled();
     });
 
     it('should handle error during disableSAMAndExit', async () => {
