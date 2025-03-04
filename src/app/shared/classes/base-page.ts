@@ -43,19 +43,26 @@ export abstract class BasePageComponent {
    * @returns {Promise<void>}
    */
   async reEnableSingleAppMode(): Promise<void> {
+    console.log('re-enable single app mode called');
     try {
+      console.log('trying to re-enable single app mode');
       // Re-enable single app mode to lock the user back in when they come back
       const didEnable = await this.deviceProvider.enableSingleAppMode();
 
       if (!didEnable) {
+        console.log('failed to re-enable single app mode');
         this.store$.dispatch(ExitSamError('Could not enable single app mode', didEnable));
+      } else {
+        console.log('successfully re-enabled single app mode');
       }
     } catch (e) {
+      console.log('generic re-enable single app mode error');
       this.store$.dispatch(ExitSamError('Enable single app mode error', e));
     }
   }
 
   leaveSubscriptionFunction = async () => {
+    console.log('leave subscription function called');
     // If the user leaves the app, we want to set up a subscription to the resume event to listen for the user returns
     this.setupEscapeSAMResumeSubscription();
     // Destroy the subscription to prevent memory leaks and locking the user in every time they return to the app
@@ -63,6 +70,7 @@ export abstract class BasePageComponent {
   };
 
   resumeSubscriptionFunction = async () => {
+    console.log('resume subscription function called');
     this.store$.dispatch(ExitSAMUserReturned());
     // Re-enable single app mode to lock the user back in when they come back
     await this.reEnableSingleAppMode();
@@ -75,6 +83,7 @@ export abstract class BasePageComponent {
    * When the app is paused, sets up a subscription to the resume event and destroys the pause subscription.
    */
   setupEscapeSAMLeaveSubscription() {
+    console.log('setting up subscription to resume event');
     // When the app is paused, we want to set up a subscription to the resume event to listen for the user returns
     this.leaveAppSubscription = this.platform.pause.subscribe(this.leaveSubscriptionFunction);
   }
@@ -85,6 +94,7 @@ export abstract class BasePageComponent {
    * re-enables single app mode, and destroys the resume subscription.
    */
   setupEscapeSAMResumeSubscription() {
+    console.log('setting up subscription to resume event');
     this.returnToAppSubscription = this.platform.resume.subscribe(this.resumeSubscriptionFunction);
   }
 
@@ -92,7 +102,9 @@ export abstract class BasePageComponent {
    * Destroys the subscription to the platform resume event.
    */
   destroyReturnToAppSubscription() {
+    console.log('trying to destroy return to app subscription');
     if (this.returnToAppSubscription) {
+      console.log('destroying return to app subscription');
       this.returnToAppSubscription.unsubscribe();
       this.returnToAppSubscription = null;
     }
@@ -102,23 +114,28 @@ export abstract class BasePageComponent {
    * Destroys the subscription to the platform resume event.
    */
   destroyLeaveAppSubscription() {
+    console.log('trying to destroy leave app subscription');
     if (this.leaveAppSubscription) {
+      console.log('destroying leave app subscription');
       this.leaveAppSubscription.unsubscribe();
       this.leaveAppSubscription = null;
     }
   }
 
   ionViewDidLeave() {
+    console.log('page left');
     /**
      If leaveAppSubscription is active, it means the user attempted to escape SAM but did not actually
      leave the app. We need to re-enable single app mode to lock the user back in
      and destroy the subscription to prevent it from firing.
      */
     if (this.leaveAppSubscription) {
+      console.log('there was a leave app subscription when the page was left, destroying now');
       this.reEnableSingleAppMode().then(() => {});
       this.destroyLeaveAppSubscription();
     }
     if (this.returnToAppSubscription) {
+      console.log('there was a return to app subscription when the page was left, destroying now');
       this.destroyReturnToAppSubscription();
     }
     this.isExitSAMBannerActivated = false;
