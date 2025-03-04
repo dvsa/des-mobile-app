@@ -2,7 +2,7 @@
   <practice-mode-banner *ngIf="isEndToEndPracticeMode"></practice-mode-banner>
   <ion-toolbar
     class="no-internal-padding"
-    [ngClass]="{'toolbar-no-padding': isEndToEndPracticeMode || isExitSAMActivated}"
+    [ngClass]="{'toolbar-no-padding': isEndToEndPracticeMode || isExitSAMBannerActivated}"
     mode="ios">
     <test-flow-header
       class="display-flex flex-direction-column"
@@ -11,8 +11,10 @@
       [shouldShowEscapeFromSamButton]="!isDelegated && !isRekey"
       [pageName]="'waiting-room-page'"
       [isPracticeMode]="isEndToEndPracticeMode"
-      [isExitSAMActivated]="isExitSAMActivated"
+      [isExitSAMActivated]="isExitSAMBannerActivated"
       [shouldIncludeLanguageDirectiveOnTitle]="true"
+      (setupLeaveSubscription)="setupEscapeSAMLeaveSubscription()"
+      (setupResumeSubscription)="setupEscapeSAMResumeSubscription()"
       (exitSamUsed)="onUsedExitSam()"
       (onExitSAMActivatedChanged)="isSamActivatedChanged($event)">
       {{ 'waitingRoom.title' | translate }} - {{ pageState.candidateUntitledName$ | async }}

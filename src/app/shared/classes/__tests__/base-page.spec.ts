@@ -3,6 +3,7 @@ import { TestBed, fakeAsync, flushMicrotasks, waitForAsync } from '@angular/core
 import { ActivatedRoute, Data, Router } from '@angular/router';
 import { KeepAwake as Insomnia } from '@capacitor-community/keep-awake';
 import { OrientationType, ScreenOrientation } from '@capawesome/capacitor-screen-orientation';
+import { ExitSamError } from '@components/common/test-flow-header/exit-sam.actions';
 import { Platform } from '@ionic/angular';
 import { RouterMock } from '@mocks/angular-mocks/router-mock';
 import { PlatformMock } from '@mocks/ionic-mocks/platform-mock';
@@ -17,6 +18,7 @@ import { LogHelperMock } from '@providers/logs/__mocks__/logs-helper.mock';
 import { LogHelper } from '@providers/logs/logs-helper';
 import { LogType } from '@shared/models/log.model';
 import { StoreModel } from '@shared/models/store.model';
+import { Subscription } from 'rxjs';
 import { BasePageComponent } from '../base-page';
 
 describe('BasePageComponent', () => {
@@ -88,7 +90,12 @@ describe('BasePageComponent', () => {
     basePageComponent = new BasePageClass(injector);
   }));
 
-  describe('ionViewWillEnter()', () => {
+  afterEach(() => {
+    basePageComponent.destroyLeaveAppSubscription();
+    basePageComponent.destroyReturnToAppSubscription();
+  });
+
+  describe('ionViewWillEnter', () => {
     it('should allow user access if authentication is not required', fakeAsync(() => {
       basePageComponent.loginRequired = false;
       basePageComponent.ionViewWillEnter();
@@ -148,7 +155,7 @@ describe('BasePageComponent', () => {
   describe('ionViewDidLeave', () => {
     it('should set escapeFromSam to false', () => {
       basePageComponent.ionViewDidLeave();
-      expect(basePageComponent.isExitSAMActivated).toBe(false);
+      expect(basePageComponent.isExitSAMBannerActivated).toBe(false);
     });
   });
 
@@ -283,6 +290,73 @@ describe('BasePageComponent', () => {
       expect(Insomnia.allowSleep).not.toHaveBeenCalled();
       expect(deviceProvider.disableSingleAppMode).not.toHaveBeenCalled();
       expect(store$.dispatch).not.toHaveBeenCalled();
+    });
+  });
+  describe('reEnableSingleAppMode', () => {
+    it('should dispatch ExitSamError if enabling single app mode fails', async () => {
+      spyOn(deviceProvider, 'enableSingleAppMode').and.returnValue(Promise.resolve(false));
+      await basePageComponent.reEnableSingleAppMode();
+      expect(store$.dispatch).toHaveBeenCalledWith(ExitSamError('Could not enable single app mode', false));
+    });
+
+    it('should dispatch ExitSamError if an error occurs while enabling single app mode', async () => {
+      spyOn(deviceProvider, 'enableSingleAppMode').and.returnValue(Promise.reject('Error'));
+      await basePageComponent.reEnableSingleAppMode();
+      expect(store$.dispatch).toHaveBeenCalledWith(ExitSamError('Enable single app mode error', 'Error'));
+    });
+  });
+
+  describe('setupEscapeSAMLeaveSubscription', () => {
+    it('should set up a subscription to the platform pause event', () => {
+      spyOn(platform.pause, 'subscribe').and.callThrough();
+      basePageComponent.setupEscapeSAMLeaveSubscription();
+      expect(platform.pause.subscribe).toHaveBeenCalled();
+    });
+  });
+
+  describe('setupEscapeSAMResumeSubscription', () => {
+    it('should set up a subscription to the platform resume event', () => {
+      spyOn(platform.resume, 'subscribe').and.callThrough();
+      basePageComponent.setupEscapeSAMResumeSubscription();
+      expect(platform.resume.subscribe).toHaveBeenCalled();
+    });
+
+    it('returnToAppSubscription should have a value', async () => {
+      spyOn(basePageComponent, 'reEnableSingleAppMode').and.returnValue(Promise.resolve());
+      basePageComponent.setupEscapeSAMResumeSubscription();
+      expect(basePageComponent.returnToAppSubscription).not.toBeNull();
+    });
+  });
+
+  describe('destroyReturnToAppSubscription', () => {
+    it('should unsubscribe and nullify returnToAppSubscription', () => {
+      basePageComponent.returnToAppSubscription = new Subscription();
+      basePageComponent.destroyReturnToAppSubscription();
+      expect(basePageComponent.returnToAppSubscription).toBeNull();
+    });
+  });
+
+  describe('destroyLeaveAppSubscription', () => {
+    it('should unsubscribe and nullify leaveAppSubscription', () => {
+      basePageComponent.leaveAppSubscription = new Subscription();
+      basePageComponent.destroyLeaveAppSubscription();
+      expect(basePageComponent.leaveAppSubscription).toBeNull();
+    });
+  });
+
+  describe('ionViewDidLeave', () => {
+    it('should re-enable single app mode and destroy leaveAppSubscription if active', async () => {
+      basePageComponent.leaveAppSubscription = new Subscription();
+      spyOn(basePageComponent, 'reEnableSingleAppMode').and.returnValue(Promise.resolve());
+      spyOn(basePageComponent, 'destroyLeaveAppSubscription');
+      await basePageComponent.ionViewDidLeave();
+      expect(basePageComponent.reEnableSingleAppMode).toHaveBeenCalled();
+      expect(basePageComponent.destroyLeaveAppSubscription).toHaveBeenCalled();
+    });
+
+    it('should set isExitSAMBannerActivated to false', () => {
+      basePageComponent.ionViewDidLeave();
+      expect(basePageComponent.isExitSAMBannerActivated).toBe(false);
     });
   });
 });
