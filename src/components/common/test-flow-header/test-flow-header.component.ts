@@ -9,7 +9,6 @@ import { RefreshButtonComponent } from '@components/common/refresh-button/refres
 import {
   ExitSAMCancelButtonClicked,
   ExitSAMErrorMessages,
-  ExitSAMUserReturned,
   ExitSamActivated,
   ExitSamError,
 } from '@components/common/test-flow-header/exit-sam.actions';
@@ -19,7 +18,6 @@ import { Platform } from '@ionic/angular';
 import { Store } from '@ngrx/store';
 import { DeviceProvider } from '@providers/device/device';
 import { StoreModel } from '@shared/models/store.model';
-import { Subscription } from 'rxjs';
 
 export enum ExitSAMMethodUsed {
   BUTTON = 'button',
@@ -52,7 +50,7 @@ export class TestFlowHeaderComponent {
   @Input() isDelegatedRekey = false;
   @Input() shouldAuthenticateOnTestEnd = true;
   @Input() shouldShowCloseButton = false;
-  @Input() shouldShowEscapeFromSamButton = true;
+  @Input() shouldShowEscapeFromSamButton = false;
   @Input() isExitSAMActivated = false;
   @Input() fixHeight = false;
 
@@ -72,8 +70,10 @@ export class TestFlowHeaderComponent {
   onExitSAMActivatedChanged = new EventEmitter<boolean>();
   @Output()
   backButtonClicked = new EventEmitter<void>();
-
-  resumeSubscription: Subscription;
+  @Output()
+  setupResumeSubscription = new EventEmitter<void>();
+  @Output()
+  setupLeaveSubscription = new EventEmitter<void>();
 
   /**
    * Constructor for the PageHeaderComponent.
@@ -88,39 +88,6 @@ export class TestFlowHeaderComponent {
     public modalController: ModalController,
     public store$: Store<StoreModel>
   ) {}
-
-  /**
-   * Sets up the subscription to the platform resume event.
-   */
-  setupResumeSubscription() {
-    this.resumeSubscription = this.platform.resume.subscribe(async () => {
-      this.store$.dispatch(ExitSAMUserReturned());
-      if (this.shouldShowEscapeFromSamButton) {
-        try {
-          // Re-enable single app mode to lock the user back in when they come back
-          const didEnable = await this.deviceProvider.enableSingleAppMode();
-
-          if (!didEnable) {
-            this.store$.dispatch(ExitSamError('Could not enable single app mode', didEnable));
-          }
-        } catch (e) {
-          this.store$.dispatch(ExitSamError('Enable single app mode error', e));
-        }
-        // Destroy the subscription to prevent memory leaks
-        this.destroySubscription();
-      }
-    });
-  }
-
-  /**
-   * Destroys the subscription to the platform resume event.
-   */
-  destroySubscription() {
-    if (this.resumeSubscription) {
-      this.resumeSubscription.unsubscribe();
-      this.resumeSubscription = null;
-    }
-  }
 
   /**
    * Handles the end test button click event.
@@ -236,17 +203,16 @@ export class TestFlowHeaderComponent {
         return;
       }
 
-      // If disabling single app mode was successful, set up the resume subscription
-      this.setupResumeSubscription();
-
       // Define the Microsoft Teams URL
       const teamsURL = 'msteams://teams.microsoft.com';
       // Check if the URL can be opened
       const canOpenURLResult = (await AppLauncher.canOpenUrl({ url: teamsURL })).value;
 
-      // If the URL cannot be opened, handle the failure
+      // If the URL cannot be opened, handle the failure and
+      // emit the setupLeaveSubscription event to set up the leave subscription
       if (!canOpenURLResult) {
         await this.handleTeamsNotFound();
+        this.setupLeaveSubscription.emit();
         return;
       }
 
@@ -254,10 +220,14 @@ export class TestFlowHeaderComponent {
       const openURLResult = await AppLauncher.openUrl({ url: teamsURL });
 
       if (!openURLResult.completed) {
-        // If opening the URL failed, handle the failure
+        // If opening the URL failed, handle the failure and
+        // emit the setupLeaveSubscription event to set up the leave subscription
         await this.handleTeamsOpenFailure(openURLResult);
+        this.setupLeaveSubscription.emit();
         return;
       }
+      // If disabling single app mode was successful, set up the resume subscription
+      this.setupResumeSubscription.emit();
     } catch (e) {
       // Handle any errors that occurred during the process
       await this.openDESDidNotUnlockModal();

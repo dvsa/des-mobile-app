@@ -5,6 +5,7 @@ import { OrientationType, ScreenOrientation } from '@capawesome/capacitor-screen
 import { Platform } from '@ionic/angular';
 import { Store } from '@ngrx/store';
 
+import { ExitSAMUserReturned, ExitSamError } from '@components/common/test-flow-header/exit-sam.actions';
 import { LOGIN_PAGE } from '@pages/page-names.constants';
 import { AuthenticationProvider } from '@providers/authentication/authentication';
 import { DeviceProvider } from '@providers/device/device';
@@ -15,6 +16,7 @@ import { StoreModel } from '@shared/models/store.model';
 import { SaveLog } from '@store/logs/logs.actions';
 import { SetHasExitedApp } from '@store/tests/user-exited-app/user-exited-app.actions';
 import { get } from 'lodash-es';
+import { Subscription } from 'rxjs';
 
 export abstract class BasePageComponent {
   protected platform = this.injector.get(Platform);
@@ -25,7 +27,9 @@ export abstract class BasePageComponent {
   public logHelper = this.injector.get(LogHelper);
   public store$ = this.injector.get<Store<StoreModel>>(Store);
 
-  public isExitSAMActivated = false;
+  public isExitSAMBannerActivated = false;
+  public returnToAppSubscription: Subscription = null;
+  public leaveAppSubscription: Subscription = null;
 
   protected constructor(
     public injector: Injector,
@@ -33,12 +37,99 @@ export abstract class BasePageComponent {
   ) {}
 
   /**
+   * Re-enables single app mode to lock the user back in when they come back.
+   * Dispatches an error action if enabling single app mode fails.
+   *
+   * @returns {Promise<void>}
+   */
+  async reEnableSingleAppMode(): Promise<void> {
+    try {
+      // Re-enable single app mode to lock the user back in when they come back
+      const didEnable = await this.deviceProvider.enableSingleAppMode();
+
+      if (!didEnable) {
+        this.store$.dispatch(ExitSamError('Could not enable single app mode', didEnable));
+      }
+    } catch (e) {
+      this.store$.dispatch(ExitSamError('Enable single app mode error', e));
+    }
+  }
+
+  leaveSubscriptionFunction = async () => {
+    // If the user leaves the app, we want to set up a subscription to the resume event to listen for the user returns
+    this.setupEscapeSAMResumeSubscription();
+    // Destroy the subscription to prevent memory leaks and locking the user in every time they return to the app
+    this.destroyLeaveAppSubscription();
+  };
+
+  resumeSubscriptionFunction = async () => {
+    this.store$.dispatch(ExitSAMUserReturned());
+    // Re-enable single app mode to lock the user back in when they come back
+    await this.reEnableSingleAppMode();
+    // Destroy the subscription to prevent memory leaks and locking the user in every time they return to the app
+    this.destroyReturnToAppSubscription();
+  };
+
+  /**
+   * Sets up a subscription to the platform pause event.
+   * When the app is paused, sets up a subscription to the resume event and destroys the pause subscription.
+   */
+  setupEscapeSAMLeaveSubscription() {
+    // When the app is paused, we want to set up a subscription to the resume event to listen for the user returns
+    this.leaveAppSubscription = this.platform.pause.subscribe(this.leaveSubscriptionFunction);
+  }
+
+  /**
+   * Sets up a subscription to the platform resume event.
+   * When the app is resumed, dispatches an action indicating the user has returned,
+   * re-enables single app mode, and destroys the resume subscription.
+   */
+  setupEscapeSAMResumeSubscription() {
+    this.returnToAppSubscription = this.platform.resume.subscribe(this.resumeSubscriptionFunction);
+  }
+
+  /**
+   * Destroys the subscription to the platform resume event.
+   */
+  destroyReturnToAppSubscription() {
+    if (this.returnToAppSubscription) {
+      this.returnToAppSubscription.unsubscribe();
+      this.returnToAppSubscription = null;
+    }
+  }
+
+  /**
+   * Destroys the subscription to the platform resume event.
+   */
+  destroyLeaveAppSubscription() {
+    if (this.leaveAppSubscription) {
+      this.leaveAppSubscription.unsubscribe();
+      this.leaveAppSubscription = null;
+    }
+  }
+
+  ionViewDidLeave() {
+    /**
+     If leaveAppSubscription is active, it means the user attempted to escape SAM but did not actually
+     leave the app. We need to re-enable single app mode to lock the user back in
+     and destroy the subscription to prevent it from firing.
+     */
+    if (this.leaveAppSubscription) {
+      this.reEnableSingleAppMode().then(() => {});
+      this.destroyLeaveAppSubscription();
+    }
+    if (this.returnToAppSubscription) {
+      this.destroyReturnToAppSubscription();
+    }
+    this.isExitSAMBannerActivated = false;
+  }
+
+  /**
    * By calling authenticationProvider.determineAuthenticationMode(), we will set
    * authenticationProvider.inUnAuthenticatedMode to true if the user is offline.
    * This will then be used to prevent redirects to LOGIN_PAGE if the user is offline
    * Otherwise - on view entry route the user to LOGIN_PAGE if their token is invalid,
    * and they are online
-   //
    */
   ionViewWillEnter() {
     if (this.isIos()) {
@@ -58,10 +149,6 @@ export abstract class BasePageComponent {
         }
       });
     }
-  }
-
-  ionViewDidLeave() {
-    this.isExitSAMActivated = false;
   }
 
   isIos(): boolean {
@@ -119,7 +206,7 @@ export abstract class BasePageComponent {
   }
 
   isSamActivatedChanged(isActive: boolean): void {
-    this.isExitSAMActivated = isActive;
+    this.isExitSAMBannerActivated = isActive;
   }
 
   onUsedExitSam(): void {
