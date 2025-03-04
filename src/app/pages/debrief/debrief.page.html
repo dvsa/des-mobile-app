@@ -1,7 +1,7 @@
 <ion-header>
   <practice-mode-banner *ngIf="isEndToEndPracticeMode || isPracticeMode"></practice-mode-banner>
   <ion-toolbar class="no-internal-padding"
-               [ngClass]="{'toolbar-no-padding': isEndToEndPracticeMode || isExitSAMActivated}" mode="ios">
+               [ngClass]="{'toolbar-no-padding': isEndToEndPracticeMode || isExitSAMBannerActivated}" mode="ios">
     <test-flow-header
       class="display-flex flex-direction-column"
       [testCategory]="pageState.category$ | async"
@@ -9,9 +9,11 @@
       [pageName]="'debrief-page'"
       [shouldShowEscapeFromSamButton]="!isDelegated && !isRekey"
       [isPracticeMode]="isEndToEndPracticeMode"
-      [isExitSAMActivated]="isExitSAMActivated"
+      [isExitSAMActivated]="isExitSAMBannerActivated"
       [shouldShowEndTestLink]="false"
       (exitSamUsed)="onUsedExitSam()"
+      (setupLeaveSubscription)="setupEscapeSAMLeaveSubscription()"
+      (setupResumeSubscription)="setupEscapeSAMResumeSubscription()"
       (onExitSAMActivatedChanged)="isSamActivatedChanged($event)">
       {{ 'debrief.title' | translate }} - {{pageState.candidateName$ | async}}
     </test-flow-header>

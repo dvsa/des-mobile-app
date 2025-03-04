@@ -2,15 +2,17 @@
   <practice-mode-banner *ngIf="isEndToEndPracticeMode"></practice-mode-banner>
   <ion-toolbar
     class="no-internal-padding"
-    [ngClass]="{'toolbar-no-padding': isEndToEndPracticeMode || isExitSAMActivated}" mode="ios">
+    [ngClass]="{'toolbar-no-padding': isEndToEndPracticeMode || isExitSAMBannerActivated}" mode="ios">
     <test-flow-header
       class="display-flex flex-direction-column"
       [testCategory]="pageState.testCategory$ | async"
       [shouldShowEscapeFromSamButton]="!isRekey && !isDelegated"
       [pageName]="'candidate-licence-page'"
       [isPracticeMode]="isEndToEndPracticeMode"
-      [isExitSAMActivated]="isExitSAMActivated"
+      [isExitSAMActivated]="isExitSAMBannerActivated"
       (exitSamUsed)="onUsedExitSam()"
+      (setupLeaveSubscription)="setupEscapeSAMLeaveSubscription()"
+      (setupResumeSubscription)="setupEscapeSAMResumeSubscription()"
       (onExitSAMActivatedChanged)="isSamActivatedChanged($event)">
       DVLA licence information - {{ pageState.candidateUntitledName$ | async }}
     </test-flow-header>
