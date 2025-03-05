@@ -308,6 +308,7 @@ describe('BasePageComponent', () => {
 
   describe('setupEscapeSAMLeaveSubscription', () => {
     it('should set up a subscription to the platform pause event if there is not already one', () => {
+      basePageComponent.leaveAppSubscription = null;
       spyOn(platform.pause, 'subscribe').and.callThrough();
       basePageComponent.setupEscapeSAMLeaveSubscription();
       expect(platform.pause.subscribe).toHaveBeenCalled();
@@ -322,7 +323,8 @@ describe('BasePageComponent', () => {
   });
 
   describe('setupEscapeSAMResumeSubscription', () => {
-    it('should set up a subscription to the platform resume event', () => {
+    it('should set up a subscription to the platform resume event if there is not already one', () => {
+      basePageComponent.returnToAppSubscription = null;
       spyOn(platform.resume, 'subscribe').and.callThrough();
       basePageComponent.setupEscapeSAMResumeSubscription();
       expect(platform.resume.subscribe).toHaveBeenCalled();
