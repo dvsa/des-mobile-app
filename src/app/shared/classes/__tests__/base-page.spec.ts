@@ -307,10 +307,17 @@ describe('BasePageComponent', () => {
   });
 
   describe('setupEscapeSAMLeaveSubscription', () => {
-    it('should set up a subscription to the platform pause event', () => {
+    it('should set up a subscription to the platform pause event if there is not already one', () => {
       spyOn(platform.pause, 'subscribe').and.callThrough();
       basePageComponent.setupEscapeSAMLeaveSubscription();
       expect(platform.pause.subscribe).toHaveBeenCalled();
+      expect(basePageComponent.leaveAppSubscription).not.toBeNull();
+    });
+    it('should not set up a subscription to the platform pause event if there is already one', () => {
+      basePageComponent.leaveAppSubscription = new Subscription();
+      spyOn(platform.pause, 'subscribe').and.callThrough();
+      basePageComponent.setupEscapeSAMLeaveSubscription();
+      expect(platform.pause.subscribe).not.toHaveBeenCalled();
     });
   });
 
@@ -319,6 +326,12 @@ describe('BasePageComponent', () => {
       spyOn(platform.resume, 'subscribe').and.callThrough();
       basePageComponent.setupEscapeSAMResumeSubscription();
       expect(platform.resume.subscribe).toHaveBeenCalled();
+    });
+    it('should not set up a subscription to the platform resume event if there is already one', () => {
+      basePageComponent.returnToAppSubscription = new Subscription();
+      spyOn(platform.resume, 'subscribe').and.callThrough();
+      basePageComponent.setupEscapeSAMLeaveSubscription();
+      expect(platform.resume.subscribe).not.toHaveBeenCalled();
     });
 
     it('returnToAppSubscription should have a value', async () => {
