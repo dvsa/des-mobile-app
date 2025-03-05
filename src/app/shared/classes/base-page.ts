@@ -75,8 +75,10 @@ export abstract class BasePageComponent {
    * When the app is paused, sets up a subscription to the resume event and destroys the pause subscription.
    */
   setupEscapeSAMLeaveSubscription() {
-    // When the app is paused, we want to set up a subscription to the resume event to listen for the user returns
-    this.leaveAppSubscription = this.platform.pause.subscribe(this.leaveSubscriptionFunction);
+    if (!this.leaveAppSubscription) {
+      //If there isn't one already, we want to set up a subscription to listen for the user pauses
+      this.leaveAppSubscription = this.platform.pause.subscribe(this.leaveSubscriptionFunction);
+    }
   }
 
   /**
@@ -85,7 +87,10 @@ export abstract class BasePageComponent {
    * re-enables single app mode, and destroys the resume subscription.
    */
   setupEscapeSAMResumeSubscription() {
-    this.returnToAppSubscription = this.platform.resume.subscribe(this.resumeSubscriptionFunction);
+    if (!this.returnToAppSubscription) {
+      //If there isn't one already, we want to set up a subscription to listen for the user returns
+      this.returnToAppSubscription = this.platform.resume.subscribe(this.resumeSubscriptionFunction);
+    }
   }
 
   /**
