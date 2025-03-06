@@ -68,6 +68,13 @@ jobs:
     runs-on: MACOS-ARM64
     needs: [ setup ]
     steps:
+      - name: 📨 Checkout
+        uses: actions/checkout@v4
+
+      - name: 🔍 Read .nvmrc
+        id: nvm
+        run: echo "NVMRC=$(cat .nvmrc)" >> $GITHUB_OUTPUT
+        
       - name: ⚙️ Setup Node.js ${{ needs.setup.outputs.node-version }}
         uses: actions/setup-node@v4
         with:
