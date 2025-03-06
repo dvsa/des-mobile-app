@@ -21,7 +21,7 @@ concurrency:
 
 jobs:
   setup:
-    runs-on: MACOS-ARM
+    runs-on: MACOS-ARM64
     outputs:
       node-version: ${{ steps.nvm.outputs.NVMRC }}
     steps:
@@ -50,7 +50,7 @@ jobs:
         run: echo "$DES_IONIC_CONFIG_JSON" >> ionic.config.json
 
   audit:
-    runs-on: MACOS-ARM
+    runs-on: MACOS-ARM64
     needs: [ setup ]
     steps:
       - name: ⚙️ Setup Node.js ${{ needs.setup.outputs.node-version }}
@@ -65,7 +65,7 @@ jobs:
         run: npm audit --omit=dev --audit-level=high
 
   ci-checks:
-    runs-on: MACOS-ARM
+    runs-on: MACOS-ARM64
     needs: [ setup ]
     steps:
       - name: ⚙️ Setup Node.js ${{ needs.setup.outputs.node-version }}
