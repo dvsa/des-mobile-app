@@ -5,6 +5,9 @@ on:
     branches:
       - develop
       - 'release-**'
+  push:
+    branches:
+      - feat/mito-arm-test
 
 env:
   CI: true
