@@ -74,7 +74,24 @@ jobs:
       - name: 🔍 Read .nvmrc
         id: nvm
         run: echo "NVMRC=$(cat .nvmrc)" >> $GITHUB_OUTPUT
-        
+
+      - name: 🔧 Create .npmrc
+        run: |
+
+          echo "//npm.pkg.github.com/:_authToken=$DES_ACCESS_TOKEN" >> ~/.npmrc
+
+          # Use npm registry for @dvsa/biome-config
+          echo "@dvsa/biome-config:registry=https://registry.npmjs.org/" >> .npmrc
+
+          # Use GitHub Packages registry for all other @dvsa scoped packages
+          echo "@dvsa:registry=https://npm.pkg.github.com" >> .npmrc
+
+          echo "@ionic-enterprise:registry=https://registry.ionicframework.com/" >> .npmrc
+          echo "//registry.ionicframework.com/:_authToken=$DES_IONIC_KEY" >> .npmrc
+
+      - name: 🔧 Create ionic.config.json
+        run: echo "$DES_IONIC_CONFIG_JSON" >> ionic.config.json
+
       - name: ⚙️ Setup Node.js ${{ needs.setup.outputs.node-version }}
         uses: actions/setup-node@v4
         with:
