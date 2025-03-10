@@ -644,10 +644,11 @@ export class ExaminerRecordsPage implements OnInit {
   }
 
   async handleCustomDateRange() {
-    const today: string = new Date().toISOString();
+    const today: string = new DateTime().toISOString();
     console.log('start', this.customDateRangeSubject$.value?.startDate?.toISOString());
     console.log('end', this.customDateRangeSubject$.value?.endDate?.toISOString());
     const sixMonthsAgo: string = this.examinerRecordsProvider.getRangeDate(DateRange.EIGHTEEN_MONTHS).toISOString();
+
     const modal: HTMLIonModalElement = await this.modalController.create({
       component: CustomDateRangeModal,
       componentProps: {

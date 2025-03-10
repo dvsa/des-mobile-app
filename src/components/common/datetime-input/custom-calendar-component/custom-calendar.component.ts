@@ -1,10 +1,10 @@
-import { NgIf } from '@angular/common';
-import { Component, EventEmitter, Input, Output, ViewChild } from '@angular/core';
-import { DateAdapter, NativeDateAdapter } from '@angular/material/core';
-import { MatCalendar, MatCalendarCellClassFunction, MatCalendarCellCssClasses } from '@angular/material/datepicker';
-import { DateHeaderComponent } from '@components/common/datetime-input/date-header/date-header.component';
-import { IonDatetime, IonicModule } from '@ionic/angular';
-import { DateTime } from '@shared/helpers/date-time';
+import {NgIf} from '@angular/common';
+import {Component, EventEmitter, Input, Output, SimpleChanges, ViewChild} from '@angular/core';
+import {DateAdapter, NativeDateAdapter} from '@angular/material/core';
+import {MatCalendar, MatCalendarCellClassFunction, MatCalendarCellCssClasses} from '@angular/material/datepicker';
+import {DateHeaderComponent} from '@components/common/datetime-input/date-header/date-header.component';
+import {IonDatetime, IonicModule} from '@ionic/angular';
+import {DateTime} from '@shared/helpers/date-time';
 
 export class CustomDateAdapter extends NativeDateAdapter {
   //Set first day of the week to Monday
@@ -18,7 +18,7 @@ export class CustomDateAdapter extends NativeDateAdapter {
   templateUrl: './custom-calendar.component.html',
   styleUrls: ['./custom-calendar.component.scss'],
   imports: [MatCalendar, IonicModule, NgIf],
-  providers: [{ provide: DateAdapter, useClass: CustomDateAdapter }],
+  providers: [{provide: DateAdapter, useClass: CustomDateAdapter}],
 
   standalone: true,
 })
@@ -59,22 +59,41 @@ export class CustomCalendarComponent {
     date: string,
     view: 'month' | 'year' | 'multi-year'
   ): MatCalendarCellCssClasses => {
-    if (view === 'month') {
-      if (this.shouldDisplayRange && this.otherDateInRange) {
-        if (date === this.otherDateInRange || date === this.selectedBuffer || date === this.selectedValue) {
-          return 'mat-calendar-body-selected';
-        }
-        if (
-          new DateTime(date).isBetweenTwoDates(new DateTime(this.selectedBuffer), new DateTime(this.otherDateInRange))
-        ) {
-          return 'mat-calendar-body-in-range';
-        }
-      }
+    console.log(this.otherDateInRange)
+    //Check if the view is not month or if the range should not be displayed
+    if (view !== 'month' || !this.shouldDisplayRange || !this.otherDateInRange) return '';
+    //Format the dates to compare them later
+    const formattedDate = new DateTime(date).format('DD/MM/YYYY');
+    const formattedOtherDateInRange = new DateTime(this.otherDateInRange).format('DD/MM/YYYY');
+    const formattedSelectedBuffer = new DateTime(this.selectedBuffer).format('DD/MM/YYYY');
+    const formattedSelectedValue = new DateTime(this.selectedValue).format('DD/MM/YYYY');
+    console.log(formattedDate, ' styling confirmed')
+    //Check if the date is the selected date, the other date in range or the selected buffer for the calendar
+    if ([formattedOtherDateInRange, formattedSelectedBuffer, formattedSelectedValue].includes(formattedDate)) {
+      console.log(formattedDate, ' one of the selected dates', new DateTime(formattedOtherDateInRange).isBefore(formattedDate))
+      //Apply the correct stylings based on whether the date is before or after the other selected date
+      const inRangeStyles = `mat-calendar-body-in-range ${
+        new DateTime(formattedOtherDateInRange).isBefore(formattedDate)
+          ? 'mat-calendar-body-range-end'
+          : 'mat-calendar-body-range-start'
+      }`;
+      //Check if the date is the same as the other date in range, if it is, apply the selected style
+      return formattedDate === formattedOtherDateInRange ? `mat-calendar-selected-style ${inRangeStyles}` : inRangeStyles;
     }
+
+    console.log('time to compare', formattedDate, formattedSelectedBuffer, formattedOtherDateInRange)
+    console.log(formattedDate + ' is between: ' + new DateTime(formattedDate).isBetweenTwoDates(new DateTime(formattedSelectedBuffer), new DateTime(formattedOtherDateInRange)))
+
+    //Check if the date is between the selected date and the other date in range and apply the in range style
+    return new DateTime(formattedDate).isBetweenTwoDates(new DateTime(formattedSelectedBuffer), new DateTime(formattedOtherDateInRange))
+      ? 'mat-calendar-body-in-range'
+      : null;
   };
 
-  getDateClass() {
-    return this.dateClass;
+  ngOnChanges(changes: SimpleChanges) {
+    console.log('ngOnChanges', changes);
+    // changes.prop contains the old and the new value...
+    this.datePicker.updateTodaysDate();
   }
 
   /**

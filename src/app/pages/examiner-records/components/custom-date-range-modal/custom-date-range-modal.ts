@@ -43,7 +43,7 @@ export class CustomDateRangeModal {
    * @param dateType - The type of date being changed ('start' or 'end').
    */
   onDateChanged(event: DateTime, dateType: 'start' | 'end') {
-    console.log('picked', event, dateType);
+    console.log('picked', event.toISOString(), dateType);
     switch (dateType) {
       case 'start':
         this.startDate = event.toISOString();

@@ -1,13 +1,13 @@
 <ion-row class="header-height">
   <ion-col class="align-content-center ion-no-padding" size="auto">
     <ion-button (click)="changeToYear()" class="header-button-no-padding mes-black year-button button-clear">
-      <ion-text class="mes-data-small mes-text-align-centre header-label">{{ yearLabel }}</ion-text>
+      <ion-text class="display-flex ion-align-items-center mes-data-small mes-text-align-centre header-label">{{ yearLabel }}</ion-text>
       <ion-icon [class.rotate]="calendar.currentView === 'multi-year'" class="header-icon" name="caret-down-outline"></ion-icon>
     </ion-button>
   </ion-col>
     <ion-col class="align-content-center ion-no-padding" size="auto">
     <ion-button (click)="changeToMonth()" class="header-button-no-padding month-button mes-black button-clear">
-      <ion-text class="mes-text-align-start mes-data-small header-label">{{ monthLabel }}</ion-text>
+      <ion-text class="display-flex ion-align-items-center mes-text-align-start mes-data-small header-label">{{ monthLabel }}</ion-text>
       <ion-icon [class.rotate]="calendar.currentView === 'year'" class="header-icon" name="caret-down-outline"></ion-icon>
     </ion-button>
   </ion-col>

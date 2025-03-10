@@ -6,8 +6,9 @@
       <mat-calendar
         class="height-100"
         #datePicker
-        [dateClass]="getDateClass()"
-        [maxDate]="maxValue" [minDate]="minValue"
+        [dateClass]="dateClass"
+        [maxDate]="maxValue"
+        [minDate]="minValue"
         (monthSelected)="handleMonthSelected($event, datePicker.minDate)"
         (selectedChange)="onSelectedChange($event)"
         [startAt]="selectedValue"

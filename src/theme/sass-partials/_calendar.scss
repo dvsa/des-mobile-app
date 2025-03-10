@@ -227,6 +227,11 @@ html {
 }
 
 html {
+  .mat-calendar-selected-style {
+    border-radius: 100%;
+    background-color: var(--mes-blue-lighten);
+  }
+
   --mat-option-selected-state-label-text-color: #3f51b5;
   --mat-option-label-text-color: rgba(0, 0, 0, 0.87);
   --mat-option-hover-state-layer-color: rgba(0, 0, 0, 0.04);

@@ -1,6 +1,6 @@
 import * as moment from 'moment';
-import { Moment } from 'moment';
-import { DurationInputArg1, MomentInput } from 'moment/moment';
+import {Moment} from 'moment';
+import {DurationInputArg1, MomentInput} from 'moment/moment';
 
 export enum Duration {
   YEAR = 'year',
@@ -79,8 +79,11 @@ export class DateTime {
   }
 
   isBetweenTwoDates(date1: DateTime, date2: DateTime, isTimeless = true): boolean {
+    // Initialize the start and end dates for comparison
     let compareStartDate: moment.Moment = null;
     let compareEndDate: moment.Moment = null;
+
+    // Determine the start and end dates based on the order of date1 and date2
     if (date2.isAfter(date1.moment)) {
       compareStartDate = isTimeless ? date1.moment.startOf(Duration.DAY) : date1.moment;
       compareEndDate = isTimeless ? date2.moment.endOf(Duration.DAY) : date2.moment;
@@ -88,7 +91,7 @@ export class DateTime {
       compareStartDate = isTimeless ? date2.moment.startOf(Duration.DAY) : date2.moment;
       compareEndDate = isTimeless ? date1.moment.endOf(Duration.DAY) : date1.moment;
     }
-
+    // Check if the current moment is within the start and end dates
     return this.moment.isSameOrBefore(compareEndDate) && this.moment.isSameOrAfter(compareStartDate);
   }
 
