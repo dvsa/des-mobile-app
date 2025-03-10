@@ -85,6 +85,11 @@ jobs:
       - name: ➕ Install dependencies
         run: npm ci
 
+      - name: 📝 Configure Ruby Gems
+        run: |
+          echo "PATH=$HOME/.gem/bin:$HOME/.rbenv/shims:/opt/homebrew/bin/:$PATH" >> $GITHUB_ENV
+          echo "GEM_HOME=$HOME/.gem" >> $GITHUB_ENV
+
       - name: ⚒️ Build project
         run: npm run build:ci
 
