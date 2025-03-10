@@ -63,14 +63,16 @@ export class CustomCalendarComponent {
     //Check if the view is not month or if the range should not be displayed
     if (view !== 'month' || !this.shouldDisplayRange || !this.otherDateInRange) return '';
     //Format the dates to compare them later
-    const formattedDate = new DateTime(date).format('DD/MM/YYYY');
-    const formattedOtherDateInRange = new DateTime(this.otherDateInRange).format('DD/MM/YYYY');
-    const formattedSelectedBuffer = new DateTime(this.selectedBuffer).format('DD/MM/YYYY');
-    const formattedSelectedValue = new DateTime(this.selectedValue).format('DD/MM/YYYY');
-    console.log(formattedDate, ' styling confirmed')
+    const formattedDate = new DateTime(date);
+    const formattedOtherDateInRange = new DateTime(this.otherDateInRange);
+    const formattedSelectedBuffer = new DateTime(this.selectedBuffer);
+    const formattedSelectedValue = new DateTime(this.selectedValue);
     //Check if the date is the selected date, the other date in range or the selected buffer for the calendar
-    if ([formattedOtherDateInRange, formattedSelectedBuffer, formattedSelectedValue].includes(formattedDate)) {
-      console.log(formattedDate, ' one of the selected dates', new DateTime(formattedOtherDateInRange).isBefore(formattedDate))
+    if ([
+      formattedOtherDateInRange.format('DD/MM/YYYY'),
+      formattedSelectedBuffer.format('DD/MM/YYYY'),
+      formattedSelectedValue.format('DD/MM/YYYY')
+    ].includes(formattedDate.format('DD/MM/YYYY'))) {
       //Apply the correct stylings based on whether the date is before or after the other selected date
       const inRangeStyles = `mat-calendar-body-in-range ${
         new DateTime(formattedOtherDateInRange).isBefore(formattedDate)
@@ -81,11 +83,8 @@ export class CustomCalendarComponent {
       return formattedDate === formattedOtherDateInRange ? `mat-calendar-selected-style ${inRangeStyles}` : inRangeStyles;
     }
 
-    console.log('time to compare', formattedDate, formattedSelectedBuffer, formattedOtherDateInRange)
-    console.log(formattedDate + ' is between: ' + new DateTime(formattedDate).isBetweenTwoDates(new DateTime(formattedSelectedBuffer), new DateTime(formattedOtherDateInRange)))
-
     //Check if the date is between the selected date and the other date in range and apply the in range style
-    return new DateTime(formattedDate).isBetweenTwoDates(new DateTime(formattedSelectedBuffer), new DateTime(formattedOtherDateInRange))
+    return formattedDate.isBetweenTwoDates(formattedSelectedBuffer, formattedOtherDateInRange)
       ? 'mat-calendar-body-in-range'
       : null;
   };
@@ -154,8 +153,8 @@ export class CustomCalendarComponent {
 
   onSelected(event: string) {
     this.selectedValue = this.selectedBuffer ? this.selectedBuffer : event;
-
-    this.onDataPicked.emit(DateTime.at(this.selectedValue));
+    console.log('on selected', this.selectedValue, new DateTime(this.selectedValue))
+    this.onDataPicked.emit(new DateTime(this.selectedValue));
   }
 
   protected readonly DateHeaderComponent = DateHeaderComponent;
