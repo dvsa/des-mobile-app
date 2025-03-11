@@ -1,6 +1,6 @@
 import * as moment from 'moment';
-import {Moment} from 'moment';
-import {DurationInputArg1, MomentInput} from 'moment/moment';
+import { Moment } from 'moment';
+import { DurationInputArg1, MomentInput } from 'moment/moment';
 
 export enum Duration {
   YEAR = 'year',

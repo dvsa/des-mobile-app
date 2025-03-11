@@ -1,14 +1,5 @@
-import { NgIf } from '@angular/common';
-import {
-  ApplicationRef,
-  ChangeDetectorRef,
-  Component,
-  EventEmitter,
-  Input,
-  Output,
-  SimpleChanges,
-  ViewChild,
-} from '@angular/core';
+import { AsyncPipe, NgIf } from '@angular/common';
+import { ChangeDetectorRef, Component, EventEmitter, Input, Output, SimpleChanges, ViewChild } from '@angular/core';
 import { DateAdapter, NativeDateAdapter } from '@angular/material/core';
 import { MatCalendar, MatCalendarCellClassFunction, MatCalendarCellCssClasses } from '@angular/material/datepicker';
 import { DateHeaderComponent } from '@components/common/datetime-input/date-header/date-header.component';
@@ -26,7 +17,7 @@ export class CustomDateAdapter extends NativeDateAdapter {
   selector: 'custom-calendar-component',
   templateUrl: './custom-calendar.component.html',
   styleUrls: ['./custom-calendar.component.scss'],
-  imports: [MatCalendar, IonicModule, NgIf],
+  imports: [MatCalendar, IonicModule, NgIf, AsyncPipe],
   providers: [{ provide: DateAdapter, useClass: CustomDateAdapter }],
 
   standalone: true,
@@ -50,9 +41,6 @@ export class CustomCalendarComponent {
   minValue: string;
 
   @Input()
-  selectedBuffer: string;
-
-  @Input()
   selectedValue: string;
 
   @Input()
@@ -64,51 +52,52 @@ export class CustomCalendarComponent {
   @Output()
   onDataPicked = new EventEmitter<DateTime>();
 
-  constructor(
-    private changeDetectorRef: ChangeDetectorRef,
-    private appRef: ApplicationRef
-  ) {}
+  constructor(private changeDetectorRef: ChangeDetectorRef) {}
 
   dateClass: MatCalendarCellClassFunction<string> = (
     date: string,
     view: 'month' | 'year' | 'multi-year'
   ): MatCalendarCellCssClasses => {
-    //Check if the view is not month or if the range should not be displayed
+    // Check if the view is not month or if the range should not be displayed
     if (view !== 'month' || !this.shouldDisplayRange || !this.otherDateInRange) return '';
-    //Format the dates to compare them later
+
+    // Format the dates to compare them later
     const formattedDate = new DateTime(date);
     const formattedOtherDateInRange = new DateTime(this.otherDateInRange);
-    const formattedSelectedBuffer = new DateTime(this.selectedBuffer);
     const formattedSelectedValue = new DateTime(this.selectedValue);
-    //Check if the date is the selected date, the other date in range or the selected buffer for the calendar
+
+    //Check if there is a gap at in between the two dates at all
+    if (formattedOtherDateInRange.format('YYYY-MM-DD') === formattedSelectedValue.format('YYYY-MM-DD')) return '';
+
     if (
-      [
-        formattedOtherDateInRange.format('DD/MM/YYYY'),
-        formattedSelectedBuffer.format('DD/MM/YYYY'),
-        formattedSelectedValue.format('DD/MM/YYYY'),
-      ].includes(formattedDate.format('DD/MM/YYYY'))
+      [formattedSelectedValue.format('DD/MM/YYYY'), formattedOtherDateInRange.format('DD/MM/YYYY')].includes(
+        formattedDate.format('DD/MM/YYYY')
+      )
     ) {
-      //Apply the correct stylings based on whether the date is before or after the other selected date
+      //G
+      const compareDate =
+        formattedSelectedValue.format('DD/MM/YYYY') === formattedDate.format('DD/MM/YYYY')
+          ? formattedOtherDateInRange
+          : formattedSelectedValue;
+
+      // Apply the correct stylings based on whether the date is before or after the other selected date
       const inRangeStyles = `mat-calendar-body-in-range ${
-        formattedOtherDateInRange.isBefore(formattedDate)
-          ? 'mat-calendar-body-range-end'
-          : 'mat-calendar-body-range-start'
+        compareDate.isAfter(formattedDate.moment) ? 'mat-calendar-body-range-start' : 'mat-calendar-body-range-end'
       }`;
-      //Check if the date is the same as the other date in range, if it is, apply the selected style
-      return formattedDate === formattedOtherDateInRange
+
+      // Check if the date is the same as the other date in range, if it is, apply the selected style
+      return formattedDate.format('DD/MM/YYYY') !== formattedSelectedValue.format('DD/MM/YYYY')
         ? `mat-calendar-selected-style ${inRangeStyles}`
         : inRangeStyles;
     }
 
-    //Check if the date is between the selected date and the other date in range and apply the in range style
-    return formattedDate.isBetweenTwoDates(formattedSelectedBuffer, formattedOtherDateInRange)
+    // Check if the date is between the selected date and the other date in range and apply the in range style
+    return formattedDate.isBetweenTwoDates(formattedSelectedValue, formattedOtherDateInRange)
       ? 'mat-calendar-body-in-range'
       : null;
   };
 
   ngOnChanges(changes: SimpleChanges) {
-    console.log('ngOnChanges', changes);
-    // changes.prop contains the old and the new value...
     this.refreshView();
   }
 
@@ -124,7 +113,7 @@ export class CustomCalendarComponent {
    */
   handleMonthSelected(event: string, minDate: string) {
     // Create DateTime objects for the selected buffer, current event, and minimum date
-    const selected = DateTime.at(this.selectedBuffer ? this.selectedBuffer : '');
+    const selected = DateTime.at(this.selectedValue ? this.selectedValue : '');
     const current = DateTime.at(event);
     const minimum = DateTime.at(minDate);
 
@@ -132,10 +121,10 @@ export class CustomCalendarComponent {
     if (!(current.month() === selected.month() && current.year() === selected.year())) {
       // If the current date is before the minimum date, set the selected buffer to the minimum date
       if (current.format('YYYY-MM-DD') < minimum.format('YYYY-MM-DD')) {
-        this.selectedBuffer = minDate;
+        this.onSelectedChange(minDate);
       } else {
         // Otherwise, set the selected buffer to the current event date
-        this.selectedBuffer = event;
+        this.onSelectedChange(event);
       }
     }
   }
@@ -147,7 +136,7 @@ export class CustomCalendarComponent {
    */
   buttonEmit(dateTime: IonDatetime | string, buttonType: string) {
     if (buttonType !== 'back') {
-      this.selectedBuffer = null;
+      this.selectedValue = null;
     }
     this.customButtonEvent.emit({
       buttonType,
@@ -156,13 +145,14 @@ export class CustomCalendarComponent {
   }
 
   /**
-   * Handles the change of the selected date.
-   * @param {any} event - The event containing the new selected date.
+   * Handles the date selection change.
+   * @param {string} event - The selected date in string format.
    */
-  onSelectedChange(event) {
-    this.selectedBuffer = event;
+  onSelectedChange(event: string) {
+    this.selectedValue = event;
+    this.datePicker.activeDate = this.selectedValue;
     if (!this.showCancelAndConfirm) {
-      this.onSelected(event);
+      this.onSelectConfirmed();
     }
   }
 
@@ -170,16 +160,10 @@ export class CustomCalendarComponent {
    * Handles the back button action.
    */
   handleBackButton() {
-    if (this.selectedValue) {
-      this.datePicker.activeDate = this.selectedValue;
-    } else {
-      this.datePicker.activeDate = this.selectedBuffer ? this.selectedBuffer : this.datePicker.maxDate;
-    }
+    this.datePicker.activeDate = this.selectedValue ? this.selectedValue : this.datePicker.maxDate;
   }
 
-  onSelected(event: string) {
-    this.selectedValue = this.selectedBuffer ? this.selectedBuffer : event;
-    console.log('on selected', this.selectedValue, new DateTime(this.selectedValue));
+  onSelectConfirmed() {
     this.onDataPicked.emit(new DateTime(this.selectedValue));
   }
 

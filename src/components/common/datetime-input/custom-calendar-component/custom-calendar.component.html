@@ -12,7 +12,7 @@
         (monthSelected)="handleMonthSelected($event, datePicker.minDate)"
         (selectedChange)="onSelectedChange($event)"
         [startAt]="selectedValue"
-        [selected]="selectedBuffer ? selectedBuffer : selectedValue"
+        [selected]="selectedValue"
         [headerComponent]="DateHeaderComponent">
       </mat-calendar>
     </ion-col>
@@ -27,7 +27,7 @@
       </ion-col>
       <ion-col class="action-col">
         <ion-button fill="clear" class="action-button" id="confirm-datepicker-button"
-                    (click)="onSelected(selectedBuffer); buttonEmit(datePicker.selected, 'done')">
+                    (click)="onSelectConfirmed(); buttonEmit(datePicker.selected, 'done')">
           <ion-text>Confirm</ion-text>
         </ion-button>
       </ion-col>
