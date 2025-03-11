@@ -1,10 +1,19 @@
-import {NgIf} from '@angular/common';
-import {Component, EventEmitter, Input, Output, SimpleChanges, ViewChild} from '@angular/core';
-import {DateAdapter, NativeDateAdapter} from '@angular/material/core';
-import {MatCalendar, MatCalendarCellClassFunction, MatCalendarCellCssClasses} from '@angular/material/datepicker';
-import {DateHeaderComponent} from '@components/common/datetime-input/date-header/date-header.component';
-import {IonDatetime, IonicModule} from '@ionic/angular';
-import {DateTime} from '@shared/helpers/date-time';
+import { NgIf } from '@angular/common';
+import {
+  ApplicationRef,
+  ChangeDetectorRef,
+  Component,
+  EventEmitter,
+  Input,
+  Output,
+  SimpleChanges,
+  ViewChild,
+} from '@angular/core';
+import { DateAdapter, NativeDateAdapter } from '@angular/material/core';
+import { MatCalendar, MatCalendarCellClassFunction, MatCalendarCellCssClasses } from '@angular/material/datepicker';
+import { DateHeaderComponent } from '@components/common/datetime-input/date-header/date-header.component';
+import { IonDatetime, IonicModule } from '@ionic/angular';
+import { DateTime } from '@shared/helpers/date-time';
 
 export class CustomDateAdapter extends NativeDateAdapter {
   //Set first day of the week to Monday
@@ -18,7 +27,7 @@ export class CustomDateAdapter extends NativeDateAdapter {
   templateUrl: './custom-calendar.component.html',
   styleUrls: ['./custom-calendar.component.scss'],
   imports: [MatCalendar, IonicModule, NgIf],
-  providers: [{provide: DateAdapter, useClass: CustomDateAdapter}],
+  providers: [{ provide: DateAdapter, useClass: CustomDateAdapter }],
 
   standalone: true,
 })
@@ -55,11 +64,15 @@ export class CustomCalendarComponent {
   @Output()
   onDataPicked = new EventEmitter<DateTime>();
 
+  constructor(
+    private changeDetectorRef: ChangeDetectorRef,
+    private appRef: ApplicationRef
+  ) {}
+
   dateClass: MatCalendarCellClassFunction<string> = (
     date: string,
     view: 'month' | 'year' | 'multi-year'
   ): MatCalendarCellCssClasses => {
-    console.log(this.otherDateInRange)
     //Check if the view is not month or if the range should not be displayed
     if (view !== 'month' || !this.shouldDisplayRange || !this.otherDateInRange) return '';
     //Format the dates to compare them later
@@ -68,19 +81,23 @@ export class CustomCalendarComponent {
     const formattedSelectedBuffer = new DateTime(this.selectedBuffer);
     const formattedSelectedValue = new DateTime(this.selectedValue);
     //Check if the date is the selected date, the other date in range or the selected buffer for the calendar
-    if ([
-      formattedOtherDateInRange.format('DD/MM/YYYY'),
-      formattedSelectedBuffer.format('DD/MM/YYYY'),
-      formattedSelectedValue.format('DD/MM/YYYY')
-    ].includes(formattedDate.format('DD/MM/YYYY'))) {
+    if (
+      [
+        formattedOtherDateInRange.format('DD/MM/YYYY'),
+        formattedSelectedBuffer.format('DD/MM/YYYY'),
+        formattedSelectedValue.format('DD/MM/YYYY'),
+      ].includes(formattedDate.format('DD/MM/YYYY'))
+    ) {
       //Apply the correct stylings based on whether the date is before or after the other selected date
       const inRangeStyles = `mat-calendar-body-in-range ${
-        new DateTime(formattedOtherDateInRange).isBefore(formattedDate)
+        formattedOtherDateInRange.isBefore(formattedDate)
           ? 'mat-calendar-body-range-end'
           : 'mat-calendar-body-range-start'
       }`;
       //Check if the date is the same as the other date in range, if it is, apply the selected style
-      return formattedDate === formattedOtherDateInRange ? `mat-calendar-selected-style ${inRangeStyles}` : inRangeStyles;
+      return formattedDate === formattedOtherDateInRange
+        ? `mat-calendar-selected-style ${inRangeStyles}`
+        : inRangeStyles;
     }
 
     //Check if the date is between the selected date and the other date in range and apply the in range style
@@ -92,7 +109,12 @@ export class CustomCalendarComponent {
   ngOnChanges(changes: SimpleChanges) {
     console.log('ngOnChanges', changes);
     // changes.prop contains the old and the new value...
+    this.refreshView();
+  }
+
+  refreshView() {
     this.datePicker.updateTodaysDate();
+    this.changeDetectorRef.detectChanges();
   }
 
   /**
@@ -101,14 +123,18 @@ export class CustomCalendarComponent {
    * @param {string} minDate - The minimum date allowed in string format.
    */
   handleMonthSelected(event: string, minDate: string) {
+    // Create DateTime objects for the selected buffer, current event, and minimum date
     const selected = DateTime.at(this.selectedBuffer ? this.selectedBuffer : '');
     const current = DateTime.at(event);
     const minimum = DateTime.at(minDate);
 
+    // Check if the current date is not in the same month and year as the selected date
     if (!(current.month() === selected.month() && current.year() === selected.year())) {
+      // If the current date is before the minimum date, set the selected buffer to the minimum date
       if (current.format('YYYY-MM-DD') < minimum.format('YYYY-MM-DD')) {
         this.selectedBuffer = minDate;
       } else {
+        // Otherwise, set the selected buffer to the current event date
         this.selectedBuffer = event;
       }
     }
@@ -153,7 +179,7 @@ export class CustomCalendarComponent {
 
   onSelected(event: string) {
     this.selectedValue = this.selectedBuffer ? this.selectedBuffer : event;
-    console.log('on selected', this.selectedValue, new DateTime(this.selectedValue))
+    console.log('on selected', this.selectedValue, new DateTime(this.selectedValue));
     this.onDataPicked.emit(new DateTime(this.selectedValue));
   }
 

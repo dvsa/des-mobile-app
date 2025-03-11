@@ -45,13 +45,16 @@ export class CustomDateRangeModal {
   onDateChanged(event: DateTime, dateType: 'start' | 'end') {
     switch (dateType) {
       case 'start':
+        // Set the start date and update the minimum end date
         this.startDate = event.format('YYYY-MM-DD');
         this.endDateMin = this.startDate;
+        // Ensure the end date is not before the start date
         if (new DateTime(this.endDate).isBefore(this.startDate)) {
           this.endDate = this.startDate;
         }
         break;
       case 'end':
+        // Set the end date
         this.endDate = event.format('YYYY-MM-DD');
         break;
     }
