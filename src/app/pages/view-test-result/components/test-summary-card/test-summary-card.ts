@@ -134,7 +134,7 @@ export class TestSummaryCardComponent {
   }
 
   shouldDisplayReasonForLeaving(): boolean {
-    return this.userExitedApp.exitFlag;
+    return get(this.userExitedApp, 'exitFlag', false);
   }
 
   isSC() {
