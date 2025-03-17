@@ -27,6 +27,7 @@ jasmine.getEnv().addReporter({
       memoryUsed = info.memUsed;
     });
     console.log(`Memory at start: ${this.specStartMemory} bytes. Memory at end: ${memoryUsed} bytes`);
+    console.log(`This spec took ${seconds} seconds`);
     if (seconds > 0.5) {
       console.log(`WARNING - This spec took ${seconds} seconds: "${result.fullName}"`);
     }
