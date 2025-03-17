@@ -13,6 +13,14 @@ For _fastlane_ installation instructions, see [Installing _fastlane_](https://do
 
 # Available Actions
 
+### test
+
+```sh
+[bundle exec] fastlane test
+```
+
+
+
 ### simulator
 
 ```sh
@@ -21,10 +29,10 @@ For _fastlane_ installation instructions, see [Installing _fastlane_](https://do
 
 Build the Simulator File for the Automation Suite
 
-### release_build
+### build
 
 ```sh
-[bundle exec] fastlane release_build
+[bundle exec] fastlane build
 ```
 
 Build the Application for Deployment

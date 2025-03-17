@@ -3,6 +3,20 @@ default_platform(:ios)
 before_all do
   clean(dirs: './builds ./simulator ./certs ./codes')
   xcode_select("/Applications/Xcode.app")
+
+  s3_path = ENV["ENVIRONMENT"]
+
+  if ENV["ENVIRONMENT"] == 'release'
+    version = get_version_number(xcodeproj: "./ios/App/App.xcodeproj", target: "App")
+    s3_path = "#{s3_path}/#{version}"
+  elsif ENV["ENVIRONMENT"] == 'feature'
+    s3_path = "#{s3_path}/#{ENV["GH_REF_NAME"]}/#{ENV["RUN_ID"]}"
+  elsif ENV["ENVIRONMENT"] == 'develop'
+    s3_path = "#{s3_path}/#{ENV["RUN_ID"]}"
+  end
+
+  ENV["S3_PATH"] = "#{s3_path}"
+  ENV["VERSION"] = "#{version}"
 end
 
 desc "Build the Simulator File for the Automation Suite"
@@ -32,14 +46,11 @@ lane :simulator do
   sh("echo '✅ Fastlane Simulator Built' >> $GITHUB_STEP_SUMMARY")
 
   if ENV["IS_LOCAL"] == 'NO'
-    path = ENV["ENVIRONMENT"]
-    path = "feature/#{ENV["GH_REF_NAME"]}" if path == "feature"
-
     aws_s3(
       access_key: ENV["AWS_ACCESS_KEY_ID"],
       secret_access_key: ENV["AWS_SECRET_ACCESS_KEY"],
       bucket: ENV["DES_MOBILE_ARTEFACTS_BUCKET"],
-      path: "github-actions/#{path}/#{ENV["RUN_ID"]}/",
+      path: "github-actions/#{ENV["S3_PATH"]}/",
       html_in_folder: false,
       upload_metadata: false,
       region: ENV["AWS_REGION"],
@@ -62,19 +73,12 @@ lane :build do
     commit = last_git_commit
     short_hash = commit[:abbreviated_commit_hash]
     filename = "des-#{ENV["ENVIRONMENT"]}-#{ENV["GH_REF_NAME"]}-#{ENV["RUN_ID"]}"
-    path = ENV["ENVIRONMENT"]
 
     if ENV["ENVIRONMENT"] == 'release'
-      version = get_version_number(xcodeproj: "./ios/App/App.xcodeproj", target: "App")
-      path = "#{path}/#{version}"
-      filename = "DrivingExaminerService-#{version}-#{ENV["RUN_ID"]}-#{short_hash}"
-    elsif ENV["ENVIRONMENT"] == 'feature'
-      path = "#{path}/#{ENV["GH_REF_NAME"]}/#{ENV["RUN_ID"]}"
-    elsif ENV["ENVIRONMENT"] == 'develop'
-      path = "#{path}/#{ENV["RUN_ID"]}"
+      filename = "DrivingExaminerService-#{ENV["VERSION"]}-#{ENV["RUN_ID"]}-#{short_hash}"
     end
 
-    sh("echo S3_PATH=#{path} >> $GITHUB_ENV")
+    sh("echo S3_PATH=#{ENV["S3_PATH"]} >> $GITHUB_ENV")
     sh("echo ARTEFACT_FILENAME=#{filename}.ipa >> $GITHUB_ENV")
     sh("echo INSTALL_URL=#{filename}.html >> $GITHUB_ENV")
 
@@ -103,7 +107,7 @@ lane :build do
         access_key: ENV["AWS_ACCESS_KEY_ID"],
         secret_access_key: ENV["AWS_SECRET_ACCESS_KEY"],
         bucket: ENV["DES_MOBILE_ARTEFACTS_BUCKET"],
-        path: "github-actions/#{path}/",
+        path: "github-actions/#{ENV["S3_PATH"]}/",
         html_in_folder: true,
         html_file_name: "#{filename}.html",
         html_in_root: false,
