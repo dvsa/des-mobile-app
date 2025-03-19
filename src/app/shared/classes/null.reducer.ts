@@ -2,7 +2,7 @@ import { Action } from '@ngrx/store';
 
 export const initialState = null;
 
-export function nullReducer(action: {}, state = initialState): {} {
+export function nullReducer(action: any, state = initialState): {} {
   return null;
 }
 
