@@ -32,7 +32,8 @@ jobs:
     with:
       runs-on: mito-2
       environment: feature
-      config-type: test
+      config-type: dev
+      build-type: dev
       build-simulator: true
       build-ipa: true
     secrets:
