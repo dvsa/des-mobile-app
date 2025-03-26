@@ -24,7 +24,7 @@
     "open:ios": "rm -rf ios && npm run config:dev && ionic build && ionic cap add ios & ionic cap copy ios && npm run copy-resources && ionic cap open ios",
     "build": "npm run copy-resources && ionic build",
     "build:ci": "npm run schema-version && npm run config:dev && npm run build:prod",
-    "build:dev": "npm run schema-version && npm run config:dev && npm run build:prod",
+    "build:dev": "npm run schema-version && npm run config:dev && ionic cap build ios --no-open --configuration dev",
     "build:prod": "ionic cap build ios --no-open --prod",
     "build:test": "npm run schema-version && npm run config:test && buildScripts/build-for-e2e.sh",
     "lint": "biome check src",
