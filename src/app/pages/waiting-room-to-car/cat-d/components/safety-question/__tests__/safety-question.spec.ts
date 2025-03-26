@@ -1,5 +1,5 @@
 import { EventEmitter } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { AppModule } from '@app/app.module';
 import { IonicModule } from '@ionic/angular';
