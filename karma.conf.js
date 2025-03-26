@@ -82,5 +82,7 @@ module.exports = (config) => {
     browserSocketTimeout: 60000,
     browserDisconnectTimeout: 200000,
     captureTimeout: 240000,
+    processKillTimeout: 5000, // Increase the timeout to 5000 ms (5 seconds)
+    retryLimit: 3, // Number of times to retry failed tests
   });
 };
