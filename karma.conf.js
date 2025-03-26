@@ -10,6 +10,8 @@ const JASMINE_DEFAULT_TIMEOUT = 30000;
 
 let executors = os ? Math.ceil(os.cpus().length / 2) : DEFAULT_PROCESSES_TO_SHARD;
 
+console.log('Number of executors:', executors);
+
 if (os) {
   console.log('Total number of CPU\'s available:', os.cpus().length);
 
