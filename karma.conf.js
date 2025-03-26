@@ -71,7 +71,7 @@ module.exports = (config) => {
     browsers: ['ChromeHeadlessNoSandbox'],
     singleRun: false,
     parallelOptions: {
-      executors,
+      executors: 20,
     },
     customLaunchers: {
       ChromeHeadlessNoSandbox: {
