@@ -14,7 +14,7 @@ describe('SafetyQuestionComponent', () => {
   let fixture: ComponentFixture<SafetyQuestionComponent>;
   let component: SafetyQuestionComponent;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [SafetyQuestionComponent],
       imports: [IonicModule, AppModule],
@@ -23,7 +23,7 @@ describe('SafetyQuestionComponent', () => {
     fixture = TestBed.createComponent(SafetyQuestionComponent);
     component = fixture.componentInstance;
     component.formGroup = new UntypedFormGroup({});
-  }));
+  });
 
   describe('Class', () => {
     describe('safetyQuestionPassSelected', () => {
