@@ -6,7 +6,7 @@ const os = require('node:os');
 process.env.CHROME_BIN = puppeteer.executablePath();
 
 const DEFAULT_PROCESSES_TO_SHARD = 2;
-const JASMINE_DEFAULT_TIMEOUT = 30000;
+const JASMINE_DEFAULT_TIMEOUT = 15000;
 
 let executors = os ? Math.ceil(os.cpus().length / 2) : DEFAULT_PROCESSES_TO_SHARD;
 
