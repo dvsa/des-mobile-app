@@ -20,7 +20,7 @@ describe('ShowMeQuestionsCatADI2Component', () => {
   let fixture: ComponentFixture<ShowMeQuestionsCatADI2Component>;
   let component: ShowMeQuestionsCatADI2Component;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [ShowMeQuestionsCatADI2Component],
       imports: [IonicModule, AppModule],
@@ -34,7 +34,7 @@ describe('ShowMeQuestionsCatADI2Component', () => {
 
     fixture = TestBed.createComponent(ShowMeQuestionsCatADI2Component);
     component = fixture.componentInstance;
-  }));
+  });
 
   describe('Class', () => {
     describe('isOptionDisabled', () => {
