@@ -9,8 +9,6 @@ const DEFAULT_PROCESSES_TO_SHARD = 2;
 const JASMINE_DEFAULT_TIMEOUT = 30000;
 
 let executors = os ? Math.ceil(os.cpus().length / 2) : DEFAULT_PROCESSES_TO_SHARD;
-const timeoutInterval = (executors <= 2) ? (JASMINE_DEFAULT_TIMEOUT * 2) : JASMINE_DEFAULT_TIMEOUT
-console.log(`******** setting timeoutInterval to ${timeoutInterval}ms ********`);
 
 if (os) {
   console.log('Total number of CPU\'s available:', os.cpus().length);
@@ -39,7 +37,7 @@ module.exports = (config) => {
       clearContext: config.singleRun, // leave Jasmine Spec Runner output visible in browser
       jasmine: {
         random: false,
-        timeoutInterval,
+        timeoutInterval: (executors <= 2) ? (JASMINE_DEFAULT_TIMEOUT * 2) : JASMINE_DEFAULT_TIMEOUT,
       },
     },
     jasmineHtmlReporter: {

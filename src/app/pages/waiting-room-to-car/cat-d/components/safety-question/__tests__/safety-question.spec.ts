@@ -1,5 +1,5 @@
 import { EventEmitter } from '@angular/core';
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { AppModule } from '@app/app.module';
 import { IonicModule } from '@ionic/angular';
@@ -14,7 +14,7 @@ describe('SafetyQuestionComponent', () => {
   let fixture: ComponentFixture<SafetyQuestionComponent>;
   let component: SafetyQuestionComponent;
 
-  beforeEach(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [SafetyQuestionComponent],
       imports: [IonicModule, AppModule],
@@ -23,7 +23,7 @@ describe('SafetyQuestionComponent', () => {
     fixture = TestBed.createComponent(SafetyQuestionComponent);
     component = fixture.componentInstance;
     component.formGroup = new UntypedFormGroup({});
-  });
+  }));
 
   describe('Class', () => {
     describe('safetyQuestionPassSelected', () => {

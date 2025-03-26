@@ -9,7 +9,7 @@ describe('CombinationComponent', () => {
   let fixture: ComponentFixture<CombinationComponent>;
   let component: CombinationComponent;
 
-  beforeEach(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [CombinationComponent],
       imports: [IonicModule, AppModule],
@@ -19,7 +19,7 @@ describe('CombinationComponent', () => {
     component = fixture.componentInstance;
     component.formGroup = new UntypedFormGroup({});
     component.formControl = new UntypedFormControl(null, [Validators.required]);
-  });
+  }));
 
   describe('ngOnChanges', () => {
     it('should have fieldName form control be added to ' + 'form if there is no form control already there', () => {

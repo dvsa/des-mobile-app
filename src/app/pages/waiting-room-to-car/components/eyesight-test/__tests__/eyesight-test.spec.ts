@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { AppModule } from '@app/app.module';
@@ -9,7 +9,7 @@ describe('EyesightTestComponent', () => {
   let fixture: ComponentFixture<EyesightTestComponent>;
   let component: EyesightTestComponent;
 
-  beforeEach(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [EyesightTestComponent],
       imports: [IonicModule, AppModule, ReactiveFormsModule],
@@ -18,7 +18,7 @@ describe('EyesightTestComponent', () => {
     fixture = TestBed.createComponent(EyesightTestComponent);
     component = fixture.componentInstance;
     component.formGroup = new UntypedFormGroup({});
-  });
+  }));
 
   describe('DOM', () => {
     it('should call EyesightResultChanged with P when Pass is pressed', () => {
