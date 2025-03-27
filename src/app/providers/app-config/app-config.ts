@@ -82,6 +82,7 @@ export class AppConfigProvider {
     try {
       if (this.platform.is('cordova')) {
         await this.getDebugMode();
+        alert(JSON.stringify(environment));
         await this.loadManagedConfig();
       }
 
