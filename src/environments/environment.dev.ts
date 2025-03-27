@@ -11,7 +11,7 @@ export const environment: EnvironmentFile = {
   daysToCacheLogs: 7,
   enableDevTools: false,
   logoutClearsTestPersistence: true,
-  logsPostApiKey: '',
+  logsPostApiKey: 'wOTyCVL65XyLzC6ztdNe7YPJdwmQPsH6Bj5w35Ji',
   logsApiUrl: 'https://dev.mes.dev-dvsacloud.uk/v1/logs',
   logsAutoSendInterval: 60000,
   authentication: {
