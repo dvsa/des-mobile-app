@@ -69,7 +69,7 @@ module.exports = (config) => {
       showSpecTiming: true,
     },
     browsers: ['ChromeHeadlessNoSandbox'],
-    singleRun: false,
+    singleRun: true,
     parallelOptions: {
       executors: 10,
     },
