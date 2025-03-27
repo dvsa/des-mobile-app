@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, fakeAsync, tick, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 
 import { AppModule } from '@app/app.module';
@@ -10,7 +10,7 @@ describe('ExitSamButton', () => {
   let fixture: ComponentFixture<ExitSamButton>;
   let component: ExitSamButton;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [IonicModule, AppModule, ExitSamButton],
       providers: [{ provide: DeviceProvider, useClass: DeviceProviderMock }],
@@ -18,7 +18,7 @@ describe('ExitSamButton', () => {
 
     fixture = TestBed.createComponent(ExitSamButton);
     component = fixture.componentInstance;
-  }));
+  });
 
   describe('onTouchEnd', () => {
     it('should clear the hold timeout on touch end', () => {

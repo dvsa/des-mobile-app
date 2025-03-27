@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MockAppComponent } from '@app/__mocks__/app.component.mock';
 import { AppComponent } from '@app/app.component';
@@ -14,7 +14,7 @@ describe('VRNCaptureModal', () => {
 
   class StoreMock {}
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [VRNCaptureModal],
       imports: [FormsModule, ReactiveFormsModule, IonicModule, CommonModule],
@@ -27,7 +27,7 @@ describe('VRNCaptureModal', () => {
 
     fixture = TestBed.createComponent(VRNCaptureModal);
     component = fixture.componentInstance;
-  }));
+  });
 
   describe('class', () => {
     describe('validateThenDismiss', () => {

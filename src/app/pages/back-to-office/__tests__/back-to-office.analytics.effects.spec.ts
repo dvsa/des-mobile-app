@@ -1,4 +1,4 @@
-import { TestBed, waitForAsync } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 import { Application } from '@dvsa/mes-journal-schema';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { provideMockActions } from '@ngrx/effects/testing';
@@ -42,7 +42,7 @@ describe('BackToOfficeAnalyticsEffects', () => {
     checkDigit: 9,
   };
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({
@@ -68,7 +68,7 @@ describe('BackToOfficeAnalyticsEffects', () => {
     effects = TestBed.inject(BackToOfficeAnalyticsEffects);
     analyticsProviderMock = TestBed.inject(AnalyticsProvider);
     store$ = TestBed.inject(Store);
-  }));
+  });
 
   describe('backToOfficeViewDidEnter', () => {
     it('should call setCurrentPage', (done) => {

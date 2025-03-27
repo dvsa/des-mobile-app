@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { AppModule } from '@app/app.module';
@@ -10,7 +10,7 @@ describe('VehicleDetailsComponent', () => {
   let fixture: ComponentFixture<VehicleDetailsComponent>;
   let component: VehicleDetailsComponent;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [VehicleDetailsComponent],
       imports: [IonicModule, AppModule, ReactiveFormsModule, PipesModule],
@@ -19,7 +19,7 @@ describe('VehicleDetailsComponent', () => {
     fixture = TestBed.createComponent(VehicleDetailsComponent);
     component = fixture.componentInstance;
     component.formGroup = new UntypedFormGroup({});
-  }));
+  });
 
   describe('vehicleDetailsChanged', () => {
     it('should emit vehicleDetailsChange if formControl is valid', () => {

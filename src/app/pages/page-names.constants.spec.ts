@@ -1,14 +1,14 @@
-import { TestBed, waitForAsync } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { IonicModule } from '@ionic/angular';
 import { getPageNameByCategoryAndKey } from '@pages/page-names.constants';
 
 describe('PageNameConstants', () => {
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [IonicModule],
     });
-  }));
+  });
 
   describe('getPageNameByCategoryAndKey', () => {
     it('should return OfficeCatADIPart2Page if the category is ADI2', () => {

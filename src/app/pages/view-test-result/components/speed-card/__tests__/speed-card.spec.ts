@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 import { SpeedCardComponent } from '@pages/view-test-result/components/speed-card/speed-card';
 
@@ -6,7 +6,7 @@ describe('SpeedCardComponent', () => {
   let fixture: ComponentFixture<SpeedCardComponent>;
   let component: SpeedCardComponent;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [SpeedCardComponent],
       imports: [IonicModule],
@@ -14,7 +14,7 @@ describe('SpeedCardComponent', () => {
 
     fixture = TestBed.createComponent(SpeedCardComponent);
     component = fixture.componentInstance;
-  }));
+  });
 
   describe('Class', () => {
     it('should create', () => {

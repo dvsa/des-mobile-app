@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { WeatherConditionsComponent } from '@pages/office/components/weather-conditions/weather-conditions';
@@ -9,7 +9,7 @@ describe('WeatherConditionsComponent', () => {
   let fixture: ComponentFixture<WeatherConditionsComponent>;
   let component: WeatherConditionsComponent;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [WeatherConditionsComponent],
       imports: [IonicModule, ReactiveFormsModule],
@@ -18,7 +18,7 @@ describe('WeatherConditionsComponent', () => {
 
     fixture = TestBed.createComponent(WeatherConditionsComponent);
     component = fixture.componentInstance;
-  }));
+  });
 
   describe('ngOnChanges', () => {
     it('should clear validators from FormControl if visibilityType is VisibilityType.NotVisible', () => {

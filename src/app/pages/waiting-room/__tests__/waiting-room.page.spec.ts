@@ -1,5 +1,5 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { ComponentFixture, TestBed, fakeAsync, tick, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
 import { UntypedFormControl, Validators } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { KeepAwake as Insomnia } from '@capacitor-community/keep-awake';
@@ -127,7 +127,7 @@ describe('WaitingRoomPage', () => {
     } as TestsModel,
   } as StoreModel;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       declarations: [
@@ -220,7 +220,7 @@ describe('WaitingRoomPage', () => {
     router = TestBed.inject(Router);
     spyOn(store$, 'dispatch');
     component.subscription = new Subscription();
-  }));
+  });
 
   describe('Class', () => {
     describe('residencyDeclarationChanged', () => {

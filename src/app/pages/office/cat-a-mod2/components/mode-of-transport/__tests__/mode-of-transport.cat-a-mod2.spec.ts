@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { ModeOfTransportCatAMod2Component } from '@pages/office/cat-a-mod2/components/mode-of-transport/mode-of-transport.cat-a-mod2';
@@ -8,7 +8,7 @@ describe('ModeOfTransportCatAMod2Component', () => {
   let fixture: ComponentFixture<ModeOfTransportCatAMod2Component>;
   let component: ModeOfTransportCatAMod2Component;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [ModeOfTransportCatAMod2Component],
       imports: [IonicModule, ReactiveFormsModule],
@@ -17,7 +17,7 @@ describe('ModeOfTransportCatAMod2Component', () => {
 
     fixture = TestBed.createComponent(ModeOfTransportCatAMod2Component);
     component = fixture.componentInstance;
-  }));
+  });
 
   describe('modeOfTransportChanged', () => {
     it('should emit independentDriving while from control is valid', () => {

@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { IonicModule, ModalController } from '@ionic/angular';
 
@@ -10,7 +10,7 @@ describe('UploadRekeyModal', () => {
   let fixture: ComponentFixture<UploadRekeyModal>;
   let component: UploadRekeyModal;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [UploadRekeyModal],
       imports: [IonicModule, AppModule],
@@ -21,7 +21,7 @@ describe('UploadRekeyModal', () => {
     component = fixture.componentInstance;
     component.onCancel = async () => {};
     component.onUpload = async () => {};
-  }));
+  });
 
   describe('DOM', () => {
     it('should call the provided onCancel function when cancelling the upload', () => {

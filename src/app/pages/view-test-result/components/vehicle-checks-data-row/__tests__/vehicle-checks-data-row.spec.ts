@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 import { VehicleChecksDataRowComponent } from '../vehicle-checks-data-row';
 
@@ -6,7 +6,7 @@ describe('VehicleChecksDataRowComponent', () => {
   let fixture: ComponentFixture<VehicleChecksDataRowComponent>;
   let component: VehicleChecksDataRowComponent;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [VehicleChecksDataRowComponent],
       imports: [IonicModule],
@@ -14,7 +14,7 @@ describe('VehicleChecksDataRowComponent', () => {
 
     fixture = TestBed.createComponent(VehicleChecksDataRowComponent);
     component = fixture.componentInstance;
-  }));
+  });
 
   describe('Class', () => {
     describe('shouldShowFault', () => {

@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { AppModule } from '@app/app.module';
 import { QuestionOutcome, QuestionResult } from '@dvsa/mes-test-schema/categories/common';
 import { IonicModule, ModalController } from '@ionic/angular';
@@ -145,7 +145,7 @@ describe('VehicleChecksCatDModal', () => {
     },
   ];
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [
         VehicleChecksCatDModal,
@@ -178,7 +178,7 @@ describe('VehicleChecksCatDModal', () => {
     faultCountProvider = TestBed.inject(FaultCountProvider);
     spyOn(store$, 'dispatch');
     component.category = TestCategory.D;
-  }));
+  });
 
   describe('Class', () => {
     it('should compile', () => {

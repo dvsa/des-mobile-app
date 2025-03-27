@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { IonicModule, ModalController } from '@ionic/angular';
 import { ModalControllerMock } from '@mocks/ionic-mocks/modal-controller.mock';
@@ -12,7 +12,7 @@ describe('Adi3EndTestModal', () => {
   let fixture: ComponentFixture<Adi3EndTestModal>;
   let component: Adi3EndTestModal;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [IonicModule, ReactiveFormsModule],
       providers: [
@@ -24,7 +24,7 @@ describe('Adi3EndTestModal', () => {
 
     fixture = TestBed.createComponent(Adi3EndTestModal);
     component = fixture.componentInstance;
-  }));
+  });
 
   describe('getOutcomeIcon', () => {
     it('should return the fail image if the outcome is a fail', () => {

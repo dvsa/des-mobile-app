@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { AppModule } from '@app/app.module';
 import { DrivingFaultsBadgeComponent } from '@components/common/driving-faults-badge/driving-faults-badge';
@@ -46,7 +46,7 @@ describe('ManoeuvresPopoverComponentAdiPart2', () => {
     eyesightTest: {},
   };
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [
         ManoeuvresPopoverComponentAdiPart2,
@@ -94,7 +94,7 @@ describe('ManoeuvresPopoverComponentAdiPart2', () => {
     fixture.detectChanges();
     store$ = TestBed.inject(Store);
     spyOn(store$, 'dispatch').and.callThrough();
-  }));
+  });
 
   describe('Class', () => {
     it('should display the correct competencies against each manoeuvre', () => {

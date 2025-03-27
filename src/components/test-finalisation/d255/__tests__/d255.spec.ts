@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { UntypedFormGroup } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { OutcomeBehaviourMapProvider, VisibilityType } from '@providers/outcome-behaviour-map/outcome-behaviour-map';
@@ -9,7 +9,7 @@ describe('D255Component', () => {
   let component: D255Component;
   let outcomeBehaviourMapProvider: OutcomeBehaviourMapProvider;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [D255Component],
       imports: [IonicModule],
@@ -20,7 +20,7 @@ describe('D255Component', () => {
     component = fixture.componentInstance;
     component.formGroup = new UntypedFormGroup({});
     outcomeBehaviourMapProvider = TestBed.inject(OutcomeBehaviourMapProvider);
-  }));
+  });
 
   describe('Class', () => {
     describe('ngOnChanges', () => {

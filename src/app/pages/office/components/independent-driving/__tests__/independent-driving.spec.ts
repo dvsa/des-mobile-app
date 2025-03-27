@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { IonicModule } from '@ionic/angular';
@@ -10,7 +10,7 @@ describe('IndependentDrivingComponent', () => {
   let fixture: ComponentFixture<IndependentDrivingComponent>;
   let component: IndependentDrivingComponent;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [IndependentDrivingComponent],
       imports: [IonicModule, ReactiveFormsModule],
@@ -19,7 +19,7 @@ describe('IndependentDrivingComponent', () => {
 
     fixture = TestBed.createComponent(IndependentDrivingComponent);
     component = fixture.componentInstance;
-  }));
+  });
 
   describe('getIndependentDrivingInputId', () => {
     it('should return "independent-driving-test" after removing non alpha numeric characters', () => {

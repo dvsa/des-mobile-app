@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 import { ViewTestHeaderModel } from '@pages/view-test-result/components/view-test-header/view-test-header.model';
 import { TestOutcome } from '@store/tests/tests.constants';
@@ -8,7 +8,7 @@ describe('ViewTestHeaderComponent', () => {
   let fixture: ComponentFixture<ViewTestHeaderComponent>;
   let component: ViewTestHeaderComponent;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [ViewTestHeaderComponent],
       imports: [IonicModule],
@@ -16,7 +16,7 @@ describe('ViewTestHeaderComponent', () => {
 
     fixture = TestBed.createComponent(ViewTestHeaderComponent);
     component = fixture.componentInstance;
-  }));
+  });
 
   describe('Class', () => {
     describe('isPassed', () => {

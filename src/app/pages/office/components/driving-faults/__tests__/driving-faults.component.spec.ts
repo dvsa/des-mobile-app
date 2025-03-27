@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { IonicModule } from '@ionic/angular';
 import { OfficeComponentsModule } from '@pages/office/components/office.components.module';
@@ -9,7 +9,7 @@ describe('DrivingFaultsComponent', () => {
   let component: DrivingFaultsComponent;
   let fixture: ComponentFixture<DrivingFaultsComponent>;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [DrivingFaultsComponent],
       imports: [IonicModule, OfficeComponentsModule],
@@ -18,7 +18,7 @@ describe('DrivingFaultsComponent', () => {
     fixture = TestBed.createComponent(DrivingFaultsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
-  }));
+  });
 
   it('should create', () => {
     expect(component).toBeTruthy();

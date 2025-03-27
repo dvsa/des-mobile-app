@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Router } from '@angular/router';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { IonicModule, ModalController } from '@ionic/angular';
@@ -19,7 +19,7 @@ describe('EndTestLinkComponent', () => {
   let store$: Store<StoreModel>;
   let modalController: ModalController;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [EndTestLinkComponent],
       imports: [IonicModule, AppModule],
@@ -38,7 +38,7 @@ describe('EndTestLinkComponent', () => {
     spyOn(component.routerByCategory, 'navigateToPage');
     spyOn(component.router, 'navigate');
     spyOn(store$, 'dispatch');
-  }));
+  });
 
   describe('Class', () => {
     describe('openEndTestModal', () => {

@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { KeepAwake as Insomnia } from '@capacitor-community/keep-awake';
@@ -30,7 +30,7 @@ describe('RekeyUploadOutcomePage', () => {
   let deviceProvider: DeviceProvider;
   let router: Router;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     jasmine.getEnv().allowRespy(true);
     TestBed.configureTestingModule({
       declarations: [RekeyUploadOutcomePage],
@@ -74,7 +74,7 @@ describe('RekeyUploadOutcomePage', () => {
     spyOn(router, 'navigate');
     spyOn(store$, 'dispatch');
     spyOn(BasePageComponent.prototype, 'isIos').and.returnValue(true);
-  }));
+  });
 
   describe('Class', () => {
     describe('ionViewDidEnter', () => {

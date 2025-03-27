@@ -1,4 +1,4 @@
-import { TestBed, waitForAsync } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 import { TestData as TestDataADI3 } from '@dvsa/mes-test-schema/categories/ADI3';
 import { TestData as TestDataCPC } from '@dvsa/mes-test-schema/categories/CPC';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
@@ -34,14 +34,14 @@ describe('TestResultCalculatorProvider', () => {
   let testResultProvider: TestResultProvider;
   let faultCountProvider: FaultCountProvider;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [TestResultProvider, FaultCountProvider],
     });
 
     testResultProvider = TestBed.inject(TestResultProvider);
     faultCountProvider = TestBed.inject(FaultCountProvider);
-  }));
+  });
 
   describe('calculateTestResult', () => {
     [

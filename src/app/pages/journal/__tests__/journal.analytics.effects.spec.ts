@@ -1,4 +1,4 @@
-import { TestBed, waitForAsync } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 import { Candidate } from '@dvsa/mes-test-schema/categories/common';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { Action, Store, StoreModule } from '@ngrx/store';
@@ -32,7 +32,7 @@ describe('JournalAnalyticsEffects', () => {
   let actions$: ReplaySubject<Action>;
   const screenName = AnalyticsScreenNames.JOURNAL;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({
@@ -69,7 +69,7 @@ describe('JournalAnalyticsEffects', () => {
     actions$ = new ReplaySubject(1);
     effects = TestBed.inject(JournalAnalyticsEffects);
     analyticsProviderMock = TestBed.inject(AnalyticsProvider);
-  }));
+  });
 
   describe('journalView', () => {
     it('should call setCurrentPage', (done) => {

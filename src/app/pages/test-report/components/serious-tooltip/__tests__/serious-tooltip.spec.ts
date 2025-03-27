@@ -1,18 +1,18 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { SeriousTooltipComponent } from '../serious-tooltip';
 
 describe('SeriousTooltipComponenet', () => {
   let fixture: ComponentFixture<SeriousTooltipComponent>;
   let component: SeriousTooltipComponent;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [SeriousTooltipComponent],
     });
 
     fixture = TestBed.createComponent(SeriousTooltipComponent);
     component = fixture.componentInstance;
-  }));
+  });
 
   describe('Class', () => {
     it('should create', () => {

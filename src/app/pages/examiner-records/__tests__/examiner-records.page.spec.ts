@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Router } from '@angular/router';
 import { ScreenOrientation } from '@capawesome/capacitor-screen-orientation';
 import { ExaminerRecordModel } from '@dvsa/mes-microservice-common/domain/examiner-records';
@@ -89,7 +89,7 @@ describe('ExaminerRecordsPage', () => {
     },
   ] as ExaminerRecordModel[];
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [ExaminerRecordsPage, MockComponent(ColourFilterRadioComponent)],
       imports: [IonicModule, CommonModule],
@@ -298,7 +298,7 @@ describe('ExaminerRecordsPage', () => {
     router = TestBed.inject(Router);
     spyOn(router, 'navigate');
     component.pageState = initialState;
-  }));
+  });
   it('should create', () => {
     expect(component).toBeTruthy();
     expect(store$).toBeTruthy();

@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormControl, ReactiveFormsModule, UntypedFormGroup, Validators } from '@angular/forms';
 import { AppModule } from '@app/app.module';
 import { IonicModule } from '@ionic/angular';
@@ -10,7 +10,7 @@ describe('ReasonGivenComponent', () => {
   let component: ReasonGivenComponent;
   let fixture: ComponentFixture<ReasonGivenComponent>;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [ReasonGivenComponent],
       imports: [IonicModule, AppModule, ReactiveFormsModule],
@@ -21,7 +21,7 @@ describe('ReasonGivenComponent', () => {
     characterCountService = TestBed.inject(CharacterCountService);
     component = fixture.componentInstance;
     component.formGroup = new UntypedFormGroup({});
-  }));
+  });
 
   it('should create', () => {
     expect(component).toBeTruthy();

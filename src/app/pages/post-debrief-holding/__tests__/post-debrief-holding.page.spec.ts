@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, fakeAsync, tick, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
 
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
@@ -15,7 +15,7 @@ describe('PostDebriefHoldingPage', () => {
   let component: PostDebriefHoldingPage;
   let router: Router;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       declarations: [PostDebriefHoldingPage, MockComponent(PracticeModeBanner)],
@@ -32,7 +32,7 @@ describe('PostDebriefHoldingPage', () => {
     component = fixture.componentInstance;
     router = TestBed.inject(Router);
     spyOn(router, 'navigate');
-  }));
+  });
 
   describe('Class', () => {
     it('should create component', () => {

@@ -1,4 +1,4 @@
-import { TestBed, waitForAsync } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 import { provideMockStore } from '@ngrx/store/testing';
 
 import { HttpErrorResponse } from '@angular/common/http';
@@ -20,7 +20,7 @@ describe('SentryIonicErrorHandler', () => {
   let sentryErrorHandler: SentryIonicErrorHandler;
   const mockLog = { drivingExaminerId: '1234567' } as Log;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
         SentryIonicErrorHandler,
@@ -52,7 +52,7 @@ describe('SentryIonicErrorHandler', () => {
         role: ExaminerRole.DE,
       } as AppConfig)
     );
-  }));
+  });
 
   describe('handleError', () => {
     it('should call through to all providers and pass error to Sentry', async () => {

@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { AppModule } from '@app/app.module';
 import { IonicModule } from '@ionic/angular';
 import { CombinationComponent } from '../combination';
@@ -7,7 +7,7 @@ describe('CombinationComponent', () => {
   let fixture: ComponentFixture<CombinationComponent>;
   let component: CombinationComponent;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [CombinationComponent],
       imports: [IonicModule, AppModule],
@@ -15,7 +15,7 @@ describe('CombinationComponent', () => {
 
     fixture = TestBed.createComponent(CombinationComponent);
     component = fixture.componentInstance;
-  }));
+  });
 
   describe('Class', () => {
     describe('getCombinationText', () => {

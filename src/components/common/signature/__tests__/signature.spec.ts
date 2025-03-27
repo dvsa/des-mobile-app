@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule, UntypedFormGroup } from '@angular/forms';
 import { SignatureAreaComponent } from '@components/common/signature-area/signature-area';
 import { IonicModule } from '@ionic/angular';
@@ -10,7 +10,7 @@ describe('SignatureComponent', () => {
   let fixture: ComponentFixture<SignatureComponent>;
   let component: SignatureComponent;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [SignatureComponent, MockComponent(SignatureAreaComponent)],
       imports: [IonicModule, TranslateModule.forRoot(), ReactiveFormsModule],
@@ -18,7 +18,7 @@ describe('SignatureComponent', () => {
 
     fixture = TestBed.createComponent(SignatureComponent);
     component = fixture.componentInstance;
-  }));
+  });
 
   describe('Class', () => {
     describe('ngOnChanges', () => {

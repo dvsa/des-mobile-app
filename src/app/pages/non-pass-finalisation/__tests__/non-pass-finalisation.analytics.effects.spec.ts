@@ -1,4 +1,4 @@
-import { TestBed, waitForAsync } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { Action, Store, StoreModule } from '@ngrx/store';
@@ -37,7 +37,7 @@ describe('NonPassFinalisationAnalyticsEffects', () => {
   let store$: Store<StoreModel>;
   const screenName = AnalyticsScreenNames.NON_PASS_FINALISATION;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({
@@ -63,7 +63,7 @@ describe('NonPassFinalisationAnalyticsEffects', () => {
     effects = TestBed.inject(NonPassFinalisationAnalyticsEffects);
     analyticsProviderMock = TestBed.inject(AnalyticsProvider);
     store$ = TestBed.inject(Store);
-  }));
+  });
 
   describe('nonPassFinalisationViewDidEnter', () => {
     it('should call setCurrentPage', (done) => {

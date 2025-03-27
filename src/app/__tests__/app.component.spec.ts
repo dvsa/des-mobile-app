@@ -1,5 +1,5 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { ComponentFixture, TestBed, fakeAsync, flushMicrotasks, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed, fakeAsync, flushMicrotasks } from '@angular/core/testing';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AlertController, MenuController, ModalController, Platform } from '@ionic/angular';
 import {
@@ -59,7 +59,7 @@ describe('AppComponent', () => {
   let deviceProvider: DeviceProvider;
   let storage: Storage;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [AppComponent],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
@@ -155,7 +155,7 @@ describe('AppComponent', () => {
     router = TestBed.inject(Router);
     storage = TestBed.inject(Storage);
     spyOn(store$, 'dispatch');
-  }));
+  });
 
   it('should create the app', () => {
     const app = fixture.debugElement.componentInstance;

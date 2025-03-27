@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 
 import { UntypedFormGroup, Validators } from '@angular/forms';
@@ -11,7 +11,7 @@ describe('ActivityCodeComponent', () => {
   let fixture: ComponentFixture<ActivityCodeComponent>;
   let component: ActivityCodeComponent;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [ActivityCodeComponent],
       imports: [IonicModule, AppModule],
@@ -20,7 +20,7 @@ describe('ActivityCodeComponent', () => {
 
     fixture = TestBed.createComponent(ActivityCodeComponent);
     component = fixture.componentInstance;
-  }));
+  });
 
   describe('Class', () => {
     describe('activityCodeChanged', () => {

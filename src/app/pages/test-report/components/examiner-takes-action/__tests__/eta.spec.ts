@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { TestData } from '@dvsa/mes-test-schema/categories/common';
 import { IonicModule } from '@ionic/angular';
 import { Store, StoreModule } from '@ngrx/store';
@@ -29,7 +29,7 @@ describe('EtaComponent', () => {
   let component: EtaComponent;
   let store$: Store<StoreModel>;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [EtaComponent, MockComponent(CompetencyButtonComponent)],
       imports: [IonicModule, StoreModule.forRoot({ tests: testsReducer })],
@@ -40,7 +40,7 @@ describe('EtaComponent', () => {
     component = fixture.componentInstance;
     store$ = TestBed.inject(Store);
     spyOn(store$, 'dispatch');
-  }));
+  });
 
   describe('Class', () => {
     it('should dispatch a TOGGLE_ETA_VERBAL action', () => {

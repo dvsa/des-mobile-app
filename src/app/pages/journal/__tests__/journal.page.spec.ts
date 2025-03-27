@@ -1,6 +1,6 @@
 import { HttpStatusCode } from '@angular/common/http';
 import { CUSTOM_ELEMENTS_SCHEMA, DebugElement } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { MockAppComponent } from '@app/__mocks__/app.component.mock';
@@ -58,7 +58,7 @@ describe('JournalPage', () => {
     translucent: false,
   };
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       declarations: [JournalPage],
@@ -143,7 +143,7 @@ describe('JournalPage', () => {
     spyOn(store$, 'dispatch');
     spyOn(loaderService, 'handleUILoading');
     spyOn(BasePageComponent.prototype, 'isIos').and.returnValue(true);
-  }));
+  });
 
   describe('Class', () => {
     it('should create component', () => {

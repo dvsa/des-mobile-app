@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { IonicModule, NavController, Platform } from '@ionic/angular';
 import { NavControllerMock, PlatformMock } from '@mocks/index.mock';
@@ -19,7 +19,7 @@ describe('reverseDiagramModal', () => {
   const mockFile: ReverseDiagramModalMock = new ReverseDiagramModalMock();
   mockFile.ngOnInit();
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [ReverseDiagramPage],
       imports: [
@@ -73,7 +73,7 @@ describe('reverseDiagramModal', () => {
     component = fixture.componentInstance;
     store$ = TestBed.inject(Store);
     spyOn(store$, 'dispatch');
-  }));
+  });
 
   describe('Class', () => {
     const vehicleDetails: Map<TestCategory, VehicleData> = mockFile.getVehicleDetails();

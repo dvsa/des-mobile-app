@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { IonicModule } from '@ionic/angular';
 import { TransmissionDisplayComponent } from '../transmission-display';
@@ -14,7 +14,7 @@ describe('TransmissionDisplayComponent', () => {
   let fixture: ComponentFixture<TransmissionDisplayComponent>;
   let component: TransmissionDisplayComponent;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [IonicModule],
       declarations: [TransmissionDisplayComponent],
@@ -22,7 +22,7 @@ describe('TransmissionDisplayComponent', () => {
 
     fixture = TestBed.createComponent(TransmissionDisplayComponent);
     component = fixture.componentInstance;
-  }));
+  });
 
   describe('getTransmissionText', () => {
     it('should return appropriate string if Manual', () => {

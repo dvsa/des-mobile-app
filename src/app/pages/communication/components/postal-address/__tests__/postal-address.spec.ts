@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { PostalAddressComponent } from '../postal-address';
@@ -17,7 +17,7 @@ describe('PostalAddressComponent', () => {
     postcode: 'AB12 3CD',
   };
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [PostalAddressComponent],
       imports: [IonicModule, TranslateModule.forRoot()],
@@ -27,7 +27,7 @@ describe('PostalAddressComponent', () => {
     component = fixture.componentInstance;
     translate = TestBed.inject(TranslateService);
     translate.setDefaultLang('en');
-  }));
+  });
 
   describe('Class', () => {
     describe('ngOnInit', () => {

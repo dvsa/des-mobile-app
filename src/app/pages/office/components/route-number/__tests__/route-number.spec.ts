@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { behaviourMap } from '@pages/office/office-behaviour-map';
@@ -12,7 +12,7 @@ describe('RouteNumberComponent', () => {
   let component: RouteNumberComponent;
   let behaviourMapProvider: OutcomeBehaviourMapProvider;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [RouteNumberComponent],
       imports: [IonicModule, AppModule],
@@ -23,7 +23,7 @@ describe('RouteNumberComponent', () => {
     behaviourMapProvider = TestBed.inject(OutcomeBehaviourMapProvider);
     behaviourMapProvider.setBehaviourMap(behaviourMap);
     component = fixture.componentInstance;
-  }));
+  });
 
   describe('class', () => {
     it('should emit route number if 1 character', () => {

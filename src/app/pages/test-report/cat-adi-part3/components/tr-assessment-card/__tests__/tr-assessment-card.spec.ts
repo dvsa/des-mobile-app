@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 import { TestReportAssessmentAnswer } from '@pages/test-report/cat-adi-part3/components/tr-assessment-answer/tr-assessment-answer';
 import { TestReportAssessmentCard } from '@pages/test-report/cat-adi-part3/components/tr-assessment-card/tr-assessment-card';
@@ -10,7 +10,7 @@ describe('TestReportAssessmentCard', () => {
   let fixture: ComponentFixture<TestReportAssessmentCard>;
   let component: TestReportAssessmentCard;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [TestReportAssessmentCard, MockComponent(TestReportAssessmentAnswer)],
       imports: [PipesModule, CommonModule, IonicModule],
@@ -18,7 +18,7 @@ describe('TestReportAssessmentCard', () => {
 
     fixture = TestBed.createComponent(TestReportAssessmentCard);
     component = fixture.componentInstance;
-  }));
+  });
 
   describe('trAssessmentAnswerChange', () => {
     it('should emit trAssessmentAnswerChange with answer as a number', () => {

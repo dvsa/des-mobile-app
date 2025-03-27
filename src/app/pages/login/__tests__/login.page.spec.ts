@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, fakeAsync, flushMicrotasks, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed, fakeAsync, flushMicrotasks } from '@angular/core/testing';
 import { Navigation, NavigationExtras, Router, RouterModule } from '@angular/router';
 import { Capacitor } from '@capacitor/core';
 import { SplashScreen } from '@capacitor/splash-screen';
@@ -46,7 +46,7 @@ describe('LoginPage', () => {
   let logHelper: LogHelper;
   let router: Router;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [LoginPage],
       imports: [
@@ -125,7 +125,7 @@ describe('LoginPage', () => {
     menuController = TestBed.inject(MenuController);
     logHelper = TestBed.inject(LogHelper);
     router = TestBed.inject(Router);
-  }));
+  });
 
   it('should create', () => {
     expect(component).toBeTruthy();

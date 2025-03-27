@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, fakeAsync, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed, fakeAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ErrorMessageComponent } from '@components/common/error-message/error-message';
@@ -19,7 +19,7 @@ describe('ErrorPage', () => {
   let fixture: ComponentFixture<ErrorPage>;
   let component: ErrorPage;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [ErrorPage, MockComponent(ErrorMessageComponent)],
       imports: [IonicModule],
@@ -58,7 +58,7 @@ describe('ErrorPage', () => {
 
     fixture = TestBed.createComponent(ErrorPage);
     component = fixture.componentInstance;
-  }));
+  });
 
   describe('dismiss', () => {
     it('should dismiss open modal', fakeAsync(async () => {

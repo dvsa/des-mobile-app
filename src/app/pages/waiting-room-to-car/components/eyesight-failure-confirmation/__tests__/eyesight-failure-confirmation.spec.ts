@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { IonicModule } from '@ionic/angular';
 import { Store, StoreModule } from '@ngrx/store';
@@ -19,7 +19,7 @@ describe('EyesightFailureConfirmationComponent', () => {
   let router: Router;
   let store$: Store<StoreModel>;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [EyesightFailureConfirmationComponent],
       imports: [
@@ -43,7 +43,7 @@ describe('EyesightFailureConfirmationComponent', () => {
     router = TestBed.inject(Router);
     store$ = TestBed.inject(Store);
     spyOn(store$, 'dispatch');
-  }));
+  });
 
   describe('DOM', () => {
     it('should call the cancel function when cancel is pressed', () => {

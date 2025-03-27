@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { AppModule } from '@app/app.module';
 import { DangerousFaultBadgeComponent } from '@components/common/dangerous-fault-badge/dangerous-fault-badge';
@@ -17,7 +17,7 @@ describe('ManoeuvresComponent', () => {
   let fixture: ComponentFixture<ManoeuvresComponent>;
   let component: ManoeuvresComponent;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [
         ManoeuvresComponent,
@@ -81,7 +81,7 @@ describe('ManoeuvresComponent', () => {
 
     fixture = TestBed.createComponent(ManoeuvresComponent);
     component = fixture.componentInstance;
-  }));
+  });
 
   describe('DOM', () => {
     describe('Button', () => {

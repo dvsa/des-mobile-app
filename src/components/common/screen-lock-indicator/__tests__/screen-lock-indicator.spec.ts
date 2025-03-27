@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { translateServiceMock } from '@shared/helpers/__mocks__/translate.mock';
@@ -8,7 +8,7 @@ describe('LockScreenIndicator', () => {
   let fixture: ComponentFixture<LockScreenIndicator>;
   let component: LockScreenIndicator;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [LockScreenIndicator],
       imports: [TranslateModule, IonicModule],
@@ -17,7 +17,7 @@ describe('LockScreenIndicator', () => {
 
     fixture = TestBed.createComponent(LockScreenIndicator);
     component = fixture.componentInstance;
-  }));
+  });
 
   describe('Class', () => {
     it('should create', () => {

@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { LocationComponent } from '@components/test-slot/location/location';
 import { TimeComponent } from '@components/test-slot/time/time';
@@ -67,7 +67,7 @@ describe('EmptySlotComponent', () => {
     },
   } as TestSlot;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [EmptySlotComponent, MockComponent(TimeComponent), MockComponent(LocationComponent)],
       imports: [IonicModule],
@@ -76,7 +76,7 @@ describe('EmptySlotComponent', () => {
     fixture = TestBed.createComponent(EmptySlotComponent);
     component = fixture.componentInstance;
     component.slot = cloneDeep(mockSlot);
-  }));
+  });
 
   describe('DOM', () => {
     describe('Component Interaction', () => {

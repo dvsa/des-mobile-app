@@ -1,5 +1,5 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { AdditionalItemsComponent } from '@pages/test-report/cat-cpc/components/additional-items/additional-items';
 import { QuestionAnswerComponent } from '@pages/test-report/cat-cpc/components/question-answer/question-answer';
 import { QuestionCardComponent } from '@pages/test-report/cat-cpc/components/question-card/question-card';
@@ -12,7 +12,7 @@ describe('QuestionCardComponent', () => {
   let fixture: ComponentFixture<QuestionCardComponent>;
   let component: QuestionCardComponent;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       declarations: [
@@ -27,7 +27,7 @@ describe('QuestionCardComponent', () => {
 
     fixture = TestBed.createComponent(QuestionCardComponent);
     component = fixture.componentInstance;
-  }));
+  });
 
   describe('answerChanged', () => {
     it('should emit answerPayload with the correct values', () => {

@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { DangerousFaultBadgeComponent } from '@components/common/dangerous-fault-badge/dangerous-fault-badge';
 import { DrivingFaultsBadgeComponent } from '@components/common/driving-faults-badge/driving-faults-badge';
@@ -31,7 +31,7 @@ describe('VehicleCheckComponent', () => {
   let component: VehicleCheckComponent;
   let store$: Store<StoreModel>;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [
         VehicleCheckComponent,
@@ -49,7 +49,7 @@ describe('VehicleCheckComponent', () => {
     store$ = TestBed.inject(Store);
     store$.dispatch(StartTest(counter, TestCategory.B));
     counter += 1;
-  }));
+  });
 
   describe('Class', () => {
     describe('addFault', () => {

@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule, ReactiveFormsModule, UntypedFormGroup } from '@angular/forms';
 import { Style } from '@capacitor/status-bar';
 import { ComponentsModule } from '@components/common/common-components.module';
@@ -76,7 +76,7 @@ describe('VehicleChecksCatHomeTestModal', () => {
     } as TestsModel,
   } as StoreModel;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       declarations: [VehicleChecksCatHomeTestModal],
@@ -119,7 +119,7 @@ describe('VehicleChecksCatHomeTestModal', () => {
     component = fixture.componentInstance;
     component.formGroup = new UntypedFormGroup({});
     component.category = TestCategory.F;
-  }));
+  });
 
   it('should create', () => {
     expect(component).toBeTruthy();

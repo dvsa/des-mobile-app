@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { AppModule } from '@app/app.module';
 import { Question } from '@dvsa/mes-test-schema/categories/CPC';
 import { IonicModule } from '@ionic/angular';
@@ -12,7 +12,7 @@ describe('CPCDebriefCardComponent', () => {
   let component: CPCDebriefCardComponent;
   let question: Question;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [IonicModule, AppModule, ComponentsModule, StoreModule.forRoot({}), TranslateModule],
     });
@@ -42,7 +42,7 @@ describe('CPCDebriefCardComponent', () => {
       title: 'Loading the vehicle',
       score: 20,
     };
-  }));
+  });
 
   describe('getFormattedQuestion', () => {
     it('should return correct format', () => {

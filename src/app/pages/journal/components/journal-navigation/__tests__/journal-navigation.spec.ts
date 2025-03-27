@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 import { JournalNavigationComponent } from '../journal-navigation';
 
@@ -6,7 +6,7 @@ describe('JournalNavigationComponent', () => {
   let fixture: ComponentFixture<JournalNavigationComponent>;
   let component: JournalNavigationComponent;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [JournalNavigationComponent],
       imports: [IonicModule],
@@ -14,7 +14,7 @@ describe('JournalNavigationComponent', () => {
 
     fixture = TestBed.createComponent(JournalNavigationComponent);
     component = fixture.componentInstance;
-  }));
+  });
 
   describe('onPreviousDayClick', () => {
     it('should emit previousDayClicked', () => {

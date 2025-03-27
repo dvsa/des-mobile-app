@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 import { Store, StoreModule } from '@ngrx/store';
 import { StoreModel } from '@shared/models/store.model';
@@ -12,7 +12,7 @@ describe('TimerComponent', () => {
   let component: TimerComponent;
   let store$: Store<StoreModel>;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [TimerComponent],
       imports: [IonicModule, StoreModule.forRoot({ tests: testsReducer, testReport: testReportReducer })],
@@ -21,7 +21,7 @@ describe('TimerComponent', () => {
     fixture = TestBed.createComponent(TimerComponent);
     component = fixture.componentInstance;
     store$ = TestBed.inject(Store);
-  }));
+  });
 
   describe('Class', () => {
     describe('startTimer', () => {

@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 import { Store, StoreModule } from '@ngrx/store';
 import { MockComponent } from 'ng-mocks';
@@ -30,7 +30,7 @@ describe('ReverseManoeuvreComponent', () => {
   let component: ReverseManoeuvreComponent;
   let store$: Store<StoreModel>;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [
         ReverseManoeuvreComponent,
@@ -89,7 +89,7 @@ describe('ReverseManoeuvreComponent', () => {
     fixture = TestBed.createComponent(ReverseManoeuvreComponent);
     component = fixture.componentInstance;
     store$ = TestBed.inject(Store);
-  }));
+  });
 
   describe('Class', () => {
     it('should get the competency label from the correct object', () => {

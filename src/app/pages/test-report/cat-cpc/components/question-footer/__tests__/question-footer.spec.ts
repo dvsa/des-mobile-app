@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { AppModule } from '@app/app.module';
 import { IonicModule } from '@ionic/angular';
 import { QuestionFooterComponent } from '../question-footer';
@@ -7,7 +7,7 @@ describe('QuestionFooterComponent', () => {
   let fixture: ComponentFixture<QuestionFooterComponent>;
   let component: QuestionFooterComponent;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [QuestionFooterComponent],
       imports: [IonicModule, AppModule],
@@ -15,7 +15,7 @@ describe('QuestionFooterComponent', () => {
 
     fixture = TestBed.createComponent(QuestionFooterComponent);
     component = fixture.componentInstance;
-  }));
+  });
 
   describe('showPreviousPageButton', () => {
     it('should return false which hides previous question button on Q1', () => {

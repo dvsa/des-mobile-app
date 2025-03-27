@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { DateTimeInputComponent, DisplayType } from '@components/common/datetime-input/date-time-input.component';
 import { IonDatetime, IonicModule } from '@ionic/angular';
 
@@ -6,7 +6,7 @@ describe('DateTimeInputComponent', () => {
   let fixture: ComponentFixture<DateTimeInputComponent>;
   let component: DateTimeInputComponent;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [DateTimeInputComponent],
       imports: [IonicModule],
@@ -14,7 +14,7 @@ describe('DateTimeInputComponent', () => {
 
     fixture = TestBed.createComponent(DateTimeInputComponent);
     component = fixture.componentInstance;
-  }));
+  });
 
   it('should create', () => {
     expect(component).toBeTruthy();

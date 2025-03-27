@@ -1,5 +1,5 @@
 import { DebugElement } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { IonicModule } from '@ionic/angular';
@@ -24,7 +24,7 @@ describe('DrivingFaultSummary', () => {
   let component: DrivingFaultSummaryComponent;
   let store$: Store<StoreModel>;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [DrivingFaultSummaryComponent],
       imports: [IonicModule, StoreModule.forRoot({ tests: testsReducer })],
@@ -35,7 +35,7 @@ describe('DrivingFaultSummary', () => {
     component = fixture.componentInstance;
     component.subscription = new Subscription();
     store$ = TestBed.inject(Store);
-  }));
+  });
 
   describe('DOM', () => {
     let componentEl: DebugElement;

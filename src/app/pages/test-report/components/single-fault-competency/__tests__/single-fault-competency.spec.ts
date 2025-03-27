@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { DangerousFaultBadgeComponent } from '@components/common/dangerous-fault-badge/dangerous-fault-badge';
 import { DrivingFaultsBadgeComponent } from '@components/common/driving-faults-badge/driving-faults-badge';
 import { SeriousFaultBadgeComponent } from '@components/common/serious-fault-badge/serious-fault-badge';
@@ -29,7 +29,7 @@ describe('SingleFaultCompetencyComponent', () => {
   let component: SingleFaultCompetencyComponent;
   let store$: Store<StoreModel>;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [
         SingleFaultCompetencyComponent,
@@ -53,7 +53,7 @@ describe('SingleFaultCompetencyComponent', () => {
     fixture = TestBed.createComponent(SingleFaultCompetencyComponent);
     component = fixture.componentInstance;
     store$ = TestBed.inject(Store);
-  }));
+  });
 
   describe('Class', () => {
     describe('getLabel', () => {

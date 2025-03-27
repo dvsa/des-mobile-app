@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { IonicModule } from '@ionic/angular';
 import { StoreModule } from '@ngrx/store';
@@ -16,7 +16,7 @@ describe('IncompleteTestsBanner', () => {
   let fixture: ComponentFixture<IncompleteTestsBanner>;
   let component: IncompleteTestsBanner;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [IncompleteTestsBanner],
       imports: [
@@ -35,7 +35,7 @@ describe('IncompleteTestsBanner', () => {
 
     fixture = TestBed.createComponent(IncompleteTestsBanner);
     component = fixture.componentInstance;
-  }));
+  });
 
   describe('DOM', () => {
     it('should display the number of incomplete tests', () => {

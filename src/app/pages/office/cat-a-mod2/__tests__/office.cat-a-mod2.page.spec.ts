@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { AppModule } from '@app/app.module';
@@ -62,7 +62,7 @@ describe('OfficeCatAMod2Page', () => {
   let component: OfficeCatAMod2Page;
   let store$: Store<StoreModel>;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [
         OfficeCatAMod2Page,
@@ -165,7 +165,7 @@ describe('OfficeCatAMod2Page', () => {
     component = fixture.componentInstance;
     store$ = TestBed.inject(Store);
     spyOn(store$, 'dispatch');
-  }));
+  });
 
   describe('DOM', () => {
     describe('modeOfTransportChanged', () => {

@@ -1,5 +1,5 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule, UntypedFormGroup } from '@angular/forms';
 import { AppModule } from '@app/app.module';
 import { AccompanimentCardCatCPCComponent } from '@pages/waiting-room-to-car/cat-cpc/components/accompaniment-card/accompaniment-card.cat-cpc';
@@ -17,7 +17,7 @@ describe('AccompanimentCardCatCPCComponent', () => {
   let component: AccompanimentCardCatCPCComponent;
   let fixture: ComponentFixture<AccompanimentCardCatCPCComponent>;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       declarations: [AccompanimentCardCatCPCComponent],
@@ -49,7 +49,7 @@ describe('AccompanimentCardCatCPCComponent', () => {
     fixture = TestBed.createComponent(AccompanimentCardCatCPCComponent);
     component = fixture.componentInstance;
     component.formGroup = new UntypedFormGroup({});
-  }));
+  });
 
   it('should create', () => {
     expect(component).toBeTruthy();

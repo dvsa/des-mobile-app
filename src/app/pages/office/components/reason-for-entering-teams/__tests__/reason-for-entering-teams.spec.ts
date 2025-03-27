@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { ReasonForEnteringTeamsComponent } from '@pages/office/components/reason-for-entering-teams/reason-for-entering-teams';
 
@@ -6,7 +6,7 @@ describe('ReasonForEnteringTeamsComponent', () => {
   let fixture: ComponentFixture<ReasonForEnteringTeamsComponent>;
   let component: ReasonForEnteringTeamsComponent;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [ReasonForEnteringTeamsComponent],
     });
@@ -14,7 +14,7 @@ describe('ReasonForEnteringTeamsComponent', () => {
     fixture = TestBed.createComponent(ReasonForEnteringTeamsComponent);
     component = fixture.componentInstance;
     component.formGroup = new UntypedFormGroup({});
-  }));
+  });
 
   describe('ngOnChanges', () => {
     it('should initialize formControl if not already initialized', () => {

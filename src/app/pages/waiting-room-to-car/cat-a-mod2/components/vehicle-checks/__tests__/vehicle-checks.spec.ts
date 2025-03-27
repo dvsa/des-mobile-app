@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
 import { DrivingFaultsBadgeComponent } from '@components/common/driving-faults-badge/driving-faults-badge';
 import { SeriousFaultBadgeComponent } from '@components/common/serious-fault-badge/serious-fault-badge';
@@ -21,7 +21,7 @@ describe('VehicleChecksCatAMod2Component', () => {
   let modalController: ModalController;
   let accessibilityService: AccessibilityService;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [
         VehicleChecksCatAMod2Component,
@@ -50,7 +50,7 @@ describe('VehicleChecksCatAMod2Component', () => {
         onDidDismiss: () => ({ data: '' }) as OverlayEventDetail,
       } as HTMLIonModalElement)
     );
-  }));
+  });
 
   describe('Class', () => {
     describe('openVehicleChecksModal', () => {

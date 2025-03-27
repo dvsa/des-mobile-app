@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { provideMockStore } from '@ngrx/store/testing';
@@ -15,7 +15,7 @@ describe('JournalEarlyStartModal', () => {
   let modalFixture: ComponentFixture<JournalEarlyStartModal>;
   let modalComponent: JournalEarlyStartModal;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [JournalEarlyStartModal],
       imports: [CommonModule, FormsModule, IonicModule, ComponentsModule],
@@ -26,7 +26,7 @@ describe('JournalEarlyStartModal', () => {
     spyOn(modalComponent, 'getStartTime');
     spyOn(modalComponent.store$, 'dispatch').and.callFake(() => {});
     spyOn(modalComponent.modalController, 'dismiss').and.returnValue(Promise.resolve(true));
-  }));
+  });
 
   describe('DOM', () => {
     it('should call onStart when the Start test button is clicked', () => {

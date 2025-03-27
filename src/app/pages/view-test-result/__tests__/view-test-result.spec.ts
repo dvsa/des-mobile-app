@@ -1,5 +1,5 @@
 import { ChangeDetectorRef } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Router } from '@angular/router';
 import { AppModule } from '@app/app.module';
 import { Adi3DebriefCard } from '@components/common/adi3-debrief-card/adi3-debrief-card';
@@ -90,7 +90,7 @@ describe('ViewTestResultPage', () => {
     return TestOutcome.Passed;
   };
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [
         ViewTestResultPage,
@@ -179,7 +179,7 @@ describe('ViewTestResultPage', () => {
     loadingProvider = TestBed.inject(LoadingProvider);
     compressionProvider = TestBed.inject(CompressionProvider);
     component.testResult = mockTestResult;
-  }));
+  });
 
   it('should ', () => {
     expect(component).toBeTruthy();

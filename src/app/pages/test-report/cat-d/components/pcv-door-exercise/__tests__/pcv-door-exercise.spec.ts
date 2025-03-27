@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 import { Store, StoreModule } from '@ngrx/store';
 import { MockComponent } from 'ng-mocks';
@@ -34,7 +34,7 @@ describe('PcvDoorExerciseComponent', () => {
   let component: PcvDoorExerciseComponent;
   let store$: Store<StoreModel>;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [
         PcvDoorExerciseComponent,
@@ -110,7 +110,7 @@ describe('PcvDoorExerciseComponent', () => {
     fixture = TestBed.createComponent(PcvDoorExerciseComponent);
     component = fixture.componentInstance;
     store$ = TestBed.inject(Store);
-  }));
+  });
 
   describe('addOrRemoveFault', () => {
     it('should call removeFault when isRemoveFaultMode is true', () => {

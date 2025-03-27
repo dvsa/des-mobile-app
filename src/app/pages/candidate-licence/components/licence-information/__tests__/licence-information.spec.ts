@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { DomSanitizer } from '@angular/platform-browser';
 import { DriverLicenceSchema } from '@dvsa/mes-driver-schema';
 import { IonicModule } from '@ionic/angular';
@@ -11,7 +11,7 @@ describe('LicenceInformation', () => {
   let component: LicenceInformation;
   let domSanitizer: DomSanitizer;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [LicenceInformation],
       imports: [IonicModule],
@@ -41,7 +41,7 @@ describe('LicenceInformation', () => {
       },
       driverSignature: { signature: { image: 'sig', imageFormat: 'format' } },
     } as DriverLicenceSchema;
-  }));
+  });
 
   afterAll(() => {
     jasmine.clock()?.uninstall();

@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 import { provideMockStore } from '@ngrx/store/testing';
 import { ExaminerReportsCard } from '@pages/examiner-records/components/examiner-reports-card/examiner-reports-card';
@@ -8,7 +8,7 @@ describe('ExaminerReportsCard', () => {
   let fixture: ComponentFixture<ExaminerReportsCard>;
   let component: ExaminerReportsCard;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [ExaminerReportsCard],
       imports: [IonicModule],
@@ -20,7 +20,7 @@ describe('ExaminerReportsCard', () => {
 
     fixture = TestBed.createComponent(ExaminerReportsCard);
     component = fixture.componentInstance;
-  }));
+  });
   describe('getTapText', () => {
     it('should return the trueCondition text if showExpandedData is true', () => {
       component.showExpandedData = true;

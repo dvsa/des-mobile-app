@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { IonicModule } from '@ionic/angular';
 import { LanguageComponent } from '../language';
@@ -7,7 +7,7 @@ describe('LanguageComponent', () => {
   let component: LanguageComponent;
   let fixture: ComponentFixture<LanguageComponent>;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [LanguageComponent],
       imports: [IonicModule],
@@ -15,7 +15,7 @@ describe('LanguageComponent', () => {
 
     fixture = TestBed.createComponent(LanguageComponent);
     component = fixture.componentInstance;
-  }));
+  });
 
   describe('DOM', () => {
     describe('Welsh language image indicator', () => {

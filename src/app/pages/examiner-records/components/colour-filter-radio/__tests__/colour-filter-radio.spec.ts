@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { UntypedFormGroup } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { provideMockStore } from '@ngrx/store/testing';
@@ -10,7 +10,7 @@ describe('ColourFilterRadioComponent', () => {
   let fixture: ComponentFixture<ColourFilterRadioComponent>;
   let component: ColourFilterRadioComponent;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [ColourFilterRadioComponent],
       imports: [IonicModule],
@@ -22,7 +22,7 @@ describe('ColourFilterRadioComponent', () => {
 
     fixture = TestBed.createComponent(ColourFilterRadioComponent);
     component = fixture.componentInstance;
-  }));
+  });
 
   describe('viewFilterChanged', () => {
     it('should emit identification while from control is valid', () => {

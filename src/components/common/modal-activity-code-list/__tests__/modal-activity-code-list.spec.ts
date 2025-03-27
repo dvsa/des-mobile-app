@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ActivityCodeModalEvent } from '@components/common/activity-code/acitivity-code-modal-event';
 import { ModalActivityCodeListComponent } from '@components/common/modal-activity-code-list/modal-activity-code-list';
 import { IonicModule, ModalController } from '@ionic/angular';
@@ -11,7 +11,7 @@ describe('ModalActivityCodeListComponent', () => {
   let fixture: ComponentFixture<ModalActivityCodeListComponent>;
   let component: ModalActivityCodeListComponent;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [IonicModule],
       providers: [{ provide: ModalController, useClass: ModalControllerMock }, provideMockStore({ ...{} })],
@@ -19,7 +19,7 @@ describe('ModalActivityCodeListComponent', () => {
 
     fixture = TestBed.createComponent(ModalActivityCodeListComponent);
     component = fixture.componentInstance;
-  }));
+  });
 
   describe('onCancel', () => {
     it('should call dismiss with ActivityCodeModalEvent.CANCEL', () => {

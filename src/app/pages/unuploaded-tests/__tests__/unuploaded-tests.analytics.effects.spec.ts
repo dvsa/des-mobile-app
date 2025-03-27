@@ -1,4 +1,4 @@
-import { TestBed, waitForAsync } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { Action } from '@ngrx/store';
 import { ContinueUnuploadedTest, UnuploadedTestsViewDidEnter } from '@pages/unuploaded-tests/unuploaded-tests.actions';
@@ -20,7 +20,7 @@ describe('UnuploadedTestsAnalyticsEffects', () => {
   let actions$: ReplaySubject<Action>;
   const screenName = AnalyticsScreenNames.UN_UPLOADED;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
         UnuploadedTestsAnalyticsEffects,
@@ -32,7 +32,7 @@ describe('UnuploadedTestsAnalyticsEffects', () => {
     actions$ = new ReplaySubject(1);
     effects = TestBed.inject(UnuploadedTestsAnalyticsEffects);
     analyticsProviderMock = TestBed.inject(AnalyticsProvider);
-  }));
+  });
 
   describe('UnuploadedTestsViewDidEnter', () => {
     it('should call setCurrentPage', (done) => {

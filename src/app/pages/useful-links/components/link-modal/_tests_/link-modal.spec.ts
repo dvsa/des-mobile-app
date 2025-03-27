@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { IonicModule, ModalController } from '@ionic/angular';
 import { Store, StoreModule } from '@ngrx/store';
 import * as LinkModalActions from '@pages/useful-links/components/link-modal/link-modal.actions';
@@ -11,7 +11,7 @@ describe('LinkModalComponent', () => {
   let store$: Store<StoreModel>;
   let modalController: jasmine.SpyObj<ModalController>;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     const modalControllerSpy = jasmine.createSpyObj('ModalController', ['dismiss']);
 
     TestBed.configureTestingModule({
@@ -26,7 +26,7 @@ describe('LinkModalComponent', () => {
     modalController = TestBed.inject(ModalController) as jasmine.SpyObj<ModalController>;
 
     spyOn(store$, 'dispatch');
-  }));
+  });
 
   it('should create', () => {
     expect(component).toBeTruthy();

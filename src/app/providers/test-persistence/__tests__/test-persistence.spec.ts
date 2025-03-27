@@ -1,4 +1,4 @@
-import { TestBed, waitForAsync } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 import { StoreModule } from '@ngrx/store';
 import { DateTime } from '@shared/helpers/date-time';
 import { TestStatus } from '@store/tests/test-status/test-status.model';
@@ -16,7 +16,7 @@ describe('TestPersistenceProvider', () => {
   let testState: TestsModel;
   const todaysDate = new DateTime().format('YYYY-MM-DDTHH:mm:ss');
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
         TestPersistenceProvider,
@@ -113,7 +113,7 @@ describe('TestPersistenceProvider', () => {
     };
     testPersistenceProvider = TestBed.inject(TestPersistenceProvider);
     dataStoreProvider = TestBed.inject(DataStoreProvider);
-  }));
+  });
 
   describe('persistTests', () => {
     it('should take the tests state slice and pass it to the data store provider stringified', async () => {

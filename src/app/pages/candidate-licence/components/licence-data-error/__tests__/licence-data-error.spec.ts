@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 import { LicenceDataError } from '@pages/candidate-licence/components/licence-data-error/licence-data-error';
 
@@ -6,7 +6,7 @@ describe('LicenceDataError', () => {
   let fixture: ComponentFixture<LicenceDataError>;
   let component: LicenceDataError;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [LicenceDataError],
       imports: [IonicModule],
@@ -18,7 +18,7 @@ describe('LicenceDataError', () => {
     component.candidateDataError = false;
     component.isOfflineError = false;
     component.niLicenceDetected = false;
-  }));
+  });
 
   describe('Class', () => {
     describe('get errorHeading', () => {

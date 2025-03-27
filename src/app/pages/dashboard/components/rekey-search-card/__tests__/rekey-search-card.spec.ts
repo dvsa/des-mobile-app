@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Router } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
 import { RouterMock } from '@mocks/angular-mocks/router-mock';
@@ -10,7 +10,7 @@ describe('RekeySearchCardComponent', () => {
   let fixture: ComponentFixture<RekeySearchCardComponent>;
   let router: Router;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [RekeySearchCardComponent],
       imports: [IonicModule],
@@ -21,7 +21,7 @@ describe('RekeySearchCardComponent', () => {
     component = fixture.componentInstance;
     router = TestBed.inject(Router);
     spyOn(router, 'navigate');
-  }));
+  });
 
   describe('Class', () => {
     describe('navigateToRekey', () => {

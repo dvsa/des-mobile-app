@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule, UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { IonicModule } from '@ionic/angular';
@@ -11,7 +11,7 @@ describe('VehicleChecksToggleComponent', () => {
   let fixture: ComponentFixture<VehicleChecksToggleComponent>;
   let component: VehicleChecksToggleComponent;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [VehicleChecksToggleComponent],
       imports: [IonicModule, AppModule, ReactiveFormsModule],
@@ -20,7 +20,7 @@ describe('VehicleChecksToggleComponent', () => {
     fixture = TestBed.createComponent(VehicleChecksToggleComponent);
     component = fixture.componentInstance;
     component.formGroup = new UntypedFormGroup({});
-  }));
+  });
 
   describe('DOM', () => {
     it('should call VehicleChecksToggleResultChanged with Completed when selected', () => {

@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule, UntypedFormGroup } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { AppModule } from '@app/app.module';
@@ -11,7 +11,7 @@ describe('OtherReasonComponent', () => {
   let fixture: ComponentFixture<OtherReasonComponent>;
   let component: OtherReasonComponent;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [OtherReasonComponent],
       imports: [IonicModule, AppModule, ReactiveFormsModule],
@@ -23,7 +23,7 @@ describe('OtherReasonComponent', () => {
     component = fixture.componentInstance;
     component.formGroup = new UntypedFormGroup({});
     component.ngOnChanges();
-  }));
+  });
 
   describe('class', () => {
     describe('ngOnChanges', () => {

@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 import { PersonalCommitmentSlotComponent } from '@pages/journal/components/personal-commitment/personal-commitment';
 
@@ -6,7 +6,7 @@ describe('PersonalCommitmentSlotComponent', () => {
   let fixture: ComponentFixture<PersonalCommitmentSlotComponent>;
   let component: PersonalCommitmentSlotComponent;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [PersonalCommitmentSlotComponent],
       imports: [IonicModule],
@@ -14,7 +14,7 @@ describe('PersonalCommitmentSlotComponent', () => {
 
     fixture = TestBed.createComponent(PersonalCommitmentSlotComponent);
     component = fixture.componentInstance;
-  }));
+  });
 
   describe('transformSlotTime', () => {
     it('should return the string passed if the index is 0', () => {

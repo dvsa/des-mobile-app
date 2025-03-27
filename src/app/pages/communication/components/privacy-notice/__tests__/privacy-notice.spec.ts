@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { IonicModule } from '@ionic/angular';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
@@ -9,7 +9,7 @@ describe('PrivacyNoticeComponent', () => {
   let fixture: ComponentFixture<PrivacyNoticeComponent>;
   let component: PrivacyNoticeComponent;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [PrivacyNoticeComponent],
       imports: [IonicModule, TranslateModule],
@@ -18,7 +18,7 @@ describe('PrivacyNoticeComponent', () => {
 
     fixture = TestBed.createComponent(PrivacyNoticeComponent);
     component = fixture.componentInstance;
-  }));
+  });
 
   describe('Class', () => {
     it('should compile', () => {

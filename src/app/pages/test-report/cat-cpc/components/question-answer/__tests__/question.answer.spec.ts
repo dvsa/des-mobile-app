@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 
 import { AppModule } from '@app/app.module';
@@ -9,7 +9,7 @@ describe('QuestionAnswerComponent', () => {
   let fixture: ComponentFixture<QuestionAnswerComponent>;
   let component: QuestionAnswerComponent;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [QuestionAnswerComponent],
       imports: [IonicModule, AppModule],
@@ -17,7 +17,7 @@ describe('QuestionAnswerComponent', () => {
 
     fixture = TestBed.createComponent(QuestionAnswerComponent);
     component = fixture.componentInstance;
-  }));
+  });
 
   describe('getID', () => {
     it('should return a string of answer#, hash being the number passed in', () => {

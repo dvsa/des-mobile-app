@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { SearchablePicklistComponentWrapper } from '@components/common/searchable-picklist-wrapper/searchable-picklist-wrapper';
 import { IonicModule, ModalController } from '@ionic/angular';
 import { ModalControllerMock } from '@mocks/ionic-mocks/modal-controller.mock';
@@ -9,7 +9,7 @@ describe('SearchablePicklistComponentWrapper', () => {
   let component: SearchablePicklistComponentWrapper<unknown>;
   let modalController: ModalController;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [SearchablePicklistComponentWrapper],
       imports: [IonicModule, PipesModule],
@@ -30,7 +30,7 @@ describe('SearchablePicklistComponentWrapper', () => {
         onWillDismiss: () => Promise.resolve({ data: 'will dismiss data' }),
       } as HTMLIonModalElement)
     );
-  }));
+  });
 
   it('should create', () => {
     expect(component).toBeTruthy();

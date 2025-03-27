@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ModalAlertTitleComponent } from '@components/common/modal-alert-title/modal-alert-title';
 import { IonicModule, ModalController } from '@ionic/angular';
 import { ModalControllerMock } from '@mocks/ionic-mocks/modal-controller.mock';
@@ -10,7 +10,7 @@ describe('AsamFailureNotificationModal', () => {
   let fixture: ComponentFixture<AsamFailureNotificationModal>;
   let modalController: ModalController;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [AsamFailureNotificationModal, MockComponent(ModalAlertTitleComponent)],
       imports: [IonicModule.forRoot()],
@@ -21,7 +21,7 @@ describe('AsamFailureNotificationModal', () => {
     component = fixture.componentInstance;
     modalController = TestBed.inject(ModalController);
     spyOn(modalController, 'dismiss');
-  }));
+  });
 
   it('should create', () => {
     expect(component).toBeTruthy();

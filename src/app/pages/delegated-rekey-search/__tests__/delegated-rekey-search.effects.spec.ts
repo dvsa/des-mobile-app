@@ -1,6 +1,6 @@
 import { HttpErrorResponse, HttpStatusCode, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
-import { TestBed, waitForAsync } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { Action, Store, StoreModule } from '@ngrx/store';
 import { AppConfigProviderMock } from '@providers/app-config/__mocks__/app-config.mock';
@@ -37,7 +37,7 @@ describe('DelegatedRekeySearchEffects', () => {
 
   const appRef = '123456';
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({
@@ -70,7 +70,7 @@ describe('DelegatedRekeySearchEffects', () => {
     effects = TestBed.inject(DelegatedRekeySearchEffects);
     delegatedRekeySearchProvider = TestBed.inject(DelegatedRekeySearchProvider);
     searchProvider = TestBed.inject(SearchProvider);
-  }));
+  });
 
   it('should dispatch the SearchBookedTestSuccess action when searched with success', (done) => {
     spyOn(delegatedRekeySearchProvider, 'getDelegatedExaminerBookingByAppRef').and.returnValue(

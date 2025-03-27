@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MockAppComponent } from '@app/__mocks__/app.component.mock';
 import { AppComponent } from '@app/app.component';
 import { AppModule } from '@app/app.module';
@@ -30,7 +30,7 @@ describe('SearchResultComponent', () => {
     activityCode: ActivityCodes.PASS,
   } as SearchResultTestSchema;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [SearchResultComponent],
       imports: [AppModule, IonicModule],
@@ -44,7 +44,7 @@ describe('SearchResultComponent', () => {
     fixture = TestBed.createComponent(SearchResultComponent);
     component = fixture.componentInstance;
     component.searchResult = testResultMock;
-  }));
+  });
 
   describe('Class', () => {
     it('should create', () => {

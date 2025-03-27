@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { AppModule } from '@app/app.module';
 import { ComponentsModule } from '@components/common/common-components.module';
@@ -80,7 +80,7 @@ describe('TestReportDashboardPage', () => {
     } as TestsModel,
   } as StoreModel;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [
         TestReportDashboardPage,
@@ -115,7 +115,7 @@ describe('TestReportDashboardPage', () => {
     component = fixture.componentInstance;
     routeByCategory = TestBed.inject(RouteByCategoryProvider);
     spyOn(routeByCategory, 'navigateToPage');
-  }));
+  });
 
   describe('isValidDashboard', () => {
     it('should return true if testReportState is 17 and lessonAndThemeState and form are' + 'both valid', () => {

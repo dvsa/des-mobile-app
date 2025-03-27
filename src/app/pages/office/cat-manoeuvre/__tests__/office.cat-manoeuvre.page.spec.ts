@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule, UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { ActivityCodeComponent } from '@components/common/activity-code/activity-code';
@@ -66,7 +66,7 @@ describe('OfficeCatManoeuvrePage', () => {
   let component: OfficeCatManoeuvrePage;
   let store$: Store<StoreModel>;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [
         OfficeCatManoeuvrePage,
@@ -145,7 +145,7 @@ describe('OfficeCatManoeuvrePage', () => {
     store$ = TestBed.inject(Store);
     spyOn(store$, 'dispatch');
     spyOn(component.deviceProvider, 'disableSingleAppMode');
-  }));
+  });
 
   describe('DOM', () => {
     it('should pass the selected activity code to the activity code subcomponent', () => {

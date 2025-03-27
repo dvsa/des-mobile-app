@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule, UntypedFormControl } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { ActivityCodeComponent } from '@components/common/activity-code/activity-code';
@@ -74,7 +74,7 @@ describe('OfficeCatDPage', () => {
   let component: OfficeCatDPage;
   let store$: Store<StoreModel>;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [
         OfficeCatDPage,
@@ -159,7 +159,7 @@ describe('OfficeCatDPage', () => {
     component = fixture.componentInstance;
     store$ = TestBed.inject(Store);
     spyOn(store$, 'dispatch');
-  }));
+  });
 
   describe('DOM', () => {
     it('should pass the selected activity code to the activity code subcomponent', () => {

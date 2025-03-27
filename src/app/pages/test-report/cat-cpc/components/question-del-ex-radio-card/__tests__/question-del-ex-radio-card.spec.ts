@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { UntypedFormGroup } from '@angular/forms';
 import { AppModule } from '@app/app.module';
 import { IonicModule } from '@ionic/angular';
@@ -10,7 +10,7 @@ describe('QuestionDelExRadioCardComponent', () => {
   let fixture: ComponentFixture<QuestionDelExRadioCardComponent>;
   let component: QuestionDelExRadioCardComponent;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [QuestionDelExRadioCardComponent, MockComponent(QuestionTitleComponent)],
       imports: [IonicModule, AppModule],
@@ -18,7 +18,7 @@ describe('QuestionDelExRadioCardComponent', () => {
 
     fixture = TestBed.createComponent(QuestionDelExRadioCardComponent);
     component = fixture.componentInstance;
-  }));
+  });
 
   describe('ngOnChanges', () => {
     it('should create formControl if there is not one', () => {

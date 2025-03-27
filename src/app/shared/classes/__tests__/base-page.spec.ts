@@ -1,5 +1,5 @@
 import { Injector } from '@angular/core';
-import { TestBed, fakeAsync, flushMicrotasks, waitForAsync } from '@angular/core/testing';
+import { TestBed, fakeAsync, flushMicrotasks } from '@angular/core/testing';
 import { ActivatedRoute, Data, Router } from '@angular/router';
 import { KeepAwake as Insomnia } from '@capacitor-community/keep-awake';
 import { OrientationType, ScreenOrientation } from '@capawesome/capacitor-screen-orientation';
@@ -38,7 +38,7 @@ describe('BasePageComponent', () => {
     } as Data,
   } as ActivatedRoute;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
         {
@@ -88,7 +88,7 @@ describe('BasePageComponent', () => {
     }
 
     basePageComponent = new BasePageClass(injector);
-  }));
+  });
 
   afterEach(() => {
     basePageComponent.destroyLeaveAppSubscription();

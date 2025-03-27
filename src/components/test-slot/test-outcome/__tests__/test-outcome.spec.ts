@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { SlotDetail } from '@dvsa/mes-journal-schema';
@@ -137,7 +137,7 @@ describe('TestOutcomeComponent', () => {
     },
   ];
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [TestOutcomeComponent],
       imports: [
@@ -193,7 +193,7 @@ describe('TestOutcomeComponent', () => {
     spyOn(store$, 'dispatch');
     spyOn(routeByCategory, 'navigateToPage');
     spyOn(router, 'navigate');
-  }));
+  });
 
   describe('Class', () => {
     describe('startTest', () => {

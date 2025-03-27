@@ -1,5 +1,5 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Router } from '@angular/router';
 import { ComponentsModule } from '@components/common/common-components.module';
 import { TestSlotAttributes } from '@dvsa/mes-test-schema/categories/common';
@@ -41,7 +41,7 @@ describe('ConfirmTestDetailsPage', () => {
     vehicleTypeCode: '',
   };
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       declarations: [ConfirmTestDetailsPage],
@@ -109,7 +109,7 @@ describe('ConfirmTestDetailsPage', () => {
     spyOn(store$, 'dispatch');
     spyOn(router, 'navigate');
     component.subscription = new Subscription();
-  }));
+  });
 
   describe('ionViewDidEnter', () => {
     it('should dispatch ConfirmTestDetailsViewDidEnter and call backButtonClick', () => {

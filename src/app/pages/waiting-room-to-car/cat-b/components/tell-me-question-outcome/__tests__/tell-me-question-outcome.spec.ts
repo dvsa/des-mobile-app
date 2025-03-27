@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { AppModule } from '@app/app.module';
@@ -9,7 +9,7 @@ describe('TellMeQuestionOutcomeComponent', () => {
   let fixture: ComponentFixture<TellMeQuestionOutcomeComponent>;
   let component: TellMeQuestionOutcomeComponent;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [TellMeQuestionOutcomeComponent],
       imports: [IonicModule, AppModule, ReactiveFormsModule],
@@ -18,7 +18,7 @@ describe('TellMeQuestionOutcomeComponent', () => {
     fixture = TestBed.createComponent(TellMeQuestionOutcomeComponent);
     component = fixture.componentInstance;
     component.formGroup = new UntypedFormGroup({});
-  }));
+  });
 
   describe('tellMeQuestionChanged', () => {
     it('should emit the correct event with the parameter given when form control is valid', () => {

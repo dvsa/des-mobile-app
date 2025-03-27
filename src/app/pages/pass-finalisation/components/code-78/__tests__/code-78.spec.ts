@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule, UntypedFormGroup } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { Code78Component } from '../code-78';
@@ -7,7 +7,7 @@ describe('Code78Component', () => {
   let fixture: ComponentFixture<Code78Component>;
   let component: Code78Component;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [Code78Component],
       imports: [IonicModule, ReactiveFormsModule],
@@ -16,7 +16,7 @@ describe('Code78Component', () => {
     fixture = TestBed.createComponent(Code78Component);
     component = fixture.componentInstance;
     component.form = new UntypedFormGroup({});
-  }));
+  });
 
   describe('Class', () => {
     describe('Code78Present', () => {

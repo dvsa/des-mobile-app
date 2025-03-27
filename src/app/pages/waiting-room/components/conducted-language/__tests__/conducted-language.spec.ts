@@ -1,5 +1,5 @@
 import { EventEmitter } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 import { ConductedLanguageComponent } from '../conducted-language';
 
@@ -7,7 +7,7 @@ describe('ConductedLanguageComponent', () => {
   let fixture: ComponentFixture<ConductedLanguageComponent>;
   let component: ConductedLanguageComponent;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [ConductedLanguageComponent],
       imports: [IonicModule],
@@ -15,7 +15,7 @@ describe('ConductedLanguageComponent', () => {
 
     fixture = TestBed.createComponent(ConductedLanguageComponent);
     component = fixture.componentInstance;
-  }));
+  });
 
   describe('Class', () => {
     describe('welshTextSelected', () => {

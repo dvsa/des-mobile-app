@@ -1,5 +1,5 @@
 import { SimpleChanges } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ChartComponent } from '@components/common/chart/chart';
 import { IonicModule } from '@ionic/angular';
 import { ApexOptions } from 'ng-apexcharts';
@@ -8,7 +8,7 @@ describe('ChartComponent', () => {
   let component: ChartComponent;
   let fixture: ComponentFixture<ChartComponent>;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [ChartComponent],
       imports: [IonicModule],
@@ -23,7 +23,7 @@ describe('ChartComponent', () => {
     component.chartId = 'test';
 
     fixture.detectChanges();
-  }));
+  });
 
   it('should create', () => {
     expect(component).toBeTruthy();

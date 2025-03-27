@@ -1,5 +1,5 @@
 import { NgSignaturePadOptions, SignaturePadComponent } from '@almothafar/angular-signature-pad';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { IonicModule } from '@ionic/angular';
 import { Store } from '@ngrx/store';
@@ -11,7 +11,7 @@ describe('SignatureAreaComponent', () => {
   let fixture: ComponentFixture<SignatureAreaComponent>;
   let component: SignatureAreaComponent;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [SignatureAreaComponent, MockComponent(SignaturePadComponent)],
       imports: [IonicModule],
@@ -34,7 +34,7 @@ describe('SignatureAreaComponent', () => {
       clear() {},
     } as SignaturePadComponent;
     /* eslint-enable */
-  }));
+  });
 
   describe('Class', () => {
     describe('signature', () => {

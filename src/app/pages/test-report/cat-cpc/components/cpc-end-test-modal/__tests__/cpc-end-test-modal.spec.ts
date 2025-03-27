@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { AppModule } from '@app/app.module';
 import { IonicModule, ModalController } from '@ionic/angular';
@@ -15,7 +15,7 @@ describe('CPCEndTestModal', () => {
   let component: CPCEndTestModal;
   let modalController: ModalController;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [CPCEndTestModal, MockComponent(ModalResultItemComponent)],
       imports: [AppModule, IonicModule],
@@ -31,7 +31,7 @@ describe('CPCEndTestModal', () => {
     component = fixture.componentInstance;
     modalController = TestBed.inject(ModalController);
     spyOn(modalController, 'dismiss');
-  }));
+  });
 
   describe('DOM', () => {
     it('should call onContinue when the Continue to debrief button is clicked', () => {

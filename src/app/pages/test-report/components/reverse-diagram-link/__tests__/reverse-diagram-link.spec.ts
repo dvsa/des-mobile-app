@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { AppModule } from '@app/app.module';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { ModalController } from '@ionic/angular';
@@ -20,7 +20,7 @@ describe('ReverseDiagramLinkComponent', () => {
   let store$: Store<StoreModel>;
   let accessibilityService: AccessibilityService;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [ReverseDiagramLinkComponent],
       imports: [
@@ -100,7 +100,7 @@ describe('ReverseDiagramLinkComponent', () => {
       } as HTMLIonModalElement)
     );
     spyOn(accessibilityService, 'getTextZoomClass').and.returnValue('regular');
-  }));
+  });
 
   describe('Class', () => {
     describe('openReverseDiagramModal', () => {

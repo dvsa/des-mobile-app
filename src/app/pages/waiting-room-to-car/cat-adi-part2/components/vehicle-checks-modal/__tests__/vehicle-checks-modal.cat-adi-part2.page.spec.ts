@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { AppModule } from '@app/app.module';
 import { WarningBannerComponent } from '@components/common/warning-banner/warning-banner';
 import { CatADI2UniqueTypes } from '@dvsa/mes-test-schema/categories/ADI2';
@@ -97,7 +97,7 @@ describe('VehicleChecksCatADIPart2Modal', () => {
     } as TestsModel,
   } as StoreModel;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [
         VehicleChecksCatADIPart2Modal,
@@ -122,7 +122,7 @@ describe('VehicleChecksCatADIPart2Modal', () => {
     component = fixture.componentInstance;
     store$ = TestBed.inject(Store);
     spyOn(store$, 'dispatch');
-  }));
+  });
 
   describe('Class', () => {
     it('should compile', () => {

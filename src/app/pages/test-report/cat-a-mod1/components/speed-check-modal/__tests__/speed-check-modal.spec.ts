@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { AppModule } from '@app/app.module';
 import { ComponentsModule } from '@components/common/common-components.module';
@@ -12,7 +12,7 @@ describe('SpeedCheckModal', () => {
   let component: SpeedCheckModal;
   let modalController: ModalController;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [SpeedCheckModal],
       imports: [AppModule, IonicModule, ComponentsModule],
@@ -23,7 +23,7 @@ describe('SpeedCheckModal', () => {
     component = fixture.componentInstance;
     modalController = TestBed.inject(ModalController);
     spyOn(modalController, 'dismiss').and.returnValue(Promise.resolve(true));
-  }));
+  });
 
   describe('onCancel', () => {
     it('should call dismiss with the CANCEL event', async () => {

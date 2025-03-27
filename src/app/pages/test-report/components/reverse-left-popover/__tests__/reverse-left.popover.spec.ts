@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { IonicModule } from '@ionic/angular';
 import { FaultCountProvider } from '@providers/fault-count/fault-count';
@@ -12,7 +12,7 @@ describe('reverseLeftComponent', () => {
   let fixture: ComponentFixture<ReverseLeftPopoverComponent>;
   let component: ReverseLeftPopoverComponent;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [
         ReverseLeftPopoverComponent,
@@ -25,7 +25,7 @@ describe('reverseLeftComponent', () => {
 
     fixture = TestBed.createComponent(ReverseLeftPopoverComponent);
     component = fixture.componentInstance;
-  }));
+  });
 
   describe('Class', () => {
     describe('getId', () => {

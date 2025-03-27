@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { IonicModule } from '@ionic/angular';
 import { DangerBannerComponent } from '../danger-banner';
@@ -7,7 +7,7 @@ describe('DangerBanner', () => {
   let fixture: ComponentFixture<DangerBannerComponent>;
   let component: DangerBannerComponent;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [DangerBannerComponent],
       imports: [IonicModule],
@@ -15,7 +15,7 @@ describe('DangerBanner', () => {
 
     fixture = TestBed.createComponent(DangerBannerComponent);
     component = fixture.componentInstance;
-  }));
+  });
 
   describe('DOM', () => {
     it('should display the danger message', () => {

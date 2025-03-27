@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 
 import { OfficeFooterComponent } from '../office-footer.component';
@@ -7,7 +7,7 @@ describe('OfficeFooterComponent', () => {
   let component: OfficeFooterComponent;
   let fixture: ComponentFixture<OfficeFooterComponent>;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [OfficeFooterComponent],
       imports: [IonicModule.forRoot()],
@@ -16,7 +16,7 @@ describe('OfficeFooterComponent', () => {
     fixture = TestBed.createComponent(OfficeFooterComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
-  }));
+  });
 
   it('should create', () => {
     expect(component).toBeTruthy();

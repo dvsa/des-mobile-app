@@ -1,5 +1,5 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { AppModule } from '@app/app.module';
 import { TrainingRecordsCatAdiPart2Component } from '@pages/waiting-room-to-car/cat-adi-part2/components/training-records/training-records.cat-adi-part2';
@@ -17,7 +17,7 @@ describe('TrainingRecordsCatAdiPart2Component', () => {
   let component: TrainingRecordsCatAdiPart2Component;
   let fixture: ComponentFixture<TrainingRecordsCatAdiPart2Component>;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       declarations: [TrainingRecordsCatAdiPart2Component],
@@ -50,7 +50,7 @@ describe('TrainingRecordsCatAdiPart2Component', () => {
     component = fixture.componentInstance;
     component.formGroup = new UntypedFormGroup({});
     component.formControl = new UntypedFormControl(null, [Validators.required]);
-  }));
+  });
 
   it('should create', () => {
     expect(component).toBeTruthy();

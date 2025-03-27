@@ -1,5 +1,5 @@
 import { HttpClient, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { createTranslateLoader } from '@app/app.module';
 import { QuestionResult } from '@dvsa/mes-test-schema/categories/common';
 import { IonicModule } from '@ionic/angular';
@@ -11,7 +11,7 @@ describe('SafetyQuestionsCardComponent', () => {
   let component: SafetyQuestionsCardComponent;
   let translate: TranslateService;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [SafetyQuestionsCardComponent],
       imports: [
@@ -31,7 +31,7 @@ describe('SafetyQuestionsCardComponent', () => {
     component = fixture.componentInstance;
     translate = TestBed.inject(TranslateService);
     translate.setDefaultLang('en');
-  }));
+  });
 
   describe('questionHasFault', () => {
     const questionResult: QuestionResult = {

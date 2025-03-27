@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { ViewContainerRef } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ExaminerWorkSchedule, TestCentre } from '@dvsa/mes-journal-schema';
 import { IonSelect, IonicModule } from '@ionic/angular';
 import { provideMockStore } from '@ngrx/store/testing';
@@ -31,7 +31,7 @@ describe('ViewJournalsCardComponent', () => {
     ],
   } as TestCentreDetailResponse;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [ViewJournalsCardComponent],
       imports: [TestCentreJournalComponentsModule, IonicModule, CommonModule],
@@ -47,7 +47,7 @@ describe('ViewJournalsCardComponent', () => {
     slotProvider = TestBed.inject(SlotProvider);
     store$ = TestBed.inject(Store);
     spyOn(store$, 'dispatch');
-  }));
+  });
 
   describe('Class', () => {
     describe('ngOnChanges', () => {

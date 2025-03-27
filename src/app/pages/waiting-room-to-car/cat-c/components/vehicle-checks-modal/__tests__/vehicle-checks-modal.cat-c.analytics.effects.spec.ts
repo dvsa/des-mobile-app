@@ -1,4 +1,4 @@
-import { TestBed, waitForAsync } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 import { QuestionOutcome, QuestionResult } from '@dvsa/mes-test-schema/categories/common';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { provideMockActions } from '@ngrx/effects/testing';
@@ -30,7 +30,7 @@ describe('VehicleChecksModalCatCAnalyticsEffects', () => {
   let store$: Store<StoreModel>;
   const screenName = AnalyticsScreenNames.VEHICLE_CHECKS;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({
@@ -52,7 +52,7 @@ describe('VehicleChecksModalCatCAnalyticsEffects', () => {
     effects = TestBed.inject(VehicleChecksModalCatCAnalyticsEffects);
     analyticsProviderMock = TestBed.inject(AnalyticsProvider);
     store$ = TestBed.inject(Store);
-  }));
+  });
 
   describe('vehicleChecksModalViewDidEnter$ effect', () => {
     it('should call analytics.setCurrentPage', (done) => {

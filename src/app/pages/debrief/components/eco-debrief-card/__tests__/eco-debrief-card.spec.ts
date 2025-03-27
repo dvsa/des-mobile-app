@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 
 import { By } from '@angular/platform-browser';
@@ -13,7 +13,7 @@ describe('EcoDebriefCardComponent', () => {
   let component: EcoDebriefCardComponent;
   let translate: TranslateService;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [EcoDebriefCardComponent],
       imports: [IonicModule, AppModule, ComponentsModule, StoreModule.forRoot({}), TranslateModule],
@@ -23,7 +23,7 @@ describe('EcoDebriefCardComponent', () => {
     component = fixture.componentInstance;
     translate = TestBed.inject(TranslateService);
     translate.setDefaultLang('en');
-  }));
+  });
 
   describe('DOM', () => {
     it('when advice given control, only advice given control is showing', () => {

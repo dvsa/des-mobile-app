@@ -1,4 +1,4 @@
-import { TestBed, waitForAsync } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { Action, Store } from '@ngrx/store';
@@ -33,7 +33,7 @@ describe('ExaminerStatsAnalyticsEffects', () => {
   let actions$: ReplaySubject<Action>;
   const screenName = AnalyticsScreenNames.EXAMINER_RECORDS;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
         ExaminerRecordsAnalyticsEffects,
@@ -50,7 +50,7 @@ describe('ExaminerStatsAnalyticsEffects', () => {
     effects = TestBed.inject(ExaminerRecordsAnalyticsEffects);
     analyticsProviderMock = TestBed.inject(AnalyticsProvider);
     spyOn(analyticsProviderMock, 'logGAEvent');
-  }));
+  });
 
   describe('examinerStatsViewDidEnter$', () => {
     it('should call setCurrentPage', (done) => {

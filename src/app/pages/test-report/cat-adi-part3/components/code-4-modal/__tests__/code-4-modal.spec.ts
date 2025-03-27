@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ModalAlertTitleComponent } from '@components/common/modal-alert-title/modal-alert-title';
 import { ModalController } from '@ionic/angular';
 import { ModalControllerMock } from '@mocks/ionic-mocks/modal-controller.mock';
@@ -10,7 +10,7 @@ describe('Code4Modal', () => {
   let component: Code4Modal;
   let modalController: ModalController;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [Code4Modal, MockComponent(ModalAlertTitleComponent)],
       providers: [{ provide: ModalController, useClass: ModalControllerMock }],
@@ -19,7 +19,7 @@ describe('Code4Modal', () => {
     fixture = TestBed.createComponent(Code4Modal);
     component = fixture.componentInstance;
     modalController = TestBed.inject(ModalController);
-  }));
+  });
 
   describe('dismiss', () => {
     it('should call dismiss with the variable passed in', async () => {

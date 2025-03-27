@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 
 import { ModalAlertTitleComponent } from '@components/common/modal-alert-title/modal-alert-title';
@@ -10,7 +10,7 @@ describe('PracticeModeMOTModal', () => {
   let component: PracticeModeMOTModal;
   let fixture: ComponentFixture<PracticeModeMOTModal>;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [PracticeModeMOTModal, MockComponent(ModalAlertTitleComponent)],
       imports: [IonicModule.forRoot()],
@@ -19,7 +19,7 @@ describe('PracticeModeMOTModal', () => {
     fixture = TestBed.createComponent(PracticeModeMOTModal);
     component = fixture.componentInstance;
     fixture.detectChanges();
-  }));
+  });
 
   it('should dismiss the modal with the correct type on confirm', async () => {
     spyOn(component.modalCtrl, 'dismiss');

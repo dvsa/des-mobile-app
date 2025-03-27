@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { WarningBannerComponent } from '@components/common/warning-banner/warning-banner';
 import { IonicModule } from '@ionic/angular';
@@ -8,7 +8,7 @@ describe('LicenceProvidedWarningBannerComponent', () => {
   let fixture: ComponentFixture<LicenceProvidedWarningBannerComponent>;
   let component: LicenceProvidedWarningBannerComponent;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [LicenceProvidedWarningBannerComponent, WarningBannerComponent],
       imports: [IonicModule],
@@ -17,7 +17,7 @@ describe('LicenceProvidedWarningBannerComponent', () => {
 
     fixture = TestBed.createComponent(LicenceProvidedWarningBannerComponent);
     component = fixture.componentInstance;
-  }));
+  });
 
   describe('DOM', () => {
     it('should display correct message when licence provided', () => {

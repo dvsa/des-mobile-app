@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 import { TestStatus } from '@store/tests/test-status/test-status.model';
 import { AdditionalCandidateDetailsComponent } from '../additional-candidate-details';
@@ -7,7 +7,7 @@ describe('AdditionalCandidateDetailsComponent', () => {
   let fixture: ComponentFixture<AdditionalCandidateDetailsComponent>;
   let component: AdditionalCandidateDetailsComponent;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [AdditionalCandidateDetailsComponent],
       imports: [IonicModule],
@@ -15,7 +15,7 @@ describe('AdditionalCandidateDetailsComponent', () => {
 
     fixture = TestBed.createComponent(AdditionalCandidateDetailsComponent);
     component = fixture.componentInstance;
-  }));
+  });
 
   describe('Class', () => {
     it('should create', () => {

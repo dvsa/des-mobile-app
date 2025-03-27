@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { AppModule } from '@app/app.module';
 import { AppLauncher, OpenURLResult } from '@capacitor/app-launcher';
 import { ComponentsModule } from '@components/common/common-components.module';
@@ -23,7 +23,7 @@ describe('TestFlowHeaderComponent', () => {
   let deviceProvider: DeviceProvider;
   let store$: Store<StoreModel>;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [IonicModule, AppModule, ComponentsModule, StoreModule.forRoot({}), TranslateModule],
       providers: [
@@ -38,7 +38,7 @@ describe('TestFlowHeaderComponent', () => {
     store$ = TestBed.inject(Store);
     spyOn(store$, 'dispatch');
     fixture.detectChanges();
-  }));
+  });
 
   describe('onEndTestClicked', () => {
     it('should emit endTestButtonClicked event', () => {

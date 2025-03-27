@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MockAppComponent } from '@app/__mocks__/app.component.mock';
 import { AppComponent } from '@app/app.component';
 import { AppModule } from '@app/app.module';
@@ -12,7 +12,7 @@ describe('AdvancedSearchComponent', () => {
   let fixture: ComponentFixture<AdvancedSearchComponent>;
   let component: AdvancedSearchComponent;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [
         AdvancedSearchComponent,
@@ -25,7 +25,7 @@ describe('AdvancedSearchComponent', () => {
 
     fixture = TestBed.createComponent(AdvancedSearchComponent);
     component = fixture.componentInstance;
-  }));
+  });
 
   describe('Class', () => {
     it('should create', () => {

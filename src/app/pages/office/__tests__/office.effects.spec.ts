@@ -1,4 +1,4 @@
-import { TestBed, waitForAsync } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { Action, Store, StoreModule } from '@ngrx/store';
 import { AddDangerousFaultComment } from '@store/tests/test-data/common/dangerous-faults/dangerous-faults.actions';
@@ -17,7 +17,7 @@ describe('OfficeEffects', () => {
   let actions$: ReplaySubject<Action>;
   const currentSlotId = '1234';
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({
@@ -35,7 +35,7 @@ describe('OfficeEffects', () => {
 
     actions$ = new ReplaySubject(1);
     effects = TestBed.inject(OfficeEffects);
-  }));
+  });
 
   describe('additionalInformationChanged effect', () => {
     it('should invoke the PersistTest action', (done) => {

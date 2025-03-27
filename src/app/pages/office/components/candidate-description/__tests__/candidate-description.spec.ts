@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { behaviourMap } from '@pages/office/office-behaviour-map';
@@ -13,7 +13,7 @@ describe('CandidateDescriptionComponent', () => {
   let component: CandidateDescriptionComponent;
   let behaviourMapProvider: OutcomeBehaviourMapProvider;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [CandidateDescriptionComponent],
       imports: [IonicModule, AppModule],
@@ -28,7 +28,7 @@ describe('CandidateDescriptionComponent', () => {
     behaviourMapProvider = TestBed.inject(OutcomeBehaviourMapProvider);
     behaviourMapProvider.setBehaviourMap(behaviourMap);
     component = fixture.componentInstance;
-  }));
+  });
 
   describe('invalid', () => {
     it('should return true if the formControl is invalid and dirty', () => {

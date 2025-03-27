@@ -1,4 +1,4 @@
-import { TestBed, waitForAsync } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 import { Capacitor } from '@capacitor/core';
 import { StatusBar, Style } from '@capacitor/status-bar';
 import { AccessibilityService } from '@providers/accessibility/accessibility.service';
@@ -6,13 +6,13 @@ import { AccessibilityService } from '@providers/accessibility/accessibility.ser
 describe('AccessibilityService', () => {
   let accessibilityService: AccessibilityService;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [AccessibilityService],
     });
 
     accessibilityService = TestBed.inject(AccessibilityService);
-  }));
+  });
 
   describe('getTextZoom', () => {
     it('should return regular when not zoom', () => {

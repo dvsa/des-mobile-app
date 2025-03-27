@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { MockAppComponent } from '@app/__mocks__/app.component.mock';
 import { AppComponent } from '@app/app.component';
@@ -102,7 +102,7 @@ describe('TestSlotComponent', () => {
     },
   };
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [
         TestSlotComponent,
@@ -155,7 +155,7 @@ describe('TestSlotComponent', () => {
     component.slot = cloneDeep(mockSlot);
     component.showLocation = true;
     store$ = TestBed.inject(Store);
-  }));
+  });
 
   afterAll(() => {
     if (jasmine.clock) {

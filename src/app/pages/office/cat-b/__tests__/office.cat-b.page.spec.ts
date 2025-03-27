@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { ActivityCodeComponent } from '@components/common/activity-code/activity-code';
@@ -77,7 +77,7 @@ describe('OfficeCatBPage', () => {
   let store$: Store<StoreModel>;
   let faultCountProvider: FaultCountProvider;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [
         OfficeCatBPage,
@@ -173,7 +173,7 @@ describe('OfficeCatBPage', () => {
     store$ = TestBed.inject(Store);
     spyOn(store$, 'dispatch');
     faultCountProvider = TestBed.inject(FaultCountProvider);
-  }));
+  });
 
   describe('Class', () => {
     describe('selecting a show me question', () => {

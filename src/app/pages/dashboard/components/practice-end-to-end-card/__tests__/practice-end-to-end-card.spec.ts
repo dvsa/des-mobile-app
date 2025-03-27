@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Router } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
 import { RouterMock } from '@mocks/angular-mocks/router-mock';
@@ -10,7 +10,7 @@ describe('PracticeEndToEndCard ', () => {
   let fixture: ComponentFixture<PracticeEndToEndCardComponent>;
   let router: Router;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [PracticeEndToEndCardComponent],
       imports: [IonicModule],
@@ -20,7 +20,7 @@ describe('PracticeEndToEndCard ', () => {
     fixture = TestBed.createComponent(PracticeEndToEndCardComponent);
     component = fixture.componentInstance;
     router = TestBed.inject(Router);
-  }));
+  });
 
   describe('Class', () => {
     describe('navigateToFakeJournal', () => {

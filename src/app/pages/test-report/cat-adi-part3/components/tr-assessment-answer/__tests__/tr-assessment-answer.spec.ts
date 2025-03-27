@@ -1,18 +1,18 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { TestReportAssessmentAnswer } from '@pages/test-report/cat-adi-part3/components/tr-assessment-answer/tr-assessment-answer';
 
 describe('TestReportAssessmentAnswer', () => {
   let fixture: ComponentFixture<TestReportAssessmentAnswer>;
   let component: TestReportAssessmentAnswer;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [TestReportAssessmentAnswer],
     });
 
     fixture = TestBed.createComponent(TestReportAssessmentAnswer);
     component = fixture.componentInstance;
-  }));
+  });
 
   describe('valueChanged', () => {
     it('should emit answerChanged with null if key and answer match', () => {

@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { DomSanitizer } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -92,7 +92,7 @@ describe('CandidateLicencePage', () => {
     } as TestsModel,
   } as StoreModel;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       declarations: [
@@ -158,7 +158,7 @@ describe('CandidateLicencePage', () => {
     component.formGroup = new FormGroup({
       ctrl1: new FormControl(null, []),
     });
-  }));
+  });
 
   describe('Class', () => {
     describe('ionViewDidEnter', () => {

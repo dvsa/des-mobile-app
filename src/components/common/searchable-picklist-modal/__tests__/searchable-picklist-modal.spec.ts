@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { SearchablePicklistModal } from '@components/common/searchable-picklist-modal/searchable-picklist-modal';
 import { SearchablePicklistModalEvent } from '@components/common/searchable-picklist-wrapper/searchable-picklist-wrapper';
 import { IonicModule, ModalController } from '@ionic/angular';
@@ -16,7 +16,7 @@ describe('SearchablePicklistModal', () => {
   let component: SearchablePicklistModal<Model>;
   let modalController: ModalController;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [SearchablePicklistModal],
       imports: [IonicModule, PipesModule],
@@ -27,7 +27,7 @@ describe('SearchablePicklistModal', () => {
     component = fixture.componentInstance;
 
     modalController = TestBed.inject(ModalController);
-  }));
+  });
 
   it('should create', () => {
     expect(component).toBeTruthy();

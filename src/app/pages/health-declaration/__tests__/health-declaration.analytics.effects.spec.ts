@@ -1,4 +1,4 @@
-import { TestBed, waitForAsync } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { Action, Store, StoreModule } from '@ngrx/store';
@@ -31,7 +31,7 @@ describe('HealthDeclarationAnalyticsEffects', () => {
   let store$: Store<StoreModel>;
   const screenName = AnalyticsScreenNames.HEALTH_DECLARATION;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({
@@ -57,7 +57,7 @@ describe('HealthDeclarationAnalyticsEffects', () => {
     effects = TestBed.inject(HealthDeclarationAnalyticsEffects);
     analyticsProviderMock = TestBed.inject(AnalyticsProvider);
     store$ = TestBed.inject(Store);
-  }));
+  });
 
   describe('healthDeclarationViewDidEnter', () => {
     it('should call setCurrentPage', (done) => {

@@ -1,7 +1,7 @@
 import { gunzipSync } from 'zlib';
 import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
-import { TestBed, waitForAsync } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 import { TestResultSchemasUnion } from '@dvsa/mes-test-schema/categories';
 import { CatBUniqueTypes } from '@dvsa/mes-test-schema/categories/B';
 import { Store, StoreModule } from '@ngrx/store';
@@ -26,7 +26,7 @@ describe('TestSubmissionProvider', () => {
     status: TestStatus.Completed,
   } as TestToSubmit;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({
@@ -61,7 +61,7 @@ describe('TestSubmissionProvider', () => {
     spyOn(testSubmissionProvider, 'compressData').and.callThrough();
     spyOn(testSubmissionProvider, 'removeNullFieldsDeep').and.callThrough();
     spyOn(testSubmissionProvider, 'submitTest').and.callThrough();
-  }));
+  });
 
   afterAll(() => {
     httpMock.verify();
