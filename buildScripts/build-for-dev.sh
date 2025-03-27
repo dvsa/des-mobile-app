@@ -12,3 +12,15 @@ ionic cap run ios --configuration development --target="${SIM_ID}"
 echo "Shutting down sim(s)"
 
 killall Simulator
+
+echo "Build finished, clearing down current e2e-app/..."
+
+rm -rf e2e-app/
+
+echo "Copying DerivedData into e2e-app/..."
+
+mkdir -p e2e-app/
+
+cp -R ios/DerivedData/"${SIM_ID}"/Build/Products/Debug-iphonesimulator/App.app e2e-app
+
+echo "Copy finished!"
