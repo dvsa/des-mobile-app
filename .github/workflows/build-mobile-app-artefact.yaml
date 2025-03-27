@@ -47,7 +47,7 @@ jobs:
       runs-on: mito-2
       environment: release
       config-type: dev
-      build-type: prod
+      build-type: qr
       build-ipa: true
     secrets:
       AWS_ROLE: ${{ secrets.DES_AWS_ROLE }}
