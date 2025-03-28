@@ -34,7 +34,7 @@ module.exports = (config) => {
     webpackMiddleware: { stats: 'errors-only' },
     webpackServer: { noInfo: true },
     client: {
-      clearContext: config.singleRun, // leave Jasmine Spec Runner output visible in browser
+      clearContext: false, // leave Jasmine Spec Runner output visible in browser
       jasmine: {
         random: false,
         timeoutInterval: executors <= 2 ? JASMINE_DEFAULT_TIMEOUT * 2 : JASMINE_DEFAULT_TIMEOUT,
@@ -62,7 +62,7 @@ module.exports = (config) => {
       showSpecTiming: true,
     },
     browsers: ['ChromeHeadlessNoSandbox'],
-    singleRun: false,
+    singleRun: true,
     parallelOptions: {
       executors,
     },
