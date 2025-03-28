@@ -28,7 +28,7 @@ export class ReasonGivenComponent implements OnChanges {
   adviceReason = new EventEmitter<string>();
 
   charsRemaining: number = null;
-  noAdviceMaxLength = 1000;
+  noAdviceMaxLength = 950;
   formControl: UntypedFormControl = null;
   static readonly fieldName: string = 'reasonGiven';
 

@@ -18,7 +18,7 @@ export enum ValidFaultTypes {
   styleUrls: ['fault-comment.scss'],
 })
 export class FaultCommentComponent implements OnChanges {
-  faultCommentMaxLength = 1000;
+  faultCommentMaxLength = 950;
 
   @Input()
   outcome: string;
