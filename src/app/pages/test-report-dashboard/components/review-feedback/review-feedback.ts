@@ -19,7 +19,7 @@ export class ReviewFeedback {
 
   formControl: UntypedFormControl;
   charsRemaining: number = null;
-  feedbackMaxLength = 1000;
+  feedbackMaxLength = 950;
 
   constructor(public characterCountService: CharacterCountService) {}
 

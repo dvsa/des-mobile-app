@@ -21,7 +21,7 @@ export class EcoCaptureReasonComponent implements OnChanges {
 
   formControl: UntypedFormControl;
   charsRemaining: number = null;
-  characterLimit = 1000;
+  characterLimit = 950;
   static readonly controlName: string = 'ecoCaptureReason';
 
   constructor(public characterCountService: CharacterCountService) {}
