@@ -98,9 +98,9 @@ export class TestOutcomeComponent implements OnInit {
     private store$: Store<StoreModel>,
     private router: Router,
     private routeByCat: RouteByCategoryProvider,
-    private modalController: ModalController,
+    public modalController: ModalController,
     private accessibilityService: AccessibilityService,
-    private categoryWhitelistProvider: CategoryWhitelistProvider
+    public categoryWhitelistProvider: CategoryWhitelistProvider
   ) {}
 
   ngOnInit() {
