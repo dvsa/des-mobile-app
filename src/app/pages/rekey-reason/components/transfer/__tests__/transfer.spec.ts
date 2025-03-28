@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule, UntypedFormGroup } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { MockAppComponent } from '@app/__mocks__/app.component.mock';
@@ -11,7 +11,7 @@ describe('TransferComponent', () => {
   let fixture: ComponentFixture<TransferComponent>;
   let component: TransferComponent;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [TransferComponent],
       imports: [IonicModule, AppModule, ReactiveFormsModule],
@@ -22,7 +22,7 @@ describe('TransferComponent', () => {
     component = fixture.componentInstance;
     component.formGroup = new UntypedFormGroup({});
     component.ngOnChanges();
-  }));
+  });
 
   describe('class', () => {
     describe('ngOnChanges', () => {

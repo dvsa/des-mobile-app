@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { IonicModule, NavController } from '@ionic/angular';
 import { NavControllerMock } from '@mocks/index.mock';
@@ -23,7 +23,7 @@ describe('ToolbarComponent', () => {
   let storeDispatchSpy: jasmine.Spy;
   let faultCountProvider: FaultCountProvider;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [
         ToolbarComponent,
@@ -44,7 +44,7 @@ describe('ToolbarComponent', () => {
     store$ = TestBed.inject(Store);
     faultCountProvider = TestBed.inject(FaultCountProvider);
     storeDispatchSpy = spyOn(store$, 'dispatch');
-  }));
+  });
 
   describe('Class', () => {
     describe('togglRemoveFaultMode', () => {

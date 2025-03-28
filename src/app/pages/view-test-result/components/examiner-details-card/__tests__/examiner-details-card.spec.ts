@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { DataRowComponent } from '@components/common/data-row/data-row';
 import { IonicModule } from '@ionic/angular';
 import { MockComponent } from 'ng-mocks';
@@ -8,7 +8,7 @@ describe('ExaminerDetailsCardComponent', () => {
   let fixture: ComponentFixture<ExaminerDetailsCardComponent>;
   let component: ExaminerDetailsCardComponent;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [ExaminerDetailsCardComponent, MockComponent(DataRowComponent)],
       imports: [IonicModule],
@@ -16,7 +16,7 @@ describe('ExaminerDetailsCardComponent', () => {
 
     fixture = TestBed.createComponent(ExaminerDetailsCardComponent);
     component = fixture.componentInstance;
-  }));
+  });
 
   describe('Class', () => {
     it('should create', () => {

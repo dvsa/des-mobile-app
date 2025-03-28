@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { DataRowComponent } from '@components/common/data-row/data-row';
 import { TestResultCommonSchema } from '@dvsa/mes-test-schema/categories/common';
 import { IonicModule } from '@ionic/angular';
@@ -10,7 +10,7 @@ describe('RekeyDetailsCardComponent', () => {
   let fixture: ComponentFixture<RekeyDetailsCardComponent>;
   let component: RekeyDetailsCardComponent;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [RekeyDetailsCardComponent, MockComponent(DataRowComponent)],
       imports: [IonicModule],
@@ -18,7 +18,7 @@ describe('RekeyDetailsCardComponent', () => {
 
     fixture = TestBed.createComponent(RekeyDetailsCardComponent);
     component = fixture.componentInstance;
-  }));
+  });
 
   describe('Class', () => {
     describe('getScheduledStaffNumber', () => {

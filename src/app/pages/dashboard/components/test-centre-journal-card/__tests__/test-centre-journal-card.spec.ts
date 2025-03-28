@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Router } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
 import { RouterMock } from '@mocks/angular-mocks/router-mock';
@@ -11,7 +11,7 @@ describe('TestCentreJournalCard', () => {
   let fixture: ComponentFixture<TestCentreJournalCardComponent>;
   let router: Router;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [TestCentreJournalCardComponent],
       imports: [IonicModule, CommonModule],
@@ -27,7 +27,7 @@ describe('TestCentreJournalCard', () => {
     router = TestBed.inject(Router);
     component = fixture.componentInstance;
     fixture.detectChanges();
-  }));
+  });
 
   it('should create', () => {
     expect(component).toBeTruthy();

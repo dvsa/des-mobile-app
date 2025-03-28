@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FitMarkerBannerComponent } from '@components/common/fit-marker-banner/fit-marker-banner';
 import { IonicModule } from '@ionic/angular';
 
@@ -6,7 +6,7 @@ describe('FitMarkerBannerComponent', () => {
   let fixture: ComponentFixture<FitMarkerBannerComponent>;
   let component: FitMarkerBannerComponent;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [FitMarkerBannerComponent],
       imports: [IonicModule],
@@ -14,7 +14,7 @@ describe('FitMarkerBannerComponent', () => {
 
     fixture = TestBed.createComponent(FitMarkerBannerComponent);
     component = fixture.componentInstance;
-  }));
+  });
 
   describe('DOM', () => {
     it('should create', () => {

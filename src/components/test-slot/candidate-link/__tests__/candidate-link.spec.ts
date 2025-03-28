@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 
 import { CommonModule } from '@angular/common';
@@ -13,7 +13,7 @@ describe('CandidateLinkComponent', () => {
   let fixture: ComponentFixture<CandidateLinkComponent>;
   let component: CandidateLinkComponent;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [CandidateLinkComponent],
       imports: [
@@ -36,7 +36,7 @@ describe('CandidateLinkComponent', () => {
       booking: {},
       examinerVisiting: false,
     };
-  }));
+  });
 
   describe('openCandidateDetailsModal', () => {
     it('should configure status bar to dark style', async () => {

@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { IonicModule } from '@ionic/angular';
@@ -20,7 +20,7 @@ describe('SafetyQuestionsComponent', () => {
   let component: SafetyQuestionsCatDComponent;
   let store$: Store<StoreModel>;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [SafetyQuestionsCatDComponent, MockComponent(DrivingFaultsBadgeComponent)],
       imports: [
@@ -36,7 +36,7 @@ describe('SafetyQuestionsComponent', () => {
     component = fixture.componentInstance;
     store$ = TestBed.inject(Store);
     store$.dispatch(StartTest(105, TestCategory.D));
-  }));
+  });
 
   describe('Class', () => {
     const safetyQuestionsScore: SafetyQuestionsScore = {

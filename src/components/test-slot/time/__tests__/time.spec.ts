@@ -1,5 +1,5 @@
 import { DebugElement } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { IonicModule } from '@ionic/angular';
 import { LogHelperMock } from '@providers/logs/__mocks__/logs-helper.mock';
@@ -10,7 +10,7 @@ describe('TimeComponent', () => {
   let component: TimeComponent;
   let fixture: ComponentFixture<TimeComponent>;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [TimeComponent],
       imports: [IonicModule],
@@ -21,7 +21,7 @@ describe('TimeComponent', () => {
     component = fixture.componentInstance;
     component.time = '2018-12-10T10:04:00+00:00';
     component.testComplete = true;
-  }));
+  });
 
   describe('DOM', () => {
     let componentEl: DebugElement;

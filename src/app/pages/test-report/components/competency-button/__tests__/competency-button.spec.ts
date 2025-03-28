@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { IonicModule } from '@ionic/angular';
 import 'hammerjs';
@@ -11,7 +11,7 @@ describe('CompetencyButtonComponent', () => {
   let fixture: ComponentFixture<CompetencyButtonComponent>;
   let component: CompetencyButtonComponent;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [CompetencyButtonComponent],
       imports: [AppModule, IonicModule],
@@ -20,7 +20,7 @@ describe('CompetencyButtonComponent', () => {
 
     fixture = TestBed.createComponent(CompetencyButtonComponent);
     component = fixture.componentInstance;
-  }));
+  });
 
   describe('Class', () => {
     describe('onTapEvent', () => {

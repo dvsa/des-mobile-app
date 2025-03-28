@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { AppModule } from '@app/app.module';
 import { ComponentsModule } from '@components/common/common-components.module';
@@ -12,7 +12,7 @@ describe('ActivityCode4Modal', () => {
   let component: ActivityCode4Modal;
   let modalController: ModalController;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [ActivityCode4Modal],
       imports: [AppModule, IonicModule, ComponentsModule],
@@ -22,7 +22,7 @@ describe('ActivityCode4Modal', () => {
     fixture = TestBed.createComponent(ActivityCode4Modal);
     modalController = TestBed.inject(ModalController);
     component = fixture.componentInstance;
-  }));
+  });
 
   describe('DOM', () => {
     it('should call onCancel when the return to journal button is clicked', () => {

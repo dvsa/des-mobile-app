@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { AppModule } from '@app/app.module';
 import { WarningBannerComponent } from '@components/common/warning-banner/warning-banner';
 import { CatCUniqueTypes } from '@dvsa/mes-test-schema/categories/C';
@@ -156,7 +156,7 @@ describe('VehicleChecksCatCModal', () => {
     },
   ];
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [
         VehicleChecksCatCModal,
@@ -180,7 +180,7 @@ describe('VehicleChecksCatCModal', () => {
     faultCountProvider = TestBed.inject(FaultCountProvider);
     component.category = TestCategory.C;
     spyOn(store$, 'dispatch');
-  }));
+  });
 
   describe('showFullLicenceHeld', () => {
     [TestCategory.CE, TestCategory.C1E].forEach((category: TestCategory) => {

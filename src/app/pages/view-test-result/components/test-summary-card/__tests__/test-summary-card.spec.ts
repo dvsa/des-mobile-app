@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { DataRowCustomComponent } from '@components/common/data-row-custom/data-row-custom';
 import { DataRowComponent } from '@components/common/data-row/data-row';
 import { ModeOfTransport } from '@dvsa/mes-test-schema/categories/AM2';
@@ -11,7 +11,7 @@ describe('TestSummaryCardComponent', () => {
   let fixture: ComponentFixture<TestSummaryCardComponent>;
   let component: TestSummaryCardComponent;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [TestSummaryCardComponent, MockComponent(DataRowComponent), MockComponent(DataRowCustomComponent)],
       imports: [IonicModule],
@@ -20,7 +20,7 @@ describe('TestSummaryCardComponent', () => {
     fixture = TestBed.createComponent(TestSummaryCardComponent);
     component = fixture.componentInstance;
     component.userExitedApp = { exitFlag: true };
-  }));
+  });
 
   describe('Class', () => {
     describe('getReasonForExitingApp', () => {

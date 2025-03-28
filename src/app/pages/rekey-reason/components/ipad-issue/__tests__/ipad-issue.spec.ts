@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule, UntypedFormGroup } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { AppModule } from '@app/app.module';
@@ -9,7 +9,7 @@ describe('IpadIssueComponent', () => {
   let fixture: ComponentFixture<IpadIssueComponent>;
   let component: IpadIssueComponent;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [IpadIssueComponent],
       imports: [IonicModule, AppModule, ReactiveFormsModule],
@@ -19,7 +19,7 @@ describe('IpadIssueComponent', () => {
     component = fixture.componentInstance;
     component.formGroup = new UntypedFormGroup({});
     component.ngOnChanges();
-  }));
+  });
 
   describe('class', () => {
     describe('ngOnChanges', () => {

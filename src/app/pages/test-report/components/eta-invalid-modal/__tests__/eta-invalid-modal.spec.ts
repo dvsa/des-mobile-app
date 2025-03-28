@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { ComponentsModule } from '@components/common/common-components.module';
 import { IonicModule, ModalController } from '@ionic/angular';
@@ -11,7 +11,7 @@ describe('EtaInvalidModal', () => {
   let fixture: ComponentFixture<EtaInvalidModal>;
   let component: EtaInvalidModal;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [EtaInvalidModal],
       imports: [AppModule, ComponentsModule, IonicModule],
@@ -20,7 +20,7 @@ describe('EtaInvalidModal', () => {
 
     fixture = TestBed.createComponent(EtaInvalidModal);
     component = fixture.componentInstance;
-  }));
+  });
 
   describe('DOM', () => {
     it('should call onCancel when the Return to test button is clicked', () => {

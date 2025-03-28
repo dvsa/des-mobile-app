@@ -1,4 +1,4 @@
-import { TestBed, waitForAsync } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { Store, StoreModule } from '@ngrx/store';
 import { ReplaySubject, of } from 'rxjs';
@@ -33,7 +33,7 @@ describe('ReferenceDataEffects', () => {
     inactive: [],
   };
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({
@@ -56,7 +56,7 @@ describe('ReferenceDataEffects', () => {
     store$ = TestBed.inject(Store);
     networkStateProvider = TestBed.inject(NetworkStateProvider);
     dateTimeProvider = TestBed.inject(DateTimeProvider);
-  }));
+  });
 
   describe('testCentreRefData$', () => {
     it('should not call getTestCentres when offline', () => {

@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule, UntypedFormGroup, Validators } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { TrueLikenessComponent } from '@pages/office/components/true-likeness/true-likeness';
@@ -7,7 +7,7 @@ describe('TrueLikenessComponent', () => {
   let fixture: ComponentFixture<TrueLikenessComponent>;
   let component: TrueLikenessComponent;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [TrueLikenessComponent],
       imports: [IonicModule, ReactiveFormsModule],
@@ -15,7 +15,7 @@ describe('TrueLikenessComponent', () => {
 
     fixture = TestBed.createComponent(TrueLikenessComponent);
     component = fixture.componentInstance;
-  }));
+  });
 
   describe('onChanges', () => {
     it('should patch trueLikeness into formControl if it is true', () => {

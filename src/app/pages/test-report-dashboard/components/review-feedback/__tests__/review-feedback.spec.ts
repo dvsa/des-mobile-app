@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormControl, UntypedFormGroup } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { ReviewFeedback } from '@pages/test-report-dashboard/components/review-feedback/review-feedback';
@@ -9,7 +9,7 @@ describe('ReviewFeedback', () => {
   let fixture: ComponentFixture<ReviewFeedback>;
   let component: ReviewFeedback;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [ReviewFeedback],
       imports: [IonicModule],
@@ -20,7 +20,7 @@ describe('ReviewFeedback', () => {
     component = fixture.componentInstance;
     component.form = new UntypedFormGroup({});
     characterCountService = TestBed.inject(CharacterCountService);
-  }));
+  });
 
   describe('feedbackChanged', () => {
     it('should emit getCharacterCountText with correct parameters', () => {

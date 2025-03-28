@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { AdditionalInformationComponent } from '@pages/office/components/additional-information/additional-information';
 
@@ -6,14 +6,14 @@ describe('AdditionalInformationComponent', () => {
   let fixture: ComponentFixture<AdditionalInformationComponent>;
   let component: AdditionalInformationComponent;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [AdditionalInformationComponent],
     });
 
     fixture = TestBed.createComponent(AdditionalInformationComponent);
     component = fixture.componentInstance;
-  }));
+  });
 
   describe('ngOnChanges', () => {
     it('should create formControl if there is not one', () => {

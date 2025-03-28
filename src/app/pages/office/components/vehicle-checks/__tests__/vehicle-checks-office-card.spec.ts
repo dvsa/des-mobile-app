@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 import { VehicleChecksOfficeCardComponent } from '@pages/office/components/vehicle-checks/vehicle-checks-office-card';
 import { CompetencyOutcome } from '@shared/models/competency-outcome';
@@ -7,7 +7,7 @@ describe('VehicleChecksOfficeCardComponent', () => {
   let fixture: ComponentFixture<VehicleChecksOfficeCardComponent>;
   let component: VehicleChecksOfficeCardComponent;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [VehicleChecksOfficeCardComponent],
       imports: [IonicModule],
@@ -15,7 +15,7 @@ describe('VehicleChecksOfficeCardComponent', () => {
 
     fixture = TestBed.createComponent(VehicleChecksOfficeCardComponent);
     component = fixture.componentInstance;
-  }));
+  });
 
   describe('ngOnInit', () => {
     it('should return a list of outcomes when using question results', () => {

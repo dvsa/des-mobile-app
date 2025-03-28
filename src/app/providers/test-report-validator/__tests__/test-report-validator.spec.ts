@@ -1,4 +1,4 @@
-import { TestBed, waitForAsync } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 import { TestData as CatAMod1TestData } from '@dvsa/mes-test-schema/categories/AM1';
 import { TestData } from '@dvsa/mes-test-schema/categories/common';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
@@ -131,13 +131,13 @@ describe('TestReportValidator', () => {
 
   let testReportValidatorProvider: TestReportValidatorProvider;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [TestReportValidatorProvider, FaultCountProvider],
     });
 
     testReportValidatorProvider = TestBed.inject(TestReportValidatorProvider);
-  }));
+  });
 
   describe('isTestReportValid', () => {
     categories.forEach((cat) => {

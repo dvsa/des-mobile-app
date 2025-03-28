@@ -1,4 +1,4 @@
-import { TestBed, waitForAsync } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 import { AppConfig } from '@providers/app-config/app-config.model';
 import { AppConfigProviderMock } from '../../app-config/__mocks__/app-config.mock';
 import { AppConfigProvider } from '../../app-config/app-config';
@@ -7,7 +7,7 @@ import { UrlProvider } from '../url';
 describe('UrlProvider', () => {
   let urlProvider: UrlProvider;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
         UrlProvider,
@@ -19,7 +19,7 @@ describe('UrlProvider', () => {
     });
 
     urlProvider = TestBed.inject(UrlProvider);
-  }));
+  });
 
   describe('getPersonalJournalUrl', () => {
     it('should format the URL template from the AppConfigProvider with the provided staffNumber', () => {

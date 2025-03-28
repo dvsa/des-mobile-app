@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { AppModule } from '@app/app.module';
 import { DrivingFaultsBadgeComponent } from '@components/common/driving-faults-badge/driving-faults-badge';
 import { IonicModule, NavController } from '@ionic/angular';
@@ -40,7 +40,7 @@ describe('ManoeuvresPopoverComponent', () => {
     eyesightTest: {},
   };
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [
         ManoeuvresPopoverComponent,
@@ -88,7 +88,7 @@ describe('ManoeuvresPopoverComponent', () => {
     fixture.detectChanges();
     store$ = TestBed.inject(Store);
     spyOn(store$, 'dispatch').and.callThrough();
-  }));
+  });
 
   describe('manoeuvreHasFaults', () => {
     it('should return true is manoeuvre is present and controlFault is not null', () => {

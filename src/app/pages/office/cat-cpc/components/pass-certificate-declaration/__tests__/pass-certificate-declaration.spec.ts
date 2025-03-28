@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule, UntypedFormGroup } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { PipesModule } from '@shared/pipes/pipes.module';
@@ -8,7 +8,7 @@ describe('PassCertificateDeclarationComponent', () => {
   let fixture: ComponentFixture<PassCertificateDeclarationComponent>;
   let component: PassCertificateDeclarationComponent;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [PassCertificateDeclarationComponent],
       imports: [IonicModule, PipesModule, ReactiveFormsModule],
@@ -17,7 +17,7 @@ describe('PassCertificateDeclarationComponent', () => {
     fixture = TestBed.createComponent(PassCertificateDeclarationComponent);
     component = fixture.componentInstance;
     component.formGroup = new UntypedFormGroup({});
-  }));
+  });
 
   describe('Class', () => {
     describe('passCertificateDeclarationChanged', () => {

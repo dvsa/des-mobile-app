@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 import { ETACardComponent } from '../eta-card.component';
 
@@ -6,7 +6,7 @@ describe('EtaCardComponent', () => {
   let component: ETACardComponent;
   let fixture: ComponentFixture<ETACardComponent>;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [ETACardComponent],
       imports: [IonicModule],
@@ -14,7 +14,7 @@ describe('EtaCardComponent', () => {
 
     fixture = TestBed.createComponent(ETACardComponent);
     component = fixture.componentInstance;
-  }));
+  });
 
   it('should create', () => {
     expect(component).toBeTruthy();

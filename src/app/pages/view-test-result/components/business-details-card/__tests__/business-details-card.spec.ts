@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { DataRowCustomComponent } from '@components/common/data-row-custom/data-row-custom';
 import { DataRowComponent } from '@components/common/data-row/data-row';
 import { DisplayAddressComponent } from '@components/common/display-address/display-address';
@@ -10,7 +10,7 @@ describe('BusinessDetailsCardComponent', () => {
   let fixture: ComponentFixture<BusinessDetailsCardComponent>;
   let component: BusinessDetailsCardComponent;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [
         BusinessDetailsCardComponent,
@@ -23,7 +23,7 @@ describe('BusinessDetailsCardComponent', () => {
 
     fixture = TestBed.createComponent(BusinessDetailsCardComponent);
     component = fixture.componentInstance;
-  }));
+  });
 
   describe('Class', () => {
     describe('shouldHideCard', () => {

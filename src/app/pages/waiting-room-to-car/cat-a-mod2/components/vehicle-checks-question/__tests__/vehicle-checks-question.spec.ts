@@ -1,5 +1,5 @@
 import { EventEmitter } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { AppModule } from '@app/app.module';
 import { QuestionResult } from '@dvsa/mes-test-schema/categories/common';
@@ -17,7 +17,7 @@ describe('VehicleChecksQuestionCatAMod2Component', () => {
   let fixture: ComponentFixture<VehicleChecksQuestionCatAMod2Component>;
   let component: VehicleChecksQuestionCatAMod2Component;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [VehicleChecksQuestionCatAMod2Component],
       imports: [IonicModule, AppModule],
@@ -26,7 +26,7 @@ describe('VehicleChecksQuestionCatAMod2Component', () => {
     fixture = TestBed.createComponent(VehicleChecksQuestionCatAMod2Component);
     component = fixture.componentInstance;
     component.formGroup = new UntypedFormGroup({});
-  }));
+  });
 
   describe('Class', () => {
     describe('ngOnChanges', () => {

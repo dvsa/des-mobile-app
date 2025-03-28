@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { DangerousFaultBadgeComponent } from '@components/common/dangerous-fault-badge/dangerous-fault-badge';
 import { DrivingFaultsBadgeComponent } from '@components/common/driving-faults-badge/driving-faults-badge';
@@ -28,7 +28,7 @@ describe('HighwayCodeSafetyComponent', () => {
   let store$: Store<StoreModel>;
   let testDataByCategoryProvider: TestDataByCategoryProvider;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [
         HighwayCodeSafetyComponent,
@@ -53,7 +53,7 @@ describe('HighwayCodeSafetyComponent', () => {
     store$.dispatch(StartTest(105, TestCategory.F));
     testDataByCategoryProvider = TestBed.inject(TestDataByCategoryProvider);
     spyOn(testDataByCategoryProvider, 'getTestDataByCategoryCode').and.returnValue(getTestDataCatF);
-  }));
+  });
 
   describe('Class', () => {
     describe('HighwayCodeSafetyAddDrivingFault', () => {

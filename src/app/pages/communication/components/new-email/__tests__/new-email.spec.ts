@@ -1,5 +1,5 @@
 import { HttpClient, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule, UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { createTranslateLoader } from '@app/app.module';
@@ -12,7 +12,7 @@ describe('NewEmailComponent', () => {
   let component: NewEmailComponent;
   let translate: TranslateService;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [NewEmailComponent],
       imports: [
@@ -41,7 +41,7 @@ describe('NewEmailComponent', () => {
     component.formGroup.addControl('newEmailCtrl', newEmailCtrl);
     component.formControl = newEmailCtrl;
     component.isNewEmailAddressChosen = true;
-  }));
+  });
 
   describe('Class', () => {
     describe('initialise', () => {

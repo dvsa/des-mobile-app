@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { AppModule } from '@app/app.module';
 import { IonicModule, ModalController } from '@ionic/angular';
 import { LogoutModal, LogoutModalEvent } from '../logout-modal';
@@ -8,7 +8,7 @@ describe('LogoutModal', () => {
   let component: LogoutModal;
   let modalController: ModalController;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [LogoutModal],
       imports: [IonicModule, AppModule],
@@ -18,7 +18,7 @@ describe('LogoutModal', () => {
     fixture = TestBed.createComponent(LogoutModal);
     component = fixture.componentInstance;
     modalController = TestBed.inject(ModalController);
-  }));
+  });
 
   describe('onCancel', () => {
     it('should dismiss the modal with CANCEL event', async () => {

@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 
 import { CommonModule } from '@angular/common';
@@ -15,7 +15,7 @@ describe('AlternateMotEvidenceComponent', () => {
   let component: AlternateMotEvidenceComponent;
   let fixture: ComponentFixture<AlternateMotEvidenceComponent>;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
       declarations: [AlternateMotEvidenceComponent],
@@ -26,7 +26,7 @@ describe('AlternateMotEvidenceComponent', () => {
     component = fixture.componentInstance;
     component.formGroup = new UntypedFormGroup({});
     fixture.detectChanges();
-  }));
+  });
 
   describe('setupControl', () => {
     it('should create and set up the form control when it does not exist', () => {

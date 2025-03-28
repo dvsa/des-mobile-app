@@ -1,12 +1,12 @@
 import { CUSTOM_ELEMENTS_SCHEMA, EventEmitter } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { QuestionFiveCardComponent } from '@pages/test-report/cat-cpc/components/question-five-card/question-five-card';
 
 describe('QuestionFiveCardComponent', () => {
   let fixture: ComponentFixture<QuestionFiveCardComponent>;
   let component: QuestionFiveCardComponent;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       declarations: [QuestionFiveCardComponent],
@@ -14,7 +14,7 @@ describe('QuestionFiveCardComponent', () => {
 
     fixture = TestBed.createComponent(QuestionFiveCardComponent);
     component = fixture.componentInstance;
-  }));
+  });
 
   describe('answerChanged', () => {
     it('emits answerPayload with correct parameters when answer is selected', () => {

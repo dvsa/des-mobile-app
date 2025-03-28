@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { Router, RouterModule } from '@angular/router';
 import { ComponentsModule } from '@components/common/common-components.module';
@@ -72,7 +72,7 @@ describe('DashboardPage', () => {
     tests: { testStatus: {} },
   } as StoreModel;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [DashboardPage],
       imports: [
@@ -157,7 +157,7 @@ describe('DashboardPage', () => {
     modalController = TestBed.inject(ModalController);
     spyOn(store$, 'dispatch');
     store$.dispatch(LoadAppVersionSuccess({ versionNumber: '4.0.0.0' }));
-  }));
+  });
 
   it('should create', () => {
     expect(component).toBeTruthy();

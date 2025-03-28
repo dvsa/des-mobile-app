@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { AppModule } from '@app/app.module';
 import { IonicModule } from '@ionic/angular';
 import { ModalResultItemComponent } from '../modal-result-item';
@@ -7,7 +7,7 @@ describe('ModalResultItemComponent', () => {
   let fixture: ComponentFixture<ModalResultItemComponent>;
   let component: ModalResultItemComponent;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [ModalResultItemComponent],
       imports: [IonicModule, AppModule],
@@ -15,7 +15,7 @@ describe('ModalResultItemComponent', () => {
 
     fixture = TestBed.createComponent(ModalResultItemComponent);
     component = fixture.componentInstance;
-  }));
+  });
 
   describe('getOutcomeIcon', () => {
     it('should return pass image when isPass is true', () => {

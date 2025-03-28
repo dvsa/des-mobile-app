@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule, UntypedFormGroup } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { IonicModule } from '@ionic/angular';
@@ -13,7 +13,7 @@ describe('FaultCommentCardComponent', () => {
   let fixture: ComponentFixture<FaultCommentCardComponent>;
   let component: FaultCommentCardComponent;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [FaultCommentCardComponent, MockComponent(FaultCommentComponent)],
       imports: [IonicModule, AppModule, ReactiveFormsModule, PipesModule],
@@ -22,7 +22,7 @@ describe('FaultCommentCardComponent', () => {
     fixture = TestBed.createComponent(FaultCommentCardComponent);
     component = fixture.componentInstance;
     component.formGroup = new UntypedFormGroup({});
-  }));
+  });
 
   describe('DOM', () => {
     it('should display the provided header', () => {

@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { DebriefWitnessedComponent } from '@components/test-finalisation/debrief-witnessed/debrief-witnessed';
 import { IonicModule } from '@ionic/angular';
@@ -10,7 +10,7 @@ describe('DebriefWitnessedComponent', () => {
   let fixture: ComponentFixture<DebriefWitnessedComponent>;
   let component: DebriefWitnessedComponent;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [DebriefWitnessedComponent],
       imports: [IonicModule],
@@ -22,7 +22,7 @@ describe('DebriefWitnessedComponent', () => {
 
     fixture = TestBed.createComponent(DebriefWitnessedComponent);
     component = fixture.componentInstance;
-  }));
+  });
 
   describe('ngOnChanges', () => {
     it('should clear validators from FormControl if visibilityType is VisibilityType.NotVisible', () => {

@@ -1,4 +1,4 @@
-import { TestBed, waitForAsync } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TestResultSchemasUnion } from '@dvsa/mes-test-schema/categories';
 import { ModalController, Platform } from '@ionic/angular';
@@ -60,7 +60,7 @@ describe('TestReportBasePageComponent', () => {
     } as TestsModel,
   } as StoreModel;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
         {
@@ -112,7 +112,7 @@ describe('TestReportBasePageComponent', () => {
     }
 
     basePageComponent = new BasePageClass(injector);
-  }));
+  });
 
   describe('onInitialisation', () => {
     it('should resolve state variables', () => {

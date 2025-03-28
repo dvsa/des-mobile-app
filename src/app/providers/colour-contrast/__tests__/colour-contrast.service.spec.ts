@@ -1,16 +1,16 @@
-import { TestBed, waitForAsync } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 import { ColourContrastService } from '@providers/colour-contrast/colour-contrast.service';
 
 describe('ColourContrastService', () => {
   let colourContrastService: ColourContrastService;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [ColourContrastService],
     });
 
     colourContrastService = TestBed.inject(ColourContrastService);
-  }));
+  });
 
   describe('luminance', () => {
     it('should return properly calculated variables', () => {

@@ -1,4 +1,4 @@
-import { TestBed, waitForAsync } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { Action, Store, StoreModule } from '@ngrx/store';
 import * as testsActions from '@store/tests/tests.actions';
@@ -11,7 +11,7 @@ describe('HealthDeclarationEffects', () => {
   let actions$: ReplaySubject<Action>;
   const currentSlotId = '1234';
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({
@@ -29,7 +29,7 @@ describe('HealthDeclarationEffects', () => {
 
     actions$ = new ReplaySubject(1);
     effects = TestBed.inject(HealthDeclarationEffects);
-  }));
+  });
 
   describe('endHealthDeclarationEffect', () => {
     it('should return SET_TEST_STATUS_WRITE_UP & PERSIST_TESTS actions', (done) => {

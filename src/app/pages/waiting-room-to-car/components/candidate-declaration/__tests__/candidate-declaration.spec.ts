@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { AppModule } from '@app/app.module';
@@ -9,7 +9,7 @@ describe('CandidateDeclarationSignedComponent', () => {
   let fixture: ComponentFixture<CandidateDeclarationSignedComponent>;
   let component: CandidateDeclarationSignedComponent;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [CandidateDeclarationSignedComponent],
       imports: [IonicModule, AppModule, ReactiveFormsModule],
@@ -18,7 +18,7 @@ describe('CandidateDeclarationSignedComponent', () => {
     fixture = TestBed.createComponent(CandidateDeclarationSignedComponent);
     component = fixture.componentInstance;
     component.formGroup = new UntypedFormGroup({});
-  }));
+  });
 
   describe('DOM', () => {
     it('should call CandidateDeclarationChanged with Y when signed is pressed', () => {

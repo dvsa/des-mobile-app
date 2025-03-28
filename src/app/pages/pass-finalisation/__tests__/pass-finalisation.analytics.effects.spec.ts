@@ -1,4 +1,4 @@
-import { TestBed, waitForAsync } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 import { Router } from '@angular/router';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { provideMockActions } from '@ngrx/effects/testing';
@@ -42,7 +42,7 @@ describe('PassFinalisationAnalyticsEffects', () => {
   let store$: Store<StoreModel>;
   const screenName = AnalyticsScreenNames.PASS_FINALISATION;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({
@@ -72,7 +72,7 @@ describe('PassFinalisationAnalyticsEffects', () => {
     effects = TestBed.inject(PassFinalisationAnalyticsEffects);
     analyticsProviderMock = TestBed.inject(AnalyticsProvider);
     store$ = TestBed.inject(Store);
-  }));
+  });
 
   describe('passFinalisationViewDidEnter', () => {
     it('should call setCurrentPage and addCustomDimension', (done) => {

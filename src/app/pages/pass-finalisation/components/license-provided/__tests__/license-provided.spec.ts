@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule, UntypedFormGroup } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { LicenseProvidedComponent } from '../license-provided';
@@ -7,7 +7,7 @@ describe('LicenseProvidedComponent', () => {
   let fixture: ComponentFixture<LicenseProvidedComponent>;
   let component: LicenseProvidedComponent;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [LicenseProvidedComponent],
       imports: [IonicModule, ReactiveFormsModule],
@@ -16,7 +16,7 @@ describe('LicenseProvidedComponent', () => {
     fixture = TestBed.createComponent(LicenseProvidedComponent);
     component = fixture.componentInstance;
     component.form = new UntypedFormGroup({});
-  }));
+  });
 
   describe('Class', () => {
     describe('ProvisionalLicenseReceived', () => {

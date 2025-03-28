@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { IonicModule } from '@ionic/angular';
 import { TestStatus } from '@store/tests/test-status/test-status.model';
@@ -8,7 +8,7 @@ describe('IndicatorsComponent', () => {
   let component: IndicatorsComponent;
   let fixture: ComponentFixture<IndicatorsComponent>;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [IndicatorsComponent],
       imports: [IonicModule],
@@ -16,7 +16,7 @@ describe('IndicatorsComponent', () => {
 
     fixture = TestBed.createComponent(IndicatorsComponent);
     component = fixture.componentInstance;
-  }));
+  });
 
   describe('DOM', () => {
     describe('exclamation indicator', () => {

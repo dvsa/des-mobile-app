@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { IonicModule, ModalController } from '@ionic/angular';
 
@@ -12,7 +12,7 @@ describe('PreviewModeModal', () => {
   let component: PreviewModeModal;
   let modalController: ModalController;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [PreviewModeModal],
       imports: [IonicModule, ComponentsModule],
@@ -23,7 +23,7 @@ describe('PreviewModeModal', () => {
     component = fixture.componentInstance;
     modalController = TestBed.inject(ModalController);
     spyOn(modalController, 'dismiss');
-  }));
+  });
 
   it('should create', () => {
     expect(component).toBeDefined();

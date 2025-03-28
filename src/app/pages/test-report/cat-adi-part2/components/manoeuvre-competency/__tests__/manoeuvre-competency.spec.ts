@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { AppModule } from '@app/app.module';
 import { DangerousFaultBadgeComponent } from '@components/common/dangerous-fault-badge/dangerous-fault-badge';
@@ -33,7 +33,7 @@ describe('ManoeuvreCompetencyComponentAdiPart2', () => {
   let component: ManoeuvreCompetencyComponentAdiPart2;
   let store$: Store<StoreModel>;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [
         ManoeuvreCompetencyComponentAdiPart2,
@@ -109,7 +109,7 @@ describe('ManoeuvreCompetencyComponentAdiPart2', () => {
     component = fixture.componentInstance;
     component.index = 0;
     store$ = TestBed.inject(Store);
-  }));
+  });
 
   describe('DOM', () => {
     it('should display the correct driving fault badge with a count of 1', () => {

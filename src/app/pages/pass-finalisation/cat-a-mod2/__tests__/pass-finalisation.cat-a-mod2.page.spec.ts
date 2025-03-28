@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, fakeAsync, tick, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
 import { NavController, Platform } from '@ionic/angular';
 
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
@@ -39,7 +39,7 @@ describe('PassFinalisationCatAMod2Page', () => {
   let component: PassFinalisationCatAMod2Page;
   let store$: Store<StoreModel>;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       declarations: [
@@ -83,7 +83,7 @@ describe('PassFinalisationCatAMod2Page', () => {
     component.subscription = new Subscription();
     store$ = TestBed.inject(Store);
     spyOn(store$, 'dispatch');
-  }));
+  });
 
   describe('Class', () => {
     describe('ionViewWillEnter', () => {

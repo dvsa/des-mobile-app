@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { KeepAwake as Insomnia } from '@capacitor-community/keep-awake';
@@ -29,7 +29,7 @@ describe('DelegatedRekeyUploadOutcomePage', () => {
   let store$: Store<StoreModel>;
   let deviceProvider: DeviceProvider;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [DelegatedRekeyUploadOutcomePage],
       imports: [
@@ -71,7 +71,7 @@ describe('DelegatedRekeyUploadOutcomePage', () => {
     spyOn(store$, 'dispatch');
     spyOn(router, 'navigate');
     spyOn(BasePageComponent.prototype, 'isIos').and.returnValue(true);
-  }));
+  });
 
   describe('Class', () => {
     describe('ionViewDidEnter', () => {

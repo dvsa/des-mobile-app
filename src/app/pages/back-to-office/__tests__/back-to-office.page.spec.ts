@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { PracticeModeBanner } from '@components/common/practice-mode-banner/practice-mode-banner';
 import { TestFlowHeaderComponent } from '@components/common/test-flow-header/test-flow-header.component';
@@ -23,7 +23,7 @@ describe('BackToOfficePage', () => {
   let store$: Store<StoreModel>;
   let routeByCategoryProvider: RouteByCategoryProvider;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [BackToOfficePage, MockComponent(PracticeModeBanner)],
       imports: [IonicModule, AppModule, StoreModule.forRoot({}), MockComponent(TestFlowHeaderComponent)],
@@ -51,7 +51,7 @@ describe('BackToOfficePage', () => {
     spyOn(store$, 'dispatch');
     spyOn(routeByCategoryProvider, 'navigateToPage').and.returnValue(Promise.resolve());
     spyOn(BasePageComponent.prototype, 'isIos').and.returnValue(true);
-  }));
+  });
 
   describe('Class', () => {
     describe('ionViewDidEnter', () => {

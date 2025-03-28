@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { IonicModule, ModalController } from '@ionic/angular';
 
 import { CommonModule } from '@angular/common';
@@ -15,7 +15,7 @@ describe('MotFailedModal', () => {
   let fixture: ComponentFixture<MotFailedModal>;
   let store$: Store<StoreModel>;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [MotFailedModal, MockComponent(ModalAlertTitleComponent)],
       imports: [IonicModule, CommonModule, StoreModule.forRoot(), ReactiveFormsModule],
@@ -26,7 +26,7 @@ describe('MotFailedModal', () => {
     component = fixture.componentInstance;
     store$ = TestBed.inject(Store);
     fixture.detectChanges();
-  }));
+  });
 
   describe('onConfirm', () => {
     it(

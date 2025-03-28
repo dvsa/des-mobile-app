@@ -1,5 +1,5 @@
 import { HttpErrorResponse, HttpStatusCode } from '@angular/common/http';
-import { TestBed, waitForAsync } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { Action, Store, StoreModule } from '@ngrx/store';
 import { ReplaySubject, defer } from 'rxjs';
@@ -38,7 +38,7 @@ describe('RekeySearchEffects', () => {
     });
   };
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({
@@ -69,7 +69,7 @@ describe('RekeySearchEffects', () => {
     testSearchProvider = TestBed.inject(SearchProvider);
     rekeySearchProvider = TestBed.inject(RekeySearchProvider);
     compressionProvider = TestBed.inject(CompressionProvider);
-  }));
+  });
 
   it('should dispatch the SearchBookedTestSuccess action when searched with success', (done) => {
     spyOn(testSearchProvider, 'getTestResult').and.returnValue(

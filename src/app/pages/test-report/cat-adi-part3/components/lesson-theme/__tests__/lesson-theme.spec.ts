@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormControl, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { AssessmentAnswerComponent } from '@pages/test-report/cat-adi-part3/components/assessment-answer/assessment-answer';
@@ -11,7 +11,7 @@ describe('LessonThemeComponent', () => {
   let fixture: ComponentFixture<LessonThemeComponent>;
   let component: LessonThemeComponent;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [LessonThemeComponent, MockComponent(AssessmentAnswerComponent)],
       imports: [IonicModule],
@@ -21,7 +21,7 @@ describe('LessonThemeComponent', () => {
     fixture = TestBed.createComponent(LessonThemeComponent);
     characterCountService = TestBed.inject(CharacterCountService);
     component = fixture.componentInstance;
-  }));
+  });
 
   describe('otherReasoningChanged', () => {
     it('should emit getCharacterCountText with correct parameters', () => {

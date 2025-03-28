@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { AppModule } from '@app/app.module';
 import { IonicModule, ModalController } from '@ionic/angular';
 import { ModalControllerMock } from '@mocks/ionic-mocks/modal-controller.mock';
@@ -8,7 +8,7 @@ describe('ExitSamErrorModal', () => {
   let fixture: ComponentFixture<ExitSamErrorModal>;
   let component: ExitSamErrorModal;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [IonicModule, ExitSamErrorModal, AppModule],
       providers: [{ provide: ModalController, useClass: ModalControllerMock }],
@@ -16,7 +16,7 @@ describe('ExitSamErrorModal', () => {
 
     fixture = TestBed.createComponent(ExitSamErrorModal);
     component = fixture.componentInstance;
-  }));
+  });
 
   describe('onOk', () => {
     it('should dismiss the modal with CANCEL event', async () => {

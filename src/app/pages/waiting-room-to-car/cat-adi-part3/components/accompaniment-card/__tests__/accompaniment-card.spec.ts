@@ -1,5 +1,5 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule, UntypedFormGroup } from '@angular/forms';
 import { AppModule } from '@app/app.module';
 import { AccompanimentCardADI3Component } from '@pages/waiting-room-to-car/cat-adi-part3/components/accompaniment-card/accompaniment-card';
@@ -17,7 +17,7 @@ describe('AccompanimentCardADI3Component', () => {
   let component: AccompanimentCardADI3Component;
   let fixture: ComponentFixture<AccompanimentCardADI3Component>;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       declarations: [AccompanimentCardADI3Component],
@@ -49,7 +49,7 @@ describe('AccompanimentCardADI3Component', () => {
     fixture = TestBed.createComponent(AccompanimentCardADI3Component);
     component = fixture.componentInstance;
     component.formGroup = new UntypedFormGroup({});
-  }));
+  });
 
   it('should create', () => {
     expect(component).toBeTruthy();

@@ -1,4 +1,4 @@
-import { TestBed, waitForAsync } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 
 import { provideMockStore } from '@ngrx/store/testing';
 import { CompletedTestPersistenceProviderMock } from '@providers/completed-test-persistence/__mocks__/completed-test-persistence.mock';
@@ -25,7 +25,7 @@ describe('AuthenticationProvider', () => {
   let dataStoreProvider: DataStoreProvider;
   const initialState = { appInfo: { employeeId: '1234567' } } as StoreModel;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
         AuthenticationProvider,
@@ -65,7 +65,7 @@ describe('AuthenticationProvider', () => {
     authenticationProvider = TestBed.inject(AuthenticationProvider);
     dataStoreProvider = TestBed.inject(DataStoreProvider);
     authenticationProvider.initialiseAuthentication();
-  }));
+  });
 
   describe('Provider', () => {
     beforeEach(() => {

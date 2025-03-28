@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { IonicModule, ModalController, NavController, Platform } from '@ionic/angular';
 import { ModalControllerMock, PlatformMock } from '@mocks/index.mock';
 import { MockComponent } from 'ng-mocks';
@@ -43,7 +43,7 @@ describe('TestReportCatADI3Page', () => {
   let component: TestReportCatADI3Page;
   let store$: Store<StoreModel>;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [
         TestReportCatADI3Page,
@@ -110,7 +110,7 @@ describe('TestReportCatADI3Page', () => {
     component = fixture.componentInstance;
     store$ = TestBed.inject(MockStore);
     spyOn(store$, 'dispatch');
-  }));
+  });
 
   describe('Class', () => {
     describe('studentLevelChanged', () => {

@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule, UntypedFormGroup, Validators } from '@angular/forms';
 import { BikeCategoryTypeComponent } from '@components/common/bike-category-type/bike-category-type';
 import { IonicModule } from '@ionic/angular';
@@ -13,7 +13,7 @@ describe('BikeCategoryTypeComponent', () => {
   let component: BikeCategoryTypeComponent;
   let bikeCategoryDetailProvider: BikeCategoryDetailProvider;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [IonicModule, ReactiveFormsModule],
       providers: [
@@ -27,7 +27,7 @@ describe('BikeCategoryTypeComponent', () => {
     component = fixture.componentInstance;
     component.formGroup = new UntypedFormGroup({});
     component.selectRef = jasmine.createSpyObj('IonSelect', ['open']);
-  }));
+  });
 
   describe('validateCategorySelection', () => {
     it('should return null if categoryConfirmed is true', () => {

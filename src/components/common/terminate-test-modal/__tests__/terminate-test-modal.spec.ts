@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { AppModule } from '@app/app.module';
 import { IonicModule, NavController, Platform } from '@ionic/angular';
@@ -16,7 +16,7 @@ describe('TerminateTestModal', () => {
   let component: TerminateTestModal;
   let deviceAuthenticationProvider: DeviceAuthenticationProvider;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [TerminateTestModal],
       imports: [IonicModule, AppModule],
@@ -34,7 +34,7 @@ describe('TerminateTestModal', () => {
     deviceAuthenticationProvider = TestBed.inject(DeviceAuthenticationProvider);
     component.onTerminate = jasmine.createSpy('onTerminate');
     component.onCancel = jasmine.createSpy('onCancel');
-  }));
+  });
 
   describe('DOM', () => {
     it('should call the provided onCancel function when returning to the test', () => {

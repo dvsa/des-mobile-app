@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 
 import { DataRowComponent } from '@components/common/data-row/data-row';
@@ -9,7 +9,7 @@ describe('ActivityCodeCard', () => {
   let component: ActivityCodeCard;
   let fixture: ComponentFixture<ActivityCodeCard>;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [ActivityCodeCard, MockComponent(DataRowComponent)],
       imports: [IonicModule],
@@ -17,7 +17,7 @@ describe('ActivityCodeCard', () => {
 
     fixture = TestBed.createComponent(ActivityCodeCard);
     component = fixture.componentInstance;
-  }));
+  });
 
   it('should create', () => {
     expect(component).toBeTruthy();

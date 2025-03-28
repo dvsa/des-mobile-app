@@ -1,4 +1,4 @@
-import { TestBed, waitForAsync } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 import { TestSlot } from '@dvsa/mes-journal-schema';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { provideMockActions } from '@ngrx/effects/testing';
@@ -45,7 +45,7 @@ describe('CandidateDetailsAnalyticsEffects', () => {
     },
   } as TestSlot;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({
@@ -71,7 +71,7 @@ describe('CandidateDetailsAnalyticsEffects', () => {
     effects = TestBed.inject(CandidateDetailsAnalyticsEffects);
     analyticsProviderMock = TestBed.inject(AnalyticsProvider);
     store$ = TestBed.inject(Store);
-  }));
+  });
 
   describe('candidateView$', () => {
     it('should call setCurrentPage', (done) => {

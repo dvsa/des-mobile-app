@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule, UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { ComponentsModule } from '@components/common/common-components.module';
@@ -18,7 +18,7 @@ describe('FaultCommentComponent', () => {
   let component: FaultCommentComponent;
   let behaviourMapProvider: OutcomeBehaviourMapProvider;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [FaultCommentComponent],
       imports: [IonicModule, AppModule, ComponentsModule, PipesModule, ReactiveFormsModule],
@@ -36,7 +36,7 @@ describe('FaultCommentComponent', () => {
     component.parentForm = new UntypedFormGroup({});
     const control = new UntypedFormControl(null);
     component.parentForm.addControl(`faultComment-${CommentSource.SIMPLE}-driving-id`, control);
-  }));
+  });
 
   describe('DOM', () => {
     it('should display the fault competency display name', () => {

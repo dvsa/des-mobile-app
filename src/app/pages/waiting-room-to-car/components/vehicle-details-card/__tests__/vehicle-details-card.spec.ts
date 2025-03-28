@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule, UntypedFormGroup } from '@angular/forms';
 import { AppModule } from '@app/app.module';
 import { IonicModule } from '@ionic/angular';
@@ -8,7 +8,7 @@ describe('VehicleDetailsCardComponent', () => {
   let fixture: ComponentFixture<VehicleDetailsCardComponent>;
   let component: VehicleDetailsCardComponent;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [VehicleDetailsCardComponent],
       imports: [IonicModule, AppModule, ReactiveFormsModule],
@@ -17,7 +17,7 @@ describe('VehicleDetailsCardComponent', () => {
     fixture = TestBed.createComponent(VehicleDetailsCardComponent);
     component = fixture.componentInstance;
     component.formGroup = new UntypedFormGroup({});
-  }));
+  });
 
   describe('schoolVehicleDetailsChanged', () => {
     it('should emit the correct event', () => {

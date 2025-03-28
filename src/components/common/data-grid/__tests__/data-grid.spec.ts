@@ -1,5 +1,5 @@
 import { SimpleChange } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { AppModule } from '@app/app.module';
 import { DataGridComponent } from '@components/common/data-grid/data-grid';
 import { IonicModule } from '@ionic/angular';
@@ -8,7 +8,7 @@ describe('DataGridComponent', () => {
   let fixture: ComponentFixture<DataGridComponent>;
   let component: DataGridComponent;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [DataGridComponent],
       imports: [IonicModule, AppModule],
@@ -17,7 +17,7 @@ describe('DataGridComponent', () => {
 
     fixture = TestBed.createComponent(DataGridComponent);
     component = fixture.componentInstance;
-  }));
+  });
 
   describe('ngOnChanges', () => {
     it('should set finalColourArray to loopColours if the changes include colourScheme', () => {

@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 
 import { AppModule } from '@app/app.module';
@@ -9,7 +9,7 @@ describe('AdditionalItemsComponent', () => {
   let fixture: ComponentFixture<AdditionalItemsComponent>;
   let component: AdditionalItemsComponent;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [AdditionalItemsComponent],
       imports: [IonicModule, AppModule],
@@ -17,7 +17,7 @@ describe('AdditionalItemsComponent', () => {
 
     fixture = TestBed.createComponent(AdditionalItemsComponent);
     component = fixture.componentInstance;
-  }));
+  });
 
   describe('showAdditionalItems', () => {
     it('should return a true when the additionalItems length is greater than 0', () => {

@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Router, RouterModule } from '@angular/router';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { IonicModule } from '@ionic/angular';
@@ -13,7 +13,7 @@ describe('PracticeModeBanner', () => {
   let component: PracticeModeBanner;
   let router: Router;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [PracticeModeBanner],
       imports: [
@@ -39,7 +39,7 @@ describe('PracticeModeBanner', () => {
     fixture = TestBed.createComponent(PracticeModeBanner);
     router = TestBed.inject(Router);
     component = fixture.componentInstance;
-  }));
+  });
 
   describe('Class', () => {
     describe('exitPracticeMode', () => {

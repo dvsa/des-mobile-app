@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { MockAppComponent } from '@app/__mocks__/app.component.mock';
 import { AppComponent } from '@app/app.component';
@@ -12,7 +12,7 @@ describe('PassCertificateNumberCatAMod1Component', () => {
   let fixture: ComponentFixture<PassCertificateNumberCatAMod1Component>;
   let component: PassCertificateNumberCatAMod1Component;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [PassCertificateNumberCatAMod1Component],
       imports: [IonicModule],
@@ -37,7 +37,7 @@ describe('PassCertificateNumberCatAMod1Component', () => {
       Validators.pattern(component.passCertificateAMOD1Validator.pattern),
       Validators.required,
     ]);
-  }));
+  });
 
   describe('Class', () => {
     describe('passCertificateNumberChanged', () => {

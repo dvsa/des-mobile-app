@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { MockComponent } from 'ng-mocks';
 
@@ -11,7 +11,7 @@ describe('Adi3DebriefCard', () => {
   let fixture: ComponentFixture<Adi3DebriefCard>;
   let component: Adi3DebriefCard;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [Adi3DebriefCard, MockComponent(Adi3DebriefCardBox)],
       imports: [CommonModule, IonicModule],
@@ -19,7 +19,7 @@ describe('Adi3DebriefCard', () => {
 
     fixture = TestBed.createComponent(Adi3DebriefCard);
     component = fixture.componentInstance;
-  }));
+  });
 
   describe('displayGradeDescription', () => {
     beforeEach(() => {

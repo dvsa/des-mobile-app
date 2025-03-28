@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { AppModule } from '@app/app.module';
 import { IonicModule } from '@ionic/angular';
@@ -10,7 +10,7 @@ describe('FurtherDevelopmentComponent', () => {
   let component: FurtherDevelopmentComponent;
   let fixture: ComponentFixture<FurtherDevelopmentComponent>;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [FurtherDevelopmentComponent],
       imports: [IonicModule, AppModule, ReactiveFormsModule],
@@ -18,7 +18,7 @@ describe('FurtherDevelopmentComponent', () => {
 
     fixture = TestBed.createComponent(FurtherDevelopmentComponent);
     component = fixture.componentInstance;
-  }));
+  });
 
   it('should create', () => {
     expect(component).toBeTruthy();

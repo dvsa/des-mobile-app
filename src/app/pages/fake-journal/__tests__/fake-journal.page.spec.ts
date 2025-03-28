@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ActivatedRoute, Router } from '@angular/router';
 import { IonicModule, Platform } from '@ionic/angular';
 import { ActivatedRouteMock, PlatformMock, RouterMock } from '@mocks/index.mock';
@@ -32,7 +32,7 @@ describe('FakeJournalPage', () => {
   let fixture: ComponentFixture<FakeJournalPage>;
   let store$: Store<StoreModel>;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [
         FakeJournalPage,
@@ -88,7 +88,7 @@ describe('FakeJournalPage', () => {
     fixture.detectChanges();
     store$ = TestBed.inject(Store);
     spyOn(store$, 'dispatch');
-  }));
+  });
 
   it('should setup test', () => {
     expect(component).toBeTruthy();

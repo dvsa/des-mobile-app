@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 import { SafetyAndBalanceDataRowComponent } from '../safety-and-balance-data-row';
 
@@ -6,7 +6,7 @@ describe('SafetyAndBalanceDataRowComponent', () => {
   let fixture: ComponentFixture<SafetyAndBalanceDataRowComponent>;
   let component: SafetyAndBalanceDataRowComponent;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [SafetyAndBalanceDataRowComponent],
       imports: [IonicModule],
@@ -14,7 +14,7 @@ describe('SafetyAndBalanceDataRowComponent', () => {
 
     fixture = TestBed.createComponent(SafetyAndBalanceDataRowComponent);
     component = fixture.componentInstance;
-  }));
+  });
 
   describe('Class', () => {
     describe('shouldShowFault', () => {

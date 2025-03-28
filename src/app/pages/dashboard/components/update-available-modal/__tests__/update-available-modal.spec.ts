@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { IonicModule, ModalController } from '@ionic/angular';
 import { MockComponent } from 'ng-mocks';
 
@@ -14,7 +14,7 @@ describe('UpdateAvailableModal', () => {
   let fixture: ComponentFixture<UpdateAvailableModal>;
   let modalController: ModalController;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [UpdateAvailableModal, MockComponent(ModalAlertTitleComponent)],
       imports: [IonicModule],
@@ -30,7 +30,7 @@ describe('UpdateAvailableModal', () => {
     component = fixture.componentInstance;
     modalController = TestBed.inject(ModalController);
     spyOn(modalController, 'dismiss');
-  }));
+  });
 
   describe('Class', () => {
     describe('clickRemindMeLater', () => {

@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { IonicModule, ModalController } from '@ionic/angular';
 import { provideMockStore } from '@ngrx/store/testing';
 
@@ -15,7 +15,7 @@ describe('CandidateSearchCardComponent', () => {
   let component: CandidateSearchCardComponent;
   let fixture: ComponentFixture<CandidateSearchCardComponent>;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [CandidateSearchCardComponent],
       imports: [IonicModule, CommonModule, ComponentsModule, TestCentreJournalComponentsModule],
@@ -25,7 +25,7 @@ describe('CandidateSearchCardComponent', () => {
     fixture = TestBed.createComponent(CandidateSearchCardComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
-  }));
+  });
 
   it('should create', () => {
     expect(component).toBeTruthy();

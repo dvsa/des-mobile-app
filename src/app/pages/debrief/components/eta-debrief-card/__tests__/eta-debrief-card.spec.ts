@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 
 import { By } from '@angular/platform-browser';
@@ -13,7 +13,7 @@ describe('EtaDebriefCardComponent', () => {
   let component: EtaDebriefCardComponent;
   let translate: TranslateService;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [EtaDebriefCardComponent],
       imports: [IonicModule, AppModule, ComponentsModule, StoreModule.forRoot({}), TranslateModule],
@@ -23,7 +23,7 @@ describe('EtaDebriefCardComponent', () => {
     component = fixture.componentInstance;
     translate = TestBed.inject(TranslateService);
     translate.setDefaultLang('en');
-  }));
+  });
 
   describe('DOM', () => {
     it('when physical eta, only physical eta is showing', () => {

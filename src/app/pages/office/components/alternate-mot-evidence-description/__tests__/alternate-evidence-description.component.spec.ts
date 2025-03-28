@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { AlternateEvidenceDescriptionComponent } from '../alternate-evidence-description.component';
@@ -9,7 +9,7 @@ describe('AlternateEvidenceDescriptionComponent', () => {
   let component: AlternateEvidenceDescriptionComponent;
   let fixture: ComponentFixture<AlternateEvidenceDescriptionComponent>;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
       declarations: [AlternateEvidenceDescriptionComponent],
@@ -21,7 +21,7 @@ describe('AlternateEvidenceDescriptionComponent', () => {
     component.formGroup = new UntypedFormGroup({});
     component.formControl = new UntypedFormControl();
     fixture.detectChanges();
-  }));
+  });
 
   describe('ngOnChanges', () => {
     it('should create formControl if it does not exist', () => {

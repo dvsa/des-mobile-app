@@ -11,7 +11,7 @@ const JASMINE_DEFAULT_TIMEOUT = 15000;
 let executors = os ? Math.ceil(os.cpus().length / 2) : DEFAULT_PROCESSES_TO_SHARD;
 
 if (os) {
-  console.log('Total number of CPU\'s available:', os.cpus().length);
+  console.log("Total number of CPU's available:", os.cpus().length);
 
   if (os.cpus().length <= 2) {
     executors = os.cpus().length;
@@ -34,27 +34,22 @@ module.exports = (config) => {
     webpackMiddleware: { stats: 'errors-only' },
     webpackServer: { noInfo: true },
     client: {
-      clearContext: config.singleRun, // leave Jasmine Spec Runner output visible in browser
+      clearContext: false, // leave Jasmine Spec Runner output visible in browser
       jasmine: {
         random: false,
-        timeoutInterval: (executors <= 2) ? (JASMINE_DEFAULT_TIMEOUT * 2) : JASMINE_DEFAULT_TIMEOUT,
+        timeoutInterval: executors <= 2 ? JASMINE_DEFAULT_TIMEOUT * 2 : JASMINE_DEFAULT_TIMEOUT,
       },
     },
     jasmineHtmlReporter: {
       suppressAll: false, // removes the duplicated traces
     },
     coverageReporter: {
-      dir: require('node:path')
-        .join(__dirname, './coverage/ngv'),
+      dir: require('node:path').join(__dirname, './coverage/ngv'),
       subdir: '.',
       instrumenterOptions: {
         istanbul: { noCompact: true },
       },
-      reporters: [
-        { type: 'html' },
-        { type: 'lcovonly' },
-        { type: 'text-summary' },
-      ],
+      reporters: [{ type: 'html' }, { type: 'lcovonly' }, { type: 'text-summary' }],
     },
     reporters: ['kjhtml', 'spec'],
     port: 9876,
@@ -67,7 +62,7 @@ module.exports = (config) => {
       showSpecTiming: true,
     },
     browsers: ['ChromeHeadlessNoSandbox'],
-    singleRun: false,
+    singleRun: true,
     parallelOptions: {
       executors,
     },
@@ -89,5 +84,3 @@ module.exports = (config) => {
     captureTimeout: 240000,
   });
 };
-
-

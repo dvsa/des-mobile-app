@@ -1,4 +1,4 @@
-import { TestBed, waitForAsync } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { Action, Store, StoreModule } from '@ngrx/store';
@@ -25,7 +25,7 @@ describe('RekeyUploadOutcomeAnalyticsEffects', () => {
   let actions$: ReplaySubject<Action>;
   let store$: Store<StoreModel>;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({
@@ -51,7 +51,7 @@ describe('RekeyUploadOutcomeAnalyticsEffects', () => {
     effects = TestBed.inject(RekeyUploadOutcomeAnalyticsEffects);
     analyticsProviderMock = TestBed.inject(AnalyticsProvider);
     store$ = TestBed.inject(Store);
-  }));
+  });
 
   describe('rekeyUploadedViewDidEnter', () => {
     it('should call setCurrentPage', (done) => {

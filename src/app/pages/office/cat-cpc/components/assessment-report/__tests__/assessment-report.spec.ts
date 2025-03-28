@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { UntypedFormGroup, Validators } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { AssessmentReportComponent } from '@pages/office/cat-cpc/components/assessment-report/assessment-report';
@@ -7,7 +7,7 @@ describe('AssessmentReportComponent', () => {
   let fixture: ComponentFixture<AssessmentReportComponent>;
   let component: AssessmentReportComponent;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [AssessmentReportComponent],
       imports: [IonicModule],
@@ -15,7 +15,7 @@ describe('AssessmentReportComponent', () => {
 
     fixture = TestBed.createComponent(AssessmentReportComponent);
     component = fixture.componentInstance;
-  }));
+  });
 
   describe('invalid', () => {
     it('should return true if the formControl is invalid and dirty', () => {

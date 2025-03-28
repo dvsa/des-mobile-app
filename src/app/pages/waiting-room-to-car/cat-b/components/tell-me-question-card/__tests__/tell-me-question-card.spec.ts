@@ -1,5 +1,5 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { AppModule } from '@app/app.module';
 import { TellMeQuestionCardComponent } from '@pages/waiting-room-to-car/cat-b/components/tell-me-question-card/tell-me-question-card';
@@ -17,7 +17,7 @@ describe('TellMeQuestionCardComponent', () => {
   let component: TellMeQuestionCardComponent;
   let fixture: ComponentFixture<TellMeQuestionCardComponent>;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       declarations: [TellMeQuestionCardComponent],
@@ -49,7 +49,7 @@ describe('TellMeQuestionCardComponent', () => {
     fixture = TestBed.createComponent(TellMeQuestionCardComponent);
     component = fixture.componentInstance;
     component.formGroup = new UntypedFormGroup({});
-  }));
+  });
 
   it('should create', () => {
     expect(component).toBeTruthy();

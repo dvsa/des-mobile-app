@@ -1,4 +1,4 @@
-import { TestBed, waitForAsync } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { Action, Store, StoreModule } from '@ngrx/store';
 import { testsReducer } from '@store/tests/tests.reducer';
@@ -29,7 +29,7 @@ describe('ConfirmTestDetailsAnalyticsEffects', () => {
   let store$: Store<StoreModel>;
   const screenName = AnalyticsScreenNames.CONFIRM_TEST_DETAILS;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({
@@ -55,7 +55,7 @@ describe('ConfirmTestDetailsAnalyticsEffects', () => {
     effects = TestBed.inject(ConfirmTestDetailsAnalyticsEffects);
     store$ = TestBed.inject(Store);
     analyticsProviderMock = TestBed.inject(AnalyticsProvider);
-  }));
+  });
 
   describe('confirmTestDetailsView$', () => {
     it('should call setCurrentPage', (done) => {

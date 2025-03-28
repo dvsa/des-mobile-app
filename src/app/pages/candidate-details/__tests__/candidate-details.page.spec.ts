@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, fakeAsync, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed, fakeAsync } from '@angular/core/testing';
 import { IonicModule, ModalController } from '@ionic/angular';
 
 import { Router } from '@angular/router';
@@ -42,7 +42,7 @@ describe('CandidateDetailsPage', () => {
     } as JournalModel,
   } as StoreModel;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [
         CandidateDetailsPage,
@@ -66,7 +66,7 @@ describe('CandidateDetailsPage', () => {
     fixture = TestBed.createComponent(CandidateDetailsPage);
     component = fixture.componentInstance;
     store$ = TestBed.inject(MockStore);
-  }));
+  });
 
   describe('Should be correctly configured', () => {
     it('should be created successfully', () => {

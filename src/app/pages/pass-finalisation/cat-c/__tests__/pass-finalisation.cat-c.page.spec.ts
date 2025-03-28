@@ -1,5 +1,5 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { ComponentFixture, TestBed, fakeAsync, tick, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
 import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { AppModule } from '@app/app.module';
@@ -246,7 +246,7 @@ describe('PassFinalisationCatCPage', () => {
     },
   ];
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       declarations: [
@@ -290,7 +290,7 @@ describe('PassFinalisationCatCPage', () => {
     store$ = TestBed.inject(Store);
     spyOn(store$, 'dispatch');
     component.subscription = new Subscription();
-  }));
+  });
 
   describe('Class', () => {
     describe('ionViewDidLeave', () => {

@@ -1,4 +1,4 @@
-import { TestBed, waitForAsync } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { Action, Store, StoreModule } from '@ngrx/store';
@@ -22,7 +22,7 @@ describe('TestReportEffects', () => {
   let testResultProvider: TestResultProvider;
   let store$: Store<StoreModel>;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({
@@ -36,7 +36,7 @@ describe('TestReportEffects', () => {
     testResultProvider = TestBed.inject(TestResultProvider);
     effects = TestBed.inject(TestReportEffects);
     store$ = TestBed.inject(Store);
-  }));
+  });
 
   describe('calculateTestResult', () => {
     beforeEach(() => {

@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { TickIndicatorComponent } from '@components/common/tick-indicator/tick-indicator';
 import { TestResultCommonSchema } from '@dvsa/mes-test-schema/categories/common';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
@@ -64,7 +64,7 @@ describe('EcoComponent', () => {
     } as TestsModel,
   } as StoreModel;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [EcoComponent, MockComponent(TickIndicatorComponent), MockComponent(CompetencyButtonComponent)],
       imports: [IonicModule, StoreModule.forRoot({ tests: testsReducer, testReport: testReportReducer })],
@@ -76,7 +76,7 @@ describe('EcoComponent', () => {
     store$ = TestBed.inject(Store);
     store$.dispatch(StartTest(105, TestCategory.B));
     storeDispatchSpy = spyOn(store$, 'dispatch');
-  }));
+  });
 
   describe('Class', () => {
     describe('Record that Eco has been assessed', () => {

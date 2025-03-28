@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 import { VehicleChecksOfficeCardCatADI2Component } from '@pages/office/cat-adi-part2/components/vehicle-checks/vehicle-checks-office-card';
 import { CompetencyOutcome } from '@shared/models/competency-outcome';
@@ -7,7 +7,7 @@ describe('VehicleChecksOfficeCardCatADI2Component', () => {
   let fixture: ComponentFixture<VehicleChecksOfficeCardCatADI2Component>;
   let component: VehicleChecksOfficeCardCatADI2Component;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [VehicleChecksOfficeCardCatADI2Component],
       imports: [IonicModule],
@@ -15,7 +15,7 @@ describe('VehicleChecksOfficeCardCatADI2Component', () => {
 
     fixture = TestBed.createComponent(VehicleChecksOfficeCardCatADI2Component);
     component = fixture.componentInstance;
-  }));
+  });
 
   describe('ngOnInit', () => {
     it('should return a list of outcomes when using question results', () => {

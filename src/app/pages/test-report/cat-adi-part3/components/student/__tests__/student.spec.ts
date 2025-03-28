@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 import { AssessmentAnswerComponent } from '@pages/test-report/cat-adi-part3/components/assessment-answer/assessment-answer';
 import { StudentComponent } from '@pages/test-report/cat-adi-part3/components/student/student';
@@ -8,14 +8,14 @@ describe('StudentComponent', () => {
   let fixture: ComponentFixture<StudentComponent>;
   let component: StudentComponent;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [StudentComponent, MockComponent(AssessmentAnswerComponent)],
       imports: [IonicModule],
     });
     fixture = TestBed.createComponent(StudentComponent);
     component = fixture.componentInstance;
-  }));
+  });
 
   describe('Class', () => {
     describe('studentLevelChanged', () => {

@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 import { RefreshButtonComponent } from './refresh-button.component';
 
@@ -6,7 +6,7 @@ describe('RefreshButtonComponent', () => {
   let component: RefreshButtonComponent;
   let fixture: ComponentFixture<RefreshButtonComponent>;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [RefreshButtonComponent, IonicModule.forRoot()],
     }).compileComponents();
@@ -14,7 +14,7 @@ describe('RefreshButtonComponent', () => {
     fixture = TestBed.createComponent(RefreshButtonComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
-  }));
+  });
 
   it('should create', () => {
     expect(component).toBeTruthy();

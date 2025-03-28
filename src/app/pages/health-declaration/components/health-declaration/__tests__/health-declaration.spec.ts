@@ -1,5 +1,5 @@
 import { EventEmitter } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule, UntypedFormGroup } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { TranslateLoader, TranslateModule, TranslateParser, TranslateService } from '@ngx-translate/core';
@@ -9,7 +9,7 @@ describe('HealthDeclarationComponent', () => {
   let fixture: ComponentFixture<HealthDeclarationComponent>;
   let component: HealthDeclarationComponent;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [HealthDeclarationComponent],
       imports: [IonicModule, TranslateModule.forRoot(), ReactiveFormsModule],
@@ -18,7 +18,7 @@ describe('HealthDeclarationComponent', () => {
 
     fixture = TestBed.createComponent(HealthDeclarationComponent);
     component = fixture.componentInstance;
-  }));
+  });
 
   describe('Class', () => {
     describe('ngOnChanges', () => {

@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 import { CandidateDetailNavigationComponent } from '@pages/candidate-details/components/candidate-detail-navigation/candidate-detail-navigation';
 
@@ -6,7 +6,7 @@ describe('CandidateDetailNavigationComponent', () => {
   let fixture: ComponentFixture<CandidateDetailNavigationComponent>;
   let component: CandidateDetailNavigationComponent;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [CandidateDetailNavigationComponent],
       imports: [IonicModule],
@@ -14,7 +14,7 @@ describe('CandidateDetailNavigationComponent', () => {
 
     fixture = TestBed.createComponent(CandidateDetailNavigationComponent);
     component = fixture.componentInstance;
-  }));
+  });
 
   describe('onPreviousCandidateClick', () => {
     it('should emit previousCandidateClicked', () => {

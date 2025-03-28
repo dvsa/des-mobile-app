@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { UntypedFormGroup } from '@angular/forms';
 import { AppModule } from '@app/app.module';
 import { LanguagePreferencesComponent } from '@components/test-finalisation/language-preference/language-preference';
@@ -8,7 +8,7 @@ describe('LanguagePreferencesComponent', () => {
   let fixture: ComponentFixture<LanguagePreferencesComponent>;
   let component: LanguagePreferencesComponent;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [LanguagePreferencesComponent],
       imports: [IonicModule, AppModule],
@@ -17,7 +17,7 @@ describe('LanguagePreferencesComponent', () => {
     fixture = TestBed.createComponent(LanguagePreferencesComponent);
     component = fixture.componentInstance;
     component.formGroup = new UntypedFormGroup({});
-  }));
+  });
 
   describe('ngOnChanges', () => {
     it('should add the form control for the language preference radio', () => {

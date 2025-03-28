@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { LocationComponent } from '@components/test-slot/location/location';
 import { TimeComponent } from '@components/test-slot/time/time';
@@ -14,7 +14,7 @@ describe('ActivitySlotComponent', () => {
   let fixture: ComponentFixture<ActivitySlotComponent>;
   let component: ActivitySlotComponent;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [ActivitySlotComponent, MockComponent(TimeComponent), MockComponent(LocationComponent)],
       providers: [{ provide: AppConfigProvider, useClass: AppConfigProviderMock }],
@@ -23,7 +23,7 @@ describe('ActivitySlotComponent', () => {
 
     fixture = TestBed.createComponent(ActivitySlotComponent);
     component = fixture.componentInstance;
-  }));
+  });
 
   describe('Class', () => {
     describe('formatActivityCode', () => {

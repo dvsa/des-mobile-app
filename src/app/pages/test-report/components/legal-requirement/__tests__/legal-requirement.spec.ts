@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { TickIndicatorComponent } from '@components/common/tick-indicator/tick-indicator';
 import { IonicModule } from '@ionic/angular';
 import { Store, StoreModule } from '@ngrx/store';
@@ -16,7 +16,7 @@ describe('LegalRequirementComponent', () => {
   let store$: Store<StoreModel>;
   let storeDispatchSpy: jasmine.Spy;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [
         LegalRequirementComponent,
@@ -30,7 +30,7 @@ describe('LegalRequirementComponent', () => {
     component = fixture.componentInstance;
     store$ = TestBed.inject(Store);
     storeDispatchSpy = spyOn(store$, 'dispatch');
-  }));
+  });
 
   describe('Class', () => {
     it('should dispatch a TOGGLE_NORMAL_START_1 action', () => {

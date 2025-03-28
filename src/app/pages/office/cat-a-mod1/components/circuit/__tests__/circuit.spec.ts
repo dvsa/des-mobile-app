@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { provideMockStore } from '@ngrx/store/testing';
@@ -11,7 +11,7 @@ describe('CircuitComponent', () => {
   let fixture: ComponentFixture<CircuitComponent>;
   let component: CircuitComponent;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [IonicModule, ReactiveFormsModule],
       providers: [
@@ -22,7 +22,7 @@ describe('CircuitComponent', () => {
 
     fixture = TestBed.createComponent(CircuitComponent);
     component = fixture.componentInstance;
-  }));
+  });
 
   describe('ngOnChanges', () => {
     it('should clear validators from FormControl if visibilityType is VisibilityType.NotVisible', () => {

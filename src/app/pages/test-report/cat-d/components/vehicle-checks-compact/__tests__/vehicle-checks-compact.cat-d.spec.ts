@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { Store, StoreModule } from '@ngrx/store';
 import { StoreModel } from '@shared/models/store.model';
@@ -21,7 +21,7 @@ describe('VehicleChecksCompactComponent', () => {
   let component: VehicleChecksCompactCatDComponent;
   let store$: Store<StoreModel>;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [
         VehicleChecksCompactCatDComponent,
@@ -41,7 +41,7 @@ describe('VehicleChecksCompactComponent', () => {
     component = fixture.componentInstance;
     store$ = TestBed.inject(Store);
     store$.dispatch(StartTest(105, TestCategory.D));
-  }));
+  });
 
   describe('Class', () => {
     const vehicleChecksScore: VehicleChecksScore = {

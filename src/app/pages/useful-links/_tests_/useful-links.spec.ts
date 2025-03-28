@@ -1,5 +1,5 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ActivatedRoute } from '@angular/router';
 import { UsefulLink } from '@dvsa/mes-config-schema/remote-config';
 import { ModalController } from '@ionic/angular';
@@ -25,7 +25,7 @@ describe('UsefulLinksPage', () => {
   let urlProvider: jasmine.SpyObj<UrlProvider>;
   let modalController: jasmine.SpyObj<ModalController>;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     const urlProviderSpy = jasmine.createSpyObj('UrlProvider', ['getUsefulLinks']);
     const modalControllerSpy = jasmine.createSpyObj('ModalController', ['create']);
 
@@ -52,7 +52,7 @@ describe('UsefulLinksPage', () => {
     modalController = TestBed.inject(ModalController) as jasmine.SpyObj<ModalController>;
 
     spyOn(store$, 'dispatch');
-  }));
+  });
 
   it('should create', () => {
     expect(component).toBeTruthy();

@@ -1,4 +1,4 @@
-import { TestBed, waitForAsync } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { Action, Store, StoreModule } from '@ngrx/store';
@@ -27,7 +27,7 @@ describe('DebriefAnalyticsEffects', () => {
   const screenNamePass = AnalyticsScreenNames.PASS_DEBRIEF;
   const screenNameFail = AnalyticsScreenNames.FAIL_DEBRIEF;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({
@@ -53,7 +53,7 @@ describe('DebriefAnalyticsEffects', () => {
     effects = TestBed.inject(DebriefAnalyticsEffects);
     analyticsProviderMock = TestBed.inject(AnalyticsProvider);
     store$ = TestBed.inject(Store);
-  }));
+  });
 
   describe('debriefViewDidEnter', () => {
     it('should call setCurrentPage with pass page', (done) => {

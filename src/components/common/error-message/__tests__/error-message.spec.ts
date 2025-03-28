@@ -1,5 +1,5 @@
 import { CommonModule, Location } from '@angular/common';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 import { ErrorTypes } from '@shared/models/error-message';
 import { ErrorMessageComponent, additionalText } from '../error-message';
@@ -10,7 +10,7 @@ describe('ErrorMessageComponent', () => {
   let location: Location;
   const locationSpy = jasmine.createSpyObj('Location', ['back']);
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [ErrorMessageComponent],
       imports: [CommonModule, IonicModule],
@@ -20,7 +20,7 @@ describe('ErrorMessageComponent', () => {
     fixture = TestBed.createComponent(ErrorMessageComponent);
     component = fixture.componentInstance;
     location = TestBed.inject(Location);
-  }));
+  });
 
   describe('Class', () => {
     describe('ngOnInit', () => {

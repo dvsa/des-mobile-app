@@ -1,4 +1,4 @@
-import { TestBed, waitForAsync } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { ReplaySubject } from 'rxjs';
 
@@ -34,7 +34,7 @@ describe('DashboardAnalyticsEffects', () => {
   let actions$: ReplaySubject<Action>;
   const screenName = AnalyticsScreenNames.DASHBOARD;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({
@@ -60,7 +60,7 @@ describe('DashboardAnalyticsEffects', () => {
     actions$ = new ReplaySubject(1);
     effects = TestBed.inject(DashboardAnalyticsEffects);
     analyticsProviderMock = TestBed.inject(AnalyticsProvider);
-  }));
+  });
 
   describe('dashboardViewDidEnter', () => {
     it('should call setCurrentPage', (done) => {

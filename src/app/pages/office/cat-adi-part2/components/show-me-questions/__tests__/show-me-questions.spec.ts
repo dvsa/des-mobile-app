@@ -1,5 +1,5 @@
 import { EventEmitter } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 
 import { UntypedFormGroup, Validators } from '@angular/forms';
@@ -20,7 +20,7 @@ describe('ShowMeQuestionsCatADI2Component', () => {
   let fixture: ComponentFixture<ShowMeQuestionsCatADI2Component>;
   let component: ShowMeQuestionsCatADI2Component;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [ShowMeQuestionsCatADI2Component],
       imports: [IonicModule, AppModule],
@@ -34,7 +34,7 @@ describe('ShowMeQuestionsCatADI2Component', () => {
 
     fixture = TestBed.createComponent(ShowMeQuestionsCatADI2Component);
     component = fixture.componentInstance;
-  }));
+  });
 
   describe('Class', () => {
     describe('isOptionDisabled', () => {

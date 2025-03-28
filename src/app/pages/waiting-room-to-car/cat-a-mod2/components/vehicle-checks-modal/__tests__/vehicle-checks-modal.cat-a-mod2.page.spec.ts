@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { AppModule } from '@app/app.module';
 import { WarningBannerComponent } from '@components/common/warning-banner/warning-banner';
 import { QuestionOutcome, QuestionResult } from '@dvsa/mes-test-schema/categories/common';
@@ -23,7 +23,7 @@ describe('VehicleChecksCatAMod2Modal', () => {
   let component: VehicleChecksCatAMod2Modal;
   let store$: Store<StoreModel>;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [
         VehicleChecksCatAMod2Modal,
@@ -38,7 +38,7 @@ describe('VehicleChecksCatAMod2Modal', () => {
     component = fixture.componentInstance;
     store$ = TestBed.inject(Store);
     spyOn(store$, 'dispatch');
-  }));
+  });
 
   describe('Class', () => {
     it('should compile', () => {

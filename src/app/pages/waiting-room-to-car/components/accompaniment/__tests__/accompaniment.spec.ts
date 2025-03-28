@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { AppModule } from '@app/app.module';
 import { IonicModule } from '@ionic/angular';
@@ -9,7 +9,7 @@ describe('AccompanimentComponent', () => {
   let fixture: ComponentFixture<AccompanimentComponent>;
   let component: AccompanimentComponent;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [AccompanimentComponent],
       imports: [IonicModule, AppModule, ReactiveFormsModule, PipesModule],
@@ -19,7 +19,7 @@ describe('AccompanimentComponent', () => {
     component = fixture.componentInstance;
     component.formGroup = new UntypedFormGroup({});
     component.formControl = new UntypedFormControl(null, [Validators.required]);
-  }));
+  });
 
   describe('ngOnChanges', () => {
     it('should have accompaniment form control be added to ' + 'form if there is no form control already there', () => {

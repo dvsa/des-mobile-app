@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { UntypedFormGroup } from '@angular/forms';
 import { MockAppComponent } from '@app/__mocks__/app.component.mock';
 import { AppComponent } from '@app/app.component';
@@ -10,7 +10,7 @@ describe('CBTNumberComponent', () => {
   let fixture: ComponentFixture<CBTNumberComponent>;
   let component: CBTNumberComponent;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [CBTNumberComponent],
       imports: [IonicModule, AppModule],
@@ -20,7 +20,7 @@ describe('CBTNumberComponent', () => {
     fixture = TestBed.createComponent(CBTNumberComponent);
     component = fixture.componentInstance;
     component.formGroup = new UntypedFormGroup({});
-  }));
+  });
 
   describe('Class', () => {
     describe('cbtNumberChanged', () => {

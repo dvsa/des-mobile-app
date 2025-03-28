@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 
 import { Store, StoreModule } from '@ngrx/store';
@@ -12,7 +12,7 @@ describe('MotCardComponent', () => {
   let component: MotCardComponent;
   let fixture: ComponentFixture<MotCardComponent>;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [MotCardComponent],
       imports: [StoreModule.forRoot(), IonicModule.forRoot()],
@@ -22,7 +22,7 @@ describe('MotCardComponent', () => {
     fixture = TestBed.createComponent(MotCardComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
-  }));
+  });
 
   it('should create', () => {
     expect(component).toBeTruthy();

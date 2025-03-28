@@ -1,4 +1,4 @@
-import { TestBed, waitForAsync } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 import { Router } from '@angular/router';
 import { Application } from '@dvsa/mes-journal-schema';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
@@ -49,7 +49,7 @@ describe('CommunicationAnalyticsEffects', () => {
     checkDigit: 9,
   };
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({
@@ -79,7 +79,7 @@ describe('CommunicationAnalyticsEffects', () => {
     effects = TestBed.inject(CommunicationAnalyticsEffects);
     analyticsProviderMock = TestBed.inject(AnalyticsProvider);
     store$ = TestBed.inject(Store);
-  }));
+  });
 
   describe('communicationViewDidEnter', () => {
     it('should call setCurrentPage and addCustomDimension', (done) => {

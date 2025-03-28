@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { ModalController, Platform } from '@ionic/angular';
 import { ModalControllerMock, PlatformMock } from '@mocks/index.mock';
@@ -40,7 +40,7 @@ describe('TestResultsSearchPage', () => {
   let appConfigProviderMock: AppConfigProvider;
   let authProviderMock: AuthenticationProvider;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       declarations: [
@@ -86,7 +86,7 @@ describe('TestResultsSearchPage', () => {
     modalController = TestBed.inject(ModalController);
     appConfigProviderMock = TestBed.inject(AppConfigProvider);
     authProviderMock = TestBed.inject(AuthenticationProvider);
-  }));
+  });
 
   describe('DOM', () => {
     describe('ionViewWillEnter', () => {

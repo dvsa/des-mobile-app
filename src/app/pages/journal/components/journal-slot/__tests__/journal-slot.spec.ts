@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ComponentsModule } from '@components/common/common-components.module';
 import { TestSlot } from '@dvsa/mes-journal-schema';
 import { IonicModule } from '@ionic/angular';
@@ -13,7 +13,7 @@ describe('JournalSlotComponent', () => {
   let component: JournalSlotComponent;
   let slotSelector: SlotSelectorProvider;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [JournalSlotComponent],
       imports: [IonicModule, ComponentsModule],
@@ -23,7 +23,7 @@ describe('JournalSlotComponent', () => {
     fixture = TestBed.createComponent(JournalSlotComponent);
     component = fixture.componentInstance;
     slotSelector = TestBed.inject(SlotSelectorProvider);
-  }));
+  });
 
   describe('slotType', () => {
     it('should return `personal` when personalCommitment is empty', () => {

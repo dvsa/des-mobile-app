@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { ComponentsModule } from '@components/common/common-components.module';
 import { IonicModule, ModalController } from '@ionic/angular';
@@ -12,7 +12,7 @@ describe('LegalRequirementsModal', () => {
   let component: SpecialLegalRequirementModal;
   let modalController: ModalController;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [SpecialLegalRequirementModal],
       imports: [AppModule, IonicModule, ComponentsModule],
@@ -23,7 +23,7 @@ describe('LegalRequirementsModal', () => {
     modalController = TestBed.inject(ModalController);
     component = fixture.componentInstance;
     spyOn(component.modalCtrl, 'dismiss');
-  }));
+  });
 
   describe('DOM', () => {
     it('should call onCancel when the Return to test button is clicked', () => {

@@ -1,4 +1,4 @@
-import { TestBed, waitForAsync } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { Action } from '@ngrx/store';
 import { AnalyticsProviderMock } from '@providers/analytics/__mocks__/analytics.mock';
@@ -15,7 +15,7 @@ describe('RekeySearchAnalyticsEffects', () => {
   let actions$: ReplaySubject<Action>;
   const screenName = AnalyticsScreenNames.REKEY_SEARCH;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
         RekeySearchAnalyticsEffects,
@@ -27,7 +27,7 @@ describe('RekeySearchAnalyticsEffects', () => {
     actions$ = new ReplaySubject(1);
     effects = TestBed.inject(RekeySearchAnalyticsEffects);
     analyticsProviderMock = TestBed.inject(AnalyticsProvider);
-  }));
+  });
 
   describe('rekeySearchViewDidEnter', () => {
     it('should call setCurrentPage', (done) => {

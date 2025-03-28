@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 import { Store } from '@ngrx/store';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
@@ -10,7 +10,7 @@ describe('PassCertificatesPage', () => {
   let fixture: ComponentFixture<PassCertificatesPage>;
   let store$: MockStore;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [PassCertificatesPage],
       imports: [IonicModule],
@@ -20,7 +20,7 @@ describe('PassCertificatesPage', () => {
     component = fixture.componentInstance;
     fixture.detectChanges();
     store$ = TestBed.inject(MockStore);
-  }));
+  });
   it('should create', () => {
     expect(component).toBeTruthy();
     expect(store$).toBeTruthy();

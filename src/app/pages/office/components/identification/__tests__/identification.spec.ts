@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { UntypedFormGroup, Validators } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { provideMockStore } from '@ngrx/store/testing';
@@ -9,7 +9,7 @@ describe('IdentificationComponent', () => {
   let fixture: ComponentFixture<IdentificationComponent>;
   let component: IdentificationComponent;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [IdentificationComponent],
       imports: [IonicModule],
@@ -21,7 +21,7 @@ describe('IdentificationComponent', () => {
 
     fixture = TestBed.createComponent(IdentificationComponent);
     component = fixture.componentInstance;
-  }));
+  });
 
   describe('identificationChanged', () => {
     it('should emit identification while from control is valid', () => {

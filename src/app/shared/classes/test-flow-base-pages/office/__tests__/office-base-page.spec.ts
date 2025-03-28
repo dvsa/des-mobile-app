@@ -1,4 +1,4 @@
-import { TestBed, fakeAsync, tick, waitForAsync } from '@angular/core/testing';
+import { TestBed, fakeAsync, tick } from '@angular/core/testing';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TestResultSchemasUnion } from '@dvsa/mes-test-schema/categories';
 import { ModalController, NavController, Platform, ToastController } from '@ionic/angular';
@@ -124,7 +124,7 @@ describe('OfficeBasePageComponent', () => {
     } as TestsModel,
   } as StoreModel;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
         {
@@ -193,7 +193,7 @@ describe('OfficeBasePageComponent', () => {
     }
 
     basePageComponent = new BasePageClass(injector);
-  }));
+  });
 
   describe('onInitialisation', () => {
     it('should resolve state variables', () => {

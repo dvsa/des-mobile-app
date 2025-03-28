@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ComponentsModule } from '@components/common/common-components.module';
 import { TestResultCatADI3Schema } from '@dvsa/mes-test-schema/categories/ADI3';
@@ -33,7 +33,7 @@ describe('OfficeCatADI3Page', () => {
   let component: OfficeCatADI3Page;
   let store$: Store<StoreModel>;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [
         OfficeCatADI3Page,
@@ -92,7 +92,7 @@ describe('OfficeCatADI3Page', () => {
     store$ = TestBed.inject(Store);
     spyOn(store$, 'dispatch');
     spyOn(component.deviceProvider, 'disableSingleAppMode');
-  }));
+  });
 
   it('should create', () => {
     expect(component).toBeTruthy();

@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
@@ -13,7 +13,7 @@ describe('healthDeclarationModal', () => {
   let modalFixture: ComponentFixture<HealthDeclarationModal>;
   let modalComponent: HealthDeclarationModal;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [HealthDeclarationModal],
       imports: [RouterModule, CommonModule, FormsModule, IonicModule, ComponentsModule],
@@ -29,7 +29,7 @@ describe('healthDeclarationModal', () => {
     modalFixture = TestBed.createComponent(HealthDeclarationModal);
     modalComponent = modalFixture.componentInstance;
     spyOn(modalComponent.modalController, 'dismiss').and.returnValue(Promise.resolve(true));
-  }));
+  });
 
   it('should call onBack when the Cancel button is clicked', async () => {
     spyOn(modalComponent.modalController, 'dismiss');

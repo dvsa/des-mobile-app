@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { AppModule } from '@app/app.module';
 import { CandidateSectionComponent } from '@components/common/candidate-section/candidate-section';
 import { ComponentsModule } from '@components/common/common-components.module';
@@ -16,7 +16,7 @@ describe('CandidateSectionComponent', () => {
   let fixture: ComponentFixture<CandidateSectionComponent>;
   let component: CandidateSectionComponent;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [CandidateSectionComponent],
       imports: [IonicModule, AppModule, ComponentsModule, CommonModule],
@@ -24,7 +24,7 @@ describe('CandidateSectionComponent', () => {
     fixture = TestBed.createComponent(CandidateSectionComponent);
     component = fixture.componentInstance;
     spyOn(component.store$, 'dispatch');
-  }));
+  });
 
   describe('proceed', () => {
     it('should emit continueClickEvent with true', () => {
