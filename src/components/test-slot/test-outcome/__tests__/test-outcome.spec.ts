@@ -24,6 +24,7 @@ import { TestStatus } from '@store/tests/test-status/test-status.model';
 import { ActivateTest, StartTest } from '@store/tests/tests.actions';
 
 import { ModalController } from '@ionic/angular';
+import { OverlayEventDetail } from '@ionic/core';
 import { RouterMock } from '@mocks/angular-mocks/router-mock';
 import { ModalControllerMock } from '@mocks/ionic-mocks/modal-controller.mock';
 import { AccessibilityServiceMock } from '@providers/accessibility/__mocks__/accessibility-service.mock';
@@ -232,6 +233,97 @@ describe('TestOutcomeComponent', () => {
         const startButton = fixture.debugElement.query(By.css('.mes-primary-button'));
         startButton.triggerEventHandler('click', null);
         expect(component.displayCheckStartModal).not.toHaveBeenCalled();
+      });
+    });
+
+    describe('displayCategoryPreviewModeModal', () => {
+      it('should create and present the modal', async () => {
+        spyOn(component.modalController, 'create').and.returnValue(
+          Promise.resolve({
+            present: async () => {},
+            onWillDismiss: () => ({ data: ModalEvent.CANCEL }) as OverlayEventDetail,
+            onDidDismiss: () => ({ data: ModalEvent.CANCEL }) as OverlayEventDetail,
+          } as HTMLIonModalElement)
+        );
+
+        await component.displayCategoryPreviewModeModal();
+
+        expect(component.modalController.create).toHaveBeenCalled();
+      });
+
+      it('should call onModalDismiss with the modal data', async () => {
+        const modalData = { data: ModalEvent.START };
+        const modal = {
+          present: jasmine.createSpy('present').and.returnValue(Promise.resolve()),
+          onDidDismiss: jasmine.createSpy('onDidDismiss').and.returnValue(Promise.resolve(modalData)),
+        };
+        spyOn(component.modalController, 'create').and.returnValue(Promise.resolve(modal as any));
+        spyOn(component, 'onModalDismiss');
+        await component.displayCategoryPreviewModeModal();
+        expect(component.onModalDismiss).toHaveBeenCalledWith(modalData.data);
+      });
+    });
+
+    describe('clickStartOrResumeTest', () => {
+      it(
+        'should display force check modal if special requirements ' +
+          'or fit marker and hasSeenCandidateDetails is false',
+        async () => {
+          component.slotDetail = testSlotDetail;
+          component.isPracticeMode = false;
+          component.specialRequirements = true;
+          component.hasSeenCandidateDetails = false;
+          spyOn(component, 'displayForceCheckModal');
+          await component.clickStartOrResumeTest();
+          expect(component.displayForceCheckModal).toHaveBeenCalled();
+        }
+      );
+
+      it('should display rekey modal if rekey conditions are met and not in practice mode', async () => {
+        component.slotDetail = testSlotDetail;
+        component.isPracticeMode = false;
+        spyOn(component, 'shouldDisplayRekeyModal').and.returnValue(true);
+        spyOn(component, 'displayRekeyModal');
+        await component.clickStartOrResumeTest();
+        expect(component.displayRekeyModal).toHaveBeenCalled();
+      });
+
+      it(
+        'should display category preview mode modal if in ' + 'E2E practice mode and category not whitelisted',
+        async () => {
+          component.slotDetail = testSlotDetail;
+          component.isPracticeMode = false;
+          spyOn(component, 'isE2EPracticeMode').and.returnValue(true);
+          spyOn(component.categoryWhitelistProvider, 'isWhiteListed').and.returnValue(false);
+          spyOn(component, 'displayCategoryPreviewModeModal');
+          await component.clickStartOrResumeTest();
+          expect(component.displayCategoryPreviewModeModal).toHaveBeenCalled();
+        }
+      );
+
+      it('should display check start modal if check start conditions are met and not in practice mode', async () => {
+        component.slotDetail = testSlotDetail;
+        component.isPracticeMode = false;
+        spyOn(component, 'shouldDisplayCheckStartModal').and.returnValue(true);
+        spyOn(component, 'displayCheckStartModal');
+        await component.clickStartOrResumeTest();
+        expect(component.displayCheckStartModal).toHaveBeenCalled();
+      });
+
+      it('should start or resume test if no other conditions are met', async () => {
+        component.slotDetail = testSlotDetail;
+        component.isPracticeMode = false;
+        spyOn(component, 'startOrResumeTestDependingOnStatus');
+        await component.clickStartOrResumeTest();
+        expect(component.startOrResumeTestDependingOnStatus).toHaveBeenCalled();
+      });
+
+      it('should start or resume test if in practice mode', async () => {
+        component.slotDetail = testSlotDetail;
+        component.isPracticeMode = true;
+        spyOn(component, 'startOrResumeTestDependingOnStatus');
+        await component.clickStartOrResumeTest();
+        expect(component.startOrResumeTestDependingOnStatus).toHaveBeenCalled();
       });
     });
 
