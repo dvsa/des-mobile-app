@@ -92,6 +92,26 @@
               "vendorChunk": true,
               "buildOptimizer": true
             },
+            "qr": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.qr.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": {
+                "hidden": true,
+                "scripts": true,
+                "styles": true
+              },
+              "namedChunks": true,
+              "aot": true,
+              "extractLicenses": true,
+              "vendorChunk": true,
+              "buildOptimizer": true
+            },
             "uat": {
               "fileReplacements": [
                 {
@@ -216,6 +236,9 @@
             },
             "livereload": {
               "buildTarget": "app:build:livereload"
+            },
+            "qr": {
+              "buildTarget": "app:build:qr"
             },
             "dev-tools": {
               "buildTarget": "app:build:dev-tools"
