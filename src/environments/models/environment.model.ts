@@ -18,3 +18,11 @@ export interface TestersEnvironmentFile extends MdmConfig {
   // boolean for testers to be able to control certain aspects of the app
   isTest: boolean;
 }
+
+export interface QrEnvironmentFile extends MdmConfig {
+  // this is required by main.ts so that Ionic knows when to enable production mode
+  production: boolean;
+
+  // flag to be able to enable side loading via QR code
+  allowQR: boolean;
+}
