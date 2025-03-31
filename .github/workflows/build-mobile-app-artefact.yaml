@@ -40,7 +40,6 @@ jobs:
       AWS_ROLE: ${{ secrets.DES_AWS_ROLE }}
 
   release:
-    needs: get_release_branch
     if: github.event_name == 'push' && startsWith(github.ref_name, 'release-')
     uses: dvsa/des-workflow-actions/.github/workflows/build-mobile-app.yaml@main
     with:
