@@ -22,7 +22,7 @@ jobs:
       environment: develop
       config-type: test
       build-simulator: true
-      build-ipa: true
+      build-ipa: false
     secrets:
       AWS_ROLE: ${{ secrets.DES_AWS_ROLE }}
 
@@ -33,7 +33,7 @@ jobs:
       runs-on: mito-2
       environment: feature
       config-type: dev
-      build-type: dev
+      build-type: qr
       build-simulator: true
       build-ipa: true
     secrets:
@@ -47,7 +47,7 @@ jobs:
       runs-on: mito-2
       environment: release
       config-type: dev
-      build-type: qr
+      build-type: prod
       build-ipa: true
     secrets:
       AWS_ROLE: ${{ secrets.DES_AWS_ROLE }}
