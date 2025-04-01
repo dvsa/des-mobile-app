@@ -1,4 +1,4 @@
-name: 📱 Build Mobile Artefact
+name: 📱 Build Mobile Artefact 2
 run-name: "📱 ${{ github.actor}} - ${{ github.ref_name }} - ${{ github.run_id }}"
 
 on:
