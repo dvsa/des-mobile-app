@@ -6,7 +6,7 @@ on:
     branches: [ 'feature/MES-10346' ]
 
 env:
-  ENVIRONMENT: develop
+  ENVIRONMENT: feature
   GEM_HOME: $HOME/des/.gem
   AWS_DEFAULT_REGION: ${{ vars.DVSA_AWS_REGION }}
 
@@ -57,7 +57,7 @@ jobs:
         run: |
           npm run config:dev
           npm run schema-version
-          npm run build:prod
+          npm run build:qr
 
       - name: 🛠️ Build Mobile
         run: |
