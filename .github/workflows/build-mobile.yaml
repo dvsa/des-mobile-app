@@ -44,8 +44,8 @@ jobs:
       - name: ⚙️ Set Fastlane Configuration Files
         run: aws secretsmanager get-secret-value --secret-id des-mobile-app/fastlane-config --query SecretString --output text > fastlane-config.txt
 
-      # - name: ⚙️ Set Ionic Configuration
-      #   run: aws secretsmanager get-secret-value --secret-id des-mobile-app/build-config --query SecretString --output text | bash
+      - name: ⚙️ Set Ionic Configuration
+        run: aws secretsmanager get-secret-value --secret-id des-mobile-app/build-config --query SecretString --output text | bash
 
       # - name: ➕ Install Dependencies
       #   run: |
