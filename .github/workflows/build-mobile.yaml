@@ -59,8 +59,7 @@ jobs:
         run: aws secretsmanager get-secret-value --secret-id des-mobile-app-build-config --query SecretString | jq . --raw-output > build-config.sh && bash build-config.sh
 
       - name: ⚙️ Set Fastlane Configuration Files
-        run: |
-          aws secretsmanager get-secret-value --secret-id des-mobile-app/fastlane-config --query SecretString --output text | bash
+        run: aws secretsmanager get-secret-value --secret-id des-mobile-app/fastlane-config --query SecretString --output text | bash
 
       - name: ➕ Install Dependencies
         run: |
@@ -74,15 +73,15 @@ jobs:
           npm run schema-version
           npm run build:qr
 
-      # - name: 🛠️ Build Mobile
-      #   run: |
-      #     bundle exec fastlane build_ipa
+      - name: 🛠️ Build Mobile
+        run: |
+          bundle exec fastlane build_ipa
 
-      #     echo "| Item | Link |" >> $GITHUB_STEP_SUMMARY
-      #     echo "|------|------|" >> $GITHUB_STEP_SUMMARY
-      #     echo "| QR | $(cat ./fastlane/builds/url-qr.txt) |" >> $GITHUB_STEP_SUMMARY
-      #     echo "| IPA | $(cat ./fastlane/builds/url-html.txt) |" >> $GITHUB_STEP_SUMMARY
+          echo "| Item | Link |" >> $GITHUB_STEP_SUMMARY
+          echo "|------|------|" >> $GITHUB_STEP_SUMMARY
+          echo "| QR | $(cat ./fastlane/builds/url-qr.txt) |" >> $GITHUB_STEP_SUMMARY
+          echo "| IPA | $(cat ./fastlane/builds/url-html.txt) |" >> $GITHUB_STEP_SUMMARY
 
-      # - name: 🔪 Kill Xcode
-      #   if: always()
-      #   run: osascript -e 'quit app "Xcode"'
+      - name: 🔪 Kill Xcode
+        if: always()
+        run: osascript -e 'quit app "Xcode"'
