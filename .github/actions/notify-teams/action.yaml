@@ -21,6 +21,7 @@ runs:
     - name: Microsoft Teams Notification
       shell: bash
       run: |
+        set +x
         STATUS="${{ job.status }}"
         COLOR="good"
 
