@@ -1,0 +1,73 @@
+name: 📱 Build Mobile Artefact
+run-name: "📱 ${{ github.actor}} - ${{ github.ref_name }} - ${{ github.run_id }}"
+
+on:
+  push:
+    branches: [ 'feature/MES-10346' ]
+
+env:
+  ENVIRONMENT: develop
+  GEM_HOME: $HOME/des/.gem
+  AWS_DEFAULT_REGION: ${{ vars.DVSA_AWS_REGION }}
+
+permissions:
+  id-token: write
+  contents: write
+
+jobs:
+  build:
+    name: 📱 Build Mobile App
+    runs-on: mito-6
+    steps:
+      - name: 📨 Checkout
+        uses: actions/checkout@v4
+
+      - name: 🚀 Setup Paths
+        run: echo "/opt/homebrew/bin:/opt/homebrew/sbin:$HOME/.rbenv/shims:${{ env.GEM_HOME }}/bin" >> $GITHUB_PATH
+
+      - name: 🔍 Read .nvmrc
+        id: nvm
+        run: echo "NVMRC=$(cat .nvmrc)" >> $GITHUB_OUTPUT
+
+      - name: ⚙️ Setup Node.js ${{ steps.nvm.outputs.NVMRC }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ steps.nvm.outputs.NVMRC }}
+
+      - name: 🔑 Configure AWS Connection
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ secrets.DES_AWS_ROLE }}
+          aws-region: ${{ vars.DVSA_AWS_REGION }}
+          role-session-name: mobile-build-${{ github.repository_id }}
+
+      - name: ⚙️ Set Fastlane Configuration Files
+        run: aws secretsmanager get-secret-value --secret-id des-mobile-app/fastlane-config --query SecretString --output text | bash
+
+      - name: ⚙️ Set Ionic Configuration
+        run: aws secretsmanager get-secret-value --secret-id des-mobile-app/build-config --query SecretString --output text | bash
+
+      - name: ➕ Install Dependencies
+        run: |
+          npm ci
+          bundle config set path ${{ env.GEM_HOME }}
+          bundle install --jobs $(sysctl -n hw.physicalcpu)
+
+      - name: ⚒️ Build Project
+        run: |
+          npm run config:dev
+          npm run schema-version
+          run: npm run build:prod
+
+      - name: 🛠️ Build Mobile
+        run: |
+          bundle exec fastlane build_ipa
+
+          echo "| Item | Link |" >> $GITHUB_STEP_SUMMARY
+          echo "|------|------|" >> $GITHUB_STEP_SUMMARY
+          echo "| QR | $(cat ./fastlane/builds/url-qr.txt) |" >> $GITHUB_STEP_SUMMARY
+          echo "| IPA | $(cat ./fastlane/builds/url-html.txt) |" >> $GITHUB_STEP_SUMMARY
+
+      - name: 🔪 Kill Xcode
+        if: always()
+        run: osascript -e 'quit app "Xcode"'

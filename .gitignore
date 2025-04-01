@@ -60,3 +60,5 @@ remotedev-server/
 fastlane/builds
 fastlane/simulator
 fastlane/report.xml
+fastlane/certs
+fastlane/codes
