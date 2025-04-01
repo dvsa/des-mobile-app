@@ -84,9 +84,7 @@ jobs:
         run: osascript -e 'quit app "Xcode"'
 
       - name: 📢 Notify Teams
-        uses: ./.github/actions/notify-teams
-        with:
-          webhook_url: ${{ env.TEAMS_WEBHOOK }}
-          ipa-link: $(cat ./fastlane/builds/url-html.txt)
-          qr-link: $(cat ./fastlane/builds/url-qr.txt)
-          information: "${{ env.ENVIRONMENT }}"
+        run: |
+          QR_LINK=$(cat ./fastlane/builds/url-qr.txt)
+          IPA_LINK=$(cat ./fastlane/builds/url-html.txt)
+          aws secretsmanager get-secret-value des-mobile-app/notify-teams --query SecretString --output text | bash
