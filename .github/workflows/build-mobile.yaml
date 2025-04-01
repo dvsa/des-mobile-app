@@ -45,15 +45,15 @@ jobs:
         run: aws secretsmanager get-secret-value --secret-id des-mobile-app/fastlane-config --query SecretString --output text | bash
 
       - name: ⚙️ Set Configuration Files
+        run: aws secretsmanager get-secret-value --secret-id des-mobile-app/build-config --query SecretString --output text | bash
+
+      - name: ➕ Install Dependencies
         env:
           IONIC_TOKEN: ${{ env.IONIC_TOKEN }}
           DVSA_PACKAGE_TOKEN: ${{ env.DVSA_PACKAGE_TOKEN }}
           IONIC_PRODUCT_KEY: ${{ env.IONIC_PRODUCT_KEY }}
           IONIC_APP_ID: ${{ env.IONIC_APP_ID }}
           IONIC_ORG_ID: ${{ env.IONIC_ORG_ID }}
-        run: aws secretsmanager get-secret-value --secret-id des-mobile-app/build-config --query SecretString --output text | bash
-
-      - name: ➕ Install Dependencies
         run: |
           npm ci
           bundle config set path ${{ env.GEM_HOME }}
