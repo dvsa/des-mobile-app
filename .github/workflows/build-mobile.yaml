@@ -41,19 +41,27 @@ jobs:
           aws-region: ${{ vars.DVSA_AWS_REGION }}
           role-session-name: mobile-build-${{ github.repository_id }}
 
+      - name: 🤫 Get Secrets
+        uses: aws-actions/aws-secretsmanager-get-secrets@v2
+        with:
+          secret-ids: |
+            des-mobile-app/env
+            des-globals/env
+          parse-json-secrets: true
+
       - name: ⚙️ Set Fastlane Configuration Files
         run: aws secretsmanager get-secret-value --secret-id des-mobile-app/fastlane-config --query SecretString --output text | bash
 
       - name: ⚙️ Set Configuration Files
+        env:
+          IONIC_TOKEN: ${{ env.DES_MOBILE_APP_ENV_IONIC_TOKEN }}
+          DVSA_PACKAGE_TOKEN: ${{ env.DES_MOBILE_APP_ENV_DVSA_PACKAGE_TOKEN }}
+          IONIC_PRODUCT_KEY: ${{ env.DES_MOBILE_APP_ENV_IONIC_PRODUCT_KEY }}
+          IONIC_APP_ID: ${{ env.DES_MOBILE_APP_ENV_IONIC_APP_ID }}
+          IONIC_ORG_ID: ${{ env.DES_MOBILE_APP_ENV_IONIC_ORG_ID }}
         run: aws secretsmanager get-secret-value --secret-id des-mobile-app/build-config --query SecretString --output text | bash
 
       - name: ➕ Install Dependencies
-        env:
-          IONIC_TOKEN: ${{ env.IONIC_TOKEN }}
-          DVSA_PACKAGE_TOKEN: ${{ env.DVSA_PACKAGE_TOKEN }}
-          IONIC_PRODUCT_KEY: ${{ env.IONIC_PRODUCT_KEY }}
-          IONIC_APP_ID: ${{ env.IONIC_APP_ID }}
-          IONIC_ORG_ID: ${{ env.IONIC_ORG_ID }}
         run: |
           npm ci
           bundle config set path ${{ env.GEM_HOME }}
