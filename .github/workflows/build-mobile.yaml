@@ -74,6 +74,8 @@ jobs:
           npm run build:qr
 
       - name: 🛠️ Build Mobile
+        env:
+          UPLOAD_PATH: ${{ env.ENVIRONMENT }}
         run: |
           bundle exec fastlane build_ipa
 
