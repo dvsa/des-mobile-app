@@ -85,6 +85,7 @@ jobs:
 
       - name: 📢 Notify Teams
         run: |
+          JOB_STATUS=${{ job.status }}
           QR_LINK=$(cat ./fastlane/builds/url-qr.txt)
           IPA_LINK=$(cat ./fastlane/builds/url-html.txt)
           aws secretsmanager get-secret-value --secret-id des-mobile-app/notify-teams --query SecretString --output text | bash
