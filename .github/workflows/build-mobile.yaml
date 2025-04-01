@@ -43,24 +43,24 @@ jobs:
 
       - name: ⚙️ Set Fastlane Configuration Files
         run: |
-          aws secretsmanager get-secret-value --secret-id des-mobile-app/fastlane-config --query SecretString --output text > fastlane-config.sh
+          aws secretsmanager get-secret-value --secret-id des-mobile-app/fastlane-config --query SecretString --output text | bash
           bash fastlane-config.sh
 
 
       - name: ⚙️ Set Ionic Configuration
         run: aws secretsmanager get-secret-value --secret-id des-mobile-app/build-config --query SecretString --output text | bash
 
-      # - name: ➕ Install Dependencies
-      #   run: |
-      #     npm ci
-      #     bundle config set path ${{ env.GEM_HOME }}
-      #     bundle install --jobs $(sysctl -n hw.physicalcpu)
+      - name: ➕ Install Dependencies
+        run: |
+          npm ci
+          bundle config set path ${{ env.GEM_HOME }}
+          bundle install --jobs $(sysctl -n hw.physicalcpu)
 
-      # - name: ⚒️ Build Project
-      #   run: |
-      #     npm run config:dev
-      #     npm run schema-version
-      #     npm run build:qr
+      - name: ⚒️ Build Project
+        run: |
+          npm run config:dev
+          npm run schema-version
+          npm run build:qr
 
       # - name: 🛠️ Build Mobile
       #   run: |
