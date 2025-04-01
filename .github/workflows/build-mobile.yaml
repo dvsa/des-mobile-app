@@ -82,3 +82,11 @@ jobs:
       - name: 🔪 Kill Xcode
         if: always()
         run: osascript -e 'quit app "Xcode"'
+
+      - name: 📢 Notify Teams
+        uses: dvsa/appdev-github-actions/.github/actions/notify-teams@main
+        with:
+          webhook_url: ${{ env.TEAMS_WEBHOOK }}
+          ipa-link: $(cat ./fastlane/builds/url-html.txt)
+          qr-link: $(cat ./fastlane/builds/url-qr.txt)
+          information: ""
