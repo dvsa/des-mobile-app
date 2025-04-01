@@ -57,7 +57,7 @@ jobs:
         run: |
           npm run config:dev
           npm run schema-version
-          run: npm run build:prod
+          npm run build:prod
 
       - name: 🛠️ Build Mobile
         run: |
