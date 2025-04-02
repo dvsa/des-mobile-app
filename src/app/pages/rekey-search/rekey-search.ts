@@ -24,6 +24,7 @@ import { ExaminerRole } from '@providers/app-config/constants/examiner-role.cons
 import { NetworkStateProvider } from '@providers/network-state/network-state';
 import { OrientationMonitorProvider } from '@providers/orientation-monitor/orientation-monitor.provider';
 import { BasePageComponent } from '@shared/classes/base-page';
+import { DateTime } from '@shared/helpers/date-time';
 
 interface RekeySearchPageState {
   isLoading$: Observable<boolean>;
@@ -102,6 +103,11 @@ export class RekeySearchPage extends BasePageComponent implements OnInit {
     return rekeySearchErr.message === RekeySearchErrorMessages.BookingAlreadyCompleted;
   }
 
+  testIsMoreThanHalfAnHourOld(bookedTestsSlot: TestSlot) {
+    // Check if the test is more than 30 minutes old
+    return new DateTime().isAfter(new DateTime(bookedTestsSlot.slotDetail.start).add(30, 'minutes').moment);
+  }
+
   setFocus(focus: string): void {
     this.focusedElement = focus;
   }
@@ -109,4 +115,6 @@ export class RekeySearchPage extends BasePageComponent implements OnInit {
   disableSearch(applicationReference: string, staffNumber: string, isLDTM: boolean): boolean {
     return applicationReference === '' || (!isLDTM && staffNumber === '');
   }
+
+  protected readonly JSON = JSON;
 }
