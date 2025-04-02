@@ -107,6 +107,33 @@ describe('RekeySearchPage', () => {
     });
   });
 
+  describe('testIsMoreThanHalfAnHourOld', () => {
+    it("should return true if the test's start date + 30 minutes is before the current time", () => {
+      const testSlot = { slotDetail: { start: new DateTime().subtract(31, 'minutes').toISOString() } };
+      expect(component.testIsMoreThanHalfAnHourOld(testSlot)).toBeTrue();
+    });
+
+    it("should return false if the test's start date + 30 minutes is after the current time", () => {
+      const testSlot = { slotDetail: { start: new DateTime().subtract(29, 'minutes').toISOString() } };
+      expect(component.testIsMoreThanHalfAnHourOld(testSlot)).toBeFalse();
+    });
+
+    it("should return false if the test's start date is exactly 30 minutes before the current time", () => {
+      const testSlot = { slotDetail: { start: new DateTime().subtract(30, 'minutes').toISOString() } };
+      expect(component.testIsMoreThanHalfAnHourOld(testSlot)).toBeFalse();
+    });
+
+    it("should return false if the test's start date is undefined", () => {
+      const testSlot = { slotDetail: { start: undefined } };
+      expect(component.testIsMoreThanHalfAnHourOld(testSlot)).toBeFalse();
+    });
+
+    it("should return false if the test's slotDetail is undefined", () => {
+      const testSlot = { slotDetail: undefined };
+      expect(component.testIsMoreThanHalfAnHourOld(testSlot)).toBeFalse();
+    });
+  });
+
   describe('disableSearch', () => {
     it('should disable search if applicationReference is empty or staffNumber is empty and not LDTM', () => {
       component.isLDTM = false;

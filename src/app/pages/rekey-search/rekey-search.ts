@@ -25,6 +25,7 @@ import { NetworkStateProvider } from '@providers/network-state/network-state';
 import { OrientationMonitorProvider } from '@providers/orientation-monitor/orientation-monitor.provider';
 import { BasePageComponent } from '@shared/classes/base-page';
 import { DateTime } from '@shared/helpers/date-time';
+import { get } from 'lodash';
 
 interface RekeySearchPageState {
   isLoading$: Observable<boolean>;
@@ -104,6 +105,9 @@ export class RekeySearchPage extends BasePageComponent implements OnInit {
   }
 
   testIsMoreThanHalfAnHourOld(bookedTestsSlot: TestSlot) {
+    if (get(bookedTestsSlot, 'slotDetail.start') === undefined) {
+      return true;
+    }
     // Check if the test is more than 30 minutes old
     return new DateTime().isAfter(new DateTime(bookedTestsSlot.slotDetail.start).add(30, 'minutes').moment);
   }
