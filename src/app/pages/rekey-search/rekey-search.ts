@@ -105,7 +105,7 @@ export class RekeySearchPage extends BasePageComponent implements OnInit {
   }
 
   testIsMoreThanHalfAnHourOld(bookedTestsSlot: TestSlot) {
-    if (get(bookedTestsSlot, 'slotDetail.start') === undefined) {
+    if (!get(bookedTestsSlot, 'slotDetail.start')) {
       return true;
     }
     // Check if the test is more than 30 minutes old

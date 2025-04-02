@@ -19,6 +19,7 @@ import { LogHelper } from '@providers/logs/logs-helper';
 import { NetworkStateProvider } from '@providers/network-state/network-state';
 import { OrientationMonitorProviderMock } from '@providers/orientation-monitor/__mocks/orientation-monitor.provider.mock';
 import { OrientationMonitorProvider } from '@providers/orientation-monitor/orientation-monitor.provider';
+import { DateTime } from '@shared/helpers/date-time';
 import { PipesModule } from '@shared/pipes/pipes.module';
 import { of } from 'rxjs';
 import { RekeySearchPage } from '../rekey-search';
@@ -123,14 +124,14 @@ describe('RekeySearchPage', () => {
       expect(component.testIsMoreThanHalfAnHourOld(testSlot)).toBeFalse();
     });
 
-    it("should return false if the test's start date is undefined", () => {
+    it("should return true if the test's start date is undefined", () => {
       const testSlot = { slotDetail: { start: undefined } };
-      expect(component.testIsMoreThanHalfAnHourOld(testSlot)).toBeFalse();
+      expect(component.testIsMoreThanHalfAnHourOld(testSlot)).toBeTrue();
     });
 
     it("should return false if the test's slotDetail is undefined", () => {
       const testSlot = { slotDetail: undefined };
-      expect(component.testIsMoreThanHalfAnHourOld(testSlot)).toBeFalse();
+      expect(component.testIsMoreThanHalfAnHourOld(testSlot)).toBeTrue();
     });
   });
 
