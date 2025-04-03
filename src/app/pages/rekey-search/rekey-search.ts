@@ -4,12 +4,13 @@ import { TestSlot } from '@dvsa/mes-journal-schema';
 import { select } from '@ngrx/store';
 import { isEmpty } from 'lodash-es';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, take, tap } from 'rxjs/operators';
 
 import { RekeySearchError, RekeySearchErrorMessages } from '@pages/rekey-search/rekey-search-error-model';
 import {
   RekeySearchClearState,
   RekeySearchViewDidEnter,
+  RekeyTestLessThanHalfAnHourOld,
   SearchBookedTest,
 } from '@pages/rekey-search/rekey-search.actions';
 import { getRekeySearchState } from '@pages/rekey-search/rekey-search.reducer';
@@ -47,6 +48,7 @@ export class RekeySearchPage extends BasePageComponent implements OnInit {
   searchResults: TestSlot[] = [];
   focusedElement: string = null;
   isLDTM = false;
+  isMoreThanHalfAnHourOld = false;
 
   constructor(
     public orientationMonitorProvider: OrientationMonitorProvider,
@@ -63,7 +65,16 @@ export class RekeySearchPage extends BasePageComponent implements OnInit {
     this.pageState = {
       isLoading$: rekeySearch$.pipe(map(getIsLoading)),
       hasSearched$: rekeySearch$.pipe(map(getHasSearched)),
-      bookedTestSlot$: rekeySearch$.pipe(map(getBookedTestSlot)),
+      bookedTestSlot$: rekeySearch$.pipe(
+        take(1),
+        map(getBookedTestSlot),
+        tap((bookedSlot: TestSlot) => {
+          this.isMoreThanHalfAnHourOld = this.testIsMoreThanHalfAnHourOld(bookedSlot);
+          if (this.isMoreThanHalfAnHourOld) {
+            this.store$.dispatch(RekeyTestLessThanHalfAnHourOld());
+          }
+        })
+      ),
       rekeySearchErr$: rekeySearch$.pipe(map(getRekeySearchError)),
       isOffline$: this.networkStateProvider.isOffline$,
     };
@@ -93,6 +104,7 @@ export class RekeySearchPage extends BasePageComponent implements OnInit {
   }
 
   searchTests() {
+    this.pageState.bookedTestSlot$.subscribe();
     this.store$.dispatch(SearchBookedTest(this.applicationReference, this.staffNumber));
   }
 
@@ -119,6 +131,4 @@ export class RekeySearchPage extends BasePageComponent implements OnInit {
   disableSearch(applicationReference: string, staffNumber: string, isLDTM: boolean): boolean {
     return applicationReference === '' || (!isLDTM && staffNumber === '');
   }
-
-  protected readonly JSON = JSON;
 }

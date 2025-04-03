@@ -268,6 +268,7 @@ export enum GoogleAnalyticsCustomDimension {
 }
 
 export enum GoogleAnalyticsEvents {
+  REKEY_SEARCH_PAGE = 'start_test',
   START_TEST = 'start_test',
   RETURN_TO_TEST = 'return_to_test',
   TEST_OUTCOME_CHANGED = 'test_outcome_changed',
@@ -437,6 +438,7 @@ export enum GoogleAnalyticsEventsTitles {
   TAP_TO_HIDE = 'tap_to_hide_data',
   DATA_UNAVAILABLE = 'data_unavailable',
   LEAVING_DES_MODAL = 'leaving_DES_modal',
+  THIRTY_MINUTE_TIMER = '30mins_time_warning',
 }
 
 export enum GoogleAnalyticsEventsValues {

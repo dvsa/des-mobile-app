@@ -100,7 +100,7 @@
 
     <div
       class="results-error"
-      *ngIf="(pageState.hasSearched$ | async) && !testIsMoreThanHalfAnHourOld(pageState.bookedTestSlot$ | async) && !(hasBookingAlreadyBeenCompleted(pageState.rekeySearchErr$ | async))"
+      *ngIf="(pageState.hasSearched$ | async) && !isMoreThanHalfAnHourOld && !(hasBookingAlreadyBeenCompleted(pageState.rekeySearchErr$ | async))"
     >
       <p class="error-text" id="rekey-search-error-text-not-delayed">Tests cannot be rekeyed until 30 minutes after they
         were due to start.</p>

@@ -6,10 +6,12 @@ import {
   AnalyticsScreenNames,
   GoogleAnalyticsCustomDimension,
   GoogleAnalyticsEvents,
+  GoogleAnalyticsEventsTitles,
+  GoogleAnalyticsEventsValues,
 } from '@providers/analytics/analytics.model';
 import { of } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
-import { RekeySearchViewDidEnter, SearchBookedTest } from './rekey-search.actions';
+import { RekeySearchViewDidEnter, RekeyTestLessThanHalfAnHourOld, SearchBookedTest } from './rekey-search.actions';
 
 @Injectable()
 export class RekeySearchAnalyticsEffects {
@@ -39,6 +41,20 @@ export class RekeySearchAnalyticsEffects {
       switchMap(() => {
         // GA4 Analytics
         this.analytics.logGAEvent(GoogleAnalyticsEvents.TEST_BOOKING_SEARCH);
+        return of(AnalyticRecorded());
+      })
+    )
+  );
+  rekeyTestLessThanHalfAnHourOld$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(RekeyTestLessThanHalfAnHourOld),
+      switchMap(() => {
+        // GA4 Analytics
+        this.analytics.logGAEvent(
+          GoogleAnalyticsEvents.REKEY_SEARCH_PAGE,
+          GoogleAnalyticsEventsTitles.THIRTY_MINUTE_TIMER,
+          GoogleAnalyticsEventsValues.DISPLAYED
+        );
         return of(AnalyticRecorded());
       })
     )
