@@ -48,7 +48,7 @@ export class RekeySearchPage extends BasePageComponent implements OnInit {
   searchResults: TestSlot[] = [];
   focusedElement: string = null;
   isLDTM = false;
-  isMoreThanHalfAnHourOld = false;
+  isLessThanHalfAnHourOld = false;
 
   constructor(
     public orientationMonitorProvider: OrientationMonitorProvider,
@@ -69,8 +69,8 @@ export class RekeySearchPage extends BasePageComponent implements OnInit {
         take(1),
         map(getBookedTestSlot),
         tap((bookedSlot: TestSlot) => {
-          this.isMoreThanHalfAnHourOld = this.testIsMoreThanHalfAnHourOld(bookedSlot);
-          if (this.isMoreThanHalfAnHourOld) {
+          this.isLessThanHalfAnHourOld = this.testIsLessThanHalfAnHourOld(bookedSlot);
+          if (this.isLessThanHalfAnHourOld) {
             this.store$.dispatch(RekeyTestLessThanHalfAnHourOld());
           }
         })
@@ -116,12 +116,12 @@ export class RekeySearchPage extends BasePageComponent implements OnInit {
     return rekeySearchErr.message === RekeySearchErrorMessages.BookingAlreadyCompleted;
   }
 
-  testIsMoreThanHalfAnHourOld(bookedTestsSlot: TestSlot) {
+  testIsLessThanHalfAnHourOld(bookedTestsSlot: TestSlot) {
     if (!get(bookedTestsSlot, 'slotDetail.start')) {
-      return true;
+      return false;
     }
     // Check if the test is more than 30 minutes old
-    return new DateTime().isAfter(new DateTime(bookedTestsSlot.slotDetail.start).add(30, 'minutes').moment);
+    return new DateTime().isBefore(new DateTime(bookedTestsSlot.slotDetail.start).add(30, 'minutes'));
   }
 
   setFocus(focus: string): void {

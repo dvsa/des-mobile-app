@@ -1,6 +1,7 @@
 import { CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ActivatedRoute } from '@angular/router';
+import { TestSlot } from '@dvsa/mes-journal-schema';
 import { Platform } from '@ionic/angular';
 import { Storage } from '@ionic/storage-angular';
 import { ActivatedRouteMock } from '@mocks/angular-mocks/activated-route.mock';
@@ -108,30 +109,28 @@ describe('RekeySearchPage', () => {
     });
   });
 
-  describe('testIsMoreThanHalfAnHourOld', () => {
-    it("should return true if the test's start date + 30 minutes is before the current time", () => {
-      const testSlot = { slotDetail: { start: new DateTime().subtract(31, 'minutes').toISOString() } };
-      expect(component.testIsMoreThanHalfAnHourOld(testSlot)).toBeTrue();
+  describe('testIsLessThanHalfAnHourOld', () => {
+    it('should return false if slotDetail.start is not defined', () => {
+      const bookedTestsSlot = { slotDetail: {} } as TestSlot;
+      expect(component.testIsLessThanHalfAnHourOld(bookedTestsSlot)).toBeFalse();
     });
 
-    it("should return false if the test's start date + 30 minutes is after the current time", () => {
-      const testSlot = { slotDetail: { start: new DateTime().subtract(29, 'minutes').toISOString() } };
-      expect(component.testIsMoreThanHalfAnHourOld(testSlot)).toBeFalse();
+    it('should return true if the test is less than 30 minutes old', () => {
+      const startTime = new DateTime().subtract(20, 'minutes').toString();
+      const bookedTestsSlot = { slotDetail: { start: startTime } } as TestSlot;
+      expect(component.testIsLessThanHalfAnHourOld(bookedTestsSlot)).toBeTrue();
     });
 
-    it("should return false if the test's start date is exactly 30 minutes before the current time", () => {
-      const testSlot = { slotDetail: { start: new DateTime().subtract(30, 'minutes').toISOString() } };
-      expect(component.testIsMoreThanHalfAnHourOld(testSlot)).toBeFalse();
+    it('should return false if the test is more than 30 minutes old', () => {
+      const startTime = new DateTime().subtract(40, 'minutes').toString();
+      const bookedTestsSlot = { slotDetail: { start: startTime } } as TestSlot;
+      expect(component.testIsLessThanHalfAnHourOld(bookedTestsSlot)).toBeFalse();
     });
 
-    it("should return true if the test's start date is undefined", () => {
-      const testSlot = { slotDetail: { start: undefined } };
-      expect(component.testIsMoreThanHalfAnHourOld(testSlot)).toBeTrue();
-    });
-
-    it("should return false if the test's slotDetail is undefined", () => {
-      const testSlot = { slotDetail: undefined };
-      expect(component.testIsMoreThanHalfAnHourOld(testSlot)).toBeTrue();
+    it('should return false if the test is exactly 30 minutes old', () => {
+      const startTime = new DateTime().subtract(30, 'minutes').toString();
+      const bookedTestsSlot = { slotDetail: { start: startTime } } as TestSlot;
+      expect(component.testIsLessThanHalfAnHourOld(bookedTestsSlot)).toBeFalse();
     });
   });
 
