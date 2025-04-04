@@ -4,19 +4,19 @@ import { TestSlot } from '@dvsa/mes-journal-schema';
 import { select } from '@ngrx/store';
 import { isEmpty } from 'lodash-es';
 import { Observable } from 'rxjs';
-import { map, take, tap } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 
 import { RekeySearchError, RekeySearchErrorMessages } from '@pages/rekey-search/rekey-search-error-model';
 import {
   RekeySearchClearState,
   RekeySearchViewDidEnter,
-  RekeyTestLessThanHalfAnHourOld,
   SearchBookedTest,
 } from '@pages/rekey-search/rekey-search.actions';
 import { getRekeySearchState } from '@pages/rekey-search/rekey-search.reducer';
 import {
   getBookedTestSlot,
   getHasSearched,
+  getIsHalfAnHourLate,
   getIsLoading,
   getRekeySearchError,
 } from '@pages/rekey-search/rekey-search.selector';
@@ -25,8 +25,6 @@ import { ExaminerRole } from '@providers/app-config/constants/examiner-role.cons
 import { NetworkStateProvider } from '@providers/network-state/network-state';
 import { OrientationMonitorProvider } from '@providers/orientation-monitor/orientation-monitor.provider';
 import { BasePageComponent } from '@shared/classes/base-page';
-import { DateTime } from '@shared/helpers/date-time';
-import { get } from 'lodash';
 
 interface RekeySearchPageState {
   isLoading$: Observable<boolean>;
@@ -34,6 +32,7 @@ interface RekeySearchPageState {
   bookedTestSlot$: Observable<TestSlot>;
   rekeySearchErr$: Observable<RekeySearchError | HttpErrorResponse>;
   isOffline$: Observable<boolean>;
+  isBookedLessThanHalfAnHourLate$: Observable<boolean>;
 }
 
 @Component({
@@ -48,7 +47,6 @@ export class RekeySearchPage extends BasePageComponent implements OnInit {
   searchResults: TestSlot[] = [];
   focusedElement: string = null;
   isLDTM = false;
-  isLessThanHalfAnHourOld = false;
 
   constructor(
     public orientationMonitorProvider: OrientationMonitorProvider,
@@ -65,17 +63,9 @@ export class RekeySearchPage extends BasePageComponent implements OnInit {
     this.pageState = {
       isLoading$: rekeySearch$.pipe(map(getIsLoading)),
       hasSearched$: rekeySearch$.pipe(map(getHasSearched)),
-      bookedTestSlot$: rekeySearch$.pipe(
-        take(1),
-        map(getBookedTestSlot),
-        tap((bookedSlot: TestSlot) => {
-          this.isLessThanHalfAnHourOld = this.testIsLessThanHalfAnHourOld(bookedSlot);
-          if (this.isLessThanHalfAnHourOld) {
-            this.store$.dispatch(RekeyTestLessThanHalfAnHourOld());
-          }
-        })
-      ),
+      bookedTestSlot$: rekeySearch$.pipe(map(getBookedTestSlot)),
       rekeySearchErr$: rekeySearch$.pipe(map(getRekeySearchError)),
+      isBookedLessThanHalfAnHourLate$: rekeySearch$.pipe(map(getIsHalfAnHourLate)),
       isOffline$: this.networkStateProvider.isOffline$,
     };
 
@@ -104,7 +94,6 @@ export class RekeySearchPage extends BasePageComponent implements OnInit {
   }
 
   searchTests() {
-    this.pageState.bookedTestSlot$.subscribe();
     this.store$.dispatch(SearchBookedTest(this.applicationReference, this.staffNumber));
   }
 
@@ -114,14 +103,6 @@ export class RekeySearchPage extends BasePageComponent implements OnInit {
 
   hasBookingAlreadyBeenCompleted(rekeySearchErr: HttpErrorResponse | RekeySearchError) {
     return rekeySearchErr.message === RekeySearchErrorMessages.BookingAlreadyCompleted;
-  }
-
-  testIsLessThanHalfAnHourOld(bookedTestsSlot: TestSlot) {
-    if (!get(bookedTestsSlot, 'slotDetail.start')) {
-      return false;
-    }
-    // Check if the test is more than 30 minutes old
-    return new DateTime().isBefore(new DateTime(bookedTestsSlot.slotDetail.start).add(30, 'minutes'));
   }
 
   setFocus(focus: string): void {

@@ -21,7 +21,10 @@ export const SearchBookedTestFailure = createAction(
   (err: HttpErrorResponse | RekeySearchError) => ({ err })
 );
 
-export const RekeyTestLessThanHalfAnHourOld = createAction('[RekeySearch] Rekey Test Is Less Than Half An Hour Old');
+export const isRekeyTestLessThanHalfAnHourLateUpdated = createAction(
+  '[RekeySearchEffects] Is Rekey Test  Less Than Half An Hour Late Updated',
+  (isLate: boolean) => ({ isLate })
+);
 
 export const RekeySearchClearState = createAction('[RekeySearch] Rekey Search Clear State');
 

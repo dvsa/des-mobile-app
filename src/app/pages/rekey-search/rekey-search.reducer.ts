@@ -8,6 +8,7 @@ export type RekeySearchModel = {
   isLoading: boolean;
   hasSearched: boolean;
   staffNumber: string;
+  isBookedLessThanHalfAnHourLate: boolean;
   bookedTestSlot: TestSlot;
   err: RekeySearchError | HttpErrorResponse;
 };
@@ -15,6 +16,7 @@ export type RekeySearchModel = {
 export const initialState: RekeySearchModel = {
   isLoading: false,
   hasSearched: false,
+  isBookedLessThanHalfAnHourLate: false,
   staffNumber: '',
   bookedTestSlot: {},
   err: {
@@ -33,6 +35,10 @@ export const rekeySearchReducer = createReducer(
     bookedTestSlot: {},
     isLoading: true,
     hasSearched: false,
+  })),
+  on(rekeySearchActions.isRekeyTestLessThanHalfAnHourLateUpdated, (state, { isLate }) => ({
+    ...state,
+    isBookedLessThanHalfAnHourLate: isLate,
   })),
   on(rekeySearchActions.SearchBookedTestSuccess, (state, { testSlot, staffNumber }) => ({
     ...state,

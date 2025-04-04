@@ -7,6 +7,8 @@ export const getHasSearched = (rekeySearch: RekeySearchModel) => rekeySearch.has
 
 export const getStaffNumber = (rekeySearch: RekeySearchModel) => rekeySearch.staffNumber;
 
+export const getIsHalfAnHourLate = (rekeySearch: RekeySearchModel) => rekeySearch.isBookedLessThanHalfAnHourLate;
+
 export const getRekeySearchError = (rekeySearch: RekeySearchModel) => rekeySearch.err;
 
 export const getBookedTestSlot = (rekeySearch: RekeySearchModel) => {

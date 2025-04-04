@@ -100,7 +100,7 @@
 
     <div
       class="results-error"
-      *ngIf="(pageState.hasSearched$ | async) && isLessThanHalfAnHourOld && !(hasBookingAlreadyBeenCompleted(pageState.rekeySearchErr$ | async))"
+      *ngIf="(pageState.hasSearched$ | async) && (pageState.isBookedLessThanHalfAnHourLate$ | async) && !(hasBookingAlreadyBeenCompleted(pageState.rekeySearchErr$ | async))"
     >
       <p class="error-text" id="rekey-search-error-text-not-delayed">Tests cannot be rekeyed until 30 minutes after they
         were due to start.</p>
@@ -117,7 +117,7 @@
     </div>
 
     <p class="results-message"
-       *ngIf="!isBookedTestSlotEmpty(pageState.bookedTestSlot$ | async) && testIsLessThanHalfAnHourOld(pageState.bookedTestSlot$ | async)">
+       *ngIf="!isBookedTestSlotEmpty(pageState.bookedTestSlot$ | async) && !(pageState.isBookedLessThanHalfAnHourLate$ | async)">
       <test-slot
         [slot]="(pageState.bookedTestSlot$ | async)"
         [isPortrait]="orientationMonitorProvider.isPortraitMode$ | async"

@@ -1,7 +1,6 @@
 import { CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ActivatedRoute } from '@angular/router';
-import { TestSlot } from '@dvsa/mes-journal-schema';
 import { Platform } from '@ionic/angular';
 import { Storage } from '@ionic/storage-angular';
 import { ActivatedRouteMock } from '@mocks/angular-mocks/activated-route.mock';
@@ -20,7 +19,6 @@ import { LogHelper } from '@providers/logs/logs-helper';
 import { NetworkStateProvider } from '@providers/network-state/network-state';
 import { OrientationMonitorProviderMock } from '@providers/orientation-monitor/__mocks/orientation-monitor.provider.mock';
 import { OrientationMonitorProvider } from '@providers/orientation-monitor/orientation-monitor.provider';
-import { DateTime } from '@shared/helpers/date-time';
 import { PipesModule } from '@shared/pipes/pipes.module';
 import { of } from 'rxjs';
 import { RekeySearchPage } from '../rekey-search';
@@ -106,31 +104,6 @@ describe('RekeySearchPage', () => {
       const newValue = '67890';
       component.staffNumberChanged(newValue);
       expect(component.staffNumber).toBe(newValue);
-    });
-  });
-
-  describe('testIsLessThanHalfAnHourOld', () => {
-    it('should return false if slotDetail.start is not defined', () => {
-      const bookedTestsSlot = { slotDetail: {} } as TestSlot;
-      expect(component.testIsLessThanHalfAnHourOld(bookedTestsSlot)).toBeFalse();
-    });
-
-    it('should return true if the test is less than 30 minutes old', () => {
-      const startTime = new DateTime().subtract(20, 'minutes').toString();
-      const bookedTestsSlot = { slotDetail: { start: startTime } } as TestSlot;
-      expect(component.testIsLessThanHalfAnHourOld(bookedTestsSlot)).toBeTrue();
-    });
-
-    it('should return false if the test is more than 30 minutes old', () => {
-      const startTime = new DateTime().subtract(40, 'minutes').toString();
-      const bookedTestsSlot = { slotDetail: { start: startTime } } as TestSlot;
-      expect(component.testIsLessThanHalfAnHourOld(bookedTestsSlot)).toBeFalse();
-    });
-
-    it('should return false if the test is exactly 30 minutes old', () => {
-      const startTime = new DateTime().subtract(30, 'minutes').toString();
-      const bookedTestsSlot = { slotDetail: { start: startTime } } as TestSlot;
-      expect(component.testIsLessThanHalfAnHourOld(bookedTestsSlot)).toBeFalse();
     });
   });
 
