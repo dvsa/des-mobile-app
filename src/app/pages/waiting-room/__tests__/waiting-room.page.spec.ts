@@ -244,6 +244,11 @@ describe('WaitingRoomPage', () => {
         component.manoeuvresPassCertNumberChanged('123');
         expect(store$.dispatch).toHaveBeenCalledWith(preTestDeclarationsActions.ManoeuvresPassCertNumberChanged('123'));
       });
+
+      it('should dispatch ManoeuvresPassCertNumberChanged with null if no certificate number is provided', () => {
+        component.manoeuvresPassCertNumberChanged('');
+        expect(store$.dispatch).toHaveBeenCalledWith(preTestDeclarationsActions.ManoeuvresPassCertNumberChanged(null));
+      });
     });
 
     describe('dispatchCandidateChoseToProceedInWelsh', () => {
