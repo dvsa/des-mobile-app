@@ -7,7 +7,7 @@
   <ion-col class="ion-align-self-center ion-padding-start">
     <ion-row class="spacing-row"></ion-row>
     <ion-row [formGroup]="formGroup">
-      <ion-col size="48">
+      <ion-col class="ion-align-items-center display-flex" size="48">
         <input
           type="radio"
           [id]="'transmission-manual-'+uniqueId"
@@ -22,7 +22,7 @@
           Manual
         </label>
       </ion-col>
-      <ion-col>
+      <ion-col class="ion-align-items-center display-flex">
         <input
           type="radio"
           [id]="'transmission-automatic-'+uniqueId"
