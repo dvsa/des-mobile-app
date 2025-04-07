@@ -1,8 +1,8 @@
-import { createHash } from 'crypto';
 import { Injectable } from '@angular/core';
 import { Platform } from '@ionic/angular';
 import { AppInfoProvider } from '@providers/app-info/app-info';
 import { DateTime } from '@shared/helpers/date-time';
+import * as shajs from 'sha.js';
 import { AppConfigProvider } from '../app-config/app-config';
 import { AuthenticationProvider } from '../authentication/authentication';
 import { DeviceProvider } from '../device/device';
@@ -35,9 +35,10 @@ export class AnalyticsProvider {
       await this.setGoogleTagManager(this.googleAnalytics4Key);
       await this.platform.ready();
 
-      const employeeId = createHash('sha256')
+      const employeeId = shajs('sha256')
         .update(this.authProvider.getEmployeeId() || 'unavailable')
         .digest('hex');
+
       const uniqueDeviceId = await this.device.getUniqueDeviceId();
       const deviceModel = await this.device.getDeviceName();
       const appVersion: string = await this.appInfo.getFullVersionNumber();
@@ -118,7 +119,7 @@ export class AnalyticsProvider {
    * @param {string} deviceId
    */
   setGADeviceId(deviceId: string): void {
-    const uniqueDeviceId = createHash('sha256')
+    const uniqueDeviceId = shajs('sha256')
       .update(deviceId || 'defaultDevice')
       .digest('hex');
     this.addGACustomDimension(GoogleAnalyticsCustomDimension.DEVICE_ID, uniqueDeviceId);
