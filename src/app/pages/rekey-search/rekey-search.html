@@ -38,7 +38,7 @@
               </ion-input>
             </ion-col>
           </ion-row>
-          <br />
+          <br/>
           <ion-row>
             <ion-col class="vertical-align-center" size="32">
               <label id="rekey-search-staff-number-label">Staff number</label>
@@ -100,6 +100,14 @@
 
     <div
       class="results-error"
+      *ngIf="(pageState.hasSearched$ | async) && (pageState.isBookedLessThanHalfAnHourLate$ | async) && !(hasBookingAlreadyBeenCompleted(pageState.rekeySearchErr$ | async))"
+    >
+      <p class="error-text" id="rekey-search-error-text-not-delayed">Tests cannot be rekeyed until 30 minutes after they
+        were due to start.</p>
+    </div>
+
+    <div
+      class="results-error"
       *ngIf="(pageState.hasSearched$ | async) && (hasBookingAlreadyBeenCompleted(pageState.rekeySearchErr$ | async))"
     >
       <p class="error-text" id="rekey-search-error-text-already-submitted">
@@ -108,7 +116,8 @@
       <p class="error-text" id="rekey-search-error-text-already-pls-try-again">Please check and try again.</p>
     </div>
 
-    <p class="results-message" *ngIf="!isBookedTestSlotEmpty(pageState.bookedTestSlot$ | async)">
+    <p class="results-message"
+       *ngIf="!isBookedTestSlotEmpty(pageState.bookedTestSlot$ | async) && !(pageState.isBookedLessThanHalfAnHourLate$ | async)">
       <test-slot
         [slot]="(pageState.bookedTestSlot$ | async)"
         [isPortrait]="orientationMonitorProvider.isPortraitMode$ | async"

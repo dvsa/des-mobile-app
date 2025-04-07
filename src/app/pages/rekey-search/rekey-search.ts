@@ -16,6 +16,7 @@ import { getRekeySearchState } from '@pages/rekey-search/rekey-search.reducer';
 import {
   getBookedTestSlot,
   getHasSearched,
+  getIsHalfAnHourLate,
   getIsLoading,
   getRekeySearchError,
 } from '@pages/rekey-search/rekey-search.selector';
@@ -31,6 +32,7 @@ interface RekeySearchPageState {
   bookedTestSlot$: Observable<TestSlot>;
   rekeySearchErr$: Observable<RekeySearchError | HttpErrorResponse>;
   isOffline$: Observable<boolean>;
+  isBookedLessThanHalfAnHourLate$: Observable<boolean>;
 }
 
 @Component({
@@ -63,6 +65,7 @@ export class RekeySearchPage extends BasePageComponent implements OnInit {
       hasSearched$: rekeySearch$.pipe(map(getHasSearched)),
       bookedTestSlot$: rekeySearch$.pipe(map(getBookedTestSlot)),
       rekeySearchErr$: rekeySearch$.pipe(map(getRekeySearchError)),
+      isBookedLessThanHalfAnHourLate$: rekeySearch$.pipe(map(getIsHalfAnHourLate)),
       isOffline$: this.networkStateProvider.isOffline$,
     };
 

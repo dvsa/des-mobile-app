@@ -11,6 +11,7 @@ import { RekeySearchProviderMock } from '@providers/rekey-search/__mocks__/rekey
 import { RekeySearchProvider } from '@providers/rekey-search/rekey-search';
 import { SearchProviderMock } from '@providers/search/__mocks__/search.mock';
 import { SearchProvider } from '@providers/search/search';
+import { DateTime } from '@shared/helpers/date-time';
 import { RekeySearchErrorMessages } from '../rekey-search-error-model';
 import * as rekeySearchActions from '../rekey-search.actions';
 import { RekeySearchEffects } from '../rekey-search.effects';
@@ -69,6 +70,31 @@ describe('RekeySearchEffects', () => {
     testSearchProvider = TestBed.inject(SearchProvider);
     rekeySearchProvider = TestBed.inject(RekeySearchProvider);
     compressionProvider = TestBed.inject(CompressionProvider);
+  });
+
+  describe('testIsLessThanHalfAnHourLate', () => {
+    it('should return false if slotDetail.start is not defined', () => {
+      const bookedTestsSlot = { slotDetail: {} } as TestSlot;
+      expect(effects.testIsLessThanHalfAnHourLate(bookedTestsSlot)).toBeFalse();
+    });
+
+    it('should return true if the test is less than 30 minutes old', () => {
+      const startTime = new DateTime().subtract(20, 'minutes').toString();
+      const bookedTestsSlot = { slotDetail: { start: startTime } } as TestSlot;
+      expect(effects.testIsLessThanHalfAnHourLate(bookedTestsSlot)).toBeTrue();
+    });
+
+    it('should return false if the test is more than 30 minutes old', () => {
+      const startTime = new DateTime().subtract(40, 'minutes').toString();
+      const bookedTestsSlot = { slotDetail: { start: startTime } } as TestSlot;
+      expect(effects.testIsLessThanHalfAnHourLate(bookedTestsSlot)).toBeFalse();
+    });
+
+    it('should return false if the test is exactly 30 minutes old', () => {
+      const startTime = new DateTime().subtract(30, 'minutes').toString();
+      const bookedTestsSlot = { slotDetail: { start: startTime } } as TestSlot;
+      expect(effects.testIsLessThanHalfAnHourLate(bookedTestsSlot)).toBeFalse();
+    });
   });
 
   it('should dispatch the SearchBookedTestSuccess action when searched with success', (done) => {
