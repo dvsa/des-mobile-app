@@ -13,7 +13,9 @@ export class EmojiBlockDirective {
   onInput(): void {
     // Grab element
     const inputField = this.el.nativeElement;
-    if (!inputField) return;
+
+    // Check if inputField is null or empty
+    if (!inputField || !inputField?.value) return;
 
     // Strip emojis out
     inputField.value = inputField.value.replace(this.emojiPattern, '');

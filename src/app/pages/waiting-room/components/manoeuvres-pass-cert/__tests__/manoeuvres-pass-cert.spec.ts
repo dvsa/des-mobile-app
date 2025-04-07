@@ -38,6 +38,33 @@ describe('ManoeuvresPassCertificateComponent', () => {
       });
     });
 
+    describe('manoeuvresPassCertificateNumberChanged', () => {
+      it('should emit manoeuvre pass certificate number in uppercase if valid', () => {
+        spyOn(component.manoeuvresPassCertificateNumberChange, 'emit');
+        const passCertificateNumber = 'c267548e';
+        component.manoeuvresPassCertificateNumberChanged(passCertificateNumber);
+        expect(component.manoeuvresPassCertificateNumberChange.emit).toHaveBeenCalledWith('C267548E');
+      });
+
+      it('should emit undefined if pass certificate number is null', () => {
+        spyOn(component.manoeuvresPassCertificateNumberChange, 'emit');
+        component.manoeuvresPassCertificateNumberChanged(null);
+        expect(component.manoeuvresPassCertificateNumberChange.emit).toHaveBeenCalledWith(undefined);
+      });
+
+      it('should emit undefined if pass certificate number is undefined', () => {
+        spyOn(component.manoeuvresPassCertificateNumberChange, 'emit');
+        component.manoeuvresPassCertificateNumberChanged(undefined);
+        expect(component.manoeuvresPassCertificateNumberChange.emit).toHaveBeenCalledWith(undefined);
+      });
+
+      it('should emit empty string if pass certificate number is empty', () => {
+        spyOn(component.manoeuvresPassCertificateNumberChange, 'emit');
+        component.manoeuvresPassCertificateNumberChanged('');
+        expect(component.manoeuvresPassCertificateNumberChange.emit).toHaveBeenCalledWith('');
+      });
+    });
+
     describe('get invalid', () => {
       it('should return false when the field is valid and not dirty', () => {
         // SETUP
