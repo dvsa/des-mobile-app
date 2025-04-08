@@ -465,7 +465,13 @@ export class ExaminerRecordsPage implements OnInit {
           //format tests into ExaminerRecordModel
           value
             .filter((test) => [1, 2, 3, 4, 5].includes(Number(test.activityCode)))
-            .filter((test) => !test.journalData.testSlotAttributes.extendedTest)
+            .filter(
+              (test) =>
+                !(
+                  test.journalData.testSlotAttributes.extendedTest ||
+                  test.journalData.testSlotAttributes.specialNeedsExtendedTest
+                )
+            )
             .forEach((test) => {
               recordArray.push(this.examinerRecordsProvider.formatForExaminerRecords(test));
             });

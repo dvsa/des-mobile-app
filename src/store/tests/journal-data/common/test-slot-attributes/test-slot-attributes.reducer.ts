@@ -8,6 +8,7 @@ export const initialState: TestSlotAttributes = {
   start: '',
   vehicleTypeCode: '',
   extendedTest: false,
+  specialNeedsExtendedTest: false,
   specialNeeds: false,
 };
 
