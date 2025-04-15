@@ -62,7 +62,7 @@
     "@angular/router": "^18.2.13",
     "@awesome-cordova-plugins/core": "^6.12.0",
     "@awesome-cordova-plugins/is-debug": "^6.12.0",
-    "@awesome-cordova-plugins/network": "^6.12.0",
+    "@awesome-cordova-plugins/network": "^6.15.0",
     "@awesome-cordova-plugins/secure-storage": "^6.12.0",
     "@capacitor-community/keep-awake": "^5.0.1",
     "@capacitor/app": "^6.0.2",
