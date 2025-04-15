@@ -9,8 +9,7 @@ describe('CustomCalendarComponentComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [CustomCalendarComponent],
-      imports: [IonicModule.forRoot()],
+      imports: [CustomCalendarComponent, IonicModule.forRoot()],
     }).compileComponents();
 
     fixture = TestBed.createComponent(CustomCalendarComponent);
