@@ -74,8 +74,9 @@ export class DateTime {
     return this.moment.toISOString();
   }
 
-  isAfter(targetDate: MomentInput): boolean {
-    return this.moment.isAfter(targetDate);
+  isAfter(targetDate: DateTime | string | Date): boolean {
+    const targetDateMoment = DateTime.at(targetDate);
+    return this.moment.isAfter(targetDateMoment.moment);
   }
 
   isBetweenTwoDates(date1: DateTime, date2: DateTime, isTimeless = true): boolean {
@@ -84,7 +85,7 @@ export class DateTime {
     let compareEndDate: moment.Moment = null;
 
     // Determine the start and end dates based on the order of date1 and date2
-    if (date2.isAfter(date1.moment)) {
+    if (date2.isAfter(date1)) {
       compareStartDate = isTimeless ? date1.moment.startOf(Duration.DAY) : date1.moment;
       compareEndDate = isTimeless ? date2.moment.endOf(Duration.DAY) : date2.moment;
     } else {

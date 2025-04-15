@@ -89,9 +89,15 @@ export class DateTimeInputComponent {
    * @param {string} event - The selected date or time in string format.
    * @param {DisplayType} control - The type of display (date or time).
    */
-  onSelected(event: string, control: DisplayType) {
+  onSelected(event: string | string[], control: DisplayType) {
     let output: string;
-    this.selectedValue = this.selectedBuffer ? this.selectedBuffer : event;
+    let eventString: string;
+    if (Array.isArray(event)) {
+      eventString = event[0];
+    } else {
+      eventString = event as string;
+    }
+    this.selectedValue = this.selectedBuffer ? this.selectedBuffer : eventString;
 
     const val = this.selectedValue as string;
 

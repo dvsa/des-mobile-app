@@ -1,4 +1,4 @@
-import { AsyncPipe, NgIf } from '@angular/common';
+import { NgIf } from '@angular/common';
 import { ChangeDetectorRef, Component, EventEmitter, Input, Output, SimpleChanges, ViewChild } from '@angular/core';
 import { DateAdapter, NativeDateAdapter } from '@angular/material/core';
 import { MatCalendar, MatCalendarCellClassFunction, MatCalendarCellCssClasses } from '@angular/material/datepicker';
@@ -17,7 +17,7 @@ export class CustomDateAdapter extends NativeDateAdapter {
   selector: 'custom-calendar-component',
   templateUrl: './custom-calendar.component.html',
   styleUrls: ['./custom-calendar.component.scss'],
-  imports: [MatCalendar, IonicModule, NgIf, AsyncPipe],
+  imports: [MatCalendar, IonicModule, NgIf],
   providers: [{ provide: DateAdapter, useClass: CustomDateAdapter }],
 
   standalone: true,
@@ -82,7 +82,7 @@ export class CustomCalendarComponent {
 
       // Apply the correct stylings based on whether the date is before or after the other selected date
       const inRangeStyles = `mat-calendar-body-in-range ${
-        compareDate.isAfter(formattedDate.moment) ? 'mat-calendar-body-range-start' : 'mat-calendar-body-range-end'
+        compareDate.isAfter(formattedDate) ? 'mat-calendar-body-range-start' : 'mat-calendar-body-range-end'
       }`;
 
       // Check if the date is the same as the other date in range, if it is, apply the selected style
