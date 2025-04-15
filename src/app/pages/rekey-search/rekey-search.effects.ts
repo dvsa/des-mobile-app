@@ -56,7 +56,6 @@ export class RekeySearchEffects {
               return this.rekeySearchProvider.getBooking(rekeySearchParams).pipe(
                 map((response) => this.compressionProvider.extract<TestSlot>(response.toString())),
                 tap((response) => {
-                  console.log('is late', this.testIsLessThanHalfAnHourLate(response));
                   this.store$.dispatch(
                     isRekeyTestLessThanHalfAnHourLateUpdated(this.testIsLessThanHalfAnHourLate(response))
                   );

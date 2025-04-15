@@ -31,7 +31,7 @@ import { EarlyStartModalDidEnter, ResumingWriteUp } from '@store/journal/journal
 import { SetExaminerBooked } from '@store/tests/examiner-booked/examiner-booked.actions';
 import { SetExaminerConducted } from '@store/tests/examiner-conducted/examiner-conducted.actions';
 import { TestStatus } from '@store/tests/test-status/test-status.model';
-import { ActivateTest, StartTest } from '@store/tests/tests.actions';
+import { ActivateTest, RemoveTestBySlotId, StartTest } from '@store/tests/tests.actions';
 
 @Component({
   selector: 'test-outcome',
@@ -207,6 +207,8 @@ export class TestOutcomeComponent implements OnInit {
     if (this.isE2EPracticeMode()) {
       this.store$.dispatch(StartE2EPracticeTest(this.slotDetail.slotId.toString(), this.category));
     } else {
+      //remove any reference that may already exist in the store prior to starting the test
+      this.store$.dispatch(RemoveTestBySlotId(this.slotDetail.slotId));
       this.store$.dispatch(StartTest(this.slotDetail.slotId, this.category, this.startTestAsRekey || this.isRekey));
     }
 
@@ -220,19 +222,19 @@ export class TestOutcomeComponent implements OnInit {
       this.store$.dispatch(ContinueUnuploadedTest('Rekey'));
     }
 
-    if (this.testStatus === null || this.testStatus === TestStatus.Booked) {
-      this.store$.dispatch(
-        StartTest(
-          this.slotDetail.slotId,
-          this.category,
-          true,
-          false,
-          DateTime.at(this.slotDetail.start).format('YYYY-MM-DD')
-        )
-      );
-    } else {
-      this.store$.dispatch(ActivateTest(this.slotDetail.slotId, this.category, true));
-    }
+    //remove any reference that may already exist in the store prior to starting the test
+    this.store$.dispatch(RemoveTestBySlotId(this.slotDetail.slotId));
+
+    this.store$.dispatch(
+      StartTest(
+        this.slotDetail.slotId,
+        this.category,
+        true,
+        false,
+        DateTime.at(this.slotDetail.start).format('YYYY-MM-DD')
+      )
+    );
+
     await this.router.navigate([
       this.category !== TestCategory.SC ? TestFlowPageNames.WAITING_ROOM_PAGE : TestFlowPageNames.COMMUNICATION_PAGE,
     ]);

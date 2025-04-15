@@ -44,9 +44,9 @@ import {
   getUploadStatus,
 } from '@store/tests/rekey-reason/rekey-reason.selector';
 import { EndRekey } from '@store/tests/rekey/rekey.actions';
-import { SendCurrentTest } from '@store/tests/tests.actions';
+import { RemoveTestBySlotId, SendCurrentTest } from '@store/tests/tests.actions';
 import { getTests } from '@store/tests/tests.reducer';
-import { getCurrentTest, getJournalData } from '@store/tests/tests.selector';
+import { getCurrentTest, getCurrentTestSlotId, getJournalData } from '@store/tests/tests.selector';
 import { ExitRekeyModalEvent } from './components/exit-rekey-modal/exit-rekey-modal.constants';
 import {
   RekeyReasonViewDidEnter,
@@ -64,6 +64,7 @@ interface RekeyReasonPageState {
   examinerConducted$: Observable<number>;
   examinerKeyed$: Observable<number>;
   fromRekeySearch$: Observable<boolean>;
+  currentTestSlotId$: Observable<string>;
 }
 
 @Component({
@@ -84,7 +85,8 @@ export class RekeyReasonPage extends BasePageComponent implements OnInit {
   examinerConducted: number = null;
   examinerKeyed: number = null;
   fromRekeySearch = false;
-  merged$: Observable<number | boolean | Promise<void>>;
+  currentTestSlotId: string = null;
+  merged$: Observable<number | boolean | string | Promise<void>>;
 
   constructor(
     public store$: Store<StoreModel>,
@@ -98,6 +100,7 @@ export class RekeyReasonPage extends BasePageComponent implements OnInit {
 
   ngOnInit(): void {
     const currentTest$ = this.store$.pipe(select(getTests), select(getCurrentTest));
+    const currentTestSlotId$ = this.store$.pipe(select(getTests), map(getCurrentTestSlotId));
 
     this.pageState = {
       uploadStatus$: this.store$.pipe(select(getRekeyReasonState), select(getUploadStatus)),
@@ -121,6 +124,7 @@ export class RekeyReasonPage extends BasePageComponent implements OnInit {
           return formatApplicationReference(testSlot?.booking?.application) === appRef;
         })
       ),
+      currentTestSlotId$: currentTestSlotId$,
     };
 
     const { uploadStatus$, examinerConducted$, examinerKeyed$, transfer$, fromRekeySearch$ } = this.pageState;
@@ -130,7 +134,8 @@ export class RekeyReasonPage extends BasePageComponent implements OnInit {
       examinerConducted$.pipe(map((val) => (this.examinerConducted = val))),
       examinerKeyed$.pipe(map((val) => (this.examinerKeyed = val))),
       transfer$.pipe(map((transfer) => (this.isTransferSelected = transfer.selected))),
-      fromRekeySearch$.pipe(map((val) => (this.fromRekeySearch = val)))
+      fromRekeySearch$.pipe(map((val) => (this.fromRekeySearch = val))),
+      currentTestSlotId$.pipe(map((val) => (this.currentTestSlotId = val)))
     );
   }
 
@@ -298,6 +303,9 @@ export class RekeyReasonPage extends BasePageComponent implements OnInit {
       await this.router.navigate([JOURNAL_PAGE]);
     }
     this.store$.dispatch(EndRekey());
+
+    //remove all data relating to the rekey upon exit
+    this.store$.dispatch(RemoveTestBySlotId(Number(this.currentTestSlotId)));
   };
 
   canClickUploadRekeyTest = (ipadIssue: IpadIssue, transfer: Transfer, other: Other): boolean =>

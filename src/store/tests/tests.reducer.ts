@@ -150,6 +150,8 @@ export function testsReducer(
       return slotId ? createStateObject(removeTest(state, slotId), action, slotId, category) : state;
     case fakeJournalActions.StartE2EPracticeTest.type:
       return slotId ? createStateObject(removeTest(state, slotId), action, slotId, category) : state;
+    case testsActions.RemoveTestBySlotId.type:
+      return removeTest(state, slotId);
     default:
       return slotId ? createStateObject(state, action, slotId, category) : state;
   }
