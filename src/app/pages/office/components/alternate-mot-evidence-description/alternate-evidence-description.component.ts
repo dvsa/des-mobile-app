@@ -28,7 +28,6 @@ export class AlternateEvidenceDescriptionComponent {
       if (this.formGroup.contains('altEvidenceDetailsCtrl')) {
         this.formGroup.setControl('altEvidenceDetailsCtrl', this.formControl);
       } else {
-        console.log('Adding altEvidenceDetailsCtrl to formGroup', this.formControl);
         this.formGroup.addControl('altEvidenceDetailsCtrl', this.formControl);
       }
     }
