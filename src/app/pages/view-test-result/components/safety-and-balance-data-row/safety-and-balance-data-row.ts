@@ -2,9 +2,10 @@ import { Component, Input } from '@angular/core';
 import { QuestionOutcome, QuestionResult } from '@dvsa/mes-test-schema/categories/common';
 
 @Component({
-  selector: 'safety-and-balance-data-row',
-  templateUrl: 'safety-and-balance-data-row.html',
-  styleUrls: ['safety-and-balance-data-row.scss'],
+    selector: 'safety-and-balance-data-row',
+    templateUrl: 'safety-and-balance-data-row.html',
+    styleUrls: ['safety-and-balance-data-row.scss'],
+    standalone: false
 })
 export class SafetyAndBalanceDataRowComponent {
   @Input()

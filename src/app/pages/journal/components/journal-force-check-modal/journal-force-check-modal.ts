@@ -6,9 +6,10 @@ import { CANDIDATE_DETAILS_PAGE, JOURNAL_FORCE_CHECK_MODAL } from '@pages/page-n
 import { ModalEvent } from './journal-force-check-modal.constants';
 
 @Component({
-  selector: 'journal-force-check-modal',
-  templateUrl: './journal-force-check-modal.html',
-  styleUrls: ['./journal-force-check-modal.scss'],
+    selector: 'journal-force-check-modal',
+    templateUrl: './journal-force-check-modal.html',
+    styleUrls: ['./journal-force-check-modal.scss'],
+    standalone: false
 })
 export class JournalForceCheckModal {
   @Input()

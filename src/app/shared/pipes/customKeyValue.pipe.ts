@@ -1,7 +1,8 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({
-  name: 'customKeyValue',
+    name: 'customKeyValue',
+    standalone: false
 })
 export class CustomKeyValuePipe implements PipeTransform {
   transform<T>(object: T, key: string): { [key: string]: keyof T }[] {

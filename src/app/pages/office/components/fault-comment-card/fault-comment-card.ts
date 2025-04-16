@@ -4,9 +4,10 @@ import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/
 import { FaultSummary } from '@shared/models/fault-marking.model';
 
 @Component({
-  selector: 'fault-comment-card',
-  templateUrl: 'fault-comment-card.html',
-  styleUrls: ['fault-comment-card.scss'],
+    selector: 'fault-comment-card',
+    templateUrl: 'fault-comment-card.html',
+    styleUrls: ['fault-comment-card.scss'],
+    standalone: false
 })
 export class FaultCommentCardComponent {
   @Input()

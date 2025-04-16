@@ -2,9 +2,10 @@ import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core
 import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 
 @Component({
-  selector: 'health-declaration',
-  templateUrl: 'health-declaration.html',
-  styleUrls: ['health-declaration.scss'],
+    selector: 'health-declaration',
+    templateUrl: 'health-declaration.html',
+    styleUrls: ['health-declaration.scss'],
+    standalone: false
 })
 export class HealthDeclarationComponent implements OnChanges {
   @Input()

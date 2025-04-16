@@ -40,9 +40,10 @@ interface TestResultPageState {
 }
 
 @Component({
-  selector: 'app-test-results-search',
-  templateUrl: 'test-results-search.html',
-  styleUrls: ['test-results-search.scss'],
+    selector: 'app-test-results-search',
+    templateUrl: 'test-results-search.html',
+    styleUrls: ['test-results-search.scss'],
+    standalone: false
 })
 export class TestResultsSearchPage extends BasePageComponent {
   searchBy: SearchBy = SearchBy.ApplicationReference;

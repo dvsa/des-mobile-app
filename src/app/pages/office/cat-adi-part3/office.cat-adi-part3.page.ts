@@ -30,9 +30,10 @@ interface CatADI3OfficePageState {
 type OfficePageState = CommonOfficePageState & CatADI3OfficePageState;
 
 @Component({
-  selector: 'app-office-cat-adi-part3',
-  templateUrl: './office.cat-adi-part3.page.html',
-  styleUrls: ['../../office/office.page.scss'],
+    selector: 'app-office-cat-adi-part3',
+    templateUrl: './office.cat-adi-part3.page.html',
+    styleUrls: ['../../office/office.page.scss'],
+    standalone: false
 })
 export class OfficeCatADI3Page extends OfficeBasePageComponent implements OnInit {
   pageState: OfficePageState;

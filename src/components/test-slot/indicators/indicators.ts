@@ -3,9 +3,10 @@ import { AccessibilityService } from '@providers/accessibility/accessibility.ser
 import { TestStatus } from '@store/tests/test-status/test-status.model';
 
 @Component({
-  selector: 'indicators',
-  templateUrl: 'indicators.html',
-  styleUrls: ['indicators.scss'],
+    selector: 'indicators',
+    templateUrl: 'indicators.html',
+    styleUrls: ['indicators.scss'],
+    standalone: false
 })
 export class IndicatorsComponent {
   @Input()

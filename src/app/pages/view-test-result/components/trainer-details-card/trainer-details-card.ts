@@ -4,9 +4,10 @@ import { CategoryCode } from '@dvsa/mes-test-schema/categories/common';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 
 @Component({
-  selector: 'trainer-details-card',
-  templateUrl: 'trainer-details-card.html',
-  styleUrls: ['trainer-details-card.scss'],
+    selector: 'trainer-details-card',
+    templateUrl: 'trainer-details-card.html',
+    styleUrls: ['trainer-details-card.scss'],
+    standalone: false
 })
 export class TrainerDetailsCardComponent {
   @Input()

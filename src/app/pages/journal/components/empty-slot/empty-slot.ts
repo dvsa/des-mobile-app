@@ -3,9 +3,10 @@ import { SlotComponent } from '@components/test-slot/slot/slot';
 import { TestSlot } from '@dvsa/mes-journal-schema';
 
 @Component({
-  selector: 'empty-slot',
-  templateUrl: 'empty-slot.html',
-  styleUrls: ['empty-slot.scss'],
+    selector: 'empty-slot',
+    templateUrl: 'empty-slot.html',
+    styleUrls: ['empty-slot.scss'],
+    standalone: false
 })
 export class EmptySlotComponent implements SlotComponent {
   @Input()

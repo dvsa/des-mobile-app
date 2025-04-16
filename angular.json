@@ -11,12 +11,15 @@
       "schematics": {},
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-angular:browser",
+          "builder": "@angular-devkit/build-angular:application",
           "options": {
-            "outputPath": "www",
+            "outputPath": {
+              "base": "www"
+            },
             "index": "src/index.html",
-            "main": "src/main.ts",
-            "polyfills": "src/polyfills.ts",
+            "polyfills": [
+              "src/polyfills.ts"
+            ],
             "tsConfig": "tsconfig.app.json",
             "assets": [
               {
@@ -42,7 +45,13 @@
                 "input": "src/global.scss",
                 "inject": true
               }
-            ]
+            ],
+            "browser": "src/main.ts",
+            "stylePreprocessorOptions": {
+              "includePaths": [
+                "."
+              ]
+            }
           },
           "configurations": {
             "production": {
@@ -62,8 +71,6 @@
               "namedChunks": true,
               "aot": true,
               "extractLicenses": true,
-              "vendorChunk": false,
-              "buildOptimizer": true,
               "budgets": [
                 {
                   "type": "initial",
@@ -88,9 +95,7 @@
               },
               "namedChunks": true,
               "aot": true,
-              "extractLicenses": true,
-              "vendorChunk": true,
-              "buildOptimizer": true
+              "extractLicenses": true
             },
             "qr": {
               "fileReplacements": [
@@ -108,9 +113,7 @@
               },
               "namedChunks": true,
               "aot": true,
-              "extractLicenses": true,
-              "vendorChunk": true,
-              "buildOptimizer": true
+              "extractLicenses": true
             },
             "uat": {
               "fileReplacements": [
@@ -128,9 +131,7 @@
               },
               "namedChunks": true,
               "aot": true,
-              "extractLicenses": true,
-              "vendorChunk": false,
-              "buildOptimizer": true
+              "extractLicenses": true
             },
             "local": {
               "fileReplacements": [
@@ -140,9 +141,7 @@
                 }
               ],
               "aot": false,
-              "vendorChunk": true,
               "extractLicenses": false,
-              "buildOptimizer": false,
               "sourceMap": true,
               "optimization": false,
               "namedChunks": false
@@ -155,9 +154,7 @@
                 }
               ],
               "aot": false,
-              "vendorChunk": true,
               "extractLicenses": false,
-              "buildOptimizer": false,
               "sourceMap": false,
               "optimization": false,
               "namedChunks": false
@@ -170,9 +167,7 @@
                 }
               ],
               "aot": false,
-              "vendorChunk": true,
               "extractLicenses": false,
-              "buildOptimizer": false,
               "sourceMap": false,
               "optimization": false,
               "namedChunks": false
@@ -185,9 +180,7 @@
                 }
               ],
               "aot": false,
-              "vendorChunk": true,
               "extractLicenses": false,
-              "buildOptimizer": false,
               "sourceMap": false,
               "optimization": false,
               "namedChunks": false
@@ -209,9 +202,7 @@
               },
               "namedChunks": true,
               "aot": true,
-              "extractLicenses": true,
-              "vendorChunk": true,
-              "buildOptimizer": true
+              "extractLicenses": true
             }
           },
           "defaultConfiguration": "development"

@@ -5,8 +5,9 @@ import { OutcomeBehaviourMapProvider, VisibilityType } from '@providers/outcome-
 import { removeNonAlphaNumeric } from '@shared/helpers/formatters';
 
 @Component({
-  selector: 'mode-of-transport',
-  templateUrl: 'mode-of-transport.cat-a-mod2.html',
+    selector: 'mode-of-transport',
+    templateUrl: 'mode-of-transport.cat-a-mod2.html',
+    standalone: false
 })
 export class ModeOfTransportCatAMod2Component implements OnChanges {
   @Input()

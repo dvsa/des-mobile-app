@@ -1,9 +1,10 @@
 import { Component, Input } from '@angular/core';
 
 @Component({
-  selector: 'sc-debrief-card',
-  templateUrl: 'sc-debrief-card.html',
-  styleUrls: ['sc-debrief-card.scss'],
+    selector: 'sc-debrief-card',
+    templateUrl: 'sc-debrief-card.html',
+    styleUrls: ['sc-debrief-card.scss'],
+    standalone: false
 })
 export class ScDebriefCard {
   @Input()

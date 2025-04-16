@@ -31,9 +31,10 @@ interface CatMod2WaitingRoomToCarPageState {
 type WaitingRoomToCarPageState = CommonWaitingRoomToCarPageState & CatMod2WaitingRoomToCarPageState;
 
 @Component({
-  selector: 'app-waiting-room-to-car-cat-a-mod2',
-  templateUrl: './waiting-room-to-car.cat-a-mod2.page.html',
-  styleUrls: ['./waiting-room-to-car.cat-a-mod2.page.scss'],
+    selector: 'app-waiting-room-to-car-cat-a-mod2',
+    templateUrl: './waiting-room-to-car.cat-a-mod2.page.html',
+    styleUrls: ['./waiting-room-to-car.cat-a-mod2.page.scss'],
+    standalone: false
 })
 export class WaitingRoomToCarCatAMod2Page extends WaitingRoomToCarBasePageComponent implements OnInit {
   pageState: WaitingRoomToCarPageState;

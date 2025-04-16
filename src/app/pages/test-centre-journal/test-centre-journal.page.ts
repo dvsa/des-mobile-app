@@ -41,9 +41,10 @@ interface TestCentreJournalPageState {
 }
 
 @Component({
-  selector: 'app-test-centre-journal',
-  templateUrl: 'test-centre-journal.page.html',
-  styleUrls: ['test-centre-journal.page.scss'],
+    selector: 'app-test-centre-journal',
+    templateUrl: 'test-centre-journal.page.html',
+    styleUrls: ['test-centre-journal.page.scss'],
+    standalone: false
 })
 export class TestCentreJournalPage extends BasePageComponent implements OnDestroy, OnInit {
   pageState: TestCentreJournalPageState;

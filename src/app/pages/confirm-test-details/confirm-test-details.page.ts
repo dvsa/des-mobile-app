@@ -89,9 +89,10 @@ enum D255 {
 }
 
 @Component({
-  selector: 'confirm-test-details-page',
-  templateUrl: 'confirm-test-details.page.html',
-  styleUrls: ['confirm-test-details.page.scss'],
+    selector: 'confirm-test-details-page',
+    templateUrl: 'confirm-test-details.page.html',
+    styleUrls: ['confirm-test-details.page.scss'],
+    standalone: false
 })
 export class ConfirmTestDetailsPage
   extends PracticeableBasePageComponent

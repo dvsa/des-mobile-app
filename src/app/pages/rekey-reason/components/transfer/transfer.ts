@@ -3,8 +3,9 @@ import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms
 import { AccessibilityService } from '@providers/accessibility/accessibility.service';
 
 @Component({
-  selector: 'transfer',
-  templateUrl: 'transfer.html',
+    selector: 'transfer',
+    templateUrl: 'transfer.html',
+    standalone: false
 })
 export class TransferComponent implements OnChanges {
   static readonly checkBoxCtrl: string = 'transferSelected';

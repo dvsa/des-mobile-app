@@ -30,9 +30,10 @@ export enum MOTAbortedMethod {
 }
 
 @Component({
-  selector: 'vehicle-registration',
-  styleUrls: ['vehicle-registration.scss'],
-  templateUrl: './vehicle-registration.html',
+    selector: 'vehicle-registration',
+    styleUrls: ['vehicle-registration.scss'],
+    templateUrl: './vehicle-registration.html',
+    standalone: false
 })
 export class VehicleRegistrationComponent implements OnChanges {
   @Input()

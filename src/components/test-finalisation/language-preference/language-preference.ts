@@ -2,8 +2,9 @@ import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core
 import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 
 @Component({
-  selector: 'language-preferences',
-  templateUrl: './language-preference.html',
+    selector: 'language-preferences',
+    templateUrl: './language-preference.html',
+    standalone: false
 })
 export class LanguagePreferencesComponent implements OnChanges {
   @Input()

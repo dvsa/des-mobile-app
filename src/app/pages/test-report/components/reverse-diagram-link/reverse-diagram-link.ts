@@ -8,9 +8,10 @@ import { StoreModel } from '@shared/models/store.model';
 import { ReverseDiagramClosed, ReverseDiagramOpened } from '../reverse-diagram-modal/reverse-diagram-modal.actions';
 
 @Component({
-  selector: 'reverse-diagram-link',
-  templateUrl: 'reverse-diagram-link.html',
-  styleUrls: ['reverse-diagram-link.scss'],
+    selector: 'reverse-diagram-link',
+    templateUrl: 'reverse-diagram-link.html',
+    styleUrls: ['reverse-diagram-link.scss'],
+    standalone: false
 })
 export class ReverseDiagramLinkComponent {
   @Input()

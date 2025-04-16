@@ -6,9 +6,10 @@ enum AlternateEvidenceTestResult {
   Fail = 'F',
 }
 @Component({
-  selector: 'alternate-mot-evidence',
-  templateUrl: './alternate-mot-evidence.component.html',
-  styleUrls: ['./alternate-mot-evidence.component.scss'],
+    selector: 'alternate-mot-evidence',
+    templateUrl: './alternate-mot-evidence.component.html',
+    styleUrls: ['./alternate-mot-evidence.component.scss'],
+    standalone: false
 })
 export class AlternateMotEvidenceComponent implements OnInit {
   formControl: UntypedFormControl = null;

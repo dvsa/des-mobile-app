@@ -3,8 +3,9 @@ import { UntypedFormControl, UntypedFormGroup, ValidationErrors, ValidatorFn, Va
 import { CharacterCountService } from '@providers/character-count/character-count.service';
 
 @Component({
-  selector: 'eco-capture-reason',
-  templateUrl: 'eco-capture-reason.html',
+    selector: 'eco-capture-reason',
+    templateUrl: 'eco-capture-reason.html',
+    standalone: false
 })
 export class EcoCaptureReasonComponent implements OnChanges {
   @Input()

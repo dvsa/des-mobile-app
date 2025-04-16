@@ -7,9 +7,10 @@ import { ActivityCodes } from '@shared/models/activity-codes';
 import { get } from 'lodash-es';
 
 @Component({
-  selector: 'modal-activity-code-list',
-  templateUrl: './modal-activity-code-list.html',
-  styleUrls: ['./modal-activity-code-list.scss'],
+    selector: 'modal-activity-code-list',
+    templateUrl: './modal-activity-code-list.html',
+    styleUrls: ['./modal-activity-code-list.scss'],
+    standalone: false
 })
 export class ModalActivityCodeListComponent {
   activityCodeModel: ActivityCodeModel;

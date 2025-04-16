@@ -7,9 +7,10 @@ export enum UpdateAvailable {
 }
 
 @Component({
-  selector: 'update-available-modal',
-  templateUrl: 'update-available-modal.html',
-  styleUrls: ['update-available-modal.scss'],
+    selector: 'update-available-modal',
+    templateUrl: 'update-available-modal.html',
+    styleUrls: ['update-available-modal.scss'],
+    standalone: false
 })
 export class UpdateAvailableModal {
   @Input()

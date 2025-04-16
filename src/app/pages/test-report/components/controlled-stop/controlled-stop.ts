@@ -28,9 +28,10 @@ interface ControlledStopComponentState {
 }
 
 @Component({
-  selector: 'controlled-stop',
-  templateUrl: 'controlled-stop.html',
-  styleUrls: ['controlled-stop.scss'],
+    selector: 'controlled-stop',
+    templateUrl: 'controlled-stop.html',
+    styleUrls: ['controlled-stop.scss'],
+    standalone: false
 })
 export class ControlledStopComponent implements OnInit, OnDestroy {
   @Input()

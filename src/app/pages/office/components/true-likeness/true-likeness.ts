@@ -2,8 +2,9 @@ import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core
 import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 
 @Component({
-  selector: 'true-likeness',
-  templateUrl: 'true-likeness.html',
+    selector: 'true-likeness',
+    templateUrl: 'true-likeness.html',
+    standalone: false
 })
 export class TrueLikenessComponent implements OnChanges {
   @Input()

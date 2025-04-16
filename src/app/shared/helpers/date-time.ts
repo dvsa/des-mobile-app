@@ -1,4 +1,4 @@
-import * as moment from 'moment';
+import moment from 'moment';
 import { DurationInputArg1, MomentInput } from 'moment/moment';
 
 export enum Duration {

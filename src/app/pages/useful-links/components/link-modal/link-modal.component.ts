@@ -12,9 +12,10 @@ export enum LinkModalEvent {
 }
 
 @Component({
-  selector: 'link-modal',
-  templateUrl: './link-modal.component.html',
-  styleUrls: ['./link-modal.component.scss'],
+    selector: 'link-modal',
+    templateUrl: './link-modal.component.html',
+    styleUrls: ['./link-modal.component.scss'],
+    standalone: false
 })
 export class LinkModalComponent {
   @Input()

@@ -43,9 +43,10 @@ interface TestSlotComponentState {
 }
 
 @Component({
-  selector: 'test-slot',
-  templateUrl: 'test-slot.html',
-  styleUrls: ['test-slot.scss'],
+    selector: 'test-slot',
+    templateUrl: 'test-slot.html',
+    styleUrls: ['test-slot.scss'],
+    standalone: false
 })
 export class TestSlotComponent implements SlotComponent, OnInit {
   @Input()

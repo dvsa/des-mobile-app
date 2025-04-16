@@ -18,9 +18,10 @@ export type CandidateData = {
 };
 
 @Component({
-  selector: 'candidate-search-card',
-  templateUrl: 'candidate-search-card.html',
-  styleUrls: ['candidate-search-card.scss'],
+    selector: 'candidate-search-card',
+    templateUrl: 'candidate-search-card.html',
+    styleUrls: ['candidate-search-card.scss'],
+    standalone: false
 })
 export class CandidateSearchCardComponent implements OnChanges {
   @ViewChild('candidatePicklist')

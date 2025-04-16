@@ -13,8 +13,9 @@ export type CandidateWithBusinessDetails =
   | CatC1EUniqueTypes.Candidate;
 
 @Component({
-  selector: 'business-details-card',
-  templateUrl: 'business-details-card.html',
+    selector: 'business-details-card',
+    templateUrl: 'business-details-card.html',
+    standalone: false
 })
 export class BusinessDetailsCardComponent {
   @Input()

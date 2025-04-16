@@ -2,9 +2,10 @@ import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core
 import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 
 @Component({
-  selector: 'new-email',
-  templateUrl: 'new-email.html',
-  styleUrls: ['new-email.scss'],
+    selector: 'new-email',
+    templateUrl: 'new-email.html',
+    styleUrls: ['new-email.scss'],
+    standalone: false
 })
 export class NewEmailComponent implements OnChanges {
   static readonly newEmail: string = 'newEmail';

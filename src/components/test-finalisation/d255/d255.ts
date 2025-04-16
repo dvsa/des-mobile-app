@@ -3,8 +3,9 @@ import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms
 import { OutcomeBehaviourMapProvider, VisibilityType } from '@providers/outcome-behaviour-map/outcome-behaviour-map';
 
 @Component({
-  selector: 'd255',
-  templateUrl: './d255.html',
+    selector: 'd255',
+    templateUrl: './d255.html',
+    standalone: false
 })
 export class D255Component implements OnChanges {
   static readonly fieldName: string = 'd255';

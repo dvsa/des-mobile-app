@@ -51,9 +51,10 @@ interface CatCPCOfficePageState {
 type OfficePageState = CommonOfficePageState & CatCPCOfficePageState;
 
 @Component({
-  selector: '.office-cat-cpc-page',
-  templateUrl: './office.cat-cpc.page.html',
-  styleUrls: ['../office.page.scss'],
+    selector: '.office-cat-cpc-page',
+    templateUrl: './office.cat-cpc.page.html',
+    styleUrls: ['../office.page.scss'],
+    standalone: false
 })
 export class OfficeCatCPCPage extends OfficeBasePageComponent implements OnInit {
   pageState: OfficePageState;

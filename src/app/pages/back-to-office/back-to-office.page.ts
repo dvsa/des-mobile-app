@@ -32,9 +32,10 @@ export enum NavigationTarget {
 }
 
 @Component({
-  selector: '.back-to-office-page',
-  templateUrl: 'back-to-office.page.html',
-  styleUrls: ['back-to-office.page.scss'],
+    selector: '.back-to-office-page',
+    templateUrl: 'back-to-office.page.html',
+    styleUrls: ['back-to-office.page.scss'],
+    standalone: false
 })
 export class BackToOfficePage extends PracticeableBasePageComponent implements OnInit, ViewDidEnter, ViewDidLeave {
   pageState: BackToOfficePageState;

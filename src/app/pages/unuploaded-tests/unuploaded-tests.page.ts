@@ -31,9 +31,10 @@ interface UnunploadedTestsPageState {
 }
 
 @Component({
-  selector: 'unuploaded-tests',
-  templateUrl: 'unuploaded-tests.page.html',
-  styleUrls: ['unuploaded-tests.page.scss'],
+    selector: 'unuploaded-tests',
+    templateUrl: 'unuploaded-tests.page.html',
+    styleUrls: ['unuploaded-tests.page.scss'],
+    standalone: false
 })
 export class UnuploadedTestsPage extends BasePageComponent implements OnInit {
   pageState: UnunploadedTestsPageState;

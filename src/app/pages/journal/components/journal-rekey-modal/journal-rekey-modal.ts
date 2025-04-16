@@ -3,9 +3,10 @@ import { ModalController } from '@ionic/angular';
 import { ModalEvent } from './journal-rekey-modal.constants';
 
 @Component({
-  selector: 'journal-rekey-modal',
-  templateUrl: './journal-rekey-modal.html',
-  styleUrls: ['./journal-rekey-modal.scss'],
+    selector: 'journal-rekey-modal',
+    templateUrl: './journal-rekey-modal.html',
+    styleUrls: ['./journal-rekey-modal.scss'],
+    standalone: false
 })
 export class JournalRekeyModal {
   constructor(private modalController: ModalController) {}

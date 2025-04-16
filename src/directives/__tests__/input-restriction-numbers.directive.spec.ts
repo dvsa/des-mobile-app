@@ -5,11 +5,12 @@ import { By } from '@angular/platform-browser';
 import { InputRestrictionNumbersDirective } from '@directives/input-restriction-numbers.directive';
 
 @Component({
-  template: `
+    template: `
     <form>
       <input type="text" numbersOnly />
     </form>
   `,
+    standalone: false
 })
 class TestInputRestrictionNumbersComponent {}
 

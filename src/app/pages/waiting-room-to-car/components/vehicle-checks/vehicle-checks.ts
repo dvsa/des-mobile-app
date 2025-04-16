@@ -21,9 +21,10 @@ interface VehicleCheckFormState {
 }
 
 @Component({
-  selector: 'vehicle-checks-vocational',
-  templateUrl: 'vehicle-checks.html',
-  styleUrls: ['vehicle-checks.scss'],
+    selector: 'vehicle-checks-vocational',
+    templateUrl: 'vehicle-checks.html',
+    styleUrls: ['vehicle-checks.scss'],
+    standalone: false
 })
 export class VehicleChecksComponent implements OnChanges {
   @Input()

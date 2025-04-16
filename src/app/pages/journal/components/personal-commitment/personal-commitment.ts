@@ -4,9 +4,10 @@ import { PersonalCommitment, TestSlot } from '@dvsa/mes-journal-schema';
 import { isNil } from 'lodash-es';
 
 @Component({
-  selector: 'personal-commitment',
-  templateUrl: 'personal-commitment.html',
-  styleUrls: ['personal-commitment.scss'],
+    selector: 'personal-commitment',
+    templateUrl: 'personal-commitment.html',
+    styleUrls: ['personal-commitment.scss'],
+    standalone: false
 })
 export class PersonalCommitmentSlotComponent implements SlotComponent {
   @Input()

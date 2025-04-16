@@ -7,9 +7,10 @@ import { AccessibilityService } from '@providers/accessibility/accessibility.ser
 import { DateTime } from '@shared/helpers/date-time';
 
 @Component({
-  selector: 'search-result',
-  templateUrl: 'search-result.html',
-  styleUrls: ['search-result.scss'],
+    selector: 'search-result',
+    templateUrl: 'search-result.html',
+    styleUrls: ['search-result.scss'],
+    standalone: false
 })
 export class SearchResultComponent {
   @Input()

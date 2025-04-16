@@ -1,9 +1,10 @@
 import { Component, Input } from '@angular/core';
 
 @Component({
-  selector: 'modal-result-item',
-  templateUrl: 'modal-result-item.html',
-  styleUrls: ['modal-result-item.scss'],
+    selector: 'modal-result-item',
+    templateUrl: 'modal-result-item.html',
+    styleUrls: ['modal-result-item.scss'],
+    standalone: false
 })
 export class ModalResultItemComponent {
   @Input()

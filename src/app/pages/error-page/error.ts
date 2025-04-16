@@ -4,9 +4,10 @@ import { LogoutBasePageComponent } from '@shared/classes/logout-base-page';
 import { ErrorTypes } from '@shared/models/error-message';
 
 @Component({
-  selector: 'page-error',
-  templateUrl: 'error.html',
-  styleUrls: ['error.scss'],
+    selector: 'page-error',
+    templateUrl: 'error.html',
+    styleUrls: ['error.scss'],
+    standalone: false
 })
 export class ErrorPage extends LogoutBasePageComponent {
   @Input()

@@ -3,9 +3,10 @@ import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms
 import { Question } from '@dvsa/mes-test-schema/categories/CPC';
 
 @Component({
-  selector: 'question-del-ex-radio-card',
-  templateUrl: 'question-del-ex-radio-card.html',
-  styleUrls: ['question-del-ex-radio-card.scss'],
+    selector: 'question-del-ex-radio-card',
+    templateUrl: 'question-del-ex-radio-card.html',
+    styleUrls: ['question-del-ex-radio-card.scss'],
+    standalone: false
 })
 export class QuestionDelExRadioCardComponent {
   @Input()

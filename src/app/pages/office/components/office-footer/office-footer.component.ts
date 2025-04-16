@@ -1,9 +1,10 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 @Component({
-  selector: 'office-footer',
-  templateUrl: './office-footer.component.html',
-  styleUrls: ['./office-footer.component.scss'],
+    selector: 'office-footer',
+    templateUrl: './office-footer.component.html',
+    styleUrls: ['./office-footer.component.scss'],
+    standalone: false
 })
 export class OfficeFooterComponent {
   @Input()

@@ -7,8 +7,9 @@ export enum HealthDeclatationValidValues {
 }
 
 @Component({
-  selector: 'health-declaration-signed',
-  templateUrl: 'health-declaration-signed.html',
+    selector: 'health-declaration-signed',
+    templateUrl: 'health-declaration-signed.html',
+    standalone: false
 })
 export class HealthDeclarationSignedComponent implements OnChanges {
   @Input()

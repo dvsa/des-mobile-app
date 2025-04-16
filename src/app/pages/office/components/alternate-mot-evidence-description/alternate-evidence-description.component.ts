@@ -3,9 +3,10 @@ import { UntypedFormControl, UntypedFormGroup, ValidationErrors, ValidatorFn, Va
 import { CharacterCountService } from '@providers/character-count/character-count.service';
 
 @Component({
-  selector: 'alternate-mot-evidence-description',
-  templateUrl: './alternate-mot-evidence-description.component.html',
-  styleUrls: ['./alternate-mot-evidence-description.component.scss'],
+    selector: 'alternate-mot-evidence-description',
+    templateUrl: './alternate-mot-evidence-description.component.html',
+    styleUrls: ['./alternate-mot-evidence-description.component.scss'],
+    standalone: false
 })
 export class AlternateEvidenceDescriptionComponent {
   formControl: UntypedFormControl;

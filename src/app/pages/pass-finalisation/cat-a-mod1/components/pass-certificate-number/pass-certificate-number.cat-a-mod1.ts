@@ -5,8 +5,9 @@ import { getByteCount, getPassCertificateAMOD1Validator } from '@shared/constant
 import { PASS_CERTIFICATE_NUMBER_CTRL } from './pass-certificate-number.cat-a-mod1.constants';
 
 @Component({
-  selector: 'pass-certificate-number-cat-a-mod1',
-  templateUrl: 'pass-certificate-number.cat-a-mod1.html',
+    selector: 'pass-certificate-number-cat-a-mod1',
+    templateUrl: 'pass-certificate-number.cat-a-mod1.html',
+    standalone: false
 })
 export class PassCertificateNumberCatAMod1Component implements OnChanges {
   static readonly fieldName: string = PASS_CERTIFICATE_NUMBER_CTRL;

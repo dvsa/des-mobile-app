@@ -9,9 +9,10 @@ export interface ExaminerReportsCardClick {
 }
 
 @Component({
-  selector: 'examiner-reports-card',
-  templateUrl: 'examiner-reports-card.html',
-  styleUrls: ['examiner-reports-card.scss'],
+    selector: 'examiner-reports-card',
+    templateUrl: 'examiner-reports-card.html',
+    styleUrls: ['examiner-reports-card.scss'],
+    standalone: false
 })
 export class ExaminerReportsCard {
   @Output()

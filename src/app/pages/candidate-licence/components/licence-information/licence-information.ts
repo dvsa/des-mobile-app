@@ -6,8 +6,9 @@ import { DateTime, Duration } from '@shared/helpers/date-time';
 import { get } from 'lodash-es';
 
 @Component({
-  selector: 'licence-information',
-  templateUrl: 'licence-information.html',
+    selector: 'licence-information',
+    templateUrl: 'licence-information.html',
+    standalone: false
 })
 export class LicenceInformation {
   @Input()
