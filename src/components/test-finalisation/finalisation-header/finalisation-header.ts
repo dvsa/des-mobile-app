@@ -1,9 +1,10 @@
 import { Component, Input } from '@angular/core';
 
 @Component({
-  selector: 'finalisation-header',
-  templateUrl: './finalisation-header.html',
-  styleUrls: ['./finalisation-header.scss'],
+    selector: 'finalisation-header',
+    templateUrl: './finalisation-header.html',
+    styleUrls: ['./finalisation-header.scss'],
+    standalone: false
 })
 export class FinalisationHeaderComponent {
   @Input()

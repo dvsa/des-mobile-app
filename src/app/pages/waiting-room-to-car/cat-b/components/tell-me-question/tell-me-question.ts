@@ -3,9 +3,10 @@ import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms
 import { VehicleChecksQuestion } from '@providers/question/vehicle-checks-question.model';
 
 @Component({
-  selector: 'tell-me-question',
-  templateUrl: './tell-me-question.html',
-  styleUrls: ['./tell-me-question.scss'],
+    selector: 'tell-me-question',
+    templateUrl: './tell-me-question.html',
+    styleUrls: ['./tell-me-question.scss'],
+    standalone: false
 })
 export class TellMeQuestionComponent implements OnChanges {
   @Input()

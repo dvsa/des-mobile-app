@@ -2,11 +2,10 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { IonicModule } from '@ionic/angular';
 
 @Component({
-  selector: 'refresh-button',
-  templateUrl: './refresh-button.component.html',
-  styleUrls: ['./refresh-button.component.scss'],
-  standalone: true,
-  imports: [IonicModule],
+    selector: 'refresh-button',
+    templateUrl: './refresh-button.component.html',
+    styleUrls: ['./refresh-button.component.scss'],
+    imports: [IonicModule]
 })
 export class RefreshButtonComponent {
   @Input()

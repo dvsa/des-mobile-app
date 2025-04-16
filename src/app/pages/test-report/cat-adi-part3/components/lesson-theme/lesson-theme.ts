@@ -4,8 +4,9 @@ import { LessonTheme } from '@dvsa/mes-test-schema/categories/ADI3';
 import { CharacterCountService } from '@providers/character-count/character-count.service';
 
 @Component({
-  selector: 'lesson-theme',
-  templateUrl: 'lesson-theme.html',
+    selector: 'lesson-theme',
+    templateUrl: 'lesson-theme.html',
+    standalone: false
 })
 export class LessonThemeComponent implements OnChanges {
   @Input()

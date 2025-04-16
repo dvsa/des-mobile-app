@@ -6,9 +6,10 @@ import { configureI18N } from '@shared/helpers/translation.helpers';
 import { Language } from '@store/tests/communication-preferences/communication-preferences.model';
 
 @Component({
-  selector: 'privacy-notice',
-  templateUrl: 'privacy-notice.html',
-  styleUrls: ['./privacy-notice.scss'],
+    selector: 'privacy-notice',
+    templateUrl: 'privacy-notice.html',
+    styleUrls: ['./privacy-notice.scss'],
+    standalone: false
 })
 export class PrivacyNoticeComponent implements OnInit {
   @Input()

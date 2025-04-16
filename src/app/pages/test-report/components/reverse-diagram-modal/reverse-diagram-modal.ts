@@ -23,9 +23,10 @@ interface ReverseDiagramPageState {
 type OnCloseFunc = () => void;
 
 @Component({
-  selector: 'reverse-diagram-modal',
-  templateUrl: 'reverse-diagram-modal.html',
-  styleUrls: ['reverse-diagram-modal.scss'],
+    selector: 'reverse-diagram-modal',
+    templateUrl: 'reverse-diagram-modal.html',
+    styleUrls: ['reverse-diagram-modal.scss'],
+    standalone: false
 })
 export class ReverseDiagramPage implements OnInit {
   @Input()

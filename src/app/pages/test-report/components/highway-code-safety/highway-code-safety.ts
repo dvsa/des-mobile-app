@@ -31,9 +31,10 @@ interface HighwayCodeSafetyComponentState {
 }
 
 @Component({
-  selector: 'highway-code-safety',
-  templateUrl: 'highway-code-safety.html',
-  styleUrls: ['highway-code-safety.scss'],
+    selector: 'highway-code-safety',
+    templateUrl: 'highway-code-safety.html',
+    styleUrls: ['highway-code-safety.scss'],
+    standalone: false
 })
 export class HighwayCodeSafetyComponent implements OnInit, OnDestroy {
   @Input()

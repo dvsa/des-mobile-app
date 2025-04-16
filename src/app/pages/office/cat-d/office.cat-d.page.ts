@@ -54,9 +54,10 @@ interface CatDOfficePageState {
 type OfficePageState = CommonOfficePageState & CatDOfficePageState;
 
 @Component({
-  selector: '.office-cat-d-page',
-  templateUrl: './office.cat-d.page.html',
-  styleUrls: ['../office.page.scss'],
+    selector: '.office-cat-d-page',
+    templateUrl: './office.cat-d.page.html',
+    styleUrls: ['../office.page.scss'],
+    standalone: false
 })
 export class OfficeCatDPage extends OfficeBasePageComponent implements OnInit {
   pageState: OfficePageState;

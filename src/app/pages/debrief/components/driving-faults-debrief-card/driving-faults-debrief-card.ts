@@ -5,9 +5,10 @@ import { isAnyOf } from '@shared/helpers/simplifiers';
 import { FaultSummary } from '@shared/models/fault-marking.model';
 
 @Component({
-  selector: 'driving-faults-debrief-card',
-  templateUrl: 'driving-faults-debrief-card.html',
-  styleUrls: ['driving-faults-debrief-card.scss'],
+    selector: 'driving-faults-debrief-card',
+    templateUrl: 'driving-faults-debrief-card.html',
+    styleUrls: ['driving-faults-debrief-card.scss'],
+    standalone: false
 })
 export class DrivingFaultsDebriefCardComponent {
   @Input()

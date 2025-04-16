@@ -2,8 +2,9 @@ import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core
 import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 
 @Component({
-  selector: 'accompaniment',
-  templateUrl: './accompaniment.html',
+    selector: 'accompaniment',
+    templateUrl: './accompaniment.html',
+    standalone: false
 })
 export class AccompanimentComponent implements OnChanges {
   @Input()

@@ -6,9 +6,10 @@ import { TestOutcome } from '@store/tests/tests.constants';
 import { ModalEvent } from '../../../test-report.constants';
 
 @Component({
-  selector: 'end-test-modal',
-  templateUrl: 'cpc-end-test-modal.html',
-  styleUrls: ['cpc-end-test-modal.scss'],
+    selector: 'end-test-modal',
+    templateUrl: 'cpc-end-test-modal.html',
+    styleUrls: ['cpc-end-test-modal.scss'],
+    standalone: false
 })
 export class CPCEndTestModal {
   @Input()

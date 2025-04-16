@@ -21,9 +21,10 @@ interface ManoeuvresFaultState {
 }
 
 @Component({
-  selector: 'manoeuvres-popover',
-  templateUrl: 'manoeuvres-popover.html',
-  styleUrls: ['./manoeuvres-popover.scss'],
+    selector: 'manoeuvres-popover',
+    templateUrl: 'manoeuvres-popover.html',
+    styleUrls: ['./manoeuvres-popover.scss'],
+    standalone: false
 })
 export class ManoeuvresPopoverComponent {
   manoeuvreTypes = ManoeuvreTypes;

@@ -23,9 +23,10 @@ enum DisplayMessage {
 }
 
 @Component({
-  selector: 'practice-mode-banner',
-  templateUrl: 'practice-mode-banner.html',
-  styleUrls: ['practice-mode-banner.scss'],
+    selector: 'practice-mode-banner',
+    templateUrl: 'practice-mode-banner.html',
+    styleUrls: ['practice-mode-banner.scss'],
+    standalone: false
 })
 export class PracticeModeBanner implements OnInit {
   @Input()

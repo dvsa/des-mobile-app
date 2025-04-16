@@ -18,9 +18,10 @@ import { behaviourMap } from '../../office/office-behaviour-map.cat-adi-part2';
 type PassFinalisationPageState = CommonPassFinalisationPageState;
 
 @Component({
-  selector: 'app-pass-finalisation-cat-adi-part2',
-  templateUrl: './pass-finalisation.cat-adi-part2.page.html',
-  styleUrls: ['./../pass-finalisation.page.scss'],
+    selector: 'app-pass-finalisation-cat-adi-part2',
+    templateUrl: './pass-finalisation.cat-adi-part2.page.html',
+    styleUrls: ['./../pass-finalisation.page.scss'],
+    standalone: false
 })
 export class PassFinalisationCatADI2Page extends PassFinalisationPageComponent implements OnInit {
   pageState: PassFinalisationPageState;

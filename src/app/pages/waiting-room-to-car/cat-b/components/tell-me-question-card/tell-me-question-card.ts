@@ -3,9 +3,10 @@ import { UntypedFormGroup } from '@angular/forms';
 import { VehicleChecksQuestion } from '@providers/question/vehicle-checks-question.model';
 
 @Component({
-  selector: 'tell-me-question-card',
-  templateUrl: './tell-me-question-card.html',
-  styleUrls: ['./tell-me-question-card.scss'],
+    selector: 'tell-me-question-card',
+    templateUrl: './tell-me-question-card.html',
+    styleUrls: ['./tell-me-question-card.scss'],
+    standalone: false
 })
 export class TellMeQuestionCardComponent {
   @Input()

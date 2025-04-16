@@ -13,8 +13,9 @@ import { get } from 'lodash-es';
 import { convertBooleanToString, flattenArray } from '../../view-test-result-helpers';
 
 @Component({
-  selector: 'test-summary-card',
-  templateUrl: 'test-summary-card.html',
+    selector: 'test-summary-card',
+    templateUrl: 'test-summary-card.html',
+    standalone: false
 })
 export class TestSummaryCardComponent {
   @Input()

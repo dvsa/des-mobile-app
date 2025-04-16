@@ -55,9 +55,10 @@ interface CatADI3TestReportPageState {
 type TestReportPageState = CommonTestReportPageState & CatADI3TestReportPageState;
 
 @Component({
-  selector: 'app-test-report-cat-adi3',
-  templateUrl: './test-report.cat-adi-part3.page.html',
-  styleUrls: ['./test-report.cat-adi-part3.page.scss'],
+    selector: 'app-test-report-cat-adi3',
+    templateUrl: './test-report.cat-adi-part3.page.html',
+    styleUrls: ['./test-report.cat-adi-part3.page.scss'],
+    standalone: false
 })
 export class TestReportCatADI3Page extends TestReportBasePageComponent implements OnInit {
   form: UntypedFormGroup;

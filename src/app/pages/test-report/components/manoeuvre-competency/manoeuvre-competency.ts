@@ -34,9 +34,10 @@ interface ManoeuvreCompetencyComponentState {
 }
 
 @Component({
-  selector: 'manoeuvre-competency',
-  templateUrl: 'manoeuvre-competency.html',
-  styleUrls: ['manoeuvre-competency.scss'],
+    selector: 'manoeuvre-competency',
+    templateUrl: 'manoeuvre-competency.html',
+    styleUrls: ['manoeuvre-competency.scss'],
+    standalone: false
 })
 export class ManoeuvreCompetencyComponent implements OnInit, OnDestroy {
   @Input()

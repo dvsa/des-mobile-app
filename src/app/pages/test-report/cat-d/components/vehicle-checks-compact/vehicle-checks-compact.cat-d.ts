@@ -18,9 +18,10 @@ interface ComponentState {
 }
 
 @Component({
-  selector: 'vehicle-checks-compact-cat-d',
-  templateUrl: 'vehicle-checks-compact.cat-d.html',
-  styleUrls: ['vehicle-checks-compact.cat-d.scss'],
+    selector: 'vehicle-checks-compact-cat-d',
+    templateUrl: 'vehicle-checks-compact.cat-d.html',
+    styleUrls: ['vehicle-checks-compact.cat-d.scss'],
+    standalone: false
 })
 export class VehicleChecksCompactCatDComponent implements OnInit {
   @Input()

@@ -3,8 +3,9 @@ import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/
 import { FaultSummary } from '@shared/models/fault-marking.model';
 
 @Component({
-  selector: 'driving-faults',
-  templateUrl: './driving-faults.component.html',
+    selector: 'driving-faults',
+    templateUrl: './driving-faults.component.html',
+    standalone: false
 })
 export class DrivingFaultsComponent {
   @Input()

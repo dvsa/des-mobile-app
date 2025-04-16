@@ -27,19 +27,18 @@ export enum ExitSAMMethodUsed {
 }
 
 @Component({
-  selector: 'test-flow-header',
-  templateUrl: './test-flow-header.component.html',
-  styleUrls: ['./test-flow-header.component.scss'],
-  standalone: true,
-  imports: [
-    IonicModule,
-    ComponentsModule,
-    NgIf,
-    ExitSamBanner,
-    ExitSamButton,
-    DirectivesModule,
-    RefreshButtonComponent,
-  ],
+    selector: 'test-flow-header',
+    templateUrl: './test-flow-header.component.html',
+    styleUrls: ['./test-flow-header.component.scss'],
+    imports: [
+        IonicModule,
+        ComponentsModule,
+        NgIf,
+        ExitSamBanner,
+        ExitSamButton,
+        DirectivesModule,
+        RefreshButtonComponent,
+    ]
 })
 export class TestFlowHeaderComponent {
   @Input() isPracticeMode = false;

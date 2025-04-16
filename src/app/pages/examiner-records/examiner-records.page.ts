@@ -102,9 +102,10 @@ interface ExaminerRecordsState {
 }
 
 @Component({
-  selector: 'examiner-records',
-  templateUrl: './examiner-records.page.html',
-  styleUrls: ['./examiner-records.page.scss'],
+    selector: 'examiner-records',
+    templateUrl: './examiner-records.page.html',
+    styleUrls: ['./examiner-records.page.scss'],
+    standalone: false
 })
 export class ExaminerRecordsPage implements OnInit {
   merged$: Observable<ExaminerRecordModel[] | void>;

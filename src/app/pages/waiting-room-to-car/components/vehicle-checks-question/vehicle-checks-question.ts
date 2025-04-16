@@ -6,9 +6,10 @@ import { CompetencyOutcome } from '@shared/models/competency-outcome';
 import { uniqueId } from 'lodash-es';
 
 @Component({
-  selector: 'vehicle-checks-question',
-  templateUrl: 'vehicle-checks-question.html',
-  styleUrls: ['vehicle-checks-question.scss'],
+    selector: 'vehicle-checks-question',
+    templateUrl: 'vehicle-checks-question.html',
+    styleUrls: ['vehicle-checks-question.scss'],
+    standalone: false
 })
 export class VehicleChecksQuestionComponent implements OnChanges {
   @Input()

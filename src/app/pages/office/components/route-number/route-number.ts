@@ -3,8 +3,9 @@ import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms
 import { OutcomeBehaviourMapProvider, VisibilityType } from '@providers/outcome-behaviour-map/outcome-behaviour-map';
 
 @Component({
-  selector: 'route-number',
-  templateUrl: 'route-number.html',
+    selector: 'route-number',
+    templateUrl: 'route-number.html',
+    standalone: false
 })
 export class RouteNumberComponent implements OnChanges {
   @Input()

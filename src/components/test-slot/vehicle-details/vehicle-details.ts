@@ -1,9 +1,10 @@
 import { Component, Input } from '@angular/core';
 
 @Component({
-  selector: 'vehicle-details',
-  templateUrl: 'vehicle-details.html',
-  styleUrls: ['vehicle-details.scss'],
+    selector: 'vehicle-details',
+    templateUrl: 'vehicle-details.html',
+    styleUrls: ['vehicle-details.scss'],
+    standalone: false
 })
 export class VehicleDetailsComponent {
   @Input()

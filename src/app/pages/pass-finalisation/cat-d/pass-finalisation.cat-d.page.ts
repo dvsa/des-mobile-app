@@ -32,9 +32,10 @@ interface CatDPassFinalisationPageState {
 type PassFinalisationPageState = CommonPassFinalisationPageState & CatDPassFinalisationPageState;
 
 @Component({
-  selector: 'app-pass-finalisation-cat-d',
-  templateUrl: './pass-finalisation.cat-d.page.html',
-  styleUrls: ['./../pass-finalisation.page.scss'],
+    selector: 'app-pass-finalisation-cat-d',
+    templateUrl: './pass-finalisation.cat-d.page.html',
+    styleUrls: ['./../pass-finalisation.page.scss'],
+    standalone: false
 })
 export class PassFinalisationCatDPage extends PassFinalisationPageComponent implements OnInit {
   pageState: PassFinalisationPageState;

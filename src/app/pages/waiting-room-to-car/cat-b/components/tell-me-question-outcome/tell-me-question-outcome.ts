@@ -2,8 +2,9 @@ import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core
 import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 
 @Component({
-  selector: 'tell-me-question-outcome',
-  templateUrl: 'tell-me-question-outcome.html',
+    selector: 'tell-me-question-outcome',
+    templateUrl: 'tell-me-question-outcome.html',
+    standalone: false
 })
 export class TellMeQuestionOutcomeComponent implements OnChanges {
   @Input()

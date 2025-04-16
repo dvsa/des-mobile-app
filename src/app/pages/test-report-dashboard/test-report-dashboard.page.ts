@@ -40,9 +40,10 @@ interface TestReportDashboardState {
 type TestReportDashboardPageState = CommonTestReportPageState & TestReportDashboardState;
 
 @Component({
-  selector: 'app-test-report-dashboard',
-  templateUrl: './test-report-dashboard.page.html',
-  styleUrls: ['./test-report-dashboard.page.scss'],
+    selector: 'app-test-report-dashboard',
+    templateUrl: './test-report-dashboard.page.html',
+    styleUrls: ['./test-report-dashboard.page.scss'],
+    standalone: false
 })
 export class TestReportDashboardPage extends TestReportBasePageComponent implements OnInit {
   pageState: TestReportDashboardPageState;

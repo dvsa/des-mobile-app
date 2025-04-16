@@ -7,8 +7,9 @@ enum TrainingRecorded {
 }
 
 @Component({
-  selector: 'training-records-cat-adi-part2',
-  templateUrl: 'training-records.cat-adi-part2.html',
+    selector: 'training-records-cat-adi-part2',
+    templateUrl: 'training-records.cat-adi-part2.html',
+    standalone: false
 })
 export class TrainingRecordsCatAdiPart2Component {
   @Input()

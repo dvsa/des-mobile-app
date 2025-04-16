@@ -8,8 +8,9 @@ import {
 } from '@shared/constants/field-validators/field-validators';
 
 @Component({
-  selector: 'instructor-registration',
-  templateUrl: './instructor-registration.html',
+    selector: 'instructor-registration',
+    templateUrl: './instructor-registration.html',
+    standalone: false
 })
 export class InstructorRegistrationComponent implements OnChanges {
   @Input()

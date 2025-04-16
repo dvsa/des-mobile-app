@@ -3,9 +3,10 @@ import { ModalController } from '@ionic/angular';
 import { ExitRekeyModalEvent } from './exit-rekey-modal.constants';
 
 @Component({
-  selector: 'exit-rekey-modal',
-  templateUrl: 'exit-rekey-modal.html',
-  styleUrls: ['exit-rekey-modal.scss'],
+    selector: 'exit-rekey-modal',
+    templateUrl: 'exit-rekey-modal.html',
+    styleUrls: ['exit-rekey-modal.scss'],
+    standalone: false
 })
 export class ExitRekeyModal {
   constructor(public modalCtrl: ModalController) {}

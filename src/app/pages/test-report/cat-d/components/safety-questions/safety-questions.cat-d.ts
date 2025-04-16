@@ -17,9 +17,10 @@ interface ComponentState {
 }
 
 @Component({
-  selector: 'safety-questions-cat-d',
-  templateUrl: 'safety-questions.cat-d.html',
-  styleUrls: ['safety-questions.cat-d.scss'],
+    selector: 'safety-questions-cat-d',
+    templateUrl: 'safety-questions.cat-d.html',
+    styleUrls: ['safety-questions.cat-d.scss'],
+    standalone: false
 })
 export class SafetyQuestionsCatDComponent implements OnInit {
   @Input()

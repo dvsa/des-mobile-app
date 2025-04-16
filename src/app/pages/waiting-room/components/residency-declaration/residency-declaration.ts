@@ -2,9 +2,10 @@ import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core
 import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 
 @Component({
-  selector: 'residency-declaration',
-  templateUrl: 'residency-declaration.html',
-  styleUrls: ['residency-declaration.scss'],
+    selector: 'residency-declaration',
+    templateUrl: 'residency-declaration.html',
+    styleUrls: ['residency-declaration.scss'],
+    standalone: false
 })
 export class ResidencyDeclarationComponent implements OnChanges {
   @Input()

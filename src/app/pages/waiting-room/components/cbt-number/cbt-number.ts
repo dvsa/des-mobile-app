@@ -4,9 +4,10 @@ import { AccessibilityService } from '@providers/accessibility/accessibility.ser
 import { getDL196CBTCertificateNumberValidator } from '@shared/constants/field-validators/field-validators';
 
 @Component({
-  selector: 'cbt-number',
-  templateUrl: 'cbt-number.html',
-  styleUrls: ['cbt-number.scss'],
+    selector: 'cbt-number',
+    templateUrl: 'cbt-number.html',
+    styleUrls: ['cbt-number.scss'],
+    standalone: false
 })
 export class CBTNumberComponent implements OnChanges {
   @Input()

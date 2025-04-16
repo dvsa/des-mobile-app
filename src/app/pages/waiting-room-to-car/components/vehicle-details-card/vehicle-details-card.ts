@@ -2,8 +2,9 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { UntypedFormGroup } from '@angular/forms';
 
 @Component({
-  selector: 'vehicle-details-card',
-  templateUrl: 'vehicle-details-card.html',
+    selector: 'vehicle-details-card',
+    templateUrl: 'vehicle-details-card.html',
+    standalone: false
 })
 export class VehicleDetailsCardComponent {
   @Input()

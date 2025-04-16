@@ -5,8 +5,9 @@ import { OutcomeBehaviourMapProvider, VisibilityType } from '@providers/outcome-
 import { CANDIDATE_DESCRIPTION_CONTROL, CANDIDATE_DESCRIPTION_MAX_LENGTH } from './candidate-description.constants';
 
 @Component({
-  selector: 'candidate-description',
-  templateUrl: 'candidate-description.html',
+    selector: 'candidate-description',
+    templateUrl: 'candidate-description.html',
+    standalone: false
 })
 export class CandidateDescriptionComponent implements OnChanges {
   @Input()

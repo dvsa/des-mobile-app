@@ -2,9 +2,10 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 
 @Component({
-  selector: 'provided-email',
-  templateUrl: 'provided-email.html',
-  styleUrls: ['provided-email.scss'],
+    selector: 'provided-email',
+    templateUrl: 'provided-email.html',
+    styleUrls: ['provided-email.scss'],
+    standalone: false
 })
 export class ProvidedEmailComponent {
   static readonly providedEmail: string = 'Email';

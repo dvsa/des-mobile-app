@@ -2,9 +2,10 @@ import { Component } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 
 @Component({
-  selector: 'confirm-submit-modal',
-  templateUrl: './confirm-submit-modal.html',
-  styleUrls: ['./confirm-submit-modal.scss'],
+    selector: 'confirm-submit-modal',
+    templateUrl: './confirm-submit-modal.html',
+    styleUrls: ['./confirm-submit-modal.scss'],
+    standalone: false
 })
 export class ConfirmSubmitModal {
   onTestDetailsConfirm: Function;

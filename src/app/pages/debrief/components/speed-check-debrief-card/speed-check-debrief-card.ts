@@ -5,9 +5,10 @@ import { configureI18N } from '@shared/helpers/translation.helpers';
 import { Language } from '@store/tests/communication-preferences/communication-preferences.model';
 
 @Component({
-  selector: 'speed-check-debrief-card',
-  templateUrl: 'speed-check-debrief-card.html',
-  styleUrls: ['speed-check-debrief-card.scss'],
+    selector: 'speed-check-debrief-card',
+    templateUrl: 'speed-check-debrief-card.html',
+    styleUrls: ['speed-check-debrief-card.scss'],
+    standalone: false
 })
 export class SpeedCheckDebriefCardComponent {
   constructor(private translate: TranslateService) {}

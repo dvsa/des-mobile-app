@@ -9,9 +9,10 @@ import { Observable } from 'rxjs';
 type TestReportPageState = CommonTestReportPageState;
 
 @Component({
-  selector: '.test-report-cat-adi-part2-page',
-  templateUrl: './test-report.cat-adi-part2.page.html',
-  styleUrls: ['./test-report.cat-adi-part2.page.scss'],
+    selector: '.test-report-cat-adi-part2-page',
+    templateUrl: './test-report.cat-adi-part2.page.html',
+    styleUrls: ['./test-report.cat-adi-part2.page.scss'],
+    standalone: false
 })
 export class TestReportCatADI2Page extends TestReportBasePageComponent implements OnInit {
   pageState: TestReportPageState;

@@ -9,9 +9,10 @@ import { DateTime } from '@shared/helpers/date-time';
 import { ModalEvent } from './journal-early-start-modal.constants';
 
 @Component({
-  selector: 'journal-early-start-modal',
-  templateUrl: './journal-early-start-modal.html',
-  styleUrls: ['./journal-early-start-modal.scss'],
+    selector: 'journal-early-start-modal',
+    templateUrl: './journal-early-start-modal.html',
+    styleUrls: ['./journal-early-start-modal.scss'],
+    standalone: false
 })
 export class JournalEarlyStartModal {
   @Input()

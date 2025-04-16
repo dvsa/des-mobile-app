@@ -4,9 +4,10 @@ import { legalRequirementsLabels } from '@shared/constants/legal-requirements/le
 import { ModalEvent } from '../../test-report.constants';
 
 @Component({
-  selector: 'legal-requirements-modal',
-  templateUrl: 'legal-requirements-modal.html',
-  styleUrls: ['legal-requirements-modal.scss'],
+    selector: 'legal-requirements-modal',
+    templateUrl: 'legal-requirements-modal.html',
+    styleUrls: ['legal-requirements-modal.scss'],
+    standalone: false
 })
 export class LegalRequirementsModal {
   @Input()

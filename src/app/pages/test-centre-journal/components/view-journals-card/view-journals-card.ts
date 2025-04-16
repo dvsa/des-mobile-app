@@ -28,9 +28,10 @@ export enum Day {
 }
 
 @Component({
-  selector: 'view-journals-card',
-  templateUrl: 'view-journals-card.html',
-  styleUrls: ['./view-journals-card.scss'],
+    selector: 'view-journals-card',
+    templateUrl: 'view-journals-card.html',
+    styleUrls: ['./view-journals-card.scss'],
+    standalone: false
 })
 export class ViewJournalsCardComponent implements OnChanges {
   @ViewChild('slotContainer', { read: ViewContainerRef })

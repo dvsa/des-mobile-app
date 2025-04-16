@@ -4,9 +4,10 @@ import { StoreModel } from '@shared/models/store.model';
 import { StartTimer } from '../../test-report.actions';
 
 @Component({
-  selector: 'timer',
-  templateUrl: 'timer.html',
-  styleUrls: ['timer.scss'],
+    selector: 'timer',
+    templateUrl: 'timer.html',
+    styleUrls: ['timer.scss'],
+    standalone: false
 })
 export class TimerComponent {
   showStartTimerButton: boolean;

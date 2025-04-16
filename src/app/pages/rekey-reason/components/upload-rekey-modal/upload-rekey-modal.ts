@@ -3,9 +3,10 @@ import { ModalController } from '@ionic/angular';
 import { UploadRekeyModalEvent } from './upload-rekey-modal.constants';
 
 @Component({
-  selector: 'upload-rekey-modal',
-  templateUrl: 'upload-rekey-modal.html',
-  styleUrls: ['upload-rekey-modal.scss'],
+    selector: 'upload-rekey-modal',
+    templateUrl: 'upload-rekey-modal.html',
+    styleUrls: ['upload-rekey-modal.scss'],
+    standalone: false
 })
 export class UploadRekeyModal {
   @Input()

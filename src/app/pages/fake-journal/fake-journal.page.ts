@@ -9,9 +9,10 @@ import { BasePageComponent } from '@shared/classes/base-page';
 import { DateTime } from '@shared/helpers/date-time';
 
 @Component({
-  selector: 'app-fake-journal',
-  templateUrl: './fake-journal.page.html',
-  styleUrls: ['./fake-journal.page.scss'],
+    selector: 'app-fake-journal',
+    templateUrl: './fake-journal.page.html',
+    styleUrls: ['./fake-journal.page.scss'],
+    standalone: false
 })
 export class FakeJournalPage extends BasePageComponent {
   dateToDisplay: string;

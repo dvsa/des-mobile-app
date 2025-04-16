@@ -2,8 +2,9 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { LessonPlanning, RiskManagement, TeachingLearningStrategies } from '@dvsa/mes-test-schema/categories/ADI3';
 
 @Component({
-  selector: 'tr-assessment-card',
-  templateUrl: 'tr-assessment-card.html',
+    selector: 'tr-assessment-card',
+    templateUrl: 'tr-assessment-card.html',
+    standalone: false
 })
 export class TestReportAssessmentCard {
   @Input()

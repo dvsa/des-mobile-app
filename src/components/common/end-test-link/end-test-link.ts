@@ -10,9 +10,10 @@ import { StoreModel } from '@shared/models/store.model';
 import { SetActivityCode } from '@store/tests/activity-code/activity-code.actions';
 
 @Component({
-  selector: 'end-test-link',
-  templateUrl: './end-test-link.html',
-  styleUrls: ['./end-test-link.scss'],
+    selector: 'end-test-link',
+    templateUrl: './end-test-link.html',
+    styleUrls: ['./end-test-link.scss'],
+    standalone: false
 })
 export class EndTestLinkComponent {
   terminateTestModal: HTMLIonModalElement;

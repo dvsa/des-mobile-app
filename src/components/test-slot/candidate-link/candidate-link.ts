@@ -6,9 +6,10 @@ import { CandidateDetailsPage } from '@pages/candidate-details/candidate-details
 import { AccessibilityService } from '@providers/accessibility/accessibility.service';
 
 @Component({
-  selector: 'candidate-link',
-  templateUrl: 'candidate-link.html',
-  styleUrls: ['candidate-link.scss'],
+    selector: 'candidate-link',
+    templateUrl: 'candidate-link.html',
+    styleUrls: ['candidate-link.scss'],
+    standalone: false
 })
 export class CandidateLinkComponent {
   @Input()

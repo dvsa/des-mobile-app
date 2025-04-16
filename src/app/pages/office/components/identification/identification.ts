@@ -5,8 +5,9 @@ import { Identification } from '@dvsa/mes-test-schema/categories/common';
 import { OutcomeBehaviourMapProvider, VisibilityType } from '@providers/outcome-behaviour-map/outcome-behaviour-map';
 
 @Component({
-  selector: 'identification',
-  templateUrl: 'identification.html',
+    selector: 'identification',
+    templateUrl: 'identification.html',
+    standalone: false
 })
 export class IdentificationComponent implements OnChanges {
   @Input()

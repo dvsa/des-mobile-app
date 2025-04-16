@@ -5,9 +5,10 @@ import { OutcomeBehaviourMapProvider, VisibilityType } from '@providers/outcome-
 import { WeatherConditionSelection } from '@providers/weather-conditions/weather-conditions.model';
 
 @Component({
-  selector: 'weather-conditions',
-  templateUrl: 'weather-conditions.html',
-  styleUrls: ['weather-conditions.scss'],
+    selector: 'weather-conditions',
+    templateUrl: 'weather-conditions.html',
+    styleUrls: ['weather-conditions.scss'],
+    standalone: false
 })
 export class WeatherConditionsComponent implements OnChanges {
   @Input()

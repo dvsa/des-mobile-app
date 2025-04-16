@@ -2,9 +2,10 @@ import { Component, Input } from '@angular/core';
 import { TestOutcome } from '@store/tests/tests.constants';
 
 @Component({
-  selector: 'office-candidate-section',
-  templateUrl: 'candidate-section.html',
-  styleUrls: ['candidate-section.scss'],
+    selector: 'office-candidate-section',
+    templateUrl: 'candidate-section.html',
+    styleUrls: ['candidate-section.scss'],
+    standalone: false
 })
 export class CandidateSectionComponent {
   @Input()

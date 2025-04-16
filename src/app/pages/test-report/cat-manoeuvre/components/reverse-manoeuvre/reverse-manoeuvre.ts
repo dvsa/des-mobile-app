@@ -37,9 +37,10 @@ interface ReverseManoeuvreCompetencyComponentState {
 }
 
 @Component({
-  selector: 'reverse-manoeuvres',
-  templateUrl: 'reverse-manoeuvre.html',
-  styleUrls: ['./reverse-manoeuvre.scss'],
+    selector: 'reverse-manoeuvres',
+    templateUrl: 'reverse-manoeuvre.html',
+    styleUrls: ['./reverse-manoeuvre.scss'],
+    standalone: false
 })
 export class ReverseManoeuvreComponent {
   @Input()

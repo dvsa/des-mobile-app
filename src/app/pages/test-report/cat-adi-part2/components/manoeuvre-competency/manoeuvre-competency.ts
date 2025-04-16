@@ -31,9 +31,10 @@ interface ManoeuvreCompetencyComponentState {
 }
 
 @Component({
-  selector: 'manoeuvre-competency-adi-part2',
-  templateUrl: 'manoeuvre-competency.html',
-  styleUrls: ['manoeuvre-competency.scss'],
+    selector: 'manoeuvre-competency-adi-part2',
+    templateUrl: 'manoeuvre-competency.html',
+    styleUrls: ['manoeuvre-competency.scss'],
+    standalone: false
 })
 export class ManoeuvreCompetencyComponentAdiPart2 implements OnInit, OnDestroy {
   @Input()

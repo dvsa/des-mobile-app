@@ -3,8 +3,9 @@ import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms
 import { OutcomeBehaviourMapProvider, VisibilityType } from '@providers/outcome-behaviour-map/outcome-behaviour-map';
 
 @Component({
-  selector: 'further-development',
-  templateUrl: './further-development.component.html',
+    selector: 'further-development',
+    templateUrl: './further-development.component.html',
+    standalone: false
 })
 export class FurtherDevelopmentComponent implements OnChanges {
   formControl: UntypedFormControl;

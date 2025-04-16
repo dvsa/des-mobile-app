@@ -4,9 +4,10 @@ import { PassCertificatedViewDidEnter } from '@pages/pass-certificates/pass-cert
 import { StoreModel } from '@shared/models/store.model';
 
 @Component({
-  selector: 'pass-certificates',
-  templateUrl: './pass-certificates.page.html',
-  styleUrls: ['./pass-certificates.page.scss'],
+    selector: 'pass-certificates',
+    templateUrl: './pass-certificates.page.html',
+    styleUrls: ['./pass-certificates.page.scss'],
+    standalone: false
 })
 export class PassCertificatesPage implements OnInit {
   constructor(public store$: Store<StoreModel>) {}

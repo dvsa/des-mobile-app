@@ -8,9 +8,10 @@ export enum SearchablePicklistModalEvent {
 }
 
 @Component({
-  selector: 'searchable-picklist-wrapper',
-  templateUrl: './searchable-picklist-wrapper.html',
-  styleUrls: ['./searchable-picklist-wrapper.scss'],
+    selector: 'searchable-picklist-wrapper',
+    templateUrl: './searchable-picklist-wrapper.html',
+    styleUrls: ['./searchable-picklist-wrapper.scss'],
+    standalone: false
 })
 export class SearchablePicklistComponentWrapper<T> {
   @Input()

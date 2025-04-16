@@ -3,9 +3,10 @@ import { QuestionResult, SafetyQuestionResult } from '@dvsa/mes-test-schema/cate
 import { CompetencyOutcome } from '@shared/models/competency-outcome';
 
 @Component({
-  selector: 'safety-questions-card',
-  templateUrl: 'safety-questions-card.html',
-  styleUrls: ['safety-questions-card.scss'],
+    selector: 'safety-questions-card',
+    templateUrl: 'safety-questions-card.html',
+    styleUrls: ['safety-questions-card.scss'],
+    standalone: false
 })
 export class SafetyQuestionsCardComponent {
   @Input()

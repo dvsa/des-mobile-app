@@ -44,9 +44,10 @@ interface CandidateDetailsPageState {
 }
 
 @Component({
-  selector: 'app-candidate-details',
-  templateUrl: 'candidate-details.page.html',
-  styleUrls: ['candidate-details.page.scss'],
+    selector: 'app-candidate-details',
+    templateUrl: 'candidate-details.page.html',
+    styleUrls: ['candidate-details.page.scss'],
+    standalone: false
 })
 export class CandidateDetailsPage implements OnInit, OnDestroy, ViewDidEnter {
   @Input()

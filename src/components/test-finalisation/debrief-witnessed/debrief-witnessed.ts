@@ -3,8 +3,9 @@ import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms
 import { OutcomeBehaviourMapProvider, VisibilityType } from '@providers/outcome-behaviour-map/outcome-behaviour-map';
 
 @Component({
-  selector: 'debrief-witnessed',
-  templateUrl: './debrief-witnessed.html',
+    selector: 'debrief-witnessed',
+    templateUrl: './debrief-witnessed.html',
+    standalone: false
 })
 export class DebriefWitnessedComponent implements OnChanges {
   static readonly fieldName: string = 'debriefWitnessed';

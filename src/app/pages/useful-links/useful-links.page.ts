@@ -10,9 +10,10 @@ import { UrlProvider } from '@providers/url/url';
 import { BasePageComponent } from '@shared/classes/base-page';
 
 @Component({
-  selector: 'useful-links',
-  templateUrl: 'useful-links.page.html',
-  styleUrls: ['useful-links.page.scss'],
+    selector: 'useful-links',
+    templateUrl: 'useful-links.page.html',
+    styleUrls: ['useful-links.page.scss'],
+    standalone: false
 })
 export class UsefulLinksPage extends BasePageComponent implements OnInit {
   usefulLinks: UsefulLink[] = [];

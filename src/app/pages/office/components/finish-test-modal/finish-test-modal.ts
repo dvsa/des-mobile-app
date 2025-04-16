@@ -2,9 +2,10 @@ import { Component } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 
 @Component({
-  selector: 'finish-test-modal',
-  templateUrl: './finish-test-modal.html',
-  styleUrls: ['./finish-test-modal.scss'],
+    selector: 'finish-test-modal',
+    templateUrl: './finish-test-modal.html',
+    styleUrls: ['./finish-test-modal.scss'],
+    standalone: false
 })
 export class FinishTestModal {
   completeTest: Function;
