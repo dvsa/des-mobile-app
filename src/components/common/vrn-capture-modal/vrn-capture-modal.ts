@@ -21,10 +21,10 @@ interface ComponentState {
 }
 
 @Component({
-    selector: 'vrn-capture-modal',
-    templateUrl: './vrn-capture-modal.html',
-    styleUrls: ['./vrn-capture-modal.scss'],
-    standalone: false
+  selector: 'vrn-capture-modal',
+  templateUrl: './vrn-capture-modal.html',
+  styleUrls: ['./vrn-capture-modal.scss'],
+  standalone: false,
 })
 export class VRNCaptureModal implements OnInit {
   @Input()

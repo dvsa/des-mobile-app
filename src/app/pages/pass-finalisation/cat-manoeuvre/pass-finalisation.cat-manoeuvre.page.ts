@@ -17,10 +17,10 @@ import { PersistTests } from '@store/tests/tests.actions';
 type PassFinalisationPageState = CommonPassFinalisationPageState;
 
 @Component({
-    selector: 'app-pass-finalisation-cat-manoeuvre',
-    templateUrl: './pass-finalisation.cat-manoeuvre.page.html',
-    styleUrls: ['./../pass-finalisation.page.scss'],
-    standalone: false
+  selector: 'app-pass-finalisation-cat-manoeuvre',
+  templateUrl: './pass-finalisation.cat-manoeuvre.page.html',
+  styleUrls: ['./../pass-finalisation.page.scss'],
+  standalone: false,
 })
 export class PassFinalisationCatManoeuvrePage extends PassFinalisationPageComponent implements OnInit {
   form: UntypedFormGroup;

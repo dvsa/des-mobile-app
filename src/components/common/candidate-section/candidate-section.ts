@@ -14,10 +14,10 @@ import {
 import { VehicleRegistrationChanged } from '@store/tests/vehicle-details/vehicle-details.actions';
 
 @Component({
-    selector: 'candidate-section',
-    templateUrl: './candidate-section.html',
-    styleUrls: ['./candidate-section.scss'],
-    standalone: false
+  selector: 'candidate-section',
+  templateUrl: './candidate-section.html',
+  styleUrls: ['./candidate-section.scss'],
+  standalone: false,
 })
 export class CandidateSectionComponent {
   constructor(

@@ -4,10 +4,10 @@ import { transformStringForID } from '@shared/helpers/transform-string-for-id';
 import { TabComponent } from '../tab/tab';
 
 @Component({
-    selector: 'tabs',
-    templateUrl: 'tabs.html',
-    styleUrls: ['tabs.scss'],
-    standalone: false
+  selector: 'tabs',
+  templateUrl: 'tabs.html',
+  styleUrls: ['tabs.scss'],
+  standalone: false,
 })
 export class TabsComponent implements AfterContentInit {
   @ContentChildren(TabComponent) tabs: QueryList<TabComponent>;

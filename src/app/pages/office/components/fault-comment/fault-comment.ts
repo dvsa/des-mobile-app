@@ -13,10 +13,10 @@ export enum ValidFaultTypes {
 }
 
 @Component({
-    selector: 'fault-comment',
-    templateUrl: 'fault-comment.html',
-    styleUrls: ['fault-comment.scss'],
-    standalone: false
+  selector: 'fault-comment',
+  templateUrl: 'fault-comment.html',
+  styleUrls: ['fault-comment.scss'],
+  standalone: false,
 })
 export class FaultCommentComponent implements OnChanges {
   faultCommentMaxLength = 950;

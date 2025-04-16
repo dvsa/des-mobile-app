@@ -6,10 +6,10 @@ import { StoreModel } from '@shared/models/store.model';
 import { SetActivityCode } from '@store/tests/activity-code/activity-code.actions';
 
 @Component({
-    selector: 'eyesight-failure-confirmation',
-    templateUrl: './eyesight-failure-confirmation.html',
-    styleUrls: ['./eyesight-failure-confirmation.scss'],
-    standalone: false
+  selector: 'eyesight-failure-confirmation',
+  templateUrl: './eyesight-failure-confirmation.html',
+  styleUrls: ['./eyesight-failure-confirmation.scss'],
+  standalone: false,
 })
 export class EyesightFailureConfirmationComponent {
   constructor(

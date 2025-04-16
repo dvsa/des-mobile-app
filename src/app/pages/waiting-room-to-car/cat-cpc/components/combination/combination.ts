@@ -3,10 +3,10 @@ import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms
 import { Combination } from '@shared/constants/cpc-questions/cpc-question-combinations.constants';
 
 @Component({
-    selector: 'combination',
-    templateUrl: 'combination.html',
-    styleUrls: ['combination.scss'],
-    standalone: false
+  selector: 'combination',
+  templateUrl: 'combination.html',
+  styleUrls: ['combination.scss'],
+  standalone: false,
 })
 export class CombinationComponent {
   @Input()

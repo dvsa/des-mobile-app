@@ -2,8 +2,8 @@ import { Directive, ElementRef, HostListener } from '@angular/core';
 import emojiRegex from 'emoji-regex';
 
 @Directive({
-    selector: '[emojiBlock]',
-    standalone: false
+  selector: '[emojiBlock]',
+  standalone: false,
 })
 export class EmojiBlockDirective {
   emojiPattern = emojiRegex();

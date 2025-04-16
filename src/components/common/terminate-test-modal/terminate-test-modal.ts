@@ -2,10 +2,10 @@ import { Component, Input } from '@angular/core';
 import { DeviceAuthenticationProvider } from '@providers/device-authentication/device-authentication';
 
 @Component({
-    selector: 'terminate-test-modal',
-    templateUrl: './terminate-test-modal.html',
-    styleUrls: ['./terminate-test-modal.scss'],
-    standalone: false
+  selector: 'terminate-test-modal',
+  templateUrl: './terminate-test-modal.html',
+  styleUrls: ['./terminate-test-modal.scss'],
+  standalone: false,
 })
 export class TerminateTestModal {
   @Input()

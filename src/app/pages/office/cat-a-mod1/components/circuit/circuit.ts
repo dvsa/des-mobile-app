@@ -6,9 +6,9 @@ import { OutcomeBehaviourMapProvider, VisibilityType } from '@providers/outcome-
 import { CircuitType } from '@shared/models/circuit-type';
 
 @Component({
-    selector: 'circuit',
-    templateUrl: 'circuit.html',
-    standalone: false
+  selector: 'circuit',
+  templateUrl: 'circuit.html',
+  standalone: false,
 })
 export class CircuitComponent implements OnChanges {
   @Input()

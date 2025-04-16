@@ -1,10 +1,10 @@
 import { Component, Input } from '@angular/core';
 
 @Component({
-    selector: 'licence-data-error',
-    templateUrl: 'licence-data-error.html',
-    styleUrls: ['licence-data-error.scss'],
-    standalone: false
+  selector: 'licence-data-error',
+  templateUrl: 'licence-data-error.html',
+  styleUrls: ['licence-data-error.scss'],
+  standalone: false,
 })
 export class LicenceDataError {
   @Input()

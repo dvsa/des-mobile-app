@@ -6,10 +6,10 @@ import { removeLeadingZeros } from '@shared/helpers/formatters';
 import { has, isNil } from 'lodash-es';
 
 @Component({
-    selector: 'activity-slot',
-    templateUrl: 'activity-slot.html',
-    styleUrls: ['activity-slot.scss'],
-    standalone: false
+  selector: 'activity-slot',
+  templateUrl: 'activity-slot.html',
+  styleUrls: ['activity-slot.scss'],
+  standalone: false,
 })
 export class ActivitySlotComponent implements SlotComponent {
   @Input()

@@ -24,10 +24,10 @@ interface ManoeuvresFaultState {
 }
 
 @Component({
-    selector: 'manoeuvres-popover-adi-part2',
-    templateUrl: 'manoeuvres-popover.html',
-    styleUrls: ['manoeuvres-popover.scss'],
-    standalone: false
+  selector: 'manoeuvres-popover-adi-part2',
+  templateUrl: 'manoeuvres-popover.html',
+  styleUrls: ['manoeuvres-popover.scss'],
+  standalone: false,
 })
 export class ManoeuvresPopoverComponentAdiPart2 implements OnInit, OnDestroy {
   manoeuvreTypes = ManoeuvreTypes;

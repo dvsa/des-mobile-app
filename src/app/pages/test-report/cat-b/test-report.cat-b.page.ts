@@ -10,10 +10,10 @@ import {
 type TestReportPageState = CommonTestReportPageState;
 
 @Component({
-    selector: '.test-report-cat-b-page',
-    templateUrl: 'test-report.cat-b.page.html',
-    styleUrls: ['test-report.cat-b.page.scss'],
-    standalone: false
+  selector: '.test-report-cat-b-page',
+  templateUrl: 'test-report.cat-b.page.html',
+  styleUrls: ['test-report.cat-b.page.scss'],
+  standalone: false,
 })
 export class TestReportCatBPage extends TestReportBasePageComponent implements OnInit {
   pageState: TestReportPageState;

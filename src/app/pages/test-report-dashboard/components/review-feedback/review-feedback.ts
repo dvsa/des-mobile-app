@@ -3,10 +3,10 @@ import { UntypedFormControl, UntypedFormGroup, ValidationErrors, ValidatorFn, Va
 import { CharacterCountService } from '@providers/character-count/character-count.service';
 
 @Component({
-    selector: 'review-feedback',
-    templateUrl: 'review-feedback.html',
-    styleUrls: ['review-feedback.scss'],
-    standalone: false
+  selector: 'review-feedback',
+  templateUrl: 'review-feedback.html',
+  styleUrls: ['review-feedback.scss'],
+  standalone: false,
 })
 export class ReviewFeedback {
   @Input()

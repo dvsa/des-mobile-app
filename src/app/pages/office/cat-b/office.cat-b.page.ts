@@ -55,10 +55,10 @@ interface CatBOfficePageState {
 type OfficePageState = CommonOfficePageState & CatBOfficePageState;
 
 @Component({
-    selector: '.office-cat-b-page',
-    templateUrl: 'office.cat-b.page.html',
-    styleUrls: ['../office.page.scss'],
-    standalone: false
+  selector: '.office-cat-b-page',
+  templateUrl: 'office.cat-b.page.html',
+  styleUrls: ['../office.page.scss'],
+  standalone: false,
 })
 export class OfficeCatBPage extends OfficeBasePageComponent {
   pageState: OfficePageState;

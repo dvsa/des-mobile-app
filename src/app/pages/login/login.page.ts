@@ -21,10 +21,10 @@ import { Subscription } from 'rxjs';
 import { DASHBOARD_PAGE } from '../page-names.constants';
 
 @Component({
-    selector: 'app-login',
-    templateUrl: './login.page.html',
-    styleUrls: ['./login.page.scss'],
-    standalone: false
+  selector: 'app-login',
+  templateUrl: './login.page.html',
+  styleUrls: ['./login.page.scss'],
+  standalone: false,
 })
 export class LoginPage extends LogoutBasePageComponent implements OnInit {
   appInitError: AuthenticationError | AppConfigError | unknown;

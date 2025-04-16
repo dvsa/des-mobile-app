@@ -1,8 +1,8 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({
-    name: 'formatToID',
-    standalone: false
+  name: 'formatToID',
+  standalone: false,
 })
 export class FormatIdPipe implements PipeTransform {
   transform(value: string, prefix?: string, isValue?: boolean): string {

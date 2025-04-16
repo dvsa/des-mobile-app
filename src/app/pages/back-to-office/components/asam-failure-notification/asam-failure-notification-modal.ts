@@ -2,10 +2,10 @@ import { Component } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 
 @Component({
-    selector: 'app-asam-failure-notification',
-    templateUrl: './asam-failure-notification-modal.html',
-    styleUrls: ['./asam-failure-notification-modal.scss'],
-    standalone: false
+  selector: 'app-asam-failure-notification',
+  templateUrl: './asam-failure-notification-modal.html',
+  styleUrls: ['./asam-failure-notification-modal.scss'],
+  standalone: false,
 })
 export class AsamFailureNotificationModal {
   constructor(public modalController: ModalController) {}

@@ -30,10 +30,10 @@ import { getTestReportState } from '../../../test-report.reducer';
 import { isDangerousMode, isRemoveFaultMode, isSeriousMode } from '../../../test-report.selector';
 
 @Component({
-    selector: 'vehicle-check',
-    templateUrl: 'vehicle-check.html',
-    styleUrls: ['vehicle-check.scss'],
-    standalone: false
+  selector: 'vehicle-check',
+  templateUrl: 'vehicle-check.html',
+  styleUrls: ['vehicle-check.scss'],
+  standalone: false,
 })
 export class VehicleCheckComponent implements OnInit, OnDestroy {
   selectedShowMeQuestion: boolean;

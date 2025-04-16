@@ -5,10 +5,10 @@ import { PassCertificateValidationProvider } from '@providers/pass-certificate-v
 import { PASS_CERTIFICATE_LENGTH } from '@providers/pass-certificate-validation/pass-certificate-validation.constants';
 
 @Component({
-    selector: 'manoeuvres-pass-cert',
-    templateUrl: 'manoeuvres-pass-cert.html',
-    styleUrls: ['manoeuvres-pass-cert.scss'],
-    standalone: false
+  selector: 'manoeuvres-pass-cert',
+  templateUrl: 'manoeuvres-pass-cert.html',
+  styleUrls: ['manoeuvres-pass-cert.scss'],
+  standalone: false,
 })
 export class ManoeuvresPassCertificateComponent implements OnChanges {
   @Input()

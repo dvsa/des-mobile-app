@@ -2,10 +2,10 @@ import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core
 import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 
 @Component({
-    selector: 'insurance-declaration',
-    templateUrl: 'insurance-declaration.html',
-    styleUrls: ['insurance-declaration.scss'],
-    standalone: false
+  selector: 'insurance-declaration',
+  templateUrl: 'insurance-declaration.html',
+  styleUrls: ['insurance-declaration.scss'],
+  standalone: false,
 })
 export class InsuranceDeclarationComponent implements OnChanges {
   @Input()

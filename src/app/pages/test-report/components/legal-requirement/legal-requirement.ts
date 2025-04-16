@@ -6,10 +6,10 @@ import { LegalRequirements } from '@store/tests/test-data/test-data.constants';
 import { legalRequirementLabels } from './legal-requirement.constants';
 
 @Component({
-    selector: 'legal-requirement',
-    templateUrl: 'legal-requirement.html',
-    styleUrls: ['legal-requirement.scss'],
-    standalone: false
+  selector: 'legal-requirement',
+  templateUrl: 'legal-requirement.html',
+  styleUrls: ['legal-requirement.scss'],
+  standalone: false,
 })
 export class LegalRequirementComponent implements OnInit {
   label: string;

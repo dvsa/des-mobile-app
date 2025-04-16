@@ -1,10 +1,10 @@
 import { Component, Input } from '@angular/core';
 
 @Component({
-    selector: 'warning-banner',
-    templateUrl: 'warning-banner.html',
-    styleUrls: ['warning-banner.scss'],
-    standalone: false
+  selector: 'warning-banner',
+  templateUrl: 'warning-banner.html',
+  styleUrls: ['warning-banner.scss'],
+  standalone: false,
 })
 export class WarningBannerComponent {
   @Input()

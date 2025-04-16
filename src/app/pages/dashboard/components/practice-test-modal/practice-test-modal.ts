@@ -3,10 +3,10 @@ import { ModalController } from '@ionic/angular';
 import { ModalEvent } from '@pages/dashboard/components/practice-test-modal/practice-test-modal.constants';
 
 @Component({
-    selector: 'practice-test-modal',
-    templateUrl: 'practice-test-modal.html',
-    styleUrls: ['practice-test-modal.scss'],
-    standalone: false
+  selector: 'practice-test-modal',
+  templateUrl: 'practice-test-modal.html',
+  styleUrls: ['practice-test-modal.scss'],
+  standalone: false,
 })
 export class PracticeTestModal {
   constructor(public modalController: ModalController) {}

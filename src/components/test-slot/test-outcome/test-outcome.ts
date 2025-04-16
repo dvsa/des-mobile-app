@@ -37,10 +37,10 @@ import { getTests } from '@store/tests/tests.reducer';
 import { StartedTests, getStartedTests, getTestById } from '@store/tests/tests.selector';
 
 @Component({
-    selector: 'test-outcome',
-    templateUrl: 'test-outcome.html',
-    styleUrls: ['test-outcome.scss'],
-    standalone: false
+  selector: 'test-outcome',
+  templateUrl: 'test-outcome.html',
+  styleUrls: ['test-outcome.scss'],
+  standalone: false,
 })
 export class TestOutcomeComponent implements OnInit {
   @Input()

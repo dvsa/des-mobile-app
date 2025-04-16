@@ -3,10 +3,10 @@ import { Router } from '@angular/router';
 import { JOURNAL_PAGE } from '@pages/page-names.constants';
 
 @Component({
-    selector: 'go-to-journal-card',
-    templateUrl: 'go-to-journal-card.html',
-    styleUrls: ['go-to-journal-card.scss'],
-    standalone: false
+  selector: 'go-to-journal-card',
+  templateUrl: 'go-to-journal-card.html',
+  styleUrls: ['go-to-journal-card.scss'],
+  standalone: false,
 })
 export class GoToJournalCardComponent {
   constructor(private router: Router) {}

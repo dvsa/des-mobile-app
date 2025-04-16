@@ -10,10 +10,10 @@ import { SafetyQuestionsScore } from '@shared/models/safety-questions-score.mode
 import { get } from 'lodash-es';
 
 @Component({
-    selector: 'vehicle-checks-cat-a-mod2',
-    templateUrl: 'vehicle-checks.html',
-    styleUrls: ['./vehicle-checks.scss'],
-    standalone: false
+  selector: 'vehicle-checks-cat-a-mod2',
+  templateUrl: 'vehicle-checks.html',
+  styleUrls: ['./vehicle-checks.scss'],
+  standalone: false,
 })
 export class VehicleChecksCatAMod2Component implements OnChanges {
   @Output()

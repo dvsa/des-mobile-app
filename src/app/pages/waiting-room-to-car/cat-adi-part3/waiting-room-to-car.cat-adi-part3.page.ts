@@ -49,10 +49,10 @@ interface CatAdi3WaitingRoomToCarPageState {
 type WaitingRoomToCarPageState = CommonWaitingRoomToCarPageState & CatAdi3WaitingRoomToCarPageState;
 
 @Component({
-    selector: 'app-waiting-room-to-car-cat-adi-part3',
-    templateUrl: './waiting-room-to-car.cat-adi-part3.page.html',
-    styleUrls: ['./waiting-room-to-car.cat-adi-part3.page.scss'],
-    standalone: false
+  selector: 'app-waiting-room-to-car-cat-adi-part3',
+  templateUrl: './waiting-room-to-car.cat-adi-part3.page.html',
+  styleUrls: ['./waiting-room-to-car.cat-adi-part3.page.scss'],
+  standalone: false,
 })
 export class WaitingRoomToCarCatADIPart3Page extends WaitingRoomToCarBasePageComponent implements OnInit {
   pageState: WaitingRoomToCarPageState;

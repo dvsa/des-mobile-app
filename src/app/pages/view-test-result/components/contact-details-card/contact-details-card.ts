@@ -4,9 +4,9 @@ import { RegeneratedEmails } from '@pages/view-test-result/view-test-result.mode
 import { get } from 'lodash-es';
 
 @Component({
-    selector: 'contact-details-card',
-    templateUrl: 'contact-details-card.html',
-    standalone: false
+  selector: 'contact-details-card',
+  templateUrl: 'contact-details-card.html',
+  standalone: false,
 })
 export class ContactDetailsCardComponent {
   @Input()

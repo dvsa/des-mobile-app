@@ -16,10 +16,10 @@ import { Observable, Subscription } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 @Component({
-    selector: 'manoeuvres',
-    templateUrl: 'manoeuvres.html',
-    styleUrls: ['./manoeuvres.scss'],
-    standalone: false
+  selector: 'manoeuvres',
+  templateUrl: 'manoeuvres.html',
+  styleUrls: ['./manoeuvres.scss'],
+  standalone: false,
 })
 export class ManoeuvresComponent implements OnInit, OnDestroy {
   @Input()

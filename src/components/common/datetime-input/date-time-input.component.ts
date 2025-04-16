@@ -8,10 +8,10 @@ export enum DisplayType {
 }
 
 @Component({
-    selector: 'datetime-input',
-    templateUrl: './date-time-input.component.html',
-    styleUrls: ['./date-time-input.component.scss'],
-    standalone: false
+  selector: 'datetime-input',
+  templateUrl: './date-time-input.component.html',
+  styleUrls: ['./date-time-input.component.scss'],
+  standalone: false,
 })
 export class DateTimeInputComponent {
   @Input()

@@ -4,8 +4,8 @@ import { By } from '@angular/platform-browser';
 import { CharacterCountDirective } from '@directives/character-count.directive';
 
 @Component({
-    template: '<input type="text" charCount>',
-    standalone: false
+  template: '<input type="text" charCount>',
+  standalone: false,
 })
 class TestCharCountComponent {}
 

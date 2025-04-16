@@ -38,10 +38,10 @@ interface RekeySearchPageState {
 }
 
 @Component({
-    selector: 'page-rekey-search',
-    templateUrl: './rekey-search.html',
-    styleUrls: ['./rekey-search.scss'],
-    standalone: false
+  selector: 'page-rekey-search',
+  templateUrl: './rekey-search.html',
+  styleUrls: ['./rekey-search.scss'],
+  standalone: false,
 })
 export class RekeySearchPage extends BasePageComponent implements OnInit {
   pageState: RekeySearchPageState;

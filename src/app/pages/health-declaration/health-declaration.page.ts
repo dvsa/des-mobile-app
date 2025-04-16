@@ -63,10 +63,10 @@ interface HealthDeclarationPageState {
 }
 
 @Component({
-    selector: 'app-health-declaration',
-    templateUrl: './health-declaration.page.html',
-    styleUrls: ['./health-declaration.page.scss'],
-    standalone: false
+  selector: 'app-health-declaration',
+  templateUrl: './health-declaration.page.html',
+  styleUrls: ['./health-declaration.page.scss'],
+  standalone: false,
 })
 export class HealthDeclarationPage
   extends PracticeableBasePageComponent

@@ -7,9 +7,9 @@ enum DeclarationSigned {
 }
 
 @Component({
-    selector: 'candidate-declaration-signed',
-    templateUrl: 'candidate-declaration.html',
-    standalone: false
+  selector: 'candidate-declaration-signed',
+  templateUrl: 'candidate-declaration.html',
+  standalone: false,
 })
 export class CandidateDeclarationSignedComponent {
   @Input()

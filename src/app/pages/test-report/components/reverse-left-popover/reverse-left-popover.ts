@@ -4,10 +4,10 @@ import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/
 import { ManoeuvreCompetencies, ManoeuvreTypes } from '@store/tests/test-data/test-data.constants';
 
 @Component({
-    selector: 'reverse-left-popover',
-    templateUrl: 'reverse-left-popover.html',
-    styleUrls: ['reverse-left-popover.scss'],
-    standalone: false
+  selector: 'reverse-left-popover',
+  templateUrl: 'reverse-left-popover.html',
+  styleUrls: ['reverse-left-popover.scss'],
+  standalone: false,
 })
 export class ReverseLeftPopoverComponent {
   @Input()

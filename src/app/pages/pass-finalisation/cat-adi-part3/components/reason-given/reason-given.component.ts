@@ -4,10 +4,10 @@ import { CharacterCountService } from '@providers/character-count/character-coun
 import { OutcomeBehaviourMapProvider, VisibilityType } from '@providers/outcome-behaviour-map/outcome-behaviour-map';
 
 @Component({
-    selector: 'reason-given',
-    templateUrl: './reason-given.component.html',
-    styleUrls: ['./reason-given.component.scss'],
-    standalone: false
+  selector: 'reason-given',
+  templateUrl: './reason-given.component.html',
+  styleUrls: ['./reason-given.component.scss'],
+  standalone: false,
 })
 export class ReasonGivenComponent implements OnChanges {
   @Input()

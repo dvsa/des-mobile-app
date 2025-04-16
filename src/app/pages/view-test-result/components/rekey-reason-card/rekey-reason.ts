@@ -3,9 +3,9 @@ import { IpadIssue, RekeyReason } from '@dvsa/mes-test-schema/categories/common'
 import { get } from 'lodash-es';
 
 @Component({
-    selector: 'rekey-reason-card',
-    templateUrl: 'rekey-reason-card.html',
-    standalone: false
+  selector: 'rekey-reason-card',
+  templateUrl: 'rekey-reason-card.html',
+  standalone: false,
 })
 export class RekeyReasonCardComponent {
   @Input()

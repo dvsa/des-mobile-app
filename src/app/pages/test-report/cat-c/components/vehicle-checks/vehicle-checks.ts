@@ -17,10 +17,10 @@ interface ComponentState {
 }
 
 @Component({
-    selector: 'vehicle-checks-c',
-    templateUrl: 'vehicle-checks.html',
-    styleUrls: ['vehicle-checks.scss'],
-    standalone: false
+  selector: 'vehicle-checks-c',
+  templateUrl: 'vehicle-checks.html',
+  styleUrls: ['vehicle-checks.scss'],
+  standalone: false,
 })
 export class VehicleChecksComponent implements OnInit {
   @Input()

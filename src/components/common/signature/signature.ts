@@ -3,10 +3,10 @@ import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms
 import { SignatureAreaComponent } from '@components/common/signature-area/signature-area';
 
 @Component({
-    selector: 'signature',
-    templateUrl: './signature.html',
-    styleUrls: ['./signature.scss'],
-    standalone: false
+  selector: 'signature',
+  templateUrl: './signature.html',
+  styleUrls: ['./signature.scss'],
+  standalone: false,
 })
 export class SignatureComponent implements OnChanges {
   @ViewChild(SignatureAreaComponent)

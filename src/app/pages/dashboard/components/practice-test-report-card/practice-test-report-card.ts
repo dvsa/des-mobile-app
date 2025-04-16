@@ -17,10 +17,10 @@ import {
 import { StartTestReportPracticeTest } from '@store/tests/tests.actions';
 
 @Component({
-    selector: 'practice-test-report-card',
-    templateUrl: 'practice-test-report-card.html',
-    styleUrls: ['practice-test-report-card.scss'],
-    standalone: false
+  selector: 'practice-test-report-card',
+  templateUrl: 'practice-test-report-card.html',
+  styleUrls: ['practice-test-report-card.scss'],
+  standalone: false,
 })
 export class PracticeTestReportCardComponent {
   slotId: string = testReportPracticeModeSlot.slotDetail.slotId;

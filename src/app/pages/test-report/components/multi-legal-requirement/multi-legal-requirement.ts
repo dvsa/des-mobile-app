@@ -5,10 +5,10 @@ import { ToggleLegalRequirement } from '@store/tests/test-data/common/test-requi
 import { LegalRequirements } from '@store/tests/test-data/test-data.constants';
 
 @Component({
-    selector: 'multi-legal-requirement',
-    templateUrl: 'multi-legal-requirement.html',
-    styleUrls: ['multi-legal-requirement.scss'],
-    standalone: false
+  selector: 'multi-legal-requirement',
+  templateUrl: 'multi-legal-requirement.html',
+  styleUrls: ['multi-legal-requirement.scss'],
+  standalone: false,
 })
 export class MultiLegalRequirementComponent {
   @Input()

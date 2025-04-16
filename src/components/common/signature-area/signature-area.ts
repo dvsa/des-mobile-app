@@ -15,17 +15,17 @@ const defaultSignatureHeight: number = 256;
 const defaultSignatureWidth: number = 706;
 
 @Component({
-    selector: 'signature-area',
-    templateUrl: 'signature-area.html',
-    styleUrls: ['signature-area.scss'],
-    providers: [
-        {
-            provide: NG_VALUE_ACCESSOR,
-            useExisting: forwardRef(() => SignatureAreaComponent),
-            multi: true,
-        },
-    ],
-    standalone: false
+  selector: 'signature-area',
+  templateUrl: 'signature-area.html',
+  styleUrls: ['signature-area.scss'],
+  providers: [
+    {
+      provide: NG_VALUE_ACCESSOR,
+      useExisting: forwardRef(() => SignatureAreaComponent),
+      multi: true,
+    },
+  ],
+  standalone: false,
 })
 export class SignatureAreaComponent implements ControlValueAccessor, AfterViewInit {
   @Input()

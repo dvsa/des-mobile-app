@@ -7,10 +7,10 @@ import { AccessibilityService } from '@providers/accessibility/accessibility.ser
 import { DeviceProvider } from '@providers/device/device';
 
 @Component({
-    selector: 'exit-sam-banner',
-    templateUrl: './exit-sam-banner.html',
-    styleUrls: ['./exit-sam-banner.scss'],
-    imports: [IonicModule, ComponentsModule, NgIf]
+  selector: 'exit-sam-banner',
+  templateUrl: './exit-sam-banner.html',
+  styleUrls: ['./exit-sam-banner.scss'],
+  imports: [IonicModule, ComponentsModule, NgIf],
 })
 export class ExitSamBanner {
   constructor(

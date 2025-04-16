@@ -27,10 +27,10 @@ interface RekeyUploadOutcomePageState {
 }
 
 @Component({
-    selector: '.rekey-upload-outcome-page',
-    templateUrl: './rekey-upload-outcome.page.html',
-    styleUrls: ['./rekey-upload-outcome.page.scss'],
-    standalone: false
+  selector: '.rekey-upload-outcome-page',
+  templateUrl: './rekey-upload-outcome.page.html',
+  styleUrls: ['./rekey-upload-outcome.page.scss'],
+  standalone: false,
 })
 export class RekeyUploadOutcomePage extends BasePageComponent implements OnInit {
   pageState: RekeyUploadOutcomePageState;

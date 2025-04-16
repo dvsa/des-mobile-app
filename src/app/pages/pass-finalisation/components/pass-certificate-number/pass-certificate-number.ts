@@ -6,10 +6,10 @@ import { PASS_CERTIFICATE_LENGTH } from '@providers/pass-certificate-validation/
 import { PASS_CERTIFICATE_NUMBER_CTRL } from './pass-certificate-number.constants';
 
 @Component({
-    selector: 'pass-certificate-number',
-    templateUrl: './pass-certificate-number.html',
-    styleUrls: ['./pass-certificate-number.scss'],
-    standalone: false
+  selector: 'pass-certificate-number',
+  templateUrl: './pass-certificate-number.html',
+  styleUrls: ['./pass-certificate-number.scss'],
+  standalone: false,
 })
 export class PassCertificateNumberComponent implements OnChanges {
   static readonly fieldName: string = PASS_CERTIFICATE_NUMBER_CTRL;

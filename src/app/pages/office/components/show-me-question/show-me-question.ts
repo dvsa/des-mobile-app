@@ -4,10 +4,10 @@ import { OutcomeBehaviourMapProvider, VisibilityType } from '@providers/outcome-
 import { VehicleChecksQuestion } from '@providers/question/vehicle-checks-question.model';
 
 @Component({
-    selector: 'show-me-question',
-    templateUrl: 'show-me-question.html',
-    styleUrls: ['show-me-question.scss'],
-    standalone: false
+  selector: 'show-me-question',
+  templateUrl: 'show-me-question.html',
+  styleUrls: ['show-me-question.scss'],
+  standalone: false,
 })
 export class ShowMeQuestionComponent implements OnChanges {
   @Input()

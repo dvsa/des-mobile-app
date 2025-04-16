@@ -5,10 +5,10 @@ import { isEqual } from 'lodash-es';
 export type PassedData = [string, number, string];
 
 @Component({
-    selector: 'data-grid',
-    templateUrl: 'data-grid.html',
-    styleUrls: ['data-grid.scss'],
-    standalone: false
+  selector: 'data-grid',
+  templateUrl: 'data-grid.html',
+  styleUrls: ['data-grid.scss'],
+  standalone: false,
 })
 export class DataGridComponent implements OnInit {
   @Input() headers: string[] = null;

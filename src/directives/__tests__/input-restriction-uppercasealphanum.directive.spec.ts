@@ -4,8 +4,8 @@ import { By } from '@angular/platform-browser';
 import { InputRestrictionUppercaseAlphanumDirective } from '../input-restriction-uppercasealphanum.directive';
 
 @Component({
-    template: '<input type="text" uppercaseAlphanumOnly>',
-    standalone: false
+  template: '<input type="text" uppercaseAlphanumOnly>',
+  standalone: false,
 })
 class TestAlphaNumComponent {}
 

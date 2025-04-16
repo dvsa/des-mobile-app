@@ -40,10 +40,10 @@ interface CatAMod2OfficePageState {
 type OfficePageState = CommonOfficePageState & CatAMod2OfficePageState;
 
 @Component({
-    selector: '.office-cat-a-mod2-page',
-    templateUrl: 'office.cat-a-mod2.page.html',
-    styleUrls: ['../office.page.scss'],
-    standalone: false
+  selector: '.office-cat-a-mod2-page',
+  templateUrl: 'office.cat-a-mod2.page.html',
+  styleUrls: ['../office.page.scss'],
+  standalone: false,
 })
 export class OfficeCatAMod2Page extends OfficeBasePageComponent {
   pageState: OfficePageState;

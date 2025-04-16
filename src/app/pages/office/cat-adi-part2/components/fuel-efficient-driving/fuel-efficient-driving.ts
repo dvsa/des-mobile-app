@@ -2,9 +2,9 @@ import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
-    selector: 'fuel-efficient-driving',
-    templateUrl: 'fuel-efficient-driving.html',
-    standalone: false
+  selector: 'fuel-efficient-driving',
+  templateUrl: 'fuel-efficient-driving.html',
+  standalone: false,
 })
 export class FuelEfficientDriving implements OnChanges {
   @Input()

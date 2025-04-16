@@ -1,10 +1,10 @@
 import { Component, Input } from '@angular/core';
 
 @Component({
-    selector: 'location',
-    templateUrl: 'location.html',
-    styleUrls: ['location.scss'],
-    standalone: false
+  selector: 'location',
+  templateUrl: 'location.html',
+  styleUrls: ['location.scss'],
+  standalone: false,
 })
 export class LocationComponent {
   @Input()

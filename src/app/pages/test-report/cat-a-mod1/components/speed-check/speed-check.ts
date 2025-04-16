@@ -38,10 +38,10 @@ import { Subscription, merge } from 'rxjs';
 import { map, takeUntil } from 'rxjs/operators';
 
 @Component({
-    selector: 'speed-check',
-    templateUrl: 'speed-check.html',
-    styleUrls: ['speed-check.scss'],
-    standalone: false
+  selector: 'speed-check',
+  templateUrl: 'speed-check.html',
+  styleUrls: ['speed-check.scss'],
+  standalone: false,
 })
 export class SpeedCheckComponent {
   subscription: Subscription;

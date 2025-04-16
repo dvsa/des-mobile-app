@@ -19,10 +19,10 @@ enum CountDescription {
 }
 
 @Component({
-    selector: 'incomplete-tests-banner',
-    templateUrl: 'incomplete-tests-banner.html',
-    styleUrls: ['incomplete-tests-banner.scss'],
-    standalone: false
+  selector: 'incomplete-tests-banner',
+  templateUrl: 'incomplete-tests-banner.html',
+  styleUrls: ['incomplete-tests-banner.scss'],
+  standalone: false,
 })
 export class IncompleteTestsBanner implements OnInit {
   componentState: IncompleteTestsBannerComponentState;

@@ -3,10 +3,10 @@ import { Router } from '@angular/router';
 import { REKEY_SEARCH_PAGE } from '@pages/page-names.constants';
 
 @Component({
-    selector: 'rekey-search-card',
-    templateUrl: 'rekey-search-card.html',
-    styleUrls: ['rekey-search-card.scss'],
-    standalone: false
+  selector: 'rekey-search-card',
+  templateUrl: 'rekey-search-card.html',
+  styleUrls: ['rekey-search-card.scss'],
+  standalone: false,
 })
 export class RekeySearchCardComponent {
   constructor(private router: Router) {}

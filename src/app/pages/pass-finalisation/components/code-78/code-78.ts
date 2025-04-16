@@ -7,10 +7,10 @@ enum ValidCode78Values {
 }
 
 @Component({
-    selector: 'code-78',
-    templateUrl: 'code-78.html',
-    styleUrls: ['./code-78.scss'],
-    standalone: false
+  selector: 'code-78',
+  templateUrl: 'code-78.html',
+  styleUrls: ['./code-78.scss'],
+  standalone: false,
 })
 export class Code78Component implements OnChanges {
   @Input()

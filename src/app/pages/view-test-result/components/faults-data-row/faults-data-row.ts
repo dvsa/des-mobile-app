@@ -4,10 +4,10 @@ import { AccessibilityService } from '@providers/accessibility/accessibility.ser
 import { FaultSummary } from '@shared/models/fault-marking.model';
 
 @Component({
-    selector: 'faults-data-row',
-    templateUrl: 'faults-data-row.html',
-    styleUrls: ['faults-data-row.scss'],
-    standalone: false
+  selector: 'faults-data-row',
+  templateUrl: 'faults-data-row.html',
+  styleUrls: ['faults-data-row.scss'],
+  standalone: false,
 })
 export class FaultsDataRowComponent {
   @Input()

@@ -5,9 +5,9 @@ import { DirectivesModule } from '@directives/directives.module';
 import { IonicModule } from '@ionic/angular';
 
 @Component({
-    selector: 'reason-for-entering-teams',
-    templateUrl: 'reason-for-entering-teams.html',
-    imports: [IonicModule, ReactiveFormsModule, DirectivesModule, NgIf]
+  selector: 'reason-for-entering-teams',
+  templateUrl: 'reason-for-entering-teams.html',
+  imports: [IonicModule, ReactiveFormsModule, DirectivesModule, NgIf],
 })
 export class ReasonForEnteringTeamsComponent implements OnChanges {
   @Input()

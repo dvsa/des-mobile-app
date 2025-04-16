@@ -1,9 +1,9 @@
 import { Component, Input } from '@angular/core';
 
 @Component({
-    selector: 'dimensions-card',
-    templateUrl: 'dimensions.html',
-    standalone: false
+  selector: 'dimensions-card',
+  templateUrl: 'dimensions.html',
+  standalone: false,
 })
 export class DimensionsComponent {
   @Input()

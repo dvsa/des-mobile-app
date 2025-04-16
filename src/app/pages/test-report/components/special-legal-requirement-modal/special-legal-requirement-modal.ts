@@ -3,10 +3,10 @@ import { ModalController } from '@ionic/angular';
 import { ModalEvent } from '../../test-report.constants';
 
 @Component({
-    selector: 'special-legal-requirement-modal',
-    templateUrl: 'special-legal-requirement-modal.html',
-    styleUrls: ['special-legal-requirement-modal.scss'],
-    standalone: false
+  selector: 'special-legal-requirement-modal',
+  templateUrl: 'special-legal-requirement-modal.html',
+  styleUrls: ['special-legal-requirement-modal.scss'],
+  standalone: false,
 })
 export class SpecialLegalRequirementModal {
   constructor(public modalCtrl: ModalController) {}

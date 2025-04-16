@@ -5,10 +5,10 @@ import { ActivityCodes } from '@shared/models/activity-codes';
 import { ViewTestHeaderModel } from './view-test-header.model';
 
 @Component({
-    selector: 'view-test-header',
-    templateUrl: 'view-test-header.html',
-    styleUrls: ['view-test-header.scss'],
-    standalone: false
+  selector: 'view-test-header',
+  templateUrl: 'view-test-header.html',
+  styleUrls: ['view-test-header.scss'],
+  standalone: false,
 })
 export class ViewTestHeaderComponent {
   @Input()

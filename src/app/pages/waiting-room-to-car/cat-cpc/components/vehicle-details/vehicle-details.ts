@@ -3,9 +3,9 @@ import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms
 import { Configuration } from '@dvsa/mes-test-schema/categories/CPC';
 
 @Component({
-    selector: 'vehicle-details-cat-cpc',
-    templateUrl: 'vehicle-details.html',
-    standalone: false
+  selector: 'vehicle-details-cat-cpc',
+  templateUrl: 'vehicle-details.html',
+  standalone: false,
 })
 export class VehicleDetailsCatCPCComponent {
   @Input()

@@ -4,9 +4,9 @@ import { getEnumKeyByValue } from '@shared/helpers/enum-keys';
 import { ActivityCodes } from '@shared/models/activity-codes';
 
 @Component({
-    selector: 'activity-code-card',
-    templateUrl: './activity-code-card.html',
-    standalone: false
+  selector: 'activity-code-card',
+  templateUrl: './activity-code-card.html',
+  standalone: false,
 })
 export class ActivityCodeCard {
   @Input() activityCode: string;
