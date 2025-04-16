@@ -141,7 +141,6 @@
     "@angular/language-service": "^18.2.13",
     "@biomejs/biome": "1.8.3",
     "@capacitor/cli": "^7.0.0",
-    "@dvsa/biome-config": "^0.1.0",
     "@ionic/angular-toolkit": "^11.0.0",
     "@ionic/cli": "^7.2.0",
     "@sentry/cli": "^2.37.0",
