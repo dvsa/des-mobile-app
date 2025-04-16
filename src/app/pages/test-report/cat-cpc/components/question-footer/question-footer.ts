@@ -3,9 +3,9 @@ import { UntypedFormGroup } from '@angular/forms';
 import { ToastController } from '@ionic/angular';
 
 @Component({
-    selector: 'question-footer',
-    templateUrl: 'question-footer.html',
-    standalone: false
+  selector: 'question-footer',
+  templateUrl: 'question-footer.html',
+  standalone: false,
 })
 export class QuestionFooterComponent {
   @Output()

@@ -16,10 +16,10 @@ interface ComponentState {
 }
 
 @Component({
-    selector: 'safety-and-balance',
-    templateUrl: 'safety-and-balance.html',
-    styleUrls: ['safety-and-balance.scss'],
-    standalone: false
+  selector: 'safety-and-balance',
+  templateUrl: 'safety-and-balance.html',
+  styleUrls: ['safety-and-balance.scss'],
+  standalone: false,
 })
 export class SafetyAndBalanceComponent implements OnInit {
   componentState: ComponentState;

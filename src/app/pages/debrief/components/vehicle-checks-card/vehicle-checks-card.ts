@@ -4,10 +4,10 @@ import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/
 import { CompetencyOutcome } from '@shared/models/competency-outcome';
 
 @Component({
-    selector: 'vehicle-checks-card',
-    templateUrl: 'vehicle-checks-card.html',
-    styleUrls: ['vehicle-checks-card.scss'],
-    standalone: false
+  selector: 'vehicle-checks-card',
+  templateUrl: 'vehicle-checks-card.html',
+  styleUrls: ['vehicle-checks-card.scss'],
+  standalone: false,
 })
 export class VehicleChecksCardComponent implements OnInit {
   @Input()

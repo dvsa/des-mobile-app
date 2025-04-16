@@ -1,6 +1,6 @@
 import { get } from 'lodash';
 // @TODO: File needs access to native `moment` API as is outside of src compilation
-import * as moment from 'moment';
+import moment from 'moment';
 
 export const getTodayAsIsoDate = () => new Date().toISOString().split('T')[0];
 

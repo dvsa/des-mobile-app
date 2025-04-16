@@ -1,10 +1,10 @@
 import { Component, Input } from '@angular/core';
 
 @Component({
-    selector: 'question-subtitle',
-    templateUrl: 'question-subtitle.html',
-    styleUrls: ['question-subtitle.scss'],
-    standalone: false
+  selector: 'question-subtitle',
+  templateUrl: 'question-subtitle.html',
+  styleUrls: ['question-subtitle.scss'],
+  standalone: false,
 })
 export class QuestionSubtitleComponent {
   @Input()

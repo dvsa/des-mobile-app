@@ -2,9 +2,9 @@ import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core
 import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 
 @Component({
-    selector: 'valid-certificate',
-    templateUrl: 'valid-certificate.html',
-    standalone: false
+  selector: 'valid-certificate',
+  templateUrl: 'valid-certificate.html',
+  standalone: false,
 })
 export class ValidCertificateComponent implements OnChanges {
   @Input()

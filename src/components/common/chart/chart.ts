@@ -5,9 +5,9 @@ import { isEqual } from 'lodash-es';
 import { ApexAxisChartSeries, ApexNonAxisChartSeries, ApexOptions, ChartType } from 'ng-apexcharts';
 
 @Component({
-    selector: 'chart',
-    templateUrl: 'chart.html',
-    standalone: false
+  selector: 'chart',
+  templateUrl: 'chart.html',
+  standalone: false,
 })
 export class ChartComponent implements OnInit, OnChanges {
   @Input()

@@ -39,10 +39,10 @@ import { catchError, map, tap } from 'rxjs/operators';
 import { TestDetailsModel } from './components/test-details-card/test-details-card.model';
 
 @Component({
-    selector: '.view-test-result',
-    templateUrl: 'view-test-result.page.html',
-    styleUrls: ['view-test-result.page.scss'],
-    standalone: false
+  selector: '.view-test-result',
+  templateUrl: 'view-test-result.page.html',
+  styleUrls: ['view-test-result.page.scss'],
+  standalone: false,
 })
 export class ViewTestResultPage extends BasePageComponent implements OnInit {
   @Input()

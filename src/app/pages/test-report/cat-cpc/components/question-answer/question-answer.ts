@@ -2,10 +2,10 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Answer } from '@dvsa/mes-test-schema/categories/CPC';
 
 @Component({
-    selector: 'question-answer',
-    templateUrl: 'question-answer.html',
-    styleUrls: ['question-answer.scss'],
-    standalone: false
+  selector: 'question-answer',
+  templateUrl: 'question-answer.html',
+  styleUrls: ['question-answer.scss'],
+  standalone: false,
 })
 export class QuestionAnswerComponent {
   @Input()

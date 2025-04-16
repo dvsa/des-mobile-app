@@ -5,10 +5,10 @@ import { ModalEvent } from '@pages/journal/components/journal-rekey-modal/journa
 import * as futureTestModalActions from '@pages/journal/journal.actions';
 
 @Component({
-    selector: 'journal-rekey-modal',
-    templateUrl: './journal-future-test-modal.html',
-    styleUrls: ['./journal-future-test-modal.scss'],
-    standalone: false
+  selector: 'journal-rekey-modal',
+  templateUrl: './journal-future-test-modal.html',
+  styleUrls: ['./journal-future-test-modal.scss'],
+  standalone: false,
 })
 export class JournalFutureTestModal {
   constructor(

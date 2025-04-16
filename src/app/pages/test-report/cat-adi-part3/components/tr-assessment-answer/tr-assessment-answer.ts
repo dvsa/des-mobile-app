@@ -2,9 +2,9 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { isAnyOf } from '@shared/helpers/simplifiers';
 
 @Component({
-    selector: 'tr-assessment-answer',
-    templateUrl: 'tr-assessment-answer.html',
-    standalone: false
+  selector: 'tr-assessment-answer',
+  templateUrl: 'tr-assessment-answer.html',
+  standalone: false,
 })
 export class TestReportAssessmentAnswer {
   @Input()

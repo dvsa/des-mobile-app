@@ -8,10 +8,10 @@ export enum LogoutModalEvent {
 }
 
 @Component({
-    selector: 'logout-modal',
-    templateUrl: './logout-modal.html',
-    styleUrls: ['./logout-modal.scss'],
-    standalone: false
+  selector: 'logout-modal',
+  templateUrl: './logout-modal.html',
+  styleUrls: ['./logout-modal.scss'],
+  standalone: false,
 })
 export class LogoutModal {
   constructor(public modalController: ModalController) {}

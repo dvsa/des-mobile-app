@@ -8,10 +8,10 @@ export type QuestionUnion = Question | Question5;
 export const MINIMUM_QUESTION_SCORE: number = 15;
 
 @Component({
-    selector: 'cpc-debrief-card',
-    templateUrl: 'cpc-debrief-card.html',
-    styleUrls: ['cpc-debrief-card.scss'],
-    standalone: false
+  selector: 'cpc-debrief-card',
+  templateUrl: 'cpc-debrief-card.html',
+  styleUrls: ['cpc-debrief-card.scss'],
+  standalone: false,
 })
 export class CPCDebriefCardComponent implements OnInit {
   @Input()

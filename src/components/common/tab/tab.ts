@@ -1,10 +1,10 @@
 import { Component, Input } from '@angular/core';
 
 @Component({
-    selector: 'tab',
-    templateUrl: 'tab.html',
-    styleUrls: ['tab.scss'],
-    standalone: false
+  selector: 'tab',
+  templateUrl: 'tab.html',
+  styleUrls: ['tab.scss'],
+  standalone: false,
 })
 export class TabComponent {
   @Input('tabTitle') title: string;

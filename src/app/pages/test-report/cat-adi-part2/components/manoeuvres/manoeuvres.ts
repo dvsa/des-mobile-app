@@ -16,10 +16,10 @@ import { takeUntil } from 'rxjs/operators';
 import { OverlayCallback } from '../../../test-report.model';
 
 @Component({
-    selector: 'manoeuvres-adi-part2',
-    templateUrl: 'manoeuvres.html',
-    styleUrls: ['manoeuvres.scss'],
-    standalone: false
+  selector: 'manoeuvres-adi-part2',
+  templateUrl: 'manoeuvres.html',
+  styleUrls: ['manoeuvres.scss'],
+  standalone: false,
 })
 export class ManoeuvresComponent implements OnInit, OnDestroy {
   @Input()

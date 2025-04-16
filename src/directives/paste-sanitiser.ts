@@ -2,8 +2,8 @@ import { Directive, ElementRef, HostListener } from '@angular/core';
 import emojiRegex from 'emoji-regex';
 
 @Directive({
-    selector: '[pasteSanitiser]',
-    standalone: false
+  selector: '[pasteSanitiser]',
+  standalone: false,
 })
 export class PasteSanitiserDirective {
   emojiPattern = emojiRegex();

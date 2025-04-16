@@ -2,8 +2,8 @@ import { Pipe, PipeTransform } from '@angular/core';
 import FuzzySearch from 'fuzzy-search';
 
 @Pipe({
-    name: 'doesContain',
-    standalone: false
+  name: 'doesContain',
+  standalone: false,
 })
 export class ContainsPipe implements PipeTransform {
   private static readonly opts: { caseSensitive: boolean; sort: boolean } = {

@@ -7,10 +7,10 @@ import { ActivityCodes } from '@shared/models/activity-codes';
 import { ModalEvent } from '../../../test-report.constants';
 
 @Component({
-    selector: 'adi-3end-test-modal',
-    templateUrl: 'adi3-end-test-modal.html',
-    styleUrls: ['adi3-end-test-modal.scss'],
-    standalone: false
+  selector: 'adi-3end-test-modal',
+  templateUrl: 'adi3-end-test-modal.html',
+  styleUrls: ['adi3-end-test-modal.scss'],
+  standalone: false,
 })
 export class Adi3EndTestModal {
   testState: number;

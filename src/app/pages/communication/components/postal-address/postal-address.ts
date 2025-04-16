@@ -3,10 +3,10 @@ import { UntypedFormGroup } from '@angular/forms';
 import { Address } from '@dvsa/mes-test-schema/categories/common';
 
 @Component({
-    selector: 'postal-address',
-    templateUrl: 'postal-address.html',
-    styleUrls: ['postal-address.scss'],
-    standalone: false
+  selector: 'postal-address',
+  templateUrl: 'postal-address.html',
+  styleUrls: ['postal-address.scss'],
+  standalone: false,
 })
 export class PostalAddressComponent {
   @Input()

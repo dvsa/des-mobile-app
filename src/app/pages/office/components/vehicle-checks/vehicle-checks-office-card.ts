@@ -3,10 +3,10 @@ import { QuestionResult } from '@dvsa/mes-test-schema/categories/common';
 import { CompetencyOutcome } from '@shared/models/competency-outcome';
 
 @Component({
-    selector: 'vehicle-checks-office-card',
-    templateUrl: 'vehicle-checks-office-card.html',
-    styleUrls: ['vehicle-checks-office-card.scss'],
-    standalone: false
+  selector: 'vehicle-checks-office-card',
+  templateUrl: 'vehicle-checks-office-card.html',
+  styleUrls: ['vehicle-checks-office-card.scss'],
+  standalone: false,
 })
 export class VehicleChecksOfficeCardComponent {
   @Input()

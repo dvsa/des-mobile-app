@@ -2,10 +2,10 @@ import { Component, Input } from '@angular/core';
 import { TestStatus } from '@store/tests/test-status/test-status.model';
 
 @Component({
-    selector: 'additional-candidate-details',
-    templateUrl: 'additional-candidate-details.html',
-    styleUrls: ['additional-candidate-details.scss'],
-    standalone: false
+  selector: 'additional-candidate-details',
+  templateUrl: 'additional-candidate-details.html',
+  styleUrls: ['additional-candidate-details.scss'],
+  standalone: false,
 })
 export class AdditionalCandidateDetailsComponent {
   @Input()

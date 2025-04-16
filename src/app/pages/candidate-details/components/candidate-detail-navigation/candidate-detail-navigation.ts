@@ -1,10 +1,10 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 @Component({
-    selector: 'candidate-detail-navigation',
-    templateUrl: 'candidate-detail-navigation.html',
-    styleUrls: ['candidate-detail-navigation.scss'],
-    standalone: false
+  selector: 'candidate-detail-navigation',
+  templateUrl: 'candidate-detail-navigation.html',
+  styleUrls: ['candidate-detail-navigation.scss'],
+  standalone: false,
 })
 export class CandidateDetailNavigationComponent {
   @Input()

@@ -2,9 +2,9 @@ import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core
 import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 
 @Component({
-    selector: 'assessment-report',
-    templateUrl: 'assessment-report.html',
-    standalone: false
+  selector: 'assessment-report',
+  templateUrl: 'assessment-report.html',
+  standalone: false,
 })
 export class AssessmentReportComponent implements OnChanges {
   @Input()

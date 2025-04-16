@@ -1,10 +1,10 @@
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 
 @Component({
-    selector: 'offline-banner',
-    templateUrl: 'offline-banner.html',
-    styleUrls: ['offline-banner.scss'],
-    standalone: false
+  selector: 'offline-banner',
+  templateUrl: 'offline-banner.html',
+  styleUrls: ['offline-banner.scss'],
+  standalone: false,
 })
 export class OfflineBannerComponent implements OnChanges {
   @Input()

@@ -1,10 +1,10 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 @Component({
-    selector: 'journal-navigation',
-    templateUrl: 'journal-navigation.html',
-    styleUrls: ['journal-navigation.scss'],
-    standalone: false
+  selector: 'journal-navigation',
+  templateUrl: 'journal-navigation.html',
+  styleUrls: ['journal-navigation.scss'],
+  standalone: false,
 })
 export class JournalNavigationComponent {
   @Input()

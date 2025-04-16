@@ -31,10 +31,10 @@ interface CatManoeuvreWaitingRoomToCarPageState {
 type WaitingRoomToCarPageState = CommonWaitingRoomToCarPageState & CatManoeuvreWaitingRoomToCarPageState;
 
 @Component({
-    selector: 'app-waiting-room-to-car-cat-manoeuvre',
-    templateUrl: './waiting-room-to-car.cat-manoeuvre.page.html',
-    styleUrls: ['./waiting-room-to-car.cat-manoeuvre.page.scss'],
-    standalone: false
+  selector: 'app-waiting-room-to-car-cat-manoeuvre',
+  templateUrl: './waiting-room-to-car.cat-manoeuvre.page.html',
+  styleUrls: ['./waiting-room-to-car.cat-manoeuvre.page.scss'],
+  standalone: false,
 })
 export class WaitingRoomToCarCatManoeuvrePage extends WaitingRoomToCarBasePageComponent implements OnInit {
   form: UntypedFormGroup;

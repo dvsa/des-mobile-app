@@ -3,9 +3,9 @@ import { UntypedFormControl, UntypedFormGroup, ValidationErrors, ValidatorFn, Va
 import { CharacterCountService } from '@providers/character-count/character-count.service';
 
 @Component({
-    selector: 'other-reason',
-    templateUrl: 'other-reason.html',
-    standalone: false
+  selector: 'other-reason',
+  templateUrl: 'other-reason.html',
+  standalone: false,
 })
 export class OtherReasonComponent implements OnChanges {
   static readonly checkBoxCtrl: string = 'otherSelected';

@@ -5,10 +5,10 @@ import { VehicleChecksQuestion } from '@providers/question/vehicle-checks-questi
 import { uniqueId } from 'lodash-es';
 
 @Component({
-    selector: 'vehicle-checks-question-cat-a-mod2',
-    templateUrl: 'vehicle-checks-question.html',
-    styleUrls: ['vehicle-checks-question.scss'],
-    standalone: false
+  selector: 'vehicle-checks-question-cat-a-mod2',
+  templateUrl: 'vehicle-checks-question.html',
+  styleUrls: ['vehicle-checks-question.scss'],
+  standalone: false,
 })
 export class VehicleChecksQuestionCatAMod2Component implements OnChanges {
   @Input()

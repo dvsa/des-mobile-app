@@ -4,10 +4,10 @@ import { ModalController } from '@ionic/angular';
 import { get } from 'lodash-es';
 
 @Component({
-    selector: 'searchable-picklist-modal',
-    templateUrl: './searchable-picklist-modal.html',
-    styleUrls: ['./searchable-picklist-modal.scss'],
-    standalone: false
+  selector: 'searchable-picklist-modal',
+  templateUrl: './searchable-picklist-modal.html',
+  styleUrls: ['./searchable-picklist-modal.scss'],
+  standalone: false,
 })
 export class SearchablePicklistModal<T> {
   @Input()

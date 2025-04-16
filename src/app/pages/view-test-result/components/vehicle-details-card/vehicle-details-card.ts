@@ -15,10 +15,10 @@ import { isAnyOf } from '@shared/helpers/simplifiers';
 import { get } from 'lodash-es';
 
 @Component({
-    selector: 'vehicle-details-card',
-    templateUrl: 'vehicle-details-card.html',
-    styleUrls: ['vehicle-details-card.scss'],
-    standalone: false
+  selector: 'vehicle-details-card',
+  templateUrl: 'vehicle-details-card.html',
+  styleUrls: ['vehicle-details-card.scss'],
+  standalone: false,
 })
 export class VehicleDetailsCardComponent {
   @Input()

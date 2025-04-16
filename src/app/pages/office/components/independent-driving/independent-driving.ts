@@ -7,9 +7,9 @@ import { getDrivingOrRidingLabel } from '@shared/helpers/driver-type';
 import { removeNonAlphaNumeric } from '@shared/helpers/formatters';
 
 @Component({
-    selector: 'independent-driving',
-    templateUrl: 'independent-driving.html',
-    standalone: false
+  selector: 'independent-driving',
+  templateUrl: 'independent-driving.html',
+  standalone: false,
 })
 export class IndependentDrivingComponent implements OnChanges {
   @Input()

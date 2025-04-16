@@ -3,10 +3,10 @@ import { Question5 } from '@dvsa/mes-test-schema/categories/CPC';
 import { AnswerChanged } from '../question-card/question-card';
 
 @Component({
-    selector: 'question-five-card',
-    templateUrl: 'question-five-card.html',
-    styleUrls: ['question-five-card.scss'],
-    standalone: false
+  selector: 'question-five-card',
+  templateUrl: 'question-five-card.html',
+  styleUrls: ['question-five-card.scss'],
+  standalone: false,
 })
 export class QuestionFiveCardComponent {
   @Input()

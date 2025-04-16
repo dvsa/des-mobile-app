@@ -2,9 +2,9 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { UntypedFormGroup } from '@angular/forms';
 
 @Component({
-    selector: 'accompaniment-card-cat-cpc',
-    templateUrl: 'accompaniment-card.cat-cpc.html',
-    standalone: false
+  selector: 'accompaniment-card-cat-cpc',
+  templateUrl: 'accompaniment-card.cat-cpc.html',
+  standalone: false,
 })
 export class AccompanimentCardCatCPCComponent {
   @Input()

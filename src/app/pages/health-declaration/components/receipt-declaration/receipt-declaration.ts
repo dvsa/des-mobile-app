@@ -2,10 +2,10 @@ import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core
 import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 
 @Component({
-    selector: 'receipt-declaration',
-    templateUrl: 'receipt-declaration.html',
-    styleUrls: ['receipt-declaration.scss'],
-    standalone: false
+  selector: 'receipt-declaration',
+  templateUrl: 'receipt-declaration.html',
+  styleUrls: ['receipt-declaration.scss'],
+  standalone: false,
 })
 export class ReceiptDeclarationComponent implements OnChanges {
   @Input()

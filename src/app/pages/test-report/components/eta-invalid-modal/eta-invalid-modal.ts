@@ -3,10 +3,10 @@ import { ModalController } from '@ionic/angular';
 import { ModalEvent } from '../../test-report.constants';
 
 @Component({
-    selector: 'eta-invalid-modal',
-    templateUrl: 'eta-invalid-modal.html',
-    styleUrls: ['eta-invalid-modal.scss'],
-    standalone: false
+  selector: 'eta-invalid-modal',
+  templateUrl: 'eta-invalid-modal.html',
+  styleUrls: ['eta-invalid-modal.scss'],
+  standalone: false,
 })
 export class EtaInvalidModal {
   constructor(public modalCtrl: ModalController) {}

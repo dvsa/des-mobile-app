@@ -35,12 +35,12 @@
 import { AfterViewInit, Directive, ElementRef, EventEmitter, Input, Output } from '@angular/core';
 
 @Directive({
-    selector: '[charCount]',
-    host: {
-        '(input)': 'onInput($event)',
-        '(ionChange)': 'onIonChange($event)',
-    },
-    standalone: false
+  selector: '[charCount]',
+  host: {
+    '(input)': 'onInput($event)',
+    '(ionChange)': 'onIonChange($event)',
+  },
+  standalone: false,
 })
 export class CharacterCountDirective implements AfterViewInit {
   @Input() charLimit: number = null;

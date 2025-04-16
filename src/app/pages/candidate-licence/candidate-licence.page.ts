@@ -46,10 +46,10 @@ interface CandidateLicencePageState {
 }
 
 @Component({
-    selector: 'app-candidate-licence',
-    templateUrl: './candidate-licence.page.html',
-    styleUrls: ['./candidate-licence.page.scss'],
-    standalone: false
+  selector: 'app-candidate-licence',
+  templateUrl: './candidate-licence.page.html',
+  styleUrls: ['./candidate-licence.page.scss'],
+  standalone: false,
 })
 export class CandidateLicencePage extends PracticeableBasePageComponent implements OnInit {
   formGroup: FormGroup;

@@ -6,10 +6,10 @@ import { TestDetailsModel } from './test-details-card.model';
 export type CandidateDetails = { prn: number; attemptNumber: number };
 
 @Component({
-    selector: 'test-details-card',
-    templateUrl: 'test-details-card.html',
-    styleUrls: ['test-details-card.scss'],
-    standalone: false
+  selector: 'test-details-card',
+  templateUrl: 'test-details-card.html',
+  styleUrls: ['test-details-card.scss'],
+  standalone: false,
 })
 export class TestDetailsCardComponent {
   @Input()

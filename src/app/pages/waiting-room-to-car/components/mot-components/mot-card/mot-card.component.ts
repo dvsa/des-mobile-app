@@ -5,10 +5,10 @@ import { NetworkStateProvider } from '@providers/network-state/network-state';
 import { HttpStatusCodes } from '@shared/models/http-status-codes';
 
 @Component({
-    selector: 'mot-card',
-    templateUrl: './mot-card.component.html',
-    styleUrls: ['./mot-card.component.scss'],
-    standalone: false
+  selector: 'mot-card',
+  templateUrl: './mot-card.component.html',
+  styleUrls: ['./mot-card.component.scss'],
+  standalone: false,
 })
 export class MotCardComponent {
   @Input()

@@ -4,10 +4,10 @@ import { QuestionOutcome, SafetyQuestionResult } from '@dvsa/mes-test-schema/cat
 import { uniqueId } from 'lodash-es';
 
 @Component({
-    selector: 'safety-question',
-    templateUrl: 'safety-question.html',
-    styleUrls: ['safety-questions.scss'],
-    standalone: false
+  selector: 'safety-question',
+  templateUrl: 'safety-question.html',
+  styleUrls: ['safety-questions.scss'],
+  standalone: false,
 })
 export class SafetyQuestionComponent implements OnChanges {
   @Input()

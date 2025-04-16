@@ -58,11 +58,11 @@ interface VehicleChecksModalCatCState {
 }
 
 @Component({
-    selector: 'vehicle-checks-modal-cat-c',
-    templateUrl: 'vehicle-checks-modal.cat-c.page.html',
-    styleUrls: ['vehicle-checks-modal.cat-c.page.scss'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: false
+  selector: 'vehicle-checks-modal-cat-c',
+  templateUrl: 'vehicle-checks-modal.cat-c.page.html',
+  styleUrls: ['vehicle-checks-modal.cat-c.page.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class VehicleChecksCatCModal {
   pageState: VehicleChecksModalCatCState;

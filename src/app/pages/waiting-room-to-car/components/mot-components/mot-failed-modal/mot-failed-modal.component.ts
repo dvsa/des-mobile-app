@@ -17,10 +17,10 @@ export enum ModalEvent {
 }
 
 @Component({
-    selector: 'mot-failed-modal',
-    templateUrl: './mot-failed-modal.component.html',
-    styleUrls: ['./mot-failed-modal.component.scss'],
-    standalone: false
+  selector: 'mot-failed-modal',
+  templateUrl: './mot-failed-modal.component.html',
+  styleUrls: ['./mot-failed-modal.component.scss'],
+  standalone: false,
 })
 export class MotFailedModal implements OnInit {
   readonly registrationNumberValidator: FieldValidators = getRegistrationNumberValidator();

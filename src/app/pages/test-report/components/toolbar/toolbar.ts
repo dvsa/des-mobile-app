@@ -23,10 +23,10 @@ interface ToolbarComponentState {
 }
 
 @Component({
-    selector: 'toolbar',
-    templateUrl: 'toolbar.html',
-    styleUrls: ['toolbar.scss'],
-    standalone: false
+  selector: 'toolbar',
+  templateUrl: 'toolbar.html',
+  styleUrls: ['toolbar.scss'],
+  standalone: false,
 })
 export class ToolbarComponent {
   @Input()

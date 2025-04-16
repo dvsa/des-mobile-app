@@ -2,10 +2,10 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { UntypedFormGroup } from '@angular/forms';
 
 @Component({
-    selector: 'accompaniment-card-adi3',
-    templateUrl: './accompaniment-card.html',
-    styleUrls: ['./accompaniment-card.scss'],
-    standalone: false
+  selector: 'accompaniment-card-adi3',
+  templateUrl: './accompaniment-card.html',
+  styleUrls: ['./accompaniment-card.scss'],
+  standalone: false,
 })
 export class AccompanimentCardADI3Component {
   @Input()

@@ -22,10 +22,10 @@ interface DrivingFaultSummaryState {
 }
 
 @Component({
-    selector: 'driving-fault-summary',
-    templateUrl: 'driving-fault-summary.html',
-    styleUrls: ['driving-fault-summary.scss'],
-    standalone: false
+  selector: 'driving-fault-summary',
+  templateUrl: 'driving-fault-summary.html',
+  styleUrls: ['driving-fault-summary.scss'],
+  standalone: false,
 })
 export class DrivingFaultSummaryComponent implements OnInit {
   componentState: DrivingFaultSummaryState;

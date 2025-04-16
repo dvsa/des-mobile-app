@@ -67,10 +67,10 @@ interface RekeyReasonPageState {
 }
 
 @Component({
-    selector: '.rekey-reason-page',
-    templateUrl: './rekey-reason.page.html',
-    styleUrls: ['./rekey-reason.page.scss'],
-    standalone: false
+  selector: '.rekey-reason-page',
+  templateUrl: './rekey-reason.page.html',
+  styleUrls: ['./rekey-reason.page.scss'],
+  standalone: false,
 })
 export class RekeyReasonPage extends BasePageComponent implements OnInit {
   private static loadingOpts: LoadingOptions = {

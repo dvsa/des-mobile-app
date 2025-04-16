@@ -67,10 +67,10 @@ export interface CompletedJournalSlot {
 }
 
 @Component({
-    selector: 'app-journal',
-    templateUrl: './journal.page.html',
-    styleUrls: ['./journal.page.scss'],
-    standalone: false
+  selector: 'app-journal',
+  templateUrl: './journal.page.html',
+  styleUrls: ['./journal.page.scss'],
+  standalone: false,
 })
 export class JournalPage extends BasePageComponent implements OnInit {
   private static loadingOpts: LoadingOptions = {

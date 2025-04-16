@@ -6,10 +6,10 @@ import { AccessibilityService } from '@providers/accessibility/accessibility.ser
 import { DeviceProvider } from '@providers/device/device';
 
 @Component({
-    selector: 'exit-sam-button',
-    templateUrl: './exit-sam-button.html',
-    styleUrls: ['./exit-sam-button.scss'],
-    imports: [IonicModule, ComponentsModule]
+  selector: 'exit-sam-button',
+  templateUrl: './exit-sam-button.html',
+  styleUrls: ['./exit-sam-button.scss'],
+  imports: [IonicModule, ComponentsModule],
 })
 export class ExitSamButton {
   constructor(

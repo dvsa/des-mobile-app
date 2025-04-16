@@ -41,10 +41,10 @@ interface CompetencyState {
 }
 
 @Component({
-    selector: 'competency',
-    templateUrl: 'competency.html',
-    styleUrls: ['competency.scss'],
-    standalone: false
+  selector: 'competency',
+  templateUrl: 'competency.html',
+  styleUrls: ['competency.scss'],
+  standalone: false,
 })
 export class CompetencyComponent {
   @Input()

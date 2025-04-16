@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
 
 @Component({
-    selector: 'inappropriate-use-banner',
-    templateUrl: 'inappropriate-use-banner.html',
-    styleUrls: ['inappropriate-use-banner.scss'],
-    standalone: false
+  selector: 'inappropriate-use-banner',
+  templateUrl: 'inappropriate-use-banner.html',
+  styleUrls: ['inappropriate-use-banner.scss'],
+  standalone: false,
 })
 export class InappropriateUseBannerComponent {}

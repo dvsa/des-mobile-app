@@ -2,9 +2,9 @@ import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core
 import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 
 @Component({
-    selector: 'dual-controls',
-    templateUrl: 'dual-controls.html',
-    standalone: false
+  selector: 'dual-controls',
+  templateUrl: 'dual-controls.html',
+  standalone: false,
 })
 export class DualControlsComponent implements OnChanges {
   @Input()

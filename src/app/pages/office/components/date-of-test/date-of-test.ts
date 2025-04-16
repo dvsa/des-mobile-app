@@ -6,10 +6,10 @@ import { PRESS_TIME_TO_ENABLE_EDIT, isValidStartDate } from '@shared/helpers/tes
 import moment from 'moment';
 
 @Component({
-    selector: 'date-of-test',
-    templateUrl: 'date-of-test.html',
-    styleUrls: ['date-of-test.scss'],
-    standalone: false
+  selector: 'date-of-test',
+  templateUrl: 'date-of-test.html',
+  styleUrls: ['date-of-test.scss'],
+  standalone: false,
 })
 export class DateOfTest implements OnInit {
   @Input()

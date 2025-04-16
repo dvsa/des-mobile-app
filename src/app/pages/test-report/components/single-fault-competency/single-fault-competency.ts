@@ -38,10 +38,10 @@ interface SingleFaultCompetencyState {
 }
 
 @Component({
-    selector: 'single-fault-competency',
-    templateUrl: 'single-fault-competency.html',
-    styleUrls: ['single-fault-competency.scss'],
-    standalone: false
+  selector: 'single-fault-competency',
+  templateUrl: 'single-fault-competency.html',
+  styleUrls: ['single-fault-competency.scss'],
+  standalone: false,
 })
 export class SingleFaultCompetencyComponent implements OnInit, OnDestroy {
   @Input()

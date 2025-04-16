@@ -9,10 +9,10 @@ import { Observable } from 'rxjs';
 type TestReportPageState = CommonTestReportPageState;
 
 @Component({
-    selector: '.test-report-cat-a-mod2-page',
-    templateUrl: './test-report.cat-a-mod2.page.html',
-    styleUrls: ['./test-report.cat-a-mod2.page.scss'],
-    standalone: false
+  selector: '.test-report-cat-a-mod2-page',
+  templateUrl: './test-report.cat-a-mod2.page.html',
+  styleUrls: ['./test-report.cat-a-mod2.page.scss'],
+  standalone: false,
 })
 export class TestReportCatAMod2Page extends TestReportBasePageComponent implements OnInit {
   pageState: TestReportPageState;

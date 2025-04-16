@@ -2,9 +2,9 @@ import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core
 import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 
 @Component({
-    selector: 'pdi-logbook',
-    templateUrl: 'pdi-logbook.html',
-    standalone: false
+  selector: 'pdi-logbook',
+  templateUrl: 'pdi-logbook.html',
+  standalone: false,
 })
 export class PDILogbookComponent implements OnChanges {
   @Input()
