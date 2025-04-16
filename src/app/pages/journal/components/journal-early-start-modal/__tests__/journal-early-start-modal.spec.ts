@@ -24,7 +24,7 @@ describe('JournalEarlyStartModal', () => {
     modalFixture = TestBed.createComponent(JournalEarlyStartModal);
     modalComponent = modalFixture.componentInstance;
     spyOn(modalComponent, 'getStartTime');
-    spyOn(modalComponent.store$, 'dispatch').and.callFake(() => {});
+    spyOn(modalComponent.store$, 'dispatch').and.callThrough();
     spyOn(modalComponent.modalController, 'dismiss').and.returnValue(Promise.resolve(true));
   });
 
