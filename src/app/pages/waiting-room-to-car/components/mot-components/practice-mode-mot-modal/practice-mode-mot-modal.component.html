@@ -1,4 +1,4 @@
-<ion-card class="modal-alert">
+<ion-card [formGroup]="formGroup" class="card-width modal-alert">
   <ion-row>
     <ion-col size="3"></ion-col>
     <ion-col>
@@ -6,34 +6,69 @@
       <ion-row class="ion-justify-content-center">
         <ion-col class="ion-no-padding" size="80">
           <div class="modal-alert-message mes-data">
-            <div class="mes-data">Please select which MOT result you would like to practice.</div>
+            <div class="mes-data">This screen will not appear in a real test.</div>
             <ul></ul>
+            <div class="mes-data">Select which MOT result scenario you would like to use for this practice test.</div>
           </div>
         </ion-col>
       </ion-row>
       <ion-row>
-        <ion-col class="display-flex ion-justify-content-center">
-          <ion-button (click)="onConfirm(PracticeModeMOTType.PASS)" class="full-width mes-grey-button">
-            <ion-text class="des-header-style-3 semibold-font-family">Pass</ion-text>
-          </ion-button>
+        <ion-col>
+          <input
+            type="radio"
+            formControlName="motPracticeOutcome"
+            name="motPracticeOutcome"
+            id="valid-mot"
+            class="gds-radio-button"
+            [class.ng-invalid]="invalid"
+            [value]="PracticeModeMOTType.PASS"
+          />
+          <label for="valid-mot" class="radio-label" id="valid-mot-label">Valid MOT</label>
         </ion-col>
-        <ion-col class="display-flex ion-justify-content-center">
-          <ion-button (click)="onConfirm(PracticeModeMOTType.FAILED)" class="full-width mes-grey-button">
-            <ion-text class="des-header-style-3 semibold-font-family">Fail</ion-text>
-          </ion-button>
+      </ion-row>
+      <ion-row>
+        <ion-col>
+          <input
+            type="radio"
+            formControlName="motPracticeOutcome"
+            name="motPracticeOutcome"
+            id="invalid-mot"
+            class="gds-radio-button"
+            [class.ng-invalid]="invalid"
+            [value]="PracticeModeMOTType.FAILED"
+          />
+          <label for="invalid-mot" class="radio-label" id="invalid-mot-label">Invalid MOT</label>
         </ion-col>
-        <ion-col size="auto" class="display-flex ion-justify-content-center">
-          <ion-button (click)="onConfirm(PracticeModeMOTType.NO_DETAILS)" class="full-width mes-grey-button">
-            <ion-text class="des-header-style-3 semibold-font-family">No Details</ion-text>
-          </ion-button>
+      </ion-row>
+      <ion-row>
+        <ion-col>
+          <input
+            type="radio"
+            formControlName="motPracticeOutcome"
+            name="motPracticeOutcome"
+            id="unknown-mot"
+            class="gds-radio-button"
+            [class.ng-invalid]="invalid"
+            [value]="PracticeModeMOTType.NO_DETAILS"
+          />
+          <label for="unknown-mot" class="radio-label" id="unknown-mot-label">Unable to determine MOT status</label>
         </ion-col>
       </ion-row>
     </ion-col>
     <ion-col size="3"></ion-col>
   </ion-row>
+  <ion-row class="ion-padding-vertical ion-justify-content-center validation-message-row ion-align-items-center">
+    <div class="validation-text" [class.ng-invalid]="invalid" id="waiting-room-to-car-eyesight-validation-text">
+      You must choose a scenario to practice
+    </div>
+  </ion-row>
   <ion-row class="padding-top-10">
     <ion-col class="ion-no-padding column-border-top column-border-right">
       <ion-button id="practice-modal-cancel" class="cancel-button" fill="clear" (click)="onCancel()">Cancel
+      </ion-button>
+    </ion-col>
+    <ion-col class="ion-no-padding column-border-top column-border-right">
+      <ion-button id="practice-modal-confirm" class="confirm-button" fill="clear" (click)="onConfirm()">Ok
       </ion-button>
     </ion-col>
   </ion-row>

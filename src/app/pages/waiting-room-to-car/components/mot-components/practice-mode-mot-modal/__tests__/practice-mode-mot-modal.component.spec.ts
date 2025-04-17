@@ -4,7 +4,7 @@ import { IonicModule } from '@ionic/angular';
 import { ModalAlertTitleComponent } from '@components/common/modal-alert-title/modal-alert-title';
 import { ModalEvent } from '@pages/test-report/test-report.constants';
 import { MockComponent } from 'ng-mocks';
-import { PracticeModeMOTModal, PracticeModeMOTType } from '../practice-mode-mot-modal.component';
+import { PracticeModeMOTModal } from '../practice-mode-mot-modal.component';
 
 describe('PracticeModeMOTModal', () => {
   let component: PracticeModeMOTModal;
@@ -21,33 +21,59 @@ describe('PracticeModeMOTModal', () => {
     fixture.detectChanges();
   });
 
-  it('should dismiss the modal with the correct type on confirm', async () => {
-    spyOn(component.modalCtrl, 'dismiss');
-    await component.onConfirm(PracticeModeMOTType.PASS);
-    expect(component.modalCtrl.dismiss).toHaveBeenCalledWith(PracticeModeMOTType.PASS);
+  describe('ngOnInit', () => {
+    it('should initialize formControl and add it to formGroup on ngOnInit', () => {
+      component.ngOnInit();
+      expect(component.formControl).toBeTruthy();
+      expect(component.formGroup.contains('motPracticeOutcome')).toBeTrue();
+    });
+
+    it('should dismiss modal with formControl value when onConfirm is called and form is valid', async () => {
+      spyOn(component.modalCtrl, 'dismiss');
+      component.ngOnInit();
+      component.formControl.setValue('pass');
+      await component.onConfirm();
+      expect(component.modalCtrl.dismiss).toHaveBeenCalledWith('pass');
+    });
   });
 
-  it('should dismiss the modal with cancel event on cancel', async () => {
-    spyOn(component.modalCtrl, 'dismiss');
-    await component.onCancel();
-    expect(component.modalCtrl.dismiss).toHaveBeenCalledWith(ModalEvent.CANCEL);
+  describe('onConfirm', () => {
+    it('should not dismiss modal when onConfirm is called and form is invalid', async () => {
+      spyOn(component.modalCtrl, 'dismiss');
+      component.ngOnInit();
+      component.formControl.setValue('');
+      await component.onConfirm();
+      expect(component.modalCtrl.dismiss).not.toHaveBeenCalled();
+    });
   });
 
-  it('should handle dismiss failure on confirm', async () => {
-    spyOn(component.modalCtrl, 'dismiss').and.throwError('Dismiss failed');
-    try {
-      await component.onConfirm(PracticeModeMOTType.PASS);
-    } catch (e) {
-      expect(e.message).toBe('Dismiss failed');
-    }
-  });
-
-  it('should handle dismiss failure on cancel', async () => {
-    spyOn(component.modalCtrl, 'dismiss').and.throwError('Dismiss failed');
-    try {
+  describe('onCancel', () => {
+    it('should dismiss modal with CANCEL event when onCancel is called', async () => {
+      spyOn(component.modalCtrl, 'dismiss');
       await component.onCancel();
-    } catch (e) {
-      expect(e.message).toBe('Dismiss failed');
-    }
+      expect(component.modalCtrl.dismiss).toHaveBeenCalledWith(ModalEvent.CANCEL);
+    });
+  });
+
+  describe('Invalid', () => {
+    it('should return true for invalid getter when formControl is invalid and dirty', () => {
+      component.ngOnInit();
+      component.formControl.setValue('');
+      component.formControl.markAsDirty();
+      expect(component.invalid).toBeTrue();
+    });
+
+    it('should return false for invalid getter when formControl is valid and dirty', () => {
+      component.ngOnInit();
+      component.formControl.setValue('pass');
+      component.formControl.markAsDirty();
+      expect(component.invalid).toBeFalse();
+    });
+
+    it('should return false for invalid getter when formControl is invalid but not dirty', () => {
+      component.ngOnInit();
+      component.formControl.setValue('');
+      expect(component.invalid).toBeFalse();
+    });
   });
 });
