@@ -98,16 +98,13 @@ describe('CPCEndTestModal', () => {
       });
     });
     describe('getTestResultClass', () => {
-      let cssClass: string;
       it('should return the correct class for a pass', () => {
         component.testResult = ActivityCodes.PASS;
-        cssClass = component.getTestResultClass();
-        expect(cssClass).toEqual('test-result-pass-label');
+        expect(component.getTestResultClass()).toEqual('test-result-pass-label');
       });
       it('should return the correct class for a fail', () => {
         component.testResult = ActivityCodes.FAIL;
-        cssClass = component.getTestResultClass();
-        expect(cssClass).toEqual('test-result-fail-label');
+        expect(component.getTestResultClass()).toEqual('test-result-fail-label');
       });
     });
   });
