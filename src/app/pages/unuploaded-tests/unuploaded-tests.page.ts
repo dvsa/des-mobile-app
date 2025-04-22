@@ -1,6 +1,10 @@
 import { Component, Injector, OnInit } from '@angular/core';
 import { TestSlot } from '@dvsa/mes-journal-schema';
-import { UnuploadedTestsViewDidEnter } from '@pages/unuploaded-tests/unuploaded-tests.actions';
+import { DASHBOARD_PAGE } from '@pages/page-names.constants';
+import {
+  UnuploadedTestsReturnToDashboardPressed,
+  UnuploadedTestsViewDidEnter,
+} from '@pages/unuploaded-tests/unuploaded-tests.actions';
 import { unsubmittedTestSlots$ } from '@pages/unuploaded-tests/unuploaded-tests.selector';
 import { AppConfigProvider } from '@providers/app-config/app-config';
 import { ExaminerRoleDescription } from '@providers/app-config/constants/examiner-role.constants';
@@ -79,6 +83,11 @@ export class UnuploadedTestsPage extends BasePageComponent implements OnInit {
   async ionViewDidEnter(): Promise<void> {
     this.store$.dispatch(UnuploadedTestsViewDidEnter());
     await super.unlockDevice();
+  }
+
+  async goToDashboard(): Promise<void> {
+    this.store$.dispatch(UnuploadedTestsReturnToDashboardPressed());
+    await this.router.navigate([DASHBOARD_PAGE], { replaceUrl: true });
   }
 
   getRoleDisplayValue = (role: string): string => ExaminerRoleDescription[role] || 'Unknown Role';
