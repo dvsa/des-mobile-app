@@ -14,6 +14,7 @@ import {
 import { RekeySearchClearState } from '@pages/rekey-search/rekey-search.actions';
 import { StoreUnuploadedSlotsInTests } from '@pages/unuploaded-tests/unuploaded-tests.actions';
 import { unsubmittedTestSlotsCount$ } from '@pages/unuploaded-tests/unuploaded-tests.selector';
+import { AccessibilityService } from '@providers/accessibility/accessibility.service';
 import { AppConfigProvider } from '@providers/app-config/app-config';
 import { ExaminerRole, ExaminerRoleDescription } from '@providers/app-config/constants/examiner-role.constants';
 import { DateTimeProvider } from '@providers/date-time/date-time';
@@ -88,6 +89,7 @@ export class DashboardPage extends BasePageComponent implements OnInit, ViewDidE
     private networkStateProvider: NetworkStateProvider,
     private slotProvider: SlotProvider,
     private modalController: ModalController,
+    private accessibilityService: AccessibilityService,
     injector: Injector
   ) {
     super(injector);
@@ -251,6 +253,8 @@ export class DashboardPage extends BasePageComponent implements OnInit, ViewDidE
       }
     }
   }
+
+  getIsLargerTextSize = (): boolean => this.accessibilityService.getTextZoomClass() !== 'text-zoom-regular';
 
   onNavigateToTestCentreJournal() {
     this.store$.dispatch(TestCentreJournalEnteredFromDashboard());

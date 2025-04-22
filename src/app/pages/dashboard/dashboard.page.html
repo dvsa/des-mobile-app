@@ -8,20 +8,24 @@
         id="dashboard-notification-count-badge"
         class="burger-menu-item"
       >
-        {{notificationCount}}
+        {{ notificationCount }}
       </ion-badge>
     </ion-buttons>
     <ion-title role="heading" aria-level="1" id="dashboard-page-title">My dashboard</ion-title>
-    <ion-buttons slot="end">
-      <ion-text class="des-header-style-6 version-number">Version {{pageState.appVersion$ | async}}</ion-text>
-      &nbsp;
-      <ion-badge
-        *ngIf="pageState.showUpdatesAvailable$ | async"
-        color="danger"
-        (click)="showUpdateAvailableModal(true)"
-      >
-        Version {{pageState.liveAppVersion$ | async}} available
-      </ion-badge>
+    <ion-buttons class="display-flex" [class.flex-direction-column]="getIsLargerTextSize()" slot="end">
+        <ion-row>
+          <ion-text class="des-header-style-6 version-number">Version {{ pageState.appVersion$ | async }}</ion-text>
+        </ion-row>
+      <div *ngIf="!getIsLargerTextSize()">&nbsp;</div>
+      <ion-row>
+          <ion-badge
+            *ngIf="pageState.showUpdatesAvailable$ | async"
+            color="danger"
+            (click)="showUpdateAvailableModal(true)"
+          >
+            Version {{ pageState.liveAppVersion$ | async }} available
+          </ion-badge>
+        </ion-row>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
@@ -40,9 +44,9 @@
     >
     </profile-header>
 
-    <hr />
+    <hr/>
 
-    <h2 class="date des-header-style-4" id="date-field">{{todaysDateFormatted}}</h2>
+    <h2 class="date des-header-style-4" id="date-field">{{ todaysDateFormatted }}</h2>
 
     <ion-grid class="dashboard-grid">
       <ion-row *ngIf="!showDelegatedExaminerRekey()">
@@ -70,7 +74,7 @@
       </ion-row>
     </ion-grid>
 
-    <hr *ngIf="(showEndToEndPracticeMode() || showTestReportPracticeMode())" />
+    <hr *ngIf="(showEndToEndPracticeMode() || showTestReportPracticeMode())"/>
 
     <practice-test-report-card
       (click)="practiceTestReportCardClicked()"
@@ -80,6 +84,6 @@
     >
     </practice-test-report-card>
 
-    <practice-end-to-end-card *ngIf="showEndToEndPracticeMode()" id="endToendPracticeMode"> </practice-end-to-end-card>
+    <practice-end-to-end-card *ngIf="showEndToEndPracticeMode()" id="endToendPracticeMode"></practice-end-to-end-card>
   </div>
 </ion-content>
