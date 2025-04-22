@@ -14,7 +14,7 @@ describe('AlternateEvidenceDescriptionComponent', () => {
       schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
       declarations: [AlternateEvidenceDescriptionComponent],
       imports: [IonicModule, CommonModule],
-    }).compileComponents();
+    });
 
     fixture = TestBed.createComponent(AlternateEvidenceDescriptionComponent);
     component = fixture.componentInstance;
@@ -97,6 +97,40 @@ describe('AlternateEvidenceDescriptionComponent', () => {
       component.formControl.markAsPristine();
 
       expect(component.invalid).toBeFalsy();
+    });
+  });
+
+  describe('charactersExceeded', () => {
+    it('should return true if the character count has been exceeded', () => {
+      spyOn(component.characterCountService, 'charactersExceeded').and.returnValue(true);
+      component.charsRemaining = -1;
+      expect(component.charactersExceeded()).toBeTrue();
+    });
+
+    it('should return false if the character count has not been exceeded', () => {
+      spyOn(component.characterCountService, 'charactersExceeded').and.returnValue(false);
+      component.charsRemaining = 10;
+      expect(component.charactersExceeded()).toBeFalse();
+    });
+  });
+
+  describe('characterCountChanged', () => {
+    it('should update charsRemaining and validate the form control', () => {
+      component.formGroup = new UntypedFormGroup({});
+      component.formControl = new UntypedFormControl();
+      component.formGroup.addControl('altEvidenceDetailsCtrl', component.formControl);
+      spyOn(component.formGroup.get('altEvidenceDetailsCtrl'), 'updateValueAndValidity');
+      component.characterCountChanged(5);
+      expect(component.charsRemaining).toBe(5);
+      expect(component.formGroup.get('altEvidenceDetailsCtrl').updateValueAndValidity).toHaveBeenCalled();
+    });
+  });
+
+  describe('getCharacterCountText', () => {
+    it('should return the correct character count text from the service', () => {
+      spyOn(component.characterCountService, 'getCharacterCountText').and.returnValue('5 characters remaining');
+      component.charsRemaining = 5;
+      expect(component.getCharacterCountText()).toBe('5 characters remaining');
     });
   });
 

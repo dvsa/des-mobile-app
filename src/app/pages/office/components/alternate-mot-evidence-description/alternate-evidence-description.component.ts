@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
+import { CharacterCountService } from '@providers/character-count/character-count.service';
 
 @Component({
   selector: 'alternate-mot-evidence-description',
@@ -8,6 +9,10 @@ import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms
 })
 export class AlternateEvidenceDescriptionComponent {
   formControl: UntypedFormControl;
+
+  charsRemaining = 0;
+
+  characterLimit = 950;
 
   @Input()
   shouldHaveSeparator = false;
@@ -21,9 +26,11 @@ export class AlternateEvidenceDescriptionComponent {
   @Output()
   evidenceDescriptionTestResultChange = new EventEmitter<string>();
 
+  constructor(public characterCountService: CharacterCountService) {}
+
   ngOnChanges(): void {
     if (!this.formControl) {
-      this.formControl = new UntypedFormControl('', [Validators.required]);
+      this.formControl = new UntypedFormControl('', [Validators.required, this.charactersExceededValidator()]);
       this.formControl.patchValue(this.alternateEvidenceDescription);
       if (this.formGroup.contains('altEvidenceDetailsCtrl')) {
         this.formGroup.setControl('altEvidenceDetailsCtrl', this.formControl);
@@ -33,8 +40,33 @@ export class AlternateEvidenceDescriptionComponent {
     }
   }
 
+  charactersExceededValidator(): ValidatorFn {
+    return (): ValidationErrors | null => {
+      return this.characterCountService.charactersExceeded(this.charsRemaining) ? { charactersExceeded: true } : null;
+    };
+  }
+
   get invalid(): boolean {
     return !this.formControl.valid && this.formControl.dirty;
+  }
+
+  /**
+   * Request whether the character count has been exceeded
+   */
+  charactersExceeded(): boolean {
+    return this.characterCountService.charactersExceeded(this.charsRemaining);
+  }
+
+  characterCountChanged(charactersRemaining: number) {
+    this.charsRemaining = charactersRemaining;
+    this.formGroup.get('altEvidenceDetailsCtrl').updateValueAndValidity();
+  }
+
+  /**
+   * Request appropriate character count text based upon how many characters are remaining
+   */
+  getCharacterCountText(): string {
+    return this.characterCountService.getCharacterCountText(this.charsRemaining);
   }
 
   evidenceDescriptionTestResultChanged(event: string) {
