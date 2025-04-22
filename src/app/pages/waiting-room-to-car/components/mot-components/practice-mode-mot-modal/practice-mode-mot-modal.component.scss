@@ -7,6 +7,10 @@
     width: 500px;
   }
 
+  .card-width {
+    width: 550px;
+  }
+
   .modal-alert-header {
     margin-top: 40px;
   }
@@ -20,7 +24,18 @@
     color: var(--gds-black)
   }
 
+  .radio-label {
+    font-weight: normal;
+    margin: 7px 0;
+    display: inline-flex;
+  }
+
   .cancel-button {
+    color: var(--gds-black);
+  }
+
+  .confirm-button {
+    font-weight: bold;
     color: var(--gds-black);
   }
 

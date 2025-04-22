@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { ModalController } from '@ionic/angular';
 import { ModalEvent } from '@pages/journal/components/journal-force-check-modal/journal-force-check-modal.constants';
 
@@ -13,14 +14,34 @@ export enum PracticeModeMOTType {
   templateUrl: './practice-mode-mot-modal.component.html',
   styleUrls: ['./practice-mode-mot-modal.component.scss'],
 })
-export class PracticeModeMOTModal {
+export class PracticeModeMOTModal implements OnInit {
+  formControl: UntypedFormControl;
+  formGroup: UntypedFormGroup = new UntypedFormGroup({});
+
   constructor(public modalCtrl: ModalController) {}
 
-  async onConfirm(type: PracticeModeMOTType) {
-    await this.modalCtrl.dismiss(type);
+  ngOnInit(): void {
+    if (!this.formControl) {
+      this.formControl = new UntypedFormControl('', [Validators.required]);
+      this.formGroup.addControl('motPracticeOutcome', this.formControl);
+      console.log(this.formControl);
+      console.log(this.formGroup);
+    }
+  }
+
+  async onConfirm() {
+    this.formControl.markAsDirty();
+    if (!this.invalid) {
+      await this.modalCtrl.dismiss(this.formControl.value);
+    }
   }
   onCancel = async (): Promise<void> => {
     await this.modalCtrl.dismiss(ModalEvent.CANCEL);
   };
+
+  get invalid(): boolean {
+    return !this.formControl.valid && this.formControl.dirty;
+  }
+
   protected readonly PracticeModeMOTType = PracticeModeMOTType;
 }
