@@ -12,6 +12,8 @@ export class AlternateEvidenceDescriptionComponent {
 
   charsRemaining = 0;
 
+  characterLimit = 950;
+
   @Input()
   shouldHaveSeparator = false;
 
