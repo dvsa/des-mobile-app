@@ -12,14 +12,13 @@
       </ion-badge>
     </ion-buttons>
     <ion-title role="heading" aria-level="1" id="dashboard-page-title">My dashboard</ion-title>
-    <ion-buttons class="display-flex" [class.flex-direction-column]="getIsLargerTextSize()" slot="end">
+    <ion-buttons class="display-flex" [class.flex-direction-column]="getIsLargerTextSize() && pageState.showUpdatesAvailable$ | async" slot="end">
         <ion-row>
           <ion-text class="des-header-style-6 version-number">Version {{ pageState.appVersion$ | async }}</ion-text>
         </ion-row>
       <div *ngIf="!getIsLargerTextSize()">&nbsp;</div>
-      <ion-row>
+      <ion-row *ngIf="pageState.showUpdatesAvailable$ | async">
           <ion-badge
-            *ngIf="pageState.showUpdatesAvailable$ | async"
             color="danger"
             (click)="showUpdateAvailableModal(true)"
           >
