@@ -145,6 +145,7 @@ import {
 import { map, withLatestFrom } from 'rxjs/operators';
 
 export interface CommonOfficePageState {
+  testCategory$: Observable<TestCategory>;
   activityCode$: Observable<ActivityCodeModel>;
   startTime$: Observable<string>;
   startDate$: Observable<string>;
@@ -240,6 +241,7 @@ export abstract class OfficeBasePageComponent extends PracticeableBasePageCompon
     const category$ = currentTest$.pipe(select(getTestCategory));
 
     this.commonPageState = {
+      testCategory$: category$.pipe(map((testCategory) => testCategory as TestCategory)),
       motAlternativeEvidenceProvided$: currentTest$.pipe(select(getVehicleDetails), select(getMotEvidenceProvided)),
       motAlternativeEvidenceDescription$: currentTest$.pipe(
         select(getVehicleDetails),

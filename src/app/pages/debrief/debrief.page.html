@@ -15,7 +15,7 @@
       (setupLeaveSubscription)="setupEscapeSAMLeaveSubscription()"
       (setupResumeSubscription)="setupEscapeSAMResumeSubscription()"
       (onExitSAMActivatedChanged)="isSamActivatedChanged($event)">
-      {{ 'debrief.title' | translate }} - {{pageState.candidateName$ | async}}
+      {{ 'debrief.title' | translate }} - {{ pageState.candidateName$ | async }}
     </test-flow-header>
   </ion-toolbar>
 </ion-header>
@@ -30,12 +30,17 @@
   >
   </speed-check-debrief-card>
 
-  <eta-debrief-card [hasPhysicalEta]="hasPhysicalEta" [hasVerbalEta]="hasVerbalEta"> </eta-debrief-card>
+  <eta-debrief-card [hasPhysicalEta]="hasPhysicalEta" [hasVerbalEta]="hasVerbalEta"></eta-debrief-card>
 
-  <dangerous-faults-debrief-card [dangerousFaults]="pageState.dangerousFaults$ | async">
+  <dangerous-faults-debrief-card
+    [testCategory]="testCategory"
+    [dangerousFaults]="pageState.dangerousFaults$ | async">
   </dangerous-faults-debrief-card>
 
-  <serious-faults-debrief-card [seriousFaults]="pageState.seriousFaults$ | async"> </serious-faults-debrief-card>
+  <serious-faults-debrief-card
+    [testCategory]="testCategory"
+    [seriousFaults]="pageState.seriousFaults$ | async">
+  </serious-faults-debrief-card>
 
   <driving-faults-debrief-card
     [drivingFaults]="pageState.drivingFaults$ | async"
@@ -51,7 +56,7 @@
   >
   </eco-debrief-card>
 
-  <vehicle-checks-card-cat-b *ngIf="isCategoryBTest()"> </vehicle-checks-card-cat-b>
+  <vehicle-checks-card-cat-b *ngIf="isCategoryBTest()"></vehicle-checks-card-cat-b>
 
   <vehicle-checks-card
     *ngIf="showVehicleChecksArrayCard()"

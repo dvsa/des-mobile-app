@@ -147,6 +147,7 @@
         [faultComments]="pageState.dangerousFaults$ | async"
         [shouldRender]="(pageState.dangerousFaults$ | async)?.length > 0 && pageState.displayDangerousFault$ | async"
         [outcome]="pageState.testOutcome$ | async"
+        [testCategory]="pageState.testCategory$ | async"
         faultType="dangerous"
         header="Dangerous faults"
         [maxFaultCount]="maxFaultCount"
@@ -159,6 +160,7 @@
         [faultComments]="pageState.seriousFaults$ | async"
         [shouldRender]="(pageState.seriousFaults$ | async)?.length > 0  && pageState.displaySeriousFault$ | async"
         [outcome]="pageState.testOutcome$ | async"
+        [testCategory]="pageState.testCategory$ | async"
         faultType="serious"
         header="Serious faults"
         [maxFaultCount]="maxFaultCount"
@@ -172,6 +174,7 @@
         [faultComments]="pageState.drivingFaults$ | async"
         [shouldRender]="(pageState.displayDrivingFaultComments$ | async) && (pageState.displayDrivingFault$ | async)"
         [outcome]="pageState.testOutcome$ | async"
+        [testCategory]="pageState.testCategory$ | async"
         faultType="driving"
         header="Driving"
         badgeLabel="Driving"
@@ -185,6 +188,7 @@
         *ngIf="(!(pageState.displayDrivingFaultComments$ | async) && (pageState.drivingFaultCount$ | async) > 0 && pageState.displayDrivingFault$ | async)"
         [label]="'Driving faults'"
         badgeLabel="Driving"
+        [testCategory]="pageState.testCategory$ | async"
         [faults]="(pageState.drivingFaults$ | async)"
       >
       </driving-faults>

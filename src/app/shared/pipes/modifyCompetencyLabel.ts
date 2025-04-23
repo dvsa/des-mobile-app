@@ -13,9 +13,23 @@ export class ModifyCompetencyLabel implements PipeTransform {
    */
   transform(value: string, testCategory: TestCategory, fault: string): string {
     // For CatA tests change move off to move away
-    if (testCategory?.includes('EUA') && fault.toUpperCase().replace(/\s/g, '').includes('MOVEOFF')) {
-      return value.replace('off', 'away');
+    if (testCategory?.includes('EUA') && fault?.toUpperCase().replace(/\s/g, '').includes('MOVEOFF')) {
+      return value?.replace('off', 'away');
+    }
+
+    // For certain categories, replace controlled with emergency
+    if (
+      this.shouldDisplayEmergencyLabel(testCategory) &&
+      fault?.toUpperCase().replace(/\s/g, '').includes('CONTROLLEDSTOP')
+    ) {
+      return value?.replace('Controlled', 'Emergency');
     }
     return value;
+  }
+
+  shouldDisplayEmergencyLabel(category: TestCategory) {
+    return [TestCategory.B, TestCategory.ADI2, TestCategory.H, TestCategory.F, TestCategory.G, TestCategory.K].includes(
+      category
+    );
   }
 }

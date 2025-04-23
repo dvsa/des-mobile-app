@@ -1,7 +1,6 @@
 import { Component, Injector } from '@angular/core';
 import { ModeOfTransport } from '@dvsa/mes-test-schema/categories/AM2';
 import { SafetyQuestionResult } from '@dvsa/mes-test-schema/categories/common';
-import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { select } from '@ngrx/store';
 import {
   CommonOfficePageState,
@@ -9,7 +8,6 @@ import {
 } from '@shared/classes/test-flow-base-pages/office/office-base-page';
 import { activityCodeModelList } from '@shared/constants/activity-code/activity-code.constants';
 import { CommentSource, FaultSummary } from '@shared/models/fault-marking.model';
-import { getTestCategory } from '@store/tests/category/category.reducer';
 import { AddSafetyAndBalanceComment } from '@store/tests/test-data/cat-a-mod2/safety-and-balance/safety-and-balance.cat-a-mod2.actions';
 import { safetyAndBalanceQuestionsExist } from '@store/tests/test-data/cat-a-mod2/safety-and-balance/safety-and-balance.cat-a-mod2.selector';
 import { getTestData } from '@store/tests/test-data/cat-a-mod2/test-data.cat-a-mod2.reducer';
@@ -32,7 +30,6 @@ import { OfficeViewDidEnter } from '../office.actions';
 
 interface CatAMod2OfficePageState {
   schoolBike$: Observable<boolean>;
-  testCategory$: Observable<TestCategory>;
   displayModeOfTransport$: Observable<boolean>;
   modeOfTransport$: Observable<ModeOfTransport>;
   displayDrivingFaultComments$: Observable<boolean>;
@@ -66,15 +63,10 @@ export class OfficeCatAMod2Page extends OfficeBasePageComponent {
     super.onInitialisation();
 
     const currentTest$ = this.store$.pipe(select(getTests), select(getCurrentTest));
-    const testCategory$ = currentTest$.pipe(
-      select(getTestCategory),
-      map((testCategory) => testCategory as TestCategory)
-    );
 
     this.pageState = {
       ...this.commonPageState,
       schoolBike$: currentTest$.pipe(select(getVehicleDetails), select(getSchoolBike)),
-      testCategory$,
       displayModeOfTransport$: currentTest$.pipe(
         select(getTestOutcome),
         withLatestFrom(currentTest$.pipe(select(getTestSummary), select(getModeOfTransport))),
@@ -96,7 +88,7 @@ export class OfficeCatAMod2Page extends OfficeBasePageComponent {
       modeOfTransport$: currentTest$.pipe(select(getTestSummary), select(getModeOfTransport)),
       displayDrivingFaultComments$: currentTest$.pipe(
         select(getTestData),
-        withLatestFrom(testCategory$),
+        withLatestFrom(this.commonPageState.testCategory$),
         map(([data, category]) =>
           this.faultCountProvider.shouldDisplayDrivingFaultComments(data, category, OfficeCatAMod2Page.maxFaultCount)
         )

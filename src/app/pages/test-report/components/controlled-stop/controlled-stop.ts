@@ -1,8 +1,4 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
-import { Observable, Subscription, merge } from 'rxjs';
-import { map, takeUntil } from 'rxjs/operators';
-
-import { CategoryCode } from '@dvsa/mes-test-schema/categories/common';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { Store, select } from '@ngrx/store';
 import { TestDataByCategoryProvider } from '@providers/test-data-by-category/test-data-by-category';
@@ -17,6 +13,8 @@ import {
 } from '@store/tests/test-data/common/controlled-stop/controlled-stop.selectors';
 import { getTests } from '@store/tests/tests.reducer';
 import { getCurrentTest } from '@store/tests/tests.selector';
+import { Observable, Subscription, merge } from 'rxjs';
+import { map, takeUntil } from 'rxjs/operators';
 import { ToggleDangerousFaultMode, ToggleRemoveFaultMode, ToggleSeriousFaultMode } from '../../test-report.actions';
 import { getTestReportState } from '../../test-report.reducer';
 import { isDangerousMode, isRemoveFaultMode, isSeriousMode } from '../../test-report.selector';
@@ -36,7 +34,7 @@ interface ControlledStopComponentState {
 })
 export class ControlledStopComponent implements OnInit, OnDestroy {
   @Input()
-  testCategory: TestCategory | CategoryCode;
+  testCategory: TestCategory;
 
   componentState: ControlledStopComponentState;
   subscription: Subscription;
@@ -181,4 +179,12 @@ export class ControlledStopComponent implements OnInit, OnDestroy {
   hasSeriousFault = (): boolean => this.controlledStopOutcome === CompetencyOutcome.S;
 
   hasDangerousFault = (): boolean => this.controlledStopOutcome === CompetencyOutcome.D;
+
+  shouldDisplayEmergencyLabel() {
+    return [TestCategory.B, TestCategory.ADI2, TestCategory.H, TestCategory.F, TestCategory.G, TestCategory.K].includes(
+      this.testCategory
+    )
+      ? 'Emergency'
+      : 'Controlled';
+  }
 }
