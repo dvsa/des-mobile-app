@@ -1,12 +1,17 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { ContinueUnuploadedTest, UnuploadedTestsViewDidEnter } from '@pages/unuploaded-tests/unuploaded-tests.actions';
+import {
+  ContinueUnuploadedTest,
+  UnuploadedTestsReturnToDashboardPressed,
+  UnuploadedTestsViewDidEnter,
+} from '@pages/unuploaded-tests/unuploaded-tests.actions';
 import { AnalyticsProvider } from '@providers/analytics/analytics';
 import { AnalyticRecorded } from '@providers/analytics/analytics.actions';
 import {
   AnalyticsScreenNames,
   GoogleAnalyticsEvents,
   GoogleAnalyticsEventsTitles,
+  GoogleAnalyticsEventsValues,
 } from '@providers/analytics/analytics.model';
 import { of } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
@@ -25,6 +30,21 @@ export class UnuploadedTestsAnalyticsEffects {
         //GA4 Analytics
         this.analytics.setGACurrentPage(AnalyticsScreenNames.UN_UPLOADED);
 
+        return of(AnalyticRecorded());
+      })
+    )
+  );
+
+  unuploadedTestsReturnToDashboardPressed$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(UnuploadedTestsReturnToDashboardPressed),
+      switchMap(() => {
+        //GA4 Analytics
+        this.analytics.logGAEvent(
+          GoogleAnalyticsEvents.INCOMPLETE_TESTS,
+          GoogleAnalyticsEventsTitles.BUTTON_SELECTION,
+          GoogleAnalyticsEventsValues.RETURN_TO_DASHBOARD
+        );
         return of(AnalyticRecorded());
       })
     )

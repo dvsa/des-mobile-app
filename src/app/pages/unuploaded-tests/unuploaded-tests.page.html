@@ -3,6 +3,14 @@
     <ion-buttons id="unuploaded-burger-menu-btn" slot="start">
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
+    <ion-buttons slot="end">
+      <ion-button
+        class="white-text"
+        id="unuploaded-tests-return-to-dashboard-btn"
+        (click)="goToDashboard()">
+        Exit
+      </ion-button>
+    </ion-buttons>
     <ion-title id="unsubmitted-tests-page-title" role="heading" aria-level="1">Unsubmitted tests</ion-title>
   </ion-toolbar>
 </ion-header>

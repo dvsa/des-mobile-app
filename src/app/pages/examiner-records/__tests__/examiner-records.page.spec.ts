@@ -808,7 +808,6 @@ describe('ExaminerRecordsPage', () => {
 
   describe('goToDashboard', () => {
     it('should navigate back to the dashboard page', () => {
-      spyOn(component.router, 'navigate').and.callThrough();
       component.goToDashboard();
       expect(router.navigate).toHaveBeenCalledWith([DASHBOARD_PAGE], { replaceUrl: true });
     });
