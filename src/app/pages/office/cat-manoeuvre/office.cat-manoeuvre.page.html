@@ -203,6 +203,7 @@
 
       <fault-comment-card
         [formGroup]="form"
+        [testCategory]="pageState.testCategory$ | async"
         [faultComments]="pageState.dangerousFaults$ | async"
         [shouldRender]="(pageState.dangerousFaults$ | async)?.length > 0 && ((pageState.displayDangerousFault$ | async) || isDelegated)"
         [isDelegatedTest]="isDelegated"
@@ -215,6 +216,7 @@
 
       <fault-comment-card
         [formGroup]="form"
+        [testCategory]="pageState.testCategory$ | async"
         [faultComments]="pageState.seriousFaults$ | async"
         [shouldRender]="(pageState.seriousFaults$ | async)?.length > 0  && ((pageState.displaySeriousFault$ | async) || isDelegated)"
         [isDelegatedTest]="isDelegated"

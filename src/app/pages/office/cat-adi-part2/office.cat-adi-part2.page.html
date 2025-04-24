@@ -235,6 +235,7 @@
         [outcome]="pageState.testOutcome$ | async"
         faultType="dangerous"
         header="Dangerous faults"
+        [testCategory]="pageState.testCategory$ | async"
         (faultCommentsChange)="dangerousFaultCommentChanged($event)"
       >
       </fault-comment-card>
@@ -246,6 +247,7 @@
         [outcome]="pageState.testOutcome$ | async"
         faultType="serious"
         header="Serious faults"
+        [testCategory]="pageState.testCategory$ | async"
         (faultCommentsChange)="seriousFaultCommentChanged($event)"
       >
       </fault-comment-card>
@@ -253,6 +255,7 @@
       <fault-comment-card
         id="driving-fault-comment-card"
         [formGroup]="form"
+        [testCategory]="pageState.testCategory$ | async"
         [faultComments]="pageState.drivingFaults$ | async"
         [shouldRender]="(pageState.displayDrivingFaultComments$ | async) &&
                     (pageState.displayDrivingFault$ | async) &&
@@ -269,6 +272,7 @@
         *ngIf="!((pageState.displayDrivingFaultComments$ | async) && (pageState.displayDrivingFault$ | async) && (pageState.allowDrivingFaultComment$ | async)) && (pageState?.drivingFaults$ | async)?.length > 0"
         [label]="'Driving faults'"
         badgeLabel="Driving"
+        [testCategory]="pageState.testCategory$ | async"
         [faults]="(pageState.drivingFaults$ | async)"
       >
       </driving-faults>

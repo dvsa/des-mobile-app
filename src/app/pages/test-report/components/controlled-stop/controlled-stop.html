@@ -33,7 +33,7 @@
         class="driving-faults"
         [count]="faultCount()"
       ></driving-faults-badge>
-      <div id="controlled-stop-label">Controlled stop</div>
+      <div id="controlled-stop-label">{{ shouldDisplayEmergencyLabel() }} stop</div>
       <div class="fault-wrapper">
         <serious-fault-badge id="controlled-stop-serious-faults" [showBadge]="hasSeriousFault()"></serious-fault-badge>
         <dangerous-fault-badge

@@ -14,7 +14,6 @@ import {
 import { getActivityCodeOptions } from '@shared/constants/activity-code/activity-code.constants';
 import { CompetencyOutcome } from '@shared/models/competency-outcome';
 import { CommentSource, FaultSummary } from '@shared/models/fault-marking.model';
-import { getTestCategory } from '@store/tests/category/category.reducer';
 import { AddManoeuvreComment } from '@store/tests/test-data/cat-adi-part2/manoeuvres/manoeuvres.actions';
 import { getTestData } from '@store/tests/test-data/cat-adi-part2/test-data.cat-adi-part2.reducer';
 import {
@@ -95,8 +94,6 @@ export class OfficeCatADI2Page extends OfficeBasePageComponent implements OnInit
 
     const currentTest$ = this.store$.pipe(select(getTests), select(getCurrentTest));
 
-    const testCategory$ = currentTest$.pipe(select(getTestCategory));
-
     this.pageState = {
       ...this.commonPageState,
       displayDrivingFaultComments$: currentTest$.pipe(
@@ -149,7 +146,7 @@ export class OfficeCatADI2Page extends OfficeBasePageComponent implements OnInit
       ),
       adi2DrivingFaults$: currentTest$.pipe(
         select(getTestData),
-        withLatestFrom(testCategory$),
+        withLatestFrom(this.commonPageState.testCategory$),
         map(([data, category]) => this.faultSummaryProvider.getDrivingFaultsList(data, category as TestCategory, false))
       ),
       fuelEfficientDriving$: currentTest$.pipe(select(getTestData), select(getEco), select(getFuelEfficientDriving)),
@@ -158,21 +155,21 @@ export class OfficeCatADI2Page extends OfficeBasePageComponent implements OnInit
       displayFuelEfficient$: combineLatest([
         currentTest$.pipe(
           select(getTestData),
-          withLatestFrom(testCategory$),
+          withLatestFrom(this.commonPageState.testCategory$),
           map(([testData, category]) =>
             this.faultSummaryProvider.getSeriousFaultsList(testData, category as TestCategory)
           )
         ),
         currentTest$.pipe(
           select(getTestData),
-          withLatestFrom(testCategory$),
+          withLatestFrom(this.commonPageState.testCategory$),
           map(([testData, category]) =>
             this.faultSummaryProvider.getDangerousFaultsList(testData, category as TestCategory)
           )
         ),
         currentTest$.pipe(
           select(getTestData),
-          withLatestFrom(testCategory$),
+          withLatestFrom(this.commonPageState.testCategory$),
           map(([data, category]) =>
             this.faultSummaryProvider.getDrivingFaultsList(data, category as TestCategory, false)
           )
@@ -186,14 +183,14 @@ export class OfficeCatADI2Page extends OfficeBasePageComponent implements OnInit
       allowDrivingFaultComment$: combineLatest([
         currentTest$.pipe(
           select(getTestData),
-          withLatestFrom(testCategory$),
+          withLatestFrom(this.commonPageState.testCategory$),
           map(([testData, category]) =>
             this.faultSummaryProvider.getSeriousFaultsList(testData, category as TestCategory)
           )
         ),
         currentTest$.pipe(
           select(getTestData),
-          withLatestFrom(testCategory$),
+          withLatestFrom(this.commonPageState.testCategory$),
           map(([testData, category]) =>
             this.faultSummaryProvider.getDangerousFaultsList(testData, category as TestCategory)
           )

@@ -17,7 +17,6 @@ import {
 import { ActivityCodeModel, getActivityCodeOptions } from '@shared/constants/activity-code/activity-code.constants';
 import { CompetencyOutcome } from '@shared/models/competency-outcome';
 import { CommentSource, FaultSummary } from '@shared/models/fault-marking.model';
-import { getTestCategory } from '@store/tests/category/category.reducer';
 import { Language } from '@store/tests/communication-preferences/communication-preferences.model';
 import { getCommunicationPreference } from '@store/tests/communication-preferences/communication-preferences.reducer';
 import { getConductedLanguage } from '@store/tests/communication-preferences/communication-preferences.selector';
@@ -42,7 +41,6 @@ import { getVehicleDetails } from '@store/tests/vehicle-details/cat-c/vehicle-de
 import { getGearboxCategory } from '@store/tests/vehicle-details/vehicle-details.selector';
 
 interface CatCOfficePageState {
-  testCategory$: Observable<CategoryCode>;
   conductedLanguage$: Observable<string>;
   transmission$: Observable<GearboxCategory>;
   provisionalLicense$: Observable<boolean>;
@@ -86,10 +84,6 @@ export class OfficeCatCPage extends OfficeBasePageComponent implements OnInit {
 
     this.pageState = {
       ...this.commonPageState,
-      testCategory$: currentTest$.pipe(
-        select(getTestCategory),
-        map((result) => (this.testCategory = result))
-      ),
       conductedLanguage$: currentTest$.pipe(select(getCommunicationPreference), select(getConductedLanguage)),
       transmission$: currentTest$.pipe(select(getVehicleDetails), select(getGearboxCategory)),
       provisionalLicense$: currentTest$.pipe(select(getPassCompletion), map(isProvisionalLicenseProvided)),

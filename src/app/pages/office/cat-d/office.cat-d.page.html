@@ -254,6 +254,7 @@
 
       <fault-comment-card
         [formGroup]="form"
+        [testCategory]="pageState.testCategory$ | async"
         [faultComments]="pageState.dangerousFaults$ | async"
         [shouldRender]="(pageState.dangerousFaults$ | async)?.length > 0 && ((pageState.displayDangerousFault$ | async) || isDelegated)"
         [isDelegatedTest]="isDelegated"
@@ -266,6 +267,7 @@
 
       <fault-comment-card
         [formGroup]="form"
+        [testCategory]="pageState.testCategory$ | async"
         [faultComments]="pageState.seriousFaults$ | async"
         [shouldRender]="(pageState.seriousFaults$ | async)?.length > 0  && ((pageState.displaySeriousFault$ | async) || isDelegated)"
         [isDelegatedTest]="isDelegated"
@@ -279,6 +281,7 @@
       <fault-comment-card
         id="driving-fault-comment-card"
         [formGroup]="form"
+        [testCategory]="pageState.testCategory$ | async"
         [faultComments]="pageState.drivingFaults$ | async"
         [shouldRender]="((pageState.displayDrivingFaultComments$ | async) && (pageState.displayDrivingFault$ | async)) || (isDelegated && (pageState.drivingFaults$ | async)?.length > 0 )"
         [isDelegatedTest]="isDelegated"
@@ -295,6 +298,7 @@
         *ngIf="(!(pageState.displayDrivingFaultComments$ | async) && (pageState.drivingFaultCount$ | async) > 0 && pageState.displayDrivingFault$ | async) && !isDelegated"
         [label]="'Driving faults'"
         badgeLabel="Driving"
+        [testCategory]="pageState.testCategory$ | async"
         [faults]="(pageState.drivingFaults$ | async)"
       >
       </driving-faults>

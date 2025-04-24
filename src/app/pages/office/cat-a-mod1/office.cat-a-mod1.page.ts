@@ -65,17 +65,12 @@ export class OfficeCatAMod1Page extends OfficeBasePageComponent implements OnIni
 
     const currentTest$ = this.store$.pipe(select(getTests), select(getCurrentTest));
 
-    const testCategory$ = currentTest$.pipe(
-      select(getTestCategory),
-      map((testCategory) => testCategory as TestCategory)
-    );
-
     this.pageState = {
       ...this.commonPageState,
       etaFaults$: currentTest$.pipe(select(getTestData), select(getETA), select(getETAFaultText)),
       displayDrivingFaultComments$: currentTest$.pipe(
         select(getTestData),
-        withLatestFrom(testCategory$),
+        withLatestFrom(this.commonPageState.testCategory$),
         map(([data, category]) =>
           this.faultCountProvider.shouldDisplayDrivingFaultComments(data, category, OfficeCatAMod1Page.maxFaultCount)
         )

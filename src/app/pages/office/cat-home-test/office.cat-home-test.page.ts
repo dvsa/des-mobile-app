@@ -14,7 +14,6 @@ import {
 import { activityCodeModelList } from '@shared/constants/activity-code/activity-code.constants';
 import { CompetencyOutcome } from '@shared/models/competency-outcome';
 import { CommentSource, FaultSummary } from '@shared/models/fault-marking.model';
-import { getTestCategory } from '@store/tests/category/category.reducer';
 import { getTestData } from '@store/tests/test-data/cat-home/test-data.cat-f.reducer';
 import { getVehicleChecks } from '@store/tests/test-data/cat-home/test-data.cat-home.selector';
 import { AddShowMeTellMeComment } from '@store/tests/test-data/cat-home/vehicle-checks/vehicle-checks.cat-home.actions';
@@ -34,7 +33,6 @@ import { Observable, Subscription, merge } from 'rxjs';
 import { map, withLatestFrom } from 'rxjs/operators';
 
 interface CatHomeOfficePageState {
-  testCategory$: Observable<CategoryCode>;
   displayVehicleChecks$: Observable<boolean>;
   vehicleChecks$: Observable<QuestionResult[]>;
   displayDrivingFaultComments$: Observable<boolean>;
@@ -72,10 +70,6 @@ export class OfficeCatHomeTestPage extends OfficeBasePageComponent implements On
 
     this.pageState = {
       ...this.commonPageState,
-      testCategory$: currentTest$.pipe(
-        select(getTestCategory),
-        map((result) => (this.testCategory = result))
-      ),
       displayVehicleChecks$: currentTest$.pipe(
         select(getTestOutcome),
         withLatestFrom(currentTest$.pipe(select(getTestData))),
