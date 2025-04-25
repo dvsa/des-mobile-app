@@ -1,11 +1,13 @@
-<ion-row [class.mes-row-separator]="shouldHaveSeparator" [formGroup]="formGroup">
-  <ion-row>
+<ion-row class="mes-component-row" [class.mes-row-separator]="shouldHaveSeparator" [formGroup]="formGroup">
+  <ion-row class="width-100">
     <div class="validation-bar" [class.ng-invalid]="invalid"></div>
-    <ion-col size="4"></ion-col>
-    <ion-col class="spacing-padding ion-align-self-start" size="28">
+    <ion-col size="3"></ion-col>
+    <ion-col class="spacing-padding ion-align-self-start" size="29">
+      <ion-row class="spacing-row"></ion-row>
       <label>Alternative MOT evidence details</label>
     </ion-col>
     <ion-col size="58" class="spacing-padding ion-align-self-center ion-padding-start">
+      <ion-row class="spacing-row"></ion-row>
       <ion-row>
         <ion-col>
         <textarea
