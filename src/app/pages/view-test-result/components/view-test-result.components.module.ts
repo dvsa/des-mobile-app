@@ -4,6 +4,8 @@ import { ComponentsModule } from '@components/common/common-components.module';
 import { IonicModule } from '@ionic/angular';
 import { PipesModule } from '@shared/pipes/pipes.module';
 
+import { MotStatusDisplayTextComponent } from '@components/common/mot-status-display-text/mot-status-display-text.component';
+import { RegistrationWithPreviousMotTextComponent } from '@components/common/registration-with-previous-mot-text/registration-with-previous-mot-text.component';
 import { CandidateDetailsComponentsModule } from '@pages/candidate-details/components/candidate-details-components.module';
 import { OfficeComponentsModule } from '@pages/office/components/office.components.module';
 import { DebriefCardComponent } from '@pages/view-test-result/components/debrief-card/debrief-card';
@@ -53,6 +55,8 @@ import { ViewTestHeaderComponent } from './view-test-header/view-test-header';
     PipesModule,
     CandidateDetailsComponentsModule,
     OfficeComponentsModule,
+    RegistrationWithPreviousMotTextComponent,
+    MotStatusDisplayTextComponent,
   ],
   exports: [
     DataRowWithListComponent,

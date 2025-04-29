@@ -1,5 +1,5 @@
+import { MotStatusCodes } from '@dvsa/mes-mot-schema';
 import { VehicleDetails } from '@dvsa/mes-test-schema/categories/common';
-import { MotStatusCodes } from '@providers/mot-history-api/mot-interfaces';
 import {
   ClearGearboxCategory,
   DualControlsToggled,

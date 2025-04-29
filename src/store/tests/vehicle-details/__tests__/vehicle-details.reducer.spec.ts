@@ -1,4 +1,4 @@
-import { MotStatusCodes } from '@providers/mot-history-api/mot-interfaces';
+import { MotStatusCodes } from '@dvsa/mes-mot-schema';
 import {
   ClearGearboxCategory,
   GearboxCategoryChanged,

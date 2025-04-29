@@ -32,6 +32,7 @@ import { LogType } from '@shared/models/log.model';
 import { SaveLog } from '@store/logs/logs.actions';
 import { getCandidateName } from '@store/tests/journal-data/common/candidate/candidate.selector';
 import { getTestOutcomeText } from '@store/tests/tests.selector';
+import { getPreviousFilteredVRNs } from '@store/tests/vehicle-details/vehicle-details.selector';
 import { get } from 'lodash-es';
 import { Subscription, of } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
@@ -89,6 +90,16 @@ export class ViewTestResultPage extends BasePageComponent implements OnInit {
       .pipe(
         map((response: HttpResponse<string>): string => response.body),
         map((data) => (this.testResult = this.compressionProvider.extract<TestResultSchemasUnion>(data))),
+        tap((data) => {
+          //If there are previously searched reg numbers, filter out the current reg number and any duplicates
+          if (data?.vehicleDetails?.previouslySearchedRegNumbers) {
+            data.vehicleDetails.previouslySearchedRegNumbers = getPreviousFilteredVRNs(
+              data.vehicleDetails.previouslySearchedRegNumbers,
+              data.vehicleDetails.registrationNumber
+            );
+          }
+          return data;
+        }),
         tap(async () => this.handleLoadingUI(false)),
         catchError(async (err) => {
           this.store$.dispatch(

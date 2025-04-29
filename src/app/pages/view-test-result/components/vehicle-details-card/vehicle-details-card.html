@@ -18,57 +18,27 @@
 
       <data-row-custom
         [id]="'vehicle-registration-number'"
-        [centeredLabel]="(getPreviousFilteredVRNs().length == 0)"
-        [centredData]="(getPreviousFilteredVRNs().length == 0)"
+        [centeredLabel]="(previousVRNs.length == 0)"
+        [centredData]="(previousVRNs.length == 0)"
         [label]="'Vehicle registration number'"
       >
-        <ion-text id="current-vrn" class="mes-data">
-          {{ getRegistrationText() }}
-          <div *ngIf="(getPreviousFilteredVRNs().length > 0)">
-            <br/>
-          </div>
-        </ion-text>
-        <ion-accordion-group *ngIf="getPreviousFilteredVRNs().length > 0">
-          <ion-accordion
-            id="other-vehicles-checked-for-mot"
-            [toggleIcon]="'chevron-down'"
-            value="first"
-          >
-            <ion-item slot="header">
-              <label>{{ 'Other VRNs checked for MOT' }}</label>
-            </ion-item>
-            <div class="ion-padding mes-black" slot="content">
-              <ion-text *ngFor="let VRN of getPreviousFilteredVRNs(); let i = index" [id]="'previously-searched-vrn-'+i">{{ VRN }}<br/></ion-text>
-            </div>
-          </ion-accordion>
-        </ion-accordion-group>
+        <registration-with-previous-mot-text
+          [previouslySearchedRegNumbers]="previousVRNs"
+          [registrationNumber]="registrationNumber">
+        </registration-with-previous-mot-text>
       </data-row-custom>
 
-      <data-row *ngIf="data.make || data.model" [value]="data.make + ' ' + data.model" [label]="'Make and Model'">
+      <data-row *ngIf="data.make || data.model" [value]="data.make + (data.make ? ' ' : '') + data.model" [label]="'Make and Model'">
       </data-row>
 
       <data-row-custom
-        [shouldHaveSeperator]="data.motEvidenceProvided || vehicleDetails"
+        [shouldHaveSeperator]="data.motEvidenceProvided || !!vehicleDetails"
         [centredData]="true"
-        [label]="'MOT Status'">
-        <div class="ion-no-padding" *ngIf="!(data?.motStatus)">
-          <ion-text class="mes-data">{{getNoMOTDataText()}}</ion-text>
-        </div>
-        <div class="display-flex ion-no-padding width-100-percent" *ngIf="data?.motStatus">
-          <ion-col class="ion-align-items-center display-flex" size="10" *ngIf="isInvalidMOT()">
-            <img
-              src="assets/imgs/journal/exclamation-indicator.png"
-              alt="Attention, expired MOT"
-              class="exclamation"
-            />
-          </ion-col>
-          <ion-col class="ion-no-padding display-flex ion-align-items-center">
-            <ion-text class="mes-data">{{
-              getMotStatusText()
-              }}
-            </ion-text>
-          </ion-col>
-        </div>
+        [label]="'MOT status'">
+        <mot-status-display-text
+          [motStatus]="getMOTStatus"
+          [motTestExpiryDate]="motTestExpiryDate"
+        ></mot-status-display-text>
       </data-row-custom>
 
       <data-row

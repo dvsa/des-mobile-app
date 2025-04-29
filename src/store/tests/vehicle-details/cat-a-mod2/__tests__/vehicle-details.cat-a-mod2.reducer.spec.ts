@@ -1,4 +1,4 @@
-import { MotStatusCodes } from '@providers/mot-history-api/mot-interfaces';
+import { MotStatusCodes } from '@dvsa/mes-mot-schema';
 import { vehicleDetailsCatAMod2Reducer } from '@store/tests/vehicle-details/cat-a-mod2/vehicle-details.cat-a-mod2.reducer';
 import * as vehicleDetailsActions from '../../vehicle-details.actions';
 

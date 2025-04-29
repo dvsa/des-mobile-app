@@ -5,6 +5,7 @@ import { ComponentsModule } from '@components/common/common-components.module';
 import { DirectivesModule } from '@directives/directives.module';
 import { IonicModule } from '@ionic/angular';
 
+import { RegistrationWithPreviousMotTextComponent } from '@components/common/registration-with-previous-mot-text/registration-with-previous-mot-text.component';
 import { MotCardComponent } from '@pages/waiting-room-to-car/components/mot-components/mot-card/mot-card.component';
 import { MotNoEvidenceConfirmationComponent } from '@pages/waiting-room-to-car/components/mot-components/mot-no-evidence-confirmation/mot-no-evidence-confirmation';
 import { PracticeModeMOTModal } from '@pages/waiting-room-to-car/components/mot-components/practice-mode-mot-modal/practice-mode-mot-modal.component';
@@ -54,6 +55,7 @@ import { VehicleRegistrationComponent } from './vehicle-registration/vehicle-reg
     ReactiveFormsModule,
     IonicModule,
     PipesModule,
+    RegistrationWithPreviousMotTextComponent,
   ],
   exports: [
     EyesightTestComponent,

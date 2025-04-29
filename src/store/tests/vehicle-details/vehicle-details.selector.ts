@@ -1,19 +1,39 @@
+import { MotStatusCodes } from '@dvsa/mes-mot-schema';
 import { VehicleDetails } from '@dvsa/mes-test-schema/categories/common';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { isAnyOf } from '@shared/helpers/simplifiers';
 
 export const getRegistrationNumber = (vehicleDetails: VehicleDetails) => vehicleDetails.registrationNumber;
 export const getGearboxCategory = (vehicleDetails: VehicleDetails) => vehicleDetails.gearboxCategory;
-export const getMotStatus = (vehicleDetails: VehicleDetails) => vehicleDetails.motStatus;
+export const getMotStatus = (vehicleDetails: VehicleDetails) => vehicleDetails.motStatus as MotStatusCodes;
 export const getMotEvidenceProvided = (vehicleDetails: VehicleDetails) => vehicleDetails.motEvidenceProvided;
 export const getMotEvidenceDescription = (vehicleDetails: VehicleDetails) => vehicleDetails.motEvidence;
 export const getVehicleMake = (vehicleDetails: VehicleDetails) => vehicleDetails.make;
 export const getVehicleModel = (vehicleDetails: VehicleDetails) => vehicleDetails.model;
 export const getTestExpiryDate = (vehicleDetails: VehicleDetails) => vehicleDetails.testExpiryDate;
 export const getSearchedVRNList = (vehicleDetails: VehicleDetails) => vehicleDetails.previouslySearchedRegNumbers;
+export const getSearchedVRNListNoDuplicates = (vehicleDetails: VehicleDetails) =>
+  getPreviousFilteredVRNs(vehicleDetails.previouslySearchedRegNumbers, vehicleDetails.registrationNumber);
 export const getMotEvidence = (vehicleDetails: VehicleDetails) => vehicleDetails.motEvidence;
 export const isManual = (vehicleDetails: VehicleDetails) => vehicleDetails.gearboxCategory === 'Manual' || false;
 export const isAutomatic = (vehicleDetails: VehicleDetails) => vehicleDetails.gearboxCategory === 'Automatic' || false;
+
+/**
+ * Get a list of previously searched VRNs that are not your final without duplicates
+ */
+export function getPreviousFilteredVRNs(previousVRNs: string[], registrationNumber: string): string[] {
+  const filteredVRN: string[] = [];
+
+  if (previousVRNs) {
+    previousVRNs.forEach((value) => {
+      if (!filteredVRN.includes(value) && value !== registrationNumber) {
+        filteredVRN.push(value);
+      }
+    });
+  }
+
+  return filteredVRN;
+}
 export const showVrnButton = (category: TestCategory): boolean =>
   isAnyOf(category, [
     TestCategory.ADI2,

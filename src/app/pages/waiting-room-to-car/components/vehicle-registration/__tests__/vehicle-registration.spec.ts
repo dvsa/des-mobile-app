@@ -1,10 +1,10 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { AppModule } from '@app/app.module';
+import { MotStatusCodes } from '@dvsa/mes-mot-schema';
 import { IonicModule } from '@ionic/angular';
 import { Store } from '@ngrx/store';
 import { MotHistoryWithStatus } from '@providers/mot-history-api/mot-history-api.service';
-import { MotStatusCodes } from '@providers/mot-history-api/mot-interfaces';
 import { ConnectionStatus } from '@providers/network-state/network-state';
 import { HttpStatusCodes } from '@shared/models/http-status-codes';
 import { of } from 'rxjs';

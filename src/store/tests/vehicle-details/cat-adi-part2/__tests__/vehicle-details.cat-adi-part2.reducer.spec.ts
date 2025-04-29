@@ -1,5 +1,5 @@
+import { MotStatusCodes } from '@dvsa/mes-mot-schema';
 import { CatADI2UniqueTypes } from '@dvsa/mes-test-schema/categories/ADI2';
-import { MotStatusCodes } from '@providers/mot-history-api/mot-interfaces';
 import {
   ClearGearboxCategory,
   DualControlsToggled,

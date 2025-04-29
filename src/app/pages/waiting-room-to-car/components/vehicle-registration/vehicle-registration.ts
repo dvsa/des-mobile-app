@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
 import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { MotHistory, MotStatusCodes } from '@dvsa/mes-mot-schema';
 import { ModalController } from '@ionic/angular';
 import {
   ModalEvent,
@@ -11,7 +12,6 @@ import {
 } from '@pages/waiting-room-to-car/components/mot-components/practice-mode-mot-modal/practice-mode-mot-modal.component';
 import { AccessibilityService } from '@providers/accessibility/accessibility.service';
 import { MotHistoryApiService, MotHistoryWithStatus } from '@providers/mot-history-api/mot-history-api.service';
-import { MotHistory, MotStatusCodes } from '@providers/mot-history-api/mot-interfaces';
 import { ConnectionStatus, NetworkStateProvider } from '@providers/network-state/network-state';
 import {
   FieldValidators,

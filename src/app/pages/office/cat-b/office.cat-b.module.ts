@@ -5,6 +5,7 @@ import { ComponentsModule } from '@components/common/common-components.module';
 import { IonicModule } from '@ionic/angular';
 import { EffectsModule } from '@ngrx/effects';
 import { OfficeCatBPageRoutingModule } from '@pages/office/cat-b/office.cat-b-routing.module';
+import { OfficeRegistrationAndMotComponent } from '@pages/office/components/office-registration-and-mot/office-registration-and-mot.component';
 import { OfficeComponentsModule } from '@pages/office/components/office.components.module';
 import { ReasonForEnteringTeamsComponent } from '@pages/office/components/reason-for-entering-teams/reason-for-entering-teams';
 import { WaitingRoomToCarComponentsModule } from '@pages/waiting-room-to-car/components/waiting-room-to-car.components.module';
@@ -25,6 +26,7 @@ import { OfficeCatBPage } from './office.cat-b.page';
     CommonModule,
     WaitingRoomToCarComponentsModule,
     ReasonForEnteringTeamsComponent,
+    OfficeRegistrationAndMotComponent,
   ],
   providers: [FaultSummaryProvider],
 })

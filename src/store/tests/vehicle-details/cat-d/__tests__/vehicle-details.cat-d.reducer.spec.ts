@@ -1,5 +1,5 @@
+import { MotStatusCodes } from '@dvsa/mes-mot-schema';
 import { CatDUniqueTypes } from '@dvsa/mes-test-schema/categories/D';
-import { MotStatusCodes } from '@providers/mot-history-api/mot-interfaces';
 import { vehicleDetailsCatDReducer } from '@store/tests/vehicle-details/cat-d/vehicle-details.cat-d.reducer';
 import * as vehicleDetailsActions from '../../vehicle-details.actions';
 
