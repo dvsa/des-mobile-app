@@ -6,6 +6,7 @@ import { IonicModule } from '@ionic/angular';
 import { ComponentsModule } from '@components/common/common-components.module';
 import { TestFinalisationComponentsModule } from '@components/test-finalisation/test-finalisation-components.module';
 import { EffectsModule } from '@ngrx/effects';
+import { OfficeRegistrationAndMotComponent } from '@pages/office/components/office-registration-and-mot/office-registration-and-mot.component';
 import { OfficeComponentsModule } from '@pages/office/components/office.components.module';
 import { ReasonForEnteringTeamsComponent } from '@pages/office/components/reason-for-entering-teams/reason-for-entering-teams';
 import { OfficeAnalyticsEffects } from '@pages/office/office.analytics.effects';
@@ -30,6 +31,7 @@ import { OfficeCatCPage } from './office.cat-c.page';
     TestFinalisationComponentsModule,
     WaitingRoomToCarComponentsModule,
     ReasonForEnteringTeamsComponent,
+    OfficeRegistrationAndMotComponent,
   ],
   providers: [FaultSummaryProvider],
 })

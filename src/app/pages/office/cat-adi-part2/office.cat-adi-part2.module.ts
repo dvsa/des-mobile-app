@@ -13,6 +13,7 @@ import { EcoCaptureReasonComponent } from '@pages/office/cat-adi-part2/component
 import { EcoRelatedFaultComponent } from '@pages/office/cat-adi-part2/components/eco-related-fault/eco-related-fault';
 import { FuelEfficientDriving } from '@pages/office/cat-adi-part2/components/fuel-efficient-driving/fuel-efficient-driving';
 import { ShowMeQuestionsCatADI2Component } from '@pages/office/cat-adi-part2/components/show-me-questions/show-me-questions';
+import { OfficeRegistrationAndMotComponent } from '@pages/office/components/office-registration-and-mot/office-registration-and-mot.component';
 import { ReasonForEnteringTeamsComponent } from '@pages/office/components/reason-for-entering-teams/reason-for-entering-teams';
 import { OfficeAnalyticsEffects } from '@pages/office/office.analytics.effects';
 import { OfficeEffects } from '@pages/office/office.effects';
@@ -43,6 +44,7 @@ import { OfficeCatADI2Page } from './office.cat-adi-part2.page';
     WaitingRoomToCarComponentsModule,
     DirectivesModule,
     ReasonForEnteringTeamsComponent,
+    OfficeRegistrationAndMotComponent,
   ],
   providers: [FaultSummaryProvider],
 })
