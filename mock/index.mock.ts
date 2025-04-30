@@ -12,5 +12,4 @@ export * from '@mocks/ionic-mocks/menu-controller.mock';
 export * from '@mocks/ionic-mocks/modal-controller.mock';
 export * from '@mocks/ionic-mocks/nav-ctrl.mock';
 export * from '@mocks/ionic-mocks/platform-mock';
-export * from '@mocks/ionic-mocks/secure-storage.mock';
 export * from '@mocks/ionic-mocks/toast-controller.mock';

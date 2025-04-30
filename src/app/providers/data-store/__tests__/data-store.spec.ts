@@ -1,6 +1,4 @@
 import { TestBed } from '@angular/core/testing';
-import { SecureStorageObject } from '@awesome-cordova-plugins/secure-storage';
-import { SecureStorage } from '@awesome-cordova-plugins/secure-storage/ngx';
 import { Platform } from '@ionic/angular';
 import { Storage } from '@ionic/storage-angular';
 import { PlatformMock } from '@mocks/ionic-mocks/platform-mock';
@@ -19,15 +17,7 @@ describe('DataStoreProvider', () => {
   let provider: DataStoreProvider;
   let store$: Store<StoreModel>;
   let platform: Platform;
-  let secureStorage: SecureStorage;
   let storage: Storage;
-  const secureStorageMock: jasmine.SpyObj<SecureStorage> = jasmine.createSpyObj('SecureStorage', {
-    create: Promise.resolve({} as SecureStorageObject),
-  });
-  const mockStorage = {
-    [LocalStorageKey.CONFIG]: 'this is the data we want',
-    otherKey: 'this is other random data',
-  };
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -42,10 +32,6 @@ describe('DataStoreProvider', () => {
           useClass: PlatformMock,
         },
         {
-          provide: SecureStorage,
-          useValue: secureStorageMock,
-        },
-        {
           provide: Storage,
           useValue: StorageMock,
         },
@@ -56,45 +42,9 @@ describe('DataStoreProvider', () => {
     provider = TestBed.inject(DataStoreProvider);
     store$ = TestBed.inject(Store);
     platform = TestBed.inject(Platform);
-    secureStorage = TestBed.inject(SecureStorage);
     storage = TestBed.inject(Storage);
     spyOn(store$, 'dispatch');
     spyOn(platform, 'is').and.returnValue(true);
-    secureStorage.create = jasmine.createSpy().and.returnValue(Promise.resolve({} as SecureStorageObject));
-  });
-
-  describe('createContainer', () => {
-    it('should create container named DES', async () => {
-      spyOn(provider, 'setSecureContainer');
-      await provider.createContainer();
-      expect(provider.setSecureContainer).toHaveBeenCalledWith({} as SecureStorageObject);
-      expect(secureStorage.create).toHaveBeenCalledWith('DES');
-    });
-    it('should not call set container on thrown error', async () => {
-      secureStorage.create = jasmine.createSpy().and.returnValue(Promise.reject('Failed to create container'));
-      spyOn(provider, 'setSecureContainer');
-
-      try {
-        await provider.createContainer();
-      } catch (err) {
-        expect(provider.setSecureContainer).not.toHaveBeenCalled();
-      }
-    });
-  });
-
-  describe('setSecureContainer', () => {
-    it('should set secureContainer', () => {
-      provider.secureContainer = {} as SecureStorageObject;
-      provider.setSecureContainer(null);
-      expect(provider.secureContainer).toEqual(null);
-    });
-  });
-
-  describe('getSecureContainer', () => {
-    it('should return secureContainer', () => {
-      provider.secureContainer = {} as SecureStorageObject;
-      expect(provider.getSecureContainer()).toEqual({} as SecureStorageObject);
-    });
   });
 
   describe('getKeys', () => {
@@ -184,56 +134,6 @@ describe('DataStoreProvider', () => {
           } as unknown as Log,
         })
       );
-    });
-  });
-
-  describe('migrateKey', () => {
-    beforeEach(() => {
-      storage.set = jasmine.createSpy().and.returnValue(Promise.resolve());
-
-      provider.secureContainer = {
-        get(key: string): Promise<string> {
-          return mockStorage[key];
-        },
-        remove(key: string): Promise<string> {
-          return;
-        },
-      } as SecureStorageObject;
-    });
-
-    it('should call through to storage.set when they key is found', async () => {
-      await provider.migrateKey(LocalStorageKey.CONFIG);
-      expect(storage.set).toHaveBeenCalledWith(LocalStorageKey.CONFIG, 'this is the data we want');
-    });
-
-    it('should not call set when no key exists in secure container', async () => {
-      await provider.migrateKey(LocalStorageKey.LOGS);
-      expect(storage.set).not.toHaveBeenCalled();
-    });
-  });
-  describe('migrateAllKeys', () => {
-    beforeEach(() => {
-      spyOn(provider, 'migrateKey').and.returnValue(Promise.resolve());
-    });
-
-    it('should not call migrate when no secureContainer exists', async () => {
-      provider.secureContainer = null;
-
-      await provider.migrateAllKeys();
-
-      expect(provider.migrateKey).not.toHaveBeenCalled();
-    });
-
-    it('should call migrate for each key found', async () => {
-      provider.secureContainer = {
-        keys(): Promise<string[]> {
-          return Promise.resolve(['key1', 'key2']);
-        },
-      } as SecureStorageObject;
-
-      await provider.migrateAllKeys();
-
-      expect(provider.migrateKey).toHaveBeenCalledTimes(2);
     });
   });
 });

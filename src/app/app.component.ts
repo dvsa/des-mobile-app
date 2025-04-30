@@ -164,12 +164,7 @@ export class AppComponent extends LogoutBasePageComponent implements OnInit {
   async initialisePersistentStorage(): Promise<void> {
     if (this.isIos()) {
       try {
-        // if already been done, no need to create container again or run the migrate method
-        if (await this.dataStore.hasStorageBeenMigrated()) return;
-        // if not done, create as normal
-        await this.dataStore.createContainer();
-        // once the container exists, if there's any data in the old storage, migrate it to the new one
-        await this.dataStore.migrateAllKeys();
+        await this.dataStore.initialiseStorage();
         return await Promise.resolve();
       } catch (err) {
         return Promise.reject(err);

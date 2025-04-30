@@ -8,7 +8,6 @@ import { IonicStorageModule } from '@ionic/storage-angular';
 
 import { CommonModule } from '@angular/common';
 import { Network } from '@awesome-cordova-plugins/network/ngx';
-import { SecureStorage } from '@awesome-cordova-plugins/secure-storage/ngx';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { EffectsModule } from '@ngrx/effects';
 import { ActionReducer, ActionReducerMap, MetaReducer, StoreModule } from '@ngrx/store';
@@ -72,6 +71,7 @@ import { LoadingProvider } from '@providers/loader/loader';
 import { StoreModel } from '@shared/models/store.model';
 import { ExaminerRecordsStoreModule } from '@store/examiner-records/examiner-records.module';
 import { examinerRecordsReducer } from '@store/examiner-records/examiner-records.reducer';
+import CordovaSQLiteDriver from 'localforage-cordovasqlitedriver';
 import { get, set } from 'lodash-es';
 import { RemoteDevToolsProxy } from '../../ngrx-devtool-proxy/remote-devtools-proxy';
 import { IonicGestureConfig } from '../gestures/ionic-gesture-config';
@@ -102,6 +102,7 @@ const reducers: ActionReducerMap<unknown> = {
 const metaReducers: MetaReducer<unknown>[] = [];
 const enableDevTools = environment && (environment as EnvironmentFile).enableDevTools;
 const enableRehydrationPlugin = environment && (environment as EnvironmentFile).enableRehydrationPlugin;
+const storageDriver = CordovaSQLiteDriver._driver;
 
 // Register our remote devtools if we're on-device and not in a browser and dev tools enabled
 if (!get(window, 'devToolsExtension') && !get(window, '__REDUX_DEVTOOLS_EXTENSION__') && enableDevTools) {
@@ -184,7 +185,6 @@ if (enableRehydrationPlugin) {
     AppInfoProvider,
     LoadingProvider,
     DateTimeProvider,
-    SecureStorage,
     IsDebug,
     DataStoreProvider,
     Network,

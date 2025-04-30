@@ -15,3 +15,5 @@ export class StorageMock {
 
   set = jasmine.createSpy('set').and.resolveTo();
 }
+
+export const createSpyObj = jasmine.createSpyObj('StorageService', ['set', 'get', 'remove', 'clear']);
