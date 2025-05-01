@@ -25,7 +25,7 @@ describe('PracticeModeMOTModal', () => {
     it('should initialize formControl and add it to formGroup on ngOnInit', () => {
       component.ngOnInit();
       expect(component.formControl).toBeTruthy();
-      expect(component.formGroup.contains('motPracticeOutcome')).toBeTrue();
+      expect(component.form.contains('motPracticeOutcome')).toBeTrue();
     });
 
     it('should dismiss modal with formControl value when onConfirm is called and form is valid', async () => {

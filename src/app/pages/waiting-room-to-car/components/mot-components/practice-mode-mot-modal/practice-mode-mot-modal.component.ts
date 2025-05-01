@@ -15,17 +15,15 @@ export enum PracticeModeMOTType {
   styleUrls: ['./practice-mode-mot-modal.component.scss'],
 })
 export class PracticeModeMOTModal implements OnInit {
+  form: UntypedFormGroup = new UntypedFormGroup({});
   formControl: UntypedFormControl;
-  formGroup: UntypedFormGroup = new UntypedFormGroup({});
 
   constructor(public modalCtrl: ModalController) {}
 
   ngOnInit(): void {
     if (!this.formControl) {
       this.formControl = new UntypedFormControl('', [Validators.required]);
-      this.formGroup.addControl('motPracticeOutcome', this.formControl);
-      console.log(this.formControl);
-      console.log(this.formGroup);
+      this.form.addControl('motPracticeOutcome', this.formControl);
     }
   }
 
