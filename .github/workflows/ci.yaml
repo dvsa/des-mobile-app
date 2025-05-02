@@ -53,6 +53,8 @@ jobs:
 
   ci-checks:
     runs-on: MACOS-ARM64
+    env:
+      GEM_HOME: "~/.gem/des"
     steps:
       - name: 📨 Checkout
         uses: actions/checkout@v4
@@ -85,10 +87,8 @@ jobs:
       - name: ➕ Install dependencies
         run: npm ci
 
-      - name: 📝 Configure Ruby Gems
-        run: |
-          echo "PATH=$HOME/.gem/bin:$HOME/.rbenv/shims:/opt/homebrew/bin/:$PATH" >> $GITHUB_ENV
-          echo "GEM_HOME=$HOME/.gem" >> $GITHUB_ENV
+      - name: 🚀 Setup Paths
+        run: echo "/opt/homebrew/bin:/opt/homebrew/sbin:$HOME/.rbenv/shims:${{ env.GEM_HOME }}/bin" >> $GITHUB_PATH
 
       - name: ⚒️ Build project
         run: npm run build:ci
