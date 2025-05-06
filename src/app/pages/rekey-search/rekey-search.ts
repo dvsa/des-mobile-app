@@ -25,6 +25,7 @@ import { ExaminerRole } from '@providers/app-config/constants/examiner-role.cons
 import { NetworkStateProvider } from '@providers/network-state/network-state';
 import { OrientationMonitorProvider } from '@providers/orientation-monitor/orientation-monitor.provider';
 import { BasePageComponent } from '@shared/classes/base-page';
+import { selectEmployeeId } from '@store/app-info/app-info.selectors';
 
 interface RekeySearchPageState {
   isLoading$: Observable<boolean>;
@@ -33,6 +34,7 @@ interface RekeySearchPageState {
   rekeySearchErr$: Observable<RekeySearchError | HttpErrorResponse>;
   isOffline$: Observable<boolean>;
   isBookedLessThanHalfAnHourLate$: Observable<boolean>;
+  employeeId$: Observable<string>;
 }
 
 @Component({
@@ -67,6 +69,7 @@ export class RekeySearchPage extends BasePageComponent implements OnInit {
       rekeySearchErr$: rekeySearch$.pipe(map(getRekeySearchError)),
       isBookedLessThanHalfAnHourLate$: rekeySearch$.pipe(map(getIsHalfAnHourLate)),
       isOffline$: this.networkStateProvider.isOffline$,
+      employeeId$: this.store$.select(selectEmployeeId),
     };
 
     this.isLDTM = this.appConfig.getAppConfig()?.role === ExaminerRole.LDTM;
@@ -111,5 +114,20 @@ export class RekeySearchPage extends BasePageComponent implements OnInit {
 
   disableSearch(applicationReference: string, staffNumber: string, isLDTM: boolean): boolean {
     return applicationReference === '' || (!isLDTM && staffNumber === '');
+  }
+
+  /**
+   * Apply a cut-off period of 30mins to any test that is conducted by a different examiner the listed booked examiner
+   * @param isTestTimePastCutOff
+   * @param usersStaffNumber
+   * @param bookingsStaffNumber
+   */
+  blockTestFromBeingRekeyed(
+    isTestTimePastCutOff: boolean,
+    usersStaffNumber: string,
+    bookingsStaffNumber: string
+  ): boolean {
+    if (bookingsStaffNumber === usersStaffNumber) return false;
+    return isTestTimePastCutOff;
   }
 }
