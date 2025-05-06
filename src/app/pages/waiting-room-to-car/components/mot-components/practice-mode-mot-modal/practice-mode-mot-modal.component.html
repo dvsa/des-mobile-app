@@ -1,4 +1,4 @@
-<ion-card [formGroup]="formGroup" class="card-width modal-alert">
+<ion-card [formGroup]="form" class="card-width modal-alert">
   <ion-row>
     <ion-col size="3"></ion-col>
     <ion-col>
@@ -13,6 +13,7 @@
         </ion-col>
       </ion-row>
       <ion-row>
+        <ion-col size="8"></ion-col>
         <ion-col>
           <input
             type="radio"
@@ -20,13 +21,13 @@
             name="motPracticeOutcome"
             id="valid-mot"
             class="gds-radio-button"
-            [class.ng-invalid]="invalid"
             [value]="PracticeModeMOTType.PASS"
           />
           <label for="valid-mot" class="radio-label" id="valid-mot-label">Valid MOT</label>
         </ion-col>
       </ion-row>
       <ion-row>
+        <ion-col size="8"></ion-col>
         <ion-col>
           <input
             type="radio"
@@ -34,13 +35,13 @@
             name="motPracticeOutcome"
             id="invalid-mot"
             class="gds-radio-button"
-            [class.ng-invalid]="invalid"
             [value]="PracticeModeMOTType.FAILED"
           />
           <label for="invalid-mot" class="radio-label" id="invalid-mot-label">Invalid MOT</label>
         </ion-col>
       </ion-row>
       <ion-row>
+        <ion-col size="8"></ion-col>
         <ion-col>
           <input
             type="radio"
@@ -48,7 +49,6 @@
             name="motPracticeOutcome"
             id="unknown-mot"
             class="gds-radio-button"
-            [class.ng-invalid]="invalid"
             [value]="PracticeModeMOTType.NO_DETAILS"
           />
           <label for="unknown-mot" class="radio-label" id="unknown-mot-label">Unable to determine MOT status</label>
