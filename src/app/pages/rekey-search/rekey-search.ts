@@ -127,9 +127,6 @@ export class RekeySearchPage extends BasePageComponent implements OnInit {
     usersStaffNumber: string,
     bookingsStaffNumber: string
   ): boolean {
-    console.log(
-      `isTestTimePastCutOff: ${isTestTimePastCutOff}, usersStaffNumber: ${usersStaffNumber}, bookingsStaffNumber: ${bookingsStaffNumber}`
-    );
     if (bookingsStaffNumber === usersStaffNumber) return false;
     return isTestTimePastCutOff;
   }
