@@ -122,4 +122,31 @@ describe('RekeySearchPage', () => {
       expect(component.disableSearch('12345', '67890', component.isLDTM)).toBeFalse();
     });
   });
+
+  describe('blockTestFromBeingRekeyed', () => {
+    it('returns false if bookingsStaffNumber matches usersStaffNumber', () => {
+      const result = component.blockTestFromBeingRekeyed(true, '12345', '12345');
+      expect(result).toBeFalse();
+    });
+
+    it('returns true if bookingsStaffNumber does not match usersStaffNumber and isTestTimePastCutOff is true', () => {
+      const result = component.blockTestFromBeingRekeyed(true, '12345', '67890');
+      expect(result).toBeTrue();
+    });
+
+    it('returns false if bookingsStaffNumber does not match usersStaffNumber and isTestTimePastCutOff is false', () => {
+      const result = component.blockTestFromBeingRekeyed(false, '12345', '67890');
+      expect(result).toBeFalse();
+    });
+
+    it('handles empty usersStaffNumber and bookingsStaffNumber gracefully', () => {
+      const result = component.blockTestFromBeingRekeyed(true, '', '');
+      expect(result).toBeFalse();
+    });
+
+    it('handles null usersStaffNumber and bookingsStaffNumber gracefully', () => {
+      const result = component.blockTestFromBeingRekeyed(true, null, null);
+      expect(result).toBeFalse();
+    });
+  });
 });
