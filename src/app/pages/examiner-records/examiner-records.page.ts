@@ -134,7 +134,7 @@ export class ExaminerRecordsPage implements OnInit {
     costCode: null,
   };
   public categoryDisplay: string;
-  public currentCategory: string;
+  public currentCategory = '';
   accordionOpen = false;
   displayScrollBanner = false;
   categorySelectPristine = true;
@@ -507,11 +507,13 @@ export class ExaminerRecordsPage implements OnInit {
     if (!this.categoryFilterOptions.includes(this.categorySubject$.value)) {
       //find most common category and set it as the default
       const mostUsed: ExaminerRecordData<TestCategory> = this.setDefault(categories);
-
+      console.log('most used', mostUsed);
       if (mostUsed) {
-        this.categoryPlaceholder = mostUsed.item;
-        this.handleCategoryFilter(mostUsed.item);
+        this.categoryPlaceholder = mostUsed?.item;
+        this.handleCategoryFilter(mostUsed?.item);
         this.categorySelectPristine = true;
+      } else {
+        this.handleCategoryFilter(null);
       }
     } else {
       this.changeEligibleTests();
@@ -709,15 +711,15 @@ export class ExaminerRecordsPage implements OnInit {
    * @param {boolean} [ionSelectTriggered=false] - Indicates if the selection was triggered by the user.
    */
   handleCategoryFilter(event: TestCategory, ionSelectTriggered = false): void {
+    console.log('handleCategoryFilter', event);
     if (ionSelectTriggered) {
       this.categorySelectPristine = false;
     }
-    if (event && this.categorySubject$.value !== event) {
+    if (this.categorySubject$.value !== event) {
       this.categoryDisplay = `Test category: ${event}`;
-      this.currentCategory = event;
+      this.currentCategory = event ?? '';
       this.categorySubject$.next(event ?? null);
       this.changeEligibleTests();
-
       this.store$.dispatch(TestCategoryChanged(event));
     }
   }
