@@ -63,6 +63,8 @@ jobs:
 
   ci-checks:
     runs-on: mito-2
+    env:
+      GEM_HOME: "~/.gem/des"
     needs: [ setup ]
     steps:
       - name: ⚙️ Setup Node.js ${{ needs.setup.outputs.node-version }}
@@ -72,6 +74,9 @@ jobs:
 
       - name: ➕ Install dependencies
         run: npm ci
+
+      - name: 🚀 Setup Paths
+        run: echo "/opt/homebrew/bin:/opt/homebrew/sbin:$HOME/.rbenv/shims:${{ env.GEM_HOME }}/bin" >> $GITHUB_PATH
 
       - name: ⚒️ Build project
         run: npm run build:ci
