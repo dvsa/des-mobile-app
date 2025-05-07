@@ -326,10 +326,9 @@ describe('ExaminerRecordsPage', () => {
     });
 
     it('should set categorySelectPristine to false if categorySubject$ has value', async () => {
-      component.categorySubject$.next(TestCategory.B);
-
+      component.categorySelectPristine = true;
+      spyOn(component.categorySubject$, 'getValue').and.returnValue(TestCategory.B);
       await component.ngOnInit();
-
       expect(component.categorySelectPristine).toBeFalse();
     });
 

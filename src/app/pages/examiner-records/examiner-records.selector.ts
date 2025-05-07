@@ -268,10 +268,8 @@ export const getCategories = (
  * Returns the total number of conducted tests of the selected category at the selected location within
  * the selected time frame
  */
-export const getStartedTestCount = (startedTests: ExaminerRecordModel[]): number => {
-  console.log('getting started ', startedTests ? startedTests.length : 0);
-  return startedTests ? startedTests.length : 0;
-};
+export const getStartedTestCount = (startedTests: ExaminerRecordModel[]): number =>
+  startedTests ? startedTests.length : 0;
 /**
  * Returns the total number of conducted tests of the selected category at the selected location within
  * the selected time frame excluding eyesight failure tests

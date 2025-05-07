@@ -175,10 +175,10 @@ export class ExaminerRecordsPage implements OnInit {
     }
     //Set default date
     this.handleDateFilter({ detail: { value: this.defaultDate } } as CustomEvent);
-    if (this.categorySubject$.value) {
+    if (this.categorySubject$.getValue()) {
       this.categorySelectPristine = false;
     }
-    if (this.locationSubject$.value) {
+    if (this.locationSubject$.getValue()) {
       this.locationSelectPristine = false;
     }
 
@@ -507,7 +507,6 @@ export class ExaminerRecordsPage implements OnInit {
     if (!this.categoryFilterOptions.includes(this.categorySubject$.value)) {
       //find most common category and set it as the default
       const mostUsed: ExaminerRecordData<TestCategory> = this.setDefault(categories);
-      console.log('most used', mostUsed);
       if (mostUsed) {
         this.categoryPlaceholder = mostUsed?.item;
         this.handleCategoryFilter(mostUsed?.item);
@@ -711,7 +710,6 @@ export class ExaminerRecordsPage implements OnInit {
    * @param {boolean} [ionSelectTriggered=false] - Indicates if the selection was triggered by the user.
    */
   handleCategoryFilter(event: TestCategory, ionSelectTriggered = false): void {
-    console.log('handleCategoryFilter', event);
     if (ionSelectTriggered) {
       this.categorySelectPristine = false;
     }
