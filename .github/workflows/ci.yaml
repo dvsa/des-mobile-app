@@ -17,21 +17,54 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  setup:
-    runs-on: mito-2
-    outputs:
-      node-version: ${{ steps.nvm.outputs.NVMRC }}
+  audit:
+    runs-on: MACOS-ARM64
     steps:
       - name: 📨 Checkout
         uses: actions/checkout@v4
 
       - name: 🔍 Read .nvmrc
         id: nvm
-        run: echo "NVMRC=$(cat .nvmrc)" >> $GITHUB_OUTPUT
+        run: echo "node-version=$(cat .nvmrc)" >> $GITHUB_OUTPUT
 
       - name: 🔧 Create .npmrc
         run: |
+          echo "//npm.pkg.github.com/:_authToken=$DES_ACCESS_TOKEN" >> ~/.npmrc
 
+          # Use npm registry for @dvsa/biome-config
+          echo "@dvsa/biome-config:registry=https://registry.npmjs.org/" >> .npmrc
+
+          # Use GitHub Packages registry for all other @dvsa scoped packages
+          echo "@dvsa:registry=https://npm.pkg.github.com" >> .npmrc
+
+          echo "@ionic-enterprise:registry=https://registry.ionicframework.com/" >> .npmrc
+          echo "//registry.ionicframework.com/:_authToken=$DES_IONIC_KEY" >> .npmrc
+
+      - name: ⚙️ Setup Node.js ${{ steps.nvm.outputs.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ steps.nvm.outputs.node-version }}
+
+      - name: ➕ Install dependencies
+        run: npm ci
+
+      - name: 🕵️‍♀️ Audit production dependencies
+        run: npm audit --omit=dev --audit-level=high
+
+  ci-checks:
+    runs-on: MACOS-ARM64
+    env:
+      GEM_HOME: "~/.gem/des"
+    steps:
+      - name: 📨 Checkout
+        uses: actions/checkout@v4
+
+      - name: 🔍 Read .nvmrc
+        id: nvm
+        run: echo "node-version=$(cat .nvmrc)" >> $GITHUB_OUTPUT
+
+      - name: 🔧 Create .npmrc
+        run: |
           echo "//npm.pkg.github.com/:_authToken=$DES_ACCESS_TOKEN" >> ~/.npmrc
 
           # Use npm registry for @dvsa/biome-config
@@ -46,31 +79,10 @@ jobs:
       - name: 🔧 Create ionic.config.json
         run: echo "$DES_IONIC_CONFIG_JSON" >> ionic.config.json
 
-  audit:
-    runs-on: mito-2
-    needs: [ setup ]
-    steps:
-      - name: ⚙️ Setup Node.js ${{ needs.setup.outputs.node-version }}
+      - name: ⚙️ Setup Node.js ${{ steps.nvm.outputs.node-version }}
         uses: actions/setup-node@v4
         with:
-          node-version: ${{ needs.setup.outputs.node-version }}
-
-      - name: ➕ Install dependencies
-        run: npm ci
-
-      - name: 🕵️‍♀️ Audit production dependencies
-        run: npm audit --omit=dev --audit-level=high
-
-  ci-checks:
-    runs-on: mito-2
-    env:
-      GEM_HOME: "~/.gem/des"
-    needs: [ setup ]
-    steps:
-      - name: ⚙️ Setup Node.js ${{ needs.setup.outputs.node-version }}
-        uses: actions/setup-node@v4
-        with:
-          node-version: ${{ needs.setup.outputs.node-version }}
+          node-version: ${{ steps.nvm.outputs.node-version }}
 
       - name: ➕ Install dependencies
         run: npm ci
