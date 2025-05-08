@@ -133,7 +133,6 @@ export class ExaminerRecordsPage implements OnInit {
     centreId: null,
     costCode: null,
   };
-  public categoryDisplay: string;
   public currentCategory = '';
   accordionOpen = false;
   displayScrollBanner = false;
@@ -685,12 +684,15 @@ export class ExaminerRecordsPage implements OnInit {
       this.locationSelectPristine = false;
     }
 
-    if (event && event.centreId !== this.locationFilter.centreId) {
+    if (event.centreId !== this.locationFilter.centreId) {
       this.locationFilter = event;
-      this.locationSubject$.next(event.centreId ?? null);
+      this.locationSubject$.next(event?.centreId ?? null);
       this.currentTestCentre = event;
+      this.changeEligibleTests();
 
-      this.store$.dispatch(LocationChanged(event));
+      if (event) {
+        this.store$.dispatch(LocationChanged(event));
+      }
     }
   }
 
@@ -700,7 +702,7 @@ export class ExaminerRecordsPage implements OnInit {
    *
    * This method performs the following actions:
    * 1. Sets `categorySelectPristine` to false if the selection was triggered by the user.
-   * 2. Updates the `categoryDisplay` and `currentCategory` with the selected category if
+   * 2. Updates the `currentCategory` with the selected category if
    * it is different from the current one.
    * 3. Sends the selected category to the `categorySubject$` behavior subject.
    * 4. Calls `changeEligibleTests` to update the eligible tests based on the new category.
@@ -714,11 +716,12 @@ export class ExaminerRecordsPage implements OnInit {
       this.categorySelectPristine = false;
     }
     if (this.categorySubject$.value !== event) {
-      this.categoryDisplay = `Test category: ${event}`;
       this.currentCategory = event ?? '';
       this.categorySubject$.next(event ?? null);
       this.changeEligibleTests();
-      this.store$.dispatch(TestCategoryChanged(event));
+      if (event) {
+        this.store$.dispatch(TestCategoryChanged(event));
+      }
     }
   }
 

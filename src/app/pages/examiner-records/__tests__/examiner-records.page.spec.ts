@@ -742,7 +742,6 @@ describe('ExaminerRecordsPage', () => {
   describe('handleCategoryFilter', () => {
     it('should set categoryDisplay to "Test category: B" if the passed value is B', () => {
       component.handleCategoryFilter(TestCategory.B, true);
-      expect(component.categoryDisplay).toEqual('Test category: B');
       expect(component.categorySelectPristine).toEqual(false);
     });
     it('should set currentCategory to the passed value', () => {
