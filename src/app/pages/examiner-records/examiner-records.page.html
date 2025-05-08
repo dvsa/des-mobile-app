@@ -17,8 +17,8 @@
     <label role="alert" id="unauth-text">Unable to access all data. Some date ranges are not available.</label>
   </div>
   <ion-grid
-    class="background-colour ion-padding-bottom position-fixed mes-padding-right mes-padding-left"
-    *ngIf="displayScrollBanner && ((pageState.locationList$ | async).length > 0)">
+    class="background-colour width-100-percent ion-padding-bottom position-fixed mes-padding-right mes-padding-left"
+    *ngIf="displayScrollBanner">
     <examiner-records-label-text
       [testCount]="pageState.testCount$ | async"
       [currentCategory]="currentCategory"
@@ -148,7 +148,7 @@
       <label [for]="'chart-toggle-input'"></label>
     </ion-col>
   </ion-row>
-  <ion-grid class="mes-padding-right mes-padding-left" *ngIf="((pageState.locationList$ | async).length > 0)">
+  <ion-grid class="mes-padding-right mes-padding-left">
     <examiner-records-label-text
       [testCount]="pageState.testCount$ | async"
       [currentCategory]="currentCategory"

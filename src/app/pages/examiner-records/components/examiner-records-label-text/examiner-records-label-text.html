@@ -1,12 +1,15 @@
-<ion-row class="ion-padding-top">
+<ion-row class="display-flex ion-padding-top">
   <ion-col size="70">
     <ion-text class="mes-data">
-      Displaying <strong>{{ testCount }}</strong> Category <strong>{{ currentCategory }}</strong>
-      test<ng-container *ngIf="testCount > 1">s</ng-container>, from
-      <strong>{{ startDateFilter }}</strong> to
-      <strong>{{ endDateFilter }}</strong> at
-      <strong>{{ centreName }}</strong>
+      Displaying <strong>{{ testCount }}</strong>
     </ion-text>
+    <ion-text *ngIf="currentCategory" class="mes-data"> Category <strong>{{ currentCategory }}</strong></ion-text>
+    <ion-text class="mes-data">
+      test<ng-container *ngIf="testCount != 1">s</ng-container>, from
+      <strong>{{ startDateFilter }}</strong> to
+      <strong>{{ endDateFilter }}</strong>
+    </ion-text>
+    <ion-text *ngIf="centreName" class="mes-data"> at <strong>{{ centreName }}</strong></ion-text>
   </ion-col>
   <ion-col size="26" class="display-flex ion-align-items-center ion-justify-content-end">
     <ion-button id="examiner-records-learn-more-btn-header"
