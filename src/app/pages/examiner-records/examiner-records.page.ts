@@ -133,8 +133,7 @@ export class ExaminerRecordsPage implements OnInit {
     centreId: null,
     costCode: null,
   };
-  public categoryDisplay: string;
-  public currentCategory: string;
+  public currentCategory = '';
   accordionOpen = false;
   displayScrollBanner = false;
   categorySelectPristine = true;
@@ -175,10 +174,10 @@ export class ExaminerRecordsPage implements OnInit {
     }
     //Set default date
     this.handleDateFilter({ detail: { value: this.defaultDate } } as CustomEvent);
-    if (this.categorySubject$.value) {
+    if (this.categorySubject$.getValue()) {
       this.categorySelectPristine = false;
     }
-    if (this.locationSubject$.value) {
+    if (this.locationSubject$.getValue()) {
       this.locationSelectPristine = false;
     }
 
@@ -507,11 +506,12 @@ export class ExaminerRecordsPage implements OnInit {
     if (!this.categoryFilterOptions.includes(this.categorySubject$.value)) {
       //find most common category and set it as the default
       const mostUsed: ExaminerRecordData<TestCategory> = this.setDefault(categories);
-
       if (mostUsed) {
-        this.categoryPlaceholder = mostUsed.item;
-        this.handleCategoryFilter(mostUsed.item);
+        this.categoryPlaceholder = mostUsed?.item;
+        this.handleCategoryFilter(mostUsed?.item);
         this.categorySelectPristine = true;
+      } else {
+        this.handleCategoryFilter(null);
       }
     } else {
       this.changeEligibleTests();
@@ -684,12 +684,15 @@ export class ExaminerRecordsPage implements OnInit {
       this.locationSelectPristine = false;
     }
 
-    if (event && event.centreId !== this.locationFilter.centreId) {
+    if (event.centreId !== this.locationFilter.centreId) {
       this.locationFilter = event;
-      this.locationSubject$.next(event.centreId ?? null);
+      this.locationSubject$.next(event?.centreId ?? null);
       this.currentTestCentre = event;
+      this.changeEligibleTests();
 
-      this.store$.dispatch(LocationChanged(event));
+      if (event) {
+        this.store$.dispatch(LocationChanged(event));
+      }
     }
   }
 
@@ -699,7 +702,7 @@ export class ExaminerRecordsPage implements OnInit {
    *
    * This method performs the following actions:
    * 1. Sets `categorySelectPristine` to false if the selection was triggered by the user.
-   * 2. Updates the `categoryDisplay` and `currentCategory` with the selected category if
+   * 2. Updates the `currentCategory` with the selected category if
    * it is different from the current one.
    * 3. Sends the selected category to the `categorySubject$` behavior subject.
    * 4. Calls `changeEligibleTests` to update the eligible tests based on the new category.
@@ -712,13 +715,13 @@ export class ExaminerRecordsPage implements OnInit {
     if (ionSelectTriggered) {
       this.categorySelectPristine = false;
     }
-    if (event && this.categorySubject$.value !== event) {
-      this.categoryDisplay = `Test category: ${event}`;
-      this.currentCategory = event;
+    if (this.categorySubject$.value !== event) {
+      this.currentCategory = event ?? '';
       this.categorySubject$.next(event ?? null);
       this.changeEligibleTests();
-
-      this.store$.dispatch(TestCategoryChanged(event));
+      if (event) {
+        this.store$.dispatch(TestCategoryChanged(event));
+      }
     }
   }
 

@@ -326,10 +326,9 @@ describe('ExaminerRecordsPage', () => {
     });
 
     it('should set categorySelectPristine to false if categorySubject$ has value', async () => {
-      component.categorySubject$.next(TestCategory.B);
-
+      component.categorySelectPristine = true;
+      spyOn(component.categorySubject$, 'getValue').and.returnValue(TestCategory.B);
       await component.ngOnInit();
-
       expect(component.categorySelectPristine).toBeFalse();
     });
 
@@ -743,7 +742,6 @@ describe('ExaminerRecordsPage', () => {
   describe('handleCategoryFilter', () => {
     it('should set categoryDisplay to "Test category: B" if the passed value is B', () => {
       component.handleCategoryFilter(TestCategory.B, true);
-      expect(component.categoryDisplay).toEqual('Test category: B');
       expect(component.categorySelectPristine).toEqual(false);
     });
     it('should set currentCategory to the passed value', () => {

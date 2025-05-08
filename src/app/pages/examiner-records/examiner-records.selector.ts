@@ -270,7 +270,6 @@ export const getCategories = (
  */
 export const getStartedTestCount = (startedTests: ExaminerRecordModel[]): number =>
   startedTests ? startedTests.length : 0;
-
 /**
  * Returns the total number of conducted tests of the selected category at the selected location within
  * the selected time frame excluding eyesight failure tests
