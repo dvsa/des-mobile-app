@@ -3,11 +3,25 @@ default_platform(:ios)
 before_all do
   clean(dirs: './builds ./simulator ./certs ./codes')
   xcode_select("/Applications/Xcode.app")
+
+  s3_path = ENV["ENVIRONMENT"]
+
+  if ENV["ENVIRONMENT"] == 'release'
+    version = get_version_number(xcodeproj: "./ios/App/App.xcodeproj", target: "App")
+    s3_path = "#{s3_path}/#{version}"
+  elsif ENV["ENVIRONMENT"] == 'feature'
+    s3_path = "#{s3_path}/#{ENV["GH_REF_NAME"]}/#{ENV["RUN_ID"]}"
+  elsif ENV["ENVIRONMENT"] == 'develop'
+    s3_path = "#{s3_path}/#{ENV["RUN_ID"]}"
+  end
+
+  ENV["S3_PATH"] = "#{s3_path}"
+  ENV["VERSION"] = "#{version}"
 end
 
 desc "Build the Simulator File for the Automation Suite"
 lane :simulator do
-  filename = "des-#{ENV["ENVIRONMENT"]}-#{ENV["BRANCH"]}-#{ENV["RUN_ID"]}.app.zip"
+  filename = "des-#{ENV["ENVIRONMENT"]}-#{ENV["GH_REF_NAME"]}-#{ENV["RUN_ID"]}.app.zip"
   sh("echo ARTEFACT_FILENAME=#{filename} >> $GITHUB_ENV")
 
   icon_banner(label: 'QA')
@@ -32,23 +46,20 @@ lane :simulator do
   sh("echo '✅ Fastlane Simulator Built' >> $GITHUB_STEP_SUMMARY")
 
   if ENV["IS_LOCAL"] == 'NO'
-    path = ENV["ENVIRONMENT"]
-    path = "feature/#{ENV["BRANCH"]}" if path == "feature"
-
     aws_s3(
       access_key: ENV["AWS_ACCESS_KEY_ID"],
       secret_access_key: ENV["AWS_SECRET_ACCESS_KEY"],
       bucket: ENV["DES_MOBILE_ARTEFACTS_BUCKET"],
-      path: "github-actions/#{path}/#{ENV["RUN_ID"]}/",
+      path: "github-actions/#{ENV["S3_PATH"]}/",
       html_in_folder: false,
       upload_metadata: false,
       region: ENV["AWS_REGION"],
       ipa: "./fastlane/simulator/#{filename}"
     )
 
-    file = "simulator/$BRANCH-#{ENV["RUN_ID"]}-APP.txt"
+    file = "simulator/$GH_REF_NAME-#{ENV["RUN_ID"]}-APP.txt"
     sh("echo $S3_IPA_OUTPUT_PATH > #{file}")
-    sh("aws s3 cp #{file} s3://#{ENV["DES_MOBILE_ARTEFACTS_BUCKET"]}/github-actions/files/#{path}/")
+    sh("aws s3 cp #{file} s3://#{ENV["DES_MOBILE_ARTEFACTS_BUCKET"]}/github-actions/files/#{ENV["ENVIRONMENT"]}/")
   else
     puts "LOCAL RUN NO S3 UPLOAD"
   end
@@ -57,16 +68,19 @@ lane :simulator do
 end
 
 desc "Build the Application for Deployment"
-lane :release_build do
+lane :build do
   begin
-    version = get_version_number(xcodeproj: "./ios/App/App.xcodeproj", target: "App")
-    path = ENV["ENVIRONMENT"]
-    path = "feature/#{ENV["BRANCH"]}" if path == "feature"
     commit = last_git_commit
     short_hash = commit[:abbreviated_commit_hash]
-    filename = "DrivingExaminerService-#{version}-#{ENV["RUN_ID"]}-#{short_hash}"
+    filename = "des-#{ENV["ENVIRONMENT"]}-#{ENV["GH_REF_NAME"]}-#{ENV["RUN_ID"]}"
 
+    if ENV["ENVIRONMENT"] == 'release'
+      filename = "DrivingExaminerService-#{ENV["VERSION"]}-#{ENV["RUN_ID"]}-#{short_hash}"
+    end
+
+    sh("echo S3_PATH=#{ENV["S3_PATH"]} >> $GITHUB_ENV")
     sh("echo ARTEFACT_FILENAME=#{filename}.ipa >> $GITHUB_ENV")
+    sh("echo INSTALL_URL=#{filename}.html >> $GITHUB_ENV")
 
     create_keychain(
       name: ENV["KEYCHAIN_NAME"],
@@ -93,17 +107,15 @@ lane :release_build do
         access_key: ENV["AWS_ACCESS_KEY_ID"],
         secret_access_key: ENV["AWS_SECRET_ACCESS_KEY"],
         bucket: ENV["DES_MOBILE_ARTEFACTS_BUCKET"],
-        path: "github-actions/#{path}/#{version}/",
+        path: "github-actions/#{ENV["S3_PATH"]}/",
         html_in_folder: true,
         html_file_name: "#{filename}.html",
+        html_in_root: false,
         region: ENV["AWS_REGION"],
         ipa: "./fastlane/builds/#{filename}.ipa",
         dsym: "./fastlane/builds/#{filename}.app.dSYM.zip"
       )
 
-      file = "builds/#{version}.#{ENV["RUN_ID"]}-#{short_hash}-IPA.txt"
-      sh("echo $S3_IPA_OUTPUT_PATH > #{file}")
-      sh("aws s3 cp #{file} s3://#{ENV["DES_MOBILE_ARTEFACTS_BUCKET"]}/github-actions/files/#{path}/")
     else
       puts "LOCAL RUN NO S3 UPLOAD"
     end

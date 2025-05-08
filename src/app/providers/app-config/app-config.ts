@@ -12,7 +12,12 @@ import { map, timeout } from 'rxjs/operators';
 import { MdmConfig } from '@dvsa/mes-config-schema/mdm-config';
 import { RemoteConfig } from '@dvsa/mes-config-schema/remote-config';
 import { environment } from '@environments/environment';
-import { EnvironmentFile, LocalEnvironmentFile, TestersEnvironmentFile } from '@environments/models/environment.model';
+import {
+  EnvironmentFile,
+  LocalEnvironmentFile,
+  QrEnvironmentFile,
+  TestersEnvironmentFile,
+} from '@environments/models/environment.model';
 import { getEnumKeyByValue } from '@shared/helpers/enum-keys';
 import { LogType } from '@shared/models/log.model';
 import { StoreModel } from '@shared/models/store.model';
@@ -363,7 +368,11 @@ export class AppConfigProvider {
   getDebugMode = async (): Promise<void> => {
     const isDebug = await this.isDebug.getIsDebug();
 
-    this.isDebugMode = (environment as unknown as TestersEnvironmentFile)?.isTest ? true : isDebug;
+    this.isDebugMode =
+      (environment as unknown as TestersEnvironmentFile)?.isTest ||
+      (environment as unknown as QrEnvironmentFile)?.allowQR
+        ? true
+        : isDebug;
 
     if (this.isDebugMode) {
       console.log('Detected that app is running in debug mode');
