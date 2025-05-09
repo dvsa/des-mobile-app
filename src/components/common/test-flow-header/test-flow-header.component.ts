@@ -173,7 +173,7 @@ export class TestFlowHeaderComponent {
 
   async handleTeamsOpenFailure(openURLResult: OpenURLResult) {
     await this.openDESUnlockedModal();
-    this.store$.dispatch(ExitSamError(ExitSAMErrorMessages.TEAMS_OPEN, openURLResult));
+    this.store$.dispatch(ExitSamError(ExitSAMErrorMessages.COULD_NOT_EXIT_TO_TEAMS, openURLResult));
   }
 
   /**

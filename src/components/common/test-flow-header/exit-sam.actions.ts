@@ -4,7 +4,7 @@ import { createAction } from '@ngrx/store';
 export enum ExitSAMErrorMessages {
   DISABLE_SAM = 'Could not disable single app mode',
   TEAMS_NOT_FOUND = 'Could not find teams',
-  TEAMS_OPEN = 'Could not exit to teams',
+  COULD_NOT_EXIT_TO_TEAMS = 'Could not exit to teams',
 }
 
 export const ExitSamError = createAction(

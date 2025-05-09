@@ -26,7 +26,7 @@ import { of, switchMap } from 'rxjs';
 import { concatMap, filter, withLatestFrom } from 'rxjs/operators';
 
 @Injectable()
-export class ExitSingleAppModeEffects {
+export class ExitSingleAppModeAnalyticsEffects {
   constructor(
     private analytics: AnalyticsProvider,
     private actions$: Actions,
