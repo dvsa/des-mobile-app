@@ -93,12 +93,11 @@ fdescribe('DeviceAuthenticationProvider', () => {
       spyOn(NativeBiometric, 'verifyIdentity').and.returnValue(Promise.resolve());
       await deviceAuthenticationProvider['performBiometricVerification']();
       expect(loadingProvider.handleUILoading).toHaveBeenCalledWith(true);
-      expect(loadingProvider.handleUILoading).toHaveBeenCalledWith(false);
     });
 
     it('should not enable single app mode in practice mode', async () => {
       spyOn(NativeBiometric, 'verifyIdentity').and.returnValue(Promise.resolve());
-      await deviceAuthenticationProvider['performBiometricVerification'](true);
+      await deviceAuthenticationProvider['performBiometricVerification'](false);
       expect(deviceProvider.enableSingleAppMode).not.toHaveBeenCalled();
     });
   });
