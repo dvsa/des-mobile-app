@@ -2,17 +2,17 @@ import { TestBed } from '@angular/core/testing';
 import { Platform } from '@ionic/angular';
 import { Store } from '@ngrx/store';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
+import { AppConfigProvider } from '@providers/app-config/app-config';
+import { ExaminerRole } from '@providers/app-config/constants/examiner-role.constants';
 import { DeviceProvider } from '@providers/device/device';
 import { LoadingProvider } from '@providers/loader/loader';
 import { LogHelper } from '@providers/logs/logs-helper';
 import { LogType } from '@shared/models/log.model';
 import { SaveLog } from '@store/logs/logs.actions';
 import { NativeBiometric } from 'capacitor-native-biometric';
-import { AppConfigProvider } from '@providers/app-config/app-config';
-import { ExaminerRole } from '@providers/app-config/constants/examiner-role.constants';
 import { DeviceAuthenticationProvider } from '../device-authentication';
 
-fdescribe('DeviceAuthenticationProvider', () => {
+describe('DeviceAuthenticationProvider', () => {
   let deviceAuthenticationProvider: DeviceAuthenticationProvider;
   let platform: Platform;
   let store: MockStore;
@@ -27,7 +27,10 @@ fdescribe('DeviceAuthenticationProvider', () => {
         provideMockStore(),
         { provide: Platform, useValue: { ready: jasmine.createSpy(), is: jasmine.createSpy() } },
         { provide: AppConfigProvider, useValue: { getAppConfig: jasmine.createSpy() } },
-        { provide: DeviceProvider, useValue: { disableSingleAppMode: jasmine.createSpy(), enableSingleAppMode: jasmine.createSpy() } },
+        {
+          provide: DeviceProvider,
+          useValue: { disableSingleAppMode: jasmine.createSpy(), enableSingleAppMode: jasmine.createSpy() },
+        },
         { provide: LoadingProvider, useValue: { handleUILoading: jasmine.createSpy() } },
         { provide: LogHelper, useValue: { createLog: jasmine.createSpy() } },
       ],
@@ -62,7 +65,7 @@ fdescribe('DeviceAuthenticationProvider', () => {
       (platform.is as jasmine.Spy).and.returnValue(true);
       (deviceAuthenticationProvider.appConfig.getAppConfig as jasmine.Spy).and.returnValue({ role: 'DE' });
       await deviceAuthenticationProvider.triggerLockScreen();
-      expect(deviceAuthenticationProvider['performBiometricVerification']).toHaveBeenCalled();
+      expect(deviceAuthenticationProvider.performBiometricVerification).toHaveBeenCalled();
     });
 
     it('should log an error if an exception occurs', async () => {
@@ -78,26 +81,38 @@ fdescribe('DeviceAuthenticationProvider', () => {
   });
 
   describe('performBiometricVerification', () => {
-    it('should disable and enable single app mode around biometric verification', async () => {
+    it('should disable single app mode and enable it again if not in practice mode', async () => {
+      spyOn(deviceProvider, 'disableSingleAppMode').and.returnValue(Promise.resolve(true));
+      spyOn(deviceProvider, 'enableSingleAppMode').and.returnValue(Promise.resolve(true));
+      spyOn(loadingProvider, 'handleUILoading').and.returnValue(Promise.resolve());
       spyOn(NativeBiometric, 'verifyIdentity').and.returnValue(Promise.resolve());
-      await deviceAuthenticationProvider.performBiometricVerification();
+
+      await deviceAuthenticationProvider.performBiometricVerification(false);
+
       expect(deviceProvider.disableSingleAppMode).toHaveBeenCalled();
       expect(NativeBiometric.verifyIdentity).toHaveBeenCalledWith({
         reason: 'Please authenticate',
         useFallback: true,
       });
-      expect(deviceProvider.enableSingleAppMode).toHaveBeenCalled();
-    });
-
-    it('should handle UI loading during biometric verification', async () => {
-      spyOn(NativeBiometric, 'verifyIdentity').and.returnValue(Promise.resolve());
-      await deviceAuthenticationProvider['performBiometricVerification']();
       expect(loadingProvider.handleUILoading).toHaveBeenCalledWith(true);
+      expect(deviceProvider.enableSingleAppMode).toHaveBeenCalled();
+      expect(loadingProvider.handleUILoading).toHaveBeenCalledWith(false);
     });
 
-    it('should not enable single app mode in practice mode', async () => {
+    it('should not enable single app mode if in practice mode', async () => {
+      spyOn(deviceProvider, 'disableSingleAppMode').and.returnValue(Promise.resolve(true));
+      spyOn(deviceProvider, 'enableSingleAppMode').and.returnValue(Promise.resolve(true));
+      spyOn(loadingProvider, 'handleUILoading').and.returnValue(Promise.resolve());
       spyOn(NativeBiometric, 'verifyIdentity').and.returnValue(Promise.resolve());
-      await deviceAuthenticationProvider['performBiometricVerification'](false);
+
+      await deviceAuthenticationProvider.performBiometricVerification(true);
+
+      expect(deviceProvider.disableSingleAppMode).toHaveBeenCalled();
+      expect(NativeBiometric.verifyIdentity).toHaveBeenCalledWith({
+        reason: 'Please authenticate',
+        useFallback: true,
+      });
+      expect(loadingProvider.handleUILoading).not.toHaveBeenCalled();
       expect(deviceProvider.enableSingleAppMode).not.toHaveBeenCalled();
     });
   });
@@ -124,7 +139,7 @@ fdescribe('DeviceAuthenticationProvider', () => {
             timestamp: mockTimestamp, // Use the matcher here for assertions
             drivingExaminerId: '12345',
           },
-        }),
+        })
       );
     });
   });

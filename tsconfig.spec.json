@@ -22,7 +22,8 @@
       "@capawesome/*": ["mock/@capawesome/*"],
       "@dvsa/capacitor-plugin-asam": ["mock/@capacitor/asam"],
       "stream": ["node_modules/stream-browserify"],
-      "zlib": ["node_modules/browserify-zlib"]
+      "zlib": ["node_modules/browserify-zlib"],
+      "capacitor-native-biometric": ["mock/capacitor-native-biometric"]
     }
   },
   "files": [
