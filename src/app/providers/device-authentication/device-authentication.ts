@@ -39,7 +39,7 @@ export class DeviceAuthenticationProvider {
     return !this.platform.is('cordova') || this.appConfig.getAppConfig()?.role === ExaminerRole.DLG;
   };
 
-  private performBiometricVerification = async (isPracticeMode = false): Promise<void> => {
+  performBiometricVerification = async (isPracticeMode = false): Promise<void> => {
     try {
       await this.deviceProvider.disableSingleAppMode();
 

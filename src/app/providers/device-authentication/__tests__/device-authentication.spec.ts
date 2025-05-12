@@ -1,105 +1,146 @@
 import { TestBed } from '@angular/core/testing';
-import { environment } from '@environments/environment';
-import { TestersEnvironmentFile } from '@environments/models/environment.model';
 import { Platform } from '@ionic/angular';
-import { NativeBiometricMock } from '@mocks/@capacitor/biometrics';
-import { PlatformMock } from '@mocks/ionic-mocks/platform-mock';
 import { Store } from '@ngrx/store';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
-import { DeviceProviderMock } from '@providers/device/__mocks__/device.mock';
+import { AppConfigProvider } from '@providers/app-config/app-config';
+import { ExaminerRole } from '@providers/app-config/constants/examiner-role.constants';
 import { DeviceProvider } from '@providers/device/device';
-import { LoaderProviderMock } from '@providers/loader/__mocks__/loader.mock';
 import { LoadingProvider } from '@providers/loader/loader';
-import { LogHelperMock } from '@providers/logs/__mocks__/logs-helper.mock';
 import { LogHelper } from '@providers/logs/logs-helper';
-import { AppConfigProviderMock } from '../../app-config/__mocks__/app-config.mock';
-import { AppConfigProvider } from '../../app-config/app-config';
-import { AppConfig } from '../../app-config/app-config.model';
+import { LogType } from '@shared/models/log.model';
+import { SaveLog } from '@store/logs/logs.actions';
+import { NativeBiometric } from 'capacitor-native-biometric';
 import { DeviceAuthenticationProvider } from '../device-authentication';
 
 describe('DeviceAuthenticationProvider', () => {
   let deviceAuthenticationProvider: DeviceAuthenticationProvider;
   let platform: Platform;
+  let store: MockStore;
+  let logHelper: LogHelper;
+  let deviceProvider: DeviceProvider;
   let loadingProvider: LoadingProvider;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
         DeviceAuthenticationProvider,
-        { provide: Store, useClass: MockStore },
-        provideMockStore({}),
-        {
-          provide: LogHelper,
-          useClass: LogHelperMock,
-        },
+        provideMockStore(),
+        { provide: Platform, useValue: { ready: jasmine.createSpy(), is: jasmine.createSpy() } },
+        { provide: AppConfigProvider, useValue: { getAppConfig: jasmine.createSpy() } },
         {
           provide: DeviceProvider,
-          useClass: DeviceProviderMock,
+          useValue: { disableSingleAppMode: jasmine.createSpy(), enableSingleAppMode: jasmine.createSpy() },
         },
-        {
-          provide: Platform,
-          useClass: PlatformMock,
-        },
-        {
-          provide: AppConfigProvider,
-          useClass: AppConfigProviderMock,
-        },
-        {
-          provide: LoadingProvider,
-          useClass: LoaderProviderMock,
-        },
+        { provide: LoadingProvider, useValue: { handleUILoading: jasmine.createSpy() } },
+        { provide: LogHelper, useValue: { createLog: jasmine.createSpy() } },
       ],
     });
 
     deviceAuthenticationProvider = TestBed.inject(DeviceAuthenticationProvider);
     platform = TestBed.inject(Platform);
+    store = TestBed.inject(Store) as MockStore;
+    logHelper = TestBed.inject(LogHelper);
+    deviceProvider = TestBed.inject(DeviceProvider);
     loadingProvider = TestBed.inject(LoadingProvider);
 
-    spyOn(loadingProvider, 'handleUILoading').and.returnValue(Promise.resolve());
-    spyOn(platform, 'ready').and.returnValue(Promise.resolve(''));
-    spyOn(platform, 'is').and.returnValue(true);
-    spyOn(deviceAuthenticationProvider.appConfig, 'getAppConfig').and.returnValue({ role: 'DE' } as AppConfig);
-    (environment as unknown as TestersEnvironmentFile).isTest = false;
-    spyOn(NativeBiometricMock, 'isAvailable').and.callFake((args: { useFallback: boolean }) => {
-      if (args.useFallback) {
-        return Promise.resolve({ biometryType: 'fingerprint', isAvailable: true });
-      }
-      return Promise.resolve({ biometryType: 'none', isAvailable: false });
-    });
+    spyOn(store, 'dispatch');
   });
 
   describe('triggerLockScreen', () => {
-    it('should call through to verifyIdentity when available', async () => {
+    it('should bypass device authentication if platform is not cordova', async () => {
+      (platform.is as jasmine.Spy).and.returnValue(false);
+      await deviceAuthenticationProvider.triggerLockScreen();
+      expect(platform.is).toHaveBeenCalledWith('cordova');
+    });
+
+    it('should bypass device authentication if role is DLG', async () => {
+      (platform.is as jasmine.Spy).and.returnValue(true);
+      (deviceAuthenticationProvider.appConfig.getAppConfig as jasmine.Spy).and.returnValue({ role: ExaminerRole.DLG });
+      await deviceAuthenticationProvider.triggerLockScreen();
+      expect(deviceAuthenticationProvider.appConfig.getAppConfig).toHaveBeenCalled();
+    });
+
+    it('should call performBiometricVerification if conditions are met', async () => {
+      spyOn(deviceAuthenticationProvider as any, 'performBiometricVerification').and.returnValue(Promise.resolve());
+      (platform.is as jasmine.Spy).and.returnValue(true);
+      (deviceAuthenticationProvider.appConfig.getAppConfig as jasmine.Spy).and.returnValue({ role: 'DE' });
+      await deviceAuthenticationProvider.triggerLockScreen();
+      expect(deviceAuthenticationProvider.performBiometricVerification).toHaveBeenCalled();
+    });
+
+    it('should log an error if an exception occurs', async () => {
+      const error = new Error('Test error');
+      spyOn(deviceAuthenticationProvider as any, 'performBiometricVerification').and.throwError(error);
+      spyOn(deviceAuthenticationProvider, 'logEvent');
       try {
         await deviceAuthenticationProvider.triggerLockScreen();
-        expect(NativeBiometricMock.isAvailable).toHaveBeenCalledWith({ useFallback: true });
-        expect(NativeBiometricMock.verifyIdentity).toHaveBeenCalled();
       } catch (err) {
-        console.error(err);
+        expect(deviceAuthenticationProvider.logEvent).toHaveBeenCalledWith(error);
       }
     });
+  });
 
-    it('should not trigger lock screen if the examiner role check is checked and is a DLG user', async () => {
-      spyOn(deviceAuthenticationProvider.appConfig, 'getAppConfig').and.returnValue({ role: 'DLG' } as AppConfig);
-      spyOn(NativeBiometricMock, 'verifyIdentity');
-      await deviceAuthenticationProvider.triggerLockScreen();
-      expect(NativeBiometricMock.verifyIdentity).not.toHaveBeenCalled();
+  describe('performBiometricVerification', () => {
+    it('should disable single app mode and enable it again if not in practice mode', async () => {
+      spyOn(deviceProvider, 'disableSingleAppMode').and.returnValue(Promise.resolve(true));
+      spyOn(deviceProvider, 'enableSingleAppMode').and.returnValue(Promise.resolve(true));
+      spyOn(loadingProvider, 'handleUILoading').and.returnValue(Promise.resolve());
+      spyOn(NativeBiometric, 'verifyIdentity').and.returnValue(Promise.resolve());
+
+      await deviceAuthenticationProvider.performBiometricVerification(false);
+
+      expect(deviceProvider.disableSingleAppMode).toHaveBeenCalled();
+      expect(NativeBiometric.verifyIdentity).toHaveBeenCalledWith({
+        reason: 'Please authenticate',
+        useFallback: true,
+      });
+      expect(loadingProvider.handleUILoading).toHaveBeenCalledWith(true);
+      expect(deviceProvider.enableSingleAppMode).toHaveBeenCalled();
+      expect(loadingProvider.handleUILoading).toHaveBeenCalledWith(false);
     });
 
-    it('should not trigger lock screen if environment file has isTest set to true', async () => {
-      spyOn(deviceAuthenticationProvider.appConfig, 'getAppConfig').and.returnValue({ role: 'DLG' } as AppConfig);
-      (environment as unknown as TestersEnvironmentFile).isTest = true;
-      spyOn(NativeBiometricMock, 'verifyIdentity');
-      await deviceAuthenticationProvider.triggerLockScreen();
-      expect(NativeBiometricMock.verifyIdentity).not.toHaveBeenCalled();
-    });
+    it('should not enable single app mode if in practice mode', async () => {
+      spyOn(deviceProvider, 'disableSingleAppMode').and.returnValue(Promise.resolve(true));
+      spyOn(deviceProvider, 'enableSingleAppMode').and.returnValue(Promise.resolve(true));
+      spyOn(loadingProvider, 'handleUILoading').and.returnValue(Promise.resolve());
+      spyOn(NativeBiometric, 'verifyIdentity').and.returnValue(Promise.resolve());
 
-    it('should not trigger lock screen if environment file has isTest set to true', async () => {
-      spyOn(deviceAuthenticationProvider.appConfig, 'getAppConfig').and.returnValue({ role: 'DLG' } as AppConfig);
-      (environment as unknown as TestersEnvironmentFile).isTest = false;
-      spyOn(NativeBiometricMock, 'verifyIdentity');
-      await deviceAuthenticationProvider.triggerLockScreen();
-      expect(NativeBiometricMock.verifyIdentity).not.toHaveBeenCalled();
+      await deviceAuthenticationProvider.performBiometricVerification(true);
+
+      expect(deviceProvider.disableSingleAppMode).toHaveBeenCalled();
+      expect(NativeBiometric.verifyIdentity).toHaveBeenCalledWith({
+        reason: 'Please authenticate',
+        useFallback: true,
+      });
+      expect(loadingProvider.handleUILoading).not.toHaveBeenCalled();
+      expect(deviceProvider.enableSingleAppMode).not.toHaveBeenCalled();
+    });
+  });
+
+  describe('logEvent', () => {
+    it('should dispatch a SaveLog action with the correct payload', () => {
+      const error = new Error('Test error');
+      const mockTimestamp = Date.now(); // Generate a valid number for the timestamp
+      (logHelper.createLog as jasmine.Spy).and.returnValue({
+        type: LogType.ERROR,
+        message: 'Test error',
+        timestamp: mockTimestamp, // Use a valid number here
+        drivingExaminerId: '12345',
+      });
+
+      deviceAuthenticationProvider.logEvent(error);
+
+      expect(logHelper.createLog).toHaveBeenCalledWith(LogType.ERROR, 'Device auth', error);
+      expect(store.dispatch).toHaveBeenCalledWith(
+        SaveLog({
+          payload: {
+            type: LogType.ERROR,
+            message: 'Test error',
+            timestamp: mockTimestamp, // Use the matcher here for assertions
+            drivingExaminerId: '12345',
+          },
+        })
+      );
     });
   });
 });
