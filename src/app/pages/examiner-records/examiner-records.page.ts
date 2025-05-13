@@ -178,6 +178,8 @@ export class ExaminerRecordsPage implements OnInit {
    * @returns {Promise<void>} A promise that resolves when the initialization is complete.
    */
   async ngOnInit(): Promise<void> {
+    //Commented out to force light mode, comment back in if dark mode is fully integrated
+    this.listenForDarkMode();
     this.testResults = this.removeDuplicatesAndSort(this.getLocalResults());
     if (this.testResults.length > 0) {
       this.testSubject$.next(this.testResults);
@@ -639,101 +641,6 @@ export class ExaminerRecordsPage implements OnInit {
         this.locationSelectPristine = true;
       }
     }
-  }
-
-  /**
-   * Initializes the component and sets up the necessary data and subscriptions.
-   *
-   * This method performs the following actions:
-   * 1. Retrieves and sorts local test results.
-   * 2. Sets the default date filter.
-   * 3. Initializes the page state with various observables.
-   * 4. Sets up subscriptions to handle changes in test results and loading state.
-   * 5. Sets the location filter and fetches online records if necessary.
-   *
-   * @returns {Promise<void>} A promise that resolves when the initialization is complete.
-   */
-  async ngOnInit(): Promise<void> {
-    //Commented out to force light mode, comment back in if dark mode is fully integrated
-    this.listenForDarkMode();
-    this.testResults = this.removeDuplicatesAndSort(this.getLocalResults());
-    if (this.testResults.length > 0) {
-      this.testSubject$.next(this.testResults);
-    }
-    //Set default date
-    this.handleDateFilter({ detail: { value: this.defaultDate } } as CustomEvent);
-    if (this.categorySubject$.value) {
-      this.categorySelectPristine = false;
-    }
-    if (this.locationSubject$.value) {
-      this.locationSelectPristine = false;
-    }
-
-    this.pageState = {
-      cachedRecords$: this.store$.select(selectCachedExaminerRecords),
-      isLoadingRecords$: this.store$.select(getIsLoadingRecords),
-      routeNumbers$: this.getTestsByParameters(getRouteNumbers),
-      manoeuvres$: this.getTestsByParameters(getManoeuvresUsed),
-      balanceQuestions$: this.getTestsByParameters(getBalanceQuestions),
-      safetyQuestions$: this.getTestsByParameters(getSafetyQuestions),
-      independentDriving$: this.getTestsByParameters(getIndependentDrivingStats),
-      showMeQuestions$: this.getTestsByParameters(getShowMeQuestions),
-      tellMeQuestions$: this.getTestsByParameters(getTellMeQuestions),
-      testCount$: this.getTestsByParameters(getStartedTestCount),
-      circuits$: this.getTestsByParameters(getCircuits),
-      locationList$: this.getLocationsByParameters(getLocations).pipe(
-        tap((value: ExaminerRecordData<TestCentre>[]) => {
-          this.setupLocationSelectList(value);
-        })
-      ),
-      categoryList$: this.getCategoriesByParameters(getCategories).pipe(
-        tap((value: ExaminerRecordData<TestCategory>[]) => {
-          this.setupCategorySelectList(value);
-        })
-      ),
-      emergencyStops$: this.getTestsByParameters(getStartedTestCount).pipe(
-        withLatestFrom(this.getTestsByParameters(getEmergencyStopCount)),
-        //Turn emergency stop count into two objects containing tests with stops and tests without
-        map(([testCount, emergencyStopCount]) => [
-          {
-            item: 'Stop',
-            count: emergencyStopCount,
-            percentage: `${((emergencyStopCount / testCount) * 100).toFixed(1)}%`,
-          },
-          {
-            item: 'No stop',
-            count: testCount - emergencyStopCount,
-            percentage: `${(((testCount - emergencyStopCount) / testCount) * 100).toFixed(1)}%`,
-          },
-        ])
-      ),
-    };
-
-    const { cachedRecords$, isLoadingRecords$ } = this.pageState;
-
-    this.merged$ = merge(
-      //listen for changes to test result and send the result to the behaviour subject
-      cachedRecords$.pipe(
-        tap((value) => {
-          this.testResults = this.removeDuplicatesAndSort(this.mergeWithOnlineResults(this.testResults, value));
-          if (this.testResults.length > 0) {
-            this.testSubject$.next(this.testResults);
-          }
-        })
-      ),
-      //deactivate loading ui when no longer loading
-      isLoadingRecords$.pipe(
-        map((value) => {
-          this.examinerRecordsProvider.handleLoadingUI(value);
-        })
-      )
-    );
-    if (this.merged$) {
-      this.subscription = this.merged$.subscribe();
-    }
-
-    this.setLocationFilter();
-    await this.getOnlineRecords();
   }
 
   /**
