@@ -2,6 +2,10 @@
   color: var(--gds-black) !important;
 }
 
+.mes-white {
+  color: var(--gds-white) !important;
+}
+
 .mes-green {
   color: var(--gds-dark-green) !important;
 }
@@ -12,4 +16,12 @@
 
 .mes-red {
   color: var(--gds-bright-red) !important;
+}
+
+.mes-opposing-colour {
+  color: var(--mes-theme-opposing-colour) !important;
+}
+
+.mes-main-colour {
+  color: var(--mes-theme-main-colour) !important;
 }

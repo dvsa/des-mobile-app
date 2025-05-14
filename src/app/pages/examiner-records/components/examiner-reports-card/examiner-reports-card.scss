@@ -27,10 +27,6 @@
   flex-direction: column;
 }
 
-.mes-opposing-colour {
-  color: var(--mes-theme-opposing-colour) !important;
-}
-
 .main-colour-text {
   color: var(--mes-theme-main-colour) !important;
   & ion-text, label, span, p {
