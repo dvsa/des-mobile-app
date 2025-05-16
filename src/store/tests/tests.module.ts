@@ -14,6 +14,7 @@ import { ExaminerConductedEffects } from '@store/tests/examiner-conducted/examin
 import { TestDataEffects } from '@store/tests/test-data/test-data.effects';
 import { TestStatusAnalyticsEffects } from '@store/tests/test-status/test-status.analytics.effects';
 import { TestsAnalyticsEffects } from '@store/tests/tests.analytics.effects';
+import { UserExitedAppAnalyticsEffects } from '@store/tests/user-exited-app/user-exited-app.analytics.effects';
 import { TestsEffects } from './tests.effects';
 import { testsReducer } from './tests.reducer';
 
@@ -27,6 +28,7 @@ import { testsReducer } from './tests.reducer';
       ExaminerBookedEffects,
       ExaminerConductedEffects,
       TestStatusAnalyticsEffects,
+      UserExitedAppAnalyticsEffects,
     ]),
     RouterModule,
   ],
