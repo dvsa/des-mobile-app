@@ -29,7 +29,7 @@ export class MotStatusDisplayTextComponent {
    * @returns {boolean} - Returns true if the MOT status is NOT\_VALID, otherwise false.
    */
   isInvalidMOT(): boolean {
-    return this.motStatus === MotStatusCodes.NOT_VALID;
+    return this.motStatus === 'Not valid';
   }
 
   /**
@@ -43,7 +43,7 @@ export class MotStatusDisplayTextComponent {
    *   - 'Not valid' if the MOT status is invalid and no test expiry date is available.
    */
   getMotStatusText(): string {
-    if (this.motStatus === MotStatusCodes.VALID) {
+    if (this.motStatus === 'Valid') {
       if (this.motTestExpiryDate) {
         return `Valid until ${this.motTestExpiryDate}`;
       }

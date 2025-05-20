@@ -1,7 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { AppModule } from '@app/app.module';
-import { MotStatusCodes } from '@dvsa/mes-mot-schema';
 import { IonicModule } from '@ionic/angular';
 import { Store } from '@ngrx/store';
 import { MotHistoryWithStatus } from '@providers/mot-history-api/mot-history-api.service';
@@ -50,7 +49,7 @@ describe('VehicleRegistrationComponent', () => {
             registration: 'reg',
             make: 'make',
             model: 'model',
-            status: MotStatusCodes.VALID,
+            status: 'Valid',
             expiryDate: '1/1/1',
           },
         })

@@ -1,4 +1,3 @@
-import { MotStatusCodes } from '@dvsa/mes-mot-schema';
 import { vehicleDetailsCatADIPart3Reducer } from '@store/tests/vehicle-details/cat-adi-part3/vehicle-details.cat-adi-part3.reducer';
 import * as vehicleDetailsActions from '../../vehicle-details.actions';
 
@@ -16,9 +15,9 @@ describe('vehicleDetailsCatADIPart3Reducer', () => {
     it('should set motStatus to the value given', () => {
       const result = vehicleDetailsCatADIPart3Reducer(
         { motStatus: null },
-        vehicleDetailsActions.MotStatusChanged(MotStatusCodes.NO_DETAILS)
+        vehicleDetailsActions.MotStatusChanged('No details')
       );
-      expect(result).toEqual({ motStatus: MotStatusCodes.NO_DETAILS });
+      expect(result).toEqual({ motStatus: 'No details' });
     });
   });
   describe('GearboxCategoryChanged', () => {

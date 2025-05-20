@@ -1,7 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
-
-import { MotStatusCodes } from '@dvsa/mes-mot-schema';
 import { MotStatusDisplayTextComponent } from '../mot-status-display-text.component';
 
 describe('MotStatusDisplayTextComponent', () => {
@@ -20,12 +18,12 @@ describe('MotStatusDisplayTextComponent', () => {
 
   describe('isInvalidMOT', () => {
     it('returns true when motStatus is NOT_VALID', () => {
-      component.motStatus = MotStatusCodes.NOT_VALID;
+      component.motStatus = 'Not valid';
       expect(component.isInvalidMOT()).toBeTrue();
     });
 
     it('returns false when motStatus is not NOT_VALID', () => {
-      component.motStatus = MotStatusCodes.VALID;
+      component.motStatus = 'Valid';
       expect(component.isInvalidMOT()).toBeFalse();
     });
 
@@ -37,31 +35,31 @@ describe('MotStatusDisplayTextComponent', () => {
 
   describe('getMotStatusText', () => {
     it('returns "Valid until {testExpiryDate}" when motStatus is VALID and motTestExpiryDate is provided', () => {
-      component.motStatus = MotStatusCodes.VALID;
+      component.motStatus = 'Valid';
       component.motTestExpiryDate = '2023-12-31';
       expect(component.getMotStatusText()).toBe('Valid until 2023-12-31');
     });
 
     it('returns "Valid" when motStatus is VALID and motTestExpiryDate is not provided', () => {
-      component.motStatus = MotStatusCodes.VALID;
+      component.motStatus = 'Valid';
       component.motTestExpiryDate = null;
       expect(component.getMotStatusText()).toBe('Valid');
     });
 
     it('returns motStatus text directly when motStatus is not invalid', () => {
-      component.motStatus = MotStatusCodes.NO_DETAILS;
+      component.motStatus = 'No details';
       component.motTestExpiryDate = null;
-      expect(component.getMotStatusText()).toBe(MotStatusCodes.NO_DETAILS);
+      expect(component.getMotStatusText()).toBe('No details');
     });
 
     it('returns "Expired {testExpiryDate}" when motStatus is NOT_VALID and motTestExpiryDate is provided', () => {
-      component.motStatus = MotStatusCodes.NOT_VALID;
+      component.motStatus = 'Not valid';
       component.motTestExpiryDate = '2023-12-31';
       expect(component.getMotStatusText()).toBe('Expired 2023-12-31');
     });
 
     it('returns "Not valid" when motStatus is NOT_VALID and motTestExpiryDate is not provided', () => {
-      component.motStatus = MotStatusCodes.NOT_VALID;
+      component.motStatus = 'Not valid';
       component.motTestExpiryDate = null;
       expect(component.getMotStatusText()).toBe('Not valid');
     });

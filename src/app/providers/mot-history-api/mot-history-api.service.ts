@@ -1,6 +1,6 @@
 import { HttpClient, HttpErrorResponse, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { MotHistory, MotStatusCodes } from '@dvsa/mes-mot-schema';
+import { MotHistory } from '@dvsa/mes-mot-schema';
 import { PracticeModeMOTType } from '@pages/waiting-room-to-car/components/mot-components/practice-mode-mot-modal/practice-mode-mot-modal.component';
 import { AppConfigProvider } from '@providers/app-config/app-config';
 import { fakeMOTResults } from '@providers/mot-history-api/__mocks__/mot-history.mock';
@@ -145,7 +145,7 @@ export class MotHistoryApiService {
         registration: vehicleRegistration,
         make: null,
         model: null,
-        status: MotStatusCodes.NO_DETAILS,
+        status: 'No details',
         expiryDate: null,
       },
     });

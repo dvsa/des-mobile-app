@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
 import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
-import { MotHistory, MotStatusCodes } from '@dvsa/mes-mot-schema';
+import { MotHistory } from '@dvsa/mes-mot-schema';
 import { ModalController } from '@ionic/angular';
 import {
   ModalEvent,
@@ -137,7 +137,7 @@ export class VehicleRegistrationComponent implements OnChanges {
           }
 
           // If the MOT status is not valid, open the reconfirm modal
-          if (this.motData?.data?.status === MotStatusCodes.NOT_VALID) {
+          if (this.motData?.data?.status === 'Not valid') {
             await this.loadFailedMOTModal();
             // If the modal was cancelled, stop the spinner and return
             if (this.modalData === ModalEvent.CANCEL) {
@@ -270,7 +270,7 @@ export class VehicleRegistrationComponent implements OnChanges {
   }
 
   isMOTNotValid() {
-    return this.motData?.data?.status !== MotStatusCodes.NOT_VALID;
+    return this.motData?.data?.status !== 'Not valid';
   }
 
   getMOTButtonColSize(zoomClass: string) {

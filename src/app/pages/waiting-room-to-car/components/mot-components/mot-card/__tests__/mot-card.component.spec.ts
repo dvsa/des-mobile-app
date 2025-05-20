@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 
-import { MotHistory, MotStatusCodes } from '@dvsa/mes-mot-schema';
+import { MotHistory } from '@dvsa/mes-mot-schema';
 import { Store, StoreModule } from '@ngrx/store';
 import { NetworkStateProviderMock } from '@providers/network-state/__mocks__/network-state.mock';
 import { ConnectionStatus, NetworkStateProvider } from '@providers/network-state/network-state';
@@ -29,11 +29,11 @@ describe('MotCardComponent', () => {
   });
   describe('isValidMOT', () => {
     it('should return true if data.status is "Valid"', () => {
-      component.data = { status: MotStatusCodes.VALID } as MotHistory;
+      component.data = { status: 'Valid' } as MotHistory;
       expect(component.isValidMOT()).toEqual(true);
     });
     it('should return false if data.status is not "Valid"', () => {
-      component.data = { status: MotStatusCodes.NOT_VALID } as MotHistory;
+      component.data = { status: 'Not valid' } as MotHistory;
       expect(component.isValidMOT()).toEqual(false);
     });
   });
@@ -41,7 +41,7 @@ describe('MotCardComponent', () => {
   describe('callWasSuccessful', () => {
     it('should return true if status is 200, data.status is not "No details" and the app is online', () => {
       spyOn(component.networkState, 'getNetworkState').and.returnValue(ConnectionStatus.ONLINE);
-      component.data = { status: MotStatusCodes.VALID } as MotHistory;
+      component.data = { status: 'Valid' } as MotHistory;
       component.status = '200';
       expect(component.isCallSuccessful()).toEqual(true);
     });
@@ -50,20 +50,20 @@ describe('MotCardComponent', () => {
         'not "No details" and the app is online',
       () => {
         spyOn(component.networkState, 'getNetworkState').and.returnValue(ConnectionStatus.ONLINE);
-        component.data = { status: MotStatusCodes.VALID } as MotHistory;
+        component.data = { status: 'Valid' } as MotHistory;
         component.status = '100';
         expect(component.isCallSuccessful()).toEqual(false);
       }
     );
     it('should return false if status is 200, data.status is ' + '"No details" and the app is online', () => {
       spyOn(component.networkState, 'getNetworkState').and.returnValue(ConnectionStatus.ONLINE);
-      component.data = { status: MotStatusCodes.NO_DETAILS } as MotHistory;
+      component.data = { status: 'No details' } as MotHistory;
       component.status = '200';
       expect(component.isCallSuccessful()).toBeFalsy();
     });
     it('should return false if status is 200, data.status is ' + 'not "No details" and the app is not online', () => {
       spyOn(component.networkState, 'getNetworkState').and.returnValue(ConnectionStatus.OFFLINE);
-      component.data = { status: MotStatusCodes.NO_DETAILS } as MotHistory;
+      component.data = { status: 'No details' } as MotHistory;
       component.status = '200';
       expect(component.isCallSuccessful()).toEqual(false);
     });
@@ -78,14 +78,14 @@ describe('MotCardComponent', () => {
     it('should return true if data.status is NO_DETAILS', () => {
       spyOn(component, 'is404').and.returnValue(false);
       spyOn(component, 'isSearchFailed').and.returnValue(false);
-      component.data = { status: MotStatusCodes.NO_DETAILS } as MotHistory;
+      component.data = { status: 'No details' } as MotHistory;
       expect(component.isNoDetails()).toEqual(true);
     });
 
     it('should return true if data.status is AGE_EXEMPTION', () => {
       spyOn(component, 'is404').and.returnValue(false);
       spyOn(component, 'isSearchFailed').and.returnValue(false);
-      component.data = { status: MotStatusCodes.AGE_EXEMPTION } as MotHistory;
+      component.data = { status: 'Age exemption' } as MotHistory;
       expect(component.isNoDetails()).toEqual(true);
     });
 
@@ -93,7 +93,7 @@ describe('MotCardComponent', () => {
       spyOn(component, 'is404').and.returnValue(false);
       spyOn(component, 'isSearchFailed').and.returnValue(false);
       component.status = HttpStatusCodes.OK.toString();
-      component.data = { status: MotStatusCodes.VALID } as MotHistory;
+      component.data = { status: 'Valid' } as MotHistory;
       expect(component.isNoDetails()).toEqual(false);
     });
 
@@ -101,7 +101,7 @@ describe('MotCardComponent', () => {
       spyOn(component, 'is404').and.returnValue(true);
       spyOn(component, 'isSearchFailed').and.returnValue(false);
       component.status = HttpStatusCodes.NOT_FOUND.toString();
-      component.data = { status: MotStatusCodes.VALID } as MotHistory;
+      component.data = { status: 'Valid' } as MotHistory;
       expect(component.isNoDetails()).toEqual(true);
     });
 
@@ -109,7 +109,7 @@ describe('MotCardComponent', () => {
       spyOn(component, 'is404').and.returnValue(false);
       spyOn(component, 'isSearchFailed').and.returnValue(true);
       component.status = HttpStatusCodes.NOT_FOUND.toString();
-      component.data = { status: MotStatusCodes.VALID } as MotHistory;
+      component.data = { status: 'Valid' } as MotHistory;
       expect(component.isNoDetails()).toEqual(false);
     });
   });

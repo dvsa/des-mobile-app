@@ -1,7 +1,7 @@
 import { HttpErrorResponse, HttpResponse, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
-import { MotHistory, MotStatusCodes } from '@dvsa/mes-mot-schema';
+import { MotHistory } from '@dvsa/mes-mot-schema';
 import { PracticeModeMOTType } from '@pages/waiting-room-to-car/components/mot-components/practice-mode-mot-modal/practice-mode-mot-modal.component';
 import { AppConfigProviderMock } from '@providers/app-config/__mocks__/app-config.mock';
 import { AppConfigProvider } from '@providers/app-config/app-config';
@@ -47,7 +47,7 @@ describe('MotHistoryApiService', () => {
           registration: 'OLD_REG',
           make: 'fakeMake',
           model: 'fakeModel',
-          status: MotStatusCodes.VALID,
+          status: 'Valid',
           expiryDate: '01/01/01',
         },
       };
@@ -60,7 +60,7 @@ describe('MotHistoryApiService', () => {
     it('should return pass MOT data when motType is PASS', (done) => {
       vehicleDetailsService.getMockResultByIdentifier('XX01VLD', PracticeModeMOTType.PASS).subscribe((result) => {
         expect(result.data.registration).toBe('XX01VLD');
-        expect(result.data.status).toBe(MotStatusCodes.VALID);
+        expect(result.data.status).toBe('Valid');
         done();
       });
     });
@@ -68,7 +68,7 @@ describe('MotHistoryApiService', () => {
     it('should return fail MOT data when motType is FAILED', (done) => {
       vehicleDetailsService.getMockResultByIdentifier('XX01INV', PracticeModeMOTType.FAILED).subscribe((result) => {
         expect(result.data.registration).toBe('XX01INV');
-        expect(result.data.status).toBe(MotStatusCodes.NOT_VALID);
+        expect(result.data.status).toBe('Not valid');
         done();
       });
     });
@@ -76,7 +76,7 @@ describe('MotHistoryApiService', () => {
     it('should return no details MOT data when motType is NO_DETAILS', (done) => {
       vehicleDetailsService.getMockResultByIdentifier('XX01NDT', PracticeModeMOTType.NO_DETAILS).subscribe((result) => {
         expect(result.data.registration).toBe('XX01NDT');
-        expect(result.data.status).toBe(MotStatusCodes.NO_DETAILS);
+        expect(result.data.status).toBe('No details');
         done();
       });
     });
@@ -128,7 +128,7 @@ describe('MotHistoryApiService', () => {
         registration: 'ABC123',
         make: 'Toyota',
         model: 'Corolla',
-        status: MotStatusCodes.VALID,
+        status: 'Valid',
         expiryDate: '31/12/2023',
       } as MotHistory;
       vehicleDetailsService.getCachedMotHistory().subscribe((val) => {
@@ -138,7 +138,7 @@ describe('MotHistoryApiService', () => {
             registration: 'ABC123',
             make: 'Toyota',
             model: 'Corolla',
-            status: MotStatusCodes.VALID,
+            status: 'Valid',
             expiryDate: '31/12/2023',
           } as MotHistory,
         });
@@ -258,7 +258,7 @@ describe('MotHistoryApiService', () => {
             registration: 'ABC123',
             make: null,
             model: null,
-            status: MotStatusCodes.NO_DETAILS,
+            status: 'No details',
             expiryDate: null,
           },
         });
@@ -274,7 +274,7 @@ describe('MotHistoryApiService', () => {
             registration: 'XYZ789',
             make: null,
             model: null,
-            status: MotStatusCodes.NO_DETAILS,
+            status: 'No details',
             expiryDate: null,
           },
         });
@@ -290,7 +290,7 @@ describe('MotHistoryApiService', () => {
             registration: 'NO_STATUS',
             make: null,
             model: null,
-            status: MotStatusCodes.NO_DETAILS,
+            status: 'No details',
             expiryDate: null,
           },
         });
@@ -346,7 +346,7 @@ describe('MotHistoryApiService', () => {
             registration: 'ABC123',
             make: null,
             model: null,
-            status: MotStatusCodes.NO_DETAILS,
+            status: 'No details',
             expiryDate: null,
           },
         })
