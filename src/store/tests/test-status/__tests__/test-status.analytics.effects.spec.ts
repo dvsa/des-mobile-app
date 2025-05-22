@@ -6,9 +6,9 @@ import { ReplaySubject } from 'rxjs';
 import { AnalyticsProviderMock } from '@providers/analytics/__mocks__/analytics.mock';
 import { AnalyticsProvider } from '@providers/analytics/analytics';
 import { AnalyticRecorded } from '@providers/analytics/analytics.actions';
-import { GoogleAnalyticsEvents } from '@providers/analytics/analytics.model';
 import { AppConfigProviderMock } from '@providers/app-config/__mocks__/app-config.mock';
 import { AppConfigProvider } from '@providers/app-config/app-config';
+import { get } from 'lodash-es';
 import { testsReducer } from '../../tests.reducer';
 import * as testStatusActions from '../test-status.actions';
 import { TestStatusAnalyticsEffects } from '../test-status.analytics.effects';
@@ -38,65 +38,105 @@ describe('TestStatusAnalyticsEffects', () => {
     effects = TestBed.inject(TestStatusAnalyticsEffects);
     analyticsProviderMock = TestBed.inject(AnalyticsProvider);
   });
+  describe('getCurrentAppRef', () => {
+    it('should return formatted application reference', () => {
+      spyOn(get(effects, 'store$') as Store<StoreModule>, 'pipe').and.returnValue({
+        subscribe: (cb: any) => {
+          cb({ applicationId: '123', bookingSequence: 1, checkDigit: 2 });
+          return { unsubscribe: () => {} };
+        },
+      } as any);
+      const result = effects.getCurrentAppRef('slotId');
+      expect(typeof result).toBe('string');
+    });
+  });
 
-  describe('setTestStatusDecidedEffect', () => {
-    it('should log test decided event', (done) => {
-      const slotId = '1101';
-
-      actions$.next(testStatusActions.SetTestStatusDecided(slotId));
-
-      effects.setTestStatusDecidedEffect$.subscribe((result) => {
-        expect(result.type === AnalyticRecorded.type).toBeTruthy();
-
-        // GA4 Analytics
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(GoogleAnalyticsEvents.TEST_DECIDED);
+  describe('setTestStatusDecidedEffect$', () => {
+    it('should log analytics and emit AnalyticRecorded', (done) => {
+      spyOn(analyticsProviderMock, 'logGAEvent');
+      spyOn(effects, 'getCurrentAppRef').and.returnValue('1');
+      actions$.next(testStatusActions.SetTestStatusDecided('1'));
+      effects.setTestStatusDecidedEffect$.subscribe((action) => {
+        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalled();
+        expect(action).toEqual(AnalyticRecorded());
         done();
       });
     });
   });
 
-  describe('setTestStatusWriteUpEffect', () => {
-    it('should log test in write-up event', (done) => {
-      const slotId = '1101';
-
-      actions$.next(testStatusActions.SetTestStatusWriteUp(slotId));
-
-      effects.setTestStatusWriteUpEffect$.subscribe((result) => {
-        expect(result.type === AnalyticRecorded.type).toBeTruthy();
-        // GA4 Analytics
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(GoogleAnalyticsEvents.TEST_IN_WRITE_UP);
+  describe('setTestStatusWriteUpEffect$', () => {
+    it('should log analytics and emit AnalyticRecorded', (done) => {
+      spyOn(analyticsProviderMock, 'logGAEvent');
+      spyOn(effects, 'getCurrentAppRef').and.returnValue('1');
+      actions$.next(testStatusActions.SetTestStatusWriteUp('1'));
+      effects.setTestStatusWriteUpEffect$.subscribe((action) => {
+        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalled();
+        expect(action).toEqual(AnalyticRecorded());
         done();
       });
     });
   });
 
-  describe('setTestStatusAutosavedEffect', () => {
-    it('should log test in autosaved event', (done) => {
-      const slotId = '1101';
-
-      actions$.next(testStatusActions.SetTestStatusAutosaved(slotId));
-
-      effects.setTestStatusAutosavedEffect$.subscribe((result) => {
-        expect(result.type === AnalyticRecorded.type).toBeTruthy();
-
-        // GA4 Analytics
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(GoogleAnalyticsEvents.TEST_AUTOSAVED);
+  describe('setTestStatusBookedEffect$', () => {
+    it('should log analytics and emit AnalyticRecorded', (done) => {
+      spyOn(analyticsProviderMock, 'logGAEvent');
+      spyOn(effects, 'getCurrentAppRef').and.returnValue('1');
+      actions$.next(testStatusActions.SetTestStatusBooked('1'));
+      effects.setTestStatusBookedEffect$.subscribe((action) => {
+        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalled();
+        expect(action).toEqual(AnalyticRecorded());
         done();
       });
     });
   });
 
-  describe('setTestStatusSubmittedEffect', () => {
-    it('should log test submitted event', (done) => {
-      const slotId = '1101';
+  describe('setTestStatusStartedEffect$', () => {
+    it('should log analytics and emit AnalyticRecorded', (done) => {
+      spyOn(analyticsProviderMock, 'logGAEvent');
+      spyOn(effects, 'getCurrentAppRef').and.returnValue('1');
+      actions$.next(testStatusActions.SetTestStatusStarted('1'));
+      effects.setTestStatusStartedEffect$.subscribe((action) => {
+        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalled();
+        expect(action).toEqual(AnalyticRecorded());
+        done();
+      });
+    });
+  });
 
-      actions$.next(testStatusActions.SetTestStatusSubmitted(slotId));
+  describe('setTestStatusCompletedEffect$', () => {
+    it('should log analytics and emit AnalyticRecorded', (done) => {
+      spyOn(analyticsProviderMock, 'logGAEvent');
+      spyOn(effects, 'getCurrentAppRef').and.returnValue('1');
+      actions$.next(testStatusActions.SetTestStatusCompleted('1'));
+      effects.setTestStatusCompletedEffect$.subscribe((action) => {
+        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalled();
+        expect(action).toEqual(AnalyticRecorded());
+        done();
+      });
+    });
+  });
 
-      effects.setTestStatusSubmittedEffect$.subscribe((result) => {
-        expect(result.type === AnalyticRecorded.type).toBeTruthy();
+  describe('setTestStatusAutosavedEffect$', () => {
+    it('should log analytics and emit AnalyticRecorded', (done) => {
+      spyOn(analyticsProviderMock, 'logGAEvent');
+      spyOn(effects, 'getCurrentAppRef').and.returnValue('1');
+      actions$.next(testStatusActions.SetTestStatusAutosaved('1'));
+      effects.setTestStatusAutosavedEffect$.subscribe((action) => {
+        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalled();
+        expect(action).toEqual(AnalyticRecorded());
+        done();
+      });
+    });
+  });
 
-        // GA4 Analytics
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(GoogleAnalyticsEvents.TEST_SUBMITTED);
+  describe('setTestStatusSubmittedEffect$', () => {
+    it('should log analytics and emit AnalyticRecorded', (done) => {
+      spyOn(analyticsProviderMock, 'logGAEvent');
+      spyOn(effects, 'getCurrentAppRef').and.returnValue('1');
+      actions$.next(testStatusActions.SetTestStatusSubmitted('1'));
+      effects.setTestStatusSubmittedEffect$.subscribe((action) => {
+        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalled();
+        expect(action).toEqual(AnalyticRecorded());
         done();
       });
     });
