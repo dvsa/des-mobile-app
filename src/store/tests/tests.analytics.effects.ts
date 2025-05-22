@@ -21,12 +21,13 @@ import { StoreModel } from '@shared/models/store.model';
 import { getJournalState } from '@store/journal/journal.reducer';
 import { getAppRefFromSlot, getSlotBySlotID, getSlotsOnSelectedDate } from '@store/journal/journal.selector';
 import * as testActions from '@store/tests/tests.actions';
+import { LoadRemoteTests } from '@store/tests/tests.actions';
 import { of } from 'rxjs';
 import { concatMap, map, switchMap, withLatestFrom } from 'rxjs/operators';
 import { SetTestStatusSubmitted } from './test-status/test-status.actions';
 import { SendCompletedTestsFailure, SendPartialTestsFailure, StartTest, TestOutcomeChanged } from './tests.actions';
 import { TestsModel } from './tests.model';
-import { getTests } from './tests.reducer';
+import { TestResultRehydration, getTests } from './tests.reducer';
 import { getCurrentTest, getTestById } from './tests.selector';
 
 @Injectable()
@@ -74,6 +75,37 @@ export class TestsAnalyticsEffects {
           journalDataOfTest.candidate.candidateId ? journalDataOfTest.candidate.candidateId.toString() : null
         );
 
+        return of(AnalyticRecorded());
+      })
+    )
+  );
+
+  loadRemoteTestsEffect$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(LoadRemoteTests),
+      switchMap((action) => {
+        console.log(
+          action.tests.map((test: TestResultRehydration) => {
+            return {
+              autosave: test.autosave,
+              slotId: test.slotId,
+            };
+          })
+        );
+        // GA4 Analytics
+        this.analytics.logGAEvent(
+          GoogleAnalyticsEvents.JOURNAL,
+          GoogleAnalyticsEventsTitles.REMOTE_TESTS_LOADED,
+          action.tests
+            .map((test: TestResultRehydration) => {
+              return JSON.stringify({
+                autosave: test.autosave,
+                slotId: test.slotId,
+                appRef: formatApplicationReference(test?.testData?.journalData?.applicationReference),
+              });
+            })
+            .toString()
+        );
         return of(AnalyticRecorded());
       })
     )

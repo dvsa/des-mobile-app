@@ -61,10 +61,75 @@ export class TestStatusAnalyticsEffects {
     )
   );
 
+  setTestStatusBookedEffect$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(testStatusActions.SetTestStatusBooked),
+      concatMap((action) =>
+        of(action).pipe(
+          withLatestFrom(this.store$.pipe(select(getTests)), this.store$.pipe(select(getTests), select(isPracticeMode)))
+        )
+      ),
+      filter(([, , practiceMode]) =>
+        !practiceMode ? true : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics
+      ),
+      concatMap(([, tests]: [ReturnType<typeof testStatusActions.SetTestStatusBooked>, TestsModel, boolean]) => {
+        // GA4 Analytics
+        this.analytics.logGAEvent(GoogleAnalyticsEvents.TEST_BOOKED);
+        return of(AnalyticRecorded());
+      })
+    )
+  );
+
+  setTestStatusStartedEffect$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(testStatusActions.SetTestStatusStarted),
+      concatMap((action) =>
+        of(action).pipe(
+          withLatestFrom(this.store$.pipe(select(getTests)), this.store$.pipe(select(getTests), select(isPracticeMode)))
+        )
+      ),
+      filter(([, , practiceMode]) =>
+        !practiceMode ? true : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics
+      ),
+      concatMap(([, tests]: [ReturnType<typeof testStatusActions.SetTestStatusStarted>, TestsModel, boolean]) => {
+        // GA4 Analytics
+        this.analytics.logGAEvent(GoogleAnalyticsEvents.TEST_STARTED);
+        return of(AnalyticRecorded());
+      })
+    )
+  );
+
+  setTestStatusCompletedEffect$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(testStatusActions.SetTestStatusCompleted),
+      concatMap((action) =>
+        of(action).pipe(
+          withLatestFrom(this.store$.pipe(select(getTests)), this.store$.pipe(select(getTests), select(isPracticeMode)))
+        )
+      ),
+      filter(([, , practiceMode]) =>
+        !practiceMode ? true : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics
+      ),
+      concatMap(([, tests]: [ReturnType<typeof testStatusActions.SetTestStatusCompleted>, TestsModel, boolean]) => {
+        // GA4 Analytics
+        this.analytics.logGAEvent(GoogleAnalyticsEvents.TEST_COMPLETED);
+        return of(AnalyticRecorded());
+      })
+    )
+  );
+
   setTestStatusAutosavedEffect$ = createEffect(() =>
     this.actions$.pipe(
       ofType(testStatusActions.SetTestStatusAutosaved),
-      concatMap(() => {
+      concatMap((action) =>
+        of(action).pipe(
+          withLatestFrom(this.store$.pipe(select(getTests)), this.store$.pipe(select(getTests), select(isPracticeMode)))
+        )
+      ),
+      filter(([, , practiceMode]) =>
+        !practiceMode ? true : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics
+      ),
+      concatMap(([, tests]: [ReturnType<typeof testStatusActions.SetTestStatusAutosaved>, TestsModel, boolean]) => {
         // GA4 Analytics
         this.analytics.logGAEvent(GoogleAnalyticsEvents.TEST_AUTOSAVED);
         return of(AnalyticRecorded());

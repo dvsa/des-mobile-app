@@ -226,11 +226,11 @@ export class JournalEffects {
           )
           //Morph the data into a format that we can need for the rest of this process
           .map((value) => ({
-            slotId: value.slotData.slotDetail.slotId,
+            slotId: value?.slotData?.slotDetail?.slotId,
             appRef: formatApplicationReference({
-              applicationId: (value.slotData as TestSlot).booking.application.applicationId,
-              bookingSequence: (value.slotData as TestSlot).booking.application.bookingSequence,
-              checkDigit: (value.slotData as TestSlot).booking.application.checkDigit,
+              applicationId: (value.slotData as TestSlot)?.booking?.application?.applicationId,
+              bookingSequence: (value.slotData as TestSlot)?.booking?.application?.bookingSequence,
+              checkDigit: (value.slotData as TestSlot)?.booking?.application?.checkDigit,
             }),
           }));
 
@@ -253,9 +253,9 @@ export class JournalEffects {
             //Map the data into a format that we can use for the rest of the process
             map((testResults: TestResultsRehydrated[]) =>
               testResults.map((test) => ({
-                autosave: !!test.autosave,
-                testData: test.test_result,
-                slotId: test.test_result.journalData.testSlotAttributes.slotId.toString(),
+                autosave: !!test?.autosave,
+                testData: test?.test_result,
+                slotId: test?.test_result?.journalData?.testSlotAttributes?.slotId?.toString(),
               }))
             ),
             tap((completedTests: TestResultRehydration[]) => {
