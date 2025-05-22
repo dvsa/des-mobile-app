@@ -9,6 +9,7 @@ import { serialiseLogMessage } from '@shared/helpers/serialise-log-message';
 import { LogType } from '@shared/models/log.model';
 import { StoreModel } from '@shared/models/store.model';
 import { SaveLog } from '@store/logs/logs.actions';
+import CordovaSQLiteDriver from 'localforage-cordovasqlitedriver';
 import { LogHelper } from '../logs/logs-helper';
 
 export enum LocalStorageKey {
@@ -29,6 +30,8 @@ export class DataStoreProvider {
   private static readonly defaultStoreName = 'DES';
   secureContainer: SecureStorageObject = null;
 
+  private container: Storage | null = null;
+
   constructor(
     public platform: Platform,
     private logHelper: LogHelper,
@@ -36,6 +39,17 @@ export class DataStoreProvider {
     private secureStorage: SecureStorage,
     private storage: Storage
   ) {}
+
+  async init() {
+    try {
+      await this.storage.defineDriver(CordovaSQLiteDriver);
+
+      this.container = await this.storage.create();
+    } catch (err) {
+      this.reportLog('ini', '', err);
+      throw err;
+    }
+  }
 
   isIos = () => this.platform.is('cordova');
 
