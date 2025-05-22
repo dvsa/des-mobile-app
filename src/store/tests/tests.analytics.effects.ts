@@ -92,20 +92,18 @@ export class TestsAnalyticsEffects {
             };
           })
         );
-        // GA4 Analytics
-        this.analytics.logGAEvent(
-          GoogleAnalyticsEvents.JOURNAL,
-          GoogleAnalyticsEventsTitles.REMOTE_TESTS_LOADED,
-          action.tests
-            .map((test: TestResultRehydration) => {
-              return JSON.stringify({
-                autosave: test.autosave,
-                slotId: test.slotId,
-                appRef: formatApplicationReference(test?.testData?.journalData?.applicationReference),
-              });
+        action.tests.forEach((test) => {
+          // GA4 Analytics
+          this.analytics.logGAEvent(
+            GoogleAnalyticsEvents.REHYDRATION,
+            GoogleAnalyticsEventsTitles.REMOTE_TESTS_LOADED,
+            JSON.stringify({
+              autosave: test.autosave,
+              slotId: test.slotId,
+              appRef: formatApplicationReference(test?.testData?.journalData?.applicationReference),
             })
-            .toString()
-        );
+          );
+        });
         return of(AnalyticRecorded());
       })
     )
