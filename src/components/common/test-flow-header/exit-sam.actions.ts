@@ -12,6 +12,8 @@ export const ExitSamError = createAction(
   (errorMessage: string, errorData = null) => ({ errorMessage, errorData })
 );
 
+export const ExitSamSelected = createAction('[Escape Single App Mode] Escape Single App Mode Selected');
+
 export const ExitSamActivated = createAction(
   '[Escape Single App Mode] Escape Single App Mode Activated',
   (method: ExitSAMMethodUsed) => ({ method })
