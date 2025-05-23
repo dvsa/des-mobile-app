@@ -29,8 +29,6 @@ export class DataStoreProvider {
   private static readonly defaultStoreName = 'DES';
   secureContainer: SecureStorageObject = null;
 
-  private container: Storage | null = null;
-
   constructor(
     public platform: Platform,
     private logHelper: LogHelper,
@@ -39,11 +37,10 @@ export class DataStoreProvider {
     private storage: Storage
   ) {}
 
-  async init() {
+  async onInit() {
     try {
       await this.storage.defineDriver(CordovaSQLiteDriver);
-
-      this.container = await this.storage.create();
+      this.storage = await this.storage.create();
     } catch (err) {
       this.reportLog('ini', '', err);
       throw err;
@@ -184,7 +181,7 @@ export class DataStoreProvider {
       // look to see if the key exists in keychain
       const keyChainItem = await this.secureContainer.get(key);
 
-      // if found, then add that key/value to ionic storage and remove from keychain
+      // if found, then add that key/value to storage and remove from keychain
       if (keyChainItem) {
         await this.storage.set(key, keyChainItem);
         await this.secureContainer.remove(key);
