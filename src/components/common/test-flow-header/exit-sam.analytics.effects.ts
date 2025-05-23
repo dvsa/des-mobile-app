@@ -5,6 +5,7 @@ import {
   ExitSAMUserReturned,
   ExitSamActivated,
   ExitSamError,
+  ExitSamSelected,
 } from '@components/common/test-flow-header/exit-sam.actions';
 import { ExitSAMMethodUsed } from '@components/common/test-flow-header/test-flow-header.component';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
@@ -34,6 +35,29 @@ export class ExitSingleAppModeAnalyticsEffects {
     private appConfigProvider: AppConfigProvider
   ) {}
 
+  exitSamSelected$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(ExitSamSelected),
+      concatMap((action) =>
+        of(action).pipe(
+          withLatestFrom(this.store$.pipe(select(getTests)), this.store$.pipe(select(getTests), select(isPracticeMode)))
+        )
+      ),
+      filter(([, , practiceMode]) =>
+        !practiceMode ? true : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics
+      ),
+      switchMap(([, tests]: [ReturnType<typeof ExitSamSelected>, TestsModel, boolean]) => {
+        // GA4 analytics
+        this.analytics.logGAEvent(
+          analyticsEventTypePrefix(GoogleAnalyticsEvents.EXIT_SAM, tests),
+          GoogleAnalyticsEventsTitles.EXIT_TO_TEAMS,
+          GoogleAnalyticsEventsValues.BUTTON_SELECTED
+        );
+        return of(AnalyticRecorded());
+      })
+    )
+  );
+
   exitSamActivated$ = createEffect(() =>
     this.actions$.pipe(
       ofType(ExitSamActivated),
@@ -49,7 +73,7 @@ export class ExitSingleAppModeAnalyticsEffects {
         // GA4 analytics
         this.analytics.logGAEvent(
           analyticsEventTypePrefix(GoogleAnalyticsEvents.EXIT_SAM, tests),
-          GoogleAnalyticsEventsTitles.EXIT_TO_TEAMS,
+          GoogleAnalyticsEventsTitles.PRESS_AND_HOLD,
           method === ExitSAMMethodUsed.BUTTON
             ? GoogleAnalyticsEventsValues.BUTTON_SELECTED
             : GoogleAnalyticsEventsValues.BANNER_SELECTED

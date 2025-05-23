@@ -11,6 +11,7 @@ import {
   ExitSAMErrorMessages,
   ExitSamActivated,
   ExitSamError,
+  ExitSamSelected,
 } from '@components/common/test-flow-header/exit-sam.actions';
 import { DirectivesModule } from '@directives/directives.module';
 import { IonicModule, ModalController } from '@ionic/angular';
@@ -108,6 +109,7 @@ export class TestFlowHeaderComponent {
    * @param newValue - New activation status.
    */
   changeExitSAMValue(newValue: boolean) {
+    if (!this.isExitSAMActivated) this.store$.dispatch(ExitSamSelected());
     this.isExitSAMActivated = newValue;
     this.onExitSAMActivatedChanged.emit(newValue);
   }
