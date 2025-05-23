@@ -3,7 +3,6 @@ import { map } from 'rxjs/operators';
 
 import { Style } from '@capacitor/status-bar';
 import { MenuController } from '@ionic/angular';
-import { Storage } from '@ionic/storage-angular';
 import { TranslateService } from '@ngx-translate/core';
 import * as SentryAngular from '@sentry/angular';
 import * as Sentry from '@sentry/capacitor';
@@ -95,7 +94,7 @@ export class AppComponent extends LogoutBasePageComponent implements OnInit {
     protected translate: TranslateService,
     protected appInfo: AppInfoProvider,
     protected appConfigProvider: AppConfigProvider,
-    private storage: Storage,
+    private dataStoreProvider: DataStoreProvider,
     injector: Injector
   ) {
     super(injector);
@@ -112,7 +111,7 @@ export class AppComponent extends LogoutBasePageComponent implements OnInit {
   async ngOnInit() {
     try {
       await this.platform.ready();
-      await this.storage.create();
+      await this.dataStoreProvider.onInit();
       if (this.platform.is('cordova')) {
         await this.deviceProvider.disableSingleAppMode();
       }
