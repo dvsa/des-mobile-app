@@ -147,6 +147,15 @@
             >
             </accompaniment-card>
 
+            <office-registration-and-mot
+              [registrationNumber]="pageState.registrationNumber$ | async"
+              [previousVRNs]="pageState.previouslySearchedVRNs$ | async"
+              [vehicleMake]="pageState.vehicleMake$ | async"
+              [motStatus]="pageState.motStatus$ | async"
+              [motTestExpiryDate]="pageState.motTestExpiryDate$ | async"
+              [vehicleModel]="pageState.vehicleModel$ | async"
+            ></office-registration-and-mot>
+
             <alternate-mot-evidence-provided
               *ngIf="(pageState.motAlternativeEvidenceProvided$ | async) != null"
               [alternativeEvidenceProvided]="pageState.motAlternativeEvidenceProvided$ | async"

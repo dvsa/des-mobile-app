@@ -1,5 +1,4 @@
 import { VehicleDetails } from '@dvsa/mes-test-schema/categories/common';
-import { MotStatusCodes } from '@providers/mot-history-api/mot-interfaces';
 import {
   ClearGearboxCategory,
   DualControlsToggled,
@@ -23,8 +22,8 @@ describe('vehicle details reducer', () => {
   });
 
   it('should put the mot status into the state on MotStatusChanged action', () => {
-    const result = vehicleDetailsReducer({}, MotStatusChanged(MotStatusCodes.NO_DETAILS));
-    expect(result.motStatus).toBe(MotStatusCodes.NO_DETAILS);
+    const result = vehicleDetailsReducer({}, MotStatusChanged('No details'));
+    expect(result.motStatus).toBe('No details');
   });
 
   it('should put the mot evidence into the state on MotEvidenceChanged action', () => {

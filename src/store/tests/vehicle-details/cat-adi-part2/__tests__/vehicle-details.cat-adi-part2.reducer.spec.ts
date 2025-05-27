@@ -1,5 +1,4 @@
 import { CatADI2UniqueTypes } from '@dvsa/mes-test-schema/categories/ADI2';
-import { MotStatusCodes } from '@providers/mot-history-api/mot-interfaces';
 import {
   ClearGearboxCategory,
   DualControlsToggled,
@@ -16,8 +15,8 @@ describe('vehicleDetailsCatADIPart2Reducer', () => {
     expect(result.registrationNumber).toEqual('testData');
   });
   it('should set the mot status when the MotStatusChanged action is received', () => {
-    const result = vehicleDetailsCatADIPart2Reducer(initialState, MotStatusChanged(MotStatusCodes.NO_DETAILS));
-    expect(result.motStatus).toEqual(MotStatusCodes.NO_DETAILS);
+    const result = vehicleDetailsCatADIPart2Reducer(initialState, MotStatusChanged('No details'));
+    expect(result.motStatus).toEqual('No details');
   });
   it('should set the gearbox category when the GearboxCategoryChanged action is received', () => {
     const result = vehicleDetailsCatADIPart2Reducer(initialState, GearboxCategoryChanged('Manual'));

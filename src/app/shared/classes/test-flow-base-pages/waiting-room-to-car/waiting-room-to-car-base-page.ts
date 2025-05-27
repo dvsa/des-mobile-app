@@ -7,6 +7,7 @@ import { CategoryCode, GearboxCategory, QuestionResult } from '@dvsa/mes-test-sc
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 
 import { Inject, Injector } from '@angular/core';
+import { MotHistory } from '@dvsa/mes-mot-schema';
 import { TEST_CENTRE_JOURNAL_PAGE, TestFlowPageNames } from '@pages/page-names.constants';
 import { ModalEvent } from '@pages/waiting-room-to-car/components/mot-components/mot-failed-modal/mot-failed-modal.component';
 import { MOTAbortedMethod } from '@pages/waiting-room-to-car/components/vehicle-registration/vehicle-registration';
@@ -21,7 +22,6 @@ import {
   WaitingRoomToCarViewDidEnter,
 } from '@pages/waiting-room-to-car/waiting-room-to-car.actions';
 import { FaultCountProvider } from '@providers/fault-count/fault-count';
-import { MotHistory, MotStatusCodes } from '@providers/mot-history-api/mot-interfaces';
 import { NetworkStateProvider } from '@providers/network-state/network-state';
 import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
 import { PracticeableBasePageComponent } from '@shared/classes/practiceable-base-page';
@@ -385,7 +385,7 @@ export abstract class WaitingRoomToCarBasePageComponent extends PracticeableBase
 
   noMotData(noMotData: boolean): void {
     if (noMotData) {
-      this.store$.dispatch(MotStatusChanged(MotStatusCodes.NO_DETAILS));
+      this.store$.dispatch(MotStatusChanged('No details'));
     }
   }
 

@@ -1,5 +1,4 @@
 import { MotHistoryWithStatus } from '@providers/mot-history-api/mot-history-api.service';
-import { MotStatusCodes } from '@providers/mot-history-api/mot-interfaces';
 
 export const fakeMOTResults: {
   pass: MotHistoryWithStatus;
@@ -12,7 +11,7 @@ export const fakeMOTResults: {
       registration: 'XX01VLD',
       make: 'Practice',
       model: 'Mode',
-      status: MotStatusCodes.VALID,
+      status: 'Valid',
       expiryDate: '31/12/9999',
     },
   },
@@ -22,7 +21,7 @@ export const fakeMOTResults: {
       registration: 'XX01INV',
       make: 'Practice',
       model: 'Mode',
-      status: MotStatusCodes.NOT_VALID,
+      status: 'Not valid',
       expiryDate: '01/01/0001',
     },
   },
@@ -32,7 +31,7 @@ export const fakeMOTResults: {
       registration: 'XX01NDT',
       make: '-',
       model: '-',
-      status: MotStatusCodes.NO_DETAILS,
+      status: 'No details',
       expiryDate: '01/01/0001',
     },
   },

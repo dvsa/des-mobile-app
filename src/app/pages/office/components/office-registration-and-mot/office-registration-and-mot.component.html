@@ -1,0 +1,37 @@
+<ion-row [class.mes-row-separator]="motStatus || (vehicleMake || vehicleModel)" class="mes-component-row mes-narrow-row spacing-padding" id="office-registration-card">
+  <ion-col size="3"></ion-col>
+  <ion-col class="display-flex" [class.ion-align-items-center]="previousVRNs?.length == 0" size="28">
+    <label>Vehicle registration number</label>
+  </ion-col>
+  <ion-col size="3"></ion-col>
+  <ion-col class="display-flex" [class.ion-align-items-center]="previousVRNs?.length == 0">
+    <registration-with-previous-mot-text
+      [previouslySearchedRegNumbers]="previousVRNs"
+      [registrationNumber]="registrationNumber"
+    >
+    </registration-with-previous-mot-text>
+  </ion-col>
+</ion-row>
+<ion-row *ngIf="vehicleMake || vehicleModel" [class.mes-row-separator]="motStatus" class="mes-component-row mes-narrow-row spacing-padding" id="office-mot-card">
+  <ion-col size="3"></ion-col>
+  <ion-col class="display-flex ion-align-items-center" size="28">
+    <label>Make and Model</label>
+  </ion-col>
+  <ion-col size="3"></ion-col>
+  <ion-col class="display-flex ion-align-items-center">
+    <ion-text class="mes-data">{{ vehicleMake + (vehicleMake ? ' ' : '') + vehicleModel }}</ion-text>
+  </ion-col>
+</ion-row>
+<ion-row *ngIf="motStatus" class="mes-component-row mes-row-separator mes-narrow-row spacing-padding" id="office-mot-card">
+  <ion-col size="3"></ion-col>
+  <ion-col class="display-flex ion-align-items-center" size="28">
+    <label>MOT status</label>
+  </ion-col>
+  <ion-col size="3"></ion-col>
+  <ion-col class="display-flex ion-align-items-center">
+    <mot-status-display-text
+      [motStatus]="motStatus"
+      [motTestExpiryDate]="motTestExpiryDate"
+    ></mot-status-display-text>
+  </ion-col>
+</ion-row>

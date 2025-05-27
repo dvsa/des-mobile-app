@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { UntypedFormGroup } from '@angular/forms';
-import { MotHistory, MotStatusCodes } from '@providers/mot-history-api/mot-interfaces';
+import { MotHistory } from '@dvsa/mes-mot-schema';
 import { NetworkStateProvider } from '@providers/network-state/network-state';
 import { HttpStatusCodes } from '@shared/models/http-status-codes';
 
@@ -19,7 +19,7 @@ export class MotCardComponent {
     registration: '',
     make: '',
     model: '',
-    status: MotStatusCodes.NO_DETAILS,
+    status: 'No details',
     expiryDate: '',
   };
   alternateEvidenceRadioCheck: boolean;
@@ -31,8 +31,8 @@ export class MotCardComponent {
   isCallSuccessful(): boolean {
     return (
       (+this.status === HttpStatusCodes.OK || this.status === 'Already Saved') &&
-      this?.data?.status !== MotStatusCodes.NO_DETAILS &&
-      this?.data?.status !== MotStatusCodes.AGE_EXEMPTION
+      this?.data?.status !== 'No details' &&
+      this?.data?.status !== 'Age exemption'
     );
   }
 
@@ -40,8 +40,8 @@ export class MotCardComponent {
     return (
       !this.isSearchFailed() &&
       (+this.status === HttpStatusCodes.NO_CONTENT ||
-        this.data?.status === MotStatusCodes.NO_DETAILS ||
-        this?.data?.status === MotStatusCodes.AGE_EXEMPTION ||
+        this.data?.status === 'No details' ||
+        this?.data?.status === 'Age exemption' ||
         this.is404())
     );
   }
@@ -51,7 +51,7 @@ export class MotCardComponent {
   }
 
   isValidMOT(): boolean {
-    return this.data.status === MotStatusCodes.VALID;
+    return this.data.status === 'Valid';
   }
 
   evidenceRadioSelected(event: boolean) {

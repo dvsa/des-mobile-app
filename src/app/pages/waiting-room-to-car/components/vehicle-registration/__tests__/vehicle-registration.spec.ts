@@ -4,7 +4,6 @@ import { AppModule } from '@app/app.module';
 import { IonicModule } from '@ionic/angular';
 import { Store } from '@ngrx/store';
 import { MotHistoryWithStatus } from '@providers/mot-history-api/mot-history-api.service';
-import { MotStatusCodes } from '@providers/mot-history-api/mot-interfaces';
 import { ConnectionStatus } from '@providers/network-state/network-state';
 import { HttpStatusCodes } from '@shared/models/http-status-codes';
 import { of } from 'rxjs';
@@ -50,7 +49,7 @@ describe('VehicleRegistrationComponent', () => {
             registration: 'reg',
             make: 'make',
             model: 'model',
-            status: MotStatusCodes.VALID,
+            status: 'Valid',
             expiryDate: '1/1/1',
           },
         })

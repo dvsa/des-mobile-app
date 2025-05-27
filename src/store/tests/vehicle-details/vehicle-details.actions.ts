@@ -1,7 +1,7 @@
+import { MotStatusCodes } from '@dvsa/mes-mot-schema';
 import { Configuration } from '@dvsa/mes-test-schema/categories/CPC';
 import { GearboxCategory } from '@dvsa/mes-test-schema/categories/common';
 import { createAction } from '@ngrx/store';
-import { MotStatusCodes } from '@providers/mot-history-api/mot-interfaces';
 
 export const VehicleRegistrationChanged = createAction(
   '[Vehicle Details] Registration changed',

@@ -6,6 +6,7 @@ import { of } from 'rxjs';
 import { concatMap, filter, switchMap, withLatestFrom } from 'rxjs/operators';
 
 import { Router } from '@angular/router';
+import { MotStatusCodes } from '@dvsa/mes-mot-schema';
 import { ModalEvent } from '@pages/waiting-room-to-car/components/mot-components/mot-failed-modal/mot-failed-modal.component';
 import { MOTAbortedMethod } from '@pages/waiting-room-to-car/components/vehicle-registration/vehicle-registration';
 import {
@@ -34,7 +35,6 @@ import {
   GoogleAnalyticsEventsValues,
 } from '@providers/analytics/analytics.model';
 import { AppConfigProvider } from '@providers/app-config/app-config';
-import { MotStatusCodes } from '@providers/mot-history-api/mot-interfaces';
 import { analyticsEventTypePrefix } from '@shared/helpers/format-analytics-text';
 import { StoreModel } from '@shared/models/store.model';
 import { getTestCategory } from '@store/tests/category/category.reducer';
@@ -488,7 +488,7 @@ export class WaitingRoomToCarAnalyticsEffects {
         this.analytics.logGAEvent(
           analyticsEventTypePrefix(GoogleAnalyticsEvents.MOT_CHECK, tests),
           GoogleAnalyticsEventsTitles.MOT_STATUS,
-          motStatus === MotStatusCodes.AGE_EXEMPTION ? MotStatusCodes.NO_DETAILS : motStatus
+          motStatus === 'Age exemption' ? 'No details' : motStatus
         );
         return of(AnalyticRecorded());
       })

@@ -15,6 +15,7 @@ import { Observable, Subscription, merge } from 'rxjs';
 
 import { Inject, Injector } from '@angular/core';
 import { UntypedFormGroup } from '@angular/forms';
+import { MotStatusCodes } from '@dvsa/mes-mot-schema';
 import { Circuit } from '@dvsa/mes-test-schema/categories/AM1';
 import {
   GearboxCategory,
@@ -141,12 +142,24 @@ import {
 import {
   getMotEvidenceDescription,
   getMotEvidenceProvided,
+  getMotStatus,
+  getRegistrationNumber,
+  getSearchedVRNListNoDuplicates,
+  getTestExpiryDate,
+  getVehicleMake,
+  getVehicleModel,
 } from '@store/tests/vehicle-details/vehicle-details.selector';
 import { map, withLatestFrom } from 'rxjs/operators';
 
 export interface CommonOfficePageState {
   testCategory$: Observable<TestCategory>;
   activityCode$: Observable<ActivityCodeModel>;
+  registrationNumber$: Observable<string>;
+  previouslySearchedVRNs$: Observable<string[]>;
+  vehicleMake$: Observable<string>;
+  vehicleModel$: Observable<string>;
+  motStatus$: Observable<MotStatusCodes>;
+  motTestExpiryDate$: Observable<string>;
   startTime$: Observable<string>;
   startDate$: Observable<string>;
   startDateTime$: Observable<string>;
@@ -242,6 +255,12 @@ export abstract class OfficeBasePageComponent extends PracticeableBasePageCompon
 
     this.commonPageState = {
       testCategory$: category$.pipe(map((testCategory) => testCategory as TestCategory)),
+      registrationNumber$: currentTest$.pipe(select(getVehicleDetails), select(getRegistrationNumber)),
+      motStatus$: currentTest$.pipe(select(getVehicleDetails), select(getMotStatus)),
+      motTestExpiryDate$: currentTest$.pipe(select(getVehicleDetails), select(getTestExpiryDate)),
+      previouslySearchedVRNs$: currentTest$.pipe(select(getVehicleDetails), select(getSearchedVRNListNoDuplicates)),
+      vehicleMake$: currentTest$.pipe(select(getVehicleDetails), select(getVehicleMake)),
+      vehicleModel$: currentTest$.pipe(select(getVehicleDetails), select(getVehicleModel)),
       motAlternativeEvidenceProvided$: currentTest$.pipe(select(getVehicleDetails), select(getMotEvidenceProvided)),
       motAlternativeEvidenceDescription$: currentTest$.pipe(
         select(getVehicleDetails),
