@@ -1,4 +1,4 @@
-<location *ngIf="showLocation && !isTeamJournal" [location]="slot.testCentre.centreName"></location>
+<location *ngIf="showLocation && !isTeamJournal" [location]="slot?.testCentre?.centreName"></location>
 <ion-card [ngClass]="{'test-slot-portrait-mode': isPortrait}">
   <div [ngClass]="{ 'slot-changed': hasSlotChanged }" class="slot-changed-indicator"></div>
   <ion-grid>
@@ -13,7 +13,7 @@
             </language>
           </ion-col>
           <ion-col>
-            <div *ngIf="isTeamJournal" class="team-journal-test-centre-name">{{slot.testCentre.centreName}}</div>
+            <div *ngIf="isTeamJournal" class="team-journal-test-centre-name">{{slot?.testCentre?.centreName || 'Location Unknown'}}</div>
             <div *ngIf="isUnSubmittedTestSlotView" class="team-journal-test-centre-name" id="un-submitted-slot-app-ref">
               App ref: {{formatAppRef(slot.booking.application)}}
             </div>
