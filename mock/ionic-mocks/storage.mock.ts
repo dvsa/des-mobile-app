@@ -5,6 +5,8 @@ import { Storage } from '@ionic/storage-angular';
 export class StorageMock {
   clear = jasmine.createSpy('clear').and.resolveTo();
 
+  defineDriver = jasmine.createSpy('defineDriver').and.resolveTo();
+
   create = jasmine.createSpy('create').and.resolveTo({} as Storage);
 
   get = jasmine.createSpy('get').and.resolveTo('storage data');

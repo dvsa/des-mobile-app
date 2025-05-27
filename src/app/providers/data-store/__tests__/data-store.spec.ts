@@ -14,6 +14,7 @@ import { LogHelper } from '@providers/logs/logs-helper';
 import { Log, LogType } from '@shared/models/log.model';
 import { StoreModel } from '@shared/models/store.model';
 import { SaveLog } from '@store/logs/logs.actions';
+import CordovaSQLiteDriver from 'localforage-cordovasqlitedriver';
 
 describe('DataStoreProvider', () => {
   let provider: DataStoreProvider;
@@ -47,7 +48,7 @@ describe('DataStoreProvider', () => {
         },
         {
           provide: Storage,
-          useValue: StorageMock,
+          useClass: StorageMock,
         },
         provideMockStore(),
       ],
@@ -61,6 +62,36 @@ describe('DataStoreProvider', () => {
     spyOn(store$, 'dispatch');
     spyOn(platform, 'is').and.returnValue(true);
     secureStorage.create = jasmine.createSpy().and.returnValue(Promise.resolve({} as SecureStorageObject));
+  });
+
+  describe('onInit', () => {
+    it('should define the CordovaSQLiteDriver and create storage successfully', async () => {
+      console.log(storage.defineDriver);
+      const defineDriverSpy = spyOn(storage, 'defineDriver').and.returnValue(Promise.resolve());
+      const createSpy = spyOn(storage, 'create').and.returnValue(Promise.resolve({} as Storage));
+      await provider.onInit();
+      expect(defineDriverSpy).toHaveBeenCalledWith(CordovaSQLiteDriver);
+      expect(createSpy).toHaveBeenCalled();
+    });
+
+    it('should call reportLog and throw if defineDriver throws an error', async () => {
+      console.log(storage);
+      const error = new Error('defineDriver failed');
+      spyOn(storage, 'defineDriver').and.returnValue(Promise.reject(error));
+      const reportLogSpy = spyOn<any>(provider, 'reportLog');
+      await expectAsync(provider.onInit()).toBeRejectedWith(error);
+      expect(reportLogSpy).toHaveBeenCalledWith('init', '', error);
+    });
+
+    it('should call reportLog and throw if storage.create throws an error', async () => {
+      console.log(storage);
+      spyOn(storage, 'defineDriver').and.returnValue(Promise.resolve());
+      const error = new Error('create failed');
+      spyOn(storage, 'create').and.returnValue(Promise.reject(error));
+      const reportLogSpy = spyOn<any>(provider, 'reportLog');
+      await expectAsync(provider.onInit()).toBeRejectedWith(error);
+      expect(reportLogSpy).toHaveBeenCalledWith('init', '', error);
+    });
   });
 
   describe('createContainer', () => {
