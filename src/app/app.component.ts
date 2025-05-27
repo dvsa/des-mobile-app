@@ -94,7 +94,6 @@ export class AppComponent extends LogoutBasePageComponent implements OnInit {
     protected translate: TranslateService,
     protected appInfo: AppInfoProvider,
     protected appConfigProvider: AppConfigProvider,
-    private dataStoreProvider: DataStoreProvider,
     injector: Injector
   ) {
     super(injector);
@@ -111,7 +110,7 @@ export class AppComponent extends LogoutBasePageComponent implements OnInit {
   async ngOnInit() {
     try {
       await this.platform.ready();
-      await this.dataStoreProvider.onInit();
+      await this.dataStore.onInit();
       if (this.platform.is('cordova')) {
         await this.deviceProvider.disableSingleAppMode();
       }
