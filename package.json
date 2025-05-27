@@ -111,6 +111,7 @@
     "cordova-plugin-is-debug": "^1.0.0",
     "cordova-plugin-network-information": "^3.0.0",
     "cordova-plugin-secure-storage-echo": "^5.1.1",
+    "cordova-sqlite-storage": "^7.0.0",
     "deep-diff": "^1.0.2",
     "emoji-regex": "^10.3.0",
     "fuzzy-search": "^3.2.1",
