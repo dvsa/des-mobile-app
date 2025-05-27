@@ -115,7 +115,7 @@ SPEC CHECKSUMS:
   CapacitorTextZoom: be3bee30e5bf4bc623539877e6241dff861d631e
   CapawesomeCapacitorManagedConfigurations: e6dbcbcf45d7b1f7acfa9b54a02e15201604a803
   CapawesomeCapacitorScreenOrientation: 9cc68ecd085fcea2e1755475a3ed60d85e604a6c
-  CordovaPlugins: c8d12d6cd20cf360d3711e2590712be33b6dbcf5
+  CordovaPlugins: 5bd07f5171329fc5c8b2c22eece0b2074ab4354a
   CordovaPluginsResources: 0c211f770ed91763a179ebcd9b9346e120b70662
   CordovaPluginsStatic: 923a56e48bad79010d7c84d405625ec8d0b46b41
   DvsaCapacitorPluginAsam: 608d4ae7a0888671ccab43802a7c04d98407daf4
