@@ -4,6 +4,7 @@ import { BrowserModule, HAMMER_GESTURE_CONFIG, HammerModule } from '@angular/pla
 import { RouteReuseStrategy } from '@angular/router';
 import { IsDebug } from '@awesome-cordova-plugins/is-debug/ngx';
 import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
+import { Drivers } from '@ionic/storage';
 import { IonicStorageModule } from '@ionic/storage-angular';
 
 import { CommonModule } from '@angular/common';
@@ -64,6 +65,7 @@ import { TestCentreJournalStoreModule } from '@store/test-centre-journal/test-ce
 import { TestsModule } from '@store/tests/tests.module';
 import { testsReducer } from '@store/tests/tests.reducer';
 
+import { Capacitor } from '@capacitor/core';
 import { ExitSingleAppModeEffects } from '@components/common/test-flow-header/exit-sam.effects';
 import { ExaminerRecordsComponentsModule } from '@pages/examiner-records/components/examiner-records-components.module';
 import { CompressionProvider } from '@providers/compression/compression';
@@ -74,6 +76,7 @@ import { StoreModel } from '@shared/models/store.model';
 import { ExaminerRecordsStoreModule } from '@store/examiner-records/examiner-records.module';
 import { examinerRecordsReducer } from '@store/examiner-records/examiner-records.reducer';
 import { SafetyRecallStoreModule } from '@store/general/safety-recall/safety-recall-store.module';
+import CordovaSQLiteDriver from 'localforage-cordovasqlitedriver';
 import { get, set } from 'lodash-es';
 import { RemoteDevToolsProxy } from '../../ngrx-devtool-proxy/remote-devtools-proxy';
 import { IonicGestureConfig } from '../gestures/ionic-gesture-config';
@@ -122,12 +125,15 @@ if (enableRehydrationPlugin) {
   metaReducers.push(localStorageSyncReducer);
 }
 
+const storageDriver = Capacitor.getPlatform() === 'web' ? Drivers.IndexedDB : CordovaSQLiteDriver._driver;
+
 @NgModule({
   declarations: [AppComponent],
   bootstrap: [AppComponent],
   imports: [
     DirectivesModule,
     BrowserModule,
+
     IonicModule.forRoot({
       swipeBackEnabled: false,
       animated: !(environment as unknown as TestersEnvironmentFile)?.isTest ?? true,
@@ -136,7 +142,9 @@ if (enableRehydrationPlugin) {
       scrollPadding: false,
     }),
     AppRoutingModule,
-    IonicStorageModule.forRoot(),
+    IonicStorageModule.forRoot({
+      driverOrder: [storageDriver],
+    }),
     StoreModule.forRoot(reducers, { metaReducers }),
     EffectsModule.forRoot(),
     EffectsModule.forFeature([ExitSingleAppModeEffects]),
