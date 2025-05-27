@@ -1,4 +1,4 @@
-<location *ngIf="showLocation" [location]="slot.testCentre.centreName"></location>
+<location *ngIf="showLocation" [location]="slot?.testCentre?.centreName"></location>
 <ion-card class="personal-commitment personal-commitment-card">
   <ion-row *ngFor="let commitment of personalCommitments; let i = index;" class="slot-row">
     <ion-col class="time-column">
