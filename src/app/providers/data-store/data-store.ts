@@ -43,7 +43,7 @@ export class DataStoreProvider {
       await this.storage.defineDriver(CordovaSQLiteDriver);
       this.storage = await this.storage.create();
     } catch (err) {
-      this.reportLog('ini', '', err);
+      this.reportLog('init', '', err);
       throw err;
     }
   }
