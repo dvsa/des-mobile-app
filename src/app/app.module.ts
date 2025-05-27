@@ -4,6 +4,7 @@ import { BrowserModule, HAMMER_GESTURE_CONFIG, HammerModule } from '@angular/pla
 import { RouteReuseStrategy } from '@angular/router';
 import { IsDebug } from '@awesome-cordova-plugins/is-debug/ngx';
 import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
+import { Drivers } from '@ionic/storage';
 import { IonicStorageModule } from '@ionic/storage-angular';
 
 import { CommonModule } from '@angular/common';
@@ -40,6 +41,7 @@ import { TestPersistenceProvider } from '@providers/test-persistence/test-persis
 import { UrlProvider } from '@providers/url/url';
 
 import { SentryIonicErrorHandler } from '@app/sentry-error-handler';
+import { Capacitor } from '@capacitor/core';
 import { DirectivesModule } from '@directives/directives.module';
 import { delegatedSearchReducer } from '@pages/delegated-rekey-search/delegated-rekey-search.reducer';
 import { rekeySearchReducer } from '@pages/rekey-search/rekey-search.reducer';
@@ -63,6 +65,7 @@ import { ReferenceDataStoreModule } from '@store/reference-data/reference-data.m
 import { TestCentreJournalStoreModule } from '@store/test-centre-journal/test-centre-journal.module';
 import { TestsModule } from '@store/tests/tests.module';
 import { testsReducer } from '@store/tests/tests.reducer';
+import CordovaSQLiteDriver from 'localforage-cordovasqlitedriver';
 
 import { ExitSingleAppModeEffects } from '@components/common/test-flow-header/exit-sam.effects';
 import { ExaminerRecordsComponentsModule } from '@pages/examiner-records/components/examiner-records-components.module';
@@ -122,12 +125,15 @@ if (enableRehydrationPlugin) {
   metaReducers.push(localStorageSyncReducer);
 }
 
+const storageDriver = Capacitor.getPlatform() === 'web' ? Drivers.IndexedDB : CordovaSQLiteDriver._driver;
+
 @NgModule({
   declarations: [AppComponent],
   bootstrap: [AppComponent],
   imports: [
     DirectivesModule,
     BrowserModule,
+
     IonicModule.forRoot({
       swipeBackEnabled: false,
       animated: !(environment as unknown as TestersEnvironmentFile)?.isTest ?? true,
@@ -136,7 +142,9 @@ if (enableRehydrationPlugin) {
       scrollPadding: false,
     }),
     AppRoutingModule,
-    IonicStorageModule.forRoot(),
+    IonicStorageModule.forRoot({
+      driverOrder: [storageDriver],
+    }),
     StoreModule.forRoot(reducers, { metaReducers }),
     EffectsModule.forRoot(),
     EffectsModule.forFeature([ExitSingleAppModeEffects]),
