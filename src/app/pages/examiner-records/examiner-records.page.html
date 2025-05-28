@@ -14,7 +14,7 @@
     <ion-title role="heading" aria-level="1" id="examiner-records-page-title">Examiner records</ion-title>
   </ion-toolbar>
   <div *ngIf="!cachedExaminerRecords" id="unauthenticated-mode-indicator">
-    <label role="alert" id="unauth-text">Unable to access all data. Some date ranges are not available.</label>
+    <label role="alert" id="examiner-records-offline-text">Unable to access all data. Some date ranges are not available.</label>
   </div>
   <ion-grid
     class="background-colour width-100-percent ion-padding-bottom position-fixed mes-padding-right mes-padding-left"
@@ -59,7 +59,7 @@
           *ngIf="data.locationList?.length > 0"
           [interfaceOptions]="{cssClass:'mes-select', enableBackdropDismiss:false}"
           class="input-styling-background black-text"
-          id="locationSelect"
+          id="examiner-records-location-select"
           (ionChange)="handleLocationFilter($event?.detail?.value, true)"
           labelPlacement="stacked"
           [value]="locationSelectPristine ? null : currentTestCentre"
@@ -69,7 +69,7 @@
             {{ option.centreName }}
           </ion-select-option>
         </ion-select>
-        <ion-text *ngIf="data.locationList?.length == 0" class="mes-data">No locations available</ion-text>
+        <ion-text id="examiner-records-no-locations-available-text" *ngIf="data.locationList?.length == 0" class="mes-data">No locations available</ion-text>
       </ion-row>
     </ion-col>
     <ion-col></ion-col>
@@ -84,7 +84,7 @@
           class="input-styling-background black-text"
           (ionChange)="handleCategoryFilter($event?.detail?.value, true)"
           labelPlacement="stacked"
-          id="categorySelect"
+          id="examiner-records-category-select"
           [value]="categorySelectPristine ? null : categorySubject$.value"
           [placeholder]="categoryPlaceholder"
         >
@@ -92,7 +92,7 @@
             {{ option }}
           </ion-select-option>
         </ion-select>
-        <ion-text *ngIf="data.categoryList?.length == 0" class="mes-data">No categories available</ion-text>
+        <ion-text id="examiner-records-no-categories-available-text" *ngIf="data.categoryList?.length == 0" class="mes-data">No categories available</ion-text>
       </ion-row>
     </ion-col>
     <ion-col></ion-col>
@@ -106,7 +106,7 @@
           class="input-styling-background black-text"
           (ionChange)="handleDateFilter($event)"
           labelPlacement="stacked"
-          id="dateSelect"
+          id="examiner-records-date-select"
           [placeholder]="defaultDate.display"
         >
           <ion-select-option [value]="option" *ngFor="let option of examinerRecordsProvider.localFilterOptions;">
