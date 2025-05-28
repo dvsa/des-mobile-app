@@ -54,6 +54,8 @@
       <ion-row class="ion-padding-top" *ngIf="useGrid && showExpandedData">
         <ion-col class="ion-no-padding">
           <data-grid
+            id="record-card-data-grid-{{chartID}}"
+            [gridID]="chartID"
             [headers]="gridHeaders"
             [colourScheme]="colourScheme"
             [padDataTable]="chartType === 'pie'"
@@ -65,7 +67,7 @@
             <ion-row class="ion-padding-top mes-row-separator"></ion-row>
             <ion-row *ngIf="showTotal" class="ion-padding-top display-flex ion-justify-content-center">
               <ion-col class="display-flex ion-justify-content-center">
-                <span class="mes-data"
+                <span class="mes-data" id="record-card-{{chartID}}-total"
                   ><label>Total {{cardTitle.toLowerCase()}}:</label> {{ getTotal(passedData) }}</span
                 >
               </ion-col>
@@ -74,6 +76,7 @@
         </ion-col>
       </ion-row>
       <ion-row
+        id="record-card-custom-content-{{chartID}}"
         *ngIf="hasCustomExpandedContent && showExpandedData"
         class="display-flex direction-column ion-padding-top"
       >
@@ -82,14 +85,14 @@
       <div *ngIf="canExpand && (useGrid || hasCustomExpandedContent)">
         <ion-row class="padding-top-18 mes-row-separator"></ion-row>
         <ion-row class="padding-top-18 display-flex ion-justify-content-center">
-          <ion-text>{{ getTapText('Tap to hide data', 'Tap to show data') }}</ion-text>
+          <ion-text id="record-card-tap-to-change-text-{{chartID}}">{{ getTapText('Tap to hide data', 'Tap to show data') }}</ion-text>
           <ion-col size="2"></ion-col>
-          <ion-icon size="large" [name]="getTapText('chevron-up-outline','chevron-down-outline')"></ion-icon>
+          <ion-icon id="record-card-tap-to-change-icon-{{chartID}}" size="large" [name]="getTapText('chevron-up-outline','chevron-down-outline')"></ion-icon>
         </ion-row>
       </div>
     </div>
     <ion-row class="display-flex ion-justify-content-center" *ngIf="!getTotal(passedData)">
-      <ion-text class="des-header-style-3">No data to display</ion-text>
+      <ion-text id="record-card-no-data-text-{{chartID}}" class="des-header-style-3">No data to display</ion-text>
     </ion-row>
   </ion-card-content>
 </ion-card>

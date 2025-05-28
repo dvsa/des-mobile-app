@@ -1,15 +1,15 @@
-<ion-row class="display-flex ion-padding-top">
-  <ion-col size="70">
+<ion-row id="examiner-records-label-row" class="display-flex ion-padding-top">
+  <ion-col id="examiner-records-label-text" size="70">
     <ion-text class="mes-data">
-      Displaying <strong>{{ testCount }}</strong>
+      Displaying <strong id="examiner-records-label-test-count">{{ testCount }}</strong>
     </ion-text>
-    <ion-text *ngIf="currentCategory" class="mes-data"> Category <strong>{{ currentCategory }}</strong></ion-text>
+    <ion-text *ngIf="currentCategory" class="mes-data"> Category <strong id="examiner-records-label-category">{{ currentCategory }}</strong></ion-text>
     <ion-text class="mes-data">
       test<ng-container *ngIf="testCount != 1">s</ng-container>, from
-      <strong>{{ startDateFilter }}</strong> to
-      <strong>{{ endDateFilter }}</strong>
+      <strong id="examiner-records-label-start-date">{{ startDateFilter }}</strong> to
+      <strong id="examiner-records-label-end-date">{{ endDateFilter }}</strong>
     </ion-text>
-    <ion-text *ngIf="centreName" class="mes-data"> at <strong>{{ centreName }}</strong></ion-text>
+    <ion-text *ngIf="centreName" class="mes-data"> at <strong id="examiner-records-label-centre-name">{{ centreName }}</strong></ion-text>
   </ion-col>
   <ion-col size="26" class="display-flex ion-align-items-center ion-justify-content-end">
     <ion-button id="examiner-records-learn-more-btn-header"
