@@ -17,6 +17,7 @@ export class DataGridComponent implements OnInit {
   @Input() showSeparator = true;
   @Input() showHeaders = true;
   @Input() padDataTable = false;
+  @Input() gridID: string = null;
 
   public finalColourArray: string[] = null;
 
