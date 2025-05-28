@@ -41,8 +41,22 @@ export class DataStoreProvider {
     try {
       await this.storage.defineDriver(CordovaSQLiteDriver);
       this.storage = await this.storage.create();
+
+      // await this.clearIndexedDB();
     } catch (err) {
       this.reportLog('init', '', err);
+      throw err;
+    }
+  }
+
+  async clearIndexedDB() {
+    try {
+      // Clear all IndexedDB databases
+      (await window.indexedDB.databases()).forEach((db) => {
+        window.indexedDB.deleteDatabase(db.name);
+      });
+    } catch (err) {
+      this.reportLog('clearIndexedDB', '', err, LogType.ERROR);
       throw err;
     }
   }
