@@ -260,46 +260,16 @@ describe('AppComponent', () => {
   });
 
   describe('initialisePersistentStorage', () => {
-    it('should create storage container and migrate keys if on iOS and not migrated', async () => {
+    it('should create storage container if on iOS', async () => {
       spyOn(component, 'isIos').and.returnValue(true);
-      spyOn(dataStore, 'hasStorageBeenMigrated').and.returnValue(Promise.resolve(false));
       spyOn(dataStore, 'createContainer').and.returnValue(Promise.resolve());
-      spyOn(dataStore, 'migrateAllKeys').and.returnValue(Promise.resolve());
 
       await component.initialisePersistentStorage();
-
       expect(dataStore.createContainer).toHaveBeenCalled();
-      expect(dataStore.migrateAllKeys).toHaveBeenCalled();
-    });
-
-    it('should not create storage container or migrate keys if already migrated', async () => {
-      spyOn(component, 'isIos').and.returnValue(true);
-      spyOn(dataStore, 'hasStorageBeenMigrated').and.returnValue(Promise.resolve(true));
-      spyOn(dataStore, 'createContainer');
-      spyOn(dataStore, 'migrateAllKeys');
-
-      await component.initialisePersistentStorage();
-
-      expect(dataStore.createContainer).not.toHaveBeenCalled();
-      expect(dataStore.migrateAllKeys).not.toHaveBeenCalled();
-    });
-
-    it('should not create storage container or migrate keys if not on iOS', async () => {
-      spyOn(component, 'isIos').and.returnValue(false);
-      spyOn(dataStore, 'hasStorageBeenMigrated');
-      spyOn(dataStore, 'createContainer');
-      spyOn(dataStore, 'migrateAllKeys');
-
-      await component.initialisePersistentStorage();
-
-      expect(dataStore.hasStorageBeenMigrated).not.toHaveBeenCalled();
-      expect(dataStore.createContainer).not.toHaveBeenCalled();
-      expect(dataStore.migrateAllKeys).not.toHaveBeenCalled();
     });
 
     it('should reject if an error occurs during storage initialization', async () => {
       spyOn(component, 'isIos').and.returnValue(true);
-      spyOn(dataStore, 'hasStorageBeenMigrated').and.returnValue(Promise.resolve(false));
       spyOn(dataStore, 'createContainer').and.returnValue(Promise.reject(new Error('Failed to create container')));
 
       await expectAsync(component.initialisePersistentStorage()).toBeRejectedWithError('Failed to create container');
@@ -309,6 +279,7 @@ describe('AppComponent', () => {
   describe('disableMenuSwipe', () => {
     it('should call swipeGesture with false to disable side menu swipe', async () => {
       spyOn(menuController, 'swipeGesture');
+
       await component.disableMenuSwipe();
       expect(menuController.swipeGesture).toHaveBeenCalledWith(false);
     });
@@ -317,6 +288,7 @@ describe('AppComponent', () => {
   describe('onLogoutClick', () => {
     it('should call through to openLogoutModal', async () => {
       spyOn(component, 'openLogoutModal');
+
       await component.onLogoutClick();
       expect(component.openLogoutModal).toHaveBeenCalled();
     });
