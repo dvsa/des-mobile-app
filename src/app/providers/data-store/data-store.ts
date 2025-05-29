@@ -158,54 +158,6 @@ export class DataStoreProvider {
     }
   }
 
-  async hasStorageBeenMigrated(): Promise<boolean> {
-    try {
-      const migrated = await this.storage.get(LocalStorageKey.STORAGE_MIGRATED);
-      return migrated === 'true';
-    } catch (err) {
-      this.reportLog('hasStorageBeenMigrated', '', err, LogType.ERROR);
-      return false;
-    }
-  }
-
-  async migrateAllKeys(): Promise<void> {
-    try {
-      if (!this.secureContainer) {
-        this.reportLog('migrateAllKeys', '', 'secureContainer not defined', LogType.ERROR);
-        return;
-      }
-
-      this.reportLog('migrateAllKeys', '', 'Attempting to migrate keys', LogType.INFO);
-
-      const keys: string[] = await this.secureContainer.keys();
-
-      await Promise.all(keys.map((key) => this.migrateKey(key)));
-
-      await this.storage.set(LocalStorageKey.STORAGE_MIGRATED, 'true');
-
-      this.reportLog('migrateAllKeys', '', 'All keys migrated', LogType.DEBUG);
-    } catch (err) {
-      await this.storage.set(LocalStorageKey.STORAGE_MIGRATED, 'false');
-
-      this.reportLog('migrateAllKeys', '', err, LogType.ERROR);
-    }
-  }
-
-  async migrateKey(key: string): Promise<void> {
-    try {
-      // look to see if the key exists in keychain
-      const keyChainItem = await this.secureContainer.get(key);
-
-      // if found, then add that key/value to storage and remove from keychain
-      if (keyChainItem) {
-        await this.storage.set(key, keyChainItem);
-        await this.secureContainer.remove(key);
-      }
-    } catch (err) {
-      this.reportLog('migrateKey', key, err, LogType.ERROR);
-    }
-  }
-
   private reportLog = (action: string, key: string, error: Error | unknown, level: LogType = LogType.ERROR): void => {
     this.store$.dispatch(
       SaveLog({
