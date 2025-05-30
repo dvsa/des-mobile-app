@@ -10,6 +10,7 @@ import { LogType } from '@shared/models/log.model';
 import { StoreModel } from '@shared/models/store.model';
 import { SaveLog } from '@store/logs/logs.actions';
 import CordovaSQLiteDriver from 'localforage-cordovasqlitedriver';
+import { get } from 'lodash-es';
 import { LogHelper } from '../logs/logs-helper';
 
 export enum LocalStorageKey {
@@ -37,16 +38,103 @@ export class DataStoreProvider {
     private storage: Storage
   ) {}
 
-  async onInit() {
+  async initializeStore() {
     try {
       await this.storage.defineDriver(CordovaSQLiteDriver);
       this.storage = await this.storage.create();
+      console.log('driver', this.storage.driver);
+
+      await this.storage.get(LocalStorageKey.EXAMINER_STATS_KEY).then((value: string) => {
+        if (value) {
+          console.log('examiner pre parse', value);
+        }
+      });
+
+      try {
+        const oldData: JSON = await this.getOldData();
+        if (oldData) {
+          for (const key in oldData) {
+            await this.storage.get(LocalStorageKey.EXAMINER_STATS_KEY).then((value) => {
+              if (value && key) {
+                console.log('old pull:', key, ' ', value);
+              }
+            });
+            await this.storage.set(key, JSON.stringify(oldData[key]));
+            await this.storage.get(LocalStorageKey.EXAMINER_STATS_KEY).then((value) => {
+              if (value && key) {
+                console.log('new pull:', key, ' ', value);
+              }
+            });
+          }
+          await this.storage.get(LocalStorageKey.EXAMINER_STATS_KEY).then((value) => {
+            if (value && oldData) {
+              console.log('new pref', value);
+              console.log('migrated from old data:', oldData[LocalStorageKey.EXAMINER_STATS_KEY]);
+            }
+          });
+        } else {
+          console.log('No old data found to migrate.');
+        }
+      } catch (err) {
+        console.error('didnt work', err);
+      }
 
       // await this.clearIndexedDB();
     } catch (err) {
       this.reportLog('init', '', err);
       throw err;
     }
+  }
+
+  async getOldDataKey(key: string, objectStore: IDBObjectStore): Promise<JSON> {
+    return new Promise((resolve, reject) => {
+      const dataGet = objectStore.get(key);
+      dataGet.onsuccess = (event) => {
+        try {
+          const value = get(event, 'target.result');
+          resolve(JSON.parse(value));
+        } catch (err) {
+          reject(err);
+        }
+      };
+      dataGet.onerror = (event) => {
+        reject(get(event, 'target.error'));
+      };
+    });
+  }
+
+  async getOldData(): Promise<JSON> {
+    return new Promise((resolve, reject) => {
+      const request = window.indexedDB.open('_ionicstorage');
+      request.onsuccess = async (event) => {
+        const result: IDBDatabase = get(event, 'target.result');
+        if (result) {
+          console.log('result', result);
+          const list = Array.from(result.objectStoreNames);
+          if (list.length > 0) {
+            console.log('list', list);
+            const idbTransaction = result.transaction(list, 'readonly');
+            console.log('idbTransaction', idbTransaction);
+            if (idbTransaction) {
+              const request = idbTransaction.objectStore('_ionickv');
+              console.log('request', request);
+              const holdingJSON = {};
+              for (const key of [LocalStorageKey.JOURNAL, LocalStorageKey.EXAMINER_STATS_KEY]) {
+                holdingJSON[key] = await this.getOldDataKey(key, request);
+              }
+              console.log('holdingJSON', holdingJSON);
+              resolve(holdingJSON as JSON);
+            }
+          } else {
+            console.log('No object stores found in IndexedDB.');
+            resolve(null);
+          }
+        }
+      };
+      request.onerror = (event) => {
+        reject(get(event, 'target.error'));
+      };
+    });
   }
 
   async clearIndexedDB() {

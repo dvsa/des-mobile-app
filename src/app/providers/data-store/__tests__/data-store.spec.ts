@@ -69,7 +69,7 @@ describe('DataStoreProvider', () => {
       console.log(storage.defineDriver);
       const defineDriverSpy = spyOn(storage, 'defineDriver').and.returnValue(Promise.resolve());
       const createSpy = spyOn(storage, 'create').and.returnValue(Promise.resolve({} as Storage));
-      await provider.onInit();
+      await provider.initializeStore();
       expect(defineDriverSpy).toHaveBeenCalledWith(CordovaSQLiteDriver);
       expect(createSpy).toHaveBeenCalled();
     });
@@ -79,7 +79,7 @@ describe('DataStoreProvider', () => {
       const error = new Error('defineDriver failed');
       spyOn(storage, 'defineDriver').and.returnValue(Promise.reject(error));
       const reportLogSpy = spyOn<any>(provider, 'reportLog');
-      await expectAsync(provider.onInit()).toBeRejectedWith(error);
+      await expectAsync(provider.initializeStore()).toBeRejectedWith(error);
       expect(reportLogSpy).toHaveBeenCalledWith('init', '', error);
     });
 
@@ -89,7 +89,7 @@ describe('DataStoreProvider', () => {
       const error = new Error('create failed');
       spyOn(storage, 'create').and.returnValue(Promise.reject(error));
       const reportLogSpy = spyOn<any>(provider, 'reportLog');
-      await expectAsync(provider.onInit()).toBeRejectedWith(error);
+      await expectAsync(provider.initializeStore()).toBeRejectedWith(error);
       expect(reportLogSpy).toHaveBeenCalledWith('init', '', error);
     });
   });
