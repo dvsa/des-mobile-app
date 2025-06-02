@@ -3,6 +3,8 @@ import { Platform } from '@ionic/angular';
 import { Storage } from '@ionic/storage-angular';
 
 import { SecureStorage, SecureStorageObject } from '@awesome-cordova-plugins/secure-storage/ngx';
+import { Capacitor } from '@capacitor/core';
+import { Drivers } from '@ionic/storage';
 import { Store } from '@ngrx/store';
 import { Token } from '@providers/authentication/authentication';
 import { serialiseLogMessage } from '@shared/helpers/serialise-log-message';
@@ -37,16 +39,150 @@ export class DataStoreProvider {
     private storage: Storage
   ) {}
 
-  async onInit() {
+  /**
+   * Initializes the data store by defining the storage driver and creating the storage instance.
+   * It also attempts to migrate any old IndexedDB data to Ionic Storage if applicable.
+   */
+  async initDataStore() {
     try {
+      //Define the storage driver
       await this.storage.defineDriver(CordovaSQLiteDriver);
+      // Create the storage instance
       this.storage = await this.storage.create();
 
-      // await this.clearIndexedDB();
+      //Attempt to migrate any old IndexedDB data to Ionic Storage
+      await this.attemptDataStoreMigration();
     } catch (err) {
-      this.reportLog('init', '', err);
+      // If there is an error during initialization, log it
+      this.reportLog('initDataStore', '', err);
       throw err;
     }
+  }
+
+  /**
+   * Attempts to migrate IndexedDB data to Ionic Storage if the platform is not web.
+   * This method checks if there is any old IndexedDB data and migrates it to Ionic Storage.
+   * It also clears the IndexedDB after migration.
+   */
+  async attemptDataStoreMigration(): Promise<void> {
+    try {
+      // Check if there is any old IndexedDB data to migrate and the platform is not web
+      if (
+        this.storage.driver !== Drivers.IndexedDB &&
+        (await window.indexedDB.databases()).length > 0 &&
+        !(Capacitor.getPlatform() === 'web')
+      ) {
+        // If the platform is not web, migrate IndexedDB data to Ionic Storage
+        await this.migrateIndexedDBData(await this.getIndexDBData());
+        // clear IndexedDB after migration
+        await this.clearIndexedDB();
+      }
+    } catch (err) {
+      this.reportLog('attemptDataStoreMigration', '', err);
+    }
+  }
+
+  /**
+   * Migrates IndexedDB data to Ionic Storage.
+   *
+   * @param indexdbData - The IndexedDB data to be migrated.
+   * @returns A promise that resolves when the migration is complete.
+   */
+  async migrateIndexedDBData(indexdbData: Record<string, unknown>): Promise<void> {
+    // Check if the data to be migrated is valid
+    if (indexdbData) {
+      // Iterate over the keys in the IndexedDB data and set them in Ionic Storage
+      for (const key in indexdbData) {
+        await this.storage.set(key, JSON.stringify(indexdbData[key]));
+      }
+    }
+  }
+
+  /**
+   * Retrieves and parses a value by key from the given IndexedDB object store.
+   *
+   * @param key - The key to look up in the object store.
+   * @param objectStore - The IndexedDB object store to query.
+   * @returns A promise resolving to the parsed JSON value, or null if not found.
+   */
+  async getIndexDBDataByKey(key: string, objectStore: IDBObjectStore): Promise<Record<string, unknown>> {
+    return new Promise((resolve, reject) => {
+      //try to get the value from the object store by key
+      const request = objectStore.get(key);
+      // Handle the success and error events
+      request.onsuccess = (event) => {
+        // If the value is found, parse it and resolve the promise
+        try {
+          // Get the result from the event
+          const value = get(event, 'target.result');
+          // If the value is null or undefined, resolve with null
+          if (!value) return resolve(null);
+          // Parse the value as JSON and resolve the promise
+          resolve(JSON.parse(value));
+        } catch (err) {
+          this.reportLog('getIndexDBDataByKey', '', err);
+          reject(err);
+        }
+      };
+      request.onerror = (event) => {
+        // If there is an error, log it and reject the promise
+        const error = get(event, 'target.error');
+        this.reportLog('getIndexDBDataByKey', '', error);
+        reject(error);
+      };
+    });
+  }
+
+  async getIndexDBData(): Promise<Record<string, unknown>> {
+    return new Promise((resolve, reject) => {
+      // Open the IndexedDB database
+      const request = window.indexedDB.open('_ionicstorage');
+      // Handle the success and error events
+      request.onsuccess = async (event) => {
+        // Get the database from the event
+        const db: IDBDatabase = get(event, 'target.result');
+        // If the database is not found, resolve with null
+        if (!db) {
+          return resolve(null);
+        }
+        // Get the names of all object stores in the database
+        const storeNames = Array.from(db.objectStoreNames);
+        // If there are no object stores, resolve with null
+        if (!storeNames.length) {
+          return resolve(null);
+        }
+        // Start a transaction to read from the object store
+        const transaction = db.transaction(storeNames, 'readonly');
+        // Get the object store from the transaction
+        const objectStore = transaction.objectStore('_ionickv');
+        // If the object store is not found, resolve with null
+        if (!objectStore) {
+          return resolve(null);
+        }
+        // Create an empty object to hold the data
+        const holdingJSON = {};
+        // Define the keys to be migrated
+        const keysToBeMigrated = [LocalStorageKey.JOURNAL, LocalStorageKey.EXAMINER_STATS_KEY];
+        // Iterate over the keys to be migrated and get their values from the object store
+        for (const key of keysToBeMigrated) {
+          // Get the value for each key from the object store
+          const oldDataKey = await this.getIndexDBDataByKey(key, objectStore);
+          // If the value is found, add it to the holding JSON object
+          if (oldDataKey) {
+            holdingJSON[key] = oldDataKey;
+          }
+        }
+        // Close the transaction
+        transaction.oncomplete = () => {
+          db.close();
+        };
+
+        // Resolve the promise with the holding JSON object
+        resolve(holdingJSON);
+      };
+      // Handle the error event
+      request.onerror = (event) => reject(get(event, 'target.error'));
+    });
   }
 
   async clearIndexedDB() {

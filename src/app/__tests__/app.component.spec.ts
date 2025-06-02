@@ -177,7 +177,7 @@ describe('AppComponent', () => {
       spyOn(appConfigProvider, 'initialiseAppConfig').and.returnValue(Promise.resolve());
     });
     it('should run app initialisation code', fakeAsync(() => {
-      spyOn(dataStore, 'onInit').and.callThrough();
+      spyOn(dataStore, 'initDataStore').and.callThrough();
       spyOn(deviceProvider, 'disableSingleAppMode').and.returnValue(Promise.resolve(true));
       component.ngOnInit();
       flushMicrotasks();
@@ -191,7 +191,7 @@ describe('AppComponent', () => {
       expect(component.configureLocale).toHaveBeenCalled();
     }));
     it('should run through catch block if error detected', fakeAsync(() => {
-      spyOn(dataStore, 'onInit').and.callThrough();
+      spyOn(dataStore, 'initDataStore').and.callThrough();
       spyOn(deviceProvider, 'disableSingleAppMode').and.returnValue(Promise.reject(new Error('Failed to disable')));
       component.ngOnInit();
       flushMicrotasks();

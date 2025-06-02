@@ -1,5 +1,5 @@
 export class DataStoreProviderMock {
-  onInit = jasmine.createSpy('onInit').and.callThrough();
+  initDataStore = jasmine.createSpy('initDataStore').and.callThrough();
 
   setItem = jasmine.createSpy('setItem').and.returnValue(Promise.resolve('set'));
 
