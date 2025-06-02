@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { Platform } from '@ionic/angular';
 import { Storage } from '@ionic/storage-angular';
 
-import { SecureStorage, SecureStorageObject } from '@awesome-cordova-plugins/secure-storage/ngx';
 import { Capacitor } from '@capacitor/core';
 import { Drivers } from '@ionic/storage';
 import { Store } from '@ngrx/store';
@@ -29,13 +28,11 @@ export type StorageKey = LocalStorageKey | Token;
 @Injectable()
 export class DataStoreProvider {
   private static readonly defaultStoreName = 'DES';
-  secureContainer: SecureStorageObject = null;
 
   constructor(
     public platform: Platform,
     private logHelper: LogHelper,
     private store$: Store<StoreModel>,
-    private secureStorage: SecureStorage,
     private storage: Storage
   ) {}
 
@@ -70,7 +67,7 @@ export class DataStoreProvider {
       if (
         this.storage.driver !== Drivers.IndexedDB &&
         (await window.indexedDB.databases()).length > 0 &&
-        !(Capacitor.getPlatform() === 'web')
+        Capacitor.getPlatform() !== 'web'
       ) {
         // If the platform is not web, migrate IndexedDB data to Ionic Storage
         await this.migrateIndexedDBData(await this.getIndexDBData());
@@ -162,7 +159,7 @@ export class DataStoreProvider {
         // Create an empty object to hold the data
         const holdingJSON = {};
         // Define the keys to be migrated
-        const keysToBeMigrated = [LocalStorageKey.JOURNAL, LocalStorageKey.EXAMINER_STATS_KEY];
+        const keysToBeMigrated = [LocalStorageKey.JOURNAL, LocalStorageKey.EXAMINER_STATS_KEY, LocalStorageKey.TESTS];
         // Iterate over the keys to be migrated and get their values from the object store
         for (const key of keysToBeMigrated) {
           // Get the value for each key from the object store
@@ -198,31 +195,6 @@ export class DataStoreProvider {
   }
 
   isIos = () => this.platform.is('cordova');
-
-  /**
-   * set storage container
-   * @param container - container to set
-   */
-  setSecureContainer(container: SecureStorageObject): void {
-    this.secureContainer = container;
-  }
-
-  /**
-   * get storage container
-   */
-  getSecureContainer(): SecureStorageObject {
-    return this.secureContainer;
-  }
-
-  async createContainer(): Promise<void> {
-    try {
-      const container: SecureStorageObject = await this.secureStorage.create(DataStoreProvider.defaultStoreName);
-      this.setSecureContainer(container);
-    } catch (err) {
-      this.reportLog('createContainer', '', err, LogType.ERROR);
-      throw err;
-    }
-  }
 
   /**
    * Get all stored keys
@@ -290,54 +262,6 @@ export class DataStoreProvider {
     } catch (err) {
       this.reportLog('removing', key, err);
       return Promise.resolve('');
-    }
-  }
-
-  async hasStorageBeenMigrated(): Promise<boolean> {
-    try {
-      const migrated = await this.storage.get(LocalStorageKey.STORAGE_MIGRATED);
-      return migrated === 'true';
-    } catch (err) {
-      this.reportLog('hasStorageBeenMigrated', '', err, LogType.ERROR);
-      return false;
-    }
-  }
-
-  async migrateAllKeys(): Promise<void> {
-    try {
-      if (!this.secureContainer) {
-        this.reportLog('migrateAllKeys', '', 'secureContainer not defined', LogType.ERROR);
-        return;
-      }
-
-      this.reportLog('migrateAllKeys', '', 'Attempting to migrate keys', LogType.INFO);
-
-      const keys: string[] = await this.secureContainer.keys();
-
-      await Promise.all(keys.map((key) => this.migrateKey(key)));
-
-      await this.storage.set(LocalStorageKey.STORAGE_MIGRATED, 'true');
-
-      this.reportLog('migrateAllKeys', '', 'All keys migrated', LogType.DEBUG);
-    } catch (err) {
-      await this.storage.set(LocalStorageKey.STORAGE_MIGRATED, 'false');
-
-      this.reportLog('migrateAllKeys', '', err, LogType.ERROR);
-    }
-  }
-
-  async migrateKey(key: string): Promise<void> {
-    try {
-      // look to see if the key exists in keychain
-      const keyChainItem = await this.secureContainer.get(key);
-
-      // if found, then add that key/value to storage and remove from keychain
-      if (keyChainItem) {
-        await this.storage.set(key, keyChainItem);
-        await this.secureContainer.remove(key);
-      }
-    } catch (err) {
-      this.reportLog('migrateKey', key, err, LogType.ERROR);
     }
   }
 

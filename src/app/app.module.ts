@@ -41,31 +41,22 @@ import { TestPersistenceProvider } from '@providers/test-persistence/test-persis
 import { UrlProvider } from '@providers/url/url';
 
 import { SentryIonicErrorHandler } from '@app/sentry-error-handler';
-import { Capacitor } from '@capacitor/core';
-import { ExitSingleAppModeEffects } from '@components/common/test-flow-header/exit-sam.effects';
 import { DirectivesModule } from '@directives/directives.module';
 import { delegatedSearchReducer } from '@pages/delegated-rekey-search/delegated-rekey-search.reducer';
-import { ExaminerRecordsComponentsModule } from '@pages/examiner-records/components/examiner-records-components.module';
 import { rekeySearchReducer } from '@pages/rekey-search/rekey-search.reducer';
 import { ADI3AssessmentProvider } from '@providers/adi3-assessment/adi3-assessment';
 import { BikeCategoryDetailProvider } from '@providers/bike-category-detail/bike-category-detail';
 import { CompletedTestPersistenceProvider } from '@providers/completed-test-persistence/completed-test-persistence';
-import { CompressionProvider } from '@providers/compression/compression';
 import { CPCQuestionProvider } from '@providers/cpc-questions/cpc-questions';
 import { DeviceAuthenticationProvider } from '@providers/device-authentication/device-authentication';
-import { ExaminerRecordsProvider } from '@providers/examiner-records/examiner-records';
-import { LoadingProvider } from '@providers/loader/loader';
 import { OutcomeBehaviourMapProvider } from '@providers/outcome-behaviour-map/outcome-behaviour-map';
 import { PassCertificateValidationProvider } from '@providers/pass-certificate-validation/pass-certificate-validation';
 import { WeatherConditionProvider } from '@providers/weather-conditions/weather-condition';
-import { StoreModel } from '@shared/models/store.model';
 import { PipesModule } from '@shared/pipes/pipes.module';
 import { AppConfigStoreModule } from '@store/app-config/app-config.module';
 import { appConfigReducer } from '@store/app-config/app-config.reducer';
 import { AppInfoStoreModule } from '@store/app-info/app-info.module';
 import { appInfoReducer } from '@store/app-info/app-info.reducer';
-import { ExaminerRecordsStoreModule } from '@store/examiner-records/examiner-records.module';
-import { examinerRecordsReducer } from '@store/examiner-records/examiner-records.reducer';
 import { JournalModule } from '@store/journal/journal.module';
 import { journalReducer } from '@store/journal/journal.reducer';
 import { LogsStoreModule } from '@store/logs/logs.module';
@@ -73,7 +64,15 @@ import { ReferenceDataStoreModule } from '@store/reference-data/reference-data.m
 import { TestCentreJournalStoreModule } from '@store/test-centre-journal/test-centre-journal.module';
 import { TestsModule } from '@store/tests/tests.module';
 import { testsReducer } from '@store/tests/tests.reducer';
-import CordovaSQLiteDriver from 'localforage-cordovasqlitedriver';
+
+import { EffectImportModule } from '@app/effects.module';
+import { ExaminerRecordsComponentsModule } from '@pages/examiner-records/components/examiner-records-components.module';
+import { CompressionProvider } from '@providers/compression/compression';
+import { ExaminerRecordsProvider } from '@providers/examiner-records/examiner-records';
+import { LoadingProvider } from '@providers/loader/loader';
+import { StoreModel } from '@shared/models/store.model';
+import { ExaminerRecordsStoreModule } from '@store/examiner-records/examiner-records.module';
+import { examinerRecordsReducer } from '@store/examiner-records/examiner-records.reducer';
 import { get, set } from 'lodash-es';
 import { RemoteDevToolsProxy } from '../../ngrx-devtool-proxy/remote-devtools-proxy';
 import { IonicGestureConfig } from '../gestures/ionic-gesture-config';
@@ -122,7 +121,8 @@ if (enableRehydrationPlugin) {
   metaReducers.push(localStorageSyncReducer);
 }
 
-const storageDriver = Capacitor.getPlatform() === 'web' ? Drivers.IndexedDB : CordovaSQLiteDriver._driver;
+// const storageDriver = Capacitor.getPlatform() === 'web' ? Drivers.IndexedDB : CordovaSQLiteDriver._driver;
+const storageDriver = Drivers.IndexedDB;
 
 @NgModule({
   declarations: [AppComponent],
@@ -144,7 +144,7 @@ const storageDriver = Capacitor.getPlatform() === 'web' ? Drivers.IndexedDB : Co
     }),
     StoreModule.forRoot(reducers, { metaReducers }),
     EffectsModule.forRoot(),
-    EffectsModule.forFeature([ExitSingleAppModeEffects]),
+    EffectImportModule,
     ...(enableDevTools ? [StoreDevtoolsModule.instrument()] : []),
     AppInfoStoreModule,
     ReferenceDataStoreModule,
