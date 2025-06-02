@@ -171,7 +171,6 @@ describe('AppComponent', () => {
       spyOn(component, 'initialiseAuthentication');
       spyOn(component, 'configureLocale');
       spyOn(component, 'initialiseSentry').and.returnValue(Promise.resolve());
-      spyOn(component, 'initialisePersistentStorage').and.returnValue(Promise.resolve());
       spyOn(component.accessibilityService, 'configureStatusBar').and.returnValue(Promise.resolve());
       spyOn(component, 'disableMenuSwipe').and.returnValue(Promise.resolve());
       spyOn(appConfigProvider, 'initialiseAppConfig').and.returnValue(Promise.resolve());
@@ -184,7 +183,6 @@ describe('AppComponent', () => {
       expect(deviceProvider.disableSingleAppMode).toHaveBeenCalled();
       expect(appConfigProvider.initialiseAppConfig).toHaveBeenCalled();
       expect(component.initialiseAuthentication).toHaveBeenCalled();
-      expect(component.initialisePersistentStorage).toHaveBeenCalled();
       expect(store$.dispatch).toHaveBeenCalledWith(LoadAppVersion());
       expect(component.accessibilityService.configureStatusBar).toHaveBeenCalled();
       expect(component.disableMenuSwipe).toHaveBeenCalled();
@@ -256,53 +254,6 @@ describe('AppComponent', () => {
       ];
       const result = component.getFilteredPages(pages);
       expect(result).toEqual([]);
-    });
-  });
-
-  describe('initialisePersistentStorage', () => {
-    it('should create storage container and migrate keys if on iOS and not migrated', async () => {
-      spyOn(component, 'isIos').and.returnValue(true);
-      spyOn(dataStore, 'hasStorageBeenMigrated').and.returnValue(Promise.resolve(false));
-      spyOn(dataStore, 'createContainer').and.returnValue(Promise.resolve());
-      spyOn(dataStore, 'migrateAllKeys').and.returnValue(Promise.resolve());
-
-      await component.initialisePersistentStorage();
-
-      expect(dataStore.createContainer).toHaveBeenCalled();
-      expect(dataStore.migrateAllKeys).toHaveBeenCalled();
-    });
-
-    it('should not create storage container or migrate keys if already migrated', async () => {
-      spyOn(component, 'isIos').and.returnValue(true);
-      spyOn(dataStore, 'hasStorageBeenMigrated').and.returnValue(Promise.resolve(true));
-      spyOn(dataStore, 'createContainer');
-      spyOn(dataStore, 'migrateAllKeys');
-
-      await component.initialisePersistentStorage();
-
-      expect(dataStore.createContainer).not.toHaveBeenCalled();
-      expect(dataStore.migrateAllKeys).not.toHaveBeenCalled();
-    });
-
-    it('should not create storage container or migrate keys if not on iOS', async () => {
-      spyOn(component, 'isIos').and.returnValue(false);
-      spyOn(dataStore, 'hasStorageBeenMigrated');
-      spyOn(dataStore, 'createContainer');
-      spyOn(dataStore, 'migrateAllKeys');
-
-      await component.initialisePersistentStorage();
-
-      expect(dataStore.hasStorageBeenMigrated).not.toHaveBeenCalled();
-      expect(dataStore.createContainer).not.toHaveBeenCalled();
-      expect(dataStore.migrateAllKeys).not.toHaveBeenCalled();
-    });
-
-    it('should reject if an error occurs during storage initialization', async () => {
-      spyOn(component, 'isIos').and.returnValue(true);
-      spyOn(dataStore, 'hasStorageBeenMigrated').and.returnValue(Promise.resolve(false));
-      spyOn(dataStore, 'createContainer').and.returnValue(Promise.reject(new Error('Failed to create container')));
-
-      await expectAsync(component.initialisePersistentStorage()).toBeRejectedWithError('Failed to create container');
     });
   });
 

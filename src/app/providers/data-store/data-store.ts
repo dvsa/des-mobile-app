@@ -198,7 +198,7 @@ export class DataStoreProvider {
 
   /**
    * Get all stored keys
-   * NOTE: secureContainer guard clause allows app to run in browser
+   * NOTE: isIos guard clause allows app to run in browser
    * @returns Promise
    */
   async getKeys(): Promise<string[]> {
@@ -215,7 +215,7 @@ export class DataStoreProvider {
 
   /**
    * sets the value for specified key
-   * NOTE: secureContainer guard clause allows app to run in browser
+   * NOTE: isIos guard clause allows app to run in browser
    * @param key - identifier
    * @param value - value to pair with key
    * @returns Promise
@@ -250,7 +250,7 @@ export class DataStoreProvider {
 
   /**
    * removes the item for a given key
-   * NOTE: secureContainer guard clause allows app to run in browser
+   * NOTE: isIos guard clause allows app to run in browser
    * @param key - identifier to remove
    * @returns Promise
    */
