@@ -1,11 +1,15 @@
 import { TestData } from '@dvsa/mes-test-schema/categories/ADI3';
 import { Action, combineReducers, createFeatureSelector } from '@ngrx/store';
-import { endTimeReducer } from '@store/tests/test-data/cat-adi-part3/end-time/end-time.reducer';
 import { lessonAndThemeReducer } from '@store/tests/test-data/cat-adi-part3/lesson-and-theme/lesson-and-theme.reducer';
 import { lessonPlanningReducer } from '@store/tests/test-data/cat-adi-part3/lesson-planning/lesson-planning.reducer';
 import { reviewReducer } from '@store/tests/test-data/cat-adi-part3/review/review.reducer';
 import { riskManagementReducer } from '@store/tests/test-data/cat-adi-part3/risk-management/risk-management.reducer';
-import { startTimeReducer } from '@store/tests/test-data/cat-adi-part3/start-time/start-time.reducer';
+import {
+  endTimeReducer,
+  startEndTimeConfirmedReducer,
+  startTimeReducer,
+  testDurationReducer,
+} from '@store/tests/test-data/cat-adi-part3/start-end-time/start-end-time.reducer';
 import { teachingLearningStrategiesReducer } from '@store/tests/test-data/cat-adi-part3/teaching-learning-strategies/teaching-learning-strategies.reducer';
 import { totalScoreReducer } from '@store/tests/test-data/cat-adi-part3/total-score/total-score.reducer';
 
@@ -18,6 +22,8 @@ export function testDataCatADI3Reducer(state: TestData, action: Action): Require
     review: reviewReducer,
     endTime: endTimeReducer,
     startTime: startTimeReducer,
+    standardsChecksTestLength: testDurationReducer,
+    startEndTimeConfirmed: startEndTimeConfirmedReducer,
     totalScore: totalScoreReducer,
   })(state as Required<TestData>, action);
 }

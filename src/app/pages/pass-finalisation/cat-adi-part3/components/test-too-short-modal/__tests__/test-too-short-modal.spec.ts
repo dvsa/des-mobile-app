@@ -4,19 +4,16 @@ import { MockComponent } from 'ng-mocks';
 
 import { ModalAlertTitleComponent } from '@components/common/modal-alert-title/modal-alert-title';
 import { ModalControllerMock } from '@mocks/ionic-mocks/modal-controller.mock';
-import {
-  UpdateAvailable,
-  UpdateAvailableModal,
-} from '@pages/dashboard/components/update-available-modal/update-available-modal';
+import { TestTooShortModal } from '@pages/pass-finalisation/cat-adi-part3/components/test-too-short-modal/test-too-short-modal';
 
 describe('TestTooShortModal', () => {
-  let component: UpdateAvailableModal;
-  let fixture: ComponentFixture<UpdateAvailableModal>;
+  let component: TestTooShortModal;
+  let fixture: ComponentFixture<TestTooShortModal>;
   let modalController: ModalController;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [UpdateAvailableModal, MockComponent(ModalAlertTitleComponent)],
+      declarations: [TestTooShortModal, MockComponent(ModalAlertTitleComponent)],
       imports: [IonicModule],
       providers: [
         {
@@ -26,23 +23,23 @@ describe('TestTooShortModal', () => {
       ],
     });
 
-    fixture = TestBed.createComponent(UpdateAvailableModal);
+    fixture = TestBed.createComponent(TestTooShortModal);
     component = fixture.componentInstance;
     modalController = TestBed.inject(ModalController);
     spyOn(modalController, 'dismiss');
   });
 
   describe('Class', () => {
-    describe('clickRemindMeLater', () => {
-      it('should call modal dismiss with `REMIND_ME_LATER`', async () => {
-        await component.clickRemindMeLater();
-        expect(modalController.dismiss).toHaveBeenCalledWith(UpdateAvailable.REMIND_ME_LATER);
+    describe('clickReturn', () => {
+      it('should call modal dismiss with false', async () => {
+        await component.clickReturn();
+        expect(modalController.dismiss).toHaveBeenCalledWith(false);
       });
     });
-    describe('clickOK', () => {
-      it('should call modal dismiss with `OK`', async () => {
-        await component.clickOK();
-        expect(modalController.dismiss).toHaveBeenCalledWith(UpdateAvailable.OK);
+    describe('clickContinue', () => {
+      it('should call modal dismiss with true', async () => {
+        await component.clickContinue();
+        expect(modalController.dismiss).toHaveBeenCalledWith(true);
       });
     });
   });

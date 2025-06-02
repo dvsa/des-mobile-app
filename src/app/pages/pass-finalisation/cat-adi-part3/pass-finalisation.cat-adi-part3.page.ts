@@ -1,9 +1,11 @@
 import { Component, Injector, OnInit } from '@angular/core';
 import { UntypedFormGroup } from '@angular/forms';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
+import { ModalController } from '@ionic/angular';
 import { select } from '@ngrx/store';
 import { behaviourMap } from '@pages/office/office-behaviour-map.cat-adi-part3';
 import { TestFlowPageNames } from '@pages/page-names.constants';
+import { TestTooShortModal } from '@pages/pass-finalisation/cat-adi-part3/components/test-too-short-modal/test-too-short-modal';
 import {
   PassFinalisationReportActivityCode,
   PassFinalisationValidationError,
@@ -13,13 +15,11 @@ import {
   CommonPassFinalisationPageState,
   PassFinalisationPageComponent,
 } from '@shared/classes/test-flow-base-pages/pass-finalisation/pass-finalisation-base-page';
-import { DateTime } from '@shared/helpers/date-time';
+import { DateTime, Duration } from '@shared/helpers/date-time';
 import { isAnyOf } from '@shared/helpers/simplifiers';
 import { getTestCategory } from '@store/tests/category/category.reducer';
 import { getCandidate } from '@store/tests/journal-data/common/candidate/candidate.reducer';
 import { getCandidatePrn } from '@store/tests/journal-data/common/candidate/candidate.selector';
-import { EndTimeChanged } from '@store/tests/test-data/cat-adi-part3/end-time/end-time.actions';
-import { getTestEndTime } from '@store/tests/test-data/cat-adi-part3/end-time/end-time.selector';
 import {
   ReasonForNoAdviceGivenChanged,
   SeekFurtherDevelopmentChanged,
@@ -30,8 +30,16 @@ import {
   getGrade,
   getReasonForNoAdviceGiven,
 } from '@store/tests/test-data/cat-adi-part3/review/review.selector';
-import { StartTimeChanged } from '@store/tests/test-data/cat-adi-part3/start-time/start-time.actions';
-import { getTestStartTime } from '@store/tests/test-data/cat-adi-part3/start-time/start-time.selector';
+import {
+  ConfirmStartEndTimeChanged,
+  EndTimeChanged,
+  StandardsChecksDurationDataChanged,
+  StartTimeChanged,
+} from '@store/tests/test-data/cat-adi-part3/start-end-time/start-end-time.actions';
+import {
+  getTestEndTime,
+  getTestStartTime,
+} from '@store/tests/test-data/cat-adi-part3/start-end-time/start-end-time.selector';
 import { getTestData } from '@store/tests/test-data/cat-adi-part3/test-data.cat-adi-part3.reducer';
 import { PersistTests } from '@store/tests/tests.actions';
 import { getTests } from '@store/tests/tests.reducer';
@@ -64,7 +72,10 @@ export class PassFinalisationCatADIPart3Page extends PassFinalisationPageCompone
   scStartTime: string;
   scEndTime: string;
 
-  constructor(injector: Injector) {
+  constructor(
+    public modalController: ModalController,
+    injector: Injector
+  ) {
     super(injector);
     this.form = new UntypedFormGroup({});
     this.outcomeBehaviourProvider.setBehaviourMap(behaviourMap);
@@ -139,6 +150,14 @@ export class PassFinalisationCatADIPart3Page extends PassFinalisationPageCompone
     this.store$.dispatch(EndTimeChanged(endTime));
   }
 
+  confirmStartAndEndTimeChanged(selected: boolean): void {
+    this.store$.dispatch(ConfirmStartEndTimeChanged(selected));
+  }
+
+  findDifferenceInTime(startTime: string, endTime: string) {
+    return DateTime.at(new Date(startTime)).compareDuration(DateTime.at(new Date(endTime)), Duration.MINUTE);
+  }
+
   async onSubmit(): Promise<void> {
     Object.keys(this.form.controls).forEach((controlName) => this.form.controls[controlName].markAsDirty());
 
@@ -148,6 +167,29 @@ export class PassFinalisationCatADIPart3Page extends PassFinalisationPageCompone
       if (this.furtherDevelopment) {
         this.adviceReasonChanged(null);
       }
+
+      const isTestTooShort = this.findDifferenceInTime(this.scStartTime, this.scEndTime) < 45;
+
+      if (isTestTooShort) {
+        const modal: HTMLIonModalElement = await this.modalController.create({
+          id: 'TestTooShortModal',
+          component: TestTooShortModal,
+          backdropDismiss: false,
+          showBackdrop: true,
+          cssClass: 'mes-modal-alert text-zoom-regular',
+        });
+        await modal.present();
+        const { data } = await modal.onDidDismiss<boolean>();
+        if (!data) {
+          return;
+        }
+      }
+
+      this.store$.dispatch(
+        StandardsChecksDurationDataChanged({
+          testIsTooShort: isTestTooShort,
+        })
+      );
 
       this.testStartTimeChanged(this.scStartTime);
       this.testEndTimeChanged(this.scEndTime);

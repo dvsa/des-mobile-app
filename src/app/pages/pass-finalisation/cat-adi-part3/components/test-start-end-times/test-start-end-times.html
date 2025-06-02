@@ -1,68 +1,59 @@
-<ion-row class="ion-margin-start ion-padding-top ion-padding-bottom ion-padding-start">
-  <ion-col class="ion-align-self-center" size="30">
-    <label id="test-start-end-times-label">Test start - end time</label>
-  </ion-col>
-  <ion-col size="20">
-    <datetime-input
-      [initialValue]="startTime"
-      (onDataPicked)="timeChanged($event)"
-      [control]="'start-time'"
-      [pickerId]="'time-picker-start'"
-      [inputId]="'time-input-start'"
-      [maxValue]="maxTime"
-      [showClearButton]="false"
-      [disabled]="false"
-      [displayType]="timeDisplayType"
-    >
-    </datetime-input>
-  </ion-col>
-
-  <ion-col class="centre-col" size="10">
-    <label class="to-label" id="to-label">-</label>
-  </ion-col>
-
-    <ion-col size="20">
-      <datetime-input
-        [initialValue]="endTime"
-        (onDataPicked)="timeChanged($event)"
-        [control]="'end-time'"
-        [pickerId]="'time-picker-end'"
-        [inputId]="'time-input-end'"
-        [minValue]="minTime"
-        [showClearButton]="false"
-        [disabled]="false"
-        [displayType]="timeDisplayType"
-      >
-      </datetime-input>
-    </ion-col>
-</ion-row>
-<ion-row class="ion-margin-start ion-padding-top ion-padding-bottom ion-padding-start">
-  <ion-col size="30">
-    <label id="test-start-end-times-label2">Test start - end time</label>
+<ion-row [formGroup]="formGroup"
+         class="ion-margin-start display-flex ion-padding-top ion-padding-bottom ion-padding-start">
+  <ion-col class="display-flex ion-align-items-center" size="30">
+    <label id="test-start-end-times-label2">Time on the road</label>
   </ion-col>
   <ion-col>
     <ion-row>
-      <ion-text class="mes-data">Approx. start time:</ion-text>
+      <ion-col size="25">
+        <ion-row class="spacing-padding">
+          <ion-text class="mes-data">Start time:</ion-text>
+        </ion-row>
+        <ion-row class="spacing-padding">
+          <ion-text class="mes-data">End time:</ion-text>
+        </ion-row>
+        <ion-row class="spacing-padding">
+          <ion-text class="mes-data">Duration:</ion-text>
+        </ion-row>
+      </ion-col>
+      <ion-col class="direction-column centre-col">
+        <ion-row class="spacing-padding">
+          <ion-text class="mes-data">{{ formatTime(startTime) }}</ion-text>
+        </ion-row>
+        <ion-row class="spacing-padding">
+          <ion-text class="mes-data">{{ formatTime(endTime) }}</ion-text>
+        </ion-row>
+        <ion-row class="spacing-padding">
+          <ion-text class="mes-data">{{ findDifferenceInTime(startTime, endTime) }} mins</ion-text>
+        </ion-row>
+        <ion-row class="button-row">
+          <ion-button class="extended-width mes-grey-button" (click)="openTimeEditModal()"><label>Edit</label>
+          </ion-button>
+        </ion-row>
+      </ion-col>
     </ion-row>
     <ion-row>
-      <ion-text class="mes-data">Approx. end time:</ion-text>
+      <input
+        id="confirmStartEndTimesSelected"
+        type="checkbox"
+        [checked]="isSelected"
+        class="gds-checkbox"
+        formControlName="confirmStartEndTimes"
+        [class.ng-invalid]="isConfirmInvalid()"
+        (change)="selectedValueChanged($event.target.checked)"
+      />
+      <label for="confirmStartEndTimesSelected">I confirm these times are accurate</label>
     </ion-row>
     <ion-row>
-      <ion-text class="mes-data">Approx. duration:</ion-text>
-    </ion-row>
-  </ion-col>
-  <ion-col class="direction-column centre-col">
-    <ion-row>
-      <ion-text class="mes-data">{{formatTime(startTime)}}</ion-text>
-    </ion-row>
-    <ion-row>
-      <ion-text class="mes-data">{{formatTime(endTime)}}</ion-text>
-    </ion-row>
-    <ion-row>
-      <ion-text class="mes-data">{{ findDifferenceInTime(startTime, endTime) }} mins </ion-text>
-    </ion-row>
-    <ion-row>
-      <ion-button class="mes-grey-button" (click)="openTimeEditModal()"><label>Edit</label></ion-button>
+      <ion-col>
+        <div
+          id="time-confirmed-validation-text"
+          class="validation-text"
+          [class.ng-invalid]="isConfirmInvalid()"
+        >
+          You must check and confirm the test times are accurate
+        </div>
+      </ion-col>
     </ion-row>
   </ion-col>
 </ion-row>

@@ -114,6 +114,7 @@
           [endTime]="pageState.testEndTime$ | async"
           (testStartTimeChange)="testStartTimeChanged($event)"
           (testEndTimeChange)="testEndTimeChanged($event)"
+          (confirmStartAndEndTime)="confirmStartAndEndTimeChanged($event)"
         >
         </test-start-end-times>
       </div>

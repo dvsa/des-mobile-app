@@ -83,7 +83,7 @@
     "@dvsa/mes-microservice-common": "^1.2.0",
     "@dvsa/mes-mot-schema": "1.1.1",
     "@dvsa/mes-search-schema": "1.4.0",
-    "@dvsa/mes-test-schema": "3.44.0",
+    "@dvsa/mes-test-schema": "3.46.0",
     "@ionic-enterprise/auth": "3.9.5",
     "@ionic/angular": "^8.6.1",
     "@ionic/core": "^8.6.1",

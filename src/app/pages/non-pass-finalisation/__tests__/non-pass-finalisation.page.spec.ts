@@ -38,11 +38,11 @@ import {
   CandidateChoseToProceedWithTestInEnglish,
   CandidateChoseToProceedWithTestInWelsh,
 } from '@store/tests/communication-preferences/communication-preferences.actions';
-import { EndTimeChanged } from '@store/tests/test-data/cat-adi-part3/end-time/end-time.actions';
 import {
   ReasonForNoAdviceGivenChanged,
   SeekFurtherDevelopmentChanged,
 } from '@store/tests/test-data/cat-adi-part3/review/review.actions';
+import { EndTimeChanged } from '@store/tests/test-data/cat-adi-part3/start-end-time/start-end-time.actions';
 import { StartTimeChanged } from '@store/tests/test-data/cat-adi-part3/start-time/start-time.actions';
 import { D255No, D255Yes, DebriefUnWitnessed, DebriefWitnessed } from '@store/tests/test-summary/test-summary.actions';
 import * as testActions from '@store/tests/tests.actions';

@@ -1,0 +1,44 @@
+<ion-card class="modal-alert">
+  <ion-row>
+    <ion-col size="10"></ion-col>
+    <ion-col>
+      <modal-alert-title id="model-title">The time spend on road is less than 45 minutes</modal-alert-title>
+    </ion-col>
+    <ion-col size="10"></ion-col>
+  </ion-row>
+  <ion-row>
+    <ion-col class="ion-no-padding" size="15"></ion-col>
+    <ion-col class="ion-no-padding" size="66">
+      <div class="modal-alert-message">
+        <div id="model-text-correct" class="mes-data">Is this correct?</div>
+        <br/>
+        <div id="model-text-reason" class="mes-data">You will need to provide a reason in the write up after the test.
+        </div>
+      </div>
+    </ion-col>
+    <ion-col class="ion-no-padding" size="15"></ion-col>
+  </ion-row>
+  <ion-row class="ion-margin-bottom">
+    <ion-col class="ion-no-padding" size="15"></ion-col>
+    <ion-col>
+      <ion-button (click)="clickContinue()" class="display-flex mes-grey-button"><label>Continue</label></ion-button>
+    </ion-col>
+    <ion-col class="ion-no-padding" size="15"></ion-col>
+  </ion-row>
+  <ion-row>
+    <ion-col class="column-border-top ion-no-padding">
+      <ion-row>
+        <ion-col>
+          <ion-button
+            (click)="clickReturn()"
+            id="return-to-previous-button"
+            fill="clear"
+            class="mes-black"
+          >
+            Return to previous
+          </ion-button>
+        </ion-col>
+      </ion-row>
+    </ion-col>
+  </ion-row>
+</ion-card>

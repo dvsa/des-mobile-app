@@ -32,6 +32,7 @@ import { ChartComponent } from '@components/common/chart/chart';
 import { DataGridComponent } from '@components/common/data-grid/data-grid';
 import { LogoutModalModule } from '@components/common/logout-modal/logout-modal.module';
 import { TestRecoveredBannerComponent } from '@components/common/test-recovered-banner/test-recovered-banner';
+import { TimePickerComponent } from '@components/common/time-picker/time-picker.component';
 import { DirectivesModule } from '@directives/directives.module';
 import { NgApexchartsModule } from 'ng-apexcharts';
 import { BikeCategoryTypeComponent } from './bike-category-type/bike-category-type';
@@ -48,7 +49,6 @@ import { TabComponent } from './tab/tab';
 import { TabsComponent } from './tabs/tabs';
 import { VRNCaptureModalModule } from './vrn-capture-modal/vrn-capture-modal.module';
 import { WarningBannerComponent } from './warning-banner/warning-banner';
-import { TimePickerComponent } from '@components/common/time-picker/time-picker.component';
 
 @NgModule({
   declarations: [

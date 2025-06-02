@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
-import {ModalController} from '@ionic/angular';
+import { ModalController } from '@ionic/angular';
 
 @Component({
-  selector: 'change-start-end-time-modal',
+  selector: 'change-start-start-end-time-modal',
   templateUrl: './change-start-end-time-modal.html',
   styleUrls: ['./change-start-end-time-modal.scss'],
 })
@@ -10,16 +10,13 @@ export class ChangeStartEndTimeModal {
   startTime = '';
   endTime = '';
 
-  constructor(
-    private modalController: ModalController,
-  ) {
-  }
+  constructor(private modalController: ModalController) {}
 
   async onCancel() {
-    await this.modalController.dismiss()
+    await this.modalController.dismiss();
   }
 
   async onConfirm() {
-    await this.modalController.dismiss({startTime: this.startTime, endTime: this.endTime})
+    await this.modalController.dismiss({ startTime: this.startTime, endTime: this.endTime });
   }
 }

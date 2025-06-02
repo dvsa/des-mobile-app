@@ -1,9 +1,8 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
-import { DisplayType } from '@components/common/datetime-input/date-time-input.component';
-import {DateTime, Duration} from '@shared/helpers/date-time';
-import {ModalController} from '@ionic/angular';
-import {ChangeStartEndTimeModal} from '@pages/pass-finalisation/cat-adi-part3/components/change-start-end-time-modal/change-start-end-time-modal';
+import { FormControl, FormGroup, UntypedFormControl, Validators } from '@angular/forms';
+import { ModalController } from '@ionic/angular';
+import { ChangeStartEndTimeModal } from '@pages/pass-finalisation/cat-adi-part3/components/change-start-end-time-modal/change-start-end-time-modal';
+import { DateTime, Duration } from '@shared/helpers/date-time';
 
 @Component({
   selector: 'test-start-end-times',
@@ -11,6 +10,7 @@ import {ChangeStartEndTimeModal} from '@pages/pass-finalisation/cat-adi-part3/co
   styleUrls: ['test-start-end-times.scss'],
 })
 export class TestStartEndTimesComponent implements OnInit, OnChanges {
+  static readonly confirmStartEndTimes: string = 'confirmStartEndTimes';
   @Input()
   startTime: string;
 
@@ -20,21 +20,26 @@ export class TestStartEndTimesComponent implements OnInit, OnChanges {
   @Input()
   formGroup: FormGroup;
 
+  @Input()
+  isSelected: boolean;
+
   @Output()
   testStartTimeChange = new EventEmitter<string>();
 
   @Output()
   testEndTimeChange = new EventEmitter<string>();
 
-  timeDisplayType = DisplayType.Time;
+  @Output()
+  confirmStartAndEndTime = new EventEmitter<boolean>();
 
   private formControlStart: FormControl = null;
   private formControlEnd: FormControl = null;
+  private formControlConfirm: FormControl = null;
+
   public minTime: string;
   public maxTime: string;
 
-  constructor(public modalController: ModalController) {
-  }
+  constructor(public modalController: ModalController) {}
 
   ngOnInit() {
     this.minTime = this.startTime;
@@ -42,6 +47,11 @@ export class TestStartEndTimesComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(): void {
+    if (!this.formControlConfirm) {
+      this.formControlConfirm = new UntypedFormControl(null, [Validators.requiredTrue]);
+      this.formGroup.addControl(TestStartEndTimesComponent.confirmStartEndTimes, this.formControlConfirm);
+    }
+
     if (!this.formControlStart) {
       this.formControlStart = new FormControl(null);
       this.formGroup.addControl('startTime', this.formControlStart);
@@ -59,7 +69,7 @@ export class TestStartEndTimesComponent implements OnInit, OnChanges {
         this.minTime = event.data;
         this.testStartTimeChange.emit(event.data);
         break;
-      case 'end-time':
+      case 'start-end-time':
         this.maxTime = event.data;
         this.testEndTimeChange.emit(event.data);
         break;
@@ -68,10 +78,11 @@ export class TestStartEndTimesComponent implements OnInit, OnChanges {
     }
   }
 
-  modalTimeChanged(event: {startTime: string, endTime: string}) {
-    console.log(event)
-    this.testStartTimeChange.emit(event.startTime)
-    this.testEndTimeChange.emit(event.endTime)
+  modalTimeChanged(event: { startTime: string; endTime: string }) {
+    if (event) {
+      this.testStartTimeChange.emit(event.startTime);
+      this.testEndTimeChange.emit(event.endTime);
+    }
   }
 
   formatTime(time: string) {
@@ -80,6 +91,10 @@ export class TestStartEndTimesComponent implements OnInit, OnChanges {
 
   findDifferenceInTime(startTime: string, endTime: string) {
     return DateTime.at(new Date(startTime)).compareDuration(DateTime.at(new Date(endTime)), Duration.MINUTE);
+  }
+
+  selectedValueChanged(selected: boolean) {
+    this.confirmStartAndEndTime.emit(selected);
   }
 
   async openTimeEditModal() {
@@ -91,11 +106,15 @@ export class TestStartEndTimesComponent implements OnInit, OnChanges {
       showBackdrop: true,
       componentProps: {
         startTime: this.startTime,
-        endTime: this.endTime
+        endTime: this.endTime,
       },
     });
     await modal.present();
-    const { data } = await modal.onDidDismiss<{startTime: string, endTime: string}>();
-    this.modalTimeChanged(data)
+    const { data } = await modal.onDidDismiss<{ startTime: string; endTime: string }>();
+    this.modalTimeChanged(data);
+  }
+
+  isConfirmInvalid(): boolean {
+    return !this.formControlConfirm.valid && this.formControlConfirm.dirty;
   }
 }

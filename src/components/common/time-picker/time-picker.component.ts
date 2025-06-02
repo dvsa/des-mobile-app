@@ -1,6 +1,6 @@
-import { Component, EventEmitter, Input, Output, ViewChild } from '@angular/core';
-import { DateTime } from '@shared/helpers/date-time';
+import { Component, EventEmitter, Input, Output, SimpleChanges, ViewChild } from '@angular/core';
 import { IonInput } from '@ionic/angular';
+import { DateTime } from '@shared/helpers/date-time';
 
 enum TimeUnits {
   MINUTE = 'minute',
@@ -42,11 +42,13 @@ export class TimePickerComponent {
     this.interpretTime(this.initialValue);
   }
 
-  ngOnChanges(changes: any) {
-    if (changes.initialValue) {
-      this.interpretTime(changes.initialValue.currentValue);
-    } else if (changes.minTime || changes.maxTime) {
-      this.inputChanged();
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes) {
+      if (changes.initialValue) {
+        this.interpretTime(changes.initialValue.currentValue);
+      } else if (changes.minTime || changes.maxTime) {
+        this.inputChanged();
+      }
     }
   }
 
@@ -57,7 +59,7 @@ export class TimePickerComponent {
   }
 
   padWithZero(number: number): string {
-    return number < 10 ? '0' + number : number.toString();
+    return number < 10 ? `0${number}` : number.toString();
   }
 
   addRelevantTimeUnit(timeUnit: TimeUnits, newNumber: number) {
@@ -80,7 +82,7 @@ export class TimePickerComponent {
   }
 
   iterateNumbers(timeUnit: TimeUnits, increment: number, minimum: number, maximum: number) {
-    const currentNumber = Number.parseInt(timeUnit == TimeUnits.HOUR ? this.selectedHour : this.selectedMinute);
+    const currentNumber = Number.parseInt(timeUnit === TimeUnits.HOUR ? this.selectedHour : this.selectedMinute);
     const iteratedNumber = currentNumber + increment;
     let numberToSet = iteratedNumber;
 
@@ -129,7 +131,9 @@ export class TimePickerComponent {
     const maxDate = new Date(this.maxTime);
     const newDate = DateTime.at(this.getDateWithSelectedTime()).add(1, timeUnit);
 
-    return newDate.isBefore(maxDate) || newDate.format(this.timeFormat) === DateTime.at(maxDate).format(this.timeFormat);
+    return (
+      newDate.isBefore(maxDate) || newDate.format(this.timeFormat) === DateTime.at(maxDate).format(this.timeFormat)
+    );
   }
 
   shouldShowDownArrow(timeUnit: TimeUnits) {
