@@ -68,15 +68,17 @@ import { testsReducer } from '@store/tests/tests.reducer';
 import CordovaSQLiteDriver from 'localforage-cordovasqlitedriver';
 
 import { ExitSingleAppModeEffects } from '@components/common/test-flow-header/exit-sam.effects';
+import { ExitSAMProvider } from '@providers/exitSAM/exitSAM';
+import { SafetyRecallStoreModule } from '@store/general/safety-recall/safety-recall-store.module';
+
+import { EffectImportModule } from '@app/effects.module';
 import { ExaminerRecordsComponentsModule } from '@pages/examiner-records/components/examiner-records-components.module';
 import { CompressionProvider } from '@providers/compression/compression';
 import { ExaminerRecordsProvider } from '@providers/examiner-records/examiner-records';
-import { ExitSAMProvider } from '@providers/exitSAM/exitSAM';
 import { LoadingProvider } from '@providers/loader/loader';
 import { StoreModel } from '@shared/models/store.model';
 import { ExaminerRecordsStoreModule } from '@store/examiner-records/examiner-records.module';
 import { examinerRecordsReducer } from '@store/examiner-records/examiner-records.reducer';
-import { SafetyRecallStoreModule } from '@store/general/safety-recall/safety-recall-store.module';
 import { get, set } from 'lodash-es';
 import { RemoteDevToolsProxy } from '../../ngrx-devtool-proxy/remote-devtools-proxy';
 import { IonicGestureConfig } from '../gestures/ionic-gesture-config';
@@ -125,7 +127,8 @@ if (enableRehydrationPlugin) {
   metaReducers.push(localStorageSyncReducer);
 }
 
-const storageDriver = Capacitor.getPlatform() === 'web' ? Drivers.IndexedDB : CordovaSQLiteDriver._driver;
+// const storageDriver = Capacitor.getPlatform() === 'web' ? Drivers.IndexedDB : CordovaSQLiteDriver._driver;
+const storageDriver = Drivers.IndexedDB;
 
 @NgModule({
   declarations: [AppComponent],
@@ -147,6 +150,7 @@ const storageDriver = Capacitor.getPlatform() === 'web' ? Drivers.IndexedDB : Co
     }),
     StoreModule.forRoot(reducers, { metaReducers }),
     EffectsModule.forRoot(),
+    EffectImportModule,
     EffectsModule.forFeature([ExitSingleAppModeEffects]),
     SafetyRecallStoreModule,
     ...(enableDevTools ? [StoreDevtoolsModule.instrument()] : []),
