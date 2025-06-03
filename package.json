@@ -112,7 +112,7 @@
     "cordova-plugin-network-information": "^3.0.0",
     "cordova-plugin-secure-storage-echo": "^5.1.1",
     "deep-diff": "^1.0.2",
-    "emoji-regex": "^10.3.0",
+    "emoji-regex": "^10.4.0",
     "fuzzy-search": "^3.2.1",
     "hammerjs": "^2.0.8",
     "jsonschema": "^1.4.1",
