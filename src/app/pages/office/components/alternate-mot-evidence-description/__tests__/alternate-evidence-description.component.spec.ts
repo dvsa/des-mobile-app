@@ -42,6 +42,7 @@ describe('AlternateEvidenceDescriptionComponent', () => {
       component.formControl = null;
       component.formGroup = new UntypedFormGroup({});
       component.ngOnChanges();
+      console.log(component.formGroup.contains('altEvidenceDetailsCtrl'));
       expect(component.formGroup.contains('altEvidenceDetailsCtrl')).toBeTrue();
     });
 
