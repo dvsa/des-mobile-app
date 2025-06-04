@@ -24,6 +24,7 @@ export class ReviewFeedback {
   constructor(public characterCountService: CharacterCountService) {}
 
   ngOnChanges(): void {
+    console.log();
     if (!this.formControl) {
       this.formControl = new UntypedFormControl(null);
       this.form.addControl('feedback', this.formControl);
