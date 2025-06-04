@@ -53,7 +53,6 @@ export class RekeySearchAnalyticsEffects {
     this.actions$.pipe(
       ofType(isRekeyTestLessThanHalfAnHourLateUpdated),
       switchMap((value) => {
-        console.log('analytic called');
         if (value.isLate) {
           // GA4 Analytics
           this.analytics.logGAEvent(

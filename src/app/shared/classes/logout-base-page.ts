@@ -41,7 +41,6 @@ export abstract class LogoutBasePageComponent extends BasePageComponent {
     });
     await modal.present();
     const { data }: OverlayEventDetail = await modal.onDidDismiss<LogoutModalEvent>();
-    console.log(data.event);
     if (data.event === LogoutModalEvent.LOGOUT) {
       await this.logout();
     }
