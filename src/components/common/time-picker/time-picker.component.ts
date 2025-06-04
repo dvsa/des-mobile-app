@@ -7,6 +7,13 @@ enum TimeUnits {
   HOUR = 'hour',
 }
 
+enum KeyCodes {
+  UP = 'ArrowUp',
+  DOWN = 'ArrowDown',
+  LEFT = 'ArrowLeft',
+  RIGHT = 'ArrowRight',
+}
+
 @Component({
   selector: 'time-picker',
   templateUrl: './time-picker.component.html',
@@ -17,9 +24,10 @@ export class TimePickerComponent {
   private readonly timeFormat = 'HH:mm';
 
   @ViewChild('minuteInput') minuteInputBox!: IonInput;
+  @ViewChild('hourInput') hourInputBox!: IonInput;
 
   @Output()
-  oneTimeChanged = new EventEmitter<string>();
+  onTimeChanged = new EventEmitter<string>();
 
   @Input()
   initialValue = DateTime.at(new Date()).format('YYYY-MM-DDT00:00');
@@ -63,11 +71,14 @@ export class TimePickerComponent {
   }
 
   addRelevantTimeUnit(timeUnit: TimeUnits, newNumber: number) {
+    console.log();
     const newNumString = this.padWithZero(newNumber);
     if (timeUnit === TimeUnits.HOUR) {
       this.selectedHour = newNumString;
+      this.hourInputBox.value = newNumString;
     } else {
       this.selectedMinute = newNumString;
+      this.minuteInputBox.value = newNumString;
     }
   }
 
@@ -82,8 +93,12 @@ export class TimePickerComponent {
   }
 
   iterateNumbers(timeUnit: TimeUnits, increment: number, minimum: number, maximum: number) {
+    console.log(`Iterating ${timeUnit} by ${increment}`);
+    // Determine the current number based on the time unit
     const currentNumber = Number.parseInt(timeUnit === TimeUnits.HOUR ? this.selectedHour : this.selectedMinute);
+    // Calculate the new number by adding the increment
     const iteratedNumber = currentNumber + increment;
+    // Ensure the new number wraps around if it exceeds the maximum or minimum
     let numberToSet = iteratedNumber;
 
     if (iteratedNumber < minimum) {
@@ -91,7 +106,10 @@ export class TimePickerComponent {
     } else if (iteratedNumber > maximum) {
       numberToSet = minimum;
     }
+
+    // Set the new number in the appropriate field
     this.addRelevantTimeUnit(timeUnit, numberToSet);
+    // Emit the time change event
     this.inputChanged();
   }
 
@@ -120,7 +138,7 @@ export class TimePickerComponent {
       timeChanged = this.maxTime;
     }
 
-    this.oneTimeChanged.emit(DateTime.at(timeChanged).format('YYYY-MM-DDTHH:mm'));
+    this.onTimeChanged.emit(DateTime.at(timeChanged).format('YYYY-MM-DDTHH:mm'));
   }
 
   shouldShowUpArrow(timeUnit: TimeUnits) {
@@ -152,6 +170,18 @@ export class TimePickerComponent {
       this.minuteInputBox.setFocus().then(() => {
         this.minuteInputBox.value = '';
       });
+    }
+  }
+
+  handleKeyPress(event: KeyboardEvent, timeUnit: TimeUnits) {
+    const keyPressed = event.key;
+    if (keyPressed === KeyCodes.UP || keyPressed === KeyCodes.DOWN) {
+      // Determine the increment based on the key pressed
+      const increment = keyPressed === KeyCodes.UP ? 1 : -1;
+      const minimum = timeUnit === TimeUnits.HOUR ? this.minimumHour : this.minimumMinute;
+      const maximum = timeUnit === TimeUnits.HOUR ? this.maximumHour : this.maximumMinute;
+      // Call the iterateNumbers method with the determined time unit and increment
+      this.iterateNumbers(timeUnit, increment, minimum, maximum);
     }
   }
 }

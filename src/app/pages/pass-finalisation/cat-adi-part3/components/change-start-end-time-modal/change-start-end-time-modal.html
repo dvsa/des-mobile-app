@@ -28,7 +28,7 @@
         <ion-col size="auto">
           <time-picker
             [initialValue]="startTime"
-            (oneTimeChanged)="startTime = $event"
+            (onTimeChanged)="startTime = $event"
           ></time-picker>
         </ion-col>
         <ion-col size="25" class="centre-col">
@@ -38,7 +38,7 @@
           <time-picker
             [initialValue]="endTime"
             [minTime]="startTime"
-            (oneTimeChanged)="endTime = $event"
+            (onTimeChanged)="endTime = $event"
           ></time-picker>
         </ion-col>
       </ion-row>
