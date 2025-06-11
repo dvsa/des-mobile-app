@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
+import { TimePickerComponent } from '@components/common/time-picker/time-picker.component';
 import { ModalController } from '@ionic/angular';
 
 @Component({
@@ -12,11 +13,17 @@ export class ChangeStartEndTimeModal {
 
   constructor(private modalController: ModalController) {}
 
+  @ViewChild('EndTimePicker') endTimePicker!: TimePickerComponent;
+
   async onCancel() {
     await this.modalController.dismiss();
   }
 
   async onConfirm() {
     await this.modalController.dismiss({ startTime: this.startTime, endTime: this.endTime });
+  }
+
+  changeFocusToEndTime() {
+    this.endTimePicker.focusHourInput(true);
   }
 }

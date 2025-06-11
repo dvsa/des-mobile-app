@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output, SimpleChanges, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, EventEmitter, Input, Output, SimpleChanges, ViewChild } from '@angular/core';
 import { IonInput } from '@ionic/angular';
 import { DateTime } from '@shared/helpers/date-time';
 
@@ -29,6 +29,12 @@ export class TimePickerComponent {
   @Output()
   onTimeChanged = new EventEmitter<string>();
 
+  @Output()
+  minuteBoxExitedForward = new EventEmitter<void>();
+
+  @Output()
+  hourBoxExitedBack = new EventEmitter<void>();
+
   @Input()
   initialValue = DateTime.at(new Date()).format('YYYY-MM-DDT00:00');
 
@@ -45,6 +51,8 @@ export class TimePickerComponent {
 
   selectedHour = '00';
   selectedMinute = '00';
+
+  constructor(public changeDetectorRef: ChangeDetectorRef) {}
 
   ngOnInit() {
     this.interpretTime(this.initialValue);
@@ -71,7 +79,6 @@ export class TimePickerComponent {
   }
 
   addRelevantTimeUnit(timeUnit: TimeUnits, newNumber: number) {
-    console.log();
     const newNumString = this.padWithZero(newNumber);
     if (timeUnit === TimeUnits.HOUR) {
       this.selectedHour = newNumString;
@@ -84,6 +91,7 @@ export class TimePickerComponent {
 
   inputEnteredManually(timeUnit: TimeUnits, newInput: string) {
     if (timeUnit === TimeUnits.HOUR) {
+      console.log('inputEnteredManually', timeUnit, newInput);
       this.selectedHour = newInput.length === 0 ? this.minimumHour.toString() : newInput;
       this.iterateNumbers(timeUnit, 0, this.minimumHour, this.maximumHour);
     } else {
@@ -93,7 +101,6 @@ export class TimePickerComponent {
   }
 
   iterateNumbers(timeUnit: TimeUnits, increment: number, minimum: number, maximum: number) {
-    console.log(`Iterating ${timeUnit} by ${increment}`);
     // Determine the current number based on the time unit
     const currentNumber = Number.parseInt(timeUnit === TimeUnits.HOUR ? this.selectedHour : this.selectedMinute);
     // Calculate the new number by adding the increment
@@ -114,9 +121,11 @@ export class TimePickerComponent {
   }
 
   getDateWithSelectedTime() {
+    // Create a new date object with the current date and the selected hour and minute
     const date = new Date();
     date.setHours(Number.parseInt(this.selectedHour));
     date.setMinutes(Number.parseInt(this.selectedMinute));
+    // Set seconds to 0 to avoid any time discrepancies
     date.setSeconds(0);
     return date;
   }
@@ -139,6 +148,7 @@ export class TimePickerComponent {
     }
 
     this.onTimeChanged.emit(DateTime.at(timeChanged).format('YYYY-MM-DDTHH:mm'));
+    this.changeDetectorRef.detectChanges();
   }
 
   shouldShowUpArrow(timeUnit: TimeUnits) {
@@ -166,22 +176,54 @@ export class TimePickerComponent {
   }
 
   hourBoxInputted($event: CustomEvent) {
+    // Check if the input length is 2 or more to trigger focus on the minute input box
     if ($event?.detail.value?.length >= 2) {
-      this.minuteInputBox.setFocus().then(() => {
-        this.minuteInputBox.value = '';
-      });
+      this.focusMinuteInput(true);
     }
   }
 
-  handleKeyPress(event: KeyboardEvent, timeUnit: TimeUnits) {
+  focusHourInput(shouldErase: boolean) {
+    // Set focus on the hour input box and optionally erase its value
+    this.hourInputBox.setFocus().then(() => {
+      if (shouldErase) {
+        this.hourInputBox.value = '';
+      }
+    });
+  }
+
+  focusMinuteInput(shouldErase: boolean) {
+    // Set focus on the minute input box and optionally erase its value
+    this.minuteInputBox.setFocus().then(() => {
+      if (shouldErase) {
+        this.minuteInputBox.value = '';
+      }
+    });
+  }
+
+  minuteBoxInputted($event: CustomEvent) {
+    // Check if the input length is 2 or more to emit the minuteBoxExitedForward event
+    if ($event?.detail.value?.length >= 2) {
+      this.minuteBoxExitedForward.emit();
+    }
+  }
+
+  async handleKeyPress(event: KeyboardEvent, timeUnit: TimeUnits, inputField: IonInput) {
+    // Prevent default behavior for left and right arrow keys
+    event.preventDefault();
     const keyPressed = event.key;
     if (keyPressed === KeyCodes.UP || keyPressed === KeyCodes.DOWN) {
-      // Determine the increment based on the key pressed
-      const increment = keyPressed === KeyCodes.UP ? 1 : -1;
-      const minimum = timeUnit === TimeUnits.HOUR ? this.minimumHour : this.minimumMinute;
-      const maximum = timeUnit === TimeUnits.HOUR ? this.maximumHour : this.maximumMinute;
-      // Call the iterateNumbers method with the determined time unit and increment
-      this.iterateNumbers(timeUnit, increment, minimum, maximum);
+      // Check if we can show the up or down arrow based on the time unit
+      if (
+        (keyPressed === KeyCodes.UP && this.shouldShowUpArrow(timeUnit)) ||
+        (keyPressed === KeyCodes.DOWN && this.shouldShowDownArrow(timeUnit))
+      ) {
+        // Determine the increment based on the key pressed
+        const increment = keyPressed === KeyCodes.UP ? 1 : -1;
+        const minimum = timeUnit === TimeUnits.HOUR ? this.minimumHour : this.minimumMinute;
+        const maximum = timeUnit === TimeUnits.HOUR ? this.maximumHour : this.maximumMinute;
+        // Call the iterateNumbers method with the determined time unit and increment
+        this.iterateNumbers(timeUnit, increment, minimum, maximum);
+      }
     }
   }
 }
