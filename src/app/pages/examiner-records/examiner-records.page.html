@@ -255,6 +255,7 @@
             >
             </data-row>
             <data-row
+              *ngIf="shouldDisplayIndependentDrivingTarget()"
               class="additional-data-row target-padding"
               [customLabelWidth]="50"
               [rowStyling]="{'padding': '0', 'font-style': 'italic'}"

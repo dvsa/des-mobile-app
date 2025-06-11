@@ -853,6 +853,12 @@ export class ExaminerRecordsPage implements OnInit {
     ]);
 
   /**
+   * Returns whether the independent driving target should be displayed.
+   */
+  public shouldDisplayIndependentDrivingTarget = (): boolean =>
+    isAnyOf(this.currentCategory, [TestCategory.B, TestCategory.ADI2]);
+
+  /**
    * Get the total number of individual instances of data.
    *
    * This method takes an array of `ExaminerRecordData` objects and calculates the total count
