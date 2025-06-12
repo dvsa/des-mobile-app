@@ -9,6 +9,16 @@
     --background: transparent;
   }
 
+  .swiper-chevron-button-icon {
+    height: 50px;
+    width: 50px;
+  }
+
+  .swiper-chevron-button {
+    --padding-end: 0px;
+    --padding-start: 0px;
+  }
+
   .modal-sizing {
     max-height: 90vh;
     width: 95vw;

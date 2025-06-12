@@ -17,87 +17,109 @@
 
   <ion-row class="padding-row"></ion-row>
 
-  <ion-content class="content-styling">
-    <ion-row>
-      <ion-col class="general-text-padding">
-        <ion-text id="learn-more-model-text-block-1" class="mes-data">
-          This feature is for test planning purposes only and is not intended for performance management.
-        </ion-text>
-      </ion-col>
-    </ion-row>
 
-    <ion-row class="padding-row"></ion-row>
+  <ion-row>
+    <ion-col size="10" class="ion-justify-content-center display-flex">
+      <ion-button (click)="previousSwipe()" class="ion-justify-content-center display-flex swiper-chevron-button"
+                  fill="clear">
+        <ion-icon class="mes-black swiper-chevron-button-icon" name="chevron-back-outline"></ion-icon>
+      </ion-button>
+    </ion-col>
+    <ion-col size="76">
+      <swiper-container
+        #swiperContainer
+        pagination="true"
+        loop="true">
+        <swiper-slide>
+          <ion-row>
+            <ion-col class="general-text-padding">
+              <ion-text id="learn-more-model-text-block-1" class="mes-data">
+                This feature is for test planning purposes only and is not intended for performance management.
+              </ion-text>
+            </ion-col>
+          </ion-row>
 
-    <ion-row>
-      <ion-col class="general-text-padding-no-top">
-        <ion-text id="learn-more-model-text-block-2" class="mes-data">
-          These figures will differ from RSIS/Power BI as some test types and outcomes are not included.
-        </ion-text>
-      </ion-col>
-    </ion-row>
+          <ion-row class="padding-row"></ion-row>
 
-    <ion-row class="padding-row"></ion-row>
+          <ion-row>
+            <ion-col class="general-text-padding-no-top">
+              <ion-text id="learn-more-model-text-block-2" class="mes-data">
+                These figures will differ from RSIS/Power BI as some test types and outcomes are not included.
+              </ion-text>
+            </ion-col>
+          </ion-row>
+          <ion-row class="padding-row"></ion-row>
+        </swiper-slide>
+        <swiper-slide>
+          <ion-row>
+            <ion-col class="general-text-padding">
+              <ion-text id="learn-more-model-text-block-3" class="mes-data">
+                <b>What’s included?</b>
+              </ion-text>
+            </ion-col>
+          </ion-row>
 
-    <ion-row>
-      <ion-col class="general-text-padding">
-        <ion-text id="learn-more-model-text-block-3" class="mes-data">
-          <b>What’s included?</b>
-        </ion-text>
-      </ion-col>
-    </ion-row>
+          <ion-row>
+            <ion-col class="general-text-padding-no-top">
+              <ion-text id="learn-more-model-text-block-4" class="mes-data">
+                These figures are based on completed tests with a successful or unsuccessful outcome.
+              </ion-text>
+            </ion-col>
+          </ion-row>
 
-    <ion-row>
-      <ion-col class="general-text-padding-no-top">
-        <ion-text id="learn-more-model-text-block-4" class="mes-data">
-          These figures are based on completed tests with a successful or unsuccessful outcome.
-        </ion-text>
-      </ion-col>
-    </ion-row>
+          <ion-row class="padding-row"></ion-row>
 
-    <ion-row class="padding-row"></ion-row>
+          <ion-row>
+            <ion-col class="general-text-padding-no-top">
+              <ion-text id="learn-more-model-text-block-5" class="mes-data">
+                The following activity codes are included:
+              </ion-text>
+            </ion-col>
+          </ion-row>
 
-    <ion-row>
-      <ion-col class="general-text-padding-no-top">
-        <ion-text id="learn-more-model-text-block-5" class="mes-data">
-          The following activity codes are included:
-        </ion-text>
-      </ion-col>
-    </ion-row>
+          <ion-row>
+            <ion-col class="general-text-padding-no-top">
+              <ion-text id="learn-more-model-text-block-6" class="mes-data">
+                <ul>
+                  <li>Pass (code 1)</li>
+                  <li>Fail (code 2)</li>
+                  <li>Eyesight fail (code 3) except in the emergency stops chart</li>
+                  <li>Public safety fail (code 4)</li>
+                  <li>Candidate chose to stop (code 5)</li>
+                </ul>
+              </ion-text>
+            </ion-col>
+          </ion-row>
+          <ion-row class="padding-row"></ion-row>
+        </swiper-slide>
+        <swiper-slide>
+          <ion-row>
+            <ion-col class="general-text-padding">
+              <ion-text id="learn-more-model-text-block-7" class="mes-data">
+                <b>What’s not included?</b>
+              </ion-text>
+            </ion-col>
+          </ion-row>
 
-    <ion-row>
-      <ion-col class="general-text-padding-no-top">
-        <ion-text id="learn-more-model-text-block-6" class="mes-data">
-          <ul>
-            <li>Pass (code 1)</li>
-            <li>Fail (code 2)</li>
-            <li>Eyesight fail (code 3) except in the emergency stops chart</li>
-            <li>Public safety fail (code 4)</li>
-            <li>Candidate chose to stop (code 5)</li>
-          </ul>
-        </ion-text>
-      </ion-col>
-    </ion-row>
+          <ion-row>
+            <ion-col class="general-text-padding">
+              <ion-text id="learn-more-model-text-block-8" class="mes-data">
+                Extended tests and terminations are not included.
+              </ion-text>
+            </ion-col>
+          </ion-row>
+          <ion-row class="padding-row"></ion-row>
+        </swiper-slide>
+      </swiper-container>
+    </ion-col>
+    <ion-col size="10" class="ion-justify-content-center display-flex">
+      <ion-button (click)="nextSwipe()" class="swiper-chevron-button" fill="clear">
+        <ion-icon class="mes-black swiper-chevron-button-icon" name="chevron-forward-outline"></ion-icon>
+      </ion-button>
+    </ion-col>
+  </ion-row>
 
-    <ion-row>
-      <ion-col class="general-text-padding">
-        <ion-text id="learn-more-model-text-block-7" class="mes-data">
-          <b>What’s not included?</b>
-        </ion-text>
-      </ion-col>
-    </ion-row>
-
-    <ion-row>
-      <ion-col class="general-text-padding">
-        <ion-text id="learn-more-model-text-block-8" class="mes-data">
-          Extended tests and terminations are not included.
-        </ion-text>
-      </ion-col>
-    </ion-row>
-
-    <ion-row class="padding-row"></ion-row>
-  </ion-content>
-
-  <ion-row class="padding-row">
+  <ion-row>
     <ion-col class="mes-text-align-centre grey-top-border">
       <ion-button fill="clear" (click)="onOk()" id="learn-more-ok-btn" class="ok-button"><b>Ok</b></ion-button>
     </ion-col>
