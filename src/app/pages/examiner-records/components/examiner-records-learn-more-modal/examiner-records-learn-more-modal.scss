@@ -3,15 +3,17 @@
 :host {
   @extend .modal-alert-wrapper;
 
-  .content-styling {
-    width: 100%;
-    height: 52vh;
-    --background: transparent;
+  .toolbar-spacing {
+    height: 60px;
+  }
+
+  .toolbar-item-spacing {
+    padding-top: 20px;
   }
 
   .modal-sizing {
-    max-height: 90vh;
-    width: 95vw;
+    height: 100vh;
+    width: 100vw;
   }
 
   .info-icon {
@@ -40,6 +42,6 @@
   }
 
   .padding-row {
-    padding-top: 20px;
+    padding-top: 12px;
   }
 }
