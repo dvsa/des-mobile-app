@@ -1,19 +1,18 @@
-<ion-card class="modal-width">
-  <ion-row>
-    <ion-col class="mes-text-align-centre ion-no-padding">
-      <ion-icon aria-label="Information icon" id="learn-more-info-icon" class="info-icon"
-                ios="information-circle"></ion-icon>
-    </ion-col>
-  </ion-row>
+<ion-card class="modal-sizing">
 
-  <ion-row class="ion-justify-content-center">
-    <ion-col class="ion-no-padding" size="80">
-      <ion-text
-        id="learn-more-model-title"
-        class="des-header-style-2 ion-text-center">Data in examiner records
-      </ion-text>
-    </ion-col>
-  </ion-row>
+  <ion-header>
+    <ion-toolbar mode="ios" class="toolbar-spacing">
+      <ion-title role="heading" aria-level="1" id="test-details-title" class="ion-text-center toolbar-item-spacing">
+        Data in examiner records
+      </ion-title>
+      <ion-buttons slot="start" class="toolbar-item-spacing">
+        <ion-button id="close-button" (click)="onOk()">
+          <ion-icon class="close-btn" name="close-outline"></ion-icon>
+          <ion-label class="close-btn">Close</ion-label>
+        </ion-button>
+      </ion-buttons>
+    </ion-toolbar>
+  </ion-header>
 
   <ion-row class="padding-row"></ion-row>
 
@@ -90,14 +89,6 @@
       <ion-text id="learn-more-model-text-block-8" class="mes-data">
         Extended tests and terminations are not included.
       </ion-text>
-    </ion-col>
-  </ion-row>
-
-  <ion-row class="padding-row"></ion-row>
-
-  <ion-row class="padding-row">
-    <ion-col class="mes-text-align-centre grey-top-border">
-      <ion-button fill="clear" (click)="onOk()" id="learn-more-ok-btn" class="ok-button"><b>Ok</b></ion-button>
     </ion-col>
   </ion-row>
 </ion-card>
