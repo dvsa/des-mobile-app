@@ -10,6 +10,7 @@ import { OfficeCatADI3Page } from '@pages/office/cat-adi-part3/office.cat-adi-pa
 import { OfficeRegistrationAndMotComponent } from '@pages/office/components/office-registration-and-mot/office-registration-and-mot.component';
 import { OfficeComponentsModule } from '@pages/office/components/office.components.module';
 import { ReasonForEnteringTeamsComponent } from '@pages/office/components/reason-for-entering-teams/reason-for-entering-teams';
+import { ReasonForShortTestComponent } from '@pages/office/components/reason-for-short-test/reason-for-short-test';
 import { OfficeAnalyticsEffects } from '@pages/office/office.analytics.effects';
 import { OfficeEffects } from '@pages/office/office.effects';
 import { WaitingRoomToCarComponentsModule } from '@pages/waiting-room-to-car/components/waiting-room-to-car.components.module';
@@ -27,8 +28,9 @@ import { FaultSummaryProvider } from '@providers/fault-summary/fault-summary';
     ReactiveFormsModule,
     EffectsModule.forFeature([OfficeAnalyticsEffects, OfficeEffects]),
     WaitingRoomToCarComponentsModule,
-    ReasonForEnteringTeamsComponent,
     OfficeRegistrationAndMotComponent,
+    ReasonForShortTestComponent,
+    ReasonForEnteringTeamsComponent,
   ],
   providers: [FaultSummaryProvider],
 })

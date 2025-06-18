@@ -71,6 +71,15 @@
             </additional-information>
           </div>
 
+          <reason-for-short-test
+            *ngIf="pageState.isTestTooShort$ | async"
+            [display]="pageState.isTestTooShort$ | async"
+            [reasonForShortTest]="pageState.reasonForShortTest$ | async"
+            [formGroup]="form"
+            (reasonForShortTestChange)="reasonForShortTestChanged($event)"
+          >
+          </reason-for-short-test>
+
           <reason-for-entering-teams
             *ngIf="pageState.hasEnteredTeamsOnThisTest$ | async"
             [display]="pageState.hasEnteredTeamsOnThisTest$ | async"

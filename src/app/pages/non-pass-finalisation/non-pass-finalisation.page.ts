@@ -52,7 +52,7 @@ import {
 import {
   ConfirmStartEndTimeChanged,
   EndTimeChanged,
-  StandardsChecksDurationDataChanged,
+  StandardsChecksTestIsTooShortChanged,
   StartTimeChanged,
 } from '@store/tests/test-data/cat-adi-part3/start-end-time/start-end-time.actions';
 import {
@@ -369,11 +369,7 @@ export class NonPassFinalisationPage extends PracticeableBasePageComponent imple
         }
       }
 
-      this.store$.dispatch(
-        StandardsChecksDurationDataChanged({
-          testIsTooShort: isTestTooShort,
-        })
-      );
+      this.store$.dispatch(StandardsChecksTestIsTooShortChanged(isTestTooShort));
 
       this.testStartTimeChanged(this.scStartTime);
       this.testEndTimeChanged(this.scEndTime);

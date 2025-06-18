@@ -11,7 +11,7 @@ export class ChangeStartEndTimeModal {
   startTime = '';
   endTime = '';
 
-  constructor(private modalController: ModalController) {}
+  constructor(public modalController: ModalController) {}
 
   @ViewChild('EndTimePicker') endTimePicker!: TimePickerComponent;
 

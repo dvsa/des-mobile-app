@@ -15,6 +15,11 @@ import { getCandidate } from '@store/tests/journal-data/common/candidate/candida
 import { getCandidatePrn } from '@store/tests/journal-data/common/candidate/candidate.selector';
 import { getReview } from '@store/tests/test-data/cat-adi-part3/review/review.reducer';
 import { getGrade } from '@store/tests/test-data/cat-adi-part3/review/review.selector';
+import {
+  getIsTestTooShort,
+  getStandardsChecksData,
+  getTestTooShortReason,
+} from '@store/tests/test-data/cat-adi-part3/start-end-time/start-end-time.selector';
 import { getTestData } from '@store/tests/test-data/cat-adi-part3/test-data.cat-adi-part3.reducer';
 import { getTests } from '@store/tests/tests.reducer';
 import { getCurrentTest, getJournalData } from '@store/tests/tests.selector';
@@ -25,6 +30,8 @@ interface CatADI3OfficePageState {
   testOutcomeGrade$: Observable<string>;
   isStandardsCheck$: Observable<boolean>;
   prn$: Observable<number>;
+  isTestTooShort$: Observable<boolean>;
+  reasonForShortTest$: Observable<string>;
 }
 
 type OfficePageState = CommonOfficePageState & CatADI3OfficePageState;
@@ -59,6 +66,16 @@ export class OfficeCatADI3Page extends OfficeBasePageComponent implements OnInit
         map((category) => isAnyOf(category, [TestCategory.SC]))
       ),
       prn$: currentTest$.pipe(select(getJournalData), select(getCandidate), select(getCandidatePrn)),
+      isTestTooShort$: currentTest$.pipe(
+        select(getTestData),
+        select(getStandardsChecksData),
+        select(getIsTestTooShort)
+      ),
+      reasonForShortTest$: currentTest$.pipe(
+        select(getTestData),
+        select(getStandardsChecksData),
+        select(getTestTooShortReason)
+      ),
     };
 
     super.setupSubscriptions();

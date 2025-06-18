@@ -25,8 +25,10 @@ import {
   ReasonForNoAdviceGivenChanged,
   SeekFurtherDevelopmentChanged,
 } from '@store/tests/test-data/cat-adi-part3/review/review.actions';
-import { EndTimeChanged } from '@store/tests/test-data/cat-adi-part3/start-end-time/start-end-time.actions';
-import { StartTimeChanged } from '@store/tests/test-data/cat-adi-part3/start-time/start-time.actions';
+import {
+  EndTimeChanged,
+  StartTimeChanged,
+} from '@store/tests/test-data/cat-adi-part3/start-end-time/start-end-time.actions';
 import { TestsModel } from '@store/tests/tests.model';
 import { MockComponent } from 'ng-mocks';
 import { Subscription } from 'rxjs';

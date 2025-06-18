@@ -22,8 +22,18 @@ export const startEndTimeConfirmedReducer = createReducer(
 export const testDurationReducer = createReducer(
   initialStandardsChecksDurationState,
   on(
-    StartEndTimeActionTypes.StandardsChecksDurationDataChanged,
-    (_, { standardChecksDuration }) => standardChecksDuration
+    StartEndTimeActionTypes.StandardsChecksTestIsTooShortChanged,
+    (state: StandardsChecksTestLength, { isTooShort }) => ({
+      ...state,
+      testIsTooShort: isTooShort,
+    })
+  ),
+  on(
+    StartEndTimeActionTypes.StandardsChecksTestIsTooShortReasonChanged,
+    (state: StandardsChecksTestLength, { reason }) => ({
+      ...state,
+      reasonForTestBeingTooShort: reason,
+    })
   )
 );
 
