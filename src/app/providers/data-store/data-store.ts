@@ -11,6 +11,7 @@ import { LogType } from '@shared/models/log.model';
 import { StoreModel } from '@shared/models/store.model';
 import { SaveLog } from '@store/logs/logs.actions';
 import CordovaSQLiteDriver from 'localforage-cordovasqlitedriver';
+import { get } from 'lodash-es';
 import { LogHelper } from '../logs/logs-helper';
 
 export enum LocalStorageKey {
