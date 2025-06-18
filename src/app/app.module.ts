@@ -65,7 +65,6 @@ import { TestCentreJournalStoreModule } from '@store/test-centre-journal/test-ce
 import { TestsModule } from '@store/tests/tests.module';
 import { testsReducer } from '@store/tests/tests.reducer';
 
-import { EffectImportModule } from '@app/effects.module';
 import { Capacitor } from '@capacitor/core';
 import { ExaminerRecordsComponentsModule } from '@pages/examiner-records/components/examiner-records-components.module';
 import { CompressionProvider } from '@providers/compression/compression';
@@ -145,7 +144,6 @@ const storageDriver = Capacitor.getPlatform() === 'web' ? Drivers.IndexedDB : Co
     }),
     StoreModule.forRoot(reducers, { metaReducers }),
     EffectsModule.forRoot(),
-    EffectImportModule,
     ...(enableDevTools ? [StoreDevtoolsModule.instrument()] : []),
     AppInfoStoreModule,
     ReferenceDataStoreModule,
