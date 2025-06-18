@@ -38,6 +38,7 @@ export class MotStatusDisplayTextComponent {
    * @returns {string} - The MOT status text. Possible values are:
    *   - 'Valid until {testExpiryDate}' if the MOT status is valid and a test expiry date is available.
    *   - 'Valid' if the MOT status is valid but no test expiry date is available.
+   *   - 'Unable to determine MOT status' if status is 'No details'.
    *   - The MOT status text directly if the MOT status is not invalid.
    *   - 'Expired {testExpiryDate}' if the MOT status is invalid and a test expiry date is available.
    *   - 'Not valid' if the MOT status is invalid and no test expiry date is available.
@@ -50,7 +51,7 @@ export class MotStatusDisplayTextComponent {
       return 'Valid';
     }
     if (!this.isInvalidMOT()) {
-      return this.motStatus;
+      return this.motStatus === 'No details' ? 'Unable to determine MOT status' : this.motStatus;
     }
     return this.motTestExpiryDate ? `Expired ${this.motTestExpiryDate}` : 'Not valid';
   }

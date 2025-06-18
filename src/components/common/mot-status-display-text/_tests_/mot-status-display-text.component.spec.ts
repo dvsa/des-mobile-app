@@ -49,7 +49,7 @@ describe('MotStatusDisplayTextComponent', () => {
     it('returns motStatus text directly when motStatus is not invalid', () => {
       component.motStatus = 'No details';
       component.motTestExpiryDate = null;
-      expect(component.getMotStatusText()).toBe('No details');
+      expect(component.getMotStatusText()).toBe('Unable to determine MOT status');
     });
 
     it('returns "Expired {testExpiryDate}" when motStatus is NOT_VALID and motTestExpiryDate is provided', () => {

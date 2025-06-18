@@ -143,8 +143,9 @@ export class VehicleDetailsCardComponent {
     return get(this.instructorDetails, 'registrationNumber');
   }
 
-  public get getMOTStatus(): MotStatusCodes {
-    return get(this.data, 'motStatus') as MotStatusCodes;
+  public get getMOTStatus(): string {
+    const status = get(this.data, 'motStatus') as MotStatusCodes;
+    return status === 'No details' ? 'Unable to determine MOT status' : status;
   }
 
   public get motTestExpiryDate(): string {
