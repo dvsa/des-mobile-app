@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 import { TimePickerComponent } from '@components/common/time-picker/time-picker.component';
 import { ModalController } from '@ionic/angular';
 
@@ -14,6 +14,7 @@ export class ChangeStartEndTimeModal {
   constructor(public modalController: ModalController) {}
 
   @ViewChild('EndTimePicker') endTimePicker!: TimePickerComponent;
+  @ViewChild('CancelButton', { read: ElementRef }) cancelButton!: ElementRef<HTMLButtonElement>;
 
   async onCancel() {
     await this.modalController.dismiss();
@@ -25,5 +26,9 @@ export class ChangeStartEndTimeModal {
 
   changeFocusToEndTime() {
     this.endTimePicker.focusHourInput(true);
+  }
+
+  changeFocusToButtons() {
+    this.cancelButton.nativeElement.focus();
   }
 }

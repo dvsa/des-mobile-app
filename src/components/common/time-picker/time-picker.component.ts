@@ -12,6 +12,7 @@ enum KeyCodes {
   DOWN = 'ArrowDown',
   LEFT = 'ArrowLeft',
   RIGHT = 'ArrowRight',
+  TAB = 'Tab',
 }
 
 @Component({
@@ -208,9 +209,18 @@ export class TimePickerComponent {
   }
 
   async handleKeyPress(event: KeyboardEvent, timeUnit: TimeUnits, inputField: IonInput) {
-    // Prevent default behavior for left and right arrow keys
-    event.preventDefault();
     const keyPressed = event.key;
+    if (keyPressed === KeyCodes.TAB) {
+      // Handle tab key to switch focus between hour and minute inputs
+      if (timeUnit === TimeUnits.HOUR) {
+        // If the hour input is focused, move focus to the minute input
+        this.focusMinuteInput(true);
+      } else {
+        // If the minute input is focused, emit an event to indicate it has exited forward
+        this.minuteBoxExitedForward.emit();
+      }
+      return;
+    }
     if (keyPressed === KeyCodes.UP || keyPressed === KeyCodes.DOWN) {
       // Check if we can show the up or down arrow based on the time unit
       if (

@@ -41,6 +41,7 @@
             [initialValue]="endTime"
             [minTime]="startTime"
             (onTimeChanged)="endTime = $event"
+            (minuteBoxExitedForward)="changeFocusToButtons()"
           ></time-picker>
         </ion-col>
       </ion-row>
@@ -52,7 +53,13 @@
     <ion-col class="column-border-top ion-no-padding">
       <ion-row>
         <ion-col>
-          <ion-button id="cancel-button" fill="clear" class="confirm-submit-cancel-button" (click)="onCancel()">
+          <ion-button
+            #CancelButton
+            id="cancel-button"
+            fill="clear"
+            class="confirm-submit-cancel-button"
+            tabindex="1"
+            (click)="onCancel()">
             Cancel
           </ion-button>
         </ion-col>
@@ -61,6 +68,7 @@
             id="continue-button"
             fill="clear"
             class="confirm-submit-continue-button"
+            tabindex="2"
             (click)="onConfirm()"
           >
             Confirm
