@@ -18,7 +18,8 @@
         maxlength="2"
         numbersOnly
         keyboardInputListener
-        (keypressRegistered)="handleKeyPress($event, TimeUnits.HOUR, hourInput)"
+        (keypressDownRegistered)="saveCurrentFocusPosition(hourInput)"
+        (keypressUpRegistered)="handleKeyPress($event, TimeUnits.HOUR, hourInput)"
         id="time-picker-hour-input"
         type="text"
         class="ion-input-styling input-width">
@@ -55,7 +56,8 @@
         maxlength="2"
         numbersOnly
         keyboardInputListener
-        (keypressRegistered)="handleKeyPress($event, TimeUnits.MINUTE, minuteInput)"
+        (keypressDownRegistered)="saveCurrentFocusPosition(minuteInput)"
+        (keypressUpRegistered)="handleKeyPress($event, TimeUnits.MINUTE, minuteInput)"
         type="text"
         id="time-picker-minute-input"
         class="ion-input-styling input-width">

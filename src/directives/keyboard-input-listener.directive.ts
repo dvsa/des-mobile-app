@@ -8,14 +8,26 @@ export class KeyboardInputListenerDirective {
   constructor(private el: ElementRef) {}
 
   @Output()
-  keypressRegistered: EventEmitter<KeyboardEvent> = new EventEmitter<KeyboardEvent>();
+  keypressUpRegistered: EventEmitter<KeyboardEvent> = new EventEmitter<KeyboardEvent>();
+
+  @Output()
+  keypressDownRegistered: EventEmitter<KeyboardEvent> = new EventEmitter<KeyboardEvent>();
 
   @HostListener('window:keyup', ['$event'])
-  keyEvent(event: KeyboardEvent) {
+  keyUpEvent(event: KeyboardEvent) {
     // Check if the element has the 'has-focus' class (meaning it is focused)
     if (this.el?.nativeElement?.classList?.contains('has-focus')) {
       // Emit the event if the element is focused
-      this.keypressRegistered.emit(event);
+      this.keypressUpRegistered.emit(event);
+    }
+  }
+
+  @HostListener('window:keydown', ['$event'])
+  keyDownEvent(event: KeyboardEvent) {
+    // Check if the element has the 'has-focus' class (meaning it is focused)
+    if (this.el?.nativeElement?.classList?.contains('has-focus')) {
+      // Emit the event if the element is focused
+      this.keypressDownRegistered.emit(event);
     }
   }
 }

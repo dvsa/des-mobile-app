@@ -14,6 +14,7 @@ export class ChangeStartEndTimeModal {
   constructor(public modalController: ModalController) {}
 
   @ViewChild('EndTimePicker') endTimePicker!: TimePickerComponent;
+  @ViewChild('StartTimePicker') startTimePicker!: TimePickerComponent;
   @ViewChild('CancelButton', { read: ElementRef }) cancelButton!: ElementRef<HTMLButtonElement>;
 
   async onCancel() {
@@ -24,8 +25,12 @@ export class ChangeStartEndTimeModal {
     await this.modalController.dismiss({ startTime: this.startTime, endTime: this.endTime });
   }
 
-  changeFocusToEndTime() {
-    this.endTimePicker.focusHourInput(true);
+  async changeFocusToEndTime(shouldErase: boolean) {
+    await this.endTimePicker.focusHourInput(shouldErase);
+  }
+
+  async changeFocusToStartTime(shouldErase: boolean) {
+    await this.startTimePicker.focusMinuteInput(shouldErase, true);
   }
 
   changeFocusToButtons() {
