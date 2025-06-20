@@ -2,6 +2,14 @@ $report-mode-border-width: 4px;
 $toolbar-height: 56px;
 :host ::ng-deep {
 
+  .keyboard-open {
+    margin-bottom: 40% !important;
+  }
+
+  keyboard-closed {
+    margin-bottom: 0 !important;
+  }
+
   .button-row-colour {
     background-color: white;
   }
@@ -70,5 +78,4 @@ $toolbar-height: 56px;
     border-width: 2px;
     border-color: black;
   }
-
 }

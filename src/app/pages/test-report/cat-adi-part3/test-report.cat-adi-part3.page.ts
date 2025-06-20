@@ -1,4 +1,4 @@
-import { Component, Injector, OnInit } from '@angular/core';
+import { Component, Injector, OnDestroy, OnInit } from '@angular/core';
 import { UntypedFormGroup } from '@angular/forms';
 import {
   LessonPlanning,
@@ -40,6 +40,8 @@ import { getTests } from '@store/tests/tests.reducer';
 import { getCurrentTest } from '@store/tests/tests.selector';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { Keyboard, KeyboardInfo } from '@capacitor/keyboard';
+import { PluginListenerHandle } from '@capacitor/core';
 
 interface CatADI3TestReportPageState {
   studentLevel$: Observable<StudentLevel>;
@@ -59,11 +61,14 @@ type TestReportPageState = CommonTestReportPageState & CatADI3TestReportPageStat
   templateUrl: './test-report.cat-adi-part3.page.html',
   styleUrls: ['./test-report.cat-adi-part3.page.scss'],
 })
-export class TestReportCatADI3Page extends TestReportBasePageComponent implements OnInit {
+export class TestReportCatADI3Page extends TestReportBasePageComponent implements OnInit, OnDestroy {
+  private keyboardShowListener: PluginListenerHandle;
+  private keyboardHideListener: PluginListenerHandle;
   form: UntypedFormGroup;
   pageState: TestReportPageState;
   page: 'lessonTheme' | 'testReport' = null;
   showMissing = false;
+  keyboardShown: boolean = false;
 
   constructor(
     public navController: NavController,
@@ -74,7 +79,7 @@ export class TestReportCatADI3Page extends TestReportBasePageComponent implement
     this.form = new UntypedFormGroup({});
   }
 
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
     this.page = this.router.getCurrentNavigation()?.extras?.state?.page;
     this.showMissing = this.router.getCurrentNavigation()?.extras?.state?.showMissing;
 
@@ -94,7 +99,23 @@ export class TestReportCatADI3Page extends TestReportBasePageComponent implement
       totalScore$: currentTest$.pipe(select(getTestData), map(this.adi3AssessmentProvider.getTotalAssessmentScore)),
     };
     this.setupSubscription();
+    this.keyboardShowListener = await Keyboard.addListener('keyboardWillShow', (info: KeyboardInfo) => {
+      console.log('keyboardWillShow');
+      this.keyboardShown = true;
+      // this.renderer.addClass(document.querySelector('ion-content'), 'keyboard-open');
+    });
+    this.keyboardHideListener = await Keyboard.addListener('keyboardWillHide', () => {
+      console.log('keyboardWillHide');
+      this.keyboardShown = false;
+      // this.renderer.removeClass(document.querySelector('ion-content'), 'keyboard-open');
+    });
   }
+
+  ngOnDestroy() {
+    if (this.keyboardShowListener) this.keyboardShowListener.remove();
+    if (this.keyboardHideListener) this.keyboardHideListener.remove();
+  }
+
 
   ionViewDidLeave(): void {
     super.ionViewDidLeave();

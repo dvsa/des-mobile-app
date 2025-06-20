@@ -37,8 +37,9 @@ import { RiskManagementQuestionScoreChanged } from '@store/tests/test-data/cat-a
 import { TeachingLearningStrategiesQuestionScoreChanged } from '@store/tests/test-data/cat-adi-part3/teaching-learning-strategies/teaching-learning-strategies.actions';
 import { initialState } from '@store/tests/test-data/cat-b/test-data.reducer';
 import { testReportReducer } from '../../test-report.reducer';
+import { Keyboard } from '@capacitor/keyboard';
 
-describe('TestReportCatADI3Page', () => {
+fdescribe('TestReportCatADI3Page', () => {
   let fixture: ComponentFixture<TestReportCatADI3Page>;
   let component: TestReportCatADI3Page;
   let store$: Store<StoreModel>;
@@ -98,6 +99,9 @@ describe('TestReportCatADI3Page', () => {
           provide: NavController,
           useClass: NavControllerMock,
         },
+        {
+          provide: Keyboard,
+        },
         provideMockStore({
           initialState: {
             appInfo: { versionNumber: '4.0' } as AppInfoStateModel,
@@ -113,6 +117,40 @@ describe('TestReportCatADI3Page', () => {
   });
 
   describe('Class', () => {
+    describe('OnInit', () => {
+      let keyboardShowCallback: Function;
+      let keyboardHideCallback: Function;
+      beforeEach(() => {
+        spyOn(Keyboard, 'addListener').and.callFake((event, cb) => {
+          if (event === 'keyboardWillShow') keyboardShowCallback = cb;
+          if (event === 'keyboardWillHide') keyboardHideCallback = cb;
+          return Promise.resolve({ remove: jasmine.createSpy('remove') });
+        });
+      });
+
+      it('should set keyboardShown to true on keyboardWillShow', async () => {
+        await component.ngOnInit();
+        keyboardShowCallback({});
+        expect(component.keyboardShown).toBeTrue();
+      });
+
+      it('should set keyboardShown to false on keyboardWillHide', async () => {
+        component.keyboardShown = true;
+        await component.ngOnInit();
+        keyboardHideCallback();
+        expect(component.keyboardShown).toBeFalse();
+      });
+
+      it('should remove listeners on ngOnDestroy', async () => {
+        await component.ngOnInit();
+        const showRemoveSpy = component['keyboardShowListener'].remove;
+        const hideRemoveSpy = component['keyboardHideListener'].remove;
+        component.ngOnDestroy();
+        expect(showRemoveSpy).toHaveBeenCalled();
+        expect(hideRemoveSpy).toHaveBeenCalled();
+      });
+    });
+
     describe('studentLevelChanged', () => {
       it('should dispatch the StudentLevelChanged action', () => {
         component.studentLevelChanged('beginner');

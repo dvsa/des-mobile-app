@@ -12,6 +12,8 @@ PODS:
   - CapacitorCordova (6.2.0)
   - CapacitorDevice (6.0.2):
     - Capacitor
+  - CapacitorKeyboard (6.0.3):
+    - Capacitor
   - CapacitorNativeBiometric (0.0.1):
     - Capacitor
   - CapacitorSplashScreen (6.0.3):
@@ -46,6 +48,7 @@ DEPENDENCIES:
   - "CapacitorCommunityKeepAwake (from `../../node_modules/@capacitor-community/keep-awake`)"
   - "CapacitorCordova (from `../../node_modules/@capacitor/ios`)"
   - "CapacitorDevice (from `../../node_modules/@capacitor/device`)"
+  - "CapacitorKeyboard (from `../../node_modules/@capacitor/keyboard`)"
   - CapacitorNativeBiometric (from `../../node_modules/capacitor-native-biometric`)
   - "CapacitorSplashScreen (from `../../node_modules/@capacitor/splash-screen`)"
   - "CapacitorStatusBar (from `../../node_modules/@capacitor/status-bar`)"
@@ -78,6 +81,8 @@ EXTERNAL SOURCES:
     :path: "../../node_modules/@capacitor/ios"
   CapacitorDevice:
     :path: "../../node_modules/@capacitor/device"
+  CapacitorKeyboard:
+    :path: "../../node_modules/@capacitor/keyboard"
   CapacitorNativeBiometric:
     :path: "../../node_modules/capacitor-native-biometric"
   CapacitorSplashScreen:
@@ -109,6 +114,7 @@ SPEC CHECKSUMS:
   CapacitorCommunityKeepAwake: e2ddd50812e3407f8dc3a2c28e97d66e9b59b2f5
   CapacitorCordova: b33e7f4aa4ed105dd43283acdd940964374a87d9
   CapacitorDevice: 1a215717f0b5061503b21a03508b0ec458a57d78
+  CapacitorKeyboard: 460c6f9ec5e52c84f2742d5ce2e67bbc7ab0ebb0
   CapacitorNativeBiometric: b47637a8cd349bdac014424bb4ddcae9ee5d4919
   CapacitorSplashScreen: 68893659d77b5f82d753b3a70475082845e3039c
   CapacitorStatusBar: 3b9ac7d0684770522c532d1158a1434512ab1477
@@ -123,6 +129,6 @@ SPEC CHECKSUMS:
   Sentry: 1ca8405451040482877dcd344dfa3ef80b646631
   SentryCapacitor: 76bed93eb1c508a1aac9eddd273e7ff7b77b509b
 
-PODFILE CHECKSUM: ec08b5c45934c7f5d0dd6502b4177d8f8b9ddab4
+PODFILE CHECKSUM: 6d62b13b88681bd5d7ee2f52b7ba0d030676d538
 
 COCOAPODS: 1.16.2
