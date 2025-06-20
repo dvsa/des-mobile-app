@@ -46,7 +46,6 @@ interface CatCPCOfficePageState {
   question5$: Observable<Question5>;
   combination$: Observable<CombinationCodes>;
   passCertificateNumberReceived$: Observable<boolean>;
-  conductedLanguage$: Observable<string>;
 }
 
 type OfficePageState = CommonOfficePageState & CatCPCOfficePageState;
@@ -81,8 +80,6 @@ export class OfficeCatCPCPage extends OfficeBasePageComponent implements OnInit 
     this.pageState = {
       ...this.commonPageState,
       testResult$: currentTest$.pipe(select(getTestOutcomeDebrief)),
-      conductedLanguage$: currentTest$.pipe(select(getCommunicationPreference), select(getConductedLanguage)),
-      delegatedTest$: currentTest$.pipe(select(getDelegatedTestIndicator), select(isDelegatedTest)),
       assessmentReport$: currentTest$.pipe(select(getTestSummary), select(getAssessmentReport)),
       overallScore$: currentTest$.pipe(select(getTestData), select(getTotalPercent)),
       question1$: currentTest$.pipe(select(getTestData), select(getQuestion1)),

@@ -1,3 +1,8 @@
+.radio-group-wrapper {
+  display: flex;
+  width: 100%
+}
+
 .gds-refactor-radio {
   &::part(container) {
     width: 44px;
