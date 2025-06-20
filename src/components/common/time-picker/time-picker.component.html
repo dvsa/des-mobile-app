@@ -9,7 +9,7 @@
         [name]="'chevron-up-outline'">
       </ion-icon>
     </ion-row>
-    <ion-row>
+    <ion-row class="spacing-padding">
       <ion-input
         #hourInput
         (ionChange)="inputEnteredManually(TimeUnits.HOUR, $event.detail.value)"
@@ -17,6 +17,7 @@
         (ionInput)="hourBoxInputted($event)"
         maxlength="2"
         numbersOnly
+        inputmode="numeric"
         keyboardInputListener
         (keypressDownRegistered)="saveCurrentFocusPosition(hourInput)"
         (keypressUpRegistered)="handleKeyPress($event, TimeUnits.HOUR, hourInput)"
@@ -47,12 +48,13 @@
         size="large"
         [name]="'chevron-up-outline'"></ion-icon>
     </ion-row>
-    <ion-row>
+    <ion-row class="spacing-padding">
       <ion-input
         (ionChange)="inputEnteredManually(TimeUnits.MINUTE, $event.detail.value)"
         [(ngModel)]="selectedMinute"
         (ionInput)="minuteBoxInputted($event)"
         #minuteInput
+        inputmode="numeric"
         maxlength="2"
         numbersOnly
         keyboardInputListener
@@ -75,7 +77,7 @@
 </ion-row>
 <ion-row>
   <ion-col class="display-flex ion-justify-content-center">
-    <ion-text class="mes-data">Hour</ion-text>
+    <ion-text class="mes-data">Hours</ion-text>
   </ion-col>
   <ion-col size="6"></ion-col>
   <ion-col class="display-flex ion-justify-content-center">
