@@ -12,6 +12,8 @@ import {
 import { ActivityCodeModel, getActivityCodeOptions } from '@shared/constants/activity-code/activity-code.constants';
 import { Combination, questionCombinations } from '@shared/constants/cpc-questions/cpc-question-combinations.constants';
 import { TestOutcome } from '@shared/models/test-outcome';
+import { getCommunicationPreference } from '@store/tests/communication-preferences/communication-preferences.reducer';
+import { getConductedLanguage } from '@store/tests/communication-preferences/communication-preferences.selector';
 import { PassCertificateNumberChanged } from '@store/tests/pass-completion/pass-completion.actions';
 import { PassCertificateNumberReceived } from '@store/tests/post-test-declarations/post-test-declarations.actions';
 import { getPostTestDeclarations } from '@store/tests/post-test-declarations/post-test-declarations.reducer';
@@ -36,6 +38,7 @@ import { map } from 'rxjs/operators';
 import { getTestOutcome as getTestOutcomeDebrief } from '../../debrief/debrief.selector';
 
 interface CatCPCOfficePageState {
+  conductedLanguage$: Observable<string>;
   testResult$: Observable<string>;
   assessmentReport$: Observable<string>;
   overallScore$: Observable<number>;
@@ -62,6 +65,7 @@ export class OfficeCatCPCPage extends OfficeBasePageComponent implements OnInit 
   testOutcome: string;
   public outcome: TestOutcome;
   activityCodeOptions: ActivityCodeModel[];
+  conductedLanguage: string;
 
   constructor(
     private appConfig: AppConfigProvider,
@@ -79,6 +83,7 @@ export class OfficeCatCPCPage extends OfficeBasePageComponent implements OnInit 
 
     this.pageState = {
       ...this.commonPageState,
+      conductedLanguage$: currentTest$.pipe(select(getCommunicationPreference), select(getConductedLanguage)),
       testResult$: currentTest$.pipe(select(getTestOutcomeDebrief)),
       assessmentReport$: currentTest$.pipe(select(getTestSummary), select(getAssessmentReport)),
       overallScore$: currentTest$.pipe(select(getTestData), select(getTotalPercent)),
@@ -99,10 +104,11 @@ export class OfficeCatCPCPage extends OfficeBasePageComponent implements OnInit 
   setupSubscription() {
     super.setupSubscriptions();
 
-    const { testResult$, testOutcome$ } = this.pageState;
+    const { testResult$, testOutcome$, conductedLanguage$ } = this.pageState;
 
     this.pageSubscription = merge(
       testResult$.pipe(map((result) => (this.outcome = result as TestOutcome))),
+      conductedLanguage$.pipe(map((result) => (this.conductedLanguage = result))),
       testOutcome$.pipe(map((result) => (this.testOutcome = result)))
     ).subscribe();
   }

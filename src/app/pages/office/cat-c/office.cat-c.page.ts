@@ -17,8 +17,6 @@ import {
 import { ActivityCodeModel, getActivityCodeOptions } from '@shared/constants/activity-code/activity-code.constants';
 import { CompetencyOutcome } from '@shared/models/competency-outcome';
 import { CommentSource, FaultSummary } from '@shared/models/fault-marking.model';
-import { getTestCategory } from '@store/tests/category/category.reducer';
-import { Language } from '@store/tests/communication-preferences/communication-preferences.model';
 import { getCommunicationPreference } from '@store/tests/communication-preferences/communication-preferences.reducer';
 import { getConductedLanguage } from '@store/tests/communication-preferences/communication-preferences.selector';
 import { getPassCompletion } from '@store/tests/pass-completion/cat-c/pass-completion.cat-c.reducer';
