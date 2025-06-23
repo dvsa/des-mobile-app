@@ -58,6 +58,7 @@
             <div class="validation-bar"></div>
             <ion-col>
               <ion-radio-group
+                class="radio-group-wrapper-column"
                 (ionChange)="communicationMethodChanged($event.target.value)"
                 [value]="defaultRadioValue">
                 <provided-email
