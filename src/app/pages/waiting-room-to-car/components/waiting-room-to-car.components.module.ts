@@ -8,6 +8,7 @@ import { IonicModule } from '@ionic/angular';
 import { MotCardComponent } from '@pages/waiting-room-to-car/components/mot-components/mot-card/mot-card.component';
 import { MotNoEvidenceConfirmationComponent } from '@pages/waiting-room-to-car/components/mot-components/mot-no-evidence-confirmation/mot-no-evidence-confirmation';
 import { PracticeModeMOTModal } from '@pages/waiting-room-to-car/components/mot-components/practice-mode-mot-modal/practice-mode-mot-modal.component';
+import { SafetyRecallComponent } from '@pages/waiting-room-to-car/components/safety-recall/safety-recall';
 import { PipesModule } from '@shared/pipes/pipes.module';
 import { AccompanimentCardComponent } from './accompaniment-card/accompaniment-card';
 import { AccompanimentComponent } from './accompaniment/accompaniment';
@@ -29,6 +30,7 @@ import { VehicleRegistrationComponent } from './vehicle-registration/vehicle-reg
   declarations: [
     EyesightTestComponent,
     EyesightFailureConfirmationComponent,
+    SafetyRecallComponent,
     VehicleRegistrationComponent,
     AccompanimentCardComponent,
     AccompanimentComponent,
@@ -58,6 +60,7 @@ import { VehicleRegistrationComponent } from './vehicle-registration/vehicle-reg
   exports: [
     EyesightTestComponent,
     EyesightFailureConfirmationComponent,
+    SafetyRecallComponent,
     VehicleRegistrationComponent,
     AccompanimentCardComponent,
     AccompanimentComponent,

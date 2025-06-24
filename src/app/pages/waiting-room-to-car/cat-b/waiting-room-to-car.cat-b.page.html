@@ -64,6 +64,9 @@
             >
             </vehicle-registration>
 
+            <safety-recall>
+            </safety-recall>
+
             <ion-row *ngIf="(pageState.motEvidenceProvided$ | async) === false">
               <mot-no-evidence-confirmation [cancelFn]="motNoEvidenceCancelled" [nextPageOnFail]="getDebriefPage()">
               </mot-no-evidence-confirmation>
