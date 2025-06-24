@@ -10,6 +10,7 @@ import { ExitSAMMethodUsed } from '@components/common/test-flow-header/test-flow
 import { ModalController, Platform } from '@ionic/angular';
 import { Store } from '@ngrx/store';
 import { LinkModalComponent, LinkModalEvent } from '@pages/useful-links/components/link-modal/link-modal.component';
+import { AppConfigProvider } from '@providers/app-config/app-config';
 import { DeviceProvider } from '@providers/device/device';
 import { StoreModel } from '@shared/models/store.model';
 import { SetHasExitedApp } from '@store/tests/user-exited-app/user-exited-app.actions';
@@ -21,7 +22,8 @@ export class ExitSAMProvider {
     public platform: Platform,
     public modalController: ModalController,
     public deviceProvider: DeviceProvider,
-    public store$: Store<StoreModel>
+    public store$: Store<StoreModel>,
+    private appConfigProvider: AppConfigProvider
   ) {}
 
   public leaveAppSubscription: Subscription = null;
@@ -73,13 +75,14 @@ export class ExitSAMProvider {
         return;
       }
 
+      const { usefulLinks } = this.appConfigProvider.getAppConfig();
+
+      const recallLinks = usefulLinks.filter((link) => link.displayText.toLowerCase().includes('recall'));
+
       const modal = await this.modalController.create({
         component: LinkModalComponent,
         componentProps: {
-          link: {
-            displayText: 'asdasd',
-            url: 'https://www.citroen.co.uk/maintain/safety-recall-check.html',
-          },
+          link: recallLinks[0],
         },
         cssClass: 'mes-modal-alert text-zoom-regular',
       });
