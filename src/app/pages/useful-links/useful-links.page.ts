@@ -2,13 +2,12 @@ import { Component, Injector, OnInit } from '@angular/core';
 import { UsefulLink } from '@dvsa/mes-config-schema/remote-config';
 import { ModalController } from '@ionic/angular';
 import { DASHBOARD_PAGE } from '@pages/page-names.constants';
-import { LinkModalComponent } from '@pages/useful-links/components/link-modal/link-modal.component';
-import { UsefulLinkSelected, UsefulLinksReturnToDashboardPressed } from '@pages/useful-links/useful-links.actions';
+import { UsefulLinksReturnToDashboardPressed } from '@pages/useful-links/useful-links.actions';
 import { AccessibilityService } from '@providers/accessibility/accessibility.service';
+import { OpenLinkProvider } from '@providers/open-link/open-link';
 import { OrientationMonitorProvider } from '@providers/orientation-monitor/orientation-monitor.provider';
 import { UrlProvider } from '@providers/url/url';
 import { BasePageComponent } from '@shared/classes/base-page';
-import { OpenLinkProvider } from '@providers/open-link/open-link';
 
 @Component({
   selector: 'useful-links',

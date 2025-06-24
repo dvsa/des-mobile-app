@@ -9,6 +9,8 @@ import { map, switchMap, take } from 'rxjs/operators';
 
 import { environment } from '@environments/environment';
 import { TestersEnvironmentFile } from '@environments/models/environment.model';
+import { LearnMoreModal } from '@pages/journal/components/learn-more-modal/learn-more-modal';
+import { LEARN_MORE_MODAL } from '@pages/page-names.constants';
 import { AccessibilityService } from '@providers/accessibility/accessibility.service';
 import { DateTimeProvider } from '@providers/date-time/date-time';
 import { LoadingProvider } from '@providers/loader/loader';
@@ -35,8 +37,6 @@ import {
 } from '@store/journal/journal.selector';
 import { isEndToEndPracticeTest } from '@store/tests/tests.selector';
 import { ErrorPage } from '../error-page/error';
-import { LearnMoreModal } from '@pages/journal/components/learn-more-modal/learn-more-modal';
-import { LEARN_MORE_MODAL } from '@pages/page-names.constants';
 
 interface JournalPageState {
   selectedDate$: Observable<string>;
@@ -239,8 +239,7 @@ export class JournalPage extends BasePageComponent implements OnInit {
       cssClass: zoomClass,
     });
     await learnMoreModal.present();
-
-  };
+  }
 
   protected readonly isEndToEndPracticeTest = isEndToEndPracticeTest;
 }

@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
-import { ModalController } from '@ionic/angular';
 import { UsefulLink } from '@dvsa/mes-config-schema/remote-config';
+import { ModalController } from '@ionic/angular';
 import { Store } from '@ngrx/store';
-import { UsefulLinkSelected } from '@pages/useful-links/useful-links.actions';
 import { LinkModalComponent } from '@pages/useful-links/components/link-modal/link-modal.component';
+import { UsefulLinkSelected } from '@pages/useful-links/useful-links.actions';
 import { AccessibilityService } from '@providers/accessibility/accessibility.service';
 
 @Injectable({
@@ -13,7 +13,7 @@ export class OpenLinkProvider {
   constructor(
     private modalController: ModalController,
     private accessibilityService: AccessibilityService,
-    private store$: Store,
+    private store$: Store
   ) {}
 
   // /**

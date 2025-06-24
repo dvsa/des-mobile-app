@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { UsefulLink } from '@dvsa/mes-config-schema/remote-config';
 import { ModalController } from '@ionic/angular';
 import { OpenLinkProvider } from '@providers/open-link/open-link';
-import { UsefulLink } from '@dvsa/mes-config-schema/remote-config';
 import { UrlProvider } from '@providers/url/url';
-
 
 @Component({
   selector: 'learn-more-modal',
@@ -17,7 +16,7 @@ export class LearnMoreModal implements OnInit {
   constructor(
     public modalController: ModalController,
     public openLinkProvider: OpenLinkProvider,
-    private urlProvider: UrlProvider,
+    private urlProvider: UrlProvider
   ) {}
 
   /**
