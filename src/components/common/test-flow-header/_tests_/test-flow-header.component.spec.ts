@@ -2,7 +2,6 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { AppModule } from '@app/app.module';
 import { AppLauncher, OpenURLResult } from '@capacitor/app-launcher';
 import { ComponentsModule } from '@components/common/common-components.module';
-import { ExitSamErrorModal } from '@components/common/exit-sam/exit-sam-error-modal/exit-sam-error-modal';
 import { ExitSamError } from '@components/common/test-flow-header/exit-sam.actions';
 import {
   ExitSAMMethodUsed,
@@ -73,60 +72,40 @@ describe('TestFlowHeaderComponent', () => {
 
   describe('openDESUnlockedModal', () => {
     it('should create and present DES unlocked modal', async () => {
-      const modalSpy = jasmine.createSpyObj('HTMLIonModalElement', ['present']);
-      spyOn(component.modalController, 'create').and.returnValue(Promise.resolve(modalSpy));
+      spyOn(component.exitSAMProvider, 'openDESUnlockedModal').and.stub();
 
       await component.openDESUnlockedModal();
 
-      expect(component.modalController.create).toHaveBeenCalledWith({
-        component: ExitSamErrorModal,
-        cssClass: 'mes-modal-alert text-zoom-regular',
-        componentProps: {
-          modalTitle: 'Unavailable',
-          firstMessage: 'Microsoft Teams cannot be opened but DES is now unlocked.',
-          secondMessage: 'You can manually open other apps on your iPad.',
-        },
-      });
-      expect(modalSpy.present).toHaveBeenCalled();
+      expect(component.exitSAMProvider.openDESUnlockedModal).toHaveBeenCalledWith(
+        'Microsoft Teams cannot be opened but DES is now unlocked.',
+        'You can manually open other apps on your iPad.'
+      );
     });
   });
 
   describe('openDESDidNotUnlockModal', () => {
-    it('should create and present DES did not unlock modal', async () => {
-      const modalSpy = jasmine.createSpyObj('HTMLIonModalElement', ['present']);
-      spyOn(component.modalController, 'create').and.returnValue(Promise.resolve(modalSpy));
+    it('should call exitSAMProvider.openDESUnlockedModal with correct messages', async () => {
+      spyOn(component.exitSAMProvider, 'openDESUnlockedModal').and.stub();
 
       await component.openDESDidNotUnlockModal();
 
-      expect(component.modalController.create).toHaveBeenCalledWith({
-        component: ExitSamErrorModal,
-        cssClass: 'mes-modal-alert text-zoom-regular',
-        componentProps: {
-          modalTitle: 'Unavailable',
-          firstMessage: 'Microsoft Teams cannot be opened.',
-          secondMessage: 'Please follow the standard operating procedures.',
-        },
-      });
-      expect(modalSpy.present).toHaveBeenCalled();
+      expect(component.exitSAMProvider.openDESUnlockedModal).toHaveBeenCalledWith(
+        'Microsoft Teams cannot be opened.',
+        'Please follow the standard operating procedures.'
+      );
     });
   });
 
   describe('openPracticeModeModal', () => {
-    it('should create and present practice mode modal', async () => {
-      const modalSpy = jasmine.createSpyObj('HTMLIonModalElement', ['present']);
-      spyOn(component.modalController, 'create').and.returnValue(Promise.resolve(modalSpy));
+    it('should call exitSAMProvider.openDESUnlockedModal with practice mode messages', async () => {
+      spyOn(component.exitSAMProvider, 'openDESUnlockedModal').and.stub();
 
       await component.openPracticeModeModal();
 
-      expect(component.modalController.create).toHaveBeenCalledWith({
-        component: ExitSamErrorModal,
-        cssClass: 'mes-modal-alert text-zoom-regular',
-        componentProps: {
-          modalTitle: 'You are in practice mode',
-          firstMessage: 'Microsoft Teams cannot be opened in practice mode.',
-        },
-      });
-      expect(modalSpy.present).toHaveBeenCalled();
+      expect(component.exitSAMProvider.openDESUnlockedModal).toHaveBeenCalledWith(
+        'You are in practice mode',
+        'Microsoft Teams cannot be opened in practice mode.'
+      );
     });
   });
 

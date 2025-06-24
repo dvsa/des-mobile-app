@@ -1,0 +1,44 @@
+<ion-row
+  class="mes-validated-row mes-row-separator"
+  id="safety-recall-card"
+>
+  <div class="validation-bar"></div>
+  <ion-col
+    class="component-label ion-align-self-center"
+    size="32"
+  >
+    <label id="safety-recall-title">Stop-drive order</label>
+  </ion-col>
+
+  <ion-col class="ion-align-self-center flex-center">
+    <ion-row class="spacing-row"></ion-row>
+    <ion-row>
+
+      <ion-col size="45" class="display-flex ion-align-items-center">
+        <ion-text class="recall-text">A stop-drive order is in effect for some Citroëns</ion-text>
+      </ion-col>
+
+      <ion-col size="40" class="display-flex ion-align-items-center">
+        <ion-button
+          id="check-mot-button"
+          class="mes-grey-button"
+          (click)="checkRecall()">
+          <ion-text class="ion-text-nowrap des-header-style-3">Check VIN</ion-text>
+        </ion-button>
+      </ion-col>
+
+    </ion-row>
+  </ion-col>
+
+</ion-row>
+
+<!--<ion-row class="mes-row-separator" [class.ion-padding-bottom]="isMOTNotValid()"-->
+<!--         *ngIf="hasCalledMOT">-->
+<!--  <mot-card-->
+<!--    class="full-width"-->
+<!--    (alternateEvidenceChange)="alternateEvidenceChange.emit($event)"-->
+<!--    [formGroup]="formGroup"-->
+<!--    [data]="motData?.data"-->
+<!--    [status]="motData?.status"-->
+<!--  ></mot-card>-->
+<!--</ion-row>-->

@@ -68,6 +68,7 @@ import { ExitSingleAppModeEffects } from '@components/common/test-flow-header/ex
 import { ExaminerRecordsComponentsModule } from '@pages/examiner-records/components/examiner-records-components.module';
 import { CompressionProvider } from '@providers/compression/compression';
 import { ExaminerRecordsProvider } from '@providers/examiner-records/examiner-records';
+import { ExitSAMProvider } from '@providers/exitSAM/exitSAM';
 import { LoadingProvider } from '@providers/loader/loader';
 import { StoreModel } from '@shared/models/store.model';
 import { ExaminerRecordsStoreModule } from '@store/examiner-records/examiner-records.module';
@@ -179,6 +180,7 @@ if (enableRehydrationPlugin) {
     },
     AppConfigProvider,
     ExaminerRecordsProvider,
+    ExitSAMProvider,
     AuthenticationProvider,
     CompressionProvider,
     AppInfoProvider,
