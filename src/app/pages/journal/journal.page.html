@@ -52,6 +52,28 @@
   >
   </journal-navigation>
 
+  <div>
+    <ion-grid style="background-color: #16eeef">
+      <ion-row>
+        <ion-col size="10">
+          <ion-icon class="warning-icon" ios="alert-circle" aria-label="Alert icon"></ion-icon>
+        </ion-col>
+        <ion-col size="66">
+          <ion-text class="des-header-style-3">
+            A stop-driving order is in effect for some Citroën vehicles.<br>Please check if the vehicle present is affected.
+          </ion-text>
+        </ion-col>
+        <ion-col>
+          <ion-button class="mes-grey-button ion-float-right" (click)="openLearnMoreModal()">
+            <ion-text class="des-header-style-3">
+            Learn more
+            </ion-text>
+          </ion-button>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </div>
+
   <ion-list>
     <journal-slots
       [completedTests]="pageState.completedTests$ | async"

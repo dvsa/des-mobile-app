@@ -12,6 +12,7 @@ import { ActivitySlotComponent } from './activity-slot/activity-slot';
 import { EmptySlotComponent } from './empty-slot/empty-slot';
 import { JournalNavigationComponent } from './journal-navigation/journal-navigation';
 import { PersonalCommitmentSlotComponent } from './personal-commitment/personal-commitment';
+import { LearnMoreModal } from '@pages/journal/components/learn-more-modal/learn-more-modal';
 
 @NgModule({
   declarations: [
@@ -20,6 +21,7 @@ import { PersonalCommitmentSlotComponent } from './personal-commitment/personal-
     JournalNavigationComponent,
     PersonalCommitmentSlotComponent,
     JournalSlotComponent,
+    LearnMoreModal,
   ],
   imports: [
     CommonModule,
@@ -36,6 +38,7 @@ import { PersonalCommitmentSlotComponent } from './personal-commitment/personal-
     JournalNavigationComponent,
     PersonalCommitmentSlotComponent,
     JournalSlotComponent,
+    LearnMoreModal
   ],
 })
 export class JournalComponentsModule {}

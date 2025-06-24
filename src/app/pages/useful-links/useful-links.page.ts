@@ -8,6 +8,7 @@ import { AccessibilityService } from '@providers/accessibility/accessibility.ser
 import { OrientationMonitorProvider } from '@providers/orientation-monitor/orientation-monitor.provider';
 import { UrlProvider } from '@providers/url/url';
 import { BasePageComponent } from '@shared/classes/base-page';
+import { OpenLinkProvider } from '@providers/open-link/open-link';
 
 @Component({
   selector: 'useful-links',
@@ -21,6 +22,7 @@ export class UsefulLinksPage extends BasePageComponent implements OnInit {
     public accessibilityService: AccessibilityService,
     public orientationMonitorProvider: OrientationMonitorProvider,
     public modalController: ModalController,
+    public openLinkProvider: OpenLinkProvider,
     private urlProvider: UrlProvider,
     injector: Injector
   ) {
@@ -30,27 +32,6 @@ export class UsefulLinksPage extends BasePageComponent implements OnInit {
 
   ngOnInit() {
     this.usefulLinks = this.urlProvider.getUsefulLinks();
-  }
-
-  /**
-   * Opens the link modal
-   * Dispatches the action to set the selected link, it determines this by appending the word Selected to the action name
-   * @param link
-   */
-  async openLinkModal(link: UsefulLink) {
-    const displayText = link.displayText.replace(/ /g, '_');
-    this.store$.dispatch(UsefulLinkSelected(displayText));
-    const modal: HTMLIonModalElement = await this.modalController.create({
-      id: 'linkModal',
-      component: LinkModalComponent,
-      componentProps: {
-        link,
-      },
-      cssClass: `${this.accessibilityService.getTextZoomClass()} mes-modal-alert`,
-      backdropDismiss: false,
-      showBackdrop: true,
-    });
-    await modal.present();
   }
 
   /**
