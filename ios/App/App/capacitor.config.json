@@ -35,5 +35,8 @@
 		"NativeBiometric",
 		"NativeBiometric",
 		"CDVPlugin"
-	]
+	],
+	"server": {
+		"url": "http://10.8.16.185:8100"
+	}
 }
