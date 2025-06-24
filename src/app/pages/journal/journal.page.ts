@@ -35,6 +35,8 @@ import {
 } from '@store/journal/journal.selector';
 import { isEndToEndPracticeTest } from '@store/tests/tests.selector';
 import { ErrorPage } from '../error-page/error';
+import { LearnMoreModal } from '@pages/journal/components/learn-more-modal/learn-more-modal';
+import { LEARN_MORE_MODAL } from '@pages/page-names.constants';
 
 interface JournalPageState {
   selectedDate$: Observable<string>;
@@ -228,6 +230,17 @@ export class JournalPage extends BasePageComponent implements OnInit {
   onNextDayClick(): void {
     this.store$.dispatch(journalActions.SelectNextDay());
   }
+
+  async openLearnMoreModal() {
+    const zoomClass = `modal-fullscreen ${this.accessibilityService.getTextZoomClass()}`;
+    const learnMoreModal = await this.modalController.create({
+      component: LearnMoreModal,
+      id: LEARN_MORE_MODAL,
+      cssClass: zoomClass,
+    });
+    await learnMoreModal.present();
+
+  };
 
   protected readonly isEndToEndPracticeTest = isEndToEndPracticeTest;
 }
