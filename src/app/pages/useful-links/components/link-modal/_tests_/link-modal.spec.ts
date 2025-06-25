@@ -3,6 +3,7 @@ import { IonicModule, ModalController } from '@ionic/angular';
 import { Store, StoreModule } from '@ngrx/store';
 import * as LinkModalActions from '@pages/useful-links/components/link-modal/link-modal.actions';
 import { LinkModalComponent, LinkModalEvent } from '@pages/useful-links/components/link-modal/link-modal.component';
+import { ExitSAMProvider } from '@providers/exitSAM/exitSAM';
 import { StoreModel } from '@shared/models/store.model';
 
 describe('LinkModalComponent', () => {
@@ -13,11 +14,15 @@ describe('LinkModalComponent', () => {
 
   beforeEach(() => {
     const modalControllerSpy = jasmine.createSpyObj('ModalController', ['dismiss']);
+    const exitSAMProviderSpy = jasmine.createSpyObj('ExitSAMProvider', ['attemptToDisable']);
 
     TestBed.configureTestingModule({
       declarations: [LinkModalComponent],
       imports: [IonicModule, StoreModule.forRoot({})],
-      providers: [{ provide: ModalController, useValue: modalControllerSpy }],
+      providers: [
+        { provide: ModalController, useValue: modalControllerSpy },
+        { provide: ExitSAMProvider, useValue: exitSAMProviderSpy },
+      ],
     }).compileComponents();
 
     fixture = TestBed.createComponent(LinkModalComponent);

@@ -72,11 +72,11 @@ describe('TestFlowHeaderComponent', () => {
 
   describe('openDESUnlockedModal', () => {
     it('should create and present DES unlocked modal', async () => {
-      spyOn(component.exitSAMProvider, 'openDESUnlockedModal').and.stub();
+      spyOn(component.exitSAMProvider, 'openExitSamErrorModal').and.stub();
 
       await component.openDESUnlockedModal();
 
-      expect(component.exitSAMProvider.openDESUnlockedModal).toHaveBeenCalledWith(
+      expect(component.exitSAMProvider.openExitSamErrorModal).toHaveBeenCalledWith(
         'Microsoft Teams cannot be opened but DES is now unlocked.',
         'You can manually open other apps on your iPad.'
       );
@@ -84,12 +84,12 @@ describe('TestFlowHeaderComponent', () => {
   });
 
   describe('openDESDidNotUnlockModal', () => {
-    it('should call exitSAMProvider.openDESUnlockedModal with correct messages', async () => {
-      spyOn(component.exitSAMProvider, 'openDESUnlockedModal').and.stub();
+    it('should call exitSAMProvider.openExitSamErrorModal with correct messages', async () => {
+      spyOn(component.exitSAMProvider, 'openExitSamErrorModal').and.stub();
 
       await component.openDESDidNotUnlockModal();
 
-      expect(component.exitSAMProvider.openDESUnlockedModal).toHaveBeenCalledWith(
+      expect(component.exitSAMProvider.openExitSamErrorModal).toHaveBeenCalledWith(
         'Microsoft Teams cannot be opened.',
         'Please follow the standard operating procedures.'
       );
@@ -97,12 +97,12 @@ describe('TestFlowHeaderComponent', () => {
   });
 
   describe('openPracticeModeModal', () => {
-    it('should call exitSAMProvider.openDESUnlockedModal with practice mode messages', async () => {
-      spyOn(component.exitSAMProvider, 'openDESUnlockedModal').and.stub();
+    it('should call exitSAMProvider.openExitSamErrorModal with practice mode messages', async () => {
+      spyOn(component.exitSAMProvider, 'openExitSamErrorModal').and.stub();
 
       await component.openPracticeModeModal();
 
-      expect(component.exitSAMProvider.openDESUnlockedModal).toHaveBeenCalledWith(
+      expect(component.exitSAMProvider.openExitSamErrorModal).toHaveBeenCalledWith(
         'You are in practice mode',
         'Microsoft Teams cannot be opened in practice mode.'
       );

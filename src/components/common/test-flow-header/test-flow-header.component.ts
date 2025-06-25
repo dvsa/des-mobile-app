@@ -124,7 +124,7 @@ export class TestFlowHeaderComponent {
    * Opens the DES unlocked modal.
    */
   async openDESUnlockedModal() {
-    this.exitSAMProvider.openDESUnlockedModal(
+    await this.exitSAMProvider.openExitSamErrorModal(
       'Microsoft Teams cannot be opened but DES is now unlocked.',
       'You can manually open other apps on your iPad.'
     );
@@ -134,14 +134,14 @@ export class TestFlowHeaderComponent {
    * Opens the DES did not unlock modal.
    */
   async openDESDidNotUnlockModal() {
-    this.exitSAMProvider.openDESUnlockedModal(
+    await this.exitSAMProvider.openExitSamErrorModal(
       'Microsoft Teams cannot be opened.',
       'Please follow the standard operating procedures.'
     );
   }
 
   async openPracticeModeModal() {
-    this.exitSAMProvider.openDESUnlockedModal(
+    await this.exitSAMProvider.openExitSamErrorModal(
       'You are in practice mode',
       'Microsoft Teams cannot be opened in practice mode.'
     );

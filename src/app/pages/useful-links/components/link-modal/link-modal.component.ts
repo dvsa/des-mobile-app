@@ -2,6 +2,7 @@ import { Component, Input } from '@angular/core';
 import { UsefulLink } from '@dvsa/mes-config-schema/remote-config';
 import { ModalController } from '@ionic/angular';
 import { Store } from '@ngrx/store';
+import { ExitSAMProvider } from '@providers/exitSAM/exitSAM';
 import { StoreModel } from '@shared/models/store.model';
 import * as LinkModalActions from './link-modal.actions';
 
@@ -19,9 +20,13 @@ export class LinkModalComponent {
   @Input()
   link: UsefulLink;
 
+  @Input()
+  disableSAM = false;
+
   constructor(
     public modalController: ModalController,
-    private store$: Store<StoreModel>
+    private store$: Store<StoreModel>,
+    public exitSAMProvider: ExitSAMProvider
   ) {}
 
   async onCancel() {
@@ -35,6 +40,10 @@ export class LinkModalComponent {
    * Due to this any additional actions that come as a result of new links being added, must have the word Selected appended to the action name
    */
   async onContinue() {
+    if (this.disableSAM) {
+      await this.exitSAMProvider.attemptToDisable();
+    }
+
     this.store$.dispatch(LinkModalActions.ModalContinue());
     window.open(this.link.url, '_blank');
     await this.modalController.dismiss({ event: LinkModalEvent.CONTINUE });

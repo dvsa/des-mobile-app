@@ -30,13 +30,12 @@ export class ExitSAMProvider {
   public returnToAppSubscription: Subscription = null;
 
   /**
-   * Opens the DES Unlocked modal.
-   * This modal informs the user that DES is unlocked and they can manually open other apps.
+   * Opens the exit SAM error modal.
    *
    * @param firstMessage
    * @param secondMessage
    */
-  async openDESUnlockedModal(firstMessage: string, secondMessage: string) {
+  async openExitSamErrorModal(firstMessage: string, secondMessage: string) {
     const desUnlockedModal = await this.modalController.create({
       component: ExitSamErrorModal,
       cssClass: 'mes-modal-alert text-zoom-regular',
@@ -50,7 +49,7 @@ export class ExitSAMProvider {
   }
 
   async handleDisableSAMFailure() {
-    await this.openDESUnlockedModal(
+    await this.openExitSamErrorModal(
       'Web browser cannot be opened.',
       'Please follow the standard operating procedures.'
     );
@@ -66,15 +65,6 @@ export class ExitSAMProvider {
     this.store$.dispatch(ExitSamActivated(method));
 
     try {
-      // Attempt to disable single app mode
-      const didDisable = await this.deviceProvider.disableSingleAppMode();
-
-      // If disabling single app mode failed, handle the failure
-      if (!didDisable) {
-        await this.handleDisableSAMFailure();
-        return;
-      }
-
       const { usefulLinks } = this.appConfigProvider.getAppConfig();
 
       const recallLinks = usefulLinks.filter((link) => link.displayText.toLowerCase().includes('recall'));
@@ -83,6 +73,7 @@ export class ExitSAMProvider {
         component: LinkModalComponent,
         componentProps: {
           link: recallLinks[0],
+          disableSAM: true,
         },
         cssClass: 'mes-modal-alert text-zoom-regular',
       });
@@ -92,12 +83,13 @@ export class ExitSAMProvider {
       const { data } = await modal.onDidDismiss();
       if (data?.event === LinkModalEvent.CONTINUE) {
         this.store$.dispatch(SetHasExitedApp());
+
+        if (!this.returnToAppSubscription) {
+          //If there isn't one already, we want to set up a subscription to listen for the user returns
+          this.returnToAppSubscription = this.platform.resume.subscribe(this.resumeSubscriptionFunction);
+        }
       }
 
-      if (!this.returnToAppSubscription) {
-        //If there isn't one already, we want to set up a subscription to listen for the user returns
-        this.returnToAppSubscription = this.platform.resume.subscribe(this.resumeSubscriptionFunction);
-      }
       return;
     } catch (e) {
       // Handle any errors that occurred during the process
@@ -105,12 +97,16 @@ export class ExitSAMProvider {
     }
   }
 
-  leaveSubscriptionFunction = async () => {
-    // If the user leaves the app, we want to set up a subscription to the resume event to listen for the user returns
-    this.setupEscapeSAMResumeSubscription();
-    // Destroy the subscription to prevent memory leaks and locking the user in every time they return to the app
-    this.destroyLeaveAppSubscription();
-  };
+  async attemptToDisable() {
+    // Attempt to disable single app mode
+    const didDisable = await this.deviceProvider.disableSingleAppMode();
+
+    // If disabling single app mode failed, handle the failure
+    if (!didDisable) {
+      await this.handleDisableSAMFailure();
+      return;
+    }
+  }
 
   /**
    * Sets up a subscription to the platform resume event.
@@ -121,16 +117,6 @@ export class ExitSAMProvider {
     if (!this.returnToAppSubscription) {
       //If there isn't one already, we want to set up a subscription to listen for the user returns
       this.returnToAppSubscription = this.platform.resume.subscribe(this.resumeSubscriptionFunction);
-    }
-  }
-
-  /**
-   * Destroys the subscription to the platform resume event.
-   */
-  destroyLeaveAppSubscription() {
-    if (this.leaveAppSubscription) {
-      this.leaveAppSubscription.unsubscribe();
-      this.leaveAppSubscription = null;
     }
   }
 
