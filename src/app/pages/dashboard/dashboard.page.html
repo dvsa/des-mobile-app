@@ -29,6 +29,8 @@
 <ion-content [fullscreen]="true">
   <offline-banner [isOffline]="pageState.isOffline$ | async"></offline-banner>
 
+  <vehicle-recalls-banner></vehicle-recalls-banner>
+
   <incomplete-tests-banner></incomplete-tests-banner>
 
   <div>
