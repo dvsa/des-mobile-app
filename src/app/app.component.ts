@@ -10,21 +10,8 @@ import * as Sentry from '@sentry/capacitor';
 import { Observable, Subscription, merge } from 'rxjs';
 
 import { SENTRY_ERRORS } from '@app/sentry-error-handler';
-import {
-  DisplayStopDrive,
-  SideMenuClosed,
-  SideMenuItemSelected,
-  SideMenuOpened,
-} from '@pages/dashboard/dashboard.actions';
-import { LearnMoreModal } from '@pages/journal/components/learn-more-modal/learn-more-modal';
-import {
-  DASHBOARD_PAGE,
-  EXAMINER_RECORDS,
-  LEARN_MORE_MODAL,
-  LOGIN_PAGE,
-  UNUPLOADED_TESTS_PAGE,
-  USEFUL_LINKS_PAGE,
-} from '@pages/page-names.constants';
+import { SideMenuClosed, SideMenuItemSelected, SideMenuOpened } from '@pages/dashboard/dashboard.actions';
+import { DASHBOARD_PAGE, LOGIN_PAGE, UNUPLOADED_TESTS_PAGE, USEFUL_LINKS_PAGE } from '@pages/page-names.constants';
 import { unsubmittedTestSlotsCount$ } from '@pages/unuploaded-tests/unuploaded-tests.selector';
 import { AccessibilityService } from '@providers/accessibility/accessibility.service';
 import { AppConfigProvider } from '@providers/app-config/app-config';
@@ -73,11 +60,11 @@ export class AppComponent extends LogoutBasePageComponent implements OnInit {
       showUnSubmittedCount: true,
       hideWhenRole: [ExaminerRole.DLG],
     },
-    {
-      title: EXAMINER_RECORDS,
-      descriptor: 'Examiner records',
-      hideWhenRole: [ExaminerRole.DLG],
-    },
+    // {
+    //   title: EXAMINER_RECORDS,
+    //   descriptor: 'Examiner records',
+    //   hideWhenRole: [ExaminerRole.DLG],
+    // },
     {
       title: USEFUL_LINKS_PAGE,
       descriptor: 'Useful links',
@@ -148,7 +135,6 @@ export class AppComponent extends LogoutBasePageComponent implements OnInit {
           this.appConfigProvider.getAppConfig()?.journal?.numberOfDaysToView
         ),
       };
-      await this.openLearnMoreModal();
     } catch {
       await this.router.navigate([LOGIN_PAGE], { replaceUrl: true });
     }
@@ -258,15 +244,4 @@ export class AppComponent extends LogoutBasePageComponent implements OnInit {
   openSideMenu = (): void => {
     this.store$.dispatch(SideMenuOpened());
   };
-
-  async openLearnMoreModal() {
-    this.store$.dispatch(DisplayStopDrive());
-    const zoomClass = `mes-modal-alert ${this.accessibilityService.getTextZoomClass()}`;
-    const learnMoreModal = await this.modalController.create({
-      component: LearnMoreModal,
-      id: LEARN_MORE_MODAL,
-      cssClass: zoomClass,
-    });
-    await learnMoreModal.present();
-  }
 }
