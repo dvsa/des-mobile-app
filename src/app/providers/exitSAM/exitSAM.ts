@@ -83,11 +83,6 @@ export class ExitSAMProvider {
       const { data } = await modal.onDidDismiss();
       if (data?.event === LinkModalEvent.CONTINUE) {
         this.store$.dispatch(SetHasExitedApp());
-
-        if (!this.returnToAppSubscription) {
-          //If there isn't one already, we want to set up a subscription to listen for the user returns
-          this.returnToAppSubscription = this.platform.resume.subscribe(this.resumeSubscriptionFunction);
-        }
       }
 
       return;
@@ -97,7 +92,11 @@ export class ExitSAMProvider {
     }
   }
 
-  async attemptToDisable() {
+  /**
+   * Attempts to disable Single App Mode (SAM) by calling the device provider's method.
+   * If successful, sets up a subscription to listen for when the user returns to the app.
+   */
+  async attemptToDisableSAMForEscape() {
     // Attempt to disable single app mode
     const didDisable = await this.deviceProvider.disableSingleAppMode();
 
@@ -105,6 +104,11 @@ export class ExitSAMProvider {
     if (!didDisable) {
       await this.handleDisableSAMFailure();
       return;
+    }
+
+    if (!this.returnToAppSubscription) {
+      //If there isn't one already, we want to set up a subscription to listen for the user returns
+      this.returnToAppSubscription = this.platform.resume.subscribe(this.resumeSubscriptionFunction);
     }
   }
 

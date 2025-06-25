@@ -41,7 +41,7 @@ export class LinkModalComponent {
    */
   async onContinue() {
     if (this.disableSAM) {
-      await this.exitSAMProvider.attemptToDisable();
+      await this.exitSAMProvider.attemptToDisableSAMForEscape();
     }
 
     this.store$.dispatch(LinkModalActions.ModalContinue());
