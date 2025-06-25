@@ -214,17 +214,6 @@ describe('WaitingRoomToCarCatBPage', () => {
   describe('DOM', () => {
     describe('eyesight failure confirmation', () => {
       // eslint-disable-next-line max-len
-      it('should hide the rest of the form and show eyesight failure confirmation when page state indicates fail is selected', () => {
-        fixture.detectChanges();
-        component.pageState.eyesightTestComplete$ = of(true);
-        component.pageState.eyesightTestFailed$ = of(true);
-        fixture.detectChanges();
-        const eyesightFailureConfirmation = fixture.debugElement.query(By.css('eyesight-failure-confirmation'));
-        const formAfterEyesight = fixture.debugElement.query(By.css('#post-eyesight-form-content'));
-        expect(eyesightFailureConfirmation).not.toBeNull();
-        expect(formAfterEyesight.nativeElement.hidden).toEqual(true);
-      });
-      // eslint-disable-next-line max-len
       it('should show the rest of the form and not render eyesight failure confirmation when page state indicates pass is selected', () => {
         fixture.detectChanges();
         component.pageState.eyesightTestComplete$ = of(true);

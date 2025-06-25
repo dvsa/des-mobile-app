@@ -70,6 +70,7 @@ import { Capacitor } from '@capacitor/core';
 import { ExaminerRecordsComponentsModule } from '@pages/examiner-records/components/examiner-records-components.module';
 import { CompressionProvider } from '@providers/compression/compression';
 import { ExaminerRecordsProvider } from '@providers/examiner-records/examiner-records';
+import { ExitSAMProvider } from '@providers/exitSAM/exitSAM';
 import { LoadingProvider } from '@providers/loader/loader';
 import { StoreModel } from '@shared/models/store.model';
 import { ExaminerRecordsStoreModule } from '@store/examiner-records/examiner-records.module';
@@ -187,6 +188,7 @@ const storageDriver = Capacitor.getPlatform() === 'web' ? Drivers.IndexedDB : Co
     },
     AppConfigProvider,
     ExaminerRecordsProvider,
+    ExitSAMProvider,
     AuthenticationProvider,
     CompressionProvider,
     AppInfoProvider,

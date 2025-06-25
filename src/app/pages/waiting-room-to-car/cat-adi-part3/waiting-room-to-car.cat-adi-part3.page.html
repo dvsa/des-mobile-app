@@ -51,6 +51,9 @@
               </mot-no-evidence-confirmation>
             </ion-row>
 
+            <safety-recall>
+            </safety-recall>
+
             <div [hidden]="(pageState.motEvidenceProvided$ | async) === false" class="ion-no-padding">
 
               <test-category [testCategory]="pageState.category$ | async"></test-category>
