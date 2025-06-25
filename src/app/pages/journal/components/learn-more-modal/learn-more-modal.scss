@@ -27,10 +27,9 @@
   }
 
   .dark-divider-ok-button {
-    border-top: 1px solid rgba(47, 50, 51, 0.48);
+    border-top: 1px solid var(--gds-grey-2);
     box-shadow: 0 1px 0 0 var(--mes-white);
-    margin: 4px 8px;
-    width: 70%;
+    width: 100%;
     font-weight: bold;
     color: var(--gds-black);
   }

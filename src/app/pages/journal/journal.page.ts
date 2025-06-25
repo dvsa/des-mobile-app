@@ -232,7 +232,7 @@ export class JournalPage extends BasePageComponent implements OnInit {
   }
 
   async openLearnMoreModal() {
-    const zoomClass = `modal-fullscreen ${this.accessibilityService.getTextZoomClass()}`;
+    const zoomClass = `mes-modal-alert ${this.accessibilityService.getTextZoomClass()}`;
     const learnMoreModal = await this.modalController.create({
       component: LearnMoreModal,
       id: LEARN_MORE_MODAL,
