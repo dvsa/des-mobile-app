@@ -52,28 +52,26 @@
   >
   </journal-navigation>
 
-<!--  <div>-->
-    <ion-grid class="stop-drive-banner">
-      <ion-row>
-        <ion-col class="display-flex ion-align-items-center" size="10">
-          <ion-icon class="warning-icon" ios="alert-circle" aria-label="Alert icon"></ion-icon>
-        </ion-col>
-        <ion-col class="display-flex ion-align-items-center" size="65">
+  <ion-grid class="stop-drive-banner">
+    <ion-row>
+      <ion-col class="display-flex ion-align-items-center" size="10">
+        <ion-icon class="warning-icon" ios="alert-circle" aria-label="Alert icon"></ion-icon>
+      </ion-col>
+      <ion-col class="display-flex ion-align-items-center" size="65">
+        <ion-text class="des-header-style-3">
+          A stop-driving order is in effect for some Citroën vehicles.
+          Please check if the vehicle present is affected.
+        </ion-text>
+      </ion-col>
+      <ion-col class="display-flex ion-align-items-center">
+        <ion-button class="mes-grey-button ion-float-right" (click)="openLearnMoreModal()">
           <ion-text class="des-header-style-3">
-            A stop-driving order is in effect for some Citroën vehicles.
-            Please check if the vehicle present is affected.
+            Learn more
           </ion-text>
-        </ion-col>
-        <ion-col class="display-flex ion-align-items-center">
-          <ion-button class="mes-grey-button ion-float-right" (click)="openLearnMoreModal()">
-            <ion-text class="des-header-style-3">
-              Learn more
-            </ion-text>
-          </ion-button>
-        </ion-col>
-      </ion-row>
-    </ion-grid>
-<!--  </div>-->
+        </ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
 
   <ion-list>
     <journal-slots
