@@ -32,7 +32,6 @@ import { ChartComponent } from '@components/common/chart/chart';
 import { DataGridComponent } from '@components/common/data-grid/data-grid';
 import { LogoutModalModule } from '@components/common/logout-modal/logout-modal.module';
 import { TestRecoveredBannerComponent } from '@components/common/test-recovered-banner/test-recovered-banner';
-import { VehicleRecallsBanner } from '@components/common/vehicle-recall-banner/vehicle-recalls-banner';
 import { DirectivesModule } from '@directives/directives.module';
 import { NgApexchartsModule } from 'ng-apexcharts';
 import { BikeCategoryTypeComponent } from './bike-category-type/bike-category-type';
@@ -64,7 +63,6 @@ import { WarningBannerComponent } from './warning-banner/warning-banner';
     EndTestLinkComponent,
     ErrorMessageComponent,
     OfflineBannerComponent,
-    VehicleRecallsBanner,
     TabComponent,
     TabsComponent,
     WarningBannerComponent,
@@ -119,7 +117,6 @@ import { WarningBannerComponent } from './warning-banner/warning-banner';
     EndTestLinkComponent,
     ErrorMessageComponent,
     OfflineBannerComponent,
-    VehicleRecallsBanner,
     TabComponent,
     TabsComponent,
     WarningBannerComponent,

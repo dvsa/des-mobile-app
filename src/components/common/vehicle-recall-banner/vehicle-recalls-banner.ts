@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { ModalController } from '@ionic/angular';
+import { IonicModule, ModalController } from '@ionic/angular';
 import { LearnMoreModal } from '@pages/journal/components/learn-more-modal/learn-more-modal';
 import { LEARN_MORE_MODAL } from '@pages/page-names.constants';
 import { AccessibilityService } from '@providers/accessibility/accessibility.service';
@@ -8,6 +8,8 @@ import { AccessibilityService } from '@providers/accessibility/accessibility.ser
   selector: 'vehicle-recalls-banner',
   templateUrl: 'vehicle-recalls-banner.html',
   styleUrls: ['vehicle-recalls-banner.scss'],
+  standalone: true,
+  imports: [IonicModule],
 })
 export class VehicleRecallsBanner {
   constructor(
