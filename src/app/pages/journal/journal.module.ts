@@ -11,6 +11,7 @@ import { SlotSelectorProvider } from '@providers/slot-selector/slot-selector';
 import { SlotProvider } from '@providers/slot/slot';
 import { TestsEffects } from '@store/tests/tests.effects';
 
+import { VehicleRecallsBanner } from '@components/common/vehicle-recall-banner/vehicle-recalls-banner';
 import { CompressionProvider } from '@providers/compression/compression';
 import { OrientationMonitorProvider } from '@providers/orientation-monitor/orientation-monitor.provider';
 import { CandidateDetailsPageModule } from '../candidate-details/candidate-details.module';
@@ -32,6 +33,7 @@ import { JournalPage } from './journal.page';
     CommonModule,
     ComponentsModule,
     CandidateDetailsPageModule,
+    VehicleRecallsBanner,
   ],
   providers: [
     OrientationMonitorProvider,
