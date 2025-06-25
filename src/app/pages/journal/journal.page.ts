@@ -9,8 +9,6 @@ import { map, switchMap, take } from 'rxjs/operators';
 
 import { environment } from '@environments/environment';
 import { TestersEnvironmentFile } from '@environments/models/environment.model';
-import { LearnMoreModal } from '@pages/journal/components/learn-more-modal/learn-more-modal';
-import { LEARN_MORE_MODAL } from '@pages/page-names.constants';
 import { AccessibilityService } from '@providers/accessibility/accessibility.service';
 import { DateTimeProvider } from '@providers/date-time/date-time';
 import { LoadingProvider } from '@providers/loader/loader';
@@ -229,16 +227,6 @@ export class JournalPage extends BasePageComponent implements OnInit {
 
   onNextDayClick(): void {
     this.store$.dispatch(journalActions.SelectNextDay());
-  }
-
-  async openLearnMoreModal() {
-    const zoomClass = `mes-modal-alert ${this.accessibilityService.getTextZoomClass()}`;
-    const learnMoreModal = await this.modalController.create({
-      component: LearnMoreModal,
-      id: LEARN_MORE_MODAL,
-      cssClass: zoomClass,
-    });
-    await learnMoreModal.present();
   }
 
   protected readonly isEndToEndPracticeTest = isEndToEndPracticeTest;
