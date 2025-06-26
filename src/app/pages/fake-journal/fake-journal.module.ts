@@ -13,6 +13,7 @@ import { FakeJournalEffects } from '@pages/fake-journal/fake-journal.effects';
 import { JournalComponentsModule } from '@pages/journal/components/journal-components.module';
 import { OrientationMonitorProvider } from '@providers/orientation-monitor/orientation-monitor.provider';
 
+import { VehicleRecallsBanner } from '@components/common/vehicle-recall-banner/vehicle-recalls-banner';
 import { FakeJournalAnalyticsEffects } from './fake-journal.analytics.effects';
 import { FakeJournalPage } from './fake-journal.page';
 
@@ -28,6 +29,7 @@ import { FakeJournalPage } from './fake-journal.page';
     CandidateDetailsPageModule,
     EffectsModule.forFeature([FakeJournalEffects, FakeJournalAnalyticsEffects]),
     JournalComponentsModule,
+    VehicleRecallsBanner,
   ],
   declarations: [FakeJournalPage],
   providers: [OrientationMonitorProvider],
