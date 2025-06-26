@@ -4,7 +4,6 @@ import { AppLauncher, OpenURLResult } from '@capacitor/app-launcher';
 import { ComponentsModule } from '@components/common/common-components.module';
 import { ExitSamBanner } from '@components/common/exit-sam/exit-sam-banner/exit-sam-banner';
 import { ExitSamButton } from '@components/common/exit-sam/exit-sam-button/exit-sam-button';
-import { ExitSamErrorModal } from '@components/common/exit-sam/exit-sam-error-modal/exit-sam-error-modal';
 import { RefreshButtonComponent } from '@components/common/refresh-button/refresh-button.component';
 import {
   ExitSAMCancelButtonClicked,
@@ -17,11 +16,13 @@ import { IonicModule, ModalController } from '@ionic/angular';
 import { Platform } from '@ionic/angular';
 import { Store } from '@ngrx/store';
 import { DeviceProvider } from '@providers/device/device';
+import { ExitSAMProvider } from '@providers/exitSAM/exitSAM';
 import { StoreModel } from '@shared/models/store.model';
 
 export enum ExitSAMMethodUsed {
   BUTTON = 'button',
   BANNER = 'banner',
+  VIN_CHECK = 'vin-check',
 }
 
 @Component({
@@ -81,12 +82,14 @@ export class TestFlowHeaderComponent {
    * @param platform - Ionic platform service.
    * @param modalController - Controller for managing modals.
    * @param store$ - NgRx store for state management.
+   * @param exitSAMProvider
    */
   constructor(
     public deviceProvider: DeviceProvider,
     public platform: Platform,
     public modalController: ModalController,
-    public store$: Store<StoreModel>
+    public store$: Store<StoreModel>,
+    public exitSAMProvider: ExitSAMProvider
   ) {}
 
   /**
@@ -121,44 +124,27 @@ export class TestFlowHeaderComponent {
    * Opens the DES unlocked modal.
    */
   async openDESUnlockedModal() {
-    const desUnlockedModal = await this.modalController.create({
-      component: ExitSamErrorModal,
-      cssClass: 'mes-modal-alert text-zoom-regular',
-      componentProps: {
-        modalTitle: 'Unavailable',
-        firstMessage: 'Microsoft Teams cannot be opened but DES is now unlocked.',
-        secondMessage: 'You can manually open other apps on your iPad.',
-      },
-    });
-    await desUnlockedModal.present();
+    await this.exitSAMProvider.openExitSamErrorModal(
+      'Microsoft Teams cannot be opened but DES is now unlocked.',
+      'You can manually open other apps on your iPad.'
+    );
   }
 
   /**
    * Opens the DES did not unlock modal.
    */
   async openDESDidNotUnlockModal() {
-    const desUnlockedModal = await this.modalController.create({
-      component: ExitSamErrorModal,
-      cssClass: 'mes-modal-alert text-zoom-regular',
-      componentProps: {
-        modalTitle: 'Unavailable',
-        firstMessage: 'Microsoft Teams cannot be opened.',
-        secondMessage: 'Please follow the standard operating procedures.',
-      },
-    });
-    await desUnlockedModal.present();
+    await this.exitSAMProvider.openExitSamErrorModal(
+      'Microsoft Teams cannot be opened.',
+      'Please follow the standard operating procedures.'
+    );
   }
 
   async openPracticeModeModal() {
-    const practiceModal = await this.modalController.create({
-      component: ExitSamErrorModal,
-      cssClass: 'mes-modal-alert text-zoom-regular',
-      componentProps: {
-        modalTitle: 'You are in practice mode',
-        firstMessage: 'Microsoft Teams cannot be opened in practice mode.',
-      },
-    });
-    await practiceModal.present();
+    await this.exitSAMProvider.openExitSamErrorModal(
+      'You are in practice mode',
+      'Microsoft Teams cannot be opened in practice mode.'
+    );
   }
 
   async handleDisableSAMFailure() {

@@ -14,6 +14,7 @@ import { DeviceProviderMock } from '@providers/device/__mocks__/device.mock';
 import { DeviceProvider } from '@providers/device/device';
 import { LogHelperMock } from '@providers/logs/__mocks__/logs-helper.mock';
 import { LogHelper } from '@providers/logs/logs-helper';
+import { OpenLinkProvider } from '@providers/open-link/open-link';
 import { OrientationMonitorProvider } from '@providers/orientation-monitor/orientation-monitor.provider';
 import { UrlProvider } from '@providers/url/url';
 import { StoreModel } from '@shared/models/store.model';
@@ -39,6 +40,7 @@ describe('UsefulLinksPage', () => {
         { provide: ActivatedRoute, useClass: ActivatedRouteMock },
         { provide: LogHelper, useClass: LogHelperMock },
         { provide: ModalController, useValue: modalControllerSpy },
+        { provide: OpenLinkProvider },
         Store,
         OrientationMonitorProvider,
       ],
@@ -90,7 +92,7 @@ describe('UsefulLinksPage', () => {
       const modalSpy = jasmine.createSpyObj('HTMLIonModalElement', ['present']);
       modalController.create.and.returnValue(Promise.resolve(modalSpy));
 
-      await component.openLinkModal(mockLinks[0]);
+      await component.openLinkProvider.openLinkModal(mockLinks[0]);
 
       const displayText = mockLinks[0].displayText.replace(/ /g, '_');
 

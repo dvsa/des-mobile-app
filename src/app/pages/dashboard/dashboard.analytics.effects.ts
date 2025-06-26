@@ -26,6 +26,7 @@ import { isPracticeMode } from '@store/tests/tests.selector';
 import {
   DashboardViewDidEnter,
   DetectDeviceTheme,
+  DisplayStopDrive,
   PracticeTestReportCard,
   SideMenuClosed,
   SideMenuItemSelected,
@@ -181,6 +182,24 @@ export class DashboardAnalyticsEffects {
           GoogleAnalyticsEvents.METADATA,
           GoogleAnalyticsEventsTitles.DEVICE_THEME,
           isDeviceThemeDarkMode() ? GoogleAnalyticsEventsValues.DARK_MODE : GoogleAnalyticsEventsValues.LIGHT_MODE
+        );
+        return of(AnalyticRecorded());
+      })
+    )
+  );
+
+  displayStopDrive$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(DisplayStopDrive),
+      concatMap((action) =>
+        of(action).pipe(withLatestFrom(this.store$.pipe(select(getTests), select(isPracticeMode))))
+      ),
+      switchMap(() => {
+        // GA4 Analytics
+        this.analytics.logGAEvent(
+          GoogleAnalyticsEvents.MENU,
+          GoogleAnalyticsEventsTitles.STATUS,
+          GoogleAnalyticsEventsValues.OPEN
         );
         return of(AnalyticRecorded());
       })

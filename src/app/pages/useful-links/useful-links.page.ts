@@ -2,9 +2,9 @@ import { Component, Injector, OnInit } from '@angular/core';
 import { UsefulLink } from '@dvsa/mes-config-schema/remote-config';
 import { ModalController } from '@ionic/angular';
 import { DASHBOARD_PAGE } from '@pages/page-names.constants';
-import { LinkModalComponent } from '@pages/useful-links/components/link-modal/link-modal.component';
-import { UsefulLinkSelected, UsefulLinksReturnToDashboardPressed } from '@pages/useful-links/useful-links.actions';
+import { UsefulLinksReturnToDashboardPressed } from '@pages/useful-links/useful-links.actions';
 import { AccessibilityService } from '@providers/accessibility/accessibility.service';
+import { OpenLinkProvider } from '@providers/open-link/open-link';
 import { OrientationMonitorProvider } from '@providers/orientation-monitor/orientation-monitor.provider';
 import { UrlProvider } from '@providers/url/url';
 import { BasePageComponent } from '@shared/classes/base-page';
@@ -21,6 +21,7 @@ export class UsefulLinksPage extends BasePageComponent implements OnInit {
     public accessibilityService: AccessibilityService,
     public orientationMonitorProvider: OrientationMonitorProvider,
     public modalController: ModalController,
+    public openLinkProvider: OpenLinkProvider,
     private urlProvider: UrlProvider,
     injector: Injector
   ) {
@@ -30,27 +31,6 @@ export class UsefulLinksPage extends BasePageComponent implements OnInit {
 
   ngOnInit() {
     this.usefulLinks = this.urlProvider.getUsefulLinks();
-  }
-
-  /**
-   * Opens the link modal
-   * Dispatches the action to set the selected link, it determines this by appending the word Selected to the action name
-   * @param link
-   */
-  async openLinkModal(link: UsefulLink) {
-    const displayText = link.displayText.replace(/ /g, '_');
-    this.store$.dispatch(UsefulLinkSelected(displayText));
-    const modal: HTMLIonModalElement = await this.modalController.create({
-      id: 'linkModal',
-      component: LinkModalComponent,
-      componentProps: {
-        link,
-      },
-      cssClass: `${this.accessibilityService.getTextZoomClass()} mes-modal-alert`,
-      backdropDismiss: false,
-      showBackdrop: true,
-    });
-    await modal.present();
   }
 
   /**
