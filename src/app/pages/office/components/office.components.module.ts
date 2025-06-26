@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ComponentsModule } from '@components/common/common-components.module';
+import { ModalAlertTitleComponent } from '@components/common/modal-alert-title/modal-alert-title';
 import { DirectivesModule } from '@directives/directives.module';
 import { IonicModule } from '@ionic/angular';
 import { AlternateEvidenceProvidedComponent } from '@pages/office/components/alternate-mot-evidence-provided/alternate-evidence-provided.component';
@@ -58,6 +59,7 @@ import { WeatherConditionsComponent } from './weather-conditions/weather-conditi
     FormsModule,
     PipesModule,
     ReactiveFormsModule,
+    ModalAlertTitleComponent,
   ],
   exports: [
     OfficeFooterComponent,

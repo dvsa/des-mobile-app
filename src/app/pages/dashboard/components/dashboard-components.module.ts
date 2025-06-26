@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ComponentsModule } from '@components/common/common-components.module';
+import { ModalAlertTitleComponent } from '@components/common/modal-alert-title/modal-alert-title';
 import { IonicModule } from '@ionic/angular';
 import { PracticeTestModal } from '@pages/dashboard/components/practice-test-modal/practice-test-modal';
 import { DelegatedSearchCardComponent } from './delegated-rekey-card/delegated-rekey-card';
@@ -26,7 +27,7 @@ import { UpdateAvailableModal } from './update-available-modal/update-available-
     DelegatedSearchCardComponent,
     UpdateAvailableModal,
   ],
-  imports: [CommonModule, IonicModule, ComponentsModule],
+  imports: [CommonModule, IonicModule, ComponentsModule, ModalAlertTitleComponent],
   exports: [
     ProfileHeaderComponent,
     GoToJournalCardComponent,

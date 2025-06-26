@@ -1,6 +1,6 @@
 import { NgIf } from '@angular/common';
 import { Component, Input } from '@angular/core';
-import { ComponentsModule } from '@components/common/common-components.module';
+import { ModalAlertTitleComponent } from '@components/common/modal-alert-title/modal-alert-title';
 import { IonicModule, ModalController } from '@ionic/angular';
 
 @Component({
@@ -8,7 +8,7 @@ import { IonicModule, ModalController } from '@ionic/angular';
   templateUrl: './exit-sam-error-modal.html',
   styleUrls: ['./exit-sam-error-modal.scss'],
   standalone: true,
-  imports: [IonicModule, ComponentsModule, NgIf],
+  imports: [IonicModule, ModalAlertTitleComponent, NgIf],
 })
 export class ExitSamErrorModal {
   @Input() firstMessage: string;

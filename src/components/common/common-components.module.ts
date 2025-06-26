@@ -14,7 +14,6 @@ import { DateTimeInputComponent } from '@components/common/datetime-input/date-t
 import { HealthDeclarationSignedComponent } from '@components/common/health-declaration-signed/health-declaration-signed';
 import { IncompleteTestsBanner } from '@components/common/incomplete-tests-banner/incomplete-tests-banner';
 import { ModalActivityCodeListComponent } from '@components/common/modal-activity-code-list/modal-activity-code-list';
-import { ModalAlertTitleComponent } from '@components/common/modal-alert-title/modal-alert-title';
 import { ModalReturnButtonComponent } from '@components/common/modal-return-button/modal-return-button';
 import { PracticeModeBanner } from '@components/common/practice-mode-banner/practice-mode-banner';
 import { LockScreenIndicator } from '@components/common/screen-lock-indicator/lock-screen-indicator';
@@ -68,7 +67,6 @@ import { WarningBannerComponent } from './warning-banner/warning-banner';
     WarningBannerComponent,
     HealthDeclarationSignedComponent,
     IncompleteTestsBanner,
-    ModalAlertTitleComponent,
     ModalReturnButtonComponent,
     ModalActivityCodeListComponent,
     PracticeModeBanner,
@@ -122,7 +120,6 @@ import { WarningBannerComponent } from './warning-banner/warning-banner';
     WarningBannerComponent,
     HealthDeclarationSignedComponent,
     IncompleteTestsBanner,
-    ModalAlertTitleComponent,
     ModalReturnButtonComponent,
     ModalActivityCodeListComponent,
     PracticeModeBanner,

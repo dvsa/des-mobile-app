@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ComponentsModule } from '@components/common/common-components.module';
+import { ModalAlertTitleComponent } from '@components/common/modal-alert-title/modal-alert-title';
 import { DirectivesModule } from '@directives/directives.module';
 import { IonicModule } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
@@ -11,7 +12,15 @@ import { ReceiptDeclarationComponent } from './receipt-declaration/receipt-decla
 
 @NgModule({
   declarations: [HealthDeclarationComponent, ReceiptDeclarationComponent, HealthDeclarationModal],
-  imports: [IonicModule, TranslateModule, ComponentsModule, ReactiveFormsModule, CommonModule, DirectivesModule],
+  imports: [
+    IonicModule,
+    TranslateModule,
+    ComponentsModule,
+    ReactiveFormsModule,
+    CommonModule,
+    DirectivesModule,
+    ModalAlertTitleComponent,
+  ],
   exports: [HealthDeclarationComponent, ReceiptDeclarationComponent],
 })
 export class HealthDeclarationComponentsModule {}
