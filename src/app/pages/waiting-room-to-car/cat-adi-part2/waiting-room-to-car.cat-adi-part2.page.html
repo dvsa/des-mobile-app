@@ -39,14 +39,14 @@
         </ion-row>
 
         <ion-row
-          [hidden]="pageState.eyesightTestFailed$ | async"
           class="ion-no-padding"
           id="post-eyesight-form-content"
         >
           <ion-col class="ion-no-padding">
-            <test-category [testCategory]="pageState.category$ | async"></test-category>
+            <test-category [testCategory]="pageState.category$ | async" [hidden]="pageState.eyesightTestFailed$ | async"></test-category>
 
             <vehicle-checks-vocational
+              [hidden]="pageState.eyesightTestFailed$ | async"
               (onCloseVehicleChecksModal)="closeVehicleChecksModal()"
               [practiceMode]="isEndToEndPracticeMode"
               [category]="pageState.category$ | async"
@@ -59,6 +59,7 @@
             </vehicle-checks-vocational>
 
             <vehicle-registration
+              [hidden]="pageState.eyesightTestFailed$ | async"
               (alternateEvidenceChange)="getMOTEvidenceProvided($event)"
               (noMotData)="noMotData($event)"
               (vehicleRegistrationChanged)="vehicleRegistrationChanged($event.VRN, $event.isAmended)"
@@ -77,12 +78,17 @@
             >
             </vehicle-registration>
 
-            <ion-row *ngIf="(pageState.motEvidenceProvided$ | async) === false">
+            <ion-row *ngIf="(pageState.motEvidenceProvided$ | async) === false" [hidden]="pageState.eyesightTestFailed$ | async">
               <mot-no-evidence-confirmation [cancelFn]="motNoEvidenceCancelled" [nextPageOnFail]="getDebriefPage()">
               </mot-no-evidence-confirmation>
             </ion-row>
 
-            <div [hidden]="(pageState.motEvidenceProvided$ | async) === false" class="ion-no-padding">
+            <safety-recall>
+            </safety-recall>
+
+
+            <div [hidden]="(pageState.motEvidenceProvided$ | async) === false"
+                 [hidden]="pageState.eyesightTestFailed$ | async" class="ion-no-padding">
 
               <transmission
                 (transmissionChange)="transmissionChanged($event)"

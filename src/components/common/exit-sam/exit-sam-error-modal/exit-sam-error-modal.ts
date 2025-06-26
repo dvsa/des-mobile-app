@@ -12,7 +12,7 @@ import { IonicModule, ModalController } from '@ionic/angular';
 })
 export class ExitSamErrorModal {
   @Input() firstMessage: string;
-  @Input() secondMessage: string;
+  @Input() secondMessage?: string;
   @Input() modalTitle: string;
 
   constructor(public modalController: ModalController) {}

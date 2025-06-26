@@ -13,3 +13,5 @@ export const SideMenuItemSelected = createAction('[DashboardPage] Side menu item
 }));
 
 export const DetectDeviceTheme = createAction('[DashboardPage] Device theme');
+
+export const DisplayStopDrive = createAction('[DashboardPage] Display stop drive modal');
