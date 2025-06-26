@@ -14,7 +14,7 @@ describe('LinkModalComponent', () => {
 
   beforeEach(() => {
     const modalControllerSpy = jasmine.createSpyObj('ModalController', ['dismiss']);
-    const exitSAMProviderSpy = jasmine.createSpyObj('ExitSAMProvider', ['attemptToDisable']);
+    const exitSAMProviderSpy = jasmine.createSpyObj('ExitSAMProvider', ['attemptToDisableSAMForEscape']);
 
     TestBed.configureTestingModule({
       declarations: [LinkModalComponent],
