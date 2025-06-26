@@ -11,6 +11,7 @@ import { ModalControllerMock } from '@mocks/ionic-mocks/modal-controller.mock';
 import { Store } from '@ngrx/store';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { ColourFilterRadioComponent } from '@pages/examiner-records/components/colour-filter-radio/colour-filter-radio';
+import { ExaminerRecordsLabelTextComponent } from '@pages/examiner-records/components/examiner-records-label-text/examiner-records-label-text';
 import {
   ClickDataCard,
   ColourFilterChanged,
@@ -91,7 +92,11 @@ describe('ExaminerRecordsPage', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [ExaminerRecordsPage, MockComponent(ColourFilterRadioComponent)],
+      declarations: [
+        ExaminerRecordsPage,
+        MockComponent(ColourFilterRadioComponent),
+        MockComponent(ExaminerRecordsLabelTextComponent),
+      ],
       imports: [IonicModule, CommonModule],
       providers: [
         {

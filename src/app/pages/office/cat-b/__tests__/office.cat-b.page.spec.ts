@@ -9,6 +9,7 @@ import { ModalControllerMock, PlatformMock } from '@mocks/index.mock';
 import { Store, StoreModule } from '@ngrx/store';
 import { DrivingFaultsComponent } from '@pages/office/components/driving-faults/driving-faults.component';
 import { OfficeFooterComponent } from '@pages/office/components/office-footer/office-footer.component';
+import { OfficeRegistrationAndMotComponent } from '@pages/office/components/office-registration-and-mot/office-registration-and-mot.component';
 import { AccompanimentCardComponent } from '@pages/waiting-room-to-car/components/accompaniment-card/accompaniment-card';
 import { AccompanimentComponent } from '@pages/waiting-room-to-car/components/accompaniment/accompaniment';
 import { VehicleDetailsCardComponent } from '@pages/waiting-room-to-car/components/vehicle-details-card/vehicle-details-card';
@@ -96,6 +97,7 @@ describe('OfficeCatBPage', () => {
         MockComponent(VehicleDetailsCardComponent),
         MockComponent(VehicleDetailsComponent),
         MockComponent(AccompanimentCardComponent),
+        MockComponent(OfficeRegistrationAndMotComponent),
         MockComponent(AccompanimentComponent),
         MockComponent(DrivingFaultsComponent),
       ],

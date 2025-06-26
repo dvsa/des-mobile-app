@@ -11,6 +11,7 @@ import { Store, StoreModule } from '@ngrx/store';
 import { TranslateModule } from '@ngx-translate/core';
 import { DrivingFaultsComponent } from '@pages/office/components/driving-faults/driving-faults.component';
 import { OfficeFooterComponent } from '@pages/office/components/office-footer/office-footer.component';
+import { OfficeRegistrationAndMotComponent } from '@pages/office/components/office-registration-and-mot/office-registration-and-mot.component';
 import { OfficeViewDidEnter } from '@pages/office/office.actions';
 import { AccompanimentCardComponent } from '@pages/waiting-room-to-car/components/accompaniment-card/accompaniment-card';
 import { AccompanimentComponent } from '@pages/waiting-room-to-car/components/accompaniment/accompaniment';
@@ -84,6 +85,7 @@ describe('OfficeCatAMod2Page', () => {
         MockComponent(VehicleDetailsComponent),
         MockComponent(AccompanimentCardComponent),
         MockComponent(AccompanimentComponent),
+        MockComponent(OfficeRegistrationAndMotComponent),
         MockComponent(DrivingFaultsComponent),
       ],
       imports: [

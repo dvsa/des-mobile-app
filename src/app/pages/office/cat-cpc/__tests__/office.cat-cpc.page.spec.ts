@@ -12,6 +12,7 @@ import { AssessmentReportComponent } from '@pages/office/cat-cpc/components/asse
 import { CombinationComponent } from '@pages/office/cat-cpc/components/combination/combination';
 import { PassCertificateDeclarationComponent } from '@pages/office/cat-cpc/components/pass-certificate-declaration/pass-certificate-declaration';
 import { OfficeFooterComponent } from '@pages/office/components/office-footer/office-footer.component';
+import { OfficeRegistrationAndMotComponent } from '@pages/office/components/office-registration-and-mot/office-registration-and-mot.component';
 import { AccompanimentCardCatCPCComponent } from '@pages/waiting-room-to-car/cat-cpc/components/accompaniment-card/accompaniment-card.cat-cpc';
 import { AccompanimentComponent } from '@pages/waiting-room-to-car/components/accompaniment/accompaniment';
 import { AuthenticationProviderMock } from '@providers/authentication/__mocks__/authentication.mock';
@@ -67,6 +68,7 @@ describe('OfficeCatCPCPage', () => {
         MockComponent(AdditionalInformationComponent),
         MockComponent(AssessmentReportComponent),
         MockComponent(CandidateSectionComponent),
+        MockComponent(OfficeRegistrationAndMotComponent),
         MockComponent(PassCertificateDeclarationComponent),
         MockComponent(DateOfTest),
         MockComponent(AccompanimentCardCatCPCComponent),

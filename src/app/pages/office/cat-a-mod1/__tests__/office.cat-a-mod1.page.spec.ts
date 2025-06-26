@@ -10,6 +10,7 @@ import { Store, StoreModule } from '@ngrx/store';
 import { CircuitComponent } from '@pages/office/cat-a-mod1/components/circuit/circuit';
 import { DrivingFaultsComponent } from '@pages/office/components/driving-faults/driving-faults.component';
 import { OfficeFooterComponent } from '@pages/office/components/office-footer/office-footer.component';
+import { OfficeRegistrationAndMotComponent } from '@pages/office/components/office-registration-and-mot/office-registration-and-mot.component';
 import { TrueLikenessComponent } from '@pages/office/components/true-likeness/true-likeness';
 import { VehicleChecksOfficeCardComponent } from '@pages/office/components/vehicle-checks/vehicle-checks-office-card';
 import { AccompanimentCardComponent } from '@pages/waiting-room-to-car/components/accompaniment-card/accompaniment-card';
@@ -86,6 +87,7 @@ describe('OfficeCatAMod1Page', () => {
         MockComponent(DateOfTest),
         MockComponent(VehicleChecksOfficeCardComponent),
         MockComponent(TrueLikenessComponent),
+        MockComponent(OfficeRegistrationAndMotComponent),
         MockComponent(AccompanimentCardComponent),
         MockComponent(AccompanimentComponent),
         MockComponent(CircuitComponent),

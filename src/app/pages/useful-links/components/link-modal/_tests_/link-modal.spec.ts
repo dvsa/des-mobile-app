@@ -1,10 +1,12 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ModalAlertTitleComponent } from '@components/common/modal-alert-title/modal-alert-title';
 import { IonicModule, ModalController } from '@ionic/angular';
 import { Store, StoreModule } from '@ngrx/store';
 import * as LinkModalActions from '@pages/useful-links/components/link-modal/link-modal.actions';
 import { LinkModalComponent, LinkModalEvent } from '@pages/useful-links/components/link-modal/link-modal.component';
 import { ExitSAMProvider } from '@providers/exitSAM/exitSAM';
 import { StoreModel } from '@shared/models/store.model';
+import { MockComponent } from 'ng-mocks';
 
 describe('LinkModalComponent', () => {
   let fixture: ComponentFixture<LinkModalComponent>;
@@ -17,7 +19,7 @@ describe('LinkModalComponent', () => {
     const exitSAMProviderSpy = jasmine.createSpyObj('ExitSAMProvider', ['attemptToDisableSAMForEscape']);
 
     TestBed.configureTestingModule({
-      declarations: [LinkModalComponent],
+      declarations: [LinkModalComponent, MockComponent(ModalAlertTitleComponent)],
       imports: [IonicModule, StoreModule.forRoot({})],
       providers: [
         { provide: ModalController, useValue: modalControllerSpy },

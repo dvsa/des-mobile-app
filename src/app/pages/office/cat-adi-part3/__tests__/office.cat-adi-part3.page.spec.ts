@@ -10,6 +10,7 @@ import { OfficeCatADI3Page } from '@pages/office/cat-adi-part3/office.cat-adi-pa
 import { AdditionalInformationComponent } from '@pages/office/components/additional-information/additional-information';
 import { CandidateSectionComponent } from '@pages/office/components/candidate-section/candidate-section';
 import { OfficeFooterComponent } from '@pages/office/components/office-footer/office-footer.component';
+import { OfficeRegistrationAndMotComponent } from '@pages/office/components/office-registration-and-mot/office-registration-and-mot.component';
 import { AuthenticationProviderMock } from '@providers/authentication/__mocks__/authentication.mock';
 import { AuthenticationProvider } from '@providers/authentication/authentication';
 import { DeviceProviderMock } from '@providers/device/__mocks__/device.mock';
@@ -39,6 +40,7 @@ describe('OfficeCatADI3Page', () => {
         OfficeCatADI3Page,
         MockComponent(OfficeFooterComponent),
         MockComponent(AdditionalInformationComponent),
+        MockComponent(OfficeRegistrationAndMotComponent),
         MockComponent(CandidateSectionComponent),
       ],
       imports: [

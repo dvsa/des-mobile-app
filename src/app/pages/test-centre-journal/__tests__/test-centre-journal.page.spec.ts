@@ -24,9 +24,11 @@ import { TestCentre, TestCentreDetailResponse } from '@shared/models/test-centre
 
 import { HttpStatusCode } from '@angular/common/http';
 import { ActivatedRoute, RouterModule } from '@angular/router';
+import { TestFlowHeaderComponent } from '@components/common/test-flow-header/test-flow-header.component';
 import { ActivatedRouteMock } from '@mocks/angular-mocks/activated-route.mock';
 import { DeviceProviderMock } from '@providers/device/__mocks__/device.mock';
 import { DeviceProvider } from '@providers/device/device';
+import { MockComponent } from 'ng-mocks';
 import { TestCentreJournalComponentsModule } from '../components/test-centre-journal-components.module';
 import {
   TestCentreJournalGetData,
@@ -49,7 +51,7 @@ describe('TestCenterJournalPage', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [TestCentreJournalPage],
+      declarations: [TestCentreJournalPage, MockComponent(TestFlowHeaderComponent)],
       imports: [
         IonicModule,
         CommonModule,

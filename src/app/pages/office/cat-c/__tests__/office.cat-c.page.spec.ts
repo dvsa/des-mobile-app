@@ -9,6 +9,7 @@ import { ModalControllerMock, PlatformMock } from '@mocks/index.mock';
 import { Store, StoreModule } from '@ngrx/store';
 import { DrivingFaultsComponent } from '@pages/office/components/driving-faults/driving-faults.component';
 import { OfficeFooterComponent } from '@pages/office/components/office-footer/office-footer.component';
+import { OfficeRegistrationAndMotComponent } from '@pages/office/components/office-registration-and-mot/office-registration-and-mot.component';
 import { TrueLikenessComponent } from '@pages/office/components/true-likeness/true-likeness';
 import { VehicleChecksOfficeCardComponent } from '@pages/office/components/vehicle-checks/vehicle-checks-office-card';
 import { AccompanimentCardComponent } from '@pages/waiting-room-to-car/components/accompaniment-card/accompaniment-card';
@@ -88,6 +89,7 @@ describe('OfficeCatCPage', () => {
         MockComponent(CandidateSectionComponent),
         MockComponent(DateOfTest),
         MockComponent(VehicleChecksOfficeCardComponent),
+        MockComponent(OfficeRegistrationAndMotComponent),
         MockComponent(TrueLikenessComponent),
         MockComponent(AccompanimentCardComponent),
         MockComponent(AccompanimentComponent),
