@@ -27,7 +27,6 @@ export class UsefulLinksPage extends BasePageComponent implements OnInit {
   ) {
     super(injector);
   }
-  protected readonly alert = alert;
 
   ngOnInit() {
     this.usefulLinks = this.urlProvider.getUsefulLinks();
