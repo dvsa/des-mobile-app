@@ -77,6 +77,9 @@ export class UrlProvider {
   }
 
   getUsefulLinks(): UsefulLink[] {
-    return this.appConfigProvider.getAppConfig()?.usefulLinks;
+    return this.appConfigProvider
+      .getAppConfig()
+      ?.usefulLinks?.slice()
+      .sort((a, b) => a.displayText.localeCompare(b.displayText));
   }
 }
