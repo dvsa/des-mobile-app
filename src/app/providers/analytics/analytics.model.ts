@@ -356,6 +356,7 @@ export enum GoogleAnalyticsEvents {
 }
 
 export enum GoogleAnalyticsEventsTitles {
+  BANNER = 'banner',
   TEAMS_NOT_FOUND = 'microsoft_teams_could_not_be_found',
   TEAMS_NOT_OPENED = 'microsoft_teams_cannot_be_opened',
   SAM_NOT_DISABLED = 'sam_not_disabled',

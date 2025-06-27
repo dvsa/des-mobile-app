@@ -1,13 +1,10 @@
 import { Component } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { Store } from '@ngrx/store';
-import {
-  RecallLinkSelected,
-  RecallModalClosed,
-} from '@pages/journal/components/learn-more-modal/learn-more-modal.actions';
 import { OpenLinkProvider } from '@providers/open-link/open-link';
 import { UrlProvider } from '@providers/url/url';
 import { StoreModel } from '@shared/models/store.model';
+import { RecallLinkSelected, RecallModalClosed } from '@store/general/safety-recall/safety-recall.actions';
 
 @Component({
   selector: 'learn-more-modal',
