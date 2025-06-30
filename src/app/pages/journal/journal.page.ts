@@ -5,10 +5,13 @@ import { ModalController, RefresherEventDetail } from '@ionic/angular';
 import { IonRefresherCustomEvent, LoadingOptions } from '@ionic/core';
 import { select } from '@ngrx/store';
 import { Observable, Subscription, merge, of } from 'rxjs';
-import { map, switchMap, take } from 'rxjs/operators';
+import { map, switchMap, take, tap } from 'rxjs/operators';
 
+import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { environment } from '@environments/environment';
 import { TestersEnvironmentFile } from '@environments/models/environment.model';
+import { LearnMoreModal } from '@pages/journal/components/learn-more-modal/learn-more-modal';
+import { LEARN_MORE_MODAL } from '@pages/page-names.constants';
 import { AccessibilityService } from '@providers/accessibility/accessibility.service';
 import { DateTimeProvider } from '@providers/date-time/date-time';
 import { LoadingProvider } from '@providers/loader/loader';
@@ -20,6 +23,7 @@ import { DateTime } from '@shared/helpers/date-time';
 import { ErrorTypes } from '@shared/models/error-message';
 import { MesError } from '@shared/models/mes-error.model';
 import { selectVersionNumber } from '@store/app-info/app-info.selectors';
+import { RecallLearnMoreModalOpened } from '@store/general/safety-recall/safety-recall.actions';
 import * as journalActions from '@store/journal/journal.actions';
 import { JournalRehydrationPage, JournalRehydrationType } from '@store/journal/journal.effects';
 import { getJournalState } from '@store/journal/journal.reducer';
@@ -30,6 +34,7 @@ import {
   getIsLoading,
   getLastRefreshed,
   getLastRefreshedTime,
+  getRecallAutoPopupLastDisplayedTime,
   getSelectedDate,
   getSlotsOnSelectedDate,
 } from '@store/journal/journal.selector';
@@ -42,6 +47,7 @@ interface JournalPageState {
   error$: Observable<MesError>;
   isLoading$: Observable<boolean>;
   lastRefreshedTime$: Observable<string>;
+  recallAutoPopupLastDisplayedTime$: Observable<string>;
   appVersion$: Observable<string>;
   completedTests$: Observable<SearchResultTestSchema[]>;
   isOffline$: Observable<boolean>;
@@ -92,9 +98,18 @@ export class JournalPage extends BasePageComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    console.log('this.store', this.store$);
     this.pageState = {
       selectedDate$: this.store$.pipe(select(getJournalState), map(getSelectedDate)),
-      slots$: this.store$.pipe(select(getJournalState), map(getSlotsOnSelectedDate)),
+      recallAutoPopupLastDisplayedTime$: this.store$.pipe(
+        select(getJournalState),
+        map(getRecallAutoPopupLastDisplayedTime)
+      ),
+      slots$: this.store$.pipe(
+        select(getJournalState),
+        map(getSlotsOnSelectedDate),
+        tap((slots) => this.displayAutoRecallPopup(slots))
+      ),
       error$: this.store$.pipe(select(getJournalState), map(getError), take(1)),
       isLoading$: this.store$.pipe(select(getJournalState), map(getIsLoading)),
       lastRefreshedTime$: this.store$.pipe(select(getJournalState), map(getLastRefreshed), map(getLastRefreshedTime)),
@@ -122,6 +137,45 @@ export class JournalPage extends BasePageComponent implements OnInit {
     if (this.subscription) {
       this.subscription.unsubscribe();
     }
+  }
+
+  async displayAutoRecallPopup(slots: SlotItem[]) {
+    const slotsContainingRecallAffectedCategories = slots.filter((slot) => {
+      //Check if the slot has a booking and if the test category is one of the recall affected categories
+      if ('booking' in slot.slotData) {
+        return [TestCategory.ADI2, TestCategory.ADI3, TestCategory.SC, TestCategory.B].includes(
+          slot.slotData?.booking?.application?.testCategory as TestCategory
+        );
+      }
+      return false;
+    });
+    // If there are no slots with recall affected categories, we don't need to display the popup
+    if (slotsContainingRecallAffectedCategories.length > 0) {
+      const formattedTodayDate = new DateTime().format('DD/MM/YYYY');
+      console.log('this.store', this.store$);
+      // If the last displayed time is not today, then we can show the popup
+      if (this.store$.selectSignal(getRecallAutoPopupLastDisplayedTime)() !== formattedTodayDate) {
+        // Update the last displayed time in the store
+        this.store$.dispatch(journalActions.RecallAutoPopupDisplayed(formattedTodayDate));
+        await this.openLearnMoreModal();
+      }
+    }
+  }
+
+  async openLearnMoreModal() {
+    const topModal = await this.modalController.getTop();
+    if (topModal && topModal.id === LEARN_MORE_MODAL) {
+      console.log(topModal.id);
+      return; // Modal is already open
+    }
+    this.store$.dispatch(RecallLearnMoreModalOpened());
+    const zoomClass = `mes-modal-alert ${this.accessibilityService.getTextZoomClass()}`;
+    const learnMoreModal = await this.modalController.create({
+      component: LearnMoreModal,
+      id: LEARN_MORE_MODAL,
+      cssClass: zoomClass,
+    });
+    await learnMoreModal.present();
   }
 
   async ionViewWillEnter(): Promise<boolean> {

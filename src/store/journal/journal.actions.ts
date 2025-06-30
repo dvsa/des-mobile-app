@@ -34,6 +34,13 @@ export const LoadJournalFailure = createAction('[JournalEffects] Load Journal Fa
   error,
 }));
 
+export const RecallAutoPopupDisplayed = createAction(
+  '[JournalEffects] Recall Auto Popup Displayed',
+  (time: string) => ({
+    time,
+  })
+);
+
 export const LoadJournalSilentFailure = createAction(
   '[JournalEffects] Load Journal Silent Failure',
   (error: MesError) => ({ error })
