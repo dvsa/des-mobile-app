@@ -5,4 +5,4 @@ import { SafetyRecallAnalyticsEffects } from '@store/general/safety-recall/safet
 @NgModule({
   imports: [EffectsModule.forFeature([SafetyRecallAnalyticsEffects])],
 })
-export class SafetyRecallModule {}
+export class SafetyRecallStoreModule {}
