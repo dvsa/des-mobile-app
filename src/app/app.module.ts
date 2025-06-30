@@ -75,7 +75,7 @@ import { LoadingProvider } from '@providers/loader/loader';
 import { StoreModel } from '@shared/models/store.model';
 import { ExaminerRecordsStoreModule } from '@store/examiner-records/examiner-records.module';
 import { examinerRecordsReducer } from '@store/examiner-records/examiner-records.reducer';
-import { SafetyRecallModule } from '@store/general/safety-recall/safety-recall.module';
+import { SafetyRecallStoreModule } from '@store/general/safety-recall/safety-recall-store.module';
 import CordovaSQLiteDriver from 'localforage-cordovasqlitedriver';
 import { get, set } from 'lodash-es';
 import { RemoteDevToolsProxy } from '../../ngrx-devtool-proxy/remote-devtools-proxy';
@@ -148,7 +148,7 @@ const storageDriver = Capacitor.getPlatform() === 'web' ? Drivers.IndexedDB : Co
     StoreModule.forRoot(reducers, { metaReducers }),
     EffectsModule.forRoot(),
     EffectImportModule,
-    SafetyRecallModule,
+    SafetyRecallStoreModule,
     ...(enableDevTools ? [StoreDevtoolsModule.instrument()] : []),
     AppInfoStoreModule,
     ReferenceDataStoreModule,
