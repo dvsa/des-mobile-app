@@ -81,6 +81,7 @@ export class JournalPage extends BasePageComponent implements OnInit {
   merged$: Observable<void | Promise<unknown>>;
   todaysDate: DateTime;
   platformSubscription: Subscription;
+  learnMoreModal: HTMLIonModalElement = null;
 
   constructor(
     public modalController: ModalController,
@@ -98,7 +99,6 @@ export class JournalPage extends BasePageComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log('this.store', this.store$);
     this.pageState = {
       selectedDate$: this.store$.pipe(select(getJournalState), map(getSelectedDate)),
       recallAutoPopupLastDisplayedTime$: this.store$.pipe(
@@ -140,42 +140,55 @@ export class JournalPage extends BasePageComponent implements OnInit {
   }
 
   async displayAutoRecallPopup(slots: SlotItem[]) {
+    //Get the slots that contain bookings with recall affected categories
     const slotsContainingRecallAffectedCategories = slots.filter((slot) => {
       //Check if the slot has a booking and if the test category is one of the recall affected categories
       if ('booking' in slot.slotData) {
-        return [TestCategory.ADI2, TestCategory.ADI3, TestCategory.SC, TestCategory.B].includes(
-          slot.slotData?.booking?.application?.testCategory as TestCategory
-        );
+        // Define the affected categories for recall
+        const affectedCategories: TestCategory[] = [
+          TestCategory.ADI2,
+          TestCategory.ADI3,
+          TestCategory.SC,
+          TestCategory.B,
+        ];
+        // Check if the slot's test category is in the affected categories
+        return affectedCategories.includes(slot.slotData?.booking?.application?.testCategory as TestCategory);
       }
       return false;
     });
     // If there are no slots with recall affected categories, we don't need to display the popup
     if (slotsContainingRecallAffectedCategories.length > 0) {
+      // Get today's date formatted as DD/MM/YYYY
       const formattedTodayDate = new DateTime().format('DD/MM/YYYY');
-      console.log('this.store', this.store$);
-      // If the last displayed time is not today, then we can show the popup
+      // If the last displayed time is not today, then we can show the popup as it is the first time today
       if (this.store$.selectSignal(getRecallAutoPopupLastDisplayedTime)() !== formattedTodayDate) {
         // Update the last displayed time in the store
         this.store$.dispatch(journalActions.RecallAutoPopupDisplayed(formattedTodayDate));
+        // Open the learn more modal
         await this.openLearnMoreModal();
       }
     }
   }
 
   async openLearnMoreModal() {
-    const topModal = await this.modalController.getTop();
-    if (topModal && topModal.id === LEARN_MORE_MODAL) {
-      console.log(topModal.id);
-      return; // Modal is already open
+    // If the modal is already open, we don't need to open it again
+    if (!this.learnMoreModal) {
+      // Dispatch an action to indicate that the learn more modal has been opened
+      this.store$.dispatch(RecallLearnMoreModalOpened());
+      // Create and present the learn more modal
+      const zoomClass = `mes-modal-alert ${this.accessibilityService.getTextZoomClass()}`;
+      this.learnMoreModal = await this.modalController.create({
+        component: LearnMoreModal,
+        id: LEARN_MORE_MODAL,
+        cssClass: zoomClass,
+      });
+      // Present the modal
+      await this.learnMoreModal.present();
+      // Set up a listener to clean up the modal reference when it is dismissed
+      this.learnMoreModal.onDidDismiss().then(() => {
+        this.learnMoreModal = null;
+      });
     }
-    this.store$.dispatch(RecallLearnMoreModalOpened());
-    const zoomClass = `mes-modal-alert ${this.accessibilityService.getTextZoomClass()}`;
-    const learnMoreModal = await this.modalController.create({
-      component: LearnMoreModal,
-      id: LEARN_MORE_MODAL,
-      cssClass: zoomClass,
-    });
-    await learnMoreModal.present();
   }
 
   async ionViewWillEnter(): Promise<boolean> {
