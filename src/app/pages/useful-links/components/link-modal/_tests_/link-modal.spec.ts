@@ -49,6 +49,7 @@ describe('LinkModalComponent', () => {
   describe('onContinue', () => {
     it('should dispatch ModalContinue action, open the URL, and dismiss the modal with CONTINUE event', async () => {
       component.link = {
+        id: 'example-link',
         url: 'https://example.com',
         displayText: 'Example',
       };
