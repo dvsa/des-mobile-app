@@ -6,6 +6,7 @@ import { ActivatedRoute, RouterModule } from '@angular/router';
 import { MockAppComponent } from '@app/__mocks__/app.component.mock';
 import { AppComponent } from '@app/app.component';
 import { TestSlotComponentsModule } from '@components/test-slot/test-slot-components.module';
+import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { ModalController, Platform, RefresherEventDetail } from '@ionic/angular';
 import { IonRefresherCustomEvent, LoadingOptions } from '@ionic/core';
 import { ActivatedRouteMock, ModalControllerMock, PlatformMock } from '@mocks/index.mock';
@@ -39,12 +40,13 @@ import { BasePageComponent } from '@shared/classes/base-page';
 import { ErrorTypes } from '@shared/models/error-message';
 import { MesError } from '@shared/models/mes-error.model';
 import { StoreModel } from '@shared/models/store.model';
+import { RecallLearnMoreModalOpened } from '@store/general/safety-recall/safety-recall.actions';
 import journalSlotsDataMock from '@store/journal/__mocks__/journal-slots-data.mock';
 import * as journalActions from '@store/journal/journal.actions';
-import { JournalViewDidEnter } from '@store/journal/journal.actions';
+import { JournalViewDidEnter, RecallAutoPopupDisplayed } from '@store/journal/journal.actions';
 import { JournalRehydrationType } from '@store/journal/journal.effects';
 import { journalReducer } from '@store/journal/journal.reducer';
-import { Subscription } from 'rxjs';
+import { Subscription, of } from 'rxjs';
 
 describe('JournalPage', () => {
   let fixture: ComponentFixture<JournalPage>;
@@ -246,6 +248,180 @@ describe('JournalPage', () => {
       it('should dispatch SelectNextDay', () => {
         component.onNextDayClick();
         expect(store$.dispatch).toHaveBeenCalledWith(journalActions.SelectNextDay());
+      });
+    });
+
+    describe('setUpLearnMoreModalDismissed', () => {
+      it('sets isDisplayingLearnMoreModal to false when modal is dismissed (promise resolves)', async () => {
+        component.isDisplayingLearnMoreModal = true;
+        let resolveDismiss: () => void;
+        const onDidDismissPromise = new Promise<void>((resolve) => {
+          resolveDismiss = resolve;
+        });
+        const mockModal = { onDidDismiss: () => onDidDismissPromise } as any;
+
+        component.setUpLearnMoreModalDismissed(mockModal);
+        expect(component.isDisplayingLearnMoreModal).toBeTrue();
+
+        resolveDismiss();
+        await onDidDismissPromise;
+        expect(component.isDisplayingLearnMoreModal).toBeFalse();
+      });
+
+      it('sets isDisplayingLearnMoreModal to false when modal is dismissed (promise rejects)', async () => {
+        component.isDisplayingLearnMoreModal = true;
+        let rejectDismiss: (reason?: any) => void;
+        const onDidDismissPromise = new Promise<void>((_, reject) => {
+          rejectDismiss = reject;
+        });
+        const mockModal = { onDidDismiss: () => onDidDismissPromise } as any;
+
+        component.setUpLearnMoreModalDismissed(mockModal);
+        expect(component.isDisplayingLearnMoreModal).toBeTrue();
+
+        rejectDismiss();
+        try {
+          await onDidDismissPromise;
+        } catch {}
+        // Wait for the catch handler in setUpLearnMoreModalDismissed to run
+        await Promise.resolve();
+        expect(component.isDisplayingLearnMoreModal).toBeFalse();
+      });
+    });
+
+    describe('openLearnMoreModal', () => {
+      it('opens modal and dispatches action when not already open', async () => {
+        component.isDisplayingLearnMoreModal = false;
+        spyOn(component.store$, 'dispatch');
+        spyOn(component, 'setUpLearnMoreModalDismissed');
+        spyOn(component.accessibilityService, 'getTextZoomClass').and.returnValue('zoom-class');
+
+        const presentSpy = jasmine.createSpy().and.returnValue(Promise.resolve());
+        const onDidDismissSpy = jasmine.createSpy().and.returnValue(Promise.resolve());
+        spyOn(component.modalController, 'create').and.returnValue(
+          Promise.resolve({
+            present: presentSpy,
+            onDidDismiss: onDidDismissSpy,
+          } as any)
+        );
+
+        await component.openLearnMoreModal();
+
+        expect(component.isDisplayingLearnMoreModal).toBeTrue();
+        expect(component.store$.dispatch).toHaveBeenCalledWith(RecallLearnMoreModalOpened());
+        expect(component.modalController.create).toHaveBeenCalled();
+        expect(presentSpy).toHaveBeenCalled();
+      });
+
+      it('does nothing if modal is already displaying', async () => {
+        component.isDisplayingLearnMoreModal = true;
+        spyOn(component.modalController, 'create');
+
+        await component.openLearnMoreModal();
+
+        expect(component.modalController.create).not.toHaveBeenCalled();
+      });
+    });
+
+    describe('displayAutoRecallPopup', () => {
+      beforeEach(() => {
+        component.todaysDate = jasmine.createSpyObj('DateTime', ['format']);
+        spyOn(component.todaysDate, 'format').and.returnValue('01/01/2024');
+        spyOn(component, 'openLearnMoreModal').and.returnValue(Promise.resolve());
+        spyOn(component.store$, 'dispatch');
+        component.pageState = {
+          ...component.pageState,
+          isSelectedDateToday$: of(true),
+        } as any;
+        component.store$.selectSignal = jasmine.createSpy().and.returnValue(() => 'not-today');
+      });
+
+      it('displays popup and dispatches action when today and slot has affected category', async () => {
+        const slots = [
+          {
+            slotData: {
+              booking: {
+                application: { testCategory: TestCategory.B },
+              },
+            },
+          } as any,
+        ];
+        await component.displayAutoRecallPopup(slots);
+        expect(component.store$.dispatch).toHaveBeenCalledWith(RecallAutoPopupDisplayed('01/01/2024'));
+        expect(component.openLearnMoreModal).toHaveBeenCalled();
+      });
+
+      it('does not display popup if selected date is not today', async () => {
+        component.pageState.isSelectedDateToday$ = of(false);
+        await component.displayAutoRecallPopup([
+          {
+            slotData: {
+              booking: {
+                application: { testCategory: TestCategory.B },
+              },
+            },
+          } as any,
+        ]);
+        expect(component.store$.dispatch).not.toHaveBeenCalledWith(RecallAutoPopupDisplayed);
+        expect(component.openLearnMoreModal).not.toHaveBeenCalled();
+      });
+
+      it('does not display popup if already displayed today', async () => {
+        (component.store$.selectSignal as jasmine.Spy).and.returnValue(() => '01/01/2024');
+        await component.displayAutoRecallPopup([
+          {
+            slotData: {
+              booking: {
+                application: { testCategory: TestCategory.B },
+              },
+            },
+          } as any,
+        ]);
+        expect(component.store$.dispatch).not.toHaveBeenCalledWith(RecallAutoPopupDisplayed('01/01/2024'));
+        expect(component.openLearnMoreModal).not.toHaveBeenCalled();
+      });
+
+      it('does not display popup if no slots have affected categories', async () => {
+        await component.displayAutoRecallPopup([
+          {
+            slotData: {
+              booking: {
+                application: { testCategory: 'OTHER' },
+              },
+            },
+          } as any,
+        ]);
+        expect(component.store$.dispatch).not.toHaveBeenCalledWith(RecallAutoPopupDisplayed('01/01/2024'));
+        expect(component.openLearnMoreModal).not.toHaveBeenCalled();
+      });
+
+      it('does not display popup if slotData has no booking', async () => {
+        await component.displayAutoRecallPopup([{ slotData: {} } as any]);
+        expect(component.store$.dispatch).not.toHaveBeenCalledWith(RecallAutoPopupDisplayed('01/01/2024'));
+        expect(component.openLearnMoreModal).not.toHaveBeenCalled();
+      });
+
+      it('handles multiple slots and only displays popup if at least one is affected', async () => {
+        const slots = [
+          { slotData: {} } as any,
+          {
+            slotData: {
+              booking: {
+                application: { testCategory: TestCategory.ADI2 },
+              },
+            },
+          } as any,
+          {
+            slotData: {
+              booking: {
+                application: { testCategory: 'OTHER' },
+              },
+            },
+          } as any,
+        ];
+        await component.displayAutoRecallPopup(slots);
+        expect(component.store$.dispatch).toHaveBeenCalledWith(RecallAutoPopupDisplayed('01/01/2024'));
+        expect(component.openLearnMoreModal).toHaveBeenCalled();
       });
     });
 

@@ -103,6 +103,7 @@ describe('Journal Reducer', () => {
     });
     it('should reset the rest of the journal to default state', () => {
       const stateWithJournals = {
+        recallAutoPopupLastDisplayedTime: null,
         isLoading: true,
         lastRefreshed: new Date(),
         selectedDate: 'dummy',
