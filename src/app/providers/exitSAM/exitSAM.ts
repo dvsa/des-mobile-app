@@ -10,8 +10,8 @@ import { ExitSAMMethodUsed } from '@components/common/test-flow-header/test-flow
 import { ModalController, Platform } from '@ionic/angular';
 import { Store } from '@ngrx/store';
 import { LinkModalComponent, LinkModalEvent } from '@pages/useful-links/components/link-modal/link-modal.component';
-import { AppConfigProvider } from '@providers/app-config/app-config';
 import { DeviceProvider } from '@providers/device/device';
+import { UrlProvider } from '@providers/url/url';
 import { StoreModel } from '@shared/models/store.model';
 import { SetHasExitedApp } from '@store/tests/user-exited-app/user-exited-app.actions';
 import { Subscription } from 'rxjs';
@@ -23,7 +23,7 @@ export class ExitSAMProvider {
     public modalController: ModalController,
     public deviceProvider: DeviceProvider,
     public store$: Store<StoreModel>,
-    private appConfigProvider: AppConfigProvider
+    private urlProvider: UrlProvider
   ) {}
 
   public leaveAppSubscription: Subscription = null;
@@ -65,14 +65,14 @@ export class ExitSAMProvider {
     this.store$.dispatch(ExitSamActivated(method));
 
     try {
-      const { usefulLinks } = this.appConfigProvider.getAppConfig();
+      const usefulLinks = this.urlProvider.getUsefulLinks();
 
-      const recallLinks = usefulLinks.filter((link) => link.displayText.toLowerCase().includes('recall'));
+      const recallLinks = usefulLinks.find((link) => link.id === 'citroen-recall');
 
       const modal = await this.modalController.create({
         component: LinkModalComponent,
         componentProps: {
-          link: recallLinks[0],
+          link: recallLinks,
           disableSAM: true,
         },
         cssClass: 'mes-modal-alert text-zoom-regular',
