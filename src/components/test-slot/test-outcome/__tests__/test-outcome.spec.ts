@@ -48,6 +48,7 @@ describe('TestOutcomeComponent', () => {
   };
 
   const journal: JournalModel = {
+    recallAutoPopupLastDisplayedTime: null,
     isLoading: false,
     lastRefreshed: new Date(),
     slots: {},

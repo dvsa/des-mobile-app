@@ -88,7 +88,7 @@ export class JournalPage extends BasePageComponent implements OnInit {
     public modalController: ModalController,
     public orientationMonitorProvider: OrientationMonitorProvider,
     public dateTimeProvider: DateTimeProvider,
-    private accessibilityService: AccessibilityService,
+    public accessibilityService: AccessibilityService,
     private networkStateProvider: NetworkStateProvider,
     public loadingProvider: LoadingProvider,
     injector: Injector
@@ -198,11 +198,20 @@ export class JournalPage extends BasePageComponent implements OnInit {
       });
       // Present the modal
       await learnMoreModal.present();
-      // Set up a listener to clean up the modal reference when it is dismissed
-      learnMoreModal.onDidDismiss().then(() => {
+      this.setUpLearnMoreModalDismissed(learnMoreModal);
+    }
+  }
+
+  setUpLearnMoreModalDismissed(learnMoreModal: HTMLIonModalElement) {
+    // Set up a listener to clean up the modal reference when it is dismissed
+    learnMoreModal
+      .onDidDismiss()
+      .then(() => {
+        this.isDisplayingLearnMoreModal = false;
+      })
+      .catch(() => {
         this.isDisplayingLearnMoreModal = false;
       });
-    }
   }
 
   async ionViewWillEnter(): Promise<boolean> {
