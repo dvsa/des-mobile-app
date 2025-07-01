@@ -1,9 +1,13 @@
 .stop-drive-banner {
-  background-color: #16eeef
+  background-color: var(--mes-teal)
 }
 
 .warning-icon {
   padding-right: 5px;
   font-size: 58px;
   color: black;
+}
+
+.learn-more-btn-text {
+  padding-bottom: 5px;
 }
