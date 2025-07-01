@@ -352,9 +352,11 @@ export enum GoogleAnalyticsEvents {
   STUDENT_EXPERIENCE = 'student_experience',
   EXAMINER_RECORDS = 'examiner_records',
   USEFUL_LINKS = 'useful_links',
+  STOP_DRIVE_ORDER = 'stop_drive_order',
 }
 
 export enum GoogleAnalyticsEventsTitles {
+  BANNER = 'banner',
   TEAMS_NOT_FOUND = 'microsoft_teams_could_not_be_found',
   TEAMS_NOT_OPENED = 'microsoft_teams_cannot_be_opened',
   SAM_NOT_DISABLED = 'sam_not_disabled',
@@ -439,9 +441,11 @@ export enum GoogleAnalyticsEventsTitles {
   DATA_UNAVAILABLE = 'data_unavailable',
   LEAVING_DES_MODAL = 'leaving_DES_modal',
   THIRTY_MINUTE_TIMER = '30mins_time_warning',
+  INFORMATION_MODAL = 'information_modal',
 }
 
 export enum GoogleAnalyticsEventsValues {
+  CITROEN_RECALL_CHECKER = 'Citroen_recall_checker',
   ERROR_MODAL = 'error_modal',
   BUTTON_SELECTED = 'button_selected',
   BANNER_SELECTED = 'banner_selected',
@@ -528,4 +532,5 @@ export enum GoogleAnalyticsEventsValues {
   DATA_BANNER_DISPLAY = 'data_banner_display',
   SAVED = 'saved',
   LEARN_MORE = 'learn_more',
+  OK = 'ok',
 }
