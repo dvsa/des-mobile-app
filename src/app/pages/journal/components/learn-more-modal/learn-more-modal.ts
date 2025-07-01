@@ -27,9 +27,7 @@ export class LearnMoreModal {
     const usefulLinks = this.urlProvider.getUsefulLinks();
 
     await this.closeModal().then(() => {
-      this.openLinkProvider.openLinkModal(
-        usefulLinks.filter((link) => link.displayText.toLowerCase().includes('recall'))[0]
-      );
+      this.openLinkProvider.openLinkModal(usefulLinks.find((link) => link.id === 'citroen-recall'));
     });
   }
 
