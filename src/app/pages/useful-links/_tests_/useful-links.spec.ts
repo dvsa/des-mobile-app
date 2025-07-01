@@ -64,10 +64,12 @@ describe('UsefulLinksPage', () => {
     it('should populate usefulLinks with data from UrlProvider', () => {
       const mockLinks: UsefulLink[] = [
         {
+          id: 'e1',
           displayText: 'example 1',
           url: 'e1',
         },
         {
+          id: 'e2',
           displayText: 'example 2',
           url: 'e2',
         },
@@ -84,6 +86,7 @@ describe('UsefulLinksPage', () => {
     it('should open the modal and call present', async () => {
       const mockLinks: UsefulLink[] = [
         {
+          id: 'e1',
           displayText: 'DT1 guidance',
           url: 'e1',
         },
