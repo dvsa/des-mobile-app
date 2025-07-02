@@ -32,7 +32,7 @@ export const journalReducer = createReducer(
     })
   ),
   on(
-    journalActions.RecallAutoPopupDisplayed,
+    journalActions.RecallAutoPopupDisplayedTimeChanged,
     (state: JournalModel, { time }): JournalModel => ({
       ...state,
       recallAutoPopupLastDisplayedTime: time,

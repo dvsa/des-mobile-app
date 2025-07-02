@@ -31,7 +31,12 @@ import {
 } from 'rxjs/operators';
 import { SaveLog } from '../logs/logs.actions';
 import * as journalActions from './journal.actions';
-import { JournalRehydrationError, JournalRehydrationNull, JournalRehydrationSuccess } from './journal.actions';
+import {
+  JournalRehydrationError,
+  JournalRehydrationNull,
+  JournalRehydrationSuccess,
+  RecallAutoPopupDisplayedTimeChanged,
+} from './journal.actions';
 import { ExaminerSlotItems, ExaminerSlotItemsByDate } from './journal.model';
 import { getJournalState } from './journal.reducer';
 import {
@@ -39,11 +44,13 @@ import {
   canNavigateToPreviousDay,
   getAllSlots,
   getLastRefreshed,
+  getRecallAutoPopupLastDisplayedTime,
   getSelectedDate,
   getSlots,
 } from './journal.selector';
 
 import { CompressionProvider } from '@providers/compression/compression';
+import { DataStoreProvider, LocalStorageKey } from '@providers/data-store/data-store';
 import { formatApplicationReference } from '@shared/helpers/formatters';
 import { isAnyOf } from '@shared/helpers/simplifiers';
 import { TestStatus } from '@store/tests/test-status/test-status.model';
@@ -78,8 +85,22 @@ export class JournalEffects {
     public dateTimeProvider: DateTimeProvider,
     public searchProvider: SearchProvider,
     private logHelper: LogHelper,
-    private compressionProvider: CompressionProvider
+    private compressionProvider: CompressionProvider,
+    private dataStore: DataStoreProvider
   ) {}
+
+  persistJournalRecallAutoDisplayTime$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(RecallAutoPopupDisplayedTimeChanged),
+        concatMap((action) => of(action).pipe(withLatestFrom(this.store$.select(getRecallAutoPopupLastDisplayedTime)))),
+        concatMap(async ([, time]) => {
+          console.log('Persisting Journal Recall Auto Display Time', time);
+          await this.dataStore.setItem(LocalStorageKey.JOURNAL_RECALL_AUTO_DISPLAY_TIME, JSON.stringify(time));
+        })
+      ),
+    { dispatch: false }
+  );
 
   callJournalProvider$ = (mode: string): Observable<Action> => {
     this.store$.dispatch(journalActions.JournalRefresh(mode));
@@ -175,6 +196,28 @@ export class JournalEffects {
         )
       )
     )
+  );
+
+  loadJournalRecallAutoDisplayTime$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(journalActions.LoadJournalRecallModalRefreshTime),
+        switchMap(async () => {
+          try {
+            const data = await this.dataStore.getItem(LocalStorageKey.JOURNAL_RECALL_AUTO_DISPLAY_TIME);
+            const recallAutoPopupLastDisplayedTime = JSON.parse(data);
+            this.store$.dispatch(journalActions.RecallAutoPopupDisplayedTimeChanged(recallAutoPopupLastDisplayedTime));
+          } catch (err) {
+            this.store$.dispatch(
+              SaveLog({
+                payload: this.logHelper.createLog(LogType.ERROR, 'Retrieving Journal Recall Auto Display Time', err),
+              })
+            );
+            this.store$.dispatch(journalActions.RecallAutoPopupDisplayedTimeChanged(''));
+          }
+        })
+      ),
+    { dispatch: false }
   );
 
   pollingSetup$ = createEffect(() =>

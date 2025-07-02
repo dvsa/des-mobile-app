@@ -151,6 +151,7 @@ export class DashboardPage extends BasePageComponent implements OnInit, ViewDidE
     this.store$.dispatch(LoadExaminerRecordsPreferences());
     //guard against calling journal if the user type is a delegated examiner
     if (!this.isDelegatedExaminer()) {
+      this.store$.dispatch(journalActions.LoadJournalRecallModalRefreshTime());
       this.store$.dispatch(journalActions.LoadJournalSilent());
     }
 
