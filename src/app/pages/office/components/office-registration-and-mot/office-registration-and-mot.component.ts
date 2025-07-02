@@ -10,7 +10,6 @@ import { IonicModule } from '@ionic/angular';
   templateUrl: './office-registration-and-mot.component.html',
   styleUrls: ['./office-registration-and-mot.component.scss'],
   imports: [IonicModule, RegistrationWithPreviousMotTextComponent, NgIf, MotStatusDisplayTextComponent],
-  standalone: true,
 })
 export class OfficeRegistrationAndMotComponent {
   @Input()

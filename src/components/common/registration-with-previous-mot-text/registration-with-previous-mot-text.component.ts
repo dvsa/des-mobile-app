@@ -7,7 +7,6 @@ import { IonicModule } from '@ionic/angular';
   templateUrl: './registration-with-previous-mot-text.component.html',
   styleUrls: ['./registration-with-previous-mot-text.component.scss'],
   imports: [IonicModule, NgIf, NgForOf],
-  standalone: true,
 })
 export class RegistrationWithPreviousMotTextComponent {
   @Input()
