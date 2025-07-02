@@ -20,6 +20,7 @@ import { OrientationMonitorProvider } from '@providers/orientation-monitor/orien
 import { SlotItem } from '@providers/slot-selector/slot-item';
 import { BasePageComponent } from '@shared/classes/base-page';
 import { DateTime } from '@shared/helpers/date-time';
+import { isAnyOf } from '@shared/helpers/simplifiers';
 import { ErrorTypes } from '@shared/models/error-message';
 import { MesError } from '@shared/models/mes-error.model';
 import { selectVersionNumber } from '@store/app-info/app-info.selectors';
@@ -39,6 +40,8 @@ import {
   getSelectedDate,
   getSlotsOnSelectedDate,
 } from '@store/journal/journal.selector';
+import { TestStatus } from '@store/tests/test-status/test-status.model';
+import { getTests } from '@store/tests/tests.reducer';
 import { isEndToEndPracticeTest } from '@store/tests/tests.selector';
 import { ErrorPage } from '../error-page/error';
 
@@ -143,40 +146,34 @@ export class JournalPage extends BasePageComponent implements OnInit {
   async displayAutoRecallPopup(slots: SlotItem[]) {
     this.pageState.isSelectedDateToday$
       .subscribe(async (isToday) => {
-        if (!isToday) {
-          // If the selected date is not today, we don't need to display the popup
-          return;
-        }
+        // If the selected date is not today or there are no slots, do not display the popup
+        if (!isToday || slots.length === 0) return;
 
-        // Get today's date formatted as DD/MM/YYYY
-        const formattedTodayDate = this.todaysDate.format('DD/MM/YYYY');
         // Check if the popup has already been displayed today
-        if (this.store$.selectSignal(getRecallAutoPopupLastDisplayedTime)() === formattedTodayDate) {
-          return;
-        }
+        const formattedTodayDate = this.todaysDate.format('DD/MM/YYYY');
+        if (this.store$.selectSignal(getRecallAutoPopupLastDisplayedTime)() === formattedTodayDate) return;
 
-        //Get the slots that contain bookings with recall affected categories
-        const slotsContainingRecallAffectedCategories = slots.filter((slot) => {
-          //Check if the slot has a booking and if the test category is one of the recall affected categories
-          if ('booking' in slot.slotData) {
-            // Define the affected categories for recall
-            const affectedCategories: TestCategory[] = [
-              TestCategory.ADI2,
-              TestCategory.ADI3,
-              TestCategory.SC,
-              TestCategory.B,
-            ];
-            // Check if the slot's test category is in the affected categories
-            return affectedCategories.includes(slot.slotData?.booking?.application?.testCategory as TestCategory);
-          }
-          return false;
-        });
+        // Check if there are any affected slots that are not autosaved, completed, or submitted
+        const testStatus = this.store$.selectSignal(getTests)().testStatus;
 
-        // If there are no slots with recall affected categories, we don't need to display the popup
-        if (slotsContainingRecallAffectedCategories.length > 0) {
-          // Update the last displayed time in the store
+        // Define the categories that are affected by the auto-recall popup
+        const affectedCategories = [TestCategory.ADI2, TestCategory.ADI3, TestCategory.SC, TestCategory.B];
+
+        // Check if there are any slots with bookings in the affected categories that are not completed, autosaved, or submitted
+        const hasIncompleteAffectedSlot = slots.some(
+          (slot) =>
+            'booking' in slot.slotData &&
+            affectedCategories.includes(slot.slotData?.booking?.application?.testCategory as TestCategory) &&
+            !isAnyOf(testStatus[slot.slotData.slotDetail.slotId], [
+              TestStatus.Autosaved,
+              TestStatus.Completed,
+              TestStatus.Submitted,
+            ])
+        );
+
+        // If there are incomplete affected slots, dispatch the action to display the popup
+        if (hasIncompleteAffectedSlot) {
           this.store$.dispatch(RecallAutoPopupDisplayed(formattedTodayDate));
-          // Open the learn more modal
           await this.openLearnMoreModal();
         }
       })
