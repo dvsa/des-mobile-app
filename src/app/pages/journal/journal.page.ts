@@ -26,7 +26,6 @@ import { MesError } from '@shared/models/mes-error.model';
 import { selectVersionNumber } from '@store/app-info/app-info.selectors';
 import { RecallLearnMoreModalOpened } from '@store/general/safety-recall/safety-recall.actions';
 import * as journalActions from '@store/journal/journal.actions';
-import { RecallAutoPopupDisplayed } from '@store/journal/journal.actions';
 import { JournalRehydrationPage, JournalRehydrationType } from '@store/journal/journal.effects';
 import { getJournalState } from '@store/journal/journal.reducer';
 import {
@@ -151,6 +150,12 @@ export class JournalPage extends BasePageComponent implements OnInit {
 
         // Check if the popup has already been displayed today
         const formattedTodayDate = this.todaysDate.format('DD/MM/YYYY');
+        console.log(
+          'today date',
+          formattedTodayDate,
+          'last displayed time',
+          this.store$.selectSignal(getRecallAutoPopupLastDisplayedTime)()
+        );
         if (this.store$.selectSignal(getRecallAutoPopupLastDisplayedTime)() === formattedTodayDate) return;
 
         // Check if there are any affected slots that are not autosaved, completed, or submitted
@@ -168,12 +173,13 @@ export class JournalPage extends BasePageComponent implements OnInit {
               TestStatus.Autosaved,
               TestStatus.Completed,
               TestStatus.Submitted,
+              TestStatus.WriteUp,
             ])
         );
 
         // If there are incomplete affected slots, dispatch the action to display the popup
         if (hasIncompleteAffectedSlot) {
-          this.store$.dispatch(RecallAutoPopupDisplayed(formattedTodayDate));
+          this.store$.dispatch(journalActions.RecallAutoPopupDisplayedTimeChanged(formattedTodayDate));
           await this.openLearnMoreModal();
         }
       })

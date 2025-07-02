@@ -13,6 +13,8 @@ export const EarlyStartDidReturn = createAction('[JournalPage] Early Start Modal
 
 export const LoadJournal = createAction('[JournalPage] Load Journal');
 
+export const LoadJournalRecallModalRefreshTime = createAction('[JournalPage] Load Journal Recall Modal Refresh Time');
+
 export const LoadJournalSilent = createAction('[JournalPage] Load Journal Silent');
 
 export const LoadJournalSuccess = createAction(
@@ -34,7 +36,7 @@ export const LoadJournalFailure = createAction('[JournalEffects] Load Journal Fa
   error,
 }));
 
-export const RecallAutoPopupDisplayed = createAction(
+export const RecallAutoPopupDisplayedTimeChanged = createAction(
   '[JournalEffects] Recall Auto Popup Displayed',
   (time: string) => ({
     time,

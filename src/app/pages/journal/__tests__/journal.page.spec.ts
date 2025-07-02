@@ -43,7 +43,7 @@ import { StoreModel } from '@shared/models/store.model';
 import { RecallLearnMoreModalOpened } from '@store/general/safety-recall/safety-recall.actions';
 import journalSlotsDataMock from '@store/journal/__mocks__/journal-slots-data.mock';
 import * as journalActions from '@store/journal/journal.actions';
-import { JournalViewDidEnter, RecallAutoPopupDisplayed } from '@store/journal/journal.actions';
+import { JournalViewDidEnter, RecallAutoPopupDisplayedTimeChanged } from '@store/journal/journal.actions';
 import { JournalRehydrationType } from '@store/journal/journal.effects';
 import { journalReducer } from '@store/journal/journal.reducer';
 import { getRecallAutoPopupLastDisplayedTime } from '@store/journal/journal.selector';
@@ -273,21 +273,13 @@ describe('JournalPage', () => {
 
       it('sets isDisplayingLearnMoreModal to false when modal is dismissed (promise rejects)', async () => {
         component.isDisplayingLearnMoreModal = true;
-        let rejectDismiss: (reason?: any) => void;
-        const onDidDismissPromise = new Promise<void>((_, reject) => {
-          rejectDismiss = reject;
-        });
+        const onDidDismissPromise = Promise.reject();
         const mockModal = { onDidDismiss: () => onDidDismissPromise } as any;
 
         component.setUpLearnMoreModalDismissed(mockModal);
         expect(component.isDisplayingLearnMoreModal).toBeTrue();
 
-        rejectDismiss();
-        try {
-          await onDidDismissPromise;
-        } catch {}
-        // Wait for the catch handler in setUpLearnMoreModalDismissed to run
-        await Promise.resolve();
+        await onDidDismissPromise.catch(() => {});
         expect(component.isDisplayingLearnMoreModal).toBeFalse();
       });
     });
@@ -335,7 +327,7 @@ describe('JournalPage', () => {
         spyOn(component.store$, 'dispatch');
       });
 
-      it('dispatches RecallAutoPopupDisplayed and opens modal when slot has affected category, has not been conducted and not already displayed today', async () => {
+      it('dispatches RecallAutoPopupDisplayedTimeChanged and opens modal when slot has affected category, has not been conducted and not already displayed today', async () => {
         component.store$.selectSignal = jasmine.createSpy().and.callFake((selector) => {
           if (selector === getRecallAutoPopupLastDisplayedTime) return () => 'not-today';
           if (selector === getTests) return () => ({ testStatus: {} });
@@ -352,7 +344,7 @@ describe('JournalPage', () => {
 
         await component.displayAutoRecallPopup(slots);
 
-        expect(component.store$.dispatch).toHaveBeenCalledWith(RecallAutoPopupDisplayed('01/01/2024'));
+        expect(component.store$.dispatch).toHaveBeenCalledWith(RecallAutoPopupDisplayedTimeChanged('01/01/2024'));
         expect(component.openLearnMoreModal).toHaveBeenCalled();
       });
 
@@ -389,7 +381,7 @@ describe('JournalPage', () => {
           } as any,
         ]);
 
-        expect(component.store$.dispatch).not.toHaveBeenCalledWith(RecallAutoPopupDisplayed('01/01/2024'));
+        expect(component.store$.dispatch).not.toHaveBeenCalledWith(RecallAutoPopupDisplayedTimeChanged('01/01/2024'));
         expect(component.openLearnMoreModal).not.toHaveBeenCalled();
       });
 
@@ -408,7 +400,7 @@ describe('JournalPage', () => {
           } as any,
         ]);
 
-        expect(component.store$.dispatch).not.toHaveBeenCalledWith(RecallAutoPopupDisplayed('01/01/2024'));
+        expect(component.store$.dispatch).not.toHaveBeenCalledWith(RecallAutoPopupDisplayedTimeChanged('01/01/2024'));
         expect(component.openLearnMoreModal).not.toHaveBeenCalled();
       });
 
@@ -437,7 +429,7 @@ describe('JournalPage', () => {
 
         await component.displayAutoRecallPopup(slots);
 
-        expect(component.store$.dispatch).toHaveBeenCalledWith(RecallAutoPopupDisplayed('01/01/2024'));
+        expect(component.store$.dispatch).toHaveBeenCalledWith(RecallAutoPopupDisplayedTimeChanged('01/01/2024'));
         expect(component.openLearnMoreModal).toHaveBeenCalled();
       });
 
@@ -468,7 +460,7 @@ describe('JournalPage', () => {
 
         await component.displayAutoRecallPopup(slots);
 
-        expect(component.store$.dispatch).not.toHaveBeenCalledWith(RecallAutoPopupDisplayed('01/01/2024'));
+        expect(component.store$.dispatch).not.toHaveBeenCalledWith(RecallAutoPopupDisplayedTimeChanged('01/01/2024'));
         expect(component.openLearnMoreModal).not.toHaveBeenCalled();
       });
     });
