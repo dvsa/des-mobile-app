@@ -12,6 +12,7 @@ import { NavController } from '@ionic/angular';
 import { select } from '@ngrx/store';
 import { AssessmentOverallScoreChanged } from '@pages/test-report/cat-adi-part3/test-report.cat-adi-part3.actions';
 import { ADI3AssessmentProvider } from '@providers/adi3-assessment/adi3-assessment';
+import { ExitSAMProvider } from '@providers/exitSAM/exitSAM';
 import {
   CommonTestReportPageState,
   TestReportBasePageComponent,
@@ -68,9 +69,10 @@ export class TestReportCatADI3Page extends TestReportBasePageComponent implement
   constructor(
     public navController: NavController,
     public adi3AssessmentProvider: ADI3AssessmentProvider,
-    injector: Injector
+    injector: Injector,
+    exitSAMProvider: ExitSAMProvider
   ) {
-    super(injector);
+    super(injector, exitSAMProvider);
     this.form = new UntypedFormGroup({});
   }
 

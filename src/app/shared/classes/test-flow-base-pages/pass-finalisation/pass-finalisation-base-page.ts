@@ -20,6 +20,7 @@ import {
 
 import { Inject, Injector } from '@angular/core';
 import { ActivityCode, CategoryCode, GearboxCategory } from '@dvsa/mes-test-schema/categories/common';
+import { ExitSAMProvider } from '@providers/exitSAM/exitSAM';
 import { OutcomeBehaviourMapProvider } from '@providers/outcome-behaviour-map/outcome-behaviour-map';
 import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
 import { PracticeableBasePageComponent } from '@shared/classes/practiceable-base-page';
@@ -84,9 +85,10 @@ export abstract class PassFinalisationPageComponent extends PracticeableBasePage
 
   protected constructor(
     injector: Injector,
+    exitSAMProvider: ExitSAMProvider,
     @Inject(false) public loginRequired = false
   ) {
-    super(injector, loginRequired);
+    super(injector, exitSAMProvider, loginRequired);
   }
 
   onInitialisation(): void {

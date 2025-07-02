@@ -17,6 +17,7 @@ import { unsubmittedTestSlotsCount$ } from '@pages/unuploaded-tests/unuploaded-t
 import { AppConfigProvider } from '@providers/app-config/app-config';
 import { ExaminerRole, ExaminerRoleDescription } from '@providers/app-config/constants/examiner-role.constants';
 import { DateTimeProvider } from '@providers/date-time/date-time';
+import { ExitSAMProvider } from '@providers/exitSAM/exitSAM';
 import { NetworkStateProvider } from '@providers/network-state/network-state';
 import { SlotItem } from '@providers/slot-selector/slot-item';
 import { SlotProvider } from '@providers/slot/slot';
@@ -88,9 +89,10 @@ export class DashboardPage extends BasePageComponent implements OnInit, ViewDidE
     private networkStateProvider: NetworkStateProvider,
     private slotProvider: SlotProvider,
     private modalController: ModalController,
-    injector: Injector
+    injector: Injector,
+    exitSAMProvider: ExitSAMProvider
   ) {
-    super(injector);
+    super(injector, exitSAMProvider);
 
     this.todaysDate = this.dateTimeProvider.now();
     this.todaysDateFormatted = this.dateTimeProvider.now().format('dddd Do MMMM YYYY');

@@ -17,7 +17,6 @@ export class SafetyRecallComponent {
 
   async checkRecall(): Promise<void> {
     this.store$.dispatch(CheckVINPressed());
-    // Logic to check for safety recalls would go here
     await this.exitSAMProvider.disableSAMAndExitForRecalls(ExitSAMMethodUsed.VIN_CHECK);
   }
 }

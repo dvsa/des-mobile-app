@@ -7,6 +7,7 @@ import { map } from 'rxjs/operators';
 import { ClearCandidateLicenceData } from '@pages/candidate-licence/candidate-licence.actions';
 import { TestFlowPageNames } from '@pages/page-names.constants';
 import { WaitingRoomToCarValidationError } from '@pages/waiting-room-to-car/waiting-room-to-car.actions';
+import { ExitSAMProvider } from '@providers/exitSAM/exitSAM';
 import {
   CommonWaitingRoomToCarPageState,
   WaitingRoomToCarBasePageComponent,
@@ -35,8 +36,8 @@ export class WaitingRoomToCarCatAMod1Page extends WaitingRoomToCarBasePageCompon
   pageState: WaitingRoomToCarPageState;
   form: UntypedFormGroup;
 
-  constructor(injector: Injector) {
-    super(injector);
+  constructor(injector: Injector, exitSAMProvider: ExitSAMProvider) {
+    super(injector, exitSAMProvider);
     this.form = new UntypedFormGroup({});
   }
 

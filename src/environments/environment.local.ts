@@ -271,6 +271,7 @@ export const environment: LocalEnvironmentFile = {
   },
   usefulLinks: [
     {
+      id: 'example1',
       displayText: 'Useful link 1',
       url: 'https://www.example.com/useful-link-1',
     },

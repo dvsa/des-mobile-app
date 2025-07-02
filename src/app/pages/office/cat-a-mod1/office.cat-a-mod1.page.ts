@@ -6,6 +6,7 @@ import { Observable } from 'rxjs';
 import { map, withLatestFrom } from 'rxjs/operators';
 
 import { behaviourMap } from '@pages/office/office-behaviour-map.cat-a-mod1';
+import { ExitSAMProvider } from '@providers/exitSAM/exitSAM';
 import {
   CommonOfficePageState,
   OfficeBasePageComponent,
@@ -55,8 +56,8 @@ export class OfficeCatAMod1Page extends OfficeBasePageComponent implements OnIni
   pageState: OfficePageState;
   static readonly maxFaultCount: number = 5;
 
-  constructor(injector: Injector) {
-    super(injector);
+  constructor(injector: Injector, exitSAMProvider: ExitSAMProvider) {
+    super(injector, exitSAMProvider);
     this.outcomeBehaviourProvider.setBehaviourMap(behaviourMap);
   }
 

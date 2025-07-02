@@ -4,13 +4,10 @@
     <test-flow-header
       class="display-flex flex-direction-column"
       [pageName]="'test-centre-journal-page'"
-      (exitSamUsed)="onUsedExitSam()"
       [shouldShowEndTestLink]="false"
       [shouldShowEscapeFromSamButton]="pageState.enteredFromTest$ | async"
       [isExitSAMActivated]="isExitSAMBannerActivated"
       [shouldShowRefreshButton]="true"
-      (setupLeaveSubscription)="setupEscapeSAMLeaveSubscription()"
-      (setupResumeSubscription)="setupEscapeSAMResumeSubscription()"
       [refreshLastSyncTime]="pageState.lastRefreshedTime$ | async"
       (refreshButtonClicked)="getTestCentreData(true)"
       (onExitSAMActivatedChanged)="isSamActivatedChanged($event)">

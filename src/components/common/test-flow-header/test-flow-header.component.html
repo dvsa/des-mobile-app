@@ -3,7 +3,7 @@
     [pageTitle]="pageName"
     class="width-100"
     [showSpacingBanner]="!isPracticeMode"
-    (samEscaped)="disableSAMAndExit($event)"
+    (samEscaped)="disableSAMAndExit($event, isPracticeMode)"
     (escapeSamBannerClicked)="changeExitSAMValue(false)"
     (cancelClicked)="cancelButtonClicked()">
   </exit-sam-banner>
@@ -34,7 +34,6 @@
           class="height-100"
           [pageTitle]="pageName"
           [isButtonActive]="isExitSAMActivated"
-          (samEscaped)="disableSAMAndExit($event)"
           (escapeSamButtonClicked)="changeExitSAMValue($event)">
         </exit-sam-button>
       </ion-buttons>

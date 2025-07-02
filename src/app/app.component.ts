@@ -25,6 +25,7 @@ import { ExaminerRole } from '@providers/app-config/constants/examiner-role.cons
 import { AppInfoProvider } from '@providers/app-info/app-info';
 import { DataStoreProvider } from '@providers/data-store/data-store';
 import { DateTimeProvider } from '@providers/date-time/date-time';
+import { ExitSAMProvider } from '@providers/exitSAM/exitSAM';
 import { NetworkStateProvider } from '@providers/network-state/network-state';
 import { SlotProvider } from '@providers/slot/slot';
 import { LogoutBasePageComponent } from '@shared/classes/logout-base-page';
@@ -96,9 +97,10 @@ export class AppComponent extends LogoutBasePageComponent implements OnInit {
     protected appInfo: AppInfoProvider,
     protected appConfigProvider: AppConfigProvider,
     private storage: Storage,
-    injector: Injector
+    injector: Injector,
+    exitSAMProvider: ExitSAMProvider
   ) {
-    super(injector);
+    super(injector, exitSAMProvider);
   }
 
   getFilteredPages(pages: Page[]): Page[] {

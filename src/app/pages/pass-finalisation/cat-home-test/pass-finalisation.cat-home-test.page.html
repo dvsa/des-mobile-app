@@ -10,9 +10,6 @@
       [shouldShowEscapeFromSamButton]="!isRekey && !isDelegated"
       [isPracticeMode]="isEndToEndPracticeMode"
       [shouldShowEndTestLink]="false"
-      (exitSamUsed)="onUsedExitSam()"
-      (setupLeaveSubscription)="setupEscapeSAMLeaveSubscription()"
-      (setupResumeSubscription)="setupEscapeSAMResumeSubscription()"
       [isExitSAMActivated]="isExitSAMBannerActivated"
       (onExitSAMActivatedChanged)="isSamActivatedChanged($event)">
       Finalise outcome - {{pageState.candidateUntitledName$ | async}}

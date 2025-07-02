@@ -10,9 +10,6 @@
       [pageName]="'candidate-licence-page'"
       [isPracticeMode]="isEndToEndPracticeMode"
       [isExitSAMActivated]="isExitSAMBannerActivated"
-      (exitSamUsed)="onUsedExitSam()"
-      (setupLeaveSubscription)="setupEscapeSAMLeaveSubscription()"
-      (setupResumeSubscription)="setupEscapeSAMResumeSubscription()"
       (onExitSAMActivatedChanged)="isSamActivatedChanged($event)">
       DVLA licence information - {{ pageState.candidateUntitledName$ | async }}
     </test-flow-header>

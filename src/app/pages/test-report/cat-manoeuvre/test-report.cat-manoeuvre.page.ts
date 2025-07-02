@@ -4,6 +4,7 @@ import { Manoeuvre } from '@dvsa/mes-test-schema/categories/CM/partial';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { ToastController } from '@ionic/angular';
 import { select } from '@ngrx/store';
+import { ExitSAMProvider } from '@providers/exitSAM/exitSAM';
 import { TestDataByCategoryProvider } from '@providers/test-data-by-category/test-data-by-category';
 import {
   CommonTestReportPageState,
@@ -46,9 +47,10 @@ export class TestReportCatManoeuvrePage extends TestReportBasePageComponent impl
   constructor(
     private testDataByCategory: TestDataByCategoryProvider,
     private toastCtrl: ToastController,
-    injector: Injector
+    injector: Injector,
+    exitSAMProvider: ExitSAMProvider
   ) {
-    super(injector);
+    super(injector, exitSAMProvider);
     this.displayOverlay = false;
   }
 

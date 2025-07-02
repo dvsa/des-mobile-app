@@ -16,6 +16,7 @@ import { UploadRekeyModalEvent } from '@pages/rekey-reason/components/upload-rek
 import { getRekeyReasonState } from '@pages/rekey-reason/rekey-reason.reducer';
 import { getRekeySearchState } from '@pages/rekey-search/rekey-search.reducer';
 import { getBookedTestSlot } from '@pages/rekey-search/rekey-search.selector';
+import { ExitSAMProvider } from '@providers/exitSAM/exitSAM';
 import { LoadingProvider } from '@providers/loader/loader';
 import { BasePageComponent } from '@shared/classes/base-page';
 import { formatApplicationReference } from '@shared/helpers/formatters';
@@ -90,9 +91,10 @@ export class RekeyReasonPage extends BasePageComponent implements OnInit {
     public store$: Store<StoreModel>,
     private modalController: ModalController,
     private loaderService: LoadingProvider,
-    injector: Injector
+    injector: Injector,
+    exitSAMProvider: ExitSAMProvider
   ) {
-    super(injector);
+    super(injector, exitSAMProvider);
     this.formGroup = new UntypedFormGroup({});
   }
 

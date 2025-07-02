@@ -46,6 +46,7 @@ import { ErrorPage } from '@pages/error-page/error';
 import { DASHBOARD_PAGE, TestFlowPageNames } from '@pages/page-names.constants';
 import { CBT_NUMBER_CTRL } from '@pages/waiting-room/components/cbt-number/cbt-number.constants';
 import { AccessibilityService } from '@providers/accessibility/accessibility.service';
+import { ExitSAMProvider } from '@providers/exitSAM/exitSAM';
 import { isAnyOf } from '@shared/helpers/simplifiers';
 import { ErrorTypes } from '@shared/models/error-message';
 import { getTestCategory } from '@store/tests/category/category.reducer';
@@ -97,9 +98,10 @@ export class WaitingRoomPage extends PracticeableBasePageComponent implements On
     private translate: TranslateService,
     private modalController: ModalController,
     private accessibilityService: AccessibilityService,
+    exitSAMProvider: ExitSAMProvider,
     injector: Injector
   ) {
-    super(injector, false);
+    super(injector, exitSAMProvider, false);
     this.formGroup = new UntypedFormGroup({});
   }
 

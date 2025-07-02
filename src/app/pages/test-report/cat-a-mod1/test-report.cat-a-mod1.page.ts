@@ -14,6 +14,7 @@ import {
 } from '@pages/test-report/cat-a-mod1/test-report.cat-a-mod1.actions';
 import { EndTestModal } from '@pages/test-report/components/end-test-modal/end-test-modal';
 import { ModalEvent } from '@pages/test-report/test-report.constants';
+import { ExitSAMProvider } from '@providers/exitSAM/exitSAM';
 import { SpeedCheckState } from '@providers/test-report-validator/test-report-validator.constants';
 import {
   CommonTestReportPageState,
@@ -36,8 +37,8 @@ export class TestReportCatAMod1Page extends TestReportBasePageComponent implemen
   pageState: TestReportPageState;
   speedCheckState: SpeedCheckState;
 
-  constructor(injector: Injector) {
-    super(injector);
+  constructor(injector: Injector, exitSAMProvider: ExitSAMProvider) {
+    super(injector, exitSAMProvider);
     this.displayOverlay = false;
   }
 

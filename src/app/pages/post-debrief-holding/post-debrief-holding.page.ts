@@ -1,5 +1,6 @@
 import { Component, Injector, OnInit } from '@angular/core';
 import { TestFlowPageNames } from '@pages/page-names.constants';
+import { ExitSAMProvider } from '@providers/exitSAM/exitSAM';
 import { PracticeableBasePageComponent } from '@shared/classes/practiceable-base-page';
 
 @Component({
@@ -8,8 +9,8 @@ import { PracticeableBasePageComponent } from '@shared/classes/practiceable-base
   styleUrls: ['./post-debrief-holding.page.scss'],
 })
 export class PostDebriefHoldingPage extends PracticeableBasePageComponent implements OnInit {
-  constructor(injector: Injector) {
-    super(injector, false);
+  constructor(injector: Injector, exitSAMProvider: ExitSAMProvider) {
+    super(injector, exitSAMProvider, false);
   }
 
   async continueButton(): Promise<void> {

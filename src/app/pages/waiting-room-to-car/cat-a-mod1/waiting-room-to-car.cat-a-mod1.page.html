@@ -9,10 +9,7 @@
       [shouldShowEscapeFromSamButton]="!isRekey && !isDelegated"
       [isPracticeMode]="isEndToEndPracticeMode"
       [isExitSAMActivated]="isExitSAMBannerActivated"
-      (exitSamUsed)="onUsedExitSam()"
       [shouldAuthenticateOnTestEnd]="false"
-      (setupLeaveSubscription)="setupEscapeSAMLeaveSubscription()"
-      (setupResumeSubscription)="setupEscapeSAMResumeSubscription()"
       (onExitSAMActivatedChanged)="isSamActivatedChanged($event)"
       (endTestButtonClicked)="abortMOTCall(MOTAbortedMethod.END_TEST)">
       {{pageState.candidateName$ | async}}

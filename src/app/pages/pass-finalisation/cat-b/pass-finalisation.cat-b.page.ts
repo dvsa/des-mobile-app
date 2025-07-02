@@ -9,6 +9,7 @@ import {
   PassFinalisationValidationError,
   PassFinalisationViewDidEnter,
 } from '@pages/pass-finalisation/pass-finalisation.actions';
+import { ExitSAMProvider } from '@providers/exitSAM/exitSAM';
 import {
   CommonPassFinalisationPageState,
   PassFinalisationPageComponent,
@@ -47,8 +48,8 @@ export class PassFinalisationCatBPage extends PassFinalisationPageComponent impl
   niMessage: string =
     'This candidate holds a Northern Irish licence and must retain it. Do not collect ' + 'it from the candidate.';
 
-  constructor(injector: Injector) {
-    super(injector);
+  constructor(injector: Injector, exitSAMProvider: ExitSAMProvider) {
+    super(injector, exitSAMProvider);
     this.form = new UntypedFormGroup({});
     this.outcomeBehaviourProvider.setBehaviourMap(behaviourMap);
   }

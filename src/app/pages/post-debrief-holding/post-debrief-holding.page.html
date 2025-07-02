@@ -10,9 +10,6 @@
       [isPracticeMode]="isEndToEndPracticeMode"
       [isExitSAMActivated]="isExitSAMBannerActivated"
       [shouldShowEndTestLink]="false"
-      (setupLeaveSubscription)="setupEscapeSAMLeaveSubscription()"
-      (setupResumeSubscription)="setupEscapeSAMResumeSubscription()"
-      (exitSamUsed)="onUsedExitSam()"
       (onExitSAMActivatedChanged)="isSamActivatedChanged($event)">
       Post debrief screen
     </test-flow-header>

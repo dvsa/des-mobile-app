@@ -1,5 +1,6 @@
 import { Component, Injector, OnInit } from '@angular/core';
 import { CatADI2UniqueTypes } from '@dvsa/mes-test-schema/categories/ADI2';
+import { ExitSAMProvider } from '@providers/exitSAM/exitSAM';
 import {
   CommonTestReportPageState,
   TestReportBasePageComponent,
@@ -16,8 +17,8 @@ type TestReportPageState = CommonTestReportPageState;
 export class TestReportCatADI2Page extends TestReportBasePageComponent implements OnInit {
   pageState: TestReportPageState;
 
-  constructor(injector: Injector) {
-    super(injector);
+  constructor(injector: Injector, exitSAMProvider: ExitSAMProvider) {
+    super(injector, exitSAMProvider);
     this.displayOverlay = false;
   }
 

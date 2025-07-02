@@ -4,6 +4,7 @@ import { ModalController } from '@ionic/angular';
 import { OverlayEventDetail } from '@ionic/core';
 import { select } from '@ngrx/store';
 import { AccessibilityService } from '@providers/accessibility/accessibility.service';
+import { ExitSAMProvider } from '@providers/exitSAM/exitSAM';
 import { TestStatus } from '@store/tests/test-status/test-status.model';
 import { getTests } from '@store/tests/tests.reducer';
 import { getTestStatuses } from '@store/tests/tests.selector';
@@ -15,8 +16,8 @@ export abstract class LogoutBasePageComponent extends BasePageComponent {
   protected modalController = this.injector.get(ModalController);
   protected accessibilityService = this.injector.get(AccessibilityService);
 
-  protected constructor(injector: Injector) {
-    super(injector);
+  protected constructor(injector: Injector, exitSAMProvider: ExitSAMProvider) {
+    super(injector, exitSAMProvider);
   }
 
   async openLogoutModal() {

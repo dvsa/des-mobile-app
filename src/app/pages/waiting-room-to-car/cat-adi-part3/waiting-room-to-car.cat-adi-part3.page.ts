@@ -7,6 +7,7 @@ import { CategoryCode } from '@dvsa/mes-test-schema/categories/common';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { TestFlowPageNames } from '@pages/page-names.constants';
 import { WaitingRoomToCarValidationError } from '@pages/waiting-room-to-car/waiting-room-to-car.actions';
+import { ExitSAMProvider } from '@providers/exitSAM/exitSAM';
 import {
   CommonWaitingRoomToCarPageState,
   WaitingRoomToCarBasePageComponent,
@@ -54,8 +55,8 @@ export class WaitingRoomToCarCatADIPart3Page extends WaitingRoomToCarBasePageCom
   pageState: WaitingRoomToCarPageState;
   form: UntypedFormGroup;
 
-  constructor(injector: Injector) {
-    super(injector);
+  constructor(injector: Injector, exitSAMProvider: ExitSAMProvider) {
+    super(injector, exitSAMProvider);
     this.form = new UntypedFormGroup({});
   }
 

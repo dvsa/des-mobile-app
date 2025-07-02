@@ -13,6 +13,7 @@ import {
   PassFinalisationReportActivityCode,
   PassFinalisationValidationError,
 } from '@pages/pass-finalisation/pass-finalisation.actions';
+import { ExitSAMProvider } from '@providers/exitSAM/exitSAM';
 import {
   CommonPassFinalisationPageState,
   PassFinalisationPageComponent,
@@ -39,8 +40,8 @@ export class PassFinalisationCatCPCPage extends PassFinalisationPageComponent im
   merged$: Observable<string | boolean>;
   testCategory: TestCategory;
 
-  constructor(injector: Injector) {
-    super(injector);
+  constructor(injector: Injector, exitSAMProvider: ExitSAMProvider) {
+    super(injector, exitSAMProvider);
     this.form = new UntypedFormGroup({});
     this.outcomeBehaviourProvider.setBehaviourMap(behaviourMap);
   }

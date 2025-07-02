@@ -4,6 +4,7 @@ import { CatGUniqueTypes } from '@dvsa/mes-test-schema/categories/G';
 import { CatHUniqueTypes } from '@dvsa/mes-test-schema/categories/H';
 import { CatKUniqueTypes } from '@dvsa/mes-test-schema/categories/K';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
+import { ExitSAMProvider } from '@providers/exitSAM/exitSAM';
 import {
   CommonTestReportPageState,
   TestReportBasePageComponent,
@@ -26,8 +27,8 @@ type HomeCatTestDataUnion =
 export class TestReportCatHomeTestPage extends TestReportBasePageComponent implements OnInit {
   pageState: TestReportPageState;
 
-  constructor(injector: Injector) {
-    super(injector);
+  constructor(injector: Injector, exitSAMProvider: ExitSAMProvider) {
+    super(injector, exitSAMProvider);
     this.displayOverlay = false;
   }
 

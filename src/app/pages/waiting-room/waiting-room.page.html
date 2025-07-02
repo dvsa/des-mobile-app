@@ -13,9 +13,6 @@
       [isPracticeMode]="isEndToEndPracticeMode"
       [isExitSAMActivated]="isExitSAMBannerActivated"
       [shouldIncludeLanguageDirectiveOnTitle]="true"
-      (setupLeaveSubscription)="setupEscapeSAMLeaveSubscription()"
-      (setupResumeSubscription)="setupEscapeSAMResumeSubscription()"
-      (exitSamUsed)="onUsedExitSam()"
       (onExitSAMActivatedChanged)="isSamActivatedChanged($event)">
       {{ 'waitingRoom.title' | translate }} - {{ pageState.candidateUntitledName$ | async }}
     </test-flow-header>

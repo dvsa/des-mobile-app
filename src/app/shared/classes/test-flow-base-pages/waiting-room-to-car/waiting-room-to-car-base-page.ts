@@ -20,6 +20,7 @@ import {
   WaitingRoomToCarBikeCategorySelected,
   WaitingRoomToCarViewDidEnter,
 } from '@pages/waiting-room-to-car/waiting-room-to-car.actions';
+import { ExitSAMProvider } from '@providers/exitSAM/exitSAM';
 import { FaultCountProvider } from '@providers/fault-count/fault-count';
 import { MotHistory, MotStatusCodes } from '@providers/mot-history-api/mot-interfaces';
 import { NetworkStateProvider } from '@providers/network-state/network-state';
@@ -149,9 +150,10 @@ export abstract class WaitingRoomToCarBasePageComponent extends PracticeableBase
 
   protected constructor(
     public injector: Injector,
+    exitSAMProvider: ExitSAMProvider,
     @Inject(false) public loginRequired = false
   ) {
-    super(injector, loginRequired);
+    super(injector, exitSAMProvider, loginRequired);
   }
 
   onInitialisation(): void {

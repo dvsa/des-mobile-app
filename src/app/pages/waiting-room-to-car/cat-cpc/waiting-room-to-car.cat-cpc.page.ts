@@ -7,6 +7,7 @@ import { ClearCandidateLicenceData } from '@pages/candidate-licence/candidate-li
 import { TestFlowPageNames } from '@pages/page-names.constants';
 import { WaitingRoomToCarValidationError } from '@pages/waiting-room-to-car/waiting-room-to-car.actions';
 import { CPCQuestionProvider } from '@providers/cpc-questions/cpc-questions';
+import { ExitSAMProvider } from '@providers/exitSAM/exitSAM';
 import {
   CommonWaitingRoomToCarPageState,
   WaitingRoomToCarBasePageComponent,
@@ -57,9 +58,10 @@ export class WaitingRoomToCarCatCPCPage extends WaitingRoomToCarBasePageComponen
 
   constructor(
     private cpcQuestionProvider: CPCQuestionProvider,
-    injector: Injector
+    injector: Injector,
+    exitSAMProvider: ExitSAMProvider
   ) {
-    super(injector);
+    super(injector, exitSAMProvider);
     this.form = new UntypedFormGroup({});
   }
 

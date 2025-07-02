@@ -13,6 +13,7 @@ import {
 } from '@pages/health-declaration/health-declaration.actions';
 import { CONFIRM_TEST_DETAILS } from '@pages/page-names.constants';
 import { DeviceAuthenticationProvider } from '@providers/device-authentication/device-authentication';
+import { ExitSAMProvider } from '@providers/exitSAM/exitSAM';
 import { PracticeableBasePageComponent } from '@shared/classes/practiceable-base-page';
 import { isAnyOf } from '@shared/helpers/simplifiers';
 import { configureI18N } from '@shared/helpers/translation.helpers';
@@ -85,9 +86,10 @@ export class HealthDeclarationPage
     public deviceAuthenticationProvider: DeviceAuthenticationProvider,
     public translate: TranslateService,
     public modalController: ModalController,
-    injector: Injector
+    injector: Injector,
+    exitSAMProvider: ExitSAMProvider
   ) {
-    super(injector, false);
+    super(injector, exitSAMProvider, false);
     this.formGroup = new UntypedFormGroup({});
   }
 

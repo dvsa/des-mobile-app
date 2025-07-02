@@ -4,6 +4,7 @@ import { ModalController } from '@ionic/angular';
 import { DASHBOARD_PAGE } from '@pages/page-names.constants';
 import { UsefulLinksReturnToDashboardPressed } from '@pages/useful-links/useful-links.actions';
 import { AccessibilityService } from '@providers/accessibility/accessibility.service';
+import { ExitSAMProvider } from '@providers/exitSAM/exitSAM';
 import { OpenLinkProvider } from '@providers/open-link/open-link';
 import { OrientationMonitorProvider } from '@providers/orientation-monitor/orientation-monitor.provider';
 import { UrlProvider } from '@providers/url/url';
@@ -23,9 +24,10 @@ export class UsefulLinksPage extends BasePageComponent implements OnInit {
     public modalController: ModalController,
     public openLinkProvider: OpenLinkProvider,
     private urlProvider: UrlProvider,
-    injector: Injector
+    injector: Injector,
+    exitSAMProvider: ExitSAMProvider
   ) {
-    super(injector);
+    super(injector, exitSAMProvider);
   }
 
   ngOnInit() {

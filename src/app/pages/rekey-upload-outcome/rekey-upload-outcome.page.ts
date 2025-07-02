@@ -12,6 +12,7 @@ import { getRekeyReasonState } from '@pages/rekey-reason/rekey-reason.reducer';
 import { getRekeySearchState } from '@pages/rekey-search/rekey-search.reducer';
 import { getBookedTestSlot } from '@pages/rekey-search/rekey-search.selector';
 import { RekeyUploadOutcomeViewDidEnter } from '@pages/rekey-upload-outcome/rekey-upload-outcome.actions';
+import { ExitSAMProvider } from '@providers/exitSAM/exitSAM';
 import { BasePageComponent } from '@shared/classes/base-page';
 import { formatApplicationReference } from '@shared/helpers/formatters';
 import { getApplicationReference } from '@store/tests/journal-data/common/application-reference/application-reference.reducer';
@@ -37,8 +38,11 @@ export class RekeyUploadOutcomePage extends BasePageComponent implements OnInit 
   fromRekeySearch: boolean;
   subscription: Subscription = Subscription.EMPTY;
 
-  constructor(public injector: Injector) {
-    super(injector);
+  constructor(
+    public injector: Injector,
+    exitSAMProvider: ExitSAMProvider
+  ) {
+    super(injector, exitSAMProvider);
   }
 
   ngOnInit(): void {

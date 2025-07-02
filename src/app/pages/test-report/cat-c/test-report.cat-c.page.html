@@ -11,10 +11,7 @@
       [shouldShowBackButton]="isDelegated"
       [shouldShowEscapeFromSamButton]="!isRekey && !isDelegated"
       [isPracticeMode]="isEndToEndPracticeMode"
-      (exitSamUsed)="onUsedExitSam()"
       [isExitSAMActivated]="isExitSAMBannerActivated"
-      (setupLeaveSubscription)="setupEscapeSAMLeaveSubscription()"
-      (setupResumeSubscription)="setupEscapeSAMResumeSubscription()"
       (endTestButtonClicked)="onEndTestClick()"
       (onExitSAMActivatedChanged)="isSamActivatedChanged($event)">
       Test report - {{pageState.candidateUntitledName$ | async}}

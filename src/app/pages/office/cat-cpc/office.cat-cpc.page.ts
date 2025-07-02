@@ -5,6 +5,7 @@ import { select } from '@ngrx/store';
 import { behaviourMap } from '@pages/office/office-behaviour-map.cat-cpc';
 import { AppConfigProvider } from '@providers/app-config/app-config';
 import { ExaminerRole } from '@providers/app-config/constants/examiner-role.constants';
+import { ExitSAMProvider } from '@providers/exitSAM/exitSAM';
 import {
   CommonOfficePageState,
   OfficeBasePageComponent,
@@ -65,9 +66,10 @@ export class OfficeCatCPCPage extends OfficeBasePageComponent implements OnInit 
 
   constructor(
     private appConfig: AppConfigProvider,
-    injector: Injector
+    injector: Injector,
+    exitSAMProvider: ExitSAMProvider
   ) {
-    super(injector);
+    super(injector, exitSAMProvider);
     this.outcomeBehaviourProvider.setBehaviourMap(behaviourMap);
     this.activityCodeOptions = getActivityCodeOptions(this.appConfig.getAppConfig()?.role === ExaminerRole.DLG);
   }

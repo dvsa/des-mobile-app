@@ -17,6 +17,7 @@ import {
 } from '@pages/delegated-rekey-search/delegated-rekey-search.selector';
 import { ERROR_PAGE } from '@pages/page-names.constants';
 import { AccessibilityService } from '@providers/accessibility/accessibility.service';
+import { ExitSAMProvider } from '@providers/exitSAM/exitSAM';
 import { OrientationMonitorProvider } from '@providers/orientation-monitor/orientation-monitor.provider';
 import { BasePageComponent } from '@shared/classes/base-page';
 import { ErrorTypes } from '@shared/models/error-message';
@@ -57,9 +58,10 @@ export class DelegatedRekeySearchPage extends BasePageComponent implements OnIni
     public orientationMonitorProvider: OrientationMonitorProvider,
     private modalController: ModalController,
     private accessibilityService: AccessibilityService,
-    injector: Injector
+    injector: Injector,
+    exitSAMProvider: ExitSAMProvider
   ) {
-    super(injector);
+    super(injector, exitSAMProvider);
   }
 
   ngOnInit(): void {

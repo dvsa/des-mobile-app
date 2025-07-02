@@ -10,6 +10,7 @@ import { map, withLatestFrom } from 'rxjs/operators';
 import { behaviourMap } from '@pages/office/office-behaviour-map.cat-c';
 import { AppConfigProvider } from '@providers/app-config/app-config';
 import { ExaminerRole } from '@providers/app-config/constants/examiner-role.constants';
+import { ExitSAMProvider } from '@providers/exitSAM/exitSAM';
 import {
   CommonOfficePageState,
   OfficeBasePageComponent,
@@ -72,9 +73,10 @@ export class OfficeCatCPage extends OfficeBasePageComponent implements OnInit {
 
   constructor(
     private appConfig: AppConfigProvider,
-    injector: Injector
+    injector: Injector,
+    exitSAMProvider: ExitSAMProvider
   ) {
-    super(injector);
+    super(injector, exitSAMProvider);
     this.outcomeBehaviourProvider.setBehaviourMap(behaviourMap);
     this.activityCodeOptions = getActivityCodeOptions(this.appConfig.getAppConfig()?.role === ExaminerRole.DLG);
   }

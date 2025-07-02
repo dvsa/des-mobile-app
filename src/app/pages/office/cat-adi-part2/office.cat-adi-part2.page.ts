@@ -5,6 +5,7 @@ import { select } from '@ngrx/store';
 import { behaviourMap } from '@pages/office/office-behaviour-map.cat-adi-part2';
 import { AppConfigProvider } from '@providers/app-config/app-config';
 import { ExaminerRole } from '@providers/app-config/constants/examiner-role.constants';
+import { ExitSAMProvider } from '@providers/exitSAM/exitSAM';
 import { QuestionProvider } from '@providers/question/question';
 import { VehicleChecksQuestion } from '@providers/question/vehicle-checks-question.model';
 import {
@@ -82,9 +83,10 @@ export class OfficeCatADI2Page extends OfficeBasePageComponent implements OnInit
   constructor(
     private appConfig: AppConfigProvider,
     private questionProvider: QuestionProvider,
-    injector: Injector
+    injector: Injector,
+    exitSAMProvider: ExitSAMProvider
   ) {
-    super(injector);
+    super(injector, exitSAMProvider);
     this.outcomeBehaviourProvider.setBehaviourMap(behaviourMap);
     this.activityCodeOptions = getActivityCodeOptions(this.appConfig.getAppConfig()?.role === ExaminerRole.DLG);
     this.showMeQuestions = this.questionProvider.getShowMeQuestions(TestCategory.ADI2);

@@ -5,6 +5,7 @@ import { CategoryCode } from '@dvsa/mes-test-schema/categories/common';
 import { select } from '@ngrx/store';
 import { CPCEndTestModal } from '@pages/test-report/cat-cpc/components/cpc-end-test-modal/cpc-end-test-modal';
 import { CPCQuestionProvider } from '@providers/cpc-questions/cpc-questions';
+import { ExitSAMProvider } from '@providers/exitSAM/exitSAM';
 import { TestResultProvider } from '@providers/test-result/test-result';
 import {
   CommonTestReportPageState,
@@ -71,9 +72,10 @@ export class TestReportCatCPCPage extends TestReportBasePageComponent implements
   constructor(
     private cpcQuestionProvider: CPCQuestionProvider,
     private testResultProvider: TestResultProvider,
-    injector: Injector
+    injector: Injector,
+    exitSAMProvider: ExitSAMProvider
   ) {
-    super(injector);
+    super(injector, exitSAMProvider);
     this.form = new UntypedFormGroup({});
     this.displayOverlay = false;
   }

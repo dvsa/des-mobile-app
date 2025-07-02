@@ -39,6 +39,7 @@ import { Question, Question5 } from '@dvsa/mes-test-schema/categories/CPC';
 import { ViewDidEnter, ViewDidLeave } from '@ionic/angular';
 import { DASHBOARD_PAGE, TestFlowPageNames } from '@pages/page-names.constants';
 import { AccessibilityService } from '@providers/accessibility/accessibility.service';
+import { ExitSAMProvider } from '@providers/exitSAM/exitSAM';
 import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
 import { TestDataByCategoryProvider } from '@providers/test-data-by-category/test-data-by-category';
 import { isAnyOf } from '@shared/helpers/simplifiers';
@@ -130,9 +131,10 @@ export class DebriefPage extends PracticeableBasePageComponent implements OnInit
     protected routeByCategoryProvider: RouteByCategoryProvider,
     private testDataByCategoryProvider: TestDataByCategoryProvider,
     private accessibilityService: AccessibilityService,
-    injector: Injector
+    injector: Injector,
+    exitSAMProvider: ExitSAMProvider
   ) {
-    super(injector, false);
+    super(injector, exitSAMProvider, false);
   }
 
   ngOnInit(): void {

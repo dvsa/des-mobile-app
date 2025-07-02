@@ -10,8 +10,6 @@
       [isExitSAMActivated]="isExitSAMBannerActivated"
       [shouldShowEndTestLink]="false"
       (backButtonClicked)="handleBackButtonClicked()"
-      (setupLeaveSubscription)="setupEscapeSAMLeaveSubscription()"
-      (setupResumeSubscription)="setupEscapeSAMResumeSubscription()"
       (onExitSAMActivatedChanged)="isSamActivatedChanged($event)">
       Finalise outcome - {{ pageState.candidateUntitledName$ | async }}
     </test-flow-header>

@@ -1,6 +1,7 @@
 import { Component, Injector } from '@angular/core';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { select } from '@ngrx/store';
+import { ExitSAMProvider } from '@providers/exitSAM/exitSAM';
 import { QuestionProvider } from '@providers/question/question';
 import { VehicleChecksQuestion } from '@providers/question/vehicle-checks-question.model';
 import {
@@ -71,9 +72,10 @@ export class OfficeCatBPage extends OfficeBasePageComponent {
 
   constructor(
     public questionProvider: QuestionProvider,
-    injector: Injector
+    injector: Injector,
+    exitSAMProvider: ExitSAMProvider
   ) {
-    super(injector);
+    super(injector, exitSAMProvider);
     this.showMeQuestions = questionProvider.getShowMeQuestions(TestCategory.B);
     this.outcomeBehaviourProvider.setBehaviourMap(behaviourMap);
   }

@@ -22,6 +22,7 @@ import {
 } from '@pages/rekey-search/rekey-search.selector';
 import { AppConfigProvider } from '@providers/app-config/app-config';
 import { ExaminerRole } from '@providers/app-config/constants/examiner-role.constants';
+import { ExitSAMProvider } from '@providers/exitSAM/exitSAM';
 import { NetworkStateProvider } from '@providers/network-state/network-state';
 import { OrientationMonitorProvider } from '@providers/orientation-monitor/orientation-monitor.provider';
 import { BasePageComponent } from '@shared/classes/base-page';
@@ -54,9 +55,10 @@ export class RekeySearchPage extends BasePageComponent implements OnInit {
     public orientationMonitorProvider: OrientationMonitorProvider,
     private networkStateProvider: NetworkStateProvider,
     private appConfig: AppConfigProvider,
-    injector: Injector
+    injector: Injector,
+    exitSAMProvider: ExitSAMProvider
   ) {
-    super(injector);
+    super(injector, exitSAMProvider);
   }
 
   ngOnInit(): void {

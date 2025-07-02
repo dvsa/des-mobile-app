@@ -15,6 +15,7 @@ import {
 } from '@pages/communication/communication.actions';
 import { TestFlowPageNames } from '@pages/page-names.constants';
 import { DeviceAuthenticationProvider } from '@providers/device-authentication/device-authentication';
+import { ExitSAMProvider } from '@providers/exitSAM/exitSAM';
 import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
 import { PracticeableBasePageComponent } from '@shared/classes/practiceable-base-page';
 import { isAnyOf } from '@shared/helpers/simplifiers';
@@ -93,9 +94,10 @@ export class CommunicationPage extends PracticeableBasePageComponent implements 
     public routeByCat: RouteByCategoryProvider,
     public deviceAuthenticationProvider: DeviceAuthenticationProvider,
     private translate: TranslateService,
-    injector: Injector
+    injector: Injector,
+    exitSAMProvider: ExitSAMProvider
   ) {
-    super(injector, false);
+    super(injector, exitSAMProvider, false);
     this.form = new UntypedFormGroup(this.getFormValidation());
   }
 

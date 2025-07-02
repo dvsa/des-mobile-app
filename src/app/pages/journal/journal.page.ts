@@ -11,6 +11,7 @@ import { environment } from '@environments/environment';
 import { TestersEnvironmentFile } from '@environments/models/environment.model';
 import { AccessibilityService } from '@providers/accessibility/accessibility.service';
 import { DateTimeProvider } from '@providers/date-time/date-time';
+import { ExitSAMProvider } from '@providers/exitSAM/exitSAM';
 import { LoadingProvider } from '@providers/loader/loader';
 import { NetworkStateProvider } from '@providers/network-state/network-state';
 import { OrientationMonitorProvider } from '@providers/orientation-monitor/orientation-monitor.provider';
@@ -83,9 +84,10 @@ export class JournalPage extends BasePageComponent implements OnInit {
     private accessibilityService: AccessibilityService,
     private networkStateProvider: NetworkStateProvider,
     public loadingProvider: LoadingProvider,
-    injector: Injector
+    injector: Injector,
+    exitSAMProvider: ExitSAMProvider
   ) {
-    super(injector);
+    super(injector, exitSAMProvider);
 
     this.store$.dispatch(journalActions.SetSelectedDate(this.dateTimeProvider.now().format('YYYY-MM-DD')));
     this.todaysDate = this.dateTimeProvider.now();

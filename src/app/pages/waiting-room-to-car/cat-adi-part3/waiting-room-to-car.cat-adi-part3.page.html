@@ -8,11 +8,8 @@
       [pageName]="'waiting-room-to-car-page-adi3'"
       [shouldShowEscapeFromSamButton]="!isRekey && !isDelegated"
       [isPracticeMode]="isEndToEndPracticeMode"
-      (exitSamUsed)="onUsedExitSam()"
       [isExitSAMActivated]="isExitSAMBannerActivated"
       [shouldAuthenticateOnTestEnd]="false"
-      (setupLeaveSubscription)="setupEscapeSAMLeaveSubscription()"
-      (setupResumeSubscription)="setupEscapeSAMResumeSubscription()"
       (onExitSAMActivatedChanged)="isSamActivatedChanged($event)"
       (endTestButtonClicked)="abortMOTCall(MOTAbortedMethod.END_TEST)">
       {{pageState.candidateName$ | async}}

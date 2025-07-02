@@ -8,6 +8,7 @@ import { AppConfigProvider } from '@providers/app-config/app-config';
 import { AppConfigError } from '@providers/app-config/app-config.constants';
 import { AuthenticationError } from '@providers/authentication/authentication.constants';
 import { DeviceError } from '@providers/device/device.constants';
+import { ExitSAMProvider } from '@providers/exitSAM/exitSAM';
 import { LoadingProvider } from '@providers/loader/loader';
 import { NetworkStateProvider } from '@providers/network-state/network-state';
 import { LogoutBasePageComponent } from '@shared/classes/logout-base-page';
@@ -47,9 +48,10 @@ export class LoginPage extends LogoutBasePageComponent implements OnInit {
     private analytics: AnalyticsProvider,
     public networkStateProvider: NetworkStateProvider,
     public alertController: AlertController,
-    injector: Injector
+    injector: Injector,
+    exitSAMProvider: ExitSAMProvider
   ) {
-    super(injector);
+    super(injector, exitSAMProvider);
   }
 
   async ngOnInit() {

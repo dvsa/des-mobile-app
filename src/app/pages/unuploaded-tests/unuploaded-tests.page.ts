@@ -6,6 +6,7 @@ import { AppConfigProvider } from '@providers/app-config/app-config';
 import { ExaminerRoleDescription } from '@providers/app-config/constants/examiner-role.constants';
 import { DateTimeProvider } from '@providers/date-time/date-time';
 import { DeviceProvider } from '@providers/device/device';
+import { ExitSAMProvider } from '@providers/exitSAM/exitSAM';
 import { OrientationMonitorProvider } from '@providers/orientation-monitor/orientation-monitor.provider';
 import { SlotItem } from '@providers/slot-selector/slot-item';
 import { SlotProvider } from '@providers/slot/slot';
@@ -40,9 +41,10 @@ export class UnuploadedTestsPage extends BasePageComponent implements OnInit {
     private slotProvider: SlotProvider,
     private appConfigProvider: AppConfigProvider,
     public deviceProvider: DeviceProvider,
-    injector: Injector
+    injector: Injector,
+    exitSAMProvider: ExitSAMProvider
   ) {
-    super(injector);
+    super(injector, exitSAMProvider);
   }
 
   ngOnInit() {

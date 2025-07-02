@@ -8,12 +8,9 @@
       [pageName]="'waiting-room-to-car-page-b'"
       [shouldShowEscapeFromSamButton]="!isRekey && !isDelegated"
       [isPracticeMode]="isEndToEndPracticeMode"
-      (exitSamUsed)="onUsedExitSam()"
       [isExitSAMActivated]="isExitSAMBannerActivated"
       [shouldAuthenticateOnTestEnd]="false"
       (onExitSAMActivatedChanged)="isSamActivatedChanged($event)"
-      (setupLeaveSubscription)="setupEscapeSAMLeaveSubscription()"
-      (setupResumeSubscription)="setupEscapeSAMResumeSubscription()"
       (endTestButtonClicked)="abortMOTCall(MOTAbortedMethod.END_TEST)">
       {{pageState.candidateName$ | async}}
     </test-flow-header>

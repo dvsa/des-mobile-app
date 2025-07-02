@@ -9,6 +9,7 @@ import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/
 import { behaviourMap } from '@pages/office/office-behaviour-map.cat-cm';
 import { AppConfigProvider } from '@providers/app-config/app-config';
 import { ExaminerRole } from '@providers/app-config/constants/examiner-role.constants';
+import { ExitSAMProvider } from '@providers/exitSAM/exitSAM';
 import {
   CommonOfficePageState,
   OfficeBasePageComponent,
@@ -51,9 +52,10 @@ export class OfficeCatManoeuvrePage extends OfficeBasePageComponent implements O
 
   constructor(
     private appConfig: AppConfigProvider,
-    injector: Injector
+    injector: Injector,
+    exitSAMProvider: ExitSAMProvider
   ) {
-    super(injector);
+    super(injector, exitSAMProvider);
     this.outcomeBehaviourProvider.setBehaviourMap(behaviourMap);
     this.activityCodeOptions = getActivityCodeOptions(this.appConfig.getAppConfig()?.role === ExaminerRole.DLG);
   }

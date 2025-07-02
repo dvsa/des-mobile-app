@@ -6,6 +6,7 @@ import {
   PassFinalisationValidationError,
   PassFinalisationViewDidEnter,
 } from '@pages/pass-finalisation/pass-finalisation.actions';
+import { ExitSAMProvider } from '@providers/exitSAM/exitSAM';
 import {
   CommonPassFinalisationPageState,
   PassFinalisationPageComponent,
@@ -28,8 +29,8 @@ export class PassFinalisationCatADI2Page extends PassFinalisationPageComponent i
   merged$: Observable<string | boolean>;
   subscription: Subscription;
 
-  constructor(injector: Injector) {
-    super(injector);
+  constructor(injector: Injector, exitSAMProvider: ExitSAMProvider) {
+    super(injector, exitSAMProvider);
     this.form = new UntypedFormGroup({});
     this.outcomeBehaviourProvider.setBehaviourMap(behaviourMap);
   }

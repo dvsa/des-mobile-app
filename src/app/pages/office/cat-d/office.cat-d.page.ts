@@ -13,6 +13,7 @@ import { Observable, Subscription, merge } from 'rxjs';
 import { UntypedFormGroup } from '@angular/forms';
 import { CategoryCode, GearboxCategory, QuestionResult } from '@dvsa/mes-test-schema/categories/common';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
+import { ExitSAMProvider } from '@providers/exitSAM/exitSAM';
 import { CompetencyOutcome } from '@shared/models/competency-outcome';
 import { CommentSource, FaultSummary } from '@shared/models/fault-marking.model';
 import { getTestCategory } from '@store/tests/category/category.reducer';
@@ -74,9 +75,10 @@ export class OfficeCatDPage extends OfficeBasePageComponent implements OnInit {
 
   constructor(
     private appConfig: AppConfigProvider,
-    injector: Injector
+    injector: Injector,
+    exitSAMProvider: ExitSAMProvider
   ) {
-    super(injector);
+    super(injector, exitSAMProvider);
     this.outcomeBehaviourProvider.setBehaviourMap(behaviourMap);
     this.activityCodeOptions = getActivityCodeOptions(this.appConfig.getAppConfig()?.role === ExaminerRole.DLG);
   }

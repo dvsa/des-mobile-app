@@ -2,6 +2,7 @@ import { Component, Injector, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 
 import { CatBUniqueTypes } from '@dvsa/mes-test-schema/categories/B';
+import { ExitSAMProvider } from '@providers/exitSAM/exitSAM';
 import {
   CommonTestReportPageState,
   TestReportBasePageComponent,
@@ -17,8 +18,8 @@ type TestReportPageState = CommonTestReportPageState;
 export class TestReportCatBPage extends TestReportBasePageComponent implements OnInit {
   pageState: TestReportPageState;
 
-  constructor(injector: Injector) {
-    super(injector);
+  constructor(injector: Injector, exitSAMProvider: ExitSAMProvider) {
+    super(injector, exitSAMProvider);
     this.displayOverlay = false;
   }
 

@@ -11,6 +11,7 @@ import { ErrorPage } from '@pages/error-page/error';
 import { AccessibilityService } from '@providers/accessibility/accessibility.service';
 import { AppConfigProvider } from '@providers/app-config/app-config';
 import { ExaminerRole } from '@providers/app-config/constants/examiner-role.constants';
+import { ExitSAMProvider } from '@providers/exitSAM/exitSAM';
 import { NetworkStateProvider } from '@providers/network-state/network-state';
 import { SearchProvider } from '@providers/search/search';
 import { AdvancedSearchParams } from '@providers/search/search.models';
@@ -63,9 +64,10 @@ export class TestResultsSearchPage extends BasePageComponent {
     private appConfig: AppConfigProvider,
     private accessibilityService: AccessibilityService,
     private networkStateProvider: NetworkStateProvider,
-    injector: Injector
+    injector: Injector,
+    exitSAMProvider: ExitSAMProvider
   ) {
-    super(injector);
+    super(injector, exitSAMProvider);
   }
 
   ngOnInit(): void {

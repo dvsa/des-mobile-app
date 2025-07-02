@@ -18,6 +18,7 @@ import { ViewTestResultViewDidEnter } from '@pages/view-test-result/view-test-re
 import { RegeneratedEmails } from '@pages/view-test-result/view-test-result.model';
 import { ADI3AssessmentProvider } from '@providers/adi3-assessment/adi3-assessment';
 import { CompressionProvider } from '@providers/compression/compression';
+import { ExitSAMProvider } from '@providers/exitSAM/exitSAM';
 import { FaultCountProvider } from '@providers/fault-count/fault-count';
 import { FaultSummaryProvider } from '@providers/fault-summary/fault-summary';
 import { LoadingProvider } from '@providers/loader/loader';
@@ -67,9 +68,10 @@ export class ViewTestResultPage extends BasePageComponent implements OnInit {
     private faultSummaryProvider: FaultSummaryProvider,
     private ref: ChangeDetectorRef,
     public adi3AssessmentProvider: ADI3AssessmentProvider,
-    injector: Injector
+    injector: Injector,
+    exitSAMProvider: ExitSAMProvider
   ) {
-    super(injector);
+    super(injector, exitSAMProvider);
   }
 
   async ngOnInit(): Promise<void> {

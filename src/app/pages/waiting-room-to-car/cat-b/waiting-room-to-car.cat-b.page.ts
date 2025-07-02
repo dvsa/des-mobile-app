@@ -5,6 +5,7 @@ import { select } from '@ngrx/store';
 import { ClearCandidateLicenceData } from '@pages/candidate-licence/candidate-licence.actions';
 import { TestFlowPageNames } from '@pages/page-names.constants';
 import { WaitingRoomToCarValidationError } from '@pages/waiting-room-to-car/waiting-room-to-car.actions';
+import { ExitSAMProvider } from '@providers/exitSAM/exitSAM';
 import { QuestionProvider } from '@providers/question/question';
 import { VehicleChecksQuestion } from '@providers/question/vehicle-checks-question.model';
 import {
@@ -58,9 +59,10 @@ export class WaitingRoomToCarCatBPage extends WaitingRoomToCarBasePageComponent 
 
   constructor(
     private questionProvider: QuestionProvider,
-    injector: Injector
+    injector: Injector,
+    exitSAMProvider: ExitSAMProvider
   ) {
-    super(injector);
+    super(injector, exitSAMProvider);
     this.tellMeQuestions = this.questionProvider.getTellMeQuestions(TestCategory.B);
     this.form = new UntypedFormGroup({});
   }

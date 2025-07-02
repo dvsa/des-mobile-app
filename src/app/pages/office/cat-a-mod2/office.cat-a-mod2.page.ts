@@ -3,6 +3,7 @@ import { ModeOfTransport } from '@dvsa/mes-test-schema/categories/AM2';
 import { SafetyQuestionResult } from '@dvsa/mes-test-schema/categories/common';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { select } from '@ngrx/store';
+import { ExitSAMProvider } from '@providers/exitSAM/exitSAM';
 import {
   CommonOfficePageState,
   OfficeBasePageComponent,
@@ -52,8 +53,8 @@ export class OfficeCatAMod2Page extends OfficeBasePageComponent {
   pageSubscription: Subscription;
   static readonly maxFaultCount = 10;
 
-  constructor(injector: Injector) {
-    super(injector);
+  constructor(injector: Injector, exitSAMProvider: ExitSAMProvider) {
+    super(injector, exitSAMProvider);
     this.outcomeBehaviourProvider.setBehaviourMap(behaviourMap);
     this.activityCodeOptions = activityCodeModelList;
   }

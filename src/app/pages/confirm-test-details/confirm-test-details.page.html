@@ -8,10 +8,7 @@
       [shouldShowEscapeFromSamButton]="!isRekey && !isDelegated"
       [isPracticeMode]="isEndToEndPracticeMode"
       [isExitSAMActivated]="isExitSAMBannerActivated"
-      (exitSamUsed)="onUsedExitSam()"
       [shouldShowEndTestLink]="false"
-      (setupLeaveSubscription)="setupEscapeSAMLeaveSubscription()"
-      (setupResumeSubscription)="setupEscapeSAMResumeSubscription()"
       (onExitSAMActivatedChanged)="isSamActivatedChanged($event)">
       Confirm test details - {{ pageState.candidateUntitledName$ | async }}
     </test-flow-header>

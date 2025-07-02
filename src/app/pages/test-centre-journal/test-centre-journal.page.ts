@@ -7,6 +7,7 @@ import { CandidateSearchCardComponent } from '@pages/test-centre-journal/compone
 import { ViewJournalsCardComponent } from '@pages/test-centre-journal/components/view-journals-card/view-journals-card';
 import { AppConfigProvider } from '@providers/app-config/app-config';
 import { ExaminerRole } from '@providers/app-config/constants/examiner-role.constants';
+import { ExitSAMProvider } from '@providers/exitSAM/exitSAM';
 import { NetworkStateProvider } from '@providers/network-state/network-state';
 import { OrientationMonitorProvider } from '@providers/orientation-monitor/orientation-monitor.provider';
 import { TestCentreJournalProvider } from '@providers/test-centre-journal/test-centre-journal';
@@ -73,9 +74,10 @@ export class TestCentreJournalPage extends BasePageComponent implements OnDestro
     private testCentreJournalProvider: TestCentreJournalProvider,
     private loadingCtrl: LoadingController,
     private appConfig: AppConfigProvider,
-    injector: Injector
+    injector: Injector,
+    exitSAMProvider: ExitSAMProvider
   ) {
-    super(injector);
+    super(injector, exitSAMProvider);
   }
 
   ngOnInit(): void {

@@ -7,6 +7,7 @@ import { CategoryCode, QuestionResult } from '@dvsa/mes-test-schema/categories/c
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { select } from '@ngrx/store';
 import { behaviourMap } from '@pages/office/office-behaviour-map.cat-home-test';
+import { ExitSAMProvider } from '@providers/exitSAM/exitSAM';
 import {
   CommonOfficePageState,
   OfficeBasePageComponent,
@@ -59,8 +60,8 @@ export class OfficeCatHomeTestPage extends OfficeBasePageComponent implements On
   pageSubscription: Subscription;
   readonly maxFaultCount = 15;
 
-  constructor(injector: Injector) {
-    super(injector);
+  constructor(injector: Injector, exitSAMProvider: ExitSAMProvider) {
+    super(injector, exitSAMProvider);
     this.outcomeBehaviourProvider.setBehaviourMap(behaviourMap);
     this.activityCodeOptions = activityCodeModelList;
   }

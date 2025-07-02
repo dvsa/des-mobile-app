@@ -14,6 +14,7 @@ import {
 } from '@pages/back-to-office/back-to-office.actions';
 import { AsamFailureNotificationModal } from '@pages/back-to-office/components/asam-failure-notification/asam-failure-notification-modal';
 import { JOURNAL_PAGE, TestFlowPageNames } from '@pages/page-names.constants';
+import { ExitSAMProvider } from '@providers/exitSAM/exitSAM';
 import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
 import { PracticeableBasePageComponent } from '@shared/classes/practiceable-base-page';
 import { trDestroy$ } from '@shared/classes/test-flow-base-pages/test-report/test-report-base-page';
@@ -48,9 +49,10 @@ export class BackToOfficePage extends PracticeableBasePageComponent implements O
   constructor(
     public routeByCategoryProvider: RouteByCategoryProvider,
     public modalController: ModalController,
-    injector: Injector
+    injector: Injector,
+    exitSAMProvider: ExitSAMProvider
   ) {
-    super(injector, false);
+    super(injector, exitSAMProvider, false);
   }
 
   ngOnInit(): void {

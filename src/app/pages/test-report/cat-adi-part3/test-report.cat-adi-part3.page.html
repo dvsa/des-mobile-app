@@ -9,9 +9,6 @@
       [fixHeight]="true"
       [shouldShowEscapeFromSamButton]="!isRekey && !isDelegated"
       [isPracticeMode]="isEndToEndPracticeMode"
-      (exitSamUsed)="onUsedExitSam()"
-      (setupLeaveSubscription)="setupEscapeSAMLeaveSubscription()"
-      (setupResumeSubscription)="setupEscapeSAMResumeSubscription()"
       [isExitSAMActivated]="isExitSAMBannerActivated"
       (endTestButtonClicked)="onEndTestClick()"
       (onExitSAMActivatedChanged)="isSamActivatedChanged($event)">

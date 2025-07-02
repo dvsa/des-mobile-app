@@ -34,6 +34,7 @@ import { ModalEvent } from '@pages/test-report/test-report.constants';
 import { OverlayCallback } from '@pages/test-report/test-report.model';
 import { getTestReportState } from '@pages/test-report/test-report.reducer';
 import { isDangerousMode, isRemoveFaultMode, isSeriousMode } from '@pages/test-report/test-report.selector';
+import { ExitSAMProvider } from '@providers/exitSAM/exitSAM';
 import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
 import { TestReportValidatorProvider } from '@providers/test-report-validator/test-report-validator';
 import { PracticeableBasePageComponent } from '@shared/classes/practiceable-base-page';
@@ -93,9 +94,10 @@ export abstract class TestReportBasePageComponent extends PracticeableBasePageCo
 
   protected constructor(
     injector: Injector,
+    exitSAMProvider: ExitSAMProvider,
     @Inject(false) public loginRequired = false
   ) {
-    super(injector, loginRequired);
+    super(injector, exitSAMProvider, loginRequired);
   }
 
   getCallback(): OverlayCallback {

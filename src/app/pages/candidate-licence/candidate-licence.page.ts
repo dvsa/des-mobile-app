@@ -10,6 +10,7 @@ import {
 } from '@pages/candidate-licence/candidate-licence.actions';
 import { TestFlowPageNames } from '@pages/page-names.constants';
 import { CandidateLicenceErr, CandidateLicenceProvider } from '@providers/candidate-licence/candidate-licence';
+import { ExitSAMProvider } from '@providers/exitSAM/exitSAM';
 import { PracticeableBasePageComponent } from '@shared/classes/practiceable-base-page';
 import { DateTime, Duration } from '@shared/helpers/date-time';
 import { getTestCategory } from '@store/tests/category/category.reducer';
@@ -62,9 +63,10 @@ export class CandidateLicencePage extends PracticeableBasePageComponent implemen
   constructor(
     private candidateLicenceProvider: CandidateLicenceProvider,
     private domSanitizer: DomSanitizer,
-    injector: Injector
+    injector: Injector,
+    exitSAMProvider: ExitSAMProvider
   ) {
-    super(injector, false);
+    super(injector, exitSAMProvider, false);
     this.formGroup = new FormGroup({});
   }
 

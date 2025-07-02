@@ -11,11 +11,8 @@
       [shouldShowBackButton]="false"
       [shouldShowEscapeFromSamButton]="!isRekey && !isDelegated"
       [isPracticeMode]="isEndToEndPracticeMode || isPracticeMode"
-      (exitSamUsed)="onUsedExitSam()"
       [isExitSAMActivated]="isExitSAMBannerActivated"
       (endTestButtonClicked)="onEndTestClick()"
-      (setupLeaveSubscription)="setupEscapeSAMLeaveSubscription()"
-      (setupResumeSubscription)="setupEscapeSAMResumeSubscription()"
       (onExitSAMActivatedChanged)="isSamActivatedChanged($event)">
       Test report - {{pageState.candidateUntitledName$ | async}}
     </test-flow-header>

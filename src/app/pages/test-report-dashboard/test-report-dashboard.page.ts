@@ -13,6 +13,7 @@ import { Code4Modal } from '@pages/test-report/cat-adi-part3/components/code-4-m
 import { CalculateTestResult, ReturnToTest, TerminateTestFromTestReport } from '@pages/test-report/test-report.actions';
 import { ModalEvent } from '@pages/test-report/test-report.constants';
 import { ADI3AssessmentProvider } from '@providers/adi3-assessment/adi3-assessment';
+import { ExitSAMProvider } from '@providers/exitSAM/exitSAM';
 import { TestResultProvider } from '@providers/test-result/test-result';
 import {
   CommonTestReportPageState,
@@ -59,9 +60,10 @@ export class TestReportDashboardPage extends TestReportBasePageComponent impleme
   constructor(
     private testResultProvider: TestResultProvider,
     private adi3AssessmentProvider: ADI3AssessmentProvider,
-    injector: Injector
+    injector: Injector,
+    exitSAMProvider: ExitSAMProvider
   ) {
-    super(injector);
+    super(injector, exitSAMProvider);
     this.form = new UntypedFormGroup({});
   }
 

@@ -6,6 +6,7 @@ import { ModalController, NavController, ViewDidEnter, ViewDidLeave, ViewWillEnt
 import { select } from '@ngrx/store';
 import { ClearCandidateLicenceData } from '@pages/candidate-licence/candidate-licence.actions';
 import { ADI3AssessmentProvider } from '@providers/adi3-assessment/adi3-assessment';
+import { ExitSAMProvider } from '@providers/exitSAM/exitSAM';
 import { VehicleDetailsByCategoryProvider } from '@providers/vehicle-details-by-category/vehicle-details-by-category';
 import { PracticeableBasePageComponent } from '@shared/classes/practiceable-base-page';
 import { ActivityCodeModel } from '@shared/constants/activity-code/activity-code.constants';
@@ -111,9 +112,10 @@ export class ConfirmTestDetailsPage
     public vehicleDetailsProvider: VehicleDetailsByCategoryProvider,
     public adi3AssessmentProvider: ADI3AssessmentProvider,
     private modalController: ModalController,
-    injector: Injector
+    injector: Injector,
+    exitSAMProvider: ExitSAMProvider
   ) {
-    super(injector, false);
+    super(injector, exitSAMProvider, false);
   }
 
   ngOnInit(): void {

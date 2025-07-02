@@ -1,5 +1,6 @@
 import { Component, Injector, Input } from '@angular/core';
 import { ModalController } from '@ionic/angular';
+import { ExitSAMProvider } from '@providers/exitSAM/exitSAM';
 import { LogoutBasePageComponent } from '@shared/classes/logout-base-page';
 import { ErrorTypes } from '@shared/models/error-message';
 
@@ -17,9 +18,10 @@ export class ErrorPage extends LogoutBasePageComponent {
 
   constructor(
     public modalController: ModalController,
-    injector: Injector
+    injector: Injector,
+    exitSAMProvider: ExitSAMProvider
   ) {
-    super(injector);
+    super(injector, exitSAMProvider);
   }
 
   async dismiss(): Promise<void> {

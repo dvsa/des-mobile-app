@@ -11,9 +11,6 @@
       [pageName]="'communication-page-title'"
       [isPracticeMode]="isEndToEndPracticeMode"
       [isExitSAMActivated]="isExitSAMBannerActivated"
-      (exitSamUsed)="onUsedExitSam()"
-      (setupLeaveSubscription)="setupEscapeSAMLeaveSubscription()"
-      (setupResumeSubscription)="setupEscapeSAMResumeSubscription()"
       (onExitSAMActivatedChanged)="isSamActivatedChanged($event)">
       {{ 'communication.title' | translate }} - {{pageState.candidateUntitledName$ | async}}
     </test-flow-header>

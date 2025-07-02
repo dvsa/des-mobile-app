@@ -38,6 +38,7 @@ import {
   UNUPLOADED_TESTS_PAGE,
 } from '@pages/page-names.constants';
 import { DeviceProvider } from '@providers/device/device';
+import { ExitSAMProvider } from '@providers/exitSAM/exitSAM';
 import { FaultCountProvider } from '@providers/fault-count/fault-count';
 import { FaultSummaryProvider } from '@providers/fault-summary/fault-summary';
 import { OutcomeBehaviourMapProvider } from '@providers/outcome-behaviour-map/outcome-behaviour-map';
@@ -221,9 +222,10 @@ export abstract class OfficeBasePageComponent extends PracticeableBasePageCompon
 
   protected constructor(
     injector: Injector,
+    exitSAMProvider: ExitSAMProvider,
     @Inject(false) public loginRequired = false
   ) {
-    super(injector, loginRequired);
+    super(injector, exitSAMProvider, loginRequired);
     this.form = new UntypedFormGroup({});
     this.activityCodeOptions = activityCodeModelList;
     this.weatherConditions = this.weatherConditionProvider.getWeatherConditions();

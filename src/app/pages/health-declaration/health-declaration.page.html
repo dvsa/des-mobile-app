@@ -10,8 +10,6 @@
       [isPracticeMode]="isEndToEndPracticeMode"
       [isExitSAMActivated]="isExitSAMBannerActivated"
       [shouldShowEndTestLink]="false"
-      (setupLeaveSubscription)="setupEscapeSAMLeaveSubscription()"
-      (setupResumeSubscription)="setupEscapeSAMResumeSubscription()"
       (onExitSAMActivatedChanged)="isSamActivatedChanged($event)">
       {{ 'healthDeclaration.title' | translate }} - {{pageState.candidateUntitledName$ | async}}
     </test-flow-header>

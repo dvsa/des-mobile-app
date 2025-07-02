@@ -4,6 +4,7 @@ import { fakeJournalTestSlots } from '@pages/fake-journal/__mocks__/fake-journal
 import { FakeJournalDidEnter } from '@pages/fake-journal/fake-journal.actions';
 import { AccessibilityService } from '@providers/accessibility/accessibility.service';
 import { DateTimeProvider } from '@providers/date-time/date-time';
+import { ExitSAMProvider } from '@providers/exitSAM/exitSAM';
 import { OrientationMonitorProvider } from '@providers/orientation-monitor/orientation-monitor.provider';
 import { BasePageComponent } from '@shared/classes/base-page';
 import { DateTime } from '@shared/helpers/date-time';
@@ -22,9 +23,10 @@ export class FakeJournalPage extends BasePageComponent {
     private dateTimeProvider: DateTimeProvider,
     public accessibilityService: AccessibilityService,
     public orientationMonitorProvider: OrientationMonitorProvider,
-    injector: Injector
+    injector: Injector,
+    exitSAMProvider: ExitSAMProvider
   ) {
-    super(injector);
+    super(injector, exitSAMProvider);
 
     this.selectedDate = this.dateTimeProvider.now().format('YYYY-MM-DD');
     this.dateToDisplay = new DateTime().format('dddd D MMMM YYYY');

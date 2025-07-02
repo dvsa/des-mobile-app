@@ -2,6 +2,7 @@ import { Inject, Injectable, Injector, OnInit } from '@angular/core';
 import { ViewDidLeave } from '@ionic/angular';
 import { Store, select } from '@ngrx/store';
 import { FAKE_JOURNAL_PAGE } from '@pages/page-names.constants';
+import { ExitSAMProvider } from '@providers/exitSAM/exitSAM';
 import { getDelegatedTestIndicator } from '@store/tests/delegated-test/delegated-test.reducer';
 import { isDelegatedTest } from '@store/tests/delegated-test/delegated-test.selector';
 import { getRekeyIndicator } from '@store/tests/rekey/rekey.reducer';
@@ -41,9 +42,10 @@ export abstract class PracticeableBasePageComponent extends BasePageComponent im
 
   protected constructor(
     injector: Injector,
+    exitSAMProvider: ExitSAMProvider,
     @Inject(true) public loginRequired = true
   ) {
-    super(injector, loginRequired);
+    super(injector, exitSAMProvider, loginRequired);
   }
 
   ngOnInit(): void {

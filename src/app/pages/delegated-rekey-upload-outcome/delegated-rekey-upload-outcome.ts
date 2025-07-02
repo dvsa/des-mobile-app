@@ -7,6 +7,7 @@ import { map } from 'rxjs/operators';
 
 import { ViewDidEnter } from '@ionic/angular';
 import { DASHBOARD_PAGE, DELEGATED_REKEY_SEARCH_PAGE } from '@pages/page-names.constants';
+import { ExitSAMProvider } from '@providers/exitSAM/exitSAM';
 import { BasePageComponent } from '@shared/classes/base-page';
 import { TestStatus } from '@store/tests/test-status/test-status.model';
 import { SendCurrentTest } from '@store/tests/tests.actions';
@@ -28,8 +29,11 @@ interface DelegatedRekeyUploadOutcomePageState {
 export class DelegatedRekeyUploadOutcomePage extends BasePageComponent implements OnInit, ViewDidEnter {
   pageState: DelegatedRekeyUploadOutcomePageState;
 
-  constructor(public injector: Injector) {
-    super(injector);
+  constructor(
+    public injector: Injector,
+    exitSAMProvider: ExitSAMProvider
+  ) {
+    super(injector, exitSAMProvider);
   }
 
   ngOnInit(): void {

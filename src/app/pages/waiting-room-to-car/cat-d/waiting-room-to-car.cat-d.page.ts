@@ -6,6 +6,7 @@ import { select } from '@ngrx/store';
 import { ClearCandidateLicenceData } from '@pages/candidate-licence/candidate-licence.actions';
 import { TestFlowPageNames } from '@pages/page-names.constants';
 import { WaitingRoomToCarValidationError } from '@pages/waiting-room-to-car/waiting-room-to-car.actions';
+import { ExitSAMProvider } from '@providers/exitSAM/exitSAM';
 import {
   CommonWaitingRoomToCarPageState,
   WaitingRoomToCarBasePageComponent,
@@ -68,8 +69,8 @@ export class WaitingRoomToCarCatDPage extends WaitingRoomToCarBasePageComponent 
   fullLicenceHeld: boolean = null;
   submitClicked = false;
 
-  constructor(injector: Injector) {
-    super(injector);
+  constructor(injector: Injector, exitSAMProvider: ExitSAMProvider) {
+    super(injector, exitSAMProvider);
     this.form = new UntypedFormGroup({});
   }
 

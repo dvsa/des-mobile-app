@@ -13,6 +13,7 @@ import {
 } from '@pages/non-pass-finalisation/non-pass-finalisation.actions';
 import { TestFlowPageNames } from '@pages/page-names.constants';
 import { ActivityCodeFinalisationProvider } from '@providers/activity-code-finalisation/activity-code-finalisation';
+import { ExitSAMProvider } from '@providers/exitSAM/exitSAM';
 import { OutcomeBehaviourMapProvider } from '@providers/outcome-behaviour-map/outcome-behaviour-map';
 import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
 import { TestDataByCategoryProvider } from '@providers/test-data-by-category/test-data-by-category';
@@ -124,9 +125,10 @@ export class NonPassFinalisationPage extends PracticeableBasePageComponent imple
     public modalController: ModalController,
     private activatedRoute: ActivatedRoute,
     private testDataByCategoryProvider: TestDataByCategoryProvider,
-    injector: Injector
+    injector: Injector,
+    exitSAMProvider: ExitSAMProvider
   ) {
-    super(injector, false);
+    super(injector, exitSAMProvider, false);
     this.form = new UntypedFormGroup({});
     const { nonPassData } = this.activatedRoute.snapshot.data;
     const [behaviourMap, activityCodeList] = nonPassData;
