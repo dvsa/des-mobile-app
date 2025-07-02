@@ -46,6 +46,9 @@ import * as journalActions from '@store/journal/journal.actions';
 import { JournalViewDidEnter, RecallAutoPopupDisplayed } from '@store/journal/journal.actions';
 import { JournalRehydrationType } from '@store/journal/journal.effects';
 import { journalReducer } from '@store/journal/journal.reducer';
+import { getRecallAutoPopupLastDisplayedTime } from '@store/journal/journal.selector';
+import { TestStatus } from '@store/tests/test-status/test-status.model';
+import { getTests } from '@store/tests/tests.reducer';
 import { Subscription, of } from 'rxjs';
 
 describe('JournalPage', () => {
@@ -327,101 +330,146 @@ describe('JournalPage', () => {
       beforeEach(() => {
         component.todaysDate = jasmine.createSpyObj('DateTime', ['format']);
         spyOn(component.todaysDate, 'format').and.returnValue('01/01/2024');
+        component.pageState = { ...component.pageState, isSelectedDateToday$: of(true) } as any;
         spyOn(component, 'openLearnMoreModal').and.returnValue(Promise.resolve());
         spyOn(component.store$, 'dispatch');
-        component.pageState = {
-          ...component.pageState,
-          isSelectedDateToday$: of(true),
-        } as any;
-        component.store$.selectSignal = jasmine.createSpy().and.returnValue(() => 'not-today');
       });
 
-      it('displays popup and dispatches action when today and slot has affected category', async () => {
+      it('dispatches RecallAutoPopupDisplayed and opens modal when slot has affected category, has not been conducted and not already displayed today', async () => {
+        component.store$.selectSignal = jasmine.createSpy().and.callFake((selector) => {
+          if (selector === getRecallAutoPopupLastDisplayedTime) return () => 'not-today';
+          if (selector === getTests) return () => ({ testStatus: {} });
+        });
+
         const slots = [
           {
             slotData: {
-              booking: {
-                application: { testCategory: TestCategory.B },
-              },
+              slotDetail: { slotId: '1' },
+              booking: { application: { testCategory: TestCategory.B } },
             },
           } as any,
         ];
+
         await component.displayAutoRecallPopup(slots);
+
         expect(component.store$.dispatch).toHaveBeenCalledWith(RecallAutoPopupDisplayed('01/01/2024'));
         expect(component.openLearnMoreModal).toHaveBeenCalled();
       });
 
-      it('does not display popup if selected date is not today', async () => {
-        component.pageState.isSelectedDateToday$ = of(false);
-        await component.displayAutoRecallPopup([
-          {
-            slotData: {
-              booking: {
-                application: { testCategory: TestCategory.B },
-              },
-            },
-          } as any,
-        ]);
-        expect(component.store$.dispatch).not.toHaveBeenCalledWith(RecallAutoPopupDisplayed);
+      it('does not open modal if slots array is empty', async () => {
+        await component.displayAutoRecallPopup([]);
         expect(component.openLearnMoreModal).not.toHaveBeenCalled();
       });
 
-      it('does not display popup if already displayed today', async () => {
-        (component.store$.selectSignal as jasmine.Spy).and.returnValue(() => '01/01/2024');
+      it('does not open modal if selected date is not today', async () => {
+        component.pageState = { ...component.pageState, isSelectedDateToday$: of(false) } as any;
         await component.displayAutoRecallPopup([
           {
             slotData: {
-              booking: {
-                application: { testCategory: TestCategory.B },
-              },
+              slotDetail: { slotId: '1' },
+              booking: { application: { testCategory: TestCategory.B } },
             },
           } as any,
         ]);
+        expect(component.openLearnMoreModal).not.toHaveBeenCalled();
+      });
+
+      it('does not dispatch or open modal if popup already displayed today', async () => {
+        component.store$.selectSignal = jasmine.createSpy().and.callFake((selector) => {
+          if (selector === getRecallAutoPopupLastDisplayedTime) return () => '01/01/2024';
+          if (selector === getTests) return () => ({ testStatus: {} });
+        });
+
+        await component.displayAutoRecallPopup([
+          {
+            slotData: {
+              slotDetail: { slotId: '1' },
+              booking: { application: { testCategory: TestCategory.B } },
+            },
+          } as any,
+        ]);
+
         expect(component.store$.dispatch).not.toHaveBeenCalledWith(RecallAutoPopupDisplayed('01/01/2024'));
         expect(component.openLearnMoreModal).not.toHaveBeenCalled();
       });
 
-      it('does not display popup if no slots have affected categories', async () => {
+      it('does not dispatch or open modal if no slots have affected categories', async () => {
+        component.store$.selectSignal = jasmine.createSpy().and.callFake((selector) => {
+          if (selector === getRecallAutoPopupLastDisplayedTime) return () => 'not-today';
+          if (selector === getTests) return () => ({ testStatus: {} });
+        });
+
         await component.displayAutoRecallPopup([
           {
             slotData: {
-              booking: {
-                application: { testCategory: 'OTHER' },
-              },
+              slotDetail: { slotId: '1' },
+              booking: { application: { testCategory: 'OTHER' } },
             },
           } as any,
         ]);
+
         expect(component.store$.dispatch).not.toHaveBeenCalledWith(RecallAutoPopupDisplayed('01/01/2024'));
         expect(component.openLearnMoreModal).not.toHaveBeenCalled();
       });
 
-      it('does not display popup if slotData has no booking', async () => {
-        await component.displayAutoRecallPopup([{ slotData: {} } as any]);
-        expect(component.store$.dispatch).not.toHaveBeenCalledWith(RecallAutoPopupDisplayed('01/01/2024'));
-        expect(component.openLearnMoreModal).not.toHaveBeenCalled();
-      });
+      it('handles multiple slots and only displays popup if at least one is affected and incomplete', async () => {
+        component.store$.selectSignal = jasmine.createSpy().and.callFake((selector) => {
+          if (selector === getRecallAutoPopupLastDisplayedTime) return () => 'not-today';
+          if (selector === getTests)
+            return () => ({
+              testStatus: {
+                '1': undefined,
+                '2': TestStatus.Completed,
+                '3': undefined,
+              },
+            });
+        });
 
-      it('handles multiple slots and only displays popup if at least one is affected', async () => {
         const slots = [
-          { slotData: {} } as any,
           {
-            slotData: {
-              booking: {
-                application: { testCategory: TestCategory.ADI2 },
-              },
-            },
+            slotData: { slotDetail: { slotId: '1' }, booking: { application: { testCategory: TestCategory.ADI2 } } },
           } as any,
           {
-            slotData: {
-              booking: {
-                application: { testCategory: 'OTHER' },
-              },
-            },
+            slotData: { slotDetail: { slotId: '2' }, booking: { application: { testCategory: TestCategory.B } } },
           } as any,
+          { slotData: { slotDetail: { slotId: '3' }, booking: { application: { testCategory: 'OTHER' } } } } as any,
         ];
+
         await component.displayAutoRecallPopup(slots);
+
         expect(component.store$.dispatch).toHaveBeenCalledWith(RecallAutoPopupDisplayed('01/01/2024'));
         expect(component.openLearnMoreModal).toHaveBeenCalled();
+      });
+
+      it('does not display popup if all affected slots are completed, autosaved, or submitted', async () => {
+        component.store$.selectSignal = jasmine.createSpy().and.callFake((selector) => {
+          if (selector === getRecallAutoPopupLastDisplayedTime) return () => 'not-today';
+          if (selector === getTests)
+            return () => ({
+              testStatus: {
+                '1': TestStatus.Completed,
+                '2': TestStatus.Autosaved,
+                '3': TestStatus.Submitted,
+              },
+            });
+        });
+
+        const slots = [
+          {
+            slotData: { slotDetail: { slotId: '1' }, booking: { application: { testCategory: TestCategory.ADI2 } } },
+          } as any,
+          {
+            slotData: { slotDetail: { slotId: '2' }, booking: { application: { testCategory: TestCategory.B } } },
+          } as any,
+          {
+            slotData: { slotDetail: { slotId: '3' }, booking: { application: { testCategory: TestCategory.SC } } },
+          } as any,
+        ];
+
+        await component.displayAutoRecallPopup(slots);
+
+        expect(component.store$.dispatch).not.toHaveBeenCalledWith(RecallAutoPopupDisplayed('01/01/2024'));
+        expect(component.openLearnMoreModal).not.toHaveBeenCalled();
       });
     });
 
