@@ -8,7 +8,6 @@ import { IonicModule } from '@ionic/angular';
   templateUrl: './mot-status-display-text.component.html',
   styleUrls: ['./mot-status-display-text.component.scss'],
   imports: [NgIf, IonicModule],
-  standalone: true,
 })
 export class MotStatusDisplayTextComponent {
   @Input()
