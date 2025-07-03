@@ -23,7 +23,7 @@ import { UnloadTests } from '@store/tests/tests.actions';
 import { Subscription } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { AppConfigProvider } from '../app-config/app-config';
-import { DataStoreProvider } from '../data-store/data-store';
+import { DataStoreProvider, LocalStorageKey } from '../data-store/data-store';
 import { ConnectionStatus, NetworkStateProvider } from '../network-state/network-state';
 import { TestPersistenceProvider } from '../test-persistence/test-persistence';
 
