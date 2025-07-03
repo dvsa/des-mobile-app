@@ -1,5 +1,7 @@
 import { Component, Injector, OnDestroy, OnInit } from '@angular/core';
 import { UntypedFormGroup } from '@angular/forms';
+import { PluginListenerHandle } from '@capacitor/core';
+import { Keyboard, KeyboardInfo } from '@capacitor/keyboard';
 import {
   LessonPlanning,
   LessonTheme,
@@ -40,8 +42,6 @@ import { getTests } from '@store/tests/tests.reducer';
 import { getCurrentTest } from '@store/tests/tests.selector';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { Keyboard, KeyboardInfo } from '@capacitor/keyboard';
-import { PluginListenerHandle } from '@capacitor/core';
 
 interface CatADI3TestReportPageState {
   studentLevel$: Observable<StudentLevel>;
@@ -62,13 +62,13 @@ type TestReportPageState = CommonTestReportPageState & CatADI3TestReportPageStat
   styleUrls: ['./test-report.cat-adi-part3.page.scss'],
 })
 export class TestReportCatADI3Page extends TestReportBasePageComponent implements OnInit, OnDestroy {
-  private keyboardShowListener: PluginListenerHandle;
-  private keyboardHideListener: PluginListenerHandle;
+  keyboardShowListener: PluginListenerHandle;
+  keyboardHideListener: PluginListenerHandle;
   form: UntypedFormGroup;
   pageState: TestReportPageState;
   page: 'lessonTheme' | 'testReport' = null;
   showMissing = false;
-  keyboardShown: boolean = false;
+  keyboardShown = false;
 
   constructor(
     public navController: NavController,
@@ -102,12 +102,10 @@ export class TestReportCatADI3Page extends TestReportBasePageComponent implement
     this.keyboardShowListener = await Keyboard.addListener('keyboardWillShow', (info: KeyboardInfo) => {
       console.log('keyboardWillShow');
       this.keyboardShown = true;
-      // this.renderer.addClass(document.querySelector('ion-content'), 'keyboard-open');
     });
     this.keyboardHideListener = await Keyboard.addListener('keyboardWillHide', () => {
       console.log('keyboardWillHide');
       this.keyboardShown = false;
-      // this.renderer.removeClass(document.querySelector('ion-content'), 'keyboard-open');
     });
   }
 
@@ -115,7 +113,6 @@ export class TestReportCatADI3Page extends TestReportBasePageComponent implement
     if (this.keyboardShowListener) this.keyboardShowListener.remove();
     if (this.keyboardHideListener) this.keyboardHideListener.remove();
   }
-
 
   ionViewDidLeave(): void {
     super.ionViewDidLeave();

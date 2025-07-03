@@ -4,6 +4,7 @@ import { ModalControllerMock, PlatformMock } from '@mocks/index.mock';
 import { MockComponent } from 'ng-mocks';
 
 import { AppModule } from '@app/app.module';
+import { Keyboard } from '@capacitor/keyboard';
 import { PracticeModeBanner } from '@components/common/practice-mode-banner/practice-mode-banner';
 import { TestFlowHeaderComponent } from '@components/common/test-flow-header/test-flow-header.component';
 import { TestResultCatADI3Schema } from '@dvsa/mes-test-schema/categories/ADI3';
@@ -37,9 +38,8 @@ import { RiskManagementQuestionScoreChanged } from '@store/tests/test-data/cat-a
 import { TeachingLearningStrategiesQuestionScoreChanged } from '@store/tests/test-data/cat-adi-part3/teaching-learning-strategies/teaching-learning-strategies.actions';
 import { initialState } from '@store/tests/test-data/cat-b/test-data.reducer';
 import { testReportReducer } from '../../test-report.reducer';
-import { Keyboard } from '@capacitor/keyboard';
 
-fdescribe('TestReportCatADI3Page', () => {
+describe('TestReportCatADI3Page', () => {
   let fixture: ComponentFixture<TestReportCatADI3Page>;
   let component: TestReportCatADI3Page;
   let store$: Store<StoreModel>;
@@ -143,8 +143,8 @@ fdescribe('TestReportCatADI3Page', () => {
 
       it('should remove listeners on ngOnDestroy', async () => {
         await component.ngOnInit();
-        const showRemoveSpy = component['keyboardShowListener'].remove;
-        const hideRemoveSpy = component['keyboardHideListener'].remove;
+        const showRemoveSpy = component.keyboardShowListener.remove;
+        const hideRemoveSpy = component.keyboardHideListener.remove;
         component.ngOnDestroy();
         expect(showRemoveSpy).toHaveBeenCalled();
         expect(hideRemoveSpy).toHaveBeenCalled();
