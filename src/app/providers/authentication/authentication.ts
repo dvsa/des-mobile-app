@@ -293,6 +293,9 @@ export class AuthenticationProvider {
     // Clear persisted tests from the test persistence provider
     await this.testPersistenceProvider.clearPersistedTests();
 
+    // Clear persisted recall auto popup last displayed time from local storage
+    await this.dataStoreProvider.removeItem(LocalStorageKey.JOURNAL_RECALL_AUTO_DISPLAY_TIME);
+
     // Clear all reminiscent of examiner records from storage
     await this.examinerRecordsProvider.clearExaminerRecordsCache();
 
