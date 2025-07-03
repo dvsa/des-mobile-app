@@ -43,11 +43,9 @@
     >
     </profile-header>
 
-    <vehicle-recalls-banner *ngIf="!showDelegatedExaminerRekey()"></vehicle-recalls-banner>
-
     <hr />
 
-    <vehicle-recalls-banner></vehicle-recalls-banner>
+    <vehicle-recalls-banner *ngIf="!showDelegatedExaminerRekey()"></vehicle-recalls-banner>
 
     <h2 class="date des-header-style-4" id="date-field">{{ todaysDateFormatted }}</h2>
 
