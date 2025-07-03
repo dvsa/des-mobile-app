@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { ModalController } from '@ionic/angular';
+import { IonicModule, ModalController } from '@ionic/angular';
 import { Store } from '@ngrx/store';
 import { OpenLinkProvider } from '@providers/open-link/open-link';
 import { UrlProvider } from '@providers/url/url';
@@ -10,6 +10,7 @@ import { RecallLinkSelected, RecallModalClosed } from '@store/general/safety-rec
   selector: 'learn-more-modal',
   templateUrl: './learn-more-modal.html',
   styleUrls: ['./learn-more-modal.scss'],
+  imports: [IonicModule],
 })
 export class LearnMoreModal {
   constructor(
