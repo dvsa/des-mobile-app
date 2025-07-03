@@ -21,9 +21,9 @@ import { PersonalCommitmentSlotComponent } from './personal-commitment/personal-
     JournalNavigationComponent,
     PersonalCommitmentSlotComponent,
     JournalSlotComponent,
-    LearnMoreModal,
   ],
   imports: [
+    LearnMoreModal,
     CommonModule,
     IonicModule,
     TestSlotComponentsModule,
@@ -38,7 +38,6 @@ import { PersonalCommitmentSlotComponent } from './personal-commitment/personal-
     JournalNavigationComponent,
     PersonalCommitmentSlotComponent,
     JournalSlotComponent,
-    LearnMoreModal,
   ],
 })
 export class JournalComponentsModule {}
