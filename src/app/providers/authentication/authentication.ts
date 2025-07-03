@@ -23,7 +23,7 @@ import { UnloadTests } from '@store/tests/tests.actions';
 import { Subscription } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { AppConfigProvider } from '../app-config/app-config';
-import { DataStoreProvider } from '../data-store/data-store';
+import { DataStoreProvider, LocalStorageKey } from '../data-store/data-store';
 import { ConnectionStatus, NetworkStateProvider } from '../network-state/network-state';
 import { TestPersistenceProvider } from '../test-persistence/test-persistence';
 
@@ -292,6 +292,9 @@ export class AuthenticationProvider {
 
     // Clear persisted tests from the test persistence provider
     await this.testPersistenceProvider.clearPersistedTests();
+
+    // Clear persisted recall auto popup last displayed time from local storage
+    await this.dataStoreProvider.removeItem(LocalStorageKey.JOURNAL_RECALL_AUTO_DISPLAY_TIME);
 
     // Clear all reminiscent of examiner records from storage
     await this.examinerRecordsProvider.clearExaminerRecordsCache();
