@@ -12,6 +12,7 @@ export const initialState: JournalModel = {
   selectedDate: '',
   examiner: null,
   completedTests: [],
+  recallAutoPopupLastDisplayedTime: null,
 };
 
 export const journalFeatureKey = 'journal';
@@ -28,6 +29,13 @@ export const journalReducer = createReducer(
         status: 0,
         statusText: '',
       },
+    })
+  ),
+  on(
+    journalActions.RecallAutoPopupDisplayedTimeChanged,
+    (state: JournalModel, { time }): JournalModel => ({
+      ...state,
+      recallAutoPopupLastDisplayedTime: time,
     })
   ),
   on(journalActions.CandidateDetailsSeen, (state: JournalModel, { slotId }): JournalModel => {

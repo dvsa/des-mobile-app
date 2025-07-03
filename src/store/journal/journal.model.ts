@@ -20,6 +20,7 @@ export type JournalModel = {
   selectedDate: string;
   examiner: Examiner;
   completedTests: SearchResultTestSchema[];
+  recallAutoPopupLastDisplayedTime: string;
 };
 
 export interface ExaminerSlotItems {

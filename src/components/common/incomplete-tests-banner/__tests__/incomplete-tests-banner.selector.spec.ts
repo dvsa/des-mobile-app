@@ -32,6 +32,7 @@ describe('IncompleteTestsBannerSelector', () => {
   describe('getIncompleteTests', () => {
     it('should get a count of incomplete tests', () => {
       const journal: JournalModel = {
+        recallAutoPopupLastDisplayedTime: null,
         isLoading: true,
         lastRefreshed: new Date(0),
         completedTests: [],

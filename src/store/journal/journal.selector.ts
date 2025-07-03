@@ -1,9 +1,11 @@
 import { flatten, get, isNil } from 'lodash-es';
 
 import { ApplicationReference } from '@dvsa/mes-test-schema/categories/common';
+import { createSelector } from '@ngrx/store';
 import { SlotItem } from '@providers/slot-selector/slot-item';
 import { SlotProvider } from '@providers/slot/slot';
 import { DateTime, Duration } from '@shared/helpers/date-time';
+import { getJournalState } from '@store/journal/journal.reducer';
 import { JournalModel } from './journal.model';
 
 export const getSlots = (journal: JournalModel) => journal.slots;
@@ -45,6 +47,11 @@ export const getError = (journal: JournalModel) => journal.error;
 export const getIsLoading = (journal: JournalModel) => journal.isLoading;
 
 export const getLastRefreshed = (journal: JournalModel) => journal.lastRefreshed;
+
+export const getRecallAutoPopupLastDisplayedTime = createSelector(
+  getJournalState,
+  (journal): string => journal.recallAutoPopupLastDisplayedTime
+);
 
 export const getLastRefreshedTime = (date: Date) => (isNil(date) ? '--:--' : DateTime.at(date).format('hh:mma'));
 
