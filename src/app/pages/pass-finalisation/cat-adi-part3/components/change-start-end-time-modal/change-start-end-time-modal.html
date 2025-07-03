@@ -62,6 +62,8 @@
                         fill="clear"
                         class="confirm-submit-cancel-button"
                         tabindex="1"
+                        (keydown.space)="onCancel()"
+                        (keydown.enter)="onCancel()"
                         (click)="onCancel()">
                         Cancel
                     </ion-button>
@@ -72,6 +74,8 @@
                             fill="clear"
                             class="confirm-submit-continue-button"
                             tabindex="2"
+                            (keydown.space)="onConfirm()"
+                            (keydown.enter)="onConfirm()"
                             (click)="onConfirm()"
                     >
                         Confirm
