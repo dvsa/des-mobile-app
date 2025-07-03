@@ -1,5 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ModalAlertTitleComponent } from '@components/common/modal-alert-title/modal-alert-title';
+import { ModalReturnButtonComponent } from '@components/common/modal-return-button/modal-return-button';
 import { IonicModule, ModalController } from '@ionic/angular';
 import { Store, StoreModule } from '@ngrx/store';
 import * as LinkModalActions from '@pages/useful-links/components/link-modal/link-modal.actions';
@@ -19,7 +20,11 @@ describe('LinkModalComponent', () => {
     const exitSAMProviderSpy = jasmine.createSpyObj('ExitSAMProvider', ['attemptToDisableSAMForEscape']);
 
     TestBed.configureTestingModule({
-      declarations: [LinkModalComponent, MockComponent(ModalAlertTitleComponent)],
+      declarations: [
+        LinkModalComponent,
+        MockComponent(ModalReturnButtonComponent),
+        MockComponent(ModalAlertTitleComponent),
+      ],
       imports: [IonicModule, StoreModule.forRoot({})],
       providers: [
         { provide: ModalController, useValue: modalControllerSpy },

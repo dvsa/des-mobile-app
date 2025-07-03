@@ -2,6 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { Router, RouterModule } from '@angular/router';
 import { ComponentsModule } from '@components/common/common-components.module';
+import { VehicleRecallsBanner } from '@components/common/vehicle-recall-banner/vehicle-recalls-banner';
 import { AlertController, IonicModule, ModalController, Platform } from '@ionic/angular';
 import { AlertControllerMock, ModalControllerMock, PlatformMock, RouterMock } from '@mocks/index.mock';
 import { StoreModule } from '@ngrx/store';
@@ -47,6 +48,7 @@ import {
 } from '@store/app-info/app-info.selectors';
 import { LoadJournalSilent } from '@store/journal/journal.actions';
 import { DeletePracticeModeTests } from '@store/tests/tests.actions';
+import { MockComponent } from 'ng-mocks';
 import { Subscription, of } from 'rxjs';
 import { DashboardComponentsModule } from '../components/dashboard-components.module';
 import { DashboardPageRoutingModule } from '../dashboard-routing.module';
@@ -74,7 +76,7 @@ describe('DashboardPage', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [DashboardPage],
+      declarations: [DashboardPage, MockComponent(VehicleRecallsBanner)],
       imports: [
         RouterModule.forRoot([
           {

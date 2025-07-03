@@ -2,8 +2,10 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule, UntypedFormGroup } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { AppModule } from '@app/app.module';
+import { CharacterCountDirective } from '@directives/character-count.directive';
 import { IonicModule } from '@ionic/angular';
 import { CharacterCountService } from '@providers/character-count/character-count.service';
+import { MockDirective } from 'ng-mocks';
 import { OtherReasonComponent } from '../other-reason';
 
 describe('OtherReasonComponent', () => {
@@ -13,7 +15,7 @@ describe('OtherReasonComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [OtherReasonComponent],
+      declarations: [OtherReasonComponent, MockDirective(CharacterCountDirective)],
       imports: [IonicModule, AppModule, ReactiveFormsModule],
       providers: [{ providers: CharacterCountService, useValue: CharacterCountService }],
     });
