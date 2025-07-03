@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 
+import { ReactiveFormsModule } from '@angular/forms';
 import { ModalAlertTitleComponent } from '@components/common/modal-alert-title/modal-alert-title';
 import { ModalEvent } from '@pages/test-report/test-report.constants';
 import { MockComponent } from 'ng-mocks';
@@ -13,7 +14,7 @@ describe('PracticeModeMOTModal', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [PracticeModeMOTModal, MockComponent(ModalAlertTitleComponent)],
-      imports: [IonicModule.forRoot()],
+      imports: [IonicModule.forRoot(), ReactiveFormsModule],
     }).compileComponents();
 
     fixture = TestBed.createComponent(PracticeModeMOTModal);

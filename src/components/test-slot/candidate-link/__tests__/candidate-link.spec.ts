@@ -33,7 +33,29 @@ describe('CandidateLinkComponent', () => {
       vehicleTypeCode: '',
       vehicleSlotTypeCode: 0,
       testCentre: {},
-      booking: {},
+      booking: {
+        candidate: {
+          candidateId: 12345,
+          candidateName: {
+            title: 'Mr',
+            firstName: 'Test',
+            lastName: 'Candidate',
+          },
+          candidateAddress: {
+            addressLine1: '123 Test Street',
+            addressLine2: 'Test Town',
+            addressLine3: 'Test County',
+            postcode: 'TE1 2ST',
+          },
+          primaryTelephone: '01234567890',
+        },
+        application: {
+          applicationId: 1,
+          bookingSequence: 1,
+          checkDigit: 1,
+          specialNeeds: 'test',
+        },
+      },
       examinerVisiting: false,
     };
   });

@@ -16,6 +16,7 @@ import { ShowMeQuestionsCatADI2Component } from '@pages/office/cat-adi-part2/com
 import { VehicleChecksOfficeCardCatADI2Component } from '@pages/office/cat-adi-part2/components/vehicle-checks/vehicle-checks-office-card';
 import { DrivingFaultsComponent } from '@pages/office/components/driving-faults/driving-faults.component';
 import { OfficeFooterComponent } from '@pages/office/components/office-footer/office-footer.component';
+import { OfficeRegistrationAndMotComponent } from '@pages/office/components/office-registration-and-mot/office-registration-and-mot.component';
 import { TrueLikenessComponent } from '@pages/office/components/true-likeness/true-likeness';
 import { AccompanimentCardComponent } from '@pages/waiting-room-to-car/components/accompaniment-card/accompaniment-card';
 import { AccompanimentComponent } from '@pages/waiting-room-to-car/components/accompaniment/accompaniment';
@@ -97,6 +98,7 @@ describe('OfficeCatADI2Page', () => {
         MockComponent(DateOfTest),
         MockComponent(TrueLikenessComponent),
         MockComponent(AccompanimentCardComponent),
+        MockComponent(OfficeRegistrationAndMotComponent),
         MockComponent(AccompanimentComponent),
         MockComponent(ShowMeQuestionsCatADI2Component),
         MockComponent(VehicleChecksOfficeCardCatADI2Component),

@@ -17,6 +17,7 @@ import { FaultCommentCardComponent } from '@pages/office/components/fault-commen
 import { IdentificationComponent } from '@pages/office/components/identification/identification';
 import { IndependentDrivingComponent } from '@pages/office/components/independent-driving/independent-driving';
 import { OfficeFooterComponent } from '@pages/office/components/office-footer/office-footer.component';
+import { OfficeRegistrationAndMotComponent } from '@pages/office/components/office-registration-and-mot/office-registration-and-mot.component';
 import { RouteNumberComponent } from '@pages/office/components/route-number/route-number';
 import { ShowMeQuestionComponent } from '@pages/office/components/show-me-question/show-me-question';
 import { TrueLikenessComponent } from '@pages/office/components/true-likeness/true-likeness';
@@ -85,6 +86,7 @@ describe('OfficeCatHomeTestPage', () => {
         MockComponent(FaultCommentCardComponent),
         MockComponent(CandidateSectionComponent),
         MockComponent(DateOfTest),
+        MockComponent(OfficeRegistrationAndMotComponent),
         MockComponent(VehicleChecksOfficeCardComponent),
         MockComponent(TrueLikenessComponent),
         MockComponent(AccompanimentCardComponent),

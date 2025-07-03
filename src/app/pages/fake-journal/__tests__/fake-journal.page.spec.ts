@@ -6,6 +6,7 @@ import { MockComponent } from 'ng-mocks';
 
 import { Style } from '@capacitor/status-bar';
 import { PracticeModeBanner } from '@components/common/practice-mode-banner/practice-mode-banner';
+import { VehicleRecallsBanner } from '@components/common/vehicle-recall-banner/vehicle-recalls-banner';
 import { LocationComponent } from '@components/test-slot/location/location';
 import { TestSlotComponent } from '@components/test-slot/test-slot/test-slot';
 import { Store } from '@ngrx/store';
@@ -37,6 +38,7 @@ describe('FakeJournalPage', () => {
       declarations: [
         FakeJournalPage,
         MockComponent(PracticeModeBanner),
+        MockComponent(VehicleRecallsBanner),
         MockComponent(LocationComponent),
         MockComponent(TestSlotComponent),
         MockComponent(JournalNavigationComponent),
