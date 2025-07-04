@@ -4,7 +4,7 @@
   @extend .modal-alert-wrapper;
 
   .modal-alert {
-    width: 400px;
+    width: 525px;
   }
 
   .modal-alert-message {
@@ -23,5 +23,9 @@
   .confirm-submit-continue-button {
     color: var(--gds-black);
     font-weight: bold;
+  }
+
+  .spaced-row {
+    margin-top: 1rem;
   }
 }
