@@ -52,6 +52,7 @@ describe('JournalSelector', () => {
   });
 
   const state: JournalModel = {
+    recallAutoPopupLastDisplayedTime: null,
     isLoading: true,
     lastRefreshed: new Date(0),
     slots: {
@@ -122,6 +123,7 @@ describe('JournalSelector', () => {
 
     it('should return true if there are any next days', () => {
       const journal: JournalModel = {
+        recallAutoPopupLastDisplayedTime: null,
         isLoading: true,
         lastRefreshed: new Date(0),
         slots: {
@@ -155,6 +157,7 @@ describe('JournalSelector', () => {
 
     it('should return true if the current selected date is in the past', () => {
       const journal: JournalModel = {
+        recallAutoPopupLastDisplayedTime: null,
         isLoading: true,
         lastRefreshed: new Date(0),
         slots: {
@@ -188,6 +191,7 @@ describe('JournalSelector', () => {
 
     it('should return false if the current selected date is not a weekend and in the future', () => {
       const journal: JournalModel = {
+        recallAutoPopupLastDisplayedTime: null,
         isLoading: true,
         lastRefreshed: new Date(0),
         slots: {
@@ -223,6 +227,7 @@ describe('JournalSelector', () => {
   describe('canNavigateToPreviousDay', () => {
     it('should return false if selected day is 14 days from today', () => {
       const journal: JournalModel = {
+        recallAutoPopupLastDisplayedTime: null,
         isLoading: true,
         lastRefreshed: new Date(0),
         slots: {
@@ -249,6 +254,7 @@ describe('JournalSelector', () => {
 
     it('should return true if selected day is not today and we have days to go to', () => {
       const journal: JournalModel = {
+        recallAutoPopupLastDisplayedTime: null,
         isLoading: true,
         lastRefreshed: new Date(0),
         slots: {
@@ -284,6 +290,7 @@ describe('JournalSelector', () => {
   describe('getPermittedSlotIdsBeforeToday', () => {
     it('should select the startable test slots from the state', () => {
       const journal: JournalModel = {
+        recallAutoPopupLastDisplayedTime: null,
         isLoading: true,
         lastRefreshed: new Date(0),
         slots: {

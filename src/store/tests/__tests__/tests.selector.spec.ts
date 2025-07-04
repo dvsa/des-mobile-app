@@ -70,6 +70,7 @@ describe('testsSelector', () => {
           individualId: 456,
         },
         completedTests: [],
+        recallAutoPopupLastDisplayedTime: null,
       };
       const appInfo = {
         versionNumber: '0.0.0',
