@@ -147,6 +147,15 @@
             >
             </accompaniment-card>
 
+            <vehicle-details-card
+              [formGroup]="form"
+              [schoolVehicleDetails]="pageState.schoolCar$ | async"
+              [dualVehicleDetails]="pageState.dualControls$ | async"
+              (schoolVehicleDetailsChange)="schoolCarToggled()"
+              (dualVehicleDetailsChange)="dualControlsToggled()"
+            >
+            </vehicle-details-card>
+
             <office-registration-and-mot
               [registrationNumber]="pageState.registrationNumber$ | async"
               [previousVRNs]="pageState.previouslySearchedVRNs$ | async"
