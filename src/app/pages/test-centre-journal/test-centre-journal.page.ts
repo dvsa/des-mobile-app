@@ -131,7 +131,7 @@ export class TestCentreJournalPage extends BasePageComponent implements OnDestro
       return;
     }
 
-    const loading: HTMLIonLoadingElement = await this.loadingCtrl.create({ spinner: 'circles' });
+    const loading: HTMLIonLoadingElement = await this.loadingCtrl.create({ spinner: 'circles', id: 'loading-spinner' });
     await loading.present();
 
     // Clause acts as a page reset for LDTM's

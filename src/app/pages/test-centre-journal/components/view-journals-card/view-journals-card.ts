@@ -194,6 +194,10 @@ export class ViewJournalsCardComponent implements OnChanges {
     }
   }
 
+  transformNameForID(name: string): string {
+    return name.replace(/\s/g, '-').toLowerCase();
+  }
+
   get dayLabel(): string {
     return this.isSelectedDateToday() ? Day.TODAY : Day.TOMORROW;
   }
