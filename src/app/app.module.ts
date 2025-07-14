@@ -71,7 +71,6 @@ import { ExitSingleAppModeEffects } from '@components/common/test-flow-header/ex
 import { ExitSAMProvider } from '@providers/exitSAM/exitSAM';
 import { SafetyRecallStoreModule } from '@store/general/safety-recall/safety-recall-store.module';
 
-import { EffectImportModule } from '@app/effects.module';
 import { ExaminerRecordsComponentsModule } from '@pages/examiner-records/components/examiner-records-components.module';
 import { CompressionProvider } from '@providers/compression/compression';
 import { ExaminerRecordsProvider } from '@providers/examiner-records/examiner-records';
@@ -149,7 +148,6 @@ const storageDriver = Capacitor.getPlatform() === 'web' ? Drivers.IndexedDB : Co
     }),
     StoreModule.forRoot(reducers, { metaReducers }),
     EffectsModule.forRoot(),
-    EffectImportModule,
     EffectsModule.forFeature([ExitSingleAppModeEffects]),
     SafetyRecallStoreModule,
     ...(enableDevTools ? [StoreDevtoolsModule.instrument()] : []),
