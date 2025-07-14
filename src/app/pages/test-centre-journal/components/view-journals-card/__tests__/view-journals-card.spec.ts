@@ -248,6 +248,15 @@ describe('ViewJournalsCardComponent', () => {
       expect(component.shouldShowBanner()).toEqual(false);
     });
   });
+  describe('transformNameForID', () => {
+    it('should replace spaces with hyphens and convert to lowercase', () => {
+      expect(component.transformNameForID('John Doe')).toBe('john-doe');
+    });
+
+    it('should handle multiple spaces', () => {
+      expect(component.transformNameForID('Jane   Smith')).toBe('jane-smith');
+    });
+  });
   describe('dayLabel', () => {
     it('should return today when is isSelectedDateToday', () => {
       spyOn(component, 'isSelectedDateToday').and.returnValue(true);

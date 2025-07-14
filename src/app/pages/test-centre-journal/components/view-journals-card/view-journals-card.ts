@@ -194,6 +194,14 @@ export class ViewJournalsCardComponent implements OnChanges {
     }
   }
 
+  /**
+   * Transforms a name into a format suitable for use as an ID.
+   * @param name
+   */
+  transformNameForID(name: string): string {
+    return name.replace(/\s+/g, '-').toLowerCase();
+  }
+
   get dayLabel(): string {
     return this.isSelectedDateToday() ? Day.TODAY : Day.TOMORROW;
   }

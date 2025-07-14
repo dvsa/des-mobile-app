@@ -55,7 +55,7 @@
     </ion-col>
 
     <ion-col [size]="isAdvancedSearch ? 30 : 10" *ngIf="model && differentDisplay">
-      <ion-button (click)="openModal()" class="changeButton" size="small"> Change </ion-button>
+      <ion-button (click)="openModal()" class="changeButton" size="small" id="change-tc-button"> Change </ion-button>
       <!--Button to clear the input entirely only appears if the user is on advanced search-->
       <ion-button *ngIf="isAdvancedSearch" (click)="clearInput()" class="changeButton" size="small"> Clear </ion-button>
     </ion-col>

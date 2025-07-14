@@ -29,7 +29,7 @@
   <ng-template #noError>
     <div class="search-inputs" *ngIf="isLDTM || testCentreResults">
       <tabs (tabChanged)="tabChanged($event?.title)">
-        <tab [tabTitle]="'Candidate search'">
+        <tab [tabTitle]="'Candidate search'" id="candidate-search-tab">
           <candidate-search-card
             #candidateSearchCard
             [testCentreName]="testCentreNames"
@@ -42,7 +42,7 @@
           >
           </candidate-search-card>
         </tab>
-        <tab [tabTitle]="'View journals'" id="view-journals-tab-title">
+        <tab [tabTitle]="'View journals'" id="view-journals-tab">
           <view-journals-card
             #viewJournalsCard
             [testCentreName]="testCentreNames"
