@@ -206,30 +206,27 @@ export class TimePickerComponent {
     }
   }
 
-  async focusHourInput(shouldErase: boolean, shouldStartAtEnd = false) {
-    // Set focus on the hour input box and optionally erase its value
-    this.hourInputBox.setFocus().then(async () => {
+  async setfocusOnInputBox(inputField: IonInput, shouldErase: boolean, shouldStartAtEnd = false) {
+    // Set focus on the specified input box and optionally erase its value
+    inputField.setFocus().then(async () => {
       if (shouldErase) {
-        this.hourInputBox.value = '';
+        inputField.value = '';
       } else {
-        const selectionPosition = shouldStartAtEnd ? (await this.minuteInputBox.getInputElement()).value.length : 0;
-        // If not erasing, set the selection range to the start of the input
-        (await this.hourInputBox.getInputElement()).setSelectionRange(selectionPosition, selectionPosition);
+        const selectionPosition = shouldStartAtEnd ? (await inputField.getInputElement()).value.length : 0;
+        // If not erasing, set the selection range to the end of the input
+        (await inputField.getInputElement()).setSelectionRange(selectionPosition, selectionPosition);
       }
     });
   }
 
+  async focusHourInput(shouldErase: boolean, shouldStartAtEnd = false) {
+    // Set focus on the hour input box and optionally erase its value
+    await this.setfocusOnInputBox(this.hourInputBox, shouldErase, shouldStartAtEnd);
+  }
+
   async focusMinuteInput(shouldErase: boolean, shouldStartAtEnd = false) {
     // Set focus on the minute input box and optionally erase its value
-    this.minuteInputBox.setFocus().then(async () => {
-      if (shouldErase) {
-        this.minuteInputBox.value = '';
-      } else {
-        const selectionPosition = shouldStartAtEnd ? (await this.minuteInputBox.getInputElement()).value.length : 0;
-        // If not erasing, set the selection range to the start of the input
-        (await this.minuteInputBox.getInputElement()).setSelectionRange(selectionPosition, selectionPosition);
-      }
-    });
+    await this.setfocusOnInputBox(this.minuteInputBox, shouldErase, shouldStartAtEnd);
   }
 
   minuteBoxInputted($event: CustomEvent) {

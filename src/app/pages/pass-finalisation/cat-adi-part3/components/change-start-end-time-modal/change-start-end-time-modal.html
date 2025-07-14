@@ -51,6 +51,10 @@
         </ion-col>
         <ion-col size="8"></ion-col>
     </ion-row>
+  <ion-row *ngIf="invalid()" class="validation-message-row ion-align-items-center">
+    {{startTime}} - {{endTime}} - {{invalid()}}
+    <div class="validation-text" id="circuit-validation-text" [class.ng-invalid]="invalid">Select the circuit</div>
+  </ion-row>
     <ion-row class="padding-top-40"></ion-row>
     <ion-row>
         <ion-col class="column-border-top ion-no-padding">

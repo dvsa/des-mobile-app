@@ -1,6 +1,7 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
 import { TimePickerComponent } from '@components/common/time-picker/time-picker.component';
 import { ModalController } from '@ionic/angular';
+import { DateTime } from '@shared/helpers/date-time';
 
 @Component({
   selector: 'change-start-start-end-time-modal',
@@ -31,6 +32,11 @@ export class ChangeStartEndTimeModal {
 
   async changeFocusToStartTime(shouldErase: boolean) {
     await this.startTimePicker.focusMinuteInput(shouldErase, true);
+  }
+
+  // invalid = () => new DateTime(this.startTime) == new DateTime(this.endTime);
+  invalid() {
+    return new DateTime(this.startTime) > new DateTime(this.endTime);
   }
 
   changeFocusToButtons() {
