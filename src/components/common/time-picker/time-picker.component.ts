@@ -206,7 +206,7 @@ export class TimePickerComponent {
     }
   }
 
-  async setfocusOnInputBox(inputField: IonInput, shouldErase: boolean, shouldStartAtEnd = false) {
+  async setFocusOnInputBox(inputField: IonInput, shouldErase: boolean, shouldStartAtEnd = false) {
     // Set focus on the specified input box and optionally erase its value
     inputField.setFocus().then(async () => {
       if (shouldErase) {
@@ -221,12 +221,12 @@ export class TimePickerComponent {
 
   async focusHourInput(shouldErase: boolean, shouldStartAtEnd = false) {
     // Set focus on the hour input box and optionally erase its value
-    await this.setfocusOnInputBox(this.hourInputBox, shouldErase, shouldStartAtEnd);
+    await this.setFocusOnInputBox(this.hourInputBox, shouldErase, shouldStartAtEnd);
   }
 
   async focusMinuteInput(shouldErase: boolean, shouldStartAtEnd = false) {
     // Set focus on the minute input box and optionally erase its value
-    await this.setfocusOnInputBox(this.minuteInputBox, shouldErase, shouldStartAtEnd);
+    await this.setFocusOnInputBox(this.minuteInputBox, shouldErase, shouldStartAtEnd);
   }
 
   minuteBoxInputted($event: CustomEvent) {
