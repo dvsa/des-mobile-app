@@ -34,7 +34,10 @@ export class ChangeStartEndTimeModal {
     await this.startTimePicker.focusMinuteInput(shouldErase, true);
   }
 
-  // invalid = () => new DateTime(this.startTime) == new DateTime(this.endTime);
+  async loopFocusToStartTime() {
+    await this.startTimePicker.focusHourInput(false, true);
+  }
+
   invalid() {
     return new DateTime(this.startTime) > new DateTime(this.endTime);
   }

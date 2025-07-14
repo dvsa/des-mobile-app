@@ -67,12 +67,10 @@ export class TimePickerComponent {
 
   ngOnChanges(changes: SimpleChanges) {
     // Handle changes to the initial value, minTime, or maxTime
-    if (changes) {
-      if (changes.initialValue) {
-        this.interpretTime(changes.initialValue.currentValue);
-      } else if (changes.minTime || changes.maxTime) {
-        this.inputChanged();
-      }
+    if (changes?.initialValue) {
+      this.interpretTime(changes.initialValue.currentValue);
+    } else if (changes?.minTime || changes?.maxTime) {
+      this.inputChanged();
     }
   }
 
