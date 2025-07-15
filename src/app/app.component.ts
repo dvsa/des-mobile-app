@@ -3,7 +3,6 @@ import { map } from 'rxjs/operators';
 
 import { Style } from '@capacitor/status-bar';
 import { MenuController } from '@ionic/angular';
-import { Storage } from '@ionic/storage-angular';
 import { TranslateService } from '@ngx-translate/core';
 import * as SentryAngular from '@sentry/angular';
 import * as Sentry from '@sentry/capacitor';
@@ -95,7 +94,6 @@ export class AppComponent extends LogoutBasePageComponent implements OnInit {
     protected translate: TranslateService,
     protected appInfo: AppInfoProvider,
     protected appConfigProvider: AppConfigProvider,
-    private storage: Storage,
     injector: Injector
   ) {
     super(injector);
@@ -112,7 +110,7 @@ export class AppComponent extends LogoutBasePageComponent implements OnInit {
   async ngOnInit() {
     try {
       await this.platform.ready();
-      await this.storage.create();
+      await this.dataStore.initDataStore();
       if (this.platform.is('cordova')) {
         await this.deviceProvider.disableSingleAppMode();
       }
@@ -121,7 +119,6 @@ export class AppComponent extends LogoutBasePageComponent implements OnInit {
       this.initialiseNetworkState();
       this.initialiseAuthentication();
 
-      await this.initialisePersistentStorage();
       this.store$.dispatch(LoadAppVersion());
       await this.accessibilityService.configureStatusBar(Style.Dark);
       this.configureLocale();
@@ -160,22 +157,6 @@ export class AppComponent extends LogoutBasePageComponent implements OnInit {
   public initialiseNetworkState = (): void => {
     this.networkStateProvider.initialiseNetworkState();
   };
-
-  async initialisePersistentStorage(): Promise<void> {
-    if (this.isIos()) {
-      try {
-        // if already been done, no need to create container again or run the migrate method
-        if (await this.dataStore.hasStorageBeenMigrated()) return;
-        // if not done, create as normal
-        await this.dataStore.createContainer();
-        // once the container exists, if there's any data in the old storage, migrate it to the new one
-        await this.dataStore.migrateAllKeys();
-        return await Promise.resolve();
-      } catch (err) {
-        return Promise.reject(err);
-      }
-    }
-  }
 
   configurePlatformSubscriptions(): void {
     const merged$ = merge(
