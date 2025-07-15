@@ -6,6 +6,9 @@ on:
       - develop
       - 'release-**'
 
+permissions:
+  contents: read
+
 env:
   CI: true
   DES_IONIC_CONFIG_JSON: ${{ secrets.DES_IONIC_CONFIG_JSON }}
