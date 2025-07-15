@@ -98,3 +98,12 @@ jobs:
 
       - name: 🧪️ Execute unit tests
         run: npm run test
+
+  sonar-scan:
+    name: 📡 SonarQube Scan
+    if: github.base_ref == 'develop'
+    uses: dvsa/des-workflow-actions/.github/workflows/sonarqube-scan.yaml@main
+    with:
+      test-script-name: 'test'
+      lcov-report-paths: 'coverage/ngv/lcov.info'
+    secrets: inherit
