@@ -19,9 +19,13 @@
         maxlength="2"
         numbersOnly
         inputmode="numeric"
-        keyboardInputListener
-        (keypressDownRegistered)="saveCurrentFocusPosition(hourInput)"
-        (keypressUpRegistered)="handleKeyPress($event, TimeUnits.HOUR, hourInput)"
+        (keydown.tab)="tabPressed(TimeUnits.HOUR)"
+        (keydown.arrowLeft)="saveCurrentFocusPosition(hourInput)"
+        (keydown.arrowRight)="saveCurrentFocusPosition(hourInput)"
+        (keyup.arrowRight)="horizontalArrowPressed(KeyCodes.RIGHT, TimeUnits.HOUR, hourInput)"
+        (keyup.arrowLeft)="horizontalArrowPressed(KeyCodes.LEFT, TimeUnits.HOUR, hourInput)"
+        (keyup.arrowDown)="verticalArrowPressed(KeyCodes.DOWN, TimeUnits.HOUR)"
+        (keyup.arrowUp)="verticalArrowPressed(KeyCodes.UP, TimeUnits.HOUR)"
         id="time-picker-hour-input"
         type="text"
         class="ion-input-styling input-width">
@@ -59,9 +63,13 @@
         inputmode="numeric"
         maxlength="2"
         numbersOnly
-        keyboardInputListener
-        (keypressDownRegistered)="saveCurrentFocusPosition(minuteInput)"
-        (keypressUpRegistered)="handleKeyPress($event, TimeUnits.MINUTE, minuteInput)"
+        (keydown.tab)="tabPressed(TimeUnits.MINUTE)"
+        (keydown.arrowLeft)="saveCurrentFocusPosition(minuteInput)"
+        (keydown.arrowRight)="saveCurrentFocusPosition(minuteInput)"
+        (keyup.arrowRight)="horizontalArrowPressed(KeyCodes.RIGHT, TimeUnits.MINUTE, minuteInput)"
+        (keyup.arrowLeft)="horizontalArrowPressed(KeyCodes.LEFT, TimeUnits.MINUTE, minuteInput)"
+        (keyup.arrowDown)="verticalArrowPressed(KeyCodes.DOWN, TimeUnits.MINUTE)"
+        (keyup.arrowUp)="verticalArrowPressed(KeyCodes.UP, TimeUnits.MINUTE)"
         type="text"
         id="time-picker-minute-input"
         class="ion-input-styling input-width">

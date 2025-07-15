@@ -239,72 +239,62 @@ export class TimePickerComponent {
     this.savedFocusPosition = (await inputField.getInputElement()).selectionStart;
   }
 
-  async handleKeyPress(event: KeyboardEvent, timeUnit: TimeUnits, inputField: IonInput) {
-    const keyPressed = event.key;
-    if (keyPressed === KeyCodes.TAB) {
-      // Handle tab key to switch focus between hour and minute inputs
+  async tabPressed(timeUnit: TimeUnits) {
+    // Handle tab key to switch focus between hour and minute inputs
+    if (timeUnit === TimeUnits.HOUR) {
+      // If the hour input is focused, move focus to the minute input
+      await this.focusMinuteInput(false);
+    } else {
+      // If the minute input is focused, emit an event to indicate it has exited forward
+      this.tabPressedInMinuteBox.emit();
+    }
+    return;
+  }
+
+  async horizontalArrowPressed(keyPressed: string, timeUnit: TimeUnits, inputField: IonInput) {
+    const inputEl = await inputField.getInputElement();
+    const pos = inputEl.selectionStart;
+
+    if (keyPressed === KeyCodes.LEFT && pos === 0 && this.savedFocusPosition === pos) {
       if (timeUnit === TimeUnits.HOUR) {
-        // If the hour input is focused, move focus to the minute input
-        await this.focusMinuteInput(false);
+        this.hourBoxExitedBack.emit(false);
       } else {
-        // If the minute input is focused, emit an event to indicate it has exited forward
-        this.tabPressedInMinuteBox.emit();
+        await this.focusHourInput(false, true);
       }
       return;
     }
-    if (keyPressed === KeyCodes.LEFT || keyPressed === KeyCodes.RIGHT) {
-      // If the left arrow is pressed while the input field is focused on the beginning of the input...
-      const currentFocusPosition = (await inputField.getInputElement()).selectionStart;
-      if (keyPressed === KeyCodes.LEFT) {
-        // If the left arrow is pressed while the input field is focused on the beginning of the input and we didn't just move there...
-        if (currentFocusPosition === 0 && this.savedFocusPosition === currentFocusPosition) {
-          switch (timeUnit) {
-            case TimeUnits.HOUR:
-              // If the hour input is focused and the left arrow is pressed at the start, focus the minute input
-              this.hourBoxExitedBack.emit(false);
-              break;
-            case TimeUnits.MINUTE:
-              // If the minute input is focused and the left arrow is pressed at the start, focus the hour input
-              await this.focusHourInput(false, true);
-              break;
-          }
-        }
-        return;
+
+    if (keyPressed === KeyCodes.RIGHT && pos === inputEl.value.length && this.savedFocusPosition === pos) {
+      if (timeUnit === TimeUnits.HOUR) {
+        await this.focusMinuteInput(false);
+      } else {
+        this.minuteBoxExitedForward.emit(false);
       }
-      if (keyPressed === KeyCodes.RIGHT) {
-        // If the right arrow is pressed while the input field is focused on the end of the input and we didn't just move there...
-        if (
-          currentFocusPosition === (await inputField.getInputElement()).value.length &&
-          this.savedFocusPosition === currentFocusPosition
-        ) {
-          switch (timeUnit) {
-            case TimeUnits.HOUR:
-              // If the hour input is focused and the right arrow is pressed at the end, focus the minute input
-              await this.focusMinuteInput(false);
-              break;
-            case TimeUnits.MINUTE:
-              // If the minute input is focused and the right arrow is pressed at the end, emit an event to indicate it has exited forward
-              this.minuteBoxExitedForward.emit(false);
-              break;
-          }
-        }
-        return;
-      }
-    }
-    if (keyPressed === KeyCodes.UP || keyPressed === KeyCodes.DOWN) {
-      // Check if we can show the up or down arrow based on the time unit
-      if (
-        (keyPressed === KeyCodes.UP && this.shouldShowUpArrow(timeUnit)) ||
-        (keyPressed === KeyCodes.DOWN && this.shouldShowDownArrow(timeUnit))
-      ) {
-        // Determine the increment based on the key pressed
-        const increment = keyPressed === KeyCodes.UP ? 1 : -1;
-        const minimum = timeUnit === TimeUnits.HOUR ? this.minimumHour : this.minimumMinute;
-        const maximum = timeUnit === TimeUnits.HOUR ? this.maximumHour : this.maximumMinute;
-        // Call the iterateNumbers method with the determined time unit and increment
-        this.iterateNumbers(timeUnit, increment, minimum, maximum);
-        return;
-      }
+      return;
     }
   }
+
+  verticalArrowPressed(keyPressed: string, timeUnit: TimeUnits) {
+    // Check if we can show the up or down arrow based on the time unit
+    if (
+      (keyPressed === KeyCodes.UP && this.shouldShowUpArrow(timeUnit)) ||
+      (keyPressed === KeyCodes.DOWN && this.shouldShowDownArrow(timeUnit))
+    ) {
+      // Determine the increment based on the key pressed
+      const increment = keyPressed === KeyCodes.UP ? 1 : -1;
+      const minimum = timeUnit === TimeUnits.HOUR ? this.minimumHour : this.minimumMinute;
+      const maximum = timeUnit === TimeUnits.HOUR ? this.maximumHour : this.maximumMinute;
+      // Call the iterateNumbers method with the determined time unit and increment
+      this.iterateNumbers(timeUnit, increment, minimum, maximum);
+      return;
+    }
+  }
+
+  async handleKeyPress(event: KeyboardEvent, timeUnit: TimeUnits, inputField: IonInput) {
+    const keyPressed = event.key;
+    if (keyPressed === KeyCodes.UP || keyPressed === KeyCodes.DOWN) {
+    }
+  }
+
+  protected readonly KeyCodes = KeyCodes;
 }

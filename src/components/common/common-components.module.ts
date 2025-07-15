@@ -34,7 +34,6 @@ import { LogoutModalModule } from '@components/common/logout-modal/logout-modal.
 import { TestRecoveredBannerComponent } from '@components/common/test-recovered-banner/test-recovered-banner';
 import { TimePickerComponent } from '@components/common/time-picker/time-picker.component';
 import { DirectivesModule } from '@directives/directives.module';
-import { KeyboardInputListenerDirective } from '@directives/keyboard-input-listener.directive';
 import { NgApexchartsModule } from 'ng-apexcharts';
 import { BikeCategoryTypeComponent } from './bike-category-type/bike-category-type';
 import { CandidateSectionComponent } from './candidate-section/candidate-section';
@@ -106,7 +105,6 @@ import { WarningBannerComponent } from './warning-banner/warning-banner';
     NgOptimizedImage,
     DirectivesModule,
     NgApexchartsModule,
-    KeyboardInputListenerDirective,
   ],
   exports: [
     DateTimeInputComponent,
