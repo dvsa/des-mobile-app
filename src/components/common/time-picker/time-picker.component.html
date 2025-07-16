@@ -12,9 +12,9 @@
     <ion-row class="spacing-padding">
       <ion-input
         #hourInput
-        (focusin)="setFocusOnInputBox(hourInput, false, true)"
-        (ionChange)="inputEnteredManually(TimeUnits.HOUR, $event.detail.value)"
         [(ngModel)]="selectedHour"
+        (ionFocus)="setFocusOnInputBox(hourInput, false, true)"
+        (ionChange)="inputEnteredManually(TimeUnits.HOUR, $event.detail.value)"
         (ionInput)="hourBoxInputted($event)"
         maxlength="2"
         numbersOnly
@@ -55,7 +55,7 @@
     </ion-row>
     <ion-row class="spacing-padding">
       <ion-input
-        (focusin)="setFocusOnInputBox(minuteInput, false, true)"
+        (ionFocus)="setFocusOnInputBox(minuteInput, false, true)"
         (ionChange)="inputEnteredManually(TimeUnits.MINUTE, $event.detail.value)"
         [(ngModel)]="selectedMinute"
         (ionInput)="minuteBoxInputted($event)"

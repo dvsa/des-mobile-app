@@ -1,3 +1,4 @@
+import { CdkTrapFocus } from '@angular/cdk/a11y';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -16,7 +17,7 @@ import { TestStartEndTimesComponent } from '@pages/pass-finalisation/cat-adi-par
     TestStartEndTimesComponent,
     ChangeStartEndTimeModal,
   ],
-  imports: [IonicModule, CommonModule, ComponentsModule, ReactiveFormsModule, DirectivesModule],
+  imports: [IonicModule, CommonModule, ComponentsModule, ReactiveFormsModule, DirectivesModule, CdkTrapFocus],
   exports: [FurtherDevelopmentComponent, ReasonGivenComponent, TestStartEndTimesComponent],
 })
 export class PassFinalisationCatADI3ComponentsModule {}

@@ -17,6 +17,12 @@ export class ChangeStartEndTimeModal {
   @ViewChild('EndTimePicker') endTimePicker!: TimePickerComponent;
   @ViewChild('StartTimePicker') startTimePicker!: TimePickerComponent;
   @ViewChild('CancelButton', { read: ElementRef }) cancelButton!: ElementRef<HTMLButtonElement>;
+  @ViewChild('modalContainer', { read: ElementRef }) modalContainer!: ElementRef<HTMLElement>;
+
+  async ionViewDidEnter() {
+    // Set initial focus to the modal container so tabbing takes the user to the start time picker
+    this.modalContainer.nativeElement.focus();
+  }
 
   async onCancel() {
     await this.modalController.dismiss();
@@ -34,7 +40,10 @@ export class ChangeStartEndTimeModal {
     await this.startTimePicker.focusMinuteInput(shouldErase, true);
   }
 
-  async loopFocusToStartTime() {
+  async loopFocusToStartTime(event: Event) {
+    if (event) {
+      event.preventDefault();
+    }
     await this.startTimePicker.focusHourInput(false, true);
   }
 

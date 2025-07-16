@@ -63,21 +63,6 @@ export class TestStartEndTimesComponent implements OnInit, OnChanges {
     }
   }
 
-  timeChanged(event: { control?: string; data: string }) {
-    switch (event.control) {
-      case 'start-time':
-        this.minTime = event.data;
-        this.testStartTimeChange.emit(event.data);
-        break;
-      case 'start-end-time':
-        this.maxTime = event.data;
-        this.testEndTimeChange.emit(event.data);
-        break;
-      default:
-        break;
-    }
-  }
-
   modalTimeChanged(event: { startTime: string; endTime: string }) {
     if (event) {
       this.testStartTimeChange.emit(event.startTime);
