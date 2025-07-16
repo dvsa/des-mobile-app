@@ -1,5 +1,6 @@
 import { AfterContentInit, Component, ContentChildren, EventEmitter, Output, QueryList } from '@angular/core';
 
+import { transformStringForID } from '@shared/helpers/transform-string-for-id';
 import { TabComponent } from '../tab/tab';
 
 @Component({
@@ -12,6 +13,8 @@ export class TabsComponent implements AfterContentInit {
 
   @Output()
   tabChanged = new EventEmitter<TabComponent>();
+
+  protected readonly transformStringForID = transformStringForID;
 
   ngAfterContentInit(): void {
     const activeTabs = this.tabs.filter((tab) => tab.active);

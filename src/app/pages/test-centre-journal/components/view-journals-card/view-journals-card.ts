@@ -17,6 +17,7 @@ import { SlotItem } from '@providers/slot-selector/slot-item';
 import { SlotSelectorProvider } from '@providers/slot-selector/slot-selector';
 import { SlotProvider } from '@providers/slot/slot';
 import { DateTime, Duration } from '@shared/helpers/date-time';
+import { transformStringForID } from '@shared/helpers/transform-string-for-id';
 import { StoreModel } from '@shared/models/store.model';
 import { TestCentreDetailResponse } from '@shared/models/test-centre-journal.model';
 import { ExaminerSlotItems, ExaminerSlotItemsByDate } from '@store/journal/journal.model';
@@ -72,6 +73,7 @@ export class ViewJournalsCardComponent implements OnChanges {
   today: string = new DateTime().format(this.dateFormat);
   currentSelectedDate: string = this.today;
   slotItems$: Observable<SlotItem[]>;
+  protected readonly transformStringForID = transformStringForID;
 
   constructor(
     public orientationMonitorProvider: OrientationMonitorProvider,
@@ -192,14 +194,6 @@ export class ViewJournalsCardComponent implements OnChanges {
       this.onManualRefresh();
       this.testCentreChanged.emit(testCentre);
     }
-  }
-
-  /**
-   * Transforms a name into a format suitable for use as an ID.
-   * @param name
-   */
-  transformNameForID(name: string): string {
-    return name.replace(/\s+/g, '-').toLowerCase();
   }
 
   get dayLabel(): string {

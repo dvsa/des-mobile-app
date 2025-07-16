@@ -1,7 +1,7 @@
 <ion-row [class.mes-row-separator]="motStatus || (vehicleMake || vehicleModel)" class="mes-component-row mes-narrow-row spacing-padding" id="office-registration-card">
   <ion-col size="3"></ion-col>
   <ion-col class="display-flex" [class.ion-align-items-center]="previousVRNs?.length == 0" size="28">
-    <label>Vehicle registration number</label>
+    <label id="vehicle-registration-number-label">Vehicle registration number</label>
   </ion-col>
   <ion-col size="3"></ion-col>
   <ion-col class="display-flex" [class.ion-align-items-center]="previousVRNs?.length == 0">
@@ -25,7 +25,7 @@
 <ion-row *ngIf="motStatus" class="mes-component-row mes-row-separator mes-narrow-row spacing-padding" id="office-mot-card">
   <ion-col size="3"></ion-col>
   <ion-col class="display-flex ion-align-items-center" size="28">
-    <label>MOT status</label>
+    <label id="mot-status-label">MOT status</label>
   </ion-col>
   <ion-col size="3"></ion-col>
   <ion-col class="display-flex ion-align-items-center">
