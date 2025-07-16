@@ -30,7 +30,7 @@ enum KeyCodes {
   styleUrls: ['./time-picker.component.scss'],
 })
 export class TimePickerComponent implements OnInit, OnChanges {
-  protected readonly TimeUnits = TimeUnits;
+  readonly TimeUnits = TimeUnits;
   private readonly timeFormat = 'HH:mm';
 
   @ViewChild('minuteInput') minuteInputBox!: IonInput;
@@ -214,10 +214,8 @@ export class TimePickerComponent implements OnInit, OnChanges {
   }
 
   async setFocusOnInputBox(inputField: IonInput, shouldErase: boolean, shouldStartAtEnd = false) {
-    console.log('setting focus on input box', inputField);
     // Set focus on the specified input box and optionally erase its value
     inputField.setFocus().then(async () => {
-      console.log('focus set on input box', document.activeElement);
       if (shouldErase) {
         inputField.value = '';
       } else {
@@ -229,13 +227,11 @@ export class TimePickerComponent implements OnInit, OnChanges {
   }
 
   async focusHourInput(shouldErase: boolean, shouldStartAtEnd = false) {
-    console.log('focusing hour input');
     // Set focus on the hour input box and optionally erase its value
     await this.setFocusOnInputBox(this.hourInputBox, shouldErase, shouldStartAtEnd);
   }
 
   async focusMinuteInput(shouldErase: boolean, shouldStartAtEnd = false) {
-    console.log('focusing minute input');
     // Set focus on the minute input box and optionally erase its value
     await this.setFocusOnInputBox(this.minuteInputBox, shouldErase, shouldStartAtEnd);
   }
