@@ -36,7 +36,7 @@
       okText="Select"
       placeholder="Select examiner"
     >
-      <ion-select-option *ngFor="let examiner of testCentreResults?.examiners" [value]="examiner.staffNumber" id="examiner-{{transformNameForID(examiner.name)}}-select-option">
+      <ion-select-option *ngFor="let examiner of testCentreResults?.examiners" [value]="examiner.staffNumber" id="examiner-{{transformStringForID(examiner.name)}}-select-option">
         {{examiner.name}}
       </ion-select-option>
     </ion-select>

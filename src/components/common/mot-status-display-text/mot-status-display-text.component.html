@@ -1,5 +1,5 @@
 <div class="ion-no-padding" *ngIf="!(motStatus)">
-  <ion-text class="mes-data">{{ getNoMOTDataText() }}</ion-text>
+  <ion-text id="no-mot-data-text" class="mes-data">{{ getNoMOTDataText() }}</ion-text>
 </div>
 <div class="display-flex ion-no-padding width-100-percent" *ngIf="motStatus">
   <ion-col class="ion-align-items-center display-flex" size="auto" *ngIf="isInvalidMOT()">
@@ -10,7 +10,7 @@
     />
   </ion-col>
   <ion-col class="ion-no-padding display-flex ion-align-items-center">
-    <ion-text class="mes-data">{{
+    <ion-text id="mot-status-text" class="mes-data">{{
         getMotStatusText()
       }}
     </ion-text>
