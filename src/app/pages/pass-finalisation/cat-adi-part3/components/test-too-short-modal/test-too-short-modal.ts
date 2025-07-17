@@ -1,19 +1,16 @@
-import { Component, Input } from '@angular/core';
+import { Component } from '@angular/core';
 import { ComponentsModule } from '@components/common/common-components.module';
 import { IonicModule, ModalController } from '@ionic/angular';
 
 @Component({
-  selector: 'update-available-modal',
+  selector: 'test-too-short-modal',
   templateUrl: 'test-too-short-modal.html',
   styleUrls: ['test-too-short-modal.scss'],
   imports: [IonicModule, ComponentsModule],
   standalone: true,
 })
 export class TestTooShortModal {
-  @Input()
-  appVersion: string;
-
-  constructor(private modalCtrl: ModalController) {}
+  constructor(public modalCtrl: ModalController) {}
 
   clickReturn = async (): Promise<void> => {
     await this.modalCtrl.dismiss(false);

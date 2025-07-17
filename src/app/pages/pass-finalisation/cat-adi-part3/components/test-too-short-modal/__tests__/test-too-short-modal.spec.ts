@@ -1,42 +1,37 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { IonicModule, ModalController } from '@ionic/angular';
-
 import { AppModule } from '@app/app.module';
-import { ComponentsModule } from '@components/common/common-components.module';
+import { ModalController } from '@ionic/angular';
 import { ModalControllerMock } from '@mocks/ionic-mocks/modal-controller.mock';
-import { TestTooShortModal } from '@pages/pass-finalisation/cat-adi-part3/components/test-too-short-modal/test-too-short-modal';
+import { TestTooShortModal } from '../test-too-short-modal';
 
 xdescribe('TestTooShortModal', () => {
-  let component: TestTooShortModal;
   let fixture: ComponentFixture<TestTooShortModal>;
+  let component: TestTooShortModal;
   let modalController: ModalController;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [IonicModule, ComponentsModule, AppModule],
-      providers: [
-        {
-          provide: ModalController,
-          useClass: ModalControllerMock,
-        },
-      ],
+      imports: [TestTooShortModal, AppModule],
+      providers: [{ provide: ModalController, useClass: ModalControllerMock }],
     });
 
     fixture = TestBed.createComponent(TestTooShortModal);
     component = fixture.componentInstance;
     modalController = TestBed.inject(ModalController);
-    spyOn(modalController, 'dismiss');
   });
 
-  describe('Class', () => {
+  describe('TestTooShortModal', () => {
     describe('clickReturn', () => {
-      it('should call modal dismiss with false', async () => {
+      it('should dismiss the modal with false', async () => {
+        spyOn(modalController, 'dismiss').and.resolveTo(false);
         await component.clickReturn();
         expect(modalController.dismiss).toHaveBeenCalledWith(false);
       });
     });
+
     describe('clickContinue', () => {
-      it('should call modal dismiss with true', async () => {
+      it('should dismiss the modal with true', async () => {
+        spyOn(modalController, 'dismiss').and.resolveTo(true);
         await component.clickContinue();
         expect(modalController.dismiss).toHaveBeenCalledWith(true);
       });

@@ -1,8 +1,8 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { AppModule } from '@app/app.module';
 import { ModalAlertTitleComponent } from '@components/common/modal-alert-title/modal-alert-title';
 import { IonicModule, ModalController, NavController, NavParams, Platform } from '@ionic/angular';
-import { NavControllerMock, NavParamsMock, PlatformMock } from '@mocks/index.mock';
+import { ModalControllerMock, NavControllerMock, NavParamsMock, PlatformMock } from '@mocks/index.mock';
 import { ChangeStartEndTimeModal } from '@pages/pass-finalisation/cat-adi-part3/components/change-start-end-time-modal/change-start-end-time-modal';
 import { AuthenticationProviderMock } from '@providers/authentication/__mocks__/authentication.mock';
 import { AuthenticationProvider } from '@providers/authentication/authentication';
@@ -17,7 +17,7 @@ describe('ChangeStartEndTimeModal', () => {
   let component: ChangeStartEndTimeModal;
   let modalController: ModalController;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [ChangeStartEndTimeModal],
       imports: [IonicModule, MockComponent(ModalAlertTitleComponent), AppModule],
@@ -28,6 +28,7 @@ describe('ChangeStartEndTimeModal', () => {
         { provide: AuthenticationProvider, useClass: AuthenticationProviderMock },
         { provide: DateTimeProvider, useClass: DateTimeProviderMock },
         { provide: DeviceAuthenticationProvider, useClass: DeviceAuthenticationProviderMock },
+        { provide: ModalController, useClass: ModalControllerMock },
       ],
     });
 
@@ -37,7 +38,7 @@ describe('ChangeStartEndTimeModal', () => {
     const modalSpy = jasmine.createSpyObj('Modal', ['dismiss']);
     // Mock the modalController to return the modalSpy
     spyOn(modalController, 'getTop').and.returnValue(Promise.resolve(modalSpy));
-  }));
+  });
 
   describe('Class', () => {
     describe('ionViewDidEnter', () => {
@@ -103,7 +104,7 @@ describe('ChangeStartEndTimeModal', () => {
     });
     describe('onCancel', async () => {
       it('should dismiss the modal without data when onCancel is called', async () => {
-        spyOn(modalController, 'dismiss').and.returnValue(Promise.resolve(true));
+        spyOn(modalController, 'dismiss').and.resolveTo(true);
         await component.onCancel();
         expect(modalController.dismiss).toHaveBeenCalledWith();
       });
@@ -113,7 +114,7 @@ describe('ChangeStartEndTimeModal', () => {
       it('should dismiss the modal with start and end time when onConfirm is called', async () => {
         component.startTime = '09:00';
         component.endTime = '17:00';
-        spyOn(modalController, 'dismiss').and.returnValue(Promise.resolve(true));
+        spyOn(modalController, 'dismiss').and.resolveTo(true);
         await component.onConfirm();
         expect(modalController.dismiss).toHaveBeenCalledWith({ startTime: '09:00', endTime: '17:00' });
       });
