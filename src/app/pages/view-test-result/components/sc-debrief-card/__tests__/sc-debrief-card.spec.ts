@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { AppModule } from '@app/app.module';
 import { IonicModule } from '@ionic/angular';
 import { ScDebriefCard } from '@pages/view-test-result/components/sc-debrief-card/sc-debrief-card';
@@ -7,7 +7,7 @@ describe('ScDebriefCard', () => {
   let fixture: ComponentFixture<ScDebriefCard>;
   let component: ScDebriefCard;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [ScDebriefCard],
       imports: [IonicModule, AppModule],
@@ -15,7 +15,7 @@ describe('ScDebriefCard', () => {
 
     fixture = TestBed.createComponent(ScDebriefCard);
     component = fixture.componentInstance;
-  }));
+  });
 
   describe('findDifferenceInTime', () => {
     it('should find the correct difference in minutes between two times', () => {
