@@ -94,14 +94,6 @@ describe('ChangeStartEndTimeModal', () => {
       });
     });
 
-    describe('changeFocusToButtons', () => {
-      it('should focus the cancel button', () => {
-        component.cancelButton = jasmine.createSpyObj('ElementRef', ['nativeElement']);
-        component.cancelButton.nativeElement = jasmine.createSpyObj('nativeElement', ['focus']);
-        component.changeFocusToButtons();
-        expect(component.cancelButton.nativeElement.focus).toHaveBeenCalled();
-      });
-    });
     describe('onCancel', async () => {
       it('should dismiss the modal without data when onCancel is called', async () => {
         spyOn(modalController, 'dismiss').and.resolveTo(true);
@@ -117,6 +109,49 @@ describe('ChangeStartEndTimeModal', () => {
         spyOn(modalController, 'dismiss').and.resolveTo(true);
         await component.onConfirm();
         expect(modalController.dismiss).toHaveBeenCalledWith({ startTime: '09:00', endTime: '17:00' });
+      });
+    });
+
+    describe('changeFocusToConfirmButton', () => {
+      it('should focus the confirm button and add ion-focused class if not present', () => {
+        component.confirmButton = jasmine.createSpyObj('ElementRef', ['nativeElement']);
+        component.confirmButton.nativeElement = document.createElement('button');
+
+        spyOn(component.confirmButton.nativeElement.classList, 'contains').and.returnValue(false);
+        spyOn(component.confirmButton.nativeElement.classList, 'add');
+        spyOn(component.confirmButton.nativeElement, 'focus');
+
+        component.changeFocusToConfirmButton();
+        expect(component.confirmButton.nativeElement.focus).toHaveBeenCalled();
+        expect(component.confirmButton.nativeElement.classList.add).toHaveBeenCalledWith('ion-focused');
+      });
+    });
+
+    describe('removeFocusedClass', () => {
+      it('should remove ion-focused class from the confirm button if present', () => {
+        component.confirmButton = jasmine.createSpyObj('ElementRef', ['nativeElement']);
+        component.confirmButton.nativeElement = document.createElement('button');
+
+        spyOn(component.confirmButton.nativeElement.classList, 'contains').and.returnValue(true);
+        spyOn(component.confirmButton.nativeElement.classList, 'remove');
+
+        component.removeFocusedClass('confirm');
+        expect(component.confirmButton.nativeElement.classList.remove).toHaveBeenCalledWith('ion-focused');
+      });
+    });
+
+    describe('changeFocusToCancelButton', () => {
+      it('should focus the cancel button and add ion-focused class if not present', () => {
+        component.cancelButton = jasmine.createSpyObj('ElementRef', ['nativeElement']);
+        component.cancelButton.nativeElement = document.createElement('button');
+
+        spyOn(component.cancelButton.nativeElement.classList, 'contains').and.returnValue(false);
+        spyOn(component.cancelButton.nativeElement.classList, 'add');
+        spyOn(component.cancelButton.nativeElement, 'focus');
+
+        component.changeFocusToCancelButton();
+        expect(component.cancelButton.nativeElement.focus).toHaveBeenCalled();
+        expect(component.cancelButton.nativeElement.classList.add).toHaveBeenCalledWith('ion-focused');
       });
     });
 

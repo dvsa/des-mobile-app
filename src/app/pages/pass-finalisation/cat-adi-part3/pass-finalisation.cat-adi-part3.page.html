@@ -67,6 +67,7 @@
           [endTime]="pageState.testEndTime$ | async"
           [formGroup]="form"
           [startTime]="pageState.testStartTime$ | async"
+          [isSelected]="pageState.testStartAndEndTimeConfirmed$ | async"
           (testEndTimeChange)="testEndTimeChanged($event)"
           (testStartTimeChange)="testStartTimeChanged($event)"
           (confirmStartAndEndTime)="confirmStartAndEndTimeChanged($event)"

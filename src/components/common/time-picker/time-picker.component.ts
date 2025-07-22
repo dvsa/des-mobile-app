@@ -286,15 +286,19 @@ export class TimePickerComponent implements OnInit, OnChanges {
    */
   async setFocusOnInputBox(inputField: IonInput, shouldErase: boolean, shouldStartAtEnd = false) {
     // Set focus on the specified input box and optionally erase its value
-    inputField.setFocus().then(async () => {
-      if (shouldErase) {
-        inputField.value = '';
-      } else {
-        const selectionPosition = shouldStartAtEnd ? (await inputField.getInputElement()).value.length : 0;
-        // If not erasing, set the selection range to the end of the input
-        (await inputField.getInputElement()).setSelectionRange(selectionPosition, selectionPosition);
-      }
-    });
+    await inputField.setFocus();
+    if (shouldErase) {
+      inputField.value = '';
+    } else {
+      // Run a timeout to ensure the input element is ready before setting the cursor position (the time is set to 0 to run immediately, but if not placed within a timeout, it may not work as expected)
+      setTimeout(async () => this.manuallySetSelection(await inputField.getInputElement(), shouldStartAtEnd), 0);
+    }
+  }
+
+  manuallySetSelection(inputElement: HTMLInputElement, shouldStartAtEnd: boolean) {
+    // If not erasing, set the cursor position to the end or start based on shouldStartAtEnd
+    const selectionPosition = shouldStartAtEnd ? inputElement.value.length : 0;
+    inputElement.setSelectionRange(selectionPosition, selectionPosition);
   }
 
   /**

@@ -123,6 +123,15 @@ describe('TimePickerComponent', () => {
     });
   });
 
+  describe('manuallySetSelection', () => {
+    it('should set selection on input box', async () => {
+      const internalInput = await component.hourInputBox.getInputElement();
+      spyOn(internalInput, 'setSelectionRange');
+      component.manuallySetSelection(internalInput, false);
+      expect(internalInput.setSelectionRange).toHaveBeenCalled();
+    });
+  });
+
   describe('inputEnteredManually', () => {
     it('sets selectedHour to minimum if input is empty', () => {
       spyOn(component, 'iterateNumbers');

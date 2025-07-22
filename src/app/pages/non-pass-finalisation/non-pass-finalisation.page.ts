@@ -56,6 +56,7 @@ import {
   StartTimeChanged,
 } from '@store/tests/test-data/cat-adi-part3/start-end-time/start-end-time.actions';
 import {
+  getConfirmedStartAndEndTime,
   getTestEndTime,
   getTestStartTime,
 } from '@store/tests/test-data/cat-adi-part3/start-end-time/start-end-time.selector';
@@ -105,6 +106,7 @@ interface NonPassFinalisationPageState {
   isStandardsCheck$: Observable<boolean>;
   testStartTime$: Observable<string>;
   testEndTime$: Observable<string>;
+  testStartAndEndTimeConfirmed$: Observable<boolean>;
 }
 
 @Component({
@@ -265,6 +267,12 @@ export class NonPassFinalisationPage extends PracticeableBasePageComponent imple
         map(([data, category]) => this.testDataByCategoryProvider.getTestDataByCategoryCode(category)(data)),
         select(getTestEndTime),
         map((time: string) => time || new DateTime().add(45, Duration.MINUTE).toISOString())
+      ),
+      testStartAndEndTimeConfirmed$: currentTest$.pipe(
+        withLatestFrom(category$),
+        filter(([, category]) => category === TestCategory.SC),
+        map(([data, category]) => this.testDataByCategoryProvider.getTestDataByCategoryCode(category)(data)),
+        select(getConfirmedStartAndEndTime)
       ),
     };
 

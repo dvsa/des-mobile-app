@@ -47,7 +47,8 @@
               [initialValue]="endTime"
               (onTimeChanged)="endTime = $event"
               (hourBoxExitedBack)="changeFocusToStartTime($event)"
-              (tabPressedInMinuteBox)="changeFocusToButtons()"
+              (minuteBoxExitedForward)="changeFocusToConfirmButton()"
+              (tabPressedInMinuteBox)="changeFocusToCancelButton()"
             ></time-picker>
           </ion-col>
         </ion-row>
@@ -73,6 +74,7 @@
               tabindex="1"
               (keydown.space)="onCancel()"
               (keydown.enter)="onCancel()"
+              (ionBlur)="removeFocusedClass('cancel')"
               (click)="onCancel()">
               Cancel
             </ion-button>
@@ -88,6 +90,7 @@
               (keydown.tab)="loopFocusToStartTime($event)"
               (keydown.space)="!ContinueButton.disabled ? onConfirm(): null"
               (keydown.enter)="!ContinueButton.disabled ? onConfirm(): null"
+              (ionBlur)="removeFocusedClass('confirm')"
               (click)="onConfirm()"
             >
               Confirm

@@ -37,6 +37,7 @@ import {
   StartTimeChanged,
 } from '@store/tests/test-data/cat-adi-part3/start-end-time/start-end-time.actions';
 import {
+  getConfirmedStartAndEndTime,
   getTestEndTime,
   getTestStartTime,
 } from '@store/tests/test-data/cat-adi-part3/start-end-time/start-end-time.selector';
@@ -55,6 +56,7 @@ interface CatAdi3PassFinalisationPageState {
   isStandardsCheck$: Observable<boolean>;
   testStartTime$: Observable<string>;
   testEndTime$: Observable<string>;
+  testStartAndEndTimeConfirmed$: Observable<boolean>;
 }
 
 type PassFinalisationPageState = CommonPassFinalisationPageState & CatAdi3PassFinalisationPageState;
@@ -90,6 +92,7 @@ export class PassFinalisationCatADIPart3Page extends PassFinalisationPageCompone
 
     this.pageState = {
       ...this.commonPageState,
+      testStartAndEndTimeConfirmed$: currentTest$.pipe(select(getTestData), select(getConfirmedStartAndEndTime)),
       furtherDevelopment$: currentTest$.pipe(select(getTestData), select(getReview), select(getFurtherDevelopment)),
       adviceReason$: currentTest$.pipe(select(getTestData), select(getReview), select(getReasonForNoAdviceGiven)),
       testOutcomeGrade$: currentTest$.pipe(select(getTestData), select(getReview), select(getGrade)),
