@@ -5,6 +5,10 @@ import { ModalController } from '@ionic/angular';
 import { select } from '@ngrx/store';
 import { behaviourMap } from '@pages/office/office-behaviour-map.cat-adi-part3';
 import { TestFlowPageNames } from '@pages/page-names.constants';
+import {
+  TestIsTooShortContinue,
+  TestIsTooShortReturn,
+} from '@pages/pass-finalisation/cat-adi-part3/components/test-start-end-times/test-start-end-times.actions';
 import { TestTooShortModal } from '@pages/pass-finalisation/cat-adi-part3/components/test-too-short-modal/test-too-short-modal';
 import {
   PassFinalisationReportActivityCode,
@@ -184,8 +188,10 @@ export class PassFinalisationCatADIPart3Page extends PassFinalisationPageCompone
         await modal.present();
         const { data } = await modal.onDidDismiss<boolean>();
         if (!data) {
+          this.store$.dispatch(TestIsTooShortReturn());
           return;
         }
+        this.store$.dispatch(TestIsTooShortContinue());
       }
 
       this.store$.dispatch(StandardsChecksTestIsTooShortChanged(isTestTooShort));

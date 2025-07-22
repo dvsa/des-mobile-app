@@ -10,7 +10,9 @@ import {
   ViewChild,
 } from '@angular/core';
 import { IonInput } from '@ionic/angular';
+import { Store } from '@ngrx/store';
 import { DateTime } from '@shared/helpers/date-time';
+import { StoreModel } from '@shared/models/store.model';
 
 enum TimeUnits {
   MINUTE = 'minute',
@@ -35,6 +37,18 @@ export class TimePickerComponent implements OnInit, OnChanges {
 
   @ViewChild('minuteInput') minuteInputBox!: IonInput;
   @ViewChild('hourInput') hourInputBox!: IonInput;
+
+  @Output()
+  onHourArrowsToggled = new EventEmitter<void>();
+
+  @Output()
+  onMinuteArrowsToggled = new EventEmitter<void>();
+
+  @Output()
+  onHourBoxInput = new EventEmitter<string>();
+
+  @Output()
+  onMinuteBoxInput = new EventEmitter<string>();
 
   @Output()
   onTimeChanged = new EventEmitter<string>();
@@ -67,7 +81,10 @@ export class TimePickerComponent implements OnInit, OnChanges {
 
   savedFocusPosition = -1;
 
-  constructor(public changeDetectorRef: ChangeDetectorRef) {}
+  constructor(
+    public changeDetectorRef: ChangeDetectorRef,
+    private store$: Store<StoreModel>
+  ) {}
 
   ngOnInit() {
     // Initialize the time picker with the initial value
@@ -134,11 +151,13 @@ export class TimePickerComponent implements OnInit, OnChanges {
       this.selectedHour = newInput.length === 0 ? this.minimumHour.toString() : newInput;
       // Ensure the hour input is within the valid range
       this.iterateNumbers(timeUnit, 0, this.minimumHour, this.maximumHour);
+      this.onHourBoxInput.emit(this.selectedHour);
     } else {
       // Validate the minute input and set it to the minimum if empty
       this.selectedMinute = newInput.length === 0 ? this.minimumMinute.toString() : newInput;
       // Ensure the minute input is within the valid range
       this.iterateNumbers(timeUnit, 0, this.minimumMinute, this.maximumMinute);
+      this.onMinuteBoxInput.emit(this.selectedMinute);
     }
   }
 
@@ -412,6 +431,14 @@ export class TimePickerComponent implements OnInit, OnChanges {
       (keyPressed === KeyCodes.UP && this.shouldShowUpArrow(timeUnit)) ||
       (keyPressed === KeyCodes.DOWN && this.shouldShowDownArrow(timeUnit))
     ) {
+      switch (timeUnit) {
+        case TimeUnits.HOUR:
+          this.onHourArrowsToggled.emit();
+          break;
+        case TimeUnits.MINUTE:
+          this.onMinuteArrowsToggled.emit();
+          break;
+      }
       // Determine the increment based on the key pressed
       const increment = keyPressed === KeyCodes.UP ? 1 : -1;
       const minimum = timeUnit === TimeUnits.HOUR ? this.minimumHour : this.minimumMinute;

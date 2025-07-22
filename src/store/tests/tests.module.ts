@@ -11,6 +11,7 @@ import { TestSubmissionProvider } from '@providers/test-submission/test-submissi
 import { VehicleDetailsByCategoryProvider } from '@providers/vehicle-details-by-category/vehicle-details-by-category';
 import { ExaminerBookedEffects } from '@store/tests/examiner-booked/examiner-booked.effects';
 import { ExaminerConductedEffects } from '@store/tests/examiner-conducted/examiner-conducted.effects';
+import { StartEndTimeAnalyticsEffects } from '@store/tests/test-data/cat-adi-part3/start-end-time/start-end-time.analytics.effects';
 import { TestDataEffects } from '@store/tests/test-data/test-data.effects';
 import { TestStatusAnalyticsEffects } from '@store/tests/test-status/test-status.analytics.effects';
 import { TestsAnalyticsEffects } from '@store/tests/tests.analytics.effects';
@@ -29,6 +30,7 @@ import { testsReducer } from './tests.reducer';
       ExaminerConductedEffects,
       TestStatusAnalyticsEffects,
       UserExitedAppAnalyticsEffects,
+      StartEndTimeAnalyticsEffects,
     ]),
     RouterModule,
   ],

@@ -1,7 +1,20 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
 import { TimePickerComponent } from '@components/common/time-picker/time-picker.component';
 import { ModalController } from '@ionic/angular';
+import { Store } from '@ngrx/store';
+import {
+  EndHourAmended,
+  EndHourArrowsToggled,
+  EndMinuteAmended,
+  EndMinuteArrowsToggled,
+  EndTimeBeforeStartTime,
+  StartHourAmended,
+  StartHourArrowsToggled,
+  StartMinuteAmended,
+  StartMinuteArrowsToggled,
+} from '@pages/pass-finalisation/cat-adi-part3/components/change-start-end-time-modal/change-start-end-time-modal.actions';
 import { DateTime } from '@shared/helpers/date-time';
+import { StoreModel } from '@shared/models/store.model';
 
 @Component({
   selector: 'change-start-start-end-time-modal',
@@ -12,7 +25,10 @@ export class ChangeStartEndTimeModal {
   startTime = '';
   endTime = '';
 
-  constructor(public modalController: ModalController) {}
+  constructor(
+    public modalController: ModalController,
+    public store$: Store<StoreModel> // Replace 'any' with the actual type of your store
+  ) {}
 
   @ViewChild('EndTimePicker') endTimePicker!: TimePickerComponent;
   @ViewChild('StartTimePicker') startTimePicker!: TimePickerComponent;
@@ -46,6 +62,20 @@ export class ChangeStartEndTimeModal {
       event.preventDefault();
     }
     await this.startTimePicker.focusHourInput(false, true);
+  }
+
+  setStartTime(newStartTime: string) {
+    this.startTime = newStartTime;
+    if (this.invalid()) {
+      this.store$.dispatch(EndTimeBeforeStartTime());
+    }
+  }
+
+  setEndTime(newEndTime: string) {
+    this.endTime = newEndTime;
+    if (this.invalid()) {
+      this.store$.dispatch(EndTimeBeforeStartTime());
+    }
   }
 
   invalid() {
@@ -86,5 +116,35 @@ export class ChangeStartEndTimeModal {
     if (buttonToUnfocus.nativeElement.classList.contains('ion-focused')) {
       buttonToUnfocus?.nativeElement?.classList.remove('ion-focused');
     }
+  }
+
+  startTimeMinuteArrowsToggled() {
+    this.store$.dispatch(StartMinuteArrowsToggled());
+  }
+
+  startTimeHourArrowsToggled() {
+    this.store$.dispatch(StartHourArrowsToggled());
+  }
+
+  startTimeHourInputted(input: string) {
+    this.store$.dispatch(StartHourAmended());
+  }
+  startTimeMinuteInputted(input: string) {
+    this.store$.dispatch(StartMinuteAmended());
+  }
+
+  endTimeMinuteArrowsToggled() {
+    this.store$.dispatch(EndMinuteArrowsToggled());
+  }
+
+  endTimeHourArrowsToggled() {
+    this.store$.dispatch(EndHourArrowsToggled());
+  }
+
+  endTimeHourInputted(input: string) {
+    this.store$.dispatch(EndHourAmended());
+  }
+  endTimeMinuteInputted(input: string) {
+    this.store$.dispatch(EndMinuteAmended());
   }
 }

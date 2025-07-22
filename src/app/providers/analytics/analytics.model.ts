@@ -268,6 +268,10 @@ export enum GoogleAnalyticsCustomDimension {
 }
 
 export enum GoogleAnalyticsEvents {
+  REASON_SHORT_TIME = 'reason_short_time',
+  UPDATED_END_TIME = 'updated_end_time',
+  UPDATED_START_TIME = 'updated_start_time',
+  TIME_ON_ROAD = 'time_on_road',
   REKEY_SEARCH_PAGE = 'start_test',
   START_TEST = 'start_test',
   RETURN_TO_TEST = 'return_to_test',
@@ -357,6 +361,11 @@ export enum GoogleAnalyticsEvents {
 
 export enum GoogleAnalyticsEventsTitles {
   BANNER = 'banner',
+  FORTY_FIVE_MINS_TIME_WARNING = '45mins_time_warning',
+  INTEGER_ARROWS_HOUR = 'integer_arrows_hour',
+  INTEGER_ARROWS_MINUTE = 'integer_arrows_minute',
+  INTEGER_KEYED_HOUR = 'integer_keyed_hour',
+  INTEGER_KEYED_MINUTE = 'integer_keyed_minute',
   TEAMS_NOT_FOUND = 'microsoft_teams_could_not_be_found',
   TEAMS_NOT_OPENED = 'microsoft_teams_cannot_be_opened',
   SAM_NOT_DISABLED = 'sam_not_disabled',
@@ -400,6 +409,7 @@ export enum GoogleAnalyticsEventsTitles {
   REFRESH = 'refresh',
   NAVIGATION = 'navigation',
   BUTTON_SELECTION = 'button_selection',
+  CONFIRM_DURATION = 'confirm_duration',
   TAB_SELECTION = 'tab_selection',
   CHANGED_FROM = 'changed_from',
   FILTER = 'filter',
@@ -445,7 +455,10 @@ export enum GoogleAnalyticsEventsTitles {
 }
 
 export enum GoogleAnalyticsEventsValues {
+  VALUE_ENTERED = 'value_entered',
+  RETURN_TO_PREVIOUS = 'return_to_previous',
   CITROEN_RECALL_CHECKER = 'Citroen_recall_checker',
+  EDIT = 'edit',
   ERROR_MODAL = 'error_modal',
   BUTTON_SELECTED = 'button_selected',
   BANNER_SELECTED = 'banner_selected',

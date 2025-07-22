@@ -1,8 +1,14 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, UntypedFormControl, Validators } from '@angular/forms';
 import { ModalController } from '@ionic/angular';
+import { Store } from '@ngrx/store';
 import { ChangeStartEndTimeModal } from '@pages/pass-finalisation/cat-adi-part3/components/change-start-end-time-modal/change-start-end-time-modal';
+import {
+  TestStartEndTimeConfirmBoxChanged,
+  TestStartEndTimeEditButtonPressed,
+} from '@pages/pass-finalisation/cat-adi-part3/components/test-start-end-times/test-start-end-times.actions';
 import { DateTime, Duration } from '@shared/helpers/date-time';
+import { StoreModel } from '@shared/models/store.model';
 
 @Component({
   selector: 'test-start-end-times',
@@ -39,7 +45,10 @@ export class TestStartEndTimesComponent implements OnInit, OnChanges {
   public minTime: string;
   public maxTime: string;
 
-  constructor(public modalController: ModalController) {}
+  constructor(
+    public modalController: ModalController,
+    public store$: Store<StoreModel> // Assuming Store is imported from a relevant module
+  ) {}
 
   ngOnInit() {
     this.minTime = this.startTime;
@@ -79,10 +88,12 @@ export class TestStartEndTimesComponent implements OnInit, OnChanges {
   }
 
   selectedValueChanged(selected: boolean) {
+    this.store$.dispatch(TestStartEndTimeConfirmBoxChanged(selected));
     this.confirmStartAndEndTime.emit(selected);
   }
 
   async openTimeEditModal() {
+    this.store$.dispatch(TestStartEndTimeEditButtonPressed());
     const modal: HTMLIonModalElement = await this.modalController.create({
       id: 'changeStartEndTimeModal',
       component: ChangeStartEndTimeModal,

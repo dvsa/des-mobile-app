@@ -33,9 +33,13 @@
             <time-picker
               #StartTimePicker
               [initialValue]="startTime"
+              (onHourArrowsToggled)="startTimeHourArrowsToggled()"
+              (onMinuteArrowsToggled)="startTimeMinuteArrowsToggled()"
+              (onHourBoxInput)="startTimeHourInputted($event)"
+              (onMinuteBoxInput)="startTimeMinuteInputted($event)"
               (minuteBoxExitedForward)="changeFocusToEndTime($event)"
               (tabPressedInMinuteBox)="changeFocusToEndTime(false)"
-              (onTimeChanged)="startTime = $event"
+              (onTimeChanged)="setStartTime($event)"
             ></time-picker>
           </ion-col>
           <ion-col size="28" class="centre-col">
@@ -45,7 +49,11 @@
             <time-picker
               #EndTimePicker
               [initialValue]="endTime"
-              (onTimeChanged)="endTime = $event"
+              (onHourArrowsToggled)="endTimeHourArrowsToggled()"
+              (onMinuteArrowsToggled)="endTimeMinuteArrowsToggled()"
+              (onHourBoxInput)="endTimeHourInputted($event)"
+              (onMinuteBoxInput)="endTimeMinuteInputted($event)"
+              (onTimeChanged)="setEndTime($event)"
               (hourBoxExitedBack)="changeFocusToStartTime($event)"
               (minuteBoxExitedForward)="changeFocusToConfirmButton()"
               (tabPressedInMinuteBox)="changeFocusToCancelButton()"

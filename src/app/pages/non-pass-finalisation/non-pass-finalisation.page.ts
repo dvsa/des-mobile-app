@@ -12,6 +12,10 @@ import {
   NonPassFinalisationViewDidEnter,
 } from '@pages/non-pass-finalisation/non-pass-finalisation.actions';
 import { TestFlowPageNames } from '@pages/page-names.constants';
+import {
+  TestIsTooShortContinue,
+  TestIsTooShortReturn,
+} from '@pages/pass-finalisation/cat-adi-part3/components/test-start-end-times/test-start-end-times.actions';
 import { TestTooShortModal } from '@pages/pass-finalisation/cat-adi-part3/components/test-too-short-modal/test-too-short-modal';
 import { ActivityCodeFinalisationProvider } from '@providers/activity-code-finalisation/activity-code-finalisation';
 import { OutcomeBehaviourMapProvider } from '@providers/outcome-behaviour-map/outcome-behaviour-map';
@@ -373,8 +377,10 @@ export class NonPassFinalisationPage extends PracticeableBasePageComponent imple
         await modal.present();
         const { data } = await modal.onDidDismiss<boolean>();
         if (!data) {
+          this.store$.dispatch(TestIsTooShortReturn());
           return;
         }
+        this.store$.dispatch(TestIsTooShortContinue());
       }
 
       this.store$.dispatch(StandardsChecksTestIsTooShortChanged(isTestTooShort));

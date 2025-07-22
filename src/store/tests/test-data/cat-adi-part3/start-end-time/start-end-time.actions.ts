@@ -18,8 +18,3 @@ export const ConfirmStartEndTimeChanged = createAction(
   '[FinalisationPage] Start and End time confirmed',
   (selected: boolean) => ({ selected })
 );
-
-export const SetReasonForShortTest = createAction(
-  '[UserExitedAppEffects] Set reason for the test having a time on road that is too short',
-  (reason: string) => ({ reason })
-);
