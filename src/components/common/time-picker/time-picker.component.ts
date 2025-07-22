@@ -83,27 +83,51 @@ export class TimePickerComponent implements OnInit, OnChanges {
     }
   }
 
+  /**
+   * Interprets the provided time value and sets the selected hour and minute.
+   * @param value - The time value in string format (e.g., 'YYYY-MM-DDTHH:mm').
+   */
   interpretTime(value: string) {
     const date = new Date(value);
     this.selectedHour = this.padWithZero(date.getHours());
     this.selectedMinute = this.padWithZero(date.getMinutes());
   }
 
-  padWithZero(number: number): string {
-    return number < 10 ? `0${number}` : number.toString();
+  /**
+   * Pads a number with a leading zero if it is less than 10.
+   * @param value - The number to pad.
+   * @returns A string representation of the number, padded with a leading zero if necessary.
+   */
+  padWithZero(value: number): string {
+    return value < 10 ? `0${value}` : value.toString();
   }
 
+  /**
+   * Takes in a value and sets the relevant variables to that value based on the passed time unit.
+   * @param timeUnit - The time unit to update (either TimeUnits.HOUR or TimeUnits.MINUTE).
+   * @param newNumber - The new number to set for the selected time unit.
+   */
   addRelevantTimeUnit(timeUnit: TimeUnits, newNumber: number) {
     const newNumString = this.padWithZero(newNumber);
-    if (timeUnit === TimeUnits.HOUR) {
-      this.selectedHour = newNumString;
-      this.hourInputBox.value = newNumString;
-    } else {
-      this.selectedMinute = newNumString;
-      this.minuteInputBox.value = newNumString;
+    // Update either selected hour or minute based on the time unit
+    switch (timeUnit) {
+      case TimeUnits.HOUR:
+        this.selectedHour = newNumString;
+        this.hourInputBox.value = newNumString;
+        break;
+      case TimeUnits.MINUTE:
+        this.selectedMinute = newNumString;
+        this.minuteInputBox.value = newNumString;
+        break;
     }
   }
 
+  /**
+   * Handles manual input for the hour or minute fields.
+   * Validates the input and updates the relevant time unit.
+   * @param timeUnit - The time unit being updated (either TimeUnits.HOUR or TimeUnits.MINUTE).
+   * @param newInput - The new input value entered by the user.
+   */
   inputEnteredManually(timeUnit: TimeUnits, newInput: string) {
     if (timeUnit === TimeUnits.HOUR) {
       // Validate the hour input and set it to the minimum if empty
@@ -118,6 +142,14 @@ export class TimePickerComponent implements OnInit, OnChanges {
     }
   }
 
+  /**
+   * Iterates the selected time unit (hour or minute) by a specified increment.
+   * Wraps around if the increment exceeds the maximum or minimum values.
+   * @param timeUnit - The time unit to iterate (either TimeUnits.HOUR or TimeUnits.MINUTE).
+   * @param increment - The amount to increment or decrement the time unit.
+   * @param minimum - The minimum value for the time unit.
+   * @param maximum - The maximum value for the time unit.
+   */
   iterateNumbers(timeUnit: TimeUnits, increment: number, minimum: number, maximum: number) {
     // Determine the current number based on the time unit
     const currentNumber = Number.parseInt(timeUnit === TimeUnits.HOUR ? this.selectedHour : this.selectedMinute);
@@ -138,6 +170,11 @@ export class TimePickerComponent implements OnInit, OnChanges {
     this.inputChanged();
   }
 
+  /**
+   * Gets the current date with the selected hour and minute.
+   * This is used to create a Date object that represents the selected time so we can use it for comparisons.
+   * @returns A Date object with the current date and the selected hour and minute.
+   */
   getDateWithSelectedTime() {
     // Create a new date object with the current date and the selected hour and minute
     const date = new Date();
@@ -148,6 +185,11 @@ export class TimePickerComponent implements OnInit, OnChanges {
     return date;
   }
 
+  /**
+   * Sets the time based variables to the provided value.
+   * This method updates the selected hour and minute based on the given value.
+   * @param value - The time value in string format (e.g., 'YYYY-MM-DDTHH:mm').
+   */
   setTime(value: string) {
     const date = new Date(value);
     // Update the selected hour and minute based on the provided value
@@ -158,6 +200,11 @@ export class TimePickerComponent implements OnInit, OnChanges {
     this.minuteInputBox.value = this.selectedMinute;
   }
 
+  /**
+   * Handles changes in the input fields for hour and minute.
+   * Validates the selected time against the minimum and maximum time constraints.
+   * Emits the formatted time change event.
+   */
   inputChanged() {
     // Get the date with the selected time
     let timeChanged: Date | string = this.getDateWithSelectedTime();
@@ -178,6 +225,12 @@ export class TimePickerComponent implements OnInit, OnChanges {
     this.changeDetectorRef.detectChanges();
   }
 
+  /**
+   * Checks if the up arrow should be shown for the given time unit.
+   * This is determined by whether the new date after incrementing is before or matches the maximum date.
+   * @param timeUnit - The time unit to check (either TimeUnits.HOUR or TimeUnits.MINUTE).
+   * @returns A boolean indicating whether the up arrow should be shown.
+   */
   shouldShowUpArrow(timeUnit: TimeUnits) {
     // Check if the maximum time is set
     if (!this.maxTime) {
@@ -193,6 +246,12 @@ export class TimePickerComponent implements OnInit, OnChanges {
     );
   }
 
+  /**
+   * Checks if the down arrow should be shown for the given time unit.
+   * This is determined by whether the new date after decrementing is after or matches the minimum date.
+   * @param timeUnit - The time unit to check (either TimeUnits.HOUR or TimeUnits.MINUTE).
+   * @returns A boolean indicating whether the down arrow should be shown.
+   */
   shouldShowDownArrow(timeUnit: TimeUnits) {
     // Check if the minimum time is set
     if (!this.minTime) {
@@ -206,6 +265,11 @@ export class TimePickerComponent implements OnInit, OnChanges {
     return newDate.isAfter(minDate) || newDate.format(this.timeFormat) === DateTime.at(minDate).format(this.timeFormat);
   }
 
+  /**
+   * Handles the input event for the hour input box.
+   * If the input length is 2 or more, it focuses on the minute input box.
+   * @param $event - The custom event triggered by the hour input box.
+   */
   async hourBoxInputted($event: CustomEvent) {
     // Check if the input length is 2 or more to trigger focus on the minute input box
     if ($event?.detail.value?.length >= 2) {
@@ -213,6 +277,13 @@ export class TimePickerComponent implements OnInit, OnChanges {
     }
   }
 
+  /**
+   * Sets focus on the specified input box and optionally erases its value.
+   * If shouldStartAtEnd is true, it sets the cursor position to the end of the input.
+   * @param inputField - The input field to focus on.
+   * @param shouldErase - Whether to erase the input value.
+   * @param shouldStartAtEnd - Whether to start the cursor at the end of the input.
+   */
   async setFocusOnInputBox(inputField: IonInput, shouldErase: boolean, shouldStartAtEnd = false) {
     // Set focus on the specified input box and optionally erase its value
     inputField.setFocus().then(async () => {
@@ -226,16 +297,33 @@ export class TimePickerComponent implements OnInit, OnChanges {
     });
   }
 
+  /**
+   * Sets focus on the hour input box and optionally erases its value.
+   * If shouldStartAtEnd is true, it sets the cursor position to the end of the input.
+   * @param shouldErase - Whether to erase the input value.
+   * @param shouldStartAtEnd - Whether to start the cursor at the end of the input.
+   */
   async focusHourInput(shouldErase: boolean, shouldStartAtEnd = false) {
     // Set focus on the hour input box and optionally erase its value
     await this.setFocusOnInputBox(this.hourInputBox, shouldErase, shouldStartAtEnd);
   }
 
+  /**
+   * Sets focus on the minute input box and optionally erases its value.
+   * If shouldStartAtEnd is true, it sets the cursor position to the end of the input.
+   * @param shouldErase - Whether to erase the input value.
+   * @param shouldStartAtEnd - Whether to start the cursor at the end of the input.
+   */
   async focusMinuteInput(shouldErase: boolean, shouldStartAtEnd = false) {
     // Set focus on the minute input box and optionally erase its value
     await this.setFocusOnInputBox(this.minuteInputBox, shouldErase, shouldStartAtEnd);
   }
 
+  /**
+   * Handles the input event for the minute input box.
+   * If the input length is 2 or more, it emits an event to indicate that the minute box is complete.
+   * @param $event - The custom event triggered by the minute input box.
+   */
   minuteBoxInputted($event: CustomEvent) {
     // Check if the input length is 2 or more to emit the minuteBoxExitedForward event
     if ($event?.detail.value?.length >= 2) {
@@ -243,11 +331,22 @@ export class TimePickerComponent implements OnInit, OnChanges {
     }
   }
 
+  /**
+   * Saves the current focus position in the input field.
+   * This is used to for comparison purposes.
+   * @param inputField - The input field where the focus position is saved.
+   */
   async saveCurrentFocusPosition(inputField: IonInput) {
     // Save the current cursor position in the input field
     this.savedFocusPosition = (await inputField.getInputElement()).selectionStart;
   }
 
+  /**
+   * Handles the tab key press event to switch focus between hour and minute inputs.
+   * If the hour input is focused, it moves focus to the minute input.
+   * If the minute input is focused, it emits an event to indicate it has exited.
+   * @param timeUnit - The time unit being focused (either TimeUnits.HOUR or TimeUnits.MINUTE).
+   */
   async tabPressed(timeUnit: TimeUnits) {
     // Handle tab key to switch focus between hour and minute inputs
     if (timeUnit === TimeUnits.HOUR) {
@@ -260,29 +359,49 @@ export class TimePickerComponent implements OnInit, OnChanges {
     return;
   }
 
+  /**
+   * Handles horizontal arrow key presses (left and right) in the input fields.
+   * If the left arrow is pressed at the start of the hour input, it emits an event to indicate exit.
+   * If the right arrow is pressed at the end of the minute input, it focuses on the hour input.
+   * @param keyPressed - The key that was pressed (either KeyCodes.LEFT or KeyCodes.RIGHT).
+   * @param timeUnit - The time unit being focused (either TimeUnits.HOUR or TimeUnits.MINUTE).
+   * @param inputField - The input field where the key press occurred.
+   */
   async horizontalArrowPressed(keyPressed: string, timeUnit: TimeUnits, inputField: IonInput) {
     const inputEl = await inputField.getInputElement();
     const pos = inputEl.selectionStart;
 
+    // Check if focus is at the start of the input and the saved focus position matches (meaning it was a result of pressing left while already at the start)
     if (keyPressed === KeyCodes.LEFT && pos === 0 && this.savedFocusPosition === pos) {
+      // If the hour input is focused and the left arrow is pressed at the start, emit an event to indicate exit
       if (timeUnit === TimeUnits.HOUR) {
         this.hourBoxExitedBack.emit(false);
       } else {
+        // If the minute input is focused, focus on the hour input
         await this.focusHourInput(false, true);
       }
       return;
     }
 
+    // Check if focus is at the end of the input and the saved focus position matches (meaning it was a result of pressing left while already at the end)
     if (keyPressed === KeyCodes.RIGHT && pos === inputEl.value.length && this.savedFocusPosition === pos) {
       if (timeUnit === TimeUnits.HOUR) {
+        // If the hour input is focused and the right arrow is pressed at the end, focus on the minute input
         await this.focusMinuteInput(false);
       } else {
+        // If the minute input is focused and the right arrow is pressed at the end, emit an event to indicate exit
         this.minuteBoxExitedForward.emit(false);
       }
       return;
     }
   }
 
+  /**
+   * Handles vertical arrow key presses (up and down) in the input fields.
+   * If the up arrow is pressed, it increments the time unit; if the down arrow is pressed, it decrements it.
+   * @param keyPressed - The key that was pressed (either KeyCodes.UP or KeyCodes.DOWN).
+   * @param timeUnit - The time unit being focused (either TimeUnits.HOUR or TimeUnits.MINUTE).
+   */
   verticalArrowPressed(keyPressed: string, timeUnit: TimeUnits) {
     // Check if we can show the up or down arrow based on the time unit
     if (
@@ -296,12 +415,6 @@ export class TimePickerComponent implements OnInit, OnChanges {
       // Call the iterateNumbers method with the determined time unit and increment
       this.iterateNumbers(timeUnit, increment, minimum, maximum);
       return;
-    }
-  }
-
-  async handleKeyPress(event: KeyboardEvent, timeUnit: TimeUnits, inputField: IonInput) {
-    const keyPressed = event.key;
-    if (keyPressed === KeyCodes.UP || keyPressed === KeyCodes.DOWN) {
     }
   }
 
