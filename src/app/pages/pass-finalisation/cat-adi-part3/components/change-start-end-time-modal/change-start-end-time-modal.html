@@ -74,7 +74,7 @@
               tabindex="1"
               (keydown.space)="onCancel()"
               (keydown.enter)="onCancel()"
-              (ionBlur)="removeFocusedClass('cancel')"
+              (blur)="removeFocusedClass('cancel')"
               (click)="onCancel()">
               Cancel
             </ion-button>
@@ -90,7 +90,7 @@
               (keydown.tab)="loopFocusToStartTime($event)"
               (keydown.space)="!ContinueButton.disabled ? onConfirm(): null"
               (keydown.enter)="!ContinueButton.disabled ? onConfirm(): null"
-              (ionBlur)="removeFocusedClass('confirm')"
+              (blur)="removeFocusedClass('confirm')"
               (click)="onConfirm()"
             >
               Confirm

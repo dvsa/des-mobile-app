@@ -79,6 +79,7 @@ export class ChangeStartEndTimeModal {
    * @param button - The button that is being unfocused, either 'cancel' or 'confirm'.
    */
   removeFocusedClass(button: 'cancel' | 'confirm') {
+    console.log('Removing focused class from button', button);
     // Remove the ion-focused class from the button that is being unfocused (without this, the button will still be visually focused)
     const buttonToUnfocus: ElementRef<HTMLButtonElement> = button === 'cancel' ? this.cancelButton : this.confirmButton;
     console.log(buttonToUnfocus.nativeElement.classList.contains('ion-focused'));
