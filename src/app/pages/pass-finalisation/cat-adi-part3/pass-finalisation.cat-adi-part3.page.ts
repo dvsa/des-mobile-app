@@ -112,7 +112,7 @@ export class PassFinalisationCatADIPart3Page extends PassFinalisationPageCompone
         map(([testResult]) => testResult),
         select(getTestData),
         select(getTestEndTime),
-        map((time: string) => time || new DateTime().add(1, 'hour').toISOString())
+        map((time: string) => time || new DateTime().add(45, Duration.MINUTE).toISOString())
       ),
     };
 
