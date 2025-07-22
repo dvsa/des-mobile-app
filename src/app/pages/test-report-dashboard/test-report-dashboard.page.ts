@@ -1,6 +1,7 @@
 import { Component, Injector, OnInit } from '@angular/core';
 import { UntypedFormGroup } from '@angular/forms';
 import { LessonAndTheme, TestData } from '@dvsa/mes-test-schema/categories/ADI3';
+import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { select } from '@ngrx/store';
 import { TestFlowPageNames } from '@pages/page-names.constants';
 import {
@@ -220,6 +221,10 @@ export class TestReportDashboardPage extends TestReportBasePageComponent impleme
         break;
     }
   };
+
+  isStandardsCheck() {
+    return this.testCategory === TestCategory.SC;
+  }
 
   navigateToPage = async (page: 'lessonTheme' | 'testReport') => {
     this.store$.dispatch(TestReportDashboardNavigateToPage(page));

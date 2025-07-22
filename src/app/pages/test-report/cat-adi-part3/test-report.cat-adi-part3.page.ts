@@ -8,6 +8,7 @@ import {
   TeachingLearningStrategies,
   TestData,
 } from '@dvsa/mes-test-schema/categories/ADI3';
+import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { NavController } from '@ionic/angular';
 import { select } from '@ngrx/store';
 import { AssessmentOverallScoreChanged } from '@pages/test-report/cat-adi-part3/test-report.cat-adi-part3.actions';
@@ -129,6 +130,10 @@ export class TestReportCatADI3Page extends TestReportBasePageComponent implement
   teachingLearningStrategyChanged = ({ question, answer }: { question: number; answer: number }): void => {
     this.store$.dispatch(TeachingLearningStrategiesQuestionScoreChanged(question, answer));
   };
+
+  isStandardsCheck() {
+    return this.testCategory === TestCategory.SC;
+  }
 
   onContinueClick = (totalScore: number): void => {
     Object.keys(this.form.controls).forEach((controlName: string) => this.form.controls[controlName].markAsDirty());
