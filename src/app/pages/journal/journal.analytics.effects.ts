@@ -29,7 +29,8 @@ import {
   JournalViewDidEnter,
   ResumingWriteUp,
 } from '@store/journal/journal.actions';
-import { JournalRehydrationPage, JournalRehydrationType } from '@store/journal/journal.effects';
+import { JournalRehydrationType } from '@store/journal/journal.effects';
+import { LoadRemoteTests } from '@store/tests/tests.actions';
 import { getTests } from '@store/tests/tests.reducer';
 import { getTestById, isPassed } from '@store/tests/tests.selector';
 
@@ -88,10 +89,6 @@ export class JournalAnalyticsEffects {
     )
   );
 
-  getRehydrationPageType(page: JournalRehydrationPage): GoogleAnalyticsEvents {
-    return page === JournalRehydrationPage.DASHBOARD ? GoogleAnalyticsEvents.DASHBOARD : GoogleAnalyticsEvents.JOURNAL;
-  }
-
   getRehydrationType(refreshType: JournalRehydrationType): GoogleAnalyticsEventsValues {
     return refreshType === JournalRehydrationType.AUTO
       ? GoogleAnalyticsEventsValues.AUTOMATIC
@@ -104,10 +101,31 @@ export class JournalAnalyticsEffects {
       switchMap((action: ReturnType<typeof JournalRehydrationSuccess>) => {
         // GA4 Analytics
         this.analytics.logGAEvent(
-          this.getRehydrationPageType(action.page),
-          GoogleAnalyticsEventsTitles.REHYDRATION,
+          GoogleAnalyticsEvents.REHYDRATION,
+          GoogleAnalyticsEventsTitles.REFRESH,
           `${this.getRehydrationType(action.refreshType)}_${GoogleAnalyticsEventsValues.COMPLETED}`
         );
+        return of(AnalyticRecorded());
+      })
+    )
+  );
+
+  journalRehydrationLoadRemoteTests$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(LoadRemoteTests),
+      switchMap((action: ReturnType<typeof LoadRemoteTests>) => {
+        action.tests.forEach((test) => {
+          const rehydrationData = {
+            autosave: test.autosave,
+            slotId: test.slotId,
+            appRef: formatApplicationReference(test.testData.journalData.applicationReference),
+          };
+          this.analytics.logGAEvent(
+            GoogleAnalyticsEvents.REHYDRATION,
+            GoogleAnalyticsEventsTitles.REMOTE_TESTS_LOADED,
+            JSON.stringify(rehydrationData)
+          );
+        });
         return of(AnalyticRecorded());
       })
     )
@@ -119,8 +137,8 @@ export class JournalAnalyticsEffects {
       switchMap((action: ReturnType<typeof JournalRehydrationNull>) => {
         // GA4 Analytics
         this.analytics.logGAEvent(
-          this.getRehydrationPageType(action.page),
-          GoogleAnalyticsEventsTitles.REHYDRATION,
+          GoogleAnalyticsEvents.REHYDRATION,
+          GoogleAnalyticsEventsTitles.REFRESH,
           `${this.getRehydrationType(action.refreshType)}_${GoogleAnalyticsEventsValues.NULL}`
         );
 
@@ -135,8 +153,8 @@ export class JournalAnalyticsEffects {
       switchMap((action: ReturnType<typeof JournalRehydrationError>) => {
         // GA4 Analytics
         this.analytics.logGAEvent(
-          this.getRehydrationPageType(action.page),
-          GoogleAnalyticsEventsTitles.REHYDRATION,
+          GoogleAnalyticsEvents.REHYDRATION,
+          GoogleAnalyticsEventsTitles.REFRESH,
           `${this.getRehydrationType(action.refreshType)}_${GoogleAnalyticsEventsValues.ERROR}`
         );
 
