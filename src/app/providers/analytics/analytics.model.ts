@@ -269,7 +269,7 @@ export enum GoogleAnalyticsCustomDimension {
 
 export enum GoogleAnalyticsEvents {
   REHYDRATION = 'rehydration',
-  Test_STATUS_CHANGED = 'test_status_changed',
+  TEST_STATUS_CHANGED = 'test_status_changed',
   REKEY_SEARCH_PAGE = 'start_test',
   START_TEST = 'start_test',
   RETURN_TO_TEST = 'return_to_test',

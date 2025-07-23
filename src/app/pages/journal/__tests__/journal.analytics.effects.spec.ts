@@ -261,8 +261,8 @@ describe('JournalAnalyticsEffects', () => {
 
         effects.journalRehydrationSuccess$.subscribe((result) => {
           expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-            GoogleAnalyticsEvents.DASHBOARD,
-            GoogleAnalyticsEventsTitles.REHYDRATION,
+            GoogleAnalyticsEvents.REHYDRATION,
+            GoogleAnalyticsEventsTitles.REFRESH,
             `${GoogleAnalyticsEventsValues.AUTOMATIC}_${GoogleAnalyticsEventsValues.COMPLETED}`
           );
           expect(result).toEqual(AnalyticRecorded());
@@ -278,8 +278,8 @@ describe('JournalAnalyticsEffects', () => {
 
         effects.journalRehydrationSuccess$.subscribe((result) => {
           expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-            GoogleAnalyticsEvents.JOURNAL,
-            GoogleAnalyticsEventsTitles.REHYDRATION,
+            GoogleAnalyticsEvents.REHYDRATION,
+            GoogleAnalyticsEventsTitles.REFRESH,
             `${GoogleAnalyticsEventsValues.MANUAL}_${GoogleAnalyticsEventsValues.COMPLETED}`
           );
           expect(result).toEqual(AnalyticRecorded());
@@ -297,8 +297,8 @@ describe('JournalAnalyticsEffects', () => {
 
         effects.journalRehydrationNull$.subscribe((result) => {
           expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-            GoogleAnalyticsEvents.DASHBOARD,
-            GoogleAnalyticsEventsTitles.REHYDRATION,
+            GoogleAnalyticsEvents.REHYDRATION,
+            GoogleAnalyticsEventsTitles.REFRESH,
             `${GoogleAnalyticsEventsValues.AUTOMATIC}_${GoogleAnalyticsEventsValues.NULL}`
           );
           expect(result).toEqual(AnalyticRecorded());
@@ -314,8 +314,8 @@ describe('JournalAnalyticsEffects', () => {
 
         effects.journalRehydrationNull$.subscribe((result) => {
           expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-            GoogleAnalyticsEvents.JOURNAL,
-            GoogleAnalyticsEventsTitles.REHYDRATION,
+            GoogleAnalyticsEvents.REHYDRATION,
+            GoogleAnalyticsEventsTitles.REFRESH,
             `${GoogleAnalyticsEventsValues.MANUAL}_${GoogleAnalyticsEventsValues.NULL}`
           );
           expect(result).toEqual(AnalyticRecorded());
@@ -333,8 +333,8 @@ describe('JournalAnalyticsEffects', () => {
 
         effects.journalRehydrationError$.subscribe((result) => {
           expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-            GoogleAnalyticsEvents.DASHBOARD,
-            GoogleAnalyticsEventsTitles.REHYDRATION,
+            GoogleAnalyticsEvents.REHYDRATION,
+            GoogleAnalyticsEventsTitles.REFRESH,
             `${GoogleAnalyticsEventsValues.AUTOMATIC}_${GoogleAnalyticsEventsValues.ERROR}`
           );
           expect(result).toEqual(AnalyticRecorded());
@@ -350,8 +350,8 @@ describe('JournalAnalyticsEffects', () => {
 
         effects.journalRehydrationError$.subscribe((result) => {
           expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-            GoogleAnalyticsEvents.JOURNAL,
-            GoogleAnalyticsEventsTitles.REHYDRATION,
+            GoogleAnalyticsEvents.REHYDRATION,
+            GoogleAnalyticsEventsTitles.REFRESH,
             `${GoogleAnalyticsEventsValues.MANUAL}_${GoogleAnalyticsEventsValues.ERROR}`
           );
           expect(result).toEqual(AnalyticRecorded());

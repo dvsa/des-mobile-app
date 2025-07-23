@@ -26,7 +26,7 @@ export class TestStatusAnalyticsEffects {
   ) {}
   fireTestStatusAnalytic(tests: TestsModel, testStatus: TestStatus, slotID: string): void {
     this.analytics.logGAEvent(
-      analyticsEventTypePrefix(GoogleAnalyticsEvents.Test_STATUS_CHANGED, tests),
+      analyticsEventTypePrefix(GoogleAnalyticsEvents.TEST_STATUS_CHANGED, tests),
       testStatus,
       formatApplicationReference(tests.startedTests[slotID].journalData.applicationReference)
     );
