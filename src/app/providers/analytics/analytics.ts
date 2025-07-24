@@ -203,7 +203,6 @@ export class AnalyticsProvider {
           if (title3 && value3) {
             eventData[title3] = value3;
           }
-
           gtag('event', eventName, eventData);
         } catch (error) {
           console.error('Analytics - logEvent', error);

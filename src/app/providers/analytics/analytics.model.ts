@@ -268,6 +268,8 @@ export enum GoogleAnalyticsCustomDimension {
 }
 
 export enum GoogleAnalyticsEvents {
+  REHYDRATION = 'rehydration',
+  TEST_STATUS_CHANGED = 'test_status_changed',
   REKEY_SEARCH_PAGE = 'start_test',
   START_TEST = 'start_test',
   RETURN_TO_TEST = 'return_to_test',
@@ -356,6 +358,7 @@ export enum GoogleAnalyticsEvents {
 }
 
 export enum GoogleAnalyticsEventsTitles {
+  REMOTE_TESTS_LOADED = 'remote_tests_loaded',
   BANNER = 'banner',
   TEAMS_NOT_FOUND = 'microsoft_teams_could_not_be_found',
   TEAMS_NOT_OPENED = 'microsoft_teams_cannot_be_opened',
