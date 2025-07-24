@@ -28,8 +28,7 @@ $card-ios-background-color: var(--mes-theme-main-colour);
     --mes-background: #efefee;
     --mes-toolbar-background: #{$mes-toolbar-background};
     --mes-theme-main-colour: #{$gds-white};
-    --escape-SAM-Purple: #4B53BC;
-  --mes-theme-opposing-colour: #{$gds-black};
+    --mes-theme-opposing-colour: #{$gds-black};
     --mes-theme-main-variant1: #E6E6E6;
     --mes-theme-main-variant2: #D9D9D9;
     --mes-theme-main-variant3: #dee0e2;
@@ -43,7 +42,7 @@ $card-ios-background-color: var(--mes-theme-main-colour);
     --journalTestCategory: #818080;
     --journalSlotChangeIdentifier: #d0021b;
     //These versions of yellow are not in use, consider using gds-yellow instead.
-  //--secondary-button: #f5a623;
+    //--secondary-button: #f5a623;
     //--secondary-button-darken: #DC8D0A;
     --nonTestActivitySlotBackground: rgba(198, 236, 233, 0.1);
     --travelSlotBackground: #eef8e5;
@@ -52,7 +51,9 @@ $card-ios-background-color: var(--mes-theme-main-colour);
     --mes-light-grey: #f9f9f9;
     --mes-dvsa-navy: #243673;
     --mes-teal: #16eeef;
-  --reverseLightBlue: #e8f0fe;
+    --escape-SAM-Purple: #4B53BC;
+    --reverseLightBlue: #e8f0fe;
+    --hyperlink-blue: #0074d9;
 
     /** gds colours **/
     --gds-theme-opposite: #{$gds-black};
@@ -165,6 +166,7 @@ $card-ios-background-color: var(--mes-theme-main-colour);
 
     --ion-accordion: #f4f5f8;
     --ion-background-color: var(--mes-background);
+
     ion-content {
       --ion-background-color: var(--mes-background);
     }
@@ -328,6 +330,7 @@ $card-ios-background-color: var(--mes-theme-main-colour);
     --ion-card-background: #{$gds-white};
   }
 }
+
 @media (prefers-color-scheme: dark) {
   /*
    * Dark Colors
@@ -366,7 +369,10 @@ $card-ios-background-color: var(--mes-theme-main-colour);
     --mes-light-yellow: #F8E8CE;
     --mes-light-grey: #f9f9f9;
     --mes-dvsa-navy: #243673;
+    --mes-teal: #16eeef;
+    --escape-SAM-Purple: #4B53BC;
     --reverseLightBlue: #e8f0fe;
+    --hyperlink-blue: #0074d9;
 
     /** gds colours **/
     --gds-theme-opposite: #{$gds-white};
@@ -530,7 +536,10 @@ $card-ios-background-color: var(--mes-theme-main-colour);
     --mes-light-yellow: #F8E8CE;
     --mes-light-grey: #f9f9f9;
     --mes-dvsa-navy: #243673;
+    --mes-teal: #16eeef;
+    --escape-SAM-Purple: #4B53BC;
     --reverseLightBlue: #e8f0fe;
+    --hyperlink-blue: #0074d9;
 
     /** gds colours **/
     --gds-theme-opposite: #{$gds-black};
