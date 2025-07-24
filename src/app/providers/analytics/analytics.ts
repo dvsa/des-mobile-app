@@ -211,6 +211,18 @@ export class AnalyticsProvider {
     });
   }
 
+  logGAEventJSON(eventName: string, eventData: { [key: string]: string } = {}): void {
+    this.platform.ready().then(() => {
+      if (this.isIos()) {
+        try {
+          gtag('event', eventName, eventData);
+        } catch (error) {
+          console.error('Analytics - logEvent', error);
+        }
+      }
+    });
+  }
+
   /**
    * Record a GA4 event as a generic error
    * @param type

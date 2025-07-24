@@ -19,7 +19,7 @@
           [class.ng-invalid]="isInvalid()"
           id="receipt-declaration-checkbox"
           [checked]="selected"
-          (click)="receiptDeclarationChanged()"
+          (click)="receiptDeclarationChanged($event.target.checked)"
         />
         <label id="receipt-declaration-label" for="receipt-declaration-checkbox" addOrRemoveLangCy
           >{{ 'healthDeclaration.confirm' | translate }}</label

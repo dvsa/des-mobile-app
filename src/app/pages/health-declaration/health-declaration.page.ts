@@ -184,12 +184,12 @@ export class HealthDeclarationPage
     this.store$.dispatch(postTestDeclarationsActions.SignatureDataCleared());
   }
 
-  healthDeclarationChanged(): void {
-    this.store$.dispatch(postTestDeclarationsActions.ToggleHealthDeclaration());
+  healthDeclarationChanged(isSelected: boolean): void {
+    this.store$.dispatch(postTestDeclarationsActions.ToggleHealthDeclaration(isSelected));
   }
 
-  receiptDeclarationChanged(): void {
-    this.store$.dispatch(postTestDeclarationsActions.ToggleReceiptDeclaration());
+  receiptDeclarationChanged(isSelected: boolean): void {
+    this.store$.dispatch(postTestDeclarationsActions.ToggleReceiptDeclaration(isSelected));
   }
 
   async onSubmit(): Promise<void> {

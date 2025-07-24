@@ -233,6 +233,8 @@ export abstract class OfficeBasePageComponent extends PracticeableBasePageCompon
   weatherConditions: WeatherConditionSelection[];
   finishTestModal: HTMLIonModalElement;
 
+  hasIdentificationBeenUpdated = false;
+
   protected constructor(
     injector: Injector,
     @Inject(false) public loginRequired = false
@@ -477,6 +479,10 @@ export abstract class OfficeBasePageComponent extends PracticeableBasePageCompon
   }
 
   completeTest = async (): Promise<void> => {
+    // If the identification has not been updated, dispatch the current identification for analytics purposes.
+    if (!this.hasIdentificationBeenUpdated) {
+      this.identificationChanged(this.form.value.identification);
+    }
     if (!this.isEndToEndPracticeMode) {
       this.store$.dispatch(CompleteTest());
     }
@@ -493,6 +499,7 @@ export abstract class OfficeBasePageComponent extends PracticeableBasePageCompon
 
   identificationChanged(identification: Identification): void {
     this.store$.dispatch(IdentificationUsedChanged(identification));
+    this.hasIdentificationBeenUpdated = true;
   }
 
   trueLikenessToPhotoChanged(trueLikeness: boolean): void {

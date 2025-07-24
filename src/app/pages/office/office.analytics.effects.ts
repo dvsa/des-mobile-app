@@ -41,7 +41,13 @@ import {
 } from '@store/tests/test-data/common/test-data.selector';
 import { CircuitTypeChanged } from '@store/tests/test-summary/cat-a-mod1/test-summary.cat-a-mod1.actions';
 import { ModeOfTransportChanged } from '@store/tests/test-summary/cat-a-mod2/test-summary.cat-a-mod2.actions';
-import { IndependentDrivingTypeChanged } from '@store/tests/test-summary/test-summary.actions';
+import {
+  CandidateDescriptionChanged,
+  IdentificationUsedChanged,
+  IndependentDrivingTypeChanged,
+  RouteNumberChanged,
+  WeatherConditionsChanged,
+} from '@store/tests/test-summary/test-summary.actions';
 import { TestsModel } from '@store/tests/tests.model';
 import { getTests } from '@store/tests/tests.reducer';
 import { getCurrentTest, getJournalData, isPassed, isPracticeMode } from '@store/tests/tests.selector';
@@ -413,6 +419,142 @@ export class OfficeAnalyticsEffects {
         );
         return of(AnalyticRecorded());
       })
+    )
+  );
+
+  routeNumberChanged$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(RouteNumberChanged),
+      concatMap((action) =>
+        of(action).pipe(
+          withLatestFrom(
+            this.store$.pipe(select(getTests)),
+            this.store$.pipe(select(getTests), select(getCurrentTest), select(getTestCategory)),
+            this.store$.pipe(select(getTests), select(isPracticeMode))
+          )
+        )
+      ),
+      filter(([, , , practiceMode]) =>
+        !practiceMode ? true : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics
+      ),
+      concatMap(
+        ([{ routeNumber }, , category]: [ReturnType<typeof RouteNumberChanged>, TestsModel, CategoryCode, boolean]) => {
+          //GA4 Analytics
+          this.analytics.addGACustomDimension(GoogleAnalyticsCustomDimension.TEST_CATEGORY, category);
+          this.analytics.logGAEvent(
+            GoogleAnalyticsEvents.ROUTE_NUMBER_CHANGED,
+            GoogleAnalyticsEventsTitles.ROUTE,
+            routeNumber.toString()
+          );
+          return of(AnalyticRecorded());
+        }
+      )
+    )
+  );
+
+  candidateDescriptionChanged$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(CandidateDescriptionChanged),
+      concatMap((action) =>
+        of(action).pipe(
+          withLatestFrom(
+            this.store$.pipe(select(getTests)),
+            this.store$.pipe(select(getTests), select(getCurrentTest), select(getTestCategory)),
+            this.store$.pipe(select(getTests), select(isPracticeMode))
+          )
+        )
+      ),
+      filter(([, , , practiceMode]) =>
+        !practiceMode ? true : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics
+      ),
+      concatMap(
+        ([, , category]: [ReturnType<typeof CandidateDescriptionChanged>, TestsModel, CategoryCode, boolean]) => {
+          //GA4 Analytics
+          this.analytics.addGACustomDimension(GoogleAnalyticsCustomDimension.TEST_CATEGORY, category);
+          this.analytics.logGAEvent(
+            GoogleAnalyticsEvents.PHYSICAL_APPEARANCE,
+            GoogleAnalyticsEventsTitles.COMMENTS,
+            GoogleAnalyticsEventsValues.FREE_TEXT_ENTERED
+          );
+          return of(AnalyticRecorded());
+        }
+      )
+    )
+  );
+
+  weatherConditionsChanged$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(WeatherConditionsChanged),
+      concatMap((action) =>
+        of(action).pipe(
+          withLatestFrom(
+            this.store$.pipe(select(getTests)),
+            this.store$.pipe(select(getTests), select(getCurrentTest), select(getTestCategory)),
+            this.store$.pipe(select(getTests), select(isPracticeMode))
+          )
+        )
+      ),
+      filter(([, , , practiceMode]) =>
+        !practiceMode ? true : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics
+      ),
+      concatMap(
+        ([{ weatherConditions }, , category]: [
+          ReturnType<typeof WeatherConditionsChanged>,
+          TestsModel,
+          CategoryCode,
+          boolean,
+        ]) => {
+          const analyticData: { [p: string]: string } = {};
+          for (let i = 0; i < weatherConditions.length; i++) {
+            analyticData[`${GoogleAnalyticsEventsTitles.WEATHER_SELECTION}_${i + 1}`] = weatherConditions[i];
+          }
+          console.log(weatherConditions);
+          //GA4 Analytics
+          this.analytics.addGACustomDimension(GoogleAnalyticsCustomDimension.TEST_CATEGORY, category);
+          this.analytics.logGAEventJSON(GoogleAnalyticsEvents.WEATHER_CONDITION_ADDED, analyticData);
+          return of(AnalyticRecorded());
+        }
+      )
+    )
+  );
+
+  identificationUsedChanged$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(IdentificationUsedChanged),
+      concatMap((action) =>
+        of(action).pipe(
+          withLatestFrom(
+            this.store$.pipe(select(getTests)),
+            this.store$.pipe(select(getTests), select(getCurrentTest), select(getTestCategory)),
+            this.store$.pipe(select(getTests), select(isPracticeMode))
+          )
+        )
+      ),
+      filter(([, , , practiceMode]) =>
+        !practiceMode ? true : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics
+      ),
+      concatMap(
+        ([{ identification }, , category]: [
+          ReturnType<typeof IdentificationUsedChanged>,
+          TestsModel,
+          CategoryCode,
+          boolean,
+        ]) => {
+          //GA4 Analytics
+          let value = GoogleAnalyticsEventsValues.UNKNOWN;
+          switch (identification) {
+            case 'Licence':
+              value = GoogleAnalyticsEventsValues.PHOTOCARD;
+              break;
+            case 'Passport':
+              value = GoogleAnalyticsEventsValues.PASSPORT;
+              break;
+          }
+          this.analytics.addGACustomDimension(GoogleAnalyticsCustomDimension.TEST_CATEGORY, category);
+          this.analytics.logGAEvent(GoogleAnalyticsEvents.PHYSICAL_APPEARANCE, GoogleAnalyticsEventsTitles.ID, value);
+          return of(AnalyticRecorded());
+        }
+      )
     )
   );
 

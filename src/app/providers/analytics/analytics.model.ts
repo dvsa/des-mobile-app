@@ -268,6 +268,11 @@ export enum GoogleAnalyticsCustomDimension {
 }
 
 export enum GoogleAnalyticsEvents {
+  HEALTH_DECLARATION_CONTROL = 'health_declaration_control',
+  PASS_CERTIFICATE_NUMBER_CONTORL = 'pass_certificate_number_control',
+  WEATHER_CONDITION_ADDED = 'weather_condition_added',
+  PHYSICAL_APPEARANCE = 'physical_appearance',
+  ROUTE_NUMBER_CHANGED = 'route_number_changed',
   REHYDRATION = 'rehydration',
   TEST_STATUS_CHANGED = 'test_status_changed',
   REKEY_SEARCH_PAGE = 'start_test',
@@ -358,6 +363,10 @@ export enum GoogleAnalyticsEvents {
 }
 
 export enum GoogleAnalyticsEventsTitles {
+  ID = 'id',
+  WEATHER_SELECTION = 'weather_selection',
+  COMMENTS = 'comments',
+  ROUTE = 'route',
   REMOTE_TESTS_LOADED = 'remote_tests_loaded',
   BANNER = 'banner',
   TEAMS_NOT_FOUND = 'microsoft_teams_could_not_be_found',
@@ -448,6 +457,9 @@ export enum GoogleAnalyticsEventsTitles {
 }
 
 export enum GoogleAnalyticsEventsValues {
+  UNCOMFIRMED = 'unconfirmed',
+  PHOTOCARD = 'photocard',
+  PASSPORT = 'passport',
   RECALL_CHECKER = 'recall_checker',
   ERROR_MODAL = 'error_modal',
   BUTTON_SELECTED = 'button_selected',

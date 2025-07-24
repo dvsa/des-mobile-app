@@ -2,14 +2,20 @@ import { createAction } from '@ngrx/store';
 
 export const ClearPostTestDeclarations = createAction('[HealthDeclarations] Clear declarations');
 
-export const ToggleHealthDeclaration = createAction('[HealthDeclarations] Health declaration toggled');
+export const ToggleHealthDeclaration = createAction(
+  '[HealthDeclarations] Health declaration toggled',
+  (selected: boolean) => ({ selected })
+);
 
 export const HealthDeclarationAccepted = createAction(
   '[HealthDeclarations] Health declaration accepted',
   (payload: boolean) => ({ payload })
 );
 
-export const ToggleReceiptDeclaration = createAction('[HealthDeclarations] Receipt declaration toggled');
+export const ToggleReceiptDeclaration = createAction(
+  '[HealthDeclarations] Receipt declaration toggled',
+  (selected: boolean) => ({ selected })
+);
 
 export const PassCertificateNumberReceived = createAction(
   '[HealthDeclarations] Health declaration accepted',

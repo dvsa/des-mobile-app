@@ -47,14 +47,14 @@
         *ngIf="pageState.showHealthDec$ | async"
         [formGroup]="formGroup"
         [selected]="pageState.healthDeclarationAccepted$ | async"
-        (healthDeclarationChange)="healthDeclarationChanged()"
+        (healthDeclarationChange)="healthDeclarationChanged($event)"
       >
       </health-declaration>
 
       <receipt-declaration
         [formGroup]="formGroup"
         [selected]="pageState.receiptDeclarationAccepted$ | async"
-        (receiptDeclarationChange)="receiptDeclarationChanged()"
+        (receiptDeclarationChange)="receiptDeclarationChanged($event)"
         [certificateNumber]="pageState.passCertificateNumber$ | async"
       >
       </receipt-declaration>

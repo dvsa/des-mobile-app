@@ -27,8 +27,8 @@ export class HealthDeclarationComponent implements OnChanges {
     this.formControl.patchValue(this.selected);
   }
 
-  healthDeclarationChanged(): void {
-    this.healthDeclarationChange.emit();
+  healthDeclarationChanged(isChecked: boolean): void {
+    this.healthDeclarationChange.emit(isChecked);
   }
 
   isInvalid(): boolean {
