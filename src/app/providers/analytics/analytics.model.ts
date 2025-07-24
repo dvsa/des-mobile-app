@@ -358,7 +358,7 @@ export enum GoogleAnalyticsEvents {
 }
 
 export enum GoogleAnalyticsEventsTitles {
-  REMOTE_TESTS_LOADED = 'remote tests loaded',
+  REMOTE_TESTS_LOADED = 'remote_tests_loaded',
   BANNER = 'banner',
   TEAMS_NOT_FOUND = 'microsoft_teams_could_not_be_found',
   TEAMS_NOT_OPENED = 'microsoft_teams_cannot_be_opened',
