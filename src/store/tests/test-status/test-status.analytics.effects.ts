@@ -87,7 +87,6 @@ export class TestStatusAnalyticsEffects {
       concatMap(
         ([{ slotId }, tests]: [ReturnType<typeof testStatusActions.SetTestStatusDecided>, TestsModel, boolean]) => {
           //GA4 Analytics
-          //GA4 Analytics
           this.analytics.logGAEvent(
             analyticsEventTypePrefix(GoogleAnalyticsEvents.TEST_STATUS_CHANGED, tests),
             TestStatus.Decided,
