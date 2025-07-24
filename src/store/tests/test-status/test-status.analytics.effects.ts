@@ -24,13 +24,7 @@ export class TestStatusAnalyticsEffects {
     private store$: Store<StoreModel>,
     private appConfigProvider: AppConfigProvider
   ) {}
-  fireTestStatusAnalytic(tests: TestsModel, testStatus: TestStatus, slotID: string): void {
-    this.analytics.logGAEvent(
-      analyticsEventTypePrefix(GoogleAnalyticsEvents.TEST_STATUS_CHANGED, tests),
-      testStatus,
-      formatApplicationReference(tests.startedTests[slotID].journalData.applicationReference)
-    );
-  }
+
   setTestStatusBookedEffect$ = createEffect(() =>
     this.actions$.pipe(
       ofType(testStatusActions.SetTestStatusBooked),
@@ -42,11 +36,17 @@ export class TestStatusAnalyticsEffects {
       filter(([, , practiceMode]) =>
         !practiceMode ? true : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics
       ),
-      concatMap(([action, tests]: [ReturnType<typeof testStatusActions.SetTestStatusBooked>, TestsModel, boolean]) => {
-        //GA4 Analytics
-        this.fireTestStatusAnalytic(tests, TestStatus.Booked, action.slotId);
-        return of(AnalyticRecorded());
-      })
+      concatMap(
+        ([{ slotId }, tests]: [ReturnType<typeof testStatusActions.SetTestStatusBooked>, TestsModel, boolean]) => {
+          //GA4 Analytics
+          this.analytics.logGAEvent(
+            analyticsEventTypePrefix(GoogleAnalyticsEvents.TEST_STATUS_CHANGED, tests),
+            TestStatus.Booked,
+            formatApplicationReference(tests.startedTests[slotId].journalData.applicationReference)
+          );
+          return of(AnalyticRecorded());
+        }
+      )
     )
   );
   setTestStatusStartedEffect$ = createEffect(() =>
@@ -60,11 +60,17 @@ export class TestStatusAnalyticsEffects {
       filter(([, , practiceMode]) =>
         !practiceMode ? true : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics
       ),
-      concatMap(([action, tests]: [ReturnType<typeof testStatusActions.SetTestStatusStarted>, TestsModel, boolean]) => {
-        //GA4 Analytics
-        this.fireTestStatusAnalytic(tests, TestStatus.Started, action.slotId);
-        return of(AnalyticRecorded());
-      })
+      concatMap(
+        ([{ slotId }, tests]: [ReturnType<typeof testStatusActions.SetTestStatusStarted>, TestsModel, boolean]) => {
+          //GA4 Analytics
+          this.analytics.logGAEvent(
+            analyticsEventTypePrefix(GoogleAnalyticsEvents.TEST_STATUS_CHANGED, tests),
+            TestStatus.Started,
+            formatApplicationReference(tests.startedTests[slotId].journalData.applicationReference)
+          );
+          return of(AnalyticRecorded());
+        }
+      )
     )
   );
   setTestStatusDecidedEffect$ = createEffect(() =>
@@ -78,11 +84,18 @@ export class TestStatusAnalyticsEffects {
       filter(([, , practiceMode]) =>
         !practiceMode ? true : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics
       ),
-      concatMap(([action, tests]: [ReturnType<typeof testStatusActions.SetTestStatusDecided>, TestsModel, boolean]) => {
-        //GA4 Analytics
-        this.fireTestStatusAnalytic(tests, TestStatus.Decided, action.slotId);
-        return of(AnalyticRecorded());
-      })
+      concatMap(
+        ([{ slotId }, tests]: [ReturnType<typeof testStatusActions.SetTestStatusDecided>, TestsModel, boolean]) => {
+          //GA4 Analytics
+          //GA4 Analytics
+          this.analytics.logGAEvent(
+            analyticsEventTypePrefix(GoogleAnalyticsEvents.TEST_STATUS_CHANGED, tests),
+            TestStatus.Decided,
+            formatApplicationReference(tests.startedTests[slotId].journalData.applicationReference)
+          );
+          return of(AnalyticRecorded());
+        }
+      )
     )
   );
   setTestStatusWriteUpEffect$ = createEffect(() =>
@@ -96,11 +109,17 @@ export class TestStatusAnalyticsEffects {
       filter(([, , practiceMode]) =>
         !practiceMode ? true : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics
       ),
-      concatMap(([action, tests]: [ReturnType<typeof testStatusActions.SetTestStatusWriteUp>, TestsModel, boolean]) => {
-        //GA4 Analytics
-        this.fireTestStatusAnalytic(tests, TestStatus.WriteUp, action.slotId);
-        return of(AnalyticRecorded());
-      })
+      concatMap(
+        ([{ slotId }, tests]: [ReturnType<typeof testStatusActions.SetTestStatusWriteUp>, TestsModel, boolean]) => {
+          //GA4 Analytics
+          this.analytics.logGAEvent(
+            analyticsEventTypePrefix(GoogleAnalyticsEvents.TEST_STATUS_CHANGED, tests),
+            TestStatus.WriteUp,
+            formatApplicationReference(tests.startedTests[slotId].journalData.applicationReference)
+          );
+          return of(AnalyticRecorded());
+        }
+      )
     )
   );
   setTestStatusAutosavedEffect$ = createEffect(() =>
@@ -115,9 +134,13 @@ export class TestStatusAnalyticsEffects {
         !practiceMode ? true : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics
       ),
       concatMap(
-        ([action, tests]: [ReturnType<typeof testStatusActions.SetTestStatusAutosaved>, TestsModel, boolean]) => {
+        ([{ slotId }, tests]: [ReturnType<typeof testStatusActions.SetTestStatusAutosaved>, TestsModel, boolean]) => {
           //GA4 Analytics
-          this.fireTestStatusAnalytic(tests, TestStatus.Autosaved, action.slotId);
+          this.analytics.logGAEvent(
+            analyticsEventTypePrefix(GoogleAnalyticsEvents.TEST_STATUS_CHANGED, tests),
+            TestStatus.Autosaved,
+            formatApplicationReference(tests.startedTests[slotId].journalData.applicationReference)
+          );
           return of(AnalyticRecorded());
         }
       )
@@ -135,9 +158,13 @@ export class TestStatusAnalyticsEffects {
         !practiceMode ? true : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics
       ),
       concatMap(
-        ([action, tests]: [ReturnType<typeof testStatusActions.SetTestStatusCompleted>, TestsModel, boolean]) => {
+        ([{ slotId }, tests]: [ReturnType<typeof testStatusActions.SetTestStatusCompleted>, TestsModel, boolean]) => {
           //GA4 Analytics
-          this.fireTestStatusAnalytic(tests, TestStatus.Completed, action.slotId);
+          this.analytics.logGAEvent(
+            analyticsEventTypePrefix(GoogleAnalyticsEvents.TEST_STATUS_CHANGED, tests),
+            TestStatus.Completed,
+            formatApplicationReference(tests.startedTests[slotId].journalData.applicationReference)
+          );
           return of(AnalyticRecorded());
         }
       )
@@ -155,9 +182,13 @@ export class TestStatusAnalyticsEffects {
         !practiceMode ? true : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics
       ),
       concatMap(
-        ([action, tests]: [ReturnType<typeof testStatusActions.SetTestStatusSubmitted>, TestsModel, boolean]) => {
+        ([{ slotId }, tests]: [ReturnType<typeof testStatusActions.SetTestStatusSubmitted>, TestsModel, boolean]) => {
           //GA4 Analytics
-          this.fireTestStatusAnalytic(tests, TestStatus.Submitted, action.slotId);
+          this.analytics.logGAEvent(
+            analyticsEventTypePrefix(GoogleAnalyticsEvents.TEST_STATUS_CHANGED, tests),
+            TestStatus.Submitted,
+            formatApplicationReference(tests.startedTests[slotId].journalData.applicationReference)
+          );
           return of(AnalyticRecorded());
         }
       )

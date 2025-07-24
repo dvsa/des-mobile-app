@@ -56,39 +56,6 @@ describe('TestStatusAnalyticsEffects', () => {
     analyticsProviderMock = TestBed.inject(AnalyticsProvider);
   });
 
-  describe('fireTestStatusAnalytic', () => {
-    it('should log GA event with correct parameters', () => {
-      const tests: TestsModel = {
-        currentTest: {} as CurrentTest,
-        testStatus: {},
-        startedTests: {
-          '12345': {
-            journalData: {
-              applicationReference: {
-                applicationId: 1,
-                bookingSequence: 2,
-                checkDigit: 3,
-              },
-            } as JournalData,
-          } as TestResultSchemasUnion,
-        },
-      } as TestsModel;
-
-      const testStatus = TestStatus.Booked;
-      const slotId = '12345';
-
-      spyOn(analyticsProviderMock, 'logGAEvent');
-
-      effects.fireTestStatusAnalytic(tests, testStatus, slotId);
-
-      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-        GoogleAnalyticsEvents.TEST_STATUS_CHANGED,
-        TestStatus.Booked,
-        '1023'
-      );
-    });
-  });
-
   describe('setTestStatusBookedEffect$', () => {
     it('should log GA event when SetTestStatusBooked action is dispatched', (done) => {
       const slotId = '12345';
