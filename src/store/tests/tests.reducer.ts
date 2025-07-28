@@ -129,11 +129,11 @@ export function testsReducer(
 ): TestsModel {
   const slotId = deriveSlotId(state, action);
   const category = deriveCategory(state, action, slotId);
+  let newState: TestsModel = state;
   switch (action.type) {
     case testsActions.UnloadTests.type:
       return initialState;
     case testsActions.DeletePracticeModeTests.type:
-      let newState: TestsModel = state;
       // Get every practice mode slot and delete it
       const practiceSlots: string[] = Object.keys(state.startedTests).filter(
         (key) => key.startsWith(end2endPracticeSlotId) || key.startsWith(testReportPracticeSlotId)
@@ -142,6 +142,18 @@ export function testsReducer(
         newState = removeTest(newState, slot);
       });
       return newState;
+    case testsActions.ClearUnfinishedRekeys.type:
+      // Get every practice mode slot and delete it
+      const unfinishedRekeySlots: string[] = Object.keys(state.startedTests).filter(
+        (key) =>
+          state.startedTests[key].rekey && ![TestStatus.Completed, TestStatus.Submitted].includes(state.testStatus[key])
+      );
+      console.log('unfinished', unfinishedRekeySlots);
+      unfinishedRekeySlots.forEach((slot: string) => {
+        console.log('testStatus', state.testStatus[slot]);
+        newState = removeTest(newState, slot);
+      });
+      return state;
     case testsActions.LoadRemoteTests.type:
       return hydrateRemoteTests(state, (<ReturnType<typeof LoadRemoteTests>>action).tests);
     case testsActions.LoadPersistedTestsSuccess.type:
