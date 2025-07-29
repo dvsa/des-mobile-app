@@ -14,18 +14,17 @@
   <ion-col>
     <ion-row>
       <ion-col class="declaration-checkbox-row">
-        <input
-          formControlName="insuranceCheckbox"
-          type="checkbox"
-          class="gds-checkbox"
+        <ion-checkbox
+          addOrRemoveLangCy
           [class.ng-invalid]="isInvalid()"
           id="insurance-declaration-checkbox"
+          formControlName="insuranceCheckbox"
           [checked]="selected"
           (click)="insuranceDeclarationChanged($event.target.checked)"
-        />
-        <label addOrRemoveLangCy for="insurance-declaration-checkbox" id="waiting-room-confirm-insurance-label">
-          {{ 'waitingRoom.confirm' | translate }}
-        </label>
+          labelPlacement="end"
+          class="gds-checkbox-refactor">
+          {{'waitingRoom.confirm' | translate}}
+        </ion-checkbox>
       </ion-col>
     </ion-row>
     <ion-row *ngIf="isInvalid()">
