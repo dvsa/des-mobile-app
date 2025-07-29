@@ -143,14 +143,12 @@ export function testsReducer(
       });
       return newState;
     case testsActions.ClearUnfinishedRekeys.type:
-      // Get every practice mode slot and delete it
+      // Get every unfinished rekey test and delete it
       const unfinishedRekeySlots: string[] = Object.keys(state.startedTests).filter(
         (key) =>
           state.startedTests[key].rekey && ![TestStatus.Completed, TestStatus.Submitted].includes(state.testStatus[key])
       );
-      console.log('unfinished', unfinishedRekeySlots);
       unfinishedRekeySlots.forEach((slot: string) => {
-        console.log('testStatus', state.testStatus[slot]);
         newState = removeTest(newState, slot);
       });
       return state;
