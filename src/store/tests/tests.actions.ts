@@ -22,6 +22,8 @@ export const LoadRemoteTests = createAction('[Tests] Load remote tests', (tests:
 
 export const DeletePracticeModeTests = createAction('[Tests] Practice Mode tests cleared');
 
+export const ClearUnfinishedRekeys = createAction('[Tests] Delete Unfinished Rekeys');
+
 export const TestOutcomeChanged = createAction('[TestReportEffects] Test outcome changed', (outcome: string) => ({
   outcome,
 }));
@@ -111,6 +113,7 @@ const actions = union({
   SendPartialTestsFailure,
   SendCompletedNoneSent,
   DeletePracticeModeTests,
+  ClearUnfinishedRekeys,
 });
 
 export type TestActionsTypes = typeof actions;

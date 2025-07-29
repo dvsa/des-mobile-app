@@ -238,7 +238,6 @@ export class WaitingRoomPage extends PracticeableBasePageComponent implements On
   };
 
   manoeuvresPassCertNumberChanged(manoeuvresPassCert: string): void {
-    console.log(manoeuvresPassCert, manoeuvresPassCert ? manoeuvresPassCert : null);
     this.store$.dispatch(
       preTestDeclarationsActions.ManoeuvresPassCertNumberChanged(manoeuvresPassCert ? manoeuvresPassCert : null)
     );

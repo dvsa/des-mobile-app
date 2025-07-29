@@ -40,6 +40,7 @@ import {
   getSlotsOnSelectedDate,
 } from '@store/journal/journal.selector';
 import { TestStatus } from '@store/tests/test-status/test-status.model';
+import { ClearUnfinishedRekeys } from '@store/tests/tests.actions';
 import { getTests } from '@store/tests/tests.reducer';
 import { isEndToEndPracticeTest } from '@store/tests/tests.selector';
 import { ErrorPage } from '../error-page/error';
@@ -150,12 +151,6 @@ export class JournalPage extends BasePageComponent implements OnInit {
 
         // Check if the popup has already been displayed today
         const formattedTodayDate = this.todaysDate.format('DD/MM/YYYY');
-        console.log(
-          'today date',
-          formattedTodayDate,
-          'last displayed time',
-          this.store$.selectSignal(getRecallAutoPopupLastDisplayedTime)()
-        );
         if (this.store$.selectSignal(getRecallAutoPopupLastDisplayedTime)() === formattedTodayDate) return;
 
         // Check if there are any affected slots that are not autosaved, completed, or submitted
@@ -243,6 +238,7 @@ export class JournalPage extends BasePageComponent implements OnInit {
 
   async ionViewDidEnter(): Promise<void> {
     this.store$.dispatch(journalActions.JournalViewDidEnter());
+    this.store$.dispatch(ClearUnfinishedRekeys());
     await super.unlockDevice();
   }
 
