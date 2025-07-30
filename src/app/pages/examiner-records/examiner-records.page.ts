@@ -63,8 +63,9 @@ import {
   selectColourScheme,
   selectLastCachedDate,
 } from '@store/examiner-records/examiner-records.selectors';
+import { TestStatus } from '@store/tests/test-status/test-status.model';
 import { getTests } from '@store/tests/tests.reducer';
-import { getStartedTests } from '@store/tests/tests.selector';
+import { getStartedTests, getTestStatuses } from '@store/tests/tests.selector';
 import { BehaviorSubject, Observable, Subscription, combineLatest, merge, of } from 'rxjs';
 import { map, switchMap, take, tap, withLatestFrom } from 'rxjs/operators';
 
@@ -445,6 +446,14 @@ export class ExaminerRecordsPage implements OnInit {
    * @returns {ExaminerRecordModel[]} The array of formatted examiner records.
    */
   getLocalResults(): ExaminerRecordModel[] {
+    let testStatuses: { [slotId: string]: TestStatus } = null;
+    this.store$
+      .pipe(select(getTests), select(getTestStatuses))
+      .subscribe((result) => {
+        testStatuses = result;
+      })
+      .unsubscribe();
+
     let result: ExaminerRecordModel[] = [];
     this.store$
       .pipe(
@@ -454,8 +463,17 @@ export class ExaminerRecordsPage implements OnInit {
         map((value) => Object.values(value)),
         map((value) => {
           const employeeId = this.store$.selectSignal(selectEmployeeId)();
-          //Filter out tests the user rekeyd for other users
+          //Filter out tests the user rekeyed for other users
           return value.filter((test) => {
+            // if the test is a rekey, it must be submitted or completed
+            if (
+              test.rekey &&
+              ![TestStatus.Submitted, TestStatus.Completed].includes(
+                testStatuses[test.journalData.testSlotAttributes.slotId]
+              )
+            ) {
+              return false;
+            }
             return test?.examinerConducted ? test.examinerConducted.toString() === employeeId : true;
           });
         }),

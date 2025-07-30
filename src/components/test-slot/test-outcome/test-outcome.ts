@@ -31,7 +31,7 @@ import { EarlyStartModalDidEnter, ResumingWriteUp } from '@store/journal/journal
 import { SetExaminerBooked } from '@store/tests/examiner-booked/examiner-booked.actions';
 import { SetExaminerConducted } from '@store/tests/examiner-conducted/examiner-conducted.actions';
 import { TestStatus } from '@store/tests/test-status/test-status.model';
-import { ActivateTest, StartTest } from '@store/tests/tests.actions';
+import { ActivateTest, RemoveTestBySlotId, StartTest } from '@store/tests/tests.actions';
 
 @Component({
   selector: 'test-outcome',
@@ -220,6 +220,8 @@ export class TestOutcomeComponent implements OnInit {
       this.store$.dispatch(ContinueUnuploadedTest('Rekey'));
     }
 
+    this.store$.dispatch(RemoveTestBySlotId(this.slotDetail.slotId));
+
     if (this.testStatus === null || this.testStatus === TestStatus.Booked) {
       this.store$.dispatch(
         StartTest(
@@ -239,6 +241,7 @@ export class TestOutcomeComponent implements OnInit {
   }
 
   async rekeyDelegatedTestStart() {
+    this.store$.dispatch(RemoveTestBySlotId(this.slotDetail.slotId));
     this.store$.dispatch(StartTest(this.slotDetail.slotId, this.category, true, true));
     this.store$.dispatch(SetExaminerConducted(this.examinerId));
     this.store$.dispatch(SetExaminerBooked(this.examinerId));
@@ -322,8 +325,9 @@ export class TestOutcomeComponent implements OnInit {
         await this.startOrResumeTestDependingOnStatus();
         break;
       case ModalEvent.REKEY:
+        this.store$.dispatch(RemoveTestBySlotId(this.slotDetail.slotId));
         this.startTestAsRekey = true;
-        await this.startOrResumeTestDependingOnStatus();
+        await this.startTest();
         break;
       default:
     }

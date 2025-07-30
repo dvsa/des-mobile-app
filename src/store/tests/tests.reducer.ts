@@ -142,6 +142,8 @@ export function testsReducer(
         newState = removeTest(newState, slot);
       });
       return newState;
+    case testsActions.RemoveTestBySlotId.type:
+      return removeTest(state, slotId);
     case testsActions.LoadRemoteTests.type:
       return hydrateRemoteTests(state, (<ReturnType<typeof LoadRemoteTests>>action).tests);
     case testsActions.LoadPersistedTestsSuccess.type:
