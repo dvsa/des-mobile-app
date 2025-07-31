@@ -46,7 +46,6 @@ import {
   IdentificationUsedChanged,
   IndependentDrivingTypeChanged,
   RouteNumberChanged,
-  WeatherConditionsChanged,
 } from '@store/tests/test-summary/test-summary.actions';
 import { TestsModel } from '@store/tests/tests.model';
 import { getTests } from '@store/tests/tests.reducer';
@@ -476,42 +475,6 @@ export class OfficeAnalyticsEffects {
             GoogleAnalyticsEventsTitles.COMMENTS,
             GoogleAnalyticsEventsValues.FREE_TEXT_ENTERED
           );
-          return of(AnalyticRecorded());
-        }
-      )
-    )
-  );
-
-  weatherConditionsChanged$ = createEffect(() =>
-    this.actions$.pipe(
-      ofType(WeatherConditionsChanged),
-      concatMap((action) =>
-        of(action).pipe(
-          withLatestFrom(
-            this.store$.pipe(select(getTests)),
-            this.store$.pipe(select(getTests), select(getCurrentTest), select(getTestCategory)),
-            this.store$.pipe(select(getTests), select(isPracticeMode))
-          )
-        )
-      ),
-      filter(([, , , practiceMode]) =>
-        !practiceMode ? true : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics
-      ),
-      concatMap(
-        ([{ weatherConditions }, , category]: [
-          ReturnType<typeof WeatherConditionsChanged>,
-          TestsModel,
-          CategoryCode,
-          boolean,
-        ]) => {
-          const analyticData: { [p: string]: string } = {};
-          for (let i = 0; i < weatherConditions.length; i++) {
-            analyticData[`${GoogleAnalyticsEventsTitles.WEATHER_SELECTION}_${i + 1}`] = weatherConditions[i];
-          }
-          console.log(weatherConditions);
-          //GA4 Analytics
-          this.analytics.addGACustomDimension(GoogleAnalyticsCustomDimension.TEST_CATEGORY, category);
-          this.analytics.logGAEventJSON(GoogleAnalyticsEvents.WEATHER_CONDITION_ADDED, analyticData);
           return of(AnalyticRecorded());
         }
       )
