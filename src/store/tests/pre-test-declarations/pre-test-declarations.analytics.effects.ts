@@ -47,7 +47,7 @@ export class PreTestDeclarationsAnalyticsEffects {
         this.analytics.logGAEvent(
           analyticsEventTypePrefix(GoogleAnalyticsEvents.CANDIDATE_SIGNATURE, tests),
           GoogleAnalyticsEventsTitles.SELECTION,
-          GoogleAnalyticsEventsValues.CONFIRMED
+          GoogleAnalyticsEventsValues.COMPLETED
         );
 
         return of(AnalyticRecorded());
