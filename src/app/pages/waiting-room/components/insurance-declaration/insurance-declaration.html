@@ -21,7 +21,7 @@
           [class.ng-invalid]="isInvalid()"
           id="insurance-declaration-checkbox"
           [checked]="selected"
-          (click)="insuranceDeclarationChanged()"
+          (click)="insuranceDeclarationChanged($event.target.checked)"
         />
         <label addOrRemoveLangCy for="insurance-declaration-checkbox" id="waiting-room-confirm-insurance-label">
           {{ 'waitingRoom.confirm' | translate }}

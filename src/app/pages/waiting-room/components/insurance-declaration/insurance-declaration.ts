@@ -28,8 +28,8 @@ export class InsuranceDeclarationComponent implements OnChanges {
     this.formControl.patchValue(this.selected);
   }
 
-  insuranceDeclarationChanged(): void {
-    this.insuranceDeclarationChange.emit();
+  insuranceDeclarationChanged(selected: boolean): void {
+    this.insuranceDeclarationChange.emit(selected);
   }
 
   isInvalid(): boolean {

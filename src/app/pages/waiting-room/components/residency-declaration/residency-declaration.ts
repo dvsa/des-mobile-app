@@ -28,8 +28,8 @@ export class ResidencyDeclarationComponent implements OnChanges {
     this.formControl.patchValue(this.selected);
   }
 
-  residencyDeclarationChanged(): void {
-    this.residencyDeclarationChange.emit();
+  residencyDeclarationChanged(selected: boolean): void {
+    this.residencyDeclarationChange.emit(selected);
   }
 
   isInvalid(): boolean {
