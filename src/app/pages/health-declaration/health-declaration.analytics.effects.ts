@@ -67,7 +67,6 @@ export class HealthDeclarationAnalyticsEffects {
       ),
       switchMap(([{ selected }, tests]: [ReturnType<typeof ToggleHealthDeclaration>, TestsModel, boolean]) => {
         //GA4 Analytics
-        // GA4 Analytics
         this.analytics.logGAEvent(
           analyticsEventTypePrefix(GoogleAnalyticsEvents.HEALTH_DECLARATION_CONTROL, tests),
           GoogleAnalyticsEventsTitles.SELECTION,
