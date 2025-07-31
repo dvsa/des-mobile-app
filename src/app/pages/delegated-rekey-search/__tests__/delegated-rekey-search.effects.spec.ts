@@ -82,6 +82,7 @@ describe('DelegatedRekeySearchEffects', () => {
     actions$.next(delegatedRekeySearchActions.SearchBookedDelegatedTest('12345678910'));
 
     effects.getBooking$.subscribe((result) => {
+      console.log(result.type);
       expect(result.type === delegatedRekeySearchActions.SearchBookedDelegatedTestSuccess.type).toBeTruthy();
       done();
     });
