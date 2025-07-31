@@ -141,14 +141,14 @@ describe('HealthDeclarationPage', () => {
 
       describe('healthDeclarationChanged', () => {
         it('should dispatch a ToggleHealthDeclaration action', () => {
-          component.healthDeclarationChanged();
-          expect(store$.dispatch).toHaveBeenCalledWith(PostTestDeclarationsActions.ToggleHealthDeclaration());
+          component.healthDeclarationChanged(true);
+          expect(store$.dispatch).toHaveBeenCalledWith(PostTestDeclarationsActions.ToggleHealthDeclaration(true));
         });
       });
       describe('receiptDeclarationChanged', () => {
         it('should dispatch a ToggleReceiptDeclaration action', () => {
-          component.receiptDeclarationChanged();
-          expect(store$.dispatch).toHaveBeenCalledWith(PostTestDeclarationsActions.ToggleReceiptDeclaration());
+          component.receiptDeclarationChanged(true);
+          expect(store$.dispatch).toHaveBeenCalledWith(PostTestDeclarationsActions.ToggleReceiptDeclaration(true));
         });
       });
 

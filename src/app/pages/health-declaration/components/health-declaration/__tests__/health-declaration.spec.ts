@@ -42,7 +42,7 @@ describe('HealthDeclarationComponent', () => {
         spyOn(component.healthDeclarationChange, 'emit');
 
         // ACT
-        component.healthDeclarationChanged();
+        component.healthDeclarationChanged(true);
         fixture.detectChanges();
 
         // ASSERT
