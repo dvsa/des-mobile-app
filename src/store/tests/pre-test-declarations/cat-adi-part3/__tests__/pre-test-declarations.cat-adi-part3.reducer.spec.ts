@@ -12,12 +12,12 @@ import { initialState, preTestDeclarationsCatADI3Reducer } from '../pre-test-dec
 
 describe('PreTestDeclarations ADI3 reducer', () => {
   it('should toggle the residency status when the toggle action is received', () => {
-    const result = preTestDeclarationsCatADI3Reducer(initialState, ToggleInsuranceDeclaration());
+    const result = preTestDeclarationsCatADI3Reducer(initialState, ToggleInsuranceDeclaration(true));
     expect(result.insuranceDeclarationAccepted).toBe(true);
   });
 
   it('should toggle the insurance status when the toggle action is received', () => {
-    const result = preTestDeclarationsCatADI3Reducer(initialState, ToggleResidencyDeclaration());
+    const result = preTestDeclarationsCatADI3Reducer(initialState, ToggleResidencyDeclaration(true));
     expect(result.residencyDeclarationAccepted).toBe(true);
   });
 

@@ -11,12 +11,12 @@ import { initialState, preTestDeclarationsCatAMod1Reducer } from '../pre-test-de
 
 describe('PreTestDeclarations category a mod1 reducer', () => {
   it('should toggle the residency status when the toggle action is received', () => {
-    const result = preTestDeclarationsCatAMod1Reducer(initialState, ToggleInsuranceDeclaration());
+    const result = preTestDeclarationsCatAMod1Reducer(initialState, ToggleInsuranceDeclaration(true));
     expect(result.insuranceDeclarationAccepted).toBe(true);
   });
 
   it('should toggle the insurance status when the toggle action is received', () => {
-    const result = preTestDeclarationsCatAMod1Reducer(initialState, ToggleResidencyDeclaration());
+    const result = preTestDeclarationsCatAMod1Reducer(initialState, ToggleResidencyDeclaration(true));
     expect(result.residencyDeclarationAccepted).toBe(true);
   });
 

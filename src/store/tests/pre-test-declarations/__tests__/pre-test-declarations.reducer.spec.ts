@@ -10,12 +10,12 @@ import { initialState, preTestDeclarationsReducer } from '../pre-test-declaratio
 
 describe('PreTestDeclarations reducer', () => {
   it('should toggle the residency status when the toggle action is received', () => {
-    const result = preTestDeclarationsReducer(initialState, ToggleInsuranceDeclaration());
+    const result = preTestDeclarationsReducer(initialState, ToggleInsuranceDeclaration(true));
     expect(result.insuranceDeclarationAccepted).toBe(true);
   });
 
   it('should toggle the insurance status when the toggle action is received', () => {
-    const result = preTestDeclarationsReducer(initialState, ToggleResidencyDeclaration());
+    const result = preTestDeclarationsReducer(initialState, ToggleResidencyDeclaration(true));
     expect(result.residencyDeclarationAccepted).toBe(true);
   });
 

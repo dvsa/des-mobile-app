@@ -13,12 +13,12 @@ import { initialState, preTestDeclarationsCatDReducer } from '../pre-test-declar
 
 describe('PreTestDeclarations cat-d reducer', () => {
   it('should toggle the residency status when the toggle action is received', () => {
-    const result = preTestDeclarationsCatDReducer(initialState, ToggleInsuranceDeclaration());
+    const result = preTestDeclarationsCatDReducer(initialState, ToggleInsuranceDeclaration(true));
     expect(result.insuranceDeclarationAccepted).toBe(true);
   });
 
   it('should toggle the insurance status when the toggle action is received', () => {
-    const result = preTestDeclarationsCatDReducer(initialState, ToggleResidencyDeclaration());
+    const result = preTestDeclarationsCatDReducer(initialState, ToggleResidencyDeclaration(true));
     expect(result.residencyDeclarationAccepted).toBe(true);
   });
 

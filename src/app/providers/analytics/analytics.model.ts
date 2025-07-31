@@ -268,9 +268,11 @@ export enum GoogleAnalyticsCustomDimension {
 }
 
 export enum GoogleAnalyticsEvents {
+  RESIDENCY_DECLARATION = 'residency_declaration',
+  INSURANCE_DECLARATION = 'insurance_declaration',
+  CANDIDATE_SIGNATURE = 'candidate_signature',
   HEALTH_DECLARATION_CONTROL = 'health_declaration_control',
   PASS_CERTIFICATE_NUMBER_CONTORL = 'pass_certificate_number_control',
-  WEATHER_CONDITION_ADDED = 'weather_condition_added',
   PHYSICAL_APPEARANCE = 'physical_appearance',
   ROUTE_NUMBER_CHANGED = 'route_number_changed',
   REHYDRATION = 'rehydration',
@@ -364,7 +366,6 @@ export enum GoogleAnalyticsEvents {
 
 export enum GoogleAnalyticsEventsTitles {
   ID = 'id',
-  WEATHER_SELECTION = 'weather_selection',
   COMMENTS = 'comments',
   ROUTE = 'route',
   REMOTE_TESTS_LOADED = 'remote_tests_loaded',

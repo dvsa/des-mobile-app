@@ -225,17 +225,17 @@ describe('WaitingRoomPage', () => {
   describe('Class', () => {
     describe('residencyDeclarationChanged', () => {
       it('should emit a residency declaration toggle action when changed', () => {
-        component.residencyDeclarationChanged();
+        component.residencyDeclarationChanged(true);
 
-        expect(store$.dispatch).toHaveBeenCalledWith(ToggleResidencyDeclaration());
+        expect(store$.dispatch).toHaveBeenCalledWith(ToggleResidencyDeclaration(true));
       });
     });
 
     describe('insuranceDeclarationChanged', () => {
       it('should emit an insurance declaration toggle action when changed', () => {
-        component.insuranceDeclarationChanged();
+        component.insuranceDeclarationChanged(true);
 
-        expect(store$.dispatch).toHaveBeenCalledWith(ToggleInsuranceDeclaration());
+        expect(store$.dispatch).toHaveBeenCalledWith(ToggleInsuranceDeclaration(true));
       });
     });
 

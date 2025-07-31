@@ -78,7 +78,7 @@
 
       <div class="waiting-room-declarations">
         <insurance-declaration
-          (insuranceDeclarationChange)="insuranceDeclarationChanged()"
+          (insuranceDeclarationChange)="insuranceDeclarationChanged($event)"
           [formGroup]="formGroup"
           [selected]="pageState.insuranceDeclarationAccepted$ | async"
         >
