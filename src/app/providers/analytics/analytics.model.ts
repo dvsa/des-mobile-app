@@ -274,7 +274,7 @@ export enum GoogleAnalyticsEvents {
   HEALTH_DECLARATION_CONTROL = 'health_declaration_control',
   PASS_CERTIFICATE_NUMBER_CONTORL = 'pass_certificate_number_control',
   PHYSICAL_APPEARANCE = 'physical_appearance',
-  ROUTE_NUMBER_CHANGED = 'route_number_changed',
+  ROUTE_NUMBER_ADDED = 'route_number_added',
   REHYDRATION = 'rehydration',
   TEST_STATUS_CHANGED = 'test_status_changed',
   REKEY_SEARCH_PAGE = 'start_test',

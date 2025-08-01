@@ -441,7 +441,7 @@ export class OfficeAnalyticsEffects {
           //GA4 Analytics
           this.analytics.addGACustomDimension(GoogleAnalyticsCustomDimension.TEST_CATEGORY, category);
           this.analytics.logGAEvent(
-            GoogleAnalyticsEvents.ROUTE_NUMBER_CHANGED,
+            GoogleAnalyticsEvents.ROUTE_NUMBER_ADDED,
             GoogleAnalyticsEventsTitles.ROUTE,
             routeNumber.toString()
           );
