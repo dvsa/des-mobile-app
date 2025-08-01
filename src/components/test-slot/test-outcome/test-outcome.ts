@@ -14,7 +14,7 @@ import { end2endPracticeSlotId } from '@shared/mocks/test-slot-ids.mock';
 import { ActivityCodes } from '@shared/models/activity-codes';
 import { StoreModel } from '@shared/models/store.model';
 import { isEmpty, startsWith } from 'lodash-es';
-import { Subscription, merge } from 'rxjs';
+import { Observable, Subscription, merge } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { PreviewModeModal } from '@pages/fake-journal/components/preview-mode-modal/preview-mode-modal';
@@ -32,6 +32,8 @@ import { SetExaminerBooked } from '@store/tests/examiner-booked/examiner-booked.
 import { SetExaminerConducted } from '@store/tests/examiner-conducted/examiner-conducted.actions';
 import { TestStatus } from '@store/tests/test-status/test-status.model';
 import { ActivateTest, RemoveTestBySlotId, StartTest } from '@store/tests/tests.actions';
+import { getTests } from '@store/tests/tests.reducer';
+import { StartedTests, getStartedTests } from '@store/tests/tests.selector';
 
 @Component({
   selector: 'test-outcome',
@@ -93,6 +95,7 @@ export class TestOutcomeComponent implements OnInit {
   startTestAsRekey = false;
   isTestSlotOnRekeySearch = false;
   subscription: Subscription;
+  startedTests$: Observable<StartedTests>;
 
   constructor(
     private store$: Store<StoreModel>,
@@ -105,6 +108,7 @@ export class TestOutcomeComponent implements OnInit {
 
   ngOnInit() {
     const bookedTestSlot$ = this.store$.pipe(select(getRekeySearchState), map(getBookedTestSlot));
+    this.startedTests$ = this.store$.pipe(select(getTests), map(getStartedTests));
 
     const merged$ = merge(
       bookedTestSlot$.pipe(
@@ -320,6 +324,14 @@ export class TestOutcomeComponent implements OnInit {
   onModalDismiss = async (event: ModalEvent): Promise<void> => {
     switch (event) {
       case ModalEvent.START:
+        this.startedTests$
+          .subscribe((startedTests: StartedTests) => {
+            // If the test was started as a rekey, we need to remove it from the store
+            if (startedTests[this.slotDetail.slotId] && startedTests[this.slotDetail.slotId].rekey) {
+              this.store$.dispatch(RemoveTestBySlotId(this.slotDetail.slotId));
+            }
+          })
+          .unsubscribe();
         this.startTestAsRekey = false;
         this.isRekey = false;
         await this.startOrResumeTestDependingOnStatus();
