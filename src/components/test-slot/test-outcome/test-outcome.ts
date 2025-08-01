@@ -98,7 +98,7 @@ export class TestOutcomeComponent implements OnInit {
   startedTests$: Observable<StartedTests>;
 
   constructor(
-    private store$: Store<StoreModel>,
+    public store$: Store<StoreModel>,
     private router: Router,
     private routeByCat: RouteByCategoryProvider,
     public modalController: ModalController,

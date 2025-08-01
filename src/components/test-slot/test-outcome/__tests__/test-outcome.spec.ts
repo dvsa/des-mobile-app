@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { SlotDetail } from '@dvsa/mes-journal-schema';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { Store, StoreModule } from '@ngrx/store';
-import { Subscription } from 'rxjs';
+import { Subscription, of } from 'rxjs';
 
 import { MockAppComponent } from '@app/__mocks__/app.component.mock';
 import { AppComponent } from '@app/app.component';
@@ -21,8 +21,9 @@ import { ActivityCodes } from '@shared/models/activity-codes';
 import { StoreModel } from '@shared/models/store.model';
 import { JournalModel } from '@store/journal/journal.model';
 import { TestStatus } from '@store/tests/test-status/test-status.model';
-import { ActivateTest, StartTest } from '@store/tests/tests.actions';
+import { ActivateTest, RemoveTestBySlotId, StartTest } from '@store/tests/tests.actions';
 
+import { TestResultSchemasUnion } from '@dvsa/mes-test-schema/categories';
 import { ModalController } from '@ionic/angular';
 import { OverlayEventDetail } from '@ionic/core';
 import { RouterMock } from '@mocks/angular-mocks/router-mock';
@@ -384,10 +385,25 @@ describe('TestOutcomeComponent', () => {
     });
 
     describe('onModalDismiss', () => {
+      it('clear existing started test if event is START and it already exists as a rekey', async () => {
+        component.slotDetail = { slotId: 0 };
+        component.startedTests$ = of({
+          0: { rekey: true } as TestResultSchemasUnion,
+        });
+        spyOn(component, 'startOrResumeTestDependingOnStatus');
+        spyOn(component.store$, 'dispatch');
+        await component.onModalDismiss(ModalEvent.START);
+        expect(component.store$.dispatch).toHaveBeenCalledWith(RemoveTestBySlotId(0));
+      });
+
       it(
         'should set startTestAsRekey and isRekey to false and call' +
           ' startOrResumeTestDependingOnStatus when event is START',
         async () => {
+          component.slotDetail = { slotId: 0 };
+          component.startedTests$ = of({
+            0: { rekey: false } as TestResultSchemasUnion,
+          });
           spyOn(component, 'startOrResumeTestDependingOnStatus');
           await component.onModalDismiss(ModalEvent.START);
           expect(component.startTestAsRekey).toBe(false);
@@ -399,10 +415,11 @@ describe('TestOutcomeComponent', () => {
       it(
         'should set startTestAsRekey to true and call ' + 'startOrResumeTestDependingOnStatus when event is REKEY',
         async () => {
-          spyOn(component, 'startOrResumeTestDependingOnStatus');
+          component.slotDetail = { slotId: 0 };
+          spyOn(component, 'startTest');
           await component.onModalDismiss(ModalEvent.REKEY);
           expect(component.startTestAsRekey).toBe(true);
-          expect(component.startOrResumeTestDependingOnStatus).toHaveBeenCalled();
+          expect(component.startTest).toHaveBeenCalled();
         }
       );
 
