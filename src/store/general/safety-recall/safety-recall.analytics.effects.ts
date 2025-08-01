@@ -61,7 +61,7 @@ export class SafetyRecallAnalyticsEffects {
         this.analytics.logGAEvent(
           GoogleAnalyticsEvents.STOP_DRIVE_ORDER,
           GoogleAnalyticsEventsTitles.SELECTION,
-          GoogleAnalyticsEventsValues.CITROEN_RECALL_CHECKER
+          GoogleAnalyticsEventsValues.RECALL_CHECKER
         );
         return of(AnalyticRecorded());
       })
@@ -75,7 +75,7 @@ export class SafetyRecallAnalyticsEffects {
         this.analytics.logGAEvent(
           GoogleAnalyticsEvents.STOP_DRIVE_ORDER,
           GoogleAnalyticsEventsTitles.INFORMATION_MODAL,
-          GoogleAnalyticsEventsValues.CITROEN_RECALL_CHECKER
+          GoogleAnalyticsEventsValues.RECALL_CHECKER
         );
         return of(AnalyticRecorded());
       })
