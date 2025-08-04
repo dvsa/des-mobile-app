@@ -220,27 +220,21 @@ export class TestOutcomeComponent implements OnInit {
   }
 
   async rekeyTest() {
+    this.store$.dispatch(RemoveTestBySlotId(this.slotDetail.slotId));
     if (this.hasNavigatedFromUnsubmitted) {
       this.store$.dispatch(ContinueUnuploadedTest('Rekey'));
     }
-
-    this.store$.dispatch(RemoveTestBySlotId(this.slotDetail.slotId));
-
-    if (this.testStatus === null || this.testStatus === TestStatus.Booked) {
-      this.store$.dispatch(
-        StartTest(
-          this.slotDetail.slotId,
-          this.category,
-          true,
-          false,
-          DateTime.at(this.slotDetail.start).format('YYYY-MM-DD')
-        )
-      );
-    } else {
-      this.store$.dispatch(ActivateTest(this.slotDetail.slotId, this.category, true));
-    }
+    this.store$.dispatch(
+      StartTest(
+        this.slotDetail.slotId,
+        this.category,
+        true,
+        false,
+        DateTime.at(this.slotDetail.start).format('YYYY-MM-DD')
+      )
+    );
     await this.router.navigate([
-      this.category !== TestCategory.SC ? TestFlowPageNames.WAITING_ROOM_PAGE : TestFlowPageNames.COMMUNICATION_PAGE,
+      this.category === TestCategory.SC ? TestFlowPageNames.COMMUNICATION_PAGE : TestFlowPageNames.WAITING_ROOM_PAGE,
     ]);
   }
 
