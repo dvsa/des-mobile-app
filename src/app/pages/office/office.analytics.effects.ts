@@ -443,7 +443,7 @@ export class OfficeAnalyticsEffects {
           this.analytics.logGAEvent(
             GoogleAnalyticsEvents.ROUTE_NUMBER_ADDED,
             GoogleAnalyticsEventsTitles.ROUTE,
-            routeNumber.toString()
+            routeNumber ? routeNumber.toString() : ''
           );
           return of(AnalyticRecorded());
         }

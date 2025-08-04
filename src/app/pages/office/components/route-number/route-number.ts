@@ -31,6 +31,7 @@ export class RouteNumberComponent implements OnChanges {
     if (!this.formControl) {
       this.formControl = new UntypedFormControl(null);
       this.formGroup.addControl(RouteNumberComponent.fieldName, this.formControl);
+      this.formControl.patchValue(this.routeNumber);
     }
 
     const visibilityType = this.outcomeBehaviourProvider.getVisibilityType(
@@ -45,7 +46,6 @@ export class RouteNumberComponent implements OnChanges {
         .get(RouteNumberComponent.fieldName)
         .setValidators([Validators.required, Validators.min(1), Validators.max(99), Validators.pattern(/^[0-9]*$/)]);
     }
-    this.formControl.patchValue(this.routeNumber);
   }
 
   routeNumberChanged(routeNumber: string): void {
