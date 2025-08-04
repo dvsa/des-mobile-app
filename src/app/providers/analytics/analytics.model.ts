@@ -448,7 +448,7 @@ export enum GoogleAnalyticsEventsTitles {
 }
 
 export enum GoogleAnalyticsEventsValues {
-  CITROEN_RECALL_CHECKER = 'Citroen_recall_checker',
+  RECALL_CHECKER = 'recall_checker',
   ERROR_MODAL = 'error_modal',
   BUTTON_SELECTED = 'button_selected',
   BANNER_SELECTED = 'banner_selected',
