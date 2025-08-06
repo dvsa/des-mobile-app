@@ -66,8 +66,6 @@ export class LogHelper {
         online: this.networkStateProvider.getNetworkState() === ConnectionStatus.ONLINE,
         batteryLevel: this.battery,
         memUsed: this.deviceInfo?.memUsed,
-        realDiskFree: this.deviceInfo?.realDiskFree,
-        realDiskTotal: this.deviceInfo?.realDiskTotal,
       },
     };
   }

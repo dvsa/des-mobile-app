@@ -401,7 +401,11 @@ export class DebriefCardComponent implements OnInit {
   }
 
   public getManoeuvreADI(): string {
-    const manoeuvres: CatADI2UniqueTypes.Manoeuvres[] = get(this.data, 'manoeuvres', []);
+    const manoeuvres: CatADI2UniqueTypes.Manoeuvres[] = get(
+      this.data,
+      'manoeuvres',
+      []
+    ) as CatADI2UniqueTypes.Manoeuvres[];
     const selectedManoeuvres: string[] = [];
 
     manoeuvres.map((manoeuvreObject: CatADI2UniqueTypes.Manoeuvres) => {

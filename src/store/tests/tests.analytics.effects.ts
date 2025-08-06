@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { BatteryInfo, DeviceInfo } from '@capacitor/device/dist/esm/definitions';
+import { BatteryInfo } from '@capacitor/device/dist/esm/definitions';
 import { TestResultCommonSchema } from '@dvsa/mes-test-schema/categories/common';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Store, select } from '@ngrx/store';
@@ -241,17 +241,18 @@ export class TestsAnalyticsEffects {
           (battery as BatteryInfo).batteryLevel.toString()
         );
 
-        this.analytics.logGAEvent(
-          GoogleAnalyticsEvents.METADATA,
-          GoogleAnalyticsEventsTitles.HDD_FREE_MB,
-          (device as DeviceInfo).realDiskFree.toString()
-        );
-
-        this.analytics.logGAEvent(
-          GoogleAnalyticsEvents.METADATA,
-          GoogleAnalyticsEventsTitles.HDD_TOTAL_MB,
-          (device as DeviceInfo).realDiskTotal.toString()
-        );
+        //This information is not available in the new device plugin as of capacitor 7
+        // this.analytics.logGAEvent(
+        //   GoogleAnalyticsEvents.METADATA,
+        //   GoogleAnalyticsEventsTitles.HDD_FREE_MB,
+        //   (device as DeviceInfo).realDiskFree.toString()
+        // );
+        //
+        // this.analytics.logGAEvent(
+        //   GoogleAnalyticsEvents.METADATA,
+        //   GoogleAnalyticsEventsTitles.HDD_TOTAL_MB,
+        //   (device as DeviceInfo).realDiskTotal.toString()
+        // );
 
         return of(AnalyticRecorded());
       })
