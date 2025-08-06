@@ -21,12 +21,14 @@ import { AuthenticationProviderMock } from '@providers/authentication/__mocks__/
 import { AuthenticationProvider } from '@providers/authentication/authentication';
 import { OutcomeBehaviourMapProvider } from '@providers/outcome-behaviour-map/outcome-behaviour-map';
 import { StoreModel } from '@shared/models/store.model';
-import { EndTimeChanged } from '@store/tests/test-data/cat-adi-part3/end-time/end-time.actions';
 import {
   ReasonForNoAdviceGivenChanged,
   SeekFurtherDevelopmentChanged,
 } from '@store/tests/test-data/cat-adi-part3/review/review.actions';
-import { StartTimeChanged } from '@store/tests/test-data/cat-adi-part3/start-time/start-time.actions';
+import {
+  EndTimeChanged,
+  StartTimeChanged,
+} from '@store/tests/test-data/cat-adi-part3/start-end-time/start-end-time.actions';
 import { TestsModel } from '@store/tests/tests.model';
 import { MockComponent } from 'ng-mocks';
 import { Subscription } from 'rxjs';

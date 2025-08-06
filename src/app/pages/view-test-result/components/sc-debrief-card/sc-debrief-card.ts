@@ -1,4 +1,5 @@
 import { Component, Input } from '@angular/core';
+import { DateTime, Duration } from '@shared/helpers/date-time';
 
 @Component({
   selector: 'sc-debrief-card',
@@ -11,4 +12,8 @@ export class ScDebriefCard {
 
   @Input()
   endTime: string;
+
+  findDifferenceInTime(startTime: string, endTime: string) {
+    return DateTime.at(new Date(startTime)).compareDuration(DateTime.at(new Date(endTime)), Duration.MINUTE);
+  }
 }

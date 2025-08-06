@@ -9,7 +9,7 @@ import {
   UpdateAvailableModal,
 } from '@pages/dashboard/components/update-available-modal/update-available-modal';
 
-describe('UpdateAvailableModal', () => {
+describe('TestTooShortModal', () => {
   let component: UpdateAvailableModal;
   let fixture: ComponentFixture<UpdateAvailableModal>;
   let modalController: ModalController;

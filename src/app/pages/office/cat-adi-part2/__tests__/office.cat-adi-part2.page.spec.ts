@@ -20,6 +20,7 @@ import { OfficeRegistrationAndMotComponent } from '@pages/office/components/offi
 import { TrueLikenessComponent } from '@pages/office/components/true-likeness/true-likeness';
 import { AccompanimentCardComponent } from '@pages/waiting-room-to-car/components/accompaniment-card/accompaniment-card';
 import { AccompanimentComponent } from '@pages/waiting-room-to-car/components/accompaniment/accompaniment';
+import { VehicleDetailsCardComponent } from '@pages/waiting-room-to-car/components/vehicle-details-card/vehicle-details-card';
 import { AuthenticationProviderMock } from '@providers/authentication/__mocks__/authentication.mock';
 import { AuthenticationProvider } from '@providers/authentication/authentication';
 import { DeviceProviderMock } from '@providers/device/__mocks__/device.mock';
@@ -86,6 +87,7 @@ describe('OfficeCatADI2Page', () => {
     TestBed.configureTestingModule({
       declarations: [
         OfficeCatADI2Page,
+        MockComponent(VehicleDetailsCardComponent),
         MockComponent(OfficeFooterComponent),
         MockComponent(RouteNumberComponent),
         MockComponent(CandidateDescriptionComponent),

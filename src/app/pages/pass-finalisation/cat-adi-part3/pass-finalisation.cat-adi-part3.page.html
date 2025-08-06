@@ -63,12 +63,14 @@
         </reason-given>
 
         <test-start-end-times
-          (testEndTimeChange)="testEndTimeChanged($event)"
-          (testStartTimeChange)="testStartTimeChanged($event)"
           *ngIf="pageState.isStandardsCheck$ | async"
           [endTime]="pageState.testEndTime$ | async"
           [formGroup]="form"
           [startTime]="pageState.testStartTime$ | async"
+          [isSelected]="pageState.testStartAndEndTimeConfirmed$ | async"
+          (testEndTimeChange)="testEndTimeChanged($event)"
+          (testStartTimeChange)="testStartTimeChanged($event)"
+          (confirmStartAndEndTime)="confirmStartAndEndTimeChanged($event)"
         >
         </test-start-end-times>
       </ion-grid>

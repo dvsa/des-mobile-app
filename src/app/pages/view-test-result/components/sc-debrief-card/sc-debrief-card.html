@@ -1,11 +1,13 @@
-<ion-row *ngIf="startTime && endTime">
-  <ion-col>
-    <ion-card class="ion-padding">
-      <ion-row class="tr-standard-text">Test start - end time</ion-row>
-      <br />
-      <ion-row>
-        <p>{{startTime | date: 'HH:mm'}} - {{endTime | date: 'HH:mm'}}</p>
-      </ion-row>
-    </ion-card>
-  </ion-col>
-</ion-row>
+<ion-card *ngIf="startTime && endTime">
+  <ion-card-header class="tr-standard-text">
+    <h2 class="des-header-style-4">Time on the road</h2>
+  </ion-card-header>
+  <ion-card-content>
+    <ion-grid>
+      <data-row [idPrefix]="'start-time'" [label]="'Start time'" [value]="startTime | date: 'HH:mm'"></data-row>
+      <data-row [idPrefix]="'end-time'" [label]="'End time'" [value]="endTime | date: 'HH:mm'"></data-row>
+      <data-row [shouldHaveSeperator]="false" [idPrefix]="'duration'" [label]="'Duration'"
+                [value]="findDifferenceInTime(startTime, endTime) + ' minutes'"></data-row>
+    </ion-grid>
+  </ion-card-content>
+</ion-card>

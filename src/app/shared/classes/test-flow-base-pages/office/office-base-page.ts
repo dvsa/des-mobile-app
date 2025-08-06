@@ -97,6 +97,7 @@ import { HealthDeclarationAccepted } from '@store/tests/post-test-declarations/p
 import { getPostTestDeclarations } from '@store/tests/post-test-declarations/post-test-declarations.reducer';
 import { getHealthDeclarationStatus } from '@store/tests/post-test-declarations/post-test-declarations.selector';
 import { SetRekeyDate } from '@store/tests/rekey-date/rekey-date.actions';
+import { StandardsChecksTestIsTooShortReasonChanged } from '@store/tests/test-data/cat-adi-part3/start-end-time/start-end-time.actions';
 import { getTestData } from '@store/tests/test-data/cat-b/test-data.reducer';
 import { getETA, getETAFaultText, getEco, getEcoFaultText } from '@store/tests/test-data/common/test-data.selector';
 import { CircuitTypeChanged } from '@store/tests/test-summary/cat-a-mod1/test-summary.cat-a-mod1.actions';
@@ -521,6 +522,10 @@ export abstract class OfficeBasePageComponent extends PracticeableBasePageCompon
 
   reasonForEnteringTeamsChanged(reasonForEnteringTeams: string): void {
     this.store$.dispatch(SetReasonForExitingApp(reasonForEnteringTeams));
+  }
+
+  reasonForShortTestChanged(reasonForShortTest: string): void {
+    this.store$.dispatch(StandardsChecksTestIsTooShortReasonChanged(reasonForShortTest));
   }
 
   provisionalLicenseReceived(): void {

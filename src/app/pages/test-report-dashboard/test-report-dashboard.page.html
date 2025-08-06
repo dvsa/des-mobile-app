@@ -24,10 +24,10 @@
   <ion-row class="mes-full-width-card-small-top ion-nowrap">
     <ion-col size="60">
       <h2 id="adi-pt3-dashboard-title" class="normal-font-weight ion-padding-start des-header-style-2">
-        {{testCategory === 'SC' ? 'Standards check' : 'ADI part 3'}} assessment
+        {{isStandardsCheck() ? 'Standards check' : 'ADI part 3'}} assessment
       </h2>
     </ion-col>
-    <ion-col>
+    <ion-col *ngIf="!isStandardsCheck()">
       <timer class="ion-float-end"></timer>
     </ion-col>
   </ion-row>
@@ -61,7 +61,7 @@
 </ion-content>
 
 <ion-footer>
-  <ion-row class="mes-full-width-card box-shadow" style="background-color: white">
+  <ion-row class="mes-full-width-card box-shadow mes-white">
     <ion-col class="ion-text-center">
       <ion-button
         (click)="onContinueClick()"

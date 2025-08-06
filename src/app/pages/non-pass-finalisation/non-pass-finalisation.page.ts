@@ -12,6 +12,7 @@ import {
   NonPassFinalisationViewDidEnter,
 } from '@pages/non-pass-finalisation/non-pass-finalisation.actions';
 import { TestFlowPageNames } from '@pages/page-names.constants';
+import { TestTooShortModal } from '@pages/pass-finalisation/cat-adi-part3/components/test-too-short-modal/test-too-short-modal';
 import { ActivityCodeFinalisationProvider } from '@providers/activity-code-finalisation/activity-code-finalisation';
 import { OutcomeBehaviourMapProvider } from '@providers/outcome-behaviour-map/outcome-behaviour-map';
 import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
@@ -37,8 +38,6 @@ import {
 } from '@store/tests/journal-data/common/candidate/candidate.selector';
 import { getTestSlotAttributes } from '@store/tests/journal-data/common/test-slot-attributes/test-slot-attributes.reducer';
 import { isWelshTest } from '@store/tests/journal-data/common/test-slot-attributes/test-slot-attributes.selector';
-import { EndTimeChanged } from '@store/tests/test-data/cat-adi-part3/end-time/end-time.actions';
-import { getTestEndTime } from '@store/tests/test-data/cat-adi-part3/end-time/end-time.selector';
 import {
   ReasonForNoAdviceGivenChanged,
   SeekFurtherDevelopmentChanged,
@@ -50,8 +49,17 @@ import {
   getImmediateDanger,
   getReasonForNoAdviceGiven,
 } from '@store/tests/test-data/cat-adi-part3/review/review.selector';
-import { StartTimeChanged } from '@store/tests/test-data/cat-adi-part3/start-time/start-time.actions';
-import { getTestStartTime } from '@store/tests/test-data/cat-adi-part3/start-time/start-time.selector';
+import {
+  ConfirmStartEndTimeChanged,
+  EndTimeChanged,
+  StandardsChecksTestIsTooShortChanged,
+  StartTimeChanged,
+} from '@store/tests/test-data/cat-adi-part3/start-end-time/start-end-time.actions';
+import {
+  getConfirmedStartAndEndTime,
+  getTestEndTime,
+  getTestStartTime,
+} from '@store/tests/test-data/cat-adi-part3/start-end-time/start-end-time.selector';
 import { hasEyesightTestGotSeriousFault } from '@store/tests/test-data/cat-b/test-data.cat-b.selector';
 import { getTestData } from '@store/tests/test-data/cat-b/test-data.reducer';
 import { D255No, D255Yes, DebriefUnWitnessed, DebriefWitnessed } from '@store/tests/test-summary/test-summary.actions';
@@ -98,6 +106,7 @@ interface NonPassFinalisationPageState {
   isStandardsCheck$: Observable<boolean>;
   testStartTime$: Observable<string>;
   testEndTime$: Observable<string>;
+  testStartAndEndTimeConfirmed$: Observable<boolean>;
 }
 
 @Component({
@@ -257,7 +266,13 @@ export class NonPassFinalisationPage extends PracticeableBasePageComponent imple
         filter(([, category]) => category === TestCategory.SC),
         map(([data, category]) => this.testDataByCategoryProvider.getTestDataByCategoryCode(category)(data)),
         select(getTestEndTime),
-        map((time: string) => time || new DateTime().add(1, Duration.HOUR).toISOString())
+        map((time: string) => time || new DateTime().add(45, Duration.MINUTE).toISOString())
+      ),
+      testStartAndEndTimeConfirmed$: currentTest$.pipe(
+        withLatestFrom(category$),
+        filter(([, category]) => category === TestCategory.SC),
+        map(([data, category]) => this.testDataByCategoryProvider.getTestDataByCategoryCode(category)(data)),
+        select(getConfirmedStartAndEndTime)
       ),
     };
 
@@ -326,6 +341,10 @@ export class NonPassFinalisationPage extends PracticeableBasePageComponent imple
     await this.routeByCat.navigateToPage(TestFlowPageNames.TEST_REPORT_PAGE, this.testCategory as TestCategory);
   };
 
+  findDifferenceInTime(startTime: string, endTime: string) {
+    return DateTime.at(new Date(startTime)).compareDuration(DateTime.at(new Date(endTime)), Duration.MINUTE);
+  }
+
   async continue() {
     Object.keys(this.form.controls).forEach((controlName) => this.form.controls[controlName].markAsDirty());
 
@@ -340,6 +359,25 @@ export class NonPassFinalisationPage extends PracticeableBasePageComponent imple
         await this.openTestDataValidationModal();
         return;
       }
+
+      const isTestTooShort = this.findDifferenceInTime(this.scStartTime, this.scEndTime) < 45;
+
+      if (isTestTooShort) {
+        const modal: HTMLIonModalElement = await this.modalController.create({
+          id: 'TestTooShortModal',
+          component: TestTooShortModal,
+          backdropDismiss: false,
+          showBackdrop: true,
+          cssClass: 'mes-modal-alert text-zoom-regular',
+        });
+        await modal.present();
+        const { data } = await modal.onDidDismiss<boolean>();
+        if (!data) {
+          return;
+        }
+      }
+
+      this.store$.dispatch(StandardsChecksTestIsTooShortChanged(isTestTooShort));
 
       this.testStartTimeChanged(this.scStartTime);
       this.testEndTimeChanged(this.scEndTime);
@@ -390,6 +428,10 @@ export class NonPassFinalisationPage extends PracticeableBasePageComponent imple
   testEndTimeChanged(endTime: string): void {
     this.scEndTime = endTime;
     this.store$.dispatch(EndTimeChanged(endTime));
+  }
+
+  confirmStartAndEndTimeChanged(selected: boolean): void {
+    this.store$.dispatch(ConfirmStartEndTimeChanged(selected));
   }
 
   async navigateToDebrief(): Promise<void> {

@@ -3,8 +3,26 @@
   height: 270px;
 }
 
+.spacing-padding {
+  padding-bottom: 15px;
+}
+
+.button-row {
+  justify-content: center;
+  display: flex;
+  width: 100%;
+}
+
+.extended-width {
+  width: 60%;
+}
+
 .centre-col {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.direction-column {
+  flex-direction: column;
 }

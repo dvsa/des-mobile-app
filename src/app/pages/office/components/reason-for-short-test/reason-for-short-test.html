@@ -1,0 +1,43 @@
+<ion-row
+  *ngIf="display"
+  class="mes-validated-row mes-row-separator"
+  id="reason-for-short-test-row"
+  [formGroup]="formGroup"
+>
+  <div [class.ng-invalid]="invalid" class="validation-bar"></div>
+  <ion-col class="component-label ion-align-self-start" size="31">
+    <ion-row class="spacing-row"></ion-row>
+    <label id="reason-for-short-test-label">Reason for time on the road being under 45 minutes</label>
+  </ion-col>
+
+  <ion-col class="ion-align-self-center ion-padding-start" size="58">
+    <ion-row class="spacing-row"></ion-row>
+    <ion-row>
+      <ion-col class="textarea-input">
+        <textarea
+          id="reason-for-short-test-text"
+          class="mes-data input-styling-background"
+          [name]="fieldName"
+          [formControlName]="fieldName"
+          [class.ng-invalid]="invalid"
+          [value]="reasonForShortTest"
+          (change)="reasonForShortTestChanged($event.target.value)"
+          emojiBlock
+          pasteSanitiser
+        >
+        </textarea>
+      </ion-col>
+    </ion-row>
+    <ion-row class="validation-message-row ion-align-items-center">
+      <div
+        class="validation-text"
+        [class.ng-invalid]="invalid"
+        *ngIf="invalid"
+        id="reason-for-short-test-validation-text"
+      >
+        You must provide this information
+      </div>
+    </ion-row>
+    <ion-row *ngIf="invalid" class="spacing-row"></ion-row>
+  </ion-col>
+</ion-row>

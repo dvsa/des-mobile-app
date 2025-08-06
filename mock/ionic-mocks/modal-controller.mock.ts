@@ -3,7 +3,7 @@ import { ModalOptions, OverlayEventDetail } from '@ionic/core';
 
 @Injectable()
 export class ModalControllerMock {
-  dismiss = () => Promise.resolve(false);
+  dismiss = jasmine.createSpy('dismiss').and.resolveTo(false);
 
   create(opts?: ModalOptions): Promise<HTMLIonModalElement> {
     return Promise.resolve({
@@ -14,7 +14,5 @@ export class ModalControllerMock {
     } as HTMLIonModalElement);
   }
 
-  getTop(): Promise<HTMLIonModalElement | undefined> {
-    return undefined;
-  }
+  getTop = jasmine.createSpy('getTop').and.resolveTo(undefined);
 }
