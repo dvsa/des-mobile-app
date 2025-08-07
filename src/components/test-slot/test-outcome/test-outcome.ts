@@ -13,8 +13,8 @@ import { DateTime, Duration } from '@shared/helpers/date-time';
 import { end2endPracticeSlotId } from '@shared/mocks/test-slot-ids.mock';
 import { ActivityCodes } from '@shared/models/activity-codes';
 import { StoreModel } from '@shared/models/store.model';
-import { isEmpty, startsWith } from 'lodash-es';
-import { Subscription, merge } from 'rxjs';
+import { isEmpty, isEqual, startsWith } from 'lodash-es';
+import { Subscription, firstValueFrom, merge } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { PreviewModeModal } from '@pages/fake-journal/components/preview-mode-modal/preview-mode-modal';
@@ -30,10 +30,11 @@ import { CategoryWhitelistProvider } from '@providers/category-whitelist/categor
 import { EarlyStartModalDidEnter, ResumingWriteUp } from '@store/journal/journal.actions';
 import { SetExaminerBooked } from '@store/tests/examiner-booked/examiner-booked.actions';
 import { SetExaminerConducted } from '@store/tests/examiner-conducted/examiner-conducted.actions';
+import { extractTestSlotAttributes } from '@store/tests/journal-data/common/test-slot-attributes/test-slot-attributes.selector';
 import { TestStatus } from '@store/tests/test-status/test-status.model';
-import { ActivateTest, RemoveTestBySlotId, StartTest } from '@store/tests/tests.actions';
+import { ActivateTest, RemoveStartedTest, RemoveTestBySlotId, StartTest } from '@store/tests/tests.actions';
+import { StartedTests, getStartedTests, getTestById } from '@store/tests/tests.selector';
 import { getTests } from '@store/tests/tests.reducer';
-import { StartedTests, getStartedTests } from '@store/tests/tests.selector';
 
 @Component({
   selector: 'test-outcome',
@@ -206,6 +207,14 @@ export class TestOutcomeComponent implements OnInit {
       this.store$.dispatch(ContinueUnuploadedTest('Resume'));
     }
 
+    const slotHasChanged = await this.hasSlotChanged(this.slot, this.slotDetail.slotId);
+
+    // If the slot has changed and thus been cleared, a new test will be started.
+    // If the slot has not changed, the existing test will be activated.
+    slotHasChanged
+      ? this.store$.dispatch(StartTest(this.slotDetail.slotId, this.category, this.startTestAsRekey || this.isRekey))
+      : this.store$.dispatch(ActivateTest(this.slotDetail.slotId, this.category));
+
     this.store$.dispatch(ActivateTest(this.slotDetail.slotId, this.category));
 
     if (this.testStatus === TestStatus.Started) {
@@ -223,6 +232,7 @@ export class TestOutcomeComponent implements OnInit {
     if (this.isE2EPracticeMode()) {
       this.store$.dispatch(StartE2EPracticeTest(this.slotDetail.slotId.toString(), this.category));
     } else {
+      await this.hasSlotChanged(this.slot, this.slotDetail.slotId);
       this.store$.dispatch(StartTest(this.slotDetail.slotId, this.category, this.startTestAsRekey || this.isRekey));
     }
 
@@ -404,5 +414,42 @@ export class TestOutcomeComponent implements OnInit {
     } else {
       await this.resumeTest();
     }
+  }
+
+  /**
+   * Checks if the slot has changed by comparing the current slot with the existing test in the store.
+   * If the slot has changed, it dispatches an action to clear the changed slot.
+   * @param slot
+   * @param slotId
+   */
+  async hasSlotChanged(slot: TestSlot, slotId: number): Promise<boolean> {
+    // Get the existing test from the store
+    const existingTest = await firstValueFrom(
+      this.store$.pipe(
+        select(getTests),
+        map((tests) => getTestById(tests, String(slotId)))
+      )
+    );
+
+    // convert into format to compare with existing test data
+    const testSlotAttributes = Object.fromEntries(
+      Object.entries(extractTestSlotAttributes(slot)).filter(([_, v]) => v !== undefined)
+    );
+
+    // Compare candidate, testCentre and testSlotAttributes between existing test slot data
+    // and current test slot
+    const slotHasChanged = existingTest
+      ? !(
+          isEqual(existingTest.journalData.candidate, slot.booking.candidate) &&
+          isEqual(existingTest.journalData.testCentre, slot.testCentre) &&
+          isEqual(existingTest.journalData.testSlotAttributes, testSlotAttributes)
+        )
+      : false;
+
+    if (slotHasChanged) {
+      this.store$.dispatch(RemoveStartedTest(slotId));
+    }
+
+    return slotHasChanged;
   }
 }
