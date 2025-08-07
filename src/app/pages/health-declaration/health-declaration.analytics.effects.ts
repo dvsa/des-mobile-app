@@ -90,7 +90,6 @@ export class HealthDeclarationAnalyticsEffects {
       ),
       switchMap(([{ selected }, tests]: [ReturnType<typeof ToggleReceiptDeclaration>, TestsModel, boolean]) => {
         //GA4 Analytics
-        // GA4 Analytics
         this.analytics.logGAEvent(
           analyticsEventTypePrefix(GoogleAnalyticsEvents.PASS_CERTIFICATE_NUMBER_CONTORL, tests),
           GoogleAnalyticsEventsTitles.SELECTION,
