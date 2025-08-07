@@ -45,7 +45,7 @@ import {
   CandidateDescriptionChanged,
   IdentificationUsedChanged,
   IndependentDrivingTypeChanged,
-  RouteNumberChanged,
+  RouteNumberConfirmed,
 } from '@store/tests/test-summary/test-summary.actions';
 import { TestsModel } from '@store/tests/tests.model';
 import { getTests } from '@store/tests/tests.reducer';
@@ -421,9 +421,9 @@ export class OfficeAnalyticsEffects {
     )
   );
 
-  routeNumberChanged$ = createEffect(() =>
+  routeNumberConfirmed$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(RouteNumberChanged),
+      ofType(RouteNumberConfirmed),
       concatMap((action) =>
         of(action).pipe(
           withLatestFrom(
@@ -437,7 +437,12 @@ export class OfficeAnalyticsEffects {
         !practiceMode ? true : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics
       ),
       concatMap(
-        ([{ routeNumber }, , category]: [ReturnType<typeof RouteNumberChanged>, TestsModel, CategoryCode, boolean]) => {
+        ([{ routeNumber }, , category]: [
+          ReturnType<typeof RouteNumberConfirmed>,
+          TestsModel,
+          CategoryCode,
+          boolean,
+        ]) => {
           //GA4 Analytics
           this.analytics.addGACustomDimension(GoogleAnalyticsCustomDimension.TEST_CATEGORY, category);
           this.analytics.logGAEvent(

@@ -110,6 +110,7 @@ import {
   IdentificationUsedChanged,
   IndependentDrivingTypeChanged,
   RouteNumberChanged,
+  RouteNumberConfirmed,
   TrueLikenessToPhotoChanged,
   WeatherConditionsChanged,
 } from '@store/tests/test-summary/test-summary.actions';
@@ -478,7 +479,14 @@ export abstract class OfficeBasePageComponent extends PracticeableBasePageCompon
     this.store$.dispatch(SetStartDate(customStartDate));
   }
 
+  dispatchTestConfirmedActions() {
+    this.commonPageState.routeNumber$.subscribe((routeNumber) => {
+      this.store$.dispatch(RouteNumberConfirmed(routeNumber));
+    });
+  }
+
   completeTest = async (): Promise<void> => {
+    this.dispatchTestConfirmedActions();
     // If the identification has not been updated, dispatch the current identification for analytics purposes.
     if (!this.hasIdentificationBeenUpdated) {
       this.identificationChanged(this.form.value.identification);
@@ -491,6 +499,7 @@ export abstract class OfficeBasePageComponent extends PracticeableBasePageCompon
   };
 
   completeTestDelegated = async (): Promise<void> => {
+    this.dispatchTestConfirmedActions();
     this.store$.dispatch(SetRekeyDate());
     this.store$.dispatch(SendCurrentTest());
     await this.finishTestModal.dismiss();
@@ -620,6 +629,7 @@ export abstract class OfficeBasePageComponent extends PracticeableBasePageCompon
 
   async goToReasonForRekey() {
     if (await this.isFormValid()) {
+      this.dispatchTestConfirmedActions();
       await this.router.navigate([TestFlowPageNames.REKEY_REASON_PAGE]);
     }
   }
