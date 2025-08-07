@@ -198,41 +198,23 @@ describe('TestOutcomeComponent', () => {
 
   describe('Class', () => {
     describe('startTest', () => {
-      it('should dispatch a start test action with the slot', () => {
+      it('should dispatch a start test action with the slot - cat b', async () => {
+        spyOn(component, 'hasSlotChanged').and.resolveTo(false);
+
         component.slotDetail = testSlotDetail;
         component.category = TestCategory.B;
-        component.startTest();
+        await component.startTest();
 
         expect(store$.dispatch).toHaveBeenCalledWith(StartTest(component.slotDetail.slotId, component.category));
       });
-      it('should dispatch a start test action with the slot', () => {
+      it('should dispatch a start test action with the slot - cat c', async () => {
+        spyOn(component, 'hasSlotChanged').and.resolveTo(false);
+
         component.slotDetail = testSlotDetail;
         component.category = TestCategory.C;
-        component.startTest();
+        await component.startTest();
 
         expect(store$.dispatch).toHaveBeenCalledWith(StartTest(component.slotDetail.slotId, component.category));
-      });
-    });
-    describe('earlyStart', () => {
-      it('should create and present the early start modal', () => {
-        component.slotDetail = testSlotDetail;
-        component.slotDetail.start = new DateTime().add(8, Duration.MINUTE).format('YYYY-MM-DDTHH:mm:ss');
-        component.testStatus = TestStatus.Booked;
-        spyOn(component, 'displayCheckStartModal');
-        fixture.detectChanges();
-        const startButton = fixture.debugElement.query(By.css('.mes-primary-button'));
-        startButton.triggerEventHandler('click', null);
-        expect(component.displayCheckStartModal).toHaveBeenCalled();
-      });
-      it('should not create and present the early start modal', () => {
-        component.slotDetail = testSlotDetail;
-        component.slotDetail.start = new DateTime().add(2, Duration.MINUTE).format('YYYY-MM-DDTHH:mm:ss');
-        component.testStatus = TestStatus.Booked;
-        spyOn(component, 'displayCheckStartModal');
-        fixture.detectChanges();
-        const startButton = fixture.debugElement.query(By.css('.mes-primary-button'));
-        startButton.triggerEventHandler('click', null);
-        expect(component.displayCheckStartModal).not.toHaveBeenCalled();
       });
     });
 
@@ -429,29 +411,32 @@ describe('TestOutcomeComponent', () => {
       categoryPages.forEach((cat) => {
         if (cat.category !== TestCategory.SC) {
           it(`Cat ${cat.category} should dispatch an ActivateTest action
-        and navigate to the Waiting Room page if the category is not Standards Checks`, () => {
+        and navigate to the Waiting Room page if the category is not Standards Checks`, async () => {
+            spyOn(component, 'hasSlotChanged').and.resolveTo(false);
             component.testStatus = TestStatus.Started;
             component.category = cat.category;
-            component.resumeTest();
+            await component.resumeTest();
             expect(store$.dispatch).toHaveBeenCalledWith(ActivateTest(component.slotDetail.slotId, cat.category));
             expect(router.navigate).toHaveBeenCalledWith([TestFlowPageNames.WAITING_ROOM_PAGE]);
           });
         } else {
           it(`Cat ${cat.category} should dispatch an ActivateTest action
-        and navigate to the Communication page`, () => {
+        and navigate to the Communication page`, async () => {
+            spyOn(component, 'hasSlotChanged').and.resolveTo(false);
             component.testStatus = TestStatus.Started;
             component.category = cat.category;
-            component.resumeTest();
+            await component.resumeTest();
             expect(store$.dispatch).toHaveBeenCalledWith(ActivateTest(component.slotDetail.slotId, cat.category));
             expect(router.navigate).toHaveBeenCalledWith([TestFlowPageNames.COMMUNICATION_PAGE]);
           });
         }
         it(`Cat ${cat.category} should dispatch an ActivateTest action and
-         navigate to the Pass Finalisation page`, () => {
+         navigate to the Pass Finalisation page`, async () => {
+          spyOn(component, 'hasSlotChanged').and.resolveTo(false);
           component.testStatus = TestStatus.Decided;
           component.activityCode = ActivityCodes.PASS;
           component.category = cat.category;
-          component.resumeTest();
+          await component.resumeTest();
           expect(store$.dispatch).toHaveBeenCalledWith(ActivateTest(component.slotDetail.slotId, cat.category));
           expect(routeByCategory.navigateToPage).toHaveBeenCalledWith(
             TestFlowPageNames.PASS_FINALISATION_PAGE,
@@ -459,11 +444,12 @@ describe('TestOutcomeComponent', () => {
           );
         });
         it(`Cat ${cat.category} should dispatch an ActivateTest action
-        and navigate to the Non Pass Finalisation page`, () => {
+        and navigate to the Non Pass Finalisation page`, async () => {
+          spyOn(component, 'hasSlotChanged').and.resolveTo(false);
           component.testStatus = TestStatus.Decided;
           component.activityCode = ActivityCodes.FAIL;
           component.category = cat.category;
-          component.resumeTest();
+          await component.resumeTest();
           expect(store$.dispatch).toHaveBeenCalledWith(ActivateTest(component.slotDetail.slotId, cat.category));
           expect(routeByCategory.navigateToPage).toHaveBeenCalledWith(TestFlowPageNames.NON_PASS_FINALISATION_PAGE);
         });
@@ -572,6 +558,15 @@ describe('TestOutcomeComponent', () => {
         expect(component.showRekeyButton()).toEqual(false);
       });
     });
+
+    describe('ionViewDidLeave', () => {
+      it('should unsubscribe from the subscription if there is one', () => {
+        component.subscription = new Subscription();
+        spyOn(component.subscription, 'unsubscribe');
+        component.ionViewDidLeave();
+        expect(component.subscription.unsubscribe).toHaveBeenCalled();
+      });
+    });
   });
 
   describe('DOM', () => {
@@ -610,6 +605,29 @@ describe('TestOutcomeComponent', () => {
         startButton?.triggerEventHandler('click', null);
 
         expect(component.startTest).toHaveBeenCalled();
+      });
+    });
+
+    describe('earlyStart', () => {
+      it('should create and present the early start modal', () => {
+        component.slotDetail = testSlotDetail;
+        component.slotDetail.start = new DateTime().add(8, Duration.MINUTE).format('YYYY-MM-DDTHH:mm:ss');
+        component.testStatus = TestStatus.Booked;
+        spyOn(component, 'displayCheckStartModal');
+        fixture.detectChanges();
+        const startButton = fixture.debugElement.query(By.css('.mes-primary-button'));
+        startButton.triggerEventHandler('click', null);
+        expect(component.displayCheckStartModal).toHaveBeenCalled();
+      });
+      it('should not create and present the early start modal', () => {
+        component.slotDetail = testSlotDetail;
+        component.slotDetail.start = new DateTime().add(2, Duration.MINUTE).format('YYYY-MM-DDTHH:mm:ss');
+        component.testStatus = TestStatus.Booked;
+        spyOn(component, 'displayCheckStartModal');
+        fixture.detectChanges();
+        const startButton = fixture.debugElement.query(By.css('.mes-primary-button'));
+        startButton.triggerEventHandler('click', null);
+        expect(component.displayCheckStartModal).not.toHaveBeenCalled();
       });
     });
 
