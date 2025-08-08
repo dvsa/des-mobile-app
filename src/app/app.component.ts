@@ -155,7 +155,7 @@ export class AppComponent extends LogoutBasePageComponent implements OnInit {
     await WindowMode.addListener('windowModeChanged', this.windowModeChanged);
   }
 
-  windowModeChanged(isWindow) {
+  windowModeChanged(isWindow: { isInWindowMode: boolean }) {
     alert(`Is in window mode: ${isWindow.isInWindowMode}`);
   }
 
