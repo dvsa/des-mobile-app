@@ -9,6 +9,7 @@ import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { Injector } from '@angular/core';
 import { AbstractControl, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { Identification, IndependentDriving, WeatherConditions } from '@dvsa/mes-test-schema/categories/common';
+import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { FinishTestModal } from '@pages/office/components/finish-test-modal/finish-test-modal';
 import {
   CompleteTest,
@@ -303,12 +304,30 @@ describe('OfficeBasePageComponent', () => {
     });
   });
 
+  describe('categoryIncludesRouteNumber', () => {
+    it('returns true when testCategory is in categoriesWithRouteNumbers', () => {
+      basePageComponent.commonPageState = {
+        testCategory$: of(TestCategory.B),
+      } as any;
+      expect(basePageComponent.categoryIncludesRouteNumber()).toBeTrue();
+    });
+
+    it('returns false when testCategory is not in categoriesWithRouteNumbers', () => {
+      basePageComponent.commonPageState = {
+        testCategory$: of(TestCategory.ADI3),
+      } as any;
+      expect(basePageComponent.categoryIncludesRouteNumber()).toBeFalse();
+    });
+  });
+
   describe('dispatchTestConfirmedActions', () => {
     it('should dispatch the route number', async () => {
       basePageComponent.commonPageState = {
         routeNumber$: of(123),
+        displayRouteNumber$: of(true),
         // other properties not needed for this test
       } as CommonOfficePageState;
+      spyOn(basePageComponent, 'categoryIncludesRouteNumber').and.returnValue(true);
       basePageComponent.dispatchTestConfirmedActions();
       expect(store$.dispatch).toHaveBeenCalledWith(RouteNumberConfirmed(123));
     });

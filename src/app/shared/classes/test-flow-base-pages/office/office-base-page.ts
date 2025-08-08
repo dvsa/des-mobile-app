@@ -150,7 +150,7 @@ import {
   getVehicleMake,
   getVehicleModel,
 } from '@store/tests/vehicle-details/vehicle-details.selector';
-import { map, withLatestFrom } from 'rxjs/operators';
+import { map, tap, withLatestFrom } from 'rxjs/operators';
 
 export interface CommonOfficePageState {
   testCategory$: Observable<TestCategory>;
@@ -294,7 +294,8 @@ export abstract class OfficeBasePageComponent extends PracticeableBasePageCompon
       displayRouteNumber$: currentTest$.pipe(
         select(getTestOutcome),
         withLatestFrom(currentTest$.pipe(select(getTestSummary), select(getRouteNumber))),
-        map(([outcome, route]) => this.outcomeBehaviourProvider.isVisible(outcome, 'routeNumber', route))
+        map(([outcome, route]) => this.outcomeBehaviourProvider.isVisible(outcome, 'routeNumber', route)),
+        tap((value) => console.log('display route', value))
       ),
       displayIndependentDriving$: currentTest$.pipe(
         select(getTestOutcome),
@@ -479,10 +480,50 @@ export abstract class OfficeBasePageComponent extends PracticeableBasePageCompon
     this.store$.dispatch(SetStartDate(customStartDate));
   }
 
+  categoryIncludesRouteNumber() {
+    const categoriesWithRouteNumbers: TestCategory[] = [
+      TestCategory.B,
+      TestCategory.B1,
+      TestCategory.BE,
+      TestCategory.ADI2,
+      TestCategory.C,
+      TestCategory.C1,
+      TestCategory.C1E,
+      TestCategory.CE,
+      TestCategory.D,
+      TestCategory.D1,
+      TestCategory.D1E,
+      TestCategory.DE,
+      TestCategory.EUA1M2,
+      TestCategory.EUA2M2,
+      TestCategory.EUAM2,
+      TestCategory.EUAMM2,
+    ];
+    let includesRouteNumber = true;
+    if (this.commonPageState) {
+      this.commonPageState?.testCategory$
+        .subscribe((value) => {
+          includesRouteNumber = categoriesWithRouteNumbers.includes(value);
+        })
+        .unsubscribe();
+    }
+    return includesRouteNumber;
+  }
+
   dispatchTestConfirmedActions() {
-    this.commonPageState?.routeNumber$.subscribe((routeNumber) => {
-      this.store$.dispatch(RouteNumberConfirmed(routeNumber));
-    });
+    if (this.categoryIncludesRouteNumber()) {
+      this.commonPageState?.displayRouteNumber$
+        .subscribe((shouldDisplay) => {
+          if (shouldDisplay) {
+            this.commonPageState?.routeNumber$
+              .subscribe((routeNumber) => {
+                this.store$.dispatch(RouteNumberConfirmed(routeNumber));
+              })
+              .unsubscribe();
+          }
+        })
+        .unsubscribe();
+    }
   }
 
   completeTest = async (): Promise<void> => {
