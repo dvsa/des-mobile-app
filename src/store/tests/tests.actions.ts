@@ -89,6 +89,10 @@ export const SendCompletedNoneSent = createAction('[Tests] No completed tests se
 
 export const SendCurrentTestFailure = createAction('[Tests] Send Test Failure', (failure: boolean) => ({ failure }));
 
+export const RemoveTestBySlotId = createAction('[Tests] Remove Test By SlotId', (slotId: number) => ({
+  slotId,
+}));
+
 const actions = union({
   UnloadTests,
   PersistTests,
@@ -111,6 +115,7 @@ const actions = union({
   SendPartialTestsFailure,
   SendCompletedNoneSent,
   DeletePracticeModeTests,
+  RemoveTestBySlotId,
 });
 
 export type TestActionsTypes = typeof actions;
