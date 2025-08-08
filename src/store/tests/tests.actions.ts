@@ -91,7 +91,7 @@ export const SendCurrentTestFailure = createAction('[Tests] Send Test Failure', 
 
 export const RemoveStartedTest = createAction('[Tests] Remove Started Test', (slotId: number) => ({ slotId }));
 
-export const RemoveTestBySlotId = createAction('[Tests] Remove Test By SlotId', (slotId: number) => ({ slotId, }));
+export const RemoveTestBySlotId = createAction('[Tests] Remove Test By SlotId', (slotId: number) => ({ slotId }));
 
 const actions = union({
   UnloadTests,

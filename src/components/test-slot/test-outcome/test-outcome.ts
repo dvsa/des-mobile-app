@@ -33,8 +33,8 @@ import { SetExaminerConducted } from '@store/tests/examiner-conducted/examiner-c
 import { extractTestSlotAttributes } from '@store/tests/journal-data/common/test-slot-attributes/test-slot-attributes.selector';
 import { TestStatus } from '@store/tests/test-status/test-status.model';
 import { ActivateTest, RemoveStartedTest, RemoveTestBySlotId, StartTest } from '@store/tests/tests.actions';
-import { StartedTests, getStartedTests, getTestById } from '@store/tests/tests.selector';
 import { getTests } from '@store/tests/tests.reducer';
+import { StartedTests, getStartedTests, getTestById } from '@store/tests/tests.selector';
 
 @Component({
   selector: 'test-outcome',
@@ -437,25 +437,11 @@ export class TestOutcomeComponent implements OnInit {
     );
 
     // remove undefined values
-    const existingTestSlotAttributes = Object.fromEntries(
-      Object.entries(existingTest.journalData.testSlotAttributes).filter(([_, v]) => v !== undefined)
-    );
-
-    console.log('details');
-    console.log(existingTest);
-    console.log(slot);
-    console.log('candidate driverNumber');
-    console.log(existingTest.journalData.candidate.driverNumber);
-    console.log(slot.booking.candidate.driverNumber);
-    console.log(isEqual(existingTest.journalData.candidate.driverNumber, slot.booking.candidate.driverNumber));
-    console.log('testCentre');
-    console.log(existingTest.journalData.testCentre);
-    console.log(slot.testCentre);
-    console.log(isEqual(existingTest.journalData.testCentre, slot.testCentre));
-    console.log('testSlotAttributes');
-    console.log(existingTestSlotAttributes);
-    console.log(testSlotAttributes);
-    console.log(isEqual(existingTestSlotAttributes, testSlotAttributes));
+    const existingTestSlotAttributes = existingTest
+      ? Object.fromEntries(
+          Object.entries(existingTest.journalData.testSlotAttributes).filter(([_, v]) => v !== undefined)
+        )
+      : {};
 
     // Compare candidate number, testCentre and testSlotAttributes between existing test slot data
     // and current test slot
@@ -472,8 +458,6 @@ export class TestOutcomeComponent implements OnInit {
     if (slotHasChanged) {
       this.store$.dispatch(RemoveStartedTest(slotId));
     }
-
-    console.log(`Slot has changed: ${slotHasChanged}`);
 
     return slotHasChanged;
   }
