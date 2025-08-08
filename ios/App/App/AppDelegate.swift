@@ -52,9 +52,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     return CAPBridge.handleContinueActivity(userActivity, restorationHandler)
   }
 
-
-
-
   func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
     NotificationCenter.default.post(name: Notification.Name(CAPNotifications.DidRegisterForRemoteNotificationsWithDeviceToken.name()), object: deviceToken)
   }

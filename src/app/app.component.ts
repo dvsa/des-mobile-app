@@ -9,6 +9,7 @@ import * as Sentry from '@sentry/capacitor';
 import { Observable, Subscription, merge } from 'rxjs';
 
 import { SENTRY_ERRORS } from '@app/sentry-error-handler';
+import { WindowMode } from '@dvsa/capacitor-plugin-window-mode';
 import { SideMenuClosed, SideMenuItemSelected, SideMenuOpened } from '@pages/dashboard/dashboard.actions';
 import {
   DASHBOARD_PAGE,
@@ -108,6 +109,7 @@ export class AppComponent extends LogoutBasePageComponent implements OnInit {
   }
 
   async ngOnInit() {
+    await this.checkWindow();
     try {
       await this.platform.ready();
       await this.dataStore.initDataStore();
@@ -147,6 +149,14 @@ export class AppComponent extends LogoutBasePageComponent implements OnInit {
     if (this.platformSubscription) {
       this.platformSubscription.unsubscribe();
     }
+  }
+
+  async checkWindow() {
+    await WindowMode.addListener('windowModeChanged', this.windowModeChanged);
+  }
+
+  windowModeChanged(isWindow) {
+    alert(`Is in window mode: ${isWindow.isInWindowMode}`);
   }
 
   public initialiseAuthentication = (): void => {
