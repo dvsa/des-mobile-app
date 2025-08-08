@@ -431,24 +431,49 @@ export class TestOutcomeComponent implements OnInit {
       )
     );
 
-    // convert into format to compare with existing test data
+    // convert into format to compare with existing test data and remove undefined values
     const testSlotAttributes = Object.fromEntries(
       Object.entries(extractTestSlotAttributes(slot)).filter(([_, v]) => v !== undefined)
     );
 
-    // Compare candidate, testCentre and testSlotAttributes between existing test slot data
+    // remove undefined values
+    const existingTestSlotAttributes = Object.fromEntries(
+      Object.entries(existingTest.journalData.testSlotAttributes).filter(([_, v]) => v !== undefined)
+    );
+
+    console.log('details');
+    console.log(existingTest);
+    console.log(slot);
+    console.log('candidate driverNumber');
+    console.log(existingTest.journalData.candidate.driverNumber);
+    console.log(slot.booking.candidate.driverNumber);
+    console.log(isEqual(existingTest.journalData.candidate.driverNumber, slot.booking.candidate.driverNumber));
+    console.log('testCentre');
+    console.log(existingTest.journalData.testCentre);
+    console.log(slot.testCentre);
+    console.log(isEqual(existingTest.journalData.testCentre, slot.testCentre));
+    console.log('testSlotAttributes');
+    console.log(existingTestSlotAttributes);
+    console.log(testSlotAttributes);
+    console.log(isEqual(existingTestSlotAttributes, testSlotAttributes));
+
+    // Compare candidate number, testCentre and testSlotAttributes between existing test slot data
     // and current test slot
     const slotHasChanged = existingTest
       ? !(
-          isEqual(existingTest.journalData.candidate, slot.booking.candidate) &&
-          isEqual(existingTest.journalData.testCentre, slot.testCentre) &&
-          isEqual(existingTest.journalData.testSlotAttributes, testSlotAttributes)
+          isEqual(existingTest?.journalData?.candidate?.driverNumber, slot?.booking?.candidate?.driverNumber) &&
+          isEqual(existingTest?.journalData?.candidate?.candidateName, slot?.booking?.candidate?.candidateName) &&
+          isEqual(existingTest?.category, slot?.booking?.application?.testCategory) &&
+          isEqual(existingTest?.journalData?.testCentre, slot?.testCentre) &&
+          isEqual(existingTestSlotAttributes, testSlotAttributes)
         )
       : false;
 
     if (slotHasChanged) {
       this.store$.dispatch(RemoveStartedTest(slotId));
     }
+
+    console.log(`Slot has changed: ${slotHasChanged}`);
 
     return slotHasChanged;
   }
