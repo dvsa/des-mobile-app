@@ -70,6 +70,7 @@ import {
   IdentificationUsedChanged,
   IndependentDrivingTypeChanged,
   RouteNumberChanged,
+  RouteNumberConfirmed,
   TrueLikenessToPhotoChanged,
   WeatherConditionsChanged,
 } from '@store/tests/test-summary/test-summary.actions';
@@ -83,7 +84,7 @@ import {
 } from '@store/tests/vehicle-details/vehicle-details.actions';
 import { Subscription, of } from 'rxjs';
 import { take } from 'rxjs/operators';
-import { OfficeBasePageComponent } from '../office-base-page';
+import { CommonOfficePageState, OfficeBasePageComponent } from '../office-base-page';
 
 describe('OfficeBasePageComponent', () => {
   let injector: Injector;
@@ -286,6 +287,7 @@ describe('OfficeBasePageComponent', () => {
   describe('completeTest', () => {
     beforeEach(() => {
       spyOn(basePageComponent, 'popToRoot');
+      spyOn(basePageComponent, 'dispatchTestConfirmedActions').and.callThrough();
       basePageComponent.finishTestModal = { dismiss: async () => true } as HTMLIonModalElement;
     });
     it('should successfully end the test', async () => {
@@ -298,6 +300,17 @@ describe('OfficeBasePageComponent', () => {
       await basePageComponent.completeTest();
       expect(store$.dispatch).not.toHaveBeenCalledWith(CompleteTest());
       expect(basePageComponent.popToRoot).toHaveBeenCalled();
+    });
+  });
+
+  describe('dispatchTestConfirmedActions', () => {
+    it('should dispatch the route number', async () => {
+      basePageComponent.commonPageState = {
+        routeNumber$: of(123),
+        // other properties not needed for this test
+      } as CommonOfficePageState;
+      basePageComponent.dispatchTestConfirmedActions();
+      expect(store$.dispatch).toHaveBeenCalledWith(RouteNumberConfirmed(123));
     });
   });
 
@@ -375,6 +388,7 @@ describe('OfficeBasePageComponent', () => {
   describe('goToReasonForRekey', () => {
     beforeEach(() => {
       spyOn(router, 'navigate');
+      spyOn(basePageComponent, 'dispatchTestConfirmedActions').and.callThrough();
     });
     it('should call through to router.navigate when form is valid', async () => {
       spyOn(basePageComponent, 'isFormValid').and.returnValue(Promise.resolve(true));
@@ -601,6 +615,7 @@ describe('OfficeBasePageComponent', () => {
     it('should dispatch store and then navigate to ' + 'rekey upload after the modal is dismissed', async () => {
       await basePageComponent.showFinishTestModal();
 
+      spyOn(basePageComponent, 'dispatchTestConfirmedActions').and.callThrough();
       spyOn(store$, 'dispatch');
       spyOn(basePageComponent.finishTestModal, 'dismiss');
       spyOn(basePageComponent.router, 'navigate');

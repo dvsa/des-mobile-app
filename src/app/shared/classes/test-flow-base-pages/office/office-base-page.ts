@@ -480,7 +480,7 @@ export abstract class OfficeBasePageComponent extends PracticeableBasePageCompon
   }
 
   dispatchTestConfirmedActions() {
-    this.commonPageState.routeNumber$.subscribe((routeNumber) => {
+    this.commonPageState?.routeNumber$.subscribe((routeNumber) => {
       this.store$.dispatch(RouteNumberConfirmed(routeNumber));
     });
   }
