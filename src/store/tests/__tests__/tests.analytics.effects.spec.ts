@@ -37,6 +37,7 @@ import journalSlotsDataMock from '@store/journal/__mocks__/journal-slots-data.mo
 import * as journalActions from '@store/journal/journal.actions';
 import { journalReducer } from '@store/journal/journal.reducer';
 import { candidateMock } from '../__mocks__/tests.mock';
+import { RemoveStartedTest } from '../tests.actions';
 
 describe('TestsAnalyticsEffects', () => {
   let effects: TestsAnalyticsEffects;
@@ -285,6 +286,7 @@ describe('TestsAnalyticsEffects', () => {
       });
     });
   });
+
   describe('startTestAnalyticsEffect', () => {
     beforeEach(() => {
       store$.dispatch(
@@ -352,6 +354,21 @@ describe('TestsAnalyticsEffects', () => {
           AnalyticsEventCategories.METADATA,
           GoogleAnalyticsEventsTitles.HDD_TOTAL_MB,
           '1000'
+        );
+        done();
+      });
+    });
+  });
+
+  describe('removeStartedTestEffect', () => {
+    it('should log a GA event and return AnalyticRecorded when RemoveStartedTest is dispatched', (done) => {
+      actions$.next(RemoveStartedTest(12345));
+      effects.removeStartedTestEffect$.subscribe((result) => {
+        expect(result.type).toEqual(AnalyticRecorded.type);
+        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+          GoogleAnalyticsEvents.JOURNAL,
+          GoogleAnalyticsEventsTitles.SLOT_CHANGED,
+          GoogleAnalyticsEventsValues.SLOT_RESET
         );
         done();
       });

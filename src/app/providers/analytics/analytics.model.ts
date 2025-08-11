@@ -553,5 +553,6 @@ export enum GoogleAnalyticsEventsValues {
   SAVED = 'saved',
   LEARN_MORE = 'learn_more',
   OK = 'ok',
+  SLOT_RESET = 'slot_reset',
   VALUE_SELECTED = 'value_selected',
 }
