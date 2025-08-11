@@ -14,7 +14,7 @@ import { end2endPracticeSlotId } from '@shared/mocks/test-slot-ids.mock';
 import { ActivityCodes } from '@shared/models/activity-codes';
 import { StoreModel } from '@shared/models/store.model';
 import { isEmpty, startsWith } from 'lodash-es';
-import { Observable, Subscription, merge } from 'rxjs';
+import { Subscription, merge } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { PreviewModeModal } from '@pages/fake-journal/components/preview-mode-modal/preview-mode-modal';
@@ -95,7 +95,7 @@ export class TestOutcomeComponent implements OnInit {
   startTestAsRekey = false;
   isTestSlotOnRekeySearch = false;
   subscription: Subscription;
-  startedTests$: Observable<StartedTests>;
+  testExistsAsRekey = false;
 
   constructor(
     public store$: Store<StoreModel>,
@@ -108,9 +108,14 @@ export class TestOutcomeComponent implements OnInit {
 
   ngOnInit() {
     const bookedTestSlot$ = this.store$.pipe(select(getRekeySearchState), map(getBookedTestSlot));
-    this.startedTests$ = this.store$.pipe(select(getTests), map(getStartedTests));
+    const startedTests$ = this.store$.pipe(select(getTests), map(getStartedTests));
 
     const merged$ = merge(
+      startedTests$.pipe(
+        map((startedTests: StartedTests) => {
+          this.testExistsAsRekey = startedTests[this.slotDetail.slotId] && startedTests[this.slotDetail.slotId].rekey;
+        })
+      ),
       bookedTestSlot$.pipe(
         map((testSlot: TestSlot) => {
           if (isEmpty(testSlot)) {
@@ -161,7 +166,10 @@ export class TestOutcomeComponent implements OnInit {
   }
 
   showStartTestButton(): boolean {
-    return !this.isDelegatedTest && this.testStatus === TestStatus.Booked;
+    return (
+      (!this.isDelegatedTest && this.testStatus === TestStatus.Booked) ||
+      (this.testStatus !== TestStatus.Booked && this.testExistsAsRekey)
+    );
   }
 
   showDelegatedExaminerRekeyButton(): boolean {
@@ -169,11 +177,15 @@ export class TestOutcomeComponent implements OnInit {
   }
 
   showResumeButton(): boolean {
-    return this.testStatus === TestStatus.Started || this.testStatus === TestStatus.Decided;
+    return (
+      (this.testStatus === TestStatus.Started || this.testStatus === TestStatus.Decided) && !this.testExistsAsRekey
+    );
   }
 
   showWriteUpButton(): boolean {
-    return this.testStatus === TestStatus.WriteUp || this.testStatus === TestStatus.Autosaved;
+    return (
+      this.testStatus === TestStatus.WriteUp || (this.testStatus === TestStatus.Autosaved && !this.testExistsAsRekey)
+    );
   }
 
   async writeUpTest() {
@@ -318,14 +330,6 @@ export class TestOutcomeComponent implements OnInit {
   onModalDismiss = async (event: ModalEvent): Promise<void> => {
     switch (event) {
       case ModalEvent.START:
-        this.startedTests$
-          .subscribe((startedTests: StartedTests) => {
-            // If the test was started as a rekey, we need to remove it from the store
-            if (startedTests[this.slotDetail.slotId] && startedTests[this.slotDetail.slotId].rekey) {
-              this.store$.dispatch(RemoveTestBySlotId(this.slotDetail.slotId));
-            }
-          })
-          .unsubscribe();
         this.startTestAsRekey = false;
         this.isRekey = false;
         await this.startOrResumeTestDependingOnStatus();
@@ -392,7 +396,10 @@ export class TestOutcomeComponent implements OnInit {
   }
 
   async startOrResumeTestDependingOnStatus() {
-    if (this.testStatus === TestStatus.Booked) {
+    if (this.testStatus === TestStatus.Booked || this.testExistsAsRekey) {
+      if (this.testExistsAsRekey) {
+        this.store$.dispatch(RemoveTestBySlotId(this.slotDetail.slotId));
+      }
       await this.startTest();
     } else {
       await this.resumeTest();
