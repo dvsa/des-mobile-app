@@ -44,7 +44,7 @@ describe('ResidencyDeclarationComponent', () => {
         spyOn(component.residencyDeclarationChange, 'emit');
 
         // ACT
-        component.residencyDeclarationChanged();
+        component.residencyDeclarationChanged(true);
         fixture.detectChanges();
 
         // ASSERT

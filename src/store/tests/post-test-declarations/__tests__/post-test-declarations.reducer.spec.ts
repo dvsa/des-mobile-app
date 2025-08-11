@@ -10,7 +10,7 @@ import { initialState, postTestDeclarationsReducer } from '../post-test-declarat
 
 describe('PostTestDeclarations reducer', () => {
   it('should toggle the health declaration status when the toggle action is received', () => {
-    const result = postTestDeclarationsReducer(initialState, ToggleHealthDeclaration());
+    const result = postTestDeclarationsReducer(initialState, ToggleHealthDeclaration(true));
     expect(result.healthDeclarationAccepted).toBe(true);
   });
 

@@ -20,7 +20,7 @@
           id="health-declaration-checkbox"
           [class.ng-invalid]="isInvalid()"
           [checked]="selected"
-          (click)="healthDeclarationChanged()"
+          (click)="healthDeclarationChanged($event.target.checked)"
         />
         <label addOrRemoveLangCy id="health-declaration-label" for="health-declaration-checkbox">
           {{ 'healthDeclaration.confirm' | translate }}

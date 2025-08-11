@@ -44,7 +44,7 @@ describe('InsuranceDeclarationComponent', () => {
         spyOn(component.insuranceDeclarationChange, 'emit');
 
         // ACT
-        component.insuranceDeclarationChanged();
+        component.insuranceDeclarationChanged(true);
         fixture.detectChanges();
 
         // ASSERT

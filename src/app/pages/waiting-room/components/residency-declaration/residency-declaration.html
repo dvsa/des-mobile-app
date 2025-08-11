@@ -21,7 +21,7 @@
           [class.ng-invalid]="isInvalid()"
           id="residency-declaration-checkbox"
           [checked]="selected"
-          (click)="residencyDeclarationChanged()"
+          (click)="residencyDeclarationChanged($event.target.checked)"
         />
         <label addOrRemoveLangCy for="residency-declaration-checkbox" id="waiting-room-confirm-residency-label">
           {{ 'waitingRoom.confirm' | translate }}

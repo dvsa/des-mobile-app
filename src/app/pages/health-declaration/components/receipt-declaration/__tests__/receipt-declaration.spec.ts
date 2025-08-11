@@ -43,7 +43,7 @@ describe('ReceiptDeclarationComponent', () => {
         spyOn(component.receiptDeclarationChange, 'emit');
 
         // ACT
-        component.receiptDeclarationChanged();
+        component.receiptDeclarationChanged(true);
         fixture.detectChanges();
 
         // ASSERT

@@ -110,6 +110,7 @@ import {
   IdentificationUsedChanged,
   IndependentDrivingTypeChanged,
   RouteNumberChanged,
+  RouteNumberConfirmed,
   TrueLikenessToPhotoChanged,
   WeatherConditionsChanged,
 } from '@store/tests/test-summary/test-summary.actions';
@@ -149,7 +150,7 @@ import {
   getVehicleMake,
   getVehicleModel,
 } from '@store/tests/vehicle-details/vehicle-details.selector';
-import { map, withLatestFrom } from 'rxjs/operators';
+import { map, tap, withLatestFrom } from 'rxjs/operators';
 
 export interface CommonOfficePageState {
   testCategory$: Observable<TestCategory>;
@@ -233,6 +234,8 @@ export abstract class OfficeBasePageComponent extends PracticeableBasePageCompon
   weatherConditions: WeatherConditionSelection[];
   finishTestModal: HTMLIonModalElement;
 
+  hasIdentificationBeenUpdated = false;
+
   protected constructor(
     injector: Injector,
     @Inject(false) public loginRequired = false
@@ -291,7 +294,8 @@ export abstract class OfficeBasePageComponent extends PracticeableBasePageCompon
       displayRouteNumber$: currentTest$.pipe(
         select(getTestOutcome),
         withLatestFrom(currentTest$.pipe(select(getTestSummary), select(getRouteNumber))),
-        map(([outcome, route]) => this.outcomeBehaviourProvider.isVisible(outcome, 'routeNumber', route))
+        map(([outcome, route]) => this.outcomeBehaviourProvider.isVisible(outcome, 'routeNumber', route)),
+        tap((value) => console.log('display route', value))
       ),
       displayIndependentDriving$: currentTest$.pipe(
         select(getTestOutcome),
@@ -476,7 +480,58 @@ export abstract class OfficeBasePageComponent extends PracticeableBasePageCompon
     this.store$.dispatch(SetStartDate(customStartDate));
   }
 
+  categoryIncludesRouteNumber() {
+    const categoriesWithRouteNumbers: TestCategory[] = [
+      TestCategory.B,
+      TestCategory.B1,
+      TestCategory.BE,
+      TestCategory.ADI2,
+      TestCategory.C,
+      TestCategory.C1,
+      TestCategory.C1E,
+      TestCategory.CE,
+      TestCategory.D,
+      TestCategory.D1,
+      TestCategory.D1E,
+      TestCategory.DE,
+      TestCategory.EUA1M2,
+      TestCategory.EUA2M2,
+      TestCategory.EUAM2,
+      TestCategory.EUAMM2,
+    ];
+    let includesRouteNumber = true;
+    if (this.commonPageState) {
+      this.commonPageState?.testCategory$
+        .subscribe((value) => {
+          includesRouteNumber = categoriesWithRouteNumbers.includes(value);
+        })
+        .unsubscribe();
+    }
+    return includesRouteNumber;
+  }
+
+  dispatchTestConfirmedActions() {
+    if (this.categoryIncludesRouteNumber()) {
+      this.commonPageState?.displayRouteNumber$
+        .subscribe((shouldDisplay) => {
+          if (shouldDisplay) {
+            this.commonPageState?.routeNumber$
+              .subscribe((routeNumber) => {
+                this.store$.dispatch(RouteNumberConfirmed(routeNumber));
+              })
+              .unsubscribe();
+          }
+        })
+        .unsubscribe();
+    }
+  }
+
   completeTest = async (): Promise<void> => {
+    this.dispatchTestConfirmedActions();
+    // If the identification has not been updated, dispatch the current identification for analytics purposes.
+    if (!this.hasIdentificationBeenUpdated) {
+      this.identificationChanged(this.form.value.identification);
+    }
     if (!this.isEndToEndPracticeMode) {
       this.store$.dispatch(CompleteTest());
     }
@@ -485,6 +540,7 @@ export abstract class OfficeBasePageComponent extends PracticeableBasePageCompon
   };
 
   completeTestDelegated = async (): Promise<void> => {
+    this.dispatchTestConfirmedActions();
     this.store$.dispatch(SetRekeyDate());
     this.store$.dispatch(SendCurrentTest());
     await this.finishTestModal.dismiss();
@@ -493,6 +549,7 @@ export abstract class OfficeBasePageComponent extends PracticeableBasePageCompon
 
   identificationChanged(identification: Identification): void {
     this.store$.dispatch(IdentificationUsedChanged(identification));
+    this.hasIdentificationBeenUpdated = true;
   }
 
   trueLikenessToPhotoChanged(trueLikeness: boolean): void {
@@ -613,6 +670,7 @@ export abstract class OfficeBasePageComponent extends PracticeableBasePageCompon
 
   async goToReasonForRekey() {
     if (await this.isFormValid()) {
+      this.dispatchTestConfirmedActions();
       await this.router.navigate([TestFlowPageNames.REKEY_REASON_PAGE]);
     }
   }

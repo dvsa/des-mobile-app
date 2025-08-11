@@ -31,8 +31,8 @@ export class ReceiptDeclarationComponent implements OnChanges {
     this.formControl.patchValue(this.selected);
   }
 
-  receiptDeclarationChanged(): void {
-    this.receiptDeclarationChange.emit();
+  receiptDeclarationChanged(isSelected: boolean): void {
+    this.receiptDeclarationChange.emit(isSelected);
   }
 
   isInvalid(): boolean {

@@ -15,6 +15,10 @@ export const RouteNumberChanged = createAction('[Test Summary] Route Number chan
   routeNumber,
 }));
 
+export const RouteNumberConfirmed = createAction('[Test Summary] Route Number confirmed', (routeNumber: number) => ({
+  routeNumber,
+}));
+
 export const DebriefWitnessed = createAction('[Test Summary] Debrief Witnessed');
 
 export const DebriefUnWitnessed = createAction('[Test Summary] Debrief Un-witnessed');

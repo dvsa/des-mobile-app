@@ -41,7 +41,12 @@ import {
 } from '@store/tests/test-data/common/test-data.selector';
 import { CircuitTypeChanged } from '@store/tests/test-summary/cat-a-mod1/test-summary.cat-a-mod1.actions';
 import { ModeOfTransportChanged } from '@store/tests/test-summary/cat-a-mod2/test-summary.cat-a-mod2.actions';
-import { IndependentDrivingTypeChanged } from '@store/tests/test-summary/test-summary.actions';
+import {
+  CandidateDescriptionChanged,
+  IdentificationUsedChanged,
+  IndependentDrivingTypeChanged,
+  RouteNumberConfirmed,
+} from '@store/tests/test-summary/test-summary.actions';
 import { TestsModel } from '@store/tests/tests.model';
 import { getTests } from '@store/tests/tests.reducer';
 import { getCurrentTest, getJournalData, isPassed, isPracticeMode } from '@store/tests/tests.selector';
@@ -413,6 +418,111 @@ export class OfficeAnalyticsEffects {
         );
         return of(AnalyticRecorded());
       })
+    )
+  );
+
+  routeNumberConfirmed$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(RouteNumberConfirmed),
+      concatMap((action) =>
+        of(action).pipe(
+          withLatestFrom(
+            this.store$.pipe(select(getTests)),
+            this.store$.pipe(select(getTests), select(getCurrentTest), select(getTestCategory)),
+            this.store$.pipe(select(getTests), select(isPracticeMode))
+          )
+        )
+      ),
+      filter(([, , , practiceMode]) =>
+        !practiceMode ? true : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics
+      ),
+      concatMap(
+        ([{ routeNumber }, , category]: [
+          ReturnType<typeof RouteNumberConfirmed>,
+          TestsModel,
+          CategoryCode,
+          boolean,
+        ]) => {
+          //GA4 Analytics
+          this.analytics.addGACustomDimension(GoogleAnalyticsCustomDimension.TEST_CATEGORY, category);
+          this.analytics.logGAEvent(
+            GoogleAnalyticsEvents.ROUTE_NUMBER_ADDED,
+            GoogleAnalyticsEventsTitles.ROUTE,
+            routeNumber ? routeNumber.toString() : ''
+          );
+          return of(AnalyticRecorded());
+        }
+      )
+    )
+  );
+
+  candidateDescriptionChanged$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(CandidateDescriptionChanged),
+      concatMap((action) =>
+        of(action).pipe(
+          withLatestFrom(
+            this.store$.pipe(select(getTests)),
+            this.store$.pipe(select(getTests), select(getCurrentTest), select(getTestCategory)),
+            this.store$.pipe(select(getTests), select(isPracticeMode))
+          )
+        )
+      ),
+      filter(([, , , practiceMode]) =>
+        !practiceMode ? true : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics
+      ),
+      concatMap(
+        ([, , category]: [ReturnType<typeof CandidateDescriptionChanged>, TestsModel, CategoryCode, boolean]) => {
+          //GA4 Analytics
+          this.analytics.addGACustomDimension(GoogleAnalyticsCustomDimension.TEST_CATEGORY, category);
+          this.analytics.logGAEvent(
+            GoogleAnalyticsEvents.PHYSICAL_APPEARANCE,
+            GoogleAnalyticsEventsTitles.COMMENTS,
+            GoogleAnalyticsEventsValues.FREE_TEXT_ENTERED
+          );
+          return of(AnalyticRecorded());
+        }
+      )
+    )
+  );
+
+  identificationUsedChanged$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(IdentificationUsedChanged),
+      concatMap((action) =>
+        of(action).pipe(
+          withLatestFrom(
+            this.store$.pipe(select(getTests)),
+            this.store$.pipe(select(getTests), select(getCurrentTest), select(getTestCategory)),
+            this.store$.pipe(select(getTests), select(isPracticeMode))
+          )
+        )
+      ),
+      filter(([, , , practiceMode]) =>
+        !practiceMode ? true : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics
+      ),
+      concatMap(
+        ([{ identification }, , category]: [
+          ReturnType<typeof IdentificationUsedChanged>,
+          TestsModel,
+          CategoryCode,
+          boolean,
+        ]) => {
+          //GA4 Analytics
+          let value = GoogleAnalyticsEventsValues.UNKNOWN;
+          switch (identification) {
+            case 'Licence':
+              value = GoogleAnalyticsEventsValues.PHOTOCARD;
+              break;
+            case 'Passport':
+              value = GoogleAnalyticsEventsValues.PASSPORT;
+              break;
+          }
+          this.analytics.addGACustomDimension(GoogleAnalyticsCustomDimension.TEST_CATEGORY, category);
+          this.analytics.logGAEvent(GoogleAnalyticsEvents.PHYSICAL_APPEARANCE, GoogleAnalyticsEventsTitles.ID, value);
+          return of(AnalyticRecorded());
+        }
+      )
     )
   );
 

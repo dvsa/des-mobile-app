@@ -78,7 +78,7 @@
 
       <div class="waiting-room-declarations">
         <insurance-declaration
-          (insuranceDeclarationChange)="insuranceDeclarationChanged()"
+          (insuranceDeclarationChange)="insuranceDeclarationChanged($event)"
           [formGroup]="formGroup"
           [selected]="pageState.insuranceDeclarationAccepted$ | async"
         >
@@ -86,7 +86,7 @@
 
         <residency-declaration
           *ngIf="pageState.showResidencyDec$ | async"
-          (residencyDeclarationChange)="residencyDeclarationChanged()"
+          (residencyDeclarationChange)="residencyDeclarationChanged($event)"
           [formGroup]="formGroup"
           [selected]="pageState.residencyDeclarationAccepted$ | async"
         >

@@ -53,6 +53,7 @@ import { getPreTestDeclarationsCatAMod1 } from '@store/tests/pre-test-declaratio
 import { getCBTNumberStatus } from '@store/tests/pre-test-declarations/cat-a-mod1/pre-test-declarations.cat-a-mod1.selector';
 import { CbtNumberChanged } from '@store/tests/pre-test-declarations/cat-a/pre-test-declarations.cat-a.actions';
 import { getManoeuvrePassCertificateNumber } from '@store/tests/pre-test-declarations/cat-c/pre-test-declarations.cat-c.selector';
+import { SignatureConfirmed } from '@store/tests/pre-test-declarations/pre-test-declarations.actions';
 import { getRekeyIndicator } from '@store/tests/rekey/rekey.reducer';
 import { isRekey } from '@store/tests/rekey/rekey.selector';
 import { showVrnButton } from '@store/tests/vehicle-details/vehicle-details.selector';
@@ -252,12 +253,12 @@ export class WaitingRoomPage extends PracticeableBasePageComponent implements On
     this.store$.dispatch(preTestDeclarationsActions.SignatureDataCleared());
   }
 
-  insuranceDeclarationChanged(): void {
-    this.store$.dispatch(preTestDeclarationsActions.ToggleInsuranceDeclaration());
+  insuranceDeclarationChanged(selected: boolean): void {
+    this.store$.dispatch(preTestDeclarationsActions.ToggleInsuranceDeclaration(selected));
   }
 
-  residencyDeclarationChanged(): void {
-    this.store$.dispatch(preTestDeclarationsActions.ToggleResidencyDeclaration());
+  residencyDeclarationChanged(selected: boolean): void {
+    this.store$.dispatch(preTestDeclarationsActions.ToggleResidencyDeclaration(selected));
   }
 
   dispatchCandidateChoseToProceedInWelsh(): void {
@@ -285,6 +286,9 @@ export class WaitingRoomPage extends PracticeableBasePageComponent implements On
           return;
         }
       }
+
+      this.store$.dispatch(SignatureConfirmed());
+
       // navigate after successful device auth (if required) and when form is valid;
       await this.router.navigate(
         shouldNavToCandidateLicenceDetails
