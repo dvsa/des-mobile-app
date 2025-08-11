@@ -4,13 +4,19 @@ import { Router } from '@angular/router';
 import { SlotDetail } from '@dvsa/mes-journal-schema';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { Store, StoreModule } from '@ngrx/store';
-import { Subscription, of } from 'rxjs';
+import { Subscription } from 'rxjs';
 
 import { MockAppComponent } from '@app/__mocks__/app.component.mock';
 import { AppComponent } from '@app/app.component';
+import { ModalController } from '@ionic/angular';
+import { OverlayEventDetail } from '@ionic/core';
+import { RouterMock } from '@mocks/angular-mocks/router-mock';
+import { ModalControllerMock } from '@mocks/ionic-mocks/modal-controller.mock';
 import { ModalEvent } from '@pages/journal/components/journal-rekey-modal/journal-rekey-modal.constants';
 import { CAT_A_MOD1, CAT_A_MOD2, CAT_B, CAT_C, CAT_D, TestFlowPageNames } from '@pages/page-names.constants';
 import { ContinueUnuploadedTest } from '@pages/unuploaded-tests/unuploaded-tests.actions';
+import { AccessibilityServiceMock } from '@providers/accessibility/__mocks__/accessibility-service.mock';
+import { AccessibilityService } from '@providers/accessibility/accessibility.service';
 import { CategoryWhitelistProvider } from '@providers/category-whitelist/category-whitelist';
 import { LogHelperMock } from '@providers/logs/__mocks__/logs-helper.mock';
 import { LogHelper } from '@providers/logs/logs-helper';
@@ -20,18 +26,10 @@ import { DateTime, Duration } from '@shared/helpers/date-time';
 import { ActivityCodes } from '@shared/models/activity-codes';
 import { StoreModel } from '@shared/models/store.model';
 import { JournalModel } from '@store/journal/journal.model';
-import { TestStatus } from '@store/tests/test-status/test-status.model';
-import { ActivateTest, RemoveTestBySlotId, StartTest } from '@store/tests/tests.actions';
-
-import { TestResultSchemasUnion } from '@dvsa/mes-test-schema/categories';
-import { ModalController } from '@ionic/angular';
-import { OverlayEventDetail } from '@ionic/core';
-import { RouterMock } from '@mocks/angular-mocks/router-mock';
-import { ModalControllerMock } from '@mocks/ionic-mocks/modal-controller.mock';
-import { AccessibilityServiceMock } from '@providers/accessibility/__mocks__/accessibility-service.mock';
-import { AccessibilityService } from '@providers/accessibility/accessibility.service';
 import { SetExaminerBooked } from '@store/tests/examiner-booked/examiner-booked.actions';
 import { SetExaminerConducted } from '@store/tests/examiner-conducted/examiner-conducted.actions';
+import { TestStatus } from '@store/tests/test-status/test-status.model';
+import { ActivateTest, RemoveTestBySlotId, StartTest } from '@store/tests/tests.actions';
 import { TestSlotComponentsModule } from '../../test-slot-components.module';
 import { TestOutcomeComponent } from '../test-outcome';
 
@@ -385,25 +383,10 @@ describe('TestOutcomeComponent', () => {
     });
 
     describe('onModalDismiss', () => {
-      it('clear existing started test if event is START and it already exists as a rekey', async () => {
-        component.slotDetail = { slotId: 0 };
-        component.startedTests$ = of({
-          0: { rekey: true } as TestResultSchemasUnion,
-        });
-        spyOn(component, 'startOrResumeTestDependingOnStatus');
-        spyOn(component.store$, 'dispatch');
-        await component.onModalDismiss(ModalEvent.START);
-        expect(component.store$.dispatch).toHaveBeenCalledWith(RemoveTestBySlotId(0));
-      });
-
       it(
         'should set startTestAsRekey and isRekey to false and call' +
           ' startOrResumeTestDependingOnStatus when event is START',
         async () => {
-          component.slotDetail = { slotId: 0 };
-          component.startedTests$ = of({
-            0: { rekey: false } as TestResultSchemasUnion,
-          });
           spyOn(component, 'startOrResumeTestDependingOnStatus');
           await component.onModalDismiss(ModalEvent.START);
           expect(component.startTestAsRekey).toBe(false);
@@ -415,7 +398,7 @@ describe('TestOutcomeComponent', () => {
       it(
         'should set startTestAsRekey to true and call ' + 'startOrResumeTestDependingOnStatus when event is REKEY',
         async () => {
-          component.slotDetail = { slotId: 0 };
+          component.slotDetail = testSlotDetail;
           spyOn(component, 'startTest');
           await component.onModalDismiss(ModalEvent.REKEY);
           expect(component.startTestAsRekey).toBe(true);
@@ -793,6 +776,58 @@ describe('TestOutcomeComponent', () => {
           expect(component.displayForceCheckModal).toHaveBeenCalledTimes(0);
         });
       });
+    });
+  });
+
+  describe('startOrResumeTestDependingOnStatus', () => {
+    beforeEach(() => {
+      component.slotDetail = testSlotDetail;
+      component.hasNavigatedFromUnsubmitted = false;
+    });
+    it('should dispatch RemoveTestBySlotId and call startTest when testExistsAsRekey is true', async () => {
+      component.testStatus = TestStatus.Booked;
+      component.testExistsAsRekey = true;
+      spyOn(component.store$, 'dispatch');
+      spyOn(component, 'startTest').and.returnValue(Promise.resolve());
+
+      await component.startOrResumeTestDependingOnStatus();
+
+      expect(component.store$.dispatch).toHaveBeenCalledWith(RemoveTestBySlotId(component.slotDetail.slotId));
+      expect(component.startTest).toHaveBeenCalled();
+    });
+
+    it('should only call startTest when testStatus is Booked and testExistsAsRekey is false', async () => {
+      component.testStatus = TestStatus.Booked;
+      component.testExistsAsRekey = false;
+      spyOn(component.store$, 'dispatch');
+      spyOn(component, 'startTest').and.returnValue(Promise.resolve());
+
+      await component.startOrResumeTestDependingOnStatus();
+
+      expect(component.store$.dispatch).not.toHaveBeenCalledWith(RemoveTestBySlotId(component.slotDetail.slotId));
+      expect(component.startTest).toHaveBeenCalled();
+    });
+
+    it('should call resumeTest when testStatus is not Booked and testExistsAsRekey is false', async () => {
+      component.testStatus = TestStatus.Started;
+      component.testExistsAsRekey = false;
+      spyOn(component, 'resumeTest').and.returnValue(Promise.resolve());
+
+      await component.startOrResumeTestDependingOnStatus();
+
+      expect(component.resumeTest).toHaveBeenCalled();
+    });
+
+    it('should dispatch RemoveTestBySlotId and call startTest when testExistsAsRekey is true and testStatus is not Booked', async () => {
+      component.testStatus = TestStatus.Started;
+      component.testExistsAsRekey = true;
+      spyOn(component.store$, 'dispatch');
+      spyOn(component, 'startTest').and.returnValue(Promise.resolve());
+
+      await component.startOrResumeTestDependingOnStatus();
+
+      expect(component.store$.dispatch).toHaveBeenCalledWith(RemoveTestBySlotId(component.slotDetail.slotId));
+      expect(component.startTest).toHaveBeenCalled();
     });
   });
 
