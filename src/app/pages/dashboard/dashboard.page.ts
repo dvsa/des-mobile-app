@@ -158,6 +158,7 @@ export class DashboardPage extends BasePageComponent implements OnInit, ViewDidE
     if (this.merged$) {
       this.subscription = this.merged$.subscribe();
     }
+    await this.deviceProvider.windowModeChanged(await this.deviceProvider.isInWindowMode());
   }
 
   async ionViewWillEnter(): Promise<boolean> {

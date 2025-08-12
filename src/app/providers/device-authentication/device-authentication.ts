@@ -42,11 +42,16 @@ export class DeviceAuthenticationProvider {
   performBiometricVerification = async (isPracticeMode = false): Promise<void> => {
     try {
       await this.deviceProvider.disableSingleAppMode();
-
       await NativeBiometric.verifyIdentity({
         reason: 'Please authenticate',
         useFallback: true, // fallback to passcode if biometric authentication unavailable
       });
+      // setTimeout((async ()  => {
+      //   await NativeBiometric.verifyIdentity({
+      //     reason: 'Please authenticate',
+      //     useFallback: true, // fallback to passcode if biometric authentication unavailable
+      //   });
+      // }), 500);
     } finally {
       if (!isPracticeMode) {
         await this.loadingProvider.handleUILoading(true);

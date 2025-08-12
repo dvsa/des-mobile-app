@@ -11,7 +11,7 @@ import { DeviceAuthenticationProviderMock } from '@providers/device-authenticati
 import { DeviceAuthenticationProvider } from '@providers/device-authentication/device-authentication';
 import { TerminateTestModal } from '../terminate-test-modal';
 
-describe('TerminateTestModal', () => {
+describe('WindowedModeBlockModal', () => {
   let fixture: ComponentFixture<TerminateTestModal>;
   let component: TerminateTestModal;
   let deviceAuthenticationProvider: DeviceAuthenticationProvider;

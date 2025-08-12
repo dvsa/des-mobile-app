@@ -1,0 +1,21 @@
+@import "src/theme/sass-partials/modal";
+
+ion-card {
+@extend .modal-alert-wrapper;
+  padding: 0 0 0 0;
+  width: 70%;
+
+  .center-icon {
+    text-align: center;
+  }
+
+  .modal-icon {
+    color: var(--gds-black);
+    margin: 40px 0 16px;
+    font-size: 96px;
+  }
+
+  .modal-alert-header {
+    margin: 0 0 36px;
+  }
+}

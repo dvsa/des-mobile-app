@@ -9,7 +9,6 @@ import * as Sentry from '@sentry/capacitor';
 import { Observable, Subscription, merge } from 'rxjs';
 
 import { SENTRY_ERRORS } from '@app/sentry-error-handler';
-import { WindowMode } from '@dvsa/capacitor-plugin-window-mode';
 import { SideMenuClosed, SideMenuItemSelected, SideMenuOpened } from '@pages/dashboard/dashboard.actions';
 import {
   DASHBOARD_PAGE,
@@ -19,7 +18,6 @@ import {
   USEFUL_LINKS_PAGE,
 } from '@pages/page-names.constants';
 import { unsubmittedTestSlotsCount$ } from '@pages/unuploaded-tests/unuploaded-tests.selector';
-import { AccessibilityService } from '@providers/accessibility/accessibility.service';
 import { AppConfigProvider } from '@providers/app-config/app-config';
 import { ExaminerRole } from '@providers/app-config/constants/examiner-role.constants';
 import { AppInfoProvider } from '@providers/app-info/app-info';
@@ -82,13 +80,11 @@ export class AppComponent extends LogoutBasePageComponent implements OnInit {
   ];
 
   pageState: AppComponentPageState;
-
   platformSubscription: Subscription;
 
   constructor(
     private slotProvider: SlotProvider,
     private dateTimeProvider: DateTimeProvider,
-    public accessibilityService: AccessibilityService,
     protected menuController: MenuController,
     protected dataStore: DataStoreProvider,
     protected networkStateProvider: NetworkStateProvider,
@@ -109,7 +105,8 @@ export class AppComponent extends LogoutBasePageComponent implements OnInit {
   }
 
   async ngOnInit() {
-    await this.checkWindow();
+    await this.deviceProvider.addWindowModeListener();
+    await this.deviceProvider.activateLockListener();
     try {
       await this.platform.ready();
       await this.dataStore.initDataStore();
@@ -143,20 +140,13 @@ export class AppComponent extends LogoutBasePageComponent implements OnInit {
     } catch {
       await this.router.navigate([LOGIN_PAGE], { replaceUrl: true });
     }
+    // await this.windowModeChanged(await WindowMode.isInWindowMode())
   }
 
   ionViewWillUnload() {
     if (this.platformSubscription) {
       this.platformSubscription.unsubscribe();
     }
-  }
-
-  async checkWindow() {
-    await WindowMode.addListener('windowModeChanged', this.windowModeChanged);
-  }
-
-  windowModeChanged(isWindow: { isInWindowMode: boolean }) {
-    alert(`Is in window mode: ${isWindow.isInWindowMode}`);
   }
 
   public initialiseAuthentication = (): void => {

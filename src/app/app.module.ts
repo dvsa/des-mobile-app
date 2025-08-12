@@ -67,6 +67,7 @@ import { testsReducer } from '@store/tests/tests.reducer';
 
 import { EffectImportModule } from '@app/effects.module';
 import { Capacitor } from '@capacitor/core';
+import { WindowedModeBlockModal } from '@components/common/windowed-mode-block-modal/windowed-mode-block-modal';
 import { ExaminerRecordsComponentsModule } from '@pages/examiner-records/components/examiner-records-components.module';
 import { CompressionProvider } from '@providers/compression/compression';
 import { ExaminerRecordsProvider } from '@providers/examiner-records/examiner-records';
@@ -155,6 +156,7 @@ const storageDriver = Capacitor.getPlatform() === 'web' ? Drivers.IndexedDB : Co
     AppConfigStoreModule,
     ExaminerRecordsStoreModule,
     LogsStoreModule,
+    WindowedModeBlockModal,
     TestCentreJournalStoreModule,
     JournalModule,
     TestsModule,

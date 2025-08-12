@@ -45,7 +45,7 @@ export class EndTestLinkComponent {
   openEndTestModal = async (): Promise<void> => {
     this.endTestLinkClicked.emit();
     this.terminateTestModal = await this.modalController.create({
-      id: 'TerminateTestModal',
+      id: 'WindowedModeBlockModal',
       component: TerminateTestModal,
       backdropDismiss: false,
       showBackdrop: true,

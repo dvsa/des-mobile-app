@@ -5,6 +5,10 @@ import { Store } from '@ngrx/store';
 import { defer, lastValueFrom, retry } from 'rxjs';
 import { map, timeout } from 'rxjs/operators';
 
+import { WindowedModeBlockModal } from '@components/common/windowed-mode-block-modal/windowed-mode-block-modal';
+import { LockDetection } from '@dvsa/capacitor-plugin-lock-detection';
+import { WindowMode } from '@dvsa/capacitor-plugin-window-mode';
+import { ModalController } from '@ionic/angular';
 import { LogType } from '@shared/models/log.model';
 import { StoreModel } from '@shared/models/store.model';
 import { SaveLog } from '@store/logs/logs.actions';
@@ -19,10 +23,14 @@ export class DeviceProvider {
   private enableASAMTimeout = 10000;
   private asamRetryFailureMessage = (action: 'enable' | 'disable') => `All retries to ${action} ASAM failed`;
 
+  wasInSingleAppMode = false;
+  windowBlockModal: HTMLIonModalElement | null = null;
+
   constructor(
     public appConfig: AppConfigProvider,
     private store$: Store<StoreModel>,
-    private logHelper: LogHelper
+    private logHelper: LogHelper,
+    private modalController: ModalController
   ) {}
 
   validDeviceType = async (): Promise<boolean> => {
@@ -77,6 +85,54 @@ export class DeviceProvider {
     const status = await Asam.isSingleAppModeEnabled();
     return status.isEnabled;
   };
+
+  async addWindowModeListener() {
+    await WindowMode.addListener('windowModeChanged', (isWindow) => this.windowModeChanged(isWindow.isInWindowMode));
+  }
+
+  async isInWindowMode(): Promise<boolean> {
+    const isWindow = await WindowMode.isInWindowMode();
+    console.log('is in window mode', isWindow.isInWindowMode);
+    return isWindow.isInWindowMode;
+  }
+
+  async activateLockListener() {
+    await LockDetection.addListener('screenLockStatusChanged', async (info) => {
+      if (info.isScreenLocked) {
+        this.wasInSingleAppMode = await this.isSAMEnabled();
+        console.log('was in single app mode', this.wasInSingleAppMode);
+        if (this.wasInSingleAppMode) {
+          await this.manuallyDisableSingleAppMode();
+          console.log('manually disabled single app mode', await this.isSAMEnabled());
+        }
+      } else {
+        console.log('unlocked, was in single app mode?', this.wasInSingleAppMode);
+        await this.setSingleAppMode(this.wasInSingleAppMode);
+        console.log('single app mode set to: ', await this.isSAMEnabled());
+      }
+      console.log('lock status changed', info.isScreenLocked);
+    });
+  }
+
+  async windowModeChanged(isInWindowMode: boolean) {
+    console.log('window mode changed', isInWindowMode);
+    if (isInWindowMode) {
+      console.log('window mode is active, showing modal', !this.windowBlockModal);
+      if (!this.windowBlockModal) {
+        this.windowBlockModal = await this.modalController.create({
+          component: WindowedModeBlockModal,
+          cssClass: 'mes-modal-alert',
+          backdropDismiss: false,
+        });
+        await this.windowBlockModal.present();
+      }
+    } else {
+      if (this.windowBlockModal) {
+        await this.windowBlockModal.dismiss();
+        this.windowBlockModal = null;
+      }
+    }
+  }
 
   manuallyDisableSingleAppMode = async () => {
     const disable = await Asam.setSingleAppMode({ shouldEnable: false });
