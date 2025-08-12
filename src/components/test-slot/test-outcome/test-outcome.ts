@@ -184,7 +184,7 @@ export class TestOutcomeComponent implements OnInit {
 
   showWriteUpButton(): boolean {
     return (
-      this.testStatus === TestStatus.WriteUp || (this.testStatus === TestStatus.Autosaved && !this.testExistsAsRekey)
+      (this.testStatus === TestStatus.WriteUp || this.testStatus === TestStatus.Autosaved) && !this.testExistsAsRekey
     );
   }
 
