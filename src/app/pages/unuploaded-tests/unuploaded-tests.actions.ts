@@ -14,5 +14,3 @@ export const LoadCompletedTestsFromUnsubmitted = createAction(
   '[UnuploadedTestsEffects] Load Completed Tests from un-uploaded',
   (numberOfDays = 14) => ({ numberOfDays })
 );
-
-export const StoreUnuploadedSlotsInTests = createAction('[UnuploadedTestsEffects] Set un-uploaded slots into tests');

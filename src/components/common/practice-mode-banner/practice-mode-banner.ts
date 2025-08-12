@@ -13,6 +13,7 @@ import { trDestroy$ } from '@shared/classes/test-flow-base-pages/test-report/tes
 import { wrtcDestroy$ } from '@shared/classes/test-flow-base-pages/waiting-room-to-car/waiting-room-to-car-base-page';
 import { StoreModel } from '@shared/models/store.model';
 import { getTestCategory } from '@store/tests/category/category.reducer';
+import { DeletePracticeModeTests } from '@store/tests/tests.actions';
 import { getTests } from '@store/tests/tests.reducer';
 import { getCurrentTest } from '@store/tests/tests.selector';
 
@@ -58,6 +59,10 @@ export class PracticeModeBanner implements OnInit {
   async exitPracticeMode(): Promise<void> {
     await this.accessibilityService.configureStatusBar(Style.Dark);
     this.destroyTestSubs();
+
+    // Clear any residual practice mode tests from store
+    this.store$.dispatch(DeletePracticeModeTests());
+
     await this.router.navigate([DASHBOARD_PAGE], { replaceUrl: true });
   }
 

@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component } from '@angular/core';
 import { Style } from '@capacitor/status-bar';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { ModalController } from '@ionic/angular';
@@ -23,9 +23,6 @@ import { StartTestReportPracticeTest } from '@store/tests/tests.actions';
 })
 export class PracticeTestReportCardComponent {
   slotId: string = testReportPracticeModeSlot.slotDetail.slotId;
-
-  @Output()
-  startPracticeModeTestReport = new EventEmitter<void>();
 
   constructor(
     private store$: Store<StoreModel>,
@@ -53,14 +50,12 @@ export class PracticeTestReportCardComponent {
         this.store$.dispatch(StartTestReportPracticeTest(this.slotId));
         this.store$.dispatch(TellMeQuestionDrivingFault());
         await this.accessibilityService.configureStatusBar(Style.Light);
-        this.startPracticeModeTestReport.emit();
         await this.routeByCat.navigateToPage(TestFlowPageNames.TEST_REPORT_PAGE, TestCategory.B);
         break;
       case ModalEvent.NO_FAULT:
         this.store$.dispatch(StartTestReportPracticeTest(this.slotId));
         this.store$.dispatch(TellMeQuestionCorrect());
         await this.accessibilityService.configureStatusBar(Style.Light);
-        this.startPracticeModeTestReport.emit();
         await this.routeByCat.navigateToPage(TestFlowPageNames.TEST_REPORT_PAGE, TestCategory.B);
         break;
       case ModalEvent.CANCEL:
