@@ -199,8 +199,7 @@ describe('TestOutcomeComponent', () => {
   describe('Class', () => {
     describe('startTest', () => {
       it('should dispatch a start test action with the slot - cat b', async () => {
-        spyOn(component, 'hasSlotChanged').and.resolveTo(false);
-
+        component.slotChanged = false;
         component.slotDetail = testSlotDetail;
         component.category = TestCategory.B;
         await component.startTest();
@@ -208,8 +207,7 @@ describe('TestOutcomeComponent', () => {
         expect(store$.dispatch).toHaveBeenCalledWith(StartTest(component.slotDetail.slotId, component.category));
       });
       it('should dispatch a start test action with the slot - cat c', async () => {
-        spyOn(component, 'hasSlotChanged').and.resolveTo(false);
-
+        component.slotChanged = false;
         component.slotDetail = testSlotDetail;
         component.category = TestCategory.C;
         await component.startTest();
@@ -412,7 +410,7 @@ describe('TestOutcomeComponent', () => {
         if (cat.category !== TestCategory.SC) {
           it(`Cat ${cat.category} should dispatch an ActivateTest action
         and navigate to the Waiting Room page if the category is not Standards Checks`, async () => {
-            spyOn(component, 'hasSlotChanged').and.resolveTo(false);
+            component.slotChanged = false;
             component.testStatus = TestStatus.Started;
             component.category = cat.category;
             await component.resumeTest();
@@ -422,7 +420,7 @@ describe('TestOutcomeComponent', () => {
         } else {
           it(`Cat ${cat.category} should dispatch an ActivateTest action
         and navigate to the Communication page`, async () => {
-            spyOn(component, 'hasSlotChanged').and.resolveTo(false);
+            component.slotChanged = false;
             component.testStatus = TestStatus.Started;
             component.category = cat.category;
             await component.resumeTest();
@@ -432,7 +430,7 @@ describe('TestOutcomeComponent', () => {
         }
         it(`Cat ${cat.category} should dispatch an ActivateTest action and
          navigate to the Pass Finalisation page`, async () => {
-          spyOn(component, 'hasSlotChanged').and.resolveTo(false);
+          component.slotChanged = false;
           component.testStatus = TestStatus.Decided;
           component.activityCode = ActivityCodes.PASS;
           component.category = cat.category;
@@ -445,7 +443,7 @@ describe('TestOutcomeComponent', () => {
         });
         it(`Cat ${cat.category} should dispatch an ActivateTest action
         and navigate to the Non Pass Finalisation page`, async () => {
-          spyOn(component, 'hasSlotChanged').and.resolveTo(false);
+          component.slotChanged = false;
           component.testStatus = TestStatus.Decided;
           component.activityCode = ActivityCodes.FAIL;
           component.category = cat.category;
