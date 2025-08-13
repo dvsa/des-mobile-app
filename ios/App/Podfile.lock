@@ -30,7 +30,7 @@ PODS:
   - CordovaPluginsStatic (7.4.2):
     - CapacitorCordova
     - GoogleAnalytics (= 3.20.0)
-  - DvsaCapacitorPluginAsam (2.0.0):
+  - DvsaCapacitorPluginAsam (2.1.0):
     - Capacitor
   - GoogleAnalytics (3.20.0)
   - Sentry/HybridSDK (8.48.0)
@@ -118,7 +118,7 @@ SPEC CHECKSUMS:
   CordovaPlugins: e3f96730db5ff76322949659f1c86e7093c57cc9
   CordovaPluginsResources: da93847212bf7b16ba770e4d6c3e7dba820174c7
   CordovaPluginsStatic: 4f70cac024b7722a513d94a5daac59ea9ea2a77b
-  DvsaCapacitorPluginAsam: f329ac6f89a51b5a86a08f078dfc4ac95b589401
+  DvsaCapacitorPluginAsam: 53472a3be6f372181d6a27d5a27811e8a79a5719
   GoogleAnalytics: 01e4c5a04544a3608f93e970ce0817836897c5a5
   Sentry: 1ca8405451040482877dcd344dfa3ef80b646631
   SentryCapacitor: b364f83da8e94699cc1c40b9e2c0473bef631306
