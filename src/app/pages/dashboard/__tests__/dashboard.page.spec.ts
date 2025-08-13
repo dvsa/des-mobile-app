@@ -47,7 +47,6 @@ import {
   selectVersionNumber,
 } from '@store/app-info/app-info.selectors';
 import { LoadJournalSilent } from '@store/journal/journal.actions';
-import { DeletePracticeModeTests } from '@store/tests/tests.actions';
 import { MockComponent } from 'ng-mocks';
 import { Subscription, of } from 'rxjs';
 import { DashboardComponentsModule } from '../components/dashboard-components.module';
@@ -276,19 +275,8 @@ describe('DashboardPage', () => {
 
         component.ionViewWillLeave();
         expect(store$.dispatch).toHaveBeenCalledWith(RekeySearchClearState());
-        expect(store$.dispatch).toHaveBeenCalledWith(DeletePracticeModeTests());
         expect(component.subscription.unsubscribe).toHaveBeenCalled();
       });
-    });
-    it('should dispatch practice mode clear if shouldClearPracticeModeOnExit is true', () => {
-      component.shouldClearPracticeModeOnExit = true;
-      component.ionViewWillLeave();
-      expect(store$.dispatch).toHaveBeenCalledWith(DeletePracticeModeTests());
-    });
-    it('should dispatch practice mode clear if shouldClearPracticeModeOnExit is true', () => {
-      component.shouldClearPracticeModeOnExit = false;
-      component.ionViewWillLeave();
-      expect(store$.dispatch).not.toHaveBeenCalledWith(DeletePracticeModeTests());
     });
   });
   describe('showUpdateAvailableModal', () => {

@@ -12,7 +12,6 @@ import {
   UpdateAvailableModal,
 } from '@pages/dashboard/components/update-available-modal/update-available-modal';
 import { RekeySearchClearState } from '@pages/rekey-search/rekey-search.actions';
-import { StoreUnuploadedSlotsInTests } from '@pages/unuploaded-tests/unuploaded-tests.actions';
 import { unsubmittedTestSlotsCount$ } from '@pages/unuploaded-tests/unuploaded-tests.selector';
 import { AccessibilityService } from '@providers/accessibility/accessibility.service';
 import { AppConfigProvider } from '@providers/app-config/app-config';
@@ -48,7 +47,6 @@ import { JournalRehydrationPage, JournalRehydrationType } from '@store/journal/j
 import { getJournalState } from '@store/journal/journal.reducer';
 import { getAllSlots } from '@store/journal/journal.selector';
 import { TestCentreJournalEnteredFromDashboard } from '@store/test-centre-journal/test-centre-journal.actions';
-import { DeletePracticeModeTests } from '@store/tests/tests.actions';
 import { getTests } from '@store/tests/tests.reducer';
 import { Observable, Subscription, combineLatest, from, merge, takeWhile } from 'rxjs';
 import { filter, map, switchMap, tap, withLatestFrom } from 'rxjs/operators';
@@ -78,7 +76,6 @@ export class DashboardPage extends BasePageComponent implements OnInit, ViewDidE
   liveAppVersion: string;
   subscription: Subscription;
   hasRehydrated = false;
-  shouldClearPracticeModeOnExit = true;
 
   private merged$: Observable<void | string>;
   private static readonly CompanyPortalURLScheme = 'companyportal://apps';
@@ -149,7 +146,6 @@ export class DashboardPage extends BasePageComponent implements OnInit, ViewDidE
     this.store$.dispatch(DashboardViewDidEnter());
     this.store$.dispatch(ClearCandidateLicenceData());
     this.store$.dispatch(ClearVehicleData());
-    this.store$.dispatch(StoreUnuploadedSlotsInTests());
     this.store$.dispatch(LoadExaminerRecordsPreferences());
     //guard against calling journal if the user type is a delegated examiner
     if (!this.isDelegatedExaminer()) {
@@ -162,8 +158,6 @@ export class DashboardPage extends BasePageComponent implements OnInit, ViewDidE
     if (this.merged$) {
       this.subscription = this.merged$.subscribe();
     }
-
-    this.shouldClearPracticeModeOnExit = true;
   }
 
   async ionViewWillEnter(): Promise<boolean> {
@@ -178,10 +172,6 @@ export class DashboardPage extends BasePageComponent implements OnInit, ViewDidE
 
   ionViewWillLeave(): void {
     this.store$.dispatch(RekeySearchClearState());
-
-    if (this.shouldClearPracticeModeOnExit) {
-      this.store$.dispatch(DeletePracticeModeTests());
-    }
 
     if (this.subscription) {
       this.subscription.unsubscribe();
