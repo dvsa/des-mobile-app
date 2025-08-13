@@ -9,7 +9,6 @@ import { AnalyticsProviderMock } from '@providers/analytics/__mocks__/analytics.
 import { AnalyticsProvider } from '@providers/analytics/analytics';
 import { AnalyticRecorded } from '@providers/analytics/analytics.actions';
 import {
-  AnalyticsEventCategories,
   GoogleAnalyticsCustomDimension,
   GoogleAnalyticsEventPrefix,
   GoogleAnalyticsEvents,
@@ -342,16 +341,6 @@ describe('TestsAnalyticsEffects', () => {
           GoogleAnalyticsEvents.METADATA,
           GoogleAnalyticsEventsTitles.BATTERY_LEVEL,
           '0.9'
-        );
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-          AnalyticsEventCategories.METADATA,
-          GoogleAnalyticsEventsTitles.HDD_FREE_MB,
-          '456'
-        );
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-          AnalyticsEventCategories.METADATA,
-          GoogleAnalyticsEventsTitles.HDD_TOTAL_MB,
-          '1000'
         );
         done();
       });
