@@ -41,9 +41,13 @@ export class DeviceProviderMock implements IDeviceProvider {
 
   disableSingleAppMode = jasmine.createSpy('disableSingleAppMode').and.returnValue(Promise.resolve(true));
 
-  checkSingleAppMode = jasmine.createSpy('checkSingleAppMode').and.returnValue(Promise.resolve(true));
+  addWindowModeListener = jasmine.createSpy('addWindowModeListener').and.returnValue(Promise.resolve(true));
 
-  is8thGenDevice = jasmine.createSpy('is8thGenDevice').and.returnValue(true);
+  isInWindowMode = jasmine.createSpy('isInWindowMode').and.returnValue(true);
+
+  windowModeChanged = jasmine.createSpy('windowModeChanged').and.returnValue(true);
+
+  activateLockListener = jasmine.createSpy('activateLockListener').and.returnValue(true);
 
   isSAMEnabled = jasmine.createSpy('isSAMEnabled').and.returnValue(Promise.resolve(true));
 }

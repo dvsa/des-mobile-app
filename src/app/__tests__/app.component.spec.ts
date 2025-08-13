@@ -155,6 +155,8 @@ describe('AppComponent', () => {
     router = TestBed.inject(Router);
     storage = TestBed.inject(Storage);
     spyOn(store$, 'dispatch');
+    spyOn(deviceProvider, 'addWindowModeListener').and.callThrough();
+    spyOn(deviceProvider, 'isInWindowMode').and.callThrough();
   });
 
   it('should create the app', () => {

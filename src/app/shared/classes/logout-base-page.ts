@@ -13,7 +13,7 @@ import { BasePageComponent } from './base-page';
 
 export abstract class LogoutBasePageComponent extends BasePageComponent {
   protected modalController = this.injector.get(ModalController);
-  protected accessibilityService = this.injector.get(AccessibilityService);
+  accessibilityService = this.injector.get(AccessibilityService);
 
   protected constructor(injector: Injector) {
     super(injector);

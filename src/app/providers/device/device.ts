@@ -92,7 +92,6 @@ export class DeviceProvider {
 
   async isInWindowMode(): Promise<boolean> {
     const isWindow = await WindowMode.isInWindowMode();
-    console.log('is in window mode', isWindow.isInWindowMode);
     return isWindow.isInWindowMode;
   }
 
@@ -100,24 +99,17 @@ export class DeviceProvider {
     await LockDetection.addListener('screenLockStatusChanged', async (info) => {
       if (info.isScreenLocked) {
         this.wasInSingleAppMode = await this.isSAMEnabled();
-        console.log('was in single app mode', this.wasInSingleAppMode);
         if (this.wasInSingleAppMode) {
           await this.manuallyDisableSingleAppMode();
-          console.log('manually disabled single app mode', await this.isSAMEnabled());
         }
       } else {
-        console.log('unlocked, was in single app mode?', this.wasInSingleAppMode);
         await this.setSingleAppMode(this.wasInSingleAppMode);
-        console.log('single app mode set to: ', await this.isSAMEnabled());
       }
-      console.log('lock status changed', info.isScreenLocked);
     });
   }
 
   async windowModeChanged(isInWindowMode: boolean) {
-    console.log('window mode changed', isInWindowMode);
     if (isInWindowMode) {
-      console.log('window mode is active, showing modal', !this.windowBlockModal);
       if (!this.windowBlockModal) {
         this.windowBlockModal = await this.modalController.create({
           component: WindowedModeBlockModal,

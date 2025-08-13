@@ -1,5 +1,7 @@
 import { TestBed } from '@angular/core/testing';
+import { ModalController } from '@ionic/angular';
 import { Asam } from '@mocks/@capacitor/asam';
+import { ModalControllerMock } from '@mocks/ionic-mocks/modal-controller.mock';
 import { Store, StoreModule } from '@ngrx/store';
 import { AppConfig } from '@providers/app-config/app-config.model';
 import { LogType } from '@shared/models/log.model';
@@ -34,6 +36,10 @@ describe('DeviceProvider', () => {
         {
           provide: LogHelper,
           useClass: LogHelperMock,
+        },
+        {
+          provide: ModalController,
+          useClass: ModalControllerMock,
         },
         Store,
       ],

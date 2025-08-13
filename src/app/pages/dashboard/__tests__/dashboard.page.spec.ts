@@ -157,6 +157,7 @@ describe('DashboardPage', () => {
     store$ = TestBed.inject(MockStore);
     modalController = TestBed.inject(ModalController);
     spyOn(store$, 'dispatch');
+    spyOn(component.deviceProvider, 'isInWindowMode').and.callThrough();
     store$.dispatch(LoadAppVersionSuccess({ versionNumber: '4.0.0.0' }));
   });
 
