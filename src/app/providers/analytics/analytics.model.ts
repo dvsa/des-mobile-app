@@ -364,6 +364,7 @@ export enum GoogleAnalyticsEvents {
   STOP_DRIVE_ORDER = 'stop_drive_order',
   AMEND_START_TIME = 'amend_start_time',
   AMEND_END_TIME = 'amend_end_time',
+  DX_TEST_IN_FUTURE = 'DX_test_in_future',
 }
 
 export enum GoogleAnalyticsEventsTitles {
