@@ -12,3 +12,12 @@ export const PassFinalisationValidationError = createAction(
   '[PassFinalisationPage] Validation error',
   (errorMessage: string) => ({ errorMessage })
 );
+
+export const PassFinalisationAmendTimeConfirmed = createAction(
+  '[PassFinalisationPage] Pass Finalisation amend time confirmed',
+  (startEndType: string) => ({ startEndType })
+);
+export const PassFinalisationAmendTimeCancelled = createAction(
+  '[PassFinalisationPage] Pass Finalisation amend start time cancelled',
+  (startEndType: string) => ({ startEndType })
+);
