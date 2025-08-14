@@ -13,6 +13,8 @@
       [showClearButton]="false"
       [disabled]="false"
       [displayType]="timeDisplayType"
+      [emitButtonEvents]="true"
+      (customButtonEvent)="handleEvents($event.data, $event.buttonType, PassFinalisationAmendTimeType.StartTime)"
     >
     </datetime-input>
   </ion-col>
@@ -32,6 +34,8 @@
       [showClearButton]="false"
       [disabled]="false"
       [displayType]="timeDisplayType"
+      [emitButtonEvents]="true"
+      (customButtonEvent)="handleEvents($event.data, $event.buttonType, PassFinalisationAmendTimeType.EndTime)"
     >
     </datetime-input>
   </ion-col>

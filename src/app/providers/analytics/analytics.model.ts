@@ -362,6 +362,8 @@ export enum GoogleAnalyticsEvents {
   EXAMINER_RECORDS = 'examiner_records',
   USEFUL_LINKS = 'useful_links',
   STOP_DRIVE_ORDER = 'stop_drive_order',
+  AMEND_START_TIME = 'amend_start_time',
+  AMEND_END_TIME = 'amend_end_time',
 }
 
 export enum GoogleAnalyticsEventsTitles {
@@ -455,6 +457,7 @@ export enum GoogleAnalyticsEventsTitles {
   LEAVING_DES_MODAL = 'leaving_DES_modal',
   THIRTY_MINUTE_TIMER = '30mins_time_warning',
   INFORMATION_MODAL = 'information_modal',
+  SCROLL_TIME = 'scroll_time',
 }
 
 export enum GoogleAnalyticsEventsValues {
@@ -549,4 +552,5 @@ export enum GoogleAnalyticsEventsValues {
   SAVED = 'saved',
   LEARN_MORE = 'learn_more',
   OK = 'ok',
+  VALUE_SELECTED = 'value_selected',
 }

@@ -3,7 +3,12 @@ import { Router } from '@angular/router';
 import { ActivityCode } from '@dvsa/mes-test-schema/categories/common';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Store, select } from '@ngrx/store';
+import { PassFinalisationAmendTimeType } from '@pages/pass-finalisation/cat-adi-part3/components/test-start-end-times/test-start-end-times';
 import * as passFinalisationActions from '@pages/pass-finalisation/pass-finalisation.actions';
+import {
+  PassFinalisationAmendTimeCancelled,
+  PassFinalisationAmendTimeConfirmed,
+} from '@pages/pass-finalisation/pass-finalisation.actions';
 import { AnalyticsProvider } from '@providers/analytics/analytics';
 import { AnalyticNotRecorded, AnalyticRecorded } from '@providers/analytics/analytics.actions';
 import {
@@ -492,6 +497,38 @@ export class PassFinalisationAnalyticsEffects {
           GoogleAnalyticsEventsValues.NO_ADVICE_REASON,
           GoogleAnalyticsEventsTitles.REASON,
           GoogleAnalyticsEventsValues.FREE_TEXT_ENTERED
+        );
+        return of(AnalyticRecorded());
+      })
+    )
+  );
+
+  passFinalisationAmendTimeConfirmed$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(PassFinalisationAmendTimeConfirmed),
+      switchMap((action) => {
+        this.analytics.logGAEvent(
+          action.startEndType === PassFinalisationAmendTimeType.StartTime
+            ? GoogleAnalyticsEvents.AMEND_START_TIME
+            : GoogleAnalyticsEvents.AMEND_END_TIME,
+          GoogleAnalyticsEventsTitles.SCROLL_TIME,
+          GoogleAnalyticsEventsValues.VALUE_SELECTED
+        );
+        return of(AnalyticRecorded());
+      })
+    )
+  );
+
+  passFinalisationAmendTimeCancelled$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(PassFinalisationAmendTimeCancelled),
+      switchMap((action) => {
+        this.analytics.logGAEvent(
+          action.startEndType === PassFinalisationAmendTimeType.StartTime
+            ? GoogleAnalyticsEvents.AMEND_START_TIME
+            : GoogleAnalyticsEvents.AMEND_END_TIME,
+          GoogleAnalyticsEventsTitles.SCROLL_TIME,
+          GoogleAnalyticsEventsValues.CANCELLED
         );
         return of(AnalyticRecorded());
       })

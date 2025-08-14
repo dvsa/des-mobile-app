@@ -1,6 +1,18 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { DisplayType } from '@components/common/datetime-input/date-time-input.component';
+import { IonDatetime } from '@ionic/angular';
+import { Store } from '@ngrx/store';
+import {
+  PassFinalisationAmendTimeCancelled,
+  PassFinalisationAmendTimeConfirmed,
+} from '@pages/pass-finalisation/pass-finalisation.actions';
+import { StoreModel } from '@shared/models/store.model';
+
+export enum PassFinalisationAmendTimeType {
+  StartTime = 'start-time',
+  EndTime = 'end-time',
+}
 
 @Component({
   selector: 'test-start-end-times',
@@ -29,6 +41,9 @@ export class TestStartEndTimesComponent implements OnInit, OnChanges {
   private formControlEnd: FormControl = null;
   public minTime: string;
   public maxTime: string;
+  public PassFinalisationAmendTimeType = PassFinalisationAmendTimeType;
+
+  constructor(private store$: Store<StoreModel>) {}
 
   ngOnInit() {
     this.minTime = this.startTime;
@@ -59,6 +74,24 @@ export class TestStartEndTimesComponent implements OnInit, OnChanges {
         break;
       default:
         break;
+    }
+  }
+
+  /**
+   * Handles the events from the datetime component to allow actions to be dispatched
+   * @param dateTime
+   * @param buttonType
+   * @param startEndType
+   */
+  handleEvents(dateTime: IonDatetime, buttonType: string, startEndType: PassFinalisationAmendTimeType): Promise<void> {
+    if (buttonType === 'clear') return dateTime.reset();
+    if (buttonType === 'done') {
+      this.store$.dispatch(PassFinalisationAmendTimeConfirmed(startEndType));
+      return dateTime.confirm(true);
+    }
+    if (buttonType === 'cancel') {
+      this.store$.dispatch(PassFinalisationAmendTimeCancelled(startEndType));
+      return dateTime.cancel(true);
     }
   }
 }
