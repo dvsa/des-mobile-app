@@ -1,24 +1,23 @@
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
-import { Observable } from 'rxjs';
 import { Action, Store } from '@ngrx/store';
-import { MockStore } from '@ngrx/store/testing';
-import { JournalFutureTestModalAnalyticsEffects } from '../journal-future-test-modal.analytics.effects';
 import { AnalyticsProvider } from '@providers/analytics/analytics';
-import * as futureTestModalActions from '../journal-future-test-modal.actions';
 import { AnalyticRecorded } from '@providers/analytics/analytics.actions';
 import {
   GoogleAnalyticsEvents,
   GoogleAnalyticsEventsTitles,
   GoogleAnalyticsEventsValues,
 } from '@providers/analytics/analytics.model';
+import { Observable } from 'rxjs';
+import * as futureTestModalActions from '../journal-future-test-modal.actions';
+import { JournalFutureTestModalAnalyticsEffects } from '../journal-future-test-modal.analytics.effects';
 
 describe('JournalFutureTestModalAnalyticsEffects', () => {
   let effects: JournalFutureTestModalAnalyticsEffects;
   let actions$: Observable<Action>;
   let analyticsProviderMock: jasmine.SpyObj<AnalyticsProvider>;
 
-  beforeEach(async() => {
+  beforeEach(async () => {
     analyticsProviderMock = jasmine.createSpyObj('AnalyticsProvider', ['logGAEvent']);
     analyticsProviderMock.logGAEvent.and.returnValue(await Promise.resolve());
 
@@ -27,8 +26,8 @@ describe('JournalFutureTestModalAnalyticsEffects', () => {
         JournalFutureTestModalAnalyticsEffects,
         provideMockActions(() => actions$),
         { provide: AnalyticsProvider, useValue: analyticsProviderMock },
-        Store
-      ]
+        Store,
+      ],
     });
 
     effects = TestBed.inject(JournalFutureTestModalAnalyticsEffects);
