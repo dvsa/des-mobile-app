@@ -1,24 +1,26 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { ComponentsModule } from '@components/common/common-components.module';
 import { IonicModule, ModalController } from '@ionic/angular';
 import { ModalControllerMock } from '@mocks/index.mock';
+import { Store, StoreModule } from '@ngrx/store';
 import { ModalEvent } from '@pages/journal/components/journal-rekey-modal/journal-rekey-modal.constants';
 import { DeviceProviderMock } from '@providers/device/__mocks__/device.mock';
 import { DeviceProvider } from '@providers/device/device';
 import { LogHelperMock } from '@providers/logs/__mocks__/logs-helper.mock';
 import { LogHelper } from '@providers/logs/logs-helper';
+import { StoreModel } from '@shared/models/store.model';
 import { JournalFutureTestModal } from '../journal-future-test-modal';
 
 describe('JournalRekeyModal', () => {
   let fixture: ComponentFixture<JournalFutureTestModal>;
   let component: JournalFutureTestModal;
   let modalController: ModalController;
+  let store$: Store<StoreModel>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [JournalFutureTestModal],
-      imports: [IonicModule, ComponentsModule],
+      imports: [IonicModule, StoreModule.forRoot({})],
       providers: [
         { provide: ModalController, useClass: ModalControllerMock },
         { provide: DeviceProvider, useClass: DeviceProviderMock },
@@ -29,6 +31,9 @@ describe('JournalRekeyModal', () => {
     fixture = TestBed.createComponent(JournalFutureTestModal);
     modalController = TestBed.inject(ModalController);
     component = fixture.componentInstance;
+    store$ = TestBed.inject(Store);
+
+    spyOn(store$, 'dispatch');
   });
 
   describe('DOM', () => {
