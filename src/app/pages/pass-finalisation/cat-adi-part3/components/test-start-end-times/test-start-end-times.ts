@@ -77,6 +77,12 @@ export class TestStartEndTimesComponent implements OnInit, OnChanges {
     }
   }
 
+  /**
+   * Handles the events from the datetime component to allow actions to be dispatched
+   * @param dateTime
+   * @param buttonType
+   * @param startEndType
+   */
   handleEvents(dateTime: IonDatetime, buttonType: string, startEndType: PassFinalisationAmendTimeType): Promise<void> {
     if (buttonType === 'clear') return dateTime.reset();
     if (buttonType === 'done') {
