@@ -117,6 +117,16 @@ const hydrateRemoteTests = (state: TestsModel, testResults: TestResultRehydratio
   };
 };
 
+const removeStartedTest = (state: TestsModel, slotId: number): TestsModel => {
+  const { [slotId]: removedStartTest, ...updatedStartedTests } = state.startedTests;
+  const { [slotId]: removedTestStatus, ...updatedTestStatus } = state.testStatus;
+  return {
+    ...state,
+    startedTests: updatedStartedTests,
+    testStatus: updatedTestStatus,
+  };
+};
+
 /**
  * Handles actions relating to a particular test by finding which test the actions apply to
  * and applying a test capture domain concept reducer against that test's portion of the state.
@@ -152,6 +162,8 @@ export function testsReducer(
       return slotId ? createStateObject(removeTest(state, slotId), action, slotId, category) : state;
     case fakeJournalActions.StartE2EPracticeTest.type:
       return slotId ? createStateObject(removeTest(state, slotId), action, slotId, category) : state;
+    case testsActions.RemoveStartedTest.type:
+      return removeStartedTest(state, action.slotId);
     default:
       return slotId ? createStateObject(state, action, slotId, category) : state;
   }

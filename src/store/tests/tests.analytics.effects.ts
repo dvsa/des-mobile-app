@@ -21,6 +21,7 @@ import { StoreModel } from '@shared/models/store.model';
 import { getJournalState } from '@store/journal/journal.reducer';
 import { getAppRefFromSlot, getSlotBySlotID, getSlotsOnSelectedDate } from '@store/journal/journal.selector';
 import * as testActions from '@store/tests/tests.actions';
+import { RemoveStartedTest } from '@store/tests/tests.actions';
 import { of } from 'rxjs';
 import { concatMap, map, switchMap, withLatestFrom } from 'rxjs/operators';
 import { SetTestStatusSubmitted } from './test-status/test-status.actions';
@@ -253,6 +254,21 @@ export class TestsAnalyticsEffects {
           (device as DeviceInfo).realDiskTotal.toString()
         );
 
+        return of(AnalyticRecorded());
+      })
+    )
+  );
+
+  removeStartedTestEffect$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(RemoveStartedTest),
+      switchMap(() => {
+        // GA4 Analytics
+        this.analytics.logGAEvent(
+          GoogleAnalyticsEvents.JOURNAL,
+          GoogleAnalyticsEventsTitles.SLOT_CHANGED,
+          GoogleAnalyticsEventsValues.SLOT_RESET
+        );
         return of(AnalyticRecorded());
       })
     )

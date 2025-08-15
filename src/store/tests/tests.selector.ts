@@ -41,7 +41,7 @@ export const getStartedTestsWithPassOutcome = (tests: TestsModel): StartedTests 
     Object.keys(startedTests)
       // loop through started test, extract all that are passes
       .filter((slotID) => isPassed(startedTests[slotID]))
-      // reconstruct startedTestsx
+      // reconstruct startedTests
       .reduce((obj: StartedTests, key) => {
         obj[key] = startedTests[key];
         return obj;
