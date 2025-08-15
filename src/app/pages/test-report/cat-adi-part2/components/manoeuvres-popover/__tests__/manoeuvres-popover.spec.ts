@@ -227,6 +227,44 @@ describe('ManoeuvresPopoverComponentAdiPart2', () => {
     });
   });
 
+  describe('getSelectedManoeuvre', () => {
+    it('should return the selected manoeuvre if only one is selected', () => {
+      const asyncData = {
+        manoeuvres: {
+          reverseRight: { selected: true },
+          reverseParkRoad: { selected: false },
+          reverseParkCarpark: { selected: false },
+          forwardPark: { selected: false },
+        },
+      };
+      expect(component.getSelectedManoeuvre(asyncData)).toBe('reverseRight');
+    });
+
+    it('should return null if no manoeuvre is selected', () => {
+      const asyncData = {
+        manoeuvres: {
+          reverseRight: { selected: false },
+          reverseParkRoad: { selected: false },
+          reverseParkCarpark: { selected: false },
+          forwardPark: { selected: false },
+        },
+      };
+      expect(component.getSelectedManoeuvre(asyncData)).toBeNull();
+    });
+
+    it('should return null if more than one manoeuvre is selected', () => {
+      const asyncData = {
+        manoeuvres: {
+          reverseRight: { selected: true },
+          reverseParkRoad: { selected: true },
+          reverseParkCarpark: { selected: false },
+          forwardPark: { selected: false },
+        },
+      };
+      expect(component.getSelectedManoeuvre(asyncData)).toBeNull();
+    });
+  });
+
   describe('manoeuvreHasFaults', () => {
     it('should return true is manoeuvre is present and controlFault is not null', () => {
       expect(component.manoeuvreHasFaults({ controlFault: 'present' })).toBeTruthy();

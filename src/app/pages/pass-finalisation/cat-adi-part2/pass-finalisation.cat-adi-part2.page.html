@@ -31,7 +31,7 @@
 
         <language-preferences
           [formGroup]="form"
-          [isWelsh]="(pageState.conductedLanguage$ | async) === 'Cymraeg'"
+          [currentLanguage]="(pageState.conductedLanguage$ | async)"
           (welshChanged)="isWelshChanged($event)"
         >
         </language-preferences>

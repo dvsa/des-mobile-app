@@ -17,7 +17,6 @@ import {
 import { ActivityCodeModel, getActivityCodeOptions } from '@shared/constants/activity-code/activity-code.constants';
 import { CompetencyOutcome } from '@shared/models/competency-outcome';
 import { CommentSource, FaultSummary } from '@shared/models/fault-marking.model';
-import { Language } from '@store/tests/communication-preferences/communication-preferences.model';
 import { getCommunicationPreference } from '@store/tests/communication-preferences/communication-preferences.reducer';
 import { getConductedLanguage } from '@store/tests/communication-preferences/communication-preferences.selector';
 import { getPassCompletion } from '@store/tests/pass-completion/cat-c/pass-completion.cat-c.reducer';
@@ -141,10 +140,6 @@ export class OfficeCatCPage extends OfficeBasePageComponent implements OnInit {
 
   isPass(): boolean {
     return this.testOutcomeText === TestOutcome.Passed;
-  }
-
-  isWelsh(): boolean {
-    return this.conductedLanguage === Language.CYMRAEG;
   }
 
   passCertificateNumberChanged(passCertificateNumber: string): void {

@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { UntypedFormGroup } from '@angular/forms';
 import { Address } from '@dvsa/mes-test-schema/categories/common';
+import { CommunicationPage } from '@pages/communication/communication.page';
 
 @Component({
   selector: 'postal-address',
@@ -20,10 +21,6 @@ export class PostalAddressComponent {
   @Output()
   postalRadioSelect = new EventEmitter<void>();
 
-  postalRadioSelected() {
-    this.postalRadioSelect.emit();
-  }
-
   ngOnInit() {
     this.postalAddress = this.formatAddress(this.postalAddress);
   }
@@ -34,4 +31,6 @@ export class PostalAddressComponent {
     Object.keys(formattedAddress).forEach((res) => (formattedAddress[res] = formattedAddress[res].replace(regex, 'x')));
     return formattedAddress;
   }
+
+  protected readonly CommunicationPage = CommunicationPage;
 }

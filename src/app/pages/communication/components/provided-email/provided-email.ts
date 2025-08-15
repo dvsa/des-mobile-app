@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { CommunicationPage } from '@pages/communication/communication.page';
 
 @Component({
   selector: 'provided-email',
@@ -38,4 +39,6 @@ export class ProvidedEmailComponent {
   providedEmailRadioSelected() {
     this.providedEmailRadioSelect.emit(ProvidedEmailComponent.providedEmail);
   }
+
+  protected readonly CommunicationPage = CommunicationPage;
 }

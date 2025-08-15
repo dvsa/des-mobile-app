@@ -30,6 +30,7 @@ export class TrueLikenessComponent implements OnChanges {
     if (this.trueLikeness === true || this.trueLikeness === false) {
       this.formControl.patchValue(String(this.trueLikeness));
     }
+    console.log(this.formControl.value);
   }
 
   trueLikenessChanged(trueLikeness: string): void {

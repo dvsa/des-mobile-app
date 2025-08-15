@@ -6,28 +6,37 @@
   <ion-col class="align-self-center padding-left">
     <ion-row class="spacing-row"></ion-row>
     <ion-row [formGroup]="form">
-      <ion-col size="48">
-        <input
-          formControlName="code78Ctrl"
-          type="radio"
-          id="code-78-received"
-          value="yes"
-          class="gds-radio-button"
-          (click)="code78IsPresent()"
-        />
-        <label for="code-78-received" class="radio-label">Yes</label>
-      </ion-col>
-      <ion-col>
-        <input
-          formControlName="code78Ctrl"
-          type="radio"
-          id="code-78-not-received"
-          value="no"
-          class="gds-radio-button"
-          (click)="code78IsNotPresent()"
-        />
-        <label for="code-78-not-received" class="radio-label">No</label>
-      </ion-col>
+      <ion-radio-group
+        class="display-flex radio-group-width"
+        formControlName="code78Ctrl"
+        [value]="formControl.value"
+        (ionChange)="code78IsChanged($event.detail.value)">
+        <ion-col size="40">
+          <ion-radio
+            class="gds-refactor-radio"
+            [class.ng-invalid]="isInvalid()"
+            id="code-78-received"
+            labelPlacement="end"
+            value="yes">
+            <label class="radio-label" id="code-78-received-label">
+              Yes
+            </label>
+          </ion-radio>
+        </ion-col>
+        <ion-col size="16"></ion-col>
+        <ion-col>
+          <ion-radio
+            class="gds-refactor-radio"
+            [class.ng-invalid]="isInvalid()"
+            id="code-78-not-received"
+            value="no"
+            labelPlacement="end">
+            <label class="radio-label" id="code-78-not-received-label">
+              No
+            </label>
+          </ion-radio>
+        </ion-col>
+      </ion-radio-group>
     </ion-row>
     <ion-row class="validation-message-row align-items-center">
       <div class="validation-text" id="code-78-received-validation-text" [class.ng-invalid]="isInvalid()">

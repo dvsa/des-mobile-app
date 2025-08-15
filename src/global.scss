@@ -96,6 +96,10 @@ input, textarea {
   }
 }
 
+.width-100-percent {
+  width: 100%;
+}
+
 .increase-height {
   height: 50px !important;
 
@@ -110,6 +114,9 @@ input, textarea {
 }
 .display-flex {
   display: flex;
+}
+.direction-column {
+  flex-direction: column;
 }
 
 .mes-text-align-centre {

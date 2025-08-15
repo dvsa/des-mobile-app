@@ -26,45 +26,42 @@
               [disabled]="isOptionDisabled(question)"
               [value]="question"
             >
-              {{question.code}} - {{question.shortName}}
+              {{ question.code }} - {{ question.shortName }}
             </ion-select-option>
           </ion-select>
         </ion-row>
       </ion-col>
-      <ion-col *ngIf="shouldShowOutcomeFields()" size="28" class="ion-align-self-center">
-        <ion-row>
-          <input
-            (change)="safetyAndBalancePassSelected()"
-            [attr.id]="'vehicleChecksCorrect_'+questionId"
-            [attr.name]="questionOutcomeFieldName"
-            [formControlName]="questionOutcomeFieldName"
-            class="gds-radio-button"
-            type="radio"
-            value="P"
-          />
-          <label
-            [for]="'vehicleChecksCorrect_'+questionId"
-            class="radio-label"
-            id="vehicle-checks-correct-{{questionId}}"
-            >Correct</label
-          >
-        </ion-row>
-      </ion-col>
-      <ion-col *ngIf="shouldShowOutcomeFields()" size="28" class="ion-align-self-center">
-        <ion-row>
-          <input
-            (change)="safetyAndBalanceDrivingFaultSelected()"
-            [attr.id]="'vehicleChecksFault_'+questionId"
-            [attr.name]="questionOutcomeFieldName"
-            [formControlName]="questionOutcomeFieldName"
-            class="gds-radio-button"
-            type="radio"
-            value="DF"
-          />
-          <label [for]="'vehicleChecksFault_'+questionId" class="radio-label" id="vehicle-checks-fault-{{questionId}}"
-            >Wrong answer</label
-          >
-        </ion-row>
+      <ion-col *ngIf="shouldShowOutcomeFields()" size="50" class="ion-align-self-center">
+        <ion-radio-group
+          *ngIf="shouldShowOutcomeFields()"
+          class="display-flex ion-align-items-center"
+          [formControlName]="questionOutcomeFieldName"
+          [value]="questionOutcomeFormControl.value"
+          (ionChange)="questionOutcomeChanged($event.detail.value)">
+          <ion-col size="40">
+            <ion-radio
+              class="gds-refactor-radio"
+              [attr.id]="'vehicleChecksCorrect_'+questionId"
+              labelPlacement="end"
+              value="P">
+              <label class="radio-label" id="vehicle-checks-correct-{{questionId}}">
+                Correct
+              </label>
+            </ion-radio>
+          </ion-col>
+          <ion-col size="16"></ion-col>
+          <ion-col>
+            <ion-radio
+              class="gds-refactor-radio"
+              [attr.id]="'vehicleChecksFault_'+questionId"
+              value="DF"
+              labelPlacement="end">
+              <label class="ion-text-wrap radio-label" id="vehicle-checks-fault-{{questionId}}">
+                Wrong answer
+              </label>
+            </ion-radio>
+          </ion-col>
+        </ion-radio-group>
       </ion-col>
     </ion-row>
     <ion-row *ngIf="displayErrorMessage()" class="validation-message-row">

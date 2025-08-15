@@ -44,9 +44,9 @@ export class D255Component implements OnChanges {
     if (this.eyesightTestFailed) this.formGroup.get(D255Component.fieldName).disable();
   }
 
-  d255Changed(d255FormId: string): void {
+  d255Changed(d255Value: boolean): void {
     if (this.formControl.valid) {
-      this.d255Change.emit(d255FormId === 'd255-yes');
+      this.d255Change.emit(d255Value);
     }
   }
 

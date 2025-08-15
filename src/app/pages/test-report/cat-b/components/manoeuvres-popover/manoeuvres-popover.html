@@ -5,136 +5,153 @@
 >
   <ion-grid class="popover-content">
     <ion-row>
-      <ion-col size="36">
-        <ion-row>
-          <ion-col>
-            <input
-              type="radio"
-              name="manoeuvres"
-              [attr.disabled]="(shouldManoeuvreDisable(manoeuvreTypes.reverseRight) | async) ? 'disabled' : null"
-              (click)="recordManoeuvreSelection(manoeuvreTypes.reverseRight)"
-              id="manoeuvres-reverse-right-radio"
-              class="gds-radio-button"
-            />
-            <label for="manoeuvres-reverse-right-radio" class="radio-label" id="manoeuvres-reverse-right-label">
-              Reverse right
-            </label>
-          </ion-col>
-        </ion-row>
-        <ion-row>
-          <ion-col>
-            <input
-              type="radio"
-              name="manoeuvres"
-              [attr.disabled]="(shouldManoeuvreDisable(manoeuvreTypes.reverseParkRoad) | async) ? 'disabled' : null"
-              (click)="recordManoeuvreSelection(manoeuvreTypes.reverseParkRoad)"
-              id="manoeuvres-reverse-park-road-radio"
-              class="gds-radio-button"
-            />
-            <label for="manoeuvres-reverse-park-road-radio" class="radio-label" id="manoeuvres-reverse-park-road-label">
-              Reverse park (road)
-            </label>
-          </ion-col>
-        </ion-row>
-        <ion-row>
-          <ion-col>
-            <input
-              type="radio"
-              name="manoeuvres"
-              [attr.disabled]="(shouldManoeuvreDisable(manoeuvreTypes.reverseParkCarpark) | async) ? 'disabled' : null"
-              (click)="recordManoeuvreSelection(manoeuvreTypes.reverseParkCarpark)"
-              id="manoeuvres-reverse-park-carpark-radio"
-              class="gds-radio-button"
-            />
-            <label
-              for="manoeuvres-reverse-park-carpark-radio"
-              class="radio-label"
-              id="manoeuvres-reverse-park-carpark-label"
-            >
-              Reverse park (car park)
-            </label>
-          </ion-col>
-        </ion-row>
-        <ion-row>
-          <ion-col>
-            <input
-              type="radio"
-              name="manoeuvres"
-              [attr.disabled]="(shouldManoeuvreDisable(manoeuvreTypes.forwardPark) | async) ? 'disabled' : null"
-              (click)="recordManoeuvreSelection(manoeuvreTypes.forwardPark)"
-              id="manoeuvres-forward-park-radio"
-              class="gds-radio-button"
-            />
-            <label for="manoeuvres-forward-park-radio" class="radio-label" id="manoeuvres-forward-park-label">
-              Forward park
-            </label>
-          </ion-col>
-        </ion-row>
+      <ion-col size="10"></ion-col>
+      <ion-col size="33">
+        <ion-radio-group
+          name="manoeuvres"
+          (ionChange)="recordManoeuvreSelection($event.detail.value)"
+          class="display-flex direction-column">
+          <ion-row class="bottom-padding">
+            <ion-col>
+              <ion-radio
+                class="gds-refactor-radio"
+                [attr.disabled]="(shouldManoeuvreDisable(manoeuvreTypes.reverseRight) | async) ? 'disabled' : null"
+                id="manoeuvres-reverse-right-radio"
+                labelPlacement="end"
+                [value]="manoeuvreTypes.reverseRight">
+                <label
+                  class="radio-label"
+                  id="manoeuvres-reverse-right-radio-label"
+                >
+                  Reverse right
+                </label>
+              </ion-radio>
+            </ion-col>
+          </ion-row>
+          <ion-row class="bottom-padding">
+            <ion-col>
+              <ion-radio
+                class="gds-refactor-radio"
+                [attr.disabled]="(shouldManoeuvreDisable(manoeuvreTypes.reverseParkRoad) | async) ? 'disabled' : null"
+                id="manoeuvres-reverse-park-road-radio"
+                labelPlacement="end"
+                [value]="manoeuvreTypes.reverseParkRoad">
+                <label
+                  class="radio-label"
+                  id="manoeuvres-reverse-park-road-radio-label"
+                >
+                  Reverse park (road)
+                </label>
+              </ion-radio>
+            </ion-col>
+          </ion-row>
+          <ion-row class="bottom-padding">
+            <ion-col>
+              <ion-radio
+                class="gds-refactor-radio"
+                [attr.disabled]="(shouldManoeuvreDisable(manoeuvreTypes.reverseParkCarpark) | async) ? 'disabled' : null"
+                id="manoeuvres-reverse-park-carpark-radio"
+                labelPlacement="end"
+                [value]="manoeuvreTypes.reverseParkCarpark">
+                <label
+                  class="radio-label"
+                  id="manoeuvres-reverse-park-carpark-label"
+                >
+                  Reverse park (car park)
+                </label>
+              </ion-radio>
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col>
+              <ion-radio
+                class="gds-refactor-radio"
+                [attr.disabled]="(shouldManoeuvreDisable(manoeuvreTypes.forwardPark) | async) ? 'disabled' : null"
+                id="manoeuvres-forward-park-radio"
+                labelPlacement="end"
+                [value]="manoeuvreTypes.forwardPark">
+                <label
+                  class="radio-label"
+                  id="manoeuvres-forward-park-radio-label"
+                >
+                  Forward park
+                </label>
+              </ion-radio>
+            </ion-col>
+          </ion-row>
+        </ion-radio-group>
       </ion-col>
-
       <ion-col
-        class="manoeuvre-competencies-container-column"
-        size="8"
+        class="manoeuvre-competencies-container-column ion-align-items-center display-flex"
+        size="33"
         *ngIf="asyncData.manoeuvres.reverseRight?.selected"
       >
-        <manoeuvre-competency
-          [manoeuvre]="manoeuvreTypes.reverseRight"
-          [competency]="competencies.controlFault"
-          [attr.id]="getId(manoeuvreTypes.reverseRight, competencies.controlFault)"
-        ></manoeuvre-competency>
-        <manoeuvre-competency
-          [attr.id]="getId(manoeuvreTypes.reverseRight, competencies.observationFault)"
-          [manoeuvre]="manoeuvreTypes.reverseRight"
-          [competency]="competencies.observationFault"
-        ></manoeuvre-competency>
+        <ion-row>
+          <manoeuvre-competency
+            [manoeuvre]="manoeuvreTypes.reverseRight"
+            [competency]="competencies.controlFault"
+            [attr.id]="getId(manoeuvreTypes.reverseRight, competencies.controlFault)"
+          ></manoeuvre-competency>
+          <manoeuvre-competency
+            [attr.id]="getId(manoeuvreTypes.reverseRight, competencies.observationFault)"
+            [manoeuvre]="manoeuvreTypes.reverseRight"
+            [competency]="competencies.observationFault"
+          ></manoeuvre-competency>
+        </ion-row>
       </ion-col>
       <ion-col
-        class="manoeuvre-competencies-container-column"
-        size="8"
+        class="manoeuvre-competencies-container-column ion-align-items-center display-flex"
+        size="33"
         *ngIf="asyncData.manoeuvres.forwardPark?.selected"
       >
-        <manoeuvre-competency
-          [manoeuvre]="manoeuvreTypes.forwardPark"
-          [competency]="competencies.controlFault"
-          [attr.id]="getId(manoeuvreTypes.forwardPark, competencies.controlFault)"
-        ></manoeuvre-competency>
-        <manoeuvre-competency
-          [manoeuvre]="manoeuvreTypes.forwardPark"
-          [competency]="competencies.observationFault"
-          [attr.id]="getId(manoeuvreTypes.forwardPark, competencies.observationFault)"
-        ></manoeuvre-competency>
+        <ion-row>
+          <manoeuvre-competency
+            [manoeuvre]="manoeuvreTypes.forwardPark"
+            [competency]="competencies.controlFault"
+            [attr.id]="getId(manoeuvreTypes.forwardPark, competencies.controlFault)"
+          ></manoeuvre-competency>
+          <manoeuvre-competency
+            [manoeuvre]="manoeuvreTypes.forwardPark"
+            [competency]="competencies.observationFault"
+            [attr.id]="getId(manoeuvreTypes.forwardPark, competencies.observationFault)"
+          ></manoeuvre-competency>
+        </ion-row>
       </ion-col>
       <ion-col
-        class="manoeuvre-competencies-container-column"
-        size="8"
+        class="manoeuvre-competencies-container-column ion-align-items-center display-flex"
+        size="33"
         *ngIf="asyncData.manoeuvres.reverseParkCarpark?.selected"
       >
-        <manoeuvre-competency
-          [manoeuvre]="manoeuvreTypes.reverseParkCarpark"
-          [competency]="competencies.controlFault"
-          [attr.id]="getId(manoeuvreTypes.reverseParkCarpark, competencies.controlFault)"
-        ></manoeuvre-competency>
-        <manoeuvre-competency
-          [manoeuvre]="manoeuvreTypes.reverseParkCarpark"
-          [competency]="competencies.observationFault"
-          [attr.id]="getId(manoeuvreTypes.reverseParkCarpark, competencies.observationFault)"
-        ></manoeuvre-competency>
+        <ion-row>
+          <manoeuvre-competency
+            [manoeuvre]="manoeuvreTypes.reverseParkCarpark"
+            [competency]="competencies.controlFault"
+            [attr.id]="getId(manoeuvreTypes.reverseParkCarpark, competencies.controlFault)"
+          ></manoeuvre-competency>
+          <manoeuvre-competency
+            [manoeuvre]="manoeuvreTypes.reverseParkCarpark"
+            [competency]="competencies.observationFault"
+            [attr.id]="getId(manoeuvreTypes.reverseParkCarpark, competencies.observationFault)"
+          ></manoeuvre-competency>
+        </ion-row>
       </ion-col>
       <ion-col
-        class="manoeuvre-competencies-container-column"
-        size="8"
+        class="manoeuvre-competencies-container-column ion-align-items-center display-flex"
+        size="33"
         *ngIf="asyncData.manoeuvres.reverseParkRoad?.selected"
       >
-        <manoeuvre-competency
-          [manoeuvre]="manoeuvreTypes.reverseParkRoad"
-          [competency]="competencies.controlFault"
-          [attr.id]="getId(manoeuvreTypes.reverseParkRoad, competencies.controlFault)"
-        ></manoeuvre-competency>
-        <manoeuvre-competency
-          [manoeuvre]="manoeuvreTypes.reverseParkRoad"
-          [competency]="competencies.observationFault"
-          [attr.id]="getId(manoeuvreTypes.reverseParkRoad, competencies.observationFault)"
-        ></manoeuvre-competency>
+        <ion-row>
+          <manoeuvre-competency
+            [manoeuvre]="manoeuvreTypes.reverseParkRoad"
+            [competency]="competencies.controlFault"
+            [attr.id]="getId(manoeuvreTypes.reverseParkRoad, competencies.controlFault)"
+          ></manoeuvre-competency>
+          <manoeuvre-competency
+            [manoeuvre]="manoeuvreTypes.reverseParkRoad"
+            [competency]="competencies.observationFault"
+            [attr.id]="getId(manoeuvreTypes.reverseParkRoad, competencies.observationFault)"
+          ></manoeuvre-competency>
+        </ion-row>
       </ion-col>
     </ion-row>
   </ion-grid>

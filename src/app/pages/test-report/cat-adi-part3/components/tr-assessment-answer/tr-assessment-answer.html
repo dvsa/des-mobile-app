@@ -1,54 +1,67 @@
 <ion-grid>
-  <ion-row class="tr-standard-text">{{question}}</ion-row>
+  <ion-row class="tr-standard-text">{{ question }}</ion-row>
   <ion-row class="ion-padding-top">
-    <ion-col>
-      <input
-        type="radio"
-        class="gds-radio-button"
-        [ngClass]="errorHighlighting()"
-        (change)="valueChanged($event.target.value)"
-        [checked]="answer === 0"
-        value="0"
-        [id]="card + '-' + questionNumber + 'assessment-input-0'"
-      />
-      <label [for]="card + '-' + questionNumber + 'assessment-input-0'" class="radio-label">0</label>
-    </ion-col>
-    <ion-col>
-      <input
-        type="radio"
-        class="gds-radio-button"
-        [ngClass]="errorHighlighting()"
-        (change)="valueChanged($event?.target?.value)"
-        [checked]="answer === 1"
-        value="1"
-        [id]="card + '-' + questionNumber + 'assessment-input-1'"
-      />
-      <label [for]="card + '-' + questionNumber + 'assessment-input-1'" class="assessment-label">1</label>
-    </ion-col>
-    <ion-col>
-      <input
-        type="radio"
-        class="gds-radio-button"
-        [ngClass]="errorHighlighting()"
-        (change)="valueChanged($event?.target?.value)"
-        [checked]="answer === 2"
-        value="2"
-        [id]="card + '-' + questionNumber + 'assessment-input-2'"
-      />
-      <label [for]="card + '-' + questionNumber + 'assessment-input-2'" class="assessment-label">2</label>
-    </ion-col>
-    <ion-col>
-      <input
-        type="radio"
-        class="gds-radio-button"
-        [ngClass]="errorHighlighting()"
-        (change)="valueChanged($event?.target?.value)"
-        [checked]="answer === 3"
-        value="3"
-        [id]="card + '-' + questionNumber + 'assessment-input-3'"
-      />
-      <label [for]="card + '-' + questionNumber + 'assessment-input-3'" class="assessment-label">3</label>
-    </ion-col>
+    <ion-radio-group
+      class="display-flex radio-group-width"
+      [value]="answer"
+      (ionChange)="valueChanged($event.detail.value)">
+      <ion-col>
+        <ion-radio
+          class="gds-refactor-radio"
+          [ngClass]="errorHighlighting()"
+          labelPlacement="end"
+          [id]="card + '-' + questionNumber + 'assessment-input-0'"
+          [value]="0">
+          <label
+            class="radio-label"
+            [id]="card + '-' + questionNumber + 'assessment-input-0-yes'">
+            0
+          </label>
+        </ion-radio>
+      </ion-col>
+      <ion-col>
+        <ion-radio
+          class="gds-refactor-radio"
+          [ngClass]="errorHighlighting()"
+          labelPlacement="end"
+          [id]="card + '-' + questionNumber + 'assessment-input-1'"
+          [value]="1">
+          <label
+            class="radio-label"
+            [id]="card + '-' + questionNumber + 'assessment-input-1-yes'">
+            1
+          </label>
+        </ion-radio>
+      </ion-col>
+      <ion-col>
+        <ion-radio
+          class="gds-refactor-radio"
+          [ngClass]="errorHighlighting()"
+          labelPlacement="end"
+          [id]="card + '-' + questionNumber + 'assessment-input-2'"
+          [value]="2">
+          <label
+            class="radio-label"
+            [id]="card + '-' + questionNumber + 'assessment-input-2-yes'">
+            2
+          </label>
+        </ion-radio>
+      </ion-col>
+      <ion-col>
+        <ion-radio
+          class="gds-refactor-radio"
+          [ngClass]="errorHighlighting()"
+          labelPlacement="end"
+          [id]="card + '-' + questionNumber + 'assessment-input-3'"
+          [value]="3">
+          <label
+            class="radio-label"
+            [id]="card + '-' + questionNumber + 'assessment-input-3-yes'">
+            3
+          </label>
+        </ion-radio>
+      </ion-col>
+    </ion-radio-group>
   </ion-row>
   <ion-row *ngIf="hasBeenMissed()">
     <div

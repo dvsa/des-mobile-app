@@ -18,30 +18,34 @@
             <ion-col class="display-flex ion-align-items-center" size="22">
               <label class="auto-height">Search by</label>
             </ion-col>
-            <ion-col class="flex-center" size="40">
-              <input
-                type="radio"
-                id="search-by-app-reference"
-                class="gds-radio-button"
-                name="searchBy"
-                value="appReference"
-                [checked]="searchBy === 'appReference'"
-                (change)="searchByChanged('appReference')"
-              />
-              <label for="search-by-app-reference" class="radio-label"> Application reference </label>
-            </ion-col>
-            <ion-col class="flex-center" size="34">
-              <input
-                type="radio"
-                id="search-by-driver-number"
-                class="gds-radio-button"
-                name="searchBy"
-                value="driverNumber"
-                [checked]="searchBy === 'driverNumber'"
-                (change)="searchByChanged('driverNumber')"
-              />
-              <label for="search-by-driver-number" class="radio-label"> Driver number </label>
-            </ion-col>
+            <ion-radio-group
+              class="display-flex"
+              value="appReference"
+              (ionChange)="searchByChanged($event.detail.value)">
+              <ion-col size="auto">
+                <ion-radio
+                  class="gds-refactor-radio"
+                  id="search-by-app-reference"
+                  labelPlacement="end"
+                  value="appReference">
+                  <label class="radio-label" id="search-by-app-reference-label">
+                    Application reference
+                  </label>
+                </ion-radio>
+              </ion-col>
+              <ion-col size="6"></ion-col>
+              <ion-col size="auto">
+                <ion-radio
+                  class="gds-refactor-radio"
+                  id="search-by-driver-number"
+                  value="driverNumber"
+                  labelPlacement="end">
+                  <label class="radio-label" id="search-by-driver-number-label">
+                    Driver number
+                  </label>
+                </ion-radio>
+              </ion-col>
+            </ion-radio-group>
           </ion-row>
           <ion-row class="ion-padding-top">
             <ion-col size="96">
@@ -120,9 +124,9 @@
     </div>
 
     <p class="results-message" *ngIf="searchResults.length > 0" id="displaying-results-label">
-      Displaying <span>{{searchResults.length}}</span> results
+      Displaying <span>{{ searchResults.length }}</span> results
     </p>
 
-    <search-result *ngFor="let searchResult of searchResults;" [searchResult]="searchResult"> </search-result>
+    <search-result *ngFor="let searchResult of searchResults;" [searchResult]="searchResult"></search-result>
   </div>
 </ion-content>

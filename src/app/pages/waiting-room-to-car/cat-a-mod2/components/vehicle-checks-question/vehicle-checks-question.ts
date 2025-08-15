@@ -107,4 +107,12 @@ export class VehicleChecksQuestionCatAMod2Component implements OnChanges {
     }
     return false;
   }
+
+  questionOutcomeChanged(value: QuestionOutcome) {
+    if (value === 'P') {
+      this.safetyAndBalancePassSelected();
+    } else {
+      this.safetyAndBalanceDrivingFaultSelected();
+    }
+  }
 }

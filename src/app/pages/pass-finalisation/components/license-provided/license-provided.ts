@@ -48,4 +48,12 @@ export class LicenseProvidedComponent implements OnChanges {
   provisionalLicenseNotReceived(): void {
     this.licenseNotReceived.emit();
   }
+
+  licenseProvidedChanged(license: string) {
+    if (license === ValidLicenceProvidedValues.YES) {
+      this.provisionalLicenseReceived();
+    } else {
+      this.provisionalLicenseNotReceived();
+    }
+  }
 }

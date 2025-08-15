@@ -4,20 +4,23 @@
     <ion-grid>
       <ion-row [formGroup]="formGroup">
         <div class="validation-bar" [class.ng-invalid]="invalid"></div>
-        <ion-col size="2"></ion-col>
-        <ion-col *ngFor="let answers of answerArray">
-          <input
-            type="radio"
-            id="question{{questionNumber}}answer{{answers}}"
-            class="gds-radio-button"
-            name="cpcQuestion{{questionNumber}}ResultCtrl"
-            formControlName="cpcQuestion{{questionNumber}}ResultCtrl"
-            (change)="questionScoreChanged(answers)"
-            value="{{answers}}"
-            [class.ng-invalid]="invalid"
-          />
-          <label for="question{{questionNumber}}answer{{answers}}" class="radio-label">{{answers}}%</label>
-        </ion-col>
+        <ion-radio-group
+          class="display-flex width-100-percent"
+          formControlName="cpcQuestion{{questionNumber}}ResultCtrl"
+          [value]="formControl.value"
+          (ionChange)="questionScoreChanged($event.detail.value)">
+          <ion-col size="2"></ion-col>
+          <ion-col *ngFor="let answers of answerArray">
+            <ion-radio
+              class="gds-refactor-radio"
+              [class.ng-invalid]="invalid"
+              id="question{{questionNumber}}answer{{answers}}"
+              labelPlacement="end"
+              value="{{answers}}">
+              <label class="radio-label" id="question{{questionNumber}}answer{{answers}}-label">{{answers}}%</label>
+            </ion-radio>
+          </ion-col>
+        </ion-radio-group>
       </ion-row>
       <ion-row class="validation-message-row ion-align-items-center" *ngIf="invalid">
         <div class="validation-text" [class.ng-invalid]="invalid" id="question{{questionNumber}}-validation-text">

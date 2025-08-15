@@ -7,7 +7,7 @@ import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms
 })
 export class LanguagePreferencesComponent implements OnChanges {
   @Input()
-  isWelsh: boolean;
+  currentLanguage: string;
 
   @Input()
   formGroup: UntypedFormGroup;
@@ -18,7 +18,7 @@ export class LanguagePreferencesComponent implements OnChanges {
   @Output()
   welshChanged = new EventEmitter<boolean>();
 
-  private languagePref: UntypedFormControl;
+  protected languagePref: UntypedFormControl;
 
   ngOnChanges(): void {
     if (!this.languagePref) {
@@ -34,12 +34,12 @@ export class LanguagePreferencesComponent implements OnChanges {
       }
       return;
     }
-    this.languagePref.patchValue(String(this.isWelsh));
+    this.languagePref.patchValue(String(this.currentLanguage));
   }
 
-  isWelshChanged(isWelsh: string): void {
+  isWelshChanged(selectedLengauge: string): void {
     if (this.languagePref.valid) {
-      this.welshChanged.emit(isWelsh === 'true');
+      this.welshChanged.emit(selectedLengauge === 'Cymraeg');
     }
   }
 }

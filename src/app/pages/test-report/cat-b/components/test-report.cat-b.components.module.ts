@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+import { ReactiveFormsModule } from '@angular/forms';
 import { ComponentsModule } from '@components/common/common-components.module';
 import { IonicModule } from '@ionic/angular';
 import { TestReportComponentsModule } from '../../components/test-report-components.module';
@@ -9,7 +10,7 @@ import { VehicleCheckComponent } from './vehicle-check/vehicle-check';
 
 @NgModule({
   declarations: [ManoeuvresComponent, ManoeuvresPopoverComponent, VehicleCheckComponent],
-  imports: [IonicModule, CommonModule, ComponentsModule, TestReportComponentsModule],
+  imports: [IonicModule, CommonModule, ComponentsModule, TestReportComponentsModule, ReactiveFormsModule],
   exports: [ManoeuvresComponent, ManoeuvresPopoverComponent, VehicleCheckComponent],
 })
 export class TestReportCatBComponentsModule {}

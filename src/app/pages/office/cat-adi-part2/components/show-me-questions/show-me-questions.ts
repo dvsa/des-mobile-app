@@ -88,6 +88,7 @@ export class ShowMeQuestionsCatADI2Component implements OnChanges, OnInit {
   }
 
   showMeOutcomeChanged(value: CompetencyOutcome): void {
+    console.log('showMeOutcomeChanged', value);
     const result: QuestionResult = {
       code: this.questionResult.code,
       description: this.questionResult.description,

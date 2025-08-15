@@ -15,7 +15,6 @@ import { CategoryCode, GearboxCategory, QuestionResult } from '@dvsa/mes-test-sc
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { CompetencyOutcome } from '@shared/models/competency-outcome';
 import { CommentSource, FaultSummary } from '@shared/models/fault-marking.model';
-import { Language } from '@store/tests/communication-preferences/communication-preferences.model';
 import { getCommunicationPreference } from '@store/tests/communication-preferences/communication-preferences.reducer';
 import { getConductedLanguage } from '@store/tests/communication-preferences/communication-preferences.selector';
 import { PassCertificateNumberChanged } from '@store/tests/pass-completion/pass-completion.actions';
@@ -143,10 +142,6 @@ export class OfficeCatDPage extends OfficeBasePageComponent implements OnInit {
 
   isPass(): boolean {
     return this.testOutcomeText === TestOutcome.Passed;
-  }
-
-  isWelsh(): boolean {
-    return this.conductedLanguage === Language.CYMRAEG;
   }
 
   passCertificateNumberChanged(passCertificateNumber: string): void {

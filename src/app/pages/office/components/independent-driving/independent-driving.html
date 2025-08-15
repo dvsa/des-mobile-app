@@ -6,69 +6,66 @@
 >
   <div class="validation-bar" [class.ng-invalid]="invalid"></div>
   <ion-col class="component-label ion-align-self-center" size="32">
-    <label id="independent-driving-label">{{componentTitle}}</label>
+    <label id="independent-driving-label">{{ componentTitle }}</label>
   </ion-col>
   <ion-col class="ion-align-self-center ion-padding-start">
     <ion-row class="spacing-row"></ion-row>
     <ion-row>
-      <ion-col class="ion-align-self-center">
-        <input
-          type="radio"
-          [id]="getIndependentDrivingInputId(option1)"
-          class="gds-radio-button"
-          formControlName="independentDriving"
-          name="independentDriving"
-          [value]="option1"
-          [class.ng-invalid]="invalid"
-          [checked]="independentDriving === option1"
-          (change)="independentDrivingChanged(option1)"
-        />
-        <label
-          [for]="getIndependentDrivingInputId(option1)"
-          class="radio-label"
-          [id]="option1label | formatToID: 'independent-driving'"
-        >
-          {{option1label}}
-        </label>
-      </ion-col>
-      <ion-col class="ion-align-self-center">
-        <input
-          type="radio"
-          class="gds-radio-button"
-          formControlName="independentDriving"
-          name="independentDriving"
-          [id]="getIndependentDrivingInputId(option2)"
-          [value]="option2"
-          [class.ng-invalid]="invalid"
-          [checked]="independentDriving === option2"
-          (change)="independentDrivingChanged(option2)"
-        />
-        <label
-          [for]="getIndependentDrivingInputId(option2)"
-          class="radio-label"
-          [id]="option2label | formatToID: 'independent-driving'"
-        >
-          {{option2label}}
-        </label>
-      </ion-col>
-      <ion-col class="ion-align-self-center" [hidden]="!showNotApplicable">
-        <input
-          type="radio"
-          id="independent-driving-na"
-          class="gds-radio-button"
-          formControlName="independentDriving"
-          name="independentDriving"
-          value="N/A"
-          [class.ng-invalid]="invalid"
-          [checked]="independentDriving === 'N/A'"
-          (change)="independentDrivingChanged('N/A')"
-        />
-        <label for="independent-driving-na" class="radio-label">N/A</label>
-      </ion-col>
+      <ion-radio-group
+        class="display-flex width-100-percent"
+        formControlName="independentDriving"
+        [value]="formControl.value"
+        (ionChange)="independentDrivingChanged($event.detail.value)">
+        <ion-col
+          class="display-flex ion-align-items-center"
+          [size]="!showNotApplicable ? 43 : null">
+          <ion-radio
+            class="gds-refactor-radio"
+            [id]="getIndependentDrivingInputId(option1)"
+            [class.ng-invalid]="invalid"
+            labelPlacement="end"
+            [value]="option1">
+            <label class="radio-label" [id]="option1label | formatToID: 'independent-driving'"
+            >
+              {{ option1label }}
+            </label>
+          </ion-radio>
+        </ion-col>
+        <ion-col></ion-col>
+        <ion-col
+          class="display-flex ion-align-items-center"
+          [size]="!showNotApplicable ? 48 : null">
+          <ion-radio
+            class="gds-refactor-radio"
+            [id]="getIndependentDrivingInputId(option2)"
+            [value]="option2"
+            [class.ng-invalid]="invalid"
+            labelPlacement="end">
+            <label class="ion-text-wrap radio-label" [id]="option2label | formatToID: 'independent-driving'">
+              {{ option2label }}
+            </label>
+          </ion-radio>
+        </ion-col>
+        <ion-col [hidden]="!showNotApplicable"></ion-col>
+        <ion-col
+          class="display-flex ion-align-items-center"
+          [hidden]="!showNotApplicable" size="26">
+          <ion-radio
+            class="gds-refactor-radio"
+            id="independent-driving-na"
+            value="N/A"
+            [class.ng-invalid]="invalid"
+            labelPlacement="end">
+            <label class="radio-label" [id]="'na-label-independent-driving'">
+              N/A
+            </label>
+          </ion-radio>
+        </ion-col>
+      </ion-radio-group>
     </ion-row>
     <ion-row class="validation-message-row ion-align-items-center">
       <div class="validation-text" id="independent-driving-validation-text" [class.ng-invalid]="invalid">
-        {{componentWarningMessage}}
+        {{ componentWarningMessage }}
       </div>
     </ion-row>
   </ion-col>

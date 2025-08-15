@@ -1,3 +1,28 @@
+.bottom-padding {
+  padding-bottom: 9px;
+}
+
+.gds-refactor-radio {
+  &::part(container) {
+    width: 36px;
+    height: 36px;
+  }
+  .radio-label {
+    font-size: 16px;
+    font-weight: normal;
+  }
+  &.radio-checked {
+    .radio-label {
+      font-weight: 600;
+    }
+    &::part(mark) {
+      width: 20px;
+      height: 20px;
+    }
+  }
+}
+
+
 :host {
   .popover-title {
     padding-top: 10px;

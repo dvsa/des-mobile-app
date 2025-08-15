@@ -5,50 +5,37 @@
   </ion-col>
   <ion-col class="ion-align-self-center ion-padding-start">
     <ion-row class="spacing-row"></ion-row>
-    <ion-row>
-      <ion-col class="ion-align-self-center">
-        <input
-          type="radio"
-          class="gds-radio-button"
-          formControlName="modeOfTransport"
-          name="modeOfTransport"
+    <ion-radio-group
+      class="display-flex ion-align-items-center"
+      formControlName="modeOfTransport"
+      [value]="modeOfTransport"
+      (ionChange)="modeOfTransportChanged($event.detail.value)">
+      <ion-col size="40">
+        <ion-radio
+          class="gds-refactor-radio"
           [id]="getModeOfTransportInputId(option1)"
-          [value]="option1"
           [class.ng-invalid]="invalid"
-          [checked]="modeOfTransport === option1"
-          (change)="modeOfTransportChanged(option1)"
-        />
-        <label [for]="getModeOfTransportInputId(option1)" class="radio-label">{{option1label}}</label>
+          labelPlacement="end"
+          [value]="option1">
+          <label class="ion-text-wrap radio-label" [id]="getModeOfTransportInputId(option1)+'-label'">
+            {{option1label}}
+          </label>
+        </ion-radio>
       </ion-col>
-      <ion-col class="ion-align-self-center">
-        <input
-          type="radio"
-          class="gds-radio-button"
-          formControlName="modeOfTransport"
-          name="modeOfTransport"
+      <ion-col size="8"></ion-col>
+      <ion-col>
+        <ion-radio
+          class="gds-refactor-radio"
           [id]="getModeOfTransportInputId(option2)"
+          [class.ng-invalid]="invalid"
           [value]="option2"
-          [class.ng-invalid]="invalid"
-          [checked]="modeOfTransport === option2"
-          (change)="modeOfTransportChanged(option2)"
-        />
-        <label [for]="getModeOfTransportInputId(option2)" class="radio-label">{{option2label}}</label>
+          labelPlacement="end">
+          <label class="ion-text-wrap radio-label" [id]="getModeOfTransportInputId(option2)+'-label'">
+            {{option2label}}
+          </label>
+        </ion-radio>
       </ion-col>
-      <ion-col class="ion-align-self-center" [hidden]="!showNotApplicable">
-        <input
-          type="radio"
-          id="mode-of-transport-na"
-          class="gds-radio-button"
-          formControlName="modeOfTransport"
-          name="modeOfTransport"
-          value="N/A"
-          [class.ng-invalid]="invalid"
-          [checked]="modeOfTransport === 'N/A'"
-          (change)="modeOfTransportChanged('N/A')"
-        />
-        <label for="mode-of-transport-na" class="radio-label">N/A</label>
-      </ion-col>
-    </ion-row>
+    </ion-radio-group>
     <ion-row class="validation-message-row align-items-center">
       <div class="validation-text" [class.ng-invalid]="invalid" id="office-mode-of-transport-validation-text">
         Select how the test was conducted

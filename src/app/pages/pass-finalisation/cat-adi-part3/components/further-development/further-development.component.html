@@ -6,32 +6,37 @@
   <ion-col class="ion-align-self-center mes-padding-left">
     <ion-row class="spacing-row"></ion-row>
     <ion-row>
-      <ion-col size="48">
-        <input
-          type="radio"
-          formControlName="furtherDevelopment"
-          id="further-development-yes"
-          name="furtherDevelopment"
-          class="gds-radio-button"
-          [class.ng-invalid]="invalid"
-          value="true"
-          (change)="furtherDevelopmentChanged($event.target.value)"
-        />
-        <label for="further-development-yes" class="radio-label" id="further-development-yes-label">Yes</label>
-      </ion-col>
-      <ion-col>
-        <input
-          type="radio"
-          formControlName="furtherDevelopment"
-          id="further-development-no"
-          name="furtherDevelopment"
-          class="gds-radio-button"
-          [class.ng-invalid]="invalid"
-          value="false"
-          (change)="furtherDevelopmentChanged($event.target.value)"
-        />
-        <label for="further-development-no" class="radio-label" id="further-development-no-label">No</label>
-      </ion-col>
+      <ion-radio-group
+        class="display-flex radio-group-width"
+        formControlName="furtherDevelopment"
+        [value]="formControl.value"
+        (ionChange)="furtherDevelopmentChanged($event.detail.value)">
+        <ion-col size="40">
+          <ion-radio
+            class="gds-refactor-radio"
+            [class.ng-invalid]="invalid"
+            id="further-development-yes"
+            labelPlacement="end"
+            value="true">
+            <label class="radio-label" id="further-development-yes-label">
+              Yes
+            </label>
+          </ion-radio>
+        </ion-col>
+        <ion-col size="16"></ion-col>
+        <ion-col>
+          <ion-radio
+            class="gds-refactor-radio"
+            [class.ng-invalid]="invalid"
+            id="further-development-no"
+            value="false"
+            labelPlacement="end">
+            <label class="radio-label" id="further-development-no-label">
+              No
+            </label>
+          </ion-radio>
+        </ion-col>
+      </ion-radio-group>
     </ion-row>
     <ion-row class="validation-message-row ion-align-items-center">
       <div class="validation-text" [class.ng-invalid]="invalid" id="further-development-validation-text">
