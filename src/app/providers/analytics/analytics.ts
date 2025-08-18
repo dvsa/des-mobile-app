@@ -40,7 +40,7 @@ export class AnalyticsProvider {
         .digest('hex');
 
       const uniqueDeviceId = await this.device.getUniqueDeviceId();
-      const deviceModel = await this.device.getDeviceName();
+      const deviceModel = await this.device.getDeviceType();
       const appVersion: string = await this.appInfo.getFullVersionNumber();
 
       this.setGAGlobalConfig(this.googleAnalytics4Key, employeeId);
