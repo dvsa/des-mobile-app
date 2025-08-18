@@ -454,6 +454,9 @@ export class TestOutcomeComponent implements OnInit {
       : false;
 
     if (slotHasChanged) {
+      // reset values and dispatch remove
+      this.category = slot?.booking?.application?.testCategory as TestCategory;
+
       this.store$.dispatch(RemoveStartedTest(slotId));
     }
 
