@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { Store } from '@ngrx/store';
 import { ModalEvent } from '@pages/journal/components/journal-rekey-modal/journal-rekey-modal.constants';
-import * as futureTestModalActions from './journal-future-test-modal.actions';
+import * as futureTestModalActions from '@pages/journal/journal.actions';
 
 @Component({
   selector: 'journal-rekey-modal',

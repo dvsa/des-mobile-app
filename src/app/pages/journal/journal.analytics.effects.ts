@@ -4,6 +4,7 @@ import { Store, select } from '@ngrx/store';
 import { of } from 'rxjs';
 import { concatMap, switchMap, withLatestFrom } from 'rxjs/operators';
 
+import * as futureTestModalActions from '@pages/journal/journal.actions';
 import { AnalyticsProvider } from '@providers/analytics/analytics';
 import { AnalyticRecorded } from '@providers/analytics/analytics.actions';
 import {
@@ -277,6 +278,34 @@ export class JournalAnalyticsEffects {
           journalDataOfTest.candidate.candidateId.toString()
         );
 
+        return of(AnalyticRecorded());
+      })
+    )
+  );
+
+  futureTestModalCancel$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(futureTestModalActions.FutureTestModalCancelButton),
+      switchMap(() => {
+        this.analytics.logGAEvent(
+          GoogleAnalyticsEvents.DX_TEST_IN_FUTURE,
+          GoogleAnalyticsEventsTitles.MODAL,
+          GoogleAnalyticsEventsValues.CANCELLED
+        );
+        return of(AnalyticRecorded());
+      })
+    )
+  );
+
+  futureTestModalContinue$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(futureTestModalActions.FutureTestModalContinueButton),
+      switchMap(() => {
+        this.analytics.logGAEvent(
+          GoogleAnalyticsEvents.DX_TEST_IN_FUTURE,
+          GoogleAnalyticsEventsTitles.MODAL,
+          GoogleAnalyticsEventsValues.CONTINUE
+        );
         return of(AnalyticRecorded());
       })
     )

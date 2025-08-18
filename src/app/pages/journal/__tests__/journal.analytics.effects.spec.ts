@@ -2,6 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { Candidate } from '@dvsa/mes-test-schema/categories/common';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { Action, Store, StoreModule } from '@ngrx/store';
+import * as futureTestModalActions from '@pages/journal/journal.actions';
 import { AnalyticsProviderMock } from '@providers/analytics/__mocks__/analytics.mock';
 import { AnalyticsProvider } from '@providers/analytics/analytics';
 import { AnalyticRecorded } from '@providers/analytics/analytics.actions';
@@ -359,5 +360,37 @@ describe('JournalAnalyticsEffects', () => {
         });
       }
     );
+  });
+
+  describe('FutureTestModalCancel', () => {
+    it('should log cancel analytics event', (done) => {
+      actions$.next(futureTestModalActions.FutureTestModalCancelButton());
+
+      effects.futureTestModalCancel$.subscribe((action) => {
+        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+          GoogleAnalyticsEvents.DX_TEST_IN_FUTURE,
+          GoogleAnalyticsEventsTitles.MODAL,
+          GoogleAnalyticsEventsValues.CANCELLED
+        );
+        expect(action).toEqual(AnalyticRecorded());
+        done();
+      });
+    });
+  });
+
+  describe('FutureTestModalContinueButton', () => {
+    it('should log continue analytics event', (done) => {
+      actions$.next(futureTestModalActions.FutureTestModalContinueButton());
+
+      effects.futureTestModalContinue$.subscribe((action) => {
+        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+          GoogleAnalyticsEvents.DX_TEST_IN_FUTURE,
+          GoogleAnalyticsEventsTitles.MODAL,
+          GoogleAnalyticsEventsValues.CONTINUE
+        );
+        expect(action).toEqual(AnalyticRecorded());
+        done();
+      });
+    });
   });
 });
