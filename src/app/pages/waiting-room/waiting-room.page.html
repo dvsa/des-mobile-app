@@ -84,6 +84,10 @@
         >
         </insurance-declaration>
 
+        <br>
+        <div class="mes-row-separator"></div>
+        <br>
+
         <residency-declaration
           *ngIf="pageState.showResidencyDec$ | async"
           (residencyDeclarationChange)="residencyDeclarationChanged($event)"
