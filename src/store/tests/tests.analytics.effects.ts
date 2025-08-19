@@ -241,19 +241,6 @@ export class TestsAnalyticsEffects {
           (battery as BatteryInfo).batteryLevel.toString()
         );
 
-        //This information is not available in the new device plugin as of capacitor 7
-        // this.analytics.logGAEvent(
-        //   GoogleAnalyticsEvents.METADATA,
-        //   GoogleAnalyticsEventsTitles.HDD_FREE_MB,
-        //   (device as DeviceInfo).realDiskFree.toString()
-        // );
-        //
-        // this.analytics.logGAEvent(
-        //   GoogleAnalyticsEvents.METADATA,
-        //   GoogleAnalyticsEventsTitles.HDD_TOTAL_MB,
-        //   (device as DeviceInfo).realDiskTotal.toString()
-        // );
-
         return of(AnalyticRecorded());
       })
     )
