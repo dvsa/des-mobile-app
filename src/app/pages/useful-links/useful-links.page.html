@@ -17,18 +17,18 @@
 
 <ion-content class="ion-padding">
 
-  <ion-list *ngFor="let link of usefulLinks">
+  <ion-list *ngFor="let link of usefulLinks; let i = index">
       <ion-card>
         <ion-card-content>
           <ion-row (click)="openLinkProvider.openLinkModal(link)">
             <ion-col size="82">
-              <h3 id="link-card-header" class="des-header-style-2 bold">{{link.displayText}}</h3>
+              <h3 id="useful-links-card-header-{{i}}" class="des-header-style-2 bold">{{link.displayText}}</h3>
             </ion-col>
             <ion-col size="14">
               <ion-icon
                 class="chevron-icon"
                 name="chevron-forward-outline"
-                id="link-chevron">
+                id="useful-links-card-chevron-icon-{{i}}">
               </ion-icon>
             </ion-col>
           </ion-row>

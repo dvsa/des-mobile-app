@@ -1,7 +1,7 @@
-<ion-row class="mes-validated-row mes-row-separator" id="provisional-license-card">
+<ion-row class="mes-validated-row mes-row-separator" id="pass-finalisation-pass-certificate-number-mod1-row">
   <div [class.ng-invalid]="invalid" class="validation-bar"></div>
   <ion-col class="component-label ion-align-self-center" size="32">
-    <label id="pass-certificate-label">Pass certificate number</label>
+    <label id="pass-finalisation-pass-certificate-number-mod1-label">Pass certificate number</label>
   </ion-col>
   <ion-col class="ion-align-self-center ion-padding-start">
     <ion-row class="spacing-row"></ion-row>
@@ -12,10 +12,10 @@
           [class.increase-height]="accessibilityService.getTextZoomClass() === 'text-zoom-x-large'"
           [class.ng-invalid]="invalid"
           [maxlength]="passCertificateAMOD1Validator.maxLength"
-          aria-labelledby="pass-certificate-label"
+          aria-labelledby="pass-finalisation-pass-certificate-label"
           class="ion-input-styling increase-width"
           formControlName="passCertificateNumberCtrl"
-          id="pass-certificate-number"
+          id="pass-finalisation-pass-certificate-number-mod1-input"
           type="text"
           emojiBlock
           pasteSanitiser
@@ -27,7 +27,7 @@
       <div
         [class.ng-invalid]="invalid"
         class="validation-text"
-        id="pass-finalisation-certificate-number-validation-text"
+        id="pass-finalisation-pass-certificate-number-mod1-input-validation-text"
       >
         {{formControl.hasError('duplicate') ? errors.duplicate : errors.invalid}}
       </div>
