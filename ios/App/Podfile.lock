@@ -1,36 +1,36 @@
 PODS:
-  - Capacitor (6.2.0):
+  - Capacitor (7.4.2):
     - CapacitorCordova
-  - CapacitorApp (6.0.2):
+  - CapacitorApp (7.0.2):
     - Capacitor
-  - CapacitorAppLauncher (6.0.3):
+  - CapacitorAppLauncher (7.0.2):
     - Capacitor
-  - CapacitorBrowser (6.0.5):
+  - CapacitorBrowser (7.0.2):
     - Capacitor
-  - CapacitorCommunityKeepAwake (5.0.1):
+  - CapacitorCommunityKeepAwake (7.1.0):
     - Capacitor
-  - CapacitorCordova (6.2.0)
-  - CapacitorDevice (6.0.2):
+  - CapacitorCordova (7.4.2)
+  - CapacitorDevice (7.0.2):
     - Capacitor
   - CapacitorNativeBiometric (0.0.1):
     - Capacitor
-  - CapacitorSplashScreen (6.0.3):
+  - CapacitorSplashScreen (7.0.2):
     - Capacitor
-  - CapacitorStatusBar (6.0.2):
+  - CapacitorStatusBar (7.0.2):
     - Capacitor
-  - CapacitorTextZoom (6.0.3):
+  - CapacitorTextZoom (7.0.2):
     - Capacitor
-  - CapawesomeCapacitorManagedConfigurations (6.0.0):
+  - CapawesomeCapacitorManagedConfigurations (7.0.1):
     - Capacitor
-  - CapawesomeCapacitorScreenOrientation (6.0.1):
+  - CapawesomeCapacitorScreenOrientation (7.0.1):
     - Capacitor
-  - CordovaPlugins (6.0.0):
+  - CordovaPlugins (7.4.2):
     - CapacitorCordova
   - CordovaPluginsResources (0.0.105)
-  - CordovaPluginsStatic (6.0.0):
+  - CordovaPluginsStatic (7.4.2):
     - CapacitorCordova
     - GoogleAnalytics (= 3.20.0)
-  - DvsaCapacitorPluginAsam (1.0.1):
+  - DvsaCapacitorPluginAsam (2.1.0):
     - Capacitor
   - GoogleAnalytics (3.20.0)
   - Sentry/HybridSDK (8.48.0)
@@ -102,27 +102,27 @@ EXTERNAL SOURCES:
     :path: "../../node_modules/@sentry/capacitor"
 
 SPEC CHECKSUMS:
-  Capacitor: 1f3c7b9802d958cd8c4eb63895fff85dff2e1eea
-  CapacitorApp: 2a8c3a0b0814322e5e6e15fe595f02c3808f0f8b
-  CapacitorAppLauncher: a9fb7da942e89fa9cb2bb1e579c8bd2ab81652a5
-  CapacitorBrowser: cba79e25007fbe9bdac8c0568060b21abbb8f453
-  CapacitorCommunityKeepAwake: e2ddd50812e3407f8dc3a2c28e97d66e9b59b2f5
-  CapacitorCordova: b33e7f4aa4ed105dd43283acdd940964374a87d9
-  CapacitorDevice: 1a215717f0b5061503b21a03508b0ec458a57d78
+  Capacitor: 156d98aba46ec01dde72c4bbb92fa626837cad29
+  CapacitorApp: efc1e9748a8ea5d3e789cd82a4f451341cc7ac93
+  CapacitorAppLauncher: 96930b89740f1deabc737df750dbc3e9a0430f34
+  CapacitorBrowser: 45c681e7abc3b4384e54eb52bafeef1347d98fa8
+  CapacitorCommunityKeepAwake: 36e0cfbc6ae293d93f828724e6d5388a5f02ed5a
+  CapacitorCordova: 5e58d04631bc5094894ac106e2bf1da18a9e6151
+  CapacitorDevice: a50a45f0d075e55e2392c7a4be5404d4f69515de
   CapacitorNativeBiometric: b47637a8cd349bdac014424bb4ddcae9ee5d4919
-  CapacitorSplashScreen: 68893659d77b5f82d753b3a70475082845e3039c
-  CapacitorStatusBar: 3b9ac7d0684770522c532d1158a1434512ab1477
-  CapacitorTextZoom: be3bee30e5bf4bc623539877e6241dff861d631e
-  CapawesomeCapacitorManagedConfigurations: e6dbcbcf45d7b1f7acfa9b54a02e15201604a803
-  CapawesomeCapacitorScreenOrientation: 9cc68ecd085fcea2e1755475a3ed60d85e604a6c
-  CordovaPlugins: 5bd07f5171329fc5c8b2c22eece0b2074ab4354a
-  CordovaPluginsResources: 0c211f770ed91763a179ebcd9b9346e120b70662
-  CordovaPluginsStatic: 923a56e48bad79010d7c84d405625ec8d0b46b41
-  DvsaCapacitorPluginAsam: 608d4ae7a0888671ccab43802a7c04d98407daf4
+  CapacitorSplashScreen: 8d6c8cb0542a8e81585c593815db8785ed8ce454
+  CapacitorStatusBar: 5526833b87fa9c96a2a90c1322bb1f663c04505f
+  CapacitorTextZoom: b333ea3d12bc982efc521086ac0e4ae5dca8eb03
+  CapawesomeCapacitorManagedConfigurations: de5bdb048622fc842affdc08a3cf4ce1b3f7fa6e
+  CapawesomeCapacitorScreenOrientation: f47275aee2356b38d34c1328afc930e787f1caa2
+  CordovaPlugins: e3f96730db5ff76322949659f1c86e7093c57cc9
+  CordovaPluginsResources: da93847212bf7b16ba770e4d6c3e7dba820174c7
+  CordovaPluginsStatic: 4f70cac024b7722a513d94a5daac59ea9ea2a77b
+  DvsaCapacitorPluginAsam: 53472a3be6f372181d6a27d5a27811e8a79a5719
   GoogleAnalytics: 01e4c5a04544a3608f93e970ce0817836897c5a5
   Sentry: 1ca8405451040482877dcd344dfa3ef80b646631
-  SentryCapacitor: 76bed93eb1c508a1aac9eddd273e7ff7b77b509b
+  SentryCapacitor: b364f83da8e94699cc1c40b9e2c0473bef631306
 
-PODFILE CHECKSUM: ec08b5c45934c7f5d0dd6502b4177d8f8b9ddab4
+PODFILE CHECKSUM: 07c97cc119331303ec3db075b47f55ca997be4eb
 
 COCOAPODS: 1.16.2

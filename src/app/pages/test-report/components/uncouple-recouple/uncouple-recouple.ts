@@ -76,7 +76,7 @@ export class UncoupleRecoupleComponent implements OnInit, OnDestroy {
       ),
       uncoupleRecoupleOutcome$: currentTest$.pipe(
         map((data) => this.testDataByCategory.getTestDataByCategoryCode(this.category)(data)),
-        select((testData) => get(testData, 'uncoupleRecouple.fault'))
+        select((testData): CompetencyOutcome => get(testData, 'uncoupleRecouple.fault') as CompetencyOutcome)
       ),
     };
 

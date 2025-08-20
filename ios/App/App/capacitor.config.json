@@ -16,7 +16,6 @@
 	},
 	"packageClassList": [
 		"KeepAwakePlugin",
-		"KeepAwakePlugin",
 		"AppPlugin",
 		"AppLauncherPlugin",
 		"CAPBrowserPlugin",
@@ -25,14 +24,9 @@
 		"StatusBarPlugin",
 		"TextZoomPlugin",
 		"ManagedConfigurationsPlugin",
-		"ManagedConfigurationsPlugin",
-		"ScreenOrientationPlugin",
 		"ScreenOrientationPlugin",
 		"AsamPlugin",
-		"AsamPlugin",
 		"SentryCapacitor",
-		"SentryCapacitor",
-		"NativeBiometric",
 		"NativeBiometric",
 		"CDVPlugin"
 	]
