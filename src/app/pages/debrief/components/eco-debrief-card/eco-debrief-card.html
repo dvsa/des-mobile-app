@@ -1,29 +1,36 @@
-<ion-card id="eco" *ngIf="adviceGivenControl || adviceGivenPlanning">
-  <ion-card-content>
-    <ion-grid>
-      <ion-row class="mes-data ion-align-items-start">
-        <ion-col size="3"></ion-col>
-        <ion-col size="34">
-          <ion-text addOrRemoveLangCy class="des-header-style-4 fault-heading"
-            >{{ 'debrief.ecoHeader' | translate }}</ion-text
-          >
-        </ion-col>
-        <ion-col class="down-padding ion-align-self-start">
-          <div addOrRemoveLangCy id="ecoFaults-adviceGivenControl" *ngIf="adviceGivenControl && !adviceGivenPlanning">
-            {{ 'debrief.ecoControl' | translate }}
-          </div>
-          <div addOrRemoveLangCy id="ecoFaults-adviceGivenPlanning" *ngIf="!adviceGivenControl && adviceGivenPlanning">
-            {{ 'debrief.ecoPlanning' | translate }}
-          </div>
-          <div
-            addOrRemoveLangCy
-            id="ecoFaults-adviceGivenControlAndAdviceGivenPlanning"
-            *ngIf="adviceGivenControl && adviceGivenPlanning"
-          >
-            {{ 'debrief.ecoBoth' | translate }}
-          </div>
-        </ion-col>
-      </ion-row>
-    </ion-grid>
-  </ion-card-content>
-</ion-card>
+@if (adviceGivenControl || adviceGivenPlanning) {
+  <ion-card id="eco">
+    <ion-card-content>
+      <ion-grid>
+        <ion-row class="mes-data ion-align-items-start">
+          <ion-col size="3"></ion-col>
+          <ion-col size="34">
+            <ion-text addOrRemoveLangCy class="des-header-style-4 fault-heading"
+              >{{ 'debrief.ecoHeader' | translate }}</ion-text
+              >
+            </ion-col>
+            <ion-col class="down-padding ion-align-self-start">
+              @if (adviceGivenControl && !adviceGivenPlanning) {
+                <div addOrRemoveLangCy id="ecoFaults-adviceGivenControl">
+                  {{ 'debrief.ecoControl' | translate }}
+                </div>
+              }
+              @if (!adviceGivenControl && adviceGivenPlanning) {
+                <div addOrRemoveLangCy id="ecoFaults-adviceGivenPlanning">
+                  {{ 'debrief.ecoPlanning' | translate }}
+                </div>
+              }
+              @if (adviceGivenControl && adviceGivenPlanning) {
+                <div
+                  addOrRemoveLangCy
+                  id="ecoFaults-adviceGivenControlAndAdviceGivenPlanning"
+                  >
+                  {{ 'debrief.ecoBoth' | translate }}
+                </div>
+              }
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-card-content>
+    </ion-card>
+  }

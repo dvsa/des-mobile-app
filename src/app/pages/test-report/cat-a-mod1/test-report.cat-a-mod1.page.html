@@ -1,7 +1,9 @@
 <ion-header>
-  <practice-mode-banner *ngIf="isEndToEndPracticeMode || isPracticeMode"></practice-mode-banner>
+  @if (isEndToEndPracticeMode || isPracticeMode) {
+    <practice-mode-banner></practice-mode-banner>
+  }
   <ion-toolbar class="no-internal-padding"
-               [ngClass]="{'toolbar-no-padding': isEndToEndPracticeMode || isExitSAMBannerActivated}" mode="ios">
+    [ngClass]="{'toolbar-no-padding': isEndToEndPracticeMode || isExitSAMBannerActivated}" mode="ios">
     <test-flow-header
       class="display-flex flex-direction-column"
       [pageName]="'test-report-page-cat-mod1'"
@@ -32,7 +34,7 @@
       'serious-mode': isSeriousMode,
       'dangerous-mode': isDangerousMode
     }"
-  >
+    >
     <ion-row class="first-row-adjust">
       <!-- Column 1-->
       <ion-col size="32">
@@ -124,12 +126,12 @@
     <speed-check
       [competency]="competencies.speedCheckEmergency"
       [pairedCompetency]="singleFaultCompetencyNames.emergencyStop"
-    >
+      >
     </speed-check>
     <speed-check
       [competency]="competencies.speedCheckAvoidance"
       [pairedCompetency]="singleFaultCompetencyNames.avoidance"
-    >
+      >
     </speed-check>
   </ion-grid>
   <div

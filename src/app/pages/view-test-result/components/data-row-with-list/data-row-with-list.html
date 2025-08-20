@@ -4,20 +4,22 @@
   </ion-col>
   <ion-col size="57">
     <ion-grid>
-      <ion-row *ngFor="let item of data;">
-        <ion-col
-          [ngClass]="accessibilityService.getTextZoomClass()"
-          class="flex-center list-max-height ion-align-items-center"
-          size="7"
-        >
-          <div>
-            <tick-indicator [ticked]="item.checked"></tick-indicator>
-          </div>
-        </ion-col>
-        <ion-col>
-          <span class="mes-data">{{ item.label }}</span>
-        </ion-col>
-      </ion-row>
+      @for (item of data; track item) {
+        <ion-row>
+          <ion-col
+            [ngClass]="accessibilityService.getTextZoomClass()"
+            class="flex-center list-max-height ion-align-items-center"
+            size="7"
+            >
+            <div>
+              <tick-indicator [ticked]="item.checked"></tick-indicator>
+            </div>
+          </ion-col>
+          <ion-col>
+            <span class="mes-data">{{ item.label }}</span>
+          </ion-col>
+        </ion-row>
+      }
     </ion-grid>
   </ion-col>
 </ion-row>

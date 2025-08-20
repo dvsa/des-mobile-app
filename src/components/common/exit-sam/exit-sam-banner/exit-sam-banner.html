@@ -3,14 +3,16 @@
   (touchend)="onTouchEnd()"
   [id]="pageTitle+'-exit-banner'"
   class="exit-banner-toolbar-sizing">
-  <ion-row *ngIf="showSpacingBanner" class="status-bar-spacing"></ion-row>
+  @if (showSpacingBanner) {
+    <ion-row class="status-bar-spacing"></ion-row>
+  }
   <ion-row class="banner-details-spacing">
     <ion-col></ion-col>
     <ion-col
       size="auto"
       [id]="pageTitle+'-exit-banner-title-text'"
       class="exit-banner-text-column ion-no-padding"
-    >
+      >
       <ion-text class="exit-banner-text">
         Press and hold to open Microsoft Teams
       </ion-text>

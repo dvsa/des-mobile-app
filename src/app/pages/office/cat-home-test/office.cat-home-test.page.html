@@ -1,5 +1,7 @@
 <ion-header>
-  <practice-mode-banner *ngIf="isEndToEndPracticeMode"></practice-mode-banner>
+  @if (isEndToEndPracticeMode) {
+    <practice-mode-banner></practice-mode-banner>
+  }
   <ion-toolbar mode="ios" [ngClass]="{'toolbar-no-padding': isEndToEndPracticeMode}">
     <ion-title>Office</ion-title>
   </ion-toolbar>
@@ -11,7 +13,7 @@
     [driverNumber]="pageState.candidateDriverNumber$ | async"
     [startTime]="pageState.startTime$ | async"
     [testOutcomeText]="pageState.testOutcomeText$ | async"
-  >
+    >
   </office-candidate-section>
 
   <form [formGroup]="form">
@@ -22,13 +24,14 @@
 
       <ion-card-content class="card-content-ios ion-no-padding">
         <ion-grid class="grid">
-          <date-of-test
-            *ngIf="isRekey"
-            [dateOfTest]="pageState.startDate$ | async"
-            (setIsValidStartDateTime)="setIsValidStartDateTime($event)"
-            (dateOfTestChange)="dateOfTestChanged($event)"
-          >
-          </date-of-test>
+          @if (isRekey) {
+            <date-of-test
+              [dateOfTest]="pageState.startDate$ | async"
+              (setIsValidStartDateTime)="setIsValidStartDateTime($event)"
+              (dateOfTestChange)="dateOfTestChanged($event)"
+              >
+            </date-of-test>
+          }
 
           <activity-code
             id="activity-code-card"
@@ -40,13 +43,14 @@
           ></activity-code>
 
           <div class="ion-no-padding" [hidden]="!(pageState.isTestOutcomeSet$ | async)">
-            <true-likeness
-              *ngIf="pageState.displayCandidateDescription$ | async"
-              [formGroup]="form"
-              [trueLikeness]="pageState.trueLikenessToPhoto$ | async"
-              (trueLikenessChange)="trueLikenessToPhotoChanged($event)"
-            >
-            </true-likeness>
+            @if (pageState.displayCandidateDescription$ | async) {
+              <true-likeness
+                [formGroup]="form"
+                [trueLikeness]="pageState.trueLikenessToPhoto$ | async"
+                (trueLikenessChange)="trueLikenessToPhotoChanged($event)"
+                >
+              </true-likeness>
+            }
 
             <candidate-description
               [display]="pageState.displayCandidateDescription$ | async"
@@ -63,7 +67,7 @@
               [identification]="pageState.identification$ | async"
               [outcome]="pageState.testOutcome$ | async"
               (identificationChange)="identificationChanged($event)"
-            >
+              >
             </identification>
 
             <vehicle-checks-office-card
@@ -78,7 +82,7 @@
               [outcome]="pageState.testOutcome$ | async"
               [weatherConditionsOptions]="weatherConditions"
               (weatherConditionsChange)="weatherConditionsChanged($event)"
-            >
+              >
             </weather-conditions>
 
             <accompaniment-card
@@ -91,7 +95,7 @@
               (supervisorAccompanimentChange)="supervisorAccompanimentToggled()"
               (otherAccompanimentChange)="otherAccompanimentToggled()"
               (interpreterAccompanimentChange)="interpreterAccompanimentToggled()"
-            >
+              >
             </accompaniment-card>
 
             <office-registration-and-mot
@@ -103,20 +107,22 @@
               [vehicleModel]="pageState.vehicleModel$ | async"
             ></office-registration-and-mot>
 
-            <alternate-mot-evidence-provided
-              *ngIf="(pageState.motAlternativeEvidenceProvided$ | async) != null"
-              [alternativeEvidenceProvided]="pageState.motAlternativeEvidenceProvided$ | async"
-              [shouldHaveSeparator]="(pageState.motAlternativeEvidenceProvided$ | async) || (pageState.displayAdditionalInformation$ | async)"
-            ></alternate-mot-evidence-provided>
+            @if ((pageState.motAlternativeEvidenceProvided$ | async) != null) {
+              <alternate-mot-evidence-provided
+                [alternativeEvidenceProvided]="pageState.motAlternativeEvidenceProvided$ | async"
+                [shouldHaveSeparator]="(pageState.motAlternativeEvidenceProvided$ | async) || (pageState.displayAdditionalInformation$ | async)"
+              ></alternate-mot-evidence-provided>
+            }
 
-            <alternate-mot-evidence-description
-              [shouldHaveSeparator]="pageState.displayAdditionalInformation$ | async"
-              *ngIf="pageState.motAlternativeEvidenceProvided$ | async"
-              [alternateEvidenceDescription]="pageState.motAlternativeEvidenceDescription$ | async"
-              (evidenceDescriptionTestResultChange)="alternativeMOTEvidenceDescriptionUpdated($event)"
-              [formGroup]="form"
-            >
-            </alternate-mot-evidence-description>
+            @if (pageState.motAlternativeEvidenceProvided$ | async) {
+              <alternate-mot-evidence-description
+                [shouldHaveSeparator]="pageState.displayAdditionalInformation$ | async"
+                [alternateEvidenceDescription]="pageState.motAlternativeEvidenceDescription$ | async"
+                (evidenceDescriptionTestResultChange)="alternativeMOTEvidenceDescriptionUpdated($event)"
+                [formGroup]="form"
+                >
+              </alternate-mot-evidence-description>
+            }
 
             <additional-information
               [display]="pageState.displayAdditionalInformation$ | async"
@@ -126,13 +132,14 @@
               (additionalInformationChange)="additionalInformationChanged($event)"
             ></additional-information>
 
-            <reason-for-entering-teams
-              *ngIf="pageState.hasEnteredTeamsOnThisTest$ | async"
-              [display]="pageState.hasEnteredTeamsOnThisTest$ | async"
-              [reasonForOpeningTeams]="pageState.reasonForEnteringTeams$ | async"
-              [formGroup]="form"
-              (reasonForOpeningTeamsChange)="reasonForEnteringTeamsChanged($event)"
-            ></reason-for-entering-teams>
+            @if (pageState.hasEnteredTeamsOnThisTest$ | async) {
+              <reason-for-entering-teams
+                [display]="pageState.hasEnteredTeamsOnThisTest$ | async"
+                [reasonForOpeningTeams]="pageState.reasonForEnteringTeams$ | async"
+                [formGroup]="form"
+                (reasonForOpeningTeamsChange)="reasonForEnteringTeamsChanged($event)"
+              ></reason-for-entering-teams>
+            }
 
           </div>
         </ion-grid>
@@ -140,16 +147,18 @@
     </ion-card>
 
     <div no-padding [hidden]="!(pageState.isTestOutcomeSet$ | async)">
-      <eta-card
-        *ngIf="(pageState.etaFaults$ | async) && (pageState.displayEta$ | async)"
-        [faults]="pageState.etaFaults$ | async"
-      >
-      </eta-card>
+      @if ((pageState.etaFaults$ | async) && (pageState.displayEta$ | async)) {
+        <eta-card
+          [faults]="pageState.etaFaults$ | async"
+          >
+        </eta-card>
+      }
 
-      <eco-card
-        *ngIf="(pageState.ecoFaults$ | async) && (pageState.displayEco$ | async)"
-        [ecoFaults]="pageState.ecoFaults$ | async"
-      ></eco-card>
+      @if ((pageState.ecoFaults$ | async) && (pageState.displayEco$ | async)) {
+        <eco-card
+          [ecoFaults]="pageState.ecoFaults$ | async"
+        ></eco-card>
+      }
 
       <fault-comment-card
         [formGroup]="form"
@@ -161,7 +170,7 @@
         header="Dangerous faults"
         [maxFaultCount]="maxFaultCount"
         (faultCommentsChange)="dangerousFaultCommentChanged($event)"
-      >
+        >
       </fault-comment-card>
 
       <fault-comment-card
@@ -174,7 +183,7 @@
         header="Serious faults"
         [maxFaultCount]="maxFaultCount"
         (faultCommentsChange)="seriousFaultCommentChanged($event)"
-      >
+        >
       </fault-comment-card>
 
       <fault-comment-card
@@ -190,17 +199,18 @@
         [faultCount]="pageState.drivingFaultCount$ | async"
         [maxFaultCount]="maxFaultCount"
         (faultCommentsChange)="drivingFaultCommentChanged($event)"
-      >
+        >
       </fault-comment-card>
 
-      <driving-faults
-        *ngIf="(!(pageState.displayDrivingFaultComments$ | async) && (pageState.drivingFaultCount$ | async) > 0 && pageState.displayDrivingFault$ | async)"
-        [label]="'Driving faults'"
-        badgeLabel="Driving"
-        [testCategory]="pageState.testCategory$ | async"
-        [faults]="(pageState.drivingFaults$ | async)"
-      >
-      </driving-faults>
+      @if ((!(pageState.displayDrivingFaultComments$ | async) && (pageState.drivingFaultCount$ | async) > 0 && pageState.displayDrivingFault$ | async)) {
+        <driving-faults
+          [label]="'Driving faults'"
+          badgeLabel="Driving"
+          [testCategory]="pageState.testCategory$ | async"
+          [faults]="(pageState.drivingFaults$ | async)"
+          >
+        </driving-faults>
+      }
     </div>
   </form>
 </ion-content>

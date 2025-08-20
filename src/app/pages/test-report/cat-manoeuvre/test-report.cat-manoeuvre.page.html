@@ -1,7 +1,9 @@
 <ion-header>
-  <practice-mode-banner *ngIf="isEndToEndPracticeMode || isPracticeMode"></practice-mode-banner>
+  @if (isEndToEndPracticeMode || isPracticeMode) {
+    <practice-mode-banner></practice-mode-banner>
+  }
   <ion-toolbar class="no-internal-padding"
-               [ngClass]="{'toolbar-no-padding': isEndToEndPracticeMode || isExitSAMBannerActivated}" mode="ios">
+    [ngClass]="{'toolbar-no-padding': isEndToEndPracticeMode || isExitSAMBannerActivated}" mode="ios">
     <test-flow-header
       class="display-flex flex-direction-column"
       [pageName]="'test-report-page-cat-manoeuvre'"
@@ -32,7 +34,7 @@
       'serious-mode': isSeriousMode,
       'dangerous-mode': isDangerousMode
     }"
-  >
+    >
     <ion-row class="first-row-adjust">
       <!-- Column 1-->
       <ion-col size="44">
@@ -52,7 +54,7 @@
                 [ngClass]="{
                  'checked': pageState.selectedReverseManoeuvre$ | async
                   }"
-              >
+                >
                 <span class="tickwrapper">
                   <tick-indicator [ticked]="pageState.selectedReverseManoeuvre$ | async"> </tick-indicator>
                 </span>
@@ -67,40 +69,42 @@
               [manoeuvre]="manoeuvreTypes.reverseManoeuvre"
               [competency]="manoeuvreCompetencies.controlFault"
               (competencyClicked)="competencyClick()"
-            >
+              >
             </reverse-manoeuvres>
             <reverse-manoeuvres
               [attr.id]="getId(manoeuvreTypes.reverseManoeuvre, manoeuvreCompetencies.observationFault)"
               [manoeuvre]="manoeuvreTypes.reverseManoeuvre"
               [competency]="manoeuvreCompetencies.observationFault"
               (competencyClicked)="competencyClick()"
-            >
+              >
             </reverse-manoeuvres>
           </ion-col>
         </ion-row>
-        <div *ngIf="pageState.showUncoupleRecouple$ | async">
-          <ion-row>
-            <ion-col class="padding-top-18 only-top-padding">
-              <div class="dark-divider"></div>
-            </ion-col>
-          </ion-row>
-          <ion-row>
-            <ion-col class="ion-no-padding">
-              <h2 class="section-header">Vehicle with trailer</h2>
-            </ion-col>
-          </ion-row>
-          <ion-row>
-            <ion-col class="ion-no-padding">
-              <uncouple-recouple
-                [category]="pageState.category$ | async"
-                [buttonFloatAbove]="true"
-                [disableDrivingFaults]="true"
-                (competencyClicked)="competencyClick()"
-              >
-              </uncouple-recouple>
-            </ion-col>
-          </ion-row>
-        </div>
+        @if (pageState.showUncoupleRecouple$ | async) {
+          <div>
+            <ion-row>
+              <ion-col class="padding-top-18 only-top-padding">
+                <div class="dark-divider"></div>
+              </ion-col>
+            </ion-row>
+            <ion-row>
+              <ion-col class="ion-no-padding">
+                <h2 class="section-header">Vehicle with trailer</h2>
+              </ion-col>
+            </ion-row>
+            <ion-row>
+              <ion-col class="ion-no-padding">
+                <uncouple-recouple
+                  [category]="pageState.category$ | async"
+                  [buttonFloatAbove]="true"
+                  [disableDrivingFaults]="true"
+                  (competencyClicked)="competencyClick()"
+                  >
+                </uncouple-recouple>
+              </ion-col>
+            </ion-row>
+          </div>
+        }
       </ion-col>
       <!-- Column 2-->
       <ion-col size="6"></ion-col>
@@ -111,7 +115,7 @@
             <span>
               <reverse-diagram-link
                 [isPracticeMode]="isEndToEndPracticeMode"
-            ></reverse-diagram-link>
+              ></reverse-diagram-link>
             </span>
           </ion-col>
         </ion-row>

@@ -1,18 +1,24 @@
-<div class="ion-no-padding" *ngIf="!(motStatus)">
-  <ion-text id="no-mot-data-text" class="mes-data">{{ getNoMOTDataText() }}</ion-text>
-</div>
-<div class="display-flex ion-no-padding width-100-percent" *ngIf="motStatus">
-  <ion-col class="ion-align-items-center display-flex" size="auto" *ngIf="isInvalidMOT()">
-    <img
-      src="assets/imgs/journal/exclamation-indicator.png"
-      alt="Attention, expired MOT"
-      class="exclamation"
-    />
-  </ion-col>
-  <ion-col class="ion-no-padding display-flex ion-align-items-center">
-    <ion-text id="mot-status-text" class="mes-data">{{
+@if (!(motStatus)) {
+  <div class="ion-no-padding">
+    <ion-text id="no-mot-data-text" class="mes-data">{{ getNoMOTDataText() }}</ion-text>
+  </div>
+}
+@if (motStatus) {
+  <div class="display-flex ion-no-padding width-100-percent">
+    @if (isInvalidMOT()) {
+      <ion-col class="ion-align-items-center display-flex" size="auto">
+        <img
+          src="assets/imgs/journal/exclamation-indicator.png"
+          alt="Attention, expired MOT"
+          class="exclamation"
+          />
+      </ion-col>
+    }
+    <ion-col class="ion-no-padding display-flex ion-align-items-center">
+      <ion-text id="mot-status-text" class="mes-data">{{
         getMotStatusText()
-      }}
-    </ion-text>
-  </ion-col>
-</div>
+        }}
+      </ion-text>
+    </ion-col>
+  </div>
+}

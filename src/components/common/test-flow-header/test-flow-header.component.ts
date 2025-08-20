@@ -1,4 +1,3 @@
-import { NgIf } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { AppLauncher, OpenURLResult } from '@capacitor/app-launcher';
 import { ComponentsModule } from '@components/common/common-components.module';
@@ -30,15 +29,7 @@ export enum ExitSAMMethodUsed {
   selector: 'test-flow-header',
   templateUrl: './test-flow-header.component.html',
   styleUrls: ['./test-flow-header.component.scss'],
-  imports: [
-    IonicModule,
-    ComponentsModule,
-    NgIf,
-    ExitSamBanner,
-    ExitSamButton,
-    DirectivesModule,
-    RefreshButtonComponent,
-  ],
+  imports: [IonicModule, ComponentsModule, ExitSamBanner, ExitSamButton, DirectivesModule, RefreshButtonComponent],
 })
 export class TestFlowHeaderComponent {
   @Input() isPracticeMode = false;

@@ -3,16 +3,17 @@
     [size]="shouldShowIndicator ? 40 : 34"
     [class.vertical-align-center]="centeredLabel"
     [ngStyle]="customLabelStyling"
-  >
+    >
     <label [id]="label | formatToID: idPrefix">{{ label }}</label>
   </ion-col>
   <ion-col size="6" [class]="centeredIcon ? 'vertical-align-center' : 'top-align-padding'">
-    <img
-      alt="Exclamation Indicator"
-      src="assets/imgs/journal/exclamation-indicator.png"
-      class="exclamation-indicator"
-      *ngIf="shouldShowIndicator"
-    />
+    @if (shouldShowIndicator) {
+      <img
+        alt="Exclamation Indicator"
+        src="assets/imgs/journal/exclamation-indicator.png"
+        class="exclamation-indicator"
+        />
+    }
   </ion-col>
   <ion-col [size]="shouldShowIndicator ? 50 : 56" [class]="centredData ? 'ion-align-items-center display-flex' : null">
     <ng-content></ng-content>

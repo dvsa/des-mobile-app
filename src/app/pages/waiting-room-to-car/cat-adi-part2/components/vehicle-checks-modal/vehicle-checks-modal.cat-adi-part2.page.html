@@ -11,7 +11,7 @@
       aria-level="1"
       id="vehicle-checks-modal-title"
       class="ion-text-center toolbar-item-spacing"
-    >
+      >
       Tell me questions - {{ pageState.candidateName$ | async }}
     </ion-title>
   </ion-toolbar>
@@ -25,17 +25,18 @@
       </ion-card-title>
     </ion-card-header>
     <ion-card-content>
-      <vehicle-checks-question
-        *ngFor="let question of tellMeQuestionsNumberArray; let i = index; let l = last"
-        [formGroup]="formGroup"
-        [questionResult]="(pageState.tellMeQuestions$ | async)[i]"
-        [questions]="tellMeQuestions"
-        [questionsToDisable]="pageState.tellMeQuestions$ | async"
-        [isLastQuestion]="l"
-        [submitClicked]="submitClicked"
-        (vehicleChecksQuestionChange)="tellMeQuestionChanged($event, i)"
-        (vehicleChecksQuestionOutcomeChange)="tellMeQuestionOutcomeChanged($event, i)"
-      ></vehicle-checks-question>
+      @for (question of tellMeQuestionsNumberArray; track question; let i = $index; let l = $last) {
+        <vehicle-checks-question
+          [formGroup]="formGroup"
+          [questionResult]="(pageState.tellMeQuestions$ | async)[i]"
+          [questions]="tellMeQuestions"
+          [questionsToDisable]="pageState.tellMeQuestions$ | async"
+          [isLastQuestion]="l"
+          [submitClicked]="submitClicked"
+          (vehicleChecksQuestionChange)="tellMeQuestionChanged($event, i)"
+          (vehicleChecksQuestionOutcomeChange)="tellMeQuestionOutcomeChanged($event, i)"
+        ></vehicle-checks-question>
+      }
     </ion-card-content>
   </ion-card>
 </ion-content>

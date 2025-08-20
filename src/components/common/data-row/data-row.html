@@ -2,23 +2,25 @@
   <ion-col
     [size]="customLabelWidth ? customLabelWidth : (this.shouldShowIndicator ? 40 : 34)"
     class="ion-align-items-center display-flex"
-  >
+    >
     <label [ngStyle]="labelStyling" [id]="label | formatToID: idPrefix">{{ label }}</label>
   </ion-col>
   <ion-col size="6" class="ion-align-items-center display-flex">
-    <img
-      *ngIf="shouldShowIndicator"
-      alt="Exclamation Indicator"
-      src="assets/imgs/journal/exclamation-indicator.png"
-      class="exclamation-indicator"
-    />
+    @if (shouldShowIndicator) {
+      <img
+        alt="Exclamation Indicator"
+        src="assets/imgs/journal/exclamation-indicator.png"
+        class="exclamation-indicator"
+        />
+    }
   </ion-col>
-  <ion-col size="40" *ngIf="imgSrc; else notImage;">
-    <img [src]="imgSrc" [id]="label | formatToID: idPrefix: true" [ngStyle]="dataStyling" [alt]="label + ' image'" />
-  </ion-col>
-  <ng-template #notImage>
+  @if (imgSrc) {
+    <ion-col size="40">
+      <img [src]="imgSrc" [id]="label | formatToID: idPrefix: true" [ngStyle]="dataStyling" [alt]="label + ' image'" />
+    </ion-col>
+  } @else {
     <ion-col [class]="[centreData ? 'ion-justify-content-center' : null, 'ion-align-items-center', 'display-flex']">
       <span [ngStyle]="dataStyling" class="mes-data" [id]="label | formatToID: idPrefix: true">{{ value }}</span>
     </ion-col>
-  </ng-template>
+  }
 </ion-row>

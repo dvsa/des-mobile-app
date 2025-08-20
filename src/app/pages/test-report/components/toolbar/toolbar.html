@@ -11,7 +11,7 @@
         'active': isRemoveFaultMode,
         'inactive': !isRemoveFaultMode
       }"
-      >
+        >
         <ion-text class="remove-fault-button des-header-style-3 padding-bottom-6-pixels">
           {{ isRemoveFaultMode ? 'Exit remove mode' : 'Remove'}}
         </ion-text>
@@ -26,7 +26,7 @@
         aria-label="Serious fault"
         (click)="toggleSeriousMode()"
         [ngClass]="isSeriousMode ? 'active' : 'inactive'"
-      >
+        >
         <ion-text class="padding-bottom-6-percent">
           S
         </ion-text>
@@ -41,25 +41,31 @@
         aria-label="Dangerous fault"
         (click)="toggleDangerousMode()"
         [ngClass]="isDangerousMode ? 'active' : 'inactive'"
-      >
+        >
         <ion-text class="padding-bottom-6-percent">
           D
         </ion-text>
       </ion-button>
     </ion-col>
     <ion-col size="1"></ion-col>
-    <ion-col class="fault-summary" size="11" *ngIf="showDrivingFaultCounter && (!isSeriousMode && !isDangerousMode)">
-      <driving-fault-summary></driving-fault-summary>
-    </ion-col>
+    @if (showDrivingFaultCounter && (!isSeriousMode && !isDangerousMode)) {
+      <ion-col class="fault-summary" size="11">
+        <driving-fault-summary></driving-fault-summary>
+      </ion-col>
+    }
     <ion-col></ion-col>
     <ion-col size="auto" class="display-flex ion-no-padding" [hidden]="isSeriousMode || isDangerousMode">
       <timer class="ion-float-end"></timer>
     </ion-col>
-    <ion-col size="35" *ngIf="isSeriousMode" class="ion-no-padding">
-      <serious-tooltip [class.remove-mode]="isRemoveFaultMode" [isRemoveMode]="isRemoveFaultMode"></serious-tooltip>
-    </ion-col>
-    <ion-col size="35" *ngIf="isDangerousMode" class="ion-no-padding">
-      <dangerous-tooltip [class.remove-mode]="isRemoveFaultMode" [isRemoveMode]="isRemoveFaultMode"></dangerous-tooltip>
-    </ion-col>
+    @if (isSeriousMode) {
+      <ion-col size="35" class="ion-no-padding">
+        <serious-tooltip [class.remove-mode]="isRemoveFaultMode" [isRemoveMode]="isRemoveFaultMode"></serious-tooltip>
+      </ion-col>
+    }
+    @if (isDangerousMode) {
+      <ion-col size="35" class="ion-no-padding">
+        <dangerous-tooltip [class.remove-mode]="isRemoveFaultMode" [isRemoveMode]="isRemoveFaultMode"></dangerous-tooltip>
+      </ion-col>
+    }
   </ion-row>
 </div>

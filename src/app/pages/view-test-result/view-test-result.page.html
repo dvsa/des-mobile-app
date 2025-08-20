@@ -11,114 +11,113 @@
 </ion-header>
 
 <ion-content class="ion-padding">
-  <error-message *ngIf="!isLoading && showErrorMessage" class="error" returnTo="{{errorLink}}" (exitModal)="onClose()">
-  </error-message>
+  @if (!isLoading && showErrorMessage) {
+    <error-message class="error" returnTo="{{errorLink}}" (exitModal)="onClose()">
+    </error-message>
+  }
 
-  <div *ngIf="!isLoading && !showErrorMessage && testResult">
-    <view-test-header [data]="getHeaderDetails()" [appVersion]="testResult.appVersion"></view-test-header>
-
-    <activity-code-card [activityCode]="testResult.activityCode"> </activity-code-card>
-
-    <test-details-card [candidateDetails]="getCandidateDetails()" [data]="getTestDetails()"> </test-details-card>
-
-    <fit-marker-banner
-      *ngIf="testResult.journalData.testSlotAttributes.fitMarker"
-      [isTestResult]="true"
-      [fitCaseNumber]="testResult.journalData.testSlotAttributes.fitCaseNumber"
-    >
-    </fit-marker-banner>
-
-    <contact-details-card
-      [candidateData]="testResult.journalData.candidate"
-      [reEnterEmail]="reEnterEmail"
-      [communicationPreferencesData]="testResult.communicationPreferences"
-    >
-    </contact-details-card>
-
-    <business-details-card [data]="testResult.journalData.candidate"></business-details-card>
-
-    <div *ngIf="testResult.rekey">
-      <rekey-details-card [data]="testResult"></rekey-details-card>
-      <rekey-reason-card [data]="testResult.rekeyReason"></rekey-reason-card>
+  @if (!isLoading && !showErrorMessage && testResult) {
+    <div>
+      <view-test-header [data]="getHeaderDetails()" [appVersion]="testResult.appVersion"></view-test-header>
+      <activity-code-card [activityCode]="testResult.activityCode"> </activity-code-card>
+      <test-details-card [candidateDetails]="getCandidateDetails()" [data]="getTestDetails()"> </test-details-card>
+      @if (testResult.journalData.testSlotAttributes.fitMarker) {
+        <fit-marker-banner
+          [isTestResult]="true"
+          [fitCaseNumber]="testResult.journalData.testSlotAttributes.fitCaseNumber"
+          >
+        </fit-marker-banner>
+      }
+      <contact-details-card
+        [candidateData]="testResult.journalData.candidate"
+        [reEnterEmail]="reEnterEmail"
+        [communicationPreferencesData]="testResult.communicationPreferences"
+        >
+      </contact-details-card>
+      <business-details-card [data]="testResult.journalData.candidate"></business-details-card>
+      @if (testResult.rekey) {
+        <div>
+          <rekey-details-card [data]="testResult"></rekey-details-card>
+          <rekey-reason-card [data]="testResult.rekeyReason"></rekey-reason-card>
+        </div>
+      }
+      <examiner-details-card [data]="getExaminerDetails()"></examiner-details-card>
+      @if (showVehicleDetailsCommonCard()) {
+        <vehicle-details-card
+          [trainerData]="getTrainerData()"
+          [vehicleDetails]="getVehicleDetails()"
+          [instructorDetails]="getInstructorData()"
+          [data]="testResult.vehicleDetails"
+          [category]="testResult.category"
+          [passCompletion]="testResult.passCompletion"
+          >
+        </vehicle-details-card>
+      }
+      @if (testResult.category == 'ADI3') {
+        <trainer-details-card
+          [category]="testResult.category"
+          [reasonForNoAdviceGiven]="getReason()"
+          [trainerData]="getTrainerData()"
+          [reviewData]="getReviewData()"
+          >
+        </trainer-details-card>
+      }
+      @if (showDebriefCommonCard()) {
+        <debrief-card
+          [drivingFaultCount]="getDrivingFaultSumCount()"
+          [drivingFaults]="getDrivingFaults()"
+          [seriousFaults]="getSeriousFaults()"
+          [dangerousFaults]="getDangerousFaults()"
+          [data]="testResult.testData"
+          [category]="testResult.category"
+          [delegatedTest]="testResult['delegatedTest']"
+          >
+        </debrief-card>
+      }
+      @if (testResult.testData && testResult.testData['combination'] && showCPCDebriefCommonCard()) {
+        <cpc-debrief-card
+          [isDetailedTestView]="true"
+          [testOutcome]="getHeaderDetails()?.testOutcome"
+          [question1]="testResult.testData['question1']"
+          [question2]="testResult.testData['question2']"
+          [question3]="testResult.testData['question3']"
+          [question4]="testResult.testData['question4']"
+          [question5]="testResult.testData['question5']"
+          [overallScore]="testResult.testData['totalPercent']"
+          [combination]="testResult.testData['combination']"
+          >
+        </cpc-debrief-card>
+      }
+      @if ((isCategoryADI3() || isCategorySC()) && !didTestTerminate()) {
+        <adi3-debrief-card
+          [testCategory]="testCategory"
+          [totalScore]="totalScore"
+          [lessonTheme]="testResult.testData['lessonAndTheme']"
+          [lessonPlanning]="testResult.testData['lessonPlanning']"
+          [riskManagement]="testResult.testData['riskManagement']"
+          [teachingLearningStrategies]="testResult.testData['teachingLearningStrategies']"
+          [grade]="testResult.testData['review']?.grade"
+          [review]="testResult.testData['review']"
+          >
+        </adi3-debrief-card>
+      }
+      @if (isCategorySC()) {
+        <sc-debrief-card
+          [startTime]="testResult.testData['startTime']"
+          [endTime]="testResult.testData['endTime']"
+          >
+        </sc-debrief-card>
+      }
+      <test-summary-card
+        [category]="testResult.category"
+        [accompaniment]="testResult.accompaniment"
+        [passCompletion]="testResult.passCompletion"
+        [testSummary]="testResult.testSummary"
+        [userExitedApp]="testResult.userExitedApp"
+        [communicationPreferences]="testResult.communicationPreferences"
+        [validCertificate]="getValidCertificate()"
+        >
+      </test-summary-card>
     </div>
-
-    <examiner-details-card [data]="getExaminerDetails()"></examiner-details-card>
-
-    <vehicle-details-card
-      *ngIf="showVehicleDetailsCommonCard()"
-      [trainerData]="getTrainerData()"
-      [vehicleDetails]="getVehicleDetails()"
-      [instructorDetails]="getInstructorData()"
-      [data]="testResult.vehicleDetails"
-      [category]="testResult.category"
-      [passCompletion]="testResult.passCompletion"
-    >
-    </vehicle-details-card>
-
-    <trainer-details-card
-      *ngIf="testResult.category == 'ADI3'"
-      [category]="testResult.category"
-      [reasonForNoAdviceGiven]="getReason()"
-      [trainerData]="getTrainerData()"
-      [reviewData]="getReviewData()"
-    >
-    </trainer-details-card>
-
-    <debrief-card
-      *ngIf="showDebriefCommonCard()"
-      [drivingFaultCount]="getDrivingFaultSumCount()"
-      [drivingFaults]="getDrivingFaults()"
-      [seriousFaults]="getSeriousFaults()"
-      [dangerousFaults]="getDangerousFaults()"
-      [data]="testResult.testData"
-      [category]="testResult.category"
-      [delegatedTest]="testResult['delegatedTest']"
-    >
-    </debrief-card>
-
-    <cpc-debrief-card
-      *ngIf="testResult.testData && testResult.testData['combination'] && showCPCDebriefCommonCard()"
-      [isDetailedTestView]="true"
-      [testOutcome]="getHeaderDetails()?.testOutcome"
-      [question1]="testResult.testData['question1']"
-      [question2]="testResult.testData['question2']"
-      [question3]="testResult.testData['question3']"
-      [question4]="testResult.testData['question4']"
-      [question5]="testResult.testData['question5']"
-      [overallScore]="testResult.testData['totalPercent']"
-      [combination]="testResult.testData['combination']"
-    >
-    </cpc-debrief-card>
-
-    <adi3-debrief-card
-      *ngIf="(isCategoryADI3() || isCategorySC()) && !didTestTerminate()"
-      [testCategory]="testCategory"
-      [totalScore]="totalScore"
-      [lessonTheme]="testResult.testData['lessonAndTheme']"
-      [lessonPlanning]="testResult.testData['lessonPlanning']"
-      [riskManagement]="testResult.testData['riskManagement']"
-      [teachingLearningStrategies]="testResult.testData['teachingLearningStrategies']"
-      [grade]="testResult.testData['review']?.grade"
-      [review]="testResult.testData['review']"
-    >
-    </adi3-debrief-card>
-
-    <sc-debrief-card
-      *ngIf="isCategorySC()"
-      [startTime]="testResult.testData['startTime']"
-      [endTime]="testResult.testData['endTime']"
-    >
-    </sc-debrief-card>
-
-    <test-summary-card
-      [category]="testResult.category"
-      [accompaniment]="testResult.accompaniment"
-      [passCompletion]="testResult.passCompletion"
-      [testSummary]="testResult.testSummary"
-      [userExitedApp]="testResult.userExitedApp"
-      [communicationPreferences]="testResult.communicationPreferences"
-      [validCertificate]="getValidCertificate()"
-    >
-    </test-summary-card>
-  </div>
+  }
 </ion-content>

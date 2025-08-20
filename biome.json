@@ -65,7 +65,7 @@
       }
     },
     {
-      "include": ["**/*.spec.ts"],
+      "include": ["**/*.spec.ts", "ngrx-devtool-proxy"],
       "linter": {
         "enabled": true,
         "rules": {

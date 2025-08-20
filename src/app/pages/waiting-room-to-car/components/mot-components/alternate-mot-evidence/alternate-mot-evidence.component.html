@@ -16,7 +16,7 @@
           [class.ng-invalid]="invalid"
           (change)="alternateEvidenceTestResultChanged($event.target.value)"
           value="P"
-        />
+          />
         <label for="alternate-evidence-pass" class="radio-label" id="alternate-evidence-pass-label">Yes</label>
       </ion-col>
       <ion-col size="48">
@@ -29,7 +29,7 @@
           [class.ng-invalid]="invalid"
           (change)="alternateEvidenceTestResultChanged($event.target.value)"
           value="F"
-        />
+          />
         <label for="alternate-evidence-fail" class="radio-label" id="alternate-evidence-fail-label">No</label>
       </ion-col>
     </ion-row>
@@ -39,14 +39,15 @@
         class="validation-text"
         [class.ng-invalid]="invalid"
         id="waiting-room-to-car-alternate-evidence-validation-text"
-      >
+        >
         Confirm if any additional MOT evidence has been provided
       </div>
     </ion-row>
   </ion-col>
 </ion-row>
-<warning-banner
-  *ngIf="formControl.value == 'P'"
-  [warningText]="'You will need to provide details of this in the write up after the test'"
->
-</warning-banner>
+@if (formControl.value == 'P') {
+  <warning-banner
+    [warningText]="'You will need to provide details of this in the write up after the test'"
+    >
+  </warning-banner>
+}

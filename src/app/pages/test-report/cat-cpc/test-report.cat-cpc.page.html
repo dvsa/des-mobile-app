@@ -1,7 +1,9 @@
 <ion-header>
-  <practice-mode-banner *ngIf="isEndToEndPracticeMode || isPracticeMode"></practice-mode-banner>
+  @if (isEndToEndPracticeMode || isPracticeMode) {
+    <practice-mode-banner></practice-mode-banner>
+  }
   <ion-toolbar class="no-internal-padding"
-               [ngClass]="{'toolbar-no-padding': isEndToEndPracticeMode || isExitSAMBannerActivated}" mode="ios">
+    [ngClass]="{'toolbar-no-padding': isEndToEndPracticeMode || isExitSAMBannerActivated}" mode="ios">
     <test-flow-header
       class="display-flex flex-direction-column"
       [pageName]="'test-report-page-cat-cpc'"
@@ -25,57 +27,63 @@
 <ion-content class="ion-no-padding">
   <module-assessment [combinationCode]="pageState.combinationCode$ | async"></module-assessment>
 
-  <div *ngIf="!isDelegated">
-    <question-card
-      *ngIf="pageNumber === 1"
-      (answerPayload)="populateAnswer($event)"
-      [question]="pageState.question1$ | async"
-      [questionNumber]="pageNumber"
-    >
-    </question-card>
+  @if (!isDelegated) {
+    <div>
+      @if (pageNumber === 1) {
+        <question-card
+          (answerPayload)="populateAnswer($event)"
+          [question]="pageState.question1$ | async"
+          [questionNumber]="pageNumber"
+          >
+        </question-card>
+      }
+      @if (pageNumber === 2) {
+        <question-card
+          (answerPayload)="populateAnswer($event)"
+          [question]="pageState.question2$ | async"
+          [questionNumber]="pageNumber"
+          >
+        </question-card>
+      }
+      @if (pageNumber === 3) {
+        <question-card
+          (answerPayload)="populateAnswer($event)"
+          [question]="pageState.question3$ | async"
+          [questionNumber]="pageNumber"
+          >
+        </question-card>
+      }
+      @if (pageNumber === 4) {
+        <question-card
+          (answerPayload)="populateAnswer($event)"
+          [question]="pageState.question4$ | async"
+          [questionNumber]="pageNumber"
+          >
+        </question-card>
+      }
+      @if (pageNumber === 5) {
+        <question-five-card
+          (answerPayload)="populateAnswer($event)"
+          [question]="pageState.question5$ | async"
+          >
+        </question-five-card>
+      }
+    </div>
+  }
 
-    <question-card
-      *ngIf="pageNumber === 2"
-      (answerPayload)="populateAnswer($event)"
-      [question]="pageState.question2$ | async"
-      [questionNumber]="pageNumber"
-    >
-    </question-card>
-
-    <question-card
-      *ngIf="pageNumber === 3"
-      (answerPayload)="populateAnswer($event)"
-      [question]="pageState.question3$ | async"
-      [questionNumber]="pageNumber"
-    >
-    </question-card>
-
-    <question-card
-      *ngIf="pageNumber === 4"
-      (answerPayload)="populateAnswer($event)"
-      [question]="pageState.question4$ | async"
-      [questionNumber]="pageNumber"
-    >
-    </question-card>
-
-    <question-five-card
-      *ngIf="pageNumber === 5"
-      (answerPayload)="populateAnswer($event)"
-      [question]="pageState.question5$ | async"
-    >
-    </question-five-card>
-  </div>
-
-  <div *ngIf="isDelegated">
-    <question-del-ex-radio-card
-      *ngFor="let number of [1,2,3,4,5]"
-      [formGroup]="form"
-      (questionScore)="populateScore($event)"
-      [question]="pageState['question' + number + '$'] | async"
-      [questionNumber]="number"
-    >
-    </question-del-ex-radio-card>
-  </div>
+  @if (isDelegated) {
+    <div>
+      @for (number of [1,2,3,4,5]; track number) {
+        <question-del-ex-radio-card
+          [formGroup]="form"
+          (questionScore)="populateScore($event)"
+          [question]="pageState['question' + number + '$'] | async"
+          [questionNumber]="number"
+          >
+        </question-del-ex-radio-card>
+      }
+    </div>
+  }
 </ion-content>
 
 <question-footer
@@ -84,5 +92,5 @@
   (testSummaryRequested)="onEndTestClick()"
   [isDelegated]="isDelegated"
   [formGroup]="form"
->
+  >
 </question-footer>

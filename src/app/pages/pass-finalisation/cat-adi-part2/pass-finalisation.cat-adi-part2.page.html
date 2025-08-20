@@ -1,7 +1,9 @@
 <ion-header>
-  <practice-mode-banner *ngIf="isEndToEndPracticeMode"></practice-mode-banner>
+  @if (isEndToEndPracticeMode) {
+    <practice-mode-banner></practice-mode-banner>
+  }
   <ion-toolbar class="no-internal-padding"
-               [ngClass]="{'toolbar-no-padding': isEndToEndPracticeMode || isExitSAMBannerActivated}" mode="ios">
+    [ngClass]="{'toolbar-no-padding': isEndToEndPracticeMode || isExitSAMBannerActivated}" mode="ios">
     <test-flow-header
       class="display-flex flex-direction-column"
       [pageName]="'pass-finalisation-cat-adi2'"
@@ -26,14 +28,14 @@
           [candidateName]="pageState.candidateName$ | async"
           [candidateDriverNumber]="pageState.candidateDriverNumber$ | async"
           [outcomeText]="pageState.testOutcomeText$ | async"
-        >
+          >
         </finalisation-header>
 
         <language-preferences
           [formGroup]="form"
           [isWelsh]="(pageState.conductedLanguage$ | async) === 'Cymraeg'"
           (welshChanged)="isWelshChanged($event)"
-        >
+          >
         </language-preferences>
 
         <debrief-witnessed
@@ -42,7 +44,7 @@
           [debriefWitnessed]="pageState.debriefWitnessed$ | async"
           [outcome]="testOutcome"
           (debriefWitnessedChange)="debriefWitnessedChanged($event)"
-        >
+          >
         </debrief-witnessed>
 
         <warning-banner warningText="Advise PDI to seek development for the Part 3 test from an ORDIT trainer">

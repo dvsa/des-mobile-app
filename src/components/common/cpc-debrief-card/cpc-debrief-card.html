@@ -6,72 +6,82 @@
   </ion-card-header>
   <ion-card-content>
     <ion-grid>
-      <section *ngFor="let question of questions; index as i; let first = first; let last = last;">
-        <ion-row *ngIf="first && isDetailedTestView" class="cpc-line-break">
-          <ion-col size="32">
-            <ion-text class="des-header-style-3" id="combination-label">Combination</ion-text>
-          </ion-col>
-          <ion-col size="60">
-            <span id="combination-value">{{combination}}</span>
-          </ion-col>
-        </ion-row>
-
-        <ion-row class="cpc-line-break ion-align-items-start" *ngIf="combination !== null">
-          <ion-col size="56">
-            <ion-text class="des-header-style-3" [id]="'debrief-cpc-question-' + i"
-              >{{getFormattedQuestion(question)}}</ion-text
-            >
-          </ion-col>
-          <ion-col size="25" class="cpc-percentage ion-text-center">
-            <span [id]="'debrief-cpc-question-percentage-' + i">{{getQuestionPercentage(question)}}%</span>
-          </ion-col>
-          <ion-col size="12" class="ion-align-items-end ion-text-center">
-            <div class="cpc-answer-icon">
-              <img
-                *ngIf="shouldTickBox(question)"
-                src="assets/imgs/greenCorrectAnswer.png"
-                alt="Correct Answer"
-                [id]="'debrief-cpc-question-icon-pass-' + i"
-                class="correct-icon icon-image"
-              />
-              <img
-                *ngIf="!shouldTickBox(question)"
-                src="assets/imgs/redWrongAnswer.png"
-                alt="Wrong Answer"
-                [id]="'debrief-cpc-question-icon-fail-' + i"
-                class="wrong-icon icon-image"
-              />
-            </div>
-          </ion-col>
-        </ion-row>
-
-        <ion-row *ngIf="last && combination !== null" class="cpc-total-padding">
-          <ion-col size="56">
-            <ion-text class="des-header-style-3" id="debrief-cpc-total-label">Total</ion-text>
-          </ion-col>
-          <ion-col size="25" class="cpc-percentage ion-text-center">
-            <span id="debrief-cpc-total-value">{{overallScore}}%</span>
-          </ion-col>
-          <ion-col size="12" class="align-items-end">
-            <div class="cpc-answer-icon">
-              <img
-                *ngIf="isPass()"
-                src="assets/imgs/greenCorrectAnswer.png"
-                alt="Correct Answer"
-                id="debrief-cpc-total-score-pass-icon"
-                class="correct-icon icon-image"
-              />
-              <img
-                *ngIf="!isPass()"
-                src="assets/imgs/redWrongAnswer.png"
-                alt="Wrong Answer"
-                id="debrief-cpc-total-score-fail-icon"
-                class="wrong-icon icon-image"
-              />
-            </div>
-          </ion-col>
-        </ion-row>
-      </section>
-    </ion-grid>
-  </ion-card-content>
-</ion-card>
+      @for (question of questions; track question; let i = $index; let first = $first; let last = $last) {
+        <section>
+          @if (first && isDetailedTestView) {
+            <ion-row class="cpc-line-break">
+              <ion-col size="32">
+                <ion-text class="des-header-style-3" id="combination-label">Combination</ion-text>
+              </ion-col>
+              <ion-col size="60">
+                <span id="combination-value">{{combination}}</span>
+              </ion-col>
+            </ion-row>
+          }
+          @if (combination !== null) {
+            <ion-row class="cpc-line-break ion-align-items-start">
+              <ion-col size="56">
+                <ion-text class="des-header-style-3" [id]="'debrief-cpc-question-' + i"
+                  >{{getFormattedQuestion(question)}}</ion-text
+                  >
+                </ion-col>
+                <ion-col size="25" class="cpc-percentage ion-text-center">
+                  <span [id]="'debrief-cpc-question-percentage-' + i">{{getQuestionPercentage(question)}}%</span>
+                </ion-col>
+                <ion-col size="12" class="ion-align-items-end ion-text-center">
+                  <div class="cpc-answer-icon">
+                    @if (shouldTickBox(question)) {
+                      <img
+                        src="assets/imgs/greenCorrectAnswer.png"
+                        alt="Correct Answer"
+                        [id]="'debrief-cpc-question-icon-pass-' + i"
+                        class="correct-icon icon-image"
+                        />
+                    }
+                    @if (!shouldTickBox(question)) {
+                      <img
+                        src="assets/imgs/redWrongAnswer.png"
+                        alt="Wrong Answer"
+                        [id]="'debrief-cpc-question-icon-fail-' + i"
+                        class="wrong-icon icon-image"
+                        />
+                    }
+                  </div>
+                </ion-col>
+              </ion-row>
+            }
+            @if (last && combination !== null) {
+              <ion-row class="cpc-total-padding">
+                <ion-col size="56">
+                  <ion-text class="des-header-style-3" id="debrief-cpc-total-label">Total</ion-text>
+                </ion-col>
+                <ion-col size="25" class="cpc-percentage ion-text-center">
+                  <span id="debrief-cpc-total-value">{{overallScore}}%</span>
+                </ion-col>
+                <ion-col size="12" class="align-items-end">
+                  <div class="cpc-answer-icon">
+                    @if (isPass()) {
+                      <img
+                        src="assets/imgs/greenCorrectAnswer.png"
+                        alt="Correct Answer"
+                        id="debrief-cpc-total-score-pass-icon"
+                        class="correct-icon icon-image"
+                        />
+                    }
+                    @if (!isPass()) {
+                      <img
+                        src="assets/imgs/redWrongAnswer.png"
+                        alt="Wrong Answer"
+                        id="debrief-cpc-total-score-fail-icon"
+                        class="wrong-icon icon-image"
+                        />
+                    }
+                  </div>
+                </ion-col>
+              </ion-row>
+            }
+          </section>
+        }
+      </ion-grid>
+    </ion-card-content>
+  </ion-card>

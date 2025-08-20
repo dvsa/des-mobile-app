@@ -33,10 +33,10 @@ PODS:
   - DvsaCapacitorPluginAsam (2.1.0):
     - Capacitor
   - GoogleAnalytics (3.20.0)
-  - Sentry/HybridSDK (8.48.0)
-  - SentryCapacitor (1.4.0):
+  - Sentry/HybridSDK (8.53.2)
+  - SentryCapacitor (2.2.0):
     - Capacitor
-    - Sentry/HybridSDK (= 8.48.0)
+    - Sentry/HybridSDK (= 8.53.2)
 
 DEPENDENCIES:
   - "Capacitor (from `../../node_modules/@capacitor/ios`)"

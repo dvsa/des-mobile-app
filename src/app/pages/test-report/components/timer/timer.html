@@ -1,21 +1,23 @@
-<ion-button
-  tappable="true"
-  strong="true"
-  fill="clear"
-  id="start-timer-button"
-  (click)="toggleTimer()"
-  *ngIf="showStartTimerButton"
->
-  <ion-text class="white-text des-header-style-3">Start timer</ion-text>
-</ion-button>
-<div
-  id="timer-text"
-  tappable="true"
-  (click)="toggleTimer()"
+@if (showStartTimerButton) {
+  <ion-button
+    tappable="true"
+    strong="true"
+    fill="clear"
+    id="start-timer-button"
+    (click)="toggleTimer()"
+    >
+    <ion-text class="white-text des-header-style-3">Start timer</ion-text>
+  </ion-button>
+}
+@if (!showStartTimerButton) {
+  <div
+    id="timer-text"
+    tappable="true"
+    (click)="toggleTimer()"
   [ngClass]="{
     'paused': isPaused
   }"
-  *ngIf="!showStartTimerButton"
->
-  {{ timerString }}
-</div>
+    >
+    {{ timerString }}
+  </div>
+}

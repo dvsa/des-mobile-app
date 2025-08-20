@@ -11,7 +11,7 @@
         [disabled]="pageState.isLoading$ | async"
         class="refresh-button"
         id="refresh-button"
-      >
+        >
         <div class="line-height-styling">
           <ion-icon class="refresh-button-icon colour-white" name="sync-outline"></ion-icon>
           <span class="colour-white">Refresh</span>
@@ -38,7 +38,7 @@
       pullingText="Pull to refresh"
       refreshingSpinner="circles"
       refreshingText="Refreshing Journal..."
-    >
+      >
     </ion-refresher-content>
   </ion-refresher>
 
@@ -49,7 +49,7 @@
     [canNavigateToPreviousDay]="pageState.canNavigateToPreviousDay$ | async"
     [isSelectedDateToday]="pageState.isSelectedDateToday$ | async"
     [selectedDate]="pageState.selectedDate$ | async"
-  >
+    >
   </journal-navigation>
 
   <vehicle-recalls-banner></vehicle-recalls-banner>
@@ -59,11 +59,13 @@
       [completedTests]="pageState.completedTests$ | async"
       [isPortrait]="orientationMonitorProvider.isPortraitMode$ | async"
       [slots]="pageState.slots$ | async"
-    >
+      >
     </journal-slots>
   </ion-list>
 
-  <div *ngIf="!!!(pageState.slots$ | async)?.length" class="no-results ion-text-center">
-    <p>There is no journal data to display for this day</p>
-  </div>
+  @if (!!!(pageState.slots$ | async)?.length) {
+    <div class="no-results ion-text-center">
+      <p>There is no journal data to display for this day</p>
+    </div>
+  }
 </ion-content>

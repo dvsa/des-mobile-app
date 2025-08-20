@@ -15,33 +15,32 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content
-  class="ion-padding"
-  *ngIf="{
-   slots: pageState.unSubmittedTestSlots$ | async
-} as state"
->
-  <div>
-    <profile-header
-      [employeeId]="pageState.employeeId$ | async"
-      [name]="pageState.employeeName$ | async"
-      [role]="pageState.role$ | async"
+@if ({
+  slots: pageState.unSubmittedTestSlots$ | async
+  }; as state) {
+  <ion-content
+    class="ion-padding"
     >
-    </profile-header>
-  </div>
-
-  <div class="header-divider"></div>
-
-  <ion-text class="des-header-style-2">
-    You have {{state.slots?.length || 0}} incomplete {{getTestsText(state.slots?.length)}} (over 1 day old)
-  </ion-text>
-
-  <test-slot
-    *ngFor="let slot of state.slots; let count = count;"
-    [slots]="pageState.unSubmittedTestSlotData$ | async"
-    [slot]="slot?.slotData"
-    [isPortrait]="orientationMonitorProvider.isPortraitMode$ | async"
-    [isUnSubmittedTestSlotView]="true"
-  >
-  </test-slot>
-</ion-content>
+    <div>
+      <profile-header
+        [employeeId]="pageState.employeeId$ | async"
+        [name]="pageState.employeeName$ | async"
+        [role]="pageState.role$ | async"
+        >
+      </profile-header>
+    </div>
+    <div class="header-divider"></div>
+    <ion-text class="des-header-style-2">
+      You have {{state.slots?.length || 0}} incomplete {{getTestsText(state.slots?.length)}} (over 1 day old)
+    </ion-text>
+    @for (slot of state.slots; track slot; let count = $count) {
+      <test-slot
+        [slots]="pageState.unSubmittedTestSlotData$ | async"
+        [slot]="slot?.slotData"
+        [isPortrait]="orientationMonitorProvider.isPortraitMode$ | async"
+        [isUnSubmittedTestSlotView]="true"
+        >
+      </test-slot>
+    }
+  </ion-content>
+}

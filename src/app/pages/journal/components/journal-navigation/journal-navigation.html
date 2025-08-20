@@ -2,37 +2,40 @@
   <ion-grid>
     <ion-row>
       <ion-col>
-        <ion-text
-          *ngIf="canNavigateToPreviousDay"
-          (click)="onPreviousDayClick()"
-          class="des-header-style-5 navigation-button"
-          id="previous-day-container"
-        >
-          <ion-icon class="navigation-arrow" name="chevron-back-outline" aria-labelledby="previous-day"></ion-icon>
-          <span id="previous-day" aria-labelledby="previous-day">{{previousDayLabel}}</span>
-        </ion-text>
+        @if (canNavigateToPreviousDay) {
+          <ion-text
+            (click)="onPreviousDayClick()"
+            class="des-header-style-5 navigation-button"
+            id="previous-day-container"
+            >
+            <ion-icon class="navigation-arrow" name="chevron-back-outline" aria-labelledby="previous-day"></ion-icon>
+            <span id="previous-day" aria-labelledby="previous-day">{{previousDayLabel}}</span>
+          </ion-text>
+        }
       </ion-col>
       <ion-col>
         <div id="date-container">
-          <div *ngIf="isSelectedDateToday; else notToday;">
-            <h2 class="des-header-style-1" id="date-today-header">Today</h2>
-            <h3 class="des-header-style-3" id="today-date" aria-labelledby="date-today-header today-date">
-              {{ selectedDate | date:'EEEE d MMMM y' }}
-            </h3>
-          </div>
-          <ng-template #notToday>
-            <div *ngIf="fromTestCentreJournal; else journalView">
-              <ion-text class="des-header-style-1" id="date-tomorrow-header">Tomorrow</ion-text>
-              <br />
-              <ion-text
-                class="des-header-style-3"
-                id="tomorrow-date"
-                aria-labelledby="date-tomorrow-header tomorrow-date"
-              >
+          @if (isSelectedDateToday) {
+            <div>
+              <h2 class="des-header-style-1" id="date-today-header">Today</h2>
+              <h3 class="des-header-style-3" id="today-date" aria-labelledby="date-today-header today-date">
                 {{ selectedDate | date:'EEEE d MMMM y' }}
-              </ion-text>
+              </h3>
             </div>
-            <ng-template #journalView>
+          } @else {
+            @if (fromTestCentreJournal) {
+              <div>
+                <ion-text class="des-header-style-1" id="date-tomorrow-header">Tomorrow</ion-text>
+                <br />
+                <ion-text
+                  class="des-header-style-3"
+                  id="tomorrow-date"
+                  aria-labelledby="date-tomorrow-header tomorrow-date"
+                  >
+                  {{ selectedDate | date:'EEEE d MMMM y' }}
+                </ion-text>
+              </div>
+            } @else {
               <ion-text class="des-header-style-1" id="date-day-header" aria-labelledby="date-day-header">
                 {{ selectedDate | date:'EEEE' }}
               </ion-text>
@@ -40,20 +43,21 @@
               <ion-text class="des-header-style-3" id="date-subheader" aria-labelledby="date-day-header date-subheader">
                 {{ selectedDate | date:'d MMMM y' }}
               </ion-text>
-            </ng-template>
-          </ng-template>
+            }
+          }
         </div>
       </ion-col>
       <ion-col>
-        <ion-text
-          *ngIf="canNavigateToNextDay"
-          (click)="onNextDayClick()"
-          id="next-day-container"
-          class="des-header-style-5 next-navigation-button"
-        >
-          <span id="next-day" aria-labelledby="next-day">{{nextDayLabel}}</span>
-          <ion-icon class="navigation-arrow" name="chevron-forward-outline" aria-labelledby="next-day"></ion-icon>
-        </ion-text>
+        @if (canNavigateToNextDay) {
+          <ion-text
+            (click)="onNextDayClick()"
+            id="next-day-container"
+            class="des-header-style-5 next-navigation-button"
+            >
+            <span id="next-day" aria-labelledby="next-day">{{nextDayLabel}}</span>
+            <ion-icon class="navigation-arrow" name="chevron-forward-outline" aria-labelledby="next-day"></ion-icon>
+          </ion-text>
+        }
       </ion-col>
     </ion-row>
   </ion-grid>

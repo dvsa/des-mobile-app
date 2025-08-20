@@ -28,7 +28,7 @@ module.exports = (config) => {
       require('karma-jasmine-html-reporter'),
       require('karma-coverage'),
       require('karma-parallel'),
-      require('@angular-devkit/build-angular/plugins/karma'),
+
       require('karma-spec-reporter'),
     ],
     webpackMiddleware: { stats: 'errors-only' },

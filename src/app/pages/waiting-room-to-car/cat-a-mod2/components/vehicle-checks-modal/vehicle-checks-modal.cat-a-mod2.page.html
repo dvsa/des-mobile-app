@@ -11,7 +11,7 @@
       aria-level="1"
       id="vehicle-checks-modal-title"
       class="ion-text-center toolbar-item-spacing"
-    >
+      >
       Safety and balance questions - {{ pageState.candidateName$ | async }}
     </ion-title>
   </ion-toolbar>
@@ -25,18 +25,19 @@
       </ion-card-title>
     </ion-card-header>
     <ion-card-content>
-      <vehicle-checks-question-cat-a-mod2
-        *ngFor="let question of safetyQuestionsNumberArray; let i = index; let l = last"
-        [formGroup]="formGroup"
-        [questionResult]="(pageState.safetyQuestions$ | async)[i]"
-        [questions]="safetyQuestions"
-        [questionsToDisable]="pageState.safetyQuestions$ | async"
-        [isLastQuestion]="l"
-        [submitClicked]="submitClicked"
-        (safetyAndBalanceQuestionChange)="safetyQuestionChanged($event, i)"
-        (safetyAndBalanceQuestionOutcomeChange)="safetyQuestionOutcomeChanged($event, i)"
-      >
-      </vehicle-checks-question-cat-a-mod2>
+      @for (question of safetyQuestionsNumberArray; track question; let i = $index; let l = $last) {
+        <vehicle-checks-question-cat-a-mod2
+          [formGroup]="formGroup"
+          [questionResult]="(pageState.safetyQuestions$ | async)[i]"
+          [questions]="safetyQuestions"
+          [questionsToDisable]="pageState.safetyQuestions$ | async"
+          [isLastQuestion]="l"
+          [submitClicked]="submitClicked"
+          (safetyAndBalanceQuestionChange)="safetyQuestionChanged($event, i)"
+          (safetyAndBalanceQuestionOutcomeChange)="safetyQuestionOutcomeChanged($event, i)"
+          >
+        </vehicle-checks-question-cat-a-mod2>
+      }
     </ion-card-content>
   </ion-card>
   <ion-card>
@@ -46,21 +47,24 @@
       </ion-card-title>
     </ion-card-header>
     <ion-card-content>
-      <vehicle-checks-question-cat-a-mod2
-        *ngFor="let question of balanceQuestionsNumberArray; let i = index; let l = last"
-        [formGroup]="formGroup"
-        [questionResult]="(pageState.balanceQuestions$ | async)[i]"
-        [questions]="balanceQuestions"
-        [questionsToDisable]="pageState.balanceQuestions$ | async"
-        [isLastQuestion]="l"
-        [submitClicked]="submitClicked"
-        (safetyAndBalanceQuestionChange)="balanceQuestionChanged($event, i)"
-        (safetyAndBalanceQuestionOutcomeChange)="balanceQuestionOutcomeChanged($event, i)"
-      >
-      </vehicle-checks-question-cat-a-mod2>
+      @for (question of balanceQuestionsNumberArray; track question; let i = $index; let l = $last) {
+        <vehicle-checks-question-cat-a-mod2
+          [formGroup]="formGroup"
+          [questionResult]="(pageState.balanceQuestions$ | async)[i]"
+          [questions]="balanceQuestions"
+          [questionsToDisable]="pageState.balanceQuestions$ | async"
+          [isLastQuestion]="l"
+          [submitClicked]="submitClicked"
+          (safetyAndBalanceQuestionChange)="balanceQuestionChanged($event, i)"
+          (safetyAndBalanceQuestionOutcomeChange)="balanceQuestionOutcomeChanged($event, i)"
+          >
+        </vehicle-checks-question-cat-a-mod2>
+      }
     </ion-card-content>
   </ion-card>
-  <warning-banner warningText="This will result in 1 riding fault" *ngIf="shouldDisplayBanner()"></warning-banner>
+  @if (shouldDisplayBanner()) {
+    <warning-banner warningText="This will result in 1 riding fault"></warning-banner>
+  }
 </ion-content>
 
 <ion-footer>

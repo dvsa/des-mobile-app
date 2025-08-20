@@ -1,5 +1,7 @@
 <ion-header>
-  <practice-mode-banner *ngIf="isEndToEndPracticeMode"></practice-mode-banner>
+  @if (isEndToEndPracticeMode) {
+    <practice-mode-banner></practice-mode-banner>
+  }
   <ion-toolbar
     class="no-internal-padding"
     [ngClass]="{'toolbar-no-padding': isEndToEndPracticeMode || isExitSAMBannerActivated}" mode="ios">
@@ -31,15 +33,16 @@
         [candidatePrnNumber]="pageState.prn$ | async"
         [isStandardsCheck]="pageState.isStandardsCheck$ | async"
         [showVRNButton]="pageState.showVrnBtn$ | async"
-      >
+        >
       </candidate-section>
 
-      <valid-certificate
-        (validCertificateChange)="validCertificateChanged($event)"
-        *ngIf="pageState.isStandardsCheck$ | async"
-        [formGroup]="form"
-        [validCertificate]="pageState.validCertificate$ | async"
-      ></valid-certificate>
+      @if (pageState.isStandardsCheck$ | async) {
+        <valid-certificate
+          (validCertificateChange)="validCertificateChanged($event)"
+          [formGroup]="form"
+          [validCertificate]="pageState.validCertificate$ | async"
+        ></valid-certificate>
+      }
 
       <div class="mes-full-width-card-separator"></div>
 
@@ -54,42 +57,42 @@
             <div class="communication-text-container">
               <ion-text addOrRemoveLangCy class="des-header-style-4" id="comms-instruction-header"
                 >{{ 'communication.instructionHeader' | translate }}</ion-text
-              >
-            </div>
-            <div class="validation-bar"></div>
-            <ion-col>
-              <provided-email
-                (providedEmailRadioSelect)="dispatchCandidateChoseProvidedEmail()"
-                [formGroup]="form"
-                [isProvidedEmailAddressChosen]="isProvidedEmailSelected()"
-                [providedEmailAddress]="pageState.candidateProvidedEmail$ | async"
-                [shouldRender]="!!(pageState.candidateProvidedEmail$ | async)"
-              >
-              </provided-email>
+                >
+              </div>
+              <div class="validation-bar"></div>
+              <ion-col>
+                <provided-email
+                  (providedEmailRadioSelect)="dispatchCandidateChoseProvidedEmail()"
+                  [formGroup]="form"
+                  [isProvidedEmailAddressChosen]="isProvidedEmailSelected()"
+                  [providedEmailAddress]="pageState.candidateProvidedEmail$ | async"
+                  [shouldRender]="!!(pageState.candidateProvidedEmail$ | async)"
+                  >
+                </provided-email>
 
-              <new-email
-                (newEmailRadioSelect)="conditionalDispatchCandidateChoseNewEmail()"
-                (newEmailTextChange)="dispatchCandidateChoseNewEmail($event)"
-                [formGroup]="form"
-                [isNewEmailAddressChosen]="isNewEmailSelected()"
-              >
-              </new-email>
+                <new-email
+                  (newEmailRadioSelect)="conditionalDispatchCandidateChoseNewEmail()"
+                  (newEmailTextChange)="dispatchCandidateChoseNewEmail($event)"
+                  [formGroup]="form"
+                  [isNewEmailAddressChosen]="isNewEmailSelected()"
+                  >
+                </new-email>
 
-              <postal-address
-                (postalRadioSelect)="dispatchCandidateChosePost()"
-                [formGroup]="form"
-                [isPostalAddressChosen]="isPostSelected()"
-                [postalAddress]="pageState.candidateAddress$ | async"
-              >
-              </postal-address>
+                <postal-address
+                  (postalRadioSelect)="dispatchCandidateChosePost()"
+                  [formGroup]="form"
+                  [isPostalAddressChosen]="isPostSelected()"
+                  [postalAddress]="pageState.candidateAddress$ | async"
+                  >
+                </postal-address>
 
-              <ion-row class="validation-message-row">
-                <div class="validation-text"></div>
-              </ion-row>
+                <ion-row class="validation-message-row">
+                  <div class="validation-text"></div>
+                </ion-row>
+              </ion-col>
             </ion-col>
-          </ion-col>
-        </ion-row>
-      </div>
-    </form>
-  </div>
-</ion-content>
+          </ion-row>
+        </div>
+      </form>
+    </div>
+  </ion-content>

@@ -13,26 +13,28 @@
     </ion-row>
     <ion-row>
       <ion-col>
-        <ion-text
-          *ngIf="canNavigateToPreviousCandidate"
-          id="previous-slot-container"
-          class="des-header-style-5 previous-navigation-button"
-          (click)="onPreviousCandidateClick()"
-        >
-          <ion-icon class="navigation-arrow" name="chevron-back-outline"></ion-icon>
-          <span id="previous-slot">Previous candidate</span>
-        </ion-text>
+        @if (canNavigateToPreviousCandidate) {
+          <ion-text
+            id="previous-slot-container"
+            class="des-header-style-5 previous-navigation-button"
+            (click)="onPreviousCandidateClick()"
+            >
+            <ion-icon class="navigation-arrow" name="chevron-back-outline"></ion-icon>
+            <span id="previous-slot">Previous candidate</span>
+          </ion-text>
+        }
       </ion-col>
       <ion-col>
-        <ion-text
-          *ngIf="canNavigateToNextCandidate"
-          id="next-slot-container"
-          class="des-header-style-5 next-navigation-button"
-          (click)="onNextCandidateClick()"
-        >
-          <span id="next-slot">Next candidate</span>
-          <ion-icon class="navigation-arrow" name="chevron-forward-outline"></ion-icon>
-        </ion-text>
+        @if (canNavigateToNextCandidate) {
+          <ion-text
+            id="next-slot-container"
+            class="des-header-style-5 next-navigation-button"
+            (click)="onNextCandidateClick()"
+            >
+            <span id="next-slot">Next candidate</span>
+            <ion-icon class="navigation-arrow" name="chevron-forward-outline"></ion-icon>
+          </ion-text>
+        }
       </ion-col>
     </ion-row>
   </ion-grid>

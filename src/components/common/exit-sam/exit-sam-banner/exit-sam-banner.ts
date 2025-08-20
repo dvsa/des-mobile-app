@@ -1,4 +1,3 @@
-import { NgIf } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { ComponentsModule } from '@components/common/common-components.module';
 import { ExitSAMMethodUsed } from '@components/common/test-flow-header/test-flow-header.component';
@@ -10,7 +9,7 @@ import { DeviceProvider } from '@providers/device/device';
   selector: 'exit-sam-banner',
   templateUrl: './exit-sam-banner.html',
   styleUrls: ['./exit-sam-banner.scss'],
-  imports: [IonicModule, ComponentsModule, NgIf],
+  imports: [IonicModule, ComponentsModule],
 })
 export class ExitSamBanner {
   constructor(
