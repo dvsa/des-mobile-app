@@ -1,10 +1,33 @@
-import {
-  ReduxDevtoolsExtension,
-  ReduxDevtoolsExtensionConfig,
-  ReduxDevtoolsExtensionConnection,
-} from '@ngrx/store-devtools/src/extension';
 import { connect } from 'remotedev/lib/devTools';
 import { RemoteDevToolsConnectionProxy } from './remote-devtools-connection-proxy';
+
+export type SerializationOptions = {
+  options?: boolean | any;
+  replacer?: (key: any, value: any) => {};
+  reviver?: (key: any, value: any) => {};
+  immutable?: any;
+  refs?: Array<any>;
+};
+export interface ReduxDevtoolsExtensionConnection {
+  subscribe(listener: (change: any) => void): void;
+  unsubscribe(): void;
+  send(action: any, state: any): void;
+  init(state?: any): void;
+  error(anyErr: any): void;
+}
+export interface ReduxDevtoolsExtensionConfig {
+  features?: object | boolean;
+  name: string | undefined;
+  maxAge?: number;
+  autoPause?: boolean;
+  serialize?: boolean | SerializationOptions;
+  trace?: boolean | (() => string);
+  traceLimit?: number;
+}
+export interface ReduxDevtoolsExtension {
+  connect(options: ReduxDevtoolsExtensionConfig): ReduxDevtoolsExtensionConnection;
+  send(action: any, state: any, options: ReduxDevtoolsExtensionConfig): void;
+}
 
 export class RemoteDevToolsProxy implements ReduxDevtoolsExtension {
   remotedev: any = null;

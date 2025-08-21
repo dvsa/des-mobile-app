@@ -1,4 +1,4 @@
-import { HTTP_INTERCEPTORS, HttpClient, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { ErrorHandler, NgModule } from '@angular/core';
 import { BrowserModule, HAMMER_GESTURE_CONFIG, HammerModule } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
@@ -14,8 +14,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { EffectsModule } from '@ngrx/effects';
 import { ActionReducer, ActionReducerMap, MetaReducer, StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
-import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
-import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { provideTranslateService } from '@ngx-translate/core';
 import { localStorageSync } from 'ngrx-store-localstorage';
 
 import { environment } from '@environments/environment';
@@ -67,6 +66,7 @@ import { testsReducer } from '@store/tests/tests.reducer';
 
 import { EffectImportModule } from '@app/effects.module';
 import { Capacitor } from '@capacitor/core';
+import { provideTranslateHttpLoader } from '@ngx-translate/http-loader';
 import { ExaminerRecordsComponentsModule } from '@pages/examiner-records/components/examiner-records-components.module';
 import { CompressionProvider } from '@providers/compression/compression';
 import { ExaminerRecordsProvider } from '@providers/examiner-records/examiner-records';
@@ -82,10 +82,6 @@ import { RemoteDevToolsProxy } from '../../ngrx-devtool-proxy/remote-devtools-pr
 import { IonicGestureConfig } from '../gestures/ionic-gesture-config';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-
-export function createTranslateLoader(http: HttpClient) {
-  return new TranslateHttpLoader(http, 'assets/i18n/', '.json');
-}
 
 export function localStorageSyncReducer(reducer: ActionReducer<StoreModel>): ActionReducer<StoreModel> {
   return localStorageSync({
@@ -159,18 +155,20 @@ const storageDriver = Capacitor.getPlatform() === 'web' ? Drivers.IndexedDB : Co
     JournalModule,
     TestsModule,
     NgbModule,
-    TranslateModule.forRoot({
-      loader: {
-        provide: TranslateLoader,
-        useFactory: createTranslateLoader,
-        deps: [HttpClient],
-      },
-    }),
     HammerModule,
     ExaminerRecordsComponentsModule,
     PipesModule,
   ],
   providers: [
+    provideHttpClient(),
+    provideTranslateService({
+      lang: 'en',
+      fallbackLang: 'en',
+      loader: provideTranslateHttpLoader({
+        prefix: 'assets/i18n/',
+        suffix: '.json',
+      }),
+    }),
     {
       provide: RouteReuseStrategy,
       useClass: IonicRouteStrategy,

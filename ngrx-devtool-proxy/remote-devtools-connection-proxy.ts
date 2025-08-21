@@ -1,29 +1,29 @@
-import { ReduxDevtoolsExtensionConnection } from '@ngrx/store-devtools/src/extension';
+interface ReduxDevtoolsExtensionConnection {
+  subscribe(listener: (change: any) => void): void;
+  unsubscribe(): void;
+  send(action: any, state: any): void;
+  init(state?: any): void;
+  error(anyErr: any): void;
+}
 
 export class RemoteDevToolsConnectionProxy implements ReduxDevtoolsExtensionConnection {
   constructor(public remotedev: any) {}
   init() {}
   error() {}
-
-  subscribe(listener: (change: any) => void): any {
+  subscribe(listener: (change: any) => void): () => void {
     const listenerWrapper = (change: any) => {
       listener(change);
     };
 
     this.remotedev.subscribe(listenerWrapper);
-    // Hack fix for commit/time-travelling etc. if the devtools are already open
     setTimeout(() => listenerWrapper({ type: 'START' }));
-  }
 
-  unsubscribe(): any {
-    // HACK fix bug in @ngrx/store-devtools that calls this instead of returning
-    // a lambda that calls it when their Observable wrapper is unsubscribed.
     return () => this.remotedev.unsubscribe();
   }
 
-  send(action: any, state: any): any {
-    // Was commented has 'Not Called' but it's appear
-    // we finally need this to send back responses to Redux DevTools
+  unsubscribe() {}
+
+  send(action: any, state: any): void {
     this.remotedev.send(action, state);
   }
 }
