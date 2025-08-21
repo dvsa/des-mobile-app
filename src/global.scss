@@ -10,44 +10,44 @@
  */
 
 /* Core CSS required for Ionic components to work properly */
-@import "@ionic/angular/css/core.css";
+@forward "@ionic/angular/css/core.css";
 
 /* Basic CSS for apps built with Ionic */
-@import "@ionic/angular/css/normalize.css";
-@import "@ionic/angular/css/structure.css";
-@import "@ionic/angular/css/typography.css";
-@import '@ionic/angular/css/display.css';
+@forward "@ionic/angular/css/normalize.css";
+@forward "@ionic/angular/css/structure.css";
+@forward "@ionic/angular/css/typography.css";
+@forward '@ionic/angular/css/display.css';
 
 /* Optional CSS utils that can be commented out */
-@import "@ionic/angular/css/padding.css";
-@import "@ionic/angular/css/float-elements.css";
-@import "@ionic/angular/css/text-alignment.css";
-@import "@ionic/angular/css/text-transformation.css";
-@import "@ionic/angular/css/flex-utils.css";
+@forward "@ionic/angular/css/padding.css";
+@forward "@ionic/angular/css/float-elements.css";
+@forward "@ionic/angular/css/text-alignment.css";
+@forward "@ionic/angular/css/text-transformation.css";
+@forward "@ionic/angular/css/flex-utils.css";
 
 /* Custom SCSS partials */
-@import "./theme/variables.scss";
-@import "./theme/sass-partials/alert";
-@import "./theme/sass-partials/box";
-@import "./theme/sass-partials/buttons";
-@import "./theme/sass-partials/checkbox";
-@import "./theme/sass-partials/colors";
-@import "./theme/sass-partials/fonts";
-@import "./theme/sass-partials/input";
-@import "./theme/sass-partials/modal";
-@import "./theme/sass-partials/radio";
-@import "./theme/sass-partials/refresher";
-@import "./theme/sass-partials/reset";
-@import "./theme/sass-partials/row";
-@import "./theme/sass-partials/spacing";
-@import "./theme/sass-partials/textarea";
-@import "./theme/sass-partials/toolbar";
-@import "./theme/sass-partials/toast";
-@import "./theme/sass-partials/typography";
-@import "./theme/sass-partials/validation";
-@import "./theme/sass-partials/images";
-@import "./theme/sass-partials/datetime";
-@import "./theme/sass-partials/accordion";
+@forward "./theme/variables.scss";
+@forward "./theme/sass-partials/alert";
+@forward "./theme/sass-partials/box";
+@forward "./theme/sass-partials/buttons";
+@forward "./theme/sass-partials/checkbox";
+@forward "./theme/sass-partials/colors";
+@forward "./theme/sass-partials/fonts";
+@forward "./theme/sass-partials/input";
+@forward "./theme/sass-partials/modal";
+@forward "./theme/sass-partials/radio";
+@forward "./theme/sass-partials/refresher";
+@forward "./theme/sass-partials/reset";
+@forward "./theme/sass-partials/row";
+@forward "./theme/sass-partials/spacing";
+@forward "./theme/sass-partials/textarea";
+@forward "./theme/sass-partials/toolbar";
+@forward "./theme/sass-partials/toast";
+@forward "./theme/sass-partials/typography";
+@forward "./theme/sass-partials/validation";
+@forward "./theme/sass-partials/images";
+@forward "./theme/sass-partials/datetime";
+@forward "./theme/sass-partials/accordion";
 
 .no-results {
   margin-top: 24px;

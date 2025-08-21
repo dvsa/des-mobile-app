@@ -1,5 +1,5 @@
-@import "src/theme/sass-partials/modal";
-@import "src/theme/sass-partials/_buttons";
+@use "src/theme/sass-partials/modal";
+@use "src/theme/sass-partials/_buttons";
 
 :host {
   @extend .modal-alert-wrapper;
