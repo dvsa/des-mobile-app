@@ -1,4 +1,4 @@
-import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { HttpResponse, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { take } from 'rxjs/operators';
@@ -104,7 +104,7 @@ describe('SearchProvider', () => {
       searchProvider
         .getTestResult('12345', '6789')
         .pipe(take(1))
-        .subscribe((response) => {
+        .subscribe((response: HttpResponse<any>) => {
           expect(response.body).toEqual([]);
         });
 
