@@ -4,10 +4,10 @@ $toolbar-height: 56px;
 
   // ensure the content on the test report page doesn't grow with larger accessibility text
   ion-content {
+    --ion-background-color: var(--gds-grey-3);
     @media (orientation: portrait) {
       --overflow: hidden;
     }
-    --ion-background-color: var(--gds-grey-3);
     div, span, .grid-layout {
       .text-zoom-regular &,
       .text-zoom-large &,
