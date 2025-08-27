@@ -32,6 +32,8 @@ PODS:
     - GoogleAnalytics (= 3.20.0)
   - DvsaCapacitorPluginAsam (2.1.0):
     - Capacitor
+  - DvsaCapacitorPluginLockDetection (0.0.3-canary.6):
+    - Capacitor
   - DvsaCapacitorPluginWindowMode (0.0.2):
     - Capacitor
   - GoogleAnalytics (3.20.0)
@@ -58,6 +60,7 @@ DEPENDENCIES:
   - CordovaPluginsResources (from `../capacitor-cordova-ios-plugins`)
   - CordovaPluginsStatic (from `../capacitor-cordova-ios-plugins`)
   - "DvsaCapacitorPluginAsam (from `../../node_modules/@dvsa/capacitor-plugin-asam`)"
+  - "DvsaCapacitorPluginLockDetection (from `../../node_modules/@dvsa/capacitor-plugin-lock-detection`)"
   - "DvsaCapacitorPluginWindowMode (from `../../node_modules/@dvsa/capacitor-plugin-window-mode`)"
   - "SentryCapacitor (from `../../node_modules/@sentry/capacitor`)"
 
@@ -101,6 +104,8 @@ EXTERNAL SOURCES:
     :path: "../capacitor-cordova-ios-plugins"
   DvsaCapacitorPluginAsam:
     :path: "../../node_modules/@dvsa/capacitor-plugin-asam"
+  DvsaCapacitorPluginLockDetection:
+    :path: "../../node_modules/@dvsa/capacitor-plugin-lock-detection"
   DvsaCapacitorPluginWindowMode:
     :path: "../../node_modules/@dvsa/capacitor-plugin-window-mode"
   SentryCapacitor:
@@ -124,11 +129,12 @@ SPEC CHECKSUMS:
   CordovaPluginsResources: da93847212bf7b16ba770e4d6c3e7dba820174c7
   CordovaPluginsStatic: 4f70cac024b7722a513d94a5daac59ea9ea2a77b
   DvsaCapacitorPluginAsam: 53472a3be6f372181d6a27d5a27811e8a79a5719
+  DvsaCapacitorPluginLockDetection: c46e846f00732a7caaa90c8586ec2f7e212cd1ea
   DvsaCapacitorPluginWindowMode: ffcf066553f121535d7aa3a49bf95cda9e400285
   GoogleAnalytics: 01e4c5a04544a3608f93e970ce0817836897c5a5
   Sentry: 1ca8405451040482877dcd344dfa3ef80b646631
   SentryCapacitor: b364f83da8e94699cc1c40b9e2c0473bef631306
 
-PODFILE CHECKSUM: 07c97cc119331303ec3db075b47f55ca997be4eb
+PODFILE CHECKSUM: b2f345f370bb7447378771781ba8e343a3a5b3e8
 
 COCOAPODS: 1.16.2
