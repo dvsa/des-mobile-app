@@ -78,7 +78,7 @@ export class AppConfigProvider {
     private dataStoreProvider: DataStoreProvider,
     private store$: Store<StoreModel>,
     private logHelper: LogHelper,
-    private isDebug: IsDebug,
+    private isDebug: IsDebug
   ) {
     this.setStoreSubscription();
   }
@@ -198,10 +198,13 @@ export class AppConfigProvider {
       .then((data) => {
         const result: ValidatorResult = this.schemaValidatorProvider.validateRemoteConfig(data);
 
-        this.logDebug('Validating remote config', JSON.stringify({
-          result,
-          data,
-        }));
+        this.logDebug(
+          'Validating remote config',
+          JSON.stringify({
+            result,
+            data,
+          })
+        );
 
         if (result?.errors?.length > 0) {
           return Promise.reject(result.errors);
@@ -214,7 +217,7 @@ export class AppConfigProvider {
           this.store$.dispatch(
             SaveLog({
               payload: this.logHelper.createLog(LogType.ERROR, 'Loading remote config', error.message),
-            }),
+            })
           );
 
           if (error && error.status === 403) {
@@ -233,13 +236,12 @@ export class AppConfigProvider {
           }
         }
 
-        const configError = ((error || []) as ValidationError[]).map((err: ValidationError) => err.message)
-          .join(', ');
+        const configError = ((error || []) as ValidationError[]).map((err: ValidationError) => err.message).join(', ');
 
         this.store$.dispatch(
           SaveLog({
             payload: this.logHelper.createLog(LogType.ERROR, 'Validating remote config', configError),
-          }),
+          })
         );
         return Promise.reject(AppConfigError.VALIDATION_ERROR);
       });
@@ -254,33 +256,32 @@ export class AppConfigProvider {
         return;
       }
 
-      this.appInfoProvider.getFullVersionNumber()
-        .then((version: string) => {
-          const url = `${this.environmentFile.configUrl}?app_version=${version}`;
+      this.appInfoProvider.getFullVersionNumber().then((version: string) => {
+        const url = `${this.environmentFile.configUrl}?app_version=${version}`;
 
-          this.logDebug('Requesting remote config', url);
+        this.logDebug('Requesting remote config', url);
 
-          this.httpClient
-            .get(url)
-            .pipe(timeout(30000))
-            .subscribe({
-              next: (data: RemoteConfig) => {
-                this.dataStoreProvider.setItem(LocalStorageKey.CONFIG, JSON.stringify(data));
-                resolve(data);
-              },
-              error: ({ error }: HttpErrorResponse) => {
-                if (this.shouldGetCachedConfig(error)) {
-                  this.logError('Getting remote config failed, using cached data', error);
-                  this.getCachedRemoteConfig()
-                    .then((data) => resolve(data))
-                    .catch((cacheError) => reject(cacheError));
-                } else {
-                  this.logError('Getting remote config failed, not using cached data', error);
-                  reject(error);
-                }
-              },
-            });
-        });
+        this.httpClient
+          .get(url)
+          .pipe(timeout(30000))
+          .subscribe({
+            next: (data: RemoteConfig) => {
+              this.dataStoreProvider.setItem(LocalStorageKey.CONFIG, JSON.stringify(data));
+              resolve(data);
+            },
+            error: ({ error }: HttpErrorResponse) => {
+              if (this.shouldGetCachedConfig(error)) {
+                this.logError('Getting remote config failed, using cached data', error);
+                this.getCachedRemoteConfig()
+                  .then((data) => resolve(data))
+                  .catch((cacheError) => reject(cacheError));
+              } else {
+                this.logError('Getting remote config failed, not using cached data', error);
+                reject(error);
+              }
+            },
+          });
+      });
     });
 
   private shouldGetCachedConfig = (errorMessage: string): boolean => {
@@ -293,7 +294,7 @@ export class AppConfigProvider {
     this.store$.dispatch(
       SaveLog({
         payload: this.logHelper.createLog(LogType.DEBUG, description, message),
-      }),
+      })
     );
   };
 
@@ -301,7 +302,7 @@ export class AppConfigProvider {
     this.store$.dispatch(
       SaveLog({
         payload: this.logHelper.createLog(LogType.ERROR, description, error),
-      }),
+      })
     );
   };
 

@@ -49,7 +49,7 @@ export class AuthenticationProvider {
     private store$: Store<StoreModel>,
     private logHelper: LogHelper,
     private completedTestPersistenceProvider: CompletedTestPersistenceProvider,
-    private examinerRecordsProvider: ExaminerRecordsProvider,
+    private examinerRecordsProvider: ExaminerRecordsProvider
   ) {
     this.setStoreSubscription();
   }
@@ -230,7 +230,7 @@ export class AuthenticationProvider {
       .pipe(
         tap((employeeId: string) => {
           if (employeeId) this.employeeId = employeeId;
-        }),
+        })
       )
       .subscribe();
   };
@@ -344,7 +344,7 @@ export class AuthenticationProvider {
     this.store$.dispatch(
       SaveLog({
         payload: this.logHelper.createLog(logType, desc, `AuthenticationProvider => ${serialiseLogMessage(msg)}`),
-      }),
+      })
     );
   };
 
