@@ -146,6 +146,8 @@ export class AppConfigProvider {
   };
 
   public loadManagedConfig = async (): Promise<void> => {
+    this.logDebug('Loading managed config', 'Attempting to load managed config from MDM');
+
     const newEnvFile: EnvironmentFile = {
       production: false,
       isRemote: true,
@@ -167,6 +169,8 @@ export class AppConfigProvider {
         resourceUrl: await this.getManagedConfigValueString('resourceUrl'),
       },
     };
+
+    this.logDebug('Managed config has loaded', JSON.stringify({ newEnvFile }));
 
     // Check to see if we have any config
     if (!isEmpty(newEnvFile.configUrl)) {
@@ -193,6 +197,15 @@ export class AppConfigProvider {
     this.getRemoteData()
       .then((data) => {
         const result: ValidatorResult = this.schemaValidatorProvider.validateRemoteConfig(data);
+
+        this.logDebug(
+          'Validating remote config',
+          JSON.stringify({
+            result,
+            data,
+          })
+        );
+
         if (result?.errors?.length > 0) {
           return Promise.reject(result.errors);
         }
@@ -245,6 +258,9 @@ export class AppConfigProvider {
 
       this.appInfoProvider.getFullVersionNumber().then((version: string) => {
         const url = `${this.environmentFile.configUrl}?app_version=${version}`;
+
+        this.logDebug('Requesting remote config', url);
+
         this.httpClient
           .get(url)
           .pipe(timeout(30000))
@@ -271,6 +287,14 @@ export class AppConfigProvider {
   private shouldGetCachedConfig = (errorMessage: string): boolean => {
     return (
       errorMessage !== AuthenticationError.USER_NOT_AUTHORISED && errorMessage !== AppConfigError.INVALID_APP_VERSION
+    );
+  };
+
+  private logDebug = (description: string, message: string): void => {
+    this.store$.dispatch(
+      SaveLog({
+        payload: this.logHelper.createLog(LogType.DEBUG, description, message),
+      })
     );
   };
 

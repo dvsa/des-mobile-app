@@ -97,7 +97,9 @@ export class AuthenticationProvider {
 
   private async getToken(tokenName: Token): Promise<string | null> {
     try {
-      return JSON.parse(await this.dataStoreProvider.getItem(tokenName));
+      const t = JSON.parse(await this.dataStoreProvider.getItem(tokenName));
+      this.logEvent(LogType.DEBUG, `Get ${tokenName} Token`, t);
+      return t;
     } catch (error) {
       return Promise.resolve(null);
     }

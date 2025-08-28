@@ -29,6 +29,7 @@ export class AuthInterceptor implements HttpInterceptor {
       });
       return next.handle(newRequest);
     }
+
     return from(this.authProvider.getAuthenticationToken()).pipe(
       switchMap((token: string) => {
         if (token) {
