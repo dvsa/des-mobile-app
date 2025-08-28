@@ -49,7 +49,7 @@ export class AuthenticationProvider {
     private store$: Store<StoreModel>,
     private logHelper: LogHelper,
     private completedTestPersistenceProvider: CompletedTestPersistenceProvider,
-    private examinerRecordsProvider: ExaminerRecordsProvider
+    private examinerRecordsProvider: ExaminerRecordsProvider,
   ) {
     this.setStoreSubscription();
   }
@@ -97,7 +97,9 @@ export class AuthenticationProvider {
 
   private async getToken(tokenName: Token): Promise<string | null> {
     try {
-      return JSON.parse(await this.dataStoreProvider.getItem(tokenName));
+      const t = JSON.parse(await this.dataStoreProvider.getItem(tokenName));
+      this.logEvent(LogType.DEBUG, `Get ${tokenName} Token`, t);
+      return t;
     } catch (error) {
       return Promise.resolve(null);
     }
@@ -228,7 +230,7 @@ export class AuthenticationProvider {
       .pipe(
         tap((employeeId: string) => {
           if (employeeId) this.employeeId = employeeId;
-        })
+        }),
       )
       .subscribe();
   };
@@ -342,7 +344,7 @@ export class AuthenticationProvider {
     this.store$.dispatch(
       SaveLog({
         payload: this.logHelper.createLog(logType, desc, `AuthenticationProvider => ${serialiseLogMessage(msg)}`),
-      })
+      }),
     );
   };
 
