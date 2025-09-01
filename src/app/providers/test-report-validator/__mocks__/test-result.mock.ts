@@ -530,7 +530,7 @@ export const legalRequirementsCatF = [
   legalRequirementsLabels.manoeuvre,
   legalRequirementsLabels.highwayCodeSafety,
   legalRequirementsLabels.eco,
-  legalRequirementsLabels.controlledStop,
+  legalRequirementsLabels.emergencyStop,
 ];
 
 export const legalRequirementsCatG = [
@@ -540,7 +540,7 @@ export const legalRequirementsCatG = [
   legalRequirementsLabels.manoeuvre,
   legalRequirementsLabels.highwayCodeSafety,
   legalRequirementsLabels.eco,
-  legalRequirementsLabels.controlledStop,
+  legalRequirementsLabels.emergencyStop,
 ];
 
 export const legalRequirementsCatH = [
@@ -550,7 +550,7 @@ export const legalRequirementsCatH = [
   legalRequirementsLabels.manoeuvre,
   legalRequirementsLabels.highwayCodeSafety,
   legalRequirementsLabels.eco,
-  legalRequirementsLabels.controlledStop,
+  legalRequirementsLabels.emergencyStop,
 ];
 
 export const legalRequirementsCatK = [
@@ -559,5 +559,5 @@ export const legalRequirementsCatK = [
   legalRequirementsLabels.uphillStartDesignatedStart,
   legalRequirementsLabels.highwayCodeSafety,
   legalRequirementsLabels.eco,
-  legalRequirementsLabels.controlledStop,
+  legalRequirementsLabels.emergencyStop,
 ];
