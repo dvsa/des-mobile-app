@@ -28,7 +28,7 @@ jobs:
 
   feature:
     if: github.event_name == 'workflow_dispatch'
-    uses: dvsa/des-workflow-actions/.github/workflows/build-mobile-app.yaml@main
+    uses: dvsa/des-workflow-actions/.github/workflows/build-mobile-app.yaml@MES-10590-remove-x64-mito-usage
     with:
       runs-on: MACOS-ARM64
       environment: feature
