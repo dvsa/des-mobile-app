@@ -36,6 +36,13 @@ interface DelegatedRekeySearchPageState {
   rekeySearchErr$: Observable<DelegatedRekeySearchError | HttpErrorResponse>;
 }
 
+export enum SearchResultState {
+  NO_RESULT = 'NoResults',
+  ALREADY_SUBMITTED = 'AlreadySubmitted',
+  HAS_RESULT = 'HasResults',
+  NONE = 'None', // initial state, has not searched yet or has cleared the search
+}
+
 @Component({
   selector: 'page-delegated-rekey-search',
   templateUrl: './delegated-rekey-search.html',
@@ -43,6 +50,7 @@ interface DelegatedRekeySearchPageState {
 })
 export class DelegatedRekeySearchPage extends BasePageComponent implements OnInit {
   pageState: DelegatedRekeySearchPageState;
+  SearchResultState = SearchResultState;
   delegatedRekeyForm: UntypedFormGroup;
   hasClickedSearch = false;
   maxCallStackHandler = {
@@ -165,5 +173,36 @@ export class DelegatedRekeySearchPage extends BasePageComponent implements OnIni
 
   clearAppRef() {
     this.applicationReferenceChanged('');
+  }
+
+  getSearchResultState(bookedTestSlot, rekeySearchErr, hasSearched): SearchResultState {
+    console.log('hasSearched', hasSearched);
+    console.log('this.isBookedTestSlotEmpty(bookedTestSlot)', this.isBookedTestSlotEmpty(bookedTestSlot));
+    console.log(
+      'this.hasBookingAlreadyBeenCompleted(rekeySearchErr)',
+      this.hasBookingAlreadyBeenCompleted(rekeySearchErr)
+    );
+
+    // && (!(environment as unknown as TestersEnvironmentFile)?.isTest)
+
+    if (
+      hasSearched &&
+      this.isBookedTestSlotEmpty(bookedTestSlot) &&
+      !this.hasBookingAlreadyBeenCompleted(rekeySearchErr)
+    ) {
+      console.log(`getSearchResultState: ${SearchResultState.NO_RESULT}`);
+      return SearchResultState.NO_RESULT;
+    }
+    if (hasSearched && this.hasBookingAlreadyBeenCompleted(rekeySearchErr)) {
+      console.log(`getSearchResultState: ${SearchResultState.ALREADY_SUBMITTED}`);
+      return SearchResultState.ALREADY_SUBMITTED;
+    }
+    if (!this.isBookedTestSlotEmpty(bookedTestSlot)) {
+      console.log(`getSearchResultState: ${SearchResultState.HAS_RESULT}`);
+      return SearchResultState.HAS_RESULT;
+    }
+
+    console.log(`getSearchResultState: ${SearchResultState.NONE}`);
+    return SearchResultState.NONE;
   }
 }
