@@ -82,31 +82,36 @@
       </tab>
     </tabs>
 
-    <div [ngSwitch]="getSearchResultState(pageState.bookedTestSlot$ | async, pageState.rekeySearchErr$ | async, pageState.hasSearched$ | async)">
-      <div *ngSwitchCase="SearchResultState.NO_RESULT" class="results-error">
-        <p class="error-text" id="delegated-rekey-search-error-text-no-results">There were no results found for your search.</p>
-        <p class="error-text" id="delegated-rekey-search-error-text-no-pls-try-again">Please check and try again.</p>
-      </div>
-      <div *ngSwitchCase="SearchResultState.ALREADY_SUBMITTED" class="results-error">
-        <p class="error-text" id="delegated-rekey-search-error-text-already-submitted">
-          You can't rekey this test as it has already been submitted.
+    @switch (getSearchResultState(pageState.bookedTestSlot$ | async, pageState.rekeySearchErr$ | async, pageState.hasSearched$ | async)) {
+      @case (SearchResultState.NO_RESULT) {
+        <div class="results-error">
+          <p class="error-text" id="delegated-rekey-search-error-text-no-results">There were no results found for your search.</p>
+          <p class="error-text" id="delegated-rekey-search-error-text-no-pls-try-again">Please check and try again.</p>
+        </div>
+      }
+      @case (SearchResultState.ALREADY_SUBMITTED) {
+        <div class="results-error">
+          <p class="error-text" id="delegated-rekey-search-error-text-already-submitted">
+            You can't rekey this test as it has already been submitted.
+          </p>
+          <p class="error-text" id="delegated-rekey-search-error-text-try-again">Please check and try again.</p>
+        </div>
+      }
+      @case (SearchResultState.HAS_RESULT) {
+        <p class="results-message">
+          <test-slot
+            [delegatedTest]="true"
+            [isPortrait]="orientationMonitorProvider.isPortraitMode$ | async"
+            [slot]="(pageState.bookedTestSlot$ | async)"
+            [hasSlotChanged]="false"
+            [hasSeenCandidateDetails]="true"
+            [showLocation]="false"
+            (cancelFutureTestModal)="clearAppRef()"
+          >
+          </test-slot>
         </p>
-        <p class="error-text" id="delegated-rekey-search-error-text-try-again">Please check and try again.</p>
-      </div>
-      <p *ngSwitchCase="SearchResultState.HAS_RESULT" class="results-message">
-        <test-slot
-          [delegatedTest]="true"
-          [isPortrait]="orientationMonitorProvider.isPortraitMode$ | async"
-          [slot]="(pageState.bookedTestSlot$ | async)"
-          [hasSlotChanged]="false"
-          [hasSeenCandidateDetails]="true"
-          [showLocation]="false"
-          (cancelFutureTestModal)="clearAppRef()"
-        >
-        </test-slot>
-      </p>
-    </div>
-
+      }
+    }
 
   </div>
 </ion-content>
