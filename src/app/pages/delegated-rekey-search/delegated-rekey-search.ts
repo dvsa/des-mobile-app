@@ -2,6 +2,8 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Component, Injector, OnInit } from '@angular/core';
 import { AbstractControl, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { TestSlot } from '@dvsa/mes-journal-schema';
+import { environment } from '@environments/environment';
+import { TestersEnvironmentFile } from '@environments/models/environment.model';
 import { ModalController } from '@ionic/angular';
 import { select } from '@ngrx/store';
 import {
@@ -176,33 +178,22 @@ export class DelegatedRekeySearchPage extends BasePageComponent implements OnIni
   }
 
   getSearchResultState(bookedTestSlot, rekeySearchErr, hasSearched): SearchResultState {
-    console.log('hasSearched', hasSearched);
-    console.log('this.isBookedTestSlotEmpty(bookedTestSlot)', this.isBookedTestSlotEmpty(bookedTestSlot));
-    console.log(
-      'this.hasBookingAlreadyBeenCompleted(rekeySearchErr)',
-      this.hasBookingAlreadyBeenCompleted(rekeySearchErr)
-    );
-
-    // && (!(environment as unknown as TestersEnvironmentFile)?.isTest)
-
     if (
       hasSearched &&
       this.isBookedTestSlotEmpty(bookedTestSlot) &&
       !this.hasBookingAlreadyBeenCompleted(rekeySearchErr)
     ) {
-      console.log(`getSearchResultState: ${SearchResultState.NO_RESULT}`);
       return SearchResultState.NO_RESULT;
     }
     if (hasSearched && this.hasBookingAlreadyBeenCompleted(rekeySearchErr)) {
-      console.log(`getSearchResultState: ${SearchResultState.ALREADY_SUBMITTED}`);
-      return SearchResultState.ALREADY_SUBMITTED;
+      return (environment as unknown as TestersEnvironmentFile)?.isTest
+        ? SearchResultState.HAS_RESULT
+        : SearchResultState.ALREADY_SUBMITTED;
     }
     if (!this.isBookedTestSlotEmpty(bookedTestSlot)) {
-      console.log(`getSearchResultState: ${SearchResultState.HAS_RESULT}`);
       return SearchResultState.HAS_RESULT;
     }
 
-    console.log(`getSearchResultState: ${SearchResultState.NONE}`);
     return SearchResultState.NONE;
   }
 }

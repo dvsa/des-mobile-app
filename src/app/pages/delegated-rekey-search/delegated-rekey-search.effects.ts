@@ -4,6 +4,8 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
 import { catchError, switchMap } from 'rxjs/operators';
 
+import { environment } from '@environments/environment';
+import { TestersEnvironmentFile } from '@environments/models/environment.model';
 import {
   DelegatedExaminerBooking,
   DelegatedRekeySearchProvider,
@@ -39,6 +41,59 @@ export class DelegatedRekeySearchEffects {
     this.actions$.pipe(
       ofType(SearchBookedDelegatedTest),
       switchMap((action) => {
+        const isTest = (environment as unknown as TestersEnvironmentFile)?.isTest;
+        // In test mode, skip getTestResult and fetch booking directly
+        if (isTest) {
+          return this.delegatedRekeySearchProvider.getDelegatedExaminerBookingByAppRef(action.appRef).pipe(
+            switchMap((response: DelegatedExaminerBooking): Observable<DelegatedRekeySearchActions> => {
+              let delegatedExaminerTestSlot: DelegatedExaminerTestSlot;
+              try {
+                delegatedExaminerTestSlot = {
+                  testCentre: {
+                    centreId: response.testSlot.testCentre.centreId,
+                    centreName: response.testSlot.testCentre.centreName,
+                    costCode: response.testSlot.testCentre.costCode,
+                  },
+                  booking: {
+                    application: {
+                      applicationId: response.testSlot.booking.application.applicationId,
+                      bookingSequence: response.testSlot.booking.application.bookingSequence,
+                      checkDigit: response.testSlot.booking.application.checkDigit,
+                      testCategory: response.testSlot.booking.application.testCategory,
+                      welshTest: false,
+                      extendedTest: false,
+                    },
+                    candidate: {
+                      candidateId: response.testSlot.booking.candidate.candidateId,
+                      candidateName: {
+                        firstName: response.testSlot.booking.candidate.candidateName.firstName,
+                        lastName: response.testSlot.booking.candidate.candidateName.lastName,
+                      },
+                      driverNumber: response.testSlot.booking.candidate.driverNumber,
+                      dateOfBirth: response.testSlot.booking.candidate.dateOfBirth,
+                      gender: response.testSlot.booking.candidate.gender,
+                    },
+                  },
+                  slotDetail: {
+                    slotId: response.testSlot.slotDetail.slotId,
+                    start: response.testSlot.slotDetail.start,
+                  },
+                  vehicleTypeCode: response.testSlot.vehicleTypeCode,
+                  examinerId: response.examinerId,
+                };
+                return of(SearchBookedDelegatedTestSuccess(delegatedExaminerTestSlot));
+              } catch (error) {
+                return of(
+                  SearchBookedDelegatedTestFailure({
+                    message: DelegatedRekeySearchErrorMessages.MappingToTestSlotError,
+                  })
+                );
+              }
+            }),
+            catchError((err) => of(SearchBookedDelegatedTestFailure(err)))
+          );
+        }
+        // Non-test mode
         return this.testSearchProvider.getTestResult(action.appRef, undefined).pipe(
           switchMap((): Observable<DelegatedRekeySearchActions> => {
             return of(
