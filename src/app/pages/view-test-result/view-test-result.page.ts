@@ -134,6 +134,8 @@ export class ViewTestResultPage extends BasePageComponent implements OnInit {
     }
   }
 
+  public isADI3 = (): boolean => this.testResult.category === TestCategory.ADI3;
+
   getReason() {
     return get(this.testResult, 'testData.review.reasonForNoAdviceGiven');
   }
