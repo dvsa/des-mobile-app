@@ -8,6 +8,7 @@ import { QuestionProvider } from '@providers/question/question';
 import { VehicleChecksQuestion } from '@providers/question/vehicle-checks-question.model';
 import { manoeuvreTypeLabels } from '@shared/constants/competencies/catb-manoeuvres';
 import { manoeuvreTypeLabelsCatC } from '@shared/constants/competencies/catc-manoeuvres';
+import { legalRequirementsLabels } from '@shared/constants/legal-requirements/legal-requirements.constants';
 import { isAnyOf } from '@shared/helpers/simplifiers';
 import { FaultSummary } from '@shared/models/fault-marking.model';
 import { TestDataUnion } from '@shared/unions/test-schema-unions';
@@ -555,4 +556,6 @@ export class DebriefCardComponent implements OnInit {
       (!this.delegatedTest && !this.isMod1() && !this.isMod2())
     );
   }
+
+  protected readonly legalRequirementsLabels = legalRequirementsLabels;
 }
