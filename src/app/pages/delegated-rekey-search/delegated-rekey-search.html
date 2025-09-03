@@ -82,38 +82,6 @@
       </tab>
     </tabs>
 
-<!--    <div-->
-<!--      class="results-error"-->
-<!--      *ngIf="(pageState.hasSearched$ | async) && isBookedTestSlotEmpty(pageState.bookedTestSlot$ | async) && !(hasBookingAlreadyBeenCompleted(pageState.rekeySearchErr$ | async))"-->
-<!--    >-->
-<!--      <p class="error-text" id="delegated-rekey-search-error-text-no-results">There were no results found for your search.</p>-->
-<!--      <p class="error-text" id="delegated-rekey-search-error-text-no-pls-try-again">Please check and try again.</p>-->
-<!--    </div>-->
-
-<!--    <div-->
-<!--      class="results-error"-->
-<!--      *ngIf="(pageState.hasSearched$ | async) && (hasBookingAlreadyBeenCompleted(pageState.rekeySearchErr$ | async))"-->
-<!--    >-->
-<!--      <p class="error-text" id="delegated-rekey-search-error-text-already-submitted">-->
-<!--        You can't rekey this test as it has already been submitted.-->
-<!--      </p>-->
-<!--      <p class="error-text" id="delegated-rekey-search-error-text-try-again">Please check and try again.</p>-->
-<!--    </div>-->
-
-<!--    <p class="results-message" *ngIf="!isBookedTestSlotEmpty(pageState.bookedTestSlot$ | async)">-->
-<!--      <test-slot-->
-<!--        [delegatedTest]="true"-->
-<!--        [isPortrait]="orientationMonitorProvider.isPortraitMode$ | async"-->
-<!--        [slot]="(pageState.bookedTestSlot$ | async)"-->
-<!--        [hasSlotChanged]="false"-->
-<!--        [hasSeenCandidateDetails]="true"-->
-<!--        [showLocation]="false"-->
-<!--        (cancelFutureTestModal)="clearAppRef()"-->
-<!--      >-->
-<!--      </test-slot>-->
-<!--    </p>-->
-
-
     <div [ngSwitch]="getSearchResultState(pageState.bookedTestSlot$ | async, pageState.rekeySearchErr$ | async, pageState.hasSearched$ | async)">
       <div *ngSwitchCase="SearchResultState.NO_RESULT" class="results-error">
         <p class="error-text" id="delegated-rekey-search-error-text-no-results">There were no results found for your search.</p>
