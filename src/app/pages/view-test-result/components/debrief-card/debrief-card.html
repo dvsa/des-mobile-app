@@ -18,7 +18,7 @@
 
       <data-row *ngIf="isCatB()" [label]="'Manoeuvre(s)'" [value]="getFlattenArray(getManoeuvres())"> </data-row>
 
-      <data-row-with-list *ngIf="showControlledStop()" [label]="'Controlled stop'" [data]="controlledStop">
+      <data-row-with-list *ngIf="showControlledStop()" [label]="legalRequirementsLabels.emergencyStop" [data]="controlledStop">
       </data-row-with-list>
 
       <data-row-custom *ngIf="!isMod1()" [shouldHaveSeperator]="true" [centeredLabel]="false" [label]="'ECO'">

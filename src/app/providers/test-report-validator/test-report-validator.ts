@@ -572,7 +572,7 @@ export class TestReportValidatorProvider {
     }
     if (!get(data, 'highwayCodeSafety.selected', false)) result.push(legalRequirementsLabels.highwayCodeSafety);
     if (!get(data, 'eco.completed', false)) result.push(legalRequirementsLabels.eco);
-    if (!get(data, 'controlledStop.selected', false)) result.push(legalRequirementsLabels.controlledStop);
+    if (!get(data, 'controlledStop.selected', false)) result.push(legalRequirementsLabels.emergencyStop);
 
     return result;
   }
@@ -587,7 +587,7 @@ export class TestReportValidatorProvider {
     }
     if (!get(data, 'highwayCodeSafety.selected', false)) result.push(legalRequirementsLabels.highwayCodeSafety);
     if (!get(data, 'eco.completed', false)) result.push(legalRequirementsLabels.eco);
-    if (!get(data, 'controlledStop.selected', false)) result.push(legalRequirementsLabels.controlledStop);
+    if (!get(data, 'controlledStop.selected', false)) result.push(legalRequirementsLabels.emergencyStop);
 
     return result;
   }
