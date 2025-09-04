@@ -51,6 +51,7 @@ import { getTests } from '@store/tests/tests.reducer';
 import { Observable, Subscription, combineLatest, from, merge, takeWhile } from 'rxjs';
 import { filter, map, switchMap, tap, withLatestFrom } from 'rxjs/operators';
 import { DashboardViewDidEnter, PracticeTestReportCard } from './dashboard.actions';
+import { WindowMode } from '@dvsa/capacitor-plugin-window-mode';
 
 interface DashboardPageState {
   appVersion$: Observable<string>;
@@ -94,6 +95,11 @@ export class DashboardPage extends BasePageComponent implements OnInit, ViewDidE
     this.todaysDate = this.dateTimeProvider.now();
     this.todaysDateFormatted = this.dateTimeProvider.now().format('dddd Do MMMM YYYY');
     this.store$.dispatch(journalActions.SetSelectedDate(this.dateTimeProvider.now().format('YYYY-MM-DD')));
+  }
+
+  async checkWindow() {
+    const isWindow = await WindowMode.isInWindowMode();
+    alert(`Is in window mode: ${isWindow.isInWindowMode}`);
   }
 
   ngOnInit() {
@@ -158,6 +164,12 @@ export class DashboardPage extends BasePageComponent implements OnInit, ViewDidE
     if (this.merged$) {
       this.subscription = this.merged$.subscribe();
     }
+
+    this.shouldClearPracticeModeOnExit = true;
+    // Listen to window mode changes
+    WindowMode.addListener('windowModeChanged', (info) => {
+      alert(`Window mode changed: ${info.isInWindowMode ? 'Windowed' : 'Full screen'}`);
+    });
   }
 
   async ionViewWillEnter(): Promise<boolean> {

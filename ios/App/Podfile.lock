@@ -32,6 +32,8 @@ PODS:
     - GoogleAnalytics (= 3.20.0)
   - DvsaCapacitorPluginAsam (2.1.0):
     - Capacitor
+  - DvsaCapacitorPluginWindowMode (0.0.3):
+    - Capacitor
   - GoogleAnalytics (3.20.0)
   - Sentry/HybridSDK (8.48.0)
   - SentryCapacitor (1.4.0):
@@ -56,6 +58,7 @@ DEPENDENCIES:
   - CordovaPluginsResources (from `../capacitor-cordova-ios-plugins`)
   - CordovaPluginsStatic (from `../capacitor-cordova-ios-plugins`)
   - "DvsaCapacitorPluginAsam (from `../../node_modules/@dvsa/capacitor-plugin-asam`)"
+  - "DvsaCapacitorPluginWindowMode (from `../../node_modules/@dvsa/capacitor-plugin-window-mode`)"
   - "SentryCapacitor (from `../../node_modules/@sentry/capacitor`)"
 
 SPEC REPOS:
@@ -98,6 +101,8 @@ EXTERNAL SOURCES:
     :path: "../capacitor-cordova-ios-plugins"
   DvsaCapacitorPluginAsam:
     :path: "../../node_modules/@dvsa/capacitor-plugin-asam"
+  DvsaCapacitorPluginWindowMode:
+    :path: "../../node_modules/@dvsa/capacitor-plugin-window-mode"
   SentryCapacitor:
     :path: "../../node_modules/@sentry/capacitor"
 
