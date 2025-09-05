@@ -45,38 +45,39 @@
           </ion-row>
           <ion-row class="ion-padding-top">
             <ion-col size="96">
-              <ion-input
-                *ngIf="searchBy !== 'appReference'"
-                id="test-result-search-{{searchBy}}-input"
-                [placeholder]="'Enter a driver number'"
-                aria-label="Driver number"
-                type="text"
-                class="ion-input-styling custom-font-size"
-                [clearInput]="true"
-                uppercaseAlphanumOnly
-                (ionFocus)="setFocus('field')"
-                (ionBlur)="setFocus(null)"
-                [value]="candidateInfo"
-                [ngClass]="{'input-focus': focusedElement === 'field'}"
-                (ionInput)="candidateInfoChanged($event.target.value)"
-              >
-              </ion-input>
-              <ion-input
-                *ngIf="searchBy === 'appReference'"
-                id="test-result-search-{{searchBy}}-input"
-                [placeholder]="'Enter an application reference'"
-                aria-label="Application reference"
-                type="text"
-                class="ion-input-styling custom-font-size"
-                [clearInput]="true"
-                numbersOnly
-                (ionFocus)="setFocus('field')"
-                (ionBlur)="setFocus(null)"
-                [value]="candidateInfo"
-                [ngClass]="{'input-focus': focusedElement === 'field'}"
-                (ionInput)="candidateInfoChanged($event.target.value)"
-              >
-              </ion-input>
+              @if (searchBy === 'appReference') {
+                <ion-input
+                  id="test-result-search-{{searchBy}}-input"
+                  [placeholder]="'Enter an application reference'"
+                  aria-label="Application reference"
+                  type="text"
+                  class="ion-input-styling custom-font-size"
+                  [clearInput]="true"
+                  numbersOnly
+                  (ionFocus)="setFocus('field')"
+                  (ionBlur)="setFocus(null)"
+                  [value]="candidateInfo"
+                  [ngClass]="{'input-focus': focusedElement === 'field'}"
+                  (ionInput)="candidateInfoChanged($event.target.value)"
+                >
+                </ion-input>
+              } @else {
+                <ion-input
+                  id="test-result-search-{{searchBy}}-input"
+                  [placeholder]="'Enter a driver number'"
+                  aria-label="Driver number"
+                  type="text"
+                  class="ion-input-styling custom-font-size"
+                  [clearInput]="true"
+                  uppercaseAlphanumOnly
+                  (ionFocus)="setFocus('field')"
+                  (ionBlur)="setFocus(null)"
+                  [value]="candidateInfo"
+                  [ngClass]="{'input-focus': focusedElement === 'field'}"
+                  (ionInput)="candidateInfoChanged($event.target.value)"
+                >
+                </ion-input>
+              }
             </ion-col>
           </ion-row>
           <ion-row class="ion-padding-top">
@@ -95,7 +96,9 @@
               </ion-col>
               <ion-col class="display-flex">
                 <ion-col class="ion-justify-content-end display-flex">
-                  <ion-spinner *ngIf="showSearchSpinner" id="search-spinner" name="bubbles"> </ion-spinner>
+                  @if (showSearchSpinner) {
+                    <ion-spinner id="search-spinner" name="bubbles"> </ion-spinner>
+                  }
                 </ion-col>
               </ion-col>
             </ion-button>
@@ -114,15 +117,18 @@
       </tab>
     </tabs>
 
-    <div class="results-error" *ngIf="hasSearched && searchResults.length === 0">
-      <p class="error-text" id="test-result-search-no-results-message">There were no results found for your search.</p>
-      <p class="error-text" id="test-result-search-please-check-try-again-message">Please check and try again.</p>
-    </div>
-
-    <p class="results-message" *ngIf="searchResults.length > 0" id="displaying-results-label">
-      Displaying <span>{{searchResults.length}}</span> results
-    </p>
-
-    <search-result *ngFor="let searchResult of searchResults;" [searchResult]="searchResult"> </search-result>
+    @if (hasSearched && searchResults.length === 0) {
+      <div class="results-error">
+        <p class="error-text" id="test-result-search-no-results-message">There were no results found for your search.</p>
+        <p class="error-text" id="test-result-search-please-check-try-again-message">Please check and try again.</p>
+      </div>
+    } @else if (searchResults.length > 0) {
+      <p class="results-message" id="displaying-results-label">
+        Displaying <span>{{searchResults.length}}</span> results
+      </p>
+    }
+    @for (searchResult of searchResults; track $index) {
+      <search-result [searchResult]="searchResult"> </search-result>
+    }
   </div>
 </ion-content>

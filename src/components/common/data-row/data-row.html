@@ -13,12 +13,13 @@
       class="exclamation-indicator"
     />
   </ion-col>
-  <ion-col size="40" *ngIf="imgSrc; else notImage;">
-    <img [src]="imgSrc" [id]="label | formatToID: idPrefix: true" [ngStyle]="dataStyling" [alt]="label + ' image'" />
-  </ion-col>
-  <ng-template #notImage>
+  @if (imgSrc) {
+    <ion-col size="40">
+      <img [src]="imgSrc" [id]="label | formatToID: idPrefix: true" [ngStyle]="dataStyling" [alt]="label + ' image'"/>
+    </ion-col>
+  } @else {
     <ion-col [class]="[centreData ? 'ion-justify-content-center' : null, 'ion-align-items-center', 'display-flex']">
       <span [ngStyle]="dataStyling" class="mes-data" [id]="label | formatToID: idPrefix: true">{{ value }}</span>
     </ion-col>
-  </ng-template>
+  }
 </ion-row>
