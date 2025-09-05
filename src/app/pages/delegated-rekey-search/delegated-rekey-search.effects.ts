@@ -1,9 +1,11 @@
 import { HttpErrorResponse, HttpStatusCode } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { Observable, of } from 'rxjs';
+import { Observable, of, throwError } from 'rxjs';
 import { catchError, switchMap } from 'rxjs/operators';
 
+import { environment } from '@environments/environment';
+import { TestersEnvironmentFile } from '@environments/models/environment.model';
 import {
   DelegatedExaminerBooking,
   DelegatedRekeySearchProvider,
@@ -41,6 +43,10 @@ export class DelegatedRekeySearchEffects {
       switchMap((action) => {
         return this.testSearchProvider.getTestResult(action.appRef, undefined).pipe(
           switchMap((): Observable<DelegatedRekeySearchActions> => {
+            // Simulate a 400 Bad Request error in test environments to allow testers to resubmit completed bookings
+            if ((environment as unknown as TestersEnvironmentFile)?.isTest) {
+              return throwError(() => new HttpErrorResponse({ status: 400, statusText: 'Bad Request' }));
+            }
             return of(
               SearchBookedDelegatedTestFailure({
                 message: DelegatedRekeySearchErrorMessages.BookingAlreadyCompleted,
