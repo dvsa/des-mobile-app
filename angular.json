@@ -157,7 +157,7 @@
               "aot": false,
               "extractLicenses": false,
               "sourceMap": false,
-              "optimization": false,
+              "optimization": true,
               "namedChunks": false
             },
             "livereload": {
