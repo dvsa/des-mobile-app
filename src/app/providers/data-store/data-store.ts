@@ -5,7 +5,6 @@ import { Storage } from '@ionic/storage-angular';
 import { Capacitor } from '@capacitor/core';
 import { Drivers } from '@ionic/storage';
 import { Store } from '@ngrx/store';
-import { Token } from '@providers/authentication/authentication';
 import { serialiseLogMessage } from '@shared/helpers/serialise-log-message';
 import { LogType } from '@shared/models/log.model';
 import { StoreModel } from '@shared/models/store.model';
@@ -25,7 +24,7 @@ export enum LocalStorageKey {
   EXAMINER_STATS_KEY = 'EXAMINER_STAT_PREFERENCES',
 }
 
-export type StorageKey = LocalStorageKey | Token;
+export type StorageKey = LocalStorageKey;
 
 @Injectable()
 export class DataStoreProvider {

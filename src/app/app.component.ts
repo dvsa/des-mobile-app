@@ -150,8 +150,7 @@ export class AppComponent extends LogoutBasePageComponent implements OnInit {
   }
 
   public initialiseAuthentication = (): void => {
-    this.authenticationProvider.initialiseAuthentication();
-    this.authenticationProvider.determineAuthenticationMode();
+    // this.authenticationProvider.initialiseAuthentication();
   };
 
   public initialiseNetworkState = (): void => {
