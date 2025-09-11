@@ -19,6 +19,7 @@ import { GetTestCentresRefData } from '@store/reference-data/reference-data.acti
 import { LoadPersistedTests, StartSendingCompletedTests } from '@store/tests/tests.actions';
 import { Subscription } from 'rxjs';
 import { DASHBOARD_PAGE } from '../page-names.constants';
+import { AuthConnect } from '@ionic-enterprise/auth';
 
 @Component({
   selector: 'app-login',
@@ -109,17 +110,17 @@ export class LoginPage extends LogoutBasePageComponent implements OnInit {
 
       await this.authenticationProvider.expireTokens();
 
-      const isAuthenticated = await this.authenticationProvider.isAuthenticated();
+      // const isAuthenticated = await this.authenticationProvider.isAuthenticated();
 
       await this.hideSplashscreen();
 
-      if (!isAuthenticated) {
+      // if (!isAuthenticated) {
         await this.authenticationProvider.login();
-      }
+      // }
 
-      await this.authenticationProvider.setEmployeeId();
+      // await this.authenticationProvider.setEmployeeId();
 
-      this.store$.dispatch(LoadEmployeeId({ employeeId: this.authenticationProvider.getEmployeeId() }));
+      // this.store$.dispatch(LoadEmployeeId({ employeeId: this.authenticationProvider.getEmployeeId() }));
 
       this.store$.dispatch(LoadLog());
 
@@ -152,13 +153,13 @@ export class LoginPage extends LogoutBasePageComponent implements OnInit {
       }
 
       if (error === AuthenticationError.USER_NOT_AUTHORISED) {
-        const token = await this.authenticationProvider.getAuthenticationToken();
-        const examiner = this.authenticationProvider.getEmployeeId() || 'unavailable';
-        if (token) {
-          this.dispatchLog(`user ${examiner} not authorised: TOKEN ${token}`);
-        } else {
-          this.dispatchLog(`user ${examiner} not authorised: Could not get token`);
-        }
+        // const token = await this.authenticationProvider.getAuthenticationToken();
+        // const examiner = this.authenticationProvider.getEmployeeId() || 'unavailable';
+        // if (token) {
+        //   this.dispatchLog(`user ${examiner} not authorised: TOKEN ${token}`);
+        // } else {
+        //   this.dispatchLog(`user ${examiner} not authorised: Could not get token`);
+        // }
         await this.authenticationProvider.logout();
       }
 
@@ -193,8 +194,8 @@ export class LoginPage extends LogoutBasePageComponent implements OnInit {
   };
 
   initialiseAuthentication = (): void => {
-    this.authenticationProvider.initialiseAuthentication();
-    this.authenticationProvider.determineAuthenticationMode();
+    // this.authenticationProvider.initialiseAuthentication();
+    // this.authenticationProvider.determineAuthenticationMode();
   };
 
   dispatchLog = (message: string): void => {

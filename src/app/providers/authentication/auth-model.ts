@@ -2,12 +2,8 @@ import { AuthResult } from '@ionic-enterprise/auth';
 
 export interface TokenInfo {
   id: string;
-  testerName: string;
-  testerEmail: string;
-  testerRoles: string[];
   oid: string;
   employeeId: string;
-  testerId: string;
   authResult: AuthResult;
 }
 
@@ -28,11 +24,11 @@ export interface AzureIDToken {
   oid: string;
   preferred_username: string;
   rh: string;
-  roles: string[];
   sub: string;
   tid: string;
   uti: string;
   ver: string;
   employeeid?: string;
+  employeeNameKey?: string;
   email?: string;
 }

@@ -33,7 +33,7 @@ export class JournalProvider {
     const journalUrl = this.urlProvider.getPersonalJournalUrl(staffNumber);
     const networkStatus = this.networkStateProvider.getNetworkState();
     if (lastRefreshed === null) {
-      if (!this.authProvider.isInUnAuthenticatedMode() && networkStatus === ConnectionStatus.ONLINE) {
+      if (networkStatus === ConnectionStatus.ONLINE) {
         return this.http.get(journalUrl).pipe(timeout(this.appConfigProvider.getAppConfig().requestTimeout));
       }
       return this.getOfflineJournal();
@@ -43,7 +43,7 @@ export class JournalProvider {
     const options = {
       headers: new HttpHeaders().set('If-Modified-Since', modifiedSinceValue),
     };
-    if (!this.authProvider.isInUnAuthenticatedMode() && networkStatus === ConnectionStatus.ONLINE) {
+    if (networkStatus === ConnectionStatus.ONLINE) {
       return this.http.get(journalUrl, options).pipe(timeout(this.appConfigProvider.getAppConfig().requestTimeout));
     }
     return this.getOfflineJournal();

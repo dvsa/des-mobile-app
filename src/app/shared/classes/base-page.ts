@@ -5,7 +5,7 @@ import { OrientationType, ScreenOrientation } from '@capawesome/capacitor-screen
 import { Platform } from '@ionic/angular';
 import { Store } from '@ngrx/store';
 
-import { ExitSAMUserReturned, ExitSamError } from '@components/common/test-flow-header/exit-sam.actions';
+import { ExitSamError, ExitSAMUserReturned } from '@components/common/test-flow-header/exit-sam.actions';
 import { LOGIN_PAGE } from '@pages/page-names.constants';
 import { AuthenticationProvider } from '@providers/authentication/authentication';
 import { DeviceProvider } from '@providers/device/device';
@@ -139,7 +139,7 @@ export abstract class BasePageComponent {
   ionViewWillEnter() {
     if (this.isIos()) {
       // re-evaluate connectivity status
-      this.authenticationProvider.determineAuthenticationMode();
+      // this.authenticationProvider.determineAuthenticationMode();
 
       this.authenticationProvider.hasValidToken().then(async (hasValidToken) => {
         if (this.loginRequired && !hasValidToken && !this.authenticationProvider.isInUnAuthenticatedMode()) {
@@ -165,7 +165,7 @@ export abstract class BasePageComponent {
       try {
         await this.authenticationProvider.logout();
       } catch (error) {
-        this.authenticationProvider.onLogoutError(error);
+        this.authenticationProvider.logEvent(LogType.ERROR, error, 'Logout Failed');
       } finally {
         const navigationExtras: NavigationExtras = {
           replaceUrl: true,

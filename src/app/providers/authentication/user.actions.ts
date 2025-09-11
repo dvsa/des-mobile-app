@@ -1,10 +1,8 @@
-import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
 import { createActionGroup, emptyProps, props } from '@ngrx/store';
-import { TokenInfo } from '@providers/auth/authentication/auth-model';
-import { USER_FEATURE_NAME } from './user.feature';
+import { TokenInfo } from '@providers/authentication/auth-model';
 
 export const UserActions = createActionGroup({
-  source: USER_FEATURE_NAME,
+  source: 'user',
   events: {
     setTokenInfo: props<{ tokenInfo: TokenInfo }>(),
     getTokenInfo: emptyProps(),

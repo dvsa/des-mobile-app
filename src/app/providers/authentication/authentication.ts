@@ -1,31 +1,38 @@
-import {Injectable, inject, Signal} from '@angular/core';
+import { inject, Injectable, Signal } from '@angular/core';
 import { Capacitor } from '@capacitor/core';
-import { AuthConnect, AuthResult, AzureProvider, ProviderOptions, TokenType } from '@ionic-enterprise/auth';
-import {Store} from '@ngrx/store';
-import {StoreModel} from '@shared/models/store.model';
-import {NetworkStateProvider} from '@providers/network-state/network-state';
-import {AppConfigProvider} from '@providers/app-config/app-config';
-import {UserSelectors} from '@providers/authentication/user.selectors';
-import {AzureIDToken} from '@providers/authentication/auth-model';
-import {ClearLogs, SaveLog} from '@store/logs/logs.actions';
-import {LogType} from '@shared/models/log.model';
-import {LogHelper} from '@providers/logs/logs-helper';
+import {
+  Auth0Provider,
+  AuthConnect,
+  AuthResult,
+  AzureProvider,
+  ProviderOptions,
+  TokenType,
+} from '@ionic-enterprise/auth';
+import { Store } from '@ngrx/store';
+import { StoreModel } from '@shared/models/store.model';
+import { NetworkStateProvider } from '@providers/network-state/network-state';
+import { AppConfigProvider } from '@providers/app-config/app-config';
+import { UserSelectors } from '@providers/authentication/user.selectors';
+import { AzureIDToken } from '@providers/authentication/auth-model';
+import { ClearLogs, SaveLog } from '@store/logs/logs.actions';
+import { LogType } from '@shared/models/log.model';
+import { LogHelper } from '@providers/logs/logs-helper';
 import { serialiseLogMessage } from '@shared/helpers/serialise-log-message';
-import {ResetFaultMode} from '@pages/test-report/test-report.actions';
-import {ResetRekeyReason} from '@pages/rekey-reason/rekey-reason.actions';
-import {ResetTestCentreJournal} from '@store/test-centre-journal/test-centre-journal.actions';
-import {ClearTestCentresRefData} from '@store/reference-data/reference-data.actions';
-import {UnloadJournal} from '@store/journal/journal.actions';
-import {UnloadTests} from '@store/tests/tests.actions';
-import {UnloadAppConfig} from '@store/app-config/app-config.actions';
-import {RekeySearchClearState} from '@pages/rekey-search/rekey-search.actions';
-import {LoadAppVersion, UnloadAppInfo} from '@store/app-info/app-info.actions';
-import {DelegatedRekeySearchClearState} from '@pages/delegated-rekey-search/delegated-rekey-search.actions';
-import {UnloadExaminerRecords} from '@store/examiner-records/examiner-records.actions';
-import {DataStoreProvider, LocalStorageKey} from '@providers/data-store/data-store';
-import {TestPersistenceProvider} from '@providers/test-persistence/test-persistence';
-import {CompletedTestPersistenceProvider} from '@providers/completed-test-persistence/completed-test-persistence';
-import {ExaminerRecordsProvider} from '@providers/examiner-records/examiner-records';
+import { ResetFaultMode } from '@pages/test-report/test-report.actions';
+import { ResetRekeyReason } from '@pages/rekey-reason/rekey-reason.actions';
+import { ResetTestCentreJournal } from '@store/test-centre-journal/test-centre-journal.actions';
+import { ClearTestCentresRefData } from '@store/reference-data/reference-data.actions';
+import { UnloadJournal } from '@store/journal/journal.actions';
+import { UnloadTests } from '@store/tests/tests.actions';
+import { UnloadAppConfig } from '@store/app-config/app-config.actions';
+import { RekeySearchClearState } from '@pages/rekey-search/rekey-search.actions';
+import { LoadAppVersion, UnloadAppInfo } from '@store/app-info/app-info.actions';
+import { DelegatedRekeySearchClearState } from '@pages/delegated-rekey-search/delegated-rekey-search.actions';
+import { UnloadExaminerRecords } from '@store/examiner-records/examiner-records.actions';
+import { DataStoreProvider, LocalStorageKey } from '@providers/data-store/data-store';
+import { TestPersistenceProvider } from '@providers/test-persistence/test-persistence';
+import { CompletedTestPersistenceProvider } from '@providers/completed-test-persistence/completed-test-persistence';
+import { ExaminerRecordsProvider } from '@providers/examiner-records/examiner-records';
 import { UserActions } from './user.actions';
 
 @Injectable({ providedIn: 'root' })
@@ -43,6 +50,10 @@ export class AuthenticationProvider {
   private readonly provider: AzureProvider;
   private readonly authOptions: ProviderOptions;
   authResult: Signal<AuthResult> = this.store.selectSignal(UserSelectors.selectAuthResult);
+  private employeeId: string;
+  private employeeIdKey: string;
+  private inUnAuthenticatedMode: boolean;
+  public ionicAuth: Auth0Provider;
 
   constructor() {
     const authSettings = this.appConfig.getAppConfig()?.authentication;
@@ -58,6 +69,19 @@ export class AuthenticationProvider {
     };
   }
 
+  get authConnect() {
+    // if the context of `ionicAuth` is lost, the re-initialise
+    if (!this.ionicAuth) this.initialize();
+
+    // update value of `inUnAuthenticatedMode` before trying to interact with auth connect methods
+    // this.determineAuthenticationMode();
+
+    return this.ionicAuth;
+  }
+
+  /**
+   * Initialise the authentication service
+   */
   initialize(): Promise<void> {
     const isNative = Capacitor.isNativePlatform();
     return AuthConnect.setup({
@@ -73,6 +97,9 @@ export class AuthenticationProvider {
     });
   }
 
+  /**
+   * Reauthenticates the user if required
+   */
   async reauthenticateIfRequired() {
     const authResult = this.authResult();
 
@@ -116,6 +143,10 @@ export class AuthenticationProvider {
     }
   }
 
+  /**
+   * Refreshes the token
+   * @param authResult
+   */
   async refreshToken(authResult: AuthResult) {
     try {
       const newAuthResult = await AuthConnect.refreshSession(this.provider, authResult);
@@ -133,6 +164,9 @@ export class AuthenticationProvider {
     }
   }
 
+  /**
+   * Initiates the login process
+   */
   async login(): Promise<void> {
     try {
       const authResult = await AuthConnect.login(this.provider, this.authOptions);
@@ -148,6 +182,10 @@ export class AuthenticationProvider {
     }
   }
 
+  /**
+   * Stores the authentication result in the store
+   * @param authResult
+   */
   async storeAuthResult(authResult: AuthResult) {
     try {
       const azureIDToken = await AuthConnect.decodeToken<AzureIDToken>(TokenType.id, authResult);
@@ -156,10 +194,8 @@ export class AuthenticationProvider {
         id: azureIDToken.sub || '',
         testerName: azureIDToken.name || '',
         testerEmail: azureIDToken.email || azureIDToken.preferred_username || '',
-        testerRoles: azureIDToken.roles || [],
         oid: azureIDToken.oid || '',
         employeeId: azureIDToken.employeeid || azureIDToken.oid || '',
-        testerId: azureIDToken.employeeid || azureIDToken.oid || '',
         authResult,
       };
 
@@ -175,6 +211,12 @@ export class AuthenticationProvider {
     }
   }
 
+  /**
+   * Logs an event to the store
+   * @param logType
+   * @param desc
+   * @param msg
+   */
   logEvent = (logType: LogType, desc: string, msg: unknown) => {
     this.store.dispatch(
       SaveLog({
@@ -182,6 +224,16 @@ export class AuthenticationProvider {
       })
     );
   };
+
+  async expireTokens() {
+    const authResult = this.authResult();
+    try {
+      await AuthConnect.expire(authResult);
+    } catch (error) {
+      this.logEvent(LogType.ERROR, 'expireTokens error', error);
+    }
+  }
+
   /**Clears the entire store but keeps the app version*/
   async clearStore() {
     // Dispatch action to unload the journal
@@ -224,7 +276,7 @@ export class AuthenticationProvider {
     this.store.dispatch(ClearLogs());
 
     // Dispatch action to clear auth token
-    this.store.dispatch(UserActions.ClearToken());
+    // this.store.dispatch(UserActions.ClearToken());
 
     // Clear persisted tests from the test persistence provider
     await this.testPersistenceProvider.clearPersistedTests();
@@ -239,6 +291,9 @@ export class AuthenticationProvider {
     await this.completedTestPersistenceProvider.clearPersistedCompletedTests();
   }
 
+  /**
+   * Logs out the user
+   */
   public async logout(): Promise<void> {
     try {
       this.logEvent(LogType.DEBUG, 'Logout', 'Started auth logout logout flow');
@@ -270,5 +325,96 @@ export class AuthenticationProvider {
       }
     }
   }
+
+  /**
+   * An extra check has been added here to work around potential issues with Ionic Auth Connect
+   * isAuthenticated() being unable to detect token expiry where user is offline and a token refresh
+   * is attempted. To guard this, we perform a manual token expiry check via hasValidToken() and
+   * manually expire tokens if required, prior to calling isAuthenticated()
+   */
+  public getAuthenticationToken = (): string => {
+    // const hasValidToken: boolean = await this.hasValidToken();
+    // if (!hasValidToken) {
+    //   await this.expireTokens();
+    // }
+    // await this.isAuthenticated();
+    // return this.getToken(Token.ID);
+    // let token: string ='';
+    return this.store.selectSignal(UserSelectors.selectIdToken)().toString();
+  };
+
+  /**
+   * Determines the authentication mode based on network connectivity
+   */
+  async hasValidToken(): Promise<boolean> {
+    try {
+      const authResult = this.authResult();
+      // if in un-authenticated mode, allow user to continue locally
+      if (this.isInUnAuthenticatedMode()) return true;
+
+      // refresh token when required
+      await this.reauthenticateIfRequired();
+
+      await this.refreshToken(authResult);
+
+      const token: AzureIDToken = await AuthConnect.decodeToken<AzureIDToken>(TokenType.id, authResult);
+      return !!token && token.exp && new Date(token.exp * 1000) > new Date();
+    } catch (err) {
+      this.logEvent(LogType.ERROR, 'hasValidToken error', err);
+
+      return false;
+    }
+  }
+
+  /**
+   * Checks if the token is expired and refreshes it if necessary
+   */
+  public isInUnAuthenticatedMode = (): boolean => {
+    const unAuthedMode = this.inUnAuthenticatedMode;
+
+    if (unAuthedMode) {
+      this.logEvent(LogType.INFO, 'isInUnAuthenticatedMode', 'In un-authenticated mode');
+    }
+
+    return unAuthedMode;
+  };
+
+  /**
+   * Returns the employee ID
+   */
+  public getEmployeeId = (): string => {
+    return this.employeeId || null;
+  };
+
+  /**
+   * Gets the employee ID from the ID token
+   */
+  public getEmployeeIdFromIDToken = async () => {
+    // rerun logic for setting employee ID
+    await this.setEmployeeId();
+    // retrieve set employee ID
+    return this.getEmployeeId();
+  };
+
+  /**
+   * Sets the employee ID from the ID token
+   */
+  public async setEmployeeId() {
+    const authResult = this.authResult();
+    const idToken = await AuthConnect.getToken(TokenType.id, authResult);
+    const employeeId = idToken[idToken];
+    const employeeIdClaim = Array.isArray(employeeId) ? employeeId[0] : employeeId;
+    const numericEmployeeId = Number.parseInt(employeeIdClaim, 10);
+    this.employeeId = numericEmployeeId.toString();
+  }
+
+  public loadEmployeeName = async (): Promise<string> => {
+    const authResult = this.authResult();
+    const idToken = await AuthConnect.decodeToken<AzureIDToken>(TokenType.id, authResult);
+    if (idToken) {
+      return idToken[this.appConfig.getAppConfig()?.authentication.employeeNameKey];
+    }
+    return '';
+  };
 
 }

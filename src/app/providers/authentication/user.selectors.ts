@@ -22,11 +22,11 @@ const selectEmployeeID = createSelector(selectTokenInfo, (tokenInfo) => tokenInf
 
 const selectOID = createSelector(selectTokenInfo, (tokenInfo) => tokenInfo?.oid);
 
-const selectRoles = createSelector(selectTokenInfo, (tokenInfo) => tokenInfo?.testerRoles);
-
-const selectTesterName = createSelector(selectTokenInfo, (tokenInfo) => tokenInfo?.testerName);
-
-const selectTesterEmail = createSelector(selectTokenInfo, (tokenInfo) => tokenInfo?.testerEmail);
+// const selectRoles = createSelector(selectTokenInfo, (tokenInfo) => tokenInfo?.testerRoles);
+//
+// const selectTesterName = createSelector(selectTokenInfo, (tokenInfo) => tokenInfo?.testerName);
+//
+// const selectTesterEmail = createSelector(selectTokenInfo, (tokenInfo) => tokenInfo?.testerEmail);
 
 const selectIdToken = createSelector(selectAuthResult, (authResult) => authResult?.idToken);
 
@@ -51,22 +51,22 @@ const selectObfuscatedTesterOid = createSelector(selectOID, (id) => {
   return obfuscated;
 });
 
-const selectHasRequiredRoles = (requiredRoles: string[]) =>
-  createSelector(selectRoles, (roles) => {
-    return roles?.some((role) => requiredRoles.includes(role));
-  });
+// const selectHasRequiredRoles = (requiredRoles: string[]) =>
+//   createSelector(selectRoles, (roles) => {
+//     return roles?.some((role) => requiredRoles.includes(role));
+//   });
 
 export const UserSelectors = {
   ...selectors,
   selectTesterID,
   selectEmployeeID,
-  selectRoles,
+  // selectRoles,
   selectOID,
-  selectTesterName,
-  selectTesterEmail,
+  // selectTesterName,
+  // selectTesterEmail,
   selectObfuscatedTesterOid,
   selectAuthResult,
   selectIdToken,
   selectAccessToken,
-  selectHasRequiredRoles,
+  // selectHasRequiredRoles,
 };
