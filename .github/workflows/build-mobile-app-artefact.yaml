@@ -22,7 +22,7 @@ jobs:
       environment: develop
       config-type: test
       build-simulator: true
-      build-ipa: false
+      build-ipa: true
       upload_path: develop
     secrets:
       AWS_ROLE: ${{ secrets.DES_AWS_ROLE }}
