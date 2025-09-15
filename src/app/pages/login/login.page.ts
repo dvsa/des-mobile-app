@@ -96,6 +96,7 @@ export class LoginPage extends LogoutBasePageComponent implements OnInit {
 
   login = async (): Promise<void> => {
     try {
+      console.log('LoginPage: Starting login process');
       await this.handleLoadingUI(true);
 
       await this.platform.ready();
@@ -106,10 +107,6 @@ export class LoginPage extends LogoutBasePageComponent implements OnInit {
 
       this.appInitializedLog();
 
-      this.initialiseAuthentication();
-
-      await this.authenticationProvider.expireTokens();
-
       const isAuthenticated = await this.authenticationProvider.isAuthenticated();
 
       await this.hideSplashscreen();
@@ -117,8 +114,6 @@ export class LoginPage extends LogoutBasePageComponent implements OnInit {
       if (!isAuthenticated) {
         await this.authenticationProvider.login();
       }
-
-      await this.authenticationProvider.setEmployeeId();
 
       this.store$.dispatch(LoadEmployeeId({ employeeId: this.authenticationProvider.getEmployeeId() }));
 
@@ -129,8 +124,6 @@ export class LoginPage extends LogoutBasePageComponent implements OnInit {
       this.store$.dispatch(LoadConfigSuccess());
 
       this.store$.dispatch(LoadPersistedTests());
-
-      this.store$.dispatch(LoadEmployeeName());
 
       this.store$.dispatch(LoadAppConfig({ appConfig: this.appConfigProvider.getAppConfig() }));
 
@@ -191,11 +184,6 @@ export class LoginPage extends LogoutBasePageComponent implements OnInit {
     if (Capacitor.isPluginAvailable('SplashScreen')) {
       await SplashScreen.hide();
     }
-  };
-
-  initialiseAuthentication = (): void => {
-    this.authenticationProvider.initialiseAuthentication();
-    this.authenticationProvider.determineAuthenticationMode();
   };
 
   dispatchLog = (message: string): void => {

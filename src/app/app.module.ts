@@ -82,6 +82,7 @@ import { RemoteDevToolsProxy } from '../../ngrx-devtool-proxy/remote-devtools-pr
 import { IonicGestureConfig } from '../gestures/ionic-gesture-config';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import {UserInfoStoreModule} from '@store/user-info/user-info.module';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, 'assets/i18n/', '.json');
@@ -151,6 +152,7 @@ const storageDriver = Capacitor.getPlatform() === 'web' ? Drivers.IndexedDB : Co
     SafetyRecallStoreModule,
     ...(enableDevTools ? [StoreDevtoolsModule.instrument()] : []),
     AppInfoStoreModule,
+    UserInfoStoreModule,
     ReferenceDataStoreModule,
     AppConfigStoreModule,
     ExaminerRecordsStoreModule,

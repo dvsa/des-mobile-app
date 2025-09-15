@@ -118,7 +118,6 @@ export class AppComponent extends LogoutBasePageComponent implements OnInit {
       await this.appConfigProvider.initialiseAppConfig();
       await this.initialiseSentry();
       this.initialiseNetworkState();
-      this.initialiseAuthentication();
 
       this.store$.dispatch(LoadAppVersion());
       await this.accessibilityService.configureStatusBar(Style.Dark);
@@ -149,11 +148,6 @@ export class AppComponent extends LogoutBasePageComponent implements OnInit {
       this.platformSubscription.unsubscribe();
     }
   }
-
-  public initialiseAuthentication = (): void => {
-    this.authenticationProvider.initialiseAuthentication();
-    this.authenticationProvider.determineAuthenticationMode();
-  };
 
   public initialiseNetworkState = (): void => {
     this.networkStateProvider.initialiseNetworkState();

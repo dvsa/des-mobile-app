@@ -129,7 +129,7 @@ export class JournalEffects {
             journalActions.LoadJournalSuccess(
               slotItemsByDate,
               this.networkStateProvider.getNetworkState(),
-              this.authProvider.isInUnAuthenticatedMode(),
+              this.authProvider.isOffline(),
               lastRefreshed
             )
           ),
@@ -143,7 +143,7 @@ export class JournalEffects {
                     slotItemsByDate: slots,
                   },
                   this.networkStateProvider.getNetworkState(),
-                  this.authProvider.isInUnAuthenticatedMode(),
+                  this.authProvider.isOffline(),
                   lastRefreshed
                 )
               );

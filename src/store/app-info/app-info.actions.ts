@@ -12,9 +12,11 @@ export const LoadAppVersionFailure = createAction('[AppInfoEffects] Load App Ver
 
 export const LoadEmployeeId = createAction('[LoginComponent] Load Employee ID', props<{ employeeId: string }>());
 
-export const LoadEmployeeName = createAction('[LoginComponent] Load Employee Name');
+export const LoadEmployeeName = createAction(
+  '[LoginComponent] Load Employee Name',
+  props<{ employeeName: string }>()
 
-export const LoadEmployeeNameSuccess = createAction(
+);export const LoadEmployeeNameSuccess = createAction(
   '[LoginComponent] Load Employee Name Success',
   props<{ employeeName: string }>()
 );

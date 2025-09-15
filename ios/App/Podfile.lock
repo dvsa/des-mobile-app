@@ -33,6 +33,8 @@ PODS:
   - DvsaCapacitorPluginAsam (2.1.0):
     - Capacitor
   - GoogleAnalytics (3.20.0)
+  - IonicEnterpriseAuth (7.1.1):
+    - Capacitor
   - Sentry/HybridSDK (8.48.0)
   - SentryCapacitor (1.4.0):
     - Capacitor
@@ -56,6 +58,7 @@ DEPENDENCIES:
   - CordovaPluginsResources (from `../capacitor-cordova-ios-plugins`)
   - CordovaPluginsStatic (from `../capacitor-cordova-ios-plugins`)
   - "DvsaCapacitorPluginAsam (from `../../node_modules/@dvsa/capacitor-plugin-asam`)"
+  - "IonicEnterpriseAuth (from `../../node_modules/@ionic-enterprise/auth`)"
   - "SentryCapacitor (from `../../node_modules/@sentry/capacitor`)"
 
 SPEC REPOS:
@@ -98,6 +101,8 @@ EXTERNAL SOURCES:
     :path: "../capacitor-cordova-ios-plugins"
   DvsaCapacitorPluginAsam:
     :path: "../../node_modules/@dvsa/capacitor-plugin-asam"
+  IonicEnterpriseAuth:
+    :path: "../../node_modules/@ionic-enterprise/auth"
   SentryCapacitor:
     :path: "../../node_modules/@sentry/capacitor"
 
@@ -120,9 +125,10 @@ SPEC CHECKSUMS:
   CordovaPluginsStatic: d43c93aee9a163d832998297048f8e3edbaf73cb
   DvsaCapacitorPluginAsam: 53472a3be6f372181d6a27d5a27811e8a79a5719
   GoogleAnalytics: 01e4c5a04544a3608f93e970ce0817836897c5a5
+  IonicEnterpriseAuth: 70da872dd51c7af0390f0fb2055a04743aefc1f3
   Sentry: 1ca8405451040482877dcd344dfa3ef80b646631
   SentryCapacitor: b364f83da8e94699cc1c40b9e2c0473bef631306
 
-PODFILE CHECKSUM: 07c97cc119331303ec3db075b47f55ca997be4eb
+PODFILE CHECKSUM: 1f47af16076cbe96e231928b32482a64ff2b9a7c
 
 COCOAPODS: 1.16.2

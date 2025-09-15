@@ -11,6 +11,8 @@ import { TestCentreJournalModel } from '@store/test-centre-journal/test-centre-j
 import { testCentreJournalFeatureKey } from '@store/test-centre-journal/test-centre-journal.reducer';
 import { TestsModel } from '@store/tests/tests.model';
 import { testsFeatureKey } from '@store/tests/tests.reducer';
+import {userInfoFeatureKey} from '@store/user-info/user-info.reducer';
+import {UserInfoStateModel} from '@store/user-info/user-info.model';
 
 export interface StoreModel {
   [appInfoFeatureKey]: AppInfoStateModel;
@@ -20,4 +22,5 @@ export interface StoreModel {
   [testsFeatureKey]: TestsModel;
   [refDataFeatureKey]: RefDataStateModel;
   [examinerRecordsFeatureKey]: ExaminerRecordStateModel;
+  [userInfoFeatureKey]: UserInfoStateModel;
 }

@@ -138,11 +138,9 @@ export abstract class BasePageComponent {
    */
   ionViewWillEnter() {
     if (this.isIos()) {
-      // re-evaluate connectivity status
-      this.authenticationProvider.determineAuthenticationMode();
 
-      this.authenticationProvider.hasValidToken().then(async (hasValidToken) => {
-        if (this.loginRequired && !hasValidToken && !this.authenticationProvider.isInUnAuthenticatedMode()) {
+      this.authenticationProvider.isAuthenticated().then(async (isAuthed) => {
+        if (this.loginRequired && !isAuthed && !this.authenticationProvider.isOffline()) {
           const navigationExtras: NavigationExtras = {
             replaceUrl: true,
             state: {
@@ -164,8 +162,6 @@ export abstract class BasePageComponent {
     if (this.isIos()) {
       try {
         await this.authenticationProvider.logout();
-      } catch (error) {
-        this.authenticationProvider.onLogoutError(error);
       } finally {
         const navigationExtras: NavigationExtras = {
           replaceUrl: true,
