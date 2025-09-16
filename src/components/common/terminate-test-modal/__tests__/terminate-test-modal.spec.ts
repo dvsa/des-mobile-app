@@ -60,18 +60,18 @@ describe('TerminateTestModal', () => {
         await component.terminationWrapper();
         expect(deviceAuthenticationProvider.triggerLockScreen).toHaveBeenCalled();
       });
-      it('should not call the onTerminate callback when the lock screen Promise rejects', async () => {
+      it('should not call the onTerminate callback when the lock screen returns false', async () => {
         deviceAuthenticationProvider.triggerLockScreen = jasmine
           .createSpy('triggerLockScreen')
-          .and.callFake(() => Promise.reject(new Error('err')));
+          .and.returnValue(Promise.resolve(false));
         component.shouldAuthenticate = true;
         await component.terminationWrapper();
         expect(component.onTerminate).not.toHaveBeenCalled();
       });
-      it('should call the onTerminate callback when the lock screen Promise resolves', async () => {
+      it('should call the onTerminate callback when the lock screen returns true', async () => {
         deviceAuthenticationProvider.triggerLockScreen = jasmine
           .createSpy('triggerLockScreen')
-          .and.returnValue(Promise.resolve('y'));
+          .and.returnValue(Promise.resolve(true));
         component.shouldAuthenticate = true;
         await component.terminationWrapper();
         expect(component.onTerminate).toHaveBeenCalled();

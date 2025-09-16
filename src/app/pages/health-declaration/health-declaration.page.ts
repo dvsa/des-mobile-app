@@ -97,12 +97,7 @@ export class HealthDeclarationPage
   }
 
   async canDeActivate(): Promise<boolean> {
-    try {
-      await this.deviceAuthenticationProvider.triggerLockScreen(this.isPracticeMode);
-      return true;
-    } catch {
-      return false;
-    }
+    return await this.deviceAuthenticationProvider.triggerLockScreen(this.isPracticeMode);
   }
 
   ngOnInit(): void {

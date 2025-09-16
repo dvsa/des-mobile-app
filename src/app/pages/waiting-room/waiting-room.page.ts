@@ -224,12 +224,7 @@ export class WaitingRoomPage extends PracticeableBasePageComponent implements On
   }
 
   async canDeActivate() {
-    try {
-      await this.deviceAuthenticationProvider.triggerLockScreen(this.isPracticeMode);
-      return true;
-    } catch {
-      return false;
-    }
+    return await this.deviceAuthenticationProvider.triggerLockScreen(this.isPracticeMode);
   }
 
   isJournalDataInvalid = (journalData: JournalData): boolean => {
@@ -280,9 +275,8 @@ export class WaitingRoomPage extends PracticeableBasePageComponent implements On
       const shouldNavToCandidateLicenceDetails: boolean = this.shouldNavigateToCandidateLicenceDetails();
 
       if (shouldNavToCandidateLicenceDetails) {
-        try {
-          await this.deviceAuthenticationProvider.triggerLockScreen(this.isPracticeMode);
-        } catch {
+        const isAuthed = await this.deviceAuthenticationProvider.triggerLockScreen(this.isEndToEndPracticeMode);
+        if (!isAuthed) {
           return;
         }
       }
@@ -295,7 +289,6 @@ export class WaitingRoomPage extends PracticeableBasePageComponent implements On
           ? [TestFlowPageNames.CANDIDATE_LICENCE_PAGE]
           : [TestFlowPageNames.COMMUNICATION_PAGE]
       );
-      return;
     }
 
     Object.keys(this.formGroup.controls).forEach((controlName) => {

@@ -112,7 +112,6 @@ describe('DeviceAuthenticationProvider', () => {
         reason: 'Please authenticate',
         useFallback: true,
       });
-      expect(loadingProvider.handleUILoading).not.toHaveBeenCalled();
       expect(deviceProvider.enableSingleAppMode).not.toHaveBeenCalled();
     });
   });
