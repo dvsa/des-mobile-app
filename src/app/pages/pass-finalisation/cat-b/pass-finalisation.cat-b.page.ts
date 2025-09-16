@@ -35,6 +35,7 @@ type PassFinalisationPageState = CommonPassFinalisationPageState & PassFinalisat
   selector: 'app-pass-finalisation-cat-b-page',
   templateUrl: './pass-finalisation.cat-b.page.html',
   styleUrls: ['./../pass-finalisation.page.scss'],
+  standalone: false,
 })
 export class PassFinalisationCatBPage extends PassFinalisationPageComponent implements OnInit {
   pageState: PassFinalisationPageState;

@@ -10,6 +10,7 @@ import { get } from 'lodash-es';
   selector: 'modal-activity-code-list',
   templateUrl: './modal-activity-code-list.html',
   styleUrls: ['./modal-activity-code-list.scss'],
+  standalone: false,
 })
 export class ModalActivityCodeListComponent {
   activityCodeModel: ActivityCodeModel;

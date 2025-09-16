@@ -8,6 +8,7 @@ import { FaultSummary } from '@shared/models/fault-marking.model';
   selector: 'driving-faults-debrief-card',
   templateUrl: 'driving-faults-debrief-card.html',
   styleUrls: ['driving-faults-debrief-card.scss'],
+  standalone: false,
 })
 export class DrivingFaultsDebriefCardComponent {
   @Input()

@@ -13,6 +13,7 @@ import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/
   selector: 'adi3-debrief-card',
   templateUrl: 'adi3-debrief-card.html',
   styleUrls: ['adi3-debrief-card.scss'],
+  standalone: false,
 })
 export class Adi3DebriefCard implements OnInit {
   @Input()

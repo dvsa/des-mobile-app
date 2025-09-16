@@ -33,6 +33,7 @@ type TestReportPageState = CommonTestReportPageState & CatManoeuvreTestReportPag
   selector: '.test-report-cat-manoeuvre-page',
   templateUrl: './test-report.cat-manoeuvre.page.html',
   styleUrls: ['./test-report.cat-manoeuvre.page.scss'],
+  standalone: false,
 })
 export class TestReportCatManoeuvrePage extends TestReportBasePageComponent implements OnInit {
   manoeuvreTypes = ManoeuvreTypes;

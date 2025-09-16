@@ -5,6 +5,7 @@ import { AccessibilityService } from '@providers/accessibility/accessibility.ser
 @Component({
   selector: 'transfer',
   templateUrl: 'transfer.html',
+  standalone: false,
 })
 export class TransferComponent implements OnChanges {
   static readonly checkBoxCtrl: string = 'transferSelected';

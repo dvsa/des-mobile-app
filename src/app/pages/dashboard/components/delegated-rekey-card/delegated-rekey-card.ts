@@ -6,6 +6,7 @@ import { DELEGATED_REKEY_SEARCH_PAGE } from '@pages/page-names.constants';
   selector: 'delegated-examiner-rekey',
   templateUrl: 'delegated-rekey-card.html',
   styleUrls: ['delegated-rekey-card.scss'],
+  standalone: false,
 })
 export class DelegatedSearchCardComponent {
   constructor(private router: Router) {}

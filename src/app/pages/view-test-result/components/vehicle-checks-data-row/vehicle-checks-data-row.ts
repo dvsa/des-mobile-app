@@ -5,6 +5,7 @@ import { QuestionOutcome, QuestionResult } from '@dvsa/mes-test-schema/categorie
   selector: 'vehicle-checks-data-row',
   templateUrl: 'vehicle-checks-data-row.html',
   styleUrls: ['vehicle-checks-data-row.scss'],
+  standalone: false,
 })
 export class VehicleChecksDataRowComponent {
   @Input()

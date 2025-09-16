@@ -16,7 +16,7 @@ export interface TestersEnvironmentFile extends MdmConfig {
   production: boolean;
 
   // boolean for testers to be able to control certain aspects of the app
-  isTest: boolean;
+  isTest?: boolean;
 }
 
 export interface QrEnvironmentFile extends MdmConfig {

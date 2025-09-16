@@ -5,6 +5,7 @@ import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/
   selector: 'dangerous-faults-debrief-card',
   templateUrl: 'dangerous-faults-debrief-card.html',
   styleUrls: ['dangerous-faults-debrief-card.scss'],
+  standalone: false,
 })
 export class DangerousFaultsDebriefCardComponent {
   @Input()

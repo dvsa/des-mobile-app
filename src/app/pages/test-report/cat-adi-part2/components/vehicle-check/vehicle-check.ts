@@ -33,6 +33,7 @@ import { isDangerousMode, isRemoveFaultMode, isSeriousMode } from '../../../test
   selector: 'vehicle-check',
   templateUrl: 'vehicle-check.html',
   styleUrls: ['vehicle-check.scss'],
+  standalone: false,
 })
 export class VehicleCheckComponent implements OnInit, OnDestroy {
   selectedShowMeQuestion: boolean;

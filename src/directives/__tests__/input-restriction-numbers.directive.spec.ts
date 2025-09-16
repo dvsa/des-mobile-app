@@ -10,6 +10,7 @@ import { InputRestrictionNumbersDirective } from '@directives/input-restriction-
       <input type="text" numbersOnly />
     </form>
   `,
+  standalone: false,
 })
 class TestInputRestrictionNumbersComponent {}
 

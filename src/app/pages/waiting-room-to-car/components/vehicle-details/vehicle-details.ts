@@ -4,6 +4,7 @@ import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 @Component({
   selector: 'vehicle-details',
   templateUrl: './vehicle-details.html',
+  standalone: false,
 })
 export class VehicleDetailsComponent implements OnChanges {
   @Input()

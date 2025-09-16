@@ -11,6 +11,7 @@ import { get, has, isEmpty } from 'lodash-es';
 @Component({
   selector: 'journal-slots',
   templateUrl: 'journal-slot.html',
+  standalone: false,
 })
 export class JournalSlotComponent {
   @Input()

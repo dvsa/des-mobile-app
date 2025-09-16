@@ -9,6 +9,7 @@ enum EyesightTestResult {
 @Component({
   selector: 'eyesight-test',
   templateUrl: 'eyesight-test.html',
+  standalone: false,
 })
 export class EyesightTestComponent implements OnChanges {
   formControl: UntypedFormControl;

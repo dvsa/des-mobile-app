@@ -6,6 +6,7 @@ import { ModalEvent } from '../../test-report.constants';
   selector: 'special-legal-requirement-modal',
   templateUrl: 'special-legal-requirement-modal.html',
   styleUrls: ['special-legal-requirement-modal.scss'],
+  standalone: false,
 })
 export class SpecialLegalRequirementModal {
   constructor(public modalCtrl: ModalController) {}

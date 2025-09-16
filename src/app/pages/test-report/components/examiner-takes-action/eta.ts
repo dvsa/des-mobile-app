@@ -18,6 +18,7 @@ interface ETAComponentState {
   selector: 'eta',
   templateUrl: 'eta.html',
   styleUrls: ['eta.scss'],
+  standalone: false,
 })
 export class EtaComponent implements OnInit {
   @Input()

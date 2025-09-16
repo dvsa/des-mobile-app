@@ -5,6 +5,7 @@ import { OutcomeBehaviourMapProvider, VisibilityType } from '@providers/outcome-
 @Component({
   selector: 'debrief-witnessed',
   templateUrl: './debrief-witnessed.html',
+  standalone: false,
 })
 export class DebriefWitnessedComponent implements OnChanges {
   static readonly fieldName: string = 'debriefWitnessed';

@@ -5,6 +5,7 @@ import { OutcomeBehaviourMapProvider, VisibilityType } from '@providers/outcome-
 @Component({
   selector: 'route-number',
   templateUrl: 'route-number.html',
+  standalone: false,
 })
 export class RouteNumberComponent implements OnChanges {
   @Input()

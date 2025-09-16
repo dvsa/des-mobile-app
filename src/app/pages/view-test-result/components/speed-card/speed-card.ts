@@ -5,6 +5,7 @@ import { Avoidance, EmergencyStop } from '@dvsa/mes-test-schema/categories/AM1';
   selector: 'speed-card',
   templateUrl: 'speed-card.html',
   styleUrls: ['speed-card.scss'],
+  standalone: false,
 })
 export class SpeedCardComponent {
   @Input()

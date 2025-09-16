@@ -5,6 +5,7 @@ import { TestOutcome } from '@store/tests/tests.constants';
   selector: 'office-candidate-section',
   templateUrl: 'candidate-section.html',
   styleUrls: ['candidate-section.scss'],
+  standalone: false,
 })
 export class CandidateSectionComponent {
   @Input()

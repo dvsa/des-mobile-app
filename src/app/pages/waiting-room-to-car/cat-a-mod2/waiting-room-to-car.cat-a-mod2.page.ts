@@ -34,6 +34,7 @@ type WaitingRoomToCarPageState = CommonWaitingRoomToCarPageState & CatMod2Waitin
   selector: 'app-waiting-room-to-car-cat-a-mod2',
   templateUrl: './waiting-room-to-car.cat-a-mod2.page.html',
   styleUrls: ['./waiting-room-to-car.cat-a-mod2.page.scss'],
+  standalone: false,
 })
 export class WaitingRoomToCarCatAMod2Page extends WaitingRoomToCarBasePageComponent implements OnInit {
   pageState: WaitingRoomToCarPageState;

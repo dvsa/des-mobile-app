@@ -5,6 +5,7 @@ import { CharacterCountDirective } from '@directives/character-count.directive';
 
 @Component({
   template: '<input type="text" charCount>',
+  standalone: false,
 })
 class TestCharCountComponent {}
 

@@ -6,6 +6,7 @@ import { get } from 'lodash-es';
 @Component({
   selector: 'contact-details-card',
   templateUrl: 'contact-details-card.html',
+  standalone: false,
 })
 export class ContactDetailsCardComponent {
   @Input()

@@ -5,6 +5,7 @@ import { DeviceAuthenticationProvider } from '@providers/device-authentication/d
   selector: 'terminate-test-modal',
   templateUrl: './terminate-test-modal.html',
   styleUrls: ['./terminate-test-modal.scss'],
+  standalone: false,
 })
 export class TerminateTestModal {
   @Input()

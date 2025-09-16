@@ -13,6 +13,7 @@ type TestReportPageState = CommonTestReportPageState;
   selector: '.test-report-cat-d-page',
   templateUrl: './test-report.cat-d.page.html',
   styleUrls: ['./test-report.cat-d.page.scss'],
+  standalone: false,
 })
 export class TestReportCatDPage extends TestReportBasePageComponent implements OnInit {
   pageState: TestReportPageState;

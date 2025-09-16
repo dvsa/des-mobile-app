@@ -41,6 +41,7 @@ interface SingleFaultCompetencyState {
   selector: 'single-fault-competency',
   templateUrl: 'single-fault-competency.html',
   styleUrls: ['single-fault-competency.scss'],
+  standalone: false,
 })
 export class SingleFaultCompetencyComponent implements OnInit, OnDestroy {
   @Input()

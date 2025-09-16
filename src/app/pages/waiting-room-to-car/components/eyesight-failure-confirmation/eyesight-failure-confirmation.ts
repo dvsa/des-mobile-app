@@ -9,6 +9,7 @@ import { SetActivityCode } from '@store/tests/activity-code/activity-code.action
   selector: 'eyesight-failure-confirmation',
   templateUrl: './eyesight-failure-confirmation.html',
   styleUrls: ['./eyesight-failure-confirmation.scss'],
+  standalone: false,
 })
 export class EyesightFailureConfirmationComponent {
   constructor(

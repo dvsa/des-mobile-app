@@ -5,6 +5,7 @@ import { FaultSummary } from '@shared/models/fault-marking.model';
 @Component({
   selector: 'eco-related-fault',
   templateUrl: 'eco-related-fault.html',
+  standalone: false,
 })
 export class EcoRelatedFaultComponent implements OnChanges {
   @Input()

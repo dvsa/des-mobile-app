@@ -5,6 +5,7 @@ import { LessonPlanning, RiskManagement, TeachingLearningStrategies } from '@dvs
   selector: 'adi3-debrief-card-box',
   templateUrl: 'adi3-debrief-card-box.html',
   styleUrls: ['adi3-debrief-card-box.scss'],
+  standalone: false,
 })
 export class Adi3DebriefCardBox {
   @Input()

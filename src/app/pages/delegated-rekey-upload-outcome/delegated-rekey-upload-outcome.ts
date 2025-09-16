@@ -24,6 +24,7 @@ interface DelegatedRekeyUploadOutcomePageState {
   selector: 'page-delegated-rekey-upload-outcome',
   templateUrl: 'delegated-rekey-upload-outcome.html',
   styleUrls: ['delegated-rekey-upload-outcome.scss'],
+  standalone: false,
 })
 export class DelegatedRekeyUploadOutcomePage extends BasePageComponent implements OnInit, ViewDidEnter {
   pageState: DelegatedRekeyUploadOutcomePageState;

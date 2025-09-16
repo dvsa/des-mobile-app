@@ -13,6 +13,7 @@ import { get } from 'lodash-es';
   selector: 'vehicle-checks-cat-a-mod2',
   templateUrl: 'vehicle-checks.html',
   styleUrls: ['./vehicle-checks.scss'],
+  standalone: false,
 })
 export class VehicleChecksCatAMod2Component implements OnChanges {
   @Output()

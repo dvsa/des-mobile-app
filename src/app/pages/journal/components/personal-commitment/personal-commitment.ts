@@ -7,6 +7,7 @@ import { isNil } from 'lodash-es';
   selector: 'personal-commitment',
   templateUrl: 'personal-commitment.html',
   styleUrls: ['personal-commitment.scss'],
+  standalone: false,
 })
 export class PersonalCommitmentSlotComponent implements SlotComponent {
   @Input()

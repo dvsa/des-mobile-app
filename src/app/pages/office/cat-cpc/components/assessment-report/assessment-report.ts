@@ -4,6 +4,7 @@ import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms
 @Component({
   selector: 'assessment-report',
   templateUrl: 'assessment-report.html',
+  standalone: false,
 })
 export class AssessmentReportComponent implements OnChanges {
   @Input()

@@ -7,6 +7,7 @@ import { ModalEvent } from '../../../test-report.constants';
   selector: 'speed-check-modal',
   templateUrl: 'speed-check-modal.html',
   styleUrls: ['speed-check-modal.scss'],
+  standalone: false,
 })
 export class SpeedCheckModal {
   @Input()

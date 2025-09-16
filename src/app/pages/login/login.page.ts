@@ -24,6 +24,7 @@ import { DASHBOARD_PAGE } from '../page-names.constants';
   selector: 'app-login',
   templateUrl: './login.page.html',
   styleUrls: ['./login.page.scss'],
+  standalone: false,
 })
 export class LoginPage extends LogoutBasePageComponent implements OnInit {
   appInitError: AuthenticationError | AppConfigError | unknown;

@@ -40,6 +40,7 @@ import { StartedTests, getStartedTests, getTestById } from '@store/tests/tests.s
   selector: 'test-outcome',
   templateUrl: 'test-outcome.html',
   styleUrls: ['test-outcome.scss'],
+  standalone: false,
 })
 export class TestOutcomeComponent implements OnInit {
   @Input()

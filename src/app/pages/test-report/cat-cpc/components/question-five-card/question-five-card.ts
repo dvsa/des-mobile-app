@@ -6,6 +6,7 @@ import { AnswerChanged } from '../question-card/question-card';
   selector: 'question-five-card',
   templateUrl: 'question-five-card.html',
   styleUrls: ['question-five-card.scss'],
+  standalone: false,
 })
 export class QuestionFiveCardComponent {
   @Input()

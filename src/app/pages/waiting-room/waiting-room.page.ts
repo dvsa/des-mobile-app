@@ -82,6 +82,7 @@ interface WaitingRoomPageState {
   selector: 'app-waiting-room-page',
   templateUrl: './waiting-room.page.html',
   styleUrls: ['./waiting-room.page.scss'],
+  standalone: false,
 })
 export class WaitingRoomPage extends PracticeableBasePageComponent implements OnInit {
   @ViewChild(SignatureAreaComponent)

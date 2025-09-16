@@ -15,6 +15,7 @@ export type CandidateWithBusinessDetails =
 @Component({
   selector: 'business-details-card',
   templateUrl: 'business-details-card.html',
+  standalone: false,
 })
 export class BusinessDetailsCardComponent {
   @Input()

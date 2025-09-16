@@ -24,6 +24,7 @@ interface ManoeuvresFaultState {
   selector: 'manoeuvres-popover',
   templateUrl: 'manoeuvres-popover.html',
   styleUrls: ['./manoeuvres-popover.scss'],
+  standalone: false,
 })
 export class ManoeuvresPopoverComponent {
   manoeuvreTypes = ManoeuvreTypes;

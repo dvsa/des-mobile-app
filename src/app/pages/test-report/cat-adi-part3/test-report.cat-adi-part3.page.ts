@@ -58,6 +58,7 @@ type TestReportPageState = CommonTestReportPageState & CatADI3TestReportPageStat
   selector: 'app-test-report-cat-adi3',
   templateUrl: './test-report.cat-adi-part3.page.html',
   styleUrls: ['./test-report.cat-adi-part3.page.scss'],
+  standalone: false,
 })
 export class TestReportCatADI3Page extends TestReportBasePageComponent implements OnInit {
   form: UntypedFormGroup;

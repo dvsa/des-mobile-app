@@ -14,6 +14,7 @@ import { map } from 'rxjs/operators';
   selector: 'safety-and-balance-card-cat-a-mod2',
   templateUrl: 'safety-and-balance-card.cat-a-mod2.html',
   styleUrls: ['safety-and-balance-card.cat-a-mod2.scss'],
+  standalone: false,
 })
 export class SafetyAndBalanceCardCatAMod2Component implements OnInit {
   safetyAndBalanceQuestions$: Observable<QuestionResult[]>;

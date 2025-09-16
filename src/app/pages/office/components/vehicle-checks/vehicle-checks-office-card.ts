@@ -6,6 +6,7 @@ import { CompetencyOutcome } from '@shared/models/competency-outcome';
   selector: 'vehicle-checks-office-card',
   templateUrl: 'vehicle-checks-office-card.html',
   styleUrls: ['vehicle-checks-office-card.scss'],
+  standalone: false,
 })
 export class VehicleChecksOfficeCardComponent {
   @Input()

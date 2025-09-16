@@ -5,6 +5,7 @@ import { Question } from '@dvsa/mes-test-schema/categories/CPC';
   selector: 'question-title',
   templateUrl: 'question-title.html',
   styleUrls: ['question-title.scss'],
+  standalone: false,
 })
 export class QuestionTitleComponent {
   @Input()

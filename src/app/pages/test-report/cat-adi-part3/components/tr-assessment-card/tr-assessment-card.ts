@@ -4,6 +4,7 @@ import { LessonPlanning, RiskManagement, TeachingLearningStrategies } from '@dvs
 @Component({
   selector: 'tr-assessment-card',
   templateUrl: 'tr-assessment-card.html',
+  standalone: false,
 })
 export class TestReportAssessmentCard {
   @Input()

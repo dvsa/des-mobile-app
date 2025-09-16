@@ -25,6 +25,7 @@ const defaultSignatureWidth: number = 706;
       multi: true,
     },
   ],
+  standalone: false,
 })
 export class SignatureAreaComponent implements ControlValueAccessor, AfterViewInit {
   @Input()

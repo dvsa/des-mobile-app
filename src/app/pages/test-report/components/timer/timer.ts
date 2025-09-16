@@ -7,6 +7,7 @@ import { StartTimer } from '../../test-report.actions';
   selector: 'timer',
   templateUrl: 'timer.html',
   styleUrls: ['timer.scss'],
+  standalone: false,
 })
 export class TimerComponent {
   showStartTimerButton: boolean;

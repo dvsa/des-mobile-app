@@ -4,6 +4,7 @@ import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms
 @Component({
   selector: 'tell-me-question-outcome',
   templateUrl: 'tell-me-question-outcome.html',
+  standalone: false,
 })
 export class TellMeQuestionOutcomeComponent implements OnChanges {
   @Input()

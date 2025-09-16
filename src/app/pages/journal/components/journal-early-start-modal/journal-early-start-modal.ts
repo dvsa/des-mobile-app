@@ -12,6 +12,7 @@ import { ModalEvent } from './journal-early-start-modal.constants';
   selector: 'journal-early-start-modal',
   templateUrl: './journal-early-start-modal.html',
   styleUrls: ['./journal-early-start-modal.scss'],
+  standalone: false,
 })
 export class JournalEarlyStartModal {
   @Input()

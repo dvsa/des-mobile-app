@@ -5,6 +5,7 @@ import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms
   selector: 'receipt-declaration',
   templateUrl: 'receipt-declaration.html',
   styleUrls: ['receipt-declaration.scss'],
+  standalone: false,
 })
 export class ReceiptDeclarationComponent implements OnChanges {
   @Input()

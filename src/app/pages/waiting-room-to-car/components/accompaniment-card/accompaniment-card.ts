@@ -5,6 +5,7 @@ import { UntypedFormGroup } from '@angular/forms';
   selector: 'accompaniment-card',
   templateUrl: './accompaniment-card.html',
   styleUrls: ['./accompaniment-card.scss'],
+  standalone: false,
 })
 export class AccompanimentCardComponent {
   @Input()

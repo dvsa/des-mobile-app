@@ -15,6 +15,7 @@ import { convertBooleanToString, flattenArray } from '../../view-test-result-hel
 @Component({
   selector: 'test-summary-card',
   templateUrl: 'test-summary-card.html',
+  standalone: false,
 })
 export class TestSummaryCardComponent {
   @Input()

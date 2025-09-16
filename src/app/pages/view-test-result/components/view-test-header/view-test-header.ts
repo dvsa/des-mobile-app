@@ -8,6 +8,7 @@ import { ViewTestHeaderModel } from './view-test-header.model';
   selector: 'view-test-header',
   templateUrl: 'view-test-header.html',
   styleUrls: ['view-test-header.scss'],
+  standalone: false,
 })
 export class ViewTestHeaderComponent {
   @Input()

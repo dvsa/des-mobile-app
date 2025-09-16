@@ -5,6 +5,7 @@ import { QuestionOutcome, QuestionResult } from '@dvsa/mes-test-schema/categorie
   selector: 'safety-and-balance-data-row',
   templateUrl: 'safety-and-balance-data-row.html',
   styleUrls: ['safety-and-balance-data-row.scss'],
+  standalone: false,
 })
 export class SafetyAndBalanceDataRowComponent {
   @Input()

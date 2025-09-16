@@ -4,6 +4,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
   selector: 'office-footer',
   templateUrl: './office-footer.component.html',
   styleUrls: ['./office-footer.component.scss'],
+  standalone: false,
 })
 export class OfficeFooterComponent {
   @Input()

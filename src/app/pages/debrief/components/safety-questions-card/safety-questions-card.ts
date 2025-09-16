@@ -6,6 +6,7 @@ import { CompetencyOutcome } from '@shared/models/competency-outcome';
   selector: 'safety-questions-card',
   templateUrl: 'safety-questions-card.html',
   styleUrls: ['safety-questions-card.scss'],
+  standalone: false,
 })
 export class SafetyQuestionsCardComponent {
   @Input()

@@ -10,6 +10,7 @@ import {
 @Component({
   selector: 'trainer-registration-number-cat-adi-part2',
   templateUrl: 'trainer-registration-number.cat-adi-part2.html',
+  standalone: false,
 })
 export class TrainerRegistrationNumberCatAdiPart2Component implements OnChanges {
   @Input()

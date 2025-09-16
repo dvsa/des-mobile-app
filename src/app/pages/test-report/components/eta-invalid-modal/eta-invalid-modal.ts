@@ -6,6 +6,7 @@ import { ModalEvent } from '../../test-report.constants';
   selector: 'eta-invalid-modal',
   templateUrl: 'eta-invalid-modal.html',
   styleUrls: ['eta-invalid-modal.scss'],
+  standalone: false,
 })
 export class EtaInvalidModal {
   constructor(public modalCtrl: ModalController) {}

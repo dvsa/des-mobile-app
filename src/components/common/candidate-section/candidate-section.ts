@@ -17,6 +17,7 @@ import { VehicleRegistrationChanged } from '@store/tests/vehicle-details/vehicle
   selector: 'candidate-section',
   templateUrl: './candidate-section.html',
   styleUrls: ['./candidate-section.scss'],
+  standalone: false,
 })
 export class CandidateSectionComponent {
   constructor(

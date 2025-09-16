@@ -13,6 +13,7 @@ import { SetActivityCode } from '@store/tests/activity-code/activity-code.action
   selector: 'end-test-link',
   templateUrl: './end-test-link.html',
   styleUrls: ['./end-test-link.scss'],
+  standalone: false,
 })
 export class EndTestLinkComponent {
   terminateTestModal: HTMLIonModalElement;

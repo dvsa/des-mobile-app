@@ -67,6 +67,7 @@ interface CommunicationPageState {
   selector: 'app-communication',
   templateUrl: './communication.page.html',
   styleUrls: ['./communication.page.scss'],
+  standalone: false,
 })
 export class CommunicationPage extends PracticeableBasePageComponent implements OnInit {
   static readonly providedEmail: string = 'Provided';

@@ -6,6 +6,7 @@ import { CharacterCountService } from '@providers/character-count/character-coun
   selector: 'alternate-mot-evidence-description',
   templateUrl: './alternate-mot-evidence-description.component.html',
   styleUrls: ['./alternate-mot-evidence-description.component.scss'],
+  standalone: false,
 })
 export class AlternateEvidenceDescriptionComponent {
   formControl: UntypedFormControl;

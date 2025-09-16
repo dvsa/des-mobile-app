@@ -5,6 +5,7 @@ import { get } from 'lodash-es';
 @Component({
   selector: 'rekey-reason-card',
   templateUrl: 'rekey-reason-card.html',
+  standalone: false,
 })
 export class RekeyReasonCardComponent {
   @Input()

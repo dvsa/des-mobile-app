@@ -5,6 +5,7 @@ import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/
 @Component({
   selector: 'full-licence-held-toggle',
   templateUrl: 'full-licence-held-toggle.html',
+  standalone: false,
 })
 export class FullLicenceHeldComponent implements OnChanges {
   @Input()

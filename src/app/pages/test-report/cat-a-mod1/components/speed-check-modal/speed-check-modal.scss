@@ -1,4 +1,4 @@
-@import "src/theme/sass-partials/modal";
+@use "src/theme/sass-partials/modal";
 
 :host {
   @extend .modal-alert-wrapper;

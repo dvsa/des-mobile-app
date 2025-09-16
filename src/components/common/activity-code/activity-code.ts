@@ -10,6 +10,7 @@ import { ActivityCodes } from '@shared/models/activity-codes';
   selector: 'activity-code',
   templateUrl: 'activity-code.html',
   styleUrls: ['activity-code.scss'],
+  standalone: false,
 })
 export class ActivityCodeComponent implements OnChanges {
   @Input()

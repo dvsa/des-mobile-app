@@ -26,6 +26,7 @@ interface ToolbarComponentState {
   selector: 'toolbar',
   templateUrl: 'toolbar.html',
   styleUrls: ['toolbar.scss'],
+  standalone: false,
 })
 export class ToolbarComponent {
   @Input()

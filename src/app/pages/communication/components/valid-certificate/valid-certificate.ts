@@ -4,6 +4,7 @@ import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms
 @Component({
   selector: 'valid-certificate',
   templateUrl: 'valid-certificate.html',
+  standalone: false,
 })
 export class ValidCertificateComponent implements OnChanges {
   @Input()

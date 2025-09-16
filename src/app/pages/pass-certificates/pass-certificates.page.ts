@@ -7,6 +7,7 @@ import { StoreModel } from '@shared/models/store.model';
   selector: 'pass-certificates',
   templateUrl: './pass-certificates.page.html',
   styleUrls: ['./pass-certificates.page.scss'],
+  standalone: false,
 })
 export class PassCertificatesPage implements OnInit {
   constructor(public store$: Store<StoreModel>) {}

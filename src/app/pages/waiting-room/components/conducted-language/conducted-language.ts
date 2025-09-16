@@ -4,6 +4,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
   selector: 'conducted-language',
   templateUrl: 'conducted-language.html',
   styleUrls: ['conducted-language.scss'],
+  standalone: false,
 })
 export class ConductedLanguageComponent {
   @Input()

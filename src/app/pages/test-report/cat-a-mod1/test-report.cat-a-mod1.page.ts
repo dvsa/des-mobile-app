@@ -30,6 +30,7 @@ type TestReportPageState = CommonTestReportPageState;
   selector: '.test-report-cat-a-mod1-page',
   templateUrl: 'test-report.cat-a-mod1.page.html',
   styleUrls: ['test-report.cat-a-mod1.page.scss'],
+  standalone: false,
 })
 export class TestReportCatAMod1Page extends TestReportBasePageComponent implements OnInit, ViewDidLeave {
   singleFaultCompetencyNames = SingleFaultCompetencyNames;

@@ -7,6 +7,7 @@ import { OutcomeBehaviourMapProvider, VisibilityType } from '@providers/outcome-
 @Component({
   selector: 'identification',
   templateUrl: 'identification.html',
+  standalone: false,
 })
 export class IdentificationComponent implements OnChanges {
   @Input()

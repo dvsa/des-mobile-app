@@ -9,6 +9,7 @@ import { uniqueId } from 'lodash-es';
 @Component({
   selector: 'show-me-questions-cat-adi2',
   templateUrl: 'show-me-questions.html',
+  standalone: false,
 })
 export class ShowMeQuestionsCatADI2Component implements OnChanges, OnInit {
   @Input()

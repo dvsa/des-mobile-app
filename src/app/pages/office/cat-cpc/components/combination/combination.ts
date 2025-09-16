@@ -4,6 +4,7 @@ import { CombinationCodes } from '@dvsa/mes-test-schema/categories/CPC';
 @Component({
   selector: 'combination-office',
   templateUrl: 'combination.html',
+  standalone: false,
 })
 export class CombinationComponent {
   @Input()

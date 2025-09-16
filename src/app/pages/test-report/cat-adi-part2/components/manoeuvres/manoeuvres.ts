@@ -19,6 +19,7 @@ import { OverlayCallback } from '../../../test-report.model';
   selector: 'manoeuvres-adi-part2',
   templateUrl: 'manoeuvres.html',
   styleUrls: ['manoeuvres.scss'],
+  standalone: false,
 })
 export class ManoeuvresComponent implements OnInit, OnDestroy {
   @Input()

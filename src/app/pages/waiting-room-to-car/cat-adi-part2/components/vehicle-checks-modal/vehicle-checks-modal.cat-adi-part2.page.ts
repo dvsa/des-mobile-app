@@ -39,6 +39,7 @@ interface VehicleChecksModalCatADIPart2State {
   selector: 'vehicle-checks-modal-cat-adi-part2',
   templateUrl: 'vehicle-checks-modal.cat-adi-part2.page.html',
   styleUrls: ['vehicle-checks-modal.cat-adi-part2.page.scss'],
+  standalone: false,
 })
 export class VehicleChecksCatADIPart2Modal {
   pageState: VehicleChecksModalCatADIPart2State;

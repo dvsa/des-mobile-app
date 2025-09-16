@@ -20,6 +20,7 @@ type PassFinalisationPageState = CommonPassFinalisationPageState;
   selector: 'app-pass-finalisation-cat-home-test',
   templateUrl: './pass-finalisation.cat-home-test.page.html',
   styleUrls: ['./../pass-finalisation.page.scss'],
+  standalone: false,
 })
 export class PassFinalisationCatHomeTestPage extends PassFinalisationPageComponent {
   pageState: PassFinalisationPageState;

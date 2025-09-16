@@ -68,6 +68,7 @@ interface DashboardPageState {
   selector: 'app-dashboard',
   templateUrl: 'dashboard.page.html',
   styleUrls: ['dashboard.page.scss'],
+  standalone: false,
 })
 export class DashboardPage extends BasePageComponent implements OnInit, ViewDidEnter, ViewWillEnter {
   pageState: DashboardPageState;

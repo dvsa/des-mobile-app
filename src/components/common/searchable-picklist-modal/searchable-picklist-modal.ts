@@ -7,6 +7,7 @@ import { get } from 'lodash-es';
   selector: 'searchable-picklist-modal',
   templateUrl: './searchable-picklist-modal.html',
   styleUrls: ['./searchable-picklist-modal.scss'],
+  standalone: false,
 })
 export class SearchablePicklistModal<T> {
   @Input()

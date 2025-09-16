@@ -4,6 +4,7 @@ import { Component, Input } from '@angular/core';
   selector: 'eco-card',
   templateUrl: './eco-card.component.html',
   styleUrls: ['./eco-card.component.scss'],
+  standalone: false,
 })
 export class ECOCardComponent {
   @Input()

@@ -50,6 +50,7 @@ type OfficePageState = CommonOfficePageState & CatHomeOfficePageState;
   selector: '.office-cat-home-page',
   templateUrl: './office.cat-home-test.page.html',
   styleUrls: ['../office.page.scss'],
+  standalone: false,
 })
 export class OfficeCatHomeTestPage extends OfficeBasePageComponent implements OnInit {
   pageState: OfficePageState;

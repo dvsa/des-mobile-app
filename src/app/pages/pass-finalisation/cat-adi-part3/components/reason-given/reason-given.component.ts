@@ -7,6 +7,7 @@ import { OutcomeBehaviourMapProvider, VisibilityType } from '@providers/outcome-
   selector: 'reason-given',
   templateUrl: './reason-given.component.html',
   styleUrls: ['./reason-given.component.scss'],
+  standalone: false,
 })
 export class ReasonGivenComponent implements OnChanges {
   @Input()

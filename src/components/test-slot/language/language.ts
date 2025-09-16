@@ -4,6 +4,7 @@ import { Component, Input } from '@angular/core';
   selector: 'language',
   templateUrl: 'language.html',
   styleUrls: ['language.scss'],
+  standalone: false,
 })
 export class LanguageComponent {
   @Input()

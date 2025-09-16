@@ -23,6 +23,7 @@ interface VehicleChecksCardComponentState {
   selector: 'vehicle-checks-card-cat-b',
   templateUrl: 'vehicle-checks-card.cat-b.html',
   styleUrls: ['vehicle-checks-card.cat-b.scss'],
+  standalone: false,
 })
 export class VehicleChecksCardCatBComponent implements OnInit {
   componentState: VehicleChecksCardComponentState;

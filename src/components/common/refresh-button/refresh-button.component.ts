@@ -5,7 +5,6 @@ import { IonicModule } from '@ionic/angular';
   selector: 'refresh-button',
   templateUrl: './refresh-button.component.html',
   styleUrls: ['./refresh-button.component.scss'],
-  standalone: true,
   imports: [IonicModule],
 })
 export class RefreshButtonComponent {

@@ -107,6 +107,7 @@ interface DebriefPageState {
   selector: '.debrief-page',
   templateUrl: 'debrief.page.html',
   styleUrls: ['debrief.page.scss'],
+  standalone: false,
 })
 export class DebriefPage extends PracticeableBasePageComponent implements OnInit, ViewDidEnter, ViewDidLeave {
   pageState: DebriefPageState;

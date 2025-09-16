@@ -7,6 +7,7 @@ import { CompetencyOutcome } from '@shared/models/competency-outcome';
   selector: 'vehicle-checks-card',
   templateUrl: 'vehicle-checks-card.html',
   styleUrls: ['vehicle-checks-card.scss'],
+  standalone: false,
 })
 export class VehicleChecksCardComponent implements OnInit {
   @Input()

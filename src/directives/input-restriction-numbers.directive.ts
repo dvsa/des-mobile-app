@@ -3,6 +3,7 @@ import { includes } from 'lodash-es';
 
 @Directive({
   selector: '[numbersOnly]',
+  standalone: false,
 })
 export class InputRestrictionNumbersDirective {
   constructor(public el: ElementRef) {}

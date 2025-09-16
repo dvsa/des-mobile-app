@@ -55,6 +55,7 @@ type PassFinalisationPageState = CommonPassFinalisationPageState & CatAdi3PassFi
   selector: 'pass-finalisation.cat-adi-part3.page',
   templateUrl: './pass-finalisation.cat-adi-part3.page.html',
   styleUrls: ['./../pass-finalisation.page.scss', './pass-finalisation.cat-adi-part3.page.scss'],
+  standalone: false,
 })
 export class PassFinalisationCatADIPart3Page extends PassFinalisationPageComponent implements OnInit {
   form: UntypedFormGroup;

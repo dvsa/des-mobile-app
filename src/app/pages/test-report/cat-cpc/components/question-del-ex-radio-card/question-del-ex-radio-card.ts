@@ -6,6 +6,7 @@ import { Question } from '@dvsa/mes-test-schema/categories/CPC';
   selector: 'question-del-ex-radio-card',
   templateUrl: 'question-del-ex-radio-card.html',
   styleUrls: ['question-del-ex-radio-card.scss'],
+  standalone: false,
 })
 export class QuestionDelExRadioCardComponent {
   @Input()

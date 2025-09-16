@@ -7,6 +7,7 @@ import { FaultSummary } from '@shared/models/fault-marking.model';
   selector: 'faults-data-row',
   templateUrl: 'faults-data-row.html',
   styleUrls: ['faults-data-row.scss'],
+  standalone: false,
 })
 export class FaultsDataRowComponent {
   @Input()

@@ -5,6 +5,7 @@ import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
   selector: 'health-declaration',
   templateUrl: 'health-declaration.html',
   styleUrls: ['health-declaration.scss'],
+  standalone: false,
 })
 export class HealthDeclarationComponent implements OnChanges {
   @Input()

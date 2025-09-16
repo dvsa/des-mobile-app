@@ -5,6 +5,7 @@ import { OutcomeBehaviourMapProvider, VisibilityType } from '@providers/outcome-
 @Component({
   selector: 'd255',
   templateUrl: './d255.html',
+  standalone: false,
 })
 export class D255Component implements OnChanges {
   static readonly fieldName: string = 'd255';

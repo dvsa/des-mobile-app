@@ -43,6 +43,7 @@ type OfficePageState = CommonOfficePageState & CatAMod2OfficePageState;
   selector: '.office-cat-a-mod2-page',
   templateUrl: 'office.cat-a-mod2.page.html',
   styleUrls: ['../office.page.scss'],
+  standalone: false,
 })
 export class OfficeCatAMod2Page extends OfficeBasePageComponent {
   pageState: OfficePageState;

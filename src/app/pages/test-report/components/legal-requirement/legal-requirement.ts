@@ -9,6 +9,7 @@ import { legalRequirementLabels } from './legal-requirement.constants';
   selector: 'legal-requirement',
   templateUrl: 'legal-requirement.html',
   styleUrls: ['legal-requirement.scss'],
+  standalone: false,
 })
 export class LegalRequirementComponent implements OnInit {
   label: string;

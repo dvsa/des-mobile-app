@@ -4,6 +4,7 @@ import { Component, Input } from '@angular/core';
   selector: 'vehicle-details',
   templateUrl: 'vehicle-details.html',
   styleUrls: ['vehicle-details.scss'],
+  standalone: false,
 })
 export class VehicleDetailsComponent {
   @Input()

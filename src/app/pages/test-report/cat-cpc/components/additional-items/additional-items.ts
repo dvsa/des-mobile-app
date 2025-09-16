@@ -4,6 +4,7 @@ import { Component, Input } from '@angular/core';
   selector: 'additional-items',
   templateUrl: 'additional-items.html',
   styleUrls: ['additional-items.scss'],
+  standalone: false,
 })
 export class AdditionalItemsComponent {
   @Input()

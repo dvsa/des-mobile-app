@@ -9,6 +9,7 @@ import moment from 'moment';
   selector: 'date-of-test',
   templateUrl: 'date-of-test.html',
   styleUrls: ['date-of-test.scss'],
+  standalone: false,
 })
 export class DateOfTest implements OnInit {
   @Input()

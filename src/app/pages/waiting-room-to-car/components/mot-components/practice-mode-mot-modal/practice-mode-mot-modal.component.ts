@@ -13,6 +13,7 @@ export enum PracticeModeMOTType {
   selector: 'practice-mode-mot-modal',
   templateUrl: './practice-mode-mot-modal.component.html',
   styleUrls: ['./practice-mode-mot-modal.component.scss'],
+  standalone: false,
 })
 export class PracticeModeMOTModal implements OnInit {
   form: UntypedFormGroup = new UntypedFormGroup({});

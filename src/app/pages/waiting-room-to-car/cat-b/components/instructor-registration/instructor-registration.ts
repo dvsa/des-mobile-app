@@ -10,6 +10,7 @@ import {
 @Component({
   selector: 'instructor-registration',
   templateUrl: './instructor-registration.html',
+  standalone: false,
 })
 export class InstructorRegistrationComponent implements OnChanges {
   @Input()

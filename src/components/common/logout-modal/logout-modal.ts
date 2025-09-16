@@ -11,6 +11,7 @@ export enum LogoutModalEvent {
   selector: 'logout-modal',
   templateUrl: './logout-modal.html',
   styleUrls: ['./logout-modal.scss'],
+  standalone: false,
 })
 export class LogoutModal {
   constructor(public modalController: ModalController) {}

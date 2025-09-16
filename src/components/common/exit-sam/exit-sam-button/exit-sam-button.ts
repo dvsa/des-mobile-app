@@ -9,7 +9,6 @@ import { DeviceProvider } from '@providers/device/device';
   selector: 'exit-sam-button',
   templateUrl: './exit-sam-button.html',
   styleUrls: ['./exit-sam-button.scss'],
-  standalone: true,
   imports: [IonicModule, ComponentsModule],
 })
 export class ExitSamButton {

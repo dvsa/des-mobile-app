@@ -6,6 +6,7 @@ import { Combination } from '@shared/constants/cpc-questions/cpc-question-combin
   selector: 'combination',
   templateUrl: 'combination.html',
   styleUrls: ['combination.scss'],
+  standalone: false,
 })
 export class CombinationComponent {
   @Input()

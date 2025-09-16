@@ -6,6 +6,7 @@ import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/
   selector: 'test-category',
   templateUrl: 'test-category.html',
   styleUrls: ['test-category.scss'],
+  standalone: false,
 })
 export class TestCategoryComponent {
   @Input()

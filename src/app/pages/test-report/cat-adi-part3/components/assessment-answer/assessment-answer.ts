@@ -4,6 +4,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
   selector: 'assessment-answer',
   templateUrl: 'assessment-answer.html',
   styleUrls: ['assessment-answer.scss'],
+  standalone: false,
 })
 export class AssessmentAnswerComponent {
   @Input()

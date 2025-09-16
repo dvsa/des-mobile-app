@@ -50,6 +50,7 @@ type OfficePageState = CommonOfficePageState & CatMod1MOfficePageState;
   selector: '.office-cat-amod1-page',
   templateUrl: './office.cat-a-mod1.page.html',
   styleUrls: ['../office.page.scss'],
+  standalone: false,
 })
 export class OfficeCatAMod1Page extends OfficeBasePageComponent implements OnInit {
   pageState: OfficePageState;

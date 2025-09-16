@@ -18,6 +18,7 @@ export enum PassFinalisationAmendTimeType {
   selector: 'test-start-end-times',
   templateUrl: 'test-start-end-times.html',
   styleUrls: ['test-start-end-times.scss'],
+  standalone: false,
 })
 export class TestStartEndTimesComponent implements OnInit, OnChanges {
   @Input()

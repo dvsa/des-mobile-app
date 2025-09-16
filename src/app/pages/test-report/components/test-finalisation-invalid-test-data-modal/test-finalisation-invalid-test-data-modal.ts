@@ -4,6 +4,7 @@ import { Component, Input } from '@angular/core';
   selector: 'test-finalisation-invalid-test-data-modal',
   templateUrl: 'test-finalisation-invalid-test-data-modal.html',
   styleUrls: ['test-finalisation-invalid-test-data-modal.scss'],
+  standalone: false,
 })
 export class TestFinalisationInvalidTestDataModal {
   @Input()

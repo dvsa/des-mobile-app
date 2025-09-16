@@ -6,6 +6,7 @@ import { TestSlot } from '@dvsa/mes-journal-schema';
   selector: 'empty-slot',
   templateUrl: 'empty-slot.html',
   styleUrls: ['empty-slot.scss'],
+  standalone: false,
 })
 export class EmptySlotComponent implements SlotComponent {
   @Input()

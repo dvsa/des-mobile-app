@@ -6,6 +6,7 @@ import { ModalEvent } from '@pages/dashboard/components/practice-test-modal/prac
   selector: 'practice-test-modal',
   templateUrl: 'practice-test-modal.html',
   styleUrls: ['practice-test-modal.scss'],
+  standalone: false,
 })
 export class PracticeTestModal {
   constructor(public modalController: ModalController) {}

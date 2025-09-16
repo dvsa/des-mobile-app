@@ -18,6 +18,7 @@ import { get } from 'lodash-es';
   selector: 'vehicle-details-card',
   templateUrl: 'vehicle-details-card.html',
   styleUrls: ['vehicle-details-card.scss'],
+  standalone: false,
 })
 export class VehicleDetailsCardComponent {
   @Input()

@@ -10,6 +10,7 @@ export type AnswerChanged = {
   selector: 'question-card',
   templateUrl: 'question-card.html',
   styleUrls: ['question-card.scss'],
+  standalone: false,
 })
 export class QuestionCardComponent {
   @Input()

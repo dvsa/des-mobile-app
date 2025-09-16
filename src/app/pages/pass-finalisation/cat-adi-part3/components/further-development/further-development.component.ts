@@ -5,6 +5,7 @@ import { OutcomeBehaviourMapProvider, VisibilityType } from '@providers/outcome-
 @Component({
   selector: 'further-development',
   templateUrl: './further-development.component.html',
+  standalone: false,
 })
 export class FurtherDevelopmentComponent implements OnChanges {
   formControl: UntypedFormControl;

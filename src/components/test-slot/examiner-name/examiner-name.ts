@@ -4,6 +4,7 @@ import { Component, Input } from '@angular/core';
   selector: 'examiner-name',
   templateUrl: 'examiner-name.html',
   styleUrls: ['examiner-name.scss'],
+  standalone: false,
 })
 export class ExaminerNameComponent {
   @Input()

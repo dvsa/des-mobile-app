@@ -4,6 +4,7 @@ import { Component, Input } from '@angular/core';
   selector: 'data-row',
   templateUrl: 'data-row.html',
   styleUrls: ['data-row.scss'],
+  standalone: false,
 })
 export class DataRowComponent {
   @Input()

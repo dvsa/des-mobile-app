@@ -6,6 +6,7 @@ import { ModalEvent } from '../../test-report.constants';
   selector: 'end-test-modal',
   templateUrl: 'end-test-modal.html',
   styleUrls: ['end-test-modal.scss'],
+  standalone: false,
 })
 export class EndTestModal {
   constructor(public modalCtrl: ModalController) {}

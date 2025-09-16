@@ -6,6 +6,7 @@ import { TestStatus } from '@store/tests/test-status/test-status.model';
   selector: 'indicators',
   templateUrl: 'indicators.html',
   styleUrls: ['indicators.scss'],
+  standalone: false,
 })
 export class IndicatorsComponent {
   @Input()

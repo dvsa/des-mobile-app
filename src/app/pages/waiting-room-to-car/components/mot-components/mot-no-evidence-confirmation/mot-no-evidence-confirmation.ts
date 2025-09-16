@@ -13,6 +13,7 @@ import { SetActivityCode } from '@store/tests/activity-code/activity-code.action
   selector: 'mot-no-evidence-confirmation',
   templateUrl: './mot-no-evidence-confirmation.html',
   styleUrls: ['./mot-no-evidence-confirmation.scss'],
+  standalone: false,
 })
 export class MotNoEvidenceConfirmationComponent {
   constructor(

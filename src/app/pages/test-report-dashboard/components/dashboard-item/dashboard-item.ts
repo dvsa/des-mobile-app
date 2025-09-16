@@ -4,6 +4,7 @@ import { Component, Input } from '@angular/core';
   selector: 'dashboard-item',
   templateUrl: 'dashboard-item.html',
   styleUrls: ['dashboard-item.scss'],
+  standalone: false,
 })
 export class DashboardItemComponent {
   @Input()

@@ -4,6 +4,7 @@ import { Component, Input } from '@angular/core';
   selector: 'competency-button',
   templateUrl: './competency-button.html',
   styleUrls: ['./competency-button.scss'],
+  standalone: false,
 })
 export class CompetencyButtonComponent {
   @Input()

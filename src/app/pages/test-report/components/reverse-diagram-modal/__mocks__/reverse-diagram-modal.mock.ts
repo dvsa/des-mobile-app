@@ -12,6 +12,7 @@ export interface VehicleData {
 
 @Component({
   template: '',
+  standalone: false,
 })
 export class ReverseDiagramModalMock implements OnInit {
   vehicleDetails: Map<TestCategory, VehicleData>;

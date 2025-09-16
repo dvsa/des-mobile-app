@@ -61,6 +61,7 @@ type WaitingRoomToCarPageState = CommonWaitingRoomToCarPageState & CatCWaitingRo
   selector: '.waiting-room-to-car-cat-c-page',
   templateUrl: './waiting-room-to-car.cat-c.page.html',
   styleUrls: ['./waiting-room-to-car.cat-c.page.scss'],
+  standalone: false,
 })
 export class WaitingRoomToCarCatCPage extends WaitingRoomToCarBasePageComponent implements OnInit {
   form: UntypedFormGroup;

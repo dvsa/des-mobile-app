@@ -9,6 +9,7 @@ import { ModalEvent } from './journal-force-check-modal.constants';
   selector: 'journal-force-check-modal',
   templateUrl: './journal-force-check-modal.html',
   styleUrls: ['./journal-force-check-modal.scss'],
+  standalone: false,
 })
 export class JournalForceCheckModal {
   @Input()

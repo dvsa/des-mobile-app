@@ -7,6 +7,7 @@ import { getDL196CBTCertificateNumberValidator } from '@shared/constants/field-v
   selector: 'cbt-number',
   templateUrl: 'cbt-number.html',
   styleUrls: ['cbt-number.scss'],
+  standalone: false,
 })
 export class CBTNumberComponent implements OnChanges {
   @Input()

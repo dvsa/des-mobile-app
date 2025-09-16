@@ -5,6 +5,7 @@ import { InputRestrictionUppercaseAlphanumDirective } from '../input-restriction
 
 @Component({
   template: '<input type="text" uppercaseAlphanumOnly>',
+  standalone: false,
 })
 class TestAlphaNumComponent {}
 

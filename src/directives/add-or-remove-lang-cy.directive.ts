@@ -4,6 +4,7 @@ import { Subscription } from 'rxjs';
 
 @Directive({
   selector: '[addOrRemoveLangCy]',
+  standalone: false,
 })
 export class AddOrRemoveLangCyDirective implements OnInit, OnDestroy {
   @Input()

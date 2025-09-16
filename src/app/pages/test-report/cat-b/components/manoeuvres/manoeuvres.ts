@@ -19,6 +19,7 @@ import { takeUntil } from 'rxjs/operators';
   selector: 'manoeuvres',
   templateUrl: 'manoeuvres.html',
   styleUrls: ['./manoeuvres.scss'],
+  standalone: false,
 })
 export class ManoeuvresComponent implements OnInit, OnDestroy {
   @Input()

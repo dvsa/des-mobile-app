@@ -1,6 +1,9 @@
 // Ionic Variables and Theming. For more info, please see:
 // http://ionicframework.com/docs/theming/
 
+/* Importing Bootstrap SCSS file. */
+@use 'bootstrap/scss/bootstrap';
+
 $mes-white: #ffffff;
 $gds-black: #0b0c0c;
 $mes-toolbar-background: #212121;
@@ -325,9 +328,6 @@ ion-button {
 .picker-wrapper.sc-ion-picker-ios {
   color: var(--gds-black);
 }
-
-/* Importing Bootstrap SCSS file. */
-@import 'bootstrap/scss/bootstrap';
 
 // Shared Variables
 // --------------------------------------------------

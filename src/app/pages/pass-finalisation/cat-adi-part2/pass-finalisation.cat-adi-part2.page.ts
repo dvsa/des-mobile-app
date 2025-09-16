@@ -21,6 +21,7 @@ type PassFinalisationPageState = CommonPassFinalisationPageState;
   selector: 'app-pass-finalisation-cat-adi-part2',
   templateUrl: './pass-finalisation.cat-adi-part2.page.html',
   styleUrls: ['./../pass-finalisation.page.scss'],
+  standalone: false,
 })
 export class PassFinalisationCatADI2Page extends PassFinalisationPageComponent implements OnInit {
   pageState: PassFinalisationPageState;

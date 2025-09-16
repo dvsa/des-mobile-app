@@ -8,6 +8,7 @@ import { PASS_CERTIFICATE_LENGTH } from '@providers/pass-certificate-validation/
   selector: 'manoeuvres-pass-cert',
   templateUrl: 'manoeuvres-pass-cert.html',
   styleUrls: ['manoeuvres-pass-cert.scss'],
+  standalone: false,
 })
 export class ManoeuvresPassCertificateComponent implements OnChanges {
   @Input()

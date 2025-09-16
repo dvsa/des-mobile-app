@@ -32,6 +32,7 @@ type PassFinalisationPageState = CommonPassFinalisationPageState & CatCPCPassFin
   selector: 'app-pass-finalisation-cat-cpc',
   templateUrl: './pass-finalisation.cat-cpc.page.html',
   styleUrls: ['./../pass-finalisation.page.scss'],
+  standalone: false,
 })
 export class PassFinalisationCatCPCPage extends PassFinalisationPageComponent implements OnInit {
   form: UntypedFormGroup;

@@ -6,6 +6,7 @@ import { ModalEvent } from './journal-rekey-modal.constants';
   selector: 'journal-rekey-modal',
   templateUrl: './journal-rekey-modal.html',
   styleUrls: ['./journal-rekey-modal.scss'],
+  standalone: false,
 })
 export class JournalRekeyModal {
   constructor(private modalController: ModalController) {}

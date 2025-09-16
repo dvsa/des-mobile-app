@@ -5,6 +5,7 @@ import { ModalController } from '@ionic/angular';
   selector: 'examiner-records-learn-more-modal',
   templateUrl: 'examiner-records-learn-more-modal.html',
   styleUrls: ['examiner-records-learn-more-modal.scss'],
+  standalone: false,
 })
 export class ExaminerRecordsLearnMoreModal {
   constructor(public modalCtrl: ModalController) {}

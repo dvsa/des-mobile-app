@@ -31,7 +31,6 @@ import { VehicleRegistrationComponent } from './vehicle-registration/vehicle-reg
   declarations: [
     EyesightTestComponent,
     EyesightFailureConfirmationComponent,
-    SafetyRecallComponent,
     VehicleRegistrationComponent,
     AccompanimentCardComponent,
     AccompanimentComponent,
@@ -50,6 +49,7 @@ import { VehicleRegistrationComponent } from './vehicle-registration/vehicle-reg
     MotNoEvidenceConfirmationComponent,
   ],
   imports: [
+    SafetyRecallComponent,
     CommonModule,
     ComponentsModule,
     IonicModule,
@@ -62,7 +62,6 @@ import { VehicleRegistrationComponent } from './vehicle-registration/vehicle-reg
   exports: [
     EyesightTestComponent,
     EyesightFailureConfirmationComponent,
-    SafetyRecallComponent,
     VehicleRegistrationComponent,
     AccompanimentCardComponent,
     AccompanimentComponent,

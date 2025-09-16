@@ -34,6 +34,7 @@ interface CompetencyState {
   selector: 'pcv-door-exercise',
   templateUrl: 'pcv-door-exercise.html',
   styleUrls: ['pcv-door-exercise.scss'],
+  standalone: false,
 })
 export class PcvDoorExerciseComponent {
   @Input()

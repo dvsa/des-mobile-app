@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Platform } from '@ionic/angular';
 import { AppInfoProvider } from '@providers/app-info/app-info';
 import { DateTime } from '@shared/helpers/date-time';
-import * as shajs from 'sha.js';
+import shajs from 'sha.js';
 import { AppConfigProvider } from '../app-config/app-config';
 import { AuthenticationProvider } from '../authentication/authentication';
 import { DeviceProvider } from '../device/device';

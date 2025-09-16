@@ -9,6 +9,7 @@ import { PASS_CERTIFICATE_NUMBER_CTRL } from './pass-certificate-number.constant
   selector: 'pass-certificate-number',
   templateUrl: './pass-certificate-number.html',
   styleUrls: ['./pass-certificate-number.scss'],
+  standalone: false,
 })
 export class PassCertificateNumberComponent implements OnChanges {
   static readonly fieldName: string = PASS_CERTIFICATE_NUMBER_CTRL;

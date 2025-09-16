@@ -6,6 +6,7 @@ import { JOURNAL_PAGE } from '@pages/page-names.constants';
   selector: 'go-to-journal-card',
   templateUrl: 'go-to-journal-card.html',
   styleUrls: ['go-to-journal-card.scss'],
+  standalone: false,
 })
 export class GoToJournalCardComponent {
   constructor(private router: Router) {}

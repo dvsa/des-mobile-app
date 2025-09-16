@@ -8,7 +8,6 @@ import { IonicModule } from '@ionic/angular';
   selector: 'reason-for-entering-teams',
   templateUrl: 'reason-for-entering-teams.html',
   imports: [IonicModule, ReactiveFormsModule, DirectivesModule, NgIf],
-  standalone: true,
 })
 export class ReasonForEnteringTeamsComponent implements OnChanges {
   @Input()

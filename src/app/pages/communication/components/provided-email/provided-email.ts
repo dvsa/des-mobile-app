@@ -5,6 +5,7 @@ import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms
   selector: 'provided-email',
   templateUrl: 'provided-email.html',
   styleUrls: ['provided-email.scss'],
+  standalone: false,
 })
 export class ProvidedEmailComponent {
   static readonly providedEmail: string = 'Email';

@@ -6,6 +6,7 @@ import { ModalEvent } from '@pages/fake-journal/components/preview-mode-modal/pr
   selector: 'preview-mode-start-modal',
   templateUrl: './preview-mode-modal.html',
   styleUrls: ['./preview-mode-modal.scss'],
+  standalone: false,
 })
 export class PreviewModeModal {
   constructor(public modalController: ModalController) {}

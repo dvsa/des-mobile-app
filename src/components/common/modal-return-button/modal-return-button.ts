@@ -4,6 +4,7 @@ import { Component, EventEmitter, Output } from '@angular/core';
   selector: 'modal-return-button',
   templateUrl: './modal-return-button.html',
   styleUrls: ['./modal-return-button.scss'],
+  standalone: false,
 })
 export class ModalReturnButtonComponent {
   @Output()

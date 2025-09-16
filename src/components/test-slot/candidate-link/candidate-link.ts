@@ -9,6 +9,7 @@ import { AccessibilityService } from '@providers/accessibility/accessibility.ser
   selector: 'candidate-link',
   templateUrl: 'candidate-link.html',
   styleUrls: ['candidate-link.scss'],
+  standalone: false,
 })
 export class CandidateLinkComponent {
   @Input()

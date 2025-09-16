@@ -7,6 +7,7 @@ import { PASS_CERTIFICATE_NUMBER_CTRL } from './pass-certificate-number.cat-a-mo
 @Component({
   selector: 'pass-certificate-number-cat-a-mod1',
   templateUrl: 'pass-certificate-number.cat-a-mod1.html',
+  standalone: false,
 })
 export class PassCertificateNumberCatAMod1Component implements OnChanges {
   static readonly fieldName: string = PASS_CERTIFICATE_NUMBER_CTRL;

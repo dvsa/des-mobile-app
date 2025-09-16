@@ -32,6 +32,7 @@ interface ComponentState {
   selector: 'vehicle-checks-completed',
   templateUrl: 'vehicle-checks-completed.html',
   styleUrls: ['vehicle-checks-completed.scss'],
+  standalone: false,
 })
 export class VehicleChecksToggleComponent implements OnChanges {
   formControl: UntypedFormControl;

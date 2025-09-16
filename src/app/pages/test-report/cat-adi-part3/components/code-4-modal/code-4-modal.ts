@@ -5,6 +5,7 @@ import { ModalController } from '@ionic/angular';
   selector: 'code-4-modal',
   templateUrl: 'code-4-modal.html',
   styleUrls: ['code-4-modal.scss'],
+  standalone: false,
 })
 export class Code4Modal {
   constructor(private modalCtrl: ModalController) {}

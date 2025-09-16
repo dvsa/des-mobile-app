@@ -6,6 +6,7 @@ import { v4 as uuidv4 } from 'uuid';
 @Component({
   selector: 'transmission',
   templateUrl: 'transmission.html',
+  standalone: false,
 })
 export class TransmissionComponent implements OnChanges {
   @Input()

@@ -41,6 +41,7 @@ type WaitingRoomToCarPageState = CommonWaitingRoomToCarPageState & CatAdi2Waitin
   selector: 'app-waiting-room-to-car-cat-adi-part2',
   templateUrl: './waiting-room-to-car.cat-adi-part2.page.html',
   styleUrls: ['./waiting-room-to-car.cat-adi-part2.page.scss'],
+  standalone: false,
 })
 export class WaitingRoomToCarCatADIPart2Page extends WaitingRoomToCarBasePageComponent implements OnInit {
   pageState: WaitingRoomToCarPageState;

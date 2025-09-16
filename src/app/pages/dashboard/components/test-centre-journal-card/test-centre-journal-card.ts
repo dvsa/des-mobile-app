@@ -6,6 +6,7 @@ import { TEST_CENTRE_JOURNAL_PAGE } from '@pages/page-names.constants';
   selector: 'test-centre-journal-card',
   templateUrl: 'test-centre-journal-card.html',
   styleUrls: ['test-centre-journal-card.scss'],
+  standalone: false,
 })
 export class TestCentreJournalCardComponent {
   @Output() navigatedToTestCentreJournal = new EventEmitter<void>();

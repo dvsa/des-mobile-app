@@ -22,6 +22,7 @@ import {
   selector: 'debrief-card',
   templateUrl: 'debrief-card.html',
   styleUrls: ['debrief-card.scss'],
+  standalone: false,
 })
 export class DebriefCardComponent implements OnInit {
   @Input()

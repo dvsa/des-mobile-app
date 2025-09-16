@@ -12,6 +12,7 @@ enum GearBox {
 @Component({
   selector: 'transmission-display',
   templateUrl: 'transmission-display.html',
+  standalone: false,
 })
 export class TransmissionDisplayComponent {
   @Input()

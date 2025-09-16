@@ -5,6 +5,7 @@ import { SafeUrl } from '@angular/platform-browser';
   selector: 'licence-photo',
   templateUrl: 'licence-photo.html',
   styleUrls: ['licence-photo.scss'],
+  standalone: false,
 })
 export class LicencePhoto {
   @Input()

@@ -5,6 +5,7 @@ import { CharacterCountService } from '@providers/character-count/character-coun
 @Component({
   selector: 'eco-capture-reason',
   templateUrl: 'eco-capture-reason.html',
+  standalone: false,
 })
 export class EcoCaptureReasonComponent implements OnChanges {
   @Input()

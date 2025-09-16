@@ -8,6 +8,7 @@ import { LegalRequirements } from '@store/tests/test-data/test-data.constants';
   selector: 'multi-legal-requirement',
   templateUrl: 'multi-legal-requirement.html',
   styleUrls: ['multi-legal-requirement.scss'],
+  standalone: false,
 })
 export class MultiLegalRequirementComponent {
   @Input()

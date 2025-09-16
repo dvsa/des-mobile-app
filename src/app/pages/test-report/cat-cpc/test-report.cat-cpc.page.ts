@@ -56,6 +56,7 @@ type ToggleEvent = {
   selector: 'app-test-report-cat-cpc',
   templateUrl: './test-report.cat-cpc.page.html',
   styleUrls: ['./test-report.cat-cpc.page.scss'],
+  standalone: false,
 })
 export class TestReportCatCPCPage extends TestReportBasePageComponent implements OnInit {
   pageState: TestReportPageState;

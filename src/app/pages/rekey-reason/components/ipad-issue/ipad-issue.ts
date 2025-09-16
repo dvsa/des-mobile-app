@@ -4,6 +4,7 @@ import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms
 @Component({
   selector: 'ipad-issue',
   templateUrl: 'ipad-issue.html',
+  standalone: false,
 })
 export class IpadIssueComponent implements OnChanges {
   static readonly ipadIssueCtrl: string = 'ipadIssueCtrl';

@@ -10,6 +10,7 @@ import { DateTime } from '@shared/helpers/date-time';
   selector: 'search-result',
   templateUrl: 'search-result.html',
   styleUrls: ['search-result.scss'],
+  standalone: false,
 })
 export class SearchResultComponent {
   @Input()

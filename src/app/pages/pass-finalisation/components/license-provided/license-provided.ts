@@ -9,6 +9,7 @@ enum ValidLicenceProvidedValues {
 @Component({
   selector: 'license-provided',
   templateUrl: './license-provided.html',
+  standalone: false,
 })
 export class LicenseProvidedComponent implements OnChanges {
   static readonly fieldName: string = 'provisionalLicenseProvidedCtrl';

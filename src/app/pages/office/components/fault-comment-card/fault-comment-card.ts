@@ -7,6 +7,7 @@ import { FaultSummary } from '@shared/models/fault-marking.model';
   selector: 'fault-comment-card',
   templateUrl: 'fault-comment-card.html',
   styleUrls: ['fault-comment-card.scss'],
+  standalone: false,
 })
 export class FaultCommentCardComponent {
   @Input()

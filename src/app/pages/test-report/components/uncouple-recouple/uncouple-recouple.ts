@@ -33,6 +33,7 @@ interface UncoupleRecoupleComponentState {
   selector: 'uncouple-recouple',
   templateUrl: 'uncouple-recouple.html',
   styleUrls: ['uncouple-recouple.scss'],
+  standalone: false,
 })
 export class UncoupleRecoupleComponent implements OnInit, OnDestroy {
   @Input()

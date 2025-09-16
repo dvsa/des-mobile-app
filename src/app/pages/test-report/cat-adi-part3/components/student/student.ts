@@ -4,6 +4,7 @@ import { StudentLevel } from '@dvsa/mes-test-schema/categories/ADI3';
 @Component({
   selector: 'student-level',
   templateUrl: 'student.html',
+  standalone: false,
 })
 export class StudentComponent {
   @Input()

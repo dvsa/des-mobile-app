@@ -7,6 +7,7 @@ import { CANDIDATE_DESCRIPTION_CONTROL, CANDIDATE_DESCRIPTION_MAX_LENGTH } from 
 @Component({
   selector: 'candidate-description',
   templateUrl: 'candidate-description.html',
+  standalone: false,
 })
 export class CandidateDescriptionComponent implements OnChanges {
   @Input()

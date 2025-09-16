@@ -5,6 +5,7 @@ import { ModalController } from '@ionic/angular';
   selector: 'health-declaration-modal',
   templateUrl: './health-declaration-modal.html',
   styleUrls: ['./health-declaration-modal.scss'],
+  standalone: false,
 })
 export class HealthDeclarationModal {
   onTestDetailsConfirm: Function;

@@ -12,6 +12,7 @@ import { DateTime } from '@shared/helpers/date-time';
   selector: 'app-fake-journal',
   templateUrl: './fake-journal.page.html',
   styleUrls: ['./fake-journal.page.scss'],
+  standalone: false,
 })
 export class FakeJournalPage extends BasePageComponent {
   dateToDisplay: string;

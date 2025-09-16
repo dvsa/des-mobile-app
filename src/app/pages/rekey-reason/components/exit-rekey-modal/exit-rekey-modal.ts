@@ -6,6 +6,7 @@ import { ExitRekeyModalEvent } from './exit-rekey-modal.constants';
   selector: 'exit-rekey-modal',
   templateUrl: 'exit-rekey-modal.html',
   styleUrls: ['exit-rekey-modal.scss'],
+  standalone: false,
 })
 export class ExitRekeyModal {
   constructor(public modalCtrl: ModalController) {}

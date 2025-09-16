@@ -41,6 +41,7 @@ type OfficePageState = CommonOfficePageState & CatManoeuvreOfficePageState;
   selector: '.office-cat-manoeuvre-page',
   templateUrl: './office.cat-manoeuvre.page.html',
   styleUrls: ['../office.page.scss'],
+  standalone: false,
 })
 export class OfficeCatManoeuvrePage extends OfficeBasePageComponent implements OnInit {
   pageState: OfficePageState;

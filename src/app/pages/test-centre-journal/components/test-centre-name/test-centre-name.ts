@@ -5,6 +5,7 @@ import { TestCentreDetailResponse } from '@shared/models/test-centre-journal.mod
   selector: 'test-centre-name',
   templateUrl: 'test-centre-name.html',
   styleUrls: ['test-centre-name.scss'],
+  standalone: false,
 })
 export class TestCentreNameComponent {
   @Input()

@@ -4,6 +4,7 @@ import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms
 @Component({
   selector: 'dual-controls',
   templateUrl: 'dual-controls.html',
+  standalone: false,
 })
 export class DualControlsComponent implements OnChanges {
   @Input()

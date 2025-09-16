@@ -62,6 +62,7 @@ interface VehicleChecksModalCatCState {
   templateUrl: 'vehicle-checks-modal.cat-c.page.html',
   styleUrls: ['vehicle-checks-modal.cat-c.page.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class VehicleChecksCatCModal {
   pageState: VehicleChecksModalCatCState;

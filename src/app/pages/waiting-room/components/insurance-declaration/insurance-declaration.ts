@@ -5,6 +5,7 @@ import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms
   selector: 'insurance-declaration',
   templateUrl: 'insurance-declaration.html',
   styleUrls: ['insurance-declaration.scss'],
+  standalone: false,
 })
 export class InsuranceDeclarationComponent implements OnChanges {
   @Input()

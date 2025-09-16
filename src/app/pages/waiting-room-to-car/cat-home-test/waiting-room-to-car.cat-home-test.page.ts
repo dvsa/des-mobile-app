@@ -50,6 +50,7 @@ type WaitingRoomToCarPageState = CommonWaitingRoomToCarPageState & CatHomeWaitin
   selector: 'app-waiting-room-to-car-cat-home-test',
   templateUrl: './waiting-room-to-car.cat-home-test.page.html',
   styleUrls: ['./waiting-room-to-car.cat-home-test.page.scss'],
+  standalone: false,
 })
 export class WaitingRoomToCarCatHomeTestPage extends WaitingRoomToCarBasePageComponent implements OnInit {
   form: UntypedFormGroup;

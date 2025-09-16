@@ -9,6 +9,7 @@ export type CandidateDetails = { prn: number; attemptNumber: number };
   selector: 'test-details-card',
   templateUrl: 'test-details-card.html',
   styleUrls: ['test-details-card.scss'],
+  standalone: false,
 })
 export class TestDetailsCardComponent {
   @Input()

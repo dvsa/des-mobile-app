@@ -9,6 +9,7 @@ import { has, isNil } from 'lodash-es';
   selector: 'activity-slot',
   templateUrl: 'activity-slot.html',
   styleUrls: ['activity-slot.scss'],
+  standalone: false,
 })
 export class ActivitySlotComponent implements SlotComponent {
   @Input()

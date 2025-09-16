@@ -10,6 +10,7 @@ import { ModalEvent } from '../../../test-report.constants';
   selector: 'adi-3end-test-modal',
   templateUrl: 'adi3-end-test-modal.html',
   styleUrls: ['adi3-end-test-modal.scss'],
+  standalone: false,
 })
 export class Adi3EndTestModal {
   testState: number;

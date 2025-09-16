@@ -4,6 +4,7 @@ import { Component, Input } from '@angular/core';
   selector: 'profile-header',
   templateUrl: 'profile-header.html',
   styleUrls: ['profile-header.scss'],
+  standalone: false,
 })
 export class ProfileHeaderComponent {
   @Input()

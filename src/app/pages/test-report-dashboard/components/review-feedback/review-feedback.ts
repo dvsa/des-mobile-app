@@ -6,6 +6,7 @@ import { CharacterCountService } from '@providers/character-count/character-coun
   selector: 'review-feedback',
   templateUrl: 'review-feedback.html',
   styleUrls: ['review-feedback.scss'],
+  standalone: false,
 })
 export class ReviewFeedback {
   @Input()

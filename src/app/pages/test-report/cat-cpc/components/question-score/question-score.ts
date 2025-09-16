@@ -4,6 +4,7 @@ import { Component, Input } from '@angular/core';
   selector: 'question-score',
   templateUrl: 'question-score.html',
   styleUrls: ['question-score.scss'],
+  standalone: false,
 })
 export class QuestionScoreComponent {
   @Input()

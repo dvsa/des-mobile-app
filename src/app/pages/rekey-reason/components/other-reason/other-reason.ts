@@ -5,6 +5,7 @@ import { CharacterCountService } from '@providers/character-count/character-coun
 @Component({
   selector: 'other-reason',
   templateUrl: 'other-reason.html',
+  standalone: false,
 })
 export class OtherReasonComponent implements OnChanges {
   static readonly checkBoxCtrl: string = 'otherSelected';

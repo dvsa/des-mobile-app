@@ -7,6 +7,7 @@ import { ModalReason } from './activity-code-4-modal.constants';
   selector: 'activity-code-4-modal',
   templateUrl: 'activity-code-4-modal.html',
   styleUrls: ['activity-code-4-modal.scss'],
+  standalone: false,
 })
 export class ActivityCode4Modal {
   @Input()

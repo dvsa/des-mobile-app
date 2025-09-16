@@ -136,7 +136,7 @@ const storageDriver = Capacitor.getPlatform() === 'web' ? Drivers.IndexedDB : Co
 
     IonicModule.forRoot({
       swipeBackEnabled: false,
-      animated: !(environment as unknown as TestersEnvironmentFile)?.isTest ?? true,
+      animated: get(environment, 'isTest') ? !(environment as TestersEnvironmentFile)?.isTest : true,
       mode: 'ios',
       scrollAssist: false,
       scrollPadding: false,

@@ -273,6 +273,7 @@ export const environment: LocalEnvironmentFile = {
     {
       displayText: 'Useful link 1',
       url: 'https://www.example.com/useful-link-1',
+      id: '1',
     },
   ],
   refData: {

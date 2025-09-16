@@ -51,6 +51,7 @@ export const TestCategories: TestCategory[] = [
   selector: 'advanced-search',
   templateUrl: 'advanced-search.html',
   styleUrls: ['advanced-search.scss'],
+  standalone: false,
 })
 export class AdvancedSearchComponent {
   @Input()

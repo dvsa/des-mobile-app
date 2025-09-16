@@ -4,6 +4,7 @@ import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms
 @Component({
   selector: 'pass-certificate-declaration',
   templateUrl: 'pass-certificate-declaration.html',
+  standalone: false,
 })
 export class PassCertificateDeclarationComponent implements OnChanges {
   @Output()

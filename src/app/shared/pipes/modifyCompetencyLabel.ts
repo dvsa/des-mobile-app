@@ -3,6 +3,7 @@ import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/
 
 @Pipe({
   name: 'modifyCompetencyLabel',
+  standalone: false,
 })
 export class ModifyCompetencyLabel implements PipeTransform {
   /**

@@ -22,6 +22,7 @@ type HomeCatTestDataUnion =
   selector: '.test-report-cat-home-test-page',
   templateUrl: './test-report.cat-home-test.page.html',
   styleUrls: ['./test-report.cat-home-test.page.scss'],
+  standalone: false,
 })
 export class TestReportCatHomeTestPage extends TestReportBasePageComponent implements OnInit {
   pageState: TestReportPageState;

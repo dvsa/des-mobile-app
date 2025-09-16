@@ -26,6 +26,7 @@ type OnCloseFunc = () => void;
   selector: 'reverse-diagram-modal',
   templateUrl: 'reverse-diagram-modal.html',
   styleUrls: ['reverse-diagram-modal.scss'],
+  standalone: false,
 })
 export class ReverseDiagramPage implements OnInit {
   @Input()

@@ -7,6 +7,7 @@ import { uniqueId } from 'lodash-es';
   selector: 'safety-question',
   templateUrl: 'safety-question.html',
   styleUrls: ['safety-questions.scss'],
+  standalone: false,
 })
 export class SafetyQuestionComponent implements OnChanges {
   @Input()

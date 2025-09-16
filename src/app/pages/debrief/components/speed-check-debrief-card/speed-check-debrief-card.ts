@@ -8,6 +8,7 @@ import { Language } from '@store/tests/communication-preferences/communication-p
   selector: 'speed-check-debrief-card',
   templateUrl: 'speed-check-debrief-card.html',
   styleUrls: ['speed-check-debrief-card.scss'],
+  standalone: false,
 })
 export class SpeedCheckDebriefCardComponent {
   constructor(private translate: TranslateService) {}

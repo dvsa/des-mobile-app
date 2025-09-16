@@ -6,6 +6,7 @@ import { CompetencyOutcome } from '@shared/models/competency-outcome';
   selector: 'safety-question-data-row',
   templateUrl: 'safety-question-data-row.html',
   styleUrls: ['safety-question-data-row.scss'],
+  standalone: false,
 })
 export class SafetyDataRowComponent {
   @Input()

@@ -6,6 +6,7 @@ import { TEST_RESULTS_SEARCH_PAGE } from '@pages/page-names.constants';
   selector: 'test-results-search-card',
   templateUrl: 'test-results-search-card.html',
   styleUrls: ['test-results-search-card.scss'],
+  standalone: false,
 })
 export class TestResultsSearchCardComponent {
   constructor(private router: Router) {}

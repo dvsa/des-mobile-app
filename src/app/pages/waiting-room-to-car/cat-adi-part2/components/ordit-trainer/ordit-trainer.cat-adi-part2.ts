@@ -9,6 +9,7 @@ enum OrditTrained {
 @Component({
   selector: 'ordit-trainer-cat-adi-part2',
   templateUrl: 'ordit-trainer.cat-adi-part2.html',
+  standalone: false,
 })
 export class OrditTrainerCatAdiPart2Component {
   @Input()

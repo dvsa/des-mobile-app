@@ -4,6 +4,7 @@ import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 @Component({
   selector: 'additional-information',
   templateUrl: 'additional-information.html',
+  standalone: false,
 })
 export class AdditionalInformationComponent implements OnChanges {
   @Input()

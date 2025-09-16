@@ -10,7 +10,6 @@ import { DeviceProvider } from '@providers/device/device';
   selector: 'exit-sam-banner',
   templateUrl: './exit-sam-banner.html',
   styleUrls: ['./exit-sam-banner.scss'],
-  standalone: true,
   imports: [IonicModule, ComponentsModule, NgIf],
 })
 export class ExitSamBanner {

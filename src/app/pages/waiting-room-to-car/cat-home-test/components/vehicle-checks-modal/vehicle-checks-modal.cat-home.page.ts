@@ -44,6 +44,7 @@ interface VehicleChecksModalCatHomeTestState {
   selector: 'vehicle-checks-modal-cat-home-test',
   templateUrl: 'vehicle-checks-modal.cat-home.page.html',
   styleUrls: ['vehicle-checks-modal.cat-home.page.scss'],
+  standalone: false,
 })
 export class VehicleChecksCatHomeTestModal {
   pageState: VehicleChecksModalCatHomeTestState;

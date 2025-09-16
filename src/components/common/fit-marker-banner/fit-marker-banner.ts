@@ -4,6 +4,7 @@ import { Component, Input } from '@angular/core';
   selector: 'fit-marker-banner',
   templateUrl: 'fit-marker-banner.html',
   styleUrls: ['./fit-marker-banner.scss'],
+  standalone: false,
 })
 export class FitMarkerBannerComponent {
   @Input()

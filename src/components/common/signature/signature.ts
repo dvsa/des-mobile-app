@@ -6,6 +6,7 @@ import { SignatureAreaComponent } from '@components/common/signature-area/signat
   selector: 'signature',
   templateUrl: './signature.html',
   styleUrls: ['./signature.scss'],
+  standalone: false,
 })
 export class SignatureComponent implements OnChanges {
   @ViewChild(SignatureAreaComponent)

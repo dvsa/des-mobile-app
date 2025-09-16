@@ -7,7 +7,6 @@ import { IonicModule, ModalController } from '@ionic/angular';
   selector: 'exit-sam-error-modal',
   templateUrl: './exit-sam-error-modal.html',
   styleUrls: ['./exit-sam-error-modal.scss'],
-  standalone: true,
   imports: [IonicModule, ComponentsModule, NgIf],
 })
 export class ExitSamErrorModal {

@@ -4,6 +4,7 @@ import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms
 @Component({
   selector: 'true-likeness',
   templateUrl: 'true-likeness.html',
+  standalone: false,
 })
 export class TrueLikenessComponent implements OnChanges {
   @Input()

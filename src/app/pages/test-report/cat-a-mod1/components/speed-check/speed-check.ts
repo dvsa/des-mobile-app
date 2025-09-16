@@ -41,6 +41,7 @@ import { map, takeUntil } from 'rxjs/operators';
   selector: 'speed-check',
   templateUrl: 'speed-check.html',
   styleUrls: ['speed-check.scss'],
+  standalone: false,
 })
 export class SpeedCheckComponent {
   subscription: Subscription;

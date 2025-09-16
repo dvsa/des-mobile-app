@@ -30,7 +30,6 @@ export enum ExitSAMMethodUsed {
   selector: 'test-flow-header',
   templateUrl: './test-flow-header.component.html',
   styleUrls: ['./test-flow-header.component.scss'],
-  standalone: true,
   imports: [
     IonicModule,
     ComponentsModule,

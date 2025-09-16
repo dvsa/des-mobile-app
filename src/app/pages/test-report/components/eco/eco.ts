@@ -20,6 +20,7 @@ interface EcoComponentState {
   selector: 'eco',
   templateUrl: 'eco.html',
   styleUrls: ['eco.scss'],
+  standalone: false,
 })
 export class EcoComponent implements OnInit {
   subscription: Subscription;

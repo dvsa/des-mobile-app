@@ -8,6 +8,7 @@ export type PassedData = [string, number, string];
   selector: 'data-grid',
   templateUrl: 'data-grid.html',
   styleUrls: ['data-grid.scss'],
+  standalone: false,
 })
 export class DataGridComponent implements OnInit {
   @Input() headers: string[] = null;

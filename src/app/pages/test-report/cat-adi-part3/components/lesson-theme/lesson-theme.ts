@@ -6,6 +6,7 @@ import { CharacterCountService } from '@providers/character-count/character-coun
 @Component({
   selector: 'lesson-theme',
   templateUrl: 'lesson-theme.html',
+  standalone: false,
 })
 export class LessonThemeComponent implements OnChanges {
   @Input()

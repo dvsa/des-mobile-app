@@ -26,6 +26,7 @@ import { ReverseLeftPopoverClosed, ReverseLeftPopoverOpened } from './reverse-le
   selector: 'reverse-left',
   templateUrl: 'reverse-left.html',
   styleUrls: ['reverse-left.scss'],
+  standalone: false,
 })
 export class ReverseLeftComponent implements OnInit, OnDestroy {
   @Input()

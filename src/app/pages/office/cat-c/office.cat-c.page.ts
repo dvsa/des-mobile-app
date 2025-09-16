@@ -55,6 +55,7 @@ type OfficePageState = CommonOfficePageState & CatCOfficePageState;
   selector: '.office-cat-c-page',
   templateUrl: './office.cat-c.page.html',
   styleUrls: ['../office.page.scss'],
+  standalone: false,
 })
 export class OfficeCatCPage extends OfficeBasePageComponent implements OnInit {
   pageState: OfficePageState;

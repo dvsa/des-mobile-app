@@ -12,6 +12,7 @@ import { StoreModel } from '@shared/models/store.model';
   selector: 'bike-category-type',
   templateUrl: './bike-category-type.html',
   styleUrls: ['./bike-category-type.scss'],
+  standalone: false,
 })
 export class BikeCategoryTypeComponent implements OnChanges {
   @ViewChild('categorySelect') selectRef: IonSelect;

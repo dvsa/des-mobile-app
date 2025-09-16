@@ -40,6 +40,7 @@ interface DelegatedRekeySearchPageState {
   selector: 'page-delegated-rekey-search',
   templateUrl: './delegated-rekey-search.html',
   styleUrls: ['./delegated-rekey-search.scss'],
+  standalone: false,
 })
 export class DelegatedRekeySearchPage extends BasePageComponent implements OnInit {
   pageState: DelegatedRekeySearchPageState;

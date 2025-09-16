@@ -8,6 +8,7 @@ import { WeatherConditionSelection } from '@providers/weather-conditions/weather
   selector: 'weather-conditions',
   templateUrl: 'weather-conditions.html',
   styleUrls: ['weather-conditions.scss'],
+  standalone: false,
 })
 export class WeatherConditionsComponent implements OnChanges {
   @Input()

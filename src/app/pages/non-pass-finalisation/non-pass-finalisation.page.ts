@@ -104,6 +104,7 @@ interface NonPassFinalisationPageState {
   selector: 'app-non-pass-finalisation',
   templateUrl: './non-pass-finalisation.page.html',
   styleUrls: ['./non-pass-finalisation.page.scss'],
+  standalone: false,
 })
 export class NonPassFinalisationPage extends PracticeableBasePageComponent implements OnInit {
   pageState: NonPassFinalisationPageState;

@@ -6,6 +6,7 @@ import { PracticeableBasePageComponent } from '@shared/classes/practiceable-base
   selector: 'app-post-debrief-holding',
   templateUrl: './post-debrief-holding.page.html',
   styleUrls: ['./post-debrief-holding.page.scss'],
+  standalone: false,
 })
 export class PostDebriefHoldingPage extends PracticeableBasePageComponent implements OnInit {
   constructor(injector: Injector) {

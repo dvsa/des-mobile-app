@@ -4,6 +4,7 @@ import { Component, Input, OnInit } from '@angular/core';
   selector: 'time',
   templateUrl: 'time.html',
   styleUrls: ['time.scss'],
+  standalone: false,
 })
 export class TimeComponent implements OnInit {
   @Input()

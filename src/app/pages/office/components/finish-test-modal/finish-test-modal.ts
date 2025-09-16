@@ -5,6 +5,7 @@ import { ModalController } from '@ionic/angular';
   selector: 'finish-test-modal',
   templateUrl: './finish-test-modal.html',
   styleUrls: ['./finish-test-modal.scss'],
+  standalone: false,
 })
 export class FinishTestModal {
   completeTest: Function;
