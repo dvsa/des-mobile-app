@@ -1,6 +1,6 @@
 import { createFeatureSelector, createReducer, on } from '@ngrx/store';
 import {
-  UpdateAuthResult, UnloadUserInfo
+  UpdateAuthResult, UnloadUserInfo, LoadEmployeeId, LoadEmployeeNameSuccess
 } from './user-info.actions';
 
 import { UserInfoStateModel} from './user-info.model';
@@ -9,6 +9,8 @@ export const userInfoFeatureKey = 'userInfo';
 
 export const initialState: UserInfoStateModel = {
   authResult: null,
+  employeeId: null,
+  employeeName: 'Unknown Name',
 };
 
 export const userInfoReducer = createReducer(
@@ -16,6 +18,14 @@ export const userInfoReducer = createReducer(
   on(UpdateAuthResult, (state: UserInfoStateModel, { authResult }) => ({
     ...state,
     authResult,
+  })),
+  on(LoadEmployeeId, (state: UserInfoStateModel, { employeeId }) => ({
+    ...state,
+    employeeId,
+  })),
+  on(LoadEmployeeNameSuccess, (state: UserInfoStateModel, { employeeName }) => ({
+    ...state,
+    employeeName,
   })),
   on(UnloadUserInfo, () => initialState)
 );

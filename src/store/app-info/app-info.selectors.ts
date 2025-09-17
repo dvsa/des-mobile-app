@@ -9,16 +9,6 @@ export const selectVersionNumber = createSelector(
   (appInfo: AppInfoStateModel): string => appInfo.versionNumber
 );
 
-export const selectEmployeeId = createSelector(
-  selectAppInfo,
-  (appInfo: AppInfoStateModel): string => appInfo.employeeId
-);
-
-export const selectEmployeeName = createSelector(
-  selectAppInfo,
-  (appInfo: AppInfoStateModel): string => appInfo.employeeName
-);
-
 export const selectDateConfigLoaded = createSelector(
   selectAppInfo,
   (appInfo: AppInfoStateModel): string => appInfo.dateConfigLoaded

@@ -10,17 +10,6 @@ export const LoadAppVersionSuccess = createAction(
 
 export const LoadAppVersionFailure = createAction('[AppInfoEffects] Load App Version Failure', props<{ error }>());
 
-export const LoadEmployeeId = createAction('[LoginComponent] Load Employee ID', props<{ employeeId: string }>());
-
-export const LoadEmployeeName = createAction(
-  '[LoginComponent] Load Employee Name',
-  props<{ employeeName: string }>()
-
-);export const LoadEmployeeNameSuccess = createAction(
-  '[LoginComponent] Load Employee Name Success',
-  props<{ employeeName: string }>()
-);
-
 // @TODO: Rename to `LoadRemoteConfigSuccess` at later date
 export const LoadConfigSuccess = createAction('[AppInfoEffects] Load Config Success');
 

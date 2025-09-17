@@ -56,7 +56,6 @@ import { SearchProvider } from '@providers/search/search';
 import { DateRange, DateTime } from '@shared/helpers/date-time';
 import { isAnyOf } from '@shared/helpers/simplifiers';
 import { StoreModel } from '@shared/models/store.model';
-import { selectEmployeeId } from '@store/app-info/app-info.selectors';
 import {
   getIsLoadingRecords,
   selectCachedExaminerRecords,
@@ -68,6 +67,7 @@ import { getTests } from '@store/tests/tests.reducer';
 import { getStartedTests, getTestStatuses } from '@store/tests/tests.selector';
 import { BehaviorSubject, Observable, Subscription, combineLatest, merge, of } from 'rxjs';
 import { map, switchMap, take, tap, withLatestFrom } from 'rxjs/operators';
+import {getEmployeeID} from '@store/user-info/user-info.selectors';
 
 export interface ExaminerRecordsPageStateData {
   routeGrid: ExaminerRecordDataWithPercentage<string>[];
@@ -276,7 +276,7 @@ export class ExaminerRecordsPage implements OnInit {
       !this.store$.selectSignal(selectCachedExaminerRecords)() ||
       this.store$.selectSignal(selectLastCachedDate)() !== new DateTime().format('DD/MM/YYYY')
     ) {
-      const staffNumber: string = this.store$.selectSignal(selectEmployeeId)();
+      const staffNumber: string = this.store$.selectSignal(getEmployeeID)();
       this.store$.dispatch(LoadingExaminerRecords());
       this.store$.dispatch(GetExaminerRecords(staffNumber));
     }
@@ -463,7 +463,7 @@ export class ExaminerRecordsPage implements OnInit {
         take(1),
         map((value) => Object.values(value)),
         map((value) => {
-          const employeeId = this.store$.selectSignal(selectEmployeeId)();
+          const employeeId = this.store$.selectSignal(getEmployeeID)();
           //Filter out tests the user rekeyed for other users
           return value.filter((test) => {
             // if the test is a rekey, it must be submitted or completed

@@ -18,8 +18,6 @@ import {
   LoadAppVersionFailure,
   LoadAppVersionSuccess,
   LoadConfigSuccess,
-  LoadEmployeeName,
-  LoadEmployeeNameSuccess,
   RestartApp,
   SetDateConfigLoaded,
 } from './app-info.actions';
@@ -81,13 +79,6 @@ export class AppInfoEffects {
         console.log('App resumed after being suspended. Config was not loaded today... app will refresh');
         return [RestartApp(), DetectDeviceTheme()];
       })
-    )
-  );
-
-  loadEmployeeName$ = createEffect(() =>
-    this.actions$.pipe(
-      ofType(LoadEmployeeName),
-      map(action => LoadEmployeeNameSuccess({ employeeName: action.employeeName }))
     )
   );
 }

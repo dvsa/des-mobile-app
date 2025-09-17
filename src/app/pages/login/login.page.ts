@@ -13,12 +13,13 @@ import { NetworkStateProvider } from '@providers/network-state/network-state';
 import { LogoutBasePageComponent } from '@shared/classes/logout-base-page';
 import { LogType } from '@shared/models/log.model';
 import { LoadAppConfig } from '@store/app-config/app-config.actions';
-import { LoadConfigSuccess, LoadEmployeeId, LoadEmployeeName } from '@store/app-info/app-info.actions';
+import { LoadConfigSuccess } from '@store/app-info/app-info.actions';
 import { LoadLog, SaveLog, SendLogs, StartSendingLogs } from '@store/logs/logs.actions';
 import { GetTestCentresRefData } from '@store/reference-data/reference-data.actions';
 import { LoadPersistedTests, StartSendingCompletedTests } from '@store/tests/tests.actions';
 import { Subscription } from 'rxjs';
 import { DASHBOARD_PAGE } from '../page-names.constants';
+import {LoadEmployeeId} from '@store/user-info/user-info.actions';
 
 @Component({
   selector: 'app-login',
@@ -114,8 +115,6 @@ export class LoginPage extends LogoutBasePageComponent implements OnInit {
       if (!isAuthenticated) {
         await this.authenticationProvider.login();
       }
-
-      this.store$.dispatch(LoadEmployeeId({ employeeId: this.authenticationProvider.getEmployeeId() }));
 
       this.store$.dispatch(LoadLog());
 

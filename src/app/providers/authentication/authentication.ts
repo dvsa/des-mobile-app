@@ -11,7 +11,7 @@ import {serialiseLogMessage} from '@shared/helpers/serialise-log-message';
 import {LogType} from '@shared/models/log.model';
 import {StoreModel} from '@shared/models/store.model';
 import {UnloadAppConfig} from '@store/app-config/app-config.actions';
-import {LoadAppVersion, LoadEmployeeName, UnloadAppInfo} from '@store/app-info/app-info.actions';
+import {LoadAppVersion, UnloadAppInfo} from '@store/app-info/app-info.actions';
 import {UnloadExaminerRecords} from '@store/examiner-records/examiner-records.actions';
 import {UnloadJournal} from '@store/journal/journal.actions';
 import {ClearLogs, SaveLog} from '@store/logs/logs.actions';
@@ -31,9 +31,10 @@ import {
   TokenType
 } from '@ionic-enterprise/auth';
 import {Capacitor} from '@capacitor/core';
-import {UnloadUserInfo, UpdateAuthResult} from '@store/user-info/user-info.actions';
-import {getAuthResult} from '@store/user-info/user-info.selectors';
+import {LoadEmployeeId, LoadEmployeeName, UnloadUserInfo, UpdateAuthResult} from '@store/user-info/user-info.actions';
+import {getAuthResult, getEmployeeID} from '@store/user-info/user-info.selectors';
 import {AzureIDToken} from '@providers/authentication/authentication.constants';
+import * as jose from 'jose'
 
 export enum Token {
   ID = 'idToken',
@@ -84,7 +85,7 @@ export class AuthenticationProvider {
   }
 
   getEmployeeId(): string {
-    return '1'
+    return this.store$.selectSignal(getEmployeeID)()
   }
 
   public getAuthenticationToken = async (): Promise<string> => {
@@ -100,27 +101,24 @@ export class AuthenticationProvider {
     }
   };
 
-  private storeAuthResult = (authResult: AuthResult) => {
-    console.log('Storing auth result in the store:', authResult);
+  private storeAuthResult = async (authResult: AuthResult) => {
     this.store$.dispatch(UpdateAuthResult(authResult));
-    console.log('loading employee name from auth result',authResult.idToken, (Buffer.from(authResult.idToken, 'base64').toString('binary')), this.appConfig.getAppConfig()?.authentication.employeeNameKey);
     if (authResult.idToken) {
-      const decode = JSON.parse(Buffer.from(authResult.idToken, 'base64').toString());
-      this.store$.dispatch(LoadEmployeeName(decode[this.appConfig.getAppConfig()?.authentication.employeeNameKey]));
+      const decode = jose.decodeJwt(authResult.idToken);
+      const employeeName = decode[this.appConfig.getAppConfig()?.authentication.employeeNameKey] as string;
+      const employeeID = decode[this.appConfig.getAppConfig()?.authentication.employeeIdKey] as string;
+      this.store$.dispatch(LoadEmployeeName(employeeName));
+      this.store$.dispatch(LoadEmployeeId({ employeeId: employeeID }));
     }
   }
 
   async login() {
     try {
-      console.log('Calling AuthConnect.logsain with provider options:', this.providerOptions);
       // Initiate the login process and update the store with the auth result
       const authResult = await AuthConnect.login(this.provider, this.providerOptions);
-      console.log('AuthConnect.login successful, authResult:', authResult);
       // Dispatch action to update the auth result in the store
-      this.storeAuthResult(authResult);
-      console.log('Auth result stored in the store');
+      await this.storeAuthResult(authResult);
     } catch (error) {
-      console.log('AuthConnect.login error:', error);
       this.logEvent(LogType.ERROR, 'Authentication provider - Login error', error);
     }
   }
@@ -131,9 +129,8 @@ export class AuthenticationProvider {
   }
 
   public async refreshSession() {
-    console.log('Refreshing session');
     //Refresh the session and update the store with the new auth result
-    this.storeAuthResult(await AuthConnect.refreshSession(this.provider, this.authResult()));
+    await this.storeAuthResult(await AuthConnect.refreshSession(this.provider, this.authResult()));
   }
 
   public async isAuthenticated(): Promise<boolean> {
@@ -142,9 +139,7 @@ export class AuthenticationProvider {
       if (this.isOffline()) return true;
 
       // check to see if there is an access token to interrogate
-      const available = await AuthConnect.isAccessTokenAvailable(this.authResult());
-
-      if (available) {
+      if (this.authResult()) {
         // determine if the existing token is expired
         if (await this.hasTokenExpired(this.authResult())) {
           // attempt a token refresh
@@ -166,8 +161,8 @@ export class AuthenticationProvider {
   }
 
   private async hasTokenExpired(result: AuthResult): Promise<boolean> {
-    const azureIDToken = await AuthConnect.decodeToken<AzureIDToken>(TokenType.id, result);
-    return !!azureIDToken && azureIDToken.exp && new Date(azureIDToken.exp * 1000) > new Date();
+    const jwtPayload = jose.decodeJwt(result.idToken);
+    return !!jwtPayload && jwtPayload.exp && new Date(jwtPayload.exp * 1000) > new Date();
   }
 
   /**Clears the entire store but keeps the app version*/

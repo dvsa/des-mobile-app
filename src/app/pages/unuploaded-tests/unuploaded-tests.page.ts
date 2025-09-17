@@ -15,11 +15,12 @@ import { SlotItem } from '@providers/slot-selector/slot-item';
 import { SlotProvider } from '@providers/slot/slot';
 import { BasePageComponent } from '@shared/classes/base-page';
 import { selectRole } from '@store/app-config/app-config.selectors';
-import { selectEmployeeId, selectEmployeeName, selectVersionNumber } from '@store/app-info/app-info.selectors';
+import { selectVersionNumber } from '@store/app-info/app-info.selectors';
 import { getJournalState } from '@store/journal/journal.reducer';
 import { getTests } from '@store/tests/tests.reducer';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import {getEmployeeID, getEmployeeName} from '@store/user-info/user-info.selectors';
 
 interface UnunploadedTestsPageState {
   unSubmittedTestSlotData$: Observable<TestSlot[]>;
@@ -53,8 +54,8 @@ export class UnuploadedTestsPage extends BasePageComponent implements OnInit {
   ngOnInit() {
     this.pageState = {
       appVersion$: this.store$.select(selectVersionNumber),
-      employeeName$: this.store$.select(selectEmployeeName),
-      employeeId$: this.store$.select(selectEmployeeId).pipe(map(this.getEmployeeNumberDisplayValue)),
+      employeeName$: this.store$.select(getEmployeeName),
+      employeeId$: this.store$.select(getEmployeeID).pipe(map(this.getEmployeeNumberDisplayValue)),
       role$: this.store$.select(selectRole).pipe(map(this.getRoleDisplayValue)),
       unSubmittedTestSlots$: unsubmittedTestSlots$(
         this.store$.select(getJournalState),

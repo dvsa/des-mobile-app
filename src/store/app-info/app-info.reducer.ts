@@ -3,8 +3,6 @@ import {
   HasSeenUpdateAvailablePopup,
   LoadAppVersionFailure,
   LoadAppVersionSuccess,
-  LoadEmployeeId,
-  LoadEmployeeNameSuccess,
   SetDateConfigLoaded,
   UnloadAppInfo,
 } from './app-info.actions';
@@ -15,8 +13,6 @@ export const appInfoFeatureKey = 'appInfo';
 
 export const initialState: AppInfoStateModel = {
   versionNumber: 'VERSION_NOT_LOADED',
-  employeeId: null,
-  employeeName: 'Unknown Name',
   updateAvailablePresented: null,
 };
 
@@ -29,14 +25,6 @@ export const appInfoReducer = createReducer(
   on(LoadAppVersionFailure, (state: AppInfoStateModel, { error }) => ({
     ...state,
     error,
-  })),
-  on(LoadEmployeeId, (state: AppInfoStateModel, { employeeId }) => ({
-    ...state,
-    employeeId,
-  })),
-  on(LoadEmployeeNameSuccess, (state: AppInfoStateModel, { employeeName }) => ({
-    ...state,
-    employeeName,
   })),
   on(SetDateConfigLoaded, (state: AppInfoStateModel, { refreshDate }) => ({
     ...state,
