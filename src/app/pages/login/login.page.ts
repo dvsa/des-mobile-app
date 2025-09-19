@@ -118,12 +118,12 @@ export class LoginPage extends LogoutBasePageComponent implements OnInit {
       this.store$.dispatch(LoadLog());
 
       await this.appConfigProvider.loadRemoteConfig();
-
       this.store$.dispatch(LoadConfigSuccess());
 
-      this.store$.dispatch(LoadPersistedTests());
+      // We need to resh the employee details now that the remote config has loaded.
+      await this.authenticationProvider.refreshEmployeeDetails();
 
-      this.store$.dispatch(LoadAppConfig({ appConfig: this.appConfigProvider.getAppConfig() }));
+      this.store$.dispatch(LoadPersistedTests());
 
       await this.analytics.initialiseGoogleAnalytics();
 
@@ -250,7 +250,7 @@ export class LoginPage extends LogoutBasePageComponent implements OnInit {
       this.deviceTypeError = DeviceError.UNSUPPORTED_DEVICE;
       this.hasDeviceTypeError = true;
     }
-    return validDevice
+    return validDevice;
   };
 
   async showErrorDetails() {

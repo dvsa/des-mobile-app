@@ -138,7 +138,6 @@ export abstract class BasePageComponent {
    */
   ionViewWillEnter() {
     if (this.isIos()) {
-
       this.authenticationProvider.isAuthenticated().then(async (isAuthed) => {
         console.log('+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++');
         console.log('this.loginRequired: ', this.loginRequired);
@@ -153,7 +152,7 @@ export abstract class BasePageComponent {
               invalidToken: true,
             },
           };
-          // await this.router.navigate([LOGIN_PAGE], navigationExtras);
+          await this.router.navigate([LOGIN_PAGE], navigationExtras);
         }
       });
     }
