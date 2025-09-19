@@ -133,7 +133,10 @@ export class LoginPage extends LogoutBasePageComponent implements OnInit {
 
       await this.handleLoadingUI(false);
 
-      await this.validateDeviceType();
+      const isValidDevice = await this.validateDeviceType();
+      if (isValidDevice) {
+        await this.router.navigate([DASHBOARD_PAGE], { replaceUrl: true });
+      }
     } catch (error) {
       await this.hideSplashscreen();
 
@@ -241,14 +244,13 @@ export class LoginPage extends LogoutBasePageComponent implements OnInit {
   /**
    * Check app is running on a supported device and navigate to app starting page
    */
-  validateDeviceType = async (): Promise<void> => {
+  validateDeviceType = async (): Promise<boolean> => {
     const validDevice = await this.deviceProvider.validDeviceType();
     if (!validDevice) {
       this.deviceTypeError = DeviceError.UNSUPPORTED_DEVICE;
       this.hasDeviceTypeError = true;
-    } else {
-      await this.router.navigate([DASHBOARD_PAGE], { replaceUrl: true });
     }
+    return validDevice
   };
 
   async showErrorDetails() {

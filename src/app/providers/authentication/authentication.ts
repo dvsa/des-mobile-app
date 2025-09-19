@@ -149,15 +149,8 @@ export class AuthenticationProvider {
       // Dispatch action to update the auth result in the store
       await this.storeAuthResult(authResult);
     } catch (error) {
-      console.log('••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••');
-      this.appConfig.getAppConfigAsync().then((result) => {
-        console.log('GIVE ME THE AUTH RESULT FROM THE STORE:', result);
-      });
-      console.log('provider:', this.provider);
-      console.log('providerOptions:', this.providerOptions);
-      console.error(error);
-      console.log('••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••');
       this.logEvent(LogType.ERROR, 'Authentication provider - Login error', error);
+      throw error
     }
   }
 
