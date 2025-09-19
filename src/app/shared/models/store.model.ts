@@ -1,5 +1,4 @@
-import { AppConfig } from '@providers/app-config/app-config.model';
-import { appConfigFeatureKey } from '@store/app-config/app-config.reducer';
+import { AppConfigStateModel, appConfigFeatureKey } from '@store/app-config/app-config.reducer';
 import { AppInfoStateModel } from '@store/app-info/app-info.model';
 import { appInfoFeatureKey } from '@store/app-info/app-info.reducer';
 import { ExaminerRecordStateModel } from '@store/examiner-records/examiner-records.model';
@@ -15,7 +14,7 @@ import { testsFeatureKey } from '@store/tests/tests.reducer';
 export interface StoreModel {
   [appInfoFeatureKey]: AppInfoStateModel;
   [journalFeatureKey]: JournalModel;
-  [appConfigFeatureKey]: AppConfig;
+  [appConfigFeatureKey]: AppConfigStateModel;
   [testCentreJournalFeatureKey]: TestCentreJournalModel;
   [testsFeatureKey]: TestsModel;
   [refDataFeatureKey]: RefDataStateModel;

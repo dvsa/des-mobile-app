@@ -11,7 +11,7 @@ import { LogHelper } from '@providers/logs/logs-helper';
 import { serialiseLogMessage } from '@shared/helpers/serialise-log-message';
 import { LogType } from '@shared/models/log.model';
 import { StoreModel } from '@shared/models/store.model';
-import { UnloadAppConfig } from '@store/app-config/app-config.actions';
+import { UnloadConfig } from '@store/app-config/app-config.actions';
 import { LoadAppVersion, UnloadAppInfo } from '@store/app-info/app-info.actions';
 import { selectEmployeeId } from '@store/app-info/app-info.selectors';
 import { UnloadExaminerRecords } from '@store/examiner-records/examiner-records.actions';
@@ -258,7 +258,7 @@ export class AuthenticationProvider {
     this.store$.dispatch(UnloadTests());
 
     // Dispatch action to unload app config
-    this.store$.dispatch(UnloadAppConfig());
+    this.store$.dispatch(UnloadConfig());
 
     // Dispatch action to load app version
     this.store$.dispatch(LoadAppVersion());
@@ -310,8 +310,6 @@ export class AuthenticationProvider {
       await this.clearStore();
 
       await this.clearTokens();
-
-      this.appConfig.shutDownStoreSubscription();
 
       this.subscription?.unsubscribe();
 

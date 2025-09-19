@@ -1,13 +1,12 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, Signal } from '@angular/core';
 import { IsDebug } from '@awesome-cordova-plugins/is-debug/ngx';
 import { GetResult, ManagedConfigurations } from '@capawesome/capacitor-managed-configurations';
 import { Platform } from '@ionic/angular';
 import { Store } from '@ngrx/store';
 import { ValidationError, ValidatorResult } from 'jsonschema';
 import { isEmpty, merge } from 'lodash-es';
-import { Subscription } from 'rxjs';
-import { map, timeout } from 'rxjs/operators';
+import { timeout } from 'rxjs/operators';
 
 import { MdmConfig } from '@dvsa/mes-config-schema/mdm-config';
 import { RemoteConfig } from '@dvsa/mes-config-schema/remote-config';
@@ -21,10 +20,11 @@ import {
 import { getEnumKeyByValue } from '@shared/helpers/enum-keys';
 import { LogType } from '@shared/models/log.model';
 import { StoreModel } from '@shared/models/store.model';
-import { getAppConfigState } from '@store/app-config/app-config.reducer';
 import { SaveLog } from '@store/logs/logs.actions';
 import { AppConfig } from './app-config.model';
 
+import { LoadAppConfig, LoadRemoteConfig, UnloadConfig } from '@store/app-config/app-config.actions';
+import { selectAppConfig, selectRemoteConfig } from '@store/app-config/app-config.selectors';
 import { AppInfoProvider } from '../app-info/app-info';
 import { AuthenticationError } from '../authentication/authentication.constants';
 import { DataStoreProvider, LocalStorageKey } from '../data-store/data-store';
@@ -65,9 +65,9 @@ import { AppConfigError } from './app-config.constants';
 @Injectable()
 export class AppConfigProvider {
   isDebugMode = false;
-  storeSubscription: Subscription;
   environmentFile: EnvironmentFile = environment as EnvironmentFile;
-  private appConfig: AppConfig;
+  private appConfig: Signal<AppConfig> = this.store$.selectSignal(selectAppConfig);
+  private remoteConfig: Signal<RemoteConfig> = this.store$.selectSignal(selectRemoteConfig);
 
   constructor(
     private platform: Platform,
@@ -79,11 +79,23 @@ export class AppConfigProvider {
     private store$: Store<StoreModel>,
     private logHelper: LogHelper,
     private isDebug: IsDebug
-  ) {
-    this.setStoreSubscription();
+  ) {}
+
+  async convertStorageToState() {
+    const storedRemoteConfig = await this.dataStoreProvider.getItem(LocalStorageKey.CONFIG);
+    if (storedRemoteConfig) {
+      this.store$.dispatch(UnloadConfig());
+      this.store$.dispatch(LoadRemoteConfig(JSON.parse(storedRemoteConfig)));
+      await this.dataStoreProvider.removeItem(LocalStorageKey.CONFIG);
+    }
   }
 
   public initialiseAppConfig = async (): Promise<void> => {
+    try {
+      await this.convertStorageToState();
+    } catch (err) {
+      this.logError('Convert storage to state error', err);
+    }
     try {
       if (this.platform.is('cordova')) {
         await this.getDebugMode();
@@ -102,28 +114,15 @@ export class AppConfigProvider {
     }
   };
 
-  public setStoreSubscription(): void {
-    this.storeSubscription = this.store$
-      .select(getAppConfigState)
-      .pipe(map((appConfig: AppConfig) => (this.appConfig = appConfig)))
-      .subscribe();
-  }
-
-  public shutDownStoreSubscription(): void {
-    if (this.storeSubscription) {
-      this.storeSubscription.unsubscribe();
-    }
-  }
-
   public getAppConfig = (): AppConfig => {
-    if (!this.appConfig) {
+    if (!this.appConfig()) {
       this.getAppConfigAsync();
     }
-    return this.appConfig;
+    return this.appConfig();
   };
 
   public getAppConfigAsync = async (): Promise<AppConfig> => {
-    if (!this.appConfig) {
+    if (!this.appConfig()) {
       try {
         // Use env/xml file to create base config
         await this.initialiseAppConfig();
@@ -142,7 +141,7 @@ export class AppConfigProvider {
         this.logError('Get app config async', err);
       }
     }
-    return this.appConfig;
+    return this.appConfig();
   };
 
   public loadManagedConfig = async (): Promise<void> => {
@@ -196,6 +195,7 @@ export class AppConfigProvider {
         if (result?.errors?.length > 0) {
           return Promise.reject(result.errors);
         }
+        alert('remote config loaded');
         return data;
       })
       .then((data) => this.mapRemoteConfig(data))
@@ -250,7 +250,7 @@ export class AppConfigProvider {
           .pipe(timeout(30000))
           .subscribe({
             next: (data: RemoteConfig) => {
-              this.dataStoreProvider.setItem(LocalStorageKey.CONFIG, JSON.stringify(data));
+              this.store$.dispatch(LoadRemoteConfig({ remoteConfig: data }));
               resolve(data);
             },
             error: ({ error }: HttpErrorResponse) => {
@@ -284,15 +284,14 @@ export class AppConfigProvider {
 
   private getCachedRemoteConfig = async (): Promise<RemoteConfig> => {
     try {
-      const response = await this.dataStoreProvider.getItem(LocalStorageKey.CONFIG);
-      return JSON.parse(response);
+      return this.remoteConfig();
     } catch (error) {
       throw error;
     }
   };
 
   private mapInAppConfig = (data: MdmConfig): void => {
-    this.appConfig = merge({}, this.appConfig, <MdmConfig>{
+    const temporaryConfig: AppConfig = merge({}, this.appConfig(), <MdmConfig>{
       configUrl: data.configUrl,
       sentry: {
         dsn: data.sentry.dsn,
@@ -311,10 +310,11 @@ export class AppConfigProvider {
         employeeIdKey: data.authentication.employeeIdKey,
       },
     });
+    this.store$.dispatch(LoadAppConfig({ appConfig: temporaryConfig }));
   };
 
   private mapRemoteConfig = (data: LocalEnvironmentFile | RemoteConfig): void => {
-    this.appConfig = merge({}, this.appConfig, <AppConfig>{
+    const temporaryConfig: AppConfig = merge({}, this.appConfig(), <AppConfig>{
       liveAppVersion: data.liveAppVersion,
       googleAnalyticsId: data.googleAnalyticsId,
       googleAnalyticsKey: data.googleAnalyticsKey,
@@ -363,6 +363,7 @@ export class AppConfigProvider {
       usefulLinks: data.usefulLinks,
       requestTimeout: data.requestTimeout,
     });
+    this.store$.dispatch(LoadAppConfig({ appConfig: temporaryConfig }));
   };
 
   getDebugMode = async (): Promise<void> => {
