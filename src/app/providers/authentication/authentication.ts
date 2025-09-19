@@ -121,7 +121,7 @@ export class AuthenticationProvider {
     }
   };
 
-  private storeAuthResult = async (authResult: AuthResult) => {
+  private storeAuthResult = (authResult: AuthResult) => {
     this.store$.dispatch(UpdateAuthResult(authResult));
     console.log('¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢');
     console.log('decoded jwt:', jose.decodeJwt(authResult.idToken));
@@ -147,7 +147,7 @@ export class AuthenticationProvider {
       // Initiate the login process and update the store with the auth result
       const authResult = await AuthConnect.login(this.provider, this.providerOptions);
       // Dispatch action to update the auth result in the store
-      await this.storeAuthResult(authResult);
+      this.storeAuthResult(authResult);
     } catch (error) {
       this.logEvent(LogType.ERROR, 'Authentication provider - Login error', error);
       throw error
@@ -161,7 +161,7 @@ export class AuthenticationProvider {
 
   public async refreshSession() {
     //Refresh the session and update the store with the new auth result
-    await this.storeAuthResult(await AuthConnect.refreshSession(this.provider, this.authResult()));
+    this.storeAuthResult(await AuthConnect.refreshSession(this.provider, this.authResult()));
   }
 
   public async isAuthenticated(): Promise<boolean> {
@@ -267,16 +267,16 @@ export class AuthenticationProvider {
   public async logout(): Promise<void> {
     try {
       this.logEvent(LogType.DEBUG, 'Logout', 'Started logout flow');
-
-      await this.clearStore();
-
-      this.appConfig.shutDownStoreSubscription();
-
       await AuthConnect.logout(this.provider, this.authResult());
 
       this.logEvent(LogType.DEBUG, 'Logout', 'Finished logout flow');
     } catch (err) {
       this.logEvent(LogType.ERROR, 'Authentication provider - Logout error', err);
+    }
+
+    if (this.authResult()) {
+      await this.clearStore();
+      this.appConfig.shutDownStoreSubscription();
     }
   }
 
