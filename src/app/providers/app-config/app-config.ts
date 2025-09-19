@@ -5,7 +5,7 @@ import { GetResult, ManagedConfigurations } from '@capawesome/capacitor-managed-
 import { Platform } from '@ionic/angular';
 import { Store } from '@ngrx/store';
 import { ValidationError, ValidatorResult } from 'jsonschema';
-import { isEmpty, merge } from 'lodash-es';
+import { isEmpty, merge, result } from 'lodash-es';
 import { Subscription } from 'rxjs';
 import { map, timeout } from 'rxjs/operators';
 
@@ -95,6 +95,10 @@ export class AppConfigProvider {
       if (!this.environmentFile.isRemote) {
         this.mapRemoteConfig(this.environmentFile as LocalEnvironmentFile);
       }
+      console.log('=========================================================================================');
+      console.log('this.environment file', this.environmentFile);
+      console.log('app config:', this.appConfig);
+      console.log('=========================================================================================');
       return await Promise.resolve();
     } catch (err) {
       this.logError('Initialise app config error', err);

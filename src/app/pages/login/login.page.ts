@@ -19,7 +19,8 @@ import { GetTestCentresRefData } from '@store/reference-data/reference-data.acti
 import { LoadPersistedTests, StartSendingCompletedTests } from '@store/tests/tests.actions';
 import { Subscription } from 'rxjs';
 import { DASHBOARD_PAGE } from '../page-names.constants';
-import {LoadEmployeeId} from '@store/user-info/user-info.actions';
+import { LocalStorageKey } from '@providers/data-store/data-store';
+import { DataStoreProvider } from '@providers/data-store/data-store';
 
 @Component({
   selector: 'app-login',
@@ -49,6 +50,7 @@ export class LoginPage extends LogoutBasePageComponent implements OnInit {
     private analytics: AnalyticsProvider,
     public networkStateProvider: NetworkStateProvider,
     public alertController: AlertController,
+    private dataStoreProvider: DataStoreProvider,
     injector: Injector
   ) {
     super(injector);

@@ -33,8 +33,9 @@ import {
 import {Capacitor} from '@capacitor/core';
 import {LoadEmployeeId, LoadEmployeeName, UnloadUserInfo, UpdateAuthResult} from '@store/user-info/user-info.actions';
 import {getAuthResult, getEmployeeID} from '@store/user-info/user-info.selectors';
-import {AzureIDToken} from '@providers/authentication/authentication.constants';
+import { AuthProviderSettings, AzureIDToken } from '@providers/authentication/authentication.constants';
 import * as jose from 'jose'
+import { AppConfig } from '@providers/app-config/app-config.model';
 
 export enum Token {
   ID = 'idToken',
@@ -47,6 +48,7 @@ export class AuthenticationProvider {
 
   provider: Auth0Provider
   providerOptions: ProviderOptions
+  authSettings: AuthProviderSettings;
   authResult = this.store$.selectSignal(getAuthResult);
 
   constructor(
@@ -61,14 +63,15 @@ export class AuthenticationProvider {
   ) {
     this.provider = new AzureProvider();
     const authSettings = this.appConfig.getAppConfig()?.authentication;
+    // this.appConfig.getAppConfigAsync().then((result: AppConfig) => {this.authSettings = result.authentication});
     const isNative = Capacitor.isNativePlatform();
 
     this.providerOptions = {
       audience: '',
-      clientId: authSettings.clientId,
-      discoveryUrl: `${authSettings.context}/v2.0/.well-known/openid-configuration?appid=${authSettings.clientId}`,
-      logoutUrl: isNative ? authSettings.logoutUrl : 'http://localhost:8100',
-      redirectUri: isNative ? authSettings.redirectUrl : 'http://localhost:8100',
+      clientId: this.authSettings.clientId,
+      discoveryUrl: `${this.authSettings.context}/v2.0/.well-known/openid-configuration?appid=${this.authSettings.clientId}`,
+      logoutUrl: isNative ? this.authSettings.logoutUrl : 'http://localhost:8100',
+      redirectUri: isNative ? this.authSettings.redirectUrl : 'http://localhost:8100',
       scope: 'openid offline_access profile email',
     };
     AuthConnect.setup({
@@ -103,6 +106,9 @@ export class AuthenticationProvider {
 
   private storeAuthResult = async (authResult: AuthResult) => {
     this.store$.dispatch(UpdateAuthResult(authResult));
+    console.log('¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢');
+    console.log('decoded jwt:', jose.decodeJwt(authResult.idToken));
+    console.log('¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢');
     if (authResult.idToken) {
       const decode = jose.decodeJwt(authResult.idToken);
       const employeeName = decode[this.appConfig.getAppConfig()?.authentication.employeeNameKey] as string;
@@ -119,6 +125,15 @@ export class AuthenticationProvider {
       // Dispatch action to update the auth result in the store
       await this.storeAuthResult(authResult);
     } catch (error) {
+      console.log('••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••');
+      this.appConfig.getAppConfigAsync().then((result) => {
+        console.log('GIVE ME THE AUTH RESULT FROM THE STORE:', result);
+      });
+      console.log('authSettings:', this.authSettings);
+      console.log('provider:', this.provider);
+      console.log('providerOptions:', this.providerOptions);
+      console.error(error)
+      console.log('••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••');
       this.logEvent(LogType.ERROR, 'Authentication provider - Login error', error);
     }
   }
@@ -136,6 +151,11 @@ export class AuthenticationProvider {
   public async isAuthenticated(): Promise<boolean> {
     try {
       // if offline, allow user to continue locally
+      console.log('{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{');
+      console.log('isOffline', this.isOffline());
+      console.log('this.authResult()', this.authResult());
+      console.log('hasTokenExpired', await this.hasTokenExpired(this.authResult()));
+      console.log('{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{');
       if (this.isOffline()) return true;
 
       // check to see if there is an access token to interrogate
@@ -162,6 +182,11 @@ export class AuthenticationProvider {
 
   private async hasTokenExpired(result: AuthResult): Promise<boolean> {
     const jwtPayload = jose.decodeJwt(result.idToken);
+    console.log('^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^');
+    console.log('jwtPayload:', jwtPayload);
+    console.log('jwtPayload.exp:', jwtPayload.exp);
+    console.log('new Date(jwtPayload.exp * 1000) > new Date():', new Date(jwtPayload.exp * 1000) > new Date());
+    console.log('^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^');
     return !!jwtPayload && jwtPayload.exp && new Date(jwtPayload.exp * 1000) > new Date();
   }
 

@@ -140,7 +140,12 @@ export abstract class BasePageComponent {
     if (this.isIos()) {
 
       this.authenticationProvider.isAuthenticated().then(async (isAuthed) => {
-        if (this.loginRequired && !isAuthed && !this.authenticationProvider.isOffline()) {
+        console.log('+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++');
+        console.log('this.loginRequired: ', this.loginRequired);
+        console.log('!isAuthed: ', !isAuthed);
+        console.log('!this.authenticationProvider.isOffline(): ', !this.authenticationProvider.isOffline());
+        console.log('+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++');
+        if (this.loginRequired && !isAuthed) {
           const navigationExtras: NavigationExtras = {
             replaceUrl: true,
             state: {
@@ -148,7 +153,7 @@ export abstract class BasePageComponent {
               invalidToken: true,
             },
           };
-          await this.router.navigate([LOGIN_PAGE], navigationExtras);
+          // await this.router.navigate([LOGIN_PAGE], navigationExtras);
         }
       });
     }

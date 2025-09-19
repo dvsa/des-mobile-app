@@ -24,6 +24,16 @@ export interface TokenStatus {
   action: string;
 }
 
+export interface AuthProviderSettings {
+  context: string;
+  resourceUrl: string;
+  clientId: string;
+  redirectUrl: string;
+  logoutUrl: string;
+  employeeIdKey: string;
+  employeeNameKey: string;
+}
+
 export interface AzureIDToken {
   aio: string;
   aud: string;
