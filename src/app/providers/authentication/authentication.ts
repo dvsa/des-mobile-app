@@ -1,27 +1,27 @@
-import { Injectable } from '@angular/core';
-import { Store } from '@ngrx/store';
-import { DelegatedRekeySearchClearState } from '@pages/delegated-rekey-search/delegated-rekey-search.actions';
-import { ResetRekeyReason } from '@pages/rekey-reason/rekey-reason.actions';
-import { RekeySearchClearState } from '@pages/rekey-search/rekey-search.actions';
-import { ResetFaultMode } from '@pages/test-report/test-report.actions';
-import { CompletedTestPersistenceProvider } from '@providers/completed-test-persistence/completed-test-persistence';
-import { ExaminerRecordsProvider } from '@providers/examiner-records/examiner-records';
-import { LogHelper } from '@providers/logs/logs-helper';
-import { serialiseLogMessage } from '@shared/helpers/serialise-log-message';
-import { LogType } from '@shared/models/log.model';
-import { StoreModel } from '@shared/models/store.model';
-import { UnloadAppConfig } from '@store/app-config/app-config.actions';
-import { LoadAppVersion, UnloadAppInfo } from '@store/app-info/app-info.actions';
-import { UnloadExaminerRecords } from '@store/examiner-records/examiner-records.actions';
-import { UnloadJournal } from '@store/journal/journal.actions';
-import { ClearLogs, SaveLog } from '@store/logs/logs.actions';
-import { ClearTestCentresRefData } from '@store/reference-data/reference-data.actions';
-import { ResetTestCentreJournal } from '@store/test-centre-journal/test-centre-journal.actions';
-import { UnloadTests } from '@store/tests/tests.actions';
-import { AppConfigProvider } from '../app-config/app-config';
-import { DataStoreProvider, LocalStorageKey } from '../data-store/data-store';
-import { ConnectionStatus, NetworkStateProvider } from '../network-state/network-state';
-import { TestPersistenceProvider } from '../test-persistence/test-persistence';
+import {Injectable} from '@angular/core';
+import {Store} from '@ngrx/store';
+import {DelegatedRekeySearchClearState} from '@pages/delegated-rekey-search/delegated-rekey-search.actions';
+import {ResetRekeyReason} from '@pages/rekey-reason/rekey-reason.actions';
+import {RekeySearchClearState} from '@pages/rekey-search/rekey-search.actions';
+import {ResetFaultMode} from '@pages/test-report/test-report.actions';
+import {CompletedTestPersistenceProvider} from '@providers/completed-test-persistence/completed-test-persistence';
+import {ExaminerRecordsProvider} from '@providers/examiner-records/examiner-records';
+import {LogHelper} from '@providers/logs/logs-helper';
+import {serialiseLogMessage} from '@shared/helpers/serialise-log-message';
+import {LogType} from '@shared/models/log.model';
+import {StoreModel} from '@shared/models/store.model';
+import {UnloadAppConfig} from '@store/app-config/app-config.actions';
+import {LoadAppVersion, UnloadAppInfo} from '@store/app-info/app-info.actions';
+import {UnloadExaminerRecords} from '@store/examiner-records/examiner-records.actions';
+import {UnloadJournal} from '@store/journal/journal.actions';
+import {ClearLogs, SaveLog} from '@store/logs/logs.actions';
+import {ClearTestCentresRefData} from '@store/reference-data/reference-data.actions';
+import {ResetTestCentreJournal} from '@store/test-centre-journal/test-centre-journal.actions';
+import {UnloadTests} from '@store/tests/tests.actions';
+import {AppConfigProvider} from '../app-config/app-config';
+import {DataStoreProvider, LocalStorageKey} from '../data-store/data-store';
+import {ConnectionStatus, NetworkStateProvider} from '../network-state/network-state';
+import {TestPersistenceProvider} from '../test-persistence/test-persistence';
 import {
   Auth0Provider,
   AuthConnect,
@@ -30,12 +30,12 @@ import {
   ProviderOptions,
   TokenType,
 } from '@ionic-enterprise/auth';
-import { Capacitor } from '@capacitor/core';
-import { LoadEmployeeId, LoadEmployeeName, UnloadUserInfo, UpdateAuthResult } from '@store/user-info/user-info.actions';
-import { getAuthResult, getEmployeeID } from '@store/user-info/user-info.selectors';
-import { AuthProviderSettings, AzureIDToken } from '@providers/authentication/authentication.constants';
+import {Capacitor} from '@capacitor/core';
+import {LoadEmployeeId, LoadEmployeeName, UnloadUserInfo, UpdateAuthResult} from '@store/user-info/user-info.actions';
+import {getAuthResult, getEmployeeID} from '@store/user-info/user-info.selectors';
+import {AuthProviderSettings, AzureIDToken} from '@providers/authentication/authentication.constants';
 import * as jose from 'jose';
-import { AppConfig } from '@providers/app-config/app-config.model';
+import {AppConfig} from '@providers/app-config/app-config.model';
 
 export enum Token {
   ID = 'idToken',
@@ -48,7 +48,7 @@ export class AuthenticationProvider {
 
   provider: Auth0Provider;
   providerOptions: ProviderOptions;
-  authSettings: AuthProviderSettings;
+
   authResult = this.store$.selectSignal(getAuthResult);
 
   constructor(
@@ -62,38 +62,37 @@ export class AuthenticationProvider {
     private networkState: NetworkStateProvider,
   ) {
     this.provider = new AzureProvider();
+    AuthConnect.setup({
+      platform: Capacitor.isNativePlatform() ? 'capacitor' : 'web',
+      logLevel: 'ERROR',
+      ios: {
+        webView: 'private',
+      },
+      web: {
+        uiMode: 'popup',
+        authFlow: 'PKCE',
+      },
+    });
+  }
+
+  async getAppConfigData() {
     const isNative = Capacitor.isNativePlatform();
-    // this.appConfig.getAppConfigAsync().then((result: AppConfig) => {
-    //   this.authSettings = this.authSettings
-    setTimeout(() => {
-      this.authSettings = this.appConfig.getAppConfig().authentication;
-      console.log('≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠=');
-      console.log('Result directly from getAppConfigMethod.authentication:', this.appConfig.getAppConfig().authentication);
-      console.log('AuthSettings after being set in constructor:', this.authSettings);
-      console.log('≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠=');
+    const authSettings: AuthProviderSettings = this.appConfig.getAppConfig().authentication;
+    console.log('≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠=');
+    console.log('Result directly from getAppConfigMethod.authentication:', this.appConfig.getAppConfig().authentication);
+    console.log('AuthSettings after being set in constructor:', authSettings);
+    console.log('≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠=');
+    if (authSettings) {
       this.providerOptions = {
 
         audience: '',
-        clientId: this.authSettings.clientId,
-        discoveryUrl: `${this.authSettings.context}/v2.0/.well-known/openid-configuration?appid=${this.authSettings.clientId}`,
-        logoutUrl: isNative ? this.authSettings.logoutUrl : 'http://localhost:8100',
-        redirectUri: isNative ? this.authSettings.redirectUrl : 'http://localhost:8100',
+        clientId: authSettings.clientId,
+        discoveryUrl: `${authSettings.context}/v2.0/.well-known/openid-configuration?appid=${authSettings.clientId}`,
+        logoutUrl: isNative ? authSettings.logoutUrl : 'http://localhost:8100',
+        redirectUri: isNative ? authSettings.redirectUrl : 'http://localhost:8100',
         scope: 'openid offline_access profile email',
       };
-
-      AuthConnect.setup({
-        platform: isNative ? 'capacitor' : 'web',
-        logLevel: 'ERROR',
-        ios: {
-          webView: 'private',
-        },
-        web: {
-          uiMode: 'popup',
-          authFlow: 'PKCE',
-        },
-      });
-    }, 3000);
-    // });
+    }
   }
 
   getEmployeeId(): string {
@@ -126,37 +125,39 @@ export class AuthenticationProvider {
     this.store$.dispatch(UpdateAuthResult(authResult));
     console.log('¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢');
     console.log('decoded jwt:', jose.decodeJwt(authResult.idToken));
+    console.log('this.appConfig.getAppConfig():', this.appConfig.getAppConfig());
     console.log('¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢');
     if (authResult.idToken) {
       const decode = jose.decodeJwt(authResult.idToken);
       const employeeName = decode[this.appConfig.getAppConfig()?.authentication.employeeNameKey] as string;
       const employeeID = decode[this.appConfig.getAppConfig()?.authentication.employeeIdKey] as string;
       this.store$.dispatch(LoadEmployeeName(employeeName));
-      this.store$.dispatch(LoadEmployeeId({ employeeId: employeeID }));
+      this.store$.dispatch(LoadEmployeeId({employeeId: employeeID}));
     }
   };
 
   async login() {
+    if (!this.providerOptions) {
+      console.log('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
+      console.log('No provider options set - attempting to get app config data');
+      console.log('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
+      await this.getAppConfigData();
+    }
     try {
-      setTimeout(async() => {
-        // Initiate the login process and update the store with the auth result
-        const authResult = await AuthConnect.login(this.provider, this.providerOptions);
-        // Dispatch action to update the auth result in the store
-        await this.storeAuthResult(authResult);
-      });
+      // Initiate the login process and update the store with the auth result
+      const authResult = await AuthConnect.login(this.provider, this.providerOptions);
+      // Dispatch action to update the auth result in the store
+      await this.storeAuthResult(authResult);
     } catch (error) {
-      setTimeout(() => {
-        console.log('••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••');
-        this.appConfig.getAppConfigAsync().then((result) => {
-          console.log('GIVE ME THE AUTH RESULT FROM THE STORE:', result);
-        });
-        console.log('authSettings:', this.authSettings);
-        console.log('provider:', this.provider);
-        console.log('providerOptions:', this.providerOptions);
-        console.error(error);
-        console.log('••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••');
-        this.logEvent(LogType.ERROR, 'Authentication provider - Login error', error);
-      }, 3000);
+      console.log('••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••');
+      this.appConfig.getAppConfigAsync().then((result) => {
+        console.log('GIVE ME THE AUTH RESULT FROM THE STORE:', result);
+      });
+      console.log('provider:', this.provider);
+      console.log('providerOptions:', this.providerOptions);
+      console.error(error);
+      console.log('••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••');
+      this.logEvent(LogType.ERROR, 'Authentication provider - Login error', error);
     }
   }
 
@@ -176,12 +177,11 @@ export class AuthenticationProvider {
       console.log('{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{');
       console.log('isOffline', this.isOffline());
       console.log('this.authResult()', this.authResult());
-      console.log('hasTokenExpired', await this.hasTokenExpired(this.authResult()));
-      console.log('{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{');
       if (this.isOffline()) return true;
 
       // check to see if there is an access token to interrogate
       if (this.authResult()) {
+        console.log('hasTokenExpired', await this.hasTokenExpired(this.authResult()));
         // determine if the existing token is expired
         if (await this.hasTokenExpired(this.authResult())) {
           // attempt a token refresh
@@ -190,6 +190,7 @@ export class AuthenticationProvider {
           // return true if the token has changed successfully
           return previousResult !== this.authResult().accessToken;
         }
+        console.log('{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{');
         // token should have refreshed if previously expired, and method returns true
         return true;
       }
