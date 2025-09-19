@@ -1,40 +1,40 @@
-import {Injectable} from '@angular/core';
-import {Store} from '@ngrx/store';
-import {DelegatedRekeySearchClearState} from '@pages/delegated-rekey-search/delegated-rekey-search.actions';
-import {ResetRekeyReason} from '@pages/rekey-reason/rekey-reason.actions';
-import {RekeySearchClearState} from '@pages/rekey-search/rekey-search.actions';
-import {ResetFaultMode} from '@pages/test-report/test-report.actions';
-import {CompletedTestPersistenceProvider} from '@providers/completed-test-persistence/completed-test-persistence';
-import {ExaminerRecordsProvider} from '@providers/examiner-records/examiner-records';
-import {LogHelper} from '@providers/logs/logs-helper';
-import {serialiseLogMessage} from '@shared/helpers/serialise-log-message';
-import {LogType} from '@shared/models/log.model';
-import {StoreModel} from '@shared/models/store.model';
-import {UnloadAppConfig} from '@store/app-config/app-config.actions';
-import {LoadAppVersion, UnloadAppInfo} from '@store/app-info/app-info.actions';
-import {UnloadExaminerRecords} from '@store/examiner-records/examiner-records.actions';
-import {UnloadJournal} from '@store/journal/journal.actions';
-import {ClearLogs, SaveLog} from '@store/logs/logs.actions';
-import {ClearTestCentresRefData} from '@store/reference-data/reference-data.actions';
-import {ResetTestCentreJournal} from '@store/test-centre-journal/test-centre-journal.actions';
-import {UnloadTests} from '@store/tests/tests.actions';
-import {AppConfigProvider} from '../app-config/app-config';
-import {DataStoreProvider, LocalStorageKey} from '../data-store/data-store';
-import {ConnectionStatus, NetworkStateProvider} from '../network-state/network-state';
-import {TestPersistenceProvider} from '../test-persistence/test-persistence';
+import { Injectable } from '@angular/core';
+import { Store } from '@ngrx/store';
+import { DelegatedRekeySearchClearState } from '@pages/delegated-rekey-search/delegated-rekey-search.actions';
+import { ResetRekeyReason } from '@pages/rekey-reason/rekey-reason.actions';
+import { RekeySearchClearState } from '@pages/rekey-search/rekey-search.actions';
+import { ResetFaultMode } from '@pages/test-report/test-report.actions';
+import { CompletedTestPersistenceProvider } from '@providers/completed-test-persistence/completed-test-persistence';
+import { ExaminerRecordsProvider } from '@providers/examiner-records/examiner-records';
+import { LogHelper } from '@providers/logs/logs-helper';
+import { serialiseLogMessage } from '@shared/helpers/serialise-log-message';
+import { LogType } from '@shared/models/log.model';
+import { StoreModel } from '@shared/models/store.model';
+import { UnloadAppConfig } from '@store/app-config/app-config.actions';
+import { LoadAppVersion, UnloadAppInfo } from '@store/app-info/app-info.actions';
+import { UnloadExaminerRecords } from '@store/examiner-records/examiner-records.actions';
+import { UnloadJournal } from '@store/journal/journal.actions';
+import { ClearLogs, SaveLog } from '@store/logs/logs.actions';
+import { ClearTestCentresRefData } from '@store/reference-data/reference-data.actions';
+import { ResetTestCentreJournal } from '@store/test-centre-journal/test-centre-journal.actions';
+import { UnloadTests } from '@store/tests/tests.actions';
+import { AppConfigProvider } from '../app-config/app-config';
+import { DataStoreProvider, LocalStorageKey } from '../data-store/data-store';
+import { ConnectionStatus, NetworkStateProvider } from '../network-state/network-state';
+import { TestPersistenceProvider } from '../test-persistence/test-persistence';
 import {
   Auth0Provider,
   AuthConnect,
   AuthResult,
   AzureProvider,
   ProviderOptions,
-  TokenType
+  TokenType,
 } from '@ionic-enterprise/auth';
-import {Capacitor} from '@capacitor/core';
-import {LoadEmployeeId, LoadEmployeeName, UnloadUserInfo, UpdateAuthResult} from '@store/user-info/user-info.actions';
-import {getAuthResult, getEmployeeID} from '@store/user-info/user-info.selectors';
+import { Capacitor } from '@capacitor/core';
+import { LoadEmployeeId, LoadEmployeeName, UnloadUserInfo, UpdateAuthResult } from '@store/user-info/user-info.actions';
+import { getAuthResult, getEmployeeID } from '@store/user-info/user-info.selectors';
 import { AuthProviderSettings, AzureIDToken } from '@providers/authentication/authentication.constants';
-import * as jose from 'jose'
+import * as jose from 'jose';
 import { AppConfig } from '@providers/app-config/app-config.model';
 
 export enum Token {
@@ -46,8 +46,8 @@ export enum Token {
 @Injectable()
 export class AuthenticationProvider {
 
-  provider: Auth0Provider
-  providerOptions: ProviderOptions
+  provider: Auth0Provider;
+  providerOptions: ProviderOptions;
   authSettings: AuthProviderSettings;
   authResult = this.store$.selectSignal(getAuthResult);
 
@@ -59,47 +59,65 @@ export class AuthenticationProvider {
     private logHelper: LogHelper,
     private completedTestPersistenceProvider: CompletedTestPersistenceProvider,
     private examinerRecordsProvider: ExaminerRecordsProvider,
-    private networkState: NetworkStateProvider
+    private networkState: NetworkStateProvider,
   ) {
     this.provider = new AzureProvider();
-    const authSettings = this.appConfig.getAppConfig()?.authentication;
-    // this.appConfig.getAppConfigAsync().then((result: AppConfig) => {this.authSettings = result.authentication});
     const isNative = Capacitor.isNativePlatform();
+    // this.appConfig.getAppConfigAsync().then((result: AppConfig) => {
+    //   this.authSettings = this.authSettings
+    setTimeout(() => {
+      this.authSettings = this.appConfig.getAppConfig().authentication;
+      console.log('≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠=');
+      console.log('Result directly from getAppConfigMethod.authentication:', this.appConfig.getAppConfig().authentication);
+      console.log('AuthSettings after being set in constructor:', this.authSettings);
+      console.log('≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠=');
+      this.providerOptions = {
 
-    this.providerOptions = {
-      audience: '',
-      clientId: this.authSettings.clientId,
-      discoveryUrl: `${this.authSettings.context}/v2.0/.well-known/openid-configuration?appid=${this.authSettings.clientId}`,
-      logoutUrl: isNative ? this.authSettings.logoutUrl : 'http://localhost:8100',
-      redirectUri: isNative ? this.authSettings.redirectUrl : 'http://localhost:8100',
-      scope: 'openid offline_access profile email',
-    };
-    AuthConnect.setup({
-      platform: isNative ? 'capacitor' : 'web',
-      logLevel: 'ERROR',
-      ios: {
-        webView: 'private',
-      },
-      web: {
-        uiMode: 'popup',
-        authFlow: 'PKCE',
-      },
-    });
+        audience: '',
+        clientId: this.authSettings.clientId,
+        discoveryUrl: `${this.authSettings.context}/v2.0/.well-known/openid-configuration?appid=${this.authSettings.clientId}`,
+        logoutUrl: isNative ? this.authSettings.logoutUrl : 'http://localhost:8100',
+        redirectUri: isNative ? this.authSettings.redirectUrl : 'http://localhost:8100',
+        scope: 'openid offline_access profile email',
+      };
+
+      AuthConnect.setup({
+        platform: isNative ? 'capacitor' : 'web',
+        logLevel: 'ERROR',
+        ios: {
+          webView: 'private',
+        },
+        web: {
+          uiMode: 'popup',
+          authFlow: 'PKCE',
+        },
+      });
+    }, 3000);
+    // });
   }
 
   getEmployeeId(): string {
-    return this.store$.selectSignal(getEmployeeID)()
+    return this.store$.selectSignal(getEmployeeID)();
   }
 
   public getAuthenticationToken = async (): Promise<string> => {
-    const hasValidToken: boolean = await (await this.isAuthenticated() && this.hasTokenExpired(this.authResult()));
-    if (!hasValidToken) {
+    const needsRefresh: boolean = await (!this.isOffline() && this.hasTokenExpired(this.authResult()));
+    if (needsRefresh) {
+      console.log('????????????????????????????????????????????????????????????????????????????????');
+      console.log('No Valid Token - Attempting to refresh session');
+      console.log('????????????????????????????????????????????????????????????????????????????????');
       await this.refreshSession();
     }
     await this.isAuthenticated();
     try {
-      return JSON.parse(this.authResult().idToken);
+      console.log('????????????????????????????????????????????????????????????????????????????????');
+      console.log('attempt to parse token');
+      console.log('????????????????????????????????????????????????????????????????????????????????');
+      return this.authResult().idToken;
     } catch (error) {
+      console.log('????????????????????????????????????????????????????????????????????????????????');
+      console.log('Failed to parse token');
+      console.log('????????????????????????????????????????????????????????????????????????????????');
       return Promise.resolve(null);
     }
   };
@@ -116,31 +134,35 @@ export class AuthenticationProvider {
       this.store$.dispatch(LoadEmployeeName(employeeName));
       this.store$.dispatch(LoadEmployeeId({ employeeId: employeeID }));
     }
-  }
+  };
 
   async login() {
     try {
-      // Initiate the login process and update the store with the auth result
-      const authResult = await AuthConnect.login(this.provider, this.providerOptions);
-      // Dispatch action to update the auth result in the store
-      await this.storeAuthResult(authResult);
-    } catch (error) {
-      console.log('••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••');
-      this.appConfig.getAppConfigAsync().then((result) => {
-        console.log('GIVE ME THE AUTH RESULT FROM THE STORE:', result);
+      setTimeout(async() => {
+        // Initiate the login process and update the store with the auth result
+        const authResult = await AuthConnect.login(this.provider, this.providerOptions);
+        // Dispatch action to update the auth result in the store
+        await this.storeAuthResult(authResult);
       });
-      console.log('authSettings:', this.authSettings);
-      console.log('provider:', this.provider);
-      console.log('providerOptions:', this.providerOptions);
-      console.error(error)
-      console.log('••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••');
-      this.logEvent(LogType.ERROR, 'Authentication provider - Login error', error);
+    } catch (error) {
+      setTimeout(() => {
+        console.log('••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••');
+        this.appConfig.getAppConfigAsync().then((result) => {
+          console.log('GIVE ME THE AUTH RESULT FROM THE STORE:', result);
+        });
+        console.log('authSettings:', this.authSettings);
+        console.log('provider:', this.provider);
+        console.log('providerOptions:', this.providerOptions);
+        console.error(error);
+        console.log('••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••');
+        this.logEvent(LogType.ERROR, 'Authentication provider - Login error', error);
+      }, 3000);
     }
   }
 
   public isOffline(): boolean {
     // Return true if the app is offline
-    return this.networkState.getNetworkState() === ConnectionStatus.OFFLINE
+    return this.networkState.getNetworkState() === ConnectionStatus.OFFLINE;
   }
 
   public async refreshSession() {
@@ -185,9 +207,10 @@ export class AuthenticationProvider {
     console.log('^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^');
     console.log('jwtPayload:', jwtPayload);
     console.log('jwtPayload.exp:', jwtPayload.exp);
-    console.log('new Date(jwtPayload.exp * 1000) > new Date():', new Date(jwtPayload.exp * 1000) > new Date());
+    console.log('new Date(jwtPayload.exp * 1000):', new Date(jwtPayload.exp * 1000));
+    console.log('new Date(jwtPayload.exp * 1000) > new Date():', new Date(jwtPayload.exp * 1000) < new Date());
     console.log('^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^');
-    return !!jwtPayload && jwtPayload.exp && new Date(jwtPayload.exp * 1000) > new Date();
+    return !!jwtPayload && jwtPayload.exp && new Date(jwtPayload.exp * 1000) < new Date();
   }
 
   /**Clears the entire store but keeps the app version*/
@@ -267,7 +290,7 @@ export class AuthenticationProvider {
     this.store$.dispatch(
       SaveLog({
         payload: this.logHelper.createLog(logType, desc, `AuthenticationProvider => ${serialiseLogMessage(msg)}`),
-      })
+      }),
     );
   };
 
