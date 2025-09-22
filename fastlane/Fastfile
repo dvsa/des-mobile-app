@@ -43,6 +43,8 @@ lane :build_ipa do
     xcodeproj: "./ios/App/App.xcodeproj",
   )
 
+  sh("security unlock_keychain -p #{ENV['KEYCHAIN_PASSWORD']} ~/Library/Keychains/#{ENV['KEYCHAIN_NAME']}.keychain")
+
   build_mobile(
     name: "#{name}",
     version: "#{version}",
@@ -99,6 +101,6 @@ lane :build_sim do
 end
 
 after_all do
-  delete_keychain(name: ENV["KEYCHAIN_NAME"])
+#   delete_keychain(name: ENV["KEYCHAIN_NAME"])
   icon_banner_restore()
 end
