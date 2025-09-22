@@ -43,7 +43,7 @@ lane :build_ipa do
     xcodeproj: "./ios/App/App.xcodeproj",
   )
 
-  sh("security unlock_keychain -p #{ENV['KEYCHAIN_PASSWORD']} ~/Library/Keychains/#{ENV['KEYCHAIN_NAME']}.keychain")
+  sh("security unlock-keychain -p #{ENV['KEYCHAIN_PASSWORD']} ~/Library/Keychains/#{ENV['KEYCHAIN_NAME']}")
 
   build_mobile(
     name: "#{name}",
