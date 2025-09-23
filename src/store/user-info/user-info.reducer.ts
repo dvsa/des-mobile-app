@@ -1,9 +1,7 @@
 import { createFeatureSelector, createReducer, on } from '@ngrx/store';
-import {
-  UpdateAuthResult, UnloadUserInfo, LoadEmployeeId, LoadEmployeeNameSuccess
-} from './user-info.actions';
+import { LoadEmployeeId, LoadEmployeeNameSuccess, UnloadUserInfo, UpdateAuthResult } from './user-info.actions';
 
-import { UserInfoStateModel} from './user-info.model';
+import { UserInfoStateModel } from './user-info.model';
 
 export const userInfoFeatureKey = 'userInfo';
 

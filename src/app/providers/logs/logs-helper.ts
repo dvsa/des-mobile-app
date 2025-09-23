@@ -10,7 +10,7 @@ import { serialiseLogMessage } from '@shared/helpers/serialise-log-message';
 import { Log, LogType } from '@shared/models/log.model';
 import { StoreModel } from '@shared/models/store.model';
 import { selectVersionNumber } from '@store/app-info/app-info.selectors';
-import {getEmployeeID} from '@store/user-info/user-info.selectors';
+import { getEmployeeID } from '@store/user-info/user-info.selectors';
 
 @Injectable()
 export class LogHelper {

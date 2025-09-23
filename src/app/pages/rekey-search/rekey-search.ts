@@ -25,7 +25,7 @@ import { ExaminerRole } from '@providers/app-config/constants/examiner-role.cons
 import { NetworkStateProvider } from '@providers/network-state/network-state';
 import { OrientationMonitorProvider } from '@providers/orientation-monitor/orientation-monitor.provider';
 import { BasePageComponent } from '@shared/classes/base-page';
-import {getEmployeeID} from '@store/user-info/user-info.selectors';
+import { getEmployeeID } from '@store/user-info/user-info.selectors';
 
 interface RekeySearchPageState {
   isLoading$: Observable<boolean>;

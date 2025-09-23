@@ -1,16 +1,16 @@
-import {HttpErrorResponse} from '@angular/common/http';
-import {Injectable} from '@angular/core';
-import {Router} from '@angular/router';
-import {Actions, createEffect, ofType} from '@ngrx/effects';
-import {Store} from '@ngrx/store';
-import {of} from 'rxjs';
-import {catchError, concatMap, filter, map, switchMap, withLatestFrom} from 'rxjs/operators';
+import { HttpErrorResponse } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
+import { Actions, createEffect, ofType } from '@ngrx/effects';
+import { Store } from '@ngrx/store';
+import { of } from 'rxjs';
+import { catchError, concatMap, filter, map, switchMap, withLatestFrom } from 'rxjs/operators';
 
-import {DetectDeviceTheme} from '@pages/dashboard/dashboard.actions';
-import {LOGIN_PAGE} from '@pages/page-names.constants';
-import {AppInfoProvider} from '@providers/app-info/app-info';
-import {DateTimeProvider} from '@providers/date-time/date-time';
-import {StoreModel} from '@shared/models/store.model';
+import { DetectDeviceTheme } from '@pages/dashboard/dashboard.actions';
+import { LOGIN_PAGE } from '@pages/page-names.constants';
+import { AppInfoProvider } from '@providers/app-info/app-info';
+import { DateTimeProvider } from '@providers/date-time/date-time';
+import { StoreModel } from '@shared/models/store.model';
 import {
   AppResumed,
   HasSeenUpdateAvailablePopup,
@@ -21,7 +21,7 @@ import {
   RestartApp,
   SetDateConfigLoaded,
 } from './app-info.actions';
-import {selectDateConfigLoaded} from './app-info.selectors';
+import { selectDateConfigLoaded } from './app-info.selectors';
 
 @Injectable()
 export class AppInfoEffects {
@@ -30,17 +30,15 @@ export class AppInfoEffects {
     private router: Router,
     private store$: Store<StoreModel>,
     private appInfoProvider: AppInfoProvider,
-    private dateTimeProvider: DateTimeProvider,
-  ) {
-  }
-
+    private dateTimeProvider: DateTimeProvider
+  ) {}
 
   loadAppInfo$ = createEffect(() =>
     this.actions$.pipe(
       ofType(LoadAppVersion),
       switchMap(() =>
         this.appInfoProvider.getVersionNumber().pipe(
-          map((versionNumber: string) => LoadAppVersionSuccess({versionNumber})),
+          map((versionNumber: string) => LoadAppVersionSuccess({ versionNumber })),
           catchError((err: HttpErrorResponse) => of(LoadAppVersionFailure(err)))
         )
       )

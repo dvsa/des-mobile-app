@@ -1,7 +1,7 @@
+import { AuthResult } from '@ionic-enterprise/auth';
 import { createSelector } from '@ngrx/store';
 import { StoreModel } from '@shared/models/store.model';
-import {UserInfoStateModel} from '@store/user-info/user-info.model';
-import {AuthResult} from '@ionic-enterprise/auth';
+import { UserInfoStateModel } from '@store/user-info/user-info.model';
 
 export const selectUserInfo = (state: StoreModel): UserInfoStateModel => state.userInfo;
 

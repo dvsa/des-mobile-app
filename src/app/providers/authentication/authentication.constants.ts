@@ -1,4 +1,4 @@
-import {AuthResult} from '@ionic-enterprise/auth';
+import { AuthResult } from '@ionic-enterprise/auth';
 
 export enum AuthenticationError {
   NO_INTERNET = 'The Internet connection appears to be offline.',

@@ -18,9 +18,9 @@ import { selectRole } from '@store/app-config/app-config.selectors';
 import { selectVersionNumber } from '@store/app-info/app-info.selectors';
 import { getJournalState } from '@store/journal/journal.reducer';
 import { getTests } from '@store/tests/tests.reducer';
+import { getEmployeeID, getEmployeeName } from '@store/user-info/user-info.selectors';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import {getEmployeeID, getEmployeeName} from '@store/user-info/user-info.selectors';
 
 interface UnunploadedTestsPageState {
   unSubmittedTestSlotData$: Observable<TestSlot[]>;

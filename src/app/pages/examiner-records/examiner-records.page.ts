@@ -65,9 +65,9 @@ import {
 import { TestStatus } from '@store/tests/test-status/test-status.model';
 import { getTests } from '@store/tests/tests.reducer';
 import { getStartedTests, getTestStatuses } from '@store/tests/tests.selector';
+import { getEmployeeID } from '@store/user-info/user-info.selectors';
 import { BehaviorSubject, Observable, Subscription, combineLatest, merge, of } from 'rxjs';
 import { map, switchMap, take, tap, withLatestFrom } from 'rxjs/operators';
-import {getEmployeeID} from '@store/user-info/user-info.selectors';
 
 export interface ExaminerRecordsPageStateData {
   routeGrid: ExaminerRecordDataWithPercentage<string>[];
