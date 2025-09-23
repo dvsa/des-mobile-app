@@ -1,34 +1,24 @@
-import { RemoteConfig } from '@dvsa/mes-config-schema/remote-config';
 import { Platform } from '@ionic/angular';
 import { Store, createSelector } from '@ngrx/store';
 import { AppConfig } from '@providers/app-config/app-config.model';
 import { compareVersions } from '@shared/helpers/compare-versions';
 import { StoreModel } from '@shared/models/store.model';
-import { AppConfigStateModel } from '@store/app-config/app-config.reducer';
 import { selectVersionNumber } from '@store/app-info/app-info.selectors';
 import { Observable } from 'rxjs';
 import { filter, map, withLatestFrom } from 'rxjs/operators';
 
-export const selectAppConfigState = (state: StoreModel): AppConfigStateModel => state.appConfig;
-export const selectAppConfig = createSelector(
-  selectAppConfigState,
-  (appConfigState: AppConfigStateModel): AppConfig => appConfigState.appConfiguration
-);
-export const selectRemoteConfig = createSelector(
-  selectAppConfigState,
-  (appConfigState: AppConfigStateModel): RemoteConfig => appConfigState.remoteConfiguration
-);
+export const selectAppConfig = (state: StoreModel): AppConfig => state.appConfig;
 
-export const selectRole = createSelector(selectAppConfig, (appConfigState: AppConfig): string => appConfigState.role);
+export const selectRole = createSelector(selectAppConfig, (appConfig: AppConfig): string => appConfig.role);
 
 export const selectLogoutEnabled = createSelector(
   selectAppConfig,
-  (appConfigState: AppConfig): boolean => appConfigState.journal?.enableLogoutButton
+  (appConfig: AppConfig): boolean => appConfig.journal?.enableLogoutButton
 );
 
 export const selectLiveAppVersion = createSelector(
   selectAppConfig,
-  (appConfigState: AppConfig): string => appConfigState.liveAppVersion
+  (appConfig: AppConfig): string => appConfig.liveAppVersion
 );
 
 export const showUpdateAvailable$ = (store$: Store<StoreModel>, platform: Platform): Observable<boolean> =>

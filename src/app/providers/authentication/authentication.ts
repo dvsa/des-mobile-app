@@ -13,7 +13,7 @@ import { LogHelper } from '@providers/logs/logs-helper';
 import { serialiseLogMessage } from '@shared/helpers/serialise-log-message';
 import { LogType } from '@shared/models/log.model';
 import { StoreModel } from '@shared/models/store.model';
-import { UnloadConfig } from '@store/app-config/app-config.actions';
+import { UnloadAppConfig } from '@store/app-config/app-config.actions';
 import { LoadAppVersion, UnloadAppInfo } from '@store/app-info/app-info.actions';
 import { UnloadExaminerRecords } from '@store/examiner-records/examiner-records.actions';
 import { UnloadJournal } from '@store/journal/journal.actions';
@@ -69,13 +69,7 @@ export class AuthenticationProvider {
   async getAppConfigData() {
     const isNative = Capacitor.isNativePlatform();
     const authSettings: AuthProviderSettings = this.appConfig.getAppConfig().authentication;
-    console.log('≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠=');
-    console.log(
-      'Result directly from getAppConfigMethod.authentication:',
-      this.appConfig.getAppConfig().authentication
-    );
-    console.log('AuthSettings after being set in constructor:', authSettings);
-    console.log('≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠≠=');
+
     if (authSettings) {
       this.providerOptions = {
         audience: '',
@@ -95,21 +89,12 @@ export class AuthenticationProvider {
   public getAuthenticationToken = async (): Promise<string> => {
     const needsRefresh: boolean = await (!this.isOffline() && this.hasTokenExpired(this.authResult()));
     if (needsRefresh) {
-      console.log('????????????????????????????????????????????????????????????????????????????????');
-      console.log('No Valid Token - Attempting to refresh session');
-      console.log('????????????????????????????????????????????????????????????????????????????????');
       await this.refreshSession();
     }
     await this.isAuthenticated();
     try {
-      console.log('????????????????????????????????????????????????????????????????????????????????');
-      console.log('attempt to parse token');
-      console.log('????????????????????????????????????????????????????????????????????????????????');
       return this.authResult().idToken;
     } catch (error) {
-      console.log('????????????????????????????????????????????????????????????????????????????????');
-      console.log('Failed to parse token');
-      console.log('????????????????????????????????????????????????????????????????????????????????');
       return Promise.resolve(null);
     }
   };
@@ -131,18 +116,11 @@ export class AuthenticationProvider {
 
   private storeAuthResult = async (authResult: AuthResult) => {
     this.store$.dispatch(UpdateAuthResult(authResult));
-    console.log('¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢');
-    console.log('decoded jwt:', jose.decodeJwt(authResult.idToken));
-    console.log('this.appConfig.getAppConfig():', this.appConfig.getAppConfig());
-    console.log('¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢¢');
     await this.loadEmployeeDetails(authResult);
   };
 
   async login() {
     if (!this.providerOptions) {
-      console.log('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
-      console.log('No provider options set - attempting to get app config data');
-      console.log('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
       await this.getAppConfigData();
     }
     try {
@@ -169,9 +147,6 @@ export class AuthenticationProvider {
   public async isAuthenticated(): Promise<boolean> {
     try {
       // if offline, allow user to continue locally
-      console.log('{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{');
-      console.log('isOffline', this.isOffline());
-      console.log('this.authResult()', this.authResult());
       if (this.isOffline()) return true;
 
       // check to see if there is an access token to interrogate
@@ -185,7 +160,6 @@ export class AuthenticationProvider {
           // return true if the token has changed successfully
           return previousResult !== this.authResult().accessToken;
         }
-        console.log('{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{');
         // token should have refreshed if previously expired, and method returns true
         return true;
       }
@@ -212,7 +186,7 @@ export class AuthenticationProvider {
     this.store$.dispatch(UnloadTests());
 
     // Dispatch action to unload app config
-    this.store$.dispatch(UnloadConfig());
+    this.store$.dispatch(UnloadAppConfig());
 
     // Dispatch action to load app version
     this.store$.dispatch(LoadAppVersion());
@@ -272,7 +246,9 @@ export class AuthenticationProvider {
     } catch (err) {
       this.logEvent(LogType.ERROR, 'Authentication provider - Logout error', err);
     }
+
     await this.clearStore();
+    this.appConfig.shutDownStoreSubscription();
   }
 
   logEvent = (logType: LogType, desc: string, msg: unknown) => {
