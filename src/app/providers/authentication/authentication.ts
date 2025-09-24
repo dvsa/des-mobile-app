@@ -119,7 +119,7 @@ export class AuthenticationProvider {
     await this.loadEmployeeDetails(this.authResult());
   };
 
-  private storeAuthResult = async (authResult: AuthResult) => {
+  storeAuthResult = async (authResult: AuthResult) => {
     this.store$.dispatch(UpdateAuthResult(authResult));
     await this.loadEmployeeDetails(authResult);
   };
@@ -177,7 +177,7 @@ export class AuthenticationProvider {
     }
   }
 
-  private async hasTokenExpired(result: AuthResult): Promise<boolean> {
+  async hasTokenExpired(result: AuthResult): Promise<boolean> {
     const jwtPayload = jose.decodeJwt(result.idToken);
     return !!jwtPayload && jwtPayload.exp && new Date(jwtPayload.exp * 1000) < new Date();
   }

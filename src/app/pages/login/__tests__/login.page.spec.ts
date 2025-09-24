@@ -174,7 +174,6 @@ describe('LoginPage', () => {
     beforeEach(() => {
       spyOn(component, 'handleLoadingUI').and.returnValue(Promise.resolve());
       spyOn(component, 'hideSplashscreen').and.returnValue(Promise.resolve());
-      spyOn(component, 'validateDeviceType').and.resolveTo(true);
       spyOn(appConfigProvider, 'initialiseAppConfig').and.returnValue(Promise.resolve());
       spyOn(appConfigProvider, 'loadRemoteConfig').and.returnValue(Promise.resolve());
       spyOn(authenticationProvider, 'isAuthenticated').and.resolveTo(false);
@@ -196,7 +195,7 @@ describe('LoginPage', () => {
         expect(authenticationProvider.isAuthenticated).toHaveBeenCalled();
         expect(appConfigProvider.loadRemoteConfig).toHaveBeenCalled();
         expect(component.handleLoadingUI).toHaveBeenCalled();
-        expect(component.validateDeviceType).toHaveBeenCalled();
+        expect(store$.dispatch).toHaveBeenCalledTimes(3);
       }));
     });
     describe('Unsuccessful login flow', () => {
@@ -205,13 +204,11 @@ describe('LoginPage', () => {
         component.login();
         flushMicrotasks();
         expect(authenticationProvider.logout).toHaveBeenCalled();
-        expect(component.validateDeviceType).not.toHaveBeenCalled();
       }));
       it('should log an exception and dispatch log when when rejection due to USER_CANCELLED', fakeAsync(() => {
         spyOn(platform, 'ready').and.returnValue(Promise.reject(AuthenticationError.USER_CANCELLED));
         component.login();
         flushMicrotasks();
-        expect(component.validateDeviceType).not.toHaveBeenCalled();
         expect(component.dispatchLog).toHaveBeenCalledWith('user cancelled login');
         expect(component.hasUserLoggedOut).toEqual(false);
       }));
@@ -303,16 +300,6 @@ describe('LoginPage', () => {
       component.hasUserLoggedOut = false;
       component.appInitError = AuthenticationError.USER_CANCELLED;
       expect(component.isUnknownError()).toEqual(false);
-    });
-  });
-  describe('validateDeviceType', () => {
-    beforeEach(() => {
-      spyOn(router, 'navigate');
-    });
-    it('should navigate to dashboard page', async () => {
-      spyOn(component.deviceProvider, 'validDeviceType').and.returnValue(Promise.resolve(true));
-      await component.validateDeviceType();
-      expect(router.navigate).toHaveBeenCalledWith([DASHBOARD_PAGE], { replaceUrl: true });
     });
   });
   describe('showErrorDetails', () => {
