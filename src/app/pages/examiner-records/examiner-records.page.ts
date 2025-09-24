@@ -65,7 +65,7 @@ import {
 import { TestStatus } from '@store/tests/test-status/test-status.model';
 import { getTests } from '@store/tests/tests.reducer';
 import { getStartedTests, getTestStatuses } from '@store/tests/tests.selector';
-import { getEmployeeID } from '@store/user-info/user-info.selectors';
+import { selectEmployeeId } from '@store/app-info/app-info.selectors';
 import { BehaviorSubject, Observable, Subscription, combineLatest, merge, of } from 'rxjs';
 import { map, switchMap, take, tap, withLatestFrom } from 'rxjs/operators';
 
@@ -276,7 +276,7 @@ export class ExaminerRecordsPage implements OnInit {
       !this.store$.selectSignal(selectCachedExaminerRecords)() ||
       this.store$.selectSignal(selectLastCachedDate)() !== new DateTime().format('DD/MM/YYYY')
     ) {
-      const staffNumber: string = this.store$.selectSignal(getEmployeeID)();
+      const staffNumber: string = this.store$.selectSignal(selectEmployeeId)();
       this.store$.dispatch(LoadingExaminerRecords());
       this.store$.dispatch(GetExaminerRecords(staffNumber));
     }
@@ -463,7 +463,7 @@ export class ExaminerRecordsPage implements OnInit {
         take(1),
         map((value) => Object.values(value)),
         map((value) => {
-          const employeeId = this.store$.selectSignal(getEmployeeID)();
+          const employeeId = this.store$.selectSignal(selectEmployeeId)();
           //Filter out tests the user rekeyed for other users
           return value.filter((test) => {
             // if the test is a rekey, it must be submitted or completed

@@ -177,9 +177,7 @@ describe('LoginPage', () => {
       spyOn(component, 'validateDeviceType');
       spyOn(appConfigProvider, 'initialiseAppConfig').and.returnValue(Promise.resolve());
       spyOn(appConfigProvider, 'loadRemoteConfig').and.returnValue(Promise.resolve());
-      spyOn(authenticationProvider, 'expireTokens').and.returnValue(Promise.resolve());
       spyOn(authenticationProvider, 'isAuthenticated').and.returnValue(Promise.resolve(false));
-      spyOn(authenticationProvider, 'setEmployeeId').and.returnValue(Promise.resolve());
       spyOn(authenticationProvider, 'getEmployeeId').and.returnValue('123456');
       spyOn(authenticationProvider, 'login').and.returnValue(Promise.resolve());
       spyOn(authenticationProvider, 'logout').and.returnValue(Promise.resolve());
@@ -194,9 +192,7 @@ describe('LoginPage', () => {
         flushMicrotasks();
         expect(appConfigProvider.initialiseAppConfig).toHaveBeenCalled();
         expect(component.appInitializedLog).toHaveBeenCalled();
-        expect(authenticationProvider.expireTokens).toHaveBeenCalled();
         expect(authenticationProvider.isAuthenticated).toHaveBeenCalled();
-        expect(authenticationProvider.setEmployeeId).toHaveBeenCalled();
         expect(appConfigProvider.loadRemoteConfig).toHaveBeenCalled();
         expect(component.handleLoadingUI).toHaveBeenCalled();
         expect(component.validateDeviceType).toHaveBeenCalled();
@@ -266,16 +262,6 @@ describe('LoginPage', () => {
         'App has MDM provided config and is ready to proceed with authentication',
         'App has initialised'
       );
-    });
-  });
-
-  describe('initialiseAuthentication', () => {
-    it('should call through to initialiseAuthentication and determineAuthenticationMode', () => {
-      spyOn(authenticationProvider, 'initialiseAuthentication');
-      spyOn(authenticationProvider, 'determineAuthenticationMode');
-      component.initialiseAuthentication();
-      expect(authenticationProvider.initialiseAuthentication).toHaveBeenCalled();
-      expect(authenticationProvider.determineAuthenticationMode).toHaveBeenCalled();
     });
   });
 

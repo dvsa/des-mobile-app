@@ -20,6 +20,8 @@ import {
   LoadConfigSuccess,
   RestartApp,
   SetDateConfigLoaded,
+  LoadEmployeeNameSuccess,
+  LoadEmployeeName,
 } from './app-info.actions';
 import { selectDateConfigLoaded } from './app-info.selectors';
 
@@ -32,6 +34,15 @@ export class AppInfoEffects {
     private appInfoProvider: AppInfoProvider,
     private dateTimeProvider: DateTimeProvider
   ) {}
+
+  loadEmployeeName$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(LoadEmployeeName),
+      map((action) => {
+        return LoadEmployeeNameSuccess({ employeeName: action.employeeName });
+      })
+    )
+  );
 
   loadAppInfo$ = createEffect(() =>
     this.actions$.pipe(

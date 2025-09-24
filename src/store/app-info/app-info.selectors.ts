@@ -1,6 +1,7 @@
 import { createSelector } from '@ngrx/store';
 import { StoreModel } from '@shared/models/store.model';
 import { AppInfoStateModel } from './app-info.model';
+import {AuthResult} from '@ionic-enterprise/auth';
 
 export const selectAppInfo = (state: StoreModel): AppInfoStateModel => state.appInfo;
 
@@ -17,4 +18,19 @@ export const selectDateConfigLoaded = createSelector(
 export const selectUpdateAvailablePresented = createSelector(
   selectAppInfo,
   (appInfo: AppInfoStateModel): boolean => appInfo.updateAvailablePresented
+);
+
+export const selectAuthResult = createSelector(
+  selectAppInfo,
+  (appInfo: AppInfoStateModel): AuthResult => appInfo.authResult
+);
+
+export const selectEmployeeId = createSelector(
+  selectAppInfo,
+  (appInfo: AppInfoStateModel): string => appInfo.employeeId
+);
+
+export const selectEmployeeName = createSelector(
+  selectAppInfo,
+  (appInfo: AppInfoStateModel): string => appInfo.employeeName
 );

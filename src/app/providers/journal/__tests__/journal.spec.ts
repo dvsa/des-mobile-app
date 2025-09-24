@@ -85,7 +85,7 @@ describe('JournalProvider', () => {
       spyOn(authProviderMock, 'getEmployeeId').and.returnValue('12345678');
       spyOn(journalProvider.urlProvider, 'getPersonalJournalUrl');
       spyOn(appConfigProviderMock, 'getAppConfig').and.returnValue({ requestTimeout: 100000 } as AppConfig);
-      spyOn(authProviderMock, 'isInUnAuthenticatedMode').and.returnValue(false);
+      spyOn(authProviderMock, 'isOffline').and.returnValue(false);
       spyOn(journalProvider, 'getOfflineJournal').and.returnValue(of({}));
     });
 

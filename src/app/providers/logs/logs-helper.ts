@@ -9,8 +9,7 @@ import { ConnectionStatus, NetworkStateProvider } from '@providers/network-state
 import { serialiseLogMessage } from '@shared/helpers/serialise-log-message';
 import { Log, LogType } from '@shared/models/log.model';
 import { StoreModel } from '@shared/models/store.model';
-import { selectVersionNumber } from '@store/app-info/app-info.selectors';
-import { getEmployeeID } from '@store/user-info/user-info.selectors';
+import {selectEmployeeId, selectVersionNumber} from '@store/app-info/app-info.selectors';
 
 @Injectable()
 export class LogHelper {
@@ -33,7 +32,7 @@ export class LogHelper {
     );
 
     const employeeId$ = this.store$.pipe(
-      select(getEmployeeID),
+      select(selectEmployeeId),
       map((employeeId) => {
         this.employeeId = employeeId;
       })

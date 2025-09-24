@@ -1,5 +1,6 @@
 import { createAction, props } from '@ngrx/store';
 import { UpdateAvailable } from '@pages/dashboard/components/update-available-modal/update-available-modal';
+import {AuthResult} from '@ionic-enterprise/auth';
 
 export const UnloadAppInfo = createAction('[AppComponent] Unload App Info');
 export const LoadAppVersion = createAction('[AppComponent] Load App Version');
@@ -32,6 +33,21 @@ export const RestartApp = createAction('[AppInfoEffects] Restart App');
 export const UpdateAvailablePopup = createAction('[AppInfoEffects] Update available presented');
 
 export const UpdateAvailableBadgeClicked = createAction('[AppInfoEffects] Update available badge clicked');
+
+export const UpdateAuthResult = createAction('[UserInfoEffects] Load Auth Result', (authResult: AuthResult) => ({
+  authResult,
+}));
+
+export const LoadEmployeeId = createAction('[LoginComponent] Load Employee ID', props<{ employeeId: string }>());
+
+export const LoadEmployeeName = createAction('[LoginComponent] Load Employee Name', (employeeName: string) => ({
+  employeeName,
+}));
+export const LoadEmployeeNameSuccess = createAction(
+  '[LoginComponent] Load Employee Name Success',
+  props<{ employeeName: string }>()
+);
+
 
 export const UpdateAvailableOptionClicked = createAction(
   '[AppInfoEffects] Update available presented',

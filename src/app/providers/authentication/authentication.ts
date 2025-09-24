@@ -14,15 +14,14 @@ import { serialiseLogMessage } from '@shared/helpers/serialise-log-message';
 import { LogType } from '@shared/models/log.model';
 import { StoreModel } from '@shared/models/store.model';
 import { UnloadAppConfig } from '@store/app-config/app-config.actions';
-import { LoadAppVersion, UnloadAppInfo } from '@store/app-info/app-info.actions';
+import { LoadAppVersion, UnloadAppInfo, LoadEmployeeId, LoadEmployeeName, UpdateAuthResult } from '@store/app-info/app-info.actions';
+import { selectEmployeeId, selectAuthResult } from '@store/app-info/app-info.selectors';
 import { UnloadExaminerRecords } from '@store/examiner-records/examiner-records.actions';
 import { UnloadJournal } from '@store/journal/journal.actions';
 import { ClearLogs, SaveLog } from '@store/logs/logs.actions';
 import { ClearTestCentresRefData } from '@store/reference-data/reference-data.actions';
 import { ResetTestCentreJournal } from '@store/test-centre-journal/test-centre-journal.actions';
 import { UnloadTests } from '@store/tests/tests.actions';
-import { LoadEmployeeId, LoadEmployeeName, UnloadUserInfo, UpdateAuthResult } from '@store/user-info/user-info.actions';
-import { getAuthResult, getEmployeeID } from '@store/user-info/user-info.selectors';
 import * as jose from 'jose';
 import { AppConfigProvider } from '../app-config/app-config';
 import { DataStoreProvider, LocalStorageKey } from '../data-store/data-store';
@@ -40,7 +39,7 @@ export class AuthenticationProvider {
   provider: Auth0Provider;
   providerOptions: ProviderOptions;
 
-  authResult: Signal<AuthResult> = this.store$.selectSignal(getAuthResult);
+  authResult: Signal<AuthResult> = this.store$.selectSignal(selectAuthResult);
 
   constructor(
     private dataStoreProvider: DataStoreProvider,
@@ -83,7 +82,7 @@ export class AuthenticationProvider {
   }
 
   getEmployeeId(): string {
-    return this.store$.selectSignal(getEmployeeID)();
+    return this.store$.selectSignal(selectEmployeeId)();
   }
 
   public getAuthenticationToken = async (): Promise<string> => {
@@ -199,9 +198,6 @@ export class AuthenticationProvider {
 
     // Dispatch action to unload app information
     this.store$.dispatch(UnloadAppInfo());
-
-    // Dispatch action to unload user information
-    this.store$.dispatch(UnloadUserInfo());
 
     // Dispatch action to unload examiner records
     this.store$.dispatch(UnloadExaminerRecords());

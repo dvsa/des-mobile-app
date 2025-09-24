@@ -111,9 +111,7 @@ describe('BasePageComponent', () => {
     }));
 
     it('should allow user access if authenticated , is an ios device and is required', fakeAsync(() => {
-      authenticationProvider.hasValidToken = jasmine
-        .createSpy('authenticationProvider.hasValidToken')
-        .and.returnValue(Promise.resolve(false));
+      spyOn(authenticationProvider, 'isAuthenticated').and.resolveTo(false)
       basePageComponent.ionViewWillEnter();
       flushMicrotasks();
 
@@ -121,12 +119,9 @@ describe('BasePageComponent', () => {
     }));
     it('should not allow access if user is not authed, auth is required and is ios', fakeAsync(() => {
       basePageComponent.isIos = jasmine.createSpy().and.returnValue(true);
-      authenticationProvider.hasValidToken = jasmine
-        .createSpy('authenticationProvider.hasValidToken')
-        .and.returnValue(Promise.resolve(false));
-      authenticationProvider.isInUnAuthenticatedMode = jasmine
-        .createSpy('authenticationProvider.isInUnAuthenticatedMode')
-        .and.returnValue(false);
+
+      spyOn(authenticationProvider, 'isAuthenticated').and.resolveTo(false)
+      spyOn(authenticationProvider, 'isOffline').and.returnValue(false)
 
       basePageComponent.loginRequired = true;
       basePageComponent.ionViewWillEnter();
@@ -162,9 +157,7 @@ describe('BasePageComponent', () => {
   describe('logout()', () => {
     it('should try to logout when platform is ios', async () => {
       basePageComponent.isIos = jasmine.createSpy().and.returnValue(true);
-      authenticationProvider.logout = jasmine
-        .createSpy('authenticationProvider.logout')
-        .and.returnValue(Promise.resolve());
+      spyOn(authenticationProvider, 'logout').and.callThrough();
       await basePageComponent.logout();
       expect(authenticationProvider.logout).toHaveBeenCalledTimes(1);
       expect(router.navigate).toHaveBeenCalledTimes(1);

@@ -43,7 +43,7 @@ import { getJournalState } from '@store/journal/journal.reducer';
 import { getAllSlots } from '@store/journal/journal.selector';
 import { TestCentreJournalEnteredFromDashboard } from '@store/test-centre-journal/test-centre-journal.actions';
 import { getTests } from '@store/tests/tests.reducer';
-import { getEmployeeID, getEmployeeName } from '@store/user-info/user-info.selectors';
+import { selectEmployeeId, selectEmployeeName } from '@store/app-info/app-info.selectors';
 import { Observable, Subscription, combineLatest, from, merge, takeWhile } from 'rxjs';
 import { filter, map, switchMap, tap, withLatestFrom } from 'rxjs/operators';
 import { DashboardViewDidEnter, PracticeTestReportCard } from './dashboard.actions';
@@ -96,8 +96,8 @@ export class DashboardPage extends BasePageComponent implements OnInit, ViewDidE
   ngOnInit() {
     this.pageState = {
       appVersion$: this.store$.select(selectVersionNumber),
-      employeeName$: this.store$.select(getEmployeeName),
-      employeeId$: this.store$.select(getEmployeeID).pipe(map(this.getEmployeeNumberDisplayValue)),
+      employeeName$: this.store$.select(selectEmployeeName),
+      employeeId$: this.store$.select(selectEmployeeId).pipe(map(this.getEmployeeNumberDisplayValue)),
       role$: this.store$.select(selectRole).pipe(map(this.getRoleDisplayValue)),
       liveAppVersion$: this.store$.select(selectLiveAppVersion),
       showUpdatesAvailable$: showUpdateAvailable$(this.store$, this.platform),

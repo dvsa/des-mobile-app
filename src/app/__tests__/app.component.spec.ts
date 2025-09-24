@@ -168,7 +168,6 @@ describe('AppComponent', () => {
       spyOn(platform, 'is').and.returnValue(true);
       spyOn(store$, 'dispatch');
       spyOn(component, 'configurePlatformSubscriptions');
-      spyOn(component, 'initialiseAuthentication');
       spyOn(component, 'configureLocale');
       spyOn(component, 'initialiseSentry').and.returnValue(Promise.resolve());
       spyOn(component.accessibilityService, 'configureStatusBar').and.returnValue(Promise.resolve());
@@ -182,7 +181,6 @@ describe('AppComponent', () => {
       flushMicrotasks();
       expect(deviceProvider.disableSingleAppMode).toHaveBeenCalled();
       expect(appConfigProvider.initialiseAppConfig).toHaveBeenCalled();
-      expect(component.initialiseAuthentication).toHaveBeenCalled();
       expect(store$.dispatch).toHaveBeenCalledWith(LoadAppVersion());
       expect(component.accessibilityService.configureStatusBar).toHaveBeenCalled();
       expect(component.disableMenuSwipe).toHaveBeenCalled();
@@ -195,16 +193,6 @@ describe('AppComponent', () => {
       flushMicrotasks();
       expect(router.navigate).toHaveBeenCalledWith([LOGIN_PAGE], { replaceUrl: true });
     }));
-  });
-
-  describe('initialiseAuthentication', () => {
-    it('should call through to initialiseAuthentication and determineAuthenticationMode', () => {
-      spyOn(authenticationProvider, 'initialiseAuthentication');
-      spyOn(authenticationProvider, 'determineAuthenticationMode');
-      component.initialiseAuthentication();
-      expect(authenticationProvider.initialiseAuthentication).toHaveBeenCalled();
-      expect(authenticationProvider.determineAuthenticationMode).toHaveBeenCalled();
-    });
   });
 
   describe('initialiseNetworkState', () => {

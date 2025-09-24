@@ -25,7 +25,7 @@ import { ExaminerRole } from '@providers/app-config/constants/examiner-role.cons
 import { NetworkStateProvider } from '@providers/network-state/network-state';
 import { OrientationMonitorProvider } from '@providers/orientation-monitor/orientation-monitor.provider';
 import { BasePageComponent } from '@shared/classes/base-page';
-import { getEmployeeID } from '@store/user-info/user-info.selectors';
+import { selectEmployeeId } from '@store/app-info/app-info.selectors';
 
 interface RekeySearchPageState {
   isLoading$: Observable<boolean>;
@@ -70,7 +70,7 @@ export class RekeySearchPage extends BasePageComponent implements OnInit {
       rekeySearchErr$: rekeySearch$.pipe(map(getRekeySearchError)),
       isBookedLessThanHalfAnHourLate$: rekeySearch$.pipe(map(getIsHalfAnHourLate)),
       isOffline$: this.networkStateProvider.isOffline$,
-      employeeId$: this.store$.select(getEmployeeID),
+      employeeId$: this.store$.select(selectEmployeeId),
     };
 
     this.isLDTM = this.appConfig.getAppConfig()?.role === ExaminerRole.LDTM;
