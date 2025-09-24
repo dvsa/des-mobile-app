@@ -95,10 +95,6 @@ export class AppConfigProvider {
       if (!this.environmentFile.isRemote) {
         this.mapRemoteConfig(this.environmentFile as LocalEnvironmentFile);
       }
-      console.log('=========================================================================================');
-      console.log('this.environment file', this.environmentFile);
-      console.log('app config:', this.appConfig);
-      console.log('=========================================================================================');
       return await Promise.resolve();
     } catch (err) {
       this.logError('Initialise app config error', err);

@@ -151,12 +151,7 @@ export class JournalPage extends BasePageComponent implements OnInit {
 
         // Check if the popup has already been displayed today
         const formattedTodayDate = this.todaysDate.format('DD/MM/YYYY');
-        console.log(
-          'today date',
-          formattedTodayDate,
-          'last displayed time',
-          this.store$.selectSignal(getRecallAutoPopupLastDisplayedTime)()
-        );
+
         if (this.store$.selectSignal(getRecallAutoPopupLastDisplayedTime)() === formattedTodayDate) return;
 
         // Check if there are any affected slots that are not autosaved, completed, or submitted

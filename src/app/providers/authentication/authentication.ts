@@ -29,6 +29,7 @@ import { ClearTestCentresRefData } from '@store/reference-data/reference-data.ac
 import { ResetTestCentreJournal } from '@store/test-centre-journal/test-centre-journal.actions';
 import { UnloadTests } from '@store/tests/tests.actions';
 import * as jose from 'jose';
+import { JWTPayload } from 'jose';
 import { AppConfigProvider } from '../app-config/app-config';
 import { DataStoreProvider, LocalStorageKey } from '../data-store/data-store';
 import { ConnectionStatus, NetworkStateProvider } from '../network-state/network-state';
@@ -51,7 +52,7 @@ export class AuthenticationProvider {
     private dataStoreProvider: DataStoreProvider,
     public appConfig: AppConfigProvider,
     private testPersistenceProvider: TestPersistenceProvider,
-    private store$: Store<StoreModel>,
+    public store$: Store<StoreModel>,
     private logHelper: LogHelper,
     private completedTestPersistenceProvider: CompletedTestPersistenceProvider,
     private examinerRecordsProvider: ExaminerRecordsProvider,
@@ -104,10 +105,14 @@ export class AuthenticationProvider {
     }
   };
 
+  decodeToken(token: string): JWTPayload {
+    return jose.decodeJwt(token);
+  }
+
   loadEmployeeDetails = async (authResult: AuthResult) => {
     if (authResult.idToken) {
       const appConfigAuth = (await this.appConfig.getAppConfigAsync())?.authentication;
-      const decode = jose.decodeJwt(authResult.idToken);
+      const decode = this.decodeToken(authResult.idToken);
       const employeeName = decode[appConfigAuth.employeeNameKey] as string;
       const employeeID = decode[appConfigAuth.employeeIdKey] as string;
       if (employeeName) this.store$.dispatch(LoadEmployeeName(employeeName));
@@ -156,7 +161,6 @@ export class AuthenticationProvider {
 
       // check to see if there is an access token to interrogate
       if (this.authResult()) {
-        console.log('hasTokenExpired', await this.hasTokenExpired(this.authResult()));
         // determine if the existing token is expired
         if (await this.hasTokenExpired(this.authResult())) {
           // attempt a token refresh
@@ -178,7 +182,7 @@ export class AuthenticationProvider {
   }
 
   async hasTokenExpired(result: AuthResult): Promise<boolean> {
-    const jwtPayload = jose.decodeJwt(result.idToken);
+    const jwtPayload = this.decodeToken(result.idToken);
     return !!jwtPayload && jwtPayload.exp && new Date(jwtPayload.exp * 1000) < new Date();
   }
 

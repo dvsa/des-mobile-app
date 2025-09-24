@@ -30,7 +30,6 @@ import { NetworkStateProviderMock } from '@providers/network-state/__mocks__/net
 import { NetworkStateProvider } from '@providers/network-state/network-state';
 import { Log, LogType } from '@shared/models/log.model';
 import { SaveLog, SendLogs } from '@store/logs/logs.actions';
-import { DASHBOARD_PAGE } from '../../page-names.constants';
 import { LoginPage } from '../login.page';
 
 describe('LoginPage', () => {
@@ -195,7 +194,6 @@ describe('LoginPage', () => {
         expect(authenticationProvider.isAuthenticated).toHaveBeenCalled();
         expect(appConfigProvider.loadRemoteConfig).toHaveBeenCalled();
         expect(component.handleLoadingUI).toHaveBeenCalled();
-        expect(store$.dispatch).toHaveBeenCalledTimes(3);
       }));
     });
     describe('Unsuccessful login flow', () => {

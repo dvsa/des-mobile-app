@@ -139,11 +139,6 @@ export abstract class BasePageComponent {
   ionViewWillEnter() {
     if (this.isIos()) {
       this.authenticationProvider.isAuthenticated().then(async (isAuthed) => {
-        console.log('+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++');
-        console.log('this.loginRequired: ', this.loginRequired);
-        console.log('!isAuthed: ', !isAuthed);
-        console.log('!this.authenticationProvider.isOffline(): ', !this.authenticationProvider.isOffline());
-        console.log('+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++');
         if (this.loginRequired && !isAuthed) {
           const navigationExtras: NavigationExtras = {
             replaceUrl: true,
