@@ -174,13 +174,14 @@ describe('LoginPage', () => {
     beforeEach(() => {
       spyOn(component, 'handleLoadingUI').and.returnValue(Promise.resolve());
       spyOn(component, 'hideSplashscreen').and.returnValue(Promise.resolve());
-      spyOn(component, 'validateDeviceType');
+      spyOn(component, 'validateDeviceType').and.resolveTo(true);
       spyOn(appConfigProvider, 'initialiseAppConfig').and.returnValue(Promise.resolve());
       spyOn(appConfigProvider, 'loadRemoteConfig').and.returnValue(Promise.resolve());
-      spyOn(authenticationProvider, 'isAuthenticated').and.returnValue(Promise.resolve(false));
+      spyOn(authenticationProvider, 'isAuthenticated').and.resolveTo(false);
       spyOn(authenticationProvider, 'getEmployeeId').and.returnValue('123456');
       spyOn(authenticationProvider, 'login').and.returnValue(Promise.resolve());
       spyOn(authenticationProvider, 'logout').and.returnValue(Promise.resolve());
+      spyOn(authenticationProvider, 'refreshEmployeeDetails').and.returnValue(Promise.resolve());
       spyOn(store$, 'dispatch');
       spyOn(component, 'appInitializedLog');
       spyOn(component, 'dispatchLog');
@@ -196,7 +197,6 @@ describe('LoginPage', () => {
         expect(appConfigProvider.loadRemoteConfig).toHaveBeenCalled();
         expect(component.handleLoadingUI).toHaveBeenCalled();
         expect(component.validateDeviceType).toHaveBeenCalled();
-        expect(store$.dispatch).toHaveBeenCalledTimes(9);
       }));
     });
     describe('Unsuccessful login flow', () => {

@@ -96,7 +96,6 @@ export class LoginPage extends LogoutBasePageComponent implements OnInit {
 
   login = async (): Promise<void> => {
     try {
-      console.log('LoginPage: Starting login process');
       await this.handleLoadingUI(true);
 
       await this.platform.ready();
@@ -118,6 +117,7 @@ export class LoginPage extends LogoutBasePageComponent implements OnInit {
       this.store$.dispatch(LoadLog());
 
       await this.appConfigProvider.loadRemoteConfig();
+
       this.store$.dispatch(LoadConfigSuccess());
 
       // We need to resh the employee details now that the remote config has loaded.

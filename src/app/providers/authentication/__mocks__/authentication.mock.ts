@@ -1,25 +1,29 @@
 export class AuthenticationProviderMock {
-  isAuthenticated = jasmine.createSpy('isAuthenticated').and.returnValue(Promise.resolve(true));
-
-  isOffline = jasmine.createSpy('isOffline').and.returnValue(false);
-
-  getEmployeeIdFromIDToken = jasmine.createSpy('getEmployeeIdFromIDToken').and.returnValue(Promise.resolve('1234567'));
-
-  getAuthenticationToken = jasmine.createSpy('getAuthenticationToken').and.returnValue(Promise.resolve('token'));
+  getAppConfigData = jasmine.createSpy('getAppConfigData').and.returnValue(Promise.resolve());
 
   getEmployeeId = jasmine.createSpy('getEmployeeId').and.returnValue('12345678');
 
-  isDelegatedExaminer = jasmine.createSpy('isDelegatedExaminer');
+  getAuthenticationToken = jasmine.createSpy('getAuthenticationToken').and.resolveTo('token');
+
+  loadEmpoyeeDetails = jasmine.createSpy('loadEmployeeDetails').and.returnValue(Promise.resolve());
+
+  refreshEmployeeDetails = jasmine.createSpy('refreshEmployeeDetails').and.returnValue(Promise.resolve());
+
+  storeAuthResult = jasmine.createSpy('storeAuthResult').and.returnValue(Promise.resolve());
 
   login = jasmine.createSpy('login').and.returnValue(Promise.resolve());
 
+  isOffline = jasmine.createSpy('isOffline').and.returnValue(false);
+
+  refreshSession = jasmine.createSpy('refreshSession').and.returnValue(Promise.resolve());
+
+  isAuthenticated = jasmine.createSpy('isAuthenticated').and.returnValue(Promise.resolve(true));
+
+  hasTokenExpired = jasmine.createSpy('hasTokenExpired').and.returnValue(Promise.resolve(true));
+
+  clearStore = jasmine.createSpy('clearStore').and.returnValue(Promise.resolve());
+
   logout = jasmine.createSpy('logout').and.returnValue(Promise.resolve());
-
-  determineAuthenticationMode = jasmine.createSpy('determineAuthenticationMode');
-
-  setEmployeeId = jasmine.createSpy('setEmployeeId').and.returnValue(Promise.resolve());
-
-  expireTokens = jasmine.createSpy('expireTokens').and.returnValue(Promise.resolve());
 
   loadEmployeeName = jasmine.createSpy('loadEmployeeName').and.returnValue(Promise.resolve('joe blogs'));
 }
