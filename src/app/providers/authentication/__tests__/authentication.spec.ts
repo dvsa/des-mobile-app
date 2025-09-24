@@ -13,10 +13,10 @@ import { AppConfigProvider } from '../../app-config/app-config';
 import { DataStoreProviderMock } from '../../data-store/__mocks__/data-store.mock';
 import { DataStoreProvider } from '../../data-store/data-store';
 import { NetworkStateProviderMock } from '../../network-state/__mocks__/network-state.mock';
-import { ConnectionStatus, NetworkStateProvider } from '../../network-state/network-state';
+import { NetworkStateProvider } from '../../network-state/network-state';
 import { TestPersistenceProviderMock } from '../../test-persistence/__mocks__/test-persistence.mock';
 import { TestPersistenceProvider } from '../../test-persistence/test-persistence';
-import { AuthenticationProvider, Token } from '../authentication';
+import { AuthenticationProvider } from '../authentication';
 
 describe('AuthenticationProvider', () => {
   let authenticationProvider: AuthenticationProvider;

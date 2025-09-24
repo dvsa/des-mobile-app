@@ -56,6 +56,7 @@ import { SearchProvider } from '@providers/search/search';
 import { DateRange, DateTime } from '@shared/helpers/date-time';
 import { isAnyOf } from '@shared/helpers/simplifiers';
 import { StoreModel } from '@shared/models/store.model';
+import { selectEmployeeId } from '@store/app-info/app-info.selectors';
 import {
   getIsLoadingRecords,
   selectCachedExaminerRecords,
@@ -65,7 +66,6 @@ import {
 import { TestStatus } from '@store/tests/test-status/test-status.model';
 import { getTests } from '@store/tests/tests.reducer';
 import { getStartedTests, getTestStatuses } from '@store/tests/tests.selector';
-import { selectEmployeeId } from '@store/app-info/app-info.selectors';
 import { BehaviorSubject, Observable, Subscription, combineLatest, merge, of } from 'rxjs';
 import { map, switchMap, take, tap, withLatestFrom } from 'rxjs/operators';
 

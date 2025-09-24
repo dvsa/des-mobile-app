@@ -15,7 +15,7 @@ import { SlotItem } from '@providers/slot-selector/slot-item';
 import { SlotProvider } from '@providers/slot/slot';
 import { BasePageComponent } from '@shared/classes/base-page';
 import { selectRole } from '@store/app-config/app-config.selectors';
-import { selectVersionNumber, selectEmployeeId, selectEmployeeName } from '@store/app-info/app-info.selectors';
+import { selectEmployeeId, selectEmployeeName, selectVersionNumber } from '@store/app-info/app-info.selectors';
 import { getJournalState } from '@store/journal/journal.reducer';
 import { getTests } from '@store/tests/tests.reducer';
 import { Observable } from 'rxjs';

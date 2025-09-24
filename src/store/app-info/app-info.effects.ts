@@ -18,10 +18,10 @@ import {
   LoadAppVersionFailure,
   LoadAppVersionSuccess,
   LoadConfigSuccess,
+  LoadEmployeeName,
+  LoadEmployeeNameSuccess,
   RestartApp,
   SetDateConfigLoaded,
-  LoadEmployeeNameSuccess,
-  LoadEmployeeName,
 } from './app-info.actions';
 import { selectDateConfigLoaded } from './app-info.selectors';
 

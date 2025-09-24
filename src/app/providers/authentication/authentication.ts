@@ -14,8 +14,14 @@ import { serialiseLogMessage } from '@shared/helpers/serialise-log-message';
 import { LogType } from '@shared/models/log.model';
 import { StoreModel } from '@shared/models/store.model';
 import { UnloadAppConfig } from '@store/app-config/app-config.actions';
-import { LoadAppVersion, UnloadAppInfo, LoadEmployeeId, LoadEmployeeName, UpdateAuthResult } from '@store/app-info/app-info.actions';
-import { selectEmployeeId, selectAuthResult } from '@store/app-info/app-info.selectors';
+import {
+  LoadAppVersion,
+  LoadEmployeeId,
+  LoadEmployeeName,
+  UnloadAppInfo,
+  UpdateAuthResult,
+} from '@store/app-info/app-info.actions';
+import { selectAuthResult, selectEmployeeId } from '@store/app-info/app-info.selectors';
 import { UnloadExaminerRecords } from '@store/examiner-records/examiner-records.actions';
 import { UnloadJournal } from '@store/journal/journal.actions';
 import { ClearLogs, SaveLog } from '@store/logs/logs.actions';

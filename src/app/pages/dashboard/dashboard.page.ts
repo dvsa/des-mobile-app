@@ -36,6 +36,7 @@ import {
   UpdateAvailablePopup,
 } from '@store/app-info/app-info.actions';
 import { selectUpdateAvailablePresented, selectVersionNumber } from '@store/app-info/app-info.selectors';
+import { selectEmployeeId, selectEmployeeName } from '@store/app-info/app-info.selectors';
 import { LoadExaminerRecordsPreferences } from '@store/examiner-records/examiner-records.actions';
 import * as journalActions from '@store/journal/journal.actions';
 import { JournalRehydrationPage, JournalRehydrationType } from '@store/journal/journal.effects';
@@ -43,7 +44,6 @@ import { getJournalState } from '@store/journal/journal.reducer';
 import { getAllSlots } from '@store/journal/journal.selector';
 import { TestCentreJournalEnteredFromDashboard } from '@store/test-centre-journal/test-centre-journal.actions';
 import { getTests } from '@store/tests/tests.reducer';
-import { selectEmployeeId, selectEmployeeName } from '@store/app-info/app-info.selectors';
 import { Observable, Subscription, combineLatest, from, merge, takeWhile } from 'rxjs';
 import { filter, map, switchMap, tap, withLatestFrom } from 'rxjs/operators';
 import { DashboardViewDidEnter, PracticeTestReportCard } from './dashboard.actions';

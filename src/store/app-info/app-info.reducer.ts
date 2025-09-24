@@ -3,11 +3,11 @@ import {
   HasSeenUpdateAvailablePopup,
   LoadAppVersionFailure,
   LoadAppVersionSuccess,
+  LoadEmployeeId,
+  LoadEmployeeNameSuccess,
   SetDateConfigLoaded,
   UnloadAppInfo,
   UpdateAuthResult,
-  LoadEmployeeId,
-  LoadEmployeeNameSuccess,
 } from './app-info.actions';
 
 import { AppInfoStateModel } from './app-info.model';

@@ -111,7 +111,7 @@ describe('BasePageComponent', () => {
     }));
 
     it('should allow user access if authenticated , is an ios device and is required', fakeAsync(() => {
-      spyOn(authenticationProvider, 'isAuthenticated').and.resolveTo(false)
+      spyOn(authenticationProvider, 'isAuthenticated').and.resolveTo(false);
       basePageComponent.ionViewWillEnter();
       flushMicrotasks();
 
@@ -120,8 +120,8 @@ describe('BasePageComponent', () => {
     it('should not allow access if user is not authed, auth is required and is ios', fakeAsync(() => {
       basePageComponent.isIos = jasmine.createSpy().and.returnValue(true);
 
-      spyOn(authenticationProvider, 'isAuthenticated').and.resolveTo(false)
-      spyOn(authenticationProvider, 'isOffline').and.returnValue(false)
+      spyOn(authenticationProvider, 'isAuthenticated').and.resolveTo(false);
+      spyOn(authenticationProvider, 'isOffline').and.returnValue(false);
 
       basePageComponent.loginRequired = true;
       basePageComponent.ionViewWillEnter();
