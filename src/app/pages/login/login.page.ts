@@ -125,6 +125,8 @@ export class LoginPage extends LogoutBasePageComponent implements OnInit {
 
       this.store$.dispatch(LoadPersistedTests());
 
+      this.store$.dispatch(LoadAppConfig({ appConfig: this.appConfigProvider.getAppConfig() }));
+
       await this.analytics.initialiseGoogleAnalytics();
 
       this.store$.dispatch(StartSendingCompletedTests());
