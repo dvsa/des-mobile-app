@@ -28,7 +28,6 @@ import { NetworkStateProvider } from '@providers/network-state/network-state';
 import { SlotProvider } from '@providers/slot/slot';
 import { LogoutBasePageComponent } from '@shared/classes/logout-base-page';
 import { isAnyOf } from '@shared/helpers/simplifiers';
-import { selectLogoutEnabled } from '@store/app-config/app-config.selectors';
 import { AppResumed, AppSuspended, LoadAppVersion } from '@store/app-info/app-info.actions';
 import { SetupPolling, StopPolling } from '@store/journal/journal.actions';
 import { getJournalState } from '@store/journal/journal.reducer';
@@ -37,7 +36,6 @@ import { StartSendingCompletedTests, StopSendingCompletedTests } from '@store/te
 import { getTests } from '@store/tests/tests.reducer';
 
 interface AppComponentPageState {
-  logoutEnabled$: Observable<boolean>;
   unSubmittedTestSlotsCount$: Observable<number>;
 }
 
@@ -129,7 +127,6 @@ export class AppComponent extends LogoutBasePageComponent implements OnInit {
       await this.disableMenuSwipe();
 
       this.pageState = {
-        logoutEnabled$: this.store$.select(selectLogoutEnabled),
         unSubmittedTestSlotsCount$: unsubmittedTestSlotsCount$(
           this.store$.select(getJournalState),
           this.store$.select(getTests),

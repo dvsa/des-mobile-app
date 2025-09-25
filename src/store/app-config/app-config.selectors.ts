@@ -11,11 +11,6 @@ export const selectAppConfig = (state: StoreModel): AppConfig => state.appConfig
 
 export const selectRole = createSelector(selectAppConfig, (appConfig: AppConfig): string => appConfig.role);
 
-export const selectLogoutEnabled = createSelector(
-  selectAppConfig,
-  (appConfig: AppConfig): boolean => appConfig.journal?.enableLogoutButton
-);
-
 export const selectLiveAppVersion = createSelector(
   selectAppConfig,
   (appConfig: AppConfig): string => appConfig.liveAppVersion
