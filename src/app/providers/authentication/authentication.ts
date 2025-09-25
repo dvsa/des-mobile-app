@@ -72,7 +72,7 @@ export class AuthenticationProvider {
     });
   }
 
-  async getAppConfigData() {
+  async setProviderOptions() {
     const isNative = Capacitor.isNativePlatform();
     const authSettings: AuthProviderSettings = this.appConfig.getAppConfig().authentication;
 
@@ -131,7 +131,7 @@ export class AuthenticationProvider {
 
   async login() {
     if (!this.providerOptions) {
-      await this.getAppConfigData();
+      await this.setProviderOptions();
     }
     try {
       // Initiate the login process and update the store with the auth result

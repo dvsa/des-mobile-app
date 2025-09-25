@@ -81,7 +81,7 @@ describe('AuthenticationProvider', () => {
     it('should set providerOptions with native URLs when running on native platform', async () => {
       spyOn(Capacitor, 'isNativePlatform').and.returnValue(true);
 
-      await authenticationProvider.getAppConfigData();
+      await authenticationProvider.setProviderOptions();
 
       expect(authenticationProvider.providerOptions).toEqual({
         audience: '',
@@ -97,7 +97,7 @@ describe('AuthenticationProvider', () => {
     it('should set providerOptions with web URLs when running on web platform', async () => {
       spyOn(Capacitor, 'isNativePlatform').and.returnValue(false);
 
-      await authenticationProvider.getAppConfigData();
+      await authenticationProvider.setProviderOptions();
 
       expect(authenticationProvider.providerOptions).toEqual({
         audience: '',
