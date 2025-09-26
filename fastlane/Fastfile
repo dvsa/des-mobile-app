@@ -2,7 +2,6 @@ default_platform(:ios)
 
 before_all do
   sh("env > .env.txt")
-  sh("aws s3 cp .env.txt s3://des-mobile-artefacts/#{s3_path}#{file_name}.env.txt")
 
   import_from_git(
     url: "git@github.com:dvsa/dvsa-fastlane-library.git",
