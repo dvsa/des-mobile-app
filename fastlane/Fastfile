@@ -46,14 +46,25 @@ lane :build_ipa do
     xcodeproj: "./ios/App/App.xcodeproj",
   )
 
-  build_mobile(
-    name: "#{name}",
-    version: "#{version}",
+  gym(
+    scheme: "App",
+    workspace: "./ios/App/App.xcworkspace",
     export_method: "enterprise",
-    file_name: "#{file_name}.ipa",
-    environment: "#{environment}",
-    display_name: "DES"
+    output_directory: "./fastlane/builds",
+    output_name: "#{file_name}.ipa",
+    clean: true,
+    include_bitcode: false,
+    include_symbols: false,
   )
+
+  # build_mobile(
+  #   name: "#{name}",
+  #   version: "#{version}",
+  #   export_method: "enterprise",
+  #   file_name: "#{file_name}.ipa",
+  #   environment: "#{environment}",
+  #   display_name: "DES"
+  # )
 
   # deploy(
   #   force: true,
