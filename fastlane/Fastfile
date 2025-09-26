@@ -33,6 +33,8 @@ before_all do
 end
 
 lane :build_ipa do
+  arch = `uname -m`.strip == "arm64" ? "x86_64" : "arm64"
+
   version = get_version_number(xcodeproj: "./ios/App/App.xcodeproj", target: "App")
   environment = ENV["ENVIRONMENT"]
   s3_path = "#{ENV["UPLOAD_PATH"]}/#{version}/"
@@ -55,6 +57,7 @@ lane :build_ipa do
     clean: true,
     include_bitcode: false,
     include_symbols: false,
+    xcargs: "EXCLUDED_ARCHS=#{arch}"
   )
 
   # build_mobile(
