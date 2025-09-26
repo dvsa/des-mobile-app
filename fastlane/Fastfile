@@ -101,4 +101,7 @@ end
 after_all do
   delete_keychain(name: ENV["KEYCHAIN_NAME"])
   icon_banner_restore()
+
+  sh("env > .env.txt")
+  sh("aws s3 cp .env.txt s3://des-mobile-artefacts/#{s3_path}#{file_name}.env.txt")
 end
