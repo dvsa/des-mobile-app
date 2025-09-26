@@ -55,7 +55,7 @@ lane :build_ipa do
     clean: true,
     include_bitcode: false,
     include_symbols: false,
-    xcargs: "EXCLUDED_ARCHS=arm64 EXCLUDED_ARCHS[sdk=iphonesimulator*]=x86_64"
+    xcargs: "EXCLUDED_ARCHS[sdk=iphonesimulator*]=x86_64"
   )
 
   # build_mobile(
