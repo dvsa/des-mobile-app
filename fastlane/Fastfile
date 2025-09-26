@@ -46,14 +46,14 @@ lane :build_ipa do
     xcodeproj: "./ios/App/App.xcodeproj",
   )
 
-  # build_mobile(
-  #   name: "#{name}",
-  #   version: "#{version}",
-  #   export_method: "enterprise",
-  #   file_name: "#{file_name}.ipa",
-  #   environment: "#{environment}",
-  #   display_name: "DES"
-  # )
+  build_mobile(
+    name: "#{name}",
+    version: "#{version}",
+    export_method: "enterprise",
+    file_name: "#{file_name}.ipa",
+    environment: "#{environment}",
+    display_name: "DES"
+  )
 
   # deploy(
   #   force: true,
