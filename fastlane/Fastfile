@@ -7,7 +7,7 @@ before_all do
     url: "git@github.com:dvsa/dvsa-fastlane-library.git",
     branch: "main",
     path: "fastlane/Fastfile",
-    cache: ".imported"
+    cache_path: ".imported"
   )
 
   clean(dirs: './builds ./simulator ./certs ./codes')
