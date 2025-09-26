@@ -1,10 +1,13 @@
 default_platform(:ios)
 
 before_all do
+  xcversion(version: "16.4")
+
   import_from_git(
     url: "git@github.com:dvsa/dvsa-fastlane-library.git",
     branch: "main",
     path: "fastlane/Fastfile",
+    cache: ".imported"
   )
 
   clean(dirs: './builds ./simulator ./certs ./codes')
