@@ -1,6 +1,6 @@
 import { Injectable, Signal } from '@angular/core';
 import { Capacitor } from '@capacitor/core';
-import { Auth0Provider, AuthConnect, AuthResult, AzureProvider, ProviderOptions } from '@ionic-enterprise/auth';
+import { AuthConnect, AuthResult, AzureProvider, ProviderOptions } from '@ionic-enterprise/auth';
 import { Store } from '@ngrx/store';
 import { DelegatedRekeySearchClearState } from '@pages/delegated-rekey-search/delegated-rekey-search.actions';
 import { ResetRekeyReason } from '@pages/rekey-reason/rekey-reason.actions';
@@ -43,19 +43,19 @@ export enum Token {
 
 @Injectable()
 export class AuthenticationProvider {
-  provider: Auth0Provider;
+  provider: AzureProvider;
   providerOptions: ProviderOptions;
 
   authResult: Signal<AuthResult> = this.store$.selectSignal(selectAuthResult);
 
   constructor(
-    private dataStoreProvider: DataStoreProvider,
+    public dataStoreProvider: DataStoreProvider,
     public appConfig: AppConfigProvider,
-    private testPersistenceProvider: TestPersistenceProvider,
+    public testPersistenceProvider: TestPersistenceProvider,
     public store$: Store<StoreModel>,
     private logHelper: LogHelper,
-    private completedTestPersistenceProvider: CompletedTestPersistenceProvider,
-    private examinerRecordsProvider: ExaminerRecordsProvider,
+    public completedTestPersistenceProvider: CompletedTestPersistenceProvider,
+    public examinerRecordsProvider: ExaminerRecordsProvider,
     private networkState: NetworkStateProvider
   ) {
     this.provider = new AzureProvider();
@@ -158,7 +158,6 @@ export class AuthenticationProvider {
     try {
       // if offline, allow user to continue locally
       if (this.isOffline()) return true;
-
       // check to see if there is an access token to interrogate
       if (this.authResult()) {
         // determine if the existing token is expired
@@ -172,7 +171,6 @@ export class AuthenticationProvider {
         // token should have refreshed if previously expired, and method returns true
         return true;
       }
-
       // return false if no token available
       return false;
     } catch (err) {
@@ -183,7 +181,7 @@ export class AuthenticationProvider {
 
   async hasTokenExpired(result: AuthResult): Promise<boolean> {
     const jwtPayload = this.decodeToken(result.idToken);
-    return !!jwtPayload && jwtPayload.exp && new Date(jwtPayload.exp * 1000) < new Date();
+    return !!(jwtPayload?.exp && new Date(jwtPayload.exp * 1000) < new Date());
   }
 
   /**Clears the entire store but keeps the app version*/
