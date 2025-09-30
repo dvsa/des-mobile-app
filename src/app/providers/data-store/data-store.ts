@@ -248,8 +248,7 @@ export class DataStoreProvider {
       if (!this.isIos()) {
         return '';
       }
-      // return await this.storage.get(key);
-      throw new Error('Fake Error');
+      return await this.storage.get(key);
     } catch (err) {
       this.reportLog(`${LocalStorageError.LOCAL_STORAGE_ERROR} getting·storage`, key, err);
       throw err;
