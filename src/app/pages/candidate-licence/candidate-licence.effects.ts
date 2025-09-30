@@ -77,7 +77,7 @@ export class CandidateLicenceEffects {
       catchError((err) => {
         this.store$.dispatch(
           SaveLog({
-            payload: this.logHelper.createLog(LogType.ERROR, 'Error retrieving candidate licence', err.error),
+            payload: this.logHelper.createLog(LogType.ERROR, 'Error retrieving candidate licence', err.message),
           })
         );
         return of(GetCandidateLicenceDataError());
