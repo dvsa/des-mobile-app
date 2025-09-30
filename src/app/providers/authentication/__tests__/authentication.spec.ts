@@ -458,12 +458,12 @@ describe('AuthenticationProvider', () => {
     it('should log start and finish, call AuthConnect.logout, clearStore, and shutDownStoreSubscription', async () => {
       await authenticationProvider.logout();
 
-      expect(authenticationProvider.logEvent).toHaveBeenCalledWith(LogType.DEBUG, 'Logout', 'Started logout flow');
+      expect(authenticationProvider.logEvent).toHaveBeenCalledWith(LogType.INFO, 'Logout', 'Started logout flow');
       expect(AuthConnect.logout).toHaveBeenCalledWith(
         authenticationProvider.provider,
         authenticationProvider.authResult()
       );
-      expect(authenticationProvider.logEvent).toHaveBeenCalledWith(LogType.DEBUG, 'Logout', 'Finished logout flow');
+      expect(authenticationProvider.logEvent).toHaveBeenCalledWith(LogType.INFO, 'Logout', 'Finished logout flow');
       expect(authenticationProvider.clearStore).toHaveBeenCalled();
       expect(authenticationProvider.appConfig.shutDownStoreSubscription).toHaveBeenCalled();
     });
