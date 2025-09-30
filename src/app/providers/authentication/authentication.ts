@@ -92,7 +92,7 @@ export class AuthenticationProvider {
     return this.store$.selectSignal(selectEmployeeId)();
   }
 
-  public getAuthenticationToken = async (): Promise<string> => {
+  public async getAuthenticationToken(): Promise<string> {
     const needsRefresh: boolean = await (!this.isOffline() && this.hasTokenExpired(this.authResult()));
     if (needsRefresh) {
       await this.refreshSession();
@@ -103,13 +103,13 @@ export class AuthenticationProvider {
     } catch (error) {
       return Promise.resolve(null);
     }
-  };
+  }
 
   decodeToken(token: string): JWTPayload {
     return jose.decodeJwt(token);
   }
 
-  loadEmployeeDetails = async (authResult: AuthResult) => {
+  async loadEmployeeDetails(authResult: AuthResult) {
     if (authResult.idToken) {
       const appConfigAuth = (await this.appConfig.getAppConfigAsync())?.authentication;
       const decode = this.decodeToken(authResult.idToken);
@@ -118,16 +118,16 @@ export class AuthenticationProvider {
       if (employeeName) this.store$.dispatch(LoadEmployeeName(employeeName));
       if (employeeID) this.store$.dispatch(LoadEmployeeId({ employeeId: employeeID }));
     }
-  };
+  }
 
-  refreshEmployeeDetails = async () => {
+  async refreshEmployeeDetails() {
     await this.loadEmployeeDetails(this.authResult());
-  };
+  }
 
-  storeAuthResult = async (authResult: AuthResult) => {
+  async storeAuthResult(authResult: AuthResult) {
     this.store$.dispatch(UpdateAuthResult(authResult));
     await this.loadEmployeeDetails(authResult);
-  };
+  }
 
   async login() {
     if (!this.providerOptions) {
@@ -255,11 +255,11 @@ export class AuthenticationProvider {
     this.appConfig.shutDownStoreSubscription();
   }
 
-  logEvent = (logType: LogType, desc: string, msg: unknown) => {
+  logEvent(logType: LogType, desc: string, msg: unknown) {
     this.store$.dispatch(
       SaveLog({
         payload: this.logHelper.createLog(logType, desc, `AuthenticationProvider => ${serialiseLogMessage(msg)}`),
       })
     );
-  };
+  }
 }
