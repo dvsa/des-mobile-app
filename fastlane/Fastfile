@@ -6,8 +6,7 @@ before_all do
   import_from_git(
     url: "git@github.com:dvsa/dvsa-fastlane-library.git",
     branch: "main",
-    path: "fastlane/Fastfile",
-    cache_path: ".imported"
+    path: "fastlane/Fastfile"
   )
 
   clean(dirs: './builds ./simulator ./certs ./codes')
