@@ -54,27 +54,27 @@ lane :build_ipa do
     display_name: "DES"
   )
 
-  # deploy(
-  #   force: true,
-  #   path: "#{s3_path}",
-  #   html_in_folder: true,
-  #   file_name: "#{file_name}",
-  #   environment: "#{environment}",
-  #   bucket: "des-mobile-artefacts",
-  #   html_file_name: "#{file_name}.html",
-  #   ipa_location: "./fastlane/builds/#{file_name}.ipa",
-  # )
+  deploy(
+    force: true,
+    path: "#{s3_path}",
+    html_in_folder: true,
+    file_name: "#{file_name}",
+    environment: "#{environment}",
+    bucket: "des-mobile-artefacts",
+    html_file_name: "#{file_name}.html",
+    ipa_location: "./fastlane/builds/#{file_name}.ipa",
+  )
 
-  # generate_qr(
-  #   force: true,
-  #   path: "#{s3_path}",
-  #   bucket: "des-mobile-artefacts",
-  #   file_name: ENV["S3_HTML_OUTPUT_PATH"],
-  #   output_name: "./codes/#{file_name}-qr.png",
-  #   file: "./fastlane/codes/#{file_name}-qr.png"
-  # )
+  generate_qr(
+    force: true,
+    path: "#{s3_path}",
+    bucket: "des-mobile-artefacts",
+    file_name: ENV["S3_HTML_OUTPUT_PATH"],
+    output_name: "./codes/#{file_name}-qr.png",
+    file: "./fastlane/codes/#{file_name}-qr.png"
+  )
 
-  # sh("aws s3 rm s3://des-mobile-artefacts/#{s3_path}#{file_name}.app.dSYM.zip")
+  sh("aws s3 rm s3://des-mobile-artefacts/#{s3_path}#{file_name}.app.dSYM.zip")
 end
 
 lane :build_sim do
