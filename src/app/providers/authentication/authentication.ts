@@ -243,10 +243,10 @@ export class AuthenticationProvider {
 
   public async logout(): Promise<void> {
     try {
-      this.logEvent(LogType.DEBUG, 'Logout', 'Started logout flow');
+      this.logEvent(LogType.INFO, 'Logout', 'Started logout flow');
       await AuthConnect.logout(this.provider, this.authResult());
 
-      this.logEvent(LogType.DEBUG, 'Logout', 'Finished logout flow');
+      this.logEvent(LogType.INFO, 'Logout', 'Finished logout flow');
     } catch (err) {
       this.logEvent(LogType.ERROR, 'Authentication provider - Logout error', err);
     }
