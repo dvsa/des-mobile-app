@@ -15,10 +15,13 @@ permissions:
 
 jobs:
   develop:
+    strategy:
+      matrix:
+        machine: ['mito-6', 'mito-7', 'mito-8']
     # if: github.event_name == 'push' && startsWith(github.ref_name, 'develop')
     uses: dvsa/des-workflow-actions/.github/workflows/build-mobile-app.yaml@MES-10614-mobile-app-fastlane-updates
     with:
-      runs-on: mito-7
+      runs-on: ${{ matrix.machine }}
       environment: develop
       config-type: test
       build-simulator: true
