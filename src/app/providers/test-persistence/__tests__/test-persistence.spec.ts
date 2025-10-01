@@ -9,6 +9,8 @@ import { DataStoreProviderMock } from '../../data-store/__mocks__/data-store.moc
 import { DataStoreProvider, LocalStorageKey } from '../../data-store/data-store';
 import { TestPersistenceProvider } from '../test-persistence';
 import Spy = jasmine.Spy;
+import { LogHelperMock } from '@providers/logs/__mocks__/logs-helper.mock';
+import { LogHelper } from '@providers/logs/logs-helper';
 
 describe('TestPersistenceProvider', () => {
   let testPersistenceProvider: TestPersistenceProvider;
@@ -27,6 +29,10 @@ describe('TestPersistenceProvider', () => {
         {
           provide: AppConfigProvider,
           useClass: AppConfigProviderMock,
+        },
+        {
+          provide: LogHelper,
+          useClass: LogHelperMock,
         },
       ],
       imports: [

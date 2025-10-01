@@ -30,6 +30,7 @@ import { ResetTestCentreJournal } from '@store/test-centre-journal/test-centre-j
 import { UnloadTests } from '@store/tests/tests.actions';
 import * as jose from 'jose';
 import { JWTPayload } from 'jose';
+import { get } from 'lodash-es';
 import { AppConfigProvider } from '../app-config/app-config';
 import { DataStoreProvider, LocalStorageKey } from '../data-store/data-store';
 import { ConnectionStatus, NetworkStateProvider } from '../network-state/network-state';
@@ -125,8 +126,30 @@ export class AuthenticationProvider {
   }
 
   async storeAuthResult(authResult: AuthResult) {
-    this.store$.dispatch(UpdateAuthResult(authResult));
-    await this.loadEmployeeDetails(authResult);
+    try {
+      await this.dataStoreProvider.setItem(LocalStorageKey.AUTH_RESULT, JSON.stringify(authResult));
+      this.store$.dispatch(UpdateAuthResult(authResult));
+      await this.loadEmployeeDetails(authResult);
+    } catch (error) {
+      this.logEvent(LogType.ERROR, 'Authentication provider - Store result error', error);
+      throw error;
+    }
+  }
+
+  async getStoredAuthResult(): Promise<AuthResult> {
+    try {
+      const storedResult: string = await this.dataStoreProvider.getItem(LocalStorageKey.AUTH_RESULT);
+      if (storedResult) {
+        const parsedResult = JSON.parse(storedResult);
+        if (parsedResult && get(parsedResult, 'provider')) {
+          return parsedResult;
+        }
+      }
+      return null;
+    } catch (error) {
+      this.logEvent(LogType.ERROR, 'Authentication provider - Get stored result error', error);
+      return null;
+    }
   }
 
   async login() {
@@ -134,8 +157,11 @@ export class AuthenticationProvider {
       await this.setProviderOptions();
     }
     try {
-      // Initiate the login process and update the store with the auth result
-      const authResult = await AuthConnect.login(this.provider, this.providerOptions);
+      let authResult: AuthResult = await this.getStoredAuthResult();
+      if (!authResult || (await this.hasTokenExpired(authResult))) {
+        // Initiate the login process and update the store with the auth result
+        authResult = await AuthConnect.login(this.provider, this.providerOptions);
+      }
       // Dispatch action to update the auth result in the store
       await this.storeAuthResult(authResult);
     } catch (error) {
@@ -149,12 +175,13 @@ export class AuthenticationProvider {
     return this.networkState.getNetworkState() === ConnectionStatus.OFFLINE;
   }
 
-  public async refreshSession() {
+  public async refreshSession(): Promise<void> {
     try {
       //Refresh the session and update the store with the new auth result
       await this.storeAuthResult(await AuthConnect.refreshSession(this.provider, this.authResult()));
     } catch (error) {
       this.logEvent(LogType.ERROR, 'Authentication provider - Refresh error', error);
+      throw error;
     }
   }
 
@@ -232,11 +259,26 @@ export class AuthenticationProvider {
     // Clear persisted tests from the test persistence provider
     await this.testPersistenceProvider.clearPersistedTests();
 
-    // Clear persisted recall auto popup last displayed time from local storage
-    await this.dataStoreProvider.removeItem(LocalStorageKey.JOURNAL_RECALL_AUTO_DISPLAY_TIME);
+    try {
+      // Clear persisted recall auto popup last displayed time from local storage
+      await this.dataStoreProvider.removeItem(LocalStorageKey.JOURNAL_RECALL_AUTO_DISPLAY_TIME);
+    } catch (error) {
+      this.logEvent(LogType.ERROR, 'Logout', 'Clear JOURNAL_RECALL_AUTO_DISPLAY_TIME error');
+    }
 
-    // Clear app config from local storage
-    await this.dataStoreProvider.removeItem(LocalStorageKey.CONFIG);
+    try {
+      // Clear app config from local storage
+      await this.dataStoreProvider.removeItem(LocalStorageKey.CONFIG);
+    } catch (error) {
+      this.logEvent(LogType.ERROR, 'Logout', 'Clear CONFIG error');
+    }
+
+    try {
+      // Clear app config from local storage
+      await this.dataStoreProvider.removeItem(LocalStorageKey.AUTH_RESULT);
+    } catch (error) {
+      this.logEvent(LogType.ERROR, 'Logout', 'Clear AUTH_RESULT error');
+    }
 
     // Clear all reminiscent of examiner records from storage
     await this.examinerRecordsProvider.clearExaminerRecordsCache();

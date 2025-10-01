@@ -8,10 +8,14 @@ import { Store } from '@ngrx/store';
 import { CompressionProvider } from '@providers/compression/compression';
 import { DataStoreProvider, LocalStorageKey } from '@providers/data-store/data-store';
 import { LoadingProvider } from '@providers/loader/loader';
+import { LogHelper } from '@providers/logs/logs-helper';
 import { SearchProvider } from '@providers/search/search';
 import { DateRange, DateTime } from '@shared/helpers/date-time';
 import { formatApplicationReference } from '@shared/helpers/formatters';
+import { serialiseLogMessage } from '@shared/helpers/serialise-log-message';
+import { LogType } from '@shared/models/log.model';
 import { StoreModel } from '@shared/models/store.model';
+import { SaveLog } from '@store/logs/logs.actions';
 import { get } from 'lodash-es';
 import moment from 'moment';
 import { ChartType } from 'ng-apexcharts';
@@ -96,6 +100,7 @@ export class ExaminerRecordsProvider {
     private dataStoreProvider: DataStoreProvider,
     public store$: Store<StoreModel>,
     public router: Router,
+    private logHelper: LogHelper,
     public loadingProvider: LoadingProvider
   ) {}
 
@@ -241,7 +246,19 @@ export class ExaminerRecordsProvider {
   async clearExaminerRecordsCache(): Promise<void> {
     const items: string[] = await this.dataStoreProvider.getKeys();
     if (items?.indexOf(this.examinerRecordsKeychainKey) >= 0) {
-      await this.dataStoreProvider.removeItem(this.examinerRecordsKeychainKey);
+      try {
+        await this.dataStoreProvider.removeItem(this.examinerRecordsKeychainKey);
+      } catch (error) {
+        this.store$.dispatch(
+          SaveLog({
+            payload: this.logHelper.createLog(
+              LogType.ERROR,
+              'Clear examiner records error',
+              `ExaminerRecords => ${serialiseLogMessage(error)}`
+            ),
+          })
+        );
+      }
     }
     return Promise.resolve();
   }

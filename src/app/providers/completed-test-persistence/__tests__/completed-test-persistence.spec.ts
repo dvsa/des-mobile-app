@@ -1,6 +1,8 @@
 import { TestBed } from '@angular/core/testing';
 import { SearchResultTestSchema } from '@dvsa/mes-search-schema';
 import { Store, StoreModule } from '@ngrx/store';
+import { LogHelperMock } from '@providers/logs/__mocks__/logs-helper.mock';
+import { LogHelper } from '@providers/logs/logs-helper';
 import { StoreModel } from '@shared/models/store.model';
 import { LoadCompletedTestsSuccess } from '@store/journal/journal.actions';
 import { DataStoreProviderMock } from '../../data-store/__mocks__/data-store.mock';
@@ -20,6 +22,10 @@ describe('CompletedTestPersistenceProvider', () => {
         {
           provide: DataStoreProvider,
           useClass: DataStoreProviderMock,
+        },
+        {
+          provide: LogHelper,
+          useClass: LogHelperMock,
         },
       ],
       imports: [

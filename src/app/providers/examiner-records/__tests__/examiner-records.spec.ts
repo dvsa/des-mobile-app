@@ -7,6 +7,8 @@ import { CompressionProviderMock } from '@providers/compression/__mocks__/compre
 import { CompressionProvider } from '@providers/compression/compression';
 import { DataStoreProviderMock } from '@providers/data-store/__mocks__/data-store.mock';
 import { DataStoreProvider } from '@providers/data-store/data-store';
+import { LogHelperMock } from '@providers/logs/__mocks__/logs-helper.mock';
+import { LogHelper } from '@providers/logs/logs-helper';
 import { SearchProviderMock } from '@providers/search/__mocks__/search.mock';
 import { SearchProvider } from '@providers/search/search';
 import { DateRange } from '@shared/helpers/date-time';
@@ -34,6 +36,10 @@ describe('ExaminerRecordsProvider', () => {
         {
           provide: CompressionProvider,
           useClass: CompressionProviderMock,
+        },
+        {
+          provide: LogHelper,
+          useClass: LogHelperMock,
         },
         { provide: Store, useClass: StoreMock },
       ],

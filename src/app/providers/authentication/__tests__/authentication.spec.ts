@@ -1,7 +1,8 @@
 import { Signal } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { Capacitor } from '@capacitor/core';
-import { AuthConnect, AuthResult, ProviderOptions } from '@ionic-enterprise/auth';
+import { AuthConnect, AuthResult, Provider, ProviderOptions } from '@ionic-enterprise/auth';
+import { AuthConnectConfig } from '@ionic-enterprise/auth/dist/esm/definitions';
 import { provideMockStore } from '@ngrx/store/testing';
 import { DelegatedRekeySearchClearState } from '@pages/delegated-rekey-search/delegated-rekey-search.actions';
 import { ResetRekeyReason } from '@pages/rekey-reason/rekey-reason.actions';
@@ -212,14 +213,85 @@ describe('AuthenticationProvider', () => {
   });
 
   describe('storeAuthResult', () => {
-    it('should dispatch the updateAuthResult action & call loadEmployeeDetails with the authResult', async () => {
+    it('should dispatch the updateAuthResult action, set the local storage & call loadEmployeeDetails with the authResult', async () => {
       spyOn(authenticationProvider, 'loadEmployeeDetails');
+      spyOn(authenticationProvider.dataStoreProvider, 'setItem');
       const testAuth = authenticationProvider.authResult();
 
       await authenticationProvider.storeAuthResult(testAuth);
 
+      expect(authenticationProvider.dataStoreProvider.setItem).toHaveBeenCalledWith(
+        LocalStorageKey.AUTH_RESULT,
+        JSON.stringify(testAuth)
+      );
       expect(authenticationProvider.store$.dispatch).toHaveBeenCalledWith(UpdateAuthResult(testAuth));
       expect(authenticationProvider.loadEmployeeDetails).toHaveBeenCalledWith(testAuth);
+    });
+  });
+
+  describe('getStoredAuthResult', () => {
+    it('should return parsed auth result when stored result exists and has provider', async () => {
+      const mockAuthResult: AuthResult = {
+        provider: {} as Provider,
+        idToken: 'token',
+        config: { platform: 'capacitor' } as AuthConnectConfig,
+        receivedAt: 1,
+        tokenType: '',
+        state: {},
+        rawResult: '',
+      } as AuthResult;
+      spyOn(authenticationProvider.dataStoreProvider, 'getItem').and.returnValue(
+        Promise.resolve(JSON.stringify(mockAuthResult))
+      );
+
+      const result = await authenticationProvider.getStoredAuthResult();
+
+      expect(result).toEqual(mockAuthResult);
+    });
+
+    it('should return null when stored result does not exist', async () => {
+      spyOn(authenticationProvider.dataStoreProvider, 'getItem').and.returnValue(Promise.resolve(null));
+
+      const result = await authenticationProvider.getStoredAuthResult();
+
+      expect(result).toBeNull();
+    });
+
+    it('should return null when stored result exists but has no provider', async () => {
+      const mockAuthResult = { idToken: 'token' };
+      spyOn(authenticationProvider.dataStoreProvider, 'getItem').and.returnValue(
+        Promise.resolve(JSON.stringify(mockAuthResult))
+      );
+
+      const result = await authenticationProvider.getStoredAuthResult();
+
+      expect(result).toBeNull();
+    });
+
+    it('should return null when stored result exists but is not an object', async () => {
+      const mockAuthResult = 1;
+      spyOn(authenticationProvider.dataStoreProvider, 'getItem').and.returnValue(
+        Promise.resolve(JSON.stringify(mockAuthResult))
+      );
+
+      const result = await authenticationProvider.getStoredAuthResult();
+
+      expect(result).toBeNull();
+    });
+
+    it('should return null and log error when getItem throws', async () => {
+      const error = new Error('getItem failed');
+      spyOn(authenticationProvider.dataStoreProvider, 'getItem').and.throwError(error.message);
+      spyOn(authenticationProvider, 'logEvent');
+
+      const result = await authenticationProvider.getStoredAuthResult();
+
+      expect(result).toBeNull();
+      expect(authenticationProvider.logEvent).toHaveBeenCalledWith(
+        LogType.ERROR,
+        'Authentication provider - Get stored result error',
+        error
+      );
     });
   });
 
