@@ -17,7 +17,7 @@ jobs:
   develop:
     strategy:
       matrix:
-        mac: [ 'mito-7', 'mito-6', 'm4-1' ]
+        mac: [ 'mito-7', 'mito-6', 'm4-1', 'm4-2', 'm4-3' ]
     # if: github.event_name == 'push' && startsWith(github.ref_name, 'develop')
     uses: dvsa/des-workflow-actions/.github/workflows/build-mobile-app.yaml@MES-10614-mobile-app-fastlane-updates
     with:
