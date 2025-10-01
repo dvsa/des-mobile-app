@@ -150,8 +150,12 @@ export class AuthenticationProvider {
   }
 
   public async refreshSession() {
-    //Refresh the session and update the store with the new auth result
-    await this.storeAuthResult(await AuthConnect.refreshSession(this.provider, this.authResult()));
+    try {
+      //Refresh the session and update the store with the new auth result
+      await this.storeAuthResult(await AuthConnect.refreshSession(this.provider, this.authResult()));
+    } catch (error) {
+      this.logEvent(LogType.ERROR, 'Authentication provider - Refresh error', error);
+    }
   }
 
   public async isAuthenticated(): Promise<boolean> {
