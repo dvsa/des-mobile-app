@@ -236,6 +236,7 @@ export class AppConfigProvider {
   private getRemoteData = () =>
     new Promise<RemoteConfig>((resolve, reject) => {
       if (this.networkStateProvider.getNetworkState() === ConnectionStatus.OFFLINE) {
+        this.logError('User offline, falling back to cached config', '');
         this.getCachedRemoteConfig()
           .then((data) => resolve(data))
           .catch((error) => reject(error));
