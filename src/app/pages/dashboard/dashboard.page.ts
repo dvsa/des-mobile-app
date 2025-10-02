@@ -35,12 +35,8 @@ import {
   UpdateAvailableOptionClicked,
   UpdateAvailablePopup,
 } from '@store/app-info/app-info.actions';
-import {
-  selectEmployeeId,
-  selectEmployeeName,
-  selectUpdateAvailablePresented,
-  selectVersionNumber,
-} from '@store/app-info/app-info.selectors';
+import { selectUpdateAvailablePresented, selectVersionNumber } from '@store/app-info/app-info.selectors';
+import { selectEmployeeId, selectEmployeeName } from '@store/app-info/app-info.selectors';
 import { LoadExaminerRecordsPreferences } from '@store/examiner-records/examiner-records.actions';
 import * as journalActions from '@store/journal/journal.actions';
 import { JournalRehydrationPage, JournalRehydrationType } from '@store/journal/journal.effects';

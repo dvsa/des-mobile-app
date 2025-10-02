@@ -1,10 +1,12 @@
-import { Injectable } from '@angular/core';
-import { IonicAuth, IonicAuthOptions } from '@ionic-enterprise/auth';
+import { Injectable, Signal } from '@angular/core';
+import { Capacitor } from '@capacitor/core';
+import { AuthConnect, AuthResult, AzureProvider, ProviderOptions } from '@ionic-enterprise/auth';
 import { Store } from '@ngrx/store';
 import { DelegatedRekeySearchClearState } from '@pages/delegated-rekey-search/delegated-rekey-search.actions';
 import { ResetRekeyReason } from '@pages/rekey-reason/rekey-reason.actions';
 import { RekeySearchClearState } from '@pages/rekey-search/rekey-search.actions';
 import { ResetFaultMode } from '@pages/test-report/test-report.actions';
+import { AuthProviderSettings } from '@providers/authentication/authentication.constants';
 import { CompletedTestPersistenceProvider } from '@providers/completed-test-persistence/completed-test-persistence';
 import { ExaminerRecordsProvider } from '@providers/examiner-records/examiner-records';
 import { LogHelper } from '@providers/logs/logs-helper';
@@ -12,16 +14,23 @@ import { serialiseLogMessage } from '@shared/helpers/serialise-log-message';
 import { LogType } from '@shared/models/log.model';
 import { StoreModel } from '@shared/models/store.model';
 import { UnloadAppConfig } from '@store/app-config/app-config.actions';
-import { LoadAppVersion, UnloadAppInfo } from '@store/app-info/app-info.actions';
-import { selectEmployeeId } from '@store/app-info/app-info.selectors';
+import {
+  LoadAppVersion,
+  LoadEmployeeId,
+  LoadEmployeeName,
+  UnloadAppInfo,
+  UpdateAuthResult,
+} from '@store/app-info/app-info.actions';
+import { selectAuthResult, selectEmployeeId } from '@store/app-info/app-info.selectors';
 import { UnloadExaminerRecords } from '@store/examiner-records/examiner-records.actions';
 import { UnloadJournal } from '@store/journal/journal.actions';
 import { ClearLogs, SaveLog } from '@store/logs/logs.actions';
 import { ClearTestCentresRefData } from '@store/reference-data/reference-data.actions';
 import { ResetTestCentreJournal } from '@store/test-centre-journal/test-centre-journal.actions';
 import { UnloadTests } from '@store/tests/tests.actions';
-import { Subscription } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import * as jose from 'jose';
+import { JWTPayload } from 'jose';
+import { get } from 'lodash-es';
 import { AppConfigProvider } from '../app-config/app-config';
 import { DataStoreProvider, LocalStorageKey } from '../data-store/data-store';
 import { ConnectionStatus, NetworkStateProvider } from '../network-state/network-state';
@@ -35,123 +44,164 @@ export enum Token {
 
 @Injectable()
 export class AuthenticationProvider {
-  subscription: Subscription;
-  private employeeIdKey: string;
-  private employeeId: string;
-  private inUnAuthenticatedMode: boolean;
-  public ionicAuth: IonicAuth;
+  provider: AzureProvider;
+  providerOptions: ProviderOptions;
+
+  authResult: Signal<AuthResult> = this.store$.selectSignal(selectAuthResult);
 
   constructor(
-    private dataStoreProvider: DataStoreProvider,
-    private networkState: NetworkStateProvider,
+    public dataStoreProvider: DataStoreProvider,
     public appConfig: AppConfigProvider,
-    private testPersistenceProvider: TestPersistenceProvider,
-    private store$: Store<StoreModel>,
+    public testPersistenceProvider: TestPersistenceProvider,
+    public store$: Store<StoreModel>,
     private logHelper: LogHelper,
-    private completedTestPersistenceProvider: CompletedTestPersistenceProvider,
-    private examinerRecordsProvider: ExaminerRecordsProvider
+    public completedTestPersistenceProvider: CompletedTestPersistenceProvider,
+    public examinerRecordsProvider: ExaminerRecordsProvider,
+    private networkState: NetworkStateProvider
   ) {
-    this.setStoreSubscription();
-  }
-
-  get authConnect() {
-    // if the context of `ionicAuth` is lost, the re-initialise
-    if (!this.ionicAuth) this.initialiseAuthentication();
-
-    // update value of `inUnAuthenticatedMode` before trying to interact with auth connect methods
-    this.determineAuthenticationMode();
-
-    return this.ionicAuth;
-  }
-
-  private getAuthOptions = (): IonicAuthOptions => {
-    const authSettings = this.appConfig.getAppConfig()?.authentication;
-    return {
-      logLevel: 'DEBUG',
-      authConfig: 'azure',
-      platform: 'capacitor',
-      clientID: authSettings.clientId,
-      discoveryUrl: `${authSettings.context}/v2.0/.well-known/openid-configuration?appid=${authSettings.clientId}`,
-      redirectUri: authSettings.redirectUrl,
-      scope: 'openid offline_access profile email',
-      logoutUrl: authSettings.logoutUrl,
-      iosWebView: 'private',
-      tokenStorageProvider: {
-        getAccessToken: async () => this.getToken(Token.ACCESS),
-        setAccessToken: async (token: string) => this.setToken(Token.ACCESS, token),
-        getIdToken: async () => this.getToken(Token.ID),
-        setIdToken: async (token: string) => this.setToken(Token.ID, token),
-        getRefreshToken: async () => this.getToken(Token.REFRESH),
-        setRefreshToken: async (token: string) => this.setToken(Token.REFRESH, token),
+    this.provider = new AzureProvider();
+    AuthConnect.setup({
+      platform: Capacitor.isNativePlatform() ? 'capacitor' : 'web',
+      logLevel: 'ERROR',
+      ios: {
+        webView: 'private',
       },
-    };
-  };
+      web: {
+        uiMode: 'popup',
+        authFlow: 'PKCE',
+      },
+    });
+  }
 
-  public async expireTokens(): Promise<void> {
-    try {
-      await this.authConnect.expire();
-    } catch (error) {
-      this.logEvent(LogType.ERROR, 'expireTokens error', error);
+  async setProviderOptions() {
+    const isNative = Capacitor.isNativePlatform();
+    const authSettings: AuthProviderSettings = this.appConfig.getAppConfig().authentication;
+
+    if (authSettings) {
+      this.providerOptions = {
+        audience: '',
+        clientId: authSettings.clientId,
+        discoveryUrl: `${authSettings.context}/v2.0/.well-known/openid-configuration?appid=${authSettings.clientId}`,
+        logoutUrl: isNative ? authSettings.logoutUrl : 'http://localhost:8100',
+        redirectUri: isNative ? authSettings.redirectUrl : 'http://localhost:8100',
+        scope: 'openid offline_access profile email',
+      };
     }
   }
 
-  private async getToken(tokenName: Token): Promise<string | null> {
+  getEmployeeId(): string {
+    return this.store$.selectSignal(selectEmployeeId)();
+  }
+
+  public async getAuthenticationToken(): Promise<string> {
+    const needsRefresh: boolean = await (!this.isOffline() && this.hasTokenExpired(this.authResult()));
+    if (needsRefresh) {
+      await this.refreshSession();
+    }
+    await this.isAuthenticated();
     try {
-      return JSON.parse(await this.dataStoreProvider.getItem(tokenName));
+      return this.authResult().idToken;
     } catch (error) {
       return Promise.resolve(null);
     }
   }
 
-  private async setToken(tokenName: Token, token: string): Promise<void> {
-    await this.dataStoreProvider.setItem(tokenName, JSON.stringify(token));
-    return Promise.resolve();
+  decodeToken(token: string): JWTPayload {
+    return jose.decodeJwt(token);
   }
 
-  async clearTokens(): Promise<void> {
-    await this.dataStoreProvider.removeItem(Token.ACCESS);
-    await this.dataStoreProvider.removeItem(Token.ID);
-    await this.dataStoreProvider.removeItem(Token.REFRESH);
-  }
-
-  public initialiseAuthentication = (): void => {
-    const auth = this.appConfig.getAppConfig()?.authentication;
-    this.employeeIdKey = auth.employeeIdKey;
-    this.inUnAuthenticatedMode = false;
-    this.ionicAuth = new IonicAuth(this.getAuthOptions());
-  };
-
-  public isInUnAuthenticatedMode = (): boolean => {
-    const unAuthedMode = this.inUnAuthenticatedMode;
-
-    if (unAuthedMode) {
-      this.logEvent(LogType.INFO, 'isInUnAuthenticatedMode', 'In un-authenticated mode');
+  async loadEmployeeDetails(authResult: AuthResult) {
+    if (authResult.idToken) {
+      const appConfigAuth = (await this.appConfig.getAppConfigAsync())?.authentication;
+      const decode = this.decodeToken(authResult.idToken);
+      const employeeName = decode[appConfigAuth.employeeNameKey] as string;
+      const employeeID = decode[appConfigAuth.employeeIdKey] as string;
+      if (employeeName) this.store$.dispatch(LoadEmployeeName(employeeName));
+      if (employeeID) this.store$.dispatch(LoadEmployeeId({ employeeId: employeeID }));
     }
+  }
 
-    return unAuthedMode;
-  };
+  async refreshEmployeeDetails() {
+    await this.loadEmployeeDetails(this.authResult());
+  }
+
+  async storeAuthResult(authResult: AuthResult) {
+    try {
+      await this.dataStoreProvider.setItem(LocalStorageKey.AUTH_RESULT, JSON.stringify(authResult));
+      this.store$.dispatch(UpdateAuthResult(authResult));
+      await this.loadEmployeeDetails(authResult);
+    } catch (error) {
+      this.logEvent(LogType.ERROR, 'Authentication provider - Store result error', error);
+      throw error;
+    }
+  }
+
+  async getStoredAuthResult(): Promise<AuthResult> {
+    try {
+      const storedResult: string = await this.dataStoreProvider.getItem(LocalStorageKey.AUTH_RESULT);
+      if (storedResult) {
+        const parsedResult = JSON.parse(storedResult);
+        if (parsedResult && get(parsedResult, 'provider')) {
+          return parsedResult;
+        }
+      }
+      return null;
+    } catch (error) {
+      this.logEvent(LogType.ERROR, 'Authentication provider - Get stored result error', error);
+      return null;
+    }
+  }
+
+  async login() {
+    if (!this.providerOptions) {
+      await this.setProviderOptions();
+    }
+    try {
+      let authResult: AuthResult = await this.getStoredAuthResult();
+      if (!authResult || (await this.hasTokenExpired(authResult))) {
+        // Initiate the login process and update the store with the auth result
+        authResult = await AuthConnect.login(this.provider, this.providerOptions);
+      }
+      // Dispatch action to update the auth result in the store
+      await this.storeAuthResult(authResult);
+    } catch (error) {
+      this.logEvent(LogType.ERROR, 'Authentication provider - Login error', error);
+      throw error;
+    }
+  }
+
+  public isOffline(): boolean {
+    // Return true if the app is offline
+    return this.networkState.getNetworkState() === ConnectionStatus.OFFLINE;
+  }
+
+  public async refreshSession(): Promise<void> {
+    try {
+      //Refresh the session and update the store with the new auth result
+      await this.storeAuthResult(await AuthConnect.refreshSession(this.provider, this.authResult()));
+    } catch (error) {
+      this.logEvent(LogType.ERROR, 'Authentication provider - Refresh error', error);
+      throw error;
+    }
+  }
 
   public async isAuthenticated(): Promise<boolean> {
     try {
-      // if in un-authenticated mode, allow user to continue locally
-      if (this.isInUnAuthenticatedMode()) return true;
-
+      // if offline, allow user to continue locally
+      if (this.isOffline()) return true;
       // check to see if there is an access token to interrogate
-      const available = await this.authConnect.isAccessTokenAvailable();
-
-      if (available) {
+      if (this.authResult()) {
         // determine if the existing token is expired
-        const expired = await this.authConnect.isAccessTokenExpired();
-
-        // attempt a token refresh
-        if (expired) {
-          await this.authConnect.refreshSession();
+        if (await this.hasTokenExpired(this.authResult())) {
+          // attempt a token refresh
+          const previousResult = this.authResult().accessToken;
+          await this.refreshSession();
+          // return true if the token has changed successfully
+          return previousResult !== this.authResult().accessToken;
         }
-
         // token should have refreshed if previously expired, and method returns true
         return true;
       }
-
       // return false if no token available
       return false;
     } catch (err) {
@@ -160,93 +210,9 @@ export class AuthenticationProvider {
     }
   }
 
-  public setUnAuthenticatedMode = (mode: boolean): void => {
-    this.inUnAuthenticatedMode = mode;
-  };
-
-  public determineAuthenticationMode = (): void => {
-    const mode = this.networkState.getNetworkState() === ConnectionStatus.OFFLINE;
-    this.setUnAuthenticatedMode(mode);
-  };
-
-  async hasValidToken(): Promise<boolean> {
-    try {
-      // if in un-authenticated mode, allow user to continue locally
-      if (this.isInUnAuthenticatedMode()) return true;
-
-      // refresh token when required
-      await this.authConnect.isAuthenticated();
-
-      await this.refreshTokenIfExpired();
-
-      const token = await this.authConnect.getIdToken();
-      return !!token && token.exp && new Date(token.exp * 1000) > new Date();
-    } catch (err) {
-      this.logEvent(LogType.ERROR, 'hasValidToken error', err);
-      return false;
-    }
-  }
-
-  async refreshTokenIfExpired(): Promise<void> {
-    try {
-      const token = await this.authConnect.getIdToken();
-      if (token && this.isTokenExpired(token)) {
-        await this.authConnect.refreshSession();
-      }
-    } catch (error) {
-      this.logEvent(LogType.ERROR, 'refreshTokenIfExpired error', error);
-      throw error;
-    }
-  }
-
-  isTokenExpired(token: { exp: number }): boolean {
-    return token.exp && new Date(token.exp * 1000) < new Date();
-  }
-
-  /**
-   * An extra check has been added here to work around potential issues with Ionic Auth Connect
-   * isAuthenticated() being unable to detect token expiry where user is offline and a token refresh
-   * is attempted. To guard this, we perform a manual token expiry check via hasValidToken() and
-   * manually expire tokens if required, prior to calling isAuthenticated()
-   */
-  public getAuthenticationToken = async (): Promise<string> => {
-    const hasValidToken: boolean = await this.hasValidToken();
-    if (!hasValidToken) {
-      await this.expireTokens();
-    }
-    await this.isAuthenticated();
-    return this.getToken(Token.ID);
-  };
-
-  public getEmployeeId = (): string => {
-    return this.employeeId || null;
-  };
-
-  private setStoreSubscription = (): void => {
-    this.subscription = this.store$
-      .select(selectEmployeeId)
-      .pipe(
-        tap((employeeId: string) => {
-          if (employeeId) this.employeeId = employeeId;
-        })
-      )
-      .subscribe();
-  };
-
-  public loadEmployeeName = async (): Promise<string> => {
-    const idToken = await this.authConnect.getIdToken();
-    if (idToken) {
-      return idToken[this.appConfig.getAppConfig()?.authentication.employeeNameKey];
-    }
-    return '';
-  };
-
-  public async login(): Promise<void> {
-    if (this.isInUnAuthenticatedMode()) {
-      return Promise.resolve();
-    }
-    this.logEvent(LogType.DEBUG, 'Login', 'Started login flow');
-    return this.authConnect.login();
+  async hasTokenExpired(result: AuthResult): Promise<boolean> {
+    const jwtPayload = this.decodeToken(result.idToken);
+    return !!(jwtPayload?.exp && new Date(jwtPayload.exp * 1000) < new Date());
   }
 
   /**Clears the entire store but keeps the app version*/
@@ -293,8 +259,26 @@ export class AuthenticationProvider {
     // Clear persisted tests from the test persistence provider
     await this.testPersistenceProvider.clearPersistedTests();
 
-    // Clear persisted recall auto popup last displayed time from local storage
-    await this.dataStoreProvider.removeItem(LocalStorageKey.JOURNAL_RECALL_AUTO_DISPLAY_TIME);
+    try {
+      // Clear persisted recall auto popup last displayed time from local storage
+      await this.dataStoreProvider.removeItem(LocalStorageKey.JOURNAL_RECALL_AUTO_DISPLAY_TIME);
+    } catch (error) {
+      this.logEvent(LogType.ERROR, 'Logout', 'Clear JOURNAL_RECALL_AUTO_DISPLAY_TIME error');
+    }
+
+    try {
+      // Clear app config from local storage
+      await this.dataStoreProvider.removeItem(LocalStorageKey.CONFIG);
+    } catch (error) {
+      this.logEvent(LogType.ERROR, 'Logout', 'Clear CONFIG error');
+    }
+
+    try {
+      // Clear app config from local storage
+      await this.dataStoreProvider.removeItem(LocalStorageKey.AUTH_RESULT);
+    } catch (error) {
+      this.logEvent(LogType.ERROR, 'Logout', 'Clear AUTH_RESULT error');
+    }
 
     // Clear all reminiscent of examiner records from storage
     await this.examinerRecordsProvider.clearExaminerRecordsCache();
@@ -305,50 +289,23 @@ export class AuthenticationProvider {
 
   public async logout(): Promise<void> {
     try {
-      this.logEvent(LogType.DEBUG, 'Logout', 'Started logout flow');
+      this.logEvent(LogType.INFO, 'Logout', 'Started logout flow');
+      await AuthConnect.logout(this.provider, this.authResult());
 
-      await this.clearStore();
-
-      await this.clearTokens();
-
-      this.appConfig.shutDownStoreSubscription();
-
-      this.subscription?.unsubscribe();
-
-      await this.authConnect.logout();
-
-      this.logEvent(LogType.DEBUG, 'Logout', 'Finished logout flow');
+      this.logEvent(LogType.INFO, 'Logout', 'Finished logout flow');
     } catch (err) {
-      this.onLogoutError(err, 'Authentication provider');
+      this.logEvent(LogType.ERROR, 'Authentication provider - Logout error', err);
     }
+
+    await this.clearStore();
+    this.appConfig.shutDownStoreSubscription();
   }
 
-  public getEmployeeIdFromIDToken = async () => {
-    // rerun logic for setting employee ID
-    await this.setEmployeeId();
-    // retrieve set employee ID
-    return this.getEmployeeId();
-  };
-
-  public async setEmployeeId() {
-    const idToken = await this.authConnect.getIdToken();
-    const employeeId = idToken[this.employeeIdKey];
-    const employeeIdClaim = Array.isArray(employeeId) ? employeeId[0] : employeeId;
-    const numericEmployeeId = Number.parseInt(employeeIdClaim, 10);
-    this.employeeId = numericEmployeeId.toString();
-  }
-
-  logEvent = (logType: LogType, desc: string, msg: unknown) => {
+  logEvent(logType: LogType, desc: string, msg: unknown) {
     this.store$.dispatch(
       SaveLog({
         payload: this.logHelper.createLog(logType, desc, `AuthenticationProvider => ${serialiseLogMessage(msg)}`),
       })
     );
-  };
-
-  public onLogoutError = (err: unknown, prefix?: string): void => {
-    const basicDesc = 'Logout error';
-    const desc = prefix ? `${prefix} - ${basicDesc}` : basicDesc;
-    this.logEvent(LogType.ERROR, desc, err);
-  };
+  }
 }

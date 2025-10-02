@@ -31,7 +31,6 @@
         <ion-item
           class="menu-item burger-menu-item"
           lines="none"
-          *ngIf="pageState?.logoutEnabled$ | async"
           (click)="onLogoutClick()"
         >
           <ion-label id="logout">Logout</ion-label>

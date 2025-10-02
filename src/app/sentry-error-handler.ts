@@ -50,7 +50,7 @@ export class SentryIonicErrorHandler extends ErrorHandler {
       }
 
       const appConfig = await this.appConfigProvider.getAppConfigAsync();
-      const employeeID = await this.authenticationProvider.getEmployeeIdFromIDToken();
+      const employeeID = this.authenticationProvider.getEmployeeId();
       const appVersion = await this.appInfoProvider.getFullVersionNumber();
       const device = await Device.getId();
 

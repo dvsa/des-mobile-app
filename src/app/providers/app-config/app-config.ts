@@ -249,8 +249,8 @@ export class AppConfigProvider {
           .get(url)
           .pipe(timeout(30000))
           .subscribe({
-            next: (data: RemoteConfig) => {
-              this.dataStoreProvider.setItem(LocalStorageKey.CONFIG, JSON.stringify(data));
+            next: async (data: RemoteConfig) => {
+              await this.dataStoreProvider.setItem(LocalStorageKey.CONFIG, JSON.stringify(data));
               resolve(data);
             },
             error: ({ error }: HttpErrorResponse) => {

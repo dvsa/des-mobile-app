@@ -30,7 +30,6 @@ import { NetworkStateProviderMock } from '@providers/network-state/__mocks__/net
 import { NetworkStateProvider } from '@providers/network-state/network-state';
 import { Log, LogType } from '@shared/models/log.model';
 import { SaveLog, SendLogs } from '@store/logs/logs.actions';
-import { DASHBOARD_PAGE } from '../../page-names.constants';
 import { LoginPage } from '../login.page';
 
 describe('LoginPage', () => {
@@ -174,15 +173,13 @@ describe('LoginPage', () => {
     beforeEach(() => {
       spyOn(component, 'handleLoadingUI').and.returnValue(Promise.resolve());
       spyOn(component, 'hideSplashscreen').and.returnValue(Promise.resolve());
-      spyOn(component, 'validateDeviceType');
       spyOn(appConfigProvider, 'initialiseAppConfig').and.returnValue(Promise.resolve());
       spyOn(appConfigProvider, 'loadRemoteConfig').and.returnValue(Promise.resolve());
-      spyOn(authenticationProvider, 'expireTokens').and.returnValue(Promise.resolve());
-      spyOn(authenticationProvider, 'isAuthenticated').and.returnValue(Promise.resolve(false));
-      spyOn(authenticationProvider, 'setEmployeeId').and.returnValue(Promise.resolve());
+      spyOn(authenticationProvider, 'isAuthenticated').and.resolveTo(false);
       spyOn(authenticationProvider, 'getEmployeeId').and.returnValue('123456');
       spyOn(authenticationProvider, 'login').and.returnValue(Promise.resolve());
       spyOn(authenticationProvider, 'logout').and.returnValue(Promise.resolve());
+      spyOn(authenticationProvider, 'refreshEmployeeDetails').and.returnValue(Promise.resolve());
       spyOn(store$, 'dispatch');
       spyOn(component, 'appInitializedLog');
       spyOn(component, 'dispatchLog');
@@ -194,13 +191,9 @@ describe('LoginPage', () => {
         flushMicrotasks();
         expect(appConfigProvider.initialiseAppConfig).toHaveBeenCalled();
         expect(component.appInitializedLog).toHaveBeenCalled();
-        expect(authenticationProvider.expireTokens).toHaveBeenCalled();
         expect(authenticationProvider.isAuthenticated).toHaveBeenCalled();
-        expect(authenticationProvider.setEmployeeId).toHaveBeenCalled();
         expect(appConfigProvider.loadRemoteConfig).toHaveBeenCalled();
         expect(component.handleLoadingUI).toHaveBeenCalled();
-        expect(component.validateDeviceType).toHaveBeenCalled();
-        expect(store$.dispatch).toHaveBeenCalledTimes(9);
       }));
     });
     describe('Unsuccessful login flow', () => {
@@ -209,13 +202,11 @@ describe('LoginPage', () => {
         component.login();
         flushMicrotasks();
         expect(authenticationProvider.logout).toHaveBeenCalled();
-        expect(component.validateDeviceType).not.toHaveBeenCalled();
       }));
       it('should log an exception and dispatch log when when rejection due to USER_CANCELLED', fakeAsync(() => {
         spyOn(platform, 'ready').and.returnValue(Promise.reject(AuthenticationError.USER_CANCELLED));
         component.login();
         flushMicrotasks();
-        expect(component.validateDeviceType).not.toHaveBeenCalled();
         expect(component.dispatchLog).toHaveBeenCalledWith('user cancelled login');
         expect(component.hasUserLoggedOut).toEqual(false);
       }));
@@ -269,16 +260,6 @@ describe('LoginPage', () => {
     });
   });
 
-  describe('initialiseAuthentication', () => {
-    it('should call through to initialiseAuthentication and determineAuthenticationMode', () => {
-      spyOn(authenticationProvider, 'initialiseAuthentication');
-      spyOn(authenticationProvider, 'determineAuthenticationMode');
-      component.initialiseAuthentication();
-      expect(authenticationProvider.initialiseAuthentication).toHaveBeenCalled();
-      expect(authenticationProvider.determineAuthenticationMode).toHaveBeenCalled();
-    });
-  });
-
   describe('isInternetConnectionError', () => {
     it('should return false when appInitError is not connection error', () => {
       component.hasUserLoggedOut = false;
@@ -317,16 +298,6 @@ describe('LoginPage', () => {
       component.hasUserLoggedOut = false;
       component.appInitError = AuthenticationError.USER_CANCELLED;
       expect(component.isUnknownError()).toEqual(false);
-    });
-  });
-  describe('validateDeviceType', () => {
-    beforeEach(() => {
-      spyOn(router, 'navigate');
-    });
-    it('should navigate to dashboard page', async () => {
-      spyOn(component.deviceProvider, 'validDeviceType').and.returnValue(Promise.resolve(true));
-      await component.validateDeviceType();
-      expect(router.navigate).toHaveBeenCalledWith([DASHBOARD_PAGE], { replaceUrl: true });
     });
   });
   describe('showErrorDetails', () => {

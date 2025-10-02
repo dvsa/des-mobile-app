@@ -61,7 +61,7 @@ describe('SentryIonicErrorHandler', () => {
       await sentryErrorHandler.handleError(new Error('Some runtime error'));
       expect(sentryErrorHandler.appConfigProvider.getAppConfigAsync).toHaveBeenCalled();
       expect(sentryErrorHandler.appInfoProvider.getFullVersionNumber).toHaveBeenCalled();
-      expect(sentryErrorHandler.authenticationProvider.getEmployeeIdFromIDToken).toHaveBeenCalled();
+      expect(sentryErrorHandler.authenticationProvider.getEmployeeId).toHaveBeenCalled();
       expect(sentryErrorHandler.store$.dispatch).not.toHaveBeenCalled();
     });
     it('should attempt call to providers and fail, but report via store$ dispatch', async () => {
@@ -73,7 +73,7 @@ describe('SentryIonicErrorHandler', () => {
       await sentryErrorHandler.handleError(new Error('Some runtime error'));
       expect(sentryErrorHandler.appConfigProvider.getAppConfigAsync).toHaveBeenCalled();
       expect(sentryErrorHandler.appInfoProvider.getFullVersionNumber).toHaveBeenCalled();
-      expect(sentryErrorHandler.authenticationProvider.getEmployeeIdFromIDToken).toHaveBeenCalled();
+      expect(sentryErrorHandler.authenticationProvider.getEmployeeId).toHaveBeenCalled();
       expect(sentryErrorHandler.store$.dispatch).toHaveBeenCalledWith(SaveLog({ payload: mockLog }));
     });
     it('should attempt call to providers and fail, and report a custom error object', async () => {

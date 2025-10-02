@@ -170,7 +170,7 @@ describe('AppInfoEffects', () => {
   describe('loadEmployeeName$', () => {
     it('should call through to `LoadEmployeeNameSuccess`', (done) => {
       // ACT
-      actions$.next(LoadEmployeeName());
+      actions$.next(LoadEmployeeName('joe blogs'));
       // ASSERT
       effects.loadEmployeeName$.subscribe((result: ReturnType<typeof LoadEmployeeNameSuccess>) => {
         expect(result.type).toEqual(LoadEmployeeNameSuccess.type);

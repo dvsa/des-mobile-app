@@ -7,6 +7,7 @@ import {
   LoadEmployeeNameSuccess,
   SetDateConfigLoaded,
   UnloadAppInfo,
+  UpdateAuthResult,
 } from './app-info.actions';
 
 import { AppInfoStateModel } from './app-info.model';
@@ -15,9 +16,10 @@ export const appInfoFeatureKey = 'appInfo';
 
 export const initialState: AppInfoStateModel = {
   versionNumber: 'VERSION_NOT_LOADED',
+  updateAvailablePresented: null,
+  authResult: null,
   employeeId: null,
   employeeName: 'Unknown Name',
-  updateAvailablePresented: null,
 };
 
 export const appInfoReducer = createReducer(
@@ -30,14 +32,6 @@ export const appInfoReducer = createReducer(
     ...state,
     error,
   })),
-  on(LoadEmployeeId, (state: AppInfoStateModel, { employeeId }) => ({
-    ...state,
-    employeeId,
-  })),
-  on(LoadEmployeeNameSuccess, (state: AppInfoStateModel, { employeeName }) => ({
-    ...state,
-    employeeName,
-  })),
   on(SetDateConfigLoaded, (state: AppInfoStateModel, { refreshDate }) => ({
     ...state,
     dateConfigLoaded: refreshDate,
@@ -45,6 +39,18 @@ export const appInfoReducer = createReducer(
   on(HasSeenUpdateAvailablePopup, (state: AppInfoStateModel, { hasSeen }) => ({
     ...state,
     updateAvailablePresented: hasSeen,
+  })),
+  on(UpdateAuthResult, (state: AppInfoStateModel, { authResult }) => ({
+    ...state,
+    authResult,
+  })),
+  on(LoadEmployeeId, (state: AppInfoStateModel, { employeeId }) => ({
+    ...state,
+    employeeId,
+  })),
+  on(LoadEmployeeNameSuccess, (state: AppInfoStateModel, { employeeName }) => ({
+    ...state,
+    employeeName,
   })),
   on(UnloadAppInfo, () => initialState)
 );

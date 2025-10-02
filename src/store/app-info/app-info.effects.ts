@@ -9,7 +9,6 @@ import { catchError, concatMap, filter, map, switchMap, withLatestFrom } from 'r
 import { DetectDeviceTheme } from '@pages/dashboard/dashboard.actions';
 import { LOGIN_PAGE } from '@pages/page-names.constants';
 import { AppInfoProvider } from '@providers/app-info/app-info';
-import { AuthenticationProvider } from '@providers/authentication/authentication';
 import { DateTimeProvider } from '@providers/date-time/date-time';
 import { StoreModel } from '@shared/models/store.model';
 import {
@@ -33,9 +32,17 @@ export class AppInfoEffects {
     private router: Router,
     private store$: Store<StoreModel>,
     private appInfoProvider: AppInfoProvider,
-    private dateTimeProvider: DateTimeProvider,
-    private authenticationProvider: AuthenticationProvider
+    private dateTimeProvider: DateTimeProvider
   ) {}
+
+  loadEmployeeName$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(LoadEmployeeName),
+      map((action) => {
+        return LoadEmployeeNameSuccess({ employeeName: action.employeeName });
+      })
+    )
+  );
 
   loadAppInfo$ = createEffect(() =>
     this.actions$.pipe(
@@ -80,16 +87,6 @@ export class AppInfoEffects {
       switchMap(() => {
         console.log('App resumed after being suspended. Config was not loaded today... app will refresh');
         return [RestartApp(), DetectDeviceTheme()];
-      })
-    )
-  );
-
-  loadEmployeeName$ = createEffect(() =>
-    this.actions$.pipe(
-      ofType(LoadEmployeeName),
-      switchMap(async () => {
-        const employeeName = await this.authenticationProvider.loadEmployeeName();
-        return LoadEmployeeNameSuccess({ employeeName });
       })
     )
   );

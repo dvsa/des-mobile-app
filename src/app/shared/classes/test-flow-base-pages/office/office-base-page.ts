@@ -150,7 +150,7 @@ import {
   getVehicleMake,
   getVehicleModel,
 } from '@store/tests/vehicle-details/vehicle-details.selector';
-import { map, tap, withLatestFrom } from 'rxjs/operators';
+import { map, withLatestFrom } from 'rxjs/operators';
 
 export interface CommonOfficePageState {
   testCategory$: Observable<TestCategory>;
@@ -294,8 +294,7 @@ export abstract class OfficeBasePageComponent extends PracticeableBasePageCompon
       displayRouteNumber$: currentTest$.pipe(
         select(getTestOutcome),
         withLatestFrom(currentTest$.pipe(select(getTestSummary), select(getRouteNumber))),
-        map(([outcome, route]) => this.outcomeBehaviourProvider.isVisible(outcome, 'routeNumber', route)),
-        tap((value) => console.log('display route', value))
+        map(([outcome, route]) => this.outcomeBehaviourProvider.isVisible(outcome, 'routeNumber', route))
       ),
       displayIndependentDriving$: currentTest$.pipe(
         select(getTestOutcome),

@@ -95,7 +95,6 @@ export class JournalEffects {
         ofType(RecallAutoPopupDisplayedTimeChanged),
         concatMap((action) => of(action).pipe(withLatestFrom(this.store$.select(getRecallAutoPopupLastDisplayedTime)))),
         concatMap(async ([, time]) => {
-          console.log('Persisting Journal Recall Auto Display Time', time);
           await this.dataStore.setItem(LocalStorageKey.JOURNAL_RECALL_AUTO_DISPLAY_TIME, JSON.stringify(time));
         })
       ),
@@ -129,7 +128,7 @@ export class JournalEffects {
             journalActions.LoadJournalSuccess(
               slotItemsByDate,
               this.networkStateProvider.getNetworkState(),
-              this.authProvider.isInUnAuthenticatedMode(),
+              this.authProvider.isOffline(),
               lastRefreshed
             )
           ),
@@ -143,7 +142,7 @@ export class JournalEffects {
                     slotItemsByDate: slots,
                   },
                   this.networkStateProvider.getNetworkState(),
-                  this.authProvider.isInUnAuthenticatedMode(),
+                  this.authProvider.isOffline(),
                   lastRefreshed
                 )
               );

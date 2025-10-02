@@ -13,7 +13,7 @@ import { NetworkStateProvider } from '@providers/network-state/network-state';
 import { LogoutBasePageComponent } from '@shared/classes/logout-base-page';
 import { LogType } from '@shared/models/log.model';
 import { LoadAppConfig } from '@store/app-config/app-config.actions';
-import { LoadConfigSuccess, LoadEmployeeId, LoadEmployeeName } from '@store/app-info/app-info.actions';
+import { LoadConfigSuccess } from '@store/app-info/app-info.actions';
 import { LoadLog, SaveLog, SendLogs, StartSendingLogs } from '@store/logs/logs.actions';
 import { GetTestCentresRefData } from '@store/reference-data/reference-data.actions';
 import { LoadPersistedTests, StartSendingCompletedTests } from '@store/tests/tests.actions';
@@ -106,10 +106,6 @@ export class LoginPage extends LogoutBasePageComponent implements OnInit {
 
       this.appInitializedLog();
 
-      this.initialiseAuthentication();
-
-      await this.authenticationProvider.expireTokens();
-
       const isAuthenticated = await this.authenticationProvider.isAuthenticated();
 
       await this.hideSplashscreen();
@@ -118,19 +114,16 @@ export class LoginPage extends LogoutBasePageComponent implements OnInit {
         await this.authenticationProvider.login();
       }
 
-      await this.authenticationProvider.setEmployeeId();
-
-      this.store$.dispatch(LoadEmployeeId({ employeeId: this.authenticationProvider.getEmployeeId() }));
-
       this.store$.dispatch(LoadLog());
 
       await this.appConfigProvider.loadRemoteConfig();
 
       this.store$.dispatch(LoadConfigSuccess());
 
-      this.store$.dispatch(LoadPersistedTests());
+      // We need to resh the employee details now that the remote config has loaded.
+      await this.authenticationProvider.refreshEmployeeDetails();
 
-      this.store$.dispatch(LoadEmployeeName());
+      this.store$.dispatch(LoadPersistedTests());
 
       this.store$.dispatch(LoadAppConfig({ appConfig: this.appConfigProvider.getAppConfig() }));
 
@@ -142,7 +135,10 @@ export class LoginPage extends LogoutBasePageComponent implements OnInit {
 
       await this.handleLoadingUI(false);
 
-      await this.validateDeviceType();
+      const isValidDevice = await this.validateDeviceType();
+      if (isValidDevice) {
+        await this.router.navigate([DASHBOARD_PAGE], { replaceUrl: true });
+      }
     } catch (error) {
       await this.hideSplashscreen();
 
@@ -191,11 +187,6 @@ export class LoginPage extends LogoutBasePageComponent implements OnInit {
     if (Capacitor.isPluginAvailable('SplashScreen')) {
       await SplashScreen.hide();
     }
-  };
-
-  initialiseAuthentication = (): void => {
-    this.authenticationProvider.initialiseAuthentication();
-    this.authenticationProvider.determineAuthenticationMode();
   };
 
   dispatchLog = (message: string): void => {
@@ -255,14 +246,13 @@ export class LoginPage extends LogoutBasePageComponent implements OnInit {
   /**
    * Check app is running on a supported device and navigate to app starting page
    */
-  validateDeviceType = async (): Promise<void> => {
+  validateDeviceType = async (): Promise<boolean> => {
     const validDevice = await this.deviceProvider.validDeviceType();
     if (!validDevice) {
       this.deviceTypeError = DeviceError.UNSUPPORTED_DEVICE;
       this.hasDeviceTypeError = true;
-    } else {
-      await this.router.navigate([DASHBOARD_PAGE], { replaceUrl: true });
     }
+    return validDevice;
   };
 
   async showErrorDetails() {

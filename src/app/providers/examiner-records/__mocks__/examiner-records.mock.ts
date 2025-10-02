@@ -103,4 +103,6 @@ export class ExaminerRecordsProviderMock {
       },
     ],
   });
+
+  clearExaminerRecordsCache = jasmine.createSpy('clearExaminerRecordsCache').and.returnValue(Promise.resolve());
 }

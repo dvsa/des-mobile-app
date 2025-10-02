@@ -1,6 +1,12 @@
 import { Injectable } from '@angular/core';
+import { Store } from '@ngrx/store';
+import { LogHelper } from '@providers/logs/logs-helper';
 import { DateTime } from '@shared/helpers/date-time';
+import { serialiseLogMessage } from '@shared/helpers/serialise-log-message';
 import { isAnyOf } from '@shared/helpers/simplifiers';
+import { LogType } from '@shared/models/log.model';
+import { StoreModel } from '@shared/models/store.model';
+import { SaveLog } from '@store/logs/logs.actions';
 import { TestStatus } from '@store/tests/test-status/test-status.model';
 import { TestsModel } from '@store/tests/tests.model';
 import { omit } from 'lodash-es';
@@ -13,7 +19,9 @@ export class TestPersistenceProvider {
 
   constructor(
     private dataStoreProvider: DataStoreProvider,
-    private appConfigProvider: AppConfigProvider
+    private appConfigProvider: AppConfigProvider,
+    private store$: Store<StoreModel>,
+    private logHelper: LogHelper
   ) {}
 
   persistTests(tests: TestsModel): Promise<string> {
@@ -36,7 +44,19 @@ export class TestPersistenceProvider {
   async clearPersistedTests(): Promise<void> {
     const items: string[] = await this.dataStoreProvider.getKeys();
     if (items?.indexOf(this.testKeychainKey) >= 0) {
-      await this.dataStoreProvider.removeItem(this.testKeychainKey);
+      try {
+        await this.dataStoreProvider.removeItem(this.testKeychainKey);
+      } catch (error) {
+        this.store$.dispatch(
+          SaveLog({
+            payload: this.logHelper.createLog(
+              LogType.ERROR,
+              'Clear persisted tests error',
+              `TestPersistence => ${serialiseLogMessage(error)}`
+            ),
+          })
+        );
+      }
     }
     return Promise.resolve();
   }
