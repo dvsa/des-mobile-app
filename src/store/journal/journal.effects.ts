@@ -95,7 +95,15 @@ export class JournalEffects {
         ofType(RecallAutoPopupDisplayedTimeChanged),
         concatMap((action) => of(action).pipe(withLatestFrom(this.store$.select(getRecallAutoPopupLastDisplayedTime)))),
         concatMap(async ([, time]) => {
-          await this.dataStore.setItem(LocalStorageKey.JOURNAL_RECALL_AUTO_DISPLAY_TIME, JSON.stringify(time));
+          try {
+            await this.dataStore.setItem(LocalStorageKey.JOURNAL_RECALL_AUTO_DISPLAY_TIME, JSON.stringify(time));
+          } catch (error) {
+            this.store$.dispatch(
+              SaveLog({
+                payload: this.logHelper.createLog(LogType.ERROR, 'Saving Journal Recall time', error.message),
+              })
+            );
+          }
         })
       ),
     { dispatch: false }

@@ -217,20 +217,29 @@ export class AppConfigProvider {
         }
 
         if (typeof error === 'string') {
-          const [, errorEnumVal] = getEnumKeyByValue(AppConfigError, error);
-          if (errorEnumVal) {
-            return Promise.reject(errorEnumVal);
+          try {
+            const [, errorEnumVal] = getEnumKeyByValue(AppConfigError, error);
+            if (errorEnumVal) {
+              return Promise.reject(errorEnumVal);
+            }
+          } catch (error) {
+            return Promise.reject(error);
           }
         }
 
-        const configError = ((error || []) as ValidationError[]).map((err: ValidationError) => err.message).join(', ');
+        if (Array.isArray(error)) {
+          const configError = ((error || []) as ValidationError[])
+            .map((err: ValidationError) => err.message)
+            .join(', ');
 
-        this.store$.dispatch(
-          SaveLog({
-            payload: this.logHelper.createLog(LogType.ERROR, 'Validating remote config', configError),
-          })
-        );
-        return Promise.reject(AppConfigError.VALIDATION_ERROR);
+          this.store$.dispatch(
+            SaveLog({
+              payload: this.logHelper.createLog(LogType.ERROR, 'Validating remote config', configError),
+            })
+          );
+          return Promise.reject(AppConfigError.VALIDATION_ERROR);
+        }
+        return Promise.reject(AppConfigError.UNKNOWN_ERROR);
       });
 
   private getRemoteData = () =>
@@ -240,7 +249,6 @@ export class AppConfigProvider {
         this.getCachedRemoteConfig()
           .then((data) => resolve(data))
           .catch((error) => reject(error));
-
         return;
       }
 
@@ -251,7 +259,15 @@ export class AppConfigProvider {
           .pipe(timeout(30000))
           .subscribe({
             next: async (data: RemoteConfig) => {
-              await this.dataStoreProvider.setItem(LocalStorageKey.CONFIG, JSON.stringify(data));
+              try {
+                await this.dataStoreProvider.setItem(LocalStorageKey.CONFIG, JSON.stringify(data));
+              } catch (error) {
+                this.store$.dispatch(
+                  SaveLog({
+                    payload: this.logHelper.createLog(LogType.ERROR, 'Saving new Config file', error),
+                  })
+                );
+              }
               resolve(data);
             },
             error: ({ error }: HttpErrorResponse) => {

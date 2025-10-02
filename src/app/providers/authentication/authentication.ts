@@ -102,16 +102,20 @@ export class AuthenticationProvider {
     try {
       return this.authResult().idToken;
     } catch (error) {
+      this.logEvent(LogType.ERROR, 'Logout', 'Get AuthToken Error');
       return Promise.resolve(null);
     }
   }
 
   decodeToken(token: string): JWTPayload {
-    return jose.decodeJwt(token);
+    if (token) {
+      return jose.decodeJwt(token);
+    }
+    return null;
   }
 
   async loadEmployeeDetails(authResult: AuthResult) {
-    if (authResult.idToken) {
+    if (authResult?.idToken) {
       const appConfigAuth = (await this.appConfig.getAppConfigAsync())?.authentication;
       const decode = this.decodeToken(authResult.idToken);
       const employeeName = decode[appConfigAuth.employeeNameKey] as string;
@@ -126,12 +130,16 @@ export class AuthenticationProvider {
   }
 
   async storeAuthResult(authResult: AuthResult) {
+    await this.loadEmployeeDetails(authResult);
     try {
       await this.dataStoreProvider.setItem(LocalStorageKey.AUTH_RESULT, JSON.stringify(authResult));
-      this.store$.dispatch(UpdateAuthResult(authResult));
-      await this.loadEmployeeDetails(authResult);
     } catch (error) {
-      this.logEvent(LogType.ERROR, 'Authentication provider - Store result error', error);
+      this.logEvent(LogType.ERROR, 'Authentication provider - Store result Storage error', error);
+    }
+    try {
+      this.store$.dispatch(UpdateAuthResult(authResult));
+    } catch (error) {
+      this.logEvent(LogType.ERROR, 'Authentication provider - Store result State error', error);
       throw error;
     }
   }
@@ -156,17 +164,22 @@ export class AuthenticationProvider {
     if (!this.providerOptions) {
       await this.setProviderOptions();
     }
+    let authResult: AuthResult = null;
     try {
-      let authResult: AuthResult = await this.getStoredAuthResult();
+      authResult = await this.getStoredAuthResult();
       if (!authResult || (await this.hasTokenExpired(authResult))) {
         // Initiate the login process and update the store with the auth result
         authResult = await AuthConnect.login(this.provider, this.providerOptions);
       }
-      // Dispatch action to update the auth result in the store
-      await this.storeAuthResult(authResult);
     } catch (error) {
       this.logEvent(LogType.ERROR, 'Authentication provider - Login error', error);
       throw error;
+    }
+    try {
+      // Dispatch action to update the auth result in the store
+      await this.storeAuthResult(authResult);
+    } catch (error) {
+      this.logEvent(LogType.ERROR, 'Authentication provider - Store error during login', error);
     }
   }
 
@@ -211,8 +224,11 @@ export class AuthenticationProvider {
   }
 
   async hasTokenExpired(result: AuthResult): Promise<boolean> {
-    const jwtPayload = this.decodeToken(result.idToken);
-    return !!(jwtPayload?.exp && new Date(jwtPayload.exp * 1000) < new Date());
+    const jwtPayload = this.decodeToken(result?.idToken);
+    if (jwtPayload) {
+      return !!(jwtPayload?.exp && new Date(jwtPayload.exp * 1000) < new Date());
+    }
+    return true;
   }
 
   /**Clears the entire store but keeps the app version*/
@@ -274,7 +290,7 @@ export class AuthenticationProvider {
     }
 
     try {
-      // Clear app config from local storage
+      // Clear auth result from local storage
       await this.dataStoreProvider.removeItem(LocalStorageKey.AUTH_RESULT);
     } catch (error) {
       this.logEvent(LogType.ERROR, 'Logout', 'Clear AUTH_RESULT error');

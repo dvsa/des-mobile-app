@@ -57,9 +57,9 @@ export class LogsEffects {
     this.actions$.pipe(
       ofType(logsActions.PersistLog.type),
       concatMap((action) => of(action).pipe(withLatestFrom(this.store$.pipe(select(getLogsState))))),
-      switchMap(([, logs]) => {
-        this.saveLogs(logs);
-        return of({ type: '[LogsEffects] Persist Log Finished' });
+      switchMap(async ([, logs]) => {
+        await this.saveLogs(logs);
+        return { type: '[LogsEffects] Persist Log Finished' };
       })
     )
   );
@@ -135,12 +135,18 @@ export class LogsEffects {
       });
 
   saveLogs = async (logData: Log[]) => {
-    if (logData.length > 0) {
+    if (logData && logData.length > 0) {
       const logDataToStore: LogCache = {
         dateStored: this.dateTimeProvider.now().format('YYYY/MM/DD'),
         data: logData,
       };
-      const latestDescription: string = get(logData[0], 'description', '') as string;
+      /*
+      If the latest description is related to the local storage error, there is a chance that it will
+      cause an infinite loop due to the system logging an error whenever storage fails.
+      In these cases, we want to log the storage errors with a cooldown to break the infinite loop.
+      THIS IS A TEMPORARY FIX AND NEEDS TO BE REPLACED IN THE FUTURE
+       */
+      const latestDescription: string = get(logData[logData.length - 1], 'description', '') as string;
       if (latestDescription.includes(LocalStorageError.LOCAL_STORAGE_ERROR)) {
         const newDate: Date = new Date();
         if (newDate.getTime() - this.localStorageErrorTimer.getTime() > 60) {
