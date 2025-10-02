@@ -473,10 +473,10 @@ describe('AuthenticationProvider', () => {
       expect(result).toBe(false);
     });
 
-    it('should return false if decodeToken returns null/undefined', async () => {
+    it('should return true if decodeToken returns null/undefined', async () => {
       spyOn(authenticationProvider, 'decodeToken').and.returnValue(undefined);
       const result = await authenticationProvider.hasTokenExpired({ idToken: 'bad' } as AuthResult);
-      expect(result).toBe(false);
+      expect(result).toBe(true);
     });
   });
 

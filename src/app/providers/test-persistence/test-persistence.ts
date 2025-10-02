@@ -25,7 +25,19 @@ export class TestPersistenceProvider {
   ) {}
 
   persistTests(tests: TestsModel): Promise<string> {
-    return this.dataStoreProvider.setItem(this.testKeychainKey, JSON.stringify(tests));
+    try {
+      return this.dataStoreProvider.setItem(this.testKeychainKey, JSON.stringify(tests));
+    } catch (error) {
+      this.store$.dispatch(
+        SaveLog({
+          payload: this.logHelper.createLog(
+            LogType.ERROR,
+            'Set persisted tests error',
+            `TestPersistence => ${serialiseLogMessage(error)}`
+          ),
+        })
+      );
+    }
   }
 
   async loadPersistedTests(): Promise<TestsModel | null> {
@@ -36,6 +48,15 @@ export class TestPersistenceProvider {
     } catch (err) {
       if (!/The specified item could not be found in the keychain/.test(err)) {
         console.error(`Error loading persisted tests: ${err}`);
+        this.store$.dispatch(
+          SaveLog({
+            payload: this.logHelper.createLog(
+              LogType.ERROR,
+              'Error loading persisted tests',
+              `TestPersistence => ${serialiseLogMessage(err)}`
+            ),
+          })
+        );
       }
     }
     return this.clearCachedTests(testsModel);
