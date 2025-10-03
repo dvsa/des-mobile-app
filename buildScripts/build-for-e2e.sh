@@ -1,5 +1,5 @@
 # Define target (to see the full list, run `xcrun simctl list devices`)
-TARGET='iPad (10th generation)'
+TARGET='iPad (9th generation)'
 
 # Get the simulator PID
 SIM_ID=$(xcrun simctl list devices | grep -m 1 "${TARGET}" | grep -E -o -i '([0-9a-f]{8}-([0-9a-f]{4}-){3}[0-9a-f]{12})')
