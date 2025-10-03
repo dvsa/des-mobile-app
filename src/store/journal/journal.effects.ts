@@ -220,7 +220,6 @@ export class JournalEffects {
                 payload: this.logHelper.createLog(LogType.ERROR, 'Retrieving Journal Recall Auto Display Time', err),
               })
             );
-            this.store$.dispatch(journalActions.RecallAutoPopupDisplayedTimeChanged(''));
           }
         })
       ),
