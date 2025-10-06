@@ -26,6 +26,7 @@ jobs:
       upload_path: develop
     secrets:
       AWS_ROLE: ${{ secrets.DES_AWS_ROLE }}
+      WEBHOOK_URL: ${{ secrets.WEBHOOK_URL }}
 
 #  feature:
 #    if: github.event_name == 'workflow_dispatch'
@@ -40,6 +41,7 @@ jobs:
 #      upload_path: feature
 #    secrets:
 #      AWS_ROLE: ${{ secrets.DES_AWS_ROLE }}
+#      WEBHOOK_URL: ${{ secrets.WEBHOOK_URL }}
 #
 #  release:
 #    if: github.event_name == 'push' && startsWith(github.ref_name, 'release-')
@@ -53,3 +55,4 @@ jobs:
 #      upload_path: release
 #    secrets:
 #      AWS_ROLE: ${{ secrets.DES_AWS_ROLE }}
+#      WEBHOOK_URL: ${{ secrets.WEBHOOK_URL }}
