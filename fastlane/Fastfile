@@ -7,7 +7,7 @@ before_all do
     path: "fastlane/Fastfile"
   )
 
-  clean(dirs: './builds ./simulator ./certs ./codes')
+  clean(dirs: './certs ./codes')
 
   create_keychain(
     name: ENV["KEYCHAIN_NAME"],
