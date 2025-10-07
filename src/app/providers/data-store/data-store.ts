@@ -1,18 +1,25 @@
-import { Injectable } from '@angular/core';
-import { Platform } from '@ionic/angular';
-import { Storage } from '@ionic/storage-angular';
+import {Injectable} from '@angular/core';
+import {Platform} from '@ionic/angular';
+import {Storage} from '@ionic/storage-angular';
 
-import { Capacitor } from '@capacitor/core';
-import { Drivers } from '@ionic/storage';
-import { Store } from '@ngrx/store';
-import { Token } from '@providers/authentication/authentication';
-import { serialiseLogMessage } from '@shared/helpers/serialise-log-message';
-import { LogType } from '@shared/models/log.model';
-import { StoreModel } from '@shared/models/store.model';
-import { SaveLog } from '@store/logs/logs.actions';
+import {Capacitor} from '@capacitor/core';
+import {Drivers} from '@ionic/storage';
+import {Store} from '@ngrx/store';
+import {Token} from '@providers/authentication/authentication';
+import {serialiseLogMessage} from '@shared/helpers/serialise-log-message';
+import {LogType} from '@shared/models/log.model';
+import {StoreModel} from '@shared/models/store.model';
+import {SaveLog} from '@store/logs/logs.actions';
 import CordovaSQLiteDriver from 'localforage-cordovasqlitedriver';
-import { get } from 'lodash-es';
-import { LogHelper } from '../logs/logs-helper';
+import {get} from 'lodash-es';
+import {LogHelper} from '../logs/logs-helper';
+import {selectAppConfig} from '@store/app-config/app-config.selectors';
+import {selectAuthResult} from '@store/app-info/app-info.selectors';
+import {getLogsState} from '@store/logs/logs.reducer';
+import {getRecallAutoPopupLastDisplayedTime} from '@store/journal/journal.selector';
+import {getTests} from '@store/tests/tests.reducer';
+import {selectExaminerRecords} from '@store/examiner-records/examiner-records.selectors';
+import {getJournalState} from '@store/journal/journal.reducer';
 
 export enum LocalStorageError {
   LOCAL_STORAGE_ERROR = 'LOCAL_STORAGE_ERROR',
@@ -41,7 +48,8 @@ export class DataStoreProvider {
     private logHelper: LogHelper,
     private store$: Store<StoreModel>,
     private storage: Storage
-  ) {}
+  ) {
+  }
 
   /**
    * Initializes the data store by defining the storage driver and creating the storage instance.
@@ -215,7 +223,9 @@ export class DataStoreProvider {
       }
       return await this.storage.keys();
     } catch (err) {
-      this.reportLog('getting keys', '', err);
+      console.error('Error getting item from storage', err);
+      await this.initDataStore()
+      // this.reportLog('getting keys', '', err);
       throw err;
     }
   }
@@ -234,9 +244,45 @@ export class DataStoreProvider {
       }
       return await this.storage.set(key, value);
     } catch (err) {
+      try {
+        await this.resetStorage();
+      } catch (error) {
+        this.reportLog(`${LocalStorageError.LOCAL_STORAGE_ERROR} resetting·storage`, key, err);
+        throw err;
+      }
+      try {
+        await this.storage.set(key, value);
+      } catch (error) {
+        throw error;
+      }
       this.reportLog(`${LocalStorageError.LOCAL_STORAGE_ERROR} setting·storage`, key, err);
-      throw err;
     }
+  }
+
+  async resetStorage() {
+    //Delete the old database
+    await (window as any)?.sqlitePlugin?.deleteDatabase({
+        name: '_ionicstorage',
+        location: 'default',
+      },
+      async () => {
+        //Re-initialize the storage
+        await this.initDataStore();
+        await this.repopulateStorage();
+      },
+      (error: Error) => {
+        throw error
+      });
+  }
+
+  async repopulateStorage() {
+    await this.setItem(LocalStorageKey.CONFIG, JSON.stringify(this.store$.selectSignal(selectAppConfig)()));
+    await this.setItem(LocalStorageKey.JOURNAL, JSON.stringify(this.store$.selectSignal(getJournalState)()))
+    await this.setItem(LocalStorageKey.JOURNAL_RECALL_AUTO_DISPLAY_TIME, this.store$.selectSignal(getRecallAutoPopupLastDisplayedTime)())
+    await this.setItem(LocalStorageKey.LOGS, JSON.stringify(this.store$.selectSignal(getLogsState)()));
+    await this.setItem(LocalStorageKey.TESTS, JSON.stringify(this.store$.selectSignal(getTests)()))
+    await this.setItem(LocalStorageKey.EXAMINER_STATS_KEY, JSON.stringify(this.store$.selectSignal(selectExaminerRecords)()))
+    await this.setItem(LocalStorageKey.AUTH_RESULT, JSON.stringify(this.store$.selectSignal(selectAuthResult)()));
   }
 
   /**
@@ -250,7 +296,8 @@ export class DataStoreProvider {
       }
       return await this.storage.get(key);
     } catch (err) {
-      this.reportLog(`${LocalStorageError.LOCAL_STORAGE_ERROR} getting·storage`, key, err);
+      await this.resetStorage();
+      // this.reportLog(`${LocalStorageError.LOCAL_STORAGE_ERROR} getting·storage`, key, err);
       throw err;
     }
   }
@@ -266,8 +313,36 @@ export class DataStoreProvider {
       if (!this.isIos()) return '';
       return await this.storage.remove(key);
     } catch (err) {
-      this.reportLog(`${LocalStorageError.LOCAL_STORAGE_ERROR} removing`, key, err);
+      await this.resetStorage();
+      // this.reportLog(`${LocalStorageError.LOCAL_STORAGE_ERROR} removing`, key, err);
       return Promise.resolve('');
+    }
+  }
+
+  async forceWipeStorage(): Promise<void> {
+    try {
+      await this.storage.clear();
+    } catch {
+    }
+
+    try {
+      let db: any = (window as any)?.sqlitePlugin.openDatabase({
+        name: ' _ionicstorage',
+        location: 'default',
+      });
+      // Reset the storage instance
+      this.storage = new Storage({
+        driverOrder: [CordovaSQLiteDriver._driver, Drivers.IndexedDB, Drivers.LocalStorage]
+      });
+
+      await this.storage.defineDriver(CordovaSQLiteDriver);
+      this.storage = await this.storage.create();
+
+      // this.reportLog('forceWipeStorage', '', 'Storage wiped successfully', LogType.INFO);
+    } catch (err) {
+      console.error('Error forceWipeStorage', err);
+      // this.reportLog('forceWipeStorage', '', err);
+      throw err;
     }
   }
 
