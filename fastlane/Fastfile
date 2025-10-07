@@ -9,6 +9,21 @@ before_all do
 
   clean(dirs: './certs ./codes')
 
+  s3_path = "#{ENV["UPLOAD_PATH"]}"
+  version = get_version_number(xcodeproj: "./ios/App/App.xcodeproj", target: "App")
+
+  if s3_path == 'release'
+    s3_path = "release/#{version}"
+  elsif s3_path == 'feature'
+    s3_path = "#{s3_path}/#{ENV["GH_REF_NAME"]}/#{ENV["RUN_ID"]}"
+  elsif s3_path == 'develop'
+    s3_path = "#{s3_path}/#{version}/#{ENV["RUN_ID"]}"
+  end
+
+  ENV["S3_PATH"] = "#{s3_path}"
+  ENV["VERSION"] = "#{version}"
+  sh("echo S3_PATH=#{ENV["S3_PATH"]} >> $GITHUB_ENV")
+
   create_keychain(
     name: ENV["KEYCHAIN_NAME"],
     password: ENV["KEYCHAIN_PASSWORD"],
@@ -30,17 +45,17 @@ before_all do
 end
 
 lane :build_ipa do
-  version = get_version_number(xcodeproj: "./ios/App/App.xcodeproj", target: "App")
   environment = ENV["ENVIRONMENT"]
-  s3_path = "#{ENV["UPLOAD_PATH"]}/#{version}/"
-
   commit = last_git_commit[:abbreviated_commit_hash]
   name = environment == "feature" ? "#{ENV['BRANCH']}" : ENV["ENVIRONMENT"]
-  file_name = "des-#{version}-#{ENV["RUN_ID"]}-#{commit}"
+  file_name = "des-#{ENV["VERSION"]}-#{ENV["RUN_ID"]}-#{commit}"
+
+  sh("echo ARTEFACT_FILENAME=#{filename} >> $GITHUB_ENV")
+  sh("echo INSTALL_URL=#{filename}.html >> $GITHUB_ENV")
 
   build_mobile(
     name: "#{name}",
-    version: "#{version}",
+    version: ENV["VERSION"],
     export_method: "enterprise",
     file_name: "#{file_name}.ipa",
     environment: "#{environment}",
@@ -49,7 +64,7 @@ lane :build_ipa do
 
   deploy(
     force: true,
-    path: "#{s3_path}",
+    path: ENV["S3_PATH"],
     html_in_folder: true,
     file_name: "#{file_name}",
     environment: "#{environment}",
@@ -60,28 +75,27 @@ lane :build_ipa do
 
   generate_qr(
     force: true,
-    path: "#{s3_path}",
+    path: ENV["S3_PATH"],
     bucket: "des-mobile-artefacts",
     file_name: ENV["S3_HTML_OUTPUT_PATH"],
     output_name: "./codes/#{file_name}-qr.png",
     file: "./fastlane/codes/#{file_name}-qr.png"
   )
 
-  sh("aws s3 rm s3://des-mobile-artefacts/#{s3_path}#{file_name}.app.dSYM.zip")
+  sh("aws s3 rm s3://des-mobile-artefacts/#{ENV["S3_PATH"]}#{file_name}.app.dSYM.zip")
 end
 
 lane :build_sim do
-  version = get_version_number(xcodeproj: "./ios/App/App.xcodeproj", target: "App")
   environment = ENV["ENVIRONMENT"]
-  s3_path = "#{ENV["UPLOAD_PATH"]}/#{version}/"
   commit = last_git_commit[:abbreviated_commit_hash]
   name = environment == "feature" ? "#{ENV['BRANCH']}" : ENV["ENVIRONMENT"]
-  file_name = "des-#{name}-#{version}-#{commit}"
+  file_name = "des-#{name}-#{ENV["VERSION"]}-#{commit}"
+  sh("echo ARTEFACT_FILENAME=#{filename} >> $GITHUB_ENV")
 
   build_simulator(
     force: true,
-    path: "#{s3_path}",
-    version: "#{version}",
+    path: ENV["S3_PATH"],
+    version: ENV["VERSION"],
     environment: "#{environment}",
     bucket: "des-mobile-artefacts",
     file_name: "#{file_name}-app.zip",
