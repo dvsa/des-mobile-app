@@ -50,8 +50,8 @@ lane :build_ipa do
   name = environment == "feature" ? "#{ENV['BRANCH']}" : ENV["ENVIRONMENT"]
   file_name = "des-#{ENV["VERSION"]}-#{ENV["RUN_ID"]}-#{commit}"
 
-  sh("echo ARTEFACT_FILENAME=#{filename} >> $GITHUB_ENV")
-  sh("echo INSTALL_URL=#{filename}.html >> $GITHUB_ENV")
+  sh("echo ARTEFACT_FILENAME=#{file_name} >> $GITHUB_ENV")
+  sh("echo INSTALL_URL=#{file_name}.html >> $GITHUB_ENV")
 
   build_mobile(
     name: "#{name}",
@@ -90,7 +90,7 @@ lane :build_sim do
   commit = last_git_commit[:abbreviated_commit_hash]
   name = environment == "feature" ? "#{ENV['BRANCH']}" : ENV["ENVIRONMENT"]
   file_name = "des-#{name}-#{ENV["VERSION"]}-#{commit}"
-  sh("echo ARTEFACT_FILENAME=#{filename} >> $GITHUB_ENV")
+  sh("echo ARTEFACT_FILENAME=#{file_name} >> $GITHUB_ENV")
 
   build_simulator(
     force: true,
