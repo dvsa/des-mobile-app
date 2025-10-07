@@ -276,13 +276,41 @@ export class DataStoreProvider {
   }
 
   async repopulateStorage() {
-    await this.setItem(LocalStorageKey.CONFIG, JSON.stringify(this.store$.selectSignal(selectAppConfig)()));
-    await this.setItem(LocalStorageKey.JOURNAL, JSON.stringify(this.store$.selectSignal(getJournalState)()))
-    await this.setItem(LocalStorageKey.JOURNAL_RECALL_AUTO_DISPLAY_TIME, this.store$.selectSignal(getRecallAutoPopupLastDisplayedTime)())
-    await this.setItem(LocalStorageKey.LOGS, JSON.stringify(this.store$.selectSignal(getLogsState)()));
-    await this.setItem(LocalStorageKey.TESTS, JSON.stringify(this.store$.selectSignal(getTests)()))
-    await this.setItem(LocalStorageKey.EXAMINER_STATS_KEY, JSON.stringify(this.store$.selectSignal(selectExaminerRecords)()))
-    await this.setItem(LocalStorageKey.AUTH_RESULT, JSON.stringify(this.store$.selectSignal(selectAuthResult)()));
+    try {
+      await this.setItem(LocalStorageKey.CONFIG, JSON.stringify(this.store$.selectSignal(selectAppConfig)()));
+    } catch (error) {
+      this.reportLog('repopulating config', LocalStorageKey.CONFIG, error);
+    }
+    try {
+      await this.setItem(LocalStorageKey.JOURNAL, JSON.stringify(this.store$.selectSignal(getJournalState)()))
+    } catch (error) {
+      this.reportLog('repopulating journal', LocalStorageKey.JOURNAL, error);
+    }
+    try {
+      await this.setItem(LocalStorageKey.JOURNAL_RECALL_AUTO_DISPLAY_TIME, this.store$.selectSignal(getRecallAutoPopupLastDisplayedTime)())
+    } catch (error) {
+      this.reportLog('repopulating journal recall auto display time', LocalStorageKey.JOURNAL_RECALL_AUTO_DISPLAY_TIME, error);
+    }
+    try {
+      await this.setItem(LocalStorageKey.LOGS, JSON.stringify(this.store$.selectSignal(getLogsState)()));
+    } catch (error) {
+      this.reportLog('repopulating logs', LocalStorageKey.LOGS, error);
+    }
+    try {
+      await this.setItem(LocalStorageKey.TESTS, JSON.stringify(this.store$.selectSignal(getTests)()));
+    } catch (error) {
+      this.reportLog('repopulating TESTS', LocalStorageKey.TESTS, error);
+    }
+    try {
+      await this.setItem(LocalStorageKey.EXAMINER_STATS_KEY, JSON.stringify(this.store$.selectSignal(selectExaminerRecords)()));
+    } catch (error) {
+      this.reportLog('repopulating examiner records', LocalStorageKey.EXAMINER_STATS_KEY, error);
+    }
+    try {
+      await this.setItem(LocalStorageKey.AUTH_RESULT, JSON.stringify(this.store$.selectSignal(selectAuthResult)()));
+    } catch (error) {
+      this.reportLog('repopulating auth result', LocalStorageKey.AUTH_RESULT, error);
+    }
   }
 
   /**
@@ -316,33 +344,6 @@ export class DataStoreProvider {
       await this.resetStorage();
       // this.reportLog(`${LocalStorageError.LOCAL_STORAGE_ERROR} removing`, key, err);
       return Promise.resolve('');
-    }
-  }
-
-  async forceWipeStorage(): Promise<void> {
-    try {
-      await this.storage.clear();
-    } catch {
-    }
-
-    try {
-      let db: any = (window as any)?.sqlitePlugin.openDatabase({
-        name: ' _ionicstorage',
-        location: 'default',
-      });
-      // Reset the storage instance
-      this.storage = new Storage({
-        driverOrder: [CordovaSQLiteDriver._driver, Drivers.IndexedDB, Drivers.LocalStorage]
-      });
-
-      await this.storage.defineDriver(CordovaSQLiteDriver);
-      this.storage = await this.storage.create();
-
-      // this.reportLog('forceWipeStorage', '', 'Storage wiped successfully', LogType.INFO);
-    } catch (err) {
-      console.error('Error forceWipeStorage', err);
-      // this.reportLog('forceWipeStorage', '', err);
-      throw err;
     }
   }
 
