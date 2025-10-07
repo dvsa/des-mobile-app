@@ -120,7 +120,7 @@ export class LoginPage extends LogoutBasePageComponent implements OnInit {
 
       this.store$.dispatch(LoadConfigSuccess());
 
-      // We need to resh the employee details now that the remote config has loaded.
+      // We need to refresh the employee details now that the remote config has loaded.
       await this.authenticationProvider.refreshEmployeeDetails();
 
       this.store$.dispatch(LoadPersistedTests());

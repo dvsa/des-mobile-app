@@ -5,7 +5,7 @@ import { Observable, from, interval, of } from 'rxjs';
 import { catchError, concatMap, map, switchMap, takeUntil, withLatestFrom } from 'rxjs/operators';
 
 import { AppConfigProvider } from '@providers/app-config/app-config';
-import { DataStoreProvider, LocalStorageKey } from '@providers/data-store/data-store';
+import { DataStoreProvider, LocalStorageError, LocalStorageKey } from '@providers/data-store/data-store';
 import { DateTimeProvider } from '@providers/date-time/date-time';
 import { LogsProvider } from '@providers/logs/logs';
 import { ConnectionStatus, NetworkStateProvider } from '@providers/network-state/network-state';
@@ -13,6 +13,7 @@ import { DateTime } from '@shared/helpers/date-time';
 import { Log } from '@shared/models/log.model';
 import { StoreModel } from '@shared/models/store.model';
 
+import { get } from 'lodash-es';
 import * as logsActions from './logs.actions';
 import { StopLogPolling } from './logs.actions';
 import { getLogsState } from './logs.reducer';
@@ -26,6 +27,7 @@ type LogCache = {
 export class LogsEffects {
   // every 1 minute
   private static readonly fallBackInterval = 60000;
+  localStorageErrorTimer: Date = new Date();
 
   constructor(
     private actions$: Actions,
@@ -55,9 +57,9 @@ export class LogsEffects {
     this.actions$.pipe(
       ofType(logsActions.PersistLog.type),
       concatMap((action) => of(action).pipe(withLatestFrom(this.store$.pipe(select(getLogsState))))),
-      switchMap(([, logs]) => {
-        this.saveLogs(logs);
-        return of({ type: '[LogsEffects] Persist Log Finished' });
+      switchMap(async ([, logs]) => {
+        await this.saveLogs(logs);
+        return { type: '[LogsEffects] Persist Log Finished' };
       })
     )
   );
@@ -132,12 +134,29 @@ export class LogsEffects {
         return emptyLogData;
       });
 
-  saveLogs = (logData: Log[]) => {
-    const logDataToStore: LogCache = {
-      dateStored: this.dateTimeProvider.now().format('YYYY/MM/DD'),
-      data: logData,
-    };
-    this.dataStore.setItem(LocalStorageKey.LOGS, JSON.stringify(logDataToStore));
+  saveLogs = async (logData: Log[]) => {
+    if (logData && logData.length > 0) {
+      const logDataToStore: LogCache = {
+        dateStored: this.dateTimeProvider.now().format('YYYY/MM/DD'),
+        data: logData,
+      };
+      /*
+      If the latest description is related to the local storage error, there is a chance that it will
+      cause an infinite loop due to the system logging an error whenever storage fails.
+      In these cases, we want to log the storage errors with a cooldown to break the infinite loop.
+      THIS IS A TEMPORARY FIX AND NEEDS TO BE REPLACED IN THE FUTURE
+       */
+      const latestDescription: string = get(logData[logData.length - 1], 'description', '') as string;
+      if (latestDescription.includes(LocalStorageError.LOCAL_STORAGE_ERROR)) {
+        const newDate: Date = new Date();
+        if (newDate.getTime() - this.localStorageErrorTimer.getTime() > 60) {
+          this.localStorageErrorTimer = newDate;
+          await this.dataStore.setItem(LocalStorageKey.LOGS, JSON.stringify(logDataToStore));
+        }
+      } else {
+        await this.dataStore.setItem(LocalStorageKey.LOGS, JSON.stringify(logDataToStore));
+      }
+    }
   };
 
   isCacheTooOld = (dateStored: DateTime, now: DateTime): boolean => {

@@ -20,7 +20,19 @@ export class CompletedTestPersistenceProvider {
   private completedTestKeychainKey = LocalStorageKey.COMPLETED_TESTS;
 
   async persistCompletedTests(completedTests: SearchResultTestSchema[]): Promise<void> {
-    await this.dataStoreProvider.setItem(this.completedTestKeychainKey, JSON.stringify(completedTests));
+    try {
+      await this.dataStoreProvider.setItem(this.completedTestKeychainKey, JSON.stringify(completedTests));
+    } catch (error) {
+      this.store$.dispatch(
+        SaveLog({
+          payload: this.logHelper.createLog(
+            LogType.ERROR,
+            'Error setting completed persisted tests',
+            `CompletedTestPersistence => ${serialiseLogMessage(error)}`
+          ),
+        })
+      );
+    }
   }
 
   async clearPersistedCompletedTests(): Promise<void> {
@@ -54,6 +66,15 @@ export class CompletedTestPersistenceProvider {
     } catch (err) {
       if (!/The specified item could not be found in the keychain/.test(err)) {
         console.error(`Error loading completed persisted tests: ${err}`);
+        this.store$.dispatch(
+          SaveLog({
+            payload: this.logHelper.createLog(
+              LogType.ERROR,
+              'Error loading completed persisted tests',
+              `CompletedTestPersistence => ${serialiseLogMessage(err)}`
+            ),
+          })
+        );
       }
     }
   }

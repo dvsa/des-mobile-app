@@ -14,6 +14,10 @@ import CordovaSQLiteDriver from 'localforage-cordovasqlitedriver';
 import { get } from 'lodash-es';
 import { LogHelper } from '../logs/logs-helper';
 
+export enum LocalStorageError {
+  LOCAL_STORAGE_ERROR = 'LOCAL_STORAGE_ERROR',
+}
+
 export enum LocalStorageKey {
   COMPLETED_TESTS = 'COMPLETED_TESTS',
   CONFIG = 'CONFIG',
@@ -230,7 +234,7 @@ export class DataStoreProvider {
       }
       return await this.storage.set(key, value);
     } catch (err) {
-      this.reportLog('setting storage', key, err);
+      this.reportLog(`${LocalStorageError.LOCAL_STORAGE_ERROR} setting·storage`, key, err);
       throw err;
     }
   }
@@ -246,7 +250,7 @@ export class DataStoreProvider {
       }
       return await this.storage.get(key);
     } catch (err) {
-      this.reportLog('getting storage', key, err);
+      this.reportLog(`${LocalStorageError.LOCAL_STORAGE_ERROR} getting·storage`, key, err);
       throw err;
     }
   }
@@ -260,10 +264,9 @@ export class DataStoreProvider {
   async removeItem(key: StorageKey): Promise<string> {
     try {
       if (!this.isIos()) return '';
-
       return await this.storage.remove(key);
     } catch (err) {
-      this.reportLog('removing', key, err);
+      this.reportLog(`${LocalStorageError.LOCAL_STORAGE_ERROR} removing`, key, err);
       return Promise.resolve('');
     }
   }
