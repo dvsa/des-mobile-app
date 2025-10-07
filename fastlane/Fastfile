@@ -13,11 +13,11 @@ before_all do
   version = get_version_number(xcodeproj: "./ios/App/App.xcodeproj", target: "App")
 
   if s3_path == 'release'
-    s3_path = "release/#{version}"
+    s3_path = "release/#{version}/"
   elsif s3_path == 'feature'
-    s3_path = "#{s3_path}/#{ENV["GH_REF_NAME"]}/#{ENV["RUN_ID"]}"
+    s3_path = "#{s3_path}/#{ENV["GH_REF_NAME"]}/#{ENV["RUN_ID"]}/"
   elsif s3_path == 'develop'
-    s3_path = "#{s3_path}/#{version}/#{ENV["RUN_ID"]}"
+    s3_path = "#{s3_path}/#{version}/#{ENV["RUN_ID"]}/"
   end
 
   ENV["S3_PATH"] = "#{s3_path}"
