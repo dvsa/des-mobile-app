@@ -1,166 +1,104 @@
 default_platform(:ios)
 
 before_all do
-  clean(dirs: './builds ./simulator ./certs ./codes')
-  xcode_select("/Applications/Xcode.app")
+  import_from_git(
+    url: "git@github.com:dvsa/dvsa-fastlane-library.git",
+    branch: "main",
+    path: "fastlane/Fastfile"
+  )
 
-  s3_path = ENV["ENVIRONMENT"]
+  clean(dirs: './certs ./codes')
 
-  if ENV["ENVIRONMENT"] == 'release'
-    version = get_version_number(xcodeproj: "./ios/App/App.xcodeproj", target: "App")
-    s3_path = "#{s3_path}/#{version}"
-  elsif ENV["ENVIRONMENT"] == 'feature'
-    s3_path = "#{s3_path}/#{ENV["GH_REF_NAME"]}/#{ENV["RUN_ID"]}"
-  elsif ENV["ENVIRONMENT"] == 'develop'
-    s3_path = "#{s3_path}/#{ENV["RUN_ID"]}"
+  s3_path = "#{ENV["UPLOAD_PATH"]}"
+  version = get_version_number(xcodeproj: "./ios/App/App.xcodeproj", target: "App")
+
+  if s3_path == 'release'
+    s3_path = "release/#{version}/"
+  elsif s3_path == 'feature'
+    s3_path = "#{s3_path}/#{ENV["GH_REF_NAME"]}/#{ENV["RUN_ID"]}/"
+  elsif s3_path == 'develop'
+    s3_path = "#{s3_path}/#{version}/#{ENV["RUN_ID"]}/"
   end
 
   ENV["S3_PATH"] = "#{s3_path}"
   ENV["VERSION"] = "#{version}"
-end
+  sh("echo S3_PATH=#{ENV["S3_PATH"]} >> $GITHUB_ENV")
 
-desc "Build the Simulator File for the Automation Suite"
-lane :simulator do
-  filename = "des-#{ENV["ENVIRONMENT"]}-#{ENV["GH_REF_NAME"]}-#{ENV["RUN_ID"]}.app.zip"
-  sh("echo ARTEFACT_FILENAME=#{filename} >> $GITHUB_ENV")
-
-  icon_banner(label: 'QA')
-
-  archive_path = gym(
-    scheme: "App",
-    configuration: "Debug",
-    sdk: "iphonesimulator",
-    skip_package_ipa: true,
-    output_name: "App.app",
-    build_path: "./fastlane/simulator",
-    workspace: "./ios/App/App.xcworkspace",
-    destination: "generic/platform=iOS Simulator",
-    clean: true
+  create_keychain(
+    name: ENV["KEYCHAIN_NAME"],
+    password: ENV["KEYCHAIN_PASSWORD"],
+    unlock: true,
+    timeout: 3600
   )
 
-  zip(
-    path: "#{archive_path}/Products/Applications/App.app",
-    output_path: "./fastlane/simulator/#{filename}"
-  )
-
-  sh("echo '✅ Fastlane Simulator Built' >> $GITHUB_STEP_SUMMARY")
-
-  if ENV["IS_LOCAL"] == 'NO'
-    aws_s3(
-      access_key: ENV["AWS_ACCESS_KEY_ID"],
-      secret_access_key: ENV["AWS_SECRET_ACCESS_KEY"],
-      bucket: ENV["DES_MOBILE_ARTEFACTS_BUCKET"],
-      path: "github-actions/#{ENV["S3_PATH"]}/",
-      html_in_folder: false,
-      upload_metadata: false,
-      region: ENV["AWS_REGION"],
-      ipa: "./fastlane/simulator/#{filename}"
-    )
-
-    file = "simulator/$GH_REF_NAME-#{ENV["RUN_ID"]}-APP.txt"
-    sh("echo $S3_IPA_OUTPUT_PATH > #{file}")
-    sh("aws s3 cp #{file} s3://#{ENV["DES_MOBILE_ARTEFACTS_BUCKET"]}/github-actions/files/#{ENV["ENVIRONMENT"]}/")
-  else
-    puts "LOCAL RUN NO S3 UPLOAD"
-  end
-
-  icon_banner_restore()
-end
-
-desc "Build the Application for Deployment"
-lane :build do
-  begin
-    commit = last_git_commit
-    short_hash = commit[:abbreviated_commit_hash]
-    filename = "des-#{ENV["ENVIRONMENT"]}-#{ENV["GH_REF_NAME"]}-#{ENV["RUN_ID"]}"
-
-    if ENV["ENVIRONMENT"] == 'release'
-      filename = "DrivingExaminerService-#{ENV["VERSION"]}-#{ENV["RUN_ID"]}-#{short_hash}"
-    end
-
-    sh("echo S3_PATH=#{ENV["S3_PATH"]} >> $GITHUB_ENV")
-    sh("echo ARTEFACT_FILENAME=#{filename}.ipa >> $GITHUB_ENV")
-    sh("echo INSTALL_URL=#{filename}.html >> $GITHUB_ENV")
-
-    create_keychain(
-      name: ENV["KEYCHAIN_NAME"],
-      password: ENV["KEYCHAIN_PASSWORD"],
-      unlock: true,
-      timeout: 3600,
-      default_keychain: true
-    )
-
-    sync_certs
-
-    gym(
-      workspace: "./ios/App/App.xcworkspace",
-      export_method: "enterprise",
-      output_directory: "./fastlane/builds",
-      output_name: "#{filename}.ipa",
-      clean: true
-    )
-
-    sh("echo '✅ Fastlane Application Built' >> $GITHUB_STEP_SUMMARY")
-
-    if ENV["IS_LOCAL"] == 'NO'
-      aws_s3(
-        access_key: ENV["AWS_ACCESS_KEY_ID"],
-        secret_access_key: ENV["AWS_SECRET_ACCESS_KEY"],
-        bucket: ENV["DES_MOBILE_ARTEFACTS_BUCKET"],
-        path: "github-actions/#{ENV["S3_PATH"]}/",
-        html_in_folder: true,
-        html_file_name: "#{filename}.html",
-        html_in_root: false,
-        region: ENV["AWS_REGION"],
-        ipa: "./fastlane/builds/#{filename}.ipa",
-        dsym: "./fastlane/builds/#{filename}.app.dSYM.zip"
-      )
-
-    else
-      puts "LOCAL RUN NO S3 UPLOAD"
-    end
-  ensure
-    delete_keychain(name: ENV["KEYCHAIN_NAME"])
-  end
-end
-
-desc "Clean Previous Build Folders"
-lane :clean do |options|
-  clear_derived_data()
-  sh("rm -rf #{options[:dirs]}")
-end
-
-desc "Synchronise the Apple Developer Certificates to the Temporary Keychain"
-lane :sync_certs do
-  cert_path = "/Users/jenkins/certs"
-
-  update_code_signing_settings(
-    team_id: ENV["TEAM_ID"],
-    use_automatic_signing: false,
-    path: "./ios/App/App.xcodeproj",
-    code_sign_identity: "iPhone Distribution: Vehicle and Operator Services Agency",
-  )
-
-#   Match to be used once DES certs are in shared repo
-#   match(type: 'appstore')
-
-  import_certificate(
-    certificate_path: "#{cert_path}/#{ENV["CERT_NAME"]}.p12",
-    certificate_password: ENV["CERT_PASSWORD"],
+  sync_certs(
+    type: "enterprise",
+    cert_name: ENV["CERT_NAME"],
+    cert_repo: ENV["CERT_REPO_URL"],
+    cert_branch: ENV["CERT_REPO_BRANCH"],
+    username: ENV["APPLE_USERNAME"],
     keychain_name: ENV["KEYCHAIN_NAME"],
-    keychain_password: ENV["KEYCHAIN_PASSWORD"]
+    app_identifier: ENV["APP_IDENTIFIER"],
+    keychain_password: ENV["KEYCHAIN_PASSWORD"],
+    match_password: ENV["MATCH_PASSWORD"]
+  )
+end
+
+lane :build_ipa do
+  environment = ENV["ENVIRONMENT"]
+  commit = last_git_commit[:abbreviated_commit_hash]
+  name = environment == "feature" ? "#{ENV['BRANCH']}" : ENV["ENVIRONMENT"]
+  file_name = "des-#{ENV["VERSION"]}-#{ENV["RUN_ID"]}-#{commit}"
+
+  build_mobile(
+    name: "#{name}",
+    version: ENV["VERSION"],
+    export_method: "enterprise",
+    file_name: "#{file_name}.ipa",
+    environment: "#{environment}",
+    display_name: "DES"
   )
 
-  update_project_provisioning(
-    xcodeproj: "./ios/App/App.xcodeproj",
-    profile: "#{cert_path}/#{ENV["PROVISIONING_PROFILE_NAME"]}",
+  deploy(
+    force: true,
+    path: ENV["S3_PATH"],
+    html_in_folder: true,
+    file_name: "#{file_name}",
+    environment: "#{environment}",
+    bucket: "des-mobile-artefacts",
+    html_file_name: "#{file_name}.html",
+    ipa_location: "./fastlane/builds/#{file_name}.ipa",
   )
 
-  install_provisioning_profile(
-    path: "#{cert_path}/#{ENV["PROVISIONING_PROFILE_NAME"]}"
+  generate_qr(
+    force: true,
+    path: ENV["S3_PATH"],
+    bucket: "des-mobile-artefacts",
+    file_name: ENV["S3_HTML_OUTPUT_PATH"],
+    output_name: "./codes/#{file_name}-qr.png",
+    file: "./fastlane/codes/#{file_name}-qr.png"
+  )
+
+  sh("aws s3 rm s3://des-mobile-artefacts/#{ENV["S3_PATH"]}#{file_name}.app.dSYM.zip")
+end
+
+lane :build_sim do
+  environment = ENV["ENVIRONMENT"]
+  commit = last_git_commit[:abbreviated_commit_hash]
+  name = environment == "feature" ? "#{ENV['BRANCH']}" : ENV["ENVIRONMENT"]
+  file_name = "des-#{name}-#{ENV["VERSION"]}-#{commit}"
+
+  build_simulator(
+    force: true,
+    path: ENV["S3_PATH"],
+    version: ENV["VERSION"],
+    environment: "#{environment}",
+    bucket: "des-mobile-artefacts",
+    file_name: "#{file_name}-app.zip",
   )
 end
 
 after_all do
-  clean(dirs: './builds ./simulator ./certs')
+  delete_keychain(name: ENV["KEYCHAIN_NAME"])
+  icon_banner_restore()
 end
