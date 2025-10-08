@@ -1,25 +1,42 @@
-import {Injectable} from '@angular/core';
-import {Platform} from '@ionic/angular';
-import {Storage} from '@ionic/storage-angular';
+import { Injectable } from '@angular/core';
+import { Platform } from '@ionic/angular';
+import { Storage } from '@ionic/storage-angular';
 
-import {Capacitor} from '@capacitor/core';
-import {Drivers} from '@ionic/storage';
-import {Store} from '@ngrx/store';
-import {Token} from '@providers/authentication/authentication';
-import {serialiseLogMessage} from '@shared/helpers/serialise-log-message';
-import {LogType} from '@shared/models/log.model';
-import {StoreModel} from '@shared/models/store.model';
-import {SaveLog} from '@store/logs/logs.actions';
+import { Capacitor } from '@capacitor/core';
+import { Drivers } from '@ionic/storage';
+import { Store } from '@ngrx/store';
+import { Token } from '@providers/authentication/authentication';
+import { serialiseLogMessage } from '@shared/helpers/serialise-log-message';
+import { LogType } from '@shared/models/log.model';
+import { StoreModel } from '@shared/models/store.model';
+import { selectAppConfig } from '@store/app-config/app-config.selectors';
+import { selectAuthResult } from '@store/app-info/app-info.selectors';
+import { selectExaminerRecords } from '@store/examiner-records/examiner-records.selectors';
+import { getJournalState } from '@store/journal/journal.reducer';
+import { getRecallAutoPopupLastDisplayedTime } from '@store/journal/journal.selector';
+import { SaveLog } from '@store/logs/logs.actions';
+import { getLogsState } from '@store/logs/logs.reducer';
+import { getTests } from '@store/tests/tests.reducer';
 import CordovaSQLiteDriver from 'localforage-cordovasqlitedriver';
-import {get} from 'lodash-es';
-import {LogHelper} from '../logs/logs-helper';
-import {selectAppConfig} from '@store/app-config/app-config.selectors';
-import {selectAuthResult} from '@store/app-info/app-info.selectors';
-import {getLogsState} from '@store/logs/logs.reducer';
-import {getRecallAutoPopupLastDisplayedTime} from '@store/journal/journal.selector';
-import {getTests} from '@store/tests/tests.reducer';
-import {selectExaminerRecords} from '@store/examiner-records/examiner-records.selectors';
-import {getJournalState} from '@store/journal/journal.reducer';
+import { get } from 'lodash-es';
+import { LogHelper } from '../logs/logs-helper';
+
+interface SQLitePlugin {
+  openDatabase(
+    options: { name: string; location: string },
+    success?: () => void,
+    error?: (err: unknown) => void
+  ): unknown;
+  deleteDatabase(
+    options: { name: string; location: string },
+    success?: () => void,
+    error?: (err: unknown) => void
+  ): void;
+}
+
+interface WindowWithSQLitePlugin extends Window {
+  sqlitePlugin?: SQLitePlugin;
+}
 
 export enum LocalStorageError {
   LOCAL_STORAGE_ERROR = 'LOCAL_STORAGE_ERROR',
@@ -48,8 +65,7 @@ export class DataStoreProvider {
     private logHelper: LogHelper,
     private store$: Store<StoreModel>,
     private storage: Storage
-  ) {
-  }
+  ) {}
 
   /**
    * Initializes the data store by defining the storage driver and creating the storage instance.
@@ -224,9 +240,80 @@ export class DataStoreProvider {
       return await this.storage.keys();
     } catch (err) {
       console.error('Error getting item from storage', err);
-      await this.initDataStore()
+      await this.initDataStore();
       // this.reportLog('getting keys', '', err);
       throw err;
+    }
+  }
+
+  async resetStorage() {
+    const sqlLitePlugin: SQLitePlugin = (window as WindowWithSQLitePlugin)?.sqlitePlugin;
+    if (!sqlLitePlugin) {
+      throw new Error('Missing SQL Lite plugin');
+    }
+    //Delete the old database
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    sqlLitePlugin?.deleteDatabase(
+      {
+        name: '_ionicstorage',
+        location: 'default',
+      },
+      async () => {
+        //Re-initialize the storage
+        await this.initDataStore();
+        await this.repopulateStorage();
+      },
+      (error: Error) => {
+        throw error;
+      }
+    );
+  }
+
+  async repopulateStorage() {
+    try {
+      await this.setItem(LocalStorageKey.CONFIG, JSON.stringify(this.store$.selectSignal(selectAppConfig)()));
+    } catch (error) {
+      this.reportLog('repopulating config', LocalStorageKey.CONFIG, error);
+    }
+    try {
+      await this.setItem(LocalStorageKey.JOURNAL, JSON.stringify(this.store$.selectSignal(getJournalState)()));
+    } catch (error) {
+      this.reportLog('repopulating journal', LocalStorageKey.JOURNAL, error);
+    }
+    try {
+      await this.setItem(
+        LocalStorageKey.JOURNAL_RECALL_AUTO_DISPLAY_TIME,
+        this.store$.selectSignal(getRecallAutoPopupLastDisplayedTime)()
+      );
+    } catch (error) {
+      this.reportLog(
+        'repopulating journal recall auto display time',
+        LocalStorageKey.JOURNAL_RECALL_AUTO_DISPLAY_TIME,
+        error
+      );
+    }
+    try {
+      await this.setItem(LocalStorageKey.LOGS, JSON.stringify(this.store$.selectSignal(getLogsState)()));
+    } catch (error) {
+      this.reportLog('repopulating logs', LocalStorageKey.LOGS, error);
+    }
+    try {
+      await this.setItem(LocalStorageKey.TESTS, JSON.stringify(this.store$.selectSignal(getTests)()));
+    } catch (error) {
+      this.reportLog('repopulating TESTS', LocalStorageKey.TESTS, error);
+    }
+    try {
+      await this.setItem(
+        LocalStorageKey.EXAMINER_STATS_KEY,
+        JSON.stringify(this.store$.selectSignal(selectExaminerRecords)())
+      );
+    } catch (error) {
+      this.reportLog('repopulating examiner records', LocalStorageKey.EXAMINER_STATS_KEY, error);
+    }
+    try {
+      await this.setItem(LocalStorageKey.AUTH_RESULT, JSON.stringify(this.store$.selectSignal(selectAuthResult)()));
+    } catch (error) {
+      this.reportLog('repopulating auth result', LocalStorageKey.AUTH_RESULT, error);
     }
   }
 
@@ -259,60 +346,6 @@ export class DataStoreProvider {
     }
   }
 
-  async resetStorage() {
-    //Delete the old database
-    await (window as any)?.sqlitePlugin?.deleteDatabase({
-        name: '_ionicstorage',
-        location: 'default',
-      },
-      async () => {
-        //Re-initialize the storage
-        await this.initDataStore();
-        await this.repopulateStorage();
-      },
-      (error: Error) => {
-        throw error
-      });
-  }
-
-  async repopulateStorage() {
-    try {
-      await this.setItem(LocalStorageKey.CONFIG, JSON.stringify(this.store$.selectSignal(selectAppConfig)()));
-    } catch (error) {
-      this.reportLog('repopulating config', LocalStorageKey.CONFIG, error);
-    }
-    try {
-      await this.setItem(LocalStorageKey.JOURNAL, JSON.stringify(this.store$.selectSignal(getJournalState)()))
-    } catch (error) {
-      this.reportLog('repopulating journal', LocalStorageKey.JOURNAL, error);
-    }
-    try {
-      await this.setItem(LocalStorageKey.JOURNAL_RECALL_AUTO_DISPLAY_TIME, this.store$.selectSignal(getRecallAutoPopupLastDisplayedTime)())
-    } catch (error) {
-      this.reportLog('repopulating journal recall auto display time', LocalStorageKey.JOURNAL_RECALL_AUTO_DISPLAY_TIME, error);
-    }
-    try {
-      await this.setItem(LocalStorageKey.LOGS, JSON.stringify(this.store$.selectSignal(getLogsState)()));
-    } catch (error) {
-      this.reportLog('repopulating logs', LocalStorageKey.LOGS, error);
-    }
-    try {
-      await this.setItem(LocalStorageKey.TESTS, JSON.stringify(this.store$.selectSignal(getTests)()));
-    } catch (error) {
-      this.reportLog('repopulating TESTS', LocalStorageKey.TESTS, error);
-    }
-    try {
-      await this.setItem(LocalStorageKey.EXAMINER_STATS_KEY, JSON.stringify(this.store$.selectSignal(selectExaminerRecords)()));
-    } catch (error) {
-      this.reportLog('repopulating examiner records', LocalStorageKey.EXAMINER_STATS_KEY, error);
-    }
-    try {
-      await this.setItem(LocalStorageKey.AUTH_RESULT, JSON.stringify(this.store$.selectSignal(selectAuthResult)()));
-    } catch (error) {
-      this.reportLog('repopulating auth result', LocalStorageKey.AUTH_RESULT, error);
-    }
-  }
-
   /**
    * interrogate storage for specific key
    * @param key - identifier
@@ -342,7 +375,6 @@ export class DataStoreProvider {
       return await this.storage.remove(key);
     } catch (err) {
       await this.resetStorage();
-      // this.reportLog(`${LocalStorageError.LOCAL_STORAGE_ERROR} removing`, key, err);
       return Promise.resolve('');
     }
   }
