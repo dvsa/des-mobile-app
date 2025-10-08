@@ -10,7 +10,9 @@ export const initialState: LogsModel = [];
 
 export const logsReducer = createReducer(
   initialState,
-  on(logsActions.SaveLog, (state: LogsModel, { payload }) => [...state, payload]),
+  on(logsActions.SaveLog, (state: LogsModel, { logPayload }) => {
+    return state ? [...state, logPayload.payload] : [logPayload.payload];
+  }),
   on(logsActions.SendLogsSuccess, (state: LogsModel, { timestamps }) => {
     return state.filter((log: Log) => !timestamps.includes(log.timestamp));
   }),

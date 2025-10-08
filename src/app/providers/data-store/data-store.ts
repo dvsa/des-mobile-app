@@ -22,11 +22,6 @@ import { get } from 'lodash-es';
 import { LogHelper } from '../logs/logs-helper';
 
 interface SQLitePlugin {
-  openDatabase(
-    options: { name: string; location: string },
-    success?: () => void,
-    error?: (err: unknown) => void
-  ): unknown;
   deleteDatabase(
     options: { name: string; location: string },
     success?: () => void,
@@ -36,10 +31,6 @@ interface SQLitePlugin {
 
 interface WindowWithSQLitePlugin extends Window {
   sqlitePlugin?: SQLitePlugin;
-}
-
-export enum LocalStorageError {
-  LOCAL_STORAGE_ERROR = 'LOCAL_STORAGE_ERROR',
 }
 
 export enum LocalStorageKey {
@@ -220,7 +211,7 @@ export class DataStoreProvider {
         window.indexedDB.deleteDatabase(db.name);
       });
     } catch (err) {
-      this.reportLog('clearIndexedDB', '', err, LogType.ERROR);
+      this.reportLog('clearIndexedDB', '', err);
       throw err;
     }
   }
@@ -239,12 +230,31 @@ export class DataStoreProvider {
       }
       return await this.storage.keys();
     } catch (err) {
-      console.error('Error getting item from storage', err);
-      await this.initDataStore();
-      // this.reportLog('getting keys', '', err);
-      throw err;
+      this.reportLog('Getting keys', '', err, false);
+      try {
+        await this.tryToResetStorage(err);
+      } catch (error) {
+        throw err;
+      }
+      try {
+        return await this.storage.keys();
+      } catch (error) {
+        this.reportLog('Removing storage post error', '', err, false);
+        throw error;
+      }
     }
   }
+
+  tryToResetStorage = async (error: Error) => {
+    if (error.message.includes('malformed')) {
+      try {
+        await this.resetStorage();
+      } catch (error) {
+        this.reportLog('Resetting storage', '', error, false);
+        throw error;
+      }
+    }
+  };
 
   async resetStorage() {
     const sqlLitePlugin: SQLitePlugin = (window as WindowWithSQLitePlugin)?.sqlitePlugin;
@@ -252,7 +262,6 @@ export class DataStoreProvider {
       throw new Error('Missing SQL Lite plugin');
     }
     //Delete the old database
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     sqlLitePlugin?.deleteDatabase(
       {
         name: '_ionicstorage',
@@ -331,18 +340,18 @@ export class DataStoreProvider {
       }
       return await this.storage.set(key, value);
     } catch (err) {
+      this.reportLog('Setting storage', key, err, false);
       try {
-        await this.resetStorage();
+        await this.tryToResetStorage(err);
       } catch (error) {
-        this.reportLog(`${LocalStorageError.LOCAL_STORAGE_ERROR} resetting·storage`, key, err);
         throw err;
       }
       try {
-        await this.storage.set(key, value);
+        return await this.storage.set(key, value);
       } catch (error) {
+        this.reportLog('Setting storage post error', key, err, false);
         throw error;
       }
-      this.reportLog(`${LocalStorageError.LOCAL_STORAGE_ERROR} setting·storage`, key, err);
     }
   }
 
@@ -357,9 +366,18 @@ export class DataStoreProvider {
       }
       return await this.storage.get(key);
     } catch (err) {
-      await this.resetStorage();
-      // this.reportLog(`${LocalStorageError.LOCAL_STORAGE_ERROR} getting·storage`, key, err);
-      throw err;
+      this.reportLog('Getting storage', key, err, false);
+      try {
+        await this.tryToResetStorage(err);
+      } catch (error) {
+        throw err;
+      }
+      try {
+        return await this.storage.get(key);
+      } catch (error) {
+        this.reportLog('Getting storage post error', key, err, false);
+        throw error;
+      }
     }
   }
 
@@ -374,20 +392,39 @@ export class DataStoreProvider {
       if (!this.isIos()) return '';
       return await this.storage.remove(key);
     } catch (err) {
-      await this.resetStorage();
-      return Promise.resolve('');
+      this.reportLog('Removing storage', key, err, false);
+      try {
+        await this.tryToResetStorage(err);
+      } catch (error) {
+        throw err;
+      }
+      try {
+        return await this.storage.remove(key);
+      } catch (error) {
+        this.reportLog('Removing storage post error', key, err, false);
+        throw error;
+      }
     }
   }
 
-  private reportLog = (action: string, key: string, error: Error | unknown, level: LogType = LogType.ERROR): void => {
+  private reportLog = (
+    action: string,
+    key: string,
+    error: Error | unknown,
+    saveToStorage = true,
+    level: LogType = LogType.ERROR
+  ): void => {
     this.store$.dispatch(
-      SaveLog({
-        payload: this.logHelper.createLog(
-          level,
-          `DataStoreProvider ${level} ${action} ${key}`,
-          serialiseLogMessage(error)
-        ),
-      })
+      SaveLog(
+        {
+          payload: this.logHelper.createLog(
+            level,
+            `DataStoreProvider ${level} ${action} ${key}`,
+            serialiseLogMessage(error)
+          ),
+        },
+        saveToStorage
+      )
     );
   };
 }
