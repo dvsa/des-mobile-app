@@ -18,35 +18,41 @@ jobs:
     if: github.event_name == 'push' && startsWith(github.ref_name, 'develop')
     uses: dvsa/des-workflow-actions/.github/workflows/build-mobile-app.yaml@main
     with:
-      runs-on: mito-2
+      runs-on: 'MACOS-ARM64'
       environment: develop
       config-type: test
       build-simulator: true
       build-ipa: false
+      upload_path: develop
     secrets:
       AWS_ROLE: ${{ secrets.DES_AWS_ROLE }}
+      WEBHOOK_URL: ${{ secrets.WEBHOOK_URL }}
 
   feature:
     if: github.event_name == 'workflow_dispatch'
     uses: dvsa/des-workflow-actions/.github/workflows/build-mobile-app.yaml@main
     with:
-      runs-on: mito-2
+      runs-on: 'MACOS-ARM64'
       environment: feature
       config-type: dev
       build-type: qr
       build-simulator: true
       build-ipa: true
+      upload_path: feature
     secrets:
       AWS_ROLE: ${{ secrets.DES_AWS_ROLE }}
+      WEBHOOK_URL: ${{ secrets.WEBHOOK_URL }}
 
   release:
     if: github.event_name == 'push' && startsWith(github.ref_name, 'release-')
     uses: dvsa/des-workflow-actions/.github/workflows/build-mobile-app.yaml@main
     with:
-      runs-on: mito-2
-      environment: release
+      runs-on: 'MACOS-ARM64'
+      environment: prod
       config-type: dev
       build-type: prod
       build-ipa: true
+      upload_path: release
     secrets:
       AWS_ROLE: ${{ secrets.DES_AWS_ROLE }}
+      WEBHOOK_URL: ${{ secrets.WEBHOOK_URL }}

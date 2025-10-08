@@ -13,21 +13,21 @@ For _fastlane_ installation instructions, see [Installing _fastlane_](https://do
 
 # Available Actions
 
-### simulator
+### build_ipa
 
 ```sh
-[bundle exec] fastlane simulator
+[bundle exec] fastlane build_ipa
 ```
 
-Build the Simulator File for the Automation Suite
 
-### build
+
+### build_sim
 
 ```sh
-[bundle exec] fastlane build
+[bundle exec] fastlane build_sim
 ```
 
-Build the Application for Deployment
+
 
 ### clean
 
@@ -37,6 +37,14 @@ Build the Application for Deployment
 
 Clean Previous Build Folders
 
+### update_project_id
+
+```sh
+[bundle exec] fastlane update_project_id
+```
+
+Update the bundle id to allow multiple environments of the same application
+
 ### sync_certs
 
 ```sh
@@ -44,6 +52,38 @@ Clean Previous Build Folders
 ```
 
 Synchronise the Apple Developer Certificates to the Temporary Keychain
+
+### generate_qr
+
+```sh
+[bundle exec] fastlane generate_qr
+```
+
+Generate QR Code for artifact
+
+### deploy
+
+```sh
+[bundle exec] fastlane deploy
+```
+
+Upload to S3 Bucket
+
+### build_simulator
+
+```sh
+[bundle exec] fastlane build_simulator
+```
+
+Build the Simulator Build for the Automation Suite
+
+### build_mobile
+
+```sh
+[bundle exec] fastlane build_mobile
+```
+
+Build the Application for Deployment
 
 ----
 
