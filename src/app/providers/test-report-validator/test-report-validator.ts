@@ -197,7 +197,6 @@ export class TestReportValidatorProvider {
 
   private validateLegalRequirementsCatAdiPart2(data: CatADI2UniqueTypes.TestData): boolean {
     const normalStart1: boolean = get(data, 'testRequirements.normalStart1', false);
-    const normalStart2: boolean = get(data, 'testRequirements.normalStart2', false);
     const angledStart: boolean = get(data, 'testRequirements.angledStart', false);
     const uphillStart: boolean = get(data, 'testRequirements.uphillStart', false);
     const downhillStart: boolean = get(data, 'testRequirements.downhillStart', false);
@@ -205,16 +204,13 @@ export class TestReportValidatorProvider {
     const vehicleChecks: boolean = hasVehicleChecksBeenCompletedCatADI2(data.vehicleChecks) || false;
     const eco: boolean = get(data, 'eco.completed', false);
 
-    return (
-      normalStart1 && normalStart2 && angledStart && uphillStart && downhillStart && manoeuvre && vehicleChecks && eco
-    );
+    return normalStart1 && angledStart && uphillStart && downhillStart && manoeuvre && vehicleChecks && eco;
   }
 
   private getMissingLegalRequirementsCatAdiPart2(data: CatADI2UniqueTypes.TestData): legalRequirementsLabels[] {
     const result: legalRequirementsLabels[] = [];
 
     if (!get(data, 'testRequirements.normalStart1', false)) result.push(legalRequirementsLabels.normalStart1);
-    if (!get(data, 'testRequirements.normalStart2', false)) result.push(legalRequirementsLabels.normalStart2);
     if (!get(data, 'testRequirements.angledStart', false)) result.push(legalRequirementsLabels.angledStart);
     if (!get(data, 'testRequirements.uphillStart', false)) result.push(legalRequirementsLabels.uphillStart);
     if (!get(data, 'testRequirements.downhillStart', false)) result.push(legalRequirementsLabels.downhillStart);
@@ -227,21 +223,19 @@ export class TestReportValidatorProvider {
 
   private validateLegalRequirementsCatB(data: CatBUniqueTypes.TestData): boolean {
     const normalStart1: boolean = get(data, 'testRequirements.normalStart1', false);
-    const normalStart2: boolean = get(data, 'testRequirements.normalStart2', false);
     const angledStart: boolean = get(data, 'testRequirements.angledStart', false);
     const hillStart: boolean = get(data, 'testRequirements.hillStart', false);
     const manoeuvre: boolean = hasManoeuvreBeenCompletedCatB(data) || false;
     const vehicleChecks: boolean = hasVehicleChecksBeenCompletedCatB(data) || false;
     const eco: boolean = get(data, 'eco.completed', false);
 
-    return normalStart1 && normalStart2 && angledStart && hillStart && manoeuvre && vehicleChecks && eco;
+    return normalStart1 && angledStart && hillStart && manoeuvre && vehicleChecks && eco;
   }
 
   private getMissingLegalRequirementsCatB(data: CatBUniqueTypes.TestData): legalRequirementsLabels[] {
     const result: legalRequirementsLabels[] = [];
 
     if (!get(data, 'testRequirements.normalStart1', false)) result.push(legalRequirementsLabels.normalStart1);
-    if (!get(data, 'testRequirements.normalStart2', false)) result.push(legalRequirementsLabels.normalStart2);
     if (!get(data, 'testRequirements.angledStart', false)) result.push(legalRequirementsLabels.angledStart);
     if (!get(data, 'testRequirements.hillStart', false)) result.push(legalRequirementsLabels.hillStart);
     if (!hasManoeuvreBeenCompletedCatB(data)) result.push(legalRequirementsLabels.manoeuvre);

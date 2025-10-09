@@ -55,7 +55,6 @@ export const validTestCatADIPart2: CatADI2UniqueTypes.TestData = {
     downhillStart: true,
     uphillStart: true,
     normalStart1: true,
-    normalStart2: true,
   },
   vehicleChecks: {
     showMeQuestions: [
@@ -104,7 +103,6 @@ export const validTestCatB: CatBUniqueTypes.TestData = {
     angledStart: true,
     hillStart: true,
     normalStart1: true,
-    normalStart2: true,
   },
   vehicleChecks: {
     showMeQuestion: {
@@ -434,7 +432,6 @@ export const legalRequirementsAMod2 = [
 
 export const legalRequirementsADIPart2 = [
   legalRequirementsLabels.normalStart1,
-  legalRequirementsLabels.normalStart2,
   legalRequirementsLabels.angledStart,
   legalRequirementsLabels.uphillStart,
   legalRequirementsLabels.downhillStart,
@@ -445,7 +442,6 @@ export const legalRequirementsADIPart2 = [
 
 export const legalRequirementsB = [
   legalRequirementsLabels.normalStart1,
-  legalRequirementsLabels.normalStart2,
   legalRequirementsLabels.angledStart,
   legalRequirementsLabels.hillStart,
   legalRequirementsLabels.manoeuvre,
