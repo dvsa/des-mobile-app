@@ -55,6 +55,7 @@ export const validTestCatADIPart2: CatADI2UniqueTypes.TestData = {
     downhillStart: true,
     uphillStart: true,
     normalStart1: true,
+    normalStart2: true,
   },
   vehicleChecks: {
     showMeQuestions: [
@@ -432,6 +433,7 @@ export const legalRequirementsAMod2 = [
 
 export const legalRequirementsADIPart2 = [
   legalRequirementsLabels.normalStart1,
+  legalRequirementsLabels.normalStart2,
   legalRequirementsLabels.angledStart,
   legalRequirementsLabels.uphillStart,
   legalRequirementsLabels.downhillStart,
