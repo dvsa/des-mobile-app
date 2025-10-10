@@ -15,9 +15,9 @@ before_all do
   if s3_path == 'release'
     s3_path = "release/#{version}/"
   elsif s3_path == 'feature'
-    s3_path = "#{s3_path}/#{ENV["GH_REF_NAME"]}/#{ENV["RUN_ID"]}/"
+    s3_path = "#{s3_path}/#{ENV["GH_REF_NAME"]}/"
   elsif s3_path == 'develop'
-    s3_path = "#{s3_path}/#{version}/#{ENV["RUN_ID"]}/"
+    s3_path = "#{s3_path}/#{version}/"
   end
 
   ENV["S3_PATH"] = "#{s3_path}"
