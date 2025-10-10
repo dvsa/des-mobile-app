@@ -238,10 +238,14 @@ export class DebriefCardComponent implements OnInit {
     ]);
 
   public getTestRequirementsCatADI2 = (): DataRowListItem[] => {
-    const requirements: DataRowListItem[] = [
+    return [
       {
         label: TestRequirementsLabels.normalStop1,
         checked: get(this.data, 'testRequirements.normalStart1', false),
+      },
+      {
+        label: TestRequirementsLabels.normalStop2,
+        checked: get(this.data, 'testRequirements.normalStart2', false),
       },
       {
         label: TestRequirementsLabels.angledStart,
@@ -256,16 +260,6 @@ export class DebriefCardComponent implements OnInit {
         checked: get(this.data, 'testRequirements.downhillStart', false),
       },
     ];
-
-    // Only add normalStop2 if it exists in the data
-    if (get(this.data, 'testRequirements.normalStart2') !== undefined) {
-      requirements.splice(1, 0, {
-        label: TestRequirementsLabels.normalStop2,
-        checked: get(this.data, 'testRequirements.normalStart2', false),
-      });
-    }
-
-    return requirements;
   };
 
   public getTestRequirementsCatB = (): DataRowListItem[] => {
