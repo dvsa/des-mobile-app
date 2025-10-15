@@ -104,7 +104,6 @@ export const validTestCatB: CatBUniqueTypes.TestData = {
     angledStart: true,
     hillStart: true,
     normalStart1: true,
-    normalStart2: true,
   },
   vehicleChecks: {
     showMeQuestion: {
@@ -445,7 +444,6 @@ export const legalRequirementsADIPart2 = [
 
 export const legalRequirementsB = [
   legalRequirementsLabels.normalStart1,
-  legalRequirementsLabels.normalStart2,
   legalRequirementsLabels.angledStart,
   legalRequirementsLabels.hillStart,
   legalRequirementsLabels.manoeuvre,
