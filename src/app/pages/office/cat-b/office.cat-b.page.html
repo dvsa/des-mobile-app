@@ -51,19 +51,6 @@
             >
             </route-number>
 
-            <independent-driving
-              [display]="pageState.displayIndependentDriving$ | async"
-              option1="Sat nav"
-              option1label="Sat nav"
-              option2="Traffic signs"
-              option2label="Traffic signs"
-              [formGroup]="form"
-              [outcome]="pageState.testOutcome$ | async"
-              [independentDriving]="pageState.independentDriving$ | async"
-              (independentDrivingChange)="independentDrivingChanged($event)"
-            >
-            </independent-driving>
-
             <true-likeness
               *ngIf="pageState.displayCandidateDescription$ | async"
               [formGroup]="form"
