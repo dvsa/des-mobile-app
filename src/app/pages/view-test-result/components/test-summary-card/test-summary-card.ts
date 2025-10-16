@@ -81,7 +81,13 @@ export class TestSummaryCardComponent {
     return get(this.testSummary, 'routeNumber', 'None');
   }
 
-  public get independentDriving(): string {
+  /**
+   * For Cat B, if independentDriving is not set, return false
+   */
+  public get independentDriving(): string | boolean {
+    if (this.isCatB() && !('independentDriving' in this.testSummary)) {
+      return false;
+    }
     return get(this.testSummary, 'independentDriving', 'None');
   }
 
@@ -140,5 +146,9 @@ export class TestSummaryCardComponent {
 
   isSC() {
     return this.category === TestCategory.SC;
+  }
+
+  isCatB() {
+    return this.category === TestCategory.B;
   }
 }

@@ -3,6 +3,7 @@ import { DataRowCustomComponent } from '@components/common/data-row-custom/data-
 import { DataRowComponent } from '@components/common/data-row/data-row';
 import { ModeOfTransport } from '@dvsa/mes-test-schema/categories/AM2';
 import { IndependentDriving, WeatherConditions } from '@dvsa/mes-test-schema/categories/common';
+import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { IonicModule } from '@ionic/angular';
 import { MockComponent } from 'ng-mocks';
 import { TestSummaryCardComponent } from '../test-summary-card';
@@ -155,6 +156,20 @@ describe('TestSummaryCardComponent', () => {
       });
 
       it('should return None if the testSummary is missing', () => {
+        expect(component.independentDriving).toEqual('None');
+      });
+
+      it('should return false if isCatB is true and independentDriving is missing', () => {
+        component.category = TestCategory.B;
+        component.testSummary = {};
+        fixture.detectChanges();
+        expect(component.independentDriving).toEqual(false);
+      });
+
+      it('should return none if isCatB is false and independentDriving is missing', () => {
+        component.category = TestCategory.C;
+        component.testSummary = {};
+        fixture.detectChanges();
         expect(component.independentDriving).toEqual('None');
       });
     });
