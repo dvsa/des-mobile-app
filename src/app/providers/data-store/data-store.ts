@@ -1,25 +1,25 @@
-import { Injectable } from '@angular/core';
-import { Platform } from '@ionic/angular';
-import { Storage } from '@ionic/storage-angular';
+import {Injectable} from '@angular/core';
+import {Platform} from '@ionic/angular';
+import {Storage} from '@ionic/storage-angular';
 
-import { Capacitor } from '@capacitor/core';
-import { Drivers } from '@ionic/storage';
-import { Store } from '@ngrx/store';
-import { Token } from '@providers/authentication/authentication';
-import { serialiseLogMessage } from '@shared/helpers/serialise-log-message';
-import { LogType } from '@shared/models/log.model';
-import { StoreModel } from '@shared/models/store.model';
-import { selectAppConfig } from '@store/app-config/app-config.selectors';
-import { selectAuthResult } from '@store/app-info/app-info.selectors';
-import { selectExaminerRecords } from '@store/examiner-records/examiner-records.selectors';
-import { getJournalState } from '@store/journal/journal.reducer';
-import { getRecallAutoPopupLastDisplayedTime } from '@store/journal/journal.selector';
-import { SaveLog } from '@store/logs/logs.actions';
-import { getLogsState } from '@store/logs/logs.reducer';
-import { getTests } from '@store/tests/tests.reducer';
+import {Capacitor} from '@capacitor/core';
+import {Drivers} from '@ionic/storage';
+import {Store} from '@ngrx/store';
+import {Token} from '@providers/authentication/authentication';
+import {serialiseLogMessage} from '@shared/helpers/serialise-log-message';
+import {LogType} from '@shared/models/log.model';
+import {StoreModel} from '@shared/models/store.model';
+import {selectAppConfig} from '@store/app-config/app-config.selectors';
+import {selectAuthResult} from '@store/app-info/app-info.selectors';
+import {selectExaminerRecords} from '@store/examiner-records/examiner-records.selectors';
+import {getJournalState} from '@store/journal/journal.reducer';
+import {getRecallAutoPopupLastDisplayedTime} from '@store/journal/journal.selector';
+import {SaveLog} from '@store/logs/logs.actions';
+import {getLogsState} from '@store/logs/logs.reducer';
+import {getTests} from '@store/tests/tests.reducer';
 import CordovaSQLiteDriver from 'localforage-cordovasqlitedriver';
-import { get } from 'lodash-es';
-import { LogHelper } from '../logs/logs-helper';
+import {get} from 'lodash-es';
+import {LogHelper} from '../logs/logs-helper';
 
 interface SQLitePlugin {
   deleteDatabase(
@@ -49,6 +49,8 @@ export type StorageKey = LocalStorageKey | Token;
 
 @Injectable()
 export class DataStoreProvider {
+  private static readonly defaultStorageTimeoutMilliseconds = 5000;
+  private static readonly storageTimeoutErrorText = 'DataStoreProvider Storage Call Timeout';
   private static readonly defaultStoreName = 'DES';
 
   constructor(
@@ -56,7 +58,8 @@ export class DataStoreProvider {
     private logHelper: LogHelper,
     private store$: Store<StoreModel>,
     private storage: Storage
-  ) {}
+  ) {
+  }
 
   /**
    * Initializes the data store by defining the storage driver and creating the storage instance.
@@ -67,11 +70,14 @@ export class DataStoreProvider {
       //Define the storage driver
       await this.storage.defineDriver(CordovaSQLiteDriver);
       // Create the storage instance
+      console.log('init store')
       this.storage = await this.storage.create();
+      console.log('store created')
 
       //Attempt to migrate any old IndexedDB data to Ionic Storage
       await this.attemptDataStoreMigration();
     } catch (err) {
+      console.error(err);
       // If there is an error during initialization, log it
       this.reportLog('initDataStore', '', err);
       throw err;
@@ -228,7 +234,7 @@ export class DataStoreProvider {
       if (!this.isIos()) {
         return [''];
       }
-      return await this.storage.keys();
+      return await this.timeout(this.storage.keys())
     } catch (err) {
       this.reportLog('Getting keys', '', err, false);
       try {
@@ -237,7 +243,7 @@ export class DataStoreProvider {
         throw err;
       }
       try {
-        return await this.storage.keys();
+        return await this.timeout(this.storage.keys())
       } catch (error) {
         this.reportLog('Removing storage post error', '', err, false);
         throw error;
@@ -246,7 +252,10 @@ export class DataStoreProvider {
   }
 
   tryToResetStorage = async (error: Error) => {
-    if (error.message.includes('malformed')) {
+    console.log('error', error);
+    if (error.message == DataStoreProvider.storageTimeoutErrorText ||
+      error.message.includes('malformed') ||
+      (error.message.includes('no such table') && error.message.includes('_ionicstorage'))) {
       try {
         await this.resetStorage();
       } catch (error) {
@@ -326,6 +335,18 @@ export class DataStoreProvider {
     }
   }
 
+  timeout = function(promise: Promise<any>, timeoutInMilliseconds: number = DataStoreProvider.defaultStorageTimeoutMilliseconds): Promise<any> {
+    return Promise.race([
+      promise,
+      new Promise(function(_resolve, reject){
+        setTimeout(function() {
+          reject(new Error(DataStoreProvider.storageTimeoutErrorText));
+        }, timeoutInMilliseconds);
+      })
+    ]);
+  };
+
+
   /**
    * sets the value for specified key
    * NOTE: isIos guard clause allows app to run in browser
@@ -338,7 +359,7 @@ export class DataStoreProvider {
       if (!this.isIos()) {
         return '';
       }
-      return await this.storage.set(key, value);
+      return await this.timeout(this.storage.set(key, value))
     } catch (err) {
       this.reportLog('Setting storage', key, err, false);
       try {
@@ -347,7 +368,7 @@ export class DataStoreProvider {
         throw err;
       }
       try {
-        return await this.storage.set(key, value);
+        return await this.timeout(this.storage.set(key, value))
       } catch (error) {
         this.reportLog('Setting storage post error', key, err, false);
         throw error;
@@ -364,7 +385,7 @@ export class DataStoreProvider {
       if (!this.isIos()) {
         return '';
       }
-      return await this.storage.get(key);
+      return await this.timeout(this.storage.get(key));
     } catch (err) {
       this.reportLog('Getting storage', key, err, false);
       try {
@@ -373,7 +394,7 @@ export class DataStoreProvider {
         throw err;
       }
       try {
-        return await this.storage.get(key);
+        return await this.timeout(this.storage.get(key));
       } catch (error) {
         this.reportLog('Getting storage post error', key, err, false);
         throw error;
@@ -390,7 +411,7 @@ export class DataStoreProvider {
   async removeItem(key: StorageKey): Promise<string> {
     try {
       if (!this.isIos()) return '';
-      return await this.storage.remove(key);
+      return await this.timeout(this.storage.remove(key))
     } catch (err) {
       this.reportLog('Removing storage', key, err, false);
       try {
@@ -399,7 +420,7 @@ export class DataStoreProvider {
         throw err;
       }
       try {
-        return await this.storage.remove(key);
+        return await this.timeout(this.storage.remove(key))
       } catch (error) {
         this.reportLog('Removing storage post error', key, err, false);
         throw error;
@@ -414,17 +435,15 @@ export class DataStoreProvider {
     saveToStorage = true,
     level: LogType = LogType.ERROR
   ): void => {
+    console.log('error logged', action, key, error, saveToStorage);
     this.store$.dispatch(
-      SaveLog(
-        {
-          payload: this.logHelper.createLog(
-            level,
-            `DataStoreProvider ${level} ${action} ${key}`,
-            serialiseLogMessage(error)
-          ),
-        },
-        saveToStorage
-      )
+      SaveLog({
+        payload: this.logHelper.createLog(
+          level,
+          `DataStoreProvider ${level} ${action} ${key}`,
+          serialiseLogMessage(error)
+        ),
+      }, saveToStorage)
     );
-  };
+  }
 }
