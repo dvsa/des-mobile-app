@@ -121,7 +121,8 @@ export class AuthenticationProvider {
       const employeeName = decode[appConfigAuth.employeeNameKey] as string;
       const employeeID = decode[appConfigAuth.employeeIdKey] as string;
       if (employeeName) this.store$.dispatch(LoadEmployeeName(employeeName));
-      if (employeeID) this.store$.dispatch(LoadEmployeeId({ employeeId: employeeID }));
+      //Parse the employee id as an int then convert it back to a string to remove leading zeroes
+      if (employeeID) this.store$.dispatch(LoadEmployeeId({ employeeId: Number.parseInt(employeeID, 10).toString() }));
     }
   }
 
