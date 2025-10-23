@@ -336,13 +336,13 @@ export class DataStoreProvider {
     }
   }
 
-  timeout = (
-    promise: Promise<any>,
+  timeout = <T>(
+    promise: Promise<T>,
     timeoutInMilliseconds: number = DataStoreProvider.defaultStorageTimeoutMilliseconds
-  ): Promise<any> =>
+  ): Promise<T> =>
     Promise.race([
       promise,
-      new Promise((_resolve, reject) => {
+      new Promise<T>((_resolve, reject) => {
         setTimeout(() => {
           reject(new Error(DataStoreProvider.storageTimeoutErrorText));
         }, timeoutInMilliseconds);
