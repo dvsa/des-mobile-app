@@ -183,17 +183,17 @@ describe('AuthenticationProvider', () => {
   });
 
   describe('loadEmployeeDetails', () => {
-    it('should dispatch both name and id if present', async () => {
+    it('should dispatch both name and id if present, stripping any leading zeroes', async () => {
       spyOn(authenticationProvider.appConfig, 'getAppConfigAsync').and.resolveTo({
         authentication: { employeeNameKey: 'name', employeeIdKey: 'id' },
       } as AppConfig);
 
-      spyOn(authenticationProvider, 'decodeToken').and.returnValue({ name: 'Alice', id: 'EMP42' });
+      spyOn(authenticationProvider, 'decodeToken').and.returnValue({ name: 'Alice', id: '0011' });
 
       await authenticationProvider.loadEmployeeDetails({ idToken: 'token' } as AuthResult);
 
       expect(authenticationProvider.store$.dispatch).toHaveBeenCalledWith(LoadEmployeeName('Alice'));
-      expect(authenticationProvider.store$.dispatch).toHaveBeenCalledWith(LoadEmployeeId({ employeeId: 'EMP42' }));
+      expect(authenticationProvider.store$.dispatch).toHaveBeenCalledWith(LoadEmployeeId({ employeeId: '11' }));
     });
 
     it('should not dispatch if idToken is missing', async () => {
