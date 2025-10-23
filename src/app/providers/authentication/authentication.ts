@@ -73,6 +73,9 @@ export class AuthenticationProvider {
     });
   }
 
+  /**
+   * Sets up the options for the azure provider needed for auth connect to function
+   */
   async setProviderOptions() {
     const isNative = Capacitor.isNativePlatform();
     const authSettings: AuthProviderSettings = this.appConfig.getAppConfig().authentication;
@@ -89,10 +92,16 @@ export class AuthenticationProvider {
     }
   }
 
+  /**
+   * Returns the employee id from the state
+   */
   getEmployeeId(): string {
     return this.store$.selectSignal(selectEmployeeId)();
   }
 
+  /**
+   * Gets the user's id token and returns it, attempting to refresh it beforehand if its expired.
+   */
   public async getAuthenticationToken(): Promise<string> {
     const needsRefresh: boolean = await (!this.isOffline() && this.hasTokenExpired(this.authResult()));
     if (needsRefresh) {
@@ -107,6 +116,10 @@ export class AuthenticationProvider {
     }
   }
 
+  /**
+   * Takes in a jwt token and returns the decoded result
+   * @param token
+   */
   decodeToken(token: string): JWTPayload {
     if (token) {
       return jose.decodeJwt(token);
@@ -114,25 +127,43 @@ export class AuthenticationProvider {
     return null;
   }
 
+  /**
+   * Loads employee details from the AuthResult and dispatches actions and dispatches them to the store
+   * @param authResult
+   */
   async loadEmployeeDetails(authResult: AuthResult) {
     if (authResult?.idToken) {
       const appConfigAuth = (await this.appConfig.getAppConfigAsync())?.authentication;
-      const decode = this.decodeToken(authResult.idToken);
+      // Decode the JWT idToken to extract user details
+      const decodedToken = this.decodeToken(authResult.idToken);
 
-      const employeeName = decode[appConfigAuth.employeeNameKey] as string;
+      // Extract the employee name using the configured key
+      const employeeName = decodedToken[appConfigAuth.employeeNameKey] as string;
+
+      // Extract the employee ID using the configured key
+      const employeeID = decodedToken[appConfigAuth.employeeIdKey];
+
+      // Check if the employee id is returned as an array, if it is,
+      // return the first item of that array to get the employee ID (Taken from legacy auth connect)
+      const normalizedEmployeeId: string = Array.isArray(employeeID) ? employeeID[0] : employeeID;
+
       if (employeeName) this.store$.dispatch(LoadEmployeeName(employeeName));
-
-      const employeeIDDecode = decode[appConfigAuth.employeeIdKey];
-      const employeeID: string = Array.isArray(employeeIDDecode) ? employeeIDDecode[0] : employeeIDDecode;
-      //Parse the employee id as an int then convert it back to a string to remove leading zeroes
-      if (employeeID) this.store$.dispatch(LoadEmployeeId({ employeeId: Number.parseInt(employeeID, 10).toString() }));
+      if (normalizedEmployeeId)
+        this.store$.dispatch(LoadEmployeeId({ employeeId: Number.parseInt(normalizedEmployeeId, 10).toString() }));
     }
   }
 
+  /**
+   * Manually reloads the employee's details from the state
+   */
   async refreshEmployeeDetails() {
     await this.loadEmployeeDetails(this.authResult());
   }
 
+  /**
+   * Takes in an auth result and stores it in both the storage and the state
+   * @param authResult
+   */
   async storeAuthResult(authResult: AuthResult) {
     await this.loadEmployeeDetails(authResult);
     try {
@@ -148,6 +179,9 @@ export class AuthenticationProvider {
     }
   }
 
+  /**
+   * Gets the stored auth result from the storage and returns it
+   */
   async getStoredAuthResult(): Promise<AuthResult> {
     try {
       const storedResult: string = await this.dataStoreProvider.getItem(LocalStorageKey.AUTH_RESULT);
@@ -164,13 +198,19 @@ export class AuthenticationProvider {
     }
   }
 
+  /**
+   * Triggers the login process, attempting to use an existing token if it is still valid and getting a new one if not
+   */
   async login() {
+    // Set up the provider options if they have not been setup already
     if (!this.providerOptions) {
       await this.setProviderOptions();
     }
     let authResult: AuthResult = null;
     try {
+      // Try and get the stored auth result
       authResult = await this.getStoredAuthResult();
+      //If it doesn't exist or it's expired, we will need a new one
       if (!authResult || (await this.hasTokenExpired(authResult))) {
         // Initiate the login process and update the store with the auth result
         authResult = await AuthConnect.login(this.provider, this.providerOptions);
@@ -187,11 +227,17 @@ export class AuthenticationProvider {
     }
   }
 
+  /**
+   * Find out if the user is offline
+   */
   public isOffline(): boolean {
     // Return true if the app is offline
     return this.networkState.getNetworkState() === ConnectionStatus.OFFLINE;
   }
 
+  /**
+   * Manually refresh the current auth session and store the result
+   */
   public async refreshSession(): Promise<void> {
     try {
       //Refresh the session and update the store with the new auth result
@@ -202,6 +248,10 @@ export class AuthenticationProvider {
     }
   }
 
+  /**
+   * Check if the user has a valid authResult, and attempt to refresh it manually if not.
+   * This will automatically return true if the user offline to not disrupt their local session
+   */
   public async isAuthenticated(): Promise<boolean> {
     try {
       // if offline, allow user to continue locally
@@ -227,6 +277,10 @@ export class AuthenticationProvider {
     }
   }
 
+  /**
+   * Gets the expiry date from the user's id token and compares it to the current time to see if it has expired
+   * @param result
+   */
   async hasTokenExpired(result: AuthResult): Promise<boolean> {
     const jwtPayload = this.decodeToken(result?.idToken);
     if (jwtPayload) {
@@ -307,6 +361,9 @@ export class AuthenticationProvider {
     await this.completedTestPersistenceProvider.clearPersistedCompletedTests();
   }
 
+  /**
+   * Logs the user out of Auth connect
+   */
   public async logout(): Promise<void> {
     try {
       this.logEvent(LogType.INFO, 'Logout', 'Started logout flow');
@@ -321,6 +378,12 @@ export class AuthenticationProvider {
     this.appConfig.shutDownStoreSubscription();
   }
 
+  /**
+   * Saves Auth Provider related logs
+   * @param logType
+   * @param desc
+   * @param msg
+   */
   logEvent(logType: LogType, desc: string, msg: unknown) {
     this.store$.dispatch(
       SaveLog({
