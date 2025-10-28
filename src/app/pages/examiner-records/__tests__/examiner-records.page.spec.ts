@@ -827,6 +827,17 @@ describe('ExaminerRecordsPage', () => {
     });
   });
 
+  describe('isCatB', () => {
+    it('should return true if the category is cat B', () => {
+      component.currentCategory = TestCategory.B;
+      expect(component.isCatB()).toEqual(true);
+    });
+    it('should return true if the category is not cat B', () => {
+      component.currentCategory = TestCategory.EUA1M1;
+      expect(component.isCatB()).toEqual(false);
+    });
+  });
+
   describe('isBike', () => {
     it('should return true if the category is a version of a bike test', () => {
       component.currentCategory = TestCategory.EUAM2;

@@ -851,6 +851,13 @@ export class ExaminerRecordsPage implements OnInit {
     ]);
 
   /**
+   * Returns whether the current category is a B test.
+   **
+   * @returns {boolean} `true` if the current category is a B test, otherwise `false`.
+   */
+  public isCatB = (): boolean => this.currentCategory === TestCategory.B;
+
+  /**
    * Returns whether the current category is a bike test (mod1/mod2).
    *
    * This method checks if the `currentCategory` is one of the bike test categories.
