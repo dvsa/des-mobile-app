@@ -56,9 +56,8 @@ export class AuthenticationProvider {
     private logHelper: LogHelper,
     public completedTestPersistenceProvider: CompletedTestPersistenceProvider,
     public examinerRecordsProvider: ExaminerRecordsProvider,
-    private networkState: NetworkStateProvider,
-  ) {
-  }
+    private networkState: NetworkStateProvider
+  ) {}
 
   async init() {
     return AuthConnect.setup({
@@ -99,15 +98,14 @@ export class AuthenticationProvider {
    * Gets the user's id token and returns it, attempting to refresh it beforehand if its expired.
    */
   public async getAuthenticationToken(): Promise<string> {
-    const needsRefresh: boolean = await (!this.isOffline() && this.hasTokenExpired(this.authResult()));
-    if (needsRefresh) {
-      await this.refreshSession();
-    }
-    await this.isAuthenticated();
+    const isAuthed: boolean = await this.isAuthenticated();
     try {
-      return this.authResult().idToken;
+      if (isAuthed) {
+        return (await this.getAuthResult()).idToken;
+      }
+      throw Error('User is not authorised');
     } catch (error) {
-      this.logEvent(LogType.ERROR, 'Logout', 'Get AuthToken Error');
+      this.logEvent(LogType.ERROR, 'getAuthenticationToken', 'Get AuthToken Error');
       return Promise.resolve(null);
     }
   }
@@ -140,24 +138,25 @@ export class AuthenticationProvider {
       const employeeID = decodedToken[appConfigAuth.employeeIdKey];
 
       // Check if the employee id is returned as an array, if it is,
-      // return the first item of that array to get the employee ID (Taken from legacy auth connect)
+      // Return the first item of that array to get the employee ID (Taken from legacy auth connect)
       const normalizedEmployeeId: string = Array.isArray(employeeID) ? employeeID[0] : employeeID;
 
       if (employeeName) this.store$.dispatch(LoadEmployeeName(employeeName));
       if (normalizedEmployeeId) {
-        this.store$.dispatch(LoadEmployeeId({
-          employeeId: Number.parseInt(normalizedEmployeeId, 10)
-            .toString(),
-        }));
+        this.store$.dispatch(
+          LoadEmployeeId({
+            employeeId: Number.parseInt(normalizedEmployeeId, 10).toString(),
+          })
+        );
       }
     }
   }
 
   /**
-   * Manually reloads the employee's details from the state
+   * Manually reloads the employee's details from the current Auth Result
    */
   async refreshEmployeeDetails() {
-    await this.loadEmployeeDetails(this.authResult());
+    await this.loadEmployeeDetails(await this.getAuthResult());
   }
 
   /**
@@ -177,7 +176,12 @@ export class AuthenticationProvider {
   }
 
   async getAuthResult() {
-    return this.dataStoreProvider.getItem(LocalStorageKey.AUTH_RESULT);
+    try {
+      return this.authResult() ?? (await this.getStoredAuthResult());
+    } catch (error) {
+      this.logEvent(LogType.ERROR, 'Authentication provider - Get Auth Result error', error);
+      return null;
+    }
   }
 
   /**
@@ -203,11 +207,23 @@ export class AuthenticationProvider {
    * Triggers the login process, attempting to use an existing token if it is still valid and getting a new one if not
    */
   async login() {
+    if (!this.providerOptions) {
+      this.setProviderOptions();
+    }
+
     if (this.isOffline()) return;
 
     this.logEvent(LogType.DEBUG, 'Login', 'Started login flow');
 
-    await AuthConnect.login(this.provider, this.providerOptions);
+    let authResult: AuthResult = null;
+    try {
+      authResult = await AuthConnect.login(this.provider, this.providerOptions);
+    } catch (error) {
+      this.logEvent(LogType.ERROR, 'Authentication provider - Login error', error);
+      throw error;
+    }
+
+    await this.storeAuthResult(authResult);
   }
 
   /**
@@ -223,7 +239,7 @@ export class AuthenticationProvider {
    */
   public async refreshSession(): Promise<void> {
     try {
-      let authResult = this.authResult();
+      let authResult = await this.getAuthResult();
 
       // check if the refresh token is available
       if (await AuthConnect.isRefreshTokenAvailable(authResult)) {
@@ -243,49 +259,13 @@ export class AuthenticationProvider {
    * Check if the user has a valid authResult, and attempt to refresh it manually if not.
    * This will automatically return true if the user offline to not disrupt their local session
    */
-  // public async isAuthenticated(): Promise<boolean> {
-  //   try {
-  //     // if offline, allow user to continue locally
-  //     if (this.isOffline()) return true;
-  //
-  //     const authResult = this.authResult();
-  //
-  //     // check to see if there is an access token to interrogate
-  //     if (authResult) {
-  //       // determine if the existing token is expired
-  //       if (await this.hasTokenExpired(authResult)) {
-  //         await this.refreshSession();
-  //       }
-  //
-  //       // token should have refreshed if previously expired, and method returns true
-  //       return true;
-  //     }
-  //
-  //     // check if a value previously existed in storage - if so, hydrate the state
-  //     const storedAuthResult = await this.getAuthResult();
-  //     if (storedAuthResult) {
-  //       // this.store$.dispatch(UpdateAuthResult(JSON.parse(storedAuthResult)));
-  //
-  //       if (await this.hasTokenExpired(authResult)) {
-  //         await this.refreshSession();
-  //       }
-  //     }
-  //
-  //     // return false if no token available
-  //     return false;
-  //   } catch (err) {
-  //     this.logEvent(LogType.ERROR, 'isAuthenticated error', err);
-  //     return false;
-  //   }
-  // }
-
   public async isAuthenticated(): Promise<boolean> {
     try {
       // if offline, allow user to continue locally
       if (this.isOffline()) return true;
 
       // check to see if there is an access token to interrogate
-      const authResult = this.authResult() ?? JSON.parse(await this.getAuthResult());
+      const authResult = await this.getAuthResult();
       if (!authResult) return false;
 
       // determine if the existing token is expired
@@ -392,7 +372,7 @@ export class AuthenticationProvider {
   public async logout(): Promise<void> {
     try {
       this.logEvent(LogType.INFO, 'Logout', 'Started logout flow');
-      await AuthConnect.logout(this.provider, this.authResult());
+      await AuthConnect.logout(this.provider, await this.getAuthResult());
 
       this.logEvent(LogType.INFO, 'Logout', 'Finished logout flow');
     } catch (err) {
@@ -413,7 +393,7 @@ export class AuthenticationProvider {
     this.store$.dispatch(
       SaveLog({
         payload: this.logHelper.createLog(logType, desc, `AuthenticationProvider => ${serialiseLogMessage(msg)}`),
-      }),
+      })
     );
   }
 }
