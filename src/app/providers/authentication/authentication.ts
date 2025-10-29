@@ -1,5 +1,4 @@
 import { Injectable, Signal } from '@angular/core';
-import { Capacitor } from '@capacitor/core';
 import { AuthConnect, AuthResult, AzureProvider, ProviderOptions } from '@ionic-enterprise/auth';
 import { Store } from '@ngrx/store';
 import { DelegatedRekeySearchClearState } from '@pages/delegated-rekey-search/delegated-rekey-search.actions';
@@ -44,7 +43,7 @@ export enum Token {
 
 @Injectable()
 export class AuthenticationProvider {
-  provider: AzureProvider;
+  provider: AzureProvider = new AzureProvider();
   providerOptions: ProviderOptions;
 
   authResult: Signal<AuthResult> = this.store$.selectSignal(selectAuthResult);
@@ -57,18 +56,16 @@ export class AuthenticationProvider {
     private logHelper: LogHelper,
     public completedTestPersistenceProvider: CompletedTestPersistenceProvider,
     public examinerRecordsProvider: ExaminerRecordsProvider,
-    private networkState: NetworkStateProvider
+    private networkState: NetworkStateProvider,
   ) {
-    this.provider = new AzureProvider();
-    AuthConnect.setup({
-      platform: Capacitor.isNativePlatform() ? 'capacitor' : 'web',
+  }
+
+  async init() {
+    return AuthConnect.setup({
+      platform: 'capacitor',
       logLevel: 'ERROR',
       ios: {
         webView: 'private',
-      },
-      web: {
-        uiMode: 'popup',
-        authFlow: 'PKCE',
       },
     });
   }
@@ -76,8 +73,7 @@ export class AuthenticationProvider {
   /**
    * Sets up the options for the azure provider needed for auth connect to function
    */
-  async setProviderOptions() {
-    const isNative = Capacitor.isNativePlatform();
+  setProviderOptions() {
     const authSettings: AuthProviderSettings = this.appConfig.getAppConfig().authentication;
 
     if (authSettings) {
@@ -85,8 +81,8 @@ export class AuthenticationProvider {
         audience: '',
         clientId: authSettings.clientId,
         discoveryUrl: `${authSettings.context}/v2.0/.well-known/openid-configuration?appid=${authSettings.clientId}`,
-        logoutUrl: isNative ? authSettings.logoutUrl : 'http://localhost:8100',
-        redirectUri: isNative ? authSettings.redirectUrl : 'http://localhost:8100',
+        logoutUrl: authSettings.logoutUrl,
+        redirectUri: authSettings.redirectUrl,
         scope: 'openid offline_access profile email',
       };
     }
@@ -148,8 +144,12 @@ export class AuthenticationProvider {
       const normalizedEmployeeId: string = Array.isArray(employeeID) ? employeeID[0] : employeeID;
 
       if (employeeName) this.store$.dispatch(LoadEmployeeName(employeeName));
-      if (normalizedEmployeeId)
-        this.store$.dispatch(LoadEmployeeId({ employeeId: Number.parseInt(normalizedEmployeeId, 10).toString() }));
+      if (normalizedEmployeeId) {
+        this.store$.dispatch(LoadEmployeeId({
+          employeeId: Number.parseInt(normalizedEmployeeId, 10)
+            .toString(),
+        }));
+      }
     }
   }
 
@@ -166,17 +166,18 @@ export class AuthenticationProvider {
    */
   async storeAuthResult(authResult: AuthResult) {
     await this.loadEmployeeDetails(authResult);
+
     try {
       await this.dataStoreProvider.setItem(LocalStorageKey.AUTH_RESULT, JSON.stringify(authResult));
     } catch (error) {
       this.logEvent(LogType.ERROR, 'Authentication provider - Store result Storage error', error);
     }
-    try {
-      this.store$.dispatch(UpdateAuthResult(authResult));
-    } catch (error) {
-      this.logEvent(LogType.ERROR, 'Authentication provider - Store result State error', error);
-      throw error;
-    }
+
+    this.store$.dispatch(UpdateAuthResult(authResult));
+  }
+
+  async getAuthResult() {
+    return this.dataStoreProvider.getItem(LocalStorageKey.AUTH_RESULT);
   }
 
   /**
@@ -202,29 +203,11 @@ export class AuthenticationProvider {
    * Triggers the login process, attempting to use an existing token if it is still valid and getting a new one if not
    */
   async login() {
-    // Set up the provider options if they have not been setup already
-    if (!this.providerOptions) {
-      await this.setProviderOptions();
-    }
-    let authResult: AuthResult = null;
-    try {
-      // Try and get the stored auth result
-      authResult = await this.getStoredAuthResult();
-      //If it doesn't exist or it's expired, we will need a new one
-      if (!authResult || (await this.hasTokenExpired(authResult))) {
-        // Initiate the login process and update the store with the auth result
-        authResult = await AuthConnect.login(this.provider, this.providerOptions);
-      }
-    } catch (error) {
-      this.logEvent(LogType.ERROR, 'Authentication provider - Login error', error);
-      throw error;
-    }
-    try {
-      // Dispatch action to update the auth result in the store
-      await this.storeAuthResult(authResult);
-    } catch (error) {
-      this.logEvent(LogType.ERROR, 'Authentication provider - Store error during login', error);
-    }
+    if (this.isOffline()) return;
+
+    this.logEvent(LogType.DEBUG, 'Login', 'Started login flow');
+
+    await AuthConnect.login(this.provider, this.providerOptions);
   }
 
   /**
@@ -240,8 +223,16 @@ export class AuthenticationProvider {
    */
   public async refreshSession(): Promise<void> {
     try {
-      //Refresh the session and update the store with the new auth result
-      await this.storeAuthResult(await AuthConnect.refreshSession(this.provider, this.authResult()));
+      let authResult = this.authResult();
+
+      // check if the refresh token is available
+      if (await AuthConnect.isRefreshTokenAvailable(authResult)) {
+        authResult = await AuthConnect.refreshSession(this.provider, authResult);
+      } else {
+        throw new Error('No refresh token available');
+      }
+
+      await this.storeAuthResult(authResult);
     } catch (error) {
       this.logEvent(LogType.ERROR, 'Authentication provider - Refresh error', error);
       throw error;
@@ -252,25 +243,59 @@ export class AuthenticationProvider {
    * Check if the user has a valid authResult, and attempt to refresh it manually if not.
    * This will automatically return true if the user offline to not disrupt their local session
    */
+  // public async isAuthenticated(): Promise<boolean> {
+  //   try {
+  //     // if offline, allow user to continue locally
+  //     if (this.isOffline()) return true;
+  //
+  //     const authResult = this.authResult();
+  //
+  //     // check to see if there is an access token to interrogate
+  //     if (authResult) {
+  //       // determine if the existing token is expired
+  //       if (await this.hasTokenExpired(authResult)) {
+  //         await this.refreshSession();
+  //       }
+  //
+  //       // token should have refreshed if previously expired, and method returns true
+  //       return true;
+  //     }
+  //
+  //     // check if a value previously existed in storage - if so, hydrate the state
+  //     const storedAuthResult = await this.getAuthResult();
+  //     if (storedAuthResult) {
+  //       // this.store$.dispatch(UpdateAuthResult(JSON.parse(storedAuthResult)));
+  //
+  //       if (await this.hasTokenExpired(authResult)) {
+  //         await this.refreshSession();
+  //       }
+  //     }
+  //
+  //     // return false if no token available
+  //     return false;
+  //   } catch (err) {
+  //     this.logEvent(LogType.ERROR, 'isAuthenticated error', err);
+  //     return false;
+  //   }
+  // }
+
   public async isAuthenticated(): Promise<boolean> {
     try {
       // if offline, allow user to continue locally
       if (this.isOffline()) return true;
+
       // check to see if there is an access token to interrogate
-      if (this.authResult()) {
-        // determine if the existing token is expired
-        if (await this.hasTokenExpired(this.authResult())) {
-          // attempt a token refresh
-          const previousResult = this.authResult().accessToken;
-          await this.refreshSession();
-          // return true if the token has changed successfully
-          return previousResult !== this.authResult().accessToken;
-        }
-        // token should have refreshed if previously expired, and method returns true
-        return true;
-      }
-      // return false if no token available
-      return false;
+      const authResult = this.authResult() ?? JSON.parse(await this.getAuthResult());
+      if (!authResult) return false;
+
+      // determine if the existing token is expired
+      if (!(await this.hasTokenExpired(authResult))) return true;
+
+      // attempt a token refresh
+      await this.refreshSession();
+
+      // return true if the token has changed successfully
+      return true;
     } catch (err) {
       this.logEvent(LogType.ERROR, 'isAuthenticated error', err);
       return false;
@@ -388,7 +413,7 @@ export class AuthenticationProvider {
     this.store$.dispatch(
       SaveLog({
         payload: this.logHelper.createLog(logType, desc, `AuthenticationProvider => ${serialiseLogMessage(msg)}`),
-      })
+      }),
     );
   }
 }

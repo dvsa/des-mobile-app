@@ -1,5 +1,5 @@
 import { HTTP_INTERCEPTORS, HttpClient, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
-import { ErrorHandler, NgModule } from '@angular/core';
+import { ErrorHandler, inject, NgModule, provideAppInitializer } from '@angular/core';
 import { BrowserModule, HAMMER_GESTURE_CONFIG, HammerModule } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
 import { IsDebug } from '@awesome-cordova-plugins/is-debug/ngx';
@@ -224,6 +224,11 @@ const storageDriver = Capacitor.getPlatform() === 'web' ? Drivers.IndexedDB : Co
     ADI3AssessmentProvider,
     PassCertificateValidationProvider,
     provideHttpClient(withInterceptorsFromDi()),
+    provideAppInitializer(async () => {
+      const auth = inject(AuthenticationProvider);
+      return auth.init();
+    }),
   ],
 })
-export class AppModule {}
+export class AppModule {
+}
