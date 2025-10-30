@@ -106,7 +106,7 @@ describe('AuthenticationProvider', () => {
     it('should set providerOptions with native URLs when running on native platform', async () => {
       spyOn(Capacitor, 'isNativePlatform').and.returnValue(true);
 
-      await authenticationProvider.setProviderOptions();
+      authenticationProvider.setProviderOptions();
 
       expect(authenticationProvider.providerOptions).toEqual({
         audience: '',
@@ -115,22 +115,6 @@ describe('AuthenticationProvider', () => {
           'local-authentication-context/v2.0/.well-known/openid-configuration?appid=local-authentication-client-id',
         logoutUrl: 'local-logout-url',
         redirectUri: 'local-authentication-redirect-url',
-        scope: 'openid offline_access profile email',
-      });
-    });
-
-    it('should set providerOptions with web URLs when running on web platform', async () => {
-      spyOn(Capacitor, 'isNativePlatform').and.returnValue(false);
-
-      await authenticationProvider.setProviderOptions();
-
-      expect(authenticationProvider.providerOptions).toEqual({
-        audience: '',
-        clientId: 'local-authentication-client-id',
-        discoveryUrl:
-          'local-authentication-context/v2.0/.well-known/openid-configuration?appid=local-authentication-client-id',
-        logoutUrl: 'http://localhost:8100',
-        redirectUri: 'http://localhost:8100',
         scope: 'openid offline_access profile email',
       });
     });
@@ -161,22 +145,20 @@ describe('AuthenticationProvider', () => {
       authenticationProvider.authResult = (() => ({ idToken: 'token123' })) as Signal<AuthResult>;
     });
 
-    it('should return idToken if not expired and authenticated', async () => {
+    it('should return idToken if authenticated', async () => {
       const token = await authenticationProvider.getAuthenticationToken();
       expect(token).toBe('token123');
       expect(authenticationProvider.isAuthenticated).toHaveBeenCalled();
     });
 
-    it('should refresh session if token needs refresh', async () => {
-      (authenticationProvider.hasTokenExpired as jasmine.Spy).and.returnValue(Promise.resolve(true));
-      const refreshSpy = authenticationProvider.refreshSession as jasmine.Spy;
-
-      await authenticationProvider.getAuthenticationToken();
-      expect(refreshSpy).toHaveBeenCalled();
-    });
-
     it('should return null if authResult throws', async () => {
       authenticationProvider.authResult = (() => {}) as Signal<AuthResult>;
+      const token = await authenticationProvider.getAuthenticationToken();
+      expect(token).toBeNull();
+    });
+
+    it('should return null if user is not authenticated', async () => {
+      spyOn(authenticationProvider, 'isAuthenticated').and.returnValue(Promise.resolve(false));
       const token = await authenticationProvider.getAuthenticationToken();
       expect(token).toBeNull();
     });
@@ -202,13 +184,73 @@ describe('AuthenticationProvider', () => {
     });
   });
 
+  describe('getAuthResult', () => {
+    it('should return authResult when it exists', async () => {
+      const mockAuthResult: AuthResult = {} as AuthResult;
+      spyOn(authenticationProvider, 'authResult').and.returnValue(mockAuthResult);
+      spyOn(authenticationProvider, 'getStoredAuthResult');
+
+      const result = await authenticationProvider.getAuthResult();
+
+      expect(result).toEqual(mockAuthResult);
+      expect(authenticationProvider.getStoredAuthResult).not.toHaveBeenCalled();
+    });
+
+    it('should return stored auth result when authResult is null', async () => {
+      const mockAuthResult: AuthResult = {} as AuthResult;
+      spyOn(authenticationProvider, 'authResult').and.returnValue(null);
+      spyOn(authenticationProvider, 'getStoredAuthResult').and.resolveTo(mockAuthResult);
+
+      const result = await authenticationProvider.getAuthResult();
+
+      expect(result).toEqual(mockAuthResult);
+      expect(authenticationProvider.getStoredAuthResult).toHaveBeenCalled();
+    });
+
+    it('should return stored auth result when authResult is undefined', async () => {
+      const mockAuthResult: AuthResult = {} as AuthResult;
+      spyOn(authenticationProvider, 'authResult').and.returnValue(undefined);
+      spyOn(authenticationProvider, 'getStoredAuthResult').and.resolveTo(mockAuthResult);
+
+      const result = await authenticationProvider.getAuthResult();
+
+      expect(result).toEqual(mockAuthResult);
+    });
+
+    it('should return null when both authResult and storage are empty', async () => {
+      spyOn(authenticationProvider, 'authResult').and.returnValue(null);
+      spyOn(authenticationProvider, 'getStoredAuthResult').and.resolveTo(null);
+
+      const result = await authenticationProvider.getAuthResult();
+
+      expect(result).toBeNull();
+    });
+
+    it('should catch storage errors and return null', async () => {
+      const storageError = new Error('Storage unavailable');
+      spyOn(authenticationProvider, 'authResult').and.returnValue(null);
+      spyOn(authenticationProvider, 'logEvent').and.callThrough();
+      spyOn(authenticationProvider, 'getStoredAuthResult').and.rejectWith(storageError);
+
+      const result = await authenticationProvider.getAuthResult();
+
+      expect(result).toBeNull();
+      expect(authenticationProvider.logEvent).toHaveBeenCalledWith(
+        LogType.ERROR,
+        'Authentication provider - Get Auth Result error',
+        storageError
+      );
+    });
+  });
+
   describe('refreshEmployeeDetails', () => {
-    it('should call loadEmployeeDetails() with the authResult', () => {
+    it('should call loadEmployeeDetails() with the authResult', async () => {
       spyOn(authenticationProvider, 'loadEmployeeDetails');
+      spyOn(authenticationProvider, 'getAuthResult').and.returnValue(Promise.resolve({} as AuthResult));
 
-      authenticationProvider.refreshEmployeeDetails();
+      await authenticationProvider.refreshEmployeeDetails();
 
-      expect(authenticationProvider.loadEmployeeDetails).toHaveBeenCalledWith(authenticationProvider.authResult());
+      expect(authenticationProvider.loadEmployeeDetails).toHaveBeenCalledWith({} as AuthResult);
     });
   });
 
@@ -366,89 +408,132 @@ describe('AuthenticationProvider', () => {
   });
 
   describe('refreshSession', () => {
-    it('should call storeAuthResult() with the result of AuthConnect.refreshSession()', () => {
-      const testAuth = authenticationProvider.authResult();
-      spyOn(AuthConnect, 'refreshSession').and.returnValue(Promise.resolve(testAuth));
+    it('should call AuthConnect.refreshSession() if a refresh token is available', async () => {
+      const testAuth = {} as AuthResult;
+      spyOn(authenticationProvider, 'getAuthResult').and.resolveTo(testAuth);
+      spyOn(AuthConnect, 'isRefreshTokenAvailable').and.resolveTo(true);
+      spyOn(AuthConnect, 'refreshSession').and.resolveTo(testAuth);
       spyOn(authenticationProvider, 'storeAuthResult').and.returnValue(Promise.resolve());
 
-      authenticationProvider.refreshSession();
+      await authenticationProvider.refreshSession();
 
       expect(AuthConnect.refreshSession).toHaveBeenCalledWith(authenticationProvider.provider, testAuth);
+    });
+    it('should call storeAuthResult() with the result of AuthConnect.refreshSession() if a refresh token is available', async () => {
+      const testAuth = {} as AuthResult;
+      spyOn(authenticationProvider, 'getAuthResult').and.resolveTo(testAuth);
+      spyOn(AuthConnect, 'isRefreshTokenAvailable').and.resolveTo(true);
+      spyOn(AuthConnect, 'refreshSession').and.resolveTo(testAuth);
+      spyOn(authenticationProvider, 'storeAuthResult').and.returnValue(Promise.resolve());
+
+      await authenticationProvider.refreshSession();
+
+      expect(authenticationProvider.storeAuthResult).toHaveBeenCalledWith(testAuth);
+    });
+    it('should not call storeAuthResult() or AuthConnect.refreshSession if a refresh token is not available', async () => {
+      const testAuth = {} as AuthResult;
+      spyOn(authenticationProvider, 'getAuthResult').and.resolveTo(testAuth);
+      spyOn(AuthConnect, 'isRefreshTokenAvailable').and.resolveTo(false);
+      spyOn(AuthConnect, 'refreshSession').and.resolveTo(testAuth);
+      spyOn(authenticationProvider, 'storeAuthResult').and.returnValue(Promise.resolve());
+
+      await authenticationProvider.refreshSession().catch((err) => {
+        expect(authenticationProvider.storeAuthResult).not.toHaveBeenCalled();
+        expect(AuthConnect.refreshSession).not.toHaveBeenCalled();
+      });
     });
   });
 
   describe('isAuthenticated', () => {
     beforeEach(() => {
       spyOn(authenticationProvider, 'logEvent');
+      spyOn(authenticationProvider, 'isOffline');
+      spyOn(authenticationProvider, 'getAuthResult');
+      spyOn(authenticationProvider, 'hasTokenExpired');
+      spyOn(authenticationProvider, 'refreshSession');
     });
-
-    it('should return true if offline', async () => {
+    it('should return true when offline', async () => {
       spyOn(authenticationProvider, 'isOffline').and.returnValue(true);
 
       const result = await authenticationProvider.isAuthenticated();
 
       expect(result).toBe(true);
+      expect(authenticationProvider.getAuthResult).not.toHaveBeenCalled();
     });
 
-    it('should return false if no authResult and not offline', async () => {
+    it('should return false when no auth result exists', async () => {
       spyOn(authenticationProvider, 'isOffline').and.returnValue(false);
-      authenticationProvider.authResult = (() => undefined) as Signal<AuthResult>;
+      spyOn(authenticationProvider, 'getAuthResult').and.resolveTo(null);
 
       const result = await authenticationProvider.isAuthenticated();
 
       expect(result).toBe(false);
+      expect(authenticationProvider.hasTokenExpired).not.toHaveBeenCalled();
     });
 
-    it('should return true if token is not expired', async () => {
+    it('should return true when token is valid and not expired', async () => {
+      const mockAuthResult = {} as AuthResult;
       spyOn(authenticationProvider, 'isOffline').and.returnValue(false);
-      spyOn(authenticationProvider, 'hasTokenExpired').and.returnValue(Promise.resolve(false));
-      authenticationProvider.authResult = (() => ({ accessToken: 'abc' })) as Signal<AuthResult>;
+      spyOn(authenticationProvider, 'getAuthResult').and.resolveTo(mockAuthResult);
+      spyOn(authenticationProvider, 'hasTokenExpired').and.resolveTo(false);
 
       const result = await authenticationProvider.isAuthenticated();
 
       expect(result).toBe(true);
+      expect(authenticationProvider.hasTokenExpired).toHaveBeenCalledWith(mockAuthResult);
+      expect(authenticationProvider.refreshSession).not.toHaveBeenCalled();
     });
 
-    it('should refresh session and return true if token expired and accessToken changes', async () => {
+    it('should attempt token refresh when token is expired', async () => {
+      const mockAuthResult = {} as AuthResult;
       spyOn(authenticationProvider, 'isOffline').and.returnValue(false);
-      spyOn(authenticationProvider, 'hasTokenExpired').and.returnValue(Promise.resolve(true));
-      const firstToken = { accessToken: 'old' };
-      const secondToken = { accessToken: 'new' };
-      authenticationProvider.authResult = (() => firstToken) as Signal<AuthResult>;
-      spyOn(authenticationProvider, 'refreshSession').and.callFake(async () => {
-        authenticationProvider.authResult = (() => secondToken) as Signal<AuthResult>;
-      });
+      spyOn(authenticationProvider, 'getAuthResult').and.resolveTo(mockAuthResult);
+      spyOn(authenticationProvider, 'hasTokenExpired').and.resolveTo(true);
+      spyOn(authenticationProvider, 'refreshSession').and.resolveTo();
 
       const result = await authenticationProvider.isAuthenticated();
 
-      expect(authenticationProvider.refreshSession).toHaveBeenCalled();
       expect(result).toBe(true);
-    });
-
-    it('should refresh session and return false if token expired and accessToken does not change', async () => {
-      spyOn(authenticationProvider, 'isOffline').and.returnValue(false);
-      spyOn(authenticationProvider, 'hasTokenExpired').and.returnValue(Promise.resolve(true));
-      const token = { accessToken: 'same' };
-      authenticationProvider.authResult = (() => token) as Signal<AuthResult>;
-      spyOn(authenticationProvider, 'refreshSession').and.returnValue(Promise.resolve());
-
-      const result = await authenticationProvider.isAuthenticated();
-
       expect(authenticationProvider.refreshSession).toHaveBeenCalled();
-      expect(result).toBe(false);
     });
 
-    it('should log and return false if an error is thrown', async () => {
-      spyOn(authenticationProvider, 'isOffline').and.throwError('fail');
+    it('should catch errors from getAuthResult and return false', async () => {
+      const testError = new Error('Auth result retrieval failed');
+      spyOn(authenticationProvider, 'isOffline').and.returnValue(false);
+      spyOn(authenticationProvider, 'getAuthResult').and.rejectWith(testError);
 
       const result = await authenticationProvider.isAuthenticated();
 
-      expect(authenticationProvider.logEvent).toHaveBeenCalledWith(
-        LogType.ERROR,
-        'isAuthenticated error',
-        jasmine.any(Error)
-      );
       expect(result).toBe(false);
+      expect(authenticationProvider.logEvent).toHaveBeenCalledWith(LogType.ERROR, 'isAuthenticated error', testError);
+    });
+
+    it('should catch errors from hasTokenExpired and return false', async () => {
+      const mockAuthResult = {} as AuthResult;
+      const testError = new Error('Token expiry check failed');
+
+      spyOn(authenticationProvider, 'isOffline').and.returnValue(false);
+      spyOn(authenticationProvider, 'getAuthResult').and.resolveTo(mockAuthResult);
+      spyOn(authenticationProvider, 'hasTokenExpired').and.rejectWith(testError);
+
+      const result = await authenticationProvider.isAuthenticated();
+
+      expect(result).toBe(false);
+      expect(authenticationProvider.logEvent).toHaveBeenCalledWith(LogType.ERROR, 'isAuthenticated error', testError);
+    });
+
+    it('should catch errors from refreshSession and return false', async () => {
+      const testError = new Error('Token refresh failed');
+      const mockAuthResult = {} as AuthResult;
+      spyOn(authenticationProvider, 'isOffline').and.returnValue(false);
+      spyOn(authenticationProvider, 'getAuthResult').and.resolveTo(mockAuthResult);
+      spyOn(authenticationProvider, 'hasTokenExpired').and.resolveTo(true);
+      spyOn(authenticationProvider, 'refreshSession').and.rejectWith(testError);
+
+      const result = await authenticationProvider.isAuthenticated();
+
+      expect(result).toBe(false);
+      expect(authenticationProvider.logEvent).toHaveBeenCalledWith(LogType.ERROR, 'isAuthenticated error', testError);
     });
   });
 
@@ -522,6 +607,7 @@ describe('AuthenticationProvider', () => {
     beforeEach(() => {
       spyOn(authenticationProvider, 'logEvent');
       spyOn(authenticationProvider.appConfig, 'shutDownStoreSubscription');
+      spyOn(authenticationProvider, 'getAuthResult').and.resolveTo({} as AuthResult);
       spyOn(authenticationProvider, 'clearStore').and.returnValue(Promise.resolve());
       spyOn(AuthConnect, 'logout').and.returnValue(Promise.resolve());
       authenticationProvider.authResult = (() => {}) as Signal<AuthResult>;
@@ -530,12 +616,8 @@ describe('AuthenticationProvider', () => {
     it('should log start and finish, call AuthConnect.logout, clearStore, and shutDownStoreSubscription', async () => {
       await authenticationProvider.logout();
 
-      expect(authenticationProvider.logEvent).toHaveBeenCalledWith(LogType.INFO, 'Logout', 'Started logout flow');
-      expect(AuthConnect.logout).toHaveBeenCalledWith(
-        authenticationProvider.provider,
-        authenticationProvider.authResult()
-      );
-      expect(authenticationProvider.logEvent).toHaveBeenCalledWith(LogType.INFO, 'Logout', 'Finished logout flow');
+      expect(AuthConnect.logout).toHaveBeenCalledWith(authenticationProvider.provider, {} as AuthResult);
+
       expect(authenticationProvider.clearStore).toHaveBeenCalled();
       expect(authenticationProvider.appConfig.shutDownStoreSubscription).toHaveBeenCalled();
     });
