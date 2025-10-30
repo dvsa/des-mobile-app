@@ -59,6 +59,9 @@ export class AuthenticationProvider {
     private networkState: NetworkStateProvider
   ) {}
 
+  /**
+   * Initialises AuthConnect
+   */
   async init() {
     return AuthConnect.setup({
       platform: 'capacitor',
@@ -269,10 +272,10 @@ export class AuthenticationProvider {
       if (!authResult) return false;
 
       // determine if the existing token is expired
-      if (!(await this.hasTokenExpired(authResult))) return true;
-
-      // attempt a token refresh
-      await this.refreshSession();
+      if (await this.hasTokenExpired(authResult)) {
+        // attempt a token refresh
+        await this.refreshSession();
+      }
 
       // return true if the token has changed successfully
       return true;
@@ -287,9 +290,18 @@ export class AuthenticationProvider {
    * @param result
    */
   async hasTokenExpired(result: AuthResult): Promise<boolean> {
-    const jwtPayload = this.decodeToken(result?.idToken);
-    if (jwtPayload) {
-      return !!(jwtPayload?.exp && new Date(jwtPayload.exp * 1000) < new Date());
+    const idJwtPayload = this.decodeToken(result?.idToken);
+    const accessJwtPayload = this.decodeToken(result?.accessToken);
+
+    let isExpired = false;
+    if (idJwtPayload) {
+      isExpired = !!(idJwtPayload?.exp && new Date(idJwtPayload.exp * 1000) < new Date());
+      if (isExpired) {
+        return true;
+      }
+      if (accessJwtPayload) {
+        return !!(accessJwtPayload?.exp && new Date(accessJwtPayload.exp * 1000) < new Date());
+      }
     }
     return true;
   }

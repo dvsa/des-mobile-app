@@ -1,5 +1,5 @@
 import { HTTP_INTERCEPTORS, HttpClient, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
-import { ErrorHandler, inject, NgModule, provideAppInitializer } from '@angular/core';
+import { ErrorHandler, NgModule, inject, provideAppInitializer } from '@angular/core';
 import { BrowserModule, HAMMER_GESTURE_CONFIG, HammerModule } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
 import { IsDebug } from '@awesome-cordova-plugins/is-debug/ngx';
@@ -230,5 +230,4 @@ const storageDriver = Capacitor.getPlatform() === 'web' ? Drivers.IndexedDB : Co
     }),
   ],
 })
-export class AppModule {
-}
+export class AppModule {}
