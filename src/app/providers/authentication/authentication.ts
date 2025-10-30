@@ -160,6 +160,9 @@ export class AuthenticationProvider {
     this.store$.dispatch(UpdateAuthResult(authResult));
   }
 
+  /**
+   * Gets the current auth result object, prioritising the state and relying on storage as a backup
+   */
   async getAuthResult() {
     try {
       return this.authResult() ?? (await this.getStoredAuthResult());
