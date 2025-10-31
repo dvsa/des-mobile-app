@@ -23,16 +23,14 @@ export class TerminateTestModal {
    * Fired when the termination of the test is confirmed.
    * Handles re-authentication and subsequent delegation to the onTerminate callback.
    */
-  terminationWrapper(): Promise<void> {
+  async terminationWrapper(): Promise<void> {
     if (this.shouldAuthenticate) {
-      return this.deviceAuthenticationProvider
-        .triggerLockScreen(this.isPracticeMode)
-        .then(() => {
-          this.onTerminate();
-        })
-        .catch((err) => err);
+      if (await this.deviceAuthenticationProvider.triggerLockScreen(this.isPracticeMode)) {
+        this.onTerminate();
+      }
+    } else {
+      this.onTerminate();
     }
-    this.onTerminate();
     return Promise.resolve();
   }
 }
