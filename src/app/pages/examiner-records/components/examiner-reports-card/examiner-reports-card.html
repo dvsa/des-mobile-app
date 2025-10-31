@@ -3,7 +3,7 @@
   [style.min-width]="setMinWidth()"
   (click)="handleCardClick()"
   [class.ion-activatable]="canExpand && getTotal(passedData)"
-  [class]="'mes-black'"
+  [class]="'mes-black ' + (isPortrait ? 'max-width-96vw' : 'max-width-90vw') + (forceMaxWidth ? ' maximise-width' : '')"
 >
   <ion-card-header>
     <ion-card-title>
@@ -16,8 +16,8 @@
   </ion-card-header>
   <ion-card-content>
     <div *ngIf="passedData && getTotal(passedData) > 0">
-      <ion-row *ngIf="hasChart">
-        <ion-col class="ion-justify-content-center display-flex">
+      <ion-row *ngIf="(hasChart || hasCustomChartRowContent)">
+        <ion-col *ngIf="hasChart" [size]="chartColSize" class="ion-justify-content-center display-flex">
           <chart
             *ngIf="showMainContent"
             [zoomSize]="this.accessibilityService.getTextZoomClass()"
@@ -33,6 +33,9 @@
             [passedData]="passedData"
           >
           </chart>
+        </ion-col>
+        <ion-col *ngIf="showMainContent && hasCustomChartRowContent">
+          <ng-content select="[customChartRowContent]"></ng-content>
         </ion-col>
       </ion-row>
       <ion-row *ngIf="hasCustomMainContent">

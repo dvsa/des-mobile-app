@@ -23,6 +23,10 @@ export class ExaminerReportsCard {
   @Input()
   chartID: string = null;
   @Input()
+  chartColSize = 'auto';
+  @Input()
+  forceMaxWidth = false;
+  @Input()
   averageColour = '#000000';
   @Input()
   cardTitle = 'Card title';
@@ -42,6 +46,8 @@ export class ExaminerReportsCard {
   hasCustomMainContent = false;
   @Input()
   hasCustomExpandedContent = false;
+  @Input()
+  hasCustomChartRowContent = false;
   @Input()
   displayColoursOnDataGrid = false;
   @Input()
