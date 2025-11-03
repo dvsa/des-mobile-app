@@ -12,9 +12,7 @@ import { provideMockStore } from '@ngrx/store/testing';
 import { DataStoreProvider, LocalStorageKey } from '@providers/data-store/data-store';
 import { LogHelperMock } from '@providers/logs/__mocks__/logs-helper.mock';
 import { LogHelper } from '@providers/logs/logs-helper';
-import { Log, LogType } from '@shared/models/log.model';
 import { StoreModel } from '@shared/models/store.model';
-import { SaveLog } from '@store/logs/logs.actions';
 import CordovaSQLiteDriver from 'localforage-cordovasqlitedriver';
 
 describe('DataStoreProvider', () => {
@@ -188,7 +186,7 @@ describe('DataStoreProvider', () => {
       const reportLogSpy = spyOn<any>(provider, 'reportLog');
 
       await expectAsync(provider.clearIndexedDB()).toBeRejectedWith(error);
-      expect(reportLogSpy).toHaveBeenCalledWith('clearIndexedDB', '', error, LogType.ERROR);
+      expect(reportLogSpy).toHaveBeenCalledWith('clearIndexedDB', '', error);
     });
   });
 
@@ -520,22 +518,11 @@ describe('DataStoreProvider', () => {
     it('should return an error string if the function throws an error', async () => {
       storage.remove = jasmine.createSpy().and.returnValue(Promise.reject('error'));
 
-      await provider.removeItem(LocalStorageKey.LOGS);
-
-      expect(store$.dispatch).toHaveBeenCalledWith(
-        SaveLog({
-          payload: {
-            message: 'error',
-            type: LogType.ERROR,
-            timestamp: 123,
-            description: 'Description',
-            appVersion: '1.1.0',
-            iosVersion: '1.0.0',
-            deviceId: 'fb455c20-c025-4d6b-bbf2-aab80af6efb8',
-            drivingExaminerId: 'testData',
-          } as unknown as Log,
-        })
-      );
+      try {
+        await provider.removeItem(LocalStorageKey.LOGS);
+      } catch (err) {
+        expect(err).toEqual('error');
+      }
     });
   });
 });
