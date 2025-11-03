@@ -26,7 +26,7 @@ interface SQLitePlugin {
     options: { name: string; location: string },
     success?: () => void,
     error?: (err: unknown) => void
-  ): void;
+  ): Promise<void>;
 }
 
 interface WindowWithSQLitePlugin extends Window {
@@ -272,7 +272,7 @@ export class DataStoreProvider {
       throw new Error('Missing SQL Lite plugin');
     }
     //Delete the old database
-    sqlLitePlugin?.deleteDatabase(
+    await sqlLitePlugin?.deleteDatabase(
       {
         name: '_ionicstorage',
         location: 'default',
@@ -281,6 +281,7 @@ export class DataStoreProvider {
         //Re-initialize the storage
         await this.initDataStore();
         await this.repopulateStorage();
+        return;
       },
       (error: Error) => {
         throw error;
