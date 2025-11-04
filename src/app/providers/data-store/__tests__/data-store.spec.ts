@@ -21,6 +21,7 @@ import { getRecallAutoPopupLastDisplayedTime } from '@store/journal/journal.sele
 import { getLogsState } from '@store/logs/logs.reducer';
 import { getTests } from '@store/tests/tests.reducer';
 import CordovaSQLiteDriver from 'localforage-cordovasqlitedriver';
+import { WindowWithSQLitePlugin } from '../data-store';
 
 describe('DataStoreProvider', () => {
   let provider: DataStoreProvider;
@@ -68,6 +69,88 @@ describe('DataStoreProvider', () => {
     spyOn(store$, 'dispatch');
     spyOn(platform, 'is').and.returnValue(true);
     secureStorage.create = jasmine.createSpy().and.returnValue(Promise.resolve({} as SecureStorageObject));
+  });
+
+  describe('tryToResetStorage', () => {
+    it('calls resetStorage when error message equals storage timeout text', async () => {
+      const timeoutMsg = 'DataStoreProvider Storage Call Timeout';
+      const err = new Error(timeoutMsg);
+      const resetSpy = spyOn(provider, 'resetStorage').and.returnValue(Promise.resolve());
+      await provider.tryToResetStorage(err);
+      expect(resetSpy).toHaveBeenCalled();
+    });
+    it('calls resetStorage when error message contains "malformed"', async () => {
+      const err = new Error('response malformed payload');
+      const resetSpy = spyOn(provider, 'resetStorage').and.returnValue(Promise.resolve());
+      await provider.tryToResetStorage(err);
+      expect(resetSpy).toHaveBeenCalled();
+    });
+    it('calls resetStorage when error message contains both "no such table" and "_ionicstorage"', async () => {
+      const err = new Error('no such table some_table _ionicstorage');
+      const resetSpy = spyOn(provider, 'resetStorage').and.returnValue(Promise.resolve());
+      await provider.tryToResetStorage(err);
+      expect(resetSpy).toHaveBeenCalled();
+    });
+    it('does not call resetStorage for unrelated error messages', async () => {
+      const err = new Error('unrelated error occurred');
+      const resetSpy = spyOn(provider, 'resetStorage').and.returnValue(Promise.resolve());
+      await provider.tryToResetStorage(err);
+      expect(resetSpy).not.toHaveBeenCalled();
+    });
+    it('reports and rethrows when resetStorage throws an error', async () => {
+      const timeoutMsg = 'DataStoreProvider Storage Call Timeout';
+      const resetError = new Error('reset failed');
+      spyOn(provider, 'resetStorage').and.returnValue(Promise.reject(resetError));
+      const reportSpy = spyOn<any>(provider, 'reportLog');
+
+      await expectAsync(provider.tryToResetStorage(new Error(timeoutMsg))).toBeRejectedWithError('reset failed');
+      expect(reportSpy).toHaveBeenCalledWith('Resetting storage error', '', resetError, false);
+    });
+  });
+
+  describe('resetStorage', () => {
+    it('throws Missing SQL Lite plugin error when sqlitePlugin is not present', async () => {
+      (window as WindowWithSQLitePlugin).sqlitePlugin = null;
+      await expectAsync(provider.resetStorage()).toBeRejectedWithError('Missing SQL Lite plugin');
+    });
+    it('calls initDataStore and repopulateStorage when deleteDatabase success callback is invoked', async () => {
+      (window as WindowWithSQLitePlugin).sqlitePlugin = {
+        deleteDatabase: jasmine
+          .createSpy('deleteDatabase')
+          .and.callFake(
+            (
+              options: { name: string; location: string },
+              success?: () => void,
+              error?: (err: unknown) => void
+            ): Promise<void> => {
+              if (success) {
+                success();
+              }
+              return Promise.resolve();
+            }
+          ),
+      };
+
+      spyOn(provider, 'initDataStore').and.returnValue(Promise.resolve());
+      spyOn(provider, 'repopulateStorage').and.returnValue(Promise.resolve());
+
+      await provider.resetStorage();
+
+      expect((window as any).sqlitePlugin.deleteDatabase).toHaveBeenCalledWith(
+        { name: '_ionicstorage', location: 'default' },
+        jasmine.any(Function),
+        jasmine.any(Function)
+      );
+      expect(provider.initDataStore).toHaveBeenCalled();
+      expect(provider.repopulateStorage).toHaveBeenCalled();
+    });
+    it('rejects when deleteDatabase promise rejects with an error', async () => {
+      (window as WindowWithSQLitePlugin).sqlitePlugin = {
+        deleteDatabase: jasmine.createSpy('deleteDatabase').and.returnValue(Promise.reject(new Error('delete failed'))),
+      };
+
+      await expectAsync(provider.resetStorage()).toBeRejectedWithError('delete failed');
+    });
   });
 
   describe('attemptDataStoreMigration', () => {
@@ -474,6 +557,44 @@ describe('DataStoreProvider', () => {
       spyOn(provider, 'isIos').and.returnValue(true);
       storage.keys = jasmine.createSpy().and.returnValue(['testData']);
       expect(await provider.getKeys()).toEqual(['testData']);
+    });
+    it('retries keys after reset and returns keys when retry succeeds', async () => {
+      spyOn(provider, 'isIos').and.returnValue(true);
+      const initialError = new Error('initial failure');
+      spyOn(storage, 'keys').and.returnValues(Promise.reject(initialError), Promise.resolve(['recoveredKey']));
+      spyOn(provider, 'reportLog');
+      spyOn(provider, 'tryToResetStorage').and.returnValue(Promise.resolve());
+
+      const result = await provider.getKeys();
+
+      expect(provider.reportLog).toHaveBeenCalledWith('Getting keys error', '', initialError, false);
+      expect(provider.tryToResetStorage).toHaveBeenCalledWith(initialError);
+      expect((storage.keys as jasmine.Spy).calls.count()).toBe(2);
+      expect(result).toEqual(['recoveredKey']);
+    });
+    it('propagates original error when tryToResetStorage throws while handling keys error', async () => {
+      spyOn(provider, 'isIos').and.returnValue(true);
+      const initialError = new Error('initial failure');
+      spyOn(storage, 'keys').and.returnValue(Promise.reject(initialError));
+      spyOn(provider, 'tryToResetStorage').and.returnValue(Promise.reject(new Error('reset failed')));
+      spyOn(provider, 'reportLog');
+
+      await expectAsync(provider.getKeys()).toBeRejectedWith(initialError);
+      expect(provider.tryToResetStorage).toHaveBeenCalledWith(initialError);
+    });
+    it('throws post-retry error and logs when retrying keys after reset fails', async () => {
+      spyOn(provider, 'isIos').and.returnValue(true);
+      const initialError = new Error('initial failure');
+      const postError = new Error('post retry failure');
+      spyOn(storage, 'keys').and.returnValues(Promise.reject(initialError), Promise.reject(postError));
+      spyOn(provider, 'tryToResetStorage').and.returnValue(Promise.resolve());
+      spyOn(provider, 'reportLog');
+
+      await expectAsync(provider.getKeys()).toBeRejectedWith(postError);
+      expect(provider.reportLog).toHaveBeenCalledWith('Getting keys error', '', initialError, false);
+      expect(provider.reportLog).toHaveBeenCalledWith('Removing storage post error', '', initialError, false);
+      expect(provider.tryToResetStorage).toHaveBeenCalledWith(initialError);
+      expect((storage.keys as jasmine.Spy).calls.count()).toBe(2);
     });
   });
 

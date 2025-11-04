@@ -29,7 +29,7 @@ interface SQLitePlugin {
   ): Promise<void>;
 }
 
-interface WindowWithSQLitePlugin extends Window {
+export interface WindowWithSQLitePlugin extends Window {
   sqlitePlugin?: SQLitePlugin;
 }
 
@@ -69,16 +69,13 @@ export class DataStoreProvider {
       //Define the storage driver
       await this.storage.defineDriver(CordovaSQLiteDriver);
       // Create the storage instance
-      console.log('init store');
       this.storage = await this.storage.create();
-      console.log('store created');
 
       //Attempt to migrate any old IndexedDB data to Ionic Storage
       await this.attemptDataStoreMigration();
     } catch (err) {
-      console.error(err);
       // If there is an error during initialization, log it
-      this.reportLog('initDataStore', '', err);
+      this.reportLog('initDataStore error', '', err);
       throw err;
     }
   }
@@ -157,6 +154,9 @@ export class DataStoreProvider {
     });
   }
 
+  /**
+   * Extracts all data from the old index db database.
+   */
   async getIndexDBData(): Promise<Record<string, unknown>> {
     return new Promise((resolve, reject) => {
       // Open the IndexedDB database
@@ -209,6 +209,9 @@ export class DataStoreProvider {
     });
   }
 
+  /**
+   * Deletes the old index db databases.
+   */
   async clearIndexedDB() {
     try {
       // Clear all IndexedDB databases
@@ -221,6 +224,9 @@ export class DataStoreProvider {
     }
   }
 
+  /**
+   * Check if we are running the app on a native platform
+   */
   isIos = () => this.platform.is('cordova');
 
   /**
@@ -235,7 +241,7 @@ export class DataStoreProvider {
       }
       return await this.timeout(this.storage.keys());
     } catch (err) {
-      this.reportLog('Getting keys', '', err, false);
+      this.reportLog('Getting keys error', '', err, false);
       try {
         await this.tryToResetStorage(err);
       } catch (error) {
@@ -250,8 +256,13 @@ export class DataStoreProvider {
     }
   }
 
+  /**
+   * Check if the error justifies a storage reset. If it does, reset the storage.
+   *
+   * @returns A promise resolving to the parsed JSON value, or null if not found.
+   * @param error - The Error we're assessing.
+   */
   tryToResetStorage = async (error: Error) => {
-    console.log('error', error);
     if (
       error.message === DataStoreProvider.storageTimeoutErrorText ||
       error.message.includes('malformed') ||
@@ -259,13 +270,17 @@ export class DataStoreProvider {
     ) {
       try {
         await this.resetStorage();
+        this.reportLog('Resetting storage success', '', error, true, LogType.INFO);
       } catch (error) {
-        this.reportLog('Resetting storage', '', error, false);
+        this.reportLog('Resetting storage error', '', error, false);
         throw error;
       }
     }
   };
 
+  /**
+   * Delete the SQL Lite database from the device, create a new one and repopulate its contents
+   */
   async resetStorage() {
     const sqlLitePlugin: SQLitePlugin = (window as WindowWithSQLitePlugin)?.sqlitePlugin;
     if (!sqlLitePlugin) {
@@ -289,16 +304,19 @@ export class DataStoreProvider {
     );
   }
 
+  /**
+   * Repopulate every storage key with the latest data from the state
+   */
   async repopulateStorage() {
     try {
       await this.setItem(LocalStorageKey.CONFIG, JSON.stringify(this.store$.selectSignal(selectAppConfig)()));
     } catch (error) {
-      this.reportLog('repopulating config', LocalStorageKey.CONFIG, error);
+      this.reportLog('repopulating config error', LocalStorageKey.CONFIG, error);
     }
     try {
       await this.setItem(LocalStorageKey.JOURNAL, JSON.stringify(this.store$.selectSignal(getJournalState)()));
     } catch (error) {
-      this.reportLog('repopulating journal', LocalStorageKey.JOURNAL, error);
+      this.reportLog('repopulating journal error', LocalStorageKey.JOURNAL, error);
     }
     try {
       await this.setItem(
@@ -315,12 +333,12 @@ export class DataStoreProvider {
     try {
       await this.setItem(LocalStorageKey.LOGS, JSON.stringify(this.store$.selectSignal(getLogsState)()));
     } catch (error) {
-      this.reportLog('repopulating logs', LocalStorageKey.LOGS, error);
+      this.reportLog('repopulating logs error', LocalStorageKey.LOGS, error);
     }
     try {
       await this.setItem(LocalStorageKey.TESTS, JSON.stringify(this.store$.selectSignal(getTests)()));
     } catch (error) {
-      this.reportLog('repopulating TESTS', LocalStorageKey.TESTS, error);
+      this.reportLog('repopulating tests error', LocalStorageKey.TESTS, error);
     }
     try {
       await this.setItem(
@@ -328,15 +346,21 @@ export class DataStoreProvider {
         JSON.stringify(this.store$.selectSignal(selectExaminerRecords)())
       );
     } catch (error) {
-      this.reportLog('repopulating examiner records', LocalStorageKey.EXAMINER_STATS_KEY, error);
+      this.reportLog('repopulating examiner records error', LocalStorageKey.EXAMINER_STATS_KEY, error);
     }
     try {
       await this.setItem(LocalStorageKey.AUTH_RESULT, JSON.stringify(this.store$.selectSignal(selectAuthResult)()));
     } catch (error) {
-      this.reportLog('repopulating auth result', LocalStorageKey.AUTH_RESULT, error);
+      this.reportLog('repopulating auth result error', LocalStorageKey.AUTH_RESULT, error);
     }
   }
 
+  /**
+   * Places the passed function in a timeout with a duration of the passed milliseconds, throwing an error if the
+   * function times out
+   * @param promise - passed promise that needs to resolve
+   * @param timeoutInMilliseconds - amount of time promise has to resolve (in milliseconds)
+   */
   timeout = <T>(
     promise: Promise<T>,
     timeoutInMilliseconds: number = DataStoreProvider.defaultStorageTimeoutMilliseconds
@@ -431,6 +455,15 @@ export class DataStoreProvider {
     }
   }
 
+  /**
+   * log report handler
+   *
+   * @param action - The main body of text for the log
+   * @param key - identifier
+   * @param error - The associated error, if there is one
+   * @param saveToStorage - Should this log be saved permanently to the storage
+   * @param level - The Log level of this log (info, debug, error, etc.)
+   */
   reportLog = (
     action: string,
     key: string,
