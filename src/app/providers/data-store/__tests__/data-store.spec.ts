@@ -13,6 +13,13 @@ import { DataStoreProvider, LocalStorageKey } from '@providers/data-store/data-s
 import { LogHelperMock } from '@providers/logs/__mocks__/logs-helper.mock';
 import { LogHelper } from '@providers/logs/logs-helper';
 import { StoreModel } from '@shared/models/store.model';
+import { selectAppConfig } from '@store/app-config/app-config.selectors';
+import { selectAuthResult } from '@store/app-info/app-info.selectors';
+import { selectExaminerRecords } from '@store/examiner-records/examiner-records.selectors';
+import { getJournalState } from '@store/journal/journal.reducer';
+import { getRecallAutoPopupLastDisplayedTime } from '@store/journal/journal.selector';
+import { getLogsState } from '@store/logs/logs.reducer';
+import { getTests } from '@store/tests/tests.reducer';
 import CordovaSQLiteDriver from 'localforage-cordovasqlitedriver';
 
 describe('DataStoreProvider', () => {
@@ -153,7 +160,7 @@ describe('DataStoreProvider', () => {
       spyOn(storage, 'defineDriver').and.returnValue(Promise.reject(error));
       const reportLogSpy = spyOn<any>(provider, 'reportLog');
       await expectAsync(provider.initDataStore()).toBeRejectedWith(error);
-      expect(reportLogSpy).toHaveBeenCalledWith('initDataStore', '', error);
+      expect(reportLogSpy).toHaveBeenCalledWith('initDataStore error', '', error);
     });
 
     it('should call reportLog and throw if storage.create throws an error', async () => {
@@ -162,7 +169,7 @@ describe('DataStoreProvider', () => {
       spyOn(storage, 'create').and.returnValue(Promise.reject(error));
       const reportLogSpy = spyOn<any>(provider, 'reportLog');
       await expectAsync(provider.initDataStore()).toBeRejectedWith(error);
-      expect(reportLogSpy).toHaveBeenCalledWith('initDataStore', '', error);
+      expect(reportLogSpy).toHaveBeenCalledWith('initDataStore error', '', error);
     });
   });
 
@@ -367,7 +374,17 @@ describe('DataStoreProvider', () => {
       };
       spyOn(window.indexedDB, 'open').and.callFake(() => {
         return {
-          set onsuccess(fn) {
+          set onsuccess(fn: (arg0: {
+            target: {
+              result: {
+                objectStoreNames: string[];
+                transaction: () => {
+                  objectStore: () => { get: (key: string) => { onsuccess: any; onerror: any } };
+                  oncomplete: any;
+                };
+              };
+            };
+          }) => void) {
             setTimeout(() =>
               fn({
                 target: {
@@ -460,19 +477,128 @@ describe('DataStoreProvider', () => {
     });
   });
 
-  describe('getItem', () => {
-    it('should return default when not iOS', async () => {
-      spyOn(provider, 'isIos').and.returnValue(false);
+  describe('repopulateStorage', () => {
+    it('repopulates all storage keys with values from store and calls setItem for each key', async () => {
+      spyOn<any>(store$, 'selectSignal').and.callFake((selector: any) => {
+        if (selector === selectAppConfig) return () => ({ app: 'config' });
+        if (selector === getJournalState) return () => ({ journal: 'state' });
+        if (selector === getRecallAutoPopupLastDisplayedTime) return () => 999;
+        if (selector === getLogsState) return () => ({ logs: [] });
+        if (selector === getTests) return () => ({ tests: [] });
+        if (selector === selectExaminerRecords) return () => ({ examiner: 1 });
+        if (selector === selectAuthResult) return () => ({ auth: true });
+        return () => null;
+      });
 
-      expect(await provider.getItem(null)).toEqual('');
+      spyOn<any>(provider, 'setItem').and.returnValue(Promise.resolve('ok'));
+
+      await provider.repopulateStorage();
+
+      expect((provider.setItem as jasmine.Spy).calls.count()).toBe(7);
+      expect(provider.setItem).toHaveBeenCalledWith(LocalStorageKey.CONFIG, JSON.stringify({ app: 'config' }));
+      expect(provider.setItem).toHaveBeenCalledWith(LocalStorageKey.JOURNAL, JSON.stringify({ journal: 'state' }));
+      expect(provider.setItem).toHaveBeenCalledWith(LocalStorageKey.JOURNAL_RECALL_AUTO_DISPLAY_TIME, 999);
+      expect(provider.setItem).toHaveBeenCalledWith(LocalStorageKey.LOGS, JSON.stringify({ logs: [] }));
+      expect(provider.setItem).toHaveBeenCalledWith(LocalStorageKey.TESTS, JSON.stringify({ tests: [] }));
+      expect(provider.setItem).toHaveBeenCalledWith(
+        LocalStorageKey.EXAMINER_STATS_KEY,
+        JSON.stringify({ examiner: 1 })
+      );
+      expect(provider.setItem).toHaveBeenCalledWith(LocalStorageKey.AUTH_RESULT, JSON.stringify({ auth: true }));
     });
-    it('should `get` data from storage', async () => {
-      spyOn(provider, 'isIos').and.returnValue(true);
-      storage.get = jasmine.createSpy().and.returnValue('testData');
+    it('continues repopulating remaining keys and logs error when a single setItem fails', async () => {
+      spyOn<any>(store$, 'selectSignal').and.callFake((selector: any) => {
+        if (selector === selectAppConfig) return () => ({ app: 'config' });
+        if (selector === getJournalState) return () => ({ journal: 'state' });
+        if (selector === getRecallAutoPopupLastDisplayedTime) return () => 111;
+        if (selector === getLogsState) return () => ({ logs: [] });
+        if (selector === getTests) return () => ({ tests: [] });
+        if (selector === selectExaminerRecords) return () => ({ examiner: 1 });
+        if (selector === selectAuthResult) return () => ({ auth: true });
+        return () => null;
+      });
 
-      await provider.getItem(LocalStorageKey.LOGS);
+      spyOn<any>(provider, 'setItem').and.callFake((key: any) => {
+        if (key === LocalStorageKey.JOURNAL) {
+          return Promise.reject('set error');
+        }
+        return Promise.resolve('ok');
+      });
+
+      spyOn(provider, 'reportLog');
+
+      await provider.repopulateStorage();
+
+      expect(provider.reportLog).toHaveBeenCalledWith(
+        'repopulating journal error',
+        LocalStorageKey.JOURNAL,
+        'set error'
+      );
+      expect((provider.setItem as jasmine.Spy).calls.count()).toBe(7);
+      expect(provider.setItem).toHaveBeenCalledWith(LocalStorageKey.CONFIG, JSON.stringify({ app: 'config' }));
+      expect(provider.setItem).toHaveBeenCalledWith(LocalStorageKey.JOURNAL, JSON.stringify({ journal: 'state' }));
+    });
+    it('passes non-string value for journal recall auto display time without stringifying', async () => {
+      spyOn<any>(store$, 'selectSignal').and.callFake((selector: any) => {
+        if (selector === selectAppConfig) return () => ({});
+        if (selector === getJournalState) return () => ({});
+        if (selector === getRecallAutoPopupLastDisplayedTime) return () => 12345;
+        if (selector === getLogsState) return () => ({});
+        if (selector === getTests) return () => ({});
+        if (selector === selectExaminerRecords) return () => ({});
+        if (selector === selectAuthResult) return () => ({});
+        return () => null;
+      });
+
+      spyOn(provider, 'setItem').and.resolveTo('ok');
+
+      await provider.repopulateStorage();
+
+      expect(provider.setItem).toHaveBeenCalledWith(LocalStorageKey.JOURNAL_RECALL_AUTO_DISPLAY_TIME, 12345);
+    });
+  });
+
+  describe('getItem', () => {
+    it('resolves with stored value when platform is iOS and storage.get succeeds', async () => {
+      spyOn(provider, 'isIos').and.returnValue(true);
+      spyOn(storage, 'get').and.returnValue(Promise.resolve('storedValue'));
+
+      const result = await provider.getItem(LocalStorageKey.LOGS);
 
       expect(storage.get).toHaveBeenCalledWith(LocalStorageKey.LOGS);
+      expect(result).toEqual('storedValue');
+    });
+    it('retries after reset and returns value when initial storage.get fails then reset succeeds and second get succeeds', async () => {
+      spyOn(provider, 'isIos').and.returnValue(true);
+      const initialError = new Error('initial failure');
+      spyOn(storage, 'get').and.returnValues(Promise.reject(initialError), Promise.resolve('savedAfterRetry'));
+      spyOn(provider, 'tryToResetStorage').and.returnValue(Promise.resolve());
+
+      const result = await provider.getItem(LocalStorageKey.LOGS);
+
+      expect(provider.tryToResetStorage).toHaveBeenCalledWith(initialError);
+      expect((storage.get as jasmine.Spy).calls.count()).toBe(2);
+      expect(result).toEqual('savedAfterRetry');
+    });
+    it('propagates the original error when tryToResetStorage throws while handling a storage.get error', async () => {
+      spyOn(provider, 'isIos').and.returnValue(true);
+      const initialError = new Error('initial failure');
+      spyOn(storage, 'get').and.returnValue(Promise.reject(initialError));
+      spyOn(provider, 'tryToResetStorage').and.returnValue(Promise.reject(new Error('reset failed')));
+
+      await expectAsync(provider.getItem(LocalStorageKey.LOGS)).toBeRejectedWith(initialError);
+      expect(provider.tryToResetStorage).toHaveBeenCalledWith(initialError);
+    });
+    it('throws the post-retry error when retrying storage.get after reset fails', async () => {
+      spyOn(provider, 'isIos').and.returnValue(true);
+      const initialError = new Error('initial failure');
+      const postError = new Error('post retry failure');
+      spyOn(storage, 'get').and.returnValues(Promise.reject(initialError), Promise.reject(postError));
+      spyOn(provider, 'tryToResetStorage').and.returnValue(Promise.resolve());
+
+      await expectAsync(provider.getItem(LocalStorageKey.LOGS)).toBeRejectedWith(postError);
+      expect(provider.tryToResetStorage).toHaveBeenCalledWith(initialError);
+      expect((storage.get as jasmine.Spy).calls.count()).toBe(2);
     });
   });
 
@@ -483,15 +609,14 @@ describe('DataStoreProvider', () => {
     });
     it('should call `set` with a key and a value', async () => {
       spyOn(provider, 'isIos').and.returnValue(true);
-
-      storage.set = jasmine.createSpy().and.returnValue(Promise.resolve());
+      spyOn(storage, 'set').and.callThrough();
 
       await provider.setItem(LocalStorageKey.LOGS, 'val1');
 
       expect(storage.set).toHaveBeenCalledWith(LocalStorageKey.LOGS, 'val1');
     });
     it('should return an error string if the function throws an error', async () => {
-      storage.set = jasmine.createSpy().and.returnValue(Promise.reject('error'));
+      spyOn(storage, 'set').and.rejectWith('error');
 
       try {
         await provider.setItem(LocalStorageKey.LOGS, 'val1');
@@ -499,7 +624,49 @@ describe('DataStoreProvider', () => {
         expect(err).toEqual('error');
       }
     });
+    it('returns the stored value when storage.set resolves successfully', async () => {
+      spyOn(provider, 'isIos').and.returnValue(true);
+      spyOn(storage, 'set').and.returnValue(Promise.resolve('savedValue'));
+
+      const result = await provider.setItem(LocalStorageKey.LOGS, 'val1');
+
+      expect(storage.set).toHaveBeenCalledWith(LocalStorageKey.LOGS, 'val1');
+      expect(result).toEqual('savedValue');
+    });
+    it('retries setting storage after reset when initial set fails and retry succeeds', async () => {
+      spyOn(provider, 'isIos').and.returnValue(true);
+      const initialError = new Error('initial failure');
+      spyOn(storage, 'set').and.returnValues(Promise.reject(initialError), Promise.resolve('savedAfterRetry'));
+      spyOn(provider, 'tryToResetStorage').and.returnValue(Promise.resolve());
+
+      const result = await provider.setItem(LocalStorageKey.LOGS, 'val1');
+
+      expect(provider.tryToResetStorage).toHaveBeenCalledWith(initialError);
+      expect((storage.set as jasmine.Spy).calls.count()).toBe(2);
+      expect(result).toEqual('savedAfterRetry');
+    });
+    it('propagates the original error if tryToResetStorage throws while handling a set error', async () => {
+      spyOn(provider, 'isIos').and.returnValue(true);
+      const initialError = new Error('initial failure');
+      spyOn(storage, 'set').and.returnValue(Promise.reject(initialError));
+      spyOn(provider, 'tryToResetStorage').and.returnValue(Promise.reject(new Error('reset failed')));
+
+      await expectAsync(provider.setItem(LocalStorageKey.LOGS, 'val1')).toBeRejectedWith(initialError);
+      expect(provider.tryToResetStorage).toHaveBeenCalledWith(initialError);
+    });
+    it('throws the post-retry error if retrying storage.set after reset fails', async () => {
+      spyOn(provider, 'isIos').and.returnValue(true);
+      const initialError = new Error('initial failure');
+      const postError = new Error('post retry failure');
+      spyOn(storage, 'set').and.returnValues(Promise.reject(initialError), Promise.reject(postError));
+      spyOn(provider, 'tryToResetStorage').and.returnValue(Promise.resolve());
+
+      await expectAsync(provider.setItem(LocalStorageKey.LOGS, 'val1')).toBeRejectedWith(postError);
+      expect(provider.tryToResetStorage).toHaveBeenCalledWith(initialError);
+      expect((storage.set as jasmine.Spy).calls.count()).toBe(2);
+    });
   });
+
   describe('removeItem', () => {
     it('should return default when not iOS', async () => {
       spyOn(provider, 'isIos').and.returnValue(false);
@@ -523,6 +690,38 @@ describe('DataStoreProvider', () => {
       } catch (err) {
         expect(err).toEqual('error');
       }
+    });
+    it('retries remove after reset and returns value when initial remove fails then retry succeeds', async () => {
+      spyOn(provider, 'isIos').and.returnValue(true);
+      const initialError = new Error('initial failure');
+      spyOn(storage, 'remove').and.returnValues(Promise.reject(initialError), Promise.resolve('removedAfterRetry'));
+      spyOn(provider, 'tryToResetStorage').and.returnValue(Promise.resolve());
+
+      const result = await provider.removeItem(LocalStorageKey.LOGS);
+
+      expect(provider.tryToResetStorage).toHaveBeenCalledWith(initialError);
+      expect((storage.remove as jasmine.Spy).calls.count()).toBe(2);
+      expect(result).toEqual('removedAfterRetry');
+    });
+    it('propagates the original error when tryToResetStorage throws while handling a remove error', async () => {
+      spyOn(provider, 'isIos').and.returnValue(true);
+      const initialError = new Error('initial failure');
+      spyOn(storage, 'remove').and.returnValue(Promise.reject(initialError));
+      spyOn(provider, 'tryToResetStorage').and.returnValue(Promise.reject(new Error('reset failed')));
+
+      await expectAsync(provider.removeItem(LocalStorageKey.LOGS)).toBeRejectedWith(initialError);
+      expect(provider.tryToResetStorage).toHaveBeenCalledWith(initialError);
+    });
+    it('throws the post-retry error when retrying storage.remove after reset fails', async () => {
+      spyOn(provider, 'isIos').and.returnValue(true);
+      const initialError = new Error('initial failure');
+      const postError = new Error('post retry failure');
+      spyOn(storage, 'remove').and.returnValues(Promise.reject(initialError), Promise.reject(postError));
+      spyOn(provider, 'tryToResetStorage').and.returnValue(Promise.resolve());
+
+      await expectAsync(provider.removeItem(LocalStorageKey.LOGS)).toBeRejectedWith(postError);
+      expect(provider.tryToResetStorage).toHaveBeenCalledWith(initialError);
+      expect((storage.remove as jasmine.Spy).calls.count()).toBe(2);
     });
   });
 });

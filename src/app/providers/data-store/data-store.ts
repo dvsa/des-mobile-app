@@ -431,14 +431,13 @@ export class DataStoreProvider {
     }
   }
 
-  private reportLog = (
+  reportLog = (
     action: string,
     key: string,
     error: Error | unknown,
     saveToStorage = true,
     level: LogType = LogType.ERROR
   ): void => {
-    console.log('error logged', action, key, error, saveToStorage);
     this.store$.dispatch(
       SaveLog(
         {
