@@ -239,6 +239,7 @@ export class DataStoreProvider {
       if (!this.isIos()) {
         return [''];
       }
+      // Get the keys from storage with a timeout (Some storage errors can hang indefinitely)
       return await this.timeout(this.storage.keys());
     } catch (err) {
       this.reportLog('Getting keys error', '', err, false);
@@ -248,6 +249,7 @@ export class DataStoreProvider {
         throw err;
       }
       try {
+        //Retry getting the keys from storage with a timeout
         return await this.timeout(this.storage.keys());
       } catch (error) {
         this.reportLog('Removing storage post error', '', err, false);
@@ -386,6 +388,7 @@ export class DataStoreProvider {
       if (!this.isIos()) {
         return '';
       }
+      // Set the item in storage with a timeout (Some storage errors can hang indefinitely)
       return await this.timeout(this.storage.set(key, value));
     } catch (err) {
       this.reportLog('Setting storage', key, err, false);
@@ -395,6 +398,7 @@ export class DataStoreProvider {
         throw err;
       }
       try {
+        //Retry setting the item in storage with a timeout
         return await this.timeout(this.storage.set(key, value));
       } catch (error) {
         this.reportLog('Setting storage post error', key, err, false);
@@ -412,6 +416,7 @@ export class DataStoreProvider {
       if (!this.isIos()) {
         return '';
       }
+      // Get the item in storage with a timeout (Some storage errors can hang indefinitely)
       return await this.timeout(this.storage.get(key));
     } catch (err) {
       this.reportLog('Getting storage', key, err, false);
@@ -421,6 +426,7 @@ export class DataStoreProvider {
         throw err;
       }
       try {
+        //Retry getting the item in storage with a timeout
         return await this.timeout(this.storage.get(key));
       } catch (error) {
         this.reportLog('Getting storage post error', key, err, false);
@@ -438,6 +444,7 @@ export class DataStoreProvider {
   async removeItem(key: StorageKey): Promise<string> {
     try {
       if (!this.isIos()) return '';
+      // Remove the item in storage with a timeout (Some storage errors can hang indefinitely)
       return await this.timeout(this.storage.remove(key));
     } catch (err) {
       this.reportLog('Removing storage', key, err, false);
@@ -447,6 +454,7 @@ export class DataStoreProvider {
         throw err;
       }
       try {
+        //Retry removing the item in storage with a timeout
         return await this.timeout(this.storage.remove(key));
       } catch (error) {
         this.reportLog('Removing storage post error', key, err, false);
