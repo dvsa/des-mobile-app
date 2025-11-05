@@ -22,23 +22,25 @@
           id="residency-declaration-checkbox"
           [checked]="selected"
           (click)="residencyDeclarationChanged($event.target.checked)"
-        />
+          />
         <label addOrRemoveLangCy for="residency-declaration-checkbox" id="waiting-room-confirm-residency-label">
           {{ 'waitingRoom.confirm' | translate }}
         </label>
       </ion-col>
     </ion-row>
-    <ion-row *ngIf="isInvalid()">
-      <ion-col>
-        <div
-          addOrRemoveLangCy
-          id="waiting-room-residency-validation-text"
-          class="validation-text-with-row-spacing"
-          [class.ng-invalid.withRowMargin]="isInvalid()"
-        >
-          {{ 'waitingRoom.residencyDeclarationValidation' | translate }}
-        </div>
-      </ion-col>
-    </ion-row>
+    @if (isInvalid()) {
+      <ion-row>
+        <ion-col>
+          <div
+            addOrRemoveLangCy
+            id="waiting-room-residency-validation-text"
+            class="validation-text-with-row-spacing"
+            [class.ng-invalid.withRowMargin]="isInvalid()"
+            >
+            {{ 'waitingRoom.residencyDeclarationValidation' | translate }}
+          </div>
+        </ion-col>
+      </ion-row>
+    }
   </ion-col>
 </ion-row>

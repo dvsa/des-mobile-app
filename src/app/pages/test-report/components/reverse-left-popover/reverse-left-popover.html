@@ -1,6 +1,8 @@
 <ng-container>
   <ion-grid class="popover-content">
-    <reverse-diagram-link *ngIf="shouldShowReverseDiagramLink()" id="reverse-diagram-link"></reverse-diagram-link>
+    @if (shouldShowReverseDiagramLink()) {
+      <reverse-diagram-link id="reverse-diagram-link"></reverse-diagram-link>
+    }
     <div class="manoeuvre-competencies-container">
       <div class="first-manoeuvre-competency-button">
         <manoeuvre-competency
@@ -8,7 +10,7 @@
           [manoeuvre]="manoeuvreTypes.reverseLeft"
           [competency]="competencies.controlFault"
           [disableDrivingFaults]="disableDrivingFaults"
-        >
+          >
         </manoeuvre-competency>
       </div>
       <div>
@@ -17,7 +19,7 @@
           [manoeuvre]="manoeuvreTypes.reverseLeft"
           [competency]="competencies.observationFault"
           [disableDrivingFaults]="disableDrivingFaults"
-        >
+          >
         </manoeuvre-competency>
       </div>
     </div>

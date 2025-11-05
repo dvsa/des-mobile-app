@@ -26,7 +26,9 @@
 </ion-header>
 
 <ion-content [class.hidden]="failedMOTModalCurrentlyOpen" force-overscroll="false">
-  <offline-banner *ngIf="!isEndToEndPracticeMode" [isOffline]="pageState.isOffline$ | async"></offline-banner>
+  @if (!isEndToEndPracticeMode) {
+    <offline-banner [isOffline]="pageState.isOffline$ | async"></offline-banner>
+  }
   <div>
     <form (ngSubmit)="onSubmit()" [formGroup]="form">
       <ion-grid>
@@ -48,13 +50,15 @@
               [vehicleRegistration]="pageState.registrationNumber$ | async"
               [shouldHideMOTButton]="isRekey"
               [abortSubject]="abortSubject"
-            >
+              >
             </vehicle-registration>
 
-            <ion-row *ngIf="(pageState.motEvidenceProvided$ | async) === false">
-              <mot-no-evidence-confirmation [cancelFn]="motNoEvidenceCancelled" [nextPageOnFail]="getDebriefPage()">
-              </mot-no-evidence-confirmation>
-            </ion-row>
+            @if ((pageState.motEvidenceProvided$ | async) === false) {
+              <ion-row>
+                <mot-no-evidence-confirmation [cancelFn]="motNoEvidenceCancelled" [nextPageOnFail]="getDebriefPage()">
+                </mot-no-evidence-confirmation>
+              </ion-row>
+            }
 
             <safety-recall>
             </safety-recall>
@@ -67,30 +71,31 @@
                 (dualControlsChange)="dualControlsOutcomeToggled($event)"
                 [dualControls]="pageState.dualControls$ | async"
                 [formGroup]="form"
-              >
+                >
               </dual-controls>
 
               <transmission
                 (transmissionChange)="transmissionChanged($event)"
                 [formGroup]="form"
                 [transmission]="pageState.transmission$ | async"
-              >
+                >
               </transmission>
 
-              <trainee-licence
-                (traineeLicenceChange)="traineeLicenceChanged($event)"
-                *ngIf="notSC(pageState.category$ | async)"
-                [formGroup]="form"
-                [traineeLicence]="pageState.traineeLicence$ | async"
-              >
-              </trainee-licence>
+              @if (notSC(pageState.category$ | async)) {
+                <trainee-licence
+                  (traineeLicenceChange)="traineeLicenceChanged($event)"
+                  [formGroup]="form"
+                  [traineeLicence]="pageState.traineeLicence$ | async"
+                  >
+                </trainee-licence>
+              }
 
               <ordit-trainer-cat-adi-part2
                 (orditTrainedOutcomeChange)="orditTrainedOutcomeChanged($event)"
                 [formGroup]="form"
                 [notSC]="notSC(pageState.category$ | async)"
                 [orditTrainedRadioChecked]="pageState.orditTrained$ | async"
-              >
+                >
               </ordit-trainer-cat-adi-part2>
 
               <accompaniment-card-adi3
@@ -101,7 +106,7 @@
                 [otherAccompaniment]="pageState.otherAccompaniment$ | async"
                 [supervisorAccompaniment]="pageState.supervisorAccompaniment$ | async"
                 [trainerAccompaniment]="pageState.trainerAccompaniment$ | async"
-              >
+                >
               </accompaniment-card-adi3>
 
               <trainer-registration-number-cat-adi-part2
@@ -128,7 +133,7 @@
         class="mes-grey-button"
         id="view-test-centre-journal-button"
         shape="round"
-      >
+        >
         <ion-text class="des-header-style-3">View test centre journal</ion-text>
       </ion-button>
     </ion-col>
@@ -139,7 +144,7 @@
         class="mes-primary-button"
         id="continue-to-test-report-button"
         shape="round"
-      >
+        >
         <ion-text class="des-header-style-3">Continue to test report</ion-text>
       </ion-button>
     </ion-col>

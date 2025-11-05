@@ -3,12 +3,14 @@
     <ion-col
       class="ion-align-self-center"
       [size]="accessibilityService.getTextZoomClass() === 'text-zoom-x-large' ? 24 : 21"
-    >
+      >
       <label id="advanced-search-staff-id-label">Staff number</label>
     </ion-col>
     <ion-col size="48">
       @if (importStaffNumber) {
-        <label *ngIf="importStaffNumber">{{ importStaffNumber }}</label>
+        @if (importStaffNumber) {
+          <label>{{ importStaffNumber }}</label>
+        }
       } @else {
         <ion-input
           (ionBlur)="setFocus(null)"
@@ -25,7 +27,7 @@
           type="text"
           emojiBlock
           pasteSanitiser
-        >
+          >
         </ion-input>
       }
     </ion-col>
@@ -35,7 +37,7 @@
     <ion-col
       class="ion-align-self-center"
       [size]="accessibilityService.getTextZoomClass() === 'text-zoom-x-large' ? 22 : 19"
-    >
+      >
       <label id="advanced-search-test-centre-label">Test centre</label>
     </ion-col>
     <ion-col size="70">
@@ -52,7 +54,7 @@
         [model]="selectedTestCentre"
         [placeholder]="'Select a test centre'"
         [primaryKey]="'centreId'"
-      >
+        >
       </searchable-picklist-wrapper>
     </ion-col>
   </ion-row>
@@ -61,7 +63,7 @@
     <ion-col
       class="ion-align-self-center"
       [size]="accessibilityService.getTextZoomClass() === 'text-zoom-x-large' ? 24 : 21"
-    >
+      >
       <label id="advanced-search-date-range-label">Date range</label>
     </ion-col>
     <ion-col size="22">
@@ -112,7 +114,7 @@
           <ion-col
             class="ion-align-self-center"
             [size]="accessibilityService.getTextZoomClass() === 'text-zoom-x-large' ? 30 : 26"
-          >
+            >
             <label>Activity code</label>
           </ion-col>
           <ion-col size="55">
@@ -124,7 +126,7 @@
               class="input-styling-background black-text"
               labelPlacement="stacked"
               placeholder="All"
-            >
+              >
               @for (activityCode of activityCodes; track $index; let first = $first) {
                 <ion-select-option [value]="activityCode">
                   @if (first) {
@@ -146,7 +148,7 @@
           <ion-col
             class="ion-align-self-center"
             [size]="accessibilityService.getTextZoomClass() === 'text-zoom-x-large' ? 30 : 26"
-          >
+            >
             <label>Test category</label>
           </ion-col>
           <ion-col size="55">
@@ -158,10 +160,10 @@
               class="input-styling-background black-text"
               labelPlacement="stacked"
               placeholder="All"
-            >
+              >
               @for (category of testCategories; track $index) {
                 <ion-select-option [value]="category"
-                >{{ category }}
+                  >{{ category }}
                 </ion-select-option>
               }
             </ion-select>
@@ -176,7 +178,7 @@
           <ion-col
             class="ion-align-self-center"
             [size]="accessibilityService.getTextZoomClass() === 'text-zoom-x-large' ? 30 : 26"
-          >
+            >
             <label id="advanced-search-pass-certificate-label">Pass certificate</label>
           </ion-col>
           <ion-col size="55">
@@ -195,7 +197,7 @@
               type="text"
               emojiBlock
               pasteSanitiser
-            >
+              >
             </ion-input>
           </ion-col>
         </ion-row>
@@ -208,7 +210,7 @@
           <ion-col
             class="ion-align-self-center"
             [size]="accessibilityService.getTextZoomClass() === 'text-zoom-x-large' ? 30 : 26"
-          >
+            >
             <label id="rekey-checkbox-filter">Show rekey only</label>
           </ion-col>
           <ion-col size="10">
@@ -219,7 +221,7 @@
               (change)="toggleRekeySearch()"
               [checked]="rekeySearch"
               [disabled]="!((importStaffNumber || staffNumber) || selectedTestCentre)"
-            />
+              />
             <label [for]="'rekey-toggle-input'"></label>
           </ion-col>
         </ion-row>
@@ -237,7 +239,7 @@
       [disabled]="!!showSpinner || isOffline"
       class="mes-primary-button search-tests"
       id="advanced-search-button"
-    >
+      >
       <ion-col></ion-col>
       <ion-col size="20" class="ion-justify-content-center display-flex">
         <ion-text id="advanced-search-button-text" class="des-header-style-3">
