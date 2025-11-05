@@ -611,21 +611,18 @@ describe('DataStoreProvider', () => {
         return () => null;
       });
 
-      spyOn<any>(provider, 'setItem').and.returnValue(Promise.resolve('ok'));
+      spyOn<any>(storage, 'set').and.returnValue(Promise.resolve('ok'));
 
       await provider.repopulateStorage();
 
-      expect((provider.setItem as jasmine.Spy).calls.count()).toBe(7);
-      expect(provider.setItem).toHaveBeenCalledWith(LocalStorageKey.CONFIG, JSON.stringify({ app: 'config' }));
-      expect(provider.setItem).toHaveBeenCalledWith(LocalStorageKey.JOURNAL, JSON.stringify({ journal: 'state' }));
-      expect(provider.setItem).toHaveBeenCalledWith(LocalStorageKey.JOURNAL_RECALL_AUTO_DISPLAY_TIME, 999);
-      expect(provider.setItem).toHaveBeenCalledWith(LocalStorageKey.LOGS, JSON.stringify({ logs: [] }));
-      expect(provider.setItem).toHaveBeenCalledWith(LocalStorageKey.TESTS, JSON.stringify({ tests: [] }));
-      expect(provider.setItem).toHaveBeenCalledWith(
-        LocalStorageKey.EXAMINER_STATS_KEY,
-        JSON.stringify({ examiner: 1 })
-      );
-      expect(provider.setItem).toHaveBeenCalledWith(LocalStorageKey.AUTH_RESULT, JSON.stringify({ auth: true }));
+      expect((storage.set as jasmine.Spy).calls.count()).toBe(7);
+      expect(storage.set).toHaveBeenCalledWith(LocalStorageKey.CONFIG, JSON.stringify({ app: 'config' }));
+      expect(storage.set).toHaveBeenCalledWith(LocalStorageKey.JOURNAL, JSON.stringify({ journal: 'state' }));
+      expect(storage.set).toHaveBeenCalledWith(LocalStorageKey.JOURNAL_RECALL_AUTO_DISPLAY_TIME, 999);
+      expect(storage.set).toHaveBeenCalledWith(LocalStorageKey.LOGS, JSON.stringify({ logs: [] }));
+      expect(storage.set).toHaveBeenCalledWith(LocalStorageKey.TESTS, JSON.stringify({ tests: [] }));
+      expect(storage.set).toHaveBeenCalledWith(LocalStorageKey.EXAMINER_STATS_KEY, JSON.stringify({ examiner: 1 }));
+      expect(storage.set).toHaveBeenCalledWith(LocalStorageKey.AUTH_RESULT, JSON.stringify({ auth: true }));
     });
     it('continues repopulating remaining keys and logs error when a single setItem fails', async () => {
       spyOn<any>(store$, 'selectSignal').and.callFake((selector: any) => {
@@ -639,7 +636,7 @@ describe('DataStoreProvider', () => {
         return () => null;
       });
 
-      spyOn<any>(provider, 'setItem').and.callFake((key: any) => {
+      spyOn<any>(storage, 'set').and.callFake((key: any) => {
         if (key === LocalStorageKey.JOURNAL) {
           return Promise.reject('set error');
         }
@@ -655,9 +652,9 @@ describe('DataStoreProvider', () => {
         LocalStorageKey.JOURNAL,
         'set error'
       );
-      expect((provider.setItem as jasmine.Spy).calls.count()).toBe(7);
-      expect(provider.setItem).toHaveBeenCalledWith(LocalStorageKey.CONFIG, JSON.stringify({ app: 'config' }));
-      expect(provider.setItem).toHaveBeenCalledWith(LocalStorageKey.JOURNAL, JSON.stringify({ journal: 'state' }));
+      expect((storage.set as jasmine.Spy).calls.count()).toBe(7);
+      expect(storage.set).toHaveBeenCalledWith(LocalStorageKey.CONFIG, JSON.stringify({ app: 'config' }));
+      expect(storage.set).toHaveBeenCalledWith(LocalStorageKey.JOURNAL, JSON.stringify({ journal: 'state' }));
     });
     it('passes non-string value for journal recall auto display time without stringifying', async () => {
       spyOn<any>(store$, 'selectSignal').and.callFake((selector: any) => {
@@ -671,11 +668,11 @@ describe('DataStoreProvider', () => {
         return () => null;
       });
 
-      spyOn(provider, 'setItem').and.resolveTo('ok');
+      spyOn<any>(storage, 'set').and.returnValue(Promise.resolve('ok'));
 
       await provider.repopulateStorage();
 
-      expect(provider.setItem).toHaveBeenCalledWith(LocalStorageKey.JOURNAL_RECALL_AUTO_DISPLAY_TIME, 12345);
+      expect(storage.set).toHaveBeenCalledWith(LocalStorageKey.JOURNAL_RECALL_AUTO_DISPLAY_TIME, 12345);
     });
   });
 
