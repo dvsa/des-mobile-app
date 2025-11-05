@@ -34,7 +34,7 @@
           [grade]="pageState.testOutcomeGrade$ | async"
           [isStandardsCheck]="pageState.isStandardsCheck$ | async"
           [outcomeText]="pageState.testOutcomeText$ | async"
-        >
+          >
         </finalisation-header>
 
         <debrief-witnessed
@@ -43,7 +43,7 @@
           [display]="true"
           [formGroup]="form"
           [outcome]="testOutcome"
-        >
+          >
         </debrief-witnessed>
 
         <further-development
@@ -52,10 +52,12 @@
           [formGroup]="form"
           [furtherDevelopment]="pageState.furtherDevelopment$ | async"
           [outcome]="testOutcome"
-        >
+          >
         </further-development>
 
-        <div *ngIf="(pageState.furtherDevelopment$ | async) !== false" class="mes-row-separator padding-top-10"></div>
+        @if ((pageState.furtherDevelopment$ | async) !== false) {
+          <div class="mes-row-separator padding-top-10"></div>
+        }
 
         <reason-given
           (adviceReason)="adviceReasonChanged($event)"
@@ -64,18 +66,19 @@
           [furtherDevelopment]="pageState.furtherDevelopment$ | async"
           [outcome]="testOutcome"
           [reasonGivenText]="pageState.adviceReason$ | async"
-        >
+          >
         </reason-given>
 
-        <test-start-end-times
-          (testEndTimeChange)="testEndTimeChanged($event)"
-          (testStartTimeChange)="testStartTimeChanged($event)"
-          *ngIf="pageState.isStandardsCheck$ | async"
-          [endTime]="pageState.testEndTime$ | async"
-          [formGroup]="form"
-          [startTime]="pageState.testStartTime$ | async"
-        >
-        </test-start-end-times>
+        @if (pageState.isStandardsCheck$ | async) {
+          <test-start-end-times
+            (testEndTimeChange)="testEndTimeChanged($event)"
+            (testStartTimeChange)="testStartTimeChanged($event)"
+            [endTime]="pageState.testEndTime$ | async"
+            [formGroup]="form"
+            [startTime]="pageState.testStartTime$ | async"
+            >
+          </test-start-end-times>
+        }
       </ion-grid>
     </form>
   </div>

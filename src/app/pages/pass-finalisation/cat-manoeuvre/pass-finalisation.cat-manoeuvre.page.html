@@ -31,7 +31,7 @@
           [candidateDriverNumber]="pageState.candidateDriverNumber$ | async"
           [candidateName]="pageState.candidateName$ | async"
           [outcomeText]="pageState.testOutcomeText$ | async"
-        >
+          >
         </finalisation-header>
 
         <application-reference-number [applicationNumber]="pageState.applicationNumber$ | async">
@@ -42,14 +42,14 @@
           [form]="form"
           [isPracticeMode]="isPracticeMode"
           [passCertificateNumberInput]="pageState.passCertificateNumber$ | async"
-        >
+          >
         </pass-certificate-number>
 
         <language-preferences
           (welshChanged)="isWelshChanged($event)"
           [formGroup]="form"
           [isWelsh]="(pageState.conductedLanguage$ | async) === 'Cymraeg'"
-        >
+          >
         </language-preferences>
 
         <debrief-witnessed
@@ -59,7 +59,7 @@
           [formGroup]="form"
           [shouldShowSeparator]="false"
           [outcome]="pageState.testOutcome$ | async"
-        >
+          >
         </debrief-witnessed>
       </ion-grid>
     </form>

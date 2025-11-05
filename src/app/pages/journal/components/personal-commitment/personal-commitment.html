@@ -1,21 +1,25 @@
-<location *ngIf="showLocation" [location]="slot?.testCentre?.centreName"></location>
+@if (showLocation) {
+  <location [location]="slot?.testCentre?.centreName"></location>
+}
 <ion-card class="personal-commitment personal-commitment-card">
-  <ion-row *ngFor="let commitment of personalCommitments; let i = index;" class="slot-row">
-    <ion-col class="time-column">
-      <div>
-        <time [testComplete]="false" [time]="transformSlotTime(slot.slotDetail.start, i)" id="personal-commitment-time">
-        </time>
-      </div>
-    </ion-col>
-    <ion-col class="title-column">
-      <ion-text class="des-header-style-3 title" id="personal-commitment-title"
-        >{{ commitment.activityDescription }}</ion-text
-      >
-    </ion-col>
-    <ion-col class="activity-code-column">
-      <ion-text class="des-header-style-2 activity-code ion-float-right" id="activity-code"
-        >{{ formatActivityCode(commitment.activityCode) }}</ion-text
-      >
-    </ion-col>
-  </ion-row>
-</ion-card>
+  @for (commitment of personalCommitments; track commitment; let i = $index) {
+    <ion-row class="slot-row">
+      <ion-col class="time-column">
+        <div>
+          <time [testComplete]="false" [time]="transformSlotTime(slot.slotDetail.start, i)" id="personal-commitment-time">
+          </time>
+        </div>
+      </ion-col>
+      <ion-col class="title-column">
+        <ion-text class="des-header-style-3 title" id="personal-commitment-title"
+          >{{ commitment.activityDescription }}</ion-text
+          >
+        </ion-col>
+        <ion-col class="activity-code-column">
+          <ion-text class="des-header-style-2 activity-code ion-float-right" id="activity-code"
+            >{{ formatActivityCode(commitment.activityCode) }}</ion-text
+            >
+          </ion-col>
+        </ion-row>
+      }
+    </ion-card>

@@ -1,26 +1,33 @@
 <ion-footer>
   <ion-toolbar>
     <ion-row class="mes-full-width-card box-shadow flex-center">
-      <ion-col class="ion-text-center" *ngIf="showPreviousPageButton()" size="35">
-        <ion-button expand="block" class="mes-grey-button width-100" id="previous-page-button"
-                    (click)="goToPreviousQuestion()">
-          <ion-text class="des-header-style-3">Previous question</ion-text>
-        </ion-button>
-      </ion-col>
-      <ion-col *ngIf="showPreviousPageButton()" size="10">
-      </ion-col>
-      <ion-col class="ion-text-center" *ngIf="showNextPageButton()" size="35">
-        <ion-button expand="block" class="mes-primary-button width-100" id="next-page-button"
-                    (click)="goToNextQuestion()">
-          <ion-text class="des-header-style-3">Next question</ion-text>
-        </ion-button>
-      </ion-col>
-      <ion-col class="ion-text-center" *ngIf="showViewSummaryButton()" size="35">
-        <ion-button expand="block" class="mes-primary-button width-100" id="view-summary-button"
-                    (click)="goToSummary()">
-          <ion-text class="des-header-style-3">View test summary</ion-text>
-        </ion-button>
-      </ion-col>
+      @if (showPreviousPageButton()) {
+        <ion-col class="ion-text-center" size="35">
+          <ion-button expand="block" class="mes-grey-button width-100" id="previous-page-button"
+                      (click)="goToPreviousQuestion()">
+            <ion-text class="des-header-style-3">Previous question</ion-text>
+          </ion-button>
+        </ion-col>
+        <ion-col size="10">
+        </ion-col>
+      }
+
+      @if (showNextPageButton()) {
+        <ion-col class="ion-text-center" size="35">
+          <ion-button expand="block" class="mes-primary-button width-100" id="next-page-button"
+                      (click)="goToNextQuestion()">
+            <ion-text class="des-header-style-3">Next question</ion-text>
+          </ion-button>
+        </ion-col>
+      }
+      @if (showViewSummaryButton()) {
+        <ion-col class="ion-text-center" size="35">
+          <ion-button expand="block" class="mes-primary-button width-100" id="view-summary-button"
+                      (click)="goToSummary()">
+            <ion-text class="des-header-style-3">View test summary</ion-text>
+          </ion-button>
+        </ion-col>
+      }
     </ion-row>
   </ion-toolbar>
 </ion-footer>

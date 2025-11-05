@@ -2,16 +2,17 @@
   <ion-col
     [size]="customLabelWidth ? customLabelWidth : (this.shouldShowIndicator ? 40 : 34)"
     class="ion-align-items-center display-flex"
-  >
+    >
     <label [ngStyle]="labelStyling" [id]="label | formatToID: idPrefix">{{ label }}</label>
   </ion-col>
   <ion-col size="6" class="ion-align-items-center display-flex">
-    <img
-      *ngIf="shouldShowIndicator"
-      alt="Exclamation Indicator"
-      src="assets/imgs/journal/exclamation-indicator.png"
-      class="exclamation-indicator"
-    />
+    @if (shouldShowIndicator) {
+      <img
+        alt="Exclamation Indicator"
+        src="assets/imgs/journal/exclamation-indicator.png"
+        class="exclamation-indicator"
+        />
+    }
   </ion-col>
   @if (imgSrc) {
     <ion-col size="40">

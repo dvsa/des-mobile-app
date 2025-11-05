@@ -27,20 +27,23 @@
 </ion-header>
 
 <ion-content [class.hidden]="failedMOTModalCurrentlyOpen" force-overscroll="false">
-  <offline-banner *ngIf="!isEndToEndPracticeMode" [isOffline]="pageState.isOffline$ | async"></offline-banner>
+  @if (!isEndToEndPracticeMode) {
+    <offline-banner [isOffline]="pageState.isOffline$ | async"></offline-banner>
+  }
   <div>
     <form (ngSubmit)="onSubmit()" [formGroup]="form">
       <ion-grid>
         <ion-row class="ion-no-padding" id="post-eyesight-form-content">
           <ion-col class="ion-no-padding">
-            <candidate-declaration-signed
-              (candidateDeclarationChange)="candidateDeclarationOutcomeChanged($event)"
-              *ngIf="isDelegated"
-              [candidateSigned]="pageState.candidateDeclarationSigned$ | async"
-              [declarationSelected]="(pageState.insuranceDeclarationAccepted$ | async) && (pageState.residencyDeclarationAccepted$ | async)"
-              [formGroup]="form"
-            >
-            </candidate-declaration-signed>
+            @if (isDelegated) {
+              <candidate-declaration-signed
+                (candidateDeclarationChange)="candidateDeclarationOutcomeChanged($event)"
+                [candidateSigned]="pageState.candidateDeclarationSigned$ | async"
+                [declarationSelected]="(pageState.insuranceDeclarationAccepted$ | async) && (pageState.residencyDeclarationAccepted$ | async)"
+                [formGroup]="form"
+                >
+              </candidate-declaration-signed>
+            }
             <vehicle-registration
               (alternateEvidenceChange)="getMOTEvidenceProvided($event)"
               (noMotData)="noMotData($event)"
@@ -57,50 +60,55 @@
               [vehicleRegistration]="pageState.registrationNumber$ | async"
               [shouldHideMOTButton]="true"
               [abortSubject]="abortSubject"
-            >
+              >
             </vehicle-registration>
 
-            <ion-row *ngIf="(pageState.motEvidenceProvided$ | async) === false">
-              <mot-no-evidence-confirmation [cancelFn]="motNoEvidenceCancelled" [nextPageOnFail]="getDebriefPage()">
-              </mot-no-evidence-confirmation>
-            </ion-row>
+            @if ((pageState.motEvidenceProvided$ | async) === false) {
+              <ion-row>
+                <mot-no-evidence-confirmation [cancelFn]="motNoEvidenceCancelled" [nextPageOnFail]="getDebriefPage()">
+                </mot-no-evidence-confirmation>
+              </ion-row>
+            }
 
             <div [hidden]="(pageState.motEvidenceProvided$ | async) === false" class="ion-no-padding">
 
               <test-category [testCategory]="pageState.category$ | async"></test-category>
 
-              <vehicle-checks-vocational
-                (onCloseVehicleChecksModal)="closeVehicleChecksModal()"
-                *ngIf="!isDelegated"
-                [category]="pageState.category$ | async"
-                [formGroup]="form"
-                [practiceMode]="isEndToEndPracticeMode"
-                [fullLicenceHeld]="pageState.fullLicenceHeld$ | async"
-                [vehicleChecksScore]="pageState.vehicleChecksScore$ | async"
-                [vehicleChecks]="pageState.vehicleChecks$ | async"
-                [submitClicked]="submitClicked"
-              >
-              </vehicle-checks-vocational>
+              @if (!isDelegated) {
+                <vehicle-checks-vocational
+                  (onCloseVehicleChecksModal)="closeVehicleChecksModal()"
+                  [category]="pageState.category$ | async"
+                  [formGroup]="form"
+                  [practiceMode]="isEndToEndPracticeMode"
+                  [fullLicenceHeld]="pageState.fullLicenceHeld$ | async"
+                  [vehicleChecksScore]="pageState.vehicleChecksScore$ | async"
+                  [vehicleChecks]="pageState.vehicleChecks$ | async"
+                  [submitClicked]="submitClicked"
+                  >
+                </vehicle-checks-vocational>
+              }
 
-              <full-licence-held-toggle
-                (fullLicenceHeldChange)="fullLicenceHeldChange($event)"
-                *ngIf="isDelegated && showFullLicenceHeld()"
-                [formGroup]="form"
-                [fullLicenceHeld]="pageState.fullLicenceHeldSelection$ | async"
-                [required]="true"
-                [testCategory]="testCategory"
-              >
-              </full-licence-held-toggle>
+              @if (isDelegated && showFullLicenceHeld()) {
+                <full-licence-held-toggle
+                  (fullLicenceHeldChange)="fullLicenceHeldChange($event)"
+                  [formGroup]="form"
+                  [fullLicenceHeld]="pageState.fullLicenceHeldSelection$ | async"
+                  [required]="true"
+                  [testCategory]="testCategory"
+                  >
+                </full-licence-held-toggle>
+              }
 
-              <vehicle-checks-completed
-                (vehicleChecksCompletedOutcomeChange)="vehicleChecksCompletedOutcomeChanged($event)"
-                (vehicleChecksDrivingFaultsNumberChange)="vehicleChecksDrivingFaultsNumberChanged($event)"
-                *ngIf="isDelegated"
-                [formGroup]="form"
-                [testCategory]="pageState.category$ | async"
-                [vehicleChecksCompleted]="pageState.vehicleChecksCompleted$ | async"
-              >
-              </vehicle-checks-completed>
+              @if (isDelegated) {
+                <vehicle-checks-completed
+                  (vehicleChecksCompletedOutcomeChange)="vehicleChecksCompletedOutcomeChanged($event)"
+                  (vehicleChecksDrivingFaultsNumberChange)="vehicleChecksDrivingFaultsNumberChanged($event)"
+                  [formGroup]="form"
+                  [testCategory]="pageState.category$ | async"
+                  [vehicleChecksCompleted]="pageState.vehicleChecksCompleted$ | async"
+                  >
+                </vehicle-checks-completed>
+              }
 
               <accompaniment-card
                 (instructorAccompanimentChange)="instructorAccompanimentToggled()"
@@ -112,16 +120,18 @@
                 [interpreterAccompaniment]="pageState.interpreterAccompaniment$ | async"
                 [otherAccompaniment]="pageState.otherAccompaniment$ | async"
                 [supervisorAccompaniment]="pageState.supervisorAccompaniment$ | async"
-              >
+                >
               </accompaniment-card>
             </div>
           </ion-col>
         </ion-row>
 
-        <div [hidden]="(pageState.motEvidenceProvided$ | async) === false" *ngIf="!isDelegated">
-          <warning-banner class="banner-space" warningText="Is cab locked down? (if applicable)"></warning-banner>
-          <warning-banner warningText="Is load secure? (if applicable)"></warning-banner>
-        </div>
+        @if (!isDelegated) {
+          <div [hidden]="(pageState.motEvidenceProvided$ | async) === false">
+            <warning-banner class="banner-space" warningText="Is cab locked down? (if applicable)"></warning-banner>
+            <warning-banner warningText="Is load secure? (if applicable)"></warning-banner>
+          </div>
+        }
       </ion-grid>
     </form>
   </div>
@@ -130,24 +140,28 @@
 <ion-footer [class.hidden]="failedMOTModalCurrentlyOpen">
   <ion-row [hidden]="(pageState.motEvidenceProvided$ | async) === false"
            class="mes-full-width-card box-shadow flex-center">
-    <ion-col *ngIf="!isDelegated" class="ion-text-center" size="43">
-      <ion-button
-        (click)="onViewTestCentreJournal()"
-        class="mes-grey-button wrtc-footer-btn"
-        id="view-test-centre-journal-button"
-        shape="round"
-      >
-        <ion-text class="des-header-style-3">View test centre journal</ion-text>
-      </ion-button>
-    </ion-col>
-    <ion-col *ngIf="!isDelegated" size="2"></ion-col>
+    @if (!isDelegated) {
+      <ion-col class="ion-text-center" size="43">
+        <ion-button
+          (click)="onViewTestCentreJournal()"
+          class="mes-grey-button wrtc-footer-btn"
+          id="view-test-centre-journal-button"
+          shape="round"
+          >
+          <ion-text class="des-header-style-3">View test centre journal</ion-text>
+        </ion-button>
+      </ion-col>
+    }
+    @if (!isDelegated) {
+      <ion-col size="2"></ion-col>
+    }
     <ion-col [size]="isDelegated ? 60 : 43" class="ion-text-center">
       <ion-button
         (click)="onSubmit()"
         class="mes-primary-button wrtc-footer-btn"
         id="continue-to-test-report-button"
         shape="round"
-      >
+        >
         <ion-text class="des-header-style-3">Continue to test report</ion-text>
       </ion-button>
     </ion-col>

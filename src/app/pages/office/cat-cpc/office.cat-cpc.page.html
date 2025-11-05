@@ -25,7 +25,7 @@
     [driverNumber]="pageState.candidateDriverNumber$ | async"
     [startTime]="pageState.startTime$ | async"
     [testOutcomeText]="pageState.testOutcomeText$ | async"
-  >
+    >
   </office-candidate-section>
 
   <form [formGroup]="form">
@@ -36,26 +36,28 @@
 
       <ion-card-content class="card-content-ios ion-no-padding">
         <ion-grid class="grid">
-          <date-of-test
-            *ngIf="isDelegated || isRekey"
-            [dateOfTest]="pageState.startDate$ | async"
-            (setIsValidStartDateTime)="setIsValidStartDateTime($event)"
-            (dateOfTestChange)="dateOfTestChanged($event)"
-          >
-          </date-of-test>
+          @if (isDelegated || isRekey) {
+            <date-of-test
+              [dateOfTest]="pageState.startDate$ | async"
+              (setIsValidStartDateTime)="setIsValidStartDateTime($event)"
+              (dateOfTestChange)="dateOfTestChanged($event)"
+              >
+            </date-of-test>
+          }
 
-          <ion-row
-            class="mes-component-row mes-row-separator ion-align-items-center"
-            id="application-reference-card"
-            *ngIf="isDelegated"
-          >
-            <ion-col class="component-label" size="32">
-              <label>Booking reference</label>
-            </ion-col>
-            <ion-col class="ion-padding-start">
-              <span class="mes-data">{{pageState.applicationNumber$ | async }}</span>
-            </ion-col>
-          </ion-row>
+          @if (isDelegated) {
+            <ion-row
+              class="mes-component-row mes-row-separator ion-align-items-center"
+              id="application-reference-card"
+              >
+              <ion-col class="component-label" size="32">
+                <label>Booking reference</label>
+              </ion-col>
+              <ion-col class="ion-padding-start">
+                <span class="mes-data">{{pageState.applicationNumber$ | async }}</span>
+              </ion-col>
+            </ion-row>
+          }
 
           <activity-code
             id="activity-code-card"
@@ -64,35 +66,38 @@
             [activityCodeOptions]="activityCodeOptions"
             (activityCodeChange)="activityCodeChanged($event)"
             [disabled]="!isDelegated"
-          >
+            >
           </activity-code>
 
           <div class="ion-no-padding">
-            <pass-certificate-number
-              *ngIf="isDelegated && isPass()"
-              [form]="form"
-              [passCertificateNumberInput]="pageState.passCertificateNumber$ | async"
-              (passCertificateNumberChange)="passCertificateNumberChanged($event)"
-            >
-            </pass-certificate-number>
+            @if (isDelegated && isPass()) {
+              <pass-certificate-number
+                [form]="form"
+                [passCertificateNumberInput]="pageState.passCertificateNumber$ | async"
+                (passCertificateNumberChange)="passCertificateNumberChanged($event)"
+                >
+              </pass-certificate-number>
+            }
 
-            <pass-certificate-declaration
-              *ngIf="isDelegated && isPass()"
-              [label]="'Pass certificate declaration'"
-              [formGroup]="form"
-              [passCertificateNumberReceived]="pageState.passCertificateNumberReceived$ | async"
-              (passCertificateDeclarationChange)="passCertificateDeclarationChanged($event)"
-            >
-            </pass-certificate-declaration>
+            @if (isDelegated && isPass()) {
+              <pass-certificate-declaration
+                [label]="'Pass certificate declaration'"
+                [formGroup]="form"
+                [passCertificateNumberReceived]="pageState.passCertificateNumberReceived$ | async"
+                (passCertificateDeclarationChange)="passCertificateDeclarationChanged($event)"
+                >
+              </pass-certificate-declaration>
+            }
 
-            <language-preferences
-              *ngIf="isDelegated"
-              [isDelegated]="isDelegated"
-              [formGroup]="form"
-              [isWelsh]="false"
-              (welshChanged)="isWelshChanged($event)"
-            >
-            </language-preferences>
+            @if (isDelegated) {
+              <language-preferences
+                [isDelegated]="isDelegated"
+                [formGroup]="form"
+                [isWelsh]="false"
+                (welshChanged)="isWelshChanged($event)"
+                >
+              </language-preferences>
+            }
 
             <debrief-witnessed
               [display]="isDelegated"
@@ -101,37 +106,40 @@
               [debriefWitnessed]="pageState.debriefWitnessed$ | async"
               [outcome]="pageState.testOutcome$ | async"
               (debriefWitnessedChange)="debriefWitnessedChanged($event)"
-            >
+              >
             </debrief-witnessed>
 
-            <true-likeness
-              *ngIf="(pageState.displayCandidateDescription$ | async) && !isDelegated"
-              [formGroup]="form"
-              [trueLikeness]="pageState.trueLikenessToPhoto$ | async"
-              (trueLikenessChange)="trueLikenessToPhotoChanged($event)"
-            >
-            </true-likeness>
+            @if ((pageState.displayCandidateDescription$ | async) && !isDelegated) {
+              <true-likeness
+                [formGroup]="form"
+                [trueLikeness]="pageState.trueLikenessToPhoto$ | async"
+                (trueLikenessChange)="trueLikenessToPhotoChanged($event)"
+                >
+              </true-likeness>
+            }
 
-            <candidate-description
-              *ngIf="!isDelegated"
-              [display]="(pageState.displayCandidateDescription$ | async)"
-              [formGroup]="form"
-              [candidateDescription]="pageState.candidateDescription$ | async"
-              [outcome]="pageState.testOutcome$ | async"
-              [trueLikenessToPhoto]="pageState.trueLikenessToPhoto$ | async"
-              (candidateDescriptionChange)="candidateDescriptionChanged($event)"
-            >
-            </candidate-description>
+            @if (!isDelegated) {
+              <candidate-description
+                [display]="(pageState.displayCandidateDescription$ | async)"
+                [formGroup]="form"
+                [candidateDescription]="pageState.candidateDescription$ | async"
+                [outcome]="pageState.testOutcome$ | async"
+                [trueLikenessToPhoto]="pageState.trueLikenessToPhoto$ | async"
+                (candidateDescriptionChange)="candidateDescriptionChanged($event)"
+                >
+              </candidate-description>
+            }
 
-            <identification
-              *ngIf="!isDelegated"
-              [display]="(pageState.displayIdentification$ | async)"
-              [formGroup]="form"
-              [identification]="pageState.identification$ | async"
-              [outcome]="pageState.testOutcome$ | async"
-              (identificationChange)="identificationChanged($event)"
-            >
-            </identification>
+            @if (!isDelegated) {
+              <identification
+                [display]="(pageState.displayIdentification$ | async)"
+                [formGroup]="form"
+                [identification]="pageState.identification$ | async"
+                [outcome]="pageState.testOutcome$ | async"
+                (identificationChange)="identificationChanged($event)"
+                >
+              </identification>
+            }
 
             <office-registration-and-mot
               [registrationNumber]="pageState.registrationNumber$ | async"
@@ -142,20 +150,22 @@
               [vehicleModel]="pageState.vehicleModel$ | async"
             ></office-registration-and-mot>
 
-            <alternate-mot-evidence-provided
-              *ngIf="(pageState.motAlternativeEvidenceProvided$ | async) != null"
-              [alternativeEvidenceProvided]="pageState.motAlternativeEvidenceProvided$ | async"
-              [shouldHaveSeparator]="(pageState.motAlternativeEvidenceProvided$ | async) || (pageState.displayAdditionalInformation$ | async)"
-            ></alternate-mot-evidence-provided>
+            @if ((pageState.motAlternativeEvidenceProvided$ | async) != null) {
+              <alternate-mot-evidence-provided
+                [alternativeEvidenceProvided]="pageState.motAlternativeEvidenceProvided$ | async"
+                [shouldHaveSeparator]="(pageState.motAlternativeEvidenceProvided$ | async) || (pageState.displayAdditionalInformation$ | async)"
+              ></alternate-mot-evidence-provided>
+            }
 
-            <alternate-mot-evidence-description
-              [shouldHaveSeparator]="pageState.displayAdditionalInformation$ | async"
-              *ngIf="pageState.motAlternativeEvidenceProvided$ | async"
-              [alternateEvidenceDescription]="pageState.motAlternativeEvidenceDescription$ | async"
-              (evidenceDescriptionTestResultChange)="alternativeMOTEvidenceDescriptionUpdated($event)"
-              [formGroup]="form"
-            >
-            </alternate-mot-evidence-description>
+            @if (pageState.motAlternativeEvidenceProvided$ | async) {
+              <alternate-mot-evidence-description
+                [shouldHaveSeparator]="pageState.displayAdditionalInformation$ | async"
+                [alternateEvidenceDescription]="pageState.motAlternativeEvidenceDescription$ | async"
+                (evidenceDescriptionTestResultChange)="alternativeMOTEvidenceDescriptionUpdated($event)"
+                [formGroup]="form"
+                >
+              </alternate-mot-evidence-description>
+            }
 
             <additional-information
               [display]="pageState.displayAdditionalInformation$ | async"
@@ -163,16 +173,17 @@
               [formGroup]="form"
               [outcome]="pageState.testOutcome$ | async"
               (additionalInformationChange)="additionalInformationChanged($event)"
-            >
+              >
             </additional-information>
 
-            <reason-for-entering-teams
-              *ngIf="pageState.hasEnteredTeamsOnThisTest$ | async"
-              [display]="pageState.hasEnteredTeamsOnThisTest$ | async"
-              [reasonForOpeningTeams]="pageState.reasonForEnteringTeams$ | async"
-              [formGroup]="form"
-              (reasonForOpeningTeamsChange)="reasonForEnteringTeamsChanged($event)"
-            ></reason-for-entering-teams>
+            @if (pageState.hasEnteredTeamsOnThisTest$ | async) {
+              <reason-for-entering-teams
+                [display]="pageState.hasEnteredTeamsOnThisTest$ | async"
+                [reasonForOpeningTeams]="pageState.reasonForEnteringTeams$ | async"
+                [formGroup]="form"
+                (reasonForOpeningTeamsChange)="reasonForEnteringTeamsChanged($event)"
+              ></reason-for-entering-teams>
+            }
 
             <accompaniment-card-cat-cpc
               [formGroup]="form"
@@ -180,34 +191,36 @@
               [interpreterAccompaniment]="pageState.interpreterAccompaniment$ | async"
               (supervisorAccompanimentChange)="supervisorAccompanimentToggledCPC()"
               (interpreterAccompanimentChange)="interpreterAccompanimentToggledCPC()"
-            >
+              >
             </accompaniment-card-cat-cpc>
 
             <combination-office
               [combination]="pageState.combination$ | async"
               [combinationAdditionalText]="getCombinationAdditionalText(pageState.combination$ | async)"
-            >
+              >
             </combination-office>
 
-            <assessment-report
-              *ngIf="isFail() && !isDelegated"
-              [formGroup]="form"
-              [assessmentReport]="pageState.assessmentReport$ | async"
-              (assessmentReportChange)="assessmentReportChanged($event)"
-            >
-            </assessment-report>
+            @if (isFail() && !isDelegated) {
+              <assessment-report
+                [formGroup]="form"
+                [assessmentReport]="pageState.assessmentReport$ | async"
+                (assessmentReportChange)="assessmentReportChanged($event)"
+                >
+              </assessment-report>
+            }
 
-            <cpc-debrief-card
-              *ngIf="isFail() && pageState.combination$ | async"
-              [overallScore]="pageState.overallScore$ | async"
-              [question1]="pageState.question1$ | async"
-              [question2]="pageState.question2$ | async"
-              [question3]="pageState.question3$ | async"
-              [question4]="pageState.question4$ | async"
-              [question5]="pageState.question5$ | async"
-              [testOutcome]="outcome"
-            >
-            </cpc-debrief-card>
+            @if (isFail() && pageState.combination$ | async) {
+              <cpc-debrief-card
+                [overallScore]="pageState.overallScore$ | async"
+                [question1]="pageState.question1$ | async"
+                [question2]="pageState.question2$ | async"
+                [question3]="pageState.question3$ | async"
+                [question4]="pageState.question4$ | async"
+                [question5]="pageState.question5$ | async"
+                [testOutcome]="outcome"
+                >
+              </cpc-debrief-card>
+            }
           </div>
         </ion-grid>
       </ion-card-content>

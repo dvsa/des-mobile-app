@@ -9,20 +9,25 @@
     <br />
     <ion-text [ngClass]="['des-header-style-3', data.grade ? 'grade-styling' : '']"
       >Test outcome:
-      <span
-        *ngIf="!data.grade"
-        id="testOutcome"
-        [ngClass]="['des-header-style-3', isPassed() ? 'mes-green' : 'mes-red']"
-      >
-        {{data.testOutcome}}
-      </span>
-      <span *ngIf="data.grade" id="gradeTestOutcome" class="des-header-style-3 mes-green">
-        {{data.testOutcome}} - Grade {{data.grade}}
-      </span>
+      @if (!data.grade) {
+        <span
+          id="testOutcome"
+          [ngClass]="['des-header-style-3', isPassed() ? 'mes-green' : 'mes-red']"
+          >
+          {{data.testOutcome}}
+        </span>
+      }
+      @if (data.grade) {
+        <span id="gradeTestOutcome" class="des-header-style-3 mes-green">
+          {{data.testOutcome}} - Grade {{data.grade}}
+        </span>
+      }
     </ion-text>
     <br />
     <ion-text class="des-header-style-3">
-      <span *ngIf="appVersion" id="appVersion">App version: {{appVersion}}</span>
+      @if (appVersion) {
+        <span id="appVersion">App version: {{appVersion}}</span>
+      }
     </ion-text>
   </ion-col>
 </ion-row>

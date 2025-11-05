@@ -3,18 +3,24 @@
     <ion-text class="mes-data">
       Displaying <strong id="examiner-records-label-test-count">{{ testCount }}</strong>
     </ion-text>
-    <ion-text *ngIf="currentCategory" class="mes-data"> Category <strong id="examiner-records-label-category">{{ currentCategory }}</strong></ion-text>
+    @if (currentCategory) {
+      <ion-text class="mes-data"> Category <strong id="examiner-records-label-category">{{ currentCategory }}</strong></ion-text>
+    }
     <ion-text class="mes-data">
-      test<ng-container *ngIf="testCount != 1">s</ng-container>, from
+      test@if (testCount != 1) {
+      s
+      }, from
       <strong id="examiner-records-label-start-date">{{ startDateFilter }}</strong> to
       <strong id="examiner-records-label-end-date">{{ endDateFilter }}</strong>
     </ion-text>
-    <ion-text *ngIf="centreName" class="mes-data"> at <strong id="examiner-records-label-centre-name">{{ centreName }}</strong></ion-text>
+    @if (centreName) {
+      <ion-text class="mes-data"> at <strong id="examiner-records-label-centre-name">{{ centreName }}</strong></ion-text>
+    }
   </ion-col>
   <ion-col size="26" class="display-flex ion-align-items-center ion-justify-content-end">
     <ion-button id="examiner-records-learn-more-btn-header"
-                class="mes-grey-button width-90-percent"
-                (click)="onShowLearnMoreModal()">
+      class="mes-grey-button width-90-percent"
+      (click)="onShowLearnMoreModal()">
       <ion-text class="mes-data">Learn more</ion-text>
     </ion-button>
   </ion-col>
