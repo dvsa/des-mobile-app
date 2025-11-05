@@ -6,13 +6,14 @@
       </ion-text>
     </ion-col>
   </ion-row>
-  <modal-result-item
-    *ngFor="let question of cpcQuestions"
-    [label]="question.questionCode"
-    [score]="question.score"
-    [isPass]="question.score >= 15"
-  >
-  </modal-result-item>
+  @for (question of cpcQuestions; track question) {
+    <modal-result-item
+      [label]="question.questionCode"
+      [score]="question.score"
+      [isPass]="question.score >= 15"
+      >
+    </modal-result-item>
+  }
   <modal-result-item label="TOTAL" [score]="totalPercentage" [isPass]="testResult === '1'"> </modal-result-item>
   <ion-row class="ion-justify-content-center">
     <ion-col size="84">

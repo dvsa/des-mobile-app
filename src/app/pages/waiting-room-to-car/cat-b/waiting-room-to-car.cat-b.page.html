@@ -26,28 +26,33 @@
 </ion-header>
 
 <ion-content [class.hidden]="failedMOTModalCurrentlyOpen" forceOverscroll="false">
-  <offline-banner *ngIf="!isEndToEndPracticeMode" [isOffline]="pageState.isOffline$ | async"></offline-banner>
+  @if (!isEndToEndPracticeMode) {
+    <offline-banner [isOffline]="pageState.isOffline$ | async"></offline-banner>
+  }
   <div>
     <form (ngSubmit)="onSubmit()" [formGroup]="form">
       <ion-grid>
-        <eyesight-test
-          (eyesightTestResultChange)="eyesightTestResultChanged($event)"
-          *ngIf="pageState.showEyesight$ | async"
-          [eyesightFailRadioChecked]="pageState.eyesightTestFailed$ | async"
-          [eyesightPassRadioChecked]="(pageState.eyesightTestComplete$ | async) && !(pageState.eyesightTestFailed$ | async)"
-          [formGroup]="form"
-        >
-        </eyesight-test>
+        @if (pageState.showEyesight$ | async) {
+          <eyesight-test
+            (eyesightTestResultChange)="eyesightTestResultChanged($event)"
+            [eyesightFailRadioChecked]="pageState.eyesightTestFailed$ | async"
+            [eyesightPassRadioChecked]="(pageState.eyesightTestComplete$ | async) && !(pageState.eyesightTestFailed$ | async)"
+            [formGroup]="form"
+            >
+          </eyesight-test>
+        }
 
-        <ion-row *ngIf="pageState.eyesightTestFailed$ | async">
-          <eyesight-failure-confirmation [cancelFn]="eyesightFailCancelled" [nextPageOnFail]="getDebriefPage()">
-          </eyesight-failure-confirmation>
-        </ion-row>
+        @if (pageState.eyesightTestFailed$ | async) {
+          <ion-row>
+            <eyesight-failure-confirmation [cancelFn]="eyesightFailCancelled" [nextPageOnFail]="getDebriefPage()">
+            </eyesight-failure-confirmation>
+          </ion-row>
+        }
 
         <ion-row
           class="ion-no-padding"
           id="post-eyesight-form-content"
-        >
+          >
           <ion-col class="ion-no-padding">
             <vehicle-registration
               [hidden]="pageState.eyesightTestFailed$ | async"
@@ -66,19 +71,21 @@
               [vehicleRegistration]="pageState.registrationNumber$ | async"
               [shouldHideMOTButton]="isRekey"
               [abortSubject]="abortSubject"
-            >
+              >
             </vehicle-registration>
 
-            <ion-row *ngIf="(pageState.motEvidenceProvided$ | async) === false" [hidden]="pageState.eyesightTestFailed$ | async">
-              <mot-no-evidence-confirmation [cancelFn]="motNoEvidenceCancelled" [nextPageOnFail]="getDebriefPage()">
-              </mot-no-evidence-confirmation>
-            </ion-row>
+            @if ((pageState.motEvidenceProvided$ | async) === false) {
+              <ion-row [hidden]="pageState.eyesightTestFailed$ | async">
+                <mot-no-evidence-confirmation [cancelFn]="motNoEvidenceCancelled" [nextPageOnFail]="getDebriefPage()">
+                </mot-no-evidence-confirmation>
+              </ion-row>
+            }
 
             <safety-recall>
             </safety-recall>
 
             <div [hidden]="(pageState.motEvidenceProvided$ | async) === false"
-                 [hidden]="pageState.eyesightTestFailed$ | async" class="ion-no-padding">
+              [hidden]="pageState.eyesightTestFailed$ | async" class="ion-no-padding">
               <tell-me-question-card
                 (tellMeQuestionChange)="tellMeQuestionChanged($event)"
                 (tellMeQuestionOutcomeChange)="tellMeQuestionOutcomeChanged($event)"
@@ -87,21 +94,21 @@
                 [tellMeQuestionSelected]="pageState.tellMeQuestionSelected$ | async"
                 [tellMeQuestion]="pageState.tellMeQuestion$ | async"
                 [tellMeQuestions]="tellMeQuestions"
-              >
+                >
               </tell-me-question-card>
 
               <transmission
                 (transmissionChange)="transmissionChanged($event)"
                 [formGroup]="form"
                 [transmission]="pageState.transmission$ | async"
-              >
+                >
               </transmission>
 
               <instructor-registration
                 (instructorRegistrationChange)="instructorRegistrationChanged($event)"
                 [formGroup]="form"
                 [instructorRegistration]="pageState.instructorRegistrationNumber$ | async"
-              >
+                >
               </instructor-registration>
 
               <accompaniment-card
@@ -114,7 +121,7 @@
                 [interpreterAccompaniment]="pageState.interpreterAccompaniment$ | async"
                 [otherAccompaniment]="pageState.otherAccompaniment$ | async"
                 [supervisorAccompaniment]="pageState.supervisorAccompaniment$ | async"
-              >
+                >
               </accompaniment-card>
 
               <vehicle-details-card
@@ -123,7 +130,7 @@
                 [dualVehicleDetails]="pageState.dualControls$ | async"
                 [formGroup]="form"
                 [schoolVehicleDetails]="pageState.schoolCar$ | async"
-              >
+                >
               </vehicle-details-card>
             </div>
           </ion-col>
@@ -135,14 +142,14 @@
 
 <ion-footer [class.hidden]="failedMOTModalCurrentlyOpen">
   <ion-row [hidden]="(pageState.eyesightTestFailed$ | async) || (pageState.motEvidenceProvided$ | async) === false"
-           class="mes-full-width-card box-shadow flex-center">
+    class="mes-full-width-card box-shadow flex-center">
     <ion-col class="ion-text-center width-100" size="43">
       <ion-button
         (click)="onViewTestCentreJournal()"
         class="mes-grey-button"
         id="view-test-centre-journal-button"
         shape="round"
-      >
+        >
         <ion-text class="des-header-style-3">View test centre journal</ion-text>
       </ion-button>
     </ion-col>
@@ -153,7 +160,7 @@
         class="mes-primary-button"
         id="continue-to-test-report-button"
         shape="round"
-      >
+        >
         <ion-text class="des-header-style-3">Continue to test report</ion-text>
       </ion-button>
     </ion-col>

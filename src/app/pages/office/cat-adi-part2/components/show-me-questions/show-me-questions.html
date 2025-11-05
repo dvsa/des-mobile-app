@@ -21,14 +21,15 @@
           labelPlacement="stacked"
           okText="Submit"
           placeholder="Select questions"
-        >
-          <ion-select-option
-            *ngFor="let showMeQuestion of questions;"
-            [disabled]="isOptionDisabled(showMeQuestion)"
-            [value]="showMeQuestion"
           >
-            {{showMeQuestion.code}} - {{showMeQuestion.shortName}}
-          </ion-select-option>
+          @for (showMeQuestion of questions; track showMeQuestion) {
+            <ion-select-option
+              [disabled]="isOptionDisabled(showMeQuestion)"
+              [value]="showMeQuestion"
+              >
+              {{showMeQuestion.code}} - {{showMeQuestion.shortName}}
+            </ion-select-option>
+          }
         </ion-select>
       </ion-col>
       <ion-col size="4"></ion-col>
@@ -41,7 +42,7 @@
           id="showMe_{{questionNumber}}_btn1"
           type="radio"
           value="P"
-        />
+          />
         <label class="radio-label" for="showMe_{{questionNumber}}_btn1">Correct</label>
       </ion-col>
       <ion-col class="ion-align-self-center" size="24">
@@ -53,7 +54,7 @@
           id="showMe_{{questionNumber}}_btn2"
           type="radio"
           value="DF"
-        />
+          />
         <label class="radio-label" for="showMe_{{questionNumber}}_btn2">Incorrect</label>
       </ion-col>
     </ion-row>

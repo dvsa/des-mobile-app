@@ -31,46 +31,51 @@
           [candidateDriverNumber]="pageState.candidateDriverNumber$ | async"
           [candidateName]="pageState.candidateName$ | async"
           [outcomeText]="pageState.testOutcomeText$ | async"
-        >
+          >
         </finalisation-header>
 
         <application-reference-number [applicationNumber]="pageState.applicationNumber$ | async">
         </application-reference-number>
 
-        <license-provided
-          (licenseNotReceived)="provisionalLicenseNotReceived()"
-          (licenseReceived)="provisionalLicenseReceived()"
-          *ngIf="!isNorthernIreland(pageState.candidateDriverNumber$ | async )"
-          [form]="form"
-          [licenseReceivedLabel]="'Provisional licence received'"
-          [license]="pageState.provisionalLicense$ | async"
-        >
-        </license-provided>
+        @if (!isNorthernIreland(pageState.candidateDriverNumber$ | async )) {
+          <license-provided
+            (licenseNotReceived)="provisionalLicenseNotReceived()"
+            (licenseReceived)="provisionalLicenseReceived()"
+            [form]="form"
+            [licenseReceivedLabel]="'Provisional licence received'"
+            [license]="pageState.provisionalLicense$ | async"
+            >
+          </license-provided>
+        }
 
-        <licence-provided-warning-banner
-          *ngIf="!isNorthernIreland(pageState.candidateDriverNumber$ | async )"
-          [licenceProvided]="pageState.provisionalLicense$ | async"
-        >
-        </licence-provided-warning-banner>
+        @if (!isNorthernIreland(pageState.candidateDriverNumber$ | async )) {
+          <licence-provided-warning-banner
+            [licenceProvided]="pageState.provisionalLicense$ | async"
+            >
+          </licence-provided-warning-banner>
+        }
 
-        <danger-banner *ngIf="isNorthernIreland(pageState.candidateDriverNumber$ | async )" [dangerText]="niMessage">
-        </danger-banner>
+        @if (isNorthernIreland(pageState.candidateDriverNumber$ | async )) {
+          <danger-banner [dangerText]="niMessage">
+          </danger-banner>
+        }
 
         <transmission (transmissionChange)="transmissionChanged($event)" [formGroup]="form"></transmission>
 
-        <warning-banner
-          *ngIf="displayTransmissionBanner()"
-          [warningIdentifier]="'transmission-'"
-          warningText="An automatic licence will be issued."
-        >
-        </warning-banner>
+        @if (displayTransmissionBanner()) {
+          <warning-banner
+            [warningIdentifier]="'transmission-'"
+            warningText="An automatic licence will be issued."
+            >
+          </warning-banner>
+        }
 
         <pass-certificate-number
           (passCertificateNumberChange)="passCertificateNumberChanged($event)"
           [form]="form"
           [isPracticeMode]="isPracticeMode"
           [passCertificateNumberInput]="pageState.passCertificateNumber$ | async"
-        >
+          >
         </pass-certificate-number>
 
         <d255
@@ -80,21 +85,22 @@
           [eyesightTestFailed]="pageState.eyesightTestFailed$ | async"
           [formGroup]="form"
           [outcome]="testOutcome"
-        >
+          >
         </d255>
 
-        <warning-banner
-          *ngIf="pageState.d255$ | async"
-          [warningIdentifier]="'d255-'"
-          warningText="DVLA will not process the result until a D255 is received."
-        >
-        </warning-banner>
+        @if (pageState.d255$ | async) {
+          <warning-banner
+            [warningIdentifier]="'d255-'"
+            warningText="DVLA will not process the result until a D255 is received."
+            >
+          </warning-banner>
+        }
 
         <language-preferences
           (welshChanged)="isWelshChanged($event)"
           [formGroup]="form"
           [isWelsh]="(pageState.conductedLanguage$ | async) === 'Cymraeg'"
-        >
+          >
         </language-preferences>
 
         <debrief-witnessed
@@ -104,7 +110,7 @@
           [shouldShowSeparator]="false"
           [formGroup]="form"
           [outcome]="testOutcome"
-        >
+          >
         </debrief-witnessed>
       </ion-grid>
     </form>

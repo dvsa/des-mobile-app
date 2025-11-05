@@ -34,13 +34,14 @@
 
   <location location="Example Test Centre"></location>
 
-  <test-slot
-    *ngFor="let slot of slots;"
-    [slots]="slots"
-    [slot]="slot"
-    [isPortrait]="orientationMonitorProvider.isPortraitMode$ | async"
-    [isPracticeMode]="true"
-    [hasSlotChanged]="false"
-  >
-  </test-slot>
+  @for (slot of slots; track slot) {
+    <test-slot
+      [slots]="slots"
+      [slot]="slot"
+      [isPortrait]="orientationMonitorProvider.isPortraitMode$ | async"
+      [isPracticeMode]="true"
+      [hasSlotChanged]="false"
+      >
+    </test-slot>
+  }
 </ion-content>

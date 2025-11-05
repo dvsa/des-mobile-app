@@ -31,14 +31,14 @@
           [candidateName]="pageState.candidateName$ | async"
           [candidateDriverNumber]="pageState.candidateDriverNumber$ | async"
           [outcomeText]="pageState.testOutcomeText$ | async"
-        >
+          >
         </finalisation-header>
 
         <language-preferences
           [formGroup]="form"
           [isWelsh]="(pageState.conductedLanguage$ | async) === 'Cymraeg'"
           (welshChanged)="isWelshChanged($event)"
-        >
+          >
         </language-preferences>
 
         <debrief-witnessed
@@ -47,7 +47,7 @@
           [debriefWitnessed]="pageState.debriefWitnessed$ | async"
           [outcome]="testOutcome"
           (debriefWitnessedChange)="debriefWitnessedChanged($event)"
-        >
+          >
         </debrief-witnessed>
 
         <warning-banner warningText="Advise PDI to seek development for the Part 3 test from an ORDIT trainer">

@@ -27,20 +27,23 @@
 </ion-header>
 
 <ion-content [class.hidden]="failedMOTModalCurrentlyOpen" force-overscroll="false">
-  <offline-banner *ngIf="!isEndToEndPracticeMode" [isOffline]="pageState.isOffline$ | async"></offline-banner>
+  @if (!isEndToEndPracticeMode) {
+    <offline-banner [isOffline]="pageState.isOffline$ | async"></offline-banner>
+  }
   <div>
     <form (ngSubmit)="onSubmit()" [formGroup]="form">
       <ion-grid>
         <ion-row class="ion-no-padding">
           <ion-col class="ion-no-padding">
-            <candidate-declaration-signed
-              (candidateDeclarationChange)="candidateDeclarationOutcomeChanged($event)"
-              *ngIf="isDelegated"
-              [candidateSigned]="pageState.candidateDeclarationSigned$ | async"
-              [declarationSelected]="(pageState.insuranceDeclarationAccepted$ | async) && (pageState.residencyDeclarationAccepted$ | async)"
-              [formGroup]="form"
-            >
-            </candidate-declaration-signed>
+            @if (isDelegated) {
+              <candidate-declaration-signed
+                (candidateDeclarationChange)="candidateDeclarationOutcomeChanged($event)"
+                [candidateSigned]="pageState.candidateDeclarationSigned$ | async"
+                [declarationSelected]="(pageState.insuranceDeclarationAccepted$ | async) && (pageState.residencyDeclarationAccepted$ | async)"
+                [formGroup]="form"
+                >
+              </candidate-declaration-signed>
+            }
 
             <vehicle-registration
               (alternateEvidenceChange)="getMOTEvidenceProvided($event)"
@@ -58,39 +61,42 @@
               [vehicleRegistration]="pageState.registrationNumber$ | async"
               [shouldHideMOTButton]="true"
               [abortSubject]="abortSubject"
-            >
+              >
             </vehicle-registration>
-            <ion-row *ngIf="(pageState.motEvidenceProvided$ | async) === false">
-              <mot-no-evidence-confirmation [cancelFn]="motNoEvidenceCancelled" [nextPageOnFail]="getDebriefPage()">
-              </mot-no-evidence-confirmation>
-            </ion-row>
+            @if ((pageState.motEvidenceProvided$ | async) === false) {
+              <ion-row>
+                <mot-no-evidence-confirmation [cancelFn]="motNoEvidenceCancelled" [nextPageOnFail]="getDebriefPage()">
+                </mot-no-evidence-confirmation>
+              </ion-row>
+            }
 
             <div [hidden]="(pageState.motEvidenceProvided$ | async) === false" class="ion-no-padding">
 
-            <vehicle-details-cat-cpc
-              (vehicleDetailsChange)="vehicleConfiguration($event)"
-              *ngIf="showVehicleDetails() && !isDelegated"
-              [configuration]="pageState?.configuration$ | async"
-              [formGroup]="form"
-            >
-            </vehicle-details-cat-cpc>
+              @if (showVehicleDetails() && !isDelegated) {
+                <vehicle-details-cat-cpc
+                  (vehicleDetailsChange)="vehicleConfiguration($event)"
+                  [configuration]="pageState?.configuration$ | async"
+                  [formGroup]="form"
+                  >
+                </vehicle-details-cat-cpc>
+              }
 
-            <combination
-              (combinationChange)="combinationSelected($event)"
-              [combination]="pageState.combination$ | async"
-              [combinations]="pageState.combinations$ | async"
-              [formGroup]="form"
-            >
-            </combination>
+              <combination
+                (combinationChange)="combinationSelected($event)"
+                [combination]="pageState.combination$ | async"
+                [combinations]="pageState.combinations$ | async"
+                [formGroup]="form"
+                >
+              </combination>
 
-            <accompaniment-card-cat-cpc
-              (interpreterAccompanimentChange)="interpreterAccompanimentToggledCPC()"
-              (supervisorAccompanimentChange)="supervisorAccompanimentToggledCPC()"
-              [formGroup]="form"
-              [interpreterAccompaniment]="pageState.interpreterAccompaniment$ | async"
-              [supervisorAccompaniment]="pageState.supervisorAccompaniment$ | async"
-            >
-            </accompaniment-card-cat-cpc>
+              <accompaniment-card-cat-cpc
+                (interpreterAccompanimentChange)="interpreterAccompanimentToggledCPC()"
+                (supervisorAccompanimentChange)="supervisorAccompanimentToggledCPC()"
+                [formGroup]="form"
+                [interpreterAccompaniment]="pageState.interpreterAccompaniment$ | async"
+                [supervisorAccompaniment]="pageState.supervisorAccompaniment$ | async"
+                >
+              </accompaniment-card-cat-cpc>
             </div>
           </ion-col>
         </ion-row>
@@ -102,24 +108,28 @@
 <ion-footer [class.hidden]="failedMOTModalCurrentlyOpen">
   <ion-row [hidden]="(pageState.motEvidenceProvided$ | async) === false"
            class="mes-full-width-card box-shadow flex-center">
-    <ion-col *ngIf="!isDelegated" class="ion-text-center" size="43">
-      <ion-button
-        (click)="onViewTestCentreJournal()"
-        class="mes-grey-button wrtc-footer-btn"
-        id="view-test-centre-journal-button"
-        shape="round"
-      >
-        <ion-text class="des-header-style-3">View test centre journal</ion-text>
-      </ion-button>
-    </ion-col>
-    <ion-col *ngIf="!isDelegated" size="2"></ion-col>
+    @if (!isDelegated) {
+      <ion-col class="ion-text-center" size="43">
+        <ion-button
+          (click)="onViewTestCentreJournal()"
+          class="mes-grey-button wrtc-footer-btn"
+          id="view-test-centre-journal-button"
+          shape="round"
+          >
+          <ion-text class="des-header-style-3">View test centre journal</ion-text>
+        </ion-button>
+      </ion-col>
+    }
+    @if (!isDelegated) {
+      <ion-col size="2"></ion-col>
+    }
     <ion-col [size]="isDelegated ? 60 : 43" class="ion-text-center">
       <ion-button
         (click)="onSubmit()"
         class="mes-primary-button wrtc-footer-btn"
         id="continue-to-test-report-button"
         shape="round"
-      >
+        >
         <ion-text class="des-header-style-3">Continue to test report</ion-text>
       </ion-button>
     </ion-col>

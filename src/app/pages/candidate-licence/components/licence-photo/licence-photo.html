@@ -1,30 +1,31 @@
-<ion-row *ngIf="!hasError" class="row-border-top">
-  <ion-col>
-    <ion-spinner
-      *ngIf="!imageSrc; else showImage;"
-      class="driver-photograph-spinner"
-      id="driver-photograph-spinner"
-      name="bubbles"
-    >
-    </ion-spinner>
-
-    <ng-template #showImage>
-      <ion-row>
-        <ion-col>
-          <ion-text class="des-header-style-4" id="licence-information-title">Licence photograph</ion-text>
-        </ion-col>
-      </ion-row>
-      <ion-row>
-        <ion-col>
-          <img
-            [src]="imageSrc"
-            id="driver-photograph-img"
-            alt="Candidate photograph from driving licence"
-            aria-label="Candidate photograph from driving licence"
-            class="driver-photograph"
-          />
-        </ion-col>
-      </ion-row>
-    </ng-template>
-  </ion-col>
-</ion-row>
+@if (!hasError) {
+  <ion-row class="row-border-top">
+    <ion-col>
+      @if (!imageSrc) {
+        <ion-spinner
+          class="driver-photograph-spinner"
+          id="driver-photograph-spinner"
+          name="bubbles"
+          >
+        </ion-spinner>
+      } @else {
+        <ion-row>
+          <ion-col>
+            <ion-text class="des-header-style-4" id="licence-information-title">Licence photograph</ion-text>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col>
+            <img
+              [src]="imageSrc"
+              id="driver-photograph-img"
+              alt="Candidate photograph from driving licence"
+              aria-label="Candidate photograph from driving licence"
+              class="driver-photograph"
+              />
+          </ion-col>
+        </ion-row>
+      }
+    </ion-col>
+  </ion-row>
+}

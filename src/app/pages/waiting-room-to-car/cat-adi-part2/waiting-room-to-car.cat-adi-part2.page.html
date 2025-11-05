@@ -26,7 +26,9 @@
 </ion-header>
 
 <ion-content [class.hidden]="failedMOTModalCurrentlyOpen" force-overscroll="false">
-  <offline-banner *ngIf="!isEndToEndPracticeMode" [isOffline]="pageState.isOffline$ | async"></offline-banner>
+  @if (!isEndToEndPracticeMode) {
+    <offline-banner [isOffline]="pageState.isOffline$ | async"></offline-banner>
+  }
   <div>
     <form (ngSubmit)="onSubmit()" [formGroup]="form">
       <ion-grid>
@@ -35,18 +37,20 @@
           [eyesightFailRadioChecked]="pageState.eyesightTestFailed$ | async"
           [eyesightPassRadioChecked]="(pageState.eyesightTestComplete$ | async) && !(pageState.eyesightTestFailed$ | async)"
           [formGroup]="form"
-        >
+          >
         </eyesight-test>
 
-        <ion-row *ngIf="pageState.eyesightTestFailed$ | async">
-          <eyesight-failure-confirmation [cancelFn]="eyesightFailCancelled" [nextPageOnFail]="getDebriefPage()">
-          </eyesight-failure-confirmation>
-        </ion-row>
+        @if (pageState.eyesightTestFailed$ | async) {
+          <ion-row>
+            <eyesight-failure-confirmation [cancelFn]="eyesightFailCancelled" [nextPageOnFail]="getDebriefPage()">
+            </eyesight-failure-confirmation>
+          </ion-row>
+        }
 
         <ion-row
           class="ion-no-padding"
           id="post-eyesight-form-content"
-        >
+          >
           <ion-col class="ion-no-padding">
             <test-category [testCategory]="pageState.category$ | async" [hidden]="pageState.eyesightTestFailed$ | async"></test-category>
 
@@ -60,7 +64,7 @@
               [vehicleChecksScore]="pageState.vehicleChecksScore$ | async"
               [vehicleChecks]="pageState.vehicleChecks$ | async"
               [submitClicked]="submitClicked"
-            >
+              >
             </vehicle-checks-vocational>
 
             <vehicle-registration
@@ -80,26 +84,28 @@
               [vehicleRegistration]="pageState.registrationNumber$ | async"
               [shouldHideMOTButton]="isRekey"
               [abortSubject]="abortSubject"
-            >
+              >
             </vehicle-registration>
 
-            <ion-row *ngIf="(pageState.motEvidenceProvided$ | async) === false" [hidden]="pageState.eyesightTestFailed$ | async">
-              <mot-no-evidence-confirmation [cancelFn]="motNoEvidenceCancelled" [nextPageOnFail]="getDebriefPage()">
-              </mot-no-evidence-confirmation>
-            </ion-row>
+            @if ((pageState.motEvidenceProvided$ | async) === false) {
+              <ion-row [hidden]="pageState.eyesightTestFailed$ | async">
+                <mot-no-evidence-confirmation [cancelFn]="motNoEvidenceCancelled" [nextPageOnFail]="getDebriefPage()">
+                </mot-no-evidence-confirmation>
+              </ion-row>
+            }
 
             <safety-recall>
             </safety-recall>
 
 
             <div [hidden]="(pageState.motEvidenceProvided$ | async) === false"
-                 [hidden]="pageState.eyesightTestFailed$ | async" class="ion-no-padding">
+              [hidden]="pageState.eyesightTestFailed$ | async" class="ion-no-padding">
 
               <transmission
                 (transmissionChange)="transmissionChanged($event)"
                 [formGroup]="form"
                 [transmission]="pageState.transmission$ | async"
-              >
+                >
               </transmission>
 
               <accompaniment-card
@@ -112,7 +118,7 @@
                 [interpreterAccompaniment]="pageState.interpreterAccompaniment$ | async"
                 [otherAccompaniment]="pageState.otherAccompaniment$ | async"
                 [supervisorAccompaniment]="pageState.supervisorAccompaniment$ | async"
-              >
+                >
               </accompaniment-card>
 
               <vehicle-details-card
@@ -121,14 +127,14 @@
                 [dualVehicleDetails]="pageState.dualControls$ | async"
                 [formGroup]="form"
                 [schoolVehicleDetails]="pageState.schoolCar$ | async"
-              >
+                >
               </vehicle-details-card>
 
               <ordit-trainer-cat-adi-part2
                 (orditTrainedOutcomeChange)="orditTrainedOutcomeChanged($event)"
                 [formGroup]="form"
                 [orditTrainedRadioChecked]="pageState.orditTrained$ | async"
-              >
+                >
               </ordit-trainer-cat-adi-part2>
 
               <trainer-registration-number-cat-adi-part2
@@ -156,7 +162,7 @@
         class="mes-grey-button"
         id="view-test-centre-journal-button"
         shape="round"
-      >
+        >
         <ion-text class="des-header-style-3">View test centre journal</ion-text>
       </ion-button>
     </ion-col>
@@ -167,7 +173,7 @@
         class="mes-primary-button"
         id="continue-to-test-report-button"
         shape="round"
-      >
+        >
         <ion-text class="des-header-style-3">Continue to test report</ion-text>
       </ion-button>
     </ion-col>

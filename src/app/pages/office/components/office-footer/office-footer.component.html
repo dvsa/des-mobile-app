@@ -1,37 +1,43 @@
 <ion-row class="mes-full-width-card box-shadow flex-center">
 
-  <ion-col *ngIf="!isRekey && !isDelegated" class="ion-text-center width-100" size="35" >
-    <ion-button id="office-save-button" class="mes-grey-button" (click)="saveClick()">
-      <ion-text class="des-header-style-3">Save and continue later</ion-text>
-    </ion-button>
-  </ion-col>
-  <ion-col *ngIf="!isRekey && !isDelegated" size="10"></ion-col>
-  <ion-col *ngIf="!isRekey && !isDelegated" class="ion-text-center" size="35">
-    <ion-button id="office-complete-button" class="mes-primary-button width-100" (click)="submitClick()">
-      <ion-text class="des-header-style-3">Mark as complete</ion-text>
-    </ion-button>
-  </ion-col>
+  @if (!isRekey && !isDelegated) {
+    <ion-col class="ion-text-center width-100" size="35" >
+      <ion-button id="office-save-button" class="mes-grey-button" (click)="saveClick()">
+        <ion-text class="des-header-style-3">Save and continue later</ion-text>
+      </ion-button>
+    </ion-col>
+    <ion-col size="10"></ion-col>
+    <ion-col class="ion-text-center" size="35">
+      <ion-button id="office-complete-button" class="mes-primary-button width-100" (click)="submitClick()">
+        <ion-text class="des-header-style-3">Mark as complete</ion-text>
+      </ion-button>
+    </ion-col>
+  }
 
-  <ion-col *ngIf="isRekey && !isDelegated" size="60">
-    <ion-button
-      id="reason-for-rekey"
-      class="mes-primary-button width-100"
-      (click)="continueClick()"
-      [disabled]="!isValidStartDateTime"
-    >
-      <ion-text class="des-header-style-3">Continue</ion-text>
-    </ion-button>
-  </ion-col>
+  @if (isRekey && !isDelegated) {
+    <ion-col size="60">
+      <ion-button
+        id="reason-for-rekey"
+        class="mes-primary-button width-100"
+        (click)="continueClick()"
+        [disabled]="!isValidStartDateTime"
+      >
+        <ion-text class="des-header-style-3">Continue</ion-text>
+      </ion-button>
+    </ion-col>
+  }
 
-  <ion-col *ngIf="isDelegated" size="60">
-    <ion-button
-      id="submit-button"
-      class="mes-primary-button width-100"
-      [disabled]="!isValidStartDateTime"
-      (click)="submitClick()"
-    >
-      <ion-text class="des-header-style-3">Submit</ion-text>
-    </ion-button>
-  </ion-col>
+  @if (isDelegated) {
+    <ion-col size="60">
+      <ion-button
+        id="submit-button"
+        class="mes-primary-button width-100"
+        [disabled]="!isValidStartDateTime"
+        (click)="submitClick()"
+      >
+        <ion-text class="des-header-style-3">Submit</ion-text>
+      </ion-button>
+    </ion-col>
+  }
 
 </ion-row>
