@@ -242,10 +242,12 @@ export class DataStoreProvider {
       // Get the keys from storage with a timeout (Some storage errors can hang indefinitely)
       return await this.timeout(this.storage.keys());
     } catch (err) {
+      console.error('get keys', err);
       this.reportLog('Getting keys error', '', err, false);
       try {
         await this.tryToResetStorage(err);
       } catch (error) {
+        //Throw the original error if storage reset fails for clarity in the functions that called this method
         throw err;
       }
       try {
@@ -265,14 +267,16 @@ export class DataStoreProvider {
    * @param error - The Error we're assessing.
    */
   tryToResetStorage = async (error: Error) => {
+    console.error(error);
     if (
       error.message === DataStoreProvider.storageTimeoutErrorText ||
       error.message.includes('malformed') ||
+      error.message.includes('readonly') ||
       (error.message.includes('no such table') && error.message.includes('_ionicstorage'))
     ) {
       try {
         await this.resetStorage();
-        this.reportLog('Resetting storage success', '', error, true, LogType.INFO);
+        this.reportLog('Resetting storage success', '', error, false, LogType.INFO);
       } catch (error) {
         this.reportLog('Resetting storage error', '', error, false);
         throw error;
@@ -311,19 +315,25 @@ export class DataStoreProvider {
    */
   async repopulateStorage() {
     try {
-      await this.setItem(LocalStorageKey.CONFIG, JSON.stringify(this.store$.selectSignal(selectAppConfig)()));
+      await this.timeout(
+        this.storage.set(LocalStorageKey.CONFIG, JSON.stringify(this.store$.selectSignal(selectAppConfig)()))
+      );
     } catch (error) {
       this.reportLog('repopulating config error', LocalStorageKey.CONFIG, error);
     }
     try {
-      await this.setItem(LocalStorageKey.JOURNAL, JSON.stringify(this.store$.selectSignal(getJournalState)()));
+      await this.timeout(
+        this.storage.set(LocalStorageKey.JOURNAL, JSON.stringify(this.store$.selectSignal(getJournalState)()))
+      );
     } catch (error) {
       this.reportLog('repopulating journal error', LocalStorageKey.JOURNAL, error);
     }
     try {
-      await this.setItem(
-        LocalStorageKey.JOURNAL_RECALL_AUTO_DISPLAY_TIME,
-        this.store$.selectSignal(getRecallAutoPopupLastDisplayedTime)()
+      await this.timeout(
+        this.storage.set(
+          LocalStorageKey.JOURNAL_RECALL_AUTO_DISPLAY_TIME,
+          this.store$.selectSignal(getRecallAutoPopupLastDisplayedTime)()
+        )
       );
     } catch (error) {
       this.reportLog(
@@ -333,25 +343,31 @@ export class DataStoreProvider {
       );
     }
     try {
-      await this.setItem(LocalStorageKey.LOGS, JSON.stringify(this.store$.selectSignal(getLogsState)()));
+      await this.timeout(
+        this.storage.set(LocalStorageKey.LOGS, JSON.stringify(this.store$.selectSignal(getLogsState)()))
+      );
     } catch (error) {
       this.reportLog('repopulating logs error', LocalStorageKey.LOGS, error);
     }
     try {
-      await this.setItem(LocalStorageKey.TESTS, JSON.stringify(this.store$.selectSignal(getTests)()));
+      await this.timeout(this.storage.set(LocalStorageKey.TESTS, JSON.stringify(this.store$.selectSignal(getTests)())));
     } catch (error) {
       this.reportLog('repopulating tests error', LocalStorageKey.TESTS, error);
     }
     try {
-      await this.setItem(
-        LocalStorageKey.EXAMINER_STATS_KEY,
-        JSON.stringify(this.store$.selectSignal(selectExaminerRecords)())
+      await this.timeout(
+        this.storage.set(
+          LocalStorageKey.EXAMINER_STATS_KEY,
+          JSON.stringify(this.store$.selectSignal(selectExaminerRecords)())
+        )
       );
     } catch (error) {
       this.reportLog('repopulating examiner records error', LocalStorageKey.EXAMINER_STATS_KEY, error);
     }
     try {
-      await this.setItem(LocalStorageKey.AUTH_RESULT, JSON.stringify(this.store$.selectSignal(selectAuthResult)()));
+      await this.timeout(
+        this.storage.set(LocalStorageKey.AUTH_RESULT, JSON.stringify(this.store$.selectSignal(selectAuthResult)()))
+      );
     } catch (error) {
       this.reportLog('repopulating auth result error', LocalStorageKey.AUTH_RESULT, error);
     }
@@ -395,6 +411,7 @@ export class DataStoreProvider {
       try {
         await this.tryToResetStorage(err);
       } catch (error) {
+        //Throw the original error if storage reset fails for clarity in the functions that called this method
         throw err;
       }
       try {
@@ -423,6 +440,7 @@ export class DataStoreProvider {
       try {
         await this.tryToResetStorage(err);
       } catch (error) {
+        //Throw the original error if storage reset fails for clarity in the functions that called this method
         throw err;
       }
       try {
@@ -451,6 +469,7 @@ export class DataStoreProvider {
       try {
         await this.tryToResetStorage(err);
       } catch (error) {
+        //Throw the original error if storage reset fails for clarity in the functions that called this method
         throw err;
       }
       try {
