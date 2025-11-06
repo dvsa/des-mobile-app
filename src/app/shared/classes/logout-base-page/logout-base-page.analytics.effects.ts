@@ -83,7 +83,7 @@ export class LogoutBasePageAnalyticsEffects {
         this.analytics.logGAEvent(
           GoogleAnalyticsEvents.LOGOUT,
           GoogleAnalyticsEventsTitles.STATUS,
-          GoogleAnalyticsEventsValues.SUCCESS
+          GoogleAnalyticsEventsValues.SUCCESSFUL
         );
         return of(AnalyticRecorded());
       })

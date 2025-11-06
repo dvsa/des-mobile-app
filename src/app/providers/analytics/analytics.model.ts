@@ -469,7 +469,7 @@ export enum GoogleAnalyticsEventsTitles {
 export enum GoogleAnalyticsEventsValues {
   PENDING_TO_NON_PENDING = 'pending_to_non_pending',
   NON_PENDING_TO_PENDING = 'non_pending_to_pending',
-  SUCCESS = 'success',
+  SUCCESSFUL = 'successful',
   UNCOMFIRMED = 'unconfirmed',
   PHOTOCARD = 'photocard',
   PASSPORT = 'passport',
