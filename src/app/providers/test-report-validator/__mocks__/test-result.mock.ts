@@ -343,6 +343,7 @@ export const validTestCatF: CatFUniqueTypes.TestData = {
   testRequirements: {
     angledStart: true,
     normalStart1: true,
+    normalStart2: true,
     uphillStartDesignatedStart: true,
   },
   eco: {
@@ -365,6 +366,7 @@ export const validTestCatG: CatGUniqueTypes.TestData = {
   testRequirements: {
     angledStart: true,
     normalStart1: true,
+    normalStart2: true,
     uphillStartDesignatedStart: true,
   },
   eco: {
@@ -387,6 +389,7 @@ export const validTestCatH: CatHUniqueTypes.TestData = {
   testRequirements: {
     angledStart: true,
     normalStart1: true,
+    normalStart2: true,
     uphillStartDesignatedStart: true,
   },
   eco: {
@@ -409,6 +412,7 @@ export const validTestCatK: CatKUniqueTypes.TestData = {
   testRequirements: {
     angledStart: true,
     normalStart1: true,
+    normalStart2: true,
     uphillStartDesignatedStart: true,
   },
   eco: {
@@ -525,6 +529,7 @@ export const legalRequirementsCatD1E = [
 
 export const legalRequirementsCatF = [
   legalRequirementsLabels.normalStart1,
+  legalRequirementsLabels.normalStart2,
   legalRequirementsLabels.angledStart,
   legalRequirementsLabels.uphillStartDesignatedStart,
   legalRequirementsLabels.manoeuvre,
@@ -535,6 +540,7 @@ export const legalRequirementsCatF = [
 
 export const legalRequirementsCatG = [
   legalRequirementsLabels.normalStart1,
+  legalRequirementsLabels.normalStart2,
   legalRequirementsLabels.angledStart,
   legalRequirementsLabels.uphillStartDesignatedStart,
   legalRequirementsLabels.manoeuvre,
@@ -545,6 +551,7 @@ export const legalRequirementsCatG = [
 
 export const legalRequirementsCatH = [
   legalRequirementsLabels.normalStart1,
+  legalRequirementsLabels.normalStart2,
   legalRequirementsLabels.angledStart,
   legalRequirementsLabels.uphillStartDesignatedStart,
   legalRequirementsLabels.manoeuvre,
@@ -555,6 +562,7 @@ export const legalRequirementsCatH = [
 
 export const legalRequirementsCatK = [
   legalRequirementsLabels.normalStart1,
+  legalRequirementsLabels.normalStart2,
   legalRequirementsLabels.angledStart,
   legalRequirementsLabels.uphillStartDesignatedStart,
   legalRequirementsLabels.highwayCodeSafety,

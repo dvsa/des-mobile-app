@@ -546,6 +546,7 @@ export class TestReportValidatorProvider {
 
   private validateLegalRequirementsCatHomeTest(data: CatHomeTestData): boolean {
     const normalStart1: boolean = get(data, 'testRequirements.normalStart1', false);
+    const normalStart2: boolean = get(data, 'testRequirements.normalStart2', false);
     const angledStart: boolean = get(data, 'testRequirements.angledStart', false);
     const controlledStop: boolean = get(data, 'controlledStop.selected', false);
     const uphillStartDesignatedStart: boolean = get(data, 'testRequirements.uphillStartDesignatedStart', false);
@@ -554,13 +555,22 @@ export class TestReportValidatorProvider {
 
     const eco: boolean = get(data, 'eco.completed', false);
 
-    return normalStart1 && angledStart && uphillStartDesignatedStart && hCodeSafetyQuestions && eco && controlledStop;
+    return (
+      normalStart1 &&
+      angledStart &&
+      uphillStartDesignatedStart &&
+      hCodeSafetyQuestions &&
+      eco &&
+      controlledStop &&
+      normalStart2
+    );
   }
 
   private getMissingLegalRequirementsCatHomeTest(data: CatHomeTestData): legalRequirementsLabels[] {
     const result: legalRequirementsLabels[] = [];
 
     if (!get(data, 'testRequirements.normalStart1', false)) result.push(legalRequirementsLabels.normalStart1);
+    if (!get(data, 'testRequirements.normalStart2', false)) result.push(legalRequirementsLabels.normalStart2);
     if (!get(data, 'testRequirements.angledStart', false)) result.push(legalRequirementsLabels.angledStart);
     if (!get(data, 'testRequirements.uphillStartDesignatedStart', false)) {
       result.push(legalRequirementsLabels.uphillStartDesignatedStart);
@@ -579,6 +589,7 @@ export class TestReportValidatorProvider {
     const result: legalRequirementsLabels[] = [];
 
     if (!get(data, 'testRequirements.normalStart1', false)) result.push(legalRequirementsLabels.normalStart1);
+    if (!get(data, 'testRequirements.normalStart2', false)) result.push(legalRequirementsLabels.normalStart2);
     if (!get(data, 'testRequirements.angledStart', false)) result.push(legalRequirementsLabels.angledStart);
     if (!get(data, 'testRequirements.uphillStartDesignatedStart', false)) {
       result.push(legalRequirementsLabels.uphillStartDesignatedStart);
