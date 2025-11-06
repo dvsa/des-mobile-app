@@ -26,7 +26,7 @@ import { DataStoreProvider } from '@providers/data-store/data-store';
 import { DateTimeProvider } from '@providers/date-time/date-time';
 import { NetworkStateProvider } from '@providers/network-state/network-state';
 import { SlotProvider } from '@providers/slot/slot';
-import { LogoutBasePageComponent } from '@shared/classes/logout-base-page';
+import { LogoutBasePageComponent } from '@shared/classes/logout-base-page/logout-base-page';
 import { isAnyOf } from '@shared/helpers/simplifiers';
 import { AppResumed, AppSuspended, LoadAppVersion } from '@store/app-info/app-info.actions';
 import { SetupPolling, StopPolling } from '@store/journal/journal.actions';

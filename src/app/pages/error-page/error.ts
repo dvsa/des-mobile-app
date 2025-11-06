@@ -1,6 +1,6 @@
 import { Component, Injector, Input } from '@angular/core';
 import { ModalController } from '@ionic/angular';
-import { LogoutBasePageComponent } from '@shared/classes/logout-base-page';
+import { LogoutBasePageComponent } from '@shared/classes/logout-base-page/logout-base-page';
 import { ErrorTypes } from '@shared/models/error-message';
 
 @Component({

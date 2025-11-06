@@ -10,7 +10,7 @@ import { AuthenticationError } from '@providers/authentication/authentication.co
 import { DeviceError } from '@providers/device/device.constants';
 import { LoadingProvider } from '@providers/loader/loader';
 import { NetworkStateProvider } from '@providers/network-state/network-state';
-import { LogoutBasePageComponent } from '@shared/classes/logout-base-page';
+import { LogoutBasePageComponent } from '@shared/classes/logout-base-page/logout-base-page';
 import { LogType } from '@shared/models/log.model';
 import { LoadAppConfig } from '@store/app-config/app-config.actions';
 import { LoadConfigSuccess } from '@store/app-info/app-info.actions';

@@ -10,6 +10,7 @@ import { LOGIN_PAGE } from '@pages/page-names.constants';
 import { AuthenticationProvider } from '@providers/authentication/authentication';
 import { DeviceProvider } from '@providers/device/device';
 import { LogHelper } from '@providers/logs/logs-helper';
+import { LogoutError, LogoutSuccess } from '@shared/classes/logout-base-page/logout-base-page.actions';
 import { serialiseLogMessage } from '@shared/helpers/serialise-log-message';
 import { LogType } from '@shared/models/log.model';
 import { StoreModel } from '@shared/models/store.model';
@@ -161,6 +162,10 @@ export abstract class BasePageComponent {
     if (this.isIos()) {
       try {
         await this.authenticationProvider.logout();
+        this.store$.dispatch(LogoutSuccess());
+      } catch (error) {
+        this.store$.dispatch(LogoutError());
+        this.reportLog('logout', error);
       } finally {
         const navigationExtras: NavigationExtras = {
           replaceUrl: true,
