@@ -35,6 +35,7 @@ export const delegatedSearchReducer = createReducer(
   on(delegatedRekeySearchActions.SearchBookedDelegatedTestSuccess, (state, { testSlot }) => ({
     ...state,
     bookedTestSlot: testSlot,
+    err: initialState.err,
     isLoading: false,
     hasSearched: true,
   })),
