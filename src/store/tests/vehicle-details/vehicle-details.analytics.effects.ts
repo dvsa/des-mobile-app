@@ -11,19 +11,15 @@ import {
 import { AppConfigProvider } from '@providers/app-config/app-config';
 import { analyticsEventTypePrefix } from '@shared/helpers/format-analytics-text';
 import { StoreModel } from '@shared/models/store.model';
-import {
-  SignatureConfirmed,
-  ToggleInsuranceDeclaration,
-  ToggleResidencyDeclaration,
-} from '@store/tests/pre-test-declarations/pre-test-declarations.actions';
 import { TestsModel } from '@store/tests/tests.model';
 import { getTests } from '@store/tests/tests.reducer';
 import { isPracticeMode } from '@store/tests/tests.selector';
+import { DualControlsConfirmed, SchoolCarConfirmed } from '@store/tests/vehicle-details/vehicle-details.actions';
 import { of } from 'rxjs';
-import { concatMap, filter, withLatestFrom } from 'rxjs/operators';
+import { concatMap, filter, switchMap, withLatestFrom } from 'rxjs/operators';
 
 @Injectable()
-export class PreTestDeclarationsAnalyticsEffects {
+export class VehicleDetailsAnalyticsEffects {
   constructor(
     private analytics: AnalyticsProvider,
     private actions$: Actions,
@@ -31,9 +27,9 @@ export class PreTestDeclarationsAnalyticsEffects {
     private appConfigProvider: AppConfigProvider
   ) {}
 
-  signatureConfirmed$ = createEffect(() =>
+  schoolCarConfirmed$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(SignatureConfirmed),
+      ofType(SchoolCarConfirmed),
       concatMap((action) =>
         of(action).pipe(
           withLatestFrom(this.store$.pipe(select(getTests)), this.store$.pipe(select(getTests), select(isPracticeMode)))
@@ -42,22 +38,21 @@ export class PreTestDeclarationsAnalyticsEffects {
       filter(([, , practiceMode]) =>
         !practiceMode ? true : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics
       ),
-      concatMap(([, tests]: [ReturnType<typeof SignatureConfirmed>, TestsModel, boolean]) => {
+      switchMap(([, tests]: [ReturnType<typeof SchoolCarConfirmed>, TestsModel, boolean]) => {
         //GA4 Analytics
         this.analytics.logGAEvent(
-          analyticsEventTypePrefix(GoogleAnalyticsEvents.CANDIDATE_SIGNATURE, tests),
+          analyticsEventTypePrefix(GoogleAnalyticsEvents.VEHICLE_DETAILS, tests),
           GoogleAnalyticsEventsTitles.SELECTION,
-          GoogleAnalyticsEventsValues.COMPLETED
+          GoogleAnalyticsEventsValues.SCHOOL_CAR
         );
-
         return of(AnalyticRecorded());
       })
     )
   );
 
-  toggleInsuranceDeclaration$ = createEffect(() =>
+  dualControlsConfirmed$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(ToggleInsuranceDeclaration),
+      ofType(DualControlsConfirmed),
       concatMap((action) =>
         of(action).pipe(
           withLatestFrom(this.store$.pipe(select(getTests)), this.store$.pipe(select(getTests), select(isPracticeMode)))
@@ -66,38 +61,13 @@ export class PreTestDeclarationsAnalyticsEffects {
       filter(([, , practiceMode]) =>
         !practiceMode ? true : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics
       ),
-      concatMap(([{ selected }, tests]: [ReturnType<typeof ToggleInsuranceDeclaration>, TestsModel, boolean]) => {
+      switchMap(([, tests]: [ReturnType<typeof DualControlsConfirmed>, TestsModel, boolean]) => {
         //GA4 Analytics
         this.analytics.logGAEvent(
-          analyticsEventTypePrefix(GoogleAnalyticsEvents.INSURANCE_DECLARATION, tests),
+          analyticsEventTypePrefix(GoogleAnalyticsEvents.VEHICLE_DETAILS, tests),
           GoogleAnalyticsEventsTitles.SELECTION,
-          selected ? GoogleAnalyticsEventsValues.CONFIRMED : GoogleAnalyticsEventsValues.UNCONFIRMED
+          GoogleAnalyticsEventsValues.DUAL_CONTROLS
         );
-
-        return of(AnalyticRecorded());
-      })
-    )
-  );
-
-  toggleResidencyDeclaration$ = createEffect(() =>
-    this.actions$.pipe(
-      ofType(ToggleResidencyDeclaration),
-      concatMap((action) =>
-        of(action).pipe(
-          withLatestFrom(this.store$.pipe(select(getTests)), this.store$.pipe(select(getTests), select(isPracticeMode)))
-        )
-      ),
-      filter(([, , practiceMode]) =>
-        !practiceMode ? true : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics
-      ),
-      concatMap(([{ selected }, tests]: [ReturnType<typeof ToggleResidencyDeclaration>, TestsModel, boolean]) => {
-        //GA4 Analytics
-        this.analytics.logGAEvent(
-          analyticsEventTypePrefix(GoogleAnalyticsEvents.RESIDENCY_DECLARATION, tests),
-          GoogleAnalyticsEventsTitles.SELECTION,
-          selected ? GoogleAnalyticsEventsValues.CONFIRMED : GoogleAnalyticsEventsValues.UNCONFIRMED
-        );
-
         return of(AnalyticRecorded());
       })
     )

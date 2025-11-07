@@ -11,6 +11,12 @@ import {
   CommonWaitingRoomToCarPageState,
   WaitingRoomToCarBasePageComponent,
 } from '@shared/classes/test-flow-base-pages/waiting-room-to-car/waiting-room-to-car-base-page';
+import {
+  InstructorAccompanimentConfirmed,
+  InterpreterAccompanimentConfirmed,
+  OtherAccompanimentConfirmed,
+  SupervisorAccompanimentConfirmed,
+} from '@store/tests/accompaniment/accompaniment.actions';
 import { getInstructorDetails } from '@store/tests/instructor-details/instructor-details.reducer';
 import { getInstructorRegistrationNumber } from '@store/tests/instructor-details/instructor-details.selector';
 import {
@@ -30,12 +36,14 @@ import { EyesightTestReset } from '@store/tests/test-data/common/eyesight-test/e
 import { getTests } from '@store/tests/tests.reducer';
 import { getCurrentTest } from '@store/tests/tests.selector';
 import {
+  DualControlsConfirmed,
   MotEvidenceChanged,
   MotEvidenceProvidedReset,
   MotEvidenceProvidedToggled,
+  SchoolCarConfirmed,
 } from '@store/tests/vehicle-details/vehicle-details.actions';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, take } from 'rxjs/operators';
 
 interface CatBWaitingRoomToCarPageState {
   tellMeQuestion$: Observable<VehicleChecksQuestion>;
@@ -96,11 +104,52 @@ export class WaitingRoomToCarCatBPage extends WaitingRoomToCarBasePageComponent 
     this.store$.dispatch(MotEvidenceProvidedReset());
   };
 
+  confirmOptionalCheckboxAnalyitcis() {
+    this.pageState.instructorAccompaniment$
+      .pipe(take(1))
+      .subscribe((isAccompanied) => {
+        if (isAccompanied) this.store$.dispatch(InstructorAccompanimentConfirmed());
+      })
+      .unsubscribe();
+    this.pageState.interpreterAccompaniment$
+      .pipe(take(1))
+      .subscribe((isAccompanied) => {
+        if (isAccompanied) this.store$.dispatch(InterpreterAccompanimentConfirmed());
+      })
+      .unsubscribe();
+    this.pageState.otherAccompaniment$
+      .pipe(take(1))
+      .subscribe((isAccompanied) => {
+        if (isAccompanied) this.store$.dispatch(OtherAccompanimentConfirmed());
+      })
+      .unsubscribe();
+    this.pageState.supervisorAccompaniment$
+      .pipe(take(1))
+      .subscribe((isAccompanied) => {
+        if (isAccompanied) this.store$.dispatch(SupervisorAccompanimentConfirmed());
+      })
+      .unsubscribe();
+    this.pageState.schoolCar$
+      .pipe(take(1))
+      .subscribe((isSchool) => {
+        if (isSchool) this.store$.dispatch(SchoolCarConfirmed());
+      })
+      .unsubscribe();
+    this.pageState.dualControls$
+      .pipe(take(1))
+      .subscribe((isDual) => {
+        if (isDual) this.store$.dispatch(DualControlsConfirmed());
+      })
+      .unsubscribe();
+  }
+
   onSubmit = async (): Promise<void> => {
     Object.keys(this.form.controls).forEach((controlName: string) => this.form.controls[controlName].markAsDirty());
 
     if (this.form.valid) {
       this.store$.dispatch(ClearCandidateLicenceData());
+
+      this.confirmOptionalCheckboxAnalyitcis();
 
       await this.routeByCategoryProvider.navigateToPage(TestFlowPageNames.TEST_REPORT_PAGE, this.testCategory, {
         replaceUrl: true,

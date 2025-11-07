@@ -1,14 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Store, select } from '@ngrx/store';
-import {
-  HealthDeclarationValidationError,
-  HealthDeclarationViewDidEnter,
-} from '@pages/health-declaration/health-declaration.actions';
 import { AnalyticsProvider } from '@providers/analytics/analytics';
 import { AnalyticRecorded } from '@providers/analytics/analytics.actions';
 import {
-  AnalyticsScreenNames,
   GoogleAnalyticsEvents,
   GoogleAnalyticsEventsTitles,
   GoogleAnalyticsEventsValues,
@@ -17,9 +12,11 @@ import { AppConfigProvider } from '@providers/app-config/app-config';
 import { analyticsEventTypePrefix } from '@shared/helpers/format-analytics-text';
 import { StoreModel } from '@shared/models/store.model';
 import {
-  ToggleHealthDeclaration,
-  ToggleReceiptDeclaration,
-} from '@store/tests/post-test-declarations/post-test-declarations.actions';
+  InstructorAccompanimentConfirmed,
+  InterpreterAccompanimentConfirmed,
+  OtherAccompanimentConfirmed,
+  SupervisorAccompanimentConfirmed,
+} from '@store/tests/accompaniment/accompaniment.actions';
 import { TestsModel } from '@store/tests/tests.model';
 import { getTests } from '@store/tests/tests.reducer';
 import { isPracticeMode } from '@store/tests/tests.selector';
@@ -27,17 +24,17 @@ import { of } from 'rxjs';
 import { concatMap, filter, switchMap, withLatestFrom } from 'rxjs/operators';
 
 @Injectable()
-export class HealthDeclarationAnalyticsEffects {
+export class AccompanimentAnalyticsEffects {
   constructor(
-    public analytics: AnalyticsProvider,
+    private analytics: AnalyticsProvider,
     private actions$: Actions,
     private store$: Store<StoreModel>,
     private appConfigProvider: AppConfigProvider
   ) {}
 
-  healthDeclarationViewDidEnter$ = createEffect(() =>
+  instructorAccompanimentConfirmed$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(HealthDeclarationViewDidEnter),
+      ofType(InstructorAccompanimentConfirmed),
       concatMap((action) =>
         of(action).pipe(
           withLatestFrom(this.store$.pipe(select(getTests)), this.store$.pipe(select(getTests), select(isPracticeMode)))
@@ -46,40 +43,21 @@ export class HealthDeclarationAnalyticsEffects {
       filter(([, , practiceMode]) =>
         !practiceMode ? true : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics
       ),
-      switchMap(([, tests]: [ReturnType<typeof HealthDeclarationViewDidEnter>, TestsModel, boolean]) => {
-        //GA4 Analytics
-        this.analytics.setGACurrentPage(analyticsEventTypePrefix(AnalyticsScreenNames.HEALTH_DECLARATION, tests));
-        return of(AnalyticRecorded());
-      })
-    )
-  );
-
-  toggleHealthDeclaration$ = createEffect(() =>
-    this.actions$.pipe(
-      ofType(ToggleHealthDeclaration),
-      concatMap((action) =>
-        of(action).pipe(
-          withLatestFrom(this.store$.pipe(select(getTests)), this.store$.pipe(select(getTests), select(isPracticeMode)))
-        )
-      ),
-      filter(([, , practiceMode]) =>
-        !practiceMode ? true : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics
-      ),
-      switchMap(([{ selected }, tests]: [ReturnType<typeof ToggleHealthDeclaration>, TestsModel, boolean]) => {
+      switchMap(([, tests]: [ReturnType<typeof InstructorAccompanimentConfirmed>, TestsModel, boolean]) => {
         //GA4 Analytics
         this.analytics.logGAEvent(
-          analyticsEventTypePrefix(GoogleAnalyticsEvents.HEALTH_DECLARATION_CONTROL, tests),
+          analyticsEventTypePrefix(GoogleAnalyticsEvents.ACCOMPANIED_BY, tests),
           GoogleAnalyticsEventsTitles.SELECTION,
-          selected ? GoogleAnalyticsEventsValues.CONFIRMED : GoogleAnalyticsEventsValues.UNCONFIRMED
+          GoogleAnalyticsEventsValues.INSTRUCTOR
         );
         return of(AnalyticRecorded());
       })
     )
   );
 
-  toggleReceiptDeclaration$ = createEffect(() =>
+  supervisorAccompanimentConfirmed$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(ToggleReceiptDeclaration),
+      ofType(SupervisorAccompanimentConfirmed),
       concatMap((action) =>
         of(action).pipe(
           withLatestFrom(this.store$.pipe(select(getTests)), this.store$.pipe(select(getTests), select(isPracticeMode)))
@@ -88,21 +66,21 @@ export class HealthDeclarationAnalyticsEffects {
       filter(([, , practiceMode]) =>
         !practiceMode ? true : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics
       ),
-      switchMap(([{ selected }, tests]: [ReturnType<typeof ToggleReceiptDeclaration>, TestsModel, boolean]) => {
+      switchMap(([, tests]: [ReturnType<typeof SupervisorAccompanimentConfirmed>, TestsModel, boolean]) => {
         //GA4 Analytics
         this.analytics.logGAEvent(
-          analyticsEventTypePrefix(GoogleAnalyticsEvents.PASS_CERTIFICATE_NUMBER_CONTORL, tests),
+          analyticsEventTypePrefix(GoogleAnalyticsEvents.ACCOMPANIED_BY, tests),
           GoogleAnalyticsEventsTitles.SELECTION,
-          selected ? GoogleAnalyticsEventsValues.CONFIRMED : GoogleAnalyticsEventsValues.UNCONFIRMED
+          GoogleAnalyticsEventsValues.SUPERVISOR
         );
         return of(AnalyticRecorded());
       })
     )
   );
 
-  validationErrorEffect$ = createEffect(() =>
+  otherAccompanimentConfirmed$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(HealthDeclarationValidationError),
+      ofType(OtherAccompanimentConfirmed),
       concatMap((action) =>
         of(action).pipe(
           withLatestFrom(this.store$.pipe(select(getTests)), this.store$.pipe(select(getTests), select(isPracticeMode)))
@@ -111,14 +89,36 @@ export class HealthDeclarationAnalyticsEffects {
       filter(([, , practiceMode]) =>
         !practiceMode ? true : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics
       ),
-      switchMap(([action, tests]: [ReturnType<typeof HealthDeclarationValidationError>, TestsModel, boolean]) => {
-        // GA4 Analytics
+      switchMap(([, tests]: [ReturnType<typeof OtherAccompanimentConfirmed>, TestsModel, boolean]) => {
+        //GA4 Analytics
         this.analytics.logGAEvent(
-          analyticsEventTypePrefix(GoogleAnalyticsEvents.VALIDATION_ERROR, tests),
-          GoogleAnalyticsEventsTitles.BLANK_FIELD,
-          action.errorMessage
+          analyticsEventTypePrefix(GoogleAnalyticsEvents.ACCOMPANIED_BY, tests),
+          GoogleAnalyticsEventsTitles.SELECTION,
+          GoogleAnalyticsEventsValues.OTHER
         );
+        return of(AnalyticRecorded());
+      })
+    )
+  );
 
+  interpreterAccompanimentConfirmed$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(InterpreterAccompanimentConfirmed),
+      concatMap((action) =>
+        of(action).pipe(
+          withLatestFrom(this.store$.pipe(select(getTests)), this.store$.pipe(select(getTests), select(isPracticeMode)))
+        )
+      ),
+      filter(([, , practiceMode]) =>
+        !practiceMode ? true : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics
+      ),
+      switchMap(([, tests]: [ReturnType<typeof InterpreterAccompanimentConfirmed>, TestsModel, boolean]) => {
+        //GA4 Analytics
+        this.analytics.logGAEvent(
+          analyticsEventTypePrefix(GoogleAnalyticsEvents.ACCOMPANIED_BY, tests),
+          GoogleAnalyticsEventsTitles.SELECTION,
+          GoogleAnalyticsEventsValues.INTERPRETER
+        );
         return of(AnalyticRecorded());
       })
     )
