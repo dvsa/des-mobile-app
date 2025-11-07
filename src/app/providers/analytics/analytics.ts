@@ -185,7 +185,6 @@ export class AnalyticsProvider {
     value3?: string
   ): void {
     this.platform.ready().then(() => {
-      console.log(eventName, title1, value1, title2, value2, title3, value3);
       if (this.isIos()) {
         try {
           const eventData: { [key: string]: string } = {};
