@@ -356,7 +356,7 @@ export class DataStoreProvider {
     await this.repopulateStorageSetter(
       LocalStorageKey.TESTS,
       JSON.stringify(this.store$.selectSignal(getTests)()),
-      'logs'
+      'tests'
     );
     await this.repopulateStorageSetter(
       LocalStorageKey.EXAMINER_STATS_KEY,
