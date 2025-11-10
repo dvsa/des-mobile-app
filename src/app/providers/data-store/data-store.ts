@@ -99,7 +99,7 @@ export class DataStoreProvider {
         await this.clearIndexedDB();
       }
     } catch (err) {
-      this.reportLog('attemptDataStoreMigration', '', err);
+      this.reportLog('attemptDataStoreMigration error', '', err);
     }
   }
 
@@ -141,14 +141,14 @@ export class DataStoreProvider {
           // Parse the value as JSON and resolve the promise
           resolve(JSON.parse(value));
         } catch (err) {
-          this.reportLog('getIndexDBDataByKey', '', err);
+          this.reportLog('getIndexDBDataByKey error', '', err);
           reject(err);
         }
       };
       request.onerror = (event) => {
         // If there is an error, log it and reject the promise
         const error = get(event, 'target.error');
-        this.reportLog('getIndexDBDataByKey', '', error);
+        this.reportLog('getIndexDBDataByKey error', '', error);
         reject(error);
       };
     });
@@ -219,13 +219,14 @@ export class DataStoreProvider {
         window.indexedDB.deleteDatabase(db.name);
       });
     } catch (err) {
-      this.reportLog('clearIndexedDB', '', err);
+      this.reportLog('clearIndexedDB error', '', err);
       throw err;
     }
   }
 
   /**
-   * Check if we are running the app on a native platform
+   Check if the platform is iOS
+   @returns boolean - whether the platform is iOS
    */
   isIos = () => this.platform.is('cordova');
 
@@ -240,7 +241,7 @@ export class DataStoreProvider {
         return [''];
       }
       // Get the keys from storage with a timeout (Some storage errors can hang indefinitely)
-      return await this.timeout(this.storage.keys());
+      return await this.forceTimeoutAfterSetTime(this.storage.keys());
     } catch (err) {
       console.error('get keys', err);
       this.reportLog('Getting keys error', '', err, false);
@@ -252,7 +253,7 @@ export class DataStoreProvider {
       }
       try {
         //Retry getting the keys from storage with a timeout
-        return await this.timeout(this.storage.keys());
+        return await this.forceTimeoutAfterSetTime(this.storage.keys());
       } catch (error) {
         this.reportLog('Removing storage post error', '', err, false);
         throw error;
@@ -304,73 +305,69 @@ export class DataStoreProvider {
         await this.repopulateStorage();
         return;
       },
-      (error: Error) => {
+      async (error: string) => {
+        if (error.includes('does not exist')) {
+          //Re-initialize the storage
+          await this.initDataStore();
+          await this.repopulateStorage();
+          return;
+        }
+        console.error('deleteDatabase error', error);
         throw error;
       }
     );
   }
 
   /**
+   * Repopulate a specific storage key with passed value, logging any errors
+   */
+  async repopulateStorageSetter(key: StorageKey, value: string, logName: string) {
+    try {
+      await this.forceTimeoutAfterSetTime(this.storage.set(key, value));
+    } catch (error) {
+      this.reportLog(`repopulating ${logName} error`, key, error);
+    }
+  }
+
+  /**
    * Repopulate every storage key with the latest data from the state
    */
   async repopulateStorage() {
-    try {
-      await this.timeout(
-        this.storage.set(LocalStorageKey.CONFIG, JSON.stringify(this.store$.selectSignal(selectAppConfig)()))
-      );
-    } catch (error) {
-      this.reportLog('repopulating config error', LocalStorageKey.CONFIG, error);
-    }
-    try {
-      await this.timeout(
-        this.storage.set(LocalStorageKey.JOURNAL, JSON.stringify(this.store$.selectSignal(getJournalState)()))
-      );
-    } catch (error) {
-      this.reportLog('repopulating journal error', LocalStorageKey.JOURNAL, error);
-    }
-    try {
-      await this.timeout(
-        this.storage.set(
-          LocalStorageKey.JOURNAL_RECALL_AUTO_DISPLAY_TIME,
-          this.store$.selectSignal(getRecallAutoPopupLastDisplayedTime)()
-        )
-      );
-    } catch (error) {
-      this.reportLog(
-        'repopulating journal recall auto display time',
-        LocalStorageKey.JOURNAL_RECALL_AUTO_DISPLAY_TIME,
-        error
-      );
-    }
-    try {
-      await this.timeout(
-        this.storage.set(LocalStorageKey.LOGS, JSON.stringify(this.store$.selectSignal(getLogsState)()))
-      );
-    } catch (error) {
-      this.reportLog('repopulating logs error', LocalStorageKey.LOGS, error);
-    }
-    try {
-      await this.timeout(this.storage.set(LocalStorageKey.TESTS, JSON.stringify(this.store$.selectSignal(getTests)())));
-    } catch (error) {
-      this.reportLog('repopulating tests error', LocalStorageKey.TESTS, error);
-    }
-    try {
-      await this.timeout(
-        this.storage.set(
-          LocalStorageKey.EXAMINER_STATS_KEY,
-          JSON.stringify(this.store$.selectSignal(selectExaminerRecords)())
-        )
-      );
-    } catch (error) {
-      this.reportLog('repopulating examiner records error', LocalStorageKey.EXAMINER_STATS_KEY, error);
-    }
-    try {
-      await this.timeout(
-        this.storage.set(LocalStorageKey.AUTH_RESULT, JSON.stringify(this.store$.selectSignal(selectAuthResult)()))
-      );
-    } catch (error) {
-      this.reportLog('repopulating auth result error', LocalStorageKey.AUTH_RESULT, error);
-    }
+    await this.repopulateStorageSetter(
+      LocalStorageKey.CONFIG,
+      JSON.stringify(this.store$.selectSignal(selectAppConfig)()),
+      'config'
+    );
+    await this.repopulateStorageSetter(
+      LocalStorageKey.JOURNAL,
+      JSON.stringify(this.store$.selectSignal(getJournalState)()),
+      'journal'
+    );
+    await this.repopulateStorageSetter(
+      LocalStorageKey.JOURNAL_RECALL_AUTO_DISPLAY_TIME,
+      JSON.stringify(this.store$.selectSignal(getRecallAutoPopupLastDisplayedTime)()),
+      'journal recall auto display time'
+    );
+    await this.repopulateStorageSetter(
+      LocalStorageKey.LOGS,
+      JSON.stringify(this.store$.selectSignal(getLogsState)()),
+      'logs'
+    );
+    await this.repopulateStorageSetter(
+      LocalStorageKey.TESTS,
+      JSON.stringify(this.store$.selectSignal(getTests)()),
+      'logs'
+    );
+    await this.repopulateStorageSetter(
+      LocalStorageKey.EXAMINER_STATS_KEY,
+      JSON.stringify(this.store$.selectSignal(selectExaminerRecords)()),
+      'examiner records'
+    );
+    await this.repopulateStorageSetter(
+      LocalStorageKey.AUTH_RESULT,
+      JSON.stringify(this.store$.selectSignal(selectAuthResult)()),
+      'auth result'
+    );
   }
 
   /**
@@ -379,7 +376,7 @@ export class DataStoreProvider {
    * @param promise - passed promise that needs to resolve
    * @param timeoutInMilliseconds - amount of time promise has to resolve (in milliseconds)
    */
-  timeout = <T>(
+  forceTimeoutAfterSetTime = <T>(
     promise: Promise<T>,
     timeoutInMilliseconds: number = DataStoreProvider.defaultStorageTimeoutMilliseconds
   ): Promise<T> =>
@@ -405,9 +402,9 @@ export class DataStoreProvider {
         return '';
       }
       // Set the item in storage with a timeout (Some storage errors can hang indefinitely)
-      return await this.timeout(this.storage.set(key, value));
+      return await this.forceTimeoutAfterSetTime(this.storage.set(key, value));
     } catch (err) {
-      this.reportLog('Setting storage', key, err, false);
+      this.reportLog('Setting storage error', key, err, false);
       try {
         await this.tryToResetStorage(err);
       } catch (error) {
@@ -416,7 +413,7 @@ export class DataStoreProvider {
       }
       try {
         //Retry setting the item in storage with a timeout
-        return await this.timeout(this.storage.set(key, value));
+        return await this.forceTimeoutAfterSetTime(this.storage.set(key, value));
       } catch (error) {
         this.reportLog('Setting storage post error', key, err, false);
         throw error;
@@ -434,9 +431,9 @@ export class DataStoreProvider {
         return '';
       }
       // Get the item in storage with a timeout (Some storage errors can hang indefinitely)
-      return await this.timeout(this.storage.get(key));
+      return await this.forceTimeoutAfterSetTime(this.storage.get(key));
     } catch (err) {
-      this.reportLog('Getting storage', key, err, false);
+      this.reportLog('Getting storage error', key, err, false);
       try {
         await this.tryToResetStorage(err);
       } catch (error) {
@@ -445,7 +442,7 @@ export class DataStoreProvider {
       }
       try {
         //Retry getting the item in storage with a timeout
-        return await this.timeout(this.storage.get(key));
+        return await this.forceTimeoutAfterSetTime(this.storage.get(key));
       } catch (error) {
         this.reportLog('Getting storage post error', key, err, false);
         throw error;
@@ -463,9 +460,9 @@ export class DataStoreProvider {
     try {
       if (!this.isIos()) return '';
       // Remove the item in storage with a timeout (Some storage errors can hang indefinitely)
-      return await this.timeout(this.storage.remove(key));
+      return await this.forceTimeoutAfterSetTime(this.storage.remove(key));
     } catch (err) {
-      this.reportLog('Removing storage', key, err, false);
+      this.reportLog('Removing storage error', key, err, false);
       try {
         await this.tryToResetStorage(err);
       } catch (error) {
@@ -474,7 +471,7 @@ export class DataStoreProvider {
       }
       try {
         //Retry removing the item in storage with a timeout
-        return await this.timeout(this.storage.remove(key));
+        return await this.forceTimeoutAfterSetTime(this.storage.remove(key));
       } catch (error) {
         this.reportLog('Removing storage post error', key, err, false);
         throw error;
@@ -498,6 +495,7 @@ export class DataStoreProvider {
     saveToStorage = true,
     level: LogType = LogType.ERROR
   ): void => {
+    console.error(action, key, error);
     this.store$.dispatch(
       SaveLog(
         {
