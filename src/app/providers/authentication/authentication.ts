@@ -6,6 +6,7 @@ import { ResetRekeyReason } from '@pages/rekey-reason/rekey-reason.actions';
 import { RekeySearchClearState } from '@pages/rekey-search/rekey-search.actions';
 import { ResetFaultMode } from '@pages/test-report/test-report.actions';
 import { AuthProviderSettings } from '@providers/authentication/authentication.constants';
+import { StorageCleared } from '@providers/authentication/authentification.actions';
 import { CompletedTestPersistenceProvider } from '@providers/completed-test-persistence/completed-test-persistence';
 import { ExaminerRecordsProvider } from '@providers/examiner-records/examiner-records';
 import { LogHelper } from '@providers/logs/logs-helper';
@@ -379,6 +380,8 @@ export class AuthenticationProvider {
 
     // Clear persisted completed tests from the completed test persistence provider
     await this.completedTestPersistenceProvider.clearPersistedCompletedTests();
+
+    this.store$.dispatch(StorageCleared());
   }
 
   /**

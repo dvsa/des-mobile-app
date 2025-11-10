@@ -268,7 +268,9 @@ export enum GoogleAnalyticsCustomDimension {
 }
 
 export enum GoogleAnalyticsEvents {
+  CLEAR_APPLICATION_CACHE = 'clear_application_cache',
   RESIDENCY_DECLARATION = 'residency_declaration',
+  LOGOUT = 'logout',
   INSURANCE_DECLARATION = 'insurance_declaration',
   CANDIDATE_SIGNATURE = 'candidate_signature',
   HEALTH_DECLARATION_CONTROL = 'health_declaration_control',
@@ -368,7 +370,10 @@ export enum GoogleAnalyticsEvents {
 }
 
 export enum GoogleAnalyticsEventsTitles {
+  MODAL_DYNAMICALLY_CHANGED = 'modal_dynamically_changed',
   ID = 'id',
+  CONFIRM_LOGOUT = 'confirm_logout',
+  CONFIRM_UPLOAD_WARNING = 'confirm_upload_warning',
   COMMENTS = 'comments',
   ROUTE = 'route',
   REMOTE_TESTS_LOADED = 'remote_tests_loaded',
@@ -462,6 +467,9 @@ export enum GoogleAnalyticsEventsTitles {
 }
 
 export enum GoogleAnalyticsEventsValues {
+  PENDING_TO_NON_PENDING = 'pending_to_non_pending',
+  NON_PENDING_TO_PENDING = 'non_pending_to_pending',
+  SUCCESSFUL = 'successful',
   UNCOMFIRMED = 'unconfirmed',
   PHOTOCARD = 'photocard',
   PASSPORT = 'passport',
