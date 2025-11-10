@@ -43,8 +43,8 @@
           </ion-row>
         </ion-col>
 
-        <ion-col size="5" class="ion-align-self-start">
-          <div class="icon-centre">
+        <ion-col size="4" class="ion-align-self-start">
+          <div class="display-flex icon-centre">
             <img
               *ngIf="!emergencyStop.outcome"
               src="assets/imgs/greenCorrectAnswer.png"
@@ -60,7 +60,7 @@
           </div>
         </ion-col>
 
-        <ion-col size="11">
+        <ion-col size="12">
           <div addOrRemoveLangCy class="counter-label black-text ion-nowrap" *ngIf="!emergencyStop.outcome">
             {{ 'debrief.speedRequirementMet' | translate }}
           </div>
@@ -101,8 +101,8 @@
           </ion-row>
         </ion-col>
 
-        <ion-col size="5" class="ion-align-self-start">
-          <div class="icon-centre">
+        <ion-col size="4" class="ion-align-self-start">
+          <div class="display-flex icon-centre">
             <img
               *ngIf="!avoidance.outcome"
               src="assets/imgs/greenCorrectAnswer.png"
@@ -118,7 +118,7 @@
           </div>
         </ion-col>
 
-        <ion-col size="11">
+        <ion-col size="12">
           <div addOrRemoveLangCy class="counter-label black-text ion-nowrap" *ngIf="!avoidance.outcome">
             {{ 'debrief.speedRequirementMet' | translate }}
           </div>
