@@ -1,4 +1,3 @@
-import { NgIf } from '@angular/common';
 import { Component, Input } from '@angular/core';
 import { MotStatusCodes } from '@dvsa/mes-mot-schema';
 import { IonicModule } from '@ionic/angular';
@@ -7,7 +6,7 @@ import { IonicModule } from '@ionic/angular';
   selector: 'mot-status-display-text',
   templateUrl: './mot-status-display-text.component.html',
   styleUrls: ['./mot-status-display-text.component.scss'],
-  imports: [NgIf, IonicModule],
+  imports: [IonicModule],
 })
 export class MotStatusDisplayTextComponent {
   @Input()

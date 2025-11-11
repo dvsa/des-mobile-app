@@ -61,7 +61,7 @@ describe('LogsEffects', () => {
     actions$.next(logsActions.SendLogsSuccess({ timestamps }));
     // ASSERT
     effects.sendLogsSuccessEffect$.subscribe((result) => {
-      expect(result.type).toEqual(logsActions.PersistLog.type);
+      expect(result.type).toEqual(logsActions.ClearLogs.type);
       done();
     });
   });

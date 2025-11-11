@@ -5,7 +5,7 @@ import { Observable, from, interval, of } from 'rxjs';
 import { catchError, concatMap, map, switchMap, takeUntil, withLatestFrom } from 'rxjs/operators';
 
 import { AppConfigProvider } from '@providers/app-config/app-config';
-import { DataStoreProvider, LocalStorageError, LocalStorageKey } from '@providers/data-store/data-store';
+import { DataStoreProvider, LocalStorageKey } from '@providers/data-store/data-store';
 import { DateTimeProvider } from '@providers/date-time/date-time';
 import { LogsProvider } from '@providers/logs/logs';
 import { ConnectionStatus, NetworkStateProvider } from '@providers/network-state/network-state';
@@ -13,7 +13,6 @@ import { DateTime } from '@shared/helpers/date-time';
 import { Log } from '@shared/models/log.model';
 import { StoreModel } from '@shared/models/store.model';
 
-import { get } from 'lodash-es';
 import * as logsActions from './logs.actions';
 import { StopLogPolling } from './logs.actions';
 import { getLogsState } from './logs.reducer';
@@ -41,7 +40,7 @@ export class LogsEffects {
 
   startSendingLogsEffect$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(logsActions.StartSendingLogs.type),
+      ofType(logsActions.StartSendingLogs),
       switchMap(() => {
         return interval(
           this.appConfigProvider.getAppConfig()?.logsAutoSendInterval || LogsEffects.fallBackInterval
@@ -55,10 +54,12 @@ export class LogsEffects {
 
   persistLogEffect$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(logsActions.PersistLog.type),
+      ofType(logsActions.PersistLog),
       concatMap((action) => of(action).pipe(withLatestFrom(this.store$.pipe(select(getLogsState))))),
-      switchMap(async ([, logs]) => {
-        await this.saveLogs(logs);
+      switchMap(async ([{ shouldSaveToStorage }, logs]) => {
+        if (shouldSaveToStorage) {
+          await this.saveLogs(logs);
+        }
         return { type: '[LogsEffects] Persist Log Finished' };
       })
     )
@@ -76,8 +77,8 @@ export class LogsEffects {
   saveLogEffect$ = createEffect(() =>
     this.actions$.pipe(
       ofType(logsActions.SaveLog),
-      switchMap(() => {
-        return of(logsActions.PersistLog());
+      switchMap(({ shouldSaveToStorage }) => {
+        return of(logsActions.PersistLog(shouldSaveToStorage));
       })
     )
   );
@@ -85,6 +86,15 @@ export class LogsEffects {
   sendLogsSuccessEffect$ = createEffect(() =>
     this.actions$.pipe(
       ofType(logsActions.SendLogsSuccess),
+      switchMap(() => {
+        return of(logsActions.ClearLogs());
+      })
+    )
+  );
+
+  sendLogsFailEffect$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(logsActions.SendLogsFailure),
       switchMap(() => {
         return of(logsActions.PersistLog());
       })
@@ -140,22 +150,7 @@ export class LogsEffects {
         dateStored: this.dateTimeProvider.now().format('YYYY/MM/DD'),
         data: logData,
       };
-      /*
-      If the latest description is related to the local storage error, there is a chance that it will
-      cause an infinite loop due to the system logging an error whenever storage fails.
-      In these cases, we want to log the storage errors with a cooldown to break the infinite loop.
-      THIS IS A TEMPORARY FIX AND NEEDS TO BE REPLACED IN THE FUTURE
-       */
-      const latestDescription: string = get(logData[logData.length - 1], 'description', '') as string;
-      if (latestDescription.includes(LocalStorageError.LOCAL_STORAGE_ERROR)) {
-        const newDate: Date = new Date();
-        if (newDate.getTime() - this.localStorageErrorTimer.getTime() > 60) {
-          this.localStorageErrorTimer = newDate;
-          await this.dataStore.setItem(LocalStorageKey.LOGS, JSON.stringify(logDataToStore));
-        }
-      } else {
-        await this.dataStore.setItem(LocalStorageKey.LOGS, JSON.stringify(logDataToStore));
-      }
+      await this.dataStore.setItem(LocalStorageKey.LOGS, JSON.stringify(logDataToStore));
     }
   };
 

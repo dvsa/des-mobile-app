@@ -1,7 +1,10 @@
 import { createAction, props } from '@ngrx/store';
 import { Log } from '@shared/models/log.model';
 
-export const SaveLog = createAction('[GLOBAL] Save Log', props<{ payload: Log }>());
+export const SaveLog = createAction(
+  '[GLOBAL] Save Log',
+  (logPayload: { payload: Log }, shouldSaveToStorage = true) => ({ logPayload, shouldSaveToStorage })
+);
 
 export const StartSendingLogs = createAction('[AppComponent] Start Sending Logs');
 
@@ -11,7 +14,9 @@ export const SendLogsSuccess = createAction('[LogsEffects] Send Logs Success', p
 
 export const SendLogsFailure = createAction('[LogsEffects] Send Logs Failure', props<{ error: Error }>());
 
-export const PersistLog = createAction('[LogsEffects] Persist Logs');
+export const PersistLog = createAction('[LogsEffects] Persist Logs', (shouldSaveToStorage = true) => ({
+  shouldSaveToStorage,
+}));
 
 export const LoadLog = createAction('[GLOBAL] Load Logs');
 
