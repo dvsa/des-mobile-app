@@ -312,7 +312,6 @@ export class DataStoreProvider {
           await this.repopulateStorage();
           return;
         }
-        console.error('deleteDatabase error', error);
         throw error;
       }
     );

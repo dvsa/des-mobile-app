@@ -12,12 +12,6 @@ import {
   WaitingRoomToCarBasePageComponent,
 } from '@shared/classes/test-flow-base-pages/waiting-room-to-car/waiting-room-to-car-base-page';
 import { DateTime } from '@shared/helpers/date-time';
-import {
-  InstructorAccompanimentConfirmed,
-  InterpreterAccompanimentConfirmed,
-  OtherAccompanimentConfirmed,
-  SupervisorAccompanimentConfirmed,
-} from '@store/tests/accompaniment/accompaniment.actions';
 import { TrainerAccompanimentToggled } from '@store/tests/accompaniment/cat-adi3/accompaniment.cat-adi3.actions';
 import { getAccompaniment } from '@store/tests/accompaniment/cat-adi3/accompaniment.cat-adi3.reducer';
 import { getTrainerAccompaniment } from '@store/tests/accompaniment/cat-adi3/accompaniment.cat-adi3.selector';
@@ -39,13 +33,10 @@ import {
   getTraineeLicence,
 } from '@store/tests/trainer-details/cat-adi-part3/trainer-details.cat-adi-part3.selector';
 import {
-  DualControlsConfirmed,
   DualControlsToggledNo,
   DualControlsToggledYes,
   MotEvidenceProvidedReset,
-  SchoolCarConfirmed,
 } from '@store/tests/vehicle-details/vehicle-details.actions';
-import { take } from 'rxjs/operators';
 
 interface CatAdi3WaitingRoomToCarPageState {
   orditTrained$: Observable<boolean>;
@@ -92,45 +83,6 @@ export class WaitingRoomToCarCatADIPart3Page extends WaitingRoomToCarBasePageCom
     this.store$.dispatch(MotEvidenceProvidedReset());
   };
 
-  confirmOptionalCheckboxAnalyitcis() {
-    this.pageState.instructorAccompaniment$
-      .pipe(take(1))
-      .subscribe((isAccompanied) => {
-        if (isAccompanied) this.store$.dispatch(InstructorAccompanimentConfirmed());
-      })
-      .unsubscribe();
-    this.pageState.interpreterAccompaniment$
-      .pipe(take(1))
-      .subscribe((isAccompanied) => {
-        if (isAccompanied) this.store$.dispatch(InterpreterAccompanimentConfirmed());
-      })
-      .unsubscribe();
-    this.pageState.otherAccompaniment$
-      .pipe(take(1))
-      .subscribe((isAccompanied) => {
-        if (isAccompanied) this.store$.dispatch(OtherAccompanimentConfirmed());
-      })
-      .unsubscribe();
-    this.pageState.supervisorAccompaniment$
-      .pipe(take(1))
-      .subscribe((isAccompanied) => {
-        if (isAccompanied) this.store$.dispatch(SupervisorAccompanimentConfirmed());
-      })
-      .unsubscribe();
-    this.pageState.schoolCar$
-      .pipe(take(1))
-      .subscribe((isSchool) => {
-        if (isSchool) this.store$.dispatch(SchoolCarConfirmed());
-      })
-      .unsubscribe();
-    this.pageState.dualControls$
-      .pipe(take(1))
-      .subscribe((isDual) => {
-        if (isDual) this.store$.dispatch(DualControlsConfirmed());
-      })
-      .unsubscribe();
-  }
-
   onSubmit = async (): Promise<void> => {
     Object.keys(this.form.controls).forEach((controlName: string) => this.form.controls[controlName].markAsDirty());
 
@@ -141,9 +93,6 @@ export class WaitingRoomToCarCatADIPart3Page extends WaitingRoomToCarBasePageCom
         this.store$.dispatch(StartTimeChanged(startTime));
         this.store$.dispatch(EndTimeChanged(endTime));
       }
-
-      this.confirmOptionalCheckboxAnalyitcis();
-
       await this.routeByCategoryProvider.navigateToPage(TestFlowPageNames.TEST_REPORT_DASHBOARD_PAGE);
       return;
     }

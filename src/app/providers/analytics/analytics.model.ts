@@ -438,6 +438,7 @@ export enum GoogleAnalyticsEventsTitles {
   FINALISATION_D255 = 'd255',
   OPENED = 'opened',
   CLOSED = 'closed',
+  UNSELECTED = 'unselected',
   SELECTION = 'selection',
   TRANSMISSION_TYPE = 'transmission_type',
   MOT_STATUS = 'mot_status',

@@ -38,13 +38,9 @@ export const VRNListUpdated = createAction('[Vehicle Details] Searched VRN list 
 
 export const SchoolCarToggled = createAction('[Vehicle Details] School car toggled');
 
-export const SchoolCarConfirmed = createAction('[Vehicle Details] School car confirmed');
-
 export const SchoolBikeToggled = createAction('[Vehicle Details] School bike toggled');
 
 export const DualControlsToggled = createAction('[Vehicle Details] Dual controls toggled');
-
-export const DualControlsConfirmed = createAction('[Vehicle Details] Dual controls toggled');
 
 export const DualControlsToggledYes = createAction('[Vehicle Details] Dual controls yes selected');
 

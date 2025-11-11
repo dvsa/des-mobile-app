@@ -13,12 +13,6 @@ import {
 import { isAnyOf } from '@shared/helpers/simplifiers';
 import { CompetencyOutcome } from '@shared/models/competency-outcome';
 import { VehicleChecksScore } from '@shared/models/vehicle-checks-score.model';
-import {
-  InstructorAccompanimentConfirmed,
-  InterpreterAccompanimentConfirmed,
-  OtherAccompanimentConfirmed,
-  SupervisorAccompanimentConfirmed,
-} from '@store/tests/accompaniment/accompaniment.actions';
 import { getTestCategory } from '@store/tests/category/category.reducer';
 import { getPreTestDeclarations } from '@store/tests/pre-test-declarations/pre-test-declarations.reducer';
 import {
@@ -43,14 +37,12 @@ import {
 import { getTests } from '@store/tests/tests.reducer';
 import { getCurrentTest } from '@store/tests/tests.selector';
 import {
-  DualControlsConfirmed,
   MotEvidenceChanged,
   MotEvidenceProvidedReset,
   MotEvidenceProvidedToggled,
-  SchoolCarConfirmed,
 } from '@store/tests/vehicle-details/vehicle-details.actions';
 import { Observable, merge } from 'rxjs';
-import { map, take, withLatestFrom } from 'rxjs/operators';
+import { map, withLatestFrom } from 'rxjs/operators';
 
 interface CatCWaitingRoomToCarPageState {
   candidateDeclarationSigned$: Observable<boolean>;
@@ -165,45 +157,6 @@ export class WaitingRoomToCarCatCPage extends WaitingRoomToCarBasePageComponent 
     this.store$.dispatch(SetFullLicenceHeld(licenceHeld));
   };
 
-  confirmOptionalCheckboxAnalyitcis() {
-    this.pageState.instructorAccompaniment$
-      .pipe(take(1))
-      .subscribe((isAccompanied) => {
-        if (isAccompanied) this.store$.dispatch(InstructorAccompanimentConfirmed());
-      })
-      .unsubscribe();
-    this.pageState.interpreterAccompaniment$
-      .pipe(take(1))
-      .subscribe((isAccompanied) => {
-        if (isAccompanied) this.store$.dispatch(InterpreterAccompanimentConfirmed());
-      })
-      .unsubscribe();
-    this.pageState.otherAccompaniment$
-      .pipe(take(1))
-      .subscribe((isAccompanied) => {
-        if (isAccompanied) this.store$.dispatch(OtherAccompanimentConfirmed());
-      })
-      .unsubscribe();
-    this.pageState.supervisorAccompaniment$
-      .pipe(take(1))
-      .subscribe((isAccompanied) => {
-        if (isAccompanied) this.store$.dispatch(SupervisorAccompanimentConfirmed());
-      })
-      .unsubscribe();
-    this.pageState.schoolCar$
-      .pipe(take(1))
-      .subscribe((isSchool) => {
-        if (isSchool) this.store$.dispatch(SchoolCarConfirmed());
-      })
-      .unsubscribe();
-    this.pageState.dualControls$
-      .pipe(take(1))
-      .subscribe((isDual) => {
-        if (isDual) this.store$.dispatch(DualControlsConfirmed());
-      })
-      .unsubscribe();
-  }
-
   onSubmit = async (): Promise<void> => {
     Object.keys(this.form.controls).forEach((controlName: string) => this.form.controls[controlName].markAsDirty());
 
@@ -211,9 +164,6 @@ export class WaitingRoomToCarCatCPage extends WaitingRoomToCarBasePageComponent 
       if (this.fullLicenceHeld && isAnyOf(this.testCategory, [TestCategory.CE, TestCategory.C1E])) {
         this.store$.dispatch(this.isDelegated ? DropExtraVehicleChecksDelegated() : DropExtraVehicleChecks());
       }
-
-      this.confirmOptionalCheckboxAnalyitcis();
-
       this.store$.dispatch(ClearCandidateLicenceData());
 
       await this.routeByCategoryProvider.navigateToPage(TestFlowPageNames.TEST_REPORT_PAGE, this.testCategory, {
