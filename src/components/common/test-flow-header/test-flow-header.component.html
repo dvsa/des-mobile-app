@@ -10,7 +10,7 @@
 </ion-row>
 <ion-row [class.set-header-height]="fixHeight">
   <ion-col size="40" class="padding-left display-flex ion-align-items-center">
-    <h1
+    <ion-label
       class="header-title"
       addOrRemoveLangCy
       [shouldListenToLanguageChanges]="shouldIncludeLanguageDirectiveOnTitle"
@@ -18,7 +18,7 @@
       aria-level="1"
       [id]="pageName+'-title'">
       <ng-content></ng-content>
-    </h1>
+    </ion-label>
   </ion-col>
   <ion-col class="display-flex ion-no-padding ion-justify-content-start" size="21">
     <ion-col class="display-flex ion-align-items-center" size="60">
