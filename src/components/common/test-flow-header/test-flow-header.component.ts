@@ -44,7 +44,6 @@ export class TestFlowHeaderComponent {
   @Input() isPracticeMode = false;
   @Input() shouldIncludeLanguageDirectiveOnTitle = false;
   @Input() defaultBackButtonHref: string = null;
-  @Input() shouldShowRefreshButton = false;
   @Input() shouldShowGenericEndTest = false;
   @Input() shouldShowEndTestLink = true;
   @Input() shouldShowBackButton = true;
@@ -57,7 +56,6 @@ export class TestFlowHeaderComponent {
 
   @Input() pageName: string;
   @Input() testCategory: string;
-  @Input() refreshLastSyncTime: string;
 
   @Output()
   endTestButtonClicked = new EventEmitter<void>();
@@ -65,8 +63,6 @@ export class TestFlowHeaderComponent {
   onCloseButtonClicked = new EventEmitter<void>();
   @Output()
   exitSamUsed = new EventEmitter<void>();
-  @Output()
-  refreshButtonClicked = new EventEmitter<void>();
   @Output()
   onExitSAMActivatedChanged = new EventEmitter<boolean>();
   @Output()

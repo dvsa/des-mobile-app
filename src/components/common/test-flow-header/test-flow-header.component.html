@@ -9,16 +9,27 @@
   </exit-sam-banner>
 </ion-row>
 <ion-row [class.set-header-height]="fixHeight">
+  <ion-col size="40" class="padding-left display-flex ion-align-items-center">
+    <h1
+      class="header-title"
+      addOrRemoveLangCy
+      [shouldListenToLanguageChanges]="shouldIncludeLanguageDirectiveOnTitle"
+      role="heading"
+      aria-level="1"
+      [id]="pageName+'-title'">
+      <ng-content></ng-content>
+    </h1>
+  </ion-col>
   <ion-col class="display-flex ion-no-padding ion-justify-content-start" size="21">
-    <ion-col class="display-flex ion-align-items-center">
-      <ion-buttons>
+    <ion-col class="display-flex ion-align-items-center" size="60">
         <ion-back-button
+          icon=""
+          class="back-button width-100 ion-no-padding"
           *ngIf="shouldShowBackButton"
           (click)="onBackClicked()"
           defaultHref="{{defaultBackButtonHref}}"
           [id]="pageName+'-back-button'">
         </ion-back-button>
-      </ion-buttons>
     </ion-col>
     <ion-col *ngIf="shouldShowCloseButton">
       <ion-buttons>
@@ -31,7 +42,6 @@
     <ion-col class="display-flex ion-no-padding" *ngIf="shouldShowEscapeFromSamButton">
       <ion-buttons>
         <exit-sam-button
-          class="height-100"
           [pageTitle]="pageName"
           [isButtonActive]="isExitSAMActivated"
           (samEscaped)="disableSAMAndExit($event)"
@@ -40,23 +50,8 @@
       </ion-buttons>
     </ion-col>
   </ion-col>
-  <ion-col class="ion-no-padding">
-    <ion-title
-      addOrRemoveLangCy
-      [shouldListenToLanguageChanges]="shouldIncludeLanguageDirectiveOnTitle"
-      role="heading"
-      aria-level="1"
-      [id]="pageName+'-title'">
-      <ng-content></ng-content>
-    </ion-title>
-  </ion-col>
-  <ion-col class="display-flex ion-no-padding ion-justify-content-end" size="21">
+  <ion-col class="display-flex ion-no-padding ion-justify-content-end">
     <ion-buttons>
-      <refresh-button
-        *ngIf="shouldShowRefreshButton"
-        (refreshButtonClicked)="refreshButtonClicked.emit()"
-        [lastSyncTime]="refreshLastSyncTime">
-      </refresh-button>
       <end-test-link
         *ngIf="shouldShowEndTestLink"
         [id]="pageName+'-end-test-button-link'"
