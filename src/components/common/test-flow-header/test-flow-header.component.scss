@@ -2,6 +2,27 @@
   height: 100%
 }
 
+.header-title {
+  font-size: 20px;
+  color: var(--mes-white);
+  font-weight: 600;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+
+}
+
+.back-button {
+  --background: var(--mes-white);
+  --border-radius: 100px;
+  font-size: 18px;
+  color: var(--gds-black);
+}
+
+.padding-left {
+  padding-left: 16px;
+}
+
 .width-100 {
   width: 100%
 }
