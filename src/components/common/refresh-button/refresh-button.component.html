@@ -1,17 +1,21 @@
-<ion-button
-  (click)="refreshClicked()"
-  [disabled]="isDisabled"
-  class="refresh-button"
-  id="refresh-button"
->
-  <div class="line-height-styling">
-    <ion-icon class="refresh-button-icon mes-white" name="sync-outline"></ion-icon>
-    <span class="mes-white">Refresh</span>
-    <br />
-    <ion-label>
-      <ion-text class="des-header-style-6 last-sync" id="last-sync">
-        Last sync: {{ lastSyncTime }}
-      </ion-text>
-    </ion-label>
-  </div>
-</ion-button>
+<ion-row>
+  <ion-button
+    (click)="refreshClicked()"
+    [disabled]="isDisabled"
+    color="dark"
+    id="refresh-button"
+  >
+    <div class="line-height-styling">
+      <ion-icon class="refresh-button-icon mes-white" name="sync-outline"></ion-icon>
+      <span class="mes-white">Refresh</span>
+    </div>
+  </ion-button>
+</ion-row>
+
+<ion-row class="justify-content-center">
+  <ion-label>
+    <ion-text class="des-header-style-6 last-sync" id="last-sync">
+      Last sync: {{ lastSyncTime }}
+    </ion-text>
+  </ion-label>
+</ion-row>
