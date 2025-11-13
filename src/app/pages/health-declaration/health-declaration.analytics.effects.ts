@@ -70,7 +70,7 @@ export class HealthDeclarationAnalyticsEffects {
         this.analytics.logGAEvent(
           analyticsEventTypePrefix(GoogleAnalyticsEvents.HEALTH_DECLARATION_CONTROL, tests),
           GoogleAnalyticsEventsTitles.SELECTION,
-          selected ? GoogleAnalyticsEventsValues.CONFIRMED : GoogleAnalyticsEventsValues.UNCOMFIRMED
+          selected ? GoogleAnalyticsEventsValues.CONFIRMED : GoogleAnalyticsEventsValues.UNCONFIRMED
         );
         return of(AnalyticRecorded());
       })
@@ -93,7 +93,7 @@ export class HealthDeclarationAnalyticsEffects {
         this.analytics.logGAEvent(
           analyticsEventTypePrefix(GoogleAnalyticsEvents.PASS_CERTIFICATE_NUMBER_CONTORL, tests),
           GoogleAnalyticsEventsTitles.SELECTION,
-          selected ? GoogleAnalyticsEventsValues.CONFIRMED : GoogleAnalyticsEventsValues.UNCOMFIRMED
+          selected ? GoogleAnalyticsEventsValues.CONFIRMED : GoogleAnalyticsEventsValues.UNCONFIRMED
         );
         return of(AnalyticRecorded());
       })

@@ -268,6 +268,9 @@ export enum GoogleAnalyticsCustomDimension {
 }
 
 export enum GoogleAnalyticsEvents {
+  VEHICLE_DETAILS = 'vehicle_details',
+  ACCOMPANIED_BY = 'accompanied_by',
+  EYESIGHT_CONTROL = 'eyesightCtrl',
   CLEAR_APPLICATION_CACHE = 'clear_application_cache',
   RESIDENCY_DECLARATION = 'residency_declaration',
   LOGOUT = 'logout',
@@ -435,6 +438,7 @@ export enum GoogleAnalyticsEventsTitles {
   FINALISATION_D255 = 'd255',
   OPENED = 'opened',
   CLOSED = 'closed',
+  UNSELECTED = 'unselected',
   SELECTION = 'selection',
   TRANSMISSION_TYPE = 'transmission_type',
   MOT_STATUS = 'mot_status',
@@ -467,6 +471,13 @@ export enum GoogleAnalyticsEventsTitles {
 }
 
 export enum GoogleAnalyticsEventsValues {
+  DUAL_CONTROLS = 'dual_controls',
+  SCHOOL_CAR = 'school_car',
+  INTERPRETER = 'interpreter',
+  OTHER = 'other',
+  SUPERVISOR = 'supervisor',
+  INSTRUCTOR = 'instructor',
+  UNCONFIRMED = 'unconfirmed',
   PENDING_TO_NON_PENDING = 'pending_to_non_pending',
   NON_PENDING_TO_PENDING = 'non_pending_to_pending',
   SUCCESSFUL = 'successful',
