@@ -5,25 +5,6 @@
       <ion-back-button (click)="router.navigate(['DashboardPage'], {replaceUrl: true})" [defaultHref]="'DashboardPage'">
       </ion-back-button>
     </ion-buttons>
-    <ion-buttons slot="end">
-      <ion-button
-        (click)="clickRefreshJournal()"
-        [disabled]="pageState.isLoading$ | async"
-        class="refresh-button"
-        id="refresh-button"
-      >
-        <div class="line-height-styling">
-          <ion-icon class="refresh-button-icon colour-white" name="sync-outline"></ion-icon>
-          <span class="colour-white">Refresh</span>
-          <br />
-          <ion-label>
-            <ion-text class="des-header-style-6 last-sync" id="last-sync">
-              Last sync: {{ pageState.lastRefreshedTime$ | async }}
-            </ion-text>
-          </ion-label>
-        </div>
-      </ion-button>
-    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
@@ -42,15 +23,27 @@
     </ion-refresher-content>
   </ion-refresher>
 
-  <journal-navigation
-    (nextDayClicked)="onNextDayClick()"
-    (previousDayClicked)="onPreviousDayClick()"
-    [canNavigateToNextDay]="pageState.canNavigateToNextDay$ | async"
-    [canNavigateToPreviousDay]="pageState.canNavigateToPreviousDay$ | async"
-    [isSelectedDateToday]="pageState.isSelectedDateToday$ | async"
-    [selectedDate]="pageState.selectedDate$ | async"
-  >
-  </journal-navigation>
+  <ion-row class="padding-bottom">
+    <ion-col class="display-flex justify-content-center ion-align-items-center">
+      <refresh-button
+        (refreshButtonClicked)="clickRefreshJournal()"
+        [lastSyncTime]="pageState.lastRefreshedTime$ | async"
+        [isDisabled]="pageState.isLoading$ | async"
+      ></refresh-button>
+    </ion-col>
+    <ion-col size="55">
+      <journal-navigation
+        (nextDayClicked)="onNextDayClick()"
+        (previousDayClicked)="onPreviousDayClick()"
+        [canNavigateToNextDay]="pageState.canNavigateToNextDay$ | async"
+        [canNavigateToPreviousDay]="pageState.canNavigateToPreviousDay$ | async"
+        [isSelectedDateToday]="pageState.isSelectedDateToday$ | async"
+        [selectedDate]="pageState.selectedDate$ | async"
+      >
+      </journal-navigation>
+    </ion-col>
+    <ion-col></ion-col>
+  </ion-row>
 
   <vehicle-recalls-banner></vehicle-recalls-banner>
 

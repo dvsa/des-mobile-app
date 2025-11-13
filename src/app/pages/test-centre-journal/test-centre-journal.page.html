@@ -8,11 +8,8 @@
       [shouldShowEndTestLink]="false"
       [shouldShowEscapeFromSamButton]="pageState.enteredFromTest$ | async"
       [isExitSAMActivated]="isExitSAMBannerActivated"
-      [shouldShowRefreshButton]="true"
       (setupLeaveSubscription)="setupEscapeSAMLeaveSubscription()"
       (setupResumeSubscription)="setupEscapeSAMResumeSubscription()"
-      [refreshLastSyncTime]="pageState.lastRefreshedTime$ | async"
-      (refreshButtonClicked)="getTestCentreData(true)"
       (onExitSAMActivatedChanged)="isSamActivatedChanged($event)">
       Test centre journal
     </test-flow-header>
@@ -21,6 +18,15 @@
 
 <ion-content>
   <offline-banner [isOffline]="pageState.isOffline$ | async"></offline-banner>
+
+  <ion-row>
+    <ion-col class="display-flex ion-align-items-center padding-left">
+      <refresh-button
+        (refreshButtonClicked)="getTestCentreData(true)"
+        [lastSyncTime]="pageState.lastRefreshedTime$ | async"
+      ></refresh-button>
+    </ion-col>
+  </ion-row>
 
   <ng-template [ngIf]="didError" [ngIfElse]="noError">
     <error-message class="error" returnTo="{{errorMessage}}" [displayAsModal]="false"></error-message>

@@ -52,11 +52,6 @@
   </ion-col>
   <ion-col class="display-flex ion-no-padding ion-justify-content-end">
     <ion-buttons>
-      <refresh-button
-        *ngIf="shouldShowRefreshButton"
-        (refreshButtonClicked)="refreshButtonClicked.emit()"
-        [lastSyncTime]="refreshLastSyncTime">
-      </refresh-button>
       <end-test-link
         *ngIf="shouldShowEndTestLink"
         [id]="pageName+'-end-test-button-link'"
