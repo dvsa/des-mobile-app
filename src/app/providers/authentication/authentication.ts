@@ -268,11 +268,12 @@ export class AuthenticationProvider {
    */
   public async isAuthenticated(): Promise<boolean> {
     try {
+      console.log('Checking offline status');
       // if offline, allow user to continue locally
       if (this.isOffline()) return true;
-
       // check to see if there is an access token to interrogate
       const authResult = await this.getAuthResult();
+      console.log('Checking auth result status ', authResult);
       if (!authResult) return false;
 
       // determine if the existing token is expired
@@ -280,6 +281,8 @@ export class AuthenticationProvider {
         // attempt a token refresh
         await this.refreshSession();
       }
+
+      console.log('returning true');
 
       // return true if the token has changed successfully
       return true;

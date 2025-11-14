@@ -17,7 +17,7 @@ import { LoadConfigSuccess } from '@store/app-info/app-info.actions';
 import { LoadLog, SaveLog, SendLogs, StartSendingLogs } from '@store/logs/logs.actions';
 import { GetTestCentresRefData } from '@store/reference-data/reference-data.actions';
 import { LoadPersistedTests, StartSendingCompletedTests } from '@store/tests/tests.actions';
-import { Subscription } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { DASHBOARD_PAGE } from '../page-names.constants';
 
 @Component({
@@ -32,6 +32,8 @@ export class LoginPage extends LogoutBasePageComponent implements OnInit {
   hasDeviceTypeError = false;
   deviceTypeError: DeviceError;
   queryParamSub: Subscription;
+
+  isAuthed$: Promise<boolean> | Observable<boolean>;
 
   get loadingOptions(): LoadingOptions {
     return {
@@ -54,6 +56,8 @@ export class LoginPage extends LogoutBasePageComponent implements OnInit {
   }
 
   async ngOnInit() {
+    this.isAuthed$ = this.authenticationProvider.isAuthenticated();
+
     const navState = this.router.getCurrentNavigation()?.extras.state;
 
     if (navState) {
