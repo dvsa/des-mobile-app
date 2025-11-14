@@ -8,7 +8,7 @@ import { By } from '@angular/platform-browser';
 import { Router, RouterModule } from '@angular/router';
 import { CandidateSectionComponent } from '@components/common/candidate-section/candidate-section';
 import { EndTestLinkComponent } from '@components/common/end-test-link/end-test-link';
-import { PracticeModeBanner } from '@components/common/practice-mode-banner/practice-mode-banner';
+import { PracticeModeOptionsBar } from '@components/common/practice-mode-options-bar/practice-mode-options-bar';
 import { LockScreenIndicator } from '@components/common/screen-lock-indicator/lock-screen-indicator';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { Store, StoreModule } from '@ngrx/store';
@@ -41,7 +41,7 @@ describe('CommunicationPage', () => {
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       declarations: [
         CommunicationPage,
-        MockComponent(PracticeModeBanner),
+        MockComponent(PracticeModeOptionsBar),
         MockComponent(EndTestLinkComponent),
         MockComponent(LockScreenIndicator),
         MockComponent(CandidateSectionComponent),

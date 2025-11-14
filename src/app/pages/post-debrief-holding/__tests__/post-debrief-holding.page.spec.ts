@@ -3,7 +3,7 @@ import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testin
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { AppModule } from '@app/app.module';
-import { PracticeModeBanner } from '@components/common/practice-mode-banner/practice-mode-banner';
+import { PracticeModeOptionsBar } from '@components/common/practice-mode-options-bar/practice-mode-options-bar';
 import { RouterMock } from '@mocks/angular-mocks/router-mock';
 import { StoreModule } from '@ngrx/store';
 import { TestFlowPageNames } from '@pages/page-names.constants';
@@ -18,7 +18,7 @@ describe('PostDebriefHoldingPage', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      declarations: [PostDebriefHoldingPage, MockComponent(PracticeModeBanner)],
+      declarations: [PostDebriefHoldingPage, MockComponent(PracticeModeOptionsBar)],
       imports: [RouterModule.forRoot([]), AppModule, StoreModule.forFeature('tests', () => ({}))],
       providers: [
         {

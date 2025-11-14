@@ -18,7 +18,7 @@ import { AppComponent } from '@app/app.component';
 import { AppModule } from '@app/app.module';
 import { CandidateSectionComponent } from '@components/common/candidate-section/candidate-section';
 import { EndTestLinkComponent } from '@components/common/end-test-link/end-test-link';
-import { PracticeModeBanner } from '@components/common/practice-mode-banner/practice-mode-banner';
+import { PracticeModeOptionsBar } from '@components/common/practice-mode-options-bar/practice-mode-options-bar';
 import { LockScreenIndicator } from '@components/common/screen-lock-indicator/lock-screen-indicator';
 import { SignatureComponent } from '@components/common/signature/signature';
 import { provideMockStore } from '@ngrx/store/testing';
@@ -132,7 +132,7 @@ describe('WaitingRoomPage', () => {
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       declarations: [
         WaitingRoomPage,
-        MockComponent(PracticeModeBanner),
+        MockComponent(PracticeModeOptionsBar),
         MockComponent(EndTestLinkComponent),
         MockComponent(LockScreenIndicator),
         MockComponent(CandidateSectionComponent),

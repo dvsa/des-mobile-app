@@ -1,45 +1,23 @@
-.practice-mode-base {
-  border-radius: 0;
-  padding-bottom: 0;
+.practice-mode-banner{
+  background: var(--gds-yellow);
   padding-top: 0;
-  width: 100%;
-  left: 0;
+  padding-bottom: 0;
+  height: 40px;
 }
 
-.practice-mode-top-banner {
-  @extend .practice-mode-base;
-  position: fixed;
-  background: var(--gds-yellow);
-  height: 40px;
-  top: 0;
+
+.width-100 {
+  width: 100%
 }
 
 .practice-mode-banner-text {
-  @extend .practice-mode-base;
-  font-size: 18px;
-  font-weight: bold;
+  font-size: 20px;
   color: var(--gds-black);
-  position: relative;
-  bottom: 3pt;
+  font-weight: 600;
 }
 
-.status-bar-spacing {
-  height: 15px;
-}
-
-.practice-mode-toolbar-sizing {
-  padding-top: 0;
-  padding-bottom: 0;
-  height: 40px;
-}
-
-.practice-exit-icon {
-  margin-top: 2px;
+.align-center {
+  display: flex;
+  justify-content: center;
   align-items: center;
-}
-
-.practice-title-text {
-  text-align: center;
-  font-size: 16px !important;
-  line-height: 24px !important;
 }

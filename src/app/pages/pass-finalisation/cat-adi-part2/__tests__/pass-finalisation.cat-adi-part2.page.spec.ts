@@ -3,7 +3,7 @@ import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testin
 import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { AppModule } from '@app/app.module';
-import { PracticeModeBanner } from '@components/common/practice-mode-banner/practice-mode-banner';
+import { PracticeModeOptionsBar } from '@components/common/practice-mode-options-bar/practice-mode-options-bar';
 import { TransmissionComponent } from '@components/common/transmission/transmission';
 import { WarningBannerComponent } from '@components/common/warning-banner/warning-banner';
 import { D255Component } from '@components/test-finalisation/d255/d255';
@@ -39,7 +39,7 @@ describe('PassFinalisationCatADI2Page', () => {
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       declarations: [
         PassFinalisationCatADI2Page,
-        MockComponent(PracticeModeBanner),
+        MockComponent(PracticeModeOptionsBar),
         MockComponent(LicenseProvidedComponent),
         MockComponent(TransmissionComponent),
         MockComponent(D255Component),

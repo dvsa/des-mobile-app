@@ -13,7 +13,7 @@ import { MockComponent } from 'ng-mocks';
 import { of } from 'rxjs';
 
 import { EndTestLinkComponent } from '@components/common/end-test-link/end-test-link';
-import { PracticeModeBanner } from '@components/common/practice-mode-banner/practice-mode-banner';
+import { PracticeModeOptionsBar } from '@components/common/practice-mode-options-bar/practice-mode-options-bar';
 import { TransmissionComponent } from '@components/common/transmission/transmission';
 import { TestFlowPageNames } from '@pages/page-names.constants';
 import { InstructorRegistrationComponent } from '@pages/waiting-room-to-car/cat-b/components/instructor-registration/instructor-registration';
@@ -97,7 +97,7 @@ describe('WaitingRoomToCarCatBPage', () => {
         MockComponent(VehicleDetailsComponent),
         MockComponent(AccompanimentCardComponent),
         MockComponent(AccompanimentComponent),
-        MockComponent(PracticeModeBanner),
+        MockComponent(PracticeModeOptionsBar),
       ],
       imports: [AppModule, ReactiveFormsModule],
       providers: [

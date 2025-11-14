@@ -9,7 +9,10 @@
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
 
+.text-black {
+  color: var(--gds-black);
 }
 
 .back-button {

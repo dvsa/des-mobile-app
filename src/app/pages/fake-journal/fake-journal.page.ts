@@ -19,6 +19,8 @@ export class FakeJournalPage extends BasePageComponent {
   slots = fakeJournalTestSlots;
   selectedDate: string;
 
+  displayExitPracticeMode = false;
+
   constructor(
     private dateTimeProvider: DateTimeProvider,
     public accessibilityService: AccessibilityService,
@@ -42,5 +44,19 @@ export class FakeJournalPage extends BasePageComponent {
 
   async ionViewWillLeave() {
     await this.orientationMonitorProvider.tearDownListener();
+  }
+
+  /**
+   * Opens the exit practice mode row
+   */
+  onEndPracticeModeClicked() {
+    this.displayExitPracticeMode = true;
+  }
+
+  /**
+   * Closes the exit practice mode row
+   */
+  closeExitPracticeMode() {
+    this.displayExitPracticeMode = false;
   }
 }

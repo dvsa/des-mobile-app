@@ -1,0 +1,32 @@
+<ion-row>
+
+  <ion-col class="align-center">
+    <ion-text class="practice-mode-options-bar-title-text">
+      Exit Practice Mode?
+    </ion-text>
+  </ion-col>
+</ion-row>
+
+<ion-row class="practice-mode-options-bar">
+
+  <ion-col class="align-center">
+    <ion-buttons class="practice-mode-options-bar-button align-center">
+      <ion-button
+        class="width-100"
+        (click)="cancelExitPracticeMode()">
+        <ion-text class="practice-mode-options-bar-text">Cancel</ion-text>
+      </ion-button>
+    </ion-buttons>
+  </ion-col>
+
+  <ion-col class="align-center">
+    <ion-buttons class="practice-mode-options-bar-button align-center">
+      <ion-button
+        class="width-100"
+        (click)="exitPracticeMode()">
+        <ion-text class="practice-mode-options-bar-text">Continue</ion-text>
+      </ion-button>
+    </ion-buttons>
+  </ion-col>
+
+</ion-row>

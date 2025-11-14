@@ -8,17 +8,17 @@ import { RouterMock } from '@mocks/angular-mocks/router-mock';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { CategoryWhitelistProvider } from '@providers/category-whitelist/category-whitelist';
 import { DeletePracticeModeTests } from '@store/tests/tests.actions';
-import { PracticeModeBanner } from '../practice-mode-banner';
+import { PracticeModeOptionsBar } from '../practice-mode-options-bar';
 
-describe('PracticeModeBanner', () => {
-  let fixture: ComponentFixture<PracticeModeBanner>;
-  let component: PracticeModeBanner;
+describe('PracticeModeOptionsBar', () => {
+  let fixture: ComponentFixture<PracticeModeOptionsBar>;
+  let component: PracticeModeOptionsBar;
   let router: Router;
   let store$: MockStore;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [PracticeModeBanner],
+      declarations: [PracticeModeOptionsBar],
       imports: [
         IonicModule,
         RouterModule,
@@ -40,7 +40,7 @@ describe('PracticeModeBanner', () => {
       ],
     });
 
-    fixture = TestBed.createComponent(PracticeModeBanner);
+    fixture = TestBed.createComponent(PracticeModeOptionsBar);
     router = TestBed.inject(Router);
     component = fixture.componentInstance;
     store$ = TestBed.inject(MockStore);

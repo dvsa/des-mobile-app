@@ -3,7 +3,7 @@ import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testin
 import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { AppModule } from '@app/app.module';
-import { PracticeModeBanner } from '@components/common/practice-mode-banner/practice-mode-banner';
+import { PracticeModeOptionsBar } from '@components/common/practice-mode-options-bar/practice-mode-options-bar';
 import { WarningBannerComponent } from '@components/common/warning-banner/warning-banner';
 import { DebriefWitnessedComponent } from '@components/test-finalisation/debrief-witnessed/debrief-witnessed';
 import { FinalisationHeaderComponent } from '@components/test-finalisation/finalisation-header/finalisation-header';
@@ -33,7 +33,7 @@ describe('PassFinalisationCatCPCPage', () => {
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       declarations: [
         PassFinalisationCatCPCPage,
-        MockComponent(PracticeModeBanner),
+        MockComponent(PracticeModeOptionsBar),
         MockComponent(PassCertificateNumberComponent),
         MockComponent(DebriefWitnessedComponent),
         MockComponent(FinalisationHeaderComponent),

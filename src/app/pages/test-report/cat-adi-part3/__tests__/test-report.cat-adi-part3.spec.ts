@@ -4,7 +4,7 @@ import { ModalControllerMock, PlatformMock } from '@mocks/index.mock';
 import { MockComponent } from 'ng-mocks';
 
 import { AppModule } from '@app/app.module';
-import { PracticeModeBanner } from '@components/common/practice-mode-banner/practice-mode-banner';
+import { PracticeModeOptionsBar } from '@components/common/practice-mode-options-bar/practice-mode-options-bar';
 import { TestFlowHeaderComponent } from '@components/common/test-flow-header/test-flow-header.component';
 import { TestResultCatADI3Schema } from '@dvsa/mes-test-schema/categories/ADI3';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
@@ -47,7 +47,7 @@ describe('TestReportCatADI3Page', () => {
     TestBed.configureTestingModule({
       declarations: [
         TestReportCatADI3Page,
-        MockComponent(PracticeModeBanner),
+        MockComponent(PracticeModeOptionsBar),
         MockComponent(StudentComponent),
         MockComponent(LessonThemeComponent),
         MockComponent(TestReportAssessmentCard),
