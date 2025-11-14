@@ -3,6 +3,12 @@
   font-size: 17px;
 }
 
+.refresh-button {
+  --background: var(--gds-black);
+  --background-activated: var(--gds-grey-2);
+  --background-focused: var(--gds-grey-1);
+}
+
 .line-height-styling {
   line-height: 0;
 }
