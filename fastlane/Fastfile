@@ -22,7 +22,6 @@ before_all do
 
   ENV["S3_PATH"] = "#{s3_path}"
   ENV["VERSION"] = "#{version}"
-  sh("echo S3_PATH=#{ENV["S3_PATH"]} >> $GITHUB_ENV")
 
   create_keychain(
     name: ENV["KEYCHAIN_NAME"],
@@ -47,7 +46,7 @@ end
 lane :build_ipa do
   environment = ENV["ENVIRONMENT"]
   commit = last_git_commit[:abbreviated_commit_hash]
-  name = environment == "feature" ? "#{ENV['BRANCH']}" : ENV["ENVIRONMENT"]
+  name = environment == "feature" ? "#{ENV['GH_REF_NAME']}" : ENV["ENVIRONMENT"]
   file_name = "des-#{ENV["VERSION"]}-#{ENV["RUN_ID"]}-#{commit}"
 
   build_mobile(
@@ -85,7 +84,7 @@ end
 lane :build_sim do
   environment = ENV["ENVIRONMENT"]
   commit = last_git_commit[:abbreviated_commit_hash]
-  name = environment == "feature" ? "#{ENV['BRANCH']}" : ENV["ENVIRONMENT"]
+  name = environment == "feature" ? "#{ENV['GH_REF_NAME']}" : ENV["ENVIRONMENT"]
   file_name = "des-#{name}-#{ENV["VERSION"]}-#{commit}"
 
   build_simulator(
