@@ -90,8 +90,7 @@
   </ion-row>
   <ion-row class="button-padding">
     <ion-col></ion-col>
-    {{isAuthed$ | async}}
-<!--    @if (insert working if statement here) {-->
+    @if ((!hasUserLoggedOut && !isUserCancelledError()) || isUnknownError()) {
       <ion-col size="40" class="display-flex ion-align-items-center justify-content-center">
         <ion-button
           (click)="openLogoutModal()"
@@ -101,7 +100,7 @@
           </ion-text>
         </ion-button>
       </ion-col>
-<!--    } @else {-->
+    } @else {
       <ion-col size="40" class="display-flex ion-align-items-center justify-content-center">
         <ion-button (click)="login()" class="full-width mes-primary-button">
           <ion-text class="des-header-style-3">
@@ -109,7 +108,7 @@
           </ion-text>
         </ion-button>
       </ion-col>
-<!--    }-->
+    }
     <ion-col></ion-col>
   </ion-row>
 </ion-content>
