@@ -4,7 +4,6 @@ import { AppLauncher, OpenURLResult } from '@capacitor/app-launcher';
 import { ComponentsModule } from '@components/common/common-components.module';
 import { ExitSamBanner } from '@components/common/exit-sam/exit-sam-banner/exit-sam-banner';
 import { ExitSamButton } from '@components/common/exit-sam/exit-sam-button/exit-sam-button';
-import { RefreshButtonComponent } from '@components/common/refresh-button/refresh-button.component';
 import {
   ExitSAMCancelButtonClicked,
   ExitSAMErrorMessages,
@@ -30,15 +29,7 @@ export enum ExitSAMMethodUsed {
   selector: 'test-flow-header',
   templateUrl: './test-flow-header.component.html',
   styleUrls: ['./test-flow-header.component.scss'],
-  imports: [
-    IonicModule,
-    ComponentsModule,
-    NgIf,
-    ExitSamBanner,
-    ExitSamButton,
-    DirectivesModule,
-    RefreshButtonComponent,
-  ],
+  imports: [IonicModule, ComponentsModule, NgIf, ExitSamBanner, ExitSamButton, DirectivesModule],
 })
 export class TestFlowHeaderComponent {
   @Input() isPracticeMode = false;
