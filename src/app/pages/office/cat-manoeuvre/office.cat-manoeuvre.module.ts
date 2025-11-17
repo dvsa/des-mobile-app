@@ -12,6 +12,8 @@ import { OfficeEffects } from '@pages/office/office.effects';
 import { PassFinalisationComponentsModule } from '@pages/pass-finalisation/components/pass-finalisation-components.module';
 import { FaultSummaryProvider } from '@providers/fault-summary/fault-summary';
 
+import { PracticeModeBanner } from '@components/common/practice-mode-banner/practice-mode-banner';
+import { PracticeModeExitButton } from '@components/common/practice-mode-exit-button/practice-mode-exit-button';
 import { OfficeRegistrationAndMotComponent } from '@pages/office/components/office-registration-and-mot/office-registration-and-mot.component';
 import { ReasonForEnteringTeamsComponent } from '@pages/office/components/reason-for-entering-teams/reason-for-entering-teams';
 import { WaitingRoomToCarComponentsModule } from '@pages/waiting-room-to-car/components/waiting-room-to-car.components.module';
@@ -33,6 +35,8 @@ import { OfficeCatManoeuvrePage } from './office.cat-manoeuvre.page';
     WaitingRoomToCarComponentsModule,
     ReasonForEnteringTeamsComponent,
     OfficeRegistrationAndMotComponent,
+    PracticeModeBanner,
+    PracticeModeExitButton,
   ],
   providers: [FaultSummaryProvider],
 })

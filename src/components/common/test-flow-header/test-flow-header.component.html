@@ -8,7 +8,7 @@
     (cancelClicked)="cancelButtonClicked()">
   </exit-sam-banner>
 </ion-row>
-<practice-mode-banner *ngIf="!displayExitPracticeMode"></practice-mode-banner>
+<practice-mode-banner *ngIf="!displayExitPracticeMode && isPracticeMode"></practice-mode-banner>
 <ion-row [class.set-header-height]="fixHeight" *ngIf="!displayExitPracticeMode">
   <ion-col size="40" class="padding-left display-flex ion-align-items-center">
     <ion-label
@@ -77,6 +77,7 @@
         *ngIf="shouldShowGenericEndTest"
         (click)="onEndTestClicked()"
         class="end-test-font-size end-test-button"
+        [class]="isPracticeMode ? 'end-test-button-color-practice' : 'end-test-button-color'"
         [id]="pageName+'end-test-button'">
         End test
       </ion-button>

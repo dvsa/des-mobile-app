@@ -18,7 +18,6 @@ export class FakeJournalPage extends BasePageComponent {
   dateToDisplay: string;
   slots = fakeJournalTestSlots;
   selectedDate: string;
-
   displayExitPracticeMode = false;
 
   constructor(
