@@ -1,9 +1,7 @@
-import { AuthResult } from '@ionic-enterprise/auth';
-
 export class AuthenticationProviderMock {
   init = jasmine.createSpy('init').and.returnValue(Promise.resolve());
 
-  getAppConfigData = jasmine.createSpy('getAppConfigData').and.returnValue(Promise.resolve());
+  setProviderOptions = jasmine.createSpy('setProviderOptions').and.returnValue(Promise.resolve());
 
   getEmployeeId = jasmine.createSpy('getEmployeeId').and.returnValue('12345678');
 
@@ -16,6 +14,10 @@ export class AuthenticationProviderMock {
   refreshEmployeeDetails = jasmine.createSpy('refreshEmployeeDetails').and.returnValue(Promise.resolve());
 
   storeAuthResult = jasmine.createSpy('storeAuthResult').and.returnValue(Promise.resolve());
+
+  getAuthResult = jasmine.createSpy('getAuthResult').and.returnValue(Promise.resolve());
+
+  getStoredAuthResult = jasmine.createSpy('getStoredAuthResult').and.returnValue(Promise.resolve());
 
   login = jasmine.createSpy('login').and.returnValue(Promise.resolve());
 
@@ -30,8 +32,4 @@ export class AuthenticationProviderMock {
   clearStore = jasmine.createSpy('clearStore').and.returnValue(Promise.resolve());
 
   logout = jasmine.createSpy('logout').and.returnValue(Promise.resolve());
-
-  loadEmployeeName = jasmine.createSpy('loadEmployeeName').and.returnValue(Promise.resolve('joe blogs'));
-
-  getAuthResult = jasmine.createSpy('getAuthResult').and.returnValue(Promise.resolve({} as AuthResult));
 }
