@@ -111,8 +111,9 @@
 </ion-content>
 
 <ion-footer [class.hidden]="failedMOTModalCurrentlyOpen">
-  <ion-row [hidden]="(pageState.motEvidenceProvided$ | async) === false" class="mes-full-width-card box-shadow">
-    <ion-col class="ion-text-center" size="45">
+  <ion-row [hidden]="(pageState.motEvidenceProvided$ | async) === false"
+           class="mes-full-width-card box-shadow flex-center">
+    <ion-col class="ion-text-center" size="35">
       <ion-button
         (click)="onViewTestCentreJournal()"
         class="mes-grey-button wrtc-footer-btn"
@@ -122,8 +123,8 @@
         <ion-text class="des-header-style-3">View test centre journal</ion-text>
       </ion-button>
     </ion-col>
-    <ion-col size="6"></ion-col>
-    <ion-col class="ion-text-center" size="45">
+    <ion-col size="10"></ion-col>
+    <ion-col class="ion-text-center" size="35">
       <ion-button
         (click)="onSubmit()"
         class="mes-primary-button wrtc-footer-btn"
