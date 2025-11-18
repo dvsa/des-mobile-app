@@ -1,8 +1,8 @@
 <ion-header>
   <ion-toolbar mode="ios">
     <ion-title aria-level="1" role="heading" id="journal-page-title">Journal</ion-title>
-    <ion-buttons id="back-button" slot="start">
-      <ion-back-button (click)="router.navigate(['DashboardPage'], {replaceUrl: true})" [defaultHref]="'DashboardPage'">
+    <ion-buttons id="back-button" slot="end">
+      <ion-back-button text="Close" icon="close-outline" (click)="router.navigate(['DashboardPage'], {replaceUrl: true})" [defaultHref]="'DashboardPage'">
       </ion-back-button>
     </ion-buttons>
   </ion-toolbar>
