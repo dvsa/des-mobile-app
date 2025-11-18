@@ -18,7 +18,4 @@ export class ProfileHeaderComponent {
 
   @Input()
   disableASAM: () => void;
-
-  @Input()
-  displayIcon = true;
 }

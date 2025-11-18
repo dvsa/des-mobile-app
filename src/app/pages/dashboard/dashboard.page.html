@@ -39,14 +39,13 @@
   <incomplete-tests-banner></incomplete-tests-banner>
 
   <div>
-    <ion-row>
+    <ion-row class="ion-no-padding">
       <ion-col size="3"></ion-col>
-      <ion-col size="10">
+      <ion-col class="ion-no-padding" size="10">
         <ion-menu-button class="burger-menu black-text" id="dashboard-menu-button"></ion-menu-button>
       </ion-col>
-      <ion-col>
+      <ion-col class="ion-no-padding">
         <profile-header
-          [displayIcon]="false"
           [disableASAM]="deviceProvider.manuallyDisableSingleAppMode"
           [employeeId]="pageState.employeeId$ | async"
           [name]="pageState.employeeName$ | async"

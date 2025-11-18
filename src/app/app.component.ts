@@ -56,7 +56,7 @@ export class AppComponent extends LogoutBasePageComponent implements OnInit {
   pages: Page[] = [
     {
       title: DASHBOARD_PAGE,
-      descriptor: 'Dashboard',
+      descriptor: 'Return to dashboard',
     },
     {
       title: UNUPLOADED_TESTS_PAGE,
