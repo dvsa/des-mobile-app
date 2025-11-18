@@ -2,22 +2,22 @@
   <ion-toolbar
     [ngClass]="{
       'no-internal-padding': true,
-      'practice-theme': isEndToEndPracticeMode,
+      'practice-theme': isEndToEndPracticeMode || isTestReportPracticeMode,
       'toolbar-no-padding': isExitSAMBannerActivated
     }"
     mode="ios">
     <test-flow-header
       class="display-flex flex-direction-column"
       [pageName]="'test-report-page-cat-adi3'"
-      [shouldShowEndTestLink]="false"
       [fixHeight]="true"
+      [shouldShowEndTestLink]="false"
       [shouldShowEscapeFromSamButton]="!isRekey && !isDelegated"
-      [isPracticeMode]="isEndToEndPracticeMode"
+      [isPracticeMode]="isEndToEndPracticeMode || isTestReportPracticeMode"
       (exitSamUsed)="onUsedExitSam()"
-      (setupLeaveSubscription)="setupEscapeSAMLeaveSubscription()"
-      (setupResumeSubscription)="setupEscapeSAMResumeSubscription()"
       [isExitSAMActivated]="isExitSAMBannerActivated"
       (endTestButtonClicked)="onEndTestClick()"
+      (setupLeaveSubscription)="setupEscapeSAMLeaveSubscription()"
+      (setupResumeSubscription)="setupEscapeSAMResumeSubscription()"
       (onExitSAMActivatedChanged)="isSamActivatedChanged($event)">
       Test report - {{pageState.candidateUntitledName$ | async}}
     </test-flow-header>
