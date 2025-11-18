@@ -9,7 +9,7 @@
   </exit-sam-banner>
 </ion-row>
 <practice-mode-banner *ngIf="!displayExitPracticeMode && isPracticeMode"></practice-mode-banner>
-<ion-row [class.set-header-height]="fixHeight" *ngIf="!displayExitPracticeMode">
+<ion-row [class.set-header-height]="fixHeight" *ngIf="!isExitSAMActivated || !displayExitPracticeMode">
   <ion-col size="40" class="padding-left display-flex ion-align-items-center">
     <ion-label
       class="header-title"
@@ -24,10 +24,8 @@
   </ion-col>
   <ion-col class="display-flex ion-no-padding ion-justify-content-start" size="21">
     <ion-col class="display-flex ion-align-items-center" size="60">
-      <ion-back-button
-        icon=""
-        class="back-button width-100 ion-no-padding"
-        *ngIf="shouldShowBackButton"
+        <ion-back-button
+          class="back-button width-100 ion-no-padding"
         (click)="onBackClicked()"
         defaultHref="{{defaultBackButtonHref}}"
         [id]="pageName+'-back-button'">
@@ -41,7 +39,7 @@
         </ion-button>
       </ion-buttons>
     </ion-col>
-    <ion-col class="display-flex ion-no-padding" *ngIf="shouldShowEscapeFromSamButton">
+    <ion-col class="display-flex ion-no-padding">
       <ion-buttons>
         <exit-sam-button
           [pageTitle]="pageName"

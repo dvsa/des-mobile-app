@@ -13,6 +13,7 @@
 .cancel-button {
   //margin-bottom: 4px;
   //margin-top: 0;
+  bottom: 5px;
   position: relative;
   min-height: 24px;
   --background: var(--mes-white);
@@ -52,5 +53,11 @@
 
 .exit-icon {
   margin-top: 2px;
+  align-items: center;
+}
+
+.exit-banner-row {
+  display: flex;
+  justify-content: center;
   align-items: center;
 }
