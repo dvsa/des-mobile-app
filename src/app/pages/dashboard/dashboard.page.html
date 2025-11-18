@@ -1,30 +1,34 @@
 <ion-header>
   <ion-toolbar mode="ios">
     <ion-buttons id="dashboard-burger-menu-btn" slot="start">
-      <ion-menu-button id="dashboard-menu-button"></ion-menu-button>
-      <ion-badge
-        *ngIf="(pageState.notificationCount$ | async) as notificationCount;"
-        color="danger"
-        id="dashboard-notification-count-badge"
-        class="burger-menu-item"
-      >
-        {{ notificationCount }}
-      </ion-badge>
+      <ion-col></ion-col>
+      <ion-col class="display-flex">
+        <ion-badge
+          *ngIf="(pageState.notificationCount$ | async) as notificationCount;"
+          color="danger"
+          id="dashboard-notification-count-badge"
+          class="burger-menu-item"
+        >
+          {{ notificationCount }}
+        </ion-badge>
+      </ion-col>
     </ion-buttons>
     <ion-title role="heading" aria-level="1" id="dashboard-page-title">My dashboard</ion-title>
-    <ion-buttons class="display-flex" [class.flex-direction-column]="getIsLargerTextSize() && pageState.showUpdatesAvailable$ | async" slot="end">
-        <ion-row>
-          <ion-text class="des-header-style-6 version-number">Version {{ pageState.appVersion$ | async }}</ion-text>
-        </ion-row>
+    <ion-buttons class="display-flex"
+                 [class.flex-direction-column]="getIsLargerTextSize() && pageState.showUpdatesAvailable$ | async"
+                 slot="end">
+      <ion-row>
+        <ion-text class="des-header-style-6 version-number">Version {{ pageState.appVersion$ | async }}</ion-text>
+      </ion-row>
       <div *ngIf="!getIsLargerTextSize()">&nbsp;</div>
       <ion-row *ngIf="pageState.showUpdatesAvailable$ | async">
-          <ion-badge
-            color="danger"
-            (click)="showUpdateAvailableModal(true)"
-          >
-            Version {{ pageState.liveAppVersion$ | async }} available
-          </ion-badge>
-        </ion-row>
+        <ion-badge
+          color="danger"
+          (click)="showUpdateAvailableModal(true)"
+        >
+          Version {{ pageState.liveAppVersion$ | async }} available
+        </ion-badge>
+      </ion-row>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
@@ -35,15 +39,24 @@
   <incomplete-tests-banner></incomplete-tests-banner>
 
   <div>
-    <profile-header
-      [disableASAM]="deviceProvider.manuallyDisableSingleAppMode"
-      [employeeId]="pageState.employeeId$ | async"
-      [name]="pageState.employeeName$ | async"
-      [role]="pageState.role$ | async"
-    >
-    </profile-header>
+    <ion-row>
+      <ion-col size="3"></ion-col>
+      <ion-col size="10">
+        <ion-menu-button class="burger-menu black-text" id="dashboard-menu-button"></ion-menu-button>
+      </ion-col>
+      <ion-col>
+        <profile-header
+          [displayIcon]="false"
+          [disableASAM]="deviceProvider.manuallyDisableSingleAppMode"
+          [employeeId]="pageState.employeeId$ | async"
+          [name]="pageState.employeeName$ | async"
+          [role]="pageState.role$ | async"
+        >
+        </profile-header>
+      </ion-col>
+    </ion-row>
 
-    <hr />
+    <hr/>
 
     <vehicle-recalls-banner *ngIf="!showDelegatedExaminerRekey()"></vehicle-recalls-banner>
 

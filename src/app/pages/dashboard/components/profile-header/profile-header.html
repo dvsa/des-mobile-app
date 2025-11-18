@@ -1,9 +1,11 @@
 <div class="profile-header">
   <ion-grid>
     <ion-row>
-      <ion-col size="10" id="contact-col">
-        <ion-icon id="contact-icon" name="person-circle" aria-label="Person icon" (click)="disableASAM()"></ion-icon>
-      </ion-col>
+      @if (displayIcon) {
+        <ion-col size="10" id="contact-col">
+          <ion-icon id="contact-icon" name="person-circle" aria-label="Person icon" (click)="disableASAM()"></ion-icon>
+        </ion-col>
+      }
       <ion-col>
         <ion-row>
           <ion-text id="examiner-name" class="des-header-style-2 name">{{name}}</ion-text>
