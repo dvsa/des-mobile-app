@@ -131,10 +131,10 @@
 <ion-footer [class.hidden]="failedMOTModalCurrentlyOpen">
   <ion-row [hidden]="(pageState.eyesightTestFailed$ | async) || (pageState.motEvidenceProvided$ | async) === false"
            class="mes-full-width-card box-shadow flex-center">
-    <ion-col class="ion-text-center" size="35">
+    <ion-col class="ion-text-center width-100" size="35">
       <ion-button
         (click)="onViewTestCentreJournal()"
-        class="mes-grey-button wrtc-footer-btn"
+        class="mes-grey-button"
         id="view-test-centre-journal-button"
         shape="round"
       >
@@ -142,10 +142,10 @@
       </ion-button>
     </ion-col>
     <ion-col size="10"></ion-col>
-    <ion-col class="ion-text-center" size="35">
+    <ion-col class="ion-text-center width-100" size="35">
       <ion-button
         (click)="onSubmit()"
-        class="mes-primary-button wrtc-footer-btn"
+        class="mes-primary-button"
         id="continue-to-test-report-button"
         shape="round"
       >
