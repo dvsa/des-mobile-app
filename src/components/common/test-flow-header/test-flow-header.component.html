@@ -8,10 +8,12 @@
     (cancelClicked)="cancelButtonClicked()">
   </exit-sam-banner>
 </ion-row>
-<ion-row [class.set-header-height]="fixHeight">
+<practice-mode-banner *ngIf="!displayExitPracticeMode && isPracticeMode"></practice-mode-banner>
+<ion-row [class.set-header-height]="fixHeight" *ngIf="!displayExitPracticeMode">
   <ion-col size="40" class="padding-left display-flex ion-align-items-center">
     <ion-label
       class="header-title"
+      [class.text-black]="isPracticeMode"
       addOrRemoveLangCy
       [shouldListenToLanguageChanges]="shouldIncludeLanguageDirectiveOnTitle"
       role="heading"
@@ -22,14 +24,14 @@
   </ion-col>
   <ion-col class="display-flex ion-no-padding ion-justify-content-start" size="21">
     <ion-col class="display-flex ion-align-items-center" size="60">
-        <ion-back-button
-          icon=""
-          class="back-button width-100 ion-no-padding"
-          *ngIf="shouldShowBackButton"
-          (click)="onBackClicked()"
-          defaultHref="{{defaultBackButtonHref}}"
-          [id]="pageName+'-back-button'">
-        </ion-back-button>
+      <ion-back-button
+        icon=""
+        class="back-button width-100 ion-no-padding"
+        *ngIf="shouldShowBackButton"
+        (click)="onBackClicked()"
+        defaultHref="{{defaultBackButtonHref}}"
+        [id]="pageName+'-back-button'">
+      </ion-back-button>
     </ion-col>
     <ion-col *ngIf="shouldShowCloseButton">
       <ion-buttons>
@@ -49,6 +51,15 @@
         </exit-sam-button>
       </ion-buttons>
     </ion-col>
+    <ion-col class="display-flex ion-no-padding" *ngIf="isPracticeMode" size="60">
+      <ion-buttons class="width-100">
+        <practice-mode-exit-button
+          class="width-100"
+          [pageTitle]="pageName"
+          (exitPracticeMode)="onEndPracticeModeClicked()">
+        </practice-mode-exit-button>
+      </ion-buttons>
+    </ion-col>
   </ion-col>
   <ion-col class="display-flex ion-no-padding ion-justify-content-end">
     <ion-buttons>
@@ -66,9 +77,14 @@
         *ngIf="shouldShowGenericEndTest"
         (click)="onEndTestClicked()"
         class="end-test-font-size end-test-button"
+        [class]="isPracticeMode ? 'end-test-button-color-practice' : 'end-test-button-color'"
         [id]="pageName+'end-test-button'">
         End test
       </ion-button>
     </ion-buttons>
   </ion-col>
 </ion-row>
+<practice-mode-options-bar
+  *ngIf="displayExitPracticeMode"
+  (closeExitPracticeMode)="closeExitPracticeMode()">
+</practice-mode-options-bar>

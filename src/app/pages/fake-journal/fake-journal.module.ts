@@ -13,6 +13,8 @@ import { FakeJournalEffects } from '@pages/fake-journal/fake-journal.effects';
 import { JournalComponentsModule } from '@pages/journal/components/journal-components.module';
 import { OrientationMonitorProvider } from '@providers/orientation-monitor/orientation-monitor.provider';
 
+import { PracticeModeBanner } from '@components/common/practice-mode-banner/practice-mode-banner';
+import { PracticeModeExitButton } from '@components/common/practice-mode-exit-button/practice-mode-exit-button';
 import { VehicleRecallsBanner } from '@components/common/vehicle-recall-banner/vehicle-recalls-banner';
 import { FakeJournalAnalyticsEffects } from './fake-journal.analytics.effects';
 import { FakeJournalPage } from './fake-journal.page';
@@ -30,6 +32,8 @@ import { FakeJournalPage } from './fake-journal.page';
     EffectsModule.forFeature([FakeJournalEffects, FakeJournalAnalyticsEffects]),
     JournalComponentsModule,
     VehicleRecallsBanner,
+    PracticeModeExitButton,
+    PracticeModeBanner,
   ],
   declarations: [FakeJournalPage],
   providers: [OrientationMonitorProvider],

@@ -236,6 +236,8 @@ export abstract class OfficeBasePageComponent extends PracticeableBasePageCompon
 
   hasIdentificationBeenUpdated = false;
 
+  displayExitPracticeMode = false;
+
   protected constructor(
     injector: Injector,
     @Inject(false) public loginRequired = false
@@ -731,5 +733,19 @@ export abstract class OfficeBasePageComponent extends PracticeableBasePageCompon
 
   alternativeMOTEvidenceDescriptionUpdated(evidence: string) {
     this.store$.dispatch(MotEvidenceChanged(evidence));
+  }
+
+  /**
+   * Opens the exit practice mode row
+   */
+  onEndPracticeModeClicked() {
+    this.displayExitPracticeMode = true;
+  }
+
+  /**
+   * Closes the exit practice mode row
+   */
+  closeExitPracticeMode() {
+    this.displayExitPracticeMode = false;
   }
 }

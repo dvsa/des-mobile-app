@@ -1,9 +1,34 @@
 <ion-header>
-  <practice-mode-banner *ngIf="isEndToEndPracticeMode"></practice-mode-banner>
-  <ion-toolbar [ngClass]="{'toolbar-no-padding': isEndToEndPracticeMode}" mode="ios">
-    <ion-title id="back-to-office-title" role="heading" aria-level="1">Back to office</ion-title>
+  <practice-mode-banner *ngIf="isEndToEndPracticeMode && !displayExitPracticeMode"></practice-mode-banner>
+  <ion-toolbar
+    mode="ios"
+    [ngClass]="{
+      'toolbar-no-padding': true,
+      'practice-theme': isEndToEndPracticeMode,
+    }">
+    <ion-row *ngIf="!displayExitPracticeMode">
+      <ion-col>
+      </ion-col>
+      <ion-col class="display-flex ion-no-padding" size="38">
+        <ion-title id="back-to-office-title " role="heading" aria-level="1">Back to office</ion-title>
+      </ion-col>
+      <ion-col class="display-flex ion-no-padding">
+        <ion-buttons class="width-100">
+          <practice-mode-exit-button *ngIf="isEndToEndPracticeMode"
+            class="width-30"
+            [pageTitle]="'back to office page'"
+            (exitPracticeMode)="onEndPracticeModeClicked()">
+          </practice-mode-exit-button>
+        </ion-buttons>
+      </ion-col>
+    </ion-row>
+    <practice-mode-options-bar
+      *ngIf="displayExitPracticeMode"
+      (closeExitPracticeMode)="closeExitPracticeMode()">
+    </practice-mode-options-bar>
   </ion-toolbar>
 </ion-header>
+
 
 <ion-content forceOverscroll="false" id="back-to-office-page">
   <div class="container">

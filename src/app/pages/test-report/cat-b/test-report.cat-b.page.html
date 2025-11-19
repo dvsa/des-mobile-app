@@ -1,7 +1,11 @@
 <ion-header>
-  <practice-mode-banner *ngIf="isEndToEndPracticeMode || isPracticeMode"></practice-mode-banner>
-  <ion-toolbar class="no-internal-padding"
-               [ngClass]="{'toolbar-no-padding': isEndToEndPracticeMode || isPracticeMode || isExitSAMBannerActivated}" mode="ios">
+  <ion-toolbar
+    [ngClass]="{
+      'no-internal-padding': true,
+      'practice-theme': isEndToEndPracticeMode || isTestReportPracticeMode,
+      'toolbar-no-padding': isExitSAMBannerActivated
+    }"
+    mode="ios">
     <test-flow-header
       class="display-flex flex-direction-column"
       [pageName]="'test-report-page-cat-b'"
@@ -10,7 +14,7 @@
       [shouldShowEndTestLink]="false"
       [shouldShowBackButton]="false"
       [shouldShowEscapeFromSamButton]="!isRekey && !isDelegated"
-      [isPracticeMode]="isEndToEndPracticeMode || isPracticeMode"
+      [isPracticeMode]="isEndToEndPracticeMode || isTestReportPracticeMode"
       (exitSamUsed)="onUsedExitSam()"
       [isExitSAMActivated]="isExitSAMBannerActivated"
       (endTestButtonClicked)="onEndTestClick()"

@@ -16,7 +16,7 @@ import { IncompleteTestsBanner } from '@components/common/incomplete-tests-banne
 import { ModalActivityCodeListComponent } from '@components/common/modal-activity-code-list/modal-activity-code-list';
 import { ModalAlertTitleComponent } from '@components/common/modal-alert-title/modal-alert-title';
 import { ModalReturnButtonComponent } from '@components/common/modal-return-button/modal-return-button';
-import { PracticeModeBanner } from '@components/common/practice-mode-banner/practice-mode-banner';
+import { PracticeModeOptionsBar } from '@components/common/practice-mode-options-bar/practice-mode-options-bar';
 import { LockScreenIndicator } from '@components/common/screen-lock-indicator/lock-screen-indicator';
 import { SearchablePicklistModal } from '@components/common/searchable-picklist-modal/searchable-picklist-modal';
 import { SearchablePicklistComponentWrapper } from '@components/common/searchable-picklist-wrapper/searchable-picklist-wrapper';
@@ -71,7 +71,7 @@ import { WarningBannerComponent } from './warning-banner/warning-banner';
     ModalAlertTitleComponent,
     ModalReturnButtonComponent,
     ModalActivityCodeListComponent,
-    PracticeModeBanner,
+    PracticeModeOptionsBar,
     LockScreenIndicator,
     SeriousFaultBadgeComponent,
     TestRecoveredBannerComponent,
@@ -125,7 +125,7 @@ import { WarningBannerComponent } from './warning-banner/warning-banner';
     ModalAlertTitleComponent,
     ModalReturnButtonComponent,
     ModalActivityCodeListComponent,
-    PracticeModeBanner,
+    PracticeModeOptionsBar,
     LockScreenIndicator,
     SeriousFaultBadgeComponent,
     TestRecoveredBannerComponent,

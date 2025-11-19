@@ -1,7 +1,11 @@
 <ion-header>
-  <practice-mode-banner *ngIf="isEndToEndPracticeMode"></practice-mode-banner>
-  <ion-toolbar class="no-internal-padding"
-               [ngClass]="{'toolbar-no-padding': isEndToEndPracticeMode || isExitSAMBannerActivated}" mode="ios">
+  <ion-toolbar
+    [ngClass]="{
+      'no-internal-padding': true,
+      'practice-theme': isEndToEndPracticeMode,
+      'toolbar-no-padding': isExitSAMBannerActivated
+    }"
+    mode="ios">
     <test-flow-header
       class="display-flex flex-direction-column"
       [pageName]="'health-declaration'"

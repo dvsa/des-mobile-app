@@ -9,7 +9,7 @@ import { MockComponent } from 'ng-mocks';
 
 import { AppModule } from '@app/app.module';
 import { ActivityCodeComponent } from '@components/common/activity-code/activity-code';
-import { PracticeModeBanner } from '@components/common/practice-mode-banner/practice-mode-banner';
+import { PracticeModeOptionsBar } from '@components/common/practice-mode-options-bar/practice-mode-options-bar';
 import { WarningBannerComponent } from '@components/common/warning-banner/warning-banner';
 import { D255Component } from '@components/test-finalisation/d255/d255';
 import { DebriefWitnessedComponent } from '@components/test-finalisation/debrief-witnessed/debrief-witnessed';
@@ -125,7 +125,7 @@ describe('NonPassFinalisationPage', () => {
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       declarations: [
         NonPassFinalisationPage,
-        MockComponent(PracticeModeBanner),
+        MockComponent(PracticeModeOptionsBar),
         MockComponent(ActivityCodeComponent),
         MockComponent(D255Component),
         MockComponent(LanguagePreferencesComponent),

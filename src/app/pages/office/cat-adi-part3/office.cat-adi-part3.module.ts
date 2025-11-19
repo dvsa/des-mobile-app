@@ -5,6 +5,8 @@ import { IonicModule } from '@ionic/angular';
 import { EffectsModule } from '@ngrx/effects';
 
 import { ComponentsModule } from '@components/common/common-components.module';
+import { PracticeModeBanner } from '@components/common/practice-mode-banner/practice-mode-banner';
+import { PracticeModeExitButton } from '@components/common/practice-mode-exit-button/practice-mode-exit-button';
 import { OfficeCatADIPart3PageRoutingModule } from '@pages/office/cat-adi-part3/office.cat-adi-part3-routing.module';
 import { OfficeCatADI3Page } from '@pages/office/cat-adi-part3/office.cat-adi-part3.page';
 import { OfficeRegistrationAndMotComponent } from '@pages/office/components/office-registration-and-mot/office-registration-and-mot.component';
@@ -29,6 +31,8 @@ import { FaultSummaryProvider } from '@providers/fault-summary/fault-summary';
     WaitingRoomToCarComponentsModule,
     ReasonForEnteringTeamsComponent,
     OfficeRegistrationAndMotComponent,
+    PracticeModeBanner,
+    PracticeModeExitButton,
   ],
   providers: [FaultSummaryProvider],
 })

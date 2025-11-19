@@ -1,20 +1,7 @@
-<ion-toolbar
-  class="practice-mode-toolbar-sizing">
-  <ion-row class="practice-mode-top-banner"></ion-row>
-  <ion-row class="status-bar-spacing"></ion-row>
-  <ion-row>
-    <ion-col></ion-col>
-    <ion-col
-      size="auto"
-      id="practice-mode-title-text"
-      class="practice-title-text ion-no-padding"
-    >
-      <ion-text
-        (click)="exitPracticeMode()"
-        class="practice-mode-banner-text">
-        {{ displayMsg$ | async }} - Tap here to exit
-      </ion-text>
-    </ion-col>
-    <ion-col></ion-col>
-  </ion-row>
-</ion-toolbar>
+<ion-row class="practice-mode-banner">
+  <ion-col class="align-center">
+    <ion-text class="practice-mode-banner-text">
+      Practice Mode
+    </ion-text>
+  </ion-col>
+</ion-row>

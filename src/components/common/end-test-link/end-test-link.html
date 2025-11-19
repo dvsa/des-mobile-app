@@ -1,3 +1,6 @@
-<ion-button [id]="pageTitle+'end-test-link-button'" class="end-test-link-button" (click)="openEndTestModal()">
-  <span class="end-test-text">End test</span>
+<ion-button
+  [id]="pageTitle+'end-test-link-button'"
+  class="end-test-link-button"
+  (click)="openEndTestModal()">
+  <ion-text [ngClass]="isPracticeMode ? 'end-test-text-practice' : 'end-test-text'">End test</ion-text>
 </ion-button>

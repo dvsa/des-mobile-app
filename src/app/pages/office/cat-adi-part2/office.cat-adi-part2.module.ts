@@ -7,6 +7,8 @@ import { IonicModule } from '@ionic/angular';
 import { ComponentsModule } from '@components/common/common-components.module';
 import { OfficeComponentsModule } from '@pages/office/components/office.components.module';
 
+import { PracticeModeBanner } from '@components/common/practice-mode-banner/practice-mode-banner';
+import { PracticeModeExitButton } from '@components/common/practice-mode-exit-button/practice-mode-exit-button';
 import { DirectivesModule } from '@directives/directives.module';
 import { EffectsModule } from '@ngrx/effects';
 import { EcoCaptureReasonComponent } from '@pages/office/cat-adi-part2/components/eco-capture-reason/eco-capture-reason';
@@ -45,6 +47,8 @@ import { OfficeCatADI2Page } from './office.cat-adi-part2.page';
     DirectivesModule,
     ReasonForEnteringTeamsComponent,
     OfficeRegistrationAndMotComponent,
+    PracticeModeBanner,
+    PracticeModeExitButton,
   ],
   providers: [FaultSummaryProvider],
 })

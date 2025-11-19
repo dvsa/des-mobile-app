@@ -45,6 +45,7 @@ export class BackToOfficePage extends PracticeableBasePageComponent implements O
   singleAppModeEnabled: boolean;
   office: string = NavigationTarget.OFFICE;
   journal: string = NavigationTarget.JOURNAL;
+  displayExitPracticeMode = false;
 
   constructor(
     public routeByCategoryProvider: RouteByCategoryProvider,
@@ -149,4 +150,18 @@ export class BackToOfficePage extends PracticeableBasePageComponent implements O
     trDestroy$.next(null);
     trDestroy$.complete();
   };
+
+  /**
+   * Opens the exit practice mode row
+   */
+  onEndPracticeModeClicked() {
+    this.displayExitPracticeMode = true;
+  }
+
+  /**
+   * Closes the exit practice mode row
+   */
+  closeExitPracticeMode() {
+    this.displayExitPracticeMode = false;
+  }
 }

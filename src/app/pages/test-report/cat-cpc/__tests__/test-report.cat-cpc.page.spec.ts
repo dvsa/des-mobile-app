@@ -7,7 +7,7 @@ import { MockComponent } from 'ng-mocks';
 import { Subscription, of } from 'rxjs';
 
 import { AppModule } from '@app/app.module';
-import { PracticeModeBanner } from '@components/common/practice-mode-banner/practice-mode-banner';
+import { PracticeModeOptionsBar } from '@components/common/practice-mode-options-bar/practice-mode-options-bar';
 import { TestFlowHeaderComponent } from '@components/common/test-flow-header/test-flow-header.component';
 import { OverlayEventDetail } from '@ionic/core';
 import { ModalEvent } from '@pages/dashboard/components/practice-test-modal/practice-test-modal.constants';
@@ -55,7 +55,7 @@ describe('TestReportCatCPCPage', () => {
     TestBed.configureTestingModule({
       declarations: [
         TestReportCatCPCPage,
-        MockComponent(PracticeModeBanner),
+        MockComponent(PracticeModeOptionsBar),
         MockComponent(CompetencyComponent),
         MockComponent(ModuleAssessmentComponent),
         MockComponent(QuestionAnswerComponent),

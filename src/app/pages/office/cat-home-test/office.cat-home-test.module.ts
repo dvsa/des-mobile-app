@@ -5,6 +5,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 
 import { ComponentsModule } from '@components/common/common-components.module';
+import { PracticeModeBanner } from '@components/common/practice-mode-banner/practice-mode-banner';
+import { PracticeModeExitButton } from '@components/common/practice-mode-exit-button/practice-mode-exit-button';
 import { EffectsModule } from '@ngrx/effects';
 import { OfficeRegistrationAndMotComponent } from '@pages/office/components/office-registration-and-mot/office-registration-and-mot.component';
 import { OfficeComponentsModule } from '@pages/office/components/office.components.module';
@@ -29,6 +31,8 @@ import { OfficeCatHomeTestPage } from './office.cat-home-test.page';
     WaitingRoomToCarComponentsModule,
     ReasonForEnteringTeamsComponent,
     OfficeRegistrationAndMotComponent,
+    PracticeModeBanner,
+    PracticeModeExitButton,
   ],
   declarations: [OfficeCatHomeTestPage],
   providers: [FaultSummaryProvider],

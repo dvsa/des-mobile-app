@@ -4,7 +4,7 @@ import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms
 import { Router, RouterModule } from '@angular/router';
 import { AppModule } from '@app/app.module';
 import { BikeCategoryTypeComponent } from '@components/common/bike-category-type/bike-category-type';
-import { PracticeModeBanner } from '@components/common/practice-mode-banner/practice-mode-banner';
+import { PracticeModeOptionsBar } from '@components/common/practice-mode-options-bar/practice-mode-options-bar';
 import { TransmissionComponent } from '@components/common/transmission/transmission';
 import { WarningBannerComponent } from '@components/common/warning-banner/warning-banner';
 import { D255Component } from '@components/test-finalisation/d255/d255';
@@ -41,7 +41,7 @@ describe('PassFinalisationCatAMod1Page', () => {
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       declarations: [
         PassFinalisationCatAMod1Page,
-        MockComponent(PracticeModeBanner),
+        MockComponent(PracticeModeOptionsBar),
         MockComponent(PassCertificateNumberCatAMod1Component),
         MockComponent(BikeCategoryTypeComponent),
         MockComponent(LicenseProvidedComponent),
