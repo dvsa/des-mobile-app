@@ -1,12 +1,13 @@
-import { gunzipSync } from 'zlib';
 import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { TestResultSchemasUnion } from '@dvsa/mes-test-schema/categories';
 import { CatBUniqueTypes } from '@dvsa/mes-test-schema/categories/B';
 import { Store, StoreModule } from '@ngrx/store';
+import { CompressionProvider } from '@providers/compression/compression';
 import { LogHelperMock } from '@providers/logs/__mocks__/logs-helper.mock';
 import { TestStatus } from '@store/tests/test-status/test-status.model';
+import pako from 'pako';
 import { take } from 'rxjs/operators';
 import { AppConfigProviderMock } from '../../app-config/__mocks__/app-config.mock';
 import { AppConfigProvider } from '../../app-config/app-config';
@@ -50,6 +51,7 @@ describe('TestSubmissionProvider', () => {
           provide: LogHelper,
           useClass: LogHelperMock,
         },
+        CompressionProvider,
         provideHttpClient(withInterceptorsFromDi()),
         provideHttpClientTesting(),
       ],
@@ -100,8 +102,16 @@ describe('TestSubmissionProvider', () => {
       // ACT
       const result = testSubmissionProvider.compressData(mockData);
       // ASSERT
-      const gzippedBytes = Buffer.from(result, 'base64');
-      const unzippedJson = gunzipSync(gzippedBytes).toString();
+      // Decode base64 string to Uint8Array
+      const binaryString = atob(result);
+      const len = binaryString.length;
+      const gzippedBytes = new Uint8Array(len);
+      for (let i = 0; i < len; i++) {
+        gzippedBytes[i] = binaryString.charCodeAt(i);
+      }
+      // Decompress using pako
+      const unzippedBytes = pako.ungzip(gzippedBytes);
+      const unzippedJson = new TextDecoder().decode(unzippedBytes);
       const json = JSON.parse(unzippedJson);
       expect(json).toEqual(mockData);
     });

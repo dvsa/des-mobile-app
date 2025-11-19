@@ -18,11 +18,9 @@ import '@angular/localize/init';
  *
  * Learn more in https://angular.io/guide/browser-support
  */
-
 /** *************************************************************************************************
  * BROWSER POLYFILLS
  */
-
 /**
  * By default, zone.js will patch all possible macroTask and DomEvents
  * user can disable parts of macroTask/DomEvents patch by setting following flags
@@ -46,23 +44,23 @@ import '@angular/localize/init';
  *  (window as any).__Zone_enable_cross_context_check = true;
  *
  */
-
 import './zone-flags';
 
 /** *************************************************************************************************
  * Zone JS is required by default for Angular itself.
  */
-
 import 'zone.js'; // Included with Angular CLI.
+import { Buffer } from 'buffer';
 
 /** *************************************************************************************************
  * APPLICATION IMPORTS
  */
 // Add global to window, assigning the value of window itself.
-// https://github.com/angular/angular-cli/issues/9827#issuecomment-386154063
+(window as any).Buffer = Buffer;
 (window as any).global = window;
-// https://stackoverflow.com/questions/50371593/angular-6-uncaught-referenceerror-buffer-is-not-defined
-global.Buffer = global.Buffer || require('buffer').Buffer;
-(window as any).process = { version: '', env: {} };
+(window as any).process = {
+  version: '',
+  env: {},
+};
 
 /* eslint-enable */
