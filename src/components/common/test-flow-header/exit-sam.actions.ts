@@ -19,6 +19,8 @@ export const ExitSamActivated = createAction(
   (method: ExitSAMMethodUsed) => ({ method })
 );
 
+export const ExitSAMConfirmButtonClicked = createAction('[Escape Single App Mode] Confirm Button Clicked');
+
 export const ExitSAMCancelButtonClicked = createAction('[Escape Single App Mode] Cancel Button Clicked');
 
 export const ExitSAMUserReturned = createAction('[Escape Single App Mode] User Returned to App');

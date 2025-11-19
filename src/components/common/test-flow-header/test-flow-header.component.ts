@@ -52,7 +52,7 @@ export class TestFlowHeaderComponent {
   @Input() isDelegatedRekey = false;
   @Input() shouldAuthenticateOnTestEnd = true;
   @Input() shouldShowCloseButton = false;
-  @Input() shouldShowEscapeFromSamButton = false;
+  @Input() shouldShowEscapeFromSamButton = true;
   @Input() isExitSAMActivated = false;
   @Input() fixHeight = false;
 

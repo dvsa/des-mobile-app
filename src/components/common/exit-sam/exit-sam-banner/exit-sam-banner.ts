@@ -1,8 +1,10 @@
 import { NgIf } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { ComponentsModule } from '@components/common/common-components.module';
+import { ExitSAMConfirmButtonClicked } from '@components/common/test-flow-header/exit-sam.actions';
 import { ExitSAMMethodUsed } from '@components/common/test-flow-header/test-flow-header.component';
 import { IonicModule, ModalController } from '@ionic/angular';
+import { Store } from '@ngrx/store';
 import { AccessibilityService } from '@providers/accessibility/accessibility.service';
 import { DeviceProvider } from '@providers/device/device';
 
@@ -16,7 +18,8 @@ export class ExitSamBanner {
   constructor(
     public deviceProvider: DeviceProvider,
     public modalController: ModalController,
-    public accessibilityService: AccessibilityService
+    public accessibilityService: AccessibilityService,
+    public store$: Store
   ) {}
 
   @Output()
@@ -64,6 +67,7 @@ export class ExitSamBanner {
    * Triggers the escape SAM process. Emits escapeSamBannerClicked and samEscaped events.
    */
   escapeSAM() {
+    this.store$.dispatch(ExitSAMConfirmButtonClicked());
     this.escapeSamBannerClicked.emit(false);
     this.samEscaped.emit(ExitSAMMethodUsed.BANNER);
   }

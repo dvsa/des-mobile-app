@@ -39,7 +39,7 @@
         </ion-button>
       </ion-buttons>
     </ion-col>
-    <ion-col class="display-flex ion-no-padding">
+    <ion-col *ngIf="shouldShowEscapeFromSamButton" class="display-flex ion-no-padding">
       <ion-buttons>
         <exit-sam-button
           [pageTitle]="pageName"
