@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { ExitSamErrorModal } from '@components/common/exit-sam/exit-sam-error-modal/exit-sam-error-modal';
 import {
+  ExitSAMConfirmButtonClicked,
   ExitSAMErrorMessages,
   ExitSAMUserReturned,
-  ExitSamActivated,
   ExitSamError,
 } from '@components/common/test-flow-header/exit-sam.actions';
 import { ExitSAMMethodUsed } from '@components/common/test-flow-header/test-flow-header.component';
@@ -61,8 +61,7 @@ export class ExitSAMProvider {
    * @param method - The method used to exit SAM (button or banner).
    */
   async disableSAMAndExitForRecalls(method: ExitSAMMethodUsed) {
-    // Dispatch the ExitSamActivated action with the provided method
-    this.store$.dispatch(ExitSamActivated(method));
+    this.store$.dispatch(ExitSAMConfirmButtonClicked());
 
     try {
       const usefulLinks = this.urlProvider.getUsefulLinks();

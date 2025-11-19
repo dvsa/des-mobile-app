@@ -8,8 +8,8 @@ import { PracticeModeBanner } from '@components/common/practice-mode-banner/prac
 import { PracticeModeExitButton } from '@components/common/practice-mode-exit-button/practice-mode-exit-button';
 import {
   ExitSAMCancelButtonClicked,
+  ExitSAMConfirmButtonClicked,
   ExitSAMErrorMessages,
-  ExitSamActivated,
   ExitSamError,
   ExitSamSelected,
 } from '@components/common/test-flow-header/exit-sam.actions';
@@ -52,7 +52,7 @@ export class TestFlowHeaderComponent {
   @Input() isDelegatedRekey = false;
   @Input() shouldAuthenticateOnTestEnd = true;
   @Input() shouldShowCloseButton = false;
-  @Input() shouldShowEscapeFromSamButton = true;
+  @Input() shouldShowEscapeFromSamButton = false;
   @Input() isExitSAMActivated = false;
   @Input() fixHeight = false;
 
@@ -168,8 +168,7 @@ export class TestFlowHeaderComponent {
    * @param method - The method used to exit SAM (button or banner).
    */
   async disableSAMAndExit(method: ExitSAMMethodUsed) {
-    // Dispatch the ExitSamActivated action with the provided method
-    this.store$.dispatch(ExitSamActivated(method));
+    this.store$.dispatch(ExitSAMConfirmButtonClicked());
     // Emit the exitSamUsed event
     this.exitSamUsed.emit();
 
