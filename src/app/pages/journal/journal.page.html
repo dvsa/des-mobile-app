@@ -24,7 +24,7 @@
   </ion-refresher>
 
   <ion-row class="padding-bottom">
-    <ion-col class="display-flex justify-content-center ion-align-items-center">
+    <ion-col class="display-flex justify-content-center padding-top">
       <refresh-button
         (refreshButtonClicked)="clickRefreshJournal()"
         [lastSyncTime]="pageState.lastRefreshedTime$ | async"
