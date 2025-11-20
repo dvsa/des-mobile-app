@@ -3,7 +3,7 @@
   <ion-toolbar
     mode="ios"
     [ngClass]="{
-      'toolbar-no-padding': true,
+      'toolbar-no-padding': isEndToEndPracticeMode,
       'practice-theme': isEndToEndPracticeMode,
     }">
     <ion-row *ngIf="!displayExitPracticeMode">
