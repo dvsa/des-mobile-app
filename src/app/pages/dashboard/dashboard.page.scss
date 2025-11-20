@@ -87,7 +87,11 @@
     background-color: var(--gds-dark);
   }
 
-  span, ion-menu-button {
+  span {
     color: var(--mes-white);
+  }
+
+  .burger-menu {
+    font-size: 72px;
   }
 }
