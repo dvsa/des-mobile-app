@@ -129,6 +129,11 @@ input, textarea {
   padding: 0 !important;
 }
 
+.no-vertical-padding {
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
 .screen-reader-only {
   clip: rect(0 0 0 0);
   clip-path: inset(50%);
