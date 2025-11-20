@@ -3,6 +3,10 @@
   align-items: center;
 }
 
+.date-text {
+  text-wrap: auto;
+}
+
 .next-navigation-button {
   @extend .navigation-button;
   float: right;
