@@ -56,7 +56,6 @@ export class TestFlowHeaderComponent {
   @Input() shouldShowCloseButton = false;
   @Input() shouldShowEscapeFromSamButton = false;
   @Input() isExitSAMActivated = false;
-  @Input() fixHeight = false;
 
   @Input() pageName: string;
   @Input() testCategory: string;

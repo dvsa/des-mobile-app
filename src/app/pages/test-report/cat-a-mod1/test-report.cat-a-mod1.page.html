@@ -3,14 +3,14 @@
     [ngClass]="{
       'no-internal-padding': true,
       'practice-theme': isEndToEndPracticeMode,
-      'toolbar-no-padding': isExitSAMBannerActivated
+      'toolbar-no-padding': isExitSAMBannerActivated,
+      'ion-no-padding-important': isEndToEndPracticeMode
     }"
     mode="ios">
     <test-flow-header
       class="display-flex flex-direction-column"
       [pageName]="'test-report-page-cat-mod1'"
       [shouldShowGenericEndTest]="true"
-      [fixHeight]="true"
       [shouldShowEndTestLink]="false"
       [shouldShowEscapeFromSamButton]="!isRekey && !isDelegated"
       [isPracticeMode]="isEndToEndPracticeMode"

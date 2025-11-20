@@ -3,7 +3,8 @@
     [ngClass]="{
       'no-internal-padding': true,
       'practice-theme': isEndToEndPracticeMode,
-      'toolbar-no-padding': isExitSAMBannerActivated
+      'toolbar-no-padding': isExitSAMBannerActivated,
+      'ion-no-padding-important': isEndToEndPracticeMode
     }"
     mode="ios">
     <test-flow-header
@@ -12,7 +13,6 @@
       [shouldShowGenericEndTest]="true"
       [shouldShowEndTestLink]="false"
       [shouldShowBackButton]="false"
-      [fixHeight]="true"
       [shouldShowEscapeFromSamButton]="!isRekey && !isDelegated"
       [isPracticeMode]="isEndToEndPracticeMode || isPracticeMode"
       (exitSamUsed)="onUsedExitSam()"

@@ -9,7 +9,7 @@
   </exit-sam-banner>
 </ion-row>
 <practice-mode-banner *ngIf="!displayExitPracticeMode && !isExitSAMActivated && isPracticeMode"></practice-mode-banner>
-<ion-row [class.set-header-height]="fixHeight" *ngIf="!isExitSAMActivated && !displayExitPracticeMode">
+<ion-row *ngIf="!isExitSAMActivated && !displayExitPracticeMode">
   <ion-col size="40" class="padding-left display-flex ion-align-items-center">
     <ion-label
       class="header-title"
@@ -83,6 +83,7 @@
   </ion-col>
 </ion-row>
 <practice-mode-options-bar
+  class="header-height-82"
   *ngIf="displayExitPracticeMode"
   (closeExitPracticeMode)="closeExitPracticeMode()">
 </practice-mode-options-bar>
