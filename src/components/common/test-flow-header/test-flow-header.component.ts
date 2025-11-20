@@ -1,6 +1,7 @@
 import { NgIf } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { AppLauncher, OpenURLResult } from '@capacitor/app-launcher';
+import { Style } from '@capacitor/status-bar';
 import { ComponentsModule } from '@components/common/common-components.module';
 import { ExitSamBanner } from '@components/common/exit-sam/exit-sam-banner/exit-sam-banner';
 import { ExitSamButton } from '@components/common/exit-sam/exit-sam-button/exit-sam-button';
@@ -17,6 +18,7 @@ import { DirectivesModule } from '@directives/directives.module';
 import { IonicModule, ModalController } from '@ionic/angular';
 import { Platform } from '@ionic/angular';
 import { Store } from '@ngrx/store';
+import { AccessibilityService } from '@providers/accessibility/accessibility.service';
 import { DeviceProvider } from '@providers/device/device';
 import { ExitSAMProvider } from '@providers/exitSAM/exitSAM';
 import { StoreModel } from '@shared/models/store.model';
@@ -83,13 +85,15 @@ export class TestFlowHeaderComponent {
    * @param modalController - Controller for managing modals.
    * @param store$ - NgRx store for state management.
    * @param exitSAMProvider
+   * @param accessibilityService
    */
   constructor(
     public deviceProvider: DeviceProvider,
     public platform: Platform,
     public modalController: ModalController,
     public store$: Store<StoreModel>,
-    public exitSAMProvider: ExitSAMProvider
+    public exitSAMProvider: ExitSAMProvider,
+    public accessibilityService: AccessibilityService
   ) {}
 
   /**
@@ -107,20 +111,23 @@ export class TestFlowHeaderComponent {
   }
 
   /**
-   * Changes the Exit SAM activation status.
+   * Changes the Exit SAM activation status, changing the toolbar to dark if we were in practice mode previously.
    * @param newValue - New activation status.
    */
-  changeExitSAMValue(newValue: boolean) {
+  async changeExitSAMValue(newValue: boolean) {
     if (!this.isExitSAMActivated) this.store$.dispatch(ExitSamSelected());
+
+    if (this.isPracticeMode) {
+      await this.accessibilityService.configureStatusBar(newValue ? Style.Dark : Style.Light);
+    }
     this.isExitSAMActivated = newValue;
     this.onExitSAMActivatedChanged.emit(newValue);
   }
 
-  cancelButtonClicked() {
+  async cancelButtonClicked() {
     this.store$.dispatch(ExitSAMCancelButtonClicked());
-    this.changeExitSAMValue(false);
+    await this.changeExitSAMValue(false);
   }
-
   /**
    * Opens the DES unlocked modal.
    */
