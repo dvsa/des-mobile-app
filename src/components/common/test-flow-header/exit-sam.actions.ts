@@ -1,4 +1,3 @@
-import { ExitSAMMethodUsed } from '@components/common/test-flow-header/test-flow-header.component';
 import { createAction } from '@ngrx/store';
 
 export enum ExitSAMErrorMessages {
@@ -14,10 +13,7 @@ export const ExitSamError = createAction(
 
 export const ExitSamSelected = createAction('[Escape Single App Mode] Escape Single App Mode Selected');
 
-export const ExitSamActivated = createAction(
-  '[Escape Single App Mode] Escape Single App Mode Activated',
-  (method: ExitSAMMethodUsed) => ({ method })
-);
+export const ExitSAMConfirmButtonClicked = createAction('[Escape Single App Mode] Confirm Button Clicked');
 
 export const ExitSAMCancelButtonClicked = createAction('[Escape Single App Mode] Cancel Button Clicked');
 

@@ -1,13 +1,12 @@
 import { Injectable } from '@angular/core';
 import {
   ExitSAMCancelButtonClicked,
+  ExitSAMConfirmButtonClicked,
   ExitSAMErrorMessages,
   ExitSAMUserReturned,
-  ExitSamActivated,
   ExitSamError,
   ExitSamSelected,
 } from '@components/common/test-flow-header/exit-sam.actions';
-import { ExitSAMMethodUsed } from '@components/common/test-flow-header/test-flow-header.component';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Store, select } from '@ngrx/store';
 import { AnalyticsProvider } from '@providers/analytics/analytics';
@@ -58,9 +57,9 @@ export class ExitSingleAppModeAnalyticsEffects {
     )
   );
 
-  exitSamActivated$ = createEffect(() =>
+  exitSamConfirmed$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(ExitSamActivated),
+      ofType(ExitSAMConfirmButtonClicked),
       concatMap((action) =>
         of(action).pipe(
           withLatestFrom(this.store$.pipe(select(getTests)), this.store$.pipe(select(getTests), select(isPracticeMode)))
@@ -69,14 +68,12 @@ export class ExitSingleAppModeAnalyticsEffects {
       filter(([, , practiceMode]) =>
         !practiceMode ? true : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics
       ),
-      switchMap(([{ method }, tests]: [ReturnType<typeof ExitSamActivated>, TestsModel, boolean]) => {
+      switchMap(([, tests]: [ReturnType<typeof ExitSAMConfirmButtonClicked>, TestsModel, boolean]) => {
         // GA4 analytics
         this.analytics.logGAEvent(
           analyticsEventTypePrefix(GoogleAnalyticsEvents.EXIT_SAM, tests),
-          GoogleAnalyticsEventsTitles.PRESS_AND_HOLD,
-          method === ExitSAMMethodUsed.BUTTON
-            ? GoogleAnalyticsEventsValues.BUTTON_SELECTED
-            : GoogleAnalyticsEventsValues.BANNER_SELECTED
+          GoogleAnalyticsEventsTitles.EXIT_TO_TEAMS,
+          GoogleAnalyticsEventsValues.CONFIRMED
         );
         return of(AnalyticRecorded());
       })
@@ -98,7 +95,7 @@ export class ExitSingleAppModeAnalyticsEffects {
         // GA4 analytics
         this.analytics.logGAEvent(
           analyticsEventTypePrefix(GoogleAnalyticsEvents.EXIT_SAM, tests),
-          GoogleAnalyticsEventsTitles.PRESS_AND_HOLD,
+          GoogleAnalyticsEventsTitles.EXIT_TO_TEAMS,
           GoogleAnalyticsEventsValues.CANCELLED
         );
         return of(AnalyticRecorded());
