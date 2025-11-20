@@ -1,14 +1,12 @@
 <ion-header>
   <ion-toolbar mode="ios">
-    <ion-buttons id="unuploaded-burger-menu-btn" slot="start">
-      <ion-menu-button></ion-menu-button>
-    </ion-buttons>
     <ion-buttons slot="end">
       <ion-button
         class="white-text"
         id="unuploaded-tests-return-to-dashboard-btn"
         (click)="goToDashboard()">
-        Exit
+        <ion-icon class="close-btn" name="close-outline"></ion-icon>
+        <ion-label class="close-btn">Close</ion-label>
       </ion-button>
     </ion-buttons>
     <ion-title id="unsubmitted-tests-page-title" role="heading" aria-level="1">Unsubmitted tests</ion-title>
@@ -33,7 +31,7 @@
   <div class="header-divider"></div>
 
   <ion-text class="des-header-style-2">
-    You have {{state.slots?.length || 0}} incomplete {{getTestsText(state.slots?.length)}} (over 1 day old)
+    You have {{ state.slots?.length || 0 }} incomplete {{ getTestsText(state.slots?.length) }} (over 1 day old)
   </ion-text>
 
   <test-slot

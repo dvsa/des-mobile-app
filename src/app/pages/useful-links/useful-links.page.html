@@ -1,14 +1,12 @@
 <ion-header>
   <ion-toolbar mode="ios">
-    <ion-buttons id="useful-links-burger-menu-btn" slot="start">
-      <ion-menu-button></ion-menu-button>
-    </ion-buttons>
     <ion-buttons slot="end">
       <ion-button
         class="white-text"
         id="useful-links-return-to-dashboard-btn"
         (click)="goToDashboard()">
-        Exit
+        <ion-icon class="close-btn" name="close-outline"></ion-icon>
+        <ion-label class="close-btn">Close</ion-label>
       </ion-button>
     </ion-buttons>
     <ion-title id="useful-links-page-title" role="heading" aria-level="1">Useful links</ion-title>
