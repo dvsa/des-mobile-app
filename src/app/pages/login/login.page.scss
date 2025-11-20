@@ -11,6 +11,24 @@
     flex-direction: column;
   }
 }
+
+.full-width {
+  width: 100%;
+}
+
+.login-page-header-spacing {
+  padding-top: 40px;
+  padding-bottom: 20px;
+}
+
+.login-page-text-spacing {
+  padding-top: 10px;
+}
+
+.button-padding {
+  padding-top: 40px;
+}
+
 .link {
   text-decoration: underline;
   color: #005ea5;

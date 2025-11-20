@@ -46,7 +46,6 @@ export abstract class LogoutBasePageComponent extends BasePageComponent {
         this.store$.dispatch(LogoutModalChanged(count));
       }
       this.previousUploadedTestCount = count;
-      console.log(count);
     });
 
     const modal: HTMLIonModalElement = await this.modalController.create({

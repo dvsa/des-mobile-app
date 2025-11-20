@@ -264,6 +264,12 @@ export class LoginPage extends LogoutBasePageComponent implements OnInit {
     await alert.present();
   }
 
+  async logout(): Promise<void> {
+    await super.logout();
+    this.hasUserLoggedOut = true;
+    await this.ngOnInit();
+  }
+
   async handleLoadingUI(isLoading: boolean): Promise<void> {
     await this.loadingProvider.handleUILoading(isLoading, this.loadingOptions);
   }

@@ -270,11 +270,9 @@ export class AuthenticationProvider {
     try {
       // if offline, allow user to continue locally
       if (this.isOffline()) return true;
-
       // check to see if there is an access token to interrogate
       const authResult = await this.getAuthResult();
       if (!authResult) return false;
-
       // determine if the existing token is expired
       if (await this.hasTokenExpired(authResult)) {
         // attempt a token refresh
