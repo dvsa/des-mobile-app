@@ -8,8 +8,8 @@
     (cancelClicked)="cancelButtonClicked()">
   </exit-sam-banner>
 </ion-row>
-<practice-mode-banner *ngIf="!displayExitPracticeMode && isPracticeMode"></practice-mode-banner>
-<ion-row [class.set-header-height]="fixHeight" *ngIf="!isExitSAMActivated || !displayExitPracticeMode">
+<practice-mode-banner *ngIf="!isExitSAMActivated && isPracticeMode"></practice-mode-banner>
+<ion-row [class.set-header-height]="fixHeight" *ngIf="!isExitSAMActivated">
   <ion-col size="40" class="padding-left display-flex ion-align-items-center">
     <ion-label
       class="header-title"
