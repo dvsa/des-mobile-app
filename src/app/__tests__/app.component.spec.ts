@@ -176,6 +176,7 @@ describe('AppComponent', () => {
     });
     it('should run app initialisation code', fakeAsync(() => {
       spyOn(dataStore, 'initDataStore').and.callThrough();
+      spyOn(authenticationProvider, 'getStoredAuthResult').and.callThrough();
       spyOn(deviceProvider, 'disableSingleAppMode').and.returnValue(Promise.resolve(true));
       component.ngOnInit();
       flushMicrotasks();
@@ -188,6 +189,7 @@ describe('AppComponent', () => {
     }));
     it('should run through catch block if error detected', fakeAsync(() => {
       spyOn(dataStore, 'initDataStore').and.callThrough();
+      spyOn(authenticationProvider, 'getStoredAuthResult').and.callThrough();
       spyOn(deviceProvider, 'disableSingleAppMode').and.returnValue(Promise.reject(new Error('Failed to disable')));
       component.ngOnInit();
       flushMicrotasks();
