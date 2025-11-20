@@ -2,30 +2,37 @@
   [id]="pageTitle+'-exit-banner'"
   class="exit-banner-toolbar-sizing">
   <ion-row class="status-bar-spacing"></ion-row>
-  <ion-row class="exit-banner-row">
-    <ion-col size="auto">
+  <ion-row class="flex-center">
+    <ion-col size="auto" class="width-100">
       <ion-text class="exit-banner-text">
         Exit DES app?
       </ion-text>
     </ion-col>
   </ion-row>
-  <ion-row class="banner-details-spacing exit-banner-row">
-    <ion-col size="27" class="ion-no-padding">
-      <ion-button
-        (click)="cancelButtonClicked()"
-        [id]="pageTitle+'-escape-sam-cancel-button'"
-        class="display-flex cancel-button">
-        <ion-text class="static-font-size mes-black"><b>Return to test</b></ion-text>
-      </ion-button>
+
+  <ion-row class="banner-details-spacing flex-center">
+
+    <ion-col class="align-center">
+      <ion-buttons class="exit-sam-button align-center">
+        <ion-button
+          class="width-100"
+          (click)="cancelButtonClicked()"
+          [id]="pageTitle+'-escape-sam-cancel-button'">
+          <ion-text class="exit-button-text exit-button-text-bold">Return to test</ion-text>
+        </ion-button>
+      </ion-buttons>
     </ion-col>
-    <ion-col size="30"></ion-col>
-    <ion-col size="27" class="ion-no-padding">
-      <ion-button
-        (click)="escapeSAM()"
-        [id]="pageTitle+'-open-microsoft-teams-button'"
-        class="display-flex cancel-button">
-        <ion-text class="static-font-size mes-black">Open Microsoft Teams</ion-text>
-      </ion-button>
+
+    <ion-col class="align-center">
+      <ion-buttons class="exit-sam-button align-center">
+        <ion-button
+          class="width-100"
+          (click)="escapeSAM()"
+          [id]="pageTitle+'-open-microsoft-teams-button'">
+          <ion-text class="exit-button-text">Open Microsoft Teams</ion-text>
+        </ion-button>
+      </ion-buttons>
     </ion-col>
+
   </ion-row>
 </ion-toolbar>
