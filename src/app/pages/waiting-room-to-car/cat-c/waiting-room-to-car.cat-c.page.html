@@ -125,7 +125,7 @@
 <ion-footer [class.hidden]="failedMOTModalCurrentlyOpen">
   <ion-row [hidden]="(pageState.motEvidenceProvided$ | async) === false"
            class="mes-full-width-card box-shadow flex-center">
-    <ion-col *ngIf="!isDelegated" class="ion-text-center" size="35">
+    <ion-col *ngIf="!isDelegated" class="ion-text-center" size="43">
       <ion-button
         (click)="onViewTestCentreJournal()"
         class="mes-grey-button wrtc-footer-btn"
@@ -135,8 +135,8 @@
         <ion-text class="des-header-style-3">View test centre journal</ion-text>
       </ion-button>
     </ion-col>
-    <ion-col *ngIf="!isDelegated" size="10"></ion-col>
-    <ion-col [size]="isDelegated ? 60 : 35" class="ion-text-center">
+    <ion-col *ngIf="!isDelegated" size="2"></ion-col>
+    <ion-col [size]="isDelegated ? 60 : 43" class="ion-text-center">
       <ion-button
         (click)="onSubmit()"
         class="mes-primary-button wrtc-footer-btn"
