@@ -1,16 +1,6 @@
 :host ::ng-deep {
-  #end-debrief-background {
-    text-align: center;
-    padding: 16px 0;
-    background: var(--mes-white);
-    height: 110px;
-    box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.5);
-  }
-
-  #end-debrief-button {
-    min-height: 56px;
-    width: 746px;
-    margin-top: 11px;
+  .footer-padding {
+    padding: 15px 15px 15px 15px;
   }
 
   .counter-icon {

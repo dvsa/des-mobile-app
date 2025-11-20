@@ -51,21 +51,22 @@
 </ion-content>
 
 <ion-footer>
-  <ion-row class="mes-full-width-card">
-    <ion-col class="ion-no-padding ion-text-left">
+  <ion-row class="mes-full-width-card box-shadow flex-center">
+    <ion-col class="ion-text-center width-100" size="35">
       <ion-button
         id="dlg-return-to-dashboard-btn"
-        class="mes-grey-button retry-button"
+        class="mes-grey-button"
         (click)="goToDashboard()"
         [disabled]="pageState.isUploading$ | async"
       >
         <ion-text id="dlg-return-to-dashboard-label" class="des-header-style-3">Return to dashboard</ion-text>
       </ion-button>
     </ion-col>
-    <ion-col class="ion-no-padding ion-text-end">
+    <ion-col size="10"></ion-col>
+    <ion-col class="ion-text-center width-100" size="35">
       <ion-button
         id="dlg-rekey-another-btn"
-        class="mes-primary-button retry-button"
+        class="mes-primary-button"
         (click)="goToDelegatedSearch()"
         [disabled]="pageState.isUploading$ | async"
       >

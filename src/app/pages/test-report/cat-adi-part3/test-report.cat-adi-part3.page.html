@@ -108,14 +108,13 @@
   >
   </question-score>
 
-  <ion-row class="mes-full-width-card box-shadow button-row-colour">
-    <ion-col class="ion-text-center">
+  <ion-row class="mes-full-width-card box-shadow flex-center footer-row-colour">
+    <ion-col class="ion-text-center" size="60">
       <ion-button
         *ngIf="{ score: pageState.totalScore$ | async } as data"
         (click)="onContinueClick(data.score)"
         id="adi-pt3-continue-tr-button"
-        shape="round"
-        class="mes-primary-button wrtc-footer-btn"
+        class="mes-primary-button width-100"
       >
         <ion-text id="adi-pt3-continue-tr-label" class="des-header-style-3">Continue</ion-text>
       </ion-button>

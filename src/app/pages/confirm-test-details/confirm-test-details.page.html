@@ -156,10 +156,10 @@
 </ion-content>
 
 <ion-footer>
-  <ion-row class="mes-full-width-card box-shadow">
-    <ion-col class="ion-no-padding ion-text-left">
+  <ion-row class="mes-full-width-card box-shadow flex-center">
+    <ion-col class="ion-text-center width-100" size="35">
       <ion-button
-        class="mes-grey-button confirm-button"
+        class="mes-grey-button width-100"
         (click)="goBackToDebrief()"
         id="confirm-test-details-back-to-debrief-btn"
       >
@@ -168,9 +168,10 @@
         </ion-text>
       </ion-button>
     </ion-col>
-    <ion-col class="ion-no-padding ion-text-end">
+    <ion-col size="10"></ion-col>
+    <ion-col class="ion-text-center width-100" size="35">
       <ion-button
-        class="mes-primary-button confirm-button"
+        class="mes-primary-button width-100"
         (click)="onSubmit()"
         id="confirm-test-details-submit-test-results-btn"
       >
