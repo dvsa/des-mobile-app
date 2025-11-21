@@ -1,7 +1,7 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, Injector, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { TestCentre as JournalTestCentre } from '@dvsa/mes-journal-schema';
-import { LoadingController, NavController } from '@ionic/angular';
+import { LoadingController } from '@ionic/angular';
 import { select } from '@ngrx/store';
 import { CandidateSearchCardComponent } from '@pages/test-centre-journal/components/candidate-search-card/candidate-search-card';
 import { ViewJournalsCardComponent } from '@pages/test-centre-journal/components/view-journals-card/view-journals-card';
@@ -74,7 +74,6 @@ export class TestCentreJournalPage extends BasePageComponent implements OnDestro
     private testCentreJournalProvider: TestCentreJournalProvider,
     private loadingCtrl: LoadingController,
     private appConfig: AppConfigProvider,
-    private navController: NavController,
     injector: Injector
   ) {
     super(injector);
