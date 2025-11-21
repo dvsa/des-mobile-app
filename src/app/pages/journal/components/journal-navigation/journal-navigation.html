@@ -6,7 +6,7 @@
           <div *ngIf="isSelectedDateToday; else notToday;">
             <h2 class="des-header-style-1" id="date-today-header">Today</h2>
             <ion-row>
-              <ion-col size="auto" class="display-flex justify-content-end">
+              <ion-col size="8" class="display-flex justify-content-end">
                 <ion-icon
                   *ngIf="canNavigateToPreviousDay"
                   (click)="onPreviousDayClick()"
@@ -21,7 +21,7 @@
                   {{ selectedDate | date:'EEEE d MMMM y' }}
                 </h3>
               </ion-col>
-              <ion-col size="auto" class="display-flex">
+              <ion-col size="8" class="display-flex">
                 <ion-icon
                   *ngIf="canNavigateToNextDay"
                   (click)="onNextDayClick()"
@@ -52,7 +52,7 @@
                 </ion-text>
               </ion-row>
               <ion-row>
-                <ion-col size="auto" class="display-flex justify-content-end">
+                <ion-col size="8" class="display-flex justify-content-end">
                   <ion-icon
                     *ngIf="canNavigateToPreviousDay"
                     (click)="onPreviousDayClick()"
@@ -68,7 +68,7 @@
                     {{ selectedDate | date:'d MMMM y' }}
                   </ion-text>
                 </ion-col>
-                <ion-col size="auto" class="display-flex">
+                <ion-col size="8" class="display-flex">
                     <ion-icon
                       *ngIf="canNavigateToNextDay"
                       (click)="onNextDayClick()"
