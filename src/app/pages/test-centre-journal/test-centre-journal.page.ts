@@ -219,8 +219,4 @@ export class TestCentreJournalPage extends BasePageComponent implements OnDestro
   tabChanged = (tab: string): void => {
     this.store$.dispatch(TestCentreJournalTabChanged(tab));
   };
-
-  onCloseClicked() {
-    this.navController.back();
-  }
 }
