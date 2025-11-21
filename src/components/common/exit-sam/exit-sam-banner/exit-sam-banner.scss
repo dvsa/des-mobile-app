@@ -3,6 +3,10 @@
   color: var(--gds-black);
 }
 
+.exit-banner-text-row {
+  height: 30px;
+}
+
 .exit-banner-text {
   font-size: 20px;
   color: var(--mes-white);
@@ -16,13 +20,8 @@
   height: 15px;
 }
 
-.banner-details-spacing {
-  padding-top: 0;
-  padding-bottom: 0;
-  height: 40px;
-}
-
 .exit-banner-toolbar-sizing {
+  height: 76px;
   --background: var(--escape-SAM-Purple);
   padding-top: 0;
   padding-bottom: 0;

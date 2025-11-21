@@ -30,8 +30,8 @@
   width: 100%
 }
 
-.set-header-height {
-  height: 44px
+.row-height-34 {
+  height: 34px;
 }
 
 .end-test-font-size {
@@ -42,6 +42,7 @@
   --color: var(--gds-grey-5);
 }
 
-.end-test-button-color-practice {
+.end-test-button-practice {
+  font-weight: 600;
   --color: var(--gds-black);
 }

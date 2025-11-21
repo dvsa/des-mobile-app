@@ -125,6 +125,23 @@ input, textarea {
   flex-direction: column;
 }
 
+.ion-no-padding-important {
+  padding: 0 !important;
+}
+
+.no-vertical-padding {
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+.practice-banner-height {
+  height: 36px;
+}
+
+.header-height-76 {
+  height: 76px;
+}
+
 .screen-reader-only {
   clip: rect(0 0 0 0);
   clip-path: inset(50%);

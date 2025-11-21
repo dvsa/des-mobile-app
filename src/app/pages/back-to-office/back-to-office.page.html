@@ -1,11 +1,13 @@
 <ion-header>
-  <practice-mode-banner *ngIf="isEndToEndPracticeMode && !displayExitPracticeMode"></practice-mode-banner>
   <ion-toolbar
     mode="ios"
     [ngClass]="{
-      'toolbar-no-padding': true,
+    'header-height-76': isEndToEndPracticeMode,
+      'no-internal-padding': true,
       'practice-theme': isEndToEndPracticeMode,
+      'ion-no-padding-important': isEndToEndPracticeMode
     }">
+    <practice-mode-banner class="display-flex flex-direction-column" *ngIf="isEndToEndPracticeMode && !displayExitPracticeMode"></practice-mode-banner>
     <ion-row *ngIf="!displayExitPracticeMode">
       <ion-col>
       </ion-col>
