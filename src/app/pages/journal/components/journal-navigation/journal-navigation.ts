@@ -35,12 +35,4 @@ export class JournalNavigationComponent {
   onNextDayClick(): void {
     this.nextDayClicked.emit();
   }
-
-  get nextDayLabel(): string {
-    return this.fromTestCentreJournal ? 'Tomorrow' : 'Next day';
-  }
-
-  get previousDayLabel(): string {
-    return this.fromTestCentreJournal ? 'Today' : 'Previous day';
-  }
 }

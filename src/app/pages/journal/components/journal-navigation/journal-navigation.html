@@ -34,52 +34,51 @@
             </ion-row>
           </div>
           <ng-template #notToday>
-            <div *ngIf="fromTestCentreJournal; else journalView">
-              <ion-text class="des-header-style-1" id="date-tomorrow-header">Tomorrow</ion-text>
-              <br/>
-              <ion-text
-                class="des-header-style-3"
-                id="tomorrow-date"
-                aria-labelledby="date-tomorrow-header tomorrow-date"
-              >
-                {{ selectedDate | date:'EEEE d MMMM y' }}
-              </ion-text>
-            </div>
-            <ng-template #journalView>
-              <ion-row class="justify-content-center">
-                <ion-text class="des-header-style-1" id="date-day-header" aria-labelledby="date-day-header">
+            <ion-row class="justify-content-center">
+              @if (fromTestCentreJournal) {
+                <ion-text
+                  class="des-header-style-1"
+                  id="date-tomorrow-header"
+                  aria-labelledby="date-tomorrow-header">
+                  Tomorrow
+                </ion-text>
+              } @else {
+                <ion-text
+                  class="des-header-style-1"
+                  id="date-day-header"
+                  aria-labelledby="date-day-header">
                   {{ selectedDate | date:'EEEE' }}
                 </ion-text>
-              </ion-row>
-              <ion-row>
-                <ion-col size="8" class="display-flex justify-content-end">
-                  <ion-icon
-                    *ngIf="canNavigateToPreviousDay"
-                    (click)="onPreviousDayClick()"
-                    class="navigation-arrow navigation-button"
-                    id="previous-day-container"
-                    name="chevron-back-outline"
-                    aria-labelledby="previous-day">
-                  </ion-icon>
-                </ion-col>
-                <ion-col class="display-flex justify-content-center ion-align-items-center">
-                  <ion-text class="date-text des-header-style-3" id="date-subheader"
-                            aria-labelledby="date-day-header date-subheader">
-                    {{ selectedDate | date:'d MMMM y' }}
-                  </ion-text>
-                </ion-col>
-                <ion-col size="8" class="display-flex">
-                    <ion-icon
-                      *ngIf="canNavigateToNextDay"
-                      (click)="onNextDayClick()"
-                      id="next-day-container"
-                      class="navigation-arrow next-navigation-button"
-                      name="chevron-forward-outline"
-                      aria-labelledby="next-day">
-                    </ion-icon>
-                </ion-col>
-              </ion-row>
-            </ng-template>
+              }
+            </ion-row>
+            <ion-row>
+              <ion-col size="8" class="display-flex justify-content-end">
+                <ion-icon
+                  *ngIf="canNavigateToPreviousDay"
+                  (click)="onPreviousDayClick()"
+                  class="navigation-arrow navigation-button"
+                  id="previous-day-container"
+                  name="chevron-back-outline"
+                  aria-labelledby="previous-day">
+                </ion-icon>
+              </ion-col>
+              <ion-col class="display-flex justify-content-center ion-align-items-center">
+                <ion-text class="date-text des-header-style-3" id="date-subheader"
+                          aria-labelledby="date-day-header date-subheader">
+                  {{ selectedDate | date:'d MMMM y' }}
+                </ion-text>
+              </ion-col>
+              <ion-col size="8" class="display-flex">
+                <ion-icon
+                  *ngIf="canNavigateToNextDay"
+                  (click)="onNextDayClick()"
+                  id="next-day-container"
+                  class="navigation-arrow next-navigation-button"
+                  name="chevron-forward-outline"
+                  aria-labelledby="next-day">
+                </ion-icon>
+              </ion-col>
+            </ion-row>
           </ng-template>
         </div>
       </ion-col>
