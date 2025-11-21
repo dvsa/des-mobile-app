@@ -35,12 +35,21 @@
           </div>
           <ng-template #notToday>
             <ion-row class="justify-content-center">
-              <ion-text
-                class="des-header-style-1"
-                [id]="fromTestCentreJournal ? 'date-tomorrow-header' : 'date-day-header'"
-                aria-labelledby="{{fromTestCentreJournal ? 'date-tomorrow-header' : 'date-day-header'}}">
-                {{ fromTestCentreJournal ? 'Tomorrow' : selectedDate | date:'EEEE' }}
-              </ion-text>
+              @if (fromTestCentreJournal) {
+                <ion-text
+                  class="des-header-style-1"
+                  id="date-tomorrow-header"
+                  aria-labelledby="date-tomorrow-header">
+                  Tomorrow
+                </ion-text>
+              } @else {
+                <ion-text
+                  class="des-header-style-1"
+                  id="date-day-header"
+                  aria-labelledby="date-day-header">
+                  {{ selectedDate | date:'EEEE' }}
+                </ion-text>
+              }
             </ion-row>
             <ion-row>
               <ion-col size="8" class="display-flex justify-content-end">
