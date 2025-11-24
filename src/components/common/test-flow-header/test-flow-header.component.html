@@ -8,8 +8,9 @@
     (cancelClicked)="cancelButtonClicked()">
   </exit-sam-banner>
 </ion-row>
-<practice-mode-banner class="row-height-34 no-vertical-padding" *ngIf="!displayExitPracticeMode && !isExitSAMActivated && isPracticeMode"></practice-mode-banner>
-<ion-row *ngIf="!isExitSAMActivated && !displayExitPracticeMode">
+<practice-mode-banner class="row-height-34 no-vertical-padding"
+                      *ngIf="!displayExitPracticeMode && !isExitSAMActivated && isPracticeMode"></practice-mode-banner>
+<ion-row class="min-height-42" *ngIf="!isExitSAMActivated && !displayExitPracticeMode">
   <ion-col size="40" class="padding-left display-flex ion-align-items-center">
     <ion-label
       class="header-title"
@@ -24,8 +25,9 @@
   </ion-col>
   <ion-col class="display-flex ion-no-padding ion-justify-content-start" size="21">
     <ion-col class="display-flex ion-align-items-center" size="60">
-        <ion-back-button
-          class="back-button width-100 ion-no-padding"
+      <ion-back-button
+        *ngIf="shouldShowBackButton"
+        class="back-button width-100 ion-no-padding"
         (click)="onBackClicked()"
         defaultHref="{{defaultBackButtonHref}}"
         [id]="pageName+'-back-button'">
