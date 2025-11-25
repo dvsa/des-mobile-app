@@ -373,9 +373,12 @@ export class JournalEffects {
       //   return canNavigateToNextDayVal
       // }),
       switchMap(([, selectedDate]) => {
-        const nextDay = DateTime.at(selectedDate).add(1, Duration.DAY).format('YYYY-MM-DD');
-        console.log('next day:', nextDay);
-        return [journalActions.SetSelectedDate(nextDay), journalActions.JournalNavigateDay(nextDay)];
+        // const nextDay = DateTime.at(selectedDate).add(1, Duration.DAY).format('YYYY-MM-DD');
+        // console.log('next day:', nextDay);
+        // return [journalActions.SetSelectedDate(nextDay), journalActions.JournalNavigateDay(nextDay)];
+        const previousDay = DateTime.at(selectedDate).add(-1, Duration.DAY).format('YYYY-MM-DD');
+
+        return [journalActions.SetSelectedDate(previousDay), journalActions.JournalNavigateDay(previousDay)];
       })
     )
   );
