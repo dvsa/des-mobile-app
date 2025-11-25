@@ -22,6 +22,7 @@ import { BasePageComponent } from '@shared/classes/base-page';
 import { DateTime } from '@shared/helpers/date-time';
 import { isAnyOf } from '@shared/helpers/simplifiers';
 import { ErrorTypes } from '@shared/models/error-message';
+import { LogType } from '@shared/models/log.model';
 import { MesError } from '@shared/models/mes-error.model';
 import { selectVersionNumber } from '@store/app-info/app-info.selectors';
 import { RecallLearnMoreModalOpened } from '@store/general/safety-recall/safety-recall.actions';
@@ -39,6 +40,7 @@ import {
   getSelectedDate,
   getSlotsOnSelectedDate,
 } from '@store/journal/journal.selector';
+import { SaveLog } from '@store/logs/logs.actions';
 import { TestStatus } from '@store/tests/test-status/test-status.model';
 import { getTests } from '@store/tests/tests.reducer';
 import { isEndToEndPracticeTest } from '@store/tests/tests.selector';
@@ -315,6 +317,11 @@ export class JournalPage extends BasePageComponent implements OnInit {
   }
 
   onNextDayClick(): void {
+    this.store$.dispatch(
+      SaveLog({
+        payload: this.logHelper.createLog(LogType.ERROR, 'next day clicked', 'JournalPage'),
+      })
+    );
     this.store$.dispatch(journalActions.SelectNextDay());
   }
 
