@@ -41,6 +41,7 @@ import {
 import { ExaminerSlotItems, ExaminerSlotItemsByDate } from './journal.model';
 import { getJournalState } from './journal.reducer';
 import {
+  canNavigateToNextDay,
   canNavigateToPreviousDay,
   getAllSlots,
   getLastRefreshed,
@@ -365,23 +366,16 @@ export class JournalEffects {
       concatMap((action) =>
         of(action).pipe(
           withLatestFrom(
-            this.store$.pipe(select(getJournalState), map(getSelectedDate))
-            // this.store$.pipe(select(getJournalState), map(canNavigateToNextDay))
+            this.store$.pipe(select(getJournalState), map(getSelectedDate)),
+            this.store$.pipe(select(getJournalState), map(canNavigateToNextDay))
           ),
           take(1)
         )
       ),
-      // filter(([, , canNavigateToNextDayVal]) => {
-      //   console.log('Can navigate to next day:', canNavigateToNextDayVal);
-      //   return canNavigateToNextDayVal
-      // }),
+      filter(([, , canNavigateToNextDayVal]) => canNavigateToNextDayVal),
       switchMap(([, selectedDate]) => {
-        // const nextDay = DateTime.at(selectedDate).add(1, Duration.DAY).format('YYYY-MM-DD');
-        // console.log('next day:', nextDay);
-        // return [journalActions.SetSelectedDate(nextDay), journalActions.JournalNavigateDay(nextDay)];
-        const previousDay = DateTime.at(selectedDate).add(-1, Duration.DAY).format('YYYY-MM-DD');
-
-        return [journalActions.SetSelectedDate(previousDay), journalActions.JournalNavigateDay(previousDay)];
+        const nextDay = DateTime.at(selectedDate).add(1, Duration.DAY).format('YYYY-MM-DD');
+        return [journalActions.SetSelectedDate(nextDay), journalActions.JournalNavigateDay(nextDay)];
       })
     )
   );
