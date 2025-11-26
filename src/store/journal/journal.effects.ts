@@ -25,7 +25,6 @@ import {
   map,
   startWith,
   switchMap,
-  take,
   takeUntil,
   tap,
   withLatestFrom,
@@ -380,8 +379,7 @@ export class JournalEffects {
               select(getJournalState),
               map((journal) => canNavigateToPreviousDay(journal, this.dateTimeProvider.now()))
             )
-          ),
-          take(1)
+          )
         )
       ),
       filter(([, , canNavigateToPreviousDayVal]) => canNavigateToPreviousDayVal),
@@ -401,13 +399,13 @@ export class JournalEffects {
           withLatestFrom(
             this.store$.pipe(select(getJournalState), map(getSelectedDate)),
             this.store$.pipe(select(getJournalState), map(canNavigateToNextDay))
-          ),
-          take(1)
+          )
         )
       ),
       filter(([, , canNavigateToNextDayVal]) => canNavigateToNextDayVal),
       switchMap(([, selectedDate]) => {
         const nextDay = DateTime.at(selectedDate).add(1, Duration.DAY).format('YYYY-MM-DD');
+
         return [journalActions.SetSelectedDate(nextDay), journalActions.JournalNavigateDay(nextDay)];
       })
     )
