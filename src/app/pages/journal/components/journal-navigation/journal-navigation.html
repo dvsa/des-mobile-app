@@ -22,16 +22,14 @@
                 </h3>
               </ion-col>
               <ion-col size="8" class="display-flex">
-                <ion-button
+                <ion-icon
                   *ngIf="canNavigateToNextDay"
-                  (click)="onNextDayClick()">
-                  <ion-icon
-                    class="navigation-arrow next-navigation-button"
-                    id="next-day-container"
-                    name="chevron-forward-outline"
-                    aria-labelledby="next-day">
-                  </ion-icon>
-                </ion-button>
+                  (click)="onNextDayClick()"
+                  class="navigation-arrow next-navigation-button"
+                  id="next-day-container"
+                  name="chevron-forward-outline"
+                  aria-labelledby="next-day">
+                </ion-icon>
               </ion-col>
             </ion-row>
           </div>
@@ -71,15 +69,14 @@
                 </ion-text>
               </ion-col>
               <ion-col size="8" class="display-flex">
-                <ion-button *ngIf="canNavigateToNextDay"
-                            (click)="onNextDayClick()">
-                  <ion-icon
-                    id="next-day-container"
-                    class="navigation-arrow next-navigation-button"
-                    name="chevron-forward-outline"
-                    aria-labelledby="next-day">
-                  </ion-icon>
-                </ion-button>
+                <ion-icon
+                  *ngIf="canNavigateToNextDay"
+                  (click)="onNextDayClick()"
+                  id="next-day-container"
+                  class="navigation-arrow next-navigation-button"
+                  name="chevron-forward-outline"
+                  aria-labelledby="next-day">
+                </ion-icon>
               </ion-col>
             </ion-row>
           </ng-template>

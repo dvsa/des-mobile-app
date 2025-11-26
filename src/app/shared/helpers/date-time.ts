@@ -23,13 +23,15 @@ export class DateTime {
 
   constructor(sourceDateTime?: DateTime | string | Date, inputFormat?: moment.MomentFormatSpecification) {
     if (sourceDateTime === undefined || sourceDateTime === null) {
-      this.moment = moment();
+      this.moment = moment().utc();
     } else if (typeof sourceDateTime === 'string') {
-      this.moment = inputFormat ? moment(new Date(sourceDateTime), inputFormat) : moment(new Date(sourceDateTime));
+      this.moment = inputFormat
+        ? moment.utc(new Date(sourceDateTime), inputFormat)
+        : moment.utc(new Date(sourceDateTime));
     } else if (sourceDateTime instanceof Date) {
-      this.moment = moment(sourceDateTime);
+      this.moment = moment.utc(sourceDateTime);
     } else {
-      this.moment = moment(sourceDateTime.moment);
+      this.moment = moment.utc(sourceDateTime.moment);
     }
   }
 
