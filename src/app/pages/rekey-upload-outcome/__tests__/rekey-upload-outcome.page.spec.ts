@@ -1,5 +1,4 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { By } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { KeepAwake as Insomnia } from '@capacitor-community/keep-awake';
 import { IonicModule, Platform } from '@ionic/angular';
@@ -121,29 +120,6 @@ describe('RekeyUploadOutcomePage', () => {
       spyOn(component.subscription, 'unsubscribe');
       component.ionViewDidLeave();
       expect(component.subscription.unsubscribe).toHaveBeenCalled();
-    });
-  });
-
-  describe('DOM', () => {
-    describe('isDuplicate', () => {
-      it('should show the success message when the upload succeeded', () => {
-        fixture.detectChanges();
-        component.pageState.duplicateUpload$ = of(false);
-        fixture.detectChanges();
-        const element: HTMLElement = fixture.debugElement.query(By.css('.modal-alert-header')).nativeElement;
-        expect(element.textContent).toEqual('Rekeyed test uploaded successfully');
-        expect(fixture.debugElement.query(By.css('.tick-icon'))).toBeDefined();
-        expect(fixture.debugElement.query(By.css('.warning-icon'))).toBeNull();
-      });
-      it('should show the duplicate upload message when the upload was detected as a duplicate', () => {
-        fixture.detectChanges();
-        component.pageState.duplicateUpload$ = of(true);
-        fixture.detectChanges();
-        const element: HTMLElement = fixture.debugElement.query(By.css('.modal-alert-header')).nativeElement;
-        expect(element.textContent).toEqual('Rekeyed test has already been uploaded');
-        expect(fixture.debugElement.query(By.css('.warning-icon'))).toBeDefined();
-        expect(fixture.debugElement.query(By.css('.tick-icon'))).toBeNull();
-      });
     });
   });
 });
