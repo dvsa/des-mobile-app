@@ -1,7 +1,7 @@
 PODS:
-  - Capacitor (7.4.3):
+  - Capacitor (7.4.4):
     - CapacitorCordova
-  - CapacitorApp (7.0.2):
+  - CapacitorApp (7.1.0):
     - Capacitor
   - CapacitorAppLauncher (7.0.2):
     - Capacitor
@@ -9,25 +9,25 @@ PODS:
     - Capacitor
   - CapacitorCommunityKeepAwake (7.1.0):
     - Capacitor
-  - CapacitorCordova (7.4.3)
+  - CapacitorCordova (7.4.4)
   - CapacitorDevice (7.0.2):
     - Capacitor
   - CapacitorNativeBiometric (0.0.1):
     - Capacitor
-  - CapacitorSplashScreen (7.0.2):
+  - CapacitorSplashScreen (7.0.3):
     - Capacitor
-  - CapacitorStatusBar (7.0.2):
+  - CapacitorStatusBar (7.0.3):
     - Capacitor
   - CapacitorTextZoom (7.0.2):
     - Capacitor
   - CapawesomeCapacitorManagedConfigurations (7.0.1):
     - Capacitor
-  - CapawesomeCapacitorScreenOrientation (7.0.1):
+  - CapawesomeCapacitorScreenOrientation (7.1.0):
     - Capacitor
-  - CordovaPlugins (7.4.3):
+  - CordovaPlugins (7.4.4):
     - CapacitorCordova
   - CordovaPluginsResources (0.0.105)
-  - CordovaPluginsStatic (7.4.3):
+  - CordovaPluginsStatic (7.4.4):
     - CapacitorCordova
     - GoogleAnalytics (= 3.20.0)
   - DvsaCapacitorPluginAsam (2.1.0):
@@ -107,22 +107,22 @@ EXTERNAL SOURCES:
     :path: "../../node_modules/@sentry/capacitor"
 
 SPEC CHECKSUMS:
-  Capacitor: 28d6c01026a9a3f7156529498ec1f389a2a28dbc
-  CapacitorApp: 1f6922c9c5c8b1c538d7fbe92ebe44a81b34bed3
+  Capacitor: 358dd1c3fdd71d969547b17e159fd8a7736cb45f
+  CapacitorApp: 26587c2ce485d88ddb39adb21cac64f8e481afe3
   CapacitorAppLauncher: b70f649f609bab6412eccdd413bd7f0dd42df4a9
   CapacitorBrowser: 22541e48442de44dc629c214388290d6eecc6ae9
   CapacitorCommunityKeepAwake: 05c75aab989f60e621870cf03b24a144a5544c30
-  CapacitorCordova: 435121e81a2df4d0034f0fb11fcefab5104cfdb5
+  CapacitorCordova: bf648a636f3c153f652d312ae145fb508b6ffced
   CapacitorDevice: 81ae78d5d1942707caad79276badd458bf6ec603
   CapacitorNativeBiometric: 78cf21304251a512e4597437325b5e9b0cd9f7b3
-  CapacitorSplashScreen: 157947576b59d913792063a8d442a79e6d283ee5
-  CapacitorStatusBar: e04d05e121d5a5979c29eb4249186a4e4a84cacb
+  CapacitorSplashScreen: e388b8e0ed0e982a9d3a40417f478e7a018a8763
+  CapacitorStatusBar: 0659ddc7b1713764a05831463d215b177a15d054
   CapacitorTextZoom: 726ff9338c1e2d2c1e1ee8a9df1189047428f2f2
   CapawesomeCapacitorManagedConfigurations: 5a521d9b9801140fbbf8c208f2b1c712b1674da6
-  CapawesomeCapacitorScreenOrientation: c6cc24949bb2aede006277f0fa0c7832073c9ca1
-  CordovaPlugins: db7b29706011ad9a7a9d92e818598ad7cddaaa85
+  CapawesomeCapacitorScreenOrientation: 3c69f06737dae8a9340d5f51891a58321987123c
+  CordovaPlugins: 9efc6d5bd1308e2bba6785f11f57160338c507f5
   CordovaPluginsResources: da93847212bf7b16ba770e4d6c3e7dba820174c7
-  CordovaPluginsStatic: 650cdafd63979cd7ca33e25885697d2327c90fe2
+  CordovaPluginsStatic: 8456456dfd22383e0ccfde7a976b91224ef73620
   DvsaCapacitorPluginAsam: 143282254bfd6265f421cfb01c978b285db3796c
   GoogleAnalytics: 01e4c5a04544a3608f93e970ce0817836897c5a5
   IonicEnterpriseAuth: 95ada4a021f92db401b4f81054f2ad5b41bac23e
