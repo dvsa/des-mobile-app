@@ -32,6 +32,7 @@ export class LoginPage extends LogoutBasePageComponent implements OnInit {
   hasDeviceTypeError = false;
   deviceTypeError: DeviceError;
   queryParamSub: Subscription;
+  isLoggingIn = false;
 
   get loadingOptions(): LoadingOptions {
     return {
@@ -96,6 +97,7 @@ export class LoginPage extends LogoutBasePageComponent implements OnInit {
 
   login = async (): Promise<void> => {
     try {
+      this.isLoggingIn = true;
       await this.handleLoadingUI(true);
 
       await this.platform.ready();
@@ -139,10 +141,15 @@ export class LoginPage extends LogoutBasePageComponent implements OnInit {
       if (isValidDevice) {
         await this.router.navigate([DASHBOARD_PAGE], { replaceUrl: true });
       }
+      this.isLoggingIn = false;
+      this.hasUserLoggedOut = false;
     } catch (error) {
-      await this.hideSplashscreen();
+      this.isLoggingIn = false;
+      this.hasUserLoggedOut = false;
+      const { display, record } = this.rationaliseError(error);
 
-      await this.handleLoadingUI(false);
+      this.appInitError = display;
+      await this.hideSplashscreen();
 
       if (error === AuthenticationError.USER_CANCELLED) {
         this.dispatchLog('user cancelled login');
@@ -159,13 +166,9 @@ export class LoginPage extends LogoutBasePageComponent implements OnInit {
         await this.authenticationProvider.logout();
       }
 
-      const { display, record } = this.rationaliseError(error);
-
-      this.appInitError = display;
-
       this.dispatchLog(record);
+      await this.handleLoadingUI(false);
     }
-    this.hasUserLoggedOut = false;
   };
 
   private rationaliseError = (error: unknown) => {
