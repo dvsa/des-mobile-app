@@ -11,7 +11,7 @@ on:
         type: choice
         options:
           - 'MACOS-ARM64'
-          - 'macos-mito-m4-2'
+          - 'm4-2'
   push:
     branches:
       - develop
