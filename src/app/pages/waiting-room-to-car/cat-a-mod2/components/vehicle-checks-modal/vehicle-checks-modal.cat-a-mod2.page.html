@@ -1,6 +1,6 @@
 <ion-header>
-  <ion-toolbar mode="ios" class="toolbar-spacing">
-    <ion-buttons slot="end" class="toolbar-item-spacing">
+  <ion-toolbar mode="ios" class="fullscreen-modal-toolbar-spacing">
+    <ion-buttons slot="end" class="fullscreen-modal-toolbar-item-padding">
       <ion-button id="closeVehicleChecksModalCatAMod2" (click)="onClose()">
         <ion-icon class="close-btn" id="close-icon" name="close-outline"></ion-icon>
         <ion-label class="close-btn" id="close-label">Close</ion-label>
@@ -10,7 +10,7 @@
       role="heading"
       aria-level="1"
       id="vehicle-checks-modal-title"
-      class="ion-text-center toolbar-item-spacing"
+      class="ion-text-center fullscreen-modal-toolbar-item-padding"
     >
       Safety and balance questions - {{ pageState.candidateName$ | async }}
     </ion-title>
