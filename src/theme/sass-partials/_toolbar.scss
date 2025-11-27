@@ -1,19 +1,27 @@
-ion-toolbar {
-  --background: var(--mes-toolbar-background);
-  --color: var(--mes-white);
+ion-header {
+  ion-toolbar {
+    --background: var(--mes-toolbar-background);
+    --color: var(--mes-white);
 
-  ion-title {
-    font-size: 20px;
+    ion-title {
+      font-size: 20px;
 
-    .text-zoom-large & {
-      font-size: 22px
-    }
+      .text-zoom-large & {
+        font-size: 22px
+      }
 
-    .text-zoom-x-large & {
-      font-size: 24px
+      .text-zoom-x-large & {
+        font-size: 24px
+      }
     }
   }
 }
+
+ion-footer {
+  ion-toolbar {
+    padding-bottom: 0 !important;
+    --background: var(--mes-white);
+  }}
 
 .no-internal-padding {
   --padding-start: 0px;
