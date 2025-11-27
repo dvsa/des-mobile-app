@@ -8,6 +8,10 @@ on:
         description: 'Specify the runner (default: MACOS-ARM64)'
         required: false
         default: 'MACOS-ARM64'
+        type: choice
+        options:
+          - 'MACOS-ARM64'
+          - 'macos-mito-m4-2'
   push:
     branches:
       - develop
