@@ -5,13 +5,18 @@ on:
   workflow_dispatch:
     inputs:
       runner:
-        description: 'Specify the runner (default: MACOS-ARM64)'
+        description: 'For debugging specify the runner (defaults to the group: MACOS-ARM64)'
         required: false
         default: 'MACOS-ARM64'
         type: choice
         options:
           - 'MACOS-ARM64'
           - 'm4-2'
+          - 'm4-3'
+          - 'mito-8'
+          - 'mito-7'
+          - 'mito-6'
+          - 'mito-2'
   push:
     branches:
       - develop
