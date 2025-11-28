@@ -3,6 +3,20 @@ run-name: "📱 ${{ github.ref_name }} - ${{ github.run_id }}"
 
 on:
   workflow_dispatch:
+    inputs:
+      runner:
+        description: 'For debugging specify the runner (defaults to the group: MACOS-ARM64)'
+        required: false
+        default: 'MACOS-ARM64'
+        type: choice
+        options:
+          - 'MACOS-ARM64'
+          - 'm4-2'
+          - 'm4-3'
+          - 'mito-8'
+          - 'mito-7'
+          - 'mito-6'
+          - 'mito-2'
   push:
     branches:
       - develop
@@ -32,7 +46,7 @@ jobs:
     if: github.event_name == 'workflow_dispatch'
     uses: dvsa/des-workflow-actions/.github/workflows/build-mobile-app.yaml@main
     with:
-      runs-on: 'MACOS-ARM64'
+      runs-on: ${{ inputs.runner }}
       environment: feature
       config-type: dev
       build-type: qr
