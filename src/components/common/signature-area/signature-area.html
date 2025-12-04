@@ -1,12 +1,12 @@
 <div class="signature-area" (blur)="onTouched()">
   <ion-row>
     <ion-col size="auto">
-      <ion-text id="signature-area-sign-here" class="des-header-style-5 sign-here-label"
+      <ion-text id="signature-area-sign-here" class="des-header-style-5"
         >{{signHereText || "Sign here"}}</ion-text
       >
     </ion-col>
-    <ion-col>
-      <div id="signature-area-validation-text" class="validation-text" [class.ng-invalid]="showValidText">
+    <ion-col class="display-flex ion-align-items-end">
+      <div id="signature-area-validation-text" class="display-flex ion-align-items-center validation-text" [class.ng-invalid]="showValidText">
         {{ validationErrorText || "Enter a Signature" }}
       </div>
     </ion-col>

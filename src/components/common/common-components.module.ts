@@ -5,7 +5,7 @@ import { IonicModule } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
 import { PipesModule } from '@shared/pipes/pipes.module';
 
-import { AngularSignaturePadModule } from '@almothafar/angular-signature-pad';
+import { SignaturePadComponent } from '@almothafar/angular-signature-pad';
 import { ActivityCodeComponent } from '@components/common/activity-code/activity-code';
 import { Adi3DebriefCardBox } from '@components/common/adi3-debrief-card-box/adi3-debrief-card-box';
 import { Adi3DebriefCard } from '@components/common/adi3-debrief-card/adi3-debrief-card';
@@ -90,7 +90,6 @@ import { WarningBannerComponent } from './warning-banner/warning-banner';
     DataRowComponent,
   ],
   imports: [
-    AngularSignaturePadModule,
     CommonModule,
     IonicModule,
     FormsModule,
@@ -103,6 +102,7 @@ import { WarningBannerComponent } from './warning-banner/warning-banner';
     NgOptimizedImage,
     DirectivesModule,
     NgApexchartsModule,
+    SignaturePadComponent,
   ],
   exports: [
     DateTimeInputComponent,
