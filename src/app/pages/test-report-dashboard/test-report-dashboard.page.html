@@ -20,7 +20,7 @@
       (setupResumeSubscription)="setupEscapeSAMResumeSubscription()"
       (endTestButtonClicked)="onContinueClick()"
       (onExitSAMActivatedChanged)="isSamActivatedChanged($event)">
-      Test report - {{pageState.candidateUntitledName$ | async}}
+      Test report - {{ pageState.candidateUntitledName$ | async }}
     </test-flow-header>
   </ion-toolbar>
 </ion-header>
@@ -29,7 +29,7 @@
   <ion-row class="mes-full-width-card-small-top ion-nowrap">
     <ion-col size="60">
       <h2 id="adi-pt3-dashboard-title" class="normal-font-weight ion-padding-start des-header-style-2">
-        {{testCategory === 'SC' ? 'Standards check' : 'ADI part 3'}} assessment
+        {{ testCategory === 'SC' ? 'Standards check' : 'ADI part 3' }} assessment
       </h2>
     </ion-col>
     <ion-col>
@@ -66,15 +66,17 @@
 </ion-content>
 
 <ion-footer>
-  <ion-row class="mes-full-width-card box-shadow flex-center footer-padding">
-    <ion-col class="ion-text-center" size="60">
-      <ion-button
-        (click)="onContinueClick()"
-        class="mes-primary-button"
-        id="continue-button"
-      >
-        <ion-text id="continue-text" class="des-header-style-3">Continue</ion-text>
-      </ion-button>
-    </ion-col>
-  </ion-row>
+  <ion-toolbar>
+    <ion-row class="mes-full-width-card box-shadow flex-center footer-padding">
+      <ion-col class="ion-text-center" size="60">
+        <ion-button
+          (click)="onContinueClick()"
+          class="mes-primary-button"
+          id="continue-button"
+        >
+          <ion-text id="continue-text" class="des-header-style-3">Continue</ion-text>
+        </ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-toolbar>
 </ion-footer>

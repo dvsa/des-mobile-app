@@ -157,29 +157,31 @@
 </ion-content>
 
 <ion-footer>
-  <ion-row class="mes-full-width-card box-shadow flex-center">
-    <ion-col class="ion-text-center width-100" size="35">
-      <ion-button
-        class="mes-grey-button width-100"
-        (click)="goBackToDebrief()"
-        id="confirm-test-details-back-to-debrief-btn"
-      >
-        <ion-text class="des-header-style-3" id="confirm-test-details-back-to-debrief-label">
-          Back to debrief
-        </ion-text>
-      </ion-button>
-    </ion-col>
-    <ion-col size="10"></ion-col>
-    <ion-col class="ion-text-center width-100" size="35">
-      <ion-button
-        class="mes-primary-button width-100"
-        (click)="onSubmit()"
-        id="confirm-test-details-submit-test-results-btn"
-      >
-        <ion-text class="des-header-style-3" id="confirm-test-details-submit-test-results-label">
-          Submit test results
-        </ion-text>
-      </ion-button>
-    </ion-col>
-  </ion-row>
+  <ion-toolbar>
+    <ion-row class="mes-full-width-card box-shadow flex-center">
+      <ion-col class="ion-text-center width-100" size="35">
+        <ion-button
+          class="mes-grey-button width-100"
+          (click)="goBackToDebrief()"
+          id="confirm-test-details-back-to-debrief-btn"
+        >
+          <ion-text class="des-header-style-3" id="confirm-test-details-back-to-debrief-label">
+            Back to debrief
+          </ion-text>
+        </ion-button>
+      </ion-col>
+      <ion-col size="10"></ion-col>
+      <ion-col class="ion-text-center width-100" size="35">
+        <ion-button
+          class="mes-primary-button width-100"
+          (click)="onSubmit()"
+          id="confirm-test-details-submit-test-results-btn"
+        >
+          <ion-text class="des-header-style-3" id="confirm-test-details-submit-test-results-label">
+            Submit test results
+          </ion-text>
+        </ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-toolbar>
 </ion-footer>
