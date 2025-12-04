@@ -3,14 +3,6 @@
 :host {
   @extend .modal-alert-wrapper;
 
-  .toolbar-spacing {
-    height: 60px;
-  }
-
-  .toolbar-item-spacing {
-    padding-top: 20px;
-  }
-
   .modal-sizing {
     height: 100vh;
     width: 100vw;
