@@ -65,13 +65,17 @@ describe('SignatureAreaComponent', () => {
       it('sign line text should equal the signHereText property', () => {
         component.signHereText = 'sign here for millions';
         fixture.detectChanges();
-        const signHereElement: HTMLElement = fixture.debugElement.query(By.css('.sign-here-label')).nativeElement;
+        const signHereElement: HTMLElement = fixture.debugElement.query(
+          By.css('#signature-area-sign-here')
+        ).nativeElement;
         expect(signHereElement.textContent).toEqual('sign here for millions');
       });
       it('sign line text should default when the signHereText property is falsy', () => {
         component.signHereText = undefined;
         fixture.detectChanges();
-        const signHereElement: HTMLElement = fixture.debugElement.query(By.css('.sign-here-label')).nativeElement;
+        const signHereElement: HTMLElement = fixture.debugElement.query(
+          By.css('#signature-area-sign-here')
+        ).nativeElement;
         expect(signHereElement.textContent).toEqual('Sign here');
       });
     });
