@@ -303,7 +303,13 @@ export class JournalEffects {
               testResults.map((test) => ({
                 autosave: !!test.autosave,
                 testData: test.test_result,
-                slotId: test.test_result.journalData.testSlotAttributes.slotId.toString(),
+                slotId: testsToRehydrate
+                  .find(
+                    (existingTest) =>
+                      existingTest.appRef ===
+                      formatApplicationReference(test.test_result.journalData.applicationReference)
+                  )
+                  .slotId.toString(),
               }))
             ),
             tap((completedTests: TestResultRehydration[]) => {
