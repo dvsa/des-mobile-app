@@ -1,36 +1,23 @@
 <ion-header>
   <ion-toolbar
-    mode="ios"
     [ngClass]="{
-    'header-height-76': isEndToEndPracticeMode,
       'no-internal-padding': true,
       'practice-theme': isEndToEndPracticeMode,
+      'toolbar-no-padding': isExitSAMBannerActivated,
       'ion-no-padding-important': isEndToEndPracticeMode
-    }">
-    <practice-mode-banner class="display-flex flex-direction-column" *ngIf="isEndToEndPracticeMode && !displayExitPracticeMode"></practice-mode-banner>
-    <ion-row *ngIf="!displayExitPracticeMode">
-      <ion-col>
-      </ion-col>
-      <ion-col class="display-flex ion-no-padding" size="40">
-        <ion-title id="back-to-office-title " role="heading" aria-level="1">Back to office</ion-title>
-      </ion-col>
-      <ion-col class="display-flex ion-no-padding">
-        <ion-buttons class="width-100">
-          <practice-mode-exit-button *ngIf="isEndToEndPracticeMode"
-            class="width-30"
-            [pageTitle]="'back to office page'"
-            (exitPracticeMode)="onEndPracticeModeClicked()">
-          </practice-mode-exit-button>
-        </ion-buttons>
-      </ion-col>
-    </ion-row>
-    <practice-mode-options-bar
-      *ngIf="displayExitPracticeMode"
-      (closeExitPracticeMode)="closeExitPracticeMode()">
-    </practice-mode-options-bar>
+    }"
+    mode="ios">
+    <test-flow-header
+      class="display-flex flex-direction-column"
+      [pageName]="'office-page'"
+      [shouldShowEndTestLink]="false"
+      [shouldShowBackButton]="false"
+      [shouldShowEscapeFromSamButton]="false"
+      [isPracticeMode]="isEndToEndPracticeMode">
+      Back to office
+    </test-flow-header>
   </ion-toolbar>
 </ion-header>
-
 
 <ion-content forceOverscroll="false" id="back-to-office-page">
   <div class="container">

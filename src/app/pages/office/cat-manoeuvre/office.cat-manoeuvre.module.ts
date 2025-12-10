@@ -14,6 +14,7 @@ import { FaultSummaryProvider } from '@providers/fault-summary/fault-summary';
 
 import { PracticeModeBanner } from '@components/common/practice-mode-banner/practice-mode-banner';
 import { PracticeModeExitButton } from '@components/common/practice-mode-exit-button/practice-mode-exit-button';
+import { TestFlowHeaderComponent } from '@components/common/test-flow-header/test-flow-header.component';
 import { OfficeRegistrationAndMotComponent } from '@pages/office/components/office-registration-and-mot/office-registration-and-mot.component';
 import { ReasonForEnteringTeamsComponent } from '@pages/office/components/reason-for-entering-teams/reason-for-entering-teams';
 import { WaitingRoomToCarComponentsModule } from '@pages/waiting-room-to-car/components/waiting-room-to-car.components.module';
@@ -37,6 +38,7 @@ import { OfficeCatManoeuvrePage } from './office.cat-manoeuvre.page';
     OfficeRegistrationAndMotComponent,
     PracticeModeBanner,
     PracticeModeExitButton,
+    TestFlowHeaderComponent,
   ],
   providers: [FaultSummaryProvider],
 })
