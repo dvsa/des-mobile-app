@@ -1,5 +1,5 @@
 import { ApplicationReference } from '@dvsa/mes-test-schema/categories/common';
-import { formatApplicationReference } from '@shared/helpers/formatters';
+import { getFormattedApplicationReference } from '@shared/helpers/getApplicationIdDetails';
 
 export const getApplicationNumber = (applicationReference: ApplicationReference): string =>
-  formatApplicationReference(applicationReference);
+  getFormattedApplicationReference(applicationReference);

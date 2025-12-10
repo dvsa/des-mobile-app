@@ -2,7 +2,8 @@ import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { SearchResultTestSchema } from '@dvsa/mes-search-schema';
 import { stripNullishValues } from '@shared/helpers/formatters';
-import { Observable } from 'rxjs';
+import { ActivityCodes } from '@shared/models/activity-codes';
+import { Observable, of } from 'rxjs';
 import { timeout } from 'rxjs/operators';
 import { AppConfigProvider } from '../app-config/app-config';
 import { UrlProvider } from '../url/url';
@@ -45,13 +46,47 @@ export class SearchProvider {
   }
 
   applicationReferenceSearch(applicationReference: string): Observable<SearchResultTestSchema[]> {
-    return this.http
-      .get<SearchResultTestSchema[]>(this.urlProvider.getTestResultServiceUrl(), {
-        params: {
-          applicationReference,
+    return of([
+      {
+        /**
+         * The test center ID
+         */
+        costCode: 'cost code',
+        /**
+         * The date and time of the test
+         */
+        testDate: '2025-12-10',
+        /**
+         * The candidate's driver number, typically (though not always) 16 characters if UK, or 8 digits if NI
+         */
+        driverNumber: 'number',
+        candidateName: {
+          title: 'mr',
+          firstName: 'name',
+          lastName: 'name',
         },
-      })
-      .pipe(timeout(this.appConfig.getAppConfig().requestTimeout));
+        /**
+         * The application ID
+         */
+        applicationReference: 'This is an app ref',
+        /**
+         * Category code for the test report
+         */
+        category: 'B',
+        activityCode: ActivityCodes.PASS,
+        /**
+         * Upload status of the test
+         */
+        autosave: 1,
+      },
+    ]);
+    // return this.http
+    //   .get<SearchResultTestSchema[]>(this.urlProvider.getTestResultServiceUrl(), {
+    //     params: {
+    //       applicationReference,
+    //     },
+    //   })
+    //   .pipe(timeout(this.appConfig.getAppConfig().requestTimeout));
   }
 
   advancedSearch(advancedSearchParams: AdvancedSearchParams): Observable<SearchResultTestSchema[]> {

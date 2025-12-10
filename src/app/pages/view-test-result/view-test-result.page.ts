@@ -1,4 +1,3 @@
-import { HttpResponse } from '@angular/common/http';
 import { ChangeDetectorRef, Component, Injector, Input, OnInit } from '@angular/core';
 import { TestResultSchemasUnion } from '@dvsa/mes-test-schema/categories';
 import { CatADI2UniqueTypes } from '@dvsa/mes-test-schema/categories/ADI2';
@@ -24,7 +23,7 @@ import { LoadingProvider } from '@providers/loader/loader';
 import { SearchProvider } from '@providers/search/search';
 import { BasePageComponent } from '@shared/classes/base-page';
 import { DateTime } from '@shared/helpers/date-time';
-import { formatApplicationReference } from '@shared/helpers/formatters';
+import { getFormattedApplicationReference } from '@shared/helpers/getApplicationIdDetails';
 import { isAnyOf } from '@shared/helpers/simplifiers';
 import { ErrorTypes } from '@shared/models/error-message';
 import { FaultSummary } from '@shared/models/fault-marking.model';
@@ -86,11 +85,174 @@ export class ViewTestResultPage extends BasePageComponent implements OnInit {
       )
       .subscribe();
 
-    this.subscription = this.searchProvider
-      .getTestResult(this.applicationReference, this.authenticationProvider.getEmployeeId())
+    // this.subscription = this.searchProvider
+    //   .getTestResult(this.applicationReference, this.authenticationProvider.getEmployeeId())
+    this.subscription = of({
+      rekey: false,
+      version: '3.44.0',
+      category: 'B',
+      testData: {
+        ETA: {},
+        eco: {
+          completed: true,
+        },
+        manoeuvres: {
+          reverseRight: {
+            selected: true,
+          },
+        },
+        eyesightTest: {
+          complete: true,
+          seriousFault: false,
+        },
+        drivingFaults: {
+          followingDistance: 1,
+          controlsAccelerator: 1,
+          pedestrianCrossings: 1,
+          junctionsCuttingCorners: 1,
+          useOfMirrorsChangeDirection: 1,
+        },
+        seriousFaults: {},
+        vehicleChecks: {
+          showMeQuestion: {
+            code: 'S4',
+            outcome: 'P',
+            description: 'Rear demister',
+          },
+          tellMeQuestion: {
+            code: 'T1',
+            outcome: 'DF',
+            description: 'Brakes',
+          },
+        },
+        controlledStop: {
+          selected: true,
+        },
+        dangerousFaults: {},
+        testRequirements: {
+          hillStart: true,
+          angledStart: true,
+          normalStart1: true,
+        },
+      },
+      appVersion: '4.25.0.0',
+      journalData: {
+        examiner: {
+          staffNumber: '1234567',
+          individualId: 9000001,
+        },
+        candidate: {
+          gender: 'F',
+          candidateId: 126,
+          dateOfBirth: '1974-09-14',
+          driverNumber: 'COOPE015220A99HC',
+          candidateName: {
+            title: 'Mr',
+            lastName: 'Alice',
+            firstName: 'Cooper',
+          },
+          ethnicityCode: 'E',
+          mobileTelephone: '07654 123456',
+          candidateAddress: {
+            postcode: 'AB12 3CD',
+            addressLine1: '2345 Station Street',
+            addressLine2: 'Someplace',
+            addressLine3: 'Sometown',
+          },
+          primaryTelephone: '01234 567890',
+          secondaryTelephone: '04321 098765',
+        },
+        testCentre: {
+          centreId: 3034,
+          costCode: 'B1234',
+          centreName: 'Test DA2',
+        },
+        testSlotAttributes: {
+          start: '2025-12-10T07:00:00',
+          slotId: 5137,
+          slotType: 'Extra Time Needed',
+          fitMarker: false,
+          welshTest: false,
+          extendedTest: false,
+          specialNeeds: false,
+          vehicleTypeCode: 'C',
+          entitlementCheck: false,
+          examinerVisiting: false,
+          specialNeedsCode: 'EXTRA',
+          specialNeedsArray: ['None'],
+          previousCancellation: ['Act of nature'],
+          categoryEntitlementCheck: false,
+          specialNeedsExtendedTest: false,
+        },
+        applicationReference: {
+          bookingId: 'This is an app ref',
+        },
+      },
+      rekeyReason: {
+        other: {
+          reason: '',
+          selected: false,
+        },
+        transfer: {
+          selected: false,
+        },
+        ipadIssue: {
+          lost: false,
+          broken: false,
+          stolen: false,
+          selected: false,
+          technicalFault: false,
+        },
+      },
+      testSummary: {
+        D255: false,
+        routeNumber: 3,
+        identification: 'Licence',
+        debriefWitnessed: true,
+        weatherConditions: ['Dull / dry roads'],
+        trueLikenessToPhoto: true,
+      },
+      activityCode: '1',
+      changeMarker: false,
+      accompaniment: {
+        ADI: true,
+      },
+      delegatedTest: false,
+      examinerKeyed: 1234567,
+      userExitedApp: {
+        exitFlag: false,
+      },
+      examinerBooked: 1234567,
+      passCompletion: {
+        passCertificateNumber: 'C123456X',
+        provisionalLicenceProvided: true,
+      },
+      vehicleDetails: {
+        motStatus: 'No details',
+        dualControls: true,
+        gearboxCategory: 'Manual',
+        registrationNumber: 'CA17DSA',
+        previouslySearchedRegNumbers: ['CA17DSA'],
+      },
+      examinerConducted: 1234567,
+      instructorDetails: {},
+      preTestDeclarations: {
+        preTestSignature: '',
+        healthDeclarationAccepted: true,
+        passCertificateNumberReceived: true,
+        insuranceDeclarationAccepted: true,
+        residencyDeclarationAccepted: true,
+      },
+      communicationPreferences: {
+        updatedEmail: '',
+        conductedLanguage: 'English',
+        communicationMethod: 'Post',
+      },
+    } as TestResultSchemasUnion)
       .pipe(
-        map((response: HttpResponse<string>): string => response.body),
-        map((data) => (this.testResult = this.compressionProvider.extract<TestResultSchemasUnion>(data))),
+        // map((response: HttpResponse<string>): string => response.body),
+        // map((data) => (this.testResult = this.compressionProvider.extract<TestResultSchemasUnion>(data))),
+        map((data) => (this.testResult = data)),
         tap((data) => {
           //If there are previously searched reg numbers, filter out the current reg number and any duplicates
           if (data?.vehicleDetails?.previouslySearchedRegNumbers) {
@@ -168,7 +330,7 @@ export class ViewTestResultPage extends BasePageComponent implements OnInit {
     return {
       date: startDate.format('dddd Do MMMM YYYY'),
       time: startDate.format('HH:mm'),
-      applicationReference: formatApplicationReference(get(this.testResult, 'journalData.applicationReference')),
+      applicationReference: getFormattedApplicationReference(get(this.testResult, 'journalData.applicationReference')),
       category: get(this.testResult, 'category') as TestCategory,
       specialNeeds: get(this.testResult, 'journalData.testSlotAttributes.specialNeedsArray'),
       entitlementCheck: get(this.testResult, 'journalData.testSlotAttributes.entitlementCheck'),

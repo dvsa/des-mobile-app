@@ -16,6 +16,7 @@ import { DelegatedExaminerTestSlot } from '@providers/delegated-rekey-search/del
 import { SlotProvider } from '@providers/slot/slot';
 import { formatApplicationReference } from '@shared/helpers/formatters';
 import { getSlotType } from '@shared/helpers/get-slot-type';
+import { getApplicationId, getFormattedApplicationReference } from '@shared/helpers/getApplicationIdDetails';
 import { isAnyOf } from '@shared/helpers/simplifiers';
 import { ActivityCodes } from '@shared/models/activity-codes';
 import { SlotTypes } from '@shared/models/slot-types';
@@ -226,4 +227,7 @@ export class TestSlotComponent implements SlotComponent, OnInit {
   emitCancelFutureTest() {
     this.cancelFutureTestModal.emit();
   }
+
+  protected readonly getApplicationId = getApplicationId;
+  protected readonly getFormattedApplicationReference = getFormattedApplicationReference;
 }

@@ -28,7 +28,7 @@
                 [checked]="searchBy === 'appReference'"
                 (change)="searchByChanged('appReference')"
               />
-              <label for="search-by-app-reference" class="radio-label"> Application reference </label>
+              <label for="search-by-app-reference" class="radio-label"> Application reference</label>
             </ion-col>
             <ion-col class="flex-center" size="34">
               <input
@@ -40,7 +40,7 @@
                 [checked]="searchBy === 'driverNumber'"
                 (change)="searchByChanged('driverNumber')"
               />
-              <label for="search-by-driver-number" class="radio-label"> Driver number </label>
+              <label for="search-by-driver-number" class="radio-label"> Driver number</label>
             </ion-col>
           </ion-row>
           <ion-row class="ion-padding-top">
@@ -53,7 +53,7 @@
                   type="text"
                   class="ion-input-styling custom-font-size"
                   [clearInput]="true"
-                  numbersOnly
+                  uppercaseAlphanumOnly
                   (ionFocus)="setFocus('field')"
                   (ionBlur)="setFocus(null)"
                   [value]="candidateInfo"

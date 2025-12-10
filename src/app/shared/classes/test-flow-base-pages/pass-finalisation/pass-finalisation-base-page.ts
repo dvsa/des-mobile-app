@@ -19,10 +19,16 @@ import {
 } from '@store/tests/tests.selector';
 
 import { Inject, Injector } from '@angular/core';
-import { ActivityCode, CategoryCode, GearboxCategory } from '@dvsa/mes-test-schema/categories/common';
+import {
+  ActivityCode,
+  ApplicationReference,
+  CategoryCode,
+  GearboxCategory,
+} from '@dvsa/mes-test-schema/categories/common';
 import { OutcomeBehaviourMapProvider } from '@providers/outcome-behaviour-map/outcome-behaviour-map';
 import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
 import { PracticeableBasePageComponent } from '@shared/classes/practiceable-base-page';
+import { getFormattedApplicationReference } from '@shared/helpers/getApplicationIdDetails';
 import { ActivityCodes } from '@shared/models/activity-codes';
 import { PopulateTestCategory } from '@store/tests/category/category.actions';
 import { getTestCategory } from '@store/tests/category/category.reducer';
@@ -33,7 +39,6 @@ import {
 import { getCommunicationPreference } from '@store/tests/communication-preferences/communication-preferences.reducer';
 import { getConductedLanguage } from '@store/tests/communication-preferences/communication-preferences.selector';
 import { getApplicationReference } from '@store/tests/journal-data/common/application-reference/application-reference.reducer';
-import { getApplicationNumber } from '@store/tests/journal-data/common/application-reference/application-reference.selector';
 import {
   Code78NotPresent,
   Code78Present,
@@ -111,7 +116,7 @@ export abstract class PassFinalisationPageComponent extends PracticeableBasePage
       applicationNumber$: currentTest$.pipe(
         select(getJournalData),
         select(getApplicationReference),
-        select(getApplicationNumber)
+        map((applicationReference: ApplicationReference) => getFormattedApplicationReference(applicationReference))
       ),
       provisionalLicense$: currentTest$.pipe(select(getPassCompletion), map(isProvisionalLicenseProvided)),
       passCertificateNumber$: currentTest$.pipe(select(getPassCompletion), select(getPassCertificateNumber)),

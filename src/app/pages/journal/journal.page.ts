@@ -60,7 +60,7 @@ interface JournalPageState {
 }
 
 export interface CompletedJournalSlot {
-  applicationReference: number;
+  applicationReference: string;
   activityCode: ActivityCode;
   autosave: boolean;
   passCertificateNumber: string;

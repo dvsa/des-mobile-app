@@ -1,9 +1,8 @@
-import { Application, Candidate, TestSlot } from '@dvsa/mes-journal-schema';
-import { ApplicationReference } from '@dvsa/mes-test-schema/categories/common';
+import { Candidate, TestSlot } from '@dvsa/mes-journal-schema';
 import { Details } from '@pages/candidate-details/candidate-details.page.model';
 import { SlotItem } from '@providers/slot-selector/slot-item';
-import { formatApplicationReference } from '@shared/helpers/formatters';
 import { getSlotType } from '@shared/helpers/get-slot-type';
+import { getFormattedApplicationReference } from '@shared/helpers/getApplicationIdDetails';
 import { isEmpty } from 'lodash-es';
 
 export const getTime = (slot: TestSlot): string => slot.slotDetail.start;
@@ -28,27 +27,17 @@ export const getPhoneNumber = (candidate: Candidate): string => {
   return 'No phone number provided';
 };
 
-export const getApplicationRef = (application: Application): string => {
-  const applicationReference: ApplicationReference = {
-    applicationId: application.applicationId,
-    bookingSequence: application.bookingSequence,
-    checkDigit: application.checkDigit,
-  };
-
-  return formatApplicationReference(applicationReference);
-};
-
 export const processSpecialNeeds = (slot: TestSlot): string[] => {
   return slot.booking.application.specialNeeds ? slot.booking.application.specialNeeds.split(';') : ['None'];
 };
 
 export const getDetails = (slot: TestSlot): Details => {
-  const details: Details = {
+  return {
     testCategory: `Category ${slot.booking.application.testCategory}`,
     slotType: getSlotType(slot),
     meetingPlace: slot.booking.application.meetingPlace,
     driverNumber: slot.booking.candidate.driverNumber,
-    applicationRef: getApplicationRef(slot.booking.application),
+    applicationRef: getFormattedApplicationReference(slot.booking.application),
     specialNeeds: processSpecialNeeds(slot),
     candidateComments: {
       isSectionEmpty: isCandidateCommentsEmpty(slot),
@@ -62,5 +51,4 @@ export const getDetails = (slot: TestSlot): Details => {
     email: slot.booking.candidate.emailAddress || 'e-mail unavailable',
     address: slot.booking.candidate.candidateAddress,
   };
-  return details;
 };

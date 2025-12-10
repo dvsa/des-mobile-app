@@ -1,4 +1,4 @@
-import { HttpErrorResponse, HttpStatusCode } from '@angular/common/http';
+import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ExaminerWorkSchedule, TestSlot } from '@dvsa/mes-journal-schema';
 import { Examiner } from '@dvsa/mes-test-schema/categories/common';
@@ -16,8 +16,7 @@ import { SlotProvider } from '@providers/slot/slot';
 import { DateTime, Duration } from '@shared/helpers/date-time';
 import { LogType } from '@shared/models/log.model';
 import { StoreModel } from '@shared/models/store.model';
-import { getExaminer } from '@store/tests/journal-data/common/examiner/examiner.reducer';
-import { Observable, interval, of, throwError } from 'rxjs';
+import { Observable, interval, of } from 'rxjs';
 import {
   catchError,
   concatMap,
@@ -37,13 +36,11 @@ import {
   JournalRehydrationSuccess,
   RecallAutoPopupDisplayedTimeChanged,
 } from './journal.actions';
-import { ExaminerSlotItems, ExaminerSlotItemsByDate } from './journal.model';
 import { getJournalState } from './journal.reducer';
 import {
   canNavigateToNextDay,
   canNavigateToPreviousDay,
   getAllSlots,
-  getLastRefreshed,
   getRecallAutoPopupLastDisplayedTime,
   getSelectedDate,
   getSlots,
@@ -51,7 +48,7 @@ import {
 
 import { CompressionProvider } from '@providers/compression/compression';
 import { DataStoreProvider, LocalStorageKey } from '@providers/data-store/data-store';
-import { formatApplicationReference } from '@shared/helpers/formatters';
+import { getFormattedApplicationReference } from '@shared/helpers/getApplicationIdDetails';
 import { isAnyOf } from '@shared/helpers/simplifiers';
 import { TestStatus } from '@store/tests/test-status/test-status.model';
 import { LoadRemoteTests } from '@store/tests/tests.actions';
@@ -73,6 +70,126 @@ export enum JournalRehydrationPage {
 export class JournalEffects {
   // every 5 minutes
   private static readonly interval = 300000;
+
+  fakeJournal: ExaminerWorkSchedule = {
+    examiner: {
+      staffNumber: '1234',
+      individualId: 90000021,
+    },
+    nonTestActivities: [],
+    testSlots: [
+      {
+        booking: {
+          application: {
+            bookingId: 'This is a reference id',
+            entitlementCheck: false,
+            extendedTest: false,
+            fitMarker: true,
+            progressiveAccess: false,
+            specialNeedsCode: 'NONE',
+            specialNeedsExtendedTest: false,
+            testCategory: 'B',
+            vehicleGearbox: 'Automatic',
+            welshTest: false,
+            meetingPlace: 'Test Meeting Place.',
+            categoryEntitlementCheck: false,
+          },
+          candidate: {
+            candidateAddress: {
+              addressLine1: 'Address Line 1',
+              addressLine2: 'Address Line 2',
+              addressLine3: 'Address Line 3',
+              addressLine4: 'Address Line 4',
+              addressLine5: 'Address Line 5',
+              postcode: 'PO57 0DE',
+            },
+            candidateId: 9999,
+            candidateName: {
+              firstName: 'Firstname',
+              lastName: 'Surname',
+              title: 'Title',
+            },
+            driverNumber: 'SURNA123456789DO',
+            mobileTelephone: '07111 123456',
+            primaryTelephone: '01234 567890',
+            secondaryTelephone: '04321 098765',
+            dateOfBirth: '1977-07-02',
+            ethnicityCode: 'D',
+            gender: 'F',
+          },
+          previousCancellation: ['Act of nature'],
+        },
+        slotDetail: {
+          duration: 57,
+          slotId: 7188,
+          start: '2025-12-09T08:10:00',
+        },
+        testCentre: {
+          centreId: 3033,
+          centreName: 'Test DA',
+          costCode: 'A1234',
+        },
+        vehicleTypeCode: 'C',
+        vehicleSlotTypeCode: 7,
+        examinerVisiting: false,
+      },
+      {
+        booking: {
+          application: {
+            bookingId: 'This is also a reference id',
+            entitlementCheck: false,
+            extendedTest: false,
+            fitMarker: true,
+            progressiveAccess: false,
+            specialNeedsCode: 'NONE',
+            specialNeedsExtendedTest: false,
+            testCategory: 'B',
+            vehicleGearbox: 'Automatic',
+            welshTest: false,
+            meetingPlace: 'Test Meeting Place.',
+            categoryEntitlementCheck: false,
+          },
+          candidate: {
+            candidateAddress: {
+              addressLine1: 'Address Line 1',
+              addressLine2: 'Address Line 2',
+              addressLine3: 'Address Line 3',
+              addressLine4: 'Address Line 4',
+              addressLine5: 'Address Line 5',
+              postcode: 'PO57 0DE',
+            },
+            candidateId: 9999,
+            candidateName: {
+              firstName: 'Firstname2',
+              lastName: 'Surname2',
+              title: 'Title',
+            },
+            driverNumber: 'SURNA123456789DO',
+            mobileTelephone: '07111 123456',
+            primaryTelephone: '01234 567890',
+            secondaryTelephone: '04321 098765',
+            dateOfBirth: '1977-07-02',
+            ethnicityCode: 'D',
+            gender: 'F',
+          },
+          previousCancellation: ['Act of nature'],
+        },
+        slotDetail: {
+          duration: 57,
+          slotId: 7189,
+          start: '2025-12-09T08:15:00',
+        },
+        testCentre: {
+          centreId: 3033,
+          centreName: 'Test DA',
+          costCode: 'A1234',
+        },
+        vehicleTypeCode: 'C',
+        vehicleSlotTypeCode: 7,
+        examinerVisiting: false,
+      },
+    ],
+  };
 
   constructor(
     private actions$: Actions,
@@ -111,66 +228,86 @@ export class JournalEffects {
 
   callJournalProvider$ = (mode: string): Observable<Action> => {
     this.store$.dispatch(journalActions.JournalRefresh(mode));
-    return of(null).pipe(
-      withLatestFrom(
-        this.store$.pipe(select(getJournalState), map(getLastRefreshed)),
-        this.store$.pipe(select(getJournalState), map(getSlots)),
-        this.store$.pipe(select(getJournalState), map(getExaminer))
-      ),
-      switchMap(([, lastRefreshed, slots, examiner]) => {
-        return this.journalProvider.getJournal(lastRefreshed).pipe(
-          tap((journalData: ExaminerWorkSchedule) => this.journalProvider.saveJournalForOffline(journalData)),
-          map(
-            (journalData: ExaminerWorkSchedule): ExaminerSlotItems => ({
-              examiner: journalData.examiner as Required<Examiner>,
-              slotItems: this.slotProvider.detectSlotChanges(slots, journalData),
-            })
-          ),
-          map(
-            (examinerSlotItems: ExaminerSlotItems): ExaminerSlotItemsByDate => ({
-              examiner: examinerSlotItems.examiner,
-              slotItemsByDate: this.slotProvider.getRelevantSlotItemsByDate(examinerSlotItems.slotItems),
-            })
-          ),
-          map((slotItemsByDate: ExaminerSlotItemsByDate) =>
-            journalActions.LoadJournalSuccess(
-              slotItemsByDate,
-              this.networkStateProvider.getNetworkState(),
-              this.authProvider.isOffline(),
-              lastRefreshed
-            )
-          ),
-          catchError((err: HttpErrorResponse) => {
-            // For HTTP 304 NOT_MODIFIED we just use the slots we already have cached
-            if (err.status === HttpStatusCode.NotModified) {
-              return of(
-                journalActions.LoadJournalSuccess(
-                  {
-                    examiner,
-                    slotItemsByDate: slots,
-                  },
-                  this.networkStateProvider.getNetworkState(),
-                  this.authProvider.isOffline(),
-                  lastRefreshed
-                )
-              );
-            }
 
-            if (err.message === 'Timeout has occurred') {
-              return of(journalActions.JournalRefreshError('Retrieving Journal', err.message));
-            }
+    let slots = null;
+    this.store$.pipe(select(getJournalState), map(getSlots)).subscribe((value) => {
+      slots = value;
+    });
 
-            this.store$.dispatch(
-              SaveLog({
-                payload: this.logHelper.createLog(LogType.ERROR, 'Retrieving Journal', err.message),
-              })
-            );
-
-            return throwError(() => new HttpErrorResponse(err));
-          })
-        );
-      })
+    return of(
+      journalActions.LoadJournalSuccess(
+        {
+          examiner: this.fakeJournal.examiner as Required<Examiner>,
+          slotItemsByDate: this.slotProvider.getRelevantSlotItemsByDate(
+            this.slotProvider.detectSlotChanges(slots, this.fakeJournal)
+          ),
+        },
+        this.networkStateProvider.getNetworkState(),
+        this.authProvider.isOffline(),
+        new Date()
+      )
     );
+
+    // return of(null).pipe(
+    //   withLatestFrom(
+    //     this.store$.pipe(select(getJournalState), map(getLastRefreshed)),
+    //     this.store$.pipe(select(getJournalState), map(getSlots)),
+    //     this.store$.pipe(select(getJournalState), map(getExaminer))
+    //   ),
+    //   switchMap(([, lastRefreshed, slots, examiner]) => {
+    //     return this.journalProvider.getJournal(lastRefreshed).pipe(
+    //       tap((journalData: ExaminerWorkSchedule) => this.journalProvider.saveJournalForOffline(journalData)),
+    //       map(
+    //         (journalData: ExaminerWorkSchedule): ExaminerSlotItems => ({
+    //           examiner: journalData.examiner as Required<Examiner>,
+    //           slotItems: this.slotProvider.detectSlotChanges(slots, journalData),
+    //         })
+    //       ),
+    //       map(
+    //         (examinerSlotItems: ExaminerSlotItems): ExaminerSlotItemsByDate => ({
+    //           examiner: examinerSlotItems.examiner,
+    //           slotItemsByDate: this.slotProvider.getRelevantSlotItemsByDate(examinerSlotItems.slotItems),
+    //         })
+    //       ),
+    //       map((slotItemsByDate: ExaminerSlotItemsByDate) =>
+    //         journalActions.LoadJournalSuccess(
+    //           slotItemsByDate,
+    //           this.networkStateProvider.getNetworkState(),
+    //           this.authProvider.isOffline(),
+    //           lastRefreshed
+    //         )
+    //       ),
+    //       catchError((err: HttpErrorResponse) => {
+    //         // For HTTP 304 NOT_MODIFIED we just use the slots we already have cached
+    //         if (err.status === HttpStatusCode.NotModified) {
+    //           return of(
+    //             journalActions.LoadJournalSuccess(
+    //               {
+    //                 examiner,
+    //                 slotItemsByDate: slots,
+    //               },
+    //               this.networkStateProvider.getNetworkState(),
+    //               this.authProvider.isOffline(),
+    //               lastRefreshed
+    //             )
+    //           );
+    //         }
+    //
+    //         if (err.message === 'Timeout has occurred') {
+    //           return of(journalActions.JournalRefreshError('Retrieving Journal', err.message));
+    //         }
+    //
+    //         this.store$.dispatch(
+    //           SaveLog({
+    //             payload: this.logHelper.createLog(LogType.ERROR, 'Retrieving Journal', err.message),
+    //           })
+    //         );
+    //
+    //         return throwError(() => new HttpErrorResponse(err));
+    //       })
+    //     );
+    //   })
+    // );
   };
 
   journal$ = createEffect(() =>
@@ -276,11 +413,7 @@ export class JournalEffects {
           //Morph the data into a format that we can need for the rest of this process
           .map((value) => ({
             slotId: value.slotData.slotDetail.slotId,
-            appRef: formatApplicationReference({
-              applicationId: (value.slotData as TestSlot).booking.application.applicationId,
-              bookingSequence: (value.slotData as TestSlot).booking.application.bookingSequence,
-              checkDigit: (value.slotData as TestSlot).booking.application.checkDigit,
-            }),
+            appRef: getFormattedApplicationReference((value.slotData as TestSlot).booking.application),
           }));
 
         //If the array is empty, we don't need to do anything
