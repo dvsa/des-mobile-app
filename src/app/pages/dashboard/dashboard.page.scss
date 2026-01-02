@@ -100,12 +100,15 @@
     background-color: var(--gds-dark);
   }
 
-  span, ion-menu-button {
+  span {
     color: inherit;
   }
 
+  ion-menu-button {
+    color: var(--mes-theme-opposing-colour)
+  }
+
   .burger-menu {
-      font-size:  72px;
-    }
+    font-size: 72px;
   }
 }
