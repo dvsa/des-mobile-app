@@ -179,7 +179,7 @@ export class ExaminerRecordsPage implements OnInit {
    */
   async ngOnInit(): Promise<void> {
     //Commented out to force light mode, comment back in if dark mode is fully integrated
-    this.listenForDarkMode();
+    // this.listenForDarkMode();
     this.testResults = this.removeDuplicatesAndSort(this.getLocalResults());
     if (this.testResults.length > 0) {
       this.testSubject$.next(this.testResults);
