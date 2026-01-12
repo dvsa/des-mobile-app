@@ -29,6 +29,9 @@ export const getPhoneNumber = (candidate: Candidate): string => {
 };
 
 export const getApplicationRef = (application: Application): string => {
+  if (application.bookingReference) {
+    return application.bookingReference;
+  }
   const applicationReference: ApplicationReference = {
     applicationId: application.applicationId,
     bookingSequence: application.bookingSequence,
@@ -39,7 +42,14 @@ export const getApplicationRef = (application: Application): string => {
 };
 
 export const processSpecialNeeds = (slot: TestSlot): string[] => {
-  return slot.booking.application.specialNeeds ? slot.booking.application.specialNeeds.split(';') : ['None'];
+  const splitArray = slot.booking.application.specialNeeds
+    ? slot.booking.application.specialNeeds.split(';')
+    : ['None'];
+  //Change NONE to lowercase if it's the only item in the array
+  if (splitArray.length === 1 && splitArray[0] === 'NONE') {
+    splitArray[0] = 'None';
+  }
+  return splitArray;
 };
 
 export const getDetails = (slot: TestSlot): Details => {
@@ -62,5 +72,6 @@ export const getDetails = (slot: TestSlot): Details => {
     email: slot.booking.candidate.emailAddress || 'e-mail unavailable',
     address: slot.booking.candidate.candidateAddress,
   };
+  console.log('Details: ', details);
   return details;
 };

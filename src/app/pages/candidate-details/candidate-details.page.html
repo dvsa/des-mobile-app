@@ -1,7 +1,9 @@
 <ion-header>
   <ion-toolbar mode="ios" class="fullscreen-modal-toolbar-spacing">
     <ion-title role="heading" aria-level="1" id="test-details-title" class="ion-text-center fullscreen-modal-toolbar-item-padding">
-      {{ restrictDetails ? 'ADI Enforcement Activities' : 'Test details - ' + pageState.name }}
+      {{ restrictDetails ?
+      'ADI Enforcement Activities' :
+      'Test details - ' + (pageState.name ? pageState.name : 'Name unknown')}}
     </ion-title>
     <ion-buttons slot="end" class="fullscreen-modal-toolbar-item-padding">
       <ion-button id="close-button" (click)="dismiss()">
@@ -69,7 +71,8 @@
             [value]="pageState.details.meetingPlace"
           >
           </data-row>
-          <data-row [idPrefix]="idPrefix" [label]="'Driver number'" [value]="pageState.details.driverNumber">
+          <data-row [idPrefix]="idPrefix" [label]="'Driver number'" [value]="pageState.details.driverNumber ?
+          pageState.details.driverNumber : 'Driver number unknown'">
           </data-row>
           <data-row [idPrefix]="idPrefix" [label]="'Application number'" [value]="pageState.details.applicationRef">
           </data-row>

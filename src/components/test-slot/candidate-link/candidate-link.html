@@ -14,7 +14,6 @@
       'team-journal': isTeamJournal,
       'extra-large-mode': accessibilityService.getTextZoomClass() === 'text-zoom-x-large'
     }"
-    >{{name.title}} {{name.firstName}} {{name.lastName}}</ion-text
-  >
+    >{{ parseName(name) }}</ion-text>
   <ion-icon class="candidate-icon" name="chevron-forward"></ion-icon>
 </ion-button>

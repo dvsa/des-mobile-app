@@ -301,11 +301,14 @@ export class JournalEffects {
             map((response) => this.compressionProvider.extract<TestResultsRehydrated[]>(response.body)),
             //Map the data into a format that we can use for the rest of the process
             map((testResults: TestResultsRehydrated[]) =>
-              testResults.map((test) => ({
-                autosave: !!test.autosave,
-                testData: test.test_result,
-                slotId: test.test_result.journalData.testSlotAttributes.slotId.toString(),
-              }))
+              testResults.map(
+                (test) =>
+                  ({
+                    autosave: !!test.autosave,
+                    testData: test.test_result,
+                    appRef: formatApplicationReference(test.test_result.journalData.applicationReference),
+                  }) as TestResultRehydration
+              )
             ),
             tap((completedTests: TestResultRehydration[]) => {
               //If we have any tests, we need to dispatch them to the store

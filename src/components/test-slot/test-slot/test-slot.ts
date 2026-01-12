@@ -14,7 +14,7 @@ import { CategoryWhitelistProvider } from '@providers/category-whitelist/categor
 import { DateTimeProvider } from '@providers/date-time/date-time';
 import { DelegatedExaminerTestSlot } from '@providers/delegated-rekey-search/delegated-rekey-search';
 import { SlotProvider } from '@providers/slot/slot';
-import { formatApplicationReference } from '@shared/helpers/formatters';
+import { formatApplicationReference, getFormattedApplicationReference } from '@shared/helpers/formatters';
 import { getSlotType } from '@shared/helpers/get-slot-type';
 import { isAnyOf } from '@shared/helpers/simplifiers';
 import { ActivityCodes } from '@shared/models/activity-codes';
@@ -28,7 +28,7 @@ import { getTests } from '@store/tests/tests.reducer';
 import {
   getActivityCodeBySlotId,
   getPassCertificateBySlotId,
-  getTestById,
+  getTestByAppRef,
   getTestStatus,
 } from '@store/tests/tests.selector';
 import { SlotComponent } from '../slot/slot';
@@ -118,7 +118,7 @@ export class TestSlotComponent implements SlotComponent, OnInit {
       testStatus$: this.store$.pipe(
         select(getTests),
         select((tests): TestStatus => {
-          const testStatus = getTestStatus(tests, slotId);
+          const testStatus = getTestStatus(tests, getFormattedApplicationReference(this.slot.booking.application));
           return testStatus === TestStatus.Autosaved
             ? testStatus
             : this.completedTestRecord?.activityCode
@@ -146,7 +146,7 @@ export class TestSlotComponent implements SlotComponent, OnInit {
       ),
       isRekey$: this.store$.pipe(
         select(getTests),
-        map((tests) => getTestById(tests, this.slot.slotDetail.slotId.toString())),
+        map((tests) => getTestByAppRef(tests, getFormattedApplicationReference(this.slot.booking.application))),
         filter((test) => test !== undefined),
         select(getRekeyIndicator),
         select(isRekey)

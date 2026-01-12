@@ -102,7 +102,7 @@ export class CandidateDetailsAnalyticsEffects {
         this.analytics.logGAEvent(
           GoogleAnalyticsEvents.JOURNAL,
           GoogleAnalyticsEventsTitles.SLOT_VIEWED,
-          action.slotId.toString()
+          action.appRef
         );
         return of(AnalyticRecorded());
       })

@@ -7,4 +7,8 @@
     <div class="mes-data" *ngIf="address.addressLine5" id="addressLine5">{{address.addressLine5}}</div>
     <div class="mes-data" *ngIf="address.postcode" id="postcode">{{address.postcode}}</div>
   </div>
+} @else {
+  <div id="no-address">
+    <div class="mes-data" id="no-address-text">Address unknown</div>
+  </div>
 }

@@ -34,6 +34,7 @@ export const getAppRefFromSlot = (slotItem: SlotItem): ApplicationReference | nu
   }
 
   return {
+    bookingReference: get(slotItem, 'slotData.booking.application.bookingReference'),
     applicationId: get(slotItem, 'slotData.booking.application.applicationId'),
     bookingSequence: get(slotItem, 'slotData.booking.application.bookingSequence'),
     checkDigit: get(slotItem, 'slotData.booking.application.checkDigit'),

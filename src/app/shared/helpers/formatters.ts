@@ -1,4 +1,4 @@
-import { ApplicationReference } from '@dvsa/mes-test-schema/categories/common';
+import { Application } from '@dvsa/mes-journal-schema';
 
 /**
  * Formats application reference as a single number, of the form <``app-id``><``book-seq``><``check-digit``>.
@@ -6,7 +6,7 @@ import { ApplicationReference } from '@dvsa/mes-test-schema/categories/common';
  * @param appRef The application reference, as separate fields
  * @returns The app id, booking sequence (padded to 2 digits) and check digit
  */
-export const formatApplicationReference = (appRef: ApplicationReference): string => {
+export const formatApplicationReference = (appRef: Application): string => {
   const formatter = Intl.NumberFormat('en-gb', { minimumIntegerDigits: 2 });
   return `${appRef.applicationId}${formatter.format(appRef.bookingSequence)}${appRef.checkDigit}`;
 };
@@ -23,4 +23,22 @@ export const stripNullishValues = <T>(obj: T): Partial<T> => {
   const isNilOrNaN = <V>(val: V): boolean => val === null || val === '' || val === undefined || Number.isNaN(val);
 
   return Object.fromEntries(Object.entries(obj).filter(([, value]) => !isNilOrNaN(value))) as Partial<T>;
+};
+
+export const getApplicationId = (appRef: Application): string => {
+  if (appRef?.bookingReference) {
+    return appRef.bookingReference;
+  }
+  return appRef.applicationId.toString();
+};
+
+export const getFormattedApplicationReference = (appRef: Application): string => {
+  if (appRef?.bookingReference) {
+    return appRef.bookingReference;
+  }
+  return formatApplicationReference({
+    applicationId: appRef.applicationId,
+    bookingSequence: appRef.bookingSequence,
+    checkDigit: appRef.checkDigit,
+  });
 };

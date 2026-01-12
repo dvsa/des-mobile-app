@@ -34,7 +34,7 @@ import { extractTestSlotAttributes } from '@store/tests/journal-data/common/test
 import { TestStatus } from '@store/tests/test-status/test-status.model';
 import { ActivateTest, RemoveStartedTest, RemoveTestBySlotId, StartTest } from '@store/tests/tests.actions';
 import { getTests } from '@store/tests/tests.reducer';
-import { StartedTests, getStartedTests, getTestById } from '@store/tests/tests.selector';
+import { StartedTests, getStartedTests, getTestByAppRef } from '@store/tests/tests.selector';
 
 @Component({
   selector: 'test-outcome',
@@ -426,7 +426,7 @@ export class TestOutcomeComponent implements OnInit {
     const existingTest = await firstValueFrom(
       this.store$.pipe(
         select(getTests),
-        map((tests) => getTestById(tests, String(slotId)))
+        map((tests) => getTestByAppRef(tests, String(slotId)))
       )
     );
 

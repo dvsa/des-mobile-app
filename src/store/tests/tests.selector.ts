@@ -66,13 +66,13 @@ export const getCurrentTestStatus = (tests: TestsModel): TestStatus => {
   return tests.testStatus[currentTestSlotId];
 };
 
-export const getTestById = (tests: TestsModel, slotId: string): TestResultSchemasUnion => {
-  return tests.startedTests[slotId];
+export const getTestByAppRef = (tests: TestsModel, appRef: string): TestResultSchemasUnion => {
+  return tests.startedTests[appRef];
 };
 
 export const getJournalData = (test: TestResultCommonSchema): JournalData => test.journalData;
 
-export const getTestStatus = (tests: TestsModel, slotId: number) => tests.testStatus[slotId] || TestStatus.Booked;
+export const getTestStatus = (tests: TestsModel, appRef: string) => tests.testStatus[appRef] || TestStatus.Booked;
 
 export const getTestStatuses = (tests: TestsModel) => tests.testStatus;
 

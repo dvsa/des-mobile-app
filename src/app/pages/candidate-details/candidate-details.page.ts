@@ -9,7 +9,7 @@ import { ModalController, ViewDidEnter } from '@ionic/angular';
 import { Store, select } from '@ngrx/store';
 import { AccessibilityService } from '@providers/accessibility/accessibility.service';
 import { SlotProvider } from '@providers/slot/slot';
-import { formatApplicationReference } from '@shared/helpers/formatters';
+import { formatApplicationReference, getFormattedApplicationReference } from '@shared/helpers/formatters';
 import { StoreModel } from '@shared/models/store.model';
 import * as candidateDetailActions from '@store/candidate-details/candidate-details.actions';
 import {
@@ -97,7 +97,9 @@ export class CandidateDetailsPage implements OnInit, OnDestroy, ViewDidEnter {
     }
 
     setTimeout(() => {
-      this.store$.dispatch(journalActions.ClearChangedSlot(this.slot.slotDetail.slotId));
+      this.store$.dispatch(
+        journalActions.ClearChangedSlot(getFormattedApplicationReference(this.slot.booking.application))
+      );
     });
 
     this.pageState = {
@@ -112,7 +114,7 @@ export class CandidateDetailsPage implements OnInit, OnDestroy, ViewDidEnter {
       fitCaseNumber: getFitCaseNumber(this.slot),
       testStatus$: this.store$.pipe(
         select(getTests),
-        select((tests) => getTestStatus(tests, this.slot.slotDetail.slotId))
+        select((tests) => getTestStatus(tests, getFormattedApplicationReference(this.slot.booking.application)))
       ),
     };
 
@@ -120,11 +122,15 @@ export class CandidateDetailsPage implements OnInit, OnDestroy, ViewDidEnter {
 
     if (this.slotChanged) {
       this.store$.dispatch(
-        candidateDetailActions.CandidateDetailsSlotChangeViewed({ slotId: this.slot.slotDetail.slotId })
+        candidateDetailActions.CandidateDetailsSlotChangeViewed({
+          appRef: getFormattedApplicationReference(this.slot.booking.application),
+        })
       );
     }
     setTimeout(() => {
-      this.store$.dispatch(journalActions.ClearChangedSlot(this.slot.slotDetail.slotId));
+      this.store$.dispatch(
+        journalActions.ClearChangedSlot(getFormattedApplicationReference(this.slot.booking.application))
+      );
     });
 
     this.restrictDetails =
@@ -136,7 +142,9 @@ export class CandidateDetailsPage implements OnInit, OnDestroy, ViewDidEnter {
     this.store$.dispatch(candidateDetailActions.CandidateDetailsViewDidEnter({ slot: this.slot }));
 
     if (!this.isTeamJournal) {
-      this.store$.dispatch(journalActions.CandidateDetailsSeen({ slotId: this.slot.slotDetail.slotId }));
+      this.store$.dispatch(
+        journalActions.CandidateDetailsSeen({ appRef: getFormattedApplicationReference(this.slot.booking.application) })
+      );
     }
   }
 
@@ -162,7 +170,7 @@ export class CandidateDetailsPage implements OnInit, OnDestroy, ViewDidEnter {
   }
 
   public specialNeedsIsPopulated(specialNeeds: string[]): boolean {
-    return specialNeeds.length && specialNeeds[0] !== 'None';
+    return specialNeeds.length && specialNeeds[0] !== 'None' && specialNeeds[0] !== 'NONE';
   }
 
   async dismiss(): Promise<void> {
