@@ -66,7 +66,7 @@ export const LoadCompletedTestsFailure = createAction(
 
 export const UnsetError = createAction('[JournalPage] Unset Error');
 
-export const ClearChangedSlot = createAction('[JournalPage] Clear Changed Slot', (appRef: string) => ({ appRef }));
+export const ClearChangedSlot = createAction('[JournalPage] Clear Changed Slot', (slotId: number) => ({ slotId }));
 
 export const SelectPreviousDay = createAction('[JournalPage] Select Previous Day');
 
@@ -84,7 +84,7 @@ export const JournalViewDidEnter = createAction('[JournalPage] Journal view did 
 
 export const JournalNavigateDay = createAction('[JournalPage] Navigate Day', (day: string) => ({ day }));
 
-export const ResumingWriteUp = createAction('[JournalPage] Resuming write-up', (appRef: string) => ({ appRef }));
+export const ResumingWriteUp = createAction('[JournalPage] Resuming write-up', (slotId: string) => ({ slotId }));
 
 export const JournalRefreshError = createAction(
   '[JournalPage] Journal Refresh Error',
@@ -111,4 +111,4 @@ export const JournalRehydrationError = createAction(
   (refreshType: JournalRehydrationType, page: JournalRehydrationPage) => ({ refreshType, page })
 );
 
-export const CandidateDetailsSeen = createAction('[JournalPage] Candidate Details Seen', props<{ appRef: string }>());
+export const CandidateDetailsSeen = createAction('[JournalPage] Candidate Details Seen', props<{ slotId: number }>());

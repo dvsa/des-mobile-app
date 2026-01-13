@@ -28,7 +28,7 @@ import { getTests } from '@store/tests/tests.reducer';
 import {
   getActivityCodeBySlotId,
   getPassCertificateBySlotId,
-  getTestByAppRef,
+  getTestById,
   getTestStatus,
 } from '@store/tests/tests.selector';
 import { SlotComponent } from '../slot/slot';
@@ -118,7 +118,7 @@ export class TestSlotComponent implements SlotComponent, OnInit {
       testStatus$: this.store$.pipe(
         select(getTests),
         select((tests): TestStatus => {
-          const testStatus = getTestStatus(tests, getFormattedApplicationReference(this.slot.booking.application));
+          const testStatus = getTestStatus(tests, slotId);
           return testStatus === TestStatus.Autosaved
             ? testStatus
             : this.completedTestRecord?.activityCode
@@ -146,7 +146,7 @@ export class TestSlotComponent implements SlotComponent, OnInit {
       ),
       isRekey$: this.store$.pipe(
         select(getTests),
-        map((tests) => getTestByAppRef(tests, getFormattedApplicationReference(this.slot.booking.application))),
+        map((tests) => getTestById(tests, this.slot.slotDetail.slotId.toString())),
         filter((test) => test !== undefined),
         select(getRekeyIndicator),
         select(isRekey)
@@ -226,4 +226,6 @@ export class TestSlotComponent implements SlotComponent, OnInit {
   emitCancelFutureTest() {
     this.cancelFutureTestModal.emit();
   }
+
+  protected readonly getFormattedApplicationReference = getFormattedApplicationReference;
 }

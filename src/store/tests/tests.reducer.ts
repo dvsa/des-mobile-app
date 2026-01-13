@@ -24,7 +24,7 @@ export const testsFeatureKey = 'tests';
 export interface TestResultRehydration {
   autosave: boolean;
   testData: TestResultSchemasUnion;
-  appRef: string;
+  slotId: string;
 }
 
 const deriveSlotId = (state: TestsModel, action: Action): string | null => {
@@ -93,12 +93,12 @@ const hydrateRemoteTests = (state: TestsModel, testResults: TestResultRehydratio
   testResults.forEach((testResult) => {
     started = {
       ...started,
-      [testResult.appRef]: testResult.testData,
+      [testResult.slotId]: testResult.testData,
     };
 
     ts = {
       ...ts,
-      [testResult.appRef]: testResult.autosave ? TestStatus.Autosaved : TestStatus.Submitted,
+      [testResult.slotId]: testResult.autosave ? TestStatus.Autosaved : TestStatus.Submitted,
     };
   });
 

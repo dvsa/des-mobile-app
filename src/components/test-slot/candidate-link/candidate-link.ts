@@ -30,7 +30,7 @@ export class CandidateLinkComponent {
   isTeamJournal = false;
 
   @Input()
-  applicationId: number;
+  applicationId: string;
 
   @Input()
   testComplete: boolean;

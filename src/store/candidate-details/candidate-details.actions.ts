@@ -13,5 +13,5 @@ export const CandidateDetailsModalDismiss = createAction(
 
 export const CandidateDetailsSlotChangeViewed = createAction(
   '[CandidateDetailsPage] Candidate details slot change viewed',
-  props<{ appRef: string }>()
+  props<{ slotId: number }>()
 );

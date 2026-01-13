@@ -11,5 +11,5 @@ export class LanguageComponent {
   welshLanguage: boolean;
 
   @Input()
-  applicationId: string | number;
+  applicationId: string;
 }

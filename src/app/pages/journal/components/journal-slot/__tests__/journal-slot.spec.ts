@@ -104,11 +104,8 @@ describe('JournalSlotComponent', () => {
   });
   describe('getSlots', () => {
     it('should return an array of TestSlots from Slots', () => {
-      component.slots = [
-        { slotData: { vehicleTypeCode: 'test1' } },
-        { slotData: { vehicleTypeCode: 'test2' } },
-      ] as SlotItem[];
-      expect(component.getSlots()).toEqual([{ vehicleTypeCode: 'test1' }, { vehicleTypeCode: 'test2' }]);
+      component.slots = [{ slotData: { vehicleTypeCode: 'B' } }, { slotData: { vehicleTypeCode: 'BE' } }] as SlotItem[];
+      expect(component.getSlots()).toEqual([{ vehicleTypeCode: 'B' }, { vehicleTypeCode: 'BE' }]);
     });
   });
 });

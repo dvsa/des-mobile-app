@@ -28,7 +28,7 @@ import { SetTestStatusSubmitted } from './test-status/test-status.actions';
 import { SendCompletedTestsFailure, SendPartialTestsFailure, StartTest, TestOutcomeChanged } from './tests.actions';
 import { TestsModel } from './tests.model';
 import { getTests } from './tests.reducer';
-import { getCurrentTest, getTestByAppRef } from './tests.selector';
+import { getCurrentTest, getTestById } from './tests.selector';
 
 @Injectable()
 export class TestsAnalyticsEffects {
@@ -48,7 +48,7 @@ export class TestsAnalyticsEffects {
       ofType(SetTestStatusSubmitted),
       concatMap((action) => of(action).pipe(withLatestFrom(this.store$.pipe(select(getTests))))),
       concatMap(([action, tests]: [ReturnType<typeof SetTestStatusSubmitted>, TestsModel]) => {
-        const test = getTestByAppRef(tests, action.slotId);
+        const test = getTestById(tests, action.slotId);
         const testOutcome = getTestOutcome(test as TestResultCommonSchema);
         const journalDataOfTest = test.journalData;
 

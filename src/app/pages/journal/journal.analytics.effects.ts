@@ -32,8 +32,8 @@ import {
 } from '@store/journal/journal.actions';
 import { JournalRehydrationType } from '@store/journal/journal.effects';
 import { LoadRemoteTests } from '@store/tests/tests.actions';
-import { TestResultRehydration, getTests } from '@store/tests/tests.reducer';
-import { getTestByAppRef, isPassed } from '@store/tests/tests.selector';
+import { getTests } from '@store/tests/tests.reducer';
+import { getTestById, isPassed } from '@store/tests/tests.selector';
 
 @Injectable()
 export class JournalAnalyticsEffects {
@@ -115,9 +115,10 @@ export class JournalAnalyticsEffects {
     this.actions$.pipe(
       ofType(LoadRemoteTests),
       switchMap((action: ReturnType<typeof LoadRemoteTests>) => {
-        action.tests.forEach((test: TestResultRehydration) => {
+        action.tests.forEach((test) => {
           const rehydrationData = {
             autosave: test.autosave,
+            slotId: test.slotId,
             appRef: formatApplicationReference(test.testData.journalData.applicationReference),
           };
           this.analytics.logGAEvent(
@@ -244,7 +245,7 @@ export class JournalAnalyticsEffects {
         this.analytics.logGAEvent(
           GoogleAnalyticsEvents.JOURNAL,
           GoogleAnalyticsEventsTitles.SLOT_CHANGED,
-          action.appRef
+          action.slotId.toString()
         );
         return of(AnalyticRecorded());
       })
@@ -257,7 +258,7 @@ export class JournalAnalyticsEffects {
       concatMap((action) => of(action).pipe(withLatestFrom(this.store$.pipe(select(getTests))))),
       switchMap(([action, tests]) => {
         const setTestStatusSubmittedAction = action as ReturnType<typeof ResumingWriteUp>;
-        const test = getTestByAppRef(tests, setTestStatusSubmittedAction.appRef);
+        const test = getTestById(tests, setTestStatusSubmittedAction.slotId);
         const isTestPassed = isPassed(test);
         const journalDataOfTest = test.journalData;
 

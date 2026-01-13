@@ -3,7 +3,6 @@ import { ExaminerWorkSchedule, NonTestActivity, PersonalCommitment, TestSlot } f
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { Store } from '@ngrx/store';
 import { DateTime, Duration } from '@shared/helpers/date-time';
-import { getFormattedApplicationReference } from '@shared/helpers/formatters';
 import { StoreModel } from '@shared/models/store.model';
 import DeepDiff from 'deep-diff';
 import { flatten, get, groupBy, isEmpty, times } from 'lodash-es';
@@ -32,7 +31,6 @@ export class SlotProvider {
       .sort((slotA, slotB) => (slotA.slotDetail.start < slotB.slotDetail.start ? -1 : 1))
       .map((newSlot) => {
         const newSlotId = newSlot.slotDetail.slotId;
-        const appRef = getFormattedApplicationReference(newSlot.booking.application);
 
         const replacedJournalSlot = oldJournalSlots.find((oldSlot) => oldSlot.slotData.slotDetail.slotId === newSlotId);
 
@@ -47,7 +45,7 @@ export class SlotProvider {
 
           // 'E' - indicated a property was edited
           if (Array.isArray(differenceToSlot) && differenceToSlot.some((change) => change.kind === 'E')) {
-            this.store$.dispatch(SlotHasChanged(appRef));
+            this.store$.dispatch(SlotHasChanged(newSlotId));
             differenceFound = true;
           }
         }

@@ -53,7 +53,7 @@ export const processSpecialNeeds = (slot: TestSlot): string[] => {
 };
 
 export const getDetails = (slot: TestSlot): Details => {
-  const details: Details = {
+  return {
     testCategory: `Category ${slot.booking.application.testCategory}`,
     slotType: getSlotType(slot),
     meetingPlace: slot.booking.application.meetingPlace,
@@ -72,6 +72,4 @@ export const getDetails = (slot: TestSlot): Details => {
     email: slot.booking.candidate.emailAddress || 'e-mail unavailable',
     address: slot.booking.candidate.candidateAddress,
   };
-  console.log('Details: ', details);
-  return details;
 };

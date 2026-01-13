@@ -2,7 +2,6 @@ import { createFeatureSelector, createReducer, on } from '@ngrx/store';
 import { get } from 'lodash-es';
 
 import { ConnectionStatus } from '@providers/network-state/network-state';
-import { getFormattedApplicationReference } from '@shared/helpers/formatters';
 import * as journalActions from './journal.actions';
 import { JournalModel } from './journal.model';
 
@@ -39,7 +38,7 @@ export const journalReducer = createReducer(
       recallAutoPopupLastDisplayedTime: time,
     })
   ),
-  on(journalActions.CandidateDetailsSeen, (state: JournalModel, { appRef }): JournalModel => {
+  on(journalActions.CandidateDetailsSeen, (state: JournalModel, { slotId }): JournalModel => {
     if (!state.slots[state.selectedDate]) {
       return { ...state };
     }
@@ -48,8 +47,7 @@ export const journalReducer = createReducer(
       slots: {
         ...state.slots,
         [state.selectedDate]: state.slots[state.selectedDate].map((slot) => {
-          const application = get(slot, 'slotData.booking.application');
-          if (getFormattedApplicationReference(application) === appRef) {
+          if (get(slot, 'slotData.slotDetail.slotId') === slotId) {
             return {
               ...slot,
               hasSeenCandidateDetails: true,
@@ -85,13 +83,12 @@ export const journalReducer = createReducer(
       ...stateWithoutError,
     };
   }),
-  on(journalActions.ClearChangedSlot, (state: JournalModel, { appRef }): JournalModel => {
+  on(journalActions.ClearChangedSlot, (state: JournalModel, { slotId }): JournalModel => {
     if (!state.slots[state.selectedDate]) {
       return { ...state };
     }
     const slots = state.slots[state.selectedDate].map((slot) => {
-      const application = get(slot, 'slotData.booking.application');
-      if (getFormattedApplicationReference(application) === appRef) {
+      if (get(slot, 'slotData.slotDetail.slotId') === slotId) {
         return {
           ...slot,
           hasSlotChanged: false,

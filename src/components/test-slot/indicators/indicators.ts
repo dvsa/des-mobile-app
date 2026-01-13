@@ -15,7 +15,7 @@ export class IndicatorsComponent {
   @Input()
   testStatus: TestStatus;
   @Input()
-  applicationId: number;
+  applicationId: string;
 
   constructor(public accessibilityService: AccessibilityService) {}
 
