@@ -80,7 +80,7 @@
     "@dvsa/capacitor-plugin-asam": "^2.1.0",
     "@dvsa/mes-config-schema": "1.10.2",
     "@dvsa/mes-driver-schema": "^1.0.1",
-    "@dvsa/mes-journal-schema": "1.6.0",
+    "@dvsa/mes-journal-schema": "1.6.1",
     "@dvsa/mes-microservice-common": "^1.2.0",
     "@dvsa/mes-mot-schema": "1.1.1",
     "@dvsa/mes-search-schema": "1.4.0",
