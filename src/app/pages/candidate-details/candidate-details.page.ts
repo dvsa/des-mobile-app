@@ -3,13 +3,12 @@ import { Router } from '@angular/router';
 import { Style } from '@capacitor/status-bar';
 import { Business, TestSlot } from '@dvsa/mes-journal-schema';
 import { ActivityCode, SearchResultTestSchema } from '@dvsa/mes-search-schema';
-import { ApplicationReference } from '@dvsa/mes-test-schema/categories/common';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { ModalController, ViewDidEnter } from '@ionic/angular';
 import { Store, select } from '@ngrx/store';
 import { AccessibilityService } from '@providers/accessibility/accessibility.service';
 import { SlotProvider } from '@providers/slot/slot';
-import { formatApplicationReference } from '@shared/helpers/formatters';
+import { getFormattedApplicationReference } from '@shared/helpers/formatters';
 import { StoreModel } from '@shared/models/store.model';
 import * as candidateDetailActions from '@store/candidate-details/candidate-details.actions';
 import {
@@ -148,21 +147,14 @@ export class CandidateDetailsPage implements OnInit, OnDestroy, ViewDidEnter {
    * @param testStatus
    */
   isRecovered(completedTests: SearchResultTestSchema[], slot: TestSlot, testStatus: TestStatus): boolean {
-    const tempAppRef = Number.parseInt(
-      formatApplicationReference({
-        applicationId: slot.booking.application.applicationId,
-        bookingSequence: slot.booking.application.bookingSequence,
-        checkDigit: slot.booking.application.checkDigit,
-      } as ApplicationReference),
-      10
-    );
+    const tempAppRef = getFormattedApplicationReference(slot.booking.application);
 
-    const currentCompletedTest = completedTests.find((value) => value.applicationReference === tempAppRef);
+    const currentCompletedTest = completedTests.find((value) => value.applicationReference.toString() === tempAppRef);
     return Boolean(currentCompletedTest?.autosave) && testStatus !== TestStatus.Autosaved;
   }
 
   public specialNeedsIsPopulated(specialNeeds: string[]): boolean {
-    return specialNeeds.length && specialNeeds[0] !== 'None' && specialNeeds[0] !== 'NONE';
+    return specialNeeds.length && specialNeeds[0].toLowerCase() !== 'none';
   }
 
   async dismiss(): Promise<void> {

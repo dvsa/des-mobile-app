@@ -83,7 +83,7 @@ describe('JournalSlotComponent', () => {
           },
         },
       } as TestSlot;
-      component.completedTests = [{ applicationReference: 9999 }] as CompletedJournalSlot[];
+      component.completedTests = [{ applicationReference: '9999' }] as CompletedJournalSlot[];
       expect(component.findCompletedTest(slotData)).toBeUndefined();
     });
 
@@ -97,7 +97,20 @@ describe('JournalSlotComponent', () => {
           },
         },
       } as TestSlot;
-      const completedTest = { applicationReference: 1023 } as CompletedJournalSlot;
+      const completedTest = { applicationReference: '1023' } as CompletedJournalSlot;
+      component.completedTests = [completedTest];
+      expect(component.findCompletedTest(slotData)).toEqual(completedTest);
+    });
+
+    it('should return the completed test when it matches the application reference', () => {
+      const slotData = {
+        booking: {
+          application: {
+            bookingReference: 'A',
+          },
+        },
+      } as TestSlot;
+      const completedTest = { applicationReference: 'A' } as CompletedJournalSlot;
       component.completedTests = [completedTest];
       expect(component.findCompletedTest(slotData)).toEqual(completedTest);
     });

@@ -6,7 +6,7 @@ import { AnalyticRecorded } from '@providers/analytics/analytics.actions';
 import { GoogleAnalyticsEvents } from '@providers/analytics/analytics.model';
 import { AppConfigProvider } from '@providers/app-config/app-config';
 import { analyticsEventTypePrefix } from '@shared/helpers/format-analytics-text';
-import { formatApplicationReference } from '@shared/helpers/formatters';
+import { getFormattedApplicationReference } from '@shared/helpers/formatters';
 import { StoreModel } from '@shared/models/store.model';
 import { TestStatus } from '@store/tests/test-status/test-status.model';
 import { TestsModel } from '@store/tests/tests.model';
@@ -42,7 +42,7 @@ export class TestStatusAnalyticsEffects {
           this.analytics.logGAEvent(
             analyticsEventTypePrefix(GoogleAnalyticsEvents.TEST_STATUS_CHANGED, tests),
             TestStatus.Booked,
-            formatApplicationReference(tests.startedTests[slotId].journalData.applicationReference)
+            getFormattedApplicationReference(tests.startedTests[slotId].journalData.applicationReference)
           );
           return of(AnalyticRecorded());
         }
@@ -66,7 +66,7 @@ export class TestStatusAnalyticsEffects {
           this.analytics.logGAEvent(
             analyticsEventTypePrefix(GoogleAnalyticsEvents.TEST_STATUS_CHANGED, tests),
             TestStatus.Started,
-            formatApplicationReference(tests.startedTests[slotId].journalData.applicationReference)
+            getFormattedApplicationReference(tests.startedTests[slotId].journalData.applicationReference)
           );
           return of(AnalyticRecorded());
         }
@@ -90,7 +90,7 @@ export class TestStatusAnalyticsEffects {
           this.analytics.logGAEvent(
             analyticsEventTypePrefix(GoogleAnalyticsEvents.TEST_STATUS_CHANGED, tests),
             TestStatus.Decided,
-            formatApplicationReference(tests.startedTests[slotId].journalData.applicationReference)
+            getFormattedApplicationReference(tests.startedTests[slotId].journalData.applicationReference)
           );
           return of(AnalyticRecorded());
         }
@@ -114,7 +114,7 @@ export class TestStatusAnalyticsEffects {
           this.analytics.logGAEvent(
             analyticsEventTypePrefix(GoogleAnalyticsEvents.TEST_STATUS_CHANGED, tests),
             TestStatus.WriteUp,
-            formatApplicationReference(tests.startedTests[slotId].journalData.applicationReference)
+            getFormattedApplicationReference(tests.startedTests[slotId].journalData.applicationReference)
           );
           return of(AnalyticRecorded());
         }
@@ -138,7 +138,7 @@ export class TestStatusAnalyticsEffects {
           this.analytics.logGAEvent(
             analyticsEventTypePrefix(GoogleAnalyticsEvents.TEST_STATUS_CHANGED, tests),
             TestStatus.Autosaved,
-            formatApplicationReference(tests.startedTests[slotId].journalData.applicationReference)
+            getFormattedApplicationReference(tests.startedTests[slotId].journalData.applicationReference)
           );
           return of(AnalyticRecorded());
         }
@@ -162,7 +162,7 @@ export class TestStatusAnalyticsEffects {
           this.analytics.logGAEvent(
             analyticsEventTypePrefix(GoogleAnalyticsEvents.TEST_STATUS_CHANGED, tests),
             TestStatus.Completed,
-            formatApplicationReference(tests.startedTests[slotId].journalData.applicationReference)
+            getFormattedApplicationReference(tests.startedTests[slotId].journalData.applicationReference)
           );
           return of(AnalyticRecorded());
         }
@@ -186,7 +186,7 @@ export class TestStatusAnalyticsEffects {
           this.analytics.logGAEvent(
             analyticsEventTypePrefix(GoogleAnalyticsEvents.TEST_STATUS_CHANGED, tests),
             TestStatus.Submitted,
-            formatApplicationReference(tests.startedTests[slotId].journalData.applicationReference)
+            getFormattedApplicationReference(tests.startedTests[slotId].journalData.applicationReference)
           );
           return of(AnalyticRecorded());
         }

@@ -14,7 +14,7 @@ import { CategoryWhitelistProvider } from '@providers/category-whitelist/categor
 import { DateTimeProvider } from '@providers/date-time/date-time';
 import { DelegatedExaminerTestSlot } from '@providers/delegated-rekey-search/delegated-rekey-search';
 import { SlotProvider } from '@providers/slot/slot';
-import { formatApplicationReference, getFormattedApplicationReference } from '@shared/helpers/formatters';
+import { getFormattedApplicationReference } from '@shared/helpers/formatters';
 import { getSlotType } from '@shared/helpers/get-slot-type';
 import { isAnyOf } from '@shared/helpers/simplifiers';
 import { ActivityCodes } from '@shared/models/activity-codes';
@@ -99,7 +99,6 @@ export class TestSlotComponent implements SlotComponent, OnInit {
   isTestCentreJournalADIBooking = false;
   protected readonly ActivityCodes = ActivityCodes;
 
-  formatAppRef = formatApplicationReference;
   formatTestCategory: TestCategory;
 
   constructor(

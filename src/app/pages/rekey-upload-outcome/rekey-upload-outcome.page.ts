@@ -13,7 +13,7 @@ import { getRekeySearchState } from '@pages/rekey-search/rekey-search.reducer';
 import { getBookedTestSlot } from '@pages/rekey-search/rekey-search.selector';
 import { RekeyUploadOutcomeViewDidEnter } from '@pages/rekey-upload-outcome/rekey-upload-outcome.actions';
 import { BasePageComponent } from '@shared/classes/base-page';
-import { formatApplicationReference } from '@shared/helpers/formatters';
+import { getFormattedApplicationReference } from '@shared/helpers/formatters';
 import { getApplicationReference } from '@store/tests/journal-data/common/application-reference/application-reference.reducer';
 import { getApplicationNumber } from '@store/tests/journal-data/common/application-reference/application-reference.selector';
 import { getUploadStatus } from '@store/tests/rekey-reason/rekey-reason.selector';
@@ -61,7 +61,7 @@ export class RekeyUploadOutcomePage extends BasePageComponent implements OnInit 
           if (isEmpty(testSlot)) {
             return false;
           }
-          return formatApplicationReference(testSlot?.booking?.application) === appRef;
+          return getFormattedApplicationReference(testSlot?.booking?.application) === appRef;
         })
       ),
     };

@@ -1,8 +1,7 @@
 import { Application, Candidate, TestSlot } from '@dvsa/mes-journal-schema';
-import { ApplicationReference } from '@dvsa/mes-test-schema/categories/common';
 import { Details } from '@pages/candidate-details/candidate-details.page.model';
 import { SlotItem } from '@providers/slot-selector/slot-item';
-import { formatApplicationReference } from '@shared/helpers/formatters';
+import { getFormattedApplicationReference } from '@shared/helpers/formatters';
 import { getSlotType } from '@shared/helpers/get-slot-type';
 import { isEmpty } from 'lodash-es';
 
@@ -29,16 +28,7 @@ export const getPhoneNumber = (candidate: Candidate): string => {
 };
 
 export const getApplicationRef = (application: Application): string => {
-  if (application.bookingReference) {
-    return application.bookingReference;
-  }
-  const applicationReference: ApplicationReference = {
-    applicationId: application.applicationId,
-    bookingSequence: application.bookingSequence,
-    checkDigit: application.checkDigit,
-  };
-
-  return formatApplicationReference(applicationReference);
+  return getFormattedApplicationReference(application);
 };
 
 export const processSpecialNeeds = (slot: TestSlot): string[] => {

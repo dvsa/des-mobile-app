@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
 import { TestSlot } from '@dvsa/mes-journal-schema';
 import { SearchResultTestSchema } from '@dvsa/mes-search-schema';
-import { ApplicationReference } from '@dvsa/mes-test-schema/categories/common';
-import { formatApplicationReference } from '@shared/helpers/formatters';
+import { getFormattedApplicationReference } from '@shared/helpers/formatters';
 import { forOwn, has, isEmpty, isNil, isObject } from 'lodash-es';
 import { SlotItem } from './slot-item';
 
@@ -56,14 +55,10 @@ export class SlotSelectorProvider {
       return null;
     }
 
-    const applicationReference: ApplicationReference = {
-      applicationId: slotData.booking.application.applicationId,
-      bookingSequence: slotData.booking.application.bookingSequence,
-      checkDigit: slotData.booking.application.checkDigit,
-    };
-
     return completedTests.find((compTest) => {
-      return compTest.applicationReference === Number.parseInt(formatApplicationReference(applicationReference), 10);
+      return (
+        compTest.applicationReference.toString() === getFormattedApplicationReference(slotData.booking.application)
+      );
     });
   };
 }
