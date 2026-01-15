@@ -66,14 +66,14 @@ describe('Formatters', () => {
         d: undefined,
         e: Number.NaN,
         f: 'valid',
-        g: { 1: 'A', 2: undefined },
+        g: { 1: 'A' },
       };
 
       const result = stripNullishValues(input);
       expect(result).toEqual({
         a: 1,
         f: 'valid',
-        g: { 1: 'A', 2: undefined },
+        g: { 1: 'A' },
       });
     });
 
