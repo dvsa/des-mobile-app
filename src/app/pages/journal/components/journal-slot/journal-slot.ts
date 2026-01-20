@@ -1,11 +1,10 @@
 import { Component, Input } from '@angular/core';
 import { TestSlot } from '@dvsa/mes-journal-schema';
 import { SearchResultTestSchema } from '@dvsa/mes-search-schema';
-import { ApplicationReference } from '@dvsa/mes-test-schema/categories/common';
 import { CompletedJournalSlot } from '@pages/journal/journal.page';
 import { SlotItem } from '@providers/slot-selector/slot-item';
 import { SlotSelectorProvider } from '@providers/slot-selector/slot-selector';
-import { formatApplicationReference } from '@shared/helpers/formatters';
+import { getFormattedApplicationReference } from '@shared/helpers/formatters';
 import { get, has, isEmpty } from 'lodash-es';
 
 @Component({
@@ -34,14 +33,7 @@ export class JournalSlotComponent {
    */
   findCompletedTest(slotData: TestSlot): CompletedJournalSlot {
     if (get(slotData, 'booking')) {
-      const tempAppRef = Number.parseInt(
-        formatApplicationReference({
-          applicationId: slotData.booking.application.applicationId,
-          bookingSequence: slotData.booking.application.bookingSequence,
-          checkDigit: slotData.booking.application.checkDigit,
-        } as ApplicationReference),
-        10
-      );
+      const tempAppRef = getFormattedApplicationReference(slotData.booking.application);
       return this.completedTests.find((value) => value.applicationReference === tempAppRef);
     }
     return null;

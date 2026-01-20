@@ -30,7 +30,7 @@ export class CandidateLinkComponent {
   isTeamJournal = false;
 
   @Input()
-  applicationId: number;
+  applicationId: string;
 
   @Input()
   testComplete: boolean;
@@ -42,6 +42,13 @@ export class CandidateLinkComponent {
     public modalController: ModalController,
     public accessibilityService: AccessibilityService
   ) {}
+
+  parseName(name: Name) {
+    if (name) {
+      return `${name.title} ${name.firstName} ${name.lastName}`;
+    }
+    return 'Name unknown';
+  }
 
   async openCandidateDetailsModal(): Promise<void> {
     await this.accessibilityService.configureStatusBar(Style.Dark);

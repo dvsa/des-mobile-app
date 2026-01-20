@@ -18,7 +18,7 @@ import { getRekeySearchState } from '@pages/rekey-search/rekey-search.reducer';
 import { getBookedTestSlot } from '@pages/rekey-search/rekey-search.selector';
 import { LoadingProvider } from '@providers/loader/loader';
 import { BasePageComponent } from '@shared/classes/base-page';
-import { formatApplicationReference } from '@shared/helpers/formatters';
+import { getFormattedApplicationReference } from '@shared/helpers/formatters';
 import { StoreModel } from '@shared/models/store.model';
 import { SetExaminerConducted } from '@store/tests/examiner-conducted/examiner-conducted.actions';
 import { getExaminerConducted } from '@store/tests/examiner-conducted/examiner-conducted.reducer';
@@ -119,7 +119,7 @@ export class RekeyReasonPage extends BasePageComponent implements OnInit {
           if (isEmpty(testSlot)) {
             return false;
           }
-          return formatApplicationReference(testSlot?.booking?.application) === appRef;
+          return getFormattedApplicationReference(testSlot?.booking?.application) === appRef;
         })
       ),
     };

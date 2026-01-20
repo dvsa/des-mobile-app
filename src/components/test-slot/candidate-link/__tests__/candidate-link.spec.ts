@@ -30,7 +30,7 @@ describe('CandidateLinkComponent', () => {
     component = fixture.componentInstance;
     component.slot = {
       slotDetail: {},
-      vehicleTypeCode: '',
+      vehicleTypeCode: 'A3',
       vehicleSlotTypeCode: 0,
       testCentre: {},
       booking: {

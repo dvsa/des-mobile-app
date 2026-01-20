@@ -24,7 +24,7 @@ import { LoadingProvider } from '@providers/loader/loader';
 import { SearchProvider } from '@providers/search/search';
 import { BasePageComponent } from '@shared/classes/base-page';
 import { DateTime } from '@shared/helpers/date-time';
-import { formatApplicationReference } from '@shared/helpers/formatters';
+import { getFormattedApplicationReference } from '@shared/helpers/formatters';
 import { isAnyOf } from '@shared/helpers/simplifiers';
 import { ErrorTypes } from '@shared/models/error-message';
 import { FaultSummary } from '@shared/models/fault-marking.model';
@@ -168,7 +168,7 @@ export class ViewTestResultPage extends BasePageComponent implements OnInit {
     return {
       date: startDate.format('dddd Do MMMM YYYY'),
       time: startDate.format('HH:mm'),
-      applicationReference: formatApplicationReference(get(this.testResult, 'journalData.applicationReference')),
+      applicationReference: getFormattedApplicationReference(get(this.testResult, 'journalData.applicationReference')),
       category: get(this.testResult, 'category') as TestCategory,
       specialNeeds: get(this.testResult, 'journalData.testSlotAttributes.specialNeedsArray'),
       entitlementCheck: get(this.testResult, 'journalData.testSlotAttributes.entitlementCheck'),

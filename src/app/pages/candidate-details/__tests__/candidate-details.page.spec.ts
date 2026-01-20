@@ -78,7 +78,7 @@ describe('CandidateDetailsPage', () => {
     it('should test ngOnInit', () => {
       component.slot = {
         vehicleSlotTypeCode: 2,
-        vehicleTypeCode: 'test',
+        vehicleTypeCode: 'B',
         examinerVisiting: false,
         slotDetail: {
           slotId: 1,

@@ -51,7 +51,7 @@ import {
 
 import { CompressionProvider } from '@providers/compression/compression';
 import { DataStoreProvider, LocalStorageKey } from '@providers/data-store/data-store';
-import { formatApplicationReference } from '@shared/helpers/formatters';
+import { getFormattedApplicationReference } from '@shared/helpers/formatters';
 import { isAnyOf } from '@shared/helpers/simplifiers';
 import { TestStatus } from '@store/tests/test-status/test-status.model';
 import { LoadRemoteTests } from '@store/tests/tests.actions';
@@ -276,11 +276,7 @@ export class JournalEffects {
           //Morph the data into a format that we can need for the rest of this process
           .map((value) => ({
             slotId: value.slotData.slotDetail.slotId,
-            appRef: formatApplicationReference({
-              applicationId: (value.slotData as TestSlot).booking.application.applicationId,
-              bookingSequence: (value.slotData as TestSlot).booking.application.bookingSequence,
-              checkDigit: (value.slotData as TestSlot).booking.application.checkDigit,
-            }),
+            appRef: getFormattedApplicationReference((value.slotData as TestSlot).booking.application),
           }));
 
         //If the array is empty, we don't need to do anything

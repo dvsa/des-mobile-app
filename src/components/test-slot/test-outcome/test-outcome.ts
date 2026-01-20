@@ -44,7 +44,7 @@ import { StartedTests, getStartedTests, getTestById } from '@store/tests/tests.s
 })
 export class TestOutcomeComponent implements OnInit {
   @Input()
-  applicationId: number;
+  applicationId: string;
 
   @Input()
   slotDetail: SlotDetail;

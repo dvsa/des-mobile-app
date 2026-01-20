@@ -13,9 +13,10 @@ export const applicationReferenceReducer = createReducer(
   on(
     applicationReferenceActions.PopulateApplicationReference,
     (_, { application }): ApplicationReference => ({
-      applicationId: application.applicationId,
-      bookingSequence: application.bookingSequence,
-      checkDigit: application.checkDigit,
+      bookingReference: application?.bookingReference,
+      applicationId: application?.applicationId,
+      bookingSequence: application?.bookingSequence,
+      checkDigit: application?.checkDigit,
     })
   )
 );

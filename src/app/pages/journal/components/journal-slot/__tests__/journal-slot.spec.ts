@@ -83,7 +83,7 @@ describe('JournalSlotComponent', () => {
           },
         },
       } as TestSlot;
-      component.completedTests = [{ applicationReference: 9999 }] as CompletedJournalSlot[];
+      component.completedTests = [{ applicationReference: '9999' }] as CompletedJournalSlot[];
       expect(component.findCompletedTest(slotData)).toBeUndefined();
     });
 
@@ -97,18 +97,28 @@ describe('JournalSlotComponent', () => {
           },
         },
       } as TestSlot;
-      const completedTest = { applicationReference: 1023 } as CompletedJournalSlot;
+      const completedTest = { applicationReference: '1023' } as CompletedJournalSlot;
+      component.completedTests = [completedTest];
+      expect(component.findCompletedTest(slotData)).toEqual(completedTest);
+    });
+
+    it('should return the completed test when it matches the application reference', () => {
+      const slotData = {
+        booking: {
+          application: {
+            bookingReference: 'A',
+          },
+        },
+      } as TestSlot;
+      const completedTest = { applicationReference: 'A' } as CompletedJournalSlot;
       component.completedTests = [completedTest];
       expect(component.findCompletedTest(slotData)).toEqual(completedTest);
     });
   });
   describe('getSlots', () => {
     it('should return an array of TestSlots from Slots', () => {
-      component.slots = [
-        { slotData: { vehicleTypeCode: 'test1' } },
-        { slotData: { vehicleTypeCode: 'test2' } },
-      ] as SlotItem[];
-      expect(component.getSlots()).toEqual([{ vehicleTypeCode: 'test1' }, { vehicleTypeCode: 'test2' }]);
+      component.slots = [{ slotData: { vehicleTypeCode: 'B' } }, { slotData: { vehicleTypeCode: 'BE' } }] as SlotItem[];
+      expect(component.getSlots()).toEqual([{ vehicleTypeCode: 'B' }, { vehicleTypeCode: 'BE' }]);
     });
   });
 });

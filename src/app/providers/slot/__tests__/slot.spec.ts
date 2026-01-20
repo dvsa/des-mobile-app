@@ -4,7 +4,9 @@ import { cloneDeep } from 'lodash-es';
 import { TestSlotComponent } from '@components/test-slot/test-slot/test-slot';
 import { ExaminerWorkSchedule, Gender, NonTestActivity, TestSlot, VehicleGearbox } from '@dvsa/mes-journal-schema';
 import { Initiator } from '@dvsa/mes-test-schema/categories/common';
+import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { Store, StoreModule } from '@ngrx/store';
+import { SlotItem } from '@providers/slot-selector/slot-item';
 import { DateTime, Duration } from '@shared/helpers/date-time';
 import { SpecialNeedsCode } from '@shared/helpers/get-slot-type';
 import { StoreModel } from '@shared/models/store.model';
@@ -71,7 +73,7 @@ describe('SlotProvider', () => {
         vehicleHeight: 4,
         vehicleWidth: 3,
         vehicleLength: 2,
-        testCategory: 'B',
+        testCategory: TestCategory.B,
         vehicleGearbox: 'Manual',
       },
       previousCancellation: ['Act of nature' as Initiator],
@@ -113,7 +115,7 @@ describe('SlotProvider', () => {
               start: '2018-12-10T08:10:00+00:00',
               duration: 57,
             },
-            vehicleSlotType: 'B57mins',
+            vehicleSlotType: 'B',
             testCentre: {
               centreId: 54321,
               centreName: 'Example Test Centre',
@@ -152,13 +154,13 @@ describe('SlotProvider', () => {
                 progressiveAccess: false,
                 specialNeeds: 'Candidate has dyslexia',
                 entitlementCheck: false,
-                testCategory: 'B',
+                testCategory: TestCategory.B,
                 vehicleGearbox: 'Manual' as VehicleGearbox,
               },
               previousCancellation: ['Act of nature' as Initiator],
             },
-          },
-        },
+          } as TestSlot,
+        } as SlotItem,
         {
           component: TestSlotComponent,
           hasSlotChanged: false,
@@ -169,7 +171,7 @@ describe('SlotProvider', () => {
               start: '2018-12-10T10:14:00+00:00',
               duration: 57,
             },
-            vehicleSlotType: 'B57mins',
+            vehicleSlotType: 'B',
             testCentre: {
               centreId: 54321,
               centreName: 'Example Test Centre',
@@ -207,13 +209,13 @@ describe('SlotProvider', () => {
                 progressiveAccess: false,
                 specialNeeds: '',
                 entitlementCheck: false,
-                testCategory: 'B',
+                testCategory: TestCategory.B,
                 vehicleGearbox: 'Manual' as VehicleGearbox,
               },
             },
-          },
-        },
-      ],
+          } as TestSlot,
+        } as SlotItem,
+      ] as SlotItem[],
     };
 
     const oldNonTestActivities = [
@@ -262,7 +264,7 @@ describe('SlotProvider', () => {
       it('should produce the new slot items indicating there was a change', () => {
         const tempOldSlots = cloneDeep(oldSlots);
         const tempNewJournal = cloneDeep(newJournal);
-        tempNewJournal.testSlots[0].booking.candidate.driverNumber = 'NEWDRIVERNUMBER';
+        (tempNewJournal.testSlots[0] as TestSlot).booking.candidate.driverNumber = 'NEWDRIVERNUMBER';
         const result = slotProvider.detectSlotChanges(tempOldSlots, tempNewJournal);
         expect(result.length).toBe(3);
         expect(result[0].hasSlotChanged).toBe(true);
@@ -275,8 +277,8 @@ describe('SlotProvider', () => {
       it('should produce new slot items indicating which slots changed', () => {
         const tempOldSlots = cloneDeep(oldSlots);
         const tempNewJournal = cloneDeep(newJournal);
-        tempNewJournal.testSlots[0].booking.candidate.driverNumber = 'NEWDRIVERNUMBER';
-        tempNewJournal.testSlots[1].booking.application.welshTest = true;
+        (tempNewJournal.testSlots[0] as TestSlot).booking.candidate.driverNumber = 'NEWDRIVERNUMBER';
+        (tempNewJournal.testSlots[1] as TestSlot).booking.application.welshTest = true;
         const result = slotProvider.detectSlotChanges(tempOldSlots, tempNewJournal);
         expect(result.length).toBe(3);
         expect(result[0].hasSlotChanged).toBe(true);
@@ -336,7 +338,7 @@ describe('SlotProvider', () => {
         journal: {
           testPermissionPeriods: [
             {
-              testCategory: 'C',
+              testCategory: TestCategory.C,
               from: '2019-01-01',
               to: null,
             },
@@ -350,7 +352,7 @@ describe('SlotProvider', () => {
         journal: {
           testPermissionPeriods: [
             {
-              testCategory: 'B',
+              testCategory: TestCategory.B,
               from: '2019-01-01',
               to: '2019-01-20',
             },
@@ -364,17 +366,17 @@ describe('SlotProvider', () => {
         journal: {
           testPermissionPeriods: [
             {
-              testCategory: 'B',
+              testCategory: TestCategory.B,
               from: '2018-01-01',
               to: '2018-03-01',
             },
             {
-              testCategory: 'B',
+              testCategory: TestCategory.B,
               from: '2018-05-01',
               to: '2018-07-01',
             },
             {
-              testCategory: 'B',
+              testCategory: TestCategory.B,
               from: '2019-01-01',
               to: '2019-02-01',
             },
@@ -388,7 +390,7 @@ describe('SlotProvider', () => {
         journal: {
           testPermissionPeriods: [
             {
-              testCategory: 'B',
+              testCategory: TestCategory.B,
               from: '2019-01-01',
               to: '2019-02-02',
             },
@@ -402,7 +404,7 @@ describe('SlotProvider', () => {
         journal: {
           testPermissionPeriods: [
             {
-              testCategory: 'B',
+              testCategory: TestCategory.B,
               from: '2019-02-01',
               to: '2019-02-20',
             },
@@ -416,7 +418,7 @@ describe('SlotProvider', () => {
         journal: {
           testPermissionPeriods: [
             {
-              testCategory: 'B',
+              testCategory: TestCategory.B,
               from: '2019-01-20',
               to: '2019-02-01',
             },
@@ -430,7 +432,7 @@ describe('SlotProvider', () => {
         journal: {
           testPermissionPeriods: [
             {
-              testCategory: 'B',
+              testCategory: TestCategory.B,
               from: '2019-02-01',
               to: '2019-02-01',
             },
@@ -444,7 +446,7 @@ describe('SlotProvider', () => {
         journal: {
           testPermissionPeriods: [
             {
-              testCategory: 'B',
+              testCategory: TestCategory.B,
               from: '2019-02-01',
               to: null,
             },
@@ -458,7 +460,7 @@ describe('SlotProvider', () => {
         journal: {
           testPermissionPeriods: [
             {
-              testCategory: 'B',
+              testCategory: TestCategory.B,
               from: '2019-01-01',
               to: null,
             },

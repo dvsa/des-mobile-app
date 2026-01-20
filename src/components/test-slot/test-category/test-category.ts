@@ -12,5 +12,5 @@ export class TestCategoryComponent {
   category: TestCategory | string;
 
   @Input()
-  applicationId: number;
+  applicationId: string;
 }

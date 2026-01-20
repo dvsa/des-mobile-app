@@ -4,9 +4,10 @@
       <ion-col>
         <div id="date-container">
           <div class="mes-black">
-            <ion-text id="name" class="des-header-style-2 word-wrapper">Name: {{name}}</ion-text>
-            <br />
-            <ion-text class="des-header-style-3" id="dateAndTime">Time: {{time}} {{date}}</ion-text>
+            <ion-text id="name" class="des-header-style-2 word-wrapper">{{ name ? 'Name: ' + name : 'Name unknown' }}
+            </ion-text>
+            <br/>
+            <ion-text class="des-header-style-3" id="dateAndTime">Time: {{ time }} {{ date }}</ion-text>
           </div>
         </div>
       </ion-col>

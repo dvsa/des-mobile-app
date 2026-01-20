@@ -16,7 +16,7 @@ import {
 import { DeviceProvider } from '@providers/device/device';
 import { NavigationStateProvider } from '@providers/navigation-state/navigation-state';
 import { analyticsEventTypePrefix } from '@shared/helpers/format-analytics-text';
-import { formatApplicationReference } from '@shared/helpers/formatters';
+import { getFormattedApplicationReference } from '@shared/helpers/formatters';
 import { StoreModel } from '@shared/models/store.model';
 import { getJournalState } from '@store/journal/journal.reducer';
 import { getAppRefFromSlot, getSlotBySlotID, getSlotsOnSelectedDate } from '@store/journal/journal.selector';
@@ -68,7 +68,7 @@ export class TestsAnalyticsEffects {
 
         this.analytics.addGACustomDimension(
           GoogleAnalyticsCustomDimension.APPLICATION_REFERENCE,
-          formatApplicationReference(journalDataOfTest.applicationReference)
+          getFormattedApplicationReference(journalDataOfTest.applicationReference)
         );
         this.analytics.addGACustomDimension(
           GoogleAnalyticsCustomDimension.CANDIDATE_ID,
@@ -140,7 +140,7 @@ export class TestsAnalyticsEffects {
             GoogleAnalyticsEventsTitles.TEST_DETAILS,
             JSON.stringify({
               slotID,
-              appRef: formatApplicationReference(journalData.applicationReference),
+              appRef: getFormattedApplicationReference(journalData.applicationReference),
               testStatus: action.testStatus,
             })
           );
@@ -187,7 +187,7 @@ export class TestsAnalyticsEffects {
 
         this.analytics.addGACustomDimension(
           GoogleAnalyticsCustomDimension.APPLICATION_REFERENCE,
-          formatApplicationReference(journalDataOfTest.applicationReference)
+          getFormattedApplicationReference(journalDataOfTest.applicationReference)
         );
         this.analytics.addGACustomDimension(
           GoogleAnalyticsCustomDimension.CANDIDATE_ID,
@@ -230,7 +230,7 @@ export class TestsAnalyticsEffects {
         if (applicationReference) {
           this.analytics.addGACustomDimension(
             GoogleAnalyticsCustomDimension.APPLICATION_REFERENCE,
-            formatApplicationReference(applicationReference)
+            getFormattedApplicationReference(applicationReference)
           );
         }
 

@@ -15,7 +15,7 @@ import {
   GoogleAnalyticsEventsValues,
 } from '@providers/analytics/analytics.model';
 import { SlotHasChanged } from '@providers/slot/slot.actions';
-import { formatApplicationReference } from '@shared/helpers/formatters';
+import { getFormattedApplicationReference } from '@shared/helpers/formatters';
 import { StoreModel } from '@shared/models/store.model';
 import {
   EarlyStartDidContinue,
@@ -119,7 +119,7 @@ export class JournalAnalyticsEffects {
           const rehydrationData = {
             autosave: test.autosave,
             slotId: test.slotId,
-            appRef: formatApplicationReference(test.testData.journalData.applicationReference),
+            appRef: getFormattedApplicationReference(test.testData.journalData.applicationReference),
           };
           this.analytics.logGAEvent(
             GoogleAnalyticsEvents.REHYDRATION,
@@ -271,7 +271,7 @@ export class JournalAnalyticsEffects {
 
         this.analytics.addGACustomDimension(
           GoogleAnalyticsCustomDimension.APPLICATION_REFERENCE,
-          formatApplicationReference(journalDataOfTest.applicationReference)
+          getFormattedApplicationReference(journalDataOfTest.applicationReference)
         );
         this.analytics.addGACustomDimension(
           GoogleAnalyticsCustomDimension.CANDIDATE_ID,

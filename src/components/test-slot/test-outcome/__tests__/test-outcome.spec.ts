@@ -709,7 +709,7 @@ describe('TestOutcomeComponent', () => {
       it('should call the resumeTest method when `Resume` is clicked', () => {
         spyOn(component, 'showResumeButton').and.returnValue(true);
         component.slotDetail = testSlotDetail;
-        component.applicationId = 1;
+        component.applicationId = '1';
         component.testStatus = TestStatus.Started;
         fixture.detectChanges();
         spyOn(component, 'resumeTest');
