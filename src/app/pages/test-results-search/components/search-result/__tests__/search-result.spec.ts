@@ -25,7 +25,7 @@ describe('SearchResultComponent', () => {
       firstName: 'firstName',
       lastName: 'lastName',
     },
-    applicationReference: 123,
+    applicationReference: '123',
     category: TestCategory.B,
     activityCode: ActivityCodes.PASS,
   } as SearchResultTestSchema;
