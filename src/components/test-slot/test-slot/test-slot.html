@@ -15,7 +15,7 @@
           <ion-col>
             <div *ngIf="isTeamJournal" class="team-journal-test-centre-name">{{slot?.testCentre?.centreName || 'Location Unknown'}}</div>
             <div *ngIf="isUnSubmittedTestSlotView" class="team-journal-test-centre-name" id="un-submitted-slot-app-ref">
-              App ref: {{getFormattedApplicationReference(slot.booking.application)}}
+              Booking ref: {{getFormattedApplicationReference(slot.booking.application)}}
             </div>
           </ion-col>
           <ion-col size="22" class="align-center">
