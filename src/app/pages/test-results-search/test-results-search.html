@@ -28,7 +28,7 @@
                 [checked]="searchBy === 'appReference'"
                 (change)="searchByChanged('appReference')"
               />
-              <label for="search-by-app-reference" class="radio-label"> Application reference </label>
+              <label for="search-by-app-reference" class="radio-label"> Booking reference </label>
             </ion-col>
             <ion-col class="flex-center" size="34">
               <input
@@ -48,8 +48,8 @@
               @if (searchBy === 'appReference') {
                 <ion-input
                   id="test-result-search-{{searchBy}}-input"
-                  [placeholder]="'Enter an application reference'"
-                  aria-label="Application reference"
+                  [placeholder]="'Enter a booking reference'"
+                  aria-label="Booking reference"
                   type="text"
                   class="ion-input-styling custom-font-size"
                   [clearInput]="true"
