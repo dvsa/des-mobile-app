@@ -51,7 +51,7 @@ import {
 
 import { CompressionProvider } from '@providers/compression/compression';
 import { DataStoreProvider, LocalStorageKey } from '@providers/data-store/data-store';
-import { getResultTableApplicationReference } from '@shared/helpers/formatters';
+import { getFormattedApplicationReference, getResultTableApplicationReference } from '@shared/helpers/formatters';
 import { isAnyOf } from '@shared/helpers/simplifiers';
 import { TestStatus } from '@store/tests/test-status/test-status.model';
 import { LoadRemoteTests } from '@store/tests/tests.actions';
@@ -276,7 +276,8 @@ export class JournalEffects {
           //Morph the data into a format that we can need for the rest of this process
           .map((value) => ({
             slotId: value.slotData.slotDetail.slotId,
-            appRef: getResultTableApplicationReference({
+            inAppRef: getFormattedApplicationReference((value.slotData as TestSlot).booking.application),
+            searchableAppRef: getResultTableApplicationReference({
               testSlotAttributes: { slotId: (value.slotData as TestSlot).slotDetail.slotId } as TestSlotAttributes,
               applicationReference: (value.slotData as TestSlot).booking.application,
             } as JournalData),
@@ -292,7 +293,7 @@ export class JournalEffects {
         return this.searchProvider
           .getTestResults(
             this.compressionProvider.compress({
-              applicationReferences: testsToRehydrate.map((value) => value.appRef),
+              applicationReferences: testsToRehydrate.map((value) => value.searchableAppRef),
             })
           )
           .pipe(
@@ -303,11 +304,13 @@ export class JournalEffects {
               testResults.map((test) => ({
                 autosave: !!test.autosave,
                 testData: test.test_result,
+                //Save the test against the slotId the app thinks it belongs to,
+                //rather than the one returned from the database
                 slotId: testsToRehydrate
                   .find(
                     (existingTest) =>
-                      existingTest.appRef ===
-                      formatApplicationReference(test.test_result.journalData.applicationReference)
+                      existingTest.inAppRef ===
+                      getFormattedApplicationReference(test.test_result.journalData.applicationReference)
                   )
                   .slotId.toString(),
               }))
@@ -326,7 +329,7 @@ export class JournalEffects {
                 SaveLog({
                   payload: this.logHelper.createLog(
                     LogType.ERROR,
-                    `Getting test results (${testsToRehydrate.map((value) => value.appRef.toString())})`,
+                    `Getting test results (${testsToRehydrate.map((value) => value.searchableAppRef.toString())})`,
                     err
                   ),
                 })
