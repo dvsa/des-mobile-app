@@ -237,7 +237,6 @@ export class ExaminerRecordsProvider {
         tellMeQuestions: (tellQuestions as QuestionResult[]).filter((question) => Object.keys(question).length > 0),
       };
     }
-    console.log(result);
     return result;
   };
 
