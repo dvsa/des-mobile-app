@@ -49,39 +49,6 @@ describe('ExaminerRecordsProvider', () => {
     dataStore = TestBed.inject(DataStoreProvider);
   });
 
-  describe('getResultTableApplicationReference', () => {
-    it('should return slotId when bookingReference is present', () => {
-      const journalData: JournalData = {
-        applicationReference: {
-          bookingReference: 'BR123',
-        },
-        testSlotAttributes: {
-          slotId: 987654,
-        } as TestSlotAttributes,
-      } as JournalData;
-
-      const result = provider.getResultTableApplicationReference(journalData);
-
-      expect(result).toBe(journalData.testSlotAttributes.slotId);
-    });
-
-    it('should return formatted application reference when bookingReference is not present', () => {
-      const journalData: JournalData = {
-        applicationReference: {
-          applicationId: 12345678,
-          bookingSequence: 1,
-          checkDigit: 9,
-        },
-        testSlotAttributes: {
-          slotId: 987654,
-        } as TestSlotAttributes,
-      } as JournalData;
-
-      const result = provider.getResultTableApplicationReference(journalData);
-      expect(result).toBe(12345678019);
-    });
-  });
-
   describe('getRangeDate', () => {
     it('should return the current date if the range is "today"', () => {
       expect(provider.getRangeDate(DateRange.TODAY).format('DD/MM/YYYY')).toEqual(

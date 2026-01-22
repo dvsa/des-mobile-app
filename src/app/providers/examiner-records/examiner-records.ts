@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { ExaminerRecordModel } from '@dvsa/mes-microservice-common/domain/examiner-records';
 import { TestResultSchemasUnion } from '@dvsa/mes-test-schema/categories';
-import { JournalData, QuestionResult } from '@dvsa/mes-test-schema/categories/common';
+import { QuestionResult } from '@dvsa/mes-test-schema/categories/common';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { Store } from '@ngrx/store';
 import { CompressionProvider } from '@providers/compression/compression';
@@ -11,7 +11,7 @@ import { LoadingProvider } from '@providers/loader/loader';
 import { LogHelper } from '@providers/logs/logs-helper';
 import { SearchProvider } from '@providers/search/search';
 import { DateRange, DateTime } from '@shared/helpers/date-time';
-import { formatApplicationReference } from '@shared/helpers/formatters';
+import { getResultTableApplicationReference } from '@shared/helpers/formatters';
 import { serialiseLogMessage } from '@shared/helpers/serialise-log-message';
 import { LogType } from '@shared/models/log.model';
 import { StoreModel } from '@shared/models/store.model';
@@ -164,26 +164,6 @@ export class ExaminerRecordsProvider {
   }
 
   /**
-   * Gets the relatve application reference for a test once it has reached the results db.
-   *
-   * This method returns the slot id if the test is sourced from
-   *
-   * @param journalData
-   */
-  getResultTableApplicationReference = (journalData: JournalData): number => {
-    if (journalData.applicationReference?.bookingReference) {
-      return journalData.testSlotAttributes.slotId;
-    }
-    return Number(
-      formatApplicationReference({
-        applicationId: journalData.applicationReference.applicationId,
-        bookingSequence: journalData.applicationReference.bookingSequence,
-        checkDigit: journalData.applicationReference.checkDigit,
-      })
-    );
-  };
-
-  /**
    * Converts a test result to the ExaminerRecordModel format.
    *
    * This method transforms the provided test result into the format required for examiner records.
@@ -196,7 +176,7 @@ export class ExaminerRecordsProvider {
    */
   formatForExaminerRecords = (testResult: TestResultSchemasUnion): ExaminerRecordModel => {
     let result: ExaminerRecordModel = {
-      appRef: this.getResultTableApplicationReference(testResult.journalData),
+      appRef: getResultTableApplicationReference(testResult.journalData),
       testCategory: testResult.category as TestCategory,
       activityCode: Number(testResult.activityCode),
       testCentre: testResult.journalData.testCentre,

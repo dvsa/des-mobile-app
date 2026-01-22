@@ -1,7 +1,7 @@
 import { HttpErrorResponse, HttpStatusCode } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ExaminerWorkSchedule, TestSlot } from '@dvsa/mes-journal-schema';
-import { Examiner } from '@dvsa/mes-test-schema/categories/common';
+import { Examiner, JournalData, TestSlotAttributes } from '@dvsa/mes-test-schema/categories/common';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Action, Store, select } from '@ngrx/store';
 import { JournalRefreshModes } from '@providers/analytics/analytics.model';
@@ -51,7 +51,7 @@ import {
 
 import { CompressionProvider } from '@providers/compression/compression';
 import { DataStoreProvider, LocalStorageKey } from '@providers/data-store/data-store';
-import { getFormattedApplicationReference } from '@shared/helpers/formatters';
+import { getResultTableApplicationReference } from '@shared/helpers/formatters';
 import { isAnyOf } from '@shared/helpers/simplifiers';
 import { TestStatus } from '@store/tests/test-status/test-status.model';
 import { LoadRemoteTests } from '@store/tests/tests.actions';
@@ -276,7 +276,10 @@ export class JournalEffects {
           //Morph the data into a format that we can need for the rest of this process
           .map((value) => ({
             slotId: value.slotData.slotDetail.slotId,
-            appRef: getFormattedApplicationReference((value.slotData as TestSlot).booking.application),
+            appRef: getResultTableApplicationReference({
+              testSlotAttributes: { slotId: (value.slotData as TestSlot).slotDetail.slotId } as TestSlotAttributes,
+              applicationReference: (value.slotData as TestSlot).booking.application,
+            } as JournalData),
           }));
 
         //If the array is empty, we don't need to do anything
