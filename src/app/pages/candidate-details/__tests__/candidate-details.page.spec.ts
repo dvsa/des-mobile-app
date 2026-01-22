@@ -166,21 +166,21 @@ describe('CandidateDetailsPage', () => {
 
   describe('isRecovered', () => {
     it('should return true when autosave remotely is true and test status is not autosaved', () => {
-      const completedTests = [{ applicationReference: 112233, autosave: 1 }];
+      const completedTests = [{ applicationReference: '112233', autosave: 1 }];
       const slot = { booking: { application: { applicationId: 11, bookingSequence: 22, checkDigit: 33 } } };
       const testStatus = TestStatus.Completed;
       expect(component.isRecovered(completedTests as SearchResultTestSchema[], slot, testStatus)).toEqual(true);
     });
 
     it('should return false when autosave remotely is false', () => {
-      const completedTests = [{ applicationReference: 112233, autosave: 0 }];
+      const completedTests = [{ applicationReference: '112233', autosave: 0 }];
       const slot = { booking: { application: { applicationId: 11, bookingSequence: 22, checkDigit: 33 } } };
       const testStatus = TestStatus.Completed;
       expect(component.isRecovered(completedTests as SearchResultTestSchema[], slot, testStatus)).toEqual(false);
     });
 
     it('should return false when test status is autosaved', () => {
-      const completedTests = [{ applicationReference: 112233, autosave: 0 }];
+      const completedTests = [{ applicationReference: '112233', autosave: 0 }];
       const slot = { booking: { application: { applicationId: 11, bookingSequence: 22, checkDigit: 33 } } };
       const testStatus = TestStatus.Autosaved;
       expect(component.isRecovered(completedTests as SearchResultTestSchema[], slot, testStatus)).toEqual(false);

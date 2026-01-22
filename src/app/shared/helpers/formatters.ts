@@ -1,4 +1,5 @@
 import { Application } from '@dvsa/mes-journal-schema';
+import { JournalData } from '@dvsa/mes-test-schema/categories/common';
 
 /**
  * Formats application reference as a single number, of the form <``app-id``><``book-seq``><``check-digit``>.
@@ -23,6 +24,26 @@ export const stripNullishValues = <T>(obj: T): Partial<T> => {
   const isNilOrNaN = <V>(val: V): boolean => val === null || val === '' || val === undefined || Number.isNaN(val);
 
   return Object.fromEntries(Object.entries(obj).filter(([, value]) => !isNilOrNaN(value))) as Partial<T>;
+};
+
+/**
+ * Gets the relatve application reference for a test once it has reached the results db.
+ *
+ * This method returns the slot id if the test is sourced from DSP
+ *
+ * @param journalData
+ */
+export const getResultTableApplicationReference = (journalData: JournalData): number => {
+  if (journalData.applicationReference?.bookingReference) {
+    return journalData.testSlotAttributes.slotId;
+  }
+  return Number(
+    formatApplicationReference({
+      applicationId: journalData.applicationReference.applicationId,
+      bookingSequence: journalData.applicationReference.bookingSequence,
+      checkDigit: journalData.applicationReference.checkDigit,
+    })
+  );
 };
 
 export const getApplicationId = (appRef: Application): string => {

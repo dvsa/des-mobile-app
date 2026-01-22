@@ -15,7 +15,7 @@ import {
   GoogleAnalyticsEventsValues,
 } from '@providers/analytics/analytics.model';
 import { SlotHasChanged } from '@providers/slot/slot.actions';
-import { getFormattedApplicationReference } from '@shared/helpers/formatters';
+import { getFormattedApplicationReference, getResultTableApplicationReference } from '@shared/helpers/formatters';
 import { StoreModel } from '@shared/models/store.model';
 import {
   EarlyStartDidContinue,
@@ -119,7 +119,7 @@ export class JournalAnalyticsEffects {
           const rehydrationData = {
             autosave: test.autosave,
             slotId: test.slotId,
-            appRef: getFormattedApplicationReference(test.testData.journalData.applicationReference),
+            appRef: getResultTableApplicationReference(test.testData.journalData),
           };
           this.analytics.logGAEvent(
             GoogleAnalyticsEvents.REHYDRATION,

@@ -59,7 +59,22 @@ export class CompletedTestPersistenceProvider {
     let completedTests: SearchResultTestSchema[] | null = null;
     try {
       const persistedTestJson = await this.dataStoreProvider.getItem(this.completedTestKeychainKey);
-      completedTests = persistedTestJson.length > 0 ? JSON.parse(persistedTestJson) : null;
+      //If the persisted data contains outdated, numeric application references, convert them to strings
+      if (persistedTestJson.length > 0) {
+        // biome-ignore lint/suspicious/noExplicitAny: <We do not know if applicationReference is a string or a number>
+        const persistedTestParsed: any[] = JSON.parse(persistedTestJson);
+        completedTests = persistedTestParsed.map((test) => {
+          if (typeof test.applicationReference === 'number') {
+            return {
+              ...test,
+              applicationReference: test.applicationReference.toString(),
+            };
+          }
+          return test;
+        });
+      } else {
+        completedTests = null;
+      }
       if (completedTests) {
         this.store$.dispatch(LoadCompletedTestsSuccess(completedTests));
       }

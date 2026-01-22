@@ -27,8 +27,6 @@
                 class="ion-input-styling custom-font-size"
                 aria-labelledby="delegated-rekey-search-application-reference-label"
                 [clearInput]="true"
-                numbersOnly
-                maxlength="11"
                 [class.ng-invalid]="hasClickedSearch && applicationReferenceInvalid"
                 (ionFocus)="setFocus('appRef')"
                 (ionBlur)="setFocus(null)"
