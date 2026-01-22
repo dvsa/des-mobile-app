@@ -29,7 +29,7 @@ export const stripNullishValues = <T>(obj: T): Partial<T> => {
 /**
  * Gets the relatve application reference for a test once it has reached the results db.
  *
- * This method returns the slot id if the test is sourced from
+ * This method returns the slot id if the test is sourced from DSP
  *
  * @param journalData
  */
