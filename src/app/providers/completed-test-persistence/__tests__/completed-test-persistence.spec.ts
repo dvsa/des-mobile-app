@@ -13,7 +13,10 @@ describe('CompletedTestPersistenceProvider', () => {
   let completedTestPersistenceProvider: CompletedTestPersistenceProvider;
   let dataStoreProviderMock: DataStoreProvider;
   let store$: Store<StoreModel>;
-  const completedTests = [{ applicationReference: '1234' }, { applicationReference: 567 }] as SearchResultTestSchema[];
+  const completedTests = [
+    { applicationReference: '1234' },
+    { applicationReference: '567' },
+  ] as SearchResultTestSchema[];
 
   beforeEach(() => {
     TestBed.configureTestingModule({
