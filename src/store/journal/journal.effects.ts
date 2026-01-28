@@ -51,7 +51,7 @@ import {
 
 import { CompressionProvider } from '@providers/compression/compression';
 import { DataStoreProvider, LocalStorageKey } from '@providers/data-store/data-store';
-import { getResultTableApplicationReference } from '@shared/helpers/formatters';
+import { getFormattedApplicationReference, getResultTableApplicationReference } from '@shared/helpers/formatters';
 import { isAnyOf } from '@shared/helpers/simplifiers';
 import { TestStatus } from '@store/tests/test-status/test-status.model';
 import { LoadRemoteTests } from '@store/tests/tests.actions';
@@ -276,7 +276,8 @@ export class JournalEffects {
           //Morph the data into a format that we can need for the rest of this process
           .map((value) => ({
             slotId: value.slotData.slotDetail.slotId,
-            appRef: getResultTableApplicationReference({
+            inAppRef: getFormattedApplicationReference((value.slotData as TestSlot).booking.application),
+            searchableAppRef: getResultTableApplicationReference({
               testSlotAttributes: { slotId: (value.slotData as TestSlot).slotDetail.slotId } as TestSlotAttributes,
               applicationReference: (value.slotData as TestSlot).booking.application,
             } as JournalData),
@@ -292,7 +293,7 @@ export class JournalEffects {
         return this.searchProvider
           .getTestResults(
             this.compressionProvider.compress({
-              applicationReferences: testsToRehydrate.map((value) => value.appRef),
+              applicationReferences: testsToRehydrate.map((value) => value.searchableAppRef),
             })
           )
           .pipe(
@@ -300,17 +301,50 @@ export class JournalEffects {
             map((response) => this.compressionProvider.extract<TestResultsRehydrated[]>(response.body)),
             //Map the data into a format that we can use for the rest of the process
             map((testResults: TestResultsRehydrated[]) =>
-              testResults.map((test) => ({
-                autosave: !!test.autosave,
-                testData: test.test_result,
-                slotId: test.test_result.journalData.testSlotAttributes.slotId.toString(),
-              }))
+              testResults.map((test) => {
+                //If possible, save the test against the slotId the app thinks it belongs to,
+                //rather than the one returned from the database
+                const existingTestEntry = testsToRehydrate.find(
+                  (existingTest) =>
+                    existingTest?.inAppRef ===
+                    getFormattedApplicationReference(test.test_result.journalData.applicationReference)
+                );
+                if (!existingTestEntry) {
+                  this.store$.dispatch(
+                    SaveLog({
+                      payload: this.logHelper.createLog(
+                        LogType.INFO,
+                        'REHYDRATION - Could not find a matching journal entry for this test.',
+                        getFormattedApplicationReference(test.test_result.journalData.applicationReference)
+                      ),
+                    })
+                  );
+                }
+                return {
+                  autosave: !!test.autosave,
+                  testData: test.test_result,
+                  slotId: existingTestEntry
+                    ? existingTestEntry.slotId?.toString()
+                    : test.test_result.journalData.testSlotAttributes.slotId.toString(),
+                };
+              })
             ),
             tap((completedTests: TestResultRehydration[]) => {
               //If we have any tests, we need to dispatch them to the store
               if (completedTests.length > 0) {
                 this.store$.dispatch(LoadRemoteTests(completedTests));
                 this.store$.dispatch(JournalRehydrationSuccess(action.refreshType, action.page));
+                this.store$.dispatch(
+                  SaveLog({
+                    payload: this.logHelper.createLog(
+                      LogType.INFO,
+                      'REHYDRATION - User successfully rehydrated',
+                      completedTests.map((value) =>
+                        getFormattedApplicationReference(value.testData.journalData.applicationReference)
+                      )
+                    ),
+                  })
+                );
               } else {
                 this.store$.dispatch(JournalRehydrationNull(action.refreshType, action.page));
               }
@@ -320,7 +354,7 @@ export class JournalEffects {
                 SaveLog({
                   payload: this.logHelper.createLog(
                     LogType.ERROR,
-                    `Getting test results (${testsToRehydrate.map((value) => value.appRef.toString())})`,
+                    `Getting test results (${testsToRehydrate.map((value) => value.searchableAppRef.toString())})`,
                     err
                   ),
                 })
