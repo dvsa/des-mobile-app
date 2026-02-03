@@ -5,6 +5,8 @@ import { ActivatedRouteMock, PlatformMock, RouterMock } from '@mocks/index.mock'
 import { MockComponent } from 'ng-mocks';
 
 import { Style } from '@capacitor/status-bar';
+import { PracticeModeBanner } from '@components/common/practice-mode-banner/practice-mode-banner';
+import { PracticeModeExitButton } from '@components/common/practice-mode-exit-button/practice-mode-exit-button';
 import { PracticeModeOptionsBar } from '@components/common/practice-mode-options-bar/practice-mode-options-bar';
 import { VehicleRecallsBanner } from '@components/common/vehicle-recall-banner/vehicle-recalls-banner';
 import { LocationComponent } from '@components/test-slot/location/location';
@@ -41,7 +43,9 @@ describe('FakeJournalPage', () => {
         MockComponent(VehicleRecallsBanner),
         MockComponent(LocationComponent),
         MockComponent(TestSlotComponent),
+        MockComponent(PracticeModeBanner),
         MockComponent(JournalNavigationComponent),
+        MockComponent(PracticeModeExitButton),
       ],
       imports: [IonicModule],
       providers: [
