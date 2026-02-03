@@ -1,4 +1,4 @@
-import { AuthResult } from '@ionic-enterprise/auth';
+import { AuthResult } from '@providers/authentication/authentication';
 import { createSelector } from '@ngrx/store';
 import { StoreModel } from '@shared/models/store.model';
 import { AppInfoStateModel } from './app-info.model';
