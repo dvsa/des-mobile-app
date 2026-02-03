@@ -396,7 +396,7 @@ describe('JournalSelector', () => {
             testDate: '2021-03-12',
             driverNumber: 'AAAA',
             candidateName: { firstName: 'Name' },
-            applicationReference: 1234561014,
+            applicationReference: '1234561014',
             category: 'B',
             activityCode: '1',
             autosave: 1,

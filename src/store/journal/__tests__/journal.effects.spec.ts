@@ -25,7 +25,7 @@ import { DateTime, Duration } from '@shared/helpers/date-time';
 
 import { HttpResponse } from '@angular/common/http';
 import { TestResultSchemasUnion } from '@dvsa/mes-test-schema/categories';
-import { TestSlotAttributes } from '@dvsa/mes-test-schema/categories/common';
+import { JournalData, TestSlotAttributes } from '@dvsa/mes-test-schema/categories/common';
 import { provideMockStore } from '@ngrx/store/testing';
 import { CompletedTestPersistenceProviderMock } from '@providers/completed-test-persistence/__mocks__/completed-test-persistence.mock';
 import { CompletedTestPersistenceProvider } from '@providers/completed-test-persistence/completed-test-persistence';
@@ -35,11 +35,12 @@ import { SearchProvider } from '@providers/search/search';
 import { TestStatus } from '@store/tests/test-status/test-status.model';
 import { LoadRemoteTests } from '@store/tests/tests.actions';
 import { TestResultsRehydrated } from '@store/tests/tests.model';
-import { TestResultRehydration } from '@store/tests/tests.reducer';
+import { TestResultRehydration, getTests } from '@store/tests/tests.reducer';
 import * as journalActions from '../journal.actions';
+import { JournalRehydrationNull, JournalRehydrationSuccess } from '../journal.actions';
 import { JournalEffects, JournalRehydrationPage, JournalRehydrationType } from '../journal.effects';
 import { JournalModel } from '../journal.model';
-import { journalReducer } from '../journal.reducer';
+import { getJournalState, journalReducer } from '../journal.reducer';
 
 describe('JournalEffects', () => {
   let effects: JournalEffects;
@@ -285,51 +286,68 @@ describe('JournalEffects', () => {
   });
 
   describe('journalRehydration$', () => {
-    it('should dispatch LoadRemoteTests with rehydrated tests for eligible slots', (done) => {
-      const mockRehydratedResponse: TestResultsRehydrated[] = [
+    it('should dispatch LoadRemoteTests and JournalRehydrationSuccess when rehydrated tests are returned', (done) => {
+      const mockSlot = {
+        slotData: {
+          slotDetail: { slotId: 123 },
+          booking: { application: { applicationId: 999, bookingSequence: 1, checkDigit: 2, bookingReference: '999' } },
+        },
+      };
+
+      const mockResponse: TestResultsRehydrated[] = [
         {
           autosave: 1,
           test_result: {
-            category: 'B',
             journalData: {
-              testSlotAttributes: {
-                slotId: 1,
-              } as TestSlotAttributes,
-            },
+              applicationReference: {
+                applicationId: 999,
+                bookingSequence: 1,
+                checkDigit: 2,
+                bookingReference: '999',
+              },
+              testSlotAttributes: { slotId: 123 } as TestSlotAttributes,
+            } as JournalData,
           } as TestResultSchemasUnion,
         },
       ];
-      const mockRehydratedTestResults: TestResultRehydration[] = [
+
+      const expectedMapped: TestResultRehydration[] = [
         {
           autosave: true,
-          testData: {
-            category: 'B',
-            journalData: {
-              testSlotAttributes: {
-                slotId: 1,
-              } as TestSlotAttributes,
-            },
-          } as TestResultSchemasUnion,
-          slotId: '1',
+          testData: mockResponse[0].test_result,
+          slotId: '123',
         },
       ];
 
-      spyOn(searchProvider, 'getTestResults').and.returnValue(of({} as HttpResponse<string>));
-      spyOn(compressionProvider, 'compress').and.callThrough();
-      spyOn(compressionProvider, 'extract').and.returnValue(mockRehydratedResponse);
       spyOn(store$, 'dispatch');
+      spyOn(store$, 'select').and.callFake((selector) => {
+        if (selector === getTests) {
+          return of({ testStatus: { 123: TestStatus.Booked } });
+        }
+        if (selector === getJournalState) {
+          return of({ slots: [mockSlot] });
+        }
+        return of(null);
+      });
+
+      spyOn(searchProvider, 'getTestResults').and.returnValue(of({ body: mockResponse } as any));
+      spyOn(compressionProvider, 'compress').and.callThrough();
+      spyOn(compressionProvider, 'extract').and.returnValue(mockResponse);
 
       actions$.next(journalActions.JournalRehydration(JournalRehydrationType.MANUAL, JournalRehydrationPage.JOURNAL));
+
       effects.journalRehydration$.subscribe(() => {
         expect(compressionProvider.compress).toHaveBeenCalled();
         expect(compressionProvider.extract).toHaveBeenCalled();
         expect(searchProvider.getTestResults).toHaveBeenCalled();
-        expect(store$.dispatch).toHaveBeenCalledWith(LoadRemoteTests(mockRehydratedTestResults));
+        expect(store$.dispatch).toHaveBeenCalledWith(LoadRemoteTests(expectedMapped));
+        expect(store$.dispatch).toHaveBeenCalledWith(
+          JournalRehydrationSuccess(JournalRehydrationType.MANUAL, JournalRehydrationPage.JOURNAL)
+        );
         done();
       });
     });
-
-    it('should not dispatch LoadRemoteTests when no slots are eligible for rehydration', (done) => {
+    it('should dispatch JournalRehydrationNull when no eligible slots exist', (done) => {
       spyOn(searchProvider, 'getTestResults').and.returnValue(of({} as HttpResponse<string>));
       spyOn(compressionProvider, 'compress').and.callThrough();
       spyOn(compressionProvider, 'extract').and.returnValue([]);
@@ -339,7 +357,41 @@ describe('JournalEffects', () => {
         expect(compressionProvider.compress).toHaveBeenCalled();
         expect(compressionProvider.extract).toHaveBeenCalled();
         expect(searchProvider.getTestResults).toHaveBeenCalled();
-        expect(store$.dispatch).not.toHaveBeenCalledWith(LoadRemoteTests([]));
+        expect(store$.dispatch).toHaveBeenCalledWith(
+          JournalRehydrationNull(JournalRehydrationType.MANUAL, JournalRehydrationPage.JOURNAL)
+        );
+        done();
+      });
+    });
+    it('should dispatch JournalRehydrationNull when provider returns no results', (done) => {
+      const mockSlot = {
+        slotData: {
+          slotDetail: { slotId: 123 },
+          booking: { application: { applicationId: 999 } },
+        },
+      };
+
+      spyOn(store$, 'dispatch');
+      spyOn(store$, 'select').and.callFake((selector) => {
+        if (selector === getTests) {
+          return of({ testStatus: { 123: TestStatus.Booked } });
+        }
+        if (selector === getJournalState) {
+          return of({ slots: [mockSlot] });
+        }
+        return of(null);
+      });
+
+      spyOn(searchProvider, 'getTestResults').and.returnValue(of({ body: [] } as any));
+      spyOn(compressionProvider, 'compress').and.callThrough();
+      spyOn(compressionProvider, 'extract').and.returnValue([]);
+
+      actions$.next(journalActions.JournalRehydration(JournalRehydrationType.MANUAL, JournalRehydrationPage.JOURNAL));
+
+      effects.journalRehydration$.subscribe(() => {
+        expect(store$.dispatch).toHaveBeenCalledWith(
+          JournalRehydrationNull(JournalRehydrationType.MANUAL, JournalRehydrationPage.JOURNAL)
+        );
         done();
       });
     });

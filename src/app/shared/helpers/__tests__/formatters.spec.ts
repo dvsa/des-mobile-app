@@ -1,8 +1,10 @@
 import { Application } from '@dvsa/mes-journal-schema';
+import { JournalData, TestSlotAttributes } from '@dvsa/mes-test-schema/categories/common';
 import {
   formatApplicationReference,
   getApplicationId,
   getFormattedApplicationReference,
+  getResultTableApplicationReference,
   removeLeadingZeros,
   removeNonAlphaNumeric,
   stripNullishValues,
@@ -81,6 +83,39 @@ describe('Formatters', () => {
       const input = { a: null, b: '', c: undefined, d: Number.NaN };
       const result = stripNullishValues(input);
       expect(result).toEqual({});
+    });
+  });
+
+  describe('getResultTableApplicationReference', () => {
+    it('should return slotId when bookingReference is present', () => {
+      const journalData: JournalData = {
+        applicationReference: {
+          bookingReference: 'BR123',
+        },
+        testSlotAttributes: {
+          slotId: 987654,
+        } as TestSlotAttributes,
+      } as JournalData;
+
+      const result = getResultTableApplicationReference(journalData);
+
+      expect(result).toBe(journalData.testSlotAttributes.slotId);
+    });
+
+    it('should return formatted application reference when bookingReference is not present', () => {
+      const journalData: JournalData = {
+        applicationReference: {
+          applicationId: 12345678,
+          bookingSequence: 1,
+          checkDigit: 9,
+        },
+        testSlotAttributes: {
+          slotId: 987654,
+        } as TestSlotAttributes,
+      } as JournalData;
+
+      const result = getResultTableApplicationReference(journalData);
+      expect(result).toBe(12345678019);
     });
   });
 

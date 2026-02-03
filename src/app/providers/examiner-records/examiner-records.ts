@@ -11,7 +11,7 @@ import { LoadingProvider } from '@providers/loader/loader';
 import { LogHelper } from '@providers/logs/logs-helper';
 import { SearchProvider } from '@providers/search/search';
 import { DateRange, DateTime } from '@shared/helpers/date-time';
-import { formatApplicationReference } from '@shared/helpers/formatters';
+import { getResultTableApplicationReference } from '@shared/helpers/formatters';
 import { serialiseLogMessage } from '@shared/helpers/serialise-log-message';
 import { LogType } from '@shared/models/log.model';
 import { StoreModel } from '@shared/models/store.model';
@@ -176,7 +176,7 @@ export class ExaminerRecordsProvider {
    */
   formatForExaminerRecords = (testResult: TestResultSchemasUnion): ExaminerRecordModel => {
     let result: ExaminerRecordModel = {
-      appRef: Number(formatApplicationReference(testResult.journalData.applicationReference)),
+      appRef: getResultTableApplicationReference(testResult.journalData),
       testCategory: testResult.category as TestCategory,
       activityCode: Number(testResult.activityCode),
       testCentre: testResult.journalData.testCentre,
