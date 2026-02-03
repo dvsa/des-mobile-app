@@ -1,4 +1,4 @@
-import { AuthResult } from '@ionic-enterprise/auth';
+import { AuthResult } from '@providers/authentication/authentication';
 import { createAction, props } from '@ngrx/store';
 import { UpdateAvailable } from '@pages/dashboard/components/update-available-modal/update-available-modal';
 
