@@ -6,10 +6,10 @@
         <ion-row>
           <ion-col size="10" class="score-padding">
             <div class="counter-background">
-              <span class="count" id="{{idSelector}}-{{i}}-score">{{item.q.score !== null ? item.q.score : '-'}}</span>
+              <span class="count" id="{{idSelector}}-{{i}}-score">{{get(item.q, 'score') !== null ? get(item.q, 'score') : '-'}}</span>
             </div>
           </ion-col>
-          <ion-col class="title-padding" id="{{idSelector}}-{{i}}-title"> {{item.q.title}} </ion-col>
+          <ion-col class="title-padding" id="{{idSelector}}-{{i}}-title"> {{get(item.q, 'title')}} </ion-col>
         </ion-row>
       </ion-card>
     }
