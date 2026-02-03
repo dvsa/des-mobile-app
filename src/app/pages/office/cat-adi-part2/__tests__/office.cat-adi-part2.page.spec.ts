@@ -11,6 +11,7 @@ import { of } from 'rxjs';
 
 import { ActivityCodeComponent } from '@components/common/activity-code/activity-code';
 import { ComponentsModule } from '@components/common/common-components.module';
+import { TestFlowHeaderComponent } from '@components/common/test-flow-header/test-flow-header.component';
 import { CatADI2UniqueTypes } from '@dvsa/mes-test-schema/categories/ADI2';
 import { ShowMeQuestionsCatADI2Component } from '@pages/office/cat-adi-part2/components/show-me-questions/show-me-questions';
 import { VehicleChecksOfficeCardCatADI2Component } from '@pages/office/cat-adi-part2/components/vehicle-checks/vehicle-checks-office-card';
@@ -20,6 +21,7 @@ import { OfficeRegistrationAndMotComponent } from '@pages/office/components/offi
 import { TrueLikenessComponent } from '@pages/office/components/true-likeness/true-likeness';
 import { AccompanimentCardComponent } from '@pages/waiting-room-to-car/components/accompaniment-card/accompaniment-card';
 import { AccompanimentComponent } from '@pages/waiting-room-to-car/components/accompaniment/accompaniment';
+import { VehicleDetailsCardComponent } from '@pages/waiting-room-to-car/components/vehicle-details-card/vehicle-details-card';
 import { AuthenticationProviderMock } from '@providers/authentication/__mocks__/authentication.mock';
 import { AuthenticationProvider } from '@providers/authentication/authentication';
 import { DeviceProviderMock } from '@providers/device/__mocks__/device.mock';
@@ -103,6 +105,8 @@ describe('OfficeCatADI2Page', () => {
         MockComponent(ShowMeQuestionsCatADI2Component),
         MockComponent(VehicleChecksOfficeCardCatADI2Component),
         MockComponent(DrivingFaultsComponent),
+        MockComponent(TestFlowHeaderComponent),
+        MockComponent(VehicleDetailsCardComponent),
       ],
       imports: [
         PipesModule,

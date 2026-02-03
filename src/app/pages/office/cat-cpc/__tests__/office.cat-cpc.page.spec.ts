@@ -3,6 +3,7 @@ import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { ActivityCodeComponent } from '@components/common/activity-code/activity-code';
 import { ComponentsModule } from '@components/common/common-components.module';
+import { TestFlowHeaderComponent } from '@components/common/test-flow-header/test-flow-header.component';
 import { DebriefWitnessedComponent } from '@components/test-finalisation/debrief-witnessed/debrief-witnessed';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { IonicModule, ModalController, NavController, Platform, ToastController } from '@ionic/angular';
@@ -73,6 +74,7 @@ describe('OfficeCatCPCPage', () => {
         MockComponent(DateOfTest),
         MockComponent(AccompanimentCardCatCPCComponent),
         MockComponent(AccompanimentComponent),
+        MockComponent(TestFlowHeaderComponent),
       ],
       imports: [
         IonicModule,

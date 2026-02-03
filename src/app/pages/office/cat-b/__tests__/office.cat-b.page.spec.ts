@@ -3,6 +3,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { ActivityCodeComponent } from '@components/common/activity-code/activity-code';
 import { ComponentsModule } from '@components/common/common-components.module';
+import { TestFlowHeaderComponent } from '@components/common/test-flow-header/test-flow-header.component';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { IonicModule, ModalController, NavController, Platform, ToastController } from '@ionic/angular';
 import { ModalControllerMock, PlatformMock } from '@mocks/index.mock';
@@ -82,6 +83,7 @@ describe('OfficeCatBPage', () => {
     TestBed.configureTestingModule({
       declarations: [
         OfficeCatBPage,
+        MockComponent(TestFlowHeaderComponent),
         MockComponent(RouteNumberComponent),
         MockComponent(OfficeFooterComponent),
         MockComponent(CandidateDescriptionComponent),

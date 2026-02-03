@@ -3,6 +3,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { AppModule } from '@app/app.module';
 import { ComponentsModule } from '@components/common/common-components.module';
+import { TestFlowHeaderComponent } from '@components/common/test-flow-header/test-flow-header.component';
 import { ModeOfTransport } from '@dvsa/mes-test-schema/categories/AM2';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { IonicModule, ModalController, NavController, Platform, ToastController } from '@ionic/angular';
@@ -67,6 +68,7 @@ describe('OfficeCatAMod2Page', () => {
     TestBed.configureTestingModule({
       declarations: [
         OfficeCatAMod2Page,
+        MockComponent(TestFlowHeaderComponent),
         MockComponent(OfficeFooterComponent),
         MockComponent(SafetyAndBalanceCardCatAMod2Component),
         MockComponent(ModeOfTransportCatAMod2Component),

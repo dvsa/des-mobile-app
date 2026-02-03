@@ -24,6 +24,7 @@ import { TestCentre, TestCentreDetailResponse } from '@shared/models/test-centre
 
 import { HttpStatusCode } from '@angular/common/http';
 import { ActivatedRoute, RouterModule } from '@angular/router';
+import { RefreshButtonComponent } from '@components/common/refresh-button/refresh-button.component';
 import { TestFlowHeaderComponent } from '@components/common/test-flow-header/test-flow-header.component';
 import { ActivatedRouteMock } from '@mocks/angular-mocks/activated-route.mock';
 import { DeviceProviderMock } from '@providers/device/__mocks__/device.mock';
@@ -54,6 +55,7 @@ describe('TestCenterJournalPage', () => {
       declarations: [TestCentreJournalPage, MockComponent(TestFlowHeaderComponent)],
       imports: [
         IonicModule,
+        MockComponent(RefreshButtonComponent),
         CommonModule,
         ComponentsModule,
         TestCentreJournalComponentsModule,
