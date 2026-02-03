@@ -216,7 +216,6 @@ export class AuthenticationProvider {
       authResult = await MsAuthPlugin.login(this.authOptions);
     } catch (error) {
       this.logEvent(LogType.ERROR, 'Authentication provider - Login error', error);
-      window.alert(JSON.stringify(error));
       throw error;
     }
 
@@ -360,7 +359,6 @@ export class AuthenticationProvider {
       await MsAuthPlugin.logoutAll(this.authOptions);
       this.logEvent(LogType.INFO, 'Logout', 'Finished logout flow');
     } catch (err) {
-      window.alert(err)
       this.logEvent(LogType.ERROR, 'Authentication provider - Logout error', err);
     }
 
