@@ -27,7 +27,7 @@
 		"ScreenOrientationPlugin",
 		"AsamPlugin",
 		"AuthConnectPlugin",
-		"SentryCapacitor",
+		"SentryCapacitorPlugin",
 		"NativeBiometric",
 		"CDVPlugin"
 	]
