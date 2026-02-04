@@ -3,6 +3,7 @@ import { Capacitor } from '@capacitor/core';
 import { SplashScreen } from '@capacitor/splash-screen';
 import { AlertController, MenuController } from '@ionic/angular';
 import { LoadingOptions } from '@ionic/core';
+import { ReportError } from '@pages/login/login-page.actions';
 import { AnalyticsProvider } from '@providers/analytics/analytics';
 import { AppConfigProvider } from '@providers/app-config/app-config';
 import { AppConfigError } from '@providers/app-config/app-config.constants';
@@ -149,6 +150,7 @@ export class LoginPage extends LogoutBasePageComponent implements OnInit {
       const { display, record } = this.rationaliseError(error);
 
       this.appInitError = display;
+      this.store$.dispatch(ReportError(this.appInitError.valueOf()));
       await this.hideSplashscreen();
 
       if (error === AuthenticationError.USER_CANCELLED) {
@@ -220,19 +222,19 @@ export class LoginPage extends LogoutBasePageComponent implements OnInit {
   };
 
   isUserNotAuthorised = (): boolean => {
-    return !this.hasUserLoggedOut && this.appInitError === AuthenticationError.USER_NOT_AUTHORISED;
+    return !this.hasUserLoggedOut && this.appInitError.valueOf() === AuthenticationError.USER_NOT_AUTHORISED;
   };
 
   isInvalidAppVersionError = (): boolean => {
-    return !this.hasUserLoggedOut && this.appInitError === AppConfigError.INVALID_APP_VERSION;
+    return !this.hasUserLoggedOut && this.appInitError.valueOf() === AppConfigError.INVALID_APP_VERSION;
   };
 
   isInternetConnectionError = (): boolean => {
-    return !this.hasUserLoggedOut && this.appInitError === AuthenticationError.NO_INTERNET;
+    return !this.hasUserLoggedOut && this.appInitError.valueOf() === AuthenticationError.NO_INTERNET;
   };
 
   isUserCancelledError = (): boolean => {
-    return !this.hasUserLoggedOut && this.appInitError === AuthenticationError.USER_CANCELLED;
+    return !this.hasUserLoggedOut && this.appInitError.valueOf() === AuthenticationError.USER_CANCELLED;
   };
 
   isUnknownError = (): boolean => {
