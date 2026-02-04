@@ -43,6 +43,8 @@ import { CircuitTypeChanged } from '@store/tests/test-summary/cat-a-mod1/test-su
 import { ModeOfTransportChanged } from '@store/tests/test-summary/cat-a-mod2/test-summary.cat-a-mod2.actions';
 import {
   CandidateDescriptionChanged,
+  DebriefUnWitnessed,
+  DebriefWitnessed,
   IdentificationUsedChanged,
   IndependentDrivingTypeChanged,
   RouteNumberConfirmed,
@@ -415,6 +417,62 @@ export class OfficeAnalyticsEffects {
           GoogleAnalyticsEvents.CIRCUIT_CHANGED,
           GoogleAnalyticsEventsTitles.DIRECTION,
           eventValue
+        );
+        return of(AnalyticRecorded());
+      })
+    )
+  );
+
+  debriefWitnessed$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(DebriefWitnessed),
+      concatMap((action) =>
+        of(action).pipe(
+          withLatestFrom(
+            this.store$.pipe(select(getTests)),
+            this.store$.pipe(select(getTests), select(getCurrentTest), select(getTestCategory)),
+            this.store$.pipe(select(getTests), select(isPracticeMode))
+          )
+        )
+      ),
+      filter(([, , , practiceMode]) =>
+        !practiceMode ? true : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics
+      ),
+      concatMap(([, , category]: [ReturnType<typeof DebriefWitnessed>, TestsModel, CategoryCode, boolean]) => {
+        //GA4 Analytics
+        this.analytics.addGACustomDimension(GoogleAnalyticsCustomDimension.TEST_CATEGORY, category);
+        this.analytics.logGAEvent(
+          GoogleAnalyticsEvents.DEBRIEF_WITNESSED,
+          GoogleAnalyticsEventsTitles.SELECTION,
+          GoogleAnalyticsEventsValues.YES
+        );
+        return of(AnalyticRecorded());
+      })
+    )
+  );
+
+  debriefUnwitnessed$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(DebriefUnWitnessed),
+      concatMap((action) =>
+        of(action).pipe(
+          withLatestFrom(
+            this.store$.pipe(select(getTests)),
+            this.store$.pipe(select(getTests), select(getCurrentTest), select(getTestCategory)),
+            this.store$.pipe(select(getTests), select(isPracticeMode))
+          )
+        )
+      ),
+      filter(([, , , practiceMode]) =>
+        !practiceMode ? true : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics
+      ),
+      concatMap(([, , category]: [ReturnType<typeof DebriefUnWitnessed>, TestsModel, CategoryCode, boolean]) => {
+        //GA4 Analytics
+        this.analytics.addGACustomDimension(GoogleAnalyticsCustomDimension.TEST_CATEGORY, category);
+        this.analytics.logGAEvent(
+          GoogleAnalyticsEvents.DEBRIEF_WITNESSED,
+          GoogleAnalyticsEventsTitles.SELECTION,
+          GoogleAnalyticsEventsValues.NO
         );
         return of(AnalyticRecorded());
       })
