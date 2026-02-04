@@ -268,6 +268,7 @@ export enum GoogleAnalyticsCustomDimension {
 }
 
 export enum GoogleAnalyticsEvents {
+  SERVICE_ERROR = 'service_error',
   VEHICLE_DETAILS = 'vehicle_details',
   ACCOMPANIED_BY = 'accompanied_by',
   EYESIGHT_CONTROL = 'eyesightCtrl',
@@ -373,6 +374,7 @@ export enum GoogleAnalyticsEvents {
 }
 
 export enum GoogleAnalyticsEventsTitles {
+  SOMETHING_WENT_WRONG = 'something_went_wrong',
   MODAL_DYNAMICALLY_CHANGED = 'modal_dynamically_changed',
   ID = 'id',
   CONFIRM_LOGOUT = 'confirm_logout',
