@@ -184,7 +184,6 @@ export class AnalyticsProvider {
     title3?: string,
     value3?: string
   ): void {
-    console.log(eventName, title1, value1);
     this.platform.ready().then(() => {
       if (this.isIos()) {
         try {
