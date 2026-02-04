@@ -35,10 +35,10 @@ PODS:
   - GoogleAnalytics (3.20.0)
   - IonicEnterpriseAuth (7.2.0):
     - Capacitor
-  - Sentry/HybridSDK (8.48.0)
-  - SentryCapacitor (1.4.0):
+  - Sentry/HybridSDK (8.56.2)
+  - SentryCapacitor (2.4.1):
     - Capacitor
-    - Sentry/HybridSDK (= 8.48.0)
+    - Sentry/HybridSDK (= 8.56.2)
 
 DEPENDENCIES:
   - "Capacitor (from `../../node_modules/@capacitor/ios`)"
@@ -126,8 +126,8 @@ SPEC CHECKSUMS:
   DvsaCapacitorPluginAsam: 143282254bfd6265f421cfb01c978b285db3796c
   GoogleAnalytics: 01e4c5a04544a3608f93e970ce0817836897c5a5
   IonicEnterpriseAuth: 95ada4a021f92db401b4f81054f2ad5b41bac23e
-  Sentry: 1ca8405451040482877dcd344dfa3ef80b646631
-  SentryCapacitor: 5555ac5b8c2cf3fbdac6973e7d1d62c9b7d5277b
+  Sentry: b53951377b78e21a734f5dc8318e333dbfc682d7
+  SentryCapacitor: 84549a1440a7f58a336ed3175db0f067d571cd5b
 
 PODFILE CHECKSUM: 1f47af16076cbe96e231928b32482a64ff2b9a7c
 

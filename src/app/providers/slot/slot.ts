@@ -156,22 +156,11 @@ export class SlotProvider {
   }
 
   canViewCandidateDetails(slot: TestSlot | NonTestActivity): boolean {
-    const { testPermissionPeriods } = this.appConfigProvider.getAppConfig().journal;
-    const currentDateTime = new Date();
-
-    const isWhitelistedForADI: boolean = testPermissionPeriods.some((period) => {
-      return (
-        period.testCategory === TestCategory.ADI2 &&
-        new Date(period.from) <= currentDateTime &&
-        (new Date(period.to) >= currentDateTime || period.to === null)
-      );
-    });
-
     const slotStart = new DateTime(slot.slotDetail.start).moment.startOf('day');
 
     const maxViewStart = new DateTime(this.getLatestViewableSlotDateTime()).moment.startOf('day');
 
-    return slotStart.isSameOrBefore(maxViewStart) || isWhitelistedForADI;
+    return slotStart.isSameOrBefore(maxViewStart);
   }
 
   getLatestViewableSlotDateTime(): Date {
