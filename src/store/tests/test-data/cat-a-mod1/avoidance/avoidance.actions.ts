@@ -16,6 +16,16 @@ export const RecordAvoidanceSecondAttempt = createAction(
   (attemptedSpeed: number) => ({ attemptedSpeed })
 );
 
+export const ReportAvoidanceFirstAttempt = createAction(
+  '[SpeedCheck] [CatAMod1] Report Avoidance First Attempt',
+  (attemptedSpeed: number) => ({ attemptedSpeed })
+);
+
+export const ReportAvoidanceSecondAttempt = createAction(
+  '[SpeedCheck] [CatAMod1] Report Avoidance Second Attempt',
+  (attemptedSpeed: number) => ({ attemptedSpeed })
+);
+
 export const AddAvoidanceComment = createAction('[SpeedCheck] [CatAMod1] Add Avoidance Comment', (comment: string) => ({
   comment,
 }));

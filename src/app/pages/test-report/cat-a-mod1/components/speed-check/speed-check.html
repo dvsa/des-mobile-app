@@ -7,7 +7,8 @@
       type="tel"
       class="speed-input first-speed-input input-styling-background"
       id="{{competency}}FirstAttempt"
-      (input)="onFirstAttemptChange($event)"
+      (input)="onFirstAttemptInput($event)"
+      (change)="onFirstAttemptChange()"
       [value]="getFirstAttempt()"
       [maxLength]="speedCheckValidator.maxLength"
     />
@@ -16,7 +17,8 @@
       class="speed-input second-speed-input input-styling-background"
       id="{{competency}}SecondAttempt"
       [disabled]="!firstAttemptValid()"
-      (input)="onSecondAttemptChange($event)"
+      (input)="onSecondAttemptInput($event)"
+      (change)="onSecondAttemptChange()"
       [value]="getSecondAttempt()"
       [maxLength]="speedCheckValidator.maxLength"
     />
