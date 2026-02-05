@@ -12,12 +12,16 @@ import {
   RecordAvoidanceFirstAttempt,
   RecordAvoidanceSecondAttempt,
   RemoveAvoidanceSeriousFault,
+  ReportAvoidanceFirstAttempt,
+  ReportAvoidanceSecondAttempt,
 } from '@store/tests/test-data/cat-a-mod1/avoidance/avoidance.actions';
 import {
   AddEmergencyStopSeriousFault,
   RecordEmergencyStopFirstAttempt,
   RecordEmergencyStopSecondAttempt,
   RemoveEmergencyStopSeriousFault,
+  ReportEmergencyStopFirstAttempt,
+  ReportEmergencyStopSecondAttempt,
 } from '@store/tests/test-data/cat-a-mod1/emergency-stop/emergency-stop.actions';
 import { Competencies } from '@store/tests/test-data/test-data.constants';
 import { StartTest } from '@store/tests/tests.actions';
@@ -154,7 +158,7 @@ describe('SpeedCheckComponent', () => {
       });
     });
 
-    describe('onFirstAttemptChange dispatches the correct actions', () => {
+    describe('onFirstAttemptInput', () => {
       it('should record emergency stop first attempt', () => {
         component.competency = Competencies.speedCheckEmergency;
         const storeDispatchSpy = spyOn(store$, 'dispatch');
@@ -163,7 +167,7 @@ describe('SpeedCheckComponent', () => {
             value: '48',
           },
         };
-        component.onFirstAttemptChange(attemptedSpeed);
+        component.onFirstAttemptInput(attemptedSpeed);
         expect(storeDispatchSpy).toHaveBeenCalledWith(RecordEmergencyStopFirstAttempt(Number('48')));
       });
 
@@ -175,7 +179,7 @@ describe('SpeedCheckComponent', () => {
             value: '48',
           },
         };
-        component.onFirstAttemptChange(attemptedSpeed);
+        component.onFirstAttemptInput(attemptedSpeed);
         expect(storeDispatchSpy).toHaveBeenCalledWith(RecordAvoidanceFirstAttempt(Number('48')));
       });
 
@@ -187,7 +191,7 @@ describe('SpeedCheckComponent', () => {
             value: '',
           },
         };
-        component.onFirstAttemptChange(attemptedSpeed);
+        component.onFirstAttemptInput(attemptedSpeed);
         expect(storeDispatchSpy).toHaveBeenCalledWith(RecordEmergencyStopFirstAttempt(undefined));
       });
 
@@ -199,12 +203,12 @@ describe('SpeedCheckComponent', () => {
             value: '',
           },
         };
-        component.onFirstAttemptChange(attemptedSpeed);
+        component.onFirstAttemptInput(attemptedSpeed);
         expect(storeDispatchSpy).toHaveBeenCalledWith(RecordAvoidanceFirstAttempt(undefined));
       });
     });
 
-    describe('onSecondAttemptChange', () => {
+    describe('onSecondAttemptInput', () => {
       it('should record emergency stop second attempt', () => {
         component.competency = Competencies.speedCheckEmergency;
         const storeDispatchSpy = spyOn(store$, 'dispatch');
@@ -213,7 +217,7 @@ describe('SpeedCheckComponent', () => {
             value: '48',
           },
         };
-        component.onSecondAttemptChange(attemptedSpeed);
+        component.onSecondAttemptInput(attemptedSpeed);
         expect(storeDispatchSpy).toHaveBeenCalledWith(RecordEmergencyStopSecondAttempt(Number('48')));
       });
 
@@ -225,7 +229,7 @@ describe('SpeedCheckComponent', () => {
             value: '48',
           },
         };
-        component.onSecondAttemptChange(attemptedSpeed);
+        component.onSecondAttemptInput(attemptedSpeed);
         expect(storeDispatchSpy).toHaveBeenCalledWith(RecordAvoidanceSecondAttempt(Number('48')));
       });
 
@@ -237,7 +241,7 @@ describe('SpeedCheckComponent', () => {
             value: '',
           },
         };
-        component.onSecondAttemptChange(attemptedSpeed);
+        component.onSecondAttemptInput(attemptedSpeed);
         expect(storeDispatchSpy).toHaveBeenCalledWith(RecordEmergencyStopSecondAttempt(undefined));
       });
 
@@ -249,8 +253,76 @@ describe('SpeedCheckComponent', () => {
             value: '',
           },
         };
-        component.onSecondAttemptChange(attemptedSpeed);
+        component.onSecondAttemptInput(attemptedSpeed);
         expect(storeDispatchSpy).toHaveBeenCalledWith(RecordAvoidanceSecondAttempt(undefined));
+      });
+    });
+
+    describe('onFirstAttemptChange', () => {
+      it('should report emergency stop first attempt', () => {
+        component.competency = Competencies.speedCheckEmergency;
+        const storeDispatchSpy = spyOn(store$, 'dispatch');
+        spyOn(component, 'getFirstAttempt').and.returnValue(48);
+        component.onFirstAttemptChange();
+        expect(storeDispatchSpy).toHaveBeenCalledWith(ReportEmergencyStopFirstAttempt(48));
+      });
+
+      it('should report avoidance first attempt', () => {
+        component.competency = Competencies.speedCheckAvoidance;
+        const storeDispatchSpy = spyOn(store$, 'dispatch');
+        spyOn(component, 'getFirstAttempt').and.returnValue(48);
+        component.onFirstAttemptChange();
+        expect(storeDispatchSpy).toHaveBeenCalledWith(ReportAvoidanceFirstAttempt(48));
+      });
+
+      it('should report undefined as Emergency Stop firstAttempt when attemptedSpeed is undefined', () => {
+        component.competency = Competencies.speedCheckEmergency;
+        const storeDispatchSpy = spyOn(store$, 'dispatch');
+        spyOn(component, 'getFirstAttempt').and.returnValue(undefined);
+        component.onFirstAttemptChange();
+        expect(storeDispatchSpy).toHaveBeenCalledWith(ReportEmergencyStopFirstAttempt(undefined));
+      });
+
+      it('should report undefined as Avoidance firstAttempt when attemptedSpeed is undefined', () => {
+        component.competency = Competencies.speedCheckAvoidance;
+        const storeDispatchSpy = spyOn(store$, 'dispatch');
+        spyOn(component, 'getFirstAttempt').and.returnValue(undefined);
+        component.onFirstAttemptChange();
+        expect(storeDispatchSpy).toHaveBeenCalledWith(ReportAvoidanceFirstAttempt(undefined));
+      });
+    });
+
+    describe('onSecondAttemptChange', () => {
+      it('should report emergency stop second attempt', () => {
+        component.competency = Competencies.speedCheckEmergency;
+        const storeDispatchSpy = spyOn(store$, 'dispatch');
+        spyOn(component, 'getSecondAttempt').and.returnValue(48);
+        component.onSecondAttemptChange();
+        expect(storeDispatchSpy).toHaveBeenCalledWith(ReportEmergencyStopSecondAttempt(48));
+      });
+
+      it('should report avoidance second attempt', () => {
+        component.competency = Competencies.speedCheckAvoidance;
+        const storeDispatchSpy = spyOn(store$, 'dispatch');
+        spyOn(component, 'getSecondAttempt').and.returnValue(48);
+        component.onSecondAttemptChange();
+        expect(storeDispatchSpy).toHaveBeenCalledWith(ReportAvoidanceSecondAttempt(48));
+      });
+
+      it('should report undefined as Emergency Stop secondAttempt when attemptedSpeed is undefined', () => {
+        component.competency = Competencies.speedCheckEmergency;
+        const storeDispatchSpy = spyOn(store$, 'dispatch');
+        spyOn(component, 'getSecondAttempt').and.returnValue(undefined);
+        component.onSecondAttemptChange();
+        expect(storeDispatchSpy).toHaveBeenCalledWith(ReportEmergencyStopSecondAttempt(undefined));
+      });
+
+      it('should report undefined as Avoidance secondAttempt when attemptedSpeed is undefined', () => {
+        component.competency = Competencies.speedCheckAvoidance;
+        const storeDispatchSpy = spyOn(store$, 'dispatch');
+        spyOn(component, 'getSecondAttempt').and.returnValue(undefined);
+        component.onSecondAttemptChange();
+        expect(storeDispatchSpy).toHaveBeenCalledWith(ReportAvoidanceSecondAttempt(undefined));
       });
     });
   });

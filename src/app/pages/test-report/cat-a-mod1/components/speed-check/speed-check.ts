@@ -20,6 +20,8 @@ import {
   RecordAvoidanceFirstAttempt,
   RecordAvoidanceSecondAttempt,
   RemoveAvoidanceSeriousFault,
+  ReportAvoidanceFirstAttempt,
+  ReportAvoidanceSecondAttempt,
 } from '@store/tests/test-data/cat-a-mod1/avoidance/avoidance.actions';
 import { getAvoidance } from '@store/tests/test-data/cat-a-mod1/avoidance/avoidance.selector';
 import {
@@ -27,6 +29,8 @@ import {
   RecordEmergencyStopFirstAttempt,
   RecordEmergencyStopSecondAttempt,
   RemoveEmergencyStopSeriousFault,
+  ReportEmergencyStopFirstAttempt,
+  ReportEmergencyStopSecondAttempt,
 } from '@store/tests/test-data/cat-a-mod1/emergency-stop/emergency-stop.actions';
 import { getEmergencyStop } from '@store/tests/test-data/cat-a-mod1/emergency-stop/emergency-stop.selector';
 import { getTestData } from '@store/tests/test-data/cat-a-mod1/test-data.cat-a-mod1.reducer';
@@ -119,7 +123,7 @@ export class SpeedCheckComponent {
     return this.secondAttempt || null;
   };
 
-  onFirstAttemptChange = (attemptedSpeed: { target: { value: string } }): void => {
+  onFirstAttemptInput = (attemptedSpeed: { target: { value: string } }): void => {
     const firstAttempt = this.formatSpeedAttempt(attemptedSpeed);
 
     if (this.competency === Competencies.speedCheckEmergency) {
@@ -131,7 +135,7 @@ export class SpeedCheckComponent {
     }
   };
 
-  onSecondAttemptChange = (attemptedSpeed: { target: { value: string } }): void => {
+  onSecondAttemptInput = (attemptedSpeed: { target: { value: string } }): void => {
     const secondAttempt = this.formatSpeedAttempt(attemptedSpeed);
 
     if (this.competency === Competencies.speedCheckEmergency) {
@@ -140,6 +144,26 @@ export class SpeedCheckComponent {
 
     if (this.competency === Competencies.speedCheckAvoidance) {
       this.store$.dispatch(RecordAvoidanceSecondAttempt(secondAttempt));
+    }
+  };
+
+  onFirstAttemptChange = (): void => {
+    if (this.competency === Competencies.speedCheckEmergency) {
+      this.store$.dispatch(ReportEmergencyStopFirstAttempt(this.getFirstAttempt()));
+    }
+
+    if (this.competency === Competencies.speedCheckAvoidance) {
+      this.store$.dispatch(ReportAvoidanceFirstAttempt(this.getFirstAttempt()));
+    }
+  };
+
+  onSecondAttemptChange = (): void => {
+    if (this.competency === Competencies.speedCheckEmergency) {
+      this.store$.dispatch(ReportEmergencyStopSecondAttempt(this.getSecondAttempt()));
+    }
+
+    if (this.competency === Competencies.speedCheckAvoidance) {
+      this.store$.dispatch(ReportAvoidanceSecondAttempt(this.getSecondAttempt()));
     }
   };
 

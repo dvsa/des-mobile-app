@@ -1577,9 +1577,9 @@ export class TestReportAnalyticsEffects {
     )
   );
 
-  recordAvoidanceFirstAttempt$ = createEffect(() =>
+  reportAvoidanceFirstAttempt$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(avoidanceActions.RecordAvoidanceFirstAttempt),
+      ofType(avoidanceActions.ReportAvoidanceFirstAttempt),
       concatMap((action) =>
         of(action).pipe(
           withLatestFrom(
@@ -1599,7 +1599,7 @@ export class TestReportAnalyticsEffects {
       ),
       concatMap(
         ([, tests, avoidance]: [
-          ReturnType<typeof avoidanceActions.RecordAvoidanceFirstAttempt>,
+          ReturnType<typeof avoidanceActions.ReportAvoidanceFirstAttempt>,
           TestsModel,
           Avoidance,
           boolean,
@@ -1618,9 +1618,9 @@ export class TestReportAnalyticsEffects {
     )
   );
 
-  recordAvoidanceSecondAttempt$ = createEffect(() =>
+  reportAvoidanceSecondAttempt$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(avoidanceActions.RecordAvoidanceSecondAttempt),
+      ofType(avoidanceActions.ReportAvoidanceSecondAttempt),
       concatMap((action) =>
         of(action).pipe(
           withLatestFrom(
@@ -1640,7 +1640,7 @@ export class TestReportAnalyticsEffects {
       ),
       concatMap(
         ([, tests, avoidance]: [
-          ReturnType<typeof avoidanceActions.RecordAvoidanceSecondAttempt>,
+          ReturnType<typeof avoidanceActions.ReportAvoidanceSecondAttempt>,
           TestsModel,
           Avoidance,
           boolean,
@@ -1686,9 +1686,9 @@ export class TestReportAnalyticsEffects {
     )
   );
 
-  recordEmergencyStopFirstAttempt$ = createEffect(() =>
+  reportEmergencyStopFirstAttempt$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(emergencyStopActions.RecordEmergencyStopFirstAttempt),
+      ofType(emergencyStopActions.ReportEmergencyStopFirstAttempt),
       concatMap((action) =>
         of(action).pipe(
           withLatestFrom(
@@ -1708,7 +1708,7 @@ export class TestReportAnalyticsEffects {
       ),
       concatMap(
         ([, tests, emergencyStop]: [
-          ReturnType<typeof emergencyStopActions.RecordEmergencyStopFirstAttempt>,
+          ReturnType<typeof emergencyStopActions.ReportEmergencyStopFirstAttempt>,
           TestsModel,
           EmergencyStop,
           boolean,
@@ -1727,9 +1727,9 @@ export class TestReportAnalyticsEffects {
     )
   );
 
-  recordEmergencyStopSecondAttempt$ = createEffect(() =>
+  reportEmergencyStopSecondAttempt$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(emergencyStopActions.RecordEmergencyStopSecondAttempt),
+      ofType(emergencyStopActions.ReportEmergencyStopSecondAttempt),
       concatMap((action) =>
         of(action).pipe(
           withLatestFrom(
@@ -1749,7 +1749,7 @@ export class TestReportAnalyticsEffects {
       ),
       concatMap(
         ([, tests, emergencyStop]: [
-          ReturnType<typeof emergencyStopActions.RecordEmergencyStopSecondAttempt>,
+          ReturnType<typeof emergencyStopActions.ReportEmergencyStopSecondAttempt>,
           TestsModel,
           EmergencyStop,
           boolean,

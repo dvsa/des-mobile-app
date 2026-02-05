@@ -18,6 +18,16 @@ export const RecordEmergencyStopSecondAttempt = createAction(
   (attemptedSpeed: number) => ({ attemptedSpeed })
 );
 
+export const ReportEmergencyStopFirstAttempt = createAction(
+  '[SpeedCheck] [CatAMod1] Report Emergency Stop First Attempt',
+  (attemptedSpeed: number) => ({ attemptedSpeed })
+);
+
+export const ReportEmergencyStopSecondAttempt = createAction(
+  '[SpeedCheck] [CatAMod1] Report Emergency Stop Second Attempt',
+  (attemptedSpeed: number) => ({ attemptedSpeed })
+);
+
 export const AddAnEmergencyStopComment = createAction(
   '[SpeedCheck] [CatAMod1] Add Emergency Stop Comment',
   (comment: string) => ({ comment })
