@@ -30,7 +30,7 @@ export const IdentificationUsedChanged = createAction(
 
 export const TrueLikenessToPhotoChanged = createAction(
   '[Test Summary] True Likeness to Photo changed',
-  (trueLikeness: boolean) => ({ trueLikeness })
+  (trueLikeness: boolean, updateFromOffice = false) => ({ trueLikeness, updateFromOffice })
 );
 
 export const IndependentDrivingTypeChanged = createAction(

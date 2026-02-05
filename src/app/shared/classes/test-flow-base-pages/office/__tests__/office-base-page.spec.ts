@@ -466,7 +466,7 @@ describe('OfficeBasePageComponent', () => {
   describe('trueLikenessToPhotoChanged', () => {
     it('should dispatch TrueLikenessToPhotoChanged with true', () => {
       basePageComponent.trueLikenessToPhotoChanged(true);
-      expect(store$.dispatch).toHaveBeenCalledWith(TrueLikenessToPhotoChanged(true));
+      expect(store$.dispatch).toHaveBeenCalledWith(TrueLikenessToPhotoChanged(true, true));
     });
   });
   describe('provisionalLicenseReceived', () => {
