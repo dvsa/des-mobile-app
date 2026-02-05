@@ -476,6 +476,7 @@ export enum GoogleAnalyticsEventsTitles {
 export enum GoogleAnalyticsEventsValues {
   DUAL_CONTROLS = 'dual_controls',
   SCHOOL_CAR = 'school_car',
+  SCHOOL_BIKE = 'school_bike',
   INTERPRETER = 'interpreter',
   OTHER = 'other',
   SUPERVISOR = 'supervisor',
@@ -577,4 +578,6 @@ export enum GoogleAnalyticsEventsValues {
   OK = 'ok',
   SLOT_RESET = 'slot_reset',
   VALUE_SELECTED = 'value_selected',
+  NO_TO_YES = 'no_to_yes',
+  YES_TO_NO = 'yes_to_no',
 }
