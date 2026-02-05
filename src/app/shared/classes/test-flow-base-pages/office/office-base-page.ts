@@ -554,7 +554,7 @@ export abstract class OfficeBasePageComponent extends PracticeableBasePageCompon
   }
 
   trueLikenessToPhotoChanged(trueLikeness: boolean): void {
-    this.store$.dispatch(TrueLikenessToPhotoChanged(trueLikeness));
+    this.store$.dispatch(TrueLikenessToPhotoChanged(trueLikeness, true));
   }
 
   independentDrivingChanged(independentDriving: IndependentDriving): void {

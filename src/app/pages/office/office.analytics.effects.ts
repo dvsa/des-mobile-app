@@ -48,6 +48,7 @@ import {
   IdentificationUsedChanged,
   IndependentDrivingTypeChanged,
   RouteNumberConfirmed,
+  TrueLikenessToPhotoChanged,
 } from '@store/tests/test-summary/test-summary.actions';
 import { TestsModel } from '@store/tests/tests.model';
 import { getTests } from '@store/tests/tests.reducer';
@@ -578,6 +579,47 @@ export class OfficeAnalyticsEffects {
           }
           this.analytics.addGACustomDimension(GoogleAnalyticsCustomDimension.TEST_CATEGORY, category);
           this.analytics.logGAEvent(GoogleAnalyticsEvents.PHYSICAL_APPEARANCE, GoogleAnalyticsEventsTitles.ID, value);
+          return of(AnalyticRecorded());
+        }
+      )
+    )
+  );
+
+  trueLikenessToPhotoChanged$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(TrueLikenessToPhotoChanged),
+      concatMap((action) =>
+        of(action).pipe(
+          withLatestFrom(
+            this.store$.pipe(select(getTests)),
+            this.store$.pipe(select(getTests), select(getCurrentTest), select(getTestCategory)),
+            this.store$.pipe(select(getTests), select(isPracticeMode))
+          )
+        )
+      ),
+      filter(([, , , practiceMode]) =>
+        !practiceMode ? true : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics
+      ),
+      concatMap(
+        ([{ trueLikeness, updateFromOffice }, , category]: [
+          ReturnType<typeof TrueLikenessToPhotoChanged>,
+          TestsModel,
+          CategoryCode,
+          boolean,
+        ]) => {
+          //GA4 Analytics
+          this.analytics.addGACustomDimension(GoogleAnalyticsCustomDimension.TEST_CATEGORY, category);
+          this.analytics.logGAEvent(
+            GoogleAnalyticsEvents.PHYSICAL_APPEARANCE,
+            GoogleAnalyticsEventsTitles.SELECTION,
+            updateFromOffice
+              ? trueLikeness
+                ? GoogleAnalyticsEventsValues.NO_TO_YES
+                : GoogleAnalyticsEventsValues.YES_TO_NO
+              : trueLikeness
+                ? GoogleAnalyticsEventsValues.YES
+                : GoogleAnalyticsEventsValues.NO
+          );
           return of(AnalyticRecorded());
         }
       )
