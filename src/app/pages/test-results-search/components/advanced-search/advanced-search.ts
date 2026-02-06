@@ -2,12 +2,24 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { DisplayType } from '@components/common/datetime-input/date-time-input.component';
 import { TestCentre } from '@dvsa/mes-journal-schema';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
+import { Store } from '@ngrx/store';
+import {
+  ActivityCodeChanged,
+  EndDateChanged,
+  PassCertificateChanged,
+  RekeyBoxToggled,
+  StaffNumberChanged,
+  StartDateChanged,
+  TestCategoryChanged,
+  TestCentreSelected,
+} from '@pages/test-results-search/test-results-search.actions';
 import { AccessibilityService } from '@providers/accessibility/accessibility.service';
 import { AdvancedSearchParams } from '@providers/search/search.models';
 import { activityCodeModelList } from '@shared/constants/activity-code/activity-code.constants';
 import { nonAlphaNumericValues } from '@shared/constants/field-validators/field-validators';
 import { DateTime, Duration } from '@shared/helpers/date-time';
 import { removeLeadingZeros } from '@shared/helpers/formatters';
+import { StoreModel } from '@shared/models/store.model';
 
 export const TestCategories: TestCategory[] = [
   TestCategory.ADI2,
@@ -97,7 +109,10 @@ export class AdvancedSearchComponent {
   minStartDate = new DateTime().subtract(2, Duration.YEAR).format('YYYY-MM-DD');
   minStartDatePlaceholder = new DateTime().subtract(2, Duration.YEAR).format('DD/MM/YYYY');
 
-  constructor(public accessibilityService: AccessibilityService) {}
+  constructor(
+    public accessibilityService: AccessibilityService,
+    private store$: Store<StoreModel>
+  ) {}
 
   blurElement(event: EventTarget) {
     if (!(event as HTMLElement).id?.includes('input')) {
@@ -105,7 +120,11 @@ export class AdvancedSearchComponent {
     }
   }
 
-  onInputChange(event: HTMLInputElement, field: string): void {
+  onInputChange() {
+    this.store$.dispatch(StaffNumberChanged());
+  }
+
+  onInput(event: HTMLInputElement, field: string): void {
     if (typeof event.value !== 'string') return;
 
     // Added logic here as it is used on the (ionInput) attribute of the staffNo. input field, sets toggle to unchecked
@@ -135,6 +154,7 @@ export class AdvancedSearchComponent {
 
   activitySelectChange(event: { activityCode: string; description: string }) {
     if (event) {
+      this.store$.dispatch(ActivityCodeChanged());
       this.selectedActivity = event;
     } else {
       this.selectedActivity = {
@@ -146,6 +166,7 @@ export class AdvancedSearchComponent {
 
   categorySelectChange(event: string) {
     if (event) {
+      this.store$.dispatch(TestCategoryChanged());
       this.selectedCategory = event;
     } else {
       this.selectedCategory = 'All';
@@ -160,9 +181,11 @@ export class AdvancedSearchComponent {
     switch (event.control) {
       case 'start-date':
         this.startDate = event.data;
+        this.store$.dispatch(StartDateChanged());
         break;
       case 'end-date':
         this.endDate = event.data;
+        this.store$.dispatch(EndDateChanged());
         break;
       default:
         break;
@@ -171,6 +194,7 @@ export class AdvancedSearchComponent {
 
   toggleRekeySearch(): void {
     this.rekeySearch = !this.rekeySearch;
+    this.store$.dispatch(RekeyBoxToggled(this.rekeySearch));
   }
 
   selectTestCentre($event: TestCentre) {
@@ -178,5 +202,12 @@ export class AdvancedSearchComponent {
       this.rekeySearch = false;
     }
     this.selectedTestCentre = $event;
+    if ($event) {
+      this.store$.dispatch(TestCentreSelected());
+    }
+  }
+
+  passCertChanged() {
+    this.store$.dispatch(PassCertificateChanged());
   }
 }
