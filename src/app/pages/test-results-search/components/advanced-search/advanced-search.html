@@ -12,7 +12,8 @@
       } @else {
         <ion-input
           (ionBlur)="setFocus(null)"
-          (ionInput)="onInputChange($event.target, 'staffId')"
+          (ionInput)="onInput($event.target, 'staffId')"
+          (ionChange)="onInputChange()"
           (ionFocus)="setFocus('deNumber')"
           [(ngModel)]="staffNumber"
           [class.increase-height]="accessibilityService.getTextZoomClass() === 'text-zoom-x-large'"
@@ -182,6 +183,7 @@
             <ion-input
               (ionBlur)="setFocus(null)"
               (ionFocus)="setFocus('passCertificateNum')"
+              (ionChange)="passCertChanged()"
               [(ngModel)]="passCertificateNumber"
               [class.increase-height]="accessibilityService.getTextZoomClass() === 'text-zoom-x-large'"
               [clearInput]="true"
