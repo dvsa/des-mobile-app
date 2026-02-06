@@ -11,9 +11,17 @@ import {
 import { of } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import {
+  ActivityCodeChanged,
+  EndDateChanged,
+  PassCertificateChanged,
   PerformApplicationReferenceSearch,
   PerformDriverNumberSearch,
   PerformLDTMSearch,
+  RekeyBoxToggled,
+  StaffNumberChanged,
+  StartDateChanged,
+  TestCategoryChanged,
+  TestCentreSelected,
   TestResultSearchViewDidEnter,
 } from './test-results-search.actions';
 
@@ -44,6 +52,125 @@ export class TestResultsSearchAnalyticsEffects {
           GoogleAnalyticsEvents.COMPLETED_TEST_SEARCH,
           GoogleAnalyticsEventsTitles.FILTER,
           GoogleAnalyticsEventsValues.APP_REF
+        );
+        return of(AnalyticRecorded());
+      })
+    )
+  );
+  staffNumberChanged$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(StaffNumberChanged),
+      switchMap(() => {
+        //GA4 Analytics
+        this.analytics.logGAEvent(
+          GoogleAnalyticsEvents.COMPLETED_TEST_AD_SEARCH,
+          GoogleAnalyticsEventsTitles.FILTER,
+          GoogleAnalyticsEventsValues.STAFF_NUMBER
+        );
+        return of(AnalyticRecorded());
+      })
+    )
+  );
+
+  testCentreSelected$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(TestCentreSelected),
+      switchMap(() => {
+        //GA4 Analytics
+        this.analytics.logGAEvent(
+          GoogleAnalyticsEvents.COMPLETED_TEST_AD_SEARCH,
+          GoogleAnalyticsEventsTitles.FILTER,
+          GoogleAnalyticsEventsValues.LOCATION
+        );
+        return of(AnalyticRecorded());
+      })
+    )
+  );
+
+  startDateChanged$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(StartDateChanged),
+      switchMap(() => {
+        //GA4 Analytics
+        this.analytics.logGAEvent(
+          GoogleAnalyticsEvents.COMPLETED_TEST_AD_SEARCH,
+          GoogleAnalyticsEventsTitles.DATE_FILTER,
+          GoogleAnalyticsEventsValues.START_DATE_CHANGED
+        );
+        return of(AnalyticRecorded());
+      })
+    )
+  );
+
+  endDateChanged$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(EndDateChanged),
+      switchMap(() => {
+        //GA4 Analytics
+        this.analytics.logGAEvent(
+          GoogleAnalyticsEvents.COMPLETED_TEST_AD_SEARCH,
+          GoogleAnalyticsEventsTitles.DATE_FILTER,
+          GoogleAnalyticsEventsValues.END_DATE_CHANGED
+        );
+        return of(AnalyticRecorded());
+      })
+    )
+  );
+
+  activityCodeChanged$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(ActivityCodeChanged),
+      switchMap(() => {
+        //GA4 Analytics
+        this.analytics.logGAEvent(
+          GoogleAnalyticsEvents.COMPLETED_TEST_AD_SEARCH,
+          GoogleAnalyticsEventsTitles.FILTER,
+          GoogleAnalyticsEventsValues.ACTIVITY_CODE
+        );
+        return of(AnalyticRecorded());
+      })
+    )
+  );
+
+  testCategoryChanged$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(TestCategoryChanged),
+      switchMap(() => {
+        //GA4 Analytics
+        this.analytics.logGAEvent(
+          GoogleAnalyticsEvents.COMPLETED_TEST_AD_SEARCH,
+          GoogleAnalyticsEventsTitles.FILTER,
+          GoogleAnalyticsEventsValues.TEST_CATEGORY
+        );
+        return of(AnalyticRecorded());
+      })
+    )
+  );
+
+  passCertificateChanged$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(PassCertificateChanged),
+      switchMap(() => {
+        //GA4 Analytics
+        this.analytics.logGAEvent(
+          GoogleAnalyticsEvents.COMPLETED_TEST_AD_SEARCH,
+          GoogleAnalyticsEventsTitles.FILTER,
+          GoogleAnalyticsEventsValues.PASS_CERT
+        );
+        return of(AnalyticRecorded());
+      })
+    )
+  );
+
+  rekeyBoxToggled$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(RekeyBoxToggled),
+      switchMap(({ isActive }) => {
+        //GA4 Analytics
+        this.analytics.logGAEvent(
+          GoogleAnalyticsEvents.COMPLETED_TEST_AD_SEARCH,
+          GoogleAnalyticsEventsTitles.FILTER,
+          isActive ? GoogleAnalyticsEventsValues.REKEY_SELECTED : GoogleAnalyticsEventsValues.REKEY_UNSELECTED
         );
         return of(AnalyticRecorded());
       })

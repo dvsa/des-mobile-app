@@ -317,6 +317,7 @@ export enum GoogleAnalyticsEvents {
   TELL_ME_QUESTION = 'tell_me_Q',
   SHOW_ME_QUESTION = 'show_me_Q',
   COMPLETED_TEST_SEARCH = 'completed_test_search',
+  COMPLETED_TEST_AD_SEARCH = 'completed_test_ad_search',
   LDTM_SEARCH = 'ldtm_search',
   SUBMIT_FORM_ERROR = 'submit_form_error',
   SUBMIT_TEST = 'submit_test',
@@ -375,6 +376,7 @@ export enum GoogleAnalyticsEvents {
 }
 
 export enum GoogleAnalyticsEventsTitles {
+  DATE_FILTER = 'date_filter',
   SOMETHING_WENT_WRONG = 'something_went_wrong',
   MODAL_DYNAMICALLY_CHANGED = 'modal_dynamically_changed',
   ID = 'id',
@@ -474,6 +476,14 @@ export enum GoogleAnalyticsEventsTitles {
 }
 
 export enum GoogleAnalyticsEventsValues {
+  PASS_CERT = 'pass_cert',
+  REKEY_SELECTED = 'rekey_selected',
+  REKEY_UNSELECTED = 'rekey_unselected',
+  TEST_CATEGORY = 'test_category',
+  ACTIVITY_CODE = 'activity_code',
+  END_DATE_CHANGED = 'end_date_changed',
+  START_DATE_CHANGED = 'start_date_changed',
+  STAFF_NUMBER = 'staff_number',
   DUAL_CONTROLS = 'dual_controls',
   SCHOOL_CAR = 'school_car',
   SCHOOL_BIKE = 'school_bike',
