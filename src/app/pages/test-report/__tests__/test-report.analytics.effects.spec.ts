@@ -1775,20 +1775,21 @@ describe('TestReportAnalyticsEffects', () => {
     });
   });
 
-  describe('recordAvoidanceFirstAttempt', () => {
-    it('should call logEvent for record avoidance first attempt', (done) => {
+  describe('reportAvoidanceFirstAttempt', () => {
+    it('should call logEvent for report avoidance first attempt', (done) => {
       // ARRANGE
       store$.dispatch(testsActions.StartTest(123456, TestCategory.EUAM1));
       store$.dispatch(PopulateTestCategory(TestCategory.EUAM1));
       store$.dispatch(PopulateCandidateDetails(candidateMock));
       const attemptValue = 27;
       store$.dispatch(avoidanceActions.RecordAvoidanceFirstAttempt(attemptValue));
+      store$.dispatch(avoidanceActions.ReportAvoidanceFirstAttempt(attemptValue));
 
       // ACT
-      actions$.next(avoidanceActions.RecordAvoidanceFirstAttempt(attemptValue));
+      actions$.next(avoidanceActions.ReportAvoidanceFirstAttempt(attemptValue));
 
       // ASSERT
-      effects.recordAvoidanceFirstAttempt$.subscribe((result) => {
+      effects.reportAvoidanceFirstAttempt$.subscribe((result) => {
         expect(result.type).toEqual(AnalyticRecorded.type);
 
         // GA4 Analytics
@@ -1803,20 +1804,21 @@ describe('TestReportAnalyticsEffects', () => {
     });
   });
 
-  describe('recordAvoidanceSecondAttempt', () => {
-    it('should call logEvent for record avoidance second attempt', (done) => {
+  describe('reportAvoidanceSecondAttempt', () => {
+    it('should call logEvent for report avoidance second attempt', (done) => {
       // ARRANGE
       store$.dispatch(testsActions.StartTest(123456, TestCategory.EUAM1));
       store$.dispatch(PopulateTestCategory(TestCategory.EUAM1));
       store$.dispatch(PopulateCandidateDetails(candidateMock));
       const attemptValue = 5;
       store$.dispatch(avoidanceActions.RecordAvoidanceSecondAttempt(attemptValue));
+      store$.dispatch(avoidanceActions.ReportAvoidanceSecondAttempt(attemptValue));
 
       // ACT
-      actions$.next(avoidanceActions.RecordAvoidanceSecondAttempt(attemptValue));
+      actions$.next(avoidanceActions.ReportAvoidanceSecondAttempt(attemptValue));
 
       // ASSERT
-      effects.recordAvoidanceSecondAttempt$.subscribe((result) => {
+      effects.reportAvoidanceSecondAttempt$.subscribe((result) => {
         expect(result.type).toEqual(AnalyticRecorded.type);
 
         // GA4 Analytics
@@ -1958,20 +1960,21 @@ describe('TestReportAnalyticsEffects', () => {
     });
   });
 
-  describe('recordEmergencyStopFirstAttempt', () => {
-    it('should call logEvent for record emergency stop first attempt', (done) => {
+  describe('reportEmergencyStopFirstAttempt', () => {
+    it('should call logEvent for report emergency stop first attempt', (done) => {
       // ARRANGE
       store$.dispatch(testsActions.StartTest(123456, TestCategory.EUAM1));
       store$.dispatch(PopulateTestCategory(TestCategory.EUAM1));
       store$.dispatch(PopulateCandidateDetails(candidateMock));
       const attemptValue = 27;
       store$.dispatch(emergencyStopActions.RecordEmergencyStopFirstAttempt(attemptValue));
+      store$.dispatch(emergencyStopActions.ReportEmergencyStopFirstAttempt(attemptValue));
 
       // ACT
-      actions$.next(emergencyStopActions.RecordEmergencyStopFirstAttempt(attemptValue));
+      actions$.next(emergencyStopActions.ReportEmergencyStopFirstAttempt(attemptValue));
 
       // ASSERT
-      effects.recordEmergencyStopFirstAttempt$.subscribe((result) => {
+      effects.reportEmergencyStopFirstAttempt$.subscribe((result) => {
         expect(result.type).toEqual(AnalyticRecorded.type);
 
         // GA4 Analytics
@@ -1986,20 +1989,21 @@ describe('TestReportAnalyticsEffects', () => {
     });
   });
 
-  describe('recordEmergencyStopSecondAttempt', () => {
-    it('should call logEvent for record emergency stop second attempt', (done) => {
+  describe('reportEmergencyStopSecondAttempt', () => {
+    it('should call logEvent for report emergency stop second attempt', (done) => {
       // ARRANGE
       store$.dispatch(testsActions.StartTest(123456, TestCategory.EUAM1));
       store$.dispatch(PopulateTestCategory(TestCategory.EUAM1));
       store$.dispatch(PopulateCandidateDetails(candidateMock));
       const attemptValue = 27;
       store$.dispatch(emergencyStopActions.RecordEmergencyStopSecondAttempt(attemptValue));
+      store$.dispatch(emergencyStopActions.ReportEmergencyStopSecondAttempt(attemptValue));
 
       // ACT
-      actions$.next(emergencyStopActions.RecordEmergencyStopSecondAttempt(attemptValue));
+      actions$.next(emergencyStopActions.ReportEmergencyStopSecondAttempt(attemptValue));
 
       // ASSERT
-      effects.recordEmergencyStopSecondAttempt$.subscribe((result) => {
+      effects.reportEmergencyStopSecondAttempt$.subscribe((result) => {
         expect(result.type).toEqual(AnalyticRecorded.type);
 
         // GA4 Analytics
