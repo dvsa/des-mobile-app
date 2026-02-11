@@ -12,7 +12,9 @@
         </ion-row>
         <ion-row>
           <ion-button id="rekey-search-button" class="mes-neutral-button">
-            <ion-text class="des-header-style-3">Rekey DVSA test</ion-text>
+            <ion-text class="des-header-style-3">
+              {{ isDelegatedExaminer ? 'Rekey DVSA test' : 'Rekey test' }}
+            </ion-text>
           </ion-button>
         </ion-row>
       </ion-grid>
