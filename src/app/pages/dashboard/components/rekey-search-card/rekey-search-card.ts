@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { Router } from '@angular/router';
 import { REKEY_SEARCH_PAGE } from '@pages/page-names.constants';
 
@@ -9,6 +9,8 @@ import { REKEY_SEARCH_PAGE } from '@pages/page-names.constants';
   standalone: false,
 })
 export class RekeySearchCardComponent {
+  @Input() isDelegatedExaminer = false;
+
   constructor(private router: Router) {}
 
   navigateToRekeySearch = async () => {
