@@ -82,7 +82,9 @@
           <test-results-search-card></test-results-search-card>
         </ion-col>
         <ion-col size="48">
-          <rekey-search-card></rekey-search-card>
+          <rekey-search-card
+            [isDelegatedExaminer]="isDelegatedExaminer()"
+          ></rekey-search-card>
         </ion-col>
       </ion-row>
     </ion-grid>
