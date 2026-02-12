@@ -11,13 +11,13 @@
           ><label id="select-cat-type-label">Select cat type..</label></ion-button
         >
       </ion-col>
-      <ion-col *ngIf="categoryConfirmed" class="selected-category-code ion-align-self-center" size="48">
+      <ion-col *ngIf="categoryConfirmed" class="selected-category-code ion-align-self-center" size="40">
         <span class="ion-select-text">
           {{bikeCategoryDetailProvider.getDetailByCategoryCode(testCategory)?.displayId}} -
           {{bikeCategoryDetailProvider.getDetailByCategoryCode(testCategory)?.displayName}}
         </span>
       </ion-col>
-      <ion-col *ngIf="categoryConfirmed" class="select-category-link-container ion-padding-right" size="47">
+      <ion-col *ngIf="categoryConfirmed" class="select-category-link-container ion-padding-right" size="55">
         <ion-button (click)="openCategorySelector()" class="mes-link-button category-selector-link" fill="clear">
           <span>
             Select cat type
