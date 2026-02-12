@@ -95,7 +95,7 @@
     <ion-row class="button-padding">
       <ion-col></ion-col>
       @if (appInitError || hasUserLoggedOut) {
-        @if ((!hasUserLoggedOut && !isUserCancelledError()) || isUnknownError()) {
+        @if (isLoggedIn) {
           <ion-col size="40" class="display-flex ion-align-items-center justify-content-center">
             <ion-button
               id="logout-button"

@@ -1,4 +1,4 @@
-import { AuthResult} from '@providers/authentication/authentication';
+import { AuthResult } from '@providers/authentication/authentication';
 
 export enum AuthenticationError {
   NO_INTERNET = 'The Internet connection appears to be offline.',

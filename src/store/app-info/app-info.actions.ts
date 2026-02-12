@@ -1,6 +1,6 @@
-import { AuthResult } from '@providers/authentication/authentication';
 import { createAction, props } from '@ngrx/store';
 import { UpdateAvailable } from '@pages/dashboard/components/update-available-modal/update-available-modal';
+import { AuthResult } from '@providers/authentication/authentication';
 
 export const UnloadAppInfo = createAction('[AppComponent] Unload App Info');
 export const LoadAppVersion = createAction('[AppComponent] Load App Version');

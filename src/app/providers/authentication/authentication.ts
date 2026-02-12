@@ -9,6 +9,7 @@ import { StorageCleared } from '@providers/authentication/authentification.actio
 import { CompletedTestPersistenceProvider } from '@providers/completed-test-persistence/completed-test-persistence';
 import { ExaminerRecordsProvider } from '@providers/examiner-records/examiner-records';
 import { LogHelper } from '@providers/logs/logs-helper';
+import { LoginOptions, MsAuthPlugin } from '@recognizebv/capacitor-plugin-msauth';
 import { serialiseLogMessage } from '@shared/helpers/serialise-log-message';
 import { LogType } from '@shared/models/log.model';
 import { StoreModel } from '@shared/models/store.model';
@@ -34,7 +35,6 @@ import { AppConfigProvider } from '../app-config/app-config';
 import { DataStoreProvider, LocalStorageKey } from '../data-store/data-store';
 import { ConnectionStatus, NetworkStateProvider } from '../network-state/network-state';
 import { TestPersistenceProvider } from '../test-persistence/test-persistence';
-import { LoginOptions, MsAuthPlugin } from '@recognizebv/capacitor-plugin-msauth';
 
 export enum Token {
   ID = 'idToken',
@@ -50,7 +50,6 @@ export interface AuthResult {
 
 @Injectable()
 export class AuthenticationProvider {
-
   authResult: Signal<AuthResult> = this.store$.selectSignal(selectAuthResult);
   authOptions: LoginOptions = null;
 
@@ -62,7 +61,7 @@ export class AuthenticationProvider {
     private logHelper: LogHelper,
     public completedTestPersistenceProvider: CompletedTestPersistenceProvider,
     public examinerRecordsProvider: ExaminerRecordsProvider,
-    private networkState: NetworkStateProvider,
+    private networkState: NetworkStateProvider
   ) {}
 
   /**
@@ -72,7 +71,7 @@ export class AuthenticationProvider {
     const authSettings: AuthProviderSettings = this.appConfig.getAppConfig().authentication;
     this.authOptions = {
       clientId: authSettings.clientId,
-      tenant:  '6c448d90-4ca1-4caf-ab59-0a2aa67d7801',
+      tenant: '6c448d90-4ca1-4caf-ab59-0a2aa67d7801',
       authorityType: 'AAD',
       authorityUrl: authSettings.context,
       knownAuthorities: ['https://login.microsoftonline.com'],
@@ -204,7 +203,7 @@ export class AuthenticationProvider {
    */
   async login() {
     if (!this.authOptions) {
-      await this.init()
+      await this.init();
     }
 
     if (this.isOffline()) return;
@@ -245,7 +244,7 @@ export class AuthenticationProvider {
       // determine if the existing token is expired
       if (await this.hasTokenExpired(authResult)) {
         // attempt a token refresh
-        await this.login()
+        await this.login();
       }
 
       // return true if the token has changed successfully

@@ -1,11 +1,6 @@
 import { Signal } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { Capacitor } from '@capacitor/core';
 import { provideMockStore } from '@ngrx/store/testing';
-import { DelegatedRekeySearchClearState } from '@pages/delegated-rekey-search/delegated-rekey-search.actions';
-import { ResetRekeyReason } from '@pages/rekey-reason/rekey-reason.actions';
-import { RekeySearchClearState } from '@pages/rekey-search/rekey-search.actions';
-import { ResetFaultMode } from '@pages/test-report/test-report.actions';
 import { AppConfig } from '@providers/app-config/app-config.model';
 import { CompletedTestPersistenceProviderMock } from '@providers/completed-test-persistence/__mocks__/completed-test-persistence.mock';
 import { CompletedTestPersistenceProvider } from '@providers/completed-test-persistence/completed-test-persistence';
@@ -13,23 +8,11 @@ import { ExaminerRecordsProviderMock } from '@providers/examiner-records/__mocks
 import { ExaminerRecordsProvider } from '@providers/examiner-records/examiner-records';
 import { LogHelperMock } from '@providers/logs/__mocks__/logs-helper.mock';
 import { LogHelper } from '@providers/logs/logs-helper';
+import { MsAuthPlugin } from '@recognizebv/capacitor-plugin-msauth';
 import { LogType } from '@shared/models/log.model';
 import { StoreModel } from '@shared/models/store.model';
-import { UnloadAppConfig } from '@store/app-config/app-config.actions';
-import {
-  LoadAppVersion,
-  LoadEmployeeId,
-  LoadEmployeeName,
-  UnloadAppInfo,
-  UpdateAuthResult,
-} from '@store/app-info/app-info.actions';
+import { LoadEmployeeId, LoadEmployeeName, UpdateAuthResult } from '@store/app-info/app-info.actions';
 import { selectEmployeeId } from '@store/app-info/app-info.selectors';
-import { UnloadExaminerRecords } from '@store/examiner-records/examiner-records.actions';
-import { UnloadJournal } from '@store/journal/journal.actions';
-import { ClearLogs } from '@store/logs/logs.actions';
-import { ClearTestCentresRefData } from '@store/reference-data/reference-data.actions';
-import { ResetTestCentreJournal } from '@store/test-centre-journal/test-centre-journal.actions';
-import { UnloadTests } from '@store/tests/tests.actions';
 import { AppConfigProviderMock } from '../../app-config/__mocks__/app-config.mock';
 import { AppConfigProvider } from '../../app-config/app-config';
 import { DataStoreProviderMock } from '../../data-store/__mocks__/data-store.mock';
@@ -38,10 +21,9 @@ import { NetworkStateProviderMock } from '../../network-state/__mocks__/network-
 import { NetworkStateProvider } from '../../network-state/network-state';
 import { TestPersistenceProviderMock } from '../../test-persistence/__mocks__/test-persistence.mock';
 import { TestPersistenceProvider } from '../../test-persistence/test-persistence';
-import { AuthenticationProvider, AuthResult } from '../authentication';
-import { MsAuthPlugin } from '@recognizebv/capacitor-plugin-msauth';
+import { AuthResult, AuthenticationProvider } from '../authentication';
 
-fdescribe('AuthenticationProvider', () => {
+describe('AuthenticationProvider', () => {
   let authenticationProvider: AuthenticationProvider;
   let networkStateProvider: NetworkStateProvider;
   const initialState = { appInfo: { employeeId: '1234567' } } as StoreModel;
@@ -161,7 +143,6 @@ fdescribe('AuthenticationProvider', () => {
     });
   });
 
-
   describe('refreshEmployeeDetails', () => {
     it('should call loadEmployeeDetails() with the authResult', async () => {
       spyOn(authenticationProvider, 'loadEmployeeDetails');
@@ -169,7 +150,7 @@ fdescribe('AuthenticationProvider', () => {
 
       await authenticationProvider.refreshEmployeeDetails();
 
-      expect(authenticationProvider.loadEmployeeDetails).toHaveBeenCalledWith({} as unknown as  AuthResult);
+      expect(authenticationProvider.loadEmployeeDetails).toHaveBeenCalledWith({} as unknown as AuthResult);
     });
   });
 
@@ -195,7 +176,7 @@ fdescribe('AuthenticationProvider', () => {
       const mockAuthResult: AuthResult = {
         idToken: 'token',
         accessToken: 'token123',
-        scopes: ['email']
+        scopes: ['email'],
       } as AuthResult;
       spyOn(authenticationProvider.dataStoreProvider, 'getItem').and.returnValue(
         Promise.resolve(JSON.stringify(mockAuthResult))
@@ -255,7 +236,11 @@ fdescribe('AuthenticationProvider', () => {
   describe('login', () => {
     it('should set auth options if not initialised', async () => {
       spyOn(authenticationProvider, 'init');
-      spyOn(MsAuthPlugin, 'login').and.resolveTo({idToken: 'token', accessToken: 'token123', scopes: ['email']} as AuthResult);
+      spyOn(MsAuthPlugin, 'login').and.resolveTo({
+        idToken: 'token',
+        accessToken: 'token123',
+        scopes: ['email'],
+      } as AuthResult);
       spyOn(authenticationProvider, 'storeAuthResult').and.returnValue(Promise.resolve());
 
       await authenticationProvider.login();

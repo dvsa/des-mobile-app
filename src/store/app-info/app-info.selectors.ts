@@ -1,5 +1,5 @@
-import { AuthResult } from '@providers/authentication/authentication';
 import { createSelector } from '@ngrx/store';
+import { AuthResult } from '@providers/authentication/authentication';
 import { StoreModel } from '@shared/models/store.model';
 import { AppInfoStateModel } from './app-info.model';
 

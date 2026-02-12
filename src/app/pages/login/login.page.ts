@@ -33,6 +33,7 @@ export class LoginPage extends LogoutBasePageComponent implements OnInit {
   hasDeviceTypeError = false;
   deviceTypeError: DeviceError;
   queryParamSub: Subscription;
+  isLoggedIn = false;
   isLoggingIn = false;
 
   get loadingOptions(): LoadingOptions {
@@ -143,9 +144,11 @@ export class LoginPage extends LogoutBasePageComponent implements OnInit {
         await this.router.navigate([DASHBOARD_PAGE], { replaceUrl: true });
       }
       this.isLoggingIn = false;
+      this.isLoggedIn = !!(await this.authenticationProvider.getAuthResult());
       this.hasUserLoggedOut = false;
     } catch (error) {
       this.isLoggingIn = false;
+      this.isLoggedIn = !!(await this.authenticationProvider.getAuthResult());
       this.hasUserLoggedOut = false;
       const { display, record } = this.rationaliseError(error);
 
@@ -230,7 +233,7 @@ export class LoginPage extends LogoutBasePageComponent implements OnInit {
   };
 
   isInternetConnectionError = (): boolean => {
-    return !this.hasUserLoggedOut && this.appInitError.valueOf() === AuthenticationError.NO_INTERNET;
+    return !this.hasUserLoggedOut && this.authenticationProvider.isOffline();
   };
 
   isUserCancelledError = (): boolean => {
@@ -241,10 +244,10 @@ export class LoginPage extends LogoutBasePageComponent implements OnInit {
     return (
       !this.hasUserLoggedOut &&
       this.appInitError &&
-      this.appInitError.valueOf() !== AuthenticationError.USER_CANCELLED &&
-      this.appInitError.valueOf() !== AuthenticationError.NO_INTERNET &&
-      this.appInitError.valueOf() !== AuthenticationError.USER_NOT_AUTHORISED &&
-      this.appInitError.valueOf() !== AppConfigError.INVALID_APP_VERSION
+      !this.isUserNotAuthorised() &&
+      !this.isInvalidAppVersionError() &&
+      !this.isInternetConnectionError() &&
+      !this.isUserCancelledError()
     );
   };
 
