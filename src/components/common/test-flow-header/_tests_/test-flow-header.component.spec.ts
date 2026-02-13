@@ -15,6 +15,7 @@ import { DeviceProvider } from '@providers/device/device';
 import { RouteByCategoryProviderMock } from '@providers/route-by-category/__mocks__/route-by-category.mock';
 import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
 import { StoreModel } from '@shared/models/store.model';
+import { PersistTests } from '@store/tests/tests.actions';
 
 describe('TestFlowHeaderComponent', () => {
   let component: TestFlowHeaderComponent;
@@ -150,6 +151,7 @@ describe('TestFlowHeaderComponent', () => {
 
       await component.disableSAMAndExit(ExitSAMMethodUsed.BANNER);
 
+      expect(store$.dispatch).toHaveBeenCalledWith(PersistTests());
       expect(component.exitSamUsed.emit).toHaveBeenCalled();
       expect(component.openPracticeModeModal).toHaveBeenCalled();
     });
