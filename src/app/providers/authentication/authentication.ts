@@ -215,7 +215,6 @@ export class AuthenticationProvider {
       authResult = await MsAuthPlugin.login(this.authOptions);
     } catch (error) {
       this.logEvent(LogType.ERROR, 'Authentication provider - Login error', error);
-      window.alert(JSON.stringify(error));
       throw error;
     }
 

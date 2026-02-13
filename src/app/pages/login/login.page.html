@@ -24,21 +24,83 @@
           <div class="display-flex flex-direction-column ion-align-items-center justify-content-center"
                *ngIf="isInternetConnectionError()">
             <ion-row class="login-page-header-spacing">
-              <ion-text class="des-header-style-2">You're offline</ion-text>
+              <ion-text class="des-header-style-2">You are offline.</ion-text>
             </ion-row>
             <ion-row class="login-page-text-spacing">
-              <ion-text class="des-header-style-3">Close the app, turn on mobile data or wifi, and then try again.
+              <ion-text class="des-header-style-3">Connect to the internet and try again.
               </ion-text>
             </ion-row>
           </div>
           <div class="display-flex flex-direction-column ion-align-items-center justify-content-center"
-               *ngIf="isUserCancelledError()">
+               *ngIf="isFailedToStartError()">
             <ion-row class="login-page-header-spacing">
-              <ion-text class="des-header-style-2">You've cancelled sign in</ion-text>
+              <ion-text class="des-header-style-2">We could not start the login/logout process.</ion-text>
             </ion-row>
             <ion-row class="login-page-text-spacing">
-              <ion-text class="des-header-style-3"><span (click)="login()" class="link">Sign in</span> to continue.
+              <ion-text class="des-header-style-3">Please try again.</ion-text>
+            </ion-row>
+            <ion-row class="login-page-text-spacing">
+              <ion-text class="des-header-style-3">If the problem continues, check your internet connection or contact
+                support.
               </ion-text>
+            </ion-row>
+            <ion-row class="login-page-text-spacing">
+              <span (click)="showErrorDetails()" class="link error-details-link">Show error details</span>
+            </ion-row>
+          </div>
+          <div class="display-flex flex-direction-column ion-align-items-center justify-content-center"
+               *ngIf="isUnableToObtainTokenError()">
+            <ion-row class="login-page-header-spacing">
+              <ion-text class="des-header-style-2">We could not log you in.</ion-text>
+            </ion-row>
+            <ion-row class="login-page-text-spacing">
+              <ion-text class="des-header-style-3">Please try again.</ion-text>
+            </ion-row>
+            <ion-row class="login-page-text-spacing">
+              <ion-text class="des-header-style-3">If the problem continues, check your internet connection or contact
+                support.
+              </ion-text>
+            </ion-row>
+          </div>
+          <div class="display-flex flex-direction-column ion-align-items-center justify-content-center"
+               *ngIf="isAlreadyLoggedOut()">
+            <ion-row class="login-page-header-spacing">
+              <ion-text class="des-header-style-2">You are already logged out.</ion-text>
+            </ion-row>
+            <ion-row class="login-page-text-spacing">
+              <ion-text class="des-header-style-3">There is no account signed in on this device.</ion-text>
+            </ion-row>
+            <ion-row class="login-page-text-spacing">
+              <ion-text class="des-header-style-3">You do not need to do anything else.</ion-text>
+            </ion-row>
+          </div>
+          <div class="display-flex flex-direction-column ion-align-items-center justify-content-center"
+               *ngIf="isUnableToLogout()">
+            <ion-row class="login-page-header-spacing">
+              <ion-text class="des-header-style-2">Logout was not completed.</ion-text>
+            </ion-row>
+            <ion-row class="login-page-text-spacing">
+              <ion-text class="des-header-style-3">This may be because you closed the screen or something went wrong.
+              </ion-text>
+            </ion-row>
+            <ion-row class="login-page-text-spacing">
+              <ion-text class="des-header-style-3">Please try again.</ion-text>
+            </ion-row>
+          </div>
+          <div class="display-flex flex-direction-column ion-align-items-center justify-content-center"
+               *ngIf="isSetupError()">
+            <ion-row class="login-page-header-spacing">
+              <ion-text class="des-header-style-2">This app is not set up correctly.</ion-text>
+            </ion-row>
+            <ion-row class="login-page-text-spacing">
+              <ion-text class="des-header-style-3">You cannot sign in at the moment.
+              </ion-text>
+            </ion-row>
+            <ion-row class="login-page-text-spacing">
+              <ion-text class="des-header-style-3">Please contact support.</ion-text>
+            </ion-row>
+            <ion-row class="login-page-text-spacing">
+              <span (click)="showErrorDetails()" class="link error-details-link">Show error details</span>
             </ion-row>
           </div>
           <div class="display-flex flex-direction-column ion-align-items-center justify-content-center"
