@@ -22,6 +22,7 @@ import { AccessibilityService } from '@providers/accessibility/accessibility.ser
 import { DeviceProvider } from '@providers/device/device';
 import { ExitSAMProvider } from '@providers/exitSAM/exitSAM';
 import { StoreModel } from '@shared/models/store.model';
+import { PersistTests } from '@store/tests/tests.actions';
 
 export enum ExitSAMMethodUsed {
   BUTTON = 'button',
@@ -174,6 +175,7 @@ export class TestFlowHeaderComponent {
    * @param method - The method used to exit SAM (button or banner).
    */
   async disableSAMAndExit(method: ExitSAMMethodUsed) {
+    this.store$.dispatch(PersistTests());
     this.store$.dispatch(ExitSAMConfirmButtonClicked());
     // Emit the exitSamUsed event
     this.exitSamUsed.emit();
