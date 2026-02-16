@@ -372,7 +372,6 @@ export class AuthenticationProvider {
       await this.pluginLogout();
       this.logEvent(LogType.INFO, 'Logout', 'Finished logout flow');
     } catch (err) {
-      window.alert(err);
       this.logEvent(LogType.ERROR, 'Authentication provider - Logout error', err);
     }
 
