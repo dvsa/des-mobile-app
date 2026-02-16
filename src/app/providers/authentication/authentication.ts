@@ -64,19 +64,33 @@ export class AuthenticationProvider {
     private networkState: NetworkStateProvider
   ) {}
 
+  async pluginLogin() {
+    return await MsAuthPlugin.login(this.authOptions);
+  }
+
+  async pluginLogout() {
+    return await MsAuthPlugin.logoutAll(this.authOptions);
+  }
+
   /**
    * Initialises Authentication settings from config
    */
   async init(): Promise<void> {
     const authSettings: AuthProviderSettings = this.appConfig.getAppConfig().authentication;
-    this.authOptions = {
-      clientId: authSettings.clientId,
-      tenant: '6c448d90-4ca1-4caf-ab59-0a2aa67d7801',
-      authorityType: 'AAD',
-      authorityUrl: authSettings.context,
-      knownAuthorities: ['https://login.microsoftonline.com'],
-      prompt: 'login',
-    };
+    try {
+      // Extract the knownAuthoritiesLink and the tenant from the context url
+      const [, knownAuthoritiesLink, tenant] = authSettings.context.match(/(.+\.com\/)(.+)/);
+      this.authOptions = {
+        clientId: authSettings.clientId,
+        tenant: tenant,
+        authorityType: 'AAD',
+        authorityUrl: authSettings.context,
+        knownAuthorities: [knownAuthoritiesLink],
+        prompt: 'login',
+      };
+    } catch (error) {
+      this.logEvent(LogType.ERROR, 'Authentication provider - Init error', error);
+    }
   }
 
   /**
@@ -212,7 +226,7 @@ export class AuthenticationProvider {
 
     let authResult: AuthResult = null;
     try {
-      authResult = await MsAuthPlugin.login(this.authOptions);
+      authResult = await this.pluginLogin();
     } catch (error) {
       this.logEvent(LogType.ERROR, 'Authentication provider - Login error', error);
       throw error;
@@ -355,7 +369,7 @@ export class AuthenticationProvider {
   public async logout(): Promise<void> {
     try {
       this.logEvent(LogType.INFO, 'Logout', 'Started logout flow');
-      await MsAuthPlugin.logoutAll(this.authOptions);
+      await this.pluginLogout();
       this.logEvent(LogType.INFO, 'Logout', 'Finished logout flow');
     } catch (err) {
       window.alert(err);

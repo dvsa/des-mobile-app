@@ -1,6 +1,10 @@
 import { Signal } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { provideMockStore } from '@ngrx/store/testing';
+import { DelegatedRekeySearchClearState } from '@pages/delegated-rekey-search/delegated-rekey-search.actions';
+import { ResetRekeyReason } from '@pages/rekey-reason/rekey-reason.actions';
+import { RekeySearchClearState } from '@pages/rekey-search/rekey-search.actions';
+import { ResetFaultMode } from '@pages/test-report/test-report.actions';
 import { AppConfig } from '@providers/app-config/app-config.model';
 import { CompletedTestPersistenceProviderMock } from '@providers/completed-test-persistence/__mocks__/completed-test-persistence.mock';
 import { CompletedTestPersistenceProvider } from '@providers/completed-test-persistence/completed-test-persistence';
@@ -8,11 +12,23 @@ import { ExaminerRecordsProviderMock } from '@providers/examiner-records/__mocks
 import { ExaminerRecordsProvider } from '@providers/examiner-records/examiner-records';
 import { LogHelperMock } from '@providers/logs/__mocks__/logs-helper.mock';
 import { LogHelper } from '@providers/logs/logs-helper';
-import { MsAuthPlugin } from '@recognizebv/capacitor-plugin-msauth';
 import { LogType } from '@shared/models/log.model';
 import { StoreModel } from '@shared/models/store.model';
-import { LoadEmployeeId, LoadEmployeeName, UpdateAuthResult } from '@store/app-info/app-info.actions';
+import { UnloadAppConfig } from '@store/app-config/app-config.actions';
+import {
+  LoadAppVersion,
+  LoadEmployeeId,
+  LoadEmployeeName,
+  UnloadAppInfo,
+  UpdateAuthResult,
+} from '@store/app-info/app-info.actions';
 import { selectEmployeeId } from '@store/app-info/app-info.selectors';
+import { UnloadExaminerRecords } from '@store/examiner-records/examiner-records.actions';
+import { UnloadJournal } from '@store/journal/journal.actions';
+import { ClearLogs } from '@store/logs/logs.actions';
+import { ClearTestCentresRefData } from '@store/reference-data/reference-data.actions';
+import { ResetTestCentreJournal } from '@store/test-centre-journal/test-centre-journal.actions';
+import { UnloadTests } from '@store/tests/tests.actions';
 import { AppConfigProviderMock } from '../../app-config/__mocks__/app-config.mock';
 import { AppConfigProvider } from '../../app-config/app-config';
 import { DataStoreProviderMock } from '../../data-store/__mocks__/data-store.mock';
@@ -235,8 +251,40 @@ describe('AuthenticationProvider', () => {
 
   describe('login', () => {
     it('should set auth options if not initialised', async () => {
+      authenticationProvider.authOptions = null;
+      spyOn(authenticationProvider, 'pluginLogin').and.resolveTo({
+        idToken: 'token',
+        accessToken: 'token123',
+        scopes: ['email'],
+      } as AuthResult);
+      spyOn(authenticationProvider, 'storeAuthResult').and.resolveTo();
+      spyOn(authenticationProvider, 'isOffline').and.returnValue(false);
       spyOn(authenticationProvider, 'init');
-      spyOn(MsAuthPlugin, 'login').and.resolveTo({
+
+      await authenticationProvider.login();
+
+      expect(authenticationProvider.init).toHaveBeenCalled();
+      expect(authenticationProvider.storeAuthResult).toHaveBeenCalled();
+    });
+
+    it('should not call setProviderOptions if providerOptions is already set', async () => {
+      authenticationProvider.authOptions = { clientId: 'test' };
+      spyOn(authenticationProvider, 'pluginLogin').and.resolveTo({
+        idToken: 'token',
+        accessToken: 'token123',
+        scopes: ['email'],
+      } as AuthResult);
+      spyOn(authenticationProvider, 'storeAuthResult').and.returnValue(Promise.resolve());
+      spyOn(authenticationProvider, 'init');
+
+      await authenticationProvider.login();
+
+      expect(authenticationProvider.init).not.toHaveBeenCalled();
+    });
+
+    it('should call plugin login and storeAuthResult', async () => {
+      authenticationProvider.authOptions = { clientId: 'test' };
+      spyOn(authenticationProvider, 'pluginLogin').and.resolveTo({
         idToken: 'token',
         accessToken: 'token123',
         scopes: ['email'],
@@ -245,296 +293,233 @@ describe('AuthenticationProvider', () => {
 
       await authenticationProvider.login();
 
-      expect(authenticationProvider.init).toHaveBeenCalled();
+      expect(authenticationProvider.pluginLogin).toHaveBeenCalled();
       expect(authenticationProvider.storeAuthResult).toHaveBeenCalled();
     });
-    //
-    // it('should not call setProviderOptions if providerOptions is already set', async () => {
-    //   authenticationProvider.providerOptions = { clientId: 'test' } as ProviderOptions;
-    //   spyOn(authenticationProvider, 'setProviderOptions');
-    //   spyOn(AuthConnect, 'login');
-    //   spyOn(authenticationProvider, 'storeAuthResult').and.returnValue(Promise.resolve());
-    //
-    //   await authenticationProvider.login();
-    //
-    //   expect(authenticationProvider.setProviderOptions).not.toHaveBeenCalled();
-    // });
-    //
-    // it('should call AuthConnect.login and storeAuthResult', async () => {
-    //   authenticationProvider.providerOptions = { clientId: 'test' } as ProviderOptions;
-    //   spyOn(AuthConnect, 'login');
-    //   spyOn(authenticationProvider, 'storeAuthResult').and.returnValue(Promise.resolve());
-    //
-    //   await authenticationProvider.login();
-    //
-    //   expect(AuthConnect.login).toHaveBeenCalledWith(
-    //     authenticationProvider.provider,
-    //     authenticationProvider.providerOptions
-    //   );
-    //   expect(authenticationProvider.storeAuthResult).toHaveBeenCalled();
-    // });
-    //
-    // it('should log and rethrow errors from AuthConnect.login', async () => {
-    //   authenticationProvider.providerOptions = { clientId: 'test' } as ProviderOptions;
-    //   const error = new Error('login failed');
-    //   spyOn(AuthConnect, 'login').and.rejectWith(error);
-    //   spyOn(authenticationProvider, 'storeAuthResult');
-    //   spyOn(authenticationProvider, 'logEvent');
-    //
-    //   await expectAsync(authenticationProvider.login()).toBeRejectedWith(error);
-    //   expect(authenticationProvider.logEvent).toHaveBeenCalledWith(
-    //     LogType.ERROR,
-    //     'Authentication provider - Login error',
-    //     error
-    //   );
-    //   expect(authenticationProvider.storeAuthResult).not.toHaveBeenCalled();
-    // });
+
+    it('should log and rethrow errors from AuthConnect.login', async () => {
+      authenticationProvider.authOptions = { clientId: 'test' };
+      const error = new Error('login failed');
+      spyOn(authenticationProvider, 'pluginLogin').and.rejectWith(error);
+      spyOn(authenticationProvider, 'storeAuthResult');
+      spyOn(authenticationProvider, 'logEvent');
+
+      await expectAsync(authenticationProvider.login()).toBeRejectedWith(error);
+      expect(authenticationProvider.logEvent).toHaveBeenCalledWith(
+        LogType.ERROR,
+        'Authentication provider - Login error',
+        error
+      );
+      expect(authenticationProvider.storeAuthResult).not.toHaveBeenCalled();
+    });
   });
 
-  // describe('isOffline', () => {
-  //   it('should return true if network state is offline', () => {
-  //     spyOn(networkStateProvider, 'getNetworkState').and.returnValue(1);
-  //
-  //     const result = authenticationProvider.isOffline();
-  //     expect(result).toBe(true);
-  //   });
-  //
-  //   it('should return false if network state is online', () => {
-  //     spyOn(networkStateProvider, 'getNetworkState').and.returnValue(0);
-  //
-  //     const result = authenticationProvider.isOffline();
-  //     expect(result).toBe(false);
-  //   });
-  // });
-  //
-  // describe('refreshSession', () => {
-  //   it('should call AuthConnect.refreshSession() if a refresh token is available', async () => {
-  //     const testAuth = {} as AuthResult;
-  //     spyOn(authenticationProvider, 'getAuthResult').and.resolveTo(testAuth);
-  //     spyOn(AuthConnect, 'isRefreshTokenAvailable').and.resolveTo(true);
-  //     spyOn(AuthConnect, 'refreshSession').and.resolveTo(testAuth);
-  //     spyOn(authenticationProvider, 'storeAuthResult').and.returnValue(Promise.resolve());
-  //
-  //     await authenticationProvider.refreshSession();
-  //
-  //     expect(AuthConnect.refreshSession).toHaveBeenCalledWith(authenticationProvider.provider, testAuth);
-  //   });
-  //   it('should call storeAuthResult() with the result of AuthConnect.refreshSession() if a refresh token is available', async () => {
-  //     const testAuth = {} as AuthResult;
-  //     spyOn(authenticationProvider, 'getAuthResult').and.resolveTo(testAuth);
-  //     spyOn(AuthConnect, 'isRefreshTokenAvailable').and.resolveTo(true);
-  //     spyOn(AuthConnect, 'refreshSession').and.resolveTo(testAuth);
-  //     spyOn(authenticationProvider, 'storeAuthResult').and.returnValue(Promise.resolve());
-  //
-  //     await authenticationProvider.refreshSession();
-  //
-  //     expect(authenticationProvider.storeAuthResult).toHaveBeenCalledWith(testAuth);
-  //   });
-  //   it('should not call storeAuthResult() or AuthConnect.refreshSession if a refresh token is not available', async () => {
-  //     const testAuth = {} as AuthResult;
-  //     spyOn(authenticationProvider, 'getAuthResult').and.resolveTo(testAuth);
-  //     spyOn(AuthConnect, 'isRefreshTokenAvailable').and.resolveTo(false);
-  //     spyOn(AuthConnect, 'refreshSession').and.resolveTo(testAuth);
-  //     spyOn(authenticationProvider, 'storeAuthResult').and.returnValue(Promise.resolve());
-  //
-  //     await authenticationProvider.refreshSession().catch((err) => {
-  //       expect(authenticationProvider.storeAuthResult).not.toHaveBeenCalled();
-  //       expect(AuthConnect.refreshSession).not.toHaveBeenCalled();
-  //     });
-  //   });
-  // });
-  //
-  // describe('isAuthenticated', () => {
-  //   beforeEach(() => {
-  //     spyOn(authenticationProvider, 'logEvent');
-  //     spyOn(authenticationProvider, 'isOffline');
-  //     spyOn(authenticationProvider, 'getAuthResult');
-  //     spyOn(authenticationProvider, 'hasTokenExpired');
-  //     spyOn(authenticationProvider, 'refreshSession');
-  //   });
-  //   it('should return true when offline', async () => {
-  //     spyOn(authenticationProvider, 'isOffline').and.returnValue(true);
-  //
-  //     const result = await authenticationProvider.isAuthenticated();
-  //
-  //     expect(result).toBe(true);
-  //     expect(authenticationProvider.getAuthResult).not.toHaveBeenCalled();
-  //   });
-  //
-  //   it('should return false when no auth result exists', async () => {
-  //     spyOn(authenticationProvider, 'isOffline').and.returnValue(false);
-  //     spyOn(authenticationProvider, 'getAuthResult').and.resolveTo(null);
-  //
-  //     const result = await authenticationProvider.isAuthenticated();
-  //
-  //     expect(result).toBe(false);
-  //     expect(authenticationProvider.hasTokenExpired).not.toHaveBeenCalled();
-  //   });
-  //
-  //   it('should return true when token is valid and not expired', async () => {
-  //     const mockAuthResult = {} as AuthResult;
-  //     spyOn(authenticationProvider, 'isOffline').and.returnValue(false);
-  //     spyOn(authenticationProvider, 'getAuthResult').and.resolveTo(mockAuthResult);
-  //     spyOn(authenticationProvider, 'hasTokenExpired').and.resolveTo(false);
-  //
-  //     const result = await authenticationProvider.isAuthenticated();
-  //
-  //     expect(result).toBe(true);
-  //     expect(authenticationProvider.hasTokenExpired).toHaveBeenCalledWith(mockAuthResult);
-  //     expect(authenticationProvider.refreshSession).not.toHaveBeenCalled();
-  //   });
-  //
-  //   it('should attempt token refresh when token is expired', async () => {
-  //     const mockAuthResult = {} as AuthResult;
-  //     spyOn(authenticationProvider, 'isOffline').and.returnValue(false);
-  //     spyOn(authenticationProvider, 'getAuthResult').and.resolveTo(mockAuthResult);
-  //     spyOn(authenticationProvider, 'hasTokenExpired').and.resolveTo(true);
-  //     spyOn(authenticationProvider, 'refreshSession').and.resolveTo();
-  //
-  //     const result = await authenticationProvider.isAuthenticated();
-  //
-  //     expect(result).toBe(true);
-  //     expect(authenticationProvider.refreshSession).toHaveBeenCalled();
-  //   });
-  //
-  //   it('should catch errors from getAuthResult and return false', async () => {
-  //     const testError = new Error('Auth result retrieval failed');
-  //     spyOn(authenticationProvider, 'isOffline').and.returnValue(false);
-  //     spyOn(authenticationProvider, 'getAuthResult').and.rejectWith(testError);
-  //
-  //     const result = await authenticationProvider.isAuthenticated();
-  //
-  //     expect(result).toBe(false);
-  //     expect(authenticationProvider.logEvent).toHaveBeenCalledWith(LogType.ERROR, 'isAuthenticated error', testError);
-  //   });
-  //
-  //   it('should catch errors from hasTokenExpired and return false', async () => {
-  //     const mockAuthResult = {} as AuthResult;
-  //     const testError = new Error('Token expiry check failed');
-  //
-  //     spyOn(authenticationProvider, 'isOffline').and.returnValue(false);
-  //     spyOn(authenticationProvider, 'getAuthResult').and.resolveTo(mockAuthResult);
-  //     spyOn(authenticationProvider, 'hasTokenExpired').and.rejectWith(testError);
-  //
-  //     const result = await authenticationProvider.isAuthenticated();
-  //
-  //     expect(result).toBe(false);
-  //     expect(authenticationProvider.logEvent).toHaveBeenCalledWith(LogType.ERROR, 'isAuthenticated error', testError);
-  //   });
-  //
-  //   it('should catch errors from refreshSession and return false', async () => {
-  //     const testError = new Error('Token refresh failed');
-  //     const mockAuthResult = {} as AuthResult;
-  //     spyOn(authenticationProvider, 'isOffline').and.returnValue(false);
-  //     spyOn(authenticationProvider, 'getAuthResult').and.resolveTo(mockAuthResult);
-  //     spyOn(authenticationProvider, 'hasTokenExpired').and.resolveTo(true);
-  //     spyOn(authenticationProvider, 'refreshSession').and.rejectWith(testError);
-  //
-  //     const result = await authenticationProvider.isAuthenticated();
-  //
-  //     expect(result).toBe(false);
-  //     expect(authenticationProvider.logEvent).toHaveBeenCalledWith(LogType.ERROR, 'isAuthenticated error', testError);
-  //   });
-  // });
-  //
-  // describe('hasTokenExpired', () => {
-  //   it('should return true if token is expired', async () => {
-  //     const expiredExp = Math.floor(Date.now() / 1000) - 1000;
-  //     spyOn(authenticationProvider, 'decodeToken').and.returnValue({ exp: expiredExp });
-  //     const result = await authenticationProvider.hasTokenExpired({ idToken: 'expired' } as AuthResult);
-  //     expect(result).toBe(true);
-  //   });
-  //
-  //   it('should return false if token is not expired', async () => {
-  //     const futureExp = Math.floor(Date.now() / 1000) + 1000;
-  //     spyOn(authenticationProvider, 'decodeToken').and.returnValue({ exp: futureExp });
-  //     const result = await authenticationProvider.hasTokenExpired({ idToken: 'valid' } as AuthResult);
-  //     expect(result).toBe(false);
-  //   });
-  //
-  //   it('should return false if exp is missing', async () => {
-  //     spyOn(authenticationProvider, 'decodeToken').and.returnValue({});
-  //     const result: boolean = await authenticationProvider.hasTokenExpired({ idToken: 'invalid' } as AuthResult);
-  //     expect(result).toBe(false);
-  //   });
-  //
-  //   it('should return true if decodeToken returns null/undefined', async () => {
-  //     spyOn(authenticationProvider, 'decodeToken').and.returnValue(undefined);
-  //     const result = await authenticationProvider.hasTokenExpired({ idToken: 'bad' } as AuthResult);
-  //     expect(result).toBe(true);
-  //   });
-  // });
-  //
-  // describe('clearStore', () => {
-  //   it('should dispatch all unload actions and clear persisted data', async () => {
-  //     spyOn(authenticationProvider.store$, 'dispatch');
-  //     spyOn(authenticationProvider.testPersistenceProvider, 'clearPersistedTests').and.returnValue(Promise.resolve());
-  //     spyOn(authenticationProvider.dataStoreProvider, 'removeItem').and.returnValue(Promise.resolve(''));
-  //     spyOn(authenticationProvider.examinerRecordsProvider, 'clearExaminerRecordsCache').and.returnValue(
-  //       Promise.resolve()
-  //     );
-  //     spyOn(authenticationProvider.completedTestPersistenceProvider, 'clearPersistedCompletedTests').and.returnValue(
-  //       Promise.resolve()
-  //     );
-  //
-  //     await authenticationProvider.clearStore();
-  //
-  //     expect(authenticationProvider.store$.dispatch).toHaveBeenCalledWith(UnloadJournal());
-  //     expect(authenticationProvider.store$.dispatch).toHaveBeenCalledWith(UnloadTests());
-  //     expect(authenticationProvider.store$.dispatch).toHaveBeenCalledWith(UnloadAppConfig());
-  //     expect(authenticationProvider.store$.dispatch).toHaveBeenCalledWith(LoadAppVersion());
-  //     expect(authenticationProvider.store$.dispatch).toHaveBeenCalledWith(RekeySearchClearState());
-  //     expect(authenticationProvider.store$.dispatch).toHaveBeenCalledWith(DelegatedRekeySearchClearState());
-  //     expect(authenticationProvider.store$.dispatch).toHaveBeenCalledWith(UnloadAppInfo());
-  //     expect(authenticationProvider.store$.dispatch).toHaveBeenCalledWith(UnloadExaminerRecords());
-  //     expect(authenticationProvider.store$.dispatch).toHaveBeenCalledWith(ClearTestCentresRefData());
-  //     expect(authenticationProvider.store$.dispatch).toHaveBeenCalledWith(ResetTestCentreJournal());
-  //     expect(authenticationProvider.store$.dispatch).toHaveBeenCalledWith(ResetRekeyReason());
-  //     expect(authenticationProvider.store$.dispatch).toHaveBeenCalledWith(ResetFaultMode());
-  //     expect(authenticationProvider.store$.dispatch).toHaveBeenCalledWith(ClearLogs());
-  //
-  //     expect(authenticationProvider.testPersistenceProvider.clearPersistedTests).toHaveBeenCalled();
-  //     expect(authenticationProvider.dataStoreProvider.removeItem).toHaveBeenCalledWith(
-  //       LocalStorageKey.JOURNAL_RECALL_AUTO_DISPLAY_TIME
-  //     );
-  //     expect(authenticationProvider.dataStoreProvider.removeItem).toHaveBeenCalledWith(LocalStorageKey.CONFIG);
-  //     expect(authenticationProvider.examinerRecordsProvider.clearExaminerRecordsCache).toHaveBeenCalled();
-  //     expect(authenticationProvider.completedTestPersistenceProvider.clearPersistedCompletedTests).toHaveBeenCalled();
-  //   });
-  // });
-  //
-  // describe('logout', () => {
-  //   beforeEach(() => {
-  //     spyOn(authenticationProvider, 'logEvent');
-  //     spyOn(authenticationProvider.appConfig, 'shutDownStoreSubscription');
-  //     spyOn(authenticationProvider, 'getAuthResult').and.resolveTo({} as AuthResult);
-  //     spyOn(authenticationProvider, 'clearStore').and.returnValue(Promise.resolve());
-  //     spyOn(AuthConnect, 'logout').and.returnValue(Promise.resolve());
-  //     authenticationProvider.authResult = (() => {}) as Signal<AuthResult>;
-  //   });
-  //
-  //   it('should log start and finish, call AuthConnect.logout, clearStore, and shutDownStoreSubscription', async () => {
-  //     await authenticationProvider.logout();
-  //
-  //     expect(AuthConnect.logout).toHaveBeenCalledWith(authenticationProvider.provider, {} as AuthResult);
-  //
-  //     expect(authenticationProvider.clearStore).toHaveBeenCalled();
-  //     expect(authenticationProvider.appConfig.shutDownStoreSubscription).toHaveBeenCalled();
-  //   });
-  //
-  //   it('should log error if AuthConnect.logout throws, then call clearStore and shutDownStoreSubscription', async () => {
-  //     const error = new Error('logout failed');
-  //     (AuthConnect.logout as jasmine.Spy).and.rejectWith(error);
-  //
-  //     await authenticationProvider.logout();
-  //
-  //     expect(authenticationProvider.logEvent).toHaveBeenCalledWith(
-  //       LogType.ERROR,
-  //       'Authentication provider - Logout error',
-  //       error
-  //     );
-  //     expect(authenticationProvider.clearStore).toHaveBeenCalled();
-  //     expect(authenticationProvider.appConfig.shutDownStoreSubscription).toHaveBeenCalled();
-  //   });
-  // });
+  describe('isOffline', () => {
+    it('should return true if network state is offline', () => {
+      spyOn(networkStateProvider, 'getNetworkState').and.returnValue(1);
+
+      const result = authenticationProvider.isOffline();
+      expect(result).toBe(true);
+    });
+
+    it('should return false if network state is online', () => {
+      spyOn(networkStateProvider, 'getNetworkState').and.returnValue(0);
+
+      const result = authenticationProvider.isOffline();
+      expect(result).toBe(false);
+    });
+  });
+
+  describe('isAuthenticated', () => {
+    beforeEach(() => {
+      spyOn(authenticationProvider, 'logEvent');
+      spyOn(authenticationProvider, 'isOffline');
+      spyOn(authenticationProvider, 'getAuthResult');
+      spyOn(authenticationProvider, 'hasTokenExpired');
+    });
+    it('should return true when offline', async () => {
+      spyOn(authenticationProvider, 'isOffline').and.returnValue(true);
+
+      const result = await authenticationProvider.isAuthenticated();
+
+      expect(result).toBe(true);
+      expect(authenticationProvider.getAuthResult).not.toHaveBeenCalled();
+    });
+
+    it('should return false when no auth result exists', async () => {
+      spyOn(authenticationProvider, 'isOffline').and.returnValue(false);
+      spyOn(authenticationProvider, 'getAuthResult').and.resolveTo(null);
+
+      const result = await authenticationProvider.isAuthenticated();
+
+      expect(result).toBe(false);
+      expect(authenticationProvider.hasTokenExpired).not.toHaveBeenCalled();
+    });
+
+    it('should return true when token is valid and not expired', async () => {
+      const mockAuthResult = {} as AuthResult;
+      spyOn(authenticationProvider, 'isOffline').and.returnValue(false);
+      spyOn(authenticationProvider, 'getAuthResult').and.resolveTo(mockAuthResult);
+      spyOn(authenticationProvider, 'login').and.resolveTo();
+
+      const result = await authenticationProvider.isAuthenticated();
+
+      expect(result).toBe(true);
+      expect(authenticationProvider.hasTokenExpired).toHaveBeenCalledWith(mockAuthResult);
+      expect(authenticationProvider.login).not.toHaveBeenCalled();
+    });
+
+    it('should attempt token refresh when token is expired', async () => {
+      const mockAuthResult = {} as AuthResult;
+      spyOn(authenticationProvider, 'isOffline').and.returnValue(false);
+      spyOn(authenticationProvider, 'getAuthResult').and.resolveTo(mockAuthResult);
+      spyOn(authenticationProvider, 'hasTokenExpired').and.resolveTo(true);
+      spyOn(authenticationProvider, 'login').and.resolveTo();
+
+      const result = await authenticationProvider.isAuthenticated();
+
+      expect(result).toBe(true);
+      expect(authenticationProvider.login).toHaveBeenCalled();
+    });
+
+    it('should catch errors from getAuthResult and return false', async () => {
+      const testError = new Error('Auth result retrieval failed');
+      spyOn(authenticationProvider, 'isOffline').and.returnValue(false);
+      spyOn(authenticationProvider, 'getAuthResult').and.rejectWith(testError);
+
+      const result = await authenticationProvider.isAuthenticated();
+
+      expect(result).toBe(false);
+      expect(authenticationProvider.logEvent).toHaveBeenCalledWith(LogType.ERROR, 'isAuthenticated error', testError);
+    });
+
+    it('should catch errors from hasTokenExpired and return false', async () => {
+      const mockAuthResult = {} as AuthResult;
+      const testError = new Error('Token expiry check failed');
+
+      spyOn(authenticationProvider, 'isOffline').and.returnValue(false);
+      spyOn(authenticationProvider, 'getAuthResult').and.resolveTo(mockAuthResult);
+      spyOn(authenticationProvider, 'hasTokenExpired').and.rejectWith(testError);
+
+      const result = await authenticationProvider.isAuthenticated();
+
+      expect(result).toBe(false);
+      expect(authenticationProvider.logEvent).toHaveBeenCalledWith(LogType.ERROR, 'isAuthenticated error', testError);
+    });
+
+    it('should catch errors from refreshSession and return false', async () => {
+      const testError = new Error('Token refresh failed');
+      const mockAuthResult = {} as AuthResult;
+      spyOn(authenticationProvider, 'isOffline').and.returnValue(false);
+      spyOn(authenticationProvider, 'getAuthResult').and.resolveTo(mockAuthResult);
+      spyOn(authenticationProvider, 'hasTokenExpired').and.resolveTo(true);
+      spyOn(authenticationProvider, 'login').and.rejectWith(testError);
+
+      const result = await authenticationProvider.isAuthenticated();
+
+      expect(result).toBe(false);
+      expect(authenticationProvider.logEvent).toHaveBeenCalledWith(LogType.ERROR, 'isAuthenticated error', testError);
+    });
+  });
+
+  describe('hasTokenExpired', () => {
+    it('should return true if token is expired', async () => {
+      const expiredExp = Math.floor(Date.now() / 1000) - 1000;
+      spyOn(authenticationProvider, 'decodeToken').and.returnValue({ exp: expiredExp });
+      const result = await authenticationProvider.hasTokenExpired({ idToken: 'expired' } as AuthResult);
+      expect(result).toBe(true);
+    });
+
+    it('should return false if token is not expired', async () => {
+      const futureExp = Math.floor(Date.now() / 1000) + 1000;
+      spyOn(authenticationProvider, 'decodeToken').and.returnValue({ exp: futureExp });
+      const result = await authenticationProvider.hasTokenExpired({ idToken: 'valid' } as AuthResult);
+      expect(result).toBe(false);
+    });
+
+    it('should return false if exp is missing', async () => {
+      spyOn(authenticationProvider, 'decodeToken').and.returnValue({});
+      const result: boolean = await authenticationProvider.hasTokenExpired({ idToken: 'invalid' } as AuthResult);
+      expect(result).toBe(false);
+    });
+
+    it('should return true if decodeToken returns null/undefined', async () => {
+      spyOn(authenticationProvider, 'decodeToken').and.returnValue(undefined);
+      const result = await authenticationProvider.hasTokenExpired({ idToken: 'bad' } as AuthResult);
+      expect(result).toBe(true);
+    });
+  });
+
+  describe('clearStore', () => {
+    it('should dispatch all unload actions and clear persisted data', async () => {
+      spyOn(authenticationProvider.store$, 'dispatch');
+      spyOn(authenticationProvider.testPersistenceProvider, 'clearPersistedTests').and.returnValue(Promise.resolve());
+      spyOn(authenticationProvider.dataStoreProvider, 'removeItem').and.returnValue(Promise.resolve(''));
+      spyOn(authenticationProvider.examinerRecordsProvider, 'clearExaminerRecordsCache').and.returnValue(
+        Promise.resolve()
+      );
+      spyOn(authenticationProvider.completedTestPersistenceProvider, 'clearPersistedCompletedTests').and.returnValue(
+        Promise.resolve()
+      );
+
+      await authenticationProvider.clearStore();
+
+      expect(authenticationProvider.store$.dispatch).toHaveBeenCalledWith(UnloadJournal());
+      expect(authenticationProvider.store$.dispatch).toHaveBeenCalledWith(UnloadTests());
+      expect(authenticationProvider.store$.dispatch).toHaveBeenCalledWith(UnloadAppConfig());
+      expect(authenticationProvider.store$.dispatch).toHaveBeenCalledWith(LoadAppVersion());
+      expect(authenticationProvider.store$.dispatch).toHaveBeenCalledWith(RekeySearchClearState());
+      expect(authenticationProvider.store$.dispatch).toHaveBeenCalledWith(DelegatedRekeySearchClearState());
+      expect(authenticationProvider.store$.dispatch).toHaveBeenCalledWith(UnloadAppInfo());
+      expect(authenticationProvider.store$.dispatch).toHaveBeenCalledWith(UnloadExaminerRecords());
+      expect(authenticationProvider.store$.dispatch).toHaveBeenCalledWith(ClearTestCentresRefData());
+      expect(authenticationProvider.store$.dispatch).toHaveBeenCalledWith(ResetTestCentreJournal());
+      expect(authenticationProvider.store$.dispatch).toHaveBeenCalledWith(ResetRekeyReason());
+      expect(authenticationProvider.store$.dispatch).toHaveBeenCalledWith(ResetFaultMode());
+      expect(authenticationProvider.store$.dispatch).toHaveBeenCalledWith(ClearLogs());
+
+      expect(authenticationProvider.testPersistenceProvider.clearPersistedTests).toHaveBeenCalled();
+      expect(authenticationProvider.dataStoreProvider.removeItem).toHaveBeenCalledWith(
+        LocalStorageKey.JOURNAL_RECALL_AUTO_DISPLAY_TIME
+      );
+      expect(authenticationProvider.dataStoreProvider.removeItem).toHaveBeenCalledWith(LocalStorageKey.CONFIG);
+      expect(authenticationProvider.examinerRecordsProvider.clearExaminerRecordsCache).toHaveBeenCalled();
+      expect(authenticationProvider.completedTestPersistenceProvider.clearPersistedCompletedTests).toHaveBeenCalled();
+    });
+  });
+
+  describe('logout', () => {
+    beforeEach(() => {
+      spyOn(authenticationProvider, 'logEvent');
+      spyOn(authenticationProvider.appConfig, 'shutDownStoreSubscription');
+      spyOn(authenticationProvider, 'getAuthResult').and.resolveTo({} as AuthResult);
+      spyOn(authenticationProvider, 'clearStore').and.returnValue(Promise.resolve());
+      spyOn(authenticationProvider, 'pluginLogout').and.returnValue(Promise.resolve());
+      authenticationProvider.authResult = (() => {}) as Signal<AuthResult>;
+    });
+
+    it('should log start and finish, call logout, clearStore, and shutDownStoreSubscription', async () => {
+      await authenticationProvider.logout();
+
+      expect(authenticationProvider.pluginLogout).toHaveBeenCalled();
+
+      expect(authenticationProvider.clearStore).toHaveBeenCalled();
+      expect(authenticationProvider.appConfig.shutDownStoreSubscription).toHaveBeenCalled();
+    });
+
+    it('should log error if AuthConnect.logout throws, then call clearStore and shutDownStoreSubscription', async () => {
+      const error = new Error('logout failed');
+      (authenticationProvider.pluginLogout as jasmine.Spy).and.rejectWith(error);
+
+      await authenticationProvider.logout();
+
+      expect(authenticationProvider.logEvent).toHaveBeenCalledWith(
+        LogType.ERROR,
+        'Authentication provider - Logout error',
+        error
+      );
+      expect(authenticationProvider.clearStore).toHaveBeenCalled();
+      expect(authenticationProvider.appConfig.shutDownStoreSubscription).toHaveBeenCalled();
+    });
+  });
 });
