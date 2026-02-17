@@ -14,7 +14,6 @@ env:
   CI: true
   DES_IONIC_CONFIG_JSON: ${{ secrets.DES_IONIC_CONFIG_JSON }}
   DES_IONIC_KEY: ${{ secrets.DES_IONIC_KEY }}
-  DES_ACCESS_TOKEN: ${{ secrets.DES_ACCESS_TOKEN }}
 
 concurrency:
   group: ${{ github.ref }}
@@ -25,7 +24,7 @@ jobs:
     runs-on: MACOS-ARM64
     steps:
       - name: 📨 Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: 🔍 Read .nvmrc
         id: nvm
@@ -33,19 +32,14 @@ jobs:
 
       - name: 🔧 Create .npmrc
         run: |
-          echo "//npm.pkg.github.com/:_authToken=$DES_ACCESS_TOKEN" >> ~/.npmrc
-
           # Use npm registry for @dvsa/biome-config
           echo "@dvsa/biome-config:registry=https://registry.npmjs.org/" >> .npmrc
-
-          # Use GitHub Packages registry for all other @dvsa scoped packages
-          echo "@dvsa:registry=https://npm.pkg.github.com" >> .npmrc
 
           echo "@ionic-enterprise:registry=https://registry.ionicframework.com/" >> .npmrc
           echo "//registry.ionicframework.com/:_authToken=$DES_IONIC_KEY" >> .npmrc
 
       - name: ⚙️ Setup Node.js ${{ steps.nvm.outputs.node-version }}
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
           node-version: ${{ steps.nvm.outputs.node-version }}
 
@@ -61,7 +55,7 @@ jobs:
       GEM_HOME: "~/.gem/des"
     steps:
       - name: 📨 Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: 🔍 Read .nvmrc
         id: nvm
@@ -69,13 +63,8 @@ jobs:
 
       - name: 🔧 Create .npmrc
         run: |
-          echo "//npm.pkg.github.com/:_authToken=$DES_ACCESS_TOKEN" >> ~/.npmrc
-
           # Use npm registry for @dvsa/biome-config
           echo "@dvsa/biome-config:registry=https://registry.npmjs.org/" >> .npmrc
-
-          # Use GitHub Packages registry for all other @dvsa scoped packages
-          echo "@dvsa:registry=https://npm.pkg.github.com" >> .npmrc
 
           echo "@ionic-enterprise:registry=https://registry.ionicframework.com/" >> .npmrc
           echo "//registry.ionicframework.com/:_authToken=$DES_IONIC_KEY" >> .npmrc
@@ -84,7 +73,7 @@ jobs:
         run: echo "$DES_IONIC_CONFIG_JSON" >> ionic.config.json
 
       - name: ⚙️ Setup Node.js ${{ steps.nvm.outputs.node-version }}
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
           node-version: ${{ steps.nvm.outputs.node-version }}
 
@@ -111,7 +100,7 @@ jobs:
       test-script-name: 'test'
       lcov-report-paths: 'coverage/ngv/lcov.info'
     secrets:
-        DES_MGMT_ROLE: ${{ secrets.DES_MGMT_ROLE }}
-        DVSA_AWS_REGION: ${{ secrets.DVSA_AWS_REGION }}
-        ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
-        DES_IONIC_KEY: ${{ secrets.DES_IONIC_KEY }}
+      DES_MGMT_ROLE: ${{ secrets.DES_MGMT_ROLE }}
+      DVSA_AWS_REGION: ${{ secrets.DVSA_AWS_REGION }}
+      ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+      DES_IONIC_KEY: ${{ secrets.DES_IONIC_KEY }}
