@@ -266,7 +266,6 @@ export class AuthenticationProvider {
         // attempt a token refresh
         await this.login();
       }
-
       // return true if the token has changed successfully
       return true;
     } catch (err) {
