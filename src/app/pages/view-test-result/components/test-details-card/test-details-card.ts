@@ -26,13 +26,6 @@ export class TestDetailsCardComponent {
     return [TestCategory.CE, TestCategory.C1E, TestCategory.DE, TestCategory.D1E].includes(this.data.category);
   }
 
-  showAttemptNumber(): boolean {
-    return (
-      get(this.candidateDetails, 'attemptNumber', null) !== null ||
-      typeof get(this.candidateDetails, 'attemptNumber') !== 'undefined'
-    );
-  }
-
   showPrn(): boolean {
     return get(this.candidateDetails, 'prn', null) !== null || typeof get(this.candidateDetails, 'prn') !== 'undefined';
   }
