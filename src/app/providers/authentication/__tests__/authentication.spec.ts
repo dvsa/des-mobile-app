@@ -174,7 +174,8 @@ describe('AuthenticationProvider', () => {
     it('should dispatch the updateAuthResult action, set the local storage & call loadEmployeeDetails with the authResult', async () => {
       spyOn(authenticationProvider, 'loadEmployeeDetails');
       spyOn(authenticationProvider.dataStoreProvider, 'setItem');
-      const testAuth = authenticationProvider.authResult();
+
+      const testAuth = { idToken: 'token123' } as AuthResult;
 
       await authenticationProvider.storeAuthResult(testAuth);
 
@@ -182,6 +183,18 @@ describe('AuthenticationProvider', () => {
         LocalStorageKey.AUTH_RESULT,
         JSON.stringify(testAuth)
       );
+      expect(authenticationProvider.store$.dispatch).toHaveBeenCalledWith(UpdateAuthResult(testAuth));
+      expect(authenticationProvider.loadEmployeeDetails).toHaveBeenCalledWith(testAuth);
+    });
+    it('should remove the authResult from the storage if there is no value', async () => {
+      spyOn(authenticationProvider, 'loadEmployeeDetails');
+      spyOn(authenticationProvider.dataStoreProvider, 'setItem');
+
+      const testAuth = null;
+
+      await authenticationProvider.storeAuthResult(testAuth);
+
+      expect(authenticationProvider.dataStoreProvider.removeItem).toHaveBeenCalledWith(LocalStorageKey.AUTH_RESULT);
       expect(authenticationProvider.store$.dispatch).toHaveBeenCalledWith(UpdateAuthResult(testAuth));
       expect(authenticationProvider.loadEmployeeDetails).toHaveBeenCalledWith(testAuth);
     });

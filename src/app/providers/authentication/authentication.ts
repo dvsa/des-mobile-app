@@ -179,7 +179,11 @@ export class AuthenticationProvider {
     await this.loadEmployeeDetails(authResult);
 
     try {
-      await this.dataStoreProvider.setItem(LocalStorageKey.AUTH_RESULT, JSON.stringify(authResult));
+      if (authResult) {
+        await this.dataStoreProvider.setItem(LocalStorageKey.AUTH_RESULT, JSON.stringify(authResult));
+      } else {
+        await this.dataStoreProvider.removeItem(LocalStorageKey.AUTH_RESULT);
+      }
     } catch (error) {
       this.logEvent(LogType.ERROR, 'Authentication provider - Store result Storage error', error);
     }
