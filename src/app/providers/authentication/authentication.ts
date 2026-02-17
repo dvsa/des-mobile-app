@@ -250,6 +250,16 @@ export class AuthenticationProvider {
   }
 
   /**
+   * Find out if auth result was generated via MSAuth plugin
+   */
+  public isTokenFromMSAuth(result: AuthResult) {
+    if (get(result, 'isMSAuth')) {
+      return result?.isMSAuth;
+    }
+    return false;
+  }
+
+  /**
    * Check if the user has a valid authResult, and attempt to refresh it manually if not.
    * This will automatically return true if the user offline to not disrupt their local session
    */
@@ -260,7 +270,11 @@ export class AuthenticationProvider {
       // check to see if there is an access token to interrogate
       const authResult = await this.getAuthResult();
       if (!authResult) return false;
-      if (!authResult?.isMSAuth) return false;
+      if (!this.isTokenFromMSAuth(authResult)) {
+        //Clear the old auth result from the state.
+        await this.storeAuthResult(null);
+        return false;
+      }
       // determine if the existing token is expired
       if (await this.hasTokenExpired(authResult)) {
         // attempt a token refresh

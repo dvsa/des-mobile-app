@@ -187,6 +187,32 @@ describe('AuthenticationProvider', () => {
     });
   });
 
+  describe('isTokenFromMSAuth', () => {
+    it('should return true if the test Auth has the isMSAuth flag', () => {
+      let testAuth = authenticationProvider.authResult();
+      testAuth = {
+        ...testAuth,
+        isMSAuth: true,
+      };
+
+      expect(authenticationProvider.isTokenFromMSAuth(testAuth)).toEqual(true);
+    });
+    it('should return false if the test Auth does not have the isMSAuth flag', () => {
+      let testAuth = authenticationProvider.authResult();
+      testAuth = {
+        ...testAuth,
+        isMSAuth: false,
+      };
+
+      expect(authenticationProvider.isTokenFromMSAuth(testAuth)).toEqual(false);
+    });
+    it('should return false if the test Auth does not have the isMSAuth property', () => {
+      const testAuth = authenticationProvider.authResult();
+
+      expect(authenticationProvider.isTokenFromMSAuth(testAuth)).toEqual(false);
+    });
+  });
+
   describe('getStoredAuthResult', () => {
     it('should return parsed auth result when stored result exists and has provider', async () => {
       const mockAuthResult: AuthResult = {
@@ -336,6 +362,7 @@ describe('AuthenticationProvider', () => {
       spyOn(authenticationProvider, 'isOffline');
       spyOn(authenticationProvider, 'getAuthResult');
       spyOn(authenticationProvider, 'hasTokenExpired');
+      spyOn(authenticationProvider, 'isTokenFromMSAuth');
     });
     it('should return true when offline', async () => {
       spyOn(authenticationProvider, 'isOffline').and.returnValue(true);
@@ -356,8 +383,9 @@ describe('AuthenticationProvider', () => {
       expect(authenticationProvider.hasTokenExpired).not.toHaveBeenCalled();
     });
 
-    it('should return true when token is valid and not expired', async () => {
+    it('should return true when token is valid, not expired and has MSAuth flag', async () => {
       const mockAuthResult = {} as AuthResult;
+      spyOn(authenticationProvider, 'isTokenFromMSAuth').and.returnValue(true);
       spyOn(authenticationProvider, 'isOffline').and.returnValue(false);
       spyOn(authenticationProvider, 'getAuthResult').and.resolveTo(mockAuthResult);
       spyOn(authenticationProvider, 'login').and.resolveTo();
@@ -369,8 +397,24 @@ describe('AuthenticationProvider', () => {
       expect(authenticationProvider.login).not.toHaveBeenCalled();
     });
 
+    it('should return false when token is valid, but has no MSAuth flag', async () => {
+      const mockAuthResult = {} as AuthResult;
+      spyOn(authenticationProvider, 'isTokenFromMSAuth').and.returnValue(false);
+      spyOn(authenticationProvider, 'isOffline').and.returnValue(false);
+      spyOn(authenticationProvider, 'getAuthResult').and.resolveTo(mockAuthResult);
+      spyOn(authenticationProvider, 'login').and.resolveTo();
+      spyOn(authenticationProvider, 'storeAuthResult');
+
+      const result = await authenticationProvider.isAuthenticated();
+
+      expect(result).toBe(false);
+      expect(authenticationProvider.storeAuthResult).toHaveBeenCalled();
+      expect(authenticationProvider.login).not.toHaveBeenCalled();
+    });
+
     it('should attempt token refresh when token is expired', async () => {
       const mockAuthResult = {} as AuthResult;
+      spyOn(authenticationProvider, 'isTokenFromMSAuth').and.returnValue(true);
       spyOn(authenticationProvider, 'isOffline').and.returnValue(false);
       spyOn(authenticationProvider, 'getAuthResult').and.resolveTo(mockAuthResult);
       spyOn(authenticationProvider, 'hasTokenExpired').and.resolveTo(true);
@@ -384,6 +428,7 @@ describe('AuthenticationProvider', () => {
 
     it('should catch errors from getAuthResult and return false', async () => {
       const testError = new Error('Auth result retrieval failed');
+      spyOn(authenticationProvider, 'isTokenFromMSAuth').and.returnValue(true);
       spyOn(authenticationProvider, 'isOffline').and.returnValue(false);
       spyOn(authenticationProvider, 'getAuthResult').and.rejectWith(testError);
 
@@ -399,6 +444,7 @@ describe('AuthenticationProvider', () => {
 
       spyOn(authenticationProvider, 'isOffline').and.returnValue(false);
       spyOn(authenticationProvider, 'getAuthResult').and.resolveTo(mockAuthResult);
+      spyOn(authenticationProvider, 'isTokenFromMSAuth').and.returnValue(true);
       spyOn(authenticationProvider, 'hasTokenExpired').and.rejectWith(testError);
 
       const result = await authenticationProvider.isAuthenticated();
@@ -413,6 +459,7 @@ describe('AuthenticationProvider', () => {
       spyOn(authenticationProvider, 'isOffline').and.returnValue(false);
       spyOn(authenticationProvider, 'getAuthResult').and.resolveTo(mockAuthResult);
       spyOn(authenticationProvider, 'hasTokenExpired').and.resolveTo(true);
+      spyOn(authenticationProvider, 'isTokenFromMSAuth').and.returnValue(true);
       spyOn(authenticationProvider, 'login').and.rejectWith(testError);
 
       const result = await authenticationProvider.isAuthenticated();
