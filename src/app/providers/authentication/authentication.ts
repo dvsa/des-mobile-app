@@ -46,6 +46,7 @@ export interface AuthResult {
   accessToken: string;
   idToken: string;
   scopes: string[];
+  isMSAuth?: boolean;
 }
 
 @Injectable()
@@ -64,8 +65,13 @@ export class AuthenticationProvider {
     private networkState: NetworkStateProvider
   ) {}
 
-  async pluginLogin() {
-    return await MsAuthPlugin.login(this.authOptions);
+  //Login to MSAuth plugin and return the auth result, tag it with a flag to identify that it came from MSAuth
+  async pluginLogin(): Promise<AuthResult> {
+    const authResult: AuthResult = await MsAuthPlugin.login(this.authOptions);
+    return {
+      ...authResult,
+      isMSAuth: true,
+    };
   }
 
   async pluginLogout() {
@@ -273,6 +279,8 @@ export class AuthenticationProvider {
    * @param result
    */
   async hasTokenExpired(result: AuthResult): Promise<boolean> {
+    if (!result?.isMSAuth) return true;
+
     const idJwtPayload = this.decodeToken(result?.idToken);
     const accessJwtPayload = this.decodeToken(result?.accessToken);
 
