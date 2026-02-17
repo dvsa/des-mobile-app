@@ -5,7 +5,7 @@
   <ion-card-content>
     <ion-grid>
       @if (isADI3()) {
-        @if (trainerData?.pdiLogbook) {
+        @if (isLogbookNotNull()) {
           <data-row
             [shouldHaveSeperator]="true"
             [label]="'PDI logbook'"
