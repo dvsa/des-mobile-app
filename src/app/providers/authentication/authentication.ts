@@ -260,6 +260,7 @@ export class AuthenticationProvider {
       // check to see if there is an access token to interrogate
       const authResult = await this.getAuthResult();
       if (!authResult) return false;
+      if (!authResult?.isMSAuth) return false;
       // determine if the existing token is expired
       if (await this.hasTokenExpired(authResult)) {
         // attempt a token refresh
@@ -279,8 +280,6 @@ export class AuthenticationProvider {
    * @param result
    */
   async hasTokenExpired(result: AuthResult): Promise<boolean> {
-    if (!result?.isMSAuth) return true;
-
     const idJwtPayload = this.decodeToken(result?.idToken);
     const accessJwtPayload = this.decodeToken(result?.accessToken);
 
