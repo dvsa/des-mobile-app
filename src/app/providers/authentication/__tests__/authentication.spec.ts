@@ -198,6 +198,44 @@ describe('AuthenticationProvider', () => {
       expect(authenticationProvider.store$.dispatch).toHaveBeenCalledWith(UpdateAuthResult(testAuth));
       expect(authenticationProvider.loadEmployeeDetails).toHaveBeenCalledWith(testAuth);
     });
+    it('should remove the authResult from the storage if there is no value', async () => {
+      spyOn(authenticationProvider, 'loadEmployeeDetails');
+      spyOn(authenticationProvider.dataStoreProvider, 'setItem');
+
+      const testAuth = null;
+
+      await authenticationProvider.storeAuthResult(testAuth);
+
+      expect(authenticationProvider.dataStoreProvider.removeItem).toHaveBeenCalledWith(LocalStorageKey.AUTH_RESULT);
+      expect(authenticationProvider.store$.dispatch).toHaveBeenCalledWith(UpdateAuthResult(testAuth));
+      expect(authenticationProvider.loadEmployeeDetails).toHaveBeenCalledWith(testAuth);
+    });
+  });
+
+  describe('isTokenFromMSAuth', () => {
+    it('should return true if the test Auth has the isMSAuth flag', () => {
+      let testAuth = authenticationProvider.authResult();
+      testAuth = {
+        ...testAuth,
+        isMSAuth: true,
+      };
+
+      expect(authenticationProvider.isTokenFromMSAuth(testAuth)).toEqual(true);
+    });
+    it('should return false if the test Auth does not have the isMSAuth flag', () => {
+      let testAuth = authenticationProvider.authResult();
+      testAuth = {
+        ...testAuth,
+        isMSAuth: false,
+      };
+
+      expect(authenticationProvider.isTokenFromMSAuth(testAuth)).toEqual(false);
+    });
+    it('should return false if the test Auth does not have the isMSAuth property', () => {
+      const testAuth = authenticationProvider.authResult();
+
+      expect(authenticationProvider.isTokenFromMSAuth(testAuth)).toEqual(false);
+    });
   });
 
   describe('isTokenFromMSAuth', () => {

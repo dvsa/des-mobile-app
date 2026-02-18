@@ -177,6 +177,7 @@ export class LoginPage extends LogoutBasePageComponent implements OnInit {
 
       this.appInitError = display;
 
+
       await this.hideSplashscreen();
       this.dispatchLog(record);
 

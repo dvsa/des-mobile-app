@@ -10,6 +10,7 @@ import { StorageCleared } from '@providers/authentication/authentification.actio
 import { CompletedTestPersistenceProvider } from '@providers/completed-test-persistence/completed-test-persistence';
 import { ExaminerRecordsProvider } from '@providers/examiner-records/examiner-records';
 import { LogHelper } from '@providers/logs/logs-helper';
+import { LoginOptions, MsAuthPlugin } from '@recognizebv/capacitor-plugin-msauth';
 import { serialiseLogMessage } from '@shared/helpers/serialise-log-message';
 import { LogType } from '@shared/models/log.model';
 import { StoreModel } from '@shared/models/store.model';
