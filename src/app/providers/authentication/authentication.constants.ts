@@ -1,10 +1,15 @@
-import { AuthResult } from '@ionic-enterprise/auth';
+import { AuthResult } from '@providers/authentication/authentication';
 
 export enum AuthenticationError {
-  NO_INTERNET = 'The Internet connection appears to be offline.',
-  USER_CANCELLED = 'user canceled auth',
-  NO_RESPONSE = 'application did not receive response from broker',
+  CREATE_CONTEXT = 'Unable to create context, check logs',
+  OBTAIN_ACCESS = 'Unable to obtain access token',
+  CREATE_BRIDGE_CONTROLLER = 'Unable to get Capacitor bridge.viewController',
+  NOTHING_TO_SIGN_OUT_FROM = 'Nothing to sign-out from.',
+  UNABLE_TO_LOGOUT = 'Unable to logout',
+  INVALID_CLIENT_ID = 'Invalid client ID specified.',
+  WRONG_AUTHORITY_TYPE = "authorityType must be one of 'AAD' or 'B2C' or 'CIAM'",
   USER_NOT_AUTHORISED = 'User is not authorized to access this message with an explicit deny',
+  OFFLINE = 'User is offline',
 }
 
 export interface TokenInfo {

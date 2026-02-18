@@ -24,17 +24,21 @@ PODS:
     - Capacitor
   - CapawesomeCapacitorScreenOrientation (7.1.0):
     - Capacitor
-  - CordovaPlugins (7.4.5):
+  - CordovaPlugins (7.5.0):
     - CapacitorCordova
   - CordovaPluginsResources (0.0.105)
-  - CordovaPluginsStatic (7.4.5):
+  - CordovaPluginsStatic (7.5.0):
     - CapacitorCordova
     - GoogleAnalytics (= 3.20.0)
   - DvsaCapacitorPluginAsam (2.1.0):
     - Capacitor
   - GoogleAnalytics (3.20.0)
-  - IonicEnterpriseAuth (7.2.0):
+  - MSAL (1.9.0):
+    - MSAL/app-lib (= 1.9.0)
+  - MSAL/app-lib (1.9.0)
+  - RecognizebvCapacitorPluginMsauth (4.1.0):
     - Capacitor
+    - MSAL (~> 1.1)
   - Sentry/HybridSDK (8.56.2)
   - SentryCapacitor (2.4.1):
     - Capacitor
@@ -58,12 +62,13 @@ DEPENDENCIES:
   - CordovaPluginsResources (from `../capacitor-cordova-ios-plugins`)
   - CordovaPluginsStatic (from `../capacitor-cordova-ios-plugins`)
   - "DvsaCapacitorPluginAsam (from `../../node_modules/@dvsa/capacitor-plugin-asam`)"
-  - "IonicEnterpriseAuth (from `../../node_modules/@ionic-enterprise/auth`)"
+  - "RecognizebvCapacitorPluginMsauth (from `../../node_modules/@recognizebv/capacitor-plugin-msauth`)"
   - "SentryCapacitor (from `../../node_modules/@sentry/capacitor`)"
 
 SPEC REPOS:
   trunk:
     - GoogleAnalytics
+    - MSAL
     - Sentry
 
 EXTERNAL SOURCES:
@@ -101,8 +106,8 @@ EXTERNAL SOURCES:
     :path: "../capacitor-cordova-ios-plugins"
   DvsaCapacitorPluginAsam:
     :path: "../../node_modules/@dvsa/capacitor-plugin-asam"
-  IonicEnterpriseAuth:
-    :path: "../../node_modules/@ionic-enterprise/auth"
+  RecognizebvCapacitorPluginMsauth:
+    :path: "../../node_modules/@recognizebv/capacitor-plugin-msauth"
   SentryCapacitor:
     :path: "../../node_modules/@sentry/capacitor"
 
@@ -120,15 +125,16 @@ SPEC CHECKSUMS:
   CapacitorTextZoom: c22bedd7b6762443ae7648edd6e6df70c5e0b2fe
   CapawesomeCapacitorManagedConfigurations: 5a521d9b9801140fbbf8c208f2b1c712b1674da6
   CapawesomeCapacitorScreenOrientation: 3c69f06737dae8a9340d5f51891a58321987123c
-  CordovaPlugins: 66f3b60ec37edbfb291b9197494646b95cf503f3
+  CordovaPlugins: 54617b966e3ec22986fa875b515d6ed3f6d156cb
   CordovaPluginsResources: da93847212bf7b16ba770e4d6c3e7dba820174c7
-  CordovaPluginsStatic: 1356bd1448b2c67b1b72ed8f11040585a0be1919
+  CordovaPluginsStatic: d8d6c428835b91785046091b4bc8d23bf0b9bc2f
   DvsaCapacitorPluginAsam: 143282254bfd6265f421cfb01c978b285db3796c
   GoogleAnalytics: 01e4c5a04544a3608f93e970ce0817836897c5a5
-  IonicEnterpriseAuth: 95ada4a021f92db401b4f81054f2ad5b41bac23e
+  MSAL: 1a32a1070ccf55d9641d31edd8869ea2b5a78beb
+  RecognizebvCapacitorPluginMsauth: c108ed22d9d2329bc729661356f9fce24354e2c2
   Sentry: b53951377b78e21a734f5dc8318e333dbfc682d7
   SentryCapacitor: 84549a1440a7f58a336ed3175db0f067d571cd5b
 
-PODFILE CHECKSUM: 1f47af16076cbe96e231928b32482a64ff2b9a7c
+PODFILE CHECKSUM: 8fb489f8535b0e3eddd5dc277b9148a70fe1780d
 
 COCOAPODS: 1.16.2

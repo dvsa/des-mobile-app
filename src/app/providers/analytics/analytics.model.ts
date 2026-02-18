@@ -376,6 +376,7 @@ export enum GoogleAnalyticsEvents {
 }
 
 export enum GoogleAnalyticsEventsTitles {
+  AUTH_ERROR = 'auth_error',
   DATE_FILTER = 'date_filter',
   SOMETHING_WENT_WRONG = 'something_went_wrong',
   MODAL_DYNAMICALLY_CHANGED = 'modal_dynamically_changed',
