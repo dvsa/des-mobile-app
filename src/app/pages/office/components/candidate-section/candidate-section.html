@@ -1,6 +1,6 @@
 <ion-row id="candidate-name-section" class="candidate-side-padding candidate-top-padding">
   <ion-col size="60" class="ion-no-padding">
-    <ion-text class="des-header-style-2" id="candidate-name">Name: {{candidateName}}</ion-text>
+    <ion-text class="des-header-style-2" id="candidate-name">{{candidateName}}</ion-text>
   </ion-col>
   <ion-col size="36" class="align-col-right ion-no-padding">
     <ion-text class="des-header-style-2" id="candidate-start-time">{{startTime}}</ion-text>
@@ -17,7 +17,7 @@
   </ion-col>
   <ion-col size="46" class="align-col-right ion-no-padding">
     <ion-text class="des-header-style-3"
-      >Test outcome:
+      >Result:
       <div id="test-outcome-text" class="inline-mode">
         <ion-text [ngClass]="[getTestOutcomeClass(testOutcomeText), 'des-header-style-3']">
           {{grade ? 'Passed - Grade ' + grade : testOutcomeText}}
