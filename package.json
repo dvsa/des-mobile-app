@@ -99,6 +99,7 @@
     "@ngx-translate/core": "^15.0.0",
     "@ngx-translate/http-loader": "^8.0.0",
     "@popperjs/core": "^2.11.8",
+    "@recognizebv/capacitor-plugin-msauth": "^4.1.0",
     "@sentry/angular": "10.43.0",
     "@sentry/capacitor": "3.2.0",
     "apexcharts": "^4.5.0",
