@@ -1,5 +1,4 @@
 import { Injectable, Signal } from '@angular/core';
-import { AuthConnect, AuthResult, AzureProvider, ProviderOptions } from '@ionic-enterprise/auth';
 import { Store } from '@ngrx/store';
 import { DelegatedRekeySearchClearState } from '@pages/delegated-rekey-search/delegated-rekey-search.actions';
 import { ResetRekeyReason } from '@pages/rekey-reason/rekey-reason.actions';
@@ -10,6 +9,7 @@ import { StorageCleared } from '@providers/authentication/authentification.actio
 import { CompletedTestPersistenceProvider } from '@providers/completed-test-persistence/completed-test-persistence';
 import { ExaminerRecordsProvider } from '@providers/examiner-records/examiner-records';
 import { LogHelper } from '@providers/logs/logs-helper';
+import { LoginOptions, MsAuthPlugin } from '@recognizebv/capacitor-plugin-msauth';
 import { serialiseLogMessage } from '@shared/helpers/serialise-log-message';
 import { LogType } from '@shared/models/log.model';
 import { StoreModel } from '@shared/models/store.model';
@@ -42,12 +42,17 @@ export enum Token {
   REFRESH = 'refreshToken',
 }
 
+export interface AuthResult {
+  accessToken: string;
+  idToken: string;
+  scopes: string[];
+  isMSAuth?: boolean;
+}
+
 @Injectable()
 export class AuthenticationProvider {
-  provider: AzureProvider = new AzureProvider();
-  providerOptions: ProviderOptions;
-
   authResult: Signal<AuthResult> = this.store$.selectSignal(selectAuthResult);
+  authOptions: LoginOptions = null;
 
   constructor(
     public dataStoreProvider: DataStoreProvider,
@@ -60,34 +65,37 @@ export class AuthenticationProvider {
     private networkState: NetworkStateProvider
   ) {}
 
-  /**
-   * Initialises AuthConnect
-   */
-  async init() {
-    return AuthConnect.setup({
-      platform: 'capacitor',
-      logLevel: 'ERROR',
-      ios: {
-        webView: 'private',
-      },
-    });
+  //Login to MSAuth plugin and return the auth result, tag it with a flag to identify that it came from MSAuth
+  async pluginLogin(): Promise<AuthResult> {
+    const authResult: AuthResult = await MsAuthPlugin.login(this.authOptions);
+    return {
+      ...authResult,
+      isMSAuth: true,
+    };
+  }
+
+  async pluginLogout() {
+    return await MsAuthPlugin.logoutAll(this.authOptions);
   }
 
   /**
-   * Sets up the options for the azure provider needed for auth connect to function
+   * Initialises Authentication settings from config
    */
-  setProviderOptions() {
+  async init(): Promise<void> {
     const authSettings: AuthProviderSettings = this.appConfig.getAppConfig().authentication;
-
-    if (authSettings) {
-      this.providerOptions = {
-        audience: '',
+    try {
+      // Extract the knownAuthoritiesLink and the tenant from the context url
+      const [, knownAuthoritiesLink, tenant] = authSettings.context.match(/(.+\.com\/)(.+)/);
+      this.authOptions = {
         clientId: authSettings.clientId,
-        discoveryUrl: `${authSettings.context}/v2.0/.well-known/openid-configuration?appid=${authSettings.clientId}`,
-        logoutUrl: authSettings.logoutUrl,
-        redirectUri: authSettings.redirectUrl,
-        scope: 'openid offline_access profile email',
+        tenant: tenant,
+        authorityType: 'AAD',
+        authorityUrl: authSettings.context,
+        knownAuthorities: [knownAuthoritiesLink],
+        prompt: 'login',
       };
+    } catch (error) {
+      this.logEvent(LogType.ERROR, 'Authentication provider - Init error', error);
     }
   }
 
@@ -171,7 +179,11 @@ export class AuthenticationProvider {
     await this.loadEmployeeDetails(authResult);
 
     try {
-      await this.dataStoreProvider.setItem(LocalStorageKey.AUTH_RESULT, JSON.stringify(authResult));
+      if (authResult) {
+        await this.dataStoreProvider.setItem(LocalStorageKey.AUTH_RESULT, JSON.stringify(authResult));
+      } else {
+        await this.dataStoreProvider.removeItem(LocalStorageKey.AUTH_RESULT);
+      }
     } catch (error) {
       this.logEvent(LogType.ERROR, 'Authentication provider - Store result Storage error', error);
     }
@@ -199,7 +211,7 @@ export class AuthenticationProvider {
       const storedResult: string = await this.dataStoreProvider.getItem(LocalStorageKey.AUTH_RESULT);
       if (storedResult) {
         const parsedResult = JSON.parse(storedResult);
-        if (parsedResult && get(parsedResult, 'provider')) {
+        if (parsedResult && get(parsedResult, 'accessToken')) {
           return parsedResult;
         }
       }
@@ -214,8 +226,8 @@ export class AuthenticationProvider {
    * Triggers the login process, attempting to use an existing token if it is still valid and getting a new one if not
    */
   async login() {
-    if (!this.providerOptions) {
-      this.setProviderOptions();
+    if (!this.authOptions) {
+      await this.init();
     }
 
     if (this.isOffline()) return;
@@ -224,7 +236,7 @@ export class AuthenticationProvider {
 
     let authResult: AuthResult = null;
     try {
-      authResult = await AuthConnect.login(this.provider, this.providerOptions);
+      authResult = await this.pluginLogin();
     } catch (error) {
       this.logEvent(LogType.ERROR, 'Authentication provider - Login error', error);
       throw error;
@@ -242,24 +254,13 @@ export class AuthenticationProvider {
   }
 
   /**
-   * Manually refresh the current auth session and store the result
+   * Find out if auth result was generated via MSAuth plugin
    */
-  public async refreshSession(): Promise<void> {
-    try {
-      let authResult = await this.getAuthResult();
-
-      // check if the refresh token is available
-      if (await AuthConnect.isRefreshTokenAvailable(authResult)) {
-        authResult = await AuthConnect.refreshSession(this.provider, authResult);
-      } else {
-        throw new Error('No refresh token available');
-      }
-
-      await this.storeAuthResult(authResult);
-    } catch (error) {
-      this.logEvent(LogType.ERROR, 'Authentication provider - Refresh error', error);
-      throw error;
+  public isTokenFromMSAuth(result: AuthResult) {
+    if (get(result, 'isMSAuth')) {
+      return result?.isMSAuth;
     }
+    return false;
   }
 
   /**
@@ -273,12 +274,16 @@ export class AuthenticationProvider {
       // check to see if there is an access token to interrogate
       const authResult = await this.getAuthResult();
       if (!authResult) return false;
+      if (!this.isTokenFromMSAuth(authResult)) {
+        //Clear the old auth result from the state.
+        await this.storeAuthResult(null);
+        return false;
+      }
       // determine if the existing token is expired
       if (await this.hasTokenExpired(authResult)) {
         // attempt a token refresh
-        await this.refreshSession();
+        await this.login();
       }
-
       // return true if the token has changed successfully
       return true;
     } catch (err) {
@@ -388,8 +393,7 @@ export class AuthenticationProvider {
   public async logout(): Promise<void> {
     try {
       this.logEvent(LogType.INFO, 'Logout', 'Started logout flow');
-      await AuthConnect.logout(this.provider, await this.getAuthResult());
-
+      await this.pluginLogout();
       this.logEvent(LogType.INFO, 'Logout', 'Finished logout flow');
     } catch (err) {
       this.logEvent(LogType.ERROR, 'Authentication provider - Logout error', err);

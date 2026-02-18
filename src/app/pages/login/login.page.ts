@@ -33,6 +33,7 @@ export class LoginPage extends LogoutBasePageComponent implements OnInit {
   hasDeviceTypeError = false;
   deviceTypeError: DeviceError;
   queryParamSub: Subscription;
+  isLoggedIn = false;
   isLoggingIn = false;
 
   get loadingOptions(): LoadingOptions {
@@ -143,18 +144,22 @@ export class LoginPage extends LogoutBasePageComponent implements OnInit {
         await this.router.navigate([DASHBOARD_PAGE], { replaceUrl: true });
       }
       this.isLoggingIn = false;
+      this.isLoggedIn = !!(await this.authenticationProvider.getAuthResult());
       this.hasUserLoggedOut = false;
     } catch (error) {
       this.isLoggingIn = false;
+      this.isLoggedIn = !!(await this.authenticationProvider.getAuthResult());
       this.hasUserLoggedOut = false;
+
       const { display, record } = this.rationaliseError(error);
 
       this.appInitError = display;
+
       this.store$.dispatch(ReportError(this.appInitError.valueOf()));
       await this.hideSplashscreen();
-
-      if (error === AuthenticationError.USER_CANCELLED) {
-        this.dispatchLog('user cancelled login');
+      this.dispatchLog(record);
+      if (this.isInternetConnectionError()) {
+        this.store$.dispatch(ReportError(AuthenticationError.OFFLINE));
       }
 
       if (error === AuthenticationError.USER_NOT_AUTHORISED) {
@@ -168,7 +173,6 @@ export class LoginPage extends LogoutBasePageComponent implements OnInit {
         await this.authenticationProvider.logout();
       }
 
-      this.dispatchLog(record);
       await this.handleLoadingUI(false);
     }
   };
@@ -225,26 +229,54 @@ export class LoginPage extends LogoutBasePageComponent implements OnInit {
     return !this.hasUserLoggedOut && this.appInitError.valueOf() === AuthenticationError.USER_NOT_AUTHORISED;
   };
 
+  isFailedToStartError = (): boolean => {
+    return (
+      !this.hasUserLoggedOut &&
+      (this.appInitError.valueOf() === AuthenticationError.CREATE_BRIDGE_CONTROLLER ||
+        this.appInitError.valueOf() === AuthenticationError.CREATE_CONTEXT)
+    );
+  };
+
+  isAlreadyLoggedOut = (): boolean => {
+    return !this.hasUserLoggedOut && this.appInitError.valueOf() === AuthenticationError.NOTHING_TO_SIGN_OUT_FROM;
+  };
+
+  isUnableToLogout = (): boolean => {
+    return !this.hasUserLoggedOut && this.appInitError.valueOf() === AuthenticationError.UNABLE_TO_LOGOUT;
+  };
+
+  isUnableToObtainTokenError = (): boolean => {
+    return !this.hasUserLoggedOut && this.appInitError.valueOf() === AuthenticationError.OBTAIN_ACCESS;
+  };
+
   isInvalidAppVersionError = (): boolean => {
     return !this.hasUserLoggedOut && this.appInitError.valueOf() === AppConfigError.INVALID_APP_VERSION;
   };
 
-  isInternetConnectionError = (): boolean => {
-    return !this.hasUserLoggedOut && this.appInitError.valueOf() === AuthenticationError.NO_INTERNET;
+  isSetupError = (): boolean => {
+    return (
+      !this.hasUserLoggedOut &&
+      (this.appInitError.valueOf() === AuthenticationError.INVALID_CLIENT_ID ||
+        this.appInitError.valueOf() === AuthenticationError.WRONG_AUTHORITY_TYPE)
+    );
   };
 
-  isUserCancelledError = (): boolean => {
-    return !this.hasUserLoggedOut && this.appInitError.valueOf() === AuthenticationError.USER_CANCELLED;
+  isInternetConnectionError = (): boolean => {
+    return !this.hasUserLoggedOut && this.authenticationProvider.isOffline();
   };
 
   isUnknownError = (): boolean => {
     return (
       !this.hasUserLoggedOut &&
       this.appInitError &&
-      this.appInitError.valueOf() !== AuthenticationError.USER_CANCELLED &&
-      this.appInitError.valueOf() !== AuthenticationError.NO_INTERNET &&
-      this.appInitError.valueOf() !== AuthenticationError.USER_NOT_AUTHORISED &&
-      this.appInitError.valueOf() !== AppConfigError.INVALID_APP_VERSION
+      !this.isUserNotAuthorised() &&
+      !this.isInvalidAppVersionError() &&
+      !this.isFailedToStartError() &&
+      !this.isAlreadyLoggedOut() &&
+      !this.isUnableToLogout() &&
+      !this.isUnableToObtainTokenError() &&
+      !this.isSetupError() &&
+      !this.isInternetConnectionError()
     );
   };
 

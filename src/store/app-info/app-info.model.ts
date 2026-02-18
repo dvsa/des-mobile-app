@@ -1,4 +1,4 @@
-import { AuthResult } from '@ionic-enterprise/auth';
+import { AuthResult } from '@providers/authentication/authentication';
 
 export type AppInfoStateModel = {
   versionNumber: string;

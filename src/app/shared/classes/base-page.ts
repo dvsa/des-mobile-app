@@ -21,7 +21,7 @@ import { Subscription } from 'rxjs';
 
 export abstract class BasePageComponent {
   protected platform = this.injector.get(Platform);
-  protected authenticationProvider = this.injector.get(AuthenticationProvider);
+  authenticationProvider = this.injector.get(AuthenticationProvider);
   public router = this.injector.get(Router);
   public deviceProvider = this.injector.get(DeviceProvider);
   public route = this.injector.get(ActivatedRoute);

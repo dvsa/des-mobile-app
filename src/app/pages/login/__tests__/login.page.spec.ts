@@ -203,11 +203,11 @@ describe('LoginPage', () => {
         flushMicrotasks();
         expect(authenticationProvider.logout).toHaveBeenCalled();
       }));
-      it('should log an exception and dispatch log when when rejection due to USER_CANCELLED', fakeAsync(() => {
-        spyOn(platform, 'ready').and.returnValue(Promise.reject(AuthenticationError.USER_CANCELLED));
+      it('should log an exception and dispatch log when when rejection due to UNABLE_TO_LOGOUT', fakeAsync(() => {
+        spyOn(platform, 'ready').and.returnValue(Promise.reject(AuthenticationError.UNABLE_TO_LOGOUT));
         component.login();
         flushMicrotasks();
-        expect(component.dispatchLog).toHaveBeenCalledWith('user cancelled login');
+        expect(component.dispatchLog).toHaveBeenCalledWith(`"${AuthenticationError.UNABLE_TO_LOGOUT}"`);
         expect(component.hasUserLoggedOut).toEqual(false);
       }));
       it('should dispatch log when error is USER_NOT_AUTHORISED and a token is present', fakeAsync(() => {
@@ -260,34 +260,134 @@ describe('LoginPage', () => {
     });
   });
 
-  describe('isInternetConnectionError', () => {
-    it('should return false when appInitError is not connection error', () => {
+  describe('isUserNotAuthorised', () => {
+    it('should return false when error is not USER_NOT_AUTHORISED', () => {
       component.hasUserLoggedOut = false;
-      component.appInitError = AuthenticationError.USER_CANCELLED;
+      component.appInitError = AuthenticationError.WRONG_AUTHORITY_TYPE;
+      expect(component.isUserNotAuthorised()).toEqual(false);
+    });
+
+    it('should return true when error is USER_NOT_AUTHORISED', () => {
+      component.hasUserLoggedOut = false;
+      component.appInitError = AuthenticationError.USER_NOT_AUTHORISED;
+      expect(component.isUserNotAuthorised()).toEqual(true);
+    });
+  });
+
+  describe('isFailedToStartError', () => {
+    it('should return false when error is not a startup error', () => {
+      component.hasUserLoggedOut = false;
+      component.appInitError = AuthenticationError.WRONG_AUTHORITY_TYPE;
+      expect(component.isFailedToStartError()).toEqual(false);
+    });
+
+    it('should return true when error is CREATE_BRIDGE_CONTROLLER', () => {
+      component.hasUserLoggedOut = false;
+      component.appInitError = AuthenticationError.CREATE_BRIDGE_CONTROLLER;
+      expect(component.isFailedToStartError()).toEqual(true);
+    });
+
+    it('should return true when error is CREATE_CONTEXT', () => {
+      component.hasUserLoggedOut = false;
+      component.appInitError = AuthenticationError.CREATE_CONTEXT;
+      expect(component.isFailedToStartError()).toEqual(true);
+    });
+  });
+
+  describe('isAlreadyLoggedOut', () => {
+    it('should return false when error is not NOTHING_TO_SIGN_OUT_FROM', () => {
+      component.hasUserLoggedOut = false;
+      component.appInitError = AuthenticationError.WRONG_AUTHORITY_TYPE;
+      expect(component.isAlreadyLoggedOut()).toEqual(false);
+    });
+
+    it('should return true when error is NOTHING_TO_SIGN_OUT_FROM', () => {
+      component.hasUserLoggedOut = false;
+      component.appInitError = AuthenticationError.NOTHING_TO_SIGN_OUT_FROM;
+      expect(component.isAlreadyLoggedOut()).toEqual(true);
+    });
+  });
+
+  describe('isUnableToLogout', () => {
+    it('should return false when error is not UNABLE_TO_LOGOUT', () => {
+      component.hasUserLoggedOut = false;
+      component.appInitError = AuthenticationError.WRONG_AUTHORITY_TYPE;
+      expect(component.isUnableToLogout()).toEqual(false);
+    });
+
+    it('should return true when error is UNABLE_TO_LOGOUT', () => {
+      component.hasUserLoggedOut = false;
+      component.appInitError = AuthenticationError.UNABLE_TO_LOGOUT;
+      expect(component.isUnableToLogout()).toEqual(true);
+    });
+  });
+
+  describe('isUnableToObtainTokenError', () => {
+    it('should return false when error is not OBTAIN_ACCESS', () => {
+      component.hasUserLoggedOut = false;
+      component.appInitError = AuthenticationError.WRONG_AUTHORITY_TYPE;
+      expect(component.isUnableToObtainTokenError()).toEqual(false);
+    });
+
+    it('should return true when error is OBTAIN_ACCESS', () => {
+      component.hasUserLoggedOut = false;
+      component.appInitError = AuthenticationError.OBTAIN_ACCESS;
+      expect(component.isUnableToObtainTokenError()).toEqual(true);
+    });
+  });
+
+  describe('isInvalidAppVersionError', () => {
+    it('should return false when error is not INVALID_APP_VERSION', () => {
+      component.hasUserLoggedOut = false;
+      component.appInitError = AuthenticationError.WRONG_AUTHORITY_TYPE;
+      expect(component.isInvalidAppVersionError()).toEqual(false);
+    });
+
+    it('should return true when error is INVALID_APP_VERSION', () => {
+      component.hasUserLoggedOut = false;
+      component.appInitError = AppConfigError.INVALID_APP_VERSION;
+      expect(component.isInvalidAppVersionError()).toEqual(true);
+    });
+  });
+
+  describe('isSetupError', () => {
+    it('should return false when error is not a setup error', () => {
+      component.hasUserLoggedOut = false;
+      component.appInitError = AuthenticationError.CREATE_CONTEXT;
+      expect(component.isSetupError()).toEqual(false);
+    });
+
+    it('should return true when error is INVALID_CLIENT_ID', () => {
+      component.hasUserLoggedOut = false;
+      component.appInitError = AuthenticationError.INVALID_CLIENT_ID;
+      expect(component.isSetupError()).toEqual(true);
+    });
+
+    it('should return true when error is WRONG_AUTHORITY_TYPE', () => {
+      component.hasUserLoggedOut = false;
+      component.appInitError = AuthenticationError.WRONG_AUTHORITY_TYPE;
+      expect(component.isSetupError()).toEqual(true);
+    });
+  });
+
+  describe('isInternetConnectionError', () => {
+    it('should return false when not offline', () => {
+      component.hasUserLoggedOut = false;
+      spyOn(component.authenticationProvider, 'isOffline').and.returnValue(false);
       expect(component.isInternetConnectionError()).toEqual(false);
     });
-    it('should return true when appInitError is connection error', () => {
+
+    it('should return true when offline', () => {
       component.hasUserLoggedOut = false;
-      component.appInitError = AuthenticationError.NO_INTERNET;
+      spyOn(component.authenticationProvider, 'isOffline').and.returnValue(true);
       expect(component.isInternetConnectionError()).toEqual(true);
     });
   });
-  describe('isUserCancelledError', () => {
-    it('should return false when appInitError is not user cancel error', () => {
-      component.hasUserLoggedOut = false;
-      component.appInitError = AuthenticationError.NO_INTERNET;
-      expect(component.isUserCancelledError()).toEqual(false);
-    });
-    it('should return true when appInitError is user cancel error', () => {
-      component.hasUserLoggedOut = false;
-      component.appInitError = AuthenticationError.USER_CANCELLED;
-      expect(component.isUserCancelledError()).toEqual(true);
-    });
-  });
+
   describe('isUnknownError', () => {
     it('should return true when appInitError is not one of specified', () => {
       component.hasUserLoggedOut = false;
-      component.appInitError = AuthenticationError.NO_RESPONSE;
+      component.appInitError = 'A';
       expect(component.isUnknownError()).toEqual(true);
     });
     it('should return false when use has logged out', () => {
@@ -296,7 +396,7 @@ describe('LoginPage', () => {
     });
     it('should return false when appInitError is one of specified', () => {
       component.hasUserLoggedOut = false;
-      component.appInitError = AuthenticationError.USER_CANCELLED;
+      component.appInitError = AuthenticationError.UNABLE_TO_LOGOUT;
       expect(component.isUnknownError()).toEqual(false);
     });
   });

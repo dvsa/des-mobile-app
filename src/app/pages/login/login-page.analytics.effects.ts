@@ -21,23 +21,38 @@ export class LoginPageAnalyticsEffects {
       switchMap(({ reportedError }) => {
         let errorType = 'UNKNOWN_ERROR';
         switch (reportedError) {
-          case AuthenticationError.NO_INTERNET:
-            errorType = 'NO_INTERNET';
+          case AuthenticationError.CREATE_CONTEXT:
+            errorType = 'context_fail';
             break;
-          case AuthenticationError.USER_CANCELLED:
-            errorType = 'USER_CANCELLED';
+          case AuthenticationError.OBTAIN_ACCESS:
+            errorType = 'token_fail';
             break;
-          case AuthenticationError.NO_RESPONSE:
-            errorType = 'NO_RESPONSE';
+          case AuthenticationError.CREATE_BRIDGE_CONTROLLER:
+            errorType = 'capacitor_fail';
+            break;
+          case AuthenticationError.NOTHING_TO_SIGN_OUT_FROM:
+            errorType = 'signout_fail';
+            break;
+          case AuthenticationError.UNABLE_TO_LOGOUT:
+            errorType = 'logout_fail';
+            break;
+          case AuthenticationError.INVALID_CLIENT_ID:
+            errorType = 'clientID_invalid';
+            break;
+          case AuthenticationError.WRONG_AUTHORITY_TYPE:
+            errorType = 'authority_type';
             break;
           case AuthenticationError.USER_NOT_AUTHORISED:
-            errorType = 'USER_NOT_AUTHORISED';
+            errorType = 'user_not_authorised';
+            break;
+          case AuthenticationError.OFFLINE:
+            errorType = 'login_error_connectivity_issue';
             break;
         }
         // GA4 Analytics
         this.analytics.logGAEvent(
           GoogleAnalyticsEvents.SERVICE_ERROR,
-          GoogleAnalyticsEventsTitles.SOMETHING_WENT_WRONG,
+          GoogleAnalyticsEventsTitles.AUTH_ERROR,
           errorType
         );
         return of(AnalyticRecorded());

@@ -226,6 +226,8 @@ const storageDriver = Capacitor.getPlatform() === 'web' ? Drivers.IndexedDB : Co
     provideHttpClient(withInterceptorsFromDi()),
     provideAppInitializer(async () => {
       const auth = inject(AuthenticationProvider);
+      const appConfig = inject(AppConfigProvider);
+      await appConfig.initialiseAppConfig();
       return auth.init();
     }),
   ],
