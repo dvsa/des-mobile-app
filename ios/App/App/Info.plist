@@ -27,6 +27,7 @@
 			<array>
 			  <string>mesmobileappscheme</string>
 				<string>uk.gov.dvsa.drivingexaminerservices</string>
+				<string>msauth.$(PRODUCT_BUNDLE_IDENTIFIER)</string>
 			</array>
 			<key>WKAppBoundDomains</key>
       <array>
@@ -39,6 +40,8 @@
     <array>
         <string>companyportal</string>
         <string>msteams</string>
+        <string>msauthv2</string>
+        <string>msauthv3</string>
     </array>
 	<key>CFBundleVersion</key>
 	<string>4.29.0.0</string>
