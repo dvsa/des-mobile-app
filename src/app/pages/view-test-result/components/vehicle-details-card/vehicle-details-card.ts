@@ -47,6 +47,9 @@ export class VehicleDetailsCardComponent {
   @Input()
   instructorDetails: CatBUniqueTypes.InstructorDetails = null;
 
+  @Input()
+  prnLabel = `Spondor's PRN`;
+
   public shouldHideCard(): boolean {
     return (
       !this.transmission &&
