@@ -33,6 +33,7 @@ import { SaveLog } from '@store/logs/logs.actions';
 import { getCandidateName } from '@store/tests/journal-data/common/candidate/candidate.selector';
 import { getTestOutcomeText } from '@store/tests/tests.selector';
 import { getPreviousFilteredVRNs } from '@store/tests/vehicle-details/vehicle-details.selector';
+import * as compareVersions from 'compare-versions';
 import { get } from 'lodash-es';
 import { Subscription, of } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
@@ -59,6 +60,7 @@ export class ViewTestResultPage extends BasePageComponent implements OnInit {
   additionalErrorText: boolean;
   reEnterEmailSubscription: Subscription;
   reEnterEmail: RegeneratedEmails = null;
+  prnLabel: string;
 
   constructor(
     public modalCtrl: ModalController,
@@ -380,5 +382,11 @@ export class ViewTestResultPage extends BasePageComponent implements OnInit {
 
   didTestTerminate(): boolean {
     return getTestOutcome(this.testResult as TestResultCommonSchema) === 'Terminated';
+  }
+
+  getPrnLabel(): string {
+    return compareVersions.compare(get(this.testResult, 'appVersion'), '4.29.0.0', '<')
+      ? 'Trainer PRN'
+      : `Sponsor's PRN`;
   }
 }

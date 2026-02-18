@@ -112,7 +112,7 @@
       }
 
       @if (!isADI3() && trainerPRN) {
-        <data-row [label]="'Trainer PRN'" [value]="trainerPRN"></data-row>
+        <data-row [label]=prnLabel [value]="trainerPRN"></data-row>
       }
 
       @if (isADI2() || isADI3()) {
