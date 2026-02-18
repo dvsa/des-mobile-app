@@ -54,6 +54,7 @@
         [data]="testResult.vehicleDetails"
         [category]="testResult.category"
         [passCompletion]="testResult.passCompletion"
+        [prnLabel]="getPrnLabel()"
       >
       </vehicle-details-card>
     }
@@ -64,6 +65,7 @@
         [reasonForNoAdviceGiven]="getReason()"
         [trainerData]="getTrainerData()"
         [reviewData]="getReviewData()"
+        [prnLabel]="getPrnLabel()"
       >
       </trainer-details-card>
     }

@@ -108,6 +108,7 @@
                 (trainerRegistrationChange)="trainerRegistrationNumberChanged($event)"
                 [formGroup]="form"
                 [trainerRegistration]="pageState.trainerRegistrationNumber$ | async"
+                [trainerLabel]="notSC(pageState.category$ | async) ? `Sponsor's PRN (optional)` : 'Trainer PRN (optional)'"
               >
               </trainer-registration-number-cat-adi-part2>
             </div>

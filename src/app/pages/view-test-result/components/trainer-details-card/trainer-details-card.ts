@@ -23,6 +23,9 @@ export class TrainerDetailsCardComponent {
   @Input()
   reasonForNoAdviceGiven?: string;
 
+  @Input()
+  prnLabel = `Sponsor's PRN`;
+
   public isADI3 = (): boolean => this.category === TestCategory.ADI3;
   public isLogbookNotNull = (): boolean => get(this.trainerData, 'pdiLogbook', null) !== null;
 }

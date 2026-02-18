@@ -19,6 +19,9 @@ export class TrainerRegistrationNumberCatAdiPart2Component implements OnChanges 
   @Input()
   formGroup: UntypedFormGroup;
 
+  @Input()
+  trainerLabel = `Sponsor's PRN (optional)`;
+
   @Output()
   trainerRegistrationChange = new EventEmitter<number>();
 
