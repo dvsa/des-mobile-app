@@ -30,6 +30,19 @@ describe('TrainerDetailsCardComponent', () => {
     });
   });
 
+  describe('isLogbookNotNull', () => {
+    it('should return true if logbook is present', () => {
+      component.trainerData = {
+        pdiLogbook: true,
+      };
+      expect(component.isLogbookNotNull()).toEqual(true);
+    });
+    it('should return false if logbook is not present', () => {
+      component.trainerData = {};
+      expect(component.isLogbookNotNull()).toEqual(false);
+    });
+  });
+
   describe('Class', () => {
     it('should create', () => {
       expect(component).toBeTruthy();
