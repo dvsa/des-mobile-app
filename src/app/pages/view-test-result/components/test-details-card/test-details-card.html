@@ -55,7 +55,7 @@
         </data-row>
       }
 
-      <data-row-custom [shouldHaveSeperator]="showAttemptNumber()||showPrn()" [label]="'Additional information'">
+      <data-row-custom [shouldHaveSeperator]="showPrn()" [label]="'Additional information'">
         @if (data.previousCancellations.length === 0) {
           <div class="mes-data">None</div>
         } @else {
@@ -69,16 +69,7 @@
       </data-row-custom>
 
       @if (showPrn()) {
-        <data-row [label]="'Personal reference number'" [value]="candidateDetails.prn"></data-row>
-      }
-
-      @if (showAttemptNumber()) {
-        <data-row
-          [label]="'Attempt number'"
-          [shouldHaveSeperator]="false"
-          [value]="candidateDetails.attemptNumber ? candidateDetails.attemptNumber + 1 : 1"
-        >
-        </data-row>
+        <data-row [shouldHaveSeperator]="false" [label]="'Personal reference number'" [value]="candidateDetails.prn"></data-row>
       }
     </ion-grid>
   </ion-card-content>
