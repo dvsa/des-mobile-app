@@ -77,14 +77,6 @@
               >
               </transmission>
 
-              <pdi-logbook
-                (pdiLogbookChange)="pdiLogbookChanged($event)"
-                *ngIf="notSC(pageState.category$ | async)"
-                [formGroup]="form"
-                [pdiLogbook]="pageState.pdiLogbook$ | async"
-              >
-              </pdi-logbook>
-
               <trainee-licence
                 (traineeLicenceChange)="traineeLicenceChanged($event)"
                 *ngIf="notSC(pageState.category$ | async)"

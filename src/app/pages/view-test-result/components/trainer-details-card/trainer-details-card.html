@@ -5,12 +5,14 @@
   <ion-card-content>
     <ion-grid>
       @if (isADI3()) {
-        <data-row
-          [shouldHaveSeperator]="true"
-          [label]="'PDI logbook'"
-          [value]="trainerData.pdiLogbook ? 'Yes' : 'No'"
-        >
-        </data-row>
+        @if (isLogbookNotNull()) {
+          <data-row
+            [shouldHaveSeperator]="true"
+            [label]="'PDI logbook'"
+            [value]="trainerData.pdiLogbook ? 'Yes' : 'No'"
+          >
+          </data-row>
+        }
 
         <data-row
           [shouldHaveSeperator]="true"
