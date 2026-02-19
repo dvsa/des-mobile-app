@@ -85,7 +85,7 @@
     "@dvsa/mes-mot-schema": "1.1.1",
     "@dvsa/mes-search-schema": "1.5.0",
     "@dvsa/mes-test-schema": "^3.50.0",
-    "@ionic/angular": "^8.7.11",
+    "@ionic/angular": "^8.7.17",
     "@ionic/core": "^8.7.11",
     "@ionic/storage-angular": "^4.0.0",
     "@ng-bootstrap/ng-bootstrap": "^18.0.0",
