@@ -48,10 +48,25 @@ describe('WeatherConditionsComponent', () => {
 
   describe('weatherConditionsChanged', () => {
     it('should emit weatherConditions', () => {
+      component.formControl = new UntypedFormControl([]);
       spyOn(component.weatherConditionsChange, 'emit');
 
       component.weatherConditionsChanged(['Showers']);
       expect(component.weatherConditionsChange.emit).toHaveBeenCalledWith(['Showers']);
+    });
+    it('should mark the field as pristine if the passed array is empty', () => {
+      component.formControl = new UntypedFormControl([]);
+      spyOn(component.formControl, 'markAsPristine');
+
+      component.weatherConditionsChanged([]);
+      expect(component.formControl.markAsPristine).toHaveBeenCalled();
+    });
+    it('should not mark the field as pristine if the passed array is empty', () => {
+      component.formControl = new UntypedFormControl([]);
+      spyOn(component.formControl, 'markAsPristine');
+
+      component.weatherConditionsChanged(['Icy']);
+      expect(component.formControl.markAsPristine).not.toHaveBeenCalled();
     });
   });
 
