@@ -1,7 +1,7 @@
 <ion-grid>
   <ion-row class="header-card top-row">
     <ion-col>
-      <ion-text class="des-header-style-2" id="finalisation-header-candidate-name">Name: {{candidateName}}</ion-text>
+      <ion-text class="des-header-style-2" id="finalisation-header-candidate-name">{{candidateName}}</ion-text>
     </ion-col>
   </ion-row>
   <ion-row class="header-card bottom-row">
@@ -12,7 +12,7 @@
     </ion-col>
     <ion-col class="align-col-right">
       <ion-text class="des-header-style-3"
-        >Test outcome:
+        >Result:
         <div id="finalisation-header-test-outcome-text" [ngSwitch]="outcomeText">
           <ion-text class="des-header-style-3 pass" *ngSwitchCase="'Passed'" id="pass-outcome-text">
             {{grade ? outcomeText + ' - Grade ' + grade : outcomeText}}
