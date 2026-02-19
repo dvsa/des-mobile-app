@@ -19,7 +19,7 @@
     class="background-colour width-100-percent ion-padding-bottom position-fixed mes-padding-right mes-padding-left"
     *ngIf="displayScrollBanner">
     <examiner-records-label-text
-      [testCount]="pageState.testCount$ | async"
+      [testCount]="recordCount"
       [currentCategory]="currentCategory"
       [startDateFilter]="startDateFilter"
       [endDateFilter]="endDateFilter"

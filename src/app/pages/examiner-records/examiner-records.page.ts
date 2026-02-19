@@ -145,6 +145,8 @@ export class ExaminerRecordsPage implements OnInit {
   public testResults: ExaminerRecordModel[];
   subscription: Subscription;
 
+  public recordCount: Observable<number>;
+
   constructor(
     public store$: Store<StoreModel>,
     public router: Router,
@@ -248,6 +250,8 @@ export class ExaminerRecordsPage implements OnInit {
 
     this.setLocationFilter();
     await this.getOnlineRecords();
+
+    this.recordCount = this.getMaxRecordCount();
   }
 
   /**
@@ -928,5 +932,25 @@ export class ExaminerRecordsPage implements OnInit {
       backdropDismiss: false,
     });
     await modal.present();
+  }
+
+  /**
+   * Evaluates the number of records in each key metric and returns the maximum count only.
+   */
+  getMaxRecordCount(): Observable<number> {
+    const metrics = [
+      this.pageState.routeNumbers$,
+      this.pageState.manoeuvres$,
+      this.pageState.balanceQuestions$,
+      this.pageState.safetyQuestions$,
+      this.pageState.independentDriving$,
+      this.pageState.showMeQuestions$,
+      this.pageState.tellMeQuestions$,
+      this.pageState.circuits$,
+      this.pageState.emergencyStops$,
+    ];
+    return combineLatest(metrics.map((obs) => obs.pipe(map((arr) => (Array.isArray(arr) ? arr.length : 0))))).pipe(
+      map((counts) => Math.max(...counts))
+    );
   }
 }
