@@ -65,6 +65,30 @@ describe('TestDetailsCardComponent', () => {
       });
     });
 
+    describe('showAttemptNumber', () => {
+      it('should return true if an attempt number is present and the test is an SC', () => {
+        component.candidateDetails = { attemptNumber: 1 } as CandidateDetails;
+        component.data = {
+          category: TestCategory.SC,
+        } as TestDetailsModel;
+        expect(component.showAttemptNumber()).toEqual(true);
+      });
+      it('should return false if an attempt number is not present', () => {
+        component.candidateDetails = { prn: 1 } as CandidateDetails;
+        component.data = {
+          category: TestCategory.SC,
+        } as TestDetailsModel;
+        expect(component.showAttemptNumber()).toEqual(false);
+      });
+      it('should return false if an attempt number is present but the category is not SC', () => {
+        component.candidateDetails = { attemptNumber: 1 } as CandidateDetails;
+        component.data = {
+          category: TestCategory.B,
+        } as TestDetailsModel;
+        expect(component.showAttemptNumber()).toEqual(false);
+      });
+    });
+
     describe('showPrn', () => {
       it('should return true if prn is present', () => {
         component.candidateDetails = { prn: 1 } as CandidateDetails;

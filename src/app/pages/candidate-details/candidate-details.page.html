@@ -84,6 +84,13 @@
             [value]="slot.booking.candidate.prn"
           >
           </data-row>
+          <data-row
+            [idPrefix]="idPrefix"
+            [label]="'Attempt number'"
+            *ngIf="slot.booking.candidate.previousADITests && isSC()"
+            [value]="slot.booking.candidate.previousADITests+1"
+          >
+          </data-row>
           <data-row-custom
             [label]="'Additional requirements'"
             [shouldShowIndicator]="specialNeedsIsPopulated(pageState.details.specialNeeds)"
