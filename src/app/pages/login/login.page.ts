@@ -18,7 +18,7 @@ import { LoadConfigSuccess } from '@store/app-info/app-info.actions';
 import { LoadLog, SaveLog, SendLogs, StartSendingLogs } from '@store/logs/logs.actions';
 import { GetTestCentresRefData } from '@store/reference-data/reference-data.actions';
 import { LoadPersistedTests, StartSendingCompletedTests } from '@store/tests/tests.actions';
-import { Subscription } from 'rxjs';
+import { BehaviorSubject, Subscription } from 'rxjs';
 import { DASHBOARD_PAGE } from '../page-names.constants';
 
 @Component({
@@ -35,6 +35,9 @@ export class LoginPage extends LogoutBasePageComponent implements OnInit {
   queryParamSub: Subscription;
   isLoggedIn = false;
   isLoggingIn = false;
+
+  isOffline$: BehaviorSubject<boolean> = this.networkStateProvider.isOffline$;
+  wasOffline = false;
 
   get loadingOptions(): LoadingOptions {
     return {
@@ -54,6 +57,27 @@ export class LoginPage extends LogoutBasePageComponent implements OnInit {
     injector: Injector
   ) {
     super(injector);
+  }
+
+  setOfflineError() {
+    this.appInitError = AuthenticationError.OFFLINE;
+    this.store$.dispatch(ReportError(AuthenticationError.OFFLINE));
+  }
+
+  /**
+   * Monitor the online status of the app and if it comes back online after being offline, automatically attempt to log in
+   */
+  monitorOnlineStatus() {
+    this.isOffline$.subscribe(async (isOffline) => {
+      if (isOffline !== this.wasOffline) {
+        this.wasOffline = isOffline;
+        if (!isOffline && this.isIos()) {
+          await this.login();
+        } else if (isOffline) {
+          this.setOfflineError();
+        }
+      }
+    });
   }
 
   async ngOnInit() {
@@ -76,6 +100,7 @@ export class LoginPage extends LogoutBasePageComponent implements OnInit {
     // Trigger Authentication if ios device
     if (!this.hasUserLoggedOut && this.isIos()) {
       await this.login();
+      this.monitorOnlineStatus();
     }
 
     if (!this.isIos()) {
@@ -95,12 +120,12 @@ export class LoginPage extends LogoutBasePageComponent implements OnInit {
 
   ionViewDidLeave(): void {
     this.queryParamSub?.unsubscribe();
+    this.isOffline$.unsubscribe();
   }
 
   login = async (): Promise<void> => {
     try {
       this.isLoggingIn = true;
-      await this.handleLoadingUI(true);
 
       await this.platform.ready();
 
@@ -117,6 +142,8 @@ export class LoginPage extends LogoutBasePageComponent implements OnInit {
       if (!isAuthenticated) {
         await this.authenticationProvider.login();
       }
+
+      await this.handleLoadingUI(true);
 
       this.store$.dispatch(LoadLog());
 
@@ -158,9 +185,6 @@ export class LoginPage extends LogoutBasePageComponent implements OnInit {
       this.store$.dispatch(ReportError(this.appInitError.valueOf()));
       await this.hideSplashscreen();
       this.dispatchLog(record);
-      if (this.isInternetConnectionError()) {
-        this.store$.dispatch(ReportError(AuthenticationError.OFFLINE));
-      }
 
       if (error === AuthenticationError.USER_NOT_AUTHORISED) {
         const token = await this.authenticationProvider.getAuthenticationToken();
@@ -171,6 +195,10 @@ export class LoginPage extends LogoutBasePageComponent implements OnInit {
           this.dispatchLog(`user ${examiner} not authorised: Could not get token`);
         }
         await this.authenticationProvider.logout();
+      }
+
+      if (this.authenticationProvider.isOffline()) {
+        this.setOfflineError();
       }
 
       await this.handleLoadingUI(false);
@@ -262,7 +290,7 @@ export class LoginPage extends LogoutBasePageComponent implements OnInit {
   };
 
   isInternetConnectionError = (): boolean => {
-    return !this.hasUserLoggedOut && this.authenticationProvider.isOffline();
+    return !this.hasUserLoggedOut && this.appInitError.valueOf() === AuthenticationError.OFFLINE;
   };
 
   isUnknownError = (): boolean => {

@@ -4,7 +4,7 @@ import { DelegatedRekeySearchClearState } from '@pages/delegated-rekey-search/de
 import { ResetRekeyReason } from '@pages/rekey-reason/rekey-reason.actions';
 import { RekeySearchClearState } from '@pages/rekey-search/rekey-search.actions';
 import { ResetFaultMode } from '@pages/test-report/test-report.actions';
-import { AuthProviderSettings } from '@providers/authentication/authentication.constants';
+import { AuthProviderSettings, AuthenticationError } from '@providers/authentication/authentication.constants';
 import { StorageCleared } from '@providers/authentication/authentification.actions';
 import { CompletedTestPersistenceProvider } from '@providers/completed-test-persistence/completed-test-persistence';
 import { ExaminerRecordsProvider } from '@providers/examiner-records/examiner-records';
@@ -67,7 +67,10 @@ export class AuthenticationProvider {
 
   //Login to MSAuth plugin and return the auth result, tag it with a flag to identify that it came from MSAuth
   async pluginLogin(): Promise<AuthResult> {
+    console.log('starting plugin login');
     const authResult: AuthResult = await MsAuthPlugin.login(this.authOptions);
+    console.log('ending', authResult);
+
     return {
       ...authResult,
       isMSAuth: true,
@@ -230,13 +233,14 @@ export class AuthenticationProvider {
       await this.init();
     }
 
-    if (this.isOffline()) return;
-
     this.logEvent(LogType.DEBUG, 'Login', 'Started login flow');
 
     let authResult: AuthResult = null;
     try {
       authResult = await this.pluginLogin();
+      if (!authResult && this.isOffline()) {
+        throw new Error(AuthenticationError.OFFLINE);
+      }
     } catch (error) {
       this.logEvent(LogType.ERROR, 'Authentication provider - Login error', error);
       throw error;
