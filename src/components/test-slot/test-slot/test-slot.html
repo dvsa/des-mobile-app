@@ -136,6 +136,7 @@
               [attempts]="slot.booking?.candidate?.previousADITests ? slot.booking?.candidate?.previousADITests+1 : 1"
               [testStatus]="componentState.testStatus$ | async"
               [prn]="slot.booking?.candidate?.prn"
+              [category]="slot.booking.application.testCategory"
             >
             </additional-candidate-details>
 
