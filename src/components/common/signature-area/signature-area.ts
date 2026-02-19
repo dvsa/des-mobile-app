@@ -80,8 +80,9 @@ export class SignatureAreaComponent implements ControlValueAccessor, AfterViewIn
     window.addEventListener('orientationchange', () => this.initialiseSignature());
   }
 
-  public setSignature(initialValue: string) {
-    this.signaturePad.fromDataURL(initialValue, {
+  public async setSignature(initialValue: string) {
+    this.signaturePad.clear();
+    await this.signaturePad.fromDataURL(initialValue, {
       width: this.getSignatureWidth(),
       height: this.getSignatureHeight(),
     });
@@ -92,11 +93,10 @@ export class SignatureAreaComponent implements ControlValueAccessor, AfterViewIn
   }
 
   initialiseSignature() {
-    setTimeout(() => {
-      this.signaturePad.clear();
+    setTimeout(async () => {
       this.resizeSignaturePad();
       if (this.signature) {
-        this.setSignature(this.signature);
+        await this.setSignature(this.signature);
       }
     }, 250);
   }

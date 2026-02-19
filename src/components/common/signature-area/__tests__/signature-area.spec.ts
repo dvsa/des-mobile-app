@@ -38,10 +38,10 @@ describe('SignatureAreaComponent', () => {
 
   describe('Class', () => {
     describe('signature', () => {
-      it('setSignature should update the signature property and call signatureDataChangedDispatch', () => {
+      it('setSignature should update the signature property and call signatureDataChangedDispatch', async () => {
         spyOn(component, 'signatureDataChangedDispatch');
         component.signature = undefined;
-        component.setSignature('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAyEAAAD');
+        await component.setSignature('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAyEAAAD');
         expect(component.signature).toEqual('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAyEAAAD');
         expect(component.signatureDataChangedDispatch).toHaveBeenCalled();
       });
