@@ -97,7 +97,7 @@
     "@ngx-translate/http-loader": "^8.0.0",
     "@popperjs/core": "^2.11.8",
     "@recognizebv/capacitor-plugin-msauth": "^4.1.0",
-    "@sentry/angular": "9.46.0",
+    "@sentry/angular": "9.47.1",
     "@sentry/capacitor": "2.4.1",
     "apexcharts": "^4.5.0",
     "assert": "^2.1.0",
