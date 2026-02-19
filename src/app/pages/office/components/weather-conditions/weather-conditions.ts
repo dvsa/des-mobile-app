@@ -54,6 +54,9 @@ export class WeatherConditionsComponent implements OnChanges {
   }
 
   weatherConditionsChanged(weatherConditions: WeatherConditions[]): void {
+    if (weatherConditions.length === 0) {
+      this.formControl.markAsPristine();
+    }
     this.weatherConditionsChange.emit(weatherConditions);
   }
 
