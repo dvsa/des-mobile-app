@@ -203,4 +203,8 @@ export class CandidateDetailsPage implements OnInit, OnDestroy, ViewDidEnter {
     }
     return [TestStatus.Completed, TestStatus.Submitted].includes(testStatus);
   }
+
+  isSC(): boolean {
+    return this.slot.booking.application.testCategory === TestCategory.SC;
+  }
 }

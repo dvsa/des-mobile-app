@@ -69,7 +69,15 @@
       </data-row-custom>
 
       @if (showPrn()) {
-        <data-row [shouldHaveSeperator]="false" [label]="'Personal reference number'" [value]="candidateDetails.prn"></data-row>
+        <data-row [shouldHaveSeperator]="showAttemptNumber()" [label]="'Personal reference number'" [value]="candidateDetails.prn"></data-row>
+      }
+      @if (showAttemptNumber()) {
+        <data-row
+          [label]="'Attempt number'"
+          [shouldHaveSeperator]="false"
+          [value]="candidateDetails.attemptNumber ? candidateDetails.attemptNumber + 1 : 1"
+        >
+        </data-row>
       }
     </ion-grid>
   </ion-card-content>
