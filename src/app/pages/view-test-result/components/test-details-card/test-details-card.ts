@@ -29,4 +29,12 @@ export class TestDetailsCardComponent {
   showPrn(): boolean {
     return get(this.candidateDetails, 'prn', null) !== null || typeof get(this.candidateDetails, 'prn') !== 'undefined';
   }
+
+  showAttemptNumber(): boolean {
+    return (
+      (get(this.candidateDetails, 'attemptNumber', null) !== null ||
+        typeof get(this.candidateDetails, 'attemptNumber') !== 'undefined') &&
+      this.data.category === TestCategory.SC
+    );
+  }
 }
