@@ -67,10 +67,7 @@ export class AuthenticationProvider {
 
   //Login to MSAuth plugin and return the auth result, tag it with a flag to identify that it came from MSAuth
   async pluginLogin(): Promise<AuthResult> {
-    console.log('starting plugin login');
     const authResult: AuthResult = await MsAuthPlugin.login(this.authOptions);
-    console.log('ending', authResult);
-
     return {
       ...authResult,
       isMSAuth: true,
