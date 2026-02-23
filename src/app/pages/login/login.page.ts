@@ -59,11 +59,6 @@ export class LoginPage extends LogoutBasePageComponent implements OnInit {
     super(injector);
   }
 
-  setOfflineError() {
-    this.appInitError = AuthenticationError.OFFLINE;
-    this.store$.dispatch(ReportError(AuthenticationError.OFFLINE));
-  }
-
   /**
    * Monitor the online status of the app and if it comes back online after being offline, automatically attempt to log in
    */
@@ -74,7 +69,7 @@ export class LoginPage extends LogoutBasePageComponent implements OnInit {
         if (!isOffline && this.isIos()) {
           await this.login();
         } else if (isOffline) {
-          this.setOfflineError();
+          this.appInitError = AuthenticationError.OFFLINE;
         }
       }
     });
@@ -98,8 +93,10 @@ export class LoginPage extends LogoutBasePageComponent implements OnInit {
     this.networkStateProvider.initialiseNetworkState();
 
     // Trigger Authentication if ios device
-    if (!this.hasUserLoggedOut && this.isIos()) {
-      await this.login();
+    if (this.isIos()) {
+      if (!this.hasUserLoggedOut) {
+        await this.login();
+      }
       this.monitorOnlineStatus();
     }
 
@@ -120,7 +117,6 @@ export class LoginPage extends LogoutBasePageComponent implements OnInit {
 
   ionViewDidLeave(): void {
     this.queryParamSub?.unsubscribe();
-    this.isOffline$.unsubscribe();
   }
 
   login = async (): Promise<void> => {
@@ -182,7 +178,6 @@ export class LoginPage extends LogoutBasePageComponent implements OnInit {
 
       this.appInitError = display;
 
-      this.store$.dispatch(ReportError(this.appInitError.valueOf()));
       await this.hideSplashscreen();
       this.dispatchLog(record);
 
@@ -197,9 +192,13 @@ export class LoginPage extends LogoutBasePageComponent implements OnInit {
         await this.authenticationProvider.logout();
       }
 
+      //Check if the user is offline as this can cause a number of errors and won't be picked up by the error handling
+      //as the login step has been skipped if the user is offline
       if (this.authenticationProvider.isOffline()) {
-        this.setOfflineError();
+        this.appInitError = AuthenticationError.OFFLINE;
       }
+
+      this.store$.dispatch(ReportError(this.appInitError.valueOf()));
 
       await this.handleLoadingUI(false);
     }
