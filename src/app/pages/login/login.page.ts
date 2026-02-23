@@ -66,7 +66,7 @@ export class LoginPage extends LogoutBasePageComponent implements OnInit {
     this.isOffline$.subscribe(async (isOffline) => {
       if (isOffline !== this.wasOffline) {
         this.wasOffline = isOffline;
-        if (!isOffline && this.isIos()) {
+        if (!isOffline && this.isIos() && !this.isLoggedIn) {
           await this.login();
         } else if (isOffline) {
           this.appInitError = AuthenticationError.OFFLINE;
