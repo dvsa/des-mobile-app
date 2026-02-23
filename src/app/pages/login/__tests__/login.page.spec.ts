@@ -371,15 +371,15 @@ describe('LoginPage', () => {
   });
 
   describe('isInternetConnectionError', () => {
-    it('should return false when not offline', () => {
+    it('should return false when error is not OFFLINE', () => {
       component.hasUserLoggedOut = false;
-      spyOn(component.authenticationProvider, 'isOffline').and.returnValue(false);
+      component.appInitError = AuthenticationError.WRONG_AUTHORITY_TYPE;
       expect(component.isInternetConnectionError()).toEqual(false);
     });
 
-    it('should return true when offline', () => {
+    it('should return true when error is OFFLINE', () => {
       component.hasUserLoggedOut = false;
-      spyOn(component.authenticationProvider, 'isOffline').and.returnValue(true);
+      component.appInitError = AuthenticationError.OFFLINE;
       expect(component.isInternetConnectionError()).toEqual(true);
     });
   });
