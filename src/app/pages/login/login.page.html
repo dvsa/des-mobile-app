@@ -63,10 +63,10 @@
                 </ion-text>
               </ion-row>
             </div>
-
           }
           @if (isAlreadyLoggedOut()) {
-            <div class="display-flex flex-direction-column ion-align-items-center justify-content-center">
+  }
+          @if (isAlreadyLoggedOut()) {          <div class="display-flex flex-direction-column ion-align-items-center justify-content-center">
               <ion-row class="login-page-header-spacing">
                 <ion-text class="des-header-style-2">You are already logged out.</ion-text>
               </ion-row>
@@ -79,18 +79,18 @@
             </div>
           }
           @if (isUnableToLogout()) {
-            <div class="display-flex flex-direction-column ion-align-items-center justify-content-center">
-              <ion-row class="login-page-header-spacing">
-                <ion-text class="des-header-style-2">Logout was not completed.</ion-text>
-              </ion-row>
-              <ion-row class="login-page-text-spacing">
-                <ion-text class="des-header-style-3">This may be because you closed the screen or something went wrong.
-                </ion-text>
-              </ion-row>
-              <ion-row class="login-page-text-spacing">
-                <ion-text class="des-header-style-3">Please try again.</ion-text>
-              </ion-row>
-            </div>
+          <div class="display-flex flex-direction-column ion-align-items-center justify-content-center">
+            <ion-row class="login-page-header-spacing">
+              <ion-text class="des-header-style-2">Logout was not completed.</ion-text>
+            </ion-row>
+            <ion-row class="login-page-text-spacing">
+              <ion-text class="des-header-style-3">This may be because you closed the screen or something went wrong.
+              </ion-text>
+            </ion-row>
+            <ion-row class="login-page-text-spacing">
+              <ion-text class="des-header-style-3">Please try again.</ion-text>
+            </ion-row>
+          </div>
           }
           @if (isSetupError()) {
             <div class="display-flex flex-direction-column ion-align-items-center justify-content-center">
@@ -110,20 +110,21 @@
             </div>
           }
           @if (isUnknownError()) {
-            <div class="display-flex flex-direction-column ion-align-items-center justify-content-center">
-              <ion-row class="login-page-header-spacing">
-                <ion-text class="des-header-style-2" id="loginSorry">Sorry, something went wrong</ion-text>
-              </ion-row>
-              <ion-row class="login-page-text-spacing">
-                <ion-text class="des-header-style-3" id="loginPleaseTryAgain">Please try again later.</ion-text>
-              </ion-row>
-              <ion-row class="login-page-text-spacing">
-                <span (click)="showErrorDetails()" class="link error-details-link">Show error details</span>
-              </ion-row>
-            </div>
+          <div class="display-flex flex-direction-column ion-align-items-center justify-content-center">
+            <ion-row class="login-page-header-spacing">
+              <ion-text class="des-header-style-2" id="loginSorry">Sorry, something went wrong</ion-text>
+            </ion-row>
+            <ion-row class="login-page-text-spacing">
+              <ion-text class="des-header-style-3" id="loginPleaseTryAgain">Please try again later.</ion-text>
+            </ion-row>
+            <ion-row class="login-page-text-spacing">
+              <span (click)="showErrorDetails()" class="link error-details-link">Show error details</span>
+            </ion-row>
+          </div>
           }
           @if (hasDeviceTypeError()) {
-            <div class="display-flex flex-direction-column ion-align-items-center justify-content-center">
+            }
+          @if (hasDeviceTypeError()) {<div class="display-flex flex-direction-column ion-align-items-center justify-content-center">
               <ion-row class="login-page-header-spacing">
                 <ion-text class="des-header-style-2">Unsupported device</ion-text>
               </ion-row>
@@ -141,25 +142,26 @@
                 <ion-text class="des-header-style-3">Speak to your line manager if you want to use this app.</ion-text>
               </ion-row>
               <ion-row class="login-page-text-spacing">
-                <ion-text class="mes-text-align-centre des-header-style-3"
+                <ion-text class="mes-text-align-centredes-header-style-3"
                 >If you think you’re already authorised,<br/>
-                  you can try to <span (click)="logoutThenLogin()" class="des-header-style-3 link">sign in</span> again.
+                  you can try to <span (click)="logoutThenLogin()" class="des-header-style-3link">sign in</span>again.
                 </ion-text>
               </ion-row>
-            </div>
-          }
+            </div>}
           @if (isInvalidAppVersionError()) {
-            <div class="display-flex flex-direction-column ion-align-items-center justify-content-center">
-              <ion-row class="login-page-header-spacing">
-                <ion-text class="des-header-style-2">Unsupported application version</ion-text>
-              </ion-row>
-              <ion-row class="login-page-text-spacing">
-                <ion-text class="des-header-style-3">This version of DES is out of date</ion-text>
-              </ion-row>
-              <ion-row class="login-page-text-spacing">
-                <ion-text class="des-header-style-3">Please get the latest version from the company portal</ion-text>
-              </ion-row>
-            </div>
+            }
+          @if (isInvalidAppVersionError()) {
+          <div class="display-flex flex-direction-column ion-align-items-center justify-content-center">
+            <ion-row class="login-page-header-spacing">
+              <ion-text class="des-header-style-2">Unsupported application version</ion-text>
+            </ion-row>
+            <ion-row class="login-page-text-spacing">
+              <ion-text class="des-header-style-3">This version of DES is out of date</ion-text>
+            </ion-row>
+            <ion-row class="login-page-text-spacing">
+              <ion-text class="des-header-style-3">Please get the latest version from the company portal</ion-text>
+            </ion-row>
+          </div>
           }
         }
       </ion-col>
