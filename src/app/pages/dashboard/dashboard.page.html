@@ -5,7 +5,6 @@
       <ion-col class="display-flex">
         @if ((pageState.notificationCount$ | async); as notificationCount;) {
           <ion-badge
-          *ngIf="(pageState.notificationCount$ | async) as notificationCount;"
           color="danger"
           id="dashboard-notification-count-badge"
           class="burger-menu-item"
