@@ -12,7 +12,7 @@
     [model]="selectedTestCentre"
     [placeholder]="'Select a test centre'"
     [primaryKey]="'centreId'"
-    >
+  >
   </searchable-picklist-wrapper>
 } @else {
   <test-centre-name [testCentreResults]="testCentreResults"></test-centre-name>
@@ -35,10 +35,11 @@
       labelPlacement="stacked"
       okText="Select"
       placeholder="Select examiner"
-      >
+    >
       @for (examiner of testCentreResults?.examiners; track examiner) {
-        <ion-select-option [value]="examiner.staffNumber" id="examiner-{{transformStringForID(examiner.name)}}-select-option">
-          {{examiner.name}}
+        <ion-select-option [value]="examiner.staffNumber"
+                           id="examiner-{{transformStringForID(examiner.name)}}-select-option">
+          {{ examiner.name }}
         </ion-select-option>
       }
     </ion-select>
@@ -52,7 +53,7 @@
     class="mes-primary-button full-width"
     id="show-journal-button"
     mode="ios"
-    >
+  >
     <ion-text class="des-header-style-3">Show journal</ion-text>
   </ion-button>
 </ion-row>
@@ -70,22 +71,24 @@
             [fromTestCentreJournal]="true"
             [isSelectedDateToday]="isSelectedDateToday()"
             [selectedDate]="currentSelectedDate"
-            >
+          >
           </journal-navigation>
         }
         @if (shouldShowBanner() && hasClickedShowJournal) {
           <div class="no-results">
-            <p class="no-results-text">{{warningText}}</p>
+            <p class="no-results-text">{{ warningText }}</p>
           </div>
         }
-        <ion-list *ngIf="hasClickedShowJournal">
-          <journal-slots
-            [isPortrait]="orientationMonitorProvider.isPortraitMode$ | async"
-            [isTeamJournal]="true"
-            [slots]="slotItems$ | async"
+        @if (hasClickedShowJournal) {
+          <ion-list>
+            <journal-slots
+              [isPortrait]="orientationMonitorProvider.isPortraitMode$ | async"
+              [isTeamJournal]="true"
+              [slots]="slotItems$ | async"
             >
-          </journal-slots>
-        </ion-list>
+            </journal-slots>
+          </ion-list>
+        }
       </div>
     } @else {
       @if (hasClickedShowJournal) {
