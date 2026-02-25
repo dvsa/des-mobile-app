@@ -96,6 +96,7 @@ export class TestResultsSearchPage extends BasePageComponent {
 
   searchByChanged(val: string): void {
     this.searchBy = val as SearchBy;
+    this.candidateInfoChanged('');
   }
 
   verifyAdvancedSearch(): string {
