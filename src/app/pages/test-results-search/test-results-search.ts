@@ -1,4 +1,3 @@
-import { HttpErrorResponse } from '@angular/common/http';
 import { Component, Injector } from '@angular/core';
 import { SearchResultTestSchema } from '@dvsa/mes-search-schema';
 import { ModalController } from '@ionic/angular';
@@ -17,7 +16,6 @@ import { AdvancedSearchParams } from '@providers/search/search.models';
 import { BasePageComponent } from '@shared/classes/base-page';
 import { ErrorTypes } from '@shared/models/error-message';
 import { LogType } from '@shared/models/log.model';
-import { MesError } from '@shared/models/mes-error.model';
 import { SaveLog } from '@store/logs/logs.actions';
 import { getRefDataState } from '@store/reference-data/reference-data.reducer';
 import { getActiveTestCentres, getTestCentres } from '@store/reference-data/reference-data.selector';
@@ -124,7 +122,7 @@ export class TestResultsSearchPage extends BasePageComponent {
             this.searchResults = results;
             this.showSearchSpinner = false;
           }),
-          catchError(async (err: HttpErrorResponse) => {
+          catchError(async (err: Error) => {
             this.store$.dispatch(
               SaveLog({
                 payload: this.logHelper.createLog(LogType.ERROR, 'Searching tests by driver number', err.message),
@@ -157,7 +155,7 @@ export class TestResultsSearchPage extends BasePageComponent {
             this.searchResults = results;
             this.showSearchSpinner = false;
           }),
-          catchError(async (err: HttpErrorResponse) => {
+          catchError(async (err: Error) => {
             this.store$.dispatch(
               SaveLog({
                 payload: this.logHelper.createLog(
@@ -195,12 +193,14 @@ export class TestResultsSearchPage extends BasePageComponent {
           this.searchResults = orderBy(results, ['testDate', 'category'], ['desc', 'asc']);
           this.showAdvancedSearchSpinner = false;
         }),
-        catchError(async (err: HttpErrorResponse) => {
+        catchError(async (err: Error) => {
           this.store$.dispatch(
             SaveLog({
               payload: this.logHelper.createLog(
                 LogType.ERROR,
-                `Advanced search with params (${advancedSearchParams})`,
+                `Advanced search with params (${
+                  advancedSearchParams ? JSON.stringify(advancedSearchParams) : 'Could not get params'
+                })`,
                 err.message
               ),
             })
@@ -211,15 +211,14 @@ export class TestResultsSearchPage extends BasePageComponent {
             await this.showError(err);
             this.hasSearched = false;
           }
-          console.log('ERROR', JSON.stringify(err));
           return of();
         })
       )
       .subscribe();
   }
 
-  showError = async (error: MesError): Promise<void> => {
-    if (error === undefined || error.message === '') return;
+  showError = async (error: Error): Promise<void> => {
+    if (!error) return;
 
     const modal = await this.modalController.create({
       component: ErrorPage,
