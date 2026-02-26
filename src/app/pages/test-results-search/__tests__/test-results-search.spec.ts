@@ -1,15 +1,13 @@
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { ModalController, Platform } from '@ionic/angular';
-import { ModalControllerMock, PlatformMock } from '@mocks/index.mock';
-
-import { HttpStatusCode } from '@angular/common/http';
-import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { MockAppComponent } from '@app/__mocks__/app.component.mock';
 import { AppComponent } from '@app/app.component';
 import { AppModule } from '@app/app.module';
 import { ComponentsModule } from '@components/common/common-components.module';
 import { TestCentre } from '@dvsa/mes-journal-schema';
+import { ModalController, Platform } from '@ionic/angular';
+import { ModalControllerMock, PlatformMock } from '@mocks/index.mock';
 import { AdvancedSearchComponent } from '@pages/test-results-search/components/advanced-search/advanced-search';
 import { SearchResultComponent } from '@pages/test-results-search/components/search-result/search-result';
 import { TestResultSearchViewDidEnter } from '@pages/test-results-search/test-results-search.actions';
@@ -187,11 +185,7 @@ describe('TestResultsSearchPage', () => {
             present: async () => {},
           } as HTMLIonModalElement)
         );
-        await component.showError({
-          status: HttpStatusCode.InternalServerError,
-          statusText: 'error',
-          message: 'error',
-        });
+        await component.showError(new Error('error'));
         expect(modalController.create).toHaveBeenCalled();
       });
     });
