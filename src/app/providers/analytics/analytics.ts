@@ -88,7 +88,7 @@ export class AnalyticsProvider {
    * @param {string} userId
    */
   setGAGlobalConfig(key: string, userId: string): void {
-    if (this.isIos() && !this.isTestEnvironment()) {
+    if (this.isIos() && this.shouldAllowAnalyticsInTestEnvironment()) {
       try {
         gtag('config', key, {
           send_page_view: false,
@@ -105,7 +105,7 @@ export class AnalyticsProvider {
    * @param userId
    */
   setGAUserId(userId: string): void {
-    if (this.isIos() && !this.isTestEnvironment()) {
+    if (this.isIos() && this.shouldAllowAnalyticsInTestEnvironment()) {
       try {
         this.addGACustomDimension(GoogleAnalyticsCustomDimension.USER_ID, userId);
       } catch (error) {
@@ -134,7 +134,7 @@ export class AnalyticsProvider {
    * @param {string} value - The value to be associated with the custom dimension.
    */
   addGACustomDimension(key: GoogleAnalyticsCustomDimension, value: string): void {
-    if (this.isIos() && !this.isTestEnvironment()) {
+    if (this.isIos() && this.shouldAllowAnalyticsInTestEnvironment()) {
       try {
         if (key) {
           // Guard to check if dimension is not undefined or null
@@ -154,7 +154,7 @@ export class AnalyticsProvider {
    * @param {string} pageName - The name of the current page to track.
    */
   setGACurrentPage(pageName: string): void {
-    if (this.isIos() && !this.isTestEnvironment()) {
+    if (this.isIos() && this.shouldAllowAnalyticsInTestEnvironment()) {
       try {
         console.log(`Analytics - set page: ${pageName}`);
         gtag('config', this.googleAnalytics4Key, {
@@ -187,8 +187,7 @@ export class AnalyticsProvider {
     value3?: string
   ): void {
     this.platform.ready().then(() => {
-      console.log(this.isTestEnvironment());
-      if (this.isIos() && !this.isTestEnvironment()) {
+      if (this.isIos() && this.shouldAllowAnalyticsInTestEnvironment()) {
         try {
           const eventData: { [key: string]: string } = {};
 
@@ -261,12 +260,10 @@ export class AnalyticsProvider {
 
   isIos = (): boolean => this.platform.is('cordova');
 
-  isTestEnvironment = (): boolean => {
-    console.log('app', this.appConfig.getAppConfig()?.enableAnalyticEventsInTestMode);
-    console.log('environment', environment);
+  shouldAllowAnalyticsInTestEnvironment = (): boolean => {
     if (this.appConfig.getAppConfig()?.enableAnalyticEventsInTestMode) {
       return true;
     }
-    return get(environment, 'isTest', false);
+    return !get(environment, 'isTest', false);
   };
 }
