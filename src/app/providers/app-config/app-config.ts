@@ -379,6 +379,7 @@ export class AppConfigProvider {
       },
       usefulLinks: data.usefulLinks,
       requestTimeout: data.requestTimeout,
+      enableAnalyticEventsInTestMode: data.enableAnalyticEventsInTestMode,
     });
   };
 

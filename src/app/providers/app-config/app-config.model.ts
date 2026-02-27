@@ -11,6 +11,7 @@ export type AppConfig = {
   googleAnalyticsKey: string;
   daysToCacheLogs: number;
   logoutClearsTestPersistence?: boolean;
+  enableAnalyticEventsInTestMode?: boolean;
   logsPostApiKey: string;
   logsApiUrl: string;
   logsAutoSendInterval: number;
