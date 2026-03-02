@@ -2,6 +2,10 @@
   --width: 100%;
   --height: 100%;
   --border-radius: 0;
+  --ion-safe-area-top: inherit !important;
+  --ion-safe-area-bottom: inherit !important;
+  --ion-safe-area-left: inherit !important;
+  --ion-safe-area-right: inherit !important;
 
   .modal-wrapper {
     position: absolute;

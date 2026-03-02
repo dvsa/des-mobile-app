@@ -924,7 +924,7 @@ export class ExaminerRecordsPage implements OnInit {
     this.store$.dispatch(LearnMoreClicked());
     const modal: HTMLIonModalElement = await this.modalController.create({
       component: ExaminerRecordsLearnMoreModal,
-      cssClass: 'mes-modal-alert',
+      cssClass: 'mes-modal-alert modal-fullscreen',
       backdropDismiss: false,
     });
     await modal.present();
