@@ -5,18 +5,19 @@
         <ion-row>
           <ion-col size="32">
             <ion-text id="eta-text" addOrRemoveLangCy class="des-header-style-4">
-              {{ 'debrief.etaHeader' | translate }}
-            </ion-text>
+            {{ 'debrief.etaHeader' | translate }}
+            </ion-text
+            >
           </ion-col>
           <ion-col class="down-padding ion-align-self-start">
             @if (hasPhysicalEta && !hasVerbalEta) {
               <ion-text addOrRemoveLangCy id="etaFaultsPhysical" class="hasPhysicalEta">
-                {{ 'debrief.etaPhysical' | translate }}
+              {{ 'debrief.etaPhysical' | translate }}
               </ion-text>
             }
             @if (!hasPhysicalEta && hasVerbalEta) {
               <ion-text addOrRemoveLangCy id="etaFaultsVerbal" class="hasVerbalEta">
-                {{ 'debrief.etaVerbal' | translate }}
+              {{ 'debrief.etaVerbal' | translate }}
               </ion-text>
             }
             @if (hasPhysicalEta && hasVerbalEta) {
@@ -24,7 +25,7 @@
                 addOrRemoveLangCy
                 id="etaFaultsBoth"
                 class="hasVerbalAndPhysicalEta">
-                {{ 'debrief.etaBoth' | translate }}
+              {{ 'debrief.etaBoth' | translate }}
               </ion-text>
             }
           </ion-col>

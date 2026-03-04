@@ -1,7 +1,8 @@
 <div class="vehicle-details-row">
   <span>L: </span><span class="bold">{{ length }}</span> <span>W: </span><span class="bold">{{ width }}</span>
-  <span>H: </span><span class="bold">{{ height }}</span> @if (showNumberOfSeats) {
-  <span>Seats: </span
-    >
-    }<span class="bold">{{ seats }}</span>
-  </div>
+  <span>H: </span><span class="bold">{{ height }}</span>
+  @if (showNumberOfSeats) {
+    <span>Seats: </span>
+    <span class="bold">{{ seats }}</span>
+  }
+</div>
