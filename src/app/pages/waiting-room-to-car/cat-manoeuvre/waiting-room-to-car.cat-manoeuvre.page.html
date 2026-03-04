@@ -98,9 +98,10 @@
   </div>
 </ion-content>
 
-@if ({
+@let data = {
   delegatedTest: isDelegated
-  }; as data) {
+};
+@if (data) {
   <ion-footer
     [class.hidden]="failedMOTModalCurrentlyOpen"
     >
@@ -121,7 +122,7 @@
       @if (!data?.delegatedTest) {
         <ion-col size="2"></ion-col>
       }
-      <ion-col [size]="data?.delegatedTest ? 60 : 43" class="ion-text-center">
+      <ion-col [size]="data?.delegatedTest ? '60' : '43'" class="ion-text-center">
         <ion-button
           (click)="onSubmit()"
           class="mes-primary-button wrtc-footer-btn"
