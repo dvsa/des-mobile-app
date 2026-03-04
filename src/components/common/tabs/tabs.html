@@ -1,6 +1,6 @@
 <div>
   <ul class="nav nav-tabs">
-    @for (tab of tabs; track tab) {
+    @for (tab of tabs; track tab.title) {
       <li (click)="selectTab(tab, true)" [class.active]="tab.active">
         <ion-text class="title des-header-style-3" id="test-title-{{transformStringForID(tab.title)}}">{{tab.title}}</ion-text>
       </li>
