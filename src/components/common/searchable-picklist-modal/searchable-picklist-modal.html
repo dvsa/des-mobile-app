@@ -8,14 +8,14 @@
       [placeholder]="placeholder"
       emojiBlock
       pasteSanitiser
-      >
+    >
     </ion-searchbar>
 
     <!-- Check if minimum number of required chars entered or custom template -->
     @if (hasEnteredSufficientCharacters) {
       <div>
         <!-- Check if rendered list has any data inside it or custom template -->
-        @if ((dataList | doesContain: fuzzySearchKeys: searchedValue); as filteredData;) {
+        @if ((dataList | doesContain: fuzzySearchKeys: searchedValue); as filteredData) {
           <div>
             @if (filteredData?.length > 0) {
               <div>
@@ -24,11 +24,11 @@
                   <ion-item
                     (click)="onClick(data)"
                     [id]="data[displayKey] | formatToID: idPrefix"
-                    >
-                    <ion-col [ngClass]="conditionalStyles(data)">{{data[displayKey]}}</ion-col>
+                  >
+                    <ion-col [ngClass]="conditionalStyles(data)">{{ data[displayKey] }}</ion-col>
                     <ion-col class="button-style" size="6">
                       @if (isActiveSelection(data)) {
-                        <ion-icon class="checkmark" name="checkmark-sharp"> </ion-icon>
+                        <ion-icon class="checkmark" name="checkmark-sharp"></ion-icon>
                       }
                     </ion-col>
                   </ion-item>
@@ -48,7 +48,7 @@
       <ion-item>
         <ion-col>
           <strong id="searchable-picklist-please-enter-min-chars-msg">
-            Please enter a minimum of {{minCharactersBeforeListDisplay}} character(s)
+            Please enter a minimum of {{ minCharactersBeforeListDisplay }} character(s)
           </strong>
         </ion-col>
       </ion-item>
