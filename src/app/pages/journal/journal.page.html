@@ -2,7 +2,8 @@
   <ion-toolbar mode="ios">
     <ion-title aria-level="1" role="heading" id="journal-page-title">Journal</ion-title>
     <ion-buttons id="back-button" slot="end" class="mes-padding-right">
-      <ion-back-button text="Close" icon="close-outline" (click)="router.navigate(['DashboardPage'], {replaceUrl: true})" [defaultHref]="'DashboardPage'">
+      <ion-back-button text="Close" icon="close-outline"
+                       (click)="router.navigate(['DashboardPage'], {replaceUrl: true})" [defaultHref]="'DashboardPage'">
       </ion-back-button>
     </ion-buttons>
   </ion-toolbar>
@@ -19,7 +20,7 @@
       pullingText="Pull to refresh"
       refreshingSpinner="circles"
       refreshingText="Refreshing Journal..."
-      >
+    >
     </ion-refresher-content>
   </ion-refresher>
 
@@ -33,14 +34,15 @@
     </ion-col>
     <ion-col size="55">
       <journal-navigation
-    (nextDayClicked)="onNextDayClick()"
-    (previousDayClicked)="onPreviousDayClick()"
-    [canNavigateToNextDay]="pageState.canNavigateToNextDay$ | async"
-    [canNavigateToPreviousDay]="pageState.canNavigateToPreviousDay$ | async"
-    [isSelectedDateToday]="pageState.isSelectedDateToday$ | async"
-    [selectedDate]="pageState.selectedDate$ | async"
-    >
-  </journal-navigation></ion-col>
+        (nextDayClicked)="onNextDayClick()"
+        (previousDayClicked)="onPreviousDayClick()"
+        [canNavigateToNextDay]="pageState.canNavigateToNextDay$ | async"
+        [canNavigateToPreviousDay]="pageState.canNavigateToPreviousDay$ | async"
+        [isSelectedDateToday]="pageState.isSelectedDateToday$ | async"
+        [selectedDate]="pageState.selectedDate$ | async"
+      >
+      </journal-navigation>
+    </ion-col>
     <ion-col></ion-col>
   </ion-row>
 
@@ -51,7 +53,7 @@
       [completedTests]="pageState.completedTests$ | async"
       [isPortrait]="orientationMonitorProvider.isPortraitMode$ | async"
       [slots]="pageState.slots$ | async"
-      >
+    >
     </journal-slots>
   </ion-list>
 
