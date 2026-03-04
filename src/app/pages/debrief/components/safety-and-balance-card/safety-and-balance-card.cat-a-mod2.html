@@ -1,4 +1,4 @@
-@if ((safetyAndBalanceQuestions$ | async)?.length > 0; as questions) {
+@if ((safetyAndBalanceQuestions$ | async)?.length > 0) {
   <ion-card id="safety-and-balance-questions">
     <ion-card-header>
       <ion-card-title>
@@ -10,7 +10,7 @@
     </ion-card-header>
     <ion-card-content>
       <ion-grid>
-        @for (question of questions; track question) {
+        @for (question of safetyAndBalanceQuestions$ | async; track question) {
           <ion-row
             class="ion-align-items-center row-padding mes-data"
           >
