@@ -30,7 +30,6 @@ import { DASHBOARD_PAGE } from '../page-names.constants';
 export class LoginPage extends LogoutBasePageComponent implements OnInit {
   appInitError: AuthenticationError | AppConfigError | unknown;
   hasUserLoggedOut = false;
-  hasDeviceTypeError = false;
   deviceTypeError: DeviceError;
   queryParamSub: Subscription;
   isLoggedIn = false;
@@ -121,6 +120,7 @@ export class LoginPage extends LogoutBasePageComponent implements OnInit {
 
   login = async (): Promise<void> => {
     try {
+      alert('logging in');
       this.isLoggingIn = true;
 
       await this.platform.ready();
@@ -200,6 +200,8 @@ export class LoginPage extends LogoutBasePageComponent implements OnInit {
 
       this.store$.dispatch(ReportError(this.appInitError.valueOf()));
 
+      console.log(this.appInitError.valueOf());
+
       await this.handleLoadingUI(false);
     }
   };
@@ -268,6 +270,10 @@ export class LoginPage extends LogoutBasePageComponent implements OnInit {
     return !this.hasUserLoggedOut && this.appInitError.valueOf() === AuthenticationError.NOTHING_TO_SIGN_OUT_FROM;
   };
 
+  hasDeviceTypeError = (): boolean => {
+    return !this.hasUserLoggedOut && this.appInitError.valueOf() === DeviceError.UNSUPPORTED_DEVICE;
+  };
+
   isUnableToLogout = (): boolean => {
     return !this.hasUserLoggedOut && this.appInitError.valueOf() === AuthenticationError.UNABLE_TO_LOGOUT;
   };
@@ -303,7 +309,8 @@ export class LoginPage extends LogoutBasePageComponent implements OnInit {
       !this.isUnableToLogout() &&
       !this.isUnableToObtainTokenError() &&
       !this.isSetupError() &&
-      !this.isInternetConnectionError()
+      !this.isInternetConnectionError() &&
+      !this.hasDeviceTypeError()
     );
   };
 
@@ -313,8 +320,7 @@ export class LoginPage extends LogoutBasePageComponent implements OnInit {
   validateDeviceType = async (): Promise<boolean> => {
     const validDevice = await this.deviceProvider.validDeviceType();
     if (!validDevice) {
-      this.deviceTypeError = DeviceError.UNSUPPORTED_DEVICE;
-      this.hasDeviceTypeError = true;
+      throw Error(DeviceError.UNSUPPORTED_DEVICE);
     }
     return validDevice;
   };
