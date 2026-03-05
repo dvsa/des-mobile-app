@@ -1,9 +1,9 @@
-import { HttpClient, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { createTranslateLoader } from '@app/app.module';
 import { QuestionResult } from '@dvsa/mes-test-schema/categories/common';
 import { IonicModule } from '@ionic/angular';
-import { TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
+import { TranslateModule, TranslateService, provideTranslateService } from '@ngx-translate/core';
+import { provideTranslateHttpLoader } from '@ngx-translate/http-loader';
 import { SafetyQuestionsCardComponent } from '@pages/debrief/components/safety-questions-card/safety-questions-card';
 
 describe('SafetyQuestionsCardComponent', () => {
@@ -14,17 +14,15 @@ describe('SafetyQuestionsCardComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [SafetyQuestionsCardComponent],
-      imports: [
-        IonicModule,
-        TranslateModule.forRoot({
-          loader: {
-            provide: TranslateLoader,
-            useFactory: createTranslateLoader,
-            deps: [HttpClient],
-          },
+      imports: [IonicModule, TranslateModule.forRoot()],
+      providers: [
+        provideHttpClient(withInterceptorsFromDi()),
+        provideTranslateService({
+          loader: provideTranslateHttpLoader({ prefix: 'assets/i18n/' }),
+          fallbackLang: 'en',
+          lang: 'en',
         }),
       ],
-      providers: [provideHttpClient(withInterceptorsFromDi())],
     });
 
     fixture = TestBed.createComponent(SafetyQuestionsCardComponent);

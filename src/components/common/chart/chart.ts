@@ -2,7 +2,7 @@ import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/cor
 import { ExaminerRecordDataWithPercentage } from '@pages/examiner-records/examiner-records.selector';
 import ApexCharts from 'apexcharts';
 import { isEqual } from 'lodash-es';
-import { ApexAxisChartSeries, ApexNonAxisChartSeries, ApexOptions, ChartType } from 'ng-apexcharts';
+import { ApexAxisChartSeries, ApexNonAxisChartSeries, ApexOptions, ChartType, PointAnnotations } from 'ng-apexcharts';
 
 @Component({
   selector: 'chart',
