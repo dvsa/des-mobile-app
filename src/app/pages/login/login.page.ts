@@ -120,7 +120,6 @@ export class LoginPage extends LogoutBasePageComponent implements OnInit {
 
   login = async (): Promise<void> => {
     try {
-      alert('logging in');
       this.isLoggingIn = true;
 
       await this.platform.ready();
@@ -199,8 +198,6 @@ export class LoginPage extends LogoutBasePageComponent implements OnInit {
       }
 
       this.store$.dispatch(ReportError(this.appInitError.valueOf()));
-
-      console.log(this.appInitError.valueOf());
 
       await this.handleLoadingUI(false);
     }
