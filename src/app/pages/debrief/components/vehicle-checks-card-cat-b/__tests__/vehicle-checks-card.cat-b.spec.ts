@@ -1,12 +1,12 @@
-import { HttpClient, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { createTranslateLoader } from '@app/app.module';
 import { default as welshTranslations } from '@assets/i18n/cy.json';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { IonicModule } from '@ionic/angular';
 import { Store, StoreModule } from '@ngrx/store';
-import { TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
+import { TranslateModule, TranslateService, provideTranslateService } from '@ngx-translate/core';
+import { provideTranslateHttpLoader } from '@ngx-translate/http-loader';
 import { StoreModel } from '@shared/models/store.model';
 import {
   ShowMeQuestionDangerousFault,
@@ -28,18 +28,15 @@ describe('VehicleChecksCardCatBComponent', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [VehicleChecksCardCatBComponent],
-      imports: [
-        IonicModule,
-        StoreModule.forRoot({ tests: testsReducer }),
-        TranslateModule.forRoot({
-          loader: {
-            provide: TranslateLoader,
-            useFactory: createTranslateLoader,
-            deps: [HttpClient],
-          },
+      imports: [IonicModule, StoreModule.forRoot({ tests: testsReducer }), TranslateModule.forRoot()],
+      providers: [
+        provideHttpClient(withInterceptorsFromDi()),
+        provideTranslateService({
+          loader: provideTranslateHttpLoader({ prefix: 'assets/i18n/' }),
+          fallbackLang: 'en',
+          lang: 'en',
         }),
       ],
-      providers: [provideHttpClient(withInterceptorsFromDi())],
     });
 
     fixture = TestBed.createComponent(VehicleChecksCardCatBComponent);

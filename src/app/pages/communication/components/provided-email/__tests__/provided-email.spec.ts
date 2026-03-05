@@ -1,10 +1,10 @@
-import { HttpClient, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule, UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { By } from '@angular/platform-browser';
-import { createTranslateLoader } from '@app/app.module';
 import { IonicModule } from '@ionic/angular';
-import { TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
+import { TranslateModule, TranslateService, provideTranslateService } from '@ngx-translate/core';
+import { provideTranslateHttpLoader } from '@ngx-translate/http-loader';
 import { ProvidedEmailComponent } from '../provided-email';
 
 describe('ProvidedEmailComponent', () => {
@@ -15,18 +15,15 @@ describe('ProvidedEmailComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [ProvidedEmailComponent],
-      imports: [
-        IonicModule,
-        ReactiveFormsModule,
-        TranslateModule.forRoot({
-          loader: {
-            provide: TranslateLoader,
-            useFactory: createTranslateLoader,
-            deps: [HttpClient],
-          },
+      imports: [IonicModule, ReactiveFormsModule, TranslateModule.forRoot()],
+      providers: [
+        provideHttpClient(withInterceptorsFromDi()),
+        provideTranslateService({
+          loader: provideTranslateHttpLoader({ prefix: 'assets/i18n/' }),
+          fallbackLang: 'en',
+          lang: 'en',
         }),
       ],
-      providers: [provideHttpClient(withInterceptorsFromDi())],
     });
 
     fixture = TestBed.createComponent(ProvidedEmailComponent);

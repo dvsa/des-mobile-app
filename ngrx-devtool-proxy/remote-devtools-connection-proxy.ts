@@ -1,3 +1,4 @@
+// @ts-ignore
 import { ReduxDevtoolsExtensionConnection } from '@ngrx/store-devtools/src/extension';
 
 export class RemoteDevToolsConnectionProxy implements ReduxDevtoolsExtensionConnection {

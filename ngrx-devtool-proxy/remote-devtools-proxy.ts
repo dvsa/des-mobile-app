@@ -1,17 +1,14 @@
-import {
-  ReduxDevtoolsExtension,
-  ReduxDevtoolsExtensionConfig,
-  ReduxDevtoolsExtensionConnection,
-} from '@ngrx/store-devtools/src/extension';
-import { connect } from 'remotedev/lib/devTools';
-import { RemoteDevToolsConnectionProxy } from './remote-devtools-connection-proxy';
+// @ts-ignore
+import { ReduxDevtoolsExtension, ReduxDevtoolsExtensionConfig, ReduxDevtoolsExtensionConnection } from '@ngrx/store-devtools/src/extension';
+import {connect} from 'remotedev/lib/devTools';
+import {RemoteDevToolsConnectionProxy} from './remote-devtools-connection-proxy';
 
 export class RemoteDevToolsProxy implements ReduxDevtoolsExtension {
   remotedev: any = null;
   defaultOptions = {
     realtime: true,
     // Needs to match what you run `remotedev` command with and
-    // what you setup in remote devtools local connection settings
+    // what you set up in remote devtools local connection settings
     hostname: 'localhost',
     port: 8000,
     autoReconnect: true,
@@ -29,8 +26,7 @@ export class RemoteDevToolsProxy implements ReduxDevtoolsExtension {
 
     this.remotedev = connect(connectOptions);
 
-    const connectionProxy = new RemoteDevToolsConnectionProxy(this.remotedev);
-    return connectionProxy;
+    return new RemoteDevToolsConnectionProxy(this.remotedev);
   }
 
   send(

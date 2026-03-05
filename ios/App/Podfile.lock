@@ -24,10 +24,10 @@ PODS:
     - Capacitor
   - CapawesomeCapacitorScreenOrientation (7.1.0):
     - Capacitor
-  - CordovaPlugins (7.5.0):
+  - CordovaPlugins (8.1.0):
     - CapacitorCordova
   - CordovaPluginsResources (0.0.105)
-  - CordovaPluginsStatic (7.5.0):
+  - CordovaPluginsStatic (8.1.0):
     - CapacitorCordova
     - GoogleAnalytics (= 3.20.0)
   - DvsaCapacitorPluginAsam (2.1.0):
@@ -125,9 +125,9 @@ SPEC CHECKSUMS:
   CapacitorTextZoom: 9f874e3ab5f36ec108a3f80345bac12f143100ed
   CapawesomeCapacitorManagedConfigurations: 5a521d9b9801140fbbf8c208f2b1c712b1674da6
   CapawesomeCapacitorScreenOrientation: 3c69f06737dae8a9340d5f51891a58321987123c
-  CordovaPlugins: 54617b966e3ec22986fa875b515d6ed3f6d156cb
+  CordovaPlugins: 6576a3ee1661355a721b0e1339b62cf317bc7362
   CordovaPluginsResources: da93847212bf7b16ba770e4d6c3e7dba820174c7
-  CordovaPluginsStatic: d8d6c428835b91785046091b4bc8d23bf0b9bc2f
+  CordovaPluginsStatic: ce0f62417f2bf6d0ae2930751e7d552bde1acaee
   DvsaCapacitorPluginAsam: 143282254bfd6265f421cfb01c978b285db3796c
   GoogleAnalytics: 01e4c5a04544a3608f93e970ce0817836897c5a5
   MSAL: 1a32a1070ccf55d9641d31edd8869ea2b5a78beb
@@ -135,6 +135,6 @@ SPEC CHECKSUMS:
   Sentry: b53951377b78e21a734f5dc8318e333dbfc682d7
   SentryCapacitor: 84549a1440a7f58a336ed3175db0f067d571cd5b
 
-PODFILE CHECKSUM: 8fb489f8535b0e3eddd5dc277b9148a70fe1780d
+PODFILE CHECKSUM: b682e61dd5f8d6c562a76b424457e9ecb69d7aed
 
 COCOAPODS: 1.16.2
