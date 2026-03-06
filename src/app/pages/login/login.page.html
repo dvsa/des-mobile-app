@@ -19,8 +19,7 @@
               <ion-text class="des-header-style-3">Please login again</ion-text>
             </ion-row>
           </div>
-        }
-        @if (appInitError) {
+        } @else if (appInitError) {
           <div class="display-flex flex-direction-column ion-align-items-center justify-content-center"
                *ngIf="isInternetConnectionError()">
             <ion-row class="login-page-header-spacing">
@@ -116,7 +115,7 @@
             </ion-row>
           </div>
           <div class="display-flex flex-direction-column ion-align-items-center justify-content-center"
-               *ngIf="hasDeviceTypeError">
+               *ngIf="hasDeviceTypeError()">
             <ion-row class="login-page-header-spacing">
               <ion-text class="des-header-style-2">Unsupported device</ion-text>
             </ion-row>

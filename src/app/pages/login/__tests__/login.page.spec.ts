@@ -22,6 +22,7 @@ import { AuthenticationProvider } from '@providers/authentication/authentication
 import { AuthenticationError } from '@providers/authentication/authentication.constants';
 import { DeviceProviderMock } from '@providers/device/__mocks__/device.mock';
 import { DeviceProvider } from '@providers/device/device';
+import { DeviceError } from '@providers/device/device.constants';
 import { LoaderProviderMock } from '@providers/loader/__mocks__/loader.mock';
 import { LoadingProvider } from '@providers/loader/loader';
 import { LogHelperMock } from '@providers/logs/__mocks__/logs-helper.mock';
@@ -319,6 +320,20 @@ describe('LoginPage', () => {
       component.hasUserLoggedOut = false;
       component.appInitError = AuthenticationError.UNABLE_TO_LOGOUT;
       expect(component.isUnableToLogout()).toEqual(true);
+    });
+  });
+
+  describe('hasDeviceTypeError', () => {
+    it('should return false when error is not UNSUPPORTED_DEVICE', () => {
+      component.hasUserLoggedOut = false;
+      component.appInitError = AuthenticationError.WRONG_AUTHORITY_TYPE;
+      expect(component.hasDeviceTypeError()).toEqual(false);
+    });
+
+    it('should return true when error is UNSUPPORTED_DEVICE', () => {
+      component.hasUserLoggedOut = false;
+      component.appInitError = DeviceError.UNSUPPORTED_DEVICE;
+      expect(component.hasDeviceTypeError()).toEqual(true);
     });
   });
 
