@@ -39,7 +39,7 @@
           [idPrefix]="idPrefix"
           [label]="'Date and time of test'"
           [value]="pageState.startDateTime$ | async | date: 'dd/MM/yyyy HH:mm'"
-          >
+        >
         </data-row>
         <!-- Test outcome -->
         @if (!isADI3(category) || (isADI3(category) && !isPassed(pageState.testOutcomeText$ | async))) {
@@ -47,7 +47,7 @@
             [idPrefix]="idPrefix"
             [label]="'Test outcome'"
             [value]="pageState.testOutcomeText$ | async"
-            >
+          >
           </data-row>
         }
         @if (isADI3(category) && isPassed(pageState.testOutcomeText$ | async)) {
@@ -55,7 +55,7 @@
             [idPrefix]="idPrefix"
             [label]="'Test outcome'"
             [value]="pageState.testOutcomeFullResult$ | async"
-            >
+          >
           </data-row>
         }
         <!-- Activity Code -->
@@ -63,7 +63,7 @@
           [idPrefix]="idPrefix"
           [label]="'Activity code'"
           [value]="getActivityCode(pageState.activityCode$ | async)"
-          >
+        >
         </data-row>
         <!-- Test Category -->
         <data-row
@@ -71,7 +71,7 @@
           [label]="'Test category'"
           [value]="pageState.testCategory$ | async"
           [shouldHaveSeperator]="!displayForCategory(category) || !displayD255(category) || isADI3(category)"
-          >
+        >
         </data-row>
         <!-- Provisional licence received -->
         @if (isPassed(pageState.testOutcomeText$ | async) && !displayForCategory(category)) {
@@ -79,17 +79,15 @@
             [idPrefix]="idPrefix"
             [label]="'Provisional licence received'"
             [value]="getProvisionalText(pageState.provisionalLicense$ | async)"
-            >
+          >
           </data-row>
-        }
-        <!-- Transmission -->
-        @if (isPassed(pageState.testOutcomeText$ | async) && !displayForCategory(category)) {
+          <!-- Transmission -->
           <transmission-display
             [category]="category"
             [transmission]="pageState.transmission$ | async"
             [code78]="pageState.code78$ | async"
             [isTestSubmitted]="false"
-            >
+          >
           </transmission-display>
         }
         <!-- D255 -->
@@ -99,7 +97,7 @@
             [label]="'D255'"
             [value]="getD255Text(pageState.d255$ | async)"
             [shouldHaveSeperator]="false"
-            >
+          >
           </data-row>
         }
 
@@ -112,7 +110,7 @@
                 [label]="'Student'"
                 [value]="pageState.studentLevel$ | async"
                 [shouldHaveSeperator]="true"
-                >
+              >
               </data-row>
             }
             <!-- Lesson theme -->
@@ -121,61 +119,61 @@
                 [idPrefix]="idPrefix"
                 [label]="'Lesson theme'"
                 [shouldHaveSeperator]="true"
-                >
+              >
                 @for (lesson of (pageState.lessonTheme$ | async); track lesson; let i = $index) {
                   <span class="mes-data" [id]="'lesson-theme-'+lesson+'-'+i"
-                    >{{lesson}}<br></span>
-                  }
-                </data-row-custom>
-              }
-              <!-- Lesson planning -->
-              <data-row
-                [idPrefix]="idPrefix"
-                [label]="'Lesson planning'"
-                [value]="pageState.lessonPlanningScore$ | async"
-                [shouldHaveSeperator]="true"
-                >
-              </data-row>
-              <!-- Risk management -->
-              <data-row
-                [idPrefix]="idPrefix"
-                [label]="'Risk management'"
-                [value]="pageState.riskManagementScore$ | async"
-                [shouldHaveSeperator]="true"
-                >
-              </data-row>
-              <!-- Teaching & learning strategies -->
-              <data-row
-                [idPrefix]="idPrefix"
-                [label]="'Teaching & learning strategies'"
-                [value]="pageState.teachingLearningStrategyScore$ | async"
-                [shouldHaveSeperator]="true"
-                >
-              </data-row>
-              <!-- Total score -->
-              <data-row
-                [idPrefix]="idPrefix"
-                [label]="'Total score'"
-                [value]="pageState.totalScore$ | async"
-                [shouldHaveSeperator]="false"
-                >
-              </data-row>
-            </div>
-          }
-        </ion-grid>
-      </ion-card-content>
-    </ion-card>
-  </ion-content>
+                  >{{ lesson }}<br></span>
+                }
+              </data-row-custom>
+            }
+            <!-- Lesson planning -->
+            <data-row
+              [idPrefix]="idPrefix"
+              [label]="'Lesson planning'"
+              [value]="pageState.lessonPlanningScore$ | async"
+              [shouldHaveSeperator]="true"
+            >
+            </data-row>
+            <!-- Risk management -->
+            <data-row
+              [idPrefix]="idPrefix"
+              [label]="'Risk management'"
+              [value]="pageState.riskManagementScore$ | async"
+              [shouldHaveSeperator]="true"
+            >
+            </data-row>
+            <!-- Teaching & learning strategies -->
+            <data-row
+              [idPrefix]="idPrefix"
+              [label]="'Teaching & learning strategies'"
+              [value]="pageState.teachingLearningStrategyScore$ | async"
+              [shouldHaveSeperator]="true"
+            >
+            </data-row>
+            <!-- Total score -->
+            <data-row
+              [idPrefix]="idPrefix"
+              [label]="'Total score'"
+              [value]="pageState.totalScore$ | async"
+              [shouldHaveSeperator]="false"
+            >
+            </data-row>
+          </div>
+        }
+      </ion-grid>
+    </ion-card-content>
+  </ion-card>
+</ion-content>
 
-  <ion-footer>
-    <ion-toolbar>
+<ion-footer>
+  <ion-toolbar>
     <ion-row class="mes-full-width-card box-shadow flex-center">
       <ion-col class="ion-text-center width-100" size="35">
         <ion-button
           class="mes-grey-button width-100"
           (click)="goBackToDebrief()"
           id="confirm-test-details-back-to-debrief-btn"
-          >
+        >
           <ion-text class="des-header-style-3" id="confirm-test-details-back-to-debrief-label">
             Back to debrief
           </ion-text>
@@ -187,11 +185,12 @@
           class="mes-primary-button width-100"
           (click)="onSubmit()"
           id="confirm-test-details-submit-test-results-btn"
-          >
+        >
           <ion-text class="des-header-style-3" id="confirm-test-details-submit-test-results-label">
             Submit test results
           </ion-text>
         </ion-button>
       </ion-col>
-    </ion-row></ion-toolbar>
-  </ion-footer>
+    </ion-row>
+  </ion-toolbar>
+</ion-footer>
