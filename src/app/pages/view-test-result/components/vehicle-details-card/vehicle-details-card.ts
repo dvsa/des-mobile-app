@@ -224,6 +224,18 @@ export class VehicleDetailsCardComponent {
     return get(this.trainerData, 'trainingRecords', false) ? 'Yes' : 'No';
   }
 
+  public get displayMotSeparator(): boolean {
+    return !!(
+      this.data.motEvidenceProvided ||
+      this.instructorRegistrationNumber ||
+      this.shouldShowDimensions ||
+      this.schoolBike ||
+      (!this.isADI3() && this.trainerPRN) ||
+      this.isADI2() ||
+      this.isADI3()
+    );
+  }
+
   public get displayVehicleDetailsSeparator(): boolean {
     return !!(
       this.instructorRegistrationNumber ||
