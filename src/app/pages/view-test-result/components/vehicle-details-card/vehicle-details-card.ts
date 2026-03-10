@@ -227,6 +227,7 @@ export class VehicleDetailsCardComponent {
   public get displayMotSeparator(): boolean {
     return !!(
       this.data.motEvidenceProvided ||
+      this.vehicleDetails ||
       this.instructorRegistrationNumber ||
       this.shouldShowDimensions ||
       this.schoolBike ||
