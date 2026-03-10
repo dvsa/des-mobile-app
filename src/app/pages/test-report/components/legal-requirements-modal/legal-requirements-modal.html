@@ -22,7 +22,7 @@
         <modal-return-button (onClick)="onCancel()">Return to test</modal-return-button>
       </ion-col>
     }
-    @if (isDelegated) {
+    @else {
       <ion-col class="ion-no-padding" size="84">
         <ion-button id="legal-requirements-continue-button" class="mes-primary-button" (click)="onContinue()">
           <ion-text class="des-header-style-3">Continue to test summary</ion-text>
