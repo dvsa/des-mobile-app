@@ -36,7 +36,7 @@
       }
 
       <data-row-custom
-        [shouldHaveSeperator]="data.motEvidenceProvided || !!vehicleDetails"
+        [shouldHaveSeperator]="displayMotSeparator"
         [centredData]="true"
         [label]="'MOT status'">
         <mot-status-display-text
