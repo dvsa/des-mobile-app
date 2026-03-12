@@ -163,14 +163,6 @@ describe('WaitingRoomToCarBasePageComponent', () => {
     injector = TestBed.inject(Injector);
 
     vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
-
-    class BasePageClass extends WaitingRoomToCarBasePageComponent {
-      constructor(public inj: Injector) {
-        super(inj);
-      }
-    }
-
-    basePageComponent = new BasePageClass(injector);
   });
 
   describe('onInitialisation', () => {

@@ -105,14 +105,6 @@ describe('PassFinalisationPageComponent', () => {
     store$ = TestBed.inject(MockStore);
 
     vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
-
-    class BasePageClass extends PassFinalisationPageComponent {
-      constructor(public inj: Injector) {
-        super(inj);
-      }
-    }
-
-    basePageComponent = new BasePageClass(injector);
   });
 
   describe('onInitialisation', () => {

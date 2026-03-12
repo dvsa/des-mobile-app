@@ -82,14 +82,6 @@ describe('BasePageComponent', () => {
 
     vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
     vi.spyOn(logHelper, 'createLog');
-
-    class BasePageClass extends BasePageComponent {
-      constructor(public inj: Injector) {
-        super(inj);
-      }
-    }
-
-    basePageComponent = new BasePageClass(injector);
   });
 
   afterEach(() => {

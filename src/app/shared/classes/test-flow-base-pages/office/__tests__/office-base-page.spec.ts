@@ -188,14 +188,6 @@ describe('OfficeBasePageComponent', () => {
     store$ = TestBed.inject(MockStore);
     navController = TestBed.inject(NavController);
     vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
-
-    class BasePageClass extends OfficeBasePageComponent {
-      constructor(public inj: Injector) {
-        super(inj);
-      }
-    }
-
-    basePageComponent = new BasePageClass(injector);
   });
 
   describe('onInitialisation', () => {
