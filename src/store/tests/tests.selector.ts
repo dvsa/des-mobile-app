@@ -14,8 +14,6 @@ import { isAnyOf } from '@shared/helpers/simplifiers';
 import { end2endPracticeSlotId, testReportPracticeSlotId } from '@shared/mocks/test-slot-ids.mock';
 import { ActivityCodes } from '@shared/models/activity-codes';
 import { StoreModel } from '@shared/models/store.model';
-import { getRekeyIndicator } from '@store/tests/rekey/rekey.reducer';
-import { isRekey } from '@store/tests/rekey/rekey.selector';
 import { get, startsWith } from 'lodash-es';
 import { TestStatus } from './test-status/test-status.model';
 import { TestOutcome } from './tests.constants';
@@ -135,7 +133,7 @@ export const selectIsEndToEndPracticeTest = createSelector(selectTests, (tests) 
   startsWith(tests.currentTest.slotId, end2endPracticeSlotId)
 );
 
-export const selectIsRekey = createSelector(selectTests, (test) => isRekey(getRekeyIndicator(getCurrentTest(test))));
+export const selectIsRekey = createSelector(selectCurrentTest, (test) => test?.rekey ?? false);
 
 export const selectIsDelegated = createSelector(selectTests, (tests) => isDelegatedTest(tests));
 

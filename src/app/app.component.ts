@@ -129,7 +129,7 @@ export class AppComponent extends LogoutBasePageComponent implements OnInit {
     protected appConfigProvider: AppConfigProvider
   ) {
     addIcons(iconList);
-    super(injector);
+    super();
   }
 
   getFilteredPages(pages: Page[]): Page[] {
