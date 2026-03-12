@@ -1,5 +1,5 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, Injector, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { AbstractControl, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { TestSlot } from '@dvsa/mes-journal-schema';
 import { ModalController } from '@ionic/angular';
@@ -60,10 +60,9 @@ export class DelegatedRekeySearchPage extends BasePageComponent implements OnIni
   constructor(
     public orientationMonitorProvider: OrientationMonitorProvider,
     private modalController: ModalController,
-    private accessibilityService: AccessibilityService,
-    injector: Injector
+    private accessibilityService: AccessibilityService
   ) {
-    super(injector);
+    super();
   }
 
   getBookingReferenceMask = (): MaskitoOptions => bookingReferenceMask;

@@ -1,4 +1,4 @@
-import { Inject, Injector } from '@angular/core';
+import { Inject, inject } from '@angular/core';
 import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 import { KeepAwake as Insomnia } from '@capacitor-community/keep-awake';
 import { OrientationType, ScreenOrientation } from '@capawesome/capacitor-screen-orientation';
@@ -20,22 +20,21 @@ import { get } from 'lodash-es';
 import { Subscription } from 'rxjs';
 
 export abstract class BasePageComponent {
-  protected platform = this.injector.get(Platform);
-  authenticationProvider = this.injector.get(AuthenticationProvider);
-  public router = this.injector.get(Router);
-  public deviceProvider = this.injector.get(DeviceProvider);
-  public route = this.injector.get(ActivatedRoute);
-  public logHelper = this.injector.get(LogHelper);
-  public store$ = this.injector.get<Store<StoreModel>>(Store);
+  protected platform = inject(Platform);
+  protected authenticationProvider = inject(AuthenticationProvider);
+  public router = inject(Router);
+  public deviceProvider = inject(DeviceProvider);
+  public route = inject(ActivatedRoute);
+  public logHelper = inject(LogHelper);
+  public store$ = inject<Store<StoreModel>>(Store);
 
   public isExitSAMBannerActivated = false;
   public returnToAppSubscription: Subscription = null;
   public leaveAppSubscription: Subscription = null;
 
-  protected constructor(
-    public injector: Injector,
-    @Inject(true) public loginRequired = true
-  ) {}
+  protected constructor(@Inject(true) public loginRequired = true) {
+    alert('base page');
+  }
 
   /**
    * Re-enables single app mode to lock the user back in when they come back.

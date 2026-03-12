@@ -1,4 +1,4 @@
-import { Component, Injector } from '@angular/core';
+import { Component } from '@angular/core';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { select } from '@ngrx/store';
 import { QuestionProvider } from '@providers/question/question';
@@ -70,11 +70,8 @@ export class OfficeCatBPage extends OfficeBasePageComponent {
   showMeQuestions: VehicleChecksQuestion[];
   activityCodeOptions: ActivityCodeModel[];
 
-  constructor(
-    public questionProvider: QuestionProvider,
-    injector: Injector
-  ) {
-    super(injector);
+  constructor(public questionProvider: QuestionProvider) {
+    super();
     this.showMeQuestions = questionProvider.getShowMeQuestions(TestCategory.B);
     this.outcomeBehaviourProvider.setBehaviourMap(behaviourMap);
   }

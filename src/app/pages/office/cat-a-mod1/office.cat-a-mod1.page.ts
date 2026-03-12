@@ -1,4 +1,4 @@
-import { Component, Injector, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Avoidance, Circuit, EmergencyStop } from '@dvsa/mes-test-schema/categories/AM1';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { select } from '@ngrx/store';
@@ -56,8 +56,8 @@ export class OfficeCatAMod1Page extends OfficeBasePageComponent implements OnIni
   pageState: OfficePageState;
   static readonly maxFaultCount: number = 5;
 
-  constructor(injector: Injector) {
-    super(injector);
+  constructor() {
+    super();
     this.outcomeBehaviourProvider.setBehaviourMap(behaviourMap);
   }
 

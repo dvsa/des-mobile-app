@@ -1,4 +1,4 @@
-import { Component, Injector, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { UntypedFormGroup } from '@angular/forms';
 import { GearboxCategory } from '@dvsa/mes-test-schema/categories/common';
 import { TestFlowPageNames } from '@pages/page-names.constants';
@@ -32,8 +32,8 @@ export class PassFinalisationCatAMod2Page extends PassFinalisationPageComponent 
   merged$: Observable<string | boolean>;
   transmission: GearboxCategory;
 
-  constructor(injector: Injector) {
-    super(injector);
+  constructor() {
+    super();
     this.form = new UntypedFormGroup({});
     this.outcomeBehaviourProvider.setBehaviourMap(behaviourMap);
   }

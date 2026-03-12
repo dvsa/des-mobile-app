@@ -1,4 +1,4 @@
-import { Component, Injector, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Observable, merge } from 'rxjs';
 
 import { TestData } from '@dvsa/mes-test-schema/categories/AM1';
@@ -37,8 +37,8 @@ export class TestReportCatAMod1Page extends TestReportBasePageComponent implemen
   pageState: TestReportPageState;
   speedCheckState: SpeedCheckState;
 
-  constructor(injector: Injector) {
-    super(injector);
+  constructor() {
+    super();
     this.displayOverlay = false;
   }
 

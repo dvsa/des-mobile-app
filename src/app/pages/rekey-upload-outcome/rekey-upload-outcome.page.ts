@@ -39,7 +39,7 @@ export class RekeyUploadOutcomePage extends BasePageComponent implements OnInit 
   subscription: Subscription = Subscription.EMPTY;
 
   constructor(public injector: Injector) {
-    super(injector);
+    super();
   }
 
   ngOnInit(): void {

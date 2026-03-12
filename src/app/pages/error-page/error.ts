@@ -1,4 +1,4 @@
-import { Component, Injector, Input } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { LogoutBasePageComponent } from '@shared/classes/logout-base-page/logout-base-page';
 import { ErrorTypes } from '@shared/models/error-message';
@@ -16,11 +16,8 @@ export class ErrorPage extends LogoutBasePageComponent {
   @Input()
   displayAsModal = false;
 
-  constructor(
-    public modalController: ModalController,
-    injector: Injector
-  ) {
-    super(injector);
+  constructor(public modalController: ModalController) {
+    super();
   }
 
   async dismiss(): Promise<void> {

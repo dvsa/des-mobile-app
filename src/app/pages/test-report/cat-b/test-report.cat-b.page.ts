@@ -1,4 +1,4 @@
-import { Component, Injector, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 
 import { CatBUniqueTypes } from '@dvsa/mes-test-schema/categories/B';
@@ -18,8 +18,8 @@ type TestReportPageState = CommonTestReportPageState;
 export class TestReportCatBPage extends TestReportBasePageComponent implements OnInit {
   pageState: TestReportPageState;
 
-  constructor(injector: Injector) {
-    super(injector);
+  constructor() {
+    super();
     this.displayOverlay = false;
   }
 

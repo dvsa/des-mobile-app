@@ -1,4 +1,4 @@
-import { Component, Injector, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { UntypedFormGroup } from '@angular/forms';
 import { CombinationCodes, Question, Question5 } from '@dvsa/mes-test-schema/categories/CPC';
 import { select } from '@ngrx/store';
@@ -64,11 +64,8 @@ export class OfficeCatCPCPage extends OfficeBasePageComponent implements OnInit 
   public outcome: TestOutcome;
   activityCodeOptions: ActivityCodeModel[];
 
-  constructor(
-    private appConfig: AppConfigProvider,
-    injector: Injector
-  ) {
-    super(injector);
+  constructor(private appConfig: AppConfigProvider) {
+    super();
     this.outcomeBehaviourProvider.setBehaviourMap(behaviourMap);
     this.activityCodeOptions = getActivityCodeOptions(this.appConfig.getAppConfig()?.role === ExaminerRole.DLG);
   }

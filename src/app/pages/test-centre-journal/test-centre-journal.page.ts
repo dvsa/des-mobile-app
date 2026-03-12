@@ -1,5 +1,5 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, Injector, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { TestCentre as JournalTestCentre } from '@dvsa/mes-journal-schema';
 import { LoadingController } from '@ionic/angular';
 import { select } from '@ngrx/store';
@@ -73,10 +73,9 @@ export class TestCentreJournalPage extends BasePageComponent implements OnDestro
     private networkStateProvider: NetworkStateProvider,
     private testCentreJournalProvider: TestCentreJournalProvider,
     private loadingCtrl: LoadingController,
-    private appConfig: AppConfigProvider,
-    injector: Injector
+    private appConfig: AppConfigProvider
   ) {
-    super(injector);
+    super();
   }
 
   ngOnInit(): void {

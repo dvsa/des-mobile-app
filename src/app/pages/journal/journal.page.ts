@@ -1,4 +1,4 @@
-import { Component, Injector, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ScreenOrientation } from '@capawesome/capacitor-screen-orientation';
 import { ActivityCode, SearchResultTestSchema } from '@dvsa/mes-search-schema';
 import { ModalController, RefresherEventDetail } from '@ionic/angular';
@@ -93,10 +93,9 @@ export class JournalPage extends BasePageComponent implements OnInit {
     public dateTimeProvider: DateTimeProvider,
     public accessibilityService: AccessibilityService,
     private networkStateProvider: NetworkStateProvider,
-    public loadingProvider: LoadingProvider,
-    injector: Injector
+    public loadingProvider: LoadingProvider
   ) {
-    super(injector);
+    super();
 
     this.store$.dispatch(journalActions.SetSelectedDate(this.dateTimeProvider.now().format('YYYY-MM-DD')));
     this.todaysDate = this.dateTimeProvider.now();

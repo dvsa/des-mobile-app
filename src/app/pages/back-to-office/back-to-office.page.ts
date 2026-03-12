@@ -1,4 +1,4 @@
-import { Component, Injector, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CategoryCode } from '@dvsa/mes-test-schema/categories/common';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { ModalController, ViewDidEnter, ViewDidLeave } from '@ionic/angular';
@@ -49,10 +49,9 @@ export class BackToOfficePage extends PracticeableBasePageComponent implements O
 
   constructor(
     public routeByCategoryProvider: RouteByCategoryProvider,
-    public modalController: ModalController,
-    injector: Injector
+    public modalController: ModalController
   ) {
-    super(injector, false);
+    super(false);
   }
 
   ngOnInit(): void {

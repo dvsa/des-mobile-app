@@ -1,4 +1,4 @@
-import { Component, Injector, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { UntypedFormGroup } from '@angular/forms';
 import { LessonAndTheme, TestData } from '@dvsa/mes-test-schema/categories/ADI3';
 import { select } from '@ngrx/store';
@@ -59,10 +59,9 @@ export class TestReportDashboardPage extends TestReportBasePageComponent impleme
 
   constructor(
     private testResultProvider: TestResultProvider,
-    private adi3AssessmentProvider: ADI3AssessmentProvider,
-    injector: Injector
+    private adi3AssessmentProvider: ADI3AssessmentProvider
   ) {
-    super(injector);
+    super();
     this.form = new UntypedFormGroup({});
   }
 

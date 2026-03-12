@@ -8,7 +8,7 @@ import { getUntitledCandidateName } from '@store/tests/journal-data/common/candi
 import { getTests } from '@store/tests/tests.reducer';
 import { getCurrentTest, getJournalData } from '@store/tests/tests.selector';
 
-import { Inject, Injector } from '@angular/core';
+import { Inject, inject } from '@angular/core';
 import { KeepAwake as Insomnia } from '@capacitor-community/keep-awake';
 import { StatusBar } from '@capacitor/status-bar';
 import { CatADI2UniqueTypes } from '@dvsa/mes-test-schema/categories/ADI2';
@@ -69,9 +69,9 @@ export interface CommonTestReportPageState {
 export const trDestroy$ = new Subject<{}>();
 
 export abstract class TestReportBasePageComponent extends PracticeableBasePageComponent {
-  public modalController = this.injector.get(ModalController);
-  protected testReportValidatorProvider = this.injector.get(TestReportValidatorProvider);
-  routeByCategory = this.injector.get(RouteByCategoryProvider);
+  public modalController = inject(ModalController);
+  protected testReportValidatorProvider = inject(TestReportValidatorProvider);
+  routeByCategory = inject(RouteByCategoryProvider);
 
   commonPageState: CommonTestReportPageState;
   subscription: Subscription;
@@ -91,11 +91,8 @@ export abstract class TestReportBasePageComponent extends PracticeableBasePageCo
   missingLegalRequirements: legalRequirementsLabels[] = [];
   modal: HTMLIonModalElement;
 
-  protected constructor(
-    injector: Injector,
-    @Inject(false) public loginRequired = false
-  ) {
-    super(injector, loginRequired);
+  protected constructor(@Inject(false) public loginRequired = false) {
+    super(loginRequired);
   }
 
   getCallback(): OverlayCallback {

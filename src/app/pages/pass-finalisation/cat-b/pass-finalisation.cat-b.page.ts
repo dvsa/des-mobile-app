@@ -1,4 +1,4 @@
-import { Component, ElementRef, Injector, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { UntypedFormGroup } from '@angular/forms';
 import { ActivityCode, GearboxCategory } from '@dvsa/mes-test-schema/categories/common';
 import { select } from '@ngrx/store';
@@ -48,8 +48,8 @@ export class PassFinalisationCatBPage extends PassFinalisationPageComponent impl
   niMessage: string =
     'This candidate holds a Northern Irish licence and must retain it. Do not collect ' + 'it from the candidate.';
 
-  constructor(injector: Injector) {
-    super(injector);
+  constructor() {
+    super();
     this.form = new UntypedFormGroup({});
     this.outcomeBehaviourProvider.setBehaviourMap(behaviourMap);
   }

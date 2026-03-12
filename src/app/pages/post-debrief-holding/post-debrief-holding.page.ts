@@ -1,4 +1,4 @@
-import { Component, Injector, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { TestFlowPageNames } from '@pages/page-names.constants';
 import { PracticeableBasePageComponent } from '@shared/classes/practiceable-base-page';
 
@@ -9,8 +9,8 @@ import { PracticeableBasePageComponent } from '@shared/classes/practiceable-base
   standalone: false,
 })
 export class PostDebriefHoldingPage extends PracticeableBasePageComponent implements OnInit {
-  constructor(injector: Injector) {
-    super(injector, false);
+  constructor() {
+    super(false);
   }
 
   async continueButton(): Promise<void> {

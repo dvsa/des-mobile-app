@@ -1,4 +1,4 @@
-import { Component, Injector, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ScreenOrientation } from '@capawesome/capacitor-screen-orientation';
 import { select } from '@ngrx/store';
 import { DebriefViewDidEnter, EndDebrief } from '@pages/debrief/debrief.actions';
@@ -130,10 +130,9 @@ export class DebriefPage extends PracticeableBasePageComponent implements OnInit
     private faultSummaryProvider: FaultSummaryProvider,
     protected routeByCategoryProvider: RouteByCategoryProvider,
     private testDataByCategoryProvider: TestDataByCategoryProvider,
-    private accessibilityService: AccessibilityService,
-    injector: Injector
+    private accessibilityService: AccessibilityService
   ) {
-    super(injector, false);
+    super(false);
   }
 
   ngOnInit(): void {

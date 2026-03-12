@@ -1,4 +1,4 @@
-import { Component, Injector, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { TestSlot } from '@dvsa/mes-journal-schema';
 import { DASHBOARD_PAGE } from '@pages/page-names.constants';
 import {
@@ -44,10 +44,9 @@ export class UnuploadedTestsPage extends BasePageComponent implements OnInit {
     private dateTimeProvider: DateTimeProvider,
     private slotProvider: SlotProvider,
     private appConfigProvider: AppConfigProvider,
-    public deviceProvider: DeviceProvider,
-    injector: Injector
+    public deviceProvider: DeviceProvider
   ) {
-    super(injector);
+    super();
   }
 
   ngOnInit() {

@@ -1,4 +1,4 @@
-import { Component, Injector, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { map } from 'rxjs/operators';
 
 import { Style } from '@capacitor/status-bar';
@@ -92,10 +92,10 @@ export class AppComponent extends LogoutBasePageComponent implements OnInit {
     protected networkStateProvider: NetworkStateProvider,
     protected translate: TranslateService,
     protected appInfo: AppInfoProvider,
-    protected appConfigProvider: AppConfigProvider,
-    injector: Injector
+    protected appConfigProvider: AppConfigProvider
   ) {
-    super(injector);
+    alert('constructor');
+    super();
   }
 
   getFilteredPages(pages: Page[]): Page[] {
@@ -107,6 +107,7 @@ export class AppComponent extends LogoutBasePageComponent implements OnInit {
   }
 
   async ngOnInit() {
+    alert('go');
     try {
       await this.platform.ready();
       await this.dataStore.initDataStore();

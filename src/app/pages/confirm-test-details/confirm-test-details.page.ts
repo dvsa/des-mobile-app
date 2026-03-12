@@ -1,4 +1,4 @@
-import { Component, Injector, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { LessonTheme } from '@dvsa/mes-test-schema/categories/ADI3';
 import { GearboxCategory } from '@dvsa/mes-test-schema/categories/common';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
@@ -111,10 +111,9 @@ export class ConfirmTestDetailsPage
     public navController: NavController,
     public vehicleDetailsProvider: VehicleDetailsByCategoryProvider,
     public adi3AssessmentProvider: ADI3AssessmentProvider,
-    private modalController: ModalController,
-    injector: Injector
+    private modalController: ModalController
   ) {
-    super(injector, false);
+    super(false);
   }
 
   ngOnInit(): void {

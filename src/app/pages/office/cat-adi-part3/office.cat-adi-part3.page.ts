@@ -1,4 +1,4 @@
-import { Component, Injector, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { select } from '@ngrx/store';
 import { behaviourMap } from '@pages/office/office-behaviour-map.cat-adi-part3';
@@ -38,11 +38,8 @@ type OfficePageState = CommonOfficePageState & CatADI3OfficePageState;
 export class OfficeCatADI3Page extends OfficeBasePageComponent implements OnInit {
   pageState: OfficePageState;
 
-  constructor(
-    private appConfig: AppConfigProvider,
-    injector: Injector
-  ) {
-    super(injector);
+  constructor(private appConfig: AppConfigProvider) {
+    super();
     this.outcomeBehaviourProvider.setBehaviourMap(behaviourMap);
     this.activityCodeOptions = getActivityCodeOptions(this.appConfig.getAppConfig()?.role === ExaminerRole.DLG, true);
   }

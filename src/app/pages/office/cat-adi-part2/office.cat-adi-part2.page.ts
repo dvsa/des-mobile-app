@@ -1,4 +1,4 @@
-import { Component, Injector, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { QuestionResult } from '@dvsa/mes-test-schema/categories/common';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { select } from '@ngrx/store';
@@ -81,10 +81,9 @@ export class OfficeCatADI2Page extends OfficeBasePageComponent implements OnInit
 
   constructor(
     private appConfig: AppConfigProvider,
-    private questionProvider: QuestionProvider,
-    injector: Injector
+    private questionProvider: QuestionProvider
   ) {
-    super(injector);
+    super();
     this.outcomeBehaviourProvider.setBehaviourMap(behaviourMap);
     this.activityCodeOptions = getActivityCodeOptions(this.appConfig.getAppConfig()?.role === ExaminerRole.DLG);
     this.showMeQuestions = this.questionProvider.getShowMeQuestions(TestCategory.ADI2);

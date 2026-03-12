@@ -1,4 +1,4 @@
-import { Component, Injector, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { UntypedFormGroup } from '@angular/forms';
 import { CombinationCodes, Question, Question5, TestData } from '@dvsa/mes-test-schema/categories/CPC';
 import { CategoryCode } from '@dvsa/mes-test-schema/categories/common';
@@ -71,10 +71,9 @@ export class TestReportCatCPCPage extends TestReportBasePageComponent implements
 
   constructor(
     private cpcQuestionProvider: CPCQuestionProvider,
-    private testResultProvider: TestResultProvider,
-    injector: Injector
+    private testResultProvider: TestResultProvider
   ) {
-    super(injector);
+    super();
     this.form = new UntypedFormGroup({});
     this.displayOverlay = false;
   }

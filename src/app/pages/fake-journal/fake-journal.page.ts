@@ -1,4 +1,4 @@
-import { Component, HostListener, Injector } from '@angular/core';
+import { Component, HostListener } from '@angular/core';
 import { Style } from '@capacitor/status-bar';
 import { fakeJournalTestSlots, regenerateFakeTests } from '@pages/fake-journal/__mocks__/fake-journal.mock';
 import { FakeJournalDidEnter } from '@pages/fake-journal/fake-journal.actions';
@@ -23,10 +23,9 @@ export class FakeJournalPage extends BasePageComponent {
   constructor(
     private dateTimeProvider: DateTimeProvider,
     public accessibilityService: AccessibilityService,
-    public orientationMonitorProvider: OrientationMonitorProvider,
-    injector: Injector
+    public orientationMonitorProvider: OrientationMonitorProvider
   ) {
-    super(injector);
+    super();
 
     this.selectedDate = this.dateTimeProvider.now().format('YYYY-MM-DD');
     this.dateToDisplay = new DateTime().format('dddd D MMMM YYYY');

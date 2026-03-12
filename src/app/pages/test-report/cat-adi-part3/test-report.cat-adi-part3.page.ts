@@ -1,4 +1,4 @@
-import { Component, Injector, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { UntypedFormGroup } from '@angular/forms';
 import {
   LessonPlanning,
@@ -68,10 +68,9 @@ export class TestReportCatADI3Page extends TestReportBasePageComponent implement
 
   constructor(
     public navController: NavController,
-    public adi3AssessmentProvider: ADI3AssessmentProvider,
-    injector: Injector
+    public adi3AssessmentProvider: ADI3AssessmentProvider
   ) {
-    super(injector);
+    super();
     this.form = new UntypedFormGroup({});
   }
 

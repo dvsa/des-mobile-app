@@ -1,4 +1,4 @@
-import { Component, Injector, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { Address, CategoryCode, CommunicationMethod } from '@dvsa/mes-test-schema/categories/common';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
@@ -94,10 +94,9 @@ export class CommunicationPage extends PracticeableBasePageComponent implements 
   constructor(
     public routeByCat: RouteByCategoryProvider,
     public deviceAuthenticationProvider: DeviceAuthenticationProvider,
-    private translate: TranslateService,
-    injector: Injector
+    private translate: TranslateService
   ) {
-    super(injector, false);
+    super(false);
     this.form = new UntypedFormGroup(this.getFormValidation());
   }
 

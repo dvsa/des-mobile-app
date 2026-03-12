@@ -1,4 +1,4 @@
-import { Component, Injector, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { UntypedFormGroup } from '@angular/forms';
 import { select } from '@ngrx/store';
 import { Observable } from 'rxjs';
@@ -58,8 +58,8 @@ export class WaitingRoomToCarCatADIPart3Page extends WaitingRoomToCarBasePageCom
   pageState: WaitingRoomToCarPageState;
   form: UntypedFormGroup;
 
-  constructor(injector: Injector) {
-    super(injector);
+  constructor() {
+    super();
     this.form = new UntypedFormGroup({});
   }
 

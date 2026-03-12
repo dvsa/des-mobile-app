@@ -13,7 +13,7 @@ import {
 } from '@store/tests/tests.selector';
 import { Observable, Subscription, merge } from 'rxjs';
 
-import { Inject, Injector } from '@angular/core';
+import { Inject, inject } from '@angular/core';
 import { UntypedFormGroup } from '@angular/forms';
 import { MotStatusCodes } from '@dvsa/mes-mot-schema';
 import { Circuit } from '@dvsa/mes-test-schema/categories/AM1';
@@ -214,14 +214,14 @@ export interface CommonOfficePageState {
 }
 
 export abstract class OfficeBasePageComponent extends PracticeableBasePageComponent {
-  public navController = this.injector.get(NavController);
-  protected toastController = this.injector.get(ToastController);
-  public modalController = this.injector.get(ModalController);
-  protected outcomeBehaviourProvider = this.injector.get(OutcomeBehaviourMapProvider);
-  protected weatherConditionProvider = this.injector.get(WeatherConditionProvider);
-  protected faultSummaryProvider = this.injector.get(FaultSummaryProvider);
-  public faultCountProvider = this.injector.get(FaultCountProvider);
-  public deviceProvider = this.injector.get(DeviceProvider);
+  public navController = inject(NavController);
+  protected toastController = inject(ToastController);
+  public modalController = inject(ModalController);
+  protected outcomeBehaviourProvider = inject(OutcomeBehaviourMapProvider);
+  protected weatherConditionProvider = inject(WeatherConditionProvider);
+  protected faultSummaryProvider = inject(FaultSummaryProvider);
+  public faultCountProvider = inject(FaultCountProvider);
+  public deviceProvider = inject(DeviceProvider);
 
   commonPageState: CommonOfficePageState;
   form: UntypedFormGroup;
@@ -238,11 +238,8 @@ export abstract class OfficeBasePageComponent extends PracticeableBasePageCompon
 
   displayExitPracticeMode = false;
 
-  protected constructor(
-    injector: Injector,
-    @Inject(false) public loginRequired = false
-  ) {
-    super(injector, loginRequired);
+  protected constructor(@Inject(false) public loginRequired = false) {
+    super(loginRequired);
     this.form = new UntypedFormGroup({});
     this.activityCodeOptions = activityCodeModelList;
     this.weatherConditions = this.weatherConditionProvider.getWeatherConditions();

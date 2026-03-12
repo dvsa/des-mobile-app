@@ -6,7 +6,7 @@ import { map } from 'rxjs/operators';
 import { CategoryCode, GearboxCategory, QuestionResult } from '@dvsa/mes-test-schema/categories/common';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 
-import { Inject, Injector } from '@angular/core';
+import { Inject, inject } from '@angular/core';
 import { MotHistory } from '@dvsa/mes-mot-schema';
 import { TEST_CENTRE_JOURNAL_PAGE, TestFlowPageNames } from '@pages/page-names.constants';
 import { ModalEvent } from '@pages/waiting-room-to-car/components/mot-components/mot-failed-modal/mot-failed-modal.component';
@@ -119,10 +119,10 @@ export interface CommonWaitingRoomToCarPageState {
 export const wrtcDestroy$ = new Subject<{}>();
 
 export abstract class WaitingRoomToCarBasePageComponent extends PracticeableBasePageComponent {
-  protected alertController = this.injector.get(AlertController);
-  protected routeByCategoryProvider = this.injector.get(RouteByCategoryProvider);
-  protected faultCountProvider = this.injector.get(FaultCountProvider);
-  protected networkStateProvider = this.injector.get(NetworkStateProvider);
+  protected alertController = inject(AlertController);
+  protected routeByCategoryProvider = inject(RouteByCategoryProvider);
+  protected faultCountProvider = inject(FaultCountProvider);
+  protected networkStateProvider = inject(NetworkStateProvider);
 
   commonPageState: CommonWaitingRoomToCarPageState;
   subscription: Subscription;
@@ -147,11 +147,8 @@ export abstract class WaitingRoomToCarBasePageComponent extends PracticeableBase
     TestCategory.EUAM2,
   ];
 
-  protected constructor(
-    public injector: Injector,
-    @Inject(false) public loginRequired = false
-  ) {
-    super(injector, loginRequired);
+  protected constructor(@Inject(false) public loginRequired = false) {
+    super(loginRequired);
   }
 
   onInitialisation(): void {

@@ -1,4 +1,4 @@
-import { Component, Injector, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { UntypedFormGroup } from '@angular/forms';
 import { CategoryCode, GearboxCategory, QuestionResult } from '@dvsa/mes-test-schema/categories/common';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
@@ -69,11 +69,8 @@ export class OfficeCatCPage extends OfficeBasePageComponent implements OnInit {
   testOutcomeText: string;
   conductedLanguage: string;
 
-  constructor(
-    private appConfig: AppConfigProvider,
-    injector: Injector
-  ) {
-    super(injector);
+  constructor(private appConfig: AppConfigProvider) {
+    super();
     this.outcomeBehaviourProvider.setBehaviourMap(behaviourMap);
     this.activityCodeOptions = getActivityCodeOptions(this.appConfig.getAppConfig()?.role === ExaminerRole.DLG);
   }

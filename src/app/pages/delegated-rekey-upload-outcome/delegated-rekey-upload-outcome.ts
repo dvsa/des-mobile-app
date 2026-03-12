@@ -30,7 +30,7 @@ export class DelegatedRekeyUploadOutcomePage extends BasePageComponent implement
   pageState: DelegatedRekeyUploadOutcomePageState;
 
   constructor(public injector: Injector) {
-    super(injector);
+    super();
   }
 
   ngOnInit(): void {

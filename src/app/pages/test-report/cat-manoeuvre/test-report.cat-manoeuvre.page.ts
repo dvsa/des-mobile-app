@@ -1,4 +1,4 @@
-import { Component, Injector, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CatCMUniqueTypes } from '@dvsa/mes-test-schema/categories/CM';
 import { Manoeuvre } from '@dvsa/mes-test-schema/categories/CM/partial';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
@@ -46,10 +46,9 @@ export class TestReportCatManoeuvrePage extends TestReportBasePageComponent impl
 
   constructor(
     private testDataByCategory: TestDataByCategoryProvider,
-    private toastCtrl: ToastController,
-    injector: Injector
+    private toastCtrl: ToastController
   ) {
-    super(injector);
+    super();
     this.displayOverlay = false;
   }
 
