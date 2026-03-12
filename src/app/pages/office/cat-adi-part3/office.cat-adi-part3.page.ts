@@ -1,5 +1,5 @@
 import { AsyncPipe, NgClass } from '@angular/common';
-import { Component, Injector, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ActivityCodeComponent } from '@components/common/activity-code/activity-code';
 import { TestFlowHeaderComponent } from '@components/common/test-flow-header/test-flow-header.component';
@@ -81,11 +81,8 @@ type OfficePageState = CommonOfficePageState & CatADI3OfficePageState;
 export class OfficeCatADI3Page extends OfficeBasePageComponent implements OnInit {
   pageState: OfficePageState;
 
-  constructor(
-    private appConfig: AppConfigProvider,
-    injector: Injector
-  ) {
-    super(injector);
+  constructor(private appConfig: AppConfigProvider) {
+    super();
     this.outcomeBehaviourProvider.setBehaviourMap(behaviourMap);
     this.activityCodeOptions = getActivityCodeOptions(this.appConfig.getAppConfig()?.role === ExaminerRole.DLG, true);
   }

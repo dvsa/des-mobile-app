@@ -1,5 +1,5 @@
 import { AsyncPipe, NgClass } from '@angular/common';
-import { Component, Injector, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ActivityCodeComponent } from '@components/common/activity-code/activity-code';
 import { TestFlowHeaderComponent } from '@components/common/test-flow-header/test-flow-header.component';
@@ -160,10 +160,9 @@ export class OfficeCatADI2Page extends OfficeBasePageComponent implements OnInit
 
   constructor(
     private appConfig: AppConfigProvider,
-    private questionProvider: QuestionProvider,
-    injector: Injector
+    private questionProvider: QuestionProvider
   ) {
-    super(injector);
+    super();
     this.outcomeBehaviourProvider.setBehaviourMap(behaviourMap);
     this.activityCodeOptions = getActivityCodeOptions(this.appConfig.getAppConfig()?.role === ExaminerRole.DLG);
     this.showMeQuestions = this.questionProvider.getShowMeQuestions(TestCategory.ADI2);

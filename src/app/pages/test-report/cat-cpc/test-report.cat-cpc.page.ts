@@ -1,5 +1,5 @@
 import { AsyncPipe, NgClass } from '@angular/common';
-import { Component, Injector, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormsModule, UntypedFormGroup } from '@angular/forms';
 import { TestFlowHeaderComponent } from '@components/common/test-flow-header/test-flow-header.component';
 import { CombinationCodes, Question, Question5, TestData } from '@dvsa/mes-test-schema/categories/CPC';
@@ -92,10 +92,9 @@ export class TestReportCatCPCPage extends TestReportBasePageComponent implements
 
   constructor(
     private cpcQuestionProvider: CPCQuestionProvider,
-    private testResultProvider: TestResultProvider,
-    injector: Injector
+    private testResultProvider: TestResultProvider
   ) {
-    super(injector);
+    super();
     this.form = new UntypedFormGroup({});
     this.displayOverlay = false;
   }

@@ -1,4 +1,4 @@
-import { Component, Injector, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormsModule, ReactiveFormsModule, UntypedFormGroup } from '@angular/forms';
 import { select } from '@ngrx/store';
 import { Observable, merge } from 'rxjs';
@@ -78,8 +78,8 @@ export class PassFinalisationCatCPCPage extends PassFinalisationPageComponent im
   merged$: Observable<string | boolean>;
   testCategory: TestCategory;
 
-  constructor(injector: Injector) {
-    super(injector);
+  constructor() {
+    super();
     this.form = new UntypedFormGroup({});
     this.outcomeBehaviourProvider.setBehaviourMap(behaviourMap);
   }

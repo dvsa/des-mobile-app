@@ -1,5 +1,5 @@
 import { AsyncPipe } from '@angular/common';
-import { Component, Injector, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { TestSlotComponent } from '@components/test-slot/test-slot/test-slot';
 import { TestSlot } from '@dvsa/mes-journal-schema';
 import {
@@ -71,10 +71,9 @@ export class UnuploadedTestsPage extends BasePageComponent implements OnInit {
     private dateTimeProvider: DateTimeProvider,
     private slotProvider: SlotProvider,
     private appConfigProvider: AppConfigProvider,
-    public deviceProvider: DeviceProvider,
-    injector: Injector
+    public deviceProvider: DeviceProvider
   ) {
-    super(injector);
+    super();
   }
 
   ngOnInit() {

@@ -1,6 +1,6 @@
 import { AsyncPipe } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, Injector, OnDestroy, OnInit, ViewChild, signal } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild, signal } from '@angular/core';
 import { ErrorMessageComponent } from '@components/common/error-message/error-message';
 import { OfflineBannerComponent } from '@components/common/offline-banner/offline-banner';
 import { RefreshButtonComponent } from '@components/common/refresh-button/refresh-button.component';
@@ -109,10 +109,9 @@ export class TestCentreJournalPage extends BasePageComponent implements OnDestro
     private networkStateProvider: NetworkStateProvider,
     private testCentreJournalProvider: TestCentreJournalProvider,
     private loadingCtrl: LoadingController,
-    private appConfig: AppConfigProvider,
-    injector: Injector
+    private appConfig: AppConfigProvider
   ) {
-    super(injector);
+    super();
   }
 
   ngOnInit(): void {

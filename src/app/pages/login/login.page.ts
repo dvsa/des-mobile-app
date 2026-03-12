@@ -1,5 +1,5 @@
 import { AsyncPipe } from '@angular/common';
-import { Component, Injector, OnInit } from '@angular/core';
+import {Component, Injector, OnInit} from '@angular/core';
 import { Capacitor } from '@capacitor/core';
 import { SplashScreen } from '@capacitor/splash-screen';
 import {
@@ -69,9 +69,8 @@ export class LoginPage extends LogoutBasePageComponent implements OnInit {
     public networkStateProvider: NetworkStateProvider,
     public alertController: AlertController,
     public appInfoProvider: AppInfoProvider,
-    injector: Injector
   ) {
-    super(injector);
+    super();
   }
 
   /**

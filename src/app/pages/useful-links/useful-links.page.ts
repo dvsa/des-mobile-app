@@ -1,4 +1,4 @@
-import { Component, Injector, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { UsefulLink } from '@dvsa/mes-config-schema/remote-config';
 import {
   IonButton,
@@ -52,10 +52,9 @@ export class UsefulLinksPage extends BasePageComponent implements OnInit {
     public orientationMonitorProvider: OrientationMonitorProvider,
     public modalController: ModalController,
     public openLinkProvider: OpenLinkProvider,
-    private urlProvider: UrlProvider,
-    injector: Injector
+    private urlProvider: UrlProvider
   ) {
-    super(injector);
+    super();
   }
 
   ngOnInit() {

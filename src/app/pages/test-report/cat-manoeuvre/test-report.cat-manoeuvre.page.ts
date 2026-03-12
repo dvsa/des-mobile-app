@@ -1,5 +1,5 @@
 import { AsyncPipe, NgClass } from '@angular/common';
-import { Component, Injector, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { TestFlowHeaderComponent } from '@components/common/test-flow-header/test-flow-header.component';
 import { TickIndicatorComponent } from '@components/common/tick-indicator/tick-indicator';
 import { CatCMUniqueTypes } from '@dvsa/mes-test-schema/categories/CM';
@@ -72,10 +72,9 @@ export class TestReportCatManoeuvrePage extends TestReportBasePageComponent impl
 
   constructor(
     private testDataByCategory: TestDataByCategoryProvider,
-    private toastCtrl: ToastController,
-    injector: Injector
+    private toastCtrl: ToastController
   ) {
-    super(injector);
+    super();
     this.displayOverlay = false;
   }
 

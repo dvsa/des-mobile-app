@@ -1,4 +1,4 @@
-import { Component, Injector, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormsModule, ReactiveFormsModule, UntypedFormGroup } from '@angular/forms';
 import { select } from '@ngrx/store';
 import { startsWith } from 'lodash-es';
@@ -124,11 +124,8 @@ export class OfficeCatManoeuvrePage extends OfficeBasePageComponent implements O
   testOutcomeText: string;
   conductedLanguage: string;
 
-  constructor(
-    private appConfig: AppConfigProvider,
-    injector: Injector
-  ) {
-    super(injector);
+  constructor(private appConfig: AppConfigProvider) {
+    super();
     this.outcomeBehaviourProvider.setBehaviourMap(behaviourMap);
     this.activityCodeOptions = getActivityCodeOptions(this.appConfig.getAppConfig()?.role === ExaminerRole.DLG);
   }

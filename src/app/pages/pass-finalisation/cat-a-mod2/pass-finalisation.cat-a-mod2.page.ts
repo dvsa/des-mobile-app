@@ -1,5 +1,5 @@
 import { AsyncPipe, NgClass } from '@angular/common';
-import { Component, Injector, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormsModule, ReactiveFormsModule, UntypedFormGroup } from '@angular/forms';
 import { BikeCategoryTypeComponent } from '@components/common/bike-category-type/bike-category-type';
 import { TestFlowHeaderComponent } from '@components/common/test-flow-header/test-flow-header.component';
@@ -82,8 +82,8 @@ export class PassFinalisationCatAMod2Page extends PassFinalisationPageComponent 
   merged$: Observable<string | boolean>;
   transmission: GearboxCategory;
 
-  constructor(injector: Injector) {
-    super(injector);
+  constructor() {
+    super();
     this.form = new UntypedFormGroup({});
     this.outcomeBehaviourProvider.setBehaviourMap(behaviourMap);
   }

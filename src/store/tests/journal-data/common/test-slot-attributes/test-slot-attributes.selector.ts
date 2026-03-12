@@ -1,11 +1,48 @@
 import { TestSlot } from '@dvsa/mes-journal-schema';
 import { TestSlotAttributes } from '@dvsa/mes-test-schema/categories/common';
-import { DateTime } from '@shared/helpers/date-time';
+import { createSelector } from '@ngrx/store';
 import { getSlotType } from '@shared/helpers/get-slot-type';
+import { selectTestSlotAttributes } from '@store/tests/journal-data/common/test-slot-attributes/test-slot-attributes.reducer';
+import moment from 'moment';
 
-export const getTestTime = (attributes: TestSlotAttributes) => DateTime.at(attributes.start).format('HH:mm');
-export const getTestDate = (attributes: TestSlotAttributes): string =>
-  DateTime.at(attributes.start).format('DD/MM/YYYY');
+export const selectTestTime = createSelector(selectTestSlotAttributes, (testSlotAttributes) =>
+  moment(testSlotAttributes.start).format('HH:mm')
+);
+
+export const selectTestDate = createSelector(selectTestSlotAttributes, (testSlotAttributes) =>
+  moment(testSlotAttributes.start).format('DD/MM/YYYY')
+);
+
+export const selectTestStartDateTime = createSelector(
+  selectTestSlotAttributes,
+  (testSlotAttributes) => testSlotAttributes.start
+);
+
+export const selectIsExtendedTest = createSelector(
+  selectTestSlotAttributes,
+  (testSlotAttributes) => testSlotAttributes.extendedTest || false
+);
+
+export const selectIsSpecialNeeds = createSelector(
+  selectTestSlotAttributes,
+  (testSlotAttributes) => testSlotAttributes.specialNeeds || false
+);
+
+export const selectSlotId = createSelector(selectTestSlotAttributes, (testSlotAttributes) => testSlotAttributes.slotId);
+
+export const selectIsWelshTest = createSelector(
+  selectTestSlotAttributes,
+  (testSlotAttributes) => testSlotAttributes.welshTest
+);
+
+export const selectFitMarker = createSelector(
+  selectTestSlotAttributes,
+  (testSlotAttributes) => testSlotAttributes.fitMarker
+);
+
+export const getTestTime = (attributes: TestSlotAttributes) => moment(attributes.start).format('HH:mm');
+export const getTestDate = (attributes: TestSlotAttributes): string => moment(attributes.start).format('DD/MM/YYYY');
+
 export const getTestStartDateTime = (attributes: TestSlotAttributes): string => attributes.start;
 export const isExtendedTest = (attributes: TestSlotAttributes) => attributes.extendedTest || false;
 export const isSpecialNeeds = (attributes: TestSlotAttributes) => attributes.specialNeeds || false;
@@ -19,7 +56,6 @@ export const extractTestSlotAttributes = (slotData: TestSlot): TestSlotAttribute
   start: slotData?.slotDetail?.start,
   specialNeeds: !!slotData?.booking?.application?.specialNeeds,
   specialNeedsCode: slotData?.booking?.application?.specialNeedsCode,
-  specialNeedsExtendedTest: slotData?.booking?.application?.specialNeedsExtendedTest,
   specialNeedsArray: slotData?.booking?.application?.specialNeeds?.split(';') ?? ['None'],
   vehicleTypeCode: slotData?.vehicleTypeCode,
   extendedTest: slotData?.booking?.application?.extendedTest || false,

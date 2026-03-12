@@ -1,5 +1,5 @@
 import { AsyncPipe, NgClass } from '@angular/common';
-import { Component, Injector, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormsModule, UntypedFormGroup } from '@angular/forms';
 import { TestFlowHeaderComponent } from '@components/common/test-flow-header/test-flow-header.component';
 import {
@@ -90,10 +90,9 @@ export class TestReportCatADI3Page extends TestReportBasePageComponent implement
 
   constructor(
     public navController: NavController,
-    public adi3AssessmentProvider: ADI3AssessmentProvider,
-    injector: Injector
+    public adi3AssessmentProvider: ADI3AssessmentProvider
   ) {
-    super(injector);
+    super();
     this.form = new UntypedFormGroup({});
   }
 

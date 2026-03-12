@@ -1,5 +1,5 @@
 import { AsyncPipe } from '@angular/common';
-import { Component, HostListener, Injector } from '@angular/core';
+import { Component, HostListener } from '@angular/core';
 import { Style } from '@capacitor/status-bar';
 import { PracticeModeBanner } from '@components/common/practice-mode-banner/practice-mode-banner';
 import { PracticeModeExitButton } from '@components/common/practice-mode-exit-button/practice-mode-exit-button';
@@ -49,10 +49,9 @@ export class FakeJournalPage extends BasePageComponent {
   constructor(
     private dateTimeProvider: DateTimeProvider,
     public accessibilityService: AccessibilityService,
-    public orientationMonitorProvider: OrientationMonitorProvider,
-    injector: Injector
+    public orientationMonitorProvider: OrientationMonitorProvider
   ) {
-    super(injector);
+    super();
 
     this.selectedDate = this.dateTimeProvider.now().format('YYYY-MM-DD');
     this.dateToDisplay = new DateTime().format('dddd D MMMM YYYY');

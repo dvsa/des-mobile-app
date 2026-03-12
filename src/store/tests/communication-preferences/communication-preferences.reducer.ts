@@ -1,5 +1,6 @@
 import { CommunicationPreferences } from '@dvsa/mes-test-schema/categories/common';
-import { createFeatureSelector, createReducer, on } from '@ngrx/store';
+import { createFeatureSelector, createReducer, createSelector, on } from '@ngrx/store';
+import { selectCurrentTest } from '@store/tests/tests.selector';
 import * as communicationPrefActions from './communication-preferences.actions';
 
 export const initialState: CommunicationPreferences = {
@@ -38,3 +39,5 @@ export const communicationPreferencesReducer = createReducer(
 );
 
 export const getCommunicationPreference = createFeatureSelector<CommunicationPreferences>('communicationPreferences');
+
+export const selectCommunicationPreference = createSelector(selectCurrentTest, (test) => test.communicationPreferences);

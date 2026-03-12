@@ -1,5 +1,5 @@
 import { HttpResponse } from '@angular/common/http';
-import { Component, Injector, Input, OnInit, signal } from '@angular/core';
+import { Component, Input, OnInit, signal } from '@angular/core';
 import { Adi3DebriefCard } from '@components/common/adi3-debrief-card/adi3-debrief-card';
 import { CPCDebriefCardComponent } from '@components/common/cpc-debrief-card/cpc-debrief-card';
 import { ErrorMessageComponent } from '@components/common/error-message/error-message';
@@ -122,10 +122,9 @@ export class ViewTestResultPage extends BasePageComponent implements OnInit {
     private loadingProvider: LoadingProvider,
     public faultCountProvider: FaultCountProvider,
     private faultSummaryProvider: FaultSummaryProvider,
-    public adi3AssessmentProvider: ADI3AssessmentProvider,
-    injector: Injector
+    public adi3AssessmentProvider: ADI3AssessmentProvider
   ) {
-    super(injector);
+    super();
   }
 
   async ngOnInit(): Promise<void> {

@@ -18,7 +18,7 @@ import {
   getTestOutcomeText,
 } from '@store/tests/tests.selector';
 
-import { Inject, Injector } from '@angular/core';
+import { Inject, inject } from '@angular/core';
 import { ActivityCode, CategoryCode, GearboxCategory } from '@dvsa/mes-test-schema/categories/common';
 import { OutcomeBehaviourMapProvider } from '@providers/outcome-behaviour-map/outcome-behaviour-map';
 import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
@@ -79,19 +79,16 @@ export interface CommonPassFinalisationPageState {
 }
 
 export abstract class PassFinalisationPageComponent extends PracticeableBasePageComponent {
-  protected routeByCat = this.injector.get(RouteByCategoryProvider);
-  protected outcomeBehaviourProvider = this.injector.get(OutcomeBehaviourMapProvider);
+  protected routeByCat = inject(RouteByCategoryProvider);
+  protected outcomeBehaviourProvider = inject(OutcomeBehaviourMapProvider);
   isShowingEditBox$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(true);
 
   commonPageState: CommonPassFinalisationPageState;
   testOutcome: ActivityCodes = ActivityCodes.PASS;
   subscription: Subscription;
 
-  protected constructor(
-    injector: Injector,
-    @Inject(false) public loginRequired = false
-  ) {
-    super(injector, loginRequired);
+  protected constructor(@Inject(false) public loginRequired = false) {
+    super(loginRequired);
   }
 
   onInitialisation(): void {

@@ -1,5 +1,5 @@
 import { AsyncPipe, NgClass, NgStyle } from '@angular/common';
-import { Component, Injector, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { TestFlowHeaderComponent } from '@components/common/test-flow-header/test-flow-header.component';
 import { CatFUniqueTypes } from '@dvsa/mes-test-schema/categories/F';
 import { CatGUniqueTypes } from '@dvsa/mes-test-schema/categories/G';
@@ -61,8 +61,8 @@ type HomeCatTestDataUnion =
 export class TestReportCatHomeTestPage extends TestReportBasePageComponent implements OnInit {
   pageState: TestReportPageState;
 
-  constructor(injector: Injector) {
-    super(injector);
+  constructor() {
+    super();
     this.displayOverlay = false;
   }
 

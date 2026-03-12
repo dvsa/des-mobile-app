@@ -1,5 +1,5 @@
 import { AsyncPipe, NgClass } from '@angular/common';
-import { Component, Injector, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormsModule, ReactiveFormsModule, UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { CandidateSectionComponent } from '@components/common/candidate-section/candidate-section';
 import { LockScreenIndicator } from '@components/common/screen-lock-indicator/lock-screen-indicator';
@@ -123,10 +123,9 @@ export class HealthDeclarationPage
   constructor(
     public deviceAuthenticationProvider: DeviceAuthenticationProvider,
     public translate: TranslateService,
-    public modalController: ModalController,
-    injector: Injector
+    public modalController: ModalController
   ) {
-    super(injector, false);
+    super(false);
     this.formGroup = new UntypedFormGroup({});
   }
 

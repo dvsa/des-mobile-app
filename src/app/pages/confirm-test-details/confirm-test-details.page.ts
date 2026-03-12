@@ -1,5 +1,5 @@
 import { AsyncPipe, DatePipe, NgClass } from '@angular/common';
-import { Component, Injector, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { DataRowCustomComponent } from '@components/common/data-row-custom/data-row-custom';
 import { DataRowComponent } from '@components/common/data-row/data-row';
 import { TestFlowHeaderComponent } from '@components/common/test-flow-header/test-flow-header.component';
@@ -154,10 +154,9 @@ export class ConfirmTestDetailsPage
     public navController: NavController,
     public vehicleDetailsProvider: VehicleDetailsByCategoryProvider,
     public adi3AssessmentProvider: ADI3AssessmentProvider,
-    private modalController: ModalController,
-    injector: Injector
+    private modalController: ModalController
   ) {
-    super(injector, false);
+    super(false);
   }
 
   ngOnInit(): void {

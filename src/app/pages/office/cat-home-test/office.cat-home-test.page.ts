@@ -1,5 +1,5 @@
 import { AsyncPipe, NgClass } from '@angular/common';
-import { Component, Injector, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ActivityCodeComponent } from '@components/common/activity-code/activity-code';
 import { TestFlowHeaderComponent } from '@components/common/test-flow-header/test-flow-header.component';
@@ -123,8 +123,8 @@ export class OfficeCatHomeTestPage extends OfficeBasePageComponent implements On
   pageSubscription: Subscription;
   readonly maxFaultCount = 15;
 
-  constructor(injector: Injector) {
-    super(injector);
+  constructor() {
+    super();
     this.outcomeBehaviourProvider.setBehaviourMap(behaviourMap);
     this.activityCodeOptions = activityCodeModelList;
   }

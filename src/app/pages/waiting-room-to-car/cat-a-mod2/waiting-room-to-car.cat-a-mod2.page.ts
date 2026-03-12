@@ -1,5 +1,5 @@
 import { AsyncPipe, NgClass } from '@angular/common';
-import { Component, Injector, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormsModule, ReactiveFormsModule, UntypedFormGroup } from '@angular/forms';
 import { BikeCategoryTypeComponent } from '@components/common/bike-category-type/bike-category-type';
 import { OfflineBannerComponent } from '@components/common/offline-banner/offline-banner';
@@ -89,8 +89,8 @@ export class WaitingRoomToCarCatAMod2Page extends WaitingRoomToCarBasePageCompon
   form: UntypedFormGroup;
   submitClicked: boolean;
 
-  constructor(injector: Injector) {
-    super(injector);
+  constructor() {
+    super();
     this.form = new UntypedFormGroup({});
   }
 

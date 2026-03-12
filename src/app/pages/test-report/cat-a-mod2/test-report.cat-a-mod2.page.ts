@@ -1,5 +1,5 @@
 import { AsyncPipe, NgClass } from '@angular/common';
-import { Component, Injector, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { TestFlowHeaderComponent } from '@components/common/test-flow-header/test-flow-header.component';
 import { TestData } from '@dvsa/mes-test-schema/categories/AM2';
 import { IonCol, IonContent, IonGrid, IonHeader, IonRow, IonToolbar } from '@ionic/angular';
@@ -42,8 +42,8 @@ type TestReportPageState = CommonTestReportPageState;
 export class TestReportCatAMod2Page extends TestReportBasePageComponent implements OnInit {
   pageState: TestReportPageState;
 
-  constructor(injector: Injector) {
-    super(injector);
+  constructor() {
+    super();
     this.displayOverlay = false;
   }
 

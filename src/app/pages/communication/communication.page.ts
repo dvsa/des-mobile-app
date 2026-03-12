@@ -1,5 +1,5 @@
 import { AsyncPipe, NgClass } from '@angular/common';
-import { Component, Injector, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormsModule, ReactiveFormsModule, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { CandidateSectionComponent } from '@components/common/candidate-section/candidate-section';
 import { LockScreenIndicator } from '@components/common/screen-lock-indicator/lock-screen-indicator';
@@ -124,10 +124,9 @@ export class CommunicationPage extends PracticeableBasePageComponent implements 
   constructor(
     public routeByCat: RouteByCategoryProvider,
     public deviceAuthenticationProvider: DeviceAuthenticationProvider,
-    private translate: TranslateService,
-    injector: Injector
+    private translate: TranslateService
   ) {
-    super(injector, false);
+    super(false);
     this.form = new UntypedFormGroup(this.getFormValidation());
   }
 

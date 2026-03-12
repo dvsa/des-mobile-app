@@ -1,5 +1,5 @@
 import { AsyncPipe, NgClass } from '@angular/common';
-import { Component, ElementRef, Injector, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormsModule, ReactiveFormsModule, UntypedFormGroup } from '@angular/forms';
 import { DangerBannerComponent } from '@components/common/danger-banner/danger-banner';
 import { TestFlowHeaderComponent } from '@components/common/test-flow-header/test-flow-header.component';
@@ -97,8 +97,8 @@ export class PassFinalisationCatBPage extends PassFinalisationPageComponent impl
   niMessage: string =
     'This candidate holds a Northern Irish licence and must retain it. Do not collect ' + 'it from the candidate.';
 
-  constructor(injector: Injector) {
-    super(injector);
+  constructor() {
+    super();
     this.form = new UntypedFormGroup({});
     this.outcomeBehaviourProvider.setBehaviourMap(behaviourMap);
   }

@@ -1,5 +1,5 @@
 import { CategoryCode } from '@dvsa/mes-test-schema/categories/common';
-import { createFeatureSelector, createReducer, on } from '@ngrx/store';
+import { createFeatureSelector, createReducer, createSelector, on } from '@ngrx/store';
 
 import { StartE2EPracticeTest } from '@pages/fake-journal/fake-journal.actions';
 import { ActivateTest, StartTest, StartTestReportPracticeTest } from '@store/tests/tests.actions';
@@ -18,3 +18,10 @@ export const categoryReducer = createReducer(
 );
 
 export const getTestCategory = createFeatureSelector<CategoryCode>('category');
+
+export const selectTestCategory = createSelector(selectCurrentTest, (test) => test.category as CategoryCode);
+
+// @TODO: Create common file with similar type of logic based around category.
+export const selectIsStandardsCheck = createSelector(selectTestCategory, (category) =>
+  isAnyOf(category, [TestCategory.SC])
+);

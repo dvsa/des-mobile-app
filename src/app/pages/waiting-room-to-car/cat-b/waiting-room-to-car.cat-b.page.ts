@@ -1,5 +1,5 @@
 import { AsyncPipe, NgClass } from '@angular/common';
-import { Component, Injector, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormsModule, ReactiveFormsModule, UntypedFormGroup } from '@angular/forms';
 import { OfflineBannerComponent } from '@components/common/offline-banner/offline-banner';
 import { TestFlowHeaderComponent } from '@components/common/test-flow-header/test-flow-header.component';
@@ -108,11 +108,8 @@ export class WaitingRoomToCarCatBPage extends WaitingRoomToCarBasePageComponent 
   form: UntypedFormGroup;
   tellMeQuestions: VehicleChecksQuestion[];
 
-  constructor(
-    private questionProvider: QuestionProvider,
-    injector: Injector
-  ) {
-    super(injector);
+  constructor(private questionProvider: QuestionProvider) {
+    super();
     this.tellMeQuestions = this.questionProvider.getTellMeQuestions(TestCategory.B);
     this.form = new UntypedFormGroup({});
   }

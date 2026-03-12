@@ -1,5 +1,5 @@
 import { AsyncPipe, NgClass } from '@angular/common';
-import { Component, Injector, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { InappropriateUseBannerComponent } from '@components/common/inappropriate-use-banner/inappropriate-use-banner';
@@ -103,10 +103,9 @@ export class CandidateLicencePage extends PracticeableBasePageComponent implemen
 
   constructor(
     private candidateLicenceProvider: CandidateLicenceProvider,
-    private domSanitizer: DomSanitizer,
-    injector: Injector
+    private domSanitizer: DomSanitizer
   ) {
-    super(injector, false);
+    super(false);
     this.formGroup = new FormGroup({});
   }
 

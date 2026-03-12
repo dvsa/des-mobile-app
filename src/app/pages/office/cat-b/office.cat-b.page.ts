@@ -1,5 +1,5 @@
 import { AsyncPipe, NgClass } from '@angular/common';
-import { Component, Injector } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ActivityCodeComponent } from '@components/common/activity-code/activity-code';
 import { TestFlowHeaderComponent } from '@components/common/test-flow-header/test-flow-header.component';
@@ -143,11 +143,8 @@ export class OfficeCatBPage extends OfficeBasePageComponent {
   showMeQuestions: VehicleChecksQuestion[];
   activityCodeOptions: ActivityCodeModel[];
 
-  constructor(
-    public questionProvider: QuestionProvider,
-    injector: Injector
-  ) {
-    super(injector);
+  constructor(public questionProvider: QuestionProvider) {
+    super();
     this.showMeQuestions = questionProvider.getShowMeQuestions(TestCategory.B);
     this.outcomeBehaviourProvider.setBehaviourMap(behaviourMap);
   }

@@ -1,5 +1,5 @@
 import { AsyncPipe, NgClass } from '@angular/common';
-import { Component, Injector } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormsModule, ReactiveFormsModule, UntypedFormGroup } from '@angular/forms';
 import { TestFlowHeaderComponent } from '@components/common/test-flow-header/test-flow-header.component';
 import { WarningBannerComponent } from '@components/common/warning-banner/warning-banner';
@@ -72,8 +72,8 @@ export class PassFinalisationCatHomeTestPage extends PassFinalisationPageCompone
   pageState: PassFinalisationPageState;
   form: UntypedFormGroup;
 
-  constructor(injector: Injector) {
-    super(injector);
+  constructor() {
+    super();
     this.form = new UntypedFormGroup({});
     this.outcomeBehaviourProvider.setBehaviourMap(behaviourMap);
   }

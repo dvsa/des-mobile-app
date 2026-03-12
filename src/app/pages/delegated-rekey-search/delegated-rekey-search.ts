@@ -1,6 +1,6 @@
 import { AsyncPipe, NgClass } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, Injector, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import {
   AbstractControl,
   FormsModule,
@@ -111,10 +111,9 @@ export class DelegatedRekeySearchPage extends BasePageComponent implements OnIni
   constructor(
     public orientationMonitorProvider: OrientationMonitorProvider,
     private modalController: ModalController,
-    private accessibilityService: AccessibilityService,
-    injector: Injector
+    private accessibilityService: AccessibilityService
   ) {
-    super(injector);
+    super();
   }
 
   getBookingReferenceMask = (): MaskitoOptions => bookingReferenceMask;

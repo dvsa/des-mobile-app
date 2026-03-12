@@ -1,5 +1,5 @@
 import { AsyncPipe, NgClass } from '@angular/common';
-import { Component, Injector, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormsModule, ReactiveFormsModule, UntypedFormGroup } from '@angular/forms';
 import { OfflineBannerComponent } from '@components/common/offline-banner/offline-banner';
 import { TestFlowHeaderComponent } from '@components/common/test-flow-header/test-flow-header.component';
@@ -98,11 +98,8 @@ export class WaitingRoomToCarCatCPCPage extends WaitingRoomToCarBasePageComponen
   form: UntypedFormGroup;
   pageState: WaitingRoomToCarPageState;
 
-  constructor(
-    private cpcQuestionProvider: CPCQuestionProvider,
-    injector: Injector
-  ) {
-    super(injector);
+  constructor(private cpcQuestionProvider: CPCQuestionProvider) {
+    super();
     this.form = new UntypedFormGroup({});
   }
 

@@ -114,10 +114,9 @@ export class TestResultsSearchPage extends BasePageComponent {
     public searchProvider: SearchProvider,
     private appConfig: AppConfigProvider,
     private accessibilityService: AccessibilityService,
-    private networkStateProvider: NetworkStateProvider,
-    injector: Injector
+    private networkStateProvider: NetworkStateProvider
   ) {
-    super(injector);
+    super();
   }
 
   getBookingReferenceMask = (): MaskitoOptions => bookingReferenceMask;

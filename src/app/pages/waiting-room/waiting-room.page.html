@@ -9,7 +9,7 @@
     mode="ios">
     <test-flow-header
       class="display-flex flex-direction-column"
-      [testCategory]="pageState.testCategory$ | async"
+      [testCategory]="testCategory"
       [isDelegatedRekey]="isDelegated"
       [shouldShowEscapeFromSamButton]="!isDelegated && !isRekey"
       [pageName]="'waiting-room-page'"
@@ -20,7 +20,7 @@
       (setupResumeSubscription)="setupEscapeSAMResumeSubscription()"
       (exitSamUsed)="onUsedExitSam()"
       (onExitSAMActivatedChanged)="isSamActivatedChanged($event)">
-      {{ 'waitingRoom.title' | translate }} - {{ pageState.candidateUntitledName$ | async }}
+      {{ 'waitingRoom.title' | translate }} - {{ candidateUntitledName }}
     </test-flow-header>
   </ion-toolbar>
 </ion-header>
@@ -31,25 +31,25 @@
   <form [formGroup]="formGroup">
     <candidate-section
       (continueClickEvent)="onSubmit()"
-      [candidateDriverNumber]="pageState.candidateDriverNumber$ | async"
-      [candidateName]="pageState.candidateName$ | async"
-      [showVRNButton]="pageState.showVrnBtn$ | async"
+      [candidateDriverNumber]="candidateDriverNumber"
+      [candidateName]="candidateName"
+      [showVRNButton]="showVrnButton"
       >
     </candidate-section>
 
     @if (pageState.showManoeuvresPassCertNumber$ | async) {
       <manoeuvres-pass-cert
-        (manoeuvresPassCertificateNumberChange)="manoeuvresPassCertNumberChanged($event)"
-        [formGroup]="formGroup"
-        [manoeuvresPassCertificateNumber]="pageState.manoeuvresPassCertNumber$ | async"
-        >
-      </manoeuvres-pass-cert>
-    }
+        *ngIf="showManoeuvresPassCertNumber"
+      (manoeuvresPassCertificateNumberChange)="manoeuvresPassCertNumberChanged($event)"
+      [formGroup]="formGroup"
+      [manoeuvresPassCertificateNumber]="manoeuvresPassCertNumber()">
+    </manoeuvres-pass-cert>}
 
     @if (pageState.showCbtNumber$ | async) {
       <cbt-number
-        (cbtNumberChange)="cbtNumberChanged($event)"
-        [cbtNumber]="pageState.cbtNumber$ | async"
+        *ngIf="showCbtNumber"
+      (cbtNumberChange)="cbtNumberChanged($event)"
+      [cbtNumber]="cbtNumber()"
         [formGroup]="formGroup"
         >
       </cbt-number>
@@ -60,19 +60,16 @@
     <conducted-language
       (englishTextSelect)="dispatchCandidateChoseToProceedInEnglish()"
       (welshTextSelect)="dispatchCandidateChoseToProceedInWelsh()"
-      [englishIsSelected]="(pageState.conductedLanguage$ | async) === 'English'"
-      [shouldRender]="pageState.welshTest$ | async"
-      [welshIsSelected]="(pageState.conductedLanguage$ | async) === 'Cymraeg'"
+      [englishIsSelected]="conductedLanguage() === 'English'"
+      [shouldRender]="welshTest()"
+      [welshIsSelected]="conductedLanguage() === 'Cymraeg'"
       >
     </conducted-language>
 
-    <div
-      [ngClass]="{
-            'mes-full-width-card-no-padding-top': ((pageState.showManoeuvresPassCertNumber$ | async) || (pageState.showCbtNumber$ | async)),
-            'mes-full-width-card': (!(pageState.showManoeuvresPassCertNumber$ | async) && !(pageState.showCbtNumber$ | async))
-        }"
-      id="declaration-section"
-      >
+    <div [ngClass]="{
+            'mes-full-width-card-no-padding-top': (showManoeuvresPassCertNumber || showCbtNumber),
+            'mes-full-width-card': (!showManoeuvresPassCertNumber && !showCbtNumber)
+        }" id="declaration-section">
       <ion-row>
         <ion-col>
           <ion-text addOrRemoveLangCy class="des-header-style-4" id="waiting-room-declaration-intent"
@@ -85,25 +82,24 @@
         <insurance-declaration
           (insuranceDeclarationChange)="insuranceDeclarationChanged($event)"
           [formGroup]="formGroup"
-          [selected]="pageState.insuranceDeclarationAccepted$ | async"
-          >
+          [selected]="insuranceDeclarationAccepted()">
         </insurance-declaration>
 
         <br>
           <div class="mes-row-separator"></div>
           <br>
 
-            @if (pageState.showResidencyDec$ | async) {
+            @if (showResidencyDec) {
               <residency-declaration
                 (residencyDeclarationChange)="residencyDeclarationChanged($event)"
                 [formGroup]="formGroup"
-                [selected]="pageState.residencyDeclarationAccepted$ | async"
+                [selected]="residencyDeclarationAccepted()"
                 >
               </residency-declaration>
             }
           </div>
 
-          @if (!(pageState.showResidencyDec$ | async)) {
+          @if (!(showResidencyDec)) {
             <div class="signature-area-padding"></div>
           }
 
@@ -111,9 +107,8 @@
             (signatureCleared)="signatureCleared()"
             (signatureDataChange)="signatureChanged($event)"
             [formGroup]="formGroup"
-            [signature]="pageState.signature$ | async"
-            >
-          </signature>
-        </div>
-      </form>
-    </ion-content>
+            [signature]="signature()">
+      </signature>
+    </div>
+  </form>
+</ion-content>

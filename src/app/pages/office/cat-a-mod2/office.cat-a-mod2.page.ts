@@ -1,5 +1,5 @@
 import { AsyncPipe, NgClass } from '@angular/common';
-import { Component, Injector } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ActivityCodeComponent } from '@components/common/activity-code/activity-code';
 import { TestFlowHeaderComponent } from '@components/common/test-flow-header/test-flow-header.component';
@@ -123,8 +123,8 @@ export class OfficeCatAMod2Page extends OfficeBasePageComponent {
   pageSubscription: Subscription;
   static readonly maxFaultCount = 10;
 
-  constructor(injector: Injector) {
-    super(injector);
+  constructor() {
+    super();
     this.outcomeBehaviourProvider.setBehaviourMap(behaviourMap);
     this.activityCodeOptions = activityCodeModelList;
   }
