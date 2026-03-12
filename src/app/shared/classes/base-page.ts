@@ -32,9 +32,7 @@ export abstract class BasePageComponent {
   public returnToAppSubscription: Subscription = null;
   public leaveAppSubscription: Subscription = null;
 
-  protected constructor(@Inject(true) public loginRequired = true) {
-    alert('base page');
-  }
+  protected constructor(@Inject(true) public loginRequired = true) {}
 
   /**
    * Re-enables single app mode to lock the user back in when they come back.
