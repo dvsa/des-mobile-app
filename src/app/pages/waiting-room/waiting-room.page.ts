@@ -18,12 +18,14 @@ import {
 } from '@store/tests/journal-data/common/candidate/candidate.selector';
 import { selectIsWelshTest } from '@store/tests/journal-data/common/test-slot-attributes/test-slot-attributes.selector';
 import * as preTestDeclarationsActions from '@store/tests/pre-test-declarations/pre-test-declarations.actions';
+import { SignatureConfirmed } from '@store/tests/pre-test-declarations/pre-test-declarations.actions';
 import {
   selectInsuranceDeclarationStatus,
   selectResidencyDeclarationStatus,
   selectShowResidencyDec,
   selectSignatureStatus,
 } from '@store/tests/pre-test-declarations/pre-test-declarations.selector';
+import { selectRekey } from '@store/tests/rekey/rekey.selector';
 import { selectJournalData } from '@store/tests/tests.selector';
 import { isEmpty } from 'lodash-es';
 
@@ -45,8 +47,6 @@ import {
   selectManoeuvrePassCertificateNumber,
   selectShowManoeuvresPassCertNumber,
 } from '@store/tests/pre-test-declarations/cat-c/pre-test-declarations.cat-c.selector';
-import { SignatureConfirmed } from '@store/tests/pre-test-declarations/pre-test-declarations.actions';
-import { selectRekey } from '@store/tests/rekey/rekey.reducer';
 import { selectShowVrnButton } from '@store/tests/vehicle-details/vehicle-details.selector';
 import * as waitingRoomActions from './waiting-room.actions';
 

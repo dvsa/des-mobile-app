@@ -94,7 +94,6 @@ export class AppComponent extends LogoutBasePageComponent implements OnInit {
     protected appInfo: AppInfoProvider,
     protected appConfigProvider: AppConfigProvider
   ) {
-    alert('constructor');
     super();
   }
 
@@ -107,7 +106,6 @@ export class AppComponent extends LogoutBasePageComponent implements OnInit {
   }
 
   async ngOnInit() {
-    alert('go');
     try {
       await this.platform.ready();
       await this.dataStore.initDataStore();
