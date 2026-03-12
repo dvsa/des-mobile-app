@@ -119,15 +119,6 @@
         <data-row [label]="'ORDIT'" [value]="ordit"></data-row>
       }
 
-      @if (isADI2()) {
-        <data-row
-          [label]="'Training Records'"
-          [shouldHaveSeperator]="isADI3()"
-          [value]="trainingRecords"
-        >
-        </data-row>
-      }
-
       @if (isADI3()) {
         <data-row [shouldHaveSeperator]="false" [label]="'Dual controls'" [value]="dualControls"></data-row>
       }
