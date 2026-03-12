@@ -94,6 +94,7 @@ export class AppComponent extends LogoutBasePageComponent implements OnInit {
     protected appInfo: AppInfoProvider,
     protected appConfigProvider: AppConfigProvider
   ) {
+    alert('constructor');
     super();
   }
 

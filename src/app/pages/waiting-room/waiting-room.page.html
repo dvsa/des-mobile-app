@@ -39,17 +39,17 @@
 
     @if (pageState.showManoeuvresPassCertNumber$ | async) {
       <manoeuvres-pass-cert
-        *ngIf="showManoeuvresPassCertNumber"(manoeuvresPassCertificateNumberChange)="manoeuvresPassCertNumberChanged($event)"
-        [formGroup]="formGroup"
-        [manoeuvresPassCertificateNumber]="manoeuvresPassCertNumber()"
-        >
-      </manoeuvres-pass-cert>
-    }
+        *ngIf="showManoeuvresPassCertNumber"
+      (manoeuvresPassCertificateNumberChange)="manoeuvresPassCertNumberChanged($event)"
+      [formGroup]="formGroup"
+      [manoeuvresPassCertificateNumber]="manoeuvresPassCertNumber()">
+    </manoeuvres-pass-cert>}
 
     @if (pageState.showCbtNumber$ | async) {
       <cbt-number
-        *ngIf="showCbtNumber"(cbtNumberChange)="cbtNumberChanged($event)"
-        [cbtNumber]="cbtNumber()"
+        *ngIf="showCbtNumber"
+      (cbtNumberChange)="cbtNumberChanged($event)"
+      [cbtNumber]="cbtNumber()"
         [formGroup]="formGroup"
         >
       </cbt-number>
@@ -69,8 +69,7 @@
     <div [ngClass]="{
             'mes-full-width-card-no-padding-top': (showManoeuvresPassCertNumber || showCbtNumber),
             'mes-full-width-card': (!showManoeuvresPassCertNumber && !showCbtNumber)
-        }"id="declaration-section"
-      >
+        }" id="declaration-section">
       <ion-row>
         <ion-col>
           <ion-text addOrRemoveLangCy class="des-header-style-4" id="waiting-room-declaration-intent"
@@ -83,8 +82,7 @@
         <insurance-declaration
           (insuranceDeclarationChange)="insuranceDeclarationChanged($event)"
           [formGroup]="formGroup"
-          [selected]="insuranceDeclarationAccepted()"
-          >
+          [selected]="insuranceDeclarationAccepted()">
         </insurance-declaration>
 
         <br>
@@ -109,9 +107,8 @@
             (signatureCleared)="signatureCleared()"
             (signatureDataChange)="signatureChanged($event)"
             [formGroup]="formGroup"
-            [signature]="signature()"
-            >
-          </signature>
-        </div>
-      </form>
-    </ion-content>
+            [signature]="signature()">
+      </signature>
+    </div>
+  </form>
+</ion-content>
