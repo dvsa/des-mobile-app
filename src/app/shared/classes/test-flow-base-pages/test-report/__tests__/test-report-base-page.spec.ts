@@ -104,14 +104,6 @@ describe('TestReportBasePageComponent', () => {
     });
 
     injector = TestBed.inject(Injector);
-
-    class BasePageClass extends TestReportBasePageComponent {
-      constructor(public inj: Injector) {
-        super(inj);
-      }
-    }
-
-    basePageComponent = new BasePageClass(injector);
   });
 
   describe('onInitialisation', () => {

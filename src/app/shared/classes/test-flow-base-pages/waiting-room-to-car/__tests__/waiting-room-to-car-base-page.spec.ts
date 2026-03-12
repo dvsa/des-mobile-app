@@ -162,14 +162,6 @@ describe('WaitingRoomToCarBasePageComponent', () => {
     injector = TestBed.inject(Injector);
 
     spyOn(store$, 'dispatch');
-
-    class BasePageClass extends WaitingRoomToCarBasePageComponent {
-      constructor(public inj: Injector) {
-        super(inj);
-      }
-    }
-
-    basePageComponent = new BasePageClass(injector);
   });
 
   describe('onInitialisation', () => {

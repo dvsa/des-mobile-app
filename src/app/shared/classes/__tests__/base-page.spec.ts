@@ -80,14 +80,6 @@ describe('BasePageComponent', () => {
 
     spyOn(store$, 'dispatch');
     spyOn(logHelper, 'createLog');
-
-    class BasePageClass extends BasePageComponent {
-      constructor(public inj: Injector) {
-        super(inj);
-      }
-    }
-
-    basePageComponent = new BasePageClass(injector);
   });
 
   afterEach(() => {

@@ -11,7 +11,6 @@ import { PlatformMock, RouterMock } from '@mocks/index.mock';
 import { Store, StoreModule } from '@ngrx/store';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { MockComponent } from 'ng-mocks';
-import { Observable, Subscription } from 'rxjs';
 
 import { MockAppComponent } from '@app/__mocks__/app.component.mock';
 import { AppComponent } from '@app/app.component';
@@ -219,7 +218,6 @@ describe('WaitingRoomPage', () => {
     modalController = TestBed.inject(ModalController);
     router = TestBed.inject(Router);
     spyOn(store$, 'dispatch');
-    component.subscription = new Subscription();
   });
 
   describe('Class', () => {
@@ -316,15 +314,6 @@ describe('WaitingRoomPage', () => {
       });
     });
 
-    describe('ionViewWillEnter', () => {
-      it('should setup subscription if merged is present', () => {
-        component.merged$ = new Observable<string | boolean>();
-        component.ionViewWillEnter();
-
-        expect(component.subscription).toBeDefined();
-      });
-    });
-
     describe('canDeActivate', () => {
       it('should call through to triggerLockScreen', async () => {
         await component.canDeActivate();
@@ -352,22 +341,13 @@ describe('WaitingRoomPage', () => {
       });
     });
 
-    describe('ionViewDidLeave', () => {
-      it('should unsubscribe from the subscription if there is one', () => {
-        component.subscription = new Subscription();
-        spyOn(component.subscription, 'unsubscribe');
-        component.ionViewDidLeave();
-        expect(component.subscription.unsubscribe).toHaveBeenCalled();
-      });
-    });
-
     describe('ngOnInit', () => {
       it('should resolve state variables', () => {
         component.ngOnInit();
 
-        component.pageState.showManoeuvresPassCertNumber$.subscribe((res) => expect(res).toEqual(true));
-        component.pageState.showCbtNumber$.subscribe((res) => expect(res).toEqual(false));
-        component.pageState.showResidencyDec$.subscribe((res) => expect(res).toEqual(true));
+        expect(component.showManoeuvresPassCertNumber).toEqual(true);
+        expect(component.showCbtNumber).toEqual(false);
+        expect(component.showResidencyDec).toEqual(true);
       });
     });
 
