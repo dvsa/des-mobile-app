@@ -23,13 +23,11 @@ import { getTrainerDetails } from '@store/tests/trainer-details/cat-adi-part2/tr
 import {
   getOrditTrained,
   getTrainerRegistrationNumber,
-  getTrainingRecords,
 } from '@store/tests/trainer-details/cat-adi-part2/trainer-details.cat-adi-part2.selector';
 import { MotEvidenceProvidedReset } from '@store/tests/vehicle-details/vehicle-details.actions';
 
 interface CatAdi2WaitingRoomToCarPageState {
   orditTrained$: Observable<boolean>;
-  trainingRecords$: Observable<boolean>;
   trainerRegistrationNumber$: Observable<number>;
   vehicleChecks$: Observable<CatADI2UniqueTypes.VehicleChecks>;
   vehicleChecksScore$: Observable<VehicleChecksScore>;
@@ -61,7 +59,6 @@ export class WaitingRoomToCarCatADIPart2Page extends WaitingRoomToCarBasePageCom
     this.pageState = {
       ...this.commonPageState,
       orditTrained$: currentTest$.pipe(select(getTrainerDetails), select(getOrditTrained)),
-      trainingRecords$: currentTest$.pipe(select(getTrainerDetails), select(getTrainingRecords)),
       trainerRegistrationNumber$: currentTest$.pipe(select(getTrainerDetails), select(getTrainerRegistrationNumber)),
       vehicleChecks$: currentTest$.pipe(select(getTestData), select(getVehicleChecksCatADIPart2)),
       vehicleChecksScore$: currentTest$.pipe(

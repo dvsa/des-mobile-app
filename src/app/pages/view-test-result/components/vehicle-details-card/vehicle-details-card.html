@@ -119,11 +119,11 @@
         <data-row
           [label]="'ORDIT'"
           [value]="ordit"
-          [shouldHaveSeperator]="isADI3() || trainerData.trainingRecords !== undefined"
+          [shouldHaveSeperator]="isADI3() || trainerData?.trainingRecords !== undefined"
         ></data-row>
       }
 
-      @if (isADI2() && trainerData.trainingRecords !== undefined) {
+      @if (isADI2() && trainerData?.trainingRecords !== undefined) {
         <data-row
           [label]="'Training Records'"
           [shouldHaveSeperator]=false
