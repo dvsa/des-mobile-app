@@ -116,13 +116,17 @@
       }
 
       @if (isADI2() || isADI3()) {
-        <data-row [label]="'ORDIT'" [value]="ordit"></data-row>
+        <data-row
+          [label]="'ORDIT'"
+          [value]="ordit"
+          [shouldHaveSeperator]="isADI3() || trainerData?.trainingRecords !== undefined"
+        ></data-row>
       }
 
-      @if (isADI2()) {
+      @if (isADI2() && trainerData?.trainingRecords !== undefined) {
         <data-row
           [label]="'Training Records'"
-          [shouldHaveSeperator]="isADI3()"
+          [shouldHaveSeperator]=false
           [value]="trainingRecords"
         >
         </data-row>
