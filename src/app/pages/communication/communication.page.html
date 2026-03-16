@@ -9,7 +9,7 @@
     mode="ios">
     <test-flow-header
       class="display-flex flex-direction-column"
-      [testCategory]="pageState.testCategory$ | async"
+      [testCategory]="testCategory"
       [shouldShowEscapeFromSamButton]="!isRekey && !isDelegated"
       [shouldIncludeLanguageDirectiveOnTitle]="true"
       [pageName]="'communication-page-title'"
@@ -19,7 +19,7 @@
       (setupLeaveSubscription)="setupEscapeSAMLeaveSubscription()"
       (setupResumeSubscription)="setupEscapeSAMResumeSubscription()"
       (onExitSAMActivatedChanged)="isSamActivatedChanged($event)">
-      {{ 'communication.title' | translate }} - {{pageState.candidateUntitledName$ | async}}
+      {{ 'communication.title' | translate }} - {{candidateUntitledName}}
     </test-flow-header>
   </ion-toolbar>
 </ion-header>
@@ -30,19 +30,19 @@
     <form [formGroup]="form">
       <candidate-section
         (continueClickEvent)="onSubmit()"
-        [candidateDriverNumber]="pageState.candidateDriverNumber$ | async"
-        [candidateName]="pageState.candidateName$ | async"
-        [candidatePrnNumber]="pageState.prn$ | async"
-        [isStandardsCheck]="pageState.isStandardsCheck$ | async"
-        [showVRNButton]="pageState.showVrnBtn$ | async"
+        [candidateDriverNumber]="candidateDriverNumber"
+        [candidateName]="candidateName"
+        [candidatePrnNumber]="prn"
+        [isStandardsCheck]="isStandardsCheck"
+        [showVRNButton]="showVrnBtn"
         >
       </candidate-section>
 
-      @if (pageState.isStandardsCheck$ | async) {
+      @if (isStandardsCheck) {
         <valid-certificate
           (validCertificateChange)="validCertificateChanged($event)"
           [formGroup]="form"
-          [validCertificate]="pageState.validCertificate$ | async"
+          [validCertificate]="validCertificate"
         ></valid-certificate>
       }
 
@@ -62,8 +62,8 @@
                   (providedEmailRadioSelect)="dispatchCandidateChoseProvidedEmail()"
                   [formGroup]="form"
                   [isProvidedEmailAddressChosen]="isProvidedEmailSelected()"
-                  [providedEmailAddress]="pageState.candidateProvidedEmail$ | async"
-                  [shouldRender]="!!(pageState.candidateProvidedEmail$ | async)"
+                  [providedEmailAddress]="candidateProvidedEmail"
+                  [shouldRender]="!!(candidateProvidedEmail)"
                   >
                 </provided-email>
 
@@ -79,7 +79,7 @@
                   (postalRadioSelect)="dispatchCandidateChosePost()"
                   [formGroup]="form"
                   [isPostalAddressChosen]="isPostSelected()"
-                  [postalAddress]="pageState.candidateAddress$ | async"
+                  [postalAddress]="candidateAddress"
                   >
                 </postal-address>
 
