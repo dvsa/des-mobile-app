@@ -54,7 +54,7 @@
     "@almothafar/angular-signature-pad": "^8.0.0",
     "@angular/cdk": "^19.2.19",
     "@angular/common": "^19.2.18",
-    "@angular/core": "^19.2.19",
+    "@angular/core": "^19.2.20",
     "@angular/forms": "^19.2.18",
     "@angular/localize": "^19.2.18",
     "@angular/platform-browser": "^19.2.18",
