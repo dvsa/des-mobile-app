@@ -285,6 +285,7 @@ export class AuthenticationProvider {
       }
       // determine if the existing token is expired
       if (await this.hasTokenExpired(authResult)) {
+        this.logEvent(LogType.DEBUG, 'Authentication provider - Is Auth', 'token expired, attempting refresh');
         // attempt a token refresh
         await this.login(true);
       }
