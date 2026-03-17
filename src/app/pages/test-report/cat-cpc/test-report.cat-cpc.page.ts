@@ -7,7 +7,6 @@ import { CPCEndTestModal } from '@pages/test-report/cat-cpc/components/cpc-end-t
 import { CPCQuestionProvider } from '@providers/cpc-questions/cpc-questions';
 import { TestResultProvider } from '@providers/test-result/test-result';
 import {
-  CommonTestReportPageState,
   TestReportBasePageComponent,
   trDestroy$,
 } from '@shared/classes/test-flow-base-pages/test-report/test-report-base-page';
@@ -23,6 +22,7 @@ import {
   getQuestion4,
   getQuestion5,
   getTotalPercent,
+  selectCPCTestData,
 } from '@store/tests/test-data/cat-cpc/test-data.cat-cpc.selector';
 import { getTests } from '@store/tests/tests.reducer';
 import { getCurrentTest } from '@store/tests/tests.selector';
@@ -40,7 +40,7 @@ interface CatCPCTestReportPageState {
   testDataCPC$: Observable<TestData>;
 }
 
-type TestReportPageState = CommonTestReportPageState & CatCPCTestReportPageState;
+type TestReportPageState = CatCPCTestReportPageState;
 
 type ToggleEvent = {
   answer: {
@@ -66,8 +66,8 @@ export class TestReportCatCPCPage extends TestReportBasePageComponent implements
   overallPercentage: number;
   category: CategoryCode;
   isDelegated: boolean;
-  testData: TestData;
   localSubscription: Subscription;
+  cpcTestData = this.store$.selectSignal(selectCPCTestData)();
 
   constructor(
     private cpcQuestionProvider: CPCQuestionProvider,
@@ -84,7 +84,6 @@ export class TestReportCatCPCPage extends TestReportBasePageComponent implements
     const currentTest$ = this.store$.pipe(select(getTests), select(getCurrentTest));
 
     this.pageState = {
-      ...this.commonPageState,
       combinationCode$: currentTest$.pipe(select(getTestData), select(getCombination)),
       question1$: currentTest$.pipe(select(getTestData), select(getQuestion1)),
       question2$: currentTest$.pipe(select(getTestData), select(getQuestion2)),
@@ -94,7 +93,6 @@ export class TestReportCatCPCPage extends TestReportBasePageComponent implements
       overallPercentage$: currentTest$.pipe(select(getTestData), select(getTotalPercent)),
       testDataCPC$: currentTest$.pipe(select(getTestData)),
     };
-    this.setupSubscription();
   }
 
   async ionViewWillEnter() {
@@ -104,7 +102,6 @@ export class TestReportCatCPCPage extends TestReportBasePageComponent implements
 
   ionViewDidLeave(): void {
     super.ionViewDidLeave();
-    super.cancelSubscription();
 
     if (this.localSubscription) {
       this.localSubscription.unsubscribe();
@@ -147,7 +144,7 @@ export class TestReportCatCPCPage extends TestReportBasePageComponent implements
     this.store$.dispatch(PopulateQuestionScore(questionNum, questionScore));
 
     // Update total score
-    const totalScore: number = this.cpcQuestionProvider.getTotalQuestionScore(this.testData);
+    const totalScore: number = this.cpcQuestionProvider.getTotalQuestionScore(this.cpcTestData);
     this.store$.dispatch(PopulateTestScore(totalScore));
   };
 
@@ -159,7 +156,7 @@ export class TestReportCatCPCPage extends TestReportBasePageComponent implements
     this.store$.dispatch(PopulateQuestionScore(questionNum, Number(event.score)));
 
     // Update total score
-    const totalScore: number = this.cpcQuestionProvider.getTotalQuestionScore(this.testData);
+    const totalScore: number = this.cpcQuestionProvider.getTotalQuestionScore(this.cpcTestData);
     this.store$.dispatch(PopulateTestScore(totalScore));
   };
 
@@ -180,29 +177,26 @@ export class TestReportCatCPCPage extends TestReportBasePageComponent implements
       .pipe(select(getTestData))
       .subscribe((result: TestData) => (this.testData = result));
 
-    this.subscription = combineLatest([
+    this.localSubscription = combineLatest([
       this.pageState.question1$,
       this.pageState.question2$,
       this.pageState.question3$,
       this.pageState.question4$,
       this.pageState.question5$,
       this.pageState.overallPercentage$,
-      this.pageState.category$,
     ])
       .pipe(takeUntil(trDestroy$))
       .subscribe(
-        ([question1, question2, question3, question4, question5, overallPercentage, category]: [
+        ([question1, question2, question3, question4, question5, overallPercentage]: [
           Question,
           Question,
           Question,
           Question,
           Question5,
           number,
-          CategoryCode,
         ]) => {
           this.questions = [question1, question2, question3, question4, question5];
           this.overallPercentage = overallPercentage;
-          this.category = category;
         }
       );
   }

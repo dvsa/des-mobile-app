@@ -5,10 +5,7 @@ import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/
 import { ToastController } from '@ionic/angular';
 import { select } from '@ngrx/store';
 import { TestDataByCategoryProvider } from '@providers/test-data-by-category/test-data-by-category';
-import {
-  CommonTestReportPageState,
-  TestReportBasePageComponent,
-} from '@shared/classes/test-flow-base-pages/test-report/test-report-base-page';
+import { TestReportBasePageComponent } from '@shared/classes/test-flow-base-pages/test-report/test-report-base-page';
 import { isAnyOf } from '@shared/helpers/simplifiers';
 import { getTestCategory } from '@store/tests/category/category.reducer';
 import { getTestData } from '@store/tests/test-data/cat-manoeuvres/test-data.cat-manoeuvres.reducer';
@@ -27,7 +24,7 @@ interface CatManoeuvreTestReportPageState {
   showUncoupleRecouple$: Observable<boolean>;
 }
 
-type TestReportPageState = CommonTestReportPageState & CatManoeuvreTestReportPageState;
+type TestReportPageState = CatManoeuvreTestReportPageState;
 
 @Component({
   selector: '.test-report-cat-manoeuvre-page',
@@ -58,8 +55,6 @@ export class TestReportCatManoeuvrePage extends TestReportBasePageComponent impl
     const currentTest$ = this.store$.pipe(select(getTests), select(getCurrentTest));
 
     this.pageState = {
-      ...this.commonPageState,
-      testData$: this.commonPageState.testData$ as Observable<CatCMUniqueTypes.TestData>,
       selectedReverseManoeuvre$: currentTest$.pipe(
         withLatestFrom(currentTest$.pipe(select(getTestCategory))),
         map(([data, category]) => this.testDataByCategory.getTestDataByCategoryCode(category)(data)),
@@ -82,8 +77,6 @@ export class TestReportCatManoeuvrePage extends TestReportBasePageComponent impl
       selectedReverseManoeuvre$.pipe(map((hasFault) => (this.selectedReverseManoeuvre = hasFault))),
       manoeuvresHasFaults$.pipe(map((hasFault) => (this.manoeuvresHasFaults = hasFault)))
     );
-
-    this.setupSubscription();
   }
 
   async ionViewWillEnter(): Promise<void> {
@@ -96,7 +89,6 @@ export class TestReportCatManoeuvrePage extends TestReportBasePageComponent impl
 
   ionViewDidLeave(): void {
     super.ionViewDidLeave();
-    super.cancelSubscription();
 
     if (this.manoeuvreSubscription) {
       this.manoeuvreSubscription.unsubscribe();

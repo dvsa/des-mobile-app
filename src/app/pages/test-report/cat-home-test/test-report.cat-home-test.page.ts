@@ -4,13 +4,7 @@ import { CatGUniqueTypes } from '@dvsa/mes-test-schema/categories/G';
 import { CatHUniqueTypes } from '@dvsa/mes-test-schema/categories/H';
 import { CatKUniqueTypes } from '@dvsa/mes-test-schema/categories/K';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
-import {
-  CommonTestReportPageState,
-  TestReportBasePageComponent,
-} from '@shared/classes/test-flow-base-pages/test-report/test-report-base-page';
-import { Observable } from 'rxjs';
-
-type TestReportPageState = CommonTestReportPageState;
+import { TestReportBasePageComponent } from '@shared/classes/test-flow-base-pages/test-report/test-report-base-page';
 
 type HomeCatTestDataUnion =
   | CatFUniqueTypes.TestData
@@ -25,8 +19,6 @@ type HomeCatTestDataUnion =
   standalone: false,
 })
 export class TestReportCatHomeTestPage extends TestReportBasePageComponent implements OnInit {
-  pageState: TestReportPageState;
-
   constructor() {
     super();
     this.displayOverlay = false;
@@ -34,17 +26,6 @@ export class TestReportCatHomeTestPage extends TestReportBasePageComponent imple
 
   ngOnInit(): void {
     super.onInitialisation();
-
-    this.pageState = {
-      ...this.commonPageState,
-      testData$: this.commonPageState.testData$ as Observable<HomeCatTestDataUnion>,
-    };
-    this.setupSubscription();
-  }
-
-  ionViewDidLeave(): void {
-    super.ionViewDidLeave();
-    super.cancelSubscription();
   }
 
   showManoeuvreButton = (): boolean => {

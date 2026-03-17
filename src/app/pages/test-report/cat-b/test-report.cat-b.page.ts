@@ -1,13 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
-
-import { CatBUniqueTypes } from '@dvsa/mes-test-schema/categories/B';
-import {
-  CommonTestReportPageState,
-  TestReportBasePageComponent,
-} from '@shared/classes/test-flow-base-pages/test-report/test-report-base-page';
-
-type TestReportPageState = CommonTestReportPageState;
+import { TestReportBasePageComponent } from '@shared/classes/test-flow-base-pages/test-report/test-report-base-page';
 
 @Component({
   selector: '.test-report-cat-b-page',
@@ -16,8 +8,6 @@ type TestReportPageState = CommonTestReportPageState;
   standalone: false,
 })
 export class TestReportCatBPage extends TestReportBasePageComponent implements OnInit {
-  pageState: TestReportPageState;
-
   constructor() {
     super();
     this.displayOverlay = false;
@@ -25,16 +15,5 @@ export class TestReportCatBPage extends TestReportBasePageComponent implements O
 
   ngOnInit(): void {
     super.onInitialisation();
-
-    this.pageState = {
-      ...this.commonPageState,
-      testData$: this.commonPageState.testData$ as Observable<CatBUniqueTypes.TestData>,
-    };
-    this.setupSubscription();
-  }
-
-  ionViewDidLeave(): void {
-    super.ionViewDidLeave();
-    super.cancelSubscription();
   }
 }
