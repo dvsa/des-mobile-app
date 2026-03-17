@@ -5,7 +5,8 @@ import { CategoryCode } from '@dvsa/mes-test-schema/categories/common';
 import { CPCEndTestModal } from '@pages/test-report/cat-cpc/components/cpc-end-test-modal/cpc-end-test-modal';
 import { CPCQuestionProvider } from '@providers/cpc-questions/cpc-questions';
 import { TestResultProvider } from '@providers/test-result/test-result';
-import { TestReportBasePageComponent } from '@shared/classes/test-flow-base-pages/test-report/test-report-base-page';
+import {
+  TestReportBasePageComponent} from '@shared/classes/test-flow-base-pages/test-report/test-report-base-page';
 import { QuestionNumber } from '@shared/constants/cpc-questions/cpc-question-combinations.constants';
 import { PopulateTestScore } from '@store/tests/test-data/cat-cpc/overall-score/total-percentage.action';
 import { AnswerToggled, PopulateQuestionScore } from '@store/tests/test-data/cat-cpc/questions/questions.action';
