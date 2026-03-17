@@ -34,8 +34,6 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-button (click)="authenticationProvider.testLogin(false)">Refresh Token - No Refresh</ion-button>
-  <ion-button (click)="authenticationProvider.testLogin(true)">Refresh Token - Refresh</ion-button>
   <offline-banner [isOffline]="pageState.isOffline$ | async"></offline-banner>
 
   <incomplete-tests-banner></incomplete-tests-banner>
