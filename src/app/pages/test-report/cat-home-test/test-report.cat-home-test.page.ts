@@ -11,7 +11,6 @@ import {
   CommonTestReportPageState,
   TestReportBasePageComponent,
 } from '@shared/classes/test-flow-base-pages/test-report/test-report-base-page';
-import { Observable } from 'rxjs';
 import { CompetencyComponent } from '../components/competency/competency';
 import { ControlledStopComponent } from '../components/controlled-stop/controlled-stop';
 import { EcoComponent } from '../components/eco/eco';
@@ -22,8 +21,6 @@ import { ReverseLeftPopoverComponent } from '../components/reverse-left-popover/
 import { ReverseLeftComponent } from '../components/reverse-left/reverse-left';
 import { ToolbarComponent } from '../components/toolbar/toolbar';
 import { VehicleChecksComponent } from './components/vehicle-checks/vehicle-checks';
-
-type TestReportPageState = CommonTestReportPageState;
 
 type HomeCatTestDataUnion =
   | CatFUniqueTypes.TestData
@@ -59,8 +56,6 @@ type HomeCatTestDataUnion =
   ],
 })
 export class TestReportCatHomeTestPage extends TestReportBasePageComponent implements OnInit {
-  pageState: TestReportPageState;
-
   constructor() {
     super();
     this.displayOverlay = false;
@@ -68,17 +63,6 @@ export class TestReportCatHomeTestPage extends TestReportBasePageComponent imple
 
   ngOnInit(): void {
     super.onInitialisation();
-
-    this.pageState = {
-      ...this.commonPageState,
-      testData$: this.commonPageState.testData$ as Observable<HomeCatTestDataUnion>,
-    };
-    this.setupSubscription();
-  }
-
-  ionViewDidLeave(): void {
-    super.ionViewDidLeave();
-    super.cancelSubscription();
   }
 
   showManoeuvreButton = (): boolean => {

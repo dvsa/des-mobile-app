@@ -17,10 +17,7 @@ import { CalculateTestResult, ReturnToTest, TerminateTestFromTestReport } from '
 import { ModalEvent } from '@pages/test-report/test-report.constants';
 import { ADI3AssessmentProvider } from '@providers/adi3-assessment/adi3-assessment';
 import { TestResultProvider } from '@providers/test-result/test-result';
-import {
-  CommonTestReportPageState,
-  TestReportBasePageComponent,
-} from '@shared/classes/test-flow-base-pages/test-report/test-report-base-page';
+import { TestReportBasePageComponent } from '@shared/classes/test-flow-base-pages/test-report/test-report-base-page';
 import { SetActivityCode } from '@store/tests/activity-code/activity-code.actions';
 import {
   FeedbackChanged,
@@ -43,7 +40,7 @@ interface TestReportDashboardState {
   feedback$: Observable<string>;
 }
 
-type TestReportDashboardPageState = CommonTestReportPageState & TestReportDashboardState;
+type TestReportDashboardPageState = TestReportDashboardState;
 
 @Component({
   selector: 'app-test-report-dashboard',
@@ -96,7 +93,6 @@ export class TestReportDashboardPage extends TestReportBasePageComponent impleme
     const currentTest$ = this.store$.pipe(select(getTests), select(getCurrentTest));
 
     this.pageState = {
-      ...this.commonPageState,
       testDataADI3$: currentTest$.pipe(select(getTestData)),
       feedback$: currentTest$.pipe(select(getTestData), select(getReview), select(getFeedback)),
     };
@@ -118,21 +114,15 @@ export class TestReportDashboardPage extends TestReportBasePageComponent impleme
         })
       )
     );
-
-    this.setupSubscription();
   }
 
   ionViewDidEnter(): void {
-    if (!this.subscription || this.subscription.closed) {
-      super.setupSubscription();
-    }
     this.store$.dispatch(TestReportDashboardViewDidEnter());
   }
 
   async ionViewWillEnter() {
     this.ngOnInit();
     await super.ionViewWillEnter();
-    this.setupSubscription();
 
     if (this.merged$) {
       this.localSubscription = this.merged$.subscribe();
@@ -141,7 +131,6 @@ export class TestReportDashboardPage extends TestReportBasePageComponent impleme
 
   ionViewDidLeave(): void {
     super.ionViewDidLeave();
-    super.cancelSubscription();
 
     if (this.localSubscription) {
       this.localSubscription.unsubscribe();

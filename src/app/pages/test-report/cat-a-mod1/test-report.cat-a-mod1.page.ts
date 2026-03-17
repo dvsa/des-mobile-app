@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { Observable, merge } from 'rxjs';
 
 import { AsyncPipe, NgClass } from '@angular/common';
 import { TestFlowHeaderComponent } from '@components/common/test-flow-header/test-flow-header.component';
@@ -17,13 +16,9 @@ import {
 import { EndTestModal } from '@pages/test-report/components/end-test-modal/end-test-modal';
 import { ModalEvent } from '@pages/test-report/test-report.constants';
 import { SpeedCheckState } from '@providers/test-report-validator/test-report-validator.constants';
-import {
-  CommonTestReportPageState,
-  TestReportBasePageComponent,
-} from '@shared/classes/test-flow-base-pages/test-report/test-report-base-page';
+import { TestReportBasePageComponent } from '@shared/classes/test-flow-base-pages/test-report/test-report-base-page';
 import { competencyLabels } from '@shared/constants/competencies/competencies';
 import { SingleFaultCompetencyNames } from '@store/tests/test-data/test-data.constants';
-import { map } from 'rxjs/operators';
 import { CompetencyComponent } from '../components/competency/competency';
 import { EtaInvalidModal } from '../components/eta-invalid-modal/eta-invalid-modal';
 import { EtaComponent } from '../components/examiner-takes-action/eta';
@@ -31,8 +26,6 @@ import { SingleFaultCompetencyComponent } from '../components/single-fault-compe
 import { ToolbarComponent } from '../components/toolbar/toolbar';
 import { SpeedCheckHeaderComponent } from './components/speed-check-header/speed-check-header';
 import { SpeedCheckComponent } from './components/speed-check/speed-check';
-
-type TestReportPageState = CommonTestReportPageState;
 
 @Component({
   selector: '.test-report-cat-a-mod1-page',
@@ -58,8 +51,6 @@ type TestReportPageState = CommonTestReportPageState;
 })
 export class TestReportCatAMod1Page extends TestReportBasePageComponent implements OnInit, ViewDidLeave {
   singleFaultCompetencyNames = SingleFaultCompetencyNames;
-  pageState: TestReportPageState;
-  speedCheckState: SpeedCheckState;
 
   constructor() {
     super();
@@ -68,35 +59,6 @@ export class TestReportCatAMod1Page extends TestReportBasePageComponent implemen
 
   ngOnInit(): void {
     super.onInitialisation();
-
-    this.pageState = {
-      ...this.commonPageState,
-      testData$: this.commonPageState.testData$ as Observable<TestData>,
-    };
-
-    this.setupSubscription();
-  }
-
-  setupSubscription() {
-    const { candidateUntitledName$, isRemoveFaultMode$, isSeriousMode$, isDangerousMode$, testData$ } = this.pageState;
-
-    this.subscription = merge(
-      candidateUntitledName$,
-      isRemoveFaultMode$.pipe(map((result) => (this.isRemoveFaultMode = result))),
-      isSeriousMode$.pipe(map((result) => (this.isSeriousMode = result))),
-      isDangerousMode$.pipe(map((result) => (this.isDangerousMode = result))),
-      testData$.pipe(
-        map((data) => {
-          this.speedCheckState = this.testReportValidatorProvider.validateSpeedChecksCatAMod1(data as TestData);
-          this.isEtaValid = this.testReportValidatorProvider.isETAValid(data as TestData, TestCategory.EUAM1);
-        })
-      )
-    ).subscribe();
-  }
-
-  ionViewDidLeave(): void {
-    super.ionViewDidLeave();
-    this.subscription?.unsubscribe();
   }
 
   onEndTestClick = async () => {
@@ -120,7 +82,7 @@ export class TestReportCatAMod1Page extends TestReportBasePageComponent implemen
   };
 
   createEtaInvalidModal(): Promise<HTMLIonModalElement | null> {
-    if (!this.isEtaValid) {
+    if (!this.testReportValidatorProvider.isETAValid(this.testData as TestData, TestCategory.EUAM1)) {
       return this.modalController.create({
         component: EtaInvalidModal,
         componentProps: {},
@@ -131,7 +93,7 @@ export class TestReportCatAMod1Page extends TestReportBasePageComponent implemen
   }
 
   createSpeedCheckModal(): Promise<HTMLIonModalElement | null> {
-    switch (this.speedCheckState) {
+    switch (this.testReportValidatorProvider.validateSpeedChecksCatAMod1(this.testData as TestData)) {
       case SpeedCheckState.EMERGENCY_STOP_AND_AVOIDANCE_MISSING:
         return this.modalController.create({
           component: SpeedCheckModal,
@@ -160,7 +122,7 @@ export class TestReportCatAMod1Page extends TestReportBasePageComponent implemen
   }
 
   createActivityCode4Modal(): Promise<HTMLIonModalElement | null> {
-    switch (this.speedCheckState) {
+    switch (this.testReportValidatorProvider.validateSpeedChecksCatAMod1(this.testData as TestData)) {
       case SpeedCheckState.NOT_MET:
         this.store$.dispatch(SpeedRequirementNotMetModalOpened());
         return this.modalController.create({
@@ -188,7 +150,9 @@ export class TestReportCatAMod1Page extends TestReportBasePageComponent implemen
   }
 
   createEndTestModal(): Promise<HTMLIonModalElement> {
-    if (this.speedCheckState === SpeedCheckState.VALID) {
+    if (
+      this.testReportValidatorProvider.validateSpeedChecksCatAMod1(this.testData as TestData) === SpeedCheckState.VALID
+    ) {
       return this.modalController.create({
         component: EndTestModal,
         componentProps: {},

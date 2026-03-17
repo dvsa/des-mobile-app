@@ -4,6 +4,7 @@ import { DangerousFaultBadgeComponent } from '@components/common/dangerous-fault
 import { DrivingFaultsBadgeComponent } from '@components/common/driving-faults-badge/driving-faults-badge';
 import { SeriousFaultBadgeComponent } from '@components/common/serious-fault-badge/serious-fault-badge';
 import { TickIndicatorComponent } from '@components/common/tick-indicator/tick-indicator';
+import { CategoryCode } from '@dvsa/mes-test-schema/categories/common';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { IonCol, IonRow } from '@ionic/angular';
 import { Store, select } from '@ngrx/store';
@@ -51,7 +52,7 @@ interface ControlledStopComponentState {
 })
 export class ControlledStopComponent implements OnInit, OnDestroy {
   @Input()
-  testCategory: TestCategory;
+  testCategory: CategoryCode;
 
   componentState: ControlledStopComponentState;
   subscription: Subscription;
@@ -199,7 +200,7 @@ export class ControlledStopComponent implements OnInit, OnDestroy {
 
   shouldDisplayEmergencyLabel() {
     return [TestCategory.B, TestCategory.ADI2, TestCategory.H, TestCategory.F, TestCategory.G, TestCategory.K].includes(
-      this.testCategory
+      this.testCategory as TestCategory
     )
       ? 'Emergency'
       : 'Controlled';

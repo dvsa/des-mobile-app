@@ -14,10 +14,7 @@ import { IonButton, IonCol, IonContent, IonHeader, IonRow, IonText, IonToolbar, 
 import { select } from '@ngrx/store';
 import { AssessmentOverallScoreChanged } from '@pages/test-report/cat-adi-part3/test-report.cat-adi-part3.actions';
 import { ADI3AssessmentProvider } from '@providers/adi3-assessment/adi3-assessment';
-import {
-  CommonTestReportPageState,
-  TestReportBasePageComponent,
-} from '@shared/classes/test-flow-base-pages/test-report/test-report-base-page';
+import { TestReportBasePageComponent } from '@shared/classes/test-flow-base-pages/test-report/test-report-base-page';
 import {
   LessonThemeAdded,
   LessonThemeChanged,
@@ -58,7 +55,7 @@ interface CatADI3TestReportPageState {
   totalScore$: Observable<number>;
 }
 
-type TestReportPageState = CommonTestReportPageState & CatADI3TestReportPageState;
+type TestReportPageState = CatADI3TestReportPageState;
 
 @Component({
   selector: 'app-test-report-cat-adi3',
@@ -105,7 +102,6 @@ export class TestReportCatADI3Page extends TestReportBasePageComponent implement
     const currentTest$ = this.store$.pipe(select(getTests), select(getCurrentTest));
 
     this.pageState = {
-      ...this.commonPageState,
       studentLevel$: currentTest$.pipe(select(getTestData), select(getLessonAndTheme), select(getStudentLevel)),
       lessonThemes$: currentTest$.pipe(select(getTestData), select(getLessonAndTheme), select(getLessonThemes)),
       otherReason$: currentTest$.pipe(select(getTestData), select(getLessonAndTheme), select(getOther)),
@@ -115,12 +111,6 @@ export class TestReportCatADI3Page extends TestReportBasePageComponent implement
       adi3TestData$: currentTest$.pipe(select(getTestData)),
       totalScore$: currentTest$.pipe(select(getTestData), map(this.adi3AssessmentProvider.getTotalAssessmentScore)),
     };
-    this.setupSubscription();
-  }
-
-  ionViewDidLeave(): void {
-    super.ionViewDidLeave();
-    super.cancelSubscription();
   }
 
   studentLevelChanged = (studentLeveL: StudentLevel): void => {
