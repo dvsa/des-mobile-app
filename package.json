@@ -11,6 +11,7 @@
   },
   "scripts": {
     "prepare": "husky install",
+    "postinstall": "patch-package",
     "vulnerability-check": "snyk test",
     "test": "run-s update-mock-data copy-mock-data config:dev && ng test --no-watch",
     "test:reload": "run-s update-mock-data copy-mock-data config:dev && ng test --watch",
@@ -167,6 +168,7 @@
     "lint-staged": "^15.2.10",
     "ng-mocks": "^14.13.4",
     "npm-run-all": "^4.1.5",
+    "patch-package": "^8.0.1",
     "postcss": "^8.4.31",
     "puppeteer": "^23.8.0",
     "remotedev": "^0.2.7",

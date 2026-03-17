@@ -65,6 +65,12 @@ export class AuthenticationProvider {
     private networkState: NetworkStateProvider
   ) {}
 
+  async testLogin(isExpired: boolean) {
+    const authResult: AuthResult = await MsAuthPlugin.login({...this.authOptions, isExpired});
+    window.alert(this.decodeToken(authResult.idToken).exp);
+
+  }
+
   //Login to MSAuth plugin and return the auth result, tag it with a flag to identify that it came from MSAuth
   async pluginLogin(): Promise<AuthResult> {
     const authResult: AuthResult = await MsAuthPlugin.login(this.authOptions);
