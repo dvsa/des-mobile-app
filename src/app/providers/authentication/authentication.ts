@@ -66,8 +66,11 @@ export class AuthenticationProvider {
   ) {}
 
   //Login to MSAuth plugin and return the auth result, tag it with a flag to identify that it came from MSAuth
-  async pluginLogin(): Promise<AuthResult> {
-    const authResult: AuthResult = await MsAuthPlugin.login(this.authOptions);
+  async pluginLogin(forceTokenRefresh?: boolean): Promise<AuthResult> {
+    const authResult: AuthResult = await MsAuthPlugin.login({
+      ...this.authOptions,
+      isExpired: forceTokenRefresh,
+    });
     return {
       ...authResult,
       isMSAuth: true,
@@ -225,7 +228,7 @@ export class AuthenticationProvider {
   /**
    * Triggers the login process, attempting to use an existing token if it is still valid and getting a new one if not
    */
-  async login() {
+  async login(forceTokenRefresh?: boolean) {
     if (!this.authOptions) {
       await this.init();
     }
@@ -234,7 +237,7 @@ export class AuthenticationProvider {
 
     let authResult: AuthResult = null;
     try {
-      authResult = await this.pluginLogin();
+      authResult = await this.pluginLogin(forceTokenRefresh);
       if (!authResult && this.isOffline()) {
         throw new Error(AuthenticationError.OFFLINE);
       }
@@ -282,8 +285,9 @@ export class AuthenticationProvider {
       }
       // determine if the existing token is expired
       if (await this.hasTokenExpired(authResult)) {
+        this.logEvent(LogType.DEBUG, 'Authentication provider - Is Auth', 'token expired, attempting refresh');
         // attempt a token refresh
-        await this.login();
+        await this.login(true);
       }
       // return true if the token has changed successfully
       return true;

@@ -351,6 +351,36 @@ describe('AuthenticationProvider', () => {
       );
       expect(authenticationProvider.storeAuthResult).not.toHaveBeenCalled();
     });
+
+    it('should pass forceTokenRefresh parameter to pluginLogin when provided', async () => {
+      authenticationProvider.authOptions = { clientId: 'test' };
+      spyOn(authenticationProvider, 'pluginLogin').and.resolveTo({
+        idToken: 'token',
+        accessToken: 'token123',
+        scopes: ['email'],
+      } as AuthResult);
+      spyOn(authenticationProvider, 'storeAuthResult').and.returnValue(Promise.resolve());
+
+      await authenticationProvider.login(true);
+
+      expect(authenticationProvider.pluginLogin).toHaveBeenCalledWith(true);
+      expect(authenticationProvider.storeAuthResult).toHaveBeenCalled();
+    });
+
+    it('should pass undefined to pluginLogin when forceTokenRefresh is not provided', async () => {
+      authenticationProvider.authOptions = { clientId: 'test' };
+      spyOn(authenticationProvider, 'pluginLogin').and.resolveTo({
+        idToken: 'token',
+        accessToken: 'token123',
+        scopes: ['email'],
+      } as AuthResult);
+      spyOn(authenticationProvider, 'storeAuthResult').and.returnValue(Promise.resolve());
+
+      await authenticationProvider.login();
+
+      expect(authenticationProvider.pluginLogin).toHaveBeenCalledWith(undefined);
+      expect(authenticationProvider.storeAuthResult).toHaveBeenCalled();
+    });
   });
 
   describe('isOffline', () => {
@@ -436,7 +466,7 @@ describe('AuthenticationProvider', () => {
       const result = await authenticationProvider.isAuthenticated();
 
       expect(result).toBe(true);
-      expect(authenticationProvider.login).toHaveBeenCalled();
+      expect(authenticationProvider.login).toHaveBeenCalledWith(true);
     });
 
     it('should catch errors from getAuthResult and return false', async () => {
