@@ -72,7 +72,6 @@ export class AuthenticationProvider {
       forceRefresh: forceTokenRefresh,
     });
 
-    console.log('auth', this.decodeToken(authResult?.idToken).exp);
     return {
       ...authResult,
       isMSAuth: true,
