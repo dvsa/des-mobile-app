@@ -1,4 +1,5 @@
 import { Injectable, Signal } from '@angular/core';
+import { LoginOptions, MsAuthPlugin } from '@dvsa/capacitor-plugin-msauth';
 import { Store } from '@ngrx/store';
 import { DelegatedRekeySearchClearState } from '@pages/delegated-rekey-search/delegated-rekey-search.actions';
 import { ResetRekeyReason } from '@pages/rekey-reason/rekey-reason.actions';
@@ -9,7 +10,6 @@ import { StorageCleared } from '@providers/authentication/authentification.actio
 import { CompletedTestPersistenceProvider } from '@providers/completed-test-persistence/completed-test-persistence';
 import { ExaminerRecordsProvider } from '@providers/examiner-records/examiner-records';
 import { LogHelper } from '@providers/logs/logs-helper';
-import { LoginOptions, MsAuthPlugin } from '@recognizebv/capacitor-plugin-msauth';
 import { serialiseLogMessage } from '@shared/helpers/serialise-log-message';
 import { LogType } from '@shared/models/log.model';
 import { StoreModel } from '@shared/models/store.model';
@@ -66,10 +66,10 @@ export class AuthenticationProvider {
   ) {}
 
   //Login to MSAuth plugin and return the auth result, tag it with a flag to identify that it came from MSAuth
-  async pluginLogin(forceTokenRefresh?: boolean): Promise<AuthResult> {
+  async pluginLogin(forceRefresh?: boolean): Promise<AuthResult> {
     const authResult: AuthResult = await MsAuthPlugin.login({
       ...this.authOptions,
-      isExpired: forceTokenRefresh,
+      forceRefresh,
     });
     return {
       ...authResult,
@@ -228,7 +228,7 @@ export class AuthenticationProvider {
   /**
    * Triggers the login process, attempting to use an existing token if it is still valid and getting a new one if not
    */
-  async login(forceTokenRefresh?: boolean) {
+  async login(forceRefresh?: boolean) {
     if (!this.authOptions) {
       await this.init();
     }
@@ -237,7 +237,7 @@ export class AuthenticationProvider {
 
     let authResult: AuthResult = null;
     try {
-      authResult = await this.pluginLogin(forceTokenRefresh);
+      authResult = await this.pluginLogin(forceRefresh);
       if (!authResult && this.isOffline()) {
         throw new Error(AuthenticationError.OFFLINE);
       }
