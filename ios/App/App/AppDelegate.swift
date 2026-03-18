@@ -1,7 +1,7 @@
 import UIKit
 import Capacitor
 import CapawesomeCapacitorScreenOrientation
-import RecognizebvCapacitorPluginMsauth
+import DvsaCapacitorPluginMsauth
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {

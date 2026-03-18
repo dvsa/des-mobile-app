@@ -32,13 +32,13 @@ PODS:
     - GoogleAnalytics (= 3.20.0)
   - DvsaCapacitorPluginAsam (2.1.0):
     - Capacitor
+  - DvsaCapacitorPluginMsauth (1.0.0):
+    - Capacitor
+    - MSAL (~> 1.1)
   - GoogleAnalytics (3.20.0)
   - MSAL (1.9.0):
     - MSAL/app-lib (= 1.9.0)
   - MSAL/app-lib (1.9.0)
-  - RecognizebvCapacitorPluginMsauth (4.1.0):
-    - Capacitor
-    - MSAL (~> 1.1)
   - Sentry/HybridSDK (8.56.2)
   - SentryCapacitor (2.4.1):
     - Capacitor
@@ -62,7 +62,7 @@ DEPENDENCIES:
   - CordovaPluginsResources (from `../capacitor-cordova-ios-plugins`)
   - CordovaPluginsStatic (from `../capacitor-cordova-ios-plugins`)
   - "DvsaCapacitorPluginAsam (from `../../node_modules/@dvsa/capacitor-plugin-asam`)"
-  - "RecognizebvCapacitorPluginMsauth (from `../../node_modules/@recognizebv/capacitor-plugin-msauth`)"
+  - "DvsaCapacitorPluginMsauth (from `../../node_modules/@dvsa/capacitor-plugin-msauth`)"
   - "SentryCapacitor (from `../../node_modules/@sentry/capacitor`)"
 
 SPEC REPOS:
@@ -106,8 +106,8 @@ EXTERNAL SOURCES:
     :path: "../capacitor-cordova-ios-plugins"
   DvsaCapacitorPluginAsam:
     :path: "../../node_modules/@dvsa/capacitor-plugin-asam"
-  RecognizebvCapacitorPluginMsauth:
-    :path: "../../node_modules/@recognizebv/capacitor-plugin-msauth"
+  DvsaCapacitorPluginMsauth:
+    :path: "../../node_modules/@dvsa/capacitor-plugin-msauth"
   SentryCapacitor:
     :path: "../../node_modules/@sentry/capacitor"
 
@@ -129,12 +129,12 @@ SPEC CHECKSUMS:
   CordovaPluginsResources: da93847212bf7b16ba770e4d6c3e7dba820174c7
   CordovaPluginsStatic: 757e2a27bf7a3c7fd07d09479c133a15d5460423
   DvsaCapacitorPluginAsam: 143282254bfd6265f421cfb01c978b285db3796c
+  DvsaCapacitorPluginMsauth: 1042a3b666227768922eeefbadc298fa609f4d2a
   GoogleAnalytics: 01e4c5a04544a3608f93e970ce0817836897c5a5
   MSAL: 1a32a1070ccf55d9641d31edd8869ea2b5a78beb
-  RecognizebvCapacitorPluginMsauth: c108ed22d9d2329bc729661356f9fce24354e2c2
   Sentry: b53951377b78e21a734f5dc8318e333dbfc682d7
   SentryCapacitor: 84549a1440a7f58a336ed3175db0f067d571cd5b
 
-PODFILE CHECKSUM: 8fb489f8535b0e3eddd5dc277b9148a70fe1780d
+PODFILE CHECKSUM: 2ce7a9647aa2605c1690880b7fc9dab5b757b350
 
 COCOAPODS: 1.16.2
