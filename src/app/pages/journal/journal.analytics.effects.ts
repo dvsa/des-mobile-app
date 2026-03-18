@@ -259,14 +259,18 @@ export class JournalAnalyticsEffects {
       switchMap(([action, tests]) => {
         const setTestStatusSubmittedAction = action as ReturnType<typeof ResumingWriteUp>;
         const test = getTestById(tests, setTestStatusSubmittedAction.slotId);
-        const isTestPassed = isPassed(test);
+        let testPassedValue = GoogleAnalyticsEventsValues.UNKNOWN;
         const journalDataOfTest = test.journalData;
+
+        if (test?.activityCode) {
+          testPassedValue = isPassed(test) ? GoogleAnalyticsEventsValues.PASS : GoogleAnalyticsEventsValues.FAIL;
+        }
 
         // GA4 Analytics
         this.analytics.logGAEvent(
           GoogleAnalyticsEvents.RESUME_WRITE_UP,
           GoogleAnalyticsEventsTitles.RESULT,
-          isTestPassed ? GoogleAnalyticsEventsValues.PASS : GoogleAnalyticsEventsValues.FAIL
+          testPassedValue
         );
 
         this.analytics.addGACustomDimension(
