@@ -14,6 +14,7 @@ import { NetworkStateProvider } from '@providers/network-state/network-state';
 import { SearchProvider } from '@providers/search/search';
 import { AdvancedSearchParams } from '@providers/search/search.models';
 import { BasePageComponent } from '@shared/classes/base-page';
+import { formatBookingReferenceForBackend, formatVisualBookingReference } from '@shared/helpers/formatters';
 import { ErrorTypes } from '@shared/models/error-message';
 import { LogType } from '@shared/models/log.model';
 import { SaveLog } from '@store/logs/logs.actions';
@@ -55,6 +56,8 @@ export class TestResultsSearchPage extends BasePageComponent {
   rekeySearch = false;
   pageState: TestResultPageState;
   merged$: Observable<JournalTestCentre[]>;
+
+  isUserEnteringApplicationReference = false;
 
   constructor(
     public modalController: ModalController,
@@ -105,8 +108,15 @@ export class TestResultsSearchPage extends BasePageComponent {
     return this.authenticationProvider.getEmployeeId();
   }
 
+  blockSpace(event: KeyboardEvent) {
+    if (event.key === ' ') {
+      event.preventDefault(); // stops the space from ever appearing
+    }
+  }
+
   candidateInfoChanged(val: string): void {
-    this.candidateInfo = val;
+    this.isUserEnteringApplicationReference = !Number.isNaN(Number(val[0]));
+    this.candidateInfo = formatBookingReferenceForBackend(val);
   }
 
   searchTests(): void {
@@ -144,11 +154,14 @@ export class TestResultsSearchPage extends BasePageComponent {
     }
 
     if (this.searchBy === SearchBy.ApplicationReference) {
+      if (!this.isUserEnteringApplicationReference) {
+        this.candidateInfo = formatVisualBookingReference(this.candidateInfo);
+      }
       this.subscription.unsubscribe();
       this.store$.dispatch(PerformApplicationReferenceSearch());
       this.showSearchSpinner = true;
       this.subscription = this.searchProvider
-        .applicationReferenceSearch(this.candidateInfo)
+        .applicationReferenceSearch(formatBookingReferenceForBackend(this.candidateInfo))
         .pipe(
           tap(() => (this.hasSearched = true)),
           map((results) => {

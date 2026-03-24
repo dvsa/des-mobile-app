@@ -33,11 +33,21 @@
                 (ionInput)="applicationReferenceChanged($event.target.value)"
                 emojiBlock
                 pasteSanitiser
+                (keydown)="blockSpace($event)"
+                [maxlength]="isUserEnteringApplicationReference ? 11 : 10"
+                uppercaseAlphanumOnly
               >
               </ion-input>
             </ion-col>
           </ion-row>
-          <br/>
+          <ion-row class="ion-padding-bottom">
+            <ion-col class="ion-align-content-center">
+              <ion-text
+                [class.booking-ref-explainer]="applicationReference !== '' && !isUserEnteringApplicationReference"
+                class="mes-data ion-align-content-center transparent">Enter the reference without spaces
+              </ion-text>
+            </ion-col>
+          </ion-row>
           <ion-row>
             <ion-col class="vertical-align-center" size="32">
               <label id="rekey-search-staff-number-label">Staff number</label>

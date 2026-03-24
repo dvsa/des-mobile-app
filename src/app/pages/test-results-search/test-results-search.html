@@ -44,6 +44,11 @@
             </ion-col>
           </ion-row>
           <ion-row class="ion-padding-top">
+            <ion-col class="ion-align-content-center">
+                <ion-text [class.booking-ref-explainer]="candidateInfo !== '' && !isUserEnteringApplicationReference" class="mes-data ion-align-content-center transparent">Enter the reference without spaces</ion-text>
+            </ion-col>
+          </ion-row>
+          <ion-row class="ion-padding-top">
             <ion-col size="96">
               @if (searchBy === 'appReference') {
                 <ion-input
@@ -57,6 +62,9 @@
                   (ionBlur)="setFocus(null)"
                   [value]="candidateInfo"
                   [ngClass]="{'input-focus': focusedElement === 'field'}"
+                  (keydown)="blockSpace($event)"
+                  uppercaseAlphanumOnly
+                  [maxlength]="isUserEnteringApplicationReference ? 11 : 10"
                   (ionInput)="candidateInfoChanged($event.target.value)"
                 >
                 </ion-input>
@@ -96,7 +104,7 @@
               <ion-col class="display-flex">
                 <ion-col class="ion-justify-content-end display-flex">
                   @if (showSearchSpinner) {
-                    <ion-spinner id="search-spinner" name="bubbles"> </ion-spinner>
+                    <ion-spinner id="search-spinner" name="bubbles"></ion-spinner>
                   }
                 </ion-col>
               </ion-col>
@@ -118,16 +126,17 @@
 
     @if (hasSearched && searchResults.length === 0) {
       <div class="results-error">
-        <p class="error-text" id="test-result-search-no-results-message">There were no results found for your search.</p>
+        <p class="error-text" id="test-result-search-no-results-message">There were no results found for your
+          search.</p>
         <p class="error-text" id="test-result-search-please-check-try-again-message">Please check and try again.</p>
       </div>
     } @else if (searchResults.length > 0) {
       <p class="results-message" id="displaying-results-label">
-        Displaying <span>{{searchResults.length}}</span> results
+        Displaying <span>{{ searchResults.length }}</span> results
       </p>
     }
     @for (searchResult of searchResults; track $index) {
-      <search-result [searchResult]="searchResult"> </search-result>
+      <search-result [searchResult]="searchResult"></search-result>
     }
   </div>
 </ion-content>

@@ -3,6 +3,14 @@
     height: auto;
   }
 
+  .transparent {
+    color: transparent;
+  }
+
+  .booking-ref-explainer {
+    color: var(--gds-grey-1) !important;
+  }
+
   .candidate-info-input {
     margin-top: 34px;
     width: 100%;

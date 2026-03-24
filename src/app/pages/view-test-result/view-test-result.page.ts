@@ -24,7 +24,7 @@ import { LoadingProvider } from '@providers/loader/loader';
 import { SearchProvider } from '@providers/search/search';
 import { BasePageComponent } from '@shared/classes/base-page';
 import { DateTime } from '@shared/helpers/date-time';
-import { getFormattedApplicationReference } from '@shared/helpers/formatters';
+import { formatBookingReferenceForBackend, getFormattedApplicationReference } from '@shared/helpers/formatters';
 import { isAnyOf } from '@shared/helpers/simplifiers';
 import { ErrorTypes } from '@shared/models/error-message';
 import { FaultSummary } from '@shared/models/fault-marking.model';
@@ -80,7 +80,7 @@ export class ViewTestResultPage extends BasePageComponent implements OnInit {
     await this.handleLoadingUI(true);
 
     this.reEnterEmailSubscription = this.searchProvider
-      .getRegeneratedEmails(this.applicationReference)
+      .getRegeneratedEmails(formatBookingReferenceForBackend(this.applicationReference))
       .pipe(
         map((response) => this.compressionProvider.extract<RegeneratedEmails>(response)),
         tap((data) => (this.reEnterEmail = data)),

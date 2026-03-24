@@ -25,6 +25,7 @@ import { ExaminerRole } from '@providers/app-config/constants/examiner-role.cons
 import { NetworkStateProvider } from '@providers/network-state/network-state';
 import { OrientationMonitorProvider } from '@providers/orientation-monitor/orientation-monitor.provider';
 import { BasePageComponent } from '@shared/classes/base-page';
+import { formatBookingReferenceForBackend, formatVisualBookingReference } from '@shared/helpers/formatters';
 import { selectEmployeeId } from '@store/app-info/app-info.selectors';
 
 interface RekeySearchPageState {
@@ -50,6 +51,7 @@ export class RekeySearchPage extends BasePageComponent implements OnInit {
   searchResults: TestSlot[] = [];
   focusedElement: string = null;
   isLDTM = false;
+  isUserEnteringApplicationReference = false;
 
   constructor(
     public orientationMonitorProvider: OrientationMonitorProvider,
@@ -58,6 +60,12 @@ export class RekeySearchPage extends BasePageComponent implements OnInit {
     injector: Injector
   ) {
     super(injector);
+  }
+
+  blockSpace(event: KeyboardEvent) {
+    if (event.key === ' ') {
+      event.preventDefault(); // stops the space from ever appearing
+    }
   }
 
   ngOnInit(): void {
@@ -90,7 +98,8 @@ export class RekeySearchPage extends BasePageComponent implements OnInit {
   }
 
   applicationReferenceChanged(val: string) {
-    this.applicationReference = val;
+    this.isUserEnteringApplicationReference = !Number.isNaN(Number(val[0]));
+    this.applicationReference = formatBookingReferenceForBackend(val);
   }
 
   staffNumberChanged(val: string) {
@@ -98,7 +107,12 @@ export class RekeySearchPage extends BasePageComponent implements OnInit {
   }
 
   searchTests() {
-    this.store$.dispatch(SearchBookedTest(this.applicationReference, this.staffNumber));
+    if (!this.isUserEnteringApplicationReference) {
+      this.applicationReference = formatVisualBookingReference(this.applicationReference);
+    }
+    this.store$.dispatch(
+      SearchBookedTest(formatBookingReferenceForBackend(this.applicationReference), this.staffNumber)
+    );
   }
 
   isBookedTestSlotEmpty(bookedTestsSlot: TestSlot) {

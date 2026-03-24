@@ -2,11 +2,52 @@ import { Application } from '@dvsa/mes-journal-schema';
 import { JournalData } from '@dvsa/mes-test-schema/categories/common';
 
 /**
+ * Formats booking reference into a string with spaces.
+ *
+ * @returns The booking reference, formatted
+ * @param val
+ */
+export const formatVisualBookingReference = (val: string): string => {
+  if (val) {
+    const raw = formatBookingReferenceForBackend(val?.replace(/\s+/g, '').toUpperCase());
+
+    const a = raw.slice(0, 1);
+    const b = raw.slice(1, 4);
+    const c = raw.slice(4, 7);
+    const d = raw.slice(7, 9);
+    const e = raw.slice(9, 10);
+
+    let result = a;
+    if (b) result += ` ${b}`;
+    if (c) result += ` ${c}`;
+    if (d) result += ` ${d}`;
+    if (e) result += e;
+
+    return result;
+  }
+  return val;
+};
+
+/**
+ * Removes spaces and symbols from the booking reference and convert the value to uppercase.
+ *
+ * @returns The booking reference with spaces and symbols removed, in uppercase.
+ * @param val
+ */
+export const formatBookingReferenceForBackend = (val: string) => {
+  if (val) {
+    return val?.replace(/[^a-zA-Z0-9]/g, '').toUpperCase();
+  }
+  return '';
+};
+
+/**
  * Formats application reference as a single number, of the form <``app-id``><``book-seq``><``check-digit``>.
  *
  * @param appRef The application reference, as separate fields
  * @returns The app id, booking sequence (padded to 2 digits) and check digit
  */
+
 export const formatApplicationReference = (appRef: Application): string => {
   const formatter = Intl.NumberFormat('en-gb', { minimumIntegerDigits: 2 });
   return `${appRef.applicationId}${formatter.format(appRef.bookingSequence)}${appRef.checkDigit}`;
