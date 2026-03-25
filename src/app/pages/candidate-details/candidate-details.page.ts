@@ -149,7 +149,7 @@ export class CandidateDetailsPage implements OnInit, OnDestroy, ViewDidEnter {
   isRecovered(completedTests: SearchResultTestSchema[], slot: TestSlot, testStatus: TestStatus): boolean {
     const tempAppRef = getFormattedApplicationReference(slot.booking.application);
 
-    const currentCompletedTest = completedTests.find((value) => value.applicationReference.toString() === tempAppRef);
+    const currentCompletedTest = completedTests.find((value) => value.applicationReference === tempAppRef);
     return Boolean(currentCompletedTest?.autosave) && testStatus !== TestStatus.Autosaved;
   }
 
