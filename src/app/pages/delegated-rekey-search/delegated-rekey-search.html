@@ -32,7 +32,10 @@
                 (ionBlur)="setFocus(null)"
                 [ngClass]="{'input-focus': focusedElement === 'appRef'}"
                 [value]="applicationReference"
+                (ionInput)="onApplicationReferenceInput($event.target.value)"
                 (ionChange)="applicationReferenceChanged($event.target.value)"
+                [maskito]="getBookingReferenceMask()"
+                [maskitoElement]="getMaskPredicate()"
               >
               </ion-input>
             </ion-col>
@@ -49,6 +52,15 @@
             >
               Please enter a valid booking reference
             </div>
+          </ion-row>
+
+          <ion-row class="ion-padding-bottom">
+            <ion-col class="ion-align-content-center">
+              <ion-text
+                [class.booking-ref-explainer]="applicationReference !== '' && !isUserEnteringApplicationReference"
+                class="mes-data ion-align-content-center transparent">Enter the reference without spaces
+              </ion-text>
+            </ion-col>
           </ion-row>
 
           <ion-row class="ion-padding-top">

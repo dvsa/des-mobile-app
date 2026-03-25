@@ -31,11 +31,8 @@
                 [ngClass]="{'input-focus': focusedElement === 'appRef'}"
                 [value]="applicationReference"
                 (ionInput)="applicationReferenceChanged($event.target.value)"
-                emojiBlock
-                pasteSanitiser
-                (keydown)="blockSpace($event)"
-                [maxlength]="isUserEnteringApplicationReference ? 11 : 10"
-                uppercaseAlphanumOnly
+                [maskito]="getBookingReferenceMask()"
+                [maskitoElement]="getMaskPredicate()"
               >
               </ion-input>
             </ion-col>

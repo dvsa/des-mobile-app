@@ -3,6 +3,7 @@ import { Component, Injector, OnInit } from '@angular/core';
 import { AbstractControl, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { TestSlot } from '@dvsa/mes-journal-schema';
 import { ModalController } from '@ionic/angular';
+import { MaskitoElementPredicate, MaskitoOptions } from '@maskito/core';
 import { select } from '@ngrx/store';
 import {
   DelegatedRekeySearchError,
@@ -19,6 +20,7 @@ import { ERROR_PAGE } from '@pages/page-names.constants';
 import { AccessibilityService } from '@providers/accessibility/accessibility.service';
 import { OrientationMonitorProvider } from '@providers/orientation-monitor/orientation-monitor.provider';
 import { BasePageComponent } from '@shared/classes/base-page';
+import { bookingReferenceMask, formatBookingReferenceForBackend, maskPredicate } from '@shared/helpers/formatters';
 import { ErrorTypes } from '@shared/models/error-message';
 import { isEmpty } from 'lodash-es';
 import { Observable, Subscription } from 'rxjs';
@@ -53,6 +55,7 @@ export class DelegatedRekeySearchPage extends BasePageComponent implements OnIni
   applicationReference = '';
   subscription: Subscription = Subscription.EMPTY;
   focusedElement: string = null;
+  isUserEnteringApplicationReference = false;
 
   constructor(
     public orientationMonitorProvider: OrientationMonitorProvider,
@@ -62,6 +65,9 @@ export class DelegatedRekeySearchPage extends BasePageComponent implements OnIni
   ) {
     super(injector);
   }
+
+  getBookingReferenceMask = (): MaskitoOptions => bookingReferenceMask;
+  getMaskPredicate = (): MaskitoElementPredicate => maskPredicate;
 
   ngOnInit(): void {
     this.store$.dispatch(DelegatedRekeySearchClearState());
@@ -76,7 +82,10 @@ export class DelegatedRekeySearchPage extends BasePageComponent implements OnIni
     this.delegatedRekeyForm = new UntypedFormGroup({});
     this.delegatedRekeyForm.addControl(
       'applicationReferenceInput',
-      new UntypedFormControl(null, [Validators.required, Validators.minLength(11), Validators.maxLength(11)])
+      new UntypedFormControl(null, [
+        Validators.required,
+        Validators.pattern(/^(?:\d{11}|[A-Za-z] \d{3} \d{3} \d{2}[A-Za-z])$/),
+      ])
     );
     this.delegatedRekeyForm.updateValueAndValidity(this.maxCallStackHandler);
   }
@@ -119,7 +128,16 @@ export class DelegatedRekeySearchPage extends BasePageComponent implements OnIni
     if (val === '') {
       this.store$.dispatch(DelegatedRekeySearchClearState());
     }
-    this.applicationReference = val;
+  }
+
+  onApplicationReferenceInput(val: string) {
+    if (val.length > 0) {
+      this.isUserEnteringApplicationReference = !Number.isNaN(Number(val[0]));
+      this.applicationReference = val?.toUpperCase();
+    } else {
+      this.isUserEnteringApplicationReference = false;
+      this.applicationReference = '';
+    }
   }
 
   searchTests() {
@@ -127,7 +145,7 @@ export class DelegatedRekeySearchPage extends BasePageComponent implements OnIni
     this.applicationReferenceCtrl.updateValueAndValidity(this.maxCallStackHandler);
     this.applicationReferenceCtrl.markAsDirty();
     if (this.applicationReferenceCtrl.valid) {
-      this.store$.dispatch(SearchBookedDelegatedTest(this.applicationReference));
+      this.store$.dispatch(SearchBookedDelegatedTest(formatBookingReferenceForBackend(this.applicationReference)));
     }
   }
 

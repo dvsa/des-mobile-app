@@ -1,7 +1,7 @@
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { SearchResultTestSchema } from '@dvsa/mes-search-schema';
-import { stripNullishValues } from '@shared/helpers/formatters';
+import { formatBookingReferenceForBackend, stripNullishValues } from '@shared/helpers/formatters';
 import { Observable } from 'rxjs';
 import { timeout } from 'rxjs/operators';
 import { AppConfigProvider } from '../app-config/app-config';
@@ -48,7 +48,7 @@ export class SearchProvider {
     return this.http
       .get<SearchResultTestSchema[]>(this.urlProvider.getTestResultServiceUrl(), {
         params: {
-          applicationReference,
+          applicationReference: formatBookingReferenceForBackend(applicationReference),
         },
       })
       .pipe(timeout(this.appConfig.getAppConfig().requestTimeout));
@@ -75,9 +75,14 @@ export class SearchProvider {
 
   getTestResult(applicationReference: string, staffNumber: string): Observable<HttpResponse<string>> {
     return this.http
-      .get<string>(this.urlProvider.getTestResultServiceUrl().concat(`/${applicationReference}/${staffNumber}`), {
-        observe: 'response',
-      })
+      .get<string>(
+        this.urlProvider
+          .getTestResultServiceUrl()
+          .concat(`/${formatBookingReferenceForBackend(applicationReference)}/${staffNumber}`),
+        {
+          observe: 'response',
+        }
+      )
       .pipe(timeout(this.appConfig.getAppConfig().requestTimeout));
   }
 
@@ -89,7 +94,11 @@ export class SearchProvider {
 
   getRegeneratedEmails(applicationReference: string): Observable<string> {
     return this.http
-      .get<string>(this.urlProvider.getTestResultServiceUrl().concat(`/regeneratedemails/${applicationReference}`))
+      .get<string>(
+        this.urlProvider
+          .getTestResultServiceUrl()
+          .concat(`/regeneratedemails/${formatBookingReferenceForBackend(applicationReference)}`)
+      )
       .pipe(timeout(this.appConfig.getAppConfig().requestTimeout));
   }
 }

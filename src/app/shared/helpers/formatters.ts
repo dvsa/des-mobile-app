@@ -1,32 +1,23 @@
 import { Application } from '@dvsa/mes-journal-schema';
 import { JournalData } from '@dvsa/mes-test-schema/categories/common';
+import { MaskitoElementPredicate, MaskitoOptions } from '@maskito/core';
 
 /**
- * Formats booking reference into a string with spaces.
+ * Provides a mask for input fields, forcing booking references into 1 of 2 formats depending on whether the first input is a letter.
  *
- * @returns The booking reference, formatted
+ * @returns The mask
  * @param val
  */
-export const formatVisualBookingReference = (val: string): string => {
-  if (val) {
-    const raw = formatBookingReferenceForBackend(val?.replace(/\s+/g, '').toUpperCase());
-
-    const a = raw.slice(0, 1);
-    const b = raw.slice(1, 4);
-    const c = raw.slice(4, 7);
-    const d = raw.slice(7, 9);
-    const e = raw.slice(9, 10);
-
-    let result = a;
-    if (b) result += ` ${b}`;
-    if (c) result += ` ${c}`;
-    if (d) result += ` ${d}`;
-    if (e) result += e;
-
-    return result;
-  }
-  return val;
+export const bookingReferenceMask: MaskitoOptions = {
+  mask: ({ value }) => {
+    if (/^\d/.test(value)) {
+      return [/\d/, /\d/, /\d/, /\d/, /\d/, /\d/, /\d/, /\d/, /\d/, /\d/, /\d/];
+    }
+    return [/[A-Z]/i, ' ', /\d/, /\d/, /\d/, ' ', /\d/, /\d/, /\d/, ' ', /\d/, /\d/, /[A-Z]/i];
+  },
 };
+
+export const maskPredicate: MaskitoElementPredicate = async (el) => (el as HTMLIonInputElement).getInputElement();
 
 /**
  * Removes spaces and symbols from the booking reference and convert the value to uppercase.

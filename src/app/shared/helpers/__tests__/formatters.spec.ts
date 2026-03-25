@@ -3,7 +3,6 @@ import { JournalData, TestSlotAttributes } from '@dvsa/mes-test-schema/categorie
 import {
   formatApplicationReference,
   formatBookingReferenceForBackend,
-  formatVisualBookingReference,
   getApplicationId,
   getFormattedApplicationReference,
   getResultTableApplicationReference,
@@ -160,38 +159,6 @@ describe('Formatters', () => {
       };
 
       expect(getFormattedApplicationReference(appRef)).toBe('123047');
-    });
-  });
-
-  describe('formatVisualBookingReference', () => {
-    it('should format a full 10‑character string correctly', () => {
-      const result = formatVisualBookingReference('abcdefghij');
-      expect(result).toBe('A BCD EFG HIJ');
-    });
-
-    it('should remove spaces before formatting', () => {
-      const result = formatVisualBookingReference('ab c d e f g h i j');
-      expect(result).toBe('A BCD EFG HIJ');
-    });
-
-    it('should uppercase the value automatically', () => {
-      const result = formatVisualBookingReference('abcDefGhij');
-      expect(result).toBe('A BCD EFG HIJ');
-    });
-
-    it('should handle partial input (less than 10 chars)', () => {
-      const result = formatVisualBookingReference('abcde');
-      expect(result).toBe('A BCD E');
-    });
-
-    it('should return an empty string when given empty input', () => {
-      const result = formatVisualBookingReference('');
-      expect(result).toBe('');
-    });
-
-    it('should ignore non‑alphanumeric characters before formatting', () => {
-      const result = formatVisualBookingReference('ab!c@d#e$f%g^h&i*j');
-      expect(result).toBe('A BCD EFG HIJ');
     });
   });
 

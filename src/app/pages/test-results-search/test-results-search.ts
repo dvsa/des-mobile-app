@@ -6,6 +6,7 @@ import { Observable, Subscription, merge, of } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
 
 import { TestCentre as JournalTestCentre } from '@dvsa/mes-journal-schema';
+import { MaskitoElementPredicate, MaskitoOptions } from '@maskito/core';
 import { ErrorPage } from '@pages/error-page/error';
 import { AccessibilityService } from '@providers/accessibility/accessibility.service';
 import { AppConfigProvider } from '@providers/app-config/app-config';
@@ -14,7 +15,7 @@ import { NetworkStateProvider } from '@providers/network-state/network-state';
 import { SearchProvider } from '@providers/search/search';
 import { AdvancedSearchParams } from '@providers/search/search.models';
 import { BasePageComponent } from '@shared/classes/base-page';
-import { formatBookingReferenceForBackend, formatVisualBookingReference } from '@shared/helpers/formatters';
+import { bookingReferenceMask, formatBookingReferenceForBackend, maskPredicate } from '@shared/helpers/formatters';
 import { ErrorTypes } from '@shared/models/error-message';
 import { LogType } from '@shared/models/log.model';
 import { SaveLog } from '@store/logs/logs.actions';
@@ -70,6 +71,9 @@ export class TestResultsSearchPage extends BasePageComponent {
     super(injector);
   }
 
+  getBookingReferenceMask = (): MaskitoOptions => bookingReferenceMask;
+  getMaskPredicate = (): MaskitoElementPredicate => maskPredicate;
+
   ngOnInit(): void {
     this.pageState = {
       activeTestCentres$: this.store$.pipe(select(getRefDataState), map(getTestCentres), map(getActiveTestCentres)),
@@ -108,15 +112,14 @@ export class TestResultsSearchPage extends BasePageComponent {
     return this.authenticationProvider.getEmployeeId();
   }
 
-  blockSpace(event: KeyboardEvent) {
-    if (event.key === ' ') {
-      event.preventDefault(); // stops the space from ever appearing
+  candidateInfoChanged(val: string) {
+    if (val.length > 0) {
+      this.isUserEnteringApplicationReference = !Number.isNaN(Number(val[0]));
+      this.candidateInfo = val?.toUpperCase();
+    } else {
+      this.isUserEnteringApplicationReference = false;
+      this.candidateInfo = '';
     }
-  }
-
-  candidateInfoChanged(val: string): void {
-    this.isUserEnteringApplicationReference = !Number.isNaN(Number(val[0]));
-    this.candidateInfo = formatBookingReferenceForBackend(val);
   }
 
   searchTests(): void {
@@ -154,9 +157,6 @@ export class TestResultsSearchPage extends BasePageComponent {
     }
 
     if (this.searchBy === SearchBy.ApplicationReference) {
-      if (!this.isUserEnteringApplicationReference) {
-        this.candidateInfo = formatVisualBookingReference(this.candidateInfo);
-      }
       this.subscription.unsubscribe();
       this.store$.dispatch(PerformApplicationReferenceSearch());
       this.showSearchSpinner = true;

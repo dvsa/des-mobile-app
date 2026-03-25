@@ -45,27 +45,28 @@
           </ion-row>
           <ion-row class="ion-padding-top">
             <ion-col class="ion-align-content-center">
-                <ion-text [class.booking-ref-explainer]="candidateInfo !== '' && !isUserEnteringApplicationReference" class="mes-data ion-align-content-center transparent">Enter the reference without spaces</ion-text>
+              <ion-text [class.booking-ref-explainer]="candidateInfo !== '' && searchBy === 'appReference' && !isUserEnteringApplicationReference"
+                        class="mes-data ion-align-content-center transparent">Enter the reference without spaces
+              </ion-text>
             </ion-col>
           </ion-row>
           <ion-row class="ion-padding-top">
             <ion-col size="96">
               @if (searchBy === 'appReference') {
                 <ion-input
+                  placeholder="Enter a booking reference"
                   id="test-result-search-{{searchBy}}-input"
-                  [placeholder]="'Enter a booking reference'"
-                  aria-label="Booking reference"
                   type="text"
                   class="ion-input-styling custom-font-size"
+                  aria-label="Booking reference"
                   [clearInput]="true"
                   (ionFocus)="setFocus('field')"
                   (ionBlur)="setFocus(null)"
-                  [value]="candidateInfo"
                   [ngClass]="{'input-focus': focusedElement === 'field'}"
-                  (keydown)="blockSpace($event)"
-                  uppercaseAlphanumOnly
-                  [maxlength]="isUserEnteringApplicationReference ? 11 : 10"
+                  [value]="candidateInfo"
                   (ionInput)="candidateInfoChanged($event.target.value)"
+                  [maskito]="getBookingReferenceMask()"
+                  [maskitoElement]="getMaskPredicate()"
                 >
                 </ion-input>
               } @else {
