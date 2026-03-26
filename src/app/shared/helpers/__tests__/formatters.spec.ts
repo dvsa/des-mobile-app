@@ -2,6 +2,7 @@ import { Application } from '@dvsa/mes-journal-schema';
 import { JournalData, TestSlotAttributes } from '@dvsa/mes-test-schema/categories/common';
 import {
   formatApplicationReference,
+  formatBookingReferenceForBackend,
   getApplicationId,
   getFormattedApplicationReference,
   getResultTableApplicationReference,
@@ -158,6 +159,33 @@ describe('Formatters', () => {
       };
 
       expect(getFormattedApplicationReference(appRef)).toBe('123047');
+    });
+  });
+
+  describe('formatBookingReferenceForBackend', () => {
+    it('should remove all non‑alphanumeric characters', () => {
+      const result = formatBookingReferenceForBackend('ab!c@d#123');
+      expect(result).toBe('ABCD123');
+    });
+
+    it('should uppercase the result', () => {
+      const result = formatBookingReferenceForBackend('abc123xyz');
+      expect(result).toBe('ABC123XYZ');
+    });
+
+    it('should remove spaces', () => {
+      const result = formatBookingReferenceForBackend('a b c 1 2 3');
+      expect(result).toBe('ABC123');
+    });
+
+    it('should return an empty string when given empty input', () => {
+      const result = formatBookingReferenceForBackend('');
+      expect(result).toBe('');
+    });
+
+    it('should handle strings with only symbols', () => {
+      const result = formatBookingReferenceForBackend('!@#$%^&*()');
+      expect(result).toBe('');
     });
   });
 });

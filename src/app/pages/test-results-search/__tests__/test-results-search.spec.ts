@@ -172,9 +172,9 @@ describe('TestResultsSearchPage', () => {
     });
 
     describe('candidateInfoChanged', () => {
-      it('should set candidateInfo to the passed parameter', () => {
+      it('should set candidateInfo to the passed parameter formatted correctly', () => {
         component.candidateInfoChanged('test');
-        expect(component.candidateInfo).toEqual('test');
+        expect(component.candidateInfo).toEqual('TEST');
       });
     });
 

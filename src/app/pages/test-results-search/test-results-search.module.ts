@@ -7,6 +7,7 @@ import { EffectsModule } from '@ngrx/effects';
 import { SearchProvider } from '@providers/search/search';
 
 import { DirectivesModule } from '@directives/directives.module';
+import { MaskitoDirective } from '@maskito/angular';
 import { ErrorPageModule } from '@pages/error-page/error.module';
 import { TestResultsSearchRoutingModule } from '@pages/test-results-search/test-results-search-routing.module';
 import { ViewTestResultPageModule } from '@pages/view-test-result/view-test-result.module';
@@ -29,6 +30,7 @@ import { TestResultsSearchAnalyticsEffects } from './test-results-search.analyti
     EffectsModule.forFeature([TestResultsSearchAnalyticsEffects]),
     DirectivesModule,
     ViewTestResultPageModule,
+    MaskitoDirective,
   ],
   providers: [SearchProvider, CompressionProvider, FaultSummaryProvider],
 })

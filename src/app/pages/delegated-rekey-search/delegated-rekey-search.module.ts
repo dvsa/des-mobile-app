@@ -12,6 +12,7 @@ import { SlotProvider } from '@providers/slot/slot';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 import { DirectivesModule } from '@directives/directives.module';
+import { MaskitoDirective } from '@maskito/angular';
 import { OrientationMonitorProvider } from '@providers/orientation-monitor/orientation-monitor.provider';
 import { DelegatedRekeySearchPage } from './delegated-rekey-search';
 import { DelegatedRekeySearchPageRoutingModule } from './delegated-rekey-search-routing.module';
@@ -30,6 +31,7 @@ import { delegatedSearchReducer } from './delegated-rekey-search.reducer';
     CommonModule,
     ReactiveFormsModule,
     DirectivesModule,
+    MaskitoDirective,
   ],
   providers: [
     OrientationMonitorProvider,

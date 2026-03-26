@@ -6,6 +6,7 @@ import { Observable, Subscription, merge, of } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
 
 import { TestCentre as JournalTestCentre } from '@dvsa/mes-journal-schema';
+import { MaskitoElementPredicate, MaskitoOptions } from '@maskito/core';
 import { ErrorPage } from '@pages/error-page/error';
 import { AccessibilityService } from '@providers/accessibility/accessibility.service';
 import { AppConfigProvider } from '@providers/app-config/app-config';
@@ -14,6 +15,7 @@ import { NetworkStateProvider } from '@providers/network-state/network-state';
 import { SearchProvider } from '@providers/search/search';
 import { AdvancedSearchParams } from '@providers/search/search.models';
 import { BasePageComponent } from '@shared/classes/base-page';
+import { bookingReferenceMask, formatBookingReferenceForBackend, maskPredicate } from '@shared/helpers/formatters';
 import { ErrorTypes } from '@shared/models/error-message';
 import { LogType } from '@shared/models/log.model';
 import { SaveLog } from '@store/logs/logs.actions';
@@ -56,6 +58,8 @@ export class TestResultsSearchPage extends BasePageComponent {
   pageState: TestResultPageState;
   merged$: Observable<JournalTestCentre[]>;
 
+  isUserEnteringApplicationReference = false;
+
   constructor(
     public modalController: ModalController,
     public searchProvider: SearchProvider,
@@ -66,6 +70,9 @@ export class TestResultsSearchPage extends BasePageComponent {
   ) {
     super(injector);
   }
+
+  getBookingReferenceMask = (): MaskitoOptions => bookingReferenceMask;
+  getMaskPredicate = (): MaskitoElementPredicate => maskPredicate;
 
   ngOnInit(): void {
     this.pageState = {
@@ -105,8 +112,14 @@ export class TestResultsSearchPage extends BasePageComponent {
     return this.authenticationProvider.getEmployeeId();
   }
 
-  candidateInfoChanged(val: string): void {
-    this.candidateInfo = val;
+  candidateInfoChanged(val: string) {
+    if (val.length > 0) {
+      this.isUserEnteringApplicationReference = !Number.isNaN(Number(val[0]));
+      this.candidateInfo = val?.toUpperCase();
+    } else {
+      this.isUserEnteringApplicationReference = false;
+      this.candidateInfo = '';
+    }
   }
 
   searchTests(): void {
@@ -148,7 +161,7 @@ export class TestResultsSearchPage extends BasePageComponent {
       this.store$.dispatch(PerformApplicationReferenceSearch());
       this.showSearchSpinner = true;
       this.subscription = this.searchProvider
-        .applicationReferenceSearch(this.candidateInfo)
+        .applicationReferenceSearch(formatBookingReferenceForBackend(this.candidateInfo))
         .pipe(
           tap(() => (this.hasSearched = true)),
           map((results) => {

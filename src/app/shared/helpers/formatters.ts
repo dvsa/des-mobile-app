@@ -1,5 +1,36 @@
 import { Application } from '@dvsa/mes-journal-schema';
 import { JournalData } from '@dvsa/mes-test-schema/categories/common';
+import { MaskitoElementPredicate, MaskitoOptions } from '@maskito/core';
+
+/**
+ * Provides a mask for input fields, forcing booking references into 1 of 2 formats depending on whether the first input is a letter.
+ *
+ * @returns The mask
+ * @param val
+ */
+export const bookingReferenceMask: MaskitoOptions = {
+  mask: ({ value }) => {
+    if (/^\d/.test(value)) {
+      return [/\d/, /\d/, /\d/, /\d/, /\d/, /\d/, /\d/, /\d/, /\d/, /\d/, /\d/];
+    }
+    return [/[A-Z]/i, ' ', /\d/, /\d/, /\d/, ' ', /\d/, /\d/, /\d/, ' ', /\d/, /\d/, /[A-Z]/i];
+  },
+};
+
+export const maskPredicate: MaskitoElementPredicate = async (el) => (el as HTMLIonInputElement).getInputElement();
+
+/**
+ * Removes spaces and symbols from the booking reference and convert the value to uppercase.
+ *
+ * @returns The booking reference with spaces and symbols removed, in uppercase.
+ * @param val
+ */
+export const formatBookingReferenceForBackend = (val: string) => {
+  if (val) {
+    return val?.replace(/[^a-zA-Z0-9]/g, '').toUpperCase();
+  }
+  return '';
+};
 
 /**
  * Formats application reference as a single number, of the form <``app-id``><``book-seq``><``check-digit``>.
@@ -7,6 +38,7 @@ import { JournalData } from '@dvsa/mes-test-schema/categories/common';
  * @param appRef The application reference, as separate fields
  * @returns The app id, booking sequence (padded to 2 digits) and check digit
  */
+
 export const formatApplicationReference = (appRef: Application): string => {
   const formatter = Intl.NumberFormat('en-gb', { minimumIntegerDigits: 2 });
   return `${appRef.applicationId}${formatter.format(appRef.bookingSequence)}${appRef.checkDigit}`;

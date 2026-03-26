@@ -6,6 +6,7 @@ import { isEmpty } from 'lodash-es';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
+import { MaskitoElementPredicate, MaskitoOptions } from '@maskito/core';
 import { RekeySearchError, RekeySearchErrorMessages } from '@pages/rekey-search/rekey-search-error-model';
 import {
   RekeySearchClearState,
@@ -25,6 +26,7 @@ import { ExaminerRole } from '@providers/app-config/constants/examiner-role.cons
 import { NetworkStateProvider } from '@providers/network-state/network-state';
 import { OrientationMonitorProvider } from '@providers/orientation-monitor/orientation-monitor.provider';
 import { BasePageComponent } from '@shared/classes/base-page';
+import { bookingReferenceMask, formatBookingReferenceForBackend, maskPredicate } from '@shared/helpers/formatters';
 import { selectEmployeeId } from '@store/app-info/app-info.selectors';
 
 interface RekeySearchPageState {
@@ -50,6 +52,7 @@ export class RekeySearchPage extends BasePageComponent implements OnInit {
   searchResults: TestSlot[] = [];
   focusedElement: string = null;
   isLDTM = false;
+  isUserEnteringApplicationReference = false;
 
   constructor(
     public orientationMonitorProvider: OrientationMonitorProvider,
@@ -59,6 +62,9 @@ export class RekeySearchPage extends BasePageComponent implements OnInit {
   ) {
     super(injector);
   }
+
+  getBookingReferenceMask = (): MaskitoOptions => bookingReferenceMask;
+  getMaskPredicate = (): MaskitoElementPredicate => maskPredicate;
 
   ngOnInit(): void {
     this.store$.dispatch(RekeySearchClearState());
@@ -90,7 +96,13 @@ export class RekeySearchPage extends BasePageComponent implements OnInit {
   }
 
   applicationReferenceChanged(val: string) {
-    this.applicationReference = val;
+    if (val.length > 0) {
+      this.isUserEnteringApplicationReference = !Number.isNaN(Number(val[0]));
+      this.applicationReference = val?.toUpperCase();
+    } else {
+      this.isUserEnteringApplicationReference = false;
+      this.applicationReference = '';
+    }
   }
 
   staffNumberChanged(val: string) {
@@ -98,7 +110,9 @@ export class RekeySearchPage extends BasePageComponent implements OnInit {
   }
 
   searchTests() {
-    this.store$.dispatch(SearchBookedTest(this.applicationReference, this.staffNumber));
+    this.store$.dispatch(
+      SearchBookedTest(formatBookingReferenceForBackend(this.applicationReference), this.staffNumber)
+    );
   }
 
   isBookedTestSlotEmpty(bookedTestsSlot: TestSlot) {

@@ -12,6 +12,7 @@ import { SlotProvider } from '@providers/slot/slot';
 
 import { CommonModule } from '@angular/common';
 import { DirectivesModule } from '@directives/directives.module';
+import { MaskitoDirective } from '@maskito/angular';
 import { RekeySearchPageRoutingModule } from '@pages/rekey-search/rekey-search-routing.module';
 import { OrientationMonitorProvider } from '@providers/orientation-monitor/orientation-monitor.provider';
 import { RekeySearchPage } from './rekey-search';
@@ -30,6 +31,7 @@ import { rekeySearchReducer } from './rekey-search.reducer';
     IonicModule,
     RekeySearchPageRoutingModule,
     DirectivesModule,
+    MaskitoDirective,
   ],
   providers: [OrientationMonitorProvider, RekeySearchProvider, SearchProvider, CompressionProvider, SlotProvider],
 })
