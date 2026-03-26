@@ -44,13 +44,6 @@
             </ion-col>
           </ion-row>
           <ion-row class="ion-padding-top">
-            <ion-col class="ion-align-content-center">
-              <ion-text [class.booking-ref-explainer]="candidateInfo !== '' && searchBy === 'appReference' && !isUserEnteringApplicationReference"
-                        class="mes-data ion-align-content-center transparent">Enter the reference without spaces
-              </ion-text>
-            </ion-col>
-          </ion-row>
-          <ion-row class="ion-padding-top">
             <ion-col size="96">
               @if (searchBy === 'appReference') {
                 <ion-input
@@ -86,6 +79,13 @@
                 >
                 </ion-input>
               }
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col class="ion-align-content-center">
+              <ion-text [class.booking-ref-explainer]="candidateInfo !== '' && searchBy === 'appReference' && !isUserEnteringApplicationReference"
+                        class="mes-data ion-align-content-center transparent">Enter the reference without spaces
+              </ion-text>
             </ion-col>
           </ion-row>
           <ion-row class="ion-padding-top">
