@@ -1,6 +1,8 @@
 import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
 import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { MaskitoElementPredicate, MaskitoOptions } from '@maskito/core';
 import { OutcomeBehaviourMapProvider, VisibilityType } from '@providers/outcome-behaviour-map/outcome-behaviour-map';
+import { maskPredicate } from '@shared/helpers/formatters';
 
 @Component({
   selector: 'route-number',
@@ -25,6 +27,12 @@ export class RouteNumberComponent implements OnChanges {
 
   formControl: UntypedFormControl;
   static readonly fieldName: string = 'routeNumber';
+
+  readonly digitOnlyMask: MaskitoOptions = {
+    mask: [/\d/, /\d/],
+  };
+
+  getMaskPredicate = (): MaskitoElementPredicate => maskPredicate;
 
   constructor(public outcomeBehaviourProvider: OutcomeBehaviourMapProvider) {}
 

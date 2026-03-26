@@ -4,6 +4,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { ComponentsModule } from '@components/common/common-components.module';
 import { DirectivesModule } from '@directives/directives.module';
 import { IonicModule } from '@ionic/angular';
+import { MaskitoDirective } from '@maskito/angular';
 import { TranslateModule } from '@ngx-translate/core';
 import { CBTNumberComponent } from './cbt-number/cbt-number';
 import { ConductedLanguageComponent } from './conducted-language/conducted-language';
@@ -19,7 +20,15 @@ import { ResidencyDeclarationComponent } from './residency-declaration/residency
     CBTNumberComponent,
     ManoeuvresPassCertificateComponent,
   ],
-  imports: [IonicModule, TranslateModule, ComponentsModule, ReactiveFormsModule, CommonModule, DirectivesModule],
+  imports: [
+    IonicModule,
+    TranslateModule,
+    ComponentsModule,
+    ReactiveFormsModule,
+    CommonModule,
+    DirectivesModule,
+    MaskitoDirective,
+  ],
   exports: [
     ConductedLanguageComponent,
     InsuranceDeclarationComponent,
