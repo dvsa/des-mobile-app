@@ -1,8 +1,8 @@
-import { gzipSync } from 'zlib';
 import { HttpClient, HttpErrorResponse, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { TestResultSchemasUnion } from '@dvsa/mes-test-schema/categories';
 import { Store } from '@ngrx/store';
+import { CompressionProvider } from '@providers/compression/compression';
 import { ActivityCodes } from '@shared/models/activity-codes';
 import { LogType } from '@shared/models/log.model';
 import { StoreModel } from '@shared/models/store.model';
@@ -29,7 +29,8 @@ export class TestSubmissionProvider {
     public urlProvider: UrlProvider,
     private store$: Store<StoreModel>,
     private logHelper: LogHelper,
-    private appConfig: AppConfigProvider
+    private appConfig: AppConfigProvider,
+    private compressionProvider: CompressionProvider
   ) {}
 
   submitTests = (
@@ -78,7 +79,7 @@ export class TestSubmissionProvider {
   buildUrl = (testToSubmit: TestToSubmit): string =>
     `${this.urlProvider.getTestResultServiceUrl()}${this.isPartialSubmission(testToSubmit) ? '?partial=true' : ''}`;
 
-  compressData = (data: Partial<TestResultSchemasUnion>): string => gzipSync(JSON.stringify(data)).toString('base64');
+  compressData = (data: Partial<TestResultSchemasUnion>): string => this.compressionProvider.compress(data);
 
   isPartialSubmission(testToSubmit: TestToSubmit): boolean {
     return testToSubmit.status === TestStatus.WriteUp && !testToSubmit.payload.rekey;

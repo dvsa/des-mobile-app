@@ -54,15 +54,17 @@ import './zone-flags';
  */
 
 import 'zone.js'; // Included with Angular CLI.
+import { Buffer } from 'buffer';
 
 /** *************************************************************************************************
  * APPLICATION IMPORTS
  */
 // Add global to window, assigning the value of window itself.
-// https://github.com/angular/angular-cli/issues/9827#issuecomment-386154063
+(window as any).Buffer = Buffer;
 (window as any).global = window;
-// https://stackoverflow.com/questions/50371593/angular-6-uncaught-referenceerror-buffer-is-not-defined
-global.Buffer = global.Buffer || require('buffer').Buffer;
-(window as any).process = { version: '', env: {} };
+(window as any).process = {
+  version: '',
+  env: {},
+};
 
 /* eslint-enable */
