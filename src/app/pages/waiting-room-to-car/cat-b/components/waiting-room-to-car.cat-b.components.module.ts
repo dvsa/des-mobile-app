@@ -5,6 +5,7 @@ import { IonicModule } from '@ionic/angular';
 
 import { ComponentsModule } from '@components/common/common-components.module';
 import { DirectivesModule } from '@directives/directives.module';
+import { MaskitoDirective } from '@maskito/angular';
 import { InstructorRegistrationComponent } from './instructor-registration/instructor-registration';
 import { TellMeQuestionCardComponent } from './tell-me-question-card/tell-me-question-card';
 import { TellMeQuestionOutcomeComponent } from './tell-me-question-outcome/tell-me-question-outcome';
@@ -17,7 +18,7 @@ import { TellMeQuestionComponent } from './tell-me-question/tell-me-question';
     TellMeQuestionOutcomeComponent,
     InstructorRegistrationComponent,
   ],
-  imports: [CommonModule, ComponentsModule, IonicModule, DirectivesModule, ReactiveFormsModule],
+  imports: [CommonModule, ComponentsModule, IonicModule, DirectivesModule, ReactiveFormsModule, MaskitoDirective],
   exports: [
     TellMeQuestionCardComponent,
     TellMeQuestionComponent,
