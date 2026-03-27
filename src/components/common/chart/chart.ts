@@ -1,6 +1,5 @@
 import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { ExaminerRecordDataWithPercentage } from '@pages/examiner-records/examiner-records.selector';
-import ApexCharts from 'apexcharts';
 import { isEqual } from 'lodash-es';
 import { ApexAxisChartSeries, ApexNonAxisChartSeries, ApexOptions, ChartType, PointAnnotations } from 'ng-apexcharts';
 
@@ -65,7 +64,6 @@ export class ChartComponent implements OnInit, OnChanges {
   public labels: string[] = [];
   public average = 0;
   public tickCount: number = null;
-  public chart: ApexCharts = null;
   public chartOptions: ApexOptions;
   public graphLabels: PointAnnotations[] = [];
 
@@ -105,13 +103,6 @@ export class ChartComponent implements OnInit, OnChanges {
    *
    * @returns {Promise<void>} A promise that resolves when the chart has been rendered.
    */
-  async ngAfterViewInit(): Promise<void> {
-    const chartElement: HTMLElement = document.getElementById(this.chartId);
-    if (chartElement) {
-      this.chart = new ApexCharts(chartElement, this.options);
-      await this.chart.render();
-    }
-  }
 
   /**
    * Lifecycle hook that is called when any data-bound property of a directive changes.
@@ -128,19 +119,11 @@ export class ChartComponent implements OnInit, OnChanges {
       (key) => !isEqual(changes[key]?.currentValue, changes[key]?.previousValue)
     );
 
-    if (!!this.chart && dataChanged) {
+    if (dataChanged) {
       //if data has changed, re-filter data
       this.filterData();
-
-      //if we want to change chart type, render an entirely new chart
-      if (Object.keys(changes).includes('chartType')) {
-        this.chart = new ApexCharts(document.getElementById(this.chartId), this.options);
-        await this.chart.render();
-      } else {
-      }
-      //update chart with new options
-      await this.chart.updateOptions(this.options);
     }
+    this.chartOptions = this.options;
   }
 
   /**
