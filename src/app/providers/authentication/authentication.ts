@@ -1,4 +1,5 @@
 import { Injectable, Signal } from '@angular/core';
+import { LoginOptions, MsAuthPlugin } from '@dvsa/capacitor-plugin-msauth';
 import { Store } from '@ngrx/store';
 import { DelegatedRekeySearchClearState } from '@pages/delegated-rekey-search/delegated-rekey-search.actions';
 import { ResetRekeyReason } from '@pages/rekey-reason/rekey-reason.actions';
@@ -9,7 +10,6 @@ import { StorageCleared } from '@providers/authentication/authentification.actio
 import { CompletedTestPersistenceProvider } from '@providers/completed-test-persistence/completed-test-persistence';
 import { ExaminerRecordsProvider } from '@providers/examiner-records/examiner-records';
 import { LogHelper } from '@providers/logs/logs-helper';
-import { LoginOptions, MsAuthPlugin } from '@recognizebv/capacitor-plugin-msauth';
 import { serialiseLogMessage } from '@shared/helpers/serialise-log-message';
 import { LogType } from '@shared/models/log.model';
 import { StoreModel } from '@shared/models/store.model';
