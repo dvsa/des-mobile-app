@@ -1,7 +1,9 @@
 import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
 import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { MaskitoElementPredicate, MaskitoOptions } from '@maskito/core';
 import { AccessibilityService } from '@providers/accessibility/accessibility.service';
 import { getDL196CBTCertificateNumberValidator } from '@shared/constants/field-validators/field-validators';
+import { maskPredicate } from '@shared/helpers/formatters';
 
 @Component({
   selector: 'cbt-number',
@@ -24,6 +26,12 @@ export class CBTNumberComponent implements OnChanges {
   readonly dl196cbtCertNumberValidator = getDL196CBTCertificateNumberValidator();
 
   constructor(public accessibilityService: AccessibilityService) {}
+
+  readonly digitOnlyMask: MaskitoOptions = {
+    mask: [/\d/, /\d/, /\d/, /\d/, /\d/, /\d/, /\d/],
+  };
+
+  getMaskPredicate = (): MaskitoElementPredicate => maskPredicate;
 
   ngOnChanges(): void {
     if (!this.formControl) {

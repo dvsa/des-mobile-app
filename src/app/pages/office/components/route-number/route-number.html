@@ -9,16 +9,14 @@
       <ion-col size="12">
         <ion-input
           type="text"
-          maxlength="2"
           inputmode="numeric"
           id="route-number-input"
           class="ion-input-styling mes-data"
-          numbersOnly
           formControlName="routeNumber"
           (ionChange)="routeNumberChanged($event.target.value)"
           aria-labelledby="route-number-label"
-          emojiBlock
-          pasteSanitiser
+          [maskito]="digitOnlyMask"
+          [maskitoElement]="getMaskPredicate()"
         >
         </ion-input>
       </ion-col>

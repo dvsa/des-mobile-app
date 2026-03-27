@@ -10,16 +10,15 @@
         <ion-input
           id="cbt-number"
           [class.increase-height]="accessibilityService.getTextZoomClass() === 'text-zoom-x-large'"
-          type="number"
+          inputmode="numeric"
+          type="text"
           class="ion-input-styling increase-width"
           formControlName="cbtNumber"
           aria-labelledby="cbt-label"
-          numbersOnly
-          maxlength="7"
           [class.ng-invalid]="invalid"
           (ionChange)="cbtNumberChanged($event.target.value)"
-          emojiBlock
-          pasteSanitiser
+          [maskito]="digitOnlyMask"
+          [maskitoElement]="getMaskPredicate()"
         >
         </ion-input>
       </ion-col>

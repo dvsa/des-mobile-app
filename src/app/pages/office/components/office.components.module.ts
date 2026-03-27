@@ -4,6 +4,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ComponentsModule } from '@components/common/common-components.module';
 import { DirectivesModule } from '@directives/directives.module';
 import { IonicModule } from '@ionic/angular';
+import { MaskitoDirective } from '@maskito/angular';
 import { AlternateEvidenceProvidedComponent } from '@pages/office/components/alternate-mot-evidence-provided/alternate-evidence-provided.component';
 import { DrivingFaultsComponent } from '@pages/office/components/driving-faults/driving-faults.component';
 import { ECOCardComponent } from '@pages/office/components/eco-card/eco-card.component';
@@ -58,6 +59,7 @@ import { WeatherConditionsComponent } from './weather-conditions/weather-conditi
     FormsModule,
     PipesModule,
     ReactiveFormsModule,
+    MaskitoDirective,
   ],
   exports: [
     OfficeFooterComponent,
