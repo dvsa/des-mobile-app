@@ -14,7 +14,7 @@ import { DangerousTooltipComponent } from '../../dangerous-tooltip/dangerous-too
 import { DrivingFaultSummaryComponent } from '../../driving-fault-summary/driving-fault-summary';
 import { SeriousTooltipComponent } from '../../serious-tooltip/serious-tooltip';
 import { TimerComponent } from '../../timer/timer';
-import { ToolbarComponent } from '../toolbar';
+import { ToolbarComponent } from '../test-report-toolbar';
 
 describe('ToolbarComponent', () => {
   let fixture: ComponentFixture<ToolbarComponent>;

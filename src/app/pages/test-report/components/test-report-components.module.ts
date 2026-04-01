@@ -23,7 +23,7 @@ import { SingleFaultCompetencyComponent } from './single-fault-competency/single
 import { SpecialLegalRequirementModalModule } from './special-legal-requirement-modal/special-legal-requirement-modal.module';
 import { TestFinalisationInvalidTestDataModalModule } from './test-finalisation-invalid-test-data-modal/test-finalisation-invalid-test-data-modal.module';
 import { TimerComponent } from './timer/timer';
-import { ToolbarComponent } from './toolbar/toolbar';
+import { ToolbarComponent } from './toolbar/test-report-toolbar';
 import { UncoupleRecoupleComponent } from './uncouple-recouple/uncouple-recouple';
 
 @NgModule({

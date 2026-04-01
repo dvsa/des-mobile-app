@@ -27,15 +27,21 @@
 </ion-header>
 
 <ion-content class="ion-no-padding" [ngClass]="{'overflow': !isDelegated}" force-overscroll="false">
-  <toolbar></toolbar>
+    <test-report-toolbar
+    [category]="category"
+    [testData]="testData()"
+    [isDangerousMode]="isDangerousMode()"
+    [isSeriousMode]="isSeriousMode()"
+    [isRemoveFaultMode]="isRemoveFaultMode()"
+  ></test-report-toolbar>
   <ion-grid
     class="grid-layout"
     [ngClass]="{
-      'remove-mode': isRemoveFaultMode,
-      'add-mode': !isRemoveFaultMode,
-      'fault-mode': !isSeriousMode && !isDangerousMode,
-      'serious-mode': isSeriousMode,
-      'dangerous-mode': isDangerousMode
+      'remove-mode': isRemoveFaultMode(),
+      'add-mode': !isRemoveFaultMode(),
+      'fault-mode': !isSeriousMode() && !isDangerousMode(),
+      'serious-mode': isSeriousMode(),
+      'dangerous-mode': isDangerousMode()
     }"
   >
     <ion-row class="first-row-adjust">
@@ -51,7 +57,7 @@
             <legal-requirement
               [legalRequirement]="legalRequirements.normalStart1"
               [isFullWidthButton]=true
-              [ticked]="(testRequirements)![legalRequirements.normalStart1]"
+              [ticked]="(testRequirements())![legalRequirements.normalStart1]"
             >
             </legal-requirement>
           </ion-col>
@@ -60,14 +66,14 @@
           <ion-col>
             <legal-requirement
               [legalRequirement]="legalRequirements.angledStart"
-              [ticked]="(testRequirements)![legalRequirements.angledStart]"
+              [ticked]="(testRequirements())![legalRequirements.angledStart]"
             >
             </legal-requirement>
           </ion-col>
           <ion-col>
             <legal-requirement
               [legalRequirement]="legalRequirements.hillStart"
-              [ticked]="(testRequirements)![legalRequirements.hillStart]"
+              [ticked]="(testRequirements())![legalRequirements.hillStart]"
             >
             </legal-requirement>
           </ion-col>
@@ -79,7 +85,7 @@
         </ion-row>
         <ion-row>
           <ion-col>
-            <manoeuvres [completed]="manoeuvres" [controlLabel]="'Manoeuvres'" [clickCallback]="getCallback()">
+            <manoeuvres [completed]="manoeuvresCompleted()" [controlLabel]="'Manoeuvres'" [clickCallback]="getCallback()">
               <manoeuvres-popover></manoeuvres-popover>
             </manoeuvres>
           </ion-col>
@@ -418,14 +424,14 @@
   </ion-grid>
   <div
     class="report-overlay report-overlay-modal"
-    [class.contract]="isSeriousMode || isDangerousMode"
+    [class.contract]="isSeriousMode() || isDangerousMode()"
     [class.show-overlay]="displayOverlay"
     [class.hide-overlay]="!displayOverlay"
   ></div>
   <div
     class="report-overlay report-overlay-remove"
-    [class.contract]="isSeriousMode || isDangerousMode"
-    [class.show-overlay]="isRemoveFaultMode"
-    [class.hide-overlay]="!isRemoveFaultMode"
+    [class.contract]="isSeriousMode() || isDangerousMode()"
+    [class.show-overlay]="isRemoveFaultMode()"
+    [class.hide-overlay]="!isRemoveFaultMode()"
   ></div>
 </ion-content>

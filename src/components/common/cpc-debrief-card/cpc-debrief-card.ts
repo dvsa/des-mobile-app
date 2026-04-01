@@ -44,7 +44,7 @@ export class CPCDebriefCardComponent implements OnInit {
   public questions: QuestionUnion[];
 
   getFormattedQuestion = (question: Question | Question5): string => {
-    return `${question.questionCode} - ${question.title}`;
+    return `${question?.questionCode} - ${question?.title}`;
   };
 
   getQuestionPercentage = (question: Question | Question5): number => {

@@ -2,9 +2,9 @@
   <ion-toolbar
     [ngClass]="{
       'no-internal-padding': true,
-      'practice-theme': isEndToEndPracticeMode,
+      'practice-theme': isEndToEndPracticeMode || isTestReportPracticeMode,
       'toolbar-no-padding': isExitSAMBannerActivated,
-      'ion-no-padding-important': isEndToEndPracticeMode
+      'ion-no-padding-important': isEndToEndPracticeMode || isTestReportPracticeMode
     }"
     mode="ios">
     <test-flow-header
@@ -13,7 +13,7 @@
       [shouldIncludeLanguageDirectiveOnTitle]="true"
       [pageName]="'debrief-page'"
       [shouldShowEscapeFromSamButton]="!isDelegated && !isRekey"
-      [isPracticeMode]="isEndToEndPracticeMode"
+      [isPracticeMode]="isEndToEndPracticeMode || isTestReportPracticeMode"
       [isExitSAMActivated]="isExitSAMBannerActivated"
       [shouldShowEndTestLink]="false"
       (exitSamUsed)="onUsedExitSam()"

@@ -22,6 +22,6 @@ export class TestReportCatDPage extends TestReportBasePageComponent implements O
     if (!this.isDelegated) {
       return false;
     }
-    return this.testCategory === TestCategory.DE || this.testCategory === TestCategory.D1E;
+    return this.category === TestCategory.DE || this.category === TestCategory.D1E;
   };
 }

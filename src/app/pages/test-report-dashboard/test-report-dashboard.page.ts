@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { UntypedFormGroup } from '@angular/forms';
 import { LessonAndTheme, TestData } from '@dvsa/mes-test-schema/categories/ADI3';
+import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { select } from '@ngrx/store';
 import { TestFlowPageNames } from '@pages/page-names.constants';
 import {
@@ -212,8 +213,7 @@ export class TestReportDashboardPage extends TestReportBasePageComponent impleme
 
   navigateToPage = async (page: 'lessonTheme' | 'testReport') => {
     this.store$.dispatch(TestReportDashboardNavigateToPage(page));
-
-    await this.routeByCategory.navigateToPage(TestFlowPageNames.TEST_REPORT_PAGE, this.testCategory, {
+    await this.routeByCategory.navigateToPage(TestFlowPageNames.TEST_REPORT_PAGE, this.category as TestCategory, {
       state: {
         page,
         showMissing: this.testReportState > 0 && this.testReportState < 17,

@@ -26,15 +26,21 @@
 </ion-header>
 
 <ion-content class="ion-no-padding" [ngClass]="{'overflow': !isDelegated}" force-overscroll="false">
-  <toolbar></toolbar>
+    <test-report-toolbar
+    [category]="category"
+    [testData]="testData()"
+    [isDangerousMode]="isDangerousMode()"
+    [isSeriousMode]="isSeriousMode()"
+    [isRemoveFaultMode]="isRemoveFaultMode()"
+  ></test-report-toolbar>
   <ion-grid
     class="grid-layout"
     [ngClass]="{
-      'remove-mode': isRemoveFaultMode,
-      'add-mode': !isRemoveFaultMode,
-      'fault-mode': !isSeriousMode && !isDangerousMode,
-      'serious-mode': isSeriousMode,
-      'dangerous-mode': isDangerousMode
+      'remove-mode': isRemoveFaultMode(),
+      'add-mode': !isRemoveFaultMode(),
+      'fault-mode': !isSeriousMode() && !isDangerousMode(),
+      'serious-mode': isSeriousMode(),
+      'dangerous-mode': isDangerousMode()
     }"
   >
     <ion-row class="first-row-adjust">
@@ -138,12 +144,12 @@
   </ion-grid>
   <div
     class="report-overlay report-overlay-modal"
-    [class.contract]="isSeriousMode || isDangerousMode"
+    [class.contract]="isSeriousMode() || isDangerousMode()"
     [class.show-overlay]="displayOverlay"
   ></div>
   <div
     class="report-overlay report-overlay-remove"
-    [class.contract]="isSeriousMode || isDangerousMode"
-    [class.show-overlay]="isRemoveFaultMode"
+    [class.contract]="isSeriousMode() || isDangerousMode()"
+    [class.show-overlay]="isRemoveFaultMode()"
   ></div>
 </ion-content>

@@ -29,7 +29,7 @@ import { DrivingFaultSummaryComponent } from '../../components/driving-fault-sum
 import { EcoComponent } from '../../components/eco/eco';
 import { EtaComponent } from '../../components/examiner-takes-action/eta';
 import { LegalRequirementComponent } from '../../components/legal-requirement/legal-requirement';
-import { ToolbarComponent } from '../../components/toolbar/toolbar';
+import { ToolbarComponent } from '../../components/toolbar/test-report-toolbar';
 import { testReportReducer } from '../../test-report.reducer';
 import { TestReportCatDPage } from '../test-report.cat-d.page';
 

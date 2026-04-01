@@ -8,9 +8,9 @@
   </ion-row>
   <modal-result-item
     *ngFor="let question of cpcQuestions"
-    [label]="question.questionCode"
-    [score]="question.score"
-    [isPass]="question.score >= 15"
+    [label]="question?.questionCode"
+    [score]="question?.score"
+    [isPass]="question?.score >= 15"
   >
   </modal-result-item>
   <modal-result-item label="TOTAL" [score]="totalPercentage" [isPass]="testResult === '1'"> </modal-result-item>

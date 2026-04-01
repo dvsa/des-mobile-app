@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+
 import { TestReportBasePageComponent } from '@shared/classes/test-flow-base-pages/test-report/test-report-base-page';
 
 @Component({

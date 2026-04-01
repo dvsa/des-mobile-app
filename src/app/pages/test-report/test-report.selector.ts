@@ -8,6 +8,6 @@ export const isSeriousMode = (testReport: TestReportModel) => testReport.serious
 
 export const isDangerousMode = (testReport: TestReportModel) => testReport.dangerousMode;
 
-export const selectIsSeriousMode = createSelector(getTestReportState, (state) => isRemoveFaultMode(state));
-export const selectIsDangerousMode = createSelector(getTestReportState, (state) => isRemoveFaultMode(state));
+export const selectIsSeriousMode = createSelector(getTestReportState, (state) => isSeriousMode(state));
+export const selectIsDangerousMode = createSelector(getTestReportState, (state) => isDangerousMode(state));
 export const selectIsRemoveFaultMode = createSelector(getTestReportState, (state) => isRemoveFaultMode(state));

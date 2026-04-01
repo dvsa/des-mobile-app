@@ -10,7 +10,7 @@ import { TestFlowHeaderComponent } from '@components/common/test-flow-header/tes
 import { ToastControllerMock } from '@mocks/ionic-mocks/toast-controller.mock';
 import { ReverseManoeuvreComponent } from '@pages/test-report/cat-manoeuvre/components/reverse-manoeuvre/reverse-manoeuvre';
 import { EtaComponent } from '@pages/test-report/components/examiner-takes-action/eta';
-import { ToolbarComponent } from '@pages/test-report/components/toolbar/toolbar';
+import { ToolbarComponent } from '@pages/test-report/components/toolbar/test-report-toolbar';
 import { UncoupleRecoupleComponent } from '@pages/test-report/components/uncouple-recouple/uncouple-recouple';
 import { AuthenticationProviderMock } from '@providers/authentication/__mocks__/authentication.mock';
 import { AuthenticationProvider } from '@providers/authentication/authentication';

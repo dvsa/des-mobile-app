@@ -26,15 +26,21 @@
 </ion-header>
 
 <ion-content class="ion-no-padding" [ngClass]="{'overflow': !isDelegated}" force-overscroll="false">
-  <toolbar [showDrivingFaultCounter]="false"></toolbar>
+  <test-report-toolbar
+    [category]="category"
+    [testData]="testData()"
+    [isDangerousMode]="isDangerousMode()"
+    [isSeriousMode]="isSeriousMode()"
+    [showDrivingFaultCounter]="false">
+  </test-report-toolbar>
   <ion-grid
     class="grid-layout"
     [ngClass]="{
-      'remove-mode': isRemoveFaultMode,
-      'add-mode': !isRemoveFaultMode,
-      'fault-mode': !isSeriousMode && !isDangerousMode,
-      'serious-mode': isSeriousMode,
-      'dangerous-mode': isDangerousMode
+      'remove-mode': isRemoveFaultMode(),
+      'add-mode': !isRemoveFaultMode(),
+      'fault-mode': !isSeriousMode() && !isDangerousMode(),
+      'serious-mode': isSeriousMode(),
+      'dangerous-mode': isDangerousMode()
     }"
   >
     <ion-row class="first-row-adjust">
@@ -53,11 +59,11 @@
                 (onTap)="toggleReverseManoeuvre()"
                 [allowRipple]="false"
                 [ngClass]="{
-                 'checked': pageState.selectedReverseManoeuvre$ | async
+                 'checked': selectedReverseManoeuvre()
                   }"
               >
                 <span class="tickwrapper">
-                  <tick-indicator [ticked]="pageState.selectedReverseManoeuvre$ | async"> </tick-indicator>
+                  <tick-indicator [ticked]="selectedReverseManoeuvre()"> </tick-indicator>
                 </span>
               </competency-button>
             </ion-col>
@@ -81,7 +87,7 @@
             </reverse-manoeuvres>
           </ion-col>
         </ion-row>
-        <div *ngIf="pageState.showUncoupleRecouple$ | async">
+        <div *ngIf="showUncoupleRecouple()">
           <ion-row>
             <ion-col class="padding-top-18 only-top-padding">
               <div class="dark-divider"></div>
@@ -137,12 +143,12 @@
   </ion-grid>
   <div
     class="report-overlay report-overlay-modal"
-    [class.contract]="isSeriousMode || isDangerousMode"
+    [class.contract]="isSeriousMode() || isDangerousMode()"
     [class.show-overlay]="displayOverlay"
   ></div>
   <div
     class="report-overlay report-overlay-remove"
-    [class.contract]="isSeriousMode || isDangerousMode"
-    [class.show-overlay]="isRemoveFaultMode"
+    [class.contract]="isSeriousMode() || isDangerousMode()"
+    [class.show-overlay]="isRemoveFaultMode()"
   ></div>
 </ion-content>
