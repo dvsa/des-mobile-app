@@ -9,5 +9,5 @@ export class AdditionalItemsComponent {
   @Input()
   additionalItems: string[];
 
-  showAdditionalItems = (additionalItems: string[]): boolean => additionalItems.length > 0;
+  showAdditionalItems = (additionalItems: string[]): boolean => additionalItems?.length > 0;
 }

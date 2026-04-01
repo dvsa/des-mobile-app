@@ -8,9 +8,9 @@
   </ion-row>
   @for (question of cpcQuestions; track question) {
     <modal-result-item
-      [label]="question.questionCode"
-      [score]="question.score"
-      [isPass]="question.score >= 15"
+      [label]="question?.questionCode"
+      [score]="question?.score"
+      [isPass]="question?.score >= 15"
       >
     </modal-result-item>
   }

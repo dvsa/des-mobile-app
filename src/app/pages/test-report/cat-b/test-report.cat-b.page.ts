@@ -16,7 +16,6 @@ import { ManoeuvresPopoverComponent } from './components/manoeuvres-popover/mano
 import { ManoeuvresComponent } from './components/manoeuvres/manoeuvres';
 import { VehicleCheckComponent } from './components/vehicle-check/vehicle-check';
 
-
 @Component({
   selector: '.test-report-cat-b-page',
   templateUrl: 'test-report.cat-b.page.html',

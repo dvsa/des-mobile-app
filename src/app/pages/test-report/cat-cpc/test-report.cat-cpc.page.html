@@ -27,14 +27,14 @@
 </ion-header>
 
 <ion-content class="ion-no-padding">
-  <module-assessment [combinationCode]="pageState.combinationCode$ | async"></module-assessment>
+  <module-assessment [combinationCode]="combinationCode()"></module-assessment>
 
   @if (!isDelegated) {
     <div>
       @if (pageNumber === 1) {
         <question-card
           (answerPayload)="populateAnswer($event)"
-          [question]="pageState.question1$ | async"
+          [question]="question1()"
           [questionNumber]="pageNumber"
           >
         </question-card>
@@ -42,7 +42,7 @@
       @if (pageNumber === 2) {
         <question-card
           (answerPayload)="populateAnswer($event)"
-          [question]="pageState.question2$ | async"
+          [question]="question2()"
           [questionNumber]="pageNumber"
           >
         </question-card>
@@ -50,7 +50,7 @@
       @if (pageNumber === 3) {
         <question-card
           (answerPayload)="populateAnswer($event)"
-          [question]="pageState.question3$ | async"
+          [question]="question3()"
           [questionNumber]="pageNumber"
           >
         </question-card>
@@ -58,7 +58,7 @@
       @if (pageNumber === 4) {
         <question-card
           (answerPayload)="populateAnswer($event)"
-          [question]="pageState.question4$ | async"
+          [question]="question4()"
           [questionNumber]="pageNumber"
           >
         </question-card>
@@ -66,7 +66,7 @@
       @if (pageNumber === 5) {
         <question-five-card
           (answerPayload)="populateAnswer($event)"
-          [question]="pageState.question5$ | async"
+          [question]="question5()"
           >
         </question-five-card>
       }

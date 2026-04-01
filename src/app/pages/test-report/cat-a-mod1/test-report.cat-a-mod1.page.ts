@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, computed } from '@angular/core';
 
 import { AsyncPipe, NgClass } from '@angular/common';
 import { TestFlowHeaderComponent } from '@components/common/test-flow-header/test-flow-header.component';
@@ -52,6 +52,14 @@ import { SpeedCheckComponent } from './components/speed-check/speed-check';
 export class TestReportCatAMod1Page extends TestReportBasePageComponent implements OnInit, ViewDidLeave {
   singleFaultCompetencyNames = SingleFaultCompetencyNames;
 
+  speedCheckState = computed(() => {
+    return this.testReportValidatorProvider.validateSpeedChecksCatAMod1(this.testData() as TestData);
+  });
+
+  isEtaValid = computed(() => {
+    return this.testReportValidatorProvider.isETAValid(this.testData() as TestData, TestCategory.EUAM1);
+  });
+
   constructor() {
     super();
     this.displayOverlay = false;
@@ -82,7 +90,7 @@ export class TestReportCatAMod1Page extends TestReportBasePageComponent implemen
   };
 
   createEtaInvalidModal(): Promise<HTMLIonModalElement | null> {
-    if (!this.testReportValidatorProvider.isETAValid(this.testData as TestData, TestCategory.EUAM1)) {
+    if (!this.isEtaValid) {
       return this.modalController.create({
         component: EtaInvalidModal,
         componentProps: {},
@@ -93,7 +101,7 @@ export class TestReportCatAMod1Page extends TestReportBasePageComponent implemen
   }
 
   createSpeedCheckModal(): Promise<HTMLIonModalElement | null> {
-    switch (this.testReportValidatorProvider.validateSpeedChecksCatAMod1(this.testData as TestData)) {
+    switch (this.speedCheckState()) {
       case SpeedCheckState.EMERGENCY_STOP_AND_AVOIDANCE_MISSING:
         return this.modalController.create({
           component: SpeedCheckModal,
@@ -122,7 +130,7 @@ export class TestReportCatAMod1Page extends TestReportBasePageComponent implemen
   }
 
   createActivityCode4Modal(): Promise<HTMLIonModalElement | null> {
-    switch (this.testReportValidatorProvider.validateSpeedChecksCatAMod1(this.testData as TestData)) {
+    switch (this.speedCheckState()) {
       case SpeedCheckState.NOT_MET:
         this.store$.dispatch(SpeedRequirementNotMetModalOpened());
         return this.modalController.create({
@@ -150,9 +158,7 @@ export class TestReportCatAMod1Page extends TestReportBasePageComponent implemen
   }
 
   createEndTestModal(): Promise<HTMLIonModalElement> {
-    if (
-      this.testReportValidatorProvider.validateSpeedChecksCatAMod1(this.testData as TestData) === SpeedCheckState.VALID
-    ) {
+    if (this.speedCheckState() === SpeedCheckState.VALID) {
       return this.modalController.create({
         component: EndTestModal,
         componentProps: {},

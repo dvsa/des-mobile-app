@@ -1,10 +1,10 @@
 import { OrientationType, ScreenOrientation } from '@capawesome/capacitor-screen-orientation';
 import { ModalController } from '@ionic/angular';
-import { Subject } from 'rxjs';
+import { Subject, Subscription } from 'rxjs';
 
 import { selectUntitledCandidateName } from '@store/tests/journal-data/common/candidate/candidate.selector';
 
-import { Inject, inject } from '@angular/core';
+import { Inject, computed, inject } from '@angular/core';
 import { KeepAwake as Insomnia } from '@capacitor-community/keep-awake';
 import { StatusBar } from '@capacitor/status-bar';
 import { CatADI2UniqueTypes } from '@dvsa/mes-test-schema/categories/ADI2';
@@ -39,10 +39,9 @@ import { PracticeableBasePageComponent } from '@shared/classes/practiceable-base
 import { isAnyOf } from '@shared/helpers/simplifiers';
 import { TestDataUnion, TestRequirementsUnion } from '@shared/unions/test-schema-unions';
 import { SetActivityCode } from '@store/tests/activity-code/activity-code.actions';
-import { getTestCategory } from '@store/tests/category/category.reducer';
+import { selectTestCategory } from '@store/tests/category/category.reducer';
 import { hasManoeuvreBeenCompletedCatADIPart2 } from '@store/tests/test-data/cat-adi-part2/test-data.cat-adi-part2.selector';
 import { hasManoeuvreBeenCompletedCatB } from '@store/tests/test-data/cat-b/test-data.cat-b.selector';
-import { getTestData } from '@store/tests/test-data/cat-b/test-data.reducer';
 import { getTestRequirementsCatB } from '@store/tests/test-data/cat-b/test-requirements/test-requirements.reducer';
 import { hasManoeuvreBeenCompletedCatC } from '@store/tests/test-data/cat-c/test-data.cat-c.selector';
 import { getTestRequirementsCatC } from '@store/tests/test-data/cat-c/test-requirements/test-requirements.cat-c.reducer';
@@ -50,6 +49,7 @@ import { hasManoeuvreBeenCompletedCatD } from '@store/tests/test-data/cat-d/test
 import { getTestRequirementsCatD } from '@store/tests/test-data/cat-d/test-requirements/test-requirements.cat-d.reducer';
 import { hasManoeuvreBeenCompletedCatHomeTest } from '@store/tests/test-data/cat-home/test-data.cat-home.selector';
 import { getTestRequirementsCatHome } from '@store/tests/test-data/cat-home/test-requirements/test-requirements.cat-home.reducer';
+import { selectTestData } from '@store/tests/test-data/common/test-data.selector';
 import { Competencies, ExaminerActions, LegalRequirements } from '@store/tests/test-data/test-data.constants';
 
 export const trDestroy$ = new Subject<{}>();
@@ -59,21 +59,49 @@ export abstract class TestReportBasePageComponent extends PracticeableBasePageCo
   protected testReportValidatorProvider = inject(TestReportValidatorProvider);
   routeByCategory = inject(RouteByCategoryProvider);
 
+  subscription: Subscription;
   competencies = Competencies;
   legalRequirements = LegalRequirements;
   eta = ExaminerActions;
   displayOverlay: boolean;
 
+  category = this.store$.selectSignal(selectTestCategory)();
   candidateUntitledName = this.store$.selectSignal(selectUntitledCandidateName)();
-  isRemoveFaultMode = this.store$.selectSignal(selectIsRemoveFaultMode)();
-  isSeriousMode = this.store$.selectSignal(selectIsSeriousMode)();
-  isDangerousMode = this.store$.selectSignal(selectIsDangerousMode)();
-  testData = this.store$.selectSignal(getTestData)();
-  category = this.store$.selectSignal(getTestCategory)();
-  manoeuvres = this.hasManoeuvreBeenCompleted(this.testData, this.category);
-  testRequirements = this.getTestRequirements(this.testData, this.category);
 
-  testCategory: TestCategory;
+  //Setup that the modes as signals so their value is updated live
+  isRemoveFaultMode = this.store$.selectSignal(selectIsRemoveFaultMode);
+  isSeriousMode = this.store$.selectSignal(selectIsSeriousMode);
+  isDangerousMode = this.store$.selectSignal(selectIsDangerousMode);
+  testData = this.store$.selectSignal(selectTestData);
+
+  //These variables are computed, meaning they update live as the signals mentioned within them are updated
+  isEtaValid = computed(() => {
+    return this.testReportValidatorProvider.isETAValid(this.testData(), this.category as TestCategory);
+  });
+
+  isTestReportValid = computed(() => {
+    return this.testReportValidatorProvider.isTestReportValid(
+      this.testData(),
+      this.category as TestCategory,
+      this.isDelegated
+    );
+  });
+
+  manoeuvresCompleted = computed(() => {
+    return this.hasManoeuvreBeenCompleted(this.testData(), this.category);
+  });
+
+  missingLegalRequirements = computed(() => {
+    return this.testReportValidatorProvider.getMissingLegalRequirements(
+      this.testData(),
+      this.category as TestCategory,
+      this.isDelegated
+    );
+  });
+
+  testRequirements = computed(() => {
+    return this.getTestRequirements(this.testData(), this.category as TestCategory);
+  });
 
   modal: HTMLIonModalElement;
 
@@ -166,35 +194,24 @@ export abstract class TestReportBasePageComponent extends PracticeableBasePageCo
 
   onEndTestClick = async (): Promise<void> => {
     const modalCssClass: string = 'mes-modal-alert text-zoom-regular';
-    const isTestReportValid = this.testReportValidatorProvider.isTestReportValid(
-      this.testData,
-      this.category as TestCategory,
-      this.isDelegated
-    );
-    const isEtaValid = this.testReportValidatorProvider.isETAValid(this.testData, this.category as TestCategory);
-    if (!isTestReportValid) {
-      const missingLegalRequirements = this.testReportValidatorProvider.getMissingLegalRequirements(
-        this.testData,
-        this.category as TestCategory,
-        this.isDelegated
-      );
+    if (!this.isTestReportValid()) {
       this.modal = await this.modalController.create({
         component: LegalRequirementsModal,
         componentProps: {
-          legalRequirements: missingLegalRequirements,
+          legalRequirements: this.missingLegalRequirements(),
           isDelegated: this.isDelegated,
         },
         cssClass: modalCssClass,
       });
-    } else if (!isEtaValid) {
+    } else if (!this.isEtaValid()) {
       this.modal = await this.modalController.create({
         component: EtaInvalidModal,
         cssClass: modalCssClass,
       });
     } else if (
-      !this.manoeuvres &&
-      isAnyOf(this.testCategory, [TestCategory.F, TestCategory.G, TestCategory.H]) &&
-      this.testCategory !== TestCategory.K
+      !this.manoeuvresCompleted() &&
+      isAnyOf(this.category, [TestCategory.F, TestCategory.G, TestCategory.H]) &&
+      this.category !== TestCategory.K
     ) {
       this.modal = await this.modalController.create({
         component: SpecialLegalRequirementModal,
@@ -216,7 +233,7 @@ export abstract class TestReportBasePageComponent extends PracticeableBasePageCo
 
   onModalDismiss = async (event: ModalEvent): Promise<void> => {
     const nextPage: string = this.isDelegated
-      ? this.routeByCategory.getNextPage(TestFlowPageNames.OFFICE_PAGE, this.testCategory)
+      ? this.routeByCategory.getNextPage(TestFlowPageNames.OFFICE_PAGE, this.category as TestCategory)
       : TestFlowPageNames.DEBRIEF_PAGE;
 
     switch (event) {

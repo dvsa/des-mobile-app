@@ -1,11 +1,7 @@
 import { AsyncPipe, NgClass, NgStyle } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { TestFlowHeaderComponent } from '@components/common/test-flow-header/test-flow-header.component';
-import { CatFUniqueTypes } from '@dvsa/mes-test-schema/categories/F';
-import { CatGUniqueTypes } from '@dvsa/mes-test-schema/categories/G';
-import { CatHUniqueTypes } from '@dvsa/mes-test-schema/categories/H';
-import { CatKUniqueTypes } from '@dvsa/mes-test-schema/categories/K';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
+import { TestFlowHeaderComponent } from '@components/common/test-flow-header/test-flow-header.component';
 import { IonCol, IonContent, IonGrid, IonHeader, IonRow, IonToolbar } from '@ionic/angular';
 import {
   CommonTestReportPageState,
@@ -21,12 +17,6 @@ import { ReverseLeftPopoverComponent } from '../components/reverse-left-popover/
 import { ReverseLeftComponent } from '../components/reverse-left/reverse-left';
 import { ToolbarComponent } from '../components/toolbar/toolbar';
 import { VehicleChecksComponent } from './components/vehicle-checks/vehicle-checks';
-
-type HomeCatTestDataUnion =
-  | CatFUniqueTypes.TestData
-  | CatGUniqueTypes.TestData
-  | CatHUniqueTypes.TestData
-  | CatKUniqueTypes.TestData;
 
 @Component({
   selector: '.test-report-cat-home-test-page',
@@ -66,6 +56,6 @@ export class TestReportCatHomeTestPage extends TestReportBasePageComponent imple
   }
 
   showManoeuvreButton = (): boolean => {
-    return this.testCategory !== TestCategory.K;
+    return this.category !== TestCategory.K;
   };
 }
