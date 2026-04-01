@@ -106,7 +106,7 @@
     "bootstrap": "^5.3.7",
     "capacitor-native-biometric": "^4.2.2",
     "compare-versions": "^6.1.0",
-    "cordova-ios": "8.0.0",
+    "cordova-ios": "8.0.1",
     "cordova-plugin-google-analytics": "^1.9.3",
     "cordova-plugin-ios-disableshaketoedit": "^1.0.0",
     "cordova-plugin-is-debug": "^1.0.0",
