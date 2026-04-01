@@ -84,7 +84,7 @@ export class DelegatedRekeySearchPage extends BasePageComponent implements OnIni
       'applicationReferenceInput',
       new UntypedFormControl(null, [
         Validators.required,
-        Validators.pattern(/^(?:\d{11}|[A-Za-z] \d{3} \d{3} \d{2}[A-Za-z])$/),
+        Validators.pattern(/^(?:\d{11}|[A-Za-z] \d{3} \d{3} \d{2}[A-Za-z0-9])$/),
       ])
     );
     this.delegatedRekeyForm.updateValueAndValidity(this.maxCallStackHandler);
