@@ -5,7 +5,7 @@ import { CandidateSectionComponent } from '@components/common/candidate-section/
 import { LockScreenIndicator } from '@components/common/screen-lock-indicator/lock-screen-indicator';
 import { TestFlowHeaderComponent } from '@components/common/test-flow-header/test-flow-header.component';
 import { AddOrRemoveLangCyDirective } from '@directives/add-or-remove-lang-cy.directive';
-import { Address, CategoryCode, CommunicationMethod } from '@dvsa/mes-test-schema/categories/common';
+import { CommunicationMethod } from '@dvsa/mes-test-schema/categories/common';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { IonCol, IonContent, IonHeader, IonRow, IonText, IonToolbar } from '@ionic/angular';
 import { TranslatePipe, TranslateService } from '@ngx-translate/core';
@@ -25,7 +25,6 @@ import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-c
 import { PracticeableBasePageComponent } from '@shared/classes/practiceable-base-page';
 import { selectIsStandardsCheck, selectTestCategory } from '@store/tests/category/category.reducer';
 import * as communicationPreferencesActions from '@store/tests/communication-preferences/communication-preferences.actions';
-import { Language } from '@store/tests/communication-preferences/communication-preferences.model';
 import {
   selectCommunicationPreferenceType,
   selectCommunicationPreferenceUpdatedEmail,
@@ -52,23 +51,6 @@ import { PostalAddressComponent } from './components/postal-address/postal-addre
 import { ProvidedEmailComponent } from './components/provided-email/provided-email';
 import { ValidCertificateComponent } from './components/valid-certificate/valid-certificate';
 import { selectShowVrnButton } from '@store/tests/vehicle-details/vehicle-details.selector';
-import { Observable } from 'rxjs';
-
-interface CommunicationPageState {
-  candidateName$: Observable<string>;
-  candidateUntitledName$: Observable<string>;
-  candidateDriverNumber$: Observable<string>;
-  candidateProvidedEmail$: Observable<string>;
-  communicationEmail$: Observable<string>;
-  communicationType$: Observable<string>;
-  candidateAddress$: Observable<Address>;
-  conductedLanguage$: Observable<Language>;
-  testCategory$: Observable<CategoryCode>;
-  showVrnBtn$: Observable<boolean>;
-  prn$: Observable<number>;
-  isStandardsCheck$: Observable<boolean>;
-  validCertificate$: Observable<boolean>;
-}
 
 @Component({
   selector: 'app-communication',
@@ -125,8 +107,8 @@ export class CommunicationPage extends PracticeableBasePageComponent implements 
   showVrnBtn = this.store$.selectSignal(selectShowVrnButton)();
 
   // Signals for data that could vary over time controlled within this page
-  candidateProvidedEmail = this.store$.selectSignal(selectCandidateEmailAddress)();
-  communicationEmail = this.store$.selectSignal(selectCommunicationPreferenceUpdatedEmail)();
+  candidateProvidedEmail = this.store$.selectSignal(selectCandidateEmailAddress);
+  communicationEmail = this.store$.selectSignal(selectCommunicationPreferenceUpdatedEmail);
   communicationType = this.store$.selectSignal(selectCommunicationPreferenceType)();
   validCertificate = this.store$.selectSignal(selectValidCertificateStatus)();
 
@@ -180,7 +162,7 @@ export class CommunicationPage extends PracticeableBasePageComponent implements 
     this.setCommunicationType(CommunicationPage.email, CommunicationPage.providedEmail);
     this.store$.dispatch(
       communicationPreferencesActions.CandidateChoseEmailAsCommunicationPreference(
-        this.candidateProvidedEmail,
+        this.candidateProvidedEmail(),
         CommunicationPage.email
       )
     );
@@ -239,11 +221,11 @@ export class CommunicationPage extends PracticeableBasePageComponent implements 
   }
 
   assertEmailType() {
-    if (this.candidateProvidedEmail !== '' && this.candidateProvidedEmail === this.communicationEmail) {
+    if (this.candidateProvidedEmail() !== '' && this.candidateProvidedEmail() === this.communicationEmail()) {
       this.emailType = CommunicationPage.providedEmail;
     }
 
-    if (this.candidateProvidedEmail !== this.communicationEmail) {
+    if (this.candidateProvidedEmail() !== this.communicationEmail()) {
       this.emailType = CommunicationPage.updatedEmail;
     }
   }
@@ -254,7 +236,7 @@ export class CommunicationPage extends PracticeableBasePageComponent implements 
 
   initialiseDefaultSelections() {
     this.communicationType = CommunicationPage.email;
-    if (this.candidateProvidedEmail) {
+    if (this.candidateProvidedEmail()) {
       this.emailType = CommunicationPage.providedEmail;
       this.form.controls.radioCtrl.setValue(true);
       this.dispatchCandidateChoseProvidedEmail();
@@ -285,8 +267,8 @@ export class CommunicationPage extends PracticeableBasePageComponent implements 
   conditionalDispatchCandidateChoseNewEmail() {
     this.setCommunicationType(CommunicationPage.email, CommunicationPage.updatedEmail);
 
-    if (this.isNewEmailSelected() && this.communicationEmail !== '') {
-      this.dispatchCandidateChoseNewEmail(this.communicationEmail);
+    if (this.isNewEmailSelected() && this.communicationEmail() !== '') {
+      this.dispatchCandidateChoseNewEmail(this.communicationEmail());
     }
   }
 
