@@ -13,7 +13,7 @@ export const nonNumericValues: RegExp = /[^0-9]/g;
 // Used for when you want to replace all parts of input except numbers 0-9 and alpha A-Z insensitive
 export const nonAlphaNumericValues: RegExp = /[^A-Z0-9]/gi;
 
-export const getByteCount = (str: string): number => Buffer.byteLength(str, 'utf8');
+export const getByteCount = (str: string): number => new TextEncoder().encode(str).length;
 
 export const getRegistrationNumberValidator = (): FieldValidators => {
   return {
