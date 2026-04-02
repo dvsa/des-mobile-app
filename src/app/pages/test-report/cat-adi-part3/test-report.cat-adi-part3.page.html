@@ -41,12 +41,12 @@
         </ion-text>
       </ion-col>
     </ion-row>
-    <student-level [studentLevel]="pageState.studentLevel$ | async" (studentLevelChange)="studentLevelChanged($event)">
+    <student-level [studentLevel]="studentLevel()" (studentLevelChange)="studentLevelChanged($event)">
     </student-level>
     <lesson-theme
       [formGroup]="form"
-      [lessonThemes]="pageState.lessonThemes$ | async"
-      [otherReason]="pageState.otherReason$ | async"
+      [lessonThemes]="lessonThemes()"
+      [otherReason]="otherReason()"
       (lessonThemeChange)="lessonThemeChanged($event)"
       (otherReasoningChange)="otherReasonChanged($event)"
       >
@@ -73,7 +73,7 @@
       [showMissing]="showMissing"
       [sectionHeader]="'Lesson planning'"
       [assessmentCard]="'lp'"
-      [sectionData]="pageState.lessonPlanning$ | async"
+      [sectionData]="lessonPlanning()"
       (answerChange)="lessonPlanningChanged($event)"
       >
     </tr-assessment-card>
@@ -81,7 +81,7 @@
       [showMissing]="showMissing"
       [sectionHeader]="'Risk management'"
       [assessmentCard]="'rm'"
-      [sectionData]="pageState.riskManagement$ | async"
+      [sectionData]="riskManagement()"
       (answerChange)="riskManagementChanged($event)"
       >
     </tr-assessment-card>
@@ -89,7 +89,7 @@
       [showMissing]="showMissing"
       [sectionHeader]="'Teaching & learning strategies'"
       [assessmentCard]="'tls'"
-      [sectionData]="pageState.teachingLearningStrategies$ | async"
+      [sectionData]="teachingLearningStrategies()"
       (answerChange)="teachingLearningStrategyChanged($event)"
       >
     </tr-assessment-card>
@@ -97,7 +97,7 @@
 
   @if (page === 'testReport') {
     <question-score
-      [score]="adi3AssessmentProvider.countScoreIfTouched(pageState.adi3TestData$ | async)"
+      [score]="countScore()"
       [displayPercentage]="false"
       [label]="'Total score:'"
       >
@@ -106,7 +106,7 @@
 
   <ion-row class="mes-full-width-card box-shadow flex-center footer-row-colour">
     <ion-col class="ion-text-center" size="60">
-      @if ({ score: pageState.totalScore$ | async }; as data) {
+      @if ({ score: totalScore() }; as data) {
         <ion-button
           (click)="onContinueClick(data.score)"
           id="adi-pt3-continue-tr-button"

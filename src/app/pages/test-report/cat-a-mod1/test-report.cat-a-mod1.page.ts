@@ -90,7 +90,7 @@ export class TestReportCatAMod1Page extends TestReportBasePageComponent implemen
   };
 
   createEtaInvalidModal(): Promise<HTMLIonModalElement | null> {
-    if (!this.isEtaValid) {
+    if (!this.isEtaValid()) {
       return this.modalController.create({
         component: EtaInvalidModal,
         componentProps: {},
