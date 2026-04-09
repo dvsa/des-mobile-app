@@ -3,9 +3,9 @@
     <competency-button
       id="controlled-stop-tick"
       class="controlled-stop-tick"
-      [onTap]="toggleControlledStop"
-      [onPress]="toggleControlledStop"
-      [ripple]="false"
+      (onTap)="toggleControlledStop()"
+      (onPress)="toggleControlledStop()"
+      [allowRipple]="false"
       [ngClass]="{
         'checked': selectedControlledStop
       }"
@@ -18,9 +18,9 @@
   <ion-col class="ion-no-padding">
     <competency-button
       class="controlled-stop-competency"
-      [onTap]="onTap"
-      [onPress]="onPress"
-      [ripple]="canButtonRipple()"
+      (onTap)="onTap()"
+      (onPress)="onPress()"
+      [allowRipple]="canButtonRipple()"
       [ngClass]="{
         'checked': selectedControlledStop,
         'fault': faultCount() > 0,

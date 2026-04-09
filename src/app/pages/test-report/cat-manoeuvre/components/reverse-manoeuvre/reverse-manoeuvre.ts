@@ -52,12 +52,6 @@ export class ReverseManoeuvreComponent {
   @Output()
   competencyClicked = new EventEmitter<void>();
 
-  touchStateDelay = 100;
-  touchState = false;
-  rippleState = false;
-  rippleTimeout: NodeJS.Timeout;
-  touchTimeout: NodeJS.Timeout;
-  rippleEffectAnimationDuration = 300;
   componentState: ReverseManoeuvreCompetencyComponentState;
   subscription: Subscription;
   isRemoveFaultMode = false;
@@ -118,10 +112,6 @@ export class ReverseManoeuvreComponent {
     if (!this.isDangerousMode && !this.isSeriousMode) {
       this.competencyClicked.emit();
       return;
-    }
-
-    if (wasPress) {
-      this.applyRippleEffect();
     }
 
     if (this.isRemoveFaultMode) {
@@ -189,28 +179,4 @@ export class ReverseManoeuvreComponent {
   hasSeriousFault = (): boolean => this.manoeuvreCompetencyOutcome === CompetencyOutcome.S;
 
   hasDangerousFault = (): boolean => this.manoeuvreCompetencyOutcome === CompetencyOutcome.D;
-
-  /**
-   * Manages the addition and removal of the ripple effect animation css class
-   * @returns any
-   */
-  applyRippleEffect = (): void => {
-    this.rippleState = true;
-    this.rippleTimeout = setTimeout(() => this.removeRippleEffect(), this.rippleEffectAnimationDuration);
-  };
-
-  removeRippleEffect = (): void => {
-    this.rippleState = false;
-    clearTimeout(this.rippleTimeout);
-  };
-
-  onTouchStart(): void {
-    clearTimeout(this.touchTimeout);
-    this.touchState = true;
-  }
-
-  onTouchEnd(): void {
-    // defer the removal of the touch state to allow the page to render
-    this.touchTimeout = setTimeout(() => (this.touchState = false), this.touchStateDelay);
-  }
 }

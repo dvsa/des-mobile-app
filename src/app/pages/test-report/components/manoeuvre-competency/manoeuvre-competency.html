@@ -1,13 +1,12 @@
-<div
-  id="manoeuvre-competency-button-{{ label }}"
+<competency-button
+  [buttonId]="`manoeuvre-competency-button-${ label }`"
   class="manoeuvre-competency-button"
-  (tap)="addOrRemoveFault(isDelegated)"
-  (press)="addOrRemoveFault(true)"
-  (touchstart)="onTouchStart()"
-  (touchend)="onTouchEnd()"
+  (onTap)="addOrRemoveFault(isDelegated)"
+  (onPress)="addOrRemoveFault(true)"
   [ngClass]="{
-    'activated': touchState,
-    'ripple-effect': rippleState
+    'fault': hasDrivingFault(),
+    'serious-fault': hasSeriousFault(),
+    'dangerous-fault': hasDangerousFault()
   }"
 >
   <driving-faults-badge
@@ -28,4 +27,4 @@
       [showBadge]="hasDangerousFault()"
     ></dangerous-fault-badge>
   </div>
-</div>
+</competency-button>

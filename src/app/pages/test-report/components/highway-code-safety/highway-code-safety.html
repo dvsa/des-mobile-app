@@ -2,9 +2,9 @@
   <ion-col size="20" class="ion-no-padding">
     <competency-button
       class="highway-code-safety-tick"
-      [onTap]="toggleHighwayCodeSafety"
-      [onPress]="toggleHighwayCodeSafety"
-      [ripple]="false"
+      (onTap)="toggleHighwayCodeSafety()"
+      (onPress)="toggleHighwayCodeSafety()"
+      [allowRipple]="false"
       [ngClass]="{
         'checked': selectedHighwayCodeSafety
       }"
@@ -17,9 +17,9 @@
   <ion-col class="ion-no-padding">
     <competency-button
       class="highway-code-safety-competency"
-      [onTap]="onTap"
-      [onPress]="onPress"
-      [ripple]="canButtonRipple()"
+      (onTap)="onTap()"
+      (onPress)="onPress()"
+      [allowRipple]="canButtonRipple()"
       [ngClass]="{
         'checked': selectedHighwayCodeSafety,
         'fault': faultCount() > 0,

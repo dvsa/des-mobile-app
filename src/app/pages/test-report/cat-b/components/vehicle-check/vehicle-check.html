@@ -3,9 +3,9 @@
     <competency-button
       id="show-me-question-tick"
       class="show-me-question-tick"
-      [onTap]="toggleShowMeQuestion"
-      [onPress]="toggleShowMeQuestion"
-      [ripple]="false"
+      (onTap)="toggleShowMeQuestion()"
+      (onPress)="toggleShowMeQuestion()"
+      [allowRipple]="false"
       [ngClass]="{
         'checked' : selectedShowMeQuestion
       }"
@@ -18,9 +18,9 @@
   <ion-col class="ion-no-padding">
     <competency-button
       class="vehicle-check-competency"
-      [onTap]="onTap"
-      [onPress]="onPress"
-      [ripple]="canButtonRipple()"
+      (onTap)="onTap()"
+      (onPress)="onPress()"
+      [allowRipple]="canButtonRipple()"
       [ngClass]="{
         'checked': selectedShowMeQuestion,
         'fault': hasShowMeDrivingFault(),

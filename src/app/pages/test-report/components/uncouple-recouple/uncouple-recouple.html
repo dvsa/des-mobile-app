@@ -3,9 +3,9 @@
     <ion-col size="20" class="ion-no-padding ion-padding-bottom">
       <competency-button
         class="uncouple-recouple-tick-centred"
-        [onTap]="toggleUncoupleRecouple"
-        [onPress]="toggleUncoupleRecouple"
-        [ripple]="false"
+        (onTap)="toggleUncoupleRecouple()"
+        (onPress)="toggleUncoupleRecouple()"
+        [allowRipple]="false"
         [ngClass]="{
                                  'checked': selectedUncoupleRecouple
                                  }"
@@ -20,9 +20,9 @@
     <ion-col class="ion-no-padding">
       <competency-button
         class="uncouple-recouple-competency-floating"
-        [onTap]="onTap"
-        [onPress]="onPress"
-        [ripple]="canButtonRipple()"
+        (onTap)="onTap()"
+        (onPress)="onPress()"
+        [allowRipple]="canButtonRipple()"
         [ngClass]="{
                                 'checked': selectedUncoupleRecouple,
                                 'fault': faultCount() > 0,
@@ -45,9 +45,9 @@
   <ion-col size="20" class="ion-no-padding">
     <competency-button
       class="uncouple-recouple-tick"
-      [onTap]="toggleUncoupleRecouple"
-      [onPress]="toggleUncoupleRecouple"
-      [ripple]="false"
+      (onTap)="toggleUncoupleRecouple()"
+      (onPress)="toggleUncoupleRecouple()"
+      [allowRipple]="false"
       [ngClass]="{
         'checked': selectedUncoupleRecouple
       }"
@@ -61,9 +61,9 @@
   <ion-col size="71" class="ion-no-padding">
     <competency-button
       class="uncouple-recouple-competency"
-      [onTap]="onTap"
-      [onPress]="onPress"
-      [ripple]="canButtonRipple()"
+      (onTap)="onTap"
+      (onPress)="onPress"
+      [allowRipple]="canButtonRipple()"
       [ngClass]="{
         'checked': selectedUncoupleRecouple,
         'fault': faultCount() > 0,

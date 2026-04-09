@@ -50,9 +50,9 @@
             <ion-col class="ion-no-padding padding-bottom">
               <competency-button
                 class="uncouple-recouple-toggle"
-                [onTap]="toggleReverseManoeuvre"
-                [onPress]="toggleReverseManoeuvre"
-                [ripple]="false"
+                (onTap)="toggleReverseManoeuvre()"
+                (onPress)="toggleReverseManoeuvre()"
+                [allowRipple]="false"
                 [ngClass]="{
                  'checked': pageState.selectedReverseManoeuvre$ | async
                   }"

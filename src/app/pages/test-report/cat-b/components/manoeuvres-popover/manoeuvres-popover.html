@@ -74,7 +74,7 @@
 
       <ion-col
         class="manoeuvre-competencies-container-column"
-        size="8"
+        size="36"
         *ngIf="asyncData.manoeuvres.reverseRight?.selected"
       >
         <manoeuvre-competency
@@ -82,6 +82,7 @@
           [competency]="competencies.controlFault"
           [attr.id]="getId(manoeuvreTypes.reverseRight, competencies.controlFault)"
         ></manoeuvre-competency>
+        <ion-row class="padding-row"></ion-row>
         <manoeuvre-competency
           [attr.id]="getId(manoeuvreTypes.reverseRight, competencies.observationFault)"
           [manoeuvre]="manoeuvreTypes.reverseRight"
