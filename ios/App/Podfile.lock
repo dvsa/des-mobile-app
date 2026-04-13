@@ -42,7 +42,7 @@ PODS:
   - Sentry (9.8.0):
     - Sentry/Core (= 9.8.0)
   - Sentry/Core (9.8.0)
-  - SentryCapacitor (3.2.0):
+  - SentryCapacitor (3.2.1):
     - Capacitor
     - Sentry (= 9.8.0)
 
@@ -135,7 +135,7 @@ SPEC CHECKSUMS:
   GoogleAnalytics: 01e4c5a04544a3608f93e970ce0817836897c5a5
   MSAL: 1a32a1070ccf55d9641d31edd8869ea2b5a78beb
   Sentry: 88746bf877eff714bc45315a39ad1d1efea2cdda
-  SentryCapacitor: e330a47b73f225ba1e485a7fbab2a67b27702763
+  SentryCapacitor: 179536d84866b2ffde1ecd8ed1ded541caf3e950
 
 PODFILE CHECKSUM: 976d3c95a847e3b63aa3ab7c4f86b075c4ac5474
 
