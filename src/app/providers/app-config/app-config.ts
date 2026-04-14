@@ -179,12 +179,12 @@ export class AppConfigProvider {
     }
   };
 
-  private getManagedConfigValueString = async <T>(key: string): Promise<T> => {
+  getManagedConfigValueString = async <T>(key: string): Promise<T> => {
     const data: GetResult<string> = await ManagedConfigurations.getString({ key });
     return data?.value as T;
   };
 
-  private getManagedConfigValueNumber = async (key: string): Promise<number> => {
+  getManagedConfigValueNumber = async (key: string): Promise<number> => {
     const data: GetResult<number> = await ManagedConfigurations.getNumber({ key });
     return data?.value;
   };
