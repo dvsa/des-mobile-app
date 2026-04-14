@@ -21,17 +21,22 @@ export enum DateRange {
 export class DateTime {
   moment: moment.Moment;
 
-  constructor(sourceDateTime?: DateTime | string | Date, inputFormat?: moment.MomentFormatSpecification) {
+  constructor(
+    sourceDateTime?: DateTime | string | Date,
+    useLocalTime = false,
+    inputFormat?: moment.MomentFormatSpecification
+  ) {
     if (sourceDateTime === undefined || sourceDateTime === null) {
-      this.moment = moment().utc();
+      this.moment = moment();
     } else if (typeof sourceDateTime === 'string') {
-      this.moment = inputFormat
-        ? moment.utc(new Date(sourceDateTime), inputFormat)
-        : moment.utc(new Date(sourceDateTime));
+      this.moment = inputFormat ? moment(new Date(sourceDateTime), inputFormat) : moment(new Date(sourceDateTime));
     } else if (sourceDateTime instanceof Date) {
-      this.moment = moment.utc(sourceDateTime);
+      this.moment = moment(sourceDateTime);
     } else {
-      this.moment = moment.utc(sourceDateTime.moment);
+      this.moment = moment(sourceDateTime.moment);
+    }
+    if (!useLocalTime) {
+      this.moment = this.moment.utc();
     }
   }
 

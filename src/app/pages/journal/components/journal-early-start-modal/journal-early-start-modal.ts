@@ -38,6 +38,6 @@ export class JournalEarlyStartModal {
   };
 
   getStartTime() {
-    return new DateTime(this.slotData.start).format('kk:mm');
+    return new DateTime(this.slotData.start, true).format('kk:mm');
   }
 }
