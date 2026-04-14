@@ -29,7 +29,9 @@
       "**/ios/",
       "**/src/assets/",
       "**/src/polyfills.ts",
-      "src/app/shared/classes/null.reducer.ts"
+      "src/app/shared/classes/null.reducer.ts",
+      "remote-devtools-connection-proxy.ts",
+      "remote-devtools-proxy.ts"
     ]
   },
   "overrides": [

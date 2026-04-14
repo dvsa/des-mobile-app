@@ -2,7 +2,6 @@ import { SimpleChanges } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ChartComponent } from '@components/common/chart/chart';
 import { IonicModule } from '@ionic/angular';
-import { ApexOptions } from 'ng-apexcharts';
 
 describe('ChartComponent', () => {
   let component: ChartComponent;
@@ -212,16 +211,8 @@ describe('ChartComponent', () => {
   });
 
   describe('ngOnChanges', () => {
-    it('should run filterData and updateOptions with options if dataChanged is true and chart is present', () => {
-      component.chart = {
-        updateOptions(options: ApexOptions): ApexOptions {
-          return options;
-        },
-      } as ApexCharts;
-
+    it('should run filterData with options if dataChanged is true', () => {
       spyOn(component, 'filterData');
-      spyOnProperty(component, 'options').and.returnValue({} as ApexOptions);
-      spyOn(component.chart, 'updateOptions');
 
       const changes: SimpleChanges = {
         data: {
@@ -235,37 +226,6 @@ describe('ChartComponent', () => {
       component.ngOnChanges(changes);
 
       expect(component.filterData).toHaveBeenCalled();
-      expect(component.chart.updateOptions).toHaveBeenCalledWith(component.options);
-    });
-    it('should reassign chart if dataChanged is true, chart is present and the changes include chartType', () => {
-      component.chart = {
-        updateOptions(options: ApexOptions): ApexOptions {
-          return options;
-        },
-        render(): void {
-          return;
-        },
-      } as ApexCharts;
-
-      const changes: SimpleChanges = {
-        chartType: {
-          previousValue: '1',
-          currentValue: '2',
-          firstChange: false,
-          isFirstChange: () => false,
-        },
-      };
-
-      component.ngOnChanges(changes);
-
-      expect(component.chart).not.toEqual({
-        updateOptions(options: ApexOptions): ApexOptions {
-          return options;
-        },
-        render(): void {
-          return;
-        },
-      } as ApexCharts);
     });
   });
 

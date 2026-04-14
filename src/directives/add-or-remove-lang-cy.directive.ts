@@ -52,8 +52,8 @@ export class AddOrRemoveLangCyDirective implements OnInit, OnDestroy {
    **/
   ngOnInit() {
     if (this.shouldListenToLanguageChanges) {
-      this.assignLanguage(this.translateService.store.currentLang);
-      this.listener = this.translateService.store.onLangChange.subscribe((value) => {
+      this.assignLanguage(this.translateService.getCurrentLang());
+      this.listener = this.translateService.onLangChange.subscribe((value) => {
         this.assignLanguage(value.lang);
       });
     }

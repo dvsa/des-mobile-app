@@ -1,14 +1,14 @@
-import { HttpClient, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { createTranslateLoader } from '@app/app.module';
 import { default as welshTranslations } from '@assets/i18n/cy.json';
 import { default as englishTranslations } from '@assets/i18n/en.json';
 import { QuestionResult } from '@dvsa/mes-test-schema/categories/common';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { IonicModule } from '@ionic/angular';
 import { Store, StoreModule } from '@ngrx/store';
-import { TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
+import { TranslateModule, TranslateService, provideTranslateService } from '@ngx-translate/core';
+import { provideTranslateHttpLoader } from '@ngx-translate/http-loader';
 import { StoreModel } from '@shared/models/store.model';
 import { candidateMock } from '@store/tests/__mocks__/tests.mock';
 import { PopulateTestCategory } from '@store/tests/category/category.actions';
@@ -29,18 +29,15 @@ describe('SafetyAndBalanceCardCatAMod2Component', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [SafetyAndBalanceCardCatAMod2Component],
-      imports: [
-        IonicModule,
-        StoreModule.forRoot({ tests: testsReducer }),
-        TranslateModule.forRoot({
-          loader: {
-            provide: TranslateLoader,
-            useFactory: createTranslateLoader,
-            deps: [HttpClient],
-          },
+      imports: [IonicModule, StoreModule.forRoot({ tests: testsReducer }), TranslateModule.forRoot()],
+      providers: [
+        provideHttpClient(withInterceptorsFromDi()),
+        provideTranslateService({
+          loader: provideTranslateHttpLoader({ prefix: 'assets/i18n/' }),
+          fallbackLang: 'en',
+          lang: 'en',
         }),
       ],
-      providers: [provideHttpClient(withInterceptorsFromDi())],
     });
 
     fixture = TestBed.createComponent(SafetyAndBalanceCardCatAMod2Component);

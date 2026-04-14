@@ -1,1 +1,18 @@
-<div [id]="chartId"></div>
+<apx-chart
+  [id]="chartId"
+  [series]="dataValues"
+  [chart]="chartOptions.chart"
+  [labels]="chartOptions.labels"
+  [colors]="chartOptions.colors"
+  [legend]="chartOptions.legend"
+  [dataLabels]="chartOptions.dataLabels"
+  [stroke]="chartOptions.stroke"
+  [xaxis]="chartOptions.xaxis"
+  [yaxis]="chartOptions.yaxis"
+  [annotations]="chartOptions.annotations"
+  [tooltip]="chartOptions.tooltip"
+  [plotOptions]="chartOptions.plotOptions"
+  [fill]="chartOptions.fill"
+  [states]="chartOptions.states"
+>
+</apx-chart>

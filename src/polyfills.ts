@@ -54,13 +54,11 @@ import './zone-flags';
  */
 
 import 'zone.js'; // Included with Angular CLI.
-import { Buffer } from 'buffer';
 
 /** *************************************************************************************************
  * APPLICATION IMPORTS
  */
 // Add global to window, assigning the value of window itself.
-(window as any).Buffer = Buffer;
 (window as any).global = window;
 (window as any).process = {
   version: '',
