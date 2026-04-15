@@ -1,5 +1,5 @@
 <competency-button
-  id="legal-requirements-button-{{ label }}"
+  id="legal-requirements-button-{{ label }}{{ isNormalStart2() ? '2' : ''}}"
   class="legal-button"
   [onTap]="toggleLegalRequirement"
   [onPress]="toggleLegalRequirement"
@@ -10,10 +10,10 @@
     'disabled': disabled
   }"
 >
-  <div id="legal-requirements-tick-{{ label }}" class="tickwrapper">
+  <div id="legal-requirements-tick-{{ label }}{{ isNormalStart2() ? '2' : ''}}" class="tickwrapper">
     <tick-indicator [ticked]="ticked"></tick-indicator>
   </div>
-  <div id="legal-requirements-label-{{ label }}" [ngClass]="getLegalRequirementClass()">
+  <div id="legal-requirements-label-{{ label }}{{ isNormalStart2() ? '2' : ''}}" [ngClass]="getLegalRequirementClass()">
     <span class="competency-label">{{ label }}</span>
   </div>
 </competency-button>
