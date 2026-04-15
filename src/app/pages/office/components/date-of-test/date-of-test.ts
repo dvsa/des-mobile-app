@@ -24,7 +24,6 @@ export class DateOfTest implements OnInit {
   @ViewChild('editDateInput') inputEl: ElementRef;
 
   isPressed = false;
-  timeoutId: NodeJS.Timeout;
   editMode = false;
   isInvalid = false;
 
@@ -45,11 +44,15 @@ export class DateOfTest implements OnInit {
     });
   }
 
+  getIsValidStartDate(inputDate: string, currentDate: string): boolean {
+    return isValidStartDate(inputDate, currentDate);
+  }
+
   handleDone(dateTime: IonDatetime): Promise<void> {
     return dateTime
       .confirm(false)
       .then(() => {
-        // if date not set, then close the modal on done click as fail safe before handling the data;
+        // if date not set, then close the modal on done click as fail-safe before handling the data;
         if (!dateTime.value) {
           return dateTime.confirm(true);
         }
@@ -57,7 +60,7 @@ export class DateOfTest implements OnInit {
         const currentDate: string = new DateTime().format('YYYY-MM-DD');
         const selectedDate: string = DateTime.at(dateTime.value as string).format('YYYY-MM-DD');
 
-        if (!isValidStartDate(selectedDate, currentDate)) {
+        if (!this.getIsValidStartDate(selectedDate, currentDate)) {
           this.isInvalid = true;
           this.setIsValidStartDateTime.emit(false);
           return;
