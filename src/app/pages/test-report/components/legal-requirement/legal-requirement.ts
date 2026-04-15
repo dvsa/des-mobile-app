@@ -32,6 +32,10 @@ export class LegalRequirementComponent implements OnInit {
         : legalRequirementLabels[this.legalRequirement];
   }
 
+  isNormalStart2() {
+    return this.legalRequirement === LegalRequirements.normalStart2;
+  }
+
   toggleLegalRequirement = (): void => {
     this.store$.dispatch(ToggleLegalRequirement(this.legalRequirement));
   };
