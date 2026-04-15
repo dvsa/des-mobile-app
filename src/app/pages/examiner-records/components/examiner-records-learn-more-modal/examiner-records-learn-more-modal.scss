@@ -10,16 +10,6 @@
     flex-direction: column;
   }
 
-  .ion-header {
-    flex-shrink: 0;
-  }
-
-  .ion-content {
-    flex: 1;
-    --padding-top: 0;
-    --padding-bottom: 0;
-  }
-
   .info-icon {
     color: var(--gds-black);
     margin: 40px 0 16px;
