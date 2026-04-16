@@ -257,7 +257,6 @@ describe('AppConfigProvider', () => {
       const result = (appConfig as any).shouldGetCachedConfig(
         new HttpErrorResponse({
           error: AppConfigError.INVALID_APP_VERSION,
-          status: 403,
         })
       );
       expect(result).toBe(false);
