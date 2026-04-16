@@ -232,8 +232,7 @@ export class AnalyticsProvider {
   }
 
   getDiffDays(userDate: string): number {
-    const today = new DateTime();
-    return today.daysDiff(userDate);
+    return new DateTime().daysDiff(DateTime.at(userDate));
   }
 
   getDescriptiveDate(userDate: string): string {

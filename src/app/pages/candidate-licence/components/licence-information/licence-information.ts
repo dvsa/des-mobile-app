@@ -57,7 +57,7 @@ export class LicenceInformation {
 
   get age(): number {
     const dob = get(this.candidateData, 'driverStandard.driver.dateOfBirth');
-    const age = new DateTime().diff(dob, Duration.YEAR);
+    const age = new DateTime().diff(new DateTime(dob, 'UK', true), Duration.YEAR);
 
     return this.isPracticeMode ? this.bookingAge : age;
   }
@@ -68,7 +68,7 @@ export class LicenceInformation {
 
   get cardExpiryDate(): string {
     return this.isPracticeMode
-      ? new DateTime().add('5', 'years').format(this.displayDateFormat)
+      ? new DateTime().add(5, 'years').format(this.displayDateFormat)
       : new DateTime(get(this.candidateData, 'driverStandard.token.validToDate')).format(this.displayDateFormat);
   }
 

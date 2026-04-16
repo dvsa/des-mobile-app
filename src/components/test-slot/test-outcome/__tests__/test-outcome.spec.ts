@@ -40,11 +40,7 @@ describe('TestOutcomeComponent', () => {
   let router: Router;
   let store$: Store<StoreModel>;
 
-  const testSlotDetail: SlotDetail = {
-    duration: 57,
-    slotId: 123,
-    start: new DateTime().format('YYYY-MM-DDTHH:mm:ss'),
-  };
+  let testSlotDetail: SlotDetail = null;
 
   const journal: JournalModel = {
     recallAutoPopupLastDisplayedTime: null,
@@ -185,6 +181,11 @@ describe('TestOutcomeComponent', () => {
         CategoryWhitelistProvider,
       ],
     });
+    testSlotDetail = {
+      duration: 57,
+      slotId: 123,
+      start: new DateTime(null, 'UK').format('YYYY-MM-DDTHH:mm:ss'),
+    };
 
     fixture = TestBed.createComponent(TestOutcomeComponent);
     component = fixture.componentInstance;
@@ -628,7 +629,7 @@ describe('TestOutcomeComponent', () => {
     describe('earlyStart', () => {
       it('should create and present the early start modal', () => {
         component.slotDetail = testSlotDetail;
-        component.slotDetail.start = new DateTime().add(8, Duration.MINUTE).format('YYYY-MM-DDTHH:mm:ss');
+        component.slotDetail.start = new DateTime(null, 'UK').add(8, Duration.MINUTE).format('YYYY-MM-DDTHH:mm:ss');
         component.testStatus = TestStatus.Booked;
         spyOn(component, 'displayCheckStartModal');
         fixture.detectChanges();
@@ -638,7 +639,7 @@ describe('TestOutcomeComponent', () => {
       });
       it('should not create and present the early start modal', () => {
         component.slotDetail = testSlotDetail;
-        component.slotDetail.start = new DateTime().add(2, Duration.MINUTE).format('YYYY-MM-DDTHH:mm:ss');
+        component.slotDetail.start = new DateTime(null, 'UK').add(2, Duration.MINUTE).format('YYYY-MM-DDTHH:mm:ss');
         component.testStatus = TestStatus.Booked;
         spyOn(component, 'displayCheckStartModal');
         fixture.detectChanges();

@@ -1,7 +1,7 @@
-import { DateTime } from '@shared/helpers/date-time';
+import { DateTime, Duration } from '@shared/helpers/date-time';
 import { end2endPracticeSlotId } from '@shared/mocks/test-slot-ids.mock';
 
-const todayAtHour = (hour: number) => new DateTime().moment.startOf('day').add(hour, 'hour');
+const todayAtHour = (hour: number) => new DateTime().startOf(Duration.DAY).add(hour, 'hour');
 
 export const fakeJournalTestSlots = [
   {

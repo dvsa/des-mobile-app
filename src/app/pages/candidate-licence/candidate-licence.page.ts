@@ -104,7 +104,7 @@ export class CandidateLicencePage extends PracticeableBasePageComponent implemen
         select(getJournalData),
         select(getCandidate),
         select(getDateOfBirth),
-        map((dateOfBirth: string) => new DateTime().diff(dateOfBirth, Duration.YEAR))
+        map((dateOfBirth: string) => new DateTime().diff(new DateTime(dateOfBirth, 'UK', true), Duration.YEAR))
       ),
       candidateData$: currentTest$.pipe(
         select(getJournalData),

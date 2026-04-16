@@ -6,7 +6,7 @@ export class JournalEarlyStartModalMock {
     return {
       duration: 57,
       slotId: 123,
-      start: new DateTime('2000-01-01', true).toString(),
+      start: new DateTime('2000-01-01', 'UK', true).toString(),
     };
   }
 }

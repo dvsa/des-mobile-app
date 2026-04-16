@@ -122,7 +122,7 @@ export class MotHistoryApiService {
    */
   mapResponseToMotData(value: HttpResponse<MotHistory>): MotHistoryWithStatus {
     if (value?.body?.expiryDate) {
-      value.body.expiryDate = new DateTime(value.body.expiryDate).format('DD/MM/YYYY');
+      value.body.expiryDate = new DateTime(value.body.expiryDate, 'UK', true).format('DD/MM/YYYY');
     }
     return {
       status: value.status.toString(),

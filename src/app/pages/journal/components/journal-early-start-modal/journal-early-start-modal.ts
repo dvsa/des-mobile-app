@@ -23,10 +23,6 @@ export class JournalEarlyStartModal {
     public modalController: ModalController
   ) {}
 
-  getSlotData() {
-    return this.slotData;
-  }
-
   onCancel = async () => {
     this.store$.dispatch(EarlyStartDidReturn());
     await this.modalController.dismiss(ModalEvent.CANCEL);
@@ -38,6 +34,6 @@ export class JournalEarlyStartModal {
   };
 
   getStartTime() {
-    return new DateTime(this.slotData.start, true).format('kk:mm');
+    return DateTime.at(this.slotData.start, 'UK', true).format('HH:mm');
   }
 }
