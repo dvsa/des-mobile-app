@@ -32,6 +32,10 @@ export class LegalRequirementComponent implements OnInit {
         : legalRequirementLabels[this.legalRequirement];
   }
 
+  formatID() {
+    return this.label.replace(/\s+/g, '').replace(/\//g, '-') + (this.isNormalStart2() ? '2' : '');
+  }
+
   isNormalStart2() {
     return this.legalRequirement === LegalRequirements.normalStart2;
   }
