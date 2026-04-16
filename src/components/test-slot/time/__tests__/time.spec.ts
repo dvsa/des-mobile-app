@@ -34,7 +34,7 @@ describe('TimeComponent', () => {
       it('should be displayed', () => {
         fixture.detectChanges();
         const timeSpan = componentEl.query(By.css('ion-text.des-header-style-2')).nativeElement;
-        expect(timeSpan.textContent).toBe('10:04');
+        expect(timeSpan.textContent.trim()).toBe('10:04');
       });
     });
 
