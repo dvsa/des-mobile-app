@@ -25,6 +25,7 @@ import { getAppConfigState } from '@store/app-config/app-config.reducer';
 import { SaveLog } from '@store/logs/logs.actions';
 import { AppConfig } from './app-config.model';
 
+import { HttpStatusCodes } from '@shared/models/http-status-codes';
 import { AppInfoProvider } from '../app-info/app-info';
 import { AuthenticationError } from '../authentication/authentication.constants';
 import { DataStoreProvider, LocalStorageKey } from '../data-store/data-store';
@@ -306,24 +307,24 @@ export class AppConfigProvider {
               }
               resolve(data);
             },
-            error: ({ error }: HttpErrorResponse) => {
-              if (this.shouldGetCachedConfig(error)) {
-                this.logError('Getting remote config failed, using cached data', error);
+            error: (errorResponse: HttpErrorResponse) => {
+              if (this.shouldGetCachedConfig(errorResponse)) {
+                this.logError('Getting remote config failed, using cached data', errorResponse.error);
                 this.getCachedRemoteConfig()
                   .then((data) => resolve(data))
                   .catch((cacheError) => reject(cacheError));
               } else {
-                this.logError('Getting remote config failed, not using cached data', error);
-                reject(error);
+                this.logError('Getting remote config failed, not using cached data', errorResponse.error);
+                reject(errorResponse);
               }
             },
           });
       });
     });
 
-  private shouldGetCachedConfig = (errorMessage: string): boolean => {
+  private shouldGetCachedConfig = (errorResponse: HttpErrorResponse): boolean => {
     return (
-      errorMessage !== AuthenticationError.USER_NOT_AUTHORISED && errorMessage !== AppConfigError.INVALID_APP_VERSION
+      errorResponse.status !== HttpStatusCodes.FORBIDDEN && errorResponse.error !== AppConfigError.INVALID_APP_VERSION
     );
   };
 
