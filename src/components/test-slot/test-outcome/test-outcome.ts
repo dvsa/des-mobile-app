@@ -476,7 +476,7 @@ export class TestOutcomeComponent implements OnInit {
       return true;
     }
 
-    // check is category1 is a bike category, if not then return false )
+    // check if category1 is a bike category, if not then return false )
     if (!category1.startsWith('EU')) {
       return false;
     }
@@ -486,18 +486,23 @@ export class TestOutcomeComponent implements OnInit {
       .filter((detail) => detail.testType === BikeTestType.MOD1)
       .map((detail) => detail.categoryCode);
 
+    const isCategory1InMod1Range = mod1RangeCategories.includes(category1 as TestCategory);
+
+    // check if cat1 is in mod1 range to prevent additional processing of mod2 comparisons.
+    if (isCategory1InMod1Range) {
+      const isCategory2InMod1Range = mod1RangeCategories.includes(category2 as TestCategory);
+      return isCategory1InMod1Range && isCategory2InMod1Range;
+    }
+
     // Extract range of MOD2 categories
     const mod2RangeCategories = bikeCategoryDetails
       .filter((detail) => detail.testType === BikeTestType.MOD2)
       .map((detail) => detail.categoryCode);
 
-    const isCategory1InMod1Range = mod1RangeCategories.includes(category1 as TestCategory);
-    const isCategory2InMod1Range = mod1RangeCategories.includes(category2 as TestCategory);
-
     const isCategory1InMod2Range = mod2RangeCategories.includes(category1 as TestCategory);
     const isCategory2InMod2Range = mod2RangeCategories.includes(category2 as TestCategory);
 
     // allow bike category comparison to be a bit looser any mod1 or mod2 will match against any other
-    return (isCategory1InMod1Range && isCategory2InMod1Range) || (isCategory1InMod2Range && isCategory2InMod2Range);
+    return isCategory1InMod2Range && isCategory2InMod2Range;
   }
 }
