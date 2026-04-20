@@ -289,6 +289,16 @@ export class JournalEffects {
           return of({ type: 'NO_ACTION' });
         }
 
+        this.store$.dispatch(
+          SaveLog({
+            payload: this.logHelper.createLog(
+              LogType.INFO,
+              'REHYDRATION - Attempting to rehydrate the following tests',
+              testsToRehydrate.map((value) => value.inAppRef)
+            ),
+          })
+        );
+
         // Make a call to the test results service for the full test results for the tests we need to rehydrate
         return this.searchProvider
           .getTestResults(
@@ -346,6 +356,15 @@ export class JournalEffects {
                   })
                 );
               } else {
+                this.store$.dispatch(
+                  SaveLog({
+                    payload: this.logHelper.createLog(
+                      LogType.INFO,
+                      'REHYDRATION - No tests rehydrated',
+                      testsToRehydrate.map((value) => value.inAppRef)
+                    ),
+                  })
+                );
                 this.store$.dispatch(JournalRehydrationNull(action.refreshType, action.page));
               }
             }),
@@ -354,7 +373,7 @@ export class JournalEffects {
                 SaveLog({
                   payload: this.logHelper.createLog(
                     LogType.ERROR,
-                    `Getting test results (${testsToRehydrate.map((value) => value.searchableAppRef.toString())})`,
+                    `REHYDRATION - Getting test results (${testsToRehydrate.map((value) => value.searchableAppRef.toString())})`,
                     err
                   ),
                 })
