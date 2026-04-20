@@ -373,7 +373,7 @@ export class JournalEffects {
                 SaveLog({
                   payload: this.logHelper.createLog(
                     LogType.ERROR,
-                    `REHYDRATION - Getting test results (${testsToRehydrate.map((value) => value.searchableAppRef.toString())})`,
+                    `REHYDRATION - Error getting test results (${testsToRehydrate.map((value) => value.searchableAppRef.toString())})`,
                     err
                   ),
                 })
