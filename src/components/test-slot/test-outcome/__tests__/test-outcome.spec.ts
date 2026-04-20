@@ -567,6 +567,23 @@ describe('TestOutcomeComponent', () => {
         expect(component.subscription.unsubscribe).toHaveBeenCalled();
       });
     });
+
+    describe('isCategoryEqual', () => {
+      it('should return true for identical categories', () => {
+        expect(component.isCategoryEqual(TestCategory.B, TestCategory.B)).toEqual(true);
+        expect(component.isCategoryEqual(TestCategory.EUA1M1, TestCategory.EUA1M1)).toEqual(true);
+        expect(component.isCategoryEqual(TestCategory.EUA1M2, TestCategory.EUAM2)).toEqual(true);
+        expect(component.isCategoryEqual(TestCategory.EUAMM1, TestCategory.EUA1M1)).toEqual(true);
+        expect(component.isCategoryEqual(TestCategory.EUA1M1, TestCategory.EUA2M1)).toEqual(true);
+        expect(component.isCategoryEqual(TestCategory.EUA2M1, TestCategory.EUAM1)).toEqual(true);
+        expect(component.isCategoryEqual(TestCategory.EUAMM1, TestCategory.EUAM1)).toEqual(true);
+      });
+
+      it('should return false for different categories', () => {
+        expect(component.isCategoryEqual(TestCategory.C, TestCategory.B)).toEqual(false);
+        expect(component.isCategoryEqual(TestCategory.EUA1M1, TestCategory.EUAM2)).toEqual(false);
+      });
+    });
   });
 
   describe('DOM', () => {
