@@ -251,14 +251,14 @@ export class NonPassFinalisationPage extends PracticeableBasePageComponent imple
         filter(([, category]) => category === TestCategory.SC),
         map(([data, category]) => this.testDataByCategoryProvider.getTestDataByCategoryCode(category)(data)),
         select(getTestStartTime),
-        map((time: string) => time || new DateTime().toISOString())
+        map((time: string) => time || new DateTime(null, 'UK').format('YYYY-MM-DDTHH:mm:ss'))
       ),
       testEndTime$: currentTest$.pipe(
         withLatestFrom(category$),
         filter(([, category]) => category === TestCategory.SC),
         map(([data, category]) => this.testDataByCategoryProvider.getTestDataByCategoryCode(category)(data)),
         select(getTestEndTime),
-        map((time: string) => time || new DateTime().add(1, Duration.HOUR).toISOString())
+        map((time: string) => time || new DateTime(null, 'UK').add(1, Duration.HOUR).format('YYYY-MM-DDTHH:mm:ss'))
       ),
     };
 

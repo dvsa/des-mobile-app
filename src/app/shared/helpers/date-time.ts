@@ -55,7 +55,7 @@ export class DateTime {
         this.dayjs = this.dayjs.utc(keepLocalTime);
         break;
       case 'UK':
-        this.dayjs = this.dayjs.tz('Europe/London', keepLocalTime);
+        this.dayjs = this.dayjs.utc(keepLocalTime).tz('Europe/London', keepLocalTime);
         break;
     }
   }

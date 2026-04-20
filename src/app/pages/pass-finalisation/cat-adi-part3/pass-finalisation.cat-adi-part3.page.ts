@@ -94,7 +94,7 @@ export class PassFinalisationCatADIPart3Page extends PassFinalisationPageCompone
         map(([testResult]) => testResult),
         select(getTestData),
         select(getTestStartTime),
-        map((time: string) => time || new DateTime().toISOString())
+        map((time: string) => time || new DateTime(null, 'UK').format('YYYY-MM-DDTHH:mm:ss'))
       ),
       testEndTime$: currentTest$.pipe(
         withLatestFrom(category$),
@@ -102,7 +102,7 @@ export class PassFinalisationCatADIPart3Page extends PassFinalisationPageCompone
         map(([testResult]) => testResult),
         select(getTestData),
         select(getTestEndTime),
-        map((time: string) => time || new DateTime().add(1, 'hour').toISOString())
+        map((time: string) => time || new DateTime(null, 'UK').add(1, 'hour').format('YYYY-MM-DDTHH:mm:ss'))
       ),
     };
 

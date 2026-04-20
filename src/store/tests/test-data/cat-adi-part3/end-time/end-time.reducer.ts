@@ -8,5 +8,5 @@ const timeFormat = 'YYYY-MM-DDTHH:mm';
 
 export const endTimeReducer = createReducer(
   initialState,
-  on(endTimeActionTypes.EndTimeChanged, (_, { time }) => DateTime.at(time).format(timeFormat))
+  on(endTimeActionTypes.EndTimeChanged, (_, { time }) => DateTime.at(time, 'UK').format(timeFormat))
 );
