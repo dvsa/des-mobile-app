@@ -360,7 +360,7 @@ export class JournalEffects {
                   SaveLog({
                     payload: this.logHelper.createLog(
                       LogType.INFO,
-                      'REHYDRATION - No tests rehydrated',
+                      'REHYDRATION - No tests rehydrated, attempted to rehydrate the following tests but none were returned from the database',
                       testsToRehydrate.map((value) => value.inAppRef)
                     ),
                   })
