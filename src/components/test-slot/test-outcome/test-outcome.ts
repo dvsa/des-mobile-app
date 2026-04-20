@@ -502,7 +502,6 @@ export class TestOutcomeComponent implements OnInit {
     const isCategory1InMod2Range = mod2RangeCategories.includes(category1 as TestCategory);
     const isCategory2InMod2Range = mod2RangeCategories.includes(category2 as TestCategory);
 
-    // allow bike category comparison to be a bit looser any mod1 or mod2 will match against any other
     return isCategory1InMod2Range && isCategory2InMod2Range;
   }
 }
