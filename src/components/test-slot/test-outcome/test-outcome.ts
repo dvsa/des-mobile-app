@@ -253,7 +253,7 @@ export class TestOutcomeComponent implements OnInit {
         this.category,
         true,
         false,
-        DateTime.at(this.slotDetail.start).format('YYYY-MM-DD')
+        DateTime.at(new DateTime(this.slotDetail.start, 'UK', true)).format('YYYY-MM-DD')
       )
     );
     await this.router.navigate([
@@ -380,8 +380,15 @@ export class TestOutcomeComponent implements OnInit {
     await this.startOrResumeTestDependingOnStatus();
   };
 
+  hasChecked = false;
   shouldDisplayCheckStartModal(): boolean {
-    const minsUntilTest = new DateTime().compareDuration(this.slotDetail.start, Duration.MINUTE);
+    const minsUntilTest = new DateTime().compareDuration(
+      new DateTime(this.slotDetail.start, 'UK', true),
+      Duration.MINUTE
+    );
+    if (!this.hasChecked) {
+      this.hasChecked = true;
+    }
     return minsUntilTest > 5;
   }
 
@@ -390,11 +397,11 @@ export class TestOutcomeComponent implements OnInit {
   }
 
   isDateInPast() {
-    return new DateTime().daysDiff(this.slotDetail.start) < 0;
+    return new DateTime().daysDiff(new DateTime(this.slotDetail.start, 'UK', true)) < 0;
   }
 
   isTodaysDate() {
-    return new DateTime().daysDiff(this.slotDetail.start) === 0;
+    return new DateTime().daysDiff(new DateTime(this.slotDetail.start, 'UK', true)) === 0;
   }
 
   isTestIncomplete(): boolean {

@@ -126,7 +126,7 @@ export class CandidateSearchCardComponent implements OnChanges {
 
   private filterTestSlotsByDay = (dateTime: DateTime): CandidateTestSlot[] => {
     return this.candidateTestSlots.filter((candidateTestSlot: CandidateTestSlot) => {
-      return DateTime.at(candidateTestSlot.slot.slotDetail.start).daysDiff(dateTime) === 0;
+      return new DateTime(candidateTestSlot.slot.slotDetail.start, 'UK', true).daysDiff(dateTime) === 0;
     });
   };
 

@@ -103,7 +103,8 @@ export class SlotProvider {
     );
   };
 
-  getSlotDate = (slot: SlotItem): string => DateTime.at(slot.slotData.slotDetail.start).format('YYYY-MM-DD');
+  getSlotDate = (slot: SlotItem): string =>
+    DateTime.at(slot.slotData.slotDetail.start, 'UK', true).format('YYYY-MM-DD');
 
   canStartTest(testSlot: TestSlot): boolean {
     const { testPermissionPeriods } = this.appConfigProvider.getAppConfig().journal;
@@ -156,15 +157,15 @@ export class SlotProvider {
   }
 
   canViewCandidateDetails(slot: TestSlot | NonTestActivity): boolean {
-    const slotStart = new DateTime(slot.slotDetail.start).moment.startOf('day');
+    const slotStart = new DateTime(slot.slotDetail.start, 'UK', true).startOf(Duration.DAY);
 
-    const maxViewStart = new DateTime(this.getLatestViewableSlotDateTime()).moment.startOf('day');
+    const maxViewStart = new DateTime(this.getLatestViewableSlotDateTime()).startOf(Duration.DAY);
 
     return slotStart.isSameOrBefore(maxViewStart);
   }
 
   getLatestViewableSlotDateTime(): Date {
-    const today = new DateTime().moment;
+    const today = new DateTime().dayjs;
     // add 3 days if current day is friday, 2 if saturday, else add 1
     let daysToAdd: number;
 
@@ -173,6 +174,6 @@ export class SlotProvider {
     } else {
       daysToAdd = today.isoWeekday() === 6 ? 2 : 1;
     }
-    return new DateTime().moment.add(daysToAdd, 'days').startOf('day').toDate();
+    return new DateTime().add(daysToAdd, 'days').startOf(Duration.DAY).toDate();
   }
 }

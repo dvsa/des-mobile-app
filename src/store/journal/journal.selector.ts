@@ -66,10 +66,10 @@ export const canNavigateToPreviousDay = (journal: JournalModel, today: DateTime)
 };
 
 export const canNavigateToNextDay = (journal: JournalModel): boolean => {
-  const nextDayAsDate = DateTime.at(journal.selectedDate).add(1, Duration.DAY).format('YYYY-MM-DD');
-  const fourteenDaysAhead = DateTime.at(DateTime.today()).add(14, Duration.DAY).format('YYYY-MM-DD');
+  const nextDayAsDate = DateTime.at(journal.selectedDate).add(1, Duration.DAY);
+  const fourteenDaysAhead = DateTime.at(DateTime.today()).add(14, Duration.DAY);
 
-  return nextDayAsDate < fourteenDaysAhead;
+  return nextDayAsDate.isBefore(fourteenDaysAhead);
 };
 
 export const getPermittedSlotIdsBeforeToday = (
@@ -79,7 +79,7 @@ export const getPermittedSlotIdsBeforeToday = (
 ): SlotItem[] => {
   const slots = getSlots(journal);
   const arrayOfDateStrings = Object.keys(slots).filter((date: string) => {
-    return new DateTime(date).isBefore(today.format('YYYY-MM-DD'));
+    return DateTime.at(date).isBefore(today);
   });
   return flatten(
     arrayOfDateStrings.map((date: string) =>

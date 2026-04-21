@@ -175,7 +175,7 @@ describe('CandidateLicencePage', () => {
           expect(val).toEqual(TestCategory.B);
         });
         component.pageState.age$.subscribe((val) => {
-          expect(val).toEqual(new DateTime().diff('2000-01-01', Duration.YEAR));
+          expect(val).toEqual(new DateTime().diff(DateTime.at('2000-01-01'), Duration.YEAR));
         });
       });
     });

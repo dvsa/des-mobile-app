@@ -1,5 +1,17 @@
-import moment from 'moment';
-import { DurationInputArg1, MomentInput } from 'moment/moment';
+import dayjs, { Dayjs } from 'dayjs';
+import advancedFormat from 'dayjs/plugin/advancedFormat';
+import isSameOrAfter from 'dayjs/plugin/isSameOrAfter';
+import isSameOrBefore from 'dayjs/plugin/isSameOrBefore';
+import isoWeek from 'dayjs/plugin/isoWeek';
+import timezone from 'dayjs/plugin/timezone';
+import utc from 'dayjs/plugin/utc';
+
+dayjs.extend(utc);
+dayjs.extend(timezone);
+dayjs.extend(isoWeek);
+dayjs.extend(isSameOrAfter);
+dayjs.extend(isSameOrBefore);
+dayjs.extend(advancedFormat);
 
 export enum Duration {
   YEAR = 'year',
@@ -18,124 +30,123 @@ export enum DateRange {
   ONE_YEAR = '1 year',
   EIGHTEEN_MONTHS = '18 months',
 }
-export class DateTime {
-  moment: moment.Moment;
 
-  constructor(sourceDateTime?: DateTime | string | Date, inputFormat?: moment.MomentFormatSpecification) {
+export type TimezoneOptions = 'UTC' | 'UK';
+
+export class DateTime {
+  dayjs: Dayjs;
+  timeZone: TimezoneOptions = 'UTC';
+
+  constructor(sourceDateTime?: DateTime | string | Date, timeZone: TimezoneOptions = 'UTC', keepLocalTime = false) {
     if (sourceDateTime === undefined || sourceDateTime === null) {
-      this.moment = moment();
+      this.dayjs = dayjs();
     } else if (typeof sourceDateTime === 'string') {
-      this.moment = inputFormat ? moment(new Date(sourceDateTime), inputFormat) : moment(new Date(sourceDateTime));
+      this.dayjs = dayjs(new Date(sourceDateTime));
     } else if (sourceDateTime instanceof Date) {
-      this.moment = moment(sourceDateTime);
+      this.dayjs = dayjs(sourceDateTime);
     } else {
-      this.moment = moment(sourceDateTime.moment);
+      this.dayjs = dayjs(sourceDateTime.dayjs);
+    }
+
+    this.timeZone = timeZone;
+
+    switch (timeZone) {
+      case 'UTC':
+        this.dayjs = this.dayjs.utc(keepLocalTime);
+        break;
+      case 'UK':
+        this.dayjs = this.dayjs.utc(keepLocalTime).tz('Europe/London', keepLocalTime);
+        break;
     }
   }
 
-  static at(sourceDateTime: DateTime | string | Date): DateTime {
-    return new DateTime(sourceDateTime);
+  static at(
+    sourceDateTime: DateTime | string | Date,
+    timeZone: TimezoneOptions = 'UTC',
+    keepLocalTime = false
+  ): DateTime {
+    return new DateTime(sourceDateTime, timeZone, keepLocalTime);
   }
 
-  add(amount: DurationInputArg1, unit: moment.unitOfTime.DurationConstructor): DateTime {
-    this.moment.add(amount, unit);
+  add(amount: number, unit: dayjs.ManipulateType): DateTime {
+    this.dayjs = this.dayjs.add(amount, unit);
     return this;
   }
 
-  subtract(amount: number, unit: moment.unitOfTime.DurationConstructor): DateTime {
-    this.moment.subtract(amount, unit);
+  subtract(amount: number, unit: dayjs.ManipulateType): DateTime {
+    this.dayjs = this.dayjs.subtract(amount, unit);
     return this;
   }
 
   format(formatString: string): string {
-    return this.moment.format(formatString);
+    return this.dayjs.format(formatString);
   }
 
   day(): number {
-    return this.moment.day();
+    return this.dayjs.day();
   }
 
   toString(): string {
-    return this.moment.toString();
+    return this.dayjs.toString();
   }
 
   toISOString(): string {
-    return this.moment.toISOString();
+    return this.dayjs.toISOString();
   }
 
-  isAfter(targetDate: MomentInput): boolean {
-    return this.moment.isAfter(targetDate);
+  isAfter(targetDate: DateTime): boolean {
+    return this.dayjs.isAfter(targetDate.dayjs);
   }
 
-  diff(targetDate: MomentInput, duration: Duration, precise?: boolean): number {
-    return this.moment.diff(targetDate, duration, precise);
+  diff(targetDate: DateTime, duration: Duration, precise?: boolean): number {
+    return this.dayjs.diff(targetDate.dayjs, duration, precise);
   }
 
-  daysDiff(targetDate: DateTime | string | Date): number {
-    const date = new DateTime(targetDate);
-    const today = this.moment.startOf(Duration.DAY);
-    return date.moment.startOf(Duration.DAY).diff(today, Duration.DAY);
+  startOf(timeUnit: Duration) {
+    return this.dayjs.startOf(timeUnit);
   }
 
-  compareDuration(targetDate: DateTime | string | Date, duration: Duration): number {
-    if (typeof targetDate === 'string') {
-      return moment(targetDate).diff(this.moment, duration);
-    }
-    return new DateTime(targetDate).moment.diff(this.moment, duration);
+  daysDiff(targetDate: DateTime): number {
+    const today = this.dayjs.startOf(Duration.DAY);
+    return targetDate.dayjs.startOf(Duration.DAY).diff(today, Duration.DAY);
   }
 
-  isBefore(targetDate: DateTime | string | Date): boolean {
-    const date = new DateTime(targetDate);
-    return date.moment.diff(this.moment, Duration.SECOND) > 0;
+  compareDuration(targetDate: DateTime, duration: Duration): number {
+    return targetDate.dayjs.diff(this.dayjs, duration);
+  }
+
+  isBefore(targetDate: DateTime): boolean {
+    return targetDate.dayjs.diff(this.dayjs, Duration.SECOND) > 0;
   }
 
   isDuringDateRange(range: DateRange): boolean {
-    // Set the current date to today with time set to 00:00:00
-    const today = new Date().setHours(0, 0, 0, 0);
+    const today = dayjs().startOf(Duration.DAY);
 
-    // Determine the date range based on the provided range
     const dateRange = (() => {
       switch (range) {
-        // If the range is today, return today's date
         case DateRange.TODAY:
-          return moment(today);
-        // If the range is a week, return the date a week ago from today
+          return today;
         case DateRange.WEEK:
-          return moment(today).subtract(1, 'week');
-        // If the range is a fortnight, return the date two weeks ago from today
+          return today.subtract(1, 'week');
         case DateRange.FORTNIGHT:
-          return moment(today).subtract(2, 'weeks');
-        // If the range is thirty days, return the date thirty days ago from today
+          return today.subtract(2, 'weeks');
         case DateRange.THIRTY_DAYS:
-          return moment(today).subtract(30, 'days');
-        // If the range is ninety days, return the date ninety days ago from today
+          return today.subtract(30, 'days');
         case DateRange.NINETY_DAYS:
-          return moment(today).subtract(90, 'days');
-        // If the range is one year, return the date one year ago from today
+          return today.subtract(90, 'days');
         case DateRange.ONE_YEAR:
-          return moment(today).subtract(1, 'year');
-        // If the range is eighteen months, return the date eighteen months ago from today
+          return today.subtract(1, 'year');
         case DateRange.EIGHTEEN_MONTHS:
-          return moment(today).subtract(18, 'months');
-        // If the range is not recognized, return null
+          return today.subtract(18, 'months');
         default:
           return null;
       }
     })();
 
-    // Check if the current moment is the same or after the calculated date range
-    return this.moment.isSameOrAfter(dateRange);
+    return this.dayjs.isSameOrAfter(dateRange);
   }
 
   static today(): Date {
-    return moment().toDate();
-  }
-
-  static datePickerInputToString(date) {
-    return moment()
-      .year(date.year)
-      .month(date.month - 1)
-      .date(date.day)
-      .format('YYYY-MM-DD');
+    return dayjs().toDate();
   }
 }

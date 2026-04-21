@@ -88,10 +88,10 @@ export class WaitingRoomToCarCatADIPart3Page extends WaitingRoomToCarBasePageCom
 
     if (this.form.valid) {
       if (this.testCategory === TestCategory.SC) {
-        const startTime = new DateTime().toISOString();
-        const endTime = new DateTime().add(45, 'minutes').toISOString();
-        this.store$.dispatch(StartTimeChanged(startTime));
-        this.store$.dispatch(EndTimeChanged(endTime));
+        const startTime = new DateTime(null, 'UK');
+        const endTime = new DateTime(null, 'UK').add(45, 'minutes');
+        this.store$.dispatch(StartTimeChanged(startTime.format('YYYY-MM-DDTHH:mm:ss')));
+        this.store$.dispatch(EndTimeChanged(endTime.format('YYYY-MM-DDTHH:mm:ss')));
       }
       await this.routeByCategoryProvider.navigateToPage(TestFlowPageNames.TEST_REPORT_DASHBOARD_PAGE);
       return;

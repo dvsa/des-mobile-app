@@ -165,7 +165,7 @@ export class ViewTestResultPage extends BasePageComponent implements OnInit {
       return null;
     }
 
-    const startDate = DateTime.at(get(this.testResult, 'journalData.testSlotAttributes.start'));
+    const startDate = DateTime.at(get(this.testResult, 'journalData.testSlotAttributes.start'), 'UK', true);
 
     return {
       date: startDate.format('dddd Do MMMM YYYY'),

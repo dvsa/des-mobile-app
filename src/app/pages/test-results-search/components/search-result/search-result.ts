@@ -22,11 +22,11 @@ export class SearchResultComponent {
   ) {}
 
   getDate(): string {
-    return DateTime.at(this.searchResult.testDate).format('DD/MM/YYYY');
+    return DateTime.at(this.searchResult.testDate, 'UK', true).format('DD/MM/YYYY');
   }
 
   getTime(): string {
-    return DateTime.at(this.searchResult.testDate).format('HH:mm');
+    return DateTime.at(this.searchResult.testDate, 'UK', true).format('HH:mm');
   }
 
   getName(): string {
