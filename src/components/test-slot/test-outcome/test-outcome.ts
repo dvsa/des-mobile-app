@@ -380,15 +380,11 @@ export class TestOutcomeComponent implements OnInit {
     await this.startOrResumeTestDependingOnStatus();
   };
 
-  hasChecked = false;
   shouldDisplayCheckStartModal(): boolean {
     const minsUntilTest = new DateTime().compareDuration(
       new DateTime(this.slotDetail.start, 'UK', true),
       Duration.MINUTE
     );
-    if (!this.hasChecked) {
-      this.hasChecked = true;
-    }
     return minsUntilTest > 5;
   }
 

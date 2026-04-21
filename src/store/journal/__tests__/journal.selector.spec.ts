@@ -6,7 +6,7 @@ import { AppConfigProvider } from '@providers/app-config/app-config';
 import { DateTimeProviderMock } from '@providers/date-time/__mocks__/date-time.mock';
 import { DateTimeProvider } from '@providers/date-time/date-time';
 import { SlotProvider } from '@providers/slot/slot';
-import { DateTime } from '@shared/helpers/date-time';
+import { DateTime, Duration } from '@shared/helpers/date-time';
 import { MesError } from '@shared/models/mes-error.model';
 import { JournalModel } from '../journal.model';
 import {
@@ -117,38 +117,38 @@ describe('JournalSelector', () => {
   });
 
   describe('canNavigateToNextDay', () => {
-    beforeEach(() => {
-      spyOn(DateTime, 'today').and.returnValue(new Date('2019-01-29'));
-    });
-
     it('should return true if there are any next days', () => {
+      const today = new DateTime().format('YYYY-MM-DD');
+      const tomorrow = new DateTime().add(1, Duration.DAY).format('YYYY-MM-DD');
       const journal: JournalModel = {
         recallAutoPopupLastDisplayedTime: null,
         isLoading: true,
         lastRefreshed: new Date(0),
-        slots: {
-          '2019-01-29': [
-            {
-              hasSlotChanged: false,
-              hasSeenCandidateDetails: false,
-              slotData: {},
-            },
-          ],
-          '2019-01-30': [
-            {
-              hasSlotChanged: false,
-              hasSeenCandidateDetails: false,
-              slotData: {},
-            },
-          ],
-        },
-        selectedDate: '2019-01-29',
+        slots: {},
+        selectedDate: today,
         examiner: {
           staffNumber: '123',
           individualId: 456,
         },
         completedTests: [],
       };
+
+      journal.slots[tomorrow] = [
+        {
+          hasSlotChanged: false,
+          hasSeenCandidateDetails: false,
+          slotData: {},
+        },
+      ];
+      journal.slots[today] = [
+        {
+          hasSlotChanged: false,
+          hasSeenCandidateDetails: false,
+          slotData: {},
+        },
+      ];
+
+      console.log(journal);
 
       const result = canNavigateToNextDay(journal);
 

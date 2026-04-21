@@ -27,7 +27,8 @@ export const getIncompleteTests = (
 
   return getPermittedSlotIdsBeforeToday(journal, today, slotProvider)
     .filter(({ slotData }) => {
-      const isWithinDaysToView = new DateTime(slotData?.slotDetail?.start).daysDiff(today) <= (daysToView || 14);
+      const isWithinDaysToView =
+        new DateTime(slotData?.slotDetail?.start, 'UK', true).daysDiff(today) <= (daysToView || 14);
       const isNotStartedTest = !tests.startedTests[slotData?.slotDetail?.slotId];
       const isNotCompletedTest = ![TestStatus.Submitted, TestStatus.Completed].includes(
         tests.testStatus[slotData?.slotDetail?.slotId]
