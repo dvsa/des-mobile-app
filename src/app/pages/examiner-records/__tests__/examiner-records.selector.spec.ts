@@ -18,14 +18,13 @@ import {
   getStartedTestCount,
   getTellMeQuestions,
 } from '@pages/examiner-records/examiner-records.selector';
-import { DateRange } from '@shared/helpers/date-time';
+import { DateRange, DateTime } from '@shared/helpers/date-time';
 import { ManoeuvreTypes } from '@store/tests/test-data/test-data.constants';
-import moment from 'moment';
 
 describe('examiner records selector', () => {
   const startedTests: ExaminerRecordModel[] = [
     {
-      appRef: 1234567,
+      appRef: 1,
       testCategory: TestCategory.ADI2,
       activityCode: 1,
       testCentre: {
@@ -35,10 +34,10 @@ describe('examiner records selector', () => {
       },
       independentDriving: 'Sat nav',
       routeNumber: 3,
-      startDate: moment(new Date(Date.now())).subtract(5, 'days').format('YYYY-MM-DD'),
+      startDate: new DateTime().subtract(5, 'days').format('YYYY-MM-DD'),
     },
     {
-      appRef: 1234567,
+      appRef: 2,
       testCategory: TestCategory.ADI2,
       activityCode: 1,
       testCentre: {
@@ -48,10 +47,10 @@ describe('examiner records selector', () => {
       },
       independentDriving: 'Sat nav',
       routeNumber: 2,
-      startDate: moment(new Date(Date.now())).subtract(5, 'days').format('YYYY-MM-DD'),
+      startDate: new DateTime().subtract(5, 'days').format('YYYY-MM-DD'),
     },
     {
-      appRef: 1234567,
+      appRef: 3,
       testCategory: TestCategory.B,
       activityCode: 1,
       testCentre: {
@@ -75,10 +74,10 @@ describe('examiner records selector', () => {
       ],
       manoeuvres: [{ forwardPark: { selected: true } }],
       independentDriving: 'Sat nav',
-      startDate: moment(new Date(Date.now())).subtract(5, 'days').format('YYYY-MM-DD'),
+      startDate: new DateTime().subtract(5, 'days').format('YYYY-MM-DD'),
     },
     {
-      appRef: 1234567,
+      appRef: 4,
       testCategory: TestCategory.B,
       activityCode: 1,
       testCentre: {
@@ -87,10 +86,10 @@ describe('examiner records selector', () => {
         costCode: '000090909',
       },
       independentDriving: 'Sat nav',
-      startDate: moment(new Date(Date.now())).subtract(5, 'days').format('YYYY-MM-DD'),
+      startDate: new DateTime().subtract(5, 'days').format('YYYY-MM-DD'),
     },
     {
-      appRef: 2345678,
+      appRef: 5,
       testCategory: TestCategory.B,
       activityCode: 1,
       testCentre: {
@@ -100,10 +99,10 @@ describe('examiner records selector', () => {
       },
       controlledStop: true,
       independentDriving: 'Sat nav',
-      startDate: moment(new Date(Date.now())).subtract(10, 'days').format('YYYY-MM-DD'),
+      startDate: new DateTime().subtract(10, 'days').format('YYYY-MM-DD'),
     },
     {
-      appRef: 3456789,
+      appRef: 6,
       testCategory: TestCategory.B,
       activityCode: 1,
       testCentre: {
@@ -112,10 +111,10 @@ describe('examiner records selector', () => {
         costCode: '000090909',
       },
       independentDriving: 'Traffic signs',
-      startDate: moment(new Date(Date.now())).subtract(15, 'days').format('YYYY-MM-DD'),
+      startDate: new DateTime().subtract(15, 'days').format('YYYY-MM-DD'),
     },
     {
-      appRef: 1234567,
+      appRef: 7,
       testCategory: TestCategory.C,
       activityCode: 1,
       testCentre: {
@@ -125,10 +124,10 @@ describe('examiner records selector', () => {
       },
       independentDriving: 'Traffic signs',
       controlledStop: true,
-      startDate: moment(new Date(Date.now())).subtract(5, 'days').format('YYYY-MM-DD'),
+      startDate: new DateTime().subtract(5, 'days').format('YYYY-MM-DD'),
     },
     {
-      appRef: 1234567,
+      appRef: 8,
       testCategory: TestCategory.C,
       activityCode: 1,
       testCentre: {
@@ -137,10 +136,10 @@ describe('examiner records selector', () => {
         costCode: '000090909',
       },
       independentDriving: 'Traffic signs',
-      startDate: moment(new Date(Date.now())).subtract(10, 'days').format('YYYY-MM-DD'),
+      startDate: new DateTime().subtract(10, 'days').format('YYYY-MM-DD'),
     },
     {
-      appRef: 1234567,
+      appRef: 9,
       testCategory: TestCategory.C,
       activityCode: 1,
       testCentre: {
@@ -149,10 +148,10 @@ describe('examiner records selector', () => {
         costCode: '000090909',
       },
       independentDriving: 'Traffic signs',
-      startDate: moment(new Date(Date.now())).subtract(15, 'days').format('YYYY-MM-DD'),
+      startDate: new DateTime().subtract(15, 'days').format('YYYY-MM-DD'),
     },
     {
-      appRef: 1234567,
+      appRef: 10,
       testCategory: TestCategory.EUAM2,
       activityCode: 1,
       testCentre: {
@@ -175,10 +174,10 @@ describe('examiner records selector', () => {
           outcome: 'P',
         },
       ],
-      startDate: moment(new Date(Date.now())).subtract(15, 'days').format('YYYY-MM-DD'),
+      startDate: new DateTime().subtract(15, 'days').format('YYYY-MM-DD'),
     },
     {
-      appRef: 1234567,
+      appRef: 11,
       testCategory: TestCategory.EUAM1,
       activityCode: 1,
       testCentre: {
@@ -187,7 +186,7 @@ describe('examiner records selector', () => {
         costCode: '000090909',
       },
       circuit: 'Left',
-      startDate: moment(new Date(Date.now())).subtract(15, 'days').format('YYYY-MM-DD'),
+      startDate: new DateTime().subtract(15, 'days').format('YYYY-MM-DD'),
     },
   ] as ExaminerRecordModel[];
 
@@ -195,9 +194,7 @@ describe('examiner records selector', () => {
     it('return true if provided examinerRecord is within specified date range', () => {
       expect(
         dateFilter(
-          startedTests.filter(
-            (value) => moment(new Date(value.startDate)) > moment(new Date(Date.now())).subtract(7, 'days')
-          )[0],
+          startedTests.filter((value) => new DateTime(value.startDate) > new DateTime().subtract(7, 'days'))[0],
           DateRange.WEEK
         )
       ).toEqual(true);
@@ -206,9 +203,7 @@ describe('examiner records selector', () => {
     it('return false if provided examinerRecord is not within specified date range', () => {
       expect(
         dateFilter(
-          startedTests.filter(
-            (value) => moment(new Date(value.startDate)) < moment(new Date(Date.now())).subtract(7, 'days')
-          )[0],
+          startedTests.filter((value) => new DateTime(value.startDate).isBefore(new DateTime().subtract(7, 'days')))[0],
           DateRange.WEEK
         )
       ).toEqual(false);
@@ -230,7 +225,7 @@ describe('examiner records selector', () => {
       expect(getEligibleTests(startedTests, TestCategory.B, DateRange.WEEK, 1).length).toBe(1);
       expect(getEligibleTests(startedTests, TestCategory.B, DateRange.WEEK, 1)).toEqual([
         {
-          appRef: 1234567,
+          appRef: 4,
           testCategory: TestCategory.B,
           activityCode: 1,
           testCentre: {
@@ -239,7 +234,7 @@ describe('examiner records selector', () => {
             costCode: '000090909',
           },
           independentDriving: 'Sat nav',
-          startDate: moment(new Date(Date.now())).subtract(5, 'days').format('YYYY-MM-DD'),
+          startDate: new DateTime().subtract(5, 'days').format('YYYY-MM-DD'),
         },
       ]);
     });
@@ -248,7 +243,7 @@ describe('examiner records selector', () => {
       expect(getEligibleTests(startedTests, TestCategory.C, DateRange.FORTNIGHT, 1).length).toBe(2);
       expect(getEligibleTests(startedTests, TestCategory.C, DateRange.FORTNIGHT, 1)).toEqual([
         {
-          appRef: 1234567,
+          appRef: 7,
           testCategory: TestCategory.C,
           activityCode: 1,
           testCentre: {
@@ -258,10 +253,10 @@ describe('examiner records selector', () => {
           },
           independentDriving: 'Traffic signs',
           controlledStop: true,
-          startDate: moment(new Date(Date.now())).subtract(5, 'days').format('YYYY-MM-DD'),
+          startDate: new DateTime().subtract(5, 'days').format('YYYY-MM-DD'),
         },
         {
-          appRef: 1234567,
+          appRef: 8,
           testCategory: TestCategory.C,
           activityCode: 1,
           testCentre: {
@@ -270,7 +265,7 @@ describe('examiner records selector', () => {
             costCode: '000090909',
           },
           independentDriving: 'Traffic signs',
-          startDate: moment(new Date(Date.now())).subtract(10, 'days').format('YYYY-MM-DD'),
+          startDate: new DateTime().subtract(10, 'days').format('YYYY-MM-DD'),
         },
       ]);
     });
@@ -279,7 +274,7 @@ describe('examiner records selector', () => {
       expect(getEligibleTests(startedTests, TestCategory.C, DateRange.EIGHTEEN_MONTHS, 1, true, false).length).toBe(7);
       expect(getEligibleTests(startedTests, TestCategory.C, DateRange.EIGHTEEN_MONTHS, 1, true, false)).toEqual([
         {
-          appRef: 1234567,
+          appRef: 4,
           testCategory: TestCategory.B,
           activityCode: 1,
           testCentre: {
@@ -288,10 +283,10 @@ describe('examiner records selector', () => {
             costCode: '000090909',
           },
           independentDriving: 'Sat nav',
-          startDate: moment(new Date(Date.now())).subtract(5, 'days').format('YYYY-MM-DD'),
+          startDate: new DateTime().subtract(5, 'days').format('YYYY-MM-DD'),
         },
         {
-          appRef: 3456789,
+          appRef: 6,
           testCategory: TestCategory.B,
           activityCode: 1,
           testCentre: {
@@ -300,10 +295,10 @@ describe('examiner records selector', () => {
             costCode: '000090909',
           },
           independentDriving: 'Traffic signs',
-          startDate: moment(new Date(Date.now())).subtract(15, 'days').format('YYYY-MM-DD'),
+          startDate: new DateTime().subtract(15, 'days').format('YYYY-MM-DD'),
         },
         {
-          appRef: 1234567,
+          appRef: 7,
           testCategory: TestCategory.C,
           activityCode: 1,
           testCentre: {
@@ -313,10 +308,10 @@ describe('examiner records selector', () => {
           },
           independentDriving: 'Traffic signs',
           controlledStop: true,
-          startDate: moment(new Date(Date.now())).subtract(5, 'days').format('YYYY-MM-DD'),
+          startDate: new DateTime().subtract(5, 'days').format('YYYY-MM-DD'),
         },
         {
-          appRef: 1234567,
+          appRef: 8,
           testCategory: TestCategory.C,
           activityCode: 1,
           testCentre: {
@@ -325,10 +320,10 @@ describe('examiner records selector', () => {
             costCode: '000090909',
           },
           independentDriving: 'Traffic signs',
-          startDate: moment(new Date(Date.now())).subtract(10, 'days').format('YYYY-MM-DD'),
+          startDate: new DateTime().subtract(10, 'days').format('YYYY-MM-DD'),
         },
         {
-          appRef: 1234567,
+          appRef: 9,
           testCategory: TestCategory.C,
           activityCode: 1,
           testCentre: {
@@ -337,10 +332,10 @@ describe('examiner records selector', () => {
             costCode: '000090909',
           },
           independentDriving: 'Traffic signs',
-          startDate: moment(new Date(Date.now())).subtract(15, 'days').format('YYYY-MM-DD'),
+          startDate: new DateTime().subtract(15, 'days').format('YYYY-MM-DD'),
         },
         {
-          appRef: 1234567,
+          appRef: 10,
           testCategory: TestCategory.EUAM2,
           activityCode: 1,
           testCentre: {
@@ -363,15 +358,15 @@ describe('examiner records selector', () => {
             },
           ],
           independentDriving: 'Diagram',
-          startDate: moment(new Date(Date.now())).subtract(15, 'days').format('YYYY-MM-DD'),
+          startDate: new DateTime().subtract(15, 'days').format('YYYY-MM-DD'),
         },
         {
-          appRef: 1234567,
+          appRef: 11,
           testCategory: TestCategory.EUAM1,
           activityCode: 1,
           testCentre: { centreName: 'B', centreId: 1, costCode: '000090909' },
           circuit: 'Left',
-          startDate: moment(new Date(Date.now())).subtract(15, 'days').format('YYYY-MM-DD'),
+          startDate: new DateTime().subtract(15, 'days').format('YYYY-MM-DD'),
         },
       ]);
     });

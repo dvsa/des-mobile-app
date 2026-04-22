@@ -15,7 +15,6 @@ import { DateTime } from '@shared/helpers/date-time';
 import { LogType } from '@shared/models/log.model';
 import { StoreModel } from '@shared/models/store.model';
 import { SaveLog } from '@store/logs/logs.actions';
-import moment from 'moment';
 import { of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
 
@@ -37,7 +36,7 @@ export class ExaminerRecordsEffects {
         switchMap(({ staffNumber }) => {
           // Get remote data for examiner records
           return this.searchProvider
-            .examinerRecordsSearch(staffNumber, null, moment(new Date()).subtract(15, 'days').format('YYYY-MM-DD'))
+            .examinerRecordsSearch(staffNumber, null, new DateTime().subtract(15, 'days').format('YYYY-MM-DD'))
             .pipe(
               catchError((err) => {
                 this.store$.dispatch(
