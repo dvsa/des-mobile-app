@@ -10,6 +10,7 @@ import { StorageCleared } from '@providers/authentication/authentification.actio
 import { CompletedTestPersistenceProvider } from '@providers/completed-test-persistence/completed-test-persistence';
 import { ExaminerRecordsProvider } from '@providers/examiner-records/examiner-records';
 import { LogHelper } from '@providers/logs/logs-helper';
+import { DateTime } from '@shared/helpers/date-time';
 import { serialiseLogMessage } from '@shared/helpers/serialise-log-message';
 import { LogType } from '@shared/models/log.model';
 import { StoreModel } from '@shared/models/store.model';
@@ -307,12 +308,12 @@ export class AuthenticationProvider {
 
     let isExpired = false;
     if (idJwtPayload) {
-      isExpired = !!(idJwtPayload?.exp && new Date(idJwtPayload.exp * 1000) < new Date());
+      isExpired = !!(idJwtPayload?.exp && new DateTime(idJwtPayload.exp).isSameOrBefore(new DateTime()));
       if (isExpired) {
         return true;
       }
       if (accessJwtPayload) {
-        return !!(accessJwtPayload?.exp && new Date(accessJwtPayload.exp * 1000) < new Date());
+        return !!(accessJwtPayload?.exp && new DateTime(accessJwtPayload.exp).isSameOrBefore(new DateTime()));
       }
     }
     return true;
