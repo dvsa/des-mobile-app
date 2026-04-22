@@ -159,12 +159,12 @@ export class SlotProvider {
   canViewCandidateDetails(slot: TestSlot | NonTestActivity): boolean {
     const slotStart = new DateTime(slot.slotDetail.start, 'UK', true).startOf(Duration.DAY);
 
-    const maxViewStart = new DateTime(this.getLatestViewableSlotDateTime()).startOf(Duration.DAY);
+    const maxViewStart = this.getLatestViewableSlotDateTime();
 
     return slotStart.isSameOrBefore(maxViewStart);
   }
 
-  getLatestViewableSlotDateTime(): Date {
+  getLatestViewableSlotDateTime(): DateTime {
     const today = new DateTime().dayjs;
     // add 3 days if current day is friday, 2 if saturday, else add 1
     let daysToAdd: number;
@@ -174,6 +174,6 @@ export class SlotProvider {
     } else {
       daysToAdd = today.isoWeekday() === 6 ? 2 : 1;
     }
-    return new DateTime().add(daysToAdd, 'days').startOf(Duration.DAY).toDate();
+    return new DateTime().add(daysToAdd, 'days').startOf(Duration.DAY);
   }
 }

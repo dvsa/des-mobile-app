@@ -2,6 +2,7 @@ import { getIncompleteTests } from '@components/common/incomplete-tests-banner/i
 import { DateTimeProvider } from '@providers/date-time/date-time';
 import { SlotItem } from '@providers/slot-selector/slot-item';
 import { SlotProvider } from '@providers/slot/slot';
+import { DateTime } from '@shared/helpers/date-time';
 import { JournalModel } from '@store/journal/journal.model';
 import { TestsModel } from '@store/tests/tests.model';
 import { Observable, combineLatest } from 'rxjs';
@@ -16,10 +17,9 @@ export const unsubmittedTestSlots$ = (
 ): Observable<SlotItem[]> => {
   return combineLatest([journal$, tests$]).pipe(
     map(([journal, tests]) => {
-      return getIncompleteTests(journal, tests, dateTimeProvider.now(), slotProvider, daysToView).sort(
-        (a, b) =>
-          // sort oldest to newest
-          new Date(a.slotData.slotDetail.start).getTime() - new Date(b.slotData.slotDetail.start).getTime()
+      return getIncompleteTests(journal, tests, dateTimeProvider.now(), slotProvider, daysToView).sort((a, b) =>
+        // sort oldest to newest
+        new DateTime(a.slotData.slotDetail.start).isBefore(new DateTime(b.slotData.slotDetail.start)) ? -1 : 1
       );
     })
   );

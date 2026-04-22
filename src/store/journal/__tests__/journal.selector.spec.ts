@@ -6,7 +6,7 @@ import { AppConfigProvider } from '@providers/app-config/app-config';
 import { DateTimeProviderMock } from '@providers/date-time/__mocks__/date-time.mock';
 import { DateTimeProvider } from '@providers/date-time/date-time';
 import { SlotProvider } from '@providers/slot/slot';
-import { DateTime } from '@shared/helpers/date-time';
+import { DateTime, Duration } from '@shared/helpers/date-time';
 import { MesError } from '@shared/models/mes-error.model';
 import { JournalModel } from '../journal.model';
 import {
@@ -117,8 +117,22 @@ describe('JournalSelector', () => {
   });
 
   describe('canNavigateToNextDay', () => {
+    let today = '';
+    let tomorrow = '';
+    let yesterday = '';
+
+    const fakeData = [
+      {
+        hasSlotChanged: false,
+        hasSeenCandidateDetails: false,
+        slotData: {},
+      },
+    ];
+
     beforeEach(() => {
-      spyOn(DateTime, 'today').and.returnValue(new Date('2019-01-29'));
+      today = new DateTime().format('YYYY-MM-DD');
+      tomorrow = new DateTime().add(1, Duration.DAY).format('YYYY-MM-DD');
+      yesterday = new DateTime().subtract(1, Duration.DAY).format('YYYY-MM-DD');
     });
 
     it('should return true if there are any next days', () => {
@@ -126,29 +140,17 @@ describe('JournalSelector', () => {
         recallAutoPopupLastDisplayedTime: null,
         isLoading: true,
         lastRefreshed: new Date(0),
-        slots: {
-          '2019-01-29': [
-            {
-              hasSlotChanged: false,
-              hasSeenCandidateDetails: false,
-              slotData: {},
-            },
-          ],
-          '2019-01-30': [
-            {
-              hasSlotChanged: false,
-              hasSeenCandidateDetails: false,
-              slotData: {},
-            },
-          ],
-        },
-        selectedDate: '2019-01-29',
+        slots: {},
+        selectedDate: today,
         examiner: {
           staffNumber: '123',
           individualId: 456,
         },
         completedTests: [],
       };
+
+      journal.slots[tomorrow] = fakeData;
+      journal.slots[today] = fakeData;
 
       const result = canNavigateToNextDay(journal);
 
@@ -160,29 +162,17 @@ describe('JournalSelector', () => {
         recallAutoPopupLastDisplayedTime: null,
         isLoading: true,
         lastRefreshed: new Date(0),
-        slots: {
-          '2019-01-28': [
-            {
-              hasSlotChanged: false,
-              hasSeenCandidateDetails: false,
-              slotData: {},
-            },
-          ],
-          '2019-01-29': [
-            {
-              hasSlotChanged: false,
-              hasSeenCandidateDetails: false,
-              slotData: {},
-            },
-          ],
-        },
-        selectedDate: '2019-01-28',
+        slots: {},
+        selectedDate: yesterday,
         examiner: {
           staffNumber: '123',
           individualId: 456,
         },
         completedTests: [],
       };
+
+      journal.slots[yesterday] = fakeData;
+      journal.slots[today] = fakeData;
 
       const result = canNavigateToNextDay(journal);
 
@@ -190,33 +180,23 @@ describe('JournalSelector', () => {
     });
 
     it('should return false if the current selected date is not a weekend and in the future', () => {
+      const nextYear = new DateTime().add(1, Duration.YEAR).format('YYYY-MM-DD');
+
       const journal: JournalModel = {
         recallAutoPopupLastDisplayedTime: null,
         isLoading: true,
         lastRefreshed: new Date(0),
-        slots: {
-          '2019-01-28': [
-            {
-              hasSlotChanged: false,
-              hasSeenCandidateDetails: false,
-              slotData: {},
-            },
-          ],
-          '2019-01-29': [
-            {
-              hasSlotChanged: false,
-              hasSeenCandidateDetails: false,
-              slotData: {},
-            },
-          ],
-        },
-        selectedDate: '2019-02-14',
+        slots: {},
+        selectedDate: nextYear,
         examiner: {
           staffNumber: '123',
           individualId: 456,
         },
         completedTests: [],
       };
+
+      journal.slots[yesterday] = fakeData;
+      journal.slots[today] = fakeData;
 
       const result = canNavigateToNextDay(journal);
 

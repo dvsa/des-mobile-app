@@ -90,10 +90,6 @@ export class DateTime {
     return this.dayjs.toString();
   }
 
-  toISOString(): string {
-    return this.dayjs.toISOString();
-  }
-
   isAfter(targetDate: DateTime): boolean {
     return this.dayjs.isAfter(targetDate.dayjs);
   }
@@ -103,7 +99,8 @@ export class DateTime {
   }
 
   startOf(timeUnit: Duration) {
-    return this.dayjs.startOf(timeUnit);
+    this.dayjs = this.dayjs.startOf(timeUnit);
+    return this;
   }
 
   daysDiff(targetDate: DateTime): number {
@@ -116,11 +113,19 @@ export class DateTime {
   }
 
   isBefore(targetDate: DateTime): boolean {
-    return targetDate.dayjs.diff(this.dayjs, Duration.SECOND) > 0;
+    return this.dayjs.isBefore(targetDate.dayjs);
+  }
+
+  isSameOrBefore(targetDate: DateTime): boolean {
+    return this.dayjs.isSameOrBefore(targetDate.dayjs);
+  }
+
+  isSameOrAfter(targetDate: DateTime): boolean {
+    return this.dayjs.isSameOrAfter(targetDate.dayjs);
   }
 
   isDuringDateRange(range: DateRange): boolean {
-    const today = dayjs().startOf(Duration.DAY);
+    const today = new DateTime().startOf(Duration.DAY);
 
     const dateRange = (() => {
       switch (range) {
@@ -143,10 +148,6 @@ export class DateTime {
       }
     })();
 
-    return this.dayjs.isSameOrAfter(dateRange);
-  }
-
-  static today(): Date {
-    return dayjs().toDate();
+    return this.isSameOrAfter(dateRange);
   }
 }
