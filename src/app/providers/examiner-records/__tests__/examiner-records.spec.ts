@@ -11,8 +11,7 @@ import { LogHelperMock } from '@providers/logs/__mocks__/logs-helper.mock';
 import { LogHelper } from '@providers/logs/logs-helper';
 import { SearchProviderMock } from '@providers/search/__mocks__/search.mock';
 import { SearchProvider } from '@providers/search/search';
-import { DateRange } from '@shared/helpers/date-time';
-import moment from 'moment';
+import { DateRange, DateTime } from '@shared/helpers/date-time';
 import { ExaminerRecordsProvider } from '../examiner-records';
 
 describe('ExaminerRecordsProvider', () => {
@@ -51,38 +50,36 @@ describe('ExaminerRecordsProvider', () => {
 
   describe('getRangeDate', () => {
     it('should return the current date if the range is "today"', () => {
-      expect(provider.getRangeDate(DateRange.TODAY).format('DD/MM/YYYY')).toEqual(
-        moment(new Date()).format('DD/MM/YYYY')
-      );
+      expect(provider.getRangeDate(DateRange.TODAY).format('DD/MM/YYYY')).toEqual(new DateTime().format('DD/MM/YYYY'));
     });
     it('should return the date last week if the range is "week"', () => {
       expect(provider.getRangeDate(DateRange.WEEK).format('DD/MM/YYYY')).toEqual(
-        moment(new Date()).subtract(1, 'week').format('DD/MM/YYYY')
+        new DateTime().subtract(1, 'week').format('DD/MM/YYYY')
       );
     });
     it('should return the date 2 weeks ago if the range is "fortnight"', () => {
       expect(provider.getRangeDate(DateRange.FORTNIGHT).format('DD/MM/YYYY')).toEqual(
-        moment(new Date()).subtract(2, 'week').format('DD/MM/YYYY')
+        new DateTime().subtract(2, 'week').format('DD/MM/YYYY')
       );
     });
     it('should return the date 30 days ago if the range is "30 days"', () => {
       expect(provider.getRangeDate(DateRange.THIRTY_DAYS).format('DD/MM/YYYY')).toEqual(
-        moment(new Date()).subtract(30, 'days').format('DD/MM/YYYY')
+        new DateTime().subtract(30, 'days').format('DD/MM/YYYY')
       );
     });
     it('should return the date 90 days ago if the range is "90 days"', () => {
       expect(provider.getRangeDate(DateRange.NINETY_DAYS).format('DD/MM/YYYY')).toEqual(
-        moment(new Date()).subtract(90, 'days').format('DD/MM/YYYY')
+        new DateTime().subtract(90, 'days').format('DD/MM/YYYY')
       );
     });
     it('should return the date 1 year ago if the range is "1 year"', () => {
       expect(provider.getRangeDate(DateRange.ONE_YEAR).format('DD/MM/YYYY')).toEqual(
-        moment(new Date()).subtract(1, 'year').format('DD/MM/YYYY')
+        new DateTime().subtract(1, 'year').format('DD/MM/YYYY')
       );
     });
     it('should return the date 18 months ago if the range is "18 months"', () => {
       expect(provider.getRangeDate(DateRange.EIGHTEEN_MONTHS).format('DD/MM/YYYY')).toEqual(
-        moment(new Date()).subtract(18, 'months').format('DD/MM/YYYY')
+        new DateTime().subtract(18, 'months').format('DD/MM/YYYY')
       );
     });
   });

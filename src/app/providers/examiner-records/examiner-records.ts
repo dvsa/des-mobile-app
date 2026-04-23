@@ -17,7 +17,6 @@ import { LogType } from '@shared/models/log.model';
 import { StoreModel } from '@shared/models/store.model';
 import { SaveLog } from '@store/logs/logs.actions';
 import { get } from 'lodash-es';
-import moment from 'moment';
 import { ChartType } from 'ng-apexcharts';
 
 export interface ColourScheme {
@@ -140,24 +139,24 @@ export class ExaminerRecordsProvider {
    * one year ago for '1 year', and 18 months ago for '18 months'.
    *
    * @param {DateRange} range - The date range to calculate the date from.
-   * @returns {moment.Moment} The calculated date based on the provided range.
+   * @returns {DateTime} The calculated date based on the provided range.
    */
-  getRangeDate(range: DateRange): moment.Moment {
+  getRangeDate(range: DateRange): DateTime {
     switch (range) {
       case DateRange.TODAY:
-        return moment(new Date());
+        return new DateTime();
       case DateRange.WEEK:
-        return moment(new Date()).subtract(1, 'week');
+        return new DateTime().subtract(1, 'week');
       case DateRange.FORTNIGHT:
-        return moment(new Date()).subtract(2, 'week');
+        return new DateTime().subtract(2, 'week');
       case DateRange.THIRTY_DAYS:
-        return moment(new Date()).subtract(30, 'days');
+        return new DateTime().subtract(30, 'days');
       case DateRange.NINETY_DAYS:
-        return moment(new Date()).subtract(90, 'days');
+        return new DateTime().subtract(90, 'days');
       case DateRange.ONE_YEAR:
-        return moment(new Date()).subtract(1, 'year');
+        return new DateTime().subtract(1, 'year');
       case DateRange.EIGHTEEN_MONTHS:
-        return moment(new Date()).subtract(18, 'months');
+        return new DateTime().subtract(18, 'months');
       default:
         return null;
     }

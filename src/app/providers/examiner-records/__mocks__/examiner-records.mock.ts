@@ -1,7 +1,6 @@
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { ColourEnum, ColourScheme, SelectableDateRange } from '@providers/examiner-records/examiner-records';
-import { DateRange } from '@shared/helpers/date-time';
-import moment from 'moment/moment';
+import { DateRange, DateTime } from '@shared/helpers/date-time';
 
 export class ExaminerRecordsProviderMock {
   public colours: {
@@ -56,7 +55,7 @@ export class ExaminerRecordsProviderMock {
     },
   ];
 
-  getRangeDate = jasmine.createSpy('getRangeDate').and.returnValue(moment(new Date()));
+  getRangeDate = jasmine.createSpy('getRangeDate').and.returnValue(new DateTime());
 
   handleLoadingUI = jasmine.createSpy('handleLoadingUI');
 
