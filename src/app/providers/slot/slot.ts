@@ -12,8 +12,6 @@ import { DateTimeProvider } from '../date-time/date-time';
 import { SlotItem } from '../slot-selector/slot-item';
 import { SlotHasChanged } from './slot.actions';
 
-const MS_PER_DAY: number = 1000 * 60 * 60 * 24;
-
 @Injectable()
 export class SlotProvider {
   constructor(
@@ -109,37 +107,29 @@ export class SlotProvider {
   canStartTest(testSlot: TestSlot): boolean {
     const { testPermissionPeriods } = this.appConfigProvider.getAppConfig().journal;
     const testCategory = get(testSlot, 'booking.application.testCategory');
-    const startDate = new DateTime(testSlot.slotDetail.start);
-    const slotStartDate: Date = new Date(testSlot.slotDetail.start);
+    const startDate = new DateTime(testSlot.slotDetail.start, 'UK', true);
 
     if (!testCategory || startDate.daysDiff(this.dateTimeProvider.now()) < 0) {
       return false;
     }
 
     const periodsPermittingStart = testPermissionPeriods.filter((period) => {
-      const slotHasPeriodStartCriteria: boolean = this.hasPeriodStartCriteria(slotStartDate, period.from);
-      const slotHasPeriodEndCriteria: boolean = this.hasPeriodEndCriteria(slotStartDate, period.to);
+      const slotHasPeriodStartCriteria: boolean = this.hasPeriodStartCriteria(startDate, period.from);
+      const slotHasPeriodEndCriteria: boolean = this.hasPeriodEndCriteria(startDate, period.to);
       return period.testCategory === testCategory && slotHasPeriodStartCriteria && slotHasPeriodEndCriteria;
     });
     return periodsPermittingStart.length > 0 || this.appConfigProvider.getAppConfig().role === ExaminerRole.DLG;
   }
 
-  public dateDiffInDays = (startDate: Date, periodDate: Date): number => {
-    // Discard the time and time-zone information.
-    const utc1: number = Date.UTC(startDate.getFullYear(), startDate.getMonth(), startDate.getDate());
-    const utc2: number = Date.UTC(periodDate.getFullYear(), periodDate.getMonth(), periodDate.getDate());
-    return Math.floor((utc2 - utc1) / MS_PER_DAY);
+  hasPeriodStartCriteria = (slotDate: DateTime, periodFrom: string): boolean => {
+    return slotDate.startOf(Duration.DAY).isSameOrAfter(new DateTime(periodFrom).startOf(Duration.DAY));
   };
 
-  private hasPeriodStartCriteria = (slotDate: Date, periodFrom: string): boolean => {
-    return this.dateDiffInDays(slotDate, new Date(periodFrom)) <= 0;
-  };
-
-  private hasPeriodEndCriteria = (slotDate: Date, periodTo: string): boolean => {
+  hasPeriodEndCriteria = (slotDate: DateTime, periodTo: string): boolean => {
     if (!periodTo) {
       return true;
     }
-    return this.dateDiffInDays(slotDate, new Date(periodTo)) >= 0;
+    return slotDate.startOf(Duration.DAY).isSameOrBefore(new DateTime(periodTo).startOf(Duration.DAY));
   };
 
   public getRelevantSlotItemsByDate = (slotItems: SlotItem[]): { [date: string]: SlotItem[] } => {

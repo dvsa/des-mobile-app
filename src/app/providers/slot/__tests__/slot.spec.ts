@@ -473,17 +473,69 @@ describe('SlotProvider', () => {
     });
   });
 
-  describe('dateDiffInDays', () => {
-    it('should return 0 days as the date is the same as the periodDate', () => {
-      const date: Date = new Date('2019-01-10');
-      const periodDate: Date = new Date('2019-01-10');
-      expect(slotProvider.dateDiffInDays(date, periodDate)).toEqual(0);
+  describe('hasPeriodStartCriteria', () => {
+    it('returns true when slotDate is after periodFrom (same day boundary)', () => {
+      const slotDate = new DateTime('2024-03-02');
+      const periodFrom = '2024-03-01';
+
+      const result = slotProvider.hasPeriodStartCriteria(slotDate, periodFrom);
+
+      expect(result).toBeTrue();
     });
 
-    it('should return 3 days difference between the date and the periodDate', () => {
-      const date: Date = new Date('2019-01-07');
-      const periodDate: Date = new Date('2019-01-10');
-      expect(slotProvider.dateDiffInDays(date, periodDate)).toEqual(3);
+    it('returns false when slotDate is before periodFrom', () => {
+      const slotDate = new DateTime('2024-02-28');
+      const periodFrom = '2024-03-01';
+
+      const result = slotProvider.hasPeriodStartCriteria(slotDate, periodFrom);
+
+      expect(result).toBeFalse();
+    });
+
+    it('returns true when slotDate is the same day as periodFrom', () => {
+      const slotDate = new DateTime('2024-03-01T15:30');
+      const periodFrom = '2024-03-01';
+
+      const result = slotProvider.hasPeriodStartCriteria(slotDate, periodFrom);
+
+      expect(result).toBeTrue();
+    });
+  });
+
+  describe('hasPeriodEndCriteria', () => {
+    it('returns true when periodTo is empty', () => {
+      const slotDate = new DateTime('2024-01-01');
+
+      const result = slotProvider.hasPeriodEndCriteria(slotDate, '');
+
+      expect(result).toBeTrue();
+    });
+
+    it('returns true when slotDate is before periodTo (day boundary)', () => {
+      const slotDate = new DateTime('2024-01-01');
+      const periodTo = '2024-01-05';
+
+      const result = slotProvider.hasPeriodEndCriteria(slotDate, periodTo);
+
+      expect(result).toBeTrue();
+    });
+
+    it('returns true when slotDate is the same day as periodTo', () => {
+      const slotDate = new DateTime('2024-01-05T23:59');
+      const periodTo = '2024-01-05';
+
+      const result = slotProvider.hasPeriodEndCriteria(slotDate, periodTo);
+
+      expect(result).toBeTrue();
+    });
+
+    it('returns false when slotDate is after periodTo', () => {
+      const slotDate = new DateTime('2024-01-06');
+      const periodTo = '2024-01-05';
+
+      const result = slotProvider.hasPeriodEndCriteria(slotDate, periodTo);
+
+      expect(result).toBeFalse();
     });
   });
 });
