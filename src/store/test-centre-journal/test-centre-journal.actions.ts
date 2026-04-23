@@ -1,8 +1,9 @@
 import { createAction, props } from '@ngrx/store';
+import { DateTime } from '@shared/helpers/date-time';
 
 export const SetLastRefreshed = createAction(
   '[TestCentreJournalEffects] Set test centre journal last refreshed',
-  props<{ lastRefreshed: Date }>()
+  props<{ lastRefreshed: DateTime }>()
 );
 export const ResetTestCentreJournal = createAction(
   '[TestCentreJournalEffects] Reset test centre journal last refreshed'

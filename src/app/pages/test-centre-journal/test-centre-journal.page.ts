@@ -11,6 +11,7 @@ import { NetworkStateProvider } from '@providers/network-state/network-state';
 import { OrientationMonitorProvider } from '@providers/orientation-monitor/orientation-monitor.provider';
 import { TestCentreJournalProvider } from '@providers/test-centre-journal/test-centre-journal';
 import { BasePageComponent } from '@shared/classes/base-page';
+import { DateTime } from '@shared/helpers/date-time';
 import { ErrorTypes } from '@shared/models/error-message';
 import { Log, LogType } from '@shared/models/log.model';
 import { TestCentre, TestCentreDetailResponse } from '@shared/models/test-centre-journal.model';
@@ -142,7 +143,7 @@ export class TestCentreJournalPage extends BasePageComponent implements OnDestro
       return;
     }
 
-    this.store$.dispatch(SetLastRefreshed({ lastRefreshed: new Date() }));
+    this.store$.dispatch(SetLastRefreshed({ lastRefreshed: new DateTime() }));
     this.showSearchSpinner = true;
 
     this.subscription = this.testCentreJournalProvider

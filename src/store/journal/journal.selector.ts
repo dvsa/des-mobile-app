@@ -54,7 +54,7 @@ export const getRecallAutoPopupLastDisplayedTime = createSelector(
   (journal): string => journal.recallAutoPopupLastDisplayedTime
 );
 
-export const getLastRefreshedTime = (date: Date) =>
+export const getLastRefreshedTime = (date: DateTime) =>
   isNil(date) ? '--:--' : DateTime.at(date).format('hh:mma').toLowerCase();
 
 export const getSelectedDate = (journal: JournalModel) => journal.selectedDate;

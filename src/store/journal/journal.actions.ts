@@ -1,6 +1,7 @@
 import { SearchResultTestSchema } from '@dvsa/mes-search-schema';
 import { createAction, props } from '@ngrx/store';
 import { ConnectionStatus } from '@providers/network-state/network-state';
+import { DateTime } from '@shared/helpers/date-time';
 import { MesError } from '@shared/models/mes-error.model';
 import { JournalRehydrationPage, JournalRehydrationType } from '@store/journal/journal.effects';
 import { ExaminerSlotItemsByDate } from './journal.model';
@@ -23,7 +24,7 @@ export const LoadJournalSuccess = createAction(
     payload: ExaminerSlotItemsByDate,
     onlineOffline: ConnectionStatus,
     unAuthenticatedMode: boolean,
-    lastRefreshed: Date
+    lastRefreshed: DateTime
   ) => ({
     payload,
     onlineOffline,

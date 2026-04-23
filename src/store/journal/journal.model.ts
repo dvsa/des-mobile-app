@@ -2,6 +2,7 @@ import { Booking, SlotDetail, TestCentre } from '@dvsa/mes-journal-schema';
 import { SearchResultTestSchema } from '@dvsa/mes-search-schema';
 import { Examiner } from '@dvsa/mes-test-schema/categories/common';
 import { SlotItem } from '@providers/slot-selector/slot-item';
+import { DateTime } from '@shared/helpers/date-time';
 import { MesError } from '@shared/models/mes-error.model';
 
 export type Slot = {
@@ -14,7 +15,7 @@ export type Slot = {
 
 export type JournalModel = {
   isLoading: boolean;
-  lastRefreshed: Date;
+  lastRefreshed: DateTime;
   slots: { [k: string]: SlotItem[] };
   error?: MesError;
   selectedDate: string;

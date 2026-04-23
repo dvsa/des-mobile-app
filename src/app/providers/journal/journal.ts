@@ -28,7 +28,7 @@ export class JournalProvider {
     private dateTimeProvider: DateTimeProvider
   ) {}
 
-  getJournal(lastRefreshed: Date): Observable<ExaminerWorkSchedule> {
+  getJournal(lastRefreshed: DateTime): Observable<ExaminerWorkSchedule> {
     const staffNumber = this.authProvider.getEmployeeId();
     const journalUrl = this.urlProvider.getPersonalJournalUrl(staffNumber);
     const networkStatus = this.networkStateProvider.getNetworkState();
@@ -39,7 +39,7 @@ export class JournalProvider {
       return this.getOfflineJournal();
     }
 
-    const modifiedSinceValue = lastRefreshed.toUTCString();
+    const modifiedSinceValue = lastRefreshed.toString();
     const options = {
       headers: new HttpHeaders().set('If-Modified-Since', modifiedSinceValue),
     };
