@@ -116,7 +116,7 @@ describe('JournalProvider', () => {
     it('should get the journal record with an `If-Modified-Since` header', () => {
       spyOn(journalProvider.networkStateProvider, 'getNetworkState').and.returnValue(ConnectionStatus.ONLINE);
       journalProvider
-        .getJournal(new Date('2020-01-01'))
+        .getJournal(new DateTime('2020-01-01'))
         .pipe(take(1))
         .subscribe(() => {});
       expect(authProviderMock.getEmployeeId).toHaveBeenCalled();
@@ -129,7 +129,7 @@ describe('JournalProvider', () => {
     it('should get the offline journal when lastRefreshed is defined but ConnectionStatus is OFFLINE', () => {
       spyOn(journalProvider.networkStateProvider, 'getNetworkState').and.returnValue(ConnectionStatus.OFFLINE);
       journalProvider
-        .getJournal(new Date('2020-01-01'))
+        .getJournal(new DateTime('2020-01-01'))
         .pipe(take(1))
         .subscribe(() => {});
       expect(authProviderMock.getEmployeeId).toHaveBeenCalled();

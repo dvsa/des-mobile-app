@@ -14,7 +14,6 @@ import {
   canNavigateToPreviousDay,
   getError,
   getIsLoading,
-  getLastRefreshed,
   getLastRefreshedTime,
   getPermittedSlotIdsBeforeToday,
   getSlotsOnSelectedDate,
@@ -54,7 +53,7 @@ describe('JournalSelector', () => {
   const state: JournalModel = {
     recallAutoPopupLastDisplayedTime: null,
     isLoading: true,
-    lastRefreshed: new Date(0),
+    lastRefreshed: new DateTime(0),
     slots: {
       '2019-01-17': [
         {
@@ -92,20 +91,14 @@ describe('JournalSelector', () => {
     });
   });
 
-  describe('getLastRefreshed', () => {
-    it('should select the last refreshed date from the state', () => {
-      expect(getLastRefreshed(state).getUTCMilliseconds()).toBe(0);
-    });
-  });
-
   describe('getLastRefreshedTime', () => {
     it('should transform a nil date to the placeholder', () => {
       expect(getLastRefreshedTime(null)).toBe('--:--');
       expect(getLastRefreshedTime(undefined)).toBe('--:--');
     });
     it('should format the date to 24hr format with lowercase am/pm', () => {
-      expect(getLastRefreshedTime(new Date('2019-01-16T09:24:00'))).toBe('09:24am');
-      expect(getLastRefreshedTime(new Date('2019-01-16T15:45:10'))).toBe('03:45pm');
+      expect(getLastRefreshedTime(new DateTime('2019-01-16T09:24:00'))).toBe('09:24am');
+      expect(getLastRefreshedTime(new DateTime('2019-01-16T15:45:10'))).toBe('03:45pm');
     });
   });
 
@@ -139,7 +132,7 @@ describe('JournalSelector', () => {
       const journal: JournalModel = {
         recallAutoPopupLastDisplayedTime: null,
         isLoading: true,
-        lastRefreshed: new Date(0),
+        lastRefreshed: new DateTime(0),
         slots: {},
         selectedDate: today,
         examiner: {
@@ -161,7 +154,7 @@ describe('JournalSelector', () => {
       const journal: JournalModel = {
         recallAutoPopupLastDisplayedTime: null,
         isLoading: true,
-        lastRefreshed: new Date(0),
+        lastRefreshed: new DateTime(0),
         slots: {},
         selectedDate: yesterday,
         examiner: {
@@ -185,7 +178,7 @@ describe('JournalSelector', () => {
       const journal: JournalModel = {
         recallAutoPopupLastDisplayedTime: null,
         isLoading: true,
-        lastRefreshed: new Date(0),
+        lastRefreshed: new DateTime(0),
         slots: {},
         selectedDate: nextYear,
         examiner: {
@@ -209,7 +202,7 @@ describe('JournalSelector', () => {
       const journal: JournalModel = {
         recallAutoPopupLastDisplayedTime: null,
         isLoading: true,
-        lastRefreshed: new Date(0),
+        lastRefreshed: new DateTime(0),
         slots: {
           '2019-01-01': [
             {
@@ -236,7 +229,7 @@ describe('JournalSelector', () => {
       const journal: JournalModel = {
         recallAutoPopupLastDisplayedTime: null,
         isLoading: true,
-        lastRefreshed: new Date(0),
+        lastRefreshed: new DateTime(0),
         slots: {
           '2019-01-13': [
             {
@@ -272,7 +265,7 @@ describe('JournalSelector', () => {
       const journal: JournalModel = {
         recallAutoPopupLastDisplayedTime: null,
         isLoading: true,
-        lastRefreshed: new Date(0),
+        lastRefreshed: new DateTime(0),
         slots: {
           '2019-01-12': [
             {

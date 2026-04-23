@@ -29,6 +29,7 @@ import { TestFlowHeaderComponent } from '@components/common/test-flow-header/tes
 import { ActivatedRouteMock } from '@mocks/angular-mocks/activated-route.mock';
 import { DeviceProviderMock } from '@providers/device/__mocks__/device.mock';
 import { DeviceProvider } from '@providers/device/device';
+import { DateTime } from '@shared/helpers/date-time';
 import { MockComponent } from 'ng-mocks';
 import { TestCentreJournalComponentsModule } from '../components/test-centre-journal-components.module';
 import {
@@ -47,7 +48,7 @@ describe('TestCenterJournalPage', () => {
   let logHelper: LogHelper;
   let store$: MockStore;
   const initialState = {
-    testCentreJournal: { lastRefreshed: new Date('2021-03-22') },
+    testCentreJournal: { lastRefreshed: new DateTime('2021-03-22') },
   } as StoreModel;
 
   beforeEach(() => {

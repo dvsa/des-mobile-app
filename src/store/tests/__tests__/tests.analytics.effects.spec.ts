@@ -32,6 +32,7 @@ import { testsReducer } from '../tests.reducer';
 import { DeviceProviderMock } from '@providers/device/__mocks__/device.mock';
 import { DeviceProvider } from '@providers/device/device';
 import { ConnectionStatus } from '@providers/network-state/network-state';
+import { DateTime } from '@shared/helpers/date-time';
 import journalSlotsDataMock from '@store/journal/__mocks__/journal-slots-data.mock';
 import * as journalActions from '@store/journal/journal.actions';
 import { journalReducer } from '@store/journal/journal.reducer';
@@ -299,7 +300,7 @@ describe('TestsAnalyticsEffects', () => {
           },
           ConnectionStatus.ONLINE,
           false,
-          new Date()
+          new DateTime()
         )
       ); // Load in mock journal state
     });

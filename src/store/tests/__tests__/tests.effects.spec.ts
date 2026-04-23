@@ -258,7 +258,7 @@ describe('TestsEffects', () => {
           },
           ConnectionStatus.ONLINE,
           false,
-          new Date()
+          new DateTime()
         )
       ); // Load in mock journal state
       // ACT
@@ -288,7 +288,7 @@ describe('TestsEffects', () => {
           },
           ConnectionStatus.ONLINE,
           false,
-          new Date()
+          new DateTime()
         )
       ); // Load in mock journal state
       // ACT

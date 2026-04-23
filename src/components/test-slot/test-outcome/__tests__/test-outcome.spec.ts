@@ -45,7 +45,7 @@ describe('TestOutcomeComponent', () => {
   const journal: JournalModel = {
     recallAutoPopupLastDisplayedTime: null,
     isLoading: false,
-    lastRefreshed: new Date(),
+    lastRefreshed: new DateTime(),
     slots: {},
     selectedDate: 'dummy',
     examiner: {

@@ -62,7 +62,7 @@ describe('testsSelector', () => {
       };
       const journal: JournalModel = {
         isLoading: false,
-        lastRefreshed: new Date(),
+        lastRefreshed: new DateTime(),
         slots: {},
         selectedDate: 'dummy',
         examiner: {

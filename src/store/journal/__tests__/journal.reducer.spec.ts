@@ -2,6 +2,7 @@ import { Action } from '@ngrx/store';
 import { ConnectionStatus } from '@providers/network-state/network-state';
 import { searchResultsMock } from '@providers/search/__mocks__/search-results.mock';
 import { SlotItem } from '@providers/slot-selector/slot-item';
+import { DateTime } from '@shared/helpers/date-time';
 import {
   CandidateDetailsSeen,
   ClearChangedSlot,
@@ -59,7 +60,7 @@ describe('Journal Reducer', () => {
         },
       };
 
-      const action = LoadJournalSuccess(actionPayload, ConnectionStatus.ONLINE, false, new Date());
+      const action = LoadJournalSuccess(actionPayload, ConnectionStatus.ONLINE, false, new DateTime());
 
       const state = {
         ...initialState,
@@ -71,7 +72,7 @@ describe('Journal Reducer', () => {
       expect(result).toEqual({
         ...state,
         isLoading: false,
-        lastRefreshed: jasmine.any(Date),
+        lastRefreshed: jasmine.any(DateTime),
         slots: {
           '2019-01-13': [
             {
@@ -105,7 +106,7 @@ describe('Journal Reducer', () => {
       const stateWithJournals = {
         recallAutoPopupLastDisplayedTime: null,
         isLoading: true,
-        lastRefreshed: new Date(),
+        lastRefreshed: new DateTime(),
         selectedDate: 'dummy',
         slots: { '2019-01-13': [new SlotItem({}, false, false)] },
         examiner: {

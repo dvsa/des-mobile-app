@@ -37,6 +37,7 @@ import { SlotSelectorProvider } from '@providers/slot-selector/slot-selector';
 import { SlotProviderMock } from '@providers/slot/__mocks__/slot.mock';
 import { SlotProvider } from '@providers/slot/slot';
 import { BasePageComponent } from '@shared/classes/base-page';
+import { DateTime } from '@shared/helpers/date-time';
 import { ErrorTypes } from '@shared/models/error-message';
 import { MesError } from '@shared/models/mes-error.model';
 import { StoreModel } from '@shared/models/store.model';
@@ -226,7 +227,7 @@ describe('JournalPage', () => {
           },
           ConnectionStatus.ONLINE,
           false,
-          new Date()
+          new DateTime()
         )
       );
     });

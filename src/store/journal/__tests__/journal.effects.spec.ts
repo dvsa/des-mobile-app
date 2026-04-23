@@ -251,7 +251,7 @@ describe('JournalEffects', () => {
         { examiner: { staffNumber: '123', individualId: 456 }, slotItemsByDate: journalSlotsDataMock },
         ConnectionStatus.ONLINE,
         false,
-        new Date() // Load in mock journal state
+        new DateTime() // Load in mock journal state
       )
     );
     // ACT
