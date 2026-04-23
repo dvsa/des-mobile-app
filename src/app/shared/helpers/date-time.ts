@@ -37,11 +37,18 @@ export class DateTime {
   dayjs: Dayjs;
   timeZone: TimezoneOptions = 'UTC';
 
-  constructor(sourceDateTime?: DateTime | string | Date, timeZone: TimezoneOptions = 'UTC', keepLocalTime = false) {
+  constructor(
+    sourceDateTime?: DateTime | string | Date | number,
+    timeZone: TimezoneOptions = 'UTC',
+    keepLocalTime = false
+  ) {
     if (sourceDateTime === undefined || sourceDateTime === null) {
       this.dayjs = dayjs();
     } else if (typeof sourceDateTime === 'string') {
       this.dayjs = dayjs(new Date(sourceDateTime));
+    } else if (typeof sourceDateTime === 'number') {
+      //This converts Epoch time to standard time
+      this.dayjs = dayjs(new Date(sourceDateTime * 1000));
     } else if (sourceDateTime instanceof Date) {
       this.dayjs = dayjs(sourceDateTime);
     } else {
