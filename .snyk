@@ -3,16 +3,11 @@ version: v1.25.0
 
 # ignores vulnerabilities until expiry date; change duration by modifying expiry date
 ignore:
-  SNYK-JS-LODASH-15869619:
+  SNYK-JS-UUID-16133035:
     - '*':
         reason: Prototype Pollution - Remediation not yet available
-        expires: 2026-05-01T09:00:00.119Z
-        created: 2026-04-01T09:00:00.119Z
-  SNYK-JS-LODASH-15869625:
-    - '*':
-        reason: Arbitrary Code Injection - Remediation not yet available
-        expires: 2026-05-01T09:00:00.119Z
-        created: 2026-04-01T09:00:00.119Z
+        expires: 2026-05-24T10:24:00.119Z
+        created: 2026-04-24T10:24:00.119Z
   snyk:lic:npm:dvsa:capacitor-plugin-msauth:LGPL-3.0:
     - '*':
         reason: Use of LGPL-3.0 licensed package
