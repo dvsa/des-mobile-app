@@ -19,9 +19,9 @@ ignore:
         created: 2026-04-29T11:30:00.122Z
   SNYK-JS-XMLDOMXMLDOM-16134549:
       - '*':
-          reason: Remediation not yet available
-          expires: 2026-09-01T09:00:00.119Z
-          created: 2026-04-29T11:30:00.122Z
+        reason: Remediation not yet available
+        expires: 2026-09-01T09:00:00.119Z
+        created: 2026-04-29T11:30:00.122Z
   SNYK-JS-XMLDOMXMLDOM-16134552:
     - '*':
         reason: Remediation not yet available

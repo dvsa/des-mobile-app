@@ -13,7 +13,7 @@ export const bookingReferenceMask: MaskitoOptions = {
     if (/^\d/.test(value)) {
       return [/\d/, /\d/, /\d/, /\d/, /\d/, /\d/, /\d/, /\d/, /\d/, /\d/, /\d/];
     }
-    return [/[A-Z]/i, ' ', /\d/, /\d/, /\d/, ' ', /\d/, /\d/, /\d/, ' ', /\d/, /\d/, /[ABCDEFGHJKLMNPQRTUVWXYZ0-9]/i];
+    return [/[D]/i, ' ', /\d/, /\d/, /\d/, ' ', /\d/, /\d/, /\d/, ' ', /\d/, /\d/, /[ABCDEFGHJKLMNPQRTUVWXYZ0-9]/i];
   },
 };
 
