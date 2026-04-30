@@ -175,7 +175,6 @@ describe('JournalProvider', () => {
       const exampleSchedule: ExaminerWorkSchedule = {
         examiner: { staffNumber: '1234' },
       };
-      console.log(new DateTime().subtract(cacheDays + 1, Duration.DAY).format('yyyy/MM/dd'));
       const agedCache = {
         dateStored: new DateTime().subtract(cacheDays + 1, Duration.DAY).format('yyyy/MM/dd'),
         data: exampleSchedule,
