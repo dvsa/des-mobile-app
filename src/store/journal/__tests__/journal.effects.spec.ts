@@ -243,8 +243,8 @@ describe('JournalEffects', () => {
 
   it('should dispatch the SetSelectedDate action with the correct date in the select next day effect', () => {
     // ARRANGE
-    const selectedDate: string = new DateTime().format('YYYY-MM-DD');
-    const nextDay: string = DateTime.at(selectedDate).add(1, Duration.DAY).format('YYYY-MM-DD');
+    const selectedDate: string = new DateTime().format('yyyy-MM-dd');
+    const nextDay: string = DateTime.at(selectedDate).add(1, Duration.DAY).format('yyyy-MM-dd');
     store$.dispatch(journalActions.SetSelectedDate(selectedDate));
     store$.dispatch(
       journalActions.LoadJournalSuccess(

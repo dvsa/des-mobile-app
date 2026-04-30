@@ -70,7 +70,7 @@ export class ViewJournalsCardComponent implements OnChanges {
   examinerName: string = null;
   examinerSlotItemsByDate: ExaminerSlotItemsByDate;
   completedTests: SearchResultTestSchema[];
-  private dateFormat = 'YYYY-MM-DD';
+  private dateFormat = 'yyyy-MM-dd';
   today: string = new DateTime().format(this.dateFormat);
   currentSelectedDate: string = this.today;
   slotItems$: Observable<SlotItem[]>;

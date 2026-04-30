@@ -168,7 +168,7 @@ export class ViewTestResultPage extends BasePageComponent implements OnInit {
     const startDate = DateTime.at(get(this.testResult, 'journalData.testSlotAttributes.start'), 'UK', true);
 
     return {
-      date: startDate.format('dddd Do MMMM YYYY'),
+      date: startDate.format('EEEE do MMMM yyyy'),
       time: startDate.format('HH:mm'),
       applicationReference: getFormattedApplicationReference(get(this.testResult, 'journalData.applicationReference')),
       category: get(this.testResult, 'category') as TestCategory,

@@ -65,7 +65,7 @@ describe('SearchResultComponent', () => {
   });
 
   describe('getDate', () => {
-    it('should format the date to DD/MM/YYYY', () => {
+    it('should format the date to dd/MM/yyyy', () => {
       expect(component.getDate()).toBe('12/03/2000');
     });
   });

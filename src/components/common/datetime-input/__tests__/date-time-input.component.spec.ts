@@ -21,7 +21,7 @@ describe('DateTimeInputComponent', () => {
   });
 
   describe('formatDisplayDate', () => {
-    it('should display a date in the format of DD/MM/YYYY', () => {
+    it('should display a date in the format of dd/MM/yyyy', () => {
       expect(component.formatDisplayDate('2000-11-11')).toEqual('11/11/2000');
     });
   });

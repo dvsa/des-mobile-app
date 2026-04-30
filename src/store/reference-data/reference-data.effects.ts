@@ -36,7 +36,7 @@ export class ReferenceDataEffects {
       // check last updated date is not today & user is in an online state
       filter(
         ([, lastUpdatedDate]) =>
-          lastUpdatedDate !== this.dateTimeProvider.now().format('YYYY-MM-DD') &&
+          lastUpdatedDate !== this.dateTimeProvider.now().format('yyyy-MM-dd') &&
           this.networkStateProvider.getNetworkState() === ConnectionStatus.ONLINE
       ),
       switchMap(() => this.refDataProvider.getTestCentres()),
@@ -48,7 +48,7 @@ export class ReferenceDataEffects {
   testCentreRefDataSuccess$ = createEffect(() =>
     this.actions$.pipe(
       ofType(LoadTestCentresRefDataSuccess),
-      switchMap(() => of(SetDateRefDataUpdated(this.dateTimeProvider.now().format('YYYY-MM-DD'))))
+      switchMap(() => of(SetDateRefDataUpdated(this.dateTimeProvider.now().format('yyyy-MM-dd'))))
     )
   );
 }

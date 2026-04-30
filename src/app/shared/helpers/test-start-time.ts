@@ -13,24 +13,28 @@ export function getNewTestStartTime(inputDate: string, startDateTime: string): s
   const month = dateArray[1];
   const day = dateArray[2];
 
-  let startDateTemp = DateTime.at(startDateTime).dayjs;
+  const startDateTemp = DateTime.at(startDateTime).date;
 
-  startDateTemp = startDateTemp.date(day);
-  startDateTemp = startDateTemp.month(month - 1);
-  startDateTemp = startDateTemp.year(year);
+  startDateTemp.setFullYear(year, month - 1, day);
   // Database schema accepts only 19 characters for the start date time property
-  return startDateTemp.format('YYYY-MM-DDTHH:mm:ss');
+  return DateTime.at(startDateTemp).format("yyyy-MM-dd'T'HH:mm:ss");
 }
 
 /**
  * Checks if an inputDate is in range regarding currentDate
- * @param inputDate format: YYYY-MM-DD
- * @param currentDate format: YYYY-MM-DD
+ * @param inputDate format: yyyy-MM-dd
+ * @param currentDate format: yyyy-MM-dd
  */
 export function isValidStartDate(inputDate: string, currentDate: string): boolean {
-  if (DateTime.at(inputDate).isAfter(DateTime.at(currentDate))) {
+  const inputDateTime = DateTime.at(inputDate);
+  const currentDateTime = DateTime.at(currentDate);
+
+  if (inputDateTime.isAfter(currentDateTime)) {
     // inputDate is in the future
     return false;
   }
-  return new DateTime(currentDate).diff(DateTime.at(inputDate), Duration.YEAR, true) <= 1;
+
+  const oneYearAgo = currentDateTime.subtract(1, Duration.YEAR);
+
+  return inputDateTime.isSameOrAfter(oneYearAgo);
 }

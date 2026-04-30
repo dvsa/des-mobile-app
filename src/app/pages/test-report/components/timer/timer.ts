@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { DateTime } from '@shared/helpers/date-time';
 import { StoreModel } from '@shared/models/store.model';
-import { Dayjs } from 'dayjs';
 import { StartTimer } from '../../test-report.actions';
 
 @Component({
@@ -45,12 +44,12 @@ export class TimerComponent {
   };
 
   generateTimerString = (): void => {
-    let date: Dayjs = new DateTime('0000-01-01').dayjs;
-    date = date.set('seconds', this.seconds);
+    const date: Date = new DateTime('0000-01-01').date;
+    date.setSeconds(this.seconds);
 
-    const hours = date.get('hour');
-    const minutes = date.get('minute');
-    const seconds = date.get('second');
+    const hours = date.getHours();
+    const minutes = date.getMinutes();
+    const seconds = date.getSeconds();
 
     const showExtraZeroHours = hours < 10;
     const showExtraZeroMinutes = minutes < 10;

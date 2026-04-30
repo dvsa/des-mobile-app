@@ -18,7 +18,7 @@ import {
   getStartedTestCount,
   getTellMeQuestions,
 } from '@pages/examiner-records/examiner-records.selector';
-import { DateRange, DateTime } from '@shared/helpers/date-time';
+import { DateRange, DateTime, Duration } from '@shared/helpers/date-time';
 import { ManoeuvreTypes } from '@store/tests/test-data/test-data.constants';
 
 describe('examiner records selector', () => {
@@ -34,7 +34,7 @@ describe('examiner records selector', () => {
       },
       independentDriving: 'Sat nav',
       routeNumber: 3,
-      startDate: new DateTime().subtract(5, 'days').format('YYYY-MM-DD'),
+      startDate: new DateTime().subtract(5, Duration.DAY).format('yyyy-MM-dd'),
     },
     {
       appRef: 2,
@@ -47,7 +47,7 @@ describe('examiner records selector', () => {
       },
       independentDriving: 'Sat nav',
       routeNumber: 2,
-      startDate: new DateTime().subtract(5, 'days').format('YYYY-MM-DD'),
+      startDate: new DateTime().subtract(5, Duration.DAY).format('yyyy-MM-dd'),
     },
     {
       appRef: 3,
@@ -74,7 +74,7 @@ describe('examiner records selector', () => {
       ],
       manoeuvres: [{ forwardPark: { selected: true } }],
       independentDriving: 'Sat nav',
-      startDate: new DateTime().subtract(5, 'days').format('YYYY-MM-DD'),
+      startDate: new DateTime().subtract(5, Duration.DAY).format('yyyy-MM-dd'),
     },
     {
       appRef: 4,
@@ -86,7 +86,7 @@ describe('examiner records selector', () => {
         costCode: '000090909',
       },
       independentDriving: 'Sat nav',
-      startDate: new DateTime().subtract(5, 'days').format('YYYY-MM-DD'),
+      startDate: new DateTime().subtract(5, Duration.DAY).format('yyyy-MM-dd'),
     },
     {
       appRef: 5,
@@ -99,7 +99,7 @@ describe('examiner records selector', () => {
       },
       controlledStop: true,
       independentDriving: 'Sat nav',
-      startDate: new DateTime().subtract(10, 'days').format('YYYY-MM-DD'),
+      startDate: new DateTime().subtract(10, Duration.DAY).format('yyyy-MM-dd'),
     },
     {
       appRef: 6,
@@ -111,7 +111,7 @@ describe('examiner records selector', () => {
         costCode: '000090909',
       },
       independentDriving: 'Traffic signs',
-      startDate: new DateTime().subtract(15, 'days').format('YYYY-MM-DD'),
+      startDate: new DateTime().subtract(15, Duration.DAY).format('yyyy-MM-dd'),
     },
     {
       appRef: 7,
@@ -124,7 +124,7 @@ describe('examiner records selector', () => {
       },
       independentDriving: 'Traffic signs',
       controlledStop: true,
-      startDate: new DateTime().subtract(5, 'days').format('YYYY-MM-DD'),
+      startDate: new DateTime().subtract(5, Duration.DAY).format('yyyy-MM-dd'),
     },
     {
       appRef: 8,
@@ -136,7 +136,7 @@ describe('examiner records selector', () => {
         costCode: '000090909',
       },
       independentDriving: 'Traffic signs',
-      startDate: new DateTime().subtract(10, 'days').format('YYYY-MM-DD'),
+      startDate: new DateTime().subtract(10, Duration.DAY).format('yyyy-MM-dd'),
     },
     {
       appRef: 9,
@@ -148,7 +148,7 @@ describe('examiner records selector', () => {
         costCode: '000090909',
       },
       independentDriving: 'Traffic signs',
-      startDate: new DateTime().subtract(15, 'days').format('YYYY-MM-DD'),
+      startDate: new DateTime().subtract(15, Duration.DAY).format('yyyy-MM-dd'),
     },
     {
       appRef: 10,
@@ -174,7 +174,7 @@ describe('examiner records selector', () => {
           outcome: 'P',
         },
       ],
-      startDate: new DateTime().subtract(15, 'days').format('YYYY-MM-DD'),
+      startDate: new DateTime().subtract(15, Duration.DAY).format('yyyy-MM-dd'),
     },
     {
       appRef: 11,
@@ -186,7 +186,7 @@ describe('examiner records selector', () => {
         costCode: '000090909',
       },
       circuit: 'Left',
-      startDate: new DateTime().subtract(15, 'days').format('YYYY-MM-DD'),
+      startDate: new DateTime().subtract(15, Duration.DAY).format('yyyy-MM-dd'),
     },
   ] as ExaminerRecordModel[];
 
@@ -194,7 +194,9 @@ describe('examiner records selector', () => {
     it('return true if provided examinerRecord is within specified date range', () => {
       expect(
         dateFilter(
-          startedTests.filter((value) => new DateTime(value.startDate) > new DateTime().subtract(7, 'days'))[0],
+          startedTests.filter((value) =>
+            new DateTime(value.startDate).isAfter(new DateTime().subtract(7, Duration.DAY))
+          )[0],
           DateRange.WEEK
         )
       ).toEqual(true);
@@ -203,7 +205,9 @@ describe('examiner records selector', () => {
     it('return false if provided examinerRecord is not within specified date range', () => {
       expect(
         dateFilter(
-          startedTests.filter((value) => new DateTime(value.startDate).isBefore(new DateTime().subtract(7, 'days')))[0],
+          startedTests.filter((value) =>
+            new DateTime(value.startDate).isBefore(new DateTime().subtract(7, Duration.DAY))
+          )[0],
           DateRange.WEEK
         )
       ).toEqual(false);
@@ -234,7 +238,7 @@ describe('examiner records selector', () => {
             costCode: '000090909',
           },
           independentDriving: 'Sat nav',
-          startDate: new DateTime().subtract(5, 'days').format('YYYY-MM-DD'),
+          startDate: new DateTime().subtract(5, Duration.DAY).format('yyyy-MM-dd'),
         },
       ]);
     });
@@ -253,7 +257,7 @@ describe('examiner records selector', () => {
           },
           independentDriving: 'Traffic signs',
           controlledStop: true,
-          startDate: new DateTime().subtract(5, 'days').format('YYYY-MM-DD'),
+          startDate: new DateTime().subtract(5, Duration.DAY).format('yyyy-MM-dd'),
         },
         {
           appRef: 8,
@@ -265,7 +269,7 @@ describe('examiner records selector', () => {
             costCode: '000090909',
           },
           independentDriving: 'Traffic signs',
-          startDate: new DateTime().subtract(10, 'days').format('YYYY-MM-DD'),
+          startDate: new DateTime().subtract(10, Duration.DAY).format('yyyy-MM-dd'),
         },
       ]);
     });
@@ -283,7 +287,7 @@ describe('examiner records selector', () => {
             costCode: '000090909',
           },
           independentDriving: 'Sat nav',
-          startDate: new DateTime().subtract(5, 'days').format('YYYY-MM-DD'),
+          startDate: new DateTime().subtract(5, Duration.DAY).format('yyyy-MM-dd'),
         },
         {
           appRef: 6,
@@ -295,7 +299,7 @@ describe('examiner records selector', () => {
             costCode: '000090909',
           },
           independentDriving: 'Traffic signs',
-          startDate: new DateTime().subtract(15, 'days').format('YYYY-MM-DD'),
+          startDate: new DateTime().subtract(15, Duration.DAY).format('yyyy-MM-dd'),
         },
         {
           appRef: 7,
@@ -308,7 +312,7 @@ describe('examiner records selector', () => {
           },
           independentDriving: 'Traffic signs',
           controlledStop: true,
-          startDate: new DateTime().subtract(5, 'days').format('YYYY-MM-DD'),
+          startDate: new DateTime().subtract(5, Duration.DAY).format('yyyy-MM-dd'),
         },
         {
           appRef: 8,
@@ -320,7 +324,7 @@ describe('examiner records selector', () => {
             costCode: '000090909',
           },
           independentDriving: 'Traffic signs',
-          startDate: new DateTime().subtract(10, 'days').format('YYYY-MM-DD'),
+          startDate: new DateTime().subtract(10, Duration.DAY).format('yyyy-MM-dd'),
         },
         {
           appRef: 9,
@@ -332,7 +336,7 @@ describe('examiner records selector', () => {
             costCode: '000090909',
           },
           independentDriving: 'Traffic signs',
-          startDate: new DateTime().subtract(15, 'days').format('YYYY-MM-DD'),
+          startDate: new DateTime().subtract(15, Duration.DAY).format('yyyy-MM-dd'),
         },
         {
           appRef: 10,
@@ -358,7 +362,7 @@ describe('examiner records selector', () => {
             },
           ],
           independentDriving: 'Diagram',
-          startDate: new DateTime().subtract(15, 'days').format('YYYY-MM-DD'),
+          startDate: new DateTime().subtract(15, Duration.DAY).format('yyyy-MM-dd'),
         },
         {
           appRef: 11,
@@ -366,7 +370,7 @@ describe('examiner records selector', () => {
           activityCode: 1,
           testCentre: { centreName: 'B', centreId: 1, costCode: '000090909' },
           circuit: 'Left',
-          startDate: new DateTime().subtract(15, 'days').format('YYYY-MM-DD'),
+          startDate: new DateTime().subtract(15, Duration.DAY).format('yyyy-MM-dd'),
         },
       ]);
     });

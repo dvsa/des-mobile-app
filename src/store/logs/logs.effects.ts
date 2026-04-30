@@ -146,7 +146,7 @@ export class LogsEffects {
   saveLogs = async (logData: Log[]) => {
     if (logData && logData.length > 0) {
       const logDataToStore: LogCache = {
-        dateStored: this.dateTimeProvider.now().format('YYYY/MM/DD'),
+        dateStored: this.dateTimeProvider.now().format('yyyy/MM/dd'),
         data: logData,
       };
       await this.dataStore.setItem(LocalStorageKey.LOGS, JSON.stringify(logDataToStore));
@@ -160,7 +160,7 @@ export class LogsEffects {
   emptyCachedData = () => {
     const emptyLogData: Log[] = [];
     const logDataToStore: LogCache = {
-      dateStored: this.dateTimeProvider.now().format('YYYY/MM/DD'),
+      dateStored: this.dateTimeProvider.now().format('yyyy/MM/dd'),
       data: emptyLogData,
     };
     this.dataStore.setItem(LocalStorageKey.LOGS, JSON.stringify(logDataToStore)).then(() => {});

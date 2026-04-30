@@ -296,7 +296,7 @@ describe('SlotProvider', () => {
   });
 
   describe('getSlotDate', () => {
-    it('should return the correct date YYYY-MM-DD', () => {
+    it('should return the correct date yyyy-MM-dd', () => {
       const slot = {
         slotData: {
           slotDetail: {
@@ -468,7 +468,7 @@ describe('SlotProvider', () => {
         },
       });
       const futureSlot = cloneDeep(mockSlot);
-      futureSlot.slotDetail.start = DateTime.at(startTime).add(1, Duration.DAY).format('YYYY-MM-DDTHH:mm:ss+00:00');
+      futureSlot.slotDetail.start = DateTime.at(startTime).add(1, Duration.DAY).format("yyyy-MM-dd'T'HH:mm:ss+00:00");
       expect(slotProvider.canStartTest(futureSlot)).toEqual(false);
     });
   });

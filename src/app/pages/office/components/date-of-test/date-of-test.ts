@@ -3,7 +3,6 @@ import { DisplayType } from '@components/common/datetime-input/date-time-input.c
 import { IonDatetime } from '@ionic/angular';
 import { DateTime, Duration } from '@shared/helpers/date-time';
 import { PRESS_TIME_TO_ENABLE_EDIT, isValidStartDate } from '@shared/helpers/test-start-time';
-import moment from 'moment';
 
 @Component({
   selector: 'date-of-test',
@@ -33,9 +32,9 @@ export class DateOfTest implements OnInit {
   protected readonly DisplayType = DisplayType;
 
   ngOnInit() {
-    this.customTestDate = moment(this.dateOfTest, 'DD/MM/YYYY').format('YYYY-MM-DD');
-    this.maxDate = new DateTime().format('YYYY-MM-DD');
-    this.minDate = new DateTime().subtract(1, Duration.YEAR).format('YYYY-MM-DD');
+    this.customTestDate = new DateTime(this.dateOfTest).format('yyyy-MM-dd');
+    this.maxDate = new DateTime().format('yyyy-MM-dd');
+    this.minDate = new DateTime().subtract(1, Duration.YEAR).format('yyyy-MM-dd');
   }
 
   handleCancel(dateTime: IonDatetime): Promise<void> {
@@ -57,8 +56,8 @@ export class DateOfTest implements OnInit {
           return dateTime.confirm(true);
         }
 
-        const currentDate: string = new DateTime().format('YYYY-MM-DD');
-        const selectedDate: string = DateTime.at(dateTime.value as string).format('YYYY-MM-DD');
+        const currentDate: string = new DateTime().format('yyyy-MM-dd');
+        const selectedDate: string = DateTime.at(dateTime.value as string).format('yyyy-MM-dd');
 
         if (!this.getIsValidStartDate(selectedDate, currentDate)) {
           this.isInvalid = true;

@@ -98,7 +98,7 @@ export class JournalPage extends BasePageComponent implements OnInit {
   ) {
     super(injector);
 
-    this.store$.dispatch(journalActions.SetSelectedDate(this.dateTimeProvider.now().format('YYYY-MM-DD')));
+    this.store$.dispatch(journalActions.SetSelectedDate(this.dateTimeProvider.now().format('yyyy-MM-dd')));
     this.todaysDate = this.dateTimeProvider.now();
   }
 
@@ -127,7 +127,7 @@ export class JournalPage extends BasePageComponent implements OnInit {
       isSelectedDateToday$: this.store$.pipe(
         select(getJournalState),
         map(getSelectedDate),
-        map((selectedDate) => selectedDate === this.dateTimeProvider.now().format('YYYY-MM-DD'))
+        map((selectedDate) => selectedDate === this.dateTimeProvider.now().format('yyyy-MM-dd'))
       ),
       completedTests$: of([]),
     };
@@ -150,7 +150,7 @@ export class JournalPage extends BasePageComponent implements OnInit {
         if (!isToday || slots.length === 0) return;
 
         // Check if the popup has already been displayed today
-        const formattedTodayDate = this.todaysDate.format('DD/MM/YYYY');
+        const formattedTodayDate = this.todaysDate.format('dd/MM/yyyy');
 
         if (this.store$.selectSignal(getRecallAutoPopupLastDisplayedTime)() === formattedTodayDate) return;
 

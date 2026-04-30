@@ -11,7 +11,7 @@ import {
 import { CompressionProvider } from '@providers/compression/compression';
 import { LogHelper } from '@providers/logs/logs-helper';
 import { SearchProvider } from '@providers/search/search';
-import { DateTime } from '@shared/helpers/date-time';
+import { DateTime, Duration } from '@shared/helpers/date-time';
 import { LogType } from '@shared/models/log.model';
 import { StoreModel } from '@shared/models/store.model';
 import { SaveLog } from '@store/logs/logs.actions';
@@ -36,7 +36,7 @@ export class ExaminerRecordsEffects {
         switchMap(({ staffNumber }) => {
           // Get remote data for examiner records
           return this.searchProvider
-            .examinerRecordsSearch(staffNumber, null, new DateTime().subtract(15, 'days').format('YYYY-MM-DD'))
+            .examinerRecordsSearch(staffNumber, null, new DateTime().subtract(15, Duration.DAY).format('yyyy-MM-dd'))
             .pipe(
               catchError((err) => {
                 this.store$.dispatch(
@@ -72,7 +72,7 @@ export class ExaminerRecordsEffects {
         //cache results
         map((examinerRecords: ExaminerRecordModel[]) => {
           this.store$.dispatch(CacheExaminerRecords(examinerRecords));
-          if (examinerRecords) this.store$.dispatch(UpdateLastCached(new DateTime().format('DD/MM/YYYY')));
+          if (examinerRecords) this.store$.dispatch(UpdateLastCached(new DateTime().format('dd/MM/yyyy')));
         })
       ),
     { dispatch: false }

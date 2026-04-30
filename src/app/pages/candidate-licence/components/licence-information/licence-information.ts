@@ -33,7 +33,7 @@ export class LicenceInformation {
 
   constructor(private domSanitizer: DomSanitizer) {}
 
-  private displayDateFormat = 'DD/MM/YYYY';
+  private displayDateFormat = 'dd/MM/yyyy';
 
   get driverNumber(): string {
     return this.isPracticeMode
@@ -68,7 +68,7 @@ export class LicenceInformation {
 
   get cardExpiryDate(): string {
     return this.isPracticeMode
-      ? new DateTime().add(5, 'years').format(this.displayDateFormat)
+      ? new DateTime().add(5, Duration.YEAR).format(this.displayDateFormat)
       : new DateTime(get(this.candidateData, 'driverStandard.token.validToDate')).format(this.displayDateFormat);
   }
 

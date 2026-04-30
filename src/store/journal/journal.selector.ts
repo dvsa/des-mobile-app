@@ -54,15 +54,16 @@ export const getRecallAutoPopupLastDisplayedTime = createSelector(
   (journal): string => journal.recallAutoPopupLastDisplayedTime
 );
 
-export const getLastRefreshedTime = (date: Date) => (isNil(date) ? '--:--' : DateTime.at(date).format('hh:mma'));
+export const getLastRefreshedTime = (date: Date) =>
+  isNil(date) ? '--:--' : DateTime.at(date).format('hh:mma').toLowerCase();
 
 export const getSelectedDate = (journal: JournalModel) => journal.selectedDate;
 
 export const canNavigateToPreviousDay = (journal: JournalModel, today: DateTime): boolean => {
-  const { selectedDate } = journal;
-  const lookbackLimit = today.subtract(14, Duration.DAY).format('YYYY-MM-DD');
+  const selectedDate = DateTime.at(journal.selectedDate);
+  const lookbackLimit = today.subtract(14, Duration.DAY);
 
-  return selectedDate > lookbackLimit;
+  return selectedDate.isAfter(lookbackLimit);
 };
 
 export const canNavigateToNextDay = (journal: JournalModel): boolean => {

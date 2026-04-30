@@ -29,9 +29,8 @@ import { ExaminerRecordsProviderMock } from '@providers/examiner-records/__mocks
 import { ColourEnum, ExaminerRecordsProvider, SelectableDateRange } from '@providers/examiner-records/examiner-records';
 import { SearchProviderMock } from '@providers/search/__mocks__/search.mock';
 import { SearchProvider } from '@providers/search/search';
-import { DateRange } from '@shared/helpers/date-time';
+import { DateRange, DateTime, Duration } from '@shared/helpers/date-time';
 import { selectCachedExaminerRecords, selectLastCachedDate } from '@store/examiner-records/examiner-records.selectors';
-import moment from 'moment';
 import { MockComponent } from 'ng-mocks';
 import { Subscription, of } from 'rxjs';
 import { ExaminerRecordsPage, ExaminerRecordsPageStateData } from '../examiner-records.page';
@@ -66,7 +65,7 @@ describe('ExaminerRecordsPage', () => {
         costCode: 'CF1',
       },
       routeNumber: 1,
-      startDate: moment(Date.now()).subtract(1, 'days').format('YYYY-MM-DD'),
+      startDate: new DateTime().subtract(1, Duration.DAY).format('yyyy-MM-dd'),
     },
     {
       testCategory: TestCategory.C,
@@ -76,7 +75,7 @@ describe('ExaminerRecordsPage', () => {
         costCode: 'SW1',
       },
       routeNumber: 2,
-      startDate: moment(Date.now()).subtract(10, 'days').format('YYYY-MM-DD'),
+      startDate: new DateTime().subtract(10, Duration.DAY).format('yyyy-MM-dd'),
     },
     {
       testCategory: TestCategory.C,
@@ -86,7 +85,7 @@ describe('ExaminerRecordsPage', () => {
         costCode: 'SW1',
       },
       routeNumber: 3,
-      startDate: moment(Date.now()).format('YYYY-MM-DD'),
+      startDate: new DateTime().format('yyyy-MM-dd'),
     },
   ] as ExaminerRecordModel[];
 
@@ -697,7 +696,7 @@ describe('ExaminerRecordsPage', () => {
 
     it('should not dispatch any actions when cached records are available and last cached date is today', () => {
       store$.overrideSelector(selectCachedExaminerRecords, [{} as ExaminerRecordModel]);
-      store$.overrideSelector(selectLastCachedDate, moment(Date.now()).format('DD/MM/YYYY'));
+      store$.overrideSelector(selectLastCachedDate, new DateTime().format('dd/MM/yyyy'));
 
       component.getOnlineRecords();
 

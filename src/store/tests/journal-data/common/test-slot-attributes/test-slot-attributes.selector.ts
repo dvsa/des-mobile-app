@@ -6,7 +6,7 @@ import { getSlotType } from '@shared/helpers/get-slot-type';
 export const getTestTime = (attributes: TestSlotAttributes) =>
   DateTime.at(attributes.start, 'UK', true).format('HH:mm');
 export const getTestDate = (attributes: TestSlotAttributes): string =>
-  DateTime.at(attributes.start, 'UK', true).format('DD/MM/YYYY');
+  DateTime.at(attributes.start, 'UK', true).format('dd/MM/yyyy');
 export const getTestStartDateTime = (attributes: TestSlotAttributes): string => attributes.start;
 export const isExtendedTest = (attributes: TestSlotAttributes) => attributes.extendedTest || false;
 export const isSpecialNeeds = (attributes: TestSlotAttributes) => attributes.specialNeeds || false;

@@ -125,7 +125,7 @@ export class ExaminerRecordsPage implements OnInit {
   categoryFilterOptions: TestCategory[] = null;
   cachedExaminerRecords: ExaminerRecordModel[] = null;
   startDateFilter: string;
-  endDateFilter: string = new DateTime().format('DD/MM/YYYY');
+  endDateFilter: string = new DateTime().format('dd/MM/yyyy');
   isLoading = false;
 
   public defaultDate: SelectableDateRange = this.examinerRecordsProvider.localFilterOptions[2];
@@ -274,7 +274,7 @@ export class ExaminerRecordsPage implements OnInit {
   async getOnlineRecords(): Promise<void> {
     if (
       !this.store$.selectSignal(selectCachedExaminerRecords)() ||
-      this.store$.selectSignal(selectLastCachedDate)() !== new DateTime().format('DD/MM/YYYY')
+      this.store$.selectSignal(selectLastCachedDate)() !== new DateTime().format('dd/MM/yyyy')
     ) {
       const staffNumber: string = this.store$.selectSignal(selectEmployeeId)();
       this.store$.dispatch(LoadingExaminerRecords());
@@ -678,7 +678,7 @@ export class ExaminerRecordsPage implements OnInit {
   handleDateFilter(event: CustomEvent) {
     this.dateFilter = event.detail?.value.display ?? null;
     this.rangeSubject$.next(event.detail?.value.val ?? null);
-    this.startDateFilter = this.examinerRecordsProvider.getRangeDate(event.detail?.value.val).format('DD/MM/YYYY');
+    this.startDateFilter = this.examinerRecordsProvider.getRangeDate(event.detail?.value.val).format('dd/MM/yyyy');
     this.filterDates();
 
     this.store$.dispatch(DateRangeChanged(event.detail?.value));

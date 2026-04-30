@@ -142,13 +142,13 @@ describe('JournalProvider', () => {
   describe('isCacheTooOld', () => {
     it('should return true if date is greater than cacheDays days ago', () => {
       const today = new DateTime();
-      const tooOld = new DateTime().add(-(cacheDays + 1), Duration.DAY);
+      const tooOld = new DateTime().subtract(cacheDays + 1, Duration.DAY);
       expect(journalProvider.isCacheTooOld(tooOld, today)).toBe(true);
     });
 
     it('should return true if date is less than or equal to cacheDays days ago', () => {
       const today = new DateTime();
-      const withinWindow = new DateTime().add(-cacheDays, Duration.DAY);
+      const withinWindow = new DateTime().subtract(cacheDays, Duration.DAY);
       expect(journalProvider.isCacheTooOld(withinWindow, today)).toBe(false);
     });
   });
@@ -159,7 +159,7 @@ describe('JournalProvider', () => {
         examiner: { staffNumber: '1234' },
       };
       const dataWthinWindowCache = {
-        dateStored: new DateTime().add(cacheDays, Duration.DAY).format('YYYY/MM/DD'),
+        dateStored: new DateTime().add(cacheDays, Duration.DAY).format('yyyy/MM/dd'),
         data: exampleSchedule,
       };
 
@@ -175,8 +175,9 @@ describe('JournalProvider', () => {
       const exampleSchedule: ExaminerWorkSchedule = {
         examiner: { staffNumber: '1234' },
       };
+      console.log(new DateTime().subtract(cacheDays + 1, Duration.DAY).format('yyyy/MM/dd'));
       const agedCache = {
-        dateStored: new DateTime().add(-(cacheDays + 1), Duration.DAY).format('YYYY/MM/DD'),
+        dateStored: new DateTime().subtract(cacheDays + 1, Duration.DAY).format('yyyy/MM/dd'),
         data: exampleSchedule,
       };
       // override mock getItem as we need data to test

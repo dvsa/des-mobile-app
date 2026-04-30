@@ -4,7 +4,7 @@ import * as startTimeActionTypes from './start-time.actions';
 
 const initialState: string = null;
 
-const timeFormat = 'YYYY-MM-DDTHH:mm';
+const timeFormat = "yyyy-MM-dd'T'HH:mm";
 
 export const startTimeReducer = createReducer(
   initialState,

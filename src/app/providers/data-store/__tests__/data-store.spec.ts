@@ -221,7 +221,6 @@ describe('DataStoreProvider', () => {
 
   describe('initDataStore', () => {
     it('should define the CordovaSQLiteDriver and create storage successfully', async () => {
-      console.log(storage.defineDriver);
       spyOn(storage, 'defineDriver').and.returnValue(Promise.resolve());
       const createSpy = spyOn(storage, 'create').and.returnValue(Promise.resolve({} as Storage));
       await provider.initDataStore();

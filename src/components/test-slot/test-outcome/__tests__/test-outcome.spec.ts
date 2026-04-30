@@ -184,7 +184,7 @@ describe('TestOutcomeComponent', () => {
     testSlotDetail = {
       duration: 57,
       slotId: 123,
-      start: new DateTime(null, 'UK').format('YYYY-MM-DDTHH:mm:ss'),
+      start: new DateTime(null, 'UK').format("yyyy-MM-dd'T'HH:mm:ss"),
     };
 
     fixture = TestBed.createComponent(TestOutcomeComponent);
@@ -486,7 +486,7 @@ describe('TestOutcomeComponent', () => {
       });
       it('should return true for a test that was started as a rekey and the date is in the past', () => {
         component.slotDetail = testSlotDetail;
-        component.slotDetail.start = new DateTime().subtract(1, Duration.DAY).format('YYYY-MM-DDTHH:mm:ss');
+        component.slotDetail.start = new DateTime().subtract(1, Duration.DAY).format("yyyy-MM-dd'T'HH:mm:ss");
         component.testStatus = TestStatus.Started;
         component.isRekey = true;
 
@@ -496,7 +496,7 @@ describe('TestOutcomeComponent', () => {
       });
       it('should return false for test that was started as a rekey and the date is today', () => {
         component.slotDetail = testSlotDetail;
-        component.slotDetail.start = new DateTime().format('YYYY-MM-DDTHH:mm:ss');
+        component.slotDetail.start = new DateTime().format("yyyy-MM-dd'T'HH:mm:ss");
         component.testStatus = TestStatus.Started;
         component.isRekey = true;
 
@@ -506,7 +506,7 @@ describe('TestOutcomeComponent', () => {
       });
       it('should return true for a new test if date is in past', () => {
         component.slotDetail = testSlotDetail;
-        component.slotDetail.start = new DateTime().subtract(1, Duration.DAY).format('YYYY-MM-DDTHH:mm:ss');
+        component.slotDetail.start = new DateTime().subtract(1, Duration.DAY).format("yyyy-MM-dd'T'HH:mm:ss");
         component.testStatus = null;
 
         component.showRekeyButton();
@@ -515,7 +515,7 @@ describe('TestOutcomeComponent', () => {
       });
       it('should return true for a booked test if date is in past', () => {
         component.slotDetail = testSlotDetail;
-        component.slotDetail.start = new DateTime().subtract(1, Duration.DAY).format('YYYY-MM-DDTHH:mm:ss');
+        component.slotDetail.start = new DateTime().subtract(1, Duration.DAY).format("yyyy-MM-dd'T'HH:mm:ss");
         component.testStatus = TestStatus.Booked;
 
         component.showRekeyButton();
@@ -524,7 +524,7 @@ describe('TestOutcomeComponent', () => {
       });
       it('should return false for a resumed test if date is in past', () => {
         component.slotDetail = testSlotDetail;
-        component.slotDetail.start = new DateTime().subtract(1, Duration.DAY).format('YYYY-MM-DDTHH:mm:ss');
+        component.slotDetail.start = new DateTime().subtract(1, Duration.DAY).format("yyyy-MM-dd'T'HH:mm:ss");
         component.testStatus = TestStatus.Started;
 
         component.showRekeyButton();
@@ -533,7 +533,7 @@ describe('TestOutcomeComponent', () => {
       });
       it('should return true for a booked test if date is in the past', () => {
         component.slotDetail = testSlotDetail;
-        component.slotDetail.start = new DateTime().subtract(1, Duration.DAY).format('YYYY-MM-DDTHH:mm:ss');
+        component.slotDetail.start = new DateTime().subtract(1, Duration.DAY).format("yyyy-MM-dd'T'HH:mm:ss");
         component.testStatus = TestStatus.Booked;
 
         component.showRekeyButton();
@@ -542,7 +542,7 @@ describe('TestOutcomeComponent', () => {
       });
       it('should return false for a booked test if date is today', () => {
         component.slotDetail = testSlotDetail;
-        component.slotDetail.start = new DateTime().format('YYYY-MM-DDTHH:mm:ss');
+        component.slotDetail.start = new DateTime().format("yyyy-MM-dd'T'HH:mm:ss");
         component.testStatus = TestStatus.Booked;
 
         component.showRekeyButton();
@@ -551,7 +551,7 @@ describe('TestOutcomeComponent', () => {
       });
       it('should return false for a resumed test if date is today', () => {
         component.slotDetail = testSlotDetail;
-        component.slotDetail.start = new DateTime().format('YYYY-MM-DDTHH:mm:ss');
+        component.slotDetail.start = new DateTime().format("yyyy-MM-dd'T'HH:mm:ss");
         component.testStatus = TestStatus.Started;
 
         component.showRekeyButton();
@@ -629,7 +629,7 @@ describe('TestOutcomeComponent', () => {
     describe('earlyStart', () => {
       it('should create and present the early start modal', () => {
         component.slotDetail = testSlotDetail;
-        component.slotDetail.start = new DateTime(null, 'UK').add(8, Duration.MINUTE).format('YYYY-MM-DDTHH:mm:ss');
+        component.slotDetail.start = new DateTime(null, 'UK').add(8, Duration.MINUTE).format("yyyy-MM-dd'T'HH:mm:ss");
         component.testStatus = TestStatus.Booked;
         spyOn(component, 'displayCheckStartModal');
         fixture.detectChanges();
@@ -639,7 +639,7 @@ describe('TestOutcomeComponent', () => {
       });
       it('should not create and present the early start modal', () => {
         component.slotDetail = testSlotDetail;
-        component.slotDetail.start = new DateTime(null, 'UK').add(2, Duration.MINUTE).format('YYYY-MM-DDTHH:mm:ss');
+        component.slotDetail.start = new DateTime(null, 'UK').add(2, Duration.MINUTE).format("yyyy-MM-dd'T'HH:mm:ss");
         component.testStatus = TestStatus.Booked;
         spyOn(component, 'displayCheckStartModal');
         fixture.detectChanges();
@@ -663,7 +663,7 @@ describe('TestOutcomeComponent', () => {
         component.slotDetail = testSlotDetail;
         component.category = TestCategory.B;
         component.testStatus = TestStatus.Booked;
-        component.slotDetail.start = new DateTime().subtract(1, Duration.DAY).format('YYYY-MM-DDTHH:mm:ss');
+        component.slotDetail.start = new DateTime().subtract(1, Duration.DAY).format("yyyy-MM-dd'T'HH:mm:ss");
         fixture.detectChanges();
         spyOn(component, 'rekeyTest');
         const rekeyButton = fixture.debugElement.query(By.css('.mes-rekey-button'));
@@ -683,7 +683,7 @@ describe('TestOutcomeComponent', () => {
     describe('rekeyDelegatedTest', () => {
       it('should call the rekeyDelegatedTest method when `Rekey` is clicked', () => {
         component.slotDetail = testSlotDetail;
-        component.slotDetail.start = new DateTime().subtract(1, Duration.DAY).format('YYYY-MM-DDTHH:mm:ss');
+        component.slotDetail.start = new DateTime().subtract(1, Duration.DAY).format("yyyy-MM-dd'T'HH:mm:ss");
         component.category = TestCategory.BE;
         component.isDelegatedTest = true;
         spyOn(component, 'showDelegatedExaminerRekeyButton').and.returnValue(true);

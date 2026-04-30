@@ -130,9 +130,9 @@ describe('JournalSelector', () => {
     ];
 
     beforeEach(() => {
-      today = new DateTime().format('YYYY-MM-DD');
-      tomorrow = new DateTime().add(1, Duration.DAY).format('YYYY-MM-DD');
-      yesterday = new DateTime().subtract(1, Duration.DAY).format('YYYY-MM-DD');
+      today = new DateTime().format('yyyy-MM-dd');
+      tomorrow = new DateTime().add(1, Duration.DAY).format('yyyy-MM-dd');
+      yesterday = new DateTime().subtract(1, Duration.DAY).format('yyyy-MM-dd');
     });
 
     it('should return true if there are any next days', () => {
@@ -180,7 +180,7 @@ describe('JournalSelector', () => {
     });
 
     it('should return false if the current selected date is not a weekend and in the future', () => {
-      const nextYear = new DateTime().add(1, Duration.YEAR).format('YYYY-MM-DD');
+      const nextYear = new DateTime().add(1, Duration.YEAR).format('yyyy-MM-dd');
 
       const journal: JournalModel = {
         recallAutoPopupLastDisplayedTime: null,
