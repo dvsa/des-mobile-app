@@ -450,7 +450,7 @@ export const fakeJournalTestSlots = [
           lastName: 'Middleton',
           title: 'Mr',
         },
-        driverNumber: 'MIddL925671F95DC',
+        driverNumber: 'MIDDL925671F95DC',
         gender: 'M',
         mobileTelephone: '07654 123456',
         primaryTelephone: '01234 567890',
