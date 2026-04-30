@@ -123,7 +123,7 @@ describe('CompetencyComponent', () => {
     });
 
     describe('addDrivingFault', () => {
-      it('should dispatch a THROTTLE_Add_DRIVING_FAULT action for press', () => {
+      it('should dispatch a THROTTLE_ADD_DRIVING_FAULT action for press', () => {
         component.competency = Competencies.controlsSteering;
 
         const storeDispatchSpy = spyOn(store$, 'dispatch');
@@ -136,7 +136,7 @@ describe('CompetencyComponent', () => {
           })
         );
       });
-      it('should not dispatch an Add_DRIVING_FAULT action for tap', () => {
+      it('should not dispatch an ADD_DRIVING_FAULT action for tap', () => {
         component.competency = Competencies.controlsSteering;
 
         const storeDispatchSpy = spyOn(store$, 'dispatch');
@@ -149,7 +149,7 @@ describe('CompetencyComponent', () => {
           })
         );
       });
-      it('should not dispatch an Add_DRIVING_FAULT action if there is a serious fault', () => {
+      it('should not dispatch an ADD_DRIVING_FAULT action if there is a serious fault', () => {
         component.competency = Competencies.awarenessPlanning;
         component.hasSeriousFault = true;
 
@@ -163,7 +163,7 @@ describe('CompetencyComponent', () => {
           })
         );
       });
-      it('should not dispatch an Add_DRIVING_FAULT action if serious mode is active', () => {
+      it('should not dispatch an ADD_DRIVING_FAULT action if serious mode is active', () => {
         component.competency = Competencies.clearance;
         component.isSeriousMode = true;
 
@@ -177,7 +177,7 @@ describe('CompetencyComponent', () => {
           })
         );
       });
-      it('should not dispatch an Add_DRIVING_FAULT action if there is a dangerous fault', () => {
+      it('should not dispatch an ADD_DRIVING_FAULT action if there is a dangerous fault', () => {
         component.competency = Competencies.awarenessPlanning;
         component.hasDangerousFault = true;
 
@@ -191,7 +191,7 @@ describe('CompetencyComponent', () => {
           })
         );
       });
-      it('should not dispatch an Add_DRIVING_FAULT action if dangerous mode is active', () => {
+      it('should not dispatch an ADD_DRIVING_FAULT action if dangerous mode is active', () => {
         component.competency = Competencies.clearance;
         component.isDangerousMode = true;
 
@@ -208,7 +208,7 @@ describe('CompetencyComponent', () => {
     });
 
     describe('addDangerousFault', () => {
-      it('should dispatch a Add_DANGEROUS_FAULT action if dangerous mode is active on press', () => {
+      it('should dispatch a ADD_DANGEROUS_FAULT action if dangerous mode is active on press', () => {
         component.competency = Competencies.clearance;
         component.isDangerousMode = true;
 
@@ -218,7 +218,7 @@ describe('CompetencyComponent', () => {
         expect(storeDispatchSpy).toHaveBeenCalledWith(AddDangerousFault(component.competency));
         expect(storeDispatchSpy).toHaveBeenCalledWith(ToggleDangerousFaultMode());
       });
-      it('should dispatch a Add_DANGEROUS_FAULT action if dangerous mode is active on press and hold', () => {
+      it('should dispatch a ADD_DANGEROUS_FAULT action if dangerous mode is active on press and hold', () => {
         component.competency = Competencies.clearance;
         component.isDangerousMode = true;
 
@@ -228,7 +228,7 @@ describe('CompetencyComponent', () => {
         expect(storeDispatchSpy).toHaveBeenCalledWith(AddDangerousFault(component.competency));
         expect(storeDispatchSpy).toHaveBeenCalledWith(ToggleDangerousFaultMode());
       });
-      it('should not dispatch a Add_DANGEROUS_FAULT action if there is a dangerous fault', () => {
+      it('should not dispatch a ADD_DANGEROUS_FAULT action if there is a dangerous fault', () => {
         component.competency = Competencies.clearance;
         component.hasDangerousFault = true;
         component.isDangerousMode = true;
@@ -242,7 +242,7 @@ describe('CompetencyComponent', () => {
     });
 
     describe('addSeriousFault', () => {
-      it('should dispatch an Add_SERIOUS_FAULT action if serious mode is active', () => {
+      it('should dispatch an ADD_SERIOUS_FAULT action if serious mode is active', () => {
         component.competency = Competencies.clearance;
         component.isSeriousMode = true;
 
@@ -252,7 +252,7 @@ describe('CompetencyComponent', () => {
         expect(storeDispatchSpy).toHaveBeenCalledWith(AddSeriousFault(component.competency));
         expect(storeDispatchSpy).toHaveBeenCalledWith(ToggleSeriousFaultMode());
       });
-      it('should not dispatch a Add_SERIOUS_FAULT action if there is a serious fault', () => {
+      it('should not dispatch a ADD_SERIOUS_FAULT action if there is a serious fault', () => {
         component.competency = Competencies.clearance;
         component.hasSeriousFault = true;
         component.isSeriousMode = true;
@@ -263,7 +263,7 @@ describe('CompetencyComponent', () => {
         expect(storeDispatchSpy).not.toHaveBeenCalledWith(AddSeriousFault(component.competency));
         expect(storeDispatchSpy).not.toHaveBeenCalledWith(ToggleSeriousFaultMode());
       });
-      it('should not dispatch a Add_SERIOUS_FAULT action if dangerous mode is active', () => {
+      it('should not dispatch a ADD_SERIOUS_FAULT action if dangerous mode is active', () => {
         component.competency = Competencies.clearance;
         component.isDangerousMode = true;
 
@@ -273,7 +273,7 @@ describe('CompetencyComponent', () => {
         expect(storeDispatchSpy).not.toHaveBeenCalledWith(AddSeriousFault(component.competency));
         expect(storeDispatchSpy).not.toHaveBeenCalledWith(ToggleSeriousFaultMode());
       });
-      it('should not dispatch a Add_SERIOUS_FAULT action if there is a dangerous fault', () => {
+      it('should not dispatch a ADD_SERIOUS_FAULT action if there is a dangerous fault', () => {
         component.competency = Competencies.clearance;
         component.hasDangerousFault = true;
         component.isSeriousMode = true;
@@ -471,7 +471,7 @@ describe('CompetencyComponent', () => {
     });
 
     describe('buttonClick', () => {
-      it('should dispatch Add_DANGEROUS_FAULT action if dangerous mode is active', () => {
+      it('should dispatch ADD_DANGEROUS_FAULT action if dangerous mode is active', () => {
         component.competency = Competencies.clearance;
         component.isDangerousMode = true;
 
@@ -482,7 +482,7 @@ describe('CompetencyComponent', () => {
         expect(storeDispatchSpy).toHaveBeenCalledWith(ToggleDangerousFaultMode());
       });
 
-      it('should dispatch Add_SERIOUS_FAULT action if serious mode is active', () => {
+      it('should dispatch ADD_SERIOUS_FAULT action if serious mode is active', () => {
         component.competency = Competencies.clearance;
         component.isSeriousMode = true;
 
