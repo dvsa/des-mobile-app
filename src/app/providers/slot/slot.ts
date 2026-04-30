@@ -154,16 +154,20 @@ export class SlotProvider {
     return slotStart.isSameOrBefore(maxViewStart);
   }
 
+  getToday(): DateTime {
+    return new DateTime();
+  }
+
   getLatestViewableSlotDateTime(): DateTime {
-    const today = new DateTime().date;
-    // add 3 days if current day is friday, 2 if saturday, else add 1
+    const today: DateTime = this.getToday();
+    // add 3 days if current day is Friday, 2 if Saturday, else add 1
     let daysToAdd: number;
 
-    if (today.getUTCDay() === 5) {
+    if (today.getAsDate().getUTCDay() === 5) {
       daysToAdd = 3;
     } else {
-      daysToAdd = today.getUTCDay() === 6 ? 2 : 1;
+      daysToAdd = today.getAsDate().getUTCDay() === 6 ? 2 : 1;
     }
-    return new DateTime().add(daysToAdd, Duration.DAY).startOf(Duration.DAY);
+    return today.add(daysToAdd, Duration.DAY).startOf(Duration.DAY);
   }
 }

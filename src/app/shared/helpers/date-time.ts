@@ -43,7 +43,7 @@ export enum DateRange {
 export type TimezoneOptions = 'UTC' | 'UK';
 
 export class DateTime {
-  date: Date; // always stored as UTC Date
+  private date: Date; // always stored as UTC Date
   timeZone: TimezoneOptions = 'UTC';
 
   constructor(source?: DateTime | string | Date | number, timeZone: 'UTC' | 'UK' = 'UTC', keepLocalTime = false) {
@@ -108,6 +108,10 @@ export class DateTime {
 
   static at(source: DateTime | string | Date, timeZone: TimezoneOptions = 'UTC', keepLocalTime = false): DateTime {
     return new DateTime(source, timeZone, keepLocalTime);
+  }
+
+  getAsDate(): Date {
+    return this.date;
   }
 
   add(amount: number, unit: Duration): DateTime {

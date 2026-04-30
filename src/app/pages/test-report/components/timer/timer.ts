@@ -44,7 +44,7 @@ export class TimerComponent {
   };
 
   generateTimerString = (): void => {
-    const date: Date = new DateTime('0000-01-01').date;
+    const date: Date = new DateTime('0000-01-01').getAsDate();
     date.setSeconds(this.seconds);
 
     const hours = date.getHours();

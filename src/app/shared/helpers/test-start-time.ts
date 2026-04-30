@@ -13,7 +13,7 @@ export function getNewTestStartTime(inputDate: string, startDateTime: string): s
   const month = dateArray[1];
   const day = dateArray[2];
 
-  const startDateTemp = DateTime.at(startDateTime).date;
+  const startDateTemp = DateTime.at(startDateTime).getAsDate();
 
   startDateTemp.setFullYear(year, month - 1, day);
   // Database schema accepts only 19 characters for the start date time property

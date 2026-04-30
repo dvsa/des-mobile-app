@@ -538,4 +538,32 @@ describe('SlotProvider', () => {
       expect(result).toBeFalse();
     });
   });
+  describe('getLatestViewableSlotDateTime', () => {
+    it('adds 3 days when today is Friday (UTC day 5)', () => {
+      spyOn(slotProvider, 'getToday').and.returnValue(new DateTime('2024-01-05'));
+
+      const result = slotProvider.getLatestViewableSlotDateTime();
+
+      const expected = new DateTime('2024-01-08'); // Saturday + 2 days
+      expect(result.getAsDate().getUTCDay()).toBe(expected.getAsDate().getUTCDay());
+    });
+
+    it('adds 2 days when today is Saturday (UTC day 6)', () => {
+      spyOn(slotProvider, 'getToday').and.returnValue(new DateTime('2024-01-06'));
+
+      const result = slotProvider.getLatestViewableSlotDateTime();
+
+      const expected = new DateTime('2024-01-08'); // Saturday + 2 days
+      expect(result.getAsDate().getUTCDay()).toBe(expected.getAsDate().getUTCDay());
+    });
+
+    it('adds 1 day for any other weekday (e.g., Thursday)', () => {
+      spyOn(slotProvider, 'getToday').and.returnValue(new DateTime('2024-01-04'));
+
+      const result = slotProvider.getLatestViewableSlotDateTime();
+
+      const expected = new DateTime('2024-01-05'); // Saturday + 2 days
+      expect(result.getAsDate().getUTCDay()).toBe(expected.getAsDate().getUTCDay());
+    });
+  });
 });

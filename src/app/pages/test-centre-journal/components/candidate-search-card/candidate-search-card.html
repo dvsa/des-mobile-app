@@ -53,7 +53,7 @@
       <ion-row>
         <ion-col class="ion-text-center">
           <h2 class="des-header-style-1">Today</h2>
-          <h3 class="des-header-style-3">{{today?.date | date: 'EEEE d MMMM y'}}</h3>
+          <h3 class="des-header-style-3">{{today?.getAsDate() | date: 'EEEE d MMMM y'}}</h3>
         </ion-col>
       </ion-row>
     </ion-grid>
@@ -83,7 +83,7 @@
       <ion-row>
         <ion-col class="ion-text-center">
           <h2 class="des-header-style-1">Tomorrow</h2>
-          <h3 class="des-header-style-3">{{tomorrow?.date | date: 'EEEE d MMMM y'}}</h3>
+          <h3 class="des-header-style-3">{{tomorrow?.getAsDate() | date: 'EEEE d MMMM y'}}</h3>
         </ion-col>
       </ion-row>
     </ion-grid>
