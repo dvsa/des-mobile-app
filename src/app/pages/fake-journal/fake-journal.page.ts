@@ -34,6 +34,8 @@ export class FakeJournalPage extends BasePageComponent {
 
   @HostListener('document:visibilitychange')
   onVisibilityChange() {
+    //This function fires every time the visibility of the page changes,
+    //so we can regenerate the fake tests whenever the user opens the page.
     if (document.visibilityState === 'visible') {
       regenerateFakeTests();
     }
