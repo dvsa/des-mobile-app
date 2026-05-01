@@ -2123,7 +2123,6 @@ const getFakeTests = () => {
 };
 
 export const regenerateFakeTests = () => {
-  console.log('regenning');
   fakeJournalTestSlots = getFakeTests();
 };
 
