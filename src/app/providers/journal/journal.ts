@@ -86,7 +86,7 @@ export class JournalProvider {
   saveJournalForOffline = (journalData: ExaminerWorkSchedule) => {
     if (this.networkStateProvider.getNetworkState() === ConnectionStatus.ONLINE) {
       const journalDataToStore: JournalCache = {
-        dateStored: this.dateTimeProvider.now().format('YYYY/MM/DD'),
+        dateStored: this.dateTimeProvider.now().format('yyyy/MM/dd'),
         data: journalData,
       };
       this.dataStore.setItem(LocalStorageKey.JOURNAL, JSON.stringify(journalDataToStore)).then(() => {});
@@ -112,7 +112,7 @@ export class JournalProvider {
   emptyCachedData = () => {
     const emptyJournalData: ExaminerWorkSchedule = {};
     const journalDataToStore: JournalCache = {
-      dateStored: this.dateTimeProvider.now().format('YYYY/MM/DD'),
+      dateStored: this.dateTimeProvider.now().format('yyyy/MM/dd'),
       data: emptyJournalData,
     };
     this.dataStore.setItem(LocalStorageKey.JOURNAL, JSON.stringify(journalDataToStore)).then(() => {});

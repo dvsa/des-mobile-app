@@ -6,7 +6,7 @@ import { Store } from '@ngrx/store';
 import { CompressionProvider } from '@providers/compression/compression';
 import { RekeySearchProvider } from '@providers/rekey-search/rekey-search';
 import { SearchProvider } from '@providers/search/search';
-import { DateTime } from '@shared/helpers/date-time';
+import { DateTime, Duration } from '@shared/helpers/date-time';
 import { StoreModel } from '@shared/models/store.model';
 import { get } from 'lodash';
 import { Observable, of } from 'rxjs';
@@ -35,7 +35,7 @@ export class RekeySearchEffects {
       return false;
     }
     // Check if the test is more than 30 minutes old
-    return new DateTime().isBefore(new DateTime(bookedTestsSlot.slotDetail.start).add(30, 'minutes'));
+    return new DateTime().isBefore(new DateTime(bookedTestsSlot.slotDetail.start, 'UK', true).add(30, Duration.MINUTE));
   }
 
   getBooking$ = createEffect(() =>

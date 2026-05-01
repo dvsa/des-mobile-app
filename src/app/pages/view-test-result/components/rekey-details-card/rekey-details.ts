@@ -22,7 +22,7 @@ export class RekeyDetailsCardComponent {
 
   public get testDate(): string {
     const testDate: DateTime = new DateTime(get(this.data, 'journalData.testSlotAttributes.start'), 'UK', true);
-    return testDate.format('dddd Do MMMM YYYY');
+    return testDate.format('EEEE do MMMM yyyy');
   }
 
   public get rekeyedStaffNumber(): string {
@@ -31,6 +31,6 @@ export class RekeyDetailsCardComponent {
 
   public get rekeyDate(): string {
     const rekeyDate: DateTime = new DateTime(get(this.data, 'rekeyDate'), 'UK', true);
-    return rekeyDate.format('dddd Do MMMM YYYY');
+    return rekeyDate.format('EEEE do MMMM yyyy');
   }
 }

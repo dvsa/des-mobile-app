@@ -10,7 +10,7 @@ import { DataStoreProvider, LocalStorageKey } from '@providers/data-store/data-s
 import { LoadingProvider } from '@providers/loader/loader';
 import { LogHelper } from '@providers/logs/logs-helper';
 import { SearchProvider } from '@providers/search/search';
-import { DateRange, DateTime } from '@shared/helpers/date-time';
+import { DateRange, DateTime, Duration } from '@shared/helpers/date-time';
 import { getResultTableApplicationReference } from '@shared/helpers/formatters';
 import { serialiseLogMessage } from '@shared/helpers/serialise-log-message';
 import { LogType } from '@shared/models/log.model';
@@ -134,7 +134,7 @@ export class ExaminerRecordsProvider {
    * Get the date from a set date range ago in order to display on screen.
    *
    * This method calculates the date based on the provided date range.
-   * It returns the current date for 'today', one week ago for 'week',
+   * It returns the current date for 'today', one week ago for Duration.WEEK,
    * two weeks ago for 'fortnight', 90 days ago for '90 days',
    * one year ago for '1 year', and 18 months ago for '18 months'.
    *
@@ -146,17 +146,17 @@ export class ExaminerRecordsProvider {
       case DateRange.TODAY:
         return new DateTime();
       case DateRange.WEEK:
-        return new DateTime().subtract(1, 'week');
+        return new DateTime().subtract(1, Duration.WEEK);
       case DateRange.FORTNIGHT:
-        return new DateTime().subtract(2, 'week');
+        return new DateTime().subtract(2, Duration.WEEK);
       case DateRange.THIRTY_DAYS:
-        return new DateTime().subtract(30, 'days');
+        return new DateTime().subtract(30, Duration.DAY);
       case DateRange.NINETY_DAYS:
-        return new DateTime().subtract(90, 'days');
+        return new DateTime().subtract(90, Duration.DAY);
       case DateRange.ONE_YEAR:
-        return new DateTime().subtract(1, 'year');
+        return new DateTime().subtract(1, Duration.YEAR);
       case DateRange.EIGHTEEN_MONTHS:
-        return new DateTime().subtract(18, 'months');
+        return new DateTime().subtract(18, Duration.MONTH);
       default:
         return null;
     }
@@ -179,7 +179,7 @@ export class ExaminerRecordsProvider {
       testCategory: testResult.category as TestCategory,
       activityCode: Number(testResult.activityCode),
       testCentre: testResult.journalData.testCentre,
-      startDate: new DateTime(testResult.journalData.testSlotAttributes.start).format('YYYY-MM-DD'),
+      startDate: new DateTime(testResult.journalData.testSlotAttributes.start).format('yyyy-MM-dd'),
     };
 
     [

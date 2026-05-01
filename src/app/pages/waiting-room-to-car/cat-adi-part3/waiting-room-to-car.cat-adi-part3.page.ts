@@ -11,7 +11,7 @@ import {
   CommonWaitingRoomToCarPageState,
   WaitingRoomToCarBasePageComponent,
 } from '@shared/classes/test-flow-base-pages/waiting-room-to-car/waiting-room-to-car-base-page';
-import { DateTime } from '@shared/helpers/date-time';
+import { DateTime, Duration } from '@shared/helpers/date-time';
 import { TrainerAccompanimentToggled } from '@store/tests/accompaniment/cat-adi3/accompaniment.cat-adi3.actions';
 import { getAccompaniment } from '@store/tests/accompaniment/cat-adi3/accompaniment.cat-adi3.reducer';
 import { getTrainerAccompaniment } from '@store/tests/accompaniment/cat-adi3/accompaniment.cat-adi3.selector';
@@ -89,9 +89,9 @@ export class WaitingRoomToCarCatADIPart3Page extends WaitingRoomToCarBasePageCom
     if (this.form.valid) {
       if (this.testCategory === TestCategory.SC) {
         const startTime = new DateTime(null, 'UK');
-        const endTime = new DateTime(null, 'UK').add(45, 'minutes');
-        this.store$.dispatch(StartTimeChanged(startTime.format('YYYY-MM-DDTHH:mm:ss')));
-        this.store$.dispatch(EndTimeChanged(endTime.format('YYYY-MM-DDTHH:mm:ss')));
+        const endTime = new DateTime(null, 'UK').add(45, Duration.MINUTE);
+        this.store$.dispatch(StartTimeChanged(startTime.format("yyyy-MM-dd'T'HH:mm:ss")));
+        this.store$.dispatch(EndTimeChanged(endTime.format("yyyy-MM-dd'T'HH:mm:ss")));
       }
       await this.routeByCategoryProvider.navigateToPage(TestFlowPageNames.TEST_REPORT_DASHBOARD_PAGE);
       return;

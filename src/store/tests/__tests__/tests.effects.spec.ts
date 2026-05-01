@@ -244,7 +244,7 @@ describe('TestsEffects', () => {
 
   describe('startTestEffect$', () => {
     it('should copy the examiner from the journal state into the test state', (done) => {
-      const selectedDate: string = new DateTime().format('YYYY-MM-DD');
+      const selectedDate: string = new DateTime().format('yyyy-MM-dd');
       const examiner = {
         staffNumber: '123',
         individualId: 456,
@@ -274,7 +274,7 @@ describe('TestsEffects', () => {
     });
 
     it('should mark the test as a rekey when this is a rekey', (done) => {
-      const selectedDate: string = new DateTime().format('YYYY-MM-DD');
+      const selectedDate: string = new DateTime().format('yyyy-MM-dd');
       const examiner = {
         staffNumber: '123',
         individualId: 456,

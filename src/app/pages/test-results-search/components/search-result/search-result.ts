@@ -22,7 +22,7 @@ export class SearchResultComponent {
   ) {}
 
   getDate(): string {
-    return DateTime.at(this.searchResult.testDate, 'UK', true).format('DD/MM/YYYY');
+    return DateTime.at(this.searchResult.testDate, 'UK', true).format('dd/MM/yyyy');
   }
 
   getTime(): string {

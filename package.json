@@ -113,6 +113,8 @@
     "cordova-plugin-network-information": "^3.0.0",
     "cordova-plugin-secure-storage-echo": "^5.1.1",
     "cordova-sqlite-storage": "^7.0.0",
+    "date-fns": "^4.1.0",
+    "date-fns-tz": "^3.2.0",
     "dayjs": "^1.11.20",
     "deep-diff": "^1.0.2",
     "emoji-regex": "^10.4.0",

@@ -1,24 +1,33 @@
-import dayjs, { Dayjs } from 'dayjs';
-import advancedFormat from 'dayjs/plugin/advancedFormat';
-import isSameOrAfter from 'dayjs/plugin/isSameOrAfter';
-import isSameOrBefore from 'dayjs/plugin/isSameOrBefore';
-import isoWeek from 'dayjs/plugin/isoWeek';
-import timezone from 'dayjs/plugin/timezone';
-import utc from 'dayjs/plugin/utc';
+import {
+  add as dfAdd,
+  format as dfFormat,
+  isAfter as dfIsAfter,
+  isBefore as dfIsBefore,
+  isEqual as dfIsEqual,
+  sub as dfSub,
+  differenceInDays,
+  differenceInHours,
+  differenceInMinutes,
+  differenceInSeconds,
+  differenceInYears,
+  parseISO,
+  startOfDay,
+  startOfHour,
+  startOfMinute,
+  startOfSecond,
+  startOfYear,
+} from 'date-fns';
 
-dayjs.extend(utc);
-dayjs.extend(timezone);
-dayjs.extend(isoWeek);
-dayjs.extend(isSameOrAfter);
-dayjs.extend(isSameOrBefore);
-dayjs.extend(advancedFormat);
+import { fromZonedTime, toZonedTime } from 'date-fns-tz';
 
 export enum Duration {
-  YEAR = 'year',
-  DAY = 'day',
-  HOUR = 'hour',
-  MINUTE = 'minute',
-  SECOND = 'second',
+  YEAR = 'years',
+  DAY = 'days',
+  HOUR = 'hours',
+  MINUTE = 'minutes',
+  SECOND = 'seconds',
+  WEEK = 'weeks',
+  MONTH = 'months',
 }
 
 export enum DateRange {
@@ -34,127 +43,180 @@ export enum DateRange {
 export type TimezoneOptions = 'UTC' | 'UK';
 
 export class DateTime {
-  dayjs: Dayjs;
+  private date: Date; // always stored as UTC Date
   timeZone: TimezoneOptions = 'UTC';
 
-  constructor(
-    sourceDateTime?: DateTime | string | Date | number,
-    timeZone: TimezoneOptions = 'UTC',
-    keepLocalTime = false
-  ) {
-    if (sourceDateTime === undefined || sourceDateTime === null) {
-      this.dayjs = dayjs();
-    } else if (typeof sourceDateTime === 'string') {
-      this.dayjs = dayjs(new Date(sourceDateTime));
-    } else if (typeof sourceDateTime === 'number') {
-      //This converts Epoch time to standard time
-      this.dayjs = dayjs(new Date(sourceDateTime * 1000));
-    } else if (sourceDateTime instanceof Date) {
-      this.dayjs = dayjs(sourceDateTime);
-    } else {
-      this.dayjs = dayjs(sourceDateTime.dayjs);
-    }
-
+  constructor(source?: DateTime | string | Date | number, timeZone: 'UTC' | 'UK' = 'UTC', keepLocalTime = false) {
     this.timeZone = timeZone;
 
-    switch (timeZone) {
-      case 'UTC':
-        this.dayjs = this.dayjs.utc(keepLocalTime);
-        break;
-      case 'UK':
-        this.dayjs = this.dayjs.utc(keepLocalTime).tz('Europe/London', keepLocalTime);
-        break;
+    const normalized = this.normalizeInput(source);
+
+    // If input already contains a timezone offset, just parse it.
+    const hasOffset = /([Zz]|[+-]\d\d:\d\d)$/.test(normalized);
+
+    if (hasOffset) {
+      this.date = new Date(normalized);
+      return;
+    }
+
+    // Otherwise treat it as a local time in the target zone
+    if (timeZone === 'UTC') {
+      this.date = parseISO(normalized);
+      return;
+    }
+
+    if (keepLocalTime) {
+      this.date = fromZonedTime(normalized, 'Europe/London');
+    } else {
+      const d = parseISO(normalized);
+      this.date = toZonedTime(d, 'Europe/London');
     }
   }
 
-  static at(
-    sourceDateTime: DateTime | string | Date,
-    timeZone: TimezoneOptions = 'UTC',
-    keepLocalTime = false
-  ): DateTime {
-    return new DateTime(sourceDateTime, timeZone, keepLocalTime);
+  private normalizeInput(input?: DateTime | string | Date | number): string {
+    if (!input) {
+      return new Date().toISOString();
+    }
+
+    if (input instanceof DateTime) {
+      return input.date.toISOString();
+    }
+
+    if (typeof input === 'number') {
+      return new Date(input * 1000).toISOString();
+    }
+
+    if (typeof input === 'string') {
+      //If the input contains slashes of any kind, convert it to a parsable format
+      const dmy = /^(\d{2})\/(\d{2})\/(\d{4})$/;
+      if (dmy.test(input)) {
+        const [_, dd, mm, yyyy] = input.match(dmy);
+        return `${yyyy}-${mm}-${dd}`;
+      }
+
+      const ymd = /^(\d{4})\/(\d{2})\/(\d{2})$/;
+      if (ymd.test(input)) {
+        const [_, yyyy, mm, dd] = input.match(ymd);
+        return `${yyyy}-${mm}-${dd}`;
+      }
+
+      return input;
+    }
+
+    return input.toISOString();
   }
 
-  add(amount: number, unit: dayjs.ManipulateType): DateTime {
-    this.dayjs = this.dayjs.add(amount, unit);
+  static at(source: DateTime | string | Date, timeZone: TimezoneOptions = 'UTC', keepLocalTime = false): DateTime {
+    return new DateTime(source, timeZone, keepLocalTime);
+  }
+
+  getAsDate(): Date {
+    return this.date;
+  }
+
+  add(amount: number, unit: Duration): DateTime {
+    this.date = dfAdd(this.date, { [unit]: amount });
     return this;
   }
 
-  subtract(amount: number, unit: dayjs.ManipulateType): DateTime {
-    this.dayjs = this.dayjs.subtract(amount, unit);
+  subtract(amount: number, unit: Duration): DateTime {
+    this.date = dfSub(this.date, { [unit]: amount });
     return this;
   }
 
-  format(formatString: string): string {
-    return this.dayjs.format(formatString);
-  }
-
-  day(): number {
-    return this.dayjs.day();
+  format(fmt: string): string {
+    return dfFormat(this.date, fmt);
   }
 
   toString(): string {
-    return this.dayjs.toString();
+    const zone = this.timeZone === 'UK' ? 'Europe/London' : 'UTC';
+    return dfFormat(toZonedTime(this.date, zone), "EEE MMM dd yyyy HH:mm:ss 'GMT'XXX");
   }
 
-  isAfter(targetDate: DateTime): boolean {
-    return this.dayjs.isAfter(targetDate.dayjs);
+  isAfter(target: DateTime): boolean {
+    return dfIsAfter(this.date, target.date);
   }
 
-  diff(targetDate: DateTime, duration: Duration, precise?: boolean): number {
-    return this.dayjs.diff(targetDate.dayjs, duration, precise);
+  isBefore(target: DateTime): boolean {
+    return dfIsBefore(this.date, target.date);
   }
 
-  startOf(timeUnit: Duration) {
-    this.dayjs = this.dayjs.startOf(timeUnit);
+  isSameOrBefore(target: DateTime): boolean {
+    return dfIsBefore(this.date, target.date) || dfIsEqual(this.date, target.date);
+  }
+
+  isSameOrAfter(target: DateTime): boolean {
+    return dfIsAfter(this.date, target.date) || dfIsEqual(this.date, target.date);
+  }
+
+  diff(target: DateTime, duration: Duration): number {
+    const a = target.date;
+    const b = this.date;
+
+    switch (duration) {
+      case Duration.YEAR:
+        return differenceInYears(a, b);
+      case Duration.DAY:
+        return differenceInDays(a, b);
+      case Duration.HOUR:
+        return differenceInHours(a, b);
+      case Duration.MINUTE:
+        return differenceInMinutes(a, b);
+      case Duration.SECOND:
+        return differenceInSeconds(a, b);
+    }
+  }
+
+  daysDiff(target: DateTime): number {
+    return differenceInDays(startOfDay(target.date), startOfDay(this.date));
+  }
+
+  startOf(unit: Duration): DateTime {
+    switch (unit) {
+      case Duration.YEAR:
+        this.date = startOfYear(this.date);
+        break;
+      case Duration.DAY:
+        this.date = startOfDay(this.date);
+        break;
+      case Duration.HOUR:
+        this.date = startOfHour(this.date);
+        break;
+      case Duration.MINUTE:
+        this.date = startOfMinute(this.date);
+        break;
+      case Duration.SECOND:
+        this.date = startOfSecond(this.date);
+        break;
+    }
     return this;
   }
 
-  daysDiff(targetDate: DateTime): number {
-    const today = this.dayjs.startOf(Duration.DAY);
-    return targetDate.dayjs.startOf(Duration.DAY).diff(today, Duration.DAY);
-  }
-
-  compareDuration(targetDate: DateTime, duration: Duration): number {
-    return targetDate.dayjs.diff(this.dayjs, duration);
-  }
-
-  isBefore(targetDate: DateTime): boolean {
-    return this.dayjs.isBefore(targetDate.dayjs);
-  }
-
-  isSameOrBefore(targetDate: DateTime): boolean {
-    return this.dayjs.isSameOrBefore(targetDate.dayjs);
-  }
-
-  isSameOrAfter(targetDate: DateTime): boolean {
-    return this.dayjs.isSameOrAfter(targetDate.dayjs);
+  day(): number {
+    const zone = this.timeZone === 'UK' ? 'Europe/London' : 'UTC';
+    return toZonedTime(this.date, zone).getDay();
   }
 
   isDuringDateRange(range: DateRange): boolean {
-    const today = new DateTime().startOf(Duration.DAY);
-
+    const comparisonDate = new DateTime().startOf(Duration.DAY);
     const dateRange = (() => {
       switch (range) {
         case DateRange.TODAY:
-          return today;
+          return comparisonDate;
         case DateRange.WEEK:
-          return today.subtract(1, 'week');
+          return comparisonDate.subtract(1, Duration.DAY).subtract(6, Duration.DAY);
         case DateRange.FORTNIGHT:
-          return today.subtract(2, 'weeks');
+          return comparisonDate.subtract(14, Duration.DAY);
         case DateRange.THIRTY_DAYS:
-          return today.subtract(30, 'days');
+          return comparisonDate.subtract(30, Duration.DAY);
         case DateRange.NINETY_DAYS:
-          return today.subtract(90, 'days');
+          return comparisonDate.subtract(90, Duration.DAY);
         case DateRange.ONE_YEAR:
-          return today.subtract(1, 'year');
+          return comparisonDate.subtract(1, Duration.YEAR);
         case DateRange.EIGHTEEN_MONTHS:
-          return today.subtract(18, 'months');
-        default:
-          return null;
+          return comparisonDate.subtract(18, Duration.MONTH);
       }
     })();
-
     return this.isSameOrAfter(dateRange);
   }
 }

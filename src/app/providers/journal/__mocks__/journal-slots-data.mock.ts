@@ -13,7 +13,7 @@ const slotItems: SlotItem[] = localJournalJson.testSlots.map((testSlot) => {
 });
 
 const slots: { [k: string]: SlotItem[] } = groupBy(slotItems, (slot: SlotItem) =>
-  DateTime.at(slot.slotData.slotDetail.start).format('YYYY-MM-DD')
+  DateTime.at(slot.slotData.slotDetail.start).format('yyyy-MM-dd')
 );
 
 export default slots;

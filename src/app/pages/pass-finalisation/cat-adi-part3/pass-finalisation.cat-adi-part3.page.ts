@@ -13,7 +13,7 @@ import {
   CommonPassFinalisationPageState,
   PassFinalisationPageComponent,
 } from '@shared/classes/test-flow-base-pages/pass-finalisation/pass-finalisation-base-page';
-import { DateTime } from '@shared/helpers/date-time';
+import { DateTime, Duration } from '@shared/helpers/date-time';
 import { isAnyOf } from '@shared/helpers/simplifiers';
 import { getTestCategory } from '@store/tests/category/category.reducer';
 import { getCandidate } from '@store/tests/journal-data/common/candidate/candidate.reducer';
@@ -94,7 +94,7 @@ export class PassFinalisationCatADIPart3Page extends PassFinalisationPageCompone
         map(([testResult]) => testResult),
         select(getTestData),
         select(getTestStartTime),
-        map((time: string) => time || new DateTime(null, 'UK').format('YYYY-MM-DDTHH:mm:ss'))
+        map((time: string) => time || new DateTime(null, 'UK').format("yyyy-MM-dd'T'HH:mm:ss"))
       ),
       testEndTime$: currentTest$.pipe(
         withLatestFrom(category$),
@@ -102,7 +102,7 @@ export class PassFinalisationCatADIPart3Page extends PassFinalisationPageCompone
         map(([testResult]) => testResult),
         select(getTestData),
         select(getTestEndTime),
-        map((time: string) => time || new DateTime(null, 'UK').add(1, 'hour').format('YYYY-MM-DDTHH:mm:ss'))
+        map((time: string) => time || new DateTime(null, 'UK').add(1, Duration.HOUR).format("yyyy-MM-dd'T'HH:mm:ss"))
       ),
     };
 

@@ -16,7 +16,7 @@ describe('TestPersistenceProvider', () => {
   let testPersistenceProvider: TestPersistenceProvider;
   let dataStoreProvider: DataStoreProvider;
   let testState: TestsModel;
-  const todaysDate = new DateTime().format('YYYY-MM-DDTHH:mm:ss');
+  const todaysDate = new DateTime().format("yyyy-MM-dd'T'HH:mm:ss");
 
   beforeEach(() => {
     TestBed.configureTestingModule({

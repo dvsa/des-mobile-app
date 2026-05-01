@@ -126,7 +126,7 @@ describe('LogsEffects', () => {
       };
 
       const agedCache = {
-        dateStored: new DateTime().add(-(cacheDays + 1), Duration.DAY).format('YYYY/MM/DD'),
+        dateStored: new DateTime().subtract(cacheDays + 1, Duration.DAY).format('yyyy/MM/dd'),
         data: log,
       };
 
@@ -144,7 +144,7 @@ describe('LogsEffects', () => {
       });
     });
 
-    xit('should return data without emptying cache if data is not too old', (done) => {
+    it('should return data without emptying cache if data is not too old', (done) => {
       const log: Log = {
         test: 'xyz',
         type: LogType.DEBUG,
@@ -153,7 +153,7 @@ describe('LogsEffects', () => {
         drivingExaminerId: '1234567',
       };
       const dataWithinWindowCache = {
-        dateStored: new DateTime().add(cacheDays - 1, Duration.DAY).format('YYYY/MM/DD'),
+        dateStored: new DateTime().add(cacheDays - 1, Duration.DAY).format('yyyy/MM/dd'),
         data: [log],
       };
 
@@ -175,14 +175,14 @@ describe('LogsEffects', () => {
   describe('isCacheTooOld', () => {
     it('should return true if date is greater than cacheDays days ago', (done) => {
       const today = new DateTime();
-      const tooOld = new DateTime().add(-(cacheDays + 1), Duration.DAY);
+      const tooOld = new DateTime().subtract(cacheDays + 1, Duration.DAY);
       expect(effects.isCacheTooOld(tooOld, today)).toBe(true);
       done();
     });
 
     it('should return true if date is less than or equal to cacheDays days ago', (done) => {
       const today = new DateTime();
-      const withinWindow = new DateTime().add(-cacheDays, Duration.DAY);
+      const withinWindow = new DateTime().subtract(cacheDays, Duration.DAY);
       expect(effects.isCacheTooOld(withinWindow, today)).toBe(false);
       done();
     });

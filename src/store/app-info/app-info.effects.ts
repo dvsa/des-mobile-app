@@ -62,7 +62,7 @@ export class AppInfoEffects {
       switchMap(() =>
         of(
           SetDateConfigLoaded({
-            refreshDate: this.dateTimeProvider.now().format('YYYY-MM-DD'),
+            refreshDate: this.dateTimeProvider.now().format('yyyy-MM-dd'),
           })
         )
       )
@@ -73,7 +73,7 @@ export class AppInfoEffects {
     this.actions$.pipe(
       ofType(SetDateConfigLoaded),
       concatMap((action) => of(action).pipe(withLatestFrom(this.store$.select(selectDateConfigLoaded)))),
-      filter(([, dateConfigLoaded]) => dateConfigLoaded !== this.dateTimeProvider.now().format('YYYY-MM-DD')),
+      filter(([, dateConfigLoaded]) => dateConfigLoaded !== this.dateTimeProvider.now().format('yyyy-MM-dd')),
       map(() => HasSeenUpdateAvailablePopup(false))
     )
   );
@@ -82,7 +82,7 @@ export class AppInfoEffects {
     this.actions$.pipe(
       ofType(AppResumed),
       concatMap((action) => of(action).pipe(withLatestFrom(this.store$.select(selectDateConfigLoaded)))),
-      filter(([, dateConfigLoaded]) => dateConfigLoaded !== this.dateTimeProvider.now().format('YYYY-MM-DD')),
+      filter(([, dateConfigLoaded]) => dateConfigLoaded !== this.dateTimeProvider.now().format('yyyy-MM-dd')),
       concatMap(() => this.router.navigate([LOGIN_PAGE])),
       switchMap(() => {
         console.log('App resumed after being suspended. Config was not loaded today... app will refresh');

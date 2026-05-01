@@ -2,7 +2,11 @@ import { DateTime, Duration } from '@shared/helpers/date-time';
 import { end2endPracticeSlotId } from '@shared/mocks/test-slot-ids.mock';
 
 const fakeTimeConfigure = (hour: number, minute = 0) =>
-  new DateTime(null, 'UK').startOf(Duration.DAY).add(hour, 'hour').add(minute, 'minutes').format('YYYY-MM-DDTHH:mm:ss');
+  new DateTime(null, 'UK')
+    .startOf(Duration.DAY)
+    .add(hour, Duration.HOUR)
+    .add(minute, Duration.MINUTE)
+    .format("yyyy-MM-dd'T'HH:mm:ss");
 
 export const fakeJournalTestSlots = [
   {

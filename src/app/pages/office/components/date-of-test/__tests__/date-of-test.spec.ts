@@ -31,14 +31,14 @@ describe('DateOfTest', () => {
     });
 
     it('should set maxDate to today', () => {
-      const today = new DateTime().format('YYYY-MM-DD');
+      const today = new DateTime().format('yyyy-MM-dd');
       component.dateOfTest = '15/06/2025';
       component.ngOnInit();
       expect(component.maxDate).toBe(today);
     });
 
     it('should set minDate to one year ago', () => {
-      const oneYearAgo = new DateTime().subtract(1, Duration.YEAR).format('YYYY-MM-DD');
+      const oneYearAgo = new DateTime().subtract(1, Duration.YEAR).format('yyyy-MM-dd');
       component.dateOfTest = '15/06/2025';
       component.ngOnInit();
       expect(component.minDate).toBe(oneYearAgo);

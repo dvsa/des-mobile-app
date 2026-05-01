@@ -253,7 +253,7 @@ export class TestOutcomeComponent implements OnInit {
         this.category,
         true,
         false,
-        DateTime.at(new DateTime(this.slotDetail.start, 'UK', true)).format('YYYY-MM-DD')
+        DateTime.at(new DateTime(this.slotDetail.start, 'UK', true)).format('yyyy-MM-dd')
       )
     );
     await this.router.navigate([
@@ -381,10 +381,7 @@ export class TestOutcomeComponent implements OnInit {
   };
 
   shouldDisplayCheckStartModal(): boolean {
-    const minsUntilTest = new DateTime().compareDuration(
-      new DateTime(this.slotDetail.start, 'UK', true),
-      Duration.MINUTE
-    );
+    const minsUntilTest = new DateTime().diff(new DateTime(this.slotDetail.start, 'UK', true), Duration.MINUTE);
     return minsUntilTest > 5;
   }
 

@@ -89,8 +89,8 @@ export class DashboardPage extends BasePageComponent implements OnInit, ViewDidE
     super(injector);
 
     this.todaysDate = this.dateTimeProvider.now();
-    this.todaysDateFormatted = this.dateTimeProvider.now().format('dddd Do MMMM YYYY');
-    this.store$.dispatch(journalActions.SetSelectedDate(this.dateTimeProvider.now().format('YYYY-MM-DD')));
+    this.todaysDateFormatted = this.dateTimeProvider.now().format('EEEE do MMMM yyyy');
+    this.store$.dispatch(journalActions.SetSelectedDate(this.dateTimeProvider.now().format('yyyy-MM-dd')));
   }
 
   ngOnInit() {
@@ -160,7 +160,7 @@ export class DashboardPage extends BasePageComponent implements OnInit, ViewDidE
   async ionViewWillEnter(): Promise<boolean> {
     super.ionViewWillEnter();
     this.todaysDate = this.dateTimeProvider.now();
-    this.todaysDateFormatted = this.dateTimeProvider.now().format('dddd Do MMMM YYYY');
+    this.todaysDateFormatted = this.dateTimeProvider.now().format('EEEE do MMMM yyyy');
 
     await this.appConfigProvider.getAppConfigAsync();
 

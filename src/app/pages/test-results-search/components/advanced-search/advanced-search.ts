@@ -103,10 +103,10 @@ export class AdvancedSearchComponent {
   compareEndDate: Date = null;
   focusedElement: string = null;
   displayType = DisplayType;
-  today = new DateTime().format('YYYY-MM-DD');
-  todayPlaceholder = new DateTime().format('DD/MM/YYYY');
-  minStartDate = new DateTime().subtract(2, Duration.YEAR).format('YYYY-MM-DD');
-  minStartDatePlaceholder = new DateTime().subtract(2, Duration.YEAR).format('DD/MM/YYYY');
+  today = new DateTime().format('yyyy-MM-dd');
+  todayPlaceholder = new DateTime().format('dd/MM/yyyy');
+  minStartDate = new DateTime().subtract(2, Duration.YEAR).format('yyyy-MM-dd');
+  minStartDatePlaceholder = new DateTime().subtract(2, Duration.YEAR).format('dd/MM/yyyy');
 
   constructor(
     public accessibilityService: AccessibilityService,

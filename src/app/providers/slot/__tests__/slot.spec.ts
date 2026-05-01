@@ -296,7 +296,7 @@ describe('SlotProvider', () => {
   });
 
   describe('getSlotDate', () => {
-    it('should return the correct date YYYY-MM-DD', () => {
+    it('should return the correct date yyyy-MM-dd', () => {
       const slot = {
         slotData: {
           slotDetail: {
@@ -468,7 +468,7 @@ describe('SlotProvider', () => {
         },
       });
       const futureSlot = cloneDeep(mockSlot);
-      futureSlot.slotDetail.start = DateTime.at(startTime).add(1, Duration.DAY).format('YYYY-MM-DDTHH:mm:ss+00:00');
+      futureSlot.slotDetail.start = DateTime.at(startTime).add(1, Duration.DAY).format("yyyy-MM-dd'T'HH:mm:ss+00:00");
       expect(slotProvider.canStartTest(futureSlot)).toEqual(false);
     });
   });
@@ -536,6 +536,34 @@ describe('SlotProvider', () => {
       const result = slotProvider.hasPeriodEndCriteria(slotDate, periodTo);
 
       expect(result).toBeFalse();
+    });
+  });
+  describe('getLatestViewableSlotDateTime', () => {
+    it('adds 3 days when today is Friday (UTC day 5)', () => {
+      spyOn(slotProvider, 'getToday').and.returnValue(new DateTime('2024-01-05'));
+
+      const result = slotProvider.getLatestViewableSlotDateTime();
+
+      const expected = new DateTime('2024-01-08'); // Saturday + 2 days
+      expect(result.getAsDate().getUTCDay()).toBe(expected.getAsDate().getUTCDay());
+    });
+
+    it('adds 2 days when today is Saturday (UTC day 6)', () => {
+      spyOn(slotProvider, 'getToday').and.returnValue(new DateTime('2024-01-06'));
+
+      const result = slotProvider.getLatestViewableSlotDateTime();
+
+      const expected = new DateTime('2024-01-08'); // Saturday + 2 days
+      expect(result.getAsDate().getUTCDay()).toBe(expected.getAsDate().getUTCDay());
+    });
+
+    it('adds 1 day for any other weekday (e.g., Thursday)', () => {
+      spyOn(slotProvider, 'getToday').and.returnValue(new DateTime('2024-01-04'));
+
+      const result = slotProvider.getLatestViewableSlotDateTime();
+
+      const expected = new DateTime('2024-01-05'); // Saturday + 2 days
+      expect(result.getAsDate().getUTCDay()).toBe(expected.getAsDate().getUTCDay());
     });
   });
 });

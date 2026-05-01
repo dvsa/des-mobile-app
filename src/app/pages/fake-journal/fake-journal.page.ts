@@ -28,8 +28,8 @@ export class FakeJournalPage extends BasePageComponent {
   ) {
     super(injector);
 
-    this.selectedDate = this.dateTimeProvider.now().format('YYYY-MM-DD');
-    this.dateToDisplay = new DateTime().format('dddd D MMMM YYYY');
+    this.selectedDate = this.dateTimeProvider.now().format('yyyy-MM-dd');
+    this.dateToDisplay = new DateTime().format('dddd d MMMM yyyy');
   }
 
   ionViewDidEnter(): void {

@@ -403,7 +403,7 @@ export class JournalEffects {
       ),
       filter(([, , canNavigateToPreviousDayVal]) => canNavigateToPreviousDayVal),
       switchMap(([, selectedDate]) => {
-        const previousDay = DateTime.at(selectedDate).add(-1, Duration.DAY).format('YYYY-MM-DD');
+        const previousDay = DateTime.at(selectedDate).subtract(1, Duration.DAY).format('yyyy-MM-dd');
 
         return [journalActions.SetSelectedDate(previousDay), journalActions.JournalNavigateDay(previousDay)];
       })
@@ -423,7 +423,7 @@ export class JournalEffects {
       ),
       filter(([, , canNavigateToNextDayVal]) => canNavigateToNextDayVal),
       switchMap(([, selectedDate]) => {
-        const nextDay = DateTime.at(selectedDate).add(1, Duration.DAY).format('YYYY-MM-DD');
+        const nextDay = DateTime.at(selectedDate).add(1, Duration.DAY).format('yyyy-MM-dd');
 
         return [journalActions.SetSelectedDate(nextDay), journalActions.JournalNavigateDay(nextDay)];
       })
