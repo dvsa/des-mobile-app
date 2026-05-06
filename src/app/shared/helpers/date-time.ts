@@ -43,48 +43,50 @@ export enum DateRange {
 export type TimezoneOptions = 'UTC' | 'UK';
 
 export class DateTime {
-  private date: Date; // always stored as UTC Date
+  private date: Date; // always stored as UTC
   timeZone: TimezoneOptions = 'UTC';
 
-  constructor(source?: DateTime | string | Date | number, timeZone: 'UTC' | 'UK' = 'UTC', keepLocalTime = false) {
+  constructor(source?: DateTime | string | Date | number, timeZone: TimezoneOptions = 'UTC', keepLocalTime = false) {
     this.timeZone = timeZone;
 
     const normalized = this.normalizeInput(source);
-
-    // If input already contains a timezone offset, just parse it.
     const hasOffset = /([Zz]|[+-]\d\d:\d\d)$/.test(normalized);
+    const zone = this.getZone();
 
+    // If input already contains a timezone offset, just parse it as-is
     if (hasOffset) {
       this.date = new Date(normalized);
       return;
     }
 
-    // Otherwise treat it as a local time in the target zone
-    if (timeZone === 'UTC') {
-      this.date = parseISO(normalized);
+    // Special case: plain date string 'yyyy-MM-dd' → interpret as midnight in target zone
+    if (typeof normalized === 'string' && this.isDateOnly(normalized)) {
+      // midnight in target zone, stored as UTC
+      this.date = fromZonedTime(`${normalized}T00:00:00`, zone);
       return;
     }
 
+    // Otherwise treat it as a local time in the target zone
     if (keepLocalTime) {
-      this.date = fromZonedTime(normalized, 'Europe/London');
+      this.date = fromZonedTime(normalized, zone);
     } else {
       const d = parseISO(normalized);
-      this.date = toZonedTime(d, 'Europe/London');
+      this.date = toZonedTime(d, zone);
     }
   }
 
+  private isDateOnly(input: string): boolean {
+    return /^\d{4}-\d{2}-\d{2}$/.test(input);
+  }
+
+  private getZone(): string {
+    return this.timeZone === 'UK' ? 'Europe/London' : 'UTC';
+  }
+
   private normalizeInput(input?: DateTime | string | Date | number): string {
-    if (!input) {
-      return new Date().toISOString();
-    }
-
-    if (input instanceof DateTime) {
-      return input.date.toISOString();
-    }
-
-    if (typeof input === 'number') {
-      return new Date(input * 1000).toISOString();
-    }
+    if (!input) return new Date().toISOString();
+    if (input instanceof DateTime) return input.date.toISOString();
+    if (typeof input === 'number') return new Date(input * 1000).toISOString();
 
     if (typeof input === 'string') {
       //If the input contains slashes of any kind, convert it to a parsable format
@@ -124,13 +126,16 @@ export class DateTime {
     return this;
   }
 
-  format(fmt: string): string {
+  format(fmt: string, overrideLocalTimeZone = true): string {
+    if (overrideLocalTimeZone) {
+      const zone = this.getZone();
+      return dfFormat(toZonedTime(this.date, zone), fmt);
+    }
     return dfFormat(this.date, fmt);
   }
 
   toString(): string {
-    const zone = this.timeZone === 'UK' ? 'Europe/London' : 'UTC';
-    return dfFormat(toZonedTime(this.date, zone), "EEE MMM dd yyyy HH:mm:ss 'GMT'XXX");
+    return this.format("EEE MMM dd yyyy HH:mm:ss 'GMT'XXX");
   }
 
   isAfter(target: DateTime): boolean {
@@ -168,43 +173,50 @@ export class DateTime {
   }
 
   daysDiff(target: DateTime): number {
-    return differenceInDays(startOfDay(target.date), startOfDay(this.date));
+    const zone = this.getZone();
+    const a = startOfDay(toZonedTime(target.date, zone));
+    const b = startOfDay(toZonedTime(this.date, zone));
+    return differenceInDays(a, b);
   }
 
   startOf(unit: Duration): DateTime {
+    const zone = this.getZone();
+    const zoned = toZonedTime(this.date, zone);
+
     switch (unit) {
       case Duration.YEAR:
-        this.date = startOfYear(this.date);
+        this.date = fromZonedTime(startOfYear(zoned), zone);
         break;
       case Duration.DAY:
-        this.date = startOfDay(this.date);
+        this.date = fromZonedTime(startOfDay(zoned), zone);
         break;
       case Duration.HOUR:
-        this.date = startOfHour(this.date);
+        this.date = fromZonedTime(startOfHour(zoned), zone);
         break;
       case Duration.MINUTE:
-        this.date = startOfMinute(this.date);
+        this.date = fromZonedTime(startOfMinute(zoned), zone);
         break;
       case Duration.SECOND:
-        this.date = startOfSecond(this.date);
+        this.date = fromZonedTime(startOfSecond(zoned), zone);
         break;
     }
     return this;
   }
 
   day(): number {
-    const zone = this.timeZone === 'UK' ? 'Europe/London' : 'UTC';
+    const zone = this.getZone();
     return toZonedTime(this.date, zone).getDay();
   }
 
   isDuringDateRange(range: DateRange): boolean {
-    const comparisonDate = new DateTime().startOf(Duration.DAY);
+    const comparisonDate = new DateTime(undefined, this.timeZone).startOf(Duration.DAY);
+
     const dateRange = (() => {
       switch (range) {
         case DateRange.TODAY:
           return comparisonDate;
         case DateRange.WEEK:
-          return comparisonDate.subtract(1, Duration.DAY).subtract(6, Duration.DAY);
+          return comparisonDate.subtract(7, Duration.DAY);
         case DateRange.FORTNIGHT:
           return comparisonDate.subtract(14, Duration.DAY);
         case DateRange.THIRTY_DAYS:
@@ -217,6 +229,7 @@ export class DateTime {
           return comparisonDate.subtract(18, Duration.MONTH);
       }
     })();
+
     return this.isSameOrAfter(dateRange);
   }
 }

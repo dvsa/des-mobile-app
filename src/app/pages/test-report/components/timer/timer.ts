@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { DateTime } from '@shared/helpers/date-time';
 import { StoreModel } from '@shared/models/store.model';
 import { StartTimer } from '../../test-report.actions';
 
@@ -44,19 +43,16 @@ export class TimerComponent {
   };
 
   generateTimerString = (): void => {
-    const date: Date = new DateTime('0000-01-01').getAsDate();
+    const date = new Date(0); // always epoch midnight UTC
     date.setSeconds(this.seconds);
 
-    const hours = date.getHours();
-    const minutes = date.getMinutes();
-    const seconds = date.getSeconds();
+    const hours = date.getUTCHours();
+    const minutes = date.getUTCMinutes();
+    const seconds = date.getUTCSeconds();
 
-    const showExtraZeroHours = hours < 10;
-    const showExtraZeroMinutes = minutes < 10;
-    const showExtraZeroSeconds = seconds < 10;
-
-    this.timerString = `${showExtraZeroHours ? '0' : ''}${hours}:${
-      showExtraZeroMinutes ? '0' : ''
-    }${minutes}:${showExtraZeroSeconds ? '0' : ''}${seconds}`;
+    this.timerString =
+      `${hours.toString().padStart(2, '0')}:` +
+      `${minutes.toString().padStart(2, '0')}:` +
+      `${seconds.toString().padStart(2, '0')}`;
   };
 }

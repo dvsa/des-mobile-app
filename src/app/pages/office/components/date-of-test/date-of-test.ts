@@ -33,8 +33,9 @@ export class DateOfTest implements OnInit {
 
   ngOnInit() {
     this.customTestDate = new DateTime(this.dateOfTest).format('yyyy-MM-dd');
-    this.maxDate = new DateTime().format('yyyy-MM-dd');
-    this.minDate = new DateTime().subtract(1, Duration.YEAR).format('yyyy-MM-dd');
+    const now = new DateTime();
+    this.maxDate = now.format('yyyy-MM-dd');
+    this.minDate = now.subtract(1, Duration.YEAR).format('yyyy-MM-dd');
   }
 
   handleCancel(dateTime: IonDatetime): Promise<void> {
