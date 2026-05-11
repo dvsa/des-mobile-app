@@ -3,7 +3,7 @@ import { JournalData } from '@dvsa/mes-test-schema/categories/common';
 import { MaskitoElementPredicate, MaskitoOptions } from '@maskito/core';
 
 /**
- * Provides a mask for input fields, forcing booking references into 1 of 2 formats depending on whether the first input is a letter.
+ * Provides a mask for input fields, forcing booking references into 1 of 2 formats depending on whether the first input is a D.
  *
  * @returns The mask
  * @param val
