@@ -133,14 +133,17 @@ jobs:
       - name: ➕ Install Dependencies
         run: npm ci
 
-      - name: ⚒️ Build project
-        run: npm run build:test
+      - name: 🔧 Generate Test Schema Version
+        run: npm run schema-version
+
+      - name: 🔍 Get App Version
+        run: echo "APP_VERSION=$(xmllint -xpath 'string(//*[local-name()="widget"]/@version)' config.xml)" >> $GITHUB_ENV
 
       - name: 📡 Run SonarQube Scan
         run: |
           npm run sonar -- \
           -Dsonar.host.url=${{ env.DES_GLOBALS_ENV_SONAR_HOST_URL }} \
           -Dsonar.token=${{ env.DES_GLOBALS_ENV_SONAR_TOKEN }} \
-          -Dsonar.login=${{ env.DES_GLOBALS_ENV_SONAR_TOKEN }} \
           -Dsonar.projectName=${{ github.event.repository.name }} \
+          -Dsonar.projectVersion=${{ env.APP_VERSION }} \
           -Dsonar.javascript.lcov.reportPaths=./coverage/ngv/lcov.info
