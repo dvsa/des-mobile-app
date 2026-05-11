@@ -1,6 +1,6 @@
-import { Component, Injector } from '@angular/core';
+import { Component, HostListener, Injector } from '@angular/core';
 import { Style } from '@capacitor/status-bar';
-import { fakeJournalTestSlots } from '@pages/fake-journal/__mocks__/fake-journal.mock';
+import { fakeJournalTestSlots, regenerateFakeTests } from '@pages/fake-journal/__mocks__/fake-journal.mock';
 import { FakeJournalDidEnter } from '@pages/fake-journal/fake-journal.actions';
 import { AccessibilityService } from '@providers/accessibility/accessibility.service';
 import { DateTimeProvider } from '@providers/date-time/date-time';
@@ -32,6 +32,15 @@ export class FakeJournalPage extends BasePageComponent {
     this.dateToDisplay = new DateTime().format('dddd D MMMM YYYY');
   }
 
+  @HostListener('document:visibilitychange')
+  onVisibilityChange() {
+    //This function fires every time the visibility of the page changes,
+    //so we can regenerate the fake tests whenever the user opens the page.
+    if (document.visibilityState === 'visible') {
+      regenerateFakeTests();
+    }
+  }
+
   ionViewDidEnter(): void {
     this.store$.dispatch(FakeJournalDidEnter());
   }
@@ -39,6 +48,7 @@ export class FakeJournalPage extends BasePageComponent {
   async ionViewWillEnter() {
     await this.accessibilityService.configureStatusBar(Style.Light);
     await this.orientationMonitorProvider.monitorOrientation();
+    regenerateFakeTests();
   }
 
   async ionViewWillLeave() {
