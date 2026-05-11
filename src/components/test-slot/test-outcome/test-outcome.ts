@@ -472,11 +472,15 @@ export class TestOutcomeComponent implements OnInit {
    * Ranges are dynamically extracted from bike category details.
    */
   isCategoryEqual(category1: TestCategory | string, category2: TestCategory | string): boolean {
+    if (!category1 || !category2) {
+      return false;
+    }
+
     if (category1 === category2) {
       return true;
     }
 
-    // check if category1 is a bike category, if not then return false )
+    // check if category1 is a bike category, if not then return false
     if (!category1.startsWith('EU')) {
       return false;
     }

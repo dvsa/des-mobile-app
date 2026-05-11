@@ -583,6 +583,26 @@ describe('TestOutcomeComponent', () => {
         expect(component.isCategoryEqual(TestCategory.C, TestCategory.B)).toEqual(false);
         expect(component.isCategoryEqual(TestCategory.EUA1M1, TestCategory.EUAM2)).toEqual(false);
       });
+
+      it('should return false when category1 is undefined', () => {
+        expect(component.isCategoryEqual(undefined, TestCategory.B)).toEqual(false);
+      });
+
+      it('should return false when category2 is undefined', () => {
+        expect(component.isCategoryEqual(TestCategory.B, undefined)).toEqual(false);
+      });
+
+      it('should return false when both categories are undefined', () => {
+        expect(component.isCategoryEqual(undefined, undefined)).toEqual(false);
+      });
+
+      it('should return false when category1 is null', () => {
+        expect(component.isCategoryEqual(null, TestCategory.B)).toEqual(false);
+      });
+
+      it('should return false when category2 is null', () => {
+        expect(component.isCategoryEqual(TestCategory.B, null)).toEqual(false);
+      });
     });
   });
 
