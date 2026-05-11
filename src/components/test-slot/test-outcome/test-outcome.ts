@@ -8,7 +8,9 @@ import { Store, select } from '@ngrx/store';
 import { JOURNAL_FORCE_CHECK_MODAL, TestFlowPageNames } from '@pages/page-names.constants';
 import { getRekeySearchState } from '@pages/rekey-search/rekey-search.reducer';
 import { getBookedTestSlot } from '@pages/rekey-search/rekey-search.selector';
+import { BikeTestType } from '@providers/bike-category-detail/bike-category-detail.model';
 import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
+import bikeCategoryDetails from '@shared/constants/bike-category-details/bike-category-details';
 import { DateTime, Duration } from '@shared/helpers/date-time';
 import { end2endPracticeSlotId } from '@shared/mocks/test-slot-ids.mock';
 import { ActivityCodes } from '@shared/models/activity-codes';
@@ -448,7 +450,7 @@ export class TestOutcomeComponent implements OnInit {
       ? !(
           isEqual(existingTest?.journalData?.candidate?.driverNumber, slot?.booking?.candidate?.driverNumber) &&
           isEqual(existingTest?.journalData?.candidate?.candidateName, slot?.booking?.candidate?.candidateName) &&
-          isEqual(existingTest?.category, slot?.booking?.application?.testCategory) &&
+          this.isCategoryEqual(existingTest?.category, slot?.booking?.application?.testCategory) &&
           isEqual(existingTest?.journalData?.testCentre, slot?.testCentre) &&
           isEqual(existingTestSlotAttributes, testSlotAttributes)
         )
@@ -462,5 +464,48 @@ export class TestOutcomeComponent implements OnInit {
     }
 
     return slotHasChanged;
+  }
+
+  /**
+   * Checks if two test categories are considered equal, with flexible matching for bike range categories.
+   * Categories in the same bike test type range are considered interchangeable.
+   * Ranges are dynamically extracted from bike category details.
+   */
+  isCategoryEqual(category1: TestCategory | string, category2: TestCategory | string): boolean {
+    if (!category1 || !category2) {
+      return false;
+    }
+
+    if (category1 === category2) {
+      return true;
+    }
+
+    // check if category1 is a bike category, if not then return false
+    if (!category1.startsWith('EU')) {
+      return false;
+    }
+
+    // Extract range of MOD1 categories
+    const mod1RangeCategories = bikeCategoryDetails
+      .filter((detail) => detail.testType === BikeTestType.MOD1)
+      .map((detail) => detail.categoryCode);
+
+    const isCategory1InMod1Range = mod1RangeCategories.includes(category1 as TestCategory);
+
+    // check if cat1 is in mod1 range to prevent additional processing of mod2 comparisons.
+    if (isCategory1InMod1Range) {
+      const isCategory2InMod1Range = mod1RangeCategories.includes(category2 as TestCategory);
+      return isCategory1InMod1Range && isCategory2InMod1Range;
+    }
+
+    // Extract range of MOD2 categories
+    const mod2RangeCategories = bikeCategoryDetails
+      .filter((detail) => detail.testType === BikeTestType.MOD2)
+      .map((detail) => detail.categoryCode);
+
+    const isCategory1InMod2Range = mod2RangeCategories.includes(category1 as TestCategory);
+    const isCategory2InMod2Range = mod2RangeCategories.includes(category2 as TestCategory);
+
+    return isCategory1InMod2Range && isCategory2InMod2Range;
   }
 }
