@@ -3,7 +3,7 @@ import { JournalData } from '@dvsa/mes-test-schema/categories/common';
 import { MaskitoElementPredicate, MaskitoOptions } from '@maskito/core';
 
 /**
- * Provides a mask for input fields, forcing booking references into 1 of 2 formats depending on whether the first input is a letter.
+ * Provides a mask for input fields, forcing booking references into 1 of 2 formats depending on whether the first input is a D.
  *
  * @returns The mask
  * @param val
@@ -13,7 +13,7 @@ export const bookingReferenceMask: MaskitoOptions = {
     if (/^\d/.test(value)) {
       return [/\d/, /\d/, /\d/, /\d/, /\d/, /\d/, /\d/, /\d/, /\d/, /\d/, /\d/];
     }
-    return [/[A-Z]/i, ' ', /\d/, /\d/, /\d/, ' ', /\d/, /\d/, /\d/, ' ', /\d/, /\d/, /[A-Z0-9]/i];
+    return [/[D]/i, ' ', /\d/, /\d/, /\d/, ' ', /\d/, /\d/, /\d/, ' ', /\d/, /\d/, /[ABCDEFGHJKLMNPQRTUVWXYZ0-9]/i];
   },
 };
 

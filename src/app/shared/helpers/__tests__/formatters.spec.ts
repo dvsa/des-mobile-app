@@ -1,6 +1,8 @@
 import { Application } from '@dvsa/mes-journal-schema';
 import { JournalData, TestSlotAttributes } from '@dvsa/mes-test-schema/categories/common';
+import { MaskitoOptions } from '@maskito/core';
 import {
+  bookingReferenceMask,
   formatApplicationReference,
   formatBookingReferenceForBackend,
   getApplicationId,
@@ -81,7 +83,12 @@ describe('Formatters', () => {
     });
 
     it('should return an empty object if all values are nullish', () => {
-      const input = { a: null, b: '', c: undefined, d: Number.NaN };
+      const input = {
+        a: null,
+        b: '',
+        c: undefined,
+        d: Number.NaN,
+      };
       const result = stripNullishValues(input);
       expect(result).toEqual({});
     });
@@ -186,6 +193,137 @@ describe('Formatters', () => {
     it('should handle strings with only symbols', () => {
       const result = formatBookingReferenceForBackend('!@#$%^&*()');
       expect(result).toBe('');
+    });
+  });
+
+  describe('bookingReferenceMask', () => {
+    let maskFn: (context: { value: string }) => (RegExp | string)[];
+
+    beforeEach(() => {
+      maskFn = (bookingReferenceMask as { mask: (context: { value: string }) => (RegExp | string)[] }).mask;
+    });
+
+    describe('when value starts with a digit', () => {
+      it('should return a numeric-only mask of 11 digits', () => {
+        const mask = maskFn({ value: '1' });
+        expect(mask.length).toBe(11);
+        mask.forEach((element) => {
+          expect(element).toBeInstanceOf(RegExp);
+          expect((element as RegExp).toString()).toBe('/\\d/');
+        });
+      });
+
+      it('should match any digit (0-9) in every position', () => {
+        const mask = maskFn({ value: '5' }) as RegExp[];
+        mask.forEach((regex) => {
+          for (let d = 0; d <= 9; d++) {
+            expect(regex.test(String(d))).toBe(true);
+          }
+        });
+      });
+
+      it('should not match a letter in a numeric mask position', () => {
+        const mask = maskFn({ value: '0' }) as RegExp[];
+        mask.forEach((regex) => {
+          expect(regex.test('A')).toBe(false);
+        });
+      });
+    });
+
+    describe('when value starts with a non-digit (D/d prefix expected)', () => {
+      it('should return a mask with 13 elements for a D-prefixed format', () => {
+        const mask = maskFn({ value: 'D' });
+        expect(mask.length).toBe(13);
+      });
+
+      it('should return a mask with 13 elements for an empty value', () => {
+        const mask = maskFn({ value: '' });
+        expect(mask.length).toBe(13);
+      });
+
+      it('should have a space string at positions 1, 5, and 9', () => {
+        const mask = maskFn({ value: 'D' });
+        expect(mask[1]).toBe(' ');
+        expect(mask[5]).toBe(' ');
+        expect(mask[9]).toBe(' ');
+      });
+
+      it('should match D or d at position 0', () => {
+        const mask = maskFn({ value: 'D' }) as (RegExp | string)[];
+        const firstElement = mask[0] as RegExp;
+        expect(firstElement).toBeInstanceOf(RegExp);
+        expect(firstElement.test('D')).toBe(true);
+        expect(firstElement.test('d')).toBe(true);
+        expect(firstElement.test('A')).toBe(false);
+        expect(firstElement.test('1')).toBe(false);
+      });
+
+      it('should match digits at positions 2, 3, 4', () => {
+        const mask = maskFn({ value: 'D' }) as (RegExp | string)[];
+        [2, 3, 4].forEach((pos) => {
+          const regex = mask[pos] as RegExp;
+          expect(regex).toBeInstanceOf(RegExp);
+          for (let d = 0; d <= 9; d++) {
+            expect(regex.test(String(d))).toBe(true);
+          }
+          expect(regex.test('A')).toBe(false);
+        });
+      });
+
+      it('should match digits at positions 6, 7, 8', () => {
+        const mask = maskFn({ value: 'D' }) as (RegExp | string)[];
+        [6, 7, 8].forEach((pos) => {
+          const regex = mask[pos] as RegExp;
+          expect(regex).toBeInstanceOf(RegExp);
+          for (let d = 0; d <= 9; d++) {
+            expect(regex.test(String(d))).toBe(true);
+          }
+          expect(regex.test('A')).toBe(false);
+        });
+      });
+
+      it('should match digits at positions 10 and 11', () => {
+        const mask = maskFn({ value: 'D' }) as (RegExp | string)[];
+        [10, 11].forEach((pos) => {
+          const regex = mask[pos] as RegExp;
+          expect(regex).toBeInstanceOf(RegExp);
+          for (let d = 0; d <= 9; d++) {
+            expect(regex.test(String(d))).toBe(true);
+          }
+          expect(regex.test('A')).toBe(false);
+        });
+      });
+
+      it('should match allowed alphanumeric characters at position 12', () => {
+        const mask = maskFn({ value: 'D' }) as (RegExp | string)[];
+        const lastElement = mask[12] as RegExp;
+        expect(lastElement).toBeInstanceOf(RegExp);
+
+        const allowedLetters = 'ABCDEFGHJKLMNPQRTUVWXYZabcdefghjklmnpqrtuvwxyz';
+        const allowedDigits = '0123456789';
+
+        for (const char of allowedLetters + allowedDigits) {
+          expect(lastElement.test(char)).toBe(true);
+        }
+      });
+
+      it('should NOT match excluded letters at position 12 (I, O, S)', () => {
+        const mask = maskFn({ value: 'D' }) as (RegExp | string)[];
+        const lastElement = mask[12] as RegExp;
+
+        // Letters excluded from the last position
+        const excludedLetters = ['I', 'i'];
+        for (const char of excludedLetters) {
+          expect(lastElement.test(char)).toBe(false);
+        }
+      });
+    });
+
+    describe('mask structure', () => {
+      it('should be a MaskitoOptions object with a mask function', () => {
+        expect(bookingReferenceMask).toBeDefined();
+        expect(typeof (bookingReferenceMask as MaskitoOptions).mask).toBe('function');
+      });
     });
   });
 });
