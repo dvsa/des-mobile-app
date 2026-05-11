@@ -102,7 +102,6 @@ export class AdvancedSearchComponent {
   compareStartDate: Date = null;
   compareEndDate: Date = null;
   focusedElement: string = null;
-  currentDate: string = new Date().toISOString().substring(0, 10);
   displayType = DisplayType;
   today = new DateTime().format('YYYY-MM-DD');
   todayPlaceholder = new DateTime().format('DD/MM/YYYY');
