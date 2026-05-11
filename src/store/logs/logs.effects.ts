@@ -26,7 +26,6 @@ type LogCache = {
 export class LogsEffects {
   // every 1 minute
   private static readonly fallBackInterval = 60000;
-  localStorageErrorTimer: Date = new Date();
 
   constructor(
     private actions$: Actions,
