@@ -47,7 +47,7 @@
     "update-mock-data:journal": "ts-node -P tsconfig.scripts.json mock/generate-local-journal.ts",
     "update-mock-data:nta": "ts-node -P tsconfig.scripts.json mock/generate-local-journal-non-test-activities.ts",
     "update-mock-data:tc-journal": "ts-node -P tsconfig.scripts.json mock/generate-local-test-centre-journal.ts",
-    "sonar": "buildScripts/sonar-properties-update.sh && npm run test && sonar",
+    "sonar": "npm run test && sonar",
     "sentry-deploy": "buildScripts/sentry-deploy.sh"
   },
   "dependencies": {
