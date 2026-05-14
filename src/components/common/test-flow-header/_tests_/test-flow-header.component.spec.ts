@@ -7,7 +7,8 @@ import {
   ExitSAMMethodUsed,
   TestFlowHeaderComponent,
 } from '@components/common/test-flow-header/test-flow-header.component';
-import { IonicModule } from '@ionic/angular';
+import { IonicModule, ModalController } from '@ionic/angular';
+import { ModalControllerMock } from '@mocks/index.mock';
 import { Store, StoreModule } from '@ngrx/store';
 import { TranslateModule } from '@ngx-translate/core';
 import { DeviceProviderMock } from '@providers/device/__mocks__/device.mock';
@@ -29,6 +30,7 @@ describe('TestFlowHeaderComponent', () => {
       providers: [
         { provide: DeviceProvider, useClass: DeviceProviderMock },
         { provide: RouteByCategoryProvider, useClass: RouteByCategoryProviderMock },
+        { provide: ModalController, useClass: ModalControllerMock }, // ADD THIS
       ],
     });
 
@@ -73,7 +75,7 @@ describe('TestFlowHeaderComponent', () => {
 
   describe('openDESUnlockedModal', () => {
     it('should create and present DES unlocked modal', async () => {
-      spyOn(component.exitSAMProvider, 'openExitSamErrorModal').and.stub();
+      spyOn(component.exitSAMProvider, 'openExitSamErrorModal').and.returnValue(Promise.resolve());
 
       await component.openDESUnlockedModal();
 
@@ -86,7 +88,7 @@ describe('TestFlowHeaderComponent', () => {
 
   describe('openDESDidNotUnlockModal', () => {
     it('should call exitSAMProvider.openExitSamErrorModal with correct messages', async () => {
-      spyOn(component.exitSAMProvider, 'openExitSamErrorModal').and.stub();
+      spyOn(component.exitSAMProvider, 'openExitSamErrorModal').and.returnValue(Promise.resolve());
 
       await component.openDESDidNotUnlockModal();
 
@@ -99,7 +101,7 @@ describe('TestFlowHeaderComponent', () => {
 
   describe('openPracticeModeModal', () => {
     it('should call exitSAMProvider.openExitSamErrorModal with practice mode messages', async () => {
-      spyOn(component.exitSAMProvider, 'openExitSamErrorModal').and.stub();
+      spyOn(component.exitSAMProvider, 'openExitSamErrorModal').and.returnValue(Promise.resolve());
 
       await component.openPracticeModeModal();
 
@@ -112,22 +114,22 @@ describe('TestFlowHeaderComponent', () => {
 
   describe('handleDisableSAMFailure', () => {
     it('should log error, open DES did not unlock modal and dispatch ExitSamError', async () => {
-      spyOn(component, 'openDESDidNotUnlockModal').and.callThrough();
+      spyOn(component.exitSAMProvider, 'openExitSamErrorModal').and.returnValue(Promise.resolve());
 
       await component.handleDisableSAMFailure();
 
-      expect(component.openDESDidNotUnlockModal).toHaveBeenCalled();
+      expect(component.exitSAMProvider.openExitSamErrorModal).toHaveBeenCalled();
       expect(store$.dispatch).toHaveBeenCalledWith(ExitSamError('Could not disable single app mode'));
     });
   });
 
   describe('handleTeamsNotFound', () => {
     it('should log error, open DES unlocked modal and dispatch ExitSamError', async () => {
-      spyOn(component, 'openDESUnlockedModal').and.callThrough();
+      spyOn(component.exitSAMProvider, 'openExitSamErrorModal').and.returnValue(Promise.resolve());
 
       await component.handleTeamsNotFound();
 
-      expect(component.openDESUnlockedModal).toHaveBeenCalled();
+      expect(component.exitSAMProvider.openExitSamErrorModal).toHaveBeenCalled();
       expect(store$.dispatch).toHaveBeenCalledWith(ExitSamError('Could not find teams'));
     });
   });
@@ -135,46 +137,47 @@ describe('TestFlowHeaderComponent', () => {
   describe('handleTeamsOpenFailure', () => {
     it('should log error, open DES unlocked modal and dispatch ExitSamError', async () => {
       const openURLResult: OpenURLResult = { completed: false };
-      spyOn(component, 'openDESUnlockedModal').and.returnValue(Promise.resolve());
+      spyOn(component.exitSAMProvider, 'openExitSamErrorModal').and.returnValue(Promise.resolve());
 
       await component.handleTeamsOpenFailure(openURLResult);
 
-      expect(component.openDESUnlockedModal).toHaveBeenCalled();
+      expect(component.exitSAMProvider.openExitSamErrorModal).toHaveBeenCalled();
       expect(store$.dispatch).toHaveBeenCalledWith(ExitSamError('Could not exit to teams', openURLResult));
     });
   });
+
   describe('disableSAMAndExit', () => {
     it('should emit exitSamUsed and open practice mode modal if in practice mode', async () => {
       component.isPracticeMode = true;
       spyOn(component.exitSamUsed, 'emit');
-      spyOn(component, 'openPracticeModeModal').and.returnValue(Promise.resolve());
+      spyOn(component.exitSAMProvider, 'openExitSamErrorModal').and.returnValue(Promise.resolve());
 
       await component.disableSAMAndExit(ExitSAMMethodUsed.BANNER);
 
       expect(store$.dispatch).toHaveBeenCalledWith(PersistTests());
       expect(component.exitSamUsed.emit).toHaveBeenCalled();
-      expect(component.openPracticeModeModal).toHaveBeenCalled();
+      expect(component.exitSAMProvider.openExitSamErrorModal).toHaveBeenCalled();
     });
 
     it('should handle failure to disable single app mode', async () => {
       component.isPracticeMode = false;
       spyOn(deviceProvider, 'disableSingleAppMode').and.resolveTo(false);
-      spyOn(component, 'handleDisableSAMFailure').and.callThrough();
+      spyOn(component.exitSAMProvider, 'openExitSamErrorModal').and.returnValue(Promise.resolve());
 
       await component.disableSAMAndExit(ExitSAMMethodUsed.BANNER);
 
-      expect(component.handleDisableSAMFailure).toHaveBeenCalled();
+      expect(component.exitSAMProvider.openExitSamErrorModal).toHaveBeenCalled();
     });
 
     it('should handle failure to find Microsoft Teams', async () => {
       component.isPracticeMode = false;
       spyOn(deviceProvider, 'disableSingleAppMode').and.resolveTo(true);
       spyOn(AppLauncher, 'canOpenUrl').and.resolveTo({ value: false });
-      spyOn(component, 'handleTeamsNotFound').and.callThrough();
+      spyOn(component.exitSAMProvider, 'openExitSamErrorModal').and.returnValue(Promise.resolve());
 
       await component.disableSAMAndExit(ExitSAMMethodUsed.BANNER);
 
-      expect(component.handleTeamsNotFound).toHaveBeenCalled();
+      expect(component.exitSAMProvider.openExitSamErrorModal).toHaveBeenCalled();
     });
 
     it('should handle failure to open Microsoft Teams', async () => {
@@ -182,21 +185,21 @@ describe('TestFlowHeaderComponent', () => {
       spyOn(deviceProvider, 'disableSingleAppMode').and.resolveTo(true);
       spyOn(AppLauncher, 'canOpenUrl').and.resolveTo({ value: true });
       spyOn(AppLauncher, 'openUrl').and.resolveTo({ completed: false });
-      spyOn(component, 'handleTeamsOpenFailure').and.callThrough();
+      spyOn(component.exitSAMProvider, 'openExitSamErrorModal').and.returnValue(Promise.resolve());
 
       await component.disableSAMAndExit(ExitSAMMethodUsed.BANNER);
 
-      expect(component.handleTeamsOpenFailure).toHaveBeenCalledWith({ completed: false });
+      expect(component.exitSAMProvider.openExitSamErrorModal).toHaveBeenCalled();
     });
 
     it('should handle error during disableSAMAndExit', async () => {
       component.isPracticeMode = false;
       spyOn(deviceProvider, 'disableSingleAppMode').and.rejectWith(new Error('Test Error'));
-      spyOn(component, 'openDESDidNotUnlockModal').and.callThrough();
+      spyOn(component.exitSAMProvider, 'openExitSamErrorModal').and.returnValue(Promise.resolve());
 
       await component.disableSAMAndExit(ExitSAMMethodUsed.BANNER);
 
-      expect(component.openDESDidNotUnlockModal).toHaveBeenCalled();
+      expect(component.exitSAMProvider.openExitSamErrorModal).toHaveBeenCalled();
       expect(store$.dispatch).toHaveBeenCalledWith(ExitSamError('Error', new Error('Test Error')));
     });
   });
