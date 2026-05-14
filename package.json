@@ -47,7 +47,7 @@
     "update-mock-data:journal": "ts-node -P tsconfig.scripts.json mock/generate-local-journal.ts",
     "update-mock-data:nta": "ts-node -P tsconfig.scripts.json mock/generate-local-journal-non-test-activities.ts",
     "update-mock-data:tc-journal": "ts-node -P tsconfig.scripts.json mock/generate-local-test-centre-journal.ts",
-    "sonar": "buildScripts/sonar-properties-update.sh && npm run test && sonar-scanner",
+    "sonar": "npm run test && sonar",
     "sentry-deploy": "buildScripts/sentry-deploy.sh"
   },
   "dependencies": {
@@ -149,6 +149,7 @@
     "@ionic/angular-toolkit": "^11.0.0",
     "@ionic/cli": "^7.2.1",
     "@sentry/cli": "^3.3.3",
+    "@sonar/scan": "^4.3.6",
     "@types/deep-diff": "^1.0.5",
     "@types/hammerjs": "^2.0.45",
     "@types/jasmine": "~5.1.4",
