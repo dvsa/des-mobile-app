@@ -146,6 +146,7 @@ jobs:
           sonar.sources=src
           sonar.exclusions=src/**/__tests__/**/*,src/**/__mocks__/**/*
           sonar.javascript.lcov.reportPaths=./coverage/ngv/lcov.info
+          sonar.projectVersion=
           EOF
 
       - name: 📡 Run SonarQube Scan
