@@ -147,6 +147,8 @@ jobs:
           -Dsonar.host.url=${{ env.DES_GLOBALS_ENV_SONAR_HOST_URL }} \
           -Dsonar.token=${{ env.DES_GLOBALS_ENV_SONAR_TOKEN }} \
           -Dsonar.projectName=${{ github.event.repository.name }} \
-          -Dsonar.projectKey=\${{ github.event.repository.name }} \
+          -Dsonar.projectKey=${{ github.event.repository.name }} \
           -Dsonar.projectVersion=${{ env.APP_VERSION }} \
+          -Dsonar.sources=src \
+          -Dsonar.exclusions=src/**/__tests__/**/*,src/**/__mocks__/**/* \
           -Dsonar.javascript.lcov.reportPaths=./coverage/ngv/lcov.info
