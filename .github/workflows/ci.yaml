@@ -138,18 +138,21 @@ jobs:
       - name: 🔧 Generate Test Schema Version
         run: npm run schema-version
 
-      - name: 🔍 Get App Version
-        run: echo "APP_VERSION=$(xmllint -xpath 'string(//*[local-name()="widget"]/@version)' config.xml)" >> $GITHUB_ENV
+      - name: 📝 Generate SonarQube Properties File
+        run: |
+          cat <<EOF > sonar-project.properties
+          sonar.host.url=${{ env.DES_GLOBALS_ENV_SONAR_HOST_URL }}
+          sonar.projectKey=${{ github.event.repository.name }}
+          sonar.sources=src
+          sonar.exclusions=src/**/__tests__/**/*,src/**/__mocks__/**/*
+          sonar.javascript.lcov.reportPaths=./coverage/ngv/lcov.info
+          EOF
 
       - name: 📡 Run SonarQube Scan
         env:
           SONAR_TOKEN: ${{ env.DES_GLOBALS_ENV_SONAR_TOKEN }}
         run: |
-          npm run sonar -- \
-          -Dsonar.host.url=${{ env.DES_GLOBALS_ENV_SONAR_HOST_URL }} \
-          -Dsonar.projectName=${{ github.event.repository.name }} \
-          -Dsonar.projectKey=${{ github.event.repository.name }} \
-          -Dsonar.projectVersion=${{ env.APP_VERSION }} \
-          -Dsonar.sources=src \
-          -Dsonar.exclusions=src/**/__tests__/**/*,src/**/__mocks__/**/* \
-          -Dsonar.javascript.lcov.reportPaths=./coverage/ngv/lcov.info
+          npm run sonar
+
+      - name: 🧹 Remove SonarQube Properties File
+        run: rm sonar-project.properties
