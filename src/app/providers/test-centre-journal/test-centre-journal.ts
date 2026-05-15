@@ -14,9 +14,9 @@ export class TestCentreJournalProvider {
     private appConfig: AppConfigProvider
   ) {}
 
-  getTestCentreJournal = (tcID?: number): Observable<Object> => {
-    if (tcID) {
-      return this.getTestCentreJournalByID(tcID);
+  getTestCentreJournal = (costCode?: string): Observable<Object> => {
+    if (costCode) {
+      return this.getTestCentreJournalByCostCode(costCode);
     }
 
     return this.http
@@ -24,9 +24,9 @@ export class TestCentreJournalProvider {
       .pipe(timeout(this.appConfig.getAppConfig().requestTimeout));
   };
 
-  private getTestCentreJournalByID = (tcID: number): Observable<Object> => {
+  private getTestCentreJournalByCostCode = (costCode: string): Observable<Object> => {
     return this.http
-      .get(`${this.urlProvider.getTestCentreJournalUrl()}/${tcID}`)
+      .get(`${this.urlProvider.getTestCentreJournalUrl()}/${costCode}`)
       .pipe(timeout(this.appConfig.getAppConfig().requestTimeout));
   };
 }
