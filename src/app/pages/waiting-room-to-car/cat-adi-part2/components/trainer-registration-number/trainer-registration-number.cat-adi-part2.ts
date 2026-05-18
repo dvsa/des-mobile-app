@@ -20,7 +20,7 @@ export class TrainerRegistrationNumberCatAdiPart2Component implements OnChanges 
   formGroup: UntypedFormGroup;
 
   @Input()
-  trainerLabel = `Sponsor's PRN (optional)`;
+  trainerLabel = `Trainer's PRN (optional)`;
 
   @Output()
   trainerRegistrationChange = new EventEmitter<number>();
