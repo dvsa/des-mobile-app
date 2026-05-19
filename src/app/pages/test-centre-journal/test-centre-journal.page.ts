@@ -122,7 +122,7 @@ export class TestCentreJournalPage extends BasePageComponent implements OnDestro
     this.destroy$.complete();
   }
 
-  getTestCentreData = async (manualRefresh = false, tcID: number = null): Promise<void> => {
+  getTestCentreData = async (manualRefresh = false, costCode: string = null): Promise<void> => {
     this.subscription.unsubscribe();
     this.manuallyRefreshed = manualRefresh;
     this.store$.dispatch(TestCentreJournalGetData(manualRefresh));
@@ -146,7 +146,7 @@ export class TestCentreJournalPage extends BasePageComponent implements OnDestro
     this.showSearchSpinner = true;
 
     this.subscription = this.testCentreJournalProvider
-      .getTestCentreJournal(tcID)
+      .getTestCentreJournal(costCode)
       .pipe(
         takeUntil(this.destroy$),
         tap(() => {
@@ -211,7 +211,7 @@ export class TestCentreJournalPage extends BasePageComponent implements OnDestro
 
     if (this.isLDTM && testCentre) {
       this.store$.dispatch(TestCentreJournalSelectTestCentre());
-      await this.getTestCentreData(false, testCentre.centreId);
+      await this.getTestCentreData(false, testCentre.costCode);
     }
   };
 
