@@ -385,8 +385,9 @@ export class ViewTestResultPage extends BasePageComponent implements OnInit {
   }
 
   getPrnLabel(): string {
-    return compareVersions.compare(get(this.testResult, 'appVersion'), '4.29.0.0', '<')
-      ? 'Trainer PRN'
-      : `Sponsor's PRN`;
+    if (compareVersions.compare(get(this.testResult, 'appVersion'), '4.29.0.0', '<')) {
+      return "Trainer's PRN";
+    }
+    return this.isADI3() ? "Sponsor's PRN" : "Trainer's PRN";
   }
 }
