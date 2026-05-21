@@ -41,7 +41,7 @@ jobs:
     if: github.event_name == 'workflow_dispatch' || (github.event_name == 'push' && startsWith(github.ref_name, 'mes-'))
     uses: dvsa/des-workflow-actions/.github/workflows/build-mobile-app.yaml@main
     with:
-      runs-on: ${{ inputs.runner }}
+      runs-on: ${{ inputs.runner || 'MACOS-ARM64' }}
       environment: feature
       config-type: test
       build-simulator: true
@@ -55,7 +55,7 @@ jobs:
     if: github.event_name == 'workflow_dispatch' || (github.event_name == 'push' && startsWith(github.ref_name, 'mes-'))
     uses: dvsa/des-workflow-actions/.github/workflows/build-mobile-app.yaml@main
     with:
-      runs-on: ${{ inputs.runner }}
+      runs-on: ${{ inputs.runner || 'MACOS-ARM64' }}
       environment: feature
       config-type: dev
       build-type: qr
