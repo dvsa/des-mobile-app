@@ -32,9 +32,6 @@ export class TrainerRegistrationNumberCatAdiPart2Component implements OnChanges 
     if (!this.formControl) {
       this.formControl = new UntypedFormControl(null, [
         Validators.maxLength(Number(this.trainerRegistrationNumberValidator.maxLength)),
-        Validators.minLength(Number(this.trainerRegistrationNumberValidator.maxLength)),
-        Validators.pattern(this.trainerRegistrationNumberValidator.pattern),
-        Validators.required,
       ]);
       this.formGroup.addControl(TrainerRegistrationNumberCatAdiPart2Component.fieldName, this.formControl);
     }
