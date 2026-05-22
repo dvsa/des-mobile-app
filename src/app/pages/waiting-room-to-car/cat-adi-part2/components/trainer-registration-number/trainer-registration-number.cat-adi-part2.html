@@ -8,14 +8,15 @@
     <ion-row>
       <ion-col size="32">
         <ion-input
-          type="number"
+          [class.ng-invalid]="invalid"
+          type="text"
+          inputmode="numeric"
           numbersOnly
           id="trainer-registration"
-          formControlName="trainerRegistration"
+          formControlName="trainerRegistrationCtrl"
           class="ion-input-styling increase-width"
           aria-labelledby="trainer-prn-label"
-          [maxlength]="trainerRegistrationNumberValidator.maxLength"
-          (ionChange)="trainerRegistrationChanged($event.target)"
+          (ionChange)="trainerRegistrationChanged($event.target.value)"
           emojiBlock
           pasteSanitiser
         >

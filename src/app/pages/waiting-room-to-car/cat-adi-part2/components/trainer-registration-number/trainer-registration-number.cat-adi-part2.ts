@@ -1,10 +1,8 @@
 import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
-import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import {
   FieldValidators,
   getTrainerRegistrationNumberValidator,
-  leadingZero,
-  nonNumericValues,
 } from '@shared/constants/field-validators/field-validators';
 
 @Component({
@@ -26,22 +24,22 @@ export class TrainerRegistrationNumberCatAdiPart2Component implements OnChanges 
   trainerRegistrationChange = new EventEmitter<number>();
 
   formControl: UntypedFormControl;
+  static readonly fieldName: string = 'trainerRegistrationCtrl';
 
   readonly trainerRegistrationNumberValidator: FieldValidators = getTrainerRegistrationNumberValidator();
 
   ngOnChanges(): void {
     if (!this.formControl) {
-      this.formControl = new UntypedFormControl(null);
-      this.formGroup.addControl('trainerRegistration', this.formControl);
+      this.formControl = new UntypedFormControl(null, [
+        Validators.maxLength(Number(this.trainerRegistrationNumberValidator.maxLength)),
+      ]);
+      this.formGroup.addControl(TrainerRegistrationNumberCatAdiPart2Component.fieldName, this.formControl);
     }
     this.formControl.patchValue(this.trainerRegistration);
   }
 
-  trainerRegistrationChanged(input: HTMLInputElement): void {
-    if (typeof input.value === 'string' && !this.trainerRegistrationNumberValidator.pattern.test(input.value)) {
-      input.value = input.value.replace(leadingZero, '').replace(nonNumericValues, '');
-    }
-    this.trainerRegistrationChange.emit(Number(input.value) || undefined);
+  trainerRegistrationChanged(trainerNumber): void {
+    this.trainerRegistrationChange.emit(Number(trainerNumber));
   }
 
   get invalid(): boolean {
