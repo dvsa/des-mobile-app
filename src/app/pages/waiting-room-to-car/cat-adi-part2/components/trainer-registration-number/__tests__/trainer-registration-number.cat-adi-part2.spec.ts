@@ -28,15 +28,12 @@ describe('TrainerRegistrationNumberCatAdiPart2Component', () => {
   });
 
   describe('ngOnChanges', () => {
-    it(
-      'should have trainerRegistration form control be added to ' + 'form if there is no form control already there',
-      () => {
-        component.formControl = null;
-        component.ngOnChanges();
+    it('should have trainerRegistration form control be added to form if there is no form control already there', () => {
+      component.formControl = null;
+      component.ngOnChanges();
 
-        expect(component.formGroup.controls.trainerRegistration).toBeTruthy();
-      }
-    );
+      expect(component.formGroup.controls[TrainerRegistrationNumberCatAdiPart2Component.fieldName]).toBeTruthy();
+    });
   });
 
   describe('invalid', () => {
@@ -66,7 +63,7 @@ describe('TrainerRegistrationNumberCatAdiPart2Component', () => {
     });
   });
 
-  describe('vehicleRegistrationChanged', () => {
+  describe('trainerRegistrationChanged', () => {
     beforeEach(() => {
       spyOn(component.trainerRegistrationChange, 'emit');
     });
@@ -76,24 +73,24 @@ describe('TrainerRegistrationNumberCatAdiPart2Component', () => {
       expect(component.trainerRegistrationChange.emit).toHaveBeenCalledWith(1234567);
     });
 
-    it('should remove non-numeric characters and emit the value as number', () => {
+    it('should emit NaN for a string containing non-numeric characters', () => {
       component.trainerRegistrationChanged(mockInvalidTrainerRegNumber);
-      expect(component.trainerRegistrationChange.emit).toHaveBeenCalledWith(12457);
+      expect(component.trainerRegistrationChange.emit).toHaveBeenCalledWith(Number.NaN);
     });
 
-    it('should remove preceding zeros and emit rest of valid result', () => {
+    it('should emit the numeric value, stripping leading zeros via Number()', () => {
       component.trainerRegistrationChanged(mockLeadingZeroTrainerRegNumber);
       expect(component.trainerRegistrationChange.emit).toHaveBeenCalledWith(4567);
     });
 
-    it('should remove preceding zeros and emit undefined as empty', () => {
+    it('should emit 0 for a string containing only zero', () => {
       component.trainerRegistrationChanged(mockOnlyZeroTrainerRegNumber);
-      expect(component.trainerRegistrationChange.emit).toHaveBeenCalledWith(undefined);
+      expect(component.trainerRegistrationChange.emit).toHaveBeenCalledWith(0);
     });
 
-    it('should emit undefined as the value can`t be cast to a number', () => {
+    it('should emit 0 for an empty string', () => {
       component.trainerRegistrationChanged(mockBlankTrainerRegNumber);
-      expect(component.trainerRegistrationChange.emit).toHaveBeenCalledWith(undefined);
+      expect(component.trainerRegistrationChange.emit).toHaveBeenCalledWith(0);
     });
   });
 });

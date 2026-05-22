@@ -1,19 +1,5 @@
-export const mockValidTrainerRegNumber: HTMLInputElement = {
-  value: '1234567',
-} as HTMLInputElement;
-
-export const mockInvalidTrainerRegNumber: HTMLInputElement = {
-  value: '12£45H7',
-} as HTMLInputElement;
-
-export const mockLeadingZeroTrainerRegNumber: HTMLInputElement = {
-  value: '04567',
-} as HTMLInputElement;
-
-export const mockOnlyZeroTrainerRegNumber: HTMLInputElement = {
-  value: '0',
-} as HTMLInputElement;
-
-export const mockBlankTrainerRegNumber: HTMLInputElement = {
-  value: '',
-} as HTMLInputElement;
+export const mockValidTrainerRegNumber = '1234567';
+export const mockInvalidTrainerRegNumber = '12£45H7';
+export const mockLeadingZeroTrainerRegNumber = '04567';
+export const mockOnlyZeroTrainerRegNumber = '0';
+export const mockBlankTrainerRegNumber = '';
