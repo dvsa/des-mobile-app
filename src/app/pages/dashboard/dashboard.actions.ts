@@ -12,7 +12,7 @@ export const SideMenuItemSelected = createAction('[DashboardPage] Side menu item
   item,
 }));
 
-export const ReportCurrentTimeZone = createAction('[DashboardPage] Side menu item selected', (timeZone: string) => ({
+export const ReportCurrentTimeZone = createAction('[DashboardPage] Reporting current timezone', (timeZone: string) => ({
   timeZone,
 }));
 
