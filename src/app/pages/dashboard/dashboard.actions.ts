@@ -12,6 +12,10 @@ export const SideMenuItemSelected = createAction('[DashboardPage] Side menu item
   item,
 }));
 
+export const ReportCurrentTimeZone = createAction('[DashboardPage] Side menu item selected', (timeZone: string) => ({
+  timeZone,
+}));
+
 export const DetectDeviceTheme = createAction('[DashboardPage] Device theme');
 
 export const DisplayStopDrive = createAction('[DashboardPage] Display stop drive modal');

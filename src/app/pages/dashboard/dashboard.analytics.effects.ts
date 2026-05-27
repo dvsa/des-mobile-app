@@ -13,7 +13,6 @@ import {
   GoogleAnalyticsEventsTitles,
   GoogleAnalyticsEventsValues,
 } from '@providers/analytics/analytics.model';
-import { AppConfigProvider } from '@providers/app-config/app-config';
 import { isDeviceThemeDarkMode } from '@shared/helpers/is-dark-mode';
 import { StoreModel } from '@shared/models/store.model';
 import {
@@ -28,6 +27,7 @@ import {
   DetectDeviceTheme,
   DisplayStopDrive,
   PracticeTestReportCard,
+  ReportCurrentTimeZone,
   SideMenuClosed,
   SideMenuItemSelected,
   SideMenuOpened,
@@ -38,8 +38,7 @@ export class DashboardAnalyticsEffects {
   constructor(
     public analytics: AnalyticsProvider,
     private actions$: Actions,
-    private store$: Store<StoreModel>,
-    private appConfigProvider: AppConfigProvider
+    private store$: Store<StoreModel>
   ) {}
 
   dashboardViewDidEnter$ = createEffect(() =>
@@ -51,6 +50,21 @@ export class DashboardAnalyticsEffects {
       switchMap(() => {
         // GA4 analytics
         this.analytics.setGACurrentPage(AnalyticsScreenNames.DASHBOARD);
+        return of(AnalyticRecorded());
+      })
+    )
+  );
+
+  reportCurrentTimeZone$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(ReportCurrentTimeZone),
+      switchMap(({ timeZone }) => {
+        // GA4 analytics
+        this.analytics.logGAEvent(
+          GoogleAnalyticsEvents.DASHBOARD,
+          GoogleAnalyticsEventsTitles.TIMEZONE_REPORT,
+          timeZone
+        );
         return of(AnalyticRecorded());
       })
     )
