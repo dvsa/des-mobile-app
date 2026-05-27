@@ -7,6 +7,7 @@ import { TestersEnvironmentFile } from '@environments/models/environment.model';
 import { Platform } from '@ionic/angular';
 import { IsDebugMock, PlatformMock } from '@mocks/index.mock';
 import { StoreModule } from '@ngrx/store';
+import { AppConfigError } from '@providers/app-config/app-config.constants';
 import { AppConfig } from '@providers/app-config/app-config.model';
 import { appConfigReducer } from '@store/app-config/app-config.reducer';
 import { testsReducer } from '@store/tests/tests.reducer';
