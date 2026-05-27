@@ -46,7 +46,7 @@ import { TestCentreJournalEnteredFromDashboard } from '@store/test-centre-journa
 import { getTests } from '@store/tests/tests.reducer';
 import { Observable, Subscription, combineLatest, from, merge, takeWhile } from 'rxjs';
 import { filter, map, switchMap, tap, withLatestFrom } from 'rxjs/operators';
-import { DashboardViewDidEnter, PracticeTestReportCard } from './dashboard.actions';
+import { DashboardViewDidEnter, PracticeTestReportCard, ReportCurrentTimeZone } from './dashboard.actions';
 
 interface DashboardPageState {
   appVersion$: Observable<string>;
@@ -144,6 +144,8 @@ export class DashboardPage extends BasePageComponent implements OnInit, ViewDidE
     this.store$.dispatch(ClearCandidateLicenceData());
     this.store$.dispatch(ClearVehicleData());
     this.store$.dispatch(LoadExaminerRecordsPreferences());
+    //Gets the timezone the device is in and reports it
+    this.store$.dispatch(ReportCurrentTimeZone(Intl.DateTimeFormat().resolvedOptions().timeZone));
     //guard against calling journal if the user type is a delegated examiner
     if (!this.isDelegatedExaminer()) {
       this.store$.dispatch(journalActions.LoadJournalRecallModalRefreshTime());
