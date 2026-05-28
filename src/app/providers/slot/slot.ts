@@ -74,14 +74,7 @@ export class SlotProvider {
     const days = times(numberOfDaysToView, (d: number): string =>
       this.dateTimeProvider.now().add(d, Duration.DAY).format('YYYY-MM-DD')
     );
-
-    const emptyDays = days.reduce(
-      (d: { [k: string]: SlotItem[] }, day: string) => ({
-        ...d,
-        [day]: [],
-      }),
-      {}
-    );
+    const emptyDays = Object.fromEntries(days.map((day) => [day, [] as SlotItem[]]));
 
     return {
       ...emptyDays,
@@ -93,13 +86,13 @@ export class SlotProvider {
    * @param slots Journal slots
    * @returns Only the relevant slots
    */
-  getRelevantSlots = (slots: { [k: string]: SlotItem[] }): { [k: string]: SlotItem[] } => {
+  getRelevantSlots = (slots: Record<string, SlotItem[]>): Record<string, SlotItem[]> => {
     return Object.keys(slots).reduce(
-      (acc: { [k: string]: SlotItem[] }, date) => ({
-        ...acc,
-        [date]: slots[date],
-      }),
-      {}
+      (acc, date) => {
+        acc[date] = slots[date];
+        return acc;
+      },
+      {} as Record<string, SlotItem[]>
     );
   };
 

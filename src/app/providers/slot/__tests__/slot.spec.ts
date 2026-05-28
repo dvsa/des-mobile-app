@@ -102,6 +102,31 @@ describe('SlotProvider', () => {
     spyOn(store$, 'dispatch');
   });
 
+  describe('getRelevantSlots', () => {
+    it('should return an empty object when given an empty slots object', () => {
+      const result = slotProvider.getRelevantSlots({});
+      expect(Object.keys(result).length).toBe(0);
+    });
+    it('should return a new object with the same keys and preserve value references (shallow copy)', () => {
+      const arr: SlotItem[] = [] as SlotItem[];
+      const slots: Record<string, SlotItem[]> = { '2021-01-01': arr, '2021-01-02': [] as SlotItem[] };
+      const result = slotProvider.getRelevantSlots(slots);
+      expect(result).not.toBe(slots);
+      expect(Object.keys(result)).toEqual(Object.keys(slots));
+      expect(result['2021-01-01']).toBe(arr);
+      expect(result['2021-01-02']).toBe(slots['2021-01-02']);
+    });
+    it('should only copy own enumerable properties and ignore inherited properties', () => {
+      const inheritedArr: SlotItem[] = [] as SlotItem[];
+      const proto = { inherited: inheritedArr };
+      const slots = Object.create(proto) as Record<string, SlotItem[]>;
+      slots['2022-02-02'] = [] as SlotItem[];
+      const result = slotProvider.getRelevantSlots(slots);
+      expect((result as any).inherited).toBeUndefined();
+      expect(result['2022-02-02']).toBe(slots['2022-02-02']);
+    });
+  });
+
   describe('detectSlotChanges', () => {
     const oldSlots = {
       '2019-01-21': [
@@ -320,6 +345,60 @@ describe('SlotProvider', () => {
       const numberOfDays = Object.keys(slotsWithEmptyDays).length;
 
       expect(numberOfDays).toBe(7);
+    });
+    it('should generate consecutive date keys for configured number of days starting from today', () => {
+      const getAppConfigSpy = jasmine.createSpy('getAppConfig');
+      (appConfigProvider as any).getAppConfig = getAppConfigSpy;
+      getAppConfigSpy.and.returnValue({ journal: { numberOfDaysToView: 3 } });
+
+      const result = slotProvider.extendWithEmptyDays({});
+
+      console.log(result);
+
+      expect(Object.keys(result)).toEqual(['2019-02-01', '2019-02-02', '2019-02-03']);
+    });
+    it('should preserve provided slot arrays for dates within the generated days', () => {
+      const getAppConfigSpy = jasmine.createSpy('getAppConfig');
+      (appConfigProvider as any).getAppConfig = getAppConfigSpy;
+      getAppConfigSpy.and.returnValue({ journal: { numberOfDaysToView: 3 } });
+
+      const existingSlotArray: SlotItem[] = [{} as SlotItem];
+      const slots: Record<string, SlotItem[]> = {
+        '2019-02-02': existingSlotArray,
+      };
+
+      const result = slotProvider.extendWithEmptyDays(slots);
+
+      expect(result['2019-02-02']).toBe(existingSlotArray);
+      expect(Object.keys(result)).toContain('2019-02-01');
+      expect(Object.keys(result)).toContain('2019-02-02');
+    });
+    it('should return only the original slots when numberOfDaysToView is zero', () => {
+      const getAppConfigSpy = jasmine.createSpy('getAppConfig');
+      (appConfigProvider as any).getAppConfig = getAppConfigSpy;
+      getAppConfigSpy.and.returnValue({ journal: { numberOfDaysToView: 0 } });
+      const slots: Record<string, SlotItem[]> = {
+        '2020-01-01': [{} as SlotItem],
+      };
+
+      const result = slotProvider.extendWithEmptyDays(slots);
+
+      expect(Object.keys(result)).toEqual(Object.keys(slots));
+      expect(result['2020-01-01']).toBe(slots['2020-01-01']);
+    });
+    it('should not mutate the original slots object when extending with empty days', () => {
+      const getAppConfigSpy = jasmine.createSpy('getAppConfig');
+      (appConfigProvider as any).getAppConfig = getAppConfigSpy;
+      getAppConfigSpy.and.returnValue({ journal: { numberOfDaysToView: 3 } });
+
+      const originalSlots: Record<string, SlotItem[]> = {
+        '2019-02-02': [{} as SlotItem],
+      };
+      const originalClone = JSON.stringify(originalSlots);
+
+      slotProvider.extendWithEmptyDays(originalSlots);
+
+      expect(JSON.stringify(originalSlots)).toEqual(originalClone);
     });
   });
 
