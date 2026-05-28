@@ -12,6 +12,7 @@ import { JournalModel } from '../journal.model';
 import {
   canNavigateToNextDay,
   canNavigateToPreviousDay,
+  getAppRefFromSlot,
   getError,
   getIsLoading,
   getLastRefreshed,
@@ -95,6 +96,74 @@ describe('JournalSelector', () => {
   describe('getLastRefreshed', () => {
     it('should select the last refreshed date from the state', () => {
       expect(getLastRefreshed(state).getUTCMilliseconds()).toBe(0);
+    });
+  });
+
+  describe('getAppRefFromSlot', () => {
+    it('should return null when slotItem is null', () => {
+      const result = getAppRefFromSlot(null as any);
+      expect(result).toBeNull();
+    });
+
+    it('should return null when slotItem.slotData does not contain booking', () => {
+      const slotItem: any = {
+        slotData: {
+          somethingElse: {},
+        },
+      };
+
+      const result = getAppRefFromSlot(slotItem);
+      expect(result).toBeNull();
+    });
+
+    it('should return null when slotItem.slotData does not exist', () => {
+      const slotItem: any = {};
+
+      const result = getAppRefFromSlot(slotItem);
+      expect(result).toBeNull();
+    });
+
+    it('should return application reference when booking data exists', () => {
+      const slotItem: any = {
+        slotData: {
+          booking: {
+            application: {
+              bookingReference: 'BR123',
+              applicationId: 1,
+              bookingSequence: 7,
+              checkDigit: 9,
+            },
+          },
+        },
+      };
+
+      const result = getAppRefFromSlot(slotItem);
+
+      expect(result).toEqual({
+        bookingReference: 'BR123',
+        applicationId: 1,
+        bookingSequence: 7,
+        checkDigit: 9,
+      });
+    });
+
+    it('should return undefined fields when application properties are missing', () => {
+      const slotItem: any = {
+        slotData: {
+          booking: {
+            application: {},
+          },
+        },
+      };
+
+      const result = getAppRefFromSlot(slotItem);
+
+      expect(result).toEqual({
+        bookingReference: undefined,
+        applicationId: undefined,
+        bookingSequence: undefined,
+        checkDigit: undefined,
+      });
     });
   });
 

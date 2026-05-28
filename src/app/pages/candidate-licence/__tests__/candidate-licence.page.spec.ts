@@ -193,6 +193,9 @@ describe('CandidateLicencePage', () => {
       it('should return null when img not defined', () => {
         expect(component.getImage(null, null)).toEqual(null);
       });
+      it('should return null when driverPhotograph has no photograph', () => {
+        expect(component.getImage('image', {} as DriverPhotograph)).toEqual(null);
+      });
       it('should use the values from driverPhotograph and pass into dom sanitizer method', () => {
         spyOn(domSanitizer, 'bypassSecurityTrustUrl');
         component.driverDataReturned = true;

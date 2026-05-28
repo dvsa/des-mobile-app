@@ -21,6 +21,7 @@ import { transformStringForID } from '@shared/helpers/transform-string-for-id';
 import { StoreModel } from '@shared/models/store.model';
 import { TestCentreDetailResponse } from '@shared/models/test-centre-journal.model';
 import { ExaminerSlotItems, ExaminerSlotItemsByDate } from '@store/journal/journal.model';
+import { get } from 'lodash-es';
 
 export enum Day {
   TODAY = 'today',
@@ -115,9 +116,14 @@ export class ViewJournalsCardComponent implements OnChanges {
 
     this.store$.dispatch(TestCentreJournalSelectExaminer());
 
-    const { journal, name } = this.testCentreResults?.examiners.find(
-      (examiner) => examiner.staffNumber === staffNumber
-    );
+    const examiners: Examiner[] = get(this.testCentreResults, 'examiners', []);
+
+    if (examiners.length === 0) {
+      // if no examiners, then don't try to find examiner details
+      return;
+    }
+
+    const { journal, name } = this.testCentreResults.examiners.find((examiner) => examiner.staffNumber === staffNumber);
     this.currentSelectedDate = this.today;
     this.journal = journal;
     this.examinerName = name;
