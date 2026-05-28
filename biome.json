@@ -49,8 +49,7 @@
           "complexity": {
             "noBannedTypes": "off",
             "noForEach": "off",
-            "noThisInStatic": "off",
-            "noUselessCatch": "off"
+            "noThisInStatic": "off"
           },
           "correctness": {
             "noUnsafeOptionalChaining": "off",
