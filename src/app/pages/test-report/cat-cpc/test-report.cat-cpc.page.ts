@@ -84,10 +84,6 @@ export class TestReportCatCPCPage extends TestReportBasePageComponent implements
 
     const currentTest$ = this.store$.pipe(select(getTests), select(getCurrentTest));
 
-    this.localSubscription = currentTest$
-      .pipe(select(getTestData))
-      .subscribe((result: TestData) => (this.testData = result));
-
     this.pageState = {
       ...this.commonPageState,
       combinationCode$: currentTest$.pipe(select(getTestData), select(getCombination)),
@@ -179,6 +175,12 @@ export class TestReportCatCPCPage extends TestReportBasePageComponent implements
   };
 
   setUpSubscription(): void {
+    const currentTest$ = this.store$.pipe(select(getTests), select(getCurrentTest));
+
+    this.localSubscription = currentTest$
+      .pipe(select(getTestData))
+      .subscribe((result: TestData) => (this.testData = result));
+
     this.subscription = combineLatest([
       this.pageState.question1$,
       this.pageState.question2$,
