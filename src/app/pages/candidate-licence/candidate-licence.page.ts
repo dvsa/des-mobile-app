@@ -31,6 +31,7 @@ import { getTestSummary } from '@store/tests/test-summary/test-summary.reducer';
 import { getTrueLikenessToPhoto } from '@store/tests/test-summary/test-summary.selector';
 import { getTests } from '@store/tests/tests.reducer';
 import { getCurrentTest, getJournalData } from '@store/tests/tests.selector';
+import { get } from 'lodash-es';
 import { Observable, of } from 'rxjs';
 import { catchError, filter, map, switchMap, take, tap, withLatestFrom } from 'rxjs/operators';
 
@@ -144,10 +145,10 @@ export class CandidateLicencePage extends PracticeableBasePageComponent implemen
       return img;
     }
     // means not in practice mode, but data not yet returned from EP or no data exists;
-    if (!img || !this.driverDataReturned || !driverPhotograph) {
+    if (!img || !this.driverDataReturned || !driverPhotograph || !get(driverPhotograph, 'photograph', null)) {
       return null;
     }
-    const { image, imageFormat } = driverPhotograph?.photograph;
+    const { image, imageFormat } = driverPhotograph.photograph;
     return this.domSanitizer.bypassSecurityTrustUrl(`data:${imageFormat};base64,${image}`);
   };
 

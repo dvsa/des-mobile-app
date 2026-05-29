@@ -111,6 +111,11 @@ describe('ViewJournalsCardComponent', () => {
         component.examinerChanged(null);
         expect(component.slotContainer.clear).not.toHaveBeenCalled();
       });
+      it('should not call slotContainer.clear when testCentreResults has no examiners', () => {
+        component.testCentreResults = {} as TestCentreDetailResponse;
+        component.examinerChanged('456');
+        expect(component.slotContainer.clear).not.toHaveBeenCalled();
+      });
     });
     describe('onShowJournalClick', () => {
       beforeEach(() => {

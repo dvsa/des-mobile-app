@@ -29,7 +29,7 @@ export const getSlotBySlotID = (slotItems: SlotItem[], slotId: number): SlotItem
   slotItems.find((slotItem) => get(slotItem, 'slotData.slotDetail.slotId') === slotId);
 
 export const getAppRefFromSlot = (slotItem: SlotItem): ApplicationReference | null => {
-  if (!slotItem || !('booking' in slotItem?.slotData)) {
+  if (!slotItem || !get(slotItem, 'slotData', null) || !('booking' in slotItem.slotData)) {
     return null;
   }
 

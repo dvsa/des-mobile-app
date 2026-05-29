@@ -52,7 +52,6 @@
             "noThisInStatic": "off"
           },
           "correctness": {
-            "noUnsafeOptionalChaining": "off",
             "noSwitchDeclarations": "off"
           },
           "suspicious": {
