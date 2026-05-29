@@ -304,6 +304,7 @@ export class AppConfigProvider {
       const response = await this.dataStoreProvider.getItem(LocalStorageKey.CONFIG);
       return JSON.parse(response);
     } catch (error) {
+      this.logError('Getting cached config failed', error);
       throw error;
     }
   };
