@@ -56,9 +56,6 @@
           "suspicious": {
             "noAssignInExpressions": "off",
             "noConfusingVoidType": "off"
-          },
-          "performance": {
-            "noAccumulatingSpread": "off"
           }
         }
       }
