@@ -42,7 +42,6 @@
         "rules": {
           "recommended": true,
           "style": {
-            "useNodejsImportProtocol": "off",
             "useDefaultParameterLast": "off",
             "noParameterAssign": "off"
           },
