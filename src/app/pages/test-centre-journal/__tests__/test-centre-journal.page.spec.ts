@@ -14,7 +14,7 @@ import { AuthenticationProvider } from '@providers/authentication/authentication
 import { LogHelperMock } from '@providers/logs/__mocks__/logs-helper.mock';
 import { LogHelper } from '@providers/logs/logs-helper';
 import { NetworkStateProviderMock } from '@providers/network-state/__mocks__/network-state.mock';
-import { NetworkStateProvider } from '@providers/network-state/network-state';
+import { NetworkConnectionStatus, NetworkStateProvider } from '@providers/network-state/network-state';
 import { TestCentreJournalMock } from '@providers/test-centre-journal/__mocks__/test-centre-journal.mock';
 import { TestCentreJournalProvider } from '@providers/test-centre-journal/test-centre-journal';
 import { ErrorTypes } from '@shared/models/error-message';
@@ -125,7 +125,7 @@ describe('TestCenterJournalPage', () => {
 
   describe('ngOnInit', () => {
     it('should set the isOffline$ property to a local isOffline', () => {
-      spyOnProperty(networkStateProvider.isOffline$, 'value', 'get').and.returnValue(true);
+      spyOn(networkStateProvider, 'onNetworkChange').and.returnValue(of(NetworkConnectionStatus.OFFLINE));
       component.ngOnInit();
       expect(component.isOffline).toEqual(true);
     });

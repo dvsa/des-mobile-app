@@ -1,6 +1,5 @@
 import { TestBed } from '@angular/core/testing';
 import { Router } from '@angular/router';
-import { Network } from '@awesome-cordova-plugins/network/ngx';
 import { RouterMock } from '@mocks/angular-mocks/router-mock';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { Action, Store, StoreModule } from '@ngrx/store';
@@ -53,7 +52,6 @@ describe('AppInfoEffects', () => {
         DataStoreProvider,
         LogHelper,
         NetworkStateProvider,
-        Network,
         provideMockActions(() => actions$),
         {
           provide: Router,

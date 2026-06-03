@@ -2741,6 +2741,7 @@ describe('TestReportAnalyticsEffects', () => {
           studentLevel
         );
       });
+      expect(effects.studentLevelChanged$).toBeDefined();
       done();
     });
     it('should call logEvent for this competency, prefixed with practice test', (done) => {

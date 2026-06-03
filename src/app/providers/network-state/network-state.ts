@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { ConnectionStatus, Network } from '@capacitor/network';
+import { Platform } from '@ionic/angular';
 import { BehaviorSubject, Observable } from 'rxjs';
 
 export enum NetworkConnectionStatus {
@@ -9,8 +10,10 @@ export enum NetworkConnectionStatus {
 
 @Injectable()
 export class NetworkStateProvider {
-  private readonly networkStatus$ = new BehaviorSubject<number>(NetworkConnectionStatus.OFFLINE);
-  private connectionType = 'unknown';
+  networkStatus$ = new BehaviorSubject<number>(NetworkConnectionStatus.OFFLINE);
+  connectionType = 'unknown';
+
+  constructor(private platform: Platform) {}
 
   async initialiseNetworkState(): Promise<void> {
     const status = await Network.getStatus();
@@ -21,20 +24,19 @@ export class NetworkStateProvider {
     });
   }
 
-  private applyStatus(status: ConnectionStatus): void {
+  applyStatus(status: ConnectionStatus): void {
     this.connectionType = status.connectionType;
     this.networkStatus$.next(status.connected ? NetworkConnectionStatus.ONLINE : NetworkConnectionStatus.OFFLINE);
   }
 
-  networkType(): string {
-    return this.connectionType;
-  }
-
-  public onNetworkChange(): Observable<NetworkConnectionStatus> {
+  onNetworkChange(): Observable<NetworkConnectionStatus> {
     return this.networkStatus$.asObservable();
   }
 
   getNetworkState(): NetworkConnectionStatus {
+    if (!this.networkStatus$ || !this.platform.is('cordova')) {
+      return NetworkConnectionStatus.ONLINE;
+    }
     return this.networkStatus$.getValue();
   }
 }
