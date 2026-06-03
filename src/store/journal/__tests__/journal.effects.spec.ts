@@ -19,7 +19,7 @@ import { JournalProvider } from '@providers/journal/journal';
 import { LogHelperMock } from '@providers/logs/__mocks__/logs-helper.mock';
 import { LogHelper } from '@providers/logs/logs-helper';
 import { NetworkStateProviderMock } from '@providers/network-state/__mocks__/network-state.mock';
-import { ConnectionStatus, NetworkStateProvider } from '@providers/network-state/network-state';
+import { NetworkConnectionStatus, NetworkStateProvider } from '@providers/network-state/network-state';
 import { SlotProvider } from '@providers/slot/slot';
 import { DateTime, Duration } from '@shared/helpers/date-time';
 
@@ -249,7 +249,7 @@ describe('JournalEffects', () => {
     store$.dispatch(
       journalActions.LoadJournalSuccess(
         { examiner: { staffNumber: '123', individualId: 456 }, slotItemsByDate: journalSlotsDataMock },
-        ConnectionStatus.ONLINE,
+        NetworkConnectionStatus.ONLINE,
         false,
         new Date() // Load in mock journal state
       )
@@ -269,7 +269,7 @@ describe('JournalEffects', () => {
 
   it('should call the relevant methods and return correctly in the pollingSetup effect', (done) => {
     // ARRANGE
-    spyOn(networkStateProvider, 'onNetworkChange').and.returnValue(of(ConnectionStatus.ONLINE)); // Force to online
+    spyOn(networkStateProvider, 'onNetworkChange').and.returnValue(of(NetworkConnectionStatus.ONLINE)); // Force to online
     spyOn(appConfigProvider, 'getAppConfig').and.returnValue({
       journal: { autoRefreshInterval: 200 },
     } as AppConfig); // Set autoRefreshInterval to 200ms for test

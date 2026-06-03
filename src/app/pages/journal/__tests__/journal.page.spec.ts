@@ -29,7 +29,7 @@ import { LoadingProvider } from '@providers/loader/loader';
 import { LogHelperMock } from '@providers/logs/__mocks__/logs-helper.mock';
 import { LogHelper } from '@providers/logs/logs-helper';
 import { NetworkStateProviderMock } from '@providers/network-state/__mocks__/network-state.mock';
-import { ConnectionStatus, NetworkStateProvider } from '@providers/network-state/network-state';
+import { NetworkConnectionStatus, NetworkStateProvider } from '@providers/network-state/network-state';
 import { OrientationMonitorProviderMock } from '@providers/orientation-monitor/__mocks/orientation-monitor.provider.mock';
 import { OrientationMonitorProvider } from '@providers/orientation-monitor/orientation-monitor.provider';
 import { SlotSelectorProviderMock } from '@providers/slot-selector/__mocks__/slot-selector.mock';
@@ -224,7 +224,7 @@ describe('JournalPage', () => {
             },
             slotItemsByDate: journalSlotsDataMock,
           },
-          ConnectionStatus.ONLINE,
+          NetworkConnectionStatus.ONLINE,
           false,
           new Date()
         )

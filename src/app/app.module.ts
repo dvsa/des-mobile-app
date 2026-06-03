@@ -8,7 +8,6 @@ import { Drivers } from '@ionic/storage';
 import { IonicStorageModule } from '@ionic/storage-angular';
 
 import { CommonModule } from '@angular/common';
-import { Network } from '@awesome-cordova-plugins/network/ngx';
 import { SecureStorage } from '@awesome-cordova-plugins/secure-storage/ngx';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { EffectsModule } from '@ngrx/effects';
@@ -193,7 +192,6 @@ const storageDriver = Capacitor.getPlatform() === 'web' ? Drivers.IndexedDB : Co
     SecureStorage,
     IsDebug,
     DataStoreProvider,
-    Network,
     NetworkStateProvider,
     UrlProvider,
     JournalProvider,

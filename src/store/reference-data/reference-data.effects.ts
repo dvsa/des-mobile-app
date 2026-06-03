@@ -5,7 +5,7 @@ import { of } from 'rxjs';
 import { catchError, concatMap, filter, map, switchMap, withLatestFrom } from 'rxjs/operators';
 
 import { DateTimeProvider } from '@providers/date-time/date-time';
-import { ConnectionStatus, NetworkStateProvider } from '@providers/network-state/network-state';
+import { NetworkConnectionStatus, NetworkStateProvider } from '@providers/network-state/network-state';
 import { ReferenceDataProvider } from '@providers/reference-data/reference-data';
 import { StoreModel } from '@shared/models/store.model';
 import {
@@ -37,7 +37,7 @@ export class ReferenceDataEffects {
       filter(
         ([, lastUpdatedDate]) =>
           lastUpdatedDate !== this.dateTimeProvider.now().format('YYYY-MM-DD') &&
-          this.networkStateProvider.getNetworkState() === ConnectionStatus.ONLINE
+          this.networkStateProvider.getNetworkState() === NetworkConnectionStatus.ONLINE
       ),
       switchMap(() => this.refDataProvider.getTestCentres()),
       map((data) => LoadTestCentresRefDataSuccess(data)),

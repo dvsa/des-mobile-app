@@ -5,7 +5,7 @@ import { Store, select } from '@ngrx/store';
 import { from, merge } from 'rxjs';
 import { concatAll, map, tap, toArray } from 'rxjs/operators';
 
-import { ConnectionStatus, NetworkStateProvider } from '@providers/network-state/network-state';
+import { NetworkConnectionStatus, NetworkStateProvider } from '@providers/network-state/network-state';
 import { serialiseLogMessage } from '@shared/helpers/serialise-log-message';
 import { Log, LogType } from '@shared/models/log.model';
 import { StoreModel } from '@shared/models/store.model';
@@ -63,7 +63,7 @@ export class LogHelper {
       deviceId: this.deviceId,
       drivingExaminerId: this.employeeId,
       metaData: {
-        online: this.networkStateProvider.getNetworkState() === ConnectionStatus.ONLINE,
+        online: this.networkStateProvider.getNetworkState() === NetworkConnectionStatus.ONLINE,
         batteryLevel: this.battery,
         memUsed: this.deviceInfo?.memUsed,
       },

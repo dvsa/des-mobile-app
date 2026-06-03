@@ -2,7 +2,7 @@ import { HttpClient, HttpErrorResponse, HttpStatusCode } from '@angular/common/h
 import { Injectable } from '@angular/core';
 import { DriverLicenceSchema, DriverPhotograph, DriverSignature, DriverStandard } from '@dvsa/mes-driver-schema';
 import { AppConfigProvider } from '@providers/app-config/app-config';
-import { ConnectionStatus, NetworkStateProvider } from '@providers/network-state/network-state';
+import { NetworkConnectionStatus, NetworkStateProvider } from '@providers/network-state/network-state';
 import { UrlProvider } from '@providers/url/url';
 import { Observable, forkJoin, of, throwError } from 'rxjs';
 import { catchError, map, tap, timeout } from 'rxjs/operators';
@@ -54,7 +54,7 @@ export class CandidateLicenceProvider {
     }
 
     // throw offline error when no data already retained
-    if (this.networkStateProvider.getNetworkState() !== ConnectionStatus.ONLINE) {
+    if (this.networkStateProvider.getNetworkState() !== NetworkConnectionStatus.ONLINE) {
       throw new Error(CandidateLicenceErr.OFFLINE);
     }
 

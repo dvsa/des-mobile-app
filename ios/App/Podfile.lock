@@ -14,6 +14,8 @@ PODS:
     - Capacitor
   - CapacitorNativeBiometric (0.0.1):
     - Capacitor
+  - CapacitorNetwork (8.0.1):
+    - Capacitor
   - CapacitorSplashScreen (8.0.1):
     - Capacitor
   - CapacitorStatusBar (8.0.2):
@@ -55,6 +57,7 @@ DEPENDENCIES:
   - "CapacitorCordova (from `../../node_modules/@capacitor/ios`)"
   - "CapacitorDevice (from `../../node_modules/@capacitor/device`)"
   - CapacitorNativeBiometric (from `../../node_modules/capacitor-native-biometric`)
+  - "CapacitorNetwork (from `../../node_modules/@capacitor/network`)"
   - "CapacitorSplashScreen (from `../../node_modules/@capacitor/splash-screen`)"
   - "CapacitorStatusBar (from `../../node_modules/@capacitor/status-bar`)"
   - "CapacitorTextZoom (from `../../node_modules/@capacitor/text-zoom`)"
@@ -90,6 +93,8 @@ EXTERNAL SOURCES:
     :path: "../../node_modules/@capacitor/device"
   CapacitorNativeBiometric:
     :path: "../../node_modules/capacitor-native-biometric"
+  CapacitorNetwork:
+    :path: "../../node_modules/@capacitor/network"
   CapacitorSplashScreen:
     :path: "../../node_modules/@capacitor/splash-screen"
   CapacitorStatusBar:
@@ -122,12 +127,13 @@ SPEC CHECKSUMS:
   CapacitorCordova: c07921bdcfec6f691bae22274446b4d606ebf6a4
   CapacitorDevice: 14cba6f88d1c3074cbf825fea977c8c526453ff8
   CapacitorNativeBiometric: 78cf21304251a512e4597437325b5e9b0cd9f7b3
+  CapacitorNetwork: 8812ce60d11fb63d8f2e4ba51a49b2e59892ebe2
   CapacitorSplashScreen: 4b46c72298db552b3c57ce021ef028b6dc7f1fa7
   CapacitorStatusBar: 01d5763b4ed720de5ce2edbc938de6a98f4c8f32
   CapacitorTextZoom: b3c80b09abef831245bc3434b1c03aa898ad4762
   CapawesomeCapacitorManagedConfigurations: 82c6b30de5c5063de908d5d1d6d7a1009be77c9a
   CapawesomeCapacitorScreenOrientation: 81a4e51518bc6d6d1971ebe4f45892e29115c79e
-  CordovaPlugins: 0cfd09be007c27d0a36bbcef00bd131ceb767d70
+  CordovaPlugins: 12909deb376eedf370ae093a472c71dc0ca53600
   CordovaPluginsResources: da93847212bf7b16ba770e4d6c3e7dba820174c7
   CordovaPluginsStatic: cf1f0dc90c3122e7bd40f708b09b578c22d6131c
   DvsaCapacitorPluginAsam: f19b93d692d0a7ceb2cfbf8a3327ba456ec95d45
@@ -137,6 +143,6 @@ SPEC CHECKSUMS:
   Sentry: 88746bf877eff714bc45315a39ad1d1efea2cdda
   SentryCapacitor: 179536d84866b2ffde1ecd8ed1ded541caf3e950
 
-PODFILE CHECKSUM: 976d3c95a847e3b63aa3ab7c4f86b075c4ac5474
+PODFILE CHECKSUM: d085f5756032cd4f775f62b11d67bc34c308ab7a
 
 COCOAPODS: 1.16.2

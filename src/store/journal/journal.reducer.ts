@@ -1,7 +1,7 @@
 import { createFeatureSelector, createReducer, on } from '@ngrx/store';
 import { get } from 'lodash-es';
 
-import { ConnectionStatus } from '@providers/network-state/network-state';
+import { NetworkConnectionStatus } from '@providers/network-state/network-state';
 import * as journalActions from './journal.actions';
 import { JournalModel } from './journal.model';
 
@@ -62,7 +62,8 @@ export const journalReducer = createReducer(
     journalActions.LoadJournalSuccess,
     (state: JournalModel, { onlineOffline, lastRefreshed, unAuthenticatedMode, payload }): JournalModel => ({
       ...state,
-      lastRefreshed: onlineOffline === ConnectionStatus.ONLINE && !unAuthenticatedMode ? new Date() : lastRefreshed,
+      lastRefreshed:
+        onlineOffline === NetworkConnectionStatus.ONLINE && !unAuthenticatedMode ? new Date() : lastRefreshed,
       isLoading: false,
       slots: payload.slotItemsByDate,
       examiner: payload.examiner,

@@ -7,7 +7,7 @@ import { CandidateSearchCardComponent } from '@pages/test-centre-journal/compone
 import { ViewJournalsCardComponent } from '@pages/test-centre-journal/components/view-journals-card/view-journals-card';
 import { AppConfigProvider } from '@providers/app-config/app-config';
 import { ExaminerRole } from '@providers/app-config/constants/examiner-role.constants';
-import { NetworkStateProvider } from '@providers/network-state/network-state';
+import { NetworkConnectionStatus, NetworkStateProvider } from '@providers/network-state/network-state';
 import { OrientationMonitorProvider } from '@providers/orientation-monitor/orientation-monitor.provider';
 import { TestCentreJournalProvider } from '@providers/test-centre-journal/test-centre-journal';
 import { BasePageComponent } from '@shared/classes/base-page';
@@ -81,7 +81,9 @@ export class TestCentreJournalPage extends BasePageComponent implements OnDestro
 
   ngOnInit(): void {
     this.pageState = {
-      isOffline$: this.networkStateProvider.isOffline$,
+      isOffline$: this.networkStateProvider
+        .onNetworkChange()
+        .pipe(map((status) => status === NetworkConnectionStatus.OFFLINE)),
       lastRefreshedTime$: this.store$.pipe(
         select(getTestCentreJournalState),
         map(getLastRefreshed),

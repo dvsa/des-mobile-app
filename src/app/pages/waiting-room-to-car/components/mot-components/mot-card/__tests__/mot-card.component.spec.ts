@@ -4,7 +4,7 @@ import { IonicModule } from '@ionic/angular';
 import { MotHistory } from '@dvsa/mes-mot-schema';
 import { Store, StoreModule } from '@ngrx/store';
 import { NetworkStateProviderMock } from '@providers/network-state/__mocks__/network-state.mock';
-import { ConnectionStatus, NetworkStateProvider } from '@providers/network-state/network-state';
+import { NetworkConnectionStatus, NetworkStateProvider } from '@providers/network-state/network-state';
 import { HttpStatusCodes } from '@shared/models/http-status-codes';
 import { MotCardComponent } from '../mot-card.component';
 
@@ -40,7 +40,7 @@ describe('MotCardComponent', () => {
 
   describe('callWasSuccessful', () => {
     it('should return true if status is 200, data.status is not "No details" and the app is online', () => {
-      spyOn(component.networkState, 'getNetworkState').and.returnValue(ConnectionStatus.ONLINE);
+      spyOn(component.networkState, 'getNetworkState').and.returnValue(NetworkConnectionStatus.ONLINE);
       component.data = { status: 'Valid' } as MotHistory;
       component.status = '200';
       expect(component.isCallSuccessful()).toEqual(true);
@@ -49,20 +49,20 @@ describe('MotCardComponent', () => {
       'should return false if status is not 200 or Already Saved, data.status is ' +
         'not "No details" and the app is online',
       () => {
-        spyOn(component.networkState, 'getNetworkState').and.returnValue(ConnectionStatus.ONLINE);
+        spyOn(component.networkState, 'getNetworkState').and.returnValue(NetworkConnectionStatus.ONLINE);
         component.data = { status: 'Valid' } as MotHistory;
         component.status = '100';
         expect(component.isCallSuccessful()).toEqual(false);
       }
     );
     it('should return false if status is 200, data.status is ' + '"No details" and the app is online', () => {
-      spyOn(component.networkState, 'getNetworkState').and.returnValue(ConnectionStatus.ONLINE);
+      spyOn(component.networkState, 'getNetworkState').and.returnValue(NetworkConnectionStatus.ONLINE);
       component.data = { status: 'No details' } as MotHistory;
       component.status = '200';
       expect(component.isCallSuccessful()).toBeFalsy();
     });
     it('should return false if status is 200, data.status is ' + 'not "No details" and the app is not online', () => {
-      spyOn(component.networkState, 'getNetworkState').and.returnValue(ConnectionStatus.OFFLINE);
+      spyOn(component.networkState, 'getNetworkState').and.returnValue(NetworkConnectionStatus.OFFLINE);
       component.data = { status: 'No details' } as MotHistory;
       component.status = '200';
       expect(component.isCallSuccessful()).toEqual(false);

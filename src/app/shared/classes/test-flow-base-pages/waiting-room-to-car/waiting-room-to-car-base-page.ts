@@ -22,7 +22,7 @@ import {
   WaitingRoomToCarViewDidEnter,
 } from '@pages/waiting-room-to-car/waiting-room-to-car.actions';
 import { FaultCountProvider } from '@providers/fault-count/fault-count';
-import { NetworkStateProvider } from '@providers/network-state/network-state';
+import { NetworkConnectionStatus, NetworkStateProvider } from '@providers/network-state/network-state';
 import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
 import { PracticeableBasePageComponent } from '@shared/classes/practiceable-base-page';
 import { isAnyOf } from '@shared/helpers/simplifiers';
@@ -180,7 +180,9 @@ export abstract class WaitingRoomToCarBasePageComponent extends PracticeableBase
       interpreterAccompaniment$: currentTest$.pipe(select(getAccompaniment), select(getInterpreterAccompaniment)),
       motEvidenceProvided$: currentTest$.pipe(select(getVehicleDetails), select(getMotEvidenceProvided)),
       motEvidenceDescription$: currentTest$.pipe(select(getVehicleDetails), select(getMotEvidence)),
-      isOffline$: this.networkStateProvider.isOffline$,
+      isOffline$: this.networkStateProvider
+        .onNetworkChange()
+        .pipe(map((status) => status === NetworkConnectionStatus.OFFLINE)),
     };
   }
 

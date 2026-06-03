@@ -15,7 +15,7 @@ import { LEARN_MORE_MODAL } from '@pages/page-names.constants';
 import { AccessibilityService } from '@providers/accessibility/accessibility.service';
 import { DateTimeProvider } from '@providers/date-time/date-time';
 import { LoadingProvider } from '@providers/loader/loader';
-import { NetworkStateProvider } from '@providers/network-state/network-state';
+import { NetworkConnectionStatus, NetworkStateProvider } from '@providers/network-state/network-state';
 import { OrientationMonitorProvider } from '@providers/orientation-monitor/orientation-monitor.provider';
 import { SlotItem } from '@providers/slot-selector/slot-item';
 import { BasePageComponent } from '@shared/classes/base-page';
@@ -118,7 +118,9 @@ export class JournalPage extends BasePageComponent implements OnInit {
       isLoading$: this.store$.pipe(select(getJournalState), map(getIsLoading)),
       lastRefreshedTime$: this.store$.pipe(select(getJournalState), map(getLastRefreshed), map(getLastRefreshedTime)),
       appVersion$: this.store$.select(selectVersionNumber),
-      isOffline$: this.networkStateProvider.isOffline$,
+      isOffline$: this.networkStateProvider
+        .onNetworkChange()
+        .pipe(map((status) => status === NetworkConnectionStatus.OFFLINE)),
       canNavigateToPreviousDay$: this.store$.pipe(
         select(getJournalState),
         map((journal) => canNavigateToPreviousDay(journal, this.dateTimeProvider.now()))

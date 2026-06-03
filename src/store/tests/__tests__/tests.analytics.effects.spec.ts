@@ -31,7 +31,7 @@ import { testsReducer } from '../tests.reducer';
 
 import { DeviceProviderMock } from '@providers/device/__mocks__/device.mock';
 import { DeviceProvider } from '@providers/device/device';
-import { ConnectionStatus } from '@providers/network-state/network-state';
+import { NetworkConnectionStatus } from '@providers/network-state/network-state';
 import journalSlotsDataMock from '@store/journal/__mocks__/journal-slots-data.mock';
 import * as journalActions from '@store/journal/journal.actions';
 import { journalReducer } from '@store/journal/journal.reducer';
@@ -297,7 +297,7 @@ describe('TestsAnalyticsEffects', () => {
             },
             slotItemsByDate: journalSlotsDataMock,
           },
-          ConnectionStatus.ONLINE,
+          NetworkConnectionStatus.ONLINE,
           false,
           new Date()
         )

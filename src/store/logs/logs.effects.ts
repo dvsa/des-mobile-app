@@ -8,7 +8,7 @@ import { AppConfigProvider } from '@providers/app-config/app-config';
 import { DataStoreProvider, LocalStorageKey } from '@providers/data-store/data-store';
 import { DateTimeProvider } from '@providers/date-time/date-time';
 import { LogsProvider } from '@providers/logs/logs';
-import { ConnectionStatus, NetworkStateProvider } from '@providers/network-state/network-state';
+import { NetworkConnectionStatus, NetworkStateProvider } from '@providers/network-state/network-state';
 import { DateTime } from '@shared/helpers/date-time';
 import { Log } from '@shared/models/log.model';
 import { StoreModel } from '@shared/models/store.model';
@@ -105,7 +105,7 @@ export class LogsEffects {
       ofType(logsActions.SendLogs),
       concatMap((action) => of(action).pipe(withLatestFrom(this.store$.pipe(select(getLogsState))))),
       switchMap(([, logs]) => {
-        if (this.networkStateProvider.getNetworkState() === ConnectionStatus.OFFLINE) {
+        if (this.networkStateProvider.getNetworkState() === NetworkConnectionStatus.OFFLINE) {
           return of({ type: '[LogsEffects] Connection Status OFFLINE' });
         }
         return this.logsProvider.sendLogs(logs).pipe(

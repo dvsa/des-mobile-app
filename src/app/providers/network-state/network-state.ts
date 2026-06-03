@@ -1,60 +1,40 @@
 import { Injectable } from '@angular/core';
-import { Network } from '@awesome-cordova-plugins/network/ngx';
-import { Platform } from '@ionic/angular';
+import { ConnectionStatus, Network } from '@capacitor/network';
 import { BehaviorSubject, Observable } from 'rxjs';
 
-export enum ConnectionStatus {
+export enum NetworkConnectionStatus {
   ONLINE = 0,
   OFFLINE = 1,
 }
 
 @Injectable()
 export class NetworkStateProvider {
-  networkStatus$: BehaviorSubject<ConnectionStatus> = new BehaviorSubject(ConnectionStatus.OFFLINE);
-  public isOffline$: BehaviorSubject<boolean> = new BehaviorSubject(true);
+  private readonly networkStatus$ = new BehaviorSubject<number>(NetworkConnectionStatus.OFFLINE);
+  private connectionType = 'unknown';
 
-  constructor(
-    private network: Network,
-    private platform: Platform
-  ) {}
+  async initialiseNetworkState(): Promise<void> {
+    const status = await Network.getStatus();
+    this.applyStatus(status);
 
-  initialiseNetworkState(): void {
-    this.platform.ready().then(() => {
-      this.initialiseNetworkEvents();
-      const status = this.network.type !== 'none' ? ConnectionStatus.ONLINE : ConnectionStatus.OFFLINE;
-      this.networkStatus$.next(status);
-      this.isOffline$.next(status === ConnectionStatus.OFFLINE);
+    await Network.addListener('networkStatusChange', (status) => {
+      this.applyStatus(status);
     });
   }
 
-  initialiseNetworkEvents(): void {
-    this.network.onDisconnect().subscribe(() => {
-      this.updateNetworkStatus(ConnectionStatus.OFFLINE);
-    });
-
-    this.network.onConnect().subscribe(() => {
-      this.updateNetworkStatus(ConnectionStatus.ONLINE);
-    });
+  private applyStatus(status: ConnectionStatus): void {
+    this.connectionType = status.connectionType;
+    this.networkStatus$.next(status.connected ? NetworkConnectionStatus.ONLINE : NetworkConnectionStatus.OFFLINE);
   }
 
-  public updateNetworkStatus(status: ConnectionStatus) {
-    this.networkStatus$.next(status);
-    this.isOffline$.next(status === ConnectionStatus.OFFLINE);
+  networkType(): string {
+    return this.connectionType;
   }
 
-  public onNetworkChange(): Observable<ConnectionStatus> {
+  public onNetworkChange(): Observable<NetworkConnectionStatus> {
     return this.networkStatus$.asObservable();
   }
 
-  /**
-   * Gets whether the network is online or offline
-   * NOTE: networkStatus$ guard clause allows app to run in browser
-   * @returns ConnectionStatus
-   */
-  public getNetworkState(): ConnectionStatus {
-    if (!this.networkStatus$ || !this.platform.is('cordova')) {
-      return ConnectionStatus.ONLINE;
-    }
+  getNetworkState(): NetworkConnectionStatus {
     return this.networkStatus$.getValue();
   }
 }

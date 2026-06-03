@@ -16,7 +16,7 @@ import { DataStoreProvider, LocalStorageKey } from '../../data-store/data-store'
 import { DateTimeProviderMock } from '../../date-time/__mocks__/date-time.mock';
 import { DateTimeProvider } from '../../date-time/date-time';
 import { NetworkStateProviderMock } from '../../network-state/__mocks__/network-state.mock';
-import { ConnectionStatus, NetworkStateProvider } from '../../network-state/network-state';
+import { NetworkConnectionStatus, NetworkStateProvider } from '../../network-state/network-state';
 import { UrlProviderMock } from '../../url/__mocks__/url.mock';
 import { UrlProvider } from '../../url/url';
 import { JournalProvider } from '../journal';
@@ -90,7 +90,7 @@ describe('JournalProvider', () => {
     });
 
     it('should get the journal record using the url', () => {
-      spyOn(journalProvider.networkStateProvider, 'getNetworkState').and.returnValue(ConnectionStatus.ONLINE);
+      spyOn(journalProvider.networkStateProvider, 'getNetworkState').and.returnValue(NetworkConnectionStatus.ONLINE);
       journalProvider
         .getJournal(null)
         .pipe(take(1))
@@ -103,7 +103,7 @@ describe('JournalProvider', () => {
       expect(req.request.headers.get('If-Modified-Since')).toBe(null);
     });
     it('should get the offline journal when lastRefreshed is null and ConnectionStatus is OFFLINE', () => {
-      spyOn(journalProvider.networkStateProvider, 'getNetworkState').and.returnValue(ConnectionStatus.OFFLINE);
+      spyOn(journalProvider.networkStateProvider, 'getNetworkState').and.returnValue(NetworkConnectionStatus.OFFLINE);
       journalProvider
         .getJournal(null)
         .pipe(take(1))
@@ -114,7 +114,7 @@ describe('JournalProvider', () => {
       expect(journalProvider.getOfflineJournal).toHaveBeenCalled();
     });
     it('should get the journal record with an `If-Modified-Since` header', () => {
-      spyOn(journalProvider.networkStateProvider, 'getNetworkState').and.returnValue(ConnectionStatus.ONLINE);
+      spyOn(journalProvider.networkStateProvider, 'getNetworkState').and.returnValue(NetworkConnectionStatus.ONLINE);
       journalProvider
         .getJournal(new Date('2020-01-01'))
         .pipe(take(1))
@@ -127,7 +127,7 @@ describe('JournalProvider', () => {
       expect(req.request.headers.get('If-Modified-Since')).toBeDefined();
     });
     it('should get the offline journal when lastRefreshed is defined but ConnectionStatus is OFFLINE', () => {
-      spyOn(journalProvider.networkStateProvider, 'getNetworkState').and.returnValue(ConnectionStatus.OFFLINE);
+      spyOn(journalProvider.networkStateProvider, 'getNetworkState').and.returnValue(NetworkConnectionStatus.OFFLINE);
       journalProvider
         .getJournal(new Date('2020-01-01'))
         .pipe(take(1))
@@ -203,7 +203,7 @@ describe('JournalProvider', () => {
     beforeEach(() => {
       spyOn(dateTimeProviderMock, 'now').and.returnValue(new DateTime('2021-01-01'));
       spyOn(dataStoreMock, 'setItem').and.returnValue(Promise.resolve(''));
-      spyOn(networkStateProviderMock, 'getNetworkState').and.returnValue(ConnectionStatus.ONLINE);
+      spyOn(networkStateProviderMock, 'getNetworkState').and.returnValue(NetworkConnectionStatus.ONLINE);
     });
     it('should set the journalData param into data store', () => {
       const journalDataToStore = {

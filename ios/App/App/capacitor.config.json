@@ -20,6 +20,7 @@
 		"AppLauncherPlugin",
 		"CAPBrowserPlugin",
 		"DevicePlugin",
+		"CAPNetworkPlugin",
 		"SplashScreenPlugin",
 		"StatusBarPlugin",
 		"TextZoomPlugin",
