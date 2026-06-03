@@ -29,7 +29,6 @@
     "build:qr": "npm run schema-version && npm run config:qr && ionic cap build ios --no-open --prod --configuration qr && npm run patch-netinet",
     "build:prod": "ionic cap build ios --no-open --prod && npm run patch-netinet",
     "build:test": "npm run schema-version && npm run config:test && buildScripts/build-for-e2e.sh",
-    "patch-netinet": "buildScripts/patch-netinet.sh",
     "lint": "biome check src",
     "lint:fix": "npm run lint -- --fix",
     "gitSecrets": "git secrets --scan && git log -p -n 200 | scanrepo",
