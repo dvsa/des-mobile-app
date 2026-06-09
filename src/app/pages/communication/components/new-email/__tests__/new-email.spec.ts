@@ -92,7 +92,7 @@ describe('NewEmailComponent', () => {
         translate.use('en').subscribe(() => {
           fixture.detectChanges();
           expect(fixture.debugElement.query(By.css('.validation-text')).nativeElement.innerHTML.trim()).toBe(
-            'Please enter a valid email'
+            'Enter a valid email address (For example, name@example.co.uk)'
           );
           expect(fixture.debugElement.query(By.css('.communication-text')).nativeElement.innerHTML.trim()).toBe(
             'Enter the email address you want us to send your results to.'
@@ -105,7 +105,7 @@ describe('NewEmailComponent', () => {
         translate.use('cy').subscribe(() => {
           fixture.detectChanges();
           expect(fixture.debugElement.query(By.css('.validation-text')).nativeElement.innerHTML.trim()).toBe(
-            'Nodwch e-bost dilys'
+            'Cofnodwch gyfeiriad e-bost dilys (Er enghraifft, name@example.co.uk)'
           );
           expect(fixture.debugElement.query(By.css('.communication-text')).nativeElement.innerHTML.trim()).toBe(
             'Nodwch y cyfeiriad e-bost rydych chi am i ni anfon eich canlyniadau ato'
