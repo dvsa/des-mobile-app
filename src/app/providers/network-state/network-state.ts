@@ -11,7 +11,9 @@ export enum NetworkConnectionStatus {
 
 @Injectable()
 export class NetworkStateProvider {
-  networkStatus$ = new BehaviorSubject<number>(NetworkConnectionStatus.OFFLINE);
+  networkStatus$: BehaviorSubject<NetworkConnectionStatus> = new BehaviorSubject<number>(
+    NetworkConnectionStatus.OFFLINE
+  );
   connectionType = 'unknown';
 
   constructor(private platform: Platform) {}
@@ -47,7 +49,7 @@ export class NetworkStateProvider {
   /**
    * Returns whether the network status is currently offline
    */
-  isOffline(): Observable<boolean> {
+  get isOffline$(): Observable<boolean> {
     return this.onNetworkChange().pipe(map((status) => status === NetworkConnectionStatus.OFFLINE));
   }
 

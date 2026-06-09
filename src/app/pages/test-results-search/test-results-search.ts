@@ -77,7 +77,7 @@ export class TestResultsSearchPage extends BasePageComponent {
   ngOnInit(): void {
     this.pageState = {
       activeTestCentres$: this.store$.pipe(select(getRefDataState), map(getTestCentres), map(getActiveTestCentres)),
-      isOffline$: this.networkStateProvider.isOffline(),
+      isOffline$: this.networkStateProvider.isOffline$,
     };
     this.merged$ = merge(this.pageState.activeTestCentres$);
   }

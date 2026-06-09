@@ -101,7 +101,7 @@ export class DashboardPage extends BasePageComponent implements OnInit, ViewDidE
       role$: this.store$.select(selectRole).pipe(map(this.getRoleDisplayValue)),
       liveAppVersion$: this.store$.select(selectLiveAppVersion),
       showUpdatesAvailable$: showUpdateAvailable$(this.store$, this.platform),
-      isOffline$: this.networkStateProvider.isOffline(),
+      isOffline$: this.networkStateProvider.isOffline$,
       notificationCount$: combineLatest([
         unsubmittedTestSlotsCount$(
           this.store$.select(getJournalState),

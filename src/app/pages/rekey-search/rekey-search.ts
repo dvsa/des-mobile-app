@@ -75,7 +75,7 @@ export class RekeySearchPage extends BasePageComponent implements OnInit {
       bookedTestSlot$: rekeySearch$.pipe(map(getBookedTestSlot)),
       rekeySearchErr$: rekeySearch$.pipe(map(getRekeySearchError)),
       isBookedLessThanHalfAnHourLate$: rekeySearch$.pipe(map(getIsHalfAnHourLate)),
-      isOffline$: this.networkStateProvider.isOffline(),
+      isOffline$: this.networkStateProvider.isOffline$,
       employeeId$: this.store$.select(selectEmployeeId),
     };
 

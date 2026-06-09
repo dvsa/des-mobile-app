@@ -81,7 +81,7 @@ export class TestCentreJournalPage extends BasePageComponent implements OnDestro
 
   ngOnInit(): void {
     this.pageState = {
-      isOffline$: this.networkStateProvider.isOffline(),
+      isOffline$: this.networkStateProvider.isOffline$,
       lastRefreshedTime$: this.store$.pipe(
         select(getTestCentreJournalState),
         map(getLastRefreshed),

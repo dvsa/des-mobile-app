@@ -118,7 +118,7 @@ export class JournalPage extends BasePageComponent implements OnInit {
       isLoading$: this.store$.pipe(select(getJournalState), map(getIsLoading)),
       lastRefreshedTime$: this.store$.pipe(select(getJournalState), map(getLastRefreshed), map(getLastRefreshedTime)),
       appVersion$: this.store$.select(selectVersionNumber),
-      isOffline$: this.networkStateProvider.isOffline(),
+      isOffline$: this.networkStateProvider.isOffline$,
       canNavigateToPreviousDay$: this.store$.pipe(
         select(getJournalState),
         map((journal) => canNavigateToPreviousDay(journal, this.dateTimeProvider.now()))

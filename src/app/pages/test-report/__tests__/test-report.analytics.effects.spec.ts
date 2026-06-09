@@ -2730,6 +2730,7 @@ describe('TestReportAnalyticsEffects', () => {
       // ACT
       store$.dispatch(lessonThemeActions.StudentLevelChanged(studentLevel));
       // ASSERT
+      expect(effects.studentLevelChanged$).toBeDefined();
       effects.studentLevelChanged$.subscribe((result) => {
         expect(result.type).toEqual(AnalyticRecorded.type);
 
@@ -2741,7 +2742,6 @@ describe('TestReportAnalyticsEffects', () => {
           studentLevel
         );
       });
-      expect(effects.studentLevelChanged$).toBeDefined();
       done();
     });
     it('should call logEvent for this competency, prefixed with practice test', (done) => {

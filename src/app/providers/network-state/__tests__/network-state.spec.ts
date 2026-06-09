@@ -46,23 +46,17 @@ describe('NetworkStateProvider', () => {
       networkStateProvider.networkStatus$ = new BehaviorSubject<NetworkConnectionStatus>(
         NetworkConnectionStatus.OFFLINE
       );
-      networkStateProvider
-        .isOffline()
-        .pipe(take(1))
-        .subscribe((val) => {
-          expect(val).toEqual(true);
-        });
+      networkStateProvider.isOffline$.pipe(take(1)).subscribe((val) => {
+        expect(val).toEqual(true);
+      });
     });
     it('should return false if the piped value is Online', () => {
       networkStateProvider.networkStatus$ = new BehaviorSubject<NetworkConnectionStatus>(
         NetworkConnectionStatus.ONLINE
       );
-      networkStateProvider
-        .isOffline()
-        .pipe(take(1))
-        .subscribe((val) => {
-          expect(val).toEqual(false);
-        });
+      networkStateProvider.isOffline$.pipe(take(1)).subscribe((val) => {
+        expect(val).toEqual(false);
+      });
     });
   });
 
@@ -89,7 +83,7 @@ describe('NetworkStateProvider', () => {
       });
       expect(networkStateProvider.networkStatus$.next).toHaveBeenCalledWith(NetworkConnectionStatus.ONLINE);
     });
-    it('should set status to online when passed with connected = false', () => {
+    it('should set status to offline when passed with connected = false', () => {
       networkStateProvider.applyStatus({
         connected: false,
         connectionType: 'none',

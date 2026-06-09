@@ -180,7 +180,7 @@ export abstract class WaitingRoomToCarBasePageComponent extends PracticeableBase
       interpreterAccompaniment$: currentTest$.pipe(select(getAccompaniment), select(getInterpreterAccompaniment)),
       motEvidenceProvided$: currentTest$.pipe(select(getVehicleDetails), select(getMotEvidenceProvided)),
       motEvidenceDescription$: currentTest$.pipe(select(getVehicleDetails), select(getMotEvidence)),
-      isOffline$: this.networkStateProvider.isOffline(),
+      isOffline$: this.networkStateProvider.isOffline$,
     };
   }
 

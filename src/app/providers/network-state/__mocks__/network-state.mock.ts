@@ -6,13 +6,13 @@ export class NetworkStateProviderMock {
     return of(NetworkConnectionStatus.OFFLINE);
   }
 
-  public initialiseNetworkState(): void {}
+  public async initialiseNetworkState(): Promise<void> {}
 
   public getNetworkState(): NetworkConnectionStatus {
     return NetworkConnectionStatus.ONLINE;
   }
 
-  public isOffline(): Observable<boolean> {
+  get isOffline$(): Observable<boolean> {
     return of(false);
   }
 }
