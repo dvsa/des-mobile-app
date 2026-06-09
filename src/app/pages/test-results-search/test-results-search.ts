@@ -11,7 +11,7 @@ import { ErrorPage } from '@pages/error-page/error';
 import { AccessibilityService } from '@providers/accessibility/accessibility.service';
 import { AppConfigProvider } from '@providers/app-config/app-config';
 import { ExaminerRole } from '@providers/app-config/constants/examiner-role.constants';
-import { NetworkConnectionStatus, NetworkStateProvider } from '@providers/network-state/network-state';
+import { NetworkStateProvider } from '@providers/network-state/network-state';
 import { SearchProvider } from '@providers/search/search';
 import { AdvancedSearchParams } from '@providers/search/search.models';
 import { BasePageComponent } from '@shared/classes/base-page';
@@ -77,9 +77,7 @@ export class TestResultsSearchPage extends BasePageComponent {
   ngOnInit(): void {
     this.pageState = {
       activeTestCentres$: this.store$.pipe(select(getRefDataState), map(getTestCentres), map(getActiveTestCentres)),
-      isOffline$: this.networkStateProvider
-        .onNetworkChange()
-        .pipe(map((status) => status === NetworkConnectionStatus.OFFLINE)),
+      isOffline$: this.networkStateProvider.isOffline(),
     };
     this.merged$ = merge(this.pageState.activeTestCentres$);
   }

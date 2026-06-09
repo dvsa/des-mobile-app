@@ -17,7 +17,7 @@ import { AccessibilityService } from '@providers/accessibility/accessibility.ser
 import { AppConfigProvider } from '@providers/app-config/app-config';
 import { ExaminerRole, ExaminerRoleDescription } from '@providers/app-config/constants/examiner-role.constants';
 import { DateTimeProvider } from '@providers/date-time/date-time';
-import { NetworkConnectionStatus, NetworkStateProvider } from '@providers/network-state/network-state';
+import { NetworkStateProvider } from '@providers/network-state/network-state';
 import { SlotItem } from '@providers/slot-selector/slot-item';
 import { SlotProvider } from '@providers/slot/slot';
 import { BasePageComponent } from '@shared/classes/base-page';
@@ -101,9 +101,7 @@ export class DashboardPage extends BasePageComponent implements OnInit, ViewDidE
       role$: this.store$.select(selectRole).pipe(map(this.getRoleDisplayValue)),
       liveAppVersion$: this.store$.select(selectLiveAppVersion),
       showUpdatesAvailable$: showUpdateAvailable$(this.store$, this.platform),
-      isOffline$: this.networkStateProvider
-        .onNetworkChange()
-        .pipe(map((status) => status === NetworkConnectionStatus.OFFLINE)),
+      isOffline$: this.networkStateProvider.isOffline(),
       notificationCount$: combineLatest([
         unsubmittedTestSlotsCount$(
           this.store$.select(getJournalState),

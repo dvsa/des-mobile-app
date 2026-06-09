@@ -118,7 +118,7 @@ export class AppComponent extends LogoutBasePageComponent implements OnInit {
       }
       await this.appConfigProvider.initialiseAppConfig();
       await this.initialiseSentry();
-      await this.initialiseNetworkState();
+      await this.networkStateProvider.initialiseNetworkState();
 
       this.store$.dispatch(LoadAppVersion());
       await this.accessibilityService.configureStatusBar(Style.Dark);
@@ -148,10 +148,6 @@ export class AppComponent extends LogoutBasePageComponent implements OnInit {
       this.platformSubscription.unsubscribe();
     }
   }
-
-  public initialiseNetworkState = async (): Promise<void> => {
-    await this.networkStateProvider.initialiseNetworkState();
-  };
 
   configurePlatformSubscriptions(): void {
     const merged$ = merge(

@@ -23,7 +23,7 @@ import {
 } from '@pages/rekey-search/rekey-search.selector';
 import { AppConfigProvider } from '@providers/app-config/app-config';
 import { ExaminerRole } from '@providers/app-config/constants/examiner-role.constants';
-import { NetworkConnectionStatus, NetworkStateProvider } from '@providers/network-state/network-state';
+import { NetworkStateProvider } from '@providers/network-state/network-state';
 import { OrientationMonitorProvider } from '@providers/orientation-monitor/orientation-monitor.provider';
 import { BasePageComponent } from '@shared/classes/base-page';
 import { bookingReferenceMask, formatBookingReferenceForBackend, maskPredicate } from '@shared/helpers/formatters';
@@ -75,9 +75,7 @@ export class RekeySearchPage extends BasePageComponent implements OnInit {
       bookedTestSlot$: rekeySearch$.pipe(map(getBookedTestSlot)),
       rekeySearchErr$: rekeySearch$.pipe(map(getRekeySearchError)),
       isBookedLessThanHalfAnHourLate$: rekeySearch$.pipe(map(getIsHalfAnHourLate)),
-      isOffline$: this.networkStateProvider
-        .onNetworkChange()
-        .pipe(map((status) => status === NetworkConnectionStatus.OFFLINE)),
+      isOffline$: this.networkStateProvider.isOffline(),
       employeeId$: this.store$.select(selectEmployeeId),
     };
 
