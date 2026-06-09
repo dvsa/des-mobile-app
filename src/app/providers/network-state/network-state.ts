@@ -54,7 +54,7 @@ export class NetworkStateProvider {
   }
 
   /**
-   * Returns current value of the network state, faking offline if the app is running on the browser
+   * Returns the current value of the network state, treating the browser as ONLINE
    */
   getNetworkState(): NetworkConnectionStatus {
     if (!this.networkStatus$ || !this.platform.is('cordova')) {

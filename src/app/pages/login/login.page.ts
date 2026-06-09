@@ -36,6 +36,7 @@ export class LoginPage extends LogoutBasePageComponent implements OnInit {
   isLoggingIn = false;
 
   connectionStatus$: Observable<NetworkConnectionStatus> = this.networkStateProvider.onNetworkChange();
+  connectionStatusSubscription: Subscription = null;
   previousConnectionStatus = NetworkConnectionStatus.ONLINE;
 
   get loadingOptions(): LoadingOptions {
@@ -62,7 +63,7 @@ export class LoginPage extends LogoutBasePageComponent implements OnInit {
    * Monitor the online status of the app and if it comes back online after being offline, automatically attempt to log in
    */
   monitorOnlineStatus() {
-    this.connectionStatus$.subscribe(async (newConnectionStatus) => {
+    this.connectionStatusSubscription = this.connectionStatus$.subscribe(async (newConnectionStatus) => {
       if (newConnectionStatus !== this.previousConnectionStatus) {
         this.previousConnectionStatus = newConnectionStatus;
         if (newConnectionStatus === NetworkConnectionStatus.ONLINE && this.isIos() && !this.isLoggedIn) {
@@ -96,7 +97,6 @@ export class LoginPage extends LogoutBasePageComponent implements OnInit {
       if (!this.hasUserLoggedOut) {
         await this.login();
       }
-      this.monitorOnlineStatus();
     }
 
     if (!this.isIos()) {
@@ -111,10 +111,12 @@ export class LoginPage extends LogoutBasePageComponent implements OnInit {
   async ionViewDidEnter(): Promise<void> {
     if (this.isIos()) {
       await this.deviceProvider.disableSingleAppMode();
+      this.monitorOnlineStatus();
     }
   }
 
   ionViewDidLeave(): void {
+    this.connectionStatusSubscription.unsubscribe();
     this.queryParamSub?.unsubscribe();
   }
 
