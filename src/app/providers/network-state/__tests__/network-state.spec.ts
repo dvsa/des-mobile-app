@@ -26,6 +26,7 @@ describe('NetworkStateProvider', () => {
     spyOn(platform, 'ready').and.returnValue(Promise.resolve(''));
     spyOn(networkStateProvider.networkStatus$, 'next');
   });
+
   describe('onNetworkChange', () => {
     it('should return networkStatus as an Observable', () => {
       networkStateProvider.networkStatus$ = new BehaviorSubject<NetworkConnectionStatus>(
@@ -39,6 +40,32 @@ describe('NetworkStateProvider', () => {
         });
     });
   });
+
+  describe('isOffline', () => {
+    it('should return true if the piped value is Offline', () => {
+      networkStateProvider.networkStatus$ = new BehaviorSubject<NetworkConnectionStatus>(
+        NetworkConnectionStatus.OFFLINE
+      );
+      networkStateProvider
+        .isOffline()
+        .pipe(take(1))
+        .subscribe((val) => {
+          expect(val).toEqual(true);
+        });
+    });
+    it('should return false if the piped value is Online', () => {
+      networkStateProvider.networkStatus$ = new BehaviorSubject<NetworkConnectionStatus>(
+        NetworkConnectionStatus.ONLINE
+      );
+      networkStateProvider
+        .isOffline()
+        .pipe(take(1))
+        .subscribe((val) => {
+          expect(val).toEqual(false);
+        });
+    });
+  });
+
   describe('initialiseNetworkState', () => {
     it('should call apply status with current status', async () => {
       const currentStatus: ConnectionStatus = {
@@ -78,6 +105,7 @@ describe('NetworkStateProvider', () => {
       expect(networkStateProvider.connectionType).toEqual('none');
     });
   });
+
   describe('getNetworkState', () => {
     it('should return ONLINE if network status is null and the platform is cordova', () => {
       networkStateProvider.networkStatus$ = null;
