@@ -10,7 +10,7 @@ import { AuthenticationProvider } from '@providers/authentication/authentication
 import { DateTimeProvider } from '@providers/date-time/date-time';
 import { JournalProvider } from '@providers/journal/journal';
 import { LogHelper } from '@providers/logs/logs-helper';
-import { ConnectionStatus, NetworkStateProvider } from '@providers/network-state/network-state';
+import { NetworkConnectionStatus, NetworkStateProvider } from '@providers/network-state/network-state';
 import { SearchProvider } from '@providers/search/search';
 import { SlotProvider } from '@providers/slot/slot';
 import { DateTime, Duration } from '@shared/helpers/date-time';
@@ -245,7 +245,7 @@ export class JournalEffects {
 
         const pollsWhileOnline$ = pollTimer$.pipe(
           withLatestFrom(this.networkStateProvider.onNetworkChange()),
-          filter(([, connectionStatus]) => connectionStatus === ConnectionStatus.ONLINE)
+          filter(([, connectionStatus]) => connectionStatus === NetworkConnectionStatus.ONLINE)
         );
 
         return pollsWhileOnline$.pipe(

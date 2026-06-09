@@ -12,7 +12,7 @@ import {
 } from '@pages/waiting-room-to-car/components/mot-components/practice-mode-mot-modal/practice-mode-mot-modal.component';
 import { AccessibilityService } from '@providers/accessibility/accessibility.service';
 import { MotHistoryApiService, MotHistoryWithStatus } from '@providers/mot-history-api/mot-history-api.service';
-import { ConnectionStatus, NetworkStateProvider } from '@providers/network-state/network-state';
+import { NetworkConnectionStatus, NetworkStateProvider } from '@providers/network-state/network-state';
 import {
   FieldValidators,
   getRegistrationNumberValidator,
@@ -299,7 +299,7 @@ export class VehicleRegistrationComponent implements OnChanges {
     return !(
       !this.isSearchingForMOT &&
       this.formControl.valid &&
-      (this.networkState.getNetworkState() === ConnectionStatus.ONLINE || this.isPracticeMode)
+      (this.networkState.getNetworkState() === NetworkConnectionStatus.ONLINE || this.isPracticeMode)
     );
   }
 
@@ -332,5 +332,5 @@ export class VehicleRegistrationComponent implements OnChanges {
     );
   }
 
-  protected readonly ConnectionStatus = ConnectionStatus;
+  protected readonly ConnectionStatus = NetworkConnectionStatus;
 }

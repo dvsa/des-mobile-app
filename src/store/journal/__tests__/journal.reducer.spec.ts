@@ -1,5 +1,5 @@
 import { Action } from '@ngrx/store';
-import { ConnectionStatus } from '@providers/network-state/network-state';
+import { NetworkConnectionStatus } from '@providers/network-state/network-state';
 import { searchResultsMock } from '@providers/search/__mocks__/search-results.mock';
 import { SlotItem } from '@providers/slot-selector/slot-item';
 import {
@@ -59,7 +59,7 @@ describe('Journal Reducer', () => {
         },
       };
 
-      const action = LoadJournalSuccess(actionPayload, ConnectionStatus.ONLINE, false, new Date());
+      const action = LoadJournalSuccess(actionPayload, NetworkConnectionStatus.ONLINE, false, new Date());
 
       const state = {
         ...initialState,

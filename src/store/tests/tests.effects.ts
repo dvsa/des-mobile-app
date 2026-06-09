@@ -21,7 +21,7 @@ import { AppConfigProvider } from '@providers/app-config/app-config';
 import { AuthenticationProvider } from '@providers/authentication/authentication';
 import { LogHelper } from '@providers/logs/logs-helper';
 import { NavigationStateProvider } from '@providers/navigation-state/navigation-state';
-import { ConnectionStatus, NetworkStateProvider } from '@providers/network-state/network-state';
+import { NetworkConnectionStatus, NetworkStateProvider } from '@providers/network-state/network-state';
 import { TestPersistenceProvider } from '@providers/test-persistence/test-persistence';
 import { TestSubmissionProvider, TestToSubmit } from '@providers/test-submission/test-submission';
 import { end2endPracticeSlotId, testReportPracticeSlotId } from '@shared/mocks/test-slot-ids.mock';
@@ -365,7 +365,7 @@ export class TestsEffects {
     this.actions$.pipe(
       ofType(testActions.SendCompletedTests),
       concatMap((action) => of(action).pipe(withLatestFrom(this.store$.pipe(select(getTests))))),
-      filter(() => this.networkStateProvider.getNetworkState() === ConnectionStatus.ONLINE),
+      filter(() => this.networkStateProvider.getNetworkState() === NetworkConnectionStatus.ONLINE),
       switchMap(([, tests]: [ReturnType<typeof SendCompletedTests>, TestsModel]) => {
         const completedTestKeys = Object.keys(tests.testStatus).filter(
           (slotId: string) =>

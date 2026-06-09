@@ -2730,6 +2730,7 @@ describe('TestReportAnalyticsEffects', () => {
       // ACT
       store$.dispatch(lessonThemeActions.StudentLevelChanged(studentLevel));
       // ASSERT
+      expect(effects.studentLevelChanged$).toBeDefined();
       effects.studentLevelChanged$.subscribe((result) => {
         expect(result.type).toEqual(AnalyticRecorded.type);
 

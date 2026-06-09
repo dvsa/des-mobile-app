@@ -8,7 +8,7 @@ import { AppConfigProvider } from '../app-config/app-config';
 import { AuthenticationProvider } from '../authentication/authentication';
 import { DataStoreProvider, LocalStorageKey } from '../data-store/data-store';
 import { DateTimeProvider } from '../date-time/date-time';
-import { ConnectionStatus, NetworkStateProvider } from '../network-state/network-state';
+import { NetworkConnectionStatus, NetworkStateProvider } from '../network-state/network-state';
 import { UrlProvider } from '../url/url';
 
 type JournalCache = {
@@ -33,7 +33,7 @@ export class JournalProvider {
     const journalUrl = this.urlProvider.getPersonalJournalUrl(staffNumber);
     const networkStatus = this.networkStateProvider.getNetworkState();
     if (lastRefreshed === null) {
-      if (networkStatus === ConnectionStatus.ONLINE) {
+      if (networkStatus === NetworkConnectionStatus.ONLINE) {
         return this.http.get(journalUrl).pipe(timeout(this.appConfigProvider.getAppConfig().requestTimeout));
       }
       return this.getOfflineJournal();
@@ -43,7 +43,7 @@ export class JournalProvider {
     const options = {
       headers: new HttpHeaders().set('If-Modified-Since', modifiedSinceValue),
     };
-    if (networkStatus === ConnectionStatus.ONLINE) {
+    if (networkStatus === NetworkConnectionStatus.ONLINE) {
       return this.http.get(journalUrl, options).pipe(timeout(this.appConfigProvider.getAppConfig().requestTimeout));
     }
     return this.getOfflineJournal();
@@ -84,7 +84,7 @@ export class JournalProvider {
    * while online
    */
   saveJournalForOffline = (journalData: ExaminerWorkSchedule) => {
-    if (this.networkStateProvider.getNetworkState() === ConnectionStatus.ONLINE) {
+    if (this.networkStateProvider.getNetworkState() === NetworkConnectionStatus.ONLINE) {
       const journalDataToStore: JournalCache = {
         dateStored: this.dateTimeProvider.now().format('YYYY/MM/DD'),
         data: journalData,

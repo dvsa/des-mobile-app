@@ -16,7 +16,7 @@ import { take } from 'rxjs/operators';
 import { AppConfigProviderMock } from '../../app-config/__mocks__/app-config.mock';
 import { AppConfigProvider } from '../../app-config/app-config';
 import { NetworkStateProviderMock } from '../../network-state/__mocks__/network-state.mock';
-import { ConnectionStatus, NetworkStateProvider } from '../../network-state/network-state';
+import { NetworkConnectionStatus, NetworkStateProvider } from '../../network-state/network-state';
 import { UrlProviderMock } from '../../url/__mocks__/url.mock';
 import { UrlProvider } from '../../url/url';
 
@@ -84,7 +84,9 @@ describe('CandidateLicenceProvider', () => {
     });
 
     it('should throw an error if offline and no cached data', () => {
-      spyOn(candidateLicenceProvider.networkStateProvider, 'getNetworkState').and.returnValue(ConnectionStatus.OFFLINE);
+      spyOn(candidateLicenceProvider.networkStateProvider, 'getNetworkState').and.returnValue(
+        NetworkConnectionStatus.OFFLINE
+      );
 
       expect(() => candidateLicenceProvider.getCandidateData('ABC1', '1231212')).toThrowError(
         CandidateLicenceErr.OFFLINE

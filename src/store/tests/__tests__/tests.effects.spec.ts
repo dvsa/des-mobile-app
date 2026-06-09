@@ -17,7 +17,7 @@ import { LogHelper } from '@providers/logs/logs-helper';
 import { NavigationStateProviderMock } from '@providers/navigation-state/__mocks__/navigation-state.mock';
 import { NavigationStateProvider } from '@providers/navigation-state/navigation-state';
 import { NetworkStateProviderMock } from '@providers/network-state/__mocks__/network-state.mock';
-import { ConnectionStatus, NetworkStateProvider } from '@providers/network-state/network-state';
+import { NetworkConnectionStatus, NetworkStateProvider } from '@providers/network-state/network-state';
 import { TestPersistenceProviderMock } from '@providers/test-persistence/__mocks__/test-persistence.mock';
 import { TestPersistenceProvider } from '@providers/test-persistence/test-persistence';
 import { TestSubmissionProviderMock } from '@providers/test-submission/__mocks__/test-submission.mock';
@@ -256,7 +256,7 @@ describe('TestsEffects', () => {
             examiner,
             slotItemsByDate: journalSlotsDataMock,
           },
-          ConnectionStatus.ONLINE,
+          NetworkConnectionStatus.ONLINE,
           false,
           new Date()
         )
@@ -286,7 +286,7 @@ describe('TestsEffects', () => {
             examiner,
             slotItemsByDate: journalSlotsDataMock,
           },
-          ConnectionStatus.ONLINE,
+          NetworkConnectionStatus.ONLINE,
           false,
           new Date()
         )

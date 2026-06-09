@@ -33,7 +33,7 @@ import { JWTPayload } from 'jose';
 import { get } from 'lodash-es';
 import { AppConfigProvider } from '../app-config/app-config';
 import { DataStoreProvider, LocalStorageKey } from '../data-store/data-store';
-import { ConnectionStatus, NetworkStateProvider } from '../network-state/network-state';
+import { NetworkConnectionStatus, NetworkStateProvider } from '../network-state/network-state';
 import { TestPersistenceProvider } from '../test-persistence/test-persistence';
 
 export enum Token {
@@ -254,7 +254,7 @@ export class AuthenticationProvider {
    */
   public isOffline(): boolean {
     // Return true if the app is offline
-    return this.networkState.getNetworkState() === ConnectionStatus.OFFLINE;
+    return this.networkState.getNetworkState() === NetworkConnectionStatus.OFFLINE;
   }
 
   /**

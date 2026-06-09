@@ -6,7 +6,7 @@ import { ReplaySubject, of } from 'rxjs';
 import { DateTimeProviderMock } from '@providers/date-time/__mocks__/date-time.mock';
 import { DateTimeProvider } from '@providers/date-time/date-time';
 import { NetworkStateProviderMock } from '@providers/network-state/__mocks__/network-state.mock';
-import { ConnectionStatus, NetworkStateProvider } from '@providers/network-state/network-state';
+import { NetworkConnectionStatus, NetworkStateProvider } from '@providers/network-state/network-state';
 import { ReferenceDataProviderMock } from '@providers/reference-data/__mocks__/reference-data.mock';
 import { ReferenceDataProvider } from '@providers/reference-data/reference-data';
 import { DateTime } from '@shared/helpers/date-time';
@@ -62,7 +62,7 @@ describe('ReferenceDataEffects', () => {
     it('should not call getTestCentres when offline', () => {
       // ARRANGE
       spyOn(dateTimeProvider, 'now').and.returnValue(new DateTime(mockTomorrowDate));
-      spyOn(networkStateProvider, 'getNetworkState').and.returnValue(ConnectionStatus.OFFLINE);
+      spyOn(networkStateProvider, 'getNetworkState').and.returnValue(NetworkConnectionStatus.OFFLINE);
       // ACT
       actions$.next(GetTestCentresRefData());
       // ASSERT
@@ -73,7 +73,7 @@ describe('ReferenceDataEffects', () => {
     it('should not call getTestCentres when saved date is current date', () => {
       // ARRANGE
       spyOn(dateTimeProvider, 'now').and.returnValue(new DateTime(mockTodayDate));
-      spyOn(networkStateProvider, 'getNetworkState').and.returnValue(ConnectionStatus.ONLINE);
+      spyOn(networkStateProvider, 'getNetworkState').and.returnValue(NetworkConnectionStatus.ONLINE);
       store$.dispatch(SetDateRefDataUpdated(mockTodayDate));
       // ACT
       actions$.next(GetTestCentresRefData());
@@ -86,7 +86,7 @@ describe('ReferenceDataEffects', () => {
       spyOn(referenceDataProvider, 'getTestCentres').and.returnValue(of(mockTestCentres));
       // ARRANGE
       spyOn(dateTimeProvider, 'now').and.returnValue(new DateTime(mockTomorrowDate));
-      spyOn(networkStateProvider, 'getNetworkState').and.returnValue(ConnectionStatus.ONLINE);
+      spyOn(networkStateProvider, 'getNetworkState').and.returnValue(NetworkConnectionStatus.ONLINE);
       store$.dispatch(SetDateRefDataUpdated(mockTodayDate));
       // ACT
       actions$.next(GetTestCentresRefData());
@@ -102,7 +102,7 @@ describe('ReferenceDataEffects', () => {
       // ARRANGE
       store$.dispatch(SetDateRefDataUpdated(mockTodayDate));
       spyOn(dateTimeProvider, 'now').and.returnValue(new DateTime(mockTomorrowDate));
-      spyOn(networkStateProvider, 'getNetworkState').and.returnValue(ConnectionStatus.ONLINE);
+      spyOn(networkStateProvider, 'getNetworkState').and.returnValue(NetworkConnectionStatus.ONLINE);
       // ACT
       actions$.next(GetTestCentresRefData());
       // ASSERT

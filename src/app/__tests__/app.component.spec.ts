@@ -197,14 +197,6 @@ describe('AppComponent', () => {
     }));
   });
 
-  describe('initialiseNetworkState', () => {
-    it('should call through to initialiseNetworkState', () => {
-      spyOn(networkStateProvider, 'initialiseNetworkState');
-      component.initialiseNetworkState();
-      expect(networkStateProvider.initialiseNetworkState).toHaveBeenCalled();
-    });
-  });
-
   describe('getFilteredPages', () => {
     it('should return all pages if role is not defined', () => {
       spyOn(appConfigProvider, 'getAppConfig').and.returnValue({ role: undefined } as AppConfig);

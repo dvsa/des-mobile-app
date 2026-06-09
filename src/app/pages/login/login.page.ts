@@ -11,6 +11,7 @@ import { AuthenticationError } from '@providers/authentication/authentication.co
 import { DeviceError } from '@providers/device/device.constants';
 import { LoadingProvider } from '@providers/loader/loader';
 import { NetworkStateProvider } from '@providers/network-state/network-state';
+import { NetworkConnectionStatus } from '@providers/network-state/network-state';
 import { LogoutBasePageComponent } from '@shared/classes/logout-base-page/logout-base-page';
 import { LogType } from '@shared/models/log.model';
 import { LoadAppConfig } from '@store/app-config/app-config.actions';
@@ -18,7 +19,7 @@ import { LoadConfigSuccess } from '@store/app-info/app-info.actions';
 import { LoadLog, SaveLog, SendLogs, StartSendingLogs } from '@store/logs/logs.actions';
 import { GetTestCentresRefData } from '@store/reference-data/reference-data.actions';
 import { LoadPersistedTests, StartSendingCompletedTests } from '@store/tests/tests.actions';
-import { BehaviorSubject, Subscription } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { DASHBOARD_PAGE } from '../page-names.constants';
 
 @Component({
@@ -30,13 +31,13 @@ import { DASHBOARD_PAGE } from '../page-names.constants';
 export class LoginPage extends LogoutBasePageComponent implements OnInit {
   appInitError: AuthenticationError | AppConfigError | unknown;
   hasUserLoggedOut = false;
-  deviceTypeError: DeviceError;
   queryParamSub: Subscription;
   isLoggedIn = false;
   isLoggingIn = false;
 
-  isOffline$: BehaviorSubject<boolean> = this.networkStateProvider.isOffline$;
-  wasOffline = false;
+  connectionStatus$: Observable<NetworkConnectionStatus> = this.networkStateProvider.onNetworkChange();
+  connectionStatusSubscription: Subscription = null;
+  previousConnectionStatus = NetworkConnectionStatus.ONLINE;
 
   get loadingOptions(): LoadingOptions {
     return {
@@ -62,12 +63,12 @@ export class LoginPage extends LogoutBasePageComponent implements OnInit {
    * Monitor the online status of the app and if it comes back online after being offline, automatically attempt to log in
    */
   monitorOnlineStatus() {
-    this.isOffline$.subscribe(async (isOffline) => {
-      if (isOffline !== this.wasOffline) {
-        this.wasOffline = isOffline;
-        if (!isOffline && this.isIos() && !this.isLoggedIn) {
+    this.connectionStatusSubscription = this.connectionStatus$.subscribe(async (newConnectionStatus) => {
+      if (newConnectionStatus !== this.previousConnectionStatus) {
+        this.previousConnectionStatus = newConnectionStatus;
+        if (newConnectionStatus === NetworkConnectionStatus.ONLINE && this.isIos() && !this.isLoggedIn) {
           await this.login();
-        } else if (isOffline) {
+        } else if (newConnectionStatus === NetworkConnectionStatus.OFFLINE) {
           this.appInitError = AuthenticationError.OFFLINE;
         }
       }
@@ -89,14 +90,13 @@ export class LoginPage extends LogoutBasePageComponent implements OnInit {
       }
     }
 
-    this.networkStateProvider.initialiseNetworkState();
+    await this.networkStateProvider.initialiseNetworkState();
 
     // Trigger Authentication if ios device
     if (this.isIos()) {
       if (!this.hasUserLoggedOut) {
         await this.login();
       }
-      this.monitorOnlineStatus();
     }
 
     if (!this.isIos()) {
@@ -111,10 +111,12 @@ export class LoginPage extends LogoutBasePageComponent implements OnInit {
   async ionViewDidEnter(): Promise<void> {
     if (this.isIos()) {
       await this.deviceProvider.disableSingleAppMode();
+      this.monitorOnlineStatus();
     }
   }
 
   ionViewDidLeave(): void {
+    this.connectionStatusSubscription.unsubscribe();
     this.queryParamSub?.unsubscribe();
   }
 

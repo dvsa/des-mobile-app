@@ -29,7 +29,7 @@ import { AppInfoProvider } from '../app-info/app-info';
 import { AuthenticationError } from '../authentication/authentication.constants';
 import { DataStoreProvider, LocalStorageKey } from '../data-store/data-store';
 import { LogHelper } from '../logs/logs-helper';
-import { ConnectionStatus, NetworkStateProvider } from '../network-state/network-state';
+import { NetworkConnectionStatus, NetworkStateProvider } from '../network-state/network-state';
 import { SchemaValidatorProvider } from '../schema-validator/schema-validator';
 import { AppConfigError } from './app-config.constants';
 
@@ -244,7 +244,7 @@ export class AppConfigProvider {
 
   private getRemoteData = () =>
     new Promise<RemoteConfig>((resolve, reject) => {
-      if (this.networkStateProvider.getNetworkState() === ConnectionStatus.OFFLINE) {
+      if (this.networkStateProvider.getNetworkState() === NetworkConnectionStatus.OFFLINE) {
         this.logError('User offline, falling back to cached config', '');
         this.getCachedRemoteConfig()
           .then((data) => resolve(data))

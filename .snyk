@@ -3,6 +3,10 @@ version: v1.25.0
 
 # ignores vulnerabilities until expiry date; change duration by modifying expiry date
 ignore:
+  snyk:lic:npm:npm:Artistic-2.0:
+    - '*':
+        reason: Use of Artistic 2.0 package
+        created: 2026-06-02T09:00:00.122Z
   snyk:lic:npm:dvsa:capacitor-plugin-msauth:LGPL-3.0:
     - '*':
         reason: Use of LGPL-3.0 licensed package
@@ -12,4 +16,14 @@ ignore:
         reason: Remediation not yet available
         expires: 2026-06-27T09:00:00.119Z
         created: 2023-04-27T09:00:00.122Z
+  SNYK-JS-PACOTE-8225084:
+    - '*':
+        reason: Remediation not yet available
+        expires: 2026-07-02T09:00:00.119Z
+        created: 2023-06-02T09:00:00.122Z
+  SNYK-JS-POSTCSSSELECTORPARSER-16873882:
+    - '*':
+        reason: Remediation not yet available
+        expires: 2026-07-02T09:00:00.119Z
+        created: 2023-06-02T09:00:00.122Z
 patch: {}

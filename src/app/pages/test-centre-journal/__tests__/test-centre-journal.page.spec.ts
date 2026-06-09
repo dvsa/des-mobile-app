@@ -123,13 +123,6 @@ describe('TestCenterJournalPage', () => {
     expect(component).toBeTruthy();
   });
 
-  describe('ngOnInit', () => {
-    it('should set the isOffline$ property to a local isOffline', () => {
-      spyOnProperty(networkStateProvider.isOffline$, 'value', 'get').and.returnValue(true);
-      component.ngOnInit();
-      expect(component.isOffline).toEqual(true);
-    });
-  });
   describe('ionViewDidEnter', () => {
     it('should dispatch the view did enter action', () => {
       spyOn(store$, 'dispatch');
