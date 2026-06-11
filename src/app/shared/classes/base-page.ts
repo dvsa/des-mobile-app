@@ -65,8 +65,12 @@ export abstract class BasePageComponent {
 
   resumeSubscriptionFunction = async () => {
     this.store$.dispatch(ExitSAMUserReturned());
-    // Re-enable single app mode to lock the user back in when they come back
-    await this.reEnableSingleAppMode();
+    try {
+      // Re-enable single app mode to lock the user back in when they come back
+      await this.reEnableSingleAppMode();
+    } catch (e) {
+      this.store$.dispatch(ExitSamError('Enable single app mode error on Base Page resume subscription', e));
+    }
     // Destroy the subscription to prevent memory leaks and locking the user in every time they return to the app
     this.destroyReturnToAppSubscription();
   };
@@ -121,7 +125,11 @@ export abstract class BasePageComponent {
      and destroy the subscription to prevent it from firing.
      */
     if (this.leaveAppSubscription) {
-      this.reEnableSingleAppMode().then(() => {});
+      try {
+        this.reEnableSingleAppMode().then(() => {});
+      } catch (e) {
+        this.store$.dispatch(ExitSamError('Enable single app mode error on Base Page did leave', e));
+      }
       this.destroyLeaveAppSubscription();
     }
     if (this.returnToAppSubscription) {

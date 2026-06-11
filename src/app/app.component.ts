@@ -60,7 +60,7 @@ export class AppComponent extends LogoutBasePageComponent implements OnInit {
     },
     {
       title: UNUPLOADED_TESTS_PAGE,
-      descriptor: 'Unsubmitted tests',
+      descriptor: 'Incomplete tests',
       showUnSubmittedCount: true,
       hideWhenRole: [ExaminerRole.DLG],
     },
