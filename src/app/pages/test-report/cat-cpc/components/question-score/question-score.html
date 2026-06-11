@@ -3,10 +3,10 @@
   <ion-col size="32" class="ion-no-padding align-col-right">
     <ion-text id="total-label" class="des-header-style-2">{{label}}</ion-text>
   </ion-col>
-  <ion-col size="10" class="inline-mode ion-margin-start">
-    <div id="score-value" class="score-value">{{score || 0}}</div>
+  <ion-col size="6" class="ion-no-padding align-col-right">
+    <ion-text id="score-value" class="des-header-style-2">{{score || 0}}</ion-text>
   </ion-col>
-  <ion-col size="4">
+  <ion-col size="4" class="ion-no-padding">
     <ion-text *ngIf="displayPercentage" id="percentage-label" class="des-header-style-2">%</ion-text>
   </ion-col>
 </ion-row>

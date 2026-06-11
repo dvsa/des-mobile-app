@@ -1,5 +1,5 @@
 :host {
-  #question-score-label, #total-label, {
+  #question-score-label, #total-label, #score-value {
     font-weight: normal;
   }
 
@@ -13,17 +13,5 @@
 
   .align-col-right {
     text-align: right;
-  }
-
-  .score-value {
-    display: flex;
-    font-size: 30px;
-    justify-content: center;
-    align-items: center;
-    height: 40px;
-    width: 60px;
-    border: 2px solid grey;
-    background-color: #e2e2f9;
-    color: var(--gds-grey-1);
   }
 }
