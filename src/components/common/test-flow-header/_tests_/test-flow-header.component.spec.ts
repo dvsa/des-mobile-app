@@ -16,7 +16,6 @@ import { DeviceProvider } from '@providers/device/device';
 import { RouteByCategoryProviderMock } from '@providers/route-by-category/__mocks__/route-by-category.mock';
 import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
 import { StoreModel } from '@shared/models/store.model';
-import { PersistTests } from '@store/tests/tests.actions';
 
 describe('TestFlowHeaderComponent', () => {
   let component: TestFlowHeaderComponent;
@@ -99,19 +98,6 @@ describe('TestFlowHeaderComponent', () => {
     });
   });
 
-  describe('openPracticeModeModal', () => {
-    it('should call exitSAMProvider.openExitSamErrorModal with practice mode messages', async () => {
-      spyOn(component.exitSAMProvider, 'openExitSamErrorModal').and.returnValue(Promise.resolve());
-
-      await component.openPracticeModeModal();
-
-      expect(component.exitSAMProvider.openExitSamErrorModal).toHaveBeenCalledWith(
-        'You are in practice mode',
-        'Microsoft Teams cannot be opened in practice mode.'
-      );
-    });
-  });
-
   describe('handleDisableSAMFailure', () => {
     it('should log error, open DES did not unlock modal and dispatch ExitSamError', async () => {
       spyOn(component.exitSAMProvider, 'openExitSamErrorModal').and.returnValue(Promise.resolve());
@@ -147,18 +133,6 @@ describe('TestFlowHeaderComponent', () => {
   });
 
   describe('disableSAMAndExit', () => {
-    it('should emit exitSamUsed and open practice mode modal if in practice mode', async () => {
-      component.isPracticeMode = true;
-      spyOn(component.exitSamUsed, 'emit');
-      spyOn(component.exitSAMProvider, 'openExitSamErrorModal').and.returnValue(Promise.resolve());
-
-      await component.disableSAMAndExit(ExitSAMMethodUsed.BANNER);
-
-      expect(store$.dispatch).toHaveBeenCalledWith(PersistTests());
-      expect(component.exitSamUsed.emit).toHaveBeenCalled();
-      expect(component.exitSAMProvider.openExitSamErrorModal).toHaveBeenCalled();
-    });
-
     it('should handle failure to disable single app mode', async () => {
       component.isPracticeMode = false;
       spyOn(deviceProvider, 'disableSingleAppMode').and.resolveTo(false);

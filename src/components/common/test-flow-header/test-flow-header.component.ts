@@ -148,13 +148,6 @@ export class TestFlowHeaderComponent {
     );
   }
 
-  async openPracticeModeModal() {
-    await this.exitSAMProvider.openExitSamErrorModal(
-      'You are in practice mode',
-      'Microsoft Teams cannot be opened in practice mode.'
-    );
-  }
-
   async handleDisableSAMFailure() {
     await this.openDESDidNotUnlockModal();
     this.store$.dispatch(ExitSamError(ExitSAMErrorMessages.DISABLE_SAM));
@@ -179,13 +172,6 @@ export class TestFlowHeaderComponent {
     this.store$.dispatch(ExitSAMConfirmButtonClicked());
     // Emit the exitSamUsed event
     this.exitSamUsed.emit();
-
-    // Check if the application is in practice mode
-    if (this.isPracticeMode) {
-      // Open the practice mode modal
-      await this.openPracticeModeModal();
-      return;
-    }
 
     try {
       // Attempt to disable single app mode
