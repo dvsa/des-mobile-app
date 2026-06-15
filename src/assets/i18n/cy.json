@@ -15,7 +15,7 @@
     "instructionHeader": "Dewiswch sut i dderbyn canlyniadau'r profion",
     "newEmail": "Nodwch y cyfeiriad e-bost rydych chi am i ni anfon eich canlyniadau ato",
     "newEmailLabel": "Trwy e-bost (newid e-bost)",
-    "newEmailValidation": "Nodwch e-bost dilys",
+    "newEmailValidation": "Cofnodwch gyfeiriad e-bost dilys (Er enghraifft, name@example.co.uk)",
     "title": "Datganiad",
     "privacyNotice": "Rwy'n cytuno i DVSA gasglu, defnyddio, storio a rhannu fy ngwybodaeth bersonol at ddibenion cynnal y prawf {{testSpecificMessage}}"
   },

@@ -14,6 +14,7 @@ import {
   PostalSelected,
 } from '@pages/communication/communication.actions';
 import { TestFlowPageNames } from '@pages/page-names.constants';
+import { emailValidator } from '@providers/custom-validators/custom-validators';
 import { DeviceAuthenticationProvider } from '@providers/device-authentication/device-authentication';
 import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
 import { PracticeableBasePageComponent } from '@shared/classes/practiceable-base-page';
@@ -302,7 +303,8 @@ export class CommunicationPage extends PracticeableBasePageComponent implements 
       if (communicationChoice !== CommunicationPage.email || this.emailType === CommunicationPage.providedEmail) {
         newEmailCtrl.clearValidators();
       } else {
-        newEmailCtrl.setValidators(Validators.compose([Validators.required, Validators.email]));
+        console.log('setting new validators');
+        newEmailCtrl.setValidators(Validators.compose([Validators.required, emailValidator()]));
       }
       newEmailCtrl.updateValueAndValidity();
     }
