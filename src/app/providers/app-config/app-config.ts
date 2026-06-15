@@ -191,56 +191,92 @@ export class AppConfigProvider {
 
   public loadRemoteConfig = (): Promise<void> =>
     this.getRemoteData()
-      .then((data) => {
+      .then((data: RemoteConfig) => {
+        //Return a bespoke error if there is no config
+        if (!data) {
+          return Promise.reject({
+            data,
+            error: AppConfigError.SCHEMA_IS_NULL,
+          });
+        }
+
         const result: ValidatorResult = this.schemaValidatorProvider.validateRemoteConfig(data);
+
         if (result?.errors?.length > 0) {
-          return Promise.reject(result.errors);
+          return Promise.reject({
+            data,
+            error: result.errors,
+          });
         }
         return data;
       })
       .then((data) => this.mapRemoteConfig(data))
-      .catch((error: HttpErrorResponse | ValidationError[] | string) => {
-        if (error instanceof HttpErrorResponse) {
-          this.store$.dispatch(
-            SaveLog({
-              payload: this.logHelper.createLog(LogType.ERROR, 'Loading remote config', error.message),
-            })
-          );
+      .catch(
+        (errorObject: {
+          data?: RemoteConfig | null;
+          error: HttpErrorResponse | ValidationError[] | string;
+        }) => {
+          const { data, error } = errorObject;
+          if (error instanceof HttpErrorResponse) {
+            this.store$.dispatch(
+              SaveLog({
+                payload: this.logHelper.createLog(LogType.ERROR, 'Loading remote config', error.message),
+              })
+            );
 
-          if (error && error.status === 403) {
-            return Promise.reject(AuthenticationError.USER_NOT_AUTHORISED);
+            if (error && error.status === 403) {
+              return Promise.reject(AuthenticationError.USER_NOT_AUTHORISED);
+            }
+            if (error && error.error === AppConfigError.INVALID_APP_VERSION) {
+              return Promise.reject(AppConfigError.INVALID_APP_VERSION);
+            }
+            return Promise.reject(AppConfigError.UNKNOWN_ERROR);
           }
-          if (error && error.error === AppConfigError.INVALID_APP_VERSION) {
-            return Promise.reject(AppConfigError.INVALID_APP_VERSION);
+
+          if (typeof error === 'string') {
+            if (error === AppConfigError.SCHEMA_IS_NULL) {
+              return Promise.reject(AppConfigError.SCHEMA_IS_NULL);
+            }
+            try {
+              const [, errorEnumVal] = getEnumKeyByValue(AppConfigError, error);
+              if (errorEnumVal) {
+                return Promise.reject(errorEnumVal);
+              }
+            } catch (error) {
+              return Promise.reject(error);
+            }
+          }
+
+          if (Array.isArray(error)) {
+            const configError = ((error || []) as ValidationError[])
+              .map((err: ValidationError) => (err?.property ? `${err?.property} - ` : '') + err.message)
+              .join(', ');
+
+            let dataString = '';
+            if (!data) {
+              dataString = 'data is null';
+            } else {
+              if (typeof data === 'object') {
+                dataString = JSON.stringify(data);
+              } else {
+                dataString = String(data);
+              }
+            }
+
+            this.store$.dispatch(
+              SaveLog({
+                payload: this.logHelper.createLog(
+                  LogType.ERROR,
+                  'Validating remote config',
+                  `${configError} data: ${dataString}`
+                ),
+              })
+            );
+            return Promise.reject(AppConfigError.VALIDATION_ERROR);
           }
           return Promise.reject(AppConfigError.UNKNOWN_ERROR);
         }
-
-        if (typeof error === 'string') {
-          try {
-            const [, errorEnumVal] = getEnumKeyByValue(AppConfigError, error);
-            if (errorEnumVal) {
-              return Promise.reject(errorEnumVal);
-            }
-          } catch (error) {
-            return Promise.reject(error);
-          }
-        }
-
-        if (Array.isArray(error)) {
-          const configError = ((error || []) as ValidationError[])
-            .map((err: ValidationError) => err.message)
-            .join(', ');
-
-          this.store$.dispatch(
-            SaveLog({
-              payload: this.logHelper.createLog(LogType.ERROR, 'Validating remote config', configError),
-            })
-          );
-          return Promise.reject(AppConfigError.VALIDATION_ERROR);
-        }
-        return Promise.reject(AppConfigError.UNKNOWN_ERROR);
-      });
+      );
 
   private getRemoteData = () =>
     new Promise<RemoteConfig>((resolve, reject) => {
