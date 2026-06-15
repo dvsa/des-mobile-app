@@ -4,7 +4,6 @@
       <competency-button
         class="uncouple-recouple-tick-centred"
         (onTap)="toggleUncoupleRecouple()"
-        (onPress)="toggleUncoupleRecouple()"
         [allowRipple]="false"
         [ngClass]="{
                                  'checked': selectedUncoupleRecouple
@@ -46,7 +45,6 @@
     <competency-button
       class="uncouple-recouple-tick"
       (onTap)="toggleUncoupleRecouple()"
-      (onPress)="toggleUncoupleRecouple()"
       [allowRipple]="false"
       [ngClass]="{
         'checked': selectedUncoupleRecouple
@@ -61,8 +59,8 @@
   <ion-col size="71" class="ion-no-padding">
     <competency-button
       class="uncouple-recouple-competency"
-      (onTap)="onTap"
-      (onPress)="onPress"
+      (onTap)="onTap()"
+      (onPress)="onPress()"
       [allowRipple]="canButtonRipple()"
       [ngClass]="{
         'checked': selectedUncoupleRecouple,
