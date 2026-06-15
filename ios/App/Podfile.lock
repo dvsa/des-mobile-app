@@ -41,12 +41,12 @@ PODS:
   - MSAL (1.9.0):
     - MSAL/app-lib (= 1.9.0)
   - MSAL/app-lib (1.9.0)
-  - Sentry (9.8.0):
-    - Sentry/Core (= 9.8.0)
-  - Sentry/Core (9.8.0)
-  - SentryCapacitor (3.2.1):
+  - Sentry (9.16.1):
+    - Sentry/Core (= 9.16.1)
+  - Sentry/Core (9.16.1)
+  - SentryCapacitor (4.1.0):
     - Capacitor
-    - Sentry (= 9.8.0)
+    - Sentry (= 9.16.1)
 
 DEPENDENCIES:
   - "Capacitor (from `../../node_modules/@capacitor/ios`)"
@@ -140,8 +140,8 @@ SPEC CHECKSUMS:
   DvsaCapacitorPluginMsauth: 1042a3b666227768922eeefbadc298fa609f4d2a
   GoogleAnalytics: 01e4c5a04544a3608f93e970ce0817836897c5a5
   MSAL: 1a32a1070ccf55d9641d31edd8869ea2b5a78beb
-  Sentry: 88746bf877eff714bc45315a39ad1d1efea2cdda
-  SentryCapacitor: 179536d84866b2ffde1ecd8ed1ded541caf3e950
+  Sentry: e5d82a3c1f2d951f75c04c57215a0abb1facbd51
+  SentryCapacitor: 3034f9cfcbdcda9a2a002a9d88a1a08df01d5fc3
 
 PODFILE CHECKSUM: d085f5756032cd4f775f62b11d67bc34c308ab7a
 
