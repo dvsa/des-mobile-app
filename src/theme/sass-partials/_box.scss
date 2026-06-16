@@ -60,7 +60,7 @@ signature-pad {
   &.ng-invalid {
     canvas {
       border: 4px solid var(--mes-validation-error) !important;
-      box-shadow: inset 0 0 0 0 #a5a2a2;
+      box-shadow: inset 0 0 0 0 var(--mes-border-grey);
     }
   }
 }

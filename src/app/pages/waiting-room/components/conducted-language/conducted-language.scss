@@ -18,7 +18,7 @@
       padding-right: 8px;
     }
     &.focused {
-      color: #3572b0;
+      color: var(--hyperlink-blue);
       text-decoration: underline;
       text-underline-position: under;
       font-weight: 500;

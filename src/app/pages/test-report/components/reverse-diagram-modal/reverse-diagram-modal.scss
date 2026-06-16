@@ -13,7 +13,7 @@
   }
 
   .close-class {
-    color: white;
+    color: var(--gds-white);
   }
 
   .diagram {
@@ -52,12 +52,12 @@
       width: 100%;
       margin-top: 20px;
       padding: 10px;
-      border: 1px solid #979797;
+      border: 1px solid var(--mes-border-grey);
 
       .label {
         font-weight: bold;
         text-align: right;
-        color: black;
+        color: var(--mes-theme-opposing-colour);
       }
 
       .result {
@@ -68,7 +68,7 @@
         background-color: var(--reverseLightBlue);
         font-size: 20px;
         font-weight: bold;
-        color: black;
+        color: var(--gds-black);
       }
     }
   }
@@ -83,7 +83,7 @@
 
     li {
       margin-bottom: 10px;
-      color: black;
+      color: var(--mes-theme-opposing-colour);
     }
   }
 
@@ -97,7 +97,7 @@
       .marker-text {
         float: left;
         width: 80%;
-        color: black;
+        color: var(--mes-theme-opposing-colour);
       }
 
       .icon-cone-marker, .icon-cone-marker-pole {
@@ -130,7 +130,7 @@
     height: 48px;
     background-color: var(--reverseLightBlue);
     border-radius: 6px;
-    color: black;
+    color: var(--gds-black);
     padding-left: 5px;
   }
 

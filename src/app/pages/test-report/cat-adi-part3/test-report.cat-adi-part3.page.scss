@@ -36,10 +36,6 @@ $toolbar-height: 56px;
     }
   }
 
-  .title-text {
-    color: white;
-  }
-
   #end-test-button {
     --background: transparent;
     &.activated {
@@ -61,13 +57,4 @@ $toolbar-height: 56px;
   .tr-header-padding {
     padding: 15px 0 0 15px;
   }
-
-  .score-box {
-    height: 40px;
-    background-color: #e9f0fe;
-    border-style: solid;
-    border-width: 2px;
-    border-color: black;
-  }
-
 }

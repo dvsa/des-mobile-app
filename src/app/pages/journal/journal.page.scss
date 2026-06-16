@@ -70,12 +70,6 @@
     background-color: var(--ion-background-color);
   }
 
-  .content-ios hr {
-    height: 2px;
-    background-color: #bdbdbd;
-    margin: 0 12px 0;
-  }
-
   #incomplete-tests-indicator {
     padding-top: 20px;
     text-align: center;
@@ -94,13 +88,7 @@
     }
   }
 
-  .warning-icon {
-    padding-right: 5px;
-    font-size: 58px;
-    color: black;
-  }
-
   .stop-drive-banner {
-    background-color: #16eeef
+    background-color: var(--mes-teal)
   }
 }
