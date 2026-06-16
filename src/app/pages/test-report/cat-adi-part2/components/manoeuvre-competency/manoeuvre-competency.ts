@@ -112,9 +112,6 @@ export class ManoeuvreCompetencyComponentAdiPart2 implements OnInit, OnDestroy {
   // Not a very good practice to use a boolean variable like wasPress
   // Because at this point it takes effort to understand what does it represents
   addOrRemoveFault = (wasPress = false): void => {
-    if (wasPress) {
-      this.applyRippleEffect();
-    }
     if (this.isRemoveFaultMode) {
       this.removeFault();
     } else {
@@ -193,28 +190,4 @@ export class ManoeuvreCompetencyComponentAdiPart2 implements OnInit, OnDestroy {
   hasSeriousFault = (): boolean => this.manoeuvreCompetencyOutcome === CompetencyOutcome.S;
 
   hasDangerousFault = (): boolean => this.manoeuvreCompetencyOutcome === CompetencyOutcome.D;
-
-  /**
-   * Manages the addition and removal of the ripple effect animation css class
-   * @returns any
-   */
-  applyRippleEffect = (): void => {
-    this.rippleState = true;
-    this.rippleTimeout = setTimeout(() => this.removeRippleEffect(), this.rippleEffectAnimationDuration);
-  };
-
-  removeRippleEffect = (): void => {
-    this.rippleState = false;
-    clearTimeout(this.rippleTimeout);
-  };
-
-  onTouchStart(): void {
-    clearTimeout(this.touchTimeout);
-    this.touchState = true;
-  }
-
-  onTouchEnd(): void {
-    // defer the removal of the touch state to allow the page to render
-    this.touchTimeout = setTimeout(() => (this.touchState = false), this.touchStateDelay);
-  }
 }

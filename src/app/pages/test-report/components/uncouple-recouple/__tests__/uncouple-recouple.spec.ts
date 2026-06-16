@@ -163,7 +163,7 @@ describe('UncoupleRecoupleComponent', () => {
       const competencyButton = fixture.debugElement.query(By.css('competency-button.uncouple-recouple-competency'))
         .componentInstance as CompetencyButtonComponent;
       fixture.detectChanges();
-      expect(competencyButton.ripple).toEqual(false);
+      expect(competencyButton.allowRipple).toEqual(false);
     });
 
     describe('Tick button effects', () => {

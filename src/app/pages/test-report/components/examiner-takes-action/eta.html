@@ -1,8 +1,7 @@
 <competency-button
   class="eta-button"
-  [onTap]="toggleETA"
-  [onPress]="toggleETA"
-  [ripple]="false"
+  (onTap)="toggleETA()"
+  [allowRipple]="false"
   [ngClass]="{
     'complete': componentState.actionTaken$ | async
   }"

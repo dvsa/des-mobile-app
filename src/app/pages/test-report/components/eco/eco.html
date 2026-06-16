@@ -3,9 +3,8 @@
     <competency-button
       id="eco-tick"
       class="eco-tick"
-      [onTap]="toggleEco"
-      [onPress]="toggleEco"
-      [ripple]="false"
+      (onTap)="toggleEco()"
+      [allowRipple]="false"
       [ngClass]="{
         'checked': componentState.completed$ | async
       }"
@@ -19,9 +18,8 @@
     <competency-button
       id="eco-control"
       class="eco-control"
-      [onTap]="toggleEcoControl"
-      [onPress]="toggleEcoControl"
-      [ripple]="false"
+      (onTap)="toggleEcoControl()"
+      [allowRipple]="false"
       [ngClass]="{
         'complete': componentState.adviceGivenControl$ | async
       }"
@@ -33,9 +31,8 @@
     <competency-button
       id="eco-eco-planning"
       class="eco-planning"
-      [onTap]="toggleEcoPlanning"
-      [onPress]="toggleEcoPlanning"
-      [ripple]="false"
+      (onTap)="toggleEcoPlanning()"
+      [allowRipple]="false"
       [ngClass]="{
         'complete': componentState.adviceGivenPlanning$ | async
       }"

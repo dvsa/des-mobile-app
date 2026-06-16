@@ -1,7 +1,7 @@
 <competency-button
-  [onTap]="onTap"
-  [onPress]="onPress"
-  [ripple]="allowRipple"
+  (onTap)="onTap()"
+  (onPress)="onPress()"
+  [allowRipple]="allowRipple"
   [ngClass]="{
     'fault': faultCount > 0,
     'serious-fault': hasSeriousFault,

@@ -1,8 +1,8 @@
 <competency-button
   id="pcvDoor"
-  [onTap]="onTap"
-  [onPress]="onPress"
-  [ripple]="allowRipple"
+  (onTap)="onTap()"
+  (onPress)="onPress()"
+  [allowRipple]="allowRipple"
   [ngClass]="{
     'fault': hasDrivingFault(),
     'serious-fault': hasSeriousFault(),

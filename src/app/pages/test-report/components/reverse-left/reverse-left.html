@@ -2,9 +2,8 @@
   <ion-col size="20" class="ion-no-padding">
     <competency-button
       class="reverse-left-tick"
-      [onTap]="toggleReverseLeft"
-      [onPress]="toggleReverseLeft"
-      [ripple]="false"
+      (onTap)="toggleReverseLeft()"
+      [allowRipple]="false"
       [class.promoted]="displayPopover"
       [ngClass]="{
                           'checked': completedReverseLeft

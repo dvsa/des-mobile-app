@@ -1,9 +1,7 @@
-<div
-  class="manoeuvre-competency-button"
-  (tap)="addOrRemoveFault()"
-  (press)="addOrRemoveFault(true)"
-  (touchstart)="onTouchStart()"
-  (touchend)="onTouchEnd()"
+<competency-button
+  [buttonId]="'manoeuvre-competency-button'"
+  (onTap)="addOrRemoveFault()"
+  (onPress)="addOrRemoveFault(true)"
   [ngClass]="{
     'activated': touchState,
     'ripple-effect': rippleState
@@ -17,4 +15,4 @@
     <serious-fault-badge [showBadge]="hasSeriousFault()"></serious-fault-badge>
     <dangerous-fault-badge [showBadge]="hasDangerousFault()"></dangerous-fault-badge>
   </div>
-</div>
+</competency-button>

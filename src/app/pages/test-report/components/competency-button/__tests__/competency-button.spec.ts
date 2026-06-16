@@ -1,8 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { IonicModule } from '@ionic/angular';
-import 'hammerjs';
 import { AppModule } from '@app/app.module';
+import { IonicModule } from '@ionic/angular';
 import { DateTimeProviderMock } from '@providers/date-time/__mocks__/date-time.mock';
 import { DateTimeProvider } from '@providers/date-time/date-time';
 import { CompetencyButtonComponent } from '../competency-button';
@@ -23,45 +22,137 @@ describe('CompetencyButtonComponent', () => {
   });
 
   describe('Class', () => {
-    describe('onTapEvent', () => {
-      it('should not call onTap if disabled is true', () => {
-        component.disabled = true;
-        component.onTap = () => {};
-        spyOn(component, 'onTap');
-        component.onTapEvent();
-        expect(component.onTap).not.toHaveBeenCalled();
+    describe('onPointerDown', () => {
+      it('should emit onTap event immediately when pointer pressed', () => {
+        spyOn(component.onTap, 'emit');
+        component.onPointerDown(new PointerEvent('pointerdown'));
+        expect(component.onTap.emit).toHaveBeenCalled();
       });
-    });
-    describe('onPressEvent', () => {
-      it('should not call onPress if disabled is true', () => {
+
+      it('should not emit onTap when disabled', () => {
         component.disabled = true;
-        component.onPress = () => {};
-        spyOn(component, 'onPress');
-        component.onPressEvent();
-        expect(component.onPress).not.toHaveBeenCalled();
+        spyOn(component.onTap, 'emit');
+        component.onPointerDown(new PointerEvent('pointerdown'));
+        expect(component.onTap.emit).not.toHaveBeenCalled();
       });
-    });
-    describe('onTouchStart', () => {
-      it('should not set touchState to true if disabled is true', () => {
+
+      it('should emit onPress event after longPressDelay', (done) => {
+        spyOn(component.onPress, 'emit');
+        component.onPointerDown(new PointerEvent('pointerdown'));
+        setTimeout(() => {
+          expect(component.onPress.emit).toHaveBeenCalled();
+          done();
+        }, component.longPressDelay + 10);
+      });
+
+      it('should not emit onPress when disabled', (done) => {
         component.disabled = true;
-        component.onTouchStart();
-        expect(component.touchState).toEqual(false);
+        spyOn(component.onPress, 'emit');
+        component.onPointerDown(new PointerEvent('pointerdown'));
+        setTimeout(() => {
+          expect(component.onPress.emit).not.toHaveBeenCalled();
+          done();
+        }, component.longPressDelay + 10);
       });
-    });
-    it('should call the tap function when a tap event is triggered', () => {
-      const tapSpy = jasmine.createSpy('onTapEvent');
-      component.onTapEvent = tapSpy;
-      const button = fixture.debugElement.query(By.css('.competency-button'));
-      button.triggerEventHandler('tap', null);
-      expect(tapSpy).toHaveBeenCalled();
+
+      it('should trigger ripple effect when onPress is emitted and ripple is enabled', (done) => {
+        component.allowRipple = true;
+        component.onPointerDown(new PointerEvent('pointerdown'));
+        setTimeout(() => {
+          expect(component.rippleState()).toEqual(true);
+          done();
+        }, component.longPressDelay + 10);
+      });
+
+      it('should not trigger ripple effect when ripple is disabled', (done) => {
+        component.allowRipple = false;
+        component.onPointerDown(new PointerEvent('pointerdown'));
+        setTimeout(() => {
+          expect(component.rippleState()).toEqual(false);
+          done();
+        }, component.longPressDelay + 10);
+      });
     });
 
-    it('should call the press function when a press event is triggered', () => {
-      const pressSpy = jasmine.createSpy('onPressEvent');
-      component.onPressEvent = pressSpy;
-      const button = fixture.debugElement.query(By.css('.competency-button'));
-      button.triggerEventHandler('press', null);
-      expect(pressSpy).toHaveBeenCalled();
+    describe('onPointerEnd', () => {
+      it('should cancel long press when pointer released before longPressDelay', (done) => {
+        spyOn(component.onPress, 'emit');
+        component.onPointerDown(new PointerEvent('pointerdown'));
+        component.onPointerEnd();
+        setTimeout(() => {
+          expect(component.onPress.emit).not.toHaveBeenCalled();
+          done();
+        }, component.longPressDelay + 10);
+      });
+
+      it('should cancel long press when pointer leaves before longPressDelay', (done) => {
+        spyOn(component.onPress, 'emit');
+        component.onPointerDown(new PointerEvent('pointerdown'));
+        component.onPointerEnd();
+        setTimeout(() => {
+          expect(component.onPress.emit).not.toHaveBeenCalled();
+          done();
+        }, component.longPressDelay + 10);
+      });
+    });
+
+    describe('onTouchStart', () => {
+      it('should set touchState to true when called', () => {
+        component.onTouchStart();
+        expect(component.touchState()).toEqual(true);
+      });
+
+      it('should not set touchState when disabled', () => {
+        component.disabled = true;
+        component.onTouchStart();
+        expect(component.touchState()).toEqual(false);
+      });
+    });
+
+    describe('onTouchEnd', () => {
+      it('should set touchState to false after touchStateDelay', (done) => {
+        component.onTouchStart();
+        component.onTouchEnd();
+        setTimeout(() => {
+          expect(component.touchState()).toEqual(false);
+          done();
+        }, component.touchStateDelay + 10);
+      });
+
+      it('should not change touchState when disabled', () => {
+        component.disabled = true;
+        component.touchState.set(true);
+        component.onTouchEnd();
+        expect(component.touchState()).toEqual(true);
+      });
+    });
+
+    describe('DOM interactions', () => {
+      it('should apply activated class when touchState is true', () => {
+        component.touchState.set(true);
+        fixture.detectChanges();
+        const button = fixture.debugElement.query(By.css('.competency-button'));
+        expect(button.nativeElement.className).toContain('activated');
+      });
+
+      it('should apply ripple-effect class when rippleState is true', () => {
+        component.rippleState.set(true);
+        fixture.detectChanges();
+        const button = fixture.debugElement.query(By.css('.competency-button'));
+        expect(button.nativeElement.className).toContain('ripple-effect');
+      });
+
+      it('should remove ripple effect after rippleEffectAnimationDuration', (done) => {
+        component.rippleState.set(true);
+        fixture.detectChanges();
+        setTimeout(() => {
+          component.rippleState.set(false);
+          fixture.detectChanges();
+          const button = fixture.debugElement.query(By.css('.competency-button'));
+          expect(button.nativeElement.className).not.toContain('ripple-effect');
+          done();
+        }, component.rippleEffectAnimationDuration);
+      });
     });
   });
 
@@ -78,7 +169,7 @@ describe('CompetencyButtonComponent', () => {
         const button = fixture.debugElement.query(By.css('.competency-button'));
         expect(button).toBeDefined();
         expect(button.nativeElement.className).not.toContain('activated');
-        expect(component.touchState).toEqual(false);
+        expect(component.touchState()).toEqual(false);
       });
 
       it('should add the activated class when the button is pressed', () => {
@@ -88,7 +179,7 @@ describe('CompetencyButtonComponent', () => {
 
         expect(button).toBeDefined();
         expect(button.nativeElement.className).toContain('activated');
-        expect(component.touchState).toEqual(true);
+        expect(component.touchState()).toEqual(true);
       });
 
       it('should remove the activated class after a specified delay when the button is not pressed', (done) => {
@@ -100,13 +191,13 @@ describe('CompetencyButtonComponent', () => {
 
           expect(button).toBeDefined();
           expect(button.nativeElement.className).not.toContain('activated');
-          expect(component.touchState).toEqual(false);
+          expect(component.touchState()).toEqual(false);
           done();
         }, component.touchStateDelay);
       });
 
       it('should add the ripple effect animation css class', () => {
-        component.onPressEvent();
+        component.triggerRipple();
         fixture.detectChanges();
         const button = fixture.debugElement.query(By.css('.competency-button'));
 
@@ -115,14 +206,14 @@ describe('CompetencyButtonComponent', () => {
       });
       it('should not add the ripple effect animation if disabled is true', () => {
         component.disabled = true;
-        component.onPressEvent();
+        component.triggerRipple();
         const button = fixture.debugElement.query(By.css('.competency-button'));
         expect(button).toBeDefined();
         expect(button.nativeElement.className).not.toContain('ripple-effect');
       });
 
       it('should remove the ripple effect animation css class within the required time frame', (done) => {
-        component.onPressEvent();
+        component.triggerRipple();
         fixture.detectChanges();
         const button = fixture.debugElement.query(By.css('.competency-button'));
         setTimeout(() => {
@@ -132,16 +223,6 @@ describe('CompetencyButtonComponent', () => {
           expect(button.nativeElement.className).not.toContain('ripple-effect');
           done();
         }, component.rippleEffectAnimationDuration);
-      });
-
-      it('should not add the ripple effect animation css class when ripple is disabled', () => {
-        component.ripple = false;
-        component.onPressEvent();
-        fixture.detectChanges();
-        const button = fixture.debugElement.query(By.css('.competency-button'));
-
-        expect(button).toBeDefined();
-        expect(button.nativeElement.className).not.toContain('ripple-effect');
       });
     });
   });

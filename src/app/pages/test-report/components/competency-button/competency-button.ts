@@ -1,78 +1,62 @@
-import { Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, HostListener, Input, Output, signal } from '@angular/core';
 
 @Component({
   selector: 'competency-button',
   templateUrl: './competency-button.html',
   styleUrls: ['./competency-button.scss'],
   standalone: false,
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CompetencyButtonComponent {
-  @Input()
-  onPress?: Function;
+  @Input() allowRipple = true;
+  @Input() disabled = false;
+  @Input() showRedBorder = false;
+  @Input() buttonId = '';
 
-  @Input()
-  onTap?: Function;
+  @Output() onPress: EventEmitter<void> = new EventEmitter();
+  @Output() onTap: EventEmitter<void> = new EventEmitter();
 
-  @Input()
-  ripple?: boolean = true;
-
-  @Input()
-  disabled?: boolean = false;
-
-  @Input()
-  redBorder?: boolean = false;
-
-  touchState = false;
   touchStateDelay = 100;
-  touchTimeout: NodeJS.Timeout;
-  rippleTimeout: NodeJS.Timeout;
-  rippleState = false;
   rippleEffectAnimationDuration = 300;
+  longPressDelay = 301;
 
-  onTapEvent(): void {
-    if (this.disabled) {
-      return;
-    }
-    if (this.onTap) {
-      this.onTap();
-    }
+  touchState = signal(false);
+  rippleState = signal(false);
+
+  private pressTimeout: NodeJS.Timeout;
+
+  @HostListener('pointerdown', ['$event'])
+  onPointerDown(_event: PointerEvent) {
+    //Once the user begins pressing,
+    // emit the tap event and start the countdown towards the click being considered a long press.
+    if (this.disabled) return;
+    this.onTap.emit();
+    this.pressTimeout = setTimeout(() => {
+      this.onPress.emit();
+      if (this.allowRipple) this.triggerRipple();
+    }, this.longPressDelay);
   }
 
-  onPressEvent(): void {
-    if (this.disabled) {
-      return;
-    }
-    if (this.onPress) {
-      this.onPress();
-    }
-    if (this.ripple) {
-      this.applyRippleEffect();
-    }
+  @HostListener('pointerup')
+  @HostListener('pointerleave')
+  @HostListener('pointercancel')
+  onPointerEnd() {
+    //If the user releases the press before the long press delay, cancel the long press action.
+    clearTimeout(this.pressTimeout);
   }
-
-  applyRippleEffect = (): void => {
-    this.rippleState = true;
-    this.rippleTimeout = setTimeout(() => this.removeRippleEffect(), this.rippleEffectAnimationDuration);
-  };
-
-  removeRippleEffect = (): void => {
-    this.rippleState = false;
-    clearTimeout(this.rippleTimeout);
-  };
 
   onTouchStart(): void {
-    if (this.disabled) {
-      return;
-    }
-    clearTimeout(this.touchTimeout);
-    this.touchState = true;
+    if (this.disabled) return;
+    this.touchState.set(true);
   }
 
   onTouchEnd(): void {
-    if (this.disabled) {
-      return;
-    }
-    // defer the removal of the touch state to allow the page to render
-    this.touchTimeout = setTimeout(() => (this.touchState = false), this.touchStateDelay);
+    if (this.disabled) return;
+    setTimeout(() => this.touchState.set(false), this.touchStateDelay);
+  }
+
+  triggerRipple(): void {
+    this.rippleState.set(true);
+    setTimeout(() => this.rippleState.set(false), this.rippleEffectAnimationDuration);
   }
 }

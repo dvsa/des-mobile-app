@@ -1,9 +1,8 @@
 <competency-button
   class="legal-button"
   id="{{label}}"
-  [onTap]="toggleLegalRequirement"
-  [onPress]="toggleLegalRequirement"
-  [ripple]="false"
+  (onTap)="toggleLegalRequirement()"
+  [allowRipple]="false"
   [disabled]="disabled"
   [ngClass]="{
     'complete': requirement1Ticked && requirement2Ticked,
