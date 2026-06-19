@@ -7,7 +7,7 @@
     <ion-row>
       <ion-col>
         <ion-row>
-          <ion-col class="no-padding" [size]="isUnSubmittedTestSlotView ? 19 : 21">
+          <ion-col class="no-padding" [size]="isUnSubmittedTestSlotView ? '19' : '21'">
             <language
               [applicationId]="getFormattedApplicationReference(slot.booking.application)"
               [welshLanguage]="slot.booking.application.welshTest"
@@ -59,7 +59,7 @@
               </indicators>
             </ion-col>
           }
-          <ion-col [size]="isUnSubmittedTestSlotView ? 17 : 14" class="text-regular align-center">
+          <ion-col [size]="isUnSubmittedTestSlotView ? '17' : '14'" class="text-regular align-center">
             <time id="time-of-test" [isUnSubmittedTestSlotView]="isUnSubmittedTestSlotView" [time]="slot.slotDetail.start"> </time>
           </ion-col>
           <ion-col size="2"></ion-col>
@@ -71,7 +71,7 @@
               @if (canViewCandidateDetails && !isTestCentreJournalADIBooking) {
                 <candidate-link
                   [isPracticeMode]="isPracticeMode"
-                  [applicationId]="slot.booking.application.applicationId"
+                  [applicationId]="getFormattedApplicationReference(slot.booking.application)"
                   [isPortrait]="isPortrait"
                   [isTeamJournal]="isTeamJournal"
                   [name]="slot.booking.candidate.candidateName"
@@ -128,7 +128,7 @@
         </ion-col>
         <ion-col
           class="align-center"
-          [size]="accessibilityService.getTextZoomClass() === 'text-zoom-regular'? 18 : 22"
+          [size]="accessibilityService.getTextZoomClass() === 'text-zoom-regular'? '18' : '22'"
           >
           @if (!teamJournalCandidateResult) {
             <test-outcome
@@ -165,7 +165,7 @@
         @if (!isUnSubmittedTestSlotView) {
           <ion-col size="6"> </ion-col>
         }
-        <ion-col [size]="isUnSubmittedTestSlotView ? 19: 15">
+        <ion-col [size]="isUnSubmittedTestSlotView ? '19': '15'">
           @if (delegatedTest) {
             <date [date]="slot.slotDetail.start" id="del-ex-date"> </date>
           }
