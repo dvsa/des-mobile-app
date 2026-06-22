@@ -1,4 +1,4 @@
-import { Component, Injector } from '@angular/core';
+import { Component } from '@angular/core';
 import { UntypedFormGroup } from '@angular/forms';
 import { behaviourMap } from '@pages/office/office-behaviour-map.cat-home-test';
 import {
@@ -26,8 +26,8 @@ export class PassFinalisationCatHomeTestPage extends PassFinalisationPageCompone
   pageState: PassFinalisationPageState;
   form: UntypedFormGroup;
 
-  constructor(injector: Injector) {
-    super(injector);
+  constructor() {
+    super();
     this.form = new UntypedFormGroup({});
     this.outcomeBehaviourProvider.setBehaviourMap(behaviourMap);
   }

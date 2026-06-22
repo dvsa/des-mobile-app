@@ -9,7 +9,7 @@
     mode="ios">
     <test-flow-header
       class="display-flex flex-direction-column"
-      [testCategory]="pageState.testCategory$ | async"
+      [testCategory]="testCategory"
       [shouldShowEscapeFromSamButton]="!isRekey && !isDelegated"
       [shouldIncludeLanguageDirectiveOnTitle]="true"
       [pageName]="'communication-page-title'"
@@ -19,7 +19,7 @@
       (setupLeaveSubscription)="setupEscapeSAMLeaveSubscription()"
       (setupResumeSubscription)="setupEscapeSAMResumeSubscription()"
       (onExitSAMActivatedChanged)="isSamActivatedChanged($event)">
-      {{ 'communication.title' | translate }} - {{pageState.candidateUntitledName$ | async}}
+      {{ 'communication.title' | translate }} - {{candidateUntitledName}}
     </test-flow-header>
   </ion-toolbar>
 </ion-header>
@@ -30,26 +30,26 @@
     <form [formGroup]="form">
       <candidate-section
         (continueClickEvent)="onSubmit()"
-        [candidateDriverNumber]="pageState.candidateDriverNumber$ | async"
-        [candidateName]="pageState.candidateName$ | async"
-        [candidatePrnNumber]="pageState.prn$ | async"
-        [isStandardsCheck]="pageState.isStandardsCheck$ | async"
-        [showVRNButton]="pageState.showVrnBtn$ | async"
+        [candidateDriverNumber]="candidateDriverNumber"
+        [candidateName]="candidateName"
+        [candidatePrnNumber]="prn"
+        [isStandardsCheck]="isStandardsCheck"
+        [showVRNButton]="showVrnBtn"
       >
       </candidate-section>
 
       <valid-certificate
         (validCertificateChange)="validCertificateChanged($event)"
-        *ngIf="pageState.isStandardsCheck$ | async"
+        *ngIf="isStandardsCheck"
         [formGroup]="form"
-        [validCertificate]="pageState.validCertificate$ | async"
+        [validCertificate]="validCertificate"
       ></valid-certificate>
 
       <div class="mes-full-width-card-separator"></div>
 
       <privacy-notice
-        [category]="pageState.testCategory$ | async"
-        [language]="pageState.conductedLanguage$ | async"
+        [category]="testCategory"
+        [language]="conductedLanguage"
       ></privacy-notice>
 
       <div class="mes-full-width-card" id="declaration-section">
@@ -66,8 +66,8 @@
                 (providedEmailRadioSelect)="dispatchCandidateChoseProvidedEmail()"
                 [formGroup]="form"
                 [isProvidedEmailAddressChosen]="isProvidedEmailSelected()"
-                [providedEmailAddress]="pageState.candidateProvidedEmail$ | async"
-                [shouldRender]="!!(pageState.candidateProvidedEmail$ | async)"
+                [providedEmailAddress]="candidateProvidedEmail()"
+                [shouldRender]="!!(candidateProvidedEmail)"
               >
               </provided-email>
 
@@ -83,7 +83,7 @@
                 (postalRadioSelect)="dispatchCandidateChosePost()"
                 [formGroup]="form"
                 [isPostalAddressChosen]="isPostSelected()"
-                [postalAddress]="pageState.candidateAddress$ | async"
+                [postalAddress]="candidateAddress"
               >
               </postal-address>
 

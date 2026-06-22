@@ -1,4 +1,5 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { CategoryCode } from '@dvsa/mes-test-schema/categories/common';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { Store, select } from '@ngrx/store';
 import { TestDataByCategoryProvider } from '@providers/test-data-by-category/test-data-by-category';
@@ -35,7 +36,7 @@ interface ControlledStopComponentState {
 })
 export class ControlledStopComponent implements OnInit, OnDestroy {
   @Input()
-  testCategory: TestCategory;
+  testCategory: CategoryCode;
 
   componentState: ControlledStopComponentState;
   subscription: Subscription;
@@ -183,7 +184,7 @@ export class ControlledStopComponent implements OnInit, OnDestroy {
 
   shouldDisplayEmergencyLabel() {
     return [TestCategory.B, TestCategory.ADI2, TestCategory.H, TestCategory.F, TestCategory.G, TestCategory.K].includes(
-      this.testCategory
+      this.testCategory as TestCategory
     )
       ? 'Emergency'
       : 'Controlled';

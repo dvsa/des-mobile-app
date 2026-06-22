@@ -1,10 +1,6 @@
-import { Component, Injector, OnInit } from '@angular/core';
-import { CategoryCode } from '@dvsa/mes-test-schema/categories/common';
+import { Component, OnInit } from '@angular/core';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { ModalController, ViewDidEnter, ViewDidLeave } from '@ionic/angular';
-import { select } from '@ngrx/store';
-import { Observable, Subscription, merge } from 'rxjs';
-import { map } from 'rxjs/operators';
 
 import {
   ASAMPopupPresented,
@@ -18,13 +14,7 @@ import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-c
 import { PracticeableBasePageComponent } from '@shared/classes/practiceable-base-page';
 import { trDestroy$ } from '@shared/classes/test-flow-base-pages/test-report/test-report-base-page';
 import { wrtcDestroy$ } from '@shared/classes/test-flow-base-pages/waiting-room-to-car/waiting-room-to-car-base-page';
-import { getTestCategory } from '@store/tests/category/category.reducer';
-import { getTests } from '@store/tests/tests.reducer';
-import { getCurrentTest } from '@store/tests/tests.selector';
-
-interface BackToOfficePageState {
-  testCategory$: Observable<CategoryCode>;
-}
+import { selectTestCategory } from '@store/tests/category/category.reducer';
 
 export enum NavigationTarget {
   OFFICE = 'office',
@@ -38,10 +28,7 @@ export enum NavigationTarget {
   standalone: false,
 })
 export class BackToOfficePage extends PracticeableBasePageComponent implements OnInit, ViewDidEnter, ViewDidLeave {
-  pageState: BackToOfficePageState;
-  testCategory: TestCategory;
-  merged$: Observable<string | boolean>;
-  subscription: Subscription;
+  testCategory = this.store$.selectSignal(selectTestCategory)() as TestCategory;
   singleAppModeEnabled: boolean;
   office: string = NavigationTarget.OFFICE;
   journal: string = NavigationTarget.JOURNAL;
@@ -49,24 +36,13 @@ export class BackToOfficePage extends PracticeableBasePageComponent implements O
 
   constructor(
     public routeByCategoryProvider: RouteByCategoryProvider,
-    public modalController: ModalController,
-    injector: Injector
+    public modalController: ModalController
   ) {
-    super(injector, false);
+    super(false);
   }
 
   ngOnInit(): void {
     super.ngOnInit();
-
-    this.pageState = {
-      testCategory$: this.store$.pipe(select(getTests), select(getCurrentTest), select(getTestCategory)),
-    };
-
-    const { testCategory$ } = this.pageState;
-
-    this.merged$ = merge(testCategory$.pipe(map((value) => (this.testCategory = value as TestCategory))));
-
-    this.subscription = this.merged$.subscribe();
     this.destroyTestSubs();
   }
 
@@ -77,13 +53,6 @@ export class BackToOfficePage extends PracticeableBasePageComponent implements O
     this.singleAppModeEnabled = super.isIos() ? await this.deviceProvider.isSAMEnabled() : false;
 
     await super.unlockDevice();
-  }
-
-  ionViewDidLeave() {
-    super.ionViewDidLeave();
-    if (this.subscription) {
-      this.subscription.unsubscribe();
-    }
   }
 
   /**

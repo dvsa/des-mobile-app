@@ -1,4 +1,4 @@
-import { Component, Injector, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { AppLauncher } from '@capacitor/app-launcher';
 import { ModalController, ViewDidEnter, ViewWillEnter } from '@ionic/angular';
 
@@ -83,10 +83,9 @@ export class DashboardPage extends BasePageComponent implements OnInit, ViewDidE
     private networkStateProvider: NetworkStateProvider,
     private slotProvider: SlotProvider,
     private modalController: ModalController,
-    private accessibilityService: AccessibilityService,
-    injector: Injector
+    private accessibilityService: AccessibilityService
   ) {
-    super(injector);
+    super();
 
     this.todaysDate = this.dateTimeProvider.now();
     this.todaysDateFormatted = this.dateTimeProvider.now().format('dddd Do MMMM YYYY');

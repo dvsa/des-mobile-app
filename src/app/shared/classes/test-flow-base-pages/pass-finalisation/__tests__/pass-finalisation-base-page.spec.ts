@@ -104,14 +104,6 @@ describe('PassFinalisationPageComponent', () => {
     store$ = TestBed.inject(MockStore);
 
     spyOn(store$, 'dispatch');
-
-    class BasePageClass extends PassFinalisationPageComponent {
-      constructor(public inj: Injector) {
-        super(inj);
-      }
-    }
-
-    basePageComponent = new BasePageClass(injector);
   });
 
   describe('onInitialisation', () => {

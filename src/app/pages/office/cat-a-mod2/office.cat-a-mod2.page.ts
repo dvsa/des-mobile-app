@@ -1,4 +1,4 @@
-import { Component, Injector } from '@angular/core';
+import { Component } from '@angular/core';
 import { ModeOfTransport } from '@dvsa/mes-test-schema/categories/AM2';
 import { SafetyQuestionResult } from '@dvsa/mes-test-schema/categories/common';
 import { select } from '@ngrx/store';
@@ -50,8 +50,8 @@ export class OfficeCatAMod2Page extends OfficeBasePageComponent {
   pageSubscription: Subscription;
   static readonly maxFaultCount = 10;
 
-  constructor(injector: Injector) {
-    super(injector);
+  constructor() {
+    super();
     this.outcomeBehaviourProvider.setBehaviourMap(behaviourMap);
     this.activityCodeOptions = activityCodeModelList;
   }

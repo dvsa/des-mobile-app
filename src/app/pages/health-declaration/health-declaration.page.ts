@@ -1,4 +1,4 @@
-import { Component, Injector, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { CategoryCode } from '@dvsa/mes-test-schema/categories/common';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
@@ -85,10 +85,9 @@ export class HealthDeclarationPage
   constructor(
     public deviceAuthenticationProvider: DeviceAuthenticationProvider,
     public translate: TranslateService,
-    public modalController: ModalController,
-    injector: Injector
+    public modalController: ModalController
   ) {
-    super(injector, false);
+    super(false);
     this.formGroup = new UntypedFormGroup({});
   }
 

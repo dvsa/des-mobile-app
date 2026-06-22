@@ -1,5 +1,5 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, Injector, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { TestSlot } from '@dvsa/mes-journal-schema';
 import { select } from '@ngrx/store';
 import { isEmpty } from 'lodash-es';
@@ -57,10 +57,9 @@ export class RekeySearchPage extends BasePageComponent implements OnInit {
   constructor(
     public orientationMonitorProvider: OrientationMonitorProvider,
     private networkStateProvider: NetworkStateProvider,
-    private appConfig: AppConfigProvider,
-    injector: Injector
+    private appConfig: AppConfigProvider
   ) {
-    super(injector);
+    super();
   }
 
   getBookingReferenceMask = (): MaskitoOptions => bookingReferenceMask;

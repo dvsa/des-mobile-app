@@ -1,4 +1,4 @@
-import { Component, Injector, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { UntypedFormGroup } from '@angular/forms';
 import { TestFlowPageNames } from '@pages/page-names.constants';
 import {
@@ -29,8 +29,8 @@ export class PassFinalisationCatADI2Page extends PassFinalisationPageComponent i
   merged$: Observable<string | boolean>;
   subscription: Subscription;
 
-  constructor(injector: Injector) {
-    super(injector);
+  constructor() {
+    super();
     this.form = new UntypedFormGroup({});
     this.outcomeBehaviourProvider.setBehaviourMap(behaviourMap);
   }

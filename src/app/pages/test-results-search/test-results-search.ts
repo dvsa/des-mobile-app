@@ -1,4 +1,4 @@
-import { Component, Injector } from '@angular/core';
+import { Component } from '@angular/core';
 import { SearchResultTestSchema } from '@dvsa/mes-search-schema';
 import { ModalController } from '@ionic/angular';
 import { select } from '@ngrx/store';
@@ -65,10 +65,9 @@ export class TestResultsSearchPage extends BasePageComponent {
     public searchProvider: SearchProvider,
     private appConfig: AppConfigProvider,
     private accessibilityService: AccessibilityService,
-    private networkStateProvider: NetworkStateProvider,
-    injector: Injector
+    private networkStateProvider: NetworkStateProvider
   ) {
-    super(injector);
+    super();
   }
 
   getBookingReferenceMask = (): MaskitoOptions => bookingReferenceMask;

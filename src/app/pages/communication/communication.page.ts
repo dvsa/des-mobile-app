@@ -1,9 +1,7 @@
-import { Component, Injector, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
-import { Address, CategoryCode, CommunicationMethod } from '@dvsa/mes-test-schema/categories/common';
+import { CommunicationMethod } from '@dvsa/mes-test-schema/categories/common';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
-import { select } from '@ngrx/store';
-import { TranslateService } from '@ngx-translate/core';
 import {
   BookingEmailSelected,
   CommunicationSubmitInfo,
@@ -18,51 +16,24 @@ import { emailValidator } from '@providers/custom-validators/custom-validators';
 import { DeviceAuthenticationProvider } from '@providers/device-authentication/device-authentication';
 import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
 import { PracticeableBasePageComponent } from '@shared/classes/practiceable-base-page';
-import { isAnyOf } from '@shared/helpers/simplifiers';
-import { configureI18N } from '@shared/helpers/translation.helpers';
-import { getTestCategory } from '@store/tests/category/category.reducer';
+import { selectIsStandardsCheck, selectTestCategory } from '@store/tests/category/category.reducer';
 import * as communicationPreferencesActions from '@store/tests/communication-preferences/communication-preferences.actions';
-import { Language } from '@store/tests/communication-preferences/communication-preferences.model';
-import { getCommunicationPreference } from '@store/tests/communication-preferences/communication-preferences.reducer';
 import {
-  getCommunicationPreferenceType,
-  getCommunicationPreferenceUpdatedEmail,
-  getConductedLanguage,
+  selectCommunicationPreferenceType,
+  selectCommunicationPreferenceUpdatedEmail,
+  selectConductedLanguage,
 } from '@store/tests/communication-preferences/communication-preferences.selector';
-import { getCandidate } from '@store/tests/journal-data/common/candidate/candidate.reducer';
 import {
-  formatDriverNumber,
-  getCandidateDriverNumber,
-  getCandidateEmailAddress,
-  getCandidateName,
-  getCandidatePrn,
-  getPostalAddress,
-  getUntitledCandidateName,
+  selectCandidateEmailAddress,
+  selectCandidateName,
+  selectCandidatePrn,
+  selectFormatDriverNumber,
+  selectPostalAddress,
+  selectUntitledCandidateName,
 } from '@store/tests/journal-data/common/candidate/candidate.selector';
-import { getValidCertificateStatus } from '@store/tests/pre-test-declarations/cat-a-mod2/pre-test-declarations.cat-adi-part3.selector';
+import { selectValidCertificateStatus } from '@store/tests/pre-test-declarations/cat-a-mod2/pre-test-declarations.cat-adi-part3.selector';
 import { ValidPassCertChanged } from '@store/tests/pre-test-declarations/pre-test-declarations.actions';
-import { getPreTestDeclarations } from '@store/tests/pre-test-declarations/pre-test-declarations.reducer';
-import { getTests } from '@store/tests/tests.reducer';
-import { getCurrentTest, getJournalData } from '@store/tests/tests.selector';
-import { showVrnButton } from '@store/tests/vehicle-details/vehicle-details.selector';
-import { Observable, Subscription, merge } from 'rxjs';
-import { map, take, tap } from 'rxjs/operators';
-
-interface CommunicationPageState {
-  candidateName$: Observable<string>;
-  candidateUntitledName$: Observable<string>;
-  candidateDriverNumber$: Observable<string>;
-  candidateProvidedEmail$: Observable<string>;
-  communicationEmail$: Observable<string>;
-  communicationType$: Observable<string>;
-  candidateAddress$: Observable<Address>;
-  conductedLanguage$: Observable<Language>;
-  testCategory$: Observable<CategoryCode>;
-  showVrnBtn$: Observable<boolean>;
-  prn$: Observable<number>;
-  isStandardsCheck$: Observable<boolean>;
-  validCertificate$: Observable<boolean>;
-}
+import { selectShowVrnButton } from '@store/tests/vehicle-details/vehicle-details.selector';
 
 @Component({
   selector: 'app-communication',
@@ -78,91 +49,38 @@ export class CommunicationPage extends PracticeableBasePageComponent implements 
   static readonly notProvided: CommunicationMethod = 'Not provided';
 
   form: UntypedFormGroup;
-  subscription: Subscription;
   emailType: string;
-  pageState: CommunicationPageState;
-  candidateProvidedEmail: string;
-  communicationEmail: string;
-  communicationType: CommunicationMethod;
-  merged$: Observable<string | boolean>;
-  testCategory: TestCategory;
   maximumCallStackHandler = {
     emitEvent: false,
     onlySelf: true,
   };
 
-  constructor(
-    public routeByCat: RouteByCategoryProvider,
-    public deviceAuthenticationProvider: DeviceAuthenticationProvider,
-    private translate: TranslateService,
-    injector: Injector
-  ) {
-    super(injector, false);
+  public routeByCategoryProvider = inject(RouteByCategoryProvider);
+  public deviceAuthenticationProvider = inject(DeviceAuthenticationProvider);
+
+  // One time getting of values for static data
+  candidateName = this.store$.selectSignal(selectCandidateName)();
+  candidateUntitledName = this.store$.selectSignal(selectUntitledCandidateName)();
+  candidateDriverNumber = this.store$.selectSignal(selectFormatDriverNumber)();
+  testCategory = this.store$.selectSignal(selectTestCategory)() as TestCategory;
+  conductedLanguage = this.store$.selectSignal(selectConductedLanguage)();
+  prn = this.store$.selectSignal(selectCandidatePrn)();
+  isStandardsCheck = this.store$.selectSignal(selectIsStandardsCheck)();
+  candidateAddress = this.store$.selectSignal(selectPostalAddress)();
+  showVrnBtn = this.store$.selectSignal(selectShowVrnButton)();
+
+  // Signals for data that could vary over time controlled within this page
+  candidateProvidedEmail = this.store$.selectSignal(selectCandidateEmailAddress);
+  communicationEmail = this.store$.selectSignal(selectCommunicationPreferenceUpdatedEmail);
+  communicationType = this.store$.selectSignal(selectCommunicationPreferenceType)();
+  validCertificate = this.store$.selectSignal(selectValidCertificateStatus)();
+
+  constructor() {
+    super(false);
     this.form = new UntypedFormGroup(this.getFormValidation());
   }
 
-  ngOnInit(): void {
-    super.ngOnInit();
-    const currentTest$ = this.store$.pipe(select(getTests), select(getCurrentTest));
-
-    this.pageState = {
-      candidateName$: currentTest$.pipe(select(getJournalData), select(getCandidate), select(getCandidateName)),
-      candidateUntitledName$: currentTest$.pipe(
-        select(getJournalData),
-        select(getCandidate),
-        select(getUntitledCandidateName)
-      ),
-      candidateDriverNumber$: currentTest$.pipe(
-        select(getJournalData),
-        select(getCandidate),
-        select(getCandidateDriverNumber),
-        map(formatDriverNumber)
-      ),
-      candidateProvidedEmail$: currentTest$.pipe(
-        select(getJournalData),
-        select(getCandidate),
-        select(getCandidateEmailAddress),
-        take(1)
-      ),
-      communicationEmail$: currentTest$.pipe(
-        select(getCommunicationPreference),
-        select(getCommunicationPreferenceUpdatedEmail)
-      ),
-      communicationType$: currentTest$.pipe(select(getCommunicationPreference), select(getCommunicationPreferenceType)),
-      candidateAddress$: currentTest$.pipe(select(getJournalData), select(getCandidate), select(getPostalAddress)),
-      conductedLanguage$: currentTest$.pipe(select(getCommunicationPreference), select(getConductedLanguage)),
-      testCategory$: currentTest$.pipe(
-        select(getTestCategory),
-        map((result) => (this.testCategory = result as TestCategory))
-      ),
-      showVrnBtn$: currentTest$.pipe(select(getTestCategory), select(showVrnButton)),
-      prn$: currentTest$.pipe(select(getJournalData), select(getCandidate), select(getCandidatePrn)),
-      isStandardsCheck$: currentTest$.pipe(
-        select(getTestCategory),
-        map((category) => isAnyOf(category, [TestCategory.SC]))
-      ),
-      validCertificate$: currentTest$.pipe(select(getPreTestDeclarations), select(getValidCertificateStatus)),
-    };
-
-    const { candidateProvidedEmail$, communicationEmail$, communicationType$, conductedLanguage$, testCategory$ } =
-      this.pageState;
-
-    this.merged$ = merge(
-      candidateProvidedEmail$.pipe(map((value) => (this.candidateProvidedEmail = value))),
-      communicationEmail$.pipe(map((value) => (this.communicationEmail = value))),
-      communicationType$.pipe(map((value) => (this.communicationType = value as CommunicationMethod))),
-      conductedLanguage$.pipe(tap((value) => configureI18N(value as Language, this.translate))),
-      testCategory$.pipe(map((result) => (this.testCategory = result as TestCategory)))
-    );
-
-    this.subscription = this.merged$.subscribe();
-  }
-
   ionViewWillEnter(): void {
-    if (this.subscription.closed && this.merged$) {
-      this.subscription = this.merged$.subscribe();
-    }
-
     if (this.shouldPreselectADefaultValue()) {
       this.initialiseDefaultSelections();
     } else if (this.emailType !== CommunicationPage.updatedEmail) {
@@ -171,13 +89,6 @@ export class CommunicationPage extends PracticeableBasePageComponent implements 
     }
     this.restoreRadiosFromState();
     this.restoreRadioValidators();
-  }
-
-  ionViewDidLeave(): void {
-    super.ionViewDidLeave();
-    if (this.subscription) {
-      this.subscription.unsubscribe();
-    }
   }
 
   async ionViewDidEnter(): Promise<void> {
@@ -200,7 +111,10 @@ export class CommunicationPage extends PracticeableBasePageComponent implements 
     try {
       if (await this.deviceAuthenticationProvider.triggerLockScreen(this.isPracticeMode)) {
         this.store$.dispatch(CommunicationSubmitInfo());
-        await this.routeByCat.navigateToPage(TestFlowPageNames.WAITING_ROOM_TO_CAR_PAGE, this.testCategory);
+        await this.routeByCategoryProvider.navigateToPage(
+          TestFlowPageNames.WAITING_ROOM_TO_CAR_PAGE,
+          this.testCategory
+        );
       }
     } catch (err) {
       this.store$.dispatch(CommunicationSubmitInfoError(err));
@@ -211,7 +125,7 @@ export class CommunicationPage extends PracticeableBasePageComponent implements 
     this.setCommunicationType(CommunicationPage.email, CommunicationPage.providedEmail);
     this.store$.dispatch(
       communicationPreferencesActions.CandidateChoseEmailAsCommunicationPreference(
-        this.candidateProvidedEmail,
+        this.candidateProvidedEmail(),
         CommunicationPage.email
       )
     );
@@ -270,11 +184,11 @@ export class CommunicationPage extends PracticeableBasePageComponent implements 
   }
 
   assertEmailType() {
-    if (this.candidateProvidedEmail !== '' && this.candidateProvidedEmail === this.communicationEmail) {
+    if (this.candidateProvidedEmail() !== '' && this.candidateProvidedEmail() === this.communicationEmail()) {
       this.emailType = CommunicationPage.providedEmail;
     }
 
-    if (this.candidateProvidedEmail !== this.communicationEmail) {
+    if (this.candidateProvidedEmail() !== this.communicationEmail()) {
       this.emailType = CommunicationPage.updatedEmail;
     }
   }
@@ -285,7 +199,7 @@ export class CommunicationPage extends PracticeableBasePageComponent implements 
 
   initialiseDefaultSelections() {
     this.communicationType = CommunicationPage.email;
-    if (this.candidateProvidedEmail) {
+    if (this.candidateProvidedEmail()) {
       this.emailType = CommunicationPage.providedEmail;
       this.form.controls.radioCtrl.setValue(true);
       this.dispatchCandidateChoseProvidedEmail();
@@ -317,8 +231,8 @@ export class CommunicationPage extends PracticeableBasePageComponent implements 
   conditionalDispatchCandidateChoseNewEmail() {
     this.setCommunicationType(CommunicationPage.email, CommunicationPage.updatedEmail);
 
-    if (this.isNewEmailSelected() && this.communicationEmail !== '') {
-      this.dispatchCandidateChoseNewEmail(this.communicationEmail);
+    if (this.isNewEmailSelected() && this.communicationEmail() !== '') {
+      this.dispatchCandidateChoseNewEmail(this.communicationEmail());
     }
   }
 
@@ -327,6 +241,10 @@ export class CommunicationPage extends PracticeableBasePageComponent implements 
   }
 
   async canDeActivate(): Promise<boolean> {
-    return await this.deviceAuthenticationProvider.triggerLockScreen(this.isPracticeMode);
+    try {
+      return await this.deviceAuthenticationProvider.triggerLockScreen(this.isPracticeMode);
+    } catch (err) {
+      return false;
+    }
   }
 }

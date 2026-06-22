@@ -6,14 +6,14 @@
         id="remove-button"
         class="ion-no-padding"
         (click)="toggleRemoveFaultMode(shouldDisableRemove)"
-        [disabled]="componentState.shouldDisableRemove$ | async"
+        [disabled]="shouldDisableRemove"
         [ngClass]="{
         'active': isRemoveFaultMode,
         'inactive': !isRemoveFaultMode
       }"
       >
         <ion-text class="remove-fault-button des-header-style-3 padding-bottom-6-pixels">
-          {{ isRemoveFaultMode ? 'Exit remove mode' : 'Remove'}}
+          {{ isRemoveFaultMode ? 'Exit remove mode' : 'Remove' }}
         </ion-text>
       </ion-button>
     </ion-col>
@@ -49,7 +49,10 @@
     </ion-col>
     <ion-col size="1"></ion-col>
     <ion-col class="fault-summary" size="11" *ngIf="showDrivingFaultCounter && (!isSeriousMode && !isDangerousMode)">
-      <driving-fault-summary></driving-fault-summary>
+      <driving-fault-summary
+        [testCategory]="category"
+        [testData]="testData"
+      ></driving-fault-summary>
     </ion-col>
     <ion-col></ion-col>
     <ion-col size="auto" class="display-flex ion-no-padding" [hidden]="isSeriousMode || isDangerousMode">

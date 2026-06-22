@@ -1,4 +1,4 @@
-import { Injector } from '@angular/core';
+import { inject } from '@angular/core';
 import { LogoutModal, LogoutModalEvent } from '@components/common/logout-modal/logout-modal';
 import { ModalController } from '@ionic/angular';
 import { OverlayEventDetail } from '@ionic/core';
@@ -17,13 +17,13 @@ import { map, take } from 'rxjs/operators';
 import { BasePageComponent } from '../base-page';
 
 export abstract class LogoutBasePageComponent extends BasePageComponent {
-  protected modalController = this.injector.get(ModalController);
-  protected accessibilityService = this.injector.get(AccessibilityService);
+  protected modalController = inject(ModalController);
+  protected accessibilityService = inject(AccessibilityService);
 
   previousUploadedTestCount = 0;
 
-  protected constructor(injector: Injector) {
-    super(injector);
+  protected constructor() {
+    super();
   }
 
   async openLogoutModal() {

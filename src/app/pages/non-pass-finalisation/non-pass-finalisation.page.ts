@@ -1,4 +1,4 @@
-import { Component, Injector, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { UntypedFormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { CatBUniqueTypes } from '@dvsa/mes-test-schema/categories/B';
@@ -124,10 +124,9 @@ export class NonPassFinalisationPage extends PracticeableBasePageComponent imple
     public activityCodeFinalisationProvider: ActivityCodeFinalisationProvider,
     public modalController: ModalController,
     private activatedRoute: ActivatedRoute,
-    private testDataByCategoryProvider: TestDataByCategoryProvider,
-    injector: Injector
+    private testDataByCategoryProvider: TestDataByCategoryProvider
   ) {
-    super(injector, false);
+    super(false);
     this.form = new UntypedFormGroup({});
     const { nonPassData } = this.activatedRoute.snapshot.data;
     const [behaviourMap, activityCodeList] = nonPassData;

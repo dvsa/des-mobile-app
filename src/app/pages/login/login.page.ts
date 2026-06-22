@@ -1,4 +1,4 @@
-import { Component, Injector, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Capacitor } from '@capacitor/core';
 import { SplashScreen } from '@capacitor/splash-screen';
 import { AlertController, MenuController } from '@ionic/angular';
@@ -53,10 +53,9 @@ export class LoginPage extends LogoutBasePageComponent implements OnInit {
     private menuController: MenuController,
     private analytics: AnalyticsProvider,
     public networkStateProvider: NetworkStateProvider,
-    public alertController: AlertController,
-    injector: Injector
+    public alertController: AlertController
   ) {
-    super(injector);
+    super();
   }
 
   /**

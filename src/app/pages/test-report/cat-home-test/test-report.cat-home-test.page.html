@@ -21,21 +21,27 @@
       (setupResumeSubscription)="setupEscapeSAMResumeSubscription()"
       (endTestButtonClicked)="onEndTestClick()"
       (onExitSAMActivatedChanged)="isSamActivatedChanged($event)">
-      Test report - {{pageState.candidateUntitledName$ | async}}
+      Test report - {{candidateUntitledName}}
     </test-flow-header>
   </ion-toolbar>
 </ion-header>
 
 <ion-content class="ion-no-padding" [ngClass]="{'overflow': !isDelegated}" force-overscroll="false">
-  <toolbar></toolbar>
+  <test-report-toolbar
+    [category]="category"
+    [testData]="testData()"
+    [isDangerousMode]="isDangerousMode()"
+    [isSeriousMode]="isSeriousMode()"
+    [isRemoveFaultMode]="isRemoveFaultMode()"
+  ></test-report-toolbar>
   <ion-grid
     class="grid-layout"
     [ngClass]="{
-      'remove-mode': isRemoveFaultMode,
-      'add-mode': !isRemoveFaultMode,
-      'fault-mode': !isSeriousMode && !isDangerousMode,
-      'serious-mode': isSeriousMode,
-      'dangerous-mode': isDangerousMode
+      'remove-mode': isRemoveFaultMode(),
+      'add-mode': !isRemoveFaultMode(),
+      'fault-mode': !isSeriousMode() && !isDangerousMode(),
+      'serious-mode': isSeriousMode(),
+      'dangerous-mode': isDangerousMode()
     }"
   >
     <ion-row class="first-row-adjust">
@@ -45,14 +51,14 @@
           <ion-col>
             <legal-requirement
               [legalRequirement]="legalRequirements.normalStart1"
-              [ticked]="(pageState.testRequirements$ | async)![legalRequirements.normalStart1]"
+              [ticked]="(testRequirements())![legalRequirements.normalStart1]"
             >
             </legal-requirement>
           </ion-col>
           <ion-col>
             <legal-requirement
               [legalRequirement]="legalRequirements.normalStart2"
-              [ticked]="(pageState.testRequirements$ | async)![legalRequirements.normalStart2]"
+              [ticked]="(testRequirements())![legalRequirements.normalStart2]"
             >
             </legal-requirement>
           </ion-col>
@@ -61,14 +67,14 @@
           <ion-col>
             <legal-requirement
               [legalRequirement]="legalRequirements.angledStart"
-              [ticked]="(pageState.testRequirements$ | async)![legalRequirements.angledStart]"
+              [ticked]="(testRequirements())![legalRequirements.angledStart]"
             >
             </legal-requirement>
           </ion-col>
           <ion-col>
             <legal-requirement
               [legalRequirement]="legalRequirements.uphillStartDesignatedStart"
-              [ticked]="(pageState.testRequirements$ | async)![legalRequirements.uphillStartDesignatedStart]"
+              [ticked]="(testRequirements())![legalRequirements.uphillStartDesignatedStart]"
             >
             </legal-requirement>
           </ion-col>
@@ -81,12 +87,12 @@
         <ion-row [ngStyle]="{'visibility': showManoeuvreButton() ? 'visible' : 'hidden' }">
           <ion-col>
             <reverse-left
-              [completed]="manoeuvresCompleted"
+              [completed]="manoeuvresCompleted()"
               [controlLabel]="'Reverse Left'"
               [clickCallback]="getCallback()"
-              [testCategory]="pageState.category$ | async"
+              [testCategory]="category"
             >
-              <reverse-left-popover [testCategory]="pageState.category$ | async"></reverse-left-popover>
+              <reverse-left-popover [testCategory]="category"></reverse-left-popover>
             </reverse-left>
           </ion-col>
         </ion-row>
@@ -112,7 +118,7 @@
         </ion-row>
         <ion-row>
           <ion-col>
-            <vehicle-checks-home [testCategory]="pageState.category$ | async"></vehicle-checks-home>
+            <vehicle-checks-home [testCategory]="category"></vehicle-checks-home>
           </ion-col>
         </ion-row>
         <ion-row>
@@ -122,7 +128,7 @@
         </ion-row>
         <ion-row>
           <ion-col>
-            <highway-code-safety [testCategory]="pageState.category$ | async"></highway-code-safety>
+            <highway-code-safety [testCategory]="category"></highway-code-safety>
           </ion-col>
         </ion-row>
         <ion-row>
@@ -132,7 +138,7 @@
         </ion-row>
         <ion-row>
           <ion-col>
-            <controlled-stop [testCategory]="pageState.category$ | async"></controlled-stop>
+            <controlled-stop [testCategory]="category"></controlled-stop>
           </ion-col>
         </ion-row>
         <ion-row>
@@ -142,10 +148,10 @@
         </ion-row>
         <ion-row>
           <ion-col>
-            <eta [eta]="eta.verbal"> </eta>
+            <eta [eta]="eta.verbal"></eta>
           </ion-col>
           <ion-col>
-            <eta [eta]="eta.physical"> </eta>
+            <eta [eta]="eta.physical"></eta>
           </ion-col>
         </ion-row>
         <ion-row>
@@ -439,12 +445,12 @@
   </ion-grid>
   <div
     class="report-overlay report-overlay-modal"
-    [class.contract]="isSeriousMode || isDangerousMode"
+    [class.contract]="isSeriousMode() || isDangerousMode()"
     [class.show-overlay]="displayOverlay"
   ></div>
   <div
     class="report-overlay report-overlay-remove"
-    [class.contract]="isSeriousMode || isDangerousMode"
-    [class.show-overlay]="isRemoveFaultMode"
+    [class.contract]="isSeriousMode() || isDangerousMode()"
+    [class.show-overlay]="isRemoveFaultMode()"
   ></div>
 </ion-content>

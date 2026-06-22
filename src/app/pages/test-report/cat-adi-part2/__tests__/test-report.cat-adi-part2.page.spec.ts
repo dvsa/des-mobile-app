@@ -31,7 +31,7 @@ import { EcoComponent } from '../../components/eco/eco';
 import { EtaComponent } from '../../components/examiner-takes-action/eta';
 import { LegalRequirementComponent } from '../../components/legal-requirement/legal-requirement';
 import { ManoeuvreCompetencyComponent } from '../../components/manoeuvre-competency/manoeuvre-competency';
-import { ToolbarComponent } from '../../components/toolbar/toolbar';
+import { ToolbarComponent } from '../../components/toolbar/test-report-toolbar';
 import { testReportReducer } from '../../test-report.reducer';
 
 describe('TestReportCatADI2Page', () => {

@@ -1,4 +1,4 @@
-import { Component, Injector, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { UntypedFormGroup } from '@angular/forms';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { select } from '@ngrx/store';
@@ -57,11 +57,8 @@ export class WaitingRoomToCarCatBPage extends WaitingRoomToCarBasePageComponent 
   form: UntypedFormGroup;
   tellMeQuestions: VehicleChecksQuestion[];
 
-  constructor(
-    private questionProvider: QuestionProvider,
-    injector: Injector
-  ) {
-    super(injector);
+  constructor(private questionProvider: QuestionProvider) {
+    super();
     this.tellMeQuestions = this.questionProvider.getTellMeQuestions(TestCategory.B);
     this.form = new UntypedFormGroup({});
   }

@@ -1,7 +1,9 @@
 import { MotStatusCodes } from '@dvsa/mes-mot-schema';
 import { VehicleDetails } from '@dvsa/mes-test-schema/categories/common';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
+import { createSelector } from '@ngrx/store';
 import { isAnyOf } from '@shared/helpers/simplifiers';
+import { getTestCategory } from '@store/tests/category/category.reducer';
 
 export const getRegistrationNumber = (vehicleDetails: VehicleDetails) => vehicleDetails.registrationNumber;
 export const getGearboxCategory = (vehicleDetails: VehicleDetails) => vehicleDetails.gearboxCategory;
@@ -34,6 +36,11 @@ export function getPreviousFilteredVRNs(previousVRNs: string[], registrationNumb
 
   return filteredVRN;
 }
+
+export const selectShowVrnButton = createSelector(getTestCategory, (category) =>
+  showVrnButton(category as TestCategory)
+);
+
 export const showVrnButton = (category: TestCategory): boolean =>
   isAnyOf(category, [
     TestCategory.ADI2,

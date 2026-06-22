@@ -1,6 +1,9 @@
 import { ETA, Eco, TestData } from '@dvsa/mes-test-schema/categories/common';
+import { createSelector } from '@ngrx/store';
 import { OutcomeBehaviourMapProvider } from '@providers/outcome-behaviour-map/outcome-behaviour-map';
 import { VehicleChecksQuestion } from '@providers/question/vehicle-checks-question.model';
+import { TestDataUnion } from '@shared/unions/test-schema-unions';
+import { selectCurrentTest } from '@store/tests/tests.selector';
 import { Competencies, ExaminerActions } from '../test-data.constants';
 
 export const hasSeriousFault = (data: TestData, competency: Competencies) => data.seriousFaults[competency];
@@ -51,3 +54,8 @@ export const getShowMeQuestionOptions = (
   });
   return filteredQuestions;
 };
+
+export const selectTestData = createSelector(
+  selectCurrentTest,
+  (test): TestDataUnion => test?.testData as TestDataUnion
+);

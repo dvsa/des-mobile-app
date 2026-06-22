@@ -1,14 +1,10 @@
 import { OrientationType, ScreenOrientation } from '@capawesome/capacitor-screen-orientation';
 import { ModalController } from '@ionic/angular';
-import { select } from '@ngrx/store';
-import { Observable, Subject, Subscription, merge } from 'rxjs';
+import { Subject, Subscription } from 'rxjs';
 
-import { getCandidate } from '@store/tests/journal-data/common/candidate/candidate.reducer';
-import { getUntitledCandidateName } from '@store/tests/journal-data/common/candidate/candidate.selector';
-import { getTests } from '@store/tests/tests.reducer';
-import { getCurrentTest, getJournalData } from '@store/tests/tests.selector';
+import { selectUntitledCandidateName } from '@store/tests/journal-data/common/candidate/candidate.selector';
 
-import { Inject, Injector } from '@angular/core';
+import { Inject, computed, inject } from '@angular/core';
 import { KeepAwake as Insomnia } from '@capacitor-community/keep-awake';
 import { StatusBar } from '@capacitor/status-bar';
 import { CatADI2UniqueTypes } from '@dvsa/mes-test-schema/categories/ADI2';
@@ -32,19 +28,20 @@ import {
 } from '@pages/test-report/test-report.actions';
 import { ModalEvent } from '@pages/test-report/test-report.constants';
 import { OverlayCallback } from '@pages/test-report/test-report.model';
-import { getTestReportState } from '@pages/test-report/test-report.reducer';
-import { isDangerousMode, isRemoveFaultMode, isSeriousMode } from '@pages/test-report/test-report.selector';
+import {
+  selectIsDangerousMode,
+  selectIsRemoveFaultMode,
+  selectIsSeriousMode,
+} from '@pages/test-report/test-report.selector';
 import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
 import { TestReportValidatorProvider } from '@providers/test-report-validator/test-report-validator';
 import { PracticeableBasePageComponent } from '@shared/classes/practiceable-base-page';
-import { legalRequirementsLabels } from '@shared/constants/legal-requirements/legal-requirements.constants';
 import { isAnyOf } from '@shared/helpers/simplifiers';
 import { TestDataUnion, TestRequirementsUnion } from '@shared/unions/test-schema-unions';
 import { SetActivityCode } from '@store/tests/activity-code/activity-code.actions';
-import { getTestCategory } from '@store/tests/category/category.reducer';
+import { selectTestCategory } from '@store/tests/category/category.reducer';
 import { hasManoeuvreBeenCompletedCatADIPart2 } from '@store/tests/test-data/cat-adi-part2/test-data.cat-adi-part2.selector';
 import { hasManoeuvreBeenCompletedCatB } from '@store/tests/test-data/cat-b/test-data.cat-b.selector';
-import { getTestData } from '@store/tests/test-data/cat-b/test-data.reducer';
 import { getTestRequirementsCatB } from '@store/tests/test-data/cat-b/test-requirements/test-requirements.reducer';
 import { hasManoeuvreBeenCompletedCatC } from '@store/tests/test-data/cat-c/test-data.cat-c.selector';
 import { getTestRequirementsCatC } from '@store/tests/test-data/cat-c/test-requirements/test-requirements.cat-c.reducer';
@@ -52,50 +49,64 @@ import { hasManoeuvreBeenCompletedCatD } from '@store/tests/test-data/cat-d/test
 import { getTestRequirementsCatD } from '@store/tests/test-data/cat-d/test-requirements/test-requirements.cat-d.reducer';
 import { hasManoeuvreBeenCompletedCatHomeTest } from '@store/tests/test-data/cat-home/test-data.cat-home.selector';
 import { getTestRequirementsCatHome } from '@store/tests/test-data/cat-home/test-requirements/test-requirements.cat-home.reducer';
+import { selectTestData } from '@store/tests/test-data/common/test-data.selector';
 import { Competencies, ExaminerActions, LegalRequirements } from '@store/tests/test-data/test-data.constants';
-import { map, withLatestFrom } from 'rxjs/operators';
-
-export interface CommonTestReportPageState {
-  candidateUntitledName$: Observable<string>;
-  isRemoveFaultMode$: Observable<boolean>;
-  isSeriousMode$: Observable<boolean>;
-  isDangerousMode$: Observable<boolean>;
-  manoeuvres$: Observable<boolean>;
-  testData$: Observable<TestDataUnion>;
-  testRequirements$: Observable<TestRequirementsUnion>;
-  category$: Observable<CategoryCode>;
-}
 
 export const trDestroy$ = new Subject<{}>();
 
 export abstract class TestReportBasePageComponent extends PracticeableBasePageComponent {
-  public modalController = this.injector.get(ModalController);
-  protected testReportValidatorProvider = this.injector.get(TestReportValidatorProvider);
-  routeByCategory = this.injector.get(RouteByCategoryProvider);
+  public modalController = inject(ModalController);
+  protected testReportValidatorProvider = inject(TestReportValidatorProvider);
+  routeByCategory = inject(RouteByCategoryProvider);
 
-  commonPageState: CommonTestReportPageState;
   subscription: Subscription;
   competencies = Competencies;
   legalRequirements = LegalRequirements;
   eta = ExaminerActions;
   displayOverlay: boolean;
 
-  isRemoveFaultMode = false;
-  isSeriousMode = false;
-  isDangerousMode = false;
-  manoeuvresCompleted = false;
-  isTestReportValid = false;
-  isEtaValid = true;
-  testCategory: TestCategory;
+  category = this.store$.selectSignal(selectTestCategory)();
+  candidateUntitledName = this.store$.selectSignal(selectUntitledCandidateName)();
 
-  missingLegalRequirements: legalRequirementsLabels[] = [];
+  //Setup that the modes as signals so their value is updated live
+  isRemoveFaultMode = this.store$.selectSignal(selectIsRemoveFaultMode);
+  isSeriousMode = this.store$.selectSignal(selectIsSeriousMode);
+  isDangerousMode = this.store$.selectSignal(selectIsDangerousMode);
+  testData = this.store$.selectSignal(selectTestData);
+
+  //These variables are computed, meaning they update live as the signals mentioned within them are updated
+  isEtaValid = computed(() => {
+    return this.testReportValidatorProvider.isETAValid(this.testData(), this.category as TestCategory);
+  });
+
+  isTestReportValid = computed(() => {
+    return this.testReportValidatorProvider.isTestReportValid(
+      this.testData(),
+      this.category as TestCategory,
+      this.isDelegated
+    );
+  });
+
+  manoeuvresCompleted = computed(() => {
+    return this.hasManoeuvreBeenCompleted(this.testData(), this.category);
+  });
+
+  missingLegalRequirements = computed(() => {
+    return this.testReportValidatorProvider.getMissingLegalRequirements(
+      this.testData(),
+      this.category as TestCategory,
+      this.isDelegated
+    );
+  });
+
+  testRequirements = computed(() => {
+    return this.getTestRequirements(this.testData(), this.category as TestCategory);
+  });
+
   modal: HTMLIonModalElement;
 
-  protected constructor(
-    injector: Injector,
-    @Inject(false) public loginRequired = false
-  ) {
-    super(injector, loginRequired);
+  protected constructor(@Inject(false) public loginRequired = false) {
+    super(loginRequired);
   }
 
   getCallback(): OverlayCallback {
@@ -108,33 +119,6 @@ export abstract class TestReportBasePageComponent extends PracticeableBasePageCo
 
   onInitialisation(): void {
     super.ngOnInit();
-    const currentTest$ = this.store$.pipe(select(getTests), select(getCurrentTest));
-
-    this.commonPageState = {
-      candidateUntitledName$: currentTest$.pipe(
-        select(getJournalData),
-        select(getCandidate),
-        select(getUntitledCandidateName)
-      ),
-      isRemoveFaultMode$: this.store$.pipe(select(getTestReportState), select(isRemoveFaultMode)),
-      isSeriousMode$: this.store$.pipe(select(getTestReportState), select(isSeriousMode)),
-      isDangerousMode$: this.store$.pipe(select(getTestReportState), select(isDangerousMode)),
-      testData$: currentTest$.pipe(select(getTestData)),
-      manoeuvres$: currentTest$.pipe(
-        select(getTestData),
-        withLatestFrom(currentTest$.pipe(select(getTestCategory))),
-        map(([testData, category]) => this.hasManoeuvreBeenCompleted(testData, category))
-      ),
-      testRequirements$: currentTest$.pipe(
-        select(getTestData),
-        withLatestFrom(currentTest$.pipe(select(getTestCategory))),
-        map(([testData, category]) => this.getTestRequirements(testData, category))
-      ),
-      category$: currentTest$.pipe(
-        select(getTestCategory),
-        map((category) => category as TestCategory)
-      ),
-    };
   }
 
   getTestRequirements(testData: TestDataUnion, category: CategoryCode): TestRequirementsUnion {
@@ -194,11 +178,6 @@ export abstract class TestReportBasePageComponent extends PracticeableBasePageCo
   }
 
   ionViewDidEnter(): void {
-    // it is possible that we come back to the page from the terminate screen
-    // so need to re-establish the subscription if it doesn't exists or is closed
-    if (!this.subscription || this.subscription.closed) {
-      this.setupSubscription();
-    }
     this.store$.dispatch(TestReportViewDidEnter());
   }
 
@@ -213,69 +192,26 @@ export abstract class TestReportBasePageComponent extends PracticeableBasePageCo
     this.displayOverlay = !this.displayOverlay;
   }
 
-  setupSubscription() {
-    const {
-      candidateUntitledName$,
-      isRemoveFaultMode$,
-      isSeriousMode$,
-      isDangerousMode$,
-      manoeuvres$,
-      testData$,
-      category$,
-    } = this.commonPageState;
-
-    this.subscription = merge(
-      candidateUntitledName$,
-      isRemoveFaultMode$.pipe(map((result) => (this.isRemoveFaultMode = result))),
-      isSeriousMode$.pipe(map((result) => (this.isSeriousMode = result))),
-      isDangerousMode$.pipe(map((result) => (this.isDangerousMode = result))),
-      manoeuvres$.pipe(map((result) => (this.manoeuvresCompleted = result))),
-      testData$.pipe(
-        withLatestFrom(category$),
-        map(([data, category]) => {
-          this.testCategory = category as TestCategory;
-          this.isTestReportValid = this.testReportValidatorProvider.isTestReportValid(
-            data,
-            category as TestCategory,
-            this.isDelegated
-          );
-          this.missingLegalRequirements = this.testReportValidatorProvider.getMissingLegalRequirements(
-            data,
-            category as TestCategory,
-            this.isDelegated
-          );
-          this.isEtaValid = this.testReportValidatorProvider.isETAValid(data, category as TestCategory);
-        })
-      )
-    ).subscribe();
-  }
-
-  cancelSubscription(): void {
-    if (this.subscription) {
-      this.subscription.unsubscribe();
-    }
-  }
-
   onEndTestClick = async (): Promise<void> => {
     const modalCssClass: string = 'mes-modal-alert text-zoom-regular';
-    if (!this.isTestReportValid) {
+    if (!this.isTestReportValid()) {
       this.modal = await this.modalController.create({
         component: LegalRequirementsModal,
         componentProps: {
-          legalRequirements: this.missingLegalRequirements,
+          legalRequirements: this.missingLegalRequirements(),
           isDelegated: this.isDelegated,
         },
         cssClass: modalCssClass,
       });
-    } else if (!this.isEtaValid) {
+    } else if (!this.isEtaValid()) {
       this.modal = await this.modalController.create({
         component: EtaInvalidModal,
         cssClass: modalCssClass,
       });
     } else if (
-      !this.manoeuvresCompleted &&
-      isAnyOf(this.testCategory, [TestCategory.F, TestCategory.G, TestCategory.H]) &&
-      this.testCategory !== TestCategory.K
+      !this.manoeuvresCompleted() &&
+      isAnyOf(this.category, [TestCategory.F, TestCategory.G, TestCategory.H]) &&
+      this.category !== TestCategory.K
     ) {
       this.modal = await this.modalController.create({
         component: SpecialLegalRequirementModal,
@@ -297,7 +233,7 @@ export abstract class TestReportBasePageComponent extends PracticeableBasePageCo
 
   onModalDismiss = async (event: ModalEvent): Promise<void> => {
     const nextPage: string = this.isDelegated
-      ? this.routeByCategory.getNextPage(TestFlowPageNames.OFFICE_PAGE, this.testCategory)
+      ? this.routeByCategory.getNextPage(TestFlowPageNames.OFFICE_PAGE, this.category as TestCategory)
       : TestFlowPageNames.DEBRIEF_PAGE;
 
     switch (event) {

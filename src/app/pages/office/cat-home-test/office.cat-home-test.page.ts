@@ -1,4 +1,4 @@
-import { Component, Injector, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CatFUniqueTypes } from '@dvsa/mes-test-schema/categories/F';
 import { CatGUniqueTypes } from '@dvsa/mes-test-schema/categories/G';
 import { CatHUniqueTypes } from '@dvsa/mes-test-schema/categories/H';
@@ -58,8 +58,8 @@ export class OfficeCatHomeTestPage extends OfficeBasePageComponent implements On
   pageSubscription: Subscription;
   readonly maxFaultCount = 15;
 
-  constructor(injector: Injector) {
-    super(injector);
+  constructor() {
+    super();
     this.outcomeBehaviourProvider.setBehaviourMap(behaviourMap);
     this.activityCodeOptions = activityCodeModelList;
   }

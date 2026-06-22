@@ -1,4 +1,4 @@
-import { Component, Injector, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { UntypedFormGroup } from '@angular/forms';
 import { TestSlot } from '@dvsa/mes-journal-schema';
 import { IpadIssue, Other, Transfer } from '@dvsa/mes-test-schema/categories/common';
@@ -90,10 +90,9 @@ export class RekeyReasonPage extends BasePageComponent implements OnInit {
   constructor(
     public store$: Store<StoreModel>,
     private modalController: ModalController,
-    private loaderService: LoadingProvider,
-    injector: Injector
+    private loaderService: LoadingProvider
   ) {
-    super(injector);
+    super();
     this.formGroup = new UntypedFormGroup({});
   }
 

@@ -1,5 +1,5 @@
 import { HttpResponse } from '@angular/common/http';
-import { ChangeDetectorRef, Component, Injector, Input, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
 import { TestResultSchemasUnion } from '@dvsa/mes-test-schema/categories';
 import { CatADI2UniqueTypes } from '@dvsa/mes-test-schema/categories/ADI2';
 import {
@@ -70,10 +70,9 @@ export class ViewTestResultPage extends BasePageComponent implements OnInit {
     public faultCountProvider: FaultCountProvider,
     private faultSummaryProvider: FaultSummaryProvider,
     private ref: ChangeDetectorRef,
-    public adi3AssessmentProvider: ADI3AssessmentProvider,
-    injector: Injector
+    public adi3AssessmentProvider: ADI3AssessmentProvider
   ) {
-    super(injector);
+    super();
   }
 
   async ngOnInit(): Promise<void> {

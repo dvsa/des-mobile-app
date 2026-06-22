@@ -1,6 +1,7 @@
-import { Component, Injector, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { UntypedFormGroup } from '@angular/forms';
 import { LessonAndTheme, TestData } from '@dvsa/mes-test-schema/categories/ADI3';
+import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { select } from '@ngrx/store';
 import { TestFlowPageNames } from '@pages/page-names.constants';
 import {
@@ -14,10 +15,7 @@ import { CalculateTestResult, ReturnToTest, TerminateTestFromTestReport } from '
 import { ModalEvent } from '@pages/test-report/test-report.constants';
 import { ADI3AssessmentProvider } from '@providers/adi3-assessment/adi3-assessment';
 import { TestResultProvider } from '@providers/test-result/test-result';
-import {
-  CommonTestReportPageState,
-  TestReportBasePageComponent,
-} from '@shared/classes/test-flow-base-pages/test-report/test-report-base-page';
+import { TestReportBasePageComponent } from '@shared/classes/test-flow-base-pages/test-report/test-report-base-page';
 import { SetActivityCode } from '@store/tests/activity-code/activity-code.actions';
 import {
   FeedbackChanged,
@@ -37,7 +35,7 @@ interface TestReportDashboardState {
   feedback$: Observable<string>;
 }
 
-type TestReportDashboardPageState = CommonTestReportPageState & TestReportDashboardState;
+type TestReportDashboardPageState = TestReportDashboardState;
 
 @Component({
   selector: 'app-test-report-dashboard',
@@ -59,10 +57,9 @@ export class TestReportDashboardPage extends TestReportBasePageComponent impleme
 
   constructor(
     private testResultProvider: TestResultProvider,
-    private adi3AssessmentProvider: ADI3AssessmentProvider,
-    injector: Injector
+    private adi3AssessmentProvider: ADI3AssessmentProvider
   ) {
-    super(injector);
+    super();
     this.form = new UntypedFormGroup({});
   }
 
@@ -76,7 +73,6 @@ export class TestReportDashboardPage extends TestReportBasePageComponent impleme
     const currentTest$ = this.store$.pipe(select(getTests), select(getCurrentTest));
 
     this.pageState = {
-      ...this.commonPageState,
       testDataADI3$: currentTest$.pipe(select(getTestData)),
       feedback$: currentTest$.pipe(select(getTestData), select(getReview), select(getFeedback)),
     };
@@ -98,21 +94,15 @@ export class TestReportDashboardPage extends TestReportBasePageComponent impleme
         })
       )
     );
-
-    this.setupSubscription();
   }
 
   ionViewDidEnter(): void {
-    if (!this.subscription || this.subscription.closed) {
-      super.setupSubscription();
-    }
     this.store$.dispatch(TestReportDashboardViewDidEnter());
   }
 
   async ionViewWillEnter() {
     this.ngOnInit();
     await super.ionViewWillEnter();
-    this.setupSubscription();
 
     if (this.merged$) {
       this.localSubscription = this.merged$.subscribe();
@@ -121,7 +111,6 @@ export class TestReportDashboardPage extends TestReportBasePageComponent impleme
 
   ionViewDidLeave(): void {
     super.ionViewDidLeave();
-    super.cancelSubscription();
 
     if (this.localSubscription) {
       this.localSubscription.unsubscribe();
@@ -224,8 +213,7 @@ export class TestReportDashboardPage extends TestReportBasePageComponent impleme
 
   navigateToPage = async (page: 'lessonTheme' | 'testReport') => {
     this.store$.dispatch(TestReportDashboardNavigateToPage(page));
-
-    await this.routeByCategory.navigateToPage(TestFlowPageNames.TEST_REPORT_PAGE, this.testCategory, {
+    await this.routeByCategory.navigateToPage(TestFlowPageNames.TEST_REPORT_PAGE, this.category as TestCategory, {
       state: {
         page,
         showMissing: this.testReportState > 0 && this.testReportState < 17,

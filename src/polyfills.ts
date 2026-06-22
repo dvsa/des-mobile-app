@@ -18,11 +18,9 @@ import '@angular/localize/init';
  *
  * Learn more in https://angular.io/guide/browser-support
  */
-
 /** *************************************************************************************************
  * BROWSER POLYFILLS
  */
-
 /**
  * By default, zone.js will patch all possible macroTask and DomEvents
  * user can disable parts of macroTask/DomEvents patch by setting following flags
@@ -46,13 +44,11 @@ import '@angular/localize/init';
  *  (window as any).__Zone_enable_cross_context_check = true;
  *
  */
-
 import './zone-flags';
 
 /** *************************************************************************************************
  * Zone JS is required by default for Angular itself.
  */
-
 import 'zone.js'; // Included with Angular CLI.
 
 /** *************************************************************************************************

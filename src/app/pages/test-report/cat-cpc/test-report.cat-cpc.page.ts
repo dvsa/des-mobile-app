@@ -1,46 +1,23 @@
-import { Component, Injector, OnInit } from '@angular/core';
+import { Component, OnInit, computed } from '@angular/core';
 import { UntypedFormGroup } from '@angular/forms';
 import { CombinationCodes, Question, Question5, TestData } from '@dvsa/mes-test-schema/categories/CPC';
 import { CategoryCode } from '@dvsa/mes-test-schema/categories/common';
-import { select } from '@ngrx/store';
 import { CPCEndTestModal } from '@pages/test-report/cat-cpc/components/cpc-end-test-modal/cpc-end-test-modal';
 import { CPCQuestionProvider } from '@providers/cpc-questions/cpc-questions';
 import { TestResultProvider } from '@providers/test-result/test-result';
-import {
-  CommonTestReportPageState,
-  TestReportBasePageComponent,
-  trDestroy$,
-} from '@shared/classes/test-flow-base-pages/test-report/test-report-base-page';
+import { TestReportBasePageComponent } from '@shared/classes/test-flow-base-pages/test-report/test-report-base-page';
 import { QuestionNumber } from '@shared/constants/cpc-questions/cpc-question-combinations.constants';
 import { PopulateTestScore } from '@store/tests/test-data/cat-cpc/overall-score/total-percentage.action';
 import { AnswerToggled, PopulateQuestionScore } from '@store/tests/test-data/cat-cpc/questions/questions.action';
-import { getTestData } from '@store/tests/test-data/cat-cpc/test-data.cat-cpc.reducer';
-import {
-  getCombination,
-  getQuestion1,
-  getQuestion2,
-  getQuestion3,
-  getQuestion4,
-  getQuestion5,
-  getTotalPercent,
-} from '@store/tests/test-data/cat-cpc/test-data.cat-cpc.selector';
-import { getTests } from '@store/tests/tests.reducer';
-import { getCurrentTest } from '@store/tests/tests.selector';
-import { Observable, Subscription, combineLatest, lastValueFrom } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { Observable, lastValueFrom } from 'rxjs';
 
 interface CatCPCTestReportPageState {
   combinationCode$: Observable<CombinationCodes>;
-  question1$: Observable<Question>;
-  question2$: Observable<Question>;
-  question3$: Observable<Question>;
-  question4$: Observable<Question>;
-  question5$: Observable<Question5>;
   overallPercentage$: Observable<number>;
   testDataCPC$: Observable<TestData>;
 }
 
-type TestReportPageState = CommonTestReportPageState & CatCPCTestReportPageState;
+type TestReportPageState = CatCPCTestReportPageState;
 
 type ToggleEvent = {
   answer: {
@@ -62,65 +39,47 @@ export class TestReportCatCPCPage extends TestReportBasePageComponent implements
   pageState: TestReportPageState;
   pageNumber = 1;
   form: UntypedFormGroup;
-  questions: (Question | Question5)[];
-  overallPercentage: number;
   category: CategoryCode;
   isDelegated: boolean;
-  testData: TestData;
-  localSubscription: Subscription;
+
+  question1 = computed(() => (this.testData() as TestData).question1);
+  question2 = computed(() => (this.testData() as TestData).question2);
+  question3 = computed(() => (this.testData() as TestData).question3);
+  question4 = computed(() => (this.testData() as TestData).question4);
+  question5 = computed(() => (this.testData() as TestData).question5);
+  overallPercentage = computed(() => (this.testData() as TestData).totalPercent);
+  combinationCode = computed(() => (this.testData() as TestData).combination);
+
+  questions = computed(() => [
+    this.question1(),
+    this.question2(),
+    this.question3(),
+    this.question4(),
+    this.question5(),
+  ]);
 
   constructor(
     private cpcQuestionProvider: CPCQuestionProvider,
-    private testResultProvider: TestResultProvider,
-    injector: Injector
+    private testResultProvider: TestResultProvider
   ) {
-    super(injector);
+    super();
     this.form = new UntypedFormGroup({});
     this.displayOverlay = false;
   }
 
   ngOnInit(): void {
     super.onInitialisation();
-
-    const currentTest$ = this.store$.pipe(select(getTests), select(getCurrentTest));
-
-    this.pageState = {
-      ...this.commonPageState,
-      combinationCode$: currentTest$.pipe(select(getTestData), select(getCombination)),
-      question1$: currentTest$.pipe(select(getTestData), select(getQuestion1)),
-      question2$: currentTest$.pipe(select(getTestData), select(getQuestion2)),
-      question3$: currentTest$.pipe(select(getTestData), select(getQuestion3)),
-      question4$: currentTest$.pipe(select(getTestData), select(getQuestion4)),
-      question5$: currentTest$.pipe(select(getTestData), select(getQuestion5)),
-      overallPercentage$: currentTest$.pipe(select(getTestData), select(getTotalPercent)),
-      testDataCPC$: currentTest$.pipe(select(getTestData)),
-    };
-    this.setupSubscription();
-  }
-
-  async ionViewWillEnter() {
-    await super.ionViewWillEnter();
-    this.setUpSubscription();
-  }
-
-  ionViewDidLeave(): void {
-    super.ionViewDidLeave();
-    super.cancelSubscription();
-
-    if (this.localSubscription) {
-      this.localSubscription.unsubscribe();
-    }
   }
 
   onEndTestClick = async (): Promise<void> => {
-    const result = await lastValueFrom(this.testResultProvider.calculateTestResult(this.category, this.testData));
+    const result = await lastValueFrom(this.testResultProvider.calculateTestResult(this.category, this.testData()));
 
     const modal: HTMLIonModalElement = await this.modalController.create({
       component: CPCEndTestModal,
       cssClass: 'mes-modal-alert text-zoom-regular',
       componentProps: {
-        cpcQuestions: this.questions,
-        totalPercentage: this.overallPercentage,
+        cpcQuestions: this.questions(),
+        totalPercentage: this.overallPercentage(),
         testResult: result,
       },
     });
@@ -143,12 +102,12 @@ export class TestReportCatCPCPage extends TestReportBasePageComponent implements
     this.store$.dispatch(AnswerToggled(selected, questionNum, answerNumber));
 
     // Update question score
-    const question: Question | Question5 = this.testData[`question${questionNumber}`];
+    const question: Question | Question5 = this.testData()[`question${questionNumber}`];
     const questionScore: number = this.cpcQuestionProvider.getQuestionScore(question, questionNum);
     this.store$.dispatch(PopulateQuestionScore(questionNum, questionScore));
 
     // Update total score
-    const totalScore: number = this.cpcQuestionProvider.getTotalQuestionScore(this.testData);
+    const totalScore: number = this.cpcQuestionProvider.getTotalQuestionScore(this.testData() as TestData);
     this.store$.dispatch(PopulateTestScore(totalScore));
   };
 
@@ -160,7 +119,7 @@ export class TestReportCatCPCPage extends TestReportBasePageComponent implements
     this.store$.dispatch(PopulateQuestionScore(questionNum, Number(event.score)));
 
     // Update total score
-    const totalScore: number = this.cpcQuestionProvider.getTotalQuestionScore(this.testData);
+    const totalScore: number = this.cpcQuestionProvider.getTotalQuestionScore(this.testData() as TestData);
     this.store$.dispatch(PopulateTestScore(totalScore));
   };
 
@@ -173,38 +132,4 @@ export class TestReportCatCPCPage extends TestReportBasePageComponent implements
       [5, QuestionNumber.FIVE],
     ]).get(questionNumber);
   };
-
-  setUpSubscription(): void {
-    const currentTest$ = this.store$.pipe(select(getTests), select(getCurrentTest));
-
-    this.localSubscription = currentTest$
-      .pipe(select(getTestData))
-      .subscribe((result: TestData) => (this.testData = result));
-
-    this.subscription = combineLatest([
-      this.pageState.question1$,
-      this.pageState.question2$,
-      this.pageState.question3$,
-      this.pageState.question4$,
-      this.pageState.question5$,
-      this.pageState.overallPercentage$,
-      this.pageState.category$,
-    ])
-      .pipe(takeUntil(trDestroy$))
-      .subscribe(
-        ([question1, question2, question3, question4, question5, overallPercentage, category]: [
-          Question,
-          Question,
-          Question,
-          Question,
-          Question5,
-          number,
-          CategoryCode,
-        ]) => {
-          this.questions = [question1, question2, question3, question4, question5];
-          this.overallPercentage = overallPercentage;
-          this.category = category;
-        }
-      );
-  }
 }

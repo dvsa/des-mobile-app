@@ -1,22 +1,6 @@
-import { Component, Injector, OnInit } from '@angular/core';
-import { CatFUniqueTypes } from '@dvsa/mes-test-schema/categories/F';
-import { CatGUniqueTypes } from '@dvsa/mes-test-schema/categories/G';
-import { CatHUniqueTypes } from '@dvsa/mes-test-schema/categories/H';
-import { CatKUniqueTypes } from '@dvsa/mes-test-schema/categories/K';
+import { Component, OnInit } from '@angular/core';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
-import {
-  CommonTestReportPageState,
-  TestReportBasePageComponent,
-} from '@shared/classes/test-flow-base-pages/test-report/test-report-base-page';
-import { Observable } from 'rxjs';
-
-type TestReportPageState = CommonTestReportPageState;
-
-type HomeCatTestDataUnion =
-  | CatFUniqueTypes.TestData
-  | CatGUniqueTypes.TestData
-  | CatHUniqueTypes.TestData
-  | CatKUniqueTypes.TestData;
+import { TestReportBasePageComponent } from '@shared/classes/test-flow-base-pages/test-report/test-report-base-page';
 
 @Component({
   selector: '.test-report-cat-home-test-page',
@@ -25,29 +9,16 @@ type HomeCatTestDataUnion =
   standalone: false,
 })
 export class TestReportCatHomeTestPage extends TestReportBasePageComponent implements OnInit {
-  pageState: TestReportPageState;
-
-  constructor(injector: Injector) {
-    super(injector);
+  constructor() {
+    super();
     this.displayOverlay = false;
   }
 
   ngOnInit(): void {
     super.onInitialisation();
-
-    this.pageState = {
-      ...this.commonPageState,
-      testData$: this.commonPageState.testData$ as Observable<HomeCatTestDataUnion>,
-    };
-    this.setupSubscription();
-  }
-
-  ionViewDidLeave(): void {
-    super.ionViewDidLeave();
-    super.cancelSubscription();
   }
 
   showManoeuvreButton = (): boolean => {
-    return this.testCategory !== TestCategory.K;
+    return this.category !== TestCategory.K;
   };
 }

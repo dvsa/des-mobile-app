@@ -1,13 +1,6 @@
-import { Component, Injector, OnInit } from '@angular/core';
-import { CatCUniqueTypes } from '@dvsa/mes-test-schema/categories/C';
+import { Component, OnInit } from '@angular/core';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
-import {
-  CommonTestReportPageState,
-  TestReportBasePageComponent,
-} from '@shared/classes/test-flow-base-pages/test-report/test-report-base-page';
-import { Observable } from 'rxjs';
-
-type TestReportPageState = CommonTestReportPageState;
+import { TestReportBasePageComponent } from '@shared/classes/test-flow-base-pages/test-report/test-report-base-page';
 
 @Component({
   selector: '.test-report-cat-c-page',
@@ -16,32 +9,19 @@ type TestReportPageState = CommonTestReportPageState;
   standalone: false,
 })
 export class TestReportCatCPage extends TestReportBasePageComponent implements OnInit {
-  pageState: TestReportPageState;
-
-  constructor(injector: Injector) {
-    super(injector);
+  constructor() {
+    super();
     this.displayOverlay = false;
   }
 
   ngOnInit(): void {
     super.onInitialisation();
-
-    this.pageState = {
-      ...this.commonPageState,
-      testData$: this.commonPageState.testData$ as Observable<CatCUniqueTypes.TestData>,
-    };
-    this.setupSubscription();
-  }
-
-  ionViewDidLeave(): void {
-    super.ionViewDidLeave();
-    super.cancelSubscription();
   }
 
   showUncoupleRecouple = (): boolean => {
     if (!this.isDelegated) {
       return false;
     }
-    return this.testCategory === TestCategory.CE || this.testCategory === TestCategory.C1E;
+    return this.category === TestCategory.CE || this.category === TestCategory.C1E;
   };
 }

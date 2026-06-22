@@ -1,4 +1,4 @@
-import { Component, Injector, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { UntypedFormGroup } from '@angular/forms';
 import { CombinationCodes, Configuration, Question, Question5 } from '@dvsa/mes-test-schema/categories/CPC';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
@@ -56,11 +56,8 @@ export class WaitingRoomToCarCatCPCPage extends WaitingRoomToCarBasePageComponen
   form: UntypedFormGroup;
   pageState: WaitingRoomToCarPageState;
 
-  constructor(
-    private cpcQuestionProvider: CPCQuestionProvider,
-    injector: Injector
-  ) {
-    super(injector);
+  constructor(private cpcQuestionProvider: CPCQuestionProvider) {
+    super();
     this.form = new UntypedFormGroup({});
   }
 

@@ -1,4 +1,4 @@
-import { Component, Injector, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { DriverLicenceSchema, DriverPhotograph } from '@dvsa/mes-driver-schema';
@@ -63,10 +63,9 @@ export class CandidateLicencePage extends PracticeableBasePageComponent implemen
 
   constructor(
     private candidateLicenceProvider: CandidateLicenceProvider,
-    private domSanitizer: DomSanitizer,
-    injector: Injector
+    private domSanitizer: DomSanitizer
   ) {
-    super(injector, false);
+    super(false);
     this.formGroup = new FormGroup({});
   }
 
