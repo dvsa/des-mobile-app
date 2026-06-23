@@ -9,12 +9,12 @@ const competencyOutcomes = [CompetencyOutcome.DF, CompetencyOutcome.S, Competenc
 
 export const calculateFaultCount = (value: number | boolean | CompetencyOutcome): number => {
   if (isBoolean(value)) {
-    return value ? 1 : 0;
+    return (value as boolean) ? 1 : 0;
   }
   if (isNumber(value)) {
-    return value;
+    return value as number;
   }
-  if (competencyOutcomes.includes(value)) {
+  if (competencyOutcomes.includes(value as CompetencyOutcome)) {
     return 1;
   }
   return 0;
