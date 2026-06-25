@@ -285,7 +285,12 @@ export class AppConfigProvider {
         this.logError('User offline, falling back to cached config', '');
         this.getCachedRemoteConfig()
           .then((data) => resolve(data))
-          .catch((error) => reject(error));
+          .catch((error) =>
+            reject({
+              data: null,
+              error,
+            })
+          );
         return;
       }
 
@@ -312,10 +317,18 @@ export class AppConfigProvider {
                 this.logError('Getting remote config failed, using cached data', errorResponse.error);
                 this.getCachedRemoteConfig()
                   .then((data) => resolve(data))
-                  .catch((cacheError) => reject(cacheError));
+                  .catch((cacheError) =>
+                    reject({
+                      data: null,
+                      error: cacheError,
+                    })
+                  );
               } else {
                 this.logError('Getting remote config failed, not using cached data', errorResponse.error);
-                reject(errorResponse);
+                reject({
+                  data: null,
+                  error: errorResponse,
+                });
               }
             },
           });
