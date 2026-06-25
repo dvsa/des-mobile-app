@@ -118,8 +118,11 @@ export class PassFinalisationCatBPage extends PassFinalisationPageComponent impl
     });
   }
 
+  /**
+   * Test input against pattern, sanitising spaces
+   * @param driverNumber
+   */
   isNorthernIreland(driverNumber: string): boolean {
-    driverNumber = driverNumber?.replace(/\s/g, '');
-    return /^\d+$/.test(driverNumber);
+    return /^\d+$/.test(driverNumber?.replace(/\s/g, ''));
   }
 }

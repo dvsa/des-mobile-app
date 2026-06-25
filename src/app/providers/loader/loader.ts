@@ -20,9 +20,9 @@ export class LoadingProvider {
   };
 
   private present = async (loadingOpts: LoadingOptions = null): Promise<void> => {
-    if (!loadingOpts) loadingOpts = LoadingProvider.defaultLoadingOptions;
+    const options = loadingOpts ?? LoadingProvider.defaultLoadingOptions;
 
-    this.loader = await this.loadingCtrl.create(loadingOpts);
+    this.loader = await this.loadingCtrl.create(options);
     await this.loader.present();
   };
 
