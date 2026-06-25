@@ -235,8 +235,8 @@ export enum AnalyticsDimensionIndices {
 }
 
 export enum JournalRefreshModes {
-  MANUAL = 'MANUAL',
-  AUTOMATIC = 'AUTOMATIC',
+  AUTOMATIC = 'automatic',
+  MANUAL = 'manual',
 }
 
 export enum AnalyticsErrorTypes {
