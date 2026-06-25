@@ -123,7 +123,7 @@ describe('JournalAnalyticsEffects', () => {
         expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
           GoogleAnalyticsEvents.JOURNAL,
           GoogleAnalyticsEventsTitles.REFRESH,
-          JournalRefreshModes.AUTOMATIC
+          GoogleAnalyticsEventsValues.AUTOMATIC
         );
         done();
       });
