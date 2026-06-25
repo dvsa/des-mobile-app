@@ -24,6 +24,7 @@ import { OutcomeBehaviourMapProvider } from '@providers/outcome-behaviour-map/ou
 import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
 import { PracticeableBasePageComponent } from '@shared/classes/practiceable-base-page';
 import { ActivityCodes } from '@shared/models/activity-codes';
+import { selectEmployeeId } from '@store/app-info/app-info.selectors';
 import { PopulateTestCategory } from '@store/tests/category/category.actions';
 import { getTestCategory } from '@store/tests/category/category.reducer';
 import {
@@ -51,9 +52,12 @@ import { getTestData } from '@store/tests/test-data/cat-b/test-data.reducer';
 import { D255No, D255Yes, DebriefUnWitnessed, DebriefWitnessed } from '@store/tests/test-summary/test-summary.actions';
 import { getTestSummary } from '@store/tests/test-summary/test-summary.reducer';
 import { getD255, isDebriefWitnessed } from '@store/tests/test-summary/test-summary.selector';
-import { GearboxCategoryChanged } from '@store/tests/vehicle-details/vehicle-details.actions';
+import {
+  AutomaticConfirmationChanged,
+  GearboxCategoryChanged,
+} from '@store/tests/vehicle-details/vehicle-details.actions';
 import { getVehicleDetails } from '@store/tests/vehicle-details/vehicle-details.reducer';
-import { getGearboxCategory } from '@store/tests/vehicle-details/vehicle-details.selector';
+import { getGearboxCategory, isAutomaticConfirmed } from '@store/tests/vehicle-details/vehicle-details.selector';
 import { map, take } from 'rxjs/operators';
 
 export interface CommonPassFinalisationPageState {
@@ -66,6 +70,7 @@ export interface CommonPassFinalisationPageState {
   provisionalLicense$: Observable<boolean>;
   passCertificateNumber$: Observable<string>;
   transmission$: Observable<GearboxCategory>;
+  isAutomaticConfirmed$: Observable<boolean>;
   d255$: Observable<boolean>;
   debriefWitnessed$: Observable<boolean>;
   conductedLanguage$: Observable<string>;
@@ -77,6 +82,7 @@ export interface CommonPassFinalisationPageState {
 export abstract class PassFinalisationPageComponent extends PracticeableBasePageComponent {
   protected routeByCat = this.injector.get(RouteByCategoryProvider);
   protected outcomeBehaviourProvider = this.injector.get(OutcomeBehaviourMapProvider);
+  staffNumber = this.store$.selectSignal(selectEmployeeId);
 
   commonPageState: CommonPassFinalisationPageState;
   testOutcome: ActivityCodes = ActivityCodes.PASS;
@@ -95,6 +101,7 @@ export abstract class PassFinalisationPageComponent extends PracticeableBasePage
 
     this.commonPageState = {
       candidateName$: currentTest$.pipe(select(getJournalData), select(getCandidate), select(getCandidateName)),
+      isAutomaticConfirmed$: currentTest$.pipe(select(getVehicleDetails), select(isAutomaticConfirmed)),
       candidateUntitledName$: currentTest$.pipe(
         select(getJournalData),
         select(getCandidate),
@@ -149,6 +156,10 @@ export abstract class PassFinalisationPageComponent extends PracticeableBasePage
 
   transmissionChanged(transmission: GearboxCategory): void {
     this.store$.dispatch(GearboxCategoryChanged(transmission));
+  }
+
+  automaticConfirmationChanged(isConfirmed: boolean): void {
+    this.store$.dispatch(AutomaticConfirmationChanged(isConfirmed));
   }
 
   passCertificateNumberChanged(passCertificateNumber: string): void {

@@ -56,14 +56,17 @@
         <danger-banner *ngIf="isNorthernIreland(pageState.candidateDriverNumber$ | async )" [dangerText]="niMessage">
         </danger-banner>
 
-        <transmission (transmissionChange)="transmissionChanged($event)" [formGroup]="form"></transmission>
-
-        <warning-banner
-          *ngIf="displayTransmissionBanner()"
-          [warningIdentifier]="'transmission-'"
-          warningText="An automatic licence will be issued."
-        >
-        </warning-banner>
+        <transmission
+          [shouldShowConfirmationSettings]="true"
+          [shouldShowEditBox]="true"
+          [staffNumber]="staffNumber()"
+          (transmissionChange)="transmissionChanged($event)"
+          (automaticConfirmChange)="automaticConfirmationChanged($event)"
+          [formGroup]="form"
+          [transmission]="pageState.transmission$ | async"
+          [autoConfirmSelected]="pageState.isAutomaticConfirmed$ | async"
+          [isRekey]="isRekey"
+        ></transmission>
 
         <pass-certificate-number
           (passCertificateNumberChange)="passCertificateNumberChanged($event)"

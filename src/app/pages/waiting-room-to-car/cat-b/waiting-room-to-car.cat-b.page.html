@@ -91,10 +91,14 @@
               </tell-me-question-card>
 
               <transmission
+                [shouldShowConfirmationSettings]="true"
+                [staffNumber]="staffNumber()"
                 (transmissionChange)="transmissionChanged($event)"
+                (automaticConfirmChange)="automaticConfirmationChanged($event)"
                 [formGroup]="form"
                 [transmission]="pageState.transmission$ | async"
-              >
+                [autoConfirmSelected]="pageState.isAutomaticConfirmed$ | async"
+                [isRekey]="isRekey">
               </transmission>
 
               <instructor-registration

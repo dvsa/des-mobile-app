@@ -6,45 +6,126 @@ import { v4 as uuidv4 } from 'uuid';
 @Component({
   selector: 'transmission',
   templateUrl: 'transmission.html',
+  styleUrls: ['transmission.scss'],
   standalone: false,
 })
 export class TransmissionComponent implements OnChanges {
   @Input()
   transmission: GearboxCategory;
-
   @Input()
   hideTransmissionLabel = false;
   @Input()
   hideConfirmTransmissionLabel = true;
-
+  @Input()
+  shouldShowConfirmationSettings = false;
+  @Input()
+  shouldShowEditBox = false;
+  @Input()
+  autoConfirmSelected = false;
+  @Input()
+  isRekey = false;
+  @Input()
+  staffNumber = null;
   @Input()
   formGroup: UntypedFormGroup;
 
   @Output()
   transmissionChange = new EventEmitter<GearboxCategory>();
 
+  @Output()
+  automaticConfirmChange = new EventEmitter<boolean>();
+
   uniqueId: string;
 
-  formControl: UntypedFormControl;
-  static readonly fieldName: string = 'transmissionCtrl';
+  isShowingEditBox = true;
+
+  transmissionFormControl: UntypedFormControl;
+  readonly transmissionFieldName: string = 'transmissionCtrl';
+
+  autoCheckboxFormControl: UntypedFormControl;
+  readonly autoConfirmFieldName: string = 'automaticConfirmCheckbox';
 
   ngOnInit() {
     this.uniqueId = uuidv4();
   }
 
-  ngOnChanges(): void {
-    if (!this.formControl) {
-      this.formControl = new UntypedFormControl('Transmission', [Validators.required]);
-      this.formGroup.addControl(TransmissionComponent.fieldName, this.formControl);
+  deactivateEditMode() {
+    this.isShowingEditBox = false;
+    this.setupAutoCheckboxFormControl();
+    this.automaticConfirmChanged(false);
+    if (this.autoCheckboxFormControl) {
+      this.autoCheckboxFormControl.setValue(false, { emitEvent: false });
     }
-    this.formControl.patchValue(this.transmission);
+    this.autoConfirmSelected = false;
+  }
+
+  ngOnChanges(): void {
+    if (!this.transmissionFormControl) {
+      this.transmissionFormControl = new UntypedFormControl('Transmission', [Validators.required]);
+      this.formGroup.addControl(this.transmissionFieldName, this.transmissionFormControl);
+    }
+    this.transmissionFormControl.patchValue(this.transmission);
+    this.setupAutoCheckboxFormControl();
+  }
+
+  setupAutoCheckboxFormControl() {
+    if (
+      this.shouldShowConfirmationSettings &&
+      this.transmission === 'Automatic' &&
+      (!this.shouldShowEditBox || (this.shouldShowEditBox && !this.shouldShowEditBoxOptions()))
+    ) {
+      if (!this.autoCheckboxFormControl) {
+        this.autoCheckboxFormControl = new UntypedFormControl(false, [Validators.requiredTrue]);
+        this.formGroup.addControl(this.autoConfirmFieldName, this.autoCheckboxFormControl);
+        this.autoCheckboxFormControl.patchValue(this.autoConfirmSelected);
+        this.automaticConfirmChanged(this.autoConfirmSelected);
+      }
+    }
   }
 
   transmissionChanged(transmission: GearboxCategory): void {
+    if (this.shouldShowConfirmationSettings) {
+      if (transmission === 'Manual') {
+        if (this.autoCheckboxFormControl) {
+          this.formGroup.removeControl(this.autoConfirmFieldName);
+          this.autoCheckboxFormControl = null;
+          this.automaticConfirmChange.emit(undefined);
+        }
+      } else if (transmission === 'Automatic') {
+        this.isShowingEditBox = false;
+        this.setupAutoCheckboxFormControl();
+      }
+    }
     this.transmissionChange.emit(transmission);
   }
 
-  isInvalid(): boolean {
-    return !this.formControl.valid && this.formControl.dirty;
+  automaticConfirmChanged(isChecked: boolean): void {
+    this.isShowingEditBox = false;
+    this.automaticConfirmChange.emit(isChecked);
+  }
+
+  isTransmissionInvalid(): boolean {
+    return !this.transmissionFormControl.valid && this.transmissionFormControl.dirty;
+  }
+
+  isAutoConfirmInvalid(): boolean {
+    if (!this.autoCheckboxFormControl) {
+      return false;
+    }
+    return !this.autoCheckboxFormControl.valid && this.autoCheckboxFormControl.dirty;
+  }
+
+  isAutomatic() {
+    return this.transmission === 'Automatic';
+  }
+
+  shouldShowEditBoxOptions() {
+    return (
+      this.isAutomatic() &&
+      this.shouldShowConfirmationSettings &&
+      this.shouldShowEditBox &&
+      this.isShowingEditBox &&
+      this.autoConfirmSelected
+    );
   }
 }
