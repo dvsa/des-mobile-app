@@ -10,7 +10,6 @@ import {
   GoogleAnalyticsEvents,
   GoogleAnalyticsEventsTitles,
   GoogleAnalyticsEventsValues,
-  JournalRefreshModes,
 } from '@providers/analytics/analytics.model';
 
 import { Action } from '@ngrx/store';
@@ -58,7 +57,7 @@ describe('TestCentreJournalAnalyticsEffects', () => {
         expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
           GoogleAnalyticsEvents.TEST_CENTRE_JOURNAL,
           GoogleAnalyticsEventsTitles.REFRESH,
-          JournalRefreshModes.AUTOMATIC
+          GoogleAnalyticsEventsValues.AUTOMATIC
         );
         done();
       });

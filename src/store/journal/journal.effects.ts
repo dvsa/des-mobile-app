@@ -60,8 +60,8 @@ import { TestResultRehydration, getTests } from '@store/tests/tests.reducer';
 import { get } from 'lodash-es';
 
 export enum JournalRehydrationType {
-  AUTO = 'Automatic',
-  MANUAL = 'Manual',
+  AUTO = 'automatic',
+  MANUAL = 'manual',
 }
 
 export enum JournalRehydrationPage {
