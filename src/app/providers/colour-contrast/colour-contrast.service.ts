@@ -31,14 +31,11 @@ export class ColourContrastService {
     colour1: [number, number, number] | string,
     colour2: [number, number, number] | string = [255, 255, 255]
   ): number {
-    if (typeof colour1 === 'string') {
-      colour1 = this.hexToRgb(colour1);
-    }
-    if (typeof colour2 === 'string') {
-      colour2 = this.hexToRgb(colour2);
-    }
-    const luminance1 = this.luminance(colour1);
-    const luminance2 = this.luminance(colour2);
+    const rgb1: [number, number, number] = typeof colour1 === 'string' ? this.hexToRgb(colour1) : colour1;
+    const rgb2: [number, number, number] = typeof colour2 === 'string' ? this.hexToRgb(colour2) : colour2;
+
+    const luminance1 = this.luminance(rgb1);
+    const luminance2 = this.luminance(rgb2);
 
     // calculate contrast using (L1 + 0.05) / (L2 + 0.05), where l1 is the largest of the 2 l values, return as a number
     // with zero decimal places, but without rounding.
