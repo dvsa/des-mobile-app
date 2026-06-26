@@ -70,9 +70,9 @@ export class VRNCaptureModal implements OnInit {
   }
 
   inputChange(input: string) {
-    input = input.toUpperCase().replace(nonAlphaNumericValues, '');
-    this.vehicleRegistrationNumber = input;
-    this.vehicleRegistrationFormControl.patchValue(input, {
+    const sanitisedInput = input.toUpperCase().replace(nonAlphaNumericValues, '');
+    this.vehicleRegistrationNumber = sanitisedInput;
+    this.vehicleRegistrationFormControl.patchValue(sanitisedInput, {
       emitEvent: false,
       emitViewToModelChange: false,
     });

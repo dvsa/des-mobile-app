@@ -48,15 +48,18 @@ export class MotFailedModal implements OnInit {
     return !this.formControl.valid && this.formControl.dirty;
   }
 
+  /**
+   * Checks input against pattern and sanitises the value if it does not match, then sets the vehicleRegistration property to the upper case version of the value
+   * @param value
+   */
   vehicleRegistrationChanged(value: string): void {
-    if (typeof value === 'string' && !this.registrationNumberValidator.pattern.test(value)) {
-      value = value?.replace(nonAlphaNumericValues, '');
+    const needsSanitising = typeof value === 'string' && !this.registrationNumberValidator.pattern.test(value);
+    const sanitisedValue = needsSanitising ? value?.replace(nonAlphaNumericValues, '') : value;
 
-      if (isEmpty(value)) {
-        this.formControl.setErrors({ invalidValue: value });
-      }
+    if (needsSanitising && isEmpty(sanitisedValue)) {
+      this.formControl.setErrors({ invalidValue: sanitisedValue });
     }
-    this.vehicleRegistration = value?.toUpperCase();
+    this.vehicleRegistration = sanitisedValue?.toUpperCase();
   }
 
   async onConfirm() {

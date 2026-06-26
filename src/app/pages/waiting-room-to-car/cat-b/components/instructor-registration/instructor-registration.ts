@@ -43,11 +43,16 @@ export class InstructorRegistrationComponent implements OnChanges {
     mask: [/\d/, /\d/, /\d/, /\d/, /\d/, /\d/, /\d/],
   };
 
+  /**
+   * Cleanses the value of the instructor registration number input and emits the change event
+   * @param value
+   */
   instructorRegistrationChanged(value: string): void {
-    if (typeof value === 'string' && !this.instructorRegistrationNumberValidator.pattern.test(value)) {
-      value = value.replace(leadingZero, '').replace(nonNumericValues, '');
-    }
-    this.instructorRegistrationChange.emit(Number(value) || undefined);
+    const cleansedValue =
+      typeof value === 'string' && !this.instructorRegistrationNumberValidator.pattern.test(value)
+        ? value.replace(leadingZero, '').replace(nonNumericValues, '')
+        : value;
+    this.instructorRegistrationChange.emit(Number(cleansedValue) || undefined);
   }
 
   get invalid(): boolean {
