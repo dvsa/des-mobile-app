@@ -383,6 +383,13 @@ export class AuthenticationProvider {
       this.logEvent(LogType.ERROR, 'Logout', 'Clear AUTH_RESULT error');
     }
 
+    try {
+      // Clear journal from local storage
+      await this.dataStoreProvider.removeItem(LocalStorageKey.JOURNAL);
+    } catch (error) {
+      this.logEvent(LogType.ERROR, 'Logout', 'Clear JOURNAL error');
+    }
+
     // Clear all reminiscent of examiner records from storage
     await this.examinerRecordsProvider.clearExaminerRecordsCache();
 
