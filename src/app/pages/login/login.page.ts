@@ -339,6 +339,10 @@ export class LoginPage extends LogoutBasePageComponent implements OnInit {
     await this.ngOnInit();
   }
 
+  /**
+   * The reason this is here is that if you run the login function while already logged in, it doesn't do anything.
+   * So to get the blue link to work, you have to log out first.
+   */
   async logoutThenLogin() {
     await this.logout();
     await this.login();
