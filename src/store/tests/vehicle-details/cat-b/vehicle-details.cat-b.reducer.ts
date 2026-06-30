@@ -38,6 +38,13 @@ export const vehicleDetailsReducer = createReducer(
     })
   ),
   on(
+    vehicleDetailsActions.AutomaticConfirmationChanged,
+    (state, { isConfirmed }): CatBUniqueTypes.VehicleDetails => ({
+      ...state,
+      automaticConfirmed: isConfirmed,
+    })
+  ),
+  on(
     vehicleDetailsActions.GearboxCategoryChanged,
     (state, { gearboxCategory }): CatBUniqueTypes.VehicleDetails => ({
       ...state,

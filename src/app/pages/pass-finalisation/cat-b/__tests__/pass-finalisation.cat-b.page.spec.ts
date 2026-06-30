@@ -234,31 +234,4 @@ describe('PassFinalisationCatBPage', () => {
       expect(component.subscription.unsubscribe).toHaveBeenCalled();
     });
   });
-
-  describe('displayTransmissionBanner', () => {
-    it('should return true if transmission is automatic and form is dirty', () => {
-      component.transmission = 'Automatic';
-      component.form = new UntypedFormGroup({ transmissionCtrl: new UntypedFormControl() });
-      component.form.controls.transmissionCtrl.markAsDirty();
-      expect(component.displayTransmissionBanner()).toEqual(true);
-    });
-    it('should return false if transmission is not automatic and form is dirty', () => {
-      component.transmission = 'Manual';
-      component.form = new UntypedFormGroup({ transmissionCtrl: new UntypedFormControl() });
-      component.form.controls.transmissionCtrl.markAsDirty();
-      expect(component.displayTransmissionBanner()).toEqual(false);
-    });
-    it('should return false if transmission is automatic and form is not dirty', () => {
-      component.transmission = 'Automatic';
-      component.form = new UntypedFormGroup({ transmissionCtrl: new UntypedFormControl() });
-      component.form.controls.transmissionCtrl.markAsPristine();
-      expect(component.displayTransmissionBanner()).toEqual(false);
-    });
-    it('should return false if transmission is not automatic and form is not dirty', () => {
-      component.transmission = 'Manual';
-      component.form = new UntypedFormGroup({ transmissionCtrl: new UntypedFormControl() });
-      component.form.controls.transmissionCtrl.markAsPristine();
-      expect(component.displayTransmissionBanner()).toEqual(false);
-    });
-  });
 });

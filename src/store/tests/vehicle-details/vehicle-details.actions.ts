@@ -51,6 +51,11 @@ export const GearboxCategoryChanged = createAction(
   (gearboxCategory: GearboxCategory) => ({ gearboxCategory })
 );
 
+export const AutomaticConfirmationChanged = createAction(
+  '[Vehicle Details] Automatic confirmation changed',
+  (isConfirmed: boolean) => ({ isConfirmed })
+);
+
 export const ClearGearboxCategory = createAction('[Vehicle Details] Clear gearbox category');
 
 export const PopulateVehicleDimensions = createAction(

@@ -13,7 +13,6 @@ import {
   CommonPassFinalisationPageState,
   PassFinalisationPageComponent,
 } from '@shared/classes/test-flow-base-pages/pass-finalisation/pass-finalisation-base-page';
-import { TransmissionType } from '@shared/models/transmission-type';
 import { ProvisionalLicenseNotReceived } from '@store/tests/pass-completion/pass-completion.actions';
 import { PersistTests } from '@store/tests/tests.actions';
 import { getTests } from '@store/tests/tests.reducer';
@@ -90,10 +89,6 @@ export class PassFinalisationCatBPage extends PassFinalisationPageComponent impl
     if (this.subscription.closed && this.merged$) {
       this.subscription = this.merged$.subscribe();
     }
-  }
-
-  displayTransmissionBanner(): boolean {
-    return !this.form.controls.transmissionCtrl.pristine && this.transmission === TransmissionType.Automatic;
   }
 
   async onSubmit() {
