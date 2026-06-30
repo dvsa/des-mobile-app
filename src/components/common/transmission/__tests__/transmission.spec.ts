@@ -76,10 +76,10 @@ describe('TransmissionComponent', () => {
   describe('automaticConfirmChanged', () => {
     it('automaticConfirmChanged sets isShowingEditBox to false and emits provided value', () => {
       spyOn(component.automaticConfirmChange, 'emit');
-      component.isShowingEditBox = true;
+      spyOn(component.userClickedEditButton, 'emit');
       component.automaticConfirmChanged(true);
-      expect(component.isShowingEditBox).toBeFalse();
       expect(component.automaticConfirmChange.emit).toHaveBeenCalledWith(true);
+      expect(component.userClickedEditButton.emit).toHaveBeenCalled();
     });
   });
 
