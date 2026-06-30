@@ -1,5 +1,5 @@
 import { select } from '@ngrx/store';
-import { Observable, Subscription, combineLatest } from 'rxjs';
+import { BehaviorSubject, Observable, Subscription, combineLatest } from 'rxjs';
 
 import { getCandidate } from '@store/tests/journal-data/common/candidate/candidate.reducer';
 import {
@@ -24,7 +24,6 @@ import { OutcomeBehaviourMapProvider } from '@providers/outcome-behaviour-map/ou
 import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
 import { PracticeableBasePageComponent } from '@shared/classes/practiceable-base-page';
 import { ActivityCodes } from '@shared/models/activity-codes';
-import { selectEmployeeId } from '@store/app-info/app-info.selectors';
 import { PopulateTestCategory } from '@store/tests/category/category.actions';
 import { getTestCategory } from '@store/tests/category/category.reducer';
 import {
@@ -82,7 +81,7 @@ export interface CommonPassFinalisationPageState {
 export abstract class PassFinalisationPageComponent extends PracticeableBasePageComponent {
   protected routeByCat = this.injector.get(RouteByCategoryProvider);
   protected outcomeBehaviourProvider = this.injector.get(OutcomeBehaviourMapProvider);
-  staffNumber = this.store$.selectSignal(selectEmployeeId);
+  isShowingEditBox$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(true);
 
   commonPageState: CommonPassFinalisationPageState;
   testOutcome: ActivityCodes = ActivityCodes.PASS;
@@ -144,6 +143,16 @@ export abstract class PassFinalisationPageComponent extends PracticeableBasePage
     if (this.subscription) {
       this.subscription.unsubscribe();
     }
+  }
+
+  ionViewWillEnter() {
+    console.log('will enter');
+    this.isShowingEditBox$.next(true);
+  }
+
+  deactivateEdit() {
+    console.log('edit dea');
+    this.isShowingEditBox$.next(false);
   }
 
   provisionalLicenseReceived(): void {

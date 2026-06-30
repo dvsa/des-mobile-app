@@ -25,8 +25,6 @@ export class TransmissionComponent implements OnChanges {
   @Input()
   isRekey = false;
   @Input()
-  staffNumber = null;
-  @Input()
   formGroup: UntypedFormGroup;
 
   @Output()
@@ -37,7 +35,11 @@ export class TransmissionComponent implements OnChanges {
 
   uniqueId: string;
 
+  @Input()
   isShowingEditBox = true;
+
+  @Output()
+  userClickedEditButton = new EventEmitter<void>();
 
   transmissionFormControl: UntypedFormControl;
   readonly transmissionFieldName: string = 'transmissionCtrl';
@@ -50,7 +52,7 @@ export class TransmissionComponent implements OnChanges {
   }
 
   deactivateEditMode() {
-    this.isShowingEditBox = false;
+    this.userClickedEditButton.emit();
     this.setupAutoCheckboxFormControl();
     this.automaticConfirmChanged(false);
     if (this.autoCheckboxFormControl) {
@@ -92,7 +94,7 @@ export class TransmissionComponent implements OnChanges {
           this.automaticConfirmChange.emit(undefined);
         }
       } else if (transmission === 'Automatic') {
-        this.isShowingEditBox = false;
+        this.userClickedEditButton.emit();
         this.setupAutoCheckboxFormControl();
       }
     }
@@ -100,7 +102,7 @@ export class TransmissionComponent implements OnChanges {
   }
 
   automaticConfirmChanged(isChecked: boolean): void {
-    this.isShowingEditBox = false;
+    this.userClickedEditButton.emit();
     this.automaticConfirmChange.emit(isChecked);
   }
 
@@ -119,13 +121,18 @@ export class TransmissionComponent implements OnChanges {
     return this.transmission === 'Automatic';
   }
 
+  shouldShowConfirmation() {
+    return this.isAutomatic() && this.shouldShowConfirmationSettings && !this.isRekey;
+  }
+
   shouldShowEditBoxOptions() {
     return (
       this.isAutomatic() &&
       this.shouldShowConfirmationSettings &&
       this.shouldShowEditBox &&
       this.isShowingEditBox &&
-      this.autoConfirmSelected
+      this.autoConfirmSelected &&
+      !this.isRekey
     );
   }
 }

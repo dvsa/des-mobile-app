@@ -29,7 +29,6 @@ import { isAnyOf } from '@shared/helpers/simplifiers';
 import { CompetencyOutcome } from '@shared/models/competency-outcome';
 import { HttpStatusCodes } from '@shared/models/http-status-codes';
 import { JournalDataUnion } from '@shared/unions/journal-union';
-import { selectEmployeeId } from '@store/app-info/app-info.selectors';
 import { TestCentreJournalEnteredFromTest } from '@store/test-centre-journal/test-centre-journal.actions';
 import {
   InstructorAccompanimentToggled,
@@ -136,7 +135,6 @@ export abstract class WaitingRoomToCarBasePageComponent extends PracticeableBase
   failedMOTModalCurrentlyOpen = false;
   isSearchingForMOT = false;
   abortSubject: Subject<void> = new Subject<void>();
-  staffNumber = this.store$.selectSignal(selectEmployeeId);
 
   private categoriesRequiringEyesightTest: TestCategory[] = [
     TestCategory.B,

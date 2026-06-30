@@ -1,7 +1,14 @@
-<ion-row [formGroup]="formGroup" [class.teal-background]="isAutomatic() && shouldShowConfirmationSettings"
-         class="mes-validated-row mes-row-separator mes-narrow-row" id="transmission-card">
+<ion-row
+  [formGroup]="formGroup"
+  [class.teal-background]="shouldShowConfirmation()"
+  class="mes-validated-row mes-row-separator mes-narrow-row"
+  id="transmission-card">
   <div class="validation-bar" [class.ng-invalid]="isTransmissionInvalid()"></div>
-  <ion-col class="component-label" [class.ion-align-self-center]="!shouldShowConfirmationSettings" [class.top-padding]="shouldShowConfirmationSettings" size="32">
+  <ion-col
+    class="component-label"
+    [class.ion-align-self-center]="!(shouldShowConfirmationSettings && !isRekey)"
+    [class.top-padding]="shouldShowConfirmationSettings && !isRekey"
+    size="32">
     @if (shouldShowEditBoxOptions()) {
       <label id="licence-to-be-issued-title">Licence to be issued</label>
     } @else {
@@ -29,7 +36,9 @@
       </ion-row>
       <ion-row>
         <ion-col size="40">
-          <ion-button class="display-flex mes-grey-button" (click)="deactivateEditMode()">Edit</ion-button>
+          <ion-button class="display-flex mes-grey-button" (click)="deactivateEditMode()">
+            <ion-text class="mes-data">Edit</ion-text>
+          </ion-button>
         </ion-col>
       </ion-row>
     </ion-col>
@@ -74,7 +83,7 @@
           Select the transmission of the vehicle
         </div>
       </ion-row>
-      @if (isAutomatic() && shouldShowConfirmationSettings) {
+      @if (shouldShowConfirmation()) {
         <ion-row>
           <ion-col size="13">
             <ion-icon id="learn-more-modal-alert-icon" class="warning-icon" ios="alert"
@@ -107,11 +116,7 @@
             Please confirm or change your selection
           </div>
         </ion-row>
-        @if (staffNumber) {
-          <ion-row class="padding-bottom">
-            <ion-text class="mes-data fst-italic">{{ staffNumber }}</ion-text>
-          </ion-row>
-        }
+        <ion-row class="padding-bottom"></ion-row>
       }
     </ion-col>
   }

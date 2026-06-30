@@ -59,9 +59,10 @@
         <transmission
           [shouldShowConfirmationSettings]="true"
           [shouldShowEditBox]="true"
-          [staffNumber]="staffNumber()"
+          [isShowingEditBox]="isShowingEditBox$ | async"
           (transmissionChange)="transmissionChanged($event)"
           (automaticConfirmChange)="automaticConfirmationChanged($event)"
+          (userClickedEditButton)="deactivateEdit()"
           [formGroup]="form"
           [transmission]="pageState.transmission$ | async"
           [autoConfirmSelected]="pageState.isAutomaticConfirmed$ | async"
