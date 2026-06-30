@@ -1,6 +1,7 @@
 <ion-row
   [formGroup]="formGroup"
   [class.teal-background]="shouldShowConfirmation()"
+  [class.black-text]="shouldShowConfirmation()"
   class="mes-validated-row mes-row-separator mes-narrow-row"
   id="transmission-card">
   <div class="validation-bar" [class.ng-invalid]="isTransmissionInvalid()"></div>

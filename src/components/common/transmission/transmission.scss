@@ -2,6 +2,12 @@
   background-color: var(--mes-teal);
 }
 
+.black-text {
+  label, ion-text {
+    color: var(--gds-black);
+  }
+}
+
 .top-padding {
   padding-top: 48px
 }

@@ -20,6 +20,7 @@
     min-width: $radio-width;
     height: $radio-height;
     margin-right: 0.6em;
+    background-color: var(--mes-theme-main-colour);
   }
   &:checked + label:before {
     background-color: var(--mes-theme-opposing-colour);
