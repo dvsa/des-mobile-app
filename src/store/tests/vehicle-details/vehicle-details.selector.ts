@@ -17,6 +17,7 @@ export const getSearchedVRNListNoDuplicates = (vehicleDetails: VehicleDetails) =
 export const getMotEvidence = (vehicleDetails: VehicleDetails) => vehicleDetails.motEvidence;
 export const isManual = (vehicleDetails: VehicleDetails) => vehicleDetails.gearboxCategory === 'Manual' || false;
 export const isAutomatic = (vehicleDetails: VehicleDetails) => vehicleDetails.gearboxCategory === 'Automatic' || false;
+export const isAutomaticConfirmed = (vehicleDetails: VehicleDetails) => vehicleDetails.automaticConfirmed;
 
 /**
  * Get a list of previously searched VRNs that are not your final without duplicates

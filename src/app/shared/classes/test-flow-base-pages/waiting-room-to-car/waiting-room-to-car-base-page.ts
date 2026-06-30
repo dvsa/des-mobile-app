@@ -76,6 +76,7 @@ import {
 import { getVehicleDetails } from '@store/tests/vehicle-details/cat-b/vehicle-details.cat-b.reducer';
 import { getDualControls, getSchoolCar } from '@store/tests/vehicle-details/cat-b/vehicle-details.cat-b.selector';
 import {
+  AutomaticConfirmationChanged,
   DualControlsToggled,
   GearboxCategoryChanged,
   MotEvidenceProvidedReset,
@@ -95,6 +96,7 @@ import {
   getMotEvidence,
   getMotEvidenceProvided,
   getRegistrationNumber,
+  isAutomaticConfirmed,
 } from '@store/tests/vehicle-details/vehicle-details.selector';
 
 export interface CommonWaitingRoomToCarPageState {
@@ -114,6 +116,7 @@ export interface CommonWaitingRoomToCarPageState {
   motEvidenceProvided$: Observable<boolean>;
   isOffline$: Observable<boolean>;
   motEvidenceDescription$: Observable<string>;
+  isAutomaticConfirmed$: Observable<boolean>;
 }
 
 export const wrtcDestroy$ = new Subject<{}>();
@@ -162,6 +165,7 @@ export abstract class WaitingRoomToCarBasePageComponent extends PracticeableBase
       candidateName$: currentTest$.pipe(select(getJournalData), select(getCandidate), select(getUntitledCandidateName)),
       registrationNumber$: currentTest$.pipe(select(getVehicleDetails), select(getRegistrationNumber)),
       transmission$: currentTest$.pipe(select(getVehicleDetails), select(getGearboxCategory)),
+      isAutomaticConfirmed$: currentTest$.pipe(select(getVehicleDetails), select(isAutomaticConfirmed)),
       category$: currentTest$.pipe(
         select(getTestCategory),
         map((result) => (this.testCategory = result as TestCategory))
@@ -210,6 +214,10 @@ export abstract class WaitingRoomToCarBasePageComponent extends PracticeableBase
 
   transmissionChanged(transmission: GearboxCategory): void {
     this.store$.dispatch(GearboxCategoryChanged(transmission));
+  }
+
+  automaticConfirmationChanged(isConfirmed: boolean): void {
+    this.store$.dispatch(AutomaticConfirmationChanged(isConfirmed));
   }
 
   instructorAccompanimentToggled(): void {

@@ -1,5 +1,5 @@
 import { select } from '@ngrx/store';
-import { Observable, Subscription, combineLatest } from 'rxjs';
+import { BehaviorSubject, Observable, Subscription, combineLatest } from 'rxjs';
 
 import { getCandidate } from '@store/tests/journal-data/common/candidate/candidate.reducer';
 import {
@@ -51,9 +51,12 @@ import { getTestData } from '@store/tests/test-data/cat-b/test-data.reducer';
 import { D255No, D255Yes, DebriefUnWitnessed, DebriefWitnessed } from '@store/tests/test-summary/test-summary.actions';
 import { getTestSummary } from '@store/tests/test-summary/test-summary.reducer';
 import { getD255, isDebriefWitnessed } from '@store/tests/test-summary/test-summary.selector';
-import { GearboxCategoryChanged } from '@store/tests/vehicle-details/vehicle-details.actions';
+import {
+  AutomaticConfirmationChanged,
+  GearboxCategoryChanged,
+} from '@store/tests/vehicle-details/vehicle-details.actions';
 import { getVehicleDetails } from '@store/tests/vehicle-details/vehicle-details.reducer';
-import { getGearboxCategory } from '@store/tests/vehicle-details/vehicle-details.selector';
+import { getGearboxCategory, isAutomaticConfirmed } from '@store/tests/vehicle-details/vehicle-details.selector';
 import { map, take } from 'rxjs/operators';
 
 export interface CommonPassFinalisationPageState {
@@ -66,6 +69,7 @@ export interface CommonPassFinalisationPageState {
   provisionalLicense$: Observable<boolean>;
   passCertificateNumber$: Observable<string>;
   transmission$: Observable<GearboxCategory>;
+  isAutomaticConfirmed$: Observable<boolean>;
   d255$: Observable<boolean>;
   debriefWitnessed$: Observable<boolean>;
   conductedLanguage$: Observable<string>;
@@ -77,6 +81,7 @@ export interface CommonPassFinalisationPageState {
 export abstract class PassFinalisationPageComponent extends PracticeableBasePageComponent {
   protected routeByCat = this.injector.get(RouteByCategoryProvider);
   protected outcomeBehaviourProvider = this.injector.get(OutcomeBehaviourMapProvider);
+  isShowingEditBox$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(true);
 
   commonPageState: CommonPassFinalisationPageState;
   testOutcome: ActivityCodes = ActivityCodes.PASS;
@@ -95,6 +100,7 @@ export abstract class PassFinalisationPageComponent extends PracticeableBasePage
 
     this.commonPageState = {
       candidateName$: currentTest$.pipe(select(getJournalData), select(getCandidate), select(getCandidateName)),
+      isAutomaticConfirmed$: currentTest$.pipe(select(getVehicleDetails), select(isAutomaticConfirmed)),
       candidateUntitledName$: currentTest$.pipe(
         select(getJournalData),
         select(getCandidate),
@@ -139,6 +145,16 @@ export abstract class PassFinalisationPageComponent extends PracticeableBasePage
     }
   }
 
+  ionViewWillEnter() {
+    console.log('will enter');
+    this.isShowingEditBox$.next(true);
+  }
+
+  deactivateEdit() {
+    console.log('edit dea');
+    this.isShowingEditBox$.next(false);
+  }
+
   provisionalLicenseReceived(): void {
     this.store$.dispatch(ProvisionalLicenseReceived());
   }
@@ -149,6 +165,10 @@ export abstract class PassFinalisationPageComponent extends PracticeableBasePage
 
   transmissionChanged(transmission: GearboxCategory): void {
     this.store$.dispatch(GearboxCategoryChanged(transmission));
+  }
+
+  automaticConfirmationChanged(isConfirmed: boolean): void {
+    this.store$.dispatch(AutomaticConfirmationChanged(isConfirmed));
   }
 
   passCertificateNumberChanged(passCertificateNumber: string): void {
