@@ -5,7 +5,7 @@ import { Business, TestSlot } from '@dvsa/mes-journal-schema';
 import { ActivityCode, SearchResultTestSchema } from '@dvsa/mes-search-schema';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { ModalController, ViewDidEnter } from '@ionic/angular';
-import { Store, select } from '@ngrx/store';
+import { Store } from '@ngrx/store';
 import { AccessibilityService } from '@providers/accessibility/accessibility.service';
 import { SlotProvider } from '@providers/slot/slot';
 import { getFormattedApplicationReference } from '@shared/helpers/formatters';
@@ -24,9 +24,7 @@ import {
 import * as journalActions from '@store/journal/journal.actions';
 import { getCandidateName } from '@store/tests/journal-data/common/candidate/candidate.selector';
 import { TestStatus } from '@store/tests/test-status/test-status.model';
-import { getTests } from '@store/tests/tests.reducer';
-import { getTestStatus } from '@store/tests/tests.selector';
-import { Observable, Subject } from 'rxjs';
+import { Subject } from 'rxjs';
 import { Details } from './candidate-details.page.model';
 
 interface CandidateDetailsPageState {
@@ -39,7 +37,6 @@ interface CandidateDetailsPageState {
   categoryEntitlementCheckText: string;
   fitMarker: boolean;
   fitCaseNumber: string;
-  testStatus$: Observable<TestStatus>;
 }
 
 @Component({
@@ -109,10 +106,6 @@ export class CandidateDetailsPage implements OnInit, OnDestroy, ViewDidEnter {
       categoryEntitlementCheckText: getCategoryEntitlementCheckText(this.slot),
       fitMarker: getFitMarker(this.slot),
       fitCaseNumber: getFitCaseNumber(this.slot),
-      testStatus$: this.store$.pipe(
-        select(getTests),
-        select((tests) => getTestStatus(tests, this.slot.slotDetail.slotId))
-      ),
     };
 
     this.testCategory = this.pageState.details.testCategory as TestCategory;
