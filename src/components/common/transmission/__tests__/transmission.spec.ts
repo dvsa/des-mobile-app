@@ -1,7 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule, UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
-
 import { TransmissionComponent } from '../transmission';
 
 describe('TransmissionComponent', () => {
@@ -25,6 +24,7 @@ describe('TransmissionComponent', () => {
       component.shouldShowEditBox = false;
       component.autoConfirmSelected = true;
       vi.spyOn(component.automaticConfirmChange, 'emit').mockReturnValue(undefined);
+      component.ngOnChanges();
       component.ngOnChanges();
       const ctrl = component.formGroup.get(component.autoConfirmFieldName);
       expect(ctrl).toBeTruthy();

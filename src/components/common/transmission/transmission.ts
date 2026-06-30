@@ -37,6 +37,8 @@ export class TransmissionComponent implements OnChanges {
   @Output()
   automaticConfirmChange = new EventEmitter<boolean>();
 
+  uniqueId: string;
+
   @Input()
   isShowingEditBox = true;
 
@@ -48,6 +50,16 @@ export class TransmissionComponent implements OnChanges {
 
   autoCheckboxFormControl: UntypedFormControl;
   readonly autoConfirmFieldName: string = 'automaticConfirmCheckbox';
+
+  deactivateEditMode() {
+    this.userClickedEditButton.emit();
+    this.setupAutoCheckboxFormControl();
+    this.automaticConfirmChanged(false);
+    if (this.autoCheckboxFormControl) {
+      this.autoCheckboxFormControl.setValue(false, { emitEvent: false });
+    }
+    this.autoConfirmSelected = false;
+  }
 
   deactivateEditMode() {
     this.userClickedEditButton.emit();
