@@ -122,7 +122,7 @@ export class TransmissionComponent implements OnChanges {
   }
 
   shouldShowConfirmation() {
-    return this.isAutomatic() && this.shouldShowConfirmationSettings && !this.isRekey;
+    return this.isAutomatic() && this.shouldShowConfirmationSettings;
   }
 
   shouldShowEditBoxOptions() {
@@ -131,8 +131,7 @@ export class TransmissionComponent implements OnChanges {
       this.shouldShowConfirmationSettings &&
       this.shouldShowEditBox &&
       this.isShowingEditBox &&
-      this.autoConfirmSelected &&
-      !this.isRekey
+      this.autoConfirmSelected
     );
   }
 }
