@@ -114,7 +114,7 @@ export class ExaminerRecordsPage implements OnInit {
   testsInRangeSubject$: BehaviorSubject<ExaminerRecordModel[]> = new BehaviorSubject<ExaminerRecordModel[]>(null);
   eligTestSubject$: BehaviorSubject<ExaminerRecordModel[]> = new BehaviorSubject<ExaminerRecordModel[]>(null);
   rangeSubject$: BehaviorSubject<DateRange> = new BehaviorSubject<DateRange>(null);
-  locationSubject$: BehaviorSubject<number> = new BehaviorSubject<number>(null);
+  locationSubject$: BehaviorSubject<string> = new BehaviorSubject<string>(null);
   categorySubject$: BehaviorSubject<TestCategory> = new BehaviorSubject<TestCategory>(null);
   pageState: ExaminerRecordsState;
   hideMainContent = false;
@@ -132,7 +132,6 @@ export class ExaminerRecordsPage implements OnInit {
   public dateFilter: string = this.defaultDate.display;
   public locationFilter: TestCentre = {
     centreName: null,
-    centreId: null,
     costCode: null,
   };
   public currentCategory = '';
@@ -344,7 +343,7 @@ export class ExaminerRecordsPage implements OnInit {
    * date range, category, and location.
    */
   private getCategoriesByParameters = <T>(
-    fn: (tests: ExaminerRecordModel[], range: DateRange, category: string, location: number) => T
+    fn: (tests: ExaminerRecordModel[], range: DateRange, category: string, location: string) => T
   ): Observable<T> =>
     combineLatest([this.locationSubject$.asObservable(), this.testsInRangeSubject$.asObservable()]).pipe(
       // return an observable using the generic `fn`
@@ -375,7 +374,7 @@ export class ExaminerRecordsPage implements OnInit {
    * date range, category, and location.
    */
   getLocationsByParameters = <T>(
-    fn: (tests: ExaminerRecordModel[], range: DateRange, category: string, location: number) => T
+    fn: (tests: ExaminerRecordModel[], range: DateRange, category: string, location: string) => T
   ): Observable<T> =>
     combineLatest([this.testsInRangeSubject$.asObservable()]).pipe(
       // return an observable using the generic `fn`
@@ -559,13 +558,13 @@ export class ExaminerRecordsPage implements OnInit {
         // depending on whether cost code is available
         val.item = {
           ...val.item,
-          centreName: `Limited details - ${val.item.costCode ? val.item.costCode : val.item.centreId.toString()}`,
+          centreName: `Limited details${val.item.costCode ? ` - ${val.item.costCode}` : ''}`,
         };
       }
       this.locationFilterOptions.push(val.item);
     });
 
-    if (!this.locationFilterOptions.map(({ centreId }) => centreId).includes(this.locationSubject$.value)) {
+    if (!this.locationFilterOptions.map(({ costCode }) => costCode).includes(this.locationSubject$.value)) {
       //find most common location and set it as the default
       const mostUsed: ExaminerRecordData<TestCentre> = this.setDefault(locations);
       if (mostUsed) {
@@ -575,7 +574,6 @@ export class ExaminerRecordsPage implements OnInit {
       } else if (locations.length === 0) {
         this.locationPlaceholder = '';
         this.handleLocationFilter({
-          centreId: null,
           centreName: '',
           costCode: '',
         });
@@ -703,9 +701,9 @@ export class ExaminerRecordsPage implements OnInit {
       this.locationSelectPristine = false;
     }
 
-    if (event.centreId !== this.locationFilter.centreId) {
+    if (event.costCode !== this.locationFilter.costCode) {
       this.locationFilter = event;
-      this.locationSubject$.next(event?.centreId ?? null);
+      this.locationSubject$.next(event?.costCode ?? null);
       this.currentTestCentre = event;
       this.changeEligibleTests();
 
