@@ -29,7 +29,6 @@ describe('examiner records selector', () => {
       testCategory: TestCategory.ADI2,
       activityCode: 1,
       testCentre: {
-        centreId: 3,
         centreName: 'B',
         costCode: '000090909',
       },
@@ -42,7 +41,6 @@ describe('examiner records selector', () => {
       testCategory: TestCategory.ADI2,
       activityCode: 1,
       testCentre: {
-        centreId: 3,
         centreName: 'B',
         costCode: '000090909',
       },
@@ -55,7 +53,6 @@ describe('examiner records selector', () => {
       testCategory: TestCategory.B,
       activityCode: 1,
       testCentre: {
-        centreId: 3,
         centreName: 'B',
         costCode: '000090909',
       },
@@ -82,9 +79,8 @@ describe('examiner records selector', () => {
       testCategory: TestCategory.B,
       activityCode: 1,
       testCentre: {
-        centreId: 1,
         centreName: 'B',
-        costCode: '000090909',
+        costCode: '000090908',
       },
       independentDriving: 'Sat nav',
       startDate: moment(new Date(Date.now())).subtract(5, 'days').format('YYYY-MM-DD'),
@@ -94,9 +90,8 @@ describe('examiner records selector', () => {
       testCategory: TestCategory.B,
       activityCode: 1,
       testCentre: {
-        centreId: 2,
         centreName: 'A',
-        costCode: '000090909',
+        costCode: '000090910',
       },
       controlledStop: true,
       independentDriving: 'Sat nav',
@@ -108,8 +103,7 @@ describe('examiner records selector', () => {
       activityCode: 1,
       testCentre: {
         centreName: 'B',
-        centreId: 1,
-        costCode: '000090909',
+        costCode: '000090908',
       },
       independentDriving: 'Traffic signs',
       startDate: moment(new Date(Date.now())).subtract(15, 'days').format('YYYY-MM-DD'),
@@ -120,8 +114,7 @@ describe('examiner records selector', () => {
       activityCode: 1,
       testCentre: {
         centreName: 'B',
-        centreId: 1,
-        costCode: '000090909',
+        costCode: '000090908',
       },
       independentDriving: 'Traffic signs',
       controlledStop: true,
@@ -133,8 +126,7 @@ describe('examiner records selector', () => {
       activityCode: 1,
       testCentre: {
         centreName: 'B',
-        centreId: 1,
-        costCode: '000090909',
+        costCode: '000090908',
       },
       independentDriving: 'Traffic signs',
       startDate: moment(new Date(Date.now())).subtract(10, 'days').format('YYYY-MM-DD'),
@@ -145,8 +137,7 @@ describe('examiner records selector', () => {
       activityCode: 1,
       testCentre: {
         centreName: 'B',
-        centreId: 1,
-        costCode: '000090909',
+        costCode: '000090908',
       },
       independentDriving: 'Traffic signs',
       startDate: moment(new Date(Date.now())).subtract(15, 'days').format('YYYY-MM-DD'),
@@ -157,8 +148,7 @@ describe('examiner records selector', () => {
       activityCode: 1,
       testCentre: {
         centreName: 'B',
-        centreId: 1,
-        costCode: '000090909',
+        costCode: '000090908',
       },
       independentDriving: 'Diagram',
       safetyQuestions: [
@@ -183,8 +173,7 @@ describe('examiner records selector', () => {
       activityCode: 1,
       testCentre: {
         centreName: 'B',
-        centreId: 1,
-        costCode: '000090909',
+        costCode: '000090908',
       },
       circuit: 'Left',
       startDate: moment(new Date(Date.now())).subtract(15, 'days').format('YYYY-MM-DD'),
@@ -227,16 +216,15 @@ describe('examiner records selector', () => {
 
   describe('getEligibleTests', () => {
     it('should retrieve 1 eligible test that is cat b within the last 2 weeks', () => {
-      expect(getEligibleTests(startedTests, TestCategory.B, DateRange.WEEK, 1).length).toBe(1);
-      expect(getEligibleTests(startedTests, TestCategory.B, DateRange.WEEK, 1)).toEqual([
+      expect(getEligibleTests(startedTests, TestCategory.B, DateRange.WEEK, '000090908').length).toBe(1);
+      expect(getEligibleTests(startedTests, TestCategory.B, DateRange.WEEK, '000090908')).toEqual([
         {
           appRef: 1234567,
           testCategory: TestCategory.B,
           activityCode: 1,
           testCentre: {
             centreName: 'B',
-            centreId: 1,
-            costCode: '000090909',
+            costCode: '000090908',
           },
           independentDriving: 'Sat nav',
           startDate: moment(new Date(Date.now())).subtract(5, 'days').format('YYYY-MM-DD'),
@@ -245,16 +233,15 @@ describe('examiner records selector', () => {
     });
 
     it('should retrieve 2 eligible tests that is cat c within the last month', () => {
-      expect(getEligibleTests(startedTests, TestCategory.C, DateRange.FORTNIGHT, 1).length).toBe(2);
-      expect(getEligibleTests(startedTests, TestCategory.C, DateRange.FORTNIGHT, 1)).toEqual([
+      expect(getEligibleTests(startedTests, TestCategory.C, DateRange.FORTNIGHT, '000090908').length).toBe(2);
+      expect(getEligibleTests(startedTests, TestCategory.C, DateRange.FORTNIGHT, '000090908')).toEqual([
         {
           appRef: 1234567,
           testCategory: TestCategory.C,
           activityCode: 1,
           testCentre: {
             centreName: 'B',
-            centreId: 1,
-            costCode: '000090909',
+            costCode: '000090908',
           },
           independentDriving: 'Traffic signs',
           controlledStop: true,
@@ -266,8 +253,7 @@ describe('examiner records selector', () => {
           activityCode: 1,
           testCentre: {
             centreName: 'B',
-            centreId: 1,
-            costCode: '000090909',
+            costCode: '000090908',
           },
           independentDriving: 'Traffic signs',
           startDate: moment(new Date(Date.now())).subtract(10, 'days').format('YYYY-MM-DD'),
@@ -275,17 +261,20 @@ describe('examiner records selector', () => {
       ]);
     });
 
-    it('should retrieve 7 eligible tests that are within test centre 1', () => {
-      expect(getEligibleTests(startedTests, TestCategory.C, DateRange.EIGHTEEN_MONTHS, 1, true, false).length).toBe(7);
-      expect(getEligibleTests(startedTests, TestCategory.C, DateRange.EIGHTEEN_MONTHS, 1, true, false)).toEqual([
+    it('should retrieve 7 eligible tests that are within test centre 000090908', () => {
+      expect(
+        getEligibleTests(startedTests, TestCategory.C, DateRange.EIGHTEEN_MONTHS, '000090908', true, false).length
+      ).toBe(7);
+      expect(
+        getEligibleTests(startedTests, TestCategory.C, DateRange.EIGHTEEN_MONTHS, '000090908', true, false)
+      ).toEqual([
         {
           appRef: 1234567,
           testCategory: TestCategory.B,
           activityCode: 1,
           testCentre: {
             centreName: 'B',
-            centreId: 1,
-            costCode: '000090909',
+            costCode: '000090908',
           },
           independentDriving: 'Sat nav',
           startDate: moment(new Date(Date.now())).subtract(5, 'days').format('YYYY-MM-DD'),
@@ -296,8 +285,7 @@ describe('examiner records selector', () => {
           activityCode: 1,
           testCentre: {
             centreName: 'B',
-            centreId: 1,
-            costCode: '000090909',
+            costCode: '000090908',
           },
           independentDriving: 'Traffic signs',
           startDate: moment(new Date(Date.now())).subtract(15, 'days').format('YYYY-MM-DD'),
@@ -308,8 +296,7 @@ describe('examiner records selector', () => {
           activityCode: 1,
           testCentre: {
             centreName: 'B',
-            centreId: 1,
-            costCode: '000090909',
+            costCode: '000090908',
           },
           independentDriving: 'Traffic signs',
           controlledStop: true,
@@ -321,8 +308,7 @@ describe('examiner records selector', () => {
           activityCode: 1,
           testCentre: {
             centreName: 'B',
-            centreId: 1,
-            costCode: '000090909',
+            costCode: '000090908',
           },
           independentDriving: 'Traffic signs',
           startDate: moment(new Date(Date.now())).subtract(10, 'days').format('YYYY-MM-DD'),
@@ -333,8 +319,7 @@ describe('examiner records selector', () => {
           activityCode: 1,
           testCentre: {
             centreName: 'B',
-            centreId: 1,
-            costCode: '000090909',
+            costCode: '000090908',
           },
           independentDriving: 'Traffic signs',
           startDate: moment(new Date(Date.now())).subtract(15, 'days').format('YYYY-MM-DD'),
@@ -345,8 +330,7 @@ describe('examiner records selector', () => {
           activityCode: 1,
           testCentre: {
             centreName: 'B',
-            centreId: 1,
-            costCode: '000090909',
+            costCode: '000090908',
           },
           safetyQuestions: [
             {
@@ -369,7 +353,10 @@ describe('examiner records selector', () => {
           appRef: 1234567,
           testCategory: TestCategory.EUAM1,
           activityCode: 1,
-          testCentre: { centreName: 'B', centreId: 1, costCode: '000090909' },
+          testCentre: {
+            centreName: 'B',
+            costCode: '000090908',
+          },
           circuit: 'Left',
           startDate: moment(new Date(Date.now())).subtract(15, 'days').format('YYYY-MM-DD'),
         },
@@ -389,9 +376,9 @@ describe('examiner records selector', () => {
         'ordered alphabetically',
       () => {
         expect(getLocations(startedTests)).toEqual([
-          { item: { centreName: 'A', centreId: 2, costCode: '000090909' }, count: 1 },
-          { item: { centreName: 'B', centreId: 1, costCode: '000090909' }, count: 7 },
-          { item: { centreId: 3, centreName: 'B', costCode: '000090909' }, count: 3 },
+          { item: { centreName: 'A', costCode: '000090910' }, count: 1 },
+          { item: { centreName: 'B', costCode: '000090908' }, count: 7 },
+          { item: { centreName: 'B', costCode: '000090909' }, count: 3 },
         ]);
       }
     );
@@ -473,7 +460,7 @@ describe('examiner records selector', () => {
       'should return an array of all the categories in the passed tests with the amount of times they appear,' +
         'ordered alphabetically',
       () => {
-        expect(getCategories(startedTests, null, null, 1)).toEqual([
+        expect(getCategories(startedTests, null, null, '000090908')).toEqual([
           { item: TestCategory.B, count: 2 },
           { item: TestCategory.C, count: 3 },
           { item: TestCategory.EUAM1, count: 1 },

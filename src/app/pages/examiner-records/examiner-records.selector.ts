@@ -66,7 +66,7 @@ export const getEligibleTests = (
   startedTests: ExaminerRecordModel[],
   category: TestCategory = null,
   range: DateRange = null,
-  centreId: number = null,
+  costCode: string = null,
   filterByLocation = true,
   filterByCategory = true
 ): ExaminerRecordModel[] => {
@@ -75,7 +75,7 @@ export const getEligibleTests = (
       return (
         (range ? dateFilter(value, range as DateRange) : true) &&
         (filterByCategory ? (category ? get(value, 'testCategory') === category : true) : true) &&
-        (filterByLocation ? (centreId ? get(value, 'testCentre.centreId') === centreId : true) : true)
+        (filterByLocation ? (costCode ? get(value, 'testCentre.costCode') === costCode : true) : true)
       );
     });
   }
@@ -106,7 +106,7 @@ export const getLocations = (
     const data: ExaminerRecordModel[] = getEligibleTests(startedTests, null, range, null).filter((record) => {
       //Do not return tests that are categories we do not want to track to avoid test centres with no tests in them
       if (!unwantedCategories.includes(get(record, 'testCategory', null))) {
-        return !!get(record, 'testCentre', null).centreId;
+        return !!get(record, 'testCentre', null)?.costCode;
       }
       return false;
     });
@@ -115,10 +115,10 @@ export const getLocations = (
       data.map(({ testCentre }): ExaminerRecordData<TestCentre> => {
         return {
           item: testCentre,
-          count: data.filter((val) => val.testCentre.centreId === testCentre.centreId).length,
+          count: data.filter((val) => val.testCentre.costCode === testCentre.costCode).length,
         };
       }),
-      'item.centreId'
+      'item.costCode'
     ).sort((item1, item2) => (item1.item.centreName > item2.item.centreName ? 1 : -1));
   }
   return [];
@@ -239,7 +239,7 @@ export const getCategories = (
   startedTests: ExaminerRecordModel[],
   range: DateRange,
   category: TestCategory,
-  centreId: number
+  costCode: string
 ): {
   item: TestCategory;
   count: number;
@@ -247,7 +247,7 @@ export const getCategories = (
   if (startedTests) {
     const data: ExaminerRecordModel[] = startedTests.filter(
       (record: ExaminerRecordModel) =>
-        get(record, 'testCentre.centreId', null) === centreId &&
+        get(record, 'testCentre.costCode', null) === costCode &&
         !isAnyOf(get(record, 'testCategory', null), unwantedCategories)
     );
 

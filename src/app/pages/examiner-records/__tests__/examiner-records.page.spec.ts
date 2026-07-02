@@ -61,7 +61,6 @@ describe('ExaminerRecordsPage', () => {
     {
       testCategory: TestCategory.B,
       testCentre: {
-        centreId: 3,
         centreName: 'Cardiff',
         costCode: 'CF1',
       },
@@ -71,7 +70,6 @@ describe('ExaminerRecordsPage', () => {
     {
       testCategory: TestCategory.C,
       testCentre: {
-        centreId: 4,
         centreName: 'Swansea',
         costCode: 'SW1',
       },
@@ -81,7 +79,6 @@ describe('ExaminerRecordsPage', () => {
     {
       testCategory: TestCategory.C,
       testCentre: {
-        centreId: 4,
         centreName: 'Swansea',
         costCode: 'SW1',
       },
@@ -338,7 +335,7 @@ describe('ExaminerRecordsPage', () => {
     });
 
     it('should set locationSelectPristine to false if locationSubject$ has value', async () => {
-      component.locationSubject$.next(1);
+      component.locationSubject$.next('TEST');
 
       await component.ngOnInit();
 
@@ -465,7 +462,6 @@ describe('ExaminerRecordsPage', () => {
         {
           item: {
             centreName: 'Centre 1',
-            centreId: 1,
             costCode: 'X1',
           },
           count: 1,
@@ -473,7 +469,6 @@ describe('ExaminerRecordsPage', () => {
         {
           item: {
             centreName: 'Centre 2',
-            centreId: 2,
             costCode: 'X2',
           },
           count: 2,
@@ -483,12 +478,10 @@ describe('ExaminerRecordsPage', () => {
       expect(component.locationFilterOptions).toEqual([
         {
           centreName: 'Centre 1',
-          centreId: 1,
           costCode: 'X1',
         },
         {
           centreName: 'Centre 2',
-          centreId: 2,
           costCode: 'X2',
         },
       ]);
@@ -499,7 +492,6 @@ describe('ExaminerRecordsPage', () => {
         {
           item: {
             centreName: null,
-            centreId: 1,
             costCode: 'X1',
           },
           count: 1,
@@ -507,7 +499,6 @@ describe('ExaminerRecordsPage', () => {
         {
           item: {
             centreName: null,
-            centreId: 2,
             costCode: null,
           },
           count: 2,
@@ -517,12 +508,10 @@ describe('ExaminerRecordsPage', () => {
       expect(component.locationFilterOptions).toEqual([
         {
           centreName: 'Limited details - X1',
-          centreId: 1,
           costCode: 'X1',
         },
         {
-          centreName: 'Limited details - 2',
-          centreId: 2,
+          centreName: 'Limited details',
           costCode: null,
         },
       ]);
@@ -533,7 +522,6 @@ describe('ExaminerRecordsPage', () => {
         {
           item: {
             centreName: 'Centre 1',
-            centreId: 1,
             costCode: 'X1',
           },
           count: 1,
@@ -541,7 +529,6 @@ describe('ExaminerRecordsPage', () => {
         {
           item: {
             centreName: 'Centre 2',
-            centreId: 2,
             costCode: 'X2',
           },
           count: 2,
@@ -550,7 +537,7 @@ describe('ExaminerRecordsPage', () => {
       spyOn(component, 'setDefault').and.returnValue(locations[1]);
       spyOn(component, 'handleLocationFilter');
 
-      component.locationSubject$.next(3);
+      component.locationSubject$.next('TEST');
       component.setupLocationSelectList(locations);
       expect(component.locationPlaceholder).toEqual('Centre 2');
       expect(component.handleLocationFilter).toHaveBeenCalledWith(locations[1].item);
@@ -563,7 +550,6 @@ describe('ExaminerRecordsPage', () => {
       component.setupLocationSelectList(locations);
       expect(component.locationPlaceholder).toEqual('');
       expect(component.handleLocationFilter).toHaveBeenCalledWith({
-        centreId: null,
         centreName: '',
         costCode: '',
       });
@@ -634,46 +620,40 @@ describe('ExaminerRecordsPage', () => {
   describe('handleLocationFilter', () => {
     it('should set locationFilter to the passed value', () => {
       component.locationFilter = {
-        centreId: null,
         centreName: null,
         costCode: null,
       };
       component.handleLocationFilter(
         {
           centreName: '1',
-          centreId: 1,
           costCode: '2',
         },
         true
       );
       expect(component.locationFilter).toEqual({
         centreName: '1',
-        centreId: 1,
         costCode: '2',
       });
       expect(component.locationSelectPristine).toEqual(false);
     });
-    it('should set locationSubject$ to centreId of the passed value', () => {
+    it('should set locationSubject$ to cost code of the passed value', () => {
       component.handleLocationFilter({
         centreName: '1',
-        centreId: 1,
         costCode: '2',
       });
       component.locationSubject$.subscribe((i) => {
-        expect(i).toEqual(1);
+        expect(i).toEqual('2');
         expect(component.locationSelectPristine).toEqual(true);
       });
     });
     it('should dispatch LocationChanged with locationFilter', () => {
       component.handleLocationFilter({
         centreName: '1',
-        centreId: 1,
         costCode: '2',
       });
       expect(component.store$.dispatch).toHaveBeenCalledWith(
         LocationChanged({
           centreName: '1',
-          centreId: 1,
           costCode: '2',
         })
       );
@@ -710,7 +690,7 @@ describe('ExaminerRecordsPage', () => {
       component.testSubject$.next(mockTests);
       component.categorySubject$.next(TestCategory.C);
       component.rangeSubject$.next(DateRange.WEEK);
-      component.locationSubject$.next(4);
+      component.locationSubject$.next('SW1');
 
       component.changeEligibleTests();
 
@@ -951,7 +931,6 @@ describe('ExaminerRecordsPage', () => {
           {
             item: {
               centreName: 'Centre 1',
-              centreId: 1,
               costCode: 'X1',
             },
             count: 1,
@@ -984,7 +963,6 @@ describe('ExaminerRecordsPage', () => {
           {
             item: {
               centreName: 'Centre 1',
-              centreId: 1,
               costCode: 'X1',
             },
             count: 1,
