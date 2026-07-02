@@ -6,8 +6,8 @@
   <div class="validation-bar" [class.ng-invalid]="isTransmissionInvalid()"></div>
   <ion-col
     class="component-label"
-    [class.ion-align-self-center]="!(shouldShowConfirmationSettings && !isRekey)"
-    [class.top-padding]="shouldShowConfirmationSettings && !isRekey"
+    [class.ion-align-self-center]="!shouldShowConfirmationSettings"
+    [class.top-padding]="shouldShowConfirmationSettings"
     size="32">
     @if (shouldShowEditBoxOptions()) {
       <label id="licence-to-be-issued-title">Licence to be issued</label>
@@ -36,7 +36,10 @@
       </ion-row>
       <ion-row>
         <ion-col size="40">
-          <ion-button class="display-flex mes-grey-button" (click)="deactivateEditMode()">
+          <ion-button
+            id="transmission-automatic-edit-button"
+            class="display-flex mes-grey-button"
+            (click)="deactivateEditMode()">
             <ion-text class="mes-data">Edit</ion-text>
           </ion-button>
         </ion-col>
@@ -49,7 +52,7 @@
         <ion-col class="ion-align-items-center display-flex" size="48">
           <input
             type="radio"
-            [id]="'transmission-manual-'+uniqueId"
+            [id]="'transmission-manual-radio-button'"
             [formControlName]=transmissionFieldName
             [name]=transmissionFieldName
             class="gds-radio-button"
@@ -57,14 +60,14 @@
             (change)="transmissionChanged($event.target.value)"
             value="Manual"
           />
-          <label [for]="'transmission-manual-'+uniqueId" class="radio-label" id="transmission-manual-label">
+          <label for="transmission-manual-radio-button" class="radio-label" id="transmission-manual-label">
             Manual
           </label>
         </ion-col>
         <ion-col class="ion-align-items-center display-flex">
           <input
             type="radio"
-            [id]="'transmission-automatic-'+uniqueId"
+            [id]="'transmission-automatic-radio-button'"
             [formControlName]=transmissionFieldName
             [name]=transmissionFieldName
             class="gds-radio-button"
@@ -72,7 +75,7 @@
             (change)="transmissionChanged($event.target.value)"
             value="Automatic"
           />
-          <label [for]="'transmission-automatic-'+uniqueId" class="radio-label" id="transmission-automatic-label">
+          <label for="transmission-automatic-radio-button" class="radio-label" id="transmission-automatic-label">
             Automatic
           </label>
         </ion-col>
@@ -100,11 +103,11 @@
             [formControlName]="autoConfirmFieldName"
             type="checkbox"
             class="gds-checkbox"
-            [id]="'automatic-confirm-checkbox'+uniqueId"
+            [id]="'automatic-confirm-checkbox'"
             [class.ng-invalid]="isAutoConfirmInvalid()"
             (click)="automaticConfirmChanged($event.target.checked)"
           />
-          <label [id]="'automatic-confirm-label'+uniqueId" [for]="'automatic-confirm-checkbox'+uniqueId">
+          <label id="automatic-confirm-label" for="automatic-confirm-checkbox">
             <ion-text class="text-spacing mes-data">
               I confirm, the vehicle to be taken on test is an automatic.
             </ion-text>
