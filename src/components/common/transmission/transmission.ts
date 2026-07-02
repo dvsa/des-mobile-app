@@ -1,7 +1,6 @@
 import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
 import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { GearboxCategory } from '@dvsa/mes-test-schema/categories/common';
-import { v4 as uuidv4 } from 'uuid';
 
 @Component({
   selector: 'transmission',
@@ -33,8 +32,6 @@ export class TransmissionComponent implements OnChanges {
   @Output()
   automaticConfirmChange = new EventEmitter<boolean>();
 
-  uniqueId: string;
-
   @Input()
   isShowingEditBox = true;
 
@@ -46,10 +43,6 @@ export class TransmissionComponent implements OnChanges {
 
   autoCheckboxFormControl: UntypedFormControl;
   readonly autoConfirmFieldName: string = 'automaticConfirmCheckbox';
-
-  ngOnInit() {
-    this.uniqueId = uuidv4();
-  }
 
   deactivateEditMode() {
     this.userClickedEditButton.emit();
