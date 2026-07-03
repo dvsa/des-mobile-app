@@ -190,7 +190,6 @@ export class LoginPage extends LogoutBasePageComponent implements OnInit {
         } else {
           this.dispatchLog(`user ${examiner} not authorised: Could not get token`);
         }
-        await this.authenticationProvider.logout();
       }
 
       //Check if the user is offline as this can cause a number of errors and won't be picked up by the error handling
@@ -338,6 +337,15 @@ export class LoginPage extends LogoutBasePageComponent implements OnInit {
     this.hasUserLoggedOut = true;
     this.isLoggedIn = !!(await this.authenticationProvider.getAuthResult());
     await this.ngOnInit();
+  }
+
+  /**
+   * The reason this is here is that if you run the login function while already logged in, it doesn't do anything.
+   * So to get the blue link to work, you have to log out first.
+   */
+  async logoutThenLogin() {
+    await this.logout();
+    await this.login();
   }
 
   async handleLoadingUI(isLoading: boolean): Promise<void> {
