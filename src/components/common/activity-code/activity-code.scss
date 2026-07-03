@@ -18,12 +18,7 @@
     align-items: center;
   }
 
-  .select-width {
-    width: 452px;
-    color: black;
-  }
-
-  .boarder {
+  .border {
     border: 1px solid;
   }
 
@@ -33,7 +28,7 @@
 
   .placeholder-font-color {
     margin-left: 4px;
-    color: darkgrey;
+    color: var(--gds-grey-1);
   }
 
   .no-padding-start {
@@ -70,7 +65,7 @@
   }
 
   .down-caret-icon {
-    color: darkgrey;
+    color: var(--gds-grey-1);
     font-size: 14px;
   }
   .custom-font-size {

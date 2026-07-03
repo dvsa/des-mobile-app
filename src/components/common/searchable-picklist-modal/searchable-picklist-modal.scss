@@ -39,12 +39,6 @@ ion-item {
   font-weight: bold;
 }
 
-.dark-mode-override {
-  --background: var(--mes-theme-main-colour);
-  color: var(--mes-theme-opposing-colour);
-  --background-activated: gray;
-}
-
 .max-width {
   width: 100%;
 }

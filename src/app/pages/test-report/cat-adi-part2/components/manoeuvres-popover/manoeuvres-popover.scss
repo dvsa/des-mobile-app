@@ -28,8 +28,8 @@
     }
 
     &:checked + label:before {
-      background-color: black;
-      box-shadow: inset 0 0 0 6px white;
+      background-color: var(--mes-theme-main-colour);
+      box-shadow: inset 0 0 0 6px var(--mes-theme-opposing-colour);
     }
 
     &:disabled + label {

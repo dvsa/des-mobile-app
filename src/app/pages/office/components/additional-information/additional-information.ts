@@ -17,6 +17,9 @@ export class AdditionalInformationComponent implements OnChanges {
   additionalInformation: string;
 
   @Input()
+  shouldShowSeparator = true;
+
+  @Input()
   formGroup: UntypedFormGroup;
 
   @Output()
