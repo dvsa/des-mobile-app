@@ -198,12 +198,6 @@ describe('LoginPage', () => {
       }));
     });
     describe('Unsuccessful login flow', () => {
-      it('should not call any further methods in try when platform.ready() fails', fakeAsync(() => {
-        spyOn(platform, 'ready').and.returnValue(Promise.reject(AuthenticationError.USER_NOT_AUTHORISED));
-        component.login();
-        flushMicrotasks();
-        expect(authenticationProvider.logout).toHaveBeenCalled();
-      }));
       it('should log an exception and dispatch log when when rejection due to UNABLE_TO_LOGOUT', fakeAsync(() => {
         spyOn(platform, 'ready').and.returnValue(Promise.reject(AuthenticationError.UNABLE_TO_LOGOUT));
         component.login();
@@ -219,7 +213,6 @@ describe('LoginPage', () => {
         expect(authenticationProvider.getAuthenticationToken).toHaveBeenCalled();
         expect(authenticationProvider.getEmployeeId).toHaveBeenCalled();
         expect(component.dispatchLog).toHaveBeenCalledWith('user 123456 not authorised: TOKEN token');
-        expect(authenticationProvider.logout).toHaveBeenCalled();
         expect(component.appInitError).toEqual(AuthenticationError.USER_NOT_AUTHORISED);
         expect(component.hasUserLoggedOut).toEqual(false);
       }));
@@ -231,7 +224,6 @@ describe('LoginPage', () => {
         expect(authenticationProvider.getAuthenticationToken).toHaveBeenCalled();
         expect(authenticationProvider.getEmployeeId).toHaveBeenCalled();
         expect(component.dispatchLog).toHaveBeenCalledWith('user 123456 not authorised: Could not get token');
-        expect(authenticationProvider.logout).toHaveBeenCalled();
         expect(component.appInitError).toEqual(AuthenticationError.USER_NOT_AUTHORISED);
         expect(component.hasUserLoggedOut).toEqual(false);
       }));

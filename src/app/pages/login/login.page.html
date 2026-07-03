@@ -20,136 +20,147 @@
             </ion-row>
           </div>
         } @else if (appInitError) {
-          <div class="display-flex flex-direction-column ion-align-items-center justify-content-center"
-               *ngIf="isInternetConnectionError()">
-            <ion-row class="login-page-header-spacing">
-              <ion-text class="des-header-style-2">You are offline.</ion-text>
-            </ion-row>
-            <ion-row class="login-page-text-spacing">
-              <ion-text class="des-header-style-3">Connect to the internet and try again.
-              </ion-text>
-            </ion-row>
-          </div>
-          <div class="display-flex flex-direction-column ion-align-items-center justify-content-center"
-               *ngIf="isFailedToStartError()">
-            <ion-row class="login-page-header-spacing">
-              <ion-text class="des-header-style-2">We could not start the login/logout process.</ion-text>
-            </ion-row>
-            <ion-row class="login-page-text-spacing">
-              <ion-text class="des-header-style-3">Please try again.</ion-text>
-            </ion-row>
-            <ion-row class="login-page-text-spacing">
-              <ion-text class="des-header-style-3">If the problem continues, check your internet connection or contact
-                support.
-              </ion-text>
-            </ion-row>
-            <ion-row class="login-page-text-spacing">
-              <span (click)="showErrorDetails()" class="link error-details-link">Show error details</span>
-            </ion-row>
-          </div>
-          <div class="display-flex flex-direction-column ion-align-items-center justify-content-center"
-               *ngIf="isUnableToObtainTokenError()">
-            <ion-row class="login-page-header-spacing">
-              <ion-text class="des-header-style-2">We could not log you in.</ion-text>
-            </ion-row>
-            <ion-row class="login-page-text-spacing">
-              <ion-text class="des-header-style-3">Please try again.</ion-text>
-            </ion-row>
-            <ion-row class="login-page-text-spacing">
-              <ion-text class="des-header-style-3">If the problem continues, check your internet connection or contact
-                support.
-              </ion-text>
-            </ion-row>
-          </div>
-          <div class="display-flex flex-direction-column ion-align-items-center justify-content-center"
-               *ngIf="isAlreadyLoggedOut()">
-            <ion-row class="login-page-header-spacing">
-              <ion-text class="des-header-style-2">You are already logged out.</ion-text>
-            </ion-row>
-            <ion-row class="login-page-text-spacing">
-              <ion-text class="des-header-style-3">There is no account signed in on this device.</ion-text>
-            </ion-row>
-            <ion-row class="login-page-text-spacing">
-              <ion-text class="des-header-style-3">You do not need to do anything else.</ion-text>
-            </ion-row>
-          </div>
-          <div class="display-flex flex-direction-column ion-align-items-center justify-content-center"
-               *ngIf="isUnableToLogout()">
-            <ion-row class="login-page-header-spacing">
-              <ion-text class="des-header-style-2">Logout was not completed.</ion-text>
-            </ion-row>
-            <ion-row class="login-page-text-spacing">
-              <ion-text class="des-header-style-3">This may be because you closed the screen or something went wrong.
-              </ion-text>
-            </ion-row>
-            <ion-row class="login-page-text-spacing">
-              <ion-text class="des-header-style-3">Please try again.</ion-text>
-            </ion-row>
-          </div>
-          <div class="display-flex flex-direction-column ion-align-items-center justify-content-center"
-               *ngIf="isSetupError()">
-            <ion-row class="login-page-header-spacing">
-              <ion-text class="des-header-style-2">This app is not set up correctly.</ion-text>
-            </ion-row>
-            <ion-row class="login-page-text-spacing">
-              <ion-text class="des-header-style-3">You cannot sign in at the moment.
-              </ion-text>
-            </ion-row>
-            <ion-row class="login-page-text-spacing">
-              <ion-text class="des-header-style-3">Please contact support.</ion-text>
-            </ion-row>
-            <ion-row class="login-page-text-spacing">
-              <span (click)="showErrorDetails()" class="link error-details-link">Show error details</span>
-            </ion-row>
-          </div>
-          <div class="display-flex flex-direction-column ion-align-items-center justify-content-center"
-               *ngIf="isUnknownError()">
-            <ion-row class="login-page-header-spacing">
-              <ion-text class="des-header-style-2" id="loginSorry">Sorry, something went wrong</ion-text>
-            </ion-row>
-            <ion-row class="login-page-text-spacing">
-              <ion-text class="des-header-style-3" id="loginPleaseTryAgain">Please try again later.</ion-text>
-            </ion-row>
-            <ion-row class="login-page-text-spacing">
-              <span (click)="showErrorDetails()" class="link error-details-link">Show error details</span>
-            </ion-row>
-          </div>
-          <div class="display-flex flex-direction-column ion-align-items-center justify-content-center"
-               *ngIf="hasDeviceTypeError()">
-            <ion-row class="login-page-header-spacing">
-              <ion-text class="des-header-style-2">Unsupported device</ion-text>
-            </ion-row>
-            <ion-row class="login-page-text-spacing">
-              <ion-text class="des-header-style-3">Install the application on an approved device</ion-text>
-            </ion-row>
-          </div>
-          <div class="display-flex flex-direction-column ion-align-items-center justify-content-center"
-               *ngIf="isUserNotAuthorised()">
-            <ion-row class="login-page-header-spacing">
-              <ion-text class="des-header-style-2">You're not authorised to use this app</ion-text>
-            </ion-row>
-            <ion-row class="login-page-text-spacing">
-              <ion-text class="des-header-style-3">Speak to your line manager if you want to use this app.</ion-text>
-            </ion-row>
-            <ion-row class="login-page-text-spacing">
-              <ion-text class="des-header-style-3"
-              >If you think you’re already authorised,<br/>
-                you can try to <span (click)="login()" class="link">sign in</span>again.
-              </ion-text>
-            </ion-row>
-          </div>
-          <div class="display-flex flex-direction-column ion-align-items-center justify-content-center"
-               *ngIf="isInvalidAppVersionError()">
-            <ion-row class="login-page-header-spacing">
-              <ion-text class="des-header-style-2">Unsupported application version</ion-text>
-            </ion-row>
-            <ion-row class="login-page-text-spacing">
-              <ion-text class="des-header-style-3">This version of DES is out of date</ion-text>
-            </ion-row>
-            <ion-row class="login-page-text-spacing">
-              <ion-text class="des-header-style-3">Please get the latest version from the company portal</ion-text>
-            </ion-row>
-          </div>
+          @if (isInternetConnectionError()) {
+            <div class="display-flex flex-direction-column ion-align-items-center justify-content-center">
+              <ion-row class="login-page-header-spacing">
+                <ion-text class="des-header-style-2">You are offline.</ion-text>
+              </ion-row>
+              <ion-row class="login-page-text-spacing">
+                <ion-text class="des-header-style-3">Connect to the internet and try again.
+                </ion-text>
+              </ion-row>
+            </div>
+          }
+          @if (isFailedToStartError()) {
+            <div class="display-flex flex-direction-column ion-align-items-center justify-content-center">
+              <ion-row class="login-page-header-spacing">
+                <ion-text class="des-header-style-2">We could not start the login/logout process.</ion-text>
+              </ion-row>
+              <ion-row class="login-page-text-spacing">
+                <ion-text class="des-header-style-3">Please try again.</ion-text>
+              </ion-row>
+              <ion-row class="login-page-text-spacing">
+                <ion-text class="des-header-style-3">If the problem continues, check your internet connection or contact
+                  support.
+                </ion-text>
+              </ion-row>
+              <ion-row class="login-page-text-spacing">
+                <span (click)="showErrorDetails()" class="link error-details-link">Show error details</span>
+              </ion-row>
+            </div>
+          }
+          @if (isUnableToObtainTokenError()) {
+            <div class="display-flex flex-direction-column ion-align-items-center justify-content-center">
+              <ion-row class="login-page-header-spacing">
+                <ion-text class="des-header-style-2">We could not log you in.</ion-text>
+              </ion-row>
+              <ion-row class="login-page-text-spacing">
+                <ion-text class="des-header-style-3">Please try again.</ion-text>
+              </ion-row>
+              <ion-row class="login-page-text-spacing">
+                <ion-text class="des-header-style-3">If the problem continues, check your internet connection or contact
+                  support.
+                </ion-text>
+              </ion-row>
+            </div>
+
+          }
+          @if (isAlreadyLoggedOut()) {
+            <div class="display-flex flex-direction-column ion-align-items-center justify-content-center">
+              <ion-row class="login-page-header-spacing">
+                <ion-text class="des-header-style-2">You are already logged out.</ion-text>
+              </ion-row>
+              <ion-row class="login-page-text-spacing">
+                <ion-text class="des-header-style-3">There is no account signed in on this device.</ion-text>
+              </ion-row>
+              <ion-row class="login-page-text-spacing">
+                <ion-text class="des-header-style-3">You do not need to do anything else.</ion-text>
+              </ion-row>
+            </div>
+          }
+          @if (isUnableToLogout()) {
+            <div class="display-flex flex-direction-column ion-align-items-center justify-content-center">
+              <ion-row class="login-page-header-spacing">
+                <ion-text class="des-header-style-2">Logout was not completed.</ion-text>
+              </ion-row>
+              <ion-row class="login-page-text-spacing">
+                <ion-text class="des-header-style-3">This may be because you closed the screen or something went wrong.
+                </ion-text>
+              </ion-row>
+              <ion-row class="login-page-text-spacing">
+                <ion-text class="des-header-style-3">Please try again.</ion-text>
+              </ion-row>
+            </div>
+          }
+          @if (isSetupError()) {
+            <div class="display-flex flex-direction-column ion-align-items-center justify-content-center">
+              <ion-row class="login-page-header-spacing">
+                <ion-text class="des-header-style-2">This app is not set up correctly.</ion-text>
+              </ion-row>
+              <ion-row class="login-page-text-spacing">
+                <ion-text class="des-header-style-3">You cannot sign in at the moment.
+                </ion-text>
+              </ion-row>
+              <ion-row class="login-page-text-spacing">
+                <ion-text class="des-header-style-3">Please contact support.</ion-text>
+              </ion-row>
+              <ion-row class="login-page-text-spacing">
+                <span (click)="showErrorDetails()" class="link error-details-link">Show error details</span>
+              </ion-row>
+            </div>
+          }
+          @if (isUnknownError()) {
+            <div class="display-flex flex-direction-column ion-align-items-center justify-content-center">
+              <ion-row class="login-page-header-spacing">
+                <ion-text class="des-header-style-2" id="loginSorry">Sorry, something went wrong</ion-text>
+              </ion-row>
+              <ion-row class="login-page-text-spacing">
+                <ion-text class="des-header-style-3" id="loginPleaseTryAgain">Please try again later.</ion-text>
+              </ion-row>
+              <ion-row class="login-page-text-spacing">
+                <span (click)="showErrorDetails()" class="link error-details-link">Show error details</span>
+              </ion-row>
+            </div>
+          }
+          @if (hasDeviceTypeError()) {
+            <div class="display-flex flex-direction-column ion-align-items-center justify-content-center">
+              <ion-row class="login-page-header-spacing">
+                <ion-text class="des-header-style-2">Unsupported device</ion-text>
+              </ion-row>
+              <ion-row class="login-page-text-spacing">
+                <ion-text class="des-header-style-3">Install the application on an approved device</ion-text>
+              </ion-row>
+            </div>
+          }
+          @if (isUserNotAuthorised()) {
+            <div class="display-flex flex-direction-column ion-align-items-center justify-content-center">
+              <ion-row class="login-page-header-spacing">
+                <ion-text class="des-header-style-2">You're not authorised to use this app</ion-text>
+              </ion-row>
+              <ion-row class="login-page-text-spacing">
+                <ion-text class="des-header-style-3">Speak to your line manager if you want to use this app.</ion-text>
+              </ion-row>
+              <ion-row class="login-page-text-spacing">
+                <ion-text class="mes-text-align-centre des-header-style-3"
+                >If you think you’re already authorised,<br/>
+                  you can try to <span (click)="logoutThenLogin()" class="des-header-style-3 link">sign in</span> again.
+                </ion-text>
+              </ion-row>
+            </div>
+          }
+          @if (isInvalidAppVersionError()) {
+            <div class="display-flex flex-direction-column ion-align-items-center justify-content-center">
+              <ion-row class="login-page-header-spacing">
+                <ion-text class="des-header-style-2">Unsupported application version</ion-text>
+              </ion-row>
+              <ion-row class="login-page-text-spacing">
+                <ion-text class="des-header-style-3">This version of DES is out of date</ion-text>
+              </ion-row>
+              <ion-row class="login-page-text-spacing">
+                <ion-text class="des-header-style-3">Please get the latest version from the company portal</ion-text>
+              </ion-row>
+            </div>
+          }
         }
       </ion-col>
     </ion-row>

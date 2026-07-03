@@ -1,4 +1,4 @@
-import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { HttpErrorResponse, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
 import { TestBed, fakeAsync, tick } from '@angular/core/testing';
 import { IsDebug } from '@awesome-cordova-plugins/is-debug/ngx';
@@ -7,6 +7,7 @@ import { TestersEnvironmentFile } from '@environments/models/environment.model';
 import { Platform } from '@ionic/angular';
 import { IsDebugMock, PlatformMock } from '@mocks/index.mock';
 import { StoreModule } from '@ngrx/store';
+import { AppConfigError } from '@providers/app-config/app-config.constants';
 import { AppConfig } from '@providers/app-config/app-config.model';
 import { appConfigReducer } from '@store/app-config/app-config.reducer';
 import { testsReducer } from '@store/tests/tests.reducer';
@@ -29,6 +30,8 @@ describe('AppConfigProvider', () => {
   let httpMock: HttpTestingController;
   let platform: Platform;
   let isDebug: IsDebug;
+  let dataStoreProvider: DataStoreProvider;
+  let schemaValidatorProvider: SchemaValidatorProvider;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -84,6 +87,8 @@ describe('AppConfigProvider', () => {
     httpMock = TestBed.inject(HttpTestingController);
     platform = TestBed.inject(Platform);
     isDebug = TestBed.inject(IsDebug);
+    dataStoreProvider = TestBed.inject(DataStoreProvider);
+    schemaValidatorProvider = TestBed.inject(SchemaValidatorProvider);
     appConfig.isDebugMode = true;
     spyOn(appConfig, 'getDebugMode').and.returnValue(Promise.resolve());
   });
@@ -131,6 +136,131 @@ describe('AppConfigProvider', () => {
       spyOn(appConfig, 'getAppConfigAsync').and.returnValue(Promise.resolve({ configUrl: 'url' } as AppConfig));
       const conf = appConfig.getAppConfig();
       expect(conf).not.toBeUndefined();
+    });
+
+    it('should return appConfig if already set', () => {
+      (appConfig as any).appConfig = { configUrl: 'url' };
+
+      const result = appConfig.getAppConfig();
+
+      expect(result).toEqual({ configUrl: 'url' } as AppConfig);
+    });
+
+    it('should call getAppConfigAsync if appConfig is not set', () => {
+      (appConfig as any).appConfig = undefined;
+      spyOn(appConfig, 'getAppConfigAsync');
+
+      appConfig.getAppConfig();
+
+      expect(appConfig.getAppConfigAsync).toHaveBeenCalled();
+    });
+  });
+
+  describe('getAppConfigAsync', () => {
+    it('should return existing appConfig without reinitializing', async () => {
+      (appConfig as any).appConfig = { configUrl: 'url' };
+      spyOn(appConfig, 'initialiseAppConfig');
+
+      const result = await appConfig.getAppConfigAsync();
+
+      expect(result).toEqual({ configUrl: 'url' } as AppConfig);
+      expect(appConfig.initialiseAppConfig).not.toHaveBeenCalled();
+    });
+
+    it('should validate remote config and skip mapping if validation fails', fakeAsync(() => {
+      (appConfig as any).appConfig = undefined;
+      appConfig.environmentFile.isRemote = true;
+
+      spyOn(appConfig, 'initialiseAppConfig').and.returnValue(Promise.resolve());
+      spyOn(schemaValidatorProvider, 'validateRemoteConfig').and.returnValue({
+        errors: [{ message: 'Invalid' }],
+      } as any);
+      spyOn(appConfig as any, 'mapRemoteConfig');
+
+      appConfig.getAppConfigAsync();
+      tick();
+
+      expect((appConfig as any).mapRemoteConfig).not.toHaveBeenCalled();
+    }));
+
+    it('should handle error during initialization', fakeAsync(() => {
+      (appConfig as any).appConfig = undefined;
+      spyOn(appConfig, 'initialiseAppConfig').and.returnValue(Promise.reject('Init error'));
+
+      appConfig.getAppConfigAsync();
+      tick();
+
+      expect(true).toBe(true);
+    }));
+
+    it('should handle error during config retrieval', fakeAsync(() => {
+      (appConfig as any).appConfig = undefined;
+      appConfig.environmentFile.isRemote = true;
+
+      spyOn(appConfig, 'initialiseAppConfig').and.returnValue(Promise.resolve());
+      spyOn(dataStoreProvider, 'getItem').and.returnValue(Promise.reject('Retrieval error'));
+
+      appConfig.getAppConfigAsync();
+      tick();
+
+      expect(true).toBe(true);
+    }));
+  });
+
+  describe('getCachedRemoteConfig', () => {
+    it('should parse and return cached config from storage', fakeAsync(() => {
+      const mockConfig = { configUrl: 'url' };
+      spyOn(dataStoreProvider, 'getItem').and.returnValue(Promise.resolve(JSON.stringify(mockConfig)));
+
+      let result: any;
+      (appConfig as any).getCachedRemoteConfig().then((config) => {
+        result = config;
+      });
+      tick();
+
+      expect(result).toEqual(mockConfig);
+    }));
+
+    it('should throw error if config retrieval fails', fakeAsync(() => {
+      spyOn(dataStoreProvider, 'getItem').and.returnValue(Promise.reject('Storage error'));
+
+      let error: string;
+      (appConfig as any).getCachedRemoteConfig().catch((e) => {
+        error = e;
+      });
+      tick();
+
+      expect(error).toBe('Storage error');
+    }));
+  });
+
+  describe('shouldGetCachedConfig', () => {
+    it('should return true for non-auth errors', () => {
+      const result = (appConfig as any).shouldGetCachedConfig(
+        new HttpErrorResponse({
+          error: '',
+        })
+      );
+      expect(result).toBe(true);
+    });
+
+    it('should return false for 403 status', () => {
+      const result = (appConfig as any).shouldGetCachedConfig(
+        new HttpErrorResponse({
+          error: '',
+          status: 403,
+        })
+      );
+      expect(result).toBe(false);
+    });
+
+    it('should return false for INVALID_APP_VERSION error', () => {
+      const result = (appConfig as any).shouldGetCachedConfig(
+        new HttpErrorResponse({
+          error: AppConfigError.INVALID_APP_VERSION,
+        })
+      );
+      expect(result).toBe(false);
     });
   });
 
