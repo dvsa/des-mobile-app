@@ -3,11 +3,8 @@
 
     &.complete {
       .competency-button {
-        background-color:	#F2E8E7 !important;
+        background-color:	var(--mes-clicked-competency-red) !important;
         border:2px solid var(--gds-red) !important;
-        .competency-label {
-          // font-weight: bold;
-        }
       }
     }
 
