@@ -21,9 +21,9 @@
 
   .link-cancel-button {
     border-top: 1px solid var(--gds-grey-2);
-    ion-button {
-      font-size: 22px;
-      color: var(--gds-black);
-    }
+  }
+  .link-button {
+    font-size: 22px;
+    color: var(--mes-theme-opposing-colour);
   }
 }
