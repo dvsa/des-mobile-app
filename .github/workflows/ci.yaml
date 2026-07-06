@@ -91,4 +91,3 @@ jobs:
 
       - name: 🧪️ Execute unit tests
         run: npm run test
-
