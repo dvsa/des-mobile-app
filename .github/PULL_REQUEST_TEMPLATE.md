@@ -9,4 +9,4 @@
 - [ ] One review from each scrum team
 - [ ] Squashed commit contains the JIRA ticket number
 
-## Screenshots (optional)
+## Screenshots (optional) 
