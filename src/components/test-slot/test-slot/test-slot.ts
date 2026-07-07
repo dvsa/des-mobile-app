@@ -207,7 +207,8 @@ export class TestSlotComponent implements SlotComponent, OnInit {
    * @param testStatus
    */
   isAutosavedTest = (remoteAutosaved: boolean, testStatus: TestStatus): boolean => {
-    return remoteAutosaved && testStatus !== TestStatus.Autosaved;
+    console.log('Hello World!');
+    return !remoteAutosaved && testStatus !== TestStatus.Autosaved;
   };
 
   /**
