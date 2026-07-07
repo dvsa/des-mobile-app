@@ -70,14 +70,6 @@ DVSA Driving Examiner Application
   upload sourcemaps
 - If wishing to disable Sentry for any reason, then set the `dsn` value to null in the env file
 
-### Sonar
-
-###### In order to upload latest code to Sonar, you should obtain the `sonar-project.properties` file and place at root
-
-- A script has been added (`buildScripts/sonar-properties-update.sh`) that will update the version of the Sonar release
-  based upon the version contained inside `config.xml`
-- Execute `npm run sonar` to ensure all necessary files are checked
-
 ### Code style
 
 - This project uses [husky](https://github.com/typicode/husky) to run a series of checks on `pre-commit` and `pre-push`
