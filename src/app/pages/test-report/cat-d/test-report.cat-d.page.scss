@@ -72,7 +72,7 @@ $toolbar-height: 56px;
     margin-top: 65px;
   }
   .report-overlay {
-    background-color: rgba(0, 0, 0, 0.85);
+    background-color: var(--semi-transparent);
     position: absolute;
     top: $toolbar-height;
     left: 0;
