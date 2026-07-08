@@ -5,17 +5,19 @@
     </ion-card-header>
     <ion-card-content>
       <ion-grid>
-        @if (transmission && !showTransmissionWithCode78) {
-          <data-row [label]="'Transmission'" [value]="transmission">
-          </data-row>
-        } @else if (transmission && showTransmissionWithCode78) {
-          <transmission-display
-            [category]="category"
-            [transmission]="data.gearboxCategory"
-            [code78]="passCompletion?.code78Present"
-            [isTestSubmitted]="true"
+        @if (transmission) {
+          @if (showTransmissionWithCode78) {
+            <transmission-display
+              [category]="category"
+              [transmission]="data.gearboxCategory"
+              [code78]="passCompletion?.code78Present"
+              [isTestSubmitted]="true"
             >
-          </transmission-display>
+            </transmission-display>
+          } @else {
+            <data-row [label]="'Transmission'" [value]="transmission">
+            </data-row>
+          }
         }
         <data-row-custom
           [id]="'vehicle-registration-number'"

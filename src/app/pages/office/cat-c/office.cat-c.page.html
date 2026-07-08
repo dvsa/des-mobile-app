@@ -79,27 +79,21 @@
                 (licenseNotReceived)="provisionalLicenseNotReceived()"
                 >
               </license-provided>
-            }
 
-            @if (isDelegated && isPass()) {
               <transmission
                 [formGroup]="form"
                 [transmission]="pageState.transmission$ | async"
                 (transmissionChange)="transmissionChanged($event)"
                 >
               </transmission>
-            }
 
-            @if (isDelegated && isPass()) {
               <pass-certificate-number
                 [form]="form"
                 [passCertificateNumberInput]="pageState.passCertificateNumber$ | async"
                 (passCertificateNumberChange)="passCertificateNumberChanged($event)"
                 >
               </pass-certificate-number>
-            }
 
-            @if (isDelegated && isPass()) {
               <health-declaration-signed
                 [formGroup]="form"
                 [label]="'Health declaration'"
@@ -118,9 +112,7 @@
                 (d255Change)="d255Changed($event)"
                 >
               </d255>
-            }
 
-            @if (isDelegated) {
               <language-preferences
                 [formGroup]="form"
                 [isWelsh]="isWelsh()"
@@ -128,9 +120,7 @@
                 (welshChanged)="isWelshChanged($event)"
                 >
               </language-preferences>
-            }
 
-            @if (isDelegated) {
               <debrief-witnessed
                 [display]="true"
                 [formGroup]="form"
@@ -184,9 +174,7 @@
                 (candidateDescriptionChange)="candidateDescriptionChanged($event)"
                 >
               </candidate-description>
-            }
 
-            @if (!isDelegated) {
               <identification
                 [display]="pageState.displayIdentification$ | async"
                 [formGroup]="form"
@@ -195,17 +183,13 @@
                 (identificationChange)="identificationChanged($event)"
                 >
               </identification>
-            }
 
-            @if (!isDelegated) {
               <vehicle-checks-office-card
                 [display]="pageState.displayVehicleChecks$ | async"
                 [checks]="pageState.vehicleChecks$ | async"
                 >
               </vehicle-checks-office-card>
-            }
 
-            @if (!isDelegated) {
               <weather-conditions
                 [display]="pageState.displayWeatherConditions$ | async"
                 [weatherConditions]="pageState.weatherConditions$ | async"

@@ -77,9 +77,7 @@
                 (passCertificateNumberChange)="passCertificateNumberChanged($event)"
                 >
               </pass-certificate-number>
-            }
 
-            @if (isDelegated && isPass()) {
               <pass-certificate-declaration
                 [label]="'Pass certificate declaration'"
                 [formGroup]="form"
@@ -128,9 +126,7 @@
                 (candidateDescriptionChange)="candidateDescriptionChanged($event)"
                 >
               </candidate-description>
-            }
 
-            @if (!isDelegated) {
               <identification
                 [display]="(pageState.displayIdentification$ | async)"
                 [formGroup]="form"
@@ -200,26 +196,27 @@
               >
             </combination-office>
 
-            @if (isFail() && !isDelegated) {
-              <assessment-report
-                [formGroup]="form"
-                [assessmentReport]="pageState.assessmentReport$ | async"
-                (assessmentReportChange)="assessmentReportChanged($event)"
+            @if (isFail()) {
+              @if (!isDelegated) {
+                <assessment-report
+                  [formGroup]="form"
+                  [assessmentReport]="pageState.assessmentReport$ | async"
+                  (assessmentReportChange)="assessmentReportChanged($event)"
                 >
-              </assessment-report>
-            }
-
-            @if (isFail() && pageState.combination$ | async) {
-              <cpc-debrief-card
-                [overallScore]="pageState.overallScore$ | async"
-                [question1]="pageState.question1$ | async"
-                [question2]="pageState.question2$ | async"
-                [question3]="pageState.question3$ | async"
-                [question4]="pageState.question4$ | async"
-                [question5]="pageState.question5$ | async"
-                [testOutcome]="outcome"
+                </assessment-report>
+              }
+              @if (pageState.combination$ | async) {
+                <cpc-debrief-card
+                  [overallScore]="pageState.overallScore$ | async"
+                  [question1]="pageState.question1$ | async"
+                  [question2]="pageState.question2$ | async"
+                  [question3]="pageState.question3$ | async"
+                  [question4]="pageState.question4$ | async"
+                  [question5]="pageState.question5$ | async"
+                  [testOutcome]="outcome"
                 >
-              </cpc-debrief-card>
+                </cpc-debrief-card>
+              }
             }
           </div>
         </ion-grid>

@@ -77,9 +77,7 @@
                 (passCertificateNumberChange)="passCertificateNumberChanged($event)"
                 >
               </pass-certificate-number>
-            }
 
-            @if (isDelegated && isPass()) {
               <health-declaration-signed
                 [formGroup]="form"
                 [label]="'Health declaration'"
@@ -98,9 +96,7 @@
                 (d255Change)="d255Changed($event)"
                 >
               </d255>
-            }
 
-            @if (isDelegated) {
               <language-preferences
                 [formGroup]="form"
                 [isWelsh]="isWelsh()"
@@ -108,9 +104,7 @@
                 (welshChanged)="isWelshChanged($event)"
                 >
               </language-preferences>
-            }
 
-            @if (isDelegated) {
               <debrief-witnessed
                 [display]="true"
                 [formGroup]="form"
@@ -140,9 +134,7 @@
                 (candidateDescriptionChange)="candidateDescriptionChanged($event)"
                 >
               </candidate-description>
-            }
 
-            @if (!isDelegated) {
               <identification
                 [display]="pageState.displayIdentification$ | async"
                 [formGroup]="form"
@@ -151,9 +143,7 @@
                 (identificationChange)="identificationChanged($event)"
                 >
               </identification>
-            }
 
-            @if (!isDelegated) {
               <weather-conditions
                 [display]="pageState.displayWeatherConditions$ | async"
                 [weatherConditions]="pageState.weatherConditions$ | async"
