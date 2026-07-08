@@ -37,7 +37,7 @@ export const initialState: JournalData = {
   },
 };
 
-export function journalDataCatAMod2Reducer(state = initialState, action: Action): Required<JournalData> {
+export function journalDataCatAMod2Reducer(action: Action, state = initialState): Required<JournalData> {
   return combineReducers({
     examiner: examinerReducer,
     testCentre: testCentreReducer,

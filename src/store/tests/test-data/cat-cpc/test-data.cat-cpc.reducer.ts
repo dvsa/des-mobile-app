@@ -21,7 +21,7 @@ export const initialState: TestData = {
   totalPercent: null,
 };
 
-export function testDataCatCPCReducer(state: TestData = initialState, action: Action) {
+export function testDataCatCPCReducer(action: Action, state: TestData = initialState) {
   return combineReducers({
     combination: combinationReducer,
     question1: question1Reducer,

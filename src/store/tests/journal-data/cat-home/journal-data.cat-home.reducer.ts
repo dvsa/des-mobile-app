@@ -38,14 +38,14 @@ export const initialState: CatFUniqueTypes.JournalData = {
   },
 };
 
-export function journalDataCatHomeReducer(state = initialState, action: Action): Required<CatFUniqueTypes.JournalData> {
+export function journalDataCatHomeReducer(action: Action, state = initialState): Required<CatFUniqueTypes.JournalData> {
   return combineReducers({
     examiner: examinerReducer,
     testCentre: testCentreReducer,
     testSlotAttributes: testSlotsAttributesReducer,
     candidate: candidateCatHomeReducer,
     applicationReference: applicationReferenceReducer,
-  })(state as Required<CatFUniqueTypes.JournalData>, action);
+  })(action, state as Required<CatFUniqueTypes.JournalData>);
 }
 
 export const getJournalData = createFeatureSelector<CatFUniqueTypes.JournalData>('journalData');

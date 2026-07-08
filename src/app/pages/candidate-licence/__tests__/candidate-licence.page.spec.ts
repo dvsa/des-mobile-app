@@ -188,23 +188,23 @@ describe('CandidateLicencePage', () => {
     describe('getImage', () => {
       it('should return img when in practice mode', () => {
         component.isPracticeMode = true;
-        expect(component.getImage('some img string', null)).toEqual('some img string');
+        expect(component.getImage(null, 'some img string')).toEqual('some img string');
       });
       it('should return null when img not defined', () => {
         expect(component.getImage(null, null)).toEqual(null);
       });
       it('should return null when driverPhotograph has no photograph', () => {
-        expect(component.getImage('image', {} as DriverPhotograph)).toEqual(null);
+        expect(component.getImage({} as DriverPhotograph, 'image')).toEqual(null);
       });
       it('should use the values from driverPhotograph and pass into dom sanitizer method', () => {
         spyOn(domSanitizer, 'bypassSecurityTrustUrl');
         component.driverDataReturned = true;
-        component.getImage('some img', {
+        component.getImage({
           photograph: {
             image: 'licence image',
             imageFormat: 'image format',
           },
-        } as DriverPhotograph);
+        } as DriverPhotograph, 'some img',);
         expect(domSanitizer.bypassSecurityTrustUrl).toHaveBeenCalledWith('data:image format;base64,licence image');
       });
     });

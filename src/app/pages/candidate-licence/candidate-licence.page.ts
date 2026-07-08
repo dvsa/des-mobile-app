@@ -139,7 +139,7 @@ export class CandidateLicencePage extends PracticeableBasePageComponent implemen
     this.store$.dispatch(TrueLikenessToPhotoChanged(trueLikeness));
   }
 
-  getImage = (img: string = null, driverPhotograph: DriverPhotograph): SafeUrl => {
+  getImage = (driverPhotograph: DriverPhotograph, img: string = null): SafeUrl => {
     // practice mode will use silhouettes;
     if (img && this.isPracticeMode) {
       return img;

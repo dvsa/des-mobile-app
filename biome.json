@@ -42,7 +42,7 @@
         "rules": {
           "recommended": true,
           "style": {
-            "useDefaultParameterLast": "off"
+            "noParameterAssign": "off"
           },
           "complexity": {
             "noBannedTypes": "off",

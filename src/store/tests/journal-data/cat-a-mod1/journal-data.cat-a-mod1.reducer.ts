@@ -37,14 +37,14 @@ export const initialState: JournalData = {
   },
 };
 
-export function journalDataCatAMod1Reducer(state = initialState, action: Action): Required<JournalData> {
+export function journalDataCatAMod1Reducer(action: Action, state = initialState): Required<JournalData> {
   return combineReducers({
     examiner: examinerReducer,
     testCentre: testCentreReducer,
     testSlotAttributes: testSlotsAttributesReducer,
     candidate: candidateReducer,
     applicationReference: applicationReferenceReducer,
-  })(state as Required<JournalData>, action);
+  })(action, state as Required<JournalData>);
 }
 
 export const getJournalData = createFeatureSelector<JournalData>('journalData');
