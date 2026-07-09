@@ -1,7 +1,11 @@
 <div>
   @if (showBadge) {
     <div class="background">
-      <span aria-labelledby="df-desc-{{competencyDisplayName}}" aria-hidden="true" class="label" id="{{competencyDisplayName}}-D">D</span>
+      <span
+        [attr.aria-labelledby]="`df-desc-${competencyDisplayName}`"
+        aria-hidden="true"
+        class="label"
+        id="{{competencyDisplayName}}-D">D</span>
       <div id="df-desc-{{competencyDisplayName}}" class="screen-reader-only">Dangerous Fault</div>
     </div>
   }
