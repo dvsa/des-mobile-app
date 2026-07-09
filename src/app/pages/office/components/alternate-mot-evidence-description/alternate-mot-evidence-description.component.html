@@ -22,13 +22,13 @@
             (onCharacterCountChanged)="characterCountChanged($event)"
             [value]="alternateEvidenceDescription"
             (change)="evidenceDescriptionTestResultChanged($event.target.value)"
-            >
+          >
           </textarea>
           <div
             class="character-count validation-text"
             [ngClass]="{'ng-invalid': charactersExceeded()}"
-            id="evidence-description-character-count}"
-            >
+            id="evidence-description-character-count"
+          >
             {{ getCharacterCountText() }}
           </div>
         </ion-col>
@@ -39,7 +39,7 @@
             class="validation-text"
             [class.ng-invalid]="invalid"
             id="evidence-description-validation-text"
-            >
+          >
             Details of additional MOT evidence required
           </div>
         }

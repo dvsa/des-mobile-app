@@ -18,12 +18,10 @@
 }
 @if (showSeparator) {
   <ion-row class="mes-row-separator"></ion-row>
-}
-@if (showSeparator) {
   <br />
 }
 
-@for (passedItem of passedData; let i = $index; track i;) {
+@for (passedItem of passedData; track $index; let i = $index) {
   <ion-row
     [class.data-row-padding]="padDataTable && (i != passedData.length-1)"
     >

@@ -11,12 +11,12 @@
           </ion-col>
           <ion-col class="down-padding ion-align-self-start">
             @if (hasPhysicalEta && !hasVerbalEta) {
-              <ion-text addOrRemoveLangCy id="etaFaultsPhysical" class="hasPhysicalEta">
+              <ion-text addOrRemoveLangCy class="mes-data down-padding" id="etaFaultsPhysical">
               {{ 'debrief.etaPhysical' | translate }}
               </ion-text>
             }
             @if (!hasPhysicalEta && hasVerbalEta) {
-              <ion-text addOrRemoveLangCy id="etaFaultsVerbal" class="hasVerbalEta">
+              <ion-text addOrRemoveLangCy class="mes-data down-padding" id="etaFaultsVerbal">
               {{ 'debrief.etaVerbal' | translate }}
               </ion-text>
             }
@@ -24,7 +24,7 @@
               <ion-text
                 addOrRemoveLangCy
                 id="etaFaultsBoth"
-                class="hasVerbalAndPhysicalEta">
+                class="mes-data down-padding">
               {{ 'debrief.etaBoth' | translate }}
               </ion-text>
             }

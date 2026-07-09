@@ -1,4 +1,4 @@
-@for (slot of slots; track trackBySlotID(i, slot); let i = $index) {
+@for (slot of slots; track trackBySlotID($index, slot); let i = $index) {
   <span>
     <span>
       @switch (slotType(slot)) {

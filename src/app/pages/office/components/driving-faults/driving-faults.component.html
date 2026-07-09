@@ -6,7 +6,7 @@
     @for (drivingFault of faults; track drivingFault) {
       <ion-row
         class="driving-fault-no-commentary-row"
-        id="driving-fault-commentary-label"
+        id="driving-fault-commentary-label-{{ drivingFault.competencyIdentifier }}"
         >
         <ion-col size="2.2"></ion-col>
         <ion-col class="fault-badge ion-align-self-center" size="4">
