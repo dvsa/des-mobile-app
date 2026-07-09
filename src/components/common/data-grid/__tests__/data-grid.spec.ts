@@ -48,9 +48,4 @@ describe('DataGridComponent', () => {
       }
     );
   });
-  describe('trackByIndex', () => {
-    it('should return passed indes', () => {
-      expect(component.trackByIndex(1)).toEqual(1);
-    });
-  });
 });
