@@ -23,7 +23,7 @@
         <ion-col size="1"></ion-col>
         <ion-col class="component-label ion-align-self-center">
           @if (testCategory) {
-            <label class="fault-label" id="driving-faults-label">{{
+            <label class="fault-label" id="driving-faults-label-{{ drivingFault.competencyIdentifier }}">{{
               drivingFault.competencyDisplayName | modifyCompetencyLabel: testCategory : drivingFault.competencyDisplayName
             }}</label>
           }
