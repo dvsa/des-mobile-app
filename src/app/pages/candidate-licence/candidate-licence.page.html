@@ -26,53 +26,52 @@
 <ion-content>
   <offline-banner [isOffline]="!!offlineError"></offline-banner>
 
-  <ion-grid *ngIf="{ candidateLicence: pageState.candidateData$ | async } as data">
-    <inappropriate-use-banner></inappropriate-use-banner>
-
-    <licence-photo
-      [hasError]="hasErrored"
-      [imageSrc]="getImage(pageState.driverPhotograph$ | async, data.candidateLicence?.driverPhotograph)"
-    >
-    </licence-photo>
-
-    <licence-data-error
-      *ngIf="!isPracticeMode && hasErrored"
-      [candidateDataError]="candidateDataError"
-      [candidateDataUnavailable]="candidateDataUnavailable"
-      [isOfflineError]="offlineError"
-      [niLicenceDetected]="niLicenceDetected"
-    >
-    </licence-data-error>
-
-    <true-likeness
-      [colSize]="37"
-      (trueLikenessChange)="trueLikenessToPhotoChanged($event)"
-      [formGroup]="formGroup"
-      [trueLikeness]="pageState.trueLikenessToPhoto$ | async"
-    >
-    </true-likeness>
-
-    <!-- Decide if candidateDataError should hide the DVLA card or show a card for TARS/booking data -->
-    <licence-information
-      [bookingAge]="pageState.age$ | async"
-      [bookingDriverNumber]="pageState.candidateDriverNumber$ | async"
-      [bookingGender]="pageState.genderDescription$ | async"
-      [bookingName]="pageState.candidateUntitledName$ | async"
-      [candidateData]="data.candidateLicence"
-      [isPracticeMode]="isPracticeMode"
-    >
-    </licence-information>
-  </ion-grid>
+  @if ({ candidateLicence: pageState.candidateData$ | async }; as data) {
+    <ion-grid>
+      <inappropriate-use-banner></inappropriate-use-banner>
+      <licence-photo
+        [hasError]="hasErrored"
+        [imageSrc]="getImage(pageState.driverPhotograph$ | async, data.candidateLicence?.driverPhotograph)"
+        >
+      </licence-photo>
+      @if (!isPracticeMode && hasErrored) {
+        <licence-data-error
+          [candidateDataError]="candidateDataError"
+          [candidateDataUnavailable]="candidateDataUnavailable"
+          [isOfflineError]="offlineError"
+          [niLicenceDetected]="niLicenceDetected"
+          >
+        </licence-data-error>
+      }
+      <true-likeness
+        [colSize]="37"
+        (trueLikenessChange)="trueLikenessToPhotoChanged($event)"
+        [formGroup]="formGroup"
+        [trueLikeness]="pageState.trueLikenessToPhoto$ | async"
+        >
+      </true-likeness>
+      <!-- Decide if candidateDataError should hide the DVLA card or show a card for TARS/booking data -->
+      <licence-information
+        [bookingAge]="pageState.age$ | async"
+        [bookingDriverNumber]="pageState.candidateDriverNumber$ | async"
+        [bookingGender]="pageState.genderDescription$ | async"
+        [bookingName]="pageState.candidateUntitledName$ | async"
+        [candidateData]="data.candidateLicence"
+        [isPracticeMode]="isPracticeMode"
+        >
+      </licence-information>
+    </ion-grid>
+  }
 </ion-content>
 
 <ion-footer>
   <ion-toolbar>
     <ion-row class="flex-center">
-    <ion-col size="60">
-    <ion-button (click)="onContinue()" class="mes-primary-button continue" id="candidate-licence-continue-button">
-      <ion-text class="des-header-style-3">Continue</ion-text>
-    </ion-button>
-    </ion-col>
-  </ion-row>
+      <ion-col size="60">
+        <ion-button (click)="onContinue()" class="mes-primary-button continue" id="candidate-licence-continue-button">
+          <ion-text class="des-header-style-3">Continue</ion-text>
+        </ion-button>
+      </ion-col>
+    </ion-row>
   </ion-toolbar>
 </ion-footer>

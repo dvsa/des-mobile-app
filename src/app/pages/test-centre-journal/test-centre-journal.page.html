@@ -19,40 +19,41 @@
     </ion-col>
   </ion-row>
 
-  <ng-template [ngIf]="didError" [ngIfElse]="noError">
+  @if (didError) {
     <error-message class="error" returnTo="{{errorMessage}}" [displayAsModal]="false"></error-message>
-  </ng-template>
+  } @else {
+    @if (isLDTM || testCentreResults) {
+      <div class="search-inputs">
+        <tabs (tabChanged)="tabChanged($event?.title)">
+          <tab [tabTitle]="'Candidate search'" id="candidate-search-tab">
+            <candidate-search-card
+              #candidateSearchCard
+              [testCentreName]="testCentreNames"
+              [testCentreResults]="testCentreResults"
+              [manuallyRefreshed]="manuallyRefreshed"
+              [testCentres]="pageState.activeTestCentres$ | async"
+              [isLDTM]="isLDTM"
+              [selectedTestCentre]="testCentreSelected"
+              (testCentreChanged)="testCentreChange($event)"
+              >
+            </candidate-search-card>
+          </tab>
+          <tab [tabTitle]="'View journals'" id="view-journals-tab">
+            <view-journals-card
+              #viewJournalsCard
+              [testCentreName]="testCentreNames"
+              [manuallyRefreshed]="manuallyRefreshed"
+              [testCentreResults]="testCentreResults"
+              [testCentres]="pageState.activeTestCentres$ | async"
+              [isLDTM]="isLDTM"
+              [selectedTestCentre]="testCentreSelected"
+              (testCentreChanged)="testCentreChange($event)"
+              >
+            </view-journals-card>
+          </tab>
+        </tabs>
+      </div>
+    }
+  }
 
-  <ng-template #noError>
-    <div class="search-inputs" *ngIf="isLDTM || testCentreResults">
-      <tabs (tabChanged)="tabChanged($event?.title)">
-        <tab [tabTitle]="'Candidate search'" id="candidate-search-tab">
-          <candidate-search-card
-            #candidateSearchCard
-            [testCentreName]="testCentreNames"
-            [testCentreResults]="testCentreResults"
-            [manuallyRefreshed]="manuallyRefreshed"
-            [testCentres]="pageState.activeTestCentres$ | async"
-            [isLDTM]="isLDTM"
-            [selectedTestCentre]="testCentreSelected"
-            (testCentreChanged)="testCentreChange($event)"
-          >
-          </candidate-search-card>
-        </tab>
-        <tab [tabTitle]="'View journals'" id="view-journals-tab">
-          <view-journals-card
-            #viewJournalsCard
-            [testCentreName]="testCentreNames"
-            [manuallyRefreshed]="manuallyRefreshed"
-            [testCentreResults]="testCentreResults"
-            [testCentres]="pageState.activeTestCentres$ | async"
-            [isLDTM]="isLDTM"
-            [selectedTestCentre]="testCentreSelected"
-            (testCentreChanged)="testCentreChange($event)"
-          >
-          </view-journals-card>
-        </tab>
-      </tabs>
-    </div>
-  </ng-template>
 </ion-content>

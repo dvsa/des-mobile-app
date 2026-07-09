@@ -3,12 +3,12 @@
   class="mes-validated-row"
   id="registration-card"
   [formGroup]="formGroup"
->
+  >
   <div class="validation-bar" [class.ng-invalid]="invalid"></div>
   <ion-col
     class="component-label ion-align-self-center"
     size="32"
-  >
+    >
     <label id="vehicle-registration-number-title">Vehicle registration number</label>
   </ion-col>
   <ion-col class="ion-align-self-center mes-padding-left">
@@ -30,18 +30,22 @@
           pasteSanitiser
         ></ion-input>
       </ion-col>
-      <ion-col size="40" class="display-flex ion-align-items-center" *ngIf="!shouldHideMOTButton" [size]="getMOTButtonColSize(accessibilityService.getTextZoomClass())">
-        <ion-button
-          id="check-mot-button"
-          [disabled]="shouldDisableMOTButton()"
-          class="mes-grey-button"
-          (click)="getMOT(vehicleRegistration)"
-        >
-          <ion-text class="ion-text-nowrap des-header-style-3">Check MOT</ion-text>
-        </ion-button>
-      </ion-col>
+      @if (!shouldHideMOTButton) {
+        <ion-col size="40" class="display-flex ion-align-items-center" [size]="getMOTButtonColSize(accessibilityService.getTextZoomClass())">
+          <ion-button
+            id="check-mot-button"
+            [disabled]="shouldDisableMOTButton()"
+            class="mes-grey-button"
+            (click)="getMOT(vehicleRegistration)"
+            >
+            <ion-text class="ion-text-nowrap des-header-style-3">Check MOT</ion-text>
+          </ion-button>
+        </ion-col>
+      }
       <ion-col size="10">
-        <ion-spinner class="search-spinner" name="bubbles" *ngIf="isSearchingForMOT && !practiceModeModalIsActive"></ion-spinner>
+        @if (isSearchingForMOT && !practiceModeModalIsActive) {
+          <ion-spinner class="search-spinner" name="bubbles"></ion-spinner>
+        }
       </ion-col>
     </ion-row>
     <ion-row class="validation-message-row ion-align-items-center">
@@ -51,13 +55,15 @@
     </ion-row>
   </ion-col>
 </ion-row>
-<ion-row class="mes-row-separator" [class.ion-padding-bottom]="isMOTNotValid()"
-         *ngIf="hasCalledMOT">
-  <mot-card
-    class="full-width"
-    (alternateEvidenceChange)="alternateEvidenceChange.emit($event)"
-    [formGroup]="formGroup"
-    [data]="motData?.data"
-    [status]="motData?.status"
-  ></mot-card>
-</ion-row>
+@if (hasCalledMOT) {
+  <ion-row class="mes-row-separator" [class.ion-padding-bottom]="isMOTNotValid()"
+    >
+    <mot-card
+      class="full-width"
+      (alternateEvidenceChange)="alternateEvidenceChange.emit($event)"
+      [formGroup]="formGroup"
+      [data]="motData?.data"
+      [status]="motData?.status"
+    ></mot-card>
+  </ion-row>
+}

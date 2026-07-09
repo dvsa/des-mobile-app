@@ -1,4 +1,4 @@
-import { NgIf } from '@angular/common';
+
 import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
 import { ReactiveFormsModule, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { DirectivesModule } from '@directives/directives.module';
@@ -7,7 +7,7 @@ import { IonicModule } from '@ionic/angular';
 @Component({
   selector: 'reason-for-entering-teams',
   templateUrl: 'reason-for-entering-teams.html',
-  imports: [IonicModule, ReactiveFormsModule, DirectivesModule, NgIf],
+  imports: [IonicModule, ReactiveFormsModule, DirectivesModule],
 })
 export class ReasonForEnteringTeamsComponent implements OnChanges {
   @Input()

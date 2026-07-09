@@ -36,23 +36,24 @@
                 (ionChange)="applicationReferenceChanged($event.target.value)"
                 [maskito]="getBookingReferenceMask()"
                 [maskitoElement]="getMaskPredicate()"
-              >
+                >
               </ion-input>
             </ion-col>
           </ion-row>
 
-          <ion-row
-            *ngIf="hasClickedSearch && applicationReferenceInvalid"
-            class="validation-message-row ion-align-items-center"
-          >
-            <div
-              class="ion-padding-left validation-text"
-              [class.ng-invalid]="applicationReferenceInvalid"
-              id="delegated-rekey-search-validation-text"
-            >
-              Please enter a valid booking reference
-            </div>
-          </ion-row>
+          @if (hasClickedSearch && applicationReferenceInvalid) {
+            <ion-row
+              class="validation-message-row ion-align-items-center"
+              >
+              <div
+                class="ion-padding-left validation-text"
+                [class.ng-invalid]="applicationReferenceInvalid"
+                id="delegated-rekey-search-validation-text"
+                >
+                Please enter a valid booking reference
+              </div>
+            </ion-row>
+          }
 
           <ion-row class="ion-padding-bottom">
             <ion-col class="ion-align-content-center">
@@ -69,7 +70,7 @@
               class="mes-primary-button search-tests"
               id="delegated-rekey-search-search-tests-btn"
               (click)="searchTests()"
-            >
+              >
               <ion-col></ion-col>
               <ion-col size="45" class="ion-justify-content-center display-flex">
                 <ion-text id="delegated-rekey-search-advanced-search-button-text" class="des-header-style-3">
@@ -79,11 +80,12 @@
               </ion-col>
               <ion-col class="display-flex">
                 <ion-col class="ion-justify-content-end display-flex">
-                  <ion-spinner
-                    *ngIf="(pageState.isLoading$ | async)"
-                    id="delegated-rekey-search-page-spinner"
-                    name="bubbles">
-                  </ion-spinner>
+                  @if ((pageState.isLoading$ | async)) {
+                    <ion-spinner
+                      id="delegated-rekey-search-page-spinner"
+                      name="bubbles">
+                    </ion-spinner>
+                  }
                 </ion-col>
               </ion-col>
             </ion-button>
@@ -92,35 +94,39 @@
       </tab>
     </tabs>
 
-    <div
-      class="results-error"
-      *ngIf="(pageState.hasSearched$ | async) && isBookedTestSlotEmpty(pageState.bookedTestSlot$ | async) && !(hasBookingAlreadyBeenCompleted(pageState.rekeySearchErr$ | async))"
-    >
-      <p class="error-text" id="delegated-rekey-search-error-text-no-results">There were no results found for your search.</p>
-      <p class="error-text" id="delegated-rekey-search-error-text-no-pls-try-again">Please check and try again.</p>
-    </div>
+    @if ((pageState.hasSearched$ | async) && isBookedTestSlotEmpty(pageState.bookedTestSlot$ | async) && !(hasBookingAlreadyBeenCompleted(pageState.rekeySearchErr$ | async))) {
+      <div
+        class="results-error"
+        >
+        <p class="error-text" id="delegated-rekey-search-error-text-no-results">There were no results found for your search.</p>
+        <p class="error-text" id="delegated-rekey-search-error-text-no-pls-try-again">Please check and try again.</p>
+      </div>
+    }
 
-    <div
-      class="results-error"
-      *ngIf="(pageState.hasSearched$ | async) && (hasBookingAlreadyBeenCompleted(pageState.rekeySearchErr$ | async))"
-    >
-      <p class="error-text" id="delegated-rekey-search-error-text-already-submitted">
-        You can't rekey this test as it has already been submitted.
+    @if ((pageState.hasSearched$ | async) && (hasBookingAlreadyBeenCompleted(pageState.rekeySearchErr$ | async))) {
+      <div
+        class="results-error"
+        >
+        <p class="error-text" id="delegated-rekey-search-error-text-already-submitted">
+          You can't rekey this test as it has already been submitted.
+        </p>
+        <p class="error-text" id="delegated-rekey-search-error-text-try-again">Please check and try again.</p>
+      </div>
+    }
+
+    @if (!isBookedTestSlotEmpty(pageState.bookedTestSlot$ | async)) {
+      <p class="results-message">
+        <test-slot
+          [delegatedTest]="true"
+          [isPortrait]="orientationMonitorProvider.isPortraitMode$ | async"
+          [slot]="(pageState.bookedTestSlot$ | async)"
+          [hasSlotChanged]="false"
+          [hasSeenCandidateDetails]="true"
+          [showLocation]="false"
+          (cancelFutureTestModal)="clearAppRef()"
+          >
+        </test-slot>
       </p>
-      <p class="error-text" id="delegated-rekey-search-error-text-try-again">Please check and try again.</p>
-    </div>
-
-    <p class="results-message" *ngIf="!isBookedTestSlotEmpty(pageState.bookedTestSlot$ | async)">
-      <test-slot
-        [delegatedTest]="true"
-        [isPortrait]="orientationMonitorProvider.isPortraitMode$ | async"
-        [slot]="(pageState.bookedTestSlot$ | async)"
-        [hasSlotChanged]="false"
-        [hasSeenCandidateDetails]="true"
-        [showLocation]="false"
-        (cancelFutureTestModal)="clearAppRef()"
-      >
-      </test-slot>
-    </p>
+    }
   </div>
 </ion-content>

@@ -33,7 +33,7 @@
           [candidateDriverNumber]="pageState.candidateDriverNumber$ | async"
           [candidateName]="pageState.candidateName$ | async"
           [outcomeText]="pageState.testOutcomeText$ | async"
-        >
+          >
         </finalisation-header>
 
         <application-reference-number [applicationNumber]="pageState.applicationNumber$ | async">
@@ -45,7 +45,7 @@
           [form]="form"
           [licenseReceivedLabel]="'Provisional licence received'"
           [license]="pageState.provisionalLicense$ | async"
-        >
+          >
         </license-provided>
 
         <licence-provided-warning-banner [licenceProvided]="pageState.provisionalLicense$ | async">
@@ -56,7 +56,7 @@
           [form]="form"
           [isPracticeMode]="isPracticeMode"
           [passCertificateNumberInput]="pageState.passCertificateNumber$ | async"
-        >
+          >
         </pass-certificate-number>
 
         <d255
@@ -66,14 +66,15 @@
           [eyesightTestFailed]="pageState.eyesightTestFailed$ | async"
           [formGroup]="form"
           [outcome]="testOutcome"
-        >
+          >
         </d255>
 
-        <warning-banner
-          *ngIf="pageState.d255$ | async"
-          warningText="DVLA will not process the result until a D255 is received."
-        >
-        </warning-banner>
+        @if (pageState.d255$ | async) {
+          <warning-banner
+            warningText="DVLA will not process the result until a D255 is received."
+            >
+          </warning-banner>
+        }
 
         <language-preferences
           (welshChanged)="isWelshChanged($event)"
@@ -88,7 +89,7 @@
           [shouldShowSeparator]="false"
           [formGroup]="form"
           [outcome]="testOutcome"
-        >
+          >
         </debrief-witnessed>
       </ion-grid>
     </form>

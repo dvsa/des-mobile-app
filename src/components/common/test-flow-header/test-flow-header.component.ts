@@ -1,4 +1,4 @@
-import { NgIf } from '@angular/common';
+
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { AppLauncher, OpenURLResult } from '@capacitor/app-launcher';
 import { Style } from '@capacitor/status-bar';
@@ -37,13 +37,12 @@ export enum ExitSAMMethodUsed {
   imports: [
     IonicModule,
     ComponentsModule,
-    NgIf,
     ExitSamBanner,
     ExitSamButton,
     DirectivesModule,
     PracticeModeExitButton,
-    PracticeModeBanner,
-  ],
+    PracticeModeBanner
+],
 })
 export class TestFlowHeaderComponent {
   @Input() isPracticeMode = false;

@@ -1,4 +1,4 @@
-import { NgIf } from '@angular/common';
+
 import { Component, Input } from '@angular/core';
 import { ComponentsModule } from '@components/common/common-components.module';
 import { IonicModule, ModalController } from '@ionic/angular';
@@ -7,7 +7,7 @@ import { IonicModule, ModalController } from '@ionic/angular';
   selector: 'exit-sam-error-modal',
   templateUrl: './exit-sam-error-modal.html',
   styleUrls: ['./exit-sam-error-modal.scss'],
-  imports: [IonicModule, ComponentsModule, NgIf],
+  imports: [IonicModule, ComponentsModule],
 })
 export class ExitSamErrorModal {
   @Input() firstMessage: string;

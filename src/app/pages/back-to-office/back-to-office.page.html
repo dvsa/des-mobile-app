@@ -29,17 +29,19 @@
       class="mes-neutral-button office-button top-button"
       (click)="navigateForward(office)"
       id="continue-to-write-up"
-    >
+      >
       Continue to write up
     </ion-button>
   </div>
-  <div class="container" *ngIf="!isRekey">
-    <ion-button
-      class="mes-neutral-button office-button bottom-button"
-      (click)="navigateForward(journal)"
-      id="return-to-journal"
-    >
-      Return to journal
-    </ion-button>
-  </div>
+  @if (!isRekey) {
+    <div class="container">
+      <ion-button
+        class="mes-neutral-button office-button bottom-button"
+        (click)="navigateForward(journal)"
+        id="return-to-journal"
+        >
+        Return to journal
+      </ion-button>
+    </div>
+  }
 </ion-content>
