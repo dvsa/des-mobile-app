@@ -199,12 +199,15 @@ describe('CandidateLicencePage', () => {
       it('should use the values from driverPhotograph and pass into dom sanitizer method', () => {
         spyOn(domSanitizer, 'bypassSecurityTrustUrl');
         component.driverDataReturned = true;
-        component.getImage({
-          photograph: {
-            image: 'licence image',
-            imageFormat: 'image format',
-          },
-        } as DriverPhotograph, 'some img',);
+        component.getImage(
+          {
+            photograph: {
+              image: 'licence image',
+              imageFormat: 'image format',
+            },
+          } as DriverPhotograph,
+          'some img'
+        );
         expect(domSanitizer.bypassSecurityTrustUrl).toHaveBeenCalledWith('data:image format;base64,licence image');
       });
     });
