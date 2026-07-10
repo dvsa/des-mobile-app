@@ -27,7 +27,7 @@ export const initialState: CatBUniqueTypes.TestData = {
   },
 };
 
-export function testDataReducer(action: Action, state = initialState): Required<CatBUniqueTypes.TestData> {
+export function testDataReducer(state = initialState, action: Action): Required<CatBUniqueTypes.TestData> {
   return combineReducers({
     drivingFaults: drivingFaultsReducer,
     dangerousFaults: dangerousFaultsReducer,

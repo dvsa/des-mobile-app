@@ -134,8 +134,8 @@ const removeStartedTest = (state: TestsModel, slotId: number): TestsModel => {
  * @param action The action to modify the state
  */
 export function testsReducer(
-  action: testsActions.TestActionsTypes | fakeJournalActions.Types,
-  state = initialState
+  state = initialState,
+  action: testsActions.TestActionsTypes | fakeJournalActions.Types
 ): TestsModel {
   const slotId = deriveSlotId(state, action);
   const category = deriveCategory(state, action, slotId);

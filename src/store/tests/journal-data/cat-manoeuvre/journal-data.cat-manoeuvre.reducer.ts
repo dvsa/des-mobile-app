@@ -39,8 +39,8 @@ export const initialState: CatCMUniqueTypes.JournalData = {
 };
 
 export function journalDataCatManoeuvreReducer(
-  action: Action,
-  state = initialState
+  state = initialState,
+  action: Action
 ): Required<CatCMUniqueTypes.JournalData> {
   return combineReducers({
     examiner: examinerReducer,

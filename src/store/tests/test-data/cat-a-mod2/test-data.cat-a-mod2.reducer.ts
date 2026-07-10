@@ -23,7 +23,7 @@ export const initialState: TestData = {
   eyesightTest: {},
 };
 
-export function testDataCatAMod2Reducer(action: Action, state = initialState): Required<TestData> {
+export function testDataCatAMod2Reducer(state = initialState, action: Action): Required<TestData> {
   return combineReducers({
     testRequirements: testRequirementsCatAMod2Reducer,
     drivingFaults: drivingFaultsReducer,

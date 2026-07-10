@@ -30,9 +30,9 @@ const initialStateQ5 = {
 const getAnswerNumberKey = (questionNumber: string): string => `answer${questionNumber}`;
 
 export const questionReducer = (
-  action: questionActionTypes.QuestionActionTypes,
-  questionNum: QuestionNumber,
   initState: Question | Question5 = initialState,
+  action: questionActionTypes.QuestionActionTypes,
+  questionNum: QuestionNumber
 ) =>
   createReducer(
     initState,
@@ -59,27 +59,27 @@ export const questionReducer = (
 /**
  * Wrapper function for passing questionNum param into questionReducer
  * Calling questionReducer as function with params as the return type was not a const it was a const function
- * @param {Action} action
  * @param {Question} state
+ * @param {Action} action
  * @return {Question | Question5}
  */
-export function question1Reducer(action: Action, state: Question = initialState) {
-  return questionReducer(action as questionActionTypes.QuestionActionTypes, QuestionNumber.ONE, state)(state, action);
+export function question1Reducer(state: Question = initialState, action: Action) {
+  return questionReducer(state, action as questionActionTypes.QuestionActionTypes, QuestionNumber.ONE)(state, action);
 }
 
-export function question2Reducer(action: Action, state: Question = initialState) {
-  return questionReducer(action as questionActionTypes.QuestionActionTypes, QuestionNumber.TWO, state)(state, action);
+export function question2Reducer(state: Question = initialState, action: Action) {
+  return questionReducer(state, action as questionActionTypes.QuestionActionTypes, QuestionNumber.TWO)(state, action);
 }
 
-export function question3Reducer(action: Action, state: Question = initialState) {
-  return questionReducer(action as questionActionTypes.QuestionActionTypes, QuestionNumber.THREE, state)(state, action);
+export function question3Reducer(state: Question = initialState, action: Action) {
+  return questionReducer(state, action as questionActionTypes.QuestionActionTypes, QuestionNumber.THREE)(state, action);
 }
 
-export function question4Reducer(action: Action, state: Question = initialState) {
-  return questionReducer(action as questionActionTypes.QuestionActionTypes, QuestionNumber.FOUR, state)(state, action);
+export function question4Reducer(state: Question = initialState, action: Action) {
+  return questionReducer(state, action as questionActionTypes.QuestionActionTypes, QuestionNumber.FOUR)(state, action);
 }
 
-export function question5Reducer(action: Action, state: Question5 = initialStateQ5) {
+export function question5Reducer(state: Question5 = initialStateQ5, action: Action) {
   return questionReducer(
     state,
     action as questionActionTypes.QuestionActionTypes,

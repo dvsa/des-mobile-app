@@ -40,7 +40,7 @@ export const initialState: JournalData = {
   },
 };
 
-export function journalDataReducer(action: Action, state = initialState): Required<JournalData> {
+export function journalDataReducer(state = initialState, action: Action): Required<JournalData> {
   return combineReducers({
     examiner: examinerReducer,
     testCentre: testCentreReducer,
