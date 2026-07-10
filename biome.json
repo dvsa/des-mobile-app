@@ -41,9 +41,7 @@
         "enabled": true,
         "rules": {
           "recommended": true,
-          "style": {
-            "noParameterAssign": "off"
-          },
+          "style": {},
           "complexity": {
             "noBannedTypes": "off",
             "noForEach": "off",
