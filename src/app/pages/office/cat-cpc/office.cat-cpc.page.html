@@ -25,7 +25,7 @@
     [driverNumber]="pageState.candidateDriverNumber$ | async"
     [startTime]="pageState.startTime$ | async"
     [testOutcomeText]="pageState.testOutcomeText$ | async"
-    >
+  >
   </office-candidate-section>
 
   <form [formGroup]="form">
@@ -41,7 +41,7 @@
               [dateOfTest]="pageState.startDate$ | async"
               (setIsValidStartDateTime)="setIsValidStartDateTime($event)"
               (dateOfTestChange)="dateOfTestChanged($event)"
-              >
+            >
             </date-of-test>
           }
 
@@ -49,12 +49,12 @@
             <ion-row
               class="mes-component-row mes-row-separator ion-align-items-center"
               id="application-reference-card"
-              >
+            >
               <ion-col class="component-label" size="32">
                 <label>Booking reference</label>
               </ion-col>
               <ion-col class="ion-padding-start">
-                <span class="mes-data">{{pageState.applicationNumber$ | async }}</span>
+                <span class="mes-data">{{ pageState.applicationNumber$ | async }}</span>
               </ion-col>
             </ion-row>
           }
@@ -66,7 +66,7 @@
             [activityCodeOptions]="activityCodeOptions"
             (activityCodeChange)="activityCodeChanged($event)"
             [disabled]="!isDelegated"
-            >
+          >
           </activity-code>
 
           <div class="ion-no-padding">
@@ -75,7 +75,7 @@
                 [form]="form"
                 [passCertificateNumberInput]="pageState.passCertificateNumber$ | async"
                 (passCertificateNumberChange)="passCertificateNumberChanged($event)"
-                >
+              >
               </pass-certificate-number>
 
               <pass-certificate-declaration
@@ -83,7 +83,7 @@
                 [formGroup]="form"
                 [passCertificateNumberReceived]="pageState.passCertificateNumberReceived$ | async"
                 (passCertificateDeclarationChange)="passCertificateDeclarationChanged($event)"
-                >
+              >
               </pass-certificate-declaration>
             }
 
@@ -93,7 +93,7 @@
                 [formGroup]="form"
                 [isWelsh]="false"
                 (welshChanged)="isWelshChanged($event)"
-                >
+              >
               </language-preferences>
             }
 
@@ -104,7 +104,7 @@
               [debriefWitnessed]="pageState.debriefWitnessed$ | async"
               [outcome]="pageState.testOutcome$ | async"
               (debriefWitnessedChange)="debriefWitnessedChanged($event)"
-              >
+            >
             </debrief-witnessed>
 
             @if ((pageState.displayCandidateDescription$ | async) && !isDelegated) {
@@ -112,7 +112,7 @@
                 [formGroup]="form"
                 [trueLikeness]="pageState.trueLikenessToPhoto$ | async"
                 (trueLikenessChange)="trueLikenessToPhotoChanged($event)"
-                >
+              >
               </true-likeness>
             }
 
@@ -124,7 +124,7 @@
                 [outcome]="pageState.testOutcome$ | async"
                 [trueLikenessToPhoto]="pageState.trueLikenessToPhoto$ | async"
                 (candidateDescriptionChange)="candidateDescriptionChanged($event)"
-                >
+              >
               </candidate-description>
 
               <identification
@@ -133,7 +133,7 @@
                 [identification]="pageState.identification$ | async"
                 [outcome]="pageState.testOutcome$ | async"
                 (identificationChange)="identificationChanged($event)"
-                >
+              >
               </identification>
             }
 
@@ -159,7 +159,7 @@
                 [alternateEvidenceDescription]="pageState.motAlternativeEvidenceDescription$ | async"
                 (evidenceDescriptionTestResultChange)="alternativeMOTEvidenceDescriptionUpdated($event)"
                 [formGroup]="form"
-                >
+              >
               </alternate-mot-evidence-description>
             }
 
@@ -169,7 +169,7 @@
               [formGroup]="form"
               [outcome]="pageState.testOutcome$ | async"
               (additionalInformationChange)="additionalInformationChanged($event)"
-              >
+            >
             </additional-information>
 
             @if (pageState.hasEnteredTeamsOnThisTest$ | async) {
@@ -187,13 +187,13 @@
               [interpreterAccompaniment]="pageState.interpreterAccompaniment$ | async"
               (supervisorAccompanimentChange)="supervisorAccompanimentToggledCPC()"
               (interpreterAccompanimentChange)="interpreterAccompanimentToggledCPC()"
-              >
+            >
             </accompaniment-card-cat-cpc>
 
             <combination-office
               [combination]="pageState.combination$ | async"
               [combinationAdditionalText]="getCombinationAdditionalText(pageState.combination$ | async)"
-              >
+            >
             </combination-office>
 
             @if (isFail()) {

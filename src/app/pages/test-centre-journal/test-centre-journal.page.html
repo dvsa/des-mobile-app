@@ -1,9 +1,9 @@
 <ion-header>
   <ion-toolbar mode="ios">
     <ion-buttons slot="end" class="mes-padding-right">
-    <ion-back-button text="Close" icon="close-outline"></ion-back-button>
+      <ion-back-button text="Close" icon="close-outline"></ion-back-button>
     </ion-buttons>
-    <ion-title id="test-centre-journal-title" role="heading" aria-level="1" >Test centre journal</ion-title>
+    <ion-title id="test-centre-journal-title" role="heading" aria-level="1">Test centre journal</ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -35,7 +35,7 @@
               [isLDTM]="isLDTM"
               [selectedTestCentre]="testCentreSelected"
               (testCentreChanged)="testCentreChange($event)"
-              >
+            >
             </candidate-search-card>
           </tab>
           <tab [tabTitle]="'View journals'" id="view-journals-tab">
@@ -48,7 +48,7 @@
               [isLDTM]="isLDTM"
               [selectedTestCentre]="testCentreSelected"
               (testCentreChanged)="testCentreChange($event)"
-              >
+            >
             </view-journals-card>
           </tab>
         </tabs>

@@ -25,7 +25,7 @@
     [driverNumber]="pageState.candidateDriverNumber$ | async"
     [startTime]="pageState.startTime$ | async"
     [testOutcomeText]="pageState.testOutcomeText$ | async"
-    >
+  >
   </office-candidate-section>
 
   <form [formGroup]="form">
@@ -41,7 +41,7 @@
               [dateOfTest]="pageState.startDate$ | async"
               (setIsValidStartDateTime)="setIsValidStartDateTime($event)"
               (dateOfTestChange)="dateOfTestChanged($event)"
-              >
+            >
             </date-of-test>
           }
 
@@ -49,12 +49,12 @@
             <ion-row
               class="mes-component-row mes-row-separator ion-align-items-center"
               id="application-reference-card"
-              >
+            >
               <ion-col class="component-label" size="32">
                 <label>Booking reference</label>
               </ion-col>
               <ion-col class="ion-padding-start">
-                <span class="mes-data">{{pageState.applicationNumber$ | async }}</span>
+                <span class="mes-data">{{ pageState.applicationNumber$ | async }}</span>
               </ion-col>
             </ion-row>
           }
@@ -66,7 +66,7 @@
             [activityCodeOptions]="activityCodeOptions"
             (activityCodeChange)="activityCodeChanged($event)"
             [disabled]="!isDelegated"
-            >
+          >
           </activity-code>
 
           <div class="ion-no-padding" [hidden]="!(pageState.isTestOutcomeSet$ | async)">
@@ -77,21 +77,21 @@
                 [licenseReceivedLabel]="'Provisional licence received'"
                 (licenseReceived)="provisionalLicenseReceived()"
                 (licenseNotReceived)="provisionalLicenseNotReceived()"
-                >
+              >
               </license-provided>
 
               <transmission
                 [formGroup]="form"
                 [transmission]="pageState.transmission$ | async"
                 (transmissionChange)="transmissionChanged($event)"
-                >
+              >
               </transmission>
 
               <pass-certificate-number
                 [form]="form"
                 [passCertificateNumberInput]="pageState.passCertificateNumber$ | async"
                 (passCertificateNumberChange)="passCertificateNumberChanged($event)"
-                >
+              >
               </pass-certificate-number>
 
               <health-declaration-signed
@@ -99,7 +99,7 @@
                 [label]="'Health declaration'"
                 [healthDeclaration]="pageState.healthDeclarationAccepted$ | async"
                 (healthDeclarationChange)="healthDeclarationChanged($event)"
-                >
+              >
               </health-declaration-signed>
             }
 
@@ -110,7 +110,7 @@
                 [outcome]="testOutcome"
                 [formGroup]="form"
                 (d255Change)="d255Changed($event)"
-                >
+              >
               </d255>
 
               <language-preferences
@@ -118,7 +118,7 @@
                 [isWelsh]="isWelsh()"
                 [isDelegated]="isDelegated"
                 (welshChanged)="isWelshChanged($event)"
-                >
+              >
               </language-preferences>
 
               <debrief-witnessed
@@ -127,7 +127,7 @@
                 [debriefWitnessed]="pageState.debriefWitnessed$ | async"
                 [outcome]="testOutcome"
                 (debriefWitnessedChange)="debriefWitnessedChanged($event)"
-                >
+              >
               </debrief-witnessed>
             }
 
@@ -137,7 +137,7 @@
               [outcome]="pageState.testOutcome$ | async"
               (routeNumberChange)="routeNumberChanged($event)"
               [formGroup]="form"
-              >
+            >
             </route-number>
 
             @if (!isDelegated) {
@@ -151,7 +151,7 @@
                 [outcome]="pageState.testOutcome$ | async"
                 [independentDriving]="pageState.independentDriving$ | async"
                 (independentDrivingChange)="independentDrivingChanged($event)"
-                >
+              >
               </independent-driving>
             }
 
@@ -160,7 +160,7 @@
                 [formGroup]="form"
                 [trueLikeness]="pageState.trueLikenessToPhoto$ | async"
                 (trueLikenessChange)="trueLikenessToPhotoChanged($event)"
-                >
+              >
               </true-likeness>
             }
 
@@ -172,7 +172,7 @@
                 [outcome]="pageState.testOutcome$ | async"
                 [trueLikenessToPhoto]="pageState.trueLikenessToPhoto$ | async"
                 (candidateDescriptionChange)="candidateDescriptionChanged($event)"
-                >
+              >
               </candidate-description>
 
               <identification
@@ -181,13 +181,13 @@
                 [identification]="pageState.identification$ | async"
                 [outcome]="pageState.testOutcome$ | async"
                 (identificationChange)="identificationChanged($event)"
-                >
+              >
               </identification>
 
               <vehicle-checks-office-card
                 [display]="pageState.displayVehicleChecks$ | async"
                 [checks]="pageState.vehicleChecks$ | async"
-                >
+              >
               </vehicle-checks-office-card>
 
               <weather-conditions
@@ -197,7 +197,7 @@
                 [outcome]="pageState.testOutcome$ | async"
                 [weatherConditionsOptions]="weatherConditions"
                 (weatherConditionsChange)="weatherConditionsChanged($event)"
-                >
+              >
               </weather-conditions>
             }
 
@@ -207,7 +207,7 @@
               [formGroup]="form"
               [outcome]="pageState.testOutcome$ | async"
               (additionalInformationChange)="additionalInformationChanged($event)"
-              >
+            >
             </additional-information>
 
             @if (pageState.hasEnteredTeamsOnThisTest$ | async) {
@@ -241,7 +241,7 @@
                 [alternateEvidenceDescription]="pageState.motAlternativeEvidenceDescription$ | async"
                 (evidenceDescriptionTestResultChange)="alternativeMOTEvidenceDescriptionUpdated($event)"
                 [formGroup]="form"
-                >
+              >
               </alternate-mot-evidence-description>
             }
 
@@ -255,7 +255,7 @@
               (supervisorAccompanimentChange)="supervisorAccompanimentToggled()"
               (otherAccompanimentChange)="otherAccompanimentToggled()"
               (interpreterAccompanimentChange)="interpreterAccompanimentToggled()"
-              >
+            >
             </accompaniment-card>
           </div>
         </ion-grid>
@@ -266,7 +266,7 @@
       @if ((pageState.etaFaults$ | async) && (pageState.displayEta$ | async)) {
         <eta-card
           [faults]="pageState.etaFaults$ | async"
-          >
+        >
         </eta-card>
       }
 
@@ -286,7 +286,7 @@
         faultType="dangerous"
         header="Dangerous faults {{isDelegated ? (pageState.dangerousFaultCount$ | async) : null}}"
         (faultCommentsChange)="dangerousFaultCommentChanged($event)"
-        >
+      >
       </fault-comment-card>
 
       <fault-comment-card
@@ -299,7 +299,7 @@
         faultType="serious"
         header="Serious faults {{isDelegated ? (pageState.seriousFaultCount$ | async) : null}}"
         (faultCommentsChange)="seriousFaultCommentChanged($event)"
-        >
+      >
       </fault-comment-card>
 
       <fault-comment-card
@@ -315,7 +315,7 @@
         badgeLabel="Driving"
         [faultCount]="pageState.drivingFaultCount$ | async"
         (faultCommentsChange)="drivingFaultCommentChanged($event)"
-        >
+      >
       </fault-comment-card>
 
       @if ((!(pageState.displayDrivingFaultComments$ | async) && (pageState.drivingFaultCount$ | async) > 0 && pageState.displayDrivingFault$ | async) && !isDelegated) {
@@ -324,7 +324,7 @@
           badgeLabel="Driving"
           [testCategory]="pageState.testCategory$ | async"
           [faults]="(pageState.drivingFaults$ | async)"
-          >
+        >
         </driving-faults>
       }
     </div>

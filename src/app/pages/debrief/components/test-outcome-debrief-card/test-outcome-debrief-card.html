@@ -1,9 +1,11 @@
 <div id="test-outcome-background">
   <div class="test-outcome-container {{outcome}}">
-    <ion-text addOrRemoveLangCy class="des-header-style-4" id="outcome-header"
+    <ion-text
+      addOrRemoveLangCy
+      class="des-header-style-4"
+      id="outcome-header"
     >{{ 'debrief.outcomeHeader' | translate }}
-    </ion-text
-    >
+    </ion-text>
     @switch (outcome) {
       @case ('Pass') {
         <div>

@@ -2,10 +2,11 @@
   <ion-card id="vehicle-checks">
     <ion-card-header>
       <ion-card-title>
-        <ion-text addOrRemoveLangCy class="des-header-style-4 fault-heading"
+        <ion-text
+          addOrRemoveLangCy
+          class="des-header-style-4 fault-heading"
         >{{ 'debrief.vehicleChecks' | translate }}
-        </ion-text
-        >
+        </ion-text>
       </ion-card-title>
     </ion-card-header>
     <ion-card-content>
@@ -41,8 +42,7 @@
                 }
                 @if (!isHomeTest()) {
                   <span addOrRemoveLangCy>
-                      {{ question.code }}
-                    - {{ 'debrief.showMeTellMeQuestions.' + category + '.' + question.code | translate }}
+                      {{ question.code }} - {{ 'debrief.showMeTellMeQuestions.' + category + '.' + question.code | translate }}
                     </span>
                 }
               </div>

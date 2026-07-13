@@ -21,7 +21,7 @@
       (setupResumeSubscription)="setupEscapeSAMResumeSubscription()"
       (onExitSAMActivatedChanged)="isSamActivatedChanged($event)"
       (endTestButtonClicked)="abortMOTCall(MOTAbortedMethod.END_TEST)">
-      {{pageState.candidateName$ | async}}
+      {{ pageState.candidateName$ | async }}
     </test-flow-header>
   </ion-toolbar>
 </ion-header>
@@ -41,7 +41,7 @@
                 [candidateSigned]="pageState.candidateDeclarationSigned$ | async"
                 [declarationSelected]="(pageState.insuranceDeclarationAccepted$ | async) && (pageState.residencyDeclarationAccepted$ | async)"
                 [formGroup]="form"
-                >
+              >
               </candidate-declaration-signed>
             }
 
@@ -61,7 +61,7 @@
               [vehicleRegistration]="pageState.registrationNumber$ | async"
               [shouldHideMOTButton]="true"
               [abortSubject]="abortSubject"
-              >
+            >
             </vehicle-registration>
 
             @if ((pageState.motEvidenceProvided$ | async) === false) {
@@ -87,7 +87,7 @@
                   [vehicleChecksScore]="pageState.vehicleChecksScore$ | async"
                   [vehicleChecks]="pageState.vehicleChecks$ | async"
                   [submitClicked]="submitClicked"
-                  >
+                >
                 </vehicle-checks-vocational>
               }
 
@@ -98,7 +98,7 @@
                   [fullLicenceHeld]="pageState.fullLicenceHeldSelection$ | async"
                   [required]="true"
                   [testCategory]="testCategory"
-                  >
+                >
                 </full-licence-held-toggle>
               }
 
@@ -109,7 +109,7 @@
                   [formGroup]="form"
                   [testCategory]="pageState.category$ | async"
                   [vehicleChecksCompleted]="pageState.vehicleChecksCompleted$ | async"
-                  >
+                >
                 </vehicle-checks-completed>
               }
 
@@ -123,7 +123,7 @@
                 [interpreterAccompaniment]="pageState.interpreterAccompaniment$ | async"
                 [otherAccompaniment]="pageState.otherAccompaniment$ | async"
                 [supervisorAccompaniment]="pageState.supervisorAccompaniment$ | async"
-                >
+              >
               </accompaniment-card>
             </div>
           </ion-col>
@@ -141,8 +141,9 @@
 </ion-content>
 
 <ion-footer [class.hidden]="failedMOTModalCurrentlyOpen">
-  <ion-row [hidden]="(pageState.motEvidenceProvided$ | async) === false"
-           class="mes-full-width-card box-shadow flex-center">
+  <ion-row
+    [hidden]="(pageState.motEvidenceProvided$ | async) === false"
+    class="mes-full-width-card box-shadow flex-center">
     @if (!isDelegated) {
       <ion-col class="ion-text-center" size="43">
         <ion-button
@@ -150,7 +151,7 @@
           class="mes-grey-button wrtc-footer-btn"
           id="view-test-centre-journal-button"
           shape="round"
-          >
+        >
           <ion-text class="des-header-style-3">View test centre journal</ion-text>
         </ion-button>
       </ion-col>
@@ -158,13 +159,13 @@
     @if (!isDelegated) {
       <ion-col size="2"></ion-col>
     }
-    <ion-col [size]="isDelegated ? 60 : 43" class="ion-text-center">
+    <ion-col [size]="isDelegated ? '60' : '43'" class="ion-text-center">
       <ion-button
         (click)="onSubmit()"
         class="mes-primary-button wrtc-footer-btn"
         id="continue-to-test-report-button"
         shape="round"
-        >
+      >
         <ion-text class="des-header-style-3">Continue to test report</ion-text>
       </ion-button>
     </ion-col>

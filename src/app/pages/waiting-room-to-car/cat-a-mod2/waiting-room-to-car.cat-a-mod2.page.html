@@ -20,7 +20,7 @@
       (setupResumeSubscription)="setupEscapeSAMResumeSubscription()"
       (onExitSAMActivatedChanged)="isSamActivatedChanged($event)"
       (endTestButtonClicked)="abortMOTCall(MOTAbortedMethod.END_TEST)">
-      {{pageState.candidateName$ | async}}
+      {{ pageState.candidateName$ | async }}
     </test-flow-header>
   </ion-toolbar>
 </ion-header>
@@ -39,7 +39,7 @@
               [formGroup]="form"
               [testCategory]="pageState.category$ | async"
               testType="MOD2"
-              >
+            >
             </bike-category-type>
 
             <transmission
@@ -48,7 +48,7 @@
               [hideConfirmTransmissionLabel]="false"
               [hideTransmissionLabel]="true"
               [transmission]="pageState.transmission$ | async"
-              >
+            >
             </transmission>
 
             @if (pageState.showEyesight$ | async) {
@@ -57,7 +57,7 @@
                 [eyesightFailRadioChecked]="pageState.eyesightTestFailed$ | async"
                 [eyesightPassRadioChecked]="(pageState.eyesightTestComplete$ | async) && !(pageState.eyesightTestFailed$ | async)"
                 [formGroup]="form"
-                >
+              >
               </eyesight-test>
             }
 
@@ -72,7 +72,7 @@
               [hidden]="pageState.eyesightTestFailed$ | async"
               class="ion-no-padding"
               id="post-eyesight-form-content"
-              >
+            >
               <ion-col class="ion-no-padding">
                 <vehicle-registration
                   (alternateEvidenceChange)="getMOTEvidenceProvided($event)"
@@ -90,12 +90,14 @@
                   [vehicleRegistration]="pageState.registrationNumber$ | async"
                   [shouldHideMOTButton]="isRekey"
                   [abortSubject]="abortSubject"
-                  >
+                >
                 </vehicle-registration>
 
                 @if ((pageState.motEvidenceProvided$ | async) === false) {
                   <ion-row>
-                    <mot-no-evidence-confirmation [cancelFn]="motNoEvidenceCancelled" [nextPageOnFail]="getDebriefPage()">
+                    <mot-no-evidence-confirmation
+                      [cancelFn]="motNoEvidenceCancelled"
+                      [nextPageOnFail]="getDebriefPage()">
                     </mot-no-evidence-confirmation>
                   </ion-row>
                 }
@@ -121,7 +123,7 @@
                     [interpreterAccompaniment]="pageState.interpreterAccompaniment$ | async"
                     [otherAccompaniment]="pageState.otherAccompaniment$ | async"
                     [supervisorAccompaniment]="pageState.supervisorAccompaniment$ | async"
-                    >
+                  >
                   </accompaniment-card>
 
                   <vehicle-details-card
@@ -130,7 +132,7 @@
                     [hideSchoolBikeRow]="false"
                     [hideSchoolVehicleAndDualControlRow]="true"
                     [schoolBikeVehicleDetails]="pageState.schoolBike$ | async"
-                    >
+                  >
                   </vehicle-details-card>
                 </div>
               </ion-col>
@@ -143,15 +145,16 @@
 </ion-content>
 
 <ion-footer [class.hidden]="failedMOTModalCurrentlyOpen">
-  <ion-row [hidden]="(pageState.eyesightTestFailed$ | async) || (pageState.motEvidenceProvided$ | async) === false"
-           class="mes-full-width-card box-shadow flex-center">
+  <ion-row
+    [hidden]="(pageState.eyesightTestFailed$ | async) || (pageState.motEvidenceProvided$ | async) === false"
+    class="mes-full-width-card box-shadow flex-center">
     <ion-col class="ion-text-center width-100" size="43">
       <ion-button
         (click)="onViewTestCentreJournal()"
         class="mes-grey-button"
         id="view-test-centre-journal-button"
         shape="round"
-        >
+      >
         <ion-text class="des-header-style-3">View test centre journal</ion-text>
       </ion-button>
     </ion-col>
@@ -162,7 +165,7 @@
         class="mes-primary-button"
         id="continue-to-test-report-button"
         shape="round"
-        >
+      >
         <ion-text class="des-header-style-3">Continue to test report</ion-text>
       </ion-button>
     </ion-col>

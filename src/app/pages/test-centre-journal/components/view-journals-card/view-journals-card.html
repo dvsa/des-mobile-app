@@ -37,8 +37,9 @@
       placeholder="Select examiner"
     >
       @for (examiner of testCentreResults?.examiners; track examiner) {
-        <ion-select-option [value]="examiner.staffNumber"
-                           id="examiner-{{transformStringForID(examiner.name)}}-select-option">
+        <ion-select-option
+          [value]="examiner.staffNumber"
+          id="examiner-{{transformStringForID(examiner.name)}}-select-option">
           {{ examiner.name }}
         </ion-select-option>
       }
