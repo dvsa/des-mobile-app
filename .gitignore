@@ -60,5 +60,3 @@ remotedev-server/
 fastlane/builds
 fastlane/simulator
 fastlane/report.xml
-/ios/App/App.xcworkspace/xcshareddata/WorkspaceSettings.xcsettings
-/ios/App/App.xcodeproj/xcshareddata/xcschemes/App.xcscheme

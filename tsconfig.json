@@ -48,7 +48,6 @@
       "@app/*": [
         "src/app/*"
       ],
-      "events": ["./node_modules/events/events.js"],
       "stream": [
         "node_modules/stream-browserify"
       ],
