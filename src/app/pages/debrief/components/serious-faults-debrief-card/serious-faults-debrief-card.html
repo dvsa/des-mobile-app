@@ -1,26 +1,30 @@
-<ion-card id="serious-fault" *ngIf="seriousFaults?.length > 0">
-  <ion-card-title class="title-padding">
-    <ion-text id="serious-fault-count" class="des-header-style-1 fault-heading">{{seriousFaults.length}}</ion-text>
-    <ion-text addOrRemoveLangCy id="serious-fault-title" class="des-header-style-4 fault-heading"
-      >{{ 'debrief.seriousFaultsCardDescription' | translate }}</ion-text
-    >
-  </ion-card-title>
-  <ion-card-content>
-    <ion-grid>
-      <ion-row *ngFor="let seriousFault of seriousFaults" class="row-padding mes-data ion-align-items-center">
-        <ion-col size="26" class="ion-no-padding"></ion-col>
-        <ion-col size="4" class="display-flex ion-align-items-center ion-no-padding">
-          <div>
-            <serious-fault-badge [showBadge]="true" [competencyDisplayName]="seriousFault"> </serious-fault-badge>
-          </div>
-        </ion-col>
-        <ion-col size="1" class="ion-no-padding"></ion-col>
-        <ion-col class="ion-no-padding">
-          <div addOrRemoveLangCy class="counter-label" id="{{seriousFault}}-serious-text">
-            {{ 'debrief.competencies.' + seriousFault | translate | modifyCompetencyLabel:testCategory:seriousFault }}
-          </div>
-        </ion-col>
-      </ion-row>
-    </ion-grid>
-  </ion-card-content>
-</ion-card>
+@if (seriousFaults?.length > 0) {
+  <ion-card id="serious-fault">
+    <ion-card-title class="title-padding">
+      <ion-text id="serious-fault-count" class="des-header-style-1 fault-heading">{{seriousFaults.length}}</ion-text>
+      <ion-text addOrRemoveLangCy id="serious-fault-title" class="des-header-style-4 fault-heading"
+        >{{ 'debrief.seriousFaultsCardDescription' | translate }}</ion-text
+        >
+      </ion-card-title>
+      <ion-card-content>
+        <ion-grid>
+          @for (seriousFault of seriousFaults; track seriousFault) {
+            <ion-row class="row-padding mes-data ion-align-items-center">
+              <ion-col size="26" class="ion-no-padding"></ion-col>
+              <ion-col size="4" class="display-flex ion-align-items-center ion-no-padding">
+                <div>
+                  <serious-fault-badge [showBadge]="true" [competencyDisplayName]="seriousFault"> </serious-fault-badge>
+                </div>
+              </ion-col>
+              <ion-col size="1" class="ion-no-padding"></ion-col>
+              <ion-col class="ion-no-padding">
+                <div addOrRemoveLangCy class="counter-label" id="{{seriousFault}}-serious-text">
+                  {{ 'debrief.competencies.' + seriousFault | translate | modifyCompetencyLabel:testCategory:seriousFault }}
+                </div>
+              </ion-col>
+            </ion-row>
+          }
+        </ion-grid>
+      </ion-card-content>
+    </ion-card>
+  }

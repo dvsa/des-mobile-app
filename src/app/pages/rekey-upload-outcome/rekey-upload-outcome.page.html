@@ -6,32 +6,42 @@
 
 <ion-content [scrollY]="false" id="rekey-upload-outcome-page">
   <ion-grid>
-    <ion-row class="message-wrapper ion-align-items-center" *ngIf="!(pageState.duplicateUpload$ | async)">
-      <ion-col class="ion-no-padding">
-        <ion-row class="ion-justify-content-center">
-          <ion-icon id="rekey-upload-outcome-test-uploaded-successfully-icon" class="tick-icon"
-                    name="checkmark-circle"></ion-icon>
-        </ion-row>
-        <ion-row class="ion-justify-content-center">
-          <ion-text id="rekey-upload-outcome-test-uploaded-successfully-text"
-                    class="modal-alert-header des-header-style-2">Rekeyed test uploaded successfully
-          </ion-text>
-        </ion-row>
-      </ion-col>
-    </ion-row>
-    <ion-row class="message-wrapper ion-align-items-center" *ngIf="pageState.duplicateUpload$ | async">
-      <ion-col class="ion-no-padding">
-        <ion-row class="ion-justify-content-center">
-          <ion-icon id="rekey-upload-outcome-test-already-uploaded-icon" class="warning-icon"
-                    ios="alert-circle"></ion-icon>
-        </ion-row>
-        <ion-row class="ion-justify-content-center">
-          <ion-text id="rekey-upload-outcome-test-already-uploaded-text" class="modal-alert-header des-header-style-2">
-            Rekeyed test has already been uploaded
-          </ion-text>
-        </ion-row>
-      </ion-col>
-    </ion-row>
+    @if (pageState.duplicateUpload$ | async) {
+      <ion-row class="message-wrapper ion-align-items-center">
+        <ion-col class="ion-no-padding">
+          <ion-row class="ion-justify-content-center">
+            <ion-icon
+              id="rekey-upload-outcome-test-already-uploaded-icon"
+              class="warning-icon"
+              ios="alert-circle"></ion-icon>
+          </ion-row>
+          <ion-row class="ion-justify-content-center">
+            <ion-text
+              id="rekey-upload-outcome-test-already-uploaded-text"
+              class="modal-alert-header des-header-style-2">
+              Rekeyed test has already been uploaded
+            </ion-text>
+          </ion-row>
+        </ion-col>
+      </ion-row>
+    } @else {
+      <ion-row class="message-wrapper ion-align-items-center">
+        <ion-col class="ion-no-padding">
+          <ion-row class="ion-justify-content-center">
+            <ion-icon
+              id="rekey-upload-outcome-test-uploaded-successfully-icon"
+              class="tick-icon"
+              name="checkmark-circle"></ion-icon>
+          </ion-row>
+          <ion-row class="ion-justify-content-center">
+            <ion-text
+              id="rekey-upload-outcome-test-uploaded-successfully-text"
+              class="modal-alert-header des-header-style-2">Rekeyed test uploaded successfully
+            </ion-text>
+          </ion-row>
+        </ion-col>
+      </ion-row>
+    }
   </ion-grid>
 </ion-content>
 

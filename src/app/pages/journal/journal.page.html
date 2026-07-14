@@ -2,7 +2,10 @@
   <ion-toolbar mode="ios">
     <ion-title aria-level="1" role="heading" id="journal-page-title">Journal</ion-title>
     <ion-buttons id="back-button" slot="end" class="mes-padding-right">
-      <ion-back-button text="Close" icon="close-outline" (click)="router.navigate(['DashboardPage'], {replaceUrl: true})" [defaultHref]="'DashboardPage'">
+      <ion-back-button
+        text="Close"
+        icon="close-outline"
+        (click)="router.navigate(['DashboardPage'], {replaceUrl: true})" [defaultHref]="'DashboardPage'">
       </ion-back-button>
     </ion-buttons>
   </ion-toolbar>
@@ -56,7 +59,9 @@
     </journal-slots>
   </ion-list>
 
-  <div *ngIf="!!!(pageState.slots$ | async)?.length" class="no-results ion-text-center">
-    <p>There is no journal data to display for this day</p>
-  </div>
+  @if (!!!(pageState.slots$ | async)?.length) {
+    <div class="no-results ion-text-center">
+      <p>There is no journal data to display for this day</p>
+    </div>
+  }
 </ion-content>

@@ -37,7 +37,7 @@
       'serious-mode': isSeriousMode,
       'dangerous-mode': isDangerousMode
     }"
-  >
+    >
     <ion-row class="first-row-adjust">
       <!-- Column 1-->
       <ion-col size="32">
@@ -46,14 +46,14 @@
             <legal-requirement
               [legalRequirement]="legalRequirements.normalStart1"
               [ticked]="(pageState.testRequirements$ | async)![legalRequirements.normalStart1]"
-            >
+              >
             </legal-requirement>
           </ion-col>
           <ion-col>
             <legal-requirement
               [legalRequirement]="legalRequirements.normalStart2"
               [ticked]="(pageState.testRequirements$ | async)![legalRequirements.normalStart2]"
-            >
+              >
             </legal-requirement>
           </ion-col>
         </ion-row>
@@ -62,14 +62,14 @@
             <legal-requirement
               [legalRequirement]="legalRequirements.angledStart"
               [ticked]="(pageState.testRequirements$ | async)![legalRequirements.angledStart]"
-            >
+              >
             </legal-requirement>
           </ion-col>
           <ion-col>
             <legal-requirement
               [legalRequirement]="legalRequirements.uphillStartDesignatedStart"
               [ticked]="(pageState.testRequirements$ | async)![legalRequirements.uphillStartDesignatedStart]"
-            >
+              >
             </legal-requirement>
           </ion-col>
         </ion-row>
@@ -85,7 +85,7 @@
               [controlLabel]="'Reverse Left'"
               [clickCallback]="getCallback()"
               [testCategory]="pageState.category$ | async"
-            >
+              >
               <reverse-left-popover [testCategory]="pageState.category$ | async"></reverse-left-popover>
             </reverse-left>
           </ion-col>

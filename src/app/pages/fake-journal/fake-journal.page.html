@@ -2,28 +2,30 @@
   <ion-toolbar
     mode="ios"
     class="header-height-76 toolbar-no-padding practice-theme no-internal-padding">
-    <practice-mode-banner class="display-flex flex-direction-column" *ngIf="!displayExitPracticeMode"></practice-mode-banner>
-    <ion-row *ngIf="!displayExitPracticeMode">
-      <ion-col>
-      </ion-col>
-      <ion-col>
-        <ion-title aria-level="1" role="heading" id="fake-journal-page-title">Journal</ion-title>
-      </ion-col>
-      <ion-col class="display-flex ion-no-padding">
-        <ion-buttons class="width-100">
-          <practice-mode-exit-button
-            class="width-30"
-            [pageTitle]="'fake journal page'"
-            (exitPracticeMode)="onEndPracticeModeClicked()">
-          </practice-mode-exit-button>
-        </ion-buttons>
-      </ion-col>
-    </ion-row>
-    <practice-mode-options-bar
-      class="header-height-76"
-      *ngIf="displayExitPracticeMode"
-      (closeExitPracticeMode)="closeExitPracticeMode()">
-    </practice-mode-options-bar>
+    @if (!displayExitPracticeMode) {
+      <practice-mode-banner class="display-flex flex-direction-column"></practice-mode-banner>
+      <ion-row>
+        <ion-col>
+        </ion-col>
+        <ion-col>
+          <ion-title aria-level="1" role="heading" id="fake-journal-page-title">Journal</ion-title>
+        </ion-col>
+        <ion-col class="display-flex ion-no-padding">
+          <ion-buttons class="width-100">
+            <practice-mode-exit-button
+              class="width-30"
+              [pageTitle]="'fake journal page'"
+              (exitPracticeMode)="onEndPracticeModeClicked()">
+            </practice-mode-exit-button>
+          </ion-buttons>
+        </ion-col>
+      </ion-row>
+    } @else {
+      <practice-mode-options-bar
+        class="header-height-76"
+        (closeExitPracticeMode)="closeExitPracticeMode()">
+      </practice-mode-options-bar>
+    }
   </ion-toolbar>
 </ion-header>
 
@@ -34,13 +36,14 @@
 
   <location location="Example Test Centre"></location>
 
-  <test-slot
-    *ngFor="let slot of slots;"
-    [slots]="slots"
-    [slot]="slot"
-    [isPortrait]="orientationMonitorProvider.isPortraitMode$ | async"
-    [isPracticeMode]="true"
-    [hasSlotChanged]="false"
-  >
-  </test-slot>
+  @for (slot of slots; track slot) {
+    <test-slot
+      [slots]="slots"
+      [slot]="slot"
+      [isPortrait]="orientationMonitorProvider.isPortraitMode$ | async"
+      [isPracticeMode]="true"
+      [hasSlotChanged]="false"
+      >
+    </test-slot>
+  }
 </ion-content>

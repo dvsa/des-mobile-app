@@ -75,14 +75,4 @@ export class DataGridComponent implements OnInit {
       .fill(() => null)
       .flatMap(() => this.colourScheme);
   }
-
-  /**
-   * TrackBy function for ngFor to improve performance by tracking items by their index.
-   *
-   * This method returns the index of the item, which Angular uses to track the identity of items in the list.
-   *
-   * @param {number} index - The index of the item in the list.
-   * @returns {number} The index of the item.
-   */
-  trackByIndex = (index: number): number => index;
 }

@@ -1,22 +1,22 @@
-<searchable-picklist-wrapper
-  *ngIf="isLDTM; else isDE;"
-  #testCentrePicklist
-  [dataList]="testCentres"
-  [model]="selectedTestCentre"
-  [differentDisplay]="true"
-  [fieldLabel]="'Test centre'"
-  [primaryKey]="'centreId'"
-  [displayKey]="'centreName'"
-  [fuzzySearchKeys]="['centreName', 'costCode', 'centreId']"
-  [idPrefix]="'tcj-candidate-search-tab'"
-  [minCharactersBeforeListDisplay]="2"
-  [placeholder]="'Select a test centre'"
-  (outputChanged)="onTestCentreDidChange($event)"
->
-</searchable-picklist-wrapper>
-<ng-template #isDE>
+@if (isLDTM) {
+  <searchable-picklist-wrapper
+    #testCentrePicklist
+    [dataList]="testCentres"
+    [model]="selectedTestCentre"
+    [differentDisplay]="true"
+    [fieldLabel]="'Test centre'"
+    [primaryKey]="'centreId'"
+    [displayKey]="'centreName'"
+    [fuzzySearchKeys]="['centreName', 'costCode', 'centreId']"
+    [idPrefix]="'tcj-candidate-search-tab'"
+    [minCharactersBeforeListDisplay]="2"
+    [placeholder]="'Select a test centre'"
+    (outputChanged)="onTestCentreDidChange($event)"
+    >
+  </searchable-picklist-wrapper>
+} @else {
   <test-centre-name [testCentreResults]="testCentreResults"></test-centre-name>
-</ng-template>
+}
 
 <searchable-picklist-wrapper
   #candidatePicklist
@@ -31,7 +31,7 @@
   [placeholder]="'Candidate name'"
   [disabled]="isLDTM ? !!!(selectedTestCentre) : false"
   (outputChanged)="onCandidateDidChange($event)"
->
+  >
 </searchable-picklist-wrapper>
 
 <ion-row class="mes-full-width-card">
@@ -41,69 +41,76 @@
     [disabled]="!enableShowBookingButton"
     (click)="showResults()"
     id="show-booking-button"
-  >
+    >
     <ion-text id="show-booking-button-text" class="des-header-style-3">Show booking</ion-text>
   </ion-button>
 </ion-row>
 
-<section *ngIf="shouldShowCandidateResults">
-  <!--TODAY'S SLOTS-->
-  <div>
-    <ion-grid>
-      <ion-row>
-        <ion-col class="ion-text-center">
-          <h2 class="des-header-style-1">Today</h2>
-          <h3 class="des-header-style-3">{{today?.moment?.toDate() | date: 'EEEE d MMMM y'}}</h3>
-        </ion-col>
-      </ion-row>
-    </ion-grid>
-  </div>
-  <div>
-    <p
-      *ngIf="!todaySlots || todaySlots.length === 0"
-      id="candidate-no-booking-at-test-centre-today-message"
-      class="ion-padding-top ion-text-center no-results"
-    >
-      This candidate does not have a booking at {{slashSeperatedTestCentres}} for today.
-    </p>
-  </div>
-  <ion-list *ngFor="let candidateSlot of todaySlots">
-    <test-slot
-      [isPortrait]="orientationMonitorProvider.isPortraitMode$ | async"
-      [slot]="candidateSlot.slot"
-      [teamJournalCandidateResult]="true"
-      [examinerName]="candidateSlot.examinerName"
-      [isTeamJournal]="true"
-    ></test-slot>
-  </ion-list>
-
-  <!--TOMORROW'S SLOTS-->
-  <div>
-    <ion-grid>
-      <ion-row>
-        <ion-col class="ion-text-center">
-          <h2 class="des-header-style-1">Tomorrow</h2>
-          <h3 class="des-header-style-3">{{tomorrow?.moment?.toDate() | date: 'EEEE d MMMM y'}}</h3>
-        </ion-col>
-      </ion-row>
-    </ion-grid>
-  </div>
-  <div class="no-results">
-    <p
-      *ngIf="!tomorrowSlots || tomorrowSlots.length === 0"
-      id="candidate-no-booking-at-test-centre-tomorrow-message"
-      class="ion-padding-top ion-text-center no-results"
-    >
-      This candidate does not have a booking at {{slashSeperatedTestCentres}} for tomorrow.
-    </p>
-  </div>
-  <ion-list *ngFor="let candidateSlot of tomorrowSlots">
-    <test-slot
-      [isPortrait]="orientationMonitorProvider.isPortraitMode$ | async"
-      [slot]="candidateSlot.slot"
-      [teamJournalCandidateResult]="true"
-      [examinerName]="candidateSlot.examinerName"
-      [isTeamJournal]="true"
-    ></test-slot>
-  </ion-list>
-</section>
+@if (shouldShowCandidateResults) {
+  <section>
+    <!--TODAY'S SLOTS-->
+    <div>
+      <ion-grid>
+        <ion-row>
+          <ion-col class="ion-text-center">
+            <h2 class="des-header-style-1">Today</h2>
+            <h3 class="des-header-style-3">{{today?.moment?.toDate() | date: 'EEEE d MMMM y'}}</h3>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </div>
+    <div>
+      @if (!todaySlots || todaySlots.length === 0) {
+        <p
+          id="candidate-no-booking-at-test-centre-today-message"
+          class="ion-padding-top ion-text-center no-results"
+          >
+          This candidate does not have a booking at {{slashSeperatedTestCentres}} for today.
+        </p>
+      }
+    </div>
+    @for (candidateSlot of todaySlots; track candidateSlot) {
+      <ion-list>
+        <test-slot
+          [isPortrait]="orientationMonitorProvider.isPortraitMode$ | async"
+          [slot]="candidateSlot.slot"
+          [teamJournalCandidateResult]="true"
+          [examinerName]="candidateSlot.examinerName"
+          [isTeamJournal]="true"
+        ></test-slot>
+      </ion-list>
+    }
+    <!--TOMORROW'S SLOTS-->
+    <div>
+      <ion-grid>
+        <ion-row>
+          <ion-col class="ion-text-center">
+            <h2 class="des-header-style-1">Tomorrow</h2>
+            <h3 class="des-header-style-3">{{tomorrow?.moment?.toDate() | date: 'EEEE d MMMM y'}}</h3>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </div>
+    <div class="no-results">
+      @if (!tomorrowSlots || tomorrowSlots.length === 0) {
+        <p
+          id="candidate-no-booking-at-test-centre-tomorrow-message"
+          class="ion-padding-top ion-text-center no-results"
+          >
+          This candidate does not have a booking at {{slashSeperatedTestCentres}} for tomorrow.
+        </p>
+      }
+    </div>
+    @for (candidateSlot of tomorrowSlots; track candidateSlot) {
+      <ion-list>
+        <test-slot
+          [isPortrait]="orientationMonitorProvider.isPortraitMode$ | async"
+          [slot]="candidateSlot.slot"
+          [teamJournalCandidateResult]="true"
+          [examinerName]="candidateSlot.examinerName"
+          [isTeamJournal]="true"
+        ></test-slot>
+      </ion-list>
+    }
+  </section>
+}

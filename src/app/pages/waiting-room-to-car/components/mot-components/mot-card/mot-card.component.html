@@ -1,48 +1,61 @@
-<div class="black-text" id="mot-details-successful" *ngIf="isCallSuccessful()">
-  <ion-row>
-    <ion-col size="33"></ion-col>
-    <ion-col class="mot-icon-padding" size="10">
-      <ion-icon *ngIf="isValidMOT()" class="tick-icon" name="checkmark-sharp"></ion-icon>
-      <ion-icon *ngIf="!isValidMOT()" class="close-icon" name="close-outline"></ion-icon>
-    </ion-col>
-    <ion-col size="50">
-      <ion-row>
-        <ion-col size="35">
-          <ion-text id="mot-status-label" class="bold-font"> MOT Status</ion-text>
-        </ion-col>
-        <ion-col>
-          <ion-text id="mot-status">
-            {{ isValidMOT() ? data?.expiryDate ? 'Valid until ' + data?.expiryDate : 'Valid' : data?.expiryDate ? 'Expired ' + data?.expiryDate : 'Not valid' }}
-          </ion-text>
-        </ion-col>
-      </ion-row>
-      <ion-row>
-        <ion-col size="35">
-          <ion-text id="make-and-model-label" class="bold-font"> Make/Model</ion-text>
-        </ion-col>
-        <ion-col size="50">
-          <ion-text id="make-and-model"> {{ data?.make }} {{ data?.model }}</ion-text>
-        </ion-col>
-      </ion-row>
-    </ion-col>
-  </ion-row>
-  <alternate-mot-evidence
-    *ngIf="!isValidMOT()"
-    (alternateEvidenceChange)="evidenceRadioSelected($event)"
-    [alternateEvidencePassRadioChecked]="alternateEvidenceRadioCheck == true"
-    [alternateEvidenceFailRadioChecked]="alternateEvidenceRadioCheck == false"
-    [formGroup]="formGroup"
-  ></alternate-mot-evidence>
-</div>
-<div class="black-text" id="mot-details-unsuccessful" *ngIf="!isCallSuccessful()">
-  <ion-row>
-    <ion-col size="34"></ion-col>
-    <ion-col size="9">
-      <ion-icon class="circle-icon" name="alert-circle"></ion-icon>
-    </ion-col>
-    <ion-col class="icon-text-align" size="49">
-      <ion-text id="unable-to-determine-mot-status-label" *ngIf="isNoDetails()"> Unable to determine MOT status.</ion-text>
-      <ion-text id="unable-to-connect-mot-label" *ngIf="isSearchFailed()"> Unable to connect. This feature is not available.</ion-text>
-    </ion-col>
-  </ion-row>
-</div>
+@if (isCallSuccessful()) {
+  <div class="black-text" id="mot-details-successful">
+    <ion-row>
+      <ion-col size="33"></ion-col>
+      <ion-col class="mot-icon-padding" size="10">
+        @if (isValidMOT()) {
+          <ion-icon class="tick-icon" name="checkmark-sharp"></ion-icon>
+        }
+        @if (!isValidMOT()) {
+          <ion-icon class="close-icon" name="close-outline"></ion-icon>
+        }
+      </ion-col>
+      <ion-col size="50">
+        <ion-row>
+          <ion-col size="35">
+            <ion-text id="mot-status-label" class="bold-font"> MOT Status</ion-text>
+          </ion-col>
+          <ion-col>
+            <ion-text id="mot-status">
+              {{ isValidMOT() ? data?.expiryDate ? 'Valid until ' + data?.expiryDate : 'Valid' : data?.expiryDate ? 'Expired ' + data?.expiryDate : 'Not valid' }}
+            </ion-text>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col size="35">
+            <ion-text id="make-and-model-label" class="bold-font"> Make/Model</ion-text>
+          </ion-col>
+          <ion-col size="50">
+            <ion-text id="make-and-model"> {{ data?.make }} {{ data?.model }}</ion-text>
+          </ion-col>
+        </ion-row>
+      </ion-col>
+    </ion-row>
+    @if (!isValidMOT()) {
+      <alternate-mot-evidence
+        (alternateEvidenceChange)="evidenceRadioSelected($event)"
+        [alternateEvidencePassRadioChecked]="alternateEvidenceRadioCheck == true"
+        [alternateEvidenceFailRadioChecked]="alternateEvidenceRadioCheck == false"
+        [formGroup]="formGroup"
+      ></alternate-mot-evidence>
+    }
+  </div>
+}
+@if (!isCallSuccessful()) {
+  <div class="black-text" id="mot-details-unsuccessful">
+    <ion-row>
+      <ion-col size="34"></ion-col>
+      <ion-col size="9">
+        <ion-icon class="circle-icon" name="alert-circle"></ion-icon>
+      </ion-col>
+      <ion-col class="icon-text-align" size="49">
+        @if (isNoDetails()) {
+          <ion-text id="unable-to-determine-mot-status-label"> Unable to determine MOT status.</ion-text>
+        }
+        @if (isSearchFailed()) {
+          <ion-text id="unable-to-connect-mot-label"> Unable to connect. This feature is not available.</ion-text>
+        }
+      </ion-col>
+    </ion-row>
+  </div>
+}

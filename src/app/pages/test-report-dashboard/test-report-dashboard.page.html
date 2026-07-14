@@ -46,7 +46,7 @@
     [score]="lessonAndThemeState?.score"
     [maxScore]="2"
     [idSelector]="'lesson-and-theme'"
-  >
+    >
   </dashboard-item>
 
   <dashboard-item
@@ -58,7 +58,7 @@
     [score]="testReportState"
     [maxScore]="17"
     [idSelector]="'test-report'"
-  >
+    >
   </dashboard-item>
 
   <review-feedback [form]="form" [feedback]="pageState.feedback$ | async" (feedbackChange)="feedbackChanged($event)">
