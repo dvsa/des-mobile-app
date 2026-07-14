@@ -27,7 +27,9 @@
 </ion-header>
 
 <ion-content [class.hidden]="failedMOTModalCurrentlyOpen" force-overscroll="false">
-  <offline-banner *ngIf="!isEndToEndPracticeMode" [isOffline]="pageState.isOffline$ | async"></offline-banner>
+  @if (!isEndToEndPracticeMode) {
+    <offline-banner [isOffline]="pageState.isOffline$ | async"></offline-banner>
+  }
   <div>
     <form (ngSubmit)="onSubmit()" [formGroup]="form">
       <ion-grid>
@@ -49,13 +51,15 @@
               [vehicleRegistration]="pageState.registrationNumber$ | async"
               [shouldHideMOTButton]="true"
               [abortSubject]="abortSubject"
-            >
+              >
             </vehicle-registration>
 
-            <ion-row *ngIf="(pageState.motEvidenceProvided$ | async) === false">
-              <mot-no-evidence-confirmation [cancelFn]="motNoEvidenceCancelled" [nextPageOnFail]="getDebriefPage()">
-              </mot-no-evidence-confirmation>
-            </ion-row>
+            @if ((pageState.motEvidenceProvided$ | async) === false) {
+              <ion-row>
+                <mot-no-evidence-confirmation [cancelFn]="motNoEvidenceCancelled" [nextPageOnFail]="getDebriefPage()">
+                </mot-no-evidence-confirmation>
+              </ion-row>
+            }
 
             <div [hidden]="(pageState.motEvidenceProvided$ | async) === false" class="ion-no-padding">
 
@@ -66,7 +70,7 @@
                 [vehicleHeight]="pageState.vehicleHeight$ | async"
                 [vehicleLength]="pageState.vehicleLength$ | async"
                 [vehicleWidth]="pageState.vehicleWidth$ | async"
-              >
+                >
               </dimensions-card>
 
               <accompaniment-card
@@ -79,7 +83,7 @@
                 [interpreterAccompaniment]="pageState.interpreterAccompaniment$ | async"
                 [otherAccompaniment]="pageState.otherAccompaniment$ | async"
                 [supervisorAccompaniment]="pageState.supervisorAccompaniment$ | async"
-              >
+                >
               </accompaniment-card>
             </div>
           </ion-col>
@@ -94,34 +98,40 @@
   </div>
 </ion-content>
 
-<ion-footer
-  [class.hidden]="failedMOTModalCurrentlyOpen"
-  *ngIf="{
+@let data = {
   delegatedTest: isDelegated
-} as data"
->
-  <ion-row [hidden]="(pageState.motEvidenceProvided$ | async) === false"
+};
+@if (data) {
+  <ion-footer
+    [class.hidden]="failedMOTModalCurrentlyOpen"
+    >
+    <ion-row [hidden]="(pageState.motEvidenceProvided$ | async) === false"
            class="mes-full-width-card box-shadow flex-center">
-    <ion-col *ngIf="!data?.delegatedTest" class="ion-text-center" size="43">
-      <ion-button
-        (click)="onViewTestCentreJournal()"
-        class="mes-grey-button wrtc-footer-btn"
-        id="view-test-centre-journal-button"
-        shape="round"
-      >
-        <ion-text class="des-header-style-3">View test centre journal</ion-text>
-      </ion-button>
-    </ion-col>
-    <ion-col *ngIf="!data?.delegatedTest" size="2"></ion-col>
-    <ion-col [size]="data?.delegatedTest ? 60 : 43" class="ion-text-center">
-      <ion-button
-        (click)="onSubmit()"
-        class="mes-primary-button wrtc-footer-btn"
-        id="continue-to-test-report-button"
-        shape="round"
-      >
-        <ion-text class="des-header-style-3">Continue to test report</ion-text>
-      </ion-button>
-    </ion-col>
-  </ion-row>
-</ion-footer>
+      @if (!data?.delegatedTest) {
+        <ion-col class="ion-text-center" size="43">
+          <ion-button
+            (click)="onViewTestCentreJournal()"
+            class="mes-grey-button wrtc-footer-btn"
+            id="view-test-centre-journal-button"
+            shape="round"
+            >
+            <ion-text class="des-header-style-3">View test centre journal</ion-text>
+          </ion-button>
+        </ion-col>
+      }
+      @if (!data?.delegatedTest) {
+        <ion-col size="2"></ion-col>
+      }
+      <ion-col [size]="data?.delegatedTest ? '60' : '43'" class="ion-text-center">
+        <ion-button
+          (click)="onSubmit()"
+          class="mes-primary-button wrtc-footer-btn"
+          id="continue-to-test-report-button"
+          shape="round"
+          >
+          <ion-text class="des-header-style-3">Continue to test report</ion-text>
+        </ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-footer>
+}

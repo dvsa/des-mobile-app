@@ -5,49 +5,56 @@
 </ion-header>
 
 <ion-content [scrollY]="false" id="dlg-rekey-upload-outcome-page">
-  <ion-grid *ngIf="pageState.isUploading$ | async">
-    <ion-row class="message-wrapper ion-align-items-center">
-      <ion-col class="ion-no-padding">
-        <ion-row class="ion-justify-content-center">
-          <ion-spinner class="delegated-spinner" id="delegated-spinner" name="bubbles"> </ion-spinner>
-        </ion-row>
-      </ion-col>
-    </ion-row>
-  </ion-grid>
+  @if (pageState.isUploading$ | async) {
+    <ion-grid>
+      <ion-row class="message-wrapper ion-align-items-center">
+        <ion-col class="ion-no-padding">
+          <ion-row class="ion-justify-content-center">
+            <ion-spinner class="delegated-spinner" id="delegated-spinner" name="bubbles"> </ion-spinner>
+          </ion-row>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  }
 
-  <ion-grid *ngIf="!(pageState.isUploading$ | async)">
-    <ion-row class="message-wrapper ion-align-items-center" *ngIf="isStatusSubmitted(pageState.testStatus$ | async)">
-      <ion-col class="ion-no-padding">
-        <ion-row class="ion-justify-content-center">
-          <ion-icon class="tick-icon" name="checkmark-circle"></ion-icon>
+  @if (!(pageState.isUploading$ | async)) {
+    <ion-grid>
+      @if (isStatusSubmitted(pageState.testStatus$ | async)) {
+        <ion-row class="message-wrapper ion-align-items-center">
+          <ion-col class="ion-no-padding">
+            <ion-row class="ion-justify-content-center">
+              <ion-icon class="tick-icon" name="checkmark-circle"></ion-icon>
+            </ion-row>
+            <ion-row class="ion-justify-content-center">
+              <ion-text class="modal-alert-header des-header-style-2" id="dlg-rekey-upload-successful-label">
+                Rekey upload was successful
+              </ion-text>
+            </ion-row>
+          </ion-col>
         </ion-row>
-        <ion-row class="ion-justify-content-center">
-          <ion-text class="modal-alert-header des-header-style-2" id="dlg-rekey-upload-successful-label">
-            Rekey upload was successful
-          </ion-text>
+      }
+      @if (!isStatusSubmitted(pageState.testStatus$ | async)) {
+        <ion-row class="message-wrapper ion-align-items-center">
+          <ion-col class="ion-no-padding">
+            <ion-row class="ion-justify-content-center">
+              <ion-icon class="warning-icon" ios="alert-circle"></ion-icon>
+            </ion-row>
+            <ion-row class="ion-justify-content-center">
+              <ion-text class="modal-alert-header des-header-style-2" id="dlg-rekey-upload-unsuccessful-label">
+                Rekey upload was unsuccessful
+              </ion-text>
+            </ion-row>
+            <br />
+            <ion-row class="ion-justify-content-center">
+              <ion-button id="dlg-retry-upload-btn" class="mes-grey-button retry-button" (click)="retryUpload()">
+                <ion-text id="dlg-retry-upload-label" class="des-header-style-3">Retry upload</ion-text>
+              </ion-button>
+            </ion-row>
+          </ion-col>
         </ion-row>
-      </ion-col>
-    </ion-row>
-
-    <ion-row class="message-wrapper ion-align-items-center" *ngIf="!isStatusSubmitted(pageState.testStatus$ | async)">
-      <ion-col class="ion-no-padding">
-        <ion-row class="ion-justify-content-center">
-          <ion-icon class="warning-icon" ios="alert-circle"></ion-icon>
-        </ion-row>
-        <ion-row class="ion-justify-content-center">
-          <ion-text class="modal-alert-header des-header-style-2" id="dlg-rekey-upload-unsuccessful-label">
-            Rekey upload was unsuccessful
-          </ion-text>
-        </ion-row>
-        <br />
-        <ion-row class="ion-justify-content-center">
-          <ion-button id="dlg-retry-upload-btn" class="mes-grey-button retry-button" (click)="retryUpload()">
-            <ion-text id="dlg-retry-upload-label" class="des-header-style-3">Retry upload</ion-text>
-          </ion-button>
-        </ion-row>
-      </ion-col>
-    </ion-row>
-  </ion-grid>
+      }
+    </ion-grid>
+  }
 </ion-content>
 
 <ion-footer>
@@ -58,7 +65,7 @@
         class="mes-grey-button"
         (click)="goToDashboard()"
         [disabled]="pageState.isUploading$ | async"
-      >
+        >
         <ion-text id="dlg-return-to-dashboard-label" class="des-header-style-3">Return to dashboard</ion-text>
       </ion-button>
     </ion-col>
@@ -69,7 +76,7 @@
         class="mes-primary-button"
         (click)="goToDelegatedSearch()"
         [disabled]="pageState.isUploading$ | async"
-      >
+        >
         <ion-text id="dlg-rekey-another-label" class="des-header-style-3">Rekey another test</ion-text>
       </ion-button>
     </ion-col>

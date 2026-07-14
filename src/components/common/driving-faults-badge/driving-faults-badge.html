@@ -1,8 +1,15 @@
 <div>
-  <div class="counter-background" *ngIf="shouldDisplay()">
-    <span aria-labelledby="drf-desc" aria-hidden="true" class="count" id="{{competencyDisplayName}}-count"
-      >{{count}}</span
-    >
-    <div id="drf-desc" class="screen-reader-only">{{count}} {{badgeLabel}} {{count > 1 ? 'faults' : 'fault'}}</div>
-  </div>
+  @if (shouldDisplay()) {
+    <div class="counter-background">
+      <span
+        [attr.aria-labelledby]="`drf-desc-${competencyDisplayName}`"
+        aria-hidden="true"
+        class="count"
+        id="{{competencyDisplayName}}-count">{{ count }}</span>
+      <div
+        id="drf-desc-{{competencyDisplayName}}"
+        class="screen-reader-only">{{ count }} {{ badgeLabel }} {{ count > 1 ? 'faults' : 'fault' }}
+      </div>
+    </div>
+  }
 </div>

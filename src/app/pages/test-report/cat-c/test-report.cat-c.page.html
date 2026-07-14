@@ -43,7 +43,7 @@
       'serious-mode': isSeriousMode(),
       'dangerous-mode': isDangerousMode()
     }"
-  >
+    >
     <ion-row class="first-row-adjust">
       <!-- Column 1-->
       <ion-col size="32">
@@ -58,7 +58,7 @@
               [legalRequirement]="legalRequirements.normalStart1"
               [ticked]="(testRequirements())![legalRequirements.normalStart1]"
               [disabled]="isDelegated"
-            >
+              >
             </legal-requirement>
           </ion-col>
           <ion-col>
@@ -66,7 +66,7 @@
               [legalRequirement]="legalRequirements.normalStart2"
               [ticked]="(testRequirements())![legalRequirements.normalStart2]"
               [disabled]="isDelegated"
-            >
+              >
             </legal-requirement>
           </ion-col>
         </ion-row>
@@ -76,7 +76,7 @@
               [legalRequirement]="legalRequirements.uphillStart"
               [ticked]="(testRequirements())![legalRequirements.uphillStart]"
               [disabled]="isDelegated"
-            >
+              >
             </legal-requirement>
           </ion-col>
           <ion-col size="28">
@@ -84,14 +84,14 @@
               [legalRequirement]="legalRequirements.downhillStart"
               [ticked]="(testRequirements())![legalRequirements.downhillStart]"
               [disabled]="isDelegated"
-            >
+              >
             </legal-requirement>
           </ion-col>
           <ion-col size="40">
             <legal-requirement
               [legalRequirement]="legalRequirements.angledStartControlledStop"
               [ticked]="(testRequirements())![legalRequirements.angledStartControlledStop]"
-            >
+              >
             </legal-requirement>
           </ion-col>
         </ion-row>
@@ -100,24 +100,26 @@
             <div class="dark-divider"></div>
           </ion-col>
         </ion-row>
-        <ion-row *ngIf="isDelegated">
-          <ion-col>
-            <reverse-left
-              [completed]="manoeuvresCompleted()"
-              [controlLabel]="'Reverse Left'"
-              [clickCallback]="getCallback()"
-              [testCategory]="category"
-            >
-              <reverse-left-popover [testCategory]="category" [disableDrivingFaults]="true">
-              </reverse-left-popover>
-            </reverse-left>
-          </ion-col>
-        </ion-row>
-        <ion-row *ngIf="isDelegated">
-          <ion-col class="ion-no-padding">
-            <div class="dark-divider"></div>
-          </ion-col>
-        </ion-row>
+        @if (isDelegated) {
+          <ion-row>
+            <ion-col>
+              <reverse-left
+                [completed]="manoeuvresCompleted()"
+                [controlLabel]="'Reverse Left'"
+                [clickCallback]="getCallback()"
+                [testCategory]="category"
+                >
+                <reverse-left-popover [testCategory]="category" [disableDrivingFaults]="true">
+                </reverse-left-popover>
+              </reverse-left>
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col class="ion-no-padding">
+              <div class="dark-divider"></div>
+            </ion-col>
+          </ion-row>
+        }
         <ion-row>
           <ion-col>
             <eco></eco>
@@ -149,11 +151,13 @@
             </uncouple-recouple>
           </ion-col>
         </ion-row>
-        <ion-row *ngIf="showUncoupleRecouple()">
-          <ion-col class="ion-no-padding">
-            <div class="dark-divider"></div>
-          </ion-col>
-        </ion-row>
+        @if (showUncoupleRecouple()) {
+          <ion-row>
+            <ion-col class="ion-no-padding">
+              <div class="dark-divider"></div>
+            </ion-col>
+          </ion-row>
+        }
         <ion-row>
           <ion-col>
             <eta [eta]="eta.verbal"></eta>

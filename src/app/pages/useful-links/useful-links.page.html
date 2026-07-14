@@ -15,7 +15,8 @@
 
 <ion-content class="ion-padding">
 
-  <ion-list *ngFor="let link of usefulLinks; let i = index">
+  @for (link of usefulLinks; track link; let i = $index) {
+    <ion-list>
       <ion-card>
         <ion-card-content>
           <ion-row (click)="openLinkProvider.openLinkModal(link)">
@@ -32,5 +33,6 @@
           </ion-row>
         </ion-card-content>
       </ion-card>
-  </ion-list>
+    </ion-list>
+  }
 </ion-content>

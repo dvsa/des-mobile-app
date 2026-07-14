@@ -29,57 +29,63 @@
 <ion-content class="ion-no-padding">
   <module-assessment [combinationCode]="combinationCode()"></module-assessment>
 
-  <div *ngIf="!isDelegated">
-    <question-card
-      *ngIf="pageNumber === 1"
-      (answerPayload)="populateAnswer($event)"
-      [question]="question1()"
-      [questionNumber]="pageNumber"
-    >
-    </question-card>
+  @if (!isDelegated) {
+    <div>
+      @if (pageNumber === 1) {
+        <question-card
+          (answerPayload)="populateAnswer($event)"
+          [question]="question1()"
+          [questionNumber]="pageNumber"
+          >
+        </question-card>
+      }
+      @if (pageNumber === 2) {
+        <question-card
+          (answerPayload)="populateAnswer($event)"
+          [question]="question2()"
+          [questionNumber]="pageNumber"
+          >
+        </question-card>
+      }
+      @if (pageNumber === 3) {
+        <question-card
+          (answerPayload)="populateAnswer($event)"
+          [question]="question3()"
+          [questionNumber]="pageNumber"
+          >
+        </question-card>
+      }
+      @if (pageNumber === 4) {
+        <question-card
+          (answerPayload)="populateAnswer($event)"
+          [question]="question4()"
+          [questionNumber]="pageNumber"
+          >
+        </question-card>
+      }
+      @if (pageNumber === 5) {
+        <question-five-card
+          (answerPayload)="populateAnswer($event)"
+          [question]="question5()"
+          >
+        </question-five-card>
+      }
+    </div>
+  }
 
-    <question-card
-      *ngIf="pageNumber === 2"
-      (answerPayload)="populateAnswer($event)"
-      [question]="question2()"
-      [questionNumber]="pageNumber"
-    >
-    </question-card>
-
-    <question-card
-      *ngIf="pageNumber === 3"
-      (answerPayload)="populateAnswer($event)"
-      [question]="question3()"
-      [questionNumber]="pageNumber"
-    >
-    </question-card>
-
-    <question-card
-      *ngIf="pageNumber === 4"
-      (answerPayload)="populateAnswer($event)"
-      [question]="question4()"
-      [questionNumber]="pageNumber"
-    >
-    </question-card>
-
-    <question-five-card
-      *ngIf="pageNumber === 5"
-      (answerPayload)="populateAnswer($event)"
-      [question]="question5()"
-    >
-    </question-five-card>
-  </div>
-
-  <div *ngIf="isDelegated">
-    <question-del-ex-radio-card
-      *ngFor="let questionNum of [0,1,2,3,4]"
-      [formGroup]="form"
-      (questionScore)="populateScore($event)"
-      [question]="questions()[questionNum]"
-      [questionNumber]="questionNum"
-    >
-    </question-del-ex-radio-card>
-  </div>
+  @if (isDelegated) {
+    <div>
+      @for (questionNum of [0,1,2,3,4]; track questionNum) {
+        <question-del-ex-radio-card
+          [formGroup]="form"
+          (questionScore)="populateScore($event)"
+          [question]="questions()[questionNum]"
+          [questionNumber]="questionNum"
+          >
+        </question-del-ex-radio-card>
+      }
+    </div>
+  }
 </ion-content>
 
 <question-footer
@@ -88,5 +94,5 @@
   (testSummaryRequested)="onEndTestClick()"
   [isDelegated]="isDelegated"
   [formGroup]="form"
->
+  >
 </question-footer>

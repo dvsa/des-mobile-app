@@ -1,6 +1,12 @@
 <div>
-  <div class="background" *ngIf="showBadge">
-    <span aria-labelledby="sf-desc" aria-hidden="true" class="label" id="{{competencyDisplayName}}-S">S</span>
-    <div id="sf-desc" class="screen-reader-only">Serious Fault</div>
-  </div>
+  @if (showBadge) {
+    <div class="background">
+      <span
+        [attr.aria-labelledby]="`sf-desc-${competencyDisplayName}`"
+        aria-hidden="true"
+        class="label"
+        id="{{competencyDisplayName}}-S">S</span>
+      <div id="sf-desc-{{competencyDisplayName}}" class="screen-reader-only">Serious Fault</div>
+    </div>
+  }
 </div>

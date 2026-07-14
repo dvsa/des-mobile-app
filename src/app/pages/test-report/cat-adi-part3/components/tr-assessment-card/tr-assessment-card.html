@@ -20,7 +20,7 @@
         [question]="sectionData?.q1?.title"
         [answer]="sectionData?.q1?.score"
         (answerChanged)="trAssessmentAnswerChange(1, $event)"
-      >
+        >
       </tr-assessment-answer>
 
       <tr-assessment-answer
@@ -30,7 +30,7 @@
         [question]="sectionData?.q2?.title"
         [answer]="sectionData?.q2?.score"
         (answerChanged)="trAssessmentAnswerChange(2, $event)"
-      >
+        >
       </tr-assessment-answer>
 
       <tr-assessment-answer
@@ -40,7 +40,7 @@
         [question]="sectionData?.q3?.title"
         [answer]="sectionData?.q3?.score"
         (answerChanged)="trAssessmentAnswerChange(3, $event)"
-      >
+        >
       </tr-assessment-answer>
 
       <tr-assessment-answer
@@ -50,52 +50,56 @@
         [question]="sectionData?.q4?.title"
         [answer]="sectionData?.q4?.score"
         (answerChanged)="trAssessmentAnswerChange(4, $event)"
-      >
+        >
       </tr-assessment-answer>
 
-      <tr-assessment-answer
-        *ngIf="sectionData['q5']"
-        [showMissing]="showMissing"
-        [questionNumber]="5"
-        [card]="assessmentCard"
-        [question]="sectionData['q5'].title"
-        [answer]="sectionData['q5'].score"
-        (answerChanged)="trAssessmentAnswerChange(5, $event)"
-      >
-      </tr-assessment-answer>
+      @if (sectionData['q5']) {
+        <tr-assessment-answer
+          [showMissing]="showMissing"
+          [questionNumber]="5"
+          [card]="assessmentCard"
+          [question]="sectionData['q5'].title"
+          [answer]="sectionData['q5'].score"
+          (answerChanged)="trAssessmentAnswerChange(5, $event)"
+          >
+        </tr-assessment-answer>
+      }
 
-      <tr-assessment-answer
-        *ngIf="sectionData['q6']"
-        [showMissing]="showMissing"
-        [questionNumber]="6"
-        [card]="assessmentCard"
-        [question]="sectionData['q6'].title"
-        [answer]="sectionData['q6'].score"
-        (answerChanged)="trAssessmentAnswerChange(6, $event)"
-      >
-      </tr-assessment-answer>
+      @if (sectionData['q6']) {
+        <tr-assessment-answer
+          [showMissing]="showMissing"
+          [questionNumber]="6"
+          [card]="assessmentCard"
+          [question]="sectionData['q6'].title"
+          [answer]="sectionData['q6'].score"
+          (answerChanged)="trAssessmentAnswerChange(6, $event)"
+          >
+        </tr-assessment-answer>
+      }
 
-      <tr-assessment-answer
-        *ngIf="sectionData['q7']"
-        [showMissing]="showMissing"
-        [questionNumber]="7"
-        [card]="assessmentCard"
-        [question]="sectionData['q7'].title"
-        [answer]="sectionData['q7'].score"
-        (answerChanged)="trAssessmentAnswerChange(7, $event)"
-      >
-      </tr-assessment-answer>
+      @if (sectionData['q7']) {
+        <tr-assessment-answer
+          [showMissing]="showMissing"
+          [questionNumber]="7"
+          [card]="assessmentCard"
+          [question]="sectionData['q7'].title"
+          [answer]="sectionData['q7'].score"
+          (answerChanged)="trAssessmentAnswerChange(7, $event)"
+          >
+        </tr-assessment-answer>
+      }
 
-      <tr-assessment-answer
-        *ngIf="sectionData['q8']"
-        [showMissing]="showMissing"
-        [questionNumber]="8"
-        [card]="assessmentCard"
-        [question]="sectionData['q8'].title"
-        [answer]="sectionData['q8'].score"
-        (answerChanged)="trAssessmentAnswerChange(8, $event)"
-      >
-      </tr-assessment-answer>
+      @if (sectionData['q8']) {
+        <tr-assessment-answer
+          [showMissing]="showMissing"
+          [questionNumber]="8"
+          [card]="assessmentCard"
+          [question]="sectionData['q8'].title"
+          [answer]="sectionData['q8'].score"
+          (answerChanged)="trAssessmentAnswerChange(8, $event)"
+          >
+        </tr-assessment-answer>
+      }
     </ion-grid>
   </ion-card-content>
 </ion-card>

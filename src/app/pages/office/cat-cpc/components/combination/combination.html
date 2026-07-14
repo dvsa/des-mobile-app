@@ -9,7 +9,9 @@
       <ion-col class="ion-align-self-center">
         <label id="combination-label"
           >{{getCombinationText(combination)}}
-          <label *ngIf="combinationAdditionalText">- {{combinationAdditionalText}}</label>
+          @if (combinationAdditionalText) {
+            <label>- {{combinationAdditionalText}}</label>
+          }
         </label>
       </ion-col>
     </ion-row>

@@ -1,24 +1,36 @@
-<ion-card id="ETA" *ngIf="hasPhysicalEta || hasVerbalEta">
-  <ion-card-content>
-    <ion-grid>
-      <ion-row>
-        <ion-col size="32">
-          <ion-text id="eta-text" addOrRemoveLangCy class="des-header-style-4">
+@if (hasPhysicalEta || hasVerbalEta) {
+  <ion-card id="ETA">
+    <ion-card-content>
+      <ion-grid>
+        <ion-row>
+          <ion-col size="32">
+            <ion-text id="eta-text" addOrRemoveLangCy class="des-header-style-4">
             {{ 'debrief.etaHeader' | translate }}
-          </ion-text>
-        </ion-col>
-        <ion-col class="ion-align-self-start">
-          <ion-text addOrRemoveLangCy id="etaFaultsPhysical" class="mes-data down-padding" *ngIf="hasPhysicalEta && !hasVerbalEta">
-            {{ 'debrief.etaPhysical' | translate }}
-          </ion-text>
-          <ion-text addOrRemoveLangCy id="etaFaultsVerbal" class="mes-data down-padding" *ngIf="!hasPhysicalEta && hasVerbalEta">
-            {{ 'debrief.etaVerbal' | translate }}
-          </ion-text>
-          <ion-text addOrRemoveLangCy id="etaFaultsBoth" class="mes-data down-padding" *ngIf="hasPhysicalEta && hasVerbalEta">
-            {{ 'debrief.etaBoth' | translate }}
-          </ion-text>
-        </ion-col>
-      </ion-row>
-    </ion-grid>
-  </ion-card-content>
-</ion-card>
+            </ion-text
+            >
+          </ion-col>
+          <ion-col class="down-padding ion-align-self-start">
+            @if (hasPhysicalEta && !hasVerbalEta) {
+              <ion-text addOrRemoveLangCy class="mes-data down-padding" id="etaFaultsPhysical">
+              {{ 'debrief.etaPhysical' | translate }}
+              </ion-text>
+            }
+            @if (!hasPhysicalEta && hasVerbalEta) {
+              <ion-text addOrRemoveLangCy class="mes-data down-padding" id="etaFaultsVerbal">
+              {{ 'debrief.etaVerbal' | translate }}
+              </ion-text>
+            }
+            @if (hasPhysicalEta && hasVerbalEta) {
+              <ion-text
+                addOrRemoveLangCy
+                id="etaFaultsBoth"
+                class="mes-data down-padding">
+              {{ 'debrief.etaBoth' | translate }}
+              </ion-text>
+            }
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-card-content>
+  </ion-card>
+}

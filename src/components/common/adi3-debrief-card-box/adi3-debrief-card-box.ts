@@ -1,5 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { LessonPlanning, RiskManagement, TeachingLearningStrategies } from '@dvsa/mes-test-schema/categories/ADI3';
+import { get } from 'lodash-es';
 
 @Component({
   selector: 'adi3-debrief-card-box',
@@ -16,4 +17,5 @@ export class Adi3DebriefCardBox {
 
   @Input()
   idSelector: string;
+  protected readonly get = get;
 }

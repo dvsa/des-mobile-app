@@ -1,44 +1,49 @@
-<span *ngFor="let slot of slots; index as i; trackBy: trackBySlotID;">
-  <span [ngSwitch]="slotType(slot)">
-    <personal-commitment
-      *ngSwitchCase="'personal'"
-      [hasSlotChanged]="slot?.hasSlotChanged"
-      [personalCommitments]="slot?.personalCommitment"
-      [showLocation]="showLocation(slot, slots[i - 1])"
-      [slot]="slot?.slotData"
-    >
-    </personal-commitment>
-
-    <activity-slot
-      *ngSwitchCase="'activity'"
-      [hasSlotChanged]="slot?.hasSlotChanged"
-      [showLocation]="showLocation(slot, slots[i - 1])"
-      [slot]="slot?.slotData"
-    >
-    </activity-slot>
-
-    <empty-slot
-      *ngSwitchCase="'empty'"
-      [hasSlotChanged]="slot.hasSlotChanged"
-      [isPortrait]="isPortrait"
-      [showLocation]="showLocation(slot, slots[i - 1])"
-      [slot]="slot.slotData"
-    >
-    </empty-slot>
-
-    <test-slot
-      *ngSwitchCase="'test-slot'"
-      [delegatedTest]="false"
-      [completedTestRecord]="findCompletedTest(slot.slotData)"
-      [hasSeenCandidateDetails]="slot?.hasSeenCandidateDetails"
-      [hasSlotChanged]="slot?.hasSlotChanged"
-      [isPortrait]="isPortrait"
-      [isTeamJournal]="isTeamJournal"
-      [showLocation]="showLocation(slot, slots[i - 1])"
-      [slot]="slot?.slotData"
-      [slots]="getSlots()"
-      [teamJournalCandidateResult]="false"
-    >
-    </test-slot>
+@for (slot of slots; track trackBySlotID($index, slot); let i = $index) {
+  <span>
+    <span>
+      @switch (slotType(slot)) {
+        @case ('personal') {
+          <personal-commitment
+            [hasSlotChanged]="slot?.hasSlotChanged"
+            [personalCommitments]="slot?.personalCommitment"
+            [showLocation]="showLocation(slot, slots[i - 1])"
+            [slot]="slot?.slotData"
+            >
+          </personal-commitment>
+        }
+        @case ('activity') {
+          <activity-slot
+            [hasSlotChanged]="slot?.hasSlotChanged"
+            [showLocation]="showLocation(slot, slots[i - 1])"
+            [slot]="slot?.slotData"
+            >
+          </activity-slot>
+        }
+        @case ('empty') {
+          <empty-slot
+            [hasSlotChanged]="slot.hasSlotChanged"
+            [isPortrait]="isPortrait"
+            [showLocation]="showLocation(slot, slots[i - 1])"
+            [slot]="slot.slotData"
+            >
+          </empty-slot>
+        }
+        @case ('test-slot') {
+          <test-slot
+            [delegatedTest]="false"
+            [completedTestRecord]="findCompletedTest(slot.slotData)"
+            [hasSeenCandidateDetails]="slot?.hasSeenCandidateDetails"
+            [hasSlotChanged]="slot?.hasSlotChanged"
+            [isPortrait]="isPortrait"
+            [isTeamJournal]="isTeamJournal"
+            [showLocation]="showLocation(slot, slots[i - 1])"
+            [slot]="slot?.slotData"
+            [slots]="getSlots()"
+            [teamJournalCandidateResult]="false"
+            >
+          </test-slot>
+        }
+      }
+    </span>
   </span>
-</span>
+}

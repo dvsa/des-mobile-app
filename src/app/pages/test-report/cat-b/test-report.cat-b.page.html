@@ -43,7 +43,7 @@
       'serious-mode': isSeriousMode(),
       'dangerous-mode': isDangerousMode()
     }"
-  >
+    >
     <ion-row class="first-row-adjust">
       <!-- Column 1-->
       <ion-col size="32">
@@ -58,7 +58,7 @@
               [legalRequirement]="legalRequirements.normalStart1"
               [isFullWidthButton]=true
               [ticked]="(testRequirements())![legalRequirements.normalStart1]"
-            >
+              >
             </legal-requirement>
           </ion-col>
         </ion-row>
@@ -67,14 +67,14 @@
             <legal-requirement
               [legalRequirement]="legalRequirements.angledStart"
               [ticked]="(testRequirements())![legalRequirements.angledStart]"
-            >
+              >
             </legal-requirement>
           </ion-col>
           <ion-col>
             <legal-requirement
               [legalRequirement]="legalRequirements.hillStart"
               [ticked]="(testRequirements())![legalRequirements.hillStart]"
-            >
+              >
             </legal-requirement>
           </ion-col>
         </ion-row>

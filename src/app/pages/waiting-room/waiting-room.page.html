@@ -34,23 +34,26 @@
       [candidateDriverNumber]="candidateDriverNumber"
       [candidateName]="candidateName"
       [showVRNButton]="showVrnButton"
-    >
+      >
     </candidate-section>
 
-    <manoeuvres-pass-cert
-      *ngIf="showManoeuvresPassCertNumber"
-      (manoeuvresPassCertificateNumberChange)="manoeuvresPassCertNumberChanged($event)"
-      [formGroup]="formGroup"
-      [manoeuvresPassCertificateNumber]="manoeuvresPassCertNumber()">
-    </manoeuvres-pass-cert>
+    @if (pageState.showManoeuvresPassCertNumber$ | async) {
+      <manoeuvres-pass-cert
+        *ngIf="showManoeuvresPassCertNumber"(manoeuvresPassCertificateNumberChange)="manoeuvresPassCertNumberChanged($event)"
+        [formGroup]="formGroup"
+        [manoeuvresPassCertificateNumber]="manoeuvresPassCertNumber()"
+        >
+      </manoeuvres-pass-cert>
+    }
 
-    <cbt-number
-      *ngIf="showCbtNumber"
-      (cbtNumberChange)="cbtNumberChanged($event)"
-      [cbtNumber]="cbtNumber()"
-      [formGroup]="formGroup"
-    >
-    </cbt-number>
+    @if (pageState.showCbtNumber$ | async) {
+      <cbt-number
+        *ngIf="showCbtNumber"(cbtNumberChange)="cbtNumberChanged($event)"
+        [cbtNumber]="cbtNumber()"
+        [formGroup]="formGroup"
+        >
+      </cbt-number>
+    }
 
     <div class="mes-full-width-card-separator"></div>
 
@@ -60,13 +63,14 @@
       [englishIsSelected]="conductedLanguage() === 'English'"
       [shouldRender]="welshTest()"
       [welshIsSelected]="conductedLanguage() === 'Cymraeg'"
-    >
+      >
     </conducted-language>
 
     <div [ngClass]="{
             'mes-full-width-card-no-padding-top': (showManoeuvresPassCertNumber || showCbtNumber),
             'mes-full-width-card': (!showManoeuvresPassCertNumber && !showCbtNumber)
-        }" id="declaration-section">
+        }"id="declaration-section"
+      >
       <ion-row>
         <ion-col>
           <ion-text addOrRemoveLangCy class="des-header-style-4" id="waiting-room-declaration-intent"
@@ -79,29 +83,35 @@
         <insurance-declaration
           (insuranceDeclarationChange)="insuranceDeclarationChanged($event)"
           [formGroup]="formGroup"
-          [selected]="insuranceDeclarationAccepted()">
+          [selected]="insuranceDeclarationAccepted()"
+          >
         </insurance-declaration>
 
         <br>
-        <div class="mes-row-separator"></div>
-        <br>
+          <div class="mes-row-separator"></div>
+          <br>
 
-        <residency-declaration
-          *ngIf="showResidencyDec"
-          (residencyDeclarationChange)="residencyDeclarationChanged($event)"
-          [formGroup]="formGroup"
-          [selected]="residencyDeclarationAccepted()">
-        </residency-declaration>
-      </div>
+            @if (showResidencyDec) {
+              <residency-declaration
+                (residencyDeclarationChange)="residencyDeclarationChanged($event)"
+                [formGroup]="formGroup"
+                [selected]="residencyDeclarationAccepted()"
+                >
+              </residency-declaration>
+            }
+          </div>
 
-      <div *ngIf="!showResidencyDec" class="signature-area-padding"></div>
+          @if (!(showResidencyDec)) {
+            <div class="signature-area-padding"></div>
+          }
 
-      <signature
-        (signatureCleared)="signatureCleared()"
-        (signatureDataChange)="signatureChanged($event)"
-        [formGroup]="formGroup"
-        [signature]="signature()">
-      </signature>
-    </div>
-  </form>
-</ion-content>
+          <signature
+            (signatureCleared)="signatureCleared()"
+            (signatureDataChange)="signatureChanged($event)"
+            [formGroup]="formGroup"
+            [signature]="signature()"
+            >
+          </signature>
+        </div>
+      </form>
+    </ion-content>

@@ -8,7 +8,7 @@
       [ngClass]="{
                           'checked': completedReverseLeft
                        }"
-    >
+      >
       <span id="legal-requirements-tick-reverse" class="tickwrapper">
         <tick-indicator [ticked]="completedReverseLeft"></tick-indicator>
       </span>
@@ -23,7 +23,7 @@
         'serious-fault': hasSeriousFault,
         'dangerous-fault': hasDangerousFault
       }"
-    >
+      >
       <driving-faults-badge class="driving-faults" [count]="drivingFaults"></driving-faults-badge>
 
       <div class="label-wrapper">
@@ -39,12 +39,14 @@
   </ion-col>
 </ion-row>
 
-<div class="reverse-left-popover" *ngIf="displayPopover">
-  <ion-grid>
-    <ion-row>
-      <ion-col>
-        <ng-content></ng-content>
-      </ion-col>
-    </ion-row>
-  </ion-grid>
-</div>
+@if (displayPopover) {
+  <div class="reverse-left-popover">
+    <ion-grid>
+      <ion-row>
+        <ion-col>
+          <ng-content></ng-content>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </div>
+}

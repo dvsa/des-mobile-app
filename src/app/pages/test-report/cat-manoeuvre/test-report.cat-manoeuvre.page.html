@@ -42,7 +42,7 @@
       'serious-mode': isSeriousMode(),
       'dangerous-mode': isDangerousMode()
     }"
-  >
+    >
     <ion-row class="first-row-adjust">
       <!-- Column 1-->
       <ion-col size="44">
@@ -61,7 +61,7 @@
                 [ngClass]="{
                  'checked': selectedReverseManoeuvre()
                   }"
-              >
+                >
                 <span class="tickwrapper">
                   <tick-indicator [ticked]="selectedReverseManoeuvre()"> </tick-indicator>
                 </span>
@@ -76,40 +76,42 @@
               [manoeuvre]="manoeuvreTypes.reverseManoeuvre"
               [competency]="manoeuvreCompetencies.controlFault"
               (competencyClicked)="competencyClick()"
-            >
+              >
             </reverse-manoeuvres>
             <reverse-manoeuvres
               [attr.id]="getId(manoeuvreTypes.reverseManoeuvre, manoeuvreCompetencies.observationFault)"
               [manoeuvre]="manoeuvreTypes.reverseManoeuvre"
               [competency]="manoeuvreCompetencies.observationFault"
               (competencyClicked)="competencyClick()"
-            >
+              >
             </reverse-manoeuvres>
           </ion-col>
         </ion-row>
-        <div *ngIf="showUncoupleRecouple()">
-          <ion-row>
-            <ion-col class="padding-top-18 only-top-padding">
-              <div class="dark-divider"></div>
-            </ion-col>
-          </ion-row>
-          <ion-row>
-            <ion-col class="ion-no-padding">
-              <h2 class="section-header">Vehicle with trailer</h2>
-            </ion-col>
-          </ion-row>
-          <ion-row>
-            <ion-col class="ion-no-padding">
-              <uncouple-recouple
-                [category]="category"
-                [buttonFloatAbove]="true"
-                [disableDrivingFaults]="true"
-                (competencyClicked)="competencyClick()"
-              >
-              </uncouple-recouple>
-            </ion-col>
-          </ion-row>
-        </div>
+        @if (showUncoupleRecouple()) {
+          <div>
+            <ion-row>
+              <ion-col class="padding-top-18 only-top-padding">
+                <div class="dark-divider"></div>
+              </ion-col>
+            </ion-row>
+            <ion-row>
+              <ion-col class="ion-no-padding">
+                <h2 class="section-header">Vehicle with trailer</h2>
+              </ion-col>
+            </ion-row>
+            <ion-row>
+              <ion-col class="ion-no-padding">
+                <uncouple-recouple
+                  [category]="category"
+                  [buttonFloatAbove]="true"
+                  [disableDrivingFaults]="true"
+                  (competencyClicked)="competencyClick()"
+                  >
+                </uncouple-recouple>
+              </ion-col>
+            </ion-row>
+          </div>
+        }
       </ion-col>
       <!-- Column 2-->
       <ion-col size="6"></ion-col>
@@ -120,7 +122,7 @@
             <span>
               <reverse-diagram-link
                 [isPracticeMode]="isEndToEndPracticeMode"
-            ></reverse-diagram-link>
+              ></reverse-diagram-link>
             </span>
           </ion-col>
         </ion-row>

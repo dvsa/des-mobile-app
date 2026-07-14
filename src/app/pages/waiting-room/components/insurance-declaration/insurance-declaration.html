@@ -22,23 +22,25 @@
           id="insurance-declaration-checkbox"
           [checked]="selected"
           (click)="insuranceDeclarationChanged($event.target.checked)"
-        />
+          />
         <label addOrRemoveLangCy for="insurance-declaration-checkbox" id="waiting-room-confirm-insurance-label">
           {{ 'waitingRoom.confirm' | translate }}
         </label>
       </ion-col>
     </ion-row>
-    <ion-row *ngIf="isInvalid()">
-      <ion-col>
-        <div
-          addOrRemoveLangCy
-          id="waiting-room-insurance-validation-text"
-          class="validation-text-with-row-spacing"
-          [class.ng-invalid]="isInvalid()"
-        >
-          {{ 'waitingRoom.insuranceDeclarationValidation' | translate }}
-        </div>
-      </ion-col>
-    </ion-row>
+    @if (isInvalid()) {
+      <ion-row>
+        <ion-col>
+          <div
+            addOrRemoveLangCy
+            id="waiting-room-insurance-validation-text"
+            class="validation-text-with-row-spacing"
+            [class.ng-invalid]="isInvalid()"
+            >
+            {{ 'waitingRoom.insuranceDeclarationValidation' | translate }}
+          </div>
+        </ion-col>
+      </ion-row>
+    }
   </ion-col>
 </ion-row>

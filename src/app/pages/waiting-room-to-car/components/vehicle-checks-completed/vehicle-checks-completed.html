@@ -17,7 +17,7 @@
           name="vehicleChecksToggleCtrl"
           type="radio"
           value="Completed"
-        />
+          />
         <label class="radio-label" for="vehicle-checks-toggle-completed">Completed</label>
       </ion-col>
       <ion-col size="48">
@@ -31,7 +31,7 @@
           name="vehicleChecksToggleCtrl"
           type="radio"
           value="Not completed"
-        />
+          />
         <label class="radio-label" for="vehicle-checks-toggle-non-completed">Not completed</label>
       </ion-col>
     </ion-row>
@@ -40,7 +40,7 @@
         [class.ng-invalid]="invalid"
         class="validation-text"
         id="waiting-room-to-car-vehicle-checks-toggle-validation-text"
-      >
+        >
         Select the vehicle checks completed outcome
       </div>
     </ion-row>
@@ -58,14 +58,15 @@
           labelPlacement="stacked"
           okText="Submit"
           placeholder="Driving faults"
-        >
-          <ion-select-option
-            *ngFor="let number of (componentState.drivingFaultsNumberOptions$ | async)"
-            [id]="'driving-fault-' + number"
-            [value]="number"
           >
-            {{number}} {{number === 1 ? 'driving fault' : 'driving faults'}}
-          </ion-select-option>
+          @for (number of (componentState.drivingFaultsNumberOptions$ | async); track number) {
+            <ion-select-option
+              [id]="'driving-fault-' + number"
+              [value]="number"
+              >
+              {{number}} {{number === 1 ? 'driving fault' : 'driving faults'}}
+            </ion-select-option>
+          }
         </ion-select>
       </ion-col>
     </ion-row>

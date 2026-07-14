@@ -8,49 +8,55 @@
       class="gds-checkbox transferInput"
       formControlName="transferSelected"
       (change)="selectedValueChanged($event.target.checked)"
-    />
+      />
     <label for="transferSelected" id="transfer-label"> Transfer </label>
   </ion-col>
   <ion-col class="ion-padding-start">
-    <div class="selected-border" id="transferSection" *ngIf="selected">
-      <ion-row>
-        <div class="transferInfo" id="staff-num-examiner-who-conducted">
-          Enter staff number of examiner<br />who conducted the test
-        </div>
-      </ion-row>
-      <ion-row>
-        <ion-item class="ion-no-padding" lines="none">
-          <ion-input
-            [class.increase-height]="accessibilityService.getTextZoomClass() === 'text-zoom-x-large'"
-            placeholder="Staff number"
-            type="text"
-            id="staffNumber"
-            class="ion-input-styling"
-            aria-labelledby="staff-num-examiner-who-conducted"
-            pattern="\d*"
-            [maxlength]="14"
-            [class.ng-invalid]="invalid"
-            formControlName="staffNumber"
-            [value]="staffNumber"
-            (ionChange)="staffNumberValueChanged($event.detail.value)"
-            [clearInput]="true"
-            numbersOnly
-            emojiBlock
-            pasteSanitiser
-          >
-          </ion-input>
-        </ion-item>
-      </ion-row>
-      <ion-row class="validation-message-row" *ngIf="empty && invalid">
-        <div class="validation-text" [class.ng-invalid]="invalid" id="staff-num-required-label">
-          Staff number is required
-        </div>
-      </ion-row>
-      <ion-row class="validation-message-row" *ngIf="!empty && invalid">
-        <div class="validation-text" [class.ng-invalid]="invalid" id="staff-num-invalid-label">
-          Staff number is invalid
-        </div>
-      </ion-row>
-    </div>
+    @if (selected) {
+      <div class="selected-border" id="transferSection">
+        <ion-row>
+          <div class="transferInfo" id="staff-num-examiner-who-conducted">
+            Enter staff number of examiner<br />who conducted the test
+          </div>
+        </ion-row>
+        <ion-row>
+          <ion-item class="ion-no-padding" lines="none">
+            <ion-input
+              [class.increase-height]="accessibilityService.getTextZoomClass() === 'text-zoom-x-large'"
+              placeholder="Staff number"
+              type="text"
+              id="staffNumber"
+              class="ion-input-styling"
+              aria-labelledby="staff-num-examiner-who-conducted"
+              pattern="\d*"
+              [maxlength]="14"
+              [class.ng-invalid]="invalid"
+              formControlName="staffNumber"
+              [value]="staffNumber"
+              (ionChange)="staffNumberValueChanged($event.detail.value)"
+              [clearInput]="true"
+              numbersOnly
+              emojiBlock
+              pasteSanitiser
+              >
+            </ion-input>
+          </ion-item>
+        </ion-row>
+        @if (empty && invalid) {
+          <ion-row class="validation-message-row">
+            <div class="validation-text" [class.ng-invalid]="invalid" id="staff-num-required-label">
+              Staff number is required
+            </div>
+          </ion-row>
+        }
+        @if (!empty && invalid) {
+          <ion-row class="validation-message-row">
+            <div class="validation-text" [class.ng-invalid]="invalid" id="staff-num-invalid-label">
+              Staff number is invalid
+            </div>
+          </ion-row>
+        }
+      </div>
+    }
   </ion-col>
 </ion-row>

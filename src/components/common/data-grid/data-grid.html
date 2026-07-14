@@ -1,32 +1,45 @@
-<ion-row id="record-card-{{gridID}}-header-row" *ngIf="headers && showHeaders">
-  <ion-col size="auto" *ngIf="displayColour">
-    <span class="dot placeholder"></span>
-  </ion-col>
-  <ion-col class="ion-justify-content-center display-flex" *ngFor="let header of headers">
-    <label id="record-card-{{gridID}}-header-{{header}}" class="text-align-center">{{ header }}</label>
-  </ion-col>
-</ion-row>
+@if (headers && showHeaders) {
+  <ion-row id="record-card-{{gridID}}-header-row">
+    @if (displayColour) {
+      <ion-col size="auto">
+        <span class="dot placeholder"></span>
+      </ion-col>
+    }
+    @for (header of headers; track header) {
+      <ion-col class="ion-justify-content-center display-flex">
+        <label id="record-card-{{gridID}}-header-{{header}}" class="text-align-center">{{ header }}</label>
+      </ion-col>
+    }
+  </ion-row>
+}
 
-<br *ngIf="headers && showHeaders" />
-<ion-row *ngIf="showSeparator" class="mes-row-separator"></ion-row>
-<br *ngIf="showSeparator" />
+@if (headers && showHeaders) {
+  <br />
+}
+@if (showSeparator) {
+  <ion-row class="mes-row-separator"></ion-row>
+  <br />
+}
 
-<ion-row
-  [class.data-row-padding]="padDataTable && (i != passedData.length-1)"
-  *ngFor="let passedItem of passedData; index as i; trackBy: trackByIndex;"
->
-  <ion-col
-    class="colour-col"
-    [class.padding-top-10]="accessibilityService.getTextZoomClass() === 'text-zoom-x-large'"
-    size="auto"
-    *ngIf="displayColour"
-  >
-    <span id="record-card-{{gridID}}-row{{i}}-colour-dot" [style.background-color]="finalColourArray[i]" class="dot"></span>
-  </ion-col>
-  <ion-col
-    [class]="[first ? 'ion-justify-content-left' : 'ion-justify-content-center', 'display-flex']"
-    *ngFor="let data of headers; index as y; let first = first"
-  >
-    <span id="record-card-{{gridID}}-row{{i}}-column{{y}}-data" [class]="[first ? 'text-align-left' : 'text-align-center', 'mes-data']">{{ passedItem[y] }}</span>
-  </ion-col>
-</ion-row>
+@for (passedItem of passedData; track $index; let i = $index) {
+  <ion-row
+    [class.data-row-padding]="padDataTable && (i != passedData.length-1)"
+    >
+    @if (displayColour) {
+      <ion-col
+        class="colour-col"
+        [class.padding-top-10]="accessibilityService.getTextZoomClass() === 'text-zoom-x-large'"
+        size="auto"
+        >
+        <span id="record-card-{{gridID}}-row{{i}}-colour-dot" [style.background-color]="finalColourArray[i]" class="dot"></span>
+      </ion-col>
+    }
+    @for (data of headers; track data; let y = $index; let first = $first) {
+      <ion-col
+        [class]="[first ? 'ion-justify-content-left' : 'ion-justify-content-center', 'display-flex']"
+        >
+        <span id="record-card-{{gridID}}-row{{i}}-column{{y}}-data" [class]="[first ? 'text-align-left' : 'text-align-center', 'mes-data']">{{ passedItem[y] }}</span>
+      </ion-col>
+    }
+  </ion-row>
+}

@@ -20,13 +20,15 @@
       (setupResumeSubscription)="setupEscapeSAMResumeSubscription()"
       (onExitSAMActivatedChanged)="isSamActivatedChanged($event)"
       (endTestButtonClicked)="abortMOTCall(MOTAbortedMethod.END_TEST)">
-      {{pageState.candidateName$ | async}}
+      {{ pageState.candidateName$ | async }}
     </test-flow-header>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [class.hidden]="failedMOTModalCurrentlyOpen" forceOverscroll="false">
-  <offline-banner *ngIf="!isEndToEndPracticeMode" [isOffline]="pageState.isOffline$ | async"></offline-banner>
+  @if (!isEndToEndPracticeMode) {
+    <offline-banner [isOffline]="pageState.isOffline$ | async"></offline-banner>
+  }
   <div>
     <form (ngSubmit)="onSubmit()" [formGroup]="form">
       <ion-grid>
@@ -49,19 +51,22 @@
             >
             </transmission>
 
-            <eyesight-test
-              (eyesightTestResultChange)="eyesightTestResultChanged($event)"
-              *ngIf="pageState.showEyesight$ | async"
-              [eyesightFailRadioChecked]="pageState.eyesightTestFailed$ | async"
-              [eyesightPassRadioChecked]="(pageState.eyesightTestComplete$ | async) && !(pageState.eyesightTestFailed$ | async)"
-              [formGroup]="form"
-            >
-            </eyesight-test>
+            @if (pageState.showEyesight$ | async) {
+              <eyesight-test
+                (eyesightTestResultChange)="eyesightTestResultChanged($event)"
+                [eyesightFailRadioChecked]="pageState.eyesightTestFailed$ | async"
+                [eyesightPassRadioChecked]="(pageState.eyesightTestComplete$ | async) && !(pageState.eyesightTestFailed$ | async)"
+                [formGroup]="form"
+              >
+              </eyesight-test>
+            }
 
-            <ion-row *ngIf="pageState.eyesightTestFailed$ | async">
-              <eyesight-failure-confirmation [cancelFn]="eyesightFailCancelled" [nextPageOnFail]="getDebriefPage()">
-              </eyesight-failure-confirmation>
-            </ion-row>
+            @if (pageState.eyesightTestFailed$ | async) {
+              <ion-row>
+                <eyesight-failure-confirmation [cancelFn]="eyesightFailCancelled" [nextPageOnFail]="getDebriefPage()">
+                </eyesight-failure-confirmation>
+              </ion-row>
+            }
 
             <ion-row
               [hidden]="pageState.eyesightTestFailed$ | async"
@@ -88,43 +93,47 @@
                 >
                 </vehicle-registration>
 
-                <ion-row *ngIf="(pageState.motEvidenceProvided$ | async) === false">
-                  <mot-no-evidence-confirmation [cancelFn]="motNoEvidenceCancelled" [nextPageOnFail]="getDebriefPage()">
-                  </mot-no-evidence-confirmation>
-                </ion-row>
+                @if ((pageState.motEvidenceProvided$ | async) === false) {
+                  <ion-row>
+                    <mot-no-evidence-confirmation
+                      [cancelFn]="motNoEvidenceCancelled"
+                      [nextPageOnFail]="getDebriefPage()">
+                    </mot-no-evidence-confirmation>
+                  </ion-row>
+                }
 
                 <div [hidden]="(pageState.motEvidenceProvided$ | async) === false" class="ion-no-padding">
 
-                <vehicle-checks-cat-a-mod2
-                  (onCloseVehicleChecksModal)="closeVehicleChecksModal()"
-                  [formGroup]="form"
-                  [isPracticeMode]="isEndToEndPracticeMode"
-                  [safetyAndBalanceQuestionsScore]="pageState.safetyAndBalanceQuestionsScore$ | async"
-                  [safetyAndBalanceQuestions]="pageState.safetyAndBalanceQuestions$ | async"
-                  [submitClicked]="submitClicked"
-                ></vehicle-checks-cat-a-mod2>
+                  <vehicle-checks-cat-a-mod2
+                    (onCloseVehicleChecksModal)="closeVehicleChecksModal()"
+                    [formGroup]="form"
+                    [isPracticeMode]="isEndToEndPracticeMode"
+                    [safetyAndBalanceQuestionsScore]="pageState.safetyAndBalanceQuestionsScore$ | async"
+                    [safetyAndBalanceQuestions]="pageState.safetyAndBalanceQuestions$ | async"
+                    [submitClicked]="submitClicked"
+                  ></vehicle-checks-cat-a-mod2>
 
-                <accompaniment-card
-                  (instructorAccompanimentChange)="instructorAccompanimentToggled()"
-                  (interpreterAccompanimentChange)="interpreterAccompanimentToggled()"
-                  (otherAccompanimentChange)="otherAccompanimentToggled()"
-                  (supervisorAccompanimentChange)="supervisorAccompanimentToggled()"
-                  [formGroup]="form"
-                  [instructorAccompaniment]="pageState.instructorAccompaniment$ | async"
-                  [interpreterAccompaniment]="pageState.interpreterAccompaniment$ | async"
-                  [otherAccompaniment]="pageState.otherAccompaniment$ | async"
-                  [supervisorAccompaniment]="pageState.supervisorAccompaniment$ | async"
-                >
-                </accompaniment-card>
+                  <accompaniment-card
+                    (instructorAccompanimentChange)="instructorAccompanimentToggled()"
+                    (interpreterAccompanimentChange)="interpreterAccompanimentToggled()"
+                    (otherAccompanimentChange)="otherAccompanimentToggled()"
+                    (supervisorAccompanimentChange)="supervisorAccompanimentToggled()"
+                    [formGroup]="form"
+                    [instructorAccompaniment]="pageState.instructorAccompaniment$ | async"
+                    [interpreterAccompaniment]="pageState.interpreterAccompaniment$ | async"
+                    [otherAccompaniment]="pageState.otherAccompaniment$ | async"
+                    [supervisorAccompaniment]="pageState.supervisorAccompaniment$ | async"
+                  >
+                  </accompaniment-card>
 
-                <vehicle-details-card
-                  (schoolBikeVehicleDetailsChange)="schoolBikeToggled()"
-                  [formGroup]="form"
-                  [hideSchoolBikeRow]="false"
-                  [hideSchoolVehicleAndDualControlRow]="true"
-                  [schoolBikeVehicleDetails]="pageState.schoolBike$ | async"
-                >
-                </vehicle-details-card>
+                  <vehicle-details-card
+                    (schoolBikeVehicleDetailsChange)="schoolBikeToggled()"
+                    [formGroup]="form"
+                    [hideSchoolBikeRow]="false"
+                    [hideSchoolVehicleAndDualControlRow]="true"
+                    [schoolBikeVehicleDetails]="pageState.schoolBike$ | async"
+                  >
+                  </vehicle-details-card>
                 </div>
               </ion-col>
             </ion-row>
@@ -136,8 +145,9 @@
 </ion-content>
 
 <ion-footer [class.hidden]="failedMOTModalCurrentlyOpen">
-  <ion-row [hidden]="(pageState.eyesightTestFailed$ | async) || (pageState.motEvidenceProvided$ | async) === false"
-           class="mes-full-width-card box-shadow flex-center">
+  <ion-row
+    [hidden]="(pageState.eyesightTestFailed$ | async) || (pageState.motEvidenceProvided$ | async) === false"
+    class="mes-full-width-card box-shadow flex-center">
     <ion-col class="ion-text-center width-100" size="43">
       <ion-button
         (click)="onViewTestCentreJournal()"

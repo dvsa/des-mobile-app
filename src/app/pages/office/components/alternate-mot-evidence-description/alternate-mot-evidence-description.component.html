@@ -10,38 +10,39 @@
       <ion-row class="spacing-row"></ion-row>
       <ion-row>
         <ion-col>
-        <textarea
-          id="evidence-description-text"
-          formControlName="altEvidenceDetailsCtrl"
-          class="vehicle-reg-input mes-data input-styling-background"
-          charCount
-          emojiBlock
-          pasteSanitiser
-          [charLimit]="characterLimit"
-          [class.ng-invalid]="invalid"
-          (onCharacterCountChanged)="characterCountChanged($event)"
-          [value]="alternateEvidenceDescription"
-          (change)="evidenceDescriptionTestResultChanged($event.target.value)"
-        >
-        </textarea>
+          <textarea
+            id="evidence-description-text"
+            formControlName="altEvidenceDetailsCtrl"
+            class="vehicle-reg-input mes-data input-styling-background"
+            charCount
+            emojiBlock
+            pasteSanitiser
+            [charLimit]="characterLimit"
+            [class.ng-invalid]="invalid"
+            (onCharacterCountChanged)="characterCountChanged($event)"
+            [value]="alternateEvidenceDescription"
+            (change)="evidenceDescriptionTestResultChanged($event.target.value)"
+          >
+          </textarea>
           <div
             class="character-count validation-text"
             [ngClass]="{'ng-invalid': charactersExceeded()}"
-            id="evidence-description-character-count}"
+            id="evidence-description-character-count"
           >
             {{ getCharacterCountText() }}
           </div>
         </ion-col>
       </ion-row>
       <ion-row class="validation-message-row ion-align-items-center">
-        <div
-          class="validation-text"
-          [class.ng-invalid]="invalid"
-          *ngIf="invalid"
-          id="evidence-description-validation-text"
-        >
-          Details of additional MOT evidence required
-        </div>
+        @if (invalid) {
+          <div
+            class="validation-text"
+            [class.ng-invalid]="invalid"
+            id="evidence-description-validation-text"
+          >
+            Details of additional MOT evidence required
+          </div>
+        }
       </ion-row>
     </ion-col>
   </ion-row>

@@ -1,40 +1,43 @@
-<div *ngIf="fuelEfficientDriving">
-  <ion-row class="mes-row-separator"></ion-row>
-  <ion-row [formGroup]="formGroup" class="mes-validated-row mes-row-separator">
-    <div [class.ng-invalid]="invalid" class="validation-bar"></div>
-    <ion-col class="component-label ion-align-self-start" size="32">
-      <ion-row class="spacing-row"></ion-row>
-      <label id="eco-related-fault-label">Fault related to ECO capture</label>
-    </ion-col>
-    <ion-col class="ion-align-self-center ion-padding-start" size="63">
-      <ion-row class="spacing-row"></ion-row>
-      <ion-row>
-        <ion-select
-          (ionChange)="ecoFaultChanged($event.target.value)"
-          [class.ng-invalid]="invalid"
-          [interfaceOptions]="{cssClass:'mes-select', enableBackdropDismiss:false}"
-          aria-label="Eco fault capture"
-          cancelText="Cancel"
-          class="black-text"
-          formControlName="ecoRelatedFault"
-          id="eco-fault-selector"
-          labelPlacement="stacked"
-          okText="Submit"
-          placeholder="Select fault"
-        >
-          <ion-select-option
-            *ngFor="let fault of drivingFaults; trackBy: trackByIndex"
-            [value]="fault.competencyIdentifier"
-          >
-            {{fault.competencyDisplayName}}
-          </ion-select-option>
-        </ion-select>
-      </ion-row>
-      <ion-row class="validation-message-row ion-align-items-center">
-        <div [class.ng-invalid]="invalid" class="validation-text" id="eco-related-fault-validation-text">
-          Please provide the ECO related fault
-        </div>
-      </ion-row>
-    </ion-col>
-  </ion-row>
-</div>
+@if (fuelEfficientDriving) {
+  <div>
+    <ion-row class="mes-row-separator"></ion-row>
+    <ion-row [formGroup]="formGroup" class="mes-validated-row mes-row-separator">
+      <div [class.ng-invalid]="invalid" class="validation-bar"></div>
+      <ion-col class="component-label ion-align-self-start" size="32">
+        <ion-row class="spacing-row"></ion-row>
+        <label id="eco-related-fault-label">Fault related to ECO capture</label>
+      </ion-col>
+      <ion-col class="ion-align-self-center ion-padding-start" size="63">
+        <ion-row class="spacing-row"></ion-row>
+        <ion-row>
+          <ion-select
+            (ionChange)="ecoFaultChanged($event.target.value)"
+            [class.ng-invalid]="invalid"
+            [interfaceOptions]="{cssClass:'mes-select', enableBackdropDismiss:false}"
+            aria-label="Eco fault capture"
+            cancelText="Cancel"
+            class="black-text"
+            formControlName="ecoRelatedFault"
+            id="eco-fault-selector"
+            labelPlacement="stacked"
+            okText="Submit"
+            placeholder="Select fault"
+            >
+            @for (fault of drivingFaults; track trackByIndex($index, fault)) {
+              <ion-select-option
+                [value]="fault.competencyIdentifier"
+                >
+                {{fault.competencyDisplayName}}
+              </ion-select-option>
+            }
+          </ion-select>
+        </ion-row>
+        <ion-row class="validation-message-row ion-align-items-center">
+          <div [class.ng-invalid]="invalid" class="validation-text" id="eco-related-fault-validation-text">
+            Please provide the ECO related fault
+          </div>
+        </ion-row>
+      </ion-col>
+    </ion-row>
+  </div>
+}

@@ -2,7 +2,7 @@
   class="mes-validated-row mes-row-separator ion-justify-content-start"
   id="tell-me-card"
   [formGroup]="formGroup"
->
+  >
   <div class="validation-bar" [class.ng-invalid]="questionInvalid || outcomeInvalid"></div>
   <ion-col class="component-label manual-label-top-spacing" size="32">
     <label id="tell-me-question-title">Tell me question</label>
@@ -15,7 +15,7 @@
       [tellMeQuestion]="tellMeQuestion"
       [tellMeQuestions]="tellMeQuestions"
       (tellMeQuestionChange)="tellMeQuestionChanged($event)"
-    >
+      >
     </tell-me-question>
 
     <ion-row class="validation-message-row ion-align-items-center ion-justify-content-start">
@@ -23,7 +23,7 @@
         class="validation-text"
         [class.ng-invalid]="questionInvalid"
         id="waiting-room-to-car-tell-me-validation-text"
-      >
+        >
         Select a 'Tell me' question
       </div>
     </ion-row>
@@ -33,20 +33,21 @@
       [tellMeQuestionSelected]="tellMeQuestionSelected"
       [tellMeQuestionOutcome]="tellMeQuestionOutcome"
       (tellMeQuestionOutcomeChange)="tellMeQuestionOutcomeChanged($event)"
-    >
+      >
     </tell-me-question-outcome>
 
-    <ion-row
-      class="validation-message-row ion-align-items-center ion-justify-content-start"
-      *ngIf="tellMeQuestionSelected"
-    >
-      <div
-        id="waiting-room-to-car-tell-me-outcome-validation-text"
-        class="validation-text"
-        [class.ng-invalid]="outcomeInvalid"
-      >
-        Select a 'Tell me' question outcome
-      </div>
-    </ion-row>
+    @if (tellMeQuestionSelected) {
+      <ion-row
+        class="validation-message-row ion-align-items-center ion-justify-content-start"
+        >
+        <div
+          id="waiting-room-to-car-tell-me-outcome-validation-text"
+          class="validation-text"
+          [class.ng-invalid]="outcomeInvalid"
+          >
+          Select a 'Tell me' question outcome
+        </div>
+      </ion-row>
+    }
   </ion-col>
 </ion-row>

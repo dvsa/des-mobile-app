@@ -33,7 +33,7 @@
           [candidateDriverNumber]="pageState.candidateDriverNumber$ | async"
           [candidateName]="pageState.candidateName$ | async"
           [outcomeText]="pageState.testOutcomeText$ | async"
-        >
+          >
         </finalisation-header>
 
         <application-reference-number [applicationNumber]="pageState.applicationNumber$ | async">
@@ -45,48 +45,51 @@
           [form]="form"
           [licenseReceivedLabel]="'Provisional licence received'"
           [license]="pageState.provisionalLicense$ | async"
-        >
+          >
         </license-provided>
 
         <licence-provided-warning-banner [licenceProvided]="pageState.provisionalLicense$ | async">
         </licence-provided-warning-banner>
 
-        <warning-banner
-          *ngIf="shouldShowCandidateDoesntNeedLicenseBanner()"
-          warningText="{{askCandidateLicenseMessage}}"
-        >
-        </warning-banner>
+        @if (shouldShowCandidateDoesntNeedLicenseBanner()) {
+          <warning-banner
+            warningText="{{askCandidateLicenseMessage}}"
+            >
+          </warning-banner>
+        }
 
         <transmission
           (transmissionChange)="transmissionChanged($event)"
           [formGroup]="form"
           [transmission]="pageState.transmission$ | async"
-        >
+          >
         </transmission>
 
         <code-78 (code78Present)="onCode78Present($event)" [code78]="pageState.code78$ | async" [form]="form">
         </code-78>
 
-        <warning-banner
-          *ngIf="shouldShowManualBanner()"
-          [warningIdentifier]="'manual-licence-banner'"
-          [warningText]="manualMessage"
-        >
-        </warning-banner>
+        @if (shouldShowManualBanner()) {
+          <warning-banner
+            [warningIdentifier]="'manual-licence-banner'"
+            [warningText]="manualMessage"
+            >
+          </warning-banner>
+        }
 
-        <warning-banner
-          *ngIf="shouldShowAutomaticBanner()"
-          [warningIdentifier]="'automatic-licence-banner'"
-          [warningText]="automaticMessage"
-        >
-        </warning-banner>
+        @if (shouldShowAutomaticBanner()) {
+          <warning-banner
+            [warningIdentifier]="'automatic-licence-banner'"
+            [warningText]="automaticMessage"
+            >
+          </warning-banner>
+        }
 
         <pass-certificate-number
           (passCertificateNumberChange)="passCertificateNumberChanged($event)"
           [form]="form"
           [isPracticeMode]="isPracticeMode"
           [passCertificateNumberInput]="pageState.passCertificateNumber$ | async"
-        >
+          >
         </pass-certificate-number>
 
         <d255
@@ -95,20 +98,21 @@
           [display]="true"
           [formGroup]="form"
           [outcome]="testOutcome"
-        >
+          >
         </d255>
 
-        <warning-banner
-          *ngIf="pageState.d255$ | async"
-          warningText="DVLA will not process the result until a D255 is received."
-        >
-        </warning-banner>
+        @if (pageState.d255$ | async) {
+          <warning-banner
+            warningText="DVLA will not process the result until a D255 is received."
+            >
+          </warning-banner>
+        }
 
         <language-preferences
           (welshChanged)="isWelshChanged($event)"
           [formGroup]="form"
           [isWelsh]="(pageState.conductedLanguage$ | async) === 'Cymraeg'"
-        >
+          >
         </language-preferences>
 
         <debrief-witnessed
@@ -118,7 +122,7 @@
           [shouldShowSeparator]="false"
           [formGroup]="form"
           [outcome]="testOutcome"
-        >
+          >
         </debrief-witnessed>
       </ion-grid>
     </form>

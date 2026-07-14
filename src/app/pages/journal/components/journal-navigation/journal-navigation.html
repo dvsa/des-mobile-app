@@ -3,18 +3,19 @@
     <ion-row class="ion-no-padding">
       <ion-col class="ion-no-padding">
         <div id="date-container">
-          <div *ngIf="isSelectedDateToday; else notToday;">
+          @if (isSelectedDateToday) {
             <h2 class="des-header-style-1" id="date-today-header">Today</h2>
             <ion-row>
               <ion-col size="8" class="display-flex justify-content-end">
-                <ion-icon
-                  *ngIf="canNavigateToPreviousDay"
-                  (click)="onPreviousDayClick()"
-                  class="navigation-button navigation-arrow"
-                  name="chevron-back-outline"
-                  id="previous-day-container"
-                  aria-labelledby="previous-day">
-                </ion-icon>
+                @if (canNavigateToPreviousDay) {
+                  <ion-icon
+                    (click)="onPreviousDayClick()"
+                    class="navigation-button navigation-arrow"
+                    name="chevron-back-outline"
+                    id="previous-day-container"
+                    aria-labelledby="previous-day">
+                  </ion-icon>
+                }
               </ion-col>
               <ion-col class="display-flex justify-content-center ion-align-items-center">
                 <h3 class="date-text des-header-style-3" id="today-date" aria-labelledby="date-today-header today-date">
@@ -22,18 +23,18 @@
                 </h3>
               </ion-col>
               <ion-col size="8" class="display-flex">
-                <ion-icon
-                  *ngIf="canNavigateToNextDay"
-                  (click)="onNextDayClick()"
-                  class="navigation-arrow next-navigation-button"
-                  id="next-day-container"
-                  name="chevron-forward-outline"
-                  aria-labelledby="next-day">
-                </ion-icon>
+                @if (canNavigateToNextDay) {
+                  <ion-icon
+                    (click)="onNextDayClick()"
+                    class="navigation-arrow next-navigation-button"
+                    id="next-day-container"
+                    name="chevron-forward-outline"
+                    aria-labelledby="next-day">
+                  </ion-icon>
+                }
               </ion-col>
             </ion-row>
-          </div>
-          <ng-template #notToday>
+          } @else {
             <ion-row class="justify-content-center">
               @if (fromTestCentreJournal) {
                 <ion-text
@@ -53,33 +54,37 @@
             </ion-row>
             <ion-row>
               <ion-col size="8" class="display-flex justify-content-end">
-                <ion-icon
-                  *ngIf="canNavigateToPreviousDay"
-                  (click)="onPreviousDayClick()"
-                  class="navigation-arrow navigation-button"
-                  id="previous-day-container"
-                  name="chevron-back-outline"
-                  aria-labelledby="previous-day">
-                </ion-icon>
+                @if (canNavigateToPreviousDay) {
+                  <ion-icon
+                    (click)="onPreviousDayClick()"
+                    class="navigation-arrow navigation-button"
+                    id="previous-day-container"
+                    name="chevron-back-outline"
+                    aria-labelledby="previous-day">
+                  </ion-icon>
+                }
               </ion-col>
               <ion-col class="display-flex justify-content-center ion-align-items-center">
-                <ion-text class="date-text des-header-style-3" id="date-subheader"
-                          aria-labelledby="date-day-header date-subheader">
+                <ion-text
+                  class="date-text des-header-style-3"
+                  id="date-subheader"
+                  aria-labelledby="date-day-header date-subheader">
                   {{ selectedDate | date:'d MMMM y' }}
                 </ion-text>
               </ion-col>
               <ion-col size="8" class="display-flex">
-                <ion-icon
-                  *ngIf="canNavigateToNextDay"
-                  (click)="onNextDayClick()"
-                  id="next-day-container"
-                  class="navigation-arrow next-navigation-button"
-                  name="chevron-forward-outline"
-                  aria-labelledby="next-day">
-                </ion-icon>
+                @if (canNavigateToNextDay) {
+                  <ion-icon
+                    (click)="onNextDayClick()"
+                    id="next-day-container"
+                    class="navigation-arrow next-navigation-button"
+                    name="chevron-forward-outline"
+                    aria-labelledby="next-day">
+                  </ion-icon>
+                }
               </ion-col>
             </ion-row>
-          </ng-template>
+          }
         </div>
       </ion-col>
     </ion-row>

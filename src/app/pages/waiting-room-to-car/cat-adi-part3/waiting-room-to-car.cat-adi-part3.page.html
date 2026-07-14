@@ -20,13 +20,15 @@
       (setupResumeSubscription)="setupEscapeSAMResumeSubscription()"
       (onExitSAMActivatedChanged)="isSamActivatedChanged($event)"
       (endTestButtonClicked)="abortMOTCall(MOTAbortedMethod.END_TEST)">
-      {{pageState.candidateName$ | async}}
+      {{ pageState.candidateName$ | async }}
     </test-flow-header>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [class.hidden]="failedMOTModalCurrentlyOpen" force-overscroll="false">
-  <offline-banner *ngIf="!isEndToEndPracticeMode" [isOffline]="pageState.isOffline$ | async"></offline-banner>
+  @if (!isEndToEndPracticeMode) {
+    <offline-banner [isOffline]="pageState.isOffline$ | async"></offline-banner>
+  }
   <div>
     <form (ngSubmit)="onSubmit()" [formGroup]="form">
       <ion-grid>
@@ -51,10 +53,12 @@
             >
             </vehicle-registration>
 
-            <ion-row *ngIf="(pageState.motEvidenceProvided$ | async) === false">
-              <mot-no-evidence-confirmation [cancelFn]="motNoEvidenceCancelled" [nextPageOnFail]="getDebriefPage()">
-              </mot-no-evidence-confirmation>
-            </ion-row>
+            @if ((pageState.motEvidenceProvided$ | async) === false) {
+              <ion-row>
+                <mot-no-evidence-confirmation [cancelFn]="motNoEvidenceCancelled" [nextPageOnFail]="getDebriefPage()">
+                </mot-no-evidence-confirmation>
+              </ion-row>
+            }
 
             <safety-recall>
             </safety-recall>
@@ -77,13 +81,14 @@
               >
               </transmission>
 
-              <trainee-licence
-                (traineeLicenceChange)="traineeLicenceChanged($event)"
-                *ngIf="notSC(pageState.category$ | async)"
-                [formGroup]="form"
-                [traineeLicence]="pageState.traineeLicence$ | async"
-              >
-              </trainee-licence>
+              @if (notSC(pageState.category$ | async)) {
+                <trainee-licence
+                  (traineeLicenceChange)="traineeLicenceChanged($event)"
+                  [formGroup]="form"
+                  [traineeLicence]="pageState.traineeLicence$ | async"
+                >
+                </trainee-licence>
+              }
 
               <ordit-trainer-cat-adi-part2
                 (orditTrainedOutcomeChange)="orditTrainedOutcomeChanged($event)"
@@ -120,8 +125,9 @@
 </ion-content>
 
 <ion-footer [class.hidden]="failedMOTModalCurrentlyOpen">
-  <ion-row [hidden]="(pageState.eyesightTestFailed$ | async) || (pageState.motEvidenceProvided$ | async) === false"
-           class="mes-full-width-card box-shadow flex-center">
+  <ion-row
+    [hidden]="(pageState.eyesightTestFailed$ | async) || (pageState.motEvidenceProvided$ | async) === false"
+    class="mes-full-width-card box-shadow flex-center">
     <ion-col class="ion-text-center width-100" size="43">
       <ion-button
         (click)="onViewTestCentreJournal()"

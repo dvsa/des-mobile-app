@@ -1,34 +1,46 @@
-<ion-card id="vehicle-checks" *ngIf="componentState.hasVehicleChecksFault$ | async">
-  <ion-card-content>
-    <ion-grid>
-      <ion-row class="mes-data ion-align-items-start">
-        <ion-col size="3"></ion-col>
-        <ion-col size="34">
-          <ion-text addOrRemoveLangCy class="des-header-style-4 fault-heading"
-            >{{ 'debrief.vehicleChecks' | translate }}</ion-text
-          >
-        </ion-col>
-        <ion-col class="down-padding ion-align-items-start">
-          <div addOrRemoveLangCy id="tell-me-question" *ngIf="componentState.tellMeQuestionHasFault$ | async">
-            {{ 'debrief.tellMeQuestion' | translate }} - {{ 'debrief.incorrect' | translate }}
-          </div>
-          <div
-            id="show-me-question"
-            *ngIf="componentState.hasShowMeFault$ | async"
-            [ngSwitch]="componentState.showMeQuestionOutcome$ | async"
-          >
-            <span *ngSwitchCase="'DF'" addOrRemoveLangCy id="show-me-question-outcome-df">
-              {{ 'debrief.showMeQuestion' | translate }} - {{ 'debrief.incorrect' | translate }}
-            </span>
-            <span *ngSwitchCase="'S'" addOrRemoveLangCy id="show-me-question-outcome-s">
-              {{ 'debrief.showMeQuestion' | translate }} - {{ 'debrief.seriousFault' | translate }}
-            </span>
-            <span *ngSwitchCase="'D'" addOrRemoveLangCy id="show-me-question-outcome-d">
-              {{ 'debrief.showMeQuestion' | translate }} - {{ 'debrief.dangerousFault' | translate }}
-            </span>
-          </div>
-        </ion-col>
-      </ion-row>
-    </ion-grid>
-  </ion-card-content>
-</ion-card>
+@if (componentState.hasVehicleChecksFault$ | async) {
+  <ion-card id="vehicle-checks">
+    <ion-card-content>
+      <ion-grid>
+        <ion-row class="mes-data ion-align-items-start">
+          <ion-col size="3"></ion-col>
+          <ion-col size="34">
+            <ion-text addOrRemoveLangCy class="des-header-style-4 fault-heading"
+              >{{ 'debrief.vehicleChecks' | translate }}</ion-text
+              >
+            </ion-col>
+            <ion-col class="down-padding ion-align-items-start">
+              @if (componentState.tellMeQuestionHasFault$ | async) {
+                <div addOrRemoveLangCy id="tell-me-question">
+                  {{ 'debrief.tellMeQuestion' | translate }} - {{ 'debrief.incorrect' | translate }}
+                </div>
+              }
+              @if (componentState.hasShowMeFault$ | async) {
+                <div
+                  id="show-me-question"
+                  >
+                  @switch (componentState.showMeQuestionOutcome$ | async) {
+                    @case ('DF') {
+                      <span addOrRemoveLangCy id="show-me-question-outcome-df">
+                        {{ 'debrief.showMeQuestion' | translate }} - {{ 'debrief.incorrect' | translate }}
+                      </span>
+                    }
+                    @case ('S') {
+                      <span addOrRemoveLangCy id="show-me-question-outcome-s">
+                        {{ 'debrief.showMeQuestion' | translate }} - {{ 'debrief.seriousFault' | translate }}
+                      </span>
+                    }
+                    @case ('D') {
+                      <span addOrRemoveLangCy id="show-me-question-outcome-d">
+                        {{ 'debrief.showMeQuestion' | translate }} - {{ 'debrief.dangerousFault' | translate }}
+                      </span>
+                    }
+                  }
+                </div>
+              }
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-card-content>
+    </ion-card>
+  }

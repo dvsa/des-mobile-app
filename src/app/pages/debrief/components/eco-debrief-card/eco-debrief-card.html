@@ -1,24 +1,45 @@
-<ion-card id="eco" *ngIf="adviceGivenControl || adviceGivenPlanning">
-  <ion-card-content>
-    <ion-grid>
-      <ion-row>
-        <ion-col size="32">
-          <ion-text id="eco-text" addOrRemoveLangCy class="des-header-style-4">
-            {{ 'debrief.ecoHeader' | translate }}
-          </ion-text>
-        </ion-col>
-        <ion-col class="ion-align-self-start">
-          <ion-text addOrRemoveLangCy id="ecoFaults-adviceGivenControl" class="mes-data down-padding" *ngIf="adviceGivenControl && !adviceGivenPlanning">
-            {{ 'debrief.ecoControl' | translate }}
-          </ion-text>
-          <ion-text addOrRemoveLangCy id="ecoFaults-adviceGivenPlanning" class="mes-data down-padding" *ngIf="!adviceGivenControl && adviceGivenPlanning">
-            {{ 'debrief.ecoPlanning' | translate }}
-          </ion-text>
-          <ion-text addOrRemoveLangCy id="ecoFaults-adviceGivenControlAndAdviceGivenPlanning" class="mes-data down-padding" *ngIf="adviceGivenControl && adviceGivenPlanning">
-            {{ 'debrief.ecoBoth' | translate }}
-          </ion-text>
-        </ion-col>
-      </ion-row>
-    </ion-grid>
-  </ion-card-content>
-</ion-card>
+@if (adviceGivenControl || adviceGivenPlanning) {
+  <ion-card id="eco">
+    <ion-card-content>
+      <ion-grid>
+        <ion-row>
+          <ion-col size="32">
+            <ion-text
+              id="eco-text"
+              addOrRemoveLangCy
+              class="des-header-style-4">
+              {{ 'debrief.ecoHeader' | translate }}
+            </ion-text>
+          </ion-col>
+          <ion-col class="ion-align-self-start">
+            @if (adviceGivenControl && !adviceGivenPlanning) {
+              <ion-text
+                class="mes-data down-padding"
+                addOrRemoveLangCy
+                id="ecoFaults-adviceGivenControl">
+                {{ 'debrief.ecoControl' | translate }}
+              </ion-text>
+            }
+            @if (!adviceGivenControl && adviceGivenPlanning) {
+              <ion-text
+                class="mes-data down-padding"
+                addOrRemoveLangCy
+                id="ecoFaults-adviceGivenPlanning">
+                {{ 'debrief.ecoPlanning' | translate }}
+              </ion-text>
+            }
+            @if (adviceGivenControl && adviceGivenPlanning) {
+              <ion-text
+                class="mes-data down-padding"
+                addOrRemoveLangCy
+                id="ecoFaults-adviceGivenControlAndAdviceGivenPlanning"
+              >
+                {{ 'debrief.ecoBoth' | translate }}
+              </ion-text>
+            }
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-card-content>
+  </ion-card>
+}

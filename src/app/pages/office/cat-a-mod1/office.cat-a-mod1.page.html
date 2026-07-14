@@ -25,7 +25,7 @@
     [driverNumber]="pageState.candidateDriverNumber$ | async"
     [startTime]="pageState.startTime$ | async"
     [testOutcomeText]="pageState.testOutcomeText$ | async"
-  >
+    >
   </office-candidate-section>
 
   <form [formGroup]="form">
@@ -36,13 +36,14 @@
 
       <ion-card-content class="card-content-ios no-padding">
         <ion-grid class="grid">
-          <date-of-test
-            *ngIf="isRekey"
-            [dateOfTest]="pageState.startDate$ | async"
-            (setIsValidStartDateTime)="setIsValidStartDateTime($event)"
-            (dateOfTestChange)="dateOfTestChanged($event)"
-          >
-          </date-of-test>
+          @if (isRekey) {
+            <date-of-test
+              [dateOfTest]="pageState.startDate$ | async"
+              (setIsValidStartDateTime)="setIsValidStartDateTime($event)"
+              (dateOfTestChange)="dateOfTestChanged($event)"
+              >
+            </date-of-test>
+          }
 
           <activity-code
             id="activity-code-card"
@@ -51,7 +52,7 @@
             [activityCodeOptions]="activityCodeOptions"
             (activityCodeChange)="activityCodeChanged($event)"
             [disabled]="true"
-          >
+            >
           </activity-code>
 
           <div class="ion-no-padding" [hidden]="!(pageState.isTestOutcomeSet$ | async)">
@@ -61,16 +62,17 @@
               [outcome]="pageState.testOutcome$ | async"
               (circuitChange)="circuitChanged($event)"
               [circuit]="pageState.circuit$ | async"
-            >
+              >
             </circuit>
 
-            <true-likeness
-              *ngIf="pageState.displayCandidateDescription$ | async"
-              [formGroup]="form"
-              [trueLikeness]="pageState.trueLikenessToPhoto$ | async"
-              (trueLikenessChange)="trueLikenessToPhotoChanged($event)"
-            >
-            </true-likeness>
+            @if (pageState.displayCandidateDescription$ | async) {
+              <true-likeness
+                [formGroup]="form"
+                [trueLikeness]="pageState.trueLikenessToPhoto$ | async"
+                (trueLikenessChange)="trueLikenessToPhotoChanged($event)"
+                >
+              </true-likeness>
+            }
 
             <candidate-description
               [display]="pageState.displayCandidateDescription$ | async"
@@ -79,7 +81,7 @@
               [outcome]="pageState.testOutcome$ | async"
               [trueLikenessToPhoto]="pageState.trueLikenessToPhoto$ | async"
               (candidateDescriptionChange)="candidateDescriptionChanged($event)"
-            >
+              >
             </candidate-description>
 
             <identification
@@ -88,7 +90,7 @@
               [identification]="pageState.identification$ | async"
               [outcome]="pageState.testOutcome$ | async"
               (identificationChange)="identificationChanged($event)"
-            >
+              >
             </identification>
 
             <weather-conditions
@@ -98,7 +100,7 @@
               [outcome]="pageState.testOutcome$ | async"
               [weatherConditionsOptions]="weatherConditions"
               (weatherConditionsChange)="weatherConditionsChanged($event)"
-            >
+              >
             </weather-conditions>
 
             <accompaniment-card
@@ -111,7 +113,7 @@
               (supervisorAccompanimentChange)="supervisorAccompanimentToggled()"
               (otherAccompanimentChange)="otherAccompanimentToggled()"
               (interpreterAccompanimentChange)="interpreterAccompanimentToggled()"
-            >
+              >
             </accompaniment-card>
 
             <vehicle-details-card
@@ -120,7 +122,7 @@
               [hideSchoolBikeRow]="false"
               [schoolBikeVehicleDetails]="pageState.schoolBike$ | async"
               (schoolBikeVehicleDetailsChange)="schoolBikeToggled()"
-            >
+              >
             </vehicle-details-card>
 
             <office-registration-and-mot
@@ -132,20 +134,22 @@
               [vehicleModel]="pageState.vehicleModel$ | async"
             ></office-registration-and-mot>
 
-            <alternate-mot-evidence-provided
-              *ngIf="(pageState.motAlternativeEvidenceProvided$ | async) != null"
-              [alternativeEvidenceProvided]="pageState.motAlternativeEvidenceProvided$ | async"
-              [shouldHaveSeparator]="(pageState.motAlternativeEvidenceProvided$ | async) || (pageState.displayAdditionalInformation$ | async)"
-            ></alternate-mot-evidence-provided>
+            @if ((pageState.motAlternativeEvidenceProvided$ | async) != null) {
+              <alternate-mot-evidence-provided
+                [alternativeEvidenceProvided]="pageState.motAlternativeEvidenceProvided$ | async"
+                [shouldHaveSeparator]="(pageState.motAlternativeEvidenceProvided$ | async) || (pageState.displayAdditionalInformation$ | async)"
+              ></alternate-mot-evidence-provided>
+            }
 
-            <alternate-mot-evidence-description
-              [shouldHaveSeparator]="pageState.displayAdditionalInformation$ | async"
-              *ngIf="pageState.motAlternativeEvidenceProvided$ | async"
-              [alternateEvidenceDescription]="pageState.motAlternativeEvidenceDescription$ | async"
-              (evidenceDescriptionTestResultChange)="alternativeMOTEvidenceDescriptionUpdated($event)"
-              [formGroup]="form"
-            >
-            </alternate-mot-evidence-description>
+            @if (pageState.motAlternativeEvidenceProvided$ | async) {
+              <alternate-mot-evidence-description
+                [shouldHaveSeparator]="pageState.displayAdditionalInformation$ | async"
+                [alternateEvidenceDescription]="pageState.motAlternativeEvidenceDescription$ | async"
+                (evidenceDescriptionTestResultChange)="alternativeMOTEvidenceDescriptionUpdated($event)"
+                [formGroup]="form"
+                >
+              </alternate-mot-evidence-description>
+            }
 
             <additional-information
               [display]="pageState.displayAdditionalInformation$ | async"
@@ -153,38 +157,41 @@
               [formGroup]="form"
               [outcome]="pageState.testOutcome$ | async"
               (additionalInformationChange)="additionalInformationChanged($event)"
-            >
+              >
             </additional-information>
 
-            <reason-for-entering-teams
-              *ngIf="pageState.hasEnteredTeamsOnThisTest$ | async"
-              [display]="pageState.hasEnteredTeamsOnThisTest$ | async"
-              [reasonForOpeningTeams]="pageState.reasonForEnteringTeams$ | async"
-              [formGroup]="form"
-              (reasonForOpeningTeamsChange)="reasonForEnteringTeamsChanged($event)"
-            ></reason-for-entering-teams>
+            @if (pageState.hasEnteredTeamsOnThisTest$ | async) {
+              <reason-for-entering-teams
+                [display]="pageState.hasEnteredTeamsOnThisTest$ | async"
+                [reasonForOpeningTeams]="pageState.reasonForEnteringTeams$ | async"
+                [formGroup]="form"
+                (reasonForOpeningTeamsChange)="reasonForEnteringTeamsChanged($event)"
+              ></reason-for-entering-teams>
+            }
           </div>
         </ion-grid>
       </ion-card-content>
     </ion-card>
 
     <div class="ion-margin-end" [hidden]="!(pageState.isTestOutcomeSet$ | async)">
-      <speed-check-debrief-card
-        *ngIf="pageState.displaySpeedRequirements$ | async"
-        [emergencyStop]="pageState.emergencyStop$ | async"
-        [avoidance]="pageState.avoidance$ | async"
-        [avoidanceAttempted]="pageState.avoidanceAttempted$ | async"
-        [isTranslatable]="false"
-      >
-      </speed-check-debrief-card>
+      @if (pageState.displaySpeedRequirements$ | async) {
+        <speed-check-debrief-card
+          [emergencyStop]="pageState.emergencyStop$ | async"
+          [avoidance]="pageState.avoidance$ | async"
+          [avoidanceAttempted]="pageState.avoidanceAttempted$ | async"
+          [isTranslatable]="false"
+          >
+        </speed-check-debrief-card>
+      }
     </div>
 
     <div class="ion-no-padding" [hidden]="!(pageState.isTestOutcomeSet$ | async)">
-      <eta-card
-        *ngIf="(pageState.etaFaults$ | async) && (pageState.displayEta$ | async)"
-        [faults]="pageState.etaFaults$ | async"
-      >
-      </eta-card>
+      @if ((pageState.etaFaults$ | async) && (pageState.displayEta$ | async)) {
+        <eta-card
+          [faults]="pageState.etaFaults$ | async"
+          >
+        </eta-card>
+      }
 
       <fault-comment-card
         faultType="dangerous"
@@ -195,7 +202,7 @@
         [outcome]="pageState.testOutcome$ | async"
         (faultCommentsChange)="dangerousFaultCommentChanged($event)"
         [testCategory]="pageState.testCategory$ | async"
-      >
+        >
       </fault-comment-card>
 
       <fault-comment-card
@@ -207,7 +214,7 @@
         [outcome]="pageState.testOutcome$ | async"
         (faultCommentsChange)="seriousFaultCommentChanged($event)"
         [testCategory]="pageState.testCategory$ | async"
-      >
+        >
       </fault-comment-card>
 
       <fault-comment-card
@@ -222,17 +229,18 @@
         [faultCount]="pageState.drivingFaultCount$ | async"
         (faultCommentsChange)="drivingFaultCommentChanged($event)"
         [testCategory]="pageState.testCategory$ | async"
-      >
+        >
       </fault-comment-card>
 
-      <driving-faults
-        *ngIf="!(pageState.displayDrivingFaultComments$ | async) && (pageState.drivingFaultCount$ | async) > 0 && pageState.displayDrivingFault$ | async"
-        [label]="'Riding faults'"
-        [testCategory]="(pageState.testCategory$ | async)"
-        [faults]="(pageState.drivingFaults$ | async)"
-        badgeLabel="Riding"
-      >
-      </driving-faults>
+      @if (!(pageState.displayDrivingFaultComments$ | async) && (pageState.drivingFaultCount$ | async) > 0 && pageState.displayDrivingFault$ | async) {
+        <driving-faults
+          [label]="'Riding faults'"
+          [testCategory]="(pageState.testCategory$ | async)"
+          [faults]="(pageState.drivingFaults$ | async)"
+          badgeLabel="Riding"
+          >
+        </driving-faults>
+      }
     </div>
   </form>
 </ion-content>

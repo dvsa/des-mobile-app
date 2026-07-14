@@ -3,32 +3,35 @@
     <ion-buttons id="dashboard-burger-menu-btn" slot="start">
       <ion-col></ion-col>
       <ion-col class="display-flex">
-        <ion-badge
-          *ngIf="(pageState.notificationCount$ | async) as notificationCount;"
+        @if ((pageState.notificationCount$ | async); as notificationCount;) {
+          <ion-badge
           color="danger"
           id="dashboard-notification-count-badge"
           class="burger-menu-item"
         >
           {{ notificationCount }}
         </ion-badge>
+        }
       </ion-col>
     </ion-buttons>
     <ion-title role="heading" aria-level="1" id="dashboard-page-title">DES dashboard</ion-title>
-    <ion-buttons class="display-flex"
-                 [class.flex-direction-column]="getIsLargerTextSize() && pageState.showUpdatesAvailable$ | async"
-                 slot="end">
+    <ion-buttons class="display-flex" [class.flex-direction-column]="getIsLargerTextSize() && pageState.showUpdatesAvailable$ | async" slot="end">
       <ion-row>
         <ion-text class="des-header-style-6 version-number">Version {{ pageState.appVersion$ | async }}</ion-text>
       </ion-row>
-      <div *ngIf="!getIsLargerTextSize()">&nbsp;</div>
-      <ion-row *ngIf="pageState.showUpdatesAvailable$ | async">
-        <ion-badge
-          color="danger"
-          (click)="showUpdateAvailableModal(true)"
-        >
-          Version {{ pageState.liveAppVersion$ | async }} available
-        </ion-badge>
-      </ion-row>
+      @if (!getIsLargerTextSize()) {
+        <div>&nbsp;</div>
+      }
+      @if (pageState.showUpdatesAvailable$ | async) {
+        <ion-row>
+          <ion-badge
+            color="danger"
+            (click)="showUpdateAvailableModal(true)"
+            >
+            Version {{ pageState.liveAppVersion$ | async }} available
+          </ion-badge>
+        </ion-row>
+      }
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
@@ -46,37 +49,42 @@
       </ion-col>
       <ion-col class="ion-no-padding">
         <profile-header
-          [disableASAM]="deviceProvider.manuallyDisableSingleAppMode"
-          [employeeId]="pageState.employeeId$ | async"
-          [name]="pageState.employeeName$ | async"
-          [role]="pageState.role$ | async"
-        >
-        </profile-header>
-      </ion-col>
+      [disableASAM]="deviceProvider.manuallyDisableSingleAppMode"
+      [employeeId]="pageState.employeeId$ | async"
+      [name]="pageState.employeeName$ | async"
+      [role]="pageState.role$ | async"
+      >
+    </profile-header></ion-col>
     </ion-row>
 
     <hr/>
 
-    <vehicle-recalls-banner *ngIf="!showDelegatedExaminerRekey()"></vehicle-recalls-banner>
+    @if (!showDelegatedExaminerRekey()) {
+      <vehicle-recalls-banner></vehicle-recalls-banner>
+    }
 
     <h2 class="date des-header-style-4" id="date-field">{{ todaysDateFormatted }}</h2>
 
     <ion-grid class="dashboard-grid">
-      <ion-row *ngIf="!showDelegatedExaminerRekey()">
-        <ion-col size="48">
-          <go-to-journal-card></go-to-journal-card>
-        </ion-col>
-        <ion-col size="48">
-          <test-centre-journal-card
-            (navigatedToTestCentreJournal)="onNavigateToTestCentreJournal()"
-          ></test-centre-journal-card>
-        </ion-col>
-      </ion-row>
-      <ion-row *ngIf="showDelegatedExaminerRekey()">
-        <ion-col>
-          <delegated-examiner-rekey></delegated-examiner-rekey>
-        </ion-col>
-      </ion-row>
+      @if (!showDelegatedExaminerRekey()) {
+        <ion-row>
+          <ion-col size="48">
+            <go-to-journal-card></go-to-journal-card>
+          </ion-col>
+          <ion-col size="48">
+            <test-centre-journal-card
+              (navigatedToTestCentreJournal)="onNavigateToTestCentreJournal()"
+            ></test-centre-journal-card>
+          </ion-col>
+        </ion-row>
+      }
+      @if (showDelegatedExaminerRekey()) {
+        <ion-row>
+          <ion-col>
+            <delegated-examiner-rekey></delegated-examiner-rekey>
+          </ion-col>
+        </ion-row>
+      }
       <ion-row>
         <ion-col size="48">
           <test-results-search-card></test-results-search-card>
@@ -89,15 +97,20 @@
       </ion-row>
     </ion-grid>
 
-    <hr *ngIf="(showEndToEndPracticeMode() || showTestReportPracticeMode())"/>
+    @if ((showEndToEndPracticeMode() || showTestReportPracticeMode())) {
+      <hr/>
+    }
 
-    <practice-test-report-card
-      (click)="practiceTestReportCardClicked()"
-      *ngIf="showTestReportPracticeMode()"
-      id="testReportPracticeMode"
-    >
-    </practice-test-report-card>
+    @if (showTestReportPracticeMode()) {
+      <practice-test-report-card
+        (click)="practiceTestReportCardClicked()"
+        id="testReportPracticeMode"
+        >
+      </practice-test-report-card>
+    }
 
-    <practice-end-to-end-card *ngIf="showEndToEndPracticeMode()" id="endToendPracticeMode"></practice-end-to-end-card>
+    @if (showEndToEndPracticeMode()) {
+      <practice-end-to-end-card id="endToendPracticeMode"></practice-end-to-end-card>
+    }
   </div>
 </ion-content>
