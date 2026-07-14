@@ -12,15 +12,16 @@
           <ion-icon
             class="chevron-icon"
             name="chevron-forward-outline"
-            id="{{idSelector}}-chevron"
-            aria-label="`Open {{title}} section`"
+            id="{{idSelector}}-chevron"aria-label="`Open {{title}} section`"
             >
-          </ion-icon>
-        }
+          </ion-icon>}
+        @if (isInvalid) {
+          }
         @if (isInvalid) {
           <ion-icon class="invalid-icon" name="close-circle" id="{{idSelector}}-invalid-icon">
-          </ion-icon>
-        }
+          </ion-icon>}
+        @if (isValid) {
+          }
         @if (isValid) {
           <ion-icon class="valid-icon" name="checkmark-circle" id="{{idSelector}}-valid-icon"> </ion-icon>
         }

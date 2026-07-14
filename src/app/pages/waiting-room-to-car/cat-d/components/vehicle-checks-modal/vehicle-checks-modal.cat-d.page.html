@@ -21,14 +21,13 @@
   <ion-card>
     @if (showFullLicenceHeld()) {
       <full-licence-held-toggle
-
-      [fullLicenceHeld]="pageState.fullLicenceHeldSelection$ | async"
-      [testCategory]="category"
-      [formGroup]="formGroup"
-      (fullLicenceHeldChange)="fullLicenceHeldChange($event)"
-      [shouldShowSeparator]="false"
-    >
-    </full-licence-held-toggle>}
+        [fullLicenceHeld]="pageState.fullLicenceHeldSelection$ | async"
+        [testCategory]="category"
+        [formGroup]="formGroup"
+        (fullLicenceHeldChange)="fullLicenceHeldChange($event)"[shouldShowSeparator]="false"
+        >
+      </full-licence-held-toggle>
+    }
   </ion-card>
 
   @if (pageState.showFullLicenceHeld$ | async) {

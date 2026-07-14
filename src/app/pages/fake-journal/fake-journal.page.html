@@ -8,22 +8,21 @@
         <ion-col>
         </ion-col>
         <ion-col>
-          <ion-title class="mes-black" aria-level="1" role="heading" id="fake-journal-page-title">Journal</ion-title>
+          <ion-title class="mes-black"aria-level="1" role="heading" id="fake-journal-page-title">Journal</ion-title>
         </ion-col>
         <ion-col class="display-flex ion-no-padding">
           <ion-buttons class="width-100">
             <practice-mode-exit-button
               class="width-30"
-              [pageTitle]="'fake-journal-page'"
+              [pageTitle]="'fake -journal-page'"
               (exitPracticeMode)="onEndPracticeModeClicked()">
             </practice-mode-exit-button>
           </ion-buttons>
         </ion-col>
       </ion-row>
     } @else {
-      <practice-mode-options-bar
-        [pageName]="'fake-journal-page'"
-        class="header-height-76"
+      } @else {<practice-mode-options-bar
+        [pageName]="'fake-journal-page'"class="header-height-76"
         (closeExitPracticeMode)="closeExitPracticeMode()">
       </practice-mode-options-bar>
     }

@@ -1,10 +1,7 @@
 <ion-header>
   <ion-toolbar mode="ios">
     <ion-title role="heading" aria-level="1" id="dashboard-page-title">DES dashboard</ion-title>
-    <ion-buttons
-      class="display-flex"
-      [class.flex-direction-column]="getIsLargerTextSize() && pageState.showUpdatesAvailable$ | async"
-      slot="end">
+    <ion-buttons class="display-flex" [class.flex-direction-column]="getIsLargerTextSize() && pageState.showUpdatesAvailable$ | async" slot="end">
       <ion-row>
         <ion-text class="des-header-style-6 version-number">Version {{ pageState.appVersion$ | async }}</ion-text>
       </ion-row>
@@ -16,7 +13,7 @@
           <ion-badge
             color="danger"
             (click)="showUpdateAvailableModal(true)"
-          >
+            >
             Version {{ pageState.liveAppVersion$ | async }} available
           </ion-badge>
         </ion-row>
@@ -50,13 +47,12 @@
       </ion-col>
       <ion-col class="ion-no-padding">
         <profile-header
-          [disableASAM]="deviceProvider.manuallyDisableSingleAppMode"
-          [employeeId]="pageState.employeeId$ | async"
-          [name]="pageState.employeeName$ | async"
-          [role]="pageState.role$ | async"
-        >
-        </profile-header>
-      </ion-col>
+      [disableASAM]="deviceProvider.manuallyDisableSingleAppMode"
+      [employeeId]="pageState.employeeId$ | async"
+      [name]="pageState.employeeName$ | async"
+      [role]="pageState.role$ | async"
+      >
+    </profile-header></ion-col>
     </ion-row>
 
     <hr/>
@@ -71,11 +67,11 @@
       @if (!showDelegatedExaminerRekey()) {
         <ion-row>
           <ion-col size="48">
-            <go-to-journal-card class="display-flex"></go-to-journal-card>
+            <go-to-journal-cardclass="display-flex"></go-to-journal-card>
           </ion-col>
           <ion-col size="48">
-            <test-centre-journal-card class="display-flex"
-                                      (navigatedToTestCentreJournal)="onNavigateToTestCentreJournal()"
+            <test-centre-journal-cardclass="display-flex"
+              (navigatedToTestCentreJournal)="onNavigateToTestCentreJournal()"
             ></test-centre-journal-card>
           </ion-col>
         </ion-row>

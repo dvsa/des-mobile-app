@@ -9,6 +9,7 @@
       @if (!categoryConfirmed) {
         <ion-col size="48">
           @if (!categoryConfirmed) {
+            @if (!categoryConfirmed) {
             <ion-button (click)="openCategorySelector()" class="mes-return-button"
               ><label id="select-cat-type-label">Select cat type..</label></ion-button
               >
@@ -23,6 +24,8 @@
             </span>
           </ion-col>
         }
+        @if (categoryConfirmed) {
+          }
         @if (categoryConfirmed) {
           <ion-col class="select-category-link-container ion-padding-right" size="55">
             <ion-button (click)="openCategorySelector()" class="mes-link-button category-selector-link" fill="clear">
