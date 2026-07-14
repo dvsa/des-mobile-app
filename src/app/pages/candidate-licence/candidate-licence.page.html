@@ -31,7 +31,7 @@
       <inappropriate-use-banner></inappropriate-use-banner>
       <licence-photo
         [hasError]="hasErrored"
-        [imageSrc]="getImage(pageState.driverPhotograph$ | async, data.candidateLicence?.driverPhotograph)"
+        [imageSrc]="getImage(data.candidateLicence?.driverPhotograph, pageState.driverPhotograph$ | async)"
         >
       </licence-photo>
       @if (!isPracticeMode && hasErrored) {
