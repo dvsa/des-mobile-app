@@ -14,7 +14,7 @@ export class TrueLikenessComponent implements OnChanges {
   formGroup: UntypedFormGroup;
 
   @Input()
-  colSize = 32;
+  colSize = '32';
 
   @Output()
   trueLikenessChange = new EventEmitter<boolean>();
@@ -37,10 +37,6 @@ export class TrueLikenessComponent implements OnChanges {
     if (this.formControl.valid) {
       this.trueLikenessChange.emit(trueLikeness === 'true');
     }
-  }
-
-  get requireLabelPadding() {
-    return this.colSize === 31;
   }
 
   get invalid(): boolean {
