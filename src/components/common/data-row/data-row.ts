@@ -29,7 +29,7 @@ export class DataRowComponent {
   shouldShowIndicator = false;
 
   @Input()
-  shouldHaveSeperator = true;
+  shouldHaveSeparator = true;
 
   @Input()
   idPrefix?: string;
@@ -38,5 +38,5 @@ export class DataRowComponent {
   centreData = false;
 
   @Input()
-  customLabelWidth: number = null;
+  customLabelWidth: string = null;
 }

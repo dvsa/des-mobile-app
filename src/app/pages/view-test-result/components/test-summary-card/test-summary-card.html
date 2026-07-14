@@ -61,14 +61,14 @@
 
       <data-row
         [label]="'Additional information'"
-        [shouldHaveSeperator]="shouldDisplayReasonForLeaving()"
+        [shouldHaveSeparator]="shouldDisplayReasonForLeaving()"
         [value]="additionalInformation">
       </data-row>
 
       @if (shouldDisplayReasonForLeaving()) {
         <data-row
           [label]="'Reason for leaving DES during the test'"
-          [shouldHaveSeperator]="false"
+          [shouldHaveSeparator]="false"
           [value]="reasonForExitingApp">
         </data-row>
       }

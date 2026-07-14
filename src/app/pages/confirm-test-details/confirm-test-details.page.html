@@ -70,7 +70,7 @@
           [idPrefix]="idPrefix"
           [label]="'Test category'"
           [value]="pageState.testCategory$ | async"
-          [shouldHaveSeperator]="!displayForCategory(category) || !displayD255(category) || isADI3(category)"
+          [shouldHaveSeparator]="!displayForCategory(category) || !displayD255(category) || isADI3(category)"
         >
         </data-row>
         <!-- Provisional licence received -->
@@ -96,7 +96,7 @@
             [idPrefix]="idPrefix"
             [label]="'D255'"
             [value]="getD255Text(pageState.d255$ | async)"
-            [shouldHaveSeperator]="false"
+            [shouldHaveSeparator]="false"
           >
           </data-row>
         }
@@ -109,7 +109,7 @@
                 [idPrefix]="idPrefix"
                 [label]="'Student'"
                 [value]="pageState.studentLevel$ | async"
-                [shouldHaveSeperator]="true"
+                [shouldHaveSeparator]="true"
               >
               </data-row>
             }
@@ -131,7 +131,7 @@
               [idPrefix]="idPrefix"
               [label]="'Lesson planning'"
               [value]="pageState.lessonPlanningScore$ | async"
-              [shouldHaveSeperator]="true"
+              [shouldHaveSeparator]="true"
             >
             </data-row>
             <!-- Risk management -->
@@ -139,7 +139,7 @@
               [idPrefix]="idPrefix"
               [label]="'Risk management'"
               [value]="pageState.riskManagementScore$ | async"
-              [shouldHaveSeperator]="true"
+              [shouldHaveSeparator]="true"
             >
             </data-row>
             <!-- Teaching & learning strategies -->
@@ -147,7 +147,7 @@
               [idPrefix]="idPrefix"
               [label]="'Teaching & learning strategies'"
               [value]="pageState.teachingLearningStrategyScore$ | async"
-              [shouldHaveSeperator]="true"
+              [shouldHaveSeparator]="true"
             >
             </data-row>
             <!-- Total score -->
@@ -155,7 +155,7 @@
               [idPrefix]="idPrefix"
               [label]="'Total score'"
               [value]="pageState.totalScore$ | async"
-              [shouldHaveSeperator]="false"
+              [shouldHaveSeparator]="false"
             >
             </data-row>
           </div>

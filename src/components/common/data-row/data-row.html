@@ -1,6 +1,6 @@
-<ion-row [ngStyle]="rowStyling" [ngClass]="shouldHaveSeperator ? 'mes-data-row-with-separator': 'mes-data-row'">
+<ion-row [ngStyle]="rowStyling" [ngClass]="shouldHaveSeparator ? 'mes-data-row-with-separator': 'mes-data-row'">
   <ion-col
-    [size]="customLabelWidth ? customLabelWidth : (this.shouldShowIndicator ? 40 : 34)"
+    [size]="customLabelWidth ? customLabelWidth : (this.shouldShowIndicator ? '40' : '34')"
     class="ion-align-items-center display-flex"
     >
     <label [ngStyle]="labelStyling" [id]="label | formatToID: idPrefix">{{ label }}</label>

@@ -71,7 +71,7 @@
           <data-row
             [label]="'Instructor registration number'"
             [value]="instructorRegistrationNumber"
-            [shouldHaveSeperator]="showInstructorRegistrationNumberSeparator"
+            [shouldHaveSeparator]="showInstructorRegistrationNumberSeparator"
             >
           </data-row>
         }
@@ -105,7 +105,7 @@
         @if (schoolBike) {
           <data-row
             [label]="'School bike'"
-            [shouldHaveSeperator]="!!(isADI2() || isADI3() || (!isADI3() && trainerPRN))"
+            [shouldHaveSeparator]="!!(isADI2() || isADI3() || (!isADI3() && trainerPRN))"
             [value]="schoolBike"
             >
           </data-row>
@@ -117,19 +117,19 @@
           <data-row
           [label]="'ORDIT'"
           [value]="ordit"
-          [shouldHaveSeperator]="isADI3() || trainerData?.trainingRecords !== undefined"
+          [shouldHaveSeparator]="isADI3() || trainerData?.trainingRecords !== undefined"
         ></data-row>
         }
         @if (isADI2() && trainerData?.trainingRecords !== undefined) {
           <data-row
             [label]="'Training Records'"
-            [shouldHaveSeperator]=false
+            [shouldHaveSeparator]=false
             [value]="trainingRecords"
             >
           </data-row>
         }
         @if (isADI3()) {
-          <data-row [shouldHaveSeperator]="false" [label]="'Dual controls'" [value]="dualControls"></data-row>
+          <data-row [shouldHaveSeparator]="false" [label]="'Dual controls'" [value]="dualControls"></data-row>
         }
       </ion-grid>
     </ion-card-content>

@@ -53,7 +53,7 @@
     (ionScroll)="handleScroll($any($event))"
     >
     <ion-row class="ion-padding">
-      <ion-col [size]="accessibilityService.getTextZoomClass() === 'text-zoom-x-large' ? 45 : 48">
+      <ion-col [size]="accessibilityService.getTextZoomClass() === 'text-zoom-x-large' ? '45' : '48'">
         <ion-row>
           <label id="examiner-records-location-label">Location</label>
         </ion-row>
@@ -85,7 +85,7 @@
         </ion-row>
       </ion-col>
       <ion-col></ion-col>
-      <ion-col [size]="accessibilityService.getTextZoomClass() === 'text-zoom-x-large' ? 23 : 20">
+      <ion-col [size]="accessibilityService.getTextZoomClass() === 'text-zoom-x-large' ? '23' : '20'">
         <ion-row>
           <label id="examiner-records-test-category-label">Test category</label>
         </ion-row>
@@ -255,30 +255,30 @@
                 <data-row
                   class="additional-data-row"
                   [class.target-padding]="!hideMainContent"
-                  [customLabelWidth]="50"
+                  [customLabelWidth]="'50'"
                   [rowStyling]="{'padding': '0'}"
                   [labelStyling]="{'font-weight': 400}"
-                  [shouldHaveSeperator]="false"
+                  [shouldHaveSeparator]="false"
                   [value]="data.independentDrivingGrid[0].count + ' ('+data.independentDrivingGrid[0].percentage+')'"
                   label='Tests using {{(data.independentDrivingGrid[0].item).split("- ")[1].toLowerCase()}}'
                   >
                 </data-row>
                 <data-row
                   class="additional-data-row target-padding"
-                  [customLabelWidth]="50"
+                  [customLabelWidth]="'50'"
                   [rowStyling]="{'padding': '0'}"
                   [labelStyling]="{'font-weight': 400}"
-                  [shouldHaveSeperator]="false"
+                  [shouldHaveSeparator]="false"
                   [value]="data.independentDrivingGrid[1].count + ' ('+data.independentDrivingGrid[1].percentage+')'"
                   label='Tests using {{(data.independentDrivingGrid[1].item).split("- ")[1].toLowerCase()}}'
                   >
                 </data-row>
                 <data-row
                   class="additional-data-row target-padding"
-                  [customLabelWidth]="50"
+                  [customLabelWidth]="'50'"
                   [rowStyling]="{'padding': '0'}"
                   [labelStyling]="{'font-weight': 400}"
-                  [shouldHaveSeperator]="false"
+                  [shouldHaveSeparator]="false"
                   [value]="getTotal(data.independentDrivingGrid)"
                   [label]="'Total tests with ' + (isBike() ? 'independent riding' : 'independent driving')"
                   >
@@ -286,10 +286,10 @@
                 @if (shouldDisplayIndependentDrivingTarget()) {
                   <data-row
                     class="additional-data-row target-padding"
-                    [customLabelWidth]="50"
+                    [customLabelWidth]="'50'"
                     [rowStyling]="{'padding': '0', 'font-style': 'italic'}"
                     [labelStyling]="{'font-weight': 400, 'font-style': 'italic'}"
-                    [shouldHaveSeperator]="false"
+                    [shouldHaveSeparator]="false"
                     [value]="'20%'"
                     label='Target percentage of tests using {{(data.independentDrivingGrid[0].item).split("-")[1].toLowerCase()}}'
                     >
@@ -351,30 +351,30 @@
                       <data-row
                         class="additional-data-row"
                         [class.target-padding]="!hideMainContent"
-                        [customLabelWidth]="50"
+                        [customLabelWidth]="'50'"
                         [rowStyling]="{'padding': '0'}"
                         [labelStyling]="{'font-weight': 400}"
-                        [shouldHaveSeperator]="false"
+                        [shouldHaveSeparator]="false"
                         [value]="data.emergencyStops[0].count + ' ('+data.emergencyStops[0].percentage+')'"
                         label="Tests with an emergency stop"
                         >
                       </data-row>
                       <data-row
                         class="additional-data-row target-padding"
-                        [customLabelWidth]="50"
+                        [customLabelWidth]="'50'"
                         [rowStyling]="{'padding': '0'}"
                         [labelStyling]="{'font-weight': 400}"
-                        [shouldHaveSeperator]="false"
+                        [shouldHaveSeparator]="false"
                         [value]="data.emergencyStops[1].count + ' ('+data.emergencyStops[1].percentage+')'"
                         label="Tests without emergency stop"
                         >
                       </data-row>
                       <data-row
                         class="additional-data-row target-padding"
-                        [customLabelWidth]="50"
+                        [customLabelWidth]="'50'"
                         [rowStyling]="{'padding': '0'}"
                         [labelStyling]="{'font-weight': 400}"
-                        [shouldHaveSeperator]="false"
+                        [shouldHaveSeparator]="false"
                         [value]="getTotal(data.emergencyStops)"
                         [label]="'Total tests'"
                         >
@@ -431,40 +431,40 @@
                   <data-row
                     class="additional-data-row"
                     [class.target-padding]="!hideMainContent"
-                    [customLabelWidth]="50"
+                    [customLabelWidth]="'50'"
                     [rowStyling]="{'padding': '0'}"
                     [labelStyling]="{'font-weight': 400}"
-                    [shouldHaveSeperator]="false"
+                    [shouldHaveSeparator]="false"
                     [value]="data.emergencyStops[0].count + ' ('+data.emergencyStops[0].percentage+')'"
                     label="Tests with an emergency stop"
                     >
                   </data-row>
                   <data-row
                     class="additional-data-row target-padding"
-                    [customLabelWidth]="50"
+                    [customLabelWidth]="'50'"
                     [rowStyling]="{'padding': '0'}"
                     [labelStyling]="{'font-weight': 400}"
-                    [shouldHaveSeperator]="false"
+                    [shouldHaveSeparator]="false"
                     [value]="data.emergencyStops[1].count + ' ('+data.emergencyStops[1].percentage+')'"
                     label="Tests without emergency stop"
                     >
                   </data-row>
                   <data-row
                     class="additional-data-row target-padding"
-                    [customLabelWidth]="50"
+                    [customLabelWidth]="'50'"
                     [rowStyling]="{'padding': '0'}"
                     [labelStyling]="{'font-weight': 400}"
-                    [shouldHaveSeperator]="false"
+                    [shouldHaveSeparator]="false"
                     [value]="getTotal(data.emergencyStops)"
                     [label]="'Total tests'"
                     >
                   </data-row>
                   <data-row
                     class="additional-data-row target-padding"
-                    [customLabelWidth]="50"
+                    [customLabelWidth]="'50'"
                     [rowStyling]="{'padding': '0', 'font-style': 'italic'}"
                     [labelStyling]="{'font-weight': 400, 'font-style': 'italic'}"
-                    [shouldHaveSeperator]="false"
+                    [shouldHaveSeparator]="false"
                     [value]="'33%'"
                     label="Target percentage of tests with an emergency stop"
                     >
