@@ -41,9 +41,7 @@
         "enabled": true,
         "rules": {
           "recommended": true,
-          "style": {
-            "useDefaultParameterLast": "off"
-          },
+          "style": {},
           "complexity": {
             "noBannedTypes": "off",
             "noForEach": "off",
@@ -66,6 +64,17 @@
         "rules": {
           "suspicious": {
             "noExplicitAny": "off"
+          }
+        }
+      }
+    },
+    {
+      "include": ["**/*.reducer.ts"],
+      "linter": {
+        "enabled": true,
+        "rules": {
+          "style": {
+            "useDefaultParameterLast": "off"
           }
         }
       }
