@@ -20,7 +20,7 @@ describe('DataRowCustomComponent', () => {
     it('should set shouldShowIndicator to false by default', () => {
       expect(component.shouldShowIndicator).toBe(false);
     });
-    it('should set shouldHaveSeperator to false by default', () => {
+    it('should set shouldHaveSeparator to false by default', () => {
       expect(component.shouldHaveSeperator).toBe(true);
     });
   });

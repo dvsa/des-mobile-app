@@ -69,12 +69,12 @@
       </data-row-custom>
 
       @if (showPrn()) {
-        <data-row [shouldHaveSeperator]="showAttemptNumber()" [label]="'Personal reference number'" [value]="candidateDetails.prn"></data-row>
+        <data-row [shouldHaveSeparator]="showAttemptNumber()" [label]="'Personal reference number'" [value]="candidateDetails.prn"></data-row>
       }
       @if (showAttemptNumber()) {
         <data-row
           [label]="'Attempt number'"
-          [shouldHaveSeperator]="false"
+          [shouldHaveSeparator]="false"
           [value]="candidateDetails.attemptNumber ? candidateDetails.attemptNumber + 1 : 1"
         >
         </data-row>

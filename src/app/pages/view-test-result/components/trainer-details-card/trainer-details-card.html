@@ -7,7 +7,7 @@
       @if (isADI3()) {
         @if (isLogbookNotNull()) {
           <data-row
-            [shouldHaveSeperator]="true"
+            [shouldHaveSeparator]="true"
             [label]="'PDI logbook'"
             [value]="trainerData.pdiLogbook ? 'Yes' : 'No'"
           >
@@ -15,34 +15,34 @@
         }
 
         <data-row
-          [shouldHaveSeperator]="true"
+          [shouldHaveSeparator]="true"
           [label]="'Did candidate receive training from an ORDIT trainer?'"
           [value]="trainerData.orditTrainedCandidate ? 'Yes' : 'No'"
         >
         </data-row>
 
         <data-row
-          [shouldHaveSeperator]="true"
+          [shouldHaveSeparator]="true"
           [label]="'Was advice given to seek further development from an ORDIT trainer?'"
           [value]="reviewData.seekFurtherDevelopment ? 'Yes' : 'No'"
         >
         </data-row>
         @if (reasonForNoAdviceGiven) {
           <data-row
-            [shouldHaveSeperator]="true"
+            [shouldHaveSeparator]="true"
             [label]="'Reason for no advice given'"
             [value]="reasonForNoAdviceGiven"
           >
           </data-row>
         }
         <data-row
-          [shouldHaveSeperator]="true"
+          [shouldHaveSeparator]="true"
           [label]="'Trainee licence'"
           [value]="trainerData.traineeLicence ? 'Yes' : 'No'"
         >
         </data-row>
         <data-row
-          [shouldHaveSeperator]="false"
+          [shouldHaveSeparator]="false"
           [label]=prnLabel
           [value]="trainerData.trainerRegistrationNumber ? trainerData.trainerRegistrationNumber : 'None'"
         >

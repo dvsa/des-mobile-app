@@ -64,7 +64,7 @@
     </ion-col>
 
     @if (model && differentDisplay) {
-      <ion-col [size]="isAdvancedSearch ? 30 : 10">
+      <ion-col [size]="isAdvancedSearch ? '30' : '10'">
         <ion-button (click)="openModal()" class="changeButton" size="small" [id]="'change-tc-button-'+idPrefix"> Change </ion-button>
         <!--Button to clear the input entirely only appears if the user is on advanced search-->
         @if (isAdvancedSearch) {
