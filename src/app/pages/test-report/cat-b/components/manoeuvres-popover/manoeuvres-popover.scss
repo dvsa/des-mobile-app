@@ -13,8 +13,8 @@
       font-weight:600;
     }
     &:checked + label:before {
-      background-color: var(--mes-theme-main-colour);
-      box-shadow: inset 0 0 0 6px var(--mes-theme-opposing-colour);
+      background-color: var(--mes-theme-opposing-colour);
+      box-shadow: inset 0 0 0 6px var(--mes-theme-main-colour);
     }
     &:disabled + label {
       color: var(--gds-grey-2);
