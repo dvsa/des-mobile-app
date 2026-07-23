@@ -65,6 +65,7 @@ export class CompetencyComponent {
 
   allowRipple = true;
   label: string;
+  private suppressNextPress = false;
 
   constructor(private store$: Store<StoreModel>) {}
 
@@ -121,10 +122,17 @@ export class CompetencyComponent {
   }
 
   onTap = () => {
+    // onTap fires on pointerdown; when removing we suppress the later long-press from the same hold.
+    this.suppressNextPress = this.isRemoveFaultMode;
     this.addOrRemoveFault(this.isDelegated);
   };
 
   onPress = () => {
+    if (this.suppressNextPress) {
+      this.suppressNextPress = false;
+      return;
+    }
+
     this.addOrRemoveFault(true);
   };
 
