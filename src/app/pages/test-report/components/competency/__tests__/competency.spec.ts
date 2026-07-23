@@ -349,6 +349,50 @@ describe('CompetencyComponent', () => {
           })
         );
       });
+
+      it('should not re-add a driving fault when onPress follows onTap in remove mode', () => {
+        component.competency = Competencies.controlsSteering;
+        component.faultCount = 1;
+        component.isRemoveFaultMode = true;
+
+        const storeDispatchSpy = spyOn(store$, 'dispatch');
+        component.onTap();
+        component.onPress();
+
+        expect(storeDispatchSpy).toHaveBeenCalledWith(
+          RemoveDrivingFault({
+            competency: component.competency,
+            newFaultCount: 0,
+          })
+        );
+        expect(storeDispatchSpy).toHaveBeenCalledWith(ToggleRemoveFaultMode());
+        expect(storeDispatchSpy).not.toHaveBeenCalledWith(
+          ThrottleAddDrivingFault({
+            competency: component.competency,
+            newFaultCount: 2,
+          })
+        );
+      });
+
+      it('should allow add on onPress in a later interaction after remove mode tap', () => {
+        component.competency = Competencies.controlsSteering;
+        component.faultCount = 1;
+        component.isRemoveFaultMode = true;
+
+        const storeDispatchSpy = spyOn(store$, 'dispatch');
+        component.onTap();
+
+        component.isRemoveFaultMode = false;
+        component.onTap();
+        component.onPress();
+
+        expect(storeDispatchSpy).toHaveBeenCalledWith(
+          ThrottleAddDrivingFault({
+            competency: component.competency,
+            newFaultCount: 2,
+          })
+        );
+      });
     });
 
     describe('removeSeriousFault', () => {

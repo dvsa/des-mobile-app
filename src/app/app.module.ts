@@ -1,6 +1,6 @@
 import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { ErrorHandler, NgModule, inject, provideAppInitializer } from '@angular/core';
-import { BrowserModule, HAMMER_GESTURE_CONFIG, HammerModule } from '@angular/platform-browser';
+import { BrowserModule } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
 import { IsDebug } from '@awesome-cordova-plugins/is-debug/ngx';
 import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
@@ -78,7 +78,6 @@ import { SafetyRecallStoreModule } from '@store/general/safety-recall/safety-rec
 import CordovaSQLiteDriver from 'localforage-cordovasqlitedriver';
 import { get, set } from 'lodash-es';
 import { RemoteDevToolsProxy } from '../../ngrx-devtool-proxy/remote-devtools-proxy';
-import { IonicGestureConfig } from '../gestures/ionic-gesture-config';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
@@ -154,7 +153,6 @@ const storageDriver = Capacitor.getPlatform() === 'web' ? Drivers.IndexedDB : Co
     JournalModule,
     TestsModule,
     NgbModule,
-    HammerModule,
     ExaminerRecordsComponentsModule,
     PipesModule,
   ],
@@ -167,10 +165,6 @@ const storageDriver = Capacitor.getPlatform() === 'web' ? Drivers.IndexedDB : Co
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptor,
       multi: true,
-    },
-    {
-      provide: HAMMER_GESTURE_CONFIG,
-      useClass: IonicGestureConfig,
     },
     {
       provide: ErrorHandler,
