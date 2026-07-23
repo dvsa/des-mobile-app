@@ -4,6 +4,7 @@ import { Name, TestSlot } from '@dvsa/mes-journal-schema';
 import { ModalController } from '@ionic/angular';
 import { CandidateDetailsPage } from '@pages/candidate-details/candidate-details.page';
 import { AccessibilityService } from '@providers/accessibility/accessibility.service';
+import { get } from 'lodash-es';
 
 @Component({
   selector: 'candidate-link',
@@ -45,7 +46,7 @@ export class CandidateLinkComponent {
 
   parseName(name: Name) {
     if (name) {
-      return `${name.title} ${name.firstName} ${name.lastName}`;
+      return `${get(name, 'title', '')} ${name.firstName} ${name.lastName}`;
     }
     return 'Name unknown';
   }
