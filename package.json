@@ -86,7 +86,7 @@
     "@dvsa/mes-search-schema": "1.5.0",
     "@dvsa/mes-test-schema": "^3.55.1",
     "@ionic/angular": "^8.8.7",
-    "@ionic/core": "^8.8.7",
+    "@ionic/core": "^8.8.13",
     "@ionic/storage-angular": "^4.0.0",
     "@maskito/angular": "^5.2.0",
     "@maskito/core": "^5.2.0",
