@@ -30,15 +30,12 @@ export class CompetencyButtonComponent {
   touchStateDelay = 100;
   rippleEffectAnimationDuration = 300;
   longPressDelay = 301;
-  moveTolerance = 10;
 
   touchState = signal(false);
   rippleState = signal(false);
 
   private pressTimeout?: NodeJS.Timeout;
   private activePointerId: number | null = null;
-  private startX = 0;
-  private startY = 0;
 
   @HostListener('pointerdown', ['$event'])
   onPointerDown(event: PointerEvent) {
@@ -48,8 +45,7 @@ export class CompetencyButtonComponent {
 
     this.cancelLongPress();
     this.activePointerId = event.pointerId;
-    this.startX = event.clientX;
-    this.startY = event.clientY;
+    this.touchState.set(true);
 
     // Keep receiving pointer events even if the finger leaves the host element.
     this.getHostElement(event)?.setPointerCapture?.(event.pointerId);
@@ -67,15 +63,12 @@ export class CompetencyButtonComponent {
     if (!this.isActivePointer(event)) return;
 
     if (!this.isPointerInsideHost(event)) {
+      this.touchState.set(false);
       this.cancelLongPress();
       return;
     }
 
-    const xDistance = Math.abs(event.clientX - this.startX);
-    const yDistance = Math.abs(event.clientY - this.startY);
-    if (xDistance > this.moveTolerance || yDistance > this.moveTolerance) {
-      this.cancelLongPress();
-    }
+    this.touchState.set(true);
   }
 
   @HostListener('pointerup', ['$event'])
@@ -85,6 +78,7 @@ export class CompetencyButtonComponent {
     if (event && this.activePointerId !== null && !this.isActivePointer(event)) return;
 
     //If the user releases the press before the long press delay, cancel the long press action.
+    this.touchState.set(false);
     this.cancelLongPress();
 
     if (event) {
