@@ -112,23 +112,15 @@ describe('CompetencyButtonComponent', () => {
         component.onPointerDown(new PointerEvent('pointerdown', { pointerId: 3, clientX: 49, clientY: 10 }));
         component.onPointerMove(new PointerEvent('pointermove', { pointerId: 3, clientX: 51, clientY: 10 }));
 
+        expect(component.touchState()).toEqual(false);
+
         setTimeout(() => {
           expect(component.onPress.emit).not.toHaveBeenCalled();
           done();
         }, component.longPressDelay + 10);
       });
 
-      it('should cancel long press when pointer moves beyond tolerance before longPressDelay', (done) => {
-        spyOn(component.onPress, 'emit');
-        component.onPointerDown(new PointerEvent('pointerdown', { pointerId: 1, clientX: 10, clientY: 10 }));
-        component.onPointerMove(new PointerEvent('pointermove', { pointerId: 1, clientX: 100, clientY: 10 }));
-        setTimeout(() => {
-          expect(component.onPress.emit).not.toHaveBeenCalled();
-          done();
-        }, component.longPressDelay + 10);
-      });
-
-      it('should keep long press active when pointer move stays within tolerance', (done) => {
+      it('should keep long press active when pointer moves within component bounds', (done) => {
         spyOn(component.onPress, 'emit');
         const hostElement = fixture.nativeElement as HTMLElement;
         spyOn(hostElement, 'getBoundingClientRect').and.returnValue({
@@ -141,7 +133,7 @@ describe('CompetencyButtonComponent', () => {
         } as DOMRect);
 
         component.onPointerDown(new PointerEvent('pointerdown', { pointerId: 2, clientX: 10, clientY: 10 }));
-        component.onPointerMove(new PointerEvent('pointermove', { pointerId: 2, clientX: 15, clientY: 15 }));
+        component.onPointerMove(new PointerEvent('pointermove', { pointerId: 2, clientX: 150, clientY: 150 }));
         setTimeout(() => {
           expect(component.onPress.emit).toHaveBeenCalled();
           done();
