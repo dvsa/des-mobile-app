@@ -116,6 +116,24 @@
               "aot": true,
               "extractLicenses": true
             },
+            "sit": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.sit.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": {
+                "hidden": true,
+                "scripts": true,
+                "styles": true
+              },
+              "namedChunks": true,
+              "aot": true,
+              "extractLicenses": true
+            },
             "uat": {
               "fileReplacements": [
                 {
