@@ -19,6 +19,6 @@ ignore:
   SNYK-JS-BABELCORE-17342497:
     - '*':
         reason: Remediation not yet available
-        expires: 2026-07-17T09:00:00.119Z
+        expires: 2026-10-17T09:00:00.119Z
         created: 2023-06-17T09:00:00.122Z
 patch: {}
