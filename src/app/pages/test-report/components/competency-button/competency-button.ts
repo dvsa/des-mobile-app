@@ -30,12 +30,16 @@ export class CompetencyButtonComponent {
   touchStateDelay = 100;
   rippleEffectAnimationDuration = 300;
   longPressDelay = 301;
+  moveTolerance = 10;
 
   touchState = signal(false);
   rippleState = signal(false);
 
   private pressTimeout?: NodeJS.Timeout;
   private activePointerId: number | null = null;
+  private hasEmittedPress = false;
+  private startX = 0;
+  private startY = 0;
 
   @HostListener('pointerdown', ['$event'])
   onPointerDown(event: PointerEvent) {
@@ -46,13 +50,16 @@ export class CompetencyButtonComponent {
     this.cancelLongPress();
     this.activePointerId = event.pointerId;
     this.touchState.set(true);
+    this.hasEmittedPress = false;
+    this.startX = event.clientX;
+    this.startY = event.clientY;
 
     // Keep receiving pointer events even if the finger leaves the host element.
     this.getHostElement(event)?.setPointerCapture?.(event.pointerId);
 
-    this.onTap.emit();
     this.pressTimeout = setTimeout(() => {
       if (this.activePointerId !== event.pointerId) return;
+      this.hasEmittedPress = true;
       this.onPress.emit();
       if (this.allowRipple) this.triggerRipple();
     }, this.longPressDelay);
@@ -62,7 +69,10 @@ export class CompetencyButtonComponent {
   onPointerMove(event: PointerEvent) {
     if (!this.isActivePointer(event)) return;
 
-    if (!this.isPointerInsideHost(event)) {
+    // cancel press and unset touch state if pointer moves out of element bounds
+    const xDistance = Math.abs(event.clientX - this.startX);
+    const yDistance = Math.abs(event.clientY - this.startY);
+    if (!this.isPointerInsideHost(event) || xDistance > this.moveTolerance || yDistance > this.moveTolerance) {
       this.touchState.set(false);
       this.cancelLongPress();
       return;
@@ -77,12 +87,19 @@ export class CompetencyButtonComponent {
   onPointerEnd(event?: PointerEvent) {
     if (event && this.activePointerId !== null && !this.isActivePointer(event)) return;
 
+    const shouldEmitTap =
+      !!event && this.activePointerId !== null && !this.hasEmittedPress && this.isPointerInsideHost(event);
+
     //If the user releases the press before the long press delay, cancel the long press action.
     this.touchState.set(false);
     this.cancelLongPress();
 
     if (event) {
       this.getHostElement(event)?.releasePointerCapture?.(event.pointerId);
+    }
+
+    if (shouldEmitTap) {
+      this.onTap.emit();
     }
   }
 
