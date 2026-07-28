@@ -4,7 +4,6 @@ import { Name, TestSlot } from '@dvsa/mes-journal-schema';
 import { ModalController } from '@ionic/angular';
 import { CandidateDetailsPage } from '@pages/candidate-details/candidate-details.page';
 import { AccessibilityService } from '@providers/accessibility/accessibility.service';
-import { get } from 'lodash-es';
 
 @Component({
   selector: 'candidate-link',
@@ -44,11 +43,14 @@ export class CandidateLinkComponent {
     public accessibilityService: AccessibilityService
   ) {}
 
-  parseName(name: Name) {
-    if (name) {
-      return `${get(name, 'title', '')} ${name.firstName} ${name.lastName}`;
+  parseName(name: Name): string {
+    if (!name) return 'Name unknown';
+
+    if (name.title) {
+      return `${name.title} ${name.firstName} ${name.lastName}`;
     }
-    return 'Name unknown';
+
+    return `${name.firstName} ${name.lastName}`;
   }
 
   async openCandidateDetailsModal(): Promise<void> {
