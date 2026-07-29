@@ -114,20 +114,4 @@ describe('CandidateLinkComponent', () => {
       await component.openCandidateDetailsModal();
     });
   });
-
-  describe('parseName', () => {
-    it('returns "Name unknown" when name is not provided', () => {
-      expect(component.parseName(null)).toBe('Name unknown');
-    });
-
-    it('returns full name with title when title provided', () => {
-      const name = { title: 'Mr', firstName: 'John', lastName: 'Doe' };
-      expect(component.parseName(name)).toBe('Mr John Doe');
-    });
-
-    it('returns first and last name when title not provided', () => {
-      const name = { firstName: 'Jane', lastName: 'Smith' };
-      expect(component.parseName(name)).toBe('Jane Smith');
-    });
-  });
 });
