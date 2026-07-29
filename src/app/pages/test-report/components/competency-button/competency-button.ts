@@ -1,6 +1,6 @@
-import { NgClass } from '@angular/common';
 import {
-  ChangeDetectionStrategy,
+ NgClass } from '@angular/common';
+import { ChangeDetectionStrategy,
   Component,
   ElementRef,
   EventEmitter,
