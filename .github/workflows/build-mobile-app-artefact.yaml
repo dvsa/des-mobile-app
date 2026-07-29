@@ -66,7 +66,7 @@ jobs:
       runs-on: ${{ inputs.runner || 'MACOS-ARM64' }}
       environment: feature
       config-type: ${{ inputs.environment || 'dev' }}
-      build-type: qr
+      build-type: ${{ inputs.environment == 'sit' && 'qr-sit' || 'qr' }}
       build-ipa: true
       upload_path: feature/${{ inputs.environment || 'dev' }}
     secrets:
