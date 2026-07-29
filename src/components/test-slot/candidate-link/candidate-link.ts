@@ -43,11 +43,14 @@ export class CandidateLinkComponent {
     public accessibilityService: AccessibilityService
   ) {}
 
-  parseName(name: Name) {
-    if (name) {
+  parseName(name: Name): string {
+    if (!name) return 'Name unknown';
+
+    if (name.title) {
       return `${name.title} ${name.firstName} ${name.lastName}`;
     }
-    return 'Name unknown';
+
+    return `${name.firstName} ${name.lastName}`;
   }
 
   async openCandidateDetailsModal(): Promise<void> {
