@@ -11,6 +11,14 @@ on:
         type: choice
         options:
           - 'MACOS-ARM64'
+      environment:
+        description: 'Environment to build for'
+        required: true
+        default: dev
+        type: choice
+        options:
+          - dev
+          - sit
   push:
     branches:
       - develop
@@ -57,10 +65,10 @@ jobs:
     with:
       runs-on: ${{ inputs.runner || 'MACOS-ARM64' }}
       environment: feature
-      config-type: dev
+      config-type: ${{ inputs.environment || 'dev' }}
       build-type: qr
       build-ipa: true
-      upload_path: feature
+      upload_path: feature/${{ inputs.environment || 'dev' }}
     secrets:
       AWS_ROLE: ${{ secrets.DES_AWS_ROLE }}
       WEBHOOK_URL: ${{ secrets.WEBHOOK_URL }}
