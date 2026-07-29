@@ -7,10 +7,12 @@
 
     & + label:before {
       margin-left: -67px;
+      box-shadow: none !important;
     }
 
     &:checked + label:after {
       margin-left: -67px;
+      box-shadow: none !important;
     }
   }
 }
