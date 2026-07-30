@@ -1,5 +1,5 @@
 import { ValidFaultTypes } from '@pages/office/components/fault-comment/fault-comment';
-import { AnalyticsEvents } from '@providers/analytics/analytics.model';
+import { GoogleAnalyticsEvents } from '@providers/analytics/analytics.model';
 import {
   CompetencyOutcomeAnalyticEvent,
   CompetencyOutcomeGA4Event,
@@ -8,15 +8,15 @@ import { CompetencyOutcome } from '@shared/models/competency-outcome';
 
 describe('CompetencyOutcomeAnalyticEvent', () => {
   it('should return REMOVE_DANGEROUS_FAULT when faultLevel is D', () => {
-    expect(CompetencyOutcomeAnalyticEvent(CompetencyOutcome.D)).toBe(AnalyticsEvents.REMOVE_DANGEROUS_FAULT);
+    expect(CompetencyOutcomeAnalyticEvent(CompetencyOutcome.D)).toBe(GoogleAnalyticsEvents.REMOVE_DANGEROUS_FAULT);
   });
 
   it('should return REMOVE_SERIOUS_FAULT when faultLevel is S', () => {
-    expect(CompetencyOutcomeAnalyticEvent(CompetencyOutcome.S)).toBe(AnalyticsEvents.REMOVE_SERIOUS_FAULT);
+    expect(CompetencyOutcomeAnalyticEvent(CompetencyOutcome.S)).toBe(GoogleAnalyticsEvents.REMOVE_SERIOUS_FAULT);
   });
 
   it('should return REMOVE_DRIVING_FAULT for any other faultLevel', () => {
-    expect(CompetencyOutcomeAnalyticEvent(CompetencyOutcome.DF)).toBe(AnalyticsEvents.REMOVE_DRIVING_FAULT);
+    expect(CompetencyOutcomeAnalyticEvent(CompetencyOutcome.DF)).toBe(GoogleAnalyticsEvents.REMOVE_DRIVING_FAULT);
   });
 });
 
