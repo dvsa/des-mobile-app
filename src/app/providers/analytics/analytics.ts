@@ -15,8 +15,6 @@ declare const gtag: Function;
 @Injectable()
 export class AnalyticsProvider {
   googleAnalytics4Key = '';
-  uniqueDeviceId: string;
-  uniqueUserId: string;
 
   constructor(
     private appConfig: AppConfigProvider,

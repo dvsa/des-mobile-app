@@ -8,7 +8,6 @@ import { WaitingRoomValidationError, WaitingRoomViewDidEnter } from '@pages/wait
 import { AnalyticsProvider } from '@providers/analytics/analytics';
 import { AnalyticNotRecorded, AnalyticRecorded } from '@providers/analytics/analytics.actions';
 import {
-  AnalyticsEvents,
   AnalyticsScreenNames,
   GoogleAnalyticsCustomDimension,
   GoogleAnalyticsEvents,
@@ -144,7 +143,7 @@ export class WaitingRoomAnalyticsEffects {
       ),
       concatMap(([, tests]: [ReturnType<typeof CbtNumberChanged>, TestsModel, boolean]) => {
         // GA4 Analytics
-        this.analytics.logGAEvent(analyticsEventTypePrefix(AnalyticsEvents.CBT_CHANGED, tests));
+        this.analytics.logGAEvent(analyticsEventTypePrefix(GoogleAnalyticsEvents.CBT_CHANGED, tests));
 
         return of(AnalyticRecorded());
       })
@@ -166,7 +165,7 @@ export class WaitingRoomAnalyticsEffects {
         if (this.router.url?.startsWith(this.className)) {
           // GA4 Analytics
           this.analytics.logGAEvent(
-            analyticsEventTypePrefix(AnalyticsEvents.VRN_CAPTURE, tests),
+            analyticsEventTypePrefix(GoogleAnalyticsEvents.VRN_CAPTURE, tests),
             GoogleAnalyticsEventsTitles.OUTCOME,
             GoogleAnalyticsEventsValues.VRN_CAPTURE_SELECTED
           );
@@ -193,7 +192,7 @@ export class WaitingRoomAnalyticsEffects {
         if (this.router.url?.startsWith(this.className)) {
           // GA4 Analytics
           this.analytics.logGAEvent(
-            analyticsEventTypePrefix(AnalyticsEvents.VRN_CAPTURE, tests),
+            analyticsEventTypePrefix(GoogleAnalyticsEvents.VRN_CAPTURE, tests),
             GoogleAnalyticsEventsTitles.OUTCOME,
             GoogleAnalyticsEventsValues.VRN_CAPTURE_CANCELLED
           );
@@ -219,7 +218,7 @@ export class WaitingRoomAnalyticsEffects {
         if (this.router.url?.startsWith(this.className)) {
           // GA4 Analytics
           this.analytics.logGAEvent(
-            analyticsEventTypePrefix(AnalyticsEvents.VRN_CAPTURE, tests),
+            analyticsEventTypePrefix(GoogleAnalyticsEvents.VRN_CAPTURE, tests),
             GoogleAnalyticsEventsTitles.OUTCOME,
             GoogleAnalyticsEventsValues.VRN_CAPTURE_SAVED
           );
