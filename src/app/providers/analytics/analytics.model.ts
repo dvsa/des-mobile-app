@@ -70,9 +70,12 @@ export enum GoogleAnalyticsCustomDimension {
 }
 
 export enum GoogleAnalyticsEvents {
-  REMOVE_DRIVING_FAULT = 'remove driving fault',
-  REMOVE_SERIOUS_FAULT = 'remove serious fault',
-  REMOVE_DANGEROUS_FAULT = 'remove dangerous fault',
+  CANDIDATE_DECLARATION = 'candidate_declaration',
+  DECLARATION_STATUS = 'declaration_status',
+  WEATHER_CONDITIONS_CHANGED = 'weather_conditions_changed',
+  REMOVE_DRIVING_FAULT = 'remove_driving_fault',
+  REMOVE_SERIOUS_FAULT = 'remove_serious_fault',
+  REMOVE_DANGEROUS_FAULT = 'remove_dangerous_fault',
   SERVICE_ERROR = 'service_error',
   VEHICLE_DETAILS = 'vehicle_details',
   ACCOMPANIED_BY = 'accompanied_by',

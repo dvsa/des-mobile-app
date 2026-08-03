@@ -49,6 +49,7 @@ import {
   IndependentDrivingTypeChanged,
   RouteNumberConfirmed,
   TrueLikenessToPhotoChanged,
+  WeatherConditionsChanged,
 } from '@store/tests/test-summary/test-summary.actions';
 import { TestsModel } from '@store/tests/tests.model';
 import { getTests } from '@store/tests/tests.reducer';
@@ -278,6 +279,55 @@ export class OfficeAnalyticsEffects {
             GoogleAnalyticsEvents.SAVE_WRITE_UP,
             GoogleAnalyticsEventsTitles.RESULT,
             eventValue
+          );
+          return of(AnalyticRecorded());
+        }
+      )
+    )
+  );
+
+  weatherConditionsChanged$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(WeatherConditionsChanged),
+      concatMap((action) =>
+        of(action).pipe(
+          withLatestFrom(
+            this.store$.pipe(select(getTests)),
+            this.store$.pipe(select(getTests), select(getCurrentTest), select(getTestOutcome)),
+            this.store$.pipe(
+              select(getTests),
+              select(getCurrentTest),
+              select(getJournalData),
+              select(getCandidate),
+              select(getCandidateId)
+            ),
+            this.store$.pipe(
+              select(getTests),
+              select(getCurrentTest),
+              select(getJournalData),
+              select(getApplicationReference),
+              select(getApplicationNumber)
+            ),
+            this.store$.pipe(select(getTests), select(isPracticeMode))
+          )
+        )
+      ),
+      filter(([, , , , , practiceMode]) =>
+        !practiceMode ? true : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics
+      ),
+      switchMap(
+        ([{ weatherConditions }]: [
+          ReturnType<typeof WeatherConditionsChanged>,
+          TestsModel,
+          string,
+          number,
+          string,
+          boolean,
+        ]) => {
+          this.analytics.logGAEvent(
+            GoogleAnalyticsEvents.WEATHER_CONDITIONS_CHANGED,
+            GoogleAnalyticsEventsTitles.SELECTION,
+            weatherConditions.toString()
           );
           return of(AnalyticRecorded());
         }

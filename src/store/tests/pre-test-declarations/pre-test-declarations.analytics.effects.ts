@@ -12,6 +12,8 @@ import { AppConfigProvider } from '@providers/app-config/app-config';
 import { analyticsEventTypePrefix } from '@shared/helpers/format-analytics-text';
 import { StoreModel } from '@shared/models/store.model';
 import {
+  CandidateDeclarationSigned,
+  SetDeclarationStatus,
   SignatureConfirmed,
   ToggleInsuranceDeclaration,
   ToggleResidencyDeclaration,
@@ -72,6 +74,53 @@ export class PreTestDeclarationsAnalyticsEffects {
           analyticsEventTypePrefix(GoogleAnalyticsEvents.INSURANCE_DECLARATION, tests),
           GoogleAnalyticsEventsTitles.SELECTION,
           selected ? GoogleAnalyticsEventsValues.CONFIRMED : GoogleAnalyticsEventsValues.UNCONFIRMED
+        );
+
+        return of(AnalyticRecorded());
+      })
+    )
+  );
+
+  candidateDeclarationSigned$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(CandidateDeclarationSigned),
+      concatMap((action) =>
+        of(action).pipe(
+          withLatestFrom(this.store$.pipe(select(getTests)), this.store$.pipe(select(getTests), select(isPracticeMode)))
+        )
+      ),
+      filter(([, , practiceMode]) =>
+        !practiceMode ? true : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics
+      ),
+      concatMap(([, tests]: [ReturnType<typeof CandidateDeclarationSigned>, TestsModel, boolean]) => {
+        //GA4 Analytics
+        this.analytics.logGAEvent(
+          analyticsEventTypePrefix(GoogleAnalyticsEvents.CANDIDATE_DECLARATION, tests),
+          GoogleAnalyticsEventsTitles.SELECTION,
+          GoogleAnalyticsEventsValues.CONFIRMED
+        );
+        return of(AnalyticRecorded());
+      })
+    )
+  );
+
+  setDeclarationStatus$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(SetDeclarationStatus),
+      concatMap((action) =>
+        of(action).pipe(
+          withLatestFrom(this.store$.pipe(select(getTests)), this.store$.pipe(select(getTests), select(isPracticeMode)))
+        )
+      ),
+      filter(([, , practiceMode]) =>
+        !practiceMode ? true : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics
+      ),
+      concatMap(([{ declarationStatus }, tests]: [ReturnType<typeof SetDeclarationStatus>, TestsModel, boolean]) => {
+        //GA4 Analytics
+        this.analytics.logGAEvent(
+          analyticsEventTypePrefix(GoogleAnalyticsEvents.DECLARATION_STATUS, tests),
+          GoogleAnalyticsEventsTitles.SELECTION,
+          declarationStatus ? GoogleAnalyticsEventsValues.CONFIRMED : GoogleAnalyticsEventsValues.UNCONFIRMED
         );
 
         return of(AnalyticRecorded());

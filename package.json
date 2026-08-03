@@ -85,8 +85,8 @@
     "@dvsa/mes-mot-schema": "1.1.1",
     "@dvsa/mes-search-schema": "1.5.0",
     "@dvsa/mes-test-schema": "^3.55.1",
-    "@ionic/angular": "^8.8.7",
-    "@ionic/core": "^8.8.7",
+    "@ionic/angular": "^8.8.16",
+    "@ionic/core": "^8.8.16",
     "@ionic/storage-angular": "^4.0.0",
     "@maskito/angular": "^5.2.0",
     "@maskito/core": "^5.2.0",
@@ -98,8 +98,8 @@
     "@ngx-translate/core": "^17.0.0",
     "@ngx-translate/http-loader": "^17.0.0",
     "@popperjs/core": "^2.11.8",
-    "@sentry/angular": "10.52.0",
-    "@sentry/capacitor": "4.1.0",
+    "@sentry/angular": "10.60.0",
+    "@sentry/capacitor": "^4.2.0",
     "apexcharts": "5.15.2",
     "assert": "^2.1.0",
     "bootstrap": "^5.3.7",
@@ -132,7 +132,7 @@
     "url": "^0.11.3",
     "util": "^0.12.5",
     "uuid": "^14.0.0",
-    "zone.js": "~0.15.1"
+    "zone.js": "~0.16.2"
   },
   "devDependencies": {
     "@angular/build": "^20.3.8",
