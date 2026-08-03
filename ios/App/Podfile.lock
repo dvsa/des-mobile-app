@@ -40,7 +40,7 @@ PODS:
   - Sentry (9.16.1):
     - Sentry/Core (= 9.16.1)
   - Sentry/Core (9.16.1)
-  - SentryCapacitor (4.1.0):
+  - SentryCapacitor (4.2.0):
     - Capacitor
     - Sentry (= 9.16.1)
 
@@ -131,7 +131,7 @@ SPEC CHECKSUMS:
   DvsaCapacitorPluginMsauth: bde09409167167ca312c2bdaab97ec0232a77cd5
   MSAL: 1a32a1070ccf55d9641d31edd8869ea2b5a78beb
   Sentry: e5d82a3c1f2d951f75c04c57215a0abb1facbd51
-  SentryCapacitor: 3034f9cfcbdcda9a2a002a9d88a1a08df01d5fc3
+  SentryCapacitor: 865c2ef0d0d010cb50509b0846dd0a9848006b05
 
 PODFILE CHECKSUM: dba0b43953790917a62b270f6f28064695b0b458
 
