@@ -204,11 +204,12 @@
               [labelColour]="labelColour"
           [strokeColour]="strokeColour"
           [dataLabelBackgroundColour]="dataLabelBackgroundColour"
-          [dataLabelFontColour]="dataLabelFontColour"(onCardClick)="cardClicked($event)"
-              >
-            </examiner-reports-card>
-          </ion-col>
-        }
+          [dataLabelFontColour]="dataLabelFontColour"
+          (onCardClick)="cardClicked($event)"
+        >
+        </examiner-reports-card>
+      </ion-col>
+      }
         @if (data.independentDrivingGrid?.length && !isCatB()) {
           <ion-col class="ion-no-padding" size="48">
             <examiner-reports-card
@@ -340,7 +341,7 @@
                       </ion-row>
                     </ion-col>
                     <ion-col>
-                      <ion-text class="opposing-textfst-italic">
+                      <ion-text class="opposing-text fst-italic">
                         The current % of tests with an emergency stop is <b>14%</b> (1 in 7 tests) <br><br> Prior to
                         November
                         2025, the target was 33% (1 in 3 tests)
@@ -385,7 +386,7 @@
                     </ion-col>
                     @if (hideMainContent) {
                       <ion-col size="35">
-                        <ion-text class="opposing-textfst-italic">
+                        <ion-text class="opposing-text fst-italic">
                           The current % of tests with an emergency stop is <b>14%</b> (1 in 7 tests) <br><br> Prior to
                           November
                           2025, the target was 33% (1 in 3 tests)
@@ -479,28 +480,32 @@
         }
         @if (data.manoeuvresGrid?.length) {
           <ion-col class="ion-no-padding" size="auto">
-            <examiner-reports-card
-              [canExpand]="!hideMainContent"
-              [showExpandedData]="showExpandedData"
-              [showMainContent]="!hideMainContent"
-              [cardTitle]="'Manoeuvres completed'"
-
-              [isPortrait]="orientationProvider.isPortraitMode$ | async"
-              [gridHeaders]="['Question', 'Amount', '%']"
-              [chartID]="'manoeuvresChart'"
-              [splitChartLabel]="true"
-              [chartType]="'bar'"
-              [colourScheme]="colourOption.bar"
-              [passedData]="data.manoeuvresGrid"
-              (onCardClick)="cardClicked($event)"
-              [labelColour]="labelColour"
+        <examiner-reports-card
+          [canExpand]="!hideMainContent"
+          [showExpandedData]="showExpandedData"
+          [showMainContent]="!hideMainContent"
+          [cardTitle]="'Manoeuvres completed'"
+          [isPortrait]="orientationProvider.isPortraitMode$ | async"
+          [gridHeaders]="['Question', 'Amount', '%']"
+          [chartID]="'manoeuvresChart'"
+          [splitChartLabel]="true"
+          [chartType]="'bar'"
+          [colourScheme]="colourOption.bar"
+          [passedData]="data.manoeuvresGrid"
+          (onCardClick)="cardClicked($event)"
+          [labelColour]="labelColour"
+          [strokeColour]="strokeColour"
+          [dataLabelBackgroundColour]="dataLabelBackgroundColour"
+          [dataLabelFontColour]="dataLabelFontColour"
+          [averageColour]="averageColour"
+        [labelColour]="labelColour"
           [strokeColour]="strokeColour"
           [dataLabelBackgroundColour]="dataLabelBackgroundColour"
           [dataLabelFontColour]="dataLabelFontColour"
           [averageColour]="averageColour">
-            </examiner-reports-card>
-          </ion-col>
-        }
+        </examiner-reports-card>
+      </ion-col>
+      }
         @if (data.showMeQuestionsGrid?.length) {
           <ion-col class="ion-no-padding" size="auto">
             <examiner-reports-card
@@ -509,45 +514,50 @@
               [showMainContent]="!hideMainContent"
               [cardTitle]="'Show me questions asked'"
               [isPortrait]="orientationProvider.isPortraitMode$ | async"
-              [gridHeaders]="['Question', 'Amount', '%']"
-              [chartID]="'showMeChart'"
-              [splitChartLabel]="true"
-              [chartType]="'bar'"
-              [colourScheme]="colourOption.bar"
-              [passedData]="data.showMeQuestionsGrid"
-              (onCardClick)="cardClicked($event)"
-              [labelColour]="labelColour"
+          [gridHeaders]="['Question', 'Amount', '%']"
+          [chartID]="'showMeChart'"
+          [splitChartLabel]="true"
+          [chartType]="'bar'"
+          [colourScheme]="colourOption.bar"
+          [passedData]="data.showMeQuestionsGrid"
+          (onCardClick)="cardClicked($event)"
+          [labelColour]="labelColour"
           [strokeColour]="strokeColour"
           [dataLabelBackgroundColour]="dataLabelBackgroundColour"
           [dataLabelFontColour]="dataLabelFontColour"
-          [averageColour]="averageColour">
+          [averageColour]="averageColour"
+              >
             </examiner-reports-card>
           </ion-col>
         }
         @if (data.tellMeQuestionsGrid?.length) {
           <ion-col class="ion-no-padding" size="auto">
-            <examiner-reports-card
-              [canExpand]="!hideMainContent"
-              [showExpandedData]="showExpandedData"
-              [showMainContent]="!hideMainContent"
-              [cardTitle]="'Tell me questions asked'"
-
-              [isPortrait]="orientationProvider.isPortraitMode$ | async"
-              [gridHeaders]="['Question', 'Amount', '%']"
-              [chartID]="'tellMeChart'"
-              [splitChartLabel]="true"
-              [chartType]="'bar'"
-              [colourScheme]="colourOption.bar"
-              [passedData]="data.tellMeQuestionsGrid"
-              (onCardClick)="cardClicked($event)"
-              [labelColour]="labelColour"
+        <examiner-reports-card
+          [canExpand]="!hideMainContent"
+          [showExpandedData]="showExpandedData"
+          [showMainContent]="!hideMainContent"
+          [cardTitle]="'Tell me questions asked'"
+          [isPortrait]="orientationProvider.isPortraitMode$ | async"
+          [gridHeaders]="['Question', 'Amount', '%']"
+          [chartID]="'tellMeChart'"
+          [splitChartLabel]="true"
+          [chartType]="'bar'"
+          [colourScheme]="colourOption.bar"
+          [passedData]="data.tellMeQuestionsGrid"
+          (onCardClick)="cardClicked($event)"
+          [labelColour]="labelColour"
+          [strokeColour]="strokeColour"
+          [dataLabelBackgroundColour]="dataLabelBackgroundColour"
+          [dataLabelFontColour]="dataLabelFontColour"
+          [averageColour]="averageColour"
+        [labelColour]="labelColour"
           [strokeColour]="strokeColour"
           [dataLabelBackgroundColour]="dataLabelBackgroundColour"
           [dataLabelFontColour]="dataLabelFontColour"
           [averageColour]="averageColour">
-            </examiner-reports-card>
-          </ion-col>
-        }
+        </examiner-reports-card>
+      </ion-col>
+      }
         @if (data.balanceGrid?.length) {
           <ion-col class="ion-no-padding" size="48">
             <examiner-reports-card
@@ -556,69 +566,75 @@
               [showMainContent]="!hideMainContent"
               [cardTitle]="'Balance questions asked'"
               [isPortrait]="orientationProvider.isPortraitMode$ | async"
-              [gridHeaders]="['Question', 'Amount', '%']"
-              [displayColoursOnDataGrid]="!hideMainContent"
-              [chartTransform]="{ portrait: { width: 320, height: 300 }, landscape: { width: 450, height: 300 } }"
-              [chartID]="'balanceChart'"
-              [splitChartLabel]="true"
-              [chartType]="'pie'"
-              [colourScheme]="colourOption.pie"
-              [passedData]="data.balanceGrid"
-              (onCardClick)="cardClicked($event)"
-              [labelColour]="labelColour"
+          [gridHeaders]="['Question', 'Amount', '%']"
+          [displayColoursOnDataGrid]="!hideMainContent"
+          [chartTransform]="{ portrait: { width: 320, height: 300 }, landscape: { width: 450, height: 300 } }"
+          [chartID]="'balanceChart'"
+          [splitChartLabel]="true"
+          [chartType]="'pie'"
+          [colourScheme]="colourOption.pie"
+          [passedData]="data.balanceGrid"
+          (onCardClick)="cardClicked($event)"
+          [labelColour]="labelColour"
           [strokeColour]="strokeColour"
           [dataLabelBackgroundColour]="dataLabelBackgroundColour"
           [dataLabelFontColour]="dataLabelFontColour"
-          [averageColour]="averageColour">
-            </examiner-reports-card>
-          </ion-col>
-        }
+          [averageColour]="averageColour"
+        >
+        </examiner-reports-card>
+      </ion-col>
+      }
         @if (data.safetyGrid?.length) {
           <ion-col class="ion-no-padding" size="auto">
-            <examiner-reports-card
-              [canExpand]="!hideMainContent"
-              [showExpandedData]="showExpandedData"
-              [showMainContent]="!hideMainContent"
-              [cardTitle]="'Safety questions asked'"
-
-              [isPortrait]="orientationProvider.isPortraitMode$ | async"
-              [gridHeaders]="['Question', 'Amount', '%']"
-              [chartID]="'safetyChart'"
-              [splitChartLabel]="true"
-              [chartType]="'bar'"
-              [colourScheme]="colourOption.bar"
-              [passedData]="data.safetyGrid"
-              (onCardClick)="cardClicked($event)"
-              [labelColour]="labelColour"
+        <examiner-reports-card
+          [canExpand]="!hideMainContent"
+          [showExpandedData]="showExpandedData"
+          [showMainContent]="!hideMainContent"
+          [cardTitle]="'Safety questions asked'"
+          [isPortrait]="orientationProvider.isPortraitMode$ | async"
+          [gridHeaders]="['Question', 'Amount', '%']"
+          [chartID]="'safetyChart'"
+          [splitChartLabel]="true"
+          [chartType]="'bar'"
+          [colourScheme]="colourOption.bar"
+          [passedData]="data.safetyGrid"
+          (onCardClick)="cardClicked($event)"
+          [labelColour]="labelColour"
+          [strokeColour]="strokeColour"
+          [dataLabelBackgroundColour]="dataLabelBackgroundColour"
+          [dataLabelFontColour]="dataLabelFontColour"
+          [averageColour]="averageColour"
+        [labelColour]="labelColour"
           [strokeColour]="strokeColour"
           [dataLabelBackgroundColour]="dataLabelBackgroundColour"
           [dataLabelFontColour]="dataLabelFontColour"
           [averageColour]="averageColour">
-            </examiner-reports-card>
-          </ion-col>
-        }
+        </examiner-reports-card>
+      </ion-col>
+      }
         @if (data.circuits?.length) {
           <ion-col class="ion-no-padding" size="48">
-            <examiner-reports-card
-              [showExpandedData]="showExpandedData"
-              [showMainContent]="!hideMainContent"
-              [canExpand]="!hideMainContent"
-              [cardTitle]="'Circuits'"
-              [isPortrait]="orientationProvider.isPortraitMode$ | async"
-              [gridHeaders]="['Circuit', 'Amount', '%']"
-              [displayColoursOnDataGrid]="!hideMainContent"
-              [chartTransform]="{ portrait: { width: 320, height: 300 }, landscape: { width: 450, height: 300 } }"
-              [chartID]="'circuit'"
-              [splitChartLabel]="true"
-              [chartType]="'pie'"
-              [colourScheme]="colourOption.pie"
-              [passedData]="data.circuits"
-              (onCardClick)="cardClicked($event)"
-              [labelColour]="labelColour"
+        <examiner-reports-card
+          [showExpandedData]="showExpandedData"
+          [showMainContent]="!hideMainContent"
+          [canExpand]="!hideMainContent"
+          [cardTitle]="'Circuits'"
+          [isPortrait]="orientationProvider.isPortraitMode$ | async"
+          [gridHeaders]="['Circuit', 'Amount', '%']"
+          [displayColoursOnDataGrid]="!hideMainContent"
+          [chartTransform]="{ portrait: { width: 320, height: 300 }, landscape: { width: 450, height: 300 } }"
+          [chartID]="'circuit'"
+          [splitChartLabel]="true"
+          [chartType]="'pie'"
+          [colourScheme]="colourOption.pie"
+          [passedData]="data.circuits"
+          (onCardClick)="cardClicked($event)"
+          [labelColour]="labelColour"
           [strokeColour]="strokeColour"
           [dataLabelBackgroundColour]="dataLabelBackgroundColour"
           [dataLabelFontColour]="dataLabelFontColour"
-          [averageColour]="averageColour">
+          [averageColour]="averageColour"
+              >
             </examiner-reports-card>
           </ion-col>
         }
