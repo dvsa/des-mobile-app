@@ -14,10 +14,10 @@
   height: 40px;
   font-weight: bolder;
   border-radius: 50%;
-  color: #000;
+  color: var(--gds-black);
   line-height: 48px;
   text-align: center;
-  background: #fff;
+  background: var(--gds-white);
 }
 
 .word-wrapper {

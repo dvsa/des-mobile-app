@@ -1,6 +1,10 @@
 .container {
-  background-color: #e6e6e6;
-  border-left: 10px solid var(--gds-black);
+  .alert-icon {
+    color: var(--gds-theme-opposite);
+    font-size: 35px;
+  }
+  background-color: var(--mes-theme-main-light);
+  border-left: 10px solid var(--gds-theme-opposite);
   margin-top: 30px;
 
 
@@ -11,11 +15,10 @@
 
   ion-icon.alert-icon {
     font-size: 52px;
-    color: var(--gds-black);
+    color: var(--gds-theme-opposite);
   }
 
   .privacy-text {
-    color: var(--gds-black);
     font-weight: 600;
   }
   .icon-align {

@@ -1,5 +1,5 @@
 ion-card {
-  background: var(--mes-white);
+  background: var(--mes-theme-main-colour);
   margin: 15px 10px;
 
   ion-grid {
@@ -21,7 +21,7 @@ ion-col {
 }
 
 .team-journal-test-centre-name {
-  color: #000;
+  color: var(--mes-theme-opposing-colour);
 
   .text-zoom-regular & {
     font-size: 18px;
@@ -37,7 +37,7 @@ ion-col {
 }
 
 .team-journal-driver-number {
-  color: #000;
+  color: var(--mes-theme-opposing-colour);
 
   .text-zoom-regular & {
     font-size: 18px;

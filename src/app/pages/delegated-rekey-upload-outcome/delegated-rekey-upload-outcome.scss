@@ -28,13 +28,13 @@
   }
 
   .delegated-spinner {
-    color: black;
+    color: var(--mes-theme-opposing-colour);
   }
 
   ion-footer {
     ion-row.mes-full-width-card {
       padding: 24px 32px;
-      background-color: var(--mes-white);
+      background-color: var(--mes-theme-main-colour);
 
       button {
         width: initial;

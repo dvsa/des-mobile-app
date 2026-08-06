@@ -9,6 +9,7 @@ import { CheckVINPressed } from '@store/general/safety-recall/safety-recall.acti
 @Component({
   selector: 'safety-recall',
   templateUrl: './safety-recall.html',
+  styleUrls: ['./safety-recall.scss'],
   imports: [IonicModule],
 })
 export class SafetyRecallComponent {

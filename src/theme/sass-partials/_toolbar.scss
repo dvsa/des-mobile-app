@@ -1,7 +1,7 @@
 ion-header {
   ion-toolbar {
     --background: var(--mes-toolbar-background);
-    --color: var(--mes-white);
+    --color: var(--mes-theme-main-colour);
 
     ion-title {
       font-size: 20px;
@@ -20,7 +20,7 @@ ion-header {
 ion-footer {
   ion-toolbar {
     padding-bottom: 0 !important;
-    --background: var(--mes-white);
+    --background: var(--mes-theme-main-colour);
   }}
 
 .no-internal-padding {

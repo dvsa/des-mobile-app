@@ -13,20 +13,20 @@
       <ion-col size="50">
         <ion-row>
           <ion-col size="35">
-            <ion-text id="mot-status-label" class="bold-font"> MOT Status</ion-text>
+            <ion-text id="mot-status-label" class="opposing-text bold-font"> MOT Status</ion-text>
           </ion-col>
           <ion-col>
-            <ion-text id="mot-status">
+            <ion-text class="opposing-text" id="mot-status">
               {{ isValidMOT() ? data?.expiryDate ? 'Valid until ' + data?.expiryDate : 'Valid' : data?.expiryDate ? 'Expired ' + data?.expiryDate : 'Not valid' }}
             </ion-text>
           </ion-col>
         </ion-row>
         <ion-row>
           <ion-col size="35">
-            <ion-text id="make-and-model-label" class="bold-font"> Make/Model</ion-text>
+            <ion-text id="make-and-model-label" class="opposing-text bold-font"> Make/Model</ion-text>
           </ion-col>
           <ion-col size="50">
-            <ion-text id="make-and-model"> {{ data?.make }} {{ data?.model }}</ion-text>
+            <ion-text id="make-and-model" class="opposing-text"> {{ data?.make }} {{ data?.model }}</ion-text>
           </ion-col>
         </ion-row>
       </ion-col>
@@ -50,10 +50,10 @@
       </ion-col>
       <ion-col class="icon-text-align" size="49">
         @if (isNoDetails()) {
-          <ion-text id="unable-to-determine-mot-status-label"> Unable to determine MOT status.</ion-text>
+          <ion-text class="opposing-text" id="unable-to-determine-mot-status-label"> Unable to determine MOT status.</ion-text>
         }
         @if (isSearchFailed()) {
-          <ion-text id="unable-to-connect-mot-label"> Unable to connect. This feature is not available.</ion-text>
+          <ion-text class="opposing-text" id="unable-to-connect-mot-label"> Unable to connect. This feature is not available.</ion-text>
         }
       </ion-col>
     </ion-row>

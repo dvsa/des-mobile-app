@@ -41,13 +41,13 @@
 
   ion-spinner {
     * {
-      stroke: white;
+      stroke: var(--gds-white);
     }
 
     &.spinner-circles circle,
     &.spinner-bubbles circle,
     &.spinner-dots circle {
-      fill: white;
+      fill: var(--gds-white);
     }
   }
 

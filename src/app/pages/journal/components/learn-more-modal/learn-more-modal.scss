@@ -1,11 +1,11 @@
 :host {
   .linkText {
-    color: #0074d9;
+    color: var(--hyperlink-blue);
     text-decoration: underline;
   }
   .warning-icon {
     font-size: 80px;
-    color: black;
+    color: var(--mes-theme-opposing-colour);
   }
 
   .top-row {
@@ -23,12 +23,12 @@
   .modal-text {
     font-size: 24px;
     line-height: 24px;
-    color: var(--gds-black);
+    color: var(--mes-theme-opposing-colour);
   }
 
   .dark-divider-ok-button {
     width: 100%;
     font-weight: bold;
-    color: var(--gds-black);
+    color: var(--mes-theme-opposing-colour);
   }
 }

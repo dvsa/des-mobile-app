@@ -10,6 +10,9 @@ import { GearboxCategory } from '@dvsa/mes-test-schema/categories/common';
 })
 export class TransmissionComponent implements OnChanges {
   @Input()
+  style?: number;
+
+  @Input()
   transmission: GearboxCategory;
   @Input()
   hideTransmissionLabel = false;

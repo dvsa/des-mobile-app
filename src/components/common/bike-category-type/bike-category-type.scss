@@ -1,12 +1,16 @@
 :host {
   .category-selector-link {
-    color: #3572b0;
+    color: var(--hyperlink-blue);
     background: transparent;
     font-size: 23px;
     text-decoration: underline;
     text-underline-position: under;
     font-weight: 500;
     line-height: 20px;
+  }
+
+  #select-cat-type-label {
+    color: var(--gds-black)
   }
 
   .selected-category-code {

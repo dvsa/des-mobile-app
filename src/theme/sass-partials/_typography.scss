@@ -10,19 +10,19 @@
 .heavy-font-family {
   font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Roboto';
   font-weight: 800;
-  color: var(--gds-black);
+  color: var(--mes-theme-opposing-colour);
 }
 
 .semibold-font-family {
   font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Roboto';
   font-weight: 600;
-  color: var(--gds-black);
+  color: var(--mes-theme-opposing-colour);
 }
 
 .regular-font-family {
   font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Roboto';
   font-weight: 400;
-  color: var(--gds-black);
+  color: var(--mes-theme-opposing-colour);
 }
 
 html .text-zoom-regular {
@@ -81,7 +81,7 @@ html .text-zoom-regular {
     @extend .regular-font-family;
     font-size: 23px;
     line-height: 26px;
-    color: black;
+    color: var(--mes-theme-opposing-colour);
   }
 
   div, ion-select, span {
@@ -151,7 +151,7 @@ html .text-zoom-regular {
     @extend .regular-font-family;
     font-size: 22px;
     line-height: 30px;
-    color: black;
+    color: var(--mes-theme-opposing-colour);
   }
 
   div, ion-select, span {
@@ -220,7 +220,7 @@ html .text-zoom-regular {
     @extend .regular-font-family;
     font-size: 28px;
     line-height: 36px;
-    color: black;
+    color: var(--mes-theme-opposing-colour);
   }
 
   div, ion-select, span {

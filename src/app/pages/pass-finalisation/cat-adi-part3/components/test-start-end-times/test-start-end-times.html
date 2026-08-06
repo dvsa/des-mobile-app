@@ -2,7 +2,7 @@
   <ion-col class="ion-align-self-center" size="30">
     <label id="test-start-end-times-label">Test start - end time</label>
   </ion-col>
-  <ion-col size="20">
+  <ion-col class="display-flex ion-align-items-center" size="20">
     <datetime-input
       [initialValue]="startTime"
       (onDataPicked)="timeChanged($event)"
@@ -23,7 +23,7 @@
     <label class="to-label" id="to-label">-</label>
   </ion-col>
 
-  <ion-col size="20">
+  <ion-col class="display-flex ion-align-items-center" size="20">
     <datetime-input
       [initialValue]="endTime"
       (onDataPicked)="timeChanged($event)"

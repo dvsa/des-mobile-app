@@ -31,13 +31,9 @@
 
 .link {
   text-decoration: underline;
-  color: #005ea5;
+  color: var(--hyperlink-blue);
   &.error-details-link {
     font-size: 14px;
     padding-top: 5px;
   }
-}
-
-.colour-white {
-  color: white;
 }

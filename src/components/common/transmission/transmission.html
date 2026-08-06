@@ -1,6 +1,7 @@
 <ion-row
   [formGroup]="formGroup"
   [class.teal-background]="shouldShowConfirmation()"
+  [class.black-text]="shouldShowConfirmation()"
   class="mes-validated-row mes-row-separator mes-narrow-row"
   id="transmission-card">
   <div class="validation-bar" [class.ng-invalid]="isTransmissionInvalid()"></div>
@@ -51,11 +52,12 @@
       <ion-row>
         <ion-col class="ion-align-items-center display-flex" size="48">
           <input
+            class="gds-radio-button"
             type="radio"
             [id]="'transmission-manual-radio-button'"
             [formControlName]=transmissionFieldName
             [name]=transmissionFieldName
-            class="gds-radio-button"
+            [ngClass]="style === 1? 'gds-radio-button-1' : 'gds-radio-button-2'"
             [class.ng-invalid]="isTransmissionInvalid()"
             (change)="transmissionChanged($event.target.value)"
             value="Manual"
@@ -66,11 +68,12 @@
         </ion-col>
         <ion-col class="ion-align-items-center display-flex">
           <input
+            class="gds-radio-button"
             type="radio"
             [id]="'transmission-automatic-radio-button'"
             [formControlName]=transmissionFieldName
             [name]=transmissionFieldName
-            class="gds-radio-button"
+            [ngClass]="style === 1? 'gds-radio-button-1' : 'gds-radio-button-2'"
             [class.ng-invalid]="isTransmissionInvalid()"
             (change)="transmissionChanged($event.target.value)"
             value="Automatic"

@@ -1,6 +1,6 @@
 :host {
   .alert-icon {
-    color: var(--gds-black);
+    color: var(--gds-theme-opposite);
     font-size: 35px;
   }
   div {
@@ -20,6 +20,6 @@
     align-items: center;
   }
   .danger-text {
-    color: var(--gds-black);
+    color: var(--gds-theme-opposite);
   }
 }

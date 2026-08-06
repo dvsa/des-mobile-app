@@ -54,8 +54,21 @@
     margin: 0 14px 0;
   }
 
+  .toolbar-ios ion-title {
+    height: 100% !important;
+  }
+
+  #page-title {
+    color: var(--gds-white);
+  }
+
+  #burger-menu {
+    color: var(--gds-white);
+  }
+
   .version-number {
     color: var(--mes-secondary-header);
+    margin-top: -4px;
   }
 
   .last-sync {
@@ -69,7 +82,7 @@
     background: var(--gds-red);
 
     #unauth-text {
-      color: var(--mes-white);
+      color: var(--gds-white);
       font-size: 20px;
       font-weight: normal;
       letter-spacing: 0.34px;
@@ -88,7 +101,11 @@
   }
 
   span {
-    color: var(--mes-white);
+    color: inherit;
+  }
+
+  ion-menu-button {
+    color: var(--mes-theme-opposing-colour)
   }
 
   .burger-menu {

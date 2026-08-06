@@ -17,7 +17,7 @@ span, label {
 .dot {
   height: 25px;
   width: 25px;
-  background-color: #ff0000;
+  background-color: var(--gds-red);
   border-radius: 50%;
   display: inline-block;
   &.placeholder {

@@ -83,7 +83,8 @@
               [formGroup]="form"
               [outcome]="pageState.testOutcome$ | async"
               (additionalInformationChange)="additionalInformationChanged($event)"
-              >
+              [shouldShowSeparator]="pageState.hasEnteredTeamsOnThisTest$ | async"
+            >
             </additional-information>
           </div>
 

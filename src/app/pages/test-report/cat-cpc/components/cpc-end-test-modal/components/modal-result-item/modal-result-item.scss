@@ -8,13 +8,13 @@
 
   .result-item {
     width: 75%;
-    background: var(--light);
+    background: var(--theme-main-colour-soft);
     border-radius: 8px;
   }
 
   .result-item-adi3 {
     justify-items: center;
-    background: var(--light);
+    background: var(--theme-main-colour-soft);
     border-radius: 8px;
   }
 
@@ -27,12 +27,12 @@
     font-weight: bold;
     text-align: left;
     width: 10%;
-    color: black;
+    color: var(--mes-theme-opposing-colour);
   }
 
   .question-score {
     text-align: center;
-    color: black;
+    color: var(--mes-theme-opposing-colour);
   }
 
   .outcome-icon {

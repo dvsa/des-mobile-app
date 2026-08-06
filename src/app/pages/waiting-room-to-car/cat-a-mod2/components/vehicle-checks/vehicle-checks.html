@@ -13,7 +13,7 @@
             class="mes-return-button select-questions-btn"
             (click)="openVehicleChecksModal()"
             >
-            <label id="select-questions-label" class="ion-text-nowrap">Select questions</label>
+            <label id="select-questions-label" class="mes-black ion-text-nowrap">Select questions</label>
           </ion-button>
         </ion-col>
       }
@@ -29,7 +29,7 @@
             <ion-row class="vehicle-checks-result">
               <driving-faults-badge class="badge" showOnZero="true" [count]="safetyAndBalanceQuestionsScore.drivingFaults">
               </driving-faults-badge>
-              <span class="black-text">riding fault</span>
+              <span class="opposing-text">riding fault</span>
             </ion-row>
           }
         </ion-col>
