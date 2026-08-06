@@ -64,11 +64,11 @@ jobs:
     uses: dvsa/des-workflow-actions/.github/workflows/build-mobile-app.yaml@main
     with:
       runs-on: ${{ inputs.runner || 'MACOS-ARM64' }}
-      environment: ${{ inputs.environment == 'sit' && 'sit' || 'feature' }}
+      environment: ${{ inputs.environment == 'qr-sit' && 'sit' || 'feature' }}
       config-type: ${{ inputs.environment || 'dev' }}
-      build-type: ${{ inputs.environment == 'sit' && 'qr-sit' || 'qr' }}
+      build-type: ${{ inputs.environment == 'qr-sit' && 'qr-sit' || 'qr' }}
       build-ipa: true
-      upload_path: ${{ inputs.environment == 'sit' && 'sit' || 'feature' }}
+      upload_path: ${{ inputs.environment == 'qr-sit' && 'sit' || 'feature' }}
     secrets:
       AWS_ROLE: ${{ secrets.DES_AWS_ROLE }}
       WEBHOOK_URL: ${{ secrets.WEBHOOK_URL }}
