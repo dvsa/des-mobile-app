@@ -12,7 +12,7 @@ on:
         options:
           - 'MACOS-ARM64'
       environment:
-        description: 'Environment to build for'
+        description: 'Environment to build QR/IPA artefact for'
         required: true
         default: dev
         type: choice
