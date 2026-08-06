@@ -46,7 +46,7 @@ jobs:
       WEBHOOK_URL: ${{ secrets.WEBHOOK_URL }}
 
   feature:
-    if: github.event_name == 'workflow_dispatch' || (github.event_name == 'push' && startsWith(github.ref_name, 'mes-'))
+    if: (github.event_name == 'workflow_dispatch' && inputs.environment == 'dev') || (github.event_name == 'push' && startsWith(github.ref_name, 'mes-'))
     uses: dvsa/des-workflow-actions/.github/workflows/build-mobile-app.yaml@main
     with:
       runs-on: ${{ inputs.runner || 'MACOS-ARM64' }}
