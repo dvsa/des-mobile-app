@@ -15,16 +15,16 @@
 
   & + label:before {
     content: '';
-    border: 2px solid var(--gds-black);
+    border: 2px solid var(--mes-theme-opposing-colour);
     border-radius: 100%;
     min-width: $radio-width;
     height: $radio-height;
     margin-right: 0.6em;
-    background-color: var(--mes-white);
+    background-color: var(--mes-theme-main-colour);
   }
   &:checked + label:before {
-    background-color: var(--gds-black);
-    box-shadow: inset 0 0 0 9px var(--mes-white);
+    background-color: var(--mes-theme-opposing-colour);
+    box-shadow: inset 0 0 0 9px var(--mes-theme-main-colour);
   }
 
   &.ng-dirty {

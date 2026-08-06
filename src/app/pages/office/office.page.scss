@@ -17,7 +17,7 @@
   }
 
   .character-count {
-    color: var(--gds-grey-1);
+    color: var(--mes-theme-main-variant5);
     font-weight: initial;
     letter-spacing: initial;
 
@@ -95,7 +95,7 @@
     }
 
     .terminated {
-      color: var(--gds-black);
+      color: var(--mes-theme-opposing-colour);
     }
   }
 
@@ -118,7 +118,7 @@
 
   #defer-button {
     --background: var(--gds-grey-3);
-    --box-shadow: 0px 2px 0px 0px rgba(0, 0, 0, 0.5);
+    --box-shadow: 0 2px 0 0 rgba(0, 0, 0, 0.5);
     --border-radius: 10px;
     margin: 0 0.2rem;
     padding: 0 1.6em;
@@ -128,7 +128,7 @@
     }
 
     h3 {
-      --color: var(--mes-black);
+      --color: var(--mes-theme-opposing-colour);
 
       .text-zoom-regular &,
       .text-zoom-large &,
@@ -156,7 +156,7 @@
   ion-footer {
     ion-row.mes-full-width-card {
       padding: 24px 32px;
-      background-color: var(--mes-white);
+      background-color: var(--mes-theme-main-colour);
 
       button {
         width: initial;

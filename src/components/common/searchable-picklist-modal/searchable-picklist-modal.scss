@@ -1,9 +1,12 @@
 .content-background {
   font-size: 19px;
-  --ion-background-color: var(--mes-white);
+  --ion-background-color: var(--mes-theme-main-colour);
   border-radius: 10px !important;
-  border: 10px solid var(--mes-white) !important;
-  mix-blend-mode: exclusion;
+  border: 10px solid var(--mes-theme-main-colour) !important;
+}
+
+.search-text {
+  color: var(--mes-theme-opposing-colour);
 }
 
 .component-label {
@@ -12,12 +15,12 @@
 }
 
 ion-item {
-  --ion-background-color: var(--mes-white);
+  --ion-background-color: var(--mes-theme-main-colour);
 }
 
 .button-style {
   padding-top: 7px;
-  color: var(--gds-black);
+  color: var(--mes-theme-opposing-colour);
   display: flex;
   align-items: center;
 
@@ -36,20 +39,14 @@ ion-item {
   font-weight: bold;
 }
 
-.dark-mode-override {
-  --background: white;
-  color: black;
-  --background-activated: gray;
-}
-
 .max-width {
   width: 100%;
 }
 
 .modal-row {
-  border: 2px solid var(--dark);
+  border: 2px solid var(--mes-theme-opposing-colour);
   border-radius: 8px;
-  color: var(--dark);
+  color: var(--mes-theme-opposing-colour);
   font-size: 19px;
   width: 452px;
   height: 48px;
@@ -61,7 +58,7 @@ ion-item {
 }
 
 .down-caret-icon {
-  color: darkgrey;
+  color: var(--mes-theme-main-variant5);
   font-size: 14px;
 }
 
@@ -71,12 +68,12 @@ ion-item {
 }
 
 ion-item::part(native) {
-  background: var(--mes-white);
-  color: black;
+  background: var(--mes-theme-main-colour);
+  color: var(--mes-theme-opposing-colour);
 }
 
 ion-searchbar {
-  --background: var(--mes-white);
-  --placeholder-color: black;
-  --color: black;
+  --background: var(--mes-theme-main-colour);
+  --placeholder-color: var(--mes-theme-opposing-colour);
+  --color: var(--mes-theme-opposing-colour);
 }

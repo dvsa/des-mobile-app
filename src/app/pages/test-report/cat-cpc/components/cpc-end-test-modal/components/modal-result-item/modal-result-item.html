@@ -22,11 +22,11 @@
   <ion-grid class="grid-padding">
     <ion-row class="result-item-adi3">
       <ion-col size="{{showIcon ? 63 : 75}}">
-        <div class="col black-text" id="{{idSelector}}-text">{{label}}</div>
+        <div class="col opposing-text" id="{{idSelector}}-text">{{label}}</div>
       </ion-col>
       <ion-col size="17">
         @if (showScore) {
-          <div class="col black-text" id="{{idSelector}}-score">{{displayScore(score)}}</div>
+          <div class="col opposing-text" id="{{idSelector}}-score">{{displayScore(score)}}</div>
         }
       </ion-col>
       <ion-col size="{{showIcon ? 12 : 0}}">

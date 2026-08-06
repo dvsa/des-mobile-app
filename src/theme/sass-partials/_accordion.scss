@@ -9,6 +9,6 @@ ion-accordion.accordion-collapsed ion-item[slot='header'],
 ion-accordion.accordion-expanding ion-item[slot='header'],
 ion-accordion.accordion-expanded ion-item[slot='header']{
   --background: var(--ion-accordion);
-  --color: var(--gds-black);
-  --background-activated: var(--gds-black);
+  --color: var(--mes-theme-opposing-colour);
+  --background-activated: var(--mes-theme-opposing-colour);
 }

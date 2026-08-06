@@ -27,7 +27,7 @@
   }
 
   #end-test-text {
-    color: var(--mes-white) !important;
+    color: var(--gds-white) !important;
   }
 
   .end-test-button {
@@ -49,7 +49,7 @@
   }
 
   .return-button {
-    color: var(--gds-black);
+    color: var(--gds-theme-opposite);
   }
 
 }

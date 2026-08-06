@@ -1,4 +1,8 @@
-<ion-row class="mes-validated-row mes-row-separator ion-nowrap" id="full-licence-held-row" [formGroup]="formGroup">
+<ion-row
+  class="mes-validated-row ion-nowrap"
+  [class.mes-row-separator]="shouldShowSeparator"
+  id="full-licence-held-row"
+  [formGroup]="formGroup">
   <div class="validation-bar" [class.ng-invalid]="invalid"></div>
   <ion-col class="component-label ion-align-self-center" size="32">
     <label id="full-cat-held-label">Full Cat {{testCategory?.split('+')[0]}} held?</label>

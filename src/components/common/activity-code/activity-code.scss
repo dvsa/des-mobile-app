@@ -18,22 +18,17 @@
     align-items: center;
   }
 
-  .select-width {
-    width: 452px;
-    color: black;
-  }
-
-  .boarder {
+  .border {
     border: 1px solid;
   }
 
   .col-font-color {
-    color: var(--dark);
+    color: var(--theme-opposing-colour-soft);
   }
 
   .placeholder-font-color {
     margin-left: 4px;
-    color: darkgrey;
+    color: var(--gds-grey-1);
   }
 
   .no-padding-start {
@@ -56,9 +51,9 @@
   }
 
   .activity-code-modal-row {
-    border: 2px solid var(--dark);
+    border: 2px solid var(--theme-opposing-colour-soft);
     border-radius: 8px;
-    color: var(--dark);
+    color: var(--theme-opposing-colour-soft);
     font-size: 19px;
     width: 452px;
     height: 48px;
@@ -70,7 +65,7 @@
   }
 
   .down-caret-icon {
-    color: darkgrey;
+    color: var(--gds-grey-1);
     font-size: 14px;
   }
   .custom-font-size {

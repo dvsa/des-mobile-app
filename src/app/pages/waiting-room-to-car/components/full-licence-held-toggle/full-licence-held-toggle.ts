@@ -20,6 +20,9 @@ export class FullLicenceHeldComponent implements OnChanges {
   @Input()
   required = false;
 
+  @Input()
+  shouldShowSeparator = true;
+
   @Output()
   fullLicenceHeldChange = new EventEmitter<boolean>();
 
