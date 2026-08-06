@@ -27,7 +27,7 @@
     "build": "npm run copy-resources && ionic build",
     "build:ci": "npm run schema-version && npm run config:dev && npm run build:prod",
     "build:dev": "npm run schema-version && npm run config:dev && npm run build:prod",
-    "build:sit": "npm run schema-version && npm run config:qr-sit && ionic cap build ios --no-open --prod --configuration qr-sit",
+    "build:sit": "npm run schema-version && npm run config:sit && ionic cap build ios --no-open --prod --configuration sit",
     "build:qr": "npm run schema-version && npm run config:qr && ionic cap build ios --no-open --prod --configuration qr",
     "build:qr-sit": "npm run schema-version && npm run config:qr-sit && ionic cap build ios --no-open --prod --configuration qr-sit",
     "build:prod": "ionic cap build ios --no-open --prod",
