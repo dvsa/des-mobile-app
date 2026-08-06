@@ -68,7 +68,7 @@ jobs:
       config-type: ${{ inputs.environment || 'dev' }}
       build-type: ${{ inputs.environment == 'sit' && 'qr-sit' || 'qr' }}
       build-ipa: true
-      upload_path: feature/${{ inputs.environment || 'dev' }}
+      upload_path: ${{ inputs.environment == 'sit' && 'sit' || 'feature' }}
     secrets:
       AWS_ROLE: ${{ secrets.DES_AWS_ROLE }}
       WEBHOOK_URL: ${{ secrets.WEBHOOK_URL }}

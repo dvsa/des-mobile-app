@@ -14,7 +14,7 @@ before_all do
 
   if s3_path == 'release'
     s3_path = "release/#{version}/"
-  elsif s3_path.start_with?('feature')
+  elsif ['feature', 'sit'].include?(s3_path)
     s3_path = "#{s3_path}/#{ENV["GH_REF_NAME"]}/"
   elsif s3_path == 'develop'
     s3_path = "#{s3_path}/#{version}/"
