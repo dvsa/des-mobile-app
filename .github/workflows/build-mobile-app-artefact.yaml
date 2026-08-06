@@ -11,6 +11,14 @@ on:
         type: choice
         options:
           - 'MACOS-ARM64'
+      environment:
+        description: 'Environment to build QR/IPA artefact for'
+        required: true
+        default: dev
+        type: choice
+        options:
+          - dev
+          - qr-sit
   push:
     branches:
       - develop
@@ -38,7 +46,7 @@ jobs:
       WEBHOOK_URL: ${{ secrets.WEBHOOK_URL }}
 
   feature:
-    if: github.event_name == 'workflow_dispatch' || (github.event_name == 'push' && startsWith(github.ref_name, 'mes-'))
+    if: (github.event_name == 'workflow_dispatch' && inputs.environment == 'dev') || (github.event_name == 'push' && startsWith(github.ref_name, 'mes-'))
     uses: dvsa/des-workflow-actions/.github/workflows/build-mobile-app.yaml@main
     with:
       runs-on: ${{ inputs.runner || 'MACOS-ARM64' }}
@@ -56,11 +64,11 @@ jobs:
     uses: dvsa/des-workflow-actions/.github/workflows/build-mobile-app.yaml@main
     with:
       runs-on: ${{ inputs.runner || 'MACOS-ARM64' }}
-      environment: feature
-      config-type: dev
-      build-type: qr
+      environment: ${{ inputs.environment == 'qr-sit' && 'sit' || 'feature' }}
+      config-type: ${{ inputs.environment || 'dev' }}
+      build-type: ${{ inputs.environment == 'qr-sit' && 'qr-sit' || 'qr' }}
       build-ipa: true
-      upload_path: feature
+      upload_path: ${{ inputs.environment == 'qr-sit' && 'sit' || 'feature' }}
     secrets:
       AWS_ROLE: ${{ secrets.DES_AWS_ROLE }}
       WEBHOOK_URL: ${{ secrets.WEBHOOK_URL }}
