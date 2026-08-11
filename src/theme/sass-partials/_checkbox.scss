@@ -33,9 +33,9 @@
 
   &:checked + label:before {
     @media (prefers-color-scheme: dark) {
-      //background: var(--mes-theme-main-variant2);
+      background: var(--mes-theme-main-variant2);
       //Variable to force light mode, replace with above line if dark mode is fully integrated
-      background: #fcf8c8;
+      //background: #fcf8c8;
     }
     @media (prefers-color-scheme: light) {
       background: #fcf8c8;
@@ -46,9 +46,9 @@
   &:disabled + label:before {
     border: $checkbox-border solid var(--mes-checkbox-disabled-border);
     //Commented out to force light mode, comment back in if dark mode is fully integrated
-    //@media (prefers-color-scheme: dark) {
-    //  background: var(--mes-theme-main-variant2);
-    //}
+    @media (prefers-color-scheme: dark) {
+      background: var(--mes-theme-main-variant2);
+    }
   }
 
   &.ng-dirty {
@@ -75,9 +75,9 @@
     height: $checkmark-size;
 
     //Commented out to force light mode, comment back in if dark mode is fully integrated
-    //@media (prefers-color-scheme: dark) {
-    //  filter: invert(100%);
-    //  -webkit-filter: invert(100%);
-    //}
+    @media (prefers-color-scheme: dark) {
+      filter: invert(100%);
+      -webkit-filter: invert(100%);
+    }
   }
 }

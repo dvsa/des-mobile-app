@@ -59,13 +59,13 @@ $toolbar-height: 56px;
     }
   }
   .divider {
-    border-top: 1px solid var(--gds-grey-1);
+    border-top: 1px solid var(--mes-theme-main-variant7);
     margin: 4px 8px;
   }
 
   .dark-divider {
     border-top: 1px solid var(--mes-theme-main-variant7);
-    box-shadow: 0 1px 0 0 var(--mes-theme-main-colour);
+    box-shadow: 0 1px 0 0 var(--mes-theme-main-variant7);
     margin: 4px 8px;
   }
   .report-overlay {

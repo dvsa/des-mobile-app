@@ -179,7 +179,7 @@ export class ExaminerRecordsPage implements OnInit {
    */
   async ngOnInit(): Promise<void> {
     //Commented out to force light mode, comment back in if dark mode is fully integrated
-    // this.listenForDarkMode();
+    this.listenForDarkMode();
     this.testResults = this.removeDuplicatesAndSort(this.getLocalResults());
     if (this.testResults.length > 0) {
       this.testSubject$.next(this.testResults);
@@ -273,19 +273,11 @@ export class ExaminerRecordsPage implements OnInit {
   getColourSchemeDefault(colourNeeded: 'Main' | 'Opposing'): string {
     //Switch has been commented out to force light mode,
     // comment back in and delete the switch below if dark mode is fully integrated
-    // switch (colourNeeded) {
-    //   case 'Main':
-    //     return getComputedStyle(document.documentElement).getPropertyValue('--mes-theme-main-colour').trim();
-    //   case 'Opposing':
-    //     return getComputedStyle(document.documentElement).getPropertyValue('--mes-theme-opposing-colour').trim();
-    //   default:
-    //     return getComputedStyle(document.documentElement).getPropertyValue('--gds-white').trim();
-    // }
     switch (colourNeeded) {
       case 'Main':
-        return getComputedStyle(document.documentElement).getPropertyValue('--gds-white').trim();
+        return getComputedStyle(document.documentElement).getPropertyValue('--mes-theme-main-colour').trim();
       case 'Opposing':
-        return getComputedStyle(document.documentElement).getPropertyValue('--gds-black').trim();
+        return getComputedStyle(document.documentElement).getPropertyValue('--mes-theme-opposing-colour').trim();
       default:
         return getComputedStyle(document.documentElement).getPropertyValue('--gds-white').trim();
     }

@@ -55,10 +55,10 @@ ion-select.select {
   background-size: 26px !important;
   right: 16px !important;
   //Commented out to force light mode, comment back in if dark mode is fully integrated
-  //@media (prefers-color-scheme: dark) {
-  //  filter: invert(100%);
-  //  -webkit-filter: invert(100%);
-  //}
+  @media (prefers-color-scheme: dark) {
+    filter: invert(100%);
+    -webkit-filter: invert(100%);
+  }
   & ion-icon {
     opacity: 0;
   }
