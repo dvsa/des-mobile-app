@@ -3,7 +3,9 @@
     color: var(--gds-theme-opposite);
     font-size: 35px;
   }
-  background-color: var(--mes-theme-main-light);
+  //background-color: var(--mes-theme-main-light);
+  //Commented out to force light mode, delete the line below and uncomment the line above if dark mode is fully integrated
+  background-color: var(--mes-light-grey);
   border-left: 10px solid var(--gds-theme-opposite);
   margin-top: 30px;
 
