@@ -1,7 +1,7 @@
 ## Description
 *Insert description of work completed here*
 
-[Link To Jira Ticket](*ut the link to the corresponding ticket here*)
+[Link To Jira Ticket](*Put the link to the corresponding ticket here*)
 
 ## Checklist
 
