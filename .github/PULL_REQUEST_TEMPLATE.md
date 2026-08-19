@@ -1,15 +1,13 @@
 ## Description
-*Insert description of work completed here*
 
-[Link To Jira Ticket](*Put the link to the corresponding ticket here*)
+*Insert a summary of the change here.*
 
-## Checklist
+Related ticket: [JIRA_TICKET_NUMBER_HERE](LINK_TO_JIRA_TICKET_HERE)
+
+## Checklist:
 
 - [ ] PR title includes the JIRA ticket number
-- [ ] Branch is rebased against the latest develop
-- [ ] Code has been tested manually
-- [ ] PR link added to JIRA ticket
-- [ ] One review from each scrum team
-- [ ] Squashed commit contains the JIRA ticket number
+- [ ] I have performed a self-review of my own code
+- [ ] I have added tests that prove my fix is effective or that my feature works
 
 ## Screenshots (optional)
