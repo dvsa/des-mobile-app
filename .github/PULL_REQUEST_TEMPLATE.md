@@ -6,7 +6,7 @@ Related ticket: [JIRA_TICKET_NUMBER_HERE](LINK_TO_JIRA_TICKET_HERE)
 
 ## Checklist:
 
-- [ ] PR title includes the JIRA ticket number
+- [ ] The PR title includes the JIRA ticket number if applicable
 - [ ] I have performed a self-review of my own code
 - [ ] I have added tests that prove my fix is effective or that my feature works
 
