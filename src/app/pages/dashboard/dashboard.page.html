@@ -1,21 +1,10 @@
 <ion-header>
   <ion-toolbar mode="ios">
-    <ion-buttons id="dashboard-burger-menu-btn" slot="start">
-      <ion-col></ion-col>
-      <ion-col class="display-flex">
-        @if ((pageState.notificationCount$ | async); as notificationCount;) {
-          <ion-badge
-          color="danger"
-          id="dashboard-notification-count-badge"
-          class="burger-menu-item"
-        >
-          {{ notificationCount }}
-        </ion-badge>
-        }
-      </ion-col>
-    </ion-buttons>
     <ion-title role="heading" aria-level="1" id="dashboard-page-title">DES dashboard</ion-title>
-    <ion-buttons class="display-flex" [class.flex-direction-column]="getIsLargerTextSize() && pageState.showUpdatesAvailable$ | async" slot="end">
+    <ion-buttons
+      class="display-flex"
+      [class.flex-direction-column]="getIsLargerTextSize() && pageState.showUpdatesAvailable$ | async"
+      slot="end">
       <ion-row>
         <ion-text class="des-header-style-6 version-number">Version {{ pageState.appVersion$ | async }}</ion-text>
       </ion-row>
@@ -27,7 +16,7 @@
           <ion-badge
             color="danger"
             (click)="showUpdateAvailableModal(true)"
-            >
+          >
             Version {{ pageState.liveAppVersion$ | async }} available
           </ion-badge>
         </ion-row>
@@ -43,18 +32,31 @@
 
   <div>
     <ion-row class="ion-no-padding">
-      <ion-col size="3"></ion-col>
-      <ion-col class="ion-no-padding" size="10">
+      <ion-col size="3.5"></ion-col>
+      <ion-col class="ion-no-padding" size="9">
         <ion-menu-button class="burger-menu black-text" id="dashboard-menu-button"></ion-menu-button>
+      </ion-col>
+      <ion-col size="3.5" class="display-flex ion-no-padding justify-content-center align-items-center">
+        @if ((pageState.notificationCount$ | async)) {
+          <ion-badge
+            color="danger"
+            id="dashboard-notification-count-badge"
+            class="burger-menu-item notification-badge"
+            aria-label="You have notifications"
+          >
+            !
+          </ion-badge>
+        }
       </ion-col>
       <ion-col class="ion-no-padding">
         <profile-header
-      [disableASAM]="deviceProvider.manuallyDisableSingleAppMode"
-      [employeeId]="pageState.employeeId$ | async"
-      [name]="pageState.employeeName$ | async"
-      [role]="pageState.role$ | async"
-      >
-    </profile-header></ion-col>
+          [disableASAM]="deviceProvider.manuallyDisableSingleAppMode"
+          [employeeId]="pageState.employeeId$ | async"
+          [name]="pageState.employeeName$ | async"
+          [role]="pageState.role$ | async"
+        >
+        </profile-header>
+      </ion-col>
     </ion-row>
 
     <hr/>
@@ -100,15 +102,13 @@
     @if ((showEndToEndPracticeMode() || showTestReportPracticeMode())) {
       <hr/>
     }
-
     @if (showTestReportPracticeMode()) {
       <practice-test-report-card
         (click)="practiceTestReportCardClicked()"
         id="testReportPracticeMode"
-        >
+      >
       </practice-test-report-card>
     }
-
     @if (showEndToEndPracticeMode()) {
       <practice-end-to-end-card id="endToendPracticeMode"></practice-end-to-end-card>
     }
