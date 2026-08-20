@@ -27,7 +27,7 @@
   flex-direction: column;
 }
 
-.main-colour-text {
+.mes-main-colour {
   color: var(--mes-theme-main-colour) !important;
   & ion-text, label, span, p {
     color: var(--mes-theme-main-colour) !important;
