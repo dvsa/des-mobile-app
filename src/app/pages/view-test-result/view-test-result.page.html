@@ -101,6 +101,7 @@
 
     @if ((isCategoryADI3() || isCategorySC()) && !didTestTerminate()) {
       <adi3-debrief-card
+        [isOnResultsPage]="true"
         [testCategory]="testCategory"
         [totalScore]="totalScore"
         [lessonTheme]="testResult.testData['lessonAndTheme']"
