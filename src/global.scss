@@ -68,6 +68,10 @@ ion-toolbar {
   color: var(--mes-theme-opposing-colour);
 }
 
+.main-colour-text {
+  color: var(--mes-theme-main-colour) !important;
+}
+
 ion-footer {
   background-color: var(--mes-theme-main-colour);
 }

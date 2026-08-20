@@ -5,20 +5,23 @@
   <ion-col class="ion-align-self-center mes-padding-left">
     <ion-row>
       <span class="mes-data">
-        <span class="mes-data bold" [id]="'length-label' | formatToID : idPrefix">L:</span>
+        <span class="mes-data" [id]="'length-label' | formatToID : idPrefix">Length:</span>
         {{ vehicleLength }}
+        <span class="mes-data">metres</span>
       </span>
     </ion-row>
     <ion-row>
       <span class="mes-data">
-        <span class="mes-data bold" [id]="'width-label' | formatToID : idPrefix">W:</span>
+        <span class="mes-data" [id]="'width-label' | formatToID : idPrefix">Width:</span>
         {{ vehicleWidth }}
+        <span class="mes-data">metres</span>
       </span>
     </ion-row>
     <ion-row>
       <span class="mes-data">
-        <span class="mes-data bold" [id]="'height-label' | formatToID : idPrefix">H:</span>
+        <span class="mes-data" [id]="'height-label' | formatToID : idPrefix">Height:</span>
         {{ vehicleHeight }}
+        <span class="mes-data">metres</span>
       </span>
     </ion-row>
     <ion-row>
