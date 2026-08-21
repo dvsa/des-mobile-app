@@ -137,6 +137,7 @@ export class RekeyReasonPage extends BasePageComponent implements OnInit {
   }
 
   ionViewWillEnter(): boolean {
+    this.uploadButtonPressed = false;
     if (this.merged$) {
       this.subscription = this.merged$.subscribe();
     }
@@ -144,11 +145,11 @@ export class RekeyReasonPage extends BasePageComponent implements OnInit {
   }
 
   ionViewDidEnter(): void {
-    this.uploadButtonPressed = false;
     this.store$.dispatch(RekeyReasonViewDidEnter());
   }
 
   ionViewDidLeave(): void {
+    this.uploadButtonPressed = false;
     if (this.subscription) {
       this.subscription.unsubscribe();
     }

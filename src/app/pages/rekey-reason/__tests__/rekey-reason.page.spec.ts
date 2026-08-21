@@ -177,9 +177,7 @@ describe('RekeyReasonPage', () => {
     });
     describe('ionViewDidEnter', () => {
       it('should reset the upload button gate and dispatch the did enter action', () => {
-        component.uploadButtonPressed = true;
         component.ionViewDidEnter();
-        expect(component.uploadButtonPressed).toEqual(false);
         expect(store$.dispatch).toHaveBeenCalledWith(RekeyReasonViewDidEnter());
       });
     });
