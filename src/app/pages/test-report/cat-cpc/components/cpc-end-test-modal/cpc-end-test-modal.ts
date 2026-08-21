@@ -38,6 +38,6 @@ export class CPCEndTestModal {
   }
 
   getTestResultClass(): string {
-    return this.testResult === ActivityCodes.PASS ? 'test-result-pass-label' : 'test-result-fail-label';
+    return `modal-alert-header ${this.testResult === ActivityCodes.PASS ? 'test-result-pass-label' : 'test-result-fail-label'}`;
   }
 }

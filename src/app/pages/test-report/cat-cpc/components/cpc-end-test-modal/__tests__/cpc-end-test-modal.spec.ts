@@ -100,11 +100,15 @@ describe('CPCEndTestModal', () => {
     describe('getTestResultClass', () => {
       it('should return the correct class for a pass', () => {
         component.testResult = ActivityCodes.PASS;
-        expect(component.getTestResultClass()).toEqual('test-result-pass-label');
+        expect(component.getTestResultClass()).toContain('test-result-pass-label');
+      });
+      it('should return the class to make the test scale', () => {
+        component.testResult = ActivityCodes.PASS;
+        expect(component.getTestResultClass()).toContain('modal-alert-header');
       });
       it('should return the correct class for a fail', () => {
         component.testResult = ActivityCodes.FAIL;
-        expect(component.getTestResultClass()).toEqual('test-result-fail-label');
+        expect(component.getTestResultClass()).toContain('test-result-fail-label');
       });
     });
   });
