@@ -73,7 +73,7 @@
     "@capacitor/browser": "^8.0.3",
     "@capacitor/core": "^8.3.4",
     "@capacitor/device": "^8.0.2",
-    "@capacitor/ios": "^8.3.4",
+    "@capacitor/ios": "^8.5.0",
     "@capacitor/network": "^8.0.1",
     "@capacitor/splash-screen": "^8.0.1",
     "@capacitor/status-bar": "^8.0.2",
