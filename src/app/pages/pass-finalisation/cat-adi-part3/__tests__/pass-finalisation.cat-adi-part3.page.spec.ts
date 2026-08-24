@@ -20,6 +20,7 @@ import {
 import { AuthenticationProviderMock } from '@providers/authentication/__mocks__/authentication.mock';
 import { AuthenticationProvider } from '@providers/authentication/authentication';
 import { OutcomeBehaviourMapProvider } from '@providers/outcome-behaviour-map/outcome-behaviour-map';
+import { DateTime } from '@shared/helpers/date-time';
 import { StoreModel } from '@shared/models/store.model';
 import { EndTimeChanged } from '@store/tests/test-data/cat-adi-part3/end-time/end-time.actions';
 import {
@@ -162,6 +163,24 @@ describe('PassFinalisationCatADIPart3Page', () => {
         component.pageState.isStandardsCheck$.subscribe((res) => expect(res).toEqual(true));
         component.pageState.testStartTime$.subscribe((res) => expect(res).toEqual('1111-01-01T01:01:01'));
         component.pageState.testEndTime$.subscribe((res) => expect(res).toEqual('4444-04-04T04:44:44'));
+      });
+
+      it('should default standards check end time to now plus 45 minutes when none exists', () => {
+        const testResult = (initialState.tests.startedTests as any)[123];
+        const originalEndTime = testResult.testData.endTime;
+        testResult.testData.endTime = '';
+
+        spyOn(DateTime.prototype, 'add').and.callFake(function (amount, unit) {
+          return this;
+        });
+        spyOn(DateTime.prototype, 'toISOString').and.returnValue('mock-end-time');
+
+        component.ngOnInit();
+
+        component.pageState.testEndTime$.subscribe((res) => expect(res).toEqual('mock-end-time'));
+        expect(DateTime.prototype.add).toHaveBeenCalledWith(45, 'minute');
+
+        testResult.testData.endTime = originalEndTime;
       });
     });
 
