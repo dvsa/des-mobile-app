@@ -40,6 +40,9 @@ export class Adi3DebriefCard implements OnInit {
   @Input()
   public testCategory: TestCategory;
 
+  @Input()
+  public isOnResultsPage = false;
+
   studentValueConst = studentValues;
   lessonThemeValueStr = '';
 
