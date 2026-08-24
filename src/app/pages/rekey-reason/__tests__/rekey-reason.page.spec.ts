@@ -176,7 +176,7 @@ describe('RekeyReasonPage', () => {
       expect(component).toBeDefined();
     });
     describe('ionViewDidEnter', () => {
-      it('should dispatch the did enter action', () => {
+      it('should reset the upload button gate and dispatch the did enter action', () => {
         component.ionViewDidEnter();
         expect(store$.dispatch).toHaveBeenCalledWith(RekeyReasonViewDidEnter());
       });
@@ -344,21 +344,23 @@ describe('RekeyReasonPage', () => {
     });
     describe('onUploadRekeyModalDismiss', () => {
       it(
-        'should dispatch and SetRekeyDate and ValidateTransferRekey if ' +
+        'should set uploadButtonPressed, dispatch SetRekeyDate and ValidateTransferRekey if ' +
           'passed parameter is UploadRekeyModalEvent.UPLOAD and isTransferSelected is true',
         () => {
           component.isTransferSelected = true;
           component.onUploadRekeyModalDismiss(UploadRekeyModalEvent.UPLOAD);
+          expect(component.uploadButtonPressed).toEqual(true);
           expect(store$.dispatch).toHaveBeenCalledWith(SetRekeyDate());
           expect(store$.dispatch).toHaveBeenCalledWith(ValidateTransferRekey());
         }
       );
       it(
-        'should dispatch and SetRekeyDate, SendCurrentTest and RekeyUploadTest if ' +
+        'should set uploadButtonPressed, dispatch SetRekeyDate, SendCurrentTest and RekeyUploadTest if ' +
           'passed parameter is UploadRekeyModalEvent.UPLOAD and isTransferSelected is false',
         () => {
           component.isTransferSelected = false;
           component.onUploadRekeyModalDismiss(UploadRekeyModalEvent.UPLOAD);
+          expect(component.uploadButtonPressed).toEqual(true);
           expect(store$.dispatch).toHaveBeenCalledWith(SetRekeyDate());
           expect(store$.dispatch).toHaveBeenCalledWith(SendCurrentTest());
           expect(store$.dispatch).toHaveBeenCalledWith(RekeyUploadTest());
@@ -438,10 +440,29 @@ describe('RekeyReasonPage', () => {
         spyOn(loaderService, 'handleUILoading');
         spyOn(component, 'onShowUploadRekeyModal');
       });
+      it('should not navigate or open the retry modal unless the upload button was pressed', async () => {
+        const action = SendCurrentTestSuccess();
+        const result: RekeyReasonModel = rekeyReasonReducer(null, action);
+        const uploadStatus = getUploadStatus(result);
+
+        component.uploadButtonPressed = false;
+
+        await component.handleUploadOutcome(uploadStatus);
+
+        expect(loaderService.handleUILoading).toHaveBeenCalledWith(false, {
+          spinner: 'circles',
+          message: 'Uploading...',
+        });
+        expect(router.navigate).not.toHaveBeenCalled();
+        expect(component.onShowUploadRekeyModal).not.toHaveBeenCalled();
+      });
       it('should display the loading spinner when an upload is in progress', async () => {
         const action = SendCurrentTest();
         const result: RekeyReasonModel = rekeyReasonReducer(null, action);
         const uploadStatus = getUploadStatus(result);
+
+        component.uploadButtonPressed = true;
+
         await component.handleUploadOutcome(uploadStatus);
         expect(loaderService.handleUILoading).toHaveBeenCalledWith(true, {
           spinner: 'circles',
@@ -452,6 +473,9 @@ describe('RekeyReasonPage', () => {
         const action = SendCurrentTestFailure(false);
         const result: RekeyReasonModel = rekeyReasonReducer(null, action);
         const uploadStatus = getUploadStatus(result);
+
+        component.uploadButtonPressed = true;
+
         await component.handleUploadOutcome(uploadStatus);
         expect(loaderService.handleUILoading).toHaveBeenCalledWith(false, {
           spinner: 'circles',
@@ -463,6 +487,9 @@ describe('RekeyReasonPage', () => {
         const action = SendCurrentTestFailure(true);
         const result: RekeyReasonModel = rekeyReasonReducer(null, action);
         const uploadStatus = getUploadStatus(result);
+
+        component.uploadButtonPressed = true;
+
         await component.handleUploadOutcome(uploadStatus);
         expect(loaderService.handleUILoading).toHaveBeenCalledWith(false, {
           spinner: 'circles',
@@ -475,6 +502,9 @@ describe('RekeyReasonPage', () => {
         const action = SendCurrentTestSuccess();
         const result: RekeyReasonModel = rekeyReasonReducer(null, action);
         const uploadStatus = getUploadStatus(result);
+
+        component.uploadButtonPressed = true;
+
         await component.handleUploadOutcome(uploadStatus);
         expect(loaderService.handleUILoading).toHaveBeenCalledWith(false, {
           spinner: 'circles',

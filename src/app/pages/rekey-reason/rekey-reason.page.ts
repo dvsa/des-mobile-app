@@ -85,6 +85,7 @@ export class RekeyReasonPage extends BasePageComponent implements OnInit {
   examinerConducted: number = null;
   examinerKeyed: number = null;
   fromRekeySearch = false;
+  uploadButtonPressed = false;
   merged$: Observable<number | boolean | Promise<void>>;
 
   constructor(
@@ -136,6 +137,7 @@ export class RekeyReasonPage extends BasePageComponent implements OnInit {
   }
 
   ionViewWillEnter(): boolean {
+    this.uploadButtonPressed = false;
     if (this.merged$) {
       this.subscription = this.merged$.subscribe();
     }
@@ -147,6 +149,7 @@ export class RekeyReasonPage extends BasePageComponent implements OnInit {
   }
 
   ionViewDidLeave(): void {
+    this.uploadButtonPressed = false;
     if (this.subscription) {
       this.subscription.unsubscribe();
     }
@@ -173,6 +176,7 @@ export class RekeyReasonPage extends BasePageComponent implements OnInit {
   onUploadRekeyModalDismiss = (event: UploadRekeyModalEvent): void => {
     switch (event) {
       case UploadRekeyModalEvent.UPLOAD:
+        this.uploadButtonPressed = true;
         this.store$.dispatch(SetRekeyDate());
         if (this.isTransferSelected) {
           this.store$.dispatch(ValidateTransferRekey());
@@ -189,7 +193,12 @@ export class RekeyReasonPage extends BasePageComponent implements OnInit {
     await this.loaderService.handleUILoading(uploadStatus.isUploading, RekeyReasonPage.loadingOpts);
     this.isStaffNumberInvalid = uploadStatus.hasStaffNumberFailedValidation;
 
+    if (!this.uploadButtonPressed) {
+      return null;
+    }
+
     if (uploadStatus.hasUploadSucceeded || uploadStatus.isDuplicate) {
+      this.uploadButtonPressed = false;
       await this.router.navigate([TestFlowPageNames.REKEY_UPLOAD_OUTCOME_PAGE]);
       return;
     }
