@@ -25,6 +25,16 @@ export class JournalLogsEffects {
     )
   );
 
+  loadJournalSuccessLogEffect$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(journalActions.LoadJournalSuccess),
+      switchMap((action) => {
+        const log: Log = this.createLog(LogType.INFO, action.type);
+        return of(logsActions.SaveLog({ payload: log }));
+      })
+    )
+  );
+
   loadJournalSilentFailureLogEffect$ = createEffect(() =>
     this.actions$.pipe(
       ofType(journalActions.LoadJournalSilentFailure),

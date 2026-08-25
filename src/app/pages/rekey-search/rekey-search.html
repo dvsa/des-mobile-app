@@ -33,7 +33,7 @@
                 (ionInput)="applicationReferenceChanged($event.target.value)"
                 [maskito]="getBookingReferenceMask()"
                 [maskitoElement]="getMaskPredicate()"
-                >
+              >
               </ion-input>
             </ion-col>
           </ion-row>
@@ -65,7 +65,7 @@
                 (ionInput)="staffNumberChanged($event.target.value)"
                 emojiBlock
                 pasteSanitiser
-                >
+              >
               </ion-input>
             </ion-col>
           </ion-row>
@@ -78,7 +78,7 @@
               class="mes-primary-button search-tests"
               id="rekey-search-search-tests-btn"
               (click)="searchTests()"
-              >
+            >
               <ion-text class="des-header-style-3">
                 <ion-icon name="search" class="search-icon" id="rekey-search-search icon"></ion-icon>
                 Search booked tests
@@ -89,7 +89,7 @@
                 class="search-spinner"
                 name="bubbles"
                 id="rekey-search-page-spinner"
-                >
+              >
               </ion-spinner>
             }
           </ion-row>
@@ -97,28 +97,35 @@
       </tab>
     </tabs>
 
-    @if ((pageState.hasSearched$ | async) && isBookedTestSlotEmpty(pageState.bookedTestSlot$ | async) && !(hasBookingAlreadyBeenCompleted(pageState.rekeySearchErr$ | async))) {
+    @if ((pageState.hasSearched$ | async)
+    && isBookedTestSlotEmpty(pageState.bookedTestSlot$ | async)
+    && !(hasBookingAlreadyBeenCompleted(pageState.rekeySearchErr$ | async))) {
       <div
         class="results-error"
-        >
+      >
         <p class="error-text" id="rekey-search-error-text-no-results">There were no results found for your search.</p>
         <p class="error-text" id="rekey-search-error-text-no-pls-try-again">Please check and try again.</p>
       </div>
     }
 
-    @if ((pageState.hasSearched$ | async) && blockTestFromBeingRekeyed(pageState.isBookedLessThanHalfAnHourLate$ | async, pageState.employeeId$ | async, staffNumber) && !(hasBookingAlreadyBeenCompleted(pageState.rekeySearchErr$ | async))) {
+    @if ((pageState.hasSearched$ | async)
+    && blockTestFromBeingRekeyed(pageState.isBookedLessThanHalfAnHourLate$ | async, pageState.employeeId$ | async, staffNumber)
+    && !isBookedTestSlotEmpty(pageState.bookedTestSlot$ | async)
+    && !(hasBookingAlreadyBeenCompleted(pageState.rekeySearchErr$ | async))) {
       <div
         class="results-error"
-        >
-        <p class="error-text" id="rekey-search-error-text-not-delayed">Tests cannot be rekeyed until 30 minutes after they
-        were due to start.</p>
+      >
+        <p class="error-text" id="rekey-search-error-text-not-delayed">Tests cannot be rekeyed until 30 minutes after
+          they
+          were due to start.</p>
       </div>
     }
 
-    @if ((pageState.hasSearched$ | async) && (hasBookingAlreadyBeenCompleted(pageState.rekeySearchErr$ | async))) {
+    @if ((pageState.hasSearched$ | async)
+    && (hasBookingAlreadyBeenCompleted(pageState.rekeySearchErr$ | async))) {
       <div
         class="results-error"
-        >
+      >
         <p class="error-text" id="rekey-search-error-text-already-submitted">
           You can't rekey this test as it has already been submitted.
         </p>
@@ -126,16 +133,17 @@
       </div>
     }
 
-    @if (!isBookedTestSlotEmpty(pageState.bookedTestSlot$ | async) && !blockTestFromBeingRekeyed(pageState.isBookedLessThanHalfAnHourLate$ | async, pageState.employeeId$ | async, staffNumber)) {
+    @if (!isBookedTestSlotEmpty(pageState.bookedTestSlot$ | async)
+    && !blockTestFromBeingRekeyed(pageState.isBookedLessThanHalfAnHourLate$ | async, pageState.employeeId$ | async, staffNumber)) {
       <p class="results-message"
-        >
+      >
         <test-slot
           [slot]="(pageState.bookedTestSlot$ | async)"
           [isPortrait]="orientationMonitorProvider.isPortraitMode$ | async"
           [hasSlotChanged]="false"
           [hasSeenCandidateDetails]="true"
           [showLocation]="false"
-          >
+        >
         </test-slot>
       </p>
     }
