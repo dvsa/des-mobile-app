@@ -6,8 +6,8 @@
   "homepage": "https://github.com/dvsa/des-mobile-app",
   "private": true,
   "engines": {
-    "node": ">=22.0.0 <23.0.0",
-    "npm": ">=10.0.0 <11.0.0"
+    "node": ">=22.0.0 <25.0.0",
+    "npm": ">=10.0.0 <13.0.0"
   },
   "scripts": {
     "prepare": "husky install",
@@ -71,9 +71,9 @@
     "@capacitor/app": "^8.1.0",
     "@capacitor/app-launcher": "^8.0.1",
     "@capacitor/browser": "^8.0.3",
-    "@capacitor/core": "^8.3.4",
+    "@capacitor/core": "^8.5.0",
     "@capacitor/device": "^8.0.2",
-    "@capacitor/ios": "^8.3.4",
+    "@capacitor/ios": "^8.5.0",
     "@capacitor/network": "^8.0.1",
     "@capacitor/splash-screen": "^8.0.1",
     "@capacitor/status-bar": "^8.0.2",
@@ -120,7 +120,7 @@
     "emoji-regex": "^10.4.0",
     "events": "^3.3.0",
     "fuzzy-search": "^3.2.1",
-    "jose": "^6.1.0",
+    "jose": "^6.2.10",
     "jsonschema": "^1.4.1",
     "localforage-cordovasqlitedriver": "^1.8.0",
     "lodash-es": "^4.18.1",
