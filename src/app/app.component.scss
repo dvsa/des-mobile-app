@@ -6,15 +6,19 @@
     overflow: auto;
   }
 
-.menu-text {
-  color: var(--gds-white)
-}
+  .menu-text {
+    color: var(--gds-white)
+  }
 
-.menu-item {
-  --detail-icon-opacity: 1;
+  .notification-badge {
+    width: 30px;
+  }
+
+  .menu-item {
+    --detail-icon-opacity: 1;
     --ion-item-background: var(--mes-toolbar-background);
-  color: var(--gds-white);
-}
+    color: var(--gds-white);
+  }
 
   #dashboard-menu-button {
     color: var(--gds-white);
