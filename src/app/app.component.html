@@ -12,14 +12,15 @@
           <ion-label class="burger-menu-item" [id]="page.descriptor | formatToID: 'side-menu'">{{
             page.descriptor
           }}</ion-label>
-          @if (page.showUnSubmittedCount && (pageState?.unSubmittedTestSlotsCount$ | async); as count) {
+          @if (page.showUnSubmittedCount && (pageState?.unSubmittedTestSlotsCount$ | async)) {
             <ion-badge
               slot="end"
               color="danger"
               id="un-submitted-test-count-badge"
-              class="burger-menu-item"
-              >
-              {{ count }}
+              class="burger-menu-item notification-badge"
+              aria-label="You have incomplete tests"
+            >
+              !
             </ion-badge>
           }
         </ion-item>
