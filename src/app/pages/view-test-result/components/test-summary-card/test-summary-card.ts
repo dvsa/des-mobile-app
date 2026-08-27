@@ -9,6 +9,7 @@ import {
   UserExitedApp,
 } from '@dvsa/mes-test-schema/categories/common';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
+import { isAnyOf } from '@shared/helpers/simplifiers';
 import { get } from 'lodash-es';
 import { convertBooleanToString, flattenArray } from '../../view-test-result-helpers';
 
@@ -151,4 +152,18 @@ export class TestSummaryCardComponent {
   isCatB() {
     return this.category === TestCategory.B;
   }
+
+  public isBike = (): boolean =>
+    isAnyOf(this.category, [
+      // Cat Mod1
+      TestCategory.EUA1M1,
+      TestCategory.EUA2M1,
+      TestCategory.EUAM1,
+      TestCategory.EUAMM1,
+      // Cat Mod2
+      TestCategory.EUA1M2,
+      TestCategory.EUA2M2,
+      TestCategory.EUAM2,
+      TestCategory.EUAMM2,
+    ]);
 }
