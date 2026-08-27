@@ -54,7 +54,7 @@ import {
 import { OrientationMonitorProvider } from '@providers/orientation-monitor/orientation-monitor.provider';
 import { SearchProvider } from '@providers/search/search';
 import { DateRange, DateTime } from '@shared/helpers/date-time';
-import { isAnyOf } from '@shared/helpers/simplifiers';
+import { isAnyOf, isBikeTest } from '@shared/helpers/simplifiers';
 import { StoreModel } from '@shared/models/store.model';
 import { selectEmployeeId } from '@store/app-info/app-info.selectors';
 import {
@@ -924,19 +924,7 @@ export class ExaminerRecordsPage implements OnInit {
    *
    * @returns {boolean} `true` if the current category is a bike test, otherwise `false`.
    */
-  public isBike = (): boolean =>
-    isAnyOf(this.currentCategory, [
-      // Cat Mod1
-      TestCategory.EUA1M1,
-      TestCategory.EUA2M1,
-      TestCategory.EUAM1,
-      TestCategory.EUAMM1,
-      // Cat Mod2
-      TestCategory.EUA1M2,
-      TestCategory.EUA2M2,
-      TestCategory.EUAM2,
-      TestCategory.EUAMM2,
-    ]);
+  public isBike = (): boolean => isBikeTest(this.currentCategory as TestCategory);
 
   /**
    * Returns whether the independent driving target should be displayed.

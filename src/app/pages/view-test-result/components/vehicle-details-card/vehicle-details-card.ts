@@ -11,7 +11,7 @@ import { CatCEUniqueTypes } from '@dvsa/mes-test-schema/categories/CE';
 import { CategoryCode } from '@dvsa/mes-test-schema/categories/common';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { flattenArray } from '@pages/view-test-result/view-test-result-helpers';
-import { isAnyOf } from '@shared/helpers/simplifiers';
+import { isBikeTest } from '@shared/helpers/simplifiers';
 import { get } from 'lodash-es';
 
 @Component({
@@ -129,19 +129,7 @@ export class VehicleDetailsCardComponent {
 
   public isADI3 = (): boolean => this.category === TestCategory.ADI3;
 
-  public isBike = (): boolean =>
-    isAnyOf(this.category, [
-      // Cat Mod1
-      TestCategory.EUA1M1,
-      TestCategory.EUA2M1,
-      TestCategory.EUAM1,
-      TestCategory.EUAMM1,
-      // Cat Mod2
-      TestCategory.EUA1M2,
-      TestCategory.EUA2M2,
-      TestCategory.EUAM2,
-      TestCategory.EUAMM2,
-    ]);
+  public isBike = (): boolean => isBikeTest(this.category as TestCategory);
 
   public get instructorRegistrationNumber(): number {
     return get(this.instructorDetails, 'registrationNumber');
