@@ -4,8 +4,11 @@ import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/
 export const isAnyOf = <T>(dataValue: T, valuesToCheck: Array<T>): boolean =>
   valuesToCheck.some((value: T) => dataValue === value);
 
-export const isBikeTest = (category: TestCategory | CategoryCode | string): boolean =>
-  isAnyOf(category, [
+export const isBikeTest = (category: TestCategory | CategoryCode | string | undefined | null): boolean => {
+  if (!category) {
+    return false;
+  }
+  return isAnyOf(category, [
     // Cat Mod1
     TestCategory.EUA1M1,
     TestCategory.EUA2M1,
@@ -17,3 +20,4 @@ export const isBikeTest = (category: TestCategory | CategoryCode | string): bool
     TestCategory.EUAM2,
     TestCategory.EUAMM2,
   ]);
+};
