@@ -153,5 +153,5 @@ export class TestSummaryCardComponent {
     return this.category === TestCategory.B;
   }
 
-  public isBike = (): boolean => isBikeTest(this.category as TestCategory);
+  public isBike = (): boolean => isBikeTest(this.category);
 }

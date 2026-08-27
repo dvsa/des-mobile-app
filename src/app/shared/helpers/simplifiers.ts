@@ -1,9 +1,10 @@
+import { CategoryCode } from '@dvsa/mes-test-schema/categories/common';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 
 export const isAnyOf = <T>(dataValue: T, valuesToCheck: Array<T>): boolean =>
   valuesToCheck.some((value: T) => dataValue === value);
 
-export const isBikeTest = (category: TestCategory): boolean =>
+export const isBikeTest = (category: TestCategory | CategoryCode | string): boolean =>
   isAnyOf(category, [
     // Cat Mod1
     TestCategory.EUA1M1,

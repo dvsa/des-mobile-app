@@ -129,7 +129,7 @@ export class VehicleDetailsCardComponent {
 
   public isADI3 = (): boolean => this.category === TestCategory.ADI3;
 
-  public isBike = (): boolean => isBikeTest(this.category as TestCategory);
+  public isBike = (): boolean => isBikeTest(this.category);
 
   public get instructorRegistrationNumber(): number {
     return get(this.instructorDetails, 'registrationNumber');

@@ -924,7 +924,7 @@ export class ExaminerRecordsPage implements OnInit {
    *
    * @returns {boolean} `true` if the current category is a bike test, otherwise `false`.
    */
-  public isBike = (): boolean => isBikeTest(this.currentCategory as TestCategory);
+  public isBike = (): boolean => isBikeTest(this.currentCategory);
 
   /**
    * Returns whether the independent driving target should be displayed.

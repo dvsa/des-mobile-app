@@ -163,7 +163,7 @@ export class WaitingRoomPage extends PracticeableBasePageComponent implements On
       ),
       showCbtNumber$: currentTest$.pipe(
         select(getTestCategory),
-        map((category) => isBikeTest(category as TestCategory))
+        map((category) => isBikeTest(category))
       ),
       // don't show residency dec when it's (ADI2, ADI3, SC) or an (extended test)
       showResidencyDec$: currentTest$.pipe(
