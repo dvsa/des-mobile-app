@@ -9,8 +9,15 @@ import { UppercaseDirective } from '@directives/uppercase.directive';
 })
 class TestUpperCaseComponent {}
 
+@Component({
+  template: '<input type="number" uppercase>',
+  standalone: false,
+})
+class TestNumberOnlyComponent {}
+
 describe('Directive: UppercaseDirective', () => {
   let fixture: ComponentFixture<TestUpperCaseComponent>;
+  let fixtureNumber: ComponentFixture<TestNumberOnlyComponent>;
   let inputElement: DebugElement;
 
   beforeEach(() => {
@@ -18,6 +25,7 @@ describe('Directive: UppercaseDirective', () => {
       declarations: [TestUpperCaseComponent, UppercaseDirective],
     });
     fixture = TestBed.createComponent(TestUpperCaseComponent);
+    fixtureNumber = TestBed.createComponent(TestNumberOnlyComponent);
   });
   it('should upper case input', () => {
     fixture.detectChanges();
@@ -25,5 +33,12 @@ describe('Directive: UppercaseDirective', () => {
     inputElement.nativeElement.value = 'abc123AAA';
     inputElement.nativeElement.dispatchEvent(new Event('input'));
     expect(inputElement.nativeElement.value).toEqual('ABC123AAA');
+  });
+  it('should not affect number only input', () => {
+    fixtureNumber.detectChanges();
+    inputElement = fixtureNumber.debugElement.query(By.css('input'));
+    inputElement.nativeElement.value = '123123123';
+    inputElement.nativeElement.dispatchEvent(new Event('input'));
+    expect(inputElement.nativeElement.value).toEqual('123123123');
   });
 });
