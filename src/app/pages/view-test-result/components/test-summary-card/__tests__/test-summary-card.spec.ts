@@ -322,5 +322,32 @@ describe('TestSummaryCardComponent', () => {
         expect(component.conductedLanguage).toEqual('None');
       });
     });
+
+    describe('isBike', () => {
+      it('should return true for a Cat Mod1 EUA1M1 category', () => {
+        component.category = TestCategory.EUA1M1;
+        expect(component.isBike()).toBe(true);
+      });
+
+      it('should return true for a Cat Mod2 EUA1M2 category', () => {
+        component.category = TestCategory.EUA1M2;
+        expect(component.isBike()).toBe(true);
+      });
+
+      it('should return true for a Cat Mod2 EUA2M2 category', () => {
+        component.category = TestCategory.EUA2M2;
+        expect(component.isBike()).toBe(true);
+      });
+
+      it('should return false for a Cat B category', () => {
+        component.category = TestCategory.B;
+        expect(component.isBike()).toBe(false);
+      });
+
+      it('should return false when category is not set', () => {
+        component.category = undefined;
+        expect(component.isBike()).toBe(false);
+      });
+    });
   });
 });

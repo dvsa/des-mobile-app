@@ -8,7 +8,7 @@ import { QuestionProvider } from '@providers/question/question';
 import { VehicleChecksQuestion } from '@providers/question/vehicle-checks-question.model';
 import { manoeuvreTypeLabels } from '@shared/constants/competencies/catb-manoeuvres';
 import { manoeuvreTypeLabelsCatC } from '@shared/constants/competencies/catc-manoeuvres';
-import { isAnyOf } from '@shared/helpers/simplifiers';
+import { isAnyOf, isBikeTest } from '@shared/helpers/simplifiers';
 import { FaultSummary } from '@shared/models/fault-marking.model';
 import { TestDataUnion } from '@shared/unions/test-schema-unions';
 import { get } from 'lodash-es';
@@ -157,17 +157,7 @@ export class DebriefCardComponent implements OnInit {
       TestCategory.D1EM,
     ]);
 
-  public isRider = (): boolean =>
-    isAnyOf(this.category, [
-      TestCategory.EUA1M1,
-      TestCategory.EUA2M1,
-      TestCategory.EUAM1,
-      TestCategory.EUAMM1, // Cat Mod1
-      TestCategory.EUA1M2,
-      TestCategory.EUA2M2,
-      TestCategory.EUAM2,
-      TestCategory.EUAMM2, // Cat Mod2
-    ]);
+  public isRider = (): boolean => isBikeTest(this.category);
 
   public isMod1 = (): boolean =>
     isAnyOf(this.category, [
@@ -188,18 +178,7 @@ export class DebriefCardComponent implements OnInit {
   public isCatD = (): boolean =>
     isAnyOf(this.category, [TestCategory.D, TestCategory.D1, TestCategory.D1E, TestCategory.DE]);
 
-  public hideManoeuvre = (): boolean =>
-    isAnyOf(this.category, [
-      TestCategory.B, // Cat B
-      TestCategory.EUA1M1,
-      TestCategory.EUA2M1,
-      TestCategory.EUAM1,
-      TestCategory.EUAMM1, // Cat Mod1
-      TestCategory.EUA1M2,
-      TestCategory.EUA2M2,
-      TestCategory.EUAM2,
-      TestCategory.EUAMM2, // Cat Mod2
-    ]);
+  public hideManoeuvre = (): boolean => this.isRider() || this.category === TestCategory.B;
 
   public showControlledStop: () => boolean = () =>
     isAnyOf(this.category, [

@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { getDrivingOrRidingLabel } from '@shared/helpers/driver-type';
-import { isAnyOf } from '@shared/helpers/simplifiers';
+import { isBikeTest } from '@shared/helpers/simplifiers';
 import { FaultSummary } from '@shared/models/fault-marking.model';
 
 @Component({
@@ -24,15 +24,5 @@ export class DrivingFaultsDebriefCardComponent {
     return `debrief.${getDrivingOrRidingLabel(testCategory)}FaultsCardDescription`;
   }
 
-  isRider = (): boolean =>
-    isAnyOf(this.testCategory, [
-      TestCategory.EUA1M1,
-      TestCategory.EUA2M1,
-      TestCategory.EUAM1,
-      TestCategory.EUAMM1, // Cat Mod1
-      TestCategory.EUA1M2,
-      TestCategory.EUA2M2,
-      TestCategory.EUAM2,
-      TestCategory.EUAMM2, // Cat Mod2
-    ]);
+  isRider = (): boolean => isBikeTest(this.testCategory);
 }

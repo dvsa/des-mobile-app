@@ -32,7 +32,7 @@
 
       @if (!isADI3() && !isSC()) {
         @if (!isCatB() || independentDriving !== false) {
-          <data-row [label]="'Independent driving'" [value]="independentDriving"></data-row>
+          <data-row [label]="isBike() ? 'Independent riding' : 'Independent driving'" [value]="independentDriving"></data-row>
         }
         <data-row
           [label]="'Candidate appearance true likeness to photo'"

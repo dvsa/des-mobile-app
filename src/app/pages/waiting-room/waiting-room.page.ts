@@ -35,7 +35,7 @@ import { ErrorPage } from '@pages/error-page/error';
 import { DASHBOARD_PAGE, TestFlowPageNames } from '@pages/page-names.constants';
 import { CBT_NUMBER_CTRL } from '@pages/waiting-room/components/cbt-number/cbt-number.constants';
 import { AccessibilityService } from '@providers/accessibility/accessibility.service';
-import { isAnyOf } from '@shared/helpers/simplifiers';
+import { isAnyOf, isBikeTest } from '@shared/helpers/simplifiers';
 import { ErrorTypes } from '@shared/models/error-message';
 import { selectTestCategory } from '@store/tests/category/category.reducer';
 import {
