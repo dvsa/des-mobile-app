@@ -206,8 +206,8 @@ export class AdvancedSearchComponent {
     }
   }
 
-  passCertificateChanged(event: { target: { value: string } }) {
-    this.passCertificateNumber = event?.target?.value?.toUpperCase() ?? '';
+  passCertificateInput(event: string): void {
+    this.passCertificateNumber = event?.toUpperCase() ?? '';
   }
 
   passCertChanged() {
