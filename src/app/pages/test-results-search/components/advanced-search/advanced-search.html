@@ -178,6 +178,7 @@
               [(ngModel)]="passCertificateNumber"
               [class.increase-height]="accessibilityService.getTextZoomClass() === 'text-zoom-x-large'"
               [clearInput]="true"
+              [value]="(passCertificateNumber | uppercase)"
               [ngClass]="{'input-focus': focusedElement === 'passCertificateNum'}"
               [placeholder]="'Certificate number'"
               aria-labelledby="advanced-search-pass-certificate-label"
@@ -185,7 +186,6 @@
               id="advanced-search-pass-certificate-input"
               type="text"
               emojiBlock
-              [autocapitalize]="'characters'"
               pasteSanitiser>
             </ion-input>
           </ion-col>
