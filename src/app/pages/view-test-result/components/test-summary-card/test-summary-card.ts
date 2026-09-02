@@ -9,6 +9,7 @@ import {
   UserExitedApp,
 } from '@dvsa/mes-test-schema/categories/common';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
+import { isBikeTest } from '@shared/helpers/simplifiers';
 import { get } from 'lodash-es';
 import { convertBooleanToString, flattenArray } from '../../view-test-result-helpers';
 
@@ -151,4 +152,6 @@ export class TestSummaryCardComponent {
   isCatB() {
     return this.category === TestCategory.B;
   }
+
+  public isBike = (): boolean => isBikeTest(this.category);
 }

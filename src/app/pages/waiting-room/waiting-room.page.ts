@@ -46,7 +46,7 @@ import { ErrorPage } from '@pages/error-page/error';
 import { DASHBOARD_PAGE, TestFlowPageNames } from '@pages/page-names.constants';
 import { CBT_NUMBER_CTRL } from '@pages/waiting-room/components/cbt-number/cbt-number.constants';
 import { AccessibilityService } from '@providers/accessibility/accessibility.service';
-import { isAnyOf } from '@shared/helpers/simplifiers';
+import { isAnyOf, isBikeTest } from '@shared/helpers/simplifiers';
 import { ErrorTypes } from '@shared/models/error-message';
 import { getTestCategory } from '@store/tests/category/category.reducer';
 import { getPreTestDeclarationsCatAMod1 } from '@store/tests/pre-test-declarations/cat-a-mod1/pre-test-declarations.cat-a-mod1.reducer';
@@ -163,18 +163,7 @@ export class WaitingRoomPage extends PracticeableBasePageComponent implements On
       ),
       showCbtNumber$: currentTest$.pipe(
         select(getTestCategory),
-        map((category) =>
-          isAnyOf(category, [
-            TestCategory.EUAMM1,
-            TestCategory.EUA1M1,
-            TestCategory.EUA2M1,
-            TestCategory.EUAM1, // Mod 1
-            TestCategory.EUAMM2,
-            TestCategory.EUA1M2,
-            TestCategory.EUA2M2,
-            TestCategory.EUAM2, // Mod 2
-          ])
-        )
+        map((category) => isBikeTest(category))
       ),
       // don't show residency dec when it's (ADI2, ADI3, SC) or an (extended test)
       showResidencyDec$: currentTest$.pipe(
