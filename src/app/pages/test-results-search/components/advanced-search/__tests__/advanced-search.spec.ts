@@ -150,4 +150,30 @@ describe('AdvancedSearchComponent', () => {
       expect(component.focusedElement).toBe('test');
     });
   });
+
+  describe('passCertificateChanged', () => {
+    it('should store the pass certificate value in uppercase', () => {
+      component.passCertificateChanged({ target: { value: 'ab12cd34' } });
+
+      expect(component.passCertificateNumber).toBe('AB12CD34');
+    });
+
+    it('should keep the value unchanged when already uppercase', () => {
+      component.passCertificateChanged({ target: { value: 'AB12CD34' } });
+
+      expect(component.passCertificateNumber).toBe('AB12CD34');
+    });
+
+    it('should store an empty string when the input value is empty', () => {
+      component.passCertificateChanged({ target: { value: '' } });
+
+      expect(component.passCertificateNumber).toBe('');
+    });
+
+    it('should set pass certificate number to blank when event is missing', () => {
+      component.passCertificateChanged(undefined as any);
+
+      expect(component.passCertificateNumber).toBe('');
+    });
+  });
 });
