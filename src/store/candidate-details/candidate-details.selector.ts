@@ -10,7 +10,6 @@ export const isCandidateCommentsEmpty = (slot: TestSlot): boolean => isEmpty(slo
 export const getCandidateId = (slot: TestSlot): number => slot.booking.candidate.candidateId;
 export const isCandidateSpecialNeeds = (slot: TestSlot): boolean => !isEmpty(slot.booking.application.specialNeeds);
 export const isCandidateCheckNeeded = (slot: TestSlot): boolean => slot.booking.application.entitlementCheck;
-export const getEntitlementCheckText = (): string => 'Entitlement check is required. Call deployment';
 export const getBusiness = (slot: TestSlot) => slot.booking.business;
 export const getSlotChanged = (slot: SlotItem): boolean => slot.hasSlotChanged;
 export const getFitMarker = (slot: TestSlot): boolean => slot.booking.application.fitMarker;
