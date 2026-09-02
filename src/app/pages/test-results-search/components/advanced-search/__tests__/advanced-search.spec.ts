@@ -151,7 +151,7 @@ describe('AdvancedSearchComponent', () => {
     });
   });
 
-  describe('passCertificateChanged', () => {
+  describe('passCertificateInput', () => {
     it('should store the pass certificate value in uppercase', () => {
       component.passCertificateInput('ab12cd34');
 
