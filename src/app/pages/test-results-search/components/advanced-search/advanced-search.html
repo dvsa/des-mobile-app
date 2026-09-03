@@ -175,6 +175,7 @@
               (ionBlur)="setFocus(null)"
               (ionFocus)="setFocus('passCertificateNum')"
               (ionChange)="passCertChanged()"
+              (ionInput)="passCertificateInput($event?.target?.value)"
               [(ngModel)]="passCertificateNumber"
               [class.increase-height]="accessibilityService.getTextZoomClass() === 'text-zoom-x-large'"
               [clearInput]="true"
