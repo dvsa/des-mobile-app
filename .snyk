@@ -7,14 +7,84 @@ ignore:
     - '*':
         reason: Use of LGPL-3.0 licensed package
         created: 2026-02-12T15:06:00.122Z
+  SNYK-JS-QS-19432017:
+    - '*':
+        reason: Remediation not yet available
+        expires: 2026-10-01T12:31:00.122Z
+        created: 2026-09-01T12:31:00.122Z
+  SNYK-JS-QS-19432019:
+    - '*':
+        reason: Remediation not yet available
+        expires: 2026-10-01T12:31:00.122Z
+        created: 2026-09-01T12:31:00.122Z
   SNYK-JS-UUID-16133035:
     - '*':
         reason: Remediation not yet available
-        expires: 2026-10-27T09:00:00.119Z
-        created: 2023-04-27T09:00:00.122Z
-  SNYK-JS-BABELCORE-17342497:
+        expires: 2026-10-01T12:31:00.122Z
+        created: 2026-09-01T12:31:00.122Z
+  SNYK-JS-XMLDOMXMLDOM-19498551:
     - '*':
         reason: Remediation not yet available
-        expires: 2026-10-17T09:00:00.119Z
-        created: 2023-06-17T09:00:00.122Z
+        expires: 2026-10-02T16:00:00.122Z
+        created: 2026-09-02T16:00:00.122Z
+  SNYK-JS-XMLDOMXMLDOM-19499086:
+    - '*':
+        reason: Remediation not yet available
+        expires: 2026-10-02T16:00:00.122Z
+        created: 2026-09-02T16:00:00.122Z
+  SNYK-JS-XMLDOMXMLDOM-19499081:
+    - '*':
+        reason: Remediation not yet available
+        expires: 2026-10-02T16:00:00.122Z
+        created: 2026-09-02T16:00:00.122Z
+  SNYK-JS-XMLDOMXMLDOM-19499076:
+    - '*':
+        reason: Remediation not yet available
+        expires: 2026-10-02T16:00:00.122Z
+        created: 2026-09-02T16:00:00.122Z
+  SNYK-JS-XMLDOMXMLDOM-19499075:
+    - '*':
+        reason: Remediation not yet available
+        expires: 2026-10-02T16:00:00.122Z
+        created: 2026-09-02T16:00:00.122Z
+  SNYK-JS-XMLDOMXMLDOM-19499074:
+    - '*':
+        reason: Remediation not yet available
+        expires: 2026-10-02T16:00:00.122Z
+        created: 2026-09-02T16:00:00.122Z
+  SNYK-JS-XMLDOMXMLDOM-19498556:
+    - '*':
+        reason: Remediation not yet available
+        expires: 2026-10-02T16:00:00.122Z
+        created: 2026-09-02T16:00:00.122Z
+  SNYK-JS-XMLDOMXMLDOM-19498557:
+    - '*':
+        reason: Remediation not yet available
+        expires: 2026-10-02T16:00:00.122Z
+        created: 2026-09-02T16:00:00.122Z
+  SNYK-JS-XMLDOMXMLDOM-19498561:
+    - '*':
+        reason: Remediation not yet available
+        expires: 2026-10-02T16:00:00.122Z
+        created: 2026-09-02T16:00:00.122Z
+  SNYK-JS-XMLDOMXMLDOM-19499069:
+    - '*':
+        reason: Remediation not yet available
+        expires: 2026-10-02T16:00:00.122Z
+        created: 2026-09-02T16:00:00.122Z
+  SNYK-JS-XMLDOMXMLDOM-19499070:
+    - '*':
+        reason: Remediation not yet available
+        expires: 2026-10-02T16:00:00.122Z
+        created: 2026-09-02T16:00:00.122Z
+  SNYK-JS-XMLDOMXMLDOM-19499072:
+    - '*':
+        reason: Remediation not yet available
+        expires: 2026-10-02T16:00:00.122Z
+        created: 2026-09-02T16:00:00.122Z
+  SNYK-JS-XMLDOMXMLDOM-19499073:
+    - '*':
+        reason: Remediation not yet available
+        expires: 2026-10-02T16:00:00.122Z
+        created: 2026-09-02T16:00:00.122Z
 patch: {}

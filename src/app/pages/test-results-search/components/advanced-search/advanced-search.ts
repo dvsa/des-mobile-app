@@ -206,6 +206,10 @@ export class AdvancedSearchComponent {
     }
   }
 
+  passCertificateInput(event: string): void {
+    this.passCertificateNumber = event?.toUpperCase() ?? '';
+  }
+
   passCertChanged() {
     this.store$.dispatch(PassCertificateChanged());
   }
