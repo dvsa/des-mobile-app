@@ -58,7 +58,6 @@ export class CandidateDetailsPage implements OnInit, OnDestroy, ViewDidEnter {
   public isPracticeMode: boolean;
 
   pageState: CandidateDetailsPageState;
-  selectedDate: string;
   testCategory: TestCategory = null;
   idPrefix = 'candidate-details';
   prevSlot: TestSlot;

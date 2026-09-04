@@ -1,38 +1,39 @@
 <div>
   <ion-grid>
     <ion-row>
-      <ion-col>
-        <div id="date-container">
-          <div class="mes-black">
-            <ion-text id="name" class="des-header-style-2 word-wrapper">{{ name ? 'Name: ' + name : 'Name unknown' }}
-            </ion-text>
-            <br/>
-            <ion-text class="des-header-style-3" id="dateAndTime">Time: {{ time }} {{ date }}</ion-text>
-          </div>
-        </div>
-      </ion-col>
-    </ion-row>
-    <ion-row>
-      <ion-col>
+      <ion-col size="20" class="justify-content-start top-padding">
         @if (canNavigateToPreviousCandidate) {
           <ion-text
             id="previous-slot-container"
             class="des-header-style-5 previous-navigation-button"
             (click)="onPreviousCandidateClick()"
-            >
+          >
             <ion-icon class="navigation-arrow" name="chevron-back-outline"></ion-icon>
-            <span id="previous-slot">Previous candidate</span>
+            <span id="previous-slot">Previous</span>
           </ion-text>
         }
       </ion-col>
       <ion-col>
+        <div id="date-container">
+          <div class="mes-black">
+            <ion-row class="justify-content-center">
+              <ion-text id="name" class="des-header-style-2 word-wrapper">{{ name ?? 'Name unknown' }}</ion-text>
+            </ion-row>
+            <ion-row class="justify-content-around">
+              <ion-text class="des-header-style-3" id="time">{{ time }}</ion-text>
+              <ion-text class="des-header-style-3" id="date">{{ date }} {{isToday() ? '(Today)' : ''}}</ion-text>
+            </ion-row>
+          </div>
+        </div>
+      </ion-col>
+      <ion-col size="20" class="justify-content-end top-padding">
         @if (canNavigateToNextCandidate) {
           <ion-text
             id="next-slot-container"
             class="des-header-style-5 next-navigation-button"
             (click)="onNextCandidateClick()"
-            >
-            <span id="next-slot">Next candidate</span>
+          >
+            <span id="next-slot">Next</span>
             <ion-icon class="navigation-arrow" name="chevron-forward-outline"></ion-icon>
           </ion-text>
         }
