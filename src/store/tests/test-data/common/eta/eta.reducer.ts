@@ -40,16 +40,16 @@ export const etaReducer = createReducer(
       },
     })
   ),
-  on(
-    etaActions.ETAPhysicalOtherReasonUpdated,
-    (state, { reason }): ETA => ({
+  on(etaActions.ETAPhysicalOtherReasonUpdated, (state, { reason }): ETA => {
+    const trimmedReason = (reason ?? '').trim();
+    return {
       ...state,
       physicalType: {
         ...(state.physicalType ?? {}),
-        otherText: reason.trim() === '' ? undefined : reason,
+        otherText: trimmedReason === '' ? undefined : trimmedReason,
       },
-    })
-  ),
+    };
+  }),
   on(
     etaActions.SteeringControlETAToggled,
     (state): ETA => ({

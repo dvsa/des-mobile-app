@@ -7,11 +7,12 @@ import { getCurrentTest } from '@store/tests/tests.selector';
 const getSelectedTest = createSelector(getTests, getCurrentTest);
 
 const getETAFromCurrentTest = (test: TestResultSchemasUnion): ETA =>
-  (test as TestResultCommonSchema)?.testData?.ETA ?? {};
+  (test as TestResultCommonSchema)?.testData?.ETA ?? ({} as ETA);
 
 export const getETAPhysicalTypes = createSelector(
   getSelectedTest,
-  (test: TestResultSchemasUnion): ETAPhysicalType => getETAFromCurrentTest(test)?.physicalType ?? {}
+  (test: TestResultSchemasUnion): ETAPhysicalType =>
+    getETAFromCurrentTest(test)?.physicalType ?? ({} as ETAPhysicalType)
 );
 
 export const getFootbrakeETAPhysicalType = createSelector(
@@ -24,7 +25,7 @@ export const getHandbrakeETAPhysicalType = createSelector(
   (etaPhysicalType: ETAPhysicalType): boolean => etaPhysicalType?.handbrake ?? false
 );
 
-export const getOtherAETAPhysicalType = createSelector(
+export const getOtherETAPhysicalType = createSelector(
   getETAPhysicalTypes,
   (etaPhysicalType: ETAPhysicalType): boolean => etaPhysicalType?.other ?? false
 );

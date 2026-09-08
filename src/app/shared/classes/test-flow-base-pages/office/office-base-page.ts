@@ -108,7 +108,7 @@ import {
 import {
   getFootbrakeETAPhysicalType,
   getHandbrakeETAPhysicalType,
-  getOtherAETAPhysicalType,
+  getOtherETAPhysicalType,
   getOtherTextETAPhysicalType,
   getSteeringControlETAPhysicalType,
 } from '@store/tests/test-data/common/eta/eta.selector';
@@ -240,7 +240,7 @@ export abstract class OfficeBasePageComponent extends PracticeableBasePageCompon
   steeringControlETA: Signal<boolean> = this.store$.selectSignal(getSteeringControlETAPhysicalType);
   handbrakeETA: Signal<boolean> = this.store$.selectSignal(getHandbrakeETAPhysicalType);
   footbrakeETA: Signal<boolean> = this.store$.selectSignal(getFootbrakeETAPhysicalType);
-  otherETA: Signal<boolean> = this.store$.selectSignal(getOtherAETAPhysicalType);
+  otherETA: Signal<boolean> = this.store$.selectSignal(getOtherETAPhysicalType);
   otherTextETA: Signal<string> = this.store$.selectSignal(getOtherTextETAPhysicalType);
 
   commonPageState: CommonOfficePageState;
