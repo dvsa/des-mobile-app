@@ -1,6 +1,10 @@
 <ion-header>
   <ion-toolbar mode="ios" >
-    <ion-title role="heading" aria-level="1" id="test-details-title" class="ion-text-center fullscreen-modal-toolbar-item-padding">
+    <ion-title
+      role="heading"
+      aria-level="1"
+      id="test-details-title"
+      class="ion-text-center fullscreen-modal-toolbar-item-padding">
       {{ restrictDetails ?
       'ADI Enforcement Activities' :
       'Test details - ' + (pageState.name ? pageState.name : 'Name unknown')}}
@@ -20,7 +24,7 @@
       <ion-row class="navigation-row">
         <candidate-detail-navigation
           [name]="'ADI Enforcement Activities'"
-          [date]="selectedDate | date:'EEEE d MMMM y'"
+          [date]="pageState.time | date:'d MMMM y'"
           [time]="pageState.time | date: 'HH:mm'"
           [canNavigateToPreviousCandidate]="!!prevSlot"
           [canNavigateToNextCandidate]="!!nextSlot"
@@ -36,7 +40,7 @@
       <ion-row class="navigation-row">
         <candidate-detail-navigation
           [name]="pageState.name"
-          [date]="selectedDate | date:'EEEE d MMMM y'"
+          [date]="pageState.time | date:'d MMMM y'"
           [time]="pageState.time | date: 'HH:mm'"
           [canNavigateToPreviousCandidate]="!!prevSlot"
           [canNavigateToNextCandidate]="!!nextSlot"
