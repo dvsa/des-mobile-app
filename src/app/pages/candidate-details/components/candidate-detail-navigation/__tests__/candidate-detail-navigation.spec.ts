@@ -30,4 +30,33 @@ describe('CandidateDetailNavigationComponent', () => {
       expect(component.nextCandidateClicked.emit).toHaveBeenCalled();
     });
   });
+
+  describe('isToday', () => {
+    beforeEach(() => {
+      jasmine.clock().install();
+      jasmine.clock().mockDate(new Date('2026-09-02T10:00:00'));
+    });
+
+    afterEach(() => {
+      jasmine.clock().uninstall();
+    });
+
+    it('should return true when date is the current day', () => {
+      component.date = '2026-09-02T00:01:00';
+
+      expect(component.isToday()).toBeTrue();
+    });
+
+    it('should return false when date is not the current day', () => {
+      component.date = '2026-09-03T00:01:00';
+
+      expect(component.isToday()).toBeFalse();
+    });
+
+    it('should return false when date is invalid', () => {
+      component.date = 'not-a-valid-date';
+
+      expect(component.isToday()).toBeFalse();
+    });
+  });
 });
