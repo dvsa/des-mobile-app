@@ -16,25 +16,25 @@ export const getETAPhysicalTypes = createSelector(
 
 export const getFootbrakeETAPhysicalType = createSelector(
   getETAPhysicalTypes,
-  (etaPhysicalType: ETAPhysicalType): boolean => etaPhysicalType.footbrake
+  (etaPhysicalType: ETAPhysicalType): boolean => etaPhysicalType?.footbrake ?? false
 );
 
 export const getHandbrakeETAPhysicalType = createSelector(
   getETAPhysicalTypes,
-  (etaPhysicalType: ETAPhysicalType): boolean => etaPhysicalType.handbrake
+  (etaPhysicalType: ETAPhysicalType): boolean => etaPhysicalType?.handbrake ?? false
 );
 
 export const getOtherAETAPhysicalType = createSelector(
   getETAPhysicalTypes,
-  (etaPhysicalType: ETAPhysicalType): boolean => etaPhysicalType.other
+  (etaPhysicalType: ETAPhysicalType): boolean => etaPhysicalType?.other ?? false
 );
 
 export const getOtherTextETAPhysicalType = createSelector(
   getETAPhysicalTypes,
-  (etaPhysicalType: ETAPhysicalType): string => etaPhysicalType.otherText
+  (etaPhysicalType: ETAPhysicalType): string => etaPhysicalType?.otherText ?? ''
 );
 
 export const getSteeringControlETAPhysicalType = createSelector(
   getETAPhysicalTypes,
-  (etaPhysicalType: ETAPhysicalType): boolean => etaPhysicalType.steeringControl
+  (etaPhysicalType: ETAPhysicalType): boolean => etaPhysicalType?.steeringControl ?? false
 );
