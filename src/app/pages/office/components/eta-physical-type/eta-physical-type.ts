@@ -20,10 +20,16 @@ export class ETAPhysicalTypeComponent implements OnChanges {
   checkboxToggleChanged = new EventEmitter();
 
   formControl: UntypedFormControl;
+
   ngOnChanges(): void {
     if (!this.formControl) {
       this.formControl = new UntypedFormControl(null);
-      this.formGroup.addControl(this.formControlName, this.formControl);
+      if (this.formGroup.contains(this.formControlName)) {
+        this.formControl.patchValue(this.formGroup.controls[this.formControlName].value);
+        this.formGroup.setControl(this.formControlName, this.formControl);
+      } else {
+        this.formGroup.addControl(this.formControlName, this.formControl);
+      }
     }
     this.formControl.patchValue(this.toggled);
   }

@@ -79,9 +79,7 @@ export class ETACardComponent {
       }
       this.formControl.updateValueAndValidity();
 
-      if (this.otherETAReason) {
-        this.formControl.patchValue(this.otherETAReason);
-      }
+      this.formControl.patchValue(this.otherETAReason ?? '');
     }
   }
 

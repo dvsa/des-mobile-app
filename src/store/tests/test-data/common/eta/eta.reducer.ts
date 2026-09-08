@@ -30,16 +30,17 @@ export const etaReducer = createReducer(
       },
     })
   ),
-  on(
-    etaActions.OtherETAToggled,
-    (state): ETA => ({
+  on(etaActions.OtherETAToggled, (state): ETA => {
+    const isTurningOff = !!state?.physicalType?.other;
+    return {
       ...state,
       physicalType: {
         ...(state.physicalType ?? {}),
-        other: state?.physicalType?.other ? undefined : true,
+        other: isTurningOff ? undefined : true,
+        otherText: isTurningOff ? undefined : state?.physicalType?.otherText,
       },
-    })
-  ),
+    };
+  }),
   on(etaActions.ETAPhysicalOtherReasonUpdated, (state, { reason }): ETA => {
     const trimmedReason = (reason ?? '').trim();
     return {
