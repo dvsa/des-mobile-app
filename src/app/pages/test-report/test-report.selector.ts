@@ -1,6 +1,6 @@
-import { TestReportModel } from './test-report.model';
 import { createSelector } from '@ngrx/store';
 import { getTestReportState } from '@pages/test-report/test-report.reducer';
+import { TestReportModel } from './test-report.model';
 
 export const isRemoveFaultMode = (testReport: TestReportModel) => testReport.removeFaultMode;
 

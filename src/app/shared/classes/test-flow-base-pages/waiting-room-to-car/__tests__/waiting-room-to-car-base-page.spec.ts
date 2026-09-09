@@ -158,7 +158,6 @@ describe('WaitingRoomToCarBasePageComponent', () => {
 
     router = TestBed.inject(Router);
     store$ = TestBed.inject(MockStore);
-    basePageComponent = TestBed.runInInjectionContext(() => new WaitingRoomToCarBasePageComponentStub());
 
     vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
   });
