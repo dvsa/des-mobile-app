@@ -156,7 +156,6 @@ describe('WaitingRoomToCarBasePageComponent', () => {
 
     router = TestBed.inject(Router);
     store$ = TestBed.inject(MockStore);
-    basePageComponent = TestBed.runInInjectionContext(() => new WaitingRoomToCarBasePageComponentStub());
 
     spyOn(store$, 'dispatch');
   });
