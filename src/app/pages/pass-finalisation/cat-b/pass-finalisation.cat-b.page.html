@@ -18,7 +18,7 @@
       (setupLeaveSubscription)="setupEscapeSAMLeaveSubscription()"
       (setupResumeSubscription)="setupEscapeSAMResumeSubscription()"
       (onExitSAMActivatedChanged)="isSamActivatedChanged($event)">
-      Finalise outcome - {{ pageState.candidateUntitledName$ | async }}
+      Finalise outcome - {{ candidateUntitledName() }}
     </test-flow-header>
   </ion-toolbar>
 </ion-header>
@@ -28,34 +28,34 @@
     <form (ngSubmit)="onSubmit()" [formGroup]="form">
       <ion-grid>
         <finalisation-header
-          [candidateDriverNumber]="pageState.candidateDriverNumber$ | async"
-          [candidateName]="pageState.candidateName$ | async"
-          [outcomeText]="pageState.testOutcomeText$ | async"
+          [candidateDriverNumber]="candidateDriverNumber()"
+          [candidateName]="candidateName()"
+          [outcomeText]="testOutcomeText()"
           >
         </finalisation-header>
 
-        <application-reference-number [applicationNumber]="pageState.applicationNumber$ | async">
+        <application-reference-number [applicationNumber]="applicationNumber()">
         </application-reference-number>
 
-        @if (!isNorthernIreland(pageState.candidateDriverNumber$ | async )) {
+        @if (!isNorthernIreland(candidateDriverNumber())) {
           <license-provided
             (licenseNotReceived)="provisionalLicenseNotReceived()"
             (licenseReceived)="provisionalLicenseReceived()"
             [form]="form"
             [licenseReceivedLabel]="'Provisional licence received'"
-            [license]="pageState.provisionalLicense$ | async"
+            [license]="provisionalLicense()"
             >
           </license-provided>
         }
 
-        @if (!isNorthernIreland(pageState.candidateDriverNumber$ | async )) {
+        @if (!isNorthernIreland(candidateDriverNumber())) {
           <licence-provided-warning-banner
-            [licenceProvided]="pageState.provisionalLicense$ | async"
+            [licenceProvided]="provisionalLicense()"
             >
           </licence-provided-warning-banner>
         }
 
-        @if (isNorthernIreland(pageState.candidateDriverNumber$ | async )) {
+        @if (isNorthernIreland(candidateDriverNumber())) {
           <danger-banner [dangerText]="niMessage">
           </danger-banner>
         }
@@ -63,13 +63,13 @@
         <transmission
           [shouldShowConfirmationSettings]="true"
           [shouldShowEditBox]="true"
-          [isShowingEditBox]="isShowingEditBox$ | async"
+          [isShowingEditBox]="isShowingEditBox()"
           (transmissionChange)="transmissionChanged($event)"
           (automaticConfirmChange)="automaticConfirmationChanged($event)"
           (userClickedEditButton)="deactivateEdit()"
           [formGroup]="form"
-          [transmission]="pageState.transmission$ | async"
-          [autoConfirmSelected]="pageState.isAutomaticConfirmed$ | async"
+          [transmission]="transmissionSignal()"
+          [autoConfirmSelected]="isAutomaticConfirmed()"
           [isRekey]="isRekey"
         ></transmission>
 
@@ -77,21 +77,21 @@
           (passCertificateNumberChange)="passCertificateNumberChanged($event)"
           [form]="form"
           [isPracticeMode]="isPracticeMode"
-          [passCertificateNumberInput]="pageState.passCertificateNumber$ | async"
+          [passCertificateNumberInput]="passCertificateNumber()"
           >
         </pass-certificate-number>
 
         <d255
           (d255Change)="d255Changed($event)"
-          [d255]="pageState.d255$ | async"
+          [d255]="d255()"
           [display]="true"
-          [eyesightTestFailed]="pageState.eyesightTestFailed$ | async"
+          [eyesightTestFailed]="eyesightTestFailed()"
           [formGroup]="form"
           [outcome]="testOutcome"
           >
         </d255>
 
-        @if (pageState.d255$ | async) {
+        @if (d255()) {
           <warning-banner
             [warningIdentifier]="'d255-'"
             warningText="DVLA will not process the result until a D255 is received."
@@ -102,13 +102,13 @@
         <language-preferences
           (welshChanged)="isWelshChanged($event)"
           [formGroup]="form"
-          [isWelsh]="(pageState.conductedLanguage$ | async) === 'Cymraeg'"
+          [isWelsh]="conductedLanguage() === 'Cymraeg'"
           >
         </language-preferences>
 
         <debrief-witnessed
           (debriefWitnessedChange)="debriefWitnessedChanged($event)"
-          [debriefWitnessed]="pageState.debriefWitnessed$ | async"
+          [debriefWitnessed]="debriefWitnessed()"
           [display]="true"
           [shouldShowSeparator]="false"
           [formGroup]="form"

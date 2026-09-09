@@ -1,25 +1,8 @@
-import { select } from '@ngrx/store';
-import { BehaviorSubject, Observable, Subscription, combineLatest } from 'rxjs';
-
-import { getCandidate } from '@store/tests/journal-data/common/candidate/candidate.reducer';
-import {
-  formatDriverNumber,
-  getCandidateDriverNumber,
-  getCandidateName,
-  getUntitledCandidateName,
-} from '@store/tests/journal-data/common/candidate/candidate.selector';
-import { getTests } from '@store/tests/tests.reducer';
-import {
-  getAllPassCerts,
-  getCurrentTest,
-  getJournalData,
-  getStartedTestsWithPassOutcome,
-  getTestOutcome,
-  getTestOutcomeText,
-} from '@store/tests/tests.selector';
-
-import { Inject, inject } from '@angular/core';
+import { Inject, Signal, computed, inject, signal } from '@angular/core';
+import { toObservable } from '@angular/core/rxjs-interop';
 import { ActivityCode, CategoryCode, GearboxCategory } from '@dvsa/mes-test-schema/categories/common';
+import { Observable, Subscription } from 'rxjs';
+
 import { OutcomeBehaviourMapProvider } from '@providers/outcome-behaviour-map/outcome-behaviour-map';
 import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
 import { PracticeableBasePageComponent } from '@shared/classes/practiceable-base-page';
@@ -34,6 +17,13 @@ import { getCommunicationPreference } from '@store/tests/communication-preferenc
 import { getConductedLanguage } from '@store/tests/communication-preferences/communication-preferences.selector';
 import { getApplicationReference } from '@store/tests/journal-data/common/application-reference/application-reference.reducer';
 import { getApplicationNumber } from '@store/tests/journal-data/common/application-reference/application-reference.selector';
+import { getCandidate } from '@store/tests/journal-data/common/candidate/candidate.reducer';
+import {
+  formatDriverNumber,
+  getCandidateDriverNumber,
+  getCandidateName,
+  getUntitledCandidateName,
+} from '@store/tests/journal-data/common/candidate/candidate.selector';
 import {
   Code78NotPresent,
   Code78Present,
@@ -51,13 +41,21 @@ import { getTestData } from '@store/tests/test-data/cat-b/test-data.reducer';
 import { D255No, D255Yes, DebriefUnWitnessed, DebriefWitnessed } from '@store/tests/test-summary/test-summary.actions';
 import { getTestSummary } from '@store/tests/test-summary/test-summary.reducer';
 import { getD255, isDebriefWitnessed } from '@store/tests/test-summary/test-summary.selector';
+import { getTests } from '@store/tests/tests.reducer';
+import {
+  getAllPassCerts,
+  getJournalData,
+  getStartedTestsWithPassOutcome,
+  getTestOutcome,
+  getTestOutcomeText,
+  selectCurrentTest,
+} from '@store/tests/tests.selector';
 import {
   AutomaticConfirmationChanged,
   GearboxCategoryChanged,
 } from '@store/tests/vehicle-details/vehicle-details.actions';
 import { getVehicleDetails } from '@store/tests/vehicle-details/vehicle-details.reducer';
 import { getGearboxCategory, isAutomaticConfirmed } from '@store/tests/vehicle-details/vehicle-details.selector';
-import { map, take } from 'rxjs/operators';
 
 export interface CommonPassFinalisationPageState {
   candidateName$: Observable<string>;
@@ -81,7 +79,89 @@ export interface CommonPassFinalisationPageState {
 export abstract class PassFinalisationPageComponent extends PracticeableBasePageComponent {
   protected routeByCat = inject(RouteByCategoryProvider);
   protected outcomeBehaviourProvider = inject(OutcomeBehaviourMapProvider);
-  isShowingEditBox$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(true);
+
+  isShowingEditBox = signal<boolean>(true);
+  isShowingEditBox$ = toObservable(this.isShowingEditBox);
+
+  currentTest = this.store$.selectSignal(selectCurrentTest);
+  tests = this.store$.selectSignal(getTests);
+
+  candidateName: Signal<string> = computed(() => {
+    const candidate = this.getCurrentCandidate();
+    return candidate ? getCandidateName(candidate as never) : null;
+  });
+
+  candidateUntitledName: Signal<string> = computed(() => {
+    const candidate = this.getCurrentCandidate();
+    return candidate ? getUntitledCandidateName(candidate as never) : null;
+  });
+
+  candidateDriverNumber: Signal<string> = computed(() => {
+    const candidate = this.getCurrentCandidate();
+    return candidate ? formatDriverNumber(getCandidateDriverNumber(candidate as never)) : null;
+  });
+
+  testOutcomeText: Signal<string> = computed(() => {
+    const currentTest = this.currentTest();
+    return currentTest ? getTestOutcomeText(currentTest as never) : null;
+  });
+
+  testOutcomeCode: Signal<ActivityCode> = computed(() => {
+    const currentTest = this.currentTest();
+    return currentTest ? getTestOutcome(currentTest as never) : null;
+  });
+
+  applicationNumber: Signal<string> = computed(() => {
+    const applicationReference = this.getCurrentApplicationReference();
+    return applicationReference ? getApplicationNumber(applicationReference as never) : null;
+  });
+
+  provisionalLicense: Signal<boolean> = computed(() => {
+    const passCompletion = this.getCurrentPassCompletion();
+    return passCompletion ? isProvisionalLicenseProvided(passCompletion as never) : false;
+  });
+
+  passCertificateNumber: Signal<string> = computed(() => {
+    const passCompletion = this.getCurrentPassCompletion();
+    return passCompletion ? getPassCertificateNumber(passCompletion as never) : null;
+  });
+
+  transmissionSignal: Signal<GearboxCategory> = computed(() => {
+    const vehicleDetails = this.getCurrentVehicleDetails();
+    return vehicleDetails ? getGearboxCategory(vehicleDetails as never) : null;
+  });
+
+  isAutomaticConfirmed: Signal<boolean> = computed(() => {
+    const vehicleDetails = this.getCurrentVehicleDetails();
+    return vehicleDetails ? isAutomaticConfirmed(vehicleDetails as never) : false;
+  });
+
+  d255: Signal<boolean> = computed(() => {
+    const testSummary = this.getCurrentTestSummary();
+    return testSummary ? getD255(testSummary as never) : false;
+  });
+
+  debriefWitnessed: Signal<boolean> = computed(() => {
+    const testSummary = this.getCurrentTestSummary();
+    return testSummary ? isDebriefWitnessed(testSummary as never) : false;
+  });
+
+  conductedLanguage: Signal<string> = computed(() => {
+    const communicationPreference = this.getCurrentCommunicationPreference();
+    return communicationPreference ? getConductedLanguage(communicationPreference as never) : null;
+  });
+
+  eyesightTestFailed: Signal<boolean> = computed(() => {
+    const testData = this.getCurrentTestData();
+    return testData ? hasEyesightTestGotSeriousFault(testData as never) : false;
+  });
+
+  testCategorySignal: Signal<CategoryCode> = this.store$.selectSignal(getTestCategory);
+
+  pastPassCerts: Signal<string[]> = computed(() => {
+    const startedTestsWithPassOutcome = getStartedTestsWithPassOutcome(this.tests());
+    return getAllPassCerts(startedTestsWithPassOutcome) || [];
+  });
 
   commonPageState: CommonPassFinalisationPageState;
   testOutcome: ActivityCodes = ActivityCodes.PASS;
@@ -91,47 +171,63 @@ export abstract class PassFinalisationPageComponent extends PracticeableBasePage
     super(loginRequired);
   }
 
+  private getCurrentCandidate() {
+    const currentTest = this.currentTest();
+    if (!currentTest) return null;
+    return getCandidate(getJournalData(currentTest as never) as never);
+  }
+
+  private getCurrentVehicleDetails() {
+    const currentTest = this.currentTest();
+    return currentTest ? getVehicleDetails(currentTest as never) : null;
+  }
+
+  private getCurrentApplicationReference() {
+    const currentTest = this.currentTest();
+    return currentTest ? getApplicationReference(getJournalData(currentTest as never) as never) : null;
+  }
+
+  private getCurrentPassCompletion() {
+    const currentTest = this.currentTest();
+    return currentTest ? getPassCompletion(currentTest as never) : null;
+  }
+
+  private getCurrentCommunicationPreference() {
+    const currentTest = this.currentTest();
+    return currentTest ? getCommunicationPreference(currentTest as never) : null;
+  }
+
+  private getCurrentTestSummary() {
+    const currentTest = this.currentTest();
+    return currentTest ? getTestSummary(currentTest as never) : null;
+  }
+
+  private getCurrentTestData() {
+    const currentTest = this.currentTest();
+    return currentTest ? getTestData(currentTest as never) : null;
+  }
+
   onInitialisation(): void {
     super.ngOnInit();
-    const currentTest$ = this.store$.pipe(select(getTests), select(getCurrentTest));
 
+    // Backwards-compatible observable adapter for pages not yet migrated to signals.
     this.commonPageState = {
-      candidateName$: currentTest$.pipe(select(getJournalData), select(getCandidate), select(getCandidateName)),
-      isAutomaticConfirmed$: currentTest$.pipe(select(getVehicleDetails), select(isAutomaticConfirmed)),
-      candidateUntitledName$: currentTest$.pipe(
-        select(getJournalData),
-        select(getCandidate),
-        select(getUntitledCandidateName)
-      ),
-      candidateDriverNumber$: currentTest$.pipe(
-        select(getJournalData),
-        select(getCandidate),
-        select(getCandidateDriverNumber),
-        map(formatDriverNumber)
-      ),
-      testOutcomeText$: currentTest$.pipe(select(getTestOutcomeText)),
-      testOutcome$: currentTest$.pipe(select(getTestOutcome)),
-      applicationNumber$: currentTest$.pipe(
-        select(getJournalData),
-        select(getApplicationReference),
-        select(getApplicationNumber)
-      ),
-      provisionalLicense$: currentTest$.pipe(select(getPassCompletion), map(isProvisionalLicenseProvided)),
-      passCertificateNumber$: currentTest$.pipe(select(getPassCompletion), select(getPassCertificateNumber)),
-      transmission$: currentTest$.pipe(select(getVehicleDetails), select(getGearboxCategory)),
-      debriefWitnessed$: currentTest$.pipe(select(getTestSummary), select(isDebriefWitnessed)),
-      d255$: currentTest$.pipe(select(getTestSummary), select(getD255)),
-      conductedLanguage$: currentTest$.pipe(select(getCommunicationPreference), select(getConductedLanguage)),
-      eyesightTestFailed$: currentTest$.pipe(select(getTestData), select(hasEyesightTestGotSeriousFault)),
-      testCategory$: currentTest$.pipe(select(getTestCategory)),
-      pastPassCerts$: combineLatest([
-        this.store$.pipe(select(getTests), select(getStartedTestsWithPassOutcome), select(getAllPassCerts), take(1)),
-      ]).pipe(
-        map(([testPassCerts]) => [
-          // pass certs from started tests
-          ...(testPassCerts || []),
-        ])
-      ),
+      candidateName$: toObservable(this.candidateName),
+      isAutomaticConfirmed$: toObservable(this.isAutomaticConfirmed),
+      candidateUntitledName$: toObservable(this.candidateUntitledName),
+      candidateDriverNumber$: toObservable(this.candidateDriverNumber),
+      testOutcomeText$: toObservable(this.testOutcomeText),
+      testOutcome$: toObservable(this.testOutcomeCode),
+      applicationNumber$: toObservable(this.applicationNumber),
+      provisionalLicense$: toObservable(this.provisionalLicense),
+      passCertificateNumber$: toObservable(this.passCertificateNumber),
+      transmission$: toObservable(this.transmissionSignal),
+      debriefWitnessed$: toObservable(this.debriefWitnessed),
+      d255$: toObservable(this.d255),
+      conductedLanguage$: toObservable(this.conductedLanguage),
+      eyesightTestFailed$: toObservable(this.eyesightTestFailed),
+      testCategory$: toObservable(this.testCategorySignal),
+      pastPassCerts$: toObservable(this.pastPassCerts),
     };
   }
 
@@ -143,13 +239,11 @@ export abstract class PassFinalisationPageComponent extends PracticeableBasePage
   }
 
   ionViewWillEnter() {
-    console.log('will enter');
-    this.isShowingEditBox$.next(true);
+    this.isShowingEditBox.set(true);
   }
 
   deactivateEdit() {
-    console.log('edit dea');
-    this.isShowingEditBox$.next(false);
+    this.isShowingEditBox.set(false);
   }
 
   provisionalLicenseReceived(): void {
