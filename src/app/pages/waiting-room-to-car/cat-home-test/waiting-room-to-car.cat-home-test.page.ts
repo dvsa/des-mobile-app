@@ -9,10 +9,7 @@ import { select } from '@ngrx/store';
 import { ClearCandidateLicenceData } from '@pages/candidate-licence/candidate-licence.actions';
 import { TestFlowPageNames } from '@pages/page-names.constants';
 import { WaitingRoomToCarValidationError } from '@pages/waiting-room-to-car/waiting-room-to-car.actions';
-import {
-  CommonWaitingRoomToCarPageState,
-  WaitingRoomToCarBasePageComponent,
-} from '@shared/classes/test-flow-base-pages/waiting-room-to-car/waiting-room-to-car-base-page';
+import { WaitingRoomToCarBasePageComponent } from '@shared/classes/test-flow-base-pages/waiting-room-to-car/waiting-room-to-car-base-page';
 import { VehicleChecksScore } from '@shared/models/vehicle-checks-score.model';
 import { getTestCategory } from '@store/tests/category/category.reducer';
 import { getPreTestDeclarations } from '@store/tests/pre-test-declarations/pre-test-declarations.reducer';
@@ -44,8 +41,6 @@ type HomeCatVehicleChecksUnion =
   | CatHUniqueTypes.VehicleChecks
   | CatKUniqueTypes.VehicleChecks;
 
-type WaitingRoomToCarPageState = CommonWaitingRoomToCarPageState & CatHomeWaitingRoomToCarPageState;
-
 @Component({
   selector: 'app-waiting-room-to-car-cat-home-test',
   templateUrl: './waiting-room-to-car.cat-home-test.page.html',
@@ -54,7 +49,7 @@ type WaitingRoomToCarPageState = CommonWaitingRoomToCarPageState & CatHomeWaitin
 })
 export class WaitingRoomToCarCatHomeTestPage extends WaitingRoomToCarBasePageComponent implements OnInit {
   form: UntypedFormGroup;
-  pageState: WaitingRoomToCarPageState;
+  pageState: CatHomeWaitingRoomToCarPageState;
   submitClicked: boolean;
 
   constructor() {
@@ -68,7 +63,6 @@ export class WaitingRoomToCarCatHomeTestPage extends WaitingRoomToCarBasePageCom
     const currentTest$ = this.store$.pipe(select(getTests), select(getCurrentTest));
 
     this.pageState = {
-      ...this.commonPageState,
       insuranceDeclarationAccepted$: currentTest$.pipe(
         select(getPreTestDeclarations),
         select(getInsuranceDeclarationStatus)

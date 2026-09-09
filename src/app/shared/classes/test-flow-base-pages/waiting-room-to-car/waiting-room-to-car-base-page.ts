@@ -1,12 +1,11 @@
+import { toSignal } from '@angular/core/rxjs-interop';
 import { AlertController } from '@ionic/angular';
-import { select } from '@ngrx/store';
 import { Observable, Subject, Subscription } from 'rxjs';
-import { map } from 'rxjs/operators';
 
 import { CategoryCode, GearboxCategory, QuestionResult } from '@dvsa/mes-test-schema/categories/common';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 
-import { Inject, inject } from '@angular/core';
+import { Inject, Signal, computed, effect, inject } from '@angular/core';
 import { MotHistory } from '@dvsa/mes-mot-schema';
 import { TEST_CENTRE_JOURNAL_PAGE, TestFlowPageNames } from '@pages/page-names.constants';
 import { ModalEvent } from '@pages/waiting-room-to-car/components/mot-components/mot-failed-modal/mot-failed-modal.component';
@@ -48,10 +47,9 @@ import {
   SupervisorAccompanimentToggledCPC,
 } from '@store/tests/accompaniment/cat-cpc/accompaniment.cat-cpc.actions';
 import { PopulateTestCategory } from '@store/tests/category/category.actions';
-import { getTestCategory } from '@store/tests/category/category.reducer';
+import { selectTestCategory } from '@store/tests/category/category.reducer';
 import { InstructorRegistrationNumberChanged } from '@store/tests/instructor-details/instructor-details.actions';
-import { getCandidate } from '@store/tests/journal-data/common/candidate/candidate.reducer';
-import { getUntitledCandidateName } from '@store/tests/journal-data/common/candidate/candidate.selector';
+import { selectUntitledCandidateName } from '@store/tests/journal-data/common/candidate/candidate.selector';
 import {
   CandidateDeclarationSigned,
   SetDeclarationStatus,
@@ -66,8 +64,7 @@ import {
   EyesightTestPassed,
 } from '@store/tests/test-data/common/eyesight-test/eyesight-test.actions';
 import { PersistTests } from '@store/tests/tests.actions';
-import { getTests } from '@store/tests/tests.reducer';
-import { getCurrentTest, getJournalData } from '@store/tests/tests.selector';
+import { selectCurrentTest } from '@store/tests/tests.selector';
 import {
   OrditTrainedChanged,
   TrainerRegistrationNumberChanged,
@@ -93,31 +90,10 @@ import {
 } from '@store/tests/vehicle-details/vehicle-details.actions';
 import {
   getGearboxCategory,
-  getMotEvidence,
   getMotEvidenceProvided,
   getRegistrationNumber,
   isAutomaticConfirmed,
 } from '@store/tests/vehicle-details/vehicle-details.selector';
-
-export interface CommonWaitingRoomToCarPageState {
-  candidateName$: Observable<string>;
-  registrationNumber$: Observable<string>;
-  transmission$: Observable<GearboxCategory>;
-  category$: Observable<CategoryCode>;
-  showEyesight$: Observable<boolean>;
-  eyesightTestComplete$: Observable<boolean>;
-  eyesightTestFailed$: Observable<boolean>;
-  schoolCar$: Observable<boolean>;
-  dualControls$: Observable<boolean>;
-  instructorAccompaniment$: Observable<boolean>;
-  supervisorAccompaniment$: Observable<boolean>;
-  otherAccompaniment$: Observable<boolean>;
-  interpreterAccompaniment$: Observable<boolean>;
-  motEvidenceProvided$: Observable<boolean>;
-  isOffline$: Observable<boolean>;
-  motEvidenceDescription$: Observable<string>;
-  isAutomaticConfirmed$: Observable<boolean>;
-}
 
 export const wrtcDestroy$ = new Subject<{}>();
 
@@ -127,7 +103,6 @@ export abstract class WaitingRoomToCarBasePageComponent extends PracticeableBase
   protected faultCountProvider = inject(FaultCountProvider);
   protected networkStateProvider = inject(NetworkStateProvider);
 
-  commonPageState: CommonWaitingRoomToCarPageState;
   subscription: Subscription;
   merged$: Observable<boolean | string | JournalDataUnion>;
   testCategory: TestCategory;
@@ -135,6 +110,78 @@ export abstract class WaitingRoomToCarBasePageComponent extends PracticeableBase
   failedMOTModalCurrentlyOpen = false;
   isSearchingForMOT = false;
   abortSubject: Subject<void> = new Subject<void>();
+
+  private getCurrentVehicleDetails() {
+    const currentTest = this.currentTest();
+    return currentTest ? getVehicleDetails(currentTest as never) : null;
+  }
+
+  private getCurrentAccompaniment() {
+    const currentTest = this.currentTest();
+    return currentTest ? getAccompaniment(currentTest as never) : null;
+  }
+
+  private getCurrentTestData() {
+    const currentTest = this.currentTest();
+    return currentTest ? getTestData(currentTest as never) : null;
+  }
+
+  currentTest = this.store$.selectSignal(selectCurrentTest);
+  candidateName: Signal<string> = this.store$.selectSignal(selectUntitledCandidateName);
+  category: Signal<CategoryCode> = this.store$.selectSignal(selectTestCategory);
+  showEyesight: Signal<boolean> = computed(() =>
+    isAnyOf(this.category() as TestCategory, this.categoriesRequiringEyesightTest)
+  );
+  isOffline: Signal<boolean> = toSignal(this.networkStateProvider.isOffline$, { initialValue: false });
+
+  registrationNumber: Signal<string> = computed(() => {
+    const vehicleDetails = this.getCurrentVehicleDetails();
+    return vehicleDetails ? getRegistrationNumber(vehicleDetails) : null;
+  });
+  transmission: Signal<GearboxCategory> = computed(() => {
+    const vehicleDetails = this.getCurrentVehicleDetails();
+    return vehicleDetails ? getGearboxCategory(vehicleDetails) : null;
+  });
+  isAutomaticConfirmed: Signal<boolean> = computed(() => {
+    const vehicleDetails = this.getCurrentVehicleDetails();
+    return vehicleDetails ? isAutomaticConfirmed(vehicleDetails) : false;
+  });
+  motEvidenceProvided: Signal<boolean> = computed(() => {
+    const vehicleDetails = this.getCurrentVehicleDetails();
+    return vehicleDetails ? getMotEvidenceProvided(vehicleDetails) : undefined;
+  });
+  schoolCar: Signal<boolean> = computed(() => {
+    const vehicleDetails = this.getCurrentVehicleDetails();
+    return vehicleDetails ? getSchoolCar(vehicleDetails as never) : false;
+  });
+  dualControls: Signal<boolean> = computed(() => {
+    const vehicleDetails = this.getCurrentVehicleDetails();
+    return vehicleDetails ? getDualControls(vehicleDetails as never) : false;
+  });
+  instructorAccompaniment: Signal<boolean> = computed(() => {
+    const accompaniment = this.getCurrentAccompaniment();
+    return accompaniment ? getInstructorAccompaniment(accompaniment) : false;
+  });
+  supervisorAccompaniment: Signal<boolean> = computed(() => {
+    const accompaniment = this.getCurrentAccompaniment();
+    return accompaniment ? getSupervisorAccompaniment(accompaniment) : false;
+  });
+  otherAccompaniment: Signal<boolean> = computed(() => {
+    const accompaniment = this.getCurrentAccompaniment();
+    return accompaniment ? getOtherAccompaniment(accompaniment) : false;
+  });
+  interpreterAccompaniment: Signal<boolean> = computed(() => {
+    const accompaniment = this.getCurrentAccompaniment();
+    return accompaniment ? getInterpreterAccompaniment(accompaniment) : false;
+  });
+  eyesightTestComplete: Signal<boolean> = computed(() => {
+    const testData = this.getCurrentTestData();
+    return hasEyesightTestBeenCompleted(testData as never) ?? false;
+  });
+  eyesightTestFailed: Signal<boolean> = computed(() => {
+    const testData = this.getCurrentTestData();
+    return hasEyesightTestGotSeriousFault(testData as never) ?? false;
+  });
 
   private categoriesRequiringEyesightTest: TestCategory[] = [
     TestCategory.B,
@@ -152,37 +199,14 @@ export abstract class WaitingRoomToCarBasePageComponent extends PracticeableBase
 
   protected constructor(@Inject(false) public loginRequired = false) {
     super(loginRequired);
+
+    effect(() => {
+      this.testCategory = this.category() as TestCategory;
+    });
   }
 
   onInitialisation(): void {
     super.ngOnInit();
-    const currentTest$ = this.store$.pipe(select(getTests), select(getCurrentTest));
-
-    this.commonPageState = {
-      candidateName$: currentTest$.pipe(select(getJournalData), select(getCandidate), select(getUntitledCandidateName)),
-      registrationNumber$: currentTest$.pipe(select(getVehicleDetails), select(getRegistrationNumber)),
-      transmission$: currentTest$.pipe(select(getVehicleDetails), select(getGearboxCategory)),
-      isAutomaticConfirmed$: currentTest$.pipe(select(getVehicleDetails), select(isAutomaticConfirmed)),
-      category$: currentTest$.pipe(
-        select(getTestCategory),
-        map((result) => (this.testCategory = result as TestCategory))
-      ),
-      showEyesight$: currentTest$.pipe(
-        select(getTestCategory),
-        map((category) => isAnyOf(category as TestCategory, this.categoriesRequiringEyesightTest))
-      ),
-      eyesightTestComplete$: currentTest$.pipe(select(getTestData), select(hasEyesightTestBeenCompleted)),
-      eyesightTestFailed$: currentTest$.pipe(select(getTestData), select(hasEyesightTestGotSeriousFault)),
-      schoolCar$: currentTest$.pipe(select(getVehicleDetails), select(getSchoolCar)),
-      dualControls$: currentTest$.pipe(select(getVehicleDetails), select(getDualControls)),
-      instructorAccompaniment$: currentTest$.pipe(select(getAccompaniment), select(getInstructorAccompaniment)),
-      supervisorAccompaniment$: currentTest$.pipe(select(getAccompaniment), select(getSupervisorAccompaniment)),
-      otherAccompaniment$: currentTest$.pipe(select(getAccompaniment), select(getOtherAccompaniment)),
-      interpreterAccompaniment$: currentTest$.pipe(select(getAccompaniment), select(getInterpreterAccompaniment)),
-      motEvidenceProvided$: currentTest$.pipe(select(getVehicleDetails), select(getMotEvidenceProvided)),
-      motEvidenceDescription$: currentTest$.pipe(select(getVehicleDetails), select(getMotEvidence)),
-      isOffline$: this.networkStateProvider.isOffline$,
-    };
   }
 
   ionViewDidLeave(): void {

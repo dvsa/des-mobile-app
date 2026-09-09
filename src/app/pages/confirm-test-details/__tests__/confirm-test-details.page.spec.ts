@@ -19,7 +19,6 @@ import { candidateMock } from '@store/tests/__mocks__/tests.mock';
 import { SetTestStatusWriteUp } from '@store/tests/test-status/test-status.actions';
 import { PersistTests } from '@store/tests/tests.actions';
 import { TestOutcome } from '@store/tests/tests.constants';
-import { Observable, Subscription } from 'rxjs';
 import { AppModule } from 'src/app/app.module';
 import { TestFlowPageNames } from '../../page-names.constants';
 import { BackButtonClick, BackToDebrief, ConfirmTestDetailsViewDidEnter } from '../confirm-test-details.actions';
@@ -108,7 +107,6 @@ describe('ConfirmTestDetailsPage', () => {
     modalController = TestBed.inject(ModalController);
     spyOn(store$, 'dispatch');
     spyOn(router, 'navigate');
-    component.subscription = new Subscription();
   });
 
   describe('ionViewDidEnter', () => {
@@ -195,20 +193,14 @@ describe('ConfirmTestDetailsPage', () => {
   });
 
   describe('ionViewWillEnter', () => {
-    it('should setup subscription if merged is present', () => {
-      component.merged$ = new Observable<string | boolean>();
-      component.ionViewWillEnter();
-
-      expect(component.subscription).toBeDefined();
+    it('should return true', () => {
+      expect(component.ionViewWillEnter()).toBeTrue();
     });
   });
 
   describe('ionViewDidLeave', () => {
-    it('should unsubscribe from subscription if there is one', () => {
-      component.subscription = new Subscription();
-      spyOn(component.subscription, 'unsubscribe');
-      component.ionViewDidLeave();
-      expect(component.subscription.unsubscribe).toHaveBeenCalled();
+    it('should execute without error', () => {
+      expect(() => component.ionViewDidLeave()).not.toThrow();
     });
   });
 

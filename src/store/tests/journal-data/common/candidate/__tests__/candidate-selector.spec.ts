@@ -4,12 +4,12 @@ import {
   getCandidateDriverNumber,
   getCandidateId,
   getCandidateName,
-  getDateOfBirth,
-  getGender,
-  getGenderFullDescription,
-  getGenderSilhouettePath,
-  getPostalAddress,
   getUntitledCandidateName,
+  selectDateOfBirth,
+  selectGender,
+  selectGenderFullDescription,
+  selectGenderSilhouettePath,
+  selectPostalAddress,
 } from '../candidate.selector';
 
 describe('candidate selector', () => {
@@ -64,10 +64,10 @@ describe('candidate selector', () => {
 
   describe('getGenderFullDescription', () => {
     it('should return "Female" if gender is set to "F"', () => {
-      expect(getGenderFullDescription('F')).toEqual('Female');
+      expect(selectGenderFullDescription.projector({ gender: 'F' } as Candidate)).toEqual('Female');
     });
     it('should return "Male" if gender is not set to "F"', () => {
-      expect(getGenderFullDescription('test')).toEqual('Male');
+      expect(selectGenderFullDescription.projector({ gender: 'M' } as Candidate)).toEqual('Male');
     });
 
     describe('getUntitledCandidateName', () => {
@@ -97,28 +97,32 @@ describe('candidate selector', () => {
 
     describe('getPostalAddress', () => {
       it('should output the address', () => {
-        expect(getPostalAddress(candidate)).toEqual(candidate.candidateAddress);
+        expect(selectPostalAddress.projector(candidate)).toEqual(candidate.candidateAddress);
       });
     });
 
     describe('getGender', () => {
       it('should output gender', () => {
-        expect(getGender(candidate)).toEqual(candidate.gender);
+        expect(selectGender.projector(candidate)).toEqual(candidate.gender);
       });
     });
 
     describe('getGenderSilhouettePath', () => {
       it('should accurate silhouette if "F" is passed', () => {
-        expect(getGenderSilhouettePath('F')).toEqual('assets/imgs/candidate-id/silhouette-2.png');
+        expect(selectGenderSilhouettePath.projector({ gender: 'F' } as Candidate)).toEqual(
+          'assets/imgs/candidate-id/silhouette-2.png'
+        );
       });
       it('should accurate silhouette if "F" is not passed', () => {
-        expect(getGenderSilhouettePath('test')).toEqual('assets/imgs/candidate-id/silhouette-1.png');
+        expect(selectGenderSilhouettePath.projector({ gender: 'M' } as Candidate)).toEqual(
+          'assets/imgs/candidate-id/silhouette-1.png'
+        );
       });
     });
 
     describe('getDateOfBirth', () => {
       it('should output date of birth', () => {
-        expect(getDateOfBirth(candidate)).toEqual(candidate.dateOfBirth);
+        expect(selectDateOfBirth.projector(candidate)).toEqual(candidate.dateOfBirth);
       });
     });
 

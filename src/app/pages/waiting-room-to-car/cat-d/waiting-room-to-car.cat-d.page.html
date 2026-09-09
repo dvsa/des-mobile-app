@@ -9,7 +9,7 @@
     mode="ios">
     <test-flow-header
       class="display-flex flex-direction-column"
-      [testCategory]="pageState.category$ | async"
+      [testCategory]="category()"
       [isDelegatedRekey]="isDelegated"
       [pageName]="'waiting-room-to-car-page-cat-d'"
       [shouldShowEscapeFromSamButton]="!isRekey && !isDelegated"
@@ -21,14 +21,14 @@
       (setupResumeSubscription)="setupEscapeSAMResumeSubscription()"
       (onExitSAMActivatedChanged)="isSamActivatedChanged($event)"
       (endTestButtonClicked)="abortMOTCall(MOTAbortedMethod.END_TEST)">
-      {{ pageState.candidateName$ | async }}
+      {{ candidateName() }}
     </test-flow-header>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [class.hidden]="failedMOTModalCurrentlyOpen" force-overscroll="false">
   @if (!isEndToEndPracticeMode) {
-    <offline-banner [isOffline]="pageState.isOffline$ | async"></offline-banner>
+    <offline-banner [isOffline]="isOffline()"></offline-banner>
   }
   <div>
     <form (ngSubmit)="onSubmit()" [formGroup]="form">
@@ -58,27 +58,27 @@
               (motSearchingStatusChange)="motSearchingStatusChanged($event)"
               [formGroup]="form"
               [isPracticeMode]="isEndToEndPracticeMode"
-              [vehicleRegistration]="pageState.registrationNumber$ | async"
+              [vehicleRegistration]="registrationNumber()"
               [shouldHideMOTButton]="true"
               [abortSubject]="abortSubject"
             >
             </vehicle-registration>
 
-            @if ((pageState.motEvidenceProvided$ | async) === false) {
+            @if (motEvidenceProvided() === false) {
               <ion-row>
                 <mot-no-evidence-confirmation [cancelFn]="motNoEvidenceCancelled" [nextPageOnFail]="getDebriefPage()">
                 </mot-no-evidence-confirmation>
               </ion-row>
             }
 
-            <div [hidden]="(pageState.motEvidenceProvided$ | async) === false" class="ion-no-padding">
+            <div [hidden]="motEvidenceProvided() === false" class="ion-no-padding">
 
-              <test-category [testCategory]="pageState.category$ | async"></test-category>
+              <test-category [testCategory]="category()"></test-category>
 
               @if (!isDelegated) {
                 <vehicle-checks-vocational
                   (onCloseVehicleChecksModal)="closeVehicleChecksModal()"
-                  [category]="pageState.category$ | async"
+                  [category]="category()"
                   [formGroup]="form"
                   [practiceMode]="isEndToEndPracticeMode"
                   [fullLicenceHeld]="pageState.fullLicenceHeld$ | async"
@@ -107,7 +107,7 @@
                   (vehicleChecksCompletedOutcomeChange)="vehicleChecksCompletedOutcomeChanged($event)"
                   (vehicleChecksDrivingFaultsNumberChange)="vehicleChecksDrivingFaultsNumberChanged($event)"
                   [formGroup]="form"
-                  [testCategory]="pageState.category$ | async"
+                  [testCategory]="category()"
                   [vehicleChecksCompleted]="pageState.vehicleChecksCompleted$ | async"
                 >
                 </vehicle-checks-completed>
@@ -119,10 +119,10 @@
                 (otherAccompanimentChange)="otherAccompanimentToggled()"
                 (supervisorAccompanimentChange)="supervisorAccompanimentToggled()"
                 [formGroup]="form"
-                [instructorAccompaniment]="pageState.instructorAccompaniment$ | async"
-                [interpreterAccompaniment]="pageState.interpreterAccompaniment$ | async"
-                [otherAccompaniment]="pageState.otherAccompaniment$ | async"
-                [supervisorAccompaniment]="pageState.supervisorAccompaniment$ | async"
+                [instructorAccompaniment]="instructorAccompaniment()"
+                [interpreterAccompaniment]="interpreterAccompaniment()"
+                [otherAccompaniment]="otherAccompaniment()"
+                [supervisorAccompaniment]="supervisorAccompaniment()"
               >
               </accompaniment-card>
             </div>
@@ -130,7 +130,7 @@
         </ion-row>
 
         @if (!isDelegated) {
-          <div [hidden]="(pageState.motEvidenceProvided$ | async) === false">
+          <div [hidden]="motEvidenceProvided() === false">
             <warning-banner class="banner-space" warningText="Is cab locked down? (if applicable)"></warning-banner>
             <warning-banner warningText="Is load secure? (if applicable)"></warning-banner>
           </div>
@@ -142,7 +142,7 @@
 
 <ion-footer [class.hidden]="failedMOTModalCurrentlyOpen">
   <ion-row
-    [hidden]="(pageState.motEvidenceProvided$ | async) === false"
+    [hidden]="motEvidenceProvided() === false"
     class="mes-full-width-card box-shadow flex-center">
     @if (!isDelegated) {
       <ion-col class="ion-text-center" size="43">

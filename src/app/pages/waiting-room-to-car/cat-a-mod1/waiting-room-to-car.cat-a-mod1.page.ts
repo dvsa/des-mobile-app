@@ -7,10 +7,8 @@ import { map } from 'rxjs/operators';
 import { ClearCandidateLicenceData } from '@pages/candidate-licence/candidate-licence.actions';
 import { TestFlowPageNames } from '@pages/page-names.constants';
 import { WaitingRoomToCarValidationError } from '@pages/waiting-room-to-car/waiting-room-to-car.actions';
-import {
-  CommonWaitingRoomToCarPageState,
-  WaitingRoomToCarBasePageComponent,
-} from '@shared/classes/test-flow-base-pages/waiting-room-to-car/waiting-room-to-car-base-page';
+import { BikeTestType } from '@providers/bike-category-detail/bike-category-detail.model';
+import { WaitingRoomToCarBasePageComponent } from '@shared/classes/test-flow-base-pages/waiting-room-to-car/waiting-room-to-car-base-page';
 import { getTests } from '@store/tests/tests.reducer';
 import { getCurrentTest } from '@store/tests/tests.selector';
 import { getSchoolBike } from '@store/tests/vehicle-details/cat-a-mod1/vehicle-details.cat-a-mod1.selector';
@@ -24,8 +22,6 @@ interface CatMod1WaitingRoomToCarPageState {
   gearboxManualRadioChecked$: Observable<boolean>;
 }
 
-type WaitingRoomToCarPageState = CommonWaitingRoomToCarPageState & CatMod1WaitingRoomToCarPageState;
-
 @Component({
   selector: 'app-waiting-room-to-car-cat-a-mod1',
   templateUrl: './waiting-room-to-car.cat-a-mod1.page.html',
@@ -33,7 +29,7 @@ type WaitingRoomToCarPageState = CommonWaitingRoomToCarPageState & CatMod1Waitin
   standalone: false,
 })
 export class WaitingRoomToCarCatAMod1Page extends WaitingRoomToCarBasePageComponent implements OnInit {
-  pageState: WaitingRoomToCarPageState;
+  pageState: CatMod1WaitingRoomToCarPageState;
   form: UntypedFormGroup;
 
   constructor() {
@@ -47,7 +43,6 @@ export class WaitingRoomToCarCatAMod1Page extends WaitingRoomToCarBasePageCompon
     const currentTest$ = this.store$.pipe(select(getTests), select(getCurrentTest));
 
     this.pageState = {
-      ...this.commonPageState,
       schoolBike$: currentTest$.pipe(select(getVehicleDetails), select(getSchoolBike)),
       gearboxAutomaticRadioChecked$: currentTest$.pipe(select(getVehicleDetails), map(isAutomatic)),
       gearboxManualRadioChecked$: currentTest$.pipe(select(getVehicleDetails), map(isManual)),
@@ -77,4 +72,6 @@ export class WaitingRoomToCarCatAMod1Page extends WaitingRoomToCarBasePageCompon
       }
     });
   };
+
+  protected readonly BikeTestType = BikeTestType;
 }

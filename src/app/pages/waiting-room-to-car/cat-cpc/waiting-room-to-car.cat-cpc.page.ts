@@ -7,10 +7,7 @@ import { ClearCandidateLicenceData } from '@pages/candidate-licence/candidate-li
 import { TestFlowPageNames } from '@pages/page-names.constants';
 import { WaitingRoomToCarValidationError } from '@pages/waiting-room-to-car/waiting-room-to-car.actions';
 import { CPCQuestionProvider } from '@providers/cpc-questions/cpc-questions';
-import {
-  CommonWaitingRoomToCarPageState,
-  WaitingRoomToCarBasePageComponent,
-} from '@shared/classes/test-flow-base-pages/waiting-room-to-car/waiting-room-to-car-base-page';
+import { WaitingRoomToCarBasePageComponent } from '@shared/classes/test-flow-base-pages/waiting-room-to-car/waiting-room-to-car-base-page';
 import { Combination } from '@shared/constants/cpc-questions/cpc-question-combinations.constants';
 import { getTestCategory } from '@store/tests/category/category.reducer';
 import { getPreTestDeclarations } from '@store/tests/pre-test-declarations/pre-test-declarations.reducer';
@@ -44,8 +41,6 @@ interface CatCWaitingRoomToCarPageState {
   configuration$: Observable<Configuration>;
 }
 
-type WaitingRoomToCarPageState = CommonWaitingRoomToCarPageState & CatCWaitingRoomToCarPageState;
-
 @Component({
   selector: 'app-waiting-room-to-car-cat-cpc',
   templateUrl: './waiting-room-to-car.cat-cpc.page.html',
@@ -54,7 +49,7 @@ type WaitingRoomToCarPageState = CommonWaitingRoomToCarPageState & CatCWaitingRo
 })
 export class WaitingRoomToCarCatCPCPage extends WaitingRoomToCarBasePageComponent implements OnInit {
   form: UntypedFormGroup;
-  pageState: WaitingRoomToCarPageState;
+  pageState: CatCWaitingRoomToCarPageState;
 
   constructor(private cpcQuestionProvider: CPCQuestionProvider) {
     super();
@@ -67,7 +62,6 @@ export class WaitingRoomToCarCatCPCPage extends WaitingRoomToCarBasePageComponen
     const currentTest$ = this.store$.pipe(select(getTests), select(getCurrentTest));
 
     this.pageState = {
-      ...this.commonPageState,
       insuranceDeclarationAccepted$: currentTest$.pipe(
         select(getPreTestDeclarations),
         select(getInsuranceDeclarationStatus)

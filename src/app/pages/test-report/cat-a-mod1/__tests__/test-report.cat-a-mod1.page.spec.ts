@@ -35,7 +35,6 @@ import { competencyLabels } from '@shared/constants/competencies/competencies';
 import { StoreModel } from '@shared/models/store.model';
 import { candidateMock } from '@store/tests/__mocks__/tests.mock';
 import { initialState } from '@store/tests/test-data/cat-b/test-data.reducer';
-import { Subscription } from 'rxjs';
 import { CompetencyButtonComponent } from '../../components/competency-button/competency-button';
 import { CompetencyComponent } from '../../components/competency/competency';
 import { DrivingFaultSummaryComponent } from '../../components/driving-fault-summary/driving-fault-summary';
@@ -287,15 +286,6 @@ describe('TestReportCatAMod1Page', () => {
     it('should return null if speedCheckState is not applicable', () => {
       component.speedCheckState = SpeedCheckState.VALID;
       expect(component.createSpeedCheckModal()).toEqual(null);
-    });
-  });
-
-  describe('ionViewDidLeave', () => {
-    it('should unsubscribe from the subscription if there is one', () => {
-      component.subscription = new Subscription();
-      spyOn(component.subscription, 'unsubscribe');
-      component.ionViewDidLeave();
-      expect(component.subscription.unsubscribe).toHaveBeenCalled();
     });
   });
 

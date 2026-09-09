@@ -48,7 +48,6 @@ import { D255No, D255Yes, DebriefUnWitnessed, DebriefWitnessed } from '@store/te
 import * as testActions from '@store/tests/tests.actions';
 import { TestsModel } from '@store/tests/tests.model';
 import { Subscription } from 'rxjs';
-import { take } from 'rxjs/operators';
 import {
   NonPassFinalisationReportActivityCode,
   NonPassFinalisationValidationError,
@@ -190,19 +189,19 @@ describe('NonPassFinalisationPage', () => {
         spyOn(outcomeBehaviourProvider, 'isVisible').and.returnValue(true);
 
         component.ngOnInit();
-        component.pageState.displayDebriefWitnessed$.pipe(take(1)).subscribe((res) => expect(res).toEqual(true));
-        component.pageState.displayD255$.pipe(take(1)).subscribe((res) => expect(res).toEqual(true));
-        component.pageState.showADIWarning$.pipe(take(1)).subscribe((res) => expect(res).toEqual(false));
-        component.pageState.furtherDevelopment$.pipe(take(1)).subscribe((res) => expect(res).toEqual(true));
-        component.pageState.displayFurtherDevelopment$.pipe(take(1)).subscribe((res) => expect(res).toEqual(true));
-        component.pageState.adviceReason$.pipe(take(1)).subscribe((res) => expect(res).toEqual('test'));
-        component.pageState.displayAdviceReasonGiven$.pipe(take(1)).subscribe((res) => expect(res).toEqual(true));
-        component.pageState.testOutcomeGrade$.pipe(take(1)).subscribe((res) => expect(res).toEqual('test1'));
-        component.pageState.showADI3Field$.pipe(take(1)).subscribe((res) => expect(res).toEqual(true));
-        component.pageState.immediateDanger$.pipe(take(1)).subscribe((res) => expect(res).toEqual(false));
-        component.pageState.isStandardsCheck$.pipe(take(1)).subscribe((res) => expect(res).toEqual(true));
-        component.pageState.testStartTime$.pipe(take(1)).subscribe((res) => expect(res).toEqual('1'));
-        component.pageState.testEndTime$.pipe(take(1)).subscribe((res) => expect(res).toEqual('2'));
+        expect(component.displayDebriefWitnessed()).toEqual(true);
+        expect(component.displayD255()).toEqual(true);
+        expect(component.showADIWarning()).toEqual(false);
+        expect(component.furtherDevelopment()).toEqual(true);
+        expect(component.displayFurtherDevelopment()).toEqual(true);
+        expect(component.adviceReason()).toEqual('test');
+        expect(component.displayAdviceReasonGiven()).toEqual(true);
+        expect(component.testOutcomeGrade()).toEqual('test1');
+        expect(component.showADI3Field()).toEqual(true);
+        expect(component.immediateDanger()).toEqual(false);
+        expect(component.isStandardsCheck()).toEqual(true);
+        expect(component.testStartTime()).toEqual('1');
+        expect(component.testEndTime()).toEqual('2');
       });
     });
 

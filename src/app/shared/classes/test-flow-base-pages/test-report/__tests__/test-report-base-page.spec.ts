@@ -34,7 +34,6 @@ import { StoreModel } from '@shared/models/store.model';
 import { SetActivityCode } from '@store/tests/activity-code/activity-code.actions';
 import { TestStatus } from '@store/tests/test-status/test-status.model';
 import { TestsModel } from '@store/tests/tests.model';
-import { Subscription } from 'rxjs';
 import { TestReportBasePageComponent } from '../test-report-base-page';
 
 describe('TestReportBasePageComponent', () => {
@@ -104,13 +103,6 @@ describe('TestReportBasePageComponent', () => {
     });
 
     injector = TestBed.inject(Injector);
-  });
-
-  describe('onInitialisation', () => {
-    it('should resolve state variables', () => {
-      basePageComponent.onInitialisation();
-      basePageComponent.commonPageState.candidateUntitledName$.subscribe((res) => expect(res).toEqual('Marge Simpson'));
-    });
   });
 
   describe('getTestRequirements', () => {
@@ -221,15 +213,6 @@ describe('TestReportBasePageComponent', () => {
           )
         ).toEqual(true);
       });
-    });
-  });
-
-  describe('cancelSubscription', () => {
-    it('should unsubscribe from the subscription if there is one', () => {
-      basePageComponent.subscription = new Subscription();
-      spyOn(basePageComponent.subscription, 'unsubscribe');
-      basePageComponent.cancelSubscription();
-      expect(basePageComponent.subscription.unsubscribe).toHaveBeenCalled();
     });
   });
 
@@ -359,21 +342,7 @@ describe('TestReportBasePageComponent', () => {
   });
 
   describe('ionViewDidEnter', () => {
-    it('should setup subscription if none exists', () => {
-      basePageComponent.subscription = null;
-      spyOn(basePageComponent, 'setupSubscription');
-      basePageComponent.ionViewDidEnter();
-      expect(basePageComponent.setupSubscription).toHaveBeenCalled();
-    });
-    it('should setup subscription if existing subscription is closed', () => {
-      basePageComponent.subscription = new Subscription();
-      basePageComponent.subscription.unsubscribe(); // Manually close the subscription
-      spyOn(basePageComponent, 'setupSubscription');
-      basePageComponent.ionViewDidEnter();
-      expect(basePageComponent.setupSubscription).toHaveBeenCalled();
-    });
     it('should dispatch TestReportViewDidEnter action', () => {
-      basePageComponent.subscription = new Subscription();
       spyOn(basePageComponent.store$, 'dispatch');
       basePageComponent.ionViewDidEnter();
       expect(basePageComponent.store$.dispatch).toHaveBeenCalledWith(TestReportViewDidEnter());

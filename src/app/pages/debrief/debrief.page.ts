@@ -1,41 +1,26 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Signal, computed, effect, inject } from '@angular/core';
 import { ScreenOrientation } from '@capawesome/capacitor-screen-orientation';
-import { select } from '@ngrx/store';
 import { DebriefViewDidEnter, EndDebrief } from '@pages/debrief/debrief.actions';
 import { PracticeableBasePageComponent } from '@shared/classes/practiceable-base-page';
 import { FaultSummary } from '@shared/models/fault-marking.model';
-import { getTestData } from '@store/tests/test-data/cat-b/test-data.reducer';
-import { getETA, getEco } from '@store/tests/test-data/common/test-data.selector';
-import { getTests } from '@store/tests/tests.reducer';
-import { getCurrentTest, getJournalData } from '@store/tests/tests.selector';
-import { Observable, Subscription, merge } from 'rxjs';
-import { filter, map, take, tap, withLatestFrom } from 'rxjs/operators';
+import { getETA, getEco, selectTestData } from '@store/tests/test-data/common/test-data.selector';
+import { selectCurrentTest } from '@store/tests/tests.selector';
+import { Subscription } from 'rxjs';
 
 import { KeepAwake as Insomnia } from '@capacitor-community/keep-awake';
-import { CategoryCode, ETA, Eco, QuestionResult, SafetyQuestionResult } from '@dvsa/mes-test-schema/categories/common';
+import { CategoryCode } from '@dvsa/mes-test-schema/categories/common';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { TranslateService } from '@ngx-translate/core';
 import { getTestOutcome } from '@pages/debrief/debrief.selector';
 import { FaultCountProvider } from '@providers/fault-count/fault-count';
 import { FaultSummaryProvider } from '@providers/fault-summary/fault-summary';
 import { configureI18N } from '@shared/helpers/translation.helpers';
-import { getTestCategory } from '@store/tests/category/category.reducer';
+import { selectTestCategory } from '@store/tests/category/category.reducer';
 import { Language } from '@store/tests/communication-preferences/communication-preferences.model';
-import { getCommunicationPreference } from '@store/tests/communication-preferences/communication-preferences.reducer';
-import { getConductedLanguage } from '@store/tests/communication-preferences/communication-preferences.selector';
-import { getCandidate } from '@store/tests/journal-data/common/candidate/candidate.reducer';
-import { getUntitledCandidateName } from '@store/tests/journal-data/common/candidate/candidate.selector';
+import { selectConductedLanguage } from '@store/tests/communication-preferences/communication-preferences.selector';
+import { selectUntitledCandidateName } from '@store/tests/journal-data/common/candidate/candidate.selector';
 
 import { Style } from '@capacitor/status-bar';
-import {
-  LessonAndTheme,
-  LessonPlanning,
-  Review,
-  RiskManagement,
-  TeachingLearningStrategies,
-} from '@dvsa/mes-test-schema/categories/ADI3';
-import { Avoidance, EmergencyStop } from '@dvsa/mes-test-schema/categories/AM1';
-import { Question, Question5 } from '@dvsa/mes-test-schema/categories/CPC';
 import { ViewDidEnter, ViewDidLeave } from '@ionic/angular';
 import { DASHBOARD_PAGE, TestFlowPageNames } from '@pages/page-names.constants';
 import { AccessibilityService } from '@providers/accessibility/accessibility.service';
@@ -67,42 +52,6 @@ import {
 } from '@store/tests/test-data/cat-d/safety-questions/safety-questions.cat-d.selector';
 import { TestOutcome as OutcomeType } from '@store/tests/tests.constants';
 
-interface DebriefPageState {
-  seriousFaults$: Observable<string[]>;
-  dangerousFaults$: Observable<string[]>;
-  drivingFaults$: Observable<FaultSummary[]>;
-  drivingFaultCount$: Observable<number>;
-  etaFaults$: Observable<ETA>;
-  ecoFaults$: Observable<Eco>;
-  testResult$: Observable<string>;
-  conductedLanguage$: Observable<string>;
-  candidateName$: Observable<string>;
-  category$: Observable<CategoryCode>;
-  tellMeShowMeQuestions$: Observable<QuestionResult[]>;
-  showEco$: Observable<boolean>;
-  showSpeedCheck$: Observable<boolean>;
-  emergencyStop$: Observable<EmergencyStop>;
-  avoidance$: Observable<Avoidance>;
-  avoidanceAttempted$: Observable<boolean>;
-  question1$: Observable<Question>;
-  question2$: Observable<Question>;
-  question3$: Observable<Question>;
-  question4$: Observable<Question>;
-  question5$: Observable<Question5>;
-  overallScore$: Observable<number>;
-  totalScore$: Observable<number>;
-  lessonTheme$: Observable<LessonAndTheme>;
-  lessonPlanning$: Observable<LessonPlanning>;
-  riskManagement$: Observable<RiskManagement>;
-  teachingLearningStrategies$: Observable<TeachingLearningStrategies>;
-  review$: Observable<Review>;
-  showSafetyAndBalance$: Observable<boolean>;
-  grade$: Observable<string>;
-  immediateDanger$: Observable<boolean>;
-  safetyQuestions$: Observable<SafetyQuestionResult[]>;
-  showSafetyQuestions$: Observable<boolean>;
-}
-
 @Component({
   selector: '.debrief-page',
   templateUrl: 'debrief.page.html',
@@ -110,7 +59,13 @@ interface DebriefPageState {
   standalone: false,
 })
 export class DebriefPage extends PracticeableBasePageComponent implements OnInit, ViewDidEnter, ViewDidLeave {
-  pageState: DebriefPageState;
+  private translate = inject(TranslateService);
+  private faultCountProvider = inject(FaultCountProvider);
+  private faultSummaryProvider = inject(FaultSummaryProvider);
+  protected routeByCategoryProvider = inject(RouteByCategoryProvider);
+  private testDataByCategoryProvider = inject(TestDataByCategoryProvider);
+  private accessibilityService = inject(AccessibilityService);
+
   subscription: Subscription;
   isPassed: boolean;
   testCategory: TestCategory;
@@ -124,238 +79,213 @@ export class DebriefPage extends PracticeableBasePageComponent implements OnInit
   public adviceGivenControl = false;
   public adviceGivenPlanning = false;
 
-  constructor(
-    private translate: TranslateService,
-    private faultCountProvider: FaultCountProvider,
-    private faultSummaryProvider: FaultSummaryProvider,
-    protected routeByCategoryProvider: RouteByCategoryProvider,
-    private testDataByCategoryProvider: TestDataByCategoryProvider,
-    private accessibilityService: AccessibilityService
-  ) {
+  currentTest = this.store$.selectSignal(selectCurrentTest);
+  category: Signal<CategoryCode> = this.store$.selectSignal(selectTestCategory);
+  testData = this.store$.selectSignal(selectTestData);
+  conductedLanguage = this.store$.selectSignal(selectConductedLanguage);
+  candidateName = this.store$.selectSignal(selectUntitledCandidateName);
+
+  testResult = computed(() => {
+    const test = this.currentTest();
+    return test ? getTestOutcome(test as never) : null;
+  });
+
+  etaFaults = computed(() => getETA(this.testData() as never));
+  ecoFaults = computed(() => getEco(this.testData() as never));
+
+  seriousFaults = computed(() => {
+    if (!this.testData() || !this.category()) return [];
+    return this.faultSummaryProvider
+      .getSeriousFaultsList(this.testData() as never, this.category() as TestCategory)
+      .map((fault) => fault.competencyIdentifier);
+  });
+
+  dangerousFaults = computed(() => {
+    if (!this.testData() || !this.category()) return [];
+    return this.faultSummaryProvider
+      .getDangerousFaultsList(this.testData() as never, this.category() as TestCategory)
+      .map((fault) => fault.competencyIdentifier);
+  });
+
+  drivingFaults: Signal<FaultSummary[]> = computed(() => {
+    if (!this.testData() || !this.category()) return [];
+    return this.faultSummaryProvider.getDrivingFaultsList(this.testData() as never, this.category() as TestCategory);
+  });
+
+  drivingFaultCount = computed(() => {
+    if (!this.testData() || !this.category()) return 0;
+    return this.faultCountProvider.getDrivingFaultSumCount(this.category() as TestCategory, this.testData() as never);
+  });
+
+  showEco = computed(
+    () =>
+      !isAnyOf(this.category() as TestCategory, [
+        TestCategory.EUAMM1,
+        TestCategory.EUA1M1,
+        TestCategory.EUA2M1,
+        TestCategory.EUAM1,
+      ])
+  );
+
+  showSpeedCheck = computed(() =>
+    isAnyOf(this.category() as TestCategory, [
+      TestCategory.EUAMM1,
+      TestCategory.EUA1M1,
+      TestCategory.EUA2M1,
+      TestCategory.EUAM1,
+    ])
+  );
+
+  emergencyStop = computed(() => getEmergencyStop(this.testData() as never));
+  avoidance = computed(() => getAvoidance(this.testData() as never));
+  avoidanceAttempted = computed(() => getAvoidanceAttempted(this.avoidance() as never));
+
+  tellMeShowMeQuestions = computed(() => {
+    const categoryTestData = this.getCategorySpecificTestData();
+    if (!categoryTestData) return [];
+    const checks = getVehicleChecks(categoryTestData as never);
+    if (!checks) return [];
+    return [...checks.tellMeQuestions, ...checks.showMeQuestions].filter((question) => question.code !== undefined);
+  });
+
+  question1 = computed(() => {
+    const categoryTestData = this.getCategorySpecificTestData();
+    return categoryTestData ? getQuestion1(categoryTestData as never) : null;
+  });
+
+  question2 = computed(() => {
+    const categoryTestData = this.getCategorySpecificTestData();
+    return categoryTestData ? getQuestion2(categoryTestData as never) : null;
+  });
+
+  question3 = computed(() => {
+    const categoryTestData = this.getCategorySpecificTestData();
+    return categoryTestData ? getQuestion3(categoryTestData as never) : null;
+  });
+
+  question4 = computed(() => {
+    const categoryTestData = this.getCategorySpecificTestData();
+    return categoryTestData ? getQuestion4(categoryTestData as never) : null;
+  });
+
+  question5 = computed(() => {
+    const categoryTestData = this.getCategorySpecificTestData();
+    return categoryTestData ? getQuestion5(categoryTestData as never) : null;
+  });
+
+  overallScore = computed(() => {
+    const categoryTestData = this.getCategorySpecificTestData();
+    return categoryTestData ? getTotalPercent(categoryTestData as never) : null;
+  });
+
+  totalScore = computed(() => {
+    const categoryTestData = this.getCategorySpecificTestData();
+    return categoryTestData ? getTotalScore(categoryTestData as never) : null;
+  });
+
+  lessonTheme = computed(() => {
+    const categoryTestData = this.getCategorySpecificTestData();
+    return categoryTestData ? getLessonAndTheme(categoryTestData as never) : null;
+  });
+
+  lessonPlanning = computed(() => {
+    const categoryTestData = this.getCategorySpecificTestData();
+    return categoryTestData ? getLessonPlanning(categoryTestData as never) : null;
+  });
+
+  riskManagement = computed(() => {
+    const categoryTestData = this.getCategorySpecificTestData();
+    return categoryTestData ? getRiskManagement(categoryTestData as never) : null;
+  });
+
+  teachingLearningStrategies = computed(() => {
+    const categoryTestData = this.getCategorySpecificTestData();
+    return categoryTestData ? getTeachingLearningStrategies(categoryTestData as never) : null;
+  });
+
+  review = computed(() => {
+    const categoryTestData = this.getCategorySpecificTestData();
+    return categoryTestData ? getReview(categoryTestData as never) : null;
+  });
+
+  showSafetyAndBalance = computed(() =>
+    isAnyOf(this.category() as TestCategory, [
+      TestCategory.EUAMM2,
+      TestCategory.EUA1M2,
+      TestCategory.EUA2M2,
+      TestCategory.EUAM2,
+    ])
+  );
+
+  grade = computed(() => {
+    if (!isAnyOf(this.category() as TestCategory, [TestCategory.ADI3, TestCategory.SC])) return null;
+    const review = this.review();
+    return review ? getGrade(review) : null;
+  });
+
+  immediateDanger = computed(() => {
+    if (!isAnyOf(this.category() as TestCategory, [TestCategory.ADI3, TestCategory.SC])) return null;
+    const review = this.review();
+    return review ? getImmediateDanger(review) : null;
+  });
+
+  safetyQuestions = computed(() => {
+    if (
+      !isAnyOf(this.category() as TestCategory, [TestCategory.D, TestCategory.D1, TestCategory.DE, TestCategory.D1E])
+    ) {
+      return [];
+    }
+    const categoryTestData = this.getCategorySpecificTestData();
+    if (!categoryTestData) return [];
+    const safetyQuestionsCatD = getSafetyQuestionsCatD(categoryTestData as never);
+    return getSafetyQuestions(safetyQuestionsCatD as never) || [];
+  });
+
+  showSafetyQuestions = computed(() => this.safetyQuestions().some((question) => question.outcome));
+
+  private getCategorySpecificTestData() {
+    const currentTest = this.currentTest();
+    const category = this.category();
+    if (!currentTest || !category) {
+      return null;
+    }
+    return this.testDataByCategoryProvider.getTestDataByCategoryCode(category)(currentTest as never);
+  }
+
+  constructor() {
     super(false);
+
+    effect(() => {
+      const category = this.category();
+      this.testCategory = category as TestCategory;
+    });
+
+    effect(() => {
+      this.outcome = this.testResult();
+    });
+
+    effect(() => {
+      const eta = this.etaFaults();
+      this.hasPhysicalEta = !!eta?.physical;
+      this.hasVerbalEta = !!eta?.verbal;
+    });
+
+    effect(() => {
+      const eco = this.ecoFaults();
+      this.adviceGivenControl = !!eco?.adviceGivenControl;
+      this.adviceGivenPlanning = !!eco?.adviceGivenPlanning;
+    });
+
+    effect(() => {
+      const language = this.conductedLanguage();
+      if (language) {
+        configureI18N(language as Language, this.translate);
+      }
+    });
   }
 
   ngOnInit(): void {
     super.ngOnInit();
-
-    const currentTest$ = this.store$.pipe(select(getTests), select(getCurrentTest));
-    const testCategory$ = currentTest$.pipe(select(getTestCategory), take(1));
-
-    this.pageState = {
-      seriousFaults$: currentTest$.pipe(
-        select(getTestData),
-        withLatestFrom(testCategory$),
-        map(([data, category]) =>
-          this.faultSummaryProvider
-            .getSeriousFaultsList(data, category as TestCategory)
-            .map((fault) => fault.competencyIdentifier)
-        ),
-        take(1)
-      ),
-      dangerousFaults$: currentTest$.pipe(
-        select(getTestData),
-        withLatestFrom(testCategory$),
-        map(([data, category]) =>
-          this.faultSummaryProvider
-            .getDangerousFaultsList(data, category as TestCategory)
-            .map((fault) => fault.competencyIdentifier)
-        ),
-        take(1)
-      ),
-      drivingFaults$: currentTest$.pipe(
-        select(getTestData),
-        withLatestFrom(testCategory$),
-        map(([data, category]) => this.faultSummaryProvider.getDrivingFaultsList(data, category as TestCategory)),
-        take(1)
-      ),
-      drivingFaultCount$: currentTest$.pipe(
-        select(getTestData),
-        withLatestFrom(testCategory$),
-        map(([testData, category]) =>
-          this.faultCountProvider.getDrivingFaultSumCount(category as TestCategory, testData)
-        ),
-        take(1)
-      ),
-      etaFaults$: currentTest$.pipe(select(getTestData), select(getETA), take(1)),
-      ecoFaults$: currentTest$.pipe(select(getTestData), select(getEco), take(1)),
-      testResult$: currentTest$.pipe(select(getTestOutcome), take(1)),
-      conductedLanguage$: currentTest$.pipe(select(getCommunicationPreference), select(getConductedLanguage), take(1)),
-      candidateName$: currentTest$.pipe(
-        select(getJournalData),
-        select(getCandidate),
-        select(getUntitledCandidateName),
-        take(1)
-      ),
-      category$: testCategory$,
-      tellMeShowMeQuestions$: currentTest$.pipe(
-        withLatestFrom(testCategory$),
-        map(([data, category]) => this.testDataByCategoryProvider.getTestDataByCategoryCode(category)(data)),
-        select(getVehicleChecks),
-        map((checks) => [...checks.tellMeQuestions, ...checks.showMeQuestions]),
-        map((checks) => checks.filter((c) => c.code !== undefined)),
-        take(1)
-      ),
-      safetyQuestions$: currentTest$.pipe(
-        withLatestFrom(testCategory$),
-        filter(([, category]) =>
-          isAnyOf(category, [TestCategory.D, TestCategory.D1, TestCategory.DE, TestCategory.D1E])
-        ),
-        map(([data, category]) => this.testDataByCategoryProvider.getTestDataByCategoryCode(category)(data)),
-        select(getSafetyQuestionsCatD),
-        select(getSafetyQuestions),
-        take(1)
-      ),
-      question1$: currentTest$.pipe(
-        withLatestFrom(testCategory$),
-        map(([data, category]) => this.testDataByCategoryProvider.getTestDataByCategoryCode(category)(data)),
-        select(getQuestion1),
-        take(1)
-      ),
-      question2$: currentTest$.pipe(
-        withLatestFrom(testCategory$),
-        map(([data, category]) => this.testDataByCategoryProvider.getTestDataByCategoryCode(category)(data)),
-        select(getQuestion2),
-        take(1)
-      ),
-      question3$: currentTest$.pipe(
-        withLatestFrom(testCategory$),
-        map(([data, category]) => this.testDataByCategoryProvider.getTestDataByCategoryCode(category)(data)),
-        select(getQuestion3),
-        take(1)
-      ),
-      question4$: currentTest$.pipe(
-        withLatestFrom(testCategory$),
-        map(([data, category]) => this.testDataByCategoryProvider.getTestDataByCategoryCode(category)(data)),
-        select(getQuestion4),
-        take(1)
-      ),
-      question5$: currentTest$.pipe(
-        withLatestFrom(testCategory$),
-        map(([data, category]) => this.testDataByCategoryProvider.getTestDataByCategoryCode(category)(data)),
-        select(getQuestion5),
-        take(1)
-      ),
-      overallScore$: currentTest$.pipe(
-        withLatestFrom(testCategory$),
-        map(([data, category]) => this.testDataByCategoryProvider.getTestDataByCategoryCode(category)(data)),
-        select(getTotalPercent),
-        take(1)
-      ),
-      totalScore$: currentTest$.pipe(
-        withLatestFrom(testCategory$),
-        map(([data, category]) => this.testDataByCategoryProvider.getTestDataByCategoryCode(category)(data)),
-        select(getTotalScore),
-        take(1)
-      ),
-      lessonTheme$: currentTest$.pipe(
-        withLatestFrom(testCategory$),
-        map(([data, category]) => this.testDataByCategoryProvider.getTestDataByCategoryCode(category)(data)),
-        select(getLessonAndTheme),
-        take(1)
-      ),
-      lessonPlanning$: currentTest$.pipe(
-        withLatestFrom(testCategory$),
-        map(([data, category]) => this.testDataByCategoryProvider.getTestDataByCategoryCode(category)(data)),
-        select(getLessonPlanning),
-        take(1)
-      ),
-      riskManagement$: currentTest$.pipe(
-        withLatestFrom(testCategory$),
-        map(([data, category]) => this.testDataByCategoryProvider.getTestDataByCategoryCode(category)(data)),
-        select(getRiskManagement),
-        take(1)
-      ),
-      teachingLearningStrategies$: currentTest$.pipe(
-        withLatestFrom(testCategory$),
-        map(([data, category]) => this.testDataByCategoryProvider.getTestDataByCategoryCode(category)(data)),
-        select(getTeachingLearningStrategies),
-        take(1)
-      ),
-      review$: currentTest$.pipe(
-        withLatestFrom(testCategory$),
-        map(([data, category]) => this.testDataByCategoryProvider.getTestDataByCategoryCode(category)(data)),
-        select(getReview),
-        take(1)
-      ),
-      showEco$: currentTest$.pipe(
-        select(getTestCategory),
-        // Don't display for MOD1
-        map(
-          (category) =>
-            !isAnyOf(category, [TestCategory.EUAMM1, TestCategory.EUA1M1, TestCategory.EUA2M1, TestCategory.EUAM1])
-        ),
-        take(1)
-      ),
-      showSpeedCheck$: currentTest$.pipe(
-        select(getTestCategory),
-        map((category) =>
-          isAnyOf(category, [TestCategory.EUAMM1, TestCategory.EUA1M1, TestCategory.EUA2M1, TestCategory.EUAM1])
-        ),
-        take(1)
-      ),
-      showSafetyQuestions$: currentTest$.pipe(
-        withLatestFrom(testCategory$),
-        filter(([, category]) =>
-          isAnyOf(category, [TestCategory.D, TestCategory.D1, TestCategory.DE, TestCategory.D1E])
-        ),
-        map(([data, category]) => this.testDataByCategoryProvider.getTestDataByCategoryCode(category)(data)),
-        select(getSafetyQuestionsCatD),
-        select(getSafetyQuestions),
-        map((questions) => questions.some((question) => question.outcome)),
-        take(1)
-      ),
-      showSafetyAndBalance$: currentTest$.pipe(
-        select(getTestCategory),
-        map((category) =>
-          isAnyOf(category, [TestCategory.EUAMM2, TestCategory.EUA1M2, TestCategory.EUA2M2, TestCategory.EUAM2])
-        ),
-        take(1)
-      ),
-      emergencyStop$: currentTest$.pipe(select(getTestData), select(getEmergencyStop), take(1)),
-      avoidance$: currentTest$.pipe(select(getTestData), select(getAvoidance), take(1)),
-      avoidanceAttempted$: currentTest$.pipe(
-        select(getTestData),
-        select(getAvoidance),
-        select(getAvoidanceAttempted),
-        take(1)
-      ),
-      grade$: currentTest$.pipe(
-        withLatestFrom(testCategory$),
-        filter(([, category]) => isAnyOf(category, [TestCategory.ADI3, TestCategory.SC])),
-        map(([data, category]) => this.testDataByCategoryProvider.getTestDataByCategoryCode(category)(data)),
-        select(getReview),
-        select(getGrade),
-        take(1)
-      ),
-      immediateDanger$: currentTest$.pipe(
-        withLatestFrom(testCategory$),
-        filter(([, category]) => isAnyOf(category, [TestCategory.ADI3, TestCategory.SC])),
-        map(([data, category]) => this.testDataByCategoryProvider.getTestDataByCategoryCode(category)(data)),
-        select(getReview),
-        select(getImmediateDanger),
-        take(1)
-      ),
-    };
-
-    const { testResult$, etaFaults$, ecoFaults$, conductedLanguage$, category$ } = this.pageState;
-
-    this.subscription = merge(
-      category$.pipe(map((result) => (this.testCategory = result as TestCategory))),
-      testResult$.pipe(map((result) => (this.outcome = result))),
-      etaFaults$.pipe(
-        map((eta) => {
-          this.hasPhysicalEta = eta?.physical;
-          this.hasVerbalEta = eta?.verbal;
-        })
-      ),
-      ecoFaults$.pipe(
-        map((eco) => {
-          this.adviceGivenControl = eco?.adviceGivenControl;
-          this.adviceGivenPlanning = eco?.adviceGivenPlanning;
-        })
-      ),
-      conductedLanguage$.pipe(tap((value) => configureI18N(value as Language, this.translate)))
-    ).subscribe();
   }
 
   ionViewDidEnter(): void {

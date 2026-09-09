@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Signal, computed } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { DriverLicenceSchema, DriverPhotograph } from '@dvsa/mes-driver-schema';
@@ -12,39 +12,27 @@ import { TestFlowPageNames } from '@pages/page-names.constants';
 import { CandidateLicenceErr, CandidateLicenceProvider } from '@providers/candidate-licence/candidate-licence';
 import { PracticeableBasePageComponent } from '@shared/classes/practiceable-base-page';
 import { DateTime, Duration } from '@shared/helpers/date-time';
-import { getTestCategory } from '@store/tests/category/category.reducer';
+import { selectTestCategory } from '@store/tests/category/category.reducer';
 import { getApplicationReference } from '@store/tests/journal-data/common/application-reference/application-reference.reducer';
 import { getApplicationNumber } from '@store/tests/journal-data/common/application-reference/application-reference.selector';
 import { getCandidate } from '@store/tests/journal-data/common/candidate/candidate.reducer';
 import {
   getCandidateDriverNumber,
-  getDateOfBirth,
-  getGender,
-  getGenderFullDescription,
-  getGenderSilhouettePath,
-  getUntitledCandidateName,
+  selectDateOfBirth,
+  selectFormatDriverNumber,
+  selectGenderFullDescription,
+  selectGenderSilhouettePath,
+  selectUntitledCandidateName,
 } from '@store/tests/journal-data/common/candidate/candidate.selector';
 import { getRekeyIndicator } from '@store/tests/rekey/rekey.reducer';
 import { isRekey } from '@store/tests/rekey/rekey.selector';
 import { TrueLikenessToPhotoChanged } from '@store/tests/test-summary/test-summary.actions';
-import { getTestSummary } from '@store/tests/test-summary/test-summary.reducer';
-import { getTrueLikenessToPhoto } from '@store/tests/test-summary/test-summary.selector';
+import { selectTrueLikenessToPhoto } from '@store/tests/test-summary/test-summary.selector';
 import { getTests } from '@store/tests/tests.reducer';
-import { getCurrentTest, getJournalData } from '@store/tests/tests.selector';
+import { getCurrentTest, getJournalData, selectCurrentTest, selectIsRekey } from '@store/tests/tests.selector';
 import { get } from 'lodash-es';
 import { Observable, of } from 'rxjs';
-import { catchError, filter, map, switchMap, take, tap, withLatestFrom } from 'rxjs/operators';
-
-interface CandidateLicencePageState {
-  candidateUntitledName$: Observable<string>;
-  candidateDriverNumber$: Observable<string>;
-  testCategory$: Observable<CategoryCode>;
-  trueLikenessToPhoto$: Observable<boolean>;
-  driverPhotograph$: Observable<string>;
-  genderDescription$: Observable<string>;
-  age$: Observable<number>;
-  candidateData$: Observable<DriverLicenceSchema>;
-}
+import { catchError, filter, switchMap, tap, withLatestFrom } from 'rxjs/operators';
 
 @Component({
   selector: 'app-candidate-licence',
@@ -54,12 +42,39 @@ interface CandidateLicencePageState {
 })
 export class CandidateLicencePage extends PracticeableBasePageComponent implements OnInit {
   formGroup: FormGroup;
-  pageState: CandidateLicencePageState;
   driverDataReturned = false;
   candidateDataError = false;
   candidateDataUnavailable = false;
   niLicenceDetected = false;
   offlineError = false;
+
+  candidateUntitledName: Signal<string> = this.store$.selectSignal(selectUntitledCandidateName);
+  candidateDriverNumber: Signal<string> = this.store$.selectSignal(selectFormatDriverNumber);
+  testCategory: Signal<CategoryCode> = this.store$.selectSignal(selectTestCategory);
+  trueLikenessToPhoto: Signal<boolean> = this.store$.selectSignal(selectTrueLikenessToPhoto);
+  driverPhotograph: Signal<string> = this.store$.selectSignal(selectGenderSilhouettePath);
+  genderDescription: Signal<string> = this.store$.selectSignal(selectGenderFullDescription);
+  dateOfBirth: Signal<string> = this.store$.selectSignal(selectDateOfBirth);
+  isRekeySignal: Signal<boolean> = this.store$.selectSignal(selectIsRekey);
+  currentTest = this.store$.selectSignal(selectCurrentTest);
+  age: Signal<number> = computed(() =>
+    this.dateOfBirth() ? new DateTime().diff(this.dateOfBirth(), Duration.YEAR) : null
+  );
+  // candidateData: WritableSignal<DriverLicenceSchema | null> = signal(null);
+
+  candidateData$: Observable<DriverLicenceSchema>;
+
+  // candidateDataRequest = computed(() => {
+  //   const currentTest = this.currentTest();
+  //   const driverNumber = currentTest?.journalData?.candidate?.driverNumber;
+  //   const appRef = getApplicationNumber(currentTest?.journalData?.applicationReference);
+  //
+  //   if (this.isPracticeMode || this.isRekeySignal() || !driverNumber || !appRef) {
+  //     return null;
+  //   }
+  //
+  //   return {driverNumber, appRef};
+  // });
 
   constructor(
     private candidateLicenceProvider: CandidateLicenceProvider,
@@ -71,63 +86,28 @@ export class CandidateLicencePage extends PracticeableBasePageComponent implemen
 
   ngOnInit() {
     super.ngOnInit();
-
     const currentTest$ = this.store$.pipe(select(getTests), select(getCurrentTest));
-
-    this.pageState = {
-      candidateUntitledName$: currentTest$.pipe(
-        select(getJournalData),
-        select(getCandidate),
-        select(getUntitledCandidateName)
+    this.candidateData$ = currentTest$.pipe(
+      select(getJournalData),
+      select(getCandidate),
+      select(getCandidateDriverNumber),
+      withLatestFrom(
+        currentTest$.pipe(select(getJournalData), select(getApplicationReference), select(getApplicationNumber)),
+        currentTest$.pipe(select(getRekeyIndicator), select(isRekey))
       ),
-      candidateDriverNumber$: currentTest$.pipe(
-        select(getJournalData),
-        select(getCandidate),
-        select(getCandidateDriverNumber)
-      ),
-      testCategory$: currentTest$.pipe(select(getTestCategory)),
-      trueLikenessToPhoto$: currentTest$.pipe(select(getTestSummary), select(getTrueLikenessToPhoto)),
-      driverPhotograph$: currentTest$.pipe(
-        select(getJournalData),
-        select(getCandidate),
-        select(getGender),
-        map(getGenderSilhouettePath),
-        take(1)
-      ),
-      genderDescription$: currentTest$.pipe(
-        select(getJournalData),
-        select(getCandidate),
-        select(getGender),
-        map(getGenderFullDescription)
-      ),
-      age$: currentTest$.pipe(
-        select(getJournalData),
-        select(getCandidate),
-        select(getDateOfBirth),
-        map((dateOfBirth: string) => new DateTime().diff(dateOfBirth, Duration.YEAR))
-      ),
-      candidateData$: currentTest$.pipe(
-        select(getJournalData),
-        select(getCandidate),
-        select(getCandidateDriverNumber),
-        withLatestFrom(
-          currentTest$.pipe(select(getJournalData), select(getApplicationReference), select(getApplicationNumber)),
-          currentTest$.pipe(select(getRekeyIndicator), select(isRekey))
-        ),
-        filter(([, , isRekeyTest]) => !this.isPracticeMode && !isRekeyTest),
-        switchMap(([driverNumber, appRef]) => this.candidateLicenceProvider.getCandidateData(driverNumber, appRef)),
-        catchError((err) => {
-          if (err instanceof Error) {
-            this.setError(err);
-          } else {
-            this.candidateDataError = true;
-          }
-          this.driverDataReturned = false;
-          return of(null);
-        }),
-        tap(() => (this.driverDataReturned = true))
-      ),
-    };
+      filter(([, , isRekeyTest]) => !this.isPracticeMode && !isRekeyTest),
+      switchMap(([driverNumber, appRef]) => this.candidateLicenceProvider.getCandidateData(driverNumber, appRef)),
+      catchError((err) => {
+        if (err instanceof Error) {
+          this.setError(err);
+        } else {
+          this.candidateDataError = true;
+        }
+        this.driverDataReturned = false;
+        return of(null);
+      }),
+      tap(() => (this.driverDataReturned = true))
+    );
   }
 
   ionViewDidEnter(): void {

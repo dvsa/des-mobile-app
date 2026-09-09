@@ -6,10 +6,7 @@ import { Observable } from 'rxjs';
 import { ClearCandidateLicenceData } from '@pages/candidate-licence/candidate-licence.actions';
 import { TestFlowPageNames } from '@pages/page-names.constants';
 import { WaitingRoomToCarValidationError } from '@pages/waiting-room-to-car/waiting-room-to-car.actions';
-import {
-  CommonWaitingRoomToCarPageState,
-  WaitingRoomToCarBasePageComponent,
-} from '@shared/classes/test-flow-base-pages/waiting-room-to-car/waiting-room-to-car-base-page';
+import { WaitingRoomToCarBasePageComponent } from '@shared/classes/test-flow-base-pages/waiting-room-to-car/waiting-room-to-car-base-page';
 import { getTests } from '@store/tests/tests.reducer';
 import { getCurrentTest } from '@store/tests/tests.selector';
 import { getVehicleDetails } from '@store/tests/vehicle-details/cat-manoeuvres/vehicle-details.cat-manoeuvre.reducer';
@@ -28,8 +25,6 @@ interface CatManoeuvreWaitingRoomToCarPageState {
   numberOfSeats$: Observable<number>;
 }
 
-type WaitingRoomToCarPageState = CommonWaitingRoomToCarPageState & CatManoeuvreWaitingRoomToCarPageState;
-
 @Component({
   selector: 'app-waiting-room-to-car-cat-manoeuvre',
   templateUrl: './waiting-room-to-car.cat-manoeuvre.page.html',
@@ -38,7 +33,7 @@ type WaitingRoomToCarPageState = CommonWaitingRoomToCarPageState & CatManoeuvreW
 })
 export class WaitingRoomToCarCatManoeuvrePage extends WaitingRoomToCarBasePageComponent implements OnInit {
   form: UntypedFormGroup;
-  pageState: WaitingRoomToCarPageState;
+  pageState: CatManoeuvreWaitingRoomToCarPageState;
   fullLicenceHeld: boolean = null;
 
   constructor() {
@@ -52,7 +47,6 @@ export class WaitingRoomToCarCatManoeuvrePage extends WaitingRoomToCarBasePageCo
     const currentTest$ = this.store$.pipe(select(getTests), select(getCurrentTest));
 
     this.pageState = {
-      ...this.commonPageState,
       vehicleLength$: currentTest$.pipe(select(getVehicleDetails), select(getVehicleLength)),
       vehicleWidth$: currentTest$.pipe(select(getVehicleDetails), select(getVehicleWidth)),
       vehicleHeight$: currentTest$.pipe(select(getVehicleDetails), select(getVehicleHeight)),

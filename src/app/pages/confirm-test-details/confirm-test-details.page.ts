@@ -1,9 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Signal, computed, effect } from '@angular/core';
 import { LessonTheme } from '@dvsa/mes-test-schema/categories/ADI3';
-import { GearboxCategory } from '@dvsa/mes-test-schema/categories/common';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { ModalController, NavController, ViewDidEnter, ViewDidLeave, ViewWillEnter } from '@ionic/angular';
-import { select } from '@ngrx/store';
 import { ClearCandidateLicenceData } from '@pages/candidate-licence/candidate-licence.actions';
 import { ADI3AssessmentProvider } from '@providers/adi3-assessment/adi3-assessment';
 import { VehicleDetailsByCategoryProvider } from '@providers/vehicle-details-by-category/vehicle-details-by-category';
@@ -11,14 +9,12 @@ import { PracticeableBasePageComponent } from '@shared/classes/practiceable-base
 import { ActivityCodeModel } from '@shared/constants/activity-code/activity-code.constants';
 import { lessonThemeValues, studentValues } from '@shared/constants/adi3-questions/lesson-theme.constants';
 import { isAnyOf } from '@shared/helpers/simplifiers';
-import { getTestCategory } from '@store/tests/category/category.reducer';
-import { getCandidate } from '@store/tests/journal-data/common/candidate/candidate.reducer';
+import { selectTestCategory } from '@store/tests/category/category.reducer';
 import {
-  getCandidateName,
-  getUntitledCandidateName,
+  selectCandidateName,
+  selectUntitledCandidateName,
 } from '@store/tests/journal-data/common/candidate/candidate.selector';
-import { getTestSlotAttributes } from '@store/tests/journal-data/common/test-slot-attributes/test-slot-attributes.reducer';
-import { getTestStartDateTime } from '@store/tests/journal-data/common/test-slot-attributes/test-slot-attributes.selector';
+import { selectTestStartDateTime } from '@store/tests/journal-data/common/test-slot-attributes/test-slot-attributes.selector';
 import { getCode78 } from '@store/tests/pass-completion/cat-d/pass-completion.cat-d.selector';
 import { getPassCompletion } from '@store/tests/pass-completion/pass-completion.reducer';
 import { isProvisionalLicenseProvided } from '@store/tests/pass-completion/pass-completion.selector';
@@ -42,41 +38,17 @@ import { getTestSummary } from '@store/tests/test-summary/test-summary.reducer';
 import { getD255 } from '@store/tests/test-summary/test-summary.selector';
 import { PersistTests } from '@store/tests/tests.actions';
 import { TestOutcome } from '@store/tests/tests.constants';
-import { getTests } from '@store/tests/tests.reducer';
 import {
   getActivityCode,
-  getCurrentTest,
   getCurrentTestSlotId,
-  getJournalData,
   getTestOutcomeText,
+  selectCurrentTest,
+  selectTests,
 } from '@store/tests/tests.selector';
 import { getGearboxCategory } from '@store/tests/vehicle-details/vehicle-details.selector';
-import { Observable, Subscription, merge } from 'rxjs';
-import { filter, map, take, tap, withLatestFrom } from 'rxjs/operators';
 import { TestFlowPageNames } from '../page-names.constants';
 import { ConfirmSubmitModal } from './components/confirm-submit-modal/confirm-submit-modal';
 import { BackButtonClick, BackToDebrief, ConfirmTestDetailsViewDidEnter } from './confirm-test-details.actions';
-
-interface ConfirmTestDetailsPageState {
-  candidateUntitledName$: Observable<string>;
-  candidateName$: Observable<string>;
-  startDateTime$: Observable<string>;
-  testOutcomeText$: Observable<string>;
-  activityCode$: Observable<ActivityCodeModel>;
-  testCategory$: Observable<TestCategory>;
-  provisionalLicense$?: Observable<boolean>;
-  transmission$: Observable<GearboxCategory>;
-  code78$?: Observable<boolean>;
-  d255$: Observable<boolean>;
-  slotId$: Observable<string>;
-  testOutcomeFullResult$: Observable<string>;
-  studentLevel$: Observable<string>;
-  lessonTheme$: Observable<string[]>;
-  lessonPlanningScore$: Observable<number>;
-  riskManagementScore$: Observable<number>;
-  teachingLearningStrategyScore$: Observable<number>;
-  totalScore$: Observable<number>;
-}
 
 enum LicenceReceivedText {
   TRUE = 'Yes - Please retain the candidates licence.',
@@ -98,14 +70,128 @@ export class ConfirmTestDetailsPage
   extends PracticeableBasePageComponent
   implements OnInit, ViewWillEnter, ViewDidLeave, ViewDidEnter
 {
-  pageState: ConfirmTestDetailsPageState;
   category: TestCategory;
   testOutcome: string;
   candidateName: string;
-  subscription: Subscription;
-  merged$: Observable<boolean | string>;
   slotId: string;
   idPrefix = 'confirm-test-details';
+
+  tests = this.store$.selectSignal(selectTests);
+  currentTest = this.store$.selectSignal(selectCurrentTest);
+  categorySignal: Signal<TestCategory> = this.store$.selectSignal(selectTestCategory) as Signal<TestCategory>;
+  slotIdSignal = computed(() => getCurrentTestSlotId(this.tests()));
+  candidateUntitledName = this.store$.selectSignal(selectUntitledCandidateName);
+  candidateNameSignal = this.store$.selectSignal(selectCandidateName);
+  startDateTime = this.store$.selectSignal(selectTestStartDateTime);
+
+  testOutcomeText = computed(() => {
+    const test = this.currentTest();
+    return test ? getTestOutcomeText(test) : null;
+  });
+
+  activityCodeSignal = computed(() => {
+    const test = this.currentTest();
+    return test ? getActivityCode(test as never) : null;
+  });
+
+  transmission = computed(() => {
+    const test = this.currentTest();
+    const category = this.categorySignal();
+    if (!test || !category) {
+      return null;
+    }
+    const vehicleDetails = this.vehicleDetailsProvider.getVehicleDetailsByCategoryCode(category)?.vehicleDetails(test);
+    return vehicleDetails ? getGearboxCategory(vehicleDetails) : null;
+  });
+
+  d255 = computed(() => {
+    const test = this.currentTest();
+    return test ? getD255(getTestSummary(test as never)) : null;
+  });
+
+  passCompletion = computed(() => {
+    const test = this.currentTest();
+    return test ? getPassCompletion(test as never) : null;
+  });
+
+  code78 = computed(() => {
+    if (this.categorySignal() === TestCategory.ADI2) {
+      return null;
+    }
+    return getCode78(this.passCompletion() as never);
+  });
+
+  provisionalLicense = computed(() => {
+    if (this.categorySignal() === TestCategory.ADI2) {
+      return null;
+    }
+    return isProvisionalLicenseProvided(this.passCompletion() as never);
+  });
+
+  adi3TestData = computed(() => {
+    const test = this.currentTest();
+    if (!test || !isAnyOf(this.categorySignal(), [TestCategory.ADI3, TestCategory.SC])) {
+      return null;
+    }
+    return getTestData(test as never);
+  });
+
+  lessonAndTheme = computed(() => {
+    const testData = this.adi3TestData();
+    return testData ? getLessonAndTheme(testData as never) : null;
+  });
+
+  review = computed(() => {
+    const testData = this.adi3TestData();
+    return testData ? getReview(testData as never) : null;
+  });
+
+  testOutcomeFullResult = computed(() => {
+    const review = this.review();
+    if (!review) {
+      return null;
+    }
+    return `Passed - Grade ${getGrade(review)}`;
+  });
+
+  studentLevel = computed(() => {
+    const lessonAndTheme = this.lessonAndTheme();
+    return lessonAndTheme ? studentValues[getStudentLevel(lessonAndTheme)] : null;
+  });
+
+  lessonTheme = computed(() => {
+    const lessonAndTheme = this.lessonAndTheme();
+    if (!lessonAndTheme) {
+      return [];
+    }
+    const themes = getLessonThemes(lessonAndTheme as never);
+    const otherReason = getOther(lessonAndTheme as never);
+    return themes
+      .map((theme: LessonTheme) => lessonThemeValues[theme])
+      .filter((theme) => theme !== lessonThemeValues.other)
+      .concat(otherReason || null)
+      .filter((theme) => theme);
+  });
+
+  lessonPlanningScore = computed(() => {
+    const testData = this.adi3TestData();
+    return testData ? getLessonPlanningScore(getLessonPlanning(testData as never)) : null;
+  });
+
+  riskManagementScore = computed(() => {
+    const testData = this.adi3TestData();
+    return testData ? getRiskManagementScore(getRiskManagement(testData as never)) : null;
+  });
+
+  teachingLearningStrategyScore = computed(() => {
+    const testData = this.adi3TestData();
+    return testData ? getTeachingLearningScore(getTeachingLearningStrategies(testData as never)) : null;
+  });
+
+  totalScore = computed(() => {
+    const testData = this.adi3TestData();
+    return testData ? this.adi3AssessmentProvider.getTotalAssessmentScore(testData) : null;
+  });
 
   constructor(
     public navController: NavController,
@@ -114,162 +200,34 @@ export class ConfirmTestDetailsPage
     private modalController: ModalController
   ) {
     super(false);
+
+    effect(() => {
+      this.category = this.categorySignal();
+    });
+
+    effect(() => {
+      this.testOutcome = this.testOutcomeText();
+    });
+
+    effect(() => {
+      this.candidateName = this.candidateUntitledName();
+    });
+
+    effect(() => {
+      this.slotId = this.slotIdSignal();
+    });
   }
 
   ngOnInit(): void {
     super.ngOnInit();
-
-    const currentTest$ = this.store$.pipe(select(getTests), select(getCurrentTest));
-
-    const category$ = currentTest$.pipe(select(getTestCategory), take(1));
-
-    this.pageState = {
-      slotId$: this.store$.pipe(select(getTests), map(getCurrentTestSlotId), take(1)),
-      candidateUntitledName$: currentTest$.pipe(
-        select(getJournalData),
-        select(getCandidate),
-        select(getUntitledCandidateName),
-        take(1)
-      ),
-      candidateName$: currentTest$.pipe(
-        select(getJournalData),
-        select(getCandidate),
-        select(getCandidateName),
-        take(1)
-      ),
-      startDateTime$: currentTest$.pipe(
-        select(getJournalData),
-        select(getTestSlotAttributes),
-        select(getTestStartDateTime),
-        take(1)
-      ),
-      testOutcomeText$: currentTest$.pipe(select(getTestOutcomeText), take(1)),
-      activityCode$: currentTest$.pipe(select(getActivityCode), take(1)),
-      testCategory$: category$.pipe(map((testCategory) => testCategory as TestCategory)),
-      transmission$: currentTest$.pipe(
-        withLatestFrom(category$),
-        map(([testResult, category]) =>
-          this.vehicleDetailsProvider.getVehicleDetailsByCategoryCode(category)?.vehicleDetails(testResult)
-        ),
-        select(getGearboxCategory),
-        take(1)
-      ),
-      d255$: currentTest$.pipe(select(getTestSummary), select(getD255), take(1)),
-      code78$: currentTest$.pipe(
-        withLatestFrom(category$),
-        filter(([, category]) => category !== TestCategory.ADI2),
-        map(([testResult]) => testResult),
-        select(getPassCompletion),
-        select(getCode78),
-        take(1)
-      ),
-      provisionalLicense$: currentTest$.pipe(
-        withLatestFrom(category$),
-        filter(([, category]) => category !== TestCategory.ADI2),
-        map(([testResult]) => testResult),
-        select(getPassCompletion),
-        map(isProvisionalLicenseProvided)
-      ),
-      // ADI3 & SC additional fields
-      testOutcomeFullResult$: currentTest$.pipe(
-        withLatestFrom(category$),
-        filter(([, category]) => isAnyOf(category, [TestCategory.ADI3, TestCategory.SC])),
-        map(([testResult]) => testResult),
-        select(getTestData),
-        select(getReview),
-        select(getGrade),
-        map((grade) => `Passed - Grade ${grade}`),
-        take(1)
-      ),
-      studentLevel$: currentTest$.pipe(
-        withLatestFrom(category$),
-        filter(([, category]) => isAnyOf(category, [TestCategory.ADI3, TestCategory.SC])),
-        map(([testResult]) => testResult),
-        select(getTestData),
-        select(getLessonAndTheme),
-        select(getStudentLevel),
-        map((level) => studentValues[level]),
-        take(1)
-      ),
-      lessonTheme$: currentTest$.pipe(
-        withLatestFrom(category$),
-        filter(([, category]) => isAnyOf(category, [TestCategory.ADI3, TestCategory.SC])),
-        map(([testResult]) => testResult),
-        select(getTestData),
-        select(getLessonAndTheme),
-        select(getLessonThemes),
-        withLatestFrom(currentTest$.pipe(select(getTestData), select(getLessonAndTheme), select(getOther))),
-        map(([themes, otherReason]: [LessonTheme[], string]) =>
-          themes
-            .map((theme) => lessonThemeValues[theme])
-            // Remove 'Other' as LessonTheme from the output if selected
-            .filter((theme) => theme !== lessonThemeValues.other)
-            // Substitute that with the value provided in the 'Other' box or null
-            .concat(otherReason || null)
-            // Sanitise null or empty string values
-            .filter((theme) => theme)
-        ),
-        take(1)
-      ),
-      lessonPlanningScore$: currentTest$.pipe(
-        withLatestFrom(category$),
-        filter(([, category]) => isAnyOf(category, [TestCategory.ADI3, TestCategory.SC])),
-        map(([testResult]) => testResult),
-        select(getTestData),
-        select(getLessonPlanning),
-        select(getLessonPlanningScore),
-        take(1)
-      ),
-      riskManagementScore$: currentTest$.pipe(
-        withLatestFrom(category$),
-        filter(([, category]) => isAnyOf(category, [TestCategory.ADI3, TestCategory.SC])),
-        map(([testResult]) => testResult),
-        select(getTestData),
-        select(getRiskManagement),
-        select(getRiskManagementScore),
-        take(1)
-      ),
-      teachingLearningStrategyScore$: currentTest$.pipe(
-        withLatestFrom(category$),
-        filter(([, category]) => isAnyOf(category, [TestCategory.ADI3, TestCategory.SC])),
-        map(([testResult]) => testResult),
-        select(getTestData),
-        select(getTeachingLearningStrategies),
-        select(getTeachingLearningScore),
-        take(1)
-      ),
-      totalScore$: currentTest$.pipe(
-        withLatestFrom(category$),
-        filter(([, category]) => isAnyOf(category, [TestCategory.ADI3, TestCategory.SC])),
-        map(([testResult]) => testResult),
-        select(getTestData),
-        map((data) => this.adi3AssessmentProvider.getTotalAssessmentScore(data)),
-        take(1)
-      ),
-    };
-    const { testCategory$, testOutcomeText$, candidateUntitledName$, slotId$ } = this.pageState;
-
-    this.merged$ = merge(
-      testCategory$.pipe(map((value) => (this.category = value))),
-      testOutcomeText$.pipe(map((value) => (this.testOutcome = value))),
-      candidateUntitledName$.pipe(tap((value) => (this.candidateName = value))),
-      slotId$.pipe(map((slotId) => (this.slotId = slotId)))
-    );
   }
 
   ionViewWillEnter(): boolean {
-    if (this.merged$) {
-      this.subscription = this.merged$.subscribe();
-    }
     return true;
   }
 
   ionViewDidLeave(): void {
     super.ionViewDidLeave();
-
-    if (this.subscription) {
-      this.subscription.unsubscribe();
-    }
   }
 
   ionViewDidEnter(): void {
@@ -322,7 +280,10 @@ export class ConfirmTestDetailsPage
     return testResult === TestOutcome.Passed;
   }
 
-  getActivityCode(activityCodeModel: ActivityCodeModel): string {
+  getActivityCode(activityCodeModel: ActivityCodeModel | null): string {
+    if (!activityCodeModel) {
+      return '';
+    }
     return `${activityCodeModel.activityCode} - ${activityCodeModel.description}`;
   }
 

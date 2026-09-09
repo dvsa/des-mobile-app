@@ -9,7 +9,7 @@
     mode="ios">
     <test-flow-header
       class="display-flex flex-direction-column"
-      [testCategory]="pageState.category$ | async"
+      [testCategory]="category()"
       [pageName]="'waiting-room-to-car-page-adi3'"
       [shouldShowEscapeFromSamButton]="!isRekey && !isDelegated"
       [isPracticeMode]="isEndToEndPracticeMode"
@@ -20,14 +20,14 @@
       (setupResumeSubscription)="setupEscapeSAMResumeSubscription()"
       (onExitSAMActivatedChanged)="isSamActivatedChanged($event)"
       (endTestButtonClicked)="abortMOTCall(MOTAbortedMethod.END_TEST)">
-      {{ pageState.candidateName$ | async }}
+      {{ candidateName() }}
     </test-flow-header>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [class.hidden]="failedMOTModalCurrentlyOpen" force-overscroll="false">
   @if (!isEndToEndPracticeMode) {
-    <offline-banner [isOffline]="pageState.isOffline$ | async"></offline-banner>
+    <offline-banner [isOffline]="isOffline()"></offline-banner>
   }
   <div>
     <form (ngSubmit)="onSubmit()" [formGroup]="form">
@@ -47,13 +47,13 @@
               (motSearchingStatusChange)="motSearchingStatusChanged($event)"
               [formGroup]="form"
               [isPracticeMode]="isEndToEndPracticeMode"
-              [vehicleRegistration]="pageState.registrationNumber$ | async"
+              [vehicleRegistration]="registrationNumber()"
               [shouldHideMOTButton]="isRekey"
               [abortSubject]="abortSubject"
             >
             </vehicle-registration>
 
-            @if ((pageState.motEvidenceProvided$ | async) === false) {
+            @if (motEvidenceProvided() === false) {
               <ion-row>
                 <mot-no-evidence-confirmation [cancelFn]="motNoEvidenceCancelled" [nextPageOnFail]="getDebriefPage()">
                 </mot-no-evidence-confirmation>
@@ -63,13 +63,13 @@
             <safety-recall>
             </safety-recall>
 
-            <div [hidden]="(pageState.motEvidenceProvided$ | async) === false" class="ion-no-padding">
+            <div [hidden]="motEvidenceProvided() === false" class="ion-no-padding">
 
-              <test-category [testCategory]="pageState.category$ | async"></test-category>
+              <test-category [testCategory]="category()"></test-category>
 
               <dual-controls
                 (dualControlsChange)="dualControlsOutcomeToggled($event)"
-                [dualControls]="pageState.dualControls$ | async"
+                [dualControls]="dualControls()"
                 [formGroup]="form"
               >
               </dual-controls>
@@ -77,11 +77,11 @@
               <transmission
                 (transmissionChange)="transmissionChanged($event)"
                 [formGroup]="form"
-                [transmission]="pageState.transmission$ | async"
+                [transmission]="transmission()"
               >
               </transmission>
 
-              @if (notSC(pageState.category$ | async)) {
+              @if (notSC(category())) {
                 <trainee-licence
                   (traineeLicenceChange)="traineeLicenceChanged($event)"
                   [formGroup]="form"
@@ -93,7 +93,7 @@
               <ordit-trainer-cat-adi-part2
                 (orditTrainedOutcomeChange)="orditTrainedOutcomeChanged($event)"
                 [formGroup]="form"
-                [notSC]="notSC(pageState.category$ | async)"
+                [notSC]="notSC(category())"
                 [orditTrainedRadioChecked]="pageState.orditTrained$ | async"
               >
               </ordit-trainer-cat-adi-part2>
@@ -103,8 +103,8 @@
                 (supervisorAccompanimentChange)="supervisorAccompanimentToggled()"
                 (trainerAccompanimentChange)="trainerAccompanimentChanged()"
                 [formGroup]="form"
-                [otherAccompaniment]="pageState.otherAccompaniment$ | async"
-                [supervisorAccompaniment]="pageState.supervisorAccompaniment$ | async"
+                [otherAccompaniment]="otherAccompaniment()"
+                [supervisorAccompaniment]="supervisorAccompaniment()"
                 [trainerAccompaniment]="pageState.trainerAccompaniment$ | async"
               >
               </accompaniment-card-adi3>
@@ -113,7 +113,7 @@
                 (trainerRegistrationChange)="trainerRegistrationNumberChanged($event)"
                 [formGroup]="form"
                 [trainerRegistration]="pageState.trainerRegistrationNumber$ | async"
-                [trainerLabel]="notSC(pageState.category$ | async) ? `Sponsor's PRN (optional)` : 'Trainer PRN (optional)'"
+                [trainerLabel]="notSC(category()) ? `Sponsor's PRN (optional)` : 'Trainer PRN (optional)'"
               >
               </trainer-registration-number-cat-adi-part2>
             </div>
@@ -126,7 +126,7 @@
 
 <ion-footer [class.hidden]="failedMOTModalCurrentlyOpen">
   <ion-row
-    [hidden]="(pageState.eyesightTestFailed$ | async) || (pageState.motEvidenceProvided$ | async) === false"
+    [hidden]="eyesightTestFailed() || motEvidenceProvided() === false"
     class="mes-full-width-card box-shadow flex-center">
     <ion-col class="ion-text-center width-100" size="43">
       <ion-button

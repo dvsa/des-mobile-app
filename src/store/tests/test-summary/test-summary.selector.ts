@@ -4,6 +4,8 @@ import {
   TestSummary,
   WeatherConditions,
 } from '@dvsa/mes-test-schema/categories/common';
+import { createSelector } from '@ngrx/store';
+import { selectTestSummary } from '@store/tests/test-summary/cat-cpc/test-summary.cat-cpc.reducer';
 
 export const getRouteNumber = (ts: TestSummary): number => ts.routeNumber;
 export const getCandidateDescription = (ts: TestSummary): string => ts.candidateDescription;
@@ -16,3 +18,8 @@ export const getTrafficSignsUsed = (ts: TestSummary): boolean => ts.independentD
 export const isDebriefWitnessed = (ts: TestSummary): boolean => ts.debriefWitnessed;
 export const getWeatherConditions = (ts: TestSummary): WeatherConditions[] => ts.weatherConditions;
 export const getIndependentDriving = (ts: TestSummary): IndependentDriving => ts.independentDriving;
+
+export const selectTrueLikenessToPhoto = createSelector(
+  selectTestSummary,
+  ({ trueLikenessToPhoto }: TestSummary) => trueLikenessToPhoto
+);

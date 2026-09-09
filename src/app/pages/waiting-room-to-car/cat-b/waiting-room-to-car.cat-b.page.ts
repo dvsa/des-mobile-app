@@ -1,16 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, computed } from '@angular/core';
 import { UntypedFormGroup } from '@angular/forms';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
-import { select } from '@ngrx/store';
 import { ClearCandidateLicenceData } from '@pages/candidate-licence/candidate-licence.actions';
 import { TestFlowPageNames } from '@pages/page-names.constants';
 import { WaitingRoomToCarValidationError } from '@pages/waiting-room-to-car/waiting-room-to-car.actions';
 import { QuestionProvider } from '@providers/question/question';
 import { VehicleChecksQuestion } from '@providers/question/vehicle-checks-question.model';
-import {
-  CommonWaitingRoomToCarPageState,
-  WaitingRoomToCarBasePageComponent,
-} from '@shared/classes/test-flow-base-pages/waiting-room-to-car/waiting-room-to-car-base-page';
+import { WaitingRoomToCarBasePageComponent } from '@shared/classes/test-flow-base-pages/waiting-room-to-car/waiting-room-to-car-base-page';
 import { getInstructorDetails } from '@store/tests/instructor-details/instructor-details.reducer';
 import { getInstructorRegistrationNumber } from '@store/tests/instructor-details/instructor-details.selector';
 import {
@@ -27,24 +23,11 @@ import {
   TellMeQuestionSelected,
 } from '@store/tests/test-data/cat-b/vehicle-checks/vehicle-checks.actions';
 import { EyesightTestReset } from '@store/tests/test-data/common/eyesight-test/eyesight-test.actions';
-import { getTests } from '@store/tests/tests.reducer';
-import { getCurrentTest } from '@store/tests/tests.selector';
 import {
   MotEvidenceChanged,
   MotEvidenceProvidedReset,
   MotEvidenceProvidedToggled,
 } from '@store/tests/vehicle-details/vehicle-details.actions';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
-
-interface CatBWaitingRoomToCarPageState {
-  tellMeQuestion$: Observable<VehicleChecksQuestion>;
-  tellMeQuestionOutcome$: Observable<string>;
-  tellMeQuestionSelected$: Observable<boolean>;
-  instructorRegistrationNumber$: Observable<number>;
-}
-
-type WaitingRoomToCarPageState = CommonWaitingRoomToCarPageState & CatBWaitingRoomToCarPageState;
 
 @Component({
   selector: 'app-waiting-room-to-car-cat-b',
@@ -53,9 +36,40 @@ type WaitingRoomToCarPageState = CommonWaitingRoomToCarPageState & CatBWaitingRo
   standalone: false,
 })
 export class WaitingRoomToCarCatBPage extends WaitingRoomToCarBasePageComponent implements OnInit {
-  pageState: WaitingRoomToCarPageState;
   form: UntypedFormGroup;
   tellMeQuestions: VehicleChecksQuestion[];
+
+  tellMeQuestion = computed(() => {
+    const currentTest = this.currentTest();
+    if (!currentTest) {
+      return null;
+    }
+    return getTellMeQuestion(getVehicleChecks(getTestData(currentTest as never)));
+  });
+
+  tellMeQuestionOutcome = computed(() => {
+    const currentTest = this.currentTest();
+    if (!currentTest) {
+      return null;
+    }
+    return tellMeQuestionOutcome(getVehicleChecks(getTestData(currentTest as never)));
+  });
+
+  tellMeQuestionSelected = computed(() => {
+    const currentTest = this.currentTest();
+    if (!currentTest) {
+      return false;
+    }
+    return isTellMeQuestionSelected(getVehicleChecks(getTestData(currentTest as never)));
+  });
+
+  instructorRegistrationNumber = computed(() => {
+    const currentTest = this.currentTest();
+    if (!currentTest) {
+      return null;
+    }
+    return getInstructorRegistrationNumber(getInstructorDetails(currentTest as never));
+  });
 
   constructor(private questionProvider: QuestionProvider) {
     super();
@@ -65,27 +79,6 @@ export class WaitingRoomToCarCatBPage extends WaitingRoomToCarBasePageComponent 
 
   ngOnInit(): void {
     super.onInitialisation();
-
-    const currentTest$ = this.store$.pipe(select(getTests), select(getCurrentTest));
-
-    this.pageState = {
-      ...this.commonPageState,
-      tellMeQuestion$: currentTest$.pipe(select(getTestData), select(getVehicleChecks), map(getTellMeQuestion)),
-      tellMeQuestionOutcome$: currentTest$.pipe(
-        select(getTestData),
-        select(getVehicleChecks),
-        map(tellMeQuestionOutcome)
-      ),
-      tellMeQuestionSelected$: currentTest$.pipe(
-        select(getTestData),
-        select(getVehicleChecks),
-        map(isTellMeQuestionSelected)
-      ),
-      instructorRegistrationNumber$: currentTest$.pipe(
-        select(getInstructorDetails),
-        map(getInstructorRegistrationNumber)
-      ),
-    };
   }
 
   motNoEvidenceCancelled = (): void => {

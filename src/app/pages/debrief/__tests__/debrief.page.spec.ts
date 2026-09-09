@@ -17,7 +17,6 @@ import { TestOutcome } from '@shared/models/test-outcome';
 import { TestOutcome as OutcomeType } from '@store/tests/tests.constants';
 import { testsFeatureKey } from '@store/tests/tests.reducer';
 import { Subscription } from 'rxjs';
-import { take } from 'rxjs/operators';
 
 describe('DebriefPage', () => {
   let fixture: ComponentFixture<DebriefPage>;
@@ -171,80 +170,64 @@ describe('DebriefPage', () => {
   describe('ngOnInit', () => {
     it('should resolve state variables', () => {
       component.ngOnInit();
-      component.pageState.etaFaults$.pipe(take(1)).subscribe((res) => expect(res).toEqual({ physical: true }));
-      component.pageState.ecoFaults$.pipe(take(1)).subscribe((res) => expect(res).toEqual({ completed: true }));
-      component.pageState.testResult$.pipe(take(1)).subscribe((res) => expect(res).toEqual('Terminated'));
-      component.pageState.conductedLanguage$.pipe(take(1)).subscribe((res) => expect(res).toEqual('English'));
-      component.pageState.candidateName$.pipe(take(1)).subscribe((res) => expect(res).toEqual('firstName lastName'));
-      component.pageState.category$.pipe(take(1)).subscribe((res) => expect(res).toEqual(TestCategory.ADI3));
-      component.pageState.tellMeShowMeQuestions$.pipe(take(1)).subscribe((res) =>
-        expect(res).toEqual([
-          {
-            code: 'test2',
-            description: 'string',
-            outcome: 'P',
-          },
-          {
-            code: 'test1',
-            description: 'string',
-            outcome: 'P',
-          },
-        ])
-      );
-      component.pageState.question1$.pipe(take(1)).subscribe((res) => expect(res).toEqual({ score: 1 }));
-      component.pageState.question2$.pipe(take(1)).subscribe((res) => expect(res).toEqual({ score: 1 }));
-      component.pageState.question3$.pipe(take(1)).subscribe((res) => expect(res).toEqual({ score: 1 }));
-      component.pageState.question4$.pipe(take(1)).subscribe((res) => expect(res).toEqual({ score: 1 }));
-      component.pageState.question5$.pipe(take(1)).subscribe((res) => expect(res).toEqual({ score: 1 }));
-      component.pageState.overallScore$.pipe(take(1)).subscribe((res) => expect(res).toEqual(100));
-      component.pageState.totalScore$.pipe(take(1)).subscribe((res) => expect(res).toEqual(3));
-      component.pageState.lessonTheme$.pipe(take(1)).subscribe((res) =>
-        expect(res).toEqual({
-          lessonThemes: ['junctions'],
-        })
-      );
-      component.pageState.lessonPlanning$.pipe(take(1)).subscribe((res) =>
-        expect(res).toEqual({
-          score: 1,
-        })
-      );
-      component.pageState.riskManagement$.pipe(take(1)).subscribe((res) =>
-        expect(res).toEqual({
-          score: 1,
-        })
-      );
-      component.pageState.teachingLearningStrategies$.pipe(take(1)).subscribe((res) =>
-        expect(res).toEqual({
-          score: 1,
-        })
-      );
-      component.pageState.review$.pipe(take(1)).subscribe((res) =>
-        expect(res).toEqual({
-          seekFurtherDevelopment: true,
-          reasonForNoAdviceGiven: 'test',
-          grade: 'test1',
-          immediateDanger: false,
-        })
-      );
-      component.pageState.showEco$.pipe(take(1)).subscribe((res) => expect(res).toEqual(true));
-      component.pageState.showSpeedCheck$.pipe(take(1)).subscribe((res) => expect(res).toEqual(false));
-      component.pageState.showSafetyQuestions$.pipe(take(1)).subscribe((res) => expect(res).toEqual(false));
-      component.pageState.showSafetyAndBalance$.pipe(take(1)).subscribe((res) => expect(res).toEqual(false));
-      component.pageState.emergencyStop$.pipe(take(1)).subscribe((res) =>
-        expect(res).toEqual({
-          firstAttempt: 1,
-          secondAttempt: 2,
-        })
-      );
-      component.pageState.avoidance$.pipe(take(1)).subscribe((res) =>
-        expect(res).toEqual({
-          firstAttempt: 1,
-          secondAttempt: 2,
-        })
-      );
-      component.pageState.avoidanceAttempted$.pipe(take(1)).subscribe((res) => expect(res).toEqual(true));
-      component.pageState.grade$.pipe(take(1)).subscribe((res) => expect(res).toEqual('test1'));
-      component.pageState.immediateDanger$.pipe(take(1)).subscribe((res) => expect(res).toEqual(false));
+      expect(component.etaFaults()).toEqual({ physical: true });
+      expect(component.ecoFaults()).toEqual({ completed: true });
+      expect(component.testResult()).toEqual('Terminated');
+      expect(component.conductedLanguage()).toEqual('English');
+      expect(component.candidateName()).toEqual('firstName lastName');
+      expect(component.category()).toEqual(TestCategory.ADI3);
+      expect(component.tellMeShowMeQuestions()).toEqual([
+        {
+          code: 'test2',
+          description: 'string',
+          outcome: 'P',
+        },
+        {
+          code: 'test1',
+          description: 'string',
+          outcome: 'P',
+        },
+      ]);
+      expect(component.question1()).toEqual({ score: 1 });
+      expect(component.question2()).toEqual({ score: 1 });
+      expect(component.question3()).toEqual({ score: 1 });
+      expect(component.question4()).toEqual({ score: 1 });
+      expect(component.question5()).toEqual({ score: 1 });
+      expect(component.overallScore()).toEqual(100);
+      expect(component.totalScore()).toEqual(3);
+      expect(component.lessonTheme()).toEqual({
+        lessonThemes: ['junctions'],
+      });
+      expect(component.lessonPlanning()).toEqual({
+        score: 1,
+      });
+      expect(component.riskManagement()).toEqual({
+        score: 1,
+      });
+      expect(component.teachingLearningStrategies()).toEqual({
+        score: 1,
+      });
+      expect(component.review()).toEqual({
+        seekFurtherDevelopment: true,
+        reasonForNoAdviceGiven: 'test',
+        grade: 'test1',
+        immediateDanger: false,
+      });
+      expect(component.showEco()).toEqual(true);
+      expect(component.showSpeedCheck()).toEqual(false);
+      expect(component.showSafetyQuestions()).toEqual(false);
+      expect(component.showSafetyAndBalance()).toEqual(false);
+      expect(component.emergencyStop()).toEqual({
+        firstAttempt: 1,
+        secondAttempt: 2,
+      });
+      expect(component.avoidance()).toEqual({
+        firstAttempt: 1,
+        secondAttempt: 2,
+      });
+      expect(component.avoidanceAttempted()).toEqual(true);
+      expect(component.grade()).toEqual('test1');
+      expect(component.immediateDanger()).toEqual(false);
     });
   });
 

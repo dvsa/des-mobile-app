@@ -18,7 +18,7 @@
       (setupLeaveSubscription)="setupEscapeSAMLeaveSubscription()"
       (setupResumeSubscription)="setupEscapeSAMResumeSubscription()"
       (onExitSAMActivatedChanged)="isSamActivatedChanged($event)">
-      Confirm test details - {{ pageState.candidateUntitledName$ | async }}
+      Confirm test details - {{ candidateUntitledName() }}
     </test-flow-header>
   </ion-toolbar>
 </ion-header>
@@ -32,29 +32,29 @@
     <ion-card-content class="card-content-ios ion-no-padding">
       <ion-grid class="ion-padding">
         <!-- Candidate name -->
-        <data-row [idPrefix]="idPrefix" [label]="'Candidate name'" [value]="pageState.candidateName$ | async">
+        <data-row [idPrefix]="idPrefix" [label]="'Candidate name'" [value]="candidateNameSignal()">
         </data-row>
         <!-- Date and time of test -->
         <data-row
           [idPrefix]="idPrefix"
           [label]="'Date and time of test'"
-          [value]="pageState.startDateTime$ | async | date: 'dd/MM/yyyy HH:mm'"
+          [value]="startDateTime() | date: 'dd/MM/yyyy HH:mm'"
         >
         </data-row>
         <!-- Test outcome -->
-        @if (!isADI3(category) || (isADI3(category) && !isPassed(pageState.testOutcomeText$ | async))) {
+        @if (!isADI3(category) || (isADI3(category) && !isPassed(testOutcomeText()))) {
           <data-row
             [idPrefix]="idPrefix"
             [label]="'Test outcome'"
-            [value]="pageState.testOutcomeText$ | async"
+            [value]="testOutcomeText()"
           >
           </data-row>
         }
-        @if (isADI3(category) && isPassed(pageState.testOutcomeText$ | async)) {
+        @if (isADI3(category) && isPassed(testOutcomeText())) {
           <data-row
             [idPrefix]="idPrefix"
             [label]="'Test outcome'"
-            [value]="pageState.testOutcomeFullResult$ | async"
+            [value]="testOutcomeFullResult()"
           >
           </data-row>
         }
@@ -62,30 +62,30 @@
         <data-row
           [idPrefix]="idPrefix"
           [label]="'Activity code'"
-          [value]="getActivityCode(pageState.activityCode$ | async)"
+          [value]="getActivityCode(activityCodeSignal())"
         >
         </data-row>
         <!-- Test Category -->
         <data-row
           [idPrefix]="idPrefix"
           [label]="'Test category'"
-          [value]="pageState.testCategory$ | async"
+          [value]="categorySignal()"
           [shouldHaveSeparator]="!displayForCategory(category) || !displayD255(category) || isADI3(category)"
         >
         </data-row>
         <!-- Provisional licence received -->
-        @if (isPassed(pageState.testOutcomeText$ | async) && !displayForCategory(category)) {
+        @if (isPassed(testOutcomeText()) && !displayForCategory(category)) {
           <data-row
             [idPrefix]="idPrefix"
             [label]="'Provisional licence received'"
-            [value]="getProvisionalText(pageState.provisionalLicense$ | async)"
+            [value]="getProvisionalText(provisionalLicense())"
           >
           </data-row>
           <!-- Transmission -->
           <transmission-display
             [category]="category"
-            [transmission]="pageState.transmission$ | async"
-            [code78]="pageState.code78$ | async"
+            [transmission]="transmission()"
+            [code78]="code78()"
             [isTestSubmitted]="false"
           >
           </transmission-display>
@@ -95,7 +95,7 @@
           <data-row
             [idPrefix]="idPrefix"
             [label]="'D255'"
-            [value]="getD255Text(pageState.d255$ | async)"
+            [value]="getD255Text(d255())"
             [shouldHaveSeparator]="false"
           >
           </data-row>
@@ -104,23 +104,23 @@
         @if (isADI3(category)) {
           <div>
             <!-- Student -->
-            @if (pageState.studentLevel$ | async) {
+            @if (studentLevel()) {
               <data-row
                 [idPrefix]="idPrefix"
                 [label]="'Student'"
-                [value]="pageState.studentLevel$ | async"
+                [value]="studentLevel()"
                 [shouldHaveSeparator]="true"
               >
               </data-row>
             }
             <!-- Lesson theme -->
-            @if ((pageState.lessonTheme$ | async)?.length) {
+            @if (lessonTheme().length) {
               <data-row-custom
                 [idPrefix]="idPrefix"
                 [label]="'Lesson theme'"
                 [shouldHaveSeperator]="true"
               >
-                @for (lesson of (pageState.lessonTheme$ | async); track lesson; let i = $index) {
+                @for (lesson of lessonTheme(); track lesson; let i = $index) {
                   <span class="mes-data" [id]="'lesson-theme-'+lesson+'-'+i"
                   >{{ lesson }}<br></span>
                 }
@@ -130,7 +130,7 @@
             <data-row
               [idPrefix]="idPrefix"
               [label]="'Lesson planning'"
-              [value]="pageState.lessonPlanningScore$ | async"
+              [value]="lessonPlanningScore()"
               [shouldHaveSeparator]="true"
             >
             </data-row>
@@ -138,7 +138,7 @@
             <data-row
               [idPrefix]="idPrefix"
               [label]="'Risk management'"
-              [value]="pageState.riskManagementScore$ | async"
+              [value]="riskManagementScore()"
               [shouldHaveSeparator]="true"
             >
             </data-row>
@@ -146,7 +146,7 @@
             <data-row
               [idPrefix]="idPrefix"
               [label]="'Teaching & learning strategies'"
-              [value]="pageState.teachingLearningStrategyScore$ | async"
+              [value]="teachingLearningStrategyScore()"
               [shouldHaveSeparator]="true"
             >
             </data-row>
@@ -154,7 +154,7 @@
             <data-row
               [idPrefix]="idPrefix"
               [label]="'Total score'"
-              [value]="pageState.totalScore$ | async"
+              [value]="totalScore()"
               [shouldHaveSeparator]="false"
             >
             </data-row>

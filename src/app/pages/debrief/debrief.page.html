@@ -9,7 +9,7 @@
     mode="ios">
     <test-flow-header
       class="display-flex flex-direction-column"
-      [testCategory]="pageState.category$ | async"
+      [testCategory]="category()"
       [shouldIncludeLanguageDirectiveOnTitle]="true"
       [pageName]="'debrief-page'"
       [shouldShowEscapeFromSamButton]="!isDelegated && !isRekey"
@@ -20,18 +20,18 @@
       (setupLeaveSubscription)="setupEscapeSAMLeaveSubscription()"
       (setupResumeSubscription)="setupEscapeSAMResumeSubscription()"
       (onExitSAMActivatedChanged)="isSamActivatedChanged($event)">
-      {{ 'debrief.title' | translate }} - {{ pageState.candidateName$ | async }}
+      {{ 'debrief.title' | translate }} - {{ candidateName() }}
     </test-flow-header>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-  <test-outcome-debrief-card [outcome]="outcome" [grade]="pageState.grade$ | async"></test-outcome-debrief-card>
-  @if (pageState.showSpeedCheck$ | async) {
+  <test-outcome-debrief-card [outcome]="outcome" [grade]="grade()"></test-outcome-debrief-card>
+  @if (showSpeedCheck()) {
     <speed-check-debrief-card
-      [emergencyStop]="pageState.emergencyStop$ | async"
-      [avoidance]="pageState.avoidance$ | async"
-      [avoidanceAttempted]="pageState.avoidanceAttempted$ | async"
+      [emergencyStop]="emergencyStop()"
+      [avoidance]="avoidance()"
+      [avoidanceAttempted]="avoidanceAttempted()"
       >
     </speed-check-debrief-card>
   }
@@ -43,22 +43,22 @@
 
   <dangerous-faults-debrief-card
     [testCategory]="testCategory"
-    [dangerousFaults]="pageState.dangerousFaults$ | async">
+    [dangerousFaults]="dangerousFaults()">
   </dangerous-faults-debrief-card>
 
   <serious-faults-debrief-card
     [testCategory]="testCategory"
-    [seriousFaults]="pageState.seriousFaults$ | async">
+    [seriousFaults]="seriousFaults()">
   </serious-faults-debrief-card>
 
   <driving-faults-debrief-card
-    [drivingFaults]="pageState.drivingFaults$ | async"
-    [drivingFaultCount]="pageState.drivingFaultCount$ | async"
+    [drivingFaults]="drivingFaults()"
+    [drivingFaultCount]="drivingFaultCount()"
     [testCategory]="testCategory"
     >
   </driving-faults-debrief-card>
 
-  @if (pageState.showEco$ | async) {
+  @if (showEco()) {
     <eco-debrief-card
       [adviceGivenControl]="adviceGivenControl"
       [adviceGivenPlanning]="adviceGivenPlanning"
@@ -72,33 +72,33 @@
 
   @if (showVehicleChecksArrayCard()) {
     <vehicle-checks-card
-      [category]="pageState.category$ | async"
-      [tellMeShowMeQuestions]="pageState.tellMeShowMeQuestions$ | async"
+      [category]="category()"
+      [tellMeShowMeQuestions]="tellMeShowMeQuestions()"
       >
     </vehicle-checks-card>
   }
 
   @if (!isTerminated() && showCPCDebriefCard()) {
     <cpc-debrief-card
-      [overallScore]="pageState.overallScore$ | async"
-      [question1]="pageState.question1$ | async"
-      [question2]="pageState.question2$ | async"
-      [question3]="pageState.question3$ | async"
-      [question4]="pageState.question4$ | async"
-      [question5]="pageState.question5$ | async"
+      [overallScore]="overallScore()"
+      [question1]="question1()"
+      [question2]="question2()"
+      [question3]="question3()"
+      [question4]="question4()"
+      [question5]="question5()"
       [testOutcome]="outcome"
       >
     </cpc-debrief-card>
   }
 
-  @if (isCatD() && pageState.showSafetyQuestions$ | async) {
+  @if (isCatD() && showSafetyQuestions()) {
     <safety-questions-card
-      [data]="pageState.safetyQuestions$ | async"
+      [data]="safetyQuestions()"
       >
     </safety-questions-card>
   }
 
-  @if (pageState.showSafetyAndBalance$ | async) {
+  @if (showSafetyAndBalance()) {
     <safety-and-balance-card-cat-a-mod2>
     </safety-and-balance-card-cat-a-mod2>
   }
@@ -106,13 +106,13 @@
   @if (showADI3DebriefCard()) {
     <adi3-debrief-card
       [testCategory]="testCategory"
-      [totalScore]="pageState.totalScore$ | async"
-      [lessonTheme]="pageState.lessonTheme$ | async"
-      [lessonPlanning]="pageState.lessonPlanning$ | async"
-      [riskManagement]="pageState.riskManagement$ | async"
-      [teachingLearningStrategies]="pageState.teachingLearningStrategies$ | async"
-      [grade]="pageState.grade$ | async"
-      [review]="pageState.review$ | async"
+      [totalScore]="totalScore()"
+      [lessonTheme]="lessonTheme()"
+      [lessonPlanning]="lessonPlanning()"
+      [riskManagement]="riskManagement()"
+      [teachingLearningStrategies]="teachingLearningStrategies()"
+      [grade]="grade()"
+      [review]="review()"
       >
     </adi3-debrief-card>
   }

@@ -6,10 +6,8 @@ import { select } from '@ngrx/store';
 import { ClearCandidateLicenceData } from '@pages/candidate-licence/candidate-licence.actions';
 import { TestFlowPageNames } from '@pages/page-names.constants';
 import { WaitingRoomToCarValidationError } from '@pages/waiting-room-to-car/waiting-room-to-car.actions';
-import {
-  CommonWaitingRoomToCarPageState,
-  WaitingRoomToCarBasePageComponent,
-} from '@shared/classes/test-flow-base-pages/waiting-room-to-car/waiting-room-to-car-base-page';
+import { BikeTestType } from '@providers/bike-category-detail/bike-category-detail.model';
+import { WaitingRoomToCarBasePageComponent } from '@shared/classes/test-flow-base-pages/waiting-room-to-car/waiting-room-to-car-base-page';
 import { SafetyQuestionsScore } from '@shared/models/safety-questions-score.model';
 import { getSafetyAndBalanceQuestions } from '@store/tests/test-data/cat-a-mod2/safety-and-balance/safety-and-balance.cat-a-mod2.selector';
 import { getTestData } from '@store/tests/test-data/cat-a-mod2/test-data.cat-a-mod2.reducer';
@@ -28,8 +26,6 @@ interface CatMod2WaitingRoomToCarPageState {
   safetyAndBalanceQuestions$: Observable<SafetyAndBalanceQuestions>;
 }
 
-type WaitingRoomToCarPageState = CommonWaitingRoomToCarPageState & CatMod2WaitingRoomToCarPageState;
-
 @Component({
   selector: 'app-waiting-room-to-car-cat-a-mod2',
   templateUrl: './waiting-room-to-car.cat-a-mod2.page.html',
@@ -37,7 +33,7 @@ type WaitingRoomToCarPageState = CommonWaitingRoomToCarPageState & CatMod2Waitin
   standalone: false,
 })
 export class WaitingRoomToCarCatAMod2Page extends WaitingRoomToCarBasePageComponent implements OnInit {
-  pageState: WaitingRoomToCarPageState;
+  pageState: CatMod2WaitingRoomToCarPageState;
   form: UntypedFormGroup;
   submitClicked: boolean;
 
@@ -52,7 +48,6 @@ export class WaitingRoomToCarCatAMod2Page extends WaitingRoomToCarBasePageCompon
     const currentTest$ = this.store$.pipe(select(getTests), select(getCurrentTest));
 
     this.pageState = {
-      ...this.commonPageState,
       schoolBike$: currentTest$.pipe(select(getVehicleDetails), select(getSchoolBike)),
       safetyAndBalanceQuestionsScore$: currentTest$.pipe(
         select(getTestData),
@@ -95,4 +90,6 @@ export class WaitingRoomToCarCatAMod2Page extends WaitingRoomToCarBasePageCompon
     this.form.get('eyesightCtrl')?.reset();
     this.store$.dispatch(EyesightTestReset());
   };
+
+  protected readonly BikeTestType = BikeTestType;
 }

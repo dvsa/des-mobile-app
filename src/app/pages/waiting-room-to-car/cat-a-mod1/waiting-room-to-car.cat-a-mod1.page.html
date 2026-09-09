@@ -9,7 +9,7 @@
     mode="ios">
     <test-flow-header
       class="display-flex flex-direction-column"
-      [testCategory]="pageState.category$ | async"
+      [testCategory]="category()"
       [pageName]="'waiting-room-to-car-page-a-mod1'"
       [shouldShowEscapeFromSamButton]="!isRekey && !isDelegated"
       [isPracticeMode]="isEndToEndPracticeMode"
@@ -20,14 +20,14 @@
       (setupResumeSubscription)="setupEscapeSAMResumeSubscription()"
       (onExitSAMActivatedChanged)="isSamActivatedChanged($event)"
       (endTestButtonClicked)="abortMOTCall(MOTAbortedMethod.END_TEST)">
-      {{ pageState.candidateName$ | async }}
+      {{ candidateName() }}
     </test-flow-header>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [class.hidden]="failedMOTModalCurrentlyOpen" forceOverscroll="false">
+<ion-content [class.hidden]="failedMOTModalCurrentlyOpen" [forceOverscroll]="false">
   @if (!isEndToEndPracticeMode) {
-    <offline-banner [isOffline]="pageState.isOffline$ | async"></offline-banner>
+    <offline-banner [isOffline]="isOffline()"></offline-banner>
   }
   <div>
     <form (ngSubmit)="onSubmit()" [formGroup]="form">
@@ -37,8 +37,8 @@
             <bike-category-type
               (categoryCodeChange)="categoryCodeChanged($event)"
               [formGroup]="form"
-              [testCategory]="pageState.category$ | async"
-              testType="MOD1"
+              [testCategory]="category()"
+              [testType]="BikeTestType.MOD1"
             >
             </bike-category-type>
 
@@ -47,7 +47,7 @@
               [formGroup]="form"
               [hideConfirmTransmissionLabel]="false"
               [hideTransmissionLabel]="true"
-              [transmission]="pageState.transmission$ | async"
+              [transmission]="transmission()"
             >
             </transmission>
 
@@ -65,30 +65,30 @@
               (motSearchingStatusChange)="motSearchingStatusChanged($event)"
               [formGroup]="form"
               [isPracticeMode]="isEndToEndPracticeMode"
-              [vehicleRegistration]="pageState.registrationNumber$ | async"
+              [vehicleRegistration]="registrationNumber()"
               [shouldHideMOTButton]="isRekey"
               [abortSubject]="abortSubject"
             >
             </vehicle-registration>
 
-            @if ((pageState.motEvidenceProvided$ | async) === false) {
+            @if (motEvidenceProvided() === false) {
               <ion-row>
                 <mot-no-evidence-confirmation [cancelFn]="motNoEvidenceCancelled" [nextPageOnFail]="getDebriefPage()">
                 </mot-no-evidence-confirmation>
               </ion-row>
             }
 
-            <div [hidden]="(pageState.motEvidenceProvided$ | async) === false" class="ion-no-padding">
+            <div [hidden]="motEvidenceProvided() === false" class="ion-no-padding">
               <accompaniment-card
                 (instructorAccompanimentChange)="instructorAccompanimentToggled()"
                 (interpreterAccompanimentChange)="interpreterAccompanimentToggled()"
                 (otherAccompanimentChange)="otherAccompanimentToggled()"
                 (supervisorAccompanimentChange)="supervisorAccompanimentToggled()"
                 [formGroup]="form"
-                [instructorAccompaniment]="pageState.instructorAccompaniment$ | async"
-                [interpreterAccompaniment]="pageState.interpreterAccompaniment$ | async"
-                [otherAccompaniment]="pageState.otherAccompaniment$ | async"
-                [supervisorAccompaniment]="pageState.supervisorAccompaniment$ | async"
+                [instructorAccompaniment]="instructorAccompaniment()"
+                [interpreterAccompaniment]="interpreterAccompaniment()"
+                [otherAccompaniment]="otherAccompaniment()"
+                [supervisorAccompaniment]="supervisorAccompaniment()"
               >
               </accompaniment-card>
 
@@ -110,7 +110,7 @@
 
 <ion-footer [class.hidden]="failedMOTModalCurrentlyOpen">
   <ion-row
-    [hidden]="(pageState.eyesightTestFailed$ | async) || (pageState.motEvidenceProvided$ | async) === false"
+    [hidden]="eyesightTestFailed() || motEvidenceProvided() === false"
     class="mes-full-width-card box-shadow flex-center">
     <ion-col class="ion-text-center width-100" size="43">
       <ion-button

@@ -6,6 +6,7 @@ import { ActivityCode, SearchResultTestSchema } from '@dvsa/mes-search-schema';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { ModalController, ViewDidEnter } from '@ionic/angular';
 import { Store } from '@ngrx/store';
+import { Details } from '@pages/candidate-details/candidate-details.page.model';
 import { AccessibilityService } from '@providers/accessibility/accessibility.service';
 import { SlotProvider } from '@providers/slot/slot';
 import { getFormattedApplicationReference } from '@shared/helpers/formatters';
@@ -22,22 +23,9 @@ import {
   isCategoryEntitlementChecked,
 } from '@store/candidate-details/candidate-details.selector';
 import * as journalActions from '@store/journal/journal.actions';
-import { getCandidateName } from '@store/tests/journal-data/common/candidate/candidate.selector';
+import { formatCandidateName } from '@store/tests/journal-data/common/candidate/candidate.selector';
 import { TestStatus } from '@store/tests/test-status/test-status.model';
 import { Subject } from 'rxjs';
-import { Details } from './candidate-details.page.model';
-
-interface CandidateDetailsPageState {
-  name: string;
-  time: string;
-  details: Details;
-  business: Business;
-  candidateEntitlementCheck: boolean;
-  categoryEntitlementCheck: boolean;
-  categoryEntitlementCheckText: string;
-  fitMarker: boolean;
-  fitCaseNumber: string;
-}
 
 @Component({
   selector: 'app-candidate-details',
@@ -57,8 +45,17 @@ export class CandidateDetailsPage implements OnInit, OnDestroy, ViewDidEnter {
   @Input()
   public isPracticeMode: boolean;
 
-  pageState: CandidateDetailsPageState;
+  name: string;
+  time: string;
+  details: Details;
+  business: Business;
+  candidateEntitlementCheck: boolean;
+  categoryEntitlementCheck: boolean;
+  categoryEntitlementCheckText: string;
+  fitMarker: boolean;
+  fitCaseNumber: string;
   testCategory: TestCategory = null;
+
   idPrefix = 'candidate-details';
   prevSlot: TestSlot;
   nextSlot: TestSlot;
@@ -95,19 +92,17 @@ export class CandidateDetailsPage implements OnInit, OnDestroy, ViewDidEnter {
       this.store$.dispatch(journalActions.ClearChangedSlot(this.slot.slotDetail.slotId));
     });
 
-    this.pageState = {
-      name: getCandidateName(this.slot.booking.candidate),
-      time: getTime(this.slot),
-      details: getDetails(this.slot),
-      business: getBusiness(this.slot),
-      candidateEntitlementCheck: isCandidateCheckNeeded(this.slot),
-      categoryEntitlementCheck: isCategoryEntitlementChecked(this.slot),
-      categoryEntitlementCheckText: getCategoryEntitlementCheckText(this.slot),
-      fitMarker: getFitMarker(this.slot),
-      fitCaseNumber: getFitCaseNumber(this.slot),
-    };
+    this.name = formatCandidateName(this.slot.booking.candidate.candidateName, false);
+    this.time = getTime(this.slot);
+    this.details = getDetails(this.slot);
+    this.business = getBusiness(this.slot);
+    this.candidateEntitlementCheck = isCandidateCheckNeeded(this.slot);
+    this.categoryEntitlementCheck = isCategoryEntitlementChecked(this.slot);
+    this.categoryEntitlementCheckText = getCategoryEntitlementCheckText(this.slot);
+    this.fitMarker = getFitMarker(this.slot);
+    this.fitCaseNumber = getFitCaseNumber(this.slot);
 
-    this.testCategory = this.pageState.details.testCategory as TestCategory;
+    this.testCategory = this.details.testCategory as TestCategory;
 
     if (this.slotChanged) {
       this.store$.dispatch(

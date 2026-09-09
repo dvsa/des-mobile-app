@@ -10,7 +10,6 @@ import { PlatformMock, RouterMock } from '@mocks/index.mock';
 import { Store } from '@ngrx/store';
 import { provideMockStore } from '@ngrx/store/testing';
 import { MockComponent } from 'ng-mocks';
-import { of } from 'rxjs';
 
 import { EndTestLinkComponent } from '@components/common/end-test-link/end-test-link';
 import { PracticeModeOptionsBar } from '@components/common/practice-mode-options-bar/practice-mode-options-bar';
@@ -216,7 +215,6 @@ describe('WaitingRoomToCarCatBPage', () => {
       // eslint-disable-next-line max-len
       it('should show the rest of the form and not render eyesight failure confirmation when page state indicates pass is selected', () => {
         fixture.detectChanges();
-        component.pageState.eyesightTestComplete$ = of(true);
         fixture.detectChanges();
         const eyesightFailureConfirmation = fixture.debugElement.query(By.css('eyesight-failure-confirmation'));
         const formAfterEyesight = fixture.debugElement.query(By.css('#post-eyesight-form-content'));

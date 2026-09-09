@@ -171,12 +171,8 @@ describe('CandidateLicencePage', () => {
       it('should resolve state variables', () => {
         component.ngOnInit();
 
-        component.pageState.testCategory$.subscribe((val) => {
-          expect(val).toEqual(TestCategory.B);
-        });
-        component.pageState.age$.subscribe((val) => {
-          expect(val).toEqual(new DateTime().diff('2000-01-01', Duration.YEAR));
-        });
+        expect(component.testCategory()).toEqual(TestCategory.B);
+        expect(component.age()).toEqual(new DateTime().diff('2000-01-01', Duration.YEAR));
       });
     });
     describe('trueLikenessToPhotoChanged', () => {
