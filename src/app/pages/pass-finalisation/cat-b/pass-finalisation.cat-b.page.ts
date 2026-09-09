@@ -29,10 +29,7 @@ import {
   PassFinalisationValidationError,
   PassFinalisationViewDidEnter,
 } from '@pages/pass-finalisation/pass-finalisation.actions';
-import {
-  CommonPassFinalisationPageState,
-  PassFinalisationPageComponent,
-} from '@shared/classes/test-flow-base-pages/pass-finalisation/pass-finalisation-base-page';
+import { PassFinalisationPageComponent } from '@shared/classes/test-flow-base-pages/pass-finalisation/pass-finalisation-base-page';
 import { ProvisionalLicenseNotReceived } from '@store/tests/pass-completion/pass-completion.actions';
 import { PersistTests } from '@store/tests/tests.actions';
 import { getTests } from '@store/tests/tests.reducer';
@@ -46,13 +43,6 @@ import { LicenceProvidedWarningBannerComponent } from '../components/licence-pro
 import { LicenseProvidedComponent } from '../components/license-provided/license-provided';
 import { PassCertificateNumberComponent } from '../components/pass-certificate-number/pass-certificate-number';
 import { PASS_CERTIFICATE_NUMBER_CTRL } from '../components/pass-certificate-number/pass-certificate-number.constants';
-
-interface PassFinalisationCatBPageState {
-  transmissionAutomaticRadioChecked$: Observable<boolean>;
-  transmissionManualRadioChecked$: Observable<boolean>;
-}
-
-type PassFinalisationPageState = CommonPassFinalisationPageState & PassFinalisationCatBPageState;
 
 @Component({
   selector: 'app-pass-finalisation-cat-b-page',
@@ -87,13 +77,13 @@ type PassFinalisationPageState = CommonPassFinalisationPageState & PassFinalisat
   ],
 })
 export class PassFinalisationCatBPage extends PassFinalisationPageComponent implements OnInit {
-  pageState: PassFinalisationPageState;
-  @ViewChild('passCertificateNumberInput') passCertificateNumberInput: ElementRef;
   activityCode: ActivityCode;
   form: UntypedFormGroup;
-  merged$: Observable<string>;
-  transmission: GearboxCategory;
-  candidateDriverNumber: string;
+  candidateDriverNumberValue: string;
+
+  transmissionAutomaticRadioChecked = computed(() => this.transmissionSignal() === 'Automatic');
+  transmissionManualRadioChecked = computed(() => this.transmissionSignal() === 'Manual');
+
   niMessage: string =
     'This candidate holds a Northern Irish licence and must retain it. Do not collect ' + 'it from the candidate.';
 
@@ -101,49 +91,37 @@ export class PassFinalisationCatBPage extends PassFinalisationPageComponent impl
     super();
     this.form = new UntypedFormGroup({});
     this.outcomeBehaviourProvider.setBehaviourMap(behaviourMap);
+
+    effect(() => {
+      this.activityCode = this.testOutcomeCode();
+    });
+
+    effect(() => {
+      this.candidateDriverNumberValue = this.candidateDriverNumber();
+    });
+
+    effect(() => {
+      if (this.transmissionAutomaticRadioChecked()) {
+        this.form.controls.transmissionCtrl?.setValue('Automatic');
+      }
+
+      if (this.transmissionManualRadioChecked()) {
+        this.form.controls.transmissionCtrl?.setValue('Manual');
+      }
+    });
   }
 
   ngOnInit(): void {
     super.onInitialisation();
-    const currentTest$ = this.store$.pipe(select(getTests), select(getCurrentTest));
-
-    this.pageState = {
-      ...this.commonPageState,
-      transmissionAutomaticRadioChecked$: currentTest$.pipe(
-        select(getVehicleDetails),
-        map(isAutomatic),
-        tap((val) => {
-          if (val) this.form.controls.transmissionCtrl.setValue('Automatic');
-        })
-      ),
-      transmissionManualRadioChecked$: currentTest$.pipe(
-        select(getVehicleDetails),
-        map(isManual),
-        tap((val) => {
-          if (val) this.form.controls.transmissionCtrl.setValue('Manual');
-        })
-      ),
-    };
-    const { transmission$, candidateDriverNumber$, testOutcome$ } = this.pageState;
-
-    this.merged$ = merge(
-      transmission$.pipe(map((value) => (this.transmission = value))),
-      candidateDriverNumber$.pipe(map((value) => (this.candidateDriverNumber = value))),
-      testOutcome$.pipe(map((value) => (this.activityCode = value)))
-    );
-    this.subscription = this.merged$.subscribe();
   }
 
   ionViewDidEnter(): void {
     this.store$.dispatch(PassFinalisationViewDidEnter());
-    if (this.subscription.closed && this.merged$) {
-      this.subscription = this.merged$.subscribe();
-    }
   }
 
   async onSubmit() {
     Object.keys(this.form.controls).forEach((controlName) => this.form.controls[controlName].markAsDirty());
-    if (this.isNorthernIreland(this.candidateDriverNumber)) {
+    if (this.isNorthernIreland(this.candidateDriverNumberValue)) {
       this.store$.dispatch(ProvisionalLicenseNotReceived());
     }
     if (this.form.valid) {
