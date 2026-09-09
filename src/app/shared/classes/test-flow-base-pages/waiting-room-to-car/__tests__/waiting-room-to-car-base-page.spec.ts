@@ -1,4 +1,3 @@
-import { Injector } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TestResultSchemasUnion } from '@dvsa/mes-test-schema/categories';
@@ -72,7 +71,6 @@ import { WaitingRoomToCarBasePageComponent } from '../waiting-room-to-car-base-p
 describe('WaitingRoomToCarBasePageComponent', () => {
   let router: Router;
   let store$: Store<StoreModel>;
-  let injector: Injector;
 
   let basePageComponent: WaitingRoomToCarBasePageComponent;
   const initialState = {
@@ -160,7 +158,7 @@ describe('WaitingRoomToCarBasePageComponent', () => {
 
     router = TestBed.inject(Router);
     store$ = TestBed.inject(MockStore);
-    injector = TestBed.inject(Injector);
+    basePageComponent = TestBed.runInInjectionContext(() => new WaitingRoomToCarBasePageComponentStub());
 
     vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
   });
@@ -168,35 +166,19 @@ describe('WaitingRoomToCarBasePageComponent', () => {
   describe('onInitialisation', () => {
     it('should resolve state variables', () => {
       basePageComponent.onInitialisation();
-      basePageComponent.commonPageState.candidateName$
-        .pipe(take(1))
-        .subscribe((res) => expect(res).toEqual('Marge Simpson'));
-      basePageComponent.commonPageState.registrationNumber$
-        .pipe(take(1))
-        .subscribe((res) => expect(res).toEqual('ABC123'));
-      basePageComponent.commonPageState.transmission$.pipe(take(1)).subscribe((res) => expect(res).toEqual('Manual'));
-      basePageComponent.commonPageState.category$.pipe(take(1)).subscribe((res) => expect(res).toEqual(TestCategory.B));
-      basePageComponent.commonPageState.showEyesight$.pipe(take(1)).subscribe((res) => expect(res).toEqual(true));
-      basePageComponent.commonPageState.eyesightTestComplete$
-        .pipe(take(1))
-        .subscribe((res) => expect(res).toEqual(true));
-      basePageComponent.commonPageState.eyesightTestFailed$
-        .pipe(take(1))
-        .subscribe((res) => expect(res).toEqual(false));
-      basePageComponent.commonPageState.schoolCar$.pipe(take(1)).subscribe((res) => expect(res).toEqual(true));
-      basePageComponent.commonPageState.dualControls$.pipe(take(1)).subscribe((res) => expect(res).toEqual(true));
-      basePageComponent.commonPageState.instructorAccompaniment$
-        .pipe(take(1))
-        .subscribe((res) => expect(res).toEqual(false));
-      basePageComponent.commonPageState.supervisorAccompaniment$
-        .pipe(take(1))
-        .subscribe((res) => expect(res).toEqual(true));
-      basePageComponent.commonPageState.otherAccompaniment$
-        .pipe(take(1))
-        .subscribe((res) => expect(res).toEqual(false));
-      basePageComponent.commonPageState.interpreterAccompaniment$
-        .pipe(take(1))
-        .subscribe((res) => expect(res).toEqual(true));
+      expect(basePageComponent.candidateName()).toEqual('Marge Simpson');
+      expect(basePageComponent.registrationNumber()).toEqual('ABC123');
+      expect(basePageComponent.transmission()).toEqual('Manual');
+      expect(basePageComponent.category()).toEqual(TestCategory.B);
+      expect(basePageComponent.showEyesight()).toEqual(true);
+      expect(basePageComponent.eyesightTestComplete()).toEqual(true);
+      expect(basePageComponent.eyesightTestFailed()).toEqual(false);
+      expect(basePageComponent.schoolCar()).toEqual(true);
+      expect(basePageComponent.dualControls()).toEqual(true);
+      expect(basePageComponent.instructorAccompaniment()).toEqual(false);
+      expect(basePageComponent.supervisorAccompaniment()).toEqual(true);
+      expect(basePageComponent.otherAccompaniment()).toEqual(false);
+      expect(basePageComponent.interpreterAccompaniment()).toEqual(true);
     });
   });
   describe('ionViewDidEnter', () => {

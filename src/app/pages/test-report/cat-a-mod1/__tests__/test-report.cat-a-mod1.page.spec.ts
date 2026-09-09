@@ -35,7 +35,6 @@ import { competencyLabels } from '@shared/constants/competencies/competencies';
 import { StoreModel } from '@shared/models/store.model';
 import { candidateMock } from '@store/tests/__mocks__/tests.mock';
 import { initialState } from '@store/tests/test-data/cat-b/test-data.reducer';
-import { Subscription } from 'rxjs';
 import { CompetencyButtonComponent } from '../../components/competency-button/competency-button';
 import { CompetencyComponent } from '../../components/competency/competency';
 import { DrivingFaultSummaryComponent } from '../../components/driving-fault-summary/driving-fault-summary';

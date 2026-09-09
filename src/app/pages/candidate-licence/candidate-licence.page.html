@@ -9,7 +9,7 @@
     mode="ios">
     <test-flow-header
       class="display-flex flex-direction-column"
-      [testCategory]="pageState.testCategory$ | async"
+      [testCategory]="testCategory()"
       [shouldShowEscapeFromSamButton]="!isRekey && !isDelegated"
       [pageName]="'candidate-licence-page'"
       [isPracticeMode]="isEndToEndPracticeMode"
@@ -18,7 +18,7 @@
       (setupLeaveSubscription)="setupEscapeSAMLeaveSubscription()"
       (setupResumeSubscription)="setupEscapeSAMResumeSubscription()"
       (onExitSAMActivatedChanged)="isSamActivatedChanged($event)">
-      DVLA licence information - {{ pageState.candidateUntitledName$ | async }}
+      DVLA licence information - {{ candidateUntitledName() }}
     </test-flow-header>
   </ion-toolbar>
 </ion-header>
@@ -26,12 +26,12 @@
 <ion-content>
   <offline-banner [isOffline]="!!offlineError"></offline-banner>
 
-  @if ({ candidateLicence: pageState.candidateData$ | async }; as data) {
+  @if ({ candidateLicence: candidateData$ | async }; as data) {
     <ion-grid>
       <inappropriate-use-banner></inappropriate-use-banner>
       <licence-photo
         [hasError]="hasErrored"
-        [imageSrc]="getImage(data.candidateLicence?.driverPhotograph, pageState.driverPhotograph$ | async)"
+        [imageSrc]="getImage(data.candidateLicence?.driverPhotograph, driverPhotograph())"
         >
       </licence-photo>
       @if (!isPracticeMode && hasErrored) {
@@ -47,15 +47,15 @@
         [colSize]="'37'"
         (trueLikenessChange)="trueLikenessToPhotoChanged($event)"
         [formGroup]="formGroup"
-        [trueLikeness]="pageState.trueLikenessToPhoto$ | async"
+        [trueLikeness]="trueLikenessToPhoto()"
         >
       </true-likeness>
       <!-- Decide if candidateDataError should hide the DVLA card or show a card for TARS/booking data -->
       <licence-information
-        [bookingAge]="pageState.age$ | async"
-        [bookingDriverNumber]="pageState.candidateDriverNumber$ | async"
-        [bookingGender]="pageState.genderDescription$ | async"
-        [bookingName]="pageState.candidateUntitledName$ | async"
+        [bookingAge]="age()"
+        [bookingDriverNumber]="candidateDriverNumber()"
+        [bookingGender]="genderDescription()"
+        [bookingName]="candidateUntitledName()"
         [candidateData]="data.candidateLicence"
         [isPracticeMode]="isPracticeMode"
         >

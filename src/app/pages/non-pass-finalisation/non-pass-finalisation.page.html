@@ -18,19 +18,19 @@
       (setupLeaveSubscription)="setupEscapeSAMLeaveSubscription()"
       (setupResumeSubscription)="setupEscapeSAMResumeSubscription()"
       (onExitSAMActivatedChanged)="isSamActivatedChanged($event)">
-      Finalise outcome - {{ pageState.candidateUntitledName$ | async }}
+      Finalise outcome - {{ candidateUntitledName() }}
     </test-flow-header>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
   <finalisation-header
-    [candidateName]="pageState.candidateName$ | async"
-    [candidateDriverNumber]="pageState.candidateDriverNumber$ | async"
-    [candidatePrnNumber]="pageState.prn$ | async"
-    [isStandardsCheck]="pageState.isStandardsCheck$ | async"
-    [outcomeText]="pageState.testOutcomeText$ | async"
-    [grade]="pageState.testOutcomeGrade$ | async"
+    [candidateName]="candidateName()"
+    [candidateDriverNumber]="candidateDriverNumber()"
+    [candidatePrnNumber]="prn()"
+    [isStandardsCheck]="isStandardsCheck()"
+    [outcomeText]="testOutcomeText()"
+    [grade]="testOutcomeGrade()"
     >
   </finalisation-header>
 
@@ -39,28 +39,28 @@
       <activity-code
         id="activity-code-card"
         [formGroup]="form"
-        [activityCodeModel]="pageState.activityCode$ | async"
+        [activityCodeModel]="activityCodeState()"
         [activityCodeOptions]="activityCodeOptions"
-        [isAdi3]="pageState.showADI3Field$ | async"
+        [isAdi3]="showADI3Field()"
         (activityCodeChange)="activityCodeChanged($event)"
-        [disabled]="!!(pageState.immediateDanger$ | async)"
+        [disabled]="!!immediateDanger()"
         >
       </activity-code>
 
-      <div class="ion-no-padding" [hidden]="!(pageState.isTestOutcomeSet$ | async)">
+      <div class="ion-no-padding" [hidden]="!isTestOutcomeSet()">
         @if (showD255()) {
           <d255
-            [display]="pageState.displayD255$ | async"
-            [d255]="pageState.d255$ | async"
-            [eyesightTestFailed]="pageState.eyesightTestFailed$ | async"
-            [outcome]="pageState.testOutcome$ | async"
+            [display]="displayD255()"
+            [d255]="d255()"
+            [eyesightTestFailed]="eyesightTestFailed()"
+            [outcome]="testOutcome()"
             [formGroup]="form"
             (d255Change)="d255Changed($event)"
             >
           </d255>
         }
 
-        @if (pageState.d255$ | async) {
+        @if (d255()) {
           <warning-banner
             warningText="DVLA will not process the result until a D255 is received."
             >
@@ -70,22 +70,22 @@
         @if (showLanguage()) {
           <language-preferences
             [formGroup]="form"
-            [isWelsh]="pageState.isWelshTest$ | async"
+            [isWelsh]="isWelshTest()"
             (welshChanged)="isWelshChanged($event)"
             >
           </language-preferences>
         }
 
         <debrief-witnessed
-          [display]="pageState.displayDebriefWitnessed$ | async"
+          [display]="displayDebriefWitnessed()"
           [formGroup]="form"
-          [debriefWitnessed]="pageState.debriefWitnessed$ | async"
-          [outcome]="pageState.testOutcome$ | async"
+          [debriefWitnessed]="debriefWitnessed()"
+          [outcome]="testOutcome()"
           (debriefWitnessedChange)="debriefWitnessedChanged($event)"
           >
         </debrief-witnessed>
 
-        @if (pageState.showADIWarning$ | async) {
+        @if (showADIWarning()) {
           <warning-banner
             warningText="Advise PDI to seek further development from an ORDIT trainer"
             >
@@ -93,35 +93,35 @@
         }
 
         <further-development
-          [display]="pageState.displayFurtherDevelopment$ | async"
+          [display]="displayFurtherDevelopment()"
           [formGroup]="form"
-          [outcome]="pageState.testOutcome$ | async"
-          [furtherDevelopment]="pageState.furtherDevelopment$ | async"
+          [outcome]="testOutcome()"
+          [furtherDevelopment]="furtherDevelopment()"
           (furtherDevelopmentChange)="furtherDevelopmentChanged($event)"
           >
         </further-development>
 
-        @if ((pageState.displayFurtherDevelopment$ | async) && ((pageState.furtherDevelopment$ | async) !== false)) {
+        @if (displayFurtherDevelopment() && (furtherDevelopment() !== false)) {
           <div
             class="mes-row-separator padding-top-10"
           ></div>
         }
 
         <reason-given
-          [display]="pageState.displayAdviceReasonGiven$ | async"
-          [outcome]="pageState.testOutcome$ | async"
+          [display]="displayAdviceReasonGiven()"
+          [outcome]="testOutcome()"
           [formGroup]="form"
-          [furtherDevelopment]="pageState.furtherDevelopment$ | async"
-          [reasonGivenText]="pageState.adviceReason$ | async"
+          [furtherDevelopment]="furtherDevelopment()"
+          [reasonGivenText]="adviceReason()"
           (adviceReason)="adviceReasonChanged($event)"
           >
         </reason-given>
 
-        @if (pageState.isStandardsCheck$ | async) {
+        @if (isStandardsCheck()) {
           <test-start-end-times
             [formGroup]="form"
-            [startTime]="pageState.testStartTime$ | async"
-            [endTime]="pageState.testEndTime$ | async"
+            [startTime]="testStartTime()"
+            [endTime]="testEndTime()"
             (testStartTimeChange)="testStartTimeChanged($event)"
             (testEndTimeChange)="testEndTimeChanged($event)"
             >

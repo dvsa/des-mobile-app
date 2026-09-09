@@ -24,10 +24,7 @@ import {
 import { ClearCandidateLicenceData } from '@pages/candidate-licence/candidate-licence.actions';
 import { TestFlowPageNames } from '@pages/page-names.constants';
 import { WaitingRoomToCarValidationError } from '@pages/waiting-room-to-car/waiting-room-to-car.actions';
-import {
-  CommonWaitingRoomToCarPageState,
-  WaitingRoomToCarBasePageComponent,
-} from '@shared/classes/test-flow-base-pages/waiting-room-to-car/waiting-room-to-car-base-page';
+import { WaitingRoomToCarBasePageComponent } from '@shared/classes/test-flow-base-pages/waiting-room-to-car/waiting-room-to-car-base-page';
 import { VehicleChecksScore } from '@shared/models/vehicle-checks-score.model';
 import { getTestData } from '@store/tests/test-data/cat-adi-part2/test-data.cat-adi-part2.reducer';
 import { getVehicleChecksCatADIPart2 } from '@store/tests/test-data/cat-adi-part2/test-data.cat-adi-part2.selector';
@@ -58,8 +55,6 @@ interface CatAdi2WaitingRoomToCarPageState {
   vehicleChecks$: Observable<CatADI2UniqueTypes.VehicleChecks>;
   vehicleChecksScore$: Observable<VehicleChecksScore>;
 }
-
-type WaitingRoomToCarPageState = CommonWaitingRoomToCarPageState & CatAdi2WaitingRoomToCarPageState;
 
 @Component({
   selector: 'app-waiting-room-to-car-cat-adi-part2',
@@ -96,7 +91,7 @@ type WaitingRoomToCarPageState = CommonWaitingRoomToCarPageState & CatAdi2Waitin
   ],
 })
 export class WaitingRoomToCarCatADIPart2Page extends WaitingRoomToCarBasePageComponent implements OnInit {
-  pageState: WaitingRoomToCarPageState;
+  pageState: CatAdi2WaitingRoomToCarPageState;
   form: UntypedFormGroup;
   submitClicked: boolean;
 
@@ -111,7 +106,6 @@ export class WaitingRoomToCarCatADIPart2Page extends WaitingRoomToCarBasePageCom
     const currentTest$ = this.store$.pipe(select(getTests), select(getCurrentTest));
 
     this.pageState = {
-      ...this.commonPageState,
       orditTrained$: currentTest$.pipe(select(getTrainerDetails), select(getOrditTrained)),
       trainerRegistrationNumber$: currentTest$.pipe(select(getTrainerDetails), select(getTrainerRegistrationNumber)),
       vehicleChecks$: currentTest$.pipe(select(getTestData), select(getVehicleChecksCatADIPart2)),

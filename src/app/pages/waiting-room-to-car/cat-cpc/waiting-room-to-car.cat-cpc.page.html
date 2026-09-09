@@ -9,7 +9,7 @@
     mode="ios">
     <test-flow-header
       class="display-flex flex-direction-column"
-      [testCategory]="pageState.category$ | async"
+      [testCategory]="category()"
       [isDelegatedRekey]="isDelegated"
       [pageName]="'waiting-room-to-car-page-cat-cpc'"
       [shouldShowEscapeFromSamButton]="!isRekey && !isDelegated"
@@ -21,14 +21,14 @@
       (setupResumeSubscription)="setupEscapeSAMResumeSubscription()"
       (onExitSAMActivatedChanged)="isSamActivatedChanged($event)"
       (endTestButtonClicked)="abortMOTCall(MOTAbortedMethod.END_TEST)">
-      {{ pageState.candidateName$ | async }}
+      {{ candidateName() }}
     </test-flow-header>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [class.hidden]="failedMOTModalCurrentlyOpen" force-overscroll="false">
   @if (!isEndToEndPracticeMode) {
-    <offline-banner [isOffline]="pageState.isOffline$ | async"></offline-banner>
+    <offline-banner [isOffline]="isOffline()"></offline-banner>
   }
   <div>
     <form (ngSubmit)="onSubmit()" [formGroup]="form">
@@ -58,19 +58,19 @@
               (motSearchingStatusChange)="motSearchingStatusChanged($event)"
               [formGroup]="form"
               [isPracticeMode]="isEndToEndPracticeMode"
-              [vehicleRegistration]="pageState.registrationNumber$ | async"
+              [vehicleRegistration]="registrationNumber()"
               [shouldHideMOTButton]="true"
               [abortSubject]="abortSubject"
             >
             </vehicle-registration>
-            @if ((pageState.motEvidenceProvided$ | async) === false) {
+            @if (motEvidenceProvided() === false) {
               <ion-row>
                 <mot-no-evidence-confirmation [cancelFn]="motNoEvidenceCancelled" [nextPageOnFail]="getDebriefPage()">
                 </mot-no-evidence-confirmation>
               </ion-row>
             }
 
-            <div [hidden]="(pageState.motEvidenceProvided$ | async) === false" class="ion-no-padding">
+            <div [hidden]="motEvidenceProvided() === false" class="ion-no-padding">
 
               @if (showVehicleDetails() && !isDelegated) {
                 <vehicle-details-cat-cpc
@@ -93,8 +93,8 @@
                 (interpreterAccompanimentChange)="interpreterAccompanimentToggledCPC()"
                 (supervisorAccompanimentChange)="supervisorAccompanimentToggledCPC()"
                 [formGroup]="form"
-                [interpreterAccompaniment]="pageState.interpreterAccompaniment$ | async"
-                [supervisorAccompaniment]="pageState.supervisorAccompaniment$ | async"
+                [interpreterAccompaniment]="interpreterAccompaniment()"
+                [supervisorAccompaniment]="supervisorAccompaniment()"
               >
               </accompaniment-card-cat-cpc>
             </div>
@@ -107,7 +107,7 @@
 
 <ion-footer [class.hidden]="failedMOTModalCurrentlyOpen">
   <ion-row
-    [hidden]="(pageState.motEvidenceProvided$ | async) === false"
+    [hidden]="motEvidenceProvided() === false"
     class="mes-full-width-card box-shadow flex-center">
     @if (!isDelegated) {
       <ion-col class="ion-text-center" size="43">

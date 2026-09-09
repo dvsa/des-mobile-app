@@ -1,6 +1,7 @@
 import { TestSummary } from '@dvsa/mes-test-schema/categories/CPC';
-import { createFeatureSelector, createReducer, on } from '@ngrx/store';
+import { createFeatureSelector, createReducer, createSelector, on } from '@ngrx/store';
 import * as testSummaryActions from '@store/tests/test-summary/test-summary.actions';
+import { selectCurrentTest } from '@store/tests/tests.selector';
 import * as fromTestSummaryActions from '../test-summary.actions';
 import * as fromCPCTestSummaryActions from './test-summary.cat-cpc.actions';
 
@@ -68,3 +69,4 @@ export const testSummaryCPCReducer = createReducer(
 );
 
 export const getTestSummary = createFeatureSelector<TestSummary>('testSummary');
+export const selectTestSummary = createSelector(selectCurrentTest, ({ testSummary }) => testSummary);

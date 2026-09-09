@@ -20,7 +20,6 @@ import { SetTestStatusWriteUp } from '@store/tests/test-status/test-status.actio
 import { PersistTests } from '@store/tests/tests.actions';
 import { TestOutcome } from '@store/tests/tests.constants';
 import { Observable, Subscription } from 'rxjs';
-
 import { TestFlowPageNames } from '../../page-names.constants';
 import { BackButtonClick, BackToDebrief, ConfirmTestDetailsViewDidEnter } from '../confirm-test-details.actions';
 import { ConfirmTestDetailsPage } from '../confirm-test-details.page';
@@ -92,7 +91,6 @@ describe('ConfirmTestDetailsPage', () => {
     modalController = TestBed.inject(ModalController);
     vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
     vi.spyOn(router, 'navigate');
-    component.subscription = new Subscription();
   });
 
   describe('ionViewDidEnter', () => {
@@ -179,11 +177,8 @@ describe('ConfirmTestDetailsPage', () => {
   });
 
   describe('ionViewWillEnter', () => {
-    it('should setup subscription if merged is present', () => {
-      component.merged$ = new Observable<string | boolean>();
-      component.ionViewWillEnter();
-
-      expect(component.subscription).toBeDefined();
+    it('should return true', () => {
+      expect(component.ionViewWillEnter()).toBeTrue();
     });
   });
 

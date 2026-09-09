@@ -35,7 +35,6 @@ import { StoreModel } from '@shared/models/store.model';
 import { SetActivityCode } from '@store/tests/activity-code/activity-code.actions';
 import { TestStatus } from '@store/tests/test-status/test-status.model';
 import { TestsModel } from '@store/tests/tests.model';
-import { Subscription } from 'rxjs';
 import { TestReportBasePageComponent } from '../test-report-base-page';
 
 describe('TestReportBasePageComponent', () => {
@@ -105,13 +104,6 @@ describe('TestReportBasePageComponent', () => {
     });
 
     injector = TestBed.inject(Injector);
-  });
-
-  describe('onInitialisation', () => {
-    it('should resolve state variables', () => {
-      basePageComponent.onInitialisation();
-      basePageComponent.commonPageState.candidateUntitledName$.subscribe((res) => expect(res).toEqual('Marge Simpson'));
-    });
   });
 
   describe('getTestRequirements', () => {

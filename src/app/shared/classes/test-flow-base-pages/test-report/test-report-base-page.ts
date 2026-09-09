@@ -1,6 +1,6 @@
 import { OrientationType, ScreenOrientation } from '@capawesome/capacitor-screen-orientation';
 import { ModalController } from '@ionic/angular';
-import { Subject, Subscription } from 'rxjs';
+import { Subject } from 'rxjs';
 
 import { selectUntitledCandidateName } from '@store/tests/journal-data/common/candidate/candidate.selector';
 
@@ -59,7 +59,6 @@ export abstract class TestReportBasePageComponent extends PracticeableBasePageCo
   protected testReportValidatorProvider = inject(TestReportValidatorProvider);
   routeByCategory = inject(RouteByCategoryProvider);
 
-  subscription: Subscription;
   competencies = Competencies;
   legalRequirements = LegalRequirements;
   eta = ExaminerActions;
@@ -68,7 +67,7 @@ export abstract class TestReportBasePageComponent extends PracticeableBasePageCo
   category = this.store$.selectSignal(selectTestCategory)();
   candidateUntitledName = this.store$.selectSignal(selectUntitledCandidateName)();
 
-  //Setup that the modes as signals so their value is updated live
+  //Setup the modes as signals so their value is updated live
   isRemoveFaultMode = this.store$.selectSignal(selectIsRemoveFaultMode);
   isSeriousMode = this.store$.selectSignal(selectIsSeriousMode);
   isDangerousMode = this.store$.selectSignal(selectIsDangerousMode);

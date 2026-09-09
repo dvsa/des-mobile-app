@@ -22,10 +22,7 @@ import {
 } from '@ionic/angular';
 import { TestFlowPageNames } from '@pages/page-names.constants';
 import { WaitingRoomToCarValidationError } from '@pages/waiting-room-to-car/waiting-room-to-car.actions';
-import {
-  CommonWaitingRoomToCarPageState,
-  WaitingRoomToCarBasePageComponent,
-} from '@shared/classes/test-flow-base-pages/waiting-room-to-car/waiting-room-to-car-base-page';
+import { WaitingRoomToCarBasePageComponent } from '@shared/classes/test-flow-base-pages/waiting-room-to-car/waiting-room-to-car-base-page';
 import { DateTime } from '@shared/helpers/date-time';
 import { TrainerAccompanimentToggled } from '@store/tests/accompaniment/cat-adi3/accompaniment.cat-adi3.actions';
 import { getAccompaniment } from '@store/tests/accompaniment/cat-adi3/accompaniment.cat-adi3.reducer';
@@ -70,8 +67,6 @@ interface CatAdi3WaitingRoomToCarPageState {
   trainerAccompaniment$: Observable<boolean>;
 }
 
-type WaitingRoomToCarPageState = CommonWaitingRoomToCarPageState & CatAdi3WaitingRoomToCarPageState;
-
 @Component({
   selector: 'app-waiting-room-to-car-cat-adi-part3',
   templateUrl: './waiting-room-to-car.cat-adi-part3.page.html',
@@ -105,7 +100,7 @@ type WaitingRoomToCarPageState = CommonWaitingRoomToCarPageState & CatAdi3Waitin
   ],
 })
 export class WaitingRoomToCarCatADIPart3Page extends WaitingRoomToCarBasePageComponent implements OnInit {
-  pageState: WaitingRoomToCarPageState;
+  pageState: CatAdi3WaitingRoomToCarPageState;
   form: UntypedFormGroup;
 
   constructor() {
@@ -119,7 +114,6 @@ export class WaitingRoomToCarCatADIPart3Page extends WaitingRoomToCarBasePageCom
     const currentTest$ = this.store$.pipe(select(getTests), select(getCurrentTest));
 
     this.pageState = {
-      ...this.commonPageState,
       orditTrained$: currentTest$.pipe(select(getTrainerDetails), select(getOrditTrained)),
       trainerRegistrationNumber$: currentTest$.pipe(select(getTrainerDetails), select(getTrainerRegistrationNumber)),
       pdiLogbook$: currentTest$.pipe(select(getTrainerDetails), select(getPDILogbook)),
