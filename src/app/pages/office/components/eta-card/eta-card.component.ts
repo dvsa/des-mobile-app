@@ -60,6 +60,13 @@ export class ETACardComponent {
     this.steeringETAChanged.emit();
   }
 
+  readonly etaTypeRequiredField = 'etaPhysicalTypeSelected';
+  etaTypeRequiredControl: UntypedFormControl;
+
+  get etaTypeInvalid(): boolean {
+    return !!this.etaTypeRequiredControl?.invalid && !!this.etaTypeRequiredControl?.dirty;
+  }
+
   ngOnChanges(): void {
     if (this.shouldShowDetailCheckboxes) {
       if (!this.formControl) {
@@ -80,6 +87,21 @@ export class ETACardComponent {
       this.formControl.updateValueAndValidity();
 
       this.formControl.patchValue(this.otherETAReason ?? '');
+
+      if (!this.etaTypeRequiredControl) {
+        this.etaTypeRequiredControl = new UntypedFormControl(false, Validators.requiredTrue);
+
+        if (this.formGroup.contains(this.etaTypeRequiredField)) {
+          this.formGroup.setControl(this.etaTypeRequiredField, this.etaTypeRequiredControl);
+        } else {
+          this.formGroup.addControl(this.etaTypeRequiredField, this.etaTypeRequiredControl);
+        }
+      }
+
+      const hasSelectedEtaType = !!(this.steeringETA || this.handbrakeETA || this.footbrakeETA || this.otherETA);
+
+      this.etaTypeRequiredControl.patchValue(hasSelectedEtaType, { emitEvent: false });
+      this.etaTypeRequiredControl.updateValueAndValidity({ emitEvent: false });
     }
   }
 
