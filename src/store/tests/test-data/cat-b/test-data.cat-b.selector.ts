@@ -1,9 +1,9 @@
 import { CatBUniqueTypes } from '@dvsa/mes-test-schema/categories/B';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
+import { QuestionProvider } from '@providers/question/question';
+import { VehicleChecksQuestion } from '@providers/question/vehicle-checks-question.model';
+import { CompetencyOutcome } from '@shared/models/competency-outcome';
 import { get } from 'lodash-es';
-import { QuestionProvider } from 'src/app/providers/question/question';
-import { VehicleChecksQuestion } from 'src/app/providers/question/vehicle-checks-question.model';
-import { CompetencyOutcome } from 'src/app/shared/models/competency-outcome';
 import { Competencies, LegalRequirements } from '../test-data.constants';
 
 export const getDrivingFaultCount = (data: CatBUniqueTypes.TestData, competency: Competencies) =>

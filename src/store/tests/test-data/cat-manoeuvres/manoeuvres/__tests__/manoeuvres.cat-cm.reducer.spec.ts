@@ -2,8 +2,8 @@ import { CatC1EMUniqueTypes } from '@dvsa/mes-test-schema/categories/C1EM';
 import { CatC1MUniqueTypes } from '@dvsa/mes-test-schema/categories/C1M';
 import { CatCEMUniqueTypes } from '@dvsa/mes-test-schema/categories/CEM';
 import { CatCMUniqueTypes } from '@dvsa/mes-test-schema/categories/CM';
+import { CompetencyOutcome } from '@shared/models/competency-outcome';
 import { manoeuvresCatManoeuvreReducer } from '@store/tests/test-data/cat-manoeuvres/manoeuvres/manoeuvres.cat-cm.reducer';
-import { CompetencyOutcome } from 'src/app/shared/models/competency-outcome';
 import {
   AddManoeuvreComment,
   AddManoeuvreDangerousFault,

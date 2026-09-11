@@ -1,4 +1,4 @@
-import { AfterContentInit, Component, ContentChildren, EventEmitter, Output, QueryList } from '@angular/core';
+import { AfterContentInit, Component, ContentChildren, EventEmitter, Input, Output, QueryList } from '@angular/core';
 
 import { transformStringForID } from '@shared/helpers/transform-string-for-id';
 import { TabComponent } from '../tab/tab';
@@ -13,27 +13,25 @@ export class TabsComponent implements AfterContentInit {
   @ContentChildren(TabComponent) tabs: QueryList<TabComponent>;
 
   @Output()
-  tabChanged = new EventEmitter<TabComponent>();
+  tabChanged = new EventEmitter<string>();
+
+  @Input() activeTab: string;
 
   protected readonly transformStringForID = transformStringForID;
 
   ngAfterContentInit(): void {
-    const activeTabs = this.tabs.filter((tab) => tab.active);
+    const activeTab = this.tabs.filter((tab) => tab.title === this.activeTab);
 
-    if (activeTabs.length === 0) {
+    console.log('activeTab', activeTab, this.activeTab);
+
+    if (!activeTab) {
       this.selectTab(this.tabs.first);
     }
+    console.log('activeTab', activeTab, this.activeTab);
   }
 
-  selectTab(selectedTab: TabComponent, emitEvent = false): void {
-    this.tabs.toArray().forEach((tab) => {
-      tab.active = false;
-    });
-
-    selectedTab.active = true;
-
-    if (emitEvent) {
-      this.tabChanged.emit(selectedTab);
-    }
+  selectTab(selectedTab: TabComponent): void {
+    this.activeTab = selectedTab.title;
+    this.tabChanged.emit(selectedTab.title);
   }
 }
