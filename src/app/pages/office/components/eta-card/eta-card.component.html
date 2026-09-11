@@ -1,15 +1,125 @@
-<ion-card id="ETA">
+<ion-card id="eta">
   <ion-card-content>
-    <ion-grid>
-      <ion-row>
-        <ion-col size="4"></ion-col>
-        <ion-col class="ion-align-self-center" size="30">
-          <ion-text class="des-header-style-4" >ETA</ion-text>
-        </ion-col>
-        <ion-col>
-          <ion-text id="etaFaults" class="mes-data down-padding">{{ faults }}</ion-text>
-        </ion-col>
-      </ion-row>
+    <ion-grid class="display-flex">
+      <ion-col
+        size="1"
+        [class.validation-bar]="invalid || etaTypeInvalid"
+        [class.ng-invalid]="invalid || etaTypeInvalid"
+        class="ion-no-padding-important">
+      </ion-col>
+      <ion-col>
+        <ion-row
+          [class.mes-row-separator]="shouldShowDetailCheckboxes"
+          class="mes-validated-row"
+          id="eta-row"
+        >
+          <div class="validation-bar"></div>
+          <ion-col class="component-label ion-align-self-center" size="32">
+            <label id="eta-label">ETA</label>
+          </ion-col>
+          <ion-col class="ion-align-self-center ion-padding-start">
+            <ion-row class="spacing-row"></ion-row>
+            <ion-row>
+              <ion-col>
+                <ion-text id="eta-faults" class="mes-data down-padding">{{ faults }}</ion-text>
+              </ion-col>
+            </ion-row>
+            <ion-row class="spacing-row"></ion-row>
+          </ion-col>
+        </ion-row>
+        @if (shouldShowDetailCheckboxes) {
+          <ion-row class="spacing-padding mes-extended-component-row"
+                   id="eta-physical-type-card" [formGroup]="formGroup">
+            <ion-col class="component-label" size="32">
+              <label id="eta-physical-type-title">ETA physical intervention details</label>
+            </ion-col>
+            <ion-col class="ion-align-self-center mes-padding-left">
+              <ion-row>
+                <ion-col size="48">
+                  <eta-physical-type
+                    [formGroup]="formGroup"
+                    [toggled]="steeringETA"
+                    physicalType="Steering control"
+                    (checkboxToggleChanged)="steeringETAChange()">
+                  </eta-physical-type>
+                </ion-col>
+                <ion-col size="48">
+                  <eta-physical-type
+                    [formGroup]="formGroup"
+                    [toggled]="handbrakeETA"
+                    physicalType="Handbrake"
+                    (checkboxToggleChanged)="handbrakeETAChange()">
+                  </eta-physical-type>
+                </ion-col>
+              </ion-row>
+              <ion-row class="spacing-row"></ion-row>
+              <ion-row>
+                <ion-col size="48">
+                  <eta-physical-type
+                    [formGroup]="formGroup"
+                    [toggled]="footbrakeETA"
+                    physicalType="Footbrake (Dual control)"
+                    (checkboxToggleChanged)="footbrakeETAChange()">
+                  </eta-physical-type>
+                </ion-col>
+                <ion-col size="48">
+                  <eta-physical-type
+                    [formGroup]="formGroup"
+                    [toggled]="otherETA"
+                    physicalType="Other"
+                    (checkboxToggleChanged)="otherETAChange()">
+                  </eta-physical-type>
+                </ion-col>
+              </ion-row>
+            </ion-col>
+          </ion-row>
+          @if (etaTypeInvalid) {
+            <ion-row>
+              <ion-col size="35"></ion-col>
+              <ion-col>
+                <ion-row class="validation-message-row ion-align-items-center">
+                  <div class="validation-text ng-invalid" id="eta-physical-type-validation-text">
+                    Select an intervention type
+                  </div>
+                </ion-row>
+              </ion-col>
+            </ion-row>
+          }
+          @if (otherETA) {
+            <ion-row class="mes-validated-row" id="eta-physical-other-row" [formGroup]="formGroup">
+              <div class="validation-bar"></div>
+              <ion-col class="component-label ion-align-self-center" size="32">
+                <label
+                  class="character-count"
+                  id="eta-physical-other-label">Describe "other" physical intervention</label>
+              </ion-col>
+              <ion-col class="ion-align-self-center ion-padding-start">
+                <ion-row class="spacing-row"></ion-row>
+                <ion-row>
+                  <ion-col class="display-flex align-items-center" size="90">
+                    <ion-input
+                      type="text"
+                      inputmode="text"
+                      [maxlength]=950
+                      id="eta-physical-other-input"
+                      class="ion-input-styling mes-data"
+                      formControlName="etaPhysicalOtherText"
+                      (ionChange)="otherETATextChange($event.target.value)"
+                      aria-labelledby="eta-physical-other-label"
+                    >
+                    </ion-input>
+                  </ion-col>
+                </ion-row>
+                <ion-row class="validation-message-row ion-align-items-center">
+                  <div class="validation-text" [class.ng-invalid]="invalid" id="eta-physical-other-validation-text">
+                    Enter details of the intervention
+                  </div>
+                </ion-row>
+              </ion-col>
+            </ion-row>
+          }
+        }
+      </ion-col>
     </ion-grid>
   </ion-card-content>
 </ion-card>

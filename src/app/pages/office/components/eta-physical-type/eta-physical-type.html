@@ -1,0 +1,11 @@
+<div [formGroup]="formGroup">
+  <input
+    [id]="formControlName"
+    type="checkbox"
+    class="gds-checkbox"
+    [formControlName]="formControlName"
+    (change)="checkboxToggle()"
+    [value]="physicalType"
+  />
+  <label [for]="formControlName" [id]="physicalType | formatToID: 'eta-physical-type'"> {{physicalType}} </label>
+</div>

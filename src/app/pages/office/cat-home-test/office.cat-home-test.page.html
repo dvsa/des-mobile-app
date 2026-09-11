@@ -25,7 +25,7 @@
     [driverNumber]="pageState.candidateDriverNumber$ | async"
     [startTime]="pageState.startTime$ | async"
     [testOutcomeText]="pageState.testOutcomeText$ | async"
-    >
+  >
   </office-candidate-section>
 
   <form [formGroup]="form">
@@ -41,7 +41,7 @@
               [dateOfTest]="pageState.startDate$ | async"
               (setIsValidStartDateTime)="setIsValidStartDateTime($event)"
               (dateOfTestChange)="dateOfTestChanged($event)"
-              >
+            >
             </date-of-test>
           }
 
@@ -60,7 +60,7 @@
                 [formGroup]="form"
                 [trueLikeness]="pageState.trueLikenessToPhoto$ | async"
                 (trueLikenessChange)="trueLikenessToPhotoChanged($event)"
-                >
+              >
               </true-likeness>
             }
 
@@ -79,7 +79,7 @@
               [identification]="pageState.identification$ | async"
               [outcome]="pageState.testOutcome$ | async"
               (identificationChange)="identificationChanged($event)"
-              >
+            >
             </identification>
 
             <vehicle-checks-office-card
@@ -94,7 +94,7 @@
               [outcome]="pageState.testOutcome$ | async"
               [weatherConditionsOptions]="weatherConditions"
               (weatherConditionsChange)="weatherConditionsChanged($event)"
-              >
+            >
             </weather-conditions>
 
             <accompaniment-card
@@ -107,7 +107,7 @@
               (supervisorAccompanimentChange)="supervisorAccompanimentToggled()"
               (otherAccompanimentChange)="otherAccompanimentToggled()"
               (interpreterAccompanimentChange)="interpreterAccompanimentToggled()"
-              >
+            >
             </accompaniment-card>
 
             <office-registration-and-mot
@@ -132,7 +132,7 @@
                 [alternateEvidenceDescription]="pageState.motAlternativeEvidenceDescription$ | async"
                 (evidenceDescriptionTestResultChange)="alternativeMOTEvidenceDescriptionUpdated($event)"
                 [formGroup]="form"
-                >
+              >
               </alternate-mot-evidence-description>
             }
 
@@ -161,8 +161,18 @@
     <div no-padding [hidden]="!(pageState.isTestOutcomeSet$ | async)">
       @if ((pageState.etaFaults$ | async) && (pageState.displayEta$ | async)) {
         <eta-card
+          [formGroup]="form"
           [faults]="pageState.etaFaults$ | async"
-          >
+          [steeringETA]="steeringControlETA()"
+          [handbrakeETA]="handbrakeETA()"
+          [footbrakeETA]="footbrakeETA()"
+          [otherETA]="otherETA()"
+          [otherETAReason]="otherTextETA()"
+          (footbrakeETAChanged)="footbrakeETAChanged()"
+          (handbrakeETAChanged)="handbrakeETAChanged()"
+          (steeringETAChanged)="steeringETAChanged()"
+          (otherETAChanged)="otherETAChanged()"
+          (otherETATextChanged)="otherETAReasonChanged($event)">
         </eta-card>
       }
 
@@ -182,7 +192,7 @@
         header="Dangerous faults"
         [maxFaultCount]="maxFaultCount"
         (faultCommentsChange)="dangerousFaultCommentChanged($event)"
-        >
+      >
       </fault-comment-card>
 
       <fault-comment-card
@@ -195,7 +205,7 @@
         header="Serious faults"
         [maxFaultCount]="maxFaultCount"
         (faultCommentsChange)="seriousFaultCommentChanged($event)"
-        >
+      >
       </fault-comment-card>
 
       <fault-comment-card
@@ -211,7 +221,7 @@
         [faultCount]="pageState.drivingFaultCount$ | async"
         [maxFaultCount]="maxFaultCount"
         (faultCommentsChange)="drivingFaultCommentChanged($event)"
-        >
+      >
       </fault-comment-card>
 
       @if ((!(pageState.displayDrivingFaultComments$ | async) && (pageState.drivingFaultCount$ | async) > 0 && pageState.displayDrivingFault$ | async)) {
@@ -220,7 +230,7 @@
           badgeLabel="Driving"
           [testCategory]="pageState.testCategory$ | async"
           [faults]="(pageState.drivingFaults$ | async)"
-          >
+        >
         </driving-faults>
       }
     </div>

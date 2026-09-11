@@ -11,6 +11,12 @@
   font-weight: bold !important;
 }
 
+.character-count {
+  color: var(--mes-theme-main-variant5);
+  font-weight: initial;
+  letter-spacing: initial;
+}
+
 .heavy-font-family {
   font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Roboto';
   font-weight: 800;

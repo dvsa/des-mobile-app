@@ -13,7 +13,7 @@ import {
 } from '@store/tests/tests.selector';
 import { Observable, Subscription, merge } from 'rxjs';
 
-import { Inject, Injector } from '@angular/core';
+import { Inject, Injector, Signal } from '@angular/core';
 import { UntypedFormGroup } from '@angular/forms';
 import { MotStatusCodes } from '@dvsa/mes-mot-schema';
 import { Circuit } from '@dvsa/mes-test-schema/categories/AM1';
@@ -98,6 +98,20 @@ import { getPostTestDeclarations } from '@store/tests/post-test-declarations/pos
 import { getHealthDeclarationStatus } from '@store/tests/post-test-declarations/post-test-declarations.selector';
 import { SetRekeyDate } from '@store/tests/rekey-date/rekey-date.actions';
 import { getTestData } from '@store/tests/test-data/cat-b/test-data.reducer';
+import {
+  ETAPhysicalOtherReasonUpdated,
+  FootbrakeETAToggled,
+  HandbrakeETAToggled,
+  OtherETAToggled,
+  SteeringControlETAToggled,
+} from '@store/tests/test-data/common/eta/eta.actions';
+import {
+  getFootbrakeETAPhysicalType,
+  getHandbrakeETAPhysicalType,
+  getOtherETAPhysicalType,
+  getOtherTextETAPhysicalType,
+  getSteeringControlETAPhysicalType,
+} from '@store/tests/test-data/common/eta/eta.selector';
 import { getETA, getETAFaultText, getEco, getEcoFaultText } from '@store/tests/test-data/common/test-data.selector';
 import { CircuitTypeChanged } from '@store/tests/test-summary/cat-a-mod1/test-summary.cat-a-mod1.actions';
 import {
@@ -222,6 +236,12 @@ export abstract class OfficeBasePageComponent extends PracticeableBasePageCompon
   protected faultSummaryProvider = this.injector.get(FaultSummaryProvider);
   public faultCountProvider = this.injector.get(FaultCountProvider);
   public deviceProvider = this.injector.get(DeviceProvider);
+
+  steeringControlETA: Signal<boolean> = this.store$.selectSignal(getSteeringControlETAPhysicalType);
+  handbrakeETA: Signal<boolean> = this.store$.selectSignal(getHandbrakeETAPhysicalType);
+  footbrakeETA: Signal<boolean> = this.store$.selectSignal(getFootbrakeETAPhysicalType);
+  otherETA: Signal<boolean> = this.store$.selectSignal(getOtherETAPhysicalType);
+  otherTextETA: Signal<string> = this.store$.selectSignal(getOtherTextETAPhysicalType);
 
   commonPageState: CommonOfficePageState;
   form: UntypedFormGroup;
@@ -579,6 +599,26 @@ export abstract class OfficeBasePageComponent extends PracticeableBasePageCompon
 
   reasonForEnteringTeamsChanged(reasonForEnteringTeams: string): void {
     this.store$.dispatch(SetReasonForExitingApp(reasonForEnteringTeams));
+  }
+
+  footbrakeETAChanged(): void {
+    this.store$.dispatch(FootbrakeETAToggled());
+  }
+
+  handbrakeETAChanged(): void {
+    this.store$.dispatch(HandbrakeETAToggled());
+  }
+
+  otherETAChanged(): void {
+    this.store$.dispatch(OtherETAToggled());
+  }
+
+  otherETAReasonChanged(newReason: string): void {
+    this.store$.dispatch(ETAPhysicalOtherReasonUpdated(newReason));
+  }
+
+  steeringETAChanged(): void {
+    this.store$.dispatch(SteeringControlETAToggled());
   }
 
   provisionalLicenseReceived(): void {

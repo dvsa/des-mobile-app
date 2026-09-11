@@ -25,7 +25,7 @@
     [driverNumber]="pageState.candidateDriverNumber$ | async"
     [startTime]="pageState.startTime$ | async"
     [testOutcomeText]="pageState.testOutcomeText$ | async"
-    >
+  >
   </office-candidate-section>
 
   <form [formGroup]="form">
@@ -41,7 +41,7 @@
               [dateOfTest]="pageState.startDate$ | async"
               (setIsValidStartDateTime)="setIsValidStartDateTime($event)"
               (dateOfTestChange)="dateOfTestChanged($event)"
-              >
+            >
             </date-of-test>
           }
 
@@ -49,12 +49,12 @@
             <ion-row
               class="mes-component-row mes-row-separator ion-align-items-center"
               id="application-reference-card"
-              >
+            >
               <ion-col class="component-label" size="32">
                 <label>Booking reference</label>
               </ion-col>
               <ion-col class="ion-padding-start">
-                <span class="mes-data">{{pageState.applicationNumber$ | async }}</span>
+                <span class="mes-data">{{ pageState.applicationNumber$ | async }}</span>
               </ion-col>
             </ion-row>
           }
@@ -66,7 +66,7 @@
             [activityCodeOptions]="activityCodeOptions"
             (activityCodeChange)="activityCodeChanged($event)"
             [disabled]="!isDelegated"
-            >
+          >
           </activity-code>
 
           <div class="ion-no-padding" [hidden]="!(pageState.isTestOutcomeSet$ | async)">
@@ -75,7 +75,7 @@
                 [form]="form"
                 [passCertificateNumberInput]="pageState.passCertificateNumber$ | async"
                 (passCertificateNumberChange)="passCertificateNumberChanged($event)"
-                >
+              >
               </pass-certificate-number>
 
               <health-declaration-signed
@@ -83,7 +83,7 @@
                 [label]="'Health declaration'"
                 [healthDeclaration]="pageState.healthDeclarationAccepted$ | async"
                 (healthDeclarationChange)="healthDeclarationChanged($event)"
-                >
+              >
               </health-declaration-signed>
             }
 
@@ -94,7 +94,7 @@
                 [outcome]="pageState.testOutcome$ | async"
                 [formGroup]="form"
                 (d255Change)="d255Changed($event)"
-                >
+              >
               </d255>
 
               <language-preferences
@@ -102,7 +102,7 @@
                 [isWelsh]="isWelsh()"
                 [isDelegated]="isDelegated"
                 (welshChanged)="isWelshChanged($event)"
-                >
+              >
               </language-preferences>
 
               <debrief-witnessed
@@ -111,7 +111,7 @@
                 [debriefWitnessed]="pageState.debriefWitnessed$ | async"
                 [outcome]="pageState.testOutcome$ | async"
                 (debriefWitnessedChange)="debriefWitnessedChanged($event)"
-                >
+              >
               </debrief-witnessed>
             }
 
@@ -120,7 +120,7 @@
                 [formGroup]="form"
                 [trueLikeness]="pageState.trueLikenessToPhoto$ | async"
                 (trueLikenessChange)="trueLikenessToPhotoChanged($event)"
-                >
+              >
               </true-likeness>
             }
 
@@ -132,7 +132,7 @@
                 [outcome]="pageState.testOutcome$ | async"
                 [trueLikenessToPhoto]="pageState.trueLikenessToPhoto$ | async"
                 (candidateDescriptionChange)="candidateDescriptionChanged($event)"
-                >
+              >
               </candidate-description>
 
               <identification
@@ -141,7 +141,7 @@
                 [identification]="pageState.identification$ | async"
                 [outcome]="pageState.testOutcome$ | async"
                 (identificationChange)="identificationChanged($event)"
-                >
+              >
               </identification>
 
               <weather-conditions
@@ -151,7 +151,7 @@
                 [outcome]="pageState.testOutcome$ | async"
                 [weatherConditionsOptions]="weatherConditions"
                 (weatherConditionsChange)="weatherConditionsChanged($event)"
-                >
+              >
               </weather-conditions>
             }
 
@@ -165,7 +165,7 @@
               (supervisorAccompanimentChange)="supervisorAccompanimentToggled()"
               (otherAccompanimentChange)="otherAccompanimentToggled()"
               (interpreterAccompanimentChange)="interpreterAccompanimentToggled()"
-              >
+            >
             </accompaniment-card>
 
             <office-registration-and-mot
@@ -190,7 +190,7 @@
                 [alternateEvidenceDescription]="pageState.motAlternativeEvidenceDescription$ | async"
                 (evidenceDescriptionTestResultChange)="alternativeMOTEvidenceDescriptionUpdated($event)"
                 [formGroup]="form"
-                >
+              >
               </alternate-mot-evidence-description>
             }
 
@@ -200,7 +200,7 @@
               [formGroup]="form"
               [outcome]="pageState.testOutcome$ | async"
               (additionalInformationChange)="additionalInformationChanged($event)"
-              >
+            >
             </additional-information>
 
             @if (pageState.hasEnteredTeamsOnThisTest$ | async) {
@@ -219,8 +219,18 @@
     <div class="ion-no-padding" [hidden]="!(pageState.isTestOutcomeSet$ | async)">
       @if ((pageState.etaFaults$ | async) && (pageState.displayEta$ | async)) {
         <eta-card
+          [formGroup]="form"
           [faults]="pageState.etaFaults$ | async"
-          >
+          [steeringETA]="steeringControlETA()"
+          [handbrakeETA]="handbrakeETA()"
+          [footbrakeETA]="footbrakeETA()"
+          [otherETA]="otherETA()"
+          [otherETAReason]="otherTextETA()"
+          (footbrakeETAChanged)="footbrakeETAChanged()"
+          (handbrakeETAChanged)="handbrakeETAChanged()"
+          (steeringETAChanged)="steeringETAChanged()"
+          (otherETAChanged)="otherETAChanged()"
+          (otherETATextChanged)="otherETAReasonChanged($event)">
         </eta-card>
       }
 
@@ -240,7 +250,7 @@
         faultType="dangerous"
         header="Dangerous faults {{isDelegated ? (pageState.dangerousFaultCount$ | async) : null}}"
         (faultCommentsChange)="dangerousFaultCommentChanged($event)"
-        >
+      >
       </fault-comment-card>
 
       <fault-comment-card
@@ -253,7 +263,7 @@
         faultType="serious"
         header="Serious faults {{isDelegated ? (pageState.seriousFaultCount$ | async) : null}}"
         (faultCommentsChange)="seriousFaultCommentChanged($event)"
-        >
+      >
       </fault-comment-card>
     </div>
   </form>

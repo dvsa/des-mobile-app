@@ -265,8 +265,18 @@
     <div class="ion-no-padding" [hidden]="!(pageState.isTestOutcomeSet$ | async)">
       @if ((pageState.etaFaults$ | async) && (pageState.displayEta$ | async)) {
         <eta-card
+          [formGroup]="form"
           [faults]="pageState.etaFaults$ | async"
-          >
+          [steeringETA]="steeringControlETA()"
+          [handbrakeETA]="handbrakeETA()"
+          [footbrakeETA]="footbrakeETA()"
+          [otherETA]="otherETA()"
+          [otherETAReason]="otherTextETA()"
+          (footbrakeETAChanged)="footbrakeETAChanged()"
+          (handbrakeETAChanged)="handbrakeETAChanged()"
+          (steeringETAChanged)="steeringETAChanged()"
+          (otherETAChanged)="otherETAChanged()"
+          (otherETATextChanged)="otherETAReasonChanged($event)"          >
         </eta-card>
       }
 
