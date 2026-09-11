@@ -22,7 +22,7 @@ import {
   IonIcon,
   IonLabel,
   IonRow,
-  ModalController
+  ModalController,
 } from '@ionic/angular';
 import { Platform } from '@ionic/angular';
 import { Store } from '@ngrx/store';
@@ -57,7 +57,7 @@ export enum ExitSAMMethodUsed {
     IonButtons,
     IonIcon,
   ],
-  standalone: true
+  standalone: true,
 })
 export class TestFlowHeaderComponent {
   @Input() isPracticeMode = false;

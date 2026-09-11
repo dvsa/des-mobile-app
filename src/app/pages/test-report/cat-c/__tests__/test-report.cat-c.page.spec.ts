@@ -59,7 +59,6 @@ describe('TestReportCatCPage', () => {
         MockComponent(UncoupleRecoupleComponent),
       ],
       imports: [
-
         AppModule,
         StoreModule.forFeature('tests', () => ({
           currentTest: {

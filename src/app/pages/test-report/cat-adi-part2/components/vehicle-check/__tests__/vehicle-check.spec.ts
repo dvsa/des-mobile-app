@@ -74,7 +74,6 @@ describe('VehicleCheckComponent', () => {
         MockComponent(CompetencyButtonComponent),
       ],
       imports: [
-
         StoreModule.forRoot({
           tests: () => ({
             currentTest: {

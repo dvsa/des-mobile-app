@@ -9,7 +9,6 @@ describe('TestCategoryComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [TestCategoryComponent],
-
     });
 
     fixture = TestBed.createComponent(TestCategoryComponent);

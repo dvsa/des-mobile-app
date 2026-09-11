@@ -9,7 +9,6 @@ describe('TestFinalisationInvalidTestDataModal', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [TestFinalisationInvalidTestDataModal],
-
     });
 
     fixture = TestBed.createComponent(TestFinalisationInvalidTestDataModal);

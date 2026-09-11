@@ -1,6 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-
 import { MotHistory } from '@dvsa/mes-mot-schema';
 import { Store, StoreModule } from '@ngrx/store';
 import { NetworkStateProviderMock } from '@providers/network-state/__mocks__/network-state.mock';

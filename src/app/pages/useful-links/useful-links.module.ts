@@ -4,6 +4,21 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { TestSlotComponentsModule } from '@components/test-slot/test-slot-components.module';
 
+import {
+  IonButton,
+  IonButtons,
+  IonCard,
+  IonCardContent,
+  IonCol,
+  IonContent,
+  IonHeader,
+  IonIcon,
+  IonLabel,
+  IonList,
+  IonRow,
+  IonTitle,
+  IonToolbar,
+} from '@ionic/angular';
 import { EffectsModule } from '@ngrx/effects';
 import { DashboardComponentsModule } from '@pages/dashboard/components/dashboard-components.module';
 import { TestReportCatADIPart3ComponentsModule } from '@pages/test-report-dashboard/components/test-report-dashboard.components.module';
@@ -11,17 +26,6 @@ import { UsefulLinksComponentsModule } from '@pages/useful-links/components/usef
 import { UsefulLinksAnalyticsEffects } from '@pages/useful-links/useful-links.analytics.effects';
 import { UsefulLinksPageRoutingModule } from './useful-links-routing.module';
 import { UsefulLinksPage } from './useful-links.page';
-import {
-  IonButton, IonButtons,
-  IonCard,
-  IonCardContent,
-  IonCol,
-  IonContent, IonHeader,
-  IonIcon, IonLabel,
-  IonList,
-  IonRow,
-  IonTitle, IonToolbar
-} from '@ionic/angular';
 
 @NgModule({
   imports: [

@@ -24,7 +24,6 @@ describe('SafetyQuestionsComponent', () => {
     TestBed.configureTestingModule({
       declarations: [SafetyQuestionsCatDComponent, MockComponent(DrivingFaultsBadgeComponent)],
       imports: [
-
         StoreModule.forRoot({
           tests: testsReducer,
         }),

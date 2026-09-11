@@ -19,7 +19,7 @@ import {
   nonAlphaNumericValues,
 } from '@shared/constants/field-validators/field-validators';
 import { HttpStatusCodes } from '@shared/models/http-status-codes';
-import {isEmpty, toInteger} from 'lodash-es';
+import { isEmpty, toInteger } from 'lodash-es';
 import { Subject } from 'rxjs';
 import { finalize, takeUntil } from 'rxjs/operators';
 

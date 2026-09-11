@@ -120,7 +120,6 @@ describe('TestSlotComponent', () => {
         MockComponent(ProgressiveAccessComponent),
       ],
       imports: [
-
         StoreModule.forRoot({
           tests: testsReducer,
         }),

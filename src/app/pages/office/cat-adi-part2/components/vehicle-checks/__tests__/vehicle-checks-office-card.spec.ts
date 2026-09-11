@@ -10,7 +10,6 @@ describe('VehicleChecksOfficeCardCatADI2Component', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [VehicleChecksOfficeCardCatADI2Component],
-
     });
 
     fixture = TestBed.createComponent(VehicleChecksOfficeCardCatADI2Component);

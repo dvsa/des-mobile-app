@@ -46,7 +46,6 @@ describe('ConfirmTestDetailsPage', () => {
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       declarations: [ConfirmTestDetailsPage],
       imports: [
-
         AppModule,
         ComponentsModule,
         StoreModule.forRoot({

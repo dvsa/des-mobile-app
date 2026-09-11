@@ -70,7 +70,6 @@ describe('TestReportCatAMod1Page', () => {
         MockComponent(TestFlowHeaderComponent),
       ],
       imports: [
-
         AppModule,
         StoreModule.forFeature('tests', () => ({
           currentTest: {

@@ -96,7 +96,6 @@ describe('OfficeCatHomeTestPage', () => {
         MockComponent(TestFlowHeaderComponent),
       ],
       imports: [
-
         AppModule,
         ComponentsModule,
         StoreModule.forRoot({

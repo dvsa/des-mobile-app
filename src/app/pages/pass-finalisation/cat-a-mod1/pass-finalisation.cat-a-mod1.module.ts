@@ -2,19 +2,9 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
-
-
 import { ComponentsModule } from '@components/common/common-components.module';
 import { TestFlowHeaderComponent } from '@components/common/test-flow-header/test-flow-header.component';
 import { TestFinalisationComponentsModule } from '@components/test-finalisation/test-finalisation-components.module';
-import { EffectsModule } from '@ngrx/effects';
-import { PassFinalisationCatAMod1ComponentsModule } from '@pages/pass-finalisation/cat-a-mod1/components/pass-finalisation.cat-a-mod1.components.module';
-import { PassFinalisationComponentsModule } from '@pages/pass-finalisation/components/pass-finalisation-components.module';
-import { PassFinalisationAnalyticsEffects } from '@pages/pass-finalisation/pass-finalisation.analytics.effects';
-import { OutcomeBehaviourMapProvider } from '@providers/outcome-behaviour-map/outcome-behaviour-map';
-import { PassCertificateValidationProvider } from '@providers/pass-certificate-validation/pass-certificate-validation';
-import { PassFinalisationCatAMod1PageRoutingModule } from './pass-finalisation.cat-a-mod1-routing.module';
-import { PassFinalisationCatAMod1Page } from './pass-finalisation.cat-a-mod1.page';
 import {
   IonButton,
   IonCol,
@@ -24,8 +14,16 @@ import {
   IonHeader,
   IonRow,
   IonText,
-  IonToolbar
+  IonToolbar,
 } from '@ionic/angular';
+import { EffectsModule } from '@ngrx/effects';
+import { PassFinalisationCatAMod1ComponentsModule } from '@pages/pass-finalisation/cat-a-mod1/components/pass-finalisation.cat-a-mod1.components.module';
+import { PassFinalisationComponentsModule } from '@pages/pass-finalisation/components/pass-finalisation-components.module';
+import { PassFinalisationAnalyticsEffects } from '@pages/pass-finalisation/pass-finalisation.analytics.effects';
+import { OutcomeBehaviourMapProvider } from '@providers/outcome-behaviour-map/outcome-behaviour-map';
+import { PassCertificateValidationProvider } from '@providers/pass-certificate-validation/pass-certificate-validation';
+import { PassFinalisationCatAMod1PageRoutingModule } from './pass-finalisation.cat-a-mod1-routing.module';
+import { PassFinalisationCatAMod1Page } from './pass-finalisation.cat-a-mod1.page';
 
 @NgModule({
   imports: [

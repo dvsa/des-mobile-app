@@ -9,7 +9,6 @@ describe('TestCentreNameComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [TestCentreNameComponent],
-
     });
 
     fixture = TestBed.createComponent(TestCentreNameComponent);

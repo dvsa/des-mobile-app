@@ -4,13 +4,20 @@ import { BrowserModule } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
 import { IsDebug } from '@awesome-cordova-plugins/is-debug/ngx';
 import {
-  IonApp, IonBadge, IonContent, IonFooter,
+  IonApp,
+  IonBadge,
+  IonContent,
+  IonFooter,
   IonHeader,
-  IonicRouteStrategy, IonItem, IonLabel, IonList,
-  IonMenu, IonRouterOutlet,
+  IonItem,
+  IonLabel,
+  IonList,
+  IonMenu,
+  IonRouterOutlet,
   IonTitle,
   IonToolbar,
-  provideIonicAngular
+  IonicRouteStrategy,
+  provideIonicAngular,
 } from '@ionic/angular';
 import { Drivers } from '@ionic/storage';
 import { IonicStorageModule } from '@ionic/storage-angular';
@@ -139,7 +146,7 @@ const storageDriver = Capacitor.getPlatform() === 'web' ? Drivers.IndexedDB : Co
     IonicStorageModule.forRoot({
       driverOrder: [storageDriver],
     }),
-    StoreModule.forRoot(reducers, {metaReducers}),
+    StoreModule.forRoot(reducers, { metaReducers }),
     EffectsModule.forRoot(),
     EffectImportModule,
     SafetyRecallStoreModule,

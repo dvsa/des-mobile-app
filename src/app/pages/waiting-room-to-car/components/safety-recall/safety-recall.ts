@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { ExitSAMMethodUsed } from '@components/common/test-flow-header/test-flow-header.component';
-import {IonButton, IonCol, IonRow, IonText} from '@ionic/angular';
+import { IonButton, IonCol, IonRow, IonText } from '@ionic/angular';
 import { Store } from '@ngrx/store';
 import { ExitSAMProvider } from '@providers/exitSAM/exitSAM';
 import { StoreModel } from '@shared/models/store.model';
@@ -11,12 +11,7 @@ import { CheckVINPressed } from '@store/general/safety-recall/safety-recall.acti
   templateUrl: './safety-recall.html',
   styleUrls: ['./safety-recall.scss'],
   standalone: true,
-  imports: [
-    IonCol,
-    IonRow,
-    IonText,
-    IonButton
-  ]
+  imports: [IonCol, IonRow, IonText, IonButton],
 })
 export class SafetyRecallComponent {
   constructor(

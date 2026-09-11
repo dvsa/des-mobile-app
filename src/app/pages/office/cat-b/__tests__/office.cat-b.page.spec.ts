@@ -104,7 +104,6 @@ describe('OfficeCatBPage', () => {
         MockComponent(DrivingFaultsComponent),
       ],
       imports: [
-
         AppModule,
         ComponentsModule,
         StoreModule.forRoot({

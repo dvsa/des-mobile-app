@@ -31,6 +31,27 @@ import { DataGridComponent } from '@components/common/data-grid/data-grid';
 import { LogoutModalModule } from '@components/common/logout-modal/logout-modal.module';
 import { TestRecoveredBannerComponent } from '@components/common/test-recovered-banner/test-recovered-banner';
 import { DirectivesModule } from '@directives/directives.module';
+import {
+  IonButton,
+  IonButtons,
+  IonCard,
+  IonCardContent,
+  IonCardHeader,
+  IonCardTitle,
+  IonCol,
+  IonContent,
+  IonDatetime,
+  IonGrid,
+  IonIcon,
+  IonInput,
+  IonModal,
+  IonRow,
+  IonSearchbar,
+  IonSelect,
+  IonSelectOption,
+  IonText,
+} from '@ionic/angular';
+import { TranslatePipe } from '@ngx-translate/core';
 import { NgApexchartsModule } from 'ng-apexcharts';
 import { BikeCategoryTypeComponent } from './bike-category-type/bike-category-type';
 import { CandidateSectionComponent } from './candidate-section/candidate-section';
@@ -46,18 +67,6 @@ import { TabComponent } from './tab/tab';
 import { TabsComponent } from './tabs/tabs';
 import { VRNCaptureModalModule } from './vrn-capture-modal/vrn-capture-modal.module';
 import { WarningBannerComponent } from './warning-banner/warning-banner';
-import {
-  IonButton,
-  IonButtons, IonCard, IonCardContent, IonCardHeader, IonCardTitle,
-  IonCol,
-  IonContent, IonDatetime,
-  IonGrid,
-  IonIcon, IonInput, IonModal,
-  IonRow,
-  IonSearchbar, IonSelect, IonSelectOption,
-  IonText
-} from '@ionic/angular';
-import {TranslatePipe} from '@ngx-translate/core';
 
 @NgModule({
   declarations: [

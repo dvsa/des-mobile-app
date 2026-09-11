@@ -1,6 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-
 import { OfficeRegistrationAndMotComponent } from '../office-registration-and-mot.component';
 
 describe('OfficeRegistrationAndMotComponent', () => {

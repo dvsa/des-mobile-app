@@ -23,7 +23,6 @@ describe('EyesightFailureConfirmationComponent', () => {
     TestBed.configureTestingModule({
       declarations: [EyesightFailureConfirmationComponent],
       imports: [
-
         StoreModule.forRoot({
           tests: testsReducer,
         }),

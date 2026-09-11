@@ -9,7 +9,6 @@ describe('JournalNavigationComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [JournalNavigationComponent],
-
     });
 
     fixture = TestBed.createComponent(JournalNavigationComponent);

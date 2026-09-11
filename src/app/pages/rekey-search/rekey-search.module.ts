@@ -12,6 +12,22 @@ import { SlotProvider } from '@providers/slot/slot';
 
 import { CommonModule } from '@angular/common';
 import { DirectivesModule } from '@directives/directives.module';
+import {
+  IonBackButton,
+  IonButton,
+  IonButtons,
+  IonCol,
+  IonContent,
+  IonGrid,
+  IonHeader,
+  IonIcon,
+  IonInput,
+  IonRow,
+  IonSpinner,
+  IonText,
+  IonTitle,
+  IonToolbar,
+} from '@ionic/angular';
 import { MaskitoDirective } from '@maskito/angular';
 import { RekeySearchPageRoutingModule } from '@pages/rekey-search/rekey-search-routing.module';
 import { OrientationMonitorProvider } from '@providers/orientation-monitor/orientation-monitor.provider';
@@ -19,19 +35,6 @@ import { RekeySearchPage } from './rekey-search';
 import { RekeySearchAnalyticsEffects } from './rekey-search.analytics.effects';
 import { RekeySearchEffects } from './rekey-search.effects';
 import { rekeySearchReducer } from './rekey-search.reducer';
-import {
-  IonBackButton,
-  IonButton, IonButtons,
-  IonCol,
-  IonContent,
-  IonGrid, IonHeader,
-  IonIcon,
-  IonInput,
-  IonRow,
-  IonSpinner,
-  IonText, IonTitle,
-  IonToolbar
-} from '@ionic/angular';
 
 @NgModule({
   declarations: [RekeySearchPage],

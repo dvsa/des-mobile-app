@@ -10,7 +10,7 @@ import {
   IonHeader,
   IonRow,
   IonText,
-  IonToolbar
+  IonToolbar,
 } from '@ionic/angular';
 import { EffectsModule } from '@ngrx/effects';
 

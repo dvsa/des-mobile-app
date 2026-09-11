@@ -54,7 +54,6 @@ describe('TestReportCatADI3Page', () => {
         MockComponent(TestFlowHeaderComponent),
       ],
       imports: [
-
         AppModule,
         StoreModule.forFeature('tests', () => ({
           currentTest: {

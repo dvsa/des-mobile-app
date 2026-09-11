@@ -16,7 +16,6 @@ describe('TransmissionDisplayComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-
       declarations: [TransmissionDisplayComponent],
     });
 

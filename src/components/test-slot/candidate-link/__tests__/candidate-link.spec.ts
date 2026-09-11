@@ -1,6 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-
 import { CommonModule } from '@angular/common';
 import { AppModule } from '@app/app.module';
 import { Style } from '@capacitor/status-bar';
@@ -16,14 +15,7 @@ describe('CandidateLinkComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [CandidateLinkComponent],
-      imports: [
-
-        AppModule,
-        ComponentsModule,
-        CommonModule,
-        CandidateDetailsPageModule,
-        StoreModule.forRoot({}),
-      ],
+      imports: [AppModule, ComponentsModule, CommonModule, CandidateDetailsPageModule, StoreModule.forRoot({})],
     });
 
     fixture = TestBed.createComponent(CandidateLinkComponent);

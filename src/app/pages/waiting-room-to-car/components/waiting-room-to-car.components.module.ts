@@ -5,14 +5,15 @@ import { ComponentsModule } from '@components/common/common-components.module';
 import { DirectivesModule } from '@directives/directives.module';
 import {
   IonButton,
-  IonCol, IonGrid,
+  IonCol,
+  IonGrid,
   IonIcon,
   IonInput,
   IonRow,
   IonSelect,
   IonSelectOption,
   IonSpinner,
-  IonText
+  IonText,
 } from '@ionic/angular';
 
 import { RegistrationWithPreviousMotTextComponent } from '@components/common/registration-with-previous-mot-text/registration-with-previous-mot-text.component';

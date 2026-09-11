@@ -1,7 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 
-
 import { TrainerRegistrationNumberCatAdiPart2Component } from '../trainer-registration-number.cat-adi-part2';
 import {
   mockBlankTrainerRegNumber,
@@ -18,7 +17,6 @@ describe('TrainerRegistrationNumberCatAdiPart2Component', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [TrainerRegistrationNumberCatAdiPart2Component],
-
     });
 
     fixture = TestBed.createComponent(TrainerRegistrationNumberCatAdiPart2Component);

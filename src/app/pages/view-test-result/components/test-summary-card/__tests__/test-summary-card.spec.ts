@@ -15,7 +15,6 @@ describe('TestSummaryCardComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [TestSummaryCardComponent, MockComponent(DataRowComponent), MockComponent(DataRowCustomComponent)],
-
     });
 
     fixture = TestBed.createComponent(TestSummaryCardComponent);

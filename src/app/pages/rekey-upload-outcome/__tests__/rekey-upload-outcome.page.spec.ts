@@ -34,7 +34,6 @@ describe('RekeyUploadOutcomePage', () => {
     TestBed.configureTestingModule({
       declarations: [RekeyUploadOutcomePage],
       imports: [
-
         AppModule,
         StoreModule.forRoot({
           tests: testsReducer,

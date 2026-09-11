@@ -1,6 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-
 import { ReactiveFormsModule } from '@angular/forms';
 import { ModalAlertTitleComponent } from '@components/common/modal-alert-title/modal-alert-title';
 import { ModalEvent } from '@pages/test-report/test-report.constants';

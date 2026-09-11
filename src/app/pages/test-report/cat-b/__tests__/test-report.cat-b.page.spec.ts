@@ -88,7 +88,6 @@ describe('TestReportCatBPage', () => {
         MockComponent(PracticeModeOptionsBar),
       ],
       imports: [
-
         AppModule,
         StoreModule.forRoot({
           tests: testsReducer,

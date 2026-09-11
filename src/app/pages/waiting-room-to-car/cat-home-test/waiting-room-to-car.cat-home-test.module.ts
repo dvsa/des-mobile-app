@@ -4,12 +4,13 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {
   IonButton,
   IonCol,
-  IonContent, IonFooter,
+  IonContent,
+  IonFooter,
   IonGrid,
   IonHeader,
   IonRow,
   IonText,
-  IonToolbar
+  IonToolbar,
 } from '@ionic/angular';
 import { EffectsModule } from '@ngrx/effects';
 

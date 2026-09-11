@@ -6,6 +6,7 @@ import { CommonModule } from '@angular/common';
 import { ComponentsModule } from '@components/common/common-components.module';
 import { TestFlowHeaderComponent } from '@components/common/test-flow-header/test-flow-header.component';
 
+import { IonCol, IonContent, IonGrid, IonHeader, IonRow, IonToolbar } from '@ionic/angular';
 import { TestReportCatBPageRoutingModule } from '@pages/test-report/cat-b/test-report.cat-b-routing.module';
 import { TestReportValidatorProvider } from '@providers/test-report-validator/test-report-validator';
 import { TestResultProvider } from '@providers/test-result/test-result';
@@ -15,7 +16,6 @@ import { TestReportEffects } from '../test-report.effects';
 import { testReportReducer } from '../test-report.reducer';
 import { TestReportCatBComponentsModule } from './components/test-report.cat-b.components.module';
 import { TestReportCatBPage } from './test-report.cat-b.page';
-import {IonCol, IonContent, IonGrid, IonHeader, IonRow, IonToolbar} from '@ionic/angular';
 
 @NgModule({
   declarations: [TestReportCatBPage],

@@ -9,7 +9,6 @@ describe('SafetyDataRowComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [SafetyDataRowComponent],
-
     });
 
     fixture = TestBed.createComponent(SafetyDataRowComponent);

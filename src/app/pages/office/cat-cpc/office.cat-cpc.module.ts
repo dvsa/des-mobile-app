@@ -11,6 +11,18 @@ import { PracticeModeExitButton } from '@components/common/practice-mode-exit-bu
 import { TestFlowHeaderComponent } from '@components/common/test-flow-header/test-flow-header.component';
 import { TestFinalisationComponentsModule } from '@components/test-finalisation/test-finalisation-components.module';
 import { DirectivesModule } from '@directives/directives.module';
+import {
+  IonCard,
+  IonCardContent,
+  IonCardHeader,
+  IonCol,
+  IonContent,
+  IonFooter,
+  IonGrid,
+  IonHeader,
+  IonRow,
+  IonToolbar,
+} from '@ionic/angular';
 import { EffectsModule } from '@ngrx/effects';
 import { OfficeRegistrationAndMotComponent } from '@pages/office/components/office-registration-and-mot/office-registration-and-mot.component';
 import { OfficeComponentsModule } from '@pages/office/components/office.components.module';
@@ -24,17 +36,6 @@ import { CombinationComponent } from './components/combination/combination';
 import { PassCertificateDeclarationComponent } from './components/pass-certificate-declaration/pass-certificate-declaration';
 import { OfficeCatCPCPageRoutingModule } from './office.cat-cpc-routing.module';
 import { OfficeCatCPCPage } from './office.cat-cpc.page';
-import {
-  IonCard,
-  IonCardContent,
-  IonCardHeader,
-  IonCol,
-  IonContent, IonFooter,
-  IonGrid,
-  IonHeader,
-  IonRow,
-  IonToolbar
-} from "@ionic/angular";
 
 @NgModule({
   declarations: [

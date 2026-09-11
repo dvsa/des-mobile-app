@@ -13,7 +13,6 @@ describe('ModalActivityCodeListComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-
       providers: [{ provide: ModalController, useClass: ModalControllerMock }, provideMockStore({ ...{} })],
     });
 

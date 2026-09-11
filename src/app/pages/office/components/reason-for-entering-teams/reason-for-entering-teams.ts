@@ -6,7 +6,7 @@ import { DirectivesModule } from '@directives/directives.module';
   selector: 'reason-for-entering-teams',
   templateUrl: 'reason-for-entering-teams.html',
   imports: [ReactiveFormsModule, DirectivesModule],
-  standalone: true
+  standalone: true,
 })
 export class ReasonForEnteringTeamsComponent implements OnChanges {
   @Input()

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import {IonButton, IonCol, IonGrid, IonIcon, IonRow, IonText, ModalController} from '@ionic/angular';
+import { IonButton, IonCol, IonGrid, IonIcon, IonRow, IonText, ModalController } from '@ionic/angular';
 import { Store } from '@ngrx/store';
 import { LearnMoreModal } from '@pages/journal/components/learn-more-modal/learn-more-modal';
 import { LEARN_MORE_MODAL } from '@pages/page-names.constants';
@@ -12,14 +12,7 @@ import { RecallLearnMoreModalOpened } from '@store/general/safety-recall/safety-
   templateUrl: 'vehicle-recalls-banner.html',
   styleUrls: ['vehicle-recalls-banner.scss'],
   standalone: true,
-  imports: [
-    IonIcon,
-    IonCol,
-    IonText,
-    IonGrid,
-    IonRow,
-    IonButton
-  ]
+  imports: [IonIcon, IonCol, IonText, IonGrid, IonRow, IonButton],
 })
 export class VehicleRecallsBanner {
   constructor(

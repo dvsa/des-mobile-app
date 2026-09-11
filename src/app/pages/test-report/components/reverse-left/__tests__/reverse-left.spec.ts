@@ -36,7 +36,6 @@ describe('ReverseLeftComponent', () => {
         MockComponent(CompetencyButtonComponent),
       ],
       imports: [
-
         AppModule,
         StoreModule.forRoot({
           tests: () => ({

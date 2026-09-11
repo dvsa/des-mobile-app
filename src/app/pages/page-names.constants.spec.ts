@@ -5,9 +5,7 @@ import { getPageNameByCategoryAndKey } from '@pages/page-names.constants';
 
 describe('PageNameConstants', () => {
   beforeEach(() => {
-    TestBed.configureTestingModule({
-
-    });
+    TestBed.configureTestingModule({});
   });
 
   describe('getPageNameByCategoryAndKey', () => {

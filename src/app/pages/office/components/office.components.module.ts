@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ComponentsModule } from '@components/common/common-components.module';
 import { DirectivesModule } from '@directives/directives.module';
+import { IonButton, IonCard, IonCardContent, IonCardHeader, IonCol, IonGrid, IonRow, IonText } from '@ionic/angular';
 import { MaskitoDirective } from '@maskito/angular';
 import { AlternateEvidenceProvidedComponent } from '@pages/office/components/alternate-mot-evidence-provided/alternate-evidence-provided.component';
 import { DrivingFaultsComponent } from '@pages/office/components/driving-faults/driving-faults.component';
@@ -27,7 +28,6 @@ import { RouteNumberComponent } from './route-number/route-number';
 import { ShowMeQuestionComponent } from './show-me-question/show-me-question';
 import { VehicleChecksOfficeCardComponent } from './vehicle-checks/vehicle-checks-office-card';
 import { WeatherConditionsComponent } from './weather-conditions/weather-conditions';
-import {IonButton, IonCard, IonCardContent, IonCardHeader, IonCol, IonGrid, IonRow, IonText} from "@ionic/angular";
 
 @NgModule({
   declarations: [

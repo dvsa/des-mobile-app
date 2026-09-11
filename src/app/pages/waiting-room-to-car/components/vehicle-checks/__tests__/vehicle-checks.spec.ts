@@ -37,7 +37,6 @@ describe('VehicleChecksComponent', () => {
         TickIndicatorComponent,
       ],
       imports: [
-
         StoreModule.forRoot({
           tests: testsReducer,
         }),

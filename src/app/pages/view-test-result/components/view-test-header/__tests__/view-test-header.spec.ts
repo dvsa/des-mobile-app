@@ -11,7 +11,6 @@ describe('ViewTestHeaderComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [ViewTestHeaderComponent],
-
     });
 
     fixture = TestBed.createComponent(ViewTestHeaderComponent);

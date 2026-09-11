@@ -6,7 +6,6 @@ import { CommonModule } from '@angular/common';
 import { Adi3DebriefCardBox } from '@components/common/adi3-debrief-card-box/adi3-debrief-card-box';
 import { Adi3DebriefCard } from '@components/common/adi3-debrief-card/adi3-debrief-card';
 
-
 describe('Adi3DebriefCard', () => {
   let fixture: ComponentFixture<Adi3DebriefCard>;
   let component: Adi3DebriefCard;

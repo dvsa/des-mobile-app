@@ -3,7 +3,6 @@ import { UntypedFormGroup } from '@angular/forms';
 import { AppModule } from '@app/app.module';
 import { LanguagePreferencesComponent } from '@components/test-finalisation/language-preference/language-preference';
 
-
 describe('LanguagePreferencesComponent', () => {
   let fixture: ComponentFixture<LanguagePreferencesComponent>;
   let component: LanguagePreferencesComponent;

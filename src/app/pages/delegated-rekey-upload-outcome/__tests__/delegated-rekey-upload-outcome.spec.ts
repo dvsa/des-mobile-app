@@ -33,7 +33,6 @@ describe('DelegatedRekeyUploadOutcomePage', () => {
     TestBed.configureTestingModule({
       declarations: [DelegatedRekeyUploadOutcomePage],
       imports: [
-
         AppModule,
         StoreModule.forRoot({
           tests: testsReducer,

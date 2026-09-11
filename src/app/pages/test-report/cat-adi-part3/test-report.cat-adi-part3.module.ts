@@ -2,9 +2,9 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
-
 import { ComponentsModule } from '@components/common/common-components.module';
 import { TestFlowHeaderComponent } from '@components/common/test-flow-header/test-flow-header.component';
+import { IonButton, IonCol, IonContent, IonHeader, IonRow, IonText, IonToolbar } from '@ionic/angular';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 import { TestReportCatADIPart3ComponentsModule } from '@pages/test-report/cat-adi-part3/components/test-report.cat-adi-part3.components.module';
@@ -17,7 +17,6 @@ import { TestReportValidatorProvider } from '@providers/test-report-validator/te
 import { TestResultProvider } from '@providers/test-result/test-result';
 import { TestReportCatADI3Page } from './test-report.cat-adi-part3.page';
 import { TestReportCatADIPart3PageRoutingModule } from './test-report.cat-adi-part3.routing.module';
-import {IonButton, IonCol, IonContent, IonHeader, IonRow, IonText, IonToolbar} from "@ionic/angular";
 
 @NgModule({
   declarations: [TestReportCatADI3Page],

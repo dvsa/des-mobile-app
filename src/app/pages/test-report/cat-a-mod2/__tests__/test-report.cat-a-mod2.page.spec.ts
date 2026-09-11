@@ -50,7 +50,6 @@ describe('TestReportCatAMod2Page', () => {
         MockComponent(SafetyAndBalanceComponent),
       ],
       imports: [
-
         AppModule,
         StoreModule.forFeature('tests', () => ({
           currentTest: {

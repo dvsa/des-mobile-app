@@ -12,7 +12,6 @@ describe('TrainerDetailsCardComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [TrainerDetailsCardComponent, MockComponent(DataRowComponent)],
-
     });
 
     fixture = TestBed.createComponent(TrainerDetailsCardComponent);

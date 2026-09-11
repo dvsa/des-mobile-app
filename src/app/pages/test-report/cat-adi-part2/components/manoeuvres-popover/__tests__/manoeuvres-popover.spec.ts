@@ -54,7 +54,6 @@ describe('ManoeuvresPopoverComponentAdiPart2', () => {
         MockComponent(ManoeuvreCompetencyComponentAdiPart2),
       ],
       imports: [
-
         AppModule,
         StoreModule.forRoot({
           tests: () => ({

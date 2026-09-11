@@ -3,21 +3,26 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ComponentsModule } from '@components/common/common-components.module';
 
-import { EffectsModule } from '@ngrx/effects';
-import { CandidateDetailsAnalyticsEffects } from '@pages/candidate-details/candidate-details.analytics.effects';
-import { CandidateDetailsComponentsModule } from '@pages/candidate-details/components/candidate-details-components.module';
-import { CandidateDetailsPage } from './candidate-details.page';
 import {
   IonButton,
-  IonButtons, IonCard, IonCardContent, IonCardHeader, IonCol,
+  IonButtons,
+  IonCard,
+  IonCardContent,
+  IonCardHeader,
+  IonCol,
   IonContent,
   IonGrid,
   IonHeader,
   IonIcon,
-  IonLabel, IonRow,
+  IonLabel,
+  IonRow,
   IonTitle,
-  IonToolbar
-} from "@ionic/angular";
+  IonToolbar,
+} from '@ionic/angular';
+import { EffectsModule } from '@ngrx/effects';
+import { CandidateDetailsAnalyticsEffects } from '@pages/candidate-details/candidate-details.analytics.effects';
+import { CandidateDetailsComponentsModule } from '@pages/candidate-details/components/candidate-details-components.module';
+import { CandidateDetailsPage } from './candidate-details.page';
 
 @NgModule({
   imports: [

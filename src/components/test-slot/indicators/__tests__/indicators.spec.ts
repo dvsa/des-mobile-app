@@ -11,7 +11,6 @@ describe('IndicatorsComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [IndicatorsComponent],
-
     });
 
     fixture = TestBed.createComponent(IndicatorsComponent);

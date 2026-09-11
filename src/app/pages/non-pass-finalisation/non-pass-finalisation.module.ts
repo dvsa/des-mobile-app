@@ -5,14 +5,6 @@ import { ComponentsModule } from '@components/common/common-components.module';
 import { TestFlowHeaderComponent } from '@components/common/test-flow-header/test-flow-header.component';
 import { TestFinalisationComponentsModule } from '@components/test-finalisation/test-finalisation-components.module';
 
-import { EffectsModule } from '@ngrx/effects';
-import { NonPassFinalisationAnalyticsEffects } from '@pages/non-pass-finalisation/non-pass-finalisation.analytics.effects';
-import { PassFinalisationCatADI3ComponentsModule } from '@pages/pass-finalisation/cat-adi-part3/components/pass-finalisation.cat-adi3.components.module';
-import { ActivityCodeFinalisationProvider } from '@providers/activity-code-finalisation/activity-code-finalisation';
-import { OutcomeBehaviourMapProvider } from '@providers/outcome-behaviour-map/outcome-behaviour-map';
-import { TestResultProvider } from '@providers/test-result/test-result';
-import { NonPassFinalisationPageRoutingModule } from './non-pass-finalisation-routing.module';
-import { NonPassFinalisationPage } from './non-pass-finalisation.page';
 import {
   IonButton,
   IonCol,
@@ -22,8 +14,16 @@ import {
   IonHeader,
   IonRow,
   IonText,
-  IonToolbar
-} from "@ionic/angular";
+  IonToolbar,
+} from '@ionic/angular';
+import { EffectsModule } from '@ngrx/effects';
+import { NonPassFinalisationAnalyticsEffects } from '@pages/non-pass-finalisation/non-pass-finalisation.analytics.effects';
+import { PassFinalisationCatADI3ComponentsModule } from '@pages/pass-finalisation/cat-adi-part3/components/pass-finalisation.cat-adi3.components.module';
+import { ActivityCodeFinalisationProvider } from '@providers/activity-code-finalisation/activity-code-finalisation';
+import { OutcomeBehaviourMapProvider } from '@providers/outcome-behaviour-map/outcome-behaviour-map';
+import { TestResultProvider } from '@providers/test-result/test-result';
+import { NonPassFinalisationPageRoutingModule } from './non-pass-finalisation-routing.module';
+import { NonPassFinalisationPage } from './non-pass-finalisation.page';
 
 @NgModule({
   imports: [

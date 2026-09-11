@@ -89,7 +89,6 @@ describe('OfficeCatManoeuvrePage', () => {
         MockComponent(AccompanimentComponent),
       ],
       imports: [
-
         AppModule,
         ComponentsModule,
         StoreModule.forRoot({

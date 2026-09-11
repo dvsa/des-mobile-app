@@ -7,6 +7,19 @@ import { PracticeModeBanner } from '@components/common/practice-mode-banner/prac
 import { PracticeModeExitButton } from '@components/common/practice-mode-exit-button/practice-mode-exit-button';
 import { TestFlowHeaderComponent } from '@components/common/test-flow-header/test-flow-header.component';
 import { DirectivesModule } from '@directives/directives.module';
+import {
+  IonCard,
+  IonCardContent,
+  IonCardHeader,
+  IonCol,
+  IonContent,
+  IonFooter,
+  IonGrid,
+  IonHeader,
+  IonRow,
+  IonToolbar,
+} from '@ionic/angular';
+import { TranslatePipe } from '@ngx-translate/core';
 import { ModeOfTransportCatAMod2Component } from '@pages/office/cat-a-mod2/components/mode-of-transport/mode-of-transport.cat-a-mod2';
 import { SafetyAndBalanceCardCatAMod2Component } from '@pages/office/cat-a-mod2/components/safety-and-balance/safety-and-balance.cat-a-mod2';
 import { OfficeRegistrationAndMotComponent } from '@pages/office/components/office-registration-and-mot/office-registration-and-mot.component';
@@ -17,18 +30,6 @@ import { FaultSummaryProvider } from '@providers/fault-summary/fault-summary';
 import { PipesModule } from '@shared/pipes/pipes.module';
 import { OfficeCatAMod2PageRoutingModule } from './office.cat-a-mod2-routing.module';
 import { OfficeCatAMod2Page } from './office.cat-a-mod2.page';
-import {
-  IonCard,
-  IonCardContent,
-  IonCardHeader,
-  IonCol,
-  IonContent,
-  IonFooter,
-  IonGrid, IonHeader,
-  IonRow,
-  IonToolbar
-} from "@ionic/angular";
-import {TranslatePipe} from '@ngx-translate/core';
 
 @NgModule({
   imports: [

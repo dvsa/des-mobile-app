@@ -10,7 +10,6 @@ describe('ProgressiveAccessComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [ProgressiveAccessComponent],
-
     });
 
     fixture = TestBed.createComponent(ProgressiveAccessComponent);

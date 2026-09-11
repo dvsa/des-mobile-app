@@ -24,7 +24,6 @@ describe('MotNoEvidenceConfirmationComponent', () => {
     TestBed.configureTestingModule({
       declarations: [MotNoEvidenceConfirmationComponent],
       imports: [
-
         StoreModule.forRoot({
           tests: testsReducer,
         }),

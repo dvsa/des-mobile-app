@@ -10,7 +10,6 @@ describe('ConductedLanguageComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [ConductedLanguageComponent],
-
     });
 
     fixture = TestBed.createComponent(ConductedLanguageComponent);

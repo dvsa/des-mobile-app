@@ -29,7 +29,6 @@ describe('ManoeuvresComponent', () => {
         MockComponent(DangerousFaultBadgeComponent),
       ],
       imports: [
-
         AppModule,
         StoreModule.forRoot({
           tests: () => ({

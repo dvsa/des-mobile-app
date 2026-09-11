@@ -1,7 +1,6 @@
 import { EventEmitter } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-
 import { UntypedFormGroup, Validators } from '@angular/forms';
 import { AppModule } from '@app/app.module';
 import { AccessibilityServiceMock } from '@providers/accessibility/__mocks__/accessibility-service.mock';

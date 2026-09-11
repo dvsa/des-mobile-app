@@ -15,7 +15,6 @@ describe('GoToJournalCard', () => {
     TestBed.configureTestingModule({
       declarations: [GoToJournalCardComponent],
       imports: [
-
         RouterModule.forRoot([
           {
             path: 'journal',

@@ -1,8 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 
+import { IonButton, IonCard, IonCol, IonGrid, IonIcon, IonRow, IonText } from '@ionic/angular';
 import { UploadRekeyModal } from './upload-rekey-modal';
-import {IonButton, IonCard, IonCol, IonGrid, IonIcon, IonRow, IonText} from "@ionic/angular";
 
 @NgModule({
   declarations: [UploadRekeyModal],

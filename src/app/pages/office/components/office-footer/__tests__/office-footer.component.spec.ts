@@ -1,6 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-
 import { OfficeFooterComponent } from '../office-footer.component';
 
 describe('OfficeFooterComponent', () => {

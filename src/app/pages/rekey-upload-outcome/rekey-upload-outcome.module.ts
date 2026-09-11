@@ -4,21 +4,22 @@ import { FormsModule } from '@angular/forms';
 
 import { EffectsModule } from '@ngrx/effects';
 
-import { RekeyUploadOutcomeAnalyticsEffects } from '@pages/rekey-upload-outcome/rekey-upload-outcome.analytics.effects';
-import { RekeyUploadOutcomePage } from './rekey-upload-outcome.page';
-import { RekeyUploadOutcomePageRoutingModule } from './rekey-upload-outcome.routing.module';
 import {
   IonButton,
   IonCol,
   IonContent,
   IonFooter,
-  IonGrid, IonHeader,
+  IonGrid,
+  IonHeader,
   IonIcon,
   IonRow,
   IonText,
   IonTitle,
-  IonToolbar
+  IonToolbar,
 } from '@ionic/angular';
+import { RekeyUploadOutcomeAnalyticsEffects } from '@pages/rekey-upload-outcome/rekey-upload-outcome.analytics.effects';
+import { RekeyUploadOutcomePage } from './rekey-upload-outcome.page';
+import { RekeyUploadOutcomePageRoutingModule } from './rekey-upload-outcome.routing.module';
 
 @NgModule({
   declarations: [RekeyUploadOutcomePage],

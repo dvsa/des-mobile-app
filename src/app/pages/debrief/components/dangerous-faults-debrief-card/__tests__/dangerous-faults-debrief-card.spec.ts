@@ -1,6 +1,5 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
-
 import { By } from '@angular/platform-browser';
 import { AppModule } from '@app/app.module';
 import { default as welshTranslations } from '@assets/i18n/cy.json';

@@ -4,6 +4,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ComponentsModule } from '@components/common/common-components.module';
 import { DirectivesModule } from '@directives/directives.module';
 
+import { IonCard, IonCardContent, IonCardHeader, IonCol, IonGrid, IonRow } from '@ionic/angular';
 import { AssessmentAnswerComponent } from '@pages/test-report/cat-adi-part3/components/assessment-answer/assessment-answer';
 import { Code4ModalModule } from '@pages/test-report/cat-adi-part3/components/code-4-modal/code-4-modal.module';
 import { LessonThemeComponent } from '@pages/test-report/cat-adi-part3/components/lesson-theme/lesson-theme';
@@ -12,7 +13,6 @@ import { TestReportAssessmentAnswer } from '@pages/test-report/cat-adi-part3/com
 import { TestReportAssessmentCard } from '@pages/test-report/cat-adi-part3/components/tr-assessment-card/tr-assessment-card';
 import { PipesModule } from '@shared/pipes/pipes.module';
 import { TestReportComponentsModule } from '../../components/test-report-components.module';
-import {IonCard, IonCardContent, IonCardHeader, IonCol, IonGrid, IonRow} from '@ionic/angular';
 
 @NgModule({
   declarations: [

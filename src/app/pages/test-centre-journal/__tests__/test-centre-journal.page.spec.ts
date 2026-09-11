@@ -54,7 +54,6 @@ describe('TestCenterJournalPage', () => {
     TestBed.configureTestingModule({
       declarations: [TestCentreJournalPage, MockComponent(TestFlowHeaderComponent)],
       imports: [
-
         MockComponent(RefreshButtonComponent),
         CommonModule,
         ComponentsModule,

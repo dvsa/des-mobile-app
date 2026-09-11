@@ -20,7 +20,6 @@ describe('PracticeModeOptionsBar', () => {
     TestBed.configureTestingModule({
       declarations: [PracticeModeOptionsBar],
       imports: [
-
         RouterModule,
         StoreModule.forRoot({
           tests: () => ({

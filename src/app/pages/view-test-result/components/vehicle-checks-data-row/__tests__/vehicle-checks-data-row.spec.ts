@@ -9,7 +9,6 @@ describe('VehicleChecksDataRowComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [VehicleChecksDataRowComponent],
-
     });
 
     fixture = TestBed.createComponent(VehicleChecksDataRowComponent);

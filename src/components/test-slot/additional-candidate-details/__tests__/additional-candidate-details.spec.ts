@@ -10,7 +10,6 @@ describe('AdditionalCandidateDetailsComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [AdditionalCandidateDetailsComponent],
-
     });
 
     fixture = TestBed.createComponent(AdditionalCandidateDetailsComponent);

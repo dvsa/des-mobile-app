@@ -1,8 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import {IonCol, IonContent, IonHeader, IonRow, IonText, IonToolbar} from '@ionic/angular';
-import {TranslatePipe} from '@ngx-translate/core';
+import { IonCol, IonContent, IonHeader, IonRow, IonText, IonToolbar } from '@ionic/angular';
+import { TranslatePipe } from '@ngx-translate/core';
 
 import { ComponentsModule } from '@components/common/common-components.module';
 import { TestFlowHeaderComponent } from '@components/common/test-flow-header/test-flow-header.component';

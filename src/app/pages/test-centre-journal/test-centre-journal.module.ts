@@ -12,11 +12,11 @@ import { SlotProvider } from '@providers/slot/slot';
 
 import { RefreshButtonComponent } from '@components/common/refresh-button/refresh-button.component';
 import { TestFlowHeaderComponent } from '@components/common/test-flow-header/test-flow-header.component';
+import { IonBackButton, IonButtons, IonCol, IonContent, IonHeader, IonRow, IonTitle, IonToolbar } from '@ionic/angular';
 import { OrientationMonitorProvider } from '@providers/orientation-monitor/orientation-monitor.provider';
 import { TestCentreJournalComponentsModule } from './components/test-centre-journal-components.module';
 import { TestCentreJournalRoutingModule } from './test-centre-journal-routing.module';
 import { TestCentreJournalPage } from './test-centre-journal.page';
-import {IonBackButton, IonButtons, IonCol, IonContent, IonHeader, IonRow, IonTitle, IonToolbar} from "@ionic/angular";
 
 @NgModule({
   imports: [

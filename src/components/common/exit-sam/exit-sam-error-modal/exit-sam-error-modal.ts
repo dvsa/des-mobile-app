@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { ComponentsModule } from '@components/common/common-components.module';
-import {IonButton, IonCard, IonCol, IonRow, IonText, ModalController} from '@ionic/angular';
+import { IonButton, IonCard, IonCol, IonRow, IonText, ModalController } from '@ionic/angular';
 
 @Component({
   selector: 'exit-sam-error-modal',

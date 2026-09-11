@@ -1,7 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { AutosaveStatusComponent } from '@components/test-slot/autosave-status/autosave-status';
 
-
 describe('AutosaveStatusComponent', () => {
   let component: AutosaveStatusComponent;
   let fixture: ComponentFixture<AutosaveStatusComponent>;
@@ -9,7 +8,6 @@ describe('AutosaveStatusComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [AutosaveStatusComponent],
-
     });
 
     fixture = TestBed.createComponent(AutosaveStatusComponent);

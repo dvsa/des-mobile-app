@@ -29,7 +29,6 @@ describe('VehicleChecksCompactComponent', () => {
         MockComponent(DrivingFaultsBadgeComponent),
       ],
       imports: [
-
         StoreModule.forRoot({
           tests: testsReducer,
         }),

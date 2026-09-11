@@ -10,7 +10,6 @@ describe('TickIndicatorComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [TickIndicatorComponent],
-
     });
 
     fixture = TestBed.createComponent(TickIndicatorComponent);

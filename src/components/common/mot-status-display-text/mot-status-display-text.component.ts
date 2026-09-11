@@ -1,16 +1,13 @@
 import { Component, Input } from '@angular/core';
 import { MotStatusCodes } from '@dvsa/mes-mot-schema';
-import {IonCol, IonText} from '@ionic/angular';
+import { IonCol, IonText } from '@ionic/angular';
 
 @Component({
-    selector: 'mot-status-display-text',
-    templateUrl: './mot-status-display-text.component.html',
-    styleUrls: ['./mot-status-display-text.component.scss'],
-    standalone: true,
-    imports: [
-        IonCol,
-        IonText
-    ]
+  selector: 'mot-status-display-text',
+  templateUrl: './mot-status-display-text.component.html',
+  styleUrls: ['./mot-status-display-text.component.scss'],
+  standalone: true,
+  imports: [IonCol, IonText],
 })
 export class MotStatusDisplayTextComponent {
   @Input()

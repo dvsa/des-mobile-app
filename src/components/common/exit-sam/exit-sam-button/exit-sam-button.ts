@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { ComponentsModule } from '@components/common/common-components.module';
 import { ExitSAMMethodUsed } from '@components/common/test-flow-header/test-flow-header.component';
-import {IonButton, IonIcon, IonText, ModalController} from '@ionic/angular';
+import { IonButton, IonIcon, IonText, ModalController } from '@ionic/angular';
 import { AccessibilityService } from '@providers/accessibility/accessibility.service';
 import { DeviceProvider } from '@providers/device/device';
 
@@ -10,7 +10,7 @@ import { DeviceProvider } from '@providers/device/device';
   templateUrl: './exit-sam-button.html',
   styleUrls: ['./exit-sam-button.scss'],
   imports: [ComponentsModule, IonIcon, IonText, IonButton],
-  standalone: true
+  standalone: true,
 })
 export class ExitSamButton {
   constructor(

@@ -2,8 +2,8 @@ import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core
 import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { AccessibilityService } from '@providers/accessibility/accessibility.service';
 import { getByteCount, getPassCertificateAMOD1Validator } from '@shared/constants/field-validators/field-validators';
+import { toInteger } from 'lodash-es';
 import { PASS_CERTIFICATE_NUMBER_CTRL } from './pass-certificate-number.cat-a-mod1.constants';
-import {toInteger} from 'lodash-es';
 
 @Component({
   selector: 'pass-certificate-number-cat-a-mod1',

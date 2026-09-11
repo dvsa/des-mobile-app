@@ -91,7 +91,6 @@ describe('OfficeCatAMod2Page', () => {
         MockComponent(DrivingFaultsComponent),
       ],
       imports: [
-
         AppModule,
         ComponentsModule,
         PipesModule,

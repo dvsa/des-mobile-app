@@ -2,7 +2,6 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
-
 import { ComponentsModule } from '@components/common/common-components.module';
 import { TestSlotComponentsModule } from '@components/test-slot/test-slot-components.module';
 import { EffectsModule } from '@ngrx/effects';
@@ -16,9 +15,9 @@ import { OrientationMonitorProvider } from '@providers/orientation-monitor/orien
 import { PracticeModeBanner } from '@components/common/practice-mode-banner/practice-mode-banner';
 import { PracticeModeExitButton } from '@components/common/practice-mode-exit-button/practice-mode-exit-button';
 import { VehicleRecallsBanner } from '@components/common/vehicle-recall-banner/vehicle-recalls-banner';
+import { IonButtons, IonCol, IonContent, IonHeader, IonRow, IonTitle, IonToolbar } from '@ionic/angular';
 import { FakeJournalAnalyticsEffects } from './fake-journal.analytics.effects';
 import { FakeJournalPage } from './fake-journal.page';
-import {IonButtons, IonCol, IonContent, IonHeader, IonRow, IonTitle, IonToolbar} from "@ionic/angular";
 
 @NgModule({
   imports: [

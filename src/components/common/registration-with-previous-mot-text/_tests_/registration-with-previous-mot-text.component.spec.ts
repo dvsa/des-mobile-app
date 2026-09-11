@@ -1,6 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-
 import { RegistrationWithPreviousMotTextComponent } from '../registration-with-previous-mot-text.component';
 
 describe('RegistrationWithPreviousMotTextComponent', () => {

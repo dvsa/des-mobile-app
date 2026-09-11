@@ -7,6 +7,22 @@ import { EffectsModule } from '@ngrx/effects';
 import { SearchProvider } from '@providers/search/search';
 
 import { DirectivesModule } from '@directives/directives.module';
+import {
+  IonBackButton,
+  IonButton,
+  IonButtons,
+  IonCol,
+  IonContent,
+  IonGrid,
+  IonHeader,
+  IonIcon,
+  IonInput,
+  IonRow,
+  IonSpinner,
+  IonText,
+  IonTitle,
+  IonToolbar,
+} from '@ionic/angular';
 import { MaskitoDirective } from '@maskito/angular';
 import { ErrorPageModule } from '@pages/error-page/error.module';
 import { TestResultsSearchRoutingModule } from '@pages/test-results-search/test-results-search-routing.module';
@@ -16,17 +32,6 @@ import { FaultSummaryProvider } from '@providers/fault-summary/fault-summary';
 import { TestResultsSearchComponentsModule } from './components/test-results-search-components.module';
 import { TestResultsSearchPage } from './test-results-search';
 import { TestResultsSearchAnalyticsEffects } from './test-results-search.analytics.effects';
-import {
-  IonBackButton, IonButton,
-  IonButtons,
-  IonCol,
-  IonContent,
-  IonGrid,
-  IonHeader, IonIcon, IonInput,
-  IonRow, IonSpinner, IonText,
-  IonTitle,
-  IonToolbar
-} from '@ionic/angular';
 
 @NgModule({
   declarations: [TestResultsSearchPage],

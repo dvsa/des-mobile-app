@@ -20,7 +20,6 @@ describe('IncompleteTestsBanner', () => {
     TestBed.configureTestingModule({
       declarations: [IncompleteTestsBanner],
       imports: [
-
         StoreModule.forRoot({
           tests: testsReducer,
           journal: journalReducer,

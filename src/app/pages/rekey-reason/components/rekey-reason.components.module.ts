@@ -7,10 +7,10 @@ import { DirectivesModule } from '@directives/directives.module';
 import { ExitRekeyModalModule } from '@pages/rekey-reason/components/exit-rekey-modal/exit-rekey-modal.module';
 import { UploadRekeyModalModule } from '@pages/rekey-reason/components/upload-rekey-modal/upload-rekey-modal.module';
 
+import { IonCol, IonInput, IonItem, IonRow } from '@ionic/angular';
 import { IpadIssueComponent } from './ipad-issue/ipad-issue';
 import { OtherReasonComponent } from './other-reason/other-reason';
 import { TransferComponent } from './transfer/transfer';
-import {IonCol, IonInput, IonItem, IonRow} from '@ionic/angular';
 
 @NgModule({
   declarations: [IpadIssueComponent, TransferComponent, OtherReasonComponent],

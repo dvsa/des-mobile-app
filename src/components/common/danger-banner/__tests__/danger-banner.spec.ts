@@ -10,7 +10,6 @@ describe('DangerBanner', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [DangerBannerComponent],
-
     });
 
     fixture = TestBed.createComponent(DangerBannerComponent);

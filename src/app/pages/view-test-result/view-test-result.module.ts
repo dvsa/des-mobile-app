@@ -5,22 +5,25 @@ import { FormsModule } from '@angular/forms';
 import { EffectsModule } from '@ngrx/effects';
 
 import { ComponentsModule } from '@components/common/common-components.module';
-import { CandidateDetailsComponentsModule } from '@pages/candidate-details/components/candidate-details-components.module';
-import { ActivityCodeCard } from '@pages/view-test-result/components/activity-code-card/activity-code-card';
-import { ViewTestResultComponentsModule } from '@pages/view-test-result/components/view-test-result.components.module';
-import { ViewTestResultAnalyticsEffects } from '@pages/view-test-result/view-test-result.analytics.effects';
-import { ViewTestResultPage } from '@pages/view-test-result/view-test-result.page';
 import {
   IonButton,
-  IonButtons, IonCard, IonCardContent, IonCardHeader,
+  IonButtons,
+  IonCard,
+  IonCardContent,
+  IonCardHeader,
   IonContent,
   IonGrid,
   IonHeader,
   IonIcon,
   IonLabel,
   IonTitle,
-  IonToolbar
+  IonToolbar,
 } from '@ionic/angular';
+import { CandidateDetailsComponentsModule } from '@pages/candidate-details/components/candidate-details-components.module';
+import { ActivityCodeCard } from '@pages/view-test-result/components/activity-code-card/activity-code-card';
+import { ViewTestResultComponentsModule } from '@pages/view-test-result/components/view-test-result.components.module';
+import { ViewTestResultAnalyticsEffects } from '@pages/view-test-result/view-test-result.analytics.effects';
+import { ViewTestResultPage } from '@pages/view-test-result/view-test-result.page';
 
 @NgModule({
   imports: [

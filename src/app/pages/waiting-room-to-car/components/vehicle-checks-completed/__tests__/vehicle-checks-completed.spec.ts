@@ -2,7 +2,6 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule, UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 
-
 import { AppModule } from '@app/app.module';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { VehicleChecksToggleComponent } from '../vehicle-checks-completed';

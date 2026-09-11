@@ -13,7 +13,6 @@ describe('RekeyDetailsCardComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [RekeyDetailsCardComponent, MockComponent(DataRowComponent)],
-
     });
 
     fixture = TestBed.createComponent(RekeyDetailsCardComponent);

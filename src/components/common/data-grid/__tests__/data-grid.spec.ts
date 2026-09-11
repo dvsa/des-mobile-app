@@ -3,7 +3,6 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { AppModule } from '@app/app.module';
 import { DataGridComponent } from '@components/common/data-grid/data-grid';
 
-
 describe('DataGridComponent', () => {
   let fixture: ComponentFixture<DataGridComponent>;
   let component: DataGridComponent;

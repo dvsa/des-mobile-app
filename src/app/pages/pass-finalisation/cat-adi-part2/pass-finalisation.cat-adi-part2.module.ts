@@ -2,8 +2,6 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
-
-
 import { ComponentsModule } from '@components/common/common-components.module';
 import { TestFinalisationComponentsModule } from '@components/test-finalisation/test-finalisation-components.module';
 import { EffectsModule } from '@ngrx/effects';
@@ -13,7 +11,6 @@ import { PassCertificateValidationProvider } from '@providers/pass-certificate-v
 import { PassFinalisationCatADIPart2PageRoutingModule } from './pass-finalisation.cat-adi-part2-routing.module';
 
 import { TestFlowHeaderComponent } from '@components/common/test-flow-header/test-flow-header.component';
-import { PassFinalisationCatADI2Page } from './pass-finalisation.cat-adi-part2.page';
 import {
   IonButton,
   IonCol,
@@ -23,8 +20,9 @@ import {
   IonHeader,
   IonRow,
   IonText,
-  IonToolbar
+  IonToolbar,
 } from '@ionic/angular';
+import { PassFinalisationCatADI2Page } from './pass-finalisation.cat-adi-part2.page';
 
 @NgModule({
   declarations: [PassFinalisationCatADI2Page],

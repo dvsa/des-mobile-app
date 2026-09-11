@@ -6,6 +6,16 @@ import { ComponentsModule } from '@components/common/common-components.module';
 import { PracticeModeBanner } from '@components/common/practice-mode-banner/practice-mode-banner';
 import { PracticeModeExitButton } from '@components/common/practice-mode-exit-button/practice-mode-exit-button';
 import { TestFlowHeaderComponent } from '@components/common/test-flow-header/test-flow-header.component';
+import {
+  IonCard,
+  IonCardContent,
+  IonCardHeader,
+  IonContent,
+  IonFooter,
+  IonGrid,
+  IonHeader,
+  IonToolbar,
+} from '@ionic/angular';
 import { EffectsModule } from '@ngrx/effects';
 import { DebriefComponentsModule } from '@pages/debrief/components/debrief-components.module';
 import { CircuitComponent } from '@pages/office/cat-a-mod1/components/circuit/circuit';
@@ -19,16 +29,6 @@ import { FaultSummaryProvider } from '@providers/fault-summary/fault-summary';
 import { PipesModule } from '@shared/pipes/pipes.module';
 import { OfficeCatAMod1PageRoutingModule } from './office.cat-a-mod1-routing.module';
 import { OfficeCatAMod1Page } from './office.cat-a-mod1.page';
-import {
-  IonCard,
-  IonCardContent,
-  IonCardHeader,
-  IonContent,
-  IonFooter,
-  IonGrid,
-  IonHeader,
-  IonToolbar
-} from "@ionic/angular";
 
 @NgModule({
   declarations: [OfficeCatAMod1Page, CircuitComponent],

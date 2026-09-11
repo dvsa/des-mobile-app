@@ -19,7 +19,6 @@ describe('ContactDetailsCardComponent', () => {
         MockComponent(DataRowCustomComponent),
         MockComponent(DisplayAddressComponent),
       ],
-
     });
 
     fixture = TestBed.createComponent(ContactDetailsCardComponent);

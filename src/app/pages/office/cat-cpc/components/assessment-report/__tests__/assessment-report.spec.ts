@@ -10,7 +10,6 @@ describe('AssessmentReportComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [AssessmentReportComponent],
-
     });
 
     fixture = TestBed.createComponent(AssessmentReportComponent);

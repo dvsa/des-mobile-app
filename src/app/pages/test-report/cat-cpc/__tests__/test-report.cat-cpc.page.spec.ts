@@ -69,7 +69,6 @@ describe('TestReportCatCPCPage', () => {
         MockComponent(TestFlowHeaderComponent),
       ],
       imports: [
-
         AppModule,
         StoreModule.forFeature('tests', () => ({
           currentTest: {

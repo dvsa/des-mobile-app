@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { ComponentsModule } from '@components/common/common-components.module';
 import { AutosaveStatusComponent } from '@components/test-slot/autosave-status/autosave-status';
 import { IntegrityMarkerComponent } from '@components/test-slot/integrity-marker/integrity-marker';
-import {IonButton, IonCard, IonCol, IonGrid, IonIcon, IonRow, IonText} from '@ionic/angular';
+import { IonButton, IonCard, IonCol, IonGrid, IonIcon, IonRow, IonText } from '@ionic/angular';
 import { AdditionalCandidateDetailsComponent } from './additional-candidate-details/additional-candidate-details';
 import { CandidateLinkComponent } from './candidate-link/candidate-link';
 import { DateComponent } from './date/date';

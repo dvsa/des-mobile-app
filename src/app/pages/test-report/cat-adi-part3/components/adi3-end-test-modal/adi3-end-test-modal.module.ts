@@ -1,9 +1,9 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 
+import { IonButton, IonCard, IonCol, IonRow, IonText } from '@ionic/angular';
 import { CPCEndTestModalModule } from '@pages/test-report/cat-cpc/components/cpc-end-test-modal/cpc-end-test-modal.module';
 import { Adi3EndTestModal } from './adi3-end-test-modal';
-import {IonButton, IonCard, IonCol, IonRow, IonText} from '@ionic/angular';
 
 @NgModule({
   declarations: [Adi3EndTestModal],

@@ -1,7 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 
-
 import { AppModule } from '@app/app.module';
 import { CombinationComponent } from '../combination';
 

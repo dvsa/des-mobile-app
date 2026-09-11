@@ -6,21 +6,23 @@ import { EffectsModule } from '@ngrx/effects';
 import { ComponentsModule } from '@components/common/common-components.module';
 
 import { VehicleRecallsBanner } from '@components/common/vehicle-recall-banner/vehicle-recalls-banner';
-import { DashboardComponentsModule } from './components/dashboard-components.module';
-import { DashboardPageRoutingModule } from './dashboard-routing.module';
-import { DashboardAnalyticsEffects } from './dashboard.analytics.effects';
-import { DashboardPage } from './dashboard.page';
 import {
   IonBadge,
   IonButtons,
   IonCol,
-  IonContent, IonGrid,
-  IonHeader, IonMenuButton,
+  IonContent,
+  IonGrid,
+  IonHeader,
+  IonMenuButton,
   IonRow,
   IonText,
   IonTitle,
-  IonToolbar
-} from "@ionic/angular";
+  IonToolbar,
+} from '@ionic/angular';
+import { DashboardComponentsModule } from './components/dashboard-components.module';
+import { DashboardPageRoutingModule } from './dashboard-routing.module';
+import { DashboardAnalyticsEffects } from './dashboard.analytics.effects';
+import { DashboardPage } from './dashboard.page';
 
 @NgModule({
   imports: [

@@ -58,7 +58,6 @@ describe('TestReportCatADI2Page', () => {
         MockComponent(ManoeuvresPopoverComponentAdiPart2),
       ],
       imports: [
-
         AppModule,
         StoreModule.forFeature('tests', () => ({
           currentTest: {

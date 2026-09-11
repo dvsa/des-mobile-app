@@ -12,7 +12,7 @@ import {
   IonIcon,
   IonRow,
   IonText,
-  IonToolbar
+  IonToolbar,
 } from '@ionic/angular';
 
 import { ComponentsModule } from '@components/common/common-components.module';
