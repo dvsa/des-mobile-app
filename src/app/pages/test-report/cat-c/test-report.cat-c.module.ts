@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { IonicModule } from '@ionic/angular';
+
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 
@@ -16,6 +16,7 @@ import { TestReportValidatorProvider } from '@providers/test-report-validator/te
 import { TestResultProvider } from '@providers/test-result/test-result';
 import { TestReportCatCPageRoutingModule } from './test-report.cat-c-routing.module';
 import { TestReportCatCPage } from './test-report.cat-c.page';
+import {IonCol, IonContent, IonGrid, IonHeader, IonRow, IonToolbar} from '@ionic/angular';
 
 @NgModule({
   declarations: [TestReportCatCPage],
@@ -26,10 +27,16 @@ import { TestReportCatCPage } from './test-report.cat-c.page';
     EffectsModule.forFeature([TestReportAnalyticsEffects, TestReportEffects]),
     ComponentsModule,
     CommonModule,
-    IonicModule,
+
     TestReportCatCPageRoutingModule,
     ReverseDiagramModalComponentsModule,
     TestFlowHeaderComponent,
+    IonCol,
+    IonRow,
+    IonContent,
+    IonGrid,
+    IonHeader,
+    IonToolbar,
   ],
   providers: [TestReportValidatorProvider, TestResultProvider],
 })

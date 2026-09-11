@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { TickIndicatorComponent } from '@components/common/tick-indicator/tick-indicator';
 import { TestResultCommonSchema } from '@dvsa/mes-test-schema/categories/common';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
-import { IonicModule } from '@ionic/angular';
+
 import { Store, StoreModule } from '@ngrx/store';
 import { provideMockStore } from '@ngrx/store/testing';
 import { StoreModel } from '@shared/models/store.model';
@@ -67,7 +67,7 @@ describe('EcoComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [EcoComponent, MockComponent(TickIndicatorComponent), MockComponent(CompetencyButtonComponent)],
-      imports: [IonicModule, StoreModule.forRoot({ tests: testsReducer, testReport: testReportReducer })],
+      imports: [StoreModule.forRoot({ tests: testsReducer, testReport: testReportReducer })],
       providers: [provideMockStore({ initialState })],
     });
 

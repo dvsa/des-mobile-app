@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormControl, UntypedFormGroup, Validators } from '@angular/forms';
-import { IonicModule } from '@ionic/angular';
+
 import { behaviourMap } from '@pages/office/office-behaviour-map';
 import { CharacterCountService } from '@providers/character-count/character-count.service';
 import { OutcomeBehaviourMapProvider } from '@providers/outcome-behaviour-map/outcome-behaviour-map';
@@ -16,7 +16,7 @@ describe('CandidateDescriptionComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [CandidateDescriptionComponent],
-      imports: [IonicModule, AppModule],
+      imports: [AppModule],
       providers: [
         { provide: OutcomeBehaviourMapProvider, useClass: OutcomeBehaviourMapProvider },
         { provide: CharacterCountService, useClass: CharacterCountService },

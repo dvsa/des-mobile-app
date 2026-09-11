@@ -1,7 +1,7 @@
 import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { QuestionResult } from '@dvsa/mes-test-schema/categories/common';
-import { IonicModule } from '@ionic/angular';
+
 import { TranslateModule, TranslateService, provideTranslateService } from '@ngx-translate/core';
 import { provideTranslateHttpLoader } from '@ngx-translate/http-loader';
 import { SafetyQuestionsCardComponent } from '@pages/debrief/components/safety-questions-card/safety-questions-card';
@@ -14,7 +14,7 @@ describe('SafetyQuestionsCardComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [SafetyQuestionsCardComponent],
-      imports: [IonicModule, TranslateModule.forRoot()],
+      imports: [TranslateModule.forRoot()],
       providers: [
         provideHttpClient(withInterceptorsFromDi()),
         provideTranslateService({

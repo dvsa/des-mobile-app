@@ -1,7 +1,7 @@
 import { SimpleChanges } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ChartComponent } from '@components/common/chart/chart';
-import { IonicModule } from '@ionic/angular';
+
 import { NgApexchartsModule } from 'ng-apexcharts';
 import { MockModule } from 'ng-mocks';
 
@@ -12,7 +12,7 @@ describe('ChartComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [ChartComponent],
-      imports: [IonicModule, MockModule(NgApexchartsModule)],
+      imports: [MockModule(NgApexchartsModule)],
       providers: [],
     });
     fixture = TestBed.createComponent(ChartComponent);

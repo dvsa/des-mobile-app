@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ComponentsModule } from '@components/common/common-components.module';
-import { IonicModule } from '@ionic/angular';
+
 import { PipesModule } from '@shared/pipes/pipes.module';
 
 import { MotStatusDisplayTextComponent } from '@components/common/mot-status-display-text/mot-status-display-text.component';
@@ -26,6 +26,7 @@ import { TestSummaryCardComponent } from './test-summary-card/test-summary-card'
 import { VehicleChecksDataRowComponent } from './vehicle-checks-data-row/vehicle-checks-data-row';
 import { VehicleDetailsCardComponent } from './vehicle-details-card/vehicle-details-card';
 import { ViewTestHeaderComponent } from './view-test-header/view-test-header';
+import {IonCard, IonCardContent, IonCardHeader, IonCol, IonGrid, IonRow, IonText} from '@ionic/angular';
 
 @NgModule({
   declarations: [
@@ -50,13 +51,20 @@ import { ViewTestHeaderComponent } from './view-test-header/view-test-header';
   ],
   imports: [
     CommonModule,
-    IonicModule,
+
     ComponentsModule,
     PipesModule,
     CandidateDetailsComponentsModule,
     OfficeComponentsModule,
     RegistrationWithPreviousMotTextComponent,
     MotStatusDisplayTextComponent,
+    IonCardHeader,
+    IonCard,
+    IonGrid,
+    IonCardContent,
+    IonText,
+    IonCol,
+    IonRow,
   ],
   exports: [
     DataRowWithListComponent,

@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
-import { IonicModule } from '@ionic/angular';
+
 import { TransmissionDisplayComponent } from '../transmission-display';
 
 enum GearBox {
@@ -16,7 +16,7 @@ describe('TransmissionDisplayComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [IonicModule],
+
       declarations: [TransmissionDisplayComponent],
     });
 

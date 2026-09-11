@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { IonicModule, NavController } from '@ionic/angular';
+import { NavController } from '@ionic/angular';
 import { NavControllerMock } from '@mocks/index.mock';
 import { Store, StoreModule } from '@ngrx/store';
 import { MockComponent } from 'ng-mocks';
@@ -32,7 +32,7 @@ describe('ToolbarComponent', () => {
         MockComponent(DangerousTooltipComponent),
         MockComponent(TimerComponent),
       ],
-      imports: [IonicModule, StoreModule.forRoot({ tests: testsReducer, testReport: testReportReducer })],
+      imports: [StoreModule.forRoot({ tests: testsReducer, testReport: testReportReducer })],
       providers: [
         { provide: NavController, useClass: NavControllerMock },
         { provide: FaultCountProvider, useClass: FaultCountProvider },

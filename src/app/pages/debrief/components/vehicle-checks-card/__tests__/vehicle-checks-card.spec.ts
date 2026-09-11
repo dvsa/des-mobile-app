@@ -5,7 +5,7 @@ import { default as welshTranslations } from '@assets/i18n/cy.json';
 import { default as englishTranslations } from '@assets/i18n/en.json';
 import { QuestionResult } from '@dvsa/mes-test-schema/categories/common';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
-import { IonicModule } from '@ionic/angular';
+
 import { TranslateModule, TranslateService, provideTranslateService } from '@ngx-translate/core';
 import { provideTranslateHttpLoader } from '@ngx-translate/http-loader';
 import { getMalformedVehicleChecks } from '../__mocks__/vehicle-checks-card.mock';
@@ -19,7 +19,7 @@ describe('VehicleChecksCardComponent', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [VehicleChecksCardComponent],
-      imports: [IonicModule, TranslateModule.forRoot()],
+      imports: [TranslateModule.forRoot()],
       providers: [
         provideHttpClient(withInterceptorsFromDi()),
         provideTranslateService({

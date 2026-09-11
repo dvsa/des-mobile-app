@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FitMarkerBannerComponent } from '@components/common/fit-marker-banner/fit-marker-banner';
-import { IonicModule } from '@ionic/angular';
+
 
 describe('FitMarkerBannerComponent', () => {
   let fixture: ComponentFixture<FitMarkerBannerComponent>;
@@ -9,7 +9,7 @@ describe('FitMarkerBannerComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [FitMarkerBannerComponent],
-      imports: [IonicModule],
+
     });
 
     fixture = TestBed.createComponent(FitMarkerBannerComponent);

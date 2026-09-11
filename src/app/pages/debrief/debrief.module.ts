@@ -2,10 +2,6 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
-import { IonicModule } from '@ionic/angular';
-
-import { TranslateModule } from '@ngx-translate/core';
-
 import { ComponentsModule } from '@components/common/common-components.module';
 import { TestFlowHeaderComponent } from '@components/common/test-flow-header/test-flow-header.component';
 import { DirectivesModule } from '@directives/directives.module';
@@ -17,6 +13,8 @@ import { ViewTestResultComponentsModule } from '@pages/view-test-result/componen
 import { FaultSummaryProvider } from '@providers/fault-summary/fault-summary';
 import { DebriefPage } from './debrief.page';
 import { DebriefPageRoutingModule } from './debrief.routing.module';
+import {IonButton, IonCol, IonContent, IonFooter, IonHeader, IonRow, IonText, IonToolbar} from "@ionic/angular";
+import {TranslatePipe} from '@ngx-translate/core';
 
 @NgModule({
   imports: [
@@ -24,13 +22,20 @@ import { DebriefPageRoutingModule } from './debrief.routing.module';
     ComponentsModule,
     CommonModule,
     FormsModule,
-    IonicModule,
     DebriefPageRoutingModule,
-    TranslateModule,
     EffectsModule.forFeature([DebriefEffects, DebriefAnalyticsEffects]),
     ViewTestResultComponentsModule,
     DirectivesModule,
     TestFlowHeaderComponent,
+    IonFooter,
+    IonToolbar,
+    IonRow,
+    IonCol,
+    IonButton,
+    IonText,
+    TranslatePipe,
+    IonHeader,
+    IonContent,
   ],
   declarations: [DebriefPage],
   providers: [FaultSummaryProvider],

@@ -1,7 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { UntypedFormGroup } from '@angular/forms';
-import { IonicModule } from '@ionic/angular';
 import { ETACardComponent } from '../eta-card.component';
+import { UntypedFormGroup } from '@angular/forms';
 
 describe('EtaCardComponent', () => {
   let component: ETACardComponent;
@@ -10,7 +9,7 @@ describe('EtaCardComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [ETACardComponent],
-      imports: [IonicModule],
+
     });
 
     fixture = TestBed.createComponent(ETACardComponent);

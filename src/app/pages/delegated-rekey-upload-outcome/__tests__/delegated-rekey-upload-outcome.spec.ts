@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { KeepAwake as Insomnia } from '@capacitor-community/keep-awake';
-import { IonicModule, Platform } from '@ionic/angular';
+import { Platform } from '@ionic/angular';
 import { PlatformMock, RouterMock } from '@mocks/index.mock';
 import { Store, StoreModule } from '@ngrx/store';
 import { of } from 'rxjs';
@@ -33,7 +33,7 @@ describe('DelegatedRekeyUploadOutcomePage', () => {
     TestBed.configureTestingModule({
       declarations: [DelegatedRekeyUploadOutcomePage],
       imports: [
-        IonicModule,
+
         AppModule,
         StoreModule.forRoot({
           tests: testsReducer,

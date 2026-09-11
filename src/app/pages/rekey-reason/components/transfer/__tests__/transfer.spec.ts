@@ -4,7 +4,7 @@ import { By } from '@angular/platform-browser';
 import { MockAppComponent } from '@app/__mocks__/app.component.mock';
 import { AppComponent } from '@app/app.component';
 import { AppModule } from '@app/app.module';
-import { IonicModule } from '@ionic/angular';
+
 import { TransferComponent } from '../transfer';
 
 describe('TransferComponent', () => {
@@ -14,7 +14,7 @@ describe('TransferComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [TransferComponent],
-      imports: [IonicModule, AppModule, ReactiveFormsModule],
+      imports: [AppModule, ReactiveFormsModule],
       providers: [{ provide: AppComponent, useClass: MockAppComponent }],
     });
 

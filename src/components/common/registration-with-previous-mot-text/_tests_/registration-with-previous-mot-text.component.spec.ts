@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { IonicModule } from '@ionic/angular';
+
 
 import { RegistrationWithPreviousMotTextComponent } from '../registration-with-previous-mot-text.component';
 
@@ -9,7 +9,7 @@ describe('RegistrationWithPreviousMotTextComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [IonicModule.forRoot(), RegistrationWithPreviousMotTextComponent],
+      imports: [RegistrationWithPreviousMotTextComponent],
     });
 
     fixture = TestBed.createComponent(RegistrationWithPreviousMotTextComponent);

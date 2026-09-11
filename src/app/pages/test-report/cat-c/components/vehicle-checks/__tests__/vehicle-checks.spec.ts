@@ -3,7 +3,7 @@ import { By } from '@angular/platform-browser';
 import { DrivingFaultsBadgeComponent } from '@components/common/driving-faults-badge/driving-faults-badge';
 import { SeriousFaultBadgeComponent } from '@components/common/serious-fault-badge/serious-fault-badge';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
-import { IonicModule } from '@ionic/angular';
+
 import { Store, StoreModule } from '@ngrx/store';
 import { FaultCountProvider } from '@providers/fault-count/fault-count';
 import { TestDataByCategoryProvider } from '@providers/test-data-by-category/test-data-by-category';
@@ -28,7 +28,7 @@ describe('VehicleChecksComponent', () => {
         MockComponent(DrivingFaultsBadgeComponent),
       ],
       imports: [
-        IonicModule,
+
         StoreModule.forRoot({
           tests: testsReducer,
         }),

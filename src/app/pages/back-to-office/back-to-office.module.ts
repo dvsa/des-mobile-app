@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
-import { IonicModule } from '@ionic/angular';
+
 
 import { ComponentsModule } from '@components/common/common-components.module';
 import { EffectsModule } from '@ngrx/effects';
@@ -15,18 +15,27 @@ import { PracticeModeBanner } from '@components/common/practice-mode-banner/prac
 import { PracticeModeExitButton } from '@components/common/practice-mode-exit-button/practice-mode-exit-button';
 import { TestFlowHeaderComponent } from '@components/common/test-flow-header/test-flow-header.component';
 import { BackToOfficePage } from './back-to-office.page';
+import {IonButton, IonCard, IonCol, IonContent, IonHeader, IonRow, IonText, IonToolbar} from "@ionic/angular";
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
-    IonicModule,
+
     BackToOfficePageRoutingModule,
     ComponentsModule,
     EffectsModule.forFeature([BackToOfficeEffects, BackToOfficeAnalyticsEffects]),
     TestFlowHeaderComponent,
     PracticeModeBanner,
     PracticeModeExitButton,
+    IonCol,
+    IonRow,
+    IonButton,
+    IonText,
+    IonCard,
+    IonContent,
+    IonToolbar,
+    IonHeader,
   ],
   declarations: [BackToOfficePage, AsamFailureNotificationModal],
 })

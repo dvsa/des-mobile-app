@@ -4,7 +4,7 @@ import { AppComponent } from '@app/app.component';
 import { AppModule } from '@app/app.module';
 import { DateTimeInputComponent } from '@components/common/datetime-input/date-time-input.component';
 import { SearchablePicklistComponentWrapper } from '@components/common/searchable-picklist-wrapper/searchable-picklist-wrapper';
-import { IonicModule } from '@ionic/angular';
+
 import { MockComponent } from 'ng-mocks';
 import { AdvancedSearchComponent } from '../advanced-search';
 
@@ -19,7 +19,7 @@ describe('AdvancedSearchComponent', () => {
         MockComponent(DateTimeInputComponent),
         MockComponent(SearchablePicklistComponentWrapper),
       ],
-      imports: [AppModule, IonicModule],
+      imports: [AppModule],
       providers: [{ provide: AppComponent, useClass: MockAppComponent }],
     });
 

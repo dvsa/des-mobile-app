@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
-import { IonicModule } from '@ionic/angular';
+
 
 import { AppModule } from '@app/app.module';
 import { DeviceProviderMock } from '@providers/device/__mocks__/device.mock';
@@ -12,7 +12,7 @@ describe('ExitSamButton', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [IonicModule, AppModule, ExitSamButton],
+      imports: [AppModule, ExitSamButton],
       providers: [{ provide: DeviceProvider, useClass: DeviceProviderMock }],
     });
 

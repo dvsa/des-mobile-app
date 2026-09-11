@@ -1,7 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
-import { IonicModule } from '@ionic/angular';
 
 import { ComponentsModule } from '@components/common/common-components.module';
 import { PracticeModeBanner } from '@components/common/practice-mode-banner/practice-mode-banner';
@@ -19,6 +18,16 @@ import { WaitingRoomToCarComponentsModule } from '@pages/waiting-room-to-car/com
 import { FaultSummaryProvider } from '@providers/fault-summary/fault-summary';
 import { OfficeCatCPageRoutingModule } from './office.cat-c-routing.module';
 import { OfficeCatCPage } from './office.cat-c.page';
+import {
+  IonCard,
+  IonCardContent,
+  IonCardHeader, IonCol,
+  IonContent,
+  IonFooter,
+  IonGrid,
+  IonHeader, IonRow,
+  IonToolbar
+} from "@ionic/angular";
 
 @NgModule({
   declarations: [OfficeCatCPage],
@@ -28,7 +37,6 @@ import { OfficeCatCPage } from './office.cat-c.page';
     OfficeComponentsModule,
     CommonModule,
     ReactiveFormsModule,
-    IonicModule,
     OfficeCatCPageRoutingModule,
     PassFinalisationComponentsModule,
     TestFinalisationComponentsModule,
@@ -38,6 +46,16 @@ import { OfficeCatCPage } from './office.cat-c.page';
     PracticeModeBanner,
     PracticeModeExitButton,
     TestFlowHeaderComponent,
+    IonFooter,
+    IonToolbar,
+    IonHeader,
+    IonContent,
+    IonCardHeader,
+    IonCard,
+    IonGrid,
+    IonCardContent,
+    IonRow,
+    IonCol,
   ],
   providers: [FaultSummaryProvider],
 })

@@ -7,7 +7,7 @@ import {
   ExitSAMMethodUsed,
   TestFlowHeaderComponent,
 } from '@components/common/test-flow-header/test-flow-header.component';
-import { IonicModule, ModalController } from '@ionic/angular';
+import { ModalController } from '@ionic/angular';
 import { ModalControllerMock } from '@mocks/index.mock';
 import { Store, StoreModule } from '@ngrx/store';
 import { TranslateModule } from '@ngx-translate/core';
@@ -25,7 +25,7 @@ describe('TestFlowHeaderComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [IonicModule, AppModule, ComponentsModule, StoreModule.forRoot({}), TranslateModule],
+      imports: [AppModule, ComponentsModule, StoreModule.forRoot({}), TranslateModule],
       providers: [
         { provide: DeviceProvider, useClass: DeviceProviderMock },
         { provide: RouteByCategoryProvider, useClass: RouteByCategoryProviderMock },

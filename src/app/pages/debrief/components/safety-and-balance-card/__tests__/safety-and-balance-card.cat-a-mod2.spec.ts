@@ -5,7 +5,7 @@ import { default as welshTranslations } from '@assets/i18n/cy.json';
 import { default as englishTranslations } from '@assets/i18n/en.json';
 import { QuestionResult } from '@dvsa/mes-test-schema/categories/common';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
-import { IonicModule } from '@ionic/angular';
+
 import { Store, StoreModule } from '@ngrx/store';
 import { TranslateModule, TranslateService, provideTranslateService } from '@ngx-translate/core';
 import { provideTranslateHttpLoader } from '@ngx-translate/http-loader';
@@ -29,7 +29,7 @@ describe('SafetyAndBalanceCardCatAMod2Component', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [SafetyAndBalanceCardCatAMod2Component],
-      imports: [IonicModule, StoreModule.forRoot({ tests: testsReducer }), TranslateModule.forRoot()],
+      imports: [StoreModule.forRoot({ tests: testsReducer }), TranslateModule.forRoot()],
       providers: [
         provideHttpClient(withInterceptorsFromDi()),
         provideTranslateService({

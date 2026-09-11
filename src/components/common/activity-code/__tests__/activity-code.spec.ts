@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { IonicModule } from '@ionic/angular';
+
 
 import { UntypedFormGroup, Validators } from '@angular/forms';
 import { AppModule } from '@app/app.module';
@@ -14,7 +14,7 @@ describe('ActivityCodeComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [ActivityCodeComponent],
-      imports: [IonicModule, AppModule],
+      imports: [AppModule],
       providers: [],
     });
 

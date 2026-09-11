@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule, UntypedFormControl, UntypedFormGroup } from '@angular/forms';
-import { IonicModule } from '@ionic/angular';
+
 import { TransmissionComponent } from '../transmission';
 
 describe('TransmissionComponent', () => {
@@ -10,7 +10,7 @@ describe('TransmissionComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [TransmissionComponent],
-      imports: [IonicModule, ReactiveFormsModule],
+      imports: [ReactiveFormsModule],
     });
 
     fixture = TestBed.createComponent(TransmissionComponent);

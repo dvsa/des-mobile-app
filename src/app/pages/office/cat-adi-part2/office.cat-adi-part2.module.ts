@@ -2,8 +2,6 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
-import { IonicModule } from '@ionic/angular';
-
 import { ComponentsModule } from '@components/common/common-components.module';
 import { OfficeComponentsModule } from '@pages/office/components/office.components.module';
 
@@ -25,6 +23,16 @@ import { FaultSummaryProvider } from '@providers/fault-summary/fault-summary';
 import { VehicleChecksOfficeCardCatADI2Component } from './components/vehicle-checks/vehicle-checks-office-card';
 import { OfficeCatADIPart2PageRoutingModule } from './office.cat-adi-part2-routing.module';
 import { OfficeCatADI2Page } from './office.cat-adi-part2.page';
+import {
+  IonCard,
+  IonCardContent,
+  IonCardHeader,
+  IonCol,
+  IonContent, IonFooter,
+  IonGrid,
+  IonHeader, IonRow, IonSelect, IonSelectOption,
+  IonToolbar
+} from "@ionic/angular";
 
 @NgModule({
   declarations: [
@@ -38,7 +46,6 @@ import { OfficeCatADI2Page } from './office.cat-adi-part2.page';
   imports: [
     CommonModule,
     FormsModule,
-    IonicModule,
     OfficeCatADIPart2PageRoutingModule,
     ComponentsModule,
     OfficeComponentsModule,
@@ -51,6 +58,18 @@ import { OfficeCatADI2Page } from './office.cat-adi-part2.page';
     PracticeModeBanner,
     PracticeModeExitButton,
     TestFlowHeaderComponent,
+    IonCardHeader,
+    IonCard,
+    IonContent,
+    IonHeader,
+    IonToolbar,
+    IonCardContent,
+    IonGrid,
+    IonCol,
+    IonRow,
+    IonSelect,
+    IonSelectOption,
+    IonFooter,
   ],
   providers: [FaultSummaryProvider],
 })

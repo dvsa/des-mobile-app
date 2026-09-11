@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { IonicModule } from '@ionic/angular';
+
 import { LicencePhoto } from '@pages/candidate-licence/components/licence-photo/licence-photo';
 
 describe('LicencePhoto', () => {
@@ -9,7 +9,6 @@ describe('LicencePhoto', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [LicencePhoto],
-      imports: [IonicModule],
     });
 
     fixture = TestBed.createComponent(LicencePhoto);

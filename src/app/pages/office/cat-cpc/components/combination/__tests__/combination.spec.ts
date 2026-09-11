@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { AppModule } from '@app/app.module';
-import { IonicModule } from '@ionic/angular';
+
 import { CombinationComponent } from '../combination';
 
 describe('CombinationComponent', () => {
@@ -10,7 +10,7 @@ describe('CombinationComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [CombinationComponent],
-      imports: [IonicModule, AppModule],
+      imports: [AppModule],
     });
 
     fixture = TestBed.createComponent(CombinationComponent);

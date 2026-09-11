@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { IonicModule } from '@ionic/angular';
+
 import { SpeedCardComponent } from '@pages/view-test-result/components/speed-card/speed-card';
 
 describe('SpeedCardComponent', () => {
@@ -9,7 +9,7 @@ describe('SpeedCardComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [SpeedCardComponent],
-      imports: [IonicModule],
+
     });
 
     fixture = TestBed.createComponent(SpeedCardComponent);

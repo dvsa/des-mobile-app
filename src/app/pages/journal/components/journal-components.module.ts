@@ -1,6 +1,5 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { IonicModule } from '@ionic/angular';
 
 import { RefreshButtonComponent } from '@components/common/refresh-button/refresh-button.component';
 import { TestSlotComponentsModule } from '@components/test-slot/test-slot-components.module';
@@ -14,6 +13,7 @@ import { ActivitySlotComponent } from './activity-slot/activity-slot';
 import { EmptySlotComponent } from './empty-slot/empty-slot';
 import { JournalNavigationComponent } from './journal-navigation/journal-navigation';
 import { PersonalCommitmentSlotComponent } from './personal-commitment/personal-commitment';
+import {IonCard, IonCol, IonGrid, IonIcon, IonRow, IonText} from "@ionic/angular";
 
 @NgModule({
   declarations: [
@@ -26,13 +26,18 @@ import { PersonalCommitmentSlotComponent } from './personal-commitment/personal-
   imports: [
     LearnMoreModal,
     CommonModule,
-    IonicModule,
     TestSlotComponentsModule,
     JournalEarlyStartModule,
     JournalForceCheckModule,
     JournalRekeyModalModule,
     JournalFutureTestModalModule,
     RefreshButtonComponent,
+    IonText,
+    IonCol,
+    IonRow,
+    IonCard,
+    IonGrid,
+    IonIcon,
   ],
   exports: [
     ActivitySlotComponent,

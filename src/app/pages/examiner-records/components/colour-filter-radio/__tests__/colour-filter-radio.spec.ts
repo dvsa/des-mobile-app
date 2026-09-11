@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { UntypedFormGroup } from '@angular/forms';
-import { IonicModule } from '@ionic/angular';
+
 import { provideMockStore } from '@ngrx/store/testing';
 import { ColourFilterRadioComponent } from '@pages/examiner-records/components/colour-filter-radio/colour-filter-radio';
 import { ColourEnum } from '@providers/examiner-records/examiner-records';
@@ -13,7 +13,7 @@ describe('ColourFilterRadioComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [ColourFilterRadioComponent],
-      imports: [IonicModule],
+
       providers: [
         provideMockStore({ ...{} }),
         { provide: OutcomeBehaviourMapProvider, useClass: OutcomeBehaviourMapProvider },

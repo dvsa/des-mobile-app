@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { IonicModule } from '@ionic/angular';
+
 import { Store, StoreModule } from '@ngrx/store';
 import { MockComponent } from 'ng-mocks';
 
@@ -45,7 +45,7 @@ describe('PcvDoorExerciseComponent', () => {
       ],
       imports: [
         AppModule,
-        IonicModule,
+
         StoreModule.forRoot({
           journal: () => ({
             isLoading: false,

@@ -17,7 +17,7 @@ import { TimeComponent } from '@components/test-slot/time/time';
 import { VehicleDetailsComponent } from '@components/test-slot/vehicle-details/vehicle-details';
 import { TestSlot } from '@dvsa/mes-journal-schema';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
-import { IonicModule } from '@ionic/angular';
+
 import { Store, StoreModule } from '@ngrx/store';
 import { AccessibilityService } from '@providers/accessibility/accessibility.service';
 import { AppConfigProviderMock } from '@providers/app-config/__mocks__/app-config.mock';
@@ -120,7 +120,7 @@ describe('TestSlotComponent', () => {
         MockComponent(ProgressiveAccessComponent),
       ],
       imports: [
-        IonicModule,
+
         StoreModule.forRoot({
           tests: testsReducer,
         }),

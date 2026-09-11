@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Router } from '@angular/router';
-import { IonicModule } from '@ionic/angular';
+
 import { RouterMock } from '@mocks/angular-mocks/router-mock';
 import { REKEY_SEARCH_PAGE } from '@pages/page-names.constants';
 import { RekeySearchCardComponent } from '../rekey-search-card';
@@ -13,7 +13,7 @@ describe('RekeySearchCardComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [RekeySearchCardComponent],
-      imports: [IonicModule],
+
       providers: [{ provide: Router, useClass: RouterMock }],
     });
 

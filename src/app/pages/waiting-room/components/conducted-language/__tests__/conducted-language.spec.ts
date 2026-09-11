@@ -1,6 +1,6 @@
 import { EventEmitter } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { IonicModule } from '@ionic/angular';
+
 import { ConductedLanguageComponent } from '../conducted-language';
 
 describe('ConductedLanguageComponent', () => {
@@ -10,7 +10,7 @@ describe('ConductedLanguageComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [ConductedLanguageComponent],
-      imports: [IonicModule],
+
     });
 
     fixture = TestBed.createComponent(ConductedLanguageComponent);

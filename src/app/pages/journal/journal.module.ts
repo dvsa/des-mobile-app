@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { IonicModule } from '@ionic/angular';
+
 import { EffectsModule } from '@ngrx/effects';
 
 import { ComponentsModule } from '@components/common/common-components.module';
@@ -21,13 +21,22 @@ import { JournalComponentsModule } from './components/journal-components.module'
 import { JournalPageRoutingModule } from './journal-routing.module';
 import { JournalAnalyticsEffects } from './journal.analytics.effects';
 import { JournalPage } from './journal.page';
+import {
+  IonBackButton,
+  IonButtons,
+  IonCol,
+  IonContent, IonHeader, IonList,
+  IonRefresher,
+  IonRefresherContent,
+  IonRow,
+  IonTitle, IonToolbar
+} from "@ionic/angular";
 
 @NgModule({
   declarations: [JournalPage],
   imports: [
     JournalComponentsModule,
     TestSlotComponentsModule,
-    IonicModule,
     EffectsModule.forFeature([JournalAnalyticsEffects, TestsEffects]),
     ErrorPageModule,
     JournalPageRoutingModule,
@@ -36,6 +45,17 @@ import { JournalPage } from './journal.page';
     CandidateDetailsPageModule,
     VehicleRecallsBanner,
     RefreshButtonComponent,
+    IonRefresherContent,
+    IonRefresher,
+    IonContent,
+    IonRow,
+    IonCol,
+    IonBackButton,
+    IonButtons,
+    IonTitle,
+    IonToolbar,
+    IonHeader,
+    IonList,
   ],
   providers: [
     OrientationMonitorProvider,

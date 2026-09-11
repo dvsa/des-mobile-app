@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed, fakeAsync, flushMicrotasks } from '@angular/
 import { Navigation, NavigationExtras, Router, RouterModule } from '@angular/router';
 import { Capacitor } from '@capacitor/core';
 import { SplashScreen } from '@capacitor/splash-screen';
-import { AlertController, IonicModule, LoadingController, MenuController, Platform } from '@ionic/angular';
+import { AlertController, LoadingController, MenuController, Platform } from '@ionic/angular';
 import {
   AlertControllerMock,
   LoadingControllerMock,
@@ -56,7 +56,6 @@ describe('LoginPage', () => {
             component: LoginPage,
           },
         ]),
-        IonicModule.forRoot(),
         StoreModule.forRoot({}),
       ],
       providers: [

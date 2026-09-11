@@ -3,7 +3,15 @@ import { ErrorHandler, NgModule, inject, provideAppInitializer } from '@angular/
 import { BrowserModule } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
 import { IsDebug } from '@awesome-cordova-plugins/is-debug/ngx';
-import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
+import {
+  IonApp, IonBadge, IonContent, IonFooter,
+  IonHeader,
+  IonicRouteStrategy, IonItem, IonLabel, IonList,
+  IonMenu, IonRouterOutlet,
+  IonTitle,
+  IonToolbar,
+  provideIonicAngular
+} from '@ionic/angular';
 import { Drivers } from '@ionic/storage';
 import { IonicStorageModule } from '@ionic/storage-angular';
 
@@ -127,19 +135,11 @@ const storageDriver = Capacitor.getPlatform() === 'web' ? Drivers.IndexedDB : Co
   imports: [
     DirectivesModule,
     BrowserModule,
-
-    IonicModule.forRoot({
-      swipeBackEnabled: false,
-      animated: get(environment, 'isTest') ? !(environment as TestersEnvironmentFile)?.isTest : true,
-      mode: 'ios',
-      scrollAssist: false,
-      scrollPadding: false,
-    }),
     AppRoutingModule,
     IonicStorageModule.forRoot({
       driverOrder: [storageDriver],
     }),
-    StoreModule.forRoot(reducers, { metaReducers }),
+    StoreModule.forRoot(reducers, {metaReducers}),
     EffectsModule.forRoot(),
     EffectImportModule,
     SafetyRecallStoreModule,
@@ -155,6 +155,18 @@ const storageDriver = Capacitor.getPlatform() === 'web' ? Drivers.IndexedDB : Co
     NgbModule,
     ExaminerRecordsComponentsModule,
     PipesModule,
+    IonApp,
+    IonMenu,
+    IonHeader,
+    IonToolbar,
+    IonTitle,
+    IonContent,
+    IonItem,
+    IonLabel,
+    IonBadge,
+    IonList,
+    IonFooter,
+    IonRouterOutlet,
   ],
   providers: [
     {
@@ -174,6 +186,13 @@ const storageDriver = Capacitor.getPlatform() === 'web' ? Drivers.IndexedDB : Co
       loader: provideTranslateHttpLoader({ prefix: 'assets/i18n/' }),
       fallbackLang: 'en',
       lang: 'en',
+    }),
+    provideIonicAngular({
+      swipeBackEnabled: false,
+      animated: get(environment, 'isTest') ? !(environment as TestersEnvironmentFile)?.isTest : true,
+      mode: 'ios',
+      scrollAssist: false,
+      scrollPadding: false,
     }),
     AppConfigProvider,
     ExaminerRecordsProvider,

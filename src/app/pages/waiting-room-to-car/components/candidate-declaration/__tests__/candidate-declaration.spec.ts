@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { AppModule } from '@app/app.module';
-import { IonicModule } from '@ionic/angular';
+
 import { CandidateDeclarationSignedComponent } from '../candidate-declaration';
 
 describe('CandidateDeclarationSignedComponent', () => {
@@ -12,7 +12,7 @@ describe('CandidateDeclarationSignedComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [CandidateDeclarationSignedComponent],
-      imports: [IonicModule, AppModule, ReactiveFormsModule],
+      imports: [AppModule, ReactiveFormsModule],
     });
 
     fixture = TestBed.createComponent(CandidateDeclarationSignedComponent);

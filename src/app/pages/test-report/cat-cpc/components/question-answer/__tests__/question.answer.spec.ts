@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { IonicModule } from '@ionic/angular';
+
 
 import { AppModule } from '@app/app.module';
 import { mockAnswer, mockAnswerNumber } from '../__mocks__/question-answer.mock';
@@ -12,7 +12,7 @@ describe('QuestionAnswerComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [QuestionAnswerComponent],
-      imports: [IonicModule, AppModule],
+      imports: [AppModule],
     });
 
     fixture = TestBed.createComponent(QuestionAnswerComponent);

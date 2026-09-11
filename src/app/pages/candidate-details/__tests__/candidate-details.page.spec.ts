@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed, fakeAsync } from '@angular/core/testing';
-import { IonicModule, ModalController } from '@ionic/angular';
+import { ModalController } from '@ionic/angular';
 
 import { Router } from '@angular/router';
 import { DataRowCustomComponent } from '@components/common/data-row-custom/data-row-custom';
@@ -52,7 +52,7 @@ describe('CandidateDetailsPage', () => {
         MockComponent(InappropriateUseBannerComponent),
         MockComponent(CandidateDetailNavigationComponent),
       ],
-      imports: [IonicModule],
+
       providers: [
         { provide: DateTimeProvider, useClass: DateTimeProviderMock },
         { provide: ModalController, useClass: ModalControllerMock },

@@ -3,7 +3,7 @@ import { DataRowCustomComponent } from '@components/common/data-row-custom/data-
 import { DataRowComponent } from '@components/common/data-row/data-row';
 import { DisplayAddressComponent } from '@components/common/display-address/display-address';
 import { Candidate, CommunicationPreferences } from '@dvsa/mes-test-schema/categories/common';
-import { IonicModule } from '@ionic/angular';
+
 import { MockComponent } from 'ng-mocks';
 import { ContactDetailsCardComponent } from '../contact-details-card';
 
@@ -19,7 +19,7 @@ describe('ContactDetailsCardComponent', () => {
         MockComponent(DataRowCustomComponent),
         MockComponent(DisplayAddressComponent),
       ],
-      imports: [IonicModule],
+
     });
 
     fixture = TestBed.createComponent(ContactDetailsCardComponent);

@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { IonicModule } from '@ionic/angular';
+
 import { ApplicationReferenceComponent } from '../application-reference';
 
 describe('ApplicationReferenceComponent', () => {
@@ -9,7 +9,7 @@ describe('ApplicationReferenceComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [ApplicationReferenceComponent],
-      imports: [IonicModule],
+
     });
 
     fixture = TestBed.createComponent(ApplicationReferenceComponent);

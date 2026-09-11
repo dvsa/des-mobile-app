@@ -1,7 +1,16 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { IonicModule } from '@ionic/angular';
+import {
+  IonButton,
+  IonCol,
+  IonContent, IonFooter,
+  IonGrid,
+  IonHeader,
+  IonRow,
+  IonText,
+  IonToolbar
+} from '@ionic/angular';
 import { EffectsModule } from '@ngrx/effects';
 
 import { ComponentsModule } from '@components/common/common-components.module';
@@ -18,7 +27,6 @@ import { WaitingRoomToCarCatHomeTestPage } from './waiting-room-to-car.cat-home-
   imports: [
     CommonModule,
     FormsModule,
-    IonicModule,
     WaitingRoomToCarCatHomeTestPageRoutingModule,
     ComponentsModule,
     ReactiveFormsModule,
@@ -26,6 +34,15 @@ import { WaitingRoomToCarCatHomeTestPage } from './waiting-room-to-car.cat-home-
     WaitingRoomToCarComponentsModule,
     EffectsModule.forFeature([WaitingRoomToCarAnalyticsEffects]),
     TestFlowHeaderComponent,
+    IonText,
+    IonCol,
+    IonButton,
+    IonHeader,
+    IonToolbar,
+    IonContent,
+    IonGrid,
+    IonRow,
+    IonFooter,
   ],
 })
 export class WaitingRoomToCarCatHomeTestPageModule {}

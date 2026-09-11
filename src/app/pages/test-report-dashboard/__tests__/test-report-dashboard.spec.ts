@@ -6,7 +6,7 @@ import { ComponentsModule } from '@components/common/common-components.module';
 import { TestFlowHeaderComponent } from '@components/common/test-flow-header/test-flow-header.component';
 import { CatBUniqueTypes } from '@dvsa/mes-test-schema/categories/B';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
-import { IonicModule, ModalController } from '@ionic/angular';
+import { ModalController } from '@ionic/angular';
 import { ModalControllerMock } from '@mocks/ionic-mocks/modal-controller.mock';
 import { provideMockStore } from '@ngrx/store/testing';
 import { TestFlowPageNames } from '@pages/page-names.constants';
@@ -89,7 +89,7 @@ describe('TestReportDashboardPage', () => {
         MockComponent(ReviewFeedback),
         MockComponent(TestFlowHeaderComponent),
       ],
-      imports: [AppModule, IonicModule, ComponentsModule, CommonModule],
+      imports: [AppModule, ComponentsModule, CommonModule],
       providers: [
         provideMockStore({ initialState }),
         TestReportValidatorProvider,

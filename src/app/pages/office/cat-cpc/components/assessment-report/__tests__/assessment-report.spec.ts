@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { UntypedFormGroup, Validators } from '@angular/forms';
-import { IonicModule } from '@ionic/angular';
+
 import { AssessmentReportComponent } from '@pages/office/cat-cpc/components/assessment-report/assessment-report';
 
 describe('AssessmentReportComponent', () => {
@@ -10,7 +10,7 @@ describe('AssessmentReportComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [AssessmentReportComponent],
-      imports: [IonicModule],
+
     });
 
     fixture = TestBed.createComponent(AssessmentReportComponent);

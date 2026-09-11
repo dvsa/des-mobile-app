@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { IonicModule } from '@ionic/angular';
+
 
 import { CommonModule } from '@angular/common';
 import { AppModule } from '@app/app.module';
@@ -17,7 +17,7 @@ describe('CandidateLinkComponent', () => {
     TestBed.configureTestingModule({
       declarations: [CandidateLinkComponent],
       imports: [
-        IonicModule,
+
         AppModule,
         ComponentsModule,
         CommonModule,

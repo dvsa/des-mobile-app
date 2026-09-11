@@ -4,7 +4,7 @@ import { DrivingFaultsBadgeComponent } from '@components/common/driving-faults-b
 import { SeriousFaultBadgeComponent } from '@components/common/serious-fault-badge/serious-fault-badge';
 import { TickIndicatorComponent } from '@components/common/tick-indicator/tick-indicator';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
-import { IonicModule, ModalController } from '@ionic/angular';
+import { ModalController } from '@ionic/angular';
 import { OverlayEventDetail } from '@ionic/core';
 import { ModalControllerMock } from '@mocks/index.mock';
 import { Store, StoreModule } from '@ngrx/store';
@@ -37,7 +37,7 @@ describe('VehicleChecksComponent', () => {
         TickIndicatorComponent,
       ],
       imports: [
-        IonicModule,
+
         StoreModule.forRoot({
           tests: testsReducer,
         }),

@@ -184,7 +184,7 @@ export class AppComponent extends LogoutBasePageComponent implements OnInit {
   };
 
   configureLocale(): void {
-    this.translate.setDefaultLang('en');
+    this.translate.setFallbackLang('en');
   }
 
   initialiseSentry = async () => {

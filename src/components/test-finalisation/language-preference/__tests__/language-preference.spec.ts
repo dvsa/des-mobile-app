@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { UntypedFormGroup } from '@angular/forms';
 import { AppModule } from '@app/app.module';
 import { LanguagePreferencesComponent } from '@components/test-finalisation/language-preference/language-preference';
-import { IonicModule } from '@ionic/angular';
+
 
 describe('LanguagePreferencesComponent', () => {
   let fixture: ComponentFixture<LanguagePreferencesComponent>;
@@ -11,7 +11,7 @@ describe('LanguagePreferencesComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [LanguagePreferencesComponent],
-      imports: [IonicModule, AppModule],
+      imports: [AppModule],
     });
 
     fixture = TestBed.createComponent(LanguagePreferencesComponent);

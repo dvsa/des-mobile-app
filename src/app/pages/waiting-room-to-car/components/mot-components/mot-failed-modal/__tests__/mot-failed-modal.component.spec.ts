@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { IonicModule, ModalController } from '@ionic/angular';
+import { ModalController } from '@ionic/angular';
 
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, UntypedFormControl } from '@angular/forms';
@@ -18,7 +18,7 @@ describe('MotFailedModal', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [MotFailedModal, MockComponent(ModalAlertTitleComponent)],
-      imports: [IonicModule, CommonModule, StoreModule.forRoot(), ReactiveFormsModule],
+      imports: [CommonModule, StoreModule.forRoot(), ReactiveFormsModule],
       providers: [Store, { provide: ModalController, useClass: ModalControllerMock }],
     }).compileComponents();
 

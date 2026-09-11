@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { AppModule } from '@app/app.module';
-import { IonicModule, NavController, Platform } from '@ionic/angular';
+import { NavController, Platform } from '@ionic/angular';
 import { NavControllerMock, PlatformMock } from '@mocks/index.mock';
 import { AuthenticationProviderMock } from '@providers/authentication/__mocks__/authentication.mock';
 import { AuthenticationProvider } from '@providers/authentication/authentication';
@@ -19,7 +19,7 @@ describe('TerminateTestModal', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [TerminateTestModal],
-      imports: [IonicModule, AppModule],
+      imports: [AppModule],
       providers: [
         { provide: NavController, useClass: NavControllerMock },
         { provide: Platform, useClass: PlatformMock },

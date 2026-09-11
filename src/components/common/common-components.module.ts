@@ -1,8 +1,6 @@
 import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { IonicModule } from '@ionic/angular';
-import { TranslateModule } from '@ngx-translate/core';
 import { PipesModule } from '@shared/pipes/pipes.module';
 
 import { SignaturePadComponent } from '@almothafar/angular-signature-pad';
@@ -48,6 +46,18 @@ import { TabComponent } from './tab/tab';
 import { TabsComponent } from './tabs/tabs';
 import { VRNCaptureModalModule } from './vrn-capture-modal/vrn-capture-modal.module';
 import { WarningBannerComponent } from './warning-banner/warning-banner';
+import {
+  IonButton,
+  IonButtons, IonCard, IonCardContent, IonCardHeader, IonCardTitle,
+  IonCol,
+  IonContent, IonDatetime,
+  IonGrid,
+  IonIcon, IonInput, IonModal,
+  IonRow,
+  IonSearchbar, IonSelect, IonSelectOption,
+  IonText
+} from '@ionic/angular';
+import {TranslatePipe} from '@ngx-translate/core';
 
 @NgModule({
   declarations: [
@@ -91,9 +101,7 @@ import { WarningBannerComponent } from './warning-banner/warning-banner';
   ],
   imports: [
     CommonModule,
-    IonicModule,
     FormsModule,
-    TranslateModule,
     ReactiveFormsModule,
     VRNCaptureModalModule,
     PipesModule,
@@ -103,6 +111,25 @@ import { WarningBannerComponent } from './warning-banner/warning-banner';
     DirectivesModule,
     NgApexchartsModule,
     SignaturePadComponent,
+    IonCol,
+    IonIcon,
+    IonGrid,
+    IonRow,
+    TranslatePipe,
+    IonText,
+    IonSearchbar,
+    IonContent,
+    IonButton,
+    IonButtons,
+    IonModal,
+    IonDatetime,
+    IonInput,
+    IonCardContent,
+    IonCardTitle,
+    IonCardHeader,
+    IonCard,
+    IonSelect,
+    IonSelectOption,
   ],
   exports: [
     DateTimeInputComponent,
@@ -132,7 +159,6 @@ import { WarningBannerComponent } from './warning-banner/warning-banner';
     TickIndicatorComponent,
     TransmissionComponent,
     SignatureComponent,
-    TranslateModule,
     ActivityCodeComponent,
     TransmissionDisplayComponent,
     CPCDebriefCardComponent,

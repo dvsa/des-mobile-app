@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { DomSanitizer } from '@angular/platform-browser';
 import { DriverLicenceSchema } from '@dvsa/mes-driver-schema';
-import { IonicModule } from '@ionic/angular';
+
 import { DomSanitizerMock } from '@mocks/angular-mocks/dom-sanitizer.mock';
 import { SIGNATURE_MOCK } from '@pages/candidate-licence/candidate-licence.mock';
 import { LicenceInformation } from '../licence-information';
@@ -14,7 +14,7 @@ describe('LicenceInformation', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [LicenceInformation],
-      imports: [IonicModule],
+
       providers: [{ provide: DomSanitizer, useClass: DomSanitizerMock }],
     });
 

@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { ViewContainerRef } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ExaminerWorkSchedule, TestCentre } from '@dvsa/mes-journal-schema';
-import { IonSelect, IonicModule } from '@ionic/angular';
+import { IonSelect } from '@ionic/angular';
 import { provideMockStore } from '@ngrx/store/testing';
 
 import { Store } from '@ngrx/store';
@@ -34,7 +34,7 @@ describe('ViewJournalsCardComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [ViewJournalsCardComponent],
-      imports: [TestCentreJournalComponentsModule, IonicModule, CommonModule],
+      imports: [TestCentreJournalComponentsModule, CommonModule],
       providers: [
         { provide: SlotProvider, useClass: SlotProviderMock },
         { provide: SlotSelectorProvider, useClass: SlotSelectorProviderMock },

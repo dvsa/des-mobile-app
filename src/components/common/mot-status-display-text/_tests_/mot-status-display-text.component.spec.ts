@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { IonicModule } from '@ionic/angular';
+
 import { MotStatusDisplayTextComponent } from '../mot-status-display-text.component';
 
 describe('MotStatusDisplayTextComponent', () => {
@@ -8,7 +8,7 @@ describe('MotStatusDisplayTextComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [IonicModule.forRoot(), MotStatusDisplayTextComponent],
+      imports: [MotStatusDisplayTextComponent],
     });
 
     fixture = TestBed.createComponent(MotStatusDisplayTextComponent);

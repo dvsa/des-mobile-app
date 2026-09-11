@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Router, RouterModule } from '@angular/router';
-import { IonicModule } from '@ionic/angular';
+
 import { RouterMock } from '@mocks/angular-mocks/router-mock';
 import { JournalPage } from '@pages/journal/journal.page';
 import { JOURNAL_PAGE } from '@pages/page-names.constants';
@@ -15,7 +15,7 @@ describe('GoToJournalCard', () => {
     TestBed.configureTestingModule({
       declarations: [GoToJournalCardComponent],
       imports: [
-        IonicModule,
+
         RouterModule.forRoot([
           {
             path: 'journal',

@@ -1,7 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { IonicModule } from '@ionic/angular';
 import { EffectsModule } from '@ngrx/effects';
 
 import { ComponentsModule } from '@components/common/common-components.module';
@@ -11,17 +10,38 @@ import { DashboardComponentsModule } from './components/dashboard-components.mod
 import { DashboardPageRoutingModule } from './dashboard-routing.module';
 import { DashboardAnalyticsEffects } from './dashboard.analytics.effects';
 import { DashboardPage } from './dashboard.page';
+import {
+  IonBadge,
+  IonButtons,
+  IonCol,
+  IonContent, IonGrid,
+  IonHeader, IonMenuButton,
+  IonRow,
+  IonText,
+  IonTitle,
+  IonToolbar
+} from "@ionic/angular";
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
-    IonicModule,
     DashboardPageRoutingModule,
     DashboardComponentsModule,
     ComponentsModule,
     EffectsModule.forFeature([DashboardAnalyticsEffects]),
     VehicleRecallsBanner,
+    IonRow,
+    IonCol,
+    IonButtons,
+    IonText,
+    IonTitle,
+    IonToolbar,
+    IonHeader,
+    IonBadge,
+    IonContent,
+    IonMenuButton,
+    IonGrid,
   ],
   declarations: [DashboardPage],
 })

@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { DebriefWitnessedComponent } from '@components/test-finalisation/debrief-witnessed/debrief-witnessed';
-import { IonicModule } from '@ionic/angular';
+
 import { provideMockStore } from '@ngrx/store/testing';
 import { OutcomeBehaviourMapProvider, VisibilityType } from '@providers/outcome-behaviour-map/outcome-behaviour-map';
 import { CircuitType } from '@shared/models/circuit-type';
@@ -13,7 +13,7 @@ describe('DebriefWitnessedComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [DebriefWitnessedComponent],
-      imports: [IonicModule],
+
       providers: [
         provideMockStore({ ...{} }),
         { provide: OutcomeBehaviourMapProvider, useClass: OutcomeBehaviourMapProvider },

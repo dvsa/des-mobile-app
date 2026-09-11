@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ComponentsModule } from '@components/common/common-components.module';
 import { TestSlot } from '@dvsa/mes-journal-schema';
-import { IonicModule } from '@ionic/angular';
+
 import { JournalSlotComponent } from '@pages/journal/components/journal-slot/journal-slot';
 import { CompletedJournalSlot } from '@pages/journal/journal.page';
 import { SlotSelectorProviderMock } from '@providers/slot-selector/__mocks__/slot-selector.mock';
@@ -16,7 +16,7 @@ describe('JournalSlotComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [JournalSlotComponent],
-      imports: [IonicModule, ComponentsModule],
+      imports: [ComponentsModule],
       providers: [{ provide: SlotSelectorProvider, useClass: SlotSelectorProviderMock }],
     });
 

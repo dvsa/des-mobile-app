@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { AppModule } from '@app/app.module';
-import { IonicModule } from '@ionic/angular';
+
 import { ModalResultItemComponent } from '../modal-result-item';
 
 describe('ModalResultItemComponent', () => {
@@ -10,7 +10,7 @@ describe('ModalResultItemComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [ModalResultItemComponent],
-      imports: [IonicModule, AppModule],
+      imports: [AppModule],
     });
 
     fixture = TestBed.createComponent(ModalResultItemComponent);

@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { IonicModule } from '@ionic/angular';
+
 import { OfficeComponentsModule } from '@pages/office/components/office.components.module';
 import { FaultSummary } from '@shared/models/fault-marking.model';
 import { DrivingFaultsComponent } from '../driving-faults.component';
@@ -12,7 +12,7 @@ describe('DrivingFaultsComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [DrivingFaultsComponent],
-      imports: [IonicModule, OfficeComponentsModule],
+      imports: [OfficeComponentsModule],
     });
 
     fixture = TestBed.createComponent(DrivingFaultsComponent);

@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { IonicModule } from '@ionic/angular';
+
 
 import { ComponentsModule } from '@components/common/common-components.module';
 import { TestFlowHeaderComponent } from '@components/common/test-flow-header/test-flow-header.component';
@@ -11,13 +11,24 @@ import { WaitingRoomToCarComponentsModule } from '@pages/waiting-room-to-car/com
 import { WaitingRoomToCarAnalyticsEffects } from '@pages/waiting-room-to-car/waiting-room-to-car.analytics.effects';
 import { WaitingRoomToCarCatDPageRoutingModule } from './waiting-room-to-car.cat-d-routing.module';
 import { WaitingRoomToCarCatDPage } from './waiting-room-to-car.cat-d.page';
+import {
+  IonButton,
+  IonCol,
+  IonContent,
+  IonFooter,
+  IonGrid,
+  IonHeader,
+  IonRow,
+  IonText,
+  IonToolbar
+} from '@ionic/angular';
 
 @NgModule({
   declarations: [WaitingRoomToCarCatDPage],
   imports: [
     CommonModule,
     FormsModule,
-    IonicModule,
+
     WaitingRoomToCarCatDPageRoutingModule,
     WaitingRoomToCarCatDComponentsModule,
     ComponentsModule,
@@ -25,6 +36,15 @@ import { WaitingRoomToCarCatDPage } from './waiting-room-to-car.cat-d.page';
     WaitingRoomToCarComponentsModule,
     EffectsModule.forFeature([WaitingRoomToCarAnalyticsEffects]),
     TestFlowHeaderComponent,
+    IonContent,
+    IonToolbar,
+    IonHeader,
+    IonRow,
+    IonGrid,
+    IonCol,
+    IonButton,
+    IonText,
+    IonFooter,
   ],
 })
 export class WaitingRoomToCarCatDPageModule {}

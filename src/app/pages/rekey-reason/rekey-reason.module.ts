@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { IonicModule } from '@ionic/angular';
+
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 
@@ -12,18 +12,42 @@ import { FindUserProvider } from '@providers/find-user/find-user';
 import { RekeyReasonPageRoutingModule } from './rekey-reason-routing.module';
 import { RekeyReasonPage } from './rekey-reason.page';
 import { rekeyReasonReducer } from './rekey-reason.reducer';
+import {
+  IonBackButton,
+  IonButton,
+  IonButtons,
+  IonCard,
+  IonCardHeader, IonCol, IonContent, IonFooter, IonGrid,
+  IonHeader, IonRow, IonText,
+  IonTitle,
+  IonToolbar
+} from "@ionic/angular";
 
 @NgModule({
   declarations: [RekeyReasonPage],
   imports: [
     CommonModule,
     FormsModule,
-    IonicModule,
+
     RekeyReasonPageRoutingModule,
     ReactiveFormsModule,
     RekeyReasonComponentsModule,
     StoreModule.forFeature('rekeyReason', rekeyReasonReducer),
     EffectsModule.forFeature([RekeyReasonAnalyticsEffects, RekeyReasonEffects]),
+    IonButtons,
+    IonButton,
+    IonBackButton,
+    IonTitle,
+    IonToolbar,
+    IonHeader,
+    IonCardHeader,
+    IonCard,
+    IonContent,
+    IonGrid,
+    IonCol,
+    IonRow,
+    IonFooter,
+    IonText,
   ],
   providers: [FindUserProvider],
 })

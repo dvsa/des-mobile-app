@@ -6,7 +6,7 @@ import { TestFlowHeaderComponent } from '@components/common/test-flow-header/tes
 import { TickIndicatorComponent } from '@components/common/tick-indicator/tick-indicator';
 import { CatADI2UniqueTypes } from '@dvsa/mes-test-schema/categories/ADI2';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
-import { IonicModule, ModalController, Platform } from '@ionic/angular';
+import { ModalController, Platform } from '@ionic/angular';
 import { ModalControllerMock, PlatformMock } from '@mocks/index.mock';
 import { StoreModule } from '@ngrx/store';
 import { ManoeuvresPopoverComponentAdiPart2 } from '@pages/test-report/cat-adi-part2/components/manoeuvres-popover/manoeuvres-popover';
@@ -58,7 +58,7 @@ describe('TestReportCatADI2Page', () => {
         MockComponent(ManoeuvresPopoverComponentAdiPart2),
       ],
       imports: [
-        IonicModule,
+
         AppModule,
         StoreModule.forFeature('tests', () => ({
           currentTest: {

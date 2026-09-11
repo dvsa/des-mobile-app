@@ -1,7 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { IonicModule } from '@ionic/angular';
 import { EffectsModule } from '@ngrx/effects';
 
 import { ComponentsModule } from '@components/common/common-components.module';
@@ -17,13 +16,22 @@ import { OfficeAnalyticsEffects } from '@pages/office/office.analytics.effects';
 import { OfficeEffects } from '@pages/office/office.effects';
 import { WaitingRoomToCarComponentsModule } from '@pages/waiting-room-to-car/components/waiting-room-to-car.components.module';
 import { FaultSummaryProvider } from '@providers/fault-summary/fault-summary';
+import {
+  IonCard,
+  IonCardContent,
+  IonCardHeader,
+  IonContent,
+  IonFooter,
+  IonGrid,
+  IonHeader,
+  IonToolbar
+} from "@ionic/angular";
 
 @NgModule({
   declarations: [OfficeCatADI3Page],
   imports: [
     CommonModule,
     FormsModule,
-    IonicModule,
     OfficeCatADIPart3PageRoutingModule,
     ComponentsModule,
     OfficeComponentsModule,
@@ -35,6 +43,14 @@ import { FaultSummaryProvider } from '@providers/fault-summary/fault-summary';
     PracticeModeBanner,
     PracticeModeExitButton,
     TestFlowHeaderComponent,
+    IonContent,
+    IonToolbar,
+    IonHeader,
+    IonGrid,
+    IonCardContent,
+    IonCardHeader,
+    IonCard,
+    IonFooter,
   ],
   providers: [FaultSummaryProvider],
 })

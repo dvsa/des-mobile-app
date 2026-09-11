@@ -1,10 +1,15 @@
 import { Component } from '@angular/core';
-import { IonicModule } from '@ionic/angular';
+import {IonCol, IonRow, IonText} from '@ionic/angular';
 
 @Component({
   selector: 'practice-mode-banner',
   templateUrl: 'practice-mode-banner.html',
   styleUrls: ['practice-mode-banner.scss'],
-  imports: [IonicModule],
+  standalone: true,
+  imports: [
+    IonText,
+    IonCol,
+    IonRow
+  ]
 })
 export class PracticeModeBanner {}

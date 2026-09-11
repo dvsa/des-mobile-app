@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { IonicModule, LoadingController } from '@ionic/angular';
+import { LoadingController } from '@ionic/angular';
 import { StoreModule } from '@ngrx/store';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { of, throwError } from 'rxjs';
@@ -54,7 +54,7 @@ describe('TestCenterJournalPage', () => {
     TestBed.configureTestingModule({
       declarations: [TestCentreJournalPage, MockComponent(TestFlowHeaderComponent)],
       imports: [
-        IonicModule,
+
         MockComponent(RefreshButtonComponent),
         CommonModule,
         ComponentsModule,

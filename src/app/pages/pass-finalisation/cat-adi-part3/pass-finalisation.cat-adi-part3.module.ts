@@ -6,19 +6,30 @@ import { ComponentsModule } from '@components/common/common-components.module';
 import { TestFlowHeaderComponent } from '@components/common/test-flow-header/test-flow-header.component';
 import { TestFinalisationComponentsModule } from '@components/test-finalisation/test-finalisation-components.module';
 import { DirectivesModule } from '@directives/directives.module';
-import { IonicModule } from '@ionic/angular';
+
 import { EffectsModule } from '@ngrx/effects';
 import { PassFinalisationCatADI3ComponentsModule } from '@pages/pass-finalisation/cat-adi-part3/components/pass-finalisation.cat-adi3.components.module';
 import { PassFinalisationAnalyticsEffects } from '@pages/pass-finalisation/pass-finalisation.analytics.effects';
 import { PassFinalisationCatADIPart3PageRoutingModule } from './pass-finalisation.cat-adi-part3-routing.module';
 import { PassFinalisationCatADIPart3Page } from './pass-finalisation.cat-adi-part3.page';
+import {
+  IonButton,
+  IonCol,
+  IonContent,
+  IonFooter,
+  IonGrid,
+  IonHeader,
+  IonRow,
+  IonText,
+  IonToolbar
+} from "@ionic/angular";
 
 @NgModule({
   imports: [
     CommonModule,
     DirectivesModule,
     FormsModule,
-    IonicModule,
+
     PassFinalisationCatADIPart3PageRoutingModule,
     ComponentsModule,
     TestFinalisationComponentsModule,
@@ -26,6 +37,15 @@ import { PassFinalisationCatADIPart3Page } from './pass-finalisation.cat-adi-par
     PassFinalisationCatADI3ComponentsModule,
     EffectsModule.forFeature([PassFinalisationAnalyticsEffects]),
     TestFlowHeaderComponent,
+    IonText,
+    IonButton,
+    IonCol,
+    IonRow,
+    IonToolbar,
+    IonFooter,
+    IonGrid,
+    IonContent,
+    IonHeader,
   ],
   declarations: [PassFinalisationCatADIPart3Page],
 })

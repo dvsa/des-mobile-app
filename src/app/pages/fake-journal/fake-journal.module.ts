@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { IonicModule } from '@ionic/angular';
+
 
 import { ComponentsModule } from '@components/common/common-components.module';
 import { TestSlotComponentsModule } from '@components/test-slot/test-slot-components.module';
@@ -18,12 +18,13 @@ import { PracticeModeExitButton } from '@components/common/practice-mode-exit-bu
 import { VehicleRecallsBanner } from '@components/common/vehicle-recall-banner/vehicle-recalls-banner';
 import { FakeJournalAnalyticsEffects } from './fake-journal.analytics.effects';
 import { FakeJournalPage } from './fake-journal.page';
+import {IonButtons, IonCol, IonContent, IonHeader, IonRow, IonTitle, IonToolbar} from "@ionic/angular";
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
-    IonicModule,
+
     FakeJournalPageRoutingModule,
     ComponentsModule,
     TestSlotComponentsModule,
@@ -34,6 +35,13 @@ import { FakeJournalPage } from './fake-journal.page';
     VehicleRecallsBanner,
     PracticeModeExitButton,
     PracticeModeBanner,
+    IonToolbar,
+    IonHeader,
+    IonRow,
+    IonCol,
+    IonTitle,
+    IonButtons,
+    IonContent,
   ],
   declarations: [FakeJournalPage],
   providers: [OrientationMonitorProvider],

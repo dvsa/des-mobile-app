@@ -7,8 +7,8 @@ import { CatD1MUniqueTypes } from '@dvsa/mes-test-schema/categories/D1M';
 import { CatDEMUniqueTypes } from '@dvsa/mes-test-schema/categories/DEM';
 import { CatDMUniqueTypes } from '@dvsa/mes-test-schema/categories/DM';
 import { createReducer, on } from '@ngrx/store';
-import { CompetencyOutcome } from 'src/app/shared/models/competency-outcome';
 import * as manoeuvresActions from '../../common/manoeuvres/manoeuvres.actions';
+import {CompetencyOutcome} from '@shared/models/competency-outcome';
 
 export type ManoeuvresCatManoeuvreUnion =
   | CatCMUniqueTypes.Manoeuvres

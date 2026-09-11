@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { IonicModule } from '@ionic/angular';
+
 import { VehicleDetailsComponent } from '../vehicle-details';
 
 describe('VehicleDetailsComponent', () => {
@@ -9,7 +9,7 @@ describe('VehicleDetailsComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [VehicleDetailsComponent],
-      imports: [IonicModule],
+
     });
 
     fixture = TestBed.createComponent(VehicleDetailsComponent);

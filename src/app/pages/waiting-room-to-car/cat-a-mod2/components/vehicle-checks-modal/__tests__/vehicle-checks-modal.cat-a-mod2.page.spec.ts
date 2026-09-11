@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { AppModule } from '@app/app.module';
 import { WarningBannerComponent } from '@components/common/warning-banner/warning-banner';
 import { QuestionOutcome, QuestionResult } from '@dvsa/mes-test-schema/categories/common';
-import { IonicModule, ModalController } from '@ionic/angular';
+import { ModalController } from '@ionic/angular';
 import { ModalControllerMock } from '@mocks/index.mock';
 import { Store, StoreModule } from '@ngrx/store';
 import { VehicleChecksQuestionCatAMod2Component } from '@pages/waiting-room-to-car/cat-a-mod2/components/vehicle-checks-question/vehicle-checks-question';
@@ -30,7 +30,7 @@ describe('VehicleChecksCatAMod2Modal', () => {
         MockComponent(VehicleChecksQuestionCatAMod2Component),
         WarningBannerComponent,
       ],
-      imports: [IonicModule, AppModule, StoreModule.forRoot({})],
+      imports: [AppModule, StoreModule.forRoot({})],
       providers: [{ provide: ModalController, useClass: ModalControllerMock }],
     });
 

@@ -1,8 +1,7 @@
 import { EventEmitter } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule, UntypedFormGroup } from '@angular/forms';
-import { IonicModule } from '@ionic/angular';
-import { TranslateModule } from '@ngx-translate/core';
+
 import { ReceiptDeclarationComponent } from '../receipt-declaration';
 
 describe('ReceiptDeclarationComponent', () => {
@@ -12,7 +11,7 @@ describe('ReceiptDeclarationComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [ReceiptDeclarationComponent],
-      imports: [IonicModule, TranslateModule.forRoot(), ReactiveFormsModule],
+      imports: [ReactiveFormsModule],
     });
 
     fixture = TestBed.createComponent(ReceiptDeclarationComponent);

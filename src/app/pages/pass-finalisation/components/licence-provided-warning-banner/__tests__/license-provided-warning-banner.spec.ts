@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { WarningBannerComponent } from '@components/common/warning-banner/warning-banner';
-import { IonicModule } from '@ionic/angular';
+
 import { LicenceProvidedWarningBannerComponent } from '../licence-provided-warning-banner';
 
 describe('LicenceProvidedWarningBannerComponent', () => {
@@ -11,7 +11,7 @@ describe('LicenceProvidedWarningBannerComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [LicenceProvidedWarningBannerComponent, WarningBannerComponent],
-      imports: [IonicModule],
+
       providers: [LicenceProvidedWarningBannerComponent],
     });
 

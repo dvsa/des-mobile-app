@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule, UntypedFormGroup, Validators } from '@angular/forms';
 import { BikeCategoryTypeComponent } from '@components/common/bike-category-type/bike-category-type';
-import { IonicModule } from '@ionic/angular';
+
 import { provideMockStore } from '@ngrx/store/testing';
 import * as waitingRoomToCarActions from '@pages/waiting-room-to-car/waiting-room-to-car.actions';
 import { BikeCategoryDetailProviderMock } from '@providers/bike-category-detail/__tests__/bike-category-detail.mock';
@@ -15,7 +15,7 @@ describe('BikeCategoryTypeComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [IonicModule, ReactiveFormsModule],
+      imports: [ReactiveFormsModule],
       providers: [
         { provide: BikeCategoryDetailProvider, useClass: BikeCategoryDetailProviderMock },
         provideMockStore({ ...{} }),

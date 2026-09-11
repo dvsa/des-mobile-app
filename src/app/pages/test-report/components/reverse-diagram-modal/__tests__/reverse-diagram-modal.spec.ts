@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
-import { IonicModule, NavController, Platform } from '@ionic/angular';
+import { NavController, Platform } from '@ionic/angular';
 import { NavControllerMock, PlatformMock } from '@mocks/index.mock';
 import { Store, StoreModule } from '@ngrx/store';
 import { ReversingDistancesProvider } from '@providers/reversing-distances/reversing-distances';
@@ -24,7 +24,7 @@ describe('reverseDiagramModal', () => {
       declarations: [ReverseDiagramPage],
       imports: [
         AppModule,
-        IonicModule,
+
         StoreModule.forRoot({
           tests: () => ({
             currentTest: {

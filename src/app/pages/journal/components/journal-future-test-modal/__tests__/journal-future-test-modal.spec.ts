@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { IonicModule, ModalController } from '@ionic/angular';
+import { ModalController } from '@ionic/angular';
 import { ModalControllerMock } from '@mocks/index.mock';
 import { Store, StoreModule } from '@ngrx/store';
 import { ModalEvent } from '@pages/journal/components/journal-rekey-modal/journal-rekey-modal.constants';
@@ -20,7 +20,7 @@ describe('JournalRekeyModal', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [JournalFutureTestModal],
-      imports: [IonicModule, StoreModule.forRoot({})],
+      imports: [StoreModule.forRoot({})],
       providers: [
         { provide: ModalController, useClass: ModalControllerMock },
         { provide: DeviceProvider, useClass: DeviceProviderMock },

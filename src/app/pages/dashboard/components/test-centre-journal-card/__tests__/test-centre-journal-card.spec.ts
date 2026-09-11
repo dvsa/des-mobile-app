@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Router } from '@angular/router';
-import { IonicModule } from '@ionic/angular';
+
 import { RouterMock } from '@mocks/angular-mocks/router-mock';
 import { TEST_CENTRE_JOURNAL_PAGE } from '@pages/page-names.constants';
 import { TestCentreJournalCardComponent } from '../test-centre-journal-card';
@@ -14,7 +14,7 @@ describe('TestCentreJournalCard', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [TestCentreJournalCardComponent],
-      imports: [IonicModule, CommonModule],
+      imports: [CommonModule],
       providers: [
         {
           provide: Router,

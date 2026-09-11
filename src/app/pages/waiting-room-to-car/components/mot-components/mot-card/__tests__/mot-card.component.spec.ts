@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { IonicModule } from '@ionic/angular';
+
 
 import { MotHistory } from '@dvsa/mes-mot-schema';
 import { Store, StoreModule } from '@ngrx/store';
@@ -15,7 +15,7 @@ describe('MotCardComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [MotCardComponent],
-      imports: [StoreModule.forRoot(), IonicModule.forRoot()],
+      imports: [StoreModule.forRoot()],
       providers: [{ provide: NetworkStateProvider, useClass: NetworkStateProviderMock }, Store],
     }).compileComponents();
 

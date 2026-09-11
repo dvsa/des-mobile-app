@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { DrivingFaultsBadgeComponent } from '@components/common/driving-faults-badge/driving-faults-badge';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
-import { IonicModule } from '@ionic/angular';
+
 import { Store, StoreModule } from '@ngrx/store';
 import { FaultCountProvider } from '@providers/fault-count/fault-count';
 import { SafetyQuestionsScore } from '@shared/models/safety-questions-score.model';
@@ -22,7 +22,7 @@ describe('SafetyAndBalanceComponent', () => {
     TestBed.configureTestingModule({
       declarations: [SafetyAndBalanceComponent, MockComponent(DrivingFaultsBadgeComponent)],
       imports: [
-        IonicModule,
+
         StoreModule.forRoot({
           tests: testsReducer,
         }),

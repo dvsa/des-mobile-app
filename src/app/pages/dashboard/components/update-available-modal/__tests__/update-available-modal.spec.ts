@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { IonicModule, ModalController } from '@ionic/angular';
+import { ModalController } from '@ionic/angular';
 import { MockComponent } from 'ng-mocks';
 
 import { ModalAlertTitleComponent } from '@components/common/modal-alert-title/modal-alert-title';
@@ -17,7 +17,7 @@ describe('UpdateAvailableModal', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [UpdateAvailableModal, MockComponent(ModalAlertTitleComponent)],
-      imports: [IonicModule],
+
       providers: [
         {
           provide: ModalController,

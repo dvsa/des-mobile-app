@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { IonicModule } from '@ionic/angular';
+
 import { EffectsModule } from '@ngrx/effects';
 
 import { ComponentsModule } from '@components/common/common-components.module';
@@ -11,16 +11,36 @@ import { UnuploadedTestsAnalyticsEffects } from '@pages/unuploaded-tests/unuploa
 import { UnuploadedTestsEffects } from '@pages/unuploaded-tests/unuploaded-tests.effects';
 import { UnuploadedTestsPage } from '@pages/unuploaded-tests/unuploaded-tests.page';
 import { OrientationMonitorProvider } from '@providers/orientation-monitor/orientation-monitor.provider';
+import {
+  IonButton,
+  IonButtons,
+  IonContent,
+  IonHeader,
+  IonIcon,
+  IonLabel,
+  IonText,
+  IonTitle,
+  IonToolbar
+} from '@ionic/angular';
 
 @NgModule({
   imports: [
     CommonModule,
-    IonicModule,
+
     ComponentsModule,
     UnuploadedTestsRoutingModule,
     DashboardComponentsModule,
     TestSlotComponentsModule,
     EffectsModule.forFeature([UnuploadedTestsEffects, UnuploadedTestsAnalyticsEffects]),
+    IonButtons,
+    IonButton,
+    IonIcon,
+    IonLabel,
+    IonTitle,
+    IonToolbar,
+    IonHeader,
+    IonContent,
+    IonText,
   ],
   declarations: [UnuploadedTestsPage],
   providers: [OrientationMonitorProvider],

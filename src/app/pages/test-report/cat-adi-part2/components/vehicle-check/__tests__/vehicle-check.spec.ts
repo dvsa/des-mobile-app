@@ -3,7 +3,7 @@ import { DangerousFaultBadgeComponent } from '@components/common/dangerous-fault
 import { DrivingFaultsBadgeComponent } from '@components/common/driving-faults-badge/driving-faults-badge';
 import { SeriousFaultBadgeComponent } from '@components/common/serious-fault-badge/serious-fault-badge';
 import { TickIndicatorComponent } from '@components/common/tick-indicator/tick-indicator';
-import { IonicModule } from '@ionic/angular';
+
 import { Store, StoreModule } from '@ngrx/store';
 import { StoreModel } from '@shared/models/store.model';
 import { StartTest } from '@store/tests/tests.actions';
@@ -74,7 +74,7 @@ describe('VehicleCheckComponent', () => {
         MockComponent(CompetencyButtonComponent),
       ],
       imports: [
-        IonicModule,
+
         StoreModule.forRoot({
           tests: () => ({
             currentTest: {

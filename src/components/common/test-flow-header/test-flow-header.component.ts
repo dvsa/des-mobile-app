@@ -14,7 +14,16 @@ import {
   ExitSamSelected,
 } from '@components/common/test-flow-header/exit-sam.actions';
 import { DirectivesModule } from '@directives/directives.module';
-import { IonicModule, ModalController } from '@ionic/angular';
+import {
+  IonBackButton,
+  IonButton,
+  IonButtons,
+  IonCol,
+  IonIcon,
+  IonLabel,
+  IonRow,
+  ModalController
+} from '@ionic/angular';
 import { Platform } from '@ionic/angular';
 import { Store } from '@ngrx/store';
 import { AccessibilityService } from '@providers/accessibility/accessibility.service';
@@ -34,14 +43,21 @@ export enum ExitSAMMethodUsed {
   templateUrl: './test-flow-header.component.html',
   styleUrls: ['./test-flow-header.component.scss'],
   imports: [
-    IonicModule,
     ComponentsModule,
     ExitSamBanner,
     ExitSamButton,
     DirectivesModule,
     PracticeModeExitButton,
     PracticeModeBanner,
+    IonRow,
+    IonCol,
+    IonLabel,
+    IonBackButton,
+    IonButton,
+    IonButtons,
+    IonIcon,
   ],
+  standalone: true
 })
 export class TestFlowHeaderComponent {
   @Input() isPracticeMode = false;

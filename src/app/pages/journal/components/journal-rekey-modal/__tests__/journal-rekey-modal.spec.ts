@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { ComponentsModule } from '@components/common/common-components.module';
-import { IonicModule, ModalController } from '@ionic/angular';
+import { ModalController } from '@ionic/angular';
 import { ModalControllerMock } from '@mocks/index.mock';
 import { DeviceProviderMock } from '@providers/device/__mocks__/device.mock';
 import { DeviceProvider } from '@providers/device/device';
@@ -18,7 +18,7 @@ describe('JournalRekeyModal', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [JournalRekeyModal],
-      imports: [IonicModule, ComponentsModule],
+      imports: [ComponentsModule],
       providers: [
         { provide: ModalController, useClass: ModalControllerMock },
         { provide: DeviceProvider, useClass: DeviceProviderMock },

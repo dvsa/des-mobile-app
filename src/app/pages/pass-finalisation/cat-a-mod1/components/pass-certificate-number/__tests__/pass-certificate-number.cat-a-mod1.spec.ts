@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { MockAppComponent } from '@app/__mocks__/app.component.mock';
 import { AppComponent } from '@app/app.component';
-import { IonicModule } from '@ionic/angular';
+
 import { AccessibilityServiceMock } from '@providers/accessibility/__mocks__/accessibility-service.mock';
 import { AccessibilityService } from '@providers/accessibility/accessibility.service';
 import { PASS_CERTIFICATE_LENGTH_A_MOD1 } from '@providers/pass-certificate-validation/pass-certificate-validation.constants';
@@ -15,7 +15,7 @@ describe('PassCertificateNumberCatAMod1Component', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [PassCertificateNumberCatAMod1Component],
-      imports: [IonicModule],
+
       providers: [
         {
           provide: AppComponent,

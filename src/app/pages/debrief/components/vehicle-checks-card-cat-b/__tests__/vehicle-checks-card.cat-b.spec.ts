@@ -3,7 +3,7 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { default as welshTranslations } from '@assets/i18n/cy.json';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
-import { IonicModule } from '@ionic/angular';
+
 import { Store, StoreModule } from '@ngrx/store';
 import { TranslateModule, TranslateService, provideTranslateService } from '@ngx-translate/core';
 import { provideTranslateHttpLoader } from '@ngx-translate/http-loader';
@@ -28,7 +28,7 @@ describe('VehicleChecksCardCatBComponent', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [VehicleChecksCardCatBComponent],
-      imports: [IonicModule, StoreModule.forRoot({ tests: testsReducer }), TranslateModule.forRoot()],
+      imports: [StoreModule.forRoot({ tests: testsReducer }), TranslateModule.forRoot()],
       providers: [
         provideHttpClient(withInterceptorsFromDi()),
         provideTranslateService({

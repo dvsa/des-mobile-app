@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { IonicModule } from '@ionic/angular';
+
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 
@@ -19,6 +19,19 @@ import { RekeySearchPage } from './rekey-search';
 import { RekeySearchAnalyticsEffects } from './rekey-search.analytics.effects';
 import { RekeySearchEffects } from './rekey-search.effects';
 import { rekeySearchReducer } from './rekey-search.reducer';
+import {
+  IonBackButton,
+  IonButton, IonButtons,
+  IonCol,
+  IonContent,
+  IonGrid, IonHeader,
+  IonIcon,
+  IonInput,
+  IonRow,
+  IonSpinner,
+  IonText, IonTitle,
+  IonToolbar
+} from '@ionic/angular';
 
 @NgModule({
   declarations: [RekeySearchPage],
@@ -28,10 +41,24 @@ import { rekeySearchReducer } from './rekey-search.reducer';
     ComponentsModule,
     CommonModule,
     TestSlotComponentsModule,
-    IonicModule,
+
     RekeySearchPageRoutingModule,
     DirectivesModule,
     MaskitoDirective,
+    IonInput,
+    IonCol,
+    IonRow,
+    IonGrid,
+    IonContent,
+    IonIcon,
+    IonText,
+    IonSpinner,
+    IonButton,
+    IonToolbar,
+    IonHeader,
+    IonBackButton,
+    IonButtons,
+    IonTitle,
   ],
   providers: [OrientationMonitorProvider, RekeySearchProvider, SearchProvider, CompressionProvider, SlotProvider],
 })

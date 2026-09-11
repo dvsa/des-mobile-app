@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule, UntypedFormGroup } from '@angular/forms';
-import { IonicModule } from '@ionic/angular';
+
 import { LicenseProvidedComponent } from '../license-provided';
 
 describe('LicenseProvidedComponent', () => {
@@ -10,7 +10,7 @@ describe('LicenseProvidedComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [LicenseProvidedComponent],
-      imports: [IonicModule, ReactiveFormsModule],
+      imports: [ReactiveFormsModule],
     });
 
     fixture = TestBed.createComponent(LicenseProvidedComponent);

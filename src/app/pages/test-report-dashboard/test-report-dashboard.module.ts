@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { IonicModule } from '@ionic/angular';
+
 
 import { ComponentsModule } from '@components/common/common-components.module';
 import { TestFlowHeaderComponent } from '@components/common/test-flow-header/test-flow-header.component';
@@ -18,13 +18,14 @@ import { testReportReducer } from '@pages/test-report/test-report.reducer';
 import { TestReportValidatorProvider } from '@providers/test-report-validator/test-report-validator';
 import { TestResultProvider } from '@providers/test-result/test-result';
 import { TestReportDashboardPageRoutingModule } from './test-report-dashboard.routing-module';
+import {IonButton, IonCol, IonContent, IonFooter, IonHeader, IonRow, IonText, IonToolbar} from '@ionic/angular';
 
 @NgModule({
   declarations: [TestReportDashboardPage],
   imports: [
     CommonModule,
     FormsModule,
-    IonicModule,
+
     TestReportDashboardPageRoutingModule,
     ComponentsModule,
     StoreModule.forFeature('testReport', testReportReducer),
@@ -33,6 +34,14 @@ import { TestReportDashboardPageRoutingModule } from './test-report-dashboard.ro
     Adi3EndTestModalModule,
     TestReportCatADIPart3ComponentsModule,
     TestFlowHeaderComponent,
+    IonCol,
+    IonRow,
+    IonContent,
+    IonToolbar,
+    IonHeader,
+    IonButton,
+    IonText,
+    IonFooter,
   ],
   providers: [TestReportValidatorProvider, TestResultProvider],
 })

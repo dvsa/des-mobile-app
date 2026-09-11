@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule, UntypedFormGroup } from '@angular/forms';
 import { SignatureAreaComponent } from '@components/common/signature-area/signature-area';
-import { IonicModule } from '@ionic/angular';
+
 import { TranslateModule } from '@ngx-translate/core';
 import { MockComponent } from 'ng-mocks';
 import { SignatureComponent } from '../signature';
@@ -13,7 +13,7 @@ describe('SignatureComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [SignatureComponent, MockComponent(SignatureAreaComponent)],
-      imports: [IonicModule, TranslateModule.forRoot(), ReactiveFormsModule],
+      imports: [TranslateModule.forRoot(), ReactiveFormsModule],
     });
 
     fixture = TestBed.createComponent(SignatureComponent);

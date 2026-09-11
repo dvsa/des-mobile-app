@@ -2,8 +2,6 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
-import { IonicModule } from '@ionic/angular';
-
 import { AssessmentReportComponent } from '@pages/office/cat-cpc/components/assessment-report/assessment-report';
 import { PipesModule } from '@shared/pipes/pipes.module';
 
@@ -26,6 +24,17 @@ import { CombinationComponent } from './components/combination/combination';
 import { PassCertificateDeclarationComponent } from './components/pass-certificate-declaration/pass-certificate-declaration';
 import { OfficeCatCPCPageRoutingModule } from './office.cat-cpc-routing.module';
 import { OfficeCatCPCPage } from './office.cat-cpc.page';
+import {
+  IonCard,
+  IonCardContent,
+  IonCardHeader,
+  IonCol,
+  IonContent, IonFooter,
+  IonGrid,
+  IonHeader,
+  IonRow,
+  IonToolbar
+} from "@ionic/angular";
 
 @NgModule({
   declarations: [
@@ -37,7 +46,6 @@ import { OfficeCatCPCPage } from './office.cat-cpc.page';
   imports: [
     CommonModule,
     FormsModule,
-    IonicModule,
     PipesModule,
     OfficeCatCPCPageRoutingModule,
     ReactiveFormsModule,
@@ -53,6 +61,16 @@ import { OfficeCatCPCPage } from './office.cat-cpc.page';
     PracticeModeBanner,
     PracticeModeExitButton,
     TestFlowHeaderComponent,
+    IonCol,
+    IonRow,
+    IonToolbar,
+    IonHeader,
+    IonContent,
+    IonCardHeader,
+    IonCard,
+    IonGrid,
+    IonCardContent,
+    IonFooter,
   ],
   providers: [FaultSummaryProvider],
 })

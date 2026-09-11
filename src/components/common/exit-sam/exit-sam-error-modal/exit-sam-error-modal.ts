@@ -1,12 +1,12 @@
 import { Component, Input } from '@angular/core';
 import { ComponentsModule } from '@components/common/common-components.module';
-import { IonicModule, ModalController } from '@ionic/angular';
+import {IonButton, IonCard, IonCol, IonRow, IonText, ModalController} from '@ionic/angular';
 
 @Component({
   selector: 'exit-sam-error-modal',
   templateUrl: './exit-sam-error-modal.html',
   styleUrls: ['./exit-sam-error-modal.scss'],
-  imports: [IonicModule, ComponentsModule],
+  imports: [ComponentsModule, IonRow, IonCol, IonText, IonCard, IonButton],
 })
 export class ExitSamErrorModal {
   @Input() firstMessage: string;

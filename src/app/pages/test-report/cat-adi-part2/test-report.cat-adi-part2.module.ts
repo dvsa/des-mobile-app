@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
-import { IonicModule } from '@ionic/angular';
+
 
 import { ComponentsModule } from '@components/common/common-components.module';
 import { TestFlowHeaderComponent } from '@components/common/test-flow-header/test-flow-header.component';
@@ -17,6 +17,7 @@ import { TestReportValidatorProvider } from '@providers/test-report-validator/te
 import { TestResultProvider } from '@providers/test-result/test-result';
 import { TestReportCatADIPart2PageRoutingModule } from './test-report.cat-adi-part2-routing.module';
 import { TestReportCatADI2Page } from './test-report.cat-adi-part2.page';
+import {IonCol, IonContent, IonGrid, IonHeader, IonRow, IonToolbar} from '@ionic/angular';
 
 @NgModule({
   declarations: [TestReportCatADI2Page],
@@ -25,12 +26,18 @@ import { TestReportCatADI2Page } from './test-report.cat-adi-part2.page';
     EffectsModule.forFeature([TestReportAnalyticsEffects, TestReportEffects]),
     CommonModule,
     FormsModule,
-    IonicModule,
+
     TestReportCatADIPart2PageRoutingModule,
     TestReportComponentsModule,
     ComponentsModule,
     TestReportCatADIPart2ComponentsModule,
     TestFlowHeaderComponent,
+    IonRow,
+    IonCol,
+    IonGrid,
+    IonContent,
+    IonToolbar,
+    IonHeader,
   ],
   providers: [TestReportValidatorProvider, TestResultProvider],
 })

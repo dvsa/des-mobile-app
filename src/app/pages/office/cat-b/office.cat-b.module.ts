@@ -5,7 +5,6 @@ import { ComponentsModule } from '@components/common/common-components.module';
 import { PracticeModeBanner } from '@components/common/practice-mode-banner/practice-mode-banner';
 import { PracticeModeExitButton } from '@components/common/practice-mode-exit-button/practice-mode-exit-button';
 import { TestFlowHeaderComponent } from '@components/common/test-flow-header/test-flow-header.component';
-import { IonicModule } from '@ionic/angular';
 import { EffectsModule } from '@ngrx/effects';
 import { OfficeCatBPageRoutingModule } from '@pages/office/cat-b/office.cat-b-routing.module';
 import { OfficeRegistrationAndMotComponent } from '@pages/office/components/office-registration-and-mot/office-registration-and-mot.component';
@@ -16,6 +15,16 @@ import { FaultSummaryProvider } from '@providers/fault-summary/fault-summary';
 import { OfficeAnalyticsEffects } from '../office.analytics.effects';
 import { OfficeEffects } from '../office.effects';
 import { OfficeCatBPage } from './office.cat-b.page';
+import {
+  IonCard,
+  IonCardContent,
+  IonCardHeader, IonCol,
+  IonContent,
+  IonFooter,
+  IonGrid,
+  IonHeader, IonRow,
+  IonToolbar
+} from "@ionic/angular";
 
 @NgModule({
   declarations: [OfficeCatBPage],
@@ -24,7 +33,6 @@ import { OfficeCatBPage } from './office.cat-b.page';
     ComponentsModule,
     OfficeComponentsModule,
     OfficeCatBPageRoutingModule,
-    IonicModule,
     ReactiveFormsModule,
     CommonModule,
     WaitingRoomToCarComponentsModule,
@@ -33,6 +41,16 @@ import { OfficeCatBPage } from './office.cat-b.page';
     PracticeModeBanner,
     PracticeModeExitButton,
     TestFlowHeaderComponent,
+    IonFooter,
+    IonGrid,
+    IonCardContent,
+    IonCardHeader,
+    IonCard,
+    IonContent,
+    IonToolbar,
+    IonHeader,
+    IonRow,
+    IonCol,
   ],
   providers: [FaultSummaryProvider],
 })

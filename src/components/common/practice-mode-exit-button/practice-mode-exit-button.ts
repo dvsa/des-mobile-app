@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { IonicModule, ModalController } from '@ionic/angular';
+import {IonButton, IonText, ModalController} from '@ionic/angular';
 import { AccessibilityService } from '@providers/accessibility/accessibility.service';
 import { DeviceProvider } from '@providers/device/device';
 
@@ -7,7 +7,11 @@ import { DeviceProvider } from '@providers/device/device';
   selector: 'practice-mode-exit-button',
   templateUrl: './practice-mode-exit-button.html',
   styleUrls: ['./practice-mode-exit-button.scss'],
-  imports: [IonicModule],
+  standalone: true,
+  imports: [
+    IonText,
+    IonButton
+  ]
 })
 export class PracticeModeExitButton {
   constructor(

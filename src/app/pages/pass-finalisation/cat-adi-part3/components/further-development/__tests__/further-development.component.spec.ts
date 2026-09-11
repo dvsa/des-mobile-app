@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { AppModule } from '@app/app.module';
-import { IonicModule } from '@ionic/angular';
+
 import { VisibilityType } from '@providers/outcome-behaviour-map/outcome-behaviour-map';
 import { CircuitType } from '@shared/models/circuit-type';
 import { FurtherDevelopmentComponent } from '../further-development.component';
@@ -13,7 +13,7 @@ describe('FurtherDevelopmentComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [FurtherDevelopmentComponent],
-      imports: [IonicModule, AppModule, ReactiveFormsModule],
+      imports: [AppModule, ReactiveFormsModule],
     });
 
     fixture = TestBed.createComponent(FurtherDevelopmentComponent);

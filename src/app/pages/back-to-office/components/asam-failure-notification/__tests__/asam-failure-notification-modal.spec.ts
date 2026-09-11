@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ModalAlertTitleComponent } from '@components/common/modal-alert-title/modal-alert-title';
-import { IonicModule, ModalController } from '@ionic/angular';
+import { ModalController } from '@ionic/angular';
 import { ModalControllerMock } from '@mocks/ionic-mocks/modal-controller.mock';
 import { MockComponent } from 'ng-mocks';
 import { AsamFailureNotificationModal } from '../asam-failure-notification-modal';
@@ -13,7 +13,6 @@ describe('AsamFailureNotificationModal', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [AsamFailureNotificationModal, MockComponent(ModalAlertTitleComponent)],
-      imports: [IonicModule.forRoot()],
       providers: [{ provide: ModalController, useClass: ModalControllerMock }],
     });
 

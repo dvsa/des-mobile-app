@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { IonicModule } from '@ionic/angular';
+
 import { TestStatus } from '@store/tests/test-status/test-status.model';
 import { IndicatorsComponent } from '../indicators';
 
@@ -11,7 +11,7 @@ describe('IndicatorsComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [IndicatorsComponent],
-      imports: [IonicModule],
+
     });
 
     fixture = TestBed.createComponent(IndicatorsComponent);

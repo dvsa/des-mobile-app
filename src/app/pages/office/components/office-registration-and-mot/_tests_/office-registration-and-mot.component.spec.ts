@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { IonicModule } from '@ionic/angular';
+
 
 import { OfficeRegistrationAndMotComponent } from '../office-registration-and-mot.component';
 
@@ -9,7 +9,7 @@ describe('OfficeRegistrationAndMotComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [IonicModule.forRoot(), OfficeRegistrationAndMotComponent],
+      imports: [OfficeRegistrationAndMotComponent],
     });
 
     fixture = TestBed.createComponent(OfficeRegistrationAndMotComponent);

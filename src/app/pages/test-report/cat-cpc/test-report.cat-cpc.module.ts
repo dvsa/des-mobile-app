@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
-import { IonicModule } from '@ionic/angular';
+
 
 import { ComponentsModule } from '@components/common/common-components.module';
 import { TestFlowHeaderComponent } from '@components/common/test-flow-header/test-flow-header.component';
@@ -16,19 +16,23 @@ import { TestReportValidatorProvider } from '@providers/test-report-validator/te
 import { TestResultProvider } from '@providers/test-result/test-result';
 import { TestReportCatCPCPageRoutingModule } from './test-report.cat-cpc-routing.module';
 import { TestReportCatCPCPage } from './test-report.cat-cpc.page';
+import {IonContent, IonHeader, IonToolbar} from "@ionic/angular";
 
 @NgModule({
   declarations: [TestReportCatCPCPage],
   imports: [
     CommonModule,
     FormsModule,
-    IonicModule,
+
     TestReportCatCPCComponentsModule,
     TestReportCatCPCPageRoutingModule,
     StoreModule.forFeature('testReport', testReportReducer),
     EffectsModule.forFeature([TestReportAnalyticsEffects, TestReportEffects]),
     ComponentsModule,
     TestFlowHeaderComponent,
+    IonContent,
+    IonHeader,
+    IonToolbar,
   ],
   providers: [TestReportValidatorProvider, TestResultProvider],
 })

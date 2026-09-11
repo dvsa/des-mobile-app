@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { IonicModule } from '@ionic/angular';
+
 import { StoreModule } from '@ngrx/store';
 import { AppConfigProviderMock } from '@providers/app-config/__mocks__/app-config.mock';
 import { AppConfigProvider } from '@providers/app-config/app-config';
@@ -20,7 +20,7 @@ describe('IncompleteTestsBanner', () => {
     TestBed.configureTestingModule({
       declarations: [IncompleteTestsBanner],
       imports: [
-        IonicModule,
+
         StoreModule.forRoot({
           tests: testsReducer,
           journal: journalReducer,

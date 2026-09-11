@@ -5,7 +5,7 @@ import { DrivingFaultsBadgeComponent } from '@components/common/driving-faults-b
 import { SeriousFaultBadgeComponent } from '@components/common/serious-fault-badge/serious-fault-badge';
 import { TickIndicatorComponent } from '@components/common/tick-indicator/tick-indicator';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
-import { IonicModule } from '@ionic/angular';
+
 import { Store, StoreModule } from '@ngrx/store';
 import { CompetencyButtonComponent } from '@pages/test-report/components/competency-button/competency-button';
 import { testReportReducer } from '@pages/test-report/test-report.reducer';
@@ -37,7 +37,7 @@ describe('UncoupleRecoupleComponent', () => {
         MockComponent(DangerousFaultBadgeComponent),
         MockComponent(CompetencyButtonComponent),
       ],
-      imports: [IonicModule, StoreModule.forRoot({ tests: testsReducer, testReport: testReportReducer })],
+      imports: [StoreModule.forRoot({ tests: testsReducer, testReport: testReportReducer })],
       providers: [TestDataByCategoryProvider],
     });
 

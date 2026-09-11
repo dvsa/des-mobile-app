@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { IonicModule } from '@ionic/angular';
+
 import { ViewTestHeaderModel } from '@pages/view-test-result/components/view-test-header/view-test-header.model';
 import { TestOutcome } from '@store/tests/tests.constants';
 import { ViewTestHeaderComponent } from '../view-test-header';
@@ -11,7 +11,7 @@ describe('ViewTestHeaderComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [ViewTestHeaderComponent],
-      imports: [IonicModule],
+
     });
 
     fixture = TestBed.createComponent(ViewTestHeaderComponent);

@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { IonicModule, ModalController } from '@ionic/angular';
+import { ModalController } from '@ionic/angular';
 import { ModalControllerMock } from '@mocks/index.mock';
 import { ModalEvent } from '@pages/test-report/test-report.constants';
 import { AppModule } from 'src/app/app.module';
@@ -14,7 +14,7 @@ describe('EndTestModal', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [EndTestModal],
-      imports: [AppModule, IonicModule],
+      imports: [AppModule],
       providers: [{ provide: ModalController, useClass: ModalControllerMock }],
     });
 

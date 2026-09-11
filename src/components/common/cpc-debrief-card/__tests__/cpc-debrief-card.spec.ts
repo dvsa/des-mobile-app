@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { AppModule } from '@app/app.module';
 import { Question } from '@dvsa/mes-test-schema/categories/CPC';
-import { IonicModule } from '@ionic/angular';
+
 import { StoreModule } from '@ngrx/store';
 import { TranslateModule } from '@ngx-translate/core';
 import { ComponentsModule } from '../../common-components.module';
@@ -14,7 +14,7 @@ describe('CPCDebriefCardComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [IonicModule, AppModule, ComponentsModule, StoreModule.forRoot({}), TranslateModule],
+      imports: [AppModule, ComponentsModule, StoreModule.forRoot({}), TranslateModule],
     });
 
     fixture = TestBed.createComponent(CPCDebriefCardComponent);

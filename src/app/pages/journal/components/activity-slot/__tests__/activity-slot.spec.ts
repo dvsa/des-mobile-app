@@ -4,7 +4,7 @@ import { By } from '@angular/platform-browser';
 import { LocationComponent } from '@components/test-slot/location/location';
 import { TimeComponent } from '@components/test-slot/time/time';
 import { NonTestActivity } from '@dvsa/mes-journal-schema';
-import { IonicModule } from '@ionic/angular';
+
 import { AppConfigProviderMock } from '@providers/app-config/__mocks__/app-config.mock';
 import { AppConfigProvider } from '@providers/app-config/app-config';
 import { MockComponent } from 'ng-mocks';
@@ -18,7 +18,7 @@ describe('ActivitySlotComponent', () => {
     TestBed.configureTestingModule({
       declarations: [ActivitySlotComponent, MockComponent(TimeComponent), MockComponent(LocationComponent)],
       providers: [{ provide: AppConfigProvider, useClass: AppConfigProviderMock }],
-      imports: [IonicModule, CommonModule],
+      imports: [CommonModule],
     });
 
     fixture = TestBed.createComponent(ActivitySlotComponent);

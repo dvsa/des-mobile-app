@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { IonicModule } from '@ionic/angular';
+
 import { ExaminerRecordsLearnMoreModal } from '@pages/examiner-records/components/examiner-records-learn-more-modal/examiner-records-learn-more-modal';
 
 describe('ExaminerRecordsLearnMoreModalComponent', () => {
@@ -9,7 +9,6 @@ describe('ExaminerRecordsLearnMoreModalComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [ExaminerRecordsLearnMoreModal],
-      imports: [IonicModule.forRoot()],
     }).compileComponents();
 
     fixture = TestBed.createComponent(ExaminerRecordsLearnMoreModal);

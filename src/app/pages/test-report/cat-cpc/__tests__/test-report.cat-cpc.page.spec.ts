@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
-import { IonicModule, ModalController, Platform } from '@ionic/angular';
+import { ModalController, Platform } from '@ionic/angular';
 import { ModalControllerMock, PlatformMock } from '@mocks/index.mock';
 import { Store, StoreModule } from '@ngrx/store';
 import { MockComponent } from 'ng-mocks';
@@ -69,7 +69,7 @@ describe('TestReportCatCPCPage', () => {
         MockComponent(TestFlowHeaderComponent),
       ],
       imports: [
-        IonicModule,
+
         AppModule,
         StoreModule.forFeature('tests', () => ({
           currentTest: {
