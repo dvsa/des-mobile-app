@@ -1,9 +1,9 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule, UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { By } from '@angular/platform-browser';
-
-import { AppModule } from '@app/app.module';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
+import { IonCol, IonRow, IonSelect, IonSelectOption } from '@ionic/angular';
+import { provideMockStore } from '@ngrx/store/testing';
 import { VehicleChecksToggleComponent } from '../vehicle-checks-completed';
 
 describe('VehicleChecksToggleComponent', () => {
@@ -13,19 +13,42 @@ describe('VehicleChecksToggleComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [VehicleChecksToggleComponent],
-      imports: [AppModule, ReactiveFormsModule],
+      imports: [ReactiveFormsModule, IonCol, IonRow, IonSelect, IonSelectOption],
+      providers: [
+        provideMockStore({
+          initialState: {
+            tests: {
+              currentTest: { slotId: '123' },
+              startedTests: {
+                123: {
+                  testData: {
+                    vehicleChecks: {
+                      fullLicenceHeld: false,
+                      showMeQuestions: [],
+                      tellMeQuestions: [],
+                    },
+                  },
+                },
+              },
+              testStatus: {},
+            },
+          },
+        }),
+      ],
     });
 
     fixture = TestBed.createComponent(VehicleChecksToggleComponent);
     component = fixture.componentInstance;
     component.formGroup = new UntypedFormGroup({});
+    component.ngOnChanges();
+    component.ngOnInit();
   });
 
   describe('DOM', () => {
     it('should call VehicleChecksToggleResultChanged with Completed when selected', () => {
       spyOn(component, 'vehicleChecksToggleResultChanged');
       component.testCategory = TestCategory.BE;
-      component.ngOnChanges();
+      fixture.detectChanges();
       const vehicleChecksCompletedRadio = fixture.debugElement.query(By.css('#vehicle-checks-toggle-completed'));
       vehicleChecksCompletedRadio.triggerEventHandler('change', { target: { value: 'Completed' } });
 
@@ -35,7 +58,7 @@ describe('VehicleChecksToggleComponent', () => {
     it('should call VehicleChecksToggleResultChanged with Not completed when not selected', () => {
       spyOn(component, 'vehicleChecksToggleResultChanged');
       component.testCategory = TestCategory.BE;
-      component.ngOnChanges();
+      fixture.detectChanges();
       const vehicleChecksCompletedRadio = fixture.debugElement.query(By.css('#vehicle-checks-toggle-non-completed'));
 
       vehicleChecksCompletedRadio.triggerEventHandler('change', { target: { value: 'Not completed' } });

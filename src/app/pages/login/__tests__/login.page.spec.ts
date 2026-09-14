@@ -2,16 +2,19 @@ import { ComponentFixture, TestBed, fakeAsync, flushMicrotasks } from '@angular/
 import { Navigation, NavigationExtras, Router, RouterModule } from '@angular/router';
 import { Capacitor } from '@capacitor/core';
 import { SplashScreen } from '@capacitor/splash-screen';
-import { AlertController, LoadingController, MenuController, Platform } from '@ionic/angular';
+import { AlertController, LoadingController, MenuController, ModalController, Platform } from '@ionic/angular';
 import {
   AlertControllerMock,
   LoadingControllerMock,
   MenuControllerMock,
+  ModalControllerMock,
   PlatformMock,
   RouterMock,
 } from '@mocks/index.mock';
 import { StoreModule } from '@ngrx/store';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
+import { AccessibilityServiceMock } from '@providers/accessibility/__mocks__/accessibility-service.mock';
+import { AccessibilityService } from '@providers/accessibility/accessibility.service';
 import { AnalyticsProviderMock } from '@providers/analytics/__mocks__/analytics.mock';
 import { AnalyticsProvider } from '@providers/analytics/analytics';
 import { AppConfigProviderMock } from '@providers/app-config/__mocks__/app-config.mock';
@@ -88,8 +91,16 @@ describe('LoginPage', () => {
           useClass: MenuControllerMock,
         },
         {
+          provide: ModalController,
+          useClass: ModalControllerMock,
+        },
+        {
           provide: LogHelper,
           useClass: LogHelperMock,
+        },
+        {
+          provide: AccessibilityService,
+          useClass: AccessibilityServiceMock,
         },
         {
           provide: AnalyticsProvider,

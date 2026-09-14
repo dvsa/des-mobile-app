@@ -257,9 +257,9 @@ describe('AppComponent', () => {
 
   describe('configureLocale', () => {
     it('should configure the locale to be English by default', () => {
-      spyOn(translate, 'setDefaultLang');
+      spyOn(translate, 'setFallbackLang');
       component.configureLocale();
-      expect(translate.setDefaultLang).toHaveBeenCalledWith('en');
+      expect(translate.setFallbackLang).toHaveBeenCalledWith('en');
     });
   });
 
