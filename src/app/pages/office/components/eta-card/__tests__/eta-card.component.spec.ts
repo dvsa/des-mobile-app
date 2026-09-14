@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { ETACardComponent } from '../eta-card.component';
 import { UntypedFormGroup } from '@angular/forms';
+import { ETACardComponent } from '../eta-card.component';
 
 describe('EtaCardComponent', () => {
   let component: ETACardComponent;
