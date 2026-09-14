@@ -27,6 +27,7 @@ import { DateTimeProvider } from '@providers/date-time/date-time';
 import { NetworkStateProvider } from '@providers/network-state/network-state';
 import { SlotProvider } from '@providers/slot/slot';
 import { LogoutBasePageComponent } from '@shared/classes/logout-base-page/logout-base-page';
+import { iconList } from '@shared/constants/ion-icon-list';
 import { isAnyOf } from '@shared/helpers/simplifiers';
 import { AppResumed, AppSuspended, LoadAppVersion, UpdateAuthResult } from '@store/app-info/app-info.actions';
 import { SetupPolling, StopPolling } from '@store/journal/journal.actions';
@@ -35,31 +36,6 @@ import { StartSendingLogs, StopLogPolling } from '@store/logs/logs.actions';
 import { StartSendingCompletedTests, StopSendingCompletedTests } from '@store/tests/tests.actions';
 import { getTests } from '@store/tests/tests.reducer';
 import { addIcons } from 'ionicons';
-import {
-  alert,
-  alertCircle,
-  alertCircleOutline,
-  arrowForward,
-  call,
-  car,
-  caretDownOutline,
-  checkmarkCircle,
-  checkmarkSharp,
-  chevronBackOutline,
-  chevronDown,
-  chevronDownOutline,
-  chevronForward,
-  chevronForwardOutline,
-  chevronUpOutline,
-  closeCircle,
-  closeOutline,
-  location,
-  locationSharp,
-  logoIonic,
-  personCircle,
-  search,
-  syncOutline,
-} from 'ionicons/icons';
 
 interface AppComponentPageState {
   unSubmittedTestSlotsCount$: Observable<number>;
@@ -121,31 +97,7 @@ export class AppComponent extends LogoutBasePageComponent implements OnInit {
     protected appConfigProvider: AppConfigProvider,
     injector: Injector
   ) {
-    addIcons({
-      alert,
-      alertCircle,
-      alertCircleOutline,
-      arrowForward,
-      call,
-      caretDownOutline,
-      car,
-      checkmarkCircle,
-      checkmarkSharp,
-      chevronBackOutline,
-      chevronDown,
-      chevronDownOutline,
-      chevronForward,
-      chevronForwardOutline,
-      chevronUpOutline,
-      closeCircle,
-      closeOutline,
-      location,
-      locationSharp,
-      logoIonic,
-      personCircle,
-      search,
-      syncOutline,
-    });
+    addIcons(iconList);
     super(injector);
   }
 
