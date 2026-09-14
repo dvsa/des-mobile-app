@@ -4,7 +4,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { ComponentsModule } from '@components/common/common-components.module';
 import { DirectivesModule } from '@directives/directives.module';
 
-import { IonCol, IonRow } from '@ionic/angular';
+import { IonCol, IonInput, IonRow } from '@ionic/angular';
 import { ApplicationReferenceComponent } from '@pages/pass-finalisation/components/application-reference/application-reference';
 import { Code78Component } from '@pages/pass-finalisation/components/code-78/code-78';
 import { LicenceProvidedWarningBannerComponent } from '@pages/pass-finalisation/components/licence-provided-warning-banner/licence-provided-warning-banner';
@@ -19,7 +19,7 @@ import { PassCertificateNumberComponent } from './pass-certificate-number/pass-c
     LicenceProvidedWarningBannerComponent,
     ApplicationReferenceComponent,
   ],
-  imports: [CommonModule, ComponentsModule, DirectivesModule, ReactiveFormsModule, IonCol, IonRow],
+  imports: [CommonModule, ComponentsModule, DirectivesModule, ReactiveFormsModule, IonCol, IonRow, IonInput],
   exports: [
     LicenseProvidedComponent,
     PassCertificateNumberComponent,
