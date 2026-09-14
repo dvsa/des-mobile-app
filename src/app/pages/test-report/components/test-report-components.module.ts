@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ComponentsModule } from '@components/common/common-components.module';
 
-import { IonButton, IonCol, IonRow, IonText } from '@ionic/angular';
+import { IonButton, IonCol, IonGrid, IonRow, IonText } from '@ionic/angular';
 import { HighwayCodeSafetyComponent } from '@pages/test-report/components/highway-code-safety/highway-code-safety';
 import { CompetencyButtonComponent } from './competency-button/competency-button';
 import { CompetencyComponent } from './competency/competency';
@@ -59,6 +59,7 @@ import { UncoupleRecoupleComponent } from './uncouple-recouple/uncouple-recouple
     IonRow,
     IonText,
     IonButton,
+    IonGrid,
   ],
   exports: [
     EtaComponent,

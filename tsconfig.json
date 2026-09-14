@@ -1,14 +1,13 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
+    "baseUrl": "./",
     "outDir": "./dist/out-tsc",
-    "types": ["node"],
     "sourceMap": true,
     "declaration": false,
     "esModuleInterop": true,
     "experimentalDecorators": true,
     "resolveJsonModule": true,
-    "strict": false,
     "module": "es2020",
     "moduleResolution": "bundler",
     "importHelpers": true,

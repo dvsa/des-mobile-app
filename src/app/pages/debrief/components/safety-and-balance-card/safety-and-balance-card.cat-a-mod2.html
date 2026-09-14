@@ -10,7 +10,7 @@
     </ion-card-header>
     <ion-card-content>
       <ion-grid>
-        @for (question of safetyAndBalanceQuestions$ | async; track question) {
+        @for (question of (safetyAndBalanceQuestions$ | async); track question) {
           <ion-row
             class="ion-align-items-center row-padding mes-data"
           >

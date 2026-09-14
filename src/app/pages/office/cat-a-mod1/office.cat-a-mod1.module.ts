@@ -10,10 +10,12 @@ import {
   IonCard,
   IonCardContent,
   IonCardHeader,
+  IonCol,
   IonContent,
   IonFooter,
   IonGrid,
   IonHeader,
+  IonRow,
   IonToolbar,
 } from '@ionic/angular';
 import { EffectsModule } from '@ngrx/effects';
@@ -56,6 +58,8 @@ import { OfficeCatAMod1Page } from './office.cat-a-mod1.page';
     IonToolbar,
     IonHeader,
     IonFooter,
+    IonCol,
+    IonRow,
   ],
   providers: [FaultSummaryProvider],
 })

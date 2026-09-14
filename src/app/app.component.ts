@@ -35,7 +35,30 @@ import { StartSendingLogs, StopLogPolling } from '@store/logs/logs.actions';
 import { StartSendingCompletedTests, StopSendingCompletedTests } from '@store/tests/tests.actions';
 import { getTests } from '@store/tests/tests.reducer';
 import { addIcons } from 'ionicons';
-import { logoIonic } from 'ionicons/icons';
+import {
+  alert,
+  alertCircle,
+  alertCircleOutline,
+  arrowForward,
+  call,
+  car,
+  caretDownOutline,
+  checkmarkCircle,
+  checkmarkSharp,
+  chevronBackOutline,
+  chevronDown,
+  chevronDownOutline,
+  chevronForward,
+  chevronForwardOutline,
+  chevronUpOutline,
+  closeCircle,
+  closeOutline,
+  locationSharp,
+  logoIonic,
+  personCircle,
+  search,
+  syncOutline,
+} from 'ionicons/icons';
 
 interface AppComponentPageState {
   unSubmittedTestSlotsCount$: Observable<number>;
@@ -98,7 +121,28 @@ export class AppComponent extends LogoutBasePageComponent implements OnInit {
     injector: Injector
   ) {
     addIcons({
+      alert,
+      alertCircle,
+      alertCircleOutline,
+      arrowForward,
+      call,
+      caretDownOutline,
+      car,
+      checkmarkCircle,
+      checkmarkSharp,
+      chevronBackOutline,
+      chevronDown,
+      chevronDownOutline,
+      chevronForward,
+      chevronForwardOutline,
+      chevronUpOutline,
+      closeCircle,
+      closeOutline,
+      locationSharp,
       logoIonic,
+      personCircle,
+      search,
+      syncOutline,
     });
     super(injector);
   }

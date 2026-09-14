@@ -44,6 +44,7 @@ import {
   IonGrid,
   IonIcon,
   IonInput,
+  IonItem,
   IonModal,
   IonRow,
   IonSearchbar,
@@ -139,6 +140,7 @@ import { WarningBannerComponent } from './warning-banner/warning-banner';
     IonCard,
     IonSelect,
     IonSelectOption,
+    IonItem,
   ],
   exports: [
     DateTimeInputComponent,
