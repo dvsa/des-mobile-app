@@ -5,6 +5,7 @@ import { select } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { map, withLatestFrom } from 'rxjs/operators';
 
+import { ETA } from '@dvsa/mes-test-schema/categories/common';
 import { behaviourMap } from '@pages/office/office-behaviour-map.cat-a-mod1';
 import {
   CommonOfficePageState,
@@ -21,7 +22,7 @@ import { AddDangerousFaultComment } from '@store/tests/test-data/common/dangerou
 import { AddDrivingFaultComment } from '@store/tests/test-data/common/driving-faults/driving-faults.actions';
 import { AddSeriousFaultComment } from '@store/tests/test-data/common/serious-faults/serious-faults.actions';
 import { AddSingleFaultCompetencyComment } from '@store/tests/test-data/common/single-fault-competencies/single-fault-competencies.actions';
-import { getETA, getETAFaultText } from '@store/tests/test-data/common/test-data.selector';
+import { getETA } from '@store/tests/test-data/common/test-data.selector';
 import { Competencies, SingleFaultCompetencyNames } from '@store/tests/test-data/test-data.constants';
 import { getTestSummary } from '@store/tests/test-summary/cat-a-mod1/test-summary.cat-a-mod1.reducer';
 import { getCircuit } from '@store/tests/test-summary/cat-a-mod1/test-summary.cat-a-mod1.selector';
@@ -32,7 +33,7 @@ import { getVehicleDetails } from '@store/tests/vehicle-details/vehicle-details.
 import { startsWith } from 'lodash-es';
 
 interface CatMod1MOfficePageState {
-  etaFaults$: Observable<string>;
+  etaFaults$: Observable<ETA>;
   displayDrivingFaultComments$: Observable<boolean>;
   displaySpeedRequirements$: Observable<boolean>;
   emergencyStop$: Observable<EmergencyStop>;
@@ -68,7 +69,7 @@ export class OfficeCatAMod1Page extends OfficeBasePageComponent implements OnIni
 
     this.pageState = {
       ...this.commonPageState,
-      etaFaults$: currentTest$.pipe(select(getTestData), select(getETA), select(getETAFaultText)),
+      etaFaults$: currentTest$.pipe(select(getTestData), select(getETA)),
       displayDrivingFaultComments$: currentTest$.pipe(
         select(getTestData),
         withLatestFrom(this.commonPageState.testCategory$),

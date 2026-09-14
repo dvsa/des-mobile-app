@@ -1,5 +1,5 @@
 import { TestData } from '@dvsa/mes-test-schema/categories/AM1';
-import { getETAFaultText, hasDangerousFault, hasSeriousFault } from '../../common/test-data.selector';
+import { hasDangerousFault, hasSeriousFault } from '../../common/test-data.selector';
 import { Competencies } from '../../test-data.constants';
 import { getDrivingFaultCount } from '../test-data.cat-a-mod1.selector';
 
@@ -44,20 +44,6 @@ describe('TestDataSelectors', () => {
     });
     it('should return false if a competency does not have a dangerous fault', () => {
       expect(hasDangerousFault(state, Competencies.moveOffSafety)).toBeFalsy();
-    });
-  });
-
-  describe('getETAFaultText', () => {
-    it('should return null if no ETA faults', () => {
-      const result = getETAFaultText(state.ETA);
-      expect(result).toBeUndefined();
-    });
-    it('should return `Verbal` if just verbal ETA fault', () => {
-      const result = getETAFaultText({
-        ...state,
-        verbal: true,
-      });
-      expect(result).toEqual('Verbal');
     });
   });
 });

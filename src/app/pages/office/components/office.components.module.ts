@@ -9,9 +9,11 @@ import { AlternateEvidenceProvidedComponent } from '@pages/office/components/alt
 import { DrivingFaultsComponent } from '@pages/office/components/driving-faults/driving-faults.component';
 import { ECOCardComponent } from '@pages/office/components/eco-card/eco-card.component';
 import { ETACardComponent } from '@pages/office/components/eta-card/eta-card.component';
+import { ETAPhysicalTypeComponent } from '@pages/office/components/eta-physical-type/eta-physical-type';
 import { FinishTestModal } from '@pages/office/components/finish-test-modal/finish-test-modal';
 import { OfficeFooterComponent } from '@pages/office/components/office-footer/office-footer.component';
 import { TrueLikenessComponent } from '@pages/office/components/true-likeness/true-likeness';
+import { WaitingRoomToCarComponentsModule } from '@pages/waiting-room-to-car/components/waiting-room-to-car.components.module';
 import { PipesModule } from '@shared/pipes/pipes.module';
 import { AdditionalInformationComponent } from './additional-information/additional-information';
 import { AlternateEvidenceDescriptionComponent } from './alternate-mot-evidence-description/alternate-evidence-description.component';
@@ -49,6 +51,7 @@ import { WeatherConditionsComponent } from './weather-conditions/weather-conditi
     ETACardComponent,
     AlternateEvidenceDescriptionComponent,
     AlternateEvidenceProvidedComponent,
+    ETAPhysicalTypeComponent,
   ],
   imports: [
     CommonModule,
@@ -60,6 +63,7 @@ import { WeatherConditionsComponent } from './weather-conditions/weather-conditi
     PipesModule,
     ReactiveFormsModule,
     MaskitoDirective,
+    WaitingRoomToCarComponentsModule,
   ],
   exports: [
     OfficeFooterComponent,
@@ -82,6 +86,7 @@ import { WeatherConditionsComponent } from './weather-conditions/weather-conditi
     ETACardComponent,
     AlternateEvidenceDescriptionComponent,
     AlternateEvidenceProvidedComponent,
+    ETAPhysicalTypeComponent,
   ],
 })
 export class OfficeComponentsModule {}

@@ -202,6 +202,8 @@
     <div class="ion-no-padding" [hidden]="!(pageState.isTestOutcomeSet$ | async)">
       @if ((pageState.etaFaults$ | async) && (pageState.displayEta$ | async)) {
         <eta-card
+          [formGroup]="form"
+          [shouldShowDetailCheckboxes]="false"
           [faults]="pageState.etaFaults$ | async"
           >
         </eta-card>

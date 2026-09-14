@@ -11,13 +11,6 @@ export const getTestRequirements = (data: TestData) => data.testRequirements;
 
 export const getETA = (data: TestData) => data.ETA;
 
-export const getETAFaultText = (data: ETA) => {
-  if (!data || (!data.physical && !data.verbal)) return;
-  if (data.physical && !data.verbal) return 'Physical';
-  if (!data.physical && data.verbal) return 'Verbal';
-  if (data.physical && data.verbal) return 'Physical and verbal';
-};
-
 export const hasExaminerTakenAction = (data: ETA, action: ExaminerActions) => {
   return data[action];
 };
