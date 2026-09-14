@@ -11,11 +11,8 @@
   <offline-banner [isOffline]="pageState.isOffline$ | async"></offline-banner>
 
   <div class="search-inputs">
-    <tabs [activeTab]="'Rekey search'">
-      <tab
-        [activeTab]="'Rekey search'"
-        [tabTitle]="'Rekey search'"
-        id="tab-search-rekey">
+    <tabs>
+      <tab [tabTitle]="'Rekey search'" id="tab-search-rekey">
         <ion-grid>
           <ion-row>
             <ion-col class="vertical-align-center" size="32">

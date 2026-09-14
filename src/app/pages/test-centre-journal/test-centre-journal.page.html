@@ -24,8 +24,8 @@
   } @else {
     @if (isLDTM || testCentreResults) {
       <div class="search-inputs">
-        <tabs [activeTab]="activeTab" (tabChanged)="tabChanged($event)">
-          <tab [activeTab]="activeTab" [tabTitle]="'Candidate search'" id="candidate-search-tab">
+        <tabs (tabChanged)="tabChanged($event?.title)">
+          <tab [tabTitle]="'Candidate search'" id="candidate-search-tab">
             <candidate-search-card
               #candidateSearchCard
               [testCentreName]="testCentreNames"
@@ -38,7 +38,7 @@
             >
             </candidate-search-card>
           </tab>
-          <tab [activeTab]="activeTab" [tabTitle]="'View journals'" id="view-journals-tab">
+          <tab [tabTitle]="'View journals'" id="view-journals-tab">
             <view-journals-card
               #viewJournalsCard
               [testCentreName]="testCentreNames"

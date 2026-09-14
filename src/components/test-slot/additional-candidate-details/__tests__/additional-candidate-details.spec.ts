@@ -1,5 +1,4 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { TestStatus } from '@store/tests/test-status/test-status.model';
 import { AdditionalCandidateDetailsComponent } from '../additional-candidate-details';
 

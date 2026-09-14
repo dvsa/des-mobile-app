@@ -11,8 +11,8 @@
   <offline-banner [isOffline]="pageState.isOffline$ | async"></offline-banner>
 
   <div class="search-inputs">
-    <tabs [activeTab]="activeTab" (tabChanged)="activeTab = $event">
-      <tab [activeTab]="activeTab" [tabTitle]="'Candidate details'" id="tab-search-candidate-details">
+    <tabs>
+      <tab [tabTitle]="'Candidate details'" id="tab-search-candidate-details">
         <ion-grid>
           <ion-row class="ion-align-self-center">
             <ion-col class="display-flex ion-align-items-center" size="22">
@@ -113,7 +113,7 @@
           </ion-row>
         </ion-grid>
       </tab>
-      <tab [activeTab]="activeTab" [tabTitle]="'Advanced search'" id="tab-search-advanced">
+      <tab [tabTitle]="'Advanced search'" id="tab-search-advanced">
         <advanced-search
           [importStaffNumber]="verifyAdvancedSearch()"
           [testCentres]="pageState.activeTestCentres$ | async"

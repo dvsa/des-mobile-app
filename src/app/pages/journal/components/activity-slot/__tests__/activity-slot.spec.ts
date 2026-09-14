@@ -4,7 +4,6 @@ import { By } from '@angular/platform-browser';
 import { LocationComponent } from '@components/test-slot/location/location';
 import { TimeComponent } from '@components/test-slot/time/time';
 import { NonTestActivity } from '@dvsa/mes-journal-schema';
-
 import { AppConfigProviderMock } from '@providers/app-config/__mocks__/app-config.mock';
 import { AppConfigProvider } from '@providers/app-config/app-config';
 import { MockComponent } from 'ng-mocks';

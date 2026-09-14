@@ -1,5 +1,4 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { ApplicationReferenceComponent } from '../application-reference';
 
 describe('ApplicationReferenceComponent', () => {
