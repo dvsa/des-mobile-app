@@ -4,7 +4,7 @@ import { AppModule } from '@app/app.module';
 import { CandidateSectionComponent } from '@components/common/candidate-section/candidate-section';
 import { ComponentsModule } from '@components/common/common-components.module';
 
-import { OverlayEventDetail } from '@ionic/core/dist/types/utils/overlays-interface';
+import { OverlayEventDetail } from '@ionic/core';
 import {
   VRNModalCancelled,
   VRNModalOpened,
