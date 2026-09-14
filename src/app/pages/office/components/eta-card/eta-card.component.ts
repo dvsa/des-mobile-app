@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { ETA } from '@dvsa/mes-test-schema/categories/common';
 
 @Component({
   selector: 'eta-card',
@@ -9,7 +10,7 @@ import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms
 })
 export class ETACardComponent {
   @Input()
-  faults: string;
+  faults: ETA;
   @Input()
   formGroup: UntypedFormGroup;
   @Input()
@@ -68,7 +69,7 @@ export class ETACardComponent {
   }
 
   ngOnChanges(): void {
-    if (this.shouldShowDetailCheckboxes) {
+    if (this.shouldShowDetailCheckboxes && this.isPhysicalFault()) {
       if (!this.formControl) {
         this.formControl = new UntypedFormControl();
         if (this.formGroup.contains(this.fieldName)) {
@@ -105,7 +106,25 @@ export class ETACardComponent {
     }
   }
 
+  getETAFaultText(): string {
+    if (!this.faults || (!this.faults.physical && !this.faults.verbal)) return '';
+    if (this.faults.physical && !this.faults.verbal) return 'Physical';
+    if (!this.faults.physical && this.faults.verbal) return 'Verbal';
+    if (this.faults.physical && this.faults.verbal) return 'Physical and verbal';
+  }
+
+  isPhysicalFault(): boolean {
+    return this.faults?.physical ?? false;
+  }
+
+  shouldDisplay(): boolean {
+    return this.faults?.physical || this.faults?.verbal;
+  }
+
   get invalid(): boolean {
+    if (!this.formControl) {
+      return false;
+    }
     return !this.formControl.valid && this.formControl.dirty;
   }
 }

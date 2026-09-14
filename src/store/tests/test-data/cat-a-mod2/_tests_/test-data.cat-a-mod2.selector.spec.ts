@@ -8,7 +8,6 @@ import {
   hasEyesightTestGotSeriousFault,
 } from '../../common/eyesight-test/eyesight-test.selector';
 import {
-  getETAFaultText,
   getEcoFaultText,
   getShowMeQuestionOptions,
   hasDangerousFault,
@@ -134,20 +133,6 @@ describe('TestDataSelectors CAT A Mod 2', () => {
     });
     it('should return false if a competency does not have a dangerous fault', () => {
       expect(hasDangerousFault(state, Competencies.useOfMirrorsSignalling)).toBeFalsy();
-    });
-  });
-
-  describe('getETAFaultText', () => {
-    it('should return null if no ETA faults', () => {
-      const result = getETAFaultText(state.ETA);
-      expect(result).toBeUndefined();
-    });
-    it('should return `Verbal` if just verbal ETA fault', () => {
-      const result = getETAFaultText({
-        ...state,
-        verbal: true,
-      });
-      expect(result).toEqual('Verbal');
     });
   });
 

@@ -6,7 +6,6 @@ import { OutcomeBehaviourMapProvider } from 'src/app/providers/outcome-behaviour
 import { VehicleChecksQuestion } from 'src/app/providers/question/vehicle-checks-question.model';
 import { CompetencyOutcome } from 'src/app/shared/models/competency-outcome';
 import {
-  getETAFaultText,
   getEcoFaultText,
   getShowMeQuestionOptions,
   getTestRequirements,
@@ -171,34 +170,6 @@ describe('TestDataSelectors', () => {
       expect(result.normalStart2).toEqual(true);
       expect(result.angledStart).toEqual(true);
       expect(result.hillStart).toEqual(true);
-    });
-  });
-
-  describe('getETAFaultText', () => {
-    it('should return null if no ETA faults', () => {
-      const result = getETAFaultText(state.ETA);
-      expect(result).toBeUndefined();
-    });
-    it('should return `Physical and verbal` if both ETA faults', () => {
-      const updatedState = cloneDeep(state);
-      updatedState.ETA.physical = true;
-      updatedState.ETA.verbal = true;
-      const result = getETAFaultText(updatedState.ETA);
-      expect(result).toEqual('Physical and verbal');
-    });
-    it('should return `Physical` if just physical ETA fault', () => {
-      const updatedState = cloneDeep(state);
-      updatedState.ETA.physical = true;
-      updatedState.ETA.verbal = false;
-      const result = getETAFaultText(updatedState.ETA);
-      expect(result).toEqual('Physical');
-    });
-    it('should return `Verbal` if just verbal ETA fault', () => {
-      const updatedState = cloneDeep(state);
-      updatedState.ETA.physical = false;
-      updatedState.ETA.verbal = true;
-      const result = getETAFaultText(updatedState.ETA);
-      expect(result).toEqual('Verbal');
     });
   });
 

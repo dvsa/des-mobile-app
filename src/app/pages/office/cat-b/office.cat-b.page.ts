@@ -1,4 +1,5 @@
 import { Component, Injector } from '@angular/core';
+import { ETA } from '@dvsa/mes-test-schema/categories/common';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { select } from '@ngrx/store';
 import { QuestionProvider } from '@providers/question/question';
@@ -29,7 +30,6 @@ import { AddManoeuvreComment } from '@store/tests/test-data/common/manoeuvres/ma
 import { AddSeriousFaultComment } from '@store/tests/test-data/common/serious-faults/serious-faults.actions';
 import {
   getETA,
-  getETAFaultText,
   getEco,
   getEcoFaultText,
   getShowMeQuestionOptions,
@@ -47,7 +47,7 @@ interface CatBOfficePageState {
   showMeQuestion$: Observable<VehicleChecksQuestion>;
   showMeQuestionOptions$: Observable<VehicleChecksQuestion[]>;
   tellMeQuestionText$: Observable<string>;
-  etaFaults$: Observable<string>;
+  etaFaults$: Observable<ETA>;
   ecoFaults$: Observable<string>;
   displayDrivingFaultComments$: Observable<boolean>;
 }
@@ -104,7 +104,7 @@ export class OfficeCatBPage extends OfficeBasePageComponent {
         select(getVehicleChecks),
         select(getSelectedTellMeQuestionText)
       ),
-      etaFaults$: currentTest$.pipe(select(getTestData), select(getETA), select(getETAFaultText)),
+      etaFaults$: currentTest$.pipe(select(getTestData), select(getETA)),
       ecoFaults$: currentTest$.pipe(select(getTestData), select(getEco), select(getEcoFaultText)),
       displayDrivingFaultComments$: currentTest$.pipe(
         select(getTestData),

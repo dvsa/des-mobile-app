@@ -1,6 +1,6 @@
 import { CatADI2UniqueTypes } from '@dvsa/mes-test-schema/categories/ADI2';
 import { CompetencyOutcome } from '@shared/models/competency-outcome';
-import { getETAFaultText, getEcoFaultText, hasDangerousFault, hasSeriousFault } from '../../common/test-data.selector';
+import { getEcoFaultText, hasDangerousFault, hasSeriousFault } from '../../common/test-data.selector';
 import { Competencies } from '../../test-data.constants';
 import {
   areTellMeQuestionsCorrect,
@@ -113,37 +113,6 @@ describe('TestDataSelectors Cat ADI2', () => {
     });
     it('should return false if a competency does not have a dangerous fault', () => {
       expect(hasDangerousFault(state, Competencies.useOfMirrorsSignalling)).toBeFalsy();
-    });
-  });
-
-  describe('getETAFaultText', () => {
-    it('should return null if no ETA faults', () => {
-      const result = getETAFaultText(state.ETA);
-      expect(result).toBeUndefined();
-    });
-    it('should return `Physical and verbal` if both ETA faults', () => {
-      const result = getETAFaultText({
-        ...state.ETA,
-        physical: true,
-        verbal: true,
-      });
-      expect(result).toEqual('Physical and verbal');
-    });
-    it('should return `Physical` if just physical ETA fault', () => {
-      const result = getETAFaultText({
-        ...state.ETA,
-        physical: true,
-        verbal: false,
-      });
-      expect(result).toEqual('Physical');
-    });
-    it('should return `Verbal` if just verbal ETA fault', () => {
-      const result = getETAFaultText({
-        ...state.ETA,
-        physical: false,
-        verbal: true,
-      });
-      expect(result).toEqual('Verbal');
     });
   });
 

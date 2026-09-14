@@ -18,6 +18,7 @@ import { UntypedFormGroup } from '@angular/forms';
 import { MotStatusCodes } from '@dvsa/mes-mot-schema';
 import { Circuit } from '@dvsa/mes-test-schema/categories/AM1';
 import {
+  ETA,
   GearboxCategory,
   Identification,
   IndependentDriving,
@@ -112,7 +113,7 @@ import {
   getOtherTextETAPhysicalType,
   getSteeringControlETAPhysicalType,
 } from '@store/tests/test-data/common/eta/eta.selector';
-import { getETA, getETAFaultText, getEco, getEcoFaultText } from '@store/tests/test-data/common/test-data.selector';
+import { getETA, getEco, getEcoFaultText } from '@store/tests/test-data/common/test-data.selector';
 import { CircuitTypeChanged } from '@store/tests/test-summary/cat-a-mod1/test-summary.cat-a-mod1.actions';
 import {
   AdditionalInformationChanged,
@@ -211,7 +212,7 @@ export interface CommonOfficePageState {
   d255$: Observable<boolean>;
   debriefWitnessed$: Observable<boolean>;
   passCertificateNumber$: Observable<string>;
-  etaFaults$: Observable<string>;
+  etaFaults$: Observable<ETA>;
   ecoFaults$: Observable<string>;
   seriousFaultCount$: Observable<number>;
   dangerousFaultCount$: Observable<number>;
@@ -450,7 +451,7 @@ export abstract class OfficeBasePageComponent extends PracticeableBasePageCompon
       d255$: currentTest$.pipe(select(getTestSummary), select(getD255)),
       debriefWitnessed$: currentTest$.pipe(select(getTestSummary), select(isDebriefWitnessed)),
       passCertificateNumber$: currentTest$.pipe(select(getPassCompletion), select(getPassCertificateNumber)),
-      etaFaults$: currentTest$.pipe(select(getTestData), select(getETA), select(getETAFaultText)),
+      etaFaults$: currentTest$.pipe(select(getTestData), select(getETA)),
       ecoFaults$: currentTest$.pipe(select(getTestData), select(getEco), select(getEcoFaultText)),
       schoolCar$: currentTest$.pipe(select(getVehicleDetails), select(getSchoolCar)),
       dualControls$: currentTest$.pipe(select(getVehicleDetails), select(getDualControls)),

@@ -1,7 +1,7 @@
 import { CatDUniqueTypes } from '@dvsa/mes-test-schema/categories/D';
 import { CompetencyOutcome } from '@shared/models/competency-outcome';
 import { cloneDeep } from 'lodash-es';
-import { getETAFaultText, getEcoFaultText, hasDangerousFault, hasSeriousFault } from '../../common/test-data.selector';
+import { getEcoFaultText, hasDangerousFault, hasSeriousFault } from '../../common/test-data.selector';
 import { Competencies } from '../../test-data.constants';
 import {
   areTellMeQuestionsCorrect,
@@ -92,34 +92,6 @@ describe('TestDataSelectors', () => {
     });
     it('should return false if a competency does not have a dangerous fault', () => {
       expect(hasDangerousFault(state, Competencies.useOfMirrorsSignalling)).toBeFalsy();
-    });
-  });
-
-  describe('getETAFaultText', () => {
-    it('should return null if no ETA faults', () => {
-      const result = getETAFaultText(state.ETA);
-      expect(result).toBeUndefined();
-    });
-    it('should return `Physical and verbal` if both ETA faults', () => {
-      const updatedState = cloneDeep(state);
-      updatedState.ETA.physical = true;
-      updatedState.ETA.verbal = true;
-      const result = getETAFaultText(updatedState.ETA);
-      expect(result).toEqual('Physical and verbal');
-    });
-    it('should return `Physical` if just physical ETA fault', () => {
-      const updatedState = cloneDeep(state);
-      updatedState.ETA.physical = true;
-      updatedState.ETA.verbal = false;
-      const result = getETAFaultText(updatedState.ETA);
-      expect(result).toEqual('Physical');
-    });
-    it('should return `Verbal` if just verbal ETA fault', () => {
-      const updatedState = cloneDeep(state);
-      updatedState.ETA.physical = false;
-      updatedState.ETA.verbal = true;
-      const result = getETAFaultText(updatedState.ETA);
-      expect(result).toEqual('Verbal');
     });
   });
 
