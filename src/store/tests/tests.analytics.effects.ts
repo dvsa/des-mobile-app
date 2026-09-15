@@ -21,7 +21,7 @@ import { StoreModel } from '@shared/models/store.model';
 import { getJournalState } from '@store/journal/journal.reducer';
 import { getAppRefFromSlot, getSlotBySlotID, getSlotsOnSelectedDate } from '@store/journal/journal.selector';
 import * as testActions from '@store/tests/tests.actions';
-import { RemoveStartedTest } from '@store/tests/tests.actions';
+import { ClearTestDimensions, RemoveStartedTest } from '@store/tests/tests.actions';
 import { of } from 'rxjs';
 import { concatMap, map, switchMap, withLatestFrom } from 'rxjs/operators';
 import { SetTestStatusSubmitted } from './test-status/test-status.actions';
@@ -257,6 +257,20 @@ export class TestsAnalyticsEffects {
           GoogleAnalyticsEventsTitles.SLOT_CHANGED,
           GoogleAnalyticsEventsValues.SLOT_RESET
         );
+        return of(AnalyticRecorded());
+      })
+    )
+  );
+
+  clearTestDimensions$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(ClearTestDimensions),
+      switchMap(() => {
+        console.log('clearing test dimensions now');
+        // reset values for custom dimensions
+        this.analytics.addGACustomDimension(GoogleAnalyticsCustomDimension.CANDIDATE_ID, '');
+        this.analytics.addGACustomDimension(GoogleAnalyticsCustomDimension.APPLICATION_REFERENCE, '');
+        this.analytics.addGACustomDimension(GoogleAnalyticsCustomDimension.TEST_CATEGORY, '');
         return of(AnalyticRecorded());
       })
     )

@@ -28,6 +28,7 @@ import { OrientationMonitorProvider } from '@providers/orientation-monitor/orien
 import { BasePageComponent } from '@shared/classes/base-page';
 import { bookingReferenceMask, formatBookingReferenceForBackend, maskPredicate } from '@shared/helpers/formatters';
 import { selectEmployeeId } from '@store/app-info/app-info.selectors';
+import { ClearTestDimensions } from '@store/tests/tests.actions';
 
 interface RekeySearchPageState {
   isLoading$: Observable<boolean>;
@@ -68,6 +69,7 @@ export class RekeySearchPage extends BasePageComponent implements OnInit {
 
   ngOnInit(): void {
     this.store$.dispatch(RekeySearchClearState());
+    this.store$.dispatch(ClearTestDimensions());
     const rekeySearch$ = this.store$.pipe(select(getRekeySearchState));
     this.pageState = {
       isLoading$: rekeySearch$.pipe(map(getIsLoading)),

@@ -24,6 +24,7 @@ import {
   getLastRefreshed,
   getLastRefreshedTime,
 } from '@store/test-centre-journal/test-centre-journal.selector';
+import { ClearTestDimensions } from '@store/tests/tests.actions';
 import { Observable, Subject, Subscription, merge, of } from 'rxjs';
 import { catchError, finalize, map, takeUntil, tap } from 'rxjs/operators';
 import {
@@ -110,6 +111,7 @@ export class TestCentreJournalPage extends BasePageComponent implements OnDestro
 
   ionViewDidEnter(): void {
     this.store$.dispatch(TestCentreJournalViewDidEnter());
+    this.store$.dispatch(ClearTestDimensions());
   }
 
   async ionViewWillLeave() {
