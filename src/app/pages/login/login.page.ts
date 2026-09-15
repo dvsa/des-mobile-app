@@ -18,7 +18,7 @@ import { LoadAppConfig } from '@store/app-config/app-config.actions';
 import { LoadConfigSuccess } from '@store/app-info/app-info.actions';
 import { LoadLog, SaveLog, SendLogs, StartSendingLogs } from '@store/logs/logs.actions';
 import { GetTestCentresRefData } from '@store/reference-data/reference-data.actions';
-import { LoadPersistedTests, StartSendingCompletedTests } from '@store/tests/tests.actions';
+import { ClearTestDimensions, LoadPersistedTests, StartSendingCompletedTests } from '@store/tests/tests.actions';
 import { Observable, Subscription } from 'rxjs';
 import { DASHBOARD_PAGE } from '../page-names.constants';
 
@@ -109,6 +109,7 @@ export class LoginPage extends LogoutBasePageComponent implements OnInit {
   }
 
   async ionViewDidEnter(): Promise<void> {
+    this.store$.dispatch(ClearTestDimensions());
     if (this.isIos()) {
       await this.deviceProvider.disableSingleAppMode();
       this.monitorOnlineStatus();

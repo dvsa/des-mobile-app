@@ -21,6 +21,7 @@ import { LogType } from '@shared/models/log.model';
 import { SaveLog } from '@store/logs/logs.actions';
 import { getRefDataState } from '@store/reference-data/reference-data.reducer';
 import { getActiveTestCentres, getTestCentres } from '@store/reference-data/reference-data.selector';
+import { ClearTestDimensions } from '@store/tests/tests.actions';
 import { orderBy } from 'lodash-es';
 import {
   PerformApplicationReferenceSearch,
@@ -83,6 +84,7 @@ export class TestResultsSearchPage extends BasePageComponent {
   }
 
   ionViewWillEnter(): boolean {
+    this.store$.dispatch(ClearTestDimensions());
     if (this.merged$) {
       this.subscription = this.merged$.subscribe();
     }
