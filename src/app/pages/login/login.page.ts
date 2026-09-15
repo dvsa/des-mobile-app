@@ -344,7 +344,9 @@ export class LoginPage extends LogoutBasePageComponent implements OnInit {
    * So to get the blue link to work, you have to log out first.
    */
   async logoutThenLogin() {
-    await this.logout();
+    if (this.isLoggedIn) {
+      await this.logout();
+    }
     await this.login();
   }
 
