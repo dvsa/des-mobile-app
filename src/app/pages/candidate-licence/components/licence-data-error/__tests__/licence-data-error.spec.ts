@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { IonicModule } from '@ionic/angular';
+
 import { LicenceDataError } from '@pages/candidate-licence/components/licence-data-error/licence-data-error';
 
 describe('LicenceDataError', () => {
@@ -9,7 +9,6 @@ describe('LicenceDataError', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [LicenceDataError],
-      imports: [IonicModule],
     });
 
     fixture = TestBed.createComponent(LicenceDataError);

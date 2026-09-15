@@ -2,8 +2,6 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
-import { IonicModule } from '@ionic/angular';
-
 import { AssessmentReportComponent } from '@pages/office/cat-cpc/components/assessment-report/assessment-report';
 import { PipesModule } from '@shared/pipes/pipes.module';
 
@@ -13,6 +11,18 @@ import { PracticeModeExitButton } from '@components/common/practice-mode-exit-bu
 import { TestFlowHeaderComponent } from '@components/common/test-flow-header/test-flow-header.component';
 import { TestFinalisationComponentsModule } from '@components/test-finalisation/test-finalisation-components.module';
 import { DirectivesModule } from '@directives/directives.module';
+import {
+  IonCard,
+  IonCardContent,
+  IonCardHeader,
+  IonCol,
+  IonContent,
+  IonFooter,
+  IonGrid,
+  IonHeader,
+  IonRow,
+  IonToolbar,
+} from '@ionic/angular';
 import { EffectsModule } from '@ngrx/effects';
 import { OfficeRegistrationAndMotComponent } from '@pages/office/components/office-registration-and-mot/office-registration-and-mot.component';
 import { OfficeComponentsModule } from '@pages/office/components/office.components.module';
@@ -37,7 +47,6 @@ import { OfficeCatCPCPage } from './office.cat-cpc.page';
   imports: [
     CommonModule,
     FormsModule,
-    IonicModule,
     PipesModule,
     OfficeCatCPCPageRoutingModule,
     ReactiveFormsModule,
@@ -53,6 +62,16 @@ import { OfficeCatCPCPage } from './office.cat-cpc.page';
     PracticeModeBanner,
     PracticeModeExitButton,
     TestFlowHeaderComponent,
+    IonCol,
+    IonRow,
+    IonToolbar,
+    IonHeader,
+    IonContent,
+    IonCardHeader,
+    IonCard,
+    IonGrid,
+    IonCardContent,
+    IonFooter,
   ],
   providers: [FaultSummaryProvider],
 })

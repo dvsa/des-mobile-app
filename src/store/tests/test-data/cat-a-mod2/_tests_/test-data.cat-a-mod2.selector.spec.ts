@@ -143,7 +143,7 @@ describe('TestDataSelectors CAT A Mod 2', () => {
     });
     it('should return `Control and planning` if both eco faults', () => {
       const result = getEcoFaultText({
-        ...state,
+        ...state.eco,
         adviceGivenControl: true,
         adviceGivenPlanning: true,
       });
@@ -151,7 +151,7 @@ describe('TestDataSelectors CAT A Mod 2', () => {
     });
     it('should return `Control` if just control eco fault', () => {
       const result = getEcoFaultText({
-        ...state,
+        ...state.eco,
         adviceGivenControl: true,
         adviceGivenPlanning: false,
       });
@@ -159,7 +159,7 @@ describe('TestDataSelectors CAT A Mod 2', () => {
     });
     it('should return `Planning` if just planning eco fault', () => {
       const result = getEcoFaultText({
-        ...state,
+        ...state.eco,
         adviceGivenControl: false,
         adviceGivenPlanning: true,
       });

@@ -1,7 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ComponentsModule } from '@components/common/common-components.module';
-import { IonicModule } from '@ionic/angular';
+
+import { IonCol, IonGrid, IonIcon, IonRow } from '@ionic/angular';
 import { TestReportComponentsModule } from '../../components/test-report-components.module';
 import { ManoeuvreCompetencyComponentAdiPart2 } from './manoeuvre-competency/manoeuvre-competency';
 import { ManoeuvresPopoverComponentAdiPart2 } from './manoeuvres-popover/manoeuvres-popover';
@@ -15,7 +16,7 @@ import { VehicleCheckComponent } from './vehicle-check/vehicle-check';
     ManoeuvreCompetencyComponentAdiPart2,
     VehicleCheckComponent,
   ],
-  imports: [IonicModule, CommonModule, ComponentsModule, TestReportComponentsModule],
+  imports: [CommonModule, ComponentsModule, TestReportComponentsModule, IonCol, IonRow, IonIcon, IonGrid],
   exports: [
     ManoeuvresComponent,
     ManoeuvresPopoverComponentAdiPart2,

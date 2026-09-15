@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { IonicModule } from '@ionic/angular';
+
 import { RefreshButtonComponent } from './refresh-button.component';
 
 describe('RefreshButtonComponent', () => {
@@ -8,7 +8,7 @@ describe('RefreshButtonComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [RefreshButtonComponent, IonicModule.forRoot()],
+      imports: [RefreshButtonComponent],
     }).compileComponents();
 
     fixture = TestBed.createComponent(RefreshButtonComponent);

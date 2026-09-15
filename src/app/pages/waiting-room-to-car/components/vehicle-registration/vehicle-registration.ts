@@ -19,7 +19,7 @@ import {
   nonAlphaNumericValues,
 } from '@shared/constants/field-validators/field-validators';
 import { HttpStatusCodes } from '@shared/models/http-status-codes';
-import { isEmpty } from 'lodash-es';
+import { isEmpty, toInteger } from 'lodash-es';
 import { Subject } from 'rxjs';
 import { finalize, takeUntil } from 'rxjs/operators';
 
@@ -274,14 +274,14 @@ export class VehicleRegistrationComponent implements OnChanges {
     return this.motData?.data?.status !== 'Not valid';
   }
 
-  getMOTButtonColSize(zoomClass: string) {
+  getMOTButtonColSize(zoomClass: string): string {
     switch (zoomClass) {
       case 'text-zoom-x-large':
-        return 37;
+        return '37';
       case 'text-zoom-large':
-        return 33;
+        return '33';
       default:
-        return 30;
+        return '30';
     }
   }
 
@@ -333,4 +333,5 @@ export class VehicleRegistrationComponent implements OnChanges {
   }
 
   protected readonly ConnectionStatus = NetworkConnectionStatus;
+  protected readonly toInteger = toInteger;
 }

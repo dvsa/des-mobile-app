@@ -1,5 +1,5 @@
 import { CatBUniqueTypes } from '@dvsa/mes-test-schema/categories/B';
-import { CompetencyOutcome } from 'src/app/shared/models/competency-outcome';
+import { CompetencyOutcome } from '@shared/models/competency-outcome';
 import {
   AddManoeuvreComment,
   AddManoeuvreDangerousFault,

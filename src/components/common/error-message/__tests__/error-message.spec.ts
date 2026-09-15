@@ -1,6 +1,6 @@
 import { CommonModule, Location } from '@angular/common';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { IonicModule } from '@ionic/angular';
+
 import { ErrorTypes } from '@shared/models/error-message';
 import { ErrorMessageComponent, additionalText } from '../error-message';
 
@@ -13,7 +13,7 @@ describe('ErrorMessageComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [ErrorMessageComponent],
-      imports: [CommonModule, IonicModule],
+      imports: [CommonModule],
       providers: [{ provide: Location, useValue: locationSpy }],
     });
 

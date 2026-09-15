@@ -1,11 +1,12 @@
 import { Component, Input } from '@angular/core';
-import { IonicModule } from '@ionic/angular';
+import { IonAccordion, IonAccordionGroup, IonItem, IonText } from '@ionic/angular';
 
 @Component({
   selector: 'registration-with-previous-mot-text',
   templateUrl: './registration-with-previous-mot-text.component.html',
   styleUrls: ['./registration-with-previous-mot-text.component.scss'],
-  imports: [IonicModule],
+  standalone: true,
+  imports: [IonText, IonAccordion, IonAccordionGroup, IonItem],
 })
 export class RegistrationWithPreviousMotTextComponent {
   @Input()

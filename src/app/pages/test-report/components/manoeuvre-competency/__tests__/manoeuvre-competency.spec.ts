@@ -3,7 +3,7 @@ import { By } from '@angular/platform-browser';
 import { DangerousFaultBadgeComponent } from '@components/common/dangerous-fault-badge/dangerous-fault-badge';
 import { DrivingFaultsBadgeComponent } from '@components/common/driving-faults-badge/driving-faults-badge';
 import { SeriousFaultBadgeComponent } from '@components/common/serious-fault-badge/serious-fault-badge';
-import { IonicModule } from '@ionic/angular';
+
 import { Store, StoreModule } from '@ngrx/store';
 import { DateTimeProviderMock } from '@providers/date-time/__mocks__/date-time.mock';
 import { DateTimeProvider } from '@providers/date-time/date-time';
@@ -37,7 +37,7 @@ describe('ManoeuvreCompetencyComponent', () => {
       ],
       imports: [
         AppModule,
-        IonicModule,
+
         StoreModule.forRoot({
           journal: () => ({
             isLoading: false,

@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { PracticeModeOptionsBar } from '@components/common/practice-mode-options-bar/practice-mode-options-bar';
 import { TestFlowHeaderComponent } from '@components/common/test-flow-header/test-flow-header.component';
-import { IonicModule, ModalController } from '@ionic/angular';
+import { ModalController } from '@ionic/angular';
 import { ModalControllerMock } from '@mocks/ionic-mocks/modal-controller.mock';
 import { Store, StoreModule } from '@ngrx/store';
 import { JOURNAL_PAGE } from '@pages/page-names.constants';
@@ -26,7 +26,7 @@ describe('BackToOfficePage', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [BackToOfficePage, MockComponent(PracticeModeOptionsBar)],
-      imports: [IonicModule, AppModule, StoreModule.forRoot({}), MockComponent(TestFlowHeaderComponent)],
+      imports: [AppModule, StoreModule.forRoot({}), MockComponent(TestFlowHeaderComponent)],
       providers: [
         {
           provide: RouteByCategoryProvider,

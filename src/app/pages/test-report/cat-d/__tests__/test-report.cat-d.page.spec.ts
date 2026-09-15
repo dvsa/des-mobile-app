@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { IonicModule, ModalController, NavParams, Platform } from '@ionic/angular';
+import { ModalController, NavParams, Platform } from '@ionic/angular';
 import { ModalControllerMock, NavParamsMock, PlatformMock } from '@mocks/index.mock';
 import { MockComponent } from 'ng-mocks';
 
@@ -58,7 +58,6 @@ describe('TestReportCatDPage', () => {
         MockComponent(TestFlowHeaderComponent),
       ],
       imports: [
-        IonicModule,
         AppModule,
         StoreModule.forFeature('tests', () => ({
           currentTest: {

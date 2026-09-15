@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule, UntypedFormGroup, Validators } from '@angular/forms';
-import { IonicModule } from '@ionic/angular';
+
 import { TrueLikenessComponent } from '@pages/office/components/true-likeness/true-likeness';
 
 describe('TrueLikenessComponent', () => {
@@ -10,7 +10,7 @@ describe('TrueLikenessComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [TrueLikenessComponent],
-      imports: [IonicModule, ReactiveFormsModule],
+      imports: [ReactiveFormsModule],
     });
 
     fixture = TestBed.createComponent(TrueLikenessComponent);

@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { DataRowComponent } from '@components/common/data-row/data-row';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
-import { IonicModule } from '@ionic/angular';
+
 import { MockComponent } from 'ng-mocks';
 import { TrainerDetailsCardComponent } from '../trainer-details-card';
 
@@ -12,7 +12,6 @@ describe('TrainerDetailsCardComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [TrainerDetailsCardComponent, MockComponent(DataRowComponent)],
-      imports: [IonicModule],
     });
 
     fixture = TestBed.createComponent(TrainerDetailsCardComponent);

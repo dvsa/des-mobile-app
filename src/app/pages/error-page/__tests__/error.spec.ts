@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed, fakeAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ErrorMessageComponent } from '@components/common/error-message/error-message';
-import { AlertController, IonicModule, ModalController } from '@ionic/angular';
+import { AlertController, ModalController } from '@ionic/angular';
 import { ActivatedRouteMock, AlertControllerMock, RouterMock } from '@mocks/index.mock';
 import { ModalControllerMock } from '@mocks/ionic-mocks/modal-controller.mock';
 import { provideMockStore } from '@ngrx/store/testing';
@@ -22,7 +22,7 @@ describe('ErrorPage', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [ErrorPage, MockComponent(ErrorMessageComponent)],
-      imports: [IonicModule],
+
       providers: [
         {
           provide: Router,

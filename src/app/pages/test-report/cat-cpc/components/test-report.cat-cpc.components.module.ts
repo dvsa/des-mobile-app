@@ -3,7 +3,19 @@ import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ComponentsModule } from '@components/common/common-components.module';
 import { DirectivesModule } from '@directives/directives.module';
-import { IonicModule } from '@ionic/angular';
+
+import {
+  IonButton,
+  IonCard,
+  IonCardContent,
+  IonCardHeader,
+  IonCol,
+  IonFooter,
+  IonGrid,
+  IonRow,
+  IonText,
+  IonToolbar,
+} from '@ionic/angular';
 import { CPCEndTestModalModule } from '@pages/test-report/cat-cpc/components/cpc-end-test-modal/cpc-end-test-modal.module';
 import { TestReportComponentsModule } from '../../components/test-report-components.module';
 import { AdditionalItemsComponent } from './additional-items/additional-items';
@@ -34,10 +46,20 @@ import { QuestionTitleComponent } from './question-title/question-title';
     CommonModule,
     ComponentsModule,
     TestReportComponentsModule,
-    IonicModule,
+
     DirectivesModule,
     CPCEndTestModalModule,
     ReactiveFormsModule,
+    IonText,
+    IonCol,
+    IonRow,
+    IonCardHeader,
+    IonToolbar,
+    IonFooter,
+    IonButton,
+    IonGrid,
+    IonCardContent,
+    IonCard,
   ],
   exports: [
     ModuleAssessmentComponent,

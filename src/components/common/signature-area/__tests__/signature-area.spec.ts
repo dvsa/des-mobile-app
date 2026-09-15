@@ -1,7 +1,7 @@
 import { NgSignaturePadOptions, SignaturePadComponent } from '@almothafar/angular-signature-pad';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { IonicModule } from '@ionic/angular';
+
 import { Store } from '@ngrx/store';
 import { MockComponent } from 'ng-mocks';
 import { SignatureAreaComponent } from '../signature-area';
@@ -14,7 +14,7 @@ describe('SignatureAreaComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [SignatureAreaComponent, MockComponent(SignaturePadComponent)],
-      imports: [IonicModule],
+
       providers: [
         {
           provide: Store,

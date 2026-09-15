@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { IonicModule } from '@ionic/angular';
+
 import { LocationComponent } from '../location';
 
 describe('LocationComponent', () => {
@@ -10,7 +10,7 @@ describe('LocationComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [LocationComponent],
-      imports: [IonicModule],
+
       providers: [],
     });
 

@@ -1,5 +1,4 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { IonicModule } from '@ionic/angular';
 
 import { CommonModule } from '@angular/common';
 import { CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from '@angular/core';
@@ -19,7 +18,7 @@ describe('AlternateMotEvidenceComponent', () => {
     TestBed.configureTestingModule({
       schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
       declarations: [AlternateMotEvidenceComponent],
-      imports: [IonicModule, CommonModule],
+      imports: [CommonModule],
     }).compileComponents();
 
     fixture = TestBed.createComponent(AlternateMotEvidenceComponent);

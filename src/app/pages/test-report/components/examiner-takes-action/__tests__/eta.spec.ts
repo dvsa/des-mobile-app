@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { TestData } from '@dvsa/mes-test-schema/categories/common';
-import { IonicModule } from '@ionic/angular';
+
 import { Store, StoreModule } from '@ngrx/store';
 import { provideMockStore } from '@ngrx/store/testing';
 import { StoreModel } from '@shared/models/store.model';
@@ -32,7 +32,7 @@ describe('EtaComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [EtaComponent, MockComponent(CompetencyButtonComponent)],
-      imports: [IonicModule, StoreModule.forRoot({ tests: testsReducer })],
+      imports: [StoreModule.forRoot({ tests: testsReducer })],
       providers: [provideMockStore({ initialState })],
     });
 

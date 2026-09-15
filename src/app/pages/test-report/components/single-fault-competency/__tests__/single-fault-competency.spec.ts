@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { DangerousFaultBadgeComponent } from '@components/common/dangerous-fault-badge/dangerous-fault-badge';
 import { DrivingFaultsBadgeComponent } from '@components/common/driving-faults-badge/driving-faults-badge';
 import { SeriousFaultBadgeComponent } from '@components/common/serious-fault-badge/serious-fault-badge';
-import { IonicModule } from '@ionic/angular';
+
 import { Store, StoreModule } from '@ngrx/store';
 import { CompetencyButtonComponent } from '@pages/test-report/components/competency-button/competency-button';
 import { DateTimeProviderMock } from '@providers/date-time/__mocks__/date-time.mock';
@@ -40,7 +40,7 @@ describe('SingleFaultCompetencyComponent', () => {
       ],
       imports: [
         AppModule,
-        IonicModule,
+
         StoreModule.forRoot({
           journal: journalReducer,
           tests: testsReducer,

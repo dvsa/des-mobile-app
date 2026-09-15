@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { DataRowComponent } from '@components/common/data-row/data-row';
-import { IonicModule } from '@ionic/angular';
+
 import { MockComponent } from 'ng-mocks';
 import { ExaminerDetailsCardComponent } from '../examiner-details';
 
@@ -11,7 +11,6 @@ describe('ExaminerDetailsCardComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [ExaminerDetailsCardComponent, MockComponent(DataRowComponent)],
-      imports: [IonicModule],
     });
 
     fixture = TestBed.createComponent(ExaminerDetailsCardComponent);

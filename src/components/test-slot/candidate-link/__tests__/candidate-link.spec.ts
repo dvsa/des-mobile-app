@@ -1,5 +1,4 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { IonicModule } from '@ionic/angular';
 
 import { CommonModule } from '@angular/common';
 import { AppModule } from '@app/app.module';
@@ -16,14 +15,7 @@ describe('CandidateLinkComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [CandidateLinkComponent],
-      imports: [
-        IonicModule,
-        AppModule,
-        ComponentsModule,
-        CommonModule,
-        CandidateDetailsPageModule,
-        StoreModule.forRoot({}),
-      ],
+      imports: [AppModule, ComponentsModule, CommonModule, CandidateDetailsPageModule, StoreModule.forRoot({})],
     });
 
     fixture = TestBed.createComponent(CandidateLinkComponent);

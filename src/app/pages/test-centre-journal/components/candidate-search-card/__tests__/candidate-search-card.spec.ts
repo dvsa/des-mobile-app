@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { IonicModule, ModalController } from '@ionic/angular';
+import { ModalController } from '@ionic/angular';
 import { provideMockStore } from '@ngrx/store/testing';
 
 import { ComponentsModule } from '@components/common/common-components.module';
@@ -18,7 +18,7 @@ describe('CandidateSearchCardComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [CandidateSearchCardComponent],
-      imports: [IonicModule, CommonModule, ComponentsModule, TestCentreJournalComponentsModule],
+      imports: [CommonModule, ComponentsModule, TestCentreJournalComponentsModule],
       providers: [{ provide: ModalController, useClass: ModalControllerMock }, provideMockStore({ initialState: {} })],
     });
 

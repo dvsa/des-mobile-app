@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormControl, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
-import { IonicModule } from '@ionic/angular';
+
 import { AssessmentAnswerComponent } from '@pages/test-report/cat-adi-part3/components/assessment-answer/assessment-answer';
 import { LessonThemeComponent } from '@pages/test-report/cat-adi-part3/components/lesson-theme/lesson-theme';
 import { CharacterCountService } from '@providers/character-count/character-count.service';
@@ -14,7 +14,7 @@ describe('LessonThemeComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [LessonThemeComponent, MockComponent(AssessmentAnswerComponent)],
-      imports: [IonicModule],
+
       providers: [{ provider: CharacterCountService, useClass: CharacterCountService }],
     });
 

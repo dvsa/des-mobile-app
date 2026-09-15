@@ -57,6 +57,7 @@ export class TestResultsSearchPage extends BasePageComponent {
   rekeySearch = false;
   pageState: TestResultPageState;
   merged$: Observable<JournalTestCentre[]>;
+  activeTab = 'Candidate details';
 
   isUserEnteringApplicationReference = false;
 

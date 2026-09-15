@@ -3,8 +3,8 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { AppModule } from '@app/app.module';
 import { CandidateSectionComponent } from '@components/common/candidate-section/candidate-section';
 import { ComponentsModule } from '@components/common/common-components.module';
-import { IonicModule } from '@ionic/angular';
-import { OverlayEventDetail } from '@ionic/core/dist/types/utils/overlays-interface';
+
+import { OverlayEventDetail } from '@ionic/core';
 import {
   VRNModalCancelled,
   VRNModalOpened,
@@ -19,7 +19,7 @@ describe('CandidateSectionComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [CandidateSectionComponent],
-      imports: [IonicModule, AppModule, ComponentsModule, CommonModule],
+      imports: [AppModule, ComponentsModule, CommonModule],
     });
     fixture = TestBed.createComponent(CandidateSectionComponent);
     component = fixture.componentInstance;

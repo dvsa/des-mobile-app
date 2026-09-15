@@ -9,7 +9,7 @@ export class PasteSanitiserDirective {
   emojiPattern = emojiRegex();
 
   constructor(private el: ElementRef) {}
-  @HostListener('paste', ['$event'])
+  @HostListener('paste')
   onInput(): void {
     const inputField = this.el.nativeElement;
     if (!inputField) return;

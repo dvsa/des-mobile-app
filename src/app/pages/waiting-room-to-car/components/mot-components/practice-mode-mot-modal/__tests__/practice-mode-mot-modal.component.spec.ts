@@ -1,8 +1,9 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { IonicModule } from '@ionic/angular';
 
 import { ReactiveFormsModule } from '@angular/forms';
 import { ModalAlertTitleComponent } from '@components/common/modal-alert-title/modal-alert-title';
+import { ModalController } from '@ionic/angular';
+import { ModalControllerMock } from '@mocks/ionic-mocks/modal-controller.mock';
 import { ModalEvent } from '@pages/test-report/test-report.constants';
 import { MockComponent } from 'ng-mocks';
 import { PracticeModeMOTModal } from '../practice-mode-mot-modal.component';
@@ -14,7 +15,8 @@ describe('PracticeModeMOTModal', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [PracticeModeMOTModal, MockComponent(ModalAlertTitleComponent)],
-      imports: [IonicModule.forRoot(), ReactiveFormsModule],
+      imports: [ReactiveFormsModule],
+      providers: [{ provide: ModalController, useClass: ModalControllerMock }],
     }).compileComponents();
 
     fixture = TestBed.createComponent(PracticeModeMOTModal);

@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { AppModule } from '@app/app.module';
-import { IonicModule } from '@ionic/angular';
+
 import { VehicleDetailsCatCPCComponent } from '../vehicle-details';
 
 describe('VehicleDetailsCatCPCComponent', () => {
@@ -11,7 +11,7 @@ describe('VehicleDetailsCatCPCComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [VehicleDetailsCatCPCComponent],
-      imports: [IonicModule, AppModule],
+      imports: [AppModule],
     });
 
     fixture = TestBed.createComponent(VehicleDetailsCatCPCComponent);

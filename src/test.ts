@@ -3,8 +3,11 @@
 import 'zone.js/testing';
 import { getTestBed } from '@angular/core/testing';
 import { BrowserDynamicTestingModule, platformBrowserDynamicTesting } from '@angular/platform-browser-dynamic/testing';
+import { iconList } from '@shared/constants/ion-icon-list';
+import { addIcons } from 'ionicons';
 
 beforeAll(async () => {
+  addIcons(iconList);
   const origLog = console.log;
   // Create a wrapper that suppresses "AUTH CONNECT Logging set" logs so they don't clutter the console
   console.log = (...args: { toString: () => string }[]) => {

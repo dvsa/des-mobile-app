@@ -1,7 +1,7 @@
 import { EventEmitter } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule, UntypedFormGroup } from '@angular/forms';
-import { IonicModule } from '@ionic/angular';
+
 import { TranslateLoader, TranslateModule, TranslateParser, TranslateService } from '@ngx-translate/core';
 import { HealthDeclarationComponent } from '../health-declaration';
 
@@ -12,7 +12,7 @@ describe('HealthDeclarationComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [HealthDeclarationComponent],
-      imports: [IonicModule, TranslateModule.forRoot(), ReactiveFormsModule],
+      imports: [TranslateModule.forRoot(), ReactiveFormsModule],
       providers: [TranslateService, TranslateLoader, TranslateParser],
     });
 

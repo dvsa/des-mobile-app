@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ActivatedRoute, Router } from '@angular/router';
-import { IonicModule, Platform } from '@ionic/angular';
+import { Platform } from '@ionic/angular';
 import { ActivatedRouteMock, PlatformMock, RouterMock } from '@mocks/index.mock';
 import { MockComponent } from 'ng-mocks';
 
@@ -47,7 +47,7 @@ describe('FakeJournalPage', () => {
         MockComponent(JournalNavigationComponent),
         MockComponent(PracticeModeExitButton),
       ],
-      imports: [IonicModule],
+
       providers: [
         {
           provide: OrientationMonitorProvider,

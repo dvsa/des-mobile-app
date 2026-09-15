@@ -4,7 +4,7 @@ import { By } from '@angular/platform-browser';
 import { ComponentsModule } from '@components/common/common-components.module';
 import { DrivingFaultsBadgeComponent } from '@components/common/driving-faults-badge/driving-faults-badge';
 import { CharacterCountDirective } from '@directives/character-count.directive';
-import { IonicModule } from '@ionic/angular';
+
 import { CharacterCountService } from '@providers/character-count/character-count.service';
 import { OutcomeBehaviourMapProvider } from '@providers/outcome-behaviour-map/outcome-behaviour-map';
 import { CommentSource } from '@shared/models/fault-marking.model';
@@ -23,7 +23,7 @@ describe('FaultCommentComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [FaultCommentComponent, MockDirective(CharacterCountDirective)],
-      imports: [IonicModule, AppModule, ComponentsModule, PipesModule, ReactiveFormsModule],
+      imports: [AppModule, ComponentsModule, PipesModule, ReactiveFormsModule],
       providers: [
         { provide: OutcomeBehaviourMapProvider, useClass: OutcomeBehaviourMapProvider },
         { provider: CharacterCountService, useClass: CharacterCountService },

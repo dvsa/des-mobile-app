@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { AppModule } from '@app/app.module';
-import { IonicModule } from '@ionic/angular';
+
 import { EyesightTestComponent } from '../eyesight-test';
 
 describe('EyesightTestComponent', () => {
@@ -12,7 +12,7 @@ describe('EyesightTestComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [EyesightTestComponent],
-      imports: [IonicModule, AppModule, ReactiveFormsModule],
+      imports: [AppModule, ReactiveFormsModule],
     });
 
     fixture = TestBed.createComponent(EyesightTestComponent);

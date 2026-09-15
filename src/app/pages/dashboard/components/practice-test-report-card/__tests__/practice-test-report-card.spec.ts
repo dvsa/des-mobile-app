@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
-import { IonicModule, ModalController } from '@ionic/angular';
+import { ModalController } from '@ionic/angular';
 import { OverlayEventDetail } from '@ionic/core';
 import { ModalControllerMock } from '@mocks/ionic-mocks/modal-controller.mock';
 import { Store, StoreModule } from '@ngrx/store';
@@ -30,7 +30,7 @@ describe('PracticeTestReportCardComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [PracticeTestReportCardComponent],
-      imports: [IonicModule, StoreModule.forRoot({})],
+      imports: [StoreModule.forRoot({})],
       providers: [
         { provide: ModalController, useClass: ModalControllerMock },
         { provide: RouteByCategoryProvider, useClass: RouteByCategoryProviderMock },

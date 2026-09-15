@@ -6,7 +6,7 @@ import { Style } from '@capacitor/status-bar';
 import { ComponentsModule } from '@components/common/common-components.module';
 import { CatFUniqueTypes } from '@dvsa/mes-test-schema/categories/F';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
-import { IonicModule, ModalController } from '@ionic/angular';
+import { ModalController } from '@ionic/angular';
 import { ModalControllerMock } from '@mocks/ionic-mocks/modal-controller.mock';
 import { StoreModule } from '@ngrx/store';
 import { provideMockStore } from '@ngrx/store/testing';
@@ -83,7 +83,7 @@ describe('VehicleChecksCatHomeTestModal', () => {
       imports: [
         ComponentsModule,
         WaitingRoomToCarComponentsModule,
-        IonicModule,
+
         CommonModule,
         ReactiveFormsModule,
         FormsModule,

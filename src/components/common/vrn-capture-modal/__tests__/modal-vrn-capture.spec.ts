@@ -4,7 +4,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MockAppComponent } from '@app/__mocks__/app.component.mock';
 import { AppComponent } from '@app/app.component';
 import { VRNCaptureModal } from '@components/common/vrn-capture-modal/vrn-capture-modal';
-import { IonicModule, ModalController } from '@ionic/angular';
+import { ModalController } from '@ionic/angular';
 import { ModalControllerMock } from '@mocks/index.mock';
 import { Store } from '@ngrx/store';
 
@@ -17,7 +17,7 @@ describe('VRNCaptureModal', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [VRNCaptureModal],
-      imports: [FormsModule, ReactiveFormsModule, IonicModule, CommonModule],
+      imports: [FormsModule, ReactiveFormsModule, CommonModule],
       providers: [
         { provide: ModalController, useClass: ModalControllerMock },
         { provide: Store, useClass: StoreMock },

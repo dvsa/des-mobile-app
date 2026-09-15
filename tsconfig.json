@@ -19,45 +19,46 @@
     ],
     "paths": {
       "@providers/*": [
-        "src/app/providers/*"
+        "./src/app/providers/*"
       ],
       "@pages/*": [
-        "src/app/pages/*"
+        "./src/app/pages/*"
       ],
       "@environments/*": [
-        "src/environments/*"
+        "./src/environments/*"
       ],
       "@shared/*": [
-        "src/app/shared/*"
+        "./src/app/shared/*"
       ],
       "@store/*": [
-        "src/store/*"
+        "./src/store/*"
       ],
       "@mocks/*": [
-        "mock/*"
+        "./mock/*"
       ],
       "@components/*": [
-        "src/components/*"
+        "./src/components/*"
       ],
       "@directives/*": [
-        "src/directives/*"
+        "./src/directives/*"
       ],
       "@assets/*": [
-        "src/assets/*"
+        "./src/assets/*"
       ],
       "@app/*": [
-        "src/app/*"
+        "./src/app/*"
       ],
       "stream": [
-        "node_modules/stream-browserify"
+        "./node_modules/stream-browserify"
       ],
       "buffer": [
-        "node_modules/buffer"
+        "./node_modules/buffer"
       ]
     }
   },
   "angularCompilerOptions": {
     "fullTemplateTypeCheck": true,
-    "strictInjectionParameters": true
+    "strictInjectionParameters": true,
+    "strictTemplates": false
   }
 }

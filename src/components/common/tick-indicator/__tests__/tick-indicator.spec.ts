@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { IonicModule } from '@ionic/angular';
+
 import { TickIndicatorComponent } from '../tick-indicator';
 
 describe('TickIndicatorComponent', () => {
@@ -10,7 +10,6 @@ describe('TickIndicatorComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [TickIndicatorComponent],
-      imports: [IonicModule],
     });
 
     fixture = TestBed.createComponent(TickIndicatorComponent);

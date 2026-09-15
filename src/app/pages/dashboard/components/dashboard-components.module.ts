@@ -1,7 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ComponentsModule } from '@components/common/common-components.module';
-import { IonicModule } from '@ionic/angular';
+
+import { IonButton, IonCard, IonCol, IonGrid, IonIcon, IonRow, IonText } from '@ionic/angular';
 import { PracticeTestModal } from '@pages/dashboard/components/practice-test-modal/practice-test-modal';
 import { DelegatedSearchCardComponent } from './delegated-rekey-card/delegated-rekey-card';
 import { GoToJournalCardComponent } from './go-to-journal-card/go-to-journal-card';
@@ -26,7 +27,7 @@ import { UpdateAvailableModal } from './update-available-modal/update-available-
     DelegatedSearchCardComponent,
     UpdateAvailableModal,
   ],
-  imports: [CommonModule, IonicModule, ComponentsModule],
+  imports: [CommonModule, ComponentsModule, IonCol, IonRow, IonButton, IonCard, IonText, IonGrid, IonIcon],
   exports: [
     ProfileHeaderComponent,
     GoToJournalCardComponent,

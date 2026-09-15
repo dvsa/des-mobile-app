@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { AppModule } from '@app/app.module';
-import { IonicModule, ModalController } from '@ionic/angular';
+import { ModalController } from '@ionic/angular';
 import { LogoutModal, LogoutModalEvent } from '../logout-modal';
 
 describe('LogoutModal', () => {
@@ -11,7 +11,7 @@ describe('LogoutModal', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [LogoutModal],
-      imports: [IonicModule, AppModule],
+      imports: [AppModule],
       providers: [ModalController],
     });
 

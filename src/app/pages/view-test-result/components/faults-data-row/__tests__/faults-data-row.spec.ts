@@ -3,7 +3,7 @@ import { ComponentsModule } from '@components/common/common-components.module';
 import { DangerousFaultBadgeComponent } from '@components/common/dangerous-fault-badge/dangerous-fault-badge';
 import { DrivingFaultsBadgeComponent } from '@components/common/driving-faults-badge/driving-faults-badge';
 import { SeriousFaultBadgeComponent } from '@components/common/serious-fault-badge/serious-fault-badge';
-import { IonicModule } from '@ionic/angular';
+
 import { AccessibilityServiceMock } from '@providers/accessibility/__mocks__/accessibility-service.mock';
 import { AccessibilityService } from '@providers/accessibility/accessibility.service';
 import { FaultSummary } from '@shared/models/fault-marking.model';
@@ -22,7 +22,7 @@ describe('FaultsDataRowComponent', () => {
         MockComponent(SeriousFaultBadgeComponent),
         MockComponent(DrivingFaultsBadgeComponent),
       ],
-      imports: [IonicModule, ComponentsModule],
+      imports: [ComponentsModule],
       providers: [
         {
           provide: AccessibilityService,

@@ -5,7 +5,7 @@ import { DangerousFaultBadgeComponent } from '@components/common/dangerous-fault
 import { DrivingFaultsBadgeComponent } from '@components/common/driving-faults-badge/driving-faults-badge';
 import { SeriousFaultBadgeComponent } from '@components/common/serious-fault-badge/serious-fault-badge';
 import { TickIndicatorComponent } from '@components/common/tick-indicator/tick-indicator';
-import { IonicModule } from '@ionic/angular';
+
 import { StoreModule } from '@ngrx/store';
 import { testReportReducer } from '@pages/test-report/test-report.reducer';
 import { DateTimeProviderMock } from '@providers/date-time/__mocks__/date-time.mock';
@@ -27,7 +27,6 @@ describe('ManoeuvresComponent', () => {
         MockComponent(DangerousFaultBadgeComponent),
       ],
       imports: [
-        IonicModule,
         AppModule,
         StoreModule.forRoot({
           tests: () => ({

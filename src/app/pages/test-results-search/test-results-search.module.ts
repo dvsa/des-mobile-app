@@ -2,11 +2,27 @@ import { ScrollingModule } from '@angular/cdk/scrolling';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ComponentsModule } from '@components/common/common-components.module';
-import { IonicModule } from '@ionic/angular';
+
 import { EffectsModule } from '@ngrx/effects';
 import { SearchProvider } from '@providers/search/search';
 
 import { DirectivesModule } from '@directives/directives.module';
+import {
+  IonBackButton,
+  IonButton,
+  IonButtons,
+  IonCol,
+  IonContent,
+  IonGrid,
+  IonHeader,
+  IonIcon,
+  IonInput,
+  IonRow,
+  IonSpinner,
+  IonText,
+  IonTitle,
+  IonToolbar,
+} from '@ionic/angular';
 import { MaskitoDirective } from '@maskito/angular';
 import { ErrorPageModule } from '@pages/error-page/error.module';
 import { TestResultsSearchRoutingModule } from '@pages/test-results-search/test-results-search-routing.module';
@@ -22,7 +38,7 @@ import { TestResultsSearchAnalyticsEffects } from './test-results-search.analyti
   imports: [
     ComponentsModule,
     TestResultsSearchComponentsModule,
-    IonicModule,
+
     CommonModule,
     ErrorPageModule,
     TestResultsSearchRoutingModule,
@@ -31,6 +47,20 @@ import { TestResultsSearchAnalyticsEffects } from './test-results-search.analyti
     DirectivesModule,
     ViewTestResultPageModule,
     MaskitoDirective,
+    IonTitle,
+    IonBackButton,
+    IonButtons,
+    IonToolbar,
+    IonHeader,
+    IonContent,
+    IonGrid,
+    IonRow,
+    IonCol,
+    IonInput,
+    IonButton,
+    IonText,
+    IonIcon,
+    IonSpinner,
   ],
   providers: [SearchProvider, CompressionProvider, FaultSummaryProvider],
 })

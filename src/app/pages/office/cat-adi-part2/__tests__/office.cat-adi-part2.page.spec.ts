@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
-import { IonicModule, ModalController, NavController, Platform, ToastController } from '@ionic/angular';
+import { ModalController, NavController, Platform, ToastController } from '@ionic/angular';
 import { ModalControllerMock, PlatformMock } from '@mocks/index.mock';
 import { Store, StoreModule } from '@ngrx/store';
 import { NavControllerMock } from '@shared/mocks/nav-controller.mock';
@@ -110,7 +110,7 @@ describe('OfficeCatADI2Page', () => {
       ],
       imports: [
         PipesModule,
-        IonicModule,
+
         AppModule,
         ComponentsModule,
         StoreModule.forRoot({

@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { IonicModule } from '@ionic/angular';
+
 import { DangerBannerComponent } from '../danger-banner';
 
 describe('DangerBanner', () => {
@@ -10,7 +10,6 @@ describe('DangerBanner', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [DangerBannerComponent],
-      imports: [IonicModule],
     });
 
     fixture = TestBed.createComponent(DangerBannerComponent);

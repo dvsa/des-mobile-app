@@ -1,10 +1,12 @@
 import { NgModule } from '@angular/core';
-import { IonicModule } from '@ionic/angular';
+
+import { IonButton, IonCard, IonCol, IonRow, IonText } from '@ionic/angular';
 import { EndTestModal } from './end-test-modal';
 
 @NgModule({
   declarations: [EndTestModal],
-  imports: [IonicModule],
+
   exports: [EndTestModal],
+  imports: [IonText, IonCol, IonRow, IonCard, IonButton],
 })
 export class EndTestModalModule {}

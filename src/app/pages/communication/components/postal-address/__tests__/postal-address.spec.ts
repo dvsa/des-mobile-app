@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { IonicModule } from '@ionic/angular';
+
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { PostalAddressComponent } from '../postal-address';
 
@@ -20,7 +20,7 @@ describe('PostalAddressComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [PostalAddressComponent],
-      imports: [IonicModule, TranslateModule.forRoot()],
+      imports: [TranslateModule.forRoot()],
     });
 
     fixture = TestBed.createComponent(PostalAddressComponent);

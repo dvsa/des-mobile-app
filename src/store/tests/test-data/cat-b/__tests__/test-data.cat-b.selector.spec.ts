@@ -1,10 +1,10 @@
 import { CatBUniqueTypes } from '@dvsa/mes-test-schema/categories/B';
 import { QuestionOutcome } from '@dvsa/mes-test-schema/categories/common';
+import { CompetencyOutcome } from '@shared/models/competency-outcome';
 import { cloneDeep } from 'lodash-es';
 import { behaviourMap } from 'src/app/pages/office/office-behaviour-map';
 import { OutcomeBehaviourMapProvider } from 'src/app/providers/outcome-behaviour-map/outcome-behaviour-map';
 import { VehicleChecksQuestion } from 'src/app/providers/question/vehicle-checks-question.model';
-import { CompetencyOutcome } from 'src/app/shared/models/competency-outcome';
 import {
   getEcoFaultText,
   getShowMeQuestionOptions,

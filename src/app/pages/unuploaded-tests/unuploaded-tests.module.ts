@@ -1,10 +1,21 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { IonicModule } from '@ionic/angular';
+
 import { EffectsModule } from '@ngrx/effects';
 
 import { ComponentsModule } from '@components/common/common-components.module';
 import { TestSlotComponentsModule } from '@components/test-slot/test-slot-components.module';
+import {
+  IonButton,
+  IonButtons,
+  IonContent,
+  IonHeader,
+  IonIcon,
+  IonLabel,
+  IonText,
+  IonTitle,
+  IonToolbar,
+} from '@ionic/angular';
 import { DashboardComponentsModule } from '@pages/dashboard/components/dashboard-components.module';
 import { UnuploadedTestsRoutingModule } from '@pages/unuploaded-tests/unuploaded-tests-routing.module';
 import { UnuploadedTestsAnalyticsEffects } from '@pages/unuploaded-tests/unuploaded-tests.analytics.effects';
@@ -15,12 +26,21 @@ import { OrientationMonitorProvider } from '@providers/orientation-monitor/orien
 @NgModule({
   imports: [
     CommonModule,
-    IonicModule,
+
     ComponentsModule,
     UnuploadedTestsRoutingModule,
     DashboardComponentsModule,
     TestSlotComponentsModule,
     EffectsModule.forFeature([UnuploadedTestsEffects, UnuploadedTestsAnalyticsEffects]),
+    IonButtons,
+    IonButton,
+    IonIcon,
+    IonLabel,
+    IonTitle,
+    IonToolbar,
+    IonHeader,
+    IonContent,
+    IonText,
   ],
   declarations: [UnuploadedTestsPage],
   providers: [OrientationMonitorProvider],

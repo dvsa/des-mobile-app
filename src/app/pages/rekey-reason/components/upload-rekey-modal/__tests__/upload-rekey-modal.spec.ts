@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { IonicModule, ModalController } from '@ionic/angular';
+import { ModalController } from '@ionic/angular';
 
 import { AppModule } from '@app/app.module';
 import { ModalControllerMock } from '@mocks/ionic-mocks/modal-controller.mock';
@@ -13,7 +13,7 @@ describe('UploadRekeyModal', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [UploadRekeyModal],
-      imports: [IonicModule, AppModule],
+      imports: [AppModule],
       providers: [{ provide: ModalController, useClass: ModalControllerMock }],
     });
 

@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { IonicModule } from '@ionic/angular';
+
 import { Store, StoreModule } from '@ngrx/store';
 
 import { Router } from '@angular/router';
@@ -23,7 +23,6 @@ describe('EyesightFailureConfirmationComponent', () => {
     TestBed.configureTestingModule({
       declarations: [EyesightFailureConfirmationComponent],
       imports: [
-        IonicModule,
         StoreModule.forRoot({
           tests: testsReducer,
         }),

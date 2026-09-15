@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Router } from '@angular/router';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
-import { IonicModule, ModalController } from '@ionic/angular';
+import { ModalController } from '@ionic/angular';
 import { Store } from '@ngrx/store';
 
 import { AppModule } from '@app/app.module';
@@ -22,7 +22,7 @@ describe('EndTestLinkComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [EndTestLinkComponent],
-      imports: [IonicModule, AppModule],
+      imports: [AppModule],
       providers: [
         { provide: ModalController, useClass: ModalControllerMock },
         { provide: Router, useClass: RouterMock },

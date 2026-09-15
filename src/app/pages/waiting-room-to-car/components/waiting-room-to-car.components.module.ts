@@ -3,7 +3,18 @@ import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ComponentsModule } from '@components/common/common-components.module';
 import { DirectivesModule } from '@directives/directives.module';
-import { IonicModule } from '@ionic/angular';
+import {
+  IonButton,
+  IonCol,
+  IonGrid,
+  IonIcon,
+  IonInput,
+  IonRow,
+  IonSelect,
+  IonSelectOption,
+  IonSpinner,
+  IonText,
+} from '@ionic/angular';
 
 import { RegistrationWithPreviousMotTextComponent } from '@components/common/registration-with-previous-mot-text/registration-with-previous-mot-text.component';
 import { MotCardComponent } from '@pages/waiting-room-to-car/components/mot-components/mot-card/mot-card.component';
@@ -52,12 +63,20 @@ import { VehicleRegistrationComponent } from './vehicle-registration/vehicle-reg
     SafetyRecallComponent,
     CommonModule,
     ComponentsModule,
-    IonicModule,
     DirectivesModule,
     ReactiveFormsModule,
-    IonicModule,
     PipesModule,
     RegistrationWithPreviousMotTextComponent,
+    IonInput,
+    IonCol,
+    IonButton,
+    IonText,
+    IonSpinner,
+    IonRow,
+    IonSelect,
+    IonSelectOption,
+    IonIcon,
+    IonGrid,
   ],
   exports: [
     EyesightTestComponent,

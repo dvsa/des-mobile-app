@@ -2,7 +2,6 @@ import { SimpleChange } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { AppModule } from '@app/app.module';
 import { DataGridComponent } from '@components/common/data-grid/data-grid';
-import { IonicModule } from '@ionic/angular';
 
 describe('DataGridComponent', () => {
   let fixture: ComponentFixture<DataGridComponent>;
@@ -11,7 +10,7 @@ describe('DataGridComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [DataGridComponent],
-      imports: [IonicModule, AppModule],
+      imports: [AppModule],
       providers: [],
     });
 

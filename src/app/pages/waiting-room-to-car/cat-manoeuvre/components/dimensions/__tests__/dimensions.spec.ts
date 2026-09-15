@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { IonicModule } from '@ionic/angular';
+
 import { DimensionsComponent } from '@pages/waiting-room-to-car/cat-manoeuvre/components/dimensions/dimensions';
 import { PipesModule } from '@shared/pipes/pipes.module';
 
@@ -10,7 +10,7 @@ describe('DimensionsComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [DimensionsComponent],
-      imports: [IonicModule, PipesModule],
+      imports: [PipesModule],
     });
 
     fixture = TestBed.createComponent(DimensionsComponent);

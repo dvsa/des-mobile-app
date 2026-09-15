@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { IonicModule } from '@ionic/angular';
+
 import { ECOCardComponent } from '../eco-card.component';
 
 describe('ECOCardComponent', () => {
@@ -9,7 +9,6 @@ describe('ECOCardComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [ECOCardComponent],
-      imports: [IonicModule.forRoot()],
     }).compileComponents();
 
     fixture = TestBed.createComponent(ECOCardComponent);

@@ -23,10 +23,6 @@ export class JournalEarlyStartModal {
     public modalController: ModalController
   ) {}
 
-  getSlotData() {
-    return this.slotData;
-  }
-
   onCancel = async () => {
     this.store$.dispatch(EarlyStartDidReturn());
     await this.modalController.dismiss(ModalEvent.CANCEL);

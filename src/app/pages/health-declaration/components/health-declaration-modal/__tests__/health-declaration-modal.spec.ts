@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
 import { ComponentsModule } from '@components/common/common-components.module';
-import { IonicModule, ModalController } from '@ionic/angular';
+import { ModalController } from '@ionic/angular';
 import { ModalControllerMock } from '@mocks/ionic-mocks/modal-controller.mock';
 import { provideMockStore } from '@ngrx/store/testing';
 import { HealthDeclarationModal } from '../health-declaration-modal';
@@ -16,7 +16,7 @@ describe('healthDeclarationModal', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [HealthDeclarationModal],
-      imports: [RouterModule, CommonModule, FormsModule, IonicModule, ComponentsModule],
+      imports: [RouterModule, CommonModule, FormsModule, ComponentsModule],
       providers: [
         {
           provide: ModalController,

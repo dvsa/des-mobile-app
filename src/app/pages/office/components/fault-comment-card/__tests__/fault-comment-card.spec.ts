@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule, UntypedFormGroup } from '@angular/forms';
 import { By } from '@angular/platform-browser';
-import { IonicModule } from '@ionic/angular';
+
 import { FaultSummary } from '@shared/models/fault-marking.model';
 import { PipesModule } from '@shared/pipes/pipes.module';
 import { MockComponent } from 'ng-mocks';
@@ -16,7 +16,7 @@ describe('FaultCommentCardComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [FaultCommentCardComponent, MockComponent(FaultCommentComponent)],
-      imports: [IonicModule, AppModule, ReactiveFormsModule, PipesModule],
+      imports: [AppModule, ReactiveFormsModule, PipesModule],
     });
 
     fixture = TestBed.createComponent(FaultCommentCardComponent);

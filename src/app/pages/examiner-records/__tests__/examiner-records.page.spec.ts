@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { ScreenOrientation } from '@capawesome/capacitor-screen-orientation';
 import { ExaminerRecordModel } from '@dvsa/mes-microservice-common/domain/examiner-records';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
-import { IonicModule, ModalController } from '@ionic/angular';
+import { ModalController } from '@ionic/angular';
 import { ScrollDetail } from '@ionic/core';
 import { RouterMock } from '@mocks/angular-mocks/router-mock';
 import { ModalControllerMock } from '@mocks/ionic-mocks/modal-controller.mock';
@@ -94,7 +94,7 @@ describe('ExaminerRecordsPage', () => {
         MockComponent(ColourFilterRadioComponent),
         MockComponent(ExaminerRecordsLabelTextComponent),
       ],
-      imports: [IonicModule, CommonModule],
+      imports: [CommonModule],
       providers: [
         {
           provide: ExaminerRecordsProvider,

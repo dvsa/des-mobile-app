@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { IonicModule } from '@ionic/angular';
 
 import { MotHistory } from '@dvsa/mes-mot-schema';
+import { IonIcon, IonText } from '@ionic/angular';
 import { Store, StoreModule } from '@ngrx/store';
 import { NetworkStateProviderMock } from '@providers/network-state/__mocks__/network-state.mock';
 import { NetworkConnectionStatus, NetworkStateProvider } from '@providers/network-state/network-state';
@@ -15,7 +15,7 @@ describe('MotCardComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [MotCardComponent],
-      imports: [StoreModule.forRoot(), IonicModule.forRoot()],
+      imports: [IonIcon, IonText, StoreModule.forRoot()],
       providers: [{ provide: NetworkStateProvider, useClass: NetworkStateProviderMock }, Store],
     }).compileComponents();
 

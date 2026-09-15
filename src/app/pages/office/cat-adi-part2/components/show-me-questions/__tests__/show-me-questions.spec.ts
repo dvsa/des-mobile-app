@@ -1,6 +1,5 @@
 import { EventEmitter } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { IonicModule } from '@ionic/angular';
 
 import { UntypedFormGroup, Validators } from '@angular/forms';
 import { AppModule } from '@app/app.module';
@@ -23,7 +22,7 @@ describe('ShowMeQuestionsCatADI2Component', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [ShowMeQuestionsCatADI2Component],
-      imports: [IonicModule, AppModule],
+      imports: [AppModule],
       providers: [
         {
           provide: AccessibilityService,

@@ -6,7 +6,7 @@ import { DataRowComponent } from '@components/common/data-row/data-row';
 import { DrivingFaultsBadgeComponent } from '@components/common/driving-faults-badge/driving-faults-badge';
 import { TickIndicatorComponent } from '@components/common/tick-indicator/tick-indicator';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
-import { IonicModule } from '@ionic/angular';
+
 import { DataRowWithListComponent } from '@pages/view-test-result/components/data-row-with-list/data-list-with-row';
 import {
   DataRowListItem,
@@ -44,7 +44,7 @@ describe('DebriefCardComponent', () => {
         MockComponent(SafetyAndBalanceDataRowComponent),
         MockComponent(FaultsDataRowComponent),
       ],
-      imports: [AppModule, IonicModule, ComponentsModule],
+      imports: [AppModule, ComponentsModule],
       providers: [QuestionProvider],
     });
 

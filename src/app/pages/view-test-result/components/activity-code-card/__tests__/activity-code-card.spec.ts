@@ -1,5 +1,4 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { IonicModule } from '@ionic/angular';
 
 import { DataRowComponent } from '@components/common/data-row/data-row';
 import { MockComponent } from 'ng-mocks';
@@ -12,7 +11,6 @@ describe('ActivityCodeCard', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [ActivityCodeCard, MockComponent(DataRowComponent)],
-      imports: [IonicModule],
     });
 
     fixture = TestBed.createComponent(ActivityCodeCard);

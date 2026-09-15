@@ -3,7 +3,7 @@ import { DataRowCustomComponent } from '@components/common/data-row-custom/data-
 import { DataRowComponent } from '@components/common/data-row/data-row';
 import { InappropriateUseBannerComponent } from '@components/common/inappropriate-use-banner/inappropriate-use-banner';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
-import { IonicModule } from '@ionic/angular';
+
 import { MockComponent } from 'ng-mocks';
 import { CandidateDetails, TestDetailsCardComponent } from '../test-details-card';
 import { TestDetailsModel } from '../test-details-card.model';
@@ -20,7 +20,6 @@ describe('TestDetailsCardComponent', () => {
         MockComponent(DataRowCustomComponent),
         MockComponent(InappropriateUseBannerComponent),
       ],
-      imports: [IonicModule],
     });
 
     fixture = TestBed.createComponent(TestDetailsCardComponent);

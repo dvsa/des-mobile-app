@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule, UntypedFormGroup } from '@angular/forms';
-import { IonicModule } from '@ionic/angular';
+
 import { HealthDeclarationSignedComponent } from '../health-declaration-signed';
 
 describe('HealthDeclarationSignedComponent', () => {
@@ -10,7 +10,7 @@ describe('HealthDeclarationSignedComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [HealthDeclarationSignedComponent],
-      imports: [IonicModule, ReactiveFormsModule],
+      imports: [ReactiveFormsModule],
     });
 
     fixture = TestBed.createComponent(HealthDeclarationSignedComponent);

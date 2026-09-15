@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { IonicModule } from '@ionic/angular';
+
 import { AssessmentAnswerComponent } from '@pages/test-report/cat-adi-part3/components/assessment-answer/assessment-answer';
 import { StudentComponent } from '@pages/test-report/cat-adi-part3/components/student/student';
 import { MockComponent } from 'ng-mocks';
@@ -11,7 +11,6 @@ describe('StudentComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [StudentComponent, MockComponent(AssessmentAnswerComponent)],
-      imports: [IonicModule],
     });
     fixture = TestBed.createComponent(StudentComponent);
     component = fixture.componentInstance;

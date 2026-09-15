@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { IonicModule } from '@ionic/angular';
+
 import { ExaminerRecordsLabelTextComponent } from '@pages/examiner-records/components/examiner-records-label-text/examiner-records-label-text';
 
 describe('ExaminerRecordsLearnMoreModalComponent', () => {
@@ -9,7 +9,6 @@ describe('ExaminerRecordsLearnMoreModalComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [ExaminerRecordsLabelTextComponent],
-      imports: [IonicModule.forRoot()],
     }).compileComponents();
 
     fixture = TestBed.createComponent(ExaminerRecordsLabelTextComponent);

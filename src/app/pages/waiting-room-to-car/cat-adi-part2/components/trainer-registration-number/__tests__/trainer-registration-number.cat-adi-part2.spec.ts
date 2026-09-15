@@ -1,6 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
-import { IonicModule } from '@ionic/angular';
 
 import { TrainerRegistrationNumberCatAdiPart2Component } from '../trainer-registration-number.cat-adi-part2';
 import {
@@ -18,7 +17,6 @@ describe('TrainerRegistrationNumberCatAdiPart2Component', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [TrainerRegistrationNumberCatAdiPart2Component],
-      imports: [IonicModule],
     });
 
     fixture = TestBed.createComponent(TrainerRegistrationNumberCatAdiPart2Component);

@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { TickIndicatorComponent } from '@components/common/tick-indicator/tick-indicator';
-import { IonicModule } from '@ionic/angular';
+
 import { Store, StoreModule } from '@ngrx/store';
 import { StoreModel } from '@shared/models/store.model';
 import { ToggleLegalRequirement } from '@store/tests/test-data/common/test-requirements/test-requirements.actions';
@@ -23,7 +23,7 @@ describe('MultiLegalRequirementComponent', () => {
         MockComponent(CompetencyButtonComponent),
         MockComponent(TickIndicatorComponent),
       ],
-      imports: [IonicModule, StoreModule.forRoot({ tests: testsReducer })],
+      imports: [StoreModule.forRoot({ tests: testsReducer })],
     });
 
     fixture = TestBed.createComponent(MultiLegalRequirementComponent);

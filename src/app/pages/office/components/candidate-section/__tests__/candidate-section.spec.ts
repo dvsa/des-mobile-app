@@ -1,5 +1,4 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { IonicModule } from '@ionic/angular';
 
 import { ReactiveFormsModule } from '@angular/forms';
 import { TestOutcome } from '@store/tests/tests.constants';
@@ -13,7 +12,7 @@ describe('CandidateSectionComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [CandidateSectionComponent],
-      imports: [IonicModule, AppModule, ReactiveFormsModule],
+      imports: [AppModule, ReactiveFormsModule],
     });
 
     fixture = TestBed.createComponent(CandidateSectionComponent);

@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { UntypedFormGroup } from '@angular/forms';
 import { MockAppComponent } from '@app/__mocks__/app.component.mock';
 import { AppComponent } from '@app/app.component';
-import { IonicModule } from '@ionic/angular';
+
 import { AppModule } from 'src/app/app.module';
 import { CBTNumberComponent } from '../cbt-number';
 
@@ -13,7 +13,7 @@ describe('CBTNumberComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [CBTNumberComponent],
-      imports: [IonicModule, AppModule],
+      imports: [AppModule],
       providers: [{ provide: AppComponent, useClass: MockAppComponent }],
     });
 

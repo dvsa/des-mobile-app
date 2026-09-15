@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { ComponentsModule } from '@components/common/common-components.module';
 import { TestSlotAttributes } from '@dvsa/mes-test-schema/categories/common';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
-import { AlertController, IonicModule, ModalController, NavController, Platform } from '@ionic/angular';
+import { AlertController, ModalController, NavController, Platform } from '@ionic/angular';
 import { AlertControllerMock, NavControllerMock, PlatformMock } from '@mocks/index.mock';
 import { ModalControllerMock } from '@mocks/ionic-mocks/modal-controller.mock';
 import { Store, StoreModule } from '@ngrx/store';
@@ -46,7 +46,6 @@ describe('ConfirmTestDetailsPage', () => {
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       declarations: [ConfirmTestDetailsPage],
       imports: [
-        IonicModule,
         AppModule,
         ComponentsModule,
         StoreModule.forRoot({

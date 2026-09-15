@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { IonicModule } from '@ionic/angular';
+
 import { SafetyAndBalanceDataRowComponent } from '../safety-and-balance-data-row';
 
 describe('SafetyAndBalanceDataRowComponent', () => {
@@ -9,7 +9,6 @@ describe('SafetyAndBalanceDataRowComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [SafetyAndBalanceDataRowComponent],
-      imports: [IonicModule],
     });
 
     fixture = TestBed.createComponent(SafetyAndBalanceDataRowComponent);
