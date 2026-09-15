@@ -2,6 +2,7 @@ import { EventEmitter } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule, UntypedFormGroup } from '@angular/forms';
 
+import { IonCol, IonRow } from '@ionic/angular';
 import { TranslateLoader, TranslateModule, TranslateParser, TranslateService } from '@ngx-translate/core';
 import { InsuranceDeclarationComponent } from '../insurance-declaration';
 
@@ -12,7 +13,7 @@ describe('InsuranceDeclarationComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [InsuranceDeclarationComponent],
-      imports: [TranslateModule.forRoot(), ReactiveFormsModule],
+      imports: [TranslateModule.forRoot(), ReactiveFormsModule, IonRow, IonCol],
       providers: [TranslateService, TranslateLoader, TranslateParser],
     });
 

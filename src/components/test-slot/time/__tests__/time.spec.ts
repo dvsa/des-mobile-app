@@ -2,6 +2,7 @@ import { DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 
+import { IonText } from '@ionic/angular';
 import { LogHelperMock } from '@providers/logs/__mocks__/logs-helper.mock';
 import { LogHelper } from '@providers/logs/logs-helper';
 import { TimeComponent } from '../time';
@@ -13,7 +14,7 @@ describe('TimeComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [TimeComponent],
-
+      imports: [IonText],
       providers: [{ provide: LogHelper, useClass: LogHelperMock }],
     });
 

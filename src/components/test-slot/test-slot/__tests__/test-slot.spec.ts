@@ -37,6 +37,7 @@ import { cloneDeep } from 'lodash-es';
 import { MockComponent } from 'ng-mocks';
 import { of } from 'rxjs';
 
+import { IonButton, IonCard, IonCol, IonGrid, IonIcon, IonRow, IonText } from '@ionic/angular';
 import { AccessibilityServiceMock } from '@providers/accessibility/__mocks__/accessibility-service.mock';
 
 describe('TestSlotComponent', () => {
@@ -123,6 +124,13 @@ describe('TestSlotComponent', () => {
         StoreModule.forRoot({
           tests: testsReducer,
         }),
+        IonButton,
+        IonCard,
+        IonCol,
+        IonGrid,
+        IonIcon,
+        IonRow,
+        IonText,
       ],
       providers: [
         {

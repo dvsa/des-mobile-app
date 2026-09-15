@@ -4,6 +4,7 @@ import { UntypedFormGroup, Validators } from '@angular/forms';
 import { AppModule } from '@app/app.module';
 import { ActivityCodeModalEvent } from '@components/common/activity-code/acitivity-code-modal-event';
 import { ActivityCodeComponent } from '@components/common/activity-code/activity-code';
+import { IonCol, IonIcon, IonRow, IonText } from '@ionic/angular';
 import { ActivityCodeModel } from '@shared/constants/activity-code/activity-code.constants';
 
 describe('ActivityCodeComponent', () => {
@@ -13,7 +14,7 @@ describe('ActivityCodeComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [ActivityCodeComponent],
-      imports: [AppModule],
+      imports: [IonRow, IonCol, IonText, IonIcon, AppModule],
       providers: [],
     });
 

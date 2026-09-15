@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 
+import { IonText } from '@ionic/angular';
 import { ProgressiveAccessComponent } from '../progressive-access';
 
 describe('ProgressiveAccessComponent', () => {
@@ -9,6 +10,7 @@ describe('ProgressiveAccessComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
+      imports: [IonText],
       declarations: [ProgressiveAccessComponent],
     });
 

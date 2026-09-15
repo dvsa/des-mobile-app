@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { IonText } from '@ionic/angular';
 import { TestCategoryComponent } from '../test-category';
 
 describe('TestCategoryComponent', () => {
@@ -8,6 +8,7 @@ describe('TestCategoryComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
+      imports: [IonText],
       declarations: [TestCategoryComponent],
     });
 

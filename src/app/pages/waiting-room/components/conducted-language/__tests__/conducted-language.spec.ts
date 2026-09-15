@@ -1,6 +1,7 @@
 import { EventEmitter } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
+import { IonCol, IonRow } from '@ionic/angular';
 import { ConductedLanguageComponent } from '../conducted-language';
 
 describe('ConductedLanguageComponent', () => {
@@ -9,6 +10,7 @@ describe('ConductedLanguageComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
+      imports: [IonRow, IonCol],
       declarations: [ConductedLanguageComponent],
     });
 
