@@ -31,7 +31,7 @@
 
 .link {
   text-decoration: underline;
-  color: var(--hyperlink-blue);
+  color: var(--hyperlink-blue) !important;
   &.error-details-link {
     font-size: 14px;
     padding-top: 5px;
