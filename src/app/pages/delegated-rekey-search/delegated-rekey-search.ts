@@ -22,6 +22,7 @@ import { OrientationMonitorProvider } from '@providers/orientation-monitor/orien
 import { BasePageComponent } from '@shared/classes/base-page';
 import { bookingReferenceMask, formatBookingReferenceForBackend, maskPredicate } from '@shared/helpers/formatters';
 import { ErrorTypes } from '@shared/models/error-message';
+import { ClearTestDimensions } from '@store/tests/tests.actions';
 import { isEmpty } from 'lodash-es';
 import { Observable, Subscription } from 'rxjs';
 import { distinctUntilChanged, map } from 'rxjs/operators';
@@ -96,6 +97,7 @@ export class DelegatedRekeySearchPage extends BasePageComponent implements OnIni
 
   ionViewDidEnter() {
     this.store$.dispatch(DelegatedRekeySearchViewDidEnter());
+    this.store$.dispatch(ClearTestDimensions());
     this.setUpSubscription();
   }
 

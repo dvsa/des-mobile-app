@@ -32,7 +32,7 @@ import { AppResumed, AppSuspended, LoadAppVersion, UpdateAuthResult } from '@sto
 import { SetupPolling, StopPolling } from '@store/journal/journal.actions';
 import { getJournalState } from '@store/journal/journal.reducer';
 import { StartSendingLogs, StopLogPolling } from '@store/logs/logs.actions';
-import { StartSendingCompletedTests, StopSendingCompletedTests } from '@store/tests/tests.actions';
+import { ClearTestDimensions, StartSendingCompletedTests, StopSendingCompletedTests } from '@store/tests/tests.actions';
 import { getTests } from '@store/tests/tests.reducer';
 
 interface AppComponentPageState {
@@ -223,6 +223,7 @@ export class AppComponent extends LogoutBasePageComponent implements OnInit {
   };
 
   openSideMenu = (): void => {
+    this.store$.dispatch(ClearTestDimensions());
     this.store$.dispatch(SideMenuOpened());
   };
 }
