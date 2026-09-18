@@ -4,6 +4,8 @@ import { TestStatus } from '@store/tests/test-status/test-status.model';
 import { TestResultRehydration } from '@store/tests/tests.reducer';
 import { TestsModel } from './tests.model';
 
+export const ClearTestDimensions = createAction('[Tests] Clear Test Dimensions');
+
 export const UnloadTests = createAction('[Tests] Unload Tests');
 
 export const PersistTests = createAction('[Tests] Persist');
