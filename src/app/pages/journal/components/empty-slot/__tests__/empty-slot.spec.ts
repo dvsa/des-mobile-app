@@ -3,7 +3,7 @@ import { By } from '@angular/platform-browser';
 import { LocationComponent } from '@components/test-slot/location/location';
 import { TimeComponent } from '@components/test-slot/time/time';
 import { TestSlot } from '@dvsa/mes-journal-schema';
-import { IonicModule } from '@ionic/angular';
+
 import { cloneDeep } from 'lodash-es';
 import { MockComponent } from 'ng-mocks';
 import { EmptySlotComponent } from '../empty-slot';
@@ -70,7 +70,6 @@ describe('EmptySlotComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [EmptySlotComponent, MockComponent(TimeComponent), MockComponent(LocationComponent)],
-      imports: [IonicModule],
     });
 
     fixture = TestBed.createComponent(EmptySlotComponent);

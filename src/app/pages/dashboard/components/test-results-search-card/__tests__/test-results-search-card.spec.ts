@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Router } from '@angular/router';
-import { IonicModule } from '@ionic/angular';
+
 import { RouterMock } from '@mocks/angular-mocks/router-mock';
 import { TEST_RESULTS_SEARCH_PAGE } from '@pages/page-names.constants';
 import { TestResultsSearchCardComponent } from '../test-results-search-card';
@@ -13,7 +13,7 @@ describe('TestResultsSearchCard ', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [TestResultsSearchCardComponent],
-      imports: [IonicModule],
+
       providers: [{ provide: Router, useClass: RouterMock }],
     });
 

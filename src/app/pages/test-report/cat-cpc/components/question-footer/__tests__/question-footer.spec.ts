@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { AppModule } from '@app/app.module';
-import { IonicModule } from '@ionic/angular';
+
 import { QuestionFooterComponent } from '../question-footer';
 
 describe('QuestionFooterComponent', () => {
@@ -10,7 +10,7 @@ describe('QuestionFooterComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [QuestionFooterComponent],
-      imports: [IonicModule, AppModule],
+      imports: [AppModule],
     });
 
     fixture = TestBed.createComponent(QuestionFooterComponent);

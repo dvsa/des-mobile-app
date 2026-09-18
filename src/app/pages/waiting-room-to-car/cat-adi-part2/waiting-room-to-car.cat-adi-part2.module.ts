@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { IonicModule } from '@ionic/angular';
+
 import { EffectsModule } from '@ngrx/effects';
 
 import { ComponentsModule } from '@components/common/common-components.module';
@@ -11,6 +11,17 @@ import { WaitingRoomToCarAnalyticsEffects } from '@pages/waiting-room-to-car/wai
 import { WaitingRoomToCarCatADIPart2PageRoutingModule } from './waiting-room-to-car.cat-adi-part2-routing.module';
 
 import { TestFlowHeaderComponent } from '@components/common/test-flow-header/test-flow-header.component';
+import {
+  IonButton,
+  IonCol,
+  IonContent,
+  IonFooter,
+  IonGrid,
+  IonHeader,
+  IonRow,
+  IonText,
+  IonToolbar,
+} from '@ionic/angular';
 import { SafetyRecallComponent } from '@pages/waiting-room-to-car/components/safety-recall/safety-recall';
 import { WaitingRoomToCarCatADIPart2Page } from './waiting-room-to-car.cat-adi-part2.page';
 
@@ -19,7 +30,7 @@ import { WaitingRoomToCarCatADIPart2Page } from './waiting-room-to-car.cat-adi-p
   imports: [
     CommonModule,
     FormsModule,
-    IonicModule,
+
     WaitingRoomToCarCatADIPart2ComponentsModule,
     WaitingRoomToCarCatADIPart2PageRoutingModule,
     ComponentsModule,
@@ -28,6 +39,15 @@ import { WaitingRoomToCarCatADIPart2Page } from './waiting-room-to-car.cat-adi-p
     EffectsModule.forFeature([WaitingRoomToCarAnalyticsEffects]),
     TestFlowHeaderComponent,
     SafetyRecallComponent,
+    IonButton,
+    IonCol,
+    IonText,
+    IonRow,
+    IonFooter,
+    IonContent,
+    IonGrid,
+    IonToolbar,
+    IonHeader,
   ],
 })
 export class WaitingRoomToCarCatADIPart2PageModule {}

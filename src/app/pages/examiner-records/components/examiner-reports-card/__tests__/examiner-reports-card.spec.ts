@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { IonicModule } from '@ionic/angular';
+
 import { provideMockStore } from '@ngrx/store/testing';
 import { ExaminerReportsCard } from '@pages/examiner-records/components/examiner-reports-card/examiner-reports-card';
 import { OutcomeBehaviourMapProvider } from '@providers/outcome-behaviour-map/outcome-behaviour-map';
@@ -11,7 +11,7 @@ describe('ExaminerReportsCard', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [ExaminerReportsCard],
-      imports: [IonicModule],
+
       providers: [
         provideMockStore({ ...{} }),
         { provide: OutcomeBehaviourMapProvider, useClass: OutcomeBehaviourMapProvider },

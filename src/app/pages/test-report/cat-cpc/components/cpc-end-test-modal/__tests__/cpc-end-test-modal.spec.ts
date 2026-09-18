@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { AppModule } from '@app/app.module';
-import { IonicModule, ModalController } from '@ionic/angular';
+import { ModalController } from '@ionic/angular';
 import { ModalControllerMock } from '@mocks/ionic-mocks/modal-controller.mock';
 import { ActivityCodes } from '@shared/models/activity-codes';
 import { TestOutcome } from '@store/tests/tests.constants';
@@ -18,7 +18,7 @@ describe('CPCEndTestModal', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [CPCEndTestModal, MockComponent(ModalResultItemComponent)],
-      imports: [AppModule, IonicModule],
+      imports: [AppModule],
       providers: [
         {
           provide: ModalController,

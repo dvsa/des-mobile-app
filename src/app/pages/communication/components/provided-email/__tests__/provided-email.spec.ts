@@ -2,7 +2,7 @@ import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http'
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule, UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { By } from '@angular/platform-browser';
-import { IonicModule } from '@ionic/angular';
+
 import { TranslateModule, TranslateService, provideTranslateService } from '@ngx-translate/core';
 import { provideTranslateHttpLoader } from '@ngx-translate/http-loader';
 import { ProvidedEmailComponent } from '../provided-email';
@@ -15,7 +15,7 @@ describe('ProvidedEmailComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [ProvidedEmailComponent],
-      imports: [IonicModule, ReactiveFormsModule, TranslateModule.forRoot()],
+      imports: [ReactiveFormsModule, TranslateModule.forRoot()],
       providers: [
         provideHttpClient(withInterceptorsFromDi()),
         provideTranslateService({

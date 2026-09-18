@@ -3,7 +3,7 @@ import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
 import { DrivingFaultsBadgeComponent } from '@components/common/driving-faults-badge/driving-faults-badge';
 import { SeriousFaultBadgeComponent } from '@components/common/serious-fault-badge/serious-fault-badge';
 import { TickIndicatorComponent } from '@components/common/tick-indicator/tick-indicator';
-import { IonicModule, ModalController } from '@ionic/angular';
+import { ModalController } from '@ionic/angular';
 import { OverlayEventDetail } from '@ionic/core';
 import { ModalControllerMock } from '@mocks/index.mock';
 import { Store } from '@ngrx/store';
@@ -29,7 +29,7 @@ describe('VehicleChecksCatAMod2Component', () => {
         MockComponent(DrivingFaultsBadgeComponent),
         MockComponent(TickIndicatorComponent),
       ],
-      imports: [IonicModule],
+
       providers: [
         { provide: ModalController, useClass: ModalControllerMock },
         { provide: AccessibilityService, useClass: AccessibilityServiceMock },

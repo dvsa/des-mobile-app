@@ -1,6 +1,6 @@
 import { CatBUniqueTypes } from '@dvsa/mes-test-schema/categories/B';
 import { createReducer, on } from '@ngrx/store';
-import { CompetencyOutcome } from 'src/app/shared/models/competency-outcome';
+import { CompetencyOutcome } from '@shared/models/competency-outcome';
 import * as manoeuvresActions from '../../common/manoeuvres/manoeuvres.actions';
 
 export const initialState: CatBUniqueTypes.Manoeuvres = {};

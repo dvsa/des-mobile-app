@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { IonicModule } from '@ionic/angular';
+
 import { AssessmentAnswerComponent } from '@pages/test-report/cat-adi-part3/components/assessment-answer/assessment-answer';
 
 describe('AssessmentAnswerComponent', () => {
@@ -9,7 +9,6 @@ describe('AssessmentAnswerComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [AssessmentAnswerComponent],
-      imports: [IonicModule],
     });
 
     fixture = TestBed.createComponent(AssessmentAnswerComponent);

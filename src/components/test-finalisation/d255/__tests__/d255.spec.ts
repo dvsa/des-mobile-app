@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { UntypedFormGroup } from '@angular/forms';
-import { IonicModule } from '@ionic/angular';
+
 import { OutcomeBehaviourMapProvider, VisibilityType } from '@providers/outcome-behaviour-map/outcome-behaviour-map';
 import { D255Component } from '../d255';
 
@@ -12,7 +12,7 @@ describe('D255Component', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [D255Component],
-      imports: [IonicModule],
+
       providers: [OutcomeBehaviourMapProvider],
     });
 

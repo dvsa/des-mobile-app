@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { IonicModule } from '@ionic/angular';
+
 import { Store, StoreModule } from '@ngrx/store';
 
 import { Router } from '@angular/router';
@@ -24,7 +24,6 @@ describe('MotNoEvidenceConfirmationComponent', () => {
     TestBed.configureTestingModule({
       declarations: [MotNoEvidenceConfirmationComponent],
       imports: [
-        IonicModule,
         StoreModule.forRoot({
           tests: testsReducer,
         }),

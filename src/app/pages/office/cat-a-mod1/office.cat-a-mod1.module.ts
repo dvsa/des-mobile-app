@@ -2,12 +2,22 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
-import { IonicModule } from '@ionic/angular';
-
 import { ComponentsModule } from '@components/common/common-components.module';
 import { PracticeModeBanner } from '@components/common/practice-mode-banner/practice-mode-banner';
 import { PracticeModeExitButton } from '@components/common/practice-mode-exit-button/practice-mode-exit-button';
 import { TestFlowHeaderComponent } from '@components/common/test-flow-header/test-flow-header.component';
+import {
+  IonCard,
+  IonCardContent,
+  IonCardHeader,
+  IonCol,
+  IonContent,
+  IonFooter,
+  IonGrid,
+  IonHeader,
+  IonRow,
+  IonToolbar,
+} from '@ionic/angular';
 import { EffectsModule } from '@ngrx/effects';
 import { DebriefComponentsModule } from '@pages/debrief/components/debrief-components.module';
 import { CircuitComponent } from '@pages/office/cat-a-mod1/components/circuit/circuit';
@@ -27,7 +37,6 @@ import { OfficeCatAMod1Page } from './office.cat-a-mod1.page';
   imports: [
     CommonModule,
     FormsModule,
-    IonicModule,
     OfficeCatAMod1PageRoutingModule,
     ComponentsModule,
     OfficeComponentsModule,
@@ -41,6 +50,16 @@ import { OfficeCatAMod1Page } from './office.cat-a-mod1.page';
     PracticeModeBanner,
     PracticeModeExitButton,
     TestFlowHeaderComponent,
+    IonGrid,
+    IonCardContent,
+    IonCardHeader,
+    IonCard,
+    IonContent,
+    IonToolbar,
+    IonHeader,
+    IonFooter,
+    IonCol,
+    IonRow,
   ],
   providers: [FaultSummaryProvider],
 })

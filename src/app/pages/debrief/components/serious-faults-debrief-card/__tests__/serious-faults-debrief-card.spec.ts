@@ -1,5 +1,4 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { IonicModule } from '@ionic/angular';
 
 import { By } from '@angular/platform-browser';
 import { AppModule } from '@app/app.module';
@@ -21,7 +20,7 @@ describe('SeriousFaultsDebriefCardComponent', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [SeriousFaultsDebriefCardComponent],
-      imports: [IonicModule, AppModule, ComponentsModule, StoreModule.forRoot({}), TranslateModule, PipesModule],
+      imports: [AppModule, ComponentsModule, StoreModule.forRoot({}), TranslateModule, PipesModule],
     });
 
     fixture = TestBed.createComponent(SeriousFaultsDebriefCardComponent);

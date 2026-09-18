@@ -1,8 +1,6 @@
 import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { IonicModule } from '@ionic/angular';
-import { TranslateModule } from '@ngx-translate/core';
 import { PipesModule } from '@shared/pipes/pipes.module';
 
 import { SignaturePadComponent } from '@almothafar/angular-signature-pad';
@@ -33,6 +31,28 @@ import { DataGridComponent } from '@components/common/data-grid/data-grid';
 import { LogoutModalModule } from '@components/common/logout-modal/logout-modal.module';
 import { TestRecoveredBannerComponent } from '@components/common/test-recovered-banner/test-recovered-banner';
 import { DirectivesModule } from '@directives/directives.module';
+import {
+  IonButton,
+  IonButtons,
+  IonCard,
+  IonCardContent,
+  IonCardHeader,
+  IonCardTitle,
+  IonCol,
+  IonContent,
+  IonDatetime,
+  IonGrid,
+  IonIcon,
+  IonInput,
+  IonItem,
+  IonModal,
+  IonRow,
+  IonSearchbar,
+  IonSelect,
+  IonSelectOption,
+  IonText,
+} from '@ionic/angular';
+import { TranslatePipe } from '@ngx-translate/core';
 import { NgApexchartsModule } from 'ng-apexcharts';
 import { BikeCategoryTypeComponent } from './bike-category-type/bike-category-type';
 import { CandidateSectionComponent } from './candidate-section/candidate-section';
@@ -91,9 +111,7 @@ import { WarningBannerComponent } from './warning-banner/warning-banner';
   ],
   imports: [
     CommonModule,
-    IonicModule,
     FormsModule,
-    TranslateModule,
     ReactiveFormsModule,
     VRNCaptureModalModule,
     PipesModule,
@@ -103,6 +121,26 @@ import { WarningBannerComponent } from './warning-banner/warning-banner';
     DirectivesModule,
     NgApexchartsModule,
     SignaturePadComponent,
+    IonCol,
+    IonIcon,
+    IonGrid,
+    IonRow,
+    TranslatePipe,
+    IonText,
+    IonSearchbar,
+    IonContent,
+    IonButton,
+    IonButtons,
+    IonModal,
+    IonDatetime,
+    IonInput,
+    IonCardContent,
+    IonCardTitle,
+    IonCardHeader,
+    IonCard,
+    IonSelect,
+    IonSelectOption,
+    IonItem,
   ],
   exports: [
     DateTimeInputComponent,
@@ -132,7 +170,6 @@ import { WarningBannerComponent } from './warning-banner/warning-banner';
     TickIndicatorComponent,
     TransmissionComponent,
     SignatureComponent,
-    TranslateModule,
     ActivityCodeComponent,
     TransmissionDisplayComponent,
     CPCDebriefCardComponent,

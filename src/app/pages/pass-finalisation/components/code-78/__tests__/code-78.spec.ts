@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule, UntypedFormGroup } from '@angular/forms';
-import { IonicModule } from '@ionic/angular';
+
 import { Code78Component } from '../code-78';
 
 describe('Code78Component', () => {
@@ -10,7 +10,7 @@ describe('Code78Component', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [Code78Component],
-      imports: [IonicModule, ReactiveFormsModule],
+      imports: [ReactiveFormsModule],
     });
 
     fixture = TestBed.createComponent(Code78Component);

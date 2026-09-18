@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { AppModule } from '@app/app.module';
 import { QuestionOutcome, QuestionResult } from '@dvsa/mes-test-schema/categories/common';
-import { IonicModule, ModalController } from '@ionic/angular';
+import { ModalController } from '@ionic/angular';
 import { ModalControllerMock } from '@mocks/ionic-mocks/modal-controller.mock';
 import { Store, StoreModule } from '@ngrx/store';
 import { StoreModel } from '@shared/models/store.model';
@@ -154,7 +154,7 @@ describe('VehicleChecksCatDModal', () => {
         MockComponent(SafetyQuestionComponent),
         MockComponent(WarningBannerComponent),
       ],
-      imports: [IonicModule, AppModule, StoreModule.forRoot({})],
+      imports: [AppModule, StoreModule.forRoot({})],
       providers: [
         {
           provide: ModalController,

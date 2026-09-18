@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule, UntypedFormGroup } from '@angular/forms';
-import { IonicModule } from '@ionic/angular';
+
 import { PipesModule } from '@shared/pipes/pipes.module';
 import { PassCertificateDeclarationComponent } from '../pass-certificate-declaration';
 
@@ -11,7 +11,7 @@ describe('PassCertificateDeclarationComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [PassCertificateDeclarationComponent],
-      imports: [IonicModule, PipesModule, ReactiveFormsModule],
+      imports: [PipesModule, ReactiveFormsModule],
     });
 
     fixture = TestBed.createComponent(PassCertificateDeclarationComponent);

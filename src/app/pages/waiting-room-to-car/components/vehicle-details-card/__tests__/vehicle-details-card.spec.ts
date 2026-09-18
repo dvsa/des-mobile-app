@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule, UntypedFormGroup } from '@angular/forms';
 import { AppModule } from '@app/app.module';
-import { IonicModule } from '@ionic/angular';
+
 import { VehicleDetailsCardComponent } from '@pages/waiting-room-to-car/components/vehicle-details-card/vehicle-details-card';
 
 describe('VehicleDetailsCardComponent', () => {
@@ -11,7 +11,7 @@ describe('VehicleDetailsCardComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [VehicleDetailsCardComponent],
-      imports: [IonicModule, AppModule, ReactiveFormsModule],
+      imports: [AppModule, ReactiveFormsModule],
     });
 
     fixture = TestBed.createComponent(VehicleDetailsCardComponent);

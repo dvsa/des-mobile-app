@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
-import { IonicModule, ModalController } from '@ionic/angular';
+import { ModalController } from '@ionic/angular';
 import { ModalControllerMock } from '@mocks/ionic-mocks/modal-controller.mock';
 import { provideMockStore } from '@ngrx/store/testing';
 import { Adi3EndTestModal } from '@pages/test-report/cat-adi-part3/components/adi3-end-test-modal/adi3-end-test-modal';
@@ -14,7 +14,7 @@ describe('Adi3EndTestModal', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [IonicModule, ReactiveFormsModule],
+      imports: [ReactiveFormsModule],
       providers: [
         { provide: ModalController, useClass: ModalControllerMock },
         { provide: ADI3AssessmentProvider, useClass: ADI3AssessmentProvider },

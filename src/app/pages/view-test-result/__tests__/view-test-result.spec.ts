@@ -14,7 +14,7 @@ import {
 } from '@dvsa/mes-test-schema/categories/ADI3';
 import { JournalData, TestResultCommonSchema } from '@dvsa/mes-test-schema/categories/common';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
-import { IonicModule, ModalController, Platform } from '@ionic/angular';
+import { ModalController, Platform } from '@ionic/angular';
 import { RouterMock } from '@mocks/angular-mocks/router-mock';
 import { ModalControllerMock } from '@mocks/ionic-mocks/modal-controller.mock';
 import { PlatformMock } from '@mocks/ionic-mocks/platform-mock';
@@ -110,7 +110,7 @@ describe('ViewTestResultPage', () => {
         MockComponent(Adi3DebriefCard),
         MockComponent(TestSummaryCardComponent),
       ],
-      imports: [AppModule, IonicModule, ComponentsModule],
+      imports: [AppModule, ComponentsModule],
       providers: [
         {
           provide: Platform,

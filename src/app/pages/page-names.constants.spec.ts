@@ -1,13 +1,11 @@
 import { TestBed } from '@angular/core/testing';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
-import { IonicModule } from '@ionic/angular';
+
 import { getPageNameByCategoryAndKey } from '@pages/page-names.constants';
 
 describe('PageNameConstants', () => {
   beforeEach(() => {
-    TestBed.configureTestingModule({
-      imports: [IonicModule],
-    });
+    TestBed.configureTestingModule({});
   });
 
   describe('getPageNameByCategoryAndKey', () => {

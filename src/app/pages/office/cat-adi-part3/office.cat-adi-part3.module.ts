@@ -1,13 +1,22 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { IonicModule } from '@ionic/angular';
 import { EffectsModule } from '@ngrx/effects';
 
 import { ComponentsModule } from '@components/common/common-components.module';
 import { PracticeModeBanner } from '@components/common/practice-mode-banner/practice-mode-banner';
 import { PracticeModeExitButton } from '@components/common/practice-mode-exit-button/practice-mode-exit-button';
 import { TestFlowHeaderComponent } from '@components/common/test-flow-header/test-flow-header.component';
+import {
+  IonCard,
+  IonCardContent,
+  IonCardHeader,
+  IonContent,
+  IonFooter,
+  IonGrid,
+  IonHeader,
+  IonToolbar,
+} from '@ionic/angular';
 import { OfficeCatADIPart3PageRoutingModule } from '@pages/office/cat-adi-part3/office.cat-adi-part3-routing.module';
 import { OfficeCatADI3Page } from '@pages/office/cat-adi-part3/office.cat-adi-part3.page';
 import { OfficeRegistrationAndMotComponent } from '@pages/office/components/office-registration-and-mot/office-registration-and-mot.component';
@@ -23,7 +32,6 @@ import { FaultSummaryProvider } from '@providers/fault-summary/fault-summary';
   imports: [
     CommonModule,
     FormsModule,
-    IonicModule,
     OfficeCatADIPart3PageRoutingModule,
     ComponentsModule,
     OfficeComponentsModule,
@@ -35,6 +43,14 @@ import { FaultSummaryProvider } from '@providers/fault-summary/fault-summary';
     PracticeModeBanner,
     PracticeModeExitButton,
     TestFlowHeaderComponent,
+    IonContent,
+    IonToolbar,
+    IonHeader,
+    IonGrid,
+    IonCardContent,
+    IonCardHeader,
+    IonCard,
+    IonFooter,
   ],
   providers: [FaultSummaryProvider],
 })

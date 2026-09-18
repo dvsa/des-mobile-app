@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { DataRowComponent } from '@components/common/data-row/data-row';
 import { TestResultCommonSchema } from '@dvsa/mes-test-schema/categories/common';
-import { IonicModule } from '@ionic/angular';
+
 import { NeverType } from '@pages/test-report/test-report.effects';
 import { MockComponent } from 'ng-mocks';
 import { RekeyDetailsCardComponent } from '../rekey-details';
@@ -13,7 +13,6 @@ describe('RekeyDetailsCardComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [RekeyDetailsCardComponent, MockComponent(DataRowComponent)],
-      imports: [IonicModule],
     });
 
     fixture = TestBed.createComponent(RekeyDetailsCardComponent);

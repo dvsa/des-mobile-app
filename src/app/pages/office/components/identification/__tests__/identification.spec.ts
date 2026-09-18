@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { UntypedFormGroup, Validators } from '@angular/forms';
-import { IonicModule } from '@ionic/angular';
+
 import { provideMockStore } from '@ngrx/store/testing';
 import { IdentificationComponent } from '@pages/office/components/identification/identification';
 import { OutcomeBehaviourMapProvider } from '@providers/outcome-behaviour-map/outcome-behaviour-map';
@@ -12,7 +12,7 @@ describe('IdentificationComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [IdentificationComponent],
-      imports: [IonicModule],
+
       providers: [
         provideMockStore({ ...{} }),
         { provide: OutcomeBehaviourMapProvider, useClass: OutcomeBehaviourMapProvider },

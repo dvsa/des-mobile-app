@@ -4,7 +4,7 @@ import { WarningBannerComponent } from '@components/common/warning-banner/warnin
 import { CatCUniqueTypes } from '@dvsa/mes-test-schema/categories/C';
 import { QuestionOutcome, QuestionResult } from '@dvsa/mes-test-schema/categories/common';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
-import { IonicModule, ModalController } from '@ionic/angular';
+import { ModalController } from '@ionic/angular';
 import { ModalControllerMock } from '@mocks/ionic-mocks/modal-controller.mock';
 import { Store, StoreModule } from '@ngrx/store';
 import { provideMockStore } from '@ngrx/store/testing';
@@ -164,7 +164,7 @@ describe('VehicleChecksCatCModal', () => {
         MockComponent(VehicleChecksQuestionComponent),
         MockComponent(WarningBannerComponent),
       ],
-      imports: [IonicModule, AppModule, StoreModule.forRoot({})],
+      imports: [AppModule, StoreModule.forRoot({})],
       providers: [
         {
           provide: ModalController,

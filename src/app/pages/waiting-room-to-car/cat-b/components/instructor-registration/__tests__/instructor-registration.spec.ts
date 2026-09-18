@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
-import { IonicModule } from '@ionic/angular';
+
 import { InstructorRegistrationComponent } from '../instructor-registration';
 import {
   mockBlankInstructorRegistrationNumber,
@@ -17,7 +17,7 @@ describe('InstructorRegistrationComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [InstructorRegistrationComponent],
-      imports: [IonicModule, ReactiveFormsModule],
+      imports: [ReactiveFormsModule],
     });
 
     fixture = TestBed.createComponent(InstructorRegistrationComponent);

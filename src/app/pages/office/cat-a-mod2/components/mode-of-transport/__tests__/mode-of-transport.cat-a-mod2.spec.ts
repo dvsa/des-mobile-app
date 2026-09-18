@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
-import { IonicModule } from '@ionic/angular';
+
 import { ModeOfTransportCatAMod2Component } from '@pages/office/cat-a-mod2/components/mode-of-transport/mode-of-transport.cat-a-mod2';
 import { OutcomeBehaviourMapProvider, VisibilityType } from '@providers/outcome-behaviour-map/outcome-behaviour-map';
 
@@ -11,7 +11,7 @@ describe('ModeOfTransportCatAMod2Component', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [ModeOfTransportCatAMod2Component],
-      imports: [IonicModule, ReactiveFormsModule],
+      imports: [ReactiveFormsModule],
       providers: [{ provide: OutcomeBehaviourMapProvider, useClass: OutcomeBehaviourMapProvider }],
     });
 

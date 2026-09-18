@@ -1,11 +1,22 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { IonicModule } from '@ionic/angular';
+
 import { EffectsModule } from '@ngrx/effects';
 
 import { ComponentsModule } from '@components/common/common-components.module';
 import { TestFlowHeaderComponent } from '@components/common/test-flow-header/test-flow-header.component';
+import {
+  IonButton,
+  IonCol,
+  IonContent,
+  IonFooter,
+  IonGrid,
+  IonHeader,
+  IonRow,
+  IonText,
+  IonToolbar,
+} from '@ionic/angular';
 import { VehicleChecksModalCatAMod2Module } from '@pages/waiting-room-to-car/cat-a-mod2/components/vehicle-checks-modal/vehicle-checks-modal.cat-a-mod2.page.module';
 import { WaitingRoomToCarCatAMod2ComponentsModule } from '@pages/waiting-room-to-car/cat-a-mod2/components/waiting-room-to-car.cat-a-mod2.components.module';
 import { WaitingRoomToCarComponentsModule } from '@pages/waiting-room-to-car/components/waiting-room-to-car.components.module';
@@ -18,7 +29,7 @@ import { WaitingRoomToCarCatAMod2Page } from './waiting-room-to-car.cat-a-mod2.p
   imports: [
     CommonModule,
     FormsModule,
-    IonicModule,
+
     WaitingRoomToCarCatAMod2PageRoutingModule,
     ReactiveFormsModule,
     ComponentsModule,
@@ -27,6 +38,15 @@ import { WaitingRoomToCarCatAMod2Page } from './waiting-room-to-car.cat-a-mod2.p
     VehicleChecksModalCatAMod2Module,
     WaitingRoomToCarCatAMod2ComponentsModule,
     TestFlowHeaderComponent,
+    IonRow,
+    IonFooter,
+    IonCol,
+    IonButton,
+    IonText,
+    IonHeader,
+    IonToolbar,
+    IonContent,
+    IonGrid,
   ],
 })
 export class WaitingRoomToCarCatAMod2PageModule {}

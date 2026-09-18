@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormControl, UntypedFormGroup } from '@angular/forms';
-import { IonicModule } from '@ionic/angular';
+
 import { ReviewFeedback } from '@pages/test-report-dashboard/components/review-feedback/review-feedback';
 import { CharacterCountService } from '@providers/character-count/character-count.service';
 
@@ -12,7 +12,7 @@ describe('ReviewFeedback', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [ReviewFeedback],
-      imports: [IonicModule],
+
       providers: [{ provide: CharacterCountService, useClass: CharacterCountService }],
     });
 

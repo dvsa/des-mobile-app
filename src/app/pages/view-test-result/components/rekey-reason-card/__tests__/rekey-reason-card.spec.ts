@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { DataRowComponent } from '@components/common/data-row/data-row';
-import { IonicModule } from '@ionic/angular';
+
 import { MockComponent } from 'ng-mocks';
 import { RekeyReasonCardComponent } from '../rekey-reason';
 
@@ -11,7 +11,6 @@ describe('RekeyReasonCardComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [RekeyReasonCardComponent, MockComponent(DataRowComponent)],
-      imports: [IonicModule],
     });
 
     fixture = TestBed.createComponent(RekeyReasonCardComponent);

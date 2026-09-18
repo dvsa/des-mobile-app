@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Router } from '@angular/router';
-import { IonicModule } from '@ionic/angular';
+
 import { RouterMock } from '@mocks/angular-mocks/router-mock';
 import { DELEGATED_REKEY_SEARCH_PAGE } from '@pages/page-names.constants';
 import { DelegatedSearchCardComponent } from '../delegated-rekey-card';
@@ -13,7 +13,7 @@ describe('DelegatedSearchCardComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [DelegatedSearchCardComponent],
-      imports: [IonicModule],
+
       providers: [{ provide: Router, useClass: RouterMock }],
     });
 

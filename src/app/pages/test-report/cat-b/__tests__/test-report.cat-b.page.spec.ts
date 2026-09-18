@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { IonicModule, ModalController, Platform } from '@ionic/angular';
+import { ModalController, Platform } from '@ionic/angular';
 import { ModalControllerMock, PlatformMock } from '@mocks/index.mock';
 import { MockComponent } from 'ng-mocks';
 
@@ -88,7 +88,6 @@ describe('TestReportCatBPage', () => {
         MockComponent(PracticeModeOptionsBar),
       ],
       imports: [
-        IonicModule,
         AppModule,
         StoreModule.forRoot({
           tests: testsReducer,

@@ -3,7 +3,7 @@ import { By } from '@angular/platform-browser';
 import { Router, RouterModule } from '@angular/router';
 import { ComponentsModule } from '@components/common/common-components.module';
 import { VehicleRecallsBanner } from '@components/common/vehicle-recall-banner/vehicle-recalls-banner';
-import { AlertController, IonicModule, ModalController, Platform } from '@ionic/angular';
+import { AlertController, ModalController, Platform } from '@ionic/angular';
 import { AlertControllerMock, ModalControllerMock, PlatformMock, RouterMock } from '@mocks/index.mock';
 import { StoreModule } from '@ngrx/store';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
@@ -83,7 +83,7 @@ describe('DashboardPage', () => {
             component: DashboardPage,
           },
         ]),
-        IonicModule,
+
         StoreModule.forRoot({ appInfo: appInfoReducer }),
         DashboardPageRoutingModule,
         DashboardComponentsModule,

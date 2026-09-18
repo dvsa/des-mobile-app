@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Router, RouterModule } from '@angular/router';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
-import { IonicModule } from '@ionic/angular';
+
 import { StoreModule } from '@ngrx/store';
 
 import { RouterMock } from '@mocks/angular-mocks/router-mock';
@@ -20,7 +20,6 @@ describe('PracticeModeOptionsBar', () => {
     TestBed.configureTestingModule({
       declarations: [PracticeModeOptionsBar],
       imports: [
-        IonicModule,
         RouterModule,
         StoreModule.forRoot({
           tests: () => ({

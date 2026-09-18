@@ -6,7 +6,7 @@ import { ComponentsModule } from '@components/common/common-components.module';
 import { TestFlowHeaderComponent } from '@components/common/test-flow-header/test-flow-header.component';
 import { ModeOfTransport } from '@dvsa/mes-test-schema/categories/AM2';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
-import { IonicModule, ModalController, NavController, Platform, ToastController } from '@ionic/angular';
+import { ModalController, NavController, Platform, ToastController } from '@ionic/angular';
 import { ModalControllerMock, PlatformMock, ToastControllerMock } from '@mocks/index.mock';
 import { Store, StoreModule } from '@ngrx/store';
 import { TranslateModule } from '@ngx-translate/core';
@@ -91,7 +91,6 @@ describe('OfficeCatAMod2Page', () => {
         MockComponent(DrivingFaultsComponent),
       ],
       imports: [
-        IonicModule,
         AppModule,
         ComponentsModule,
         PipesModule,

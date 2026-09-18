@@ -1,5 +1,4 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { IonicModule } from '@ionic/angular';
 
 import { By } from '@angular/platform-browser';
 import { AppModule } from '@app/app.module';
@@ -16,7 +15,7 @@ describe('EtaDebriefCardComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [EtaDebriefCardComponent],
-      imports: [IonicModule, AppModule, ComponentsModule, StoreModule.forRoot({}), TranslateModule],
+      imports: [AppModule, ComponentsModule, StoreModule.forRoot({}), TranslateModule],
     });
 
     fixture = TestBed.createComponent(EtaDebriefCardComponent);

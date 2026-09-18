@@ -17,7 +17,7 @@ import { TimeComponent } from '@components/test-slot/time/time';
 import { VehicleDetailsComponent } from '@components/test-slot/vehicle-details/vehicle-details';
 import { TestSlot } from '@dvsa/mes-journal-schema';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
-import { IonicModule } from '@ionic/angular';
+
 import { Store, StoreModule } from '@ngrx/store';
 import { AccessibilityService } from '@providers/accessibility/accessibility.service';
 import { AppConfigProviderMock } from '@providers/app-config/__mocks__/app-config.mock';
@@ -37,6 +37,7 @@ import { cloneDeep } from 'lodash-es';
 import { MockComponent } from 'ng-mocks';
 import { of } from 'rxjs';
 
+import { IonButton, IonCard, IonCol, IonGrid, IonIcon, IonRow, IonText } from '@ionic/angular';
 import { AccessibilityServiceMock } from '@providers/accessibility/__mocks__/accessibility-service.mock';
 
 describe('TestSlotComponent', () => {
@@ -120,10 +121,16 @@ describe('TestSlotComponent', () => {
         MockComponent(ProgressiveAccessComponent),
       ],
       imports: [
-        IonicModule,
         StoreModule.forRoot({
           tests: testsReducer,
         }),
+        IonButton,
+        IonCard,
+        IonCol,
+        IonGrid,
+        IonIcon,
+        IonRow,
+        IonText,
       ],
       providers: [
         {

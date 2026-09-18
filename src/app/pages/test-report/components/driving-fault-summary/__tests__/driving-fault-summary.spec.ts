@@ -2,7 +2,7 @@ import { DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
-import { IonicModule } from '@ionic/angular';
+
 import { Store, StoreModule } from '@ngrx/store';
 import { FaultCountProvider } from '@providers/fault-count/fault-count';
 import { StoreModel } from '@shared/models/store.model';
@@ -27,7 +27,7 @@ describe('DrivingFaultSummary', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [DrivingFaultSummaryComponent],
-      imports: [IonicModule, StoreModule.forRoot({ tests: testsReducer })],
+      imports: [StoreModule.forRoot({ tests: testsReducer })],
       providers: [FaultCountProvider],
     });
 

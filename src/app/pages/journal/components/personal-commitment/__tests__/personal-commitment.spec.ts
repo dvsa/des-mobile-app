@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { IonicModule } from '@ionic/angular';
+
 import { PersonalCommitmentSlotComponent } from '@pages/journal/components/personal-commitment/personal-commitment';
 
 describe('PersonalCommitmentSlotComponent', () => {
@@ -9,7 +9,6 @@ describe('PersonalCommitmentSlotComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [PersonalCommitmentSlotComponent],
-      imports: [IonicModule],
     });
 
     fixture = TestBed.createComponent(PersonalCommitmentSlotComponent);

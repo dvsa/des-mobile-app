@@ -1,11 +1,12 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { IonicModule } from '@ionic/angular';
+
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 
 import { ComponentsModule } from '@components/common/common-components.module';
 import { TestFlowHeaderComponent } from '@components/common/test-flow-header/test-flow-header.component';
+import { IonCol, IonContent, IonGrid, IonHeader, IonRow, IonToolbar } from '@ionic/angular';
 import { TestReportCatDComponentsModule } from '@pages/test-report/cat-d/components/test-report.cat-d.components.module';
 import { TestReportCatDPageRoutingModule } from '@pages/test-report/cat-d/test-report.cat-d-routing.module';
 import { ReverseDiagramModalComponentsModule } from '@pages/test-report/components/reverse-diagram-modal/reverse-diagram-modal.components.module';
@@ -26,10 +27,16 @@ import { TestReportCatDPage } from './test-report.cat-d.page';
     EffectsModule.forFeature([TestReportAnalyticsEffects, TestReportEffects]),
     ComponentsModule,
     CommonModule,
-    IonicModule,
+
     TestReportCatDPageRoutingModule,
     ReverseDiagramModalComponentsModule,
     TestFlowHeaderComponent,
+    IonRow,
+    IonCol,
+    IonGrid,
+    IonContent,
+    IonHeader,
+    IonToolbar,
   ],
   providers: [TestReportValidatorProvider, TestResultProvider],
 })

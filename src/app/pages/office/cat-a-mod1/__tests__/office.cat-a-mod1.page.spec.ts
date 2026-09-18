@@ -5,7 +5,7 @@ import { ActivityCodeComponent } from '@components/common/activity-code/activity
 import { ComponentsModule } from '@components/common/common-components.module';
 import { TestFlowHeaderComponent } from '@components/common/test-flow-header/test-flow-header.component';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
-import { IonicModule, ModalController, NavController, Platform, ToastController } from '@ionic/angular';
+import { ModalController, NavController, Platform, ToastController } from '@ionic/angular';
 import { ModalControllerMock, PlatformMock } from '@mocks/index.mock';
 import { Store, StoreModule } from '@ngrx/store';
 import { CircuitComponent } from '@pages/office/cat-a-mod1/components/circuit/circuit';
@@ -98,7 +98,7 @@ describe('OfficeCatAMod1Page', () => {
       ],
       imports: [
         PipesModule,
-        IonicModule,
+
         AppModule,
         ComponentsModule,
         StoreModule.forRoot({

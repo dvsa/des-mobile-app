@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
-import { IonicModule } from '@ionic/angular';
+
 import { WeatherConditionsComponent } from '@pages/office/components/weather-conditions/weather-conditions';
 import { OutcomeBehaviourMapProvider, VisibilityType } from '@providers/outcome-behaviour-map/outcome-behaviour-map';
 import { CircuitType } from '@shared/models/circuit-type';
@@ -12,7 +12,7 @@ describe('WeatherConditionsComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [WeatherConditionsComponent],
-      imports: [IonicModule, ReactiveFormsModule],
+      imports: [ReactiveFormsModule],
       providers: [{ provide: OutcomeBehaviourMapProvider, useClass: OutcomeBehaviourMapProvider }],
     });
 

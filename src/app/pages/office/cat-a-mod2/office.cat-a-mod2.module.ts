@@ -1,13 +1,25 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { IonicModule } from '@ionic/angular';
 
 import { ComponentsModule } from '@components/common/common-components.module';
 import { PracticeModeBanner } from '@components/common/practice-mode-banner/practice-mode-banner';
 import { PracticeModeExitButton } from '@components/common/practice-mode-exit-button/practice-mode-exit-button';
 import { TestFlowHeaderComponent } from '@components/common/test-flow-header/test-flow-header.component';
 import { DirectivesModule } from '@directives/directives.module';
+import {
+  IonCard,
+  IonCardContent,
+  IonCardHeader,
+  IonCol,
+  IonContent,
+  IonFooter,
+  IonGrid,
+  IonHeader,
+  IonRow,
+  IonToolbar,
+} from '@ionic/angular';
+import { TranslatePipe } from '@ngx-translate/core';
 import { ModeOfTransportCatAMod2Component } from '@pages/office/cat-a-mod2/components/mode-of-transport/mode-of-transport.cat-a-mod2';
 import { SafetyAndBalanceCardCatAMod2Component } from '@pages/office/cat-a-mod2/components/safety-and-balance/safety-and-balance.cat-a-mod2';
 import { OfficeRegistrationAndMotComponent } from '@pages/office/components/office-registration-and-mot/office-registration-and-mot.component';
@@ -23,7 +35,6 @@ import { OfficeCatAMod2Page } from './office.cat-a-mod2.page';
   imports: [
     CommonModule,
     FormsModule,
-    IonicModule,
     OfficeCatAMod2PageRoutingModule,
     ComponentsModule,
     OfficeComponentsModule,
@@ -36,6 +47,17 @@ import { OfficeCatAMod2Page } from './office.cat-a-mod2.page';
     PracticeModeBanner,
     PracticeModeExitButton,
     TestFlowHeaderComponent,
+    IonRow,
+    IonCol,
+    TranslatePipe,
+    IonFooter,
+    IonContent,
+    IonCard,
+    IonCardHeader,
+    IonGrid,
+    IonCardContent,
+    IonToolbar,
+    IonHeader,
   ],
   declarations: [OfficeCatAMod2Page, ModeOfTransportCatAMod2Component, SafetyAndBalanceCardCatAMod2Component],
   providers: [FaultSummaryProvider],

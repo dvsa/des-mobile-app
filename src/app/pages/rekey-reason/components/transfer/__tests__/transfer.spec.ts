@@ -4,7 +4,8 @@ import { By } from '@angular/platform-browser';
 import { MockAppComponent } from '@app/__mocks__/app.component.mock';
 import { AppComponent } from '@app/app.component';
 import { AppModule } from '@app/app.module';
-import { IonicModule } from '@ionic/angular';
+import { IonCol, IonInput, IonItem, IonRow } from '@ionic/angular';
+
 import { TransferComponent } from '../transfer';
 
 describe('TransferComponent', () => {
@@ -14,7 +15,7 @@ describe('TransferComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [TransferComponent],
-      imports: [IonicModule, AppModule, ReactiveFormsModule],
+      imports: [AppModule, ReactiveFormsModule, IonCol, IonInput, IonItem, IonRow],
       providers: [{ provide: AppComponent, useClass: MockAppComponent }],
     });
 
@@ -82,11 +83,11 @@ describe('TransferComponent', () => {
       component.selected = true;
       fixture.detectChanges();
       const field = fixture.debugElement.query(By.css('#staffNumber'));
-      field.triggerEventHandler('change', { target: { value: '123' } });
+      field.triggerEventHandler('ionChange', { detail: { value: '123' } });
       fixture.detectChanges();
-      field.triggerEventHandler('change', { target: { value: '' } });
+      field.triggerEventHandler('ionChange', { detail: { value: '' } });
       fixture.detectChanges();
-      const validationBar = fixture.debugElement.query(By.css('.validation-bar.invalid'));
+      const validationBar = fixture.debugElement.query(By.css('.validation-bar.ng-invalid'));
       const validationMessage = fixture.debugElement.query(By.css('.validation-message-row'));
       expect(validationBar).toBeDefined();
       expect(validationMessage).toBeDefined();
@@ -96,9 +97,9 @@ describe('TransferComponent', () => {
       component.selected = true;
       fixture.detectChanges();
       const field = fixture.debugElement.query(By.css('#staffNumber'));
-      field.triggerEventHandler('change', { target: { value: '123' } });
+      field.triggerEventHandler('ionChange', { detail: { value: '123' } });
       fixture.detectChanges();
-      const validationBar = fixture.debugElement.query(By.css('.validation-bar.invalid'));
+      const validationBar = fixture.debugElement.query(By.css('.validation-bar.ng-invalid'));
       const validationMessage = fixture.debugElement.query(By.css('.validation-message-row'));
       expect(validationBar).toBeNull();
       expect(validationMessage).toBeNull();

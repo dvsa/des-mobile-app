@@ -2,7 +2,7 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
 import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Data, Router } from '@angular/router';
-import { IonicModule, ModalController, NavController, Platform } from '@ionic/angular';
+import { ModalController, NavController, Platform } from '@ionic/angular';
 import { NavControllerMock, PlatformMock } from '@mocks/index.mock';
 import { Store } from '@ngrx/store';
 import { MockComponent } from 'ng-mocks';
@@ -133,7 +133,7 @@ describe('NonPassFinalisationPage', () => {
         MockComponent(WarningBannerComponent),
         MockComponent(FinalisationHeaderComponent),
       ],
-      imports: [IonicModule, AppModule],
+      imports: [AppModule],
       providers: [
         {
           provide: Router,

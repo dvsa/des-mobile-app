@@ -1,7 +1,8 @@
 import { EventEmitter } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule, UntypedFormGroup } from '@angular/forms';
-import { IonicModule } from '@ionic/angular';
+
+import { IonCol, IonRow } from '@ionic/angular';
 import { TranslateLoader, TranslateModule, TranslateParser, TranslateService } from '@ngx-translate/core';
 import { ResidencyDeclarationComponent } from '../residency-declaration';
 
@@ -12,7 +13,7 @@ describe('ResidencyDeclarationComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [ResidencyDeclarationComponent],
-      imports: [IonicModule, TranslateModule.forRoot(), ReactiveFormsModule],
+      imports: [TranslateModule.forRoot(), ReactiveFormsModule, IonRow, IonCol],
       providers: [TranslateService, TranslateLoader, TranslateParser],
     });
 

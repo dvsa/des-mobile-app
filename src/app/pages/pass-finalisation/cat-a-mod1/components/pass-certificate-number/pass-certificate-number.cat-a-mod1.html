@@ -11,7 +11,7 @@
           (ionInput)="passCertificateNumberChanged($event.target.value)"
           [class.increase-height]="accessibilityService.getTextZoomClass() === 'text-zoom-x-large'"
           [class.ng-invalid]="invalid"
-          [maxlength]="passCertificateAMOD1Validator.maxLength"
+          [maxlength]="toInteger(passCertificateAMOD1Validator.maxLength)"
           aria-labelledby="pass-finalisation-pass-certificate-label"
           class="ion-input-styling increase-width"
           formControlName="passCertificateNumberCtrl"

@@ -1,7 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { AppModule } from '@app/app.module';
-import { IonicModule } from '@ionic/angular';
 import { AccompanimentComponent } from '@pages/waiting-room-to-car/components/accompaniment/accompaniment';
 import { PipesModule } from '@shared/pipes/pipes.module';
 
@@ -12,7 +11,7 @@ describe('AccompanimentComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [AccompanimentComponent],
-      imports: [IonicModule, AppModule, ReactiveFormsModule, PipesModule],
+      imports: [AppModule, ReactiveFormsModule, PipesModule],
     });
 
     fixture = TestBed.createComponent(AccompanimentComponent);

@@ -2,10 +2,9 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
-import { IonicModule } from '@ionic/angular';
-
 import { ComponentsModule } from '@components/common/common-components.module';
 import { TestFlowHeaderComponent } from '@components/common/test-flow-header/test-flow-header.component';
+import { IonContent, IonHeader, IonToolbar } from '@ionic/angular';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 import { TestReportCatCPCComponentsModule } from '@pages/test-report/cat-cpc/components/test-report.cat-cpc.components.module';
@@ -22,13 +21,16 @@ import { TestReportCatCPCPage } from './test-report.cat-cpc.page';
   imports: [
     CommonModule,
     FormsModule,
-    IonicModule,
+
     TestReportCatCPCComponentsModule,
     TestReportCatCPCPageRoutingModule,
     StoreModule.forFeature('testReport', testReportReducer),
     EffectsModule.forFeature([TestReportAnalyticsEffects, TestReportEffects]),
     ComponentsModule,
     TestFlowHeaderComponent,
+    IonContent,
+    IonHeader,
+    IonToolbar,
   ],
   providers: [TestReportValidatorProvider, TestResultProvider],
 })

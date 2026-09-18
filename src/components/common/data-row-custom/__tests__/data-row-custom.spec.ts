@@ -1,15 +1,12 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { DataRowCustomComponent } from '@components/common/data-row-custom/data-row-custom';
-import { IonicModule } from '@ionic/angular';
 
 describe('DataRowCustomComponent', () => {
   let fixture: ComponentFixture<DataRowCustomComponent>;
   let component: DataRowCustomComponent;
 
   beforeEach(() => {
-    TestBed.configureTestingModule({
-      imports: [IonicModule],
-    });
+    TestBed.configureTestingModule({});
 
     fixture = TestBed.createComponent(DataRowCustomComponent);
     component = fixture.componentInstance;

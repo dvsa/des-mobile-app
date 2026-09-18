@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { IonicModule } from '@ionic/angular';
+
 import { Store, StoreModule } from '@ngrx/store';
 import { StoreModel } from '@shared/models/store.model';
 import { testsReducer } from '@store/tests/tests.reducer';
@@ -15,7 +15,7 @@ describe('TimerComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [TimerComponent],
-      imports: [IonicModule, StoreModule.forRoot({ tests: testsReducer, testReport: testReportReducer })],
+      imports: [StoreModule.forRoot({ tests: testsReducer, testReport: testReportReducer })],
     });
 
     fixture = TestBed.createComponent(TimerComponent);

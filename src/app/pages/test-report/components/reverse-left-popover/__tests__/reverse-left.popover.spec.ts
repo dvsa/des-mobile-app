@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
-import { IonicModule } from '@ionic/angular';
+
 import { FaultCountProvider } from '@providers/fault-count/fault-count';
 import { ManoeuvreCompetencies } from '@store/tests/test-data/test-data.constants';
 import { MockComponent } from 'ng-mocks';
@@ -19,7 +19,7 @@ describe('reverseLeftComponent', () => {
         MockComponent(ManoeuvreCompetencyComponent),
         MockComponent(ReverseDiagramLinkComponent),
       ],
-      imports: [IonicModule],
+
       providers: [FaultCountProvider],
     });
 

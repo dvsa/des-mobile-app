@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { IonicModule } from '@ionic/angular';
+
 import { VehicleChecksOfficeCardCatADI2Component } from '@pages/office/cat-adi-part2/components/vehicle-checks/vehicle-checks-office-card';
 import { CompetencyOutcome } from '@shared/models/competency-outcome';
 
@@ -10,7 +10,6 @@ describe('VehicleChecksOfficeCardCatADI2Component', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [VehicleChecksOfficeCardCatADI2Component],
-      imports: [IonicModule],
     });
 
     fixture = TestBed.createComponent(VehicleChecksOfficeCardCatADI2Component);

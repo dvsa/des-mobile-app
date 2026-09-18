@@ -2,7 +2,6 @@ import { CommonModule } from '@angular/common';
 import { CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
-import { IonicModule } from '@ionic/angular';
 import { AlternateEvidenceDescriptionComponent } from '../alternate-evidence-description.component';
 
 describe('AlternateEvidenceDescriptionComponent', () => {
@@ -13,7 +12,7 @@ describe('AlternateEvidenceDescriptionComponent', () => {
     TestBed.configureTestingModule({
       schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
       declarations: [AlternateEvidenceDescriptionComponent],
-      imports: [IonicModule, CommonModule],
+      imports: [CommonModule],
     });
 
     fixture = TestBed.createComponent(AlternateEvidenceDescriptionComponent);

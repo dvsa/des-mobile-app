@@ -57,6 +57,7 @@ export class TestCentreJournalPage extends BasePageComponent implements OnDestro
   subscription: Subscription = Subscription.EMPTY;
   didError = false;
   errorMessage: string = null;
+  activeTab = 'Candidate search';
   isLDTM = false;
   testCentreSelected: JournalTestCentre = null;
 
@@ -216,6 +217,7 @@ export class TestCentreJournalPage extends BasePageComponent implements OnDestro
   };
 
   tabChanged = (tab: string): void => {
+    this.activeTab = tab;
     this.store$.dispatch(TestCentreJournalTabChanged(tab));
   };
 }

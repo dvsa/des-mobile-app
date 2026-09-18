@@ -1,11 +1,22 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { IonicModule } from '@ionic/angular';
+
 import { EffectsModule } from '@ngrx/effects';
 
 import { ComponentsModule } from '@components/common/common-components.module';
 import { TestFlowHeaderComponent } from '@components/common/test-flow-header/test-flow-header.component';
+import {
+  IonButton,
+  IonCol,
+  IonContent,
+  IonFooter,
+  IonGrid,
+  IonHeader,
+  IonRow,
+  IonText,
+  IonToolbar,
+} from '@ionic/angular';
 import { WaitingRoomToCarCatBComponentsModule } from '@pages/waiting-room-to-car/cat-b/components/waiting-room-to-car.cat-b.components.module';
 import { SafetyRecallComponent } from '@pages/waiting-room-to-car/components/safety-recall/safety-recall';
 import { WaitingRoomToCarComponentsModule } from '@pages/waiting-room-to-car/components/waiting-room-to-car.components.module';
@@ -18,7 +29,7 @@ import { WaitingRoomToCarCatBPage } from './waiting-room-to-car.cat-b.page';
   imports: [
     CommonModule,
     FormsModule,
-    IonicModule,
+
     WaitingRoomToCarCatBPageRoutingModule,
     ReactiveFormsModule,
     ComponentsModule,
@@ -27,6 +38,15 @@ import { WaitingRoomToCarCatBPage } from './waiting-room-to-car.cat-b.page';
     EffectsModule.forFeature([WaitingRoomToCarAnalyticsEffects]),
     TestFlowHeaderComponent,
     SafetyRecallComponent,
+    IonText,
+    IonButton,
+    IonCol,
+    IonRow,
+    IonFooter,
+    IonGrid,
+    IonContent,
+    IonToolbar,
+    IonHeader,
   ],
 })
 export class WaitingRoomToCarCatBPageModule {}

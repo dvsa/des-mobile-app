@@ -3,7 +3,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { AppModule } from '@app/app.module';
 import { QuestionResult } from '@dvsa/mes-test-schema/categories/common';
-import { IonicModule } from '@ionic/angular';
+
 import { VehicleChecksQuestion } from '@providers/question/vehicle-checks-question.model';
 import { VehicleChecksQuestionComponent } from '../vehicle-checks-question';
 
@@ -20,7 +20,7 @@ describe('VehicleChecksQuestionComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [VehicleChecksQuestionComponent],
-      imports: [IonicModule, AppModule],
+      imports: [AppModule],
     });
 
     fixture = TestBed.createComponent(VehicleChecksQuestionComponent);

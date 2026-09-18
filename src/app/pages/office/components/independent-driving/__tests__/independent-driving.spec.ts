@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
-import { IonicModule } from '@ionic/angular';
+
 import { IndependentDrivingComponent } from '@pages/office/components/independent-driving/independent-driving';
 import { OutcomeBehaviourMapProvider, VisibilityType } from '@providers/outcome-behaviour-map/outcome-behaviour-map';
 import { CircuitType } from '@shared/models/circuit-type';
@@ -13,7 +13,7 @@ describe('IndependentDrivingComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [IndependentDrivingComponent],
-      imports: [IonicModule, ReactiveFormsModule],
+      imports: [ReactiveFormsModule],
       providers: [{ provide: OutcomeBehaviourMapProvider, useClass: OutcomeBehaviourMapProvider }],
     });
 

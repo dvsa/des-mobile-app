@@ -10,7 +10,7 @@ export class EmojiBlockDirective {
 
   constructor(private el: ElementRef) {}
 
-  @HostListener('input', ['$event'])
+  @HostListener('input')
   onInput(): void {
     // Grab element
     const inputField = this.el.nativeElement;

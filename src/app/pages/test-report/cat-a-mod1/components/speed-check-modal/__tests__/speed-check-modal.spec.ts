@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { AppModule } from '@app/app.module';
 import { ComponentsModule } from '@components/common/common-components.module';
-import { IonicModule, ModalController } from '@ionic/angular';
+import { ModalController } from '@ionic/angular';
 import { ModalControllerMock } from '@mocks/ionic-mocks/modal-controller.mock';
 import { ModalEvent } from '@pages/test-report/test-report.constants';
 import { SpeedCheckModal } from '../speed-check-modal';
@@ -15,7 +15,7 @@ describe('SpeedCheckModal', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [SpeedCheckModal],
-      imports: [AppModule, IonicModule, ComponentsModule],
+      imports: [AppModule, ComponentsModule],
       providers: [{ provide: ModalController, useClass: ModalControllerMock }],
     });
 

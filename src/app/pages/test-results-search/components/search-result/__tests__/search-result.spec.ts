@@ -4,7 +4,7 @@ import { AppComponent } from '@app/app.component';
 import { AppModule } from '@app/app.module';
 import { SearchResultTestSchema } from '@dvsa/mes-search-schema';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
-import { IonicModule } from '@ionic/angular';
+
 import { CompressionProviderMock } from '@providers/compression/__mocks__/compression.mock';
 import { CompressionProvider } from '@providers/compression/compression';
 import { FaultSummaryProviderMock } from '@providers/fault-summary/__mocks__/fault-summary.mock';
@@ -33,7 +33,7 @@ describe('SearchResultComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [SearchResultComponent],
-      imports: [AppModule, IonicModule],
+      imports: [AppModule],
       providers: [
         { provide: CompressionProvider, useClass: CompressionProviderMock },
         { provide: AppComponent, useClass: MockAppComponent },

@@ -8,7 +8,7 @@
 
     <ion-content [scrollY]="false" style="--ion-background-color: var(--mes-toolbar-background)">
       @for (page of getFilteredPages(pages); track page) {
-        <ion-item class="menu-item" detail="true" (click)="navPage(page)">
+        <ion-item class="menu-item" [detail]=true (click)="navPage(page)">
           <ion-label class="burger-menu-item" [id]="page.descriptor | formatToID: 'side-menu'">{{
             page.descriptor
           }}</ion-label>

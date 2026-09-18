@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { AppModule } from '@app/app.module';
 import { DrivingFaultsBadgeComponent } from '@components/common/driving-faults-badge/driving-faults-badge';
-import { IonicModule, NavController } from '@ionic/angular';
+import { NavController } from '@ionic/angular';
 import { NavControllerMock } from '@mocks/index.mock';
 import { Store, StoreModule } from '@ngrx/store';
 import { ManoeuvresPopoverComponent } from '@pages/test-report/cat-b/components/manoeuvres-popover/manoeuvres-popover';
@@ -48,7 +48,6 @@ describe('ManoeuvresPopoverComponent', () => {
         MockComponent(ManoeuvreCompetencyComponent),
       ],
       imports: [
-        IonicModule,
         AppModule,
         StoreModule.forRoot({
           tests: () => ({

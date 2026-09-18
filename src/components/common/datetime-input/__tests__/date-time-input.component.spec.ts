@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { DateTimeInputComponent, DisplayType } from '@components/common/datetime-input/date-time-input.component';
-import { IonDatetime, IonicModule } from '@ionic/angular';
+import { IonDatetime } from '@ionic/angular';
 
 describe('DateTimeInputComponent', () => {
   let fixture: ComponentFixture<DateTimeInputComponent>;
@@ -9,7 +9,6 @@ describe('DateTimeInputComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [DateTimeInputComponent],
-      imports: [IonicModule],
     });
 
     fixture = TestBed.createComponent(DateTimeInputComponent);

@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { IonicModule } from '@ionic/angular';
+
 import { VehicleChecksOfficeCardComponent } from '@pages/office/components/vehicle-checks/vehicle-checks-office-card';
 import { CompetencyOutcome } from '@shared/models/competency-outcome';
 
@@ -10,7 +10,6 @@ describe('VehicleChecksOfficeCardComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [VehicleChecksOfficeCardComponent],
-      imports: [IonicModule],
     });
 
     fixture = TestBed.createComponent(VehicleChecksOfficeCardComponent);
