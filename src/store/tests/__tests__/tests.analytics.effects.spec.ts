@@ -187,6 +187,29 @@ describe('TestsAnalyticsEffects', () => {
     });
   });
 
+  describe('clearTestDimensions', () => {
+    it('should wipe custom dimensions', (done) => {
+      actions$.next(testsActions.ClearTestDimensions());
+      effects.clearTestDimensions$.subscribe((result) => {
+        expect(result.type === AnalyticRecorded.type).toBe(true);
+
+        expect(analyticsProviderMock.addGACustomDimension).toHaveBeenCalledWith(
+          GoogleAnalyticsCustomDimension.CANDIDATE_ID,
+          ''
+        );
+        expect(analyticsProviderMock.addGACustomDimension).toHaveBeenCalledWith(
+          GoogleAnalyticsCustomDimension.APPLICATION_REFERENCE,
+          ''
+        );
+        expect(analyticsProviderMock.addGACustomDimension).toHaveBeenCalledWith(
+          GoogleAnalyticsCustomDimension.TEST_CATEGORY,
+          ''
+        );
+        done();
+      });
+    });
+  });
+
   describe('testOutcomeChangedEffect', () => {
     it('should log a fail to pass event', (done) => {
       // ARRANGE
