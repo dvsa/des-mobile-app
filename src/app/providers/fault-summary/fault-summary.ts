@@ -22,7 +22,7 @@ import { FaultSummaryCatCHelper } from './cat-c/fault-summary.cat-c';
 import { FaultSummaryCatDHelper } from './cat-d/fault-summary.cat-d';
 import { FaultSummaryCatHomeTestHelper } from './cat-home-test/fault-summary.cat-home-test';
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class FaultSummaryProvider {
   constructor(private faultCountProvider: FaultCountProvider) {}
 
