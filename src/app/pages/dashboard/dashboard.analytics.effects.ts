@@ -9,6 +9,7 @@ import { AnalyticsProvider } from '@providers/analytics/analytics';
 import { AnalyticRecorded } from '@providers/analytics/analytics.actions';
 import {
   AnalyticsScreenNames,
+  GoogleAnalyticsCustomDimension,
   GoogleAnalyticsEvents,
   GoogleAnalyticsEventsTitles,
   GoogleAnalyticsEventsValues,
@@ -50,6 +51,10 @@ export class DashboardAnalyticsEffects {
       switchMap(() => {
         // GA4 analytics
         this.analytics.setGACurrentPage(AnalyticsScreenNames.DASHBOARD);
+        // reset values for custom dimensions
+        this.analytics.addGACustomDimension(GoogleAnalyticsCustomDimension.CANDIDATE_ID, '');
+        this.analytics.addGACustomDimension(GoogleAnalyticsCustomDimension.APPLICATION_REFERENCE, '');
+        this.analytics.addGACustomDimension(GoogleAnalyticsCustomDimension.TEST_CATEGORY, '');
         return of(AnalyticRecorded());
       })
     )

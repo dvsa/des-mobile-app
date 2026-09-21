@@ -87,4 +87,14 @@ ignore:
         reason: Remediation not yet available
         expires: 2026-10-02T16:00:00.122Z
         created: 2026-09-02T16:00:00.122Z
+  SNYK-JS-BRACES-19963945:
+    - '*':
+        reason: Remediation not yet available
+        expires: 2026-11-02T16:00:00.122Z
+        created: 2026-09-21T16:00:00.122Z
+  SNYK-JS-DEEPMERGE-19964053:
+    - '*':
+        reason: Remediation not yet available
+        expires: 2026-11-02T16:00:00.122Z
+        created: 2026-09-21T16:00:00.122Z
 patch: {}
