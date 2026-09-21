@@ -1,5 +1,6 @@
 import UIKit
 import Capacitor
+import DvsaCapacitorPluginMsauth
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
   var window: UIWindow?
@@ -15,6 +16,16 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
   }
 
   func scene(_ scene: UIScene, openURLContexts URLContexts: Set<UIOpenURLContext>) {
+    if URLContexts.contains(where: { urlContext in
+      var options: [UIApplication.OpenURLOptionsKey: Any] = [:]
+      if let sourceApplication = urlContext.options.sourceApplication {
+        options[.sourceApplication] = sourceApplication
+      }
+      return MsAuthPlugin.checkAppOpen(url: urlContext.url, options: options)
+    }) {
+      return
+    }
+
     SceneDelegateProxy.shared.scene(scene, openURLContexts: URLContexts)
   }
 
