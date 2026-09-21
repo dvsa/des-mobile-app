@@ -12,17 +12,15 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     window?.rootViewController = CAPBridgeViewController()
     window?.makeKeyAndVisible()
 
+    if containsMsAuthCallback(connectionOptions.urlContexts) {
+      return
+    }
+
     SceneDelegateProxy.shared.scene(scene, willConnectTo: session, options: connectionOptions)
   }
 
   func scene(_ scene: UIScene, openURLContexts URLContexts: Set<UIOpenURLContext>) {
-    if URLContexts.contains(where: { urlContext in
-      var options: [UIApplication.OpenURLOptionsKey: Any] = [:]
-      if let sourceApplication = urlContext.options.sourceApplication {
-        options[.sourceApplication] = sourceApplication
-      }
-      return MsAuthPlugin.checkAppOpen(url: urlContext.url, options: options)
-    }) {
+    if containsMsAuthCallback(URLContexts) {
       return
     }
 
@@ -31,5 +29,15 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
   func scene(_ scene: UIScene, continue userActivity: NSUserActivity) {
     SceneDelegateProxy.shared.scene(scene, continue: userActivity)
+  }
+
+  private func containsMsAuthCallback(_ URLContexts: Set<UIOpenURLContext>) -> Bool {
+    return URLContexts.contains { urlContext in
+      var options: [UIApplication.OpenURLOptionsKey: Any] = [:]
+      if let sourceApplication = urlContext.options.sourceApplication {
+        options[.sourceApplication] = sourceApplication
+      }
+      return MsAuthPlugin.checkAppOpen(url: urlContext.url, options: options)
+    }
   }
 }
