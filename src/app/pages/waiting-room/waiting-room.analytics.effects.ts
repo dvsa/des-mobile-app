@@ -93,7 +93,6 @@ export class WaitingRoomAnalyticsEffects {
             GoogleAnalyticsCustomDimension.APPLICATION_REFERENCE,
             applicationReference
           );
-
           return of(AnalyticRecorded());
         }
       )
