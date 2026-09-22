@@ -21,7 +21,7 @@ import { FaultCountADIPart2Helper } from './cat-adi-part2/fault-count.cat-adi-pa
 import { FaultCountHomeTestHelper } from './cat-home-test/fault-count.cat-home-test';
 import { FaultCountManoeuvreTestHelper } from './cat-manoeuvre/fault-count.cat-manoeuvre';
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class FaultCountProvider {
   static getFaultSumCountErrMsg = 'Error getting fault sum count';
 

@@ -51,7 +51,6 @@ import { ViewTestHeaderComponent } from './view-test-header/view-test-header';
   ],
   imports: [
     CommonModule,
-
     ComponentsModule,
     PipesModule,
     CandidateDetailsComponentsModule,

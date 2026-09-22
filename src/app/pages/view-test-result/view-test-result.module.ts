@@ -29,7 +29,6 @@ import { ViewTestResultPage } from '@pages/view-test-result/view-test-result.pag
   imports: [
     CommonModule,
     FormsModule,
-
     ComponentsModule,
     ViewTestResultComponentsModule,
     EffectsModule.forFeature([ViewTestResultAnalyticsEffects]),
