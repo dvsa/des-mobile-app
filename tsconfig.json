@@ -13,10 +13,6 @@
     "importHelpers": true,
     "useDefineForClassFields": false,
     "target": "ES2022",
-    "lib": [
-      "es2021",
-      "dom"
-    ],
     "paths": {
       "@providers/*": [
         "./src/app/providers/*"
