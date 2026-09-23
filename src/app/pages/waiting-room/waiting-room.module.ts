@@ -1,7 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { IonCol, IonContent, IonHeader, IonInput, IonRow, IonText, IonToolbar } from '@ionic/angular';
 import { TranslatePipe } from '@ngx-translate/core';
 
 import { ComponentsModule } from '@components/common/common-components.module';
@@ -14,8 +13,10 @@ import { PassCertificateValidationProvider } from '@providers/pass-certificate-v
 import { WaitingRoomPageRoutingModule } from './waiting-room-routing.module';
 import { WaitingRoomPage } from './waiting-room.page';
 
+import { IonicComponentsModule } from '@shared/modules/ionic-components.module';
 @NgModule({
   imports: [
+    IonicComponentsModule,
     CommonModule,
     FormsModule,
     EffectsModule.forFeature([WaitingRoomAnalyticsEffects]),
@@ -26,13 +27,6 @@ import { WaitingRoomPage } from './waiting-room.page';
     DirectivesModule,
     TestFlowHeaderComponent,
     TranslatePipe,
-    IonContent,
-    IonInput,
-    IonToolbar,
-    IonHeader,
-    IonCol,
-    IonRow,
-    IonText,
   ],
   providers: [PassCertificateValidationProvider],
   declarations: [WaitingRoomPage],

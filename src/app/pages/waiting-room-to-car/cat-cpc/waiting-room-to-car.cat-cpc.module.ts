@@ -6,26 +6,17 @@ import { EffectsModule } from '@ngrx/effects';
 
 import { ComponentsModule } from '@components/common/common-components.module';
 import { TestFlowHeaderComponent } from '@components/common/test-flow-header/test-flow-header.component';
-import {
-  IonButton,
-  IonCol,
-  IonContent,
-  IonFooter,
-  IonGrid,
-  IonHeader,
-  IonRow,
-  IonText,
-  IonToolbar,
-} from '@ionic/angular';
 import { WaitingRoomToCarCatCPCComponentsModule } from '@pages/waiting-room-to-car/cat-cpc/components/waiting-room-to-car.cat-cpc.components.module';
 import { WaitingRoomToCarComponentsModule } from '@pages/waiting-room-to-car/components/waiting-room-to-car.components.module';
 import { WaitingRoomToCarAnalyticsEffects } from '@pages/waiting-room-to-car/waiting-room-to-car.analytics.effects';
 import { WaitingRoomToCarCatCPCPageRoutingModule } from './waiting-room-to-car.cat-cpc-routing.module';
 import { WaitingRoomToCarCatCPCPage } from './waiting-room-to-car.cat-cpc.page';
 
+import { IonicComponentsModule } from '@shared/modules/ionic-components.module';
 @NgModule({
   declarations: [WaitingRoomToCarCatCPCPage],
   imports: [
+    IonicComponentsModule,
     CommonModule,
     FormsModule,
 
@@ -36,15 +27,6 @@ import { WaitingRoomToCarCatCPCPage } from './waiting-room-to-car.cat-cpc.page';
     WaitingRoomToCarCatCPCComponentsModule,
     EffectsModule.forFeature([WaitingRoomToCarAnalyticsEffects]),
     TestFlowHeaderComponent,
-    IonText,
-    IonButton,
-    IonCol,
-    IonToolbar,
-    IonHeader,
-    IonContent,
-    IonRow,
-    IonGrid,
-    IonFooter,
   ],
 })
 export class WaitingRoomToCarCatCPCPageModule {}

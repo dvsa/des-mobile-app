@@ -1,15 +1,15 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ComponentsModule } from '@components/common/common-components.module';
-import { IonCol, IonGrid, IonIcon, IonRow } from '@ionic/angular';
 import { TestReportComponentsModule } from '../../components/test-report-components.module';
 import { ManoeuvresPopoverComponent } from './manoeuvres-popover/manoeuvres-popover';
 import { ManoeuvresComponent } from './manoeuvres/manoeuvres';
 import { VehicleCheckComponent } from './vehicle-check/vehicle-check';
 
+import { IonicComponentsModule } from '@shared/modules/ionic-components.module';
 @NgModule({
   declarations: [ManoeuvresComponent, ManoeuvresPopoverComponent, VehicleCheckComponent],
-  imports: [CommonModule, ComponentsModule, TestReportComponentsModule, IonCol, IonRow, IonIcon, IonGrid],
+  imports: [IonicComponentsModule, CommonModule, ComponentsModule, TestReportComponentsModule],
   exports: [ManoeuvresComponent, ManoeuvresPopoverComponent, VehicleCheckComponent],
 })
 export class TestReportCatBComponentsModule {}

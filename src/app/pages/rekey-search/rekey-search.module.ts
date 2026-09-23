@@ -12,22 +12,6 @@ import { SlotProvider } from '@providers/slot/slot';
 
 import { CommonModule } from '@angular/common';
 import { DirectivesModule } from '@directives/directives.module';
-import {
-  IonBackButton,
-  IonButton,
-  IonButtons,
-  IonCol,
-  IonContent,
-  IonGrid,
-  IonHeader,
-  IonIcon,
-  IonInput,
-  IonRow,
-  IonSpinner,
-  IonText,
-  IonTitle,
-  IonToolbar,
-} from '@ionic/angular';
 import { MaskitoDirective } from '@maskito/angular';
 import { RekeySearchPageRoutingModule } from '@pages/rekey-search/rekey-search-routing.module';
 import { OrientationMonitorProvider } from '@providers/orientation-monitor/orientation-monitor.provider';
@@ -36,9 +20,11 @@ import { RekeySearchAnalyticsEffects } from './rekey-search.analytics.effects';
 import { RekeySearchEffects } from './rekey-search.effects';
 import { rekeySearchReducer } from './rekey-search.reducer';
 
+import { IonicComponentsModule } from '@shared/modules/ionic-components.module';
 @NgModule({
   declarations: [RekeySearchPage],
   imports: [
+    IonicComponentsModule,
     StoreModule.forFeature('rekeySearch', rekeySearchReducer),
     EffectsModule.forFeature([RekeySearchEffects, RekeySearchAnalyticsEffects]),
     ComponentsModule,
@@ -48,20 +34,6 @@ import { rekeySearchReducer } from './rekey-search.reducer';
     RekeySearchPageRoutingModule,
     DirectivesModule,
     MaskitoDirective,
-    IonInput,
-    IonCol,
-    IonRow,
-    IonGrid,
-    IonContent,
-    IonIcon,
-    IonText,
-    IonSpinner,
-    IonButton,
-    IonToolbar,
-    IonHeader,
-    IonBackButton,
-    IonButtons,
-    IonTitle,
   ],
   providers: [OrientationMonitorProvider, RekeySearchProvider, SearchProvider, CompressionProvider, SlotProvider],
 })

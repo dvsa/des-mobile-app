@@ -7,18 +7,6 @@ import { PracticeModeBanner } from '@components/common/practice-mode-banner/prac
 import { PracticeModeExitButton } from '@components/common/practice-mode-exit-button/practice-mode-exit-button';
 import { TestFlowHeaderComponent } from '@components/common/test-flow-header/test-flow-header.component';
 import { DirectivesModule } from '@directives/directives.module';
-import {
-  IonCard,
-  IonCardContent,
-  IonCardHeader,
-  IonCol,
-  IonContent,
-  IonFooter,
-  IonGrid,
-  IonHeader,
-  IonRow,
-  IonToolbar,
-} from '@ionic/angular';
 import { TranslatePipe } from '@ngx-translate/core';
 import { ModeOfTransportCatAMod2Component } from '@pages/office/cat-a-mod2/components/mode-of-transport/mode-of-transport.cat-a-mod2';
 import { SafetyAndBalanceCardCatAMod2Component } from '@pages/office/cat-a-mod2/components/safety-and-balance/safety-and-balance.cat-a-mod2';
@@ -31,8 +19,10 @@ import { PipesModule } from '@shared/pipes/pipes.module';
 import { OfficeCatAMod2PageRoutingModule } from './office.cat-a-mod2-routing.module';
 import { OfficeCatAMod2Page } from './office.cat-a-mod2.page';
 
+import { IonicComponentsModule } from '@shared/modules/ionic-components.module';
 @NgModule({
   imports: [
+    IonicComponentsModule,
     CommonModule,
     FormsModule,
     OfficeCatAMod2PageRoutingModule,
@@ -47,17 +37,7 @@ import { OfficeCatAMod2Page } from './office.cat-a-mod2.page';
     PracticeModeBanner,
     PracticeModeExitButton,
     TestFlowHeaderComponent,
-    IonRow,
-    IonCol,
     TranslatePipe,
-    IonFooter,
-    IonContent,
-    IonCard,
-    IonCardHeader,
-    IonGrid,
-    IonCardContent,
-    IonToolbar,
-    IonHeader,
   ],
   declarations: [OfficeCatAMod2Page, ModeOfTransportCatAMod2Component, SafetyAndBalanceCardCatAMod2Component],
   providers: [FaultSummaryProvider],

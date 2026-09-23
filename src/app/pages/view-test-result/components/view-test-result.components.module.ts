@@ -6,7 +6,6 @@ import { PipesModule } from '@shared/pipes/pipes.module';
 
 import { MotStatusDisplayTextComponent } from '@components/common/mot-status-display-text/mot-status-display-text.component';
 import { RegistrationWithPreviousMotTextComponent } from '@components/common/registration-with-previous-mot-text/registration-with-previous-mot-text.component';
-import { IonCard, IonCardContent, IonCardHeader, IonCol, IonGrid, IonRow, IonText } from '@ionic/angular';
 import { CandidateDetailsComponentsModule } from '@pages/candidate-details/components/candidate-details-components.module';
 import { OfficeComponentsModule } from '@pages/office/components/office.components.module';
 import { DebriefCardComponent } from '@pages/view-test-result/components/debrief-card/debrief-card';
@@ -28,6 +27,7 @@ import { VehicleChecksDataRowComponent } from './vehicle-checks-data-row/vehicle
 import { VehicleDetailsCardComponent } from './vehicle-details-card/vehicle-details-card';
 import { ViewTestHeaderComponent } from './view-test-header/view-test-header';
 
+import { IonicComponentsModule } from '@shared/modules/ionic-components.module';
 @NgModule({
   declarations: [
     DataRowWithListComponent,
@@ -50,6 +50,7 @@ import { ViewTestHeaderComponent } from './view-test-header/view-test-header';
     ScDebriefCard,
   ],
   imports: [
+    IonicComponentsModule,
     CommonModule,
     ComponentsModule,
     PipesModule,
@@ -57,13 +58,6 @@ import { ViewTestHeaderComponent } from './view-test-header/view-test-header';
     OfficeComponentsModule,
     RegistrationWithPreviousMotTextComponent,
     MotStatusDisplayTextComponent,
-    IonCardHeader,
-    IonCard,
-    IonGrid,
-    IonCardContent,
-    IonText,
-    IonCol,
-    IonRow,
   ],
   exports: [
     DataRowWithListComponent,

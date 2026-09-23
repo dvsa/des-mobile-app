@@ -12,11 +12,12 @@ import { BackToOfficePageRoutingModule } from './back-to-office-routing.module';
 import { PracticeModeBanner } from '@components/common/practice-mode-banner/practice-mode-banner';
 import { PracticeModeExitButton } from '@components/common/practice-mode-exit-button/practice-mode-exit-button';
 import { TestFlowHeaderComponent } from '@components/common/test-flow-header/test-flow-header.component';
-import { IonButton, IonCard, IonCol, IonContent, IonHeader, IonRow, IonText, IonToolbar } from '@ionic/angular';
 import { BackToOfficePage } from './back-to-office.page';
 
+import { IonicComponentsModule } from '@shared/modules/ionic-components.module';
 @NgModule({
   imports: [
+    IonicComponentsModule,
     CommonModule,
     FormsModule,
 
@@ -26,14 +27,6 @@ import { BackToOfficePage } from './back-to-office.page';
     TestFlowHeaderComponent,
     PracticeModeBanner,
     PracticeModeExitButton,
-    IonCol,
-    IonRow,
-    IonButton,
-    IonText,
-    IonCard,
-    IonContent,
-    IonToolbar,
-    IonHeader,
   ],
   declarations: [BackToOfficePage, AsamFailureNotificationModal],
 })

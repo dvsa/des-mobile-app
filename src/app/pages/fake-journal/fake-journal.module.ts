@@ -15,12 +15,13 @@ import { OrientationMonitorProvider } from '@providers/orientation-monitor/orien
 import { PracticeModeBanner } from '@components/common/practice-mode-banner/practice-mode-banner';
 import { PracticeModeExitButton } from '@components/common/practice-mode-exit-button/practice-mode-exit-button';
 import { VehicleRecallsBanner } from '@components/common/vehicle-recall-banner/vehicle-recalls-banner';
-import { IonButtons, IonCol, IonContent, IonHeader, IonRow, IonTitle, IonToolbar } from '@ionic/angular';
 import { FakeJournalAnalyticsEffects } from './fake-journal.analytics.effects';
 import { FakeJournalPage } from './fake-journal.page';
 
+import { IonicComponentsModule } from '@shared/modules/ionic-components.module';
 @NgModule({
   imports: [
+    IonicComponentsModule,
     CommonModule,
     FormsModule,
 
@@ -34,13 +35,6 @@ import { FakeJournalPage } from './fake-journal.page';
     VehicleRecallsBanner,
     PracticeModeExitButton,
     PracticeModeBanner,
-    IonToolbar,
-    IonHeader,
-    IonRow,
-    IonCol,
-    IonTitle,
-    IonButtons,
-    IonContent,
   ],
   declarations: [FakeJournalPage],
   providers: [OrientationMonitorProvider],

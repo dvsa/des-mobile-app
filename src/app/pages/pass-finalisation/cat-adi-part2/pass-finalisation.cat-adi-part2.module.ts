@@ -11,23 +11,13 @@ import { PassCertificateValidationProvider } from '@providers/pass-certificate-v
 import { PassFinalisationCatADIPart2PageRoutingModule } from './pass-finalisation.cat-adi-part2-routing.module';
 
 import { TestFlowHeaderComponent } from '@components/common/test-flow-header/test-flow-header.component';
-import {
-  IonButton,
-  IonCol,
-  IonContent,
-  IonFooter,
-  IonGrid,
-  IonHeader,
-  IonInput,
-  IonRow,
-  IonText,
-  IonToolbar,
-} from '@ionic/angular';
 import { PassFinalisationCatADI2Page } from './pass-finalisation.cat-adi-part2.page';
 
+import { IonicComponentsModule } from '@shared/modules/ionic-components.module';
 @NgModule({
   declarations: [PassFinalisationCatADI2Page],
   imports: [
+    IonicComponentsModule,
     CommonModule,
     FormsModule,
 
@@ -37,16 +27,6 @@ import { PassFinalisationCatADI2Page } from './pass-finalisation.cat-adi-part2.p
     ReactiveFormsModule,
     EffectsModule.forFeature([PassFinalisationAnalyticsEffects]),
     TestFlowHeaderComponent,
-    IonFooter,
-    IonToolbar,
-    IonRow,
-    IonCol,
-    IonButton,
-    IonText,
-    IonGrid,
-    IonInput,
-    IonContent,
-    IonHeader,
   ],
   providers: [OutcomeBehaviourMapProvider, PassCertificateValidationProvider],
 })

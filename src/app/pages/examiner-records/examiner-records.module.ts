@@ -5,26 +5,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { EffectsModule } from '@ngrx/effects';
 
 import { ComponentsModule } from '@components/common/common-components.module';
-import {
-  IonButton,
-  IonButtons,
-  IonCard,
-  IonCardContent,
-  IonCardHeader,
-  IonCardTitle,
-  IonCol,
-  IonContent,
-  IonGrid,
-  IonHeader,
-  IonIcon,
-  IonLabel,
-  IonRow,
-  IonSelect,
-  IonSelectOption,
-  IonText,
-  IonTitle,
-  IonToolbar,
-} from '@ionic/angular';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ExaminerRecordsComponentsModule } from '@pages/examiner-records/components/examiner-records-components.module';
 import { ExaminerRecordsLabelTextComponentModule } from '@pages/examiner-records/components/examiner-records-label-text/examiner-records-label-text.module';
@@ -33,8 +13,10 @@ import { ExaminerRecordsAnalyticsEffects } from '@pages/examiner-records/examine
 import { ExaminerRecordsEffects } from '@pages/examiner-records/examiner-records.effects';
 import { ExaminerRecordsPage } from './examiner-records.page';
 
+import { IonicComponentsModule } from '@shared/modules/ionic-components.module';
 @NgModule({
   imports: [
+    IonicComponentsModule,
     CommonModule,
     FormsModule,
 
@@ -45,24 +27,6 @@ import { ExaminerRecordsPage } from './examiner-records.page';
     EffectsModule.forFeature([ExaminerRecordsAnalyticsEffects, ExaminerRecordsEffects]),
     ComponentsModule,
     ExaminerRecordsLabelTextComponentModule,
-    IonButton,
-    IonButtons,
-    IonToolbar,
-    IonHeader,
-    IonTitle,
-    IonIcon,
-    IonLabel,
-    IonRow,
-    IonCol,
-    IonContent,
-    IonSelect,
-    IonText,
-    IonGrid,
-    IonCardContent,
-    IonCardTitle,
-    IonCardHeader,
-    IonCard,
-    IonSelectOption,
   ],
   declarations: [ExaminerRecordsPage],
   schemas: [NO_ERRORS_SCHEMA, CUSTOM_ELEMENTS_SCHEMA],

@@ -2,7 +2,6 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ComponentsModule } from '@components/common/common-components.module';
 import { DirectivesModule } from '@directives/directives.module';
-import { IonCard, IonCardContent, IonCardHeader, IonCardTitle, IonCol, IonGrid, IonRow, IonText } from '@ionic/angular';
 import { TranslatePipe } from '@ngx-translate/core';
 import { SafetyAndBalanceCardCatAMod2Component } from '@pages/debrief/components/safety-and-balance-card/safety-and-balance-card.cat-a-mod2';
 import { SafetyQuestionsCardComponent } from '@pages/debrief/components/safety-questions-card/safety-questions-card';
@@ -17,6 +16,7 @@ import { SeriousFaultsDebriefCardComponent } from './serious-faults-debrief-card
 import { TestOutcomeDebriefCardComponent } from './test-outcome-debrief-card/test-outcome-debrief-card';
 import { VehicleChecksCardComponent } from './vehicle-checks-card/vehicle-checks-card';
 
+import { IonicComponentsModule } from '@shared/modules/ionic-components.module';
 @NgModule({
   declarations: [
     VehicleChecksCardComponent,
@@ -31,21 +31,7 @@ import { VehicleChecksCardComponent } from './vehicle-checks-card/vehicle-checks
     SpeedCheckDebriefCardComponent,
     SafetyAndBalanceCardCatAMod2Component,
   ],
-  imports: [
-    ComponentsModule,
-    CommonModule,
-    PipesModule,
-    DirectivesModule,
-    TranslatePipe,
-    IonText,
-    IonCol,
-    IonRow,
-    IonGrid,
-    IonCardContent,
-    IonCardTitle,
-    IonCardHeader,
-    IonCard,
-  ],
+  imports: [IonicComponentsModule, ComponentsModule, CommonModule, PipesModule, DirectivesModule, TranslatePipe],
   exports: [
     VehicleChecksCardComponent,
     EtaDebriefCardComponent,

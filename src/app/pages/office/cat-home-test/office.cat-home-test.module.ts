@@ -6,16 +6,6 @@ import { ComponentsModule } from '@components/common/common-components.module';
 import { PracticeModeBanner } from '@components/common/practice-mode-banner/practice-mode-banner';
 import { PracticeModeExitButton } from '@components/common/practice-mode-exit-button/practice-mode-exit-button';
 import { TestFlowHeaderComponent } from '@components/common/test-flow-header/test-flow-header.component';
-import {
-  IonCard,
-  IonCardContent,
-  IonCardHeader,
-  IonContent,
-  IonFooter,
-  IonGrid,
-  IonHeader,
-  IonToolbar,
-} from '@ionic/angular';
 import { EffectsModule } from '@ngrx/effects';
 import { OfficeRegistrationAndMotComponent } from '@pages/office/components/office-registration-and-mot/office-registration-and-mot.component';
 import { OfficeComponentsModule } from '@pages/office/components/office.components.module';
@@ -27,8 +17,10 @@ import { FaultSummaryProvider } from '@providers/fault-summary/fault-summary';
 import { OfficeCatHomeTestPageRoutingModule } from './office.cat-home-test-routing.module';
 import { OfficeCatHomeTestPage } from './office.cat-home-test.page';
 
+import { IonicComponentsModule } from '@shared/modules/ionic-components.module';
 @NgModule({
   imports: [
+    IonicComponentsModule,
     EffectsModule.forFeature([OfficeAnalyticsEffects, OfficeEffects]),
     CommonModule,
     FormsModule,
@@ -42,14 +34,6 @@ import { OfficeCatHomeTestPage } from './office.cat-home-test.page';
     PracticeModeBanner,
     PracticeModeExitButton,
     TestFlowHeaderComponent,
-    IonContent,
-    IonCardHeader,
-    IonCard,
-    IonGrid,
-    IonCardContent,
-    IonHeader,
-    IonToolbar,
-    IonFooter,
   ],
   declarations: [OfficeCatHomeTestPage],
   providers: [FaultSummaryProvider],

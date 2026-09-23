@@ -9,20 +9,6 @@ import { PracticeModeBanner } from '@components/common/practice-mode-banner/prac
 import { PracticeModeExitButton } from '@components/common/practice-mode-exit-button/practice-mode-exit-button';
 import { TestFlowHeaderComponent } from '@components/common/test-flow-header/test-flow-header.component';
 import { DirectivesModule } from '@directives/directives.module';
-import {
-  IonCard,
-  IonCardContent,
-  IonCardHeader,
-  IonCol,
-  IonContent,
-  IonFooter,
-  IonGrid,
-  IonHeader,
-  IonRow,
-  IonSelect,
-  IonSelectOption,
-  IonToolbar,
-} from '@ionic/angular';
 import { EffectsModule } from '@ngrx/effects';
 import { EcoCaptureReasonComponent } from '@pages/office/cat-adi-part2/components/eco-capture-reason/eco-capture-reason';
 import { EcoRelatedFaultComponent } from '@pages/office/cat-adi-part2/components/eco-related-fault/eco-related-fault';
@@ -38,6 +24,7 @@ import { VehicleChecksOfficeCardCatADI2Component } from './components/vehicle-ch
 import { OfficeCatADIPart2PageRoutingModule } from './office.cat-adi-part2-routing.module';
 import { OfficeCatADI2Page } from './office.cat-adi-part2.page';
 
+import { IonicComponentsModule } from '@shared/modules/ionic-components.module';
 @NgModule({
   declarations: [
     OfficeCatADI2Page,
@@ -48,6 +35,7 @@ import { OfficeCatADI2Page } from './office.cat-adi-part2.page';
     FuelEfficientDriving,
   ],
   imports: [
+    IonicComponentsModule,
     CommonModule,
     FormsModule,
     OfficeCatADIPart2PageRoutingModule,
@@ -62,18 +50,6 @@ import { OfficeCatADI2Page } from './office.cat-adi-part2.page';
     PracticeModeBanner,
     PracticeModeExitButton,
     TestFlowHeaderComponent,
-    IonCardHeader,
-    IonCard,
-    IonContent,
-    IonHeader,
-    IonToolbar,
-    IonCardContent,
-    IonGrid,
-    IonCol,
-    IonRow,
-    IonSelect,
-    IonSelectOption,
-    IonFooter,
   ],
   providers: [FaultSummaryProvider],
 })

@@ -12,22 +12,6 @@ import { SlotProvider } from '@providers/slot/slot';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 import { DirectivesModule } from '@directives/directives.module';
-import {
-  IonBackButton,
-  IonButton,
-  IonButtons,
-  IonCol,
-  IonContent,
-  IonGrid,
-  IonHeader,
-  IonIcon,
-  IonInput,
-  IonRow,
-  IonSpinner,
-  IonText,
-  IonTitle,
-  IonToolbar,
-} from '@ionic/angular';
 import { MaskitoDirective } from '@maskito/angular';
 import { OrientationMonitorProvider } from '@providers/orientation-monitor/orientation-monitor.provider';
 import { DelegatedRekeySearchPage } from './delegated-rekey-search';
@@ -35,9 +19,11 @@ import { DelegatedRekeySearchPageRoutingModule } from './delegated-rekey-search-
 import { DelegatedRekeySearchEffects } from './delegated-rekey-search.effects';
 import { delegatedSearchReducer } from './delegated-rekey-search.reducer';
 
+import { IonicComponentsModule } from '@shared/modules/ionic-components.module';
 @NgModule({
   declarations: [DelegatedRekeySearchPage],
   imports: [
+    IonicComponentsModule,
     StoreModule.forFeature('delegatedRekeySearch', delegatedSearchReducer),
     EffectsModule.forFeature([DelegatedRekeySearchEffects]),
     ComponentsModule,
@@ -48,20 +34,6 @@ import { delegatedSearchReducer } from './delegated-rekey-search.reducer';
     ReactiveFormsModule,
     DirectivesModule,
     MaskitoDirective,
-    IonIcon,
-    IonText,
-    IonCol,
-    IonButton,
-    IonRow,
-    IonSpinner,
-    IonContent,
-    IonGrid,
-    IonInput,
-    IonTitle,
-    IonBackButton,
-    IonButtons,
-    IonToolbar,
-    IonHeader,
   ],
   providers: [
     OrientationMonitorProvider,

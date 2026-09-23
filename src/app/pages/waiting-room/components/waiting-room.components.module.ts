@@ -3,7 +3,6 @@ import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ComponentsModule } from '@components/common/common-components.module';
 import { DirectivesModule } from '@directives/directives.module';
-import { IonCol, IonInput, IonRow } from '@ionic/angular';
 import { MaskitoDirective } from '@maskito/angular';
 import { TranslatePipe } from '@ngx-translate/core';
 import { CBTNumberComponent } from './cbt-number/cbt-number';
@@ -12,6 +11,7 @@ import { InsuranceDeclarationComponent } from './insurance-declaration/insurance
 import { ManoeuvresPassCertificateComponent } from './manoeuvres-pass-cert/manoeuvres-pass-cert';
 import { ResidencyDeclarationComponent } from './residency-declaration/residency-declaration';
 
+import { IonicComponentsModule } from '@shared/modules/ionic-components.module';
 @NgModule({
   declarations: [
     ConductedLanguageComponent,
@@ -21,14 +21,12 @@ import { ResidencyDeclarationComponent } from './residency-declaration/residency
     ManoeuvresPassCertificateComponent,
   ],
   imports: [
+    IonicComponentsModule,
     ComponentsModule,
     ReactiveFormsModule,
     CommonModule,
     DirectivesModule,
     MaskitoDirective,
-    IonCol,
-    IonRow,
-    IonInput,
     TranslatePipe,
   ],
   exports: [

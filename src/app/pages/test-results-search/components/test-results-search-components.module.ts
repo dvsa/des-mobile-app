@@ -4,49 +4,14 @@ import { FormsModule } from '@angular/forms';
 import { DirectivesModule } from '@directives/directives.module';
 
 import { ComponentsModule } from '@components/common/common-components.module';
-import {
-  IonAccordion,
-  IonAccordionGroup,
-  IonButton,
-  IonCard,
-  IonCol,
-  IonGrid,
-  IonIcon,
-  IonInput,
-  IonItem,
-  IonRow,
-  IonSelect,
-  IonSelectOption,
-  IonSpinner,
-  IonText,
-} from '@ionic/angular';
 import { PipesModule } from '@shared/pipes/pipes.module';
 import { AdvancedSearchComponent } from './advanced-search/advanced-search';
 import { SearchResultComponent } from './search-result/search-result';
 
+import { IonicComponentsModule } from '@shared/modules/ionic-components.module';
 @NgModule({
   declarations: [SearchResultComponent, AdvancedSearchComponent],
-  imports: [
-    ComponentsModule,
-    CommonModule,
-    DirectivesModule,
-    FormsModule,
-    PipesModule,
-    IonCol,
-    IonSpinner,
-    IonIcon,
-    IonText,
-    IonButton,
-    IonRow,
-    IonGrid,
-    IonInput,
-    IonSelect,
-    IonAccordion,
-    IonItem,
-    IonAccordionGroup,
-    IonSelectOption,
-    IonCard,
-  ],
+  imports: [IonicComponentsModule, ComponentsModule, CommonModule, DirectivesModule, FormsModule, PipesModule],
   exports: [SearchResultComponent, AdvancedSearchComponent],
 })
 export class TestResultsSearchComponentsModule {}

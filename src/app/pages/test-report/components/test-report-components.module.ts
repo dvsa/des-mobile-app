@@ -2,7 +2,6 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ComponentsModule } from '@components/common/common-components.module';
 
-import { IonButton, IonCol, IonGrid, IonRow, IonText } from '@ionic/angular';
 import { HighwayCodeSafetyComponent } from '@pages/test-report/components/highway-code-safety/highway-code-safety';
 import { CompetencyButtonComponent } from './competency-button/competency-button';
 import { CompetencyComponent } from './competency/competency';
@@ -26,6 +25,7 @@ import { TimerComponent } from './timer/timer';
 import { ToolbarComponent } from './toolbar/toolbar';
 import { UncoupleRecoupleComponent } from './uncouple-recouple/uncouple-recouple';
 
+import { IonicComponentsModule } from '@shared/modules/ionic-components.module';
 @NgModule({
   declarations: [
     EtaComponent,
@@ -46,6 +46,7 @@ import { UncoupleRecoupleComponent } from './uncouple-recouple/uncouple-recouple
     HighwayCodeSafetyComponent,
   ],
   imports: [
+    IonicComponentsModule,
     ComponentsModule,
     CommonModule,
 
@@ -55,11 +56,6 @@ import { UncoupleRecoupleComponent } from './uncouple-recouple/uncouple-recouple
     EtaInvalidModalModule,
     TestFinalisationInvalidTestDataModalModule,
     ReverseDiagramPageModule,
-    IonCol,
-    IonRow,
-    IonText,
-    IonButton,
-    IonGrid,
   ],
   exports: [
     EtaComponent,

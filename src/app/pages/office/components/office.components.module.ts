@@ -3,19 +3,6 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ComponentsModule } from '@components/common/common-components.module';
 import { DirectivesModule } from '@directives/directives.module';
-import {
-  IonButton,
-  IonCard,
-  IonCardContent,
-  IonCardHeader,
-  IonCol,
-  IonGrid,
-  IonInput,
-  IonRow,
-  IonSelect,
-  IonSelectOption,
-  IonText,
-} from '@ionic/angular';
 import { MaskitoDirective } from '@maskito/angular';
 import { AlternateEvidenceProvidedComponent } from '@pages/office/components/alternate-mot-evidence-provided/alternate-evidence-provided.component';
 import { DrivingFaultsComponent } from '@pages/office/components/driving-faults/driving-faults.component';
@@ -41,6 +28,7 @@ import { ShowMeQuestionComponent } from './show-me-question/show-me-question';
 import { VehicleChecksOfficeCardComponent } from './vehicle-checks/vehicle-checks-office-card';
 import { WeatherConditionsComponent } from './weather-conditions/weather-conditions';
 
+import { IonicComponentsModule } from '@shared/modules/ionic-components.module';
 @NgModule({
   declarations: [
     OfficeFooterComponent,
@@ -66,6 +54,7 @@ import { WeatherConditionsComponent } from './weather-conditions/weather-conditi
     ETAPhysicalTypeComponent,
   ],
   imports: [
+    IonicComponentsModule,
     CommonModule,
     ComponentsModule,
     DirectivesModule,
@@ -73,17 +62,6 @@ import { WeatherConditionsComponent } from './weather-conditions/weather-conditi
     PipesModule,
     ReactiveFormsModule,
     MaskitoDirective,
-    IonCardContent,
-    IonRow,
-    IonCardHeader,
-    IonCard,
-    IonCol,
-    IonText,
-    IonGrid,
-    IonButton,
-    IonInput,
-    IonSelectOption,
-    IonSelect,
     WaitingRoomToCarComponentsModule,
   ],
   exports: [

@@ -5,18 +5,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ComponentsModule } from '@components/common/common-components.module';
 import { TestFlowHeaderComponent } from '@components/common/test-flow-header/test-flow-header.component';
 import { TestFinalisationComponentsModule } from '@components/test-finalisation/test-finalisation-components.module';
-import {
-  IonButton,
-  IonCol,
-  IonContent,
-  IonFooter,
-  IonGrid,
-  IonHeader,
-  IonInput,
-  IonRow,
-  IonText,
-  IonToolbar,
-} from '@ionic/angular';
 import { EffectsModule } from '@ngrx/effects';
 import { PassFinalisationCatManoeuvrePage } from '@pages/pass-finalisation/cat-manoeuvre/pass-finalisation.cat-manoeuvre.page';
 import { PassFinalisationCatManoeuvrePageRoutingModule } from '@pages/pass-finalisation/cat-manoeuvre/pass-finalisation.cat-manoeuvre.routing-module';
@@ -25,9 +13,11 @@ import { OutcomeBehaviourMapProvider } from '@providers/outcome-behaviour-map/ou
 import { PassCertificateValidationProvider } from '@providers/pass-certificate-validation/pass-certificate-validation';
 import { PassFinalisationComponentsModule } from '../components/pass-finalisation-components.module';
 
+import { IonicComponentsModule } from '@shared/modules/ionic-components.module';
 @NgModule({
   declarations: [PassFinalisationCatManoeuvrePage],
   imports: [
+    IonicComponentsModule,
     CommonModule,
     FormsModule,
 
@@ -38,16 +28,6 @@ import { PassFinalisationComponentsModule } from '../components/pass-finalisatio
     EffectsModule.forFeature([PassFinalisationAnalyticsEffects]),
     TestFinalisationComponentsModule,
     TestFlowHeaderComponent,
-    IonToolbar,
-    IonFooter,
-    IonRow,
-    IonCol,
-    IonText,
-    IonButton,
-    IonGrid,
-    IonContent,
-    IonInput,
-    IonHeader,
   ],
   providers: [OutcomeBehaviourMapProvider, PassCertificateValidationProvider],
 })

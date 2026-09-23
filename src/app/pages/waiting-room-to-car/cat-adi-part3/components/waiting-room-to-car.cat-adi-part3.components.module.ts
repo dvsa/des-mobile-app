@@ -4,24 +4,23 @@ import { ReactiveFormsModule } from '@angular/forms';
 
 import { ComponentsModule } from '@components/common/common-components.module';
 import { DirectivesModule } from '@directives/directives.module';
-import { IonCol, IonRow } from '@ionic/angular';
 import { AccompanimentCardADI3Component } from '@pages/waiting-room-to-car/cat-adi-part3/components/accompaniment-card/accompaniment-card';
 import { DualControlsComponent } from '@pages/waiting-room-to-car/cat-adi-part3/components/dual-controls/dual-controls';
 import { PDILogbookComponent } from '@pages/waiting-room-to-car/cat-adi-part3/components/pdi-logbook/pdi-logbook';
 import { TraineeLicenceComponent } from '@pages/waiting-room-to-car/cat-adi-part3/components/trainee-licence/trainee-licence';
 import { WaitingRoomToCarComponentsModule } from '../../components/waiting-room-to-car.components.module';
 
+import { IonicComponentsModule } from '@shared/modules/ionic-components.module';
 @NgModule({
   declarations: [TraineeLicenceComponent, AccompanimentCardADI3Component, DualControlsComponent, PDILogbookComponent],
   imports: [
+    IonicComponentsModule,
     CommonModule,
     ComponentsModule,
 
     DirectivesModule,
     WaitingRoomToCarComponentsModule,
     ReactiveFormsModule,
-    IonCol,
-    IonRow,
   ],
   exports: [DualControlsComponent, PDILogbookComponent, TraineeLicenceComponent, AccompanimentCardADI3Component],
 })
