@@ -3,22 +3,7 @@ import { ErrorHandler, NgModule, inject, provideAppInitializer } from '@angular/
 import { BrowserModule } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
 import { IsDebug } from '@awesome-cordova-plugins/is-debug/ngx';
-import {
-  IonApp,
-  IonBadge,
-  IonContent,
-  IonFooter,
-  IonHeader,
-  IonItem,
-  IonLabel,
-  IonList,
-  IonMenu,
-  IonRouterOutlet,
-  IonTitle,
-  IonToolbar,
-  IonicRouteStrategy,
-  provideIonicAngular,
-} from '@ionic/angular';
+import { IonicRouteStrategy, provideIonicAngular } from '@ionic/angular';
 import { Drivers } from '@ionic/storage';
 import { IonicStorageModule } from '@ionic/storage-angular';
 
@@ -64,6 +49,7 @@ import { DeviceAuthenticationProvider } from '@providers/device-authentication/d
 import { OutcomeBehaviourMapProvider } from '@providers/outcome-behaviour-map/outcome-behaviour-map';
 import { PassCertificateValidationProvider } from '@providers/pass-certificate-validation/pass-certificate-validation';
 import { WeatherConditionProvider } from '@providers/weather-conditions/weather-condition';
+import { IonicComponentsModule } from '@shared/modules/ionic-components.module';
 import { PipesModule } from '@shared/pipes/pipes.module';
 import { AppConfigStoreModule } from '@store/app-config/app-config.module';
 import { appConfigReducer } from '@store/app-config/app-config.reducer';
@@ -162,18 +148,7 @@ const storageDriver = Capacitor.getPlatform() === 'web' ? Drivers.IndexedDB : Co
     NgbModule,
     ExaminerRecordsComponentsModule,
     PipesModule,
-    IonApp,
-    IonMenu,
-    IonHeader,
-    IonToolbar,
-    IonTitle,
-    IonContent,
-    IonItem,
-    IonLabel,
-    IonBadge,
-    IonList,
-    IonFooter,
-    IonRouterOutlet,
+    IonicComponentsModule,
   ],
   providers: [
     {

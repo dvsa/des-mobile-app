@@ -3,18 +3,6 @@ import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ComponentsModule } from '@components/common/common-components.module';
 import { DirectivesModule } from '@directives/directives.module';
-import {
-  IonButton,
-  IonCol,
-  IonGrid,
-  IonIcon,
-  IonInput,
-  IonRow,
-  IonSelect,
-  IonSelectOption,
-  IonSpinner,
-  IonText,
-} from '@ionic/angular';
 
 import { RegistrationWithPreviousMotTextComponent } from '@components/common/registration-with-previous-mot-text/registration-with-previous-mot-text.component';
 import { MotCardComponent } from '@pages/waiting-room-to-car/components/mot-components/mot-card/mot-card.component';
@@ -38,6 +26,7 @@ import { VehicleDetailsCardComponent } from './vehicle-details-card/vehicle-deta
 import { VehicleDetailsComponent } from './vehicle-details/vehicle-details';
 import { VehicleRegistrationComponent } from './vehicle-registration/vehicle-registration';
 
+import { IonicComponentsModule } from '@shared/modules/ionic-components.module';
 @NgModule({
   declarations: [
     EyesightTestComponent,
@@ -60,6 +49,7 @@ import { VehicleRegistrationComponent } from './vehicle-registration/vehicle-reg
     MotNoEvidenceConfirmationComponent,
   ],
   imports: [
+    IonicComponentsModule,
     SafetyRecallComponent,
     CommonModule,
     ComponentsModule,
@@ -67,16 +57,6 @@ import { VehicleRegistrationComponent } from './vehicle-registration/vehicle-reg
     ReactiveFormsModule,
     PipesModule,
     RegistrationWithPreviousMotTextComponent,
-    IonInput,
-    IonCol,
-    IonButton,
-    IonText,
-    IonSpinner,
-    IonRow,
-    IonSelect,
-    IonSelectOption,
-    IonIcon,
-    IonGrid,
   ],
   exports: [
     EyesightTestComponent,

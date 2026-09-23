@@ -3,7 +3,6 @@ import { NgModule } from '@angular/core';
 
 import { RefreshButtonComponent } from '@components/common/refresh-button/refresh-button.component';
 import { TestSlotComponentsModule } from '@components/test-slot/test-slot-components.module';
-import { IonCard, IonCol, IonGrid, IonIcon, IonRow, IonText } from '@ionic/angular';
 import { JournalEarlyStartModule } from '@pages/journal/components/journal-early-start-modal/journal-early-start-modal.module';
 import { JournalForceCheckModule } from '@pages/journal/components/journal-force-check-modal/journal-force-check-modal.module';
 import { JournalFutureTestModalModule } from '@pages/journal/components/journal-future-test-modal/journal-future-test-modal.module';
@@ -15,6 +14,7 @@ import { EmptySlotComponent } from './empty-slot/empty-slot';
 import { JournalNavigationComponent } from './journal-navigation/journal-navigation';
 import { PersonalCommitmentSlotComponent } from './personal-commitment/personal-commitment';
 
+import { IonicComponentsModule } from '@shared/modules/ionic-components.module';
 @NgModule({
   declarations: [
     ActivitySlotComponent,
@@ -24,6 +24,7 @@ import { PersonalCommitmentSlotComponent } from './personal-commitment/personal-
     JournalSlotComponent,
   ],
   imports: [
+    IonicComponentsModule,
     LearnMoreModal,
     CommonModule,
     TestSlotComponentsModule,
@@ -32,12 +33,6 @@ import { PersonalCommitmentSlotComponent } from './personal-commitment/personal-
     JournalRekeyModalModule,
     JournalFutureTestModalModule,
     RefreshButtonComponent,
-    IonText,
-    IonCol,
-    IonRow,
-    IonCard,
-    IonGrid,
-    IonIcon,
   ],
   exports: [
     ActivitySlotComponent,

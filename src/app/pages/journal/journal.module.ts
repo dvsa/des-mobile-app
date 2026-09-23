@@ -13,19 +13,6 @@ import { TestsEffects } from '@store/tests/tests.effects';
 
 import { RefreshButtonComponent } from '@components/common/refresh-button/refresh-button.component';
 import { VehicleRecallsBanner } from '@components/common/vehicle-recall-banner/vehicle-recalls-banner';
-import {
-  IonBackButton,
-  IonButtons,
-  IonCol,
-  IonContent,
-  IonHeader,
-  IonList,
-  IonRefresher,
-  IonRefresherContent,
-  IonRow,
-  IonTitle,
-  IonToolbar,
-} from '@ionic/angular';
 import { CompressionProvider } from '@providers/compression/compression';
 import { OrientationMonitorProvider } from '@providers/orientation-monitor/orientation-monitor.provider';
 import { CandidateDetailsPageModule } from '../candidate-details/candidate-details.module';
@@ -35,9 +22,11 @@ import { JournalPageRoutingModule } from './journal-routing.module';
 import { JournalAnalyticsEffects } from './journal.analytics.effects';
 import { JournalPage } from './journal.page';
 
+import { IonicComponentsModule } from '@shared/modules/ionic-components.module';
 @NgModule({
   declarations: [JournalPage],
   imports: [
+    IonicComponentsModule,
     JournalComponentsModule,
     TestSlotComponentsModule,
     EffectsModule.forFeature([JournalAnalyticsEffects, TestsEffects]),
@@ -48,17 +37,6 @@ import { JournalPage } from './journal.page';
     CandidateDetailsPageModule,
     VehicleRecallsBanner,
     RefreshButtonComponent,
-    IonRefresherContent,
-    IonRefresher,
-    IonContent,
-    IonRow,
-    IonCol,
-    IonBackButton,
-    IonButtons,
-    IonTitle,
-    IonToolbar,
-    IonHeader,
-    IonList,
   ],
   providers: [
     OrientationMonitorProvider,

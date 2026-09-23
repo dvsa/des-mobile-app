@@ -4,17 +4,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { ComponentsModule } from '@components/common/common-components.module';
 import { TestFlowHeaderComponent } from '@components/common/test-flow-header/test-flow-header.component';
-import {
-  IonButton,
-  IonCol,
-  IonContent,
-  IonFooter,
-  IonGrid,
-  IonHeader,
-  IonRow,
-  IonText,
-  IonToolbar,
-} from '@ionic/angular';
 import { EffectsModule } from '@ngrx/effects';
 import { CandidateDetailsComponentsModule } from '@pages/candidate-details/components/candidate-details-components.module';
 import { CandidateLicenceAnalyticsEffects } from '@pages/candidate-licence/candidate-licence.analytics.effects';
@@ -24,9 +13,11 @@ import { OfficeComponentsModule } from '@pages/office/components/office.componen
 import { CandidateLicencePageRoutingModule } from './candidate-licence-routing.module';
 import { CandidateLicencePage } from './candidate-licence.page';
 
+import { IonicComponentsModule } from '@shared/modules/ionic-components.module';
 @NgModule({
   declarations: [CandidateLicencePage],
   imports: [
+    IonicComponentsModule,
     CommonModule,
     FormsModule,
 
@@ -38,15 +29,6 @@ import { CandidateLicencePage } from './candidate-licence.page';
     EffectsModule.forFeature([CandidateLicenceEffects, CandidateLicenceAnalyticsEffects]),
     CandidateDetailsComponentsModule,
     TestFlowHeaderComponent,
-    IonButton,
-    IonText,
-    IonCol,
-    IonRow,
-    IonToolbar,
-    IonFooter,
-    IonGrid,
-    IonContent,
-    IonHeader,
   ],
 })
 export class CandidateLicencePageModule {}

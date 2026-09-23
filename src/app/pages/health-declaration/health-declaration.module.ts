@@ -5,7 +5,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ComponentsModule } from '@components/common/common-components.module';
 import { TestFlowHeaderComponent } from '@components/common/test-flow-header/test-flow-header.component';
 import { DirectivesModule } from '@directives/directives.module';
-import { IonCol, IonContent, IonHeader, IonRow, IonText, IonToolbar } from '@ionic/angular';
 import { EffectsModule } from '@ngrx/effects';
 import { TranslatePipe } from '@ngx-translate/core';
 import { HealthDeclarationComponentsModule } from '@pages/health-declaration/components/health-declaration.components.module';
@@ -14,8 +13,10 @@ import { HealthDeclarationEffects } from '@pages/health-declaration/health-decla
 import { HealthDeclarationPageRoutingModule } from './health-declaration-routing.module';
 import { HealthDeclarationPage } from './health-declaration.page';
 
+import { IonicComponentsModule } from '@shared/modules/ionic-components.module';
 @NgModule({
   imports: [
+    IonicComponentsModule,
     CommonModule,
     FormsModule,
     AsyncPipe,
@@ -27,12 +28,6 @@ import { HealthDeclarationPage } from './health-declaration.page';
     DirectivesModule,
     TestFlowHeaderComponent,
     TranslatePipe,
-    IonContent,
-    IonToolbar,
-    IonHeader,
-    IonCol,
-    IonText,
-    IonRow,
   ],
   declarations: [HealthDeclarationPage],
 })

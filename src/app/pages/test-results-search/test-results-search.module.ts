@@ -7,22 +7,6 @@ import { EffectsModule } from '@ngrx/effects';
 import { SearchProvider } from '@providers/search/search';
 
 import { DirectivesModule } from '@directives/directives.module';
-import {
-  IonBackButton,
-  IonButton,
-  IonButtons,
-  IonCol,
-  IonContent,
-  IonGrid,
-  IonHeader,
-  IonIcon,
-  IonInput,
-  IonRow,
-  IonSpinner,
-  IonText,
-  IonTitle,
-  IonToolbar,
-} from '@ionic/angular';
 import { MaskitoDirective } from '@maskito/angular';
 import { ErrorPageModule } from '@pages/error-page/error.module';
 import { TestResultsSearchRoutingModule } from '@pages/test-results-search/test-results-search-routing.module';
@@ -33,9 +17,11 @@ import { TestResultsSearchComponentsModule } from './components/test-results-sea
 import { TestResultsSearchPage } from './test-results-search';
 import { TestResultsSearchAnalyticsEffects } from './test-results-search.analytics.effects';
 
+import { IonicComponentsModule } from '@shared/modules/ionic-components.module';
 @NgModule({
   declarations: [TestResultsSearchPage],
   imports: [
+    IonicComponentsModule,
     ComponentsModule,
     TestResultsSearchComponentsModule,
 
@@ -47,20 +33,6 @@ import { TestResultsSearchAnalyticsEffects } from './test-results-search.analyti
     DirectivesModule,
     ViewTestResultPageModule,
     MaskitoDirective,
-    IonTitle,
-    IonBackButton,
-    IonButtons,
-    IonToolbar,
-    IonHeader,
-    IonContent,
-    IonGrid,
-    IonRow,
-    IonCol,
-    IonInput,
-    IonButton,
-    IonText,
-    IonIcon,
-    IonSpinner,
   ],
   providers: [SearchProvider, CompressionProvider, FaultSummaryProvider],
 })

@@ -1,12 +1,12 @@
 import { NgModule } from '@angular/core';
 
-import { IonButton, IonCard, IonCol, IonIcon, IonRow, IonText } from '@ionic/angular';
 import { TestFinalisationInvalidTestDataModal } from './test-finalisation-invalid-test-data-modal';
 
+import { IonicComponentsModule } from '@shared/modules/ionic-components.module';
 @NgModule({
   declarations: [TestFinalisationInvalidTestDataModal],
 
   exports: [TestFinalisationInvalidTestDataModal],
-  imports: [IonRow, IonCol, IonText, IonIcon, IonCard, IonButton],
+  imports: [IonicComponentsModule],
 })
 export class TestFinalisationInvalidTestDataModalModule {}

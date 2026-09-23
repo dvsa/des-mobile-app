@@ -6,22 +6,17 @@ import { EffectsModule } from '@ngrx/effects';
 import { PassCertificatesAnalyticsEffects } from '@pages/pass-certificates/pass-certificates.analytics.effects';
 import { PassCertificatesPageRoutingModule } from './pass-certificates-routing.module';
 
-import { IonButtons, IonContent, IonHeader, IonMenuButton, IonTitle, IonToolbar } from '@ionic/angular';
 import { PassCertificatesPage } from './pass-certificates.page';
 
+import { IonicComponentsModule } from '@shared/modules/ionic-components.module';
 @NgModule({
   imports: [
+    IonicComponentsModule,
     CommonModule,
     FormsModule,
 
     PassCertificatesPageRoutingModule,
     EffectsModule.forFeature([PassCertificatesAnalyticsEffects]),
-    IonContent,
-    IonTitle,
-    IonMenuButton,
-    IonButtons,
-    IonToolbar,
-    IonHeader,
   ],
   declarations: [PassCertificatesPage],
 })

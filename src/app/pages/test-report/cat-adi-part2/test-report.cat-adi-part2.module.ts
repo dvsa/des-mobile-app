@@ -4,7 +4,6 @@ import { FormsModule } from '@angular/forms';
 
 import { ComponentsModule } from '@components/common/common-components.module';
 import { TestFlowHeaderComponent } from '@components/common/test-flow-header/test-flow-header.component';
-import { IonCol, IonContent, IonGrid, IonHeader, IonRow, IonToolbar } from '@ionic/angular';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 import { TestReportCatADIPart2ComponentsModule } from '@pages/test-report/cat-adi-part2/components/test-report.cat-adi-part2.components.module';
@@ -17,9 +16,11 @@ import { TestResultProvider } from '@providers/test-result/test-result';
 import { TestReportCatADIPart2PageRoutingModule } from './test-report.cat-adi-part2-routing.module';
 import { TestReportCatADI2Page } from './test-report.cat-adi-part2.page';
 
+import { IonicComponentsModule } from '@shared/modules/ionic-components.module';
 @NgModule({
   declarations: [TestReportCatADI2Page],
   imports: [
+    IonicComponentsModule,
     StoreModule.forFeature('testReport', testReportReducer),
     EffectsModule.forFeature([TestReportAnalyticsEffects, TestReportEffects]),
     CommonModule,
@@ -30,12 +31,6 @@ import { TestReportCatADI2Page } from './test-report.cat-adi-part2.page';
     ComponentsModule,
     TestReportCatADIPart2ComponentsModule,
     TestFlowHeaderComponent,
-    IonRow,
-    IonCol,
-    IonGrid,
-    IonContent,
-    IonToolbar,
-    IonHeader,
   ],
   providers: [TestReportValidatorProvider, TestResultProvider],
 })

@@ -5,11 +5,11 @@ import { D255Component } from '@components/test-finalisation/d255/d255';
 import { DebriefWitnessedComponent } from '@components/test-finalisation/debrief-witnessed/debrief-witnessed';
 import { FinalisationHeaderComponent } from '@components/test-finalisation/finalisation-header/finalisation-header';
 import { LanguagePreferencesComponent } from '@components/test-finalisation/language-preference/language-preference';
-import { IonCol, IonGrid, IonRow, IonText } from '@ionic/angular';
 
+import { IonicComponentsModule } from '@shared/modules/ionic-components.module';
 @NgModule({
   declarations: [LanguagePreferencesComponent, D255Component, DebriefWitnessedComponent, FinalisationHeaderComponent],
-  imports: [CommonModule, ReactiveFormsModule, IonRow, IonCol, IonText, IonGrid],
+  imports: [IonicComponentsModule, CommonModule, ReactiveFormsModule],
   exports: [LanguagePreferencesComponent, D255Component, DebriefWitnessedComponent, FinalisationHeaderComponent],
 })
 export class TestFinalisationComponentsModule {}

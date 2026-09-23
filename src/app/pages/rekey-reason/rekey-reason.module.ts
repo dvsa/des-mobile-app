@@ -5,22 +5,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 
-import {
-  IonBackButton,
-  IonButton,
-  IonButtons,
-  IonCard,
-  IonCardHeader,
-  IonCol,
-  IonContent,
-  IonFooter,
-  IonGrid,
-  IonHeader,
-  IonRow,
-  IonText,
-  IonTitle,
-  IonToolbar,
-} from '@ionic/angular';
 import { RekeyReasonComponentsModule } from '@pages/rekey-reason/components/rekey-reason.components.module';
 import { RekeyReasonAnalyticsEffects } from '@pages/rekey-reason/rekey-reason.analytics.effects';
 import { RekeyReasonEffects } from '@pages/rekey-reason/rekey-reason.effects';
@@ -29,9 +13,11 @@ import { RekeyReasonPageRoutingModule } from './rekey-reason-routing.module';
 import { RekeyReasonPage } from './rekey-reason.page';
 import { rekeyReasonReducer } from './rekey-reason.reducer';
 
+import { IonicComponentsModule } from '@shared/modules/ionic-components.module';
 @NgModule({
   declarations: [RekeyReasonPage],
   imports: [
+    IonicComponentsModule,
     CommonModule,
     FormsModule,
 
@@ -40,20 +26,6 @@ import { rekeyReasonReducer } from './rekey-reason.reducer';
     RekeyReasonComponentsModule,
     StoreModule.forFeature('rekeyReason', rekeyReasonReducer),
     EffectsModule.forFeature([RekeyReasonAnalyticsEffects, RekeyReasonEffects]),
-    IonButtons,
-    IonButton,
-    IonBackButton,
-    IonTitle,
-    IonToolbar,
-    IonHeader,
-    IonCardHeader,
-    IonCard,
-    IonContent,
-    IonGrid,
-    IonCol,
-    IonRow,
-    IonFooter,
-    IonText,
   ],
   providers: [FindUserProvider],
 })

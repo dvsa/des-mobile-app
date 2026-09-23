@@ -4,13 +4,13 @@ import { ReactiveFormsModule } from '@angular/forms';
 
 import { ComponentsModule } from '@components/common/common-components.module';
 import { DirectivesModule } from '@directives/directives.module';
-import { IonCol, IonInput, IonRow } from '@ionic/angular';
 import { WaitingRoomToCarComponentsModule } from '../../components/waiting-room-to-car.components.module';
 import { OrditTrainerCatAdiPart2Component } from './ordit-trainer/ordit-trainer.cat-adi-part2';
 import { TrainerRegistrationNumberCatAdiPart2Component } from './trainer-registration-number/trainer-registration-number.cat-adi-part2';
 import { TrainingRecordsCatAdiPart2Component } from './training-records/training-records.cat-adi-part2';
 import { VehicleChecksModalCatADIPart2Module } from './vehicle-checks-modal/vehicle-checks-modal.cat-adi-part2.page.module';
 
+import { IonicComponentsModule } from '@shared/modules/ionic-components.module';
 @NgModule({
   declarations: [
     TrainingRecordsCatAdiPart2Component,
@@ -18,15 +18,13 @@ import { VehicleChecksModalCatADIPart2Module } from './vehicle-checks-modal/vehi
     TrainerRegistrationNumberCatAdiPart2Component,
   ],
   imports: [
+    IonicComponentsModule,
     CommonModule,
     ComponentsModule,
     DirectivesModule,
     WaitingRoomToCarComponentsModule,
     ReactiveFormsModule,
     VehicleChecksModalCatADIPart2Module,
-    IonCol,
-    IonRow,
-    IonInput,
   ],
   exports: [
     TrainingRecordsCatAdiPart2Component,

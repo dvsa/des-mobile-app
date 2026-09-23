@@ -2,7 +2,6 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ComponentsModule } from '@components/common/common-components.module';
 
-import { IonButton, IonCard, IonCol, IonGrid, IonIcon, IonRow, IonText } from '@ionic/angular';
 import { PracticeTestModal } from '@pages/dashboard/components/practice-test-modal/practice-test-modal';
 import { DelegatedSearchCardComponent } from './delegated-rekey-card/delegated-rekey-card';
 import { GoToJournalCardComponent } from './go-to-journal-card/go-to-journal-card';
@@ -14,6 +13,7 @@ import { TestCentreJournalCardComponent } from './test-centre-journal-card/test-
 import { TestResultsSearchCardComponent } from './test-results-search-card/test-results-search-card';
 import { UpdateAvailableModal } from './update-available-modal/update-available-modal';
 
+import { IonicComponentsModule } from '@shared/modules/ionic-components.module';
 @NgModule({
   declarations: [
     ProfileHeaderComponent,
@@ -27,7 +27,7 @@ import { UpdateAvailableModal } from './update-available-modal/update-available-
     DelegatedSearchCardComponent,
     UpdateAvailableModal,
   ],
-  imports: [CommonModule, ComponentsModule, IonCol, IonRow, IonButton, IonCard, IonText, IonGrid, IonIcon],
+  imports: [IonicComponentsModule, CommonModule, ComponentsModule],
   exports: [
     ProfileHeaderComponent,
     GoToJournalCardComponent,

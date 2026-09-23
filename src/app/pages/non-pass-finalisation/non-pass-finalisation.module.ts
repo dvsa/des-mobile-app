@@ -5,17 +5,6 @@ import { ComponentsModule } from '@components/common/common-components.module';
 import { TestFlowHeaderComponent } from '@components/common/test-flow-header/test-flow-header.component';
 import { TestFinalisationComponentsModule } from '@components/test-finalisation/test-finalisation-components.module';
 
-import {
-  IonButton,
-  IonCol,
-  IonContent,
-  IonFooter,
-  IonGrid,
-  IonHeader,
-  IonRow,
-  IonText,
-  IonToolbar,
-} from '@ionic/angular';
 import { EffectsModule } from '@ngrx/effects';
 import { NonPassFinalisationAnalyticsEffects } from '@pages/non-pass-finalisation/non-pass-finalisation.analytics.effects';
 import { PassFinalisationCatADI3ComponentsModule } from '@pages/pass-finalisation/cat-adi-part3/components/pass-finalisation.cat-adi3.components.module';
@@ -25,8 +14,10 @@ import { TestResultProvider } from '@providers/test-result/test-result';
 import { NonPassFinalisationPageRoutingModule } from './non-pass-finalisation-routing.module';
 import { NonPassFinalisationPage } from './non-pass-finalisation.page';
 
+import { IonicComponentsModule } from '@shared/modules/ionic-components.module';
 @NgModule({
   imports: [
+    IonicComponentsModule,
     CommonModule,
     FormsModule,
 
@@ -38,15 +29,6 @@ import { NonPassFinalisationPage } from './non-pass-finalisation.page';
     ReactiveFormsModule,
     PassFinalisationCatADI3ComponentsModule,
     TestFlowHeaderComponent,
-    IonText,
-    IonButton,
-    IonCol,
-    IonRow,
-    IonToolbar,
-    IonFooter,
-    IonHeader,
-    IonContent,
-    IonGrid,
   ],
   providers: [OutcomeBehaviourMapProvider, ActivityCodeFinalisationProvider, TestResultProvider],
   declarations: [NonPassFinalisationPage],

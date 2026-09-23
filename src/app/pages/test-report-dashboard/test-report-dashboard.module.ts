@@ -4,7 +4,6 @@ import { FormsModule } from '@angular/forms';
 
 import { ComponentsModule } from '@components/common/common-components.module';
 import { TestFlowHeaderComponent } from '@components/common/test-flow-header/test-flow-header.component';
-import { IonButton, IonCol, IonContent, IonFooter, IonHeader, IonRow, IonText, IonToolbar } from '@ionic/angular';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 import { TestReportCatADIPart3ComponentsModule } from '@pages/test-report-dashboard/components/test-report-dashboard.components.module';
@@ -19,9 +18,11 @@ import { TestReportValidatorProvider } from '@providers/test-report-validator/te
 import { TestResultProvider } from '@providers/test-result/test-result';
 import { TestReportDashboardPageRoutingModule } from './test-report-dashboard.routing-module';
 
+import { IonicComponentsModule } from '@shared/modules/ionic-components.module';
 @NgModule({
   declarations: [TestReportDashboardPage],
   imports: [
+    IonicComponentsModule,
     CommonModule,
     FormsModule,
 
@@ -33,14 +34,6 @@ import { TestReportDashboardPageRoutingModule } from './test-report-dashboard.ro
     Adi3EndTestModalModule,
     TestReportCatADIPart3ComponentsModule,
     TestFlowHeaderComponent,
-    IonCol,
-    IonRow,
-    IonContent,
-    IonToolbar,
-    IonHeader,
-    IonButton,
-    IonText,
-    IonFooter,
   ],
   providers: [TestReportValidatorProvider, TestResultProvider],
 })
