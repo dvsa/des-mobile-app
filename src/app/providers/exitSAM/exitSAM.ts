@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { AppLauncher, OpenURLResult } from '@capacitor/app-launcher';
 import { ExitSamErrorModal } from '@components/common/exit-sam/exit-sam-error-modal/exit-sam-error-modal';
 import {
   ExitSAMConfirmButtonClicked,
@@ -6,15 +7,27 @@ import {
   ExitSAMUserReturned,
   ExitSamError,
 } from '@components/common/test-flow-header/exit-sam.actions';
-import { ExitSAMMethodUsed } from '@components/common/test-flow-header/test-flow-header.component';
 import { ModalController, Platform } from '@ionic/angular';
 import { Store } from '@ngrx/store';
 import { LinkModalComponent, LinkModalEvent } from '@pages/useful-links/components/link-modal/link-modal.component';
 import { DeviceProvider } from '@providers/device/device';
 import { UrlProvider } from '@providers/url/url';
 import { StoreModel } from '@shared/models/store.model';
+import { PersistTests } from '@store/tests/tests.actions';
 import { SetHasExitedApp } from '@store/tests/user-exited-app/user-exited-app.actions';
 import { Subscription } from 'rxjs';
+
+export enum ExitSAMMethodUsed {
+  BUTTON = 'button',
+  BANNER = 'banner',
+  VIN_CHECK = 'vin-check',
+}
+
+export enum ExitSAMFlowResult {
+  RESUME_SUBSCRIPTION = 'resume-subscription',
+  LEAVE_SUBSCRIPTION = 'leave-subscription',
+  NONE = 'none',
+}
 
 @Injectable()
 export class ExitSAMProvider {
@@ -26,7 +39,6 @@ export class ExitSAMProvider {
     private urlProvider: UrlProvider
   ) {}
 
-  public leaveAppSubscription: Subscription = null;
   public returnToAppSubscription: Subscription = null;
 
   /**
@@ -48,47 +60,103 @@ export class ExitSAMProvider {
     await desUnlockedModal.present();
   }
 
-  async handleDisableSAMFailure() {
-    await this.openExitSamErrorModal(
-      'Web browser cannot be opened.',
-      'Please follow the standard operating procedures.'
-    );
+  /**
+   * Handles the failure to disable Single App Mode (SAM) by opening an error modal and dispatching an error action.
+   * @param firstMessage
+   * @param secondMessage
+   */
+  async handleDisableSAMFailure(
+    firstMessage = 'Web browser cannot be opened.',
+    secondMessage = 'Please follow the standard operating procedures.'
+  ) {
+    await this.openExitSamErrorModal(firstMessage, secondMessage);
     this.store$.dispatch(ExitSamError(ExitSAMErrorMessages.DISABLE_SAM));
   }
 
-  /**
-   * Disables Single App Mode (SAM) and exits the application.
-   * @param method - The method used to exit SAM (button or banner).
-   */
-  async disableSAMAndExitForRecalls(method: ExitSAMMethodUsed) {
+  async disableSAMAndExit(method: ExitSAMMethodUsed): Promise<ExitSAMFlowResult> {
+    // Retained for the existing exit API and future method-specific analytics.
+    void method;
+    this.store$.dispatch(PersistTests());
     this.store$.dispatch(ExitSAMConfirmButtonClicked());
 
     try {
-      const usefulLinks = this.urlProvider.getUsefulLinks();
+      const didDisable = await this.deviceProvider.disableSingleAppMode();
 
-      const recallLinks = usefulLinks.find((link) => link.id === 'citroen-recall');
+      if (!didDisable) {
+        await this.handleDisableSAMFailure(
+          'Microsoft Teams cannot be opened.',
+          'Please follow the standard operating procedures.'
+        );
+        return ExitSAMFlowResult.NONE;
+      }
 
+      const teamsURL = 'msteams://teams.microsoft.com';
+      const canOpenURLResult = (await AppLauncher.canOpenUrl({ url: teamsURL })).value;
+
+      if (!canOpenURLResult) {
+        await this.handleTeamsNotFound();
+        return ExitSAMFlowResult.LEAVE_SUBSCRIPTION;
+      }
+
+      const openURLResult = await AppLauncher.openUrl({ url: teamsURL });
+
+      if (!openURLResult.completed) {
+        await this.handleTeamsOpenFailure(openURLResult);
+        return ExitSAMFlowResult.LEAVE_SUBSCRIPTION;
+      }
+
+      return ExitSAMFlowResult.RESUME_SUBSCRIPTION;
+    } catch (error) {
+      await this.openExitSamErrorModal(
+        'Microsoft Teams cannot be opened.',
+        'Please follow the standard operating procedures.'
+      );
+      this.store$.dispatch(ExitSamError('Error', error));
+      return ExitSAMFlowResult.NONE;
+    }
+  }
+
+  async disableSAMAndExitForRecalls(method: ExitSAMMethodUsed): Promise<void> {
+    // Retained for the existing exit API and future method-specific analytics.
+    void method;
+    this.store$.dispatch(ExitSAMConfirmButtonClicked());
+
+    try {
+      const recallLink = this.urlProvider.getUsefulLinks().find((link) => link.id === 'citroen-recall');
       const modal = await this.modalController.create({
         component: LinkModalComponent,
         componentProps: {
-          link: recallLinks,
+          link: recallLink,
           disableSAM: true,
         },
         cssClass: 'mes-modal-alert text-zoom-regular',
       });
 
       await modal.present();
-
       const { data } = await modal.onDidDismiss();
+
       if (data?.event === LinkModalEvent.CONTINUE) {
         this.store$.dispatch(SetHasExitedApp());
       }
-
-      return;
-    } catch (e) {
-      // Handle any errors that occurred during the process
-      this.store$.dispatch(ExitSamError('Error', e));
+    } catch (error) {
+      this.store$.dispatch(ExitSamError('Error', error));
     }
+  }
+
+  private async handleTeamsNotFound(): Promise<void> {
+    await this.openExitSamErrorModal(
+      'Microsoft Teams cannot be opened but DES is now unlocked.',
+      'You can manually open other apps on your iPad.'
+    );
+    this.store$.dispatch(ExitSamError(ExitSAMErrorMessages.TEAMS_NOT_FOUND));
+  }
+
+  private async handleTeamsOpenFailure(openURLResult: OpenURLResult): Promise<void> {
+    await this.openExitSamErrorModal(
+      'Microsoft Teams cannot be opened but DES is now unlocked.',
+      'You can manually open other apps on your iPad.'
+    );
+    this.store$.dispatch(ExitSamError(ExitSAMErrorMessages.COULD_NOT_EXIT_TO_TEAMS, openURLResult));
   }
 
   /**
@@ -105,10 +173,7 @@ export class ExitSAMProvider {
       return;
     }
 
-    if (!this.returnToAppSubscription) {
-      //If there isn't one already, we want to set up a subscription to listen for the user returns
-      this.returnToAppSubscription = this.platform.resume.subscribe(this.resumeSubscriptionFunction);
-    }
+    this.setupReturnToAppSubscription();
   }
 
   /**
@@ -117,12 +182,24 @@ export class ExitSAMProvider {
    * re-enables single app mode, and destroys the resume subscription.
    */
   setupEscapeSAMResumeSubscription() {
+    this.setupReturnToAppSubscription();
+  }
+
+  /**
+   * Sets up a subscription to listen for when the user returns to the app.
+   * @private
+   */
+  private setupReturnToAppSubscription() {
     if (!this.returnToAppSubscription) {
-      //If there isn't one already, we want to set up a subscription to listen for the user returns
+      //If there isn't one already, set up a subscription to listen for the user returns
       this.returnToAppSubscription = this.platform.resume.subscribe(this.resumeSubscriptionFunction);
     }
   }
 
+  /**
+   * Function to be called when the app is resumed.
+   * It dispatches an action indicating the user has returned.
+   */
   resumeSubscriptionFunction = async () => {
     this.store$.dispatch(ExitSAMUserReturned());
     // Re-enable single app mode to lock the user back in when they come back

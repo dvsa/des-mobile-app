@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { AppLauncher, OpenURLResult } from '@capacitor/app-launcher';
+import { OpenURLResult } from '@capacitor/app-launcher';
 import { Style } from '@capacitor/status-bar';
 import { ComponentsModule } from '@components/common/common-components.module';
 import { ExitSamBanner } from '@components/common/exit-sam/exit-sam-banner/exit-sam-banner';
@@ -8,7 +8,6 @@ import { PracticeModeBanner } from '@components/common/practice-mode-banner/prac
 import { PracticeModeExitButton } from '@components/common/practice-mode-exit-button/practice-mode-exit-button';
 import {
   ExitSAMCancelButtonClicked,
-  ExitSAMConfirmButtonClicked,
   ExitSAMErrorMessages,
   ExitSamError,
   ExitSamSelected,
@@ -28,15 +27,10 @@ import { Platform } from '@ionic/angular';
 import { Store } from '@ngrx/store';
 import { AccessibilityService } from '@providers/accessibility/accessibility.service';
 import { DeviceProvider } from '@providers/device/device';
-import { ExitSAMProvider } from '@providers/exitSAM/exitSAM';
+import { ExitSAMFlowResult, ExitSAMMethodUsed, ExitSAMProvider } from '@providers/exitSAM/exitSAM';
 import { StoreModel } from '@shared/models/store.model';
-import { PersistTests } from '@store/tests/tests.actions';
 
-export enum ExitSAMMethodUsed {
-  BUTTON = 'button',
-  BANNER = 'banner',
-  VIN_CHECK = 'vin-check',
-}
+export { ExitSAMMethodUsed } from '@providers/exitSAM/exitSAM';
 
 @Component({
   selector: 'test-flow-header',
@@ -163,15 +157,24 @@ export class TestFlowHeaderComponent {
   }
 
   async handleDisableSAMFailure() {
-    await this.openDESDidNotUnlockModal();
-    this.store$.dispatch(ExitSamError(ExitSAMErrorMessages.DISABLE_SAM));
+    await this.exitSAMProvider.handleDisableSAMFailure(
+      'Microsoft Teams cannot be opened.',
+      'Please follow the standard operating procedures.'
+    );
   }
 
+  /**
+   * Handles the scenario where Microsoft Teams is not found on the device.
+   */
   async handleTeamsNotFound() {
     await this.openDESUnlockedModal();
     this.store$.dispatch(ExitSamError(ExitSAMErrorMessages.TEAMS_NOT_FOUND));
   }
 
+  /**
+   * Handles the scenario where Microsoft Teams fails to open.
+   * @param openURLResult
+   */
   async handleTeamsOpenFailure(openURLResult: OpenURLResult) {
     await this.openDESUnlockedModal();
     this.store$.dispatch(ExitSamError(ExitSAMErrorMessages.COULD_NOT_EXIT_TO_TEAMS, openURLResult));
@@ -182,53 +185,23 @@ export class TestFlowHeaderComponent {
    * @param method - The method used to exit SAM (button or banner).
    */
   async disableSAMAndExit(method: ExitSAMMethodUsed) {
-    this.store$.dispatch(PersistTests());
-    this.store$.dispatch(ExitSAMConfirmButtonClicked());
-    // Emit the exitSamUsed event
+    void method;
+    const exitFlow = this.exitSAMProvider.disableSAMAndExit(method);
+    // Emit the exitSamUsed event after the provider dispatches the confirmation actions.
     this.exitSamUsed.emit();
 
-    try {
-      // Attempt to disable single app mode
-      const didDisable = await this.deviceProvider.disableSingleAppMode();
+    const result = await exitFlow;
 
-      // If disabling single app mode failed, handle the failure
-      if (!didDisable) {
-        await this.handleDisableSAMFailure();
-        return;
-      }
-
-      // Define the Microsoft Teams URL
-      const teamsURL = 'msteams://teams.microsoft.com';
-      // Check if the URL can be opened
-      const canOpenURLResult = (await AppLauncher.canOpenUrl({ url: teamsURL })).value;
-
-      // If the URL cannot be opened, handle the failure and
-      // emit the setupLeaveSubscription event to set up the leave subscription
-      if (!canOpenURLResult) {
-        await this.handleTeamsNotFound();
-        this.setupLeaveSubscription.emit();
-        return;
-      }
-
-      // Attempt to open the URL
-      const openURLResult = await AppLauncher.openUrl({ url: teamsURL });
-
-      if (!openURLResult.completed) {
-        // If opening the URL failed, handle the failure and
-        // emit the setupLeaveSubscription event to set up the leave subscription
-        await this.handleTeamsOpenFailure(openURLResult);
-        this.setupLeaveSubscription.emit();
-        return;
-      }
-      // If disabling single app mode was successful, set up the resume subscription
+    if (result === ExitSAMFlowResult.LEAVE_SUBSCRIPTION) {
+      this.setupLeaveSubscription.emit();
+    } else if (result === ExitSAMFlowResult.RESUME_SUBSCRIPTION) {
       this.setupResumeSubscription.emit();
-    } catch (e) {
-      // Handle any errors that occurred during the process
-      await this.openDESDidNotUnlockModal();
-      this.store$.dispatch(ExitSamError('Error', e));
     }
   }
 
+  /**
+   * Handles the back button click event, emitting the backButtonClicked event.
+   */
   onBackClicked() {
     this.backButtonClicked.emit();
   }
