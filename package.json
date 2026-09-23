@@ -95,7 +95,7 @@
     "@ionic/core": "^9.0.3",
     "@ionic/storage-angular": "^4.0.0",
     "@maskito/angular": "^5.4.0",
-    "@maskito/core": "^5.4.0",
+    "@maskito/core": "^5.5.0",
     "@ng-bootstrap/ng-bootstrap": "^19.0.1",
     "@ngrx/effects": "^20.1.0",
     "@ngrx/operators": "^20.1.0",
