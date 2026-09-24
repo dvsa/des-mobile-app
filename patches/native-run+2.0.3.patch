@@ -1,0 +1,72 @@
+diff --git a/node_modules/native-run/dist/ios/utils/simulator.js b/node_modules/native-run/dist/ios/utils/simulator.js
+index 5786f44..32b9f44 100644
+--- a/node_modules/native-run/dist/ios/utils/simulator.js
++++ b/node_modules/native-run/dist/ios/utils/simulator.js
+@@ -2,6 +2,8 @@
+ Object.defineProperty(exports, "__esModule", { value: true });
+ exports.runOnSimulator = exports.getSimulators = void 0;
+ const child_process_1 = require("child_process"); // TODO: need cross-spawn for windows?
++const fs_1 = require("fs");
++const path_1 = require("path");
+ const Debug = require("debug");
+ const errors_1 = require("../../errors");
+ const log_1 = require("../../utils/log");
+@@ -30,6 +32,47 @@ async function getSimulators() {
+     }
+ }
+ exports.getSimulators = getSimulators;
++// Xcode 27 removed Contents/Developer/Applications entirely. The simulator UI moved to
++// Contents/Applications/DeviceHub.app, so which app to open depends on the Xcode version.
++const DEVICE_HUB_MIN_XCODE_MAJOR = 27;
++function getXcodeMajorVersion() {
++    try {
++        const [version] = (0, xcode_1.getXcodeVersionInfo)();
++        const major = Number.parseInt(String(version).trim().split('.')[0], 10);
++        return Number.isNaN(major) ? undefined : major;
++    }
++    catch (err) {
++        debug('Unable to determine Xcode version: %O', err);
++        return undefined;
++    }
++}
++function getSimulatorAppPath(xCodePath) {
++    if (process.env.SIMULATOR_APP_PATH) {
++        return process.env.SIMULATOR_APP_PATH;
++    }
++    const simulatorApp = (0, path_1.join)(xCodePath, 'Applications', 'Simulator.app');
++    const deviceHubApp = (0, path_1.join)(xCodePath, '..', 'Applications', 'DeviceHub.app');
++    const major = getXcodeMajorVersion();
++    if (major === undefined) {
++        // Version undetectable - fall back to whichever app is actually installed.
++        debug('Falling back to filesystem lookup for the simulator app');
++        const found = [simulatorApp, deviceHubApp].find((p) => (0, fs_1.existsSync)(p));
++        if (!found) {
++            throw new errors_1.Exception(`Unable to locate the simulator app. Looked in:\n` +
++                [simulatorApp, deviceHubApp].map((p) => `  - ${(0, path_1.resolve)(p)}`).join('\n') +
++                `\nSet SIMULATOR_APP_PATH to the simulator app if it lives elsewhere.`);
++        }
++        return found;
++    }
++    const expected = major >= DEVICE_HUB_MIN_XCODE_MAJOR ? deviceHubApp : simulatorApp;
++    debug(`Xcode major version ${major}, expecting simulator app at ${expected}`);
++    if (!(0, fs_1.existsSync)(expected)) {
++        throw new errors_1.Exception(`Unable to locate the simulator app for Xcode ${major} at:\n` +
++            `  - ${(0, path_1.resolve)(expected)}\n` +
++            `Set SIMULATOR_APP_PATH to the simulator app if it lives elsewhere.`);
++    }
++    return expected;
++}
+ async function runOnSimulator(udid, appPath, bundleId, waitForApp) {
+     debug(`Booting simulator ${udid}`);
+     const bootResult = (0, child_process_1.spawnSync)('xcrun', ['simctl', 'boot', udid], {
+@@ -46,7 +89,9 @@ async function runOnSimulator(udid, appPath, bundleId, waitForApp) {
+     }
+     const xCodePath = await (0, xcode_1.getXCodePath)();
+     debug(`Running simulator ${udid}`);
+-    const openResult = (0, child_process_1.spawnSync)('open', [`${xCodePath}/Applications/Simulator.app`, '--args', '-CurrentDeviceUDID', udid], { encoding: 'utf8' });
++    const simulatorAppPath = getSimulatorAppPath(xCodePath);
++    debug(`Opening simulator app at ${simulatorAppPath}`);
++    const openResult = (0, child_process_1.spawnSync)('open', [simulatorAppPath, '--args', '-CurrentDeviceUDID', udid], { encoding: 'utf8' });
+     if (openResult.status) {
+         throw new errors_1.Exception(`There was an error opening simulator: ${openResult.stderr}`);
+     }
