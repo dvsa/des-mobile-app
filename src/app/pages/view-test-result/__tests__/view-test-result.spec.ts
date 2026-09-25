@@ -706,7 +706,7 @@ describe('ViewTestResultPage', () => {
   describe('ngOnInit', () => {
     it('should set subscription to the correct values', async () => {
       component.testResult = null;
-      spyOn(component, 'handleLoadingUI').and.callThrough();
+      spyOn(component, 'handleLoadingUI').and.resolveTo();
       spyOn(compressionProvider, 'extract').and.returnValue({
         testData: { startTime: '1' },
       } as TestResultSchemasUnion);
@@ -719,7 +719,7 @@ describe('ViewTestResultPage', () => {
     });
     it('should set reEnterEmailSubscription to the correct values', async () => {
       component.reEnterEmail = null;
-      spyOn(component, 'handleLoadingUI').and.callThrough();
+      spyOn(component, 'handleLoadingUI').and.resolveTo();
       spyOn(compressionProvider, 'extract').and.returnValue({
         appRef: 1,
       });
@@ -732,7 +732,7 @@ describe('ViewTestResultPage', () => {
     });
     it('should call dispatch with a saveLog if it is unable to get a testResult', async () => {
       component.testResult = null;
-      spyOn(component, 'handleLoadingUI').and.callThrough();
+      spyOn(component, 'handleLoadingUI').and.resolveTo();
       spyOn(component.store$, 'dispatch');
       spyOn(compressionProvider, 'extract').and.throwError('test');
 

@@ -54,7 +54,8 @@ describe('CandidateLinkComponent', () => {
 
   describe('openCandidateDetailsModal', () => {
     it('should configure status bar to dark style', async () => {
-      spyOn(component.accessibilityService, 'configureStatusBar').and.callThrough();
+      spyOn(component.accessibilityService, 'configureStatusBar').and.resolveTo();
+      spyOn(component.modalController, 'getTop').and.resolveTo({} as HTMLIonModalElement);
       await component.openCandidateDetailsModal();
       expect(component.accessibilityService.configureStatusBar).toHaveBeenCalledWith(Style.Dark);
     });

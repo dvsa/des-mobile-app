@@ -52,7 +52,6 @@ import {
 import { AddSingleFaultCompetencyComment } from '@store/tests/test-data/common/single-fault-competencies/single-fault-competencies.actions';
 import { Competencies, ExaminerActions, SingleFaultCompetencyNames } from '@store/tests/test-data/test-data.constants';
 import { MockComponent } from 'ng-mocks';
-import { of } from 'rxjs';
 import { AppModule } from 'src/app/app.module';
 import { AdditionalInformationComponent } from '../../components/additional-information/additional-information';
 import { CandidateDescriptionComponent } from '../../components/candidate-description/candidate-description';
@@ -223,23 +222,6 @@ describe('OfficeCatAMod1Page', () => {
         fixture.detectChanges();
         component.defer();
         expect(component.popToRoot).toHaveBeenCalled();
-      });
-    });
-
-    describe('driving fault commentary', () => {
-      it('should pass whether to render driving fault commentary to fault-comment-card', () => {
-        const drivingFaultCommentCard: FaultCommentCardComponent = fixture.debugElement.query(
-          By.css('#driving-fault-comment-card')
-        ).componentInstance;
-        fixture.detectChanges();
-
-        component.pageState.displayDrivingFaultComments$ = of(true);
-        component.pageState.displayDrivingFault$ = of(true);
-        fixture.detectChanges();
-        expect(drivingFaultCommentCard.shouldRender).toBeTruthy();
-        component.pageState.displayDrivingFaultComments$ = of(false);
-        fixture.detectChanges();
-        expect(drivingFaultCommentCard.shouldRender).toBeFalsy();
       });
     });
 

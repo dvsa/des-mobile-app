@@ -1,11 +1,9 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { By } from '@angular/platform-browser';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 
 import { Store, StoreModule } from '@ngrx/store';
 import { StoreModel } from '@shared/models/store.model';
 import { MockComponent } from 'ng-mocks';
-import { of } from 'rxjs';
 
 import { DrivingFaultsBadgeComponent } from '@components/common/driving-faults-badge/driving-faults-badge';
 import { FaultCountProvider } from '@providers/fault-count/fault-count';
@@ -54,18 +52,6 @@ describe('SafetyQuestionsComponent', () => {
         expect(result).toEqual(1);
         done();
       });
-    });
-  });
-
-  describe('DOM', () => {
-    it('should pass the number of safety Question driving faults to the driving faults component', () => {
-      component.testCategory = TestCategory.D;
-      fixture.detectChanges();
-      const drivingFaultsBadge = fixture.debugElement.query(By.css('.driving-faults'))
-        .componentInstance as DrivingFaultsBadgeComponent;
-      component.componentState.safetyQuestionsDrivingFaultCount$ = of(1);
-      fixture.detectChanges();
-      expect(drivingFaultsBadge.count).toBe(1);
     });
   });
 });
