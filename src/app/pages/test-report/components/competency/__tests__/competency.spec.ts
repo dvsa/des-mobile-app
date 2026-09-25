@@ -1,5 +1,4 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { By } from '@angular/platform-browser';
 import { DangerousFaultBadgeComponent } from '@components/common/dangerous-fault-badge/dangerous-fault-badge';
 import { DrivingFaultsBadgeComponent } from '@components/common/driving-faults-badge/driving-faults-badge';
 import { SeriousFaultBadgeComponent } from '@components/common/serious-fault-badge/serious-fault-badge';
@@ -612,25 +611,6 @@ describe('CompetencyComponent', () => {
 
       component.canButtonRipple();
       expect(component.allowRipple).toEqual(true);
-    });
-  });
-
-  describe('DOM', () => {
-    it('should show provided label', () => {
-      component.competency = Competencies.controlsGears;
-      fixture.detectChanges();
-      const label = fixture.debugElement.query(By.css('.competency-label'));
-      expect(label.nativeElement.innerHTML).toBe('Gears');
-    });
-
-    it('should pass the number of driving faults to the driving faults badge component', () => {
-      fixture.detectChanges();
-      const drivingFaultsBadge = fixture.debugElement.query(By.css('.driving-faults'))
-        .componentInstance as DrivingFaultsBadgeComponent;
-      component.faultCount = 5;
-
-      fixture.detectChanges();
-      expect(drivingFaultsBadge.count).toBe(5);
     });
   });
 

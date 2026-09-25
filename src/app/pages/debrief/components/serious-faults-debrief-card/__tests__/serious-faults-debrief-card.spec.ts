@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { firstValueFrom } from 'rxjs';
 
 import { By } from '@angular/platform-browser';
 import { AppModule } from '@app/app.module';
@@ -27,12 +28,13 @@ describe('SeriousFaultsDebriefCardComponent', () => {
     component = fixture.componentInstance;
     translate = TestBed.inject(TranslateService);
     translate.setDefaultLang('en');
+    fixture.detectChanges();
   }));
 
   describe('DOM', () => {
     it('correct driving faults showing', () => {
       const seriousFaults = [Competencies.ancillaryControls, Competencies.clearance];
-      component.seriousFaults = seriousFaults;
+      fixture.componentRef.setInput('seriousFaults', seriousFaults);
       fixture.detectChanges();
       const seriousFaultLabels = fixture.debugElement.queryAll(By.css('#serious-fault .counter-label'));
       const drivingFaultCount = fixture.debugElement.query(By.css('ion-text.fault-heading')).nativeElement;
@@ -41,27 +43,26 @@ describe('SeriousFaultsDebriefCardComponent', () => {
       expect(drivingFaultCount.innerHTML).toBe(seriousFaults.length.toString());
     });
 
-    it('correct driving faults showing in welsh', (done) => {
-      configureI18N(Language.CYMRAEG, translate);
+    it('correct driving faults showing in welsh', async () => {
+      const languageChange = firstValueFrom(translate.onLangChange);
       const seriousFaults = [Competencies.useOfSpeed, Competencies.signalsTimed];
-      component.seriousFaults = seriousFaults;
-      translate.onLangChange.subscribe(() => {
-        fixture.detectChanges();
-        const drivingFaultsLabels = fixture.debugElement.queryAll(By.css('#serious-fault .counter-label'));
-        const drivingFaultCount = fixture.debugElement.query(By.css('ion-text.fault-heading')).nativeElement;
-        expect(drivingFaultsLabels[0].nativeElement.innerHTML.trim()).toBe(
-          welshTranslations.debrief.competencies.useOfSpeed
-        );
-        expect(drivingFaultsLabels[1].nativeElement.innerHTML.trim()).toBe(
-          welshTranslations.debrief.competencies.signalsTimed
-        );
-        expect(drivingFaultCount.innerHTML).toBe(seriousFaults.length.toString());
-        done();
-      });
+      fixture.componentRef.setInput('seriousFaults', seriousFaults);
+      configureI18N(Language.CYMRAEG, translate);
+      await languageChange;
+      fixture.detectChanges();
+      const drivingFaultsLabels = fixture.debugElement.queryAll(By.css('#serious-fault .counter-label'));
+      const drivingFaultCount = fixture.debugElement.query(By.css('ion-text.fault-heading')).nativeElement;
+      expect(drivingFaultsLabels[0].nativeElement.innerHTML.trim()).toBe(
+        welshTranslations.debrief.competencies.useOfSpeed
+      );
+      expect(drivingFaultsLabels[1].nativeElement.innerHTML.trim()).toBe(
+        welshTranslations.debrief.competencies.signalsTimed
+      );
+      expect(drivingFaultCount.innerHTML).toBe(seriousFaults.length.toString());
     });
 
     it('no serious faults showing', () => {
-      component.seriousFaults = [];
+      fixture.componentRef.setInput('seriousFaults', []);
       fixture.detectChanges();
       expect(fixture.debugElement.query(By.css('#serious-fault'))).toBeNull();
     });

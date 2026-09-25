@@ -4,7 +4,8 @@ import { PracticeModeOptionsBar } from '@components/common/practice-mode-options
 import { TestFlowHeaderComponent } from '@components/common/test-flow-header/test-flow-header.component';
 import { ModalController } from '@ionic/angular';
 import { ModalControllerMock } from '@mocks/ionic-mocks/modal-controller.mock';
-import { Store, StoreModule } from '@ngrx/store';
+import { Store } from '@ngrx/store';
+import { provideMockStore } from '@ngrx/store/testing';
 import { JOURNAL_PAGE } from '@pages/page-names.constants';
 import { DeviceProviderMock } from '@providers/device/__mocks__/device.mock';
 import { DeviceProvider } from '@providers/device/device';
@@ -26,8 +27,20 @@ describe('BackToOfficePage', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [BackToOfficePage, MockComponent(PracticeModeOptionsBar)],
-      imports: [AppModule, StoreModule.forRoot({}), MockComponent(TestFlowHeaderComponent)],
+      imports: [AppModule, MockComponent(TestFlowHeaderComponent)],
       providers: [
+        provideMockStore({
+          initialState: {
+            appInfo: { versionNumber: '' },
+            tests: {
+              currentTest: { slotId: 'test-slot' },
+              startedTests: {
+                'test-slot': { category: undefined, delegatedTest: false, rekey: false },
+              },
+              testStatus: {},
+            },
+          } as unknown as StoreModel,
+        }),
         {
           provide: RouteByCategoryProvider,
           useClass: RouteByCategoryProviderMock,
@@ -129,6 +142,7 @@ describe('BackToOfficePage', () => {
     it('should hide the return to journal button when this is a rekey', () => {
       fixture.detectChanges();
       component.isRekey = true;
+      fixture.changeDetectorRef.markForCheck();
       fixture.detectChanges();
       expect(fixture.debugElement.query(By.css('.bottom-button'))).toBeNull();
     });

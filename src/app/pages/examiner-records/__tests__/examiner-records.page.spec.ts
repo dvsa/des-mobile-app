@@ -294,7 +294,6 @@ describe('ExaminerRecordsPage', () => {
 
     fixture = TestBed.createComponent(ExaminerRecordsPage);
     component = fixture.componentInstance;
-    fixture.detectChanges();
     store$ = TestBed.inject(MockStore);
     spyOn(component.store$, 'dispatch');
     router = TestBed.inject(Router);
@@ -336,6 +335,7 @@ describe('ExaminerRecordsPage', () => {
 
     it('should set locationSelectPristine to false if locationSubject$ has value', async () => {
       component.locationSubject$.next('TEST');
+      spyOn(component, 'setLocationFilter');
 
       await component.ngOnInit();
 
@@ -831,6 +831,8 @@ describe('ExaminerRecordsPage', () => {
 
   describe('ionViewDidEnter', () => {
     it('should dispatch ExaminerRecordsViewDidEnter action', async () => {
+      spyOn(component.orientationProvider, 'monitorOrientation').and.callThrough();
+
       await component.ionViewDidEnter();
       expect(component.store$.dispatch).toHaveBeenCalledWith(ExaminerRecordsViewDidEnter());
     });

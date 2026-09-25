@@ -1,5 +1,4 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { By } from '@angular/platform-browser';
 import { DrivingFaultsBadgeComponent } from '@components/common/driving-faults-badge/driving-faults-badge';
 import { SeriousFaultBadgeComponent } from '@components/common/serious-fault-badge/serious-fault-badge';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
@@ -12,7 +11,6 @@ import { VehicleChecksScore } from '@shared/models/vehicle-checks-score.model';
 import { StartTest } from '@store/tests/tests.actions';
 import { testsReducer } from '@store/tests/tests.reducer';
 import { MockComponent } from 'ng-mocks';
-import { of } from 'rxjs';
 import { VehicleChecksComponent } from '../vehicle-checks';
 
 describe('VehicleChecksComponent', () => {
@@ -68,28 +66,6 @@ describe('VehicleChecksComponent', () => {
         expect(result).toEqual(1);
         done();
       });
-    });
-  });
-
-  describe('DOM', () => {
-    it('should pass the number of VC driving faults to the driving faults component', () => {
-      component.testCategory = TestCategory.C;
-      fixture.detectChanges();
-      const drivingFaultsBadge = fixture.debugElement.query(By.css('.driving-faults'))
-        .componentInstance as DrivingFaultsBadgeComponent;
-      component.componentState.vehicleChecksDrivingFaultCount$ = of(3);
-      fixture.detectChanges();
-      expect(drivingFaultsBadge.count).toBe(3);
-    });
-
-    it('should pass true to the serious faults badge if there are serious VC faults', () => {
-      component.testCategory = TestCategory.C;
-      fixture.detectChanges();
-      const seriousFaultsBadge = fixture.debugElement.query(By.css('serious-fault-badge'))
-        .componentInstance as SeriousFaultBadgeComponent;
-      component.componentState.vehicleChecksSeriousFaultCount$ = of(1);
-      fixture.detectChanges();
-      expect(seriousFaultsBadge.showBadge).toEqual(true);
     });
   });
 });

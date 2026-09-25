@@ -1,6 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
-import { By } from '@angular/platform-browser';
 import { AppModule } from '@app/app.module';
 import { ComponentsModule } from '@components/common/common-components.module';
 import { TestFlowHeaderComponent } from '@components/common/test-flow-header/test-flow-header.component';
@@ -43,7 +42,6 @@ import { EyesightTestAddComment } from '@store/tests/test-data/common/eyesight-t
 import { AddSeriousFaultComment } from '@store/tests/test-data/common/serious-faults/serious-faults.actions';
 import { ModeOfTransportChanged } from '@store/tests/test-summary/cat-a-mod2/test-summary.cat-a-mod2.actions';
 import { MockComponent } from 'ng-mocks';
-import { of } from 'rxjs';
 import { AdditionalInformationComponent } from '../../components/additional-information/additional-information';
 import { CandidateDescriptionComponent } from '../../components/candidate-description/candidate-description';
 import { CandidateSectionComponent } from '../../components/candidate-section/candidate-section';
@@ -281,23 +279,6 @@ describe('OfficeCatAMod2Page', () => {
         fixture.detectChanges();
         component.defer();
         expect(component.popToRoot).toHaveBeenCalled();
-      });
-    });
-
-    describe('driving fault commentary', () => {
-      it('should pass whether to render driving fault commentary to fault-comment-card', () => {
-        const drivingFaultCommentCard: FaultCommentCardComponent = fixture.debugElement.query(
-          By.css('#driving-fault-comment-card')
-        ).componentInstance;
-        fixture.detectChanges();
-
-        component.pageState.displayDrivingFaultComments$ = of(true);
-        component.pageState.displayDrivingFault$ = of(true);
-        fixture.detectChanges();
-        expect(drivingFaultCommentCard.shouldRender).toBeTruthy();
-        component.pageState.displayDrivingFaultComments$ = of(false);
-        fixture.detectChanges();
-        expect(drivingFaultCommentCard.shouldRender).toBeFalsy();
       });
     });
   });

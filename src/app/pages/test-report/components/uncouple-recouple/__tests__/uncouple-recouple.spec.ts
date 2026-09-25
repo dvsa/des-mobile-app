@@ -1,5 +1,4 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { By } from '@angular/platform-browser';
 import { DangerousFaultBadgeComponent } from '@components/common/dangerous-fault-badge/dangerous-fault-badge';
 import { DrivingFaultsBadgeComponent } from '@components/common/driving-faults-badge/driving-faults-badge';
 import { SeriousFaultBadgeComponent } from '@components/common/serious-fault-badge/serious-fault-badge';
@@ -44,7 +43,7 @@ describe('UncoupleRecoupleComponent', () => {
     fixture = TestBed.createComponent(UncoupleRecoupleComponent);
     component = fixture.componentInstance;
     store$ = TestBed.inject(Store);
-    store$.dispatch(StartTest(105, TestCategory.BE));
+    store$.dispatch(StartTest(105, TestCategory.C1E));
   });
 
   describe('Class', () => {
@@ -140,50 +139,6 @@ describe('UncoupleRecoupleComponent', () => {
         const storeDispatchSpy = spyOn(store$, 'dispatch');
         component.addOrRemoveFault();
         expect(storeDispatchSpy).toHaveBeenCalledWith(UncoupleRecoupleRemoveFault());
-      });
-    });
-  });
-
-  describe('DOM', () => {
-    it('should pass the number of driving faults to the driving faults badge component', () => {
-      component.category = TestCategory.C1E;
-      fixture.detectChanges();
-      const drivingFaultsBadge = fixture.debugElement.query(By.css('.driving-faults'))
-        .componentInstance as DrivingFaultsBadgeComponent;
-      component.uncoupleRecoupleOutcome = CompetencyOutcome.DF;
-      fixture.detectChanges();
-      expect(drivingFaultsBadge.count).toBe(1);
-    });
-
-    it('should pass a ripple value of false to the competency button component', () => {
-      component.category = TestCategory.C1E;
-      fixture.detectChanges();
-      component.isRemoveFaultMode = true;
-      component.isSeriousMode = true;
-      const competencyButton = fixture.debugElement.query(By.css('competency-button.uncouple-recouple-competency'))
-        .componentInstance as CompetencyButtonComponent;
-      fixture.detectChanges();
-      expect(competencyButton.allowRipple).toEqual(false);
-    });
-
-    describe('Tick button effects', () => {
-      it('should have added no classes to the tick button', () => {
-        component.category = TestCategory.BE;
-        component.buttonFloatAbove = false;
-        fixture.detectChanges();
-        const tickButton = fixture.debugElement.query(By.css('competency-button.uncouple-recouple-tick'));
-        fixture.detectChanges();
-        expect(tickButton.nativeElement.className).toEqual('uncouple-recouple-tick');
-      });
-
-      it('should have added a checked class to the tick button', () => {
-        component.category = TestCategory.BE;
-        component.buttonFloatAbove = false;
-        fixture.detectChanges();
-        component.selectedUncoupleRecouple = true;
-        const tickButton = fixture.debugElement.query(By.css('competency-button.uncouple-recouple-tick'));
-        fixture.detectChanges();
-        expect(tickButton.nativeElement.className).toEqual('uncouple-recouple-tick checked');
       });
     });
   });

@@ -165,7 +165,7 @@ export class TestResultsSearchPage extends BasePageComponent {
         .applicationReferenceSearch(formatBookingReferenceForBackend(this.candidateInfo))
         .pipe(
           tap(() => (this.hasSearched = true)),
-          map((results) => {
+          tap((results) => {
             this.searchResults = results;
             this.showSearchSpinner = false;
           }),
@@ -203,7 +203,7 @@ export class TestResultsSearchPage extends BasePageComponent {
       .advancedSearch(advancedSearchParams)
       .pipe(
         tap(() => (this.hasSearched = true)),
-        map((results) => {
+        tap((results) => {
           this.searchResults = orderBy(results, ['testDate', 'category'], ['desc', 'asc']);
           this.showAdvancedSearchSpinner = false;
         }),

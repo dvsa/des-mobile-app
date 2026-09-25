@@ -1,5 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
+import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { NavController } from '@ionic/angular';
 import { NavControllerMock } from '@mocks/index.mock';
 import { Store, StoreModule } from '@ngrx/store';
@@ -7,6 +8,7 @@ import { MockComponent } from 'ng-mocks';
 
 import { FaultCountProvider } from '@providers/fault-count/fault-count';
 import { StoreModel } from '@shared/models/store.model';
+import { StartTest } from '@store/tests/tests.actions';
 import { testsReducer } from '@store/tests/tests.reducer';
 import { ToggleDangerousFaultMode, ToggleRemoveFaultMode, ToggleSeriousFaultMode } from '../../../test-report.actions';
 import { testReportReducer } from '../../../test-report.reducer';
@@ -42,6 +44,7 @@ describe('ToolbarComponent', () => {
     fixture = TestBed.createComponent(ToolbarComponent);
     component = fixture.componentInstance;
     store$ = TestBed.inject(Store);
+    store$.dispatch(StartTest(105, TestCategory.B));
     faultCountProvider = TestBed.inject(FaultCountProvider);
     storeDispatchSpy = spyOn(store$, 'dispatch');
   });
@@ -116,6 +119,12 @@ describe('ToolbarComponent', () => {
   });
 
   describe('DOM', () => {
+    beforeEach(() => {
+      spyOn(faultCountProvider, 'getDrivingFaultSumCount').and.returnValue(0);
+      spyOn(faultCountProvider, 'getSeriousFaultSumCount').and.returnValue(0);
+      spyOn(faultCountProvider, 'getDangerousFaultSumCount').and.returnValue(0);
+    });
+
     it('should not show any tooltips in default mode', () => {
       fixture.detectChanges();
       expect(component.isSeriousMode).toEqual(false);

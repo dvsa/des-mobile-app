@@ -180,8 +180,8 @@ describe('VehicleChecksComponent', () => {
       it('should return false when not all show me and tell me questions have outcome', () => {
         store$.dispatch(StartTest(12345, TestCategory.C));
         component.vehicleChecks = {
-          showMeQuestions: [{}, {}, {}],
-          tellMeQuestions: [{}, {}],
+          showMeQuestions: [{ outcome: undefined }, { outcome: undefined }, { outcome: undefined }],
+          tellMeQuestions: [{ outcome: undefined }, { outcome: undefined }],
         };
         expect(component.everyQuestionHasOutcome()).toBeFalsy();
       });
@@ -189,7 +189,7 @@ describe('VehicleChecksComponent', () => {
       it('should return false when not all show me questions have outcome', () => {
         store$.dispatch(StartTest(12345, TestCategory.C));
         component.vehicleChecks = {
-          showMeQuestions: [{}, {}, {}],
+          showMeQuestions: [{ outcome: undefined }, { outcome: undefined }, { outcome: undefined }],
           tellMeQuestions: [{ outcome: 'P' }, { outcome: 'DF' }],
         };
         expect(component.everyQuestionHasOutcome()).toBeFalsy();
@@ -199,7 +199,7 @@ describe('VehicleChecksComponent', () => {
         store$.dispatch(StartTest(12345, TestCategory.C));
         component.vehicleChecks = {
           showMeQuestions: [{ outcome: 'P' }, { outcome: 'DF' }, { outcome: 'P' }],
-          tellMeQuestions: [{}, {}],
+          tellMeQuestions: [{ outcome: undefined }, { outcome: undefined }],
         };
         expect(component.everyQuestionHasOutcome()).toBeFalsy();
       });

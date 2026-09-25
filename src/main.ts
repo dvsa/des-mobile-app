@@ -1,6 +1,5 @@
-import { enableProdMode } from '@angular/core';
-import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
-
+import { enableProdMode, provideZoneChangeDetection } from '@angular/core';
+import { platformBrowser } from '@angular/platform-browser';
 import { AppModule } from '@app/app.module';
 import { environment } from '@environments/environment';
 
@@ -8,7 +7,7 @@ if (environment.production) {
   enableProdMode();
 }
 
-platformBrowserDynamic()
-  .bootstrapModule(AppModule)
+platformBrowser()
+  .bootstrapModule(AppModule, { applicationProviders: [provideZoneChangeDetection()] })
   // eslint-disable-next-line no-console
   .catch((err) => console.log(err));

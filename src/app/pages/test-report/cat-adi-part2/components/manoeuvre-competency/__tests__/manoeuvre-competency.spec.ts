@@ -66,7 +66,7 @@ describe('ManoeuvreCompetencyComponentAdiPart2', () => {
                 testData: {
                   dangerousFaults: {},
                   drivingFaults: {},
-                  manoeuvres: {},
+                  manoeuvres: [],
                   seriousFaults: {},
                   testRequirements: {},
                   ETA: {},

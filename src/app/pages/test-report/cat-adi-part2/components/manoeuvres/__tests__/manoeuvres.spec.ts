@@ -41,7 +41,7 @@ describe('ManoeuvresComponent', () => {
                 testData: {
                   dangerousFaults: {},
                   drivingFaults: {},
-                  manoeuvres: {},
+                  manoeuvres: [],
                   seriousFaults: {},
                   testRequirements: {},
                   ETA: {},
