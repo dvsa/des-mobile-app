@@ -1,8 +1,7 @@
 import { Component } from '@angular/core';
-import { ExitSAMMethodUsed } from '@components/common/test-flow-header/test-flow-header.component';
 import { IonButton, IonCol, IonRow, IonText } from '@ionic/angular';
 import { Store } from '@ngrx/store';
-import { ExitSAMProvider } from '@providers/exitSAM/exitSAM';
+import { ExitSAMMethodUsed, ExitSAMProvider } from '@providers/exitSAM/exitSAM';
 import { StoreModel } from '@shared/models/store.model';
 import { CheckVINPressed } from '@store/general/safety-recall/safety-recall.actions';
 
