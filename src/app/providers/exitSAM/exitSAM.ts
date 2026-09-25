@@ -74,10 +74,8 @@ export class ExitSAMProvider {
   }
 
   async disableSAMAndExit(method: ExitSAMMethodUsed): Promise<ExitSAMFlowResult> {
-    // Retained for the existing exit API and future method-specific analytics.
-    void method;
     this.store$.dispatch(PersistTests());
-    this.store$.dispatch(ExitSAMConfirmButtonClicked());
+    this.store$.dispatch(ExitSAMConfirmButtonClicked(method));
 
     try {
       const didDisable = await this.deviceProvider.disableSingleAppMode();
@@ -117,9 +115,7 @@ export class ExitSAMProvider {
   }
 
   async disableSAMAndExitForRecalls(method: ExitSAMMethodUsed): Promise<void> {
-    // Retained for the existing exit API and future method-specific analytics.
-    void method;
-    this.store$.dispatch(ExitSAMConfirmButtonClicked());
+    this.store$.dispatch(ExitSAMConfirmButtonClicked(method));
 
     try {
       const recallLink = this.urlProvider.getUsefulLinks().find((link) => link.id === 'citroen-recall');

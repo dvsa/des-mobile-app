@@ -185,7 +185,6 @@ export class TestFlowHeaderComponent {
    * @param method - The method used to exit SAM (button or banner).
    */
   async disableSAMAndExit(method: ExitSAMMethodUsed) {
-    void method;
     const exitFlow = this.exitSAMProvider.disableSAMAndExit(method);
     // Emit the exitSamUsed event after the provider dispatches the confirmation actions.
     this.exitSamUsed.emit();

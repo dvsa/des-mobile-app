@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { AppModule } from '@app/app.module';
 import { AppLauncher, OpenURLResult } from '@capacitor/app-launcher';
 import { ComponentsModule } from '@components/common/common-components.module';
-import { ExitSamError } from '@components/common/test-flow-header/exit-sam.actions';
+import { ExitSAMConfirmButtonClicked, ExitSamError } from '@components/common/test-flow-header/exit-sam.actions';
 import {
   ExitSAMMethodUsed,
   TestFlowHeaderComponent,
@@ -141,6 +141,7 @@ describe('TestFlowHeaderComponent', () => {
       await component.disableSAMAndExit(ExitSAMMethodUsed.BANNER);
 
       expect(component.exitSAMProvider.openExitSamErrorModal).toHaveBeenCalled();
+      expect(store$.dispatch).toHaveBeenCalledWith(ExitSAMConfirmButtonClicked(ExitSAMMethodUsed.BANNER));
     });
 
     it('should handle failure to find Microsoft Teams', async () => {
