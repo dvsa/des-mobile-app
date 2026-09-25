@@ -109,7 +109,6 @@ describe('TestCenterJournalPage', () => {
 
     fixture = TestBed.createComponent(TestCentreJournalPage);
     component = fixture.componentInstance;
-    fixture.detectChanges();
     testCentreJournalProvider = TestBed.inject(TestCentreJournalProvider);
     logHelper = TestBed.inject(LogHelper);
     store$ = TestBed.inject(MockStore);

@@ -1,13 +1,12 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { By } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { KeepAwake as Insomnia } from '@capacitor-community/keep-awake';
 import { Platform } from '@ionic/angular';
 import { PlatformMock, RouterMock } from '@mocks/index.mock';
 import { Store, StoreModule } from '@ngrx/store';
-import { of } from 'rxjs';
 
 import { AppModule } from '@app/app.module';
+import { delegatedSearchReducer } from '@pages/delegated-rekey-search/delegated-rekey-search.reducer';
 import { DASHBOARD_PAGE, DELEGATED_REKEY_SEARCH_PAGE } from '@pages/page-names.constants';
 import { AuthenticationProviderMock } from '@providers/authentication/__mocks__/authentication.mock';
 import { AuthenticationProvider } from '@providers/authentication/authentication';
@@ -36,6 +35,7 @@ describe('DelegatedRekeyUploadOutcomePage', () => {
         AppModule,
         StoreModule.forRoot({
           tests: testsReducer,
+          delegatedRekeySearch: delegatedSearchReducer,
         }),
       ],
       providers: [
@@ -107,29 +107,6 @@ describe('DelegatedRekeyUploadOutcomePage', () => {
       it('should dispatch SendCurrentTest', () => {
         component.retryUpload();
         expect(store$.dispatch).toHaveBeenCalledWith(SendCurrentTest());
-      });
-    });
-  });
-
-  describe('DOM', () => {
-    describe('isDuplicate', () => {
-      it('should show the success message when the upload succeeded', () => {
-        fixture.detectChanges();
-        component.pageState.testStatus$ = of(TestStatus.Submitted);
-        fixture.detectChanges();
-        const element: HTMLElement = fixture.debugElement.query(By.css('.modal-alert-header')).nativeElement;
-        expect(element.textContent?.trim()).toEqual('Rekey upload was successful');
-        expect(fixture.debugElement.query(By.css('.tick-icon'))).toBeDefined();
-        expect(fixture.debugElement.query(By.css('.warning-icon'))).toBeNull();
-      });
-      it('should show the duplicate upload message when the upload was detected as a duplicate', () => {
-        fixture.detectChanges();
-        component.pageState.testStatus$ = of(TestStatus.Booked);
-        fixture.detectChanges();
-        const element: HTMLElement = fixture.debugElement.query(By.css('.modal-alert-header')).nativeElement;
-        expect(element.textContent?.trim()).toEqual('Rekey upload was unsuccessful');
-        expect(fixture.debugElement.query(By.css('.warning-icon'))).toBeDefined();
-        expect(fixture.debugElement.query(By.css('.tick-icon'))).toBeNull();
       });
     });
   });

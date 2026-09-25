@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { Router } from '@angular/router';
 import { SlotDetail, TestSlot } from '@dvsa/mes-journal-schema';
 import { ActivityCode } from '@dvsa/mes-test-schema/categories/common';
@@ -44,7 +44,7 @@ import { StartedTests, getStartedTests, getTestById } from '@store/tests/tests.s
   styleUrls: ['test-outcome.scss'],
   standalone: false,
 })
-export class TestOutcomeComponent implements OnInit {
+export class TestOutcomeComponent implements OnDestroy, OnInit {
   @Input()
   applicationId: string;
 
@@ -117,7 +117,8 @@ export class TestOutcomeComponent implements OnInit {
     const merged$ = merge(
       startedTests$.pipe(
         map((startedTests: StartedTests) => {
-          this.testExistsAsRekey = startedTests[this.slotDetail.slotId] && startedTests[this.slotDetail.slotId].rekey;
+          const startedTest = this.slotDetail?.slotId ? startedTests?.[this.slotDetail.slotId] : undefined;
+          this.testExistsAsRekey = startedTest?.rekey ?? false;
         })
       ),
       bookedTestSlot$.pipe(
@@ -127,7 +128,7 @@ export class TestOutcomeComponent implements OnInit {
             return;
           }
 
-          if (testSlot.slotDetail.slotId === this.slotDetail.slotId) {
+          if (testSlot?.slotDetail?.slotId === this.slotDetail?.slotId) {
             this.isTestSlotOnRekeySearch = true;
           }
         })
@@ -137,10 +138,18 @@ export class TestOutcomeComponent implements OnInit {
     this.subscription = merged$.subscribe();
   }
 
-  ionViewDidLeave(): void {
+  unsubscribe() {
     if (this.subscription) {
       this.subscription.unsubscribe();
     }
+  }
+
+  ionViewDidLeave(): void {
+    this.unsubscribe();
+  }
+
+  ngOnDestroy(): void {
+    this.unsubscribe();
   }
 
   showOutcome(): boolean {

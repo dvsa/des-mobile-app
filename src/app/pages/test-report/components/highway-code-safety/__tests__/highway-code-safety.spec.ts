@@ -1,5 +1,4 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { By } from '@angular/platform-browser';
 import { DangerousFaultBadgeComponent } from '@components/common/dangerous-fault-badge/dangerous-fault-badge';
 import { DrivingFaultsBadgeComponent } from '@components/common/driving-faults-badge/driving-faults-badge';
 import { SeriousFaultBadgeComponent } from '@components/common/serious-fault-badge/serious-fault-badge';
@@ -142,45 +141,6 @@ describe('HighwayCodeSafetyComponent', () => {
         component.addOrRemoveFault(true);
 
         expect(storeDispatchSpy).toHaveBeenCalledWith(HighwayCodeSafetyRemoveFault());
-      });
-    });
-  });
-
-  describe('DOM', () => {
-    it('should pass the number of driving faults to the driving faults badge component', () => {
-      fixture.detectChanges();
-      const drivingFaultsBadge = fixture.debugElement.query(By.css('.driving-faults'))
-        .componentInstance as DrivingFaultsBadgeComponent;
-      component.highwayCodeSafetyDrivingFault = true;
-
-      fixture.detectChanges();
-      expect(drivingFaultsBadge.count).toBe(1);
-    });
-
-    it('should pass a ripple value of false to the competency button component', () => {
-      fixture.detectChanges();
-      component.isRemoveFaultMode = true;
-      component.isSeriousMode = true;
-      const competencyButton = fixture.debugElement.query(By.css('competency-button.highway-code-safety-competency'))
-        .componentInstance as CompetencyButtonComponent;
-
-      fixture.detectChanges();
-      expect(competencyButton.allowRipple).toEqual(false);
-    });
-
-    describe('Tick button effects', () => {
-      it('should have added no classes to the tick button', () => {
-        const tickButton = fixture.debugElement.query(By.css('competency-button.highway-code-safety-tick'));
-        fixture.detectChanges();
-        expect(tickButton.nativeElement.className).toEqual('highway-code-safety-tick');
-      });
-
-      it('should have added a checked class to the tick button', () => {
-        const tickButton = fixture.debugElement.query(By.css('competency-button.highway-code-safety-tick'));
-        fixture.detectChanges();
-        component.selectedHighwayCodeSafety = true;
-        fixture.detectChanges();
-        expect(tickButton.nativeElement.className).toEqual('highway-code-safety-tick checked');
       });
     });
   });

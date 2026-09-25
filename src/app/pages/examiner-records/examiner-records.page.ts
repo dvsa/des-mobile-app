@@ -222,12 +222,13 @@ export class ExaminerRecordsPage implements OnInit {
           {
             item: 'Stop',
             count: emergencyStopCount,
-            percentage: `${((emergencyStopCount / testCount) * 100).toFixed(1)}%`,
+            percentage: testCount === 0 ? '0.0%' : `${((emergencyStopCount / testCount) * 100).toFixed(1)}%`,
           },
           {
             item: 'No stop',
             count: testCount - emergencyStopCount,
-            percentage: `${(((testCount - emergencyStopCount) / testCount) * 100).toFixed(1)}%`,
+            percentage:
+              testCount === 0 ? '0.0%' : `${(((testCount - emergencyStopCount) / testCount) * 100).toFixed(1)}%`,
           },
         ])
       ),
@@ -670,8 +671,11 @@ export class ExaminerRecordsPage implements OnInit {
    * @returns {Promise<void>} A promise that resolves when the orientation monitoring is complete.
    */
   async ionViewDidEnter(): Promise<void> {
+    console.log('ionViewDidEnter');
     this.store$.dispatch(ExaminerRecordsViewDidEnter());
+    console.log('ionViewDidEnter dispatched');
     await this.orientationProvider.monitorOrientation();
+    console.log('monitorOrientation finish');
   }
 
   /**

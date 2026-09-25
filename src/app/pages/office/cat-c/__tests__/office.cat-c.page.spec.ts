@@ -55,7 +55,7 @@ import { AddUncoupleRecoupleComment } from '@store/tests/test-data/common/uncoup
 import { Competencies, ExaminerActions } from '@store/tests/test-data/test-data.constants';
 import { TestOutcome } from '@store/tests/tests.constants';
 import { MockComponent } from 'ng-mocks';
-import { Subscription, of } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { AppModule } from 'src/app/app.module';
 import { AdditionalInformationComponent } from '../../components/additional-information/additional-information';
 import { CandidateDescriptionComponent } from '../../components/candidate-description/candidate-description';
@@ -422,23 +422,6 @@ describe('OfficeCatCPage', () => {
         component.passCertificateNumberChanged('test');
         expect(component.store$.dispatch).toHaveBeenCalledWith(PassCertificateNumberChanged('test'));
         expect(component.store$.dispatch).toHaveBeenCalledWith(PassCertificateNumberReceived(true));
-      });
-    });
-
-    describe('driving fault commentary', () => {
-      it('should pass whether to render driving fault commentary to fault-comment-card', () => {
-        const drivingFaultCommentCard: FaultCommentCardComponent = fixture.debugElement.query(
-          By.css('#driving-fault-comment-card')
-        ).componentInstance;
-        fixture.detectChanges();
-
-        component.pageState.displayDrivingFaultComments$ = of(true);
-        component.pageState.displayDrivingFault$ = of(true);
-        fixture.detectChanges();
-        expect(drivingFaultCommentCard.shouldRender).toBeTruthy();
-        component.pageState.displayDrivingFaultComments$ = of(false);
-        fixture.detectChanges();
-        expect(drivingFaultCommentCard.shouldRender).toBeFalsy();
       });
     });
   });

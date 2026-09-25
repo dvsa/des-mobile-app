@@ -56,6 +56,8 @@ describe('ConfirmTestDetailsPage', () => {
             testStatus: {},
             startedTests: {
               123: {
+                category: TestCategory.B,
+                activityCode: '1',
                 postTestDeclarations: {
                   healthDeclarationAccepted: false,
                   passCertificateNumberReceived: false,

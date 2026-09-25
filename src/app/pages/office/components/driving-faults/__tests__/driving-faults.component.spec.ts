@@ -17,7 +17,6 @@ describe('DrivingFaultsComponent', () => {
 
     fixture = TestBed.createComponent(DrivingFaultsComponent);
     component = fixture.componentInstance;
-    fixture.detectChanges();
   });
 
   it('should create', () => {
@@ -41,7 +40,6 @@ describe('DrivingFaultsComponent', () => {
     ];
     describe('Driving Faults Overview', () => {
       it('should display a driving faults badge with the count for each type of driving fault on the test', () => {
-        fixture.detectChanges();
         component.faults = drivingFaults;
         fixture.detectChanges();
         const drivingFaultBadges = fixture.debugElement.queryAll(By.css('driving-faults-badge'));
@@ -50,7 +48,6 @@ describe('DrivingFaultsComponent', () => {
         expect(drivingFaultBadges[1].componentInstance.count).toBe(1);
       });
       it('should render the display name for each driving fault', () => {
-        fixture.detectChanges();
         component.faults = drivingFaults;
         fixture.detectChanges();
         const faultLabels = fixture.debugElement.queryAll(By.css('.fault-label'));
