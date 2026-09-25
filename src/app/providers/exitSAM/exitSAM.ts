@@ -88,28 +88,29 @@ export class ExitSAMProvider {
         return ExitSAMFlowResult.NONE;
       }
 
-      const teamsURL = 'msteams://teams.microsoft.com';
-      const canOpenURLResult = (await AppLauncher.canOpenUrl({ url: teamsURL })).value;
+      try {
+        const teamsURL = 'msteams://teams.microsoft.com';
+        const canOpenURLResult = (await AppLauncher.canOpenUrl({ url: teamsURL })).value;
 
-      if (!canOpenURLResult) {
-        await this.handleTeamsNotFound();
+        if (!canOpenURLResult) {
+          await this.handleTeamsNotFound();
+          return ExitSAMFlowResult.LEAVE_SUBSCRIPTION;
+        }
+
+        const openURLResult = await AppLauncher.openUrl({ url: teamsURL });
+
+        if (!openURLResult.completed) {
+          await this.handleTeamsOpenFailure(openURLResult);
+          return ExitSAMFlowResult.LEAVE_SUBSCRIPTION;
+        }
+
+        return ExitSAMFlowResult.RESUME_SUBSCRIPTION;
+      } catch (error) {
+        await this.handleTeamsLauncherError(error);
         return ExitSAMFlowResult.LEAVE_SUBSCRIPTION;
       }
-
-      const openURLResult = await AppLauncher.openUrl({ url: teamsURL });
-
-      if (!openURLResult.completed) {
-        await this.handleTeamsOpenFailure(openURLResult);
-        return ExitSAMFlowResult.LEAVE_SUBSCRIPTION;
-      }
-
-      return ExitSAMFlowResult.RESUME_SUBSCRIPTION;
     } catch (error) {
-      await this.openExitSamErrorModal(
-        'Microsoft Teams cannot be opened.',
-        'Please follow the standard operating procedures.'
-      );
-      this.store$.dispatch(ExitSamError('Error', error));
+      await this.handleTeamsLauncherError(error);
       return ExitSAMFlowResult.NONE;
     }
   }
@@ -137,6 +138,14 @@ export class ExitSAMProvider {
     } catch (error) {
       this.store$.dispatch(ExitSamError('Error', error));
     }
+  }
+
+  private async handleTeamsLauncherError(error: unknown): Promise<void> {
+    await this.openExitSamErrorModal(
+      'Microsoft Teams cannot be opened.',
+      'Please follow the standard operating procedures.'
+    );
+    this.store$.dispatch(ExitSamError('Error', error));
   }
 
   private async handleTeamsNotFound(): Promise<void> {

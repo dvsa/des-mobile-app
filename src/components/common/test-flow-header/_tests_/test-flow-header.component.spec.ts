@@ -137,11 +137,15 @@ describe('TestFlowHeaderComponent', () => {
       component.isPracticeMode = false;
       spyOn(deviceProvider, 'disableSingleAppMode').and.resolveTo(false);
       spyOn(component.exitSAMProvider, 'openExitSamErrorModal').and.returnValue(Promise.resolve());
+      spyOn(component.setupResumeSubscription, 'emit');
+      spyOn(component.setupLeaveSubscription, 'emit');
 
       await component.disableSAMAndExit(ExitSAMMethodUsed.BANNER);
 
       expect(component.exitSAMProvider.openExitSamErrorModal).toHaveBeenCalled();
       expect(store$.dispatch).toHaveBeenCalledWith(ExitSAMConfirmButtonClicked(ExitSAMMethodUsed.BANNER));
+      expect(component.setupResumeSubscription.emit).not.toHaveBeenCalled();
+      expect(component.setupLeaveSubscription.emit).not.toHaveBeenCalled();
     });
 
     it('should handle failure to find Microsoft Teams', async () => {
@@ -149,10 +153,14 @@ describe('TestFlowHeaderComponent', () => {
       spyOn(deviceProvider, 'disableSingleAppMode').and.resolveTo(true);
       spyOn(AppLauncher, 'canOpenUrl').and.resolveTo({ value: false });
       spyOn(component.exitSAMProvider, 'openExitSamErrorModal').and.returnValue(Promise.resolve());
+      spyOn(component.setupResumeSubscription, 'emit');
+      spyOn(component.setupLeaveSubscription, 'emit');
 
       await component.disableSAMAndExit(ExitSAMMethodUsed.BANNER);
 
       expect(component.exitSAMProvider.openExitSamErrorModal).toHaveBeenCalled();
+      expect(component.setupResumeSubscription.emit).not.toHaveBeenCalled();
+      expect(component.setupLeaveSubscription.emit).toHaveBeenCalled();
     });
 
     it('should handle failure to open Microsoft Teams', async () => {
@@ -161,21 +169,68 @@ describe('TestFlowHeaderComponent', () => {
       spyOn(AppLauncher, 'canOpenUrl').and.resolveTo({ value: true });
       spyOn(AppLauncher, 'openUrl').and.resolveTo({ completed: false });
       spyOn(component.exitSAMProvider, 'openExitSamErrorModal').and.returnValue(Promise.resolve());
+      spyOn(component.setupResumeSubscription, 'emit');
+      spyOn(component.setupLeaveSubscription, 'emit');
 
       await component.disableSAMAndExit(ExitSAMMethodUsed.BANNER);
 
       expect(component.exitSAMProvider.openExitSamErrorModal).toHaveBeenCalled();
+      expect(component.setupResumeSubscription.emit).not.toHaveBeenCalled();
+      expect(component.setupLeaveSubscription.emit).toHaveBeenCalled();
+    });
+
+    it('should set up the resume subscription when Teams opens successfully', async () => {
+      component.isPracticeMode = false;
+      spyOn(deviceProvider, 'disableSingleAppMode').and.resolveTo(true);
+      spyOn(AppLauncher, 'canOpenUrl').and.resolveTo({ value: true });
+      spyOn(AppLauncher, 'openUrl').and.resolveTo({ completed: true });
+      spyOn(component.setupResumeSubscription, 'emit');
+      spyOn(component.setupLeaveSubscription, 'emit');
+
+      await component.disableSAMAndExit(ExitSAMMethodUsed.BANNER);
+
+      expect(component.setupResumeSubscription.emit).toHaveBeenCalled();
+      expect(component.setupLeaveSubscription.emit).not.toHaveBeenCalled();
+    });
+
+    it('should set up the leave subscription when checking whether Teams can open throws', async () => {
+      component.isPracticeMode = false;
+      spyOn(deviceProvider, 'disableSingleAppMode').and.resolveTo(true);
+      spyOn(AppLauncher, 'canOpenUrl').and.rejectWith(new Error('Launcher unavailable'));
+      spyOn(component.exitSAMProvider, 'openExitSamErrorModal').and.returnValue(Promise.resolve());
+      spyOn(component.setupLeaveSubscription, 'emit');
+
+      await component.disableSAMAndExit(ExitSAMMethodUsed.BANNER);
+
+      expect(component.setupLeaveSubscription.emit).toHaveBeenCalled();
+    });
+
+    it('should set up the leave subscription when opening Teams throws', async () => {
+      component.isPracticeMode = false;
+      spyOn(deviceProvider, 'disableSingleAppMode').and.resolveTo(true);
+      spyOn(AppLauncher, 'canOpenUrl').and.resolveTo({ value: true });
+      spyOn(AppLauncher, 'openUrl').and.rejectWith(new Error('Launcher unavailable'));
+      spyOn(component.exitSAMProvider, 'openExitSamErrorModal').and.returnValue(Promise.resolve());
+      spyOn(component.setupLeaveSubscription, 'emit');
+
+      await component.disableSAMAndExit(ExitSAMMethodUsed.BANNER);
+
+      expect(component.setupLeaveSubscription.emit).toHaveBeenCalled();
     });
 
     it('should handle error during disableSAMAndExit', async () => {
       component.isPracticeMode = false;
       spyOn(deviceProvider, 'disableSingleAppMode').and.rejectWith(new Error('Test Error'));
       spyOn(component.exitSAMProvider, 'openExitSamErrorModal').and.returnValue(Promise.resolve());
+      spyOn(component.setupResumeSubscription, 'emit');
+      spyOn(component.setupLeaveSubscription, 'emit');
 
       await component.disableSAMAndExit(ExitSAMMethodUsed.BANNER);
 
       expect(component.exitSAMProvider.openExitSamErrorModal).toHaveBeenCalled();
       expect(store$.dispatch).toHaveBeenCalledWith(ExitSamError('Error', new Error('Test Error')));
+      expect(component.setupResumeSubscription.emit).not.toHaveBeenCalled();
+      expect(component.setupLeaveSubscription.emit).not.toHaveBeenCalled();
     });
   });
 });
