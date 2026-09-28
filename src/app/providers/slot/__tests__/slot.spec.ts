@@ -352,9 +352,6 @@ describe('SlotProvider', () => {
       getAppConfigSpy.and.returnValue({ journal: { numberOfDaysToView: 3 } });
 
       const result = slotProvider.extendWithEmptyDays({});
-
-      console.log(result);
-
       expect(Object.keys(result)).toEqual(['2019-02-01', '2019-02-02', '2019-02-03']);
     });
     it('should preserve provided slot arrays for dates within the generated days', () => {

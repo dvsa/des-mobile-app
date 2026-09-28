@@ -671,11 +671,8 @@ export class ExaminerRecordsPage implements OnInit {
    * @returns {Promise<void>} A promise that resolves when the orientation monitoring is complete.
    */
   async ionViewDidEnter(): Promise<void> {
-    console.log('ionViewDidEnter');
     this.store$.dispatch(ExaminerRecordsViewDidEnter());
-    console.log('ionViewDidEnter dispatched');
     await this.orientationProvider.monitorOrientation();
-    console.log('monitorOrientation finish');
   }
 
   /**

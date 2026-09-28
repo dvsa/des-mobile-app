@@ -303,7 +303,6 @@ export class CommunicationPage extends PracticeableBasePageComponent implements 
       if (communicationChoice !== CommunicationPage.email || this.emailType === CommunicationPage.providedEmail) {
         newEmailCtrl.clearValidators();
       } else {
-        console.log('setting new validators');
         newEmailCtrl.setValidators(Validators.compose([Validators.required, emailValidator()]));
       }
       newEmailCtrl.updateValueAndValidity();
