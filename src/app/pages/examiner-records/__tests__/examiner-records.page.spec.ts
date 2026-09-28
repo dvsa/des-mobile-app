@@ -23,6 +23,7 @@ import {
   LocationChanged,
   TestCategoryChanged,
 } from '@pages/examiner-records/examiner-records.actions';
+import { ExaminerRecordDataWithPercentage } from '@pages/examiner-records/examiner-records.selector';
 import { DASHBOARD_PAGE } from '@pages/page-names.constants';
 import { CompressionProvider } from '@providers/compression/compression';
 import { ExaminerRecordsProviderMock } from '@providers/examiner-records/__mocks__/examiner-records.mock';
@@ -350,6 +351,24 @@ describe('ExaminerRecordsPage', () => {
 
       expect(component.setLocationFilter).toHaveBeenCalled();
       expect(component.getOnlineRecords).toHaveBeenCalled();
+    });
+
+    it('should use 0.0% as the emergency stop percentage when there are no eligible tests', async () => {
+      spyOn(component, 'setLocationFilter');
+      spyOn(component, 'getOnlineRecords');
+
+      await component.ngOnInit();
+
+      let emergencyStops: ExaminerRecordDataWithPercentage<string>[] = [];
+      component.pageState.emergencyStops$.subscribe((value: ExaminerRecordDataWithPercentage<string>[]) => {
+        emergencyStops = value;
+      });
+      component.eligTestSubject$.next([]);
+
+      expect(emergencyStops).toEqual([
+        { item: 'Stop', count: 0, percentage: '0.0%' },
+        { item: 'No stop', count: 0, percentage: '0.0%' },
+      ]);
     });
   });
 
