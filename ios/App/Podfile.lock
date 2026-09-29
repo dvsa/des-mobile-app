@@ -31,7 +31,7 @@ PODS:
   - CordovaPluginsResources (0.0.105)
   - DvsaCapacitorPluginAsam (3.0.2):
     - Capacitor
-  - DvsaCapacitorPluginMsauth (1.0.2):
+  - DvsaCapacitorPluginMsauth (2.0.0):
     - Capacitor
     - MSAL (~> 1.1)
   - MSAL (1.9.0):
@@ -128,7 +128,7 @@ SPEC CHECKSUMS:
   CordovaPlugins: 654a503a76a442da0eefd8224714207a07b1b800
   CordovaPluginsResources: da93847212bf7b16ba770e4d6c3e7dba820174c7
   DvsaCapacitorPluginAsam: 2428e912504b5a044f669b31ba493221475de678
-  DvsaCapacitorPluginMsauth: bde09409167167ca312c2bdaab97ec0232a77cd5
+  DvsaCapacitorPluginMsauth: b6ddf645efb20edc59ea3971f72c8d1de73f7eed
   MSAL: 1a32a1070ccf55d9641d31edd8869ea2b5a78beb
   Sentry: e5d82a3c1f2d951f75c04c57215a0abb1facbd51
   SentryCapacitor: 0561def7ada7e47d0437324e7aa3db60d52bfe40

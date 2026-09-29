@@ -82,7 +82,7 @@
     "@capawesome/capacitor-screen-orientation": "^8.0.1",
     "@dvsa/biome-config": "^0.1.0",
     "@dvsa/capacitor-plugin-asam": "^3.0.2",
-    "@dvsa/capacitor-plugin-msauth": "^1.0.0",
+    "@dvsa/capacitor-plugin-msauth": "^2.0.0",
     "@dvsa/mes-config-schema": "1.10.3",
     "@dvsa/mes-driver-schema": "^1.0.1",
     "@dvsa/mes-journal-schema": "1.6.1",
