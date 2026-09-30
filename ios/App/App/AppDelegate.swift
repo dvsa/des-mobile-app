@@ -68,13 +68,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     NotificationCenter.default.post(name: Notification.Name(CAPNotifications.DidFailToRegisterForRemoteNotificationsWithError.name()), object: error)
   }
 
-  func application(_ application: UIApplication,
-                   configurationForConnecting connectingSceneSession: UISceneSession,
-                   options: UIScene.ConnectionOptions) -> UISceneConfiguration {
-    let config = UISceneConfiguration(name: "Default Configuration", sessionRole: connectingSceneSession.role)
-    config.delegateClass = SceneDelegate.self
-    return config
-  }
+
 
 }
+
 
