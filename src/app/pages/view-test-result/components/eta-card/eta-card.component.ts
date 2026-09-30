@@ -37,11 +37,11 @@ export class EtaCardComponent {
     return flattenArray(eta);
   }
 
-  showExtendedETA(): boolean {
+  shouldShowAdditionalETAPhysicalDetails(): boolean {
     return Object.keys(get(this.data, 'ETA.physicalType', {})).length > 0;
   }
 
-  getExtendedETA(): ETAPhysicalType {
+  getAdditionalETAPhysicalDetails(): ETAPhysicalType {
     return get(this.data, 'ETA.physicalType', {});
   }
 }

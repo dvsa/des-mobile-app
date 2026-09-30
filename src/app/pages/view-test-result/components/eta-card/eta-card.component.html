@@ -1,34 +1,34 @@
-@let showExtended = showExtendedETA();
+@let showAdditionalPhysicalDetails = shouldShowAdditionalETAPhysicalDetails();
 <data-row
   [label]="'ETA'"
   [value]="eTA"
-  [shouldHaveSeparator]="(showExtended || (!showExtended && shouldHaveSeparator))">
+  [shouldHaveSeparator]="(showAdditionalPhysicalDetails || (!showAdditionalPhysicalDetails && shouldHaveSeparator))">
 </data-row>
-@if (showExtended) {
+@if (showAdditionalPhysicalDetails) {
   <ion-row [class.mes-data-row-with-separator]="shouldHaveSeparator" [class.mes-data-row]="!shouldHaveSeparator">
     <ion-col size="40">
       <label>ETA physical details</label>
     </ion-col>
     <ion-col size="56">
-      @let extendedETA = getExtendedETA();
-        @if (extendedETA.footbrake) {
+      @let physicalDetails = getAdditionalETAPhysicalDetails();
+        @if (physicalDetails.footbrake) {
           <li>
           <ion-text class="mes-data">Footbrake</ion-text>
           </li>
         }
-        @if (extendedETA.steeringControl) {
+        @if (physicalDetails.steeringControl) {
           <li>
             <ion-text class="mes-data">Steering Control</ion-text>
           </li>
         }
-        @if (extendedETA.handbrake) {
+        @if (physicalDetails.handbrake) {
           <li>
             <ion-text class="mes-data">Parking Brake</ion-text>
           </li>
         }
-        @if (extendedETA.other && (extendedETA.otherText.trim() !== '')) {
+        @if (physicalDetails.other && (physicalDetails.otherText.trim() !== '')) {
           <li>
-            <ion-text class="mes-data">Other: {{ extendedETA.otherText }}</ion-text>
+            <ion-text class="mes-data">Other: {{ physicalDetails.otherText }}</ion-text>
           </li>
         }
     </ion-col>

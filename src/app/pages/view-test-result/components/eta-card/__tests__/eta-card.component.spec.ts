@@ -50,11 +50,11 @@ describe('EtaCardComponent', () => {
     });
   });
 
-  describe('showExtendedETA', () => {
+  describe('shouldShowAdditionalETAPhysicalDetails', () => {
     it('should not show extended ETA when ETA data is missing', () => {
       component.data = undefined;
 
-      expect(component.showExtendedETA()).toBeFalse();
+      expect(component.shouldShowAdditionalETAPhysicalDetails()).toBeFalse();
     });
 
     it('should not show extended ETA when physical type data is empty', () => {
@@ -64,7 +64,7 @@ describe('EtaCardComponent', () => {
         },
       };
 
-      expect(component.showExtendedETA()).toBeFalse();
+      expect(component.shouldShowAdditionalETAPhysicalDetails()).toBeFalse();
     });
 
     it('should show extended ETA when physical type details are present', () => {
@@ -76,15 +76,15 @@ describe('EtaCardComponent', () => {
         },
       };
 
-      expect(component.showExtendedETA()).toBeTrue();
+      expect(component.shouldShowAdditionalETAPhysicalDetails()).toBeTrue();
     });
   });
 
-  describe('showExtendedETA', () => {
+  describe('getAdditionalETAPhysicalDetails', () => {
     it('should return an empty object when extended ETA data is missing', () => {
       component.data = undefined;
 
-      expect(component.getExtendedETA()).toEqual({});
+      expect(component.getAdditionalETAPhysicalDetails()).toEqual({});
     });
 
     it('should return all physical type details when extended ETA data is present', () => {
@@ -98,7 +98,7 @@ describe('EtaCardComponent', () => {
         },
       };
 
-      expect(component.getExtendedETA()).toEqual(physicalType);
+      expect(component.getAdditionalETAPhysicalDetails()).toEqual(physicalType);
     });
   });
 });
