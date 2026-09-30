@@ -1,0 +1,36 @@
+@let showExtended = showExtendedETA();
+<data-row
+  [label]="'ETA'"
+  [value]="eTA"
+  [shouldHaveSeparator]="(showExtended || (!showExtended && shouldHaveSeparator))">
+</data-row>
+@if (showExtended) {
+  <ion-row [class.mes-data-row-with-separator]="shouldHaveSeparator" [class.mes-data-row]="!shouldHaveSeparator">
+    <ion-col size="40">
+      <label>ETA physical details</label>
+    </ion-col>
+    <ion-col size="56">
+      @let extendedETA = getExtendedETA();
+        @if (extendedETA.footbrake) {
+          <li>
+          <ion-text class="mes-data">Footbrake</ion-text>
+          </li>
+        }
+        @if (extendedETA.steeringControl) {
+          <li>
+            <ion-text class="mes-data">Steering Control</ion-text>
+          </li>
+        }
+        @if (extendedETA.handbrake) {
+          <li>
+            <ion-text class="mes-data">Parking Brake</ion-text>
+          </li>
+        }
+        @if (extendedETA.other && (extendedETA.otherText.trim() !== '')) {
+          <li>
+            <ion-text class="mes-data">Other: {{ extendedETA.otherText }}</ion-text>
+          </li>
+        }
+    </ion-col>
+  </ion-row>
+}

@@ -89,7 +89,7 @@
       >
       </faults-data-row>
 
-      <data-row [label]="'ETA'" [value]="eTA" [shouldHaveSeparator]="ETASeparator()"> </data-row>
+      <test-result-eta-card [data]="data" [shouldHaveSeparator]="ETASeparator()"> </test-result-eta-card>
 
       @if (!delegatedTest && !isMod1() && !isMod2()) {
         <vehicle-checks-data-row
