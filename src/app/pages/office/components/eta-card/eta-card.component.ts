@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { ETA } from '@dvsa/mes-test-schema/categories/common';
+import { CharacterCountService } from '@providers/character-count/character-count.service';
 
 @Component({
   selector: 'eta-card',
@@ -9,6 +10,8 @@ import { ETA } from '@dvsa/mes-test-schema/categories/common';
   standalone: false,
 })
 export class ETACardComponent {
+  commentMaxLength = 950;
+
   @Input()
   faults: ETA;
   @Input()
@@ -38,8 +41,11 @@ export class ETACardComponent {
   @Output()
   steeringETAChanged = new EventEmitter();
 
+  charsRemaining: number = null;
   formControl: UntypedFormControl;
   readonly fieldName: string = 'etaPhysicalOtherText';
+
+  constructor(public characterCountService: CharacterCountService) {}
 
   footbrakeETAChange() {
     this.footbrakeETAChanged.emit();
@@ -80,11 +86,7 @@ export class ETACardComponent {
         }
       }
 
-      if (this.otherETA) {
-        this.formControl.addValidators(Validators.required);
-      } else {
-        this.formControl.clearValidators();
-      }
+      this.formControl.setValidators(this.otherETA ? [Validators.required, this.charactersExceededValidator()] : []);
       this.formControl.updateValueAndValidity();
 
       this.formControl.patchValue(this.otherETAReason ?? '');
@@ -126,5 +128,34 @@ export class ETACardComponent {
       return false;
     }
     return !this.formControl.valid && this.formControl.dirty;
+  }
+
+  charactersExceededValidator(): ValidatorFn {
+    return (): ValidationErrors | null => {
+      return this.characterCountService.charactersExceeded(this.charsRemaining) ? { charactersExceeded: true } : null;
+    };
+  }
+
+  /**
+   * Request appropriate character count text based upon how many characters are remaining
+   */
+  getCharacterCountText(): string {
+    return this.characterCountService.getCharacterCountText(this.charsRemaining);
+  }
+
+  /**
+   * Update the character count and revalidate the form control
+   * @param charactersRemaining
+   */
+  characterCountChanged(charactersRemaining: number) {
+    this.charsRemaining = charactersRemaining;
+    this.formControl?.updateValueAndValidity();
+  }
+
+  /**
+   * Request whether the character count has been exceeded
+   */
+  charactersExceeded(): boolean {
+    return this.characterCountService.charactersExceeded(this.charsRemaining);
   }
 }
