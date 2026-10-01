@@ -85,8 +85,7 @@
                   </ion-row>
                 </ion-col>
               </ion-row>
-            }
-            @if (otherETA) {
+            } @if (otherETA) {
               <ion-row class="mes-validated-row" id="eta-physical-other-row" [formGroup]="formGroup">
                 <div class="validation-bar"></div>
                 <ion-col class="component-label ion-align-self-center" size="32">
@@ -94,31 +93,41 @@
                     class="character-count"
                     id="eta-physical-other-label">Describe "other" physical intervention</label>
                 </ion-col>
-                <ion-col class="ion-align-self-center ion-padding-start">
-                  <ion-row class="spacing-row"></ion-row>
-                  <ion-row>
-                    <ion-col class="display-flex align-items-center" size="90">
-                      <ion-input
-                        type="text"
-                        inputmode="text"
-                        [maxlength]=950
+                <ion-col [formGroup]="formGroup">
+                      <textarea
+                        rows="5"
+                        class="mes-data text-area-colour"
+                        [formControlName]="fieldName"
+                        [class.ng-invalid]="invalid"
+                        [charLimit]="commentMaxLength"
                         id="eta-physical-other-input"
-                        class="ion-input-styling mes-data"
-                        formControlName="etaPhysicalOtherText"
-                        (ionChange)="otherETATextChange($event.target.value)"
+                        charCount
                         aria-labelledby="eta-physical-other-label"
+                        (onCharacterCountChanged)="characterCountChanged($event)"
+                        (change)="otherETATextChange($event.target.value)"
                         emojiBlock
                         pasteSanitiser
                       >
-                      </ion-input>
-                    </ion-col>
-                  </ion-row>
-                  <ion-row class="validation-message-row ion-align-items-center">
-                    <div class="validation-text" [class.ng-invalid]="invalid" id="eta-physical-other-validation-text">
-                      Enter details of the intervention
-                    </div>
-                  </ion-row>
+                      </textarea>
+                  <div
+                    class="character-count validation-text"
+                    [ngClass]="{'ng-invalid': charactersExceeded()}"
+                    id="eta-physical-other-character-count"
+                  >
+                    {{ getCharacterCountText() }}
+                  </div>
                 </ion-col>
+              </ion-row>
+              <ion-row class="validation-message-row ion-align-items-center">
+                @if (invalid && !charactersExceeded()) {
+                  <div
+                    class="validation-text"
+                    [class.ng-invalid]="invalid"
+                    id="eta-physical-other-validation-text"
+                  >
+                    Enter details of the intervention
+                  </div>
+                }
               </ion-row>
             }
           }

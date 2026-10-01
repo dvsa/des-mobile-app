@@ -80,6 +80,34 @@ describe('EtaCardComponent', () => {
       expect(component.invalid).toBeTrue();
     });
 
+    it('should report the other text as invalid when the character limit is exceeded', () => {
+      component.formGroup = new UntypedFormGroup({});
+      component.faults = { physical: true, verbal: false } as never;
+      component.otherETA = true;
+      component.otherETAReason = 'A'.repeat(951);
+
+      component.ngOnChanges();
+      component.formControl.markAsDirty();
+      component.characterCountChanged(-1);
+
+      expect(component.formControl.hasError('charactersExceeded')).toBeTrue();
+      expect(component.invalid).toBeTrue();
+    });
+
+    it('should not report the other text as invalid when the character limit is not exceeded', () => {
+      component.formGroup = new UntypedFormGroup({});
+      component.faults = { physical: true, verbal: false } as never;
+      component.otherETA = true;
+      component.otherETAReason = 'A'.repeat(950);
+
+      component.ngOnChanges();
+      component.formControl.markAsDirty();
+      component.characterCountChanged(0);
+
+      expect(component.formControl.hasError('charactersExceeded')).toBeFalse();
+      expect(component.invalid).toBeFalse();
+    });
+
     it('should report eta type invalid only when the eta type control is dirty and invalid', () => {
       component.formGroup = new UntypedFormGroup({});
       component.faults = { physical: true, verbal: false } as never;
