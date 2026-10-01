@@ -102,6 +102,7 @@
                         [charLimit]="commentMaxLength"
                         id="eta-physical-other-input"
                         charCount
+                        aria-labelledby="eta-physical-other-label"
                         (onCharacterCountChanged)="characterCountChanged($event)"
                         (change)="otherETATextChange($event.target.value)"
                         emojiBlock
