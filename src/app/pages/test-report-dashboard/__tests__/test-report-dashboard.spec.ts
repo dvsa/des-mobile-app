@@ -78,7 +78,12 @@ describe('TestReportDashboardPage', () => {
         } as CatBUniqueTypes.TestResult,
       },
     } as TestsModel,
-  } as StoreModel;
+    testReport: {
+      seriousMode: false,
+      dangerousMode: false,
+      removeFaultMode: false,
+    },
+  } as unknown as StoreModel;
 
   beforeEach(() => {
     TestBed.configureTestingModule({

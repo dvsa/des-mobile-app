@@ -77,21 +77,21 @@ describe('VehicleChecksCardComponent', () => {
   describe('DOM', () => {
     describe('Vehicle check reporting', () => {
       it('should remove any SMTM questions which have no outcome provided', () => {
-        component.category = TestCategory.BE;
+        fixture.componentRef.setInput('category', TestCategory.BE);
         // 2 questions are provided with an outcome here.
-        component.tellMeShowMeQuestions = getMalformedVehicleChecks();
+        fixture.componentRef.setInput('tellMeShowMeQuestions', getMalformedVehicleChecks());
         component.ngOnInit();
         expect(component.tellMeShowMeQuestions.length).toEqual(2);
       });
       it('should show results', () => {
-        component.category = TestCategory.BE;
-        component.tellMeShowMeQuestions = [
+        fixture.componentRef.setInput('category', TestCategory.BE);
+        fixture.componentRef.setInput('tellMeShowMeQuestions', [
           {
             code: 'S01',
             description: 'Show me how you would check that the direction indicators are working.',
             outcome: 'P',
           },
-        ];
+        ]);
         fixture.detectChanges();
 
         const tellMeQuestionText = fixture.debugElement.query(By.css('#vehicle-checks .counter-label')).nativeElement;
@@ -102,14 +102,14 @@ describe('VehicleChecksCardComponent', () => {
       });
 
       it('should show results in Welsh for a Welsh test', (done) => {
-        component.category = TestCategory.BE;
-        component.tellMeShowMeQuestions = [
+        fixture.componentRef.setInput('category', TestCategory.BE);
+        fixture.componentRef.setInput('tellMeShowMeQuestions', [
           {
             code: 'S01',
             description: 'Show me how you would check that the direction indicators are working.',
             outcome: 'P',
           },
-        ];
+        ]);
 
         fixture.detectChanges();
 

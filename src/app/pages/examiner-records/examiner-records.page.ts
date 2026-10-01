@@ -222,12 +222,13 @@ export class ExaminerRecordsPage implements OnInit {
           {
             item: 'Stop',
             count: emergencyStopCount,
-            percentage: `${((emergencyStopCount / testCount) * 100).toFixed(1)}%`,
+            percentage: testCount === 0 ? '0.0%' : `${((emergencyStopCount / testCount) * 100).toFixed(1)}%`,
           },
           {
             item: 'No stop',
             count: testCount - emergencyStopCount,
-            percentage: `${(((testCount - emergencyStopCount) / testCount) * 100).toFixed(1)}%`,
+            percentage:
+              testCount === 0 ? '0.0%' : `${(((testCount - emergencyStopCount) / testCount) * 100).toFixed(1)}%`,
           },
         ])
       ),

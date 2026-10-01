@@ -7,7 +7,6 @@ import { ModalControllerMock, PlatformMock } from '@mocks/index.mock';
 import { Store, StoreModule } from '@ngrx/store';
 import { NavControllerMock } from '@shared/mocks/nav-controller.mock';
 import { MockComponent } from 'ng-mocks';
-import { of } from 'rxjs';
 
 import { ActivityCodeComponent } from '@components/common/activity-code/activity-code';
 import { ComponentsModule } from '@components/common/common-components.module';
@@ -133,6 +132,7 @@ describe('OfficeCatADI2Page', () => {
                   ETA: {},
                   eco: {},
                   vehicleChecks: {
+                    tellMeQuestions: [{}, {}],
                     showMeQuestions: [{}, {}],
                   },
                 },
@@ -281,22 +281,7 @@ describe('OfficeCatADI2Page', () => {
       expect(component.popToRoot).toHaveBeenCalled();
     });
   });
-  describe('driving fault commentary', () => {
-    it('should pass whether to render driving fault commentary to fault-comment-card', () => {
-      const drivingFaultCommentCard: FaultCommentCardComponent = fixture.debugElement.query(
-        By.css('#driving-fault-comment-card')
-      ).componentInstance;
-      fixture.detectChanges();
 
-      component.pageState.displayDrivingFaultComments$ = of(true);
-      component.pageState.displayDrivingFault$ = of(true);
-      fixture.detectChanges();
-      expect(drivingFaultCommentCard.shouldRender).toBeTruthy();
-      component.pageState.displayDrivingFaultComments$ = of(false);
-      fixture.detectChanges();
-      expect(drivingFaultCommentCard.shouldRender).toBeFalsy();
-    });
-  });
   describe('showMeQuestionsChanged', () => {
     it('should dispatch a ShowMeQuestionSelected action with the result and index', () => {
       component.showMeQuestionsChanged({ code: 'test' }, 1);

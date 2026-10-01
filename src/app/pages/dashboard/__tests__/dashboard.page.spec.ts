@@ -3,7 +3,7 @@ import { By } from '@angular/platform-browser';
 import { Router, RouterModule } from '@angular/router';
 import { ComponentsModule } from '@components/common/common-components.module';
 import { VehicleRecallsBanner } from '@components/common/vehicle-recall-banner/vehicle-recalls-banner';
-import { AlertController, ModalController, Platform } from '@ionic/angular';
+import { AlertController, IonMenuButton, ModalController, Platform } from '@ionic/angular';
 import { AlertControllerMock, ModalControllerMock, PlatformMock, RouterMock } from '@mocks/index.mock';
 import { StoreModule } from '@ngrx/store';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
@@ -88,6 +88,7 @@ describe('DashboardPage', () => {
         DashboardPageRoutingModule,
         DashboardComponentsModule,
         ComponentsModule,
+        IonMenuButton,
       ],
       providers: [
         {
@@ -152,7 +153,6 @@ describe('DashboardPage', () => {
 
     fixture = TestBed.createComponent(DashboardPage);
     component = fixture.componentInstance;
-    fixture.detectChanges();
     appConfigProvider = TestBed.inject(AppConfigProvider);
     store$ = TestBed.inject(MockStore);
     modalController = TestBed.inject(ModalController);

@@ -14,7 +14,7 @@ export class VehicleChecksCardComponent implements OnInit {
   category: CategoryCode;
 
   @Input()
-  tellMeShowMeQuestions: QuestionResult[];
+  tellMeShowMeQuestions: QuestionResult[] = [];
 
   ngOnInit(): void {
     this.tellMeShowMeQuestions = this.tellMeShowMeQuestions.filter((result: QuestionResult) => 'outcome' in result);

@@ -146,12 +146,10 @@ export abstract class PassFinalisationPageComponent extends PracticeableBasePage
   }
 
   ionViewWillEnter() {
-    console.log('will enter');
     this.isShowingEditBox$.next(true);
   }
 
   deactivateEdit() {
-    console.log('edit dea');
     this.isShowingEditBox$.next(false);
   }
 

@@ -15,7 +15,7 @@ export const getManoeuvresADI2 = (data: CatADI2UniqueTypes.TestData): CatADI2Uni
   data.manoeuvres;
 
 export const hasManoeuvreBeenCompletedCatADIPart2 = (manoeuvres: CatADI2UniqueTypes.Manoeuvres[]) => {
-  if (!manoeuvres || manoeuvres.length < 2) return false;
+  if (!manoeuvres || !Array.isArray(manoeuvres) || manoeuvres.length < 2) return false;
 
   return manoeuvres.every((manoeuvre) => {
     return (

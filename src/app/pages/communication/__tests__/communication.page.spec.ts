@@ -309,6 +309,7 @@ describe('CommunicationPage', () => {
       () => {
         spyOn(component, 'isNewEmailSelected').and.returnValue(true);
         spyOn(component, 'dispatchCandidateChoseNewEmail');
+        component.communicationEmail = 'test@mail.com';
         component.conditionalDispatchCandidateChoseNewEmail();
         expect(component.dispatchCandidateChoseNewEmail).toHaveBeenCalled();
       }

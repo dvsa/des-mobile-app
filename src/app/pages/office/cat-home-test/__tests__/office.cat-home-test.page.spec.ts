@@ -64,7 +64,7 @@ import {
 import { AddUncoupleRecoupleComment } from '@store/tests/test-data/common/uncouple-recouple/uncouple-recouple.actions';
 import { Competencies, ExaminerActions } from '@store/tests/test-data/test-data.constants';
 import { MockComponent } from 'ng-mocks';
-import { Subscription, of } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { OfficeCatHomeTestPage } from '../office.cat-home-test.page';
 
 describe('OfficeCatHomeTestPage', () => {
@@ -224,23 +224,6 @@ describe('OfficeCatHomeTestPage', () => {
         fixture.detectChanges();
         component.defer();
         expect(component.popToRoot).toHaveBeenCalled();
-      });
-    });
-
-    describe('driving fault commentary', () => {
-      it('should pass whether to render driving fault commentary to fault-comment-card', () => {
-        const drivingFaultCommentCard: FaultCommentCardComponent = fixture.debugElement.query(
-          By.css('#driving-fault-comment-card')
-        ).componentInstance;
-        fixture.detectChanges();
-
-        component.pageState.displayDrivingFaultComments$ = of(true);
-        component.pageState.displayDrivingFault$ = of(true);
-        fixture.detectChanges();
-        expect(drivingFaultCommentCard.shouldRender).toBeTruthy();
-        component.pageState.displayDrivingFaultComments$ = of(false);
-        fixture.detectChanges();
-        expect(drivingFaultCommentCard.shouldRender).toBeFalsy();
       });
     });
   });

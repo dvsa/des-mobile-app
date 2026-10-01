@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { firstValueFrom } from 'rxjs';
 
 import { By } from '@angular/platform-browser';
 import { AppModule } from '@app/app.module';
@@ -34,13 +35,14 @@ describe('DangerousFaultsDebriefCardComponent', () => {
     fixture = TestBed.createComponent(DangerousFaultsDebriefCardComponent);
     component = fixture.componentInstance;
     translate = TestBed.inject(TranslateService);
-    translate.setDefaultLang('en');
+    translate.setFallbackLang('en');
+    fixture.detectChanges();
   }));
 
   describe('DOM', () => {
     it('correct dangerous faults showing', () => {
       const dangerousFaults = [Competencies.ancillaryControls, Competencies.clearance];
-      component.dangerousFaults = dangerousFaults;
+      fixture.componentRef.setInput('dangerousFaults', dangerousFaults);
       fixture.detectChanges();
       const dangerousLabels = fixture.debugElement.queryAll(By.css('#dangerous-fault .counter-label'));
       const dangerousCounts = fixture.debugElement.query(By.css('ion-text.fault-heading')).nativeElement;
@@ -49,24 +51,23 @@ describe('DangerousFaultsDebriefCardComponent', () => {
       expect(dangerousCounts.innerHTML).toBe(dangerousFaults.length.toString());
     });
 
-    it('correct dangerous faults showing in welsh', (done) => {
-      configureI18N(Language.CYMRAEG, translate);
+    it('correct dangerous faults showing in welsh', async () => {
+      const languageChange = firstValueFrom(translate.onLangChange);
       const dangerousFaults = [Competencies.ancillaryControls];
-      component.dangerousFaults = dangerousFaults;
-      translate.onLangChange.subscribe(() => {
-        fixture.detectChanges();
-        const dangerousLabels = fixture.debugElement.queryAll(By.css('#dangerous-fault .counter-label'));
-        const dangerousCounts = fixture.debugElement.query(By.css('ion-text.fault-heading')).nativeElement;
-        expect(dangerousLabels[0].nativeElement.innerHTML.trim()).toBe(
-          (welshTranslations as WelshTranslations).debrief.competencies.ancillaryControls
-        );
-        expect(dangerousCounts.innerHTML).toBe(dangerousFaults.length.toString());
-        done();
-      });
+      fixture.componentRef.setInput('dangerousFaults', dangerousFaults);
+      configureI18N(Language.CYMRAEG, translate);
+      await languageChange;
+      fixture.detectChanges();
+      const dangerousLabels = fixture.debugElement.queryAll(By.css('#dangerous-fault .counter-label'));
+      const dangerousCounts = fixture.debugElement.query(By.css('ion-text.fault-heading')).nativeElement;
+      expect(dangerousLabels[0].nativeElement.innerHTML.trim()).toBe(
+        (welshTranslations as WelshTranslations).debrief.competencies.ancillaryControls
+      );
+      expect(dangerousCounts.innerHTML).toBe(dangerousFaults.length.toString());
     });
 
     it('no dangerous faults showing', () => {
-      component.dangerousFaults = [];
+      fixture.componentRef.setInput('dangerousFaults', []);
       fixture.detectChanges();
       expect(fixture.debugElement.query(By.css('#dangerous-fault'))).toBeNull();
     });
