@@ -431,25 +431,6 @@ export class DebriefCardComponent implements OnInit {
     ];
   }
 
-  public get eTA(): string {
-    const eta: string[] = [];
-
-    if (get(this.data, 'ETA.physical')) {
-      eta.push('Physical');
-    }
-    if (get(this.data, 'ETA.verbal')) {
-      if (get(this.data, 'ETA.physical')) {
-        eta.push('verbal');
-      } else {
-        eta.push('Verbal');
-      }
-    }
-    if (eta.length === 0) {
-      eta.push('None');
-    }
-    return flattenArray(eta);
-  }
-
   getManoeuvres(): string[] {
     const manoeuvres = [];
 

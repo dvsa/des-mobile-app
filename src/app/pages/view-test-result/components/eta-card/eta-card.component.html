@@ -1,0 +1,36 @@
+@let showAdditionalPhysicalDetails = shouldShowAdditionalETAPhysicalDetails();
+<data-row
+  [label]="'ETA'"
+  [value]="eTA"
+  [shouldHaveSeparator]="(showAdditionalPhysicalDetails || (!showAdditionalPhysicalDetails && shouldHaveSeparator))">
+</data-row>
+@if (showAdditionalPhysicalDetails) {
+  <ion-row [class.mes-data-row-with-separator]="shouldHaveSeparator" [class.mes-data-row]="!shouldHaveSeparator">
+    <ion-col size="40">
+      <label>ETA physical details</label>
+    </ion-col>
+    <ion-col size="56">
+      @let physicalDetails = getAdditionalETAPhysicalDetails();
+        @if (physicalDetails.footbrake) {
+          <li>
+          <ion-text class="mes-data">Footbrake</ion-text>
+          </li>
+        }
+        @if (physicalDetails.steeringControl) {
+          <li>
+            <ion-text class="mes-data">Steering control</ion-text>
+          </li>
+        }
+        @if (physicalDetails.handbrake) {
+          <li>
+            <ion-text class="mes-data">Parking brake</ion-text>
+          </li>
+        }
+        @if (physicalDetails.other && (physicalDetails.otherText.trim() !== '')) {
+          <li>
+            <ion-text class="mes-data">Other: {{ physicalDetails.otherText }}</ion-text>
+          </li>
+        }
+    </ion-col>
+  </ion-row>
+}

@@ -379,39 +379,6 @@ describe('DebriefCardComponent', () => {
     });
   });
 
-  describe('eTA', () => {
-    it('should push ETA to an array if they are present', () => {
-      component.data = {
-        ETA: {
-          physical: true,
-          verbal: true,
-        },
-      };
-      expect(component.eTA).toEqual('Physical and verbal');
-    });
-    it('should push None to an array if no ETA is present', () => {
-      component.data = {
-        ETA: null,
-      };
-      expect(component.eTA).toEqual('None');
-    });
-    it('should push Verbal to an array if only ETA Verbal is present', () => {
-      component.data = {
-        ETA: {
-          verbal: true,
-        },
-      };
-      expect(component.eTA).toEqual('Verbal');
-    });
-    it('should push Physical to an array if only ETA Physical is present', () => {
-      component.data = {
-        ETA: {
-          physical: true,
-        },
-      };
-      expect(component.eTA).toEqual('Physical');
-    });
-  });
   describe('highwayCode', () => {
     it(
       'should return an array containing an object with ViewTestResultLabels.completed and checked = true' +

@@ -10,6 +10,7 @@ import { IonCard, IonCardContent, IonCardHeader, IonCol, IonGrid, IonRow, IonTex
 import { CandidateDetailsComponentsModule } from '@pages/candidate-details/components/candidate-details-components.module';
 import { OfficeComponentsModule } from '@pages/office/components/office.components.module';
 import { DebriefCardComponent } from '@pages/view-test-result/components/debrief-card/debrief-card';
+import { EtaCardComponent } from '@pages/view-test-result/components/eta-card/eta-card.component';
 import { SafetyDataRowComponent } from '@pages/view-test-result/components/safety-question-data-row/safety-question-data-row';
 import { ScDebriefCard } from '@pages/view-test-result/components/sc-debrief-card/sc-debrief-card';
 import { TrainerDetailsCardComponent } from '@pages/view-test-result/components/trainer-details-card/trainer-details-card';
@@ -64,6 +65,7 @@ import { ViewTestHeaderComponent } from './view-test-header/view-test-header';
     IonText,
     IonCol,
     IonRow,
+    EtaCardComponent,
   ],
   exports: [
     DataRowWithListComponent,
