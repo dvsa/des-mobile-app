@@ -408,7 +408,7 @@
   "healthDeclaration": {
     "confirm": "I confirm",
     "certificateReceived": "I have received the pass certificate number",
-    "certificateReceivedValidation": "Confirm that you have received the pass certificate number",
+    "certificateReceivedValidation": "Confirm that you have received the pass certificate",
     "declarationIntent": "I declare that",
     "healthDeclaration": "There has been no change in my health status since I last applied for a licence.",
     "healthDeclarationValidation": "Confirm that there has been no change in your health status",
