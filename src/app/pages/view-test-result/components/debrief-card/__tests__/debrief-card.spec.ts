@@ -44,9 +44,8 @@ describe('DebriefCardComponent', () => {
         MockComponent(SafetyDataRowComponent),
         MockComponent(SafetyAndBalanceDataRowComponent),
         MockComponent(FaultsDataRowComponent),
-        MockComponent(EtaCardComponent),
       ],
-      imports: [AppModule, ComponentsModule],
+      imports: [EtaCardComponent, AppModule, ComponentsModule],
       providers: [QuestionProvider],
     });
 
