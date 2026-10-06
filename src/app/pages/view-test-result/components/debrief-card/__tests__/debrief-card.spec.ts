@@ -14,6 +14,7 @@ import {
   ViewTestResultLabels,
 } from '@pages/view-test-result/components/data-row-with-list/data-list-with-row.model';
 import { DebriefCardComponent } from '@pages/view-test-result/components/debrief-card/debrief-card';
+import { EtaCardComponent } from '@pages/view-test-result/components/eta-card/eta-card.component';
 import { FaultsDataRowComponent } from '@pages/view-test-result/components/faults-data-row/faults-data-row';
 import { SafetyAndBalanceDataRowComponent } from '@pages/view-test-result/components/safety-and-balance-data-row/safety-and-balance-data-row';
 import { SafetyDataRowComponent } from '@pages/view-test-result/components/safety-question-data-row/safety-question-data-row';
@@ -43,6 +44,7 @@ describe('DebriefCardComponent', () => {
         MockComponent(SafetyDataRowComponent),
         MockComponent(SafetyAndBalanceDataRowComponent),
         MockComponent(FaultsDataRowComponent),
+        MockComponent(EtaCardComponent),
       ],
       imports: [AppModule, ComponentsModule],
       providers: [QuestionProvider],
