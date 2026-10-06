@@ -20,6 +20,8 @@ import { AnalyticsProvider } from '@providers/analytics/analytics';
 import { AppConfigProviderMock } from '@providers/app-config/__mocks__/app-config.mock';
 import { AppConfigProvider } from '@providers/app-config/app-config';
 import { AppConfigError } from '@providers/app-config/app-config.constants';
+import { AppInfoProviderMock } from '@providers/app-info/__mocks__/app-info.mock';
+import { AppInfoProvider } from '@providers/app-info/app-info';
 import { AuthenticationProviderMock } from '@providers/authentication/__mocks__/authentication.mock';
 import { AuthenticationProvider } from '@providers/authentication/authentication';
 import { AuthenticationError } from '@providers/authentication/authentication.constants';
@@ -85,6 +87,10 @@ describe('LoginPage', () => {
         {
           provide: AppConfigProvider,
           useClass: AppConfigProviderMock,
+        },
+        {
+          provide: AppInfoProvider,
+          useClass: AppInfoProviderMock,
         },
         {
           provide: MenuController,

@@ -35,6 +35,7 @@ export class LoginPage extends LogoutBasePageComponent implements OnInit {
   queryParamSub: Subscription;
   isLoggedIn = false;
   isLoggingIn = false;
+  versionNum: Promise<string> = this.appInfoProvider.getFullVersionNumber();
 
   connectionStatus$: Observable<NetworkConnectionStatus> = this.networkStateProvider.onNetworkChange();
   connectionStatusSubscription: Subscription = null;
