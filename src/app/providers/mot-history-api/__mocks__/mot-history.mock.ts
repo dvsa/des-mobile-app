@@ -29,8 +29,6 @@ export const fakeMOTResults: {
     status: '200',
     data: {
       registration: 'XX01NDT',
-      make: '-',
-      model: '-',
       status: 'No details',
       expiryDate: '01/01/0001',
     },
