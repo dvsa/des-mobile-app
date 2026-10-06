@@ -1,18 +1,31 @@
-.e2e-test-card {
+.partial-test-card {
   width: 100%;
   padding: 0;
   outline: none;
   border: none;
   background-color: initial;
 }
+
+.practice-row {
+  display: flex;
+  justify-content: space-around;
+  min-width: 16em;
+  width: 100%;
+}
+
 .practice-mode-card {
-  background-color: var(--gds-yellow);
-  padding: 10px;
+  box-shadow: rgba(0, 0, 0, 0.2) 0 3px 1px -2px, rgba(0, 0, 0, 0.14) 0 2px 2px 0, rgba(0, 0, 0, 0.12) 0 1px 5px 0;
+  width: 97%;
+  border-radius: 10px;
+  display: flex;
+  --background: var(--gds-yellow);
+  --background-activated: var(--gds-yellow-darken-15);
   border: 10px solid var(--mes-theme-main-colour);
 }
 
 .col-align-right {
-  text-align: right;
+  display: flex;
+  justify-content: end;
 }
 
 .full-test-button {
@@ -20,12 +33,17 @@
   box-shadow: none;
 }
 
-.icon-practice-test-full {
-  margin-left: 20px;
+.icon-practice-full {
   width: 233px;
   height: 48px;
 }
 
-.text-colour {
+.button-text {
+  justify-content: center;
+  border-color: white;
+  background-color: white;
+  border-style: solid !important;
+  border-width: 10px 20px !important;
+  border-radius: 10px !important;
   color: var(--gds-theme-opposite);
 }

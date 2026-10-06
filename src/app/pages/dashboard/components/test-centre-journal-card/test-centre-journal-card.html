@@ -1,21 +1,17 @@
-<button class="test-centre-journal-button" (click)="navigateToTestCentreJournal()">
-  <ion-card class="test-centre-journal-card" id="test-centre-journal-card">
-    <div id="card-content-wrapper">
-      <ion-grid>
-        <ion-row class="icon-row">
-          <img
-            src="assets/imgs/dashboard/go-to-test-centre-journal.png"
-            alt="Test centre journal"
-            class="icon-test-centre"
-            aria-hidden="true"
-          />
-        </ion-row>
-        <ion-row>
-          <ion-button id="test-centre-journal-button" mode="ios" class="mes-primary-blue-button">
-            <ion-text class="des-header-style-3">Go to test centre journal</ion-text>
-          </ion-button>
-        </ion-row>
-      </ion-grid>
-    </div>
-  </ion-card>
-</button>
+<ion-button class="test-centre-journal-button" id="test-centre-journal-button" (click)="navigateToTestCentreJournal()">
+  <ion-grid id="card-content-wrapper">
+    <ion-row class="icon-row">
+      <img
+        ngSrc="assets/imgs/dashboard/go-to-test-centre-journal.png"
+        alt="Test centre journal"
+        class="icon-test-centre"
+        aria-hidden="true"
+        height="164" width="224"/>
+    </ion-row>
+    <ion-row class="width-100">
+      <div class="width-100 mes-primary-blue-button">
+        <ion-text class="des-header-style-3">Go to test centre journal</ion-text>
+      </div>
+    </ion-row>
+  </ion-grid>
+</ion-button>

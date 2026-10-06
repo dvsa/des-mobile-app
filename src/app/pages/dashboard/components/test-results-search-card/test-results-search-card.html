@@ -1,21 +1,17 @@
-<button clear (click)="navigateToTestResultsSearch()" id="search-for-completed-tests-btn">
-  <ion-card class="search-card" id="completed-search-card">
-    <div id="card-content-wrapper">
-      <ion-grid>
-        <ion-row class="icon-row">
-          <img
-            src="assets/imgs/dashboard/search-tests.png"
-            alt="Search tests"
-            class="icon-search-tests"
-            aria-hidden="true"
-          />
-        </ion-row>
-        <ion-row>
-          <ion-button id="completed-search-button" class="mes-neutral-button">
-            <ion-text class="des-header-style-3">Search for completed tests</ion-text>
-          </ion-button>
-        </ion-row>
-      </ion-grid>
-    </div>
-  </ion-card>
-</button>
+<ion-button class="search-card" id="search-for-completed-tests-btn" (click)="navigateToTestResultsSearch()">
+  <ion-grid id="card-content-wrapper">
+    <ion-row class="icon-row">
+      <img
+        ngSrc="assets/imgs/dashboard/search-tests.png"
+        alt="Search tests"
+        class="icon-search-tests"
+        aria-hidden="true"
+        height="144" width="144"/>
+    </ion-row>
+    <ion-row class="width-100">
+      <div class="width-100 mes-neutral-button">
+        <ion-text class="des-header-style-3">Search for completed tests</ion-text>
+      </div>
+    </ion-row>
+  </ion-grid>
+</ion-button>
