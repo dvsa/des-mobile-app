@@ -90,7 +90,7 @@
     "@dvsa/mes-mot-schema": "1.1.1",
     "@dvsa/mes-search-schema": "1.5.0",
     "@dvsa/mes-test-schema": "^3.56.0",
-    "@ionic/angular": "^9.0.3",
+    "@ionic/angular": "^9.0.4",
     "@ionic/core": "^9.0.3",
     "@ionic/storage-angular": "^4.0.0",
     "@maskito/angular": "^5.4.0",
