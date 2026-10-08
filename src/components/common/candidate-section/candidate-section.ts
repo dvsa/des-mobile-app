@@ -60,7 +60,7 @@ export class CandidateSectionComponent {
       component: VRNCaptureModal,
       backdropDismiss: false,
       showBackdrop: true,
-      cssClass: 'mes-modal-alert text-zoom-regular',
+      cssClass: 'mes-modal-alert',
       componentProps: {
         textZoom: this.accessibilityService.getTextZoomClass(),
       },
