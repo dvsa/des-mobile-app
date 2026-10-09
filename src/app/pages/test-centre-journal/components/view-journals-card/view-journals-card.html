@@ -80,15 +80,12 @@
             <p class="no-results-text">{{ warningText }}</p>
           </div>
         }
-        @if (hasClickedShowJournal) {
-          <ion-list role="list">
-            <journal-slots
-              [isPortrait]="orientationMonitorProvider.isPortraitMode$ | async"
-              [isTeamJournal]="true"
-              [slots]="slotItems$ | async"
-            >
-            </journal-slots>
-          </ion-list>
+        @if (hasClickedShowJournal && (slotItems$ | async)?.length > 0) {
+          <journal-slots
+            [isPortrait]="orientationMonitorProvider.isPortraitMode$ | async"
+            [isTeamJournal]="true"
+            [slots]="slotItems$ | async">
+          </journal-slots>
         }
       </div>
     } @else {
