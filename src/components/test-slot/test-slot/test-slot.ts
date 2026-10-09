@@ -1,13 +1,9 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { TestSlot } from '@dvsa/mes-journal-schema';
+import { SearchResultTestSchema } from '@dvsa/mes-search-schema';
 import { ActivityCode } from '@dvsa/mes-test-schema/categories/common';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { Store, select } from '@ngrx/store';
-import { get, isNil } from 'lodash-es';
-import { Observable } from 'rxjs';
-import { filter, map } from 'rxjs/operators';
-
-import { CompletedJournalSlot } from '@pages/journal/journal.page';
 import { AccessibilityService } from '@providers/accessibility/accessibility.service';
 import { AppConfigProvider } from '@providers/app-config/app-config';
 import { CategoryWhitelistProvider } from '@providers/category-whitelist/category-whitelist';
@@ -31,6 +27,9 @@ import {
   getTestById,
   getTestStatus,
 } from '@store/tests/tests.selector';
+import { get, isNil } from 'lodash-es';
+import { Observable } from 'rxjs';
+import { filter, map } from 'rxjs/operators';
 import { SlotComponent } from '../slot/slot';
 import { vehicleDetails } from './test-slot.constants';
 
@@ -71,7 +70,7 @@ export class TestSlotComponent implements SlotComponent, OnInit {
   teamJournalCandidateResult = false;
 
   @Input()
-  completedTestRecord?: CompletedJournalSlot;
+  completedTestRecord?: SearchResultTestSchema;
 
   @Input()
   examinerName: string = null;

@@ -55,16 +55,13 @@
 
   <vehicle-recalls-banner></vehicle-recalls-banner>
 
-  <ion-list>
+  @if ((pageState.slots$ | async)?.length > 0) {
     <journal-slots
       [completedTests]="pageState.completedTests$ | async"
       [isPortrait]="orientationMonitorProvider.isPortraitMode$ | async"
-      [slots]="pageState.slots$ | async"
-    >
+      [slots]="pageState.slots$ | async">
     </journal-slots>
-  </ion-list>
-
-  @if (!!!(pageState.slots$ | async)?.length) {
+  } @else {
     <div class="no-results ion-text-center">
       <p>There is no journal data to display for this day</p>
     </div>
