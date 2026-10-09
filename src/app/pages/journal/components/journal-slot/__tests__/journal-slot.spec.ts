@@ -2,8 +2,8 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ComponentsModule } from '@components/common/common-components.module';
 import { TestSlot } from '@dvsa/mes-journal-schema';
 
+import { SearchResultTestSchema } from '@dvsa/mes-search-schema';
 import { JournalSlotComponent } from '@pages/journal/components/journal-slot/journal-slot';
-import { CompletedJournalSlot } from '@pages/journal/journal.page';
 import { SlotSelectorProviderMock } from '@providers/slot-selector/__mocks__/slot-selector.mock';
 import { SlotItem } from '@providers/slot-selector/slot-item';
 import { SlotSelectorProvider } from '@providers/slot-selector/slot-selector';
@@ -83,7 +83,7 @@ describe('JournalSlotComponent', () => {
           },
         },
       } as TestSlot;
-      component.completedTests = [{ applicationReference: '9999' }] as CompletedJournalSlot[];
+      component.completedTests = [{ applicationReference: '9999' }] as SearchResultTestSchema[];
       expect(component.findCompletedTest(slotData)).toBeUndefined();
     });
 
@@ -97,7 +97,7 @@ describe('JournalSlotComponent', () => {
           },
         },
       } as TestSlot;
-      const completedTest = { applicationReference: '1023' } as CompletedJournalSlot;
+      const completedTest = { applicationReference: '1023' } as SearchResultTestSchema;
       component.completedTests = [completedTest];
       expect(component.findCompletedTest(slotData)).toEqual(completedTest);
     });
@@ -110,7 +110,7 @@ describe('JournalSlotComponent', () => {
           },
         },
       } as TestSlot;
-      const completedTest = { applicationReference: 'A' } as CompletedJournalSlot;
+      const completedTest = { applicationReference: 'A' } as SearchResultTestSchema;
       component.completedTests = [completedTest];
       expect(component.findCompletedTest(slotData)).toEqual(completedTest);
     });
