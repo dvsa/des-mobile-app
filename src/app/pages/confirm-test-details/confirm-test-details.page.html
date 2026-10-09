@@ -73,11 +73,11 @@
           [shouldHaveSeparator]="!displayForCategory(category) || !displayD255(category) || isADI3(category)"
         >
         </data-row>
-        <!-- Provisional licence received -->
+        <!-- Licence received -->
         @if (isPassed(pageState.testOutcomeText$ | async) && !displayForCategory(category)) {
           <data-row
             [idPrefix]="idPrefix"
-            [label]="'Provisional licence received'"
+            [label]="'Licence received'"
             [value]="getProvisionalText(pageState.provisionalLicense$ | async)"
           >
           </data-row>
