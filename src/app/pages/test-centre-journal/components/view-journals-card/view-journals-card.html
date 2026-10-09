@@ -81,7 +81,7 @@
           </div>
         }
         @if (hasClickedShowJournal) {
-          <ion-list>
+          <ion-list role="list">
             <journal-slots
               [isPortrait]="orientationMonitorProvider.isPortraitMode$ | async"
               [isTeamJournal]="true"
