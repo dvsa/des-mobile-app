@@ -180,6 +180,7 @@ export class TestOutcomeComponent implements OnDestroy, OnInit {
 
   showStartTestButton(): boolean {
     return (
+      (this.slotChanged && !this.showWriteUpButton()) ||
       (!this.isDelegatedTest && this.testStatus === TestStatus.Booked) ||
       (this.testStatus !== TestStatus.Booked && this.testExistsAsRekey)
     );
@@ -219,36 +220,37 @@ export class TestOutcomeComponent implements OnDestroy, OnInit {
       this.store$.dispatch(ContinueUnuploadedTest('Resume'));
     }
 
-    const slotHasChanged = await this.hasSlotChanged(this.slot, this.slotDetail.slotId);
-
     // If the slot has changed and thus been cleared, a new test will be started.
     // If the slot has not changed, the existing test will be activated.
-    slotHasChanged
-      ? this.store$.dispatch(StartTest(this.slotDetail.slotId, this.category, this.startTestAsRekey || this.isRekey))
-      : this.store$.dispatch(ActivateTest(this.slotDetail.slotId, this.category));
-
-    if (this.testStatus === TestStatus.Started) {
-      await this.router.navigate([
-        this.category !== TestCategory.SC ? TestFlowPageNames.WAITING_ROOM_PAGE : TestFlowPageNames.COMMUNICATION_PAGE,
-      ]);
-    } else if (this.activityCode === ActivityCodes.PASS) {
-      await this.routeByCat.navigateToPage(TestFlowPageNames.PASS_FINALISATION_PAGE, this.category);
+    if (await this.checkHasSlotChanged(this.slot, this.slotDetail.slotId)) {
+      await this.startTest();
     } else {
-      await this.routeByCat.navigateToPage(TestFlowPageNames.NON_PASS_FINALISATION_PAGE);
+      this.store$.dispatch(ActivateTest(this.slotDetail.slotId, this.category));
+      if (this.testStatus === TestStatus.Started) {
+        await this.navigateToFirstPage();
+      } else if (this.activityCode === ActivityCodes.PASS) {
+        await this.routeByCat.navigateToPage(TestFlowPageNames.PASS_FINALISATION_PAGE, this.category);
+      } else {
+        await this.routeByCat.navigateToPage(TestFlowPageNames.NON_PASS_FINALISATION_PAGE);
+      }
     }
+  }
+
+  async navigateToFirstPage() {
+    await this.router.navigate([
+      this.category !== TestCategory.SC ? TestFlowPageNames.WAITING_ROOM_PAGE : TestFlowPageNames.COMMUNICATION_PAGE,
+    ]);
   }
 
   async startTest() {
     if (this.isE2EPracticeMode()) {
       this.store$.dispatch(StartE2EPracticeTest(this.slotDetail.slotId.toString(), this.category));
     } else {
-      await this.hasSlotChanged(this.slot, this.slotDetail.slotId);
+      this.store$.dispatch(RemoveStartedTest(this.slotDetail.slotId));
       this.store$.dispatch(StartTest(this.slotDetail.slotId, this.category, this.startTestAsRekey || this.isRekey));
     }
 
-    await this.router.navigate([
-      this.category !== TestCategory.SC ? TestFlowPageNames.WAITING_ROOM_PAGE : TestFlowPageNames.COMMUNICATION_PAGE,
-    ]);
+    await this.navigateToFirstPage();
   }
 
   async rekeyTest() {
@@ -265,9 +267,7 @@ export class TestOutcomeComponent implements OnDestroy, OnInit {
         DateTime.at(this.slotDetail.start).format('YYYY-MM-DD')
       )
     );
-    await this.router.navigate([
-      this.category === TestCategory.SC ? TestFlowPageNames.COMMUNICATION_PAGE : TestFlowPageNames.WAITING_ROOM_PAGE,
-    ]);
+    await this.navigateToFirstPage();
   }
 
   async rekeyDelegatedTestStart() {
@@ -417,9 +417,6 @@ export class TestOutcomeComponent implements OnDestroy, OnInit {
 
   async startOrResumeTestDependingOnStatus() {
     if (this.testStatus === TestStatus.Booked || this.testExistsAsRekey) {
-      if (this.testExistsAsRekey) {
-        this.store$.dispatch(RemoveTestBySlotId(this.slotDetail.slotId));
-      }
       await this.startTest();
     } else {
       await this.resumeTest();
@@ -432,7 +429,7 @@ export class TestOutcomeComponent implements OnDestroy, OnInit {
    * @param slot
    * @param slotId
    */
-  async hasSlotChanged(slot: TestSlot, slotId: number): Promise<boolean> {
+  async checkHasSlotChanged(slot: TestSlot, slotId: number): Promise<boolean> {
     // Get the existing test from the store
     const existingTest = await firstValueFrom(
       this.store$.pipe(

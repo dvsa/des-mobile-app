@@ -72,6 +72,7 @@ import {
   SetFullLicenceHeld as SetFullLicenceHeldCatD,
 } from './test-data/cat-d/vehicle-checks/vehicle-checks.cat-d.action';
 import * as testStatusActions from './test-status/test-status.actions';
+import { SetTestStatusStarted } from './test-status/test-status.actions';
 import { TestStatus } from './test-status/test-status.model';
 import * as testActions from './tests.actions';
 import { SendCompletedTests, StartTest, StopSendingCompletedTests } from './tests.actions';
@@ -223,7 +224,7 @@ export class TestsEffects {
             createPopulateCandidateDetailsAction(startTestAction.category, slot.booking),
             PopulateTestSlotAttributes(testSlotAttributes),
             PopulateTestCentre(extractTestCentre(slot)),
-            testStatusActions.SetTestStatusBooked(startTestAction.slotId.toString()),
+            SetTestStatusStarted(startTestAction.slotId.toString()),
             SetExaminerBooked(Number.parseInt(examinerBooked, 10) ? Number.parseInt(examinerBooked, 10) : null),
             SetExaminerConducted(Number.parseInt(examinerBooked, 10) ? Number.parseInt(examinerBooked, 10) : null),
             SetExaminerKeyed(Number.parseInt(examinerKeyed, 10) ? Number.parseInt(examinerKeyed, 10) : null),

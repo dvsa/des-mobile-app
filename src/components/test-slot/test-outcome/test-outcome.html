@@ -9,7 +9,7 @@
       </ion-grid>
     </div>
   }
-  @if (showTestActionButton && !showOutcome()) {
+  @else if (showTestActionButton) {
     <div>
       @if (showRekeyButton()) {
         <ion-col class="flex-center">
