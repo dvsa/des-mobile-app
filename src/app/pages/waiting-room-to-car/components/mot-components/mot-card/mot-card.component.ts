@@ -60,6 +60,10 @@ export class MotCardComponent {
     this.alternateEvidenceChange.emit(event);
   }
 
+  hasMakeOrModel(): boolean {
+    return !!this.data?.make?.trim() || !!this.data?.model?.trim();
+  }
+
   isSearchFailed(): boolean {
     return (
       +this.status === HttpStatusCodes.UNDEFINED ||

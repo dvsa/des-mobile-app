@@ -27,6 +27,39 @@ describe('MotCardComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  describe('hasMakeOrModel', () => {
+    it('should return true when make is populated', () => {
+      component.data = { make: 'Practice', model: '' } as MotHistory;
+
+      expect(component.hasMakeOrModel()).toBeTrue();
+    });
+
+    it('should return true when model is populated', () => {
+      component.data = { make: '', model: 'Mode' } as MotHistory;
+
+      expect(component.hasMakeOrModel()).toBeTrue();
+    });
+
+    it('should return false when make and model are empty or whitespace', () => {
+      component.data = { make: '  ', model: '' } as MotHistory;
+
+      expect(component.hasMakeOrModel()).toBeFalse();
+    });
+
+    it('should return false when make and model are missing', () => {
+      component.data = { status: 'No details' } as MotHistory;
+
+      expect(component.hasMakeOrModel()).toBeFalse();
+    });
+
+    it('should return false when make and model are null', () => {
+      component.data = { make: null, model: null } as unknown as MotHistory;
+
+      expect(component.hasMakeOrModel()).toBeFalse();
+    });
+  });
+
   describe('isValidMOT', () => {
     it('should return true if data.status is "Valid"', () => {
       component.data = { status: 'Valid' } as MotHistory;
