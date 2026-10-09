@@ -1,3 +1,4 @@
+import { TestSlot } from '@dvsa/mes-journal-schema';
 import { DateTime } from '@shared/helpers/date-time';
 import { end2endPracticeSlotId } from '@shared/mocks/test-slot-ids.mock';
 
@@ -2119,11 +2120,11 @@ const getFakeTests = () => {
       vehicleSlotTypeCode: 7,
       examinerVisiting: true,
     },
-  ];
+  ] as unknown as TestSlot[];
 };
 
 export const regenerateFakeTests = () => {
   fakeJournalTestSlots = getFakeTests();
 };
 
-export let fakeJournalTestSlots = getFakeTests();
+export let fakeJournalTestSlots: TestSlot[] = getFakeTests();
