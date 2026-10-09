@@ -1,16 +1,13 @@
-<button class="go-to-journal-button" (click)="navigateToJournal()">
-  <ion-card class="go-to-journal-card" id="go-to-journal-card">
-    <div id="card-content-wrapper">
-      <ion-grid>
-        <ion-row class="icon-row">
-          <img src="assets/imgs/dashboard/go-to-journal.png" alt="Journal" class="icon-journal" aria-hidden="true" />
-        </ion-row>
-        <ion-row>
-          <ion-button id="go-to-journal-button" mode="ios" class="mes-primary-button">
-            <ion-text class="des-header-style-3">Go to my journal</ion-text>
-          </ion-button>
-        </ion-row>
-      </ion-grid>
-    </div>
-  </ion-card>
-</button>
+<ion-button class="go-to-journal-button" id="go-to-journal-button" (click)="navigateToJournal()">
+  <ion-grid id="card-content-wrapper">
+    <ion-row class="icon-row">
+      <img ngSrc="assets/imgs/dashboard/go-to-journal.png" alt="Journal" class="icon-journal" aria-hidden="true"
+           height="184" width="224"/>
+    </ion-row>
+    <ion-row class="width-100">
+      <div class="width-100 mes-primary-button">
+        <ion-text class="des-header-style-3">Go to my journal</ion-text>
+      </div>
+    </ion-row>
+  </ion-grid>
+</ion-button>

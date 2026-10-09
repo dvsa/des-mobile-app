@@ -7,6 +7,7 @@ import { ReportError } from '@pages/login/login-page.actions';
 import { AnalyticsProvider } from '@providers/analytics/analytics';
 import { AppConfigProvider } from '@providers/app-config/app-config';
 import { AppConfigError } from '@providers/app-config/app-config.constants';
+import { AppInfoProvider } from '@providers/app-info/app-info';
 import { AuthenticationError } from '@providers/authentication/authentication.constants';
 import { DeviceError } from '@providers/device/device.constants';
 import { LoadingProvider } from '@providers/loader/loader';
@@ -34,6 +35,7 @@ export class LoginPage extends LogoutBasePageComponent implements OnInit {
   queryParamSub: Subscription;
   isLoggedIn = false;
   isLoggingIn = false;
+  versionNum: Promise<string> = this.appInfoProvider.getFullVersionNumber();
 
   connectionStatus$: Observable<NetworkConnectionStatus> = this.networkStateProvider.onNetworkChange();
   connectionStatusSubscription: Subscription = null;
@@ -54,6 +56,7 @@ export class LoginPage extends LogoutBasePageComponent implements OnInit {
     private analytics: AnalyticsProvider,
     public networkStateProvider: NetworkStateProvider,
     public alertController: AlertController,
+    public appInfoProvider: AppInfoProvider,
     injector: Injector
   ) {
     super(injector);

@@ -71,11 +71,11 @@
       @if (!showDelegatedExaminerRekey()) {
         <ion-row>
           <ion-col size="48">
-            <go-to-journal-card></go-to-journal-card>
+            <go-to-journal-card class="display-flex"></go-to-journal-card>
           </ion-col>
           <ion-col size="48">
-            <test-centre-journal-card
-              (navigatedToTestCentreJournal)="onNavigateToTestCentreJournal()"
+            <test-centre-journal-card class="display-flex"
+                                      (navigatedToTestCentreJournal)="onNavigateToTestCentreJournal()"
             ></test-centre-journal-card>
           </ion-col>
         </ion-row>
@@ -89,10 +89,11 @@
       }
       <ion-row>
         <ion-col size="48">
-          <test-results-search-card></test-results-search-card>
+          <test-results-search-card class="display-flex"></test-results-search-card>
         </ion-col>
         <ion-col size="48">
           <rekey-search-card
+            class="display-flex"
             [isDelegatedExaminer]="isDelegatedExaminer()"
           ></rekey-search-card>
         </ion-col>
@@ -104,13 +105,16 @@
     }
     @if (showTestReportPracticeMode()) {
       <practice-test-report-card
+        class="ion-justify-content-center display-flex"
         (click)="practiceTestReportCardClicked()"
-        id="testReportPracticeMode"
-      >
+        id="testReportPracticeMode">
       </practice-test-report-card>
     }
     @if (showEndToEndPracticeMode()) {
-      <practice-end-to-end-card id="endToendPracticeMode"></practice-end-to-end-card>
+      <practice-end-to-end-card
+        class="ion-justify-content-center display-flex"
+        id="endToendPracticeMode">
+      </practice-end-to-end-card>
     }
   </div>
 </ion-content>
