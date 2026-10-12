@@ -1,5 +1,6 @@
 import { Component, HostListener, Injector } from '@angular/core';
 import { Style } from '@capacitor/status-bar';
+import { TestSlot } from '@dvsa/mes-journal-schema';
 import { fakeJournalTestSlots, regenerateFakeTests } from '@pages/fake-journal/__mocks__/fake-journal.mock';
 import { FakeJournalDidEnter } from '@pages/fake-journal/fake-journal.actions';
 import { AccessibilityService } from '@providers/accessibility/accessibility.service';
@@ -16,7 +17,7 @@ import { DateTime } from '@shared/helpers/date-time';
 })
 export class FakeJournalPage extends BasePageComponent {
   dateToDisplay: string;
-  slots = fakeJournalTestSlots;
+  slots: TestSlot[] = fakeJournalTestSlots;
   selectedDate: string;
   displayExitPracticeMode = false;
 

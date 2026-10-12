@@ -1,7 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { TestSlot } from '@dvsa/mes-journal-schema';
 import { SearchResultTestSchema } from '@dvsa/mes-search-schema';
-import { CompletedJournalSlot } from '@pages/journal/journal.page';
 import { SlotItem } from '@providers/slot-selector/slot-item';
 import { SlotSelectorProvider } from '@providers/slot-selector/slot-selector';
 import { getFormattedApplicationReference } from '@shared/helpers/formatters';
@@ -11,10 +10,11 @@ import { get, has, isEmpty } from 'lodash-es';
   selector: 'journal-slots',
   templateUrl: 'journal-slot.html',
   standalone: false,
+  styleUrls: ['journal-slot.scss'],
 })
 export class JournalSlotComponent {
   @Input()
-  completedTests: CompletedJournalSlot[] = [];
+  completedTests: SearchResultTestSchema[] = [];
 
   @Input()
   slots: SlotItem[] = [];
@@ -31,10 +31,10 @@ export class JournalSlotComponent {
    * Find the completed test for the given slot if exists
    * @param slotData
    */
-  findCompletedTest(slotData: TestSlot): CompletedJournalSlot {
+  findCompletedTest(slotData: TestSlot): SearchResultTestSchema {
     if (get(slotData, 'booking')) {
       const tempAppRef = getFormattedApplicationReference(slotData.booking.application);
-      return this.completedTests.find((value) => value.applicationReference === tempAppRef);
+      return this.completedTests.find((value: SearchResultTestSchema) => value.applicationReference === tempAppRef);
     }
     return null;
   }

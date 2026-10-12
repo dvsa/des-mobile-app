@@ -38,7 +38,7 @@ export class FakeJournalEffects {
       ofType(fakeJournalActions.StartE2EPracticeTest),
       switchMap((action) => {
         const startTestAction = action as ReturnType<typeof fakeJournalActions.StartE2EPracticeTest>;
-        const slot = fakeJournalTestSlots.find((s) => s.slotDetail.slotId === startTestAction.slotId);
+        const slot = fakeJournalTestSlots.find((s) => s.slotDetail.slotId.toString() === startTestAction.slotId);
         const examiner: Examiner = {
           staffNumber: '01234567',
         };
@@ -52,7 +52,7 @@ export class FakeJournalEffects {
           createPopulateCandidateDetailsAction(action.category, slot.booking as Booking),
           PopulateTestSlotAttributes(testSlotAttributes),
           PopulateTestCentre({ centreId: slot.testCentre.centreId, costCode: slot.testCentre.costCode }),
-          testStatusActions.SetTestStatusBooked(slot.slotDetail.slotId),
+          testStatusActions.SetTestStatusBooked(slot.slotDetail.slotId.toString()),
           PopulateConductedLanguage(conductedLanguage),
         ];
 
