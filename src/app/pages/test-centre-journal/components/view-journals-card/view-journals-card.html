@@ -80,11 +80,12 @@
             <p class="no-results-text">{{ warningText }}</p>
           </div>
         }
-        @if (hasClickedShowJournal && (slotItems$ | async)?.length > 0) {
+        @let slotItems = slotItems$ | async;
+        @if (hasClickedShowJournal && slotItems?.length > 0) {
           <journal-slots
             [isPortrait]="orientationMonitorProvider.isPortraitMode$ | async"
             [isTeamJournal]="true"
-            [slots]="slotItems$ | async">
+            [slots]="slotItems">
           </journal-slots>
         }
       </div>
