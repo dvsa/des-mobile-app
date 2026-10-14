@@ -205,7 +205,8 @@ export class TestOutcomeComponent implements OnDestroy, OnInit {
     if (this.hasNavigatedFromUnsubmitted) {
       this.store$.dispatch(ContinueUnuploadedTest(TestStatus.WriteUp));
     }
-// the test has already been conducted, so use the category it was recorded against in case
+
+    // the test has already been conducted, so use the category it was recorded against in case
     // the booking has since changed in the journal
     const existingTest = await firstValueFrom(
       this.store$.pipe(
