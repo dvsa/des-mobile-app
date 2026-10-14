@@ -52,7 +52,7 @@ export const unhandledTestCategory$ = new Subject<UnhandledTestCategory>();
 export function testsReducerFactory(
   category: TestCategory | null,
   action: Action,
-  state: TestResultSchemasUnion,
+  state: TestResultSchemasUnion
 ): TestResultSchemasUnion {
   switch (category) {
     case TestCategory.ADI2:
