@@ -170,6 +170,8 @@ export class TestsEffects {
 
   unhandledTestCategoryEffect$ = createEffect(() =>
     unhandledTestCategory$.pipe(
+      // so exclude this effect's own action and log each category/action/state combo once
+      filter(({ actionType }) => actionType !== SaveLog.type),
       // the default branch runs on every action for the current test (SaveLog included),
       // so only log once per category/action/state combo to avoid flooding / a feedback loop
       distinct(({ category, actionType, hasState }) => `${category}|${actionType}|${hasState}`),
