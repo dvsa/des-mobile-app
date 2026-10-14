@@ -177,4 +177,36 @@ describe('testsReducer', () => {
     const result = testsReducer(state, testsActions.ActivateTest(456, TestCategory.B));
     expect(result.currentTest.slotId).toBe('456');
   });
+
+  describe('RemoveStartedTest', () => {
+    it('should clear the current test when the removed test is the current test', () => {
+      const started = testsReducer(undefined, testsActions.StartTest(123, TestCategory.C));
+
+      const result = testsReducer(started, testsActions.RemoveStartedTest(123));
+
+      expect(result.currentTest.slotId).toBeNull();
+      expect(result.startedTests['123']).toBeUndefined();
+      expect(result.testStatus['123']).toBeUndefined();
+    });
+
+    it('should keep the current test when a different test is removed', () => {
+      const first = testsReducer(undefined, testsActions.StartTest(123, TestCategory.C));
+      const second = testsReducer(first, testsActions.StartTest(456, TestCategory.C));
+
+      const result = testsReducer(second, testsActions.RemoveStartedTest(123));
+
+      expect(result.currentTest.slotId).toBe('456');
+      expect(result.startedTests['456']).toBeDefined();
+      expect(result.startedTests['123']).toBeUndefined();
+    });
+
+    it('should not recreate the removed test on subsequent actions', () => {
+      const started = testsReducer(undefined, testsActions.StartTest(123, TestCategory.C));
+      const removed = testsReducer(started, testsActions.RemoveStartedTest(123));
+
+      const result = testsReducer(removed, testsActions.PersistTests());
+
+      expect(result.startedTests['123']).toBeUndefined();
+    });
+  });
 });
