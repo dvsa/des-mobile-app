@@ -44,6 +44,7 @@ import { testsCatKReducer } from './tests.cat-k.reducer';
 export interface UnhandledTestCategory {
   category: TestCategory | null;
   actionType: string;
+  hasState: boolean;
 }
 
 export const unhandledTestCategory$ = new Subject<UnhandledTestCategory>();
@@ -111,6 +112,7 @@ export function testsReducerFactory(
       unhandledTestCategory$.next({
         category,
         actionType: action.type,
+        hasState: !!state,
       });
       return testsCatBReducer(action, state as Required<CatBUniqueTypes.TestResult>);
   }

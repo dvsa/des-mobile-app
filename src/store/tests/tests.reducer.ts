@@ -122,6 +122,9 @@ const removeStartedTest = (state: TestsModel, slotId: number): TestsModel => {
   const { [slotId]: removedTestStatus, ...updatedTestStatus } = state.testStatus;
   return {
     ...state,
+    // don't leave currentTest pointing at a test that no longer exists, otherwise every
+    // following action falls through to testsReducerFactory's default and rebuilds it as Cat B
+    currentTest: state.currentTest.slotId === `${slotId}` ? { ...initialState.currentTest } : state.currentTest,
     startedTests: updatedStartedTests,
     testStatus: updatedTestStatus,
   };

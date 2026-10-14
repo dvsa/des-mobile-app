@@ -171,16 +171,16 @@ export class TestsEffects {
   unhandledTestCategoryEffect$ = createEffect(() =>
     unhandledTestCategory$.pipe(
       // the default branch runs on every action for the current test (SaveLog included),
-      // so only log once per category to avoid flooding / a feedback loop
-      distinct(({ category }) => category),
+      // so only log once per category/action/state combo to avoid flooding / a feedback loop
+      distinct(({ category, actionType, hasState }) => `${category}|${actionType}|${hasState}`),
       // emitted from inside the reducer - defer so we don't dispatch mid-reduce
       observeOn(asapScheduler),
-      map(({ category, actionType }) =>
+      map(({ category, actionType, hasState }) =>
         SaveLog({
           payload: this.logHelper.createLog(
             LogType.WARNING,
             'testsReducerFactory fell through to default reducer',
-            `Unhandled category: ${category}, action: ${actionType}`
+            `Unhandled category: ${category}, action: ${actionType}, hasState: ${hasState}`
           ),
         })
       )
