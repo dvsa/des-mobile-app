@@ -331,6 +331,15 @@ describe('TestOutcomeComponent', () => {
           );
         });
       });
+      it('should use the stored test category when the journal category has changed', async () => {
+        component.slotDetail = { ...testSlotDetail, slotId: 1234 };
+        component.category = TestCategory.C;
+        await component.writeUpTest();
+        expect(store$.dispatch).toHaveBeenCalledWith(ActivateTest(1234, TestCategory.B));
+        expect(routeByCategory.navigateToPage).toHaveBeenCalledWith(TestFlowPageNames.OFFICE_PAGE, TestCategory.B, {
+          state: { hasNavigatedFromUnsubmitted: false },
+        });
+      });
     });
 
     describe('rekeyDelegatedTestStart', () => {
