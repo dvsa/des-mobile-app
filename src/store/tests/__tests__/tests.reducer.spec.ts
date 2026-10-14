@@ -4,10 +4,12 @@ import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/
 import { NeverType } from '@pages/test-report/test-report.effects';
 import { testReportPracticeSlotId } from '@shared/mocks/test-slot-ids.mock';
 import { CompetencyOutcome } from '@shared/models/competency-outcome';
+import { PopulateTestCategory } from '@store/tests/category/category.actions';
 import * as candidateActions from '@store/tests/journal-data/common/candidate/candidate.actions';
 import * as candidateReducer from '@store/tests/journal-data/common/candidate/candidate.reducer';
 import * as preTestDeclarationActions from '@store/tests/pre-test-declarations/pre-test-declarations.actions';
 import * as preTestDeclarationsReducer from '@store/tests/pre-test-declarations/pre-test-declarations.reducer';
+import { UnhandledTestCategory, unhandledTestCategory$ } from '../tests-reducer-factory';
 import * as testsActions from '../tests.actions';
 import { TestsModel } from '../tests.model';
 import { testsReducer } from '../tests.reducer';
@@ -207,6 +209,43 @@ describe('testsReducer', () => {
       const result = testsReducer(removed, testsActions.PersistTests());
 
       expect(result.startedTests['123']).toBeUndefined();
+    });
+  });
+
+  describe('category derivation', () => {
+    it('should store the category on the test as soon as it is started', () => {
+      const result = testsReducer(undefined, testsActions.StartTest(123, TestCategory.C));
+
+      expect(result.startedTests['123'].category).toBe(TestCategory.C);
+    });
+
+    it('should not fall through to the default reducer for actions following a test start', () => {
+      const emitted: UnhandledTestCategory[] = [];
+      const subscription = unhandledTestCategory$.subscribe((value) => emitted.push(value));
+
+      const started = testsReducer(undefined, testsActions.StartTest(123, TestCategory.C));
+      // testsReducer receives every action at runtime, not just those in its typed union
+      testsReducer(
+        started,
+        PopulateTestCategory(TestCategory.C) as unknown as ReturnType<typeof testsActions.PersistTests>
+      );
+      subscription.unsubscribe();
+
+      expect(emitted).toEqual([]);
+    });
+
+    it('should keep the stored category when an existing test is activated with a different category', () => {
+      const started = testsReducer(undefined, testsActions.StartTest(123, TestCategory.C));
+
+      const result = testsReducer(started, testsActions.ActivateTest(123, TestCategory.CE));
+
+      expect(result.startedTests['123'].category).toBe(TestCategory.C);
+    });
+
+    it('should use the action category when activating a test that has not been started', () => {
+      const result = testsReducer(undefined, testsActions.ActivateTest(456, TestCategory.C));
+
+      expect(result.startedTests['456'].category).toBe(TestCategory.C);
     });
   });
 });

@@ -46,11 +46,18 @@ const deriveSlotId = (state: TestsModel, action: Action): string | null => {
 const deriveCategory = (state: TestsModel, action: Action, slotId: string | null): TestCategory => {
   if (
     action.type === testsActions.StartTest.type ||
-    action.type === testsActions.ActivateTest.type ||
     action.type === testsActions.StartTestReportPracticeTest.type ||
     action.type === fakeJournalActions.StartE2EPracticeTest.type
   ) {
     return (<ReturnType<typeof testsActions.StartTest>>action).category;
+  }
+
+  // prefer the stored category so an existing test isn't run through a different category's reducer
+  if (action.type === testsActions.ActivateTest.type) {
+    return (
+      get(state.startedTests[slotId], 'category', null) ??
+      (<ReturnType<typeof testsActions.ActivateTest>>action).category
+    );
   }
 
   return get(state.startedTests[slotId], 'category', null);

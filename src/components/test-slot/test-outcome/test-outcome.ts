@@ -206,10 +206,20 @@ export class TestOutcomeComponent implements OnDestroy, OnInit {
       this.store$.dispatch(ContinueUnuploadedTest(TestStatus.WriteUp));
     }
 
-    this.store$.dispatch(ActivateTest(this.slotDetail.slotId, this.category));
+    // the test has already been conducted, so use the category it was recorded against in case
+    // the booking has since changed in the journal
+    const existingTest = await firstValueFrom(
+      this.store$.pipe(
+        select(getTests),
+        map((tests) => getTestById(tests, String(this.slotDetail.slotId)))
+      )
+    );
+    const category = (existingTest?.category as TestCategory) ?? this.category;
+
+    this.store$.dispatch(ActivateTest(this.slotDetail.slotId, category));
     this.store$.dispatch(ResumingWriteUp(this.slotDetail.slotId?.toString()));
 
-    await this.routeByCat.navigateToPage(TestFlowPageNames.OFFICE_PAGE, this.category, {
+    await this.routeByCat.navigateToPage(TestFlowPageNames.OFFICE_PAGE, category, {
       state: { hasNavigatedFromUnsubmitted: this.hasNavigatedFromUnsubmitted },
     });
   }
