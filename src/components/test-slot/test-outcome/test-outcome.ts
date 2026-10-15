@@ -211,7 +211,7 @@ export class TestOutcomeComponent implements OnDestroy, OnInit {
     if (this.hasNavigatedFromUnsubmitted) {
       this.store$.dispatch(ContinueUnuploadedTest(TestStatus.WriteUp));
     }
-
+    this.store$.dispatch(SetSlotTimeDimension(DateTime.at(this.slotDetail.start).toISOString()));
     this.store$.dispatch(ActivateTest(this.slotDetail.slotId, this.category));
     this.store$.dispatch(ResumingWriteUp(this.slotDetail.slotId?.toString()));
 
