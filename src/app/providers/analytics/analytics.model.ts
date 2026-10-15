@@ -67,6 +67,7 @@ export enum GoogleAnalyticsCustomDimension {
   USER_ID = 'unique_user_id',
   DEVICE_MODEL = 'device_model',
   APP_VERSION = 'app_version',
+  TEST_SLOT_DATETIME_RECORDED = 'test_slot_datetime_recorded',
 }
 
 export enum GoogleAnalyticsEvents {

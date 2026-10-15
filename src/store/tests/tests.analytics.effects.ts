@@ -21,7 +21,7 @@ import { StoreModel } from '@shared/models/store.model';
 import { getJournalState } from '@store/journal/journal.reducer';
 import { getAppRefFromSlot, getSlotBySlotID, getSlotsOnSelectedDate } from '@store/journal/journal.selector';
 import * as testActions from '@store/tests/tests.actions';
-import { RemoveStartedTest } from '@store/tests/tests.actions';
+import { RemoveStartedTest, SetSlotTimeDimension } from '@store/tests/tests.actions';
 import { of } from 'rxjs';
 import { concatMap, map, switchMap, withLatestFrom } from 'rxjs/operators';
 import { SetTestStatusSubmitted } from './test-status/test-status.actions';
@@ -75,6 +75,20 @@ export class TestsAnalyticsEffects {
           journalDataOfTest.candidate.candidateId ? journalDataOfTest.candidate.candidateId.toString() : null
         );
 
+        return of(AnalyticRecorded());
+      })
+    )
+  );
+
+  setSlotTimeDimension$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(SetSlotTimeDimension),
+      concatMap((action) => of(action).pipe(withLatestFrom(this.store$.pipe(select(getTests))))),
+      concatMap(([action]: [ReturnType<typeof SetSlotTimeDimension>, TestsModel]) => {
+        this.analytics.addGACustomDimension(
+          GoogleAnalyticsCustomDimension.TEST_SLOT_DATETIME_RECORDED,
+          action.startDate
+        );
         return of(AnalyticRecorded());
       })
     )

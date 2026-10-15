@@ -151,6 +151,40 @@ describe('TestsAnalyticsEffects', () => {
     });
   });
 
+  describe('setSlotTimeDimension', () => {
+    it('should record the slot start date as a custom analytics dimension', (done) => {
+      const startDate = '2026-10-15T09:30:00.000Z';
+
+      // ACT
+      actions$.next(testsActions.SetSlotTimeDimension(startDate));
+
+      // ASSERT
+      effects.setSlotTimeDimension$.subscribe((result) => {
+        expect(result.type).toEqual(AnalyticRecorded.type);
+        expect(analyticsProviderMock.addGACustomDimension).toHaveBeenCalledWith(
+          GoogleAnalyticsCustomDimension.TEST_SLOT_DATETIME_RECORDED,
+          startDate
+        );
+        done();
+      });
+    });
+
+    it('should record an empty slot start date and complete the analytics action', (done) => {
+      // ACT
+      actions$.next(testsActions.SetSlotTimeDimension(''));
+
+      // ASSERT
+      effects.setSlotTimeDimension$.subscribe((result) => {
+        expect(result.type).toEqual(AnalyticRecorded.type);
+        expect(analyticsProviderMock.addGACustomDimension).toHaveBeenCalledWith(
+          GoogleAnalyticsCustomDimension.TEST_SLOT_DATETIME_RECORDED,
+          ''
+        );
+        done();
+      });
+    });
+  });
+
   describe('sendCompletedTestsFailureEffect', () => {
     it('should send an error action', (done) => {
       // ACT

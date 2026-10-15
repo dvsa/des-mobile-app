@@ -37,6 +37,10 @@ export const StartTest = createAction(
   })
 );
 
+export const SetSlotTimeDimension = createAction('[Tests] Set Slot Time Dimension', (startDate: string) => ({
+  startDate,
+}));
+
 // Differs from START_TEST in that it won't trigger the journal -> test state copy effect
 export const ActivateTest = createAction(
   '[Tests] Activate Test',
