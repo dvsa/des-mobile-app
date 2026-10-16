@@ -40,7 +40,6 @@ import {
   getSlotsOnSelectedDate,
 } from '@store/journal/journal.selector';
 import { TestStatus } from '@store/tests/test-status/test-status.model';
-import { SetSlotTimeDimension } from '@store/tests/tests.actions';
 import { getTests } from '@store/tests/tests.reducer';
 import { isEndToEndPracticeTest } from '@store/tests/tests.selector';
 import { ErrorPage } from '../error-page/error';
@@ -220,7 +219,6 @@ export class JournalPage extends BasePageComponent implements OnInit {
     await this.requestJournal(JournalRehydrationType.AUTO);
     this.setupPolling();
     this.configurePlatformSubscriptions();
-    this.store$.dispatch(SetSlotTimeDimension(''));
 
     if (this.merged$) {
       this.subscription = this.merged$.subscribe();

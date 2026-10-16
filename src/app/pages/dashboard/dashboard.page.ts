@@ -43,7 +43,6 @@ import { JournalRehydrationPage, JournalRehydrationType } from '@store/journal/j
 import { getJournalState } from '@store/journal/journal.reducer';
 import { getAllSlots } from '@store/journal/journal.selector';
 import { TestCentreJournalEnteredFromDashboard } from '@store/test-centre-journal/test-centre-journal.actions';
-import { SetSlotTimeDimension } from '@store/tests/tests.actions';
 import { getTests } from '@store/tests/tests.reducer';
 import { Observable, Subscription, combineLatest, from, merge, takeWhile } from 'rxjs';
 import { filter, map, switchMap, tap, withLatestFrom } from 'rxjs/operators';
@@ -141,7 +140,6 @@ export class DashboardPage extends BasePageComponent implements OnInit, ViewDidE
   }
 
   async ionViewDidEnter(): Promise<void> {
-    this.store$.dispatch(SetSlotTimeDimension(''));
     this.store$.dispatch(DashboardViewDidEnter());
     this.store$.dispatch(ClearCandidateLicenceData());
     this.store$.dispatch(ClearVehicleData());

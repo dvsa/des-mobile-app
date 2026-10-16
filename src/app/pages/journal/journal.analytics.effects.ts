@@ -16,6 +16,7 @@ import {
 } from '@providers/analytics/analytics.model';
 import { SlotHasChanged } from '@providers/slot/slot.actions';
 import { getFormattedApplicationReference, getResultTableApplicationReference } from '@shared/helpers/formatters';
+import { getTestSlotDateTimeString } from '@shared/helpers/test-start-time';
 import { StoreModel } from '@shared/models/store.model';
 import {
   EarlyStartDidContinue,
@@ -53,6 +54,7 @@ export class JournalAnalyticsEffects {
         this.analytics.addGACustomDimension(GoogleAnalyticsCustomDimension.CANDIDATE_ID, '');
         this.analytics.addGACustomDimension(GoogleAnalyticsCustomDimension.APPLICATION_REFERENCE, '');
         this.analytics.addGACustomDimension(GoogleAnalyticsCustomDimension.TEST_CATEGORY, '');
+        this.analytics.addGACustomDimension(GoogleAnalyticsCustomDimension.TEST_SLOT_DATETIME, '');
         return of(AnalyticRecorded());
       })
     )
@@ -261,6 +263,7 @@ export class JournalAnalyticsEffects {
         const test = getTestById(tests, setTestStatusSubmittedAction.slotId);
         let testPassedValue = GoogleAnalyticsEventsValues.UNKNOWN;
         const journalDataOfTest = test.journalData;
+        const testSlotStart = getTestSlotDateTimeString(journalDataOfTest?.testSlotAttributes?.start);
 
         if (test?.activityCode) {
           testPassedValue = isPassed(test) ? GoogleAnalyticsEventsValues.PASS : GoogleAnalyticsEventsValues.FAIL;
@@ -281,6 +284,7 @@ export class JournalAnalyticsEffects {
           GoogleAnalyticsCustomDimension.CANDIDATE_ID,
           journalDataOfTest.candidate.candidateId.toString()
         );
+        this.analytics.addGACustomDimension(GoogleAnalyticsCustomDimension.TEST_SLOT_DATETIME, testSlotStart);
 
         return of(AnalyticRecorded());
       })

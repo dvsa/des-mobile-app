@@ -151,40 +151,6 @@ describe('TestsAnalyticsEffects', () => {
     });
   });
 
-  describe('setSlotTimeDimension', () => {
-    it('should record the slot start date as a custom analytics dimension', (done) => {
-      const startDate = '2026-10-15T09:30:00.000Z';
-
-      // ACT
-      actions$.next(testsActions.SetSlotTimeDimension(startDate));
-
-      // ASSERT
-      effects.setSlotTimeDimension$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-        expect(analyticsProviderMock.addGACustomDimension).toHaveBeenCalledWith(
-          GoogleAnalyticsCustomDimension.TEST_SLOT_DATETIME_RECORDED,
-          startDate
-        );
-        done();
-      });
-    });
-
-    it('should record an empty slot start date and complete the analytics action', (done) => {
-      // ACT
-      actions$.next(testsActions.SetSlotTimeDimension(''));
-
-      // ASSERT
-      effects.setSlotTimeDimension$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-        expect(analyticsProviderMock.addGACustomDimension).toHaveBeenCalledWith(
-          GoogleAnalyticsCustomDimension.TEST_SLOT_DATETIME_RECORDED,
-          ''
-        );
-        done();
-      });
-    });
-  });
-
   describe('sendCompletedTestsFailureEffect', () => {
     it('should send an error action', (done) => {
       // ACT
@@ -339,10 +305,11 @@ describe('TestsAnalyticsEffects', () => {
     });
     it('should log the correct event if it triggered from the journal page', (done) => {
       // ARRANGE
+      const startDate = '2026-10-15T09:30:00.000Z';
       spyOn(navigationStateProviderMock, 'isRekeySearch').and.returnValue(false);
-      store$.dispatch(testsActions.StartTest(12345, TestCategory.B));
+      store$.dispatch(testsActions.StartTest(12345, TestCategory.B, false, false, startDate));
       // ACT
-      actions$.next(testsActions.StartTest(12345, TestCategory.B));
+      actions$.next(testsActions.StartTest(12345, TestCategory.B, false, false, startDate));
       // ASSERT
       effects.startTestAnalyticsEffect$.subscribe((result) => {
         expect(result.type).toEqual(AnalyticRecorded.type);
@@ -351,16 +318,21 @@ describe('TestsAnalyticsEffects', () => {
           GoogleAnalyticsCustomDimension.TEST_CATEGORY,
           TestCategory.B
         );
+        expect(analyticsProviderMock.addGACustomDimension).toHaveBeenCalledWith(
+          GoogleAnalyticsCustomDimension.TEST_SLOT_DATETIME,
+          startDate
+        );
         expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(GoogleAnalyticsEvents.START_TEST);
         done();
       });
     });
     it('should log the correct event if it is triggered from the Rekey Search page', (done) => {
       // ARRANGE
+      const startDate = '2026-10-15T09:30:00.000Z';
       spyOn(navigationStateProviderMock, 'isRekeySearch').and.returnValue(true);
-      store$.dispatch(testsActions.StartTest(12345, TestCategory.B));
+      store$.dispatch(testsActions.StartTest(12345, TestCategory.B, false, false, startDate));
       // ACT
-      actions$.next(testsActions.StartTest(12345, TestCategory.B));
+      actions$.next(testsActions.StartTest(12345, TestCategory.B, false, false, startDate));
       // ASSERT
       effects.startTestAnalyticsEffect$.subscribe((result) => {
         expect(result.type).toEqual(AnalyticRecorded.type);
@@ -369,6 +341,10 @@ describe('TestsAnalyticsEffects', () => {
         expect(analyticsProviderMock.addGACustomDimension).toHaveBeenCalledWith(
           GoogleAnalyticsCustomDimension.TEST_CATEGORY,
           TestCategory.B
+        );
+        expect(analyticsProviderMock.addGACustomDimension).toHaveBeenCalledWith(
+          GoogleAnalyticsCustomDimension.TEST_SLOT_DATETIME,
+          startDate
         );
         expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
           `${GoogleAnalyticsEventPrefix.REKEY}_${GoogleAnalyticsEvents.START_TEST}`

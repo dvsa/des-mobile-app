@@ -24,6 +24,7 @@ import { testsReducer } from '@store//tests/tests.reducer';
 import { candidateMock } from '@store/tests/__mocks__/tests.mock';
 import * as applicationReferenceActions from '@store/tests/journal-data/common/application-reference/application-reference.actions';
 import { PopulateCandidateDetails } from '@store/tests/journal-data/common/candidate/candidate.actions';
+import { SetStartDate } from '@store/tests/journal-data/common/test-slot-attributes/test-slot-attributes.actions';
 import * as testsActions from '@store/tests/tests.actions';
 import { ReplaySubject } from 'rxjs';
 import * as fakeJournalActions from '../../fake-journal/fake-journal.actions';
@@ -107,10 +108,12 @@ describe('BackToOfficeAnalyticsEffects', () => {
   describe('deferWriteUpEffect', () => {
     it('should call logEvent with pass page and addCustomDimension', (done) => {
       // ARRANGE
+      const startDate = '2026-10-15T09:30:00.000Z';
       store$.dispatch(testsActions.StartTest(123, TestCategory.B));
       store$.dispatch(PopulateCandidateDetails(candidateMock));
       store$.dispatch(activityCodeActions.SetActivityCode(ActivityCodes.PASS));
       store$.dispatch(applicationReferenceActions.PopulateApplicationReference(mockApplication));
+      store$.dispatch(SetStartDate(startDate));
       // ACT
       actions$.next(backToOfficeActions.DeferWriteUp());
       // ASSERT
@@ -125,6 +128,10 @@ describe('BackToOfficeAnalyticsEffects', () => {
         expect(analyticsProviderMock.addGACustomDimension).toHaveBeenCalledWith(
           GoogleAnalyticsCustomDimension.APPLICATION_REFERENCE,
           '123456789'
+        );
+        expect(analyticsProviderMock.addGACustomDimension).toHaveBeenCalledWith(
+          GoogleAnalyticsCustomDimension.TEST_SLOT_DATETIME,
+          startDate
         );
         expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
           GoogleAnalyticsEvents.DEFER_WRITE_UP,
@@ -136,10 +143,12 @@ describe('BackToOfficeAnalyticsEffects', () => {
     });
     it('should call logEvent with fail page and addCustomDimension', (done) => {
       // ARRANGE
+      const startDate = '2026-10-15T09:30:00.000Z';
       store$.dispatch(testsActions.StartTest(123, TestCategory.B));
       store$.dispatch(PopulateCandidateDetails(candidateMock));
       store$.dispatch(activityCodeActions.SetActivityCode(ActivityCodes.FAIL));
       store$.dispatch(applicationReferenceActions.PopulateApplicationReference(mockApplication));
+      store$.dispatch(SetStartDate(startDate));
       // ACT
       actions$.next(backToOfficeActions.DeferWriteUp());
       // ASSERT
@@ -154,6 +163,10 @@ describe('BackToOfficeAnalyticsEffects', () => {
         expect(analyticsProviderMock.addGACustomDimension).toHaveBeenCalledWith(
           GoogleAnalyticsCustomDimension.APPLICATION_REFERENCE,
           '123456789'
+        );
+        expect(analyticsProviderMock.addGACustomDimension).toHaveBeenCalledWith(
+          GoogleAnalyticsCustomDimension.TEST_SLOT_DATETIME,
+          startDate
         );
         expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
           GoogleAnalyticsEvents.DEFER_WRITE_UP,
@@ -165,10 +178,12 @@ describe('BackToOfficeAnalyticsEffects', () => {
     });
     it('should call logEvent with pass page, practice mode prefix and addCustomDimension', (done) => {
       // ARRANGE
+      const startDate = '2026-10-15T09:30:00.000Z';
       store$.dispatch(fakeJournalActions.StartE2EPracticeTest(end2endPracticeSlotId));
       store$.dispatch(PopulateCandidateDetails(candidateMock));
       store$.dispatch(activityCodeActions.SetActivityCode(ActivityCodes.PASS));
       store$.dispatch(applicationReferenceActions.PopulateApplicationReference(mockApplication));
+      store$.dispatch(SetStartDate(startDate));
       // ACT
       actions$.next(backToOfficeActions.DeferWriteUp());
       // ASSERT
@@ -183,6 +198,10 @@ describe('BackToOfficeAnalyticsEffects', () => {
         expect(analyticsProviderMock.addGACustomDimension).toHaveBeenCalledWith(
           GoogleAnalyticsCustomDimension.APPLICATION_REFERENCE,
           '123456789'
+        );
+        expect(analyticsProviderMock.addGACustomDimension).toHaveBeenCalledWith(
+          GoogleAnalyticsCustomDimension.TEST_SLOT_DATETIME,
+          startDate
         );
         expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
           `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEvents.DEFER_WRITE_UP}`,
@@ -195,10 +214,12 @@ describe('BackToOfficeAnalyticsEffects', () => {
 
     it('should call logEvent with fail page, practice mode prefix and addCustomDimension', (done) => {
       // ARRANGE
+      const startDate = '2026-10-15T09:30:00.000Z';
       store$.dispatch(fakeJournalActions.StartE2EPracticeTest(end2endPracticeSlotId));
       store$.dispatch(PopulateCandidateDetails(candidateMock));
       store$.dispatch(activityCodeActions.SetActivityCode(ActivityCodes.FAIL));
       store$.dispatch(applicationReferenceActions.PopulateApplicationReference(mockApplication));
+      store$.dispatch(SetStartDate(startDate));
       // ACT
       actions$.next(backToOfficeActions.DeferWriteUp());
       // ASSERT
@@ -213,6 +234,10 @@ describe('BackToOfficeAnalyticsEffects', () => {
         expect(analyticsProviderMock.addGACustomDimension).toHaveBeenCalledWith(
           GoogleAnalyticsCustomDimension.APPLICATION_REFERENCE,
           '123456789'
+        );
+        expect(analyticsProviderMock.addGACustomDimension).toHaveBeenCalledWith(
+          GoogleAnalyticsCustomDimension.TEST_SLOT_DATETIME,
+          startDate
         );
         expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
           `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEvents.DEFER_WRITE_UP}`,

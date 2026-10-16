@@ -15,13 +15,14 @@ import {
 } from '@providers/analytics/analytics.model';
 import { DeviceProvider } from '@providers/device/device';
 import { NavigationStateProvider } from '@providers/navigation-state/navigation-state';
+import { DateTime } from '@shared/helpers/date-time';
 import { analyticsEventTypePrefix } from '@shared/helpers/format-analytics-text';
 import { getFormattedApplicationReference } from '@shared/helpers/formatters';
 import { StoreModel } from '@shared/models/store.model';
 import { getJournalState } from '@store/journal/journal.reducer';
 import { getAppRefFromSlot, getSlotBySlotID, getSlotsOnSelectedDate } from '@store/journal/journal.selector';
 import * as testActions from '@store/tests/tests.actions';
-import { RemoveStartedTest, SetSlotTimeDimension } from '@store/tests/tests.actions';
+import { RemoveStartedTest } from '@store/tests/tests.actions';
 import { of } from 'rxjs';
 import { concatMap, map, switchMap, withLatestFrom } from 'rxjs/operators';
 import { SetTestStatusSubmitted } from './test-status/test-status.actions';
@@ -75,20 +76,6 @@ export class TestsAnalyticsEffects {
           journalDataOfTest.candidate.candidateId ? journalDataOfTest.candidate.candidateId.toString() : null
         );
 
-        return of(AnalyticRecorded());
-      })
-    )
-  );
-
-  setSlotTimeDimension$ = createEffect(() =>
-    this.actions$.pipe(
-      ofType(SetSlotTimeDimension),
-      concatMap((action) => of(action).pipe(withLatestFrom(this.store$.pipe(select(getTests))))),
-      concatMap(([action]: [ReturnType<typeof SetSlotTimeDimension>, TestsModel]) => {
-        this.analytics.addGACustomDimension(
-          GoogleAnalyticsCustomDimension.TEST_SLOT_DATETIME_RECORDED,
-          action.startDate
-        );
         return of(AnalyticRecorded());
       })
     )
@@ -236,10 +223,14 @@ export class TestsAnalyticsEffects {
       switchMap(([action, applicationReference]) =>
         Promise.all([action, applicationReference, this.device.getDeviceInfo(), this.device.getBatteryInfo()])
       ),
-      switchMap(([action, applicationReference, device, battery]) => {
+      switchMap(([action, applicationReference, _device, battery]) => {
         // GA4 Analytics
         const prefix = this.navigationStateProvider.isRekeySearch() ? 'RM_' : '';
         this.analytics.addGACustomDimension(GoogleAnalyticsCustomDimension.TEST_CATEGORY, action.category);
+        this.analytics.addGACustomDimension(
+          GoogleAnalyticsCustomDimension.TEST_SLOT_DATETIME,
+          action.startDate ? DateTime.at(action.startDate).toISOString() : ''
+        );
 
         if (applicationReference) {
           this.analytics.addGACustomDimension(

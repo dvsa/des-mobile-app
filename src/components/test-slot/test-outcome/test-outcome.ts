@@ -34,13 +34,7 @@ import { SetExaminerBooked } from '@store/tests/examiner-booked/examiner-booked.
 import { SetExaminerConducted } from '@store/tests/examiner-conducted/examiner-conducted.actions';
 import { extractTestSlotAttributes } from '@store/tests/journal-data/common/test-slot-attributes/test-slot-attributes.selector';
 import { TestStatus } from '@store/tests/test-status/test-status.model';
-import {
-  ActivateTest,
-  RemoveStartedTest,
-  RemoveTestBySlotId,
-  SetSlotTimeDimension,
-  StartTest,
-} from '@store/tests/tests.actions';
+import { ActivateTest, RemoveStartedTest, RemoveTestBySlotId, StartTest } from '@store/tests/tests.actions';
 import { getTests } from '@store/tests/tests.reducer';
 import { StartedTests, getStartedTests, getTestById } from '@store/tests/tests.selector';
 
@@ -211,7 +205,6 @@ export class TestOutcomeComponent implements OnDestroy, OnInit {
     if (this.hasNavigatedFromUnsubmitted) {
       this.store$.dispatch(ContinueUnuploadedTest(TestStatus.WriteUp));
     }
-    this.store$.dispatch(SetSlotTimeDimension(DateTime.at(this.slotDetail.start).toISOString()));
     this.store$.dispatch(ActivateTest(this.slotDetail.slotId, this.category));
     this.store$.dispatch(ResumingWriteUp(this.slotDetail.slotId?.toString()));
 
@@ -227,7 +220,6 @@ export class TestOutcomeComponent implements OnDestroy, OnInit {
 
     const slotHasChanged = await this.hasSlotChanged(this.slot, this.slotDetail.slotId);
 
-    this.store$.dispatch(SetSlotTimeDimension(DateTime.at(this.slotDetail.start).toISOString()));
     // If the slot has changed and thus been cleared, a new test will be started.
     // If the slot has not changed, the existing test will be activated.
     slotHasChanged
@@ -246,7 +238,6 @@ export class TestOutcomeComponent implements OnDestroy, OnInit {
   }
 
   async startTest() {
-    this.store$.dispatch(SetSlotTimeDimension(DateTime.at(this.slotDetail.start).toISOString()));
     if (this.isE2EPracticeMode()) {
       this.store$.dispatch(StartE2EPracticeTest(this.slotDetail.slotId.toString(), this.category));
     } else {
@@ -261,7 +252,6 @@ export class TestOutcomeComponent implements OnDestroy, OnInit {
 
   async rekeyTest() {
     this.store$.dispatch(RemoveTestBySlotId(this.slotDetail.slotId));
-    this.store$.dispatch(SetSlotTimeDimension(DateTime.at(this.slotDetail.start).toISOString()));
     if (this.hasNavigatedFromUnsubmitted) {
       this.store$.dispatch(ContinueUnuploadedTest('Rekey'));
     }
@@ -280,7 +270,6 @@ export class TestOutcomeComponent implements OnDestroy, OnInit {
   }
 
   async rekeyDelegatedTestStart() {
-    this.store$.dispatch(SetSlotTimeDimension(DateTime.at(this.slotDetail.start).toISOString()));
     this.store$.dispatch(RemoveTestBySlotId(this.slotDetail.slotId));
     this.store$.dispatch(StartTest(this.slotDetail.slotId, this.category, true, true));
     this.store$.dispatch(SetExaminerConducted(this.examinerId));
