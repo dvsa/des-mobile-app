@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { CategoryCode } from '@dvsa/mes-test-schema/categories/common';
+import { CategoryCode, JournalData } from '@dvsa/mes-test-schema/categories/common';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Store, select } from '@ngrx/store';
 import { TestFlowPageNames } from '@pages/page-names.constants';
@@ -15,6 +15,7 @@ import {
 } from '@providers/analytics/analytics.model';
 import { AppConfigProvider } from '@providers/app-config/app-config';
 import { analyticsEventTypePrefix } from '@shared/helpers/format-analytics-text';
+import { getTestSlotDateTimeString } from '@shared/helpers/test-start-time';
 import { StoreModel } from '@shared/models/store.model';
 import {
   VRNModalCancelled,
@@ -72,20 +73,22 @@ export class CommunicationAnalyticsEffects {
               select(getCandidate),
               select(getCandidateId)
             ),
+            this.store$.pipe(select(getTests), select(getCurrentTest), select(getJournalData)),
             this.store$.pipe(select(getTests), select(getCurrentTest), select(getTestCategory)),
             this.store$.pipe(select(getTests), select(isPracticeMode))
           )
         )
       ),
-      filter(([, , , , , practiceMode]) =>
+      filter(([, , , , , , practiceMode]) =>
         !practiceMode ? true : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics
       ),
       switchMap(
-        ([, tests, applicationReference, candidateId, category]: [
+        ([, tests, applicationReference, candidateId, journalData, category]: [
           ReturnType<typeof CommunicationViewDidEnter>,
           TestsModel,
           string,
           number,
+          JournalData,
           CategoryCode,
           boolean,
         ]) => {
@@ -93,6 +96,10 @@ export class CommunicationAnalyticsEffects {
           this.analytics.setGACurrentPage(analyticsEventTypePrefix(AnalyticsScreenNames.COMMUNICATION, tests));
 
           this.analytics.addGACustomDimension(GoogleAnalyticsCustomDimension.TEST_CATEGORY, category);
+          this.analytics.addGACustomDimension(
+            GoogleAnalyticsCustomDimension.TEST_SLOT_DATETIME,
+            getTestSlotDateTimeString(journalData?.testSlotAttributes?.start)
+          );
           this.analytics.addGACustomDimension(GoogleAnalyticsCustomDimension.CANDIDATE_ID, `${candidateId}`);
           this.analytics.addGACustomDimension(
             GoogleAnalyticsCustomDimension.APPLICATION_REFERENCE,

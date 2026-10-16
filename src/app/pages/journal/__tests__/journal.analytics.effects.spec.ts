@@ -53,6 +53,9 @@ describe('JournalAnalyticsEffects', () => {
                     bookingSequence: 1,
                     checkDigit: 1,
                   },
+                  testSlotAttributes: {
+                    start: '2026-10-15T09:30:00.000Z',
+                  },
                 },
               },
             },
@@ -247,6 +250,10 @@ describe('JournalAnalyticsEffects', () => {
         expect(analyticsProviderMock.addGACustomDimension).toHaveBeenCalledWith(
           GoogleAnalyticsCustomDimension.APPLICATION_REFERENCE,
           '1011'
+        );
+        expect(analyticsProviderMock.addGACustomDimension).toHaveBeenCalledWith(
+          GoogleAnalyticsCustomDimension.TEST_SLOT_DATETIME,
+          '2026-10-15T09:30:00.000Z'
         );
         done();
       });

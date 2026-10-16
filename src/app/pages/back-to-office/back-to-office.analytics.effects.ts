@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { JournalData } from '@dvsa/mes-test-schema/categories/common';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Store, select } from '@ngrx/store';
 import { AnalyticsProvider } from '@providers/analytics/analytics';
@@ -12,6 +13,7 @@ import {
 } from '@providers/analytics/analytics.model';
 import { AppConfigProvider } from '@providers/app-config/app-config';
 import { analyticsEventTypePrefix } from '@shared/helpers/format-analytics-text';
+import { getTestSlotDateTimeString } from '@shared/helpers/test-start-time';
 import { StoreModel } from '@shared/models/store.model';
 import { getApplicationReference } from '@store/tests/journal-data/common/application-reference/application-reference.reducer';
 import { getApplicationNumber } from '@store/tests/journal-data/common/application-reference/application-reference.selector';
@@ -60,6 +62,7 @@ export class BackToOfficeAnalyticsEffects {
           withLatestFrom(
             this.store$.pipe(select(getTests)),
             this.store$.pipe(select(getTests), select(getCurrentTest), select(isPassed)),
+            this.store$.pipe(select(getTests), select(getCurrentTest), select(getJournalData)),
             this.store$.pipe(
               select(getTests),
               select(getCurrentTest),
@@ -78,14 +81,15 @@ export class BackToOfficeAnalyticsEffects {
           )
         )
       ),
-      filter(([, , , , , practiceMode]) =>
+      filter(([, , , , , , practiceMode]) =>
         !practiceMode ? true : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics
       ),
       switchMap(
-        ([, tests, isTestPassed, candidateId, applicationReference]: [
+        ([, tests, isTestPassed, journalData, candidateId, applicationReference, _practiceMode]: [
           ReturnType<typeof DeferWriteUp>,
           TestsModel,
           boolean,
+          JournalData,
           number,
           string,
           boolean,
@@ -95,6 +99,10 @@ export class BackToOfficeAnalyticsEffects {
           this.analytics.addGACustomDimension(
             GoogleAnalyticsCustomDimension.APPLICATION_REFERENCE,
             applicationReference
+          );
+          this.analytics.addGACustomDimension(
+            GoogleAnalyticsCustomDimension.TEST_SLOT_DATETIME,
+            getTestSlotDateTimeString(journalData?.testSlotAttributes?.start)
           );
 
           this.analytics.logGAEvent(

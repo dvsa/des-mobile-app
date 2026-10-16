@@ -1,5 +1,10 @@
 import { DateTime, Duration } from '@shared/helpers/date-time';
 
+export function getTestSlotDateTimeString(journalStartDate?: string | null, actionStartDate?: string | null): string {
+  const startDate = journalStartDate ?? actionStartDate ?? '';
+  return startDate ? DateTime.at(startDate).toISOString() : '';
+}
+
 export const PRESS_TIME_TO_ENABLE_EDIT = 10000;
 
 // This function is required for updating incorrect dates of test
