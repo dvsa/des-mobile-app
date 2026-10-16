@@ -135,7 +135,6 @@ export class AnalyticsProvider {
     if (this.isIos() && this.shouldAllowAnalyticsInTestEnvironment()) {
       try {
         if (key) {
-          console.log(`Analytics - addGACustomDimension: Setting ${key} to ${value}`);
           // Guard to check if dimension is not undefined or null
           gtag('set', 'user_properties', { [key]: value });
         } else {
