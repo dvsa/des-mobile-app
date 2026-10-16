@@ -61,15 +61,22 @@
 
       <data-row
         [label]="'Additional information'"
-        [shouldHaveSeparator]="shouldDisplayReasonForLeaving()"
+        [shouldHaveSeparator]="shouldDisplayReasonForLeaving() || shouldDisplayAssessmentReport()"
         [value]="additionalInformation">
       </data-row>
 
       @if (shouldDisplayReasonForLeaving()) {
         <data-row
           [label]="'Reason for leaving DES during the test'"
-          [shouldHaveSeparator]="false"
+          [shouldHaveSeparator]="shouldDisplayAssessmentReport()"
           [value]="reasonForExitingApp">
+        </data-row>
+      }
+      @if (shouldDisplayAssessmentReport()) {
+        <data-row
+          [label]="'Assessment report'"
+          [shouldHaveSeparator]="false"
+          [value]="testSummary['assessmentReport']">
         </data-row>
       }
     </ion-grid>

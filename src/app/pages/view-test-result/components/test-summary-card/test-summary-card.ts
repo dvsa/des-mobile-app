@@ -141,6 +141,14 @@ export class TestSummaryCardComponent {
     return this.category === TestCategory.ADI3;
   }
 
+  isCPC() {
+    return this.category === TestCategory.CCPC || this.category === TestCategory.DCPC;
+  }
+
+  shouldDisplayAssessmentReport(): boolean {
+    return this.isCPC() && get(this.testSummary, 'assessmentReport', null) !== null;
+  }
+
   shouldDisplayReasonForLeaving(): boolean {
     return get(this.userExitedApp, 'exitFlag', false);
   }
