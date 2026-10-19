@@ -10,7 +10,6 @@ import { getTestData } from '@store/tests/test-data/cat-c/test-data.cat-c.reduce
 import {
   getFullLicenceHeld,
   getVehicleChecksCatC,
-  hasFullLicenceHeldBeenSelected,
 } from '@store/tests/test-data/cat-c/vehicle-checks/vehicle-checks.cat-c.selector';
 import { getTests } from '@store/tests/tests.reducer';
 import { getCurrentTest } from '@store/tests/tests.selector';
@@ -24,7 +23,6 @@ enum VehicleChecksCompletedResult {
 
 interface ComponentState {
   fullLicenceHeld$: Observable<boolean>;
-  fullLicenceHeldSelection$: Observable<string>;
   drivingFaultsNumberOptions$: Observable<number[]>;
 }
 
@@ -67,12 +65,6 @@ export class VehicleChecksToggleComponent implements OnChanges {
         select(getTestData),
         select(getVehicleChecksCatC),
         select(getFullLicenceHeld)
-      ),
-      fullLicenceHeldSelection$: currentTest$.pipe(
-        select(getTestData),
-        select(getVehicleChecksCatC),
-        select(getFullLicenceHeld),
-        map((licenceHeld: boolean) => hasFullLicenceHeldBeenSelected(licenceHeld))
       ),
       drivingFaultsNumberOptions$: currentTest$.pipe(
         select(getTestData),
