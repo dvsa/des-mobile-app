@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { CategoryCode } from '@dvsa/mes-test-schema/categories/common';
+import { CategoryCode, JournalData } from '@dvsa/mes-test-schema/categories/common';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Store, select } from '@ngrx/store';
 import { AnalyticsProvider } from '@providers/analytics/analytics';
@@ -12,6 +12,7 @@ import {
   GoogleAnalyticsEventsValues,
 } from '@providers/analytics/analytics.model';
 import { analyticsEventTypePrefix } from '@shared/helpers/format-analytics-text';
+import { getTestSlotDateTimeString } from '@shared/helpers/test-start-time';
 import { StoreModel } from '@shared/models/store.model';
 import { getTestCategory } from '@store/tests/category/category.reducer';
 import { getApplicationReference } from '@store/tests/journal-data/common/application-reference/application-reference.reducer';
@@ -54,20 +55,28 @@ export class ReverseDiagramModalAnalyticsEffects {
               select(getCandidate),
               select(getCandidateId)
             ),
+            this.store$.pipe(select(getTests), select(getCurrentTest), select(getJournalData)),
             this.store$.pipe(select(getTests), select(getCurrentTest), select(getTestCategory))
           )
         )
       ),
       switchMap(
-        ([, tests, applicationReference, candidateId, category]: [
+        ([, tests, applicationReference, candidateId, journalData, category]: [
           ReturnType<typeof reverseDiagramActions.ReverseDiagramViewDidEnter>,
           TestsModel,
           string,
           number,
+          JournalData,
           CategoryCode,
         ]) => {
           // GA4 Analytics
           this.analytics.addGACustomDimension(GoogleAnalyticsCustomDimension.TEST_CATEGORY, category);
+          this.analytics.addGACustomDimension(
+            GoogleAnalyticsCustomDimension.TEST_SLOT_DATETIME,
+            journalData?.testSlotAttributes?.start
+              ? getTestSlotDateTimeString(journalData.testSlotAttributes.start)
+              : ''
+          );
           this.analytics.addGACustomDimension(GoogleAnalyticsCustomDimension.CANDIDATE_ID, `${candidateId}`);
           this.analytics.addGACustomDimension(
             GoogleAnalyticsCustomDimension.APPLICATION_REFERENCE,

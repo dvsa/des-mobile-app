@@ -17,6 +17,7 @@ import { DeviceProvider } from '@providers/device/device';
 import { NavigationStateProvider } from '@providers/navigation-state/navigation-state';
 import { analyticsEventTypePrefix } from '@shared/helpers/format-analytics-text';
 import { getFormattedApplicationReference } from '@shared/helpers/formatters';
+import { getTestSlotDateTimeString } from '@shared/helpers/test-start-time';
 import { StoreModel } from '@shared/models/store.model';
 import { getJournalState } from '@store/journal/journal.reducer';
 import { getAppRefFromSlot, getSlotBySlotID, getSlotsOnSelectedDate } from '@store/journal/journal.selector';
@@ -212,21 +213,24 @@ export class TestsAnalyticsEffects {
               // Grab the days slots
               select(getSlotsOnSelectedDate),
               // Grab the slot where the action slotId matches
-              map((slotItems) => getSlotBySlotID(slotItems, action.slotId)),
-              // If the slot is returned, then retrieve the app ref data
-              select(getAppRefFromSlot)
+              map((slotItems) => getSlotBySlotID(slotItems, action.slotId))
             )
           )
         )
       ),
-      switchMap(([action, applicationReference]) =>
-        Promise.all([action, applicationReference, this.device.getDeviceInfo(), this.device.getBatteryInfo()])
+      switchMap(([action, slot]) =>
+        Promise.all([action, slot, this.device.getDeviceInfo(), this.device.getBatteryInfo()])
       ),
-      switchMap(([action, applicationReference, device, battery]) => {
+      switchMap(([action, slot, _device, battery]) => {
         // GA4 Analytics
         const prefix = this.navigationStateProvider.isRekeySearch() ? 'RM_' : '';
         this.analytics.addGACustomDimension(GoogleAnalyticsCustomDimension.TEST_CATEGORY, action.category);
+        this.analytics.addGACustomDimension(
+          GoogleAnalyticsCustomDimension.TEST_SLOT_DATETIME,
+          getTestSlotDateTimeString(slot?.slotData?.slotDetail?.start, action.startDate)
+        );
 
+        const applicationReference = getAppRefFromSlot(slot);
         if (applicationReference) {
           this.analytics.addGACustomDimension(
             GoogleAnalyticsCustomDimension.APPLICATION_REFERENCE,

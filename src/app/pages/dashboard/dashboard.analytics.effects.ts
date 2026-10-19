@@ -55,6 +55,7 @@ export class DashboardAnalyticsEffects {
         this.analytics.addGACustomDimension(GoogleAnalyticsCustomDimension.CANDIDATE_ID, '');
         this.analytics.addGACustomDimension(GoogleAnalyticsCustomDimension.APPLICATION_REFERENCE, '');
         this.analytics.addGACustomDimension(GoogleAnalyticsCustomDimension.TEST_CATEGORY, '');
+        this.analytics.addGACustomDimension(GoogleAnalyticsCustomDimension.TEST_SLOT_DATETIME, '');
         return of(AnalyticRecorded());
       })
     )
