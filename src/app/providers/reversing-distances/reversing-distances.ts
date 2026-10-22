@@ -9,7 +9,9 @@ interface VehicleMultipliers {
   distanceMultiplier: number;
 }
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class ReversingDistancesProvider {
   distanceValues: Map<TestCategory, VehicleMultipliers>;
 

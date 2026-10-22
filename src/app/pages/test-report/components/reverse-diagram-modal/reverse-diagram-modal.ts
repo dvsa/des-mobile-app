@@ -61,24 +61,26 @@ export class ReverseDiagramPage implements OnInit {
   ngOnInit(): void {
     const currentTest$ = this.store$.pipe(select(getTests), select(getCurrentTest));
 
-    let category: TestCategory;
     this.catSubscription = currentTest$.pipe(select(getTestCategory)).subscribe((value) => {
-      category = value as TestCategory;
+      const category = value as TestCategory;
+      if (!category) {
+        return;
+      }
+
       const vehicleDetails = this.vehicleDetailsProvider.getVehicleDetailsByCategoryCode(category);
       this.componentState = {
         vehicleLength$: currentTest$.pipe(select(vehicleDetails.vehicleDetails), select(vehicleDetails.vehicleLength)),
         vehicleWidth$: currentTest$.pipe(select(vehicleDetails.vehicleDetails), select(vehicleDetails.vehicleWidth)),
         category$: currentTest$.pipe(select(getTestCategory)),
       };
+
+      const { vehicleLength$, vehicleWidth$, category$ } = this.componentState;
+      this.merged$ = merge(
+        vehicleLength$.pipe(map((val) => (this.vehicleLength = val))),
+        vehicleWidth$.pipe(map((val) => (this.vehicleWidth = val))),
+        category$.pipe(map((val) => (this.category = val as TestCategory)))
+      );
     });
-
-    const { vehicleLength$, vehicleWidth$, category$ } = this.componentState;
-
-    this.merged$ = merge(
-      vehicleLength$.pipe(map((val) => (this.vehicleLength = val))),
-      vehicleWidth$.pipe(map((val) => (this.vehicleWidth = val))),
-      category$.pipe(map((val) => (this.category = val as TestCategory)))
-    );
   }
 
   getReversingDiagramLabel = (): string => {
