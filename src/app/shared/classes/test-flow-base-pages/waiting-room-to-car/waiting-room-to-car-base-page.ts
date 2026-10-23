@@ -316,7 +316,6 @@ export abstract class WaitingRoomToCarBasePageComponent extends PracticeableBase
   }
 
   trainerRegistrationNumberChanged(instructorRegistration: number | null): void {
-    console.log('slow swap', instructorRegistration);
     this.store$.dispatch(TrainerRegistrationNumberChanged(instructorRegistration));
   }
 

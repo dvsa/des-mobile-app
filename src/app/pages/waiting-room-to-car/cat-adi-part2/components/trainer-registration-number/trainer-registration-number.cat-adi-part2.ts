@@ -46,7 +46,6 @@ export class TrainerRegistrationNumberCatAdiPart2Component implements OnChanges 
   }
 
   trainerRegistrationChanged(trainerNumber: string): void {
-    console.log('quick swap', trainerNumber);
     this.trainerRegistrationChange.emit(trainerNumber ? Number(trainerNumber) : null);
   }
 

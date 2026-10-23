@@ -463,15 +463,24 @@ export class WaitingRoomToCarAnalyticsEffects {
       filter(([, , , practiceMode]) =>
         !practiceMode ? true : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics
       ),
-      switchMap(([, tests]: [ReturnType<typeof TrainerRegistrationNumberChanged>, TestsModel, number, boolean]) => {
-        // GA4 Analytics
-        this.analytics.logGAEvent(
-          analyticsEventTypePrefix(GoogleAnalyticsEvents.TRAINER_REG_NUMBER, tests),
-          GoogleAnalyticsEventsTitles.SELECTION,
-          GoogleAnalyticsEventsValues.TRAINER_ID_ENTERED
-        );
-        return of(AnalyticRecorded());
-      })
+      switchMap(
+        ([trainerRegistrationNumber, tests]: [
+          ReturnType<typeof TrainerRegistrationNumberChanged>,
+          TestsModel,
+          number,
+          boolean,
+        ]) => {
+          if (trainerRegistrationNumber !== null && trainerRegistrationNumber !== undefined) {
+            // GA4 Analytics
+            this.analytics.logGAEvent(
+              analyticsEventTypePrefix(GoogleAnalyticsEvents.TRAINER_REG_NUMBER, tests),
+              GoogleAnalyticsEventsTitles.SELECTION,
+              GoogleAnalyticsEventsValues.TRAINER_ID_ENTERED
+            );
+          }
+          return of(AnalyticRecorded());
+        }
+      )
     )
   );
 
