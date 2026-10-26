@@ -48,7 +48,6 @@
       <ion-col size="48">
         <ion-select
           (ionChange)="vehicleChecksDrivingFaultsNumberChanged($event?.detail?.value)"
-          [disabled]="(componentState.fullLicenceHeldSelection$ | async) === null"
           [interfaceOptions]="interfaceOptions"
           aria-label="Vehicle checks driving faults"
           cancelText="Cancel"
