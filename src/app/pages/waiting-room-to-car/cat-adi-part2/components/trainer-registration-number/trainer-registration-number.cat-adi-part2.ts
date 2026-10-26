@@ -35,11 +35,18 @@ export class TrainerRegistrationNumberCatAdiPart2Component implements OnChanges 
       ]);
       this.formGroup.addControl(TrainerRegistrationNumberCatAdiPart2Component.fieldName, this.formControl);
     }
-    this.formControl.patchValue(this.trainerRegistration);
+
+    this.formControl.patchValue(
+      this.trainerRegistration !== null && this.trainerRegistration !== undefined
+        ? String(this.trainerRegistration)
+        : ''
+    );
+    this.formControl.updateValueAndValidity();
+    this.formGroup.get(TrainerRegistrationNumberCatAdiPart2Component.fieldName)?.updateValueAndValidity();
   }
 
-  trainerRegistrationChanged(trainerNumber): void {
-    this.trainerRegistrationChange.emit(Number(trainerNumber));
+  trainerRegistrationChanged(trainerNumber: string): void {
+    this.trainerRegistrationChange.emit(trainerNumber ? Number(trainerNumber) : null);
   }
 
   get invalid(): boolean {

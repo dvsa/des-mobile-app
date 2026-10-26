@@ -86,9 +86,9 @@ describe('TrainerRegistrationNumberCatAdiPart2Component', () => {
       expect(component.trainerRegistrationChange.emit).toHaveBeenCalledWith(0);
     });
 
-    it('should emit 0 for an empty string', () => {
+    it('should emit null for an empty string', () => {
       component.trainerRegistrationChanged(mockBlankTrainerRegNumber);
-      expect(component.trainerRegistrationChange.emit).toHaveBeenCalledWith(0);
+      expect(component.trainerRegistrationChange.emit).toHaveBeenCalledWith(null);
     });
   });
 });

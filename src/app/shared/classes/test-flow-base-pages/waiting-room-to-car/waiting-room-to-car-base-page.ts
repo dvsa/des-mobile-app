@@ -131,7 +131,6 @@ export abstract class WaitingRoomToCarBasePageComponent extends PracticeableBase
   subscription: Subscription;
   merged$: Observable<boolean | string | JournalDataUnion>;
   testCategory: TestCategory;
-  trainerNumberProvided = false;
   failedMOTModalCurrentlyOpen = false;
   isSearchingForMOT = false;
   abortSubject: Subject<void> = new Subject<void>();
@@ -316,13 +315,8 @@ export abstract class WaitingRoomToCarBasePageComponent extends PracticeableBase
     this.store$.dispatch(OrditTrainedChanged(wasOrditTrained));
   }
 
-  trainerRegistrationNumberChanged(instructorRegistration: number): void {
-    if (instructorRegistration) {
-      if (!this.trainerNumberProvided) {
-        this.store$.dispatch(TrainerRegistrationNumberChanged(instructorRegistration));
-        this.trainerNumberProvided = true;
-      }
-    } else this.trainerNumberProvided = false;
+  trainerRegistrationNumberChanged(instructorRegistration: number | null): void {
+    this.store$.dispatch(TrainerRegistrationNumberChanged(instructorRegistration));
   }
 
   updateVRNSearchList(vrn: string) {

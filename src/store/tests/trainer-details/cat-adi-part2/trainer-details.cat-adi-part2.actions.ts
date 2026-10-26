@@ -12,5 +12,5 @@ export const TrainingRecordsChanged = createAction(
 
 export const TrainerRegistrationNumberChanged = createAction(
   '[WRTC] Trainer registration number changed',
-  (trainerRegistrationNumber: number) => ({ trainerRegistrationNumber })
+  (trainerRegistrationNumber: number | null) => ({ trainerRegistrationNumber })
 );
