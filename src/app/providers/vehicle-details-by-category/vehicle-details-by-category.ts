@@ -42,7 +42,9 @@ export interface CategorySpecificVehicleDetails<T> {
   vehicleLength: (data: T) => number;
 }
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class VehicleDetailsByCategoryProvider {
   static getVehicleDetailsByCategoryCodeErrMsg = 'Error getting test category vehicle details';
 
