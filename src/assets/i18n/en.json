@@ -16,7 +16,7 @@
     "newEmail": "Enter the email address you want us to send your results to.",
     "newEmailLabel": "By email (new email)",
     "newEmailValidation": "Enter a valid email address (For example, name@example.co.uk)",
-    "title": "Declaration",
+    "title": "Contact details",
     "privacyNotice": "I agree to DVSA collecting, using, storing and sharing my personal information for the purpose of carrying out the {{testSpecificMessage}} test."
   },
   "debrief": {
