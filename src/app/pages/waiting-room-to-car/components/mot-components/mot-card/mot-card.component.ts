@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { UntypedFormGroup } from '@angular/forms';
 import { MotHistory } from '@dvsa/mes-mot-schema';
 import { NetworkStateProvider } from '@providers/network-state/network-state';
+import { getMakeAndModel, hasMakeOrModel } from '@shared/helpers/mot-formatter';
 import { HttpStatusCodes } from '@shared/models/http-status-codes';
 
 @Component({
@@ -60,20 +61,6 @@ export class MotCardComponent {
     this.alternateEvidenceChange.emit(event);
   }
 
-  hasMakeOrModel(): boolean {
-    return !!this.data?.make?.trim() || !!this.data?.model?.trim();
-  }
-
-  getMakeAndModel(): string {
-    //Do not show both fields if neither are present
-    if (this.hasMakeOrModel()) {
-      const make = this.data?.make?.trim() || 'Not found';
-      const model = this.data?.model?.trim() || 'Not found';
-      return `${make} ${model}`;
-    }
-    return 'Not found';
-  }
-
   isSearchFailed(): boolean {
     return (
       +this.status === HttpStatusCodes.UNDEFINED ||
@@ -83,4 +70,7 @@ export class MotCardComponent {
       +this.status === HttpStatusCodes.GATEWAY_TIMEOUT
     );
   }
+
+  protected readonly getMakeAndModel = getMakeAndModel;
+  protected readonly hasMakeOrModel = hasMakeOrModel;
 }

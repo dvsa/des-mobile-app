@@ -11,6 +11,7 @@ import { CatCEUniqueTypes } from '@dvsa/mes-test-schema/categories/CE';
 import { CategoryCode } from '@dvsa/mes-test-schema/categories/common';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { flattenArray } from '@pages/view-test-result/view-test-result-helpers';
+import { getMakeAndModel, hasMakeOrModel } from '@shared/helpers/mot-formatter';
 import { isBikeTest } from '@shared/helpers/simplifiers';
 import { get } from 'lodash-es';
 
@@ -57,20 +58,6 @@ export class VehicleDetailsCardComponent {
       !this.schoolBike &&
       !this.instructorRegistrationNumber
     );
-  }
-
-  hasMakeOrModel(): boolean {
-    return !!this.data?.make?.trim() || !!this.data?.model?.trim();
-  }
-
-  getMakeAndModel(): string {
-    //Do not show both fields if neither are present
-    if (this.hasMakeOrModel()) {
-      const make = this.data?.make?.trim() || 'Not found';
-      const model = this.data?.model?.trim() || 'Not found';
-      return `${make} ${model}`;
-    }
-    return 'Not found';
   }
 
   public get shouldShowDimensions(): boolean {
@@ -268,4 +255,7 @@ export class VehicleDetailsCardComponent {
       this.vehicleDetails !== undefined
     );
   }
+
+  protected readonly hasMakeOrModel = hasMakeOrModel;
+  protected readonly getMakeAndModel = getMakeAndModel;
 }

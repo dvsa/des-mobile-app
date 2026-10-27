@@ -30,8 +30,9 @@
             [registrationNumber]="registrationNumber">
           </registration-with-previous-mot-text>
         </data-row-custom>
-        @if (hasMakeOrModel()) {
-          <data-row [value]="getMakeAndModel()"
+        @if (hasMakeOrModel(data?.make, data?.model)) {
+          <data-row
+            [value]="getMakeAndModel(data?.make, data?.model)"
             [label]="'Make and Model'">
           </data-row>
         }
