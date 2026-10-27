@@ -64,6 +64,16 @@ export class MotCardComponent {
     return !!this.data?.make?.trim() || !!this.data?.model?.trim();
   }
 
+  getMakeAndModel(): string {
+    //Do not show both fields if neither are present
+    if (this.hasMakeOrModel()) {
+      const make = this.data?.make?.trim() || 'Not found';
+      const model = this.data?.model?.trim() || 'Not found';
+      return `${make} ${model}`;
+    }
+    return 'Not found';
+  }
+
   isSearchFailed(): boolean {
     return (
       +this.status === HttpStatusCodes.UNDEFINED ||
