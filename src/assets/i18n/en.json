@@ -412,7 +412,7 @@
     "declarationIntent": "I declare that",
     "healthDeclaration": "There has been no change in my health status since I last applied for a licence.",
     "healthDeclarationValidation": "Confirm that there has been no change in your health status",
-    "title": "Test debrief"
+    "title": "Health and certificate declaration"
   },
   "waitingRoom": {
     "confirm": "I confirm",
