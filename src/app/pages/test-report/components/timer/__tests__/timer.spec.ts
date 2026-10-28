@@ -23,6 +23,10 @@ describe('TimerComponent', () => {
     store$ = TestBed.inject(Store);
   });
 
+  afterEach(() => {
+    fixture.destroy();
+  });
+
   describe('Class', () => {
     describe('startTimer', () => {
       it('should dispatch the start timer action, hide the start test button and set up an interval', () => {
@@ -31,6 +35,21 @@ describe('TimerComponent', () => {
         expect(storeDispatchSpy).toHaveBeenCalledWith(StartTimer());
         expect(component.showStartTimerButton).toEqual(false);
         expect(component.interval).not.toBeUndefined();
+      });
+
+      it('should include time elapsed while the app was suspended', () => {
+        jasmine.clock().install();
+        try {
+          jasmine.clock().mockDate(new Date(0));
+
+          component.startTimer();
+          jasmine.clock().mockDate(new Date(30 * 60 * 1000));
+          component.pauseTimer();
+
+          expect(component.seconds).toBe(1800);
+        } finally {
+          jasmine.clock().uninstall();
+        }
       });
     });
     describe('generateTimerString', () => {
