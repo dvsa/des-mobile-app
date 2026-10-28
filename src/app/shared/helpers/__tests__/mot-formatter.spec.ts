@@ -30,25 +30,25 @@ describe('MotFormatter', () => {
     });
 
     it('returns the make with a fallback model label when the model is missing', () => {
-      expect(getMakeAndModel('Ford', undefined)).toBe('Ford Not found');
+      expect(getMakeAndModel('Ford', undefined)).toBe('Ford Not known');
     });
 
     it('returns the model with a fallback make label when the make is missing', () => {
-      expect(getMakeAndModel(undefined, 'Focus')).toBe('Not found Focus');
+      expect(getMakeAndModel(undefined, 'Focus')).toBe('Not known Focus');
     });
 
-    it('returns not found when both values are missing', () => {
-      expect(getMakeAndModel(undefined, undefined)).toBe('Not found');
+    it('returns not known when both values are missing', () => {
+      expect(getMakeAndModel(undefined, undefined)).toBe('Not known');
     });
 
     it('trims surrounding whitespace before building the value', () => {
       expect(getMakeAndModel('  Ford  ', '  Focus  ')).toBe('Ford Focus');
-      expect(getMakeAndModel('   ', ' Focus ')).toBe('Not found Focus');
+      expect(getMakeAndModel('   ', ' Focus ')).toBe('Not known Focus');
     });
 
-    it('returns not found when both values are empty or whitespace only', () => {
-      expect(getMakeAndModel('', '   ')).toBe('Not found');
-      expect(getMakeAndModel('  ', '')).toBe('Not found');
+    it('returns not known when both values are empty or whitespace only', () => {
+      expect(getMakeAndModel('', '   ')).toBe('Not known');
+      expect(getMakeAndModel('  ', '')).toBe('Not known');
     });
   });
 });
