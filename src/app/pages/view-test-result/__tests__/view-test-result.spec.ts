@@ -690,6 +690,7 @@ describe('ViewTestResultPage', () => {
         slotType: 'testSlot',
         previousCancellations: ['Act of nature'],
         fullLicenceHeld: true,
+        manoeuvrePassCertificateNumber: undefined,
       });
     });
   });

@@ -37,4 +37,8 @@ export class TestDetailsCardComponent {
       this.data.category === TestCategory.SC
     );
   }
+
+  showManoeuvresPassCert(): boolean {
+    return !!this.data?.manoeuvrePassCertificateNumber;
+  }
 }
