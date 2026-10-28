@@ -177,6 +177,7 @@ export class ViewTestResultPage extends BasePageComponent implements OnInit {
       slotType: get(this.testResult, 'journalData.testSlotAttributes.slotType'),
       previousCancellations: get(this.testResult, 'journalData.testSlotAttributes.previousCancellation', []),
       fullLicenceHeld: get(this.testResult, 'testData.vehicleChecks.fullLicenceHeld'),
+      manoeuvrePassCertificateNumber: get(this.testResult, 'preTestDeclarations.manoeuvrePassCertificateNumber'),
     };
   }
 

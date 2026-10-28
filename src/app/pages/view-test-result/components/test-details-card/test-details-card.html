@@ -55,7 +55,15 @@
         </data-row>
       }
 
-      <data-row-custom [shouldHaveSeperator]="showPrn()" [label]="'Additional information'">
+      @let willShowPRN = showPrn();
+      @let willShowManoeuvresPassCert = showManoeuvresPassCert();
+      @let willShowAttemptNumber = showAttemptNumber();
+
+      <data-row-custom
+        [shouldHaveSeperator]="willShowPRN ||
+      willShowManoeuvresPassCert ||
+      willShowAttemptNumber"
+        [label]="'Additional information'">
         @if (data.previousCancellations.length === 0) {
           <div class="mes-data">None</div>
         } @else {
@@ -68,14 +76,23 @@
         }
       </data-row-custom>
 
-      @if (showPrn()) {
-        <data-row [shouldHaveSeparator]="showAttemptNumber()" [label]="'Personal reference number'" [value]="candidateDetails.prn"></data-row>
+      @if (willShowPRN) {
+        <data-row [shouldHaveSeparator]="willShowAttemptNumber || willShowManoeuvresPassCert"
+                  [label]="'Personal reference number'" [value]="candidateDetails.prn"></data-row>
       }
-      @if (showAttemptNumber()) {
+      @if (willShowAttemptNumber) {
         <data-row
           [label]="'Attempt number'"
-          [shouldHaveSeparator]="false"
+          [shouldHaveSeparator]="willShowManoeuvresPassCert"
           [value]="candidateDetails.attemptNumber ? candidateDetails.attemptNumber + 1 : 1"
+        >
+        </data-row>
+      }
+      @if (willShowManoeuvresPassCert) {
+        <data-row
+          [label]="'Manoeuvres pass certificate number'"
+          [shouldHaveSeparator]="false"
+          [value]="data?.manoeuvrePassCertificateNumber"
         >
         </data-row>
       }

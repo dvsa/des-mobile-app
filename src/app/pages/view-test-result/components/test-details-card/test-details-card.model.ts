@@ -10,4 +10,5 @@ export interface TestDetailsModel {
   previousCancellations: string[];
   entitlementCheck: boolean;
   fullLicenceHeld?: boolean;
+  manoeuvrePassCertificateNumber?: string;
 }
