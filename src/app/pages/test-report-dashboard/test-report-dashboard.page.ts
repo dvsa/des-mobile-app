@@ -1,6 +1,7 @@
 import { AsyncPipe, NgClass } from '@angular/common';
 import { Component, Injector, OnInit } from '@angular/core';
 import { UntypedFormGroup } from '@angular/forms';
+import { TestFlowHeaderComponent } from '@components/common/test-flow-header/test-flow-header.component';
 import { LessonAndTheme, TestData } from '@dvsa/mes-test-schema/categories/ADI3';
 import { IonButton, IonCol, IonContent, IonFooter, IonHeader, IonRow, IonText, IonToolbar } from '@ionic/angular';
 import { select } from '@ngrx/store';
@@ -33,7 +34,6 @@ import { getTests } from '@store/tests/tests.reducer';
 import { getCurrentTest } from '@store/tests/tests.selector';
 import { Observable, Subscription, firstValueFrom, merge } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
-import { TestFlowHeaderComponent } from '../../../components/common/test-flow-header/test-flow-header.component';
 import { TimerComponent } from '../test-report/components/timer/timer';
 import { DashboardItemComponent } from './components/dashboard-item/dashboard-item';
 import { ReviewFeedback } from './components/review-feedback/review-feedback';

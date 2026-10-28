@@ -4,6 +4,9 @@ import { select } from '@ngrx/store';
 import { Observable } from 'rxjs';
 
 import { AsyncPipe, NgClass } from '@angular/common';
+import { OfflineBannerComponent } from '@components/common/offline-banner/offline-banner';
+import { TestFlowHeaderComponent } from '@components/common/test-flow-header/test-flow-header.component';
+import { WarningBannerComponent } from '@components/common/warning-banner/warning-banner';
 import {
   IonButton,
   IonCol,
@@ -32,9 +35,6 @@ import {
   getVehicleWidth,
 } from '@store/tests/vehicle-details/cat-manoeuvres/vehicle-details.cat-manoeuvre.selector';
 import { MotEvidenceProvidedReset } from '@store/tests/vehicle-details/vehicle-details.actions';
-import { OfflineBannerComponent } from '../../../../components/common/offline-banner/offline-banner';
-import { TestFlowHeaderComponent } from '../../../../components/common/test-flow-header/test-flow-header.component';
-import { WarningBannerComponent } from '../../../../components/common/warning-banner/warning-banner';
 import { AccompanimentCardComponent } from '../components/accompaniment-card/accompaniment-card';
 import { MotNoEvidenceConfirmationComponent } from '../components/mot-components/mot-no-evidence-confirmation/mot-no-evidence-confirmation';
 import { TestCategoryComponent } from '../components/test-category/test-category';

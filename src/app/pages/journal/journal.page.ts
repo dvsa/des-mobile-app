@@ -21,6 +21,10 @@ import { Observable, Subscription, merge, of } from 'rxjs';
 import { map, switchMap, take, tap } from 'rxjs/operators';
 
 import { AsyncPipe } from '@angular/common';
+import { IncompleteTestsBanner } from '@components/common/incomplete-tests-banner/incomplete-tests-banner';
+import { OfflineBannerComponent } from '@components/common/offline-banner/offline-banner';
+import { RefreshButtonComponent } from '@components/common/refresh-button/refresh-button.component';
+import { VehicleRecallsBanner } from '@components/common/vehicle-recall-banner/vehicle-recalls-banner';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { environment } from '@environments/environment';
 import { TestersEnvironmentFile } from '@environments/models/environment.model';
@@ -56,10 +60,6 @@ import {
 import { TestStatus } from '@store/tests/test-status/test-status.model';
 import { getTests } from '@store/tests/tests.reducer';
 import { isEndToEndPracticeTest } from '@store/tests/tests.selector';
-import { IncompleteTestsBanner } from '../../../components/common/incomplete-tests-banner/incomplete-tests-banner';
-import { OfflineBannerComponent } from '../../../components/common/offline-banner/offline-banner';
-import { RefreshButtonComponent } from '../../../components/common/refresh-button/refresh-button.component';
-import { VehicleRecallsBanner } from '../../../components/common/vehicle-recall-banner/vehicle-recalls-banner';
 import { ErrorPage } from '../error-page/error';
 import { JournalNavigationComponent } from './components/journal-navigation/journal-navigation';
 import { JournalSlotComponent } from './components/journal-slot/journal-slot';

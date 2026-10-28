@@ -4,6 +4,9 @@ import { select } from '@ngrx/store';
 import { Observable } from 'rxjs';
 
 import { AsyncPipe, NgClass } from '@angular/common';
+import { OfflineBannerComponent } from '@components/common/offline-banner/offline-banner';
+import { TestFlowHeaderComponent } from '@components/common/test-flow-header/test-flow-header.component';
+import { TransmissionComponent } from '@components/common/transmission/transmission';
 import { CategoryCode } from '@dvsa/mes-test-schema/categories/common';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import {
@@ -49,9 +52,6 @@ import {
   DualControlsToggledYes,
   MotEvidenceProvidedReset,
 } from '@store/tests/vehicle-details/vehicle-details.actions';
-import { OfflineBannerComponent } from '../../../../components/common/offline-banner/offline-banner';
-import { TestFlowHeaderComponent } from '../../../../components/common/test-flow-header/test-flow-header.component';
-import { TransmissionComponent } from '../../../../components/common/transmission/transmission';
 import { OrditTrainerCatAdiPart2Component } from '../cat-adi-part2/components/ordit-trainer/ordit-trainer.cat-adi-part2';
 import { TrainerRegistrationNumberCatAdiPart2Component } from '../cat-adi-part2/components/trainer-registration-number/trainer-registration-number.cat-adi-part2';
 import { MotNoEvidenceConfirmationComponent } from '../components/mot-components/mot-no-evidence-confirmation/mot-no-evidence-confirmation';

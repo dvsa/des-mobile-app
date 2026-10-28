@@ -1,5 +1,9 @@
 import { HttpResponse } from '@angular/common/http';
 import { ChangeDetectorRef, Component, Injector, Input, OnInit } from '@angular/core';
+import { Adi3DebriefCard } from '@components/common/adi3-debrief-card/adi3-debrief-card';
+import { CPCDebriefCardComponent } from '@components/common/cpc-debrief-card/cpc-debrief-card';
+import { ErrorMessageComponent } from '@components/common/error-message/error-message';
+import { FitMarkerBannerComponent } from '@components/common/fit-marker-banner/fit-marker-banner';
 import { TestResultSchemasUnion } from '@dvsa/mes-test-schema/categories';
 import { CatADI2UniqueTypes } from '@dvsa/mes-test-schema/categories/ADI2';
 import {
@@ -47,10 +51,6 @@ import * as compareVersions from 'compare-versions';
 import { get } from 'lodash-es';
 import { Subscription, of } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
-import { Adi3DebriefCard } from '../../../components/common/adi3-debrief-card/adi3-debrief-card';
-import { CPCDebriefCardComponent } from '../../../components/common/cpc-debrief-card/cpc-debrief-card';
-import { ErrorMessageComponent } from '../../../components/common/error-message/error-message';
-import { FitMarkerBannerComponent } from '../../../components/common/fit-marker-banner/fit-marker-banner';
 import { ActivityCodeCard } from './components/activity-code-card/activity-code-card';
 import { BusinessDetailsCardComponent } from './components/business-details-card/business-details-card';
 import { ContactDetailsCardComponent } from './components/contact-details-card/contact-details-card';

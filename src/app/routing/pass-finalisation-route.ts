@@ -15,72 +15,66 @@ import {
 export const Pass_Finalisation_Route: Routes = [
   {
     path: CAT_ADI_PART2.PASS_FINALISATION_PAGE,
-    loadChildren: () =>
-      import('@pages/pass-finalisation/cat-adi-part2/pass-finalisation.cat-adi-part2.module').then(
-        (m) => m.PassFinalisationCatADIPart2PageModule
+    loadComponent: () =>
+      import('@pages/pass-finalisation/cat-adi-part2/pass-finalisation.cat-adi-part2.page').then(
+        (m) => m.PassFinalisationCatADI2Page
       ),
   },
   {
     path: CAT_ADI_PART3.PASS_FINALISATION_PAGE,
-    loadChildren: () =>
-      import('@pages/pass-finalisation/cat-adi-part3/pass-finalisation.cat-adi-part3.module').then(
-        (m) => m.PassFinalisationCatADIPart3PageModule
+    loadComponent: () =>
+      import('@pages/pass-finalisation/cat-adi-part3/pass-finalisation.cat-adi-part3.page').then(
+        (m) => m.PassFinalisationCatADIPart3Page
       ),
   },
   {
     path: CAT_A_MOD1.PASS_FINALISATION_PAGE,
-    loadChildren: () =>
-      import('@pages/pass-finalisation/cat-a-mod1/pass-finalisation.cat-a-mod1.module').then(
-        (m) => m.PassFinalisationCatAMod1PageModule
+    loadComponent: () =>
+      import('@pages/pass-finalisation/cat-a-mod1/pass-finalisation.cat-a-mod1.page').then(
+        (m) => m.PassFinalisationCatAMod1Page
       ),
   },
   {
     path: CAT_A_MOD2.PASS_FINALISATION_PAGE,
-    loadChildren: () =>
-      import('@pages/pass-finalisation/cat-a-mod2/pass-finalisation.cat-a-mod2.module').then(
-        (m) => m.PassFinalisationCatAMod2PageModule
+    loadComponent: () =>
+      import('@pages/pass-finalisation/cat-a-mod2/pass-finalisation.cat-a-mod2.page').then(
+        (m) => m.PassFinalisationCatAMod2Page
       ),
   },
   {
     path: CAT_B.PASS_FINALISATION_PAGE,
-    loadChildren: () =>
-      import('@pages/pass-finalisation/cat-b/pass-finalisation.cat-b.module').then(
-        (m) => m.PassFinalisationCatBPageModule
-      ),
+    loadComponent: () =>
+      import('@pages/pass-finalisation/cat-b/pass-finalisation.cat-b.page').then((m) => m.PassFinalisationCatBPage),
   },
   {
     path: CAT_C.PASS_FINALISATION_PAGE,
-    loadChildren: () =>
-      import('@pages/pass-finalisation/cat-c/pass-finalisation.cat-c.module').then(
-        (m) => m.PassFinalisationCatCPageModule
-      ),
+    loadComponent: () =>
+      import('@pages/pass-finalisation/cat-c/pass-finalisation.cat-c.page').then((m) => m.PassFinalisationCatCPage),
   },
   {
     path: CAT_CPC.PASS_FINALISATION_PAGE,
-    loadChildren: () =>
-      import('@pages/pass-finalisation/cat-cpc/pass-finalisation.cat-cpc.module').then(
-        (m) => m.PassFinalisationCatCPCPageModule
+    loadComponent: () =>
+      import('@pages/pass-finalisation/cat-cpc/pass-finalisation.cat-cpc.page').then(
+        (m) => m.PassFinalisationCatCPCPage
       ),
   },
   {
     path: CAT_D.PASS_FINALISATION_PAGE,
-    loadChildren: () =>
-      import('@pages/pass-finalisation/cat-d/pass-finalisation.cat-d.module').then(
-        (m) => m.PassFinalisationCatDPageModule
-      ),
+    loadComponent: () =>
+      import('@pages/pass-finalisation/cat-d/pass-finalisation.cat-d.page').then((m) => m.PassFinalisationCatDPage),
   },
   {
     path: CAT_HOME_TEST.PASS_FINALISATION_PAGE,
-    loadChildren: () =>
-      import('@pages/pass-finalisation/cat-home-test/pass-finalisation.cat-home-test.module').then(
-        (m) => m.PassFinalisationCatHomeTestPageModule
+    loadComponent: () =>
+      import('@pages/pass-finalisation/cat-home-test/pass-finalisation.cat-home-test.page').then(
+        (m) => m.PassFinalisationCatHomeTestPage
       ),
   },
   {
     path: CAT_MANOEUVRES.PASS_FINALISATION_PAGE,
-    loadChildren: () =>
-      import('@pages/pass-finalisation/cat-manoeuvre/pass-finalisation.cat-manoeuvre.module').then(
-        (m) => m.PassFinalisationCatManoeuvrePageModule
+    loadComponent: () =>
+      import('@pages/pass-finalisation/cat-manoeuvre/pass-finalisation.cat-manoeuvre.page').then(
+        (m) => m.PassFinalisationCatManoeuvrePage
       ),
   },
 ];

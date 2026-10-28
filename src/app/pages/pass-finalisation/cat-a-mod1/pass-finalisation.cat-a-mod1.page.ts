@@ -5,6 +5,14 @@ import { Observable, merge } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { AsyncPipe, NgClass } from '@angular/common';
+import { BikeCategoryTypeComponent } from '@components/common/bike-category-type/bike-category-type';
+import { TestFlowHeaderComponent } from '@components/common/test-flow-header/test-flow-header.component';
+import { TransmissionComponent } from '@components/common/transmission/transmission';
+import { WarningBannerComponent } from '@components/common/warning-banner/warning-banner';
+import { D255Component } from '@components/test-finalisation/d255/d255';
+import { DebriefWitnessedComponent } from '@components/test-finalisation/debrief-witnessed/debrief-witnessed';
+import { FinalisationHeaderComponent } from '@components/test-finalisation/finalisation-header/finalisation-header';
+import { LanguagePreferencesComponent } from '@components/test-finalisation/language-preference/language-preference';
 import {
   IonButton,
   IonCol,
@@ -30,14 +38,6 @@ import {
 } from '@shared/classes/test-flow-base-pages/pass-finalisation/pass-finalisation-base-page';
 import { TransmissionType } from '@shared/models/transmission-type';
 import { PersistTests } from '@store/tests/tests.actions';
-import { BikeCategoryTypeComponent } from '../../../../components/common/bike-category-type/bike-category-type';
-import { TestFlowHeaderComponent } from '../../../../components/common/test-flow-header/test-flow-header.component';
-import { TransmissionComponent } from '../../../../components/common/transmission/transmission';
-import { WarningBannerComponent } from '../../../../components/common/warning-banner/warning-banner';
-import { D255Component } from '../../../../components/test-finalisation/d255/d255';
-import { DebriefWitnessedComponent } from '../../../../components/test-finalisation/debrief-witnessed/debrief-witnessed';
-import { FinalisationHeaderComponent } from '../../../../components/test-finalisation/finalisation-header/finalisation-header';
-import { LanguagePreferencesComponent } from '../../../../components/test-finalisation/language-preference/language-preference';
 import { ApplicationReferenceComponent } from '../components/application-reference/application-reference';
 import { PassCertificateNumberCatAMod1Component } from './components/pass-certificate-number/pass-certificate-number.cat-a-mod1';
 

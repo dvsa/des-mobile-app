@@ -1,6 +1,11 @@
 import { AsyncPipe, NgClass } from '@angular/common';
 import { Component, Injector, OnInit } from '@angular/core';
 import { FormsModule, ReactiveFormsModule, UntypedFormGroup } from '@angular/forms';
+import { ActivityCodeComponent } from '@components/common/activity-code/activity-code';
+import { CPCDebriefCardComponent } from '@components/common/cpc-debrief-card/cpc-debrief-card';
+import { TestFlowHeaderComponent } from '@components/common/test-flow-header/test-flow-header.component';
+import { DebriefWitnessedComponent } from '@components/test-finalisation/debrief-witnessed/debrief-witnessed';
+import { LanguagePreferencesComponent } from '@components/test-finalisation/language-preference/language-preference';
 import { CombinationCodes, Question, Question5 } from '@dvsa/mes-test-schema/categories/CPC';
 import {
   IonCard,
@@ -46,11 +51,6 @@ import { getTests } from '@store/tests/tests.reducer';
 import { getCurrentTest } from '@store/tests/tests.selector';
 import { Observable, Subscription, merge } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { ActivityCodeComponent } from '../../../../components/common/activity-code/activity-code';
-import { CPCDebriefCardComponent } from '../../../../components/common/cpc-debrief-card/cpc-debrief-card';
-import { TestFlowHeaderComponent } from '../../../../components/common/test-flow-header/test-flow-header.component';
-import { DebriefWitnessedComponent } from '../../../../components/test-finalisation/debrief-witnessed/debrief-witnessed';
-import { LanguagePreferencesComponent } from '../../../../components/test-finalisation/language-preference/language-preference';
 import { getTestOutcome as getTestOutcomeDebrief } from '../../debrief/debrief.selector';
 import { PassCertificateNumberComponent } from '../../pass-finalisation/components/pass-certificate-number/pass-certificate-number';
 import { AccompanimentCardCatCPCComponent } from '../../waiting-room-to-car/cat-cpc/components/accompaniment-card/accompaniment-card.cat-cpc';
@@ -85,6 +85,7 @@ interface CatCPCOfficePageState {
 type OfficePageState = CommonOfficePageState & CatCPCOfficePageState;
 
 @Component({
+  standalone: true,
   selector: '.office-cat-cpc-page',
   templateUrl: './office.cat-cpc.page.html',
   styleUrls: ['../office.page.scss'],

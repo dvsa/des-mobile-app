@@ -2,6 +2,7 @@ import { Component, Injector, OnInit } from '@angular/core';
 import { Observable, merge } from 'rxjs';
 
 import { AsyncPipe, NgClass } from '@angular/common';
+import { TestFlowHeaderComponent } from '@components/common/test-flow-header/test-flow-header.component';
 import { TestData } from '@dvsa/mes-test-schema/categories/AM1';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { IonCol, IonContent, IonGrid, IonHeader, IonRow, IonToolbar, ViewDidLeave } from '@ionic/angular';
@@ -23,7 +24,6 @@ import {
 import { competencyLabels } from '@shared/constants/competencies/competencies';
 import { SingleFaultCompetencyNames } from '@store/tests/test-data/test-data.constants';
 import { map } from 'rxjs/operators';
-import { TestFlowHeaderComponent } from '../../../../components/common/test-flow-header/test-flow-header.component';
 import { CompetencyComponent } from '../components/competency/competency';
 import { EtaInvalidModal } from '../components/eta-invalid-modal/eta-invalid-modal';
 import { EtaComponent } from '../components/examiner-takes-action/eta';

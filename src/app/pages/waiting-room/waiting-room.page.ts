@@ -41,6 +41,11 @@ import { Observable, Subscription, merge } from 'rxjs';
 import { map, tap, withLatestFrom } from 'rxjs/operators';
 
 import { AsyncPipe, NgClass } from '@angular/common';
+import { CandidateSectionComponent } from '@components/common/candidate-section/candidate-section';
+import { LockScreenIndicator } from '@components/common/screen-lock-indicator/lock-screen-indicator';
+import { SignatureComponent } from '@components/common/signature/signature';
+import { TestFlowHeaderComponent } from '@components/common/test-flow-header/test-flow-header.component';
+import { AddOrRemoveLangCyDirective } from '@directives/add-or-remove-lang-cy.directive';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { GetCandidateLicenceData } from '@pages/candidate-licence/candidate-licence.actions';
 import { ErrorPage } from '@pages/error-page/error';
@@ -58,11 +63,6 @@ import { SignatureConfirmed } from '@store/tests/pre-test-declarations/pre-test-
 import { getRekeyIndicator } from '@store/tests/rekey/rekey.reducer';
 import { isRekey } from '@store/tests/rekey/rekey.selector';
 import { showVrnButton } from '@store/tests/vehicle-details/vehicle-details.selector';
-import { CandidateSectionComponent } from '../../../components/common/candidate-section/candidate-section';
-import { LockScreenIndicator } from '../../../components/common/screen-lock-indicator/lock-screen-indicator';
-import { SignatureComponent } from '../../../components/common/signature/signature';
-import { TestFlowHeaderComponent } from '../../../components/common/test-flow-header/test-flow-header.component';
-import { AddOrRemoveLangCyDirective } from '../../../directives/add-or-remove-lang-cy.directive';
 import { CBTNumberComponent } from './components/cbt-number/cbt-number';
 import { ConductedLanguageComponent } from './components/conducted-language/conducted-language';
 import { InsuranceDeclarationComponent } from './components/insurance-declaration/insurance-declaration';
@@ -218,9 +218,9 @@ export class WaitingRoomPage extends PracticeableBasePageComponent implements On
     this.merged$ = merge(
       currentTest$.pipe(
         select(getJournalData),
-        tap((journalData: JournalData) => {
+        tap(async (journalData: JournalData) => {
           if (this.isJournalDataInvalid(journalData)) {
-            this.showCandidateDataMissingError();
+            await this.showCandidateDataMissingError();
           }
         })
       ),
@@ -250,6 +250,7 @@ export class WaitingRoomPage extends PracticeableBasePageComponent implements On
   }
 
   isJournalDataInvalid = (journalData: JournalData): boolean => {
+    console.log(journalData);
     return (
       isEmpty(journalData.examiner.staffNumber) ||
       (isEmpty(journalData.candidate.candidateName) && isEmpty(journalData.candidate.driverNumber))
@@ -325,6 +326,7 @@ export class WaitingRoomPage extends PracticeableBasePageComponent implements On
   }
 
   async showCandidateDataMissingError(): Promise<void> {
+    console.log('missing candidate data');
     const errorModal: HTMLIonModalElement = await this.modalController.create({
       component: ErrorPage,
       cssClass: `modal-fullscreen ${this.accessibilityService.getTextZoomClass()}`,
@@ -341,9 +343,6 @@ export class WaitingRoomPage extends PracticeableBasePageComponent implements On
 
   shouldNavigateToCandidateLicenceDetails = (): boolean => {
     // skip the candidate licence page when test is marked as a re-key or for non licence acquisition based categories.
-    if (this.isRekey || isAnyOf(this.testCategory, [TestCategory.ADI3, TestCategory.SC])) {
-      return false;
-    }
-    return true;
+    return !(this.isRekey || isAnyOf(this.testCategory, [TestCategory.ADI3, TestCategory.SC]));
   };
 }

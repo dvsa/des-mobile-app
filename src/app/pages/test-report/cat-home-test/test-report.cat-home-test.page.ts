@@ -1,5 +1,6 @@
 import { AsyncPipe, NgClass, NgStyle } from '@angular/common';
 import { Component, Injector, OnInit } from '@angular/core';
+import { TestFlowHeaderComponent } from '@components/common/test-flow-header/test-flow-header.component';
 import { CatFUniqueTypes } from '@dvsa/mes-test-schema/categories/F';
 import { CatGUniqueTypes } from '@dvsa/mes-test-schema/categories/G';
 import { CatHUniqueTypes } from '@dvsa/mes-test-schema/categories/H';
@@ -11,7 +12,6 @@ import {
   TestReportBasePageComponent,
 } from '@shared/classes/test-flow-base-pages/test-report/test-report-base-page';
 import { Observable } from 'rxjs';
-import { TestFlowHeaderComponent } from '../../../../components/common/test-flow-header/test-flow-header.component';
 import { CompetencyComponent } from '../components/competency/competency';
 import { ControlledStopComponent } from '../components/controlled-stop/controlled-stop';
 import { EcoComponent } from '../components/eco/eco';

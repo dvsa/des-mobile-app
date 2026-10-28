@@ -2,13 +2,13 @@ import { Component, Injector, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 
 import { AsyncPipe, NgClass } from '@angular/common';
+import { TestFlowHeaderComponent } from '@components/common/test-flow-header/test-flow-header.component';
 import { CatBUniqueTypes } from '@dvsa/mes-test-schema/categories/B';
 import { IonCol, IonContent, IonGrid, IonHeader, IonRow, IonToolbar } from '@ionic/angular';
 import {
   CommonTestReportPageState,
   TestReportBasePageComponent,
 } from '@shared/classes/test-flow-base-pages/test-report/test-report-base-page';
-import { TestFlowHeaderComponent } from '../../../../components/common/test-flow-header/test-flow-header.component';
 import { CompetencyComponent } from '../components/competency/competency';
 import { ControlledStopComponent } from '../components/controlled-stop/controlled-stop';
 import { EcoComponent } from '../components/eco/eco';

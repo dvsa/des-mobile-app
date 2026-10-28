@@ -1,6 +1,14 @@
 import { AsyncPipe, NgClass } from '@angular/common';
 import { Component, Injector, OnInit } from '@angular/core';
 import { FormsModule, ReactiveFormsModule, UntypedFormGroup } from '@angular/forms';
+import { BikeCategoryTypeComponent } from '@components/common/bike-category-type/bike-category-type';
+import { TestFlowHeaderComponent } from '@components/common/test-flow-header/test-flow-header.component';
+import { TransmissionComponent } from '@components/common/transmission/transmission';
+import { WarningBannerComponent } from '@components/common/warning-banner/warning-banner';
+import { D255Component } from '@components/test-finalisation/d255/d255';
+import { DebriefWitnessedComponent } from '@components/test-finalisation/debrief-witnessed/debrief-witnessed';
+import { FinalisationHeaderComponent } from '@components/test-finalisation/finalisation-header/finalisation-header';
+import { LanguagePreferencesComponent } from '@components/test-finalisation/language-preference/language-preference';
 import { GearboxCategory } from '@dvsa/mes-test-schema/categories/common';
 import {
   IonButton,
@@ -28,14 +36,6 @@ import { TransmissionType } from '@shared/models/transmission-type';
 import { PersistTests } from '@store/tests/tests.actions';
 import { Observable, merge } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { BikeCategoryTypeComponent } from '../../../../components/common/bike-category-type/bike-category-type';
-import { TestFlowHeaderComponent } from '../../../../components/common/test-flow-header/test-flow-header.component';
-import { TransmissionComponent } from '../../../../components/common/transmission/transmission';
-import { WarningBannerComponent } from '../../../../components/common/warning-banner/warning-banner';
-import { D255Component } from '../../../../components/test-finalisation/d255/d255';
-import { DebriefWitnessedComponent } from '../../../../components/test-finalisation/debrief-witnessed/debrief-witnessed';
-import { FinalisationHeaderComponent } from '../../../../components/test-finalisation/finalisation-header/finalisation-header';
-import { LanguagePreferencesComponent } from '../../../../components/test-finalisation/language-preference/language-preference';
 import { behaviourMap } from '../../office/office-behaviour-map.cat-a-mod2';
 import { ApplicationReferenceComponent } from '../components/application-reference/application-reference';
 import { LicenceProvidedWarningBannerComponent } from '../components/licence-provided-warning-banner/licence-provided-warning-banner';

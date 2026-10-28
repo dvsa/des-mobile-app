@@ -1,6 +1,7 @@
 import { AsyncPipe, NgClass } from '@angular/common';
 import { Component, Injector, OnInit } from '@angular/core';
 import { FormsModule, UntypedFormGroup } from '@angular/forms';
+import { TestFlowHeaderComponent } from '@components/common/test-flow-header/test-flow-header.component';
 import { CombinationCodes, Question, Question5, TestData } from '@dvsa/mes-test-schema/categories/CPC';
 import { CategoryCode } from '@dvsa/mes-test-schema/categories/common';
 import { IonContent, IonHeader, IonToolbar } from '@ionic/angular';
@@ -30,7 +31,6 @@ import { getTests } from '@store/tests/tests.reducer';
 import { getCurrentTest } from '@store/tests/tests.selector';
 import { Observable, Subscription, combineLatest, lastValueFrom } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { TestFlowHeaderComponent } from '../../../../components/common/test-flow-header/test-flow-header.component';
 import { ModuleAssessmentComponent } from './components/module-assessment/module-assessment';
 import { QuestionCardComponent } from './components/question-card/question-card';
 import { QuestionDelExRadioCardComponent } from './components/question-del-ex-radio-card/question-del-ex-radio-card';

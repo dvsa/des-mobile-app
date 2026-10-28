@@ -1,6 +1,9 @@
 import { AsyncPipe, NgClass } from '@angular/common';
 import { Component, Injector, OnInit } from '@angular/core';
 import { FormsModule, ReactiveFormsModule, UntypedFormGroup } from '@angular/forms';
+import { OfflineBannerComponent } from '@components/common/offline-banner/offline-banner';
+import { TestFlowHeaderComponent } from '@components/common/test-flow-header/test-flow-header.component';
+import { WarningBannerComponent } from '@components/common/warning-banner/warning-banner';
 import { CatDUniqueTypes } from '@dvsa/mes-test-schema/categories/D';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import {
@@ -53,9 +56,6 @@ import { getCurrentTest } from '@store/tests/tests.selector';
 import { MotEvidenceProvidedReset } from '@store/tests/vehicle-details/vehicle-details.actions';
 import { Observable, merge } from 'rxjs';
 import { map, withLatestFrom } from 'rxjs/operators';
-import { OfflineBannerComponent } from '../../../../components/common/offline-banner/offline-banner';
-import { TestFlowHeaderComponent } from '../../../../components/common/test-flow-header/test-flow-header.component';
-import { WarningBannerComponent } from '../../../../components/common/warning-banner/warning-banner';
 import { AccompanimentCardComponent } from '../components/accompaniment-card/accompaniment-card';
 import { CandidateDeclarationSignedComponent } from '../components/candidate-declaration/candidate-declaration';
 import { FullLicenceHeldComponent } from '../components/full-licence-held-toggle/full-licence-held-toggle';

@@ -1,6 +1,9 @@
 import { AsyncPipe, NgClass } from '@angular/common';
 import { Component, Injector, OnInit } from '@angular/core';
 import { FormsModule, ReactiveFormsModule, UntypedFormGroup } from '@angular/forms';
+import { OfflineBannerComponent } from '@components/common/offline-banner/offline-banner';
+import { TestFlowHeaderComponent } from '@components/common/test-flow-header/test-flow-header.component';
+import { TransmissionComponent } from '@components/common/transmission/transmission';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import {
   IonButton,
@@ -48,9 +51,6 @@ import {
 } from '@store/tests/vehicle-details/vehicle-details.actions';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { OfflineBannerComponent } from '../../../../components/common/offline-banner/offline-banner';
-import { TestFlowHeaderComponent } from '../../../../components/common/test-flow-header/test-flow-header.component';
-import { TransmissionComponent } from '../../../../components/common/transmission/transmission';
 import { AccompanimentCardComponent } from '../components/accompaniment-card/accompaniment-card';
 import { EyesightFailureConfirmationComponent } from '../components/eyesight-failure-confirmation/eyesight-failure-confirmation';
 import { EyesightTestComponent } from '../components/eyesight-test/eyesight-test';
@@ -71,6 +71,7 @@ interface CatBWaitingRoomToCarPageState {
 type WaitingRoomToCarPageState = CommonWaitingRoomToCarPageState & CatBWaitingRoomToCarPageState;
 
 @Component({
+  standalone: true,
   selector: 'app-waiting-room-to-car-cat-b',
   templateUrl: './waiting-room-to-car.cat-b.page.html',
   styleUrls: ['./waiting-room-to-car.cat-b.page.scss'],

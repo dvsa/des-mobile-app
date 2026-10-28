@@ -4,6 +4,8 @@ import { BrowserModule, bootstrapApplication } from '@angular/platform-browser';
 import { CommonModule } from '@angular/common';
 import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { RouteReuseStrategy } from '@angular/router';
+import { AppRoutingModule } from '@app/app-routing.module';
+import { AppComponent } from '@app/app.component';
 import { EffectImportModule } from '@app/effects.module';
 import { SentryIonicErrorHandler } from '@app/sentry-error-handler';
 import { IsDebug } from '@awesome-cordova-plugins/is-debug/ngx';
@@ -86,8 +88,6 @@ import { testsReducer } from '@store/tests/tests.reducer';
 import CordovaSQLiteDriver from 'localforage-cordovasqlitedriver';
 import { get } from 'lodash-es';
 import { RemoteDevToolsProxy } from '../ngrx-devtool-proxy/remote-devtools-proxy';
-import { AppRoutingModule } from './app/app-routing.module';
-import { AppComponent } from './app/app.component';
 
 const enableDevTools = environment && (environment as EnvironmentFile).enableDevTools;
 const enableRehydrationPlugin = environment && (environment as EnvironmentFile).enableRehydrationPlugin;

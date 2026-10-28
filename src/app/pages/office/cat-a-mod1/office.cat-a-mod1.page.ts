@@ -7,6 +7,8 @@ import { map, withLatestFrom } from 'rxjs/operators';
 
 import { AsyncPipe, NgClass } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ActivityCodeComponent } from '@components/common/activity-code/activity-code';
+import { TestFlowHeaderComponent } from '@components/common/test-flow-header/test-flow-header.component';
 import { ETA } from '@dvsa/mes-test-schema/categories/common';
 import {
   IonCard,
@@ -43,8 +45,6 @@ import { getCurrentTest, getTestOutcome } from '@store/tests/tests.selector';
 import { getSchoolBike } from '@store/tests/vehicle-details/cat-a-mod1/vehicle-details.cat-a-mod1.selector';
 import { getVehicleDetails } from '@store/tests/vehicle-details/vehicle-details.reducer';
 import { startsWith } from 'lodash-es';
-import { ActivityCodeComponent } from '../../../../components/common/activity-code/activity-code';
-import { TestFlowHeaderComponent } from '../../../../components/common/test-flow-header/test-flow-header.component';
 import { SpeedCheckDebriefCardComponent } from '../../debrief/components/speed-check-debrief-card/speed-check-debrief-card';
 import { AccompanimentCardComponent } from '../../waiting-room-to-car/components/accompaniment-card/accompaniment-card';
 import { VehicleDetailsCardComponent } from '../../waiting-room-to-car/components/vehicle-details-card/vehicle-details-card';

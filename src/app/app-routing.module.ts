@@ -29,120 +29,114 @@ const routes: Routes = [
   },
   {
     path: DASHBOARD_PAGE,
-    loadChildren: () => import('./pages/dashboard/dashboard.module').then((m) => m.DashboardPageModule),
+    loadComponent: () => import('./pages/dashboard/dashboard.page').then((m) => m.DashboardPage),
   },
   {
     path: UNUPLOADED_TESTS_PAGE,
-    loadChildren: () => import('./pages/unuploaded-tests/unuploaded-tests.module').then((m) => m.UnuploadedTestsModule),
+    loadComponent: () => import('./pages/unuploaded-tests/unuploaded-tests.page').then((m) => m.UnuploadedTestsPage),
   },
   {
     path: USEFUL_LINKS_PAGE,
-    loadChildren: () => import('./pages/useful-links/useful-links.module').then((m) => m.UsefulLinksPageModule),
+    loadComponent: () => import('./pages/useful-links/useful-links.page').then((m) => m.UsefulLinksPage),
   },
   {
     path: PASS_CERTIFICATES,
-    loadChildren: () =>
-      import('@pages/pass-certificates/pass-certificates.module').then((m) => m.PassCertificatesPageModule),
+    loadComponent: () => import('@pages/pass-certificates/pass-certificates.page').then((m) => m.PassCertificatesPage),
   },
   {
     path: EXAMINER_RECORDS,
-    loadChildren: () =>
-      import('@pages/examiner-records/examiner-records.module').then((m) => m.ExaminerRecordsPageModule),
+    loadComponent: () => import('@pages/examiner-records/examiner-records.page').then((m) => m.ExaminerRecordsPage),
   },
   {
     path: LOGIN_PAGE,
-    loadChildren: () => import('./pages/login/login.module').then((m) => m.LoginPageModule),
+    loadComponent: () => import('./pages/login/login.page').then((m) => m.LoginPage),
   },
   {
     path: JOURNAL_PAGE,
-    loadChildren: () => import('./pages/journal/journal.module').then((m) => m.JournalPageModule),
+    loadComponent: () => import('./pages/journal/journal.page').then((m) => m.JournalPage),
   },
   {
     path: FAKE_JOURNAL_PAGE,
-    loadChildren: () => import('./pages/fake-journal/fake-journal.module').then((m) => m.FakeJournalPageModule),
+    loadComponent: () => import('./pages/fake-journal/fake-journal.page').then((m) => m.FakeJournalPage),
   },
   {
     path: TEST_CENTRE_JOURNAL_PAGE,
-    loadChildren: () =>
-      import('./pages/test-centre-journal/test-centre-journal.module').then((m) => m.TestCentreJournalModule),
+    loadComponent: () =>
+      import('./pages/test-centre-journal/test-centre-journal.page').then((m) => m.TestCentreJournalPage),
   },
   {
     path: TEST_RESULTS_SEARCH_PAGE,
-    loadChildren: () =>
-      import('./pages/test-results-search/test-results-search.module').then((m) => m.TestResultsSearchPageModule),
+    loadComponent: () => import('./pages/test-results-search/test-results-search').then((m) => m.TestResultsSearchPage),
   },
   {
     path: REKEY_SEARCH_PAGE,
-    loadChildren: () => import('./pages/rekey-search/rekey-search.module').then((m) => m.RekeySearchPageModule),
+    loadComponent: () => import('./pages/rekey-search/rekey-search').then((m) => m.RekeySearchPage),
   },
   {
     path: DELEGATED_REKEY_SEARCH_PAGE,
-    loadChildren: () =>
-      import('./pages/delegated-rekey-search/delegated-rekey-search.module').then(
-        (m) => m.DelegatedRekeySearchPageModule
-      ),
+    loadComponent: () =>
+      import('./pages/delegated-rekey-search/delegated-rekey-search').then((m) => m.DelegatedRekeySearchPage),
   },
   {
     path: DELEGATED_REKEY_UPLOAD_OUTCOME_PAGE,
-    loadChildren: () =>
-      import('./pages/delegated-rekey-upload-outcome/delegated-rekey-upload-outcome.module').then(
-        (m) => m.DelegatedRekeyUploadOutcomePageModule
+    loadComponent: () =>
+      import('./pages/delegated-rekey-upload-outcome/delegated-rekey-upload-outcome').then(
+        (m) => m.DelegatedRekeyUploadOutcomePage
       ),
   },
   {
     path: TestFlowPageNames.DEBRIEF_PAGE,
-    loadChildren: () => import('./pages/debrief/debrief.module').then((m) => m.DebriefPageModule),
+    loadComponent: () => import('./pages/debrief/debrief.page').then((m) => m.DebriefPage),
   },
   {
     path: TestFlowPageNames.COMMUNICATION_PAGE,
-    loadChildren: () => import('./pages/communication/communication.module').then((m) => m.CommunicationPageModule),
+    loadComponent: () => import('./pages/communication/communication.page').then((m) => m.CommunicationPage),
   },
   {
     path: TestFlowPageNames.HEALTH_DECLARATION_PAGE,
-    loadChildren: () =>
-      import('./pages/health-declaration/health-declaration.module').then((m) => m.HealthDeclarationPageModule),
+    loadComponent: () =>
+      import('./pages/health-declaration/health-declaration.page').then((m) => m.HealthDeclarationPage),
   },
   {
     path: TestFlowPageNames.CONFIRM_TEST_DETAILS_PAGE,
-    loadChildren: () =>
-      import('./pages/confirm-test-details/confirm-test-details.module').then((m) => m.ConfirmTestDetailsPageModule),
+    loadComponent: () =>
+      import('./pages/confirm-test-details/confirm-test-details.page').then((m) => m.ConfirmTestDetailsPage),
   },
   {
     path: TestFlowPageNames.POST_DEBRIEF_HOLDING_PAGE,
-    loadChildren: () =>
-      import('./pages/post-debrief-holding/post-debrief-holding.module').then((m) => m.PostDebriefHoldingPageModule),
+    loadComponent: () =>
+      import('./pages/post-debrief-holding/post-debrief-holding.page').then((m) => m.PostDebriefHoldingPage),
   },
   {
     path: TestFlowPageNames.NON_PASS_FINALISATION_PAGE,
-    loadChildren: () =>
-      import('./pages/non-pass-finalisation/non-pass-finalisation.module').then((m) => m.NonPassFinalisationPageModule),
+    loadComponent: () =>
+      import('./pages/non-pass-finalisation/non-pass-finalisation.page').then((m) => m.NonPassFinalisationPage),
   },
   {
     path: TestFlowPageNames.BACK_TO_OFFICE_PAGE,
-    loadChildren: () => import('./pages/back-to-office/back-to-office.module').then((m) => m.BackToOfficePageModule),
+    loadComponent: () => import('./pages/back-to-office/back-to-office.page').then((m) => m.BackToOfficePage),
   },
   {
     path: TestFlowPageNames.REKEY_REASON_PAGE,
-    loadChildren: () => import('./pages/rekey-reason/rekey-reason.module').then((m) => m.RekeyReasonPageModule),
+    loadComponent: () => import('./pages/rekey-reason/rekey-reason.page').then((m) => m.RekeyReasonPage),
   },
   {
     path: TestFlowPageNames.REKEY_UPLOAD_OUTCOME_PAGE,
-    loadChildren: () =>
-      import('./pages/rekey-upload-outcome/rekey-upload-outcome.module').then((m) => m.RekeyUploadOutcomePageModule),
+    loadComponent: () =>
+      import('./pages/rekey-upload-outcome/rekey-upload-outcome.page').then((m) => m.RekeyUploadOutcomePage),
   },
   {
     path: TestFlowPageNames.WAITING_ROOM_PAGE,
-    loadChildren: () => import('./pages/waiting-room/waiting-room.module').then((m) => m.WaitingRoomPageModule),
+    loadComponent: () => import('./pages/waiting-room/waiting-room.page').then((m) => m.WaitingRoomPage),
   },
   {
     path: TestFlowPageNames.TEST_REPORT_DASHBOARD_PAGE,
-    loadChildren: () =>
-      import('@pages/test-report-dashboard/test-report-dashboard.module').then((m) => m.TestReportDashboardPageModule),
+    loadComponent: () =>
+      import('@pages/test-report-dashboard/test-report-dashboard.page').then((m) => m.TestReportDashboardPage),
   },
   {
     path: TestFlowPageNames.CANDIDATE_LICENCE_PAGE,
-    loadChildren: () =>
-      import('@pages/candidate-licence/candidate-licence.module').then((m) => m.CandidateLicencePageModule),
+    loadComponent: () => import('@pages/candidate-licence/candidate-licence.page').then((m) => m.CandidateLicencePage),
   },
   ...Waiting_Room_To_Car_Route,
   ...Test_Report_Route,

@@ -1,6 +1,8 @@
 import { AsyncPipe, NgClass } from '@angular/common';
 import { Component, Injector } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ActivityCodeComponent } from '@components/common/activity-code/activity-code';
+import { TestFlowHeaderComponent } from '@components/common/test-flow-header/test-flow-header.component';
 import { ModeOfTransport } from '@dvsa/mes-test-schema/categories/AM2';
 import { SafetyQuestionResult } from '@dvsa/mes-test-schema/categories/common';
 import {
@@ -37,8 +39,6 @@ import { getSchoolBike } from '@store/tests/vehicle-details/cat-a-mod1/vehicle-d
 import { getVehicleDetails } from '@store/tests/vehicle-details/vehicle-details.reducer';
 import { Observable, Subscription } from 'rxjs';
 import { map, withLatestFrom } from 'rxjs/operators';
-import { ActivityCodeComponent } from '../../../../components/common/activity-code/activity-code';
-import { TestFlowHeaderComponent } from '../../../../components/common/test-flow-header/test-flow-header.component';
 import { AccompanimentCardComponent } from '../../waiting-room-to-car/components/accompaniment-card/accompaniment-card';
 import { VehicleDetailsCardComponent } from '../../waiting-room-to-car/components/vehicle-details-card/vehicle-details-card';
 import { AdditionalInformationComponent } from '../components/additional-information/additional-information';

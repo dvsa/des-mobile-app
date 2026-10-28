@@ -6,6 +6,12 @@ import { Observable, Subscription, merge } from 'rxjs';
 import { map, take, withLatestFrom } from 'rxjs/operators';
 
 import { AsyncPipe, NgClass } from '@angular/common';
+import { ActivityCodeComponent } from '@components/common/activity-code/activity-code';
+import { HealthDeclarationSignedComponent } from '@components/common/health-declaration-signed/health-declaration-signed';
+import { TestFlowHeaderComponent } from '@components/common/test-flow-header/test-flow-header.component';
+import { D255Component } from '@components/test-finalisation/d255/d255';
+import { DebriefWitnessedComponent } from '@components/test-finalisation/debrief-witnessed/debrief-witnessed';
+import { LanguagePreferencesComponent } from '@components/test-finalisation/language-preference/language-preference';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import {
   IonCard,
@@ -43,12 +49,6 @@ import { AddUncoupleRecoupleComment } from '@store/tests/test-data/common/uncoup
 import { TestOutcome } from '@store/tests/tests.constants';
 import { getTests } from '@store/tests/tests.reducer';
 import { getCurrentTest } from '@store/tests/tests.selector';
-import { ActivityCodeComponent } from '../../../../components/common/activity-code/activity-code';
-import { HealthDeclarationSignedComponent } from '../../../../components/common/health-declaration-signed/health-declaration-signed';
-import { TestFlowHeaderComponent } from '../../../../components/common/test-flow-header/test-flow-header.component';
-import { D255Component } from '../../../../components/test-finalisation/d255/d255';
-import { DebriefWitnessedComponent } from '../../../../components/test-finalisation/debrief-witnessed/debrief-witnessed';
-import { LanguagePreferencesComponent } from '../../../../components/test-finalisation/language-preference/language-preference';
 import { PassCertificateNumberComponent } from '../../pass-finalisation/components/pass-certificate-number/pass-certificate-number';
 import { AccompanimentCardComponent } from '../../waiting-room-to-car/components/accompaniment-card/accompaniment-card';
 import { AdditionalInformationComponent } from '../components/additional-information/additional-information';

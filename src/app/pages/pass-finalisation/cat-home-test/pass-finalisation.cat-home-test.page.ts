@@ -1,6 +1,12 @@
 import { AsyncPipe, NgClass } from '@angular/common';
 import { Component, Injector } from '@angular/core';
 import { FormsModule, ReactiveFormsModule, UntypedFormGroup } from '@angular/forms';
+import { TestFlowHeaderComponent } from '@components/common/test-flow-header/test-flow-header.component';
+import { WarningBannerComponent } from '@components/common/warning-banner/warning-banner';
+import { D255Component } from '@components/test-finalisation/d255/d255';
+import { DebriefWitnessedComponent } from '@components/test-finalisation/debrief-witnessed/debrief-witnessed';
+import { FinalisationHeaderComponent } from '@components/test-finalisation/finalisation-header/finalisation-header';
+import { LanguagePreferencesComponent } from '@components/test-finalisation/language-preference/language-preference';
 import {
   IonButton,
   IonCol,
@@ -18,12 +24,6 @@ import {
   PassFinalisationPageComponent,
 } from '@shared/classes/test-flow-base-pages/pass-finalisation/pass-finalisation-base-page';
 import { PersistTests } from '@store/tests/tests.actions';
-import { TestFlowHeaderComponent } from '../../../../components/common/test-flow-header/test-flow-header.component';
-import { WarningBannerComponent } from '../../../../components/common/warning-banner/warning-banner';
-import { D255Component } from '../../../../components/test-finalisation/d255/d255';
-import { DebriefWitnessedComponent } from '../../../../components/test-finalisation/debrief-witnessed/debrief-witnessed';
-import { FinalisationHeaderComponent } from '../../../../components/test-finalisation/finalisation-header/finalisation-header';
-import { LanguagePreferencesComponent } from '../../../../components/test-finalisation/language-preference/language-preference';
 import { TestFlowPageNames } from '../../page-names.constants';
 import { ApplicationReferenceComponent } from '../components/application-reference/application-reference';
 import { LicenceProvidedWarningBannerComponent } from '../components/licence-provided-warning-banner/licence-provided-warning-banner';

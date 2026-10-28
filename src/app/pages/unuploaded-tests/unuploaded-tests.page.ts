@@ -1,5 +1,6 @@
 import { AsyncPipe } from '@angular/common';
 import { Component, Injector, OnInit } from '@angular/core';
+import { TestSlotComponent } from '@components/test-slot/test-slot/test-slot';
 import { TestSlot } from '@dvsa/mes-journal-schema';
 import {
   IonButton,
@@ -32,7 +33,6 @@ import { getJournalState } from '@store/journal/journal.reducer';
 import { getTests } from '@store/tests/tests.reducer';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { TestSlotComponent } from '../../../components/test-slot/test-slot/test-slot';
 import { ProfileHeaderComponent } from '../dashboard/components/profile-header/profile-header';
 
 interface UnunploadedTestsPageState {

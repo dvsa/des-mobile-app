@@ -1,6 +1,7 @@
 import { AsyncPipe, NgClass } from '@angular/common';
 import { Component, Injector, OnInit } from '@angular/core';
 import { FormsModule, UntypedFormGroup } from '@angular/forms';
+import { TestFlowHeaderComponent } from '@components/common/test-flow-header/test-flow-header.component';
 import {
   LessonPlanning,
   LessonTheme,
@@ -41,7 +42,6 @@ import { getTests } from '@store/tests/tests.reducer';
 import { getCurrentTest } from '@store/tests/tests.selector';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { TestFlowHeaderComponent } from '../../../../components/common/test-flow-header/test-flow-header.component';
 import { QuestionScoreComponent } from '../cat-cpc/components/question-score/question-score';
 import { LessonThemeComponent } from './components/lesson-theme/lesson-theme';
 import { StudentComponent } from './components/student/student';

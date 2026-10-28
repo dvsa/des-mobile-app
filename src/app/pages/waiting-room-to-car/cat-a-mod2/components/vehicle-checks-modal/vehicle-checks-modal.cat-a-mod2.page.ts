@@ -2,6 +2,7 @@ import { AsyncPipe } from '@angular/common';
 import { Component, Input } from '@angular/core';
 import { FormsModule, ReactiveFormsModule, UntypedFormGroup } from '@angular/forms';
 import { Style } from '@capacitor/status-bar';
+import { WarningBannerComponent } from '@components/common/warning-banner/warning-banner';
 import { QuestionOutcome, QuestionResult } from '@dvsa/mes-test-schema/categories/common';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import {
@@ -46,7 +47,6 @@ import { getTests } from '@store/tests/tests.reducer';
 import { getCurrentTest, getJournalData } from '@store/tests/tests.selector';
 import { Observable, Subscription, merge } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { WarningBannerComponent } from '../../../../../../components/common/warning-banner/warning-banner';
 import { VehicleChecksQuestionCatAMod2Component } from '../vehicle-checks-question/vehicle-checks-question';
 import * as vehicleChecksModalActions from './vehicle-checks-modal.cat-a-mod2.actions';
 

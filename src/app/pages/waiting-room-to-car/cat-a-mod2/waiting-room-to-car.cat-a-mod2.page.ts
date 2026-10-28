@@ -1,6 +1,10 @@
 import { AsyncPipe, NgClass } from '@angular/common';
 import { Component, Injector, OnInit } from '@angular/core';
 import { FormsModule, ReactiveFormsModule, UntypedFormGroup } from '@angular/forms';
+import { BikeCategoryTypeComponent } from '@components/common/bike-category-type/bike-category-type';
+import { OfflineBannerComponent } from '@components/common/offline-banner/offline-banner';
+import { TestFlowHeaderComponent } from '@components/common/test-flow-header/test-flow-header.component';
+import { TransmissionComponent } from '@components/common/transmission/transmission';
 import { SafetyAndBalanceQuestions } from '@dvsa/mes-test-schema/categories/AM2';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import {
@@ -33,10 +37,6 @@ import { MotEvidenceProvidedReset } from '@store/tests/vehicle-details/vehicle-d
 import { getVehicleDetails } from '@store/tests/vehicle-details/vehicle-details.reducer';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { BikeCategoryTypeComponent } from '../../../../components/common/bike-category-type/bike-category-type';
-import { OfflineBannerComponent } from '../../../../components/common/offline-banner/offline-banner';
-import { TestFlowHeaderComponent } from '../../../../components/common/test-flow-header/test-flow-header.component';
-import { TransmissionComponent } from '../../../../components/common/transmission/transmission';
 import { AccompanimentCardComponent } from '../components/accompaniment-card/accompaniment-card';
 import { EyesightFailureConfirmationComponent } from '../components/eyesight-failure-confirmation/eyesight-failure-confirmation';
 import { EyesightTestComponent } from '../components/eyesight-test/eyesight-test';

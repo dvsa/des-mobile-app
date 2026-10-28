@@ -8,6 +8,13 @@ import { Observable, Subscription, merge } from 'rxjs';
 import { map, withLatestFrom } from 'rxjs/operators';
 
 import { AsyncPipe, NgClass } from '@angular/common';
+import { ActivityCodeComponent } from '@components/common/activity-code/activity-code';
+import { HealthDeclarationSignedComponent } from '@components/common/health-declaration-signed/health-declaration-signed';
+import { TestFlowHeaderComponent } from '@components/common/test-flow-header/test-flow-header.component';
+import { TransmissionComponent } from '@components/common/transmission/transmission';
+import { D255Component } from '@components/test-finalisation/d255/d255';
+import { DebriefWitnessedComponent } from '@components/test-finalisation/debrief-witnessed/debrief-witnessed';
+import { LanguagePreferencesComponent } from '@components/test-finalisation/language-preference/language-preference';
 import {
   IonCard,
   IonCardContent,
@@ -52,13 +59,6 @@ import { getTests } from '@store/tests/tests.reducer';
 import { getCurrentTest, getTestOutcome } from '@store/tests/tests.selector';
 import { getVehicleDetails } from '@store/tests/vehicle-details/cat-c/vehicle-details.cat-c.reducer';
 import { getGearboxCategory } from '@store/tests/vehicle-details/vehicle-details.selector';
-import { ActivityCodeComponent } from '../../../../components/common/activity-code/activity-code';
-import { HealthDeclarationSignedComponent } from '../../../../components/common/health-declaration-signed/health-declaration-signed';
-import { TestFlowHeaderComponent } from '../../../../components/common/test-flow-header/test-flow-header.component';
-import { TransmissionComponent } from '../../../../components/common/transmission/transmission';
-import { D255Component } from '../../../../components/test-finalisation/d255/d255';
-import { DebriefWitnessedComponent } from '../../../../components/test-finalisation/debrief-witnessed/debrief-witnessed';
-import { LanguagePreferencesComponent } from '../../../../components/test-finalisation/language-preference/language-preference';
 import { LicenseProvidedComponent } from '../../pass-finalisation/components/license-provided/license-provided';
 import { PassCertificateNumberComponent } from '../../pass-finalisation/components/pass-certificate-number/pass-certificate-number';
 import { AccompanimentCardComponent } from '../../waiting-room-to-car/components/accompaniment-card/accompaniment-card';

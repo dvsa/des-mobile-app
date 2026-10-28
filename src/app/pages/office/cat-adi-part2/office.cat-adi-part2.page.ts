@@ -1,6 +1,8 @@
 import { AsyncPipe, NgClass } from '@angular/common';
 import { Component, Injector, OnInit } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ActivityCodeComponent } from '@components/common/activity-code/activity-code';
+import { TestFlowHeaderComponent } from '@components/common/test-flow-header/test-flow-header.component';
 import { QuestionResult } from '@dvsa/mes-test-schema/categories/common';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import {
@@ -61,8 +63,6 @@ import { getCurrentTest, getTestOutcome, getTestOutcomeText } from '@store/tests
 import { startsWith } from 'lodash-es';
 import { Observable, combineLatest } from 'rxjs';
 import { map, withLatestFrom } from 'rxjs/operators';
-import { ActivityCodeComponent } from '../../../../components/common/activity-code/activity-code';
-import { TestFlowHeaderComponent } from '../../../../components/common/test-flow-header/test-flow-header.component';
 import { AccompanimentCardComponent } from '../../waiting-room-to-car/components/accompaniment-card/accompaniment-card';
 import { VehicleDetailsCardComponent } from '../../waiting-room-to-car/components/vehicle-details-card/vehicle-details-card';
 import { AdditionalInformationComponent } from '../components/additional-information/additional-information';

@@ -15,72 +15,66 @@ import {
 export const Waiting_Room_To_Car_Route: Routes = [
   {
     path: CAT_ADI_PART2.WAITING_ROOM_TO_CAR_PAGE,
-    loadChildren: () =>
-      import('@pages/waiting-room-to-car/cat-adi-part2/waiting-room-to-car.cat-adi-part2.module').then(
-        (m) => m.WaitingRoomToCarCatADIPart2PageModule
+    loadComponent: () =>
+      import('@pages/waiting-room-to-car/cat-adi-part2/waiting-room-to-car.cat-adi-part2.page').then(
+        (m) => m.WaitingRoomToCarCatADIPart2Page
       ),
   },
   {
     path: CAT_ADI_PART3.WAITING_ROOM_TO_CAR_PAGE,
-    loadChildren: () =>
-      import('@pages/waiting-room-to-car/cat-adi-part3/waiting-room-to-car.cat-adi-part3.module').then(
-        (m) => m.WaitingRoomToCarCatADIPart3PageModule
+    loadComponent: () =>
+      import('@pages/waiting-room-to-car/cat-adi-part3/waiting-room-to-car.cat-adi-part3.page').then(
+        (m) => m.WaitingRoomToCarCatADIPart3Page
       ),
   },
   {
     path: CAT_A_MOD1.WAITING_ROOM_TO_CAR_PAGE,
-    loadChildren: () =>
-      import('@pages/waiting-room-to-car/cat-a-mod1/waiting-room-to-car.cat-a-mod1.module').then(
-        (m) => m.WaitingRoomToCarCatAMod1PageModule
+    loadComponent: () =>
+      import('@pages/waiting-room-to-car/cat-a-mod1/waiting-room-to-car.cat-a-mod1.page').then(
+        (m) => m.WaitingRoomToCarCatAMod1Page
       ),
   },
   {
     path: CAT_A_MOD2.WAITING_ROOM_TO_CAR_PAGE,
-    loadChildren: () =>
-      import('@pages/waiting-room-to-car/cat-a-mod2/waiting-room-to-car.cat-a-mod2.module').then(
-        (m) => m.WaitingRoomToCarCatAMod2PageModule
+    loadComponent: () =>
+      import('@pages/waiting-room-to-car/cat-a-mod2/waiting-room-to-car.cat-a-mod2.page').then(
+        (m) => m.WaitingRoomToCarCatAMod2Page
       ),
   },
   {
     path: CAT_B.WAITING_ROOM_TO_CAR_PAGE,
-    loadChildren: () =>
-      import('@pages/waiting-room-to-car/cat-b/waiting-room-to-car.cat-b.module').then(
-        (m) => m.WaitingRoomToCarCatBPageModule
-      ),
+    loadComponent: () =>
+      import('@pages/waiting-room-to-car/cat-b/waiting-room-to-car.cat-b.page').then((m) => m.WaitingRoomToCarCatBPage),
   },
   {
     path: CAT_C.WAITING_ROOM_TO_CAR_PAGE,
-    loadChildren: () =>
-      import('@pages/waiting-room-to-car/cat-c/waiting-room-to-car.cat-c.module').then(
-        (m) => m.WaitingRoomToCarCatCPageModule
-      ),
+    loadComponent: () =>
+      import('@pages/waiting-room-to-car/cat-c/waiting-room-to-car.cat-c.page').then((m) => m.WaitingRoomToCarCatCPage),
   },
   {
     path: CAT_CPC.WAITING_ROOM_TO_CAR_PAGE,
-    loadChildren: () =>
-      import('@pages/waiting-room-to-car/cat-cpc/waiting-room-to-car.cat-cpc.module').then(
-        (m) => m.WaitingRoomToCarCatCPCPageModule
+    loadComponent: () =>
+      import('@pages/waiting-room-to-car/cat-cpc/waiting-room-to-car.cat-cpc.page').then(
+        (m) => m.WaitingRoomToCarCatCPCPage
       ),
   },
   {
     path: CAT_D.WAITING_ROOM_TO_CAR_PAGE,
-    loadChildren: () =>
-      import('@pages/waiting-room-to-car/cat-d/waiting-room-to-car.cat-d.module').then(
-        (m) => m.WaitingRoomToCarCatDPageModule
-      ),
+    loadComponent: () =>
+      import('@pages/waiting-room-to-car/cat-d/waiting-room-to-car.cat-d.page').then((m) => m.WaitingRoomToCarCatDPage),
   },
   {
     path: CAT_HOME_TEST.WAITING_ROOM_TO_CAR_PAGE,
-    loadChildren: () =>
-      import('@pages/waiting-room-to-car/cat-home-test/waiting-room-to-car.cat-home-test.module').then(
-        (m) => m.WaitingRoomToCarCatHomeTestPageModule
+    loadComponent: () =>
+      import('@pages/waiting-room-to-car/cat-home-test/waiting-room-to-car.cat-home-test.page').then(
+        (m) => m.WaitingRoomToCarCatHomeTestPage
       ),
   },
   {
     path: CAT_MANOEUVRES.WAITING_ROOM_TO_CAR_PAGE,
-    loadChildren: () =>
-      import('@pages/waiting-room-to-car/cat-manoeuvre/waiting-room-to-car.cat-manoeuvre.module').then(
-        (m) => m.WaitingRoomToCarCatManoeuvrePageModule
+    loadComponent: () =>
+      import('@pages/waiting-room-to-car/cat-manoeuvre/waiting-room-to-car.cat-manoeuvre.page').then(
+        (m) => m.WaitingRoomToCarCatManoeuvrePage
       ),
   },
 ];

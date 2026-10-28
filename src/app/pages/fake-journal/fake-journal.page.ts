@@ -1,6 +1,12 @@
 import { AsyncPipe } from '@angular/common';
 import { Component, HostListener, Injector } from '@angular/core';
 import { Style } from '@capacitor/status-bar';
+import { PracticeModeBanner } from '@components/common/practice-mode-banner/practice-mode-banner';
+import { PracticeModeExitButton } from '@components/common/practice-mode-exit-button/practice-mode-exit-button';
+import { PracticeModeOptionsBar } from '@components/common/practice-mode-options-bar/practice-mode-options-bar';
+import { VehicleRecallsBanner } from '@components/common/vehicle-recall-banner/vehicle-recalls-banner';
+import { LocationComponent } from '@components/test-slot/location/location';
+import { TestSlotComponent } from '@components/test-slot/test-slot/test-slot';
 import { TestSlot } from '@dvsa/mes-journal-schema';
 import { IonButtons, IonCol, IonContent, IonHeader, IonRow, IonTitle, IonToolbar } from '@ionic/angular';
 import { fakeJournalTestSlots, regenerateFakeTests } from '@pages/fake-journal/__mocks__/fake-journal.mock';
@@ -10,12 +16,6 @@ import { DateTimeProvider } from '@providers/date-time/date-time';
 import { OrientationMonitorProvider } from '@providers/orientation-monitor/orientation-monitor.provider';
 import { BasePageComponent } from '@shared/classes/base-page';
 import { DateTime } from '@shared/helpers/date-time';
-import { PracticeModeBanner } from '../../../components/common/practice-mode-banner/practice-mode-banner';
-import { PracticeModeExitButton } from '../../../components/common/practice-mode-exit-button/practice-mode-exit-button';
-import { PracticeModeOptionsBar } from '../../../components/common/practice-mode-options-bar/practice-mode-options-bar';
-import { VehicleRecallsBanner } from '../../../components/common/vehicle-recall-banner/vehicle-recalls-banner';
-import { LocationComponent } from '../../../components/test-slot/location/location';
-import { TestSlotComponent } from '../../../components/test-slot/test-slot/test-slot';
 import { JournalNavigationComponent } from '../journal/components/journal-navigation/journal-navigation';
 
 @Component({

@@ -31,6 +31,7 @@ import { NUMBER_OF_SAFETY_QUESTIONS } from '@shared/constants/safety-questions.c
 
 import { AsyncPipe } from '@angular/common';
 import { Style } from '@capacitor/status-bar';
+import { WarningBannerComponent } from '@components/common/warning-banner/warning-banner';
 import {
   IonButton,
   IonButtons,
@@ -75,7 +76,6 @@ import {
   getSelectedTellMeQuestions,
   getVehicleChecksCatD,
 } from '@store/tests/test-data/cat-d/vehicle-checks/vehicle-checks.cat-d.selector';
-import { WarningBannerComponent } from '../../../../../../components/common/warning-banner/warning-banner';
 import { FullLicenceHeldComponent } from '../../../components/full-licence-held-toggle/full-licence-held-toggle';
 import { VehicleChecksQuestionComponent } from '../../../components/vehicle-checks-question/vehicle-checks-question';
 import { SafetyQuestionComponent } from '../safety-question/safety-question';

@@ -51,9 +51,9 @@ import { map } from 'rxjs/operators';
 
 import { AsyncPipe } from '@angular/common';
 import { Style } from '@capacitor/status-bar';
+import { WarningBannerComponent } from '@components/common/warning-banner/warning-banner';
 import { AccessibilityService } from '@providers/accessibility/accessibility.service';
 import { isAnyOf } from '@shared/helpers/simplifiers';
-import { WarningBannerComponent } from '../../../../../../components/common/warning-banner/warning-banner';
 import {
   NUMBER_OF_SHOW_ME_QUESTIONS as NUMBER_OF_SHOW_ME_QUESTIONS_TRAILER,
   NUMBER_OF_SHOW_ME_QUESTIONS_EXTRA as NUMBER_OF_SHOW_ME_QUESTIONS_TRAILER_EXTRA,
@@ -273,14 +273,6 @@ export class VehicleChecksCatCModal {
 
   isNonTrailerBanner(): boolean {
     return this.vehicleChecksScore.drivingFaults === 4 && this.vehicleChecksScore.seriousFaults === 1;
-  }
-
-  isTrailerBanner(): boolean {
-    return (
-      this.vehicleChecksScore.drivingFaults === 1 &&
-      this.vehicleChecksScore.seriousFaults === 1 &&
-      isAnyOf(this.category, [TestCategory.CE, TestCategory.C1E])
-    );
   }
 
   shouldDisplayBanner = (): boolean => {

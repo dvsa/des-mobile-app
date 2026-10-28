@@ -1,6 +1,11 @@
 import { AsyncPipe } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, Injector, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { ErrorMessageComponent } from '@components/common/error-message/error-message';
+import { OfflineBannerComponent } from '@components/common/offline-banner/offline-banner';
+import { RefreshButtonComponent } from '@components/common/refresh-button/refresh-button.component';
+import { TabComponent } from '@components/common/tab/tab';
+import { TabsComponent } from '@components/common/tabs/tabs';
 import { TestCentre as JournalTestCentre } from '@dvsa/mes-journal-schema';
 import {
   IonBackButton,
@@ -37,11 +42,6 @@ import {
 } from '@store/test-centre-journal/test-centre-journal.selector';
 import { Observable, Subject, Subscription, merge, of } from 'rxjs';
 import { catchError, finalize, map, takeUntil, tap } from 'rxjs/operators';
-import { ErrorMessageComponent } from '../../../components/common/error-message/error-message';
-import { OfflineBannerComponent } from '../../../components/common/offline-banner/offline-banner';
-import { RefreshButtonComponent } from '../../../components/common/refresh-button/refresh-button.component';
-import { TabComponent } from '../../../components/common/tab/tab';
-import { TabsComponent } from '../../../components/common/tabs/tabs';
 import { CandidateSearchCardComponent as CandidateSearchCardComponent_1 } from './components/candidate-search-card/candidate-search-card';
 import { ViewJournalsCardComponent as ViewJournalsCardComponent_1 } from './components/view-journals-card/view-journals-card';
 import {

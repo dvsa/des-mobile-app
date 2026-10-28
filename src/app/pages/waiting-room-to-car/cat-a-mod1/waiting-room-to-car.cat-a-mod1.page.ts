@@ -5,6 +5,10 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { AsyncPipe, NgClass } from '@angular/common';
+import { BikeCategoryTypeComponent } from '@components/common/bike-category-type/bike-category-type';
+import { OfflineBannerComponent } from '@components/common/offline-banner/offline-banner';
+import { TestFlowHeaderComponent } from '@components/common/test-flow-header/test-flow-header.component';
+import { TransmissionComponent } from '@components/common/transmission/transmission';
 import {
   IonButton,
   IonCol,
@@ -29,10 +33,6 @@ import { getSchoolBike } from '@store/tests/vehicle-details/cat-a-mod1/vehicle-d
 import { MotEvidenceProvidedReset } from '@store/tests/vehicle-details/vehicle-details.actions';
 import { getVehicleDetails } from '@store/tests/vehicle-details/vehicle-details.reducer';
 import { isAutomatic, isManual } from '@store/tests/vehicle-details/vehicle-details.selector';
-import { BikeCategoryTypeComponent } from '../../../../components/common/bike-category-type/bike-category-type';
-import { OfflineBannerComponent } from '../../../../components/common/offline-banner/offline-banner';
-import { TestFlowHeaderComponent } from '../../../../components/common/test-flow-header/test-flow-header.component';
-import { TransmissionComponent } from '../../../../components/common/transmission/transmission';
 import { AccompanimentCardComponent } from '../components/accompaniment-card/accompaniment-card';
 import { MotNoEvidenceConfirmationComponent } from '../components/mot-components/mot-no-evidence-confirmation/mot-no-evidence-confirmation';
 import { VehicleDetailsCardComponent } from '../components/vehicle-details-card/vehicle-details-card';
