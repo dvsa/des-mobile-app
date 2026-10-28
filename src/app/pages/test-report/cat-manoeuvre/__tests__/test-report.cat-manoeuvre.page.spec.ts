@@ -37,14 +37,6 @@ describe('TestReportCatManoeuvrePage', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      declarations: [
-        TestReportCatManoeuvrePage,
-        MockComponent(ToolbarComponent),
-        MockComponent(UncoupleRecoupleComponent),
-        MockComponent(ReverseManoeuvreComponent),
-        MockComponent(EtaComponent),
-        MockComponent(TestFlowHeaderComponent),
-      ],
       imports: [
         AppModule,
         StoreModule.forFeature('testReport', testReportReducer),
@@ -62,6 +54,12 @@ describe('TestReportCatManoeuvrePage', () => {
             },
           },
         })),
+        TestReportCatManoeuvrePage,
+        MockComponent(ToolbarComponent),
+        MockComponent(UncoupleRecoupleComponent),
+        MockComponent(ReverseManoeuvreComponent),
+        MockComponent(EtaComponent),
+        MockComponent(TestFlowHeaderComponent),
       ],
       providers: [
         {

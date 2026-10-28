@@ -53,21 +53,6 @@ describe('TestReportCatCPCPage', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        TestReportCatCPCPage,
-        MockComponent(PracticeModeOptionsBar),
-        MockComponent(CompetencyComponent),
-        MockComponent(ModuleAssessmentComponent),
-        MockComponent(QuestionAnswerComponent),
-        MockComponent(QuestionCardComponent),
-        MockComponent(QuestionFiveCardComponent),
-        MockComponent(QuestionFooterComponent),
-        MockComponent(QuestionScoreComponent),
-        MockComponent(QuestionSubtitleComponent),
-        MockComponent(QuestionTitleComponent),
-        MockComponent(QuestionDelExRadioCardComponent),
-        MockComponent(TestFlowHeaderComponent),
-      ],
       imports: [
         AppModule,
         StoreModule.forFeature('tests', () => ({
@@ -92,6 +77,19 @@ describe('TestReportCatCPCPage', () => {
           },
         })),
         StoreModule.forFeature('testReport', testReportReducer),
+        TestReportCatCPCPage,
+        MockComponent(PracticeModeOptionsBar),
+        MockComponent(CompetencyComponent),
+        MockComponent(ModuleAssessmentComponent),
+        MockComponent(QuestionAnswerComponent),
+        MockComponent(QuestionCardComponent),
+        MockComponent(QuestionFiveCardComponent),
+        MockComponent(QuestionFooterComponent),
+        MockComponent(QuestionScoreComponent),
+        MockComponent(QuestionSubtitleComponent),
+        MockComponent(QuestionTitleComponent),
+        MockComponent(QuestionDelExRadioCardComponent),
+        MockComponent(TestFlowHeaderComponent),
       ],
       providers: [
         {

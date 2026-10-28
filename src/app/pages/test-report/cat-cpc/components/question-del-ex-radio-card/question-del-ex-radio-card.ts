@@ -1,12 +1,14 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { Question } from '@dvsa/mes-test-schema/categories/CPC';
+import { IonCard, IonCardContent, IonCol, IonGrid, IonRow } from '@ionic/angular';
+import { QuestionTitleComponent } from '../question-title/question-title';
 
 @Component({
   selector: 'question-del-ex-radio-card',
   templateUrl: 'question-del-ex-radio-card.html',
   styleUrls: ['question-del-ex-radio-card.scss'],
-  standalone: false,
+  imports: [IonCard, QuestionTitleComponent, IonCardContent, IonGrid, IonRow, FormsModule, ReactiveFormsModule, IonCol],
 })
 export class QuestionDelExRadioCardComponent {
   @Input()

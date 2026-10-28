@@ -10,8 +10,7 @@ describe('LockScreenIndicator', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [LockScreenIndicator],
-      imports: [TranslateModule],
+      imports: [TranslateModule, LockScreenIndicator],
       providers: [{ provide: TranslateService, useValue: translateServiceMock }],
     });
 

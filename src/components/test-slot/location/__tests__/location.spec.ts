@@ -9,8 +9,7 @@ describe('LocationComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [LocationComponent],
-
+      imports: [LocationComponent],
       providers: [],
     });
 

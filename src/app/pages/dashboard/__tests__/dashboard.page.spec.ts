@@ -75,7 +75,6 @@ describe('DashboardPage', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [DashboardPage, MockComponent(VehicleRecallsBanner)],
       imports: [
         RouterModule.forRoot([
           {
@@ -83,12 +82,13 @@ describe('DashboardPage', () => {
             component: DashboardPage,
           },
         ]),
-
         StoreModule.forRoot({ appInfo: appInfoReducer }),
         DashboardPageRoutingModule,
         DashboardComponentsModule,
         ComponentsModule,
         IonMenuButton,
+        DashboardPage,
+        MockComponent(VehicleRecallsBanner),
       ],
       providers: [
         {

@@ -12,8 +12,7 @@ describe('InsuranceDeclarationComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [InsuranceDeclarationComponent],
-      imports: [TranslateModule.forRoot(), ReactiveFormsModule, IonRow, IonCol],
+      imports: [TranslateModule.forRoot(), ReactiveFormsModule, IonRow, IonCol, InsuranceDeclarationComponent],
       providers: [TranslateService, TranslateLoader, TranslateParser],
     });
 

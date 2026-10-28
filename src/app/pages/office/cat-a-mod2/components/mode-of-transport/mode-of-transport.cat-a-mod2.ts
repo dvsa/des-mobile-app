@@ -1,13 +1,14 @@
 import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
-import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { ModeOfTransport } from '@dvsa/mes-test-schema/categories/AM2';
+import { IonCol, IonRow } from '@ionic/angular';
 import { OutcomeBehaviourMapProvider, VisibilityType } from '@providers/outcome-behaviour-map/outcome-behaviour-map';
 import { removeNonAlphaNumeric } from '@shared/helpers/formatters';
 
 @Component({
   selector: 'mode-of-transport',
   templateUrl: 'mode-of-transport.cat-a-mod2.html',
-  standalone: false,
+  imports: [IonRow, FormsModule, ReactiveFormsModule, IonCol],
 })
 export class ModeOfTransportCatAMod2Component implements OnChanges {
   @Input()

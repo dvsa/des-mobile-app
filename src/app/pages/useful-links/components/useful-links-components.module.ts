@@ -7,7 +7,6 @@ import { LinkModalAnalyticsEffects } from '@pages/useful-links/components/link-m
 import { LinkModalComponent } from '@pages/useful-links/components/link-modal/link-modal.component';
 
 @NgModule({
-  declarations: [LinkModalComponent],
   exports: [LinkModalComponent],
   imports: [
     EffectsModule.forFeature([LinkModalAnalyticsEffects]),
@@ -16,6 +15,7 @@ import { LinkModalComponent } from '@pages/useful-links/components/link-modal/li
     IonRow,
     IonButton,
     IonCard,
+    LinkModalComponent,
   ],
 })
 export class UsefulLinksComponentsModule {}

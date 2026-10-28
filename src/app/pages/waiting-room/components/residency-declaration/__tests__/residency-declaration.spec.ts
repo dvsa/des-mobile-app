@@ -12,8 +12,7 @@ describe('ResidencyDeclarationComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [ResidencyDeclarationComponent],
-      imports: [TranslateModule.forRoot(), ReactiveFormsModule, IonRow, IonCol],
+      imports: [TranslateModule.forRoot(), ReactiveFormsModule, IonRow, IonCol, ResidencyDeclarationComponent],
       providers: [TranslateService, TranslateLoader, TranslateParser],
     });
 

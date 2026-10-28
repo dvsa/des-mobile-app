@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ComponentsModule } from '@components/common/common-components.module';
-import { DirectivesModule } from '@directives/directives.module';
+
 import {
   IonButton,
   IonCard,
@@ -26,7 +26,7 @@ import { FinishTestModal } from '@pages/office/components/finish-test-modal/fini
 import { OfficeFooterComponent } from '@pages/office/components/office-footer/office-footer.component';
 import { TrueLikenessComponent } from '@pages/office/components/true-likeness/true-likeness';
 import { WaitingRoomToCarComponentsModule } from '@pages/waiting-room-to-car/components/waiting-room-to-car.components.module';
-import { PipesModule } from '@shared/pipes/pipes.module';
+
 import { AdditionalInformationComponent } from './additional-information/additional-information';
 import { AlternateEvidenceDescriptionComponent } from './alternate-mot-evidence-description/alternate-evidence-description.component';
 import { CandidateDescriptionComponent } from './candidate-description/candidate-description';
@@ -42,7 +42,24 @@ import { VehicleChecksOfficeCardComponent } from './vehicle-checks/vehicle-check
 import { WeatherConditionsComponent } from './weather-conditions/weather-conditions';
 
 @NgModule({
-  declarations: [
+  imports: [
+    CommonModule,
+    ComponentsModule,
+    FormsModule,
+    ReactiveFormsModule,
+    MaskitoDirective,
+    IonCardContent,
+    IonRow,
+    IonCardHeader,
+    IonCard,
+    IonCol,
+    IonText,
+    IonGrid,
+    IonButton,
+    IonInput,
+    IonSelectOption,
+    IonSelect,
+    WaitingRoomToCarComponentsModule,
     OfficeFooterComponent,
     FaultCommentComponent,
     FaultCommentCardComponent,
@@ -64,27 +81,6 @@ import { WeatherConditionsComponent } from './weather-conditions/weather-conditi
     AlternateEvidenceDescriptionComponent,
     AlternateEvidenceProvidedComponent,
     ETAPhysicalTypeComponent,
-  ],
-  imports: [
-    CommonModule,
-    ComponentsModule,
-    DirectivesModule,
-    FormsModule,
-    PipesModule,
-    ReactiveFormsModule,
-    MaskitoDirective,
-    IonCardContent,
-    IonRow,
-    IonCardHeader,
-    IonCard,
-    IonCol,
-    IonText,
-    IonGrid,
-    IonButton,
-    IonInput,
-    IonSelectOption,
-    IonSelect,
-    WaitingRoomToCarComponentsModule,
   ],
   exports: [
     OfficeFooterComponent,

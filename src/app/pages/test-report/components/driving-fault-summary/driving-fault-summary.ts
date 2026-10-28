@@ -1,3 +1,4 @@
+import { AsyncPipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { Store, select } from '@ngrx/store';
@@ -25,7 +26,7 @@ interface DrivingFaultSummaryState {
   selector: 'driving-fault-summary',
   templateUrl: 'driving-fault-summary.html',
   styleUrls: ['driving-fault-summary.scss'],
-  standalone: false,
+  imports: [AsyncPipe],
 })
 export class DrivingFaultSummaryComponent implements OnInit {
   componentState: DrivingFaultSummaryState;

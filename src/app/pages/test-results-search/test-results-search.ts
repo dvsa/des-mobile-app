@@ -1,11 +1,29 @@
 import { Component, Injector } from '@angular/core';
 import { SearchResultTestSchema } from '@dvsa/mes-search-schema';
-import { ModalController } from '@ionic/angular';
+import {
+  IonBackButton,
+  IonButton,
+  IonButtons,
+  IonCol,
+  IonContent,
+  IonGrid,
+  IonHeader,
+  IonIcon,
+  IonInput,
+  IonRow,
+  IonSpinner,
+  IonText,
+  IonTitle,
+  IonToolbar,
+  ModalController,
+} from '@ionic/angular';
 import { select } from '@ngrx/store';
 import { Observable, Subscription, merge, of } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
 
+import { AsyncPipe, NgClass } from '@angular/common';
 import { TestCentre as JournalTestCentre } from '@dvsa/mes-journal-schema';
+import { MaskitoDirective } from '@maskito/angular';
 import { MaskitoElementPredicate, MaskitoOptions } from '@maskito/core';
 import { ErrorPage } from '@pages/error-page/error';
 import { AccessibilityService } from '@providers/accessibility/accessibility.service';
@@ -22,6 +40,12 @@ import { SaveLog } from '@store/logs/logs.actions';
 import { getRefDataState } from '@store/reference-data/reference-data.reducer';
 import { getActiveTestCentres, getTestCentres } from '@store/reference-data/reference-data.selector';
 import { orderBy } from 'lodash-es';
+import { OfflineBannerComponent } from '../../../components/common/offline-banner/offline-banner';
+import { TabComponent } from '../../../components/common/tab/tab';
+import { TabsComponent } from '../../../components/common/tabs/tabs';
+import { InputRestrictionUppercaseAlphanumDirective } from '../../../directives/input-restriction-uppercasealphanum.directive';
+import { AdvancedSearchComponent } from './components/advanced-search/advanced-search';
+import { SearchResultComponent } from './components/search-result/search-result';
 import {
   PerformApplicationReferenceSearch,
   PerformDriverNumberSearch,
@@ -43,7 +67,31 @@ interface TestResultPageState {
   selector: 'app-test-results-search',
   templateUrl: 'test-results-search.html',
   styleUrls: ['test-results-search.scss'],
-  standalone: false,
+  imports: [
+    IonHeader,
+    IonToolbar,
+    IonTitle,
+    IonButtons,
+    IonBackButton,
+    IonContent,
+    OfflineBannerComponent,
+    TabsComponent,
+    TabComponent,
+    IonGrid,
+    IonRow,
+    IonCol,
+    IonInput,
+    NgClass,
+    MaskitoDirective,
+    InputRestrictionUppercaseAlphanumDirective,
+    IonText,
+    IonButton,
+    IonIcon,
+    IonSpinner,
+    AdvancedSearchComponent,
+    SearchResultComponent,
+    AsyncPipe,
+  ],
 })
 export class TestResultsSearchPage extends BasePageComponent {
   searchBy: SearchBy = SearchBy.ApplicationReference;

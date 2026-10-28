@@ -1,5 +1,4 @@
 import { NgModule } from '@angular/core';
-import { DirectivesModule } from '@directives/directives.module';
 
 import {
   IonButton,
@@ -21,10 +20,8 @@ import { ReverseDiagramPage } from './reverse-diagram-modal';
 import { ReverseDiagramModalAnalyticsEffects } from './reverse-diagram-modal.analytics.effects';
 
 @NgModule({
-  declarations: [ReverseDiagramPage],
   imports: [
     EffectsModule.forFeature([ReverseDiagramModalAnalyticsEffects]),
-    DirectivesModule,
     IonCol,
     IonRow,
     IonLabel,
@@ -37,6 +34,7 @@ import { ReverseDiagramModalAnalyticsEffects } from './reverse-diagram-modal.ana
     IonGrid,
     IonContent,
     IonText,
+    ReverseDiagramPage,
   ],
   providers: [ReversingDistancesProvider],
 })

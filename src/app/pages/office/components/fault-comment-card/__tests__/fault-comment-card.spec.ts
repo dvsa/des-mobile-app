@@ -15,8 +15,13 @@ describe('FaultCommentCardComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [FaultCommentCardComponent, MockComponent(FaultCommentComponent)],
-      imports: [AppModule, ReactiveFormsModule, PipesModule],
+      imports: [
+        AppModule,
+        ReactiveFormsModule,
+        PipesModule,
+        FaultCommentCardComponent,
+        MockComponent(FaultCommentComponent),
+      ],
     });
 
     fixture = TestBed.createComponent(FaultCommentCardComponent);

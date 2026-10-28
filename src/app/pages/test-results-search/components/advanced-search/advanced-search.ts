@@ -1,7 +1,24 @@
+import { NgClass } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { DisplayType } from '@components/common/datetime-input/date-time-input.component';
 import { TestCentre } from '@dvsa/mes-journal-schema';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
+import {
+  IonAccordion,
+  IonAccordionGroup,
+  IonButton,
+  IonCol,
+  IonGrid,
+  IonIcon,
+  IonInput,
+  IonItem,
+  IonRow,
+  IonSelect,
+  IonSelectOption,
+  IonSpinner,
+  IonText,
+} from '@ionic/angular';
 import { Store } from '@ngrx/store';
 import {
   ActivityCodeChanged,
@@ -20,6 +37,10 @@ import { nonAlphaNumericValues } from '@shared/constants/field-validators/field-
 import { DateTime, Duration } from '@shared/helpers/date-time';
 import { removeLeadingZeros } from '@shared/helpers/formatters';
 import { StoreModel } from '@shared/models/store.model';
+import { DateTimeInputComponent } from '../../../../../components/common/datetime-input/date-time-input.component';
+import { SearchablePicklistComponentWrapper } from '../../../../../components/common/searchable-picklist-wrapper/searchable-picklist-wrapper';
+import { EmojiBlockDirective } from '../../../../../directives/emoji-block.directive';
+import { PasteSanitiserDirective } from '../../../../../directives/paste-sanitiser';
 
 export const TestCategories: TestCategory[] = [
   TestCategory.ADI2,
@@ -63,7 +84,27 @@ export const TestCategories: TestCategory[] = [
   selector: 'advanced-search',
   templateUrl: 'advanced-search.html',
   styleUrls: ['advanced-search.scss'],
-  standalone: false,
+  imports: [
+    IonGrid,
+    IonRow,
+    IonCol,
+    IonInput,
+    EmojiBlockDirective,
+    PasteSanitiserDirective,
+    FormsModule,
+    NgClass,
+    SearchablePicklistComponentWrapper,
+    DateTimeInputComponent,
+    IonAccordionGroup,
+    IonAccordion,
+    IonItem,
+    IonSelect,
+    IonSelectOption,
+    IonText,
+    IonButton,
+    IonIcon,
+    IonSpinner,
+  ],
 })
 export class AdvancedSearchComponent {
   @Input()

@@ -8,7 +8,6 @@ import { VehicleChecksQuestionCatAMod2Component } from '@pages/waiting-room-to-c
 import { WaitingRoomToCarComponentsModule } from '@pages/waiting-room-to-car/components/waiting-room-to-car.components.module';
 
 @NgModule({
-  declarations: [VehicleChecksQuestionCatAMod2Component],
   imports: [
     ComponentsModule,
     CommonModule,
@@ -19,6 +18,7 @@ import { WaitingRoomToCarComponentsModule } from '@pages/waiting-room-to-car/com
     IonRow,
     IonSelect,
     IonSelectOption,
+    VehicleChecksQuestionCatAMod2Component,
   ],
   exports: [VehicleChecksQuestionCatAMod2Component],
 })

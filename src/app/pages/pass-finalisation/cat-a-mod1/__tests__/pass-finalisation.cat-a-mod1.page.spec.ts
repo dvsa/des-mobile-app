@@ -39,7 +39,9 @@ describe('PassFinalisationCatAMod1Page', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      declarations: [
+      imports: [
+        RouterModule.forRoot([]),
+        AppModule,
         PassFinalisationCatAMod1Page,
         MockComponent(PracticeModeOptionsBar),
         MockComponent(PassCertificateNumberCatAMod1Component),
@@ -53,7 +55,6 @@ describe('PassFinalisationCatAMod1Page', () => {
         MockComponent(WarningBannerComponent),
         MockComponent(LicenceProvidedWarningBannerComponent),
       ],
-      imports: [RouterModule.forRoot([]), AppModule],
       providers: [
         {
           provide: Platform,

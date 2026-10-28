@@ -3,7 +3,6 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ComponentsModule } from '@components/common/common-components.module';
 import { TestFlowHeaderComponent } from '@components/common/test-flow-header/test-flow-header.component';
-import { TestFinalisationComponentsModule } from '@components/test-finalisation/test-finalisation-components.module';
 
 import {
   IonButton,
@@ -29,12 +28,10 @@ import { NonPassFinalisationPage } from './non-pass-finalisation.page';
   imports: [
     CommonModule,
     FormsModule,
-
     ComponentsModule,
     NonPassFinalisationPageRoutingModule,
     EffectsModule.forFeature([NonPassFinalisationAnalyticsEffects]),
     ComponentsModule,
-    TestFinalisationComponentsModule,
     ReactiveFormsModule,
     PassFinalisationCatADI3ComponentsModule,
     TestFlowHeaderComponent,
@@ -47,8 +44,8 @@ import { NonPassFinalisationPage } from './non-pass-finalisation.page';
     IonHeader,
     IonContent,
     IonGrid,
+    NonPassFinalisationPage,
   ],
   providers: [OutcomeBehaviourMapProvider, ActivityCodeFinalisationProvider, TestResultProvider],
-  declarations: [NonPassFinalisationPage],
 })
 export class NonPassFinalisationPageModule {}

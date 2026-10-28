@@ -1,7 +1,9 @@
+import { NgClass } from '@angular/common';
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { CatADI2UniqueTypes } from '@dvsa/mes-test-schema/categories/ADI2';
 import { Manoeuvres } from '@dvsa/mes-test-schema/categories/ADI2/partial';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
+import { IonCol, IonGrid, IonIcon, IonRow } from '@ionic/angular';
 import { Store, select } from '@ngrx/store';
 import { FaultCountProvider } from '@providers/fault-count/fault-count';
 import { trDestroy$ } from '@shared/classes/test-flow-base-pages/test-report/test-report-base-page';
@@ -13,13 +15,27 @@ import { getTests } from '@store/tests/tests.reducer';
 import { getCurrentTest } from '@store/tests/tests.selector';
 import { Observable, Subscription } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { DangerousFaultBadgeComponent } from '../../../../../../components/common/dangerous-fault-badge/dangerous-fault-badge';
+import { DrivingFaultsBadgeComponent } from '../../../../../../components/common/driving-faults-badge/driving-faults-badge';
+import { SeriousFaultBadgeComponent } from '../../../../../../components/common/serious-fault-badge/serious-fault-badge';
+import { TickIndicatorComponent } from '../../../../../../components/common/tick-indicator/tick-indicator';
 import { OverlayCallback } from '../../../test-report.model';
 
 @Component({
   selector: 'manoeuvres-adi-part2',
   templateUrl: 'manoeuvres.html',
   styleUrls: ['manoeuvres.scss'],
-  standalone: false,
+  imports: [
+    IonRow,
+    IonCol,
+    NgClass,
+    TickIndicatorComponent,
+    DrivingFaultsBadgeComponent,
+    IonIcon,
+    SeriousFaultBadgeComponent,
+    DangerousFaultBadgeComponent,
+    IonGrid,
+  ],
 })
 export class ManoeuvresComponent implements OnInit, OnDestroy {
   @Input()

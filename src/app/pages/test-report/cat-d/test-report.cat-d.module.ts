@@ -19,7 +19,6 @@ import { TestResultProvider } from '@providers/test-result/test-result';
 import { TestReportCatDPage } from './test-report.cat-d.page';
 
 @NgModule({
-  declarations: [TestReportCatDPage],
   imports: [
     TestReportCatDComponentsModule,
     TestReportComponentsModule,
@@ -27,7 +26,6 @@ import { TestReportCatDPage } from './test-report.cat-d.page';
     EffectsModule.forFeature([TestReportAnalyticsEffects, TestReportEffects]),
     ComponentsModule,
     CommonModule,
-
     TestReportCatDPageRoutingModule,
     ReverseDiagramModalComponentsModule,
     TestFlowHeaderComponent,
@@ -37,6 +35,7 @@ import { TestReportCatDPage } from './test-report.cat-d.page';
     IonContent,
     IonHeader,
     IonToolbar,
+    TestReportCatDPage,
   ],
   providers: [TestReportValidatorProvider, TestResultProvider],
 })

@@ -1,12 +1,12 @@
 import { Component, Input } from '@angular/core';
-import { ModalController } from '@ionic/angular';
+import { IonButton, IonCard, IonCol, IonGrid, IonIcon, IonRow, IonText, ModalController } from '@ionic/angular';
 import { UploadRekeyModalEvent } from './upload-rekey-modal.constants';
 
 @Component({
   selector: 'upload-rekey-modal',
   templateUrl: 'upload-rekey-modal.html',
   styleUrls: ['upload-rekey-modal.scss'],
-  standalone: false,
+  imports: [IonCard, IonGrid, IonRow, IonCol, IonIcon, IonText, IonButton],
 })
 export class UploadRekeyModal {
   @Input()

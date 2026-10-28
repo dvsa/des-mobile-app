@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
-import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { IonCol, IonRow } from '@ionic/angular';
 
 enum ValidLicenceProvidedValues {
   YES = 'yes',
@@ -9,7 +10,7 @@ enum ValidLicenceProvidedValues {
 @Component({
   selector: 'license-provided',
   templateUrl: './license-provided.html',
-  standalone: false,
+  imports: [IonRow, IonCol, FormsModule, ReactiveFormsModule],
 })
 export class LicenseProvidedComponent implements OnChanges {
   static readonly fieldName: string = 'provisionalLicenseProvidedCtrl';

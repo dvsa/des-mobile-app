@@ -79,15 +79,14 @@ describe('VehicleChecksCatHomeTestModal', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      declarations: [VehicleChecksCatHomeTestModal],
       imports: [
         ComponentsModule,
         WaitingRoomToCarComponentsModule,
-
         CommonModule,
         ReactiveFormsModule,
         FormsModule,
         StoreModule,
+        VehicleChecksCatHomeTestModal,
       ],
       providers: [
         { provide: ModalController, useClass: ModalControllerMock },

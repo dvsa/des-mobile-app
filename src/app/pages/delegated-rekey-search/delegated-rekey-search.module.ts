@@ -11,7 +11,7 @@ import { SlotProvider } from '@providers/slot/slot';
 
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
-import { DirectivesModule } from '@directives/directives.module';
+
 import {
   IonBackButton,
   IonButton,
@@ -36,17 +36,14 @@ import { DelegatedRekeySearchEffects } from './delegated-rekey-search.effects';
 import { delegatedSearchReducer } from './delegated-rekey-search.reducer';
 
 @NgModule({
-  declarations: [DelegatedRekeySearchPage],
   imports: [
     StoreModule.forFeature('delegatedRekeySearch', delegatedSearchReducer),
     EffectsModule.forFeature([DelegatedRekeySearchEffects]),
     ComponentsModule,
     TestSlotComponentsModule,
-
     DelegatedRekeySearchPageRoutingModule,
     CommonModule,
     ReactiveFormsModule,
-    DirectivesModule,
     MaskitoDirective,
     IonIcon,
     IonText,
@@ -62,6 +59,7 @@ import { delegatedSearchReducer } from './delegated-rekey-search.reducer';
     IonButtons,
     IonToolbar,
     IonHeader,
+    DelegatedRekeySearchPage,
   ],
   providers: [
     OrientationMonitorProvider,

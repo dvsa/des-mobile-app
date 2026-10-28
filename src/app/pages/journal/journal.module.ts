@@ -36,7 +36,6 @@ import { JournalAnalyticsEffects } from './journal.analytics.effects';
 import { JournalPage } from './journal.page';
 
 @NgModule({
-  declarations: [JournalPage],
   imports: [
     JournalComponentsModule,
     TestSlotComponentsModule,
@@ -59,6 +58,7 @@ import { JournalPage } from './journal.page';
     IonToolbar,
     IonHeader,
     IonList,
+    JournalPage,
   ],
   providers: [
     OrientationMonitorProvider,

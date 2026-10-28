@@ -10,8 +10,7 @@ describe('VehicleDetailsCatCPCComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [VehicleDetailsCatCPCComponent],
-      imports: [AppModule],
+      imports: [AppModule, VehicleDetailsCatCPCComponent],
     });
 
     fixture = TestBed.createComponent(VehicleDetailsCatCPCComponent);

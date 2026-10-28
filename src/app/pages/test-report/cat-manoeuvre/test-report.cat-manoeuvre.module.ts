@@ -19,14 +19,12 @@ import { TestReportCatManoeuvrePage } from './test-report.cat-manoeuvre.page';
 import { TestReportCatManoeuvrePageRoutingModule } from './test-report.cat-manoeuvre.routing-module';
 
 @NgModule({
-  declarations: [TestReportCatManoeuvrePage],
   imports: [
     TestReportComponentsModule,
     StoreModule.forFeature('testReport', testReportReducer),
     EffectsModule.forFeature([TestReportAnalyticsEffects, TestReportEffects]),
     ComponentsModule,
     CommonModule,
-
     TestReportCatManoeuvrePageRoutingModule,
     ReverseDiagramModalComponentsModule,
     TestReportCatManoeuvreComponentsModule,
@@ -37,6 +35,7 @@ import { TestReportCatManoeuvrePageRoutingModule } from './test-report.cat-manoe
     IonContent,
     IonHeader,
     IonToolbar,
+    TestReportCatManoeuvrePage,
   ],
   providers: [TestReportValidatorProvider, TestResultProvider],
 })

@@ -14,8 +14,7 @@ describe('PreviewModeModal', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [PreviewModeModal],
-      imports: [ComponentsModule],
+      imports: [ComponentsModule, PreviewModeModal],
       providers: [{ provide: ModalController, useClass: ModalControllerMock }],
     });
 

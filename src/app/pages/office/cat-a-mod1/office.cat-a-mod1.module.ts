@@ -28,12 +28,11 @@ import { OfficeAnalyticsEffects } from '@pages/office/office.analytics.effects';
 import { OfficeEffects } from '@pages/office/office.effects';
 import { WaitingRoomToCarComponentsModule } from '@pages/waiting-room-to-car/components/waiting-room-to-car.components.module';
 import { FaultSummaryProvider } from '@providers/fault-summary/fault-summary';
-import { PipesModule } from '@shared/pipes/pipes.module';
+
 import { OfficeCatAMod1PageRoutingModule } from './office.cat-a-mod1-routing.module';
 import { OfficeCatAMod1Page } from './office.cat-a-mod1.page';
 
 @NgModule({
-  declarations: [OfficeCatAMod1Page, CircuitComponent],
   imports: [
     CommonModule,
     FormsModule,
@@ -42,7 +41,6 @@ import { OfficeCatAMod1Page } from './office.cat-a-mod1.page';
     OfficeComponentsModule,
     ReactiveFormsModule,
     DebriefComponentsModule,
-    PipesModule,
     EffectsModule.forFeature([OfficeAnalyticsEffects, OfficeEffects]),
     WaitingRoomToCarComponentsModule,
     ReasonForEnteringTeamsComponent,
@@ -60,6 +58,8 @@ import { OfficeCatAMod1Page } from './office.cat-a-mod1.page';
     IonFooter,
     IonCol,
     IonRow,
+    OfficeCatAMod1Page,
+    CircuitComponent,
   ],
   providers: [FaultSummaryProvider],
 })

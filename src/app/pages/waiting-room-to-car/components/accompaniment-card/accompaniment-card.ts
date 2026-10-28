@@ -1,11 +1,13 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { UntypedFormGroup } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule, UntypedFormGroup } from '@angular/forms';
+import { IonCol, IonRow } from '@ionic/angular';
+import { AccompanimentComponent } from '../accompaniment/accompaniment';
 
 @Component({
   selector: 'accompaniment-card',
   templateUrl: './accompaniment-card.html',
   styleUrls: ['./accompaniment-card.scss'],
-  standalone: false,
+  imports: [IonRow, FormsModule, ReactiveFormsModule, IonCol, AccompanimentComponent],
 })
 export class AccompanimentCardComponent {
   @Input()

@@ -90,12 +90,12 @@ describe('ExaminerRecordsPage', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [
+      imports: [
+        CommonModule,
         ExaminerRecordsPage,
         MockComponent(ColourFilterRadioComponent),
         MockComponent(ExaminerRecordsLabelTextComponent),
       ],
-      imports: [CommonModule],
       providers: [
         {
           provide: ExaminerRecordsProvider,
@@ -245,7 +245,6 @@ describe('ExaminerRecordsPage', () => {
                   postTestDeclarations: {
                     healthDeclarationAccepted: true,
                     passCertificateNumberReceived: true,
-
                     postTestSignature: '',
                   },
                   testSummary: {

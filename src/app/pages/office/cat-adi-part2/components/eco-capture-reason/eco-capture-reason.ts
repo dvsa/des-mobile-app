@@ -1,11 +1,33 @@
+import { NgClass } from '@angular/common';
 import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
-import { UntypedFormControl, UntypedFormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
+import {
+  FormsModule,
+  ReactiveFormsModule,
+  UntypedFormControl,
+  UntypedFormGroup,
+  ValidationErrors,
+  ValidatorFn,
+  Validators,
+} from '@angular/forms';
+import { IonCol, IonRow } from '@ionic/angular';
 import { CharacterCountService } from '@providers/character-count/character-count.service';
+import { CharacterCountDirective } from '../../../../../../directives/character-count.directive';
+import { EmojiBlockDirective } from '../../../../../../directives/emoji-block.directive';
+import { PasteSanitiserDirective } from '../../../../../../directives/paste-sanitiser';
 
 @Component({
   selector: 'eco-capture-reason',
   templateUrl: 'eco-capture-reason.html',
-  standalone: false,
+  imports: [
+    IonRow,
+    FormsModule,
+    ReactiveFormsModule,
+    IonCol,
+    CharacterCountDirective,
+    EmojiBlockDirective,
+    PasteSanitiserDirective,
+    NgClass,
+  ],
 })
 export class EcoCaptureReasonComponent implements OnChanges {
   @Input()

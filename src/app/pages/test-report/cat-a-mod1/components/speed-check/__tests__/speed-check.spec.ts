@@ -41,7 +41,8 @@ describe('SpeedCheckComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [
+      imports: [
+        StoreModule.forRoot({ tests: testsReducer, testReport: testReportReducer }),
         SpeedCheckComponent,
         MockComponent(DrivingFaultsBadgeComponent),
         MockComponent(SeriousFaultBadgeComponent),
@@ -49,7 +50,6 @@ describe('SpeedCheckComponent', () => {
         MockComponent(CompetencyButtonComponent),
         MockComponent(SingleFaultCompetencyComponent),
       ],
-      imports: [StoreModule.forRoot({ tests: testsReducer, testReport: testReportReducer })],
     });
 
     fixture = TestBed.createComponent(SpeedCheckComponent);

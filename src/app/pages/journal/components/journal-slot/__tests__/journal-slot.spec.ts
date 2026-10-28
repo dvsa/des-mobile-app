@@ -15,8 +15,7 @@ describe('JournalSlotComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [JournalSlotComponent],
-      imports: [ComponentsModule],
+      imports: [ComponentsModule, JournalSlotComponent],
       providers: [{ provide: SlotSelectorProvider, useClass: SlotSelectorProviderMock }],
     });
 

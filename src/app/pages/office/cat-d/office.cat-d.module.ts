@@ -6,7 +6,7 @@ import { ComponentsModule } from '@components/common/common-components.module';
 import { PracticeModeBanner } from '@components/common/practice-mode-banner/practice-mode-banner';
 import { PracticeModeExitButton } from '@components/common/practice-mode-exit-button/practice-mode-exit-button';
 import { TestFlowHeaderComponent } from '@components/common/test-flow-header/test-flow-header.component';
-import { TestFinalisationComponentsModule } from '@components/test-finalisation/test-finalisation-components.module';
+
 import {
   IonCard,
   IonCardContent,
@@ -32,7 +32,6 @@ import { OfficeCatDPageRoutingModule } from './office.cat-d-routing.module';
 import { OfficeCatDPage } from './office.cat-d.page';
 
 @NgModule({
-  declarations: [OfficeCatDPage],
   imports: [
     EffectsModule.forFeature([OfficeAnalyticsEffects, OfficeEffects]),
     ComponentsModule,
@@ -41,7 +40,6 @@ import { OfficeCatDPage } from './office.cat-d.page';
     ReactiveFormsModule,
     OfficeCatDPageRoutingModule,
     PassFinalisationComponentsModule,
-    TestFinalisationComponentsModule,
     WaitingRoomToCarComponentsModule,
     ReasonForEnteringTeamsComponent,
     OfficeRegistrationAndMotComponent,
@@ -58,6 +56,7 @@ import { OfficeCatDPage } from './office.cat-d.page';
     IonRow,
     IonCol,
     IonFooter,
+    OfficeCatDPage,
   ],
   providers: [FaultSummaryProvider],
 })

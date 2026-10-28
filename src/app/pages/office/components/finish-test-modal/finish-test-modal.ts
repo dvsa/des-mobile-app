@@ -1,11 +1,12 @@
 import { Component } from '@angular/core';
-import { ModalController } from '@ionic/angular';
+import { IonButton, IonCard, IonCol, IonRow, ModalController } from '@ionic/angular';
+import { ModalAlertTitleComponent } from '../../../../../components/common/modal-alert-title/modal-alert-title';
 
 @Component({
   selector: 'finish-test-modal',
   templateUrl: './finish-test-modal.html',
   styleUrls: ['./finish-test-modal.scss'],
-  standalone: false,
+  imports: [IonCard, ModalAlertTitleComponent, IonRow, IonCol, IonButton],
 })
 export class FinishTestModal {
   completeTest: Function;

@@ -20,8 +20,7 @@ describe('DualControlsComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      declarations: [DualControlsComponent],
-      imports: [AppModule, ReactiveFormsModule],
+      imports: [AppModule, ReactiveFormsModule, DualControlsComponent],
       providers: [
         {
           provide: RouteByCategoryProvider,

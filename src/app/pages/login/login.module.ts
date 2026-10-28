@@ -20,7 +20,7 @@ import { LoginPage } from './login.page';
     IonCol,
     IonText,
     IonButton,
+    LoginPage,
   ],
-  declarations: [LoginPage],
 })
 export class LoginPageModule {}

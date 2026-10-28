@@ -123,7 +123,8 @@ describe('NonPassFinalisationPage', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      declarations: [
+      imports: [
+        AppModule,
         NonPassFinalisationPage,
         MockComponent(PracticeModeOptionsBar),
         MockComponent(ActivityCodeComponent),
@@ -133,7 +134,6 @@ describe('NonPassFinalisationPage', () => {
         MockComponent(WarningBannerComponent),
         MockComponent(FinalisationHeaderComponent),
       ],
-      imports: [AppModule],
       providers: [
         {
           provide: Router,

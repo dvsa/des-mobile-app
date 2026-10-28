@@ -1,8 +1,33 @@
+import { AsyncPipe, NgClass } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, Injector, OnInit } from '@angular/core';
-import { AbstractControl, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import {
+  AbstractControl,
+  FormsModule,
+  ReactiveFormsModule,
+  UntypedFormControl,
+  UntypedFormGroup,
+  Validators,
+} from '@angular/forms';
 import { TestSlot } from '@dvsa/mes-journal-schema';
-import { ModalController } from '@ionic/angular';
+import {
+  IonBackButton,
+  IonButton,
+  IonButtons,
+  IonCol,
+  IonContent,
+  IonGrid,
+  IonHeader,
+  IonIcon,
+  IonInput,
+  IonRow,
+  IonSpinner,
+  IonText,
+  IonTitle,
+  IonToolbar,
+  ModalController,
+} from '@ionic/angular';
+import { MaskitoDirective } from '@maskito/angular';
 import { MaskitoElementPredicate, MaskitoOptions } from '@maskito/core';
 import { select } from '@ngrx/store';
 import {
@@ -25,6 +50,9 @@ import { ErrorTypes } from '@shared/models/error-message';
 import { isEmpty } from 'lodash-es';
 import { Observable, Subscription } from 'rxjs';
 import { distinctUntilChanged, map } from 'rxjs/operators';
+import { TabComponent } from '../../../components/common/tab/tab';
+import { TabsComponent } from '../../../components/common/tabs/tabs';
+import { TestSlotComponent } from '../../../components/test-slot/test-slot/test-slot';
 import {
   DelegatedRekeySearchClearState,
   DelegatedRekeySearchViewDidEnter,
@@ -42,7 +70,30 @@ interface DelegatedRekeySearchPageState {
   selector: 'page-delegated-rekey-search',
   templateUrl: './delegated-rekey-search.html',
   styleUrls: ['./delegated-rekey-search.scss'],
-  standalone: false,
+  imports: [
+    IonHeader,
+    IonToolbar,
+    IonButtons,
+    IonBackButton,
+    IonTitle,
+    IonContent,
+    FormsModule,
+    ReactiveFormsModule,
+    TabsComponent,
+    TabComponent,
+    IonGrid,
+    IonRow,
+    IonCol,
+    IonInput,
+    NgClass,
+    MaskitoDirective,
+    IonText,
+    IonButton,
+    IonIcon,
+    IonSpinner,
+    TestSlotComponent,
+    AsyncPipe,
+  ],
 })
 export class DelegatedRekeySearchPage extends BasePageComponent implements OnInit {
   pageState: DelegatedRekeySearchPageState;

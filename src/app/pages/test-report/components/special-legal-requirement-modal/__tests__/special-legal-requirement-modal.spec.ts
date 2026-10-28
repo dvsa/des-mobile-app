@@ -14,8 +14,7 @@ describe('LegalRequirementsModal', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [SpecialLegalRequirementModal],
-      imports: [AppModule, ComponentsModule],
+      imports: [AppModule, ComponentsModule, SpecialLegalRequirementModal],
       providers: [{ provide: ModalController, useClass: ModalControllerMock }],
     });
 

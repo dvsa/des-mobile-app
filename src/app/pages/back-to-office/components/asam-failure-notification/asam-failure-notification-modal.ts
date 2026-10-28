@@ -1,11 +1,12 @@
 import { Component } from '@angular/core';
-import { ModalController } from '@ionic/angular';
+import { IonButton, IonCard, IonCol, IonRow, IonText, ModalController } from '@ionic/angular';
+import { ModalAlertTitleComponent } from '../../../../../components/common/modal-alert-title/modal-alert-title';
 
 @Component({
   selector: 'app-asam-failure-notification',
   templateUrl: './asam-failure-notification-modal.html',
   styleUrls: ['./asam-failure-notification-modal.scss'],
-  standalone: false,
+  imports: [IonCard, ModalAlertTitleComponent, IonRow, IonCol, IonButton, IonText],
 })
 export class AsamFailureNotificationModal {
   constructor(public modalController: ModalController) {}

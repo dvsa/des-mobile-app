@@ -9,7 +9,7 @@ describe('WarningBanner', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [WarningBannerComponent],
+      imports: [WarningBannerComponent],
     });
 
     fixture = TestBed.createComponent(WarningBannerComponent);

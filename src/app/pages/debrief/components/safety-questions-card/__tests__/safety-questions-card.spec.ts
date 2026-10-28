@@ -13,8 +13,7 @@ describe('SafetyQuestionsCardComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [SafetyQuestionsCardComponent],
-      imports: [TranslateModule.forRoot()],
+      imports: [TranslateModule.forRoot(), SafetyQuestionsCardComponent],
       providers: [
         provideHttpClient(withInterceptorsFromDi()),
         provideTranslateService({

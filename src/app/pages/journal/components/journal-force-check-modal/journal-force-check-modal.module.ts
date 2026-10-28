@@ -7,7 +7,6 @@ import { IonButton, IonCard, IonCol, IonRow } from '@ionic/angular';
 import { JournalForceCheckModal } from '@pages/journal/components/journal-force-check-modal/journal-force-check-modal';
 
 @NgModule({
-  imports: [CommonModule, FormsModule, ComponentsModule, IonCol, IonRow, IonButton, IonCard],
-  declarations: [JournalForceCheckModal],
+  imports: [CommonModule, FormsModule, ComponentsModule, IonCol, IonRow, IonButton, IonCard, JournalForceCheckModal],
 })
 export class JournalForceCheckModule {}

@@ -20,7 +20,16 @@ import { TimeComponent } from './time/time';
 import { VehicleDetailsComponent } from './vehicle-details/vehicle-details';
 
 @NgModule({
-  declarations: [
+  imports: [
+    CommonModule,
+    ComponentsModule,
+    IonRow,
+    IonCol,
+    IonText,
+    IonGrid,
+    IonCard,
+    IonIcon,
+    IonButton,
     AdditionalCandidateDetailsComponent,
     AutosaveStatusComponent,
     CandidateLinkComponent,
@@ -38,7 +47,6 @@ import { VehicleDetailsComponent } from './vehicle-details/vehicle-details';
     ExaminerNameComponent,
     IntegrityMarkerComponent,
   ],
-  imports: [CommonModule, ComponentsModule, IonRow, IonCol, IonText, IonGrid, IonCard, IonIcon, IonButton],
   exports: [
     AdditionalCandidateDetailsComponent,
     AutosaveStatusComponent,

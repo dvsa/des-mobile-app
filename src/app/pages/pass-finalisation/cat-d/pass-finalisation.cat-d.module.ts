@@ -6,7 +6,7 @@ import { EffectsModule } from '@ngrx/effects';
 
 import { ComponentsModule } from '@components/common/common-components.module';
 import { TestFlowHeaderComponent } from '@components/common/test-flow-header/test-flow-header.component';
-import { TestFinalisationComponentsModule } from '@components/test-finalisation/test-finalisation-components.module';
+
 import {
   IonButton,
   IonCol,
@@ -27,13 +27,10 @@ import { PassFinalisationCatDPageRoutingModule } from './pass-finalisation.cat-d
 import { PassFinalisationCatDPage } from './pass-finalisation.cat-d.page';
 
 @NgModule({
-  declarations: [PassFinalisationCatDPage],
   imports: [
     CommonModule,
     FormsModule,
-
     ComponentsModule,
-    TestFinalisationComponentsModule,
     PassFinalisationComponentsModule,
     PassFinalisationCatDPageRoutingModule,
     ReactiveFormsModule,
@@ -49,6 +46,7 @@ import { PassFinalisationCatDPage } from './pass-finalisation.cat-d.page';
     IonGrid,
     IonContent,
     IonHeader,
+    PassFinalisationCatDPage,
   ],
   providers: [OutcomeBehaviourMapProvider, PassCertificateValidationProvider],
 })

@@ -32,15 +32,8 @@ describe('ReverseManoeuvreComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        ReverseManoeuvreComponent,
-        MockComponent(DrivingFaultsBadgeComponent),
-        MockComponent(SeriousFaultBadgeComponent),
-        MockComponent(DangerousFaultBadgeComponent),
-      ],
       imports: [
         AppModule,
-
         StoreModule.forRoot({
           journal: () => ({
             isLoading: false,
@@ -82,6 +75,10 @@ describe('ReverseManoeuvreComponent', () => {
           }),
           testReport: testReportReducer,
         }),
+        ReverseManoeuvreComponent,
+        MockComponent(DrivingFaultsBadgeComponent),
+        MockComponent(SeriousFaultBadgeComponent),
+        MockComponent(DangerousFaultBadgeComponent),
       ],
       providers: [{ provide: DateTimeProvider, useClass: DateTimeProviderMock }],
     });

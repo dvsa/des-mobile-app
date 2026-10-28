@@ -21,8 +21,7 @@ describe('ErrorPage', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [ErrorPage, MockComponent(ErrorMessageComponent)],
-
+      imports: [ErrorPage, MockComponent(ErrorMessageComponent)],
       providers: [
         {
           provide: Router,

@@ -30,11 +30,9 @@ import { RekeyReasonPage } from './rekey-reason.page';
 import { rekeyReasonReducer } from './rekey-reason.reducer';
 
 @NgModule({
-  declarations: [RekeyReasonPage],
   imports: [
     CommonModule,
     FormsModule,
-
     RekeyReasonPageRoutingModule,
     ReactiveFormsModule,
     RekeyReasonComponentsModule,
@@ -54,6 +52,7 @@ import { rekeyReasonReducer } from './rekey-reason.reducer';
     IonRow,
     IonFooter,
     IonText,
+    RekeyReasonPage,
   ],
   providers: [FindUserProvider],
 })

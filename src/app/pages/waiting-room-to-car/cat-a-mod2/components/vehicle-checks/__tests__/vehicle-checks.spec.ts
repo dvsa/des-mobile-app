@@ -23,13 +23,12 @@ describe('VehicleChecksCatAMod2Component', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [
+      imports: [
         VehicleChecksCatAMod2Component,
         MockComponent(SeriousFaultBadgeComponent),
         MockComponent(DrivingFaultsBadgeComponent),
         MockComponent(TickIndicatorComponent),
       ],
-
       providers: [
         { provide: ModalController, useClass: ModalControllerMock },
         { provide: AccessibilityService, useClass: AccessibilityServiceMock },

@@ -35,16 +35,8 @@ describe('CompetencyComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        CompetencyComponent,
-        MockComponent(CompetencyButtonComponent),
-        MockComponent(DrivingFaultsBadgeComponent),
-        MockComponent(SeriousFaultBadgeComponent),
-        MockComponent(DangerousFaultBadgeComponent),
-      ],
       imports: [
         AppModule,
-
         StoreModule.forRoot({
           journal: () => ({
             isLoading: false,
@@ -99,6 +91,11 @@ describe('CompetencyComponent', () => {
           }),
           testReport: testReportReducer,
         }),
+        CompetencyComponent,
+        MockComponent(CompetencyButtonComponent),
+        MockComponent(DrivingFaultsBadgeComponent),
+        MockComponent(SeriousFaultBadgeComponent),
+        MockComponent(DangerousFaultBadgeComponent),
       ],
       providers: [{ provide: DateTimeProvider, useClass: DateTimeProviderMock }],
     });

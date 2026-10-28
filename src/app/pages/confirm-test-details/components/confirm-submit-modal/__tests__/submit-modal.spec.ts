@@ -15,8 +15,7 @@ describe('ConfirmSubmitModal', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [ConfirmSubmitModal],
-      imports: [RouterModule, CommonModule, FormsModule, ComponentsModule],
+      imports: [RouterModule, CommonModule, FormsModule, ComponentsModule, ConfirmSubmitModal],
       providers: [
         {
           provide: ModalController,

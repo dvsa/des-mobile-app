@@ -12,8 +12,7 @@ describe('UploadRekeyModal', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [UploadRekeyModal],
-      imports: [AppModule],
+      imports: [AppModule, UploadRekeyModal],
       providers: [{ provide: ModalController, useClass: ModalControllerMock }],
     });
 

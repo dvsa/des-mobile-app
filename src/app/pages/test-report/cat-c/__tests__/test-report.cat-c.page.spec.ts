@@ -39,25 +39,6 @@ describe('TestReportCatCPage', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        TestReportCatCPage,
-        MockComponent(ReverseLeftPopoverComponent),
-        MockComponent(ReverseLeftComponent),
-        MockComponent(TickIndicatorComponent),
-        MockComponent(CompetencyComponent),
-        MockComponent(CompetencyButtonComponent),
-        MockComponent(LegalRequirementComponent),
-        MockComponent(EtaComponent),
-        MockComponent(DrivingFaultSummaryComponent),
-        MockComponent(ToolbarComponent),
-        MockComponent(ControlledStopComponent),
-        MockComponent(ManoeuvreCompetencyComponent),
-        MockComponent(VehicleChecksComponent),
-        MockComponent(EcoComponent),
-        MockComponent(PracticeModeOptionsBar),
-        MockComponent(TestFlowHeaderComponent),
-        MockComponent(UncoupleRecoupleComponent),
-      ],
       imports: [
         AppModule,
         StoreModule.forFeature('tests', () => ({
@@ -75,6 +56,23 @@ describe('TestReportCatCPage', () => {
           },
         })),
         StoreModule.forFeature('testReport', testReportReducer),
+        TestReportCatCPage,
+        MockComponent(ReverseLeftPopoverComponent),
+        MockComponent(ReverseLeftComponent),
+        MockComponent(TickIndicatorComponent),
+        MockComponent(CompetencyComponent),
+        MockComponent(CompetencyButtonComponent),
+        MockComponent(LegalRequirementComponent),
+        MockComponent(EtaComponent),
+        MockComponent(DrivingFaultSummaryComponent),
+        MockComponent(ToolbarComponent),
+        MockComponent(ControlledStopComponent),
+        MockComponent(ManoeuvreCompetencyComponent),
+        MockComponent(VehicleChecksComponent),
+        MockComponent(EcoComponent),
+        MockComponent(PracticeModeOptionsBar),
+        MockComponent(TestFlowHeaderComponent),
+        MockComponent(UncoupleRecoupleComponent),
       ],
       providers: [
         {

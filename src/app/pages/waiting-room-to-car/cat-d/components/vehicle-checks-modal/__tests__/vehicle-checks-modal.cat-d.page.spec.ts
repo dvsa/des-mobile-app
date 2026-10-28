@@ -147,14 +147,15 @@ describe('VehicleChecksCatDModal', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [
+      imports: [
+        AppModule,
+        StoreModule.forRoot({}),
         VehicleChecksCatDModal,
         MockComponent(FullLicenceHeldComponent),
         MockComponent(VehicleChecksQuestionComponent),
         MockComponent(SafetyQuestionComponent),
         MockComponent(WarningBannerComponent),
       ],
-      imports: [AppModule, StoreModule.forRoot({})],
       providers: [
         {
           provide: ModalController,

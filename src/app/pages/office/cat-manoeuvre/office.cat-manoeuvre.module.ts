@@ -5,7 +5,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { EffectsModule } from '@ngrx/effects';
 
 import { ComponentsModule } from '@components/common/common-components.module';
-import { TestFinalisationComponentsModule } from '@components/test-finalisation/test-finalisation-components.module';
+
 import { OfficeComponentsModule } from '@pages/office/components/office.components.module';
 import { OfficeAnalyticsEffects } from '@pages/office/office.analytics.effects';
 import { OfficeEffects } from '@pages/office/office.effects';
@@ -34,16 +34,13 @@ import { OfficeCatManoeuvrePageRoutingModule } from './office.cat-manoeuvre-rout
 import { OfficeCatManoeuvrePage } from './office.cat-manoeuvre.page';
 
 @NgModule({
-  declarations: [OfficeCatManoeuvrePage],
   imports: [
     EffectsModule.forFeature([OfficeAnalyticsEffects, OfficeEffects]),
     ComponentsModule,
     CommonModule,
     ReactiveFormsModule,
-
     OfficeComponentsModule,
     OfficeCatManoeuvrePageRoutingModule,
-    TestFinalisationComponentsModule,
     PassFinalisationComponentsModule,
     WaitingRoomToCarComponentsModule,
     ReasonForEnteringTeamsComponent,
@@ -61,6 +58,7 @@ import { OfficeCatManoeuvrePage } from './office.cat-manoeuvre.page';
     IonRow,
     IonCol,
     IonFooter,
+    OfficeCatManoeuvrePage,
   ],
   providers: [FaultSummaryProvider],
 })

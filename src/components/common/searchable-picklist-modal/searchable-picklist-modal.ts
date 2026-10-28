@@ -1,13 +1,32 @@
+import { NgClass } from '@angular/common';
 import { Component, Input } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { SearchablePicklistModalEvent } from '@components/common/searchable-picklist-wrapper/searchable-picklist-wrapper';
-import { ModalController } from '@ionic/angular';
+import { IonCol, IonContent, IonGrid, IonIcon, IonItem, IonSearchbar, ModalController } from '@ionic/angular';
+import { ContainsPipe } from '@shared/pipes/contains.pipe';
+import { FormatIdPipe } from '@shared/pipes/format-id.pipe';
 import { get } from 'lodash-es';
+import { EmojiBlockDirective } from '../../../directives/emoji-block.directive';
+import { PasteSanitiserDirective } from '../../../directives/paste-sanitiser';
 
 @Component({
   selector: 'searchable-picklist-modal',
   templateUrl: './searchable-picklist-modal.html',
   styleUrls: ['./searchable-picklist-modal.scss'],
-  standalone: false,
+  imports: [
+    IonContent,
+    IonGrid,
+    IonSearchbar,
+    EmojiBlockDirective,
+    PasteSanitiserDirective,
+    FormsModule,
+    IonItem,
+    IonCol,
+    NgClass,
+    IonIcon,
+    FormatIdPipe,
+    ContainsPipe,
+  ],
 })
 export class SearchablePicklistModal<T> {
   @Input()

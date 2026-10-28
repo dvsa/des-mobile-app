@@ -64,12 +64,6 @@ describe('RekeyReasonPage', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      declarations: [
-        RekeyReasonPage,
-        MockComponent(IpadIssueComponent),
-        MockComponent(TransferComponent),
-        MockComponent(OtherReasonComponent),
-      ],
       imports: [
         StoreModule.forRoot({
           journal: () => ({
@@ -128,6 +122,10 @@ describe('RekeyReasonPage', () => {
         AppModule,
         FormsModule,
         ReactiveFormsModule,
+        RekeyReasonPage,
+        MockComponent(IpadIssueComponent),
+        MockComponent(TransferComponent),
+        MockComponent(OtherReasonComponent),
       ],
       providers: [
         {

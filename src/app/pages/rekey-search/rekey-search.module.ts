@@ -11,7 +11,7 @@ import { SearchProvider } from '@providers/search/search';
 import { SlotProvider } from '@providers/slot/slot';
 
 import { CommonModule } from '@angular/common';
-import { DirectivesModule } from '@directives/directives.module';
+
 import {
   IonBackButton,
   IonButton,
@@ -37,16 +37,13 @@ import { RekeySearchEffects } from './rekey-search.effects';
 import { rekeySearchReducer } from './rekey-search.reducer';
 
 @NgModule({
-  declarations: [RekeySearchPage],
   imports: [
     StoreModule.forFeature('rekeySearch', rekeySearchReducer),
     EffectsModule.forFeature([RekeySearchEffects, RekeySearchAnalyticsEffects]),
     ComponentsModule,
     CommonModule,
     TestSlotComponentsModule,
-
     RekeySearchPageRoutingModule,
-    DirectivesModule,
     MaskitoDirective,
     IonInput,
     IonCol,
@@ -62,6 +59,7 @@ import { rekeySearchReducer } from './rekey-search.reducer';
     IonBackButton,
     IonButtons,
     IonTitle,
+    RekeySearchPage,
   ],
   providers: [OrientationMonitorProvider, RekeySearchProvider, SearchProvider, CompressionProvider, SlotProvider],
 })

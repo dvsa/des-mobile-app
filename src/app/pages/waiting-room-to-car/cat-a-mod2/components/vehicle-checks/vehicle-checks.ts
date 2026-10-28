@@ -1,19 +1,30 @@
 import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
-import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule, UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { Style } from '@capacitor/status-bar';
 import { SafetyAndBalanceQuestions } from '@dvsa/mes-test-schema/categories/AM2';
 import { QuestionResult } from '@dvsa/mes-test-schema/categories/common';
-import { ModalController } from '@ionic/angular';
+import { IonButton, IonCol, IonIcon, IonRow, ModalController } from '@ionic/angular';
 import { VehicleChecksCatAMod2Modal } from '@pages/waiting-room-to-car/cat-a-mod2/components/vehicle-checks-modal/vehicle-checks-modal.cat-a-mod2.page';
 import { AccessibilityService } from '@providers/accessibility/accessibility.service';
 import { SafetyQuestionsScore } from '@shared/models/safety-questions-score.model';
 import { get } from 'lodash-es';
+import { DrivingFaultsBadgeComponent } from '../../../../../../components/common/driving-faults-badge/driving-faults-badge';
+import { TickIndicatorComponent } from '../../../../../../components/common/tick-indicator/tick-indicator';
 
 @Component({
   selector: 'vehicle-checks-cat-a-mod2',
   templateUrl: 'vehicle-checks.html',
   styleUrls: ['./vehicle-checks.scss'],
-  standalone: false,
+  imports: [
+    IonRow,
+    FormsModule,
+    ReactiveFormsModule,
+    IonCol,
+    IonButton,
+    TickIndicatorComponent,
+    DrivingFaultsBadgeComponent,
+    IonIcon,
+  ],
 })
 export class VehicleChecksCatAMod2Component implements OnChanges {
   @Output()

@@ -45,7 +45,8 @@ import { ViewTestResultPage } from '@pages/view-test-result/view-test-result.pag
     IonCardContent,
     IonCardHeader,
     IonCard,
+    ViewTestResultPage,
+    ActivityCodeCard,
   ],
-  declarations: [ViewTestResultPage, ActivityCodeCard],
 })
 export class ViewTestResultPageModule {}

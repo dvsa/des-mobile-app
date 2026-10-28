@@ -66,8 +66,12 @@ describe('EcoComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [EcoComponent, MockComponent(TickIndicatorComponent), MockComponent(CompetencyButtonComponent)],
-      imports: [StoreModule.forRoot({ tests: testsReducer, testReport: testReportReducer })],
+      imports: [
+        StoreModule.forRoot({ tests: testsReducer, testReport: testReportReducer }),
+        EcoComponent,
+        MockComponent(TickIndicatorComponent),
+        MockComponent(CompetencyButtonComponent),
+      ],
       providers: [provideMockStore({ initialState })],
     });
 

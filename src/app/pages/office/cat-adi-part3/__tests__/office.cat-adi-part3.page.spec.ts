@@ -37,17 +37,8 @@ describe('OfficeCatADI3Page', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        OfficeCatADI3Page,
-        MockComponent(OfficeFooterComponent),
-        MockComponent(AdditionalInformationComponent),
-        MockComponent(OfficeRegistrationAndMotComponent),
-        MockComponent(CandidateSectionComponent),
-        MockComponent(TestFlowHeaderComponent),
-      ],
       imports: [
         PipesModule,
-
         AppModule,
         ComponentsModule,
         StoreModule.forRoot({
@@ -74,6 +65,12 @@ describe('OfficeCatADI3Page', () => {
           }),
         }),
         ReactiveFormsModule,
+        OfficeCatADI3Page,
+        MockComponent(OfficeFooterComponent),
+        MockComponent(AdditionalInformationComponent),
+        MockComponent(OfficeRegistrationAndMotComponent),
+        MockComponent(CandidateSectionComponent),
+        MockComponent(TestFlowHeaderComponent),
       ],
       providers: [
         { provide: Platform, useClass: PlatformMock },

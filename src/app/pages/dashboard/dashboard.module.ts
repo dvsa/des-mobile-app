@@ -44,7 +44,7 @@ import { DashboardPage } from './dashboard.page';
     IonContent,
     IonMenuButton,
     IonGrid,
+    DashboardPage,
   ],
-  declarations: [DashboardPage],
 })
 export class DashboardPageModule {}

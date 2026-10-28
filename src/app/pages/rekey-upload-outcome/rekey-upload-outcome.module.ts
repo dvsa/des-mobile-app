@@ -22,11 +22,9 @@ import { RekeyUploadOutcomePage } from './rekey-upload-outcome.page';
 import { RekeyUploadOutcomePageRoutingModule } from './rekey-upload-outcome.routing.module';
 
 @NgModule({
-  declarations: [RekeyUploadOutcomePage],
   imports: [
     CommonModule,
     FormsModule,
-
     RekeyUploadOutcomePageRoutingModule,
     EffectsModule.forFeature([RekeyUploadOutcomeAnalyticsEffects]),
     IonText,
@@ -40,6 +38,7 @@ import { RekeyUploadOutcomePageRoutingModule } from './rekey-upload-outcome.rout
     IonTitle,
     IonToolbar,
     IonHeader,
+    RekeyUploadOutcomePage,
   ],
 })
 export class RekeyUploadOutcomePageModule {}

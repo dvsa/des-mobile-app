@@ -1,12 +1,19 @@
 import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { ExaminerRecordDataWithPercentage } from '@pages/examiner-records/examiner-records.selector';
 import { isEqual } from 'lodash-es';
-import { ApexAxisChartSeries, ApexNonAxisChartSeries, ApexOptions, ChartType, PointAnnotations } from 'ng-apexcharts';
+import {
+  ApexAxisChartSeries,
+  ApexNonAxisChartSeries,
+  ApexOptions,
+  ChartComponent as ChartComponent_1,
+  ChartType,
+  PointAnnotations,
+} from 'ng-apexcharts';
 
 @Component({
   selector: 'chart',
   templateUrl: 'chart.html',
-  standalone: false,
+  imports: [ChartComponent_1],
 })
 export class ChartComponent implements OnInit, OnChanges {
   @Input()

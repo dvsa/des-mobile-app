@@ -11,8 +11,7 @@ describe('PrivacyNoticeComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [PrivacyNoticeComponent],
-      imports: [TranslateModule],
+      imports: [TranslateModule, PrivacyNoticeComponent],
       providers: [{ provide: TranslateService, useValue: translateServiceMock }],
     });
 

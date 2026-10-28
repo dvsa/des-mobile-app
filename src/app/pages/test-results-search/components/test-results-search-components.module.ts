@@ -1,7 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { DirectivesModule } from '@directives/directives.module';
 
 import { ComponentsModule } from '@components/common/common-components.module';
 import {
@@ -20,18 +19,15 @@ import {
   IonSpinner,
   IonText,
 } from '@ionic/angular';
-import { PipesModule } from '@shared/pipes/pipes.module';
+
 import { AdvancedSearchComponent } from './advanced-search/advanced-search';
 import { SearchResultComponent } from './search-result/search-result';
 
 @NgModule({
-  declarations: [SearchResultComponent, AdvancedSearchComponent],
   imports: [
     ComponentsModule,
     CommonModule,
-    DirectivesModule,
     FormsModule,
-    PipesModule,
     IonCol,
     IonSpinner,
     IonIcon,
@@ -46,6 +42,8 @@ import { SearchResultComponent } from './search-result/search-result';
     IonAccordionGroup,
     IonSelectOption,
     IonCard,
+    SearchResultComponent,
+    AdvancedSearchComponent,
   ],
   exports: [SearchResultComponent, AdvancedSearchComponent],
 })

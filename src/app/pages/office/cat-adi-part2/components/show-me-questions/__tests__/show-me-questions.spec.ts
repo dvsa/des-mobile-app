@@ -21,8 +21,7 @@ describe('ShowMeQuestionsCatADI2Component', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [ShowMeQuestionsCatADI2Component],
-      imports: [AppModule],
+      imports: [AppModule, ShowMeQuestionsCatADI2Component],
       providers: [
         {
           provide: AccessibilityService,

@@ -10,7 +10,17 @@ import {
 import { CatBUniqueTypes } from '@dvsa/mes-test-schema/categories/B';
 import { TestResultCommonSchema } from '@dvsa/mes-test-schema/categories/common';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
-import { ModalController } from '@ionic/angular';
+import {
+  IonButton,
+  IonButtons,
+  IonContent,
+  IonHeader,
+  IonIcon,
+  IonLabel,
+  IonTitle,
+  IonToolbar,
+  ModalController,
+} from '@ionic/angular';
 import { getTestOutcome } from '@pages/debrief/debrief.selector';
 import { ExaminerDetailsModel } from '@pages/view-test-result/components/examiner-details-card/examiner-details-card.model';
 import { ViewTestHeaderModel } from '@pages/view-test-result/components/view-test-header/view-test-header.model';
@@ -37,13 +47,56 @@ import * as compareVersions from 'compare-versions';
 import { get } from 'lodash-es';
 import { Subscription, of } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
+import { Adi3DebriefCard } from '../../../components/common/adi3-debrief-card/adi3-debrief-card';
+import { CPCDebriefCardComponent } from '../../../components/common/cpc-debrief-card/cpc-debrief-card';
+import { ErrorMessageComponent } from '../../../components/common/error-message/error-message';
+import { FitMarkerBannerComponent } from '../../../components/common/fit-marker-banner/fit-marker-banner';
+import { ActivityCodeCard } from './components/activity-code-card/activity-code-card';
+import { BusinessDetailsCardComponent } from './components/business-details-card/business-details-card';
+import { ContactDetailsCardComponent } from './components/contact-details-card/contact-details-card';
+import { DebriefCardComponent } from './components/debrief-card/debrief-card';
+import { ExaminerDetailsCardComponent } from './components/examiner-details-card/examiner-details';
+import { RekeyDetailsCardComponent } from './components/rekey-details-card/rekey-details';
+import { RekeyReasonCardComponent } from './components/rekey-reason-card/rekey-reason';
+import { ScDebriefCard } from './components/sc-debrief-card/sc-debrief-card';
+import { TestDetailsCardComponent } from './components/test-details-card/test-details-card';
 import { TestDetailsModel } from './components/test-details-card/test-details-card.model';
+import { TestSummaryCardComponent } from './components/test-summary-card/test-summary-card';
+import { TrainerDetailsCardComponent } from './components/trainer-details-card/trainer-details-card';
+import { VehicleDetailsCardComponent } from './components/vehicle-details-card/vehicle-details-card';
+import { ViewTestHeaderComponent } from './components/view-test-header/view-test-header';
 
 @Component({
   selector: '.view-test-result',
   templateUrl: 'view-test-result.page.html',
   styleUrls: ['view-test-result.page.scss'],
-  standalone: false,
+  imports: [
+    IonHeader,
+    IonToolbar,
+    IonButtons,
+    IonButton,
+    IonIcon,
+    IonLabel,
+    IonTitle,
+    IonContent,
+    ErrorMessageComponent,
+    ViewTestHeaderComponent,
+    ActivityCodeCard,
+    TestDetailsCardComponent,
+    FitMarkerBannerComponent,
+    ContactDetailsCardComponent,
+    BusinessDetailsCardComponent,
+    RekeyDetailsCardComponent,
+    RekeyReasonCardComponent,
+    ExaminerDetailsCardComponent,
+    VehicleDetailsCardComponent,
+    TrainerDetailsCardComponent,
+    DebriefCardComponent,
+    CPCDebriefCardComponent,
+    Adi3DebriefCard,
+    ScDebriefCard,
+    TestSummaryCardComponent,
+  ],
 })
 export class ViewTestResultPage extends BasePageComponent implements OnInit {
   @Input()

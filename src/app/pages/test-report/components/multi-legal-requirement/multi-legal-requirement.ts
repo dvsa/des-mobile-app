@@ -1,14 +1,17 @@
+import { NgClass } from '@angular/common';
 import { Component, Input } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { StoreModel } from '@shared/models/store.model';
 import { ToggleLegalRequirement } from '@store/tests/test-data/common/test-requirements/test-requirements.actions';
 import { LegalRequirements } from '@store/tests/test-data/test-data.constants';
+import { TickIndicatorComponent } from '../../../../../components/common/tick-indicator/tick-indicator';
+import { CompetencyButtonComponent } from '../competency-button/competency-button';
 
 @Component({
   selector: 'multi-legal-requirement',
   templateUrl: 'multi-legal-requirement.html',
   styleUrls: ['multi-legal-requirement.scss'],
-  standalone: false,
+  imports: [CompetencyButtonComponent, NgClass, TickIndicatorComponent],
 })
 export class MultiLegalRequirementComponent {
   @Input()

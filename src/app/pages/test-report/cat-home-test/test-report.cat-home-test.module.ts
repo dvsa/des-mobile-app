@@ -18,7 +18,6 @@ import { TestReportCatHomeTestComponentsModule } from './components/test-report.
 import { TestReportCatHomeTestPage } from './test-report.cat-home-test.page';
 
 @NgModule({
-  declarations: [TestReportCatHomeTestPage],
   imports: [
     TestReportComponentsModule,
     StoreModule.forFeature('testReport', testReportReducer),
@@ -27,7 +26,6 @@ import { TestReportCatHomeTestPage } from './test-report.cat-home-test.page';
     TestReportCatHomeTestComponentsModule,
     ReverseDiagramModalComponentsModule,
     CommonModule,
-
     ComponentsModule,
     TestReportCatHomeTestPageRoutingModule,
     TestFlowHeaderComponent,
@@ -37,6 +35,7 @@ import { TestReportCatHomeTestPage } from './test-report.cat-home-test.page';
     IonContent,
     IonToolbar,
     IonHeader,
+    TestReportCatHomeTestPage,
   ],
   providers: [TestReportValidatorProvider, TestResultProvider],
 })

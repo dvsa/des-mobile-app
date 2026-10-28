@@ -1,11 +1,32 @@
+import { AsyncPipe } from '@angular/common';
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
-import { UntypedFormGroup } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule, UntypedFormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ScreenOrientation } from '@capawesome/capacitor-screen-orientation';
 import { ExaminerRecordModel } from '@dvsa/mes-microservice-common/domain/examiner-records';
 import { TestCentre } from '@dvsa/mes-test-schema/categories/common';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
-import { ModalController } from '@ionic/angular';
+import {
+  IonButton,
+  IonButtons,
+  IonCard,
+  IonCardContent,
+  IonCardHeader,
+  IonCardTitle,
+  IonCol,
+  IonContent,
+  IonGrid,
+  IonHeader,
+  IonIcon,
+  IonLabel,
+  IonRow,
+  IonSelect,
+  IonSelectOption,
+  IonText,
+  IonTitle,
+  IonToolbar,
+  ModalController,
+} from '@ionic/angular';
 import { ScrollDetail } from '@ionic/core';
 import { Store, select } from '@ngrx/store';
 import { ExaminerRecordsLearnMoreModal } from '@pages/examiner-records/components/examiner-records-learn-more-modal/examiner-records-learn-more-modal';
@@ -68,6 +89,10 @@ import { getTests } from '@store/tests/tests.reducer';
 import { getStartedTests, getTestStatuses } from '@store/tests/tests.selector';
 import { BehaviorSubject, Observable, Subscription, combineLatest, merge, of } from 'rxjs';
 import { map, switchMap, take, tap, withLatestFrom } from 'rxjs/operators';
+import { DataRowComponent } from '../../../components/common/data-row/data-row';
+import { ColourFilterRadioComponent } from './components/colour-filter-radio/colour-filter-radio';
+import { ExaminerRecordsLabelTextComponent } from './components/examiner-records-label-text/examiner-records-label-text';
+import { ExaminerReportsCard } from './components/examiner-reports-card/examiner-reports-card';
 
 export interface ExaminerRecordsPageStateData {
   routeGrid: ExaminerRecordDataWithPercentage<string>[];
@@ -105,7 +130,33 @@ interface ExaminerRecordsState {
   selector: 'examiner-records',
   templateUrl: './examiner-records.page.html',
   styleUrls: ['./examiner-records.page.scss'],
-  standalone: false,
+  imports: [
+    IonHeader,
+    IonToolbar,
+    IonButtons,
+    IonButton,
+    IonIcon,
+    IonLabel,
+    IonTitle,
+    IonGrid,
+    ExaminerRecordsLabelTextComponent,
+    IonContent,
+    IonRow,
+    IonCol,
+    IonSelect,
+    IonSelectOption,
+    IonText,
+    ColourFilterRadioComponent,
+    FormsModule,
+    ReactiveFormsModule,
+    ExaminerReportsCard,
+    DataRowComponent,
+    IonCard,
+    IonCardHeader,
+    IonCardTitle,
+    IonCardContent,
+    AsyncPipe,
+  ],
 })
 export class ExaminerRecordsPage implements OnInit {
   merged$: Observable<ExaminerRecordModel[] | void>;

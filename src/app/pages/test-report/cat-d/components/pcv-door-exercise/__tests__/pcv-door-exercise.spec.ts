@@ -36,16 +36,8 @@ describe('PcvDoorExerciseComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        PcvDoorExerciseComponent,
-        MockComponent(CompetencyButtonComponent),
-        MockComponent(DrivingFaultsBadgeComponent),
-        MockComponent(SeriousFaultBadgeComponent),
-        MockComponent(DangerousFaultBadgeComponent),
-      ],
       imports: [
         AppModule,
-
         StoreModule.forRoot({
           journal: () => ({
             isLoading: false,
@@ -100,6 +92,11 @@ describe('PcvDoorExerciseComponent', () => {
           }),
           testReport: testReportReducer,
         }),
+        PcvDoorExerciseComponent,
+        MockComponent(CompetencyButtonComponent),
+        MockComponent(DrivingFaultsBadgeComponent),
+        MockComponent(SeriousFaultBadgeComponent),
+        MockComponent(DangerousFaultBadgeComponent),
       ],
       providers: [
         { provide: DateTimeProvider, useClass: DateTimeProviderMock },

@@ -8,7 +8,7 @@ describe('SpeedCardComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [SpeedCardComponent],
+      imports: [SpeedCardComponent],
     });
 
     fixture = TestBed.createComponent(SpeedCardComponent);

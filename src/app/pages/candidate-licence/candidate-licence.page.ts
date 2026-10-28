@@ -1,8 +1,20 @@
+import { AsyncPipe, NgClass } from '@angular/common';
 import { Component, Injector, OnInit } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { DriverLicenceSchema, DriverPhotograph } from '@dvsa/mes-driver-schema';
 import { CategoryCode } from '@dvsa/mes-test-schema/categories/common';
+import {
+  IonButton,
+  IonCol,
+  IonContent,
+  IonFooter,
+  IonGrid,
+  IonHeader,
+  IonRow,
+  IonText,
+  IonToolbar,
+} from '@ionic/angular';
 import { select } from '@ngrx/store';
 import {
   CandidateLicenceDataValidationError,
@@ -34,6 +46,13 @@ import { getCurrentTest, getJournalData } from '@store/tests/tests.selector';
 import { get } from 'lodash-es';
 import { Observable, of } from 'rxjs';
 import { catchError, filter, map, switchMap, take, tap, withLatestFrom } from 'rxjs/operators';
+import { InappropriateUseBannerComponent } from '../../../components/common/inappropriate-use-banner/inappropriate-use-banner';
+import { OfflineBannerComponent } from '../../../components/common/offline-banner/offline-banner';
+import { TestFlowHeaderComponent } from '../../../components/common/test-flow-header/test-flow-header.component';
+import { TrueLikenessComponent } from '../office/components/true-likeness/true-likeness';
+import { LicenceDataError } from './components/licence-data-error/licence-data-error';
+import { LicenceInformation } from './components/licence-information/licence-information';
+import { LicencePhoto } from './components/licence-photo/licence-photo';
 
 interface CandidateLicencePageState {
   candidateUntitledName$: Observable<string>;
@@ -50,7 +69,28 @@ interface CandidateLicencePageState {
   selector: 'app-candidate-licence',
   templateUrl: './candidate-licence.page.html',
   styleUrls: ['./candidate-licence.page.scss'],
-  standalone: false,
+  imports: [
+    IonHeader,
+    IonToolbar,
+    NgClass,
+    TestFlowHeaderComponent,
+    IonContent,
+    OfflineBannerComponent,
+    IonGrid,
+    InappropriateUseBannerComponent,
+    LicencePhoto,
+    LicenceDataError,
+    TrueLikenessComponent,
+    FormsModule,
+    ReactiveFormsModule,
+    LicenceInformation,
+    IonFooter,
+    IonRow,
+    IonCol,
+    IonButton,
+    IonText,
+    AsyncPipe,
+  ],
 })
 export class CandidateLicencePage extends PracticeableBasePageComponent implements OnInit {
   formGroup: FormGroup;

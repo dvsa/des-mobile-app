@@ -21,10 +21,8 @@ describe('reverseDiagramModal', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [ReverseDiagramPage],
       imports: [
         AppModule,
-
         StoreModule.forRoot({
           tests: () => ({
             currentTest: {
@@ -60,6 +58,7 @@ describe('reverseDiagramModal', () => {
             },
           }),
         }),
+        ReverseDiagramPage,
       ],
       providers: [
         { provide: Platform, useClass: PlatformMock },

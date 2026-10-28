@@ -1,5 +1,17 @@
+import { AsyncPipe, NgClass } from '@angular/common';
 import { Component, Injector, OnInit } from '@angular/core';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
+import {
+  IonCard,
+  IonCardContent,
+  IonCardHeader,
+  IonContent,
+  IonFooter,
+  IonGrid,
+  IonHeader,
+  IonToolbar,
+} from '@ionic/angular';
 import { select } from '@ngrx/store';
 import { behaviourMap } from '@pages/office/office-behaviour-map.cat-adi-part3';
 import { AppConfigProvider } from '@providers/app-config/app-config';
@@ -20,6 +32,15 @@ import { getTests } from '@store/tests/tests.reducer';
 import { getCurrentTest, getJournalData } from '@store/tests/tests.selector';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { ActivityCodeComponent } from '../../../../components/common/activity-code/activity-code';
+import { TestFlowHeaderComponent } from '../../../../components/common/test-flow-header/test-flow-header.component';
+import { AdditionalInformationComponent } from '../components/additional-information/additional-information';
+import { AlternateEvidenceDescriptionComponent } from '../components/alternate-mot-evidence-description/alternate-evidence-description.component';
+import { AlternateEvidenceProvidedComponent } from '../components/alternate-mot-evidence-provided/alternate-evidence-provided.component';
+import { CandidateSectionComponent } from '../components/candidate-section/candidate-section';
+import { OfficeFooterComponent } from '../components/office-footer/office-footer.component';
+import { OfficeRegistrationAndMotComponent } from '../components/office-registration-and-mot/office-registration-and-mot.component';
+import { ReasonForEnteringTeamsComponent } from '../components/reason-for-entering-teams/reason-for-entering-teams';
 
 interface CatADI3OfficePageState {
   testOutcomeGrade$: Observable<string>;
@@ -33,7 +54,29 @@ type OfficePageState = CommonOfficePageState & CatADI3OfficePageState;
   selector: 'app-office-cat-adi-part3',
   templateUrl: './office.cat-adi-part3.page.html',
   styleUrls: ['../../office/office.page.scss'],
-  standalone: false,
+  imports: [
+    IonHeader,
+    IonToolbar,
+    NgClass,
+    TestFlowHeaderComponent,
+    IonContent,
+    CandidateSectionComponent,
+    FormsModule,
+    ReactiveFormsModule,
+    IonCard,
+    IonCardHeader,
+    IonCardContent,
+    IonGrid,
+    ActivityCodeComponent,
+    OfficeRegistrationAndMotComponent,
+    AlternateEvidenceProvidedComponent,
+    AlternateEvidenceDescriptionComponent,
+    AdditionalInformationComponent,
+    ReasonForEnteringTeamsComponent,
+    IonFooter,
+    OfficeFooterComponent,
+    AsyncPipe,
+  ],
 })
 export class OfficeCatADI3Page extends OfficeBasePageComponent implements OnInit {
   pageState: OfficePageState;

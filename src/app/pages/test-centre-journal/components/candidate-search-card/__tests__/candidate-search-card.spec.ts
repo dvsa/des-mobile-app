@@ -17,8 +17,7 @@ describe('CandidateSearchCardComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [CandidateSearchCardComponent],
-      imports: [CommonModule, ComponentsModule, TestCentreJournalComponentsModule],
+      imports: [CommonModule, ComponentsModule, TestCentreJournalComponentsModule, CandidateSearchCardComponent],
       providers: [{ provide: ModalController, useClass: ModalControllerMock }, provideMockStore({ initialState: {} })],
     });
 

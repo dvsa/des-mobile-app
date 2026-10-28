@@ -12,7 +12,8 @@ import {
   ExitSamError,
   ExitSamSelected,
 } from '@components/common/test-flow-header/exit-sam.actions';
-import { DirectivesModule } from '@directives/directives.module';
+
+import { AddOrRemoveLangCyDirective } from '@directives/add-or-remove-lang-cy.directive';
 import {
   IonBackButton,
   IonButton,
@@ -40,7 +41,7 @@ export { ExitSAMMethodUsed } from '@providers/exitSAM/exitSAM';
     ComponentsModule,
     ExitSamBanner,
     ExitSamButton,
-    DirectivesModule,
+    AddOrRemoveLangCyDirective,
     PracticeModeExitButton,
     PracticeModeBanner,
     IonRow,

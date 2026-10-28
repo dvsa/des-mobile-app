@@ -14,8 +14,7 @@ describe('SpeedCheckModal', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [SpeedCheckModal],
-      imports: [AppModule, ComponentsModule],
+      imports: [AppModule, ComponentsModule, SpeedCheckModal],
       providers: [{ provide: ModalController, useClass: ModalControllerMock }],
     });
 

@@ -1,5 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { WarningBannerComponent } from '@components/common/warning-banner/warning-banner';
+import { IonCol, IonRow } from '@ionic/angular';
 
 enum AlternateEvidenceTestResult {
   Pass = 'P',
@@ -9,7 +11,7 @@ enum AlternateEvidenceTestResult {
   selector: 'alternate-mot-evidence',
   templateUrl: './alternate-mot-evidence.component.html',
   styleUrls: ['./alternate-mot-evidence.component.scss'],
-  standalone: false,
+  imports: [IonRow, FormsModule, ReactiveFormsModule, IonCol, WarningBannerComponent],
 })
 export class AlternateMotEvidenceComponent implements OnInit {
   formControl: UntypedFormControl = null;

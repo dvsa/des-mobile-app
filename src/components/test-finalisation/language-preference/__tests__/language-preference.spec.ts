@@ -9,8 +9,7 @@ describe('LanguagePreferencesComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [LanguagePreferencesComponent],
-      imports: [AppModule],
+      imports: [AppModule, LanguagePreferencesComponent],
     });
 
     fixture = TestBed.createComponent(LanguagePreferencesComponent);

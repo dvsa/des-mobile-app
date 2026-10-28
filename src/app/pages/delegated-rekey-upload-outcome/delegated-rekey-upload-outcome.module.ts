@@ -20,7 +20,6 @@ import { DelegatedRekeyUploadOutcomePageRoutingModule } from '@pages/delegated-r
 import { DelegatedRekeyUploadOutcomePage } from './delegated-rekey-upload-outcome';
 
 @NgModule({
-  declarations: [DelegatedRekeyUploadOutcomePage],
   imports: [
     ComponentsModule,
     CommonModule,
@@ -37,6 +36,7 @@ import { DelegatedRekeyUploadOutcomePage } from './delegated-rekey-upload-outcom
     IonToolbar,
     IonHeader,
     IonIcon,
+    DelegatedRekeyUploadOutcomePage,
   ],
 })
 export class DelegatedRekeyUploadOutcomePageModule {}

@@ -11,8 +11,7 @@ describe('IdentificationComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [IdentificationComponent],
-
+      imports: [IdentificationComponent],
       providers: [
         provideMockStore({ ...{} }),
         { provide: OutcomeBehaviourMapProvider, useClass: OutcomeBehaviourMapProvider },

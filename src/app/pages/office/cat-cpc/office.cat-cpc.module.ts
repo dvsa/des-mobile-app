@@ -3,14 +3,12 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { AssessmentReportComponent } from '@pages/office/cat-cpc/components/assessment-report/assessment-report';
-import { PipesModule } from '@shared/pipes/pipes.module';
 
 import { ComponentsModule } from '@components/common/common-components.module';
 import { PracticeModeBanner } from '@components/common/practice-mode-banner/practice-mode-banner';
 import { PracticeModeExitButton } from '@components/common/practice-mode-exit-button/practice-mode-exit-button';
 import { TestFlowHeaderComponent } from '@components/common/test-flow-header/test-flow-header.component';
-import { TestFinalisationComponentsModule } from '@components/test-finalisation/test-finalisation-components.module';
-import { DirectivesModule } from '@directives/directives.module';
+
 import {
   IonCard,
   IonCardContent,
@@ -38,25 +36,16 @@ import { OfficeCatCPCPageRoutingModule } from './office.cat-cpc-routing.module';
 import { OfficeCatCPCPage } from './office.cat-cpc.page';
 
 @NgModule({
-  declarations: [
-    OfficeCatCPCPage,
-    AssessmentReportComponent,
-    CombinationComponent,
-    PassCertificateDeclarationComponent,
-  ],
   imports: [
     CommonModule,
     FormsModule,
-    PipesModule,
     OfficeCatCPCPageRoutingModule,
     ReactiveFormsModule,
     EffectsModule.forFeature([OfficeAnalyticsEffects, OfficeEffects]),
     ComponentsModule,
     OfficeComponentsModule,
-    TestFinalisationComponentsModule,
     PassFinalisationComponentsModule,
     WaitingRoomToCarCatCPCComponentsModule,
-    DirectivesModule,
     ReasonForEnteringTeamsComponent,
     OfficeRegistrationAndMotComponent,
     PracticeModeBanner,
@@ -72,6 +61,10 @@ import { OfficeCatCPCPage } from './office.cat-cpc.page';
     IonGrid,
     IonCardContent,
     IonFooter,
+    OfficeCatCPCPage,
+    AssessmentReportComponent,
+    CombinationComponent,
+    PassCertificateDeclarationComponent,
   ],
   providers: [FaultSummaryProvider],
 })

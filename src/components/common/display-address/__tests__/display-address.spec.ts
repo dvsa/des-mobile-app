@@ -8,7 +8,7 @@ describe('DisplayAddressComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [DisplayAddressComponent],
+      imports: [DisplayAddressComponent],
     });
 
     fixture = TestBed.createComponent(DisplayAddressComponent);

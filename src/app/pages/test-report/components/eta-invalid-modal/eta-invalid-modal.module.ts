@@ -5,8 +5,7 @@ import { IonCard, IonCol, IonRow } from '@ionic/angular';
 import { EtaInvalidModal } from './eta-invalid-modal';
 
 @NgModule({
-  declarations: [EtaInvalidModal],
-  imports: [ComponentsModule, IonRow, IonCol, IonCard],
+  imports: [ComponentsModule, IonRow, IonCol, IonCard, EtaInvalidModal],
   exports: [EtaInvalidModal],
 })
 export class EtaInvalidModalModule {}

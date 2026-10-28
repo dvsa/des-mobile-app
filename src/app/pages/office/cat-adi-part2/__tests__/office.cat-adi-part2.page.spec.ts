@@ -85,31 +85,8 @@ describe('OfficeCatADI2Page', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        OfficeCatADI2Page,
-        MockComponent(OfficeFooterComponent),
-        MockComponent(RouteNumberComponent),
-        MockComponent(CandidateDescriptionComponent),
-        MockComponent(IdentificationComponent),
-        MockComponent(WeatherConditionsComponent),
-        MockComponent(AdditionalInformationComponent),
-        MockComponent(IndependentDrivingComponent),
-        MockComponent(FaultCommentCardComponent),
-        MockComponent(CandidateSectionComponent),
-        MockComponent(DateOfTest),
-        MockComponent(TrueLikenessComponent),
-        MockComponent(AccompanimentCardComponent),
-        MockComponent(OfficeRegistrationAndMotComponent),
-        MockComponent(AccompanimentComponent),
-        MockComponent(ShowMeQuestionsCatADI2Component),
-        MockComponent(VehicleChecksOfficeCardCatADI2Component),
-        MockComponent(DrivingFaultsComponent),
-        MockComponent(TestFlowHeaderComponent),
-        MockComponent(VehicleDetailsCardComponent),
-      ],
       imports: [
         PipesModule,
-
         AppModule,
         ComponentsModule,
         StoreModule.forRoot({
@@ -149,6 +126,26 @@ describe('OfficeCatADI2Page', () => {
           }),
         }),
         ReactiveFormsModule,
+        OfficeCatADI2Page,
+        MockComponent(OfficeFooterComponent),
+        MockComponent(RouteNumberComponent),
+        MockComponent(CandidateDescriptionComponent),
+        MockComponent(IdentificationComponent),
+        MockComponent(WeatherConditionsComponent),
+        MockComponent(AdditionalInformationComponent),
+        MockComponent(IndependentDrivingComponent),
+        MockComponent(FaultCommentCardComponent),
+        MockComponent(CandidateSectionComponent),
+        MockComponent(DateOfTest),
+        MockComponent(TrueLikenessComponent),
+        MockComponent(AccompanimentCardComponent),
+        MockComponent(OfficeRegistrationAndMotComponent),
+        MockComponent(AccompanimentComponent),
+        MockComponent(ShowMeQuestionsCatADI2Component),
+        MockComponent(VehicleChecksOfficeCardCatADI2Component),
+        MockComponent(DrivingFaultsComponent),
+        MockComponent(TestFlowHeaderComponent),
+        MockComponent(VehicleDetailsCardComponent),
       ],
       providers: [
         {

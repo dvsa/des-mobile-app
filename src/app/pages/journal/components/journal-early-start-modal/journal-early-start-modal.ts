@@ -1,18 +1,19 @@
 import { Component, Input } from '@angular/core';
 import { SlotDetail } from '@dvsa/mes-journal-schema';
-import { ModalController } from '@ionic/angular';
+import { IonButton, IonCard, IonCol, IonRow, IonText, ModalController } from '@ionic/angular';
 import { Store } from '@ngrx/store';
 import { StoreModel } from '@shared/models/store.model';
 import { EarlyStartDidContinue, EarlyStartDidReturn } from '@store/journal/journal.actions';
 
 import { DateTime } from '@shared/helpers/date-time';
+import { ModalAlertTitleComponent } from '../../../../../components/common/modal-alert-title/modal-alert-title';
 import { ModalEvent } from './journal-early-start-modal.constants';
 
 @Component({
   selector: 'journal-early-start-modal',
   templateUrl: './journal-early-start-modal.html',
   styleUrls: ['./journal-early-start-modal.scss'],
-  standalone: false,
+  imports: [IonCard, ModalAlertTitleComponent, IonRow, IonCol, IonButton, IonText],
 })
 export class JournalEarlyStartModal {
   @Input()

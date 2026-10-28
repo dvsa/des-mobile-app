@@ -1,5 +1,7 @@
+import { NgClass } from '@angular/common';
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { CategoryCode } from '@dvsa/mes-test-schema/categories/common';
+import { IonCol, IonGrid, IonRow } from '@ionic/angular';
 import { Store, select } from '@ngrx/store';
 import { TestDataByCategoryProvider } from '@providers/test-data-by-category/test-data-by-category';
 import { trDestroy$ } from '@shared/classes/test-flow-base-pages/test-report/test-report-base-page';
@@ -17,9 +19,14 @@ import { getCurrentTest } from '@store/tests/tests.selector';
 import { get } from 'lodash-es';
 import { Observable, Subscription, merge } from 'rxjs';
 import { map, takeUntil } from 'rxjs/operators';
+import { DangerousFaultBadgeComponent } from '../../../../../components/common/dangerous-fault-badge/dangerous-fault-badge';
+import { DrivingFaultsBadgeComponent } from '../../../../../components/common/driving-faults-badge/driving-faults-badge';
+import { SeriousFaultBadgeComponent } from '../../../../../components/common/serious-fault-badge/serious-fault-badge';
+import { TickIndicatorComponent } from '../../../../../components/common/tick-indicator/tick-indicator';
 import { ToggleDangerousFaultMode, ToggleRemoveFaultMode, ToggleSeriousFaultMode } from '../../test-report.actions';
 import { getTestReportState } from '../../test-report.reducer';
 import { isDangerousMode, isRemoveFaultMode, isSeriousMode } from '../../test-report.selector';
+import { CompetencyButtonComponent } from '../competency-button/competency-button';
 
 interface UncoupleRecoupleComponentState {
   isRemoveFaultMode$: Observable<boolean>;
@@ -33,7 +40,17 @@ interface UncoupleRecoupleComponentState {
   selector: 'uncouple-recouple',
   templateUrl: 'uncouple-recouple.html',
   styleUrls: ['uncouple-recouple.scss'],
-  standalone: false,
+  imports: [
+    IonGrid,
+    IonRow,
+    IonCol,
+    CompetencyButtonComponent,
+    NgClass,
+    TickIndicatorComponent,
+    DrivingFaultsBadgeComponent,
+    SeriousFaultBadgeComponent,
+    DangerousFaultBadgeComponent,
+  ],
 })
 export class UncoupleRecoupleComponent implements OnInit, OnDestroy {
   @Input()

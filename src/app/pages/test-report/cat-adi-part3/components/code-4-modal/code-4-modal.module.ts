@@ -6,8 +6,7 @@ import { IonButton, IonCard, IonCol, IonRow } from '@ionic/angular';
 import { Code4Modal } from '@pages/test-report/cat-adi-part3/components/code-4-modal/code-4-modal';
 
 @NgModule({
-  declarations: [Code4Modal],
   exports: [Code4Modal],
-  imports: [CommonModule, ComponentsModule, IonCol, IonRow, IonButton, IonCard],
+  imports: [CommonModule, ComponentsModule, IonCol, IonRow, IonButton, IonCard, Code4Modal],
 })
 export class Code4ModalModule {}

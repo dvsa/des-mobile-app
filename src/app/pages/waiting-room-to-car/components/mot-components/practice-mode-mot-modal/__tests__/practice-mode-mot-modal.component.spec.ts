@@ -14,8 +14,7 @@ describe('PracticeModeMOTModal', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [PracticeModeMOTModal, MockComponent(ModalAlertTitleComponent)],
-      imports: [ReactiveFormsModule],
+      imports: [ReactiveFormsModule, PracticeModeMOTModal, MockComponent(ModalAlertTitleComponent)],
       providers: [{ provide: ModalController, useClass: ModalControllerMock }],
     }).compileComponents();
 

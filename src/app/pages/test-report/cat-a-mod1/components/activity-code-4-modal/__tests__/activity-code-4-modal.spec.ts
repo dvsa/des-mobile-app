@@ -14,8 +14,7 @@ describe('ActivityCode4Modal', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [ActivityCode4Modal],
-      imports: [AppModule, ComponentsModule],
+      imports: [AppModule, ComponentsModule, ActivityCode4Modal],
       providers: [{ provide: ModalController, useClass: ModalControllerMock }],
     });
 

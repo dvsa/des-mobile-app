@@ -11,7 +11,6 @@ import { ExaminerReportsCard } from '@pages/examiner-records/components/examiner
 import { CompressionProvider } from '@providers/compression/compression';
 
 @NgModule({
-  declarations: [ColourFilterRadioComponent, ExaminerReportsCard],
   imports: [
     CommonModule,
     ComponentsModule,
@@ -26,6 +25,8 @@ import { CompressionProvider } from '@providers/compression/compression';
     IonCardContent,
     IonCard,
     IonIcon,
+    ColourFilterRadioComponent,
+    ExaminerReportsCard,
   ],
   providers: [CompressionProvider],
   exports: [ColourFilterRadioComponent, ExaminerReportsCard],

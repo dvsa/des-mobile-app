@@ -11,8 +11,7 @@ describe('DrivingFaultsComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [DrivingFaultsComponent],
-      imports: [OfficeComponentsModule],
+      imports: [OfficeComponentsModule, DrivingFaultsComponent],
     });
 
     fixture = TestBed.createComponent(DrivingFaultsComponent);

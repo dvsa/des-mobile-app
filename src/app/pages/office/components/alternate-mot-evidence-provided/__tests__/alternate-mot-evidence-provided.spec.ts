@@ -9,8 +9,7 @@ describe('AlternateEvidenceProvidedComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [AlternateEvidenceProvidedComponent],
-      imports: [CommonModule, ComponentsModule],
+      imports: [CommonModule, ComponentsModule, AlternateEvidenceProvidedComponent],
     });
   });
 

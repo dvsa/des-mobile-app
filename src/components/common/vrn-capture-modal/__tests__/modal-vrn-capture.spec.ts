@@ -16,8 +16,7 @@ describe('VRNCaptureModal', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [VRNCaptureModal],
-      imports: [FormsModule, ReactiveFormsModule, CommonModule],
+      imports: [FormsModule, ReactiveFormsModule, CommonModule, VRNCaptureModal],
       providers: [
         { provide: ModalController, useClass: ModalControllerMock },
         { provide: Store, useClass: StoreMock },

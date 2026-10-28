@@ -20,8 +20,7 @@ describe('AccompanimentCardCatCPCComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      declarations: [AccompanimentCardCatCPCComponent],
-      imports: [AppModule, ReactiveFormsModule],
+      imports: [AppModule, ReactiveFormsModule, AccompanimentCardCatCPCComponent],
       providers: [
         {
           provide: RouteByCategoryProvider,

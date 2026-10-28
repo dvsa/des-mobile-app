@@ -1,5 +1,6 @@
 import { AfterContentInit, Component, ContentChildren, EventEmitter, Output, QueryList } from '@angular/core';
 
+import { IonText } from '@ionic/angular';
 import { transformStringForID } from '@shared/helpers/transform-string-for-id';
 import { TabComponent } from '../tab/tab';
 
@@ -7,7 +8,7 @@ import { TabComponent } from '../tab/tab';
   selector: 'tabs',
   templateUrl: 'tabs.html',
   styleUrls: ['tabs.scss'],
-  standalone: false,
+  imports: [IonText],
 })
 export class TabsComponent implements AfterContentInit {
   @ContentChildren(TabComponent) tabs: QueryList<TabComponent>;

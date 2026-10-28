@@ -1,11 +1,14 @@
 import { Component, Input } from '@angular/core';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
+import { IonCard, IonCardContent, IonCardHeader, IonCol, IonRow } from '@ionic/angular';
 import { FaultSummary } from '@shared/models/fault-marking.model';
+import { DrivingFaultsBadgeComponent } from '../../../../../components/common/driving-faults-badge/driving-faults-badge';
+import { ModifyCompetencyLabel } from '../../../../shared/pipes/modifyCompetencyLabel';
 
 @Component({
   selector: 'driving-faults',
   templateUrl: './driving-faults.component.html',
-  standalone: false,
+  imports: [IonCard, IonCardHeader, IonCardContent, IonRow, IonCol, DrivingFaultsBadgeComponent, ModifyCompetencyLabel],
 })
 export class DrivingFaultsComponent {
   @Input()

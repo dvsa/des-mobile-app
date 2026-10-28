@@ -1,10 +1,12 @@
+import { DatePipe, NgClass } from '@angular/common';
 import { Component, Input, OnInit } from '@angular/core';
+import { IonText } from '@ionic/angular';
 
 @Component({
   selector: 'time',
   templateUrl: 'time.html',
   styleUrls: ['time.scss'],
-  standalone: false,
+  imports: [IonText, NgClass, DatePipe],
 })
 export class TimeComponent implements OnInit {
   @Input()

@@ -10,8 +10,7 @@ describe('AccompanimentComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [AccompanimentComponent],
-      imports: [AppModule, ReactiveFormsModule, PipesModule],
+      imports: [AppModule, ReactiveFormsModule, PipesModule, AccompanimentComponent],
     });
 
     fixture = TestBed.createComponent(AccompanimentComponent);

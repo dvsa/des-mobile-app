@@ -26,8 +26,12 @@ describe('BackToOfficePage', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [BackToOfficePage, MockComponent(PracticeModeOptionsBar)],
-      imports: [AppModule, MockComponent(TestFlowHeaderComponent)],
+      imports: [
+        AppModule,
+        MockComponent(TestFlowHeaderComponent),
+        BackToOfficePage,
+        MockComponent(PracticeModeOptionsBar),
+      ],
       providers: [
         provideMockStore({
           initialState: {

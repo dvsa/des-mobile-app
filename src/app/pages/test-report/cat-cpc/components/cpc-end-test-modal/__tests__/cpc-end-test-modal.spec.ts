@@ -17,8 +17,7 @@ describe('CPCEndTestModal', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [CPCEndTestModal, MockComponent(ModalResultItemComponent)],
-      imports: [AppModule],
+      imports: [AppModule, CPCEndTestModal, MockComponent(ModalResultItemComponent)],
       providers: [
         {
           provide: ModalController,

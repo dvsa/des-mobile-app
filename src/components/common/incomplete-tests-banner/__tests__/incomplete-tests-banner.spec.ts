@@ -16,12 +16,12 @@ describe('IncompleteTestsBanner', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [IncompleteTestsBanner],
       imports: [
         StoreModule.forRoot({
           tests: testsReducer,
           journal: journalReducer,
         }),
+        IncompleteTestsBanner,
       ],
       providers: [
         { provide: DateTimeProvider, useClass: DateTimeProviderMock },

@@ -140,7 +140,6 @@ describe('TestOutcomeComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [TestOutcomeComponent],
       imports: [
         StoreModule.forRoot({
           tests: () => ({
@@ -159,6 +158,7 @@ describe('TestOutcomeComponent', () => {
           rekeySearch: () => ({ bookedTestSlot: {} }),
         }),
         TestSlotComponentsModule,
+        TestOutcomeComponent,
       ],
       providers: [
         { provide: ModalController, useClass: ModalControllerMock },

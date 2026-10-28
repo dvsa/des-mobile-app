@@ -10,8 +10,7 @@ describe('ExaminerReportsCard', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [ExaminerReportsCard],
-
+      imports: [ExaminerReportsCard],
       providers: [
         provideMockStore({ ...{} }),
         { provide: OutcomeBehaviourMapProvider, useClass: OutcomeBehaviourMapProvider },

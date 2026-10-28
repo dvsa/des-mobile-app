@@ -1,13 +1,15 @@
+import { NgClass } from '@angular/common';
 import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
-import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { QuestionOutcome, SafetyQuestionResult } from '@dvsa/mes-test-schema/categories/common';
+import { IonCol, IonRow } from '@ionic/angular';
 import { uniqueId } from 'lodash-es';
 
 @Component({
   selector: 'safety-question',
   templateUrl: 'safety-question.html',
   styleUrls: ['safety-questions.scss'],
-  standalone: false,
+  imports: [IonRow, FormsModule, ReactiveFormsModule, NgClass, IonCol],
 })
 export class SafetyQuestionComponent implements OnChanges {
   @Input()

@@ -13,7 +13,6 @@ import { PassCertificatesPage } from './pass-certificates.page';
   imports: [
     CommonModule,
     FormsModule,
-
     PassCertificatesPageRoutingModule,
     EffectsModule.forFeature([PassCertificatesAnalyticsEffects]),
     IonContent,
@@ -22,7 +21,7 @@ import { PassCertificatesPage } from './pass-certificates.page';
     IonButtons,
     IonToolbar,
     IonHeader,
+    PassCertificatesPage,
   ],
-  declarations: [PassCertificatesPage],
 })
 export class PassCertificatesPageModule {}

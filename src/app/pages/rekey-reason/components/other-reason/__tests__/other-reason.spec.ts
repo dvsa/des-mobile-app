@@ -15,8 +15,7 @@ describe('OtherReasonComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [OtherReasonComponent, MockDirective(CharacterCountDirective)],
-      imports: [AppModule, ReactiveFormsModule],
+      imports: [AppModule, ReactiveFormsModule, OtherReasonComponent, MockDirective(CharacterCountDirective)],
       providers: [{ providers: CharacterCountService, useValue: CharacterCountService }],
     });
 

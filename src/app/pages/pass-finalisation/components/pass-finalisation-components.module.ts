@@ -2,7 +2,6 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ComponentsModule } from '@components/common/common-components.module';
-import { DirectivesModule } from '@directives/directives.module';
 
 import { IonCol, IonInput, IonRow } from '@ionic/angular';
 import { ApplicationReferenceComponent } from '@pages/pass-finalisation/components/application-reference/application-reference';
@@ -12,14 +11,19 @@ import { LicenseProvidedComponent } from '@pages/pass-finalisation/components/li
 import { PassCertificateNumberComponent } from './pass-certificate-number/pass-certificate-number';
 
 @NgModule({
-  declarations: [
+  imports: [
+    CommonModule,
+    ComponentsModule,
+    ReactiveFormsModule,
+    IonCol,
+    IonRow,
+    IonInput,
     LicenseProvidedComponent,
     PassCertificateNumberComponent,
     Code78Component,
     LicenceProvidedWarningBannerComponent,
     ApplicationReferenceComponent,
   ],
-  imports: [CommonModule, ComponentsModule, DirectivesModule, ReactiveFormsModule, IonCol, IonRow, IonInput],
   exports: [
     LicenseProvidedComponent,
     PassCertificateNumberComponent,

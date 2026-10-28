@@ -14,8 +14,14 @@ describe('CandidateLinkComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [CandidateLinkComponent],
-      imports: [AppModule, ComponentsModule, CommonModule, CandidateDetailsPageModule, StoreModule.forRoot({})],
+      imports: [
+        AppModule,
+        ComponentsModule,
+        CommonModule,
+        CandidateDetailsPageModule,
+        StoreModule.forRoot({}),
+        CandidateLinkComponent,
+      ],
     });
 
     fixture = TestBed.createComponent(CandidateLinkComponent);

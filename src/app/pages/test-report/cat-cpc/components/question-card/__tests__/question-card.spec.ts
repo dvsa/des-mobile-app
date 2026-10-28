@@ -14,8 +14,7 @@ describe('QuestionCardComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      declarations: [
+      imports: [
         QuestionCardComponent,
         MockComponent(QuestionTitleComponent),
         MockComponent(QuestionSubtitleComponent),
@@ -23,6 +22,7 @@ describe('QuestionCardComponent', () => {
         MockComponent(QuestionScoreComponent),
         MockComponent(AdditionalItemsComponent),
       ],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
     });
 
     fixture = TestBed.createComponent(QuestionCardComponent);

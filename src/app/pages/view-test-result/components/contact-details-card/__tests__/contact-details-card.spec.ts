@@ -13,7 +13,7 @@ describe('ContactDetailsCardComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [
+      imports: [
         ContactDetailsCardComponent,
         MockComponent(DataRowComponent),
         MockComponent(DataRowCustomComponent),

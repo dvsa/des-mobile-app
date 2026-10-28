@@ -19,7 +19,6 @@ import { BackToOfficePage } from './back-to-office.page';
   imports: [
     CommonModule,
     FormsModule,
-
     BackToOfficePageRoutingModule,
     ComponentsModule,
     EffectsModule.forFeature([BackToOfficeEffects, BackToOfficeAnalyticsEffects]),
@@ -34,7 +33,8 @@ import { BackToOfficePage } from './back-to-office.page';
     IonContent,
     IonToolbar,
     IonHeader,
+    BackToOfficePage,
+    AsamFailureNotificationModal,
   ],
-  declarations: [BackToOfficePage, AsamFailureNotificationModal],
 })
 export class BackToOfficePageModule {}

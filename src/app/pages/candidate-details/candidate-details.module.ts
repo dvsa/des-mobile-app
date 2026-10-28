@@ -28,7 +28,6 @@ import { CandidateDetailsPage } from './candidate-details.page';
   imports: [
     CommonModule,
     FormsModule,
-
     ComponentsModule,
     CandidateDetailsComponentsModule,
     EffectsModule.forFeature([CandidateDetailsAnalyticsEffects]),
@@ -46,7 +45,7 @@ import { CandidateDetailsPage } from './candidate-details.page';
     IonCard,
     IonCardContent,
     IonCol,
+    CandidateDetailsPage,
   ],
-  declarations: [CandidateDetailsPage],
 })
 export class CandidateDetailsPageModule {}

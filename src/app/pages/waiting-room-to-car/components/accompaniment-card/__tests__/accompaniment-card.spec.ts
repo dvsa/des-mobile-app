@@ -10,8 +10,7 @@ describe('AccompanimentCardComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [AccompanimentCardComponent],
-      imports: [AppModule, ReactiveFormsModule, PipesModule],
+      imports: [AppModule, ReactiveFormsModule, PipesModule, AccompanimentCardComponent],
     });
 
     fixture = TestBed.createComponent(AccompanimentCardComponent);

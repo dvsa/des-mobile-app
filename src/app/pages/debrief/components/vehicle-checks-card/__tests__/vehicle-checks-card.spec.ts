@@ -18,8 +18,7 @@ describe('VehicleChecksCardComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [VehicleChecksCardComponent],
-      imports: [TranslateModule.forRoot()],
+      imports: [TranslateModule.forRoot(), VehicleChecksCardComponent],
       providers: [
         provideHttpClient(withInterceptorsFromDi()),
         provideTranslateService({

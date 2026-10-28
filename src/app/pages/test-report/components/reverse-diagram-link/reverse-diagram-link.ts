@@ -11,7 +11,6 @@ import { ReverseDiagramClosed, ReverseDiagramOpened } from '../reverse-diagram-m
   selector: 'reverse-diagram-link',
   templateUrl: 'reverse-diagram-link.html',
   styleUrls: ['reverse-diagram-link.scss'],
-  standalone: false,
 })
 export class ReverseDiagramLinkComponent {
   @Input()

@@ -12,8 +12,7 @@ describe('FurtherDevelopmentComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [FurtherDevelopmentComponent],
-      imports: [AppModule, ReactiveFormsModule],
+      imports: [AppModule, ReactiveFormsModule, FurtherDevelopmentComponent],
     });
 
     fixture = TestBed.createComponent(FurtherDevelopmentComponent);

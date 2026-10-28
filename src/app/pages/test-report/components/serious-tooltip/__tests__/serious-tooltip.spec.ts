@@ -7,7 +7,7 @@ describe('SeriousTooltipComponenet', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [SeriousTooltipComponent],
+      imports: [SeriousTooltipComponent],
     });
 
     fixture = TestBed.createComponent(SeriousTooltipComponent);

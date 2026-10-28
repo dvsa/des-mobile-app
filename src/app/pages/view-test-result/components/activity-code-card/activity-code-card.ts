@@ -1,12 +1,14 @@
 import { Component, Input } from '@angular/core';
+import { IonCard, IonCardContent, IonCardHeader, IonGrid } from '@ionic/angular';
 import { ActivityCodeDescription } from '@shared/constants/activity-code/activity-code.constants';
 import { getEnumKeyByValue } from '@shared/helpers/enum-keys';
 import { ActivityCodes } from '@shared/models/activity-codes';
+import { DataRowComponent } from '../../../../../components/common/data-row/data-row';
 
 @Component({
   selector: 'activity-code-card',
   templateUrl: './activity-code-card.html',
-  standalone: false,
+  imports: [IonCard, IonCardHeader, IonCardContent, IonGrid, DataRowComponent],
 })
 export class ActivityCodeCard {
   @Input() activityCode: string;

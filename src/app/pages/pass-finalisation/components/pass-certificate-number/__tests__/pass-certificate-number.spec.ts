@@ -15,8 +15,7 @@ describe('PassCertificateNumberComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [PassCertificateNumberComponent],
-
+      imports: [PassCertificateNumberComponent],
       providers: [
         PassCertificateValidationProvider,
         {

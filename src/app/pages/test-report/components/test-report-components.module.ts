@@ -10,7 +10,7 @@ import { ControlledStopComponent } from './controlled-stop/controlled-stop';
 import { DangerousTooltipComponent } from './dangerous-tooltip/dangerous-tooltip';
 import { DrivingFaultSummaryComponent } from './driving-fault-summary/driving-fault-summary';
 import { EcoComponent } from './eco/eco';
-import { EndTestModalModule } from './end-test-modal/end-test-modal.module';
+
 import { EtaInvalidModalModule } from './eta-invalid-modal/eta-invalid-modal.module';
 import { EtaComponent } from './examiner-takes-action/eta';
 import { LegalRequirementComponent } from './legal-requirement/legal-requirement';
@@ -21,13 +21,24 @@ import { ReverseDiagramPageModule } from './reverse-diagram-modal/reverse-diagra
 import { SeriousTooltipComponent } from './serious-tooltip/serious-tooltip';
 import { SingleFaultCompetencyComponent } from './single-fault-competency/single-fault-competency';
 import { SpecialLegalRequirementModalModule } from './special-legal-requirement-modal/special-legal-requirement-modal.module';
-import { TestFinalisationInvalidTestDataModalModule } from './test-finalisation-invalid-test-data-modal/test-finalisation-invalid-test-data-modal.module';
+
 import { TimerComponent } from './timer/timer';
 import { ToolbarComponent } from './toolbar/toolbar';
 import { UncoupleRecoupleComponent } from './uncouple-recouple/uncouple-recouple';
 
 @NgModule({
-  declarations: [
+  imports: [
+    ComponentsModule,
+    CommonModule,
+    LegalRequirementsModalModule,
+    SpecialLegalRequirementModalModule,
+    EtaInvalidModalModule,
+    ReverseDiagramPageModule,
+    IonCol,
+    IonRow,
+    IonText,
+    IonButton,
+    IonGrid,
     EtaComponent,
     CompetencyComponent,
     SingleFaultCompetencyComponent,
@@ -44,22 +55,6 @@ import { UncoupleRecoupleComponent } from './uncouple-recouple/uncouple-recouple
     UncoupleRecoupleComponent,
     ControlledStopComponent,
     HighwayCodeSafetyComponent,
-  ],
-  imports: [
-    ComponentsModule,
-    CommonModule,
-
-    EndTestModalModule,
-    LegalRequirementsModalModule,
-    SpecialLegalRequirementModalModule,
-    EtaInvalidModalModule,
-    TestFinalisationInvalidTestDataModalModule,
-    ReverseDiagramPageModule,
-    IonCol,
-    IonRow,
-    IonText,
-    IonButton,
-    IonGrid,
   ],
   exports: [
     EtaComponent,

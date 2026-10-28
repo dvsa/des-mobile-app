@@ -11,8 +11,7 @@ describe('TellMeQuestionOutcomeComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [TellMeQuestionOutcomeComponent],
-      imports: [AppModule, ReactiveFormsModule],
+      imports: [AppModule, ReactiveFormsModule, TellMeQuestionOutcomeComponent],
     });
 
     fixture = TestBed.createComponent(TellMeQuestionOutcomeComponent);

@@ -53,7 +53,6 @@ describe('LoginPage', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [LoginPage],
       imports: [
         RouterModule.forRoot([
           {
@@ -62,6 +61,7 @@ describe('LoginPage', () => {
           },
         ]),
         StoreModule.forRoot({}),
+        LoginPage,
       ],
       providers: [
         {

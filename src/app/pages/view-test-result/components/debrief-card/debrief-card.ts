@@ -1,7 +1,9 @@
+import { NgClass } from '@angular/common';
 import { Component, Input, OnInit } from '@angular/core';
 import { CatADI2UniqueTypes } from '@dvsa/mes-test-schema/categories/ADI2';
 import { QuestionResult, SafetyQuestionResult } from '@dvsa/mes-test-schema/categories/common';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
+import { IonCard, IonCardContent, IonCardHeader, IonCol, IonGrid, IonRow } from '@ionic/angular';
 import { flattenArray } from '@pages/view-test-result/view-test-result-helpers';
 import { AccessibilityService } from '@providers/accessibility/accessibility.service';
 import { QuestionProvider } from '@providers/question/question';
@@ -12,17 +14,47 @@ import { isAnyOf, isBikeTest } from '@shared/helpers/simplifiers';
 import { FaultSummary } from '@shared/models/fault-marking.model';
 import { TestDataUnion } from '@shared/unions/test-schema-unions';
 import { get } from 'lodash-es';
+import { DataRowCustomComponent } from '../../../../../components/common/data-row-custom/data-row-custom';
+import { DataRowComponent } from '../../../../../components/common/data-row/data-row';
+import { DrivingFaultsBadgeComponent } from '../../../../../components/common/driving-faults-badge/driving-faults-badge';
+import { TickIndicatorComponent } from '../../../../../components/common/tick-indicator/tick-indicator';
+import { DataRowWithListComponent } from '../data-row-with-list/data-list-with-row';
 import {
   DataRowListItem,
   TestRequirementsLabels,
   ViewTestResultLabels,
 } from '../data-row-with-list/data-list-with-row.model';
+import { EtaCardComponent } from '../eta-card/eta-card.component';
+import { FaultsDataRowComponent } from '../faults-data-row/faults-data-row';
+import { SafetyAndBalanceDataRowComponent } from '../safety-and-balance-data-row/safety-and-balance-data-row';
+import { SafetyDataRowComponent } from '../safety-question-data-row/safety-question-data-row';
+import { SpeedCardComponent } from '../speed-card/speed-card';
+import { VehicleChecksDataRowComponent } from '../vehicle-checks-data-row/vehicle-checks-data-row';
 
 @Component({
   selector: 'debrief-card',
   templateUrl: 'debrief-card.html',
   styleUrls: ['debrief-card.scss'],
-  standalone: false,
+  imports: [
+    IonCard,
+    IonCardHeader,
+    IonCardContent,
+    IonGrid,
+    DataRowWithListComponent,
+    DataRowComponent,
+    DataRowCustomComponent,
+    IonRow,
+    IonCol,
+    NgClass,
+    TickIndicatorComponent,
+    DrivingFaultsBadgeComponent,
+    FaultsDataRowComponent,
+    EtaCardComponent,
+    VehicleChecksDataRowComponent,
+    SpeedCardComponent,
+    SafetyDataRowComponent,
+    SafetyAndBalanceDataRowComponent,
+  ],
 })
 export class DebriefCardComponent implements OnInit {
   @Input()

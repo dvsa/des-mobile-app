@@ -1,5 +1,7 @@
 import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
-import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule, UntypedFormControl, UntypedFormGroup } from '@angular/forms';
+import { IonCol, IonInput, IonRow, IonText } from '@ionic/angular';
+import { MaskitoDirective } from '@maskito/angular';
 import { MaskitoElementPredicate, MaskitoOptions } from '@maskito/core';
 import {
   FieldValidators,
@@ -13,7 +15,7 @@ import { maskPredicate } from '@shared/helpers/formatters';
   selector: 'instructor-registration',
   templateUrl: './instructor-registration.html',
   styleUrls: ['./instructor-registration.scss'],
-  standalone: false,
+  imports: [IonRow, FormsModule, ReactiveFormsModule, IonCol, IonText, IonInput, MaskitoDirective],
 })
 export class InstructorRegistrationComponent implements OnChanges {
   @Input()

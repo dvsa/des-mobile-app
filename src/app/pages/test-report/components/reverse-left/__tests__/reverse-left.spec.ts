@@ -27,14 +27,6 @@ describe('ReverseLeftComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        ReverseLeftComponent,
-        MockComponent(TickIndicatorComponent),
-        MockComponent(DrivingFaultsBadgeComponent),
-        MockComponent(SeriousFaultBadgeComponent),
-        MockComponent(DangerousFaultBadgeComponent),
-        MockComponent(CompetencyButtonComponent),
-      ],
       imports: [
         AppModule,
         StoreModule.forRoot({
@@ -89,6 +81,12 @@ describe('ReverseLeftComponent', () => {
           }),
           testReport: testReportReducer,
         }),
+        ReverseLeftComponent,
+        MockComponent(TickIndicatorComponent),
+        MockComponent(DrivingFaultsBadgeComponent),
+        MockComponent(SeriousFaultBadgeComponent),
+        MockComponent(DangerousFaultBadgeComponent),
+        MockComponent(CompetencyButtonComponent),
       ],
       providers: [ManoeuvresByCategoryProvider],
     });

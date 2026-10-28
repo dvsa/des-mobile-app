@@ -7,8 +7,7 @@ import { ReverseManoeuvreComponent } from '@pages/test-report/cat-manoeuvre/comp
 import { TestReportComponentsModule } from '../../components/test-report-components.module';
 
 @NgModule({
-  declarations: [ReverseManoeuvreComponent],
-  imports: [CommonModule, ComponentsModule, TestReportComponentsModule, IonCol],
+  imports: [CommonModule, ComponentsModule, TestReportComponentsModule, IonCol, ReverseManoeuvreComponent],
   exports: [ReverseManoeuvreComponent],
 })
 export class TestReportCatManoeuvreComponentsModule {}

@@ -6,8 +6,7 @@ import { IonButton, IonCard, IonCol, IonRow, IonText } from '@ionic/angular';
 import { LegalRequirementsModal } from './legal-requirements-modal';
 
 @NgModule({
-  declarations: [LegalRequirementsModal],
-  imports: [ComponentsModule, CommonModule, IonButton, IonCol, IonRow, IonText, IonCard],
+  imports: [ComponentsModule, CommonModule, IonButton, IonCol, IonRow, IonText, IonCard, LegalRequirementsModal],
   exports: [LegalRequirementsModal],
 })
 export class LegalRequirementsModalModule {}

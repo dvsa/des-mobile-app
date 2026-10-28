@@ -21,8 +21,7 @@ describe('EndTestLinkComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [EndTestLinkComponent],
-      imports: [AppModule],
+      imports: [AppModule, EndTestLinkComponent],
       providers: [
         { provide: ModalController, useClass: ModalControllerMock },
         { provide: Router, useClass: RouterMock },

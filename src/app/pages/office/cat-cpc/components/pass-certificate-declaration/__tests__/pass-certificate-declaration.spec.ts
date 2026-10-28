@@ -10,8 +10,7 @@ describe('PassCertificateDeclarationComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [PassCertificateDeclarationComponent],
-      imports: [PipesModule, ReactiveFormsModule],
+      imports: [PipesModule, ReactiveFormsModule, PassCertificateDeclarationComponent],
     });
 
     fixture = TestBed.createComponent(PassCertificateDeclarationComponent);

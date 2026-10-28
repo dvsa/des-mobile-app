@@ -10,7 +10,7 @@ describe('ExitRekeyModal', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [ExitRekeyModal],
+      imports: [ExitRekeyModal],
       providers: [{ provide: ModalController, useClass: ModalControllerMock }],
     });
 

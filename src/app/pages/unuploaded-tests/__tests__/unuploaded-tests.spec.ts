@@ -28,8 +28,7 @@ describe('UnuploadedTestsPage', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [StoreModule.forRoot({})],
-      declarations: [UnuploadedTestsPage],
+      imports: [StoreModule.forRoot({}), UnuploadedTestsPage],
       providers: [
         { provide: ActivatedRoute, useValue: ActivatedRouteMock },
         { provide: LogHelper, useValue: LogHelperMock },

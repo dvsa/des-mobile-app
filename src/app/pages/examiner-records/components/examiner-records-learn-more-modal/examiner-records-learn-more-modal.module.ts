@@ -36,7 +36,7 @@ import { ExaminerRecordsLearnMoreModal } from '@pages/examiner-records/component
     IonContent,
     IonText,
     IonCol,
+    ExaminerRecordsLearnMoreModal,
   ],
-  declarations: [ExaminerRecordsLearnMoreModal],
 })
 export class ExaminerRecordsLearnMoreModalModule {}

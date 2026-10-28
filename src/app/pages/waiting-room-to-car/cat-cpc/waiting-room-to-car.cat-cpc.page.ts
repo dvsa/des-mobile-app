@@ -1,7 +1,19 @@
+import { AsyncPipe, NgClass } from '@angular/common';
 import { Component, Injector, OnInit } from '@angular/core';
-import { UntypedFormGroup } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule, UntypedFormGroup } from '@angular/forms';
 import { CombinationCodes, Configuration, Question, Question5 } from '@dvsa/mes-test-schema/categories/CPC';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
+import {
+  IonButton,
+  IonCol,
+  IonContent,
+  IonFooter,
+  IonGrid,
+  IonHeader,
+  IonRow,
+  IonText,
+  IonToolbar,
+} from '@ionic/angular';
 import { select } from '@ngrx/store';
 import { ClearCandidateLicenceData } from '@pages/candidate-licence/candidate-licence.actions';
 import { TestFlowPageNames } from '@pages/page-names.constants';
@@ -34,6 +46,14 @@ import {
 } from '@store/tests/vehicle-details/vehicle-details.actions';
 import { Observable } from 'rxjs';
 import { map, take } from 'rxjs/operators';
+import { OfflineBannerComponent } from '../../../../components/common/offline-banner/offline-banner';
+import { TestFlowHeaderComponent } from '../../../../components/common/test-flow-header/test-flow-header.component';
+import { CandidateDeclarationSignedComponent } from '../components/candidate-declaration/candidate-declaration';
+import { MotNoEvidenceConfirmationComponent } from '../components/mot-components/mot-no-evidence-confirmation/mot-no-evidence-confirmation';
+import { VehicleRegistrationComponent } from '../components/vehicle-registration/vehicle-registration';
+import { AccompanimentCardCatCPCComponent } from './components/accompaniment-card/accompaniment-card.cat-cpc';
+import { CombinationComponent } from './components/combination/combination';
+import { VehicleDetailsCatCPCComponent } from './components/vehicle-details/vehicle-details';
 
 interface CatCWaitingRoomToCarPageState {
   candidateDeclarationSigned$: Observable<boolean>;
@@ -50,7 +70,29 @@ type WaitingRoomToCarPageState = CommonWaitingRoomToCarPageState & CatCWaitingRo
   selector: 'app-waiting-room-to-car-cat-cpc',
   templateUrl: './waiting-room-to-car.cat-cpc.page.html',
   styleUrls: ['./waiting-room-to-car.cat-cpc.page.scss'],
-  standalone: false,
+  imports: [
+    IonHeader,
+    IonToolbar,
+    NgClass,
+    TestFlowHeaderComponent,
+    IonContent,
+    OfflineBannerComponent,
+    FormsModule,
+    ReactiveFormsModule,
+    IonGrid,
+    IonRow,
+    IonCol,
+    CandidateDeclarationSignedComponent,
+    VehicleRegistrationComponent,
+    MotNoEvidenceConfirmationComponent,
+    VehicleDetailsCatCPCComponent,
+    CombinationComponent,
+    AccompanimentCardCatCPCComponent,
+    IonFooter,
+    IonButton,
+    IonText,
+    AsyncPipe,
+  ],
 })
 export class WaitingRoomToCarCatCPCPage extends WaitingRoomToCarBasePageComponent implements OnInit {
   form: UntypedFormGroup;

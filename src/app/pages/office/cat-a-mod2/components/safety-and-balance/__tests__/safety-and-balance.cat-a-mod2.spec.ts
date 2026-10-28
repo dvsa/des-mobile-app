@@ -30,8 +30,11 @@ describe('SafetyAndBalanceCardCatAMod2Component', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [SafetyAndBalanceCardCatAMod2Component],
-      imports: [StoreModule.forRoot({ tests: testsReducer }), TranslateModule.forRoot()],
+      imports: [
+        StoreModule.forRoot({ tests: testsReducer }),
+        TranslateModule.forRoot(),
+        SafetyAndBalanceCardCatAMod2Component,
+      ],
       providers: [
         provideHttpClient(withInterceptorsFromDi()),
         provideTranslateService({

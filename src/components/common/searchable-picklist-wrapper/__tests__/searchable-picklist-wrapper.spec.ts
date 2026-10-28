@@ -11,8 +11,7 @@ describe('SearchablePicklistComponentWrapper', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [SearchablePicklistComponentWrapper],
-      imports: [PipesModule],
+      imports: [PipesModule, SearchablePicklistComponentWrapper],
       providers: [{ provide: ModalController, useClass: ModalControllerMock }],
     });
 

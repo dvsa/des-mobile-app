@@ -22,8 +22,14 @@ describe('FaultCommentComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [FaultCommentComponent, MockDirective(CharacterCountDirective)],
-      imports: [AppModule, ComponentsModule, PipesModule, ReactiveFormsModule],
+      imports: [
+        AppModule,
+        ComponentsModule,
+        PipesModule,
+        ReactiveFormsModule,
+        FaultCommentComponent,
+        MockDirective(CharacterCountDirective),
+      ],
       providers: [
         { provide: OutcomeBehaviourMapProvider, useClass: OutcomeBehaviourMapProvider },
         { provider: CharacterCountService, useClass: CharacterCountService },

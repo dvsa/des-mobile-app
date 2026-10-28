@@ -3,7 +3,6 @@ import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ComponentsModule } from '@components/common/common-components.module';
 import { TestFlowHeaderComponent } from '@components/common/test-flow-header/test-flow-header.component';
-import { TestFinalisationComponentsModule } from '@components/test-finalisation/test-finalisation-components.module';
 
 import {
   IonButton,
@@ -26,15 +25,12 @@ import { PassFinalisationAnalyticsEffects } from '../pass-finalisation.analytics
 import { PassFinalisationCatHomeTestPage } from './pass-finalisation.cat-home-test.page';
 
 @NgModule({
-  declarations: [PassFinalisationCatHomeTestPage],
   imports: [
     EffectsModule.forFeature([PassFinalisationAnalyticsEffects]),
     ComponentsModule,
-    TestFinalisationComponentsModule,
     PassFinalisationComponentsModule,
     PassFinalisationCatHomeTestPageRoutingModule,
     CommonModule,
-
     ReactiveFormsModule,
     TestFlowHeaderComponent,
     IonText,
@@ -47,6 +43,7 @@ import { PassFinalisationCatHomeTestPage } from './pass-finalisation.cat-home-te
     IonGrid,
     IonInput,
     IonHeader,
+    PassFinalisationCatHomeTestPage,
   ],
   providers: [OutcomeBehaviourMapProvider, PassCertificateValidationProvider],
 })

@@ -10,8 +10,7 @@ describe('LogoutModal', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [LogoutModal],
-      imports: [AppModule],
+      imports: [AppModule, LogoutModal],
       providers: [ModalController],
     });
 

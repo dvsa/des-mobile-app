@@ -14,8 +14,7 @@ describe('TransferComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [TransferComponent],
-      imports: [AppModule, ReactiveFormsModule, IonCol, IonInput, IonItem, IonRow],
+      imports: [AppModule, ReactiveFormsModule, IonCol, IonInput, IonItem, IonRow, TransferComponent],
       providers: [{ provide: AppComponent, useClass: MockAppComponent }],
     });
 

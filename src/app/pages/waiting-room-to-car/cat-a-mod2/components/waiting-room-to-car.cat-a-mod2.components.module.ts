@@ -8,7 +8,6 @@ import { VehicleChecksModalCatAMod2Module } from './vehicle-checks-modal/vehicle
 import { VehicleChecksCatAMod2Component } from './vehicle-checks/vehicle-checks';
 
 @NgModule({
-  declarations: [VehicleChecksCatAMod2Component],
   imports: [
     ComponentsModule,
     CommonModule,
@@ -18,6 +17,7 @@ import { VehicleChecksCatAMod2Component } from './vehicle-checks/vehicle-checks'
     IonIcon,
     IonCol,
     IonRow,
+    VehicleChecksCatAMod2Component,
   ],
   exports: [VehicleChecksCatAMod2Component],
 })

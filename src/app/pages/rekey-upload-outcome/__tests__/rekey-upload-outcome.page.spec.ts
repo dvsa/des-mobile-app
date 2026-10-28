@@ -32,13 +32,13 @@ describe('RekeyUploadOutcomePage', () => {
   beforeEach(() => {
     jasmine.getEnv().allowRespy(true);
     TestBed.configureTestingModule({
-      declarations: [RekeyUploadOutcomePage],
       imports: [
         AppModule,
         StoreModule.forRoot({
           tests: testsReducer,
           rekeyReason: rekeyReasonReducer,
         }),
+        RekeyUploadOutcomePage,
       ],
       providers: [
         {

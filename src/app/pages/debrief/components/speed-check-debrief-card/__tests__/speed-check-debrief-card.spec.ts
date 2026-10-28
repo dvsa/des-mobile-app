@@ -13,8 +13,7 @@ describe('SeriousFaultsDebriefCardComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [SpeedCheckDebriefCardComponent],
-      imports: [AppModule, ComponentsModule, StoreModule.forRoot({}), TranslateModule],
+      imports: [AppModule, ComponentsModule, StoreModule.forRoot({}), TranslateModule, SpeedCheckDebriefCardComponent],
     });
 
     fixture = TestBed.createComponent(SpeedCheckDebriefCardComponent);

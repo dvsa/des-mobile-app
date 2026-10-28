@@ -41,26 +41,6 @@ describe('TestReportCatHomeTestPage', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        TestReportCatHomeTestPage,
-        MockComponent(ReverseLeftPopoverComponent),
-        MockComponent(ReverseLeftComponent),
-        MockComponent(TickIndicatorComponent),
-        MockComponent(CompetencyComponent),
-        MockComponent(CompetencyButtonComponent),
-        MockComponent(LegalRequirementComponent),
-        MockComponent(EtaComponent),
-        MockComponent(DrivingFaultSummaryComponent),
-        MockComponent(ToolbarComponent),
-        MockComponent(ControlledStopComponent),
-        MockComponent(ManoeuvreCompetencyComponent),
-        MockComponent(VehicleChecksComponent),
-        MockComponent(EcoComponent),
-        MockComponent(PracticeModeOptionsBar),
-        MockComponent(UncoupleRecoupleComponent),
-        MockComponent(HighwayCodeSafetyComponent),
-        MockComponent(TestFlowHeaderComponent),
-      ],
       imports: [
         AppModule,
         StoreModule.forFeature('tests', () => ({
@@ -79,6 +59,24 @@ describe('TestReportCatHomeTestPage', () => {
           },
         })),
         StoreModule.forFeature('testReport', testReportReducer),
+        TestReportCatHomeTestPage,
+        MockComponent(ReverseLeftPopoverComponent),
+        MockComponent(ReverseLeftComponent),
+        MockComponent(TickIndicatorComponent),
+        MockComponent(CompetencyComponent),
+        MockComponent(CompetencyButtonComponent),
+        MockComponent(LegalRequirementComponent),
+        MockComponent(EtaComponent),
+        MockComponent(DrivingFaultSummaryComponent),
+        MockComponent(ToolbarComponent),
+        MockComponent(ControlledStopComponent),
+        MockComponent(ManoeuvreCompetencyComponent),
+        MockComponent(VehicleChecksComponent),
+        MockComponent(EcoComponent),
+        MockComponent(PracticeModeOptionsBar),
+        MockComponent(UncoupleRecoupleComponent),
+        MockComponent(HighwayCodeSafetyComponent),
+        MockComponent(TestFlowHeaderComponent),
       ],
       providers: [
         {

@@ -16,8 +16,7 @@ describe('UpdateAvailableModal', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [UpdateAvailableModal, MockComponent(ModalAlertTitleComponent)],
-
+      imports: [UpdateAvailableModal, MockComponent(ModalAlertTitleComponent)],
       providers: [
         {
           provide: ModalController,

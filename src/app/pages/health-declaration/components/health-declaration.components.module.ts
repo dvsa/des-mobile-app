@@ -2,7 +2,6 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ComponentsModule } from '@components/common/common-components.module';
-import { DirectivesModule } from '@directives/directives.module';
 
 import { IonButton, IonCard, IonCol, IonRow } from '@ionic/angular';
 import { TranslatePipe } from '@ngx-translate/core';
@@ -11,17 +10,18 @@ import { HealthDeclarationComponent } from './health-declaration/health-declarat
 import { ReceiptDeclarationComponent } from './receipt-declaration/receipt-declaration';
 
 @NgModule({
-  declarations: [HealthDeclarationComponent, ReceiptDeclarationComponent, HealthDeclarationModal],
   imports: [
     ComponentsModule,
     ReactiveFormsModule,
     CommonModule,
-    DirectivesModule,
     IonCol,
     IonRow,
     TranslatePipe,
     IonCard,
     IonButton,
+    HealthDeclarationComponent,
+    ReceiptDeclarationComponent,
+    HealthDeclarationModal,
   ],
   exports: [HealthDeclarationComponent, ReceiptDeclarationComponent],
 })

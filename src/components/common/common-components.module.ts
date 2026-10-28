@@ -1,7 +1,6 @@
 import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { PipesModule } from '@shared/pipes/pipes.module';
 
 import { SignaturePadComponent } from '@almothafar/angular-signature-pad';
 import { ActivityCodeComponent } from '@components/common/activity-code/activity-code';
@@ -21,16 +20,16 @@ import { SearchablePicklistComponentWrapper } from '@components/common/searchabl
 import { SeriousFaultBadgeComponent } from '@components/common/serious-fault-badge/serious-fault-badge';
 import { SignatureAreaComponent } from '@components/common/signature-area/signature-area';
 import { SignatureComponent } from '@components/common/signature/signature';
-import { TerminateTestModalModule } from '@components/common/terminate-test-modal/terminate-test-modal.module';
+
 import { TickIndicatorComponent } from '@components/common/tick-indicator/tick-indicator';
 import { TransmissionDisplayComponent } from '@components/common/transmission-display/transmission-display';
 import { TransmissionComponent } from '@components/common/transmission/transmission';
 
 import { ChartComponent } from '@components/common/chart/chart';
 import { DataGridComponent } from '@components/common/data-grid/data-grid';
-import { LogoutModalModule } from '@components/common/logout-modal/logout-modal.module';
+
 import { TestRecoveredBannerComponent } from '@components/common/test-recovered-banner/test-recovered-banner';
-import { DirectivesModule } from '@directives/directives.module';
+
 import {
   IonButton,
   IonButtons,
@@ -70,7 +69,34 @@ import { VRNCaptureModalModule } from './vrn-capture-modal/vrn-capture-modal.mod
 import { WarningBannerComponent } from './warning-banner/warning-banner';
 
 @NgModule({
-  declarations: [
+  imports: [
+    CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
+    VRNCaptureModalModule,
+    NgOptimizedImage,
+    NgApexchartsModule,
+    SignaturePadComponent,
+    IonCol,
+    IonIcon,
+    IonGrid,
+    IonRow,
+    TranslatePipe,
+    IonText,
+    IonSearchbar,
+    IonContent,
+    IonButton,
+    IonButtons,
+    IonModal,
+    IonDatetime,
+    IonInput,
+    IonCardContent,
+    IonCardTitle,
+    IonCardHeader,
+    IonCard,
+    IonSelect,
+    IonSelectOption,
+    IonItem,
     DateTimeInputComponent,
     SignatureAreaComponent,
     BikeCategoryTypeComponent,
@@ -108,39 +134,6 @@ import { WarningBannerComponent } from './warning-banner/warning-banner';
     DataGridComponent,
     ChartComponent,
     DataRowComponent,
-  ],
-  imports: [
-    CommonModule,
-    FormsModule,
-    ReactiveFormsModule,
-    VRNCaptureModalModule,
-    PipesModule,
-    LogoutModalModule,
-    TerminateTestModalModule,
-    NgOptimizedImage,
-    DirectivesModule,
-    NgApexchartsModule,
-    SignaturePadComponent,
-    IonCol,
-    IonIcon,
-    IonGrid,
-    IonRow,
-    TranslatePipe,
-    IonText,
-    IonSearchbar,
-    IonContent,
-    IonButton,
-    IonButtons,
-    IonModal,
-    IonDatetime,
-    IonInput,
-    IonCardContent,
-    IonCardTitle,
-    IonCardHeader,
-    IonCard,
-    IonSelect,
-    IonSelectOption,
-    IonItem,
   ],
   exports: [
     DateTimeInputComponent,

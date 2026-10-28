@@ -21,13 +21,6 @@ describe('ManoeuvresComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        ManoeuvresComponent,
-        MockComponent(TickIndicatorComponent),
-        MockComponent(DrivingFaultsBadgeComponent),
-        MockComponent(SeriousFaultBadgeComponent),
-        MockComponent(DangerousFaultBadgeComponent),
-      ],
       imports: [
         AppModule,
         StoreModule.forRoot({
@@ -76,6 +69,11 @@ describe('ManoeuvresComponent', () => {
           }),
           testReport: testReportReducer,
         }),
+        ManoeuvresComponent,
+        MockComponent(TickIndicatorComponent),
+        MockComponent(DrivingFaultsBadgeComponent),
+        MockComponent(SeriousFaultBadgeComponent),
+        MockComponent(DangerousFaultBadgeComponent),
       ],
       providers: [
         { provide: DateTimeProvider, useClass: DateTimeProviderMock },

@@ -2,12 +2,27 @@ import { Component, Injector, OnInit } from '@angular/core';
 import { map } from 'rxjs/operators';
 
 import { Style } from '@capacitor/status-bar';
-import { MenuController } from '@ionic/angular';
+import {
+  IonApp,
+  IonBadge,
+  IonContent,
+  IonFooter,
+  IonHeader,
+  IonItem,
+  IonLabel,
+  IonList,
+  IonMenu,
+  IonRouterOutlet,
+  IonTitle,
+  IonToolbar,
+  MenuController,
+} from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
 import * as SentryAngular from '@sentry/angular';
 import * as Sentry from '@sentry/capacitor';
 import { Observable, Subscription, merge } from 'rxjs';
 
+import { AsyncPipe, NgClass } from '@angular/common';
 import { SENTRY_ERRORS } from '@app/sentry-error-handler';
 import { SideMenuClosed, SideMenuItemSelected, SideMenuOpened } from '@pages/dashboard/dashboard.actions';
 import {
@@ -36,6 +51,7 @@ import { StartSendingLogs, StopLogPolling } from '@store/logs/logs.actions';
 import { StartSendingCompletedTests, StopSendingCompletedTests } from '@store/tests/tests.actions';
 import { getTests } from '@store/tests/tests.reducer';
 import { addIcons } from 'ionicons';
+import { FormatIdPipe } from './shared/pipes/format-id.pipe';
 
 interface AppComponentPageState {
   unSubmittedTestSlotsCount$: Observable<number>;
@@ -52,7 +68,23 @@ export interface Page {
   selector: 'app-root',
   templateUrl: 'app.component.html',
   styleUrls: ['app.component.scss'],
-  standalone: false,
+  imports: [
+    IonApp,
+    NgClass,
+    IonMenu,
+    IonHeader,
+    IonToolbar,
+    IonTitle,
+    IonContent,
+    IonItem,
+    IonLabel,
+    IonBadge,
+    IonFooter,
+    IonList,
+    IonRouterOutlet,
+    AsyncPipe,
+    FormatIdPipe,
+  ],
 })
 export class AppComponent extends LogoutBasePageComponent implements OnInit {
   pages: Page[] = [

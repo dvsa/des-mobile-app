@@ -1,6 +1,21 @@
 import { Component, Injector, OnInit } from '@angular/core';
 import { UsefulLink } from '@dvsa/mes-config-schema/remote-config';
-import { ModalController } from '@ionic/angular';
+import {
+  IonButton,
+  IonButtons,
+  IonCard,
+  IonCardContent,
+  IonCol,
+  IonContent,
+  IonHeader,
+  IonIcon,
+  IonLabel,
+  IonList,
+  IonRow,
+  IonTitle,
+  IonToolbar,
+  ModalController,
+} from '@ionic/angular';
 import { DASHBOARD_PAGE } from '@pages/page-names.constants';
 import { UsefulLinksReturnToDashboardPressed } from '@pages/useful-links/useful-links.actions';
 import { AccessibilityService } from '@providers/accessibility/accessibility.service';
@@ -13,7 +28,21 @@ import { BasePageComponent } from '@shared/classes/base-page';
   selector: 'useful-links',
   templateUrl: 'useful-links.page.html',
   styleUrls: ['useful-links.page.scss'],
-  standalone: false,
+  imports: [
+    IonHeader,
+    IonToolbar,
+    IonButtons,
+    IonButton,
+    IonIcon,
+    IonLabel,
+    IonTitle,
+    IonContent,
+    IonList,
+    IonCard,
+    IonCardContent,
+    IonRow,
+    IonCol,
+  ],
 })
 export class UsefulLinksPage extends BasePageComponent implements OnInit {
   usefulLinks: UsefulLink[] = [];

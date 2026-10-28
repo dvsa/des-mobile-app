@@ -13,8 +13,7 @@ describe('ActivityCodeComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [ActivityCodeComponent],
-      imports: [IonRow, IonCol, IonText, IonIcon, AppModule],
+      imports: [IonRow, IonCol, IonText, IonIcon, AppModule, ActivityCodeComponent],
       providers: [],
     });
 

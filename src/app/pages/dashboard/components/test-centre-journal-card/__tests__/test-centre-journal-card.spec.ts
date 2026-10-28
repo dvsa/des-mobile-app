@@ -13,8 +13,7 @@ describe('TestCentreJournalCard', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [TestCentreJournalCardComponent],
-      imports: [CommonModule],
+      imports: [CommonModule, TestCentreJournalCardComponent],
       providers: [
         {
           provide: Router,

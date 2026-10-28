@@ -32,7 +32,10 @@ describe('DebriefCardComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [
+      imports: [
+        EtaCardComponent,
+        AppModule,
+        ComponentsModule,
         DebriefCardComponent,
         MockComponent(DataRowWithListComponent),
         MockComponent(DataRowComponent),
@@ -45,7 +48,6 @@ describe('DebriefCardComponent', () => {
         MockComponent(SafetyAndBalanceDataRowComponent),
         MockComponent(FaultsDataRowComponent),
       ],
-      imports: [EtaCardComponent, AppModule, ComponentsModule],
       providers: [QuestionProvider],
     });
 

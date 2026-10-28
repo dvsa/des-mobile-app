@@ -26,7 +26,6 @@ import { WaitingRoomToCarComponentsModule } from '../../../components/waiting-ro
 import { VehicleChecksModalCatHomeTestAnalyticsEffects } from './vehicle-checks-modal.cat-home-test.analytics.effects';
 
 @NgModule({
-  declarations: [VehicleChecksCatHomeTestModal],
   imports: [
     EffectsModule.forFeature([VehicleChecksModalCatHomeTestAnalyticsEffects]),
     ComponentsModule,
@@ -50,6 +49,7 @@ import { VehicleChecksModalCatHomeTestAnalyticsEffects } from './vehicle-checks-
     IonCardHeader,
     IonCardTitle,
     IonCardContent,
+    VehicleChecksCatHomeTestModal,
   ],
 })
 export class VehicleChecksModalCatHomeModule {}

@@ -10,8 +10,7 @@ describe('AdditionalItemsComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [AdditionalItemsComponent],
-      imports: [AppModule],
+      imports: [AppModule, AdditionalItemsComponent],
     });
 
     fixture = TestBed.createComponent(AdditionalItemsComponent);

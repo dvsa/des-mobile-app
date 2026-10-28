@@ -39,24 +39,6 @@ describe('TestReportCatDPage', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        TestReportCatDPage,
-        MockComponent(TickIndicatorComponent),
-        MockComponent(CompetencyComponent),
-        MockComponent(CompetencyButtonComponent),
-        MockComponent(LegalRequirementComponent),
-        MockComponent(EtaComponent),
-        MockComponent(DrivingFaultSummaryComponent),
-        MockComponent(ToolbarComponent),
-        MockComponent(VehicleChecksCompactCatDComponent),
-        MockComponent(EcoComponent),
-        MockComponent(PracticeModeOptionsBar),
-        MockComponent(PcvDoorExerciseComponent),
-        MockComponent(MultiLegalRequirementComponent),
-        MockComponent(SafetyQuestionsCatDComponent),
-        MockComponent(UncoupleRecoupleComponent),
-        MockComponent(TestFlowHeaderComponent),
-      ],
       imports: [
         AppModule,
         StoreModule.forFeature('tests', () => ({
@@ -74,6 +56,22 @@ describe('TestReportCatDPage', () => {
           },
         })),
         StoreModule.forFeature('testReport', testReportReducer),
+        TestReportCatDPage,
+        MockComponent(TickIndicatorComponent),
+        MockComponent(CompetencyComponent),
+        MockComponent(CompetencyButtonComponent),
+        MockComponent(LegalRequirementComponent),
+        MockComponent(EtaComponent),
+        MockComponent(DrivingFaultSummaryComponent),
+        MockComponent(ToolbarComponent),
+        MockComponent(VehicleChecksCompactCatDComponent),
+        MockComponent(EcoComponent),
+        MockComponent(PracticeModeOptionsBar),
+        MockComponent(PcvDoorExerciseComponent),
+        MockComponent(MultiLegalRequirementComponent),
+        MockComponent(SafetyQuestionsCatDComponent),
+        MockComponent(UncoupleRecoupleComponent),
+        MockComponent(TestFlowHeaderComponent),
       ],
       providers: [
         {

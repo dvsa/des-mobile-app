@@ -12,8 +12,7 @@ describe('ReasonGivenComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [ReasonGivenComponent],
-      imports: [AppModule, ReactiveFormsModule],
+      imports: [AppModule, ReactiveFormsModule, ReasonGivenComponent],
       providers: [{ provide: CharacterCountService, useClass: CharacterCountService }],
     });
 

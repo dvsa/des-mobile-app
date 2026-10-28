@@ -1,10 +1,11 @@
 import { Component, EventEmitter, Input, OnChanges, Output, ViewChild, ViewContainerRef } from '@angular/core';
 import { Examiner, ExaminerWorkSchedule, TestCentre } from '@dvsa/mes-journal-schema';
 import { SearchResultTestSchema } from '@dvsa/mes-search-schema';
-import { IonSelect } from '@ionic/angular';
+import { IonButton, IonCol, IonRow, IonSelect, IonSelectOption, IonText } from '@ionic/angular';
 import { Observable, of } from 'rxjs';
 import { first, map } from 'rxjs/operators';
 
+import { AsyncPipe } from '@angular/common';
 import { SearchablePicklistComponentWrapper } from '@components/common/searchable-picklist-wrapper/searchable-picklist-wrapper';
 import { Store } from '@ngrx/store';
 import {
@@ -22,6 +23,10 @@ import { StoreModel } from '@shared/models/store.model';
 import { TestCentreDetailResponse } from '@shared/models/test-centre-journal.model';
 import { ExaminerSlotItems, ExaminerSlotItemsByDate } from '@store/journal/journal.model';
 import { get } from 'lodash-es';
+import { SearchablePicklistComponentWrapper as SearchablePicklistComponentWrapper_1 } from '../../../../../components/common/searchable-picklist-wrapper/searchable-picklist-wrapper';
+import { JournalNavigationComponent } from '../../../journal/components/journal-navigation/journal-navigation';
+import { JournalSlotComponent } from '../../../journal/components/journal-slot/journal-slot';
+import { TestCentreNameComponent } from '../test-centre-name/test-centre-name';
 
 export enum Day {
   TODAY = 'today',
@@ -32,7 +37,19 @@ export enum Day {
   selector: 'view-journals-card',
   templateUrl: 'view-journals-card.html',
   styleUrls: ['./view-journals-card.scss'],
-  standalone: false,
+  imports: [
+    SearchablePicklistComponentWrapper_1,
+    TestCentreNameComponent,
+    IonRow,
+    IonCol,
+    IonSelect,
+    IonSelectOption,
+    IonButton,
+    IonText,
+    JournalNavigationComponent,
+    JournalSlotComponent,
+    AsyncPipe,
+  ],
 })
 export class ViewJournalsCardComponent implements OnChanges {
   @ViewChild('slotContainer', { read: ViewContainerRef })

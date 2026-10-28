@@ -12,8 +12,7 @@ describe('FinishTestModal', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [FinishTestModal],
-      imports: [CommonModule, FormsModule, ComponentsModule],
+      imports: [CommonModule, FormsModule, ComponentsModule, FinishTestModal],
       providers: [{ provide: ModalController, useClass: ModalControllerMock }],
     });
 

@@ -31,21 +31,18 @@ describe('SingleFaultCompetencyComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        SingleFaultCompetencyComponent,
-        MockComponent(CompetencyButtonComponent),
-        MockComponent(DrivingFaultsBadgeComponent),
-        MockComponent(SeriousFaultBadgeComponent),
-        MockComponent(DangerousFaultBadgeComponent),
-      ],
       imports: [
         AppModule,
-
         StoreModule.forRoot({
           journal: journalReducer,
           tests: testsReducer,
           testReport: testReportReducer,
         }),
+        SingleFaultCompetencyComponent,
+        MockComponent(CompetencyButtonComponent),
+        MockComponent(DrivingFaultsBadgeComponent),
+        MockComponent(SeriousFaultBadgeComponent),
+        MockComponent(DangerousFaultBadgeComponent),
       ],
       providers: [{ provide: DateTimeProvider, useClass: DateTimeProviderMock }],
     });

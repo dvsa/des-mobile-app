@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { UntypedFormGroup } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule, UntypedFormGroup } from '@angular/forms';
 import { QuestionOutcome, QuestionResult, SafetyQuestionResult } from '@dvsa/mes-test-schema/categories/common';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { Store, select } from '@ngrx/store';
@@ -29,8 +29,27 @@ import { SafetyQuestionOutcomeChanged } from '@store/tests/test-data/cat-d/safet
 
 import { NUMBER_OF_SAFETY_QUESTIONS } from '@shared/constants/safety-questions.cat-d.constants';
 
+import { AsyncPipe } from '@angular/common';
 import { Style } from '@capacitor/status-bar';
-import { ModalController } from '@ionic/angular';
+import {
+  IonButton,
+  IonButtons,
+  IonCard,
+  IonCardContent,
+  IonCardHeader,
+  IonCardTitle,
+  IonCol,
+  IonContent,
+  IonFooter,
+  IonHeader,
+  IonIcon,
+  IonLabel,
+  IonRow,
+  IonText,
+  IonTitle,
+  IonToolbar,
+  ModalController,
+} from '@ionic/angular';
 import { AccessibilityService } from '@providers/accessibility/accessibility.service';
 import { FaultCountProvider } from '@providers/fault-count/fault-count';
 import {
@@ -56,6 +75,10 @@ import {
   getSelectedTellMeQuestions,
   getVehicleChecksCatD,
 } from '@store/tests/test-data/cat-d/vehicle-checks/vehicle-checks.cat-d.selector';
+import { WarningBannerComponent } from '../../../../../../components/common/warning-banner/warning-banner';
+import { FullLicenceHeldComponent } from '../../../components/full-licence-held-toggle/full-licence-held-toggle';
+import { VehicleChecksQuestionComponent } from '../../../components/vehicle-checks-question/vehicle-checks-question';
+import { SafetyQuestionComponent } from '../safety-question/safety-question';
 import * as vehicleChecksModalActions from './vehicle-checks-modal.cat-d.actions';
 
 interface VehicleChecksModalCatDState {
@@ -75,7 +98,31 @@ interface VehicleChecksModalCatDState {
   selector: 'vehicle-checks-modal-cat-d',
   templateUrl: 'vehicle-checks-modal.cat-d.page.html',
   styleUrls: ['vehicle-checks-modal.cat-d.page.scss'],
-  standalone: false,
+  imports: [
+    IonHeader,
+    IonToolbar,
+    IonButtons,
+    IonButton,
+    IonIcon,
+    IonLabel,
+    IonTitle,
+    IonContent,
+    IonCard,
+    FullLicenceHeldComponent,
+    FormsModule,
+    ReactiveFormsModule,
+    IonCardHeader,
+    IonCardTitle,
+    IonCardContent,
+    VehicleChecksQuestionComponent,
+    WarningBannerComponent,
+    SafetyQuestionComponent,
+    IonFooter,
+    IonRow,
+    IonCol,
+    IonText,
+    AsyncPipe,
+  ],
 })
 export class VehicleChecksCatDModal {
   pageState: VehicleChecksModalCatDState;

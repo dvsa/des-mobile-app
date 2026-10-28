@@ -108,14 +108,15 @@ describe('PassFinalisationCatADIPart3Page', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      declarations: [
+      imports: [
+        RouterModule.forRoot([]),
+        AppModule,
         PassFinalisationCatADIPart3Page,
         MockComponent(PracticeModeOptionsBar),
         MockComponent(FinalisationHeaderComponent),
         MockComponent(DebriefWitnessedComponent),
         MockComponent(FurtherDevelopmentComponent),
       ],
-      imports: [RouterModule.forRoot([]), AppModule],
       providers: [
         {
           provide: Platform,

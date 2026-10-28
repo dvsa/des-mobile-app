@@ -1,3 +1,4 @@
+import { AsyncPipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { Store, select } from '@ngrx/store';
@@ -10,6 +11,7 @@ import { getTests } from '@store/tests/tests.reducer';
 import { getCurrentTest } from '@store/tests/tests.selector';
 import { Observable } from 'rxjs';
 import { map, withLatestFrom } from 'rxjs/operators';
+import { DrivingFaultsBadgeComponent } from '../../../../../../components/common/driving-faults-badge/driving-faults-badge';
 
 interface ComponentState {
   safetyAndBalanceDrivingFaultCount$: Observable<number>;
@@ -19,7 +21,7 @@ interface ComponentState {
   selector: 'safety-and-balance',
   templateUrl: 'safety-and-balance.html',
   styleUrls: ['safety-and-balance.scss'],
-  standalone: false,
+  imports: [DrivingFaultsBadgeComponent, AsyncPipe],
 })
 export class SafetyAndBalanceComponent implements OnInit {
   componentState: ComponentState;

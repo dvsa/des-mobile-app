@@ -10,7 +10,7 @@ import { StoreModule } from '@ngrx/store';
 import { TestReportCatADIPart3ComponentsModule } from '@pages/test-report-dashboard/components/test-report-dashboard.components.module';
 import { TestReportDashboardAnalyticsEffects } from '@pages/test-report-dashboard/test-report-dashboard.analytics.effects';
 import { TestReportDashboardPage } from '@pages/test-report-dashboard/test-report-dashboard.page';
-import { Adi3EndTestModalModule } from '@pages/test-report/cat-adi-part3/components/adi3-end-test-modal/adi3-end-test-modal.module';
+
 import { TestReportComponentsModule } from '@pages/test-report/components/test-report-components.module';
 import { TestReportAnalyticsEffects } from '@pages/test-report/test-report.analytics.effects';
 import { TestReportEffects } from '@pages/test-report/test-report.effects';
@@ -20,17 +20,14 @@ import { TestResultProvider } from '@providers/test-result/test-result';
 import { TestReportDashboardPageRoutingModule } from './test-report-dashboard.routing-module';
 
 @NgModule({
-  declarations: [TestReportDashboardPage],
   imports: [
     CommonModule,
     FormsModule,
-
     TestReportDashboardPageRoutingModule,
     ComponentsModule,
     StoreModule.forFeature('testReport', testReportReducer),
     EffectsModule.forFeature([TestReportAnalyticsEffects, TestReportDashboardAnalyticsEffects, TestReportEffects]),
     TestReportComponentsModule,
-    Adi3EndTestModalModule,
     TestReportCatADIPart3ComponentsModule,
     TestFlowHeaderComponent,
     IonCol,
@@ -41,6 +38,7 @@ import { TestReportDashboardPageRoutingModule } from './test-report-dashboard.ro
     IonButton,
     IonText,
     IonFooter,
+    TestReportDashboardPage,
   ],
   providers: [TestReportValidatorProvider, TestResultProvider],
 })

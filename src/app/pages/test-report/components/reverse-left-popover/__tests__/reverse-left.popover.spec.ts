@@ -14,12 +14,11 @@ describe('reverseLeftComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [
+      imports: [
         ReverseLeftPopoverComponent,
         MockComponent(ManoeuvreCompetencyComponent),
         MockComponent(ReverseDiagramLinkComponent),
       ],
-
       providers: [FaultCountProvider],
     });
 

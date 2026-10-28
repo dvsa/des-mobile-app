@@ -1,9 +1,21 @@
 import { Component, Injector, OnInit } from '@angular/core';
-import { UntypedFormGroup } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule, UntypedFormGroup } from '@angular/forms';
 import { select } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
+import { AsyncPipe, NgClass } from '@angular/common';
+import {
+  IonButton,
+  IonCol,
+  IonContent,
+  IonFooter,
+  IonGrid,
+  IonHeader,
+  IonRow,
+  IonText,
+  IonToolbar,
+} from '@ionic/angular';
 import { ClearCandidateLicenceData } from '@pages/candidate-licence/candidate-licence.actions';
 import { TestFlowPageNames } from '@pages/page-names.constants';
 import { WaitingRoomToCarValidationError } from '@pages/waiting-room-to-car/waiting-room-to-car.actions';
@@ -17,6 +29,14 @@ import { getSchoolBike } from '@store/tests/vehicle-details/cat-a-mod1/vehicle-d
 import { MotEvidenceProvidedReset } from '@store/tests/vehicle-details/vehicle-details.actions';
 import { getVehicleDetails } from '@store/tests/vehicle-details/vehicle-details.reducer';
 import { isAutomatic, isManual } from '@store/tests/vehicle-details/vehicle-details.selector';
+import { BikeCategoryTypeComponent } from '../../../../components/common/bike-category-type/bike-category-type';
+import { OfflineBannerComponent } from '../../../../components/common/offline-banner/offline-banner';
+import { TestFlowHeaderComponent } from '../../../../components/common/test-flow-header/test-flow-header.component';
+import { TransmissionComponent } from '../../../../components/common/transmission/transmission';
+import { AccompanimentCardComponent } from '../components/accompaniment-card/accompaniment-card';
+import { MotNoEvidenceConfirmationComponent } from '../components/mot-components/mot-no-evidence-confirmation/mot-no-evidence-confirmation';
+import { VehicleDetailsCardComponent } from '../components/vehicle-details-card/vehicle-details-card';
+import { VehicleRegistrationComponent } from '../components/vehicle-registration/vehicle-registration';
 
 interface CatMod1WaitingRoomToCarPageState {
   schoolBike$: Observable<boolean>;
@@ -30,7 +50,29 @@ type WaitingRoomToCarPageState = CommonWaitingRoomToCarPageState & CatMod1Waitin
   selector: 'app-waiting-room-to-car-cat-a-mod1',
   templateUrl: './waiting-room-to-car.cat-a-mod1.page.html',
   styleUrls: ['./waiting-room-to-car.cat-a-mod1.page.scss'],
-  standalone: false,
+  imports: [
+    IonHeader,
+    IonToolbar,
+    NgClass,
+    TestFlowHeaderComponent,
+    IonContent,
+    OfflineBannerComponent,
+    FormsModule,
+    ReactiveFormsModule,
+    IonGrid,
+    IonRow,
+    IonCol,
+    BikeCategoryTypeComponent,
+    TransmissionComponent,
+    VehicleRegistrationComponent,
+    MotNoEvidenceConfirmationComponent,
+    AccompanimentCardComponent,
+    VehicleDetailsCardComponent,
+    IonFooter,
+    IonButton,
+    IonText,
+    AsyncPipe,
+  ],
 })
 export class WaitingRoomToCarCatAMod1Page extends WaitingRoomToCarBasePageComponent implements OnInit {
   pageState: WaitingRoomToCarPageState;

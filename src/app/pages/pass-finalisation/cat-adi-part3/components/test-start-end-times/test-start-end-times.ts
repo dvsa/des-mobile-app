@@ -1,13 +1,14 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { DisplayType } from '@components/common/datetime-input/date-time-input.component';
-import { IonDatetime } from '@ionic/angular';
+import { IonCol, IonDatetime, IonRow } from '@ionic/angular';
 import { Store } from '@ngrx/store';
 import {
   PassFinalisationAmendTimeCancelled,
   PassFinalisationAmendTimeConfirmed,
 } from '@pages/pass-finalisation/pass-finalisation.actions';
 import { StoreModel } from '@shared/models/store.model';
+import { DateTimeInputComponent } from '../../../../../../components/common/datetime-input/date-time-input.component';
 
 export enum PassFinalisationAmendTimeType {
   StartTime = 'start-time',
@@ -18,7 +19,7 @@ export enum PassFinalisationAmendTimeType {
   selector: 'test-start-end-times',
   templateUrl: 'test-start-end-times.html',
   styleUrls: ['test-start-end-times.scss'],
-  standalone: false,
+  imports: [IonRow, IonCol, DateTimeInputComponent],
 })
 export class TestStartEndTimesComponent implements OnInit, OnChanges {
   @Input()

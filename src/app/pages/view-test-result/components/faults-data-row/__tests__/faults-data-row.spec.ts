@@ -16,13 +16,13 @@ describe('FaultsDataRowComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [
+      imports: [
+        ComponentsModule,
         FaultsDataRowComponent,
         MockComponent(DangerousFaultBadgeComponent),
         MockComponent(SeriousFaultBadgeComponent),
         MockComponent(DrivingFaultsBadgeComponent),
       ],
-      imports: [ComponentsModule],
       providers: [
         {
           provide: AccessibilityService,

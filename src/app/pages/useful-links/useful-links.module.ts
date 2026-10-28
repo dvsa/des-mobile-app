@@ -31,7 +31,6 @@ import { UsefulLinksPage } from './useful-links.page';
   imports: [
     CommonModule,
     FormsModule,
-
     UsefulLinksPageRoutingModule,
     DashboardComponentsModule,
     TestSlotComponentsModule,
@@ -51,7 +50,7 @@ import { UsefulLinksPage } from './useful-links.page';
     IonButtons,
     IonToolbar,
     IonHeader,
+    UsefulLinksPage,
   ],
-  declarations: [UsefulLinksPage],
 })
 export class UsefulLinksPageModule {}

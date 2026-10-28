@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 
 import { ComponentsModule } from '@components/common/common-components.module';
-import { DirectivesModule } from '@directives/directives.module';
+
 import { IonCol, IonInput, IonRow, IonSelect, IonSelectOption, IonText } from '@ionic/angular';
 import { MaskitoDirective } from '@maskito/angular';
 import { InstructorRegistrationComponent } from './instructor-registration/instructor-registration';
@@ -12,16 +12,9 @@ import { TellMeQuestionOutcomeComponent } from './tell-me-question-outcome/tell-
 import { TellMeQuestionComponent } from './tell-me-question/tell-me-question';
 
 @NgModule({
-  declarations: [
-    TellMeQuestionCardComponent,
-    TellMeQuestionComponent,
-    TellMeQuestionOutcomeComponent,
-    InstructorRegistrationComponent,
-  ],
   imports: [
     CommonModule,
     ComponentsModule,
-    DirectivesModule,
     ReactiveFormsModule,
     MaskitoDirective,
     IonSelectOption,
@@ -30,6 +23,10 @@ import { TellMeQuestionComponent } from './tell-me-question/tell-me-question';
     IonRow,
     IonText,
     IonInput,
+    TellMeQuestionCardComponent,
+    TellMeQuestionComponent,
+    TellMeQuestionOutcomeComponent,
+    InstructorRegistrationComponent,
   ],
   exports: [
     TellMeQuestionCardComponent,

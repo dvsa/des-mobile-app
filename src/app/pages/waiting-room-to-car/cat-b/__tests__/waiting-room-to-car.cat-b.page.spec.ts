@@ -82,7 +82,9 @@ describe('WaitingRoomToCarCatBPage', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      declarations: [
+      imports: [
+        AppModule,
+        ReactiveFormsModule,
         WaitingRoomToCarCatBPage,
         MockComponent(EyesightTestComponent),
         MockComponent(EyesightFailureConfirmationComponent),
@@ -99,7 +101,6 @@ describe('WaitingRoomToCarCatBPage', () => {
         MockComponent(AccompanimentComponent),
         MockComponent(PracticeModeOptionsBar),
       ],
-      imports: [AppModule, ReactiveFormsModule],
       providers: [
         { provide: RouteByCategoryProvider, useClass: RouteByCategoryProviderMock },
         { provide: AuthenticationProvider, useClass: AuthenticationProviderMock },

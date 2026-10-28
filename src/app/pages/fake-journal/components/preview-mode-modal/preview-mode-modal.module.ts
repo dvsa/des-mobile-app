@@ -7,7 +7,6 @@ import { IonButton, IonCard, IonCol, IonRow, IonText } from '@ionic/angular';
 import { PreviewModeModal } from '@pages/fake-journal/components/preview-mode-modal/preview-mode-modal';
 
 @NgModule({
-  imports: [CommonModule, FormsModule, ComponentsModule, IonCol, IonRow, IonCard, IonText, IonButton],
-  declarations: [PreviewModeModal],
+  imports: [CommonModule, FormsModule, ComponentsModule, IonCol, IonRow, IonCard, IonText, IonButton, PreviewModeModal],
 })
 export class PreviewModeModalModule {}

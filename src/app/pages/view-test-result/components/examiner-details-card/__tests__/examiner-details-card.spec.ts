@@ -10,7 +10,7 @@ describe('ExaminerDetailsCardComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [ExaminerDetailsCardComponent, MockComponent(DataRowComponent)],
+      imports: [ExaminerDetailsCardComponent, MockComponent(DataRowComponent)],
     });
 
     fixture = TestBed.createComponent(ExaminerDetailsCardComponent);

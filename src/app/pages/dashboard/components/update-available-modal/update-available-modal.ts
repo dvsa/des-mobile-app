@@ -1,5 +1,6 @@
 import { Component, Input } from '@angular/core';
-import { ModalController } from '@ionic/angular';
+import { IonButton, IonCard, IonCol, IonRow, ModalController } from '@ionic/angular';
+import { ModalAlertTitleComponent } from '../../../../../components/common/modal-alert-title/modal-alert-title';
 
 export enum UpdateAvailable {
   REMIND_ME_LATER = 'Remind me later',
@@ -10,7 +11,7 @@ export enum UpdateAvailable {
   selector: 'update-available-modal',
   templateUrl: 'update-available-modal.html',
   styleUrls: ['update-available-modal.scss'],
-  standalone: false,
+  imports: [IonCard, ModalAlertTitleComponent, IonRow, IonCol, IonButton],
 })
 export class UpdateAvailableModal {
   @Input()

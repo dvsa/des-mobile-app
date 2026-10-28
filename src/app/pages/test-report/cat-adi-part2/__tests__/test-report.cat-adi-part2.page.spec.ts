@@ -40,23 +40,6 @@ describe('TestReportCatADI2Page', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        TestReportCatADI2Page,
-        MockComponent(TickIndicatorComponent),
-        MockComponent(CompetencyComponent),
-        MockComponent(CompetencyButtonComponent),
-        MockComponent(LegalRequirementComponent),
-        MockComponent(EtaComponent),
-        MockComponent(DrivingFaultSummaryComponent),
-        MockComponent(ToolbarComponent),
-        MockComponent(ControlledStopComponent),
-        MockComponent(ManoeuvreCompetencyComponent),
-        MockComponent(EcoComponent),
-        MockComponent(PracticeModeOptionsBar),
-        MockComponent(ManoeuvresComponent),
-        MockComponent(VehicleCheckComponent),
-        MockComponent(ManoeuvresPopoverComponentAdiPart2),
-      ],
       imports: [
         AppModule,
         StoreModule.forFeature('tests', () => ({
@@ -76,6 +59,21 @@ describe('TestReportCatADI2Page', () => {
         })),
         TestFlowHeaderComponent,
         StoreModule.forFeature('testReport', testReportReducer),
+        TestReportCatADI2Page,
+        MockComponent(TickIndicatorComponent),
+        MockComponent(CompetencyComponent),
+        MockComponent(CompetencyButtonComponent),
+        MockComponent(LegalRequirementComponent),
+        MockComponent(EtaComponent),
+        MockComponent(DrivingFaultSummaryComponent),
+        MockComponent(ToolbarComponent),
+        MockComponent(ControlledStopComponent),
+        MockComponent(ManoeuvreCompetencyComponent),
+        MockComponent(EcoComponent),
+        MockComponent(PracticeModeOptionsBar),
+        MockComponent(ManoeuvresComponent),
+        MockComponent(VehicleCheckComponent),
+        MockComponent(ManoeuvresPopoverComponentAdiPart2),
       ],
       providers: [
         {

@@ -18,8 +18,7 @@ describe('SearchablePicklistModal', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [SearchablePicklistModal],
-      imports: [PipesModule],
+      imports: [PipesModule, SearchablePicklistModal],
       providers: [{ provide: ModalController, useClass: ModalControllerMock }],
     });
 

@@ -1,9 +1,10 @@
 import { Component, Injector, OnInit } from '@angular/core';
 import { Observable, merge } from 'rxjs';
 
+import { AsyncPipe, NgClass } from '@angular/common';
 import { TestData } from '@dvsa/mes-test-schema/categories/AM1';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
-import { ViewDidLeave } from '@ionic/angular';
+import { IonCol, IonContent, IonGrid, IonHeader, IonRow, IonToolbar, ViewDidLeave } from '@ionic/angular';
 import { ActivityCode4Modal } from '@pages/test-report/cat-a-mod1/components/activity-code-4-modal/activity-code-4-modal';
 import { ModalReason } from '@pages/test-report/cat-a-mod1/components/activity-code-4-modal/activity-code-4-modal.constants';
 import { SpeedCheckModal } from '@pages/test-report/cat-a-mod1/components/speed-check-modal/speed-check-modal';
@@ -22,7 +23,14 @@ import {
 import { competencyLabels } from '@shared/constants/competencies/competencies';
 import { SingleFaultCompetencyNames } from '@store/tests/test-data/test-data.constants';
 import { map } from 'rxjs/operators';
+import { TestFlowHeaderComponent } from '../../../../components/common/test-flow-header/test-flow-header.component';
+import { CompetencyComponent } from '../components/competency/competency';
 import { EtaInvalidModal } from '../components/eta-invalid-modal/eta-invalid-modal';
+import { EtaComponent } from '../components/examiner-takes-action/eta';
+import { SingleFaultCompetencyComponent } from '../components/single-fault-competency/single-fault-competency';
+import { ToolbarComponent } from '../components/toolbar/toolbar';
+import { SpeedCheckHeaderComponent } from './components/speed-check-header/speed-check-header';
+import { SpeedCheckComponent } from './components/speed-check/speed-check';
 
 type TestReportPageState = CommonTestReportPageState;
 
@@ -30,7 +38,23 @@ type TestReportPageState = CommonTestReportPageState;
   selector: '.test-report-cat-a-mod1-page',
   templateUrl: 'test-report.cat-a-mod1.page.html',
   styleUrls: ['test-report.cat-a-mod1.page.scss'],
-  standalone: false,
+  imports: [
+    IonHeader,
+    IonToolbar,
+    NgClass,
+    TestFlowHeaderComponent,
+    IonContent,
+    ToolbarComponent,
+    IonGrid,
+    IonRow,
+    IonCol,
+    SingleFaultCompetencyComponent,
+    CompetencyComponent,
+    EtaComponent,
+    SpeedCheckHeaderComponent,
+    SpeedCheckComponent,
+    AsyncPipe,
+  ],
 })
 export class TestReportCatAMod1Page extends TestReportBasePageComponent implements OnInit, ViewDidLeave {
   singleFaultCompetencyNames = SingleFaultCompetencyNames;

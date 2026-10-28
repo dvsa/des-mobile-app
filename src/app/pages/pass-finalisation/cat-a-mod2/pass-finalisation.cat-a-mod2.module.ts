@@ -4,7 +4,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { ComponentsModule } from '@components/common/common-components.module';
 import { TestFlowHeaderComponent } from '@components/common/test-flow-header/test-flow-header.component';
-import { TestFinalisationComponentsModule } from '@components/test-finalisation/test-finalisation-components.module';
+
 import {
   IonButton,
   IonCol,
@@ -29,11 +29,9 @@ import { PassFinalisationCatAMod2Page } from './pass-finalisation.cat-a-mod2.pag
   imports: [
     CommonModule,
     FormsModule,
-
     PassFinalisationCatAMod2PageRoutingModule,
     ComponentsModule,
     ReactiveFormsModule,
-    TestFinalisationComponentsModule,
     PassFinalisationComponentsModule,
     EffectsModule.forFeature([PassFinalisationAnalyticsEffects]),
     TestFlowHeaderComponent,
@@ -47,8 +45,8 @@ import { PassFinalisationCatAMod2Page } from './pass-finalisation.cat-a-mod2.pag
     IonContent,
     IonGrid,
     IonHeader,
+    PassFinalisationCatAMod2Page,
   ],
-  declarations: [PassFinalisationCatAMod2Page],
   providers: [OutcomeBehaviourMapProvider, PassCertificateValidationProvider],
 })
 export class PassFinalisationCatAMod2PageModule {}

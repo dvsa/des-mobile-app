@@ -2,13 +2,15 @@ import { Component, Input } from '@angular/core';
 import * as CatADI3Types from '@dvsa/mes-test-schema/categories/ADI3';
 import { CategoryCode } from '@dvsa/mes-test-schema/categories/common';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
+import { IonCard, IonCardContent, IonCardHeader, IonGrid } from '@ionic/angular';
 import { get } from 'lodash-es';
+import { DataRowComponent } from '../../../../../components/common/data-row/data-row';
 
 @Component({
   selector: 'trainer-details-card',
   templateUrl: 'trainer-details-card.html',
   styleUrls: ['trainer-details-card.scss'],
-  standalone: false,
+  imports: [IonCard, IonCardHeader, IonCardContent, IonGrid, DataRowComponent],
 })
 export class TrainerDetailsCardComponent {
   @Input()

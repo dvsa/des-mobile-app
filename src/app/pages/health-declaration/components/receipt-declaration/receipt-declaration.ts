@@ -1,11 +1,14 @@
 import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
-import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { IonCol, IonRow } from '@ionic/angular';
+import { TranslatePipe } from '@ngx-translate/core';
+import { AddOrRemoveLangCyDirective } from '../../../../../directives/add-or-remove-lang-cy.directive';
 
 @Component({
   selector: 'receipt-declaration',
   templateUrl: 'receipt-declaration.html',
   styleUrls: ['receipt-declaration.scss'],
-  standalone: false,
+  imports: [AddOrRemoveLangCyDirective, IonRow, FormsModule, ReactiveFormsModule, IonCol, TranslatePipe],
 })
 export class ReceiptDeclarationComponent implements OnChanges {
   @Input()

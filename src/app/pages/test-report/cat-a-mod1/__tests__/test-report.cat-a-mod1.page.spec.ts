@@ -53,22 +53,6 @@ describe('TestReportCatAMod1Page', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        TestReportCatAMod1Page,
-        MockComponent(TickIndicatorComponent),
-        MockComponent(CompetencyComponent),
-        MockComponent(CompetencyButtonComponent),
-        MockComponent(LegalRequirementComponent),
-        MockComponent(EtaComponent),
-        MockComponent(DrivingFaultSummaryComponent),
-        MockComponent(ToolbarComponent),
-        MockComponent(EcoComponent),
-        MockComponent(PracticeModeOptionsBar),
-        MockComponent(SingleFaultCompetencyComponent),
-        MockComponent(SpeedCheckHeaderComponent),
-        MockComponent(SpeedCheckComponent),
-        MockComponent(TestFlowHeaderComponent),
-      ],
       imports: [
         AppModule,
         StoreModule.forFeature('tests', () => ({
@@ -86,6 +70,20 @@ describe('TestReportCatAMod1Page', () => {
           },
         })),
         StoreModule.forFeature('testReport', testReportReducer),
+        TestReportCatAMod1Page,
+        MockComponent(TickIndicatorComponent),
+        MockComponent(CompetencyComponent),
+        MockComponent(CompetencyButtonComponent),
+        MockComponent(LegalRequirementComponent),
+        MockComponent(EtaComponent),
+        MockComponent(DrivingFaultSummaryComponent),
+        MockComponent(ToolbarComponent),
+        MockComponent(EcoComponent),
+        MockComponent(PracticeModeOptionsBar),
+        MockComponent(SingleFaultCompetencyComponent),
+        MockComponent(SpeedCheckHeaderComponent),
+        MockComponent(SpeedCheckComponent),
+        MockComponent(TestFlowHeaderComponent),
       ],
       providers: [
         {

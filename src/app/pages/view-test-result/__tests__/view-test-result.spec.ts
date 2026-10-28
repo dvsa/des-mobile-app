@@ -92,7 +92,9 @@ describe('ViewTestResultPage', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [
+      imports: [
+        AppModule,
+        ComponentsModule,
         ViewTestResultPage,
         MockComponent(ErrorMessageComponent),
         MockComponent(ViewTestHeaderComponent),
@@ -110,7 +112,6 @@ describe('ViewTestResultPage', () => {
         MockComponent(Adi3DebriefCard),
         MockComponent(TestSummaryCardComponent),
       ],
-      imports: [AppModule, ComponentsModule],
       providers: [
         {
           provide: Platform,

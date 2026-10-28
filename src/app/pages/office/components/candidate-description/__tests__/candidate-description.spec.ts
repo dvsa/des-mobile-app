@@ -15,8 +15,7 @@ describe('CandidateDescriptionComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [CandidateDescriptionComponent],
-      imports: [AppModule],
+      imports: [AppModule, CandidateDescriptionComponent],
       providers: [
         { provide: OutcomeBehaviourMapProvider, useClass: OutcomeBehaviourMapProvider },
         { provide: CharacterCountService, useClass: CharacterCountService },

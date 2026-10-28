@@ -13,12 +13,12 @@ describe('AdvancedSearchComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [
+      imports: [
+        AppModule,
         AdvancedSearchComponent,
         MockComponent(DateTimeInputComponent),
         MockComponent(SearchablePicklistComponentWrapper),
       ],
-      imports: [AppModule],
       providers: [{ provide: AppComponent, useClass: MockAppComponent }],
     });
 

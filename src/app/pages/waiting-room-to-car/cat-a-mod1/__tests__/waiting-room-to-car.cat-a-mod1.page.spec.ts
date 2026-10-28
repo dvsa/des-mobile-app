@@ -65,7 +65,9 @@ describe('WaitingRoomToCarCatAMod1Page', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      declarations: [
+      imports: [
+        AppModule,
+        ReactiveFormsModule,
         WaitingRoomToCarCatAMod1Page,
         MockComponent(EndTestLinkComponent),
         MockComponent(VehicleRegistrationComponent),
@@ -76,7 +78,6 @@ describe('WaitingRoomToCarCatAMod1Page', () => {
         MockComponent(WarningBannerComponent),
         MockComponent(TransmissionComponent),
       ],
-      imports: [AppModule, ReactiveFormsModule],
       providers: [
         { provide: RouteByCategoryProvider, useClass: RouteByCategoryProviderMock },
         { provide: AuthenticationProvider, useClass: AuthenticationProviderMock },

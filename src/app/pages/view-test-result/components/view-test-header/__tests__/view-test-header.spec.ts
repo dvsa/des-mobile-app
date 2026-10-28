@@ -10,7 +10,7 @@ describe('ViewTestHeaderComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [ViewTestHeaderComponent],
+      imports: [ViewTestHeaderComponent],
     });
 
     fixture = TestBed.createComponent(ViewTestHeaderComponent);

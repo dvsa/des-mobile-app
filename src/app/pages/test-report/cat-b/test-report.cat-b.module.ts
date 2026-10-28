@@ -18,7 +18,6 @@ import { TestReportCatBComponentsModule } from './components/test-report.cat-b.c
 import { TestReportCatBPage } from './test-report.cat-b.page';
 
 @NgModule({
-  declarations: [TestReportCatBPage],
   imports: [
     TestReportCatBComponentsModule,
     TestReportComponentsModule,
@@ -26,7 +25,6 @@ import { TestReportCatBPage } from './test-report.cat-b.page';
     EffectsModule.forFeature([TestReportAnalyticsEffects, TestReportEffects]),
     ComponentsModule,
     CommonModule,
-
     TestReportCatBPageRoutingModule,
     TestFlowHeaderComponent,
     IonRow,
@@ -35,6 +33,7 @@ import { TestReportCatBPage } from './test-report.cat-b.page';
     IonContent,
     IonToolbar,
     IonHeader,
+    TestReportCatBPage,
   ],
   providers: [TestReportValidatorProvider, TestResultProvider],
 })

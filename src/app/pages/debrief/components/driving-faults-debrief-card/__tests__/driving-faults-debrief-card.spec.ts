@@ -21,8 +21,14 @@ describe('DrivingFaultsDebriefCardComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [DrivingFaultsDebriefCardComponent],
-      imports: [AppModule, ComponentsModule, StoreModule.forRoot({}), TranslateModule, PipesModule],
+      imports: [
+        AppModule,
+        ComponentsModule,
+        StoreModule.forRoot({}),
+        TranslateModule,
+        PipesModule,
+        DrivingFaultsDebriefCardComponent,
+      ],
     });
 
     fixture = TestBed.createComponent(DrivingFaultsDebriefCardComponent);

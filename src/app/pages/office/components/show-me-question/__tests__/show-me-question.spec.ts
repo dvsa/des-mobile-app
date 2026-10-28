@@ -11,8 +11,7 @@ describe('ShowMeQuestionComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [ShowMeQuestionComponent],
-      imports: [ReactiveFormsModule],
+      imports: [ReactiveFormsModule, ShowMeQuestionComponent],
       providers: [
         provideMockStore({ ...{} }),
         { provide: OutcomeBehaviourMapProvider, useClass: OutcomeBehaviourMapProvider },

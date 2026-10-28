@@ -87,14 +87,16 @@ describe('TestReportDashboardPage', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [
+      imports: [
+        AppModule,
+        ComponentsModule,
+        CommonModule,
         TestReportDashboardPage,
         MockComponent(TimerComponent),
         MockComponent(DashboardItemComponent),
         MockComponent(ReviewFeedback),
         MockComponent(TestFlowHeaderComponent),
       ],
-      imports: [AppModule, ComponentsModule, CommonModule],
       providers: [
         provideMockStore({ initialState }),
         TestReportValidatorProvider,

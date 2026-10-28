@@ -42,11 +42,6 @@ describe('ManoeuvresPopoverComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        ManoeuvresPopoverComponent,
-        MockComponent(DrivingFaultsBadgeComponent),
-        MockComponent(ManoeuvreCompetencyComponent),
-      ],
       imports: [
         AppModule,
         StoreModule.forRoot({
@@ -75,6 +70,9 @@ describe('ManoeuvresPopoverComponent', () => {
           }),
           testReport: testReportReducer,
         }),
+        ManoeuvresPopoverComponent,
+        MockComponent(DrivingFaultsBadgeComponent),
+        MockComponent(ManoeuvreCompetencyComponent),
       ],
       providers: [
         { provide: NavController, useClass: NavControllerMock },

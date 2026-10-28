@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
-import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { MotHistory } from '@dvsa/mes-mot-schema';
-import { ModalController } from '@ionic/angular';
+import { IonButton, IonCol, IonInput, IonRow, IonSpinner, IonText, ModalController } from '@ionic/angular';
 import {
   ModalEvent,
   MotFailedModal,
@@ -22,6 +22,9 @@ import { HttpStatusCodes } from '@shared/models/http-status-codes';
 import { isEmpty, toInteger } from 'lodash-es';
 import { Subject } from 'rxjs';
 import { finalize, takeUntil } from 'rxjs/operators';
+import { EmojiBlockDirective } from '../../../../../directives/emoji-block.directive';
+import { PasteSanitiserDirective } from '../../../../../directives/paste-sanitiser';
+import { MotCardComponent } from '../mot-components/mot-card/mot-card.component';
 
 export enum MOTAbortedMethod {
   VRN_CHANGED = 'vrnChanged',
@@ -33,7 +36,19 @@ export enum MOTAbortedMethod {
   selector: 'vehicle-registration',
   styleUrls: ['vehicle-registration.scss'],
   templateUrl: './vehicle-registration.html',
-  standalone: false,
+  imports: [
+    IonRow,
+    FormsModule,
+    ReactiveFormsModule,
+    IonCol,
+    IonInput,
+    EmojiBlockDirective,
+    PasteSanitiserDirective,
+    IonButton,
+    IonText,
+    IonSpinner,
+    MotCardComponent,
+  ],
 })
 export class VehicleRegistrationComponent implements OnChanges {
   @Input()

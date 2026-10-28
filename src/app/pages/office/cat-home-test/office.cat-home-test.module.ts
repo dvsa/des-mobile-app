@@ -50,8 +50,8 @@ import { OfficeCatHomeTestPage } from './office.cat-home-test.page';
     IonHeader,
     IonToolbar,
     IonFooter,
+    OfficeCatHomeTestPage,
   ],
-  declarations: [OfficeCatHomeTestPage],
   providers: [FaultSummaryProvider],
 })
 export class OfficeCatHomeTestPageModule {}

@@ -20,8 +20,7 @@ describe('TraineeLicenceComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      declarations: [TraineeLicenceComponent],
-      imports: [AppModule, ReactiveFormsModule],
+      imports: [AppModule, ReactiveFormsModule, TraineeLicenceComponent],
       providers: [
         {
           provide: RouteByCategoryProvider,

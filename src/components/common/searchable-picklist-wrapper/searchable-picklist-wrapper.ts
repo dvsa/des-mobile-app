@@ -1,6 +1,9 @@
+import { NgClass } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { SearchablePicklistModal } from '@components/common/searchable-picklist-modal/searchable-picklist-modal';
-import { ModalController } from '@ionic/angular';
+import { IonButton, IonCol, IonGrid, IonIcon, IonRow, ModalController } from '@ionic/angular';
+import { EllipsisPipe } from '@shared/pipes/ellipsis.pipe';
+import { FormatIdPipe } from '@shared/pipes/format-id.pipe';
 
 export enum SearchablePicklistModalEvent {
   CANCEL = 'cancel',
@@ -11,7 +14,7 @@ export enum SearchablePicklistModalEvent {
   selector: 'searchable-picklist-wrapper',
   templateUrl: './searchable-picklist-wrapper.html',
   styleUrls: ['./searchable-picklist-wrapper.scss'],
-  standalone: false,
+  imports: [IonGrid, IonRow, IonCol, NgClass, IonIcon, IonButton, FormatIdPipe, EllipsisPipe],
 })
 export class SearchablePicklistComponentWrapper<T> {
   @Input()

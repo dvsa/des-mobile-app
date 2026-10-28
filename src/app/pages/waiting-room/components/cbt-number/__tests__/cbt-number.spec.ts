@@ -12,8 +12,7 @@ describe('CBTNumberComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [CBTNumberComponent],
-      imports: [AppModule],
+      imports: [AppModule, CBTNumberComponent],
       providers: [{ provide: AppComponent, useClass: MockAppComponent }],
     });
 

@@ -41,12 +41,14 @@ describe('TestResultsSearchPage', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      declarations: [
+      imports: [
+        AppModule,
+        TestResultsSearchComponentsModule,
+        ComponentsModule,
         TestResultsSearchPage,
         MockComponent(AdvancedSearchComponent),
         MockComponent(SearchResultComponent),
       ],
-      imports: [AppModule, TestResultsSearchComponentsModule, ComponentsModule],
       providers: [
         {
           provide: Platform,

@@ -13,8 +13,7 @@ describe('EtaInvalidModal', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [EtaInvalidModal],
-      imports: [AppModule, ComponentsModule],
+      imports: [AppModule, ComponentsModule, EtaInvalidModal],
       providers: [{ provide: ModalController, useClass: ModalControllerMock }],
     });
 

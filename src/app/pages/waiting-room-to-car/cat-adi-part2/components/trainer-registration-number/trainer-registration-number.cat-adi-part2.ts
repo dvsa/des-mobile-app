@@ -1,14 +1,27 @@
 import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
-import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { IonCol, IonInput, IonRow } from '@ionic/angular';
 import {
   FieldValidators,
   getTrainerRegistrationNumberValidator,
 } from '@shared/constants/field-validators/field-validators';
+import { EmojiBlockDirective } from '../../../../../../directives/emoji-block.directive';
+import { InputRestrictionNumbersDirective } from '../../../../../../directives/input-restriction-numbers.directive';
+import { PasteSanitiserDirective } from '../../../../../../directives/paste-sanitiser';
 
 @Component({
   selector: 'trainer-registration-number-cat-adi-part2',
   templateUrl: 'trainer-registration-number.cat-adi-part2.html',
-  standalone: false,
+  imports: [
+    IonRow,
+    FormsModule,
+    ReactiveFormsModule,
+    IonCol,
+    IonInput,
+    InputRestrictionNumbersDirective,
+    EmojiBlockDirective,
+    PasteSanitiserDirective,
+  ],
 })
 export class TrainerRegistrationNumberCatAdiPart2Component implements OnChanges {
   @Input()

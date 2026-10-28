@@ -12,8 +12,7 @@ describe('ErrorMessageComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [ErrorMessageComponent],
-      imports: [CommonModule],
+      imports: [CommonModule, ErrorMessageComponent],
       providers: [{ provide: Location, useValue: locationSpy }],
     });
 

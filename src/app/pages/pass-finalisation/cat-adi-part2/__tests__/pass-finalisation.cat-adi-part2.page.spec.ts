@@ -37,7 +37,9 @@ describe('PassFinalisationCatADI2Page', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      declarations: [
+      imports: [
+        RouterModule.forRoot([]),
+        AppModule,
         PassFinalisationCatADI2Page,
         MockComponent(PracticeModeOptionsBar),
         MockComponent(LicenseProvidedComponent),
@@ -49,7 +51,6 @@ describe('PassFinalisationCatADI2Page', () => {
         MockComponent(WarningBannerComponent),
         MockComponent(LicenceProvidedWarningBannerComponent),
       ],
-      imports: [RouterModule.forRoot([]), AppModule],
       providers: [
         {
           provide: Platform,

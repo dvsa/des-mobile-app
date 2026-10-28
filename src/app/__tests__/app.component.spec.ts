@@ -61,9 +61,8 @@ describe('AppComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [AppComponent],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      imports: [StoreModule.forRoot({}), TranslateModule.forRoot(), PipesModule],
+      imports: [StoreModule.forRoot({}), TranslateModule.forRoot(), PipesModule, AppComponent],
       providers: [
         {
           provide: Platform,

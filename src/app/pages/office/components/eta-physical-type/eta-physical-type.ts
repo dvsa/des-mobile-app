@@ -1,10 +1,11 @@
 import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
-import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule, UntypedFormControl, UntypedFormGroup } from '@angular/forms';
+import { FormatIdPipe } from '@shared/pipes/format-id.pipe';
 
 @Component({
   selector: 'eta-physical-type',
   templateUrl: './eta-physical-type.html',
-  standalone: false,
+  imports: [FormsModule, ReactiveFormsModule, FormatIdPipe],
 })
 export class ETAPhysicalTypeComponent implements OnChanges {
   @Input()

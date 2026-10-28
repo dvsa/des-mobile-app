@@ -12,8 +12,7 @@ describe('TestReportAssessmentCard', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [TestReportAssessmentCard, MockComponent(TestReportAssessmentAnswer)],
-      imports: [PipesModule, CommonModule],
+      imports: [PipesModule, CommonModule, TestReportAssessmentCard, MockComponent(TestReportAssessmentAnswer)],
     });
 
     fixture = TestBed.createComponent(TestReportAssessmentCard);

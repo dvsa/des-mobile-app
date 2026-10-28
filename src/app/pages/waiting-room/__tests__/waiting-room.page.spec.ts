@@ -130,19 +130,6 @@ describe('WaitingRoomPage', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      declarations: [
-        WaitingRoomPage,
-        MockComponent(PracticeModeOptionsBar),
-        MockComponent(EndTestLinkComponent),
-        MockComponent(LockScreenIndicator),
-        MockComponent(CandidateSectionComponent),
-        MockComponent(ConductedLanguageComponent),
-        MockComponent(InsuranceDeclarationComponent),
-        MockComponent(ResidencyDeclarationComponent),
-        MockComponent(SignatureComponent),
-        MockComponent(ManoeuvresPassCertificateComponent),
-        MockComponent(CBTNumberComponent),
-      ],
       imports: [
         RouterModule.forRoot([]),
         AppModule,
@@ -175,6 +162,17 @@ describe('WaitingRoomPage', () => {
             },
           },
         })),
+        WaitingRoomPage,
+        MockComponent(PracticeModeOptionsBar),
+        MockComponent(EndTestLinkComponent),
+        MockComponent(LockScreenIndicator),
+        MockComponent(CandidateSectionComponent),
+        MockComponent(ConductedLanguageComponent),
+        MockComponent(InsuranceDeclarationComponent),
+        MockComponent(ResidencyDeclarationComponent),
+        MockComponent(SignatureComponent),
+        MockComponent(ManoeuvresPassCertificateComponent),
+        MockComponent(CBTNumberComponent),
       ],
       providers: [
         {

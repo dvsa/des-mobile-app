@@ -28,7 +28,8 @@ describe('UncoupleRecoupleComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [
+      imports: [
+        StoreModule.forRoot({ tests: testsReducer, testReport: testReportReducer }),
         UncoupleRecoupleComponent,
         MockComponent(TickIndicatorComponent),
         MockComponent(DrivingFaultsBadgeComponent),
@@ -36,7 +37,6 @@ describe('UncoupleRecoupleComponent', () => {
         MockComponent(DangerousFaultBadgeComponent),
         MockComponent(CompetencyButtonComponent),
       ],
-      imports: [StoreModule.forRoot({ tests: testsReducer, testReport: testReportReducer })],
       providers: [TestDataByCategoryProvider],
     });
 

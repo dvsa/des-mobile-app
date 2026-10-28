@@ -4,7 +4,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { ComponentsModule } from '@components/common/common-components.module';
 import { TestFlowHeaderComponent } from '@components/common/test-flow-header/test-flow-header.component';
-import { DirectivesModule } from '@directives/directives.module';
+
 import { IonCol, IonContent, IonHeader, IonRow, IonText, IonToolbar } from '@ionic/angular';
 import { EffectsModule } from '@ngrx/effects';
 import { TranslatePipe } from '@ngx-translate/core';
@@ -24,7 +24,6 @@ import { HealthDeclarationPage } from './health-declaration.page';
     ReactiveFormsModule,
     HealthDeclarationComponentsModule,
     EffectsModule.forFeature([HealthDeclarationAnalyticsEffects, HealthDeclarationEffects]),
-    DirectivesModule,
     TestFlowHeaderComponent,
     TranslatePipe,
     IonContent,
@@ -33,7 +32,7 @@ import { HealthDeclarationPage } from './health-declaration.page';
     IonCol,
     IonText,
     IonRow,
+    HealthDeclarationPage,
   ],
-  declarations: [HealthDeclarationPage],
 })
 export class HealthDeclarationPageModule {}

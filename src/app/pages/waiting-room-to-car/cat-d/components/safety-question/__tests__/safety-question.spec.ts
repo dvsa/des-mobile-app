@@ -16,8 +16,7 @@ describe('SafetyQuestionComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [SafetyQuestionComponent],
-      imports: [AppModule],
+      imports: [AppModule, SafetyQuestionComponent],
     });
 
     fixture = TestBed.createComponent(SafetyQuestionComponent);

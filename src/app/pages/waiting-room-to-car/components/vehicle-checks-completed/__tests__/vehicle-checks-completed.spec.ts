@@ -12,8 +12,7 @@ describe('VehicleChecksToggleComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [VehicleChecksToggleComponent],
-      imports: [ReactiveFormsModule, IonCol, IonRow, IonSelect, IonSelectOption],
+      imports: [ReactiveFormsModule, IonCol, IonRow, IonSelect, IonSelectOption, VehicleChecksToggleComponent],
       providers: [
         provideMockStore({
           initialState: {

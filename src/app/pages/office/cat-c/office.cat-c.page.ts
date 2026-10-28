@@ -1,5 +1,5 @@
 import { Component, Injector, OnInit } from '@angular/core';
-import { UntypedFormGroup } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule, UntypedFormGroup } from '@angular/forms';
 import { CategoryCode, GearboxCategory, QuestionResult } from '@dvsa/mes-test-schema/categories/common';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { select } from '@ngrx/store';
@@ -7,6 +7,19 @@ import { startsWith } from 'lodash-es';
 import { Observable, Subscription, merge } from 'rxjs';
 import { map, withLatestFrom } from 'rxjs/operators';
 
+import { AsyncPipe, NgClass } from '@angular/common';
+import {
+  IonCard,
+  IonCardContent,
+  IonCardHeader,
+  IonCol,
+  IonContent,
+  IonFooter,
+  IonGrid,
+  IonHeader,
+  IonRow,
+  IonToolbar,
+} from '@ionic/angular';
 import { behaviourMap } from '@pages/office/office-behaviour-map.cat-c';
 import { AppConfigProvider } from '@providers/app-config/app-config';
 import { ExaminerRole } from '@providers/app-config/constants/examiner-role.constants';
@@ -39,6 +52,35 @@ import { getTests } from '@store/tests/tests.reducer';
 import { getCurrentTest, getTestOutcome } from '@store/tests/tests.selector';
 import { getVehicleDetails } from '@store/tests/vehicle-details/cat-c/vehicle-details.cat-c.reducer';
 import { getGearboxCategory } from '@store/tests/vehicle-details/vehicle-details.selector';
+import { ActivityCodeComponent } from '../../../../components/common/activity-code/activity-code';
+import { HealthDeclarationSignedComponent } from '../../../../components/common/health-declaration-signed/health-declaration-signed';
+import { TestFlowHeaderComponent } from '../../../../components/common/test-flow-header/test-flow-header.component';
+import { TransmissionComponent } from '../../../../components/common/transmission/transmission';
+import { D255Component } from '../../../../components/test-finalisation/d255/d255';
+import { DebriefWitnessedComponent } from '../../../../components/test-finalisation/debrief-witnessed/debrief-witnessed';
+import { LanguagePreferencesComponent } from '../../../../components/test-finalisation/language-preference/language-preference';
+import { LicenseProvidedComponent } from '../../pass-finalisation/components/license-provided/license-provided';
+import { PassCertificateNumberComponent } from '../../pass-finalisation/components/pass-certificate-number/pass-certificate-number';
+import { AccompanimentCardComponent } from '../../waiting-room-to-car/components/accompaniment-card/accompaniment-card';
+import { AdditionalInformationComponent } from '../components/additional-information/additional-information';
+import { AlternateEvidenceDescriptionComponent } from '../components/alternate-mot-evidence-description/alternate-evidence-description.component';
+import { AlternateEvidenceProvidedComponent } from '../components/alternate-mot-evidence-provided/alternate-evidence-provided.component';
+import { CandidateDescriptionComponent } from '../components/candidate-description/candidate-description';
+import { CandidateSectionComponent } from '../components/candidate-section/candidate-section';
+import { DateOfTest } from '../components/date-of-test/date-of-test';
+import { DrivingFaultsComponent } from '../components/driving-faults/driving-faults.component';
+import { ECOCardComponent } from '../components/eco-card/eco-card.component';
+import { ETACardComponent } from '../components/eta-card/eta-card.component';
+import { FaultCommentCardComponent } from '../components/fault-comment-card/fault-comment-card';
+import { IdentificationComponent } from '../components/identification/identification';
+import { IndependentDrivingComponent } from '../components/independent-driving/independent-driving';
+import { OfficeFooterComponent } from '../components/office-footer/office-footer.component';
+import { OfficeRegistrationAndMotComponent } from '../components/office-registration-and-mot/office-registration-and-mot.component';
+import { ReasonForEnteringTeamsComponent } from '../components/reason-for-entering-teams/reason-for-entering-teams';
+import { RouteNumberComponent } from '../components/route-number/route-number';
+import { TrueLikenessComponent } from '../components/true-likeness/true-likeness';
+import { VehicleChecksOfficeCardComponent } from '../components/vehicle-checks/vehicle-checks-office-card';
+import { WeatherConditionsComponent } from '../components/weather-conditions/weather-conditions';
 
 interface CatCOfficePageState {
   conductedLanguage$: Observable<string>;
@@ -55,7 +97,51 @@ type OfficePageState = CommonOfficePageState & CatCOfficePageState;
   selector: '.office-cat-c-page',
   templateUrl: './office.cat-c.page.html',
   styleUrls: ['../office.page.scss'],
-  standalone: false,
+  imports: [
+    IonHeader,
+    IonToolbar,
+    NgClass,
+    TestFlowHeaderComponent,
+    IonContent,
+    CandidateSectionComponent,
+    FormsModule,
+    ReactiveFormsModule,
+    IonCard,
+    IonCardHeader,
+    IonCardContent,
+    IonGrid,
+    DateOfTest,
+    IonRow,
+    IonCol,
+    ActivityCodeComponent,
+    LicenseProvidedComponent,
+    TransmissionComponent,
+    PassCertificateNumberComponent,
+    HealthDeclarationSignedComponent,
+    D255Component,
+    LanguagePreferencesComponent,
+    DebriefWitnessedComponent,
+    RouteNumberComponent,
+    IndependentDrivingComponent,
+    TrueLikenessComponent,
+    CandidateDescriptionComponent,
+    IdentificationComponent,
+    VehicleChecksOfficeCardComponent,
+    WeatherConditionsComponent,
+    AccompanimentCardComponent,
+    OfficeRegistrationAndMotComponent,
+    AlternateEvidenceProvidedComponent,
+    AlternateEvidenceDescriptionComponent,
+    AdditionalInformationComponent,
+    ReasonForEnteringTeamsComponent,
+    ETACardComponent,
+    ECOCardComponent,
+    FaultCommentCardComponent,
+    DrivingFaultsComponent,
+    IonFooter,
+    OfficeFooterComponent,
+    AsyncPipe,
+  ],
 })
 export class OfficeCatCPage extends OfficeBasePageComponent implements OnInit {
   pageState: OfficePageState;

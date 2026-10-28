@@ -15,8 +15,7 @@ describe('NewEmailComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [NewEmailComponent],
-      imports: [ReactiveFormsModule, TranslateModule.forRoot(), IonCol, IonInput, IonRow],
+      imports: [ReactiveFormsModule, TranslateModule.forRoot(), IonCol, IonInput, IonRow, NewEmailComponent],
       providers: [
         provideHttpClient(withInterceptorsFromDi()),
         provideTranslateService({

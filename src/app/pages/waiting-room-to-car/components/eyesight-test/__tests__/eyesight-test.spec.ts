@@ -11,8 +11,7 @@ describe('EyesightTestComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [EyesightTestComponent],
-      imports: [AppModule, ReactiveFormsModule],
+      imports: [AppModule, ReactiveFormsModule, EyesightTestComponent],
     });
 
     fixture = TestBed.createComponent(EyesightTestComponent);

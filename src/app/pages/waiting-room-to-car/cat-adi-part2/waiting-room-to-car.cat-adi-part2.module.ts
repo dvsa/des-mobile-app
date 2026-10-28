@@ -26,11 +26,9 @@ import { SafetyRecallComponent } from '@pages/waiting-room-to-car/components/saf
 import { WaitingRoomToCarCatADIPart2Page } from './waiting-room-to-car.cat-adi-part2.page';
 
 @NgModule({
-  declarations: [WaitingRoomToCarCatADIPart2Page],
   imports: [
     CommonModule,
     FormsModule,
-
     WaitingRoomToCarCatADIPart2ComponentsModule,
     WaitingRoomToCarCatADIPart2PageRoutingModule,
     ComponentsModule,
@@ -48,6 +46,7 @@ import { WaitingRoomToCarCatADIPart2Page } from './waiting-room-to-car.cat-adi-p
     IonGrid,
     IonToolbar,
     IonHeader,
+    WaitingRoomToCarCatADIPart2Page,
   ],
 })
 export class WaitingRoomToCarCatADIPart2PageModule {}

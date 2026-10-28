@@ -5,7 +5,19 @@ import { select } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { map, withLatestFrom } from 'rxjs/operators';
 
+import { AsyncPipe, NgClass } from '@angular/common';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ETA } from '@dvsa/mes-test-schema/categories/common';
+import {
+  IonCard,
+  IonCardContent,
+  IonCardHeader,
+  IonContent,
+  IonFooter,
+  IonGrid,
+  IonHeader,
+  IonToolbar,
+} from '@ionic/angular';
 import { behaviourMap } from '@pages/office/office-behaviour-map.cat-a-mod1';
 import {
   CommonOfficePageState,
@@ -31,6 +43,27 @@ import { getCurrentTest, getTestOutcome } from '@store/tests/tests.selector';
 import { getSchoolBike } from '@store/tests/vehicle-details/cat-a-mod1/vehicle-details.cat-a-mod1.selector';
 import { getVehicleDetails } from '@store/tests/vehicle-details/vehicle-details.reducer';
 import { startsWith } from 'lodash-es';
+import { ActivityCodeComponent } from '../../../../components/common/activity-code/activity-code';
+import { TestFlowHeaderComponent } from '../../../../components/common/test-flow-header/test-flow-header.component';
+import { SpeedCheckDebriefCardComponent } from '../../debrief/components/speed-check-debrief-card/speed-check-debrief-card';
+import { AccompanimentCardComponent } from '../../waiting-room-to-car/components/accompaniment-card/accompaniment-card';
+import { VehicleDetailsCardComponent } from '../../waiting-room-to-car/components/vehicle-details-card/vehicle-details-card';
+import { AdditionalInformationComponent } from '../components/additional-information/additional-information';
+import { AlternateEvidenceDescriptionComponent } from '../components/alternate-mot-evidence-description/alternate-evidence-description.component';
+import { AlternateEvidenceProvidedComponent } from '../components/alternate-mot-evidence-provided/alternate-evidence-provided.component';
+import { CandidateDescriptionComponent } from '../components/candidate-description/candidate-description';
+import { CandidateSectionComponent } from '../components/candidate-section/candidate-section';
+import { DateOfTest } from '../components/date-of-test/date-of-test';
+import { DrivingFaultsComponent } from '../components/driving-faults/driving-faults.component';
+import { ETACardComponent } from '../components/eta-card/eta-card.component';
+import { FaultCommentCardComponent } from '../components/fault-comment-card/fault-comment-card';
+import { IdentificationComponent } from '../components/identification/identification';
+import { OfficeFooterComponent } from '../components/office-footer/office-footer.component';
+import { OfficeRegistrationAndMotComponent } from '../components/office-registration-and-mot/office-registration-and-mot.component';
+import { ReasonForEnteringTeamsComponent } from '../components/reason-for-entering-teams/reason-for-entering-teams';
+import { TrueLikenessComponent } from '../components/true-likeness/true-likeness';
+import { WeatherConditionsComponent } from '../components/weather-conditions/weather-conditions';
+import { CircuitComponent } from './components/circuit/circuit';
 
 interface CatMod1MOfficePageState {
   etaFaults$: Observable<ETA>;
@@ -51,7 +84,41 @@ type OfficePageState = CommonOfficePageState & CatMod1MOfficePageState;
   selector: '.office-cat-amod1-page',
   templateUrl: './office.cat-a-mod1.page.html',
   styleUrls: ['../office.page.scss'],
-  standalone: false,
+  imports: [
+    IonHeader,
+    IonToolbar,
+    NgClass,
+    TestFlowHeaderComponent,
+    IonContent,
+    CandidateSectionComponent,
+    FormsModule,
+    ReactiveFormsModule,
+    IonCard,
+    IonCardHeader,
+    IonCardContent,
+    IonGrid,
+    DateOfTest,
+    ActivityCodeComponent,
+    CircuitComponent,
+    TrueLikenessComponent,
+    CandidateDescriptionComponent,
+    IdentificationComponent,
+    WeatherConditionsComponent,
+    AccompanimentCardComponent,
+    VehicleDetailsCardComponent,
+    OfficeRegistrationAndMotComponent,
+    AlternateEvidenceProvidedComponent,
+    AlternateEvidenceDescriptionComponent,
+    AdditionalInformationComponent,
+    ReasonForEnteringTeamsComponent,
+    SpeedCheckDebriefCardComponent,
+    ETACardComponent,
+    FaultCommentCardComponent,
+    DrivingFaultsComponent,
+    IonFooter,
+    OfficeFooterComponent,
+    AsyncPipe,
+  ],
 })
 export class OfficeCatAMod1Page extends OfficeBasePageComponent implements OnInit {
   pageState: OfficePageState;

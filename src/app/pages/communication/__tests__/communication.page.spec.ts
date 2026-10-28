@@ -39,13 +39,6 @@ describe('CommunicationPage', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      declarations: [
-        CommunicationPage,
-        MockComponent(PracticeModeOptionsBar),
-        MockComponent(EndTestLinkComponent),
-        MockComponent(LockScreenIndicator),
-        MockComponent(CandidateSectionComponent),
-      ],
       imports: [
         RouterModule.forRoot([]),
         AppModule,
@@ -79,6 +72,11 @@ describe('CommunicationPage', () => {
             },
           },
         })),
+        CommunicationPage,
+        MockComponent(PracticeModeOptionsBar),
+        MockComponent(EndTestLinkComponent),
+        MockComponent(LockScreenIndicator),
+        MockComponent(CandidateSectionComponent),
       ],
       providers: [
         {

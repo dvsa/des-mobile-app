@@ -1,10 +1,13 @@
 import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
-import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { IonCol, IonRow } from '@ionic/angular';
+import { EmojiBlockDirective } from '../../../../../../directives/emoji-block.directive';
+import { PasteSanitiserDirective } from '../../../../../../directives/paste-sanitiser';
 
 @Component({
   selector: 'assessment-report',
   templateUrl: 'assessment-report.html',
-  standalone: false,
+  imports: [IonRow, FormsModule, ReactiveFormsModule, IonCol, EmojiBlockDirective, PasteSanitiserDirective],
 })
 export class AssessmentReportComponent implements OnChanges {
   @Input()

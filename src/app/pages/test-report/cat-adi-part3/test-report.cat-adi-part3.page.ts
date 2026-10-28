@@ -1,5 +1,6 @@
+import { AsyncPipe, NgClass } from '@angular/common';
 import { Component, Injector, OnInit } from '@angular/core';
-import { UntypedFormGroup } from '@angular/forms';
+import { FormsModule, UntypedFormGroup } from '@angular/forms';
 import {
   LessonPlanning,
   LessonTheme,
@@ -8,7 +9,7 @@ import {
   TeachingLearningStrategies,
   TestData,
 } from '@dvsa/mes-test-schema/categories/ADI3';
-import { NavController } from '@ionic/angular';
+import { IonButton, IonCol, IonContent, IonHeader, IonRow, IonText, IonToolbar, NavController } from '@ionic/angular';
 import { select } from '@ngrx/store';
 import { AssessmentOverallScoreChanged } from '@pages/test-report/cat-adi-part3/test-report.cat-adi-part3.actions';
 import { ADI3AssessmentProvider } from '@providers/adi3-assessment/adi3-assessment';
@@ -40,6 +41,11 @@ import { getTests } from '@store/tests/tests.reducer';
 import { getCurrentTest } from '@store/tests/tests.selector';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { TestFlowHeaderComponent } from '../../../../components/common/test-flow-header/test-flow-header.component';
+import { QuestionScoreComponent } from '../cat-cpc/components/question-score/question-score';
+import { LessonThemeComponent } from './components/lesson-theme/lesson-theme';
+import { StudentComponent } from './components/student/student';
+import { TestReportAssessmentCard } from './components/tr-assessment-card/tr-assessment-card';
 
 interface CatADI3TestReportPageState {
   studentLevel$: Observable<StudentLevel>;
@@ -58,7 +64,23 @@ type TestReportPageState = CommonTestReportPageState & CatADI3TestReportPageStat
   selector: 'app-test-report-cat-adi3',
   templateUrl: './test-report.cat-adi-part3.page.html',
   styleUrls: ['./test-report.cat-adi-part3.page.scss'],
-  standalone: false,
+  imports: [
+    IonHeader,
+    IonToolbar,
+    NgClass,
+    TestFlowHeaderComponent,
+    IonContent,
+    IonRow,
+    IonCol,
+    IonText,
+    StudentComponent,
+    LessonThemeComponent,
+    FormsModule,
+    TestReportAssessmentCard,
+    QuestionScoreComponent,
+    IonButton,
+    AsyncPipe,
+  ],
 })
 export class TestReportCatADI3Page extends TestReportBasePageComponent implements OnInit {
   form: UntypedFormGroup;

@@ -18,7 +18,8 @@ describe('VehicleDetailsCardComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [
+      imports: [
+        PipesModule,
         VehicleDetailsCardComponent,
         MockComponent(DataRowComponent),
         MockComponent(RegistrationWithPreviousMotTextComponent),
@@ -26,7 +27,6 @@ describe('VehicleDetailsCardComponent', () => {
         MockComponent(DataRowCustomComponent),
         MockComponent(TransmissionDisplayComponent),
       ],
-      imports: [PipesModule],
     });
 
     fixture = TestBed.createComponent(VehicleDetailsCardComponent);

@@ -1,9 +1,11 @@
+import { AsyncPipe, NgClass } from '@angular/common';
 import { Component, Injector, OnInit } from '@angular/core';
-import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { Address, CategoryCode, CommunicationMethod } from '@dvsa/mes-test-schema/categories/common';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
+import { IonCol, IonContent, IonHeader, IonRow, IonText, IonToolbar } from '@ionic/angular';
 import { select } from '@ngrx/store';
-import { TranslateService } from '@ngx-translate/core';
+import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import {
   BookingEmailSelected,
   CommunicationSubmitInfo,
@@ -47,6 +49,15 @@ import { getCurrentTest, getJournalData } from '@store/tests/tests.selector';
 import { showVrnButton } from '@store/tests/vehicle-details/vehicle-details.selector';
 import { Observable, Subscription, merge } from 'rxjs';
 import { map, take, tap } from 'rxjs/operators';
+import { CandidateSectionComponent } from '../../../components/common/candidate-section/candidate-section';
+import { LockScreenIndicator } from '../../../components/common/screen-lock-indicator/lock-screen-indicator';
+import { TestFlowHeaderComponent } from '../../../components/common/test-flow-header/test-flow-header.component';
+import { AddOrRemoveLangCyDirective } from '../../../directives/add-or-remove-lang-cy.directive';
+import { NewEmailComponent } from './components/new-email/new-email';
+import { PostalAddressComponent } from './components/postal-address/postal-address';
+import { PrivacyNoticeComponent } from './components/privacy-notice/privacy-notice';
+import { ProvidedEmailComponent } from './components/provided-email/provided-email';
+import { ValidCertificateComponent } from './components/valid-certificate/valid-certificate';
 
 interface CommunicationPageState {
   candidateName$: Observable<string>;
@@ -68,7 +79,28 @@ interface CommunicationPageState {
   selector: 'app-communication',
   templateUrl: './communication.page.html',
   styleUrls: ['./communication.page.scss'],
-  standalone: false,
+  imports: [
+    IonHeader,
+    IonToolbar,
+    NgClass,
+    TestFlowHeaderComponent,
+    IonContent,
+    LockScreenIndicator,
+    FormsModule,
+    ReactiveFormsModule,
+    CandidateSectionComponent,
+    ValidCertificateComponent,
+    PrivacyNoticeComponent,
+    IonRow,
+    IonCol,
+    IonText,
+    AddOrRemoveLangCyDirective,
+    ProvidedEmailComponent,
+    NewEmailComponent,
+    PostalAddressComponent,
+    AsyncPipe,
+    TranslatePipe,
+  ],
 })
 export class CommunicationPage extends PracticeableBasePageComponent implements OnInit {
   static readonly providedEmail: string = 'Provided';

@@ -6,8 +6,17 @@ import { IonButton, IonButtons, IonContent, IonHeader, IonTitle, IonToolbar } fr
 import { ErrorPage } from './error';
 
 @NgModule({
-  declarations: [ErrorPage],
-  imports: [CommonModule, ComponentsModule, IonTitle, IonContent, IonButtons, IonButton, IonToolbar, IonHeader],
+  imports: [
+    CommonModule,
+    ComponentsModule,
+    IonTitle,
+    IonContent,
+    IonButtons,
+    IonButton,
+    IonToolbar,
+    IonHeader,
+    ErrorPage,
+  ],
   exports: [ErrorPage],
 })
 export class ErrorPageModule {}

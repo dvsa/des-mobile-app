@@ -12,8 +12,7 @@ describe('QuestionDelExRadioCardComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [QuestionDelExRadioCardComponent, MockComponent(QuestionTitleComponent)],
-      imports: [AppModule],
+      imports: [AppModule, QuestionDelExRadioCardComponent, MockComponent(QuestionTitleComponent)],
     });
 
     fixture = TestBed.createComponent(QuestionDelExRadioCardComponent);

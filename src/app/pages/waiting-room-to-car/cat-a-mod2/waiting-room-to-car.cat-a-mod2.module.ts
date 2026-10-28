@@ -25,11 +25,9 @@ import { WaitingRoomToCarCatAMod2PageRoutingModule } from './waiting-room-to-car
 import { WaitingRoomToCarCatAMod2Page } from './waiting-room-to-car.cat-a-mod2.page';
 
 @NgModule({
-  declarations: [WaitingRoomToCarCatAMod2Page],
   imports: [
     CommonModule,
     FormsModule,
-
     WaitingRoomToCarCatAMod2PageRoutingModule,
     ReactiveFormsModule,
     ComponentsModule,
@@ -47,6 +45,7 @@ import { WaitingRoomToCarCatAMod2Page } from './waiting-room-to-car.cat-a-mod2.p
     IonToolbar,
     IonContent,
     IonGrid,
+    WaitingRoomToCarCatAMod2Page,
   ],
 })
 export class WaitingRoomToCarCatAMod2PageModule {}

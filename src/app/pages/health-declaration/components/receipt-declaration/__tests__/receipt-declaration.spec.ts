@@ -11,8 +11,7 @@ describe('ReceiptDeclarationComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [ReceiptDeclarationComponent],
-      imports: [ReactiveFormsModule, TranslateModule.forRoot()],
+      imports: [ReactiveFormsModule, TranslateModule.forRoot(), ReceiptDeclarationComponent],
     });
 
     fixture = TestBed.createComponent(ReceiptDeclarationComponent);

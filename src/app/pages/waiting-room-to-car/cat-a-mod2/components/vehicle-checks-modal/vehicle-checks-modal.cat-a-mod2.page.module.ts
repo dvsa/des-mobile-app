@@ -28,10 +28,8 @@ import { VehicleChecksModalCatAMod2AnalyticsEffects } from './vehicle-checks-mod
 import { VehicleChecksCatAMod2Modal } from './vehicle-checks-modal.cat-a-mod2.page';
 
 @NgModule({
-  declarations: [VehicleChecksCatAMod2Modal],
   imports: [
     EffectsModule.forFeature([VehicleChecksModalCatAMod2AnalyticsEffects]),
-
     ComponentsModule,
     CommonModule,
     ReactiveFormsModule,
@@ -54,6 +52,7 @@ import { VehicleChecksCatAMod2Modal } from './vehicle-checks-modal.cat-a-mod2.pa
     IonCol,
     IonRow,
     IonFooter,
+    VehicleChecksCatAMod2Modal,
   ],
 })
 export class VehicleChecksModalCatAMod2Module {}

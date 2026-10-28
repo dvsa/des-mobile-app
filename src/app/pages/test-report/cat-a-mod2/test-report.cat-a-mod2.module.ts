@@ -18,11 +18,9 @@ import { TestReportCatAMod2PageRoutingModule } from './test-report.cat-a-mod2-ro
 import { TestReportCatAMod2Page } from './test-report.cat-a-mod2.page';
 
 @NgModule({
-  declarations: [TestReportCatAMod2Page],
   imports: [
     CommonModule,
     FormsModule,
-
     TestReportCatAMod2PageRoutingModule,
     ComponentsModule,
     TestReportComponentsModule,
@@ -36,6 +34,7 @@ import { TestReportCatAMod2Page } from './test-report.cat-a-mod2.page';
     IonContent,
     IonHeader,
     IonToolbar,
+    TestReportCatAMod2Page,
   ],
   providers: [TestReportValidatorProvider, TestResultProvider],
 })

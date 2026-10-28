@@ -21,7 +21,6 @@ import { TestCentreNameComponent } from './test-centre-name/test-centre-name';
 import { ViewJournalsCardComponent } from './view-journals-card/view-journals-card';
 
 @NgModule({
-  declarations: [CandidateSearchCardComponent, TestCentreNameComponent, ViewJournalsCardComponent],
   imports: [
     CommonModule,
     JournalComponentsModule,
@@ -36,6 +35,9 @@ import { ViewJournalsCardComponent } from './view-journals-card/view-journals-ca
     IonSelect,
     IonSelectOption,
     IonList,
+    CandidateSearchCardComponent,
+    TestCentreNameComponent,
+    ViewJournalsCardComponent,
   ],
   providers: [OrientationMonitorProvider],
   exports: [CandidateSearchCardComponent, TestCentreNameComponent, ViewJournalsCardComponent],

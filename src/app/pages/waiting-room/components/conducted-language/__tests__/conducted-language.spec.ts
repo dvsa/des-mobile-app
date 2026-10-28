@@ -10,8 +10,7 @@ describe('ConductedLanguageComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [IonRow, IonCol],
-      declarations: [ConductedLanguageComponent],
+      imports: [IonRow, IonCol, ConductedLanguageComponent],
     });
 
     fixture = TestBed.createComponent(ConductedLanguageComponent);

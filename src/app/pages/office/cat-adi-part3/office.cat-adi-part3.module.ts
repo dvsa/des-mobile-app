@@ -28,7 +28,6 @@ import { WaitingRoomToCarComponentsModule } from '@pages/waiting-room-to-car/com
 import { FaultSummaryProvider } from '@providers/fault-summary/fault-summary';
 
 @NgModule({
-  declarations: [OfficeCatADI3Page],
   imports: [
     CommonModule,
     FormsModule,
@@ -51,6 +50,7 @@ import { FaultSummaryProvider } from '@providers/fault-summary/fault-summary';
     IonCardHeader,
     IonCard,
     IonFooter,
+    OfficeCatADI3Page,
   ],
   providers: [FaultSummaryProvider],
 })

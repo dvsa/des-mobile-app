@@ -1,10 +1,11 @@
 import { Component, Input } from '@angular/core';
+import { IonCard, IonCardContent, IonCol, IonGrid, IonRow, IonText } from '@ionic/angular';
 
 @Component({
   selector: 'eco-card',
   templateUrl: './eco-card.component.html',
   styleUrls: ['./eco-card.component.scss'],
-  standalone: false,
+  imports: [IonCard, IonCardContent, IonGrid, IonRow, IonCol, IonText],
 })
 export class ECOCardComponent {
   @Input()

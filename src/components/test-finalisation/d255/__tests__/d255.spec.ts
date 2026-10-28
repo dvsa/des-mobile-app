@@ -11,8 +11,7 @@ describe('D255Component', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [D255Component],
-
+      imports: [D255Component],
       providers: [OutcomeBehaviourMapProvider],
     });
 

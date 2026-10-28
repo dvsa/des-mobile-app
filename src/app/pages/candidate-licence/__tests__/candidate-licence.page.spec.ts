@@ -95,7 +95,8 @@ describe('CandidateLicencePage', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      declarations: [
+      imports: [
+        ReactiveFormsModule,
         CandidateLicencePage,
         MockComponent(OfflineBannerComponent),
         MockComponent(LicencePhoto),
@@ -103,7 +104,6 @@ describe('CandidateLicencePage', () => {
         MockComponent(TrueLikenessComponent),
         MockComponent(LicenceInformation),
       ],
-      imports: [ReactiveFormsModule],
       providers: [
         {
           provide: DomSanitizer,

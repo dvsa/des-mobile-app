@@ -1,11 +1,23 @@
 import { Component, Injector, OnInit } from '@angular/core';
-import { UntypedFormGroup } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule, UntypedFormGroup } from '@angular/forms';
 import { select } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
+import { AsyncPipe, NgClass } from '@angular/common';
 import { CatADI2UniqueTypes } from '@dvsa/mes-test-schema/categories/ADI2';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
+import {
+  IonButton,
+  IonCol,
+  IonContent,
+  IonFooter,
+  IonGrid,
+  IonHeader,
+  IonRow,
+  IonText,
+  IonToolbar,
+} from '@ionic/angular';
 import { ClearCandidateLicenceData } from '@pages/candidate-licence/candidate-licence.actions';
 import { TestFlowPageNames } from '@pages/page-names.constants';
 import { WaitingRoomToCarValidationError } from '@pages/waiting-room-to-car/waiting-room-to-car.actions';
@@ -25,6 +37,20 @@ import {
   getTrainerRegistrationNumber,
 } from '@store/tests/trainer-details/cat-adi-part2/trainer-details.cat-adi-part2.selector';
 import { MotEvidenceProvidedReset } from '@store/tests/vehicle-details/vehicle-details.actions';
+import { OfflineBannerComponent } from '../../../../components/common/offline-banner/offline-banner';
+import { TestFlowHeaderComponent } from '../../../../components/common/test-flow-header/test-flow-header.component';
+import { TransmissionComponent } from '../../../../components/common/transmission/transmission';
+import { AccompanimentCardComponent } from '../components/accompaniment-card/accompaniment-card';
+import { EyesightFailureConfirmationComponent } from '../components/eyesight-failure-confirmation/eyesight-failure-confirmation';
+import { EyesightTestComponent } from '../components/eyesight-test/eyesight-test';
+import { MotNoEvidenceConfirmationComponent } from '../components/mot-components/mot-no-evidence-confirmation/mot-no-evidence-confirmation';
+import { SafetyRecallComponent } from '../components/safety-recall/safety-recall';
+import { TestCategoryComponent } from '../components/test-category/test-category';
+import { VehicleChecksComponent } from '../components/vehicle-checks/vehicle-checks';
+import { VehicleDetailsCardComponent } from '../components/vehicle-details-card/vehicle-details-card';
+import { VehicleRegistrationComponent } from '../components/vehicle-registration/vehicle-registration';
+import { OrditTrainerCatAdiPart2Component } from './components/ordit-trainer/ordit-trainer.cat-adi-part2';
+import { TrainerRegistrationNumberCatAdiPart2Component } from './components/trainer-registration-number/trainer-registration-number.cat-adi-part2';
 
 interface CatAdi2WaitingRoomToCarPageState {
   orditTrained$: Observable<boolean>;
@@ -39,7 +65,35 @@ type WaitingRoomToCarPageState = CommonWaitingRoomToCarPageState & CatAdi2Waitin
   selector: 'app-waiting-room-to-car-cat-adi-part2',
   templateUrl: './waiting-room-to-car.cat-adi-part2.page.html',
   styleUrls: ['./waiting-room-to-car.cat-adi-part2.page.scss'],
-  standalone: false,
+  imports: [
+    IonHeader,
+    IonToolbar,
+    NgClass,
+    TestFlowHeaderComponent,
+    IonContent,
+    OfflineBannerComponent,
+    FormsModule,
+    ReactiveFormsModule,
+    IonGrid,
+    EyesightTestComponent,
+    IonRow,
+    EyesightFailureConfirmationComponent,
+    IonCol,
+    TestCategoryComponent,
+    VehicleChecksComponent,
+    VehicleRegistrationComponent,
+    MotNoEvidenceConfirmationComponent,
+    SafetyRecallComponent,
+    TransmissionComponent,
+    AccompanimentCardComponent,
+    VehicleDetailsCardComponent,
+    OrditTrainerCatAdiPart2Component,
+    TrainerRegistrationNumberCatAdiPart2Component,
+    IonFooter,
+    IonButton,
+    IonText,
+    AsyncPipe,
+  ],
 })
 export class WaitingRoomToCarCatADIPart2Page extends WaitingRoomToCarBasePageComponent implements OnInit {
   pageState: WaitingRoomToCarPageState;

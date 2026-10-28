@@ -1,10 +1,12 @@
+import { NgClass } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { IonCol, IonGrid, IonRow } from '@ionic/angular';
 import { isAnyOf } from '@shared/helpers/simplifiers';
 
 @Component({
   selector: 'tr-assessment-answer',
   templateUrl: 'tr-assessment-answer.html',
-  standalone: false,
+  imports: [IonGrid, IonRow, IonCol, NgClass],
 })
 export class TestReportAssessmentAnswer {
   @Input()

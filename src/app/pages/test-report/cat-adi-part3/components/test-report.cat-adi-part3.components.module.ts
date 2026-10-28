@@ -2,7 +2,6 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ComponentsModule } from '@components/common/common-components.module';
-import { DirectivesModule } from '@directives/directives.module';
 
 import { IonCard, IonCardContent, IonCardHeader, IonCol, IonGrid, IonRow } from '@ionic/angular';
 import { AssessmentAnswerComponent } from '@pages/test-report/cat-adi-part3/components/assessment-answer/assessment-answer';
@@ -11,26 +10,16 @@ import { LessonThemeComponent } from '@pages/test-report/cat-adi-part3/component
 import { StudentComponent } from '@pages/test-report/cat-adi-part3/components/student/student';
 import { TestReportAssessmentAnswer } from '@pages/test-report/cat-adi-part3/components/tr-assessment-answer/tr-assessment-answer';
 import { TestReportAssessmentCard } from '@pages/test-report/cat-adi-part3/components/tr-assessment-card/tr-assessment-card';
-import { PipesModule } from '@shared/pipes/pipes.module';
+
 import { TestReportComponentsModule } from '../../components/test-report-components.module';
 
 @NgModule({
-  declarations: [
-    StudentComponent,
-    AssessmentAnswerComponent,
-    LessonThemeComponent,
-    TestReportAssessmentAnswer,
-    TestReportAssessmentCard,
-  ],
   imports: [
     CommonModule,
     ComponentsModule,
     TestReportComponentsModule,
-
-    DirectivesModule,
     ReactiveFormsModule,
     FormsModule,
-    PipesModule,
     Code4ModalModule,
     IonCol,
     IonRow,
@@ -38,6 +27,11 @@ import { TestReportComponentsModule } from '../../components/test-report-compone
     IonCardContent,
     IonCardHeader,
     IonCard,
+    StudentComponent,
+    AssessmentAnswerComponent,
+    LessonThemeComponent,
+    TestReportAssessmentAnswer,
+    TestReportAssessmentCard,
   ],
   exports: [
     StudentComponent,

@@ -10,13 +10,19 @@ import { ManoeuvresComponent } from './manoeuvres/manoeuvres';
 import { VehicleCheckComponent } from './vehicle-check/vehicle-check';
 
 @NgModule({
-  declarations: [
+  imports: [
+    CommonModule,
+    ComponentsModule,
+    TestReportComponentsModule,
+    IonCol,
+    IonRow,
+    IonIcon,
+    IonGrid,
     ManoeuvresComponent,
     ManoeuvresPopoverComponentAdiPart2,
     ManoeuvreCompetencyComponentAdiPart2,
     VehicleCheckComponent,
   ],
-  imports: [CommonModule, ComponentsModule, TestReportComponentsModule, IonCol, IonRow, IonIcon, IonGrid],
   exports: [
     ManoeuvresComponent,
     ManoeuvresPopoverComponentAdiPart2,

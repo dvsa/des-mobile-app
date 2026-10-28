@@ -1,3 +1,4 @@
+import { NgClass } from '@angular/common';
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { CatADI2UniqueTypes } from '@dvsa/mes-test-schema/categories/ADI2';
 import { ManoeuvreOutcome } from '@dvsa/mes-test-schema/categories/common';
@@ -19,6 +20,10 @@ import { getTests } from '@store/tests/tests.reducer';
 import { getCurrentTest } from '@store/tests/tests.selector';
 import { Observable, Subscription, merge } from 'rxjs';
 import { map, takeUntil } from 'rxjs/operators';
+import { DangerousFaultBadgeComponent } from '../../../../../../components/common/dangerous-fault-badge/dangerous-fault-badge';
+import { DrivingFaultsBadgeComponent } from '../../../../../../components/common/driving-faults-badge/driving-faults-badge';
+import { SeriousFaultBadgeComponent } from '../../../../../../components/common/serious-fault-badge/serious-fault-badge';
+import { CompetencyButtonComponent } from '../../../components/competency-button/competency-button';
 import { ToggleDangerousFaultMode, ToggleRemoveFaultMode, ToggleSeriousFaultMode } from '../../../test-report.actions';
 import { getTestReportState } from '../../../test-report.reducer';
 import { isDangerousMode, isRemoveFaultMode, isSeriousMode } from '../../../test-report.selector';
@@ -34,7 +39,13 @@ interface ManoeuvreCompetencyComponentState {
   selector: 'manoeuvre-competency-adi-part2',
   templateUrl: 'manoeuvre-competency.html',
   styleUrls: ['manoeuvre-competency.scss'],
-  standalone: false,
+  imports: [
+    CompetencyButtonComponent,
+    NgClass,
+    DrivingFaultsBadgeComponent,
+    SeriousFaultBadgeComponent,
+    DangerousFaultBadgeComponent,
+  ],
 })
 export class ManoeuvreCompetencyComponentAdiPart2 implements OnInit, OnDestroy {
   @Input()

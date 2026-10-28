@@ -1,12 +1,37 @@
+import { NgClass } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { UntypedFormControl, UntypedFormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
+import {
+  FormsModule,
+  ReactiveFormsModule,
+  UntypedFormControl,
+  UntypedFormGroup,
+  ValidationErrors,
+  ValidatorFn,
+  Validators,
+} from '@angular/forms';
+import { IonCard, IonCardContent, IonCol, IonIcon, IonRow } from '@ionic/angular';
 import { CharacterCountService } from '@providers/character-count/character-count.service';
+import { CharacterCountDirective } from '../../../../../directives/character-count.directive';
+import { EmojiBlockDirective } from '../../../../../directives/emoji-block.directive';
+import { PasteSanitiserDirective } from '../../../../../directives/paste-sanitiser';
 
 @Component({
   selector: 'review-feedback',
   templateUrl: 'review-feedback.html',
   styleUrls: ['review-feedback.scss'],
-  standalone: false,
+  imports: [
+    IonCard,
+    FormsModule,
+    ReactiveFormsModule,
+    IonCardContent,
+    IonRow,
+    IonCol,
+    IonIcon,
+    NgClass,
+    CharacterCountDirective,
+    EmojiBlockDirective,
+    PasteSanitiserDirective,
+  ],
 })
 export class ReviewFeedback {
   @Input()

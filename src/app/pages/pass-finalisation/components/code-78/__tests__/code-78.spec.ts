@@ -9,8 +9,7 @@ describe('Code78Component', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [Code78Component],
-      imports: [ReactiveFormsModule],
+      imports: [ReactiveFormsModule, Code78Component],
     });
 
     fixture = TestBed.createComponent(Code78Component);

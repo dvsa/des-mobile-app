@@ -1,11 +1,12 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { IonCol, IonGrid, IonIcon, IonRow, IonText } from '@ionic/angular';
 import { DateTime } from '@shared/helpers/date-time';
 
 @Component({
   selector: 'candidate-detail-navigation',
   templateUrl: 'candidate-detail-navigation.html',
   styleUrls: ['candidate-detail-navigation.scss'],
-  standalone: false,
+  imports: [IonGrid, IonRow, IonCol, IonText, IonIcon],
 })
 export class CandidateDetailNavigationComponent {
   @Input()

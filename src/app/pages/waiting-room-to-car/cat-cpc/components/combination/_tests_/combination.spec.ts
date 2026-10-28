@@ -10,8 +10,7 @@ describe('CombinationComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [CombinationComponent],
-      imports: [AppModule],
+      imports: [AppModule, CombinationComponent],
     });
 
     fixture = TestBed.createComponent(CombinationComponent);

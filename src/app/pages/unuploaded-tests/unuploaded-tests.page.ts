@@ -1,5 +1,17 @@
+import { AsyncPipe } from '@angular/common';
 import { Component, Injector, OnInit } from '@angular/core';
 import { TestSlot } from '@dvsa/mes-journal-schema';
+import {
+  IonButton,
+  IonButtons,
+  IonContent,
+  IonHeader,
+  IonIcon,
+  IonLabel,
+  IonText,
+  IonTitle,
+  IonToolbar,
+} from '@ionic/angular';
 import { DASHBOARD_PAGE } from '@pages/page-names.constants';
 import {
   UnuploadedTestsReturnToDashboardPressed,
@@ -20,6 +32,8 @@ import { getJournalState } from '@store/journal/journal.reducer';
 import { getTests } from '@store/tests/tests.reducer';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { TestSlotComponent } from '../../../components/test-slot/test-slot/test-slot';
+import { ProfileHeaderComponent } from '../dashboard/components/profile-header/profile-header';
 
 interface UnunploadedTestsPageState {
   unSubmittedTestSlotData$: Observable<TestSlot[]>;
@@ -34,7 +48,20 @@ interface UnunploadedTestsPageState {
   selector: 'unuploaded-tests',
   templateUrl: 'unuploaded-tests.page.html',
   styleUrls: ['unuploaded-tests.page.scss'],
-  standalone: false,
+  imports: [
+    IonHeader,
+    IonToolbar,
+    IonButtons,
+    IonButton,
+    IonIcon,
+    IonLabel,
+    IonTitle,
+    IonContent,
+    ProfileHeaderComponent,
+    IonText,
+    TestSlotComponent,
+    AsyncPipe,
+  ],
 })
 export class UnuploadedTestsPage extends BasePageComponent implements OnInit {
   pageState: UnunploadedTestsPageState;

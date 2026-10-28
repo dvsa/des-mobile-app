@@ -10,7 +10,6 @@ import { CombinationComponent } from './combination/combination';
 import { VehicleDetailsCatCPCComponent } from './vehicle-details/vehicle-details';
 
 @NgModule({
-  declarations: [AccompanimentCardCatCPCComponent, CombinationComponent, VehicleDetailsCatCPCComponent],
   imports: [
     ComponentsModule,
     WaitingRoomToCarComponentsModule,
@@ -20,6 +19,9 @@ import { VehicleDetailsCatCPCComponent } from './vehicle-details/vehicle-details
     IonCol,
     IonSelect,
     IonSelectOption,
+    AccompanimentCardCatCPCComponent,
+    CombinationComponent,
+    VehicleDetailsCatCPCComponent,
   ],
   exports: [AccompanimentCardCatCPCComponent, CombinationComponent, VehicleDetailsCatCPCComponent],
 })

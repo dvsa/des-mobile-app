@@ -17,8 +17,7 @@ describe('JournalForceCheckModal', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [JournalForceCheckModal],
-      imports: [ComponentsModule],
+      imports: [ComponentsModule, JournalForceCheckModal],
       providers: [{ provide: ModalController, useClass: ModalControllerMock }],
     });
 

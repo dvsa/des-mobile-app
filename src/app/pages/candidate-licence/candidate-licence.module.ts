@@ -25,11 +25,9 @@ import { CandidateLicencePageRoutingModule } from './candidate-licence-routing.m
 import { CandidateLicencePage } from './candidate-licence.page';
 
 @NgModule({
-  declarations: [CandidateLicencePage],
   imports: [
     CommonModule,
     FormsModule,
-
     CandidateLicencePageRoutingModule,
     CandidateLicenceComponentsModule,
     ComponentsModule,
@@ -47,6 +45,7 @@ import { CandidateLicencePage } from './candidate-licence.page';
     IonGrid,
     IonContent,
     IonHeader,
+    CandidateLicencePage,
   ],
 })
 export class CandidateLicencePageModule {}

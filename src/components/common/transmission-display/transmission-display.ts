@@ -1,6 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { CategoryCode, GearboxCategory } from '@dvsa/mes-test-schema/categories/common';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
+import { IonCol, IonRow } from '@ionic/angular';
 
 enum GearBox {
   AUTOMATIC_NOT_SUBMITTED = 'Automatic - An automatic licence issued',
@@ -12,7 +13,7 @@ enum GearBox {
 @Component({
   selector: 'transmission-display',
   templateUrl: 'transmission-display.html',
-  standalone: false,
+  imports: [IonRow, IonCol],
 })
 export class TransmissionDisplayComponent {
   @Input()

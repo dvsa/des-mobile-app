@@ -7,7 +7,16 @@ import { IonButton, IonCard, IonCol, IonRow, IonText } from '@ionic/angular';
 import { JournalEarlyStartModal } from '@pages/journal/components/journal-early-start-modal/journal-early-start-modal';
 
 @NgModule({
-  imports: [CommonModule, FormsModule, ComponentsModule, IonButton, IonCol, IonRow, IonText, IonCard],
-  declarations: [JournalEarlyStartModal],
+  imports: [
+    CommonModule,
+    FormsModule,
+    ComponentsModule,
+    IonButton,
+    IonCol,
+    IonRow,
+    IonText,
+    IonCard,
+    JournalEarlyStartModal,
+  ],
 })
 export class JournalEarlyStartModule {}

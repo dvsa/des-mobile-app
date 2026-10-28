@@ -9,8 +9,7 @@ describe('DataGridComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [DataGridComponent],
-      imports: [AppModule],
+      imports: [AppModule, DataGridComponent],
       providers: [],
     });
 

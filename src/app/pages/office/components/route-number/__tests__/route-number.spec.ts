@@ -14,8 +14,7 @@ describe('RouteNumberComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [RouteNumberComponent],
-      imports: [AppModule],
+      imports: [AppModule, RouteNumberComponent],
       providers: [{ provide: OutcomeBehaviourMapProvider, useClass: OutcomeBehaviourMapProvider }],
     });
 

@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
-import { ModalController } from '@ionic/angular';
+import { FormsModule, ReactiveFormsModule, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { IonButton, IonCol, IonInput, IonRow, ModalController } from '@ionic/angular';
 import { Store } from '@ngrx/store';
 import { InvalidMotModalValidationError } from '@pages/waiting-room-to-car/waiting-room-to-car.actions';
 import {
@@ -10,6 +10,8 @@ import {
 } from '@shared/constants/field-validators/field-validators';
 import { StoreModel } from '@shared/models/store.model';
 import { isEmpty } from 'lodash-es';
+import { ModalAlertTitleComponent } from '../../../../../../components/common/modal-alert-title/modal-alert-title';
+import { InputRestrictionUppercaseAlphanumDirective } from '../../../../../../directives/input-restriction-uppercasealphanum.directive';
 
 export enum ModalEvent {
   CANCEL = 'cancel',
@@ -20,7 +22,16 @@ export enum ModalEvent {
   selector: 'mot-failed-modal',
   templateUrl: './mot-failed-modal.component.html',
   styleUrls: ['./mot-failed-modal.component.scss'],
-  standalone: false,
+  imports: [
+    FormsModule,
+    ReactiveFormsModule,
+    ModalAlertTitleComponent,
+    IonRow,
+    IonCol,
+    IonInput,
+    InputRestrictionUppercaseAlphanumDirective,
+    IonButton,
+  ],
 })
 export class MotFailedModal implements OnInit {
   readonly registrationNumberValidator: FieldValidators = getRegistrationNumberValidator();

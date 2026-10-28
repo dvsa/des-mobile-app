@@ -12,8 +12,7 @@ describe('PassCertificatesPage', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [PassCertificatesPage],
-
+      imports: [PassCertificatesPage],
       providers: [{ provide: Store, useClass: MockStore }, provideMockStore({})],
     });
     fixture = TestBed.createComponent(PassCertificatesPage);

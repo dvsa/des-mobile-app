@@ -8,7 +8,7 @@ import { OfficeComponentsModule } from '@pages/office/components/office.componen
 import { PracticeModeBanner } from '@components/common/practice-mode-banner/practice-mode-banner';
 import { PracticeModeExitButton } from '@components/common/practice-mode-exit-button/practice-mode-exit-button';
 import { TestFlowHeaderComponent } from '@components/common/test-flow-header/test-flow-header.component';
-import { DirectivesModule } from '@directives/directives.module';
+
 import {
   IonCard,
   IonCardContent,
@@ -39,14 +39,6 @@ import { OfficeCatADIPart2PageRoutingModule } from './office.cat-adi-part2-routi
 import { OfficeCatADI2Page } from './office.cat-adi-part2.page';
 
 @NgModule({
-  declarations: [
-    OfficeCatADI2Page,
-    VehicleChecksOfficeCardCatADI2Component,
-    ShowMeQuestionsCatADI2Component,
-    EcoCaptureReasonComponent,
-    EcoRelatedFaultComponent,
-    FuelEfficientDriving,
-  ],
   imports: [
     CommonModule,
     FormsModule,
@@ -56,7 +48,6 @@ import { OfficeCatADI2Page } from './office.cat-adi-part2.page';
     ReactiveFormsModule,
     EffectsModule.forFeature([OfficeAnalyticsEffects, OfficeEffects]),
     WaitingRoomToCarComponentsModule,
-    DirectivesModule,
     ReasonForEnteringTeamsComponent,
     OfficeRegistrationAndMotComponent,
     PracticeModeBanner,
@@ -74,6 +65,12 @@ import { OfficeCatADI2Page } from './office.cat-adi-part2.page';
     IonSelect,
     IonSelectOption,
     IonFooter,
+    OfficeCatADI2Page,
+    VehicleChecksOfficeCardCatADI2Component,
+    ShowMeQuestionsCatADI2Component,
+    EcoCaptureReasonComponent,
+    EcoRelatedFaultComponent,
+    FuelEfficientDriving,
   ],
   providers: [FaultSummaryProvider],
 })

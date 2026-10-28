@@ -10,7 +10,6 @@ import { InputRestrictionNumbersDirective } from '@directives/input-restriction-
       <input type="text" numbersOnly />
     </form>
   `,
-  standalone: false,
 })
 class TestInputRestrictionNumbersComponent {}
 
@@ -25,7 +24,7 @@ describe('Directive: InputRestrictionNumbersDirective', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [InputRestrictionNumbersDirective, TestInputRestrictionNumbersComponent],
+      imports: [InputRestrictionNumbersDirective, TestInputRestrictionNumbersComponent],
       providers: [{ provide: ElementRef, useValue: ElementRefMock }],
     });
     fixture = TestBed.createComponent(TestInputRestrictionNumbersComponent);

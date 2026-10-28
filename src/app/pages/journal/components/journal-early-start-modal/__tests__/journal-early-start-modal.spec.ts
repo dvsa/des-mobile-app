@@ -17,8 +17,7 @@ describe('JournalEarlyStartModal', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [JournalEarlyStartModal],
-      imports: [CommonModule, FormsModule, ComponentsModule],
+      imports: [CommonModule, FormsModule, ComponentsModule, JournalEarlyStartModal],
       providers: [{ provide: ModalController, useClass: ModalControllerMock }, provideMockStore({})],
     });
     modalFixture = TestBed.createComponent(JournalEarlyStartModal);

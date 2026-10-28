@@ -86,7 +86,9 @@ describe('WaitingRoomToCarCatDPage', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      declarations: [
+      imports: [
+        AppModule,
+        ReactiveFormsModule,
         WaitingRoomToCarCatDPage,
         MockComponent(EndTestLinkComponent),
         MockComponent(VehicleRegistrationComponent),
@@ -100,7 +102,6 @@ describe('WaitingRoomToCarCatDPage', () => {
         MockComponent(CandidateDeclarationSignedComponent),
         MockComponent(FullLicenceHeldComponent),
       ],
-      imports: [AppModule, ReactiveFormsModule],
       providers: [
         {
           provide: RouteByCategoryProvider,

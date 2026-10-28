@@ -23,7 +23,6 @@ import { WaitingRoomToCarAnalyticsEffects } from '@pages/waiting-room-to-car/wai
 import { WaitingRoomToCarCatManoeuvrePageRoutingModule } from './waiting-room-to-car.cat-manoeuvre.routing-module';
 
 @NgModule({
-  declarations: [WaitingRoomToCarCatManoeuvrePage],
   imports: [
     CommonModule,
     FormsModule,
@@ -43,6 +42,7 @@ import { WaitingRoomToCarCatManoeuvrePageRoutingModule } from './waiting-room-to
     IonFooter,
     IonGrid,
     IonContent,
+    WaitingRoomToCarCatManoeuvrePage,
   ],
 })
 export class WaitingRoomToCarCatManoeuvrePageModule {}

@@ -15,9 +15,8 @@ describe('ActivitySlotComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [ActivitySlotComponent, MockComponent(TimeComponent), MockComponent(LocationComponent)],
       providers: [{ provide: AppConfigProvider, useClass: AppConfigProviderMock }],
-      imports: [CommonModule],
+      imports: [CommonModule, ActivitySlotComponent, MockComponent(TimeComponent), MockComponent(LocationComponent)],
     });
 
     fixture = TestBed.createComponent(ActivitySlotComponent);

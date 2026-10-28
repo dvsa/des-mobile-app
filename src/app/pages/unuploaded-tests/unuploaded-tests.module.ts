@@ -26,7 +26,6 @@ import { OrientationMonitorProvider } from '@providers/orientation-monitor/orien
 @NgModule({
   imports: [
     CommonModule,
-
     ComponentsModule,
     UnuploadedTestsRoutingModule,
     DashboardComponentsModule,
@@ -41,8 +40,8 @@ import { OrientationMonitorProvider } from '@providers/orientation-monitor/orien
     IonHeader,
     IonContent,
     IonText,
+    UnuploadedTestsPage,
   ],
-  declarations: [UnuploadedTestsPage],
   providers: [OrientationMonitorProvider],
 })
 export class UnuploadedTestsModule {}

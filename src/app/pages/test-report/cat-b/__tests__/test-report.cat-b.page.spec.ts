@@ -70,7 +70,13 @@ describe('TestReportCatBPage', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [
+      imports: [
+        AppModule,
+        StoreModule.forRoot({
+          tests: testsReducer,
+        }),
+        StoreModule.forFeature('testReport', testReportReducer),
+        MockComponent(TestFlowHeaderComponent),
         TestReportCatBPage,
         MockComponent(ManoeuvresPopoverComponent),
         MockComponent(ManoeuvresComponent),
@@ -86,14 +92,6 @@ describe('TestReportCatBPage', () => {
         MockComponent(VehicleCheckComponent),
         MockComponent(EcoComponent),
         MockComponent(PracticeModeOptionsBar),
-      ],
-      imports: [
-        AppModule,
-        StoreModule.forRoot({
-          tests: testsReducer,
-        }),
-        StoreModule.forFeature('testReport', testReportReducer),
-        MockComponent(TestFlowHeaderComponent),
       ],
       providers: [
         {

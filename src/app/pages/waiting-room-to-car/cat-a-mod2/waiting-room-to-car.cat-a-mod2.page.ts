@@ -1,7 +1,19 @@
+import { AsyncPipe, NgClass } from '@angular/common';
 import { Component, Injector, OnInit } from '@angular/core';
-import { UntypedFormGroup } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule, UntypedFormGroup } from '@angular/forms';
 import { SafetyAndBalanceQuestions } from '@dvsa/mes-test-schema/categories/AM2';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
+import {
+  IonButton,
+  IonCol,
+  IonContent,
+  IonFooter,
+  IonGrid,
+  IonHeader,
+  IonRow,
+  IonText,
+  IonToolbar,
+} from '@ionic/angular';
 import { select } from '@ngrx/store';
 import { ClearCandidateLicenceData } from '@pages/candidate-licence/candidate-licence.actions';
 import { TestFlowPageNames } from '@pages/page-names.constants';
@@ -21,6 +33,17 @@ import { MotEvidenceProvidedReset } from '@store/tests/vehicle-details/vehicle-d
 import { getVehicleDetails } from '@store/tests/vehicle-details/vehicle-details.reducer';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { BikeCategoryTypeComponent } from '../../../../components/common/bike-category-type/bike-category-type';
+import { OfflineBannerComponent } from '../../../../components/common/offline-banner/offline-banner';
+import { TestFlowHeaderComponent } from '../../../../components/common/test-flow-header/test-flow-header.component';
+import { TransmissionComponent } from '../../../../components/common/transmission/transmission';
+import { AccompanimentCardComponent } from '../components/accompaniment-card/accompaniment-card';
+import { EyesightFailureConfirmationComponent } from '../components/eyesight-failure-confirmation/eyesight-failure-confirmation';
+import { EyesightTestComponent } from '../components/eyesight-test/eyesight-test';
+import { MotNoEvidenceConfirmationComponent } from '../components/mot-components/mot-no-evidence-confirmation/mot-no-evidence-confirmation';
+import { VehicleDetailsCardComponent } from '../components/vehicle-details-card/vehicle-details-card';
+import { VehicleRegistrationComponent } from '../components/vehicle-registration/vehicle-registration';
+import { VehicleChecksCatAMod2Component } from './components/vehicle-checks/vehicle-checks';
 
 interface CatMod2WaitingRoomToCarPageState {
   schoolBike$: Observable<boolean>;
@@ -34,7 +57,32 @@ type WaitingRoomToCarPageState = CommonWaitingRoomToCarPageState & CatMod2Waitin
   selector: 'app-waiting-room-to-car-cat-a-mod2',
   templateUrl: './waiting-room-to-car.cat-a-mod2.page.html',
   styleUrls: ['./waiting-room-to-car.cat-a-mod2.page.scss'],
-  standalone: false,
+  imports: [
+    IonHeader,
+    IonToolbar,
+    NgClass,
+    TestFlowHeaderComponent,
+    IonContent,
+    OfflineBannerComponent,
+    FormsModule,
+    ReactiveFormsModule,
+    IonGrid,
+    IonRow,
+    IonCol,
+    BikeCategoryTypeComponent,
+    TransmissionComponent,
+    EyesightTestComponent,
+    EyesightFailureConfirmationComponent,
+    VehicleRegistrationComponent,
+    MotNoEvidenceConfirmationComponent,
+    VehicleChecksCatAMod2Component,
+    AccompanimentCardComponent,
+    VehicleDetailsCardComponent,
+    IonFooter,
+    IonButton,
+    IonText,
+    AsyncPipe,
+  ],
 })
 export class WaitingRoomToCarCatAMod2Page extends WaitingRoomToCarBasePageComponent implements OnInit {
   pageState: WaitingRoomToCarPageState;

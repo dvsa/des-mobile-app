@@ -13,8 +13,7 @@ describe('TimeComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [TimeComponent],
-      imports: [IonText],
+      imports: [IonText, TimeComponent],
       providers: [{ provide: LogHelper, useClass: LogHelperMock }],
     });
 

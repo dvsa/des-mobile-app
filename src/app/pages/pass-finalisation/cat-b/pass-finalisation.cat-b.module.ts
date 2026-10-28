@@ -19,7 +19,7 @@ import {
 import { ComponentsModule } from '@components/common/common-components.module';
 import { DangerBannerComponent } from '@components/common/danger-banner/danger-banner';
 import { TestFlowHeaderComponent } from '@components/common/test-flow-header/test-flow-header.component';
-import { TestFinalisationComponentsModule } from '@components/test-finalisation/test-finalisation-components.module';
+
 import { EffectsModule } from '@ngrx/effects';
 import { PassFinalisationCatBPageRoutingModule } from '@pages/pass-finalisation/cat-b/pass-finalisation.cat-b-routing.module';
 import { PassFinalisationAnalyticsEffects } from '@pages/pass-finalisation/pass-finalisation.analytics.effects';
@@ -33,7 +33,6 @@ import { PassFinalisationCatBPage } from './pass-finalisation.cat-b.page';
     CommonModule,
     FormsModule,
     ComponentsModule,
-    TestFinalisationComponentsModule,
     PassFinalisationComponentsModule,
     PassFinalisationCatBPageRoutingModule,
     ReactiveFormsModule,
@@ -50,8 +49,9 @@ import { PassFinalisationCatBPage } from './pass-finalisation.cat-b.page';
     IonFooter,
     IonText,
     IonButton,
+    PassFinalisationCatBPage,
+    DangerBannerComponent,
   ],
   providers: [OutcomeBehaviourMapProvider, PassCertificateValidationProvider],
-  declarations: [PassFinalisationCatBPage, DangerBannerComponent],
 })
 export class PassFinalisationCatBPageModule {}

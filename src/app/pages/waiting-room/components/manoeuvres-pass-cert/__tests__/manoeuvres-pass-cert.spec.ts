@@ -14,8 +14,7 @@ describe('ManoeuvresPassCertificateComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [ManoeuvresPassCertificateComponent],
-
+      imports: [ManoeuvresPassCertificateComponent],
       providers: [
         PassCertificateValidationProvider,
         { provide: AppComponent, useClass: MockAppComponent },

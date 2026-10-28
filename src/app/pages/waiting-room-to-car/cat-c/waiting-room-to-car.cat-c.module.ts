@@ -24,11 +24,9 @@ import { WaitingRoomToCarCatCPageRoutingModule } from './waiting-room-to-car.cat
 import { WaitingRoomToCarCatCPage } from './waiting-room-to-car.cat-c.page';
 
 @NgModule({
-  declarations: [WaitingRoomToCarCatCPage],
   imports: [
     CommonModule,
     FormsModule,
-
     WaitingRoomToCarCatCPageRoutingModule,
     WaitingRoomToCarCatCComponentsModule,
     ComponentsModule,
@@ -45,6 +43,7 @@ import { WaitingRoomToCarCatCPage } from './waiting-room-to-car.cat-c.page';
     IonFooter,
     IonButton,
     IonText,
+    WaitingRoomToCarCatCPage,
   ],
 })
 export class WaitingRoomToCarCatCPageModule {}

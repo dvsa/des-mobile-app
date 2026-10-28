@@ -15,8 +15,7 @@ describe('healthDeclarationModal', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [HealthDeclarationModal],
-      imports: [RouterModule, CommonModule, FormsModule, ComponentsModule],
+      imports: [RouterModule, CommonModule, FormsModule, ComponentsModule, HealthDeclarationModal],
       providers: [
         {
           provide: ModalController,

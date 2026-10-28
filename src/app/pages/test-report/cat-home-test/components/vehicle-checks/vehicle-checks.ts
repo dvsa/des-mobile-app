@@ -1,3 +1,4 @@
+import { AsyncPipe } from '@angular/common';
 import { Component, Input, OnInit } from '@angular/core';
 import { CategoryCode } from '@dvsa/mes-test-schema/categories/common';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
@@ -10,6 +11,8 @@ import { getTests } from '@store/tests/tests.reducer';
 import { getCurrentTest } from '@store/tests/tests.selector';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { DrivingFaultsBadgeComponent } from '../../../../../../components/common/driving-faults-badge/driving-faults-badge';
+import { SeriousFaultBadgeComponent } from '../../../../../../components/common/serious-fault-badge/serious-fault-badge';
 
 interface ComponentState {
   vehicleChecksDrivingFaultCount$: Observable<number>;
@@ -20,7 +23,7 @@ interface ComponentState {
   selector: 'vehicle-checks-home',
   templateUrl: 'vehicle-checks.html',
   styleUrls: ['vehicle-checks.scss'],
-  standalone: false,
+  imports: [DrivingFaultsBadgeComponent, SeriousFaultBadgeComponent, AsyncPipe],
 })
 export class VehicleChecksComponent implements OnInit {
   @Input()

@@ -12,8 +12,7 @@ describe('FullLicenceHeldComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [FullLicenceHeldComponent],
-      imports: [AppModule, ReactiveFormsModule],
+      imports: [AppModule, ReactiveFormsModule, FullLicenceHeldComponent],
     });
 
     fixture = TestBed.createComponent(FullLicenceHeldComponent);

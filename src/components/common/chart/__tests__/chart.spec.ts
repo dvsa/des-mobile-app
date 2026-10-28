@@ -11,8 +11,7 @@ describe('ChartComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [ChartComponent],
-      imports: [MockModule(NgApexchartsModule)],
+      imports: [MockModule(NgApexchartsModule), ChartComponent],
       providers: [],
     });
     fixture = TestBed.createComponent(ChartComponent);

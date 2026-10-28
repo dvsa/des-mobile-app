@@ -9,14 +9,16 @@ import {
   UserExitedApp,
 } from '@dvsa/mes-test-schema/categories/common';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
+import { IonCard, IonCardContent, IonCardHeader, IonGrid } from '@ionic/angular';
 import { isBikeTest } from '@shared/helpers/simplifiers';
 import { get } from 'lodash-es';
+import { DataRowComponent } from '../../../../../components/common/data-row/data-row';
 import { convertBooleanToString, flattenArray } from '../../view-test-result-helpers';
 
 @Component({
   selector: 'test-summary-card',
   templateUrl: 'test-summary-card.html',
-  standalone: false,
+  imports: [IonCard, IonCardHeader, IonCardContent, IonGrid, DataRowComponent],
 })
 export class TestSummaryCardComponent {
   @Input()

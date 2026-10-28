@@ -1,12 +1,15 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { UntypedFormGroup } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule, UntypedFormGroup } from '@angular/forms';
+import { IonCol, IonRow } from '@ionic/angular';
 import { VehicleChecksQuestion } from '@providers/question/vehicle-checks-question.model';
+import { TellMeQuestionOutcomeComponent } from '../tell-me-question-outcome/tell-me-question-outcome';
+import { TellMeQuestionComponent } from '../tell-me-question/tell-me-question';
 
 @Component({
   selector: 'tell-me-question-card',
   templateUrl: './tell-me-question-card.html',
   styleUrls: ['./tell-me-question-card.scss'],
-  standalone: false,
+  imports: [IonRow, FormsModule, ReactiveFormsModule, IonCol, TellMeQuestionComponent, TellMeQuestionOutcomeComponent],
 })
 export class TellMeQuestionCardComponent {
   @Input()

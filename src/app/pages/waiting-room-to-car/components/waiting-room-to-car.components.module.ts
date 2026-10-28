@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ComponentsModule } from '@components/common/common-components.module';
-import { DirectivesModule } from '@directives/directives.module';
+
 import {
   IonButton,
   IonCol,
@@ -21,7 +21,7 @@ import { MotCardComponent } from '@pages/waiting-room-to-car/components/mot-comp
 import { MotNoEvidenceConfirmationComponent } from '@pages/waiting-room-to-car/components/mot-components/mot-no-evidence-confirmation/mot-no-evidence-confirmation';
 import { PracticeModeMOTModal } from '@pages/waiting-room-to-car/components/mot-components/practice-mode-mot-modal/practice-mode-mot-modal.component';
 import { SafetyRecallComponent } from '@pages/waiting-room-to-car/components/safety-recall/safety-recall';
-import { PipesModule } from '@shared/pipes/pipes.module';
+
 import { AccompanimentCardComponent } from './accompaniment-card/accompaniment-card';
 import { AccompanimentComponent } from './accompaniment/accompaniment';
 import { CandidateDeclarationSignedComponent } from './candidate-declaration/candidate-declaration';
@@ -39,7 +39,22 @@ import { VehicleDetailsComponent } from './vehicle-details/vehicle-details';
 import { VehicleRegistrationComponent } from './vehicle-registration/vehicle-registration';
 
 @NgModule({
-  declarations: [
+  imports: [
+    SafetyRecallComponent,
+    CommonModule,
+    ComponentsModule,
+    ReactiveFormsModule,
+    RegistrationWithPreviousMotTextComponent,
+    IonInput,
+    IonCol,
+    IonButton,
+    IonText,
+    IonSpinner,
+    IonRow,
+    IonSelect,
+    IonSelectOption,
+    IonIcon,
+    IonGrid,
     EyesightTestComponent,
     EyesightFailureConfirmationComponent,
     VehicleRegistrationComponent,
@@ -58,25 +73,6 @@ import { VehicleRegistrationComponent } from './vehicle-registration/vehicle-reg
     PracticeModeMOTModal,
     AlternateMotEvidenceComponent,
     MotNoEvidenceConfirmationComponent,
-  ],
-  imports: [
-    SafetyRecallComponent,
-    CommonModule,
-    ComponentsModule,
-    DirectivesModule,
-    ReactiveFormsModule,
-    PipesModule,
-    RegistrationWithPreviousMotTextComponent,
-    IonInput,
-    IonCol,
-    IonButton,
-    IonText,
-    IonSpinner,
-    IonRow,
-    IonSelect,
-    IonSelectOption,
-    IonIcon,
-    IonGrid,
   ],
   exports: [
     EyesightTestComponent,

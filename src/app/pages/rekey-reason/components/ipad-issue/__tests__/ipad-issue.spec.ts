@@ -11,8 +11,7 @@ describe('IpadIssueComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [IpadIssueComponent],
-      imports: [AppModule, ReactiveFormsModule],
+      imports: [AppModule, ReactiveFormsModule, IpadIssueComponent],
     });
 
     fixture = TestBed.createComponent(IpadIssueComponent);

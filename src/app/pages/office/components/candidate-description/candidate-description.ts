@@ -1,13 +1,35 @@
+import { NgClass } from '@angular/common';
 import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
-import { UntypedFormControl, UntypedFormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
+import {
+  FormsModule,
+  ReactiveFormsModule,
+  UntypedFormControl,
+  UntypedFormGroup,
+  ValidationErrors,
+  ValidatorFn,
+  Validators,
+} from '@angular/forms';
+import { IonCol, IonRow } from '@ionic/angular';
 import { CharacterCountService } from '@providers/character-count/character-count.service';
 import { OutcomeBehaviourMapProvider, VisibilityType } from '@providers/outcome-behaviour-map/outcome-behaviour-map';
+import { CharacterCountDirective } from '../../../../../directives/character-count.directive';
+import { EmojiBlockDirective } from '../../../../../directives/emoji-block.directive';
+import { PasteSanitiserDirective } from '../../../../../directives/paste-sanitiser';
 import { CANDIDATE_DESCRIPTION_CONTROL, CANDIDATE_DESCRIPTION_MAX_LENGTH } from './candidate-description.constants';
 
 @Component({
   selector: 'candidate-description',
   templateUrl: 'candidate-description.html',
-  standalone: false,
+  imports: [
+    IonRow,
+    FormsModule,
+    ReactiveFormsModule,
+    IonCol,
+    CharacterCountDirective,
+    EmojiBlockDirective,
+    PasteSanitiserDirective,
+    NgClass,
+  ],
 })
 export class CandidateDescriptionComponent implements OnChanges {
   @Input()

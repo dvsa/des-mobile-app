@@ -19,7 +19,6 @@ import { TestReportCatCPageRoutingModule } from './test-report.cat-c-routing.mod
 import { TestReportCatCPage } from './test-report.cat-c.page';
 
 @NgModule({
-  declarations: [TestReportCatCPage],
   imports: [
     TestReportCatCComponentsModule,
     TestReportComponentsModule,
@@ -27,7 +26,6 @@ import { TestReportCatCPage } from './test-report.cat-c.page';
     EffectsModule.forFeature([TestReportAnalyticsEffects, TestReportEffects]),
     ComponentsModule,
     CommonModule,
-
     TestReportCatCPageRoutingModule,
     ReverseDiagramModalComponentsModule,
     TestFlowHeaderComponent,
@@ -37,6 +35,7 @@ import { TestReportCatCPage } from './test-report.cat-c.page';
     IonGrid,
     IonHeader,
     IonToolbar,
+    TestReportCatCPage,
   ],
   providers: [TestReportValidatorProvider, TestResultProvider],
 })

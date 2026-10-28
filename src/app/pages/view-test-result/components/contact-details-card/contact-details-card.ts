@@ -1,12 +1,24 @@
 import { Component, Input } from '@angular/core';
 import { Address, Candidate, CommunicationPreferences } from '@dvsa/mes-test-schema/categories/common';
+import { IonCard, IonCardContent, IonCardHeader, IonGrid } from '@ionic/angular';
 import { RegeneratedEmails } from '@pages/view-test-result/view-test-result.model';
 import { get } from 'lodash-es';
+import { DataRowCustomComponent } from '../../../../../components/common/data-row-custom/data-row-custom';
+import { DataRowComponent } from '../../../../../components/common/data-row/data-row';
+import { DisplayAddressComponent } from '../../../../../components/common/display-address/display-address';
 
 @Component({
   selector: 'contact-details-card',
   templateUrl: 'contact-details-card.html',
-  standalone: false,
+  imports: [
+    IonCard,
+    IonCardHeader,
+    IonCardContent,
+    IonGrid,
+    DataRowComponent,
+    DataRowCustomComponent,
+    DisplayAddressComponent,
+  ],
 })
 export class ContactDetailsCardComponent {
   @Input()

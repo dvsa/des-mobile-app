@@ -29,8 +29,7 @@ describe('PracticeTestReportCardComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [PracticeTestReportCardComponent],
-      imports: [StoreModule.forRoot({})],
+      imports: [StoreModule.forRoot({}), PracticeTestReportCardComponent],
       providers: [
         { provide: ModalController, useClass: ModalControllerMock },
         { provide: RouteByCategoryProvider, useClass: RouteByCategoryProviderMock },

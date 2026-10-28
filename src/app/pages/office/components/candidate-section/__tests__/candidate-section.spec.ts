@@ -11,8 +11,7 @@ describe('CandidateSectionComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [CandidateSectionComponent],
-      imports: [AppModule, ReactiveFormsModule],
+      imports: [AppModule, ReactiveFormsModule, CandidateSectionComponent],
     });
 
     fixture = TestBed.createComponent(CandidateSectionComponent);

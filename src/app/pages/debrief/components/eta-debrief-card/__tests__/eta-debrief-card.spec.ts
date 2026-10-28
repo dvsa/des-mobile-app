@@ -14,8 +14,7 @@ describe('EtaDebriefCardComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [EtaDebriefCardComponent],
-      imports: [AppModule, ComponentsModule, StoreModule.forRoot({}), TranslateModule],
+      imports: [AppModule, ComponentsModule, StoreModule.forRoot({}), TranslateModule, EtaDebriefCardComponent],
     });
 
     fixture = TestBed.createComponent(EtaDebriefCardComponent);

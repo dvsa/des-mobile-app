@@ -140,13 +140,13 @@ describe('DebriefPage', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      declarations: [DebriefPage],
       imports: [
         AppModule,
         TranslateModule,
         StoreModule.forFeature('tests', () => ({
           ...initialState[testsFeatureKey],
         })),
+        DebriefPage,
       ],
       providers: [
         Store,

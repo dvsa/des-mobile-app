@@ -35,15 +35,8 @@ describe('ManoeuvreCompetencyComponentAdiPart2', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        ManoeuvreCompetencyComponentAdiPart2,
-        MockComponent(DrivingFaultsBadgeComponent),
-        MockComponent(SeriousFaultBadgeComponent),
-        MockComponent(DangerousFaultBadgeComponent),
-      ],
       imports: [
         AppModule,
-
         StoreModule.forRoot({
           journal: () => ({
             isLoading: false,
@@ -98,6 +91,10 @@ describe('ManoeuvreCompetencyComponentAdiPart2', () => {
           }),
           testReport: testReportReducer,
         }),
+        ManoeuvreCompetencyComponentAdiPart2,
+        MockComponent(DrivingFaultsBadgeComponent),
+        MockComponent(SeriousFaultBadgeComponent),
+        MockComponent(DangerousFaultBadgeComponent),
       ],
       providers: [
         { provide: DateTimeProvider, useClass: DateTimeProviderMock },

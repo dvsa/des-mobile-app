@@ -18,12 +18,12 @@ describe('MultiLegalRequirementComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [
+      imports: [
+        StoreModule.forRoot({ tests: testsReducer }),
         MultiLegalRequirementComponent,
         MockComponent(CompetencyButtonComponent),
         MockComponent(TickIndicatorComponent),
       ],
-      imports: [StoreModule.forRoot({ tests: testsReducer })],
     });
 
     fixture = TestBed.createComponent(MultiLegalRequirementComponent);

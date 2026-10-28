@@ -58,11 +58,6 @@ describe('HealthDeclarationPage', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      declarations: [
-        HealthDeclarationPage,
-        MockComponent(HealthDeclarationComponent),
-        MockComponent(ReceiptDeclarationComponent),
-      ],
       imports: [
         ReactiveFormsModule,
         AppModule,
@@ -89,6 +84,9 @@ describe('HealthDeclarationPage', () => {
           }),
         }),
         TranslateModule,
+        HealthDeclarationPage,
+        MockComponent(HealthDeclarationComponent),
+        MockComponent(ReceiptDeclarationComponent),
       ],
       providers: [
         {

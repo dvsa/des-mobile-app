@@ -10,8 +10,7 @@ describe('ProgressiveAccessComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [IonText],
-      declarations: [ProgressiveAccessComponent],
+      imports: [IonText, ProgressiveAccessComponent],
     });
 
     fixture = TestBed.createComponent(ProgressiveAccessComponent);

@@ -22,7 +22,6 @@ import { TestCentreJournalPage } from './test-centre-journal.page';
   imports: [
     CommonModule,
     FormsModule,
-
     TestCentreJournalRoutingModule,
     TestCentreJournalComponentsModule,
     ComponentsModule,
@@ -39,8 +38,8 @@ import { TestCentreJournalPage } from './test-centre-journal.page';
     IonButtons,
     IonToolbar,
     IonHeader,
+    TestCentreJournalPage,
   ],
-  declarations: [TestCentreJournalPage],
   providers: [SlotSelectorProvider, SlotProvider, OrientationMonitorProvider],
 })
 export class TestCentreJournalModule {}

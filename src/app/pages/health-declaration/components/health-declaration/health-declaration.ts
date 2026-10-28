@@ -1,11 +1,14 @@
 import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
-import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule, UntypedFormControl, UntypedFormGroup } from '@angular/forms';
+import { IonCol, IonRow } from '@ionic/angular';
+import { TranslatePipe } from '@ngx-translate/core';
+import { AddOrRemoveLangCyDirective } from '../../../../../directives/add-or-remove-lang-cy.directive';
 
 @Component({
   selector: 'health-declaration',
   templateUrl: 'health-declaration.html',
   styleUrls: ['health-declaration.scss'],
-  standalone: false,
+  imports: [IonRow, IonCol, AddOrRemoveLangCyDirective, FormsModule, ReactiveFormsModule, TranslatePipe],
 })
 export class HealthDeclarationComponent implements OnChanges {
   @Input()

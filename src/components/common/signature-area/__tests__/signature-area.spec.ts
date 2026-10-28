@@ -13,8 +13,7 @@ describe('SignatureAreaComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [SignatureAreaComponent, MockComponent(SignaturePadComponent)],
-
+      imports: [SignatureAreaComponent, MockComponent(SignaturePadComponent)],
       providers: [
         {
           provide: Store,

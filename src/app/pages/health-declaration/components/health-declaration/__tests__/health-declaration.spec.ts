@@ -11,8 +11,7 @@ describe('HealthDeclarationComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [HealthDeclarationComponent],
-      imports: [TranslateModule.forRoot(), ReactiveFormsModule],
+      imports: [TranslateModule.forRoot(), ReactiveFormsModule, HealthDeclarationComponent],
       providers: [TranslateService, TranslateLoader, TranslateParser],
     });
 

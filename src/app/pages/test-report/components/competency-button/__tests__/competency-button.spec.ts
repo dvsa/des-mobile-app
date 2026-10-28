@@ -12,8 +12,7 @@ describe('CompetencyButtonComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [CompetencyButtonComponent],
-      imports: [AppModule],
+      imports: [AppModule, CompetencyButtonComponent],
       providers: [{ provide: DateTimeProvider, useClass: DateTimeProviderMock }],
     });
 

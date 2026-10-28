@@ -18,8 +18,7 @@ describe('TerminateTestModal', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [TerminateTestModal],
-      imports: [AppModule],
+      imports: [AppModule, TerminateTestModal],
       providers: [
         { provide: NavController, useClass: NavControllerMock },
         { provide: Platform, useClass: PlatformMock },

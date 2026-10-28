@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 
 import { ComponentsModule } from '@components/common/common-components.module';
 import { TestFlowHeaderComponent } from '@components/common/test-flow-header/test-flow-header.component';
-import { DirectivesModule } from '@directives/directives.module';
+
 import { IonButton, IonCol, IonContent, IonFooter, IonHeader, IonRow, IonText, IonToolbar } from '@ionic/angular';
 import { EffectsModule } from '@ngrx/effects';
 import { TranslatePipe } from '@ngx-translate/core';
@@ -25,7 +25,6 @@ import { DebriefPageRoutingModule } from './debrief.routing.module';
     DebriefPageRoutingModule,
     EffectsModule.forFeature([DebriefEffects, DebriefAnalyticsEffects]),
     ViewTestResultComponentsModule,
-    DirectivesModule,
     TestFlowHeaderComponent,
     IonFooter,
     IonToolbar,
@@ -36,8 +35,8 @@ import { DebriefPageRoutingModule } from './debrief.routing.module';
     TranslatePipe,
     IonHeader,
     IonContent,
+    DebriefPage,
   ],
-  declarations: [DebriefPage],
   providers: [FaultSummaryProvider],
 })
 export class DebriefPageModule {}

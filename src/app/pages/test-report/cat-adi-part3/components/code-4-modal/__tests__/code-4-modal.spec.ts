@@ -12,7 +12,7 @@ describe('Code4Modal', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [Code4Modal, MockComponent(ModalAlertTitleComponent)],
+      imports: [Code4Modal, MockComponent(ModalAlertTitleComponent)],
       providers: [{ provide: ModalController, useClass: ModalControllerMock }],
     });
 

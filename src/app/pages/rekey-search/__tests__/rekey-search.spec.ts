@@ -39,8 +39,7 @@ describe('RekeySearchPage', () => {
 
     await TestBed.configureTestingModule({
       schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
-      declarations: [RekeySearchPage],
-      imports: [StoreModule.forRoot({}), TranslateModule.forRoot(), PipesModule],
+      imports: [StoreModule.forRoot({}), TranslateModule.forRoot(), PipesModule, RekeySearchPage],
       providers: [
         {
           provide: AppConfigProvider,

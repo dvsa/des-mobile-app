@@ -24,7 +24,6 @@ import { TestFlowHeaderComponent } from '@components/common/test-flow-header/tes
 import { WaitingRoomToCarCatHomeTestPage } from './waiting-room-to-car.cat-home-test.page';
 
 @NgModule({
-  declarations: [WaitingRoomToCarCatHomeTestPage],
   imports: [
     CommonModule,
     FormsModule,
@@ -44,6 +43,7 @@ import { WaitingRoomToCarCatHomeTestPage } from './waiting-room-to-car.cat-home-
     IonGrid,
     IonRow,
     IonFooter,
+    WaitingRoomToCarCatHomeTestPage,
   ],
 })
 export class WaitingRoomToCarCatHomeTestPageModule {}

@@ -1,11 +1,14 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { IonCol, IonRow } from '@ionic/angular';
+import { TranslatePipe } from '@ngx-translate/core';
+import { AddOrRemoveLangCyDirective } from '../../../../../directives/add-or-remove-lang-cy.directive';
 
 @Component({
   selector: 'provided-email',
   templateUrl: 'provided-email.html',
   styleUrls: ['provided-email.scss'],
-  standalone: false,
+  imports: [FormsModule, ReactiveFormsModule, IonRow, AddOrRemoveLangCyDirective, IonCol, TranslatePipe],
 })
 export class ProvidedEmailComponent {
   static readonly providedEmail: string = 'Email';

@@ -1,8 +1,9 @@
+import { AsyncPipe, NgClass } from '@angular/common';
 import { Component, Injector, OnInit } from '@angular/core';
 import { CatCMUniqueTypes } from '@dvsa/mes-test-schema/categories/CM';
 import { Manoeuvre } from '@dvsa/mes-test-schema/categories/CM/partial';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
-import { ToastController } from '@ionic/angular';
+import { IonCol, IonContent, IonGrid, IonHeader, IonRow, IonToolbar, ToastController } from '@ionic/angular';
 import { select } from '@ngrx/store';
 import { TestDataByCategoryProvider } from '@providers/test-data-by-category/test-data-by-category';
 import {
@@ -20,6 +21,14 @@ import { getCurrentTest } from '@store/tests/tests.selector';
 import { get } from 'lodash-es';
 import { Observable, Subscription, merge } from 'rxjs';
 import { map, withLatestFrom } from 'rxjs/operators';
+import { TestFlowHeaderComponent } from '../../../../components/common/test-flow-header/test-flow-header.component';
+import { TickIndicatorComponent } from '../../../../components/common/tick-indicator/tick-indicator';
+import { CompetencyButtonComponent } from '../components/competency-button/competency-button';
+import { EtaComponent } from '../components/examiner-takes-action/eta';
+import { ReverseDiagramLinkComponent } from '../components/reverse-diagram-link/reverse-diagram-link';
+import { ToolbarComponent } from '../components/toolbar/toolbar';
+import { UncoupleRecoupleComponent } from '../components/uncouple-recouple/uncouple-recouple';
+import { ReverseManoeuvreComponent } from './components/reverse-manoeuvre/reverse-manoeuvre';
 
 interface CatManoeuvreTestReportPageState {
   selectedReverseManoeuvre$: Observable<boolean>;
@@ -33,7 +42,24 @@ type TestReportPageState = CommonTestReportPageState & CatManoeuvreTestReportPag
   selector: '.test-report-cat-manoeuvre-page',
   templateUrl: './test-report.cat-manoeuvre.page.html',
   styleUrls: ['./test-report.cat-manoeuvre.page.scss'],
-  standalone: false,
+  imports: [
+    IonHeader,
+    IonToolbar,
+    NgClass,
+    TestFlowHeaderComponent,
+    IonContent,
+    ToolbarComponent,
+    IonGrid,
+    IonRow,
+    IonCol,
+    CompetencyButtonComponent,
+    TickIndicatorComponent,
+    ReverseManoeuvreComponent,
+    UncoupleRecoupleComponent,
+    ReverseDiagramLinkComponent,
+    EtaComponent,
+    AsyncPipe,
+  ],
 })
 export class TestReportCatManoeuvrePage extends TestReportBasePageComponent implements OnInit {
   manoeuvreTypes = ManoeuvreTypes;

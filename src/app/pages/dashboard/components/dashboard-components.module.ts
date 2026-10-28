@@ -15,18 +15,6 @@ import { TestResultsSearchCardComponent } from './test-results-search-card/test-
 import { UpdateAvailableModal } from './update-available-modal/update-available-modal';
 
 @NgModule({
-  declarations: [
-    ProfileHeaderComponent,
-    GoToJournalCardComponent,
-    RekeySearchCardComponent,
-    PracticeEndToEndCardComponent,
-    TestResultsSearchCardComponent,
-    PracticeTestReportCardComponent,
-    TestCentreJournalCardComponent,
-    PracticeTestModal,
-    DelegatedSearchCardComponent,
-    UpdateAvailableModal,
-  ],
   imports: [
     CommonModule,
     ComponentsModule,
@@ -38,6 +26,16 @@ import { UpdateAvailableModal } from './update-available-modal/update-available-
     IonGrid,
     IonIcon,
     NgOptimizedImage,
+    ProfileHeaderComponent,
+    GoToJournalCardComponent,
+    RekeySearchCardComponent,
+    PracticeEndToEndCardComponent,
+    TestResultsSearchCardComponent,
+    PracticeTestReportCardComponent,
+    TestCentreJournalCardComponent,
+    PracticeTestModal,
+    DelegatedSearchCardComponent,
+    UpdateAvailableModal,
   ],
   exports: [
     ProfileHeaderComponent,

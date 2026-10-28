@@ -9,8 +9,7 @@ describe('TrueLikenessComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [TrueLikenessComponent],
-      imports: [ReactiveFormsModule],
+      imports: [ReactiveFormsModule, TrueLikenessComponent],
     });
 
     fixture = TestBed.createComponent(TrueLikenessComponent);

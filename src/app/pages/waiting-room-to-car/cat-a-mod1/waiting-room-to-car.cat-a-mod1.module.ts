@@ -24,7 +24,6 @@ import {
 import { WaitingRoomToCarCatAMod1Page } from './waiting-room-to-car.cat-a-mod1.page';
 
 @NgModule({
-  declarations: [WaitingRoomToCarCatAMod1Page],
   imports: [
     CommonModule,
     FormsModule,
@@ -43,6 +42,7 @@ import { WaitingRoomToCarCatAMod1Page } from './waiting-room-to-car.cat-a-mod1.p
     IonContent,
     IonToolbar,
     IonHeader,
+    WaitingRoomToCarCatAMod1Page,
   ],
 })
 export class WaitingRoomToCarCatAMod1PageModule {}

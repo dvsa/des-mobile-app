@@ -2,7 +2,6 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ComponentsModule } from '@components/common/common-components.module';
-import { DirectivesModule } from '@directives/directives.module';
 
 import {
   IonButton,
@@ -16,7 +15,7 @@ import {
   IonText,
   IonToolbar,
 } from '@ionic/angular';
-import { CPCEndTestModalModule } from '@pages/test-report/cat-cpc/components/cpc-end-test-modal/cpc-end-test-modal.module';
+
 import { TestReportComponentsModule } from '../../components/test-report-components.module';
 import { AdditionalItemsComponent } from './additional-items/additional-items';
 import { ModuleAssessmentComponent } from './module-assessment/module-assessment';
@@ -30,25 +29,10 @@ import { QuestionSubtitleComponent } from './question-subtitle/question-subtitle
 import { QuestionTitleComponent } from './question-title/question-title';
 
 @NgModule({
-  declarations: [
-    ModuleAssessmentComponent,
-    QuestionCardComponent,
-    QuestionFiveCardComponent,
-    QuestionFooterComponent,
-    AdditionalItemsComponent,
-    QuestionTitleComponent,
-    QuestionSubtitleComponent,
-    QuestionAnswerComponent,
-    QuestionScoreComponent,
-    QuestionDelExRadioCardComponent,
-  ],
   imports: [
     CommonModule,
     ComponentsModule,
     TestReportComponentsModule,
-
-    DirectivesModule,
-    CPCEndTestModalModule,
     ReactiveFormsModule,
     IonText,
     IonCol,
@@ -60,6 +44,16 @@ import { QuestionTitleComponent } from './question-title/question-title';
     IonGrid,
     IonCardContent,
     IonCard,
+    ModuleAssessmentComponent,
+    QuestionCardComponent,
+    QuestionFiveCardComponent,
+    QuestionFooterComponent,
+    AdditionalItemsComponent,
+    QuestionTitleComponent,
+    QuestionSubtitleComponent,
+    QuestionAnswerComponent,
+    QuestionScoreComponent,
+    QuestionDelExRadioCardComponent,
   ],
   exports: [
     ModuleAssessmentComponent,

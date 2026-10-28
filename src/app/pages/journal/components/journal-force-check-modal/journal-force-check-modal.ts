@@ -1,15 +1,17 @@
 import { Component, Input } from '@angular/core';
 import { TestSlot } from '@dvsa/mes-journal-schema';
-import { ModalController } from '@ionic/angular';
+import { IonButton, IonCard, IonCol, IonRow, ModalController } from '@ionic/angular';
 import { CandidateDetailsPage } from '@pages/candidate-details/candidate-details.page';
 import { CANDIDATE_DETAILS_PAGE, JOURNAL_FORCE_CHECK_MODAL } from '@pages/page-names.constants';
+import { ModalAlertTitleComponent } from '../../../../../components/common/modal-alert-title/modal-alert-title';
+import { ModalReturnButtonComponent } from '../../../../../components/common/modal-return-button/modal-return-button';
 import { ModalEvent } from './journal-force-check-modal.constants';
 
 @Component({
   selector: 'journal-force-check-modal',
   templateUrl: './journal-force-check-modal.html',
   styleUrls: ['./journal-force-check-modal.scss'],
-  standalone: false,
+  imports: [IonCard, ModalAlertTitleComponent, IonRow, IonCol, ModalReturnButtonComponent, IonButton],
 })
 export class JournalForceCheckModal {
   @Input()

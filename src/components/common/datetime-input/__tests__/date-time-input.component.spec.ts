@@ -8,7 +8,7 @@ describe('DateTimeInputComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [DateTimeInputComponent],
+      imports: [DateTimeInputComponent],
     });
 
     fixture = TestBed.createComponent(DateTimeInputComponent);

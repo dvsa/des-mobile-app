@@ -2,6 +2,20 @@ import { Component, Input, OnInit } from '@angular/core';
 import { Style } from '@capacitor/status-bar';
 import { CategoryCode } from '@dvsa/mes-test-schema/categories/common';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
+import {
+  IonButton,
+  IonButtons,
+  IonCol,
+  IonContent,
+  IonGrid,
+  IonHeader,
+  IonIcon,
+  IonLabel,
+  IonRow,
+  IonText,
+  IonTitle,
+  IonToolbar,
+} from '@ionic/angular';
 import { Store, select } from '@ngrx/store';
 import { AccessibilityService } from '@providers/accessibility/accessibility.service';
 import { ReversingDistancesProvider } from '@providers/reversing-distances/reversing-distances';
@@ -12,6 +26,9 @@ import { getCurrentTest } from '@store//tests/tests.selector';
 import { getTests } from '@store/tests/tests.reducer';
 import { Observable, Subscription, merge } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { EmojiBlockDirective } from '../../../../../directives/emoji-block.directive';
+import { InputRestrictionNumbersDirective } from '../../../../../directives/input-restriction-numbers.directive';
+import { PasteSanitiserDirective } from '../../../../../directives/paste-sanitiser';
 import { ReverseDiagramLengthChanged, ReverseDiagramWidthChanged } from './reverse-diagram-modal.actions';
 
 interface ReverseDiagramPageState {
@@ -26,7 +43,23 @@ type OnCloseFunc = () => void;
   selector: 'reverse-diagram-modal',
   templateUrl: 'reverse-diagram-modal.html',
   styleUrls: ['reverse-diagram-modal.scss'],
-  standalone: false,
+  imports: [
+    IonHeader,
+    IonToolbar,
+    IonButtons,
+    IonButton,
+    IonIcon,
+    IonLabel,
+    IonTitle,
+    IonContent,
+    IonGrid,
+    IonRow,
+    IonCol,
+    IonText,
+    InputRestrictionNumbersDirective,
+    EmojiBlockDirective,
+    PasteSanitiserDirective,
+  ],
 })
 export class ReverseDiagramPage implements OnInit {
   @Input()

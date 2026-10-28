@@ -20,8 +20,7 @@ describe('AccompanimentCardADI3Component', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      declarations: [AccompanimentCardADI3Component],
-      imports: [AppModule, ReactiveFormsModule],
+      imports: [AppModule, ReactiveFormsModule, AccompanimentCardADI3Component],
       providers: [
         {
           provide: RouteByCategoryProvider,

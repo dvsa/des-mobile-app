@@ -22,7 +22,6 @@ describe('ReverseDiagramLinkComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [ReverseDiagramLinkComponent],
       imports: [
         AppModule,
         StoreModule.forRoot({
@@ -78,6 +77,7 @@ describe('ReverseDiagramLinkComponent', () => {
           }),
           testReport: testReportReducer,
         }),
+        ReverseDiagramLinkComponent,
       ],
       providers: [
         { provide: ModalController, useClass: ModalControllerMock },

@@ -4,8 +4,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { ComponentsModule } from '@components/common/common-components.module';
 import { TestFlowHeaderComponent } from '@components/common/test-flow-header/test-flow-header.component';
-import { TestFinalisationComponentsModule } from '@components/test-finalisation/test-finalisation-components.module';
-import { DirectivesModule } from '@directives/directives.module';
 
 import {
   IonButton,
@@ -28,12 +26,9 @@ import { PassFinalisationCatADIPart3Page } from './pass-finalisation.cat-adi-par
 @NgModule({
   imports: [
     CommonModule,
-    DirectivesModule,
     FormsModule,
-
     PassFinalisationCatADIPart3PageRoutingModule,
     ComponentsModule,
-    TestFinalisationComponentsModule,
     ReactiveFormsModule,
     PassFinalisationCatADI3ComponentsModule,
     EffectsModule.forFeature([PassFinalisationAnalyticsEffects]),
@@ -48,7 +43,7 @@ import { PassFinalisationCatADIPart3Page } from './pass-finalisation.cat-adi-par
     IonInput,
     IonContent,
     IonHeader,
+    PassFinalisationCatADIPart3Page,
   ],
-  declarations: [PassFinalisationCatADIPart3Page],
 })
 export class PassFinalisationCatADIPart3PageModule {}

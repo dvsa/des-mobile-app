@@ -25,11 +25,9 @@ import { ConfirmTestDetailsAnalyticsEffects } from '@pages/confirm-test-details/
 import { ConfirmTestDetailsPage } from './confirm-test-details.page';
 
 @NgModule({
-  declarations: [ConfirmTestDetailsPage, ConfirmSubmitModal],
   imports: [
     CommonModule,
     ComponentsModule,
-
     ConfirmTestDetailsPageRoutingModule,
     EffectsModule.forFeature([ConfirmTestDetailsAnalyticsEffects]),
     TestFlowHeaderComponent,
@@ -45,6 +43,8 @@ import { ConfirmTestDetailsPage } from './confirm-test-details.page';
     IonText,
     IonFooter,
     IonRow,
+    ConfirmTestDetailsPage,
+    ConfirmSubmitModal,
   ],
 })
 export class ConfirmTestDetailsPageModule {}

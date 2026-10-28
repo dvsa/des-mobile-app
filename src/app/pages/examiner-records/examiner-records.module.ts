@@ -37,7 +37,6 @@ import { ExaminerRecordsPage } from './examiner-records.page';
   imports: [
     CommonModule,
     FormsModule,
-
     NgbModule,
     ReactiveFormsModule,
     ExaminerRecordsComponentsModule,
@@ -63,8 +62,8 @@ import { ExaminerRecordsPage } from './examiner-records.page';
     IonCardHeader,
     IonCard,
     IonSelectOption,
+    ExaminerRecordsPage,
   ],
-  declarations: [ExaminerRecordsPage],
   schemas: [NO_ERRORS_SCHEMA, CUSTOM_ELEMENTS_SCHEMA],
 })
 export class ExaminerRecordsPageModule {}

@@ -18,8 +18,13 @@ describe('PostDebriefHoldingPage', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      declarations: [PostDebriefHoldingPage, MockComponent(PracticeModeOptionsBar)],
-      imports: [RouterModule.forRoot([]), AppModule, StoreModule.forFeature('tests', () => ({}))],
+      imports: [
+        RouterModule.forRoot([]),
+        AppModule,
+        StoreModule.forFeature('tests', () => ({})),
+        PostDebriefHoldingPage,
+        MockComponent(PracticeModeOptionsBar),
+      ],
       providers: [
         {
           provide: Router,

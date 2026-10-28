@@ -6,7 +6,6 @@ import { ComponentsModule } from '@components/common/common-components.module';
 import { EffectsModule } from '@ngrx/effects';
 import { SearchProvider } from '@providers/search/search';
 
-import { DirectivesModule } from '@directives/directives.module';
 import {
   IonBackButton,
   IonButton,
@@ -34,17 +33,14 @@ import { TestResultsSearchPage } from './test-results-search';
 import { TestResultsSearchAnalyticsEffects } from './test-results-search.analytics.effects';
 
 @NgModule({
-  declarations: [TestResultsSearchPage],
   imports: [
     ComponentsModule,
     TestResultsSearchComponentsModule,
-
     CommonModule,
     ErrorPageModule,
     TestResultsSearchRoutingModule,
     ScrollingModule,
     EffectsModule.forFeature([TestResultsSearchAnalyticsEffects]),
-    DirectivesModule,
     ViewTestResultPageModule,
     MaskitoDirective,
     IonTitle,
@@ -61,6 +57,7 @@ import { TestResultsSearchAnalyticsEffects } from './test-results-search.analyti
     IonText,
     IonIcon,
     IonSpinner,
+    TestResultsSearchPage,
   ],
   providers: [SearchProvider, CompressionProvider, FaultSummaryProvider],
 })

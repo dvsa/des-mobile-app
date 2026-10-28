@@ -20,8 +20,7 @@ describe('TrainingRecordsCatAdiPart2Component', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      declarations: [TrainingRecordsCatAdiPart2Component],
-      imports: [AppModule, ReactiveFormsModule],
+      imports: [AppModule, ReactiveFormsModule, TrainingRecordsCatAdiPart2Component],
       providers: [
         {
           provide: RouteByCategoryProvider,

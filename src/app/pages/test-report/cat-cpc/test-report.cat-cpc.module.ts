@@ -17,11 +17,9 @@ import { TestReportCatCPCPageRoutingModule } from './test-report.cat-cpc-routing
 import { TestReportCatCPCPage } from './test-report.cat-cpc.page';
 
 @NgModule({
-  declarations: [TestReportCatCPCPage],
   imports: [
     CommonModule,
     FormsModule,
-
     TestReportCatCPCComponentsModule,
     TestReportCatCPCPageRoutingModule,
     StoreModule.forFeature('testReport', testReportReducer),
@@ -31,6 +29,7 @@ import { TestReportCatCPCPage } from './test-report.cat-cpc.page';
     IonContent,
     IonHeader,
     IonToolbar,
+    TestReportCatCPCPage,
   ],
   providers: [TestReportValidatorProvider, TestResultProvider],
 })

@@ -18,8 +18,7 @@ describe('CandidateSectionComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [CandidateSectionComponent],
-      imports: [AppModule, ComponentsModule, CommonModule],
+      imports: [AppModule, ComponentsModule, CommonModule, CandidateSectionComponent],
     });
     fixture = TestBed.createComponent(CandidateSectionComponent);
     component = fixture.componentInstance;

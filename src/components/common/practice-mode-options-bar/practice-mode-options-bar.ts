@@ -6,6 +6,7 @@ import { Observable } from 'rxjs';
 import { map, take } from 'rxjs/operators';
 
 import { Style } from '@capacitor/status-bar';
+import { IonButton, IonButtons, IonCol, IonRow, IonText } from '@ionic/angular';
 import { DASHBOARD_PAGE } from '@pages/page-names.constants';
 import { AccessibilityService } from '@providers/accessibility/accessibility.service';
 import { CategoryWhitelistProvider } from '@providers/category-whitelist/category-whitelist';
@@ -26,7 +27,7 @@ enum DisplayMessage {
   selector: 'practice-mode-options-bar',
   templateUrl: 'practice-mode-options-bar.html',
   styleUrls: ['practice-mode-options-bar.scss'],
-  standalone: false,
+  imports: [IonRow, IonCol, IonText, IonButtons, IonButton],
 })
 export class PracticeModeOptionsBar implements OnInit {
   @Output()

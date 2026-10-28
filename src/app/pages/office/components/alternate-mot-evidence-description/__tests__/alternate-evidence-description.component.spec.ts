@@ -11,8 +11,7 @@ describe('AlternateEvidenceDescriptionComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
-      declarations: [AlternateEvidenceDescriptionComponent],
-      imports: [CommonModule],
+      imports: [CommonModule, AlternateEvidenceDescriptionComponent],
     });
 
     fixture = TestBed.createComponent(AlternateEvidenceDescriptionComponent);

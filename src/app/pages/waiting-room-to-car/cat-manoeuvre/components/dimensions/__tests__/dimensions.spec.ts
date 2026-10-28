@@ -9,8 +9,7 @@ describe('DimensionsComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [DimensionsComponent],
-      imports: [PipesModule],
+      imports: [PipesModule, DimensionsComponent],
     });
 
     fixture = TestBed.createComponent(DimensionsComponent);

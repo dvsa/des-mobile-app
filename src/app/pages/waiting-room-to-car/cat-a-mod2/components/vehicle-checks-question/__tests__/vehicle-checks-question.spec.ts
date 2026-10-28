@@ -19,8 +19,7 @@ describe('VehicleChecksQuestionCatAMod2Component', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [VehicleChecksQuestionCatAMod2Component],
-      imports: [AppModule],
+      imports: [AppModule, VehicleChecksQuestionCatAMod2Component],
     });
 
     fixture = TestBed.createComponent(VehicleChecksQuestionCatAMod2Component);

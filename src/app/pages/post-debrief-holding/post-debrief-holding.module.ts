@@ -14,7 +14,6 @@ import { PostDebriefHoldingPage } from './post-debrief-holding.page';
   imports: [
     CommonModule,
     FormsModule,
-
     PostDebriefHoldingPageRoutingModule,
     ComponentsModule,
     EffectsModule.forFeature([PostDebriefHoldingAnalyticsEffects]),
@@ -23,7 +22,7 @@ import { PostDebriefHoldingPage } from './post-debrief-holding.page';
     IonContent,
     IonToolbar,
     IonHeader,
+    PostDebriefHoldingPage,
   ],
-  declarations: [PostDebriefHoldingPage],
 })
 export class PostDebriefHoldingPageModule {}

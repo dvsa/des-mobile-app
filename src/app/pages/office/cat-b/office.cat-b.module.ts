@@ -29,7 +29,6 @@ import { OfficeEffects } from '../office.effects';
 import { OfficeCatBPage } from './office.cat-b.page';
 
 @NgModule({
-  declarations: [OfficeCatBPage],
   imports: [
     EffectsModule.forFeature([OfficeAnalyticsEffects, OfficeEffects]),
     ComponentsModule,
@@ -53,6 +52,7 @@ import { OfficeCatBPage } from './office.cat-b.page';
     IonHeader,
     IonRow,
     IonCol,
+    OfficeCatBPage,
   ],
   providers: [FaultSummaryProvider],
 })

@@ -8,8 +8,19 @@ import { LicenceInformation } from '@pages/candidate-licence/components/licence-
 import { LicencePhoto } from '@pages/candidate-licence/components/licence-photo/licence-photo';
 
 @NgModule({
-  declarations: [LicenceInformation, LicencePhoto, LicenceDataError],
-  imports: [ComponentsModule, CommonModule, IonIcon, IonCol, IonRow, IonText, IonSpinner, IonGrid],
+  imports: [
+    ComponentsModule,
+    CommonModule,
+    IonIcon,
+    IonCol,
+    IonRow,
+    IonText,
+    IonSpinner,
+    IonGrid,
+    LicenceInformation,
+    LicencePhoto,
+    LicenceDataError,
+  ],
   exports: [LicenceInformation, LicencePhoto, LicenceDataError],
 })
 export class CandidateLicenceComponentsModule {}

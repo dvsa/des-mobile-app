@@ -30,13 +30,13 @@ describe('DelegatedRekeyUploadOutcomePage', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [DelegatedRekeyUploadOutcomePage],
       imports: [
         AppModule,
         StoreModule.forRoot({
           tests: testsReducer,
           delegatedRekeySearch: delegatedSearchReducer,
         }),
+        DelegatedRekeyUploadOutcomePage,
       ],
       providers: [
         {

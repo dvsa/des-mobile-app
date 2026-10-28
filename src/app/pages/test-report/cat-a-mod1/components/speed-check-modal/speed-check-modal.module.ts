@@ -5,8 +5,7 @@ import { IonButton, IonCard, IonCol, IonRow } from '@ionic/angular';
 import { SpeedCheckModal } from './speed-check-modal';
 
 @NgModule({
-  declarations: [SpeedCheckModal],
-  imports: [ComponentsModule, CommonModule, IonCol, IonRow, IonCard, IonButton],
+  imports: [ComponentsModule, CommonModule, IonCol, IonRow, IonCard, IonButton, SpeedCheckModal],
   exports: [SpeedCheckModal],
 })
 export class SpeedCheckModalModule {}

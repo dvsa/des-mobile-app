@@ -1,13 +1,16 @@
 import { Component, Input } from '@angular/core';
 import { SlotComponent } from '@components/test-slot/slot/slot';
 import { PersonalCommitment, TestSlot } from '@dvsa/mes-journal-schema';
+import { IonCard, IonCol, IonRow, IonText } from '@ionic/angular';
 import { isNil } from 'lodash-es';
+import { LocationComponent } from '../../../../../components/test-slot/location/location';
+import { TimeComponent } from '../../../../../components/test-slot/time/time';
 
 @Component({
   selector: 'personal-commitment',
   templateUrl: 'personal-commitment.html',
   styleUrls: ['personal-commitment.scss'],
-  standalone: false,
+  imports: [LocationComponent, IonCard, IonRow, IonCol, TimeComponent, IonText],
 })
 export class PersonalCommitmentSlotComponent implements SlotComponent {
   @Input()

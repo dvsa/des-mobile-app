@@ -1,15 +1,17 @@
 import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
-import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { IndependentDriving } from '@dvsa/mes-test-schema/categories/common';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
+import { IonCol, IonRow } from '@ionic/angular';
 import { OutcomeBehaviourMapProvider, VisibilityType } from '@providers/outcome-behaviour-map/outcome-behaviour-map';
 import { getDrivingOrRidingLabel } from '@shared/helpers/driver-type';
 import { removeNonAlphaNumeric } from '@shared/helpers/formatters';
+import { FormatIdPipe } from '@shared/pipes/format-id.pipe';
 
 @Component({
   selector: 'independent-driving',
   templateUrl: 'independent-driving.html',
-  standalone: false,
+  imports: [IonRow, FormsModule, ReactiveFormsModule, IonCol, FormatIdPipe],
 })
 export class IndependentDrivingComponent implements OnChanges {
   @Input()

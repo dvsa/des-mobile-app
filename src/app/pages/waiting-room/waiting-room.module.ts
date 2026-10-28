@@ -6,7 +6,7 @@ import { TranslatePipe } from '@ngx-translate/core';
 
 import { ComponentsModule } from '@components/common/common-components.module';
 import { TestFlowHeaderComponent } from '@components/common/test-flow-header/test-flow-header.component';
-import { DirectivesModule } from '@directives/directives.module';
+
 import { EffectsModule } from '@ngrx/effects';
 import { WaitingRoomComponentsModule } from '@pages/waiting-room/components/waiting-room.components.module';
 import { WaitingRoomAnalyticsEffects } from '@pages/waiting-room/waiting-room.analytics.effects';
@@ -23,7 +23,6 @@ import { WaitingRoomPage } from './waiting-room.page';
     ComponentsModule,
     ReactiveFormsModule,
     WaitingRoomComponentsModule,
-    DirectivesModule,
     TestFlowHeaderComponent,
     TranslatePipe,
     IonContent,
@@ -33,8 +32,8 @@ import { WaitingRoomPage } from './waiting-room.page';
     IonCol,
     IonRow,
     IonText,
+    WaitingRoomPage,
   ],
   providers: [PassCertificateValidationProvider],
-  declarations: [WaitingRoomPage],
 })
 export class WaitingRoomPageModule {}

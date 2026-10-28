@@ -1,12 +1,13 @@
 import { Component } from '@angular/core';
-import { ModalController } from '@ionic/angular';
+import { IonButton, IonCard, IonCol, IonRow, IonText, ModalController } from '@ionic/angular';
+import { ModalAlertTitleComponent } from '../../../../../components/common/modal-alert-title/modal-alert-title';
 import { ModalEvent } from '../../test-report.constants';
 
 @Component({
   selector: 'special-legal-requirement-modal',
   templateUrl: 'special-legal-requirement-modal.html',
   styleUrls: ['special-legal-requirement-modal.scss'],
-  standalone: false,
+  imports: [IonCard, ModalAlertTitleComponent, IonRow, IonCol, IonButton, IonText],
 })
 export class SpecialLegalRequirementModal {
   constructor(public modalCtrl: ModalController) {}

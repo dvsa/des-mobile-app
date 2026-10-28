@@ -23,7 +23,6 @@ import { FakeJournalPage } from './fake-journal.page';
   imports: [
     CommonModule,
     FormsModule,
-
     FakeJournalPageRoutingModule,
     ComponentsModule,
     TestSlotComponentsModule,
@@ -41,8 +40,8 @@ import { FakeJournalPage } from './fake-journal.page';
     IonTitle,
     IonButtons,
     IonContent,
+    FakeJournalPage,
   ],
-  declarations: [FakeJournalPage],
   providers: [OrientationMonitorProvider],
 })
 export class FakeJournalPageModule {}

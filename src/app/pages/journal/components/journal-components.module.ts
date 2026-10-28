@@ -16,13 +16,6 @@ import { JournalNavigationComponent } from './journal-navigation/journal-navigat
 import { PersonalCommitmentSlotComponent } from './personal-commitment/personal-commitment';
 
 @NgModule({
-  declarations: [
-    ActivitySlotComponent,
-    EmptySlotComponent,
-    JournalNavigationComponent,
-    PersonalCommitmentSlotComponent,
-    JournalSlotComponent,
-  ],
   imports: [
     LearnMoreModal,
     CommonModule,
@@ -39,6 +32,11 @@ import { PersonalCommitmentSlotComponent } from './personal-commitment/personal-
     IonGrid,
     IonIcon,
     IonList,
+    ActivitySlotComponent,
+    EmptySlotComponent,
+    JournalNavigationComponent,
+    PersonalCommitmentSlotComponent,
+    JournalSlotComponent,
   ],
   exports: [
     ActivitySlotComponent,

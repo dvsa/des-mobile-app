@@ -3,6 +3,7 @@ import { Store, select } from '@ngrx/store';
 import { Observable, Subscription, merge } from 'rxjs';
 import { map, takeUntil, tap } from 'rxjs/operators';
 
+import { NgClass } from '@angular/common';
 import { trDestroy$ } from '@shared/classes/test-flow-base-pages/test-report/test-report-base-page';
 import { competencyLabels } from '@shared/constants/competencies/competencies';
 import { StoreModel } from '@shared/models/store.model';
@@ -26,9 +27,13 @@ import { hasDangerousFault, hasSeriousFault } from '@store/tests/test-data/commo
 import { Competencies } from '@store/tests/test-data/test-data.constants';
 import { getTests } from '@store/tests/tests.reducer';
 import { getCurrentTest } from '@store/tests/tests.selector';
+import { DangerousFaultBadgeComponent } from '../../../../../components/common/dangerous-fault-badge/dangerous-fault-badge';
+import { DrivingFaultsBadgeComponent } from '../../../../../components/common/driving-faults-badge/driving-faults-badge';
+import { SeriousFaultBadgeComponent } from '../../../../../components/common/serious-fault-badge/serious-fault-badge';
 import { ToggleDangerousFaultMode, ToggleRemoveFaultMode, ToggleSeriousFaultMode } from '../../test-report.actions';
 import { getTestReportState } from '../../test-report.reducer';
 import { isDangerousMode, isRemoveFaultMode, isSeriousMode } from '../../test-report.selector';
+import { CompetencyButtonComponent } from '../competency-button/competency-button';
 
 interface CompetencyState {
   isRemoveFaultMode$: Observable<boolean>;
@@ -44,7 +49,13 @@ interface CompetencyState {
   selector: 'competency',
   templateUrl: 'competency.html',
   styleUrls: ['competency.scss'],
-  standalone: false,
+  imports: [
+    CompetencyButtonComponent,
+    NgClass,
+    DrivingFaultsBadgeComponent,
+    SeriousFaultBadgeComponent,
+    DangerousFaultBadgeComponent,
+  ],
 })
 export class CompetencyComponent {
   @Input()

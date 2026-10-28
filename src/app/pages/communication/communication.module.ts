@@ -4,7 +4,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { ComponentsModule } from '@components/common/common-components.module';
 import { TestFlowHeaderComponent } from '@components/common/test-flow-header/test-flow-header.component';
-import { DirectivesModule } from '@directives/directives.module';
+
 import { IonCol, IonContent, IonHeader, IonRow, IonText, IonToolbar } from '@ionic/angular';
 import { EffectsModule } from '@ngrx/effects';
 import { TranslatePipe } from '@ngx-translate/core';
@@ -18,13 +18,11 @@ import { CommunicationPage } from './communication.page';
   imports: [
     CommonModule,
     FormsModule,
-
     CommunicationPageRoutingModule,
     ComponentsModule,
     CommunicationComponentsModule,
     ReactiveFormsModule,
     EffectsModule.forFeature([CommunicationEffects, CommunicationAnalyticsEffects]),
-    DirectivesModule,
     TestFlowHeaderComponent,
     IonRow,
     IonToolbar,
@@ -33,7 +31,7 @@ import { CommunicationPage } from './communication.page';
     TranslatePipe,
     IonCol,
     IonText,
+    CommunicationPage,
   ],
-  declarations: [CommunicationPage],
 })
 export class CommunicationPageModule {}

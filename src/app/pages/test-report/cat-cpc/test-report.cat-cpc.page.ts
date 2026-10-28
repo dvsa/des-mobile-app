@@ -1,7 +1,9 @@
+import { AsyncPipe, NgClass } from '@angular/common';
 import { Component, Injector, OnInit } from '@angular/core';
-import { UntypedFormGroup } from '@angular/forms';
+import { FormsModule, UntypedFormGroup } from '@angular/forms';
 import { CombinationCodes, Question, Question5, TestData } from '@dvsa/mes-test-schema/categories/CPC';
 import { CategoryCode } from '@dvsa/mes-test-schema/categories/common';
+import { IonContent, IonHeader, IonToolbar } from '@ionic/angular';
 import { select } from '@ngrx/store';
 import { CPCEndTestModal } from '@pages/test-report/cat-cpc/components/cpc-end-test-modal/cpc-end-test-modal';
 import { CPCQuestionProvider } from '@providers/cpc-questions/cpc-questions';
@@ -28,6 +30,12 @@ import { getTests } from '@store/tests/tests.reducer';
 import { getCurrentTest } from '@store/tests/tests.selector';
 import { Observable, Subscription, combineLatest, lastValueFrom } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { TestFlowHeaderComponent } from '../../../../components/common/test-flow-header/test-flow-header.component';
+import { ModuleAssessmentComponent } from './components/module-assessment/module-assessment';
+import { QuestionCardComponent } from './components/question-card/question-card';
+import { QuestionDelExRadioCardComponent } from './components/question-del-ex-radio-card/question-del-ex-radio-card';
+import { QuestionFiveCardComponent } from './components/question-five-card/question-five-card';
+import { QuestionFooterComponent } from './components/question-footer/question-footer';
 
 interface CatCPCTestReportPageState {
   combinationCode$: Observable<CombinationCodes>;
@@ -56,7 +64,20 @@ type ToggleEvent = {
   selector: 'app-test-report-cat-cpc',
   templateUrl: './test-report.cat-cpc.page.html',
   styleUrls: ['./test-report.cat-cpc.page.scss'],
-  standalone: false,
+  imports: [
+    IonHeader,
+    IonToolbar,
+    NgClass,
+    TestFlowHeaderComponent,
+    IonContent,
+    ModuleAssessmentComponent,
+    QuestionCardComponent,
+    QuestionFiveCardComponent,
+    QuestionDelExRadioCardComponent,
+    FormsModule,
+    QuestionFooterComponent,
+    AsyncPipe,
+  ],
 })
 export class TestReportCatCPCPage extends TestReportBasePageComponent implements OnInit {
   pageState: TestReportPageState;

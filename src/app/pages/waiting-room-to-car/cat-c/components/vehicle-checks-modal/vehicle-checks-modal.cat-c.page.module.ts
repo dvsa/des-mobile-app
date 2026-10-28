@@ -27,12 +27,10 @@ import { VehicleChecksModalCatCAnalyticsEffects } from './vehicle-checks-modal.c
 import { VehicleChecksCatCModal } from './vehicle-checks-modal.cat-c.page';
 
 @NgModule({
-  declarations: [VehicleChecksCatCModal],
   imports: [
     EffectsModule.forFeature([VehicleChecksModalCatCAnalyticsEffects]),
     ComponentsModule,
     WaitingRoomToCarComponentsModule,
-
     CommonModule,
     ReactiveFormsModule,
     FormsModule,
@@ -52,6 +50,7 @@ import { VehicleChecksCatCModal } from './vehicle-checks-modal.cat-c.page';
     IonCardTitle,
     IonCardHeader,
     IonCardContent,
+    VehicleChecksCatCModal,
   ],
 })
 export class VehicleChecksModalCatCModule {}

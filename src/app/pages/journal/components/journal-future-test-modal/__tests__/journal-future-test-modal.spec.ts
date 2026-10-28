@@ -19,8 +19,7 @@ describe('JournalRekeyModal', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [JournalFutureTestModal],
-      imports: [StoreModule.forRoot({})],
+      imports: [StoreModule.forRoot({}), JournalFutureTestModal],
       providers: [
         { provide: ModalController, useClass: ModalControllerMock },
         { provide: DeviceProvider, useClass: DeviceProviderMock },

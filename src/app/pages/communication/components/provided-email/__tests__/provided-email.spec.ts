@@ -14,8 +14,7 @@ describe('ProvidedEmailComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [ProvidedEmailComponent],
-      imports: [ReactiveFormsModule, TranslateModule.forRoot()],
+      imports: [ReactiveFormsModule, TranslateModule.forRoot(), ProvidedEmailComponent],
       providers: [
         provideHttpClient(withInterceptorsFromDi()),
         provideTranslateService({

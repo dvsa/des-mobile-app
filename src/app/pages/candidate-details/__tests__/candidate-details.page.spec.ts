@@ -44,7 +44,7 @@ describe('CandidateDetailsPage', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [
+      imports: [
         CandidateDetailsPage,
         MockComponent(DisplayAddressComponent),
         MockComponent(DataRowComponent),
@@ -52,7 +52,6 @@ describe('CandidateDetailsPage', () => {
         MockComponent(InappropriateUseBannerComponent),
         MockComponent(CandidateDetailNavigationComponent),
       ],
-
       providers: [
         { provide: DateTimeProvider, useClass: DateTimeProviderMock },
         { provide: ModalController, useClass: ModalControllerMock },

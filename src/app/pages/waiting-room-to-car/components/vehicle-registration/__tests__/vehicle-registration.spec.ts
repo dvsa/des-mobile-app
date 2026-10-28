@@ -15,9 +15,8 @@ describe('VehicleRegistrationComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [VehicleRegistrationComponent],
       providers: [Store],
-      imports: [AppModule, ReactiveFormsModule],
+      imports: [AppModule, ReactiveFormsModule, VehicleRegistrationComponent],
     });
 
     fixture = TestBed.createComponent(VehicleRegistrationComponent);

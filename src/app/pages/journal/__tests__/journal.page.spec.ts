@@ -66,7 +66,6 @@ describe('JournalPage', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      declarations: [JournalPage],
       imports: [
         RouterModule.forRoot([]),
         JournalComponentsModule,
@@ -74,6 +73,7 @@ describe('JournalPage', () => {
         StoreModule.forRoot({
           journal: journalReducer,
         }),
+        JournalPage,
       ],
       providers: [
         {

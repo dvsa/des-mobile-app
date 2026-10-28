@@ -9,8 +9,7 @@ describe('ModalResultItemComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [ModalResultItemComponent],
-      imports: [AppModule],
+      imports: [AppModule, ModalResultItemComponent],
     });
 
     fixture = TestBed.createComponent(ModalResultItemComponent);

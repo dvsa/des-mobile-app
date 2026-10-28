@@ -7,7 +7,6 @@ import { IonCard, IonCardContent, IonCardHeader, IonCol, IonGrid, IonIcon, IonRo
 import { CandidateDetailNavigationComponent } from '@pages/candidate-details/components/candidate-detail-navigation/candidate-detail-navigation';
 
 @NgModule({
-  declarations: [InappropriateUseBannerComponent, FitMarkerBannerComponent, CandidateDetailNavigationComponent],
   imports: [
     CommonModule,
     ComponentsModule,
@@ -19,6 +18,9 @@ import { CandidateDetailNavigationComponent } from '@pages/candidate-details/com
     IonCardContent,
     IonCard,
     IonCardHeader,
+    InappropriateUseBannerComponent,
+    FitMarkerBannerComponent,
+    CandidateDetailNavigationComponent,
   ],
   exports: [InappropriateUseBannerComponent, FitMarkerBannerComponent, CandidateDetailNavigationComponent],
 })

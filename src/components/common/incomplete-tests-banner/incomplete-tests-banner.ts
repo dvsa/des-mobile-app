@@ -1,4 +1,6 @@
+import { AsyncPipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
+import { IonIcon } from '@ionic/angular';
 import { Store } from '@ngrx/store';
 import { unsubmittedTestSlotsCount$ } from '@pages/unuploaded-tests/unuploaded-tests.selector';
 import { AppConfigProvider } from '@providers/app-config/app-config';
@@ -22,7 +24,7 @@ enum CountDescription {
   selector: 'incomplete-tests-banner',
   templateUrl: 'incomplete-tests-banner.html',
   styleUrls: ['incomplete-tests-banner.scss'],
-  standalone: false,
+  imports: [IonIcon, AsyncPipe],
 })
 export class IncompleteTestsBanner implements OnInit {
   componentState: IncompleteTestsBannerComponentState;

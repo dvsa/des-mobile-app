@@ -1,10 +1,7 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 
-@Pipe({
-  name: 'modifyCompetencyLabel',
-  standalone: false,
-})
+@Pipe({ name: 'modifyCompetencyLabel' })
 export class ModifyCompetencyLabel implements PipeTransform {
   /**
    * Pipe to convert competency label dynamically

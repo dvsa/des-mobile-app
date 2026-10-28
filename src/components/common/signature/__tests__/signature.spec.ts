@@ -12,8 +12,12 @@ describe('SignatureComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [SignatureComponent, MockComponent(SignatureAreaComponent)],
-      imports: [TranslateModule.forRoot(), ReactiveFormsModule],
+      imports: [
+        TranslateModule.forRoot(),
+        ReactiveFormsModule,
+        SignatureComponent,
+        MockComponent(SignatureAreaComponent),
+      ],
     });
 
     fixture = TestBed.createComponent(SignatureComponent);

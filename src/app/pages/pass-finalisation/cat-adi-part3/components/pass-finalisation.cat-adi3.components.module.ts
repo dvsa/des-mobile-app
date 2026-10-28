@@ -2,7 +2,6 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ComponentsModule } from '@components/common/common-components.module';
-import { DirectivesModule } from '@directives/directives.module';
 
 import { IonCol, IonRow } from '@ionic/angular';
 import { FurtherDevelopmentComponent } from '@pages/pass-finalisation/cat-adi-part3/components/further-development/further-development.component';
@@ -10,8 +9,16 @@ import { ReasonGivenComponent } from '@pages/pass-finalisation/cat-adi-part3/com
 import { TestStartEndTimesComponent } from '@pages/pass-finalisation/cat-adi-part3/components/test-start-end-times/test-start-end-times';
 
 @NgModule({
-  declarations: [FurtherDevelopmentComponent, ReasonGivenComponent, TestStartEndTimesComponent],
-  imports: [CommonModule, ComponentsModule, ReactiveFormsModule, DirectivesModule, IonCol, IonRow],
+  imports: [
+    CommonModule,
+    ComponentsModule,
+    ReactiveFormsModule,
+    IonCol,
+    IonRow,
+    FurtherDevelopmentComponent,
+    ReasonGivenComponent,
+    TestStartEndTimesComponent,
+  ],
   exports: [FurtherDevelopmentComponent, ReasonGivenComponent, TestStartEndTimesComponent],
 })
 export class PassFinalisationCatADI3ComponentsModule {}

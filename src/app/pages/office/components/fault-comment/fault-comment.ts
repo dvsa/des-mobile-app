@@ -1,10 +1,26 @@
+import { NgClass } from '@angular/common';
 import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
-import { UntypedFormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
+import {
+  FormsModule,
+  ReactiveFormsModule,
+  UntypedFormGroup,
+  ValidationErrors,
+  ValidatorFn,
+  Validators,
+} from '@angular/forms';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
+import { IonCol, IonGrid, IonRow } from '@ionic/angular';
 import { AccessibilityService } from '@providers/accessibility/accessibility.service';
 import { CharacterCountService } from '@providers/character-count/character-count.service';
 import { OutcomeBehaviourMapProvider, VisibilityType } from '@providers/outcome-behaviour-map/outcome-behaviour-map';
 import { FaultSummary } from '@shared/models/fault-marking.model';
+import { DangerousFaultBadgeComponent } from '../../../../../components/common/dangerous-fault-badge/dangerous-fault-badge';
+import { DrivingFaultsBadgeComponent } from '../../../../../components/common/driving-faults-badge/driving-faults-badge';
+import { SeriousFaultBadgeComponent } from '../../../../../components/common/serious-fault-badge/serious-fault-badge';
+import { CharacterCountDirective } from '../../../../../directives/character-count.directive';
+import { EmojiBlockDirective } from '../../../../../directives/emoji-block.directive';
+import { PasteSanitiserDirective } from '../../../../../directives/paste-sanitiser';
+import { ModifyCompetencyLabel } from '../../../../shared/pipes/modifyCompetencyLabel';
 
 export enum ValidFaultTypes {
   DRIVING = 'driving',
@@ -16,7 +32,21 @@ export enum ValidFaultTypes {
   selector: 'fault-comment',
   templateUrl: 'fault-comment.html',
   styleUrls: ['fault-comment.scss'],
-  standalone: false,
+  imports: [
+    IonGrid,
+    IonRow,
+    IonCol,
+    DangerousFaultBadgeComponent,
+    SeriousFaultBadgeComponent,
+    DrivingFaultsBadgeComponent,
+    FormsModule,
+    ReactiveFormsModule,
+    CharacterCountDirective,
+    EmojiBlockDirective,
+    PasteSanitiserDirective,
+    NgClass,
+    ModifyCompetencyLabel,
+  ],
 })
 export class FaultCommentComponent implements OnChanges {
   faultCommentMaxLength = 950;

@@ -1,14 +1,16 @@
 import { Component, Input } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { DriverLicenceSchema } from '@dvsa/mes-driver-schema';
+import { IonGrid, IonText } from '@ionic/angular';
 import { SIGNATURE_MOCK } from '@pages/candidate-licence/candidate-licence.mock';
 import { DateTime, Duration } from '@shared/helpers/date-time';
 import { get } from 'lodash-es';
+import { DataRowComponent } from '../../../../../components/common/data-row/data-row';
 
 @Component({
   selector: 'licence-information',
   templateUrl: 'licence-information.html',
-  standalone: false,
+  imports: [IonText, IonGrid, DataRowComponent],
 })
 export class LicenceInformation {
   @Input()

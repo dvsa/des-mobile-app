@@ -20,8 +20,7 @@ describe('TellMeQuestionCardComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      declarations: [TellMeQuestionCardComponent],
-      imports: [AppModule, ReactiveFormsModule],
+      imports: [AppModule, ReactiveFormsModule, TellMeQuestionCardComponent],
       providers: [
         {
           provide: RouteByCategoryProvider,

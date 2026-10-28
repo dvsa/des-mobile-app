@@ -19,8 +19,7 @@ describe('PostalAddressComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [PostalAddressComponent],
-      imports: [TranslateModule.forRoot()],
+      imports: [TranslateModule.forRoot(), PostalAddressComponent],
     });
 
     fixture = TestBed.createComponent(PostalAddressComponent);

@@ -9,8 +9,7 @@ describe('QuestionFooterComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [QuestionFooterComponent],
-      imports: [AppModule],
+      imports: [AppModule, QuestionFooterComponent],
     });
 
     fixture = TestBed.createComponent(QuestionFooterComponent);

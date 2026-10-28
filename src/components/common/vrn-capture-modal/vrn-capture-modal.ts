@@ -1,7 +1,14 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { AbstractControl, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import {
+  AbstractControl,
+  FormsModule,
+  ReactiveFormsModule,
+  UntypedFormControl,
+  UntypedFormGroup,
+  Validators,
+} from '@angular/forms';
 import { AppComponent } from '@app/app.component';
-import { ModalController } from '@ionic/angular';
+import { IonButton, IonCard, IonCol, IonInput, IonRow, IonText, ModalController } from '@ionic/angular';
 import { Store, select } from '@ngrx/store';
 import {
   FieldValidators,
@@ -15,6 +22,8 @@ import { getVehicleDetails } from '@store/tests/vehicle-details/vehicle-details.
 import { getRegistrationNumber } from '@store/tests/vehicle-details/vehicle-details.selector';
 import { Observable, Subscription, merge } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { EmojiBlockDirective } from '../../../directives/emoji-block.directive';
+import { PasteSanitiserDirective } from '../../../directives/paste-sanitiser';
 
 interface ComponentState {
   vehicleRegistration$: Observable<string>;
@@ -24,7 +33,18 @@ interface ComponentState {
   selector: 'vrn-capture-modal',
   templateUrl: './vrn-capture-modal.html',
   styleUrls: ['./vrn-capture-modal.scss'],
-  standalone: false,
+  imports: [
+    IonCard,
+    FormsModule,
+    ReactiveFormsModule,
+    IonRow,
+    IonCol,
+    IonText,
+    IonInput,
+    EmojiBlockDirective,
+    PasteSanitiserDirective,
+    IonButton,
+  ],
 })
 export class VRNCaptureModal implements OnInit {
   @Input()

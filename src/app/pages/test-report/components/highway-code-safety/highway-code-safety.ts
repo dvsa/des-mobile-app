@@ -2,8 +2,10 @@ import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { Observable, Subscription, merge } from 'rxjs';
 import { map, takeUntil } from 'rxjs/operators';
 
+import { NgClass } from '@angular/common';
 import { CategoryCode } from '@dvsa/mes-test-schema/categories/common';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
+import { IonCol, IonRow } from '@ionic/angular';
 import { Store, select } from '@ngrx/store';
 import { TestDataByCategoryProvider } from '@providers/test-data-by-category/test-data-by-category';
 import { trDestroy$ } from '@shared/classes/test-flow-base-pages/test-report/test-report-base-page';
@@ -17,9 +19,14 @@ import {
 } from '@store/tests/test-data/common/highway-code-safety/highway-code-safety.selectors';
 import { getTests } from '@store/tests/tests.reducer';
 import { getCurrentTest } from '@store/tests/tests.selector';
+import { DangerousFaultBadgeComponent } from '../../../../../components/common/dangerous-fault-badge/dangerous-fault-badge';
+import { DrivingFaultsBadgeComponent } from '../../../../../components/common/driving-faults-badge/driving-faults-badge';
+import { SeriousFaultBadgeComponent } from '../../../../../components/common/serious-fault-badge/serious-fault-badge';
+import { TickIndicatorComponent } from '../../../../../components/common/tick-indicator/tick-indicator';
 import { ToggleRemoveFaultMode, ToggleSeriousFaultMode } from '../../test-report.actions';
 import { getTestReportState } from '../../test-report.reducer';
 import { isDangerousMode, isRemoveFaultMode, isSeriousMode } from '../../test-report.selector';
+import { CompetencyButtonComponent } from '../competency-button/competency-button';
 
 interface HighwayCodeSafetyComponentState {
   isRemoveFaultMode$: Observable<boolean>;
@@ -34,7 +41,16 @@ interface HighwayCodeSafetyComponentState {
   selector: 'highway-code-safety',
   templateUrl: 'highway-code-safety.html',
   styleUrls: ['highway-code-safety.scss'],
-  standalone: false,
+  imports: [
+    IonRow,
+    IonCol,
+    CompetencyButtonComponent,
+    NgClass,
+    TickIndicatorComponent,
+    DrivingFaultsBadgeComponent,
+    SeriousFaultBadgeComponent,
+    DangerousFaultBadgeComponent,
+  ],
 })
 export class HighwayCodeSafetyComponent implements OnInit, OnDestroy {
   @Input()

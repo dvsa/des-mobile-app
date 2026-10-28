@@ -45,14 +45,6 @@ describe('TestReportCatADI3Page', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        TestReportCatADI3Page,
-        MockComponent(PracticeModeOptionsBar),
-        MockComponent(StudentComponent),
-        MockComponent(LessonThemeComponent),
-        MockComponent(TestReportAssessmentCard),
-        MockComponent(TestFlowHeaderComponent),
-      ],
       imports: [
         AppModule,
         StoreModule.forFeature('tests', () => ({
@@ -71,6 +63,12 @@ describe('TestReportCatADI3Page', () => {
           },
         })),
         StoreModule.forFeature('testReport', testReportReducer),
+        TestReportCatADI3Page,
+        MockComponent(PracticeModeOptionsBar),
+        MockComponent(StudentComponent),
+        MockComponent(LessonThemeComponent),
+        MockComponent(TestReportAssessmentCard),
+        MockComponent(TestFlowHeaderComponent),
       ],
       providers: [
         {

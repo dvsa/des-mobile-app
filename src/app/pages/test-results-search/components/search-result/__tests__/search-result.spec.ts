@@ -32,8 +32,7 @@ describe('SearchResultComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [SearchResultComponent],
-      imports: [AppModule],
+      imports: [AppModule, SearchResultComponent],
       providers: [
         { provide: CompressionProvider, useClass: CompressionProviderMock },
         { provide: AppComponent, useClass: MockAppComponent },

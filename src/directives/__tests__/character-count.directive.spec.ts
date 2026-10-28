@@ -3,10 +3,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { CharacterCountDirective } from '@directives/character-count.directive';
 
-@Component({
-  template: '<input type="text" charCount>',
-  standalone: false,
-})
+@Component({ template: '<input type="text" charCount>' })
 class TestCharCountComponent {}
 
 class ElementRefMock extends ElementRef {
@@ -24,7 +21,7 @@ describe('Directive: CharacterCountDirective', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [TestCharCountComponent, CharacterCountDirective],
+      imports: [TestCharCountComponent, CharacterCountDirective],
       providers: [{ provide: ElementRef, useValue: ElementRefMock }],
     });
     fixture = TestBed.createComponent(TestCharCountComponent);

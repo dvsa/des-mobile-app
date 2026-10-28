@@ -19,11 +19,9 @@ import { TestReportCatADI3Page } from './test-report.cat-adi-part3.page';
 import { TestReportCatADIPart3PageRoutingModule } from './test-report.cat-adi-part3.routing.module';
 
 @NgModule({
-  declarations: [TestReportCatADI3Page],
   imports: [
     CommonModule,
     FormsModule,
-
     TestReportCatADIPart3PageRoutingModule,
     TestReportCatADIPart3ComponentsModule,
     TestReportCatCPCComponentsModule,
@@ -39,6 +37,7 @@ import { TestReportCatADIPart3PageRoutingModule } from './test-report.cat-adi-pa
     IonToolbar,
     IonHeader,
     IonContent,
+    TestReportCatADI3Page,
   ],
   providers: [TestReportValidatorProvider, TestResultProvider],
 })

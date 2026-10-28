@@ -33,8 +33,7 @@ describe('ViewJournalsCardComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [ViewJournalsCardComponent],
-      imports: [TestCentreJournalComponentsModule, CommonModule],
+      imports: [TestCentreJournalComponentsModule, CommonModule, ViewJournalsCardComponent],
       providers: [
         { provide: SlotProvider, useClass: SlotProviderMock },
         { provide: SlotSelectorProvider, useClass: SlotSelectorProviderMock },

@@ -7,7 +7,17 @@ import { IonButton, IonCard, IonCol, IonIcon, IonRow, IonText } from '@ionic/ang
 import { JournalFutureTestModal } from '@pages/journal/components/journal-future-test-modal/journal-future-test-modal';
 
 @NgModule({
-  imports: [CommonModule, FormsModule, ComponentsModule, IonButton, IonCol, IonRow, IonCard, IonIcon, IonText],
-  declarations: [JournalFutureTestModal],
+  imports: [
+    CommonModule,
+    FormsModule,
+    ComponentsModule,
+    IonButton,
+    IonCol,
+    IonRow,
+    IonCard,
+    IonIcon,
+    IonText,
+    JournalFutureTestModal,
+  ],
 })
 export class JournalFutureTestModalModule {}

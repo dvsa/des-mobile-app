@@ -18,13 +18,11 @@ import { TestReportCatADIPart2PageRoutingModule } from './test-report.cat-adi-pa
 import { TestReportCatADI2Page } from './test-report.cat-adi-part2.page';
 
 @NgModule({
-  declarations: [TestReportCatADI2Page],
   imports: [
     StoreModule.forFeature('testReport', testReportReducer),
     EffectsModule.forFeature([TestReportAnalyticsEffects, TestReportEffects]),
     CommonModule,
     FormsModule,
-
     TestReportCatADIPart2PageRoutingModule,
     TestReportComponentsModule,
     ComponentsModule,
@@ -36,6 +34,7 @@ import { TestReportCatADI2Page } from './test-report.cat-adi-part2.page';
     IonContent,
     IonToolbar,
     IonHeader,
+    TestReportCatADI2Page,
   ],
   providers: [TestReportValidatorProvider, TestResultProvider],
 })

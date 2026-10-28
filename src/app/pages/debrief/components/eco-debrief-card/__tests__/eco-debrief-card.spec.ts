@@ -14,8 +14,7 @@ describe('EcoDebriefCardComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [EcoDebriefCardComponent],
-      imports: [AppModule, ComponentsModule, StoreModule.forRoot({}), TranslateModule],
+      imports: [AppModule, ComponentsModule, StoreModule.forRoot({}), TranslateModule, EcoDebriefCardComponent],
     });
 
     fixture = TestBed.createComponent(EcoDebriefCardComponent);

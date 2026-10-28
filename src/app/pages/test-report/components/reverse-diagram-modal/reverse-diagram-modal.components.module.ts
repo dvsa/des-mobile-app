@@ -9,8 +9,18 @@ import { ReverseLeftComponent } from '../reverse-left/reverse-left';
 import { TestReportComponentsModule } from '../test-report-components.module';
 
 @NgModule({
-  declarations: [ReverseLeftComponent, ReverseDiagramLinkComponent, ReverseLeftPopoverComponent],
-  imports: [CommonModule, TestReportComponentsModule, ComponentsModule, IonCol, IonRow, IonIcon, IonGrid],
+  imports: [
+    CommonModule,
+    TestReportComponentsModule,
+    ComponentsModule,
+    IonCol,
+    IonRow,
+    IonIcon,
+    IonGrid,
+    ReverseLeftComponent,
+    ReverseDiagramLinkComponent,
+    ReverseLeftPopoverComponent,
+  ],
   exports: [ReverseLeftComponent, ReverseDiagramLinkComponent, ReverseLeftPopoverComponent],
 })
 export class ReverseDiagramModalComponentsModule {}

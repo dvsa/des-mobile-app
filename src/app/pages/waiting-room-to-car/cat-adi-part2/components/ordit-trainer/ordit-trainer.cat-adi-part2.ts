@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { IonCol, IonRow } from '@ionic/angular';
 
 enum OrditTrained {
   YES = 'true',
@@ -9,7 +10,7 @@ enum OrditTrained {
 @Component({
   selector: 'ordit-trainer-cat-adi-part2',
   templateUrl: 'ordit-trainer.cat-adi-part2.html',
-  standalone: false,
+  imports: [IonRow, FormsModule, ReactiveFormsModule, IonCol],
 })
 export class OrditTrainerCatAdiPart2Component {
   @Input()

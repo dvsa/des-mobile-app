@@ -1,5 +1,7 @@
+import { AsyncPipe } from '@angular/common';
 import { Component } from '@angular/core';
 import { CatBUniqueTypes } from '@dvsa/mes-test-schema/categories/B';
+import { IonCol, IonGrid, IonRow } from '@ionic/angular';
 import { Store, select } from '@ngrx/store';
 import { StoreModel } from '@shared/models/store.model';
 import { getManoeuvres } from '@store/tests/test-data/cat-b/test-data.cat-b.selector';
@@ -11,6 +13,7 @@ import { getCurrentTest } from '@store/tests/tests.selector';
 import { some } from 'lodash-es';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { ManoeuvreCompetencyComponent } from '../../../components/manoeuvre-competency/manoeuvre-competency';
 
 interface ManoeuvresFaultState {
   reverseRight: boolean;
@@ -24,7 +27,7 @@ interface ManoeuvresFaultState {
   selector: 'manoeuvres-popover',
   templateUrl: 'manoeuvres-popover.html',
   styleUrls: ['./manoeuvres-popover.scss'],
-  standalone: false,
+  imports: [IonGrid, IonRow, IonCol, ManoeuvreCompetencyComponent, AsyncPipe],
 })
 export class ManoeuvresPopoverComponent {
   manoeuvreTypes = ManoeuvreTypes;

@@ -8,7 +8,7 @@ describe('LicenceDataError', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [LicenceDataError],
+      imports: [LicenceDataError],
     });
 
     fixture = TestBed.createComponent(LicenceDataError);

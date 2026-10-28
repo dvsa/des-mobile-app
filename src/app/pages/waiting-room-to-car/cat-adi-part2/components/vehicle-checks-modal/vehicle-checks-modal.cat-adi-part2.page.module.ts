@@ -27,12 +27,10 @@ import { VehicleChecksModalAnalyticsEffects } from './vehicle-checks-modal.cat-a
 import { VehicleChecksCatADIPart2Modal } from './vehicle-checks-modal.cat-adi-part2.page';
 
 @NgModule({
-  declarations: [VehicleChecksCatADIPart2Modal],
   imports: [
     EffectsModule.forFeature([VehicleChecksModalAnalyticsEffects]),
     ComponentsModule,
     WaitingRoomToCarComponentsModule,
-
     CommonModule,
     ReactiveFormsModule,
     FormsModule,
@@ -52,6 +50,7 @@ import { VehicleChecksCatADIPart2Modal } from './vehicle-checks-modal.cat-adi-pa
     IonCardHeader,
     IonCardTitle,
     IonCardContent,
+    VehicleChecksCatADIPart2Modal,
   ],
 })
 export class VehicleChecksModalCatADIPart2Module {}
