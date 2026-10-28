@@ -3,6 +3,7 @@ import { MotStatusDisplayTextComponent } from '@components/common/mot-status-dis
 import { RegistrationWithPreviousMotTextComponent } from '@components/common/registration-with-previous-mot-text/registration-with-previous-mot-text.component';
 import { MotStatusCodes } from '@dvsa/mes-mot-schema';
 import { IonCol, IonRow, IonText } from '@ionic/angular';
+import { getMakeAndModel, hasMakeOrModel } from '@shared/helpers/mot-formatter';
 
 @Component({
   selector: 'office-registration-and-mot',
@@ -29,4 +30,6 @@ export class OfficeRegistrationAndMotComponent {
 
   @Input()
   motTestExpiryDate: string;
+  protected readonly getMakeAndModel = getMakeAndModel;
+  protected readonly hasMakeOrModel = hasMakeOrModel;
 }

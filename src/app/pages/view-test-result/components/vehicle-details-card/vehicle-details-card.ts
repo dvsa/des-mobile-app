@@ -11,6 +11,7 @@ import { CatCEUniqueTypes } from '@dvsa/mes-test-schema/categories/CE';
 import { CategoryCode } from '@dvsa/mes-test-schema/categories/common';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { flattenArray } from '@pages/view-test-result/view-test-result-helpers';
+import { getMakeAndModel, hasMakeOrModel } from '@shared/helpers/mot-formatter';
 import { isBikeTest } from '@shared/helpers/simplifiers';
 import { get } from 'lodash-es';
 
@@ -254,4 +255,7 @@ export class VehicleDetailsCardComponent {
       this.vehicleDetails !== undefined
     );
   }
+
+  protected readonly hasMakeOrModel = hasMakeOrModel;
+  protected readonly getMakeAndModel = getMakeAndModel;
 }
