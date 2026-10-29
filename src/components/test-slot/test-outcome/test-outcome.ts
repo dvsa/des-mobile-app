@@ -242,7 +242,6 @@ export class TestOutcomeComponent implements OnDestroy, OnInit {
       this.store$.dispatch(StartE2EPracticeTest(this.slotDetail.slotId.toString(), this.category));
     } else {
       await this.hasSlotChanged(this.slot, this.slotDetail.slotId);
-      console.log(this.isE2EPracticeMode());
       this.store$.dispatch(StartTest(this.slotDetail.slotId, this.category, this.startTestAsRekey || this.isRekey));
     }
 
