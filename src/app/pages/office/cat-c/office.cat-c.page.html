@@ -267,6 +267,7 @@
         <eta-card
           [formGroup]="form"
           [faults]="pageState.etaFaults$ | async"
+          [shouldShowDetailCheckboxes]="!isDelegated"
           [steeringETA]="steeringControlETA()"
           [handbrakeETA]="handbrakeETA()"
           [footbrakeETA]="footbrakeETA()"
