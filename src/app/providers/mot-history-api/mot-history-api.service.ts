@@ -125,24 +125,24 @@ export class MotHistoryApiService {
       value.body.expiryDate = new DateTime(value.body.expiryDate).format('DD/MM/YYYY');
     }
 
-    switch (value.body?.registration) {
+    switch (value?.body?.registration) {
       case '1':
         return {
           status: value.status.toString(),
           data: {
             registration: value.body?.registration,
-            make: 'make',
+            make: 'ford',
             expiryDate: value.body?.expiryDate,
             status: value.body?.status,
           },
         };
-      case '2':
+      case 'A':
         return {
           status: value.status.toString(),
           data: {
             registration: value.body?.registration,
             make: '',
-            model: 'model',
+            model: 'focus',
             expiryDate: value.body?.expiryDate,
             status: value.body?.status,
           },
