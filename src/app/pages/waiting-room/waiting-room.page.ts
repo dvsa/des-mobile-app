@@ -249,11 +249,14 @@ export class WaitingRoomPage extends PracticeableBasePageComponent implements On
     return await this.deviceAuthenticationProvider.triggerLockScreen(this.isPracticeMode);
   }
 
-  isJournalDataInvalid = (journalData: JournalData): boolean => {
-    console.log(journalData);
+  isJournalDataInvalid = (journalData?: Partial<JournalData>): boolean => {
+    if (!journalData) {
+      return false;
+    }
+
     return (
-      isEmpty(journalData.examiner.staffNumber) ||
-      (isEmpty(journalData.candidate.candidateName) && isEmpty(journalData.candidate.driverNumber))
+      isEmpty(journalData?.examiner?.staffNumber) ||
+      (isEmpty(journalData?.candidate?.candidateName) && isEmpty(journalData?.candidate?.driverNumber))
     );
   };
 
@@ -326,7 +329,6 @@ export class WaitingRoomPage extends PracticeableBasePageComponent implements On
   }
 
   async showCandidateDataMissingError(): Promise<void> {
-    console.log('missing candidate data');
     const errorModal: HTMLIonModalElement = await this.modalController.create({
       component: ErrorPage,
       cssClass: `modal-fullscreen ${this.accessibilityService.getTextZoomClass()}`,

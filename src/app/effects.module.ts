@@ -2,6 +2,8 @@ import { NgModule } from '@angular/core';
 import { ExitSingleAppModeAnalyticsEffects } from '@components/common/test-flow-header/exit-sam.analytics.effects';
 import { ExitSingleAppModeEffects } from '@components/common/test-flow-header/exit-sam.effects';
 import { EffectsModule } from '@ngrx/effects';
+import { FakeJournalAnalyticsEffects } from '@pages/fake-journal/fake-journal.analytics.effects';
+import { FakeJournalEffects } from '@pages/fake-journal/fake-journal.effects';
 import { LoginPageAnalyticsEffects } from '@pages/login/login-page.analytics.effects';
 import { AuthenticationAnalyticsEffects } from '@providers/authentication/authentication.analytics.effects';
 import { LogoutBasePageAnalyticsEffects } from '@shared/classes/logout-base-page/logout-base-page.analytics.effects';
@@ -20,6 +22,8 @@ import { VehicleDetailsAnalyticsEffects } from '@store/tests/vehicle-details/veh
     EffectsModule.forFeature([EyesightTestAnalyticsEffects]),
     EffectsModule.forFeature([AccompanimentAnalyticsEffects]),
     EffectsModule.forFeature([VehicleDetailsAnalyticsEffects]),
+    EffectsModule.forFeature([FakeJournalEffects]),
+    EffectsModule.forFeature([FakeJournalAnalyticsEffects]),
   ],
 })
 export class EffectImportModule {}
