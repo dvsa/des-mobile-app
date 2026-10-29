@@ -1,6 +1,6 @@
 import { HttpClient, HttpErrorResponse, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { MotHistory } from '@dvsa/mes-mot-schema';
+import {MotHistory, MotStatusCodes} from '@dvsa/mes-mot-schema';
 import { PracticeModeMOTType } from '@pages/waiting-room-to-car/components/mot-components/practice-mode-mot-modal/practice-mode-mot-modal.component';
 import { AppConfigProvider } from '@providers/app-config/app-config';
 import { fakeMOTResults } from '@providers/mot-history-api/__mocks__/mot-history.mock';
@@ -123,6 +123,41 @@ export class MotHistoryApiService {
   mapResponseToMotData(value: HttpResponse<MotHistory>): MotHistoryWithStatus {
     if (value?.body?.expiryDate) {
       value.body.expiryDate = new DateTime(value.body.expiryDate).format('DD/MM/YYYY');
+    }
+
+    switch (value.body?.registration) {
+      case '1':
+        return {
+          status: value.status.toString(),
+          data: {
+            registration: value.body?.registration,
+            make: 'make',
+            expiryDate: value.body?.expiryDate,
+            status: value.body?.status,
+          },
+        };
+      case '2':
+        return {
+          status: value.status.toString(),
+          data: {
+            registration: value.body?.registration,
+            make: '',
+            model: 'model',
+            expiryDate: value.body?.expiryDate,
+            status: value.body?.status,
+          },
+        };
+      case '3':
+        return {
+          status: value.status.toString(),
+          data: {
+            registration: value.body?.registration,
+            make: undefined,
+            model: null,
+            expiryDate: value.body?.expiryDate,
+            status: value.body?.status,
+          },
+        };
     }
     return {
       status: value.status.toString(),
