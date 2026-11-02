@@ -26,6 +26,7 @@ export class SafetyRecallComponent {
     const zoomClass = `mes-modal-alert ${this.accessibilityService.getTextZoomClass()}`;
     const learnMoreModal = await this.modalController.create({
       component: LearnMoreModal,
+      componentProps: { disableSAM: true },
       id: LEARN_MORE_MODAL,
       cssClass: zoomClass,
     });

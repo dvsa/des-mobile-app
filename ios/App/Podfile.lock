@@ -24,7 +24,7 @@ PODS:
     - Capacitor
   - CapawesomeCapacitorManagedConfigurations (8.0.2):
     - Capacitor
-  - CapawesomeCapacitorScreenOrientation (8.0.3):
+  - CapawesomeCapacitorScreenOrientation (8.0.4):
     - Capacitor
   - CordovaPlugins (8.5.3):
     - CapacitorCordova
@@ -111,27 +111,27 @@ EXTERNAL SOURCES:
     :path: "../../node_modules/@sentry/capacitor"
 
 SPEC CHECKSUMS:
-  Capacitor: 17e970df74ced80ad73f1bf99f2c53aa6fcabde0
-  CapacitorApp: 542f92c179e3e08ed5d787846bcfa1b377e9745e
-  CapacitorAppLauncher: fc7c313549920528d0f28493b60d20de679deba4
-  CapacitorBrowser: c54567fdaba0ddb67dad113ad12b8ccb910b0a30
-  CapacitorCommunityKeepAwake: 4eaeafc83573f2520fac18e136254ef34694f75b
+  Capacitor: 2f67eaeb8ed79909cd35b5e7439a5c2a9ca58e0f
+  CapacitorApp: 7b7e43debe505bc61beedb83796aa1368c86078b
+  CapacitorAppLauncher: 43949ccc5aaa5139a1ebe27a98c0a4d76c883fa7
+  CapacitorBrowser: f94f92654e92a97981bf346b3681af76527dace0
+  CapacitorCommunityKeepAwake: d41922812644562e94a79acaf7f41e6d9413af8c
   CapacitorCordova: 0b7326439c7a09fc5d20eced5e0dab986327a493
-  CapacitorDevice: e5599fa82274e59220170995826a16095ad20c40
-  CapacitorNativeBiometric: b47637a8cd349bdac014424bb4ddcae9ee5d4919
-  CapacitorNetwork: 7afc28ed4d9abe1d9801264fa485db32e4420546
-  CapacitorSplashScreen: 120117d1b2264bba31a6e6f998f51e510144dd12
-  CapacitorStatusBar: 9b98299f3d119657ea338c047e0b876714c213ad
-  CapacitorTextZoom: afbf3d1cb61547480e60b4d06979bc239afee747
-  CapawesomeCapacitorManagedConfigurations: 13145a2b8e6236b232de15cdc339a29086f0f7a7
-  CapawesomeCapacitorScreenOrientation: ed9b57b7db8fac738a2920cf10017fe15571c303
-  CordovaPlugins: 24869dec81b6320561f24c3fb0c84ec66103d034
+  CapacitorDevice: 708e742b60a61572cd593e44c809592e8f31da14
+  CapacitorNativeBiometric: 78cf21304251a512e4597437325b5e9b0cd9f7b3
+  CapacitorNetwork: 8812ce60d11fb63d8f2e4ba51a49b2e59892ebe2
+  CapacitorSplashScreen: 7bf61c2001557ff9e195e601c6b87344480d3c65
+  CapacitorStatusBar: ff844df1f126da6c4fbc4028272425fa3a91e7e3
+  CapacitorTextZoom: b3c80b09abef831245bc3434b1c03aa898ad4762
+  CapawesomeCapacitorManagedConfigurations: b466d066a6d301a041043d6393af62e920e2bfec
+  CapawesomeCapacitorScreenOrientation: e229fc3e7d2bf4695fd6b5219fd9e90f0c15c4a9
+  CordovaPlugins: 23e522d2bd72bbebd34fffd78d181be281f236c6
   CordovaPluginsResources: da93847212bf7b16ba770e4d6c3e7dba820174c7
-  DvsaCapacitorPluginAsam: a17bf025f4a2f0129c40949287e124c9a03dd15e
-  DvsaCapacitorPluginMsauth: e01db05413bb4004c569eef185e9e80cf5a78f4c
+  DvsaCapacitorPluginAsam: 2428e912504b5a044f669b31ba493221475de678
+  DvsaCapacitorPluginMsauth: b6ddf645efb20edc59ea3971f72c8d1de73f7eed
   MSAL: 1a32a1070ccf55d9641d31edd8869ea2b5a78beb
   Sentry: e5d82a3c1f2d951f75c04c57215a0abb1facbd51
-  SentryCapacitor: 51a84af1e21f72895220340fe3b4e419dad43b5d
+  SentryCapacitor: 0561def7ada7e47d0437324e7aa3db60d52bfe40
 
 PODFILE CHECKSUM: dba0b43953790917a62b270f6f28064695b0b458
 
