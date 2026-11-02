@@ -35,7 +35,7 @@ describe('LearnMoreModal', () => {
 
       for (const recallLink of recallLinks) {
         await component.openRecallLink(recallLink.id as RecallLinkId);
-        expect(openLinkProvider.openLinkModal).toHaveBeenCalledWith(recallLink);
+        expect(openLinkProvider.openLinkModal).toHaveBeenCalledWith(recallLink, false);
       }
 
       expect(store$.dispatch).toHaveBeenCalledWith(RecallLinkSelected());
@@ -48,7 +48,7 @@ describe('LearnMoreModal', () => {
 
       await component.openRecallLink('citroen-recall');
 
-      expect(openLinkProvider.openLinkModal).toHaveBeenCalledWith(undefined);
+      expect(openLinkProvider.openLinkModal).toHaveBeenCalledWith(undefined, false);
     });
 
     it('still calls openLinkModal if usefulLinks is empty', async () => {
@@ -57,7 +57,7 @@ describe('LearnMoreModal', () => {
 
       await component.openRecallLink('citroen-recall');
 
-      expect(openLinkProvider.openLinkModal).toHaveBeenCalledWith(undefined);
+      expect(openLinkProvider.openLinkModal).toHaveBeenCalledWith(undefined, false);
     });
   });
 
