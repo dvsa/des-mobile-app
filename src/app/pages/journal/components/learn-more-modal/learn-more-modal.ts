@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import {
   IonButton,
   IonCard,
@@ -35,6 +35,9 @@ export type RecallLinkId = (typeof RecallLinkIds)[keyof typeof RecallLinkIds];
 export class LearnMoreModal {
   readonly recallLinkIds = RecallLinkIds;
 
+  @Input()
+  disableSAM = false;
+
   constructor(
     public modalController: ModalController,
     public openLinkProvider: OpenLinkProvider,
@@ -50,7 +53,10 @@ export class LearnMoreModal {
     const usefulLinks = this.urlProvider.getUsefulLinks();
 
     await this.closeModal();
-    await this.openLinkProvider.openLinkModal(usefulLinks.find((link) => link.id === linkId));
+    await this.openLinkProvider.openLinkModal(
+      usefulLinks.find((link) => link.id === linkId),
+      this.disableSAM
+    );
   }
 
   /**

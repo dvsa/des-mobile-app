@@ -21,13 +21,13 @@ export class OpenLinkProvider {
   //  * Dispatches the action to set the selected link, it determines this by appending the word Selected to the action name
   //  * @param link
   //  */
-  async openLinkModal(link: UsefulLink): Promise<void> {
+  async openLinkModal(link: UsefulLink, disableSAM = false): Promise<void> {
     const displayText = link.displayText.replace(/ /g, '_');
     this.store$.dispatch(UsefulLinkSelected(displayText));
     const modal: HTMLIonModalElement = await this.modalController.create({
       id: 'linkModal',
       component: LinkModalComponent,
-      componentProps: { link },
+      componentProps: { link, disableSAM },
       cssClass: `${this.accessibilityService.getTextZoomClass()} mes-modal-alert`,
       backdropDismiss: false,
       showBackdrop: true,
