@@ -1,7 +1,9 @@
 import { Component } from '@angular/core';
-import { IonButton, IonCol, IonRow, IonText } from '@ionic/angular';
+import { IonButton, IonCol, IonRow, IonText, ModalController } from '@ionic/angular';
 import { Store } from '@ngrx/store';
-import { ExitSAMMethodUsed, ExitSAMProvider } from '@providers/exitSAM/exitSAM';
+import { LearnMoreModal } from '@pages/journal/components/learn-more-modal/learn-more-modal';
+import { LEARN_MORE_MODAL } from '@pages/page-names.constants';
+import { AccessibilityService } from '@providers/accessibility/accessibility.service';
 import { StoreModel } from '@shared/models/store.model';
 import { CheckVINPressed } from '@store/general/safety-recall/safety-recall.actions';
 
@@ -14,13 +16,19 @@ import { CheckVINPressed } from '@store/general/safety-recall/safety-recall.acti
 })
 export class SafetyRecallComponent {
   constructor(
-    public exitSAMProvider: ExitSAMProvider,
+    public modalController: ModalController,
+    private accessibilityService: AccessibilityService,
     private store$: Store<StoreModel>
   ) {}
 
   async checkRecall(): Promise<void> {
     this.store$.dispatch(CheckVINPressed());
-    // Logic to check for safety recalls would go here
-    await this.exitSAMProvider.disableSAMAndExitForRecalls(ExitSAMMethodUsed.VIN_CHECK);
+    const zoomClass = `mes-modal-alert ${this.accessibilityService.getTextZoomClass()}`;
+    const learnMoreModal = await this.modalController.create({
+      component: LearnMoreModal,
+      id: LEARN_MORE_MODAL,
+      cssClass: zoomClass,
+    });
+    await learnMoreModal.present();
   }
 }
