@@ -17,6 +17,14 @@ import { UrlProvider } from '@providers/url/url';
 import { StoreModel } from '@shared/models/store.model';
 import { RecallLinkSelected, RecallModalClosed } from '@store/general/safety-recall/safety-recall.actions';
 
+export const RecallLinkIds = {
+  citroen: 'citroen-recall',
+  ds: 'ds-recall',
+  vauxhall: 'vauxhall-recall',
+} as const;
+
+export type RecallLinkId = (typeof RecallLinkIds)[keyof typeof RecallLinkIds];
+
 @Component({
   selector: 'learn-more-modal',
   templateUrl: './learn-more-modal.html',
@@ -25,6 +33,8 @@ import { RecallLinkSelected, RecallModalClosed } from '@store/general/safety-rec
   standalone: true,
 })
 export class LearnMoreModal {
+  readonly recallLinkIds = RecallLinkIds;
+
   constructor(
     public modalController: ModalController,
     public openLinkProvider: OpenLinkProvider,
@@ -35,13 +45,12 @@ export class LearnMoreModal {
   /**
    * Opens the open link modal & alerts user they are leaving the application
    */
-  async openRecallLink() {
+  async openRecallLink(linkId: RecallLinkId) {
     this.store$.dispatch(RecallLinkSelected());
     const usefulLinks = this.urlProvider.getUsefulLinks();
 
-    await this.closeModal().then(() => {
-      this.openLinkProvider.openLinkModal(usefulLinks.find((link) => link.id === 'citroen-recall'));
-    });
+    await this.closeModal();
+    await this.openLinkProvider.openLinkModal(usefulLinks.find((link) => link.id === linkId));
   }
 
   /**

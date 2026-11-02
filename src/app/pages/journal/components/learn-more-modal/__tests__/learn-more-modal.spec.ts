@@ -1,7 +1,7 @@
 import { UsefulLink } from '@dvsa/mes-config-schema/remote-config';
 import { ModalController } from '@ionic/angular';
 import { Store } from '@ngrx/store';
-import { LearnMoreModal } from '@pages/journal/components/learn-more-modal/learn-more-modal';
+import { LearnMoreModal, type RecallLinkId } from '@pages/journal/components/learn-more-modal/learn-more-modal';
 import { OpenLinkProvider } from '@providers/open-link/open-link';
 import { UrlProvider } from '@providers/url/url';
 import { StoreModel } from '@shared/models/store.model';
@@ -24,27 +24,29 @@ describe('LearnMoreModal', () => {
   });
 
   describe('openRecallLink', () => {
-    it('dispatches RecallLinkSelected, closes modal, and opens recall link when link exists', async () => {
-      const recallLink: UsefulLink = {
-        displayText: 'display',
-        id: 'citroen-recall',
-        url: 'https://recall.example.com',
-      };
-      urlProvider.getUsefulLinks.and.returnValue([recallLink]);
+    it('dispatches RecallLinkSelected, closes modal, and opens the selected recall link', async () => {
+      const recallLinks: UsefulLink[] = [
+        { displayText: 'Citroën', id: 'citroen-recall', url: 'https://citroen.example.com' },
+        { displayText: 'DS', id: 'ds-recall', url: 'https://ds.example.com' },
+        { displayText: 'Vauxhall', id: 'vauxhall-recall', url: 'https://vauxhall.example.com' },
+      ];
+      urlProvider.getUsefulLinks.and.returnValue(recallLinks);
       spyOn(component, 'closeModal').and.returnValue(Promise.resolve());
 
-      await component.openRecallLink();
+      for (const recallLink of recallLinks) {
+        await component.openRecallLink(recallLink.id as RecallLinkId);
+        expect(openLinkProvider.openLinkModal).toHaveBeenCalledWith(recallLink);
+      }
 
       expect(store$.dispatch).toHaveBeenCalledWith(RecallLinkSelected());
       expect(component.closeModal).toHaveBeenCalled();
-      expect(openLinkProvider.openLinkModal).toHaveBeenCalledWith(recallLink);
     });
 
     it('does not call openLinkModal if recall link does not exist', async () => {
       urlProvider.getUsefulLinks.and.returnValue([{ id: 'other-link' } as UsefulLink]);
       spyOn(component, 'closeModal').and.returnValue(Promise.resolve());
 
-      await component.openRecallLink();
+      await component.openRecallLink('citroen-recall');
 
       expect(openLinkProvider.openLinkModal).toHaveBeenCalledWith(undefined);
     });
@@ -53,7 +55,7 @@ describe('LearnMoreModal', () => {
       urlProvider.getUsefulLinks.and.returnValue([]);
       spyOn(component, 'closeModal').and.returnValue(Promise.resolve());
 
-      await component.openRecallLink();
+      await component.openRecallLink('citroen-recall');
 
       expect(openLinkProvider.openLinkModal).toHaveBeenCalledWith(undefined);
     });

@@ -8,21 +8,15 @@
     color: var(--mes-theme-opposing-colour);
   }
 
-  .top-row {
-    margin-top: 0;
-    padding-top: 0;
-    margin-bottom: 0;
-    padding-bottom: 0;
-  }
-
   .full-width-padding {
-    padding-left: 20px;
-    padding-right: 20px;
+    display: block;
+    padding-inline: clamp(16px, 4vw, 32px);
+    box-sizing: border-box;
   }
 
   .modal-text {
     font-size: 24px;
-    line-height: 24px;
+    line-height: 28px;
     color: var(--mes-theme-opposing-colour);
   }
 
