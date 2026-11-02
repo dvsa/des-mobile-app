@@ -3,7 +3,8 @@
     <ion-grid>
       <ion-row class="ion-justify-content-center ion-text-center">
         <ion-col>
-          <ion-icon id="learn-more-modal-alert-icon" class="warning-icon" ios="alert-circle" aria-label="Alert icon"></ion-icon>
+          <ion-icon id="learn-more-modal-alert-icon" class="warning-icon" ios="alert-circle"
+                    aria-label="Alert icon"></ion-icon>
         </ion-col>
       </ion-row>
       <ion-row class="ion-justify-content-center">
@@ -17,30 +18,45 @@
   </ion-card-header>
 
   <ion-card-content class="mes-row-separator">
-    <ion-text id="learn-more-modal-body-text" class="ion-justify-content-center modal-text">
-      Please be aware that a 'stop-drive' order has been issued by <b>Citroën</b> for some
-      <b>C3</b>, <b>C4</b>, <b>DS3</b>, <b>DS4</b> and <b>DS5</b> models.
-      <br>
-      <br>
-      If a car is presented to use on test that you think might be included you must:
+    <ion-text id="learn-more-modal-body-text" class="ion-justify-content-center modal-text full-width-padding">
+      Some Citroën, DS and Vauxhall vehicles are affected by a Stellantis 'stop-drive' order:
 
       <ul>
-        <li>Use the Citroën safety recall online check to see if the car is affected by inputting the VIN number</li>
-        <br>
-        <li>The link can be found here: <b class="linkText" (click)="openRecallLink()">Citroën safety recall checker</b></li>
-        <br>
-        <li>If the repair work has been carried out, you must take the car on test as normal</li>
-        <br>
-        <li>If the repair work has not been carried out, you must not take the car out on test</li>
+        <li>Citroën C3 (2008-2017)</li>
+        <li>Citroën DS3 (2008-2019)</li>
+        <li>Citroën C-Zero (2010-2016)</li>
+        <li>Peugeot iOn (2010-2016)</li>
+        <li>Citroën C4 (2009-2018)</li>
+        <li>DS 4 (2010-2018)</li>
+        <li>Vauxhall Astra (5th gen or ‘H’ version) (2005-2013)</li>
+        <li>Vauxhall Astravan (5th gen or ‘H’ version) (2005-2013)</li>
+        <li>Vauxhall Astra Twin Top (2005 to 2012)</li>
+        <li>Vauxhall Vectra (2005-2008)</li>
+        <li>Vauxhall Signum (2005-2008)</li>
       </ul>
-      DES has also been updated to allow you to check this while on the waiting room to car screen.
+
+      If a car is being used for a test could be affected, use the recall checker for the vehicle manufacturer:
+
+      <ul>
+        <li class="linkText" (click)="openRecallLink(recallLinkIds.citroen)">Citroën recall checker</li>
+        <li class="linkText" (click)="openRecallLink(recallLinkIds.ds)">DS recall checker</li>
+        <li class="linkText" (click)="openRecallLink(recallLinkIds.vauxhall)">Vauxhall recall checker</li>
+      </ul>
+
+
+      If the recall check shows that:
+      <ul>
+        <li>the repair has been completed; carry out the test as normal</li>
+        <li>the repair has not been completed; do not take the car out on test</li>
+      </ul>
     </ion-text>
   </ion-card-content>
 
   <ion-grid>
     <ion-row>
       <ion-col class="ion-text-center">
-        <ion-button id="learn-more-modal-ok-btn" fill="clear" class="dark-divider-ok-button ion-justify-content-center" (click)="closeModal()">Ok
+        <ion-button id="learn-more-modal-ok-btn" fill="clear" class="dark-divider-ok-button ion-justify-content-center"
+                    (click)="closeModal()">Ok
         </ion-button>
       </ion-col>
     </ion-row>
