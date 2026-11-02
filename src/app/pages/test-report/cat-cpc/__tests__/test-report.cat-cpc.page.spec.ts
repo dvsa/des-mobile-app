@@ -6,7 +6,6 @@ import { Store, StoreModule } from '@ngrx/store';
 import { MockComponent } from 'ng-mocks';
 import { Subscription, of } from 'rxjs';
 
-import { AppModule } from '@app/app.module';
 import { PracticeModeOptionsBar } from '@components/common/practice-mode-options-bar/practice-mode-options-bar';
 import { TestFlowHeaderComponent } from '@components/common/test-flow-header/test-flow-header.component';
 import { OverlayEventDetail } from '@ionic/core';

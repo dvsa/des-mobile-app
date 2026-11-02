@@ -12,6 +12,7 @@ import { legalRequirementLabels } from './legal-requirement.constants';
   selector: 'legal-requirement',
   templateUrl: 'legal-requirement.html',
   styleUrls: ['legal-requirement.scss'],
+  standalone: true,
   imports: [CompetencyButtonComponent, NgClass, TickIndicatorComponent],
 })
 export class LegalRequirementComponent implements OnInit {

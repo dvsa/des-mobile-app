@@ -1,5 +1,6 @@
 import { AsyncPipe, NgClass } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
+import { TickIndicatorComponent } from '@components/common/tick-indicator/tick-indicator';
 import { IonCol, IonRow } from '@ionic/angular';
 import { Store, select } from '@ngrx/store';
 import { trDestroy$ } from '@shared/classes/test-flow-base-pages/test-report/test-report-base-page';
@@ -11,7 +12,6 @@ import { getTests } from '@store/tests/tests.reducer';
 import { getCurrentTest } from '@store/tests/tests.selector';
 import { Observable, Subscription, merge } from 'rxjs';
 import { map, takeUntil } from 'rxjs/operators';
-import { TickIndicatorComponent } from '../../../../../components/common/tick-indicator/tick-indicator';
 import { CompetencyButtonComponent } from '../competency-button/competency-button';
 
 interface EcoComponentState {

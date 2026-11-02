@@ -7,7 +7,6 @@ import { NavControllerMock, PlatformMock } from '@mocks/index.mock';
 import { Store } from '@ngrx/store';
 import { MockComponent } from 'ng-mocks';
 
-import { AppModule } from '@app/app.module';
 import { ActivityCodeComponent } from '@components/common/activity-code/activity-code';
 import { PracticeModeOptionsBar } from '@components/common/practice-mode-options-bar/practice-mode-options-bar';
 import { WarningBannerComponent } from '@components/common/warning-banner/warning-banner';

@@ -27,6 +27,7 @@ interface ManoeuvresFaultState {
   selector: 'manoeuvres-popover',
   templateUrl: 'manoeuvres-popover.html',
   styleUrls: ['./manoeuvres-popover.scss'],
+  standalone: true,
   imports: [IonGrid, IonRow, IonCol, ManoeuvreCompetencyComponent, AsyncPipe],
 })
 export class ManoeuvresPopoverComponent {

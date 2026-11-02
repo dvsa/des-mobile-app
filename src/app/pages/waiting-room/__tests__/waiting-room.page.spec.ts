@@ -15,7 +15,7 @@ import { Observable, Subscription } from 'rxjs';
 
 import { MockAppComponent } from '@app/__mocks__/app.component.mock';
 import { AppComponent } from '@app/app.component';
-import { AppModule } from '@app/app.module';
+
 import { CandidateSectionComponent } from '@components/common/candidate-section/candidate-section';
 import { EndTestLinkComponent } from '@components/common/end-test-link/end-test-link';
 import { PracticeModeOptionsBar } from '@components/common/practice-mode-options-bar/practice-mode-options-bar';

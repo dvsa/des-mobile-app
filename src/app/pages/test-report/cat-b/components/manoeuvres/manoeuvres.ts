@@ -25,6 +25,7 @@ import { TickIndicatorComponent } from '../../../../../../components/common/tick
   selector: 'manoeuvres',
   templateUrl: 'manoeuvres.html',
   styleUrls: ['./manoeuvres.scss'],
+  standalone: true,
   imports: [
     NgClass,
     TickIndicatorComponent,

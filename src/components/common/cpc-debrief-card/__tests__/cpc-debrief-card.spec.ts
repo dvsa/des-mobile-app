@@ -1,10 +1,10 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { AppModule } from '@app/app.module';
+
 import { Question } from '@dvsa/mes-test-schema/categories/CPC';
 
 import { StoreModule } from '@ngrx/store';
 import { TranslateModule } from '@ngx-translate/core';
-import { ComponentsModule } from '../../common-components.module';
+import {} from '../../common-components.module';
 import { CPCDebriefCardComponent } from '../cpc-debrief-card';
 
 describe('CPCDebriefCardComponent', () => {
@@ -14,7 +14,7 @@ describe('CPCDebriefCardComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [AppModule, ComponentsModule, StoreModule.forRoot({}), TranslateModule],
+      imports: [StoreModule.forRoot({}), TranslateModule],
     });
 
     fixture = TestBed.createComponent(CPCDebriefCardComponent);

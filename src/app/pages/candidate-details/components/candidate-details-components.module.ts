@@ -1,6 +1,5 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { ComponentsModule } from '@components/common/common-components.module';
 import { FitMarkerBannerComponent } from '@components/common/fit-marker-banner/fit-marker-banner';
 import { InappropriateUseBannerComponent } from '@components/common/inappropriate-use-banner/inappropriate-use-banner';
 import { IonCard, IonCardContent, IonCardHeader, IonCol, IonGrid, IonIcon, IonRow, IonText } from '@ionic/angular';
@@ -9,7 +8,6 @@ import { CandidateDetailNavigationComponent } from '@pages/candidate-details/com
 @NgModule({
   imports: [
     CommonModule,
-    ComponentsModule,
     IonCol,
     IonIcon,
     IonRow,

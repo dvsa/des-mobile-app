@@ -1,7 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
-import { ComponentsModule } from '@components/common/common-components.module';
 
 import { IonCol, IonInput, IonRow } from '@ionic/angular';
 import { MaskitoDirective } from '@maskito/angular';
@@ -14,7 +13,6 @@ import { ResidencyDeclarationComponent } from './residency-declaration/residency
 
 @NgModule({
   imports: [
-    ComponentsModule,
     ReactiveFormsModule,
     CommonModule,
     MaskitoDirective,

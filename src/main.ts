@@ -1,7 +1,6 @@
 import { ErrorHandler, enableProdMode, importProvidersFrom, inject, provideAppInitializer } from '@angular/core';
 import { BrowserModule, bootstrapApplication } from '@angular/platform-browser';
 
-import { CommonModule } from '@angular/common';
 import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { RouteReuseStrategy } from '@angular/router';
 import { AppRoutingModule } from '@app/app-routing.module';
@@ -14,22 +13,7 @@ import { ExitSingleAppModeAnalyticsEffects } from '@components/common/test-flow-
 import { ExitSingleAppModeEffects } from '@components/common/test-flow-header/exit-sam.effects';
 import { environment } from '@environments/environment';
 import { EnvironmentFile, TestersEnvironmentFile } from '@environments/models/environment.model';
-import {
-  IonApp,
-  IonBadge,
-  IonContent,
-  IonFooter,
-  IonHeader,
-  IonItem,
-  IonLabel,
-  IonList,
-  IonMenu,
-  IonRouterOutlet,
-  IonTitle,
-  IonToolbar,
-  IonicRouteStrategy,
-  provideIonicAngular,
-} from '@ionic/angular';
+import { IonicRouteStrategy, provideIonicAngular } from '@ionic/angular';
 import { Drivers } from '@ionic/storage';
 import { IonicStorageModule } from '@ionic/storage-angular';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
@@ -45,6 +29,9 @@ import { FakeJournalAnalyticsEffects } from '@pages/fake-journal/fake-journal.an
 import { FakeJournalEffects } from '@pages/fake-journal/fake-journal.effects';
 import { LoginPageAnalyticsEffects } from '@pages/login/login-page.analytics.effects';
 import { rekeySearchReducer } from '@pages/rekey-search/rekey-search.reducer';
+import { TestReportAnalyticsEffects } from '@pages/test-report/test-report.analytics.effects';
+import { TestReportEffects } from '@pages/test-report/test-report.effects';
+import { testReportFeatureKey, testReportReducer } from '@pages/test-report/test-report.reducer';
 import { ADI3AssessmentProvider } from '@providers/adi3-assessment/adi3-assessment';
 import { AnalyticsProvider } from '@providers/analytics/analytics';
 import { AppConfigProvider } from '@providers/app-config/app-config';
@@ -82,6 +69,7 @@ import { SlotProvider } from '@providers/slot/slot';
 import { TestCentreJournalProvider } from '@providers/test-centre-journal/test-centre-journal';
 import { TestDataByCategoryProvider } from '@providers/test-data-by-category/test-data-by-category';
 import { TestPersistenceProvider } from '@providers/test-persistence/test-persistence';
+import { TestResultProvider } from '@providers/test-result/test-result';
 import { TestSubmissionProvider } from '@providers/test-submission/test-submission';
 import { UrlProvider } from '@providers/url/url';
 import { VehicleDetailsByCategoryProvider } from '@providers/vehicle-details-by-category/vehicle-details-by-category';
@@ -141,6 +129,8 @@ const effects = [
     TestsEffects,
     TestsAnalyticsEffects,
     TestDataEffects,
+    TestReportEffects,
+    TestReportAnalyticsEffects,
     ExaminerBookedEffects,
     ExaminerConductedEffects,
     TestStatusAnalyticsEffects,
@@ -154,6 +144,52 @@ const effects = [
   ]),
 ];
 
+const providers = [
+  TestResultProvider,
+  AppConfigProvider,
+  ExaminerRecordsProvider,
+  ExitSAMProvider,
+  AuthenticationProvider,
+  CompressionProvider,
+  AppInfoProvider,
+  LoadingProvider,
+  DateTimeProvider,
+  SecureStorage,
+  IsDebug,
+  DataStoreProvider,
+  NetworkStateProvider,
+  UrlProvider,
+  JournalProvider,
+  AnalyticsProvider,
+  DeviceProvider,
+  CompressionProvider,
+  LogsProvider,
+  LogHelper,
+  SchemaValidatorProvider,
+  TestPersistenceProvider,
+  CompletedTestPersistenceProvider,
+  CategoryWhitelistProvider,
+  TestCentreJournalProvider,
+  RouteByCategoryProvider,
+  DeviceAuthenticationProvider,
+  QuestionProvider,
+  WeatherConditionProvider,
+  OutcomeBehaviourMapProvider,
+  BikeCategoryDetailProvider,
+  CPCQuestionProvider,
+  ADI3AssessmentProvider,
+  PassCertificateValidationProvider,
+  SearchProvider,
+  SlotProvider,
+  SlotSelectorProvider,
+  TestSubmissionProvider,
+  FaultCountProvider,
+  NavigationStateProvider,
+  TestDataByCategoryProvider,
+  ManoeuvresByCategoryProvider,
+  VehicleDetailsByCategoryProvider,
+];
+
 const store = [
   StoreModule.forFeature('journal', journalReducer),
   StoreModule.forFeature('tests', testsReducer),
@@ -162,6 +198,7 @@ const store = [
   StoreModule.forFeature(refDataFeatureKey, referenceDataReducer),
   StoreModule.forFeature(logsFeatureKey, logsReducer),
   StoreModule.forFeature(testCentreJournalFeatureKey, testCentreJournalReducer),
+  StoreModule.forFeature(testReportFeatureKey, testReportReducer),
   StoreModule.forFeature(
     examinerRecordsReducer.examinerRecordsFeatureKey,
     examinerRecordsReducer.examinerRecordsReducer
@@ -205,20 +242,9 @@ bootstrapApplication(AppComponent, {
       ...store,
       ...(enableDevTools ? [StoreDevtoolsModule.instrument()] : []),
       NgbModule,
-      ExaminerRecordsComponentsModule,
-      IonApp,
-      IonMenu,
-      IonHeader,
-      IonToolbar,
-      IonTitle,
-      IonContent,
-      IonItem,
-      IonLabel,
-      IonBadge,
-      IonList,
-      IonFooter,
-      IonRouterOutlet
+      ExaminerRecordsComponentsModule
     ),
+    ...providers,
     {
       provide: RouteReuseStrategy,
       useClass: IonicRouteStrategy,
@@ -244,49 +270,7 @@ bootstrapApplication(AppComponent, {
       scrollAssist: false,
       scrollPadding: false,
     }),
-    AppConfigProvider,
-    ExaminerRecordsProvider,
-    ExitSAMProvider,
-    AuthenticationProvider,
-    CompressionProvider,
-    AppInfoProvider,
-    LoadingProvider,
-    DateTimeProvider,
-    SecureStorage,
-    IsDebug,
-    DataStoreProvider,
-    NetworkStateProvider,
-    UrlProvider,
-    JournalProvider,
-    AnalyticsProvider,
-    DeviceProvider,
-    CompressionProvider,
-    LogsProvider,
-    LogHelper,
-    SchemaValidatorProvider,
-    TestPersistenceProvider,
-    CompletedTestPersistenceProvider,
-    CategoryWhitelistProvider,
-    TestCentreJournalProvider,
-    RouteByCategoryProvider,
-    DeviceAuthenticationProvider,
-    QuestionProvider,
-    CommonModule,
-    WeatherConditionProvider,
-    OutcomeBehaviourMapProvider,
-    BikeCategoryDetailProvider,
-    CPCQuestionProvider,
-    ADI3AssessmentProvider,
-    PassCertificateValidationProvider,
-    SearchProvider,
-    SlotProvider,
-    SlotSelectorProvider,
-    TestSubmissionProvider,
-    FaultCountProvider,
-    NavigationStateProvider,
-    TestDataByCategoryProvider,
-    ManoeuvresByCategoryProvider,
-    VehicleDetailsByCategoryProvider,
+
     provideHttpClient(withInterceptorsFromDi()),
     provideAppInitializer(async () => {
       const auth = inject(AuthenticationProvider);

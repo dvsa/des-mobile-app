@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { AppModule } from '@app/app.module';
+
 import { WarningBannerComponent } from '@components/common/warning-banner/warning-banner';
 import { QuestionOutcome, QuestionResult } from '@dvsa/mes-test-schema/categories/common';
 import { ModalController } from '@ionic/angular';

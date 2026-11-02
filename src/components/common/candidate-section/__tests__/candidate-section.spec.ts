@@ -1,8 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { AppModule } from '@app/app.module';
+
 import { CandidateSectionComponent } from '@components/common/candidate-section/candidate-section';
-import { ComponentsModule } from '@components/common/common-components.module';
 
 import { OverlayEventDetail } from '@ionic/core';
 import {
@@ -18,7 +17,7 @@ describe('CandidateSectionComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [AppModule, ComponentsModule, CommonModule, CandidateSectionComponent],
+      imports: [CommonModule, CandidateSectionComponent],
     });
     fixture = TestBed.createComponent(CandidateSectionComponent);
     component = fixture.componentInstance;

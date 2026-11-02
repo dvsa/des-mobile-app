@@ -32,6 +32,7 @@ interface ToolbarComponentState {
   selector: 'toolbar',
   templateUrl: 'toolbar.html',
   styleUrls: ['toolbar.scss'],
+  standalone: true,
   imports: [
     IonRow,
     IonCol,

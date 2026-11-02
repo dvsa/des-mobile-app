@@ -7,7 +7,6 @@ import { ModalControllerMock, PlatformMock, RouterMock } from '@mocks/index.mock
 import { Store, StoreModule } from '@ngrx/store';
 import { MockComponent } from 'ng-mocks';
 
-import { AppModule } from '@app/app.module';
 import { AuthenticationProviderMock } from '@providers/authentication/__mocks__/authentication.mock';
 import { AuthenticationProvider } from '@providers/authentication/authentication';
 import { SetExaminerConducted } from '@store/tests/examiner-conducted/examiner-conducted.actions';

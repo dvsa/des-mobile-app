@@ -4,7 +4,7 @@ import { NavController, Platform } from '@ionic/angular';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
-import { AppModule } from '@app/app.module';
+
 import { BikeCategoryTypeComponent } from '@components/common/bike-category-type/bike-category-type';
 import { PracticeModeOptionsBar } from '@components/common/practice-mode-options-bar/practice-mode-options-bar';
 import { TransmissionComponent } from '@components/common/transmission/transmission';

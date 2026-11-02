@@ -1,7 +1,7 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
-import { AppModule } from '@app/app.module';
+
 import { TrainingRecordsCatAdiPart2Component } from '@pages/waiting-room-to-car/cat-adi-part2/components/training-records/training-records.cat-adi-part2';
 import { AuthenticationProviderMock } from '@providers/authentication/__mocks__/authentication.mock';
 import { AuthenticationProvider } from '@providers/authentication/authentication';
@@ -20,7 +20,7 @@ describe('TrainingRecordsCatAdiPart2Component', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      imports: [AppModule, ReactiveFormsModule, TrainingRecordsCatAdiPart2Component],
+      imports: [ReactiveFormsModule, TrainingRecordsCatAdiPart2Component],
       providers: [
         {
           provide: RouteByCategoryProvider,

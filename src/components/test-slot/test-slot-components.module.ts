@@ -1,6 +1,5 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { ComponentsModule } from '@components/common/common-components.module';
 import { AutosaveStatusComponent } from '@components/test-slot/autosave-status/autosave-status';
 import { IntegrityMarkerComponent } from '@components/test-slot/integrity-marker/integrity-marker';
 import { IonButton, IonCard, IonCol, IonGrid, IonIcon, IonRow, IonText } from '@ionic/angular';
@@ -22,7 +21,6 @@ import { VehicleDetailsComponent } from './vehicle-details/vehicle-details';
 @NgModule({
   imports: [
     CommonModule,
-    ComponentsModule,
     IonRow,
     IonCol,
     IonText,

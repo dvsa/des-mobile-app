@@ -1,6 +1,5 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { ComponentsModule } from '@components/common/common-components.module';
 
 import { MotStatusDisplayTextComponent } from '@components/common/mot-status-display-text/mot-status-display-text.component';
 import { RegistrationWithPreviousMotTextComponent } from '@components/common/registration-with-previous-mot-text/registration-with-previous-mot-text.component';
@@ -30,7 +29,6 @@ import { ViewTestHeaderComponent } from './view-test-header/view-test-header';
 @NgModule({
   imports: [
     CommonModule,
-    ComponentsModule,
     CandidateDetailsComponentsModule,
     OfficeComponentsModule,
     RegistrationWithPreviousMotTextComponent,

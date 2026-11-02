@@ -42,6 +42,7 @@ interface ManoeuvreCompetencyComponentState {
   selector: 'manoeuvre-competency',
   templateUrl: 'manoeuvre-competency.html',
   styleUrls: ['manoeuvre-competency.scss'],
+  standalone: true,
   imports: [
     CompetencyButtonComponent,
     NgClass,

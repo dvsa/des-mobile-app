@@ -1,5 +1,4 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { AppModule } from '@app/app.module';
 
 import { QuestionFooterComponent } from '../question-footer';
 
@@ -9,7 +8,7 @@ describe('QuestionFooterComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [AppModule, QuestionFooterComponent],
+      imports: [QuestionFooterComponent],
     });
 
     fixture = TestBed.createComponent(QuestionFooterComponent);

@@ -2,7 +2,6 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
-import { ComponentsModule } from '@components/common/common-components.module';
 import {
   IonButton,
   IonButtons,
@@ -23,7 +22,6 @@ import { ExaminerRecordsLearnMoreModal } from '@pages/examiner-records/component
   imports: [
     CommonModule,
     FormsModule,
-    ComponentsModule,
     IonHeader,
     IonCard,
     IonTitle,

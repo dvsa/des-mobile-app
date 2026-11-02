@@ -1,7 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { ComponentsModule } from '@components/common/common-components.module';
 
 import { IonCard, IonCardContent, IonCardHeader, IonCol, IonGrid, IonRow } from '@ionic/angular';
 import { AssessmentAnswerComponent } from '@pages/test-report/cat-adi-part3/components/assessment-answer/assessment-answer';
@@ -16,7 +15,6 @@ import { TestReportComponentsModule } from '../../components/test-report-compone
 @NgModule({
   imports: [
     CommonModule,
-    ComponentsModule,
     TestReportComponentsModule,
     ReactiveFormsModule,
     FormsModule,
@@ -41,4 +39,4 @@ import { TestReportComponentsModule } from '../../components/test-report-compone
     TestReportAssessmentCard,
   ],
 })
-export class TestReportCatADIPart3ComponentsModule {}
+export class TestReportCatADIPart3 {}

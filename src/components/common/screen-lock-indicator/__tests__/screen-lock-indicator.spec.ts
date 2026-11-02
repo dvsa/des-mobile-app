@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { TranslateService } from '@ngx-translate/core';
 import { translateServiceMock } from '@shared/helpers/__mocks__/translate.mock';
 import { LockScreenIndicator } from '../lock-screen-indicator';
 
@@ -10,7 +10,7 @@ describe('LockScreenIndicator', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [TranslateModule, LockScreenIndicator],
+      imports: [LockScreenIndicator],
       providers: [{ provide: TranslateService, useValue: translateServiceMock }],
     });
 

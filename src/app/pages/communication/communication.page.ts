@@ -55,7 +55,6 @@ import { TestFlowHeaderComponent } from '../../../components/common/test-flow-he
 import { AddOrRemoveLangCyDirective } from '../../../directives/add-or-remove-lang-cy.directive';
 import { NewEmailComponent } from './components/new-email/new-email';
 import { PostalAddressComponent } from './components/postal-address/postal-address';
-import { PrivacyNoticeComponent } from './components/privacy-notice/privacy-notice';
 import { ProvidedEmailComponent } from './components/provided-email/provided-email';
 import { ValidCertificateComponent } from './components/valid-certificate/valid-certificate';
 
@@ -90,7 +89,6 @@ interface CommunicationPageState {
     ReactiveFormsModule,
     CandidateSectionComponent,
     ValidCertificateComponent,
-    PrivacyNoticeComponent,
     IonRow,
     IonCol,
     IonText,

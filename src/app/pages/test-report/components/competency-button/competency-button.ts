@@ -9,14 +9,14 @@ import {
   Output,
   signal,
 } from '@angular/core';
-import { EtaComponent } from '../examiner-takes-action/eta';
 
 @Component({
   selector: 'competency-button',
   templateUrl: './competency-button.html',
   styleUrls: ['./competency-button.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgClass, EtaComponent],
+  standalone: true,
+  imports: [NgClass],
 })
 export class CompetencyButtonComponent {
   constructor(private hostElementRef: ElementRef<HTMLElement>) {}

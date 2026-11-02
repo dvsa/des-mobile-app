@@ -1,6 +1,5 @@
 import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { ComponentsModule } from '@components/common/common-components.module';
 
 import { IonButton, IonCard, IonCol, IonGrid, IonIcon, IonRow, IonText } from '@ionic/angular';
 import { PracticeTestModal } from '@pages/dashboard/components/practice-test-modal/practice-test-modal';
@@ -17,7 +16,6 @@ import { UpdateAvailableModal } from './update-available-modal/update-available-
 @NgModule({
   imports: [
     CommonModule,
-    ComponentsModule,
     IonCol,
     IonRow,
     IonButton,

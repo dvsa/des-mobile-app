@@ -1,7 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule, UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { By } from '@angular/platform-browser';
-import { ComponentsModule } from '@components/common/common-components.module';
 import { DrivingFaultsBadgeComponent } from '@components/common/driving-faults-badge/driving-faults-badge';
 import { CharacterCountDirective } from '@directives/character-count.directive';
 
@@ -24,7 +23,6 @@ describe('FaultCommentComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         AppModule,
-        ComponentsModule,
         PipesModule,
         ReactiveFormsModule,
         FaultCommentComponent,

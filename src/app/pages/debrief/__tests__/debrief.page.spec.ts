@@ -1,6 +1,6 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { AppModule } from '@app/app.module';
+
 import { KeepAwake as Insomnia } from '@capacitor-community/keep-awake';
 import { ScreenOrientation } from '@capawesome/capacitor-screen-orientation';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';

@@ -1,7 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
-import { ComponentsModule } from '@components/common/common-components.module';
 
 import {
   IonButton,
@@ -31,7 +30,6 @@ import { QuestionTitleComponent } from './question-title/question-title';
 @NgModule({
   imports: [
     CommonModule,
-    ComponentsModule,
     TestReportComponentsModule,
     ReactiveFormsModule,
     IonText,

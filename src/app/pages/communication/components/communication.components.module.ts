@@ -1,7 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
-import { ComponentsModule } from '@components/common/common-components.module';
 
 import { IonCol, IonGrid, IonIcon, IonInput, IonRow } from '@ionic/angular';
 import { TranslatePipe } from '@ngx-translate/core';
@@ -14,7 +13,6 @@ import { ProvidedEmailComponent } from './provided-email/provided-email';
 @NgModule({
   imports: [
     CommonModule,
-    ComponentsModule,
     ReactiveFormsModule,
     IonRow,
     TranslatePipe,

@@ -1,5 +1,4 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { ComponentsModule } from '@components/common/common-components.module';
 import { IonButton, IonButtons, IonCol, IonRow, IonText, IonToolbar, ModalController } from '@ionic/angular';
 import { AccessibilityService } from '@providers/accessibility/accessibility.service';
 import { DeviceProvider } from '@providers/device/device';
@@ -9,7 +8,7 @@ import { ExitSAMMethodUsed } from '@providers/exitSAM/exitSAM';
   selector: 'exit-sam-banner',
   templateUrl: './exit-sam-banner.html',
   styleUrls: ['./exit-sam-banner.scss'],
-  imports: [ComponentsModule, IonText, IonButton, IonButtons, IonCol, IonRow, IonToolbar],
+  imports: [IonText, IonButton, IonButtons, IonCol, IonRow, IonToolbar],
   standalone: true,
 })
 export class ExitSamBanner {

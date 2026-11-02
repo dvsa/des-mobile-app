@@ -3,7 +3,6 @@ import { ModalController, Platform } from '@ionic/angular';
 import { ModalControllerMock, PlatformMock } from '@mocks/index.mock';
 import { MockComponent } from 'ng-mocks';
 
-import { AppModule } from '@app/app.module';
 import { ScreenOrientation } from '@capawesome/capacitor-screen-orientation';
 import { PracticeModeOptionsBar } from '@components/common/practice-mode-options-bar/practice-mode-options-bar';
 import { TestFlowHeaderComponent } from '@components/common/test-flow-header/test-flow-header.component';

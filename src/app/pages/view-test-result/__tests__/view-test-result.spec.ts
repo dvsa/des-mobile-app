@@ -1,9 +1,8 @@
 import { ChangeDetectorRef } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Router } from '@angular/router';
-import { AppModule } from '@app/app.module';
+
 import { Adi3DebriefCard } from '@components/common/adi3-debrief-card/adi3-debrief-card';
-import { ComponentsModule } from '@components/common/common-components.module';
 import { CPCDebriefCardComponent } from '@components/common/cpc-debrief-card/cpc-debrief-card';
 import { ErrorMessageComponent } from '@components/common/error-message/error-message';
 import { TestResultSchemasUnion } from '@dvsa/mes-test-schema/categories';
@@ -94,7 +93,6 @@ describe('ViewTestResultPage', () => {
     TestBed.configureTestingModule({
       imports: [
         AppModule,
-        ComponentsModule,
         ViewTestResultPage,
         MockComponent(ErrorMessageComponent),
         MockComponent(ViewTestHeaderComponent),

@@ -1,7 +1,6 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Router } from '@angular/router';
-import { ComponentsModule } from '@components/common/common-components.module';
 import { TestSlotAttributes } from '@dvsa/mes-test-schema/categories/common';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { AlertController, ModalController, NavController, Platform } from '@ionic/angular';
@@ -46,7 +45,6 @@ describe('ConfirmTestDetailsPage', () => {
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       imports: [
         AppModule,
-        ComponentsModule,
         StoreModule.forRoot({
           tests: () => ({
             currentTest: {

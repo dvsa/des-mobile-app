@@ -2,7 +2,6 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { SearchablePicklistComponentWrapper } from '@components/common/searchable-picklist-wrapper/searchable-picklist-wrapper';
 import { ModalController } from '@ionic/angular';
 import { ModalControllerMock } from '@mocks/ionic-mocks/modal-controller.mock';
-import { PipesModule } from '@shared/pipes/pipes.module';
 
 describe('SearchablePicklistComponentWrapper', () => {
   let fixture: ComponentFixture<SearchablePicklistComponentWrapper<unknown>>;
@@ -11,7 +10,7 @@ describe('SearchablePicklistComponentWrapper', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [PipesModule, SearchablePicklistComponentWrapper],
+      imports: [SearchablePicklistComponentWrapper],
       providers: [{ provide: ModalController, useClass: ModalControllerMock }],
     });
 

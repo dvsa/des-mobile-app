@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { AppModule } from '@app/app.module';
+
 import { WarningBannerComponent } from '@components/common/warning-banner/warning-banner';
 import { CatCUniqueTypes } from '@dvsa/mes-test-schema/categories/C';
 import { QuestionOutcome, QuestionResult } from '@dvsa/mes-test-schema/categories/common';

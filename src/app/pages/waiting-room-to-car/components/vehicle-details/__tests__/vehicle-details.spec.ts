@@ -1,7 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { By } from '@angular/platform-browser';
-import { AppModule } from '@app/app.module';
 
 import { PipesModule } from '@shared/pipes/pipes.module';
 import { VehicleDetailsComponent } from '../vehicle-details';
@@ -12,7 +11,7 @@ describe('VehicleDetailsComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [AppModule, ReactiveFormsModule, PipesModule, VehicleDetailsComponent],
+      imports: [ReactiveFormsModule, PipesModule, VehicleDetailsComponent],
     });
 
     fixture = TestBed.createComponent(VehicleDetailsComponent);

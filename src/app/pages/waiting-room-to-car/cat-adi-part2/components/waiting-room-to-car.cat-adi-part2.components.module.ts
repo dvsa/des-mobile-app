@@ -2,8 +2,6 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 
-import { ComponentsModule } from '@components/common/common-components.module';
-
 import { IonCol, IonInput, IonRow } from '@ionic/angular';
 import { WaitingRoomToCarComponentsModule } from '../../components/waiting-room-to-car.components.module';
 import { OrditTrainerCatAdiPart2Component } from './ordit-trainer/ordit-trainer.cat-adi-part2';
@@ -14,7 +12,6 @@ import { VehicleChecksModalCatADIPart2Module } from './vehicle-checks-modal/vehi
 @NgModule({
   imports: [
     CommonModule,
-    ComponentsModule,
     WaitingRoomToCarComponentsModule,
     ReactiveFormsModule,
     VehicleChecksModalCatADIPart2Module,
@@ -31,4 +28,4 @@ import { VehicleChecksModalCatADIPart2Module } from './vehicle-checks-modal/vehi
     TrainerRegistrationNumberCatAdiPart2Component,
   ],
 })
-export class WaitingRoomToCarCatADIPart2ComponentsModule {}
+export class WaitingRoomToCarCatADIPart2 {}

@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MockAppComponent } from '@app/__mocks__/app.component.mock';
 import { AppComponent } from '@app/app.component';
-import { AppModule } from '@app/app.module';
+
 import { DateTimeInputComponent } from '@components/common/datetime-input/date-time-input.component';
 import { SearchablePicklistComponentWrapper } from '@components/common/searchable-picklist-wrapper/searchable-picklist-wrapper';
 import { MockComponent } from 'ng-mocks';

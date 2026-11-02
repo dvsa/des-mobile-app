@@ -2,9 +2,8 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { firstValueFrom } from 'rxjs';
 
 import { By } from '@angular/platform-browser';
-import { AppModule } from '@app/app.module';
+
 import { default as welshTranslations } from '@assets/i18n/cy.json';
-import { ComponentsModule } from '@components/common/common-components.module';
 import { StoreModule } from '@ngrx/store';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { configureI18N } from '@shared/helpers/translation.helpers';
@@ -28,14 +27,7 @@ describe('DangerousFaultsDebriefCardComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [
-        AppModule,
-        ComponentsModule,
-        StoreModule.forRoot({}),
-        TranslateModule,
-        PipesModule,
-        DangerousFaultsDebriefCardComponent,
-      ],
+      imports: [AppModule, StoreModule.forRoot({}), TranslateModule, PipesModule, DangerousFaultsDebriefCardComponent],
     });
 
     fixture = TestBed.createComponent(DangerousFaultsDebriefCardComponent);

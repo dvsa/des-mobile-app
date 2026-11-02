@@ -5,7 +5,6 @@ import { StoreModule } from '@ngrx/store';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { of, throwError } from 'rxjs';
 
-import { ComponentsModule } from '@components/common/common-components.module';
 import { LoadingControllerMock } from '@mocks/ionic-mocks/loading-controller.mock';
 import { AppConfigProviderMock } from '@providers/app-config/__mocks__/app-config.mock';
 import { AppConfigProvider } from '@providers/app-config/app-config';
@@ -55,7 +54,6 @@ describe('TestCenterJournalPage', () => {
       imports: [
         MockComponent(RefreshButtonComponent),
         CommonModule,
-        ComponentsModule,
         TestCentreJournalComponentsModule,
         RouterModule.forRoot([
           {

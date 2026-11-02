@@ -1,6 +1,5 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { ComponentsModule } from '@components/common/common-components.module';
 import { TestSlotComponentsModule } from '@components/test-slot/test-slot-components.module';
 
 import {
@@ -24,7 +23,6 @@ import { ViewJournalsCardComponent } from './view-journals-card/view-journals-ca
   imports: [
     CommonModule,
     JournalComponentsModule,
-    ComponentsModule,
     TestSlotComponentsModule,
     IonCol,
     IonRow,

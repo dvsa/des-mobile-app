@@ -1,6 +1,5 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { ComponentsModule } from '@components/common/common-components.module';
 
 import { IonCol, IonRow } from '@ionic/angular';
 import { TestReportComponentsModule } from '../../components/test-report-components.module';
@@ -12,7 +11,6 @@ import { SpeedCheckComponent } from './speed-check/speed-check';
 @NgModule({
   imports: [
     CommonModule,
-    ComponentsModule,
     TestReportComponentsModule,
     ActivityCode4ModalModule,
     SpeedCheckModalModule,
@@ -23,4 +21,4 @@ import { SpeedCheckComponent } from './speed-check/speed-check';
   ],
   exports: [SpeedCheckHeaderComponent, SpeedCheckComponent],
 })
-export class TestReportCatAMod1ComponentsModule {}
+export class TestReportCatAMod1 {}

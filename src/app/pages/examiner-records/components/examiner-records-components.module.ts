@@ -1,7 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
-import { ComponentsModule } from '@components/common/common-components.module';
 
 import { IonCard, IonCardContent, IonCardHeader, IonCardTitle, IonCol, IonIcon, IonRow, IonText } from '@ionic/angular';
 import { ColourFilterRadioComponent } from '@pages/examiner-records/components/colour-filter-radio/colour-filter-radio';
@@ -13,7 +12,6 @@ import { CompressionProvider } from '@providers/compression/compression';
 @NgModule({
   imports: [
     CommonModule,
-    ComponentsModule,
     ReactiveFormsModule,
     ExaminerRecordsLearnMoreModalModule,
     ExaminerRecordsLabelTextComponentModule,

@@ -1,7 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { Router, RouterModule } from '@angular/router';
-import { ComponentsModule } from '@components/common/common-components.module';
 import { VehicleRecallsBanner } from '@components/common/vehicle-recall-banner/vehicle-recalls-banner';
 import { AlertController, IonMenuButton, ModalController, Platform } from '@ionic/angular';
 import { AlertControllerMock, ModalControllerMock, PlatformMock, RouterMock } from '@mocks/index.mock';
@@ -85,7 +84,6 @@ describe('DashboardPage', () => {
         StoreModule.forRoot({ appInfo: appInfoReducer }),
         DashboardPageRoutingModule,
         DashboardComponentsModule,
-        ComponentsModule,
         IonMenuButton,
         DashboardPage,
         MockComponent(VehicleRecallsBanner),

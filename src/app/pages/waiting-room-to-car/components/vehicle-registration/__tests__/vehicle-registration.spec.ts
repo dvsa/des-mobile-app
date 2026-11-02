@@ -1,6 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
-import { AppModule } from '@app/app.module';
 
 import { Store } from '@ngrx/store';
 import { MotHistoryWithStatus } from '@providers/mot-history-api/mot-history-api.service';
@@ -16,7 +15,7 @@ describe('VehicleRegistrationComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [Store],
-      imports: [AppModule, ReactiveFormsModule, VehicleRegistrationComponent],
+      imports: [ReactiveFormsModule, VehicleRegistrationComponent],
     });
 
     fixture = TestBed.createComponent(VehicleRegistrationComponent);

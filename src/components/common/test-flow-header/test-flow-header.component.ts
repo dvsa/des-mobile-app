@@ -1,7 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { OpenURLResult } from '@capacitor/app-launcher';
 import { Style } from '@capacitor/status-bar';
-import { ComponentsModule } from '@components/common/common-components.module';
 import { ExitSamBanner } from '@components/common/exit-sam/exit-sam-banner/exit-sam-banner';
 import { ExitSamButton } from '@components/common/exit-sam/exit-sam-button/exit-sam-button';
 import { PracticeModeBanner } from '@components/common/practice-mode-banner/practice-mode-banner';
@@ -13,6 +12,8 @@ import {
   ExitSamSelected,
 } from '@components/common/test-flow-header/exit-sam.actions';
 
+import { EndTestLinkComponent } from '@components/common/end-test-link/end-test-link';
+import { PracticeModeOptionsBar } from '@components/common/practice-mode-options-bar/practice-mode-options-bar';
 import { AddOrRemoveLangCyDirective } from '@directives/add-or-remove-lang-cy.directive';
 import {
   IonBackButton,
@@ -38,7 +39,6 @@ export { ExitSAMMethodUsed } from '@providers/exitSAM/exitSAM';
   templateUrl: './test-flow-header.component.html',
   styleUrls: ['./test-flow-header.component.scss'],
   imports: [
-    ComponentsModule,
     ExitSamBanner,
     ExitSamButton,
     AddOrRemoveLangCyDirective,
@@ -51,6 +51,8 @@ export { ExitSAMMethodUsed } from '@providers/exitSAM/exitSAM';
     IonButton,
     IonButtons,
     IonIcon,
+    PracticeModeOptionsBar,
+    EndTestLinkComponent,
   ],
   standalone: true,
 })

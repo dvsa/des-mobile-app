@@ -1,7 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
-import { ComponentsModule } from '@components/common/common-components.module';
 
 import { IonButton, IonCard, IonCol, IonRow } from '@ionic/angular';
 import { TranslatePipe } from '@ngx-translate/core';
@@ -11,7 +10,6 @@ import { ReceiptDeclarationComponent } from './receipt-declaration/receipt-decla
 
 @NgModule({
   imports: [
-    ComponentsModule,
     ReactiveFormsModule,
     CommonModule,
     IonCol,

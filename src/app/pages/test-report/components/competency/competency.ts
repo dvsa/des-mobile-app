@@ -49,6 +49,7 @@ interface CompetencyState {
   selector: 'competency',
   templateUrl: 'competency.html',
   styleUrls: ['competency.scss'],
+  standalone: true,
   imports: [
     CompetencyButtonComponent,
     NgClass,

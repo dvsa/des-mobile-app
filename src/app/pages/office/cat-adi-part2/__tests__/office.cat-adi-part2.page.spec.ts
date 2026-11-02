@@ -9,7 +9,6 @@ import { NavControllerMock } from '@shared/mocks/nav-controller.mock';
 import { MockComponent } from 'ng-mocks';
 
 import { ActivityCodeComponent } from '@components/common/activity-code/activity-code';
-import { ComponentsModule } from '@components/common/common-components.module';
 import { TestFlowHeaderComponent } from '@components/common/test-flow-header/test-flow-header.component';
 import { CatADI2UniqueTypes } from '@dvsa/mes-test-schema/categories/ADI2';
 import { ShowMeQuestionsCatADI2Component } from '@pages/office/cat-adi-part2/components/show-me-questions/show-me-questions';
@@ -88,7 +87,6 @@ describe('OfficeCatADI2Page', () => {
       imports: [
         PipesModule,
         AppModule,
-        ComponentsModule,
         StoreModule.forRoot({
           tests: () => ({
             currentTest: {

@@ -1,6 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
-import { ComponentsModule } from '@components/common/common-components.module';
 import { TestFlowHeaderComponent } from '@components/common/test-flow-header/test-flow-header.component';
 import { TestResultCatADI3Schema } from '@dvsa/mes-test-schema/categories/ADI3';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
@@ -40,7 +39,6 @@ describe('OfficeCatADI3Page', () => {
       imports: [
         PipesModule,
         AppModule,
-        ComponentsModule,
         StoreModule.forRoot({
           tests: () => ({
             currentTest: {

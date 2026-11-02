@@ -1,9 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
-import { AppModule } from '@app/app.module';
+
 import { ActivityCodeComponent } from '@components/common/activity-code/activity-code';
-import { ComponentsModule } from '@components/common/common-components.module';
 import { TestFlowHeaderComponent } from '@components/common/test-flow-header/test-flow-header.component';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { ModalController, NavController, Platform, ToastController } from '@ionic/angular';
@@ -76,7 +75,6 @@ describe('OfficeCatHomeTestPage', () => {
     TestBed.configureTestingModule({
       imports: [
         AppModule,
-        ComponentsModule,
         StoreModule.forRoot({
           tests: () => ({
             currentTest: {

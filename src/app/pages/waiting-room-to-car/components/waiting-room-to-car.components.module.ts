@@ -1,7 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
-import { ComponentsModule } from '@components/common/common-components.module';
 
 import {
   IonButton,
@@ -42,7 +41,6 @@ import { VehicleRegistrationComponent } from './vehicle-registration/vehicle-reg
   imports: [
     SafetyRecallComponent,
     CommonModule,
-    ComponentsModule,
     ReactiveFormsModule,
     RegistrationWithPreviousMotTextComponent,
     IonInput,

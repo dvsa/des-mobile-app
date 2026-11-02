@@ -1,5 +1,4 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { ComponentsModule } from '@components/common/common-components.module';
 import { DangerousFaultBadgeComponent } from '@components/common/dangerous-fault-badge/dangerous-fault-badge';
 import { DrivingFaultsBadgeComponent } from '@components/common/driving-faults-badge/driving-faults-badge';
 import { SeriousFaultBadgeComponent } from '@components/common/serious-fault-badge/serious-fault-badge';
@@ -17,7 +16,6 @@ describe('FaultsDataRowComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
-        ComponentsModule,
         FaultsDataRowComponent,
         MockComponent(DangerousFaultBadgeComponent),
         MockComponent(SeriousFaultBadgeComponent),

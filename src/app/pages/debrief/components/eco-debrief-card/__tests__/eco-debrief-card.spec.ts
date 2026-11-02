@@ -1,8 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { By } from '@angular/platform-browser';
-import { AppModule } from '@app/app.module';
-import { ComponentsModule } from '@components/common/common-components.module';
+
 import { StoreModule } from '@ngrx/store';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { EcoDebriefCardComponent } from '../eco-debrief-card';
@@ -14,7 +13,7 @@ describe('EcoDebriefCardComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [AppModule, ComponentsModule, StoreModule.forRoot({}), TranslateModule, EcoDebriefCardComponent],
+      imports: [StoreModule.forRoot({}), TranslateModule, EcoDebriefCardComponent],
     });
 
     fixture = TestBed.createComponent(EcoDebriefCardComponent);

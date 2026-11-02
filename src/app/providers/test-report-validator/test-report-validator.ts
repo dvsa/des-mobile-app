@@ -31,7 +31,9 @@ import { get } from 'lodash-es';
 import { FaultCountProvider } from '../fault-count/fault-count';
 import { SpeedCheckState } from './test-report-validator.constants';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class TestReportValidatorProvider {
   constructor(private faultCountProvider: FaultCountProvider) {}
 

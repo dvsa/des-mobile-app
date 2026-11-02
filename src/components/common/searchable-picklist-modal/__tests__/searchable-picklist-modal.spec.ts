@@ -3,7 +3,6 @@ import { SearchablePicklistModal } from '@components/common/searchable-picklist-
 import { SearchablePicklistModalEvent } from '@components/common/searchable-picklist-wrapper/searchable-picklist-wrapper';
 import { ModalController } from '@ionic/angular';
 import { ModalControllerMock } from '@mocks/ionic-mocks/modal-controller.mock';
-import { PipesModule } from '@shared/pipes/pipes.module';
 
 describe('SearchablePicklistModal', () => {
   interface Model {
@@ -18,7 +17,7 @@ describe('SearchablePicklistModal', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [PipesModule, SearchablePicklistModal],
+      imports: [SearchablePicklistModal],
       providers: [{ provide: ModalController, useClass: ModalControllerMock }],
     });
 

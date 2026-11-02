@@ -3,7 +3,6 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule, ReactiveFormsModule, UntypedFormGroup } from '@angular/forms';
 import { Style } from '@capacitor/status-bar';
-import { ComponentsModule } from '@components/common/common-components.module';
 import { CatFUniqueTypes } from '@dvsa/mes-test-schema/categories/F';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { ModalController } from '@ionic/angular';
@@ -80,7 +79,6 @@ describe('VehicleChecksCatHomeTestModal', () => {
     TestBed.configureTestingModule({
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       imports: [
-        ComponentsModule,
         WaitingRoomToCarComponentsModule,
         CommonModule,
         ReactiveFormsModule,

@@ -5,7 +5,6 @@ import { Platform } from '@ionic/angular';
 import { PlatformMock, RouterMock } from '@mocks/index.mock';
 import { Store, StoreModule } from '@ngrx/store';
 
-import { AppModule } from '@app/app.module';
 import { delegatedSearchReducer } from '@pages/delegated-rekey-search/delegated-rekey-search.reducer';
 import { DASHBOARD_PAGE, DELEGATED_REKEY_SEARCH_PAGE } from '@pages/page-names.constants';
 import { AuthenticationProviderMock } from '@providers/authentication/__mocks__/authentication.mock';

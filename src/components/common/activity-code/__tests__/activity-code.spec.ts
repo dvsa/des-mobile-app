@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { UntypedFormGroup, Validators } from '@angular/forms';
-import { AppModule } from '@app/app.module';
+
 import { ActivityCodeModalEvent } from '@components/common/activity-code/acitivity-code-modal-event';
 import { ActivityCodeComponent } from '@components/common/activity-code/activity-code';
 import { IonCol, IonIcon, IonRow, IonText } from '@ionic/angular';

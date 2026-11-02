@@ -25,6 +25,7 @@ type TestReportPageState = CommonTestReportPageState;
   selector: '.test-report-cat-b-page',
   templateUrl: 'test-report.cat-b.page.html',
   styleUrls: ['test-report.cat-b.page.scss'],
+  standalone: true,
   imports: [
     IonHeader,
     IonToolbar,

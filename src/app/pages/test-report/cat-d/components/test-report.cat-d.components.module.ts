@@ -1,6 +1,5 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { ComponentsModule } from '@components/common/common-components.module';
 
 import { TestReportComponentsModule } from '../../components/test-report-components.module';
 import { PcvDoorExerciseComponent } from './pcv-door-exercise/pcv-door-exercise';
@@ -10,7 +9,6 @@ import { VehicleChecksCompactCatDComponent } from './vehicle-checks-compact/vehi
 @NgModule({
   imports: [
     CommonModule,
-    ComponentsModule,
     TestReportComponentsModule,
     VehicleChecksCompactCatDComponent,
     SafetyQuestionsCatDComponent,

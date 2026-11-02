@@ -1,7 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { ComponentsModule } from '@components/common/common-components.module';
 
 import {
   IonButton,
@@ -30,7 +29,6 @@ import { VehicleChecksCatDModal } from './vehicle-checks-modal.cat-d.page';
 @NgModule({
   imports: [
     EffectsModule.forFeature([VehicleChecksModalCatDAnalyticsEffects]),
-    ComponentsModule,
     WaitingRoomToCarComponentsModule,
     CommonModule,
     ReactiveFormsModule,

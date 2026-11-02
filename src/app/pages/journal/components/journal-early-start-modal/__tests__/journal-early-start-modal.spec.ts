@@ -4,7 +4,6 @@ import { FormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { provideMockStore } from '@ngrx/store/testing';
 
-import { ComponentsModule } from '@components/common/common-components.module';
 import { ModalController } from '@ionic/angular';
 import { ModalControllerMock } from '@mocks/ionic-mocks/modal-controller.mock';
 import { EarlyStartDidContinue, EarlyStartDidReturn } from '@store/journal/journal.actions';
@@ -17,7 +16,7 @@ describe('JournalEarlyStartModal', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [CommonModule, FormsModule, ComponentsModule, JournalEarlyStartModal],
+      imports: [CommonModule, FormsModule, JournalEarlyStartModal],
       providers: [{ provide: ModalController, useClass: ModalControllerMock }, provideMockStore({})],
     });
     modalFixture = TestBed.createComponent(JournalEarlyStartModal);

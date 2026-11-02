@@ -6,7 +6,6 @@ import { PlatformMock, RouterMock } from '@mocks/index.mock';
 import { Store, StoreModule } from '@ngrx/store';
 import { Subscription, of } from 'rxjs';
 
-import { AppModule } from '@app/app.module';
 import { JOURNAL_PAGE, REKEY_SEARCH_PAGE } from '@pages/page-names.constants';
 import { RekeyUploadOutcomeViewDidEnter } from '@pages/rekey-upload-outcome/rekey-upload-outcome.actions';
 import { RekeyUploadOutcomePage } from '@pages/rekey-upload-outcome/rekey-upload-outcome.page';

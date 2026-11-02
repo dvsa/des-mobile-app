@@ -1,6 +1,5 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { ComponentsModule } from '@components/common/common-components.module';
 
 import { IonCard, IonCardContent, IonCardHeader, IonCardTitle, IonCol, IonGrid, IonRow, IonText } from '@ionic/angular';
 import { TranslatePipe } from '@ngx-translate/core';
@@ -19,7 +18,6 @@ import { VehicleChecksCardComponent } from './vehicle-checks-card/vehicle-checks
 
 @NgModule({
   imports: [
-    ComponentsModule,
     CommonModule,
     TranslatePipe,
     IonText,

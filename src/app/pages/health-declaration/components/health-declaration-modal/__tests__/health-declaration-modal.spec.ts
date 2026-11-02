@@ -3,7 +3,6 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
-import { ComponentsModule } from '@components/common/common-components.module';
 import { ModalController } from '@ionic/angular';
 import { ModalControllerMock } from '@mocks/ionic-mocks/modal-controller.mock';
 import { provideMockStore } from '@ngrx/store/testing';
@@ -15,7 +14,7 @@ describe('healthDeclarationModal', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [RouterModule, CommonModule, FormsModule, ComponentsModule, HealthDeclarationModal],
+      imports: [RouterModule, CommonModule, FormsModule, HealthDeclarationModal],
       providers: [
         {
           provide: ModalController,

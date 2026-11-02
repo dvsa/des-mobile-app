@@ -1,6 +1,5 @@
 import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
 
-import { AppModule } from '@app/app.module';
 import { DeviceProviderMock } from '@providers/device/__mocks__/device.mock';
 import { DeviceProvider } from '@providers/device/device';
 import { ExitSamBanner } from '../exit-sam-banner';
@@ -11,7 +10,7 @@ describe('ExitSamBanner', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [AppModule, ExitSamBanner],
+      imports: [ExitSamBanner],
       providers: [{ provide: DeviceProvider, useClass: DeviceProviderMock }],
     });
 

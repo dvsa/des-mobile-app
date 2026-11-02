@@ -1,7 +1,7 @@
 import { EventEmitter } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
-import { AppModule } from '@app/app.module';
+
 import { QuestionResult } from '@dvsa/mes-test-schema/categories/common';
 
 import { VehicleChecksQuestionCatAMod2Component } from '@pages/waiting-room-to-car/cat-a-mod2/components/vehicle-checks-question/vehicle-checks-question';
@@ -19,7 +19,7 @@ describe('VehicleChecksQuestionCatAMod2Component', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [AppModule, VehicleChecksQuestionCatAMod2Component],
+      imports: [VehicleChecksQuestionCatAMod2Component],
     });
 
     fixture = TestBed.createComponent(VehicleChecksQuestionCatAMod2Component);

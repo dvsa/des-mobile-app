@@ -3,8 +3,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { MockAppComponent } from '@app/__mocks__/app.component.mock';
 import { AppComponent } from '@app/app.component';
-import { AppModule } from '@app/app.module';
-import { ComponentsModule } from '@components/common/common-components.module';
+
 import { TestCentre } from '@dvsa/mes-journal-schema';
 import { ModalController, Platform } from '@ionic/angular';
 import { ModalControllerMock, PlatformMock } from '@mocks/index.mock';
@@ -44,7 +43,6 @@ describe('TestResultsSearchPage', () => {
       imports: [
         AppModule,
         TestResultsSearchComponentsModule,
-        ComponentsModule,
         TestResultsSearchPage,
         MockComponent(AdvancedSearchComponent),
         MockComponent(SearchResultComponent),

@@ -2,7 +2,7 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
 import { ReactiveFormsModule, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { AppModule } from '@app/app.module';
+
 import { EndTestLinkComponent } from '@components/common/end-test-link/end-test-link';
 import { WarningBannerComponent } from '@components/common/warning-banner/warning-banner';
 import { CatCMUniqueTypes } from '@dvsa/mes-test-schema/categories/CM';

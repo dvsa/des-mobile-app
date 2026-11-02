@@ -1,6 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormControl, ReactiveFormsModule, UntypedFormGroup, Validators } from '@angular/forms';
-import { AppModule } from '@app/app.module';
 
 import { CharacterCountService } from '@providers/character-count/character-count.service';
 import { ReasonGivenComponent } from '../reason-given.component';
@@ -12,7 +11,7 @@ describe('ReasonGivenComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [AppModule, ReactiveFormsModule, ReasonGivenComponent],
+      imports: [ReactiveFormsModule, ReasonGivenComponent],
       providers: [{ provide: CharacterCountService, useClass: CharacterCountService }],
     });
 

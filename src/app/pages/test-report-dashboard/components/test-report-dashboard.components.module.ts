@@ -1,7 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
-import { ComponentsModule } from '@components/common/common-components.module';
 
 import { IonCard, IonCardContent, IonCol, IonIcon, IonRow } from '@ionic/angular';
 import { DashboardItemComponent } from '@pages/test-report-dashboard/components/dashboard-item/dashboard-item';
@@ -10,7 +9,6 @@ import { ReviewFeedback } from '@pages/test-report-dashboard/components/review-f
 @NgModule({
   imports: [
     CommonModule,
-    ComponentsModule,
     ReactiveFormsModule,
     IonCol,
     IonRow,
@@ -22,4 +20,4 @@ import { ReviewFeedback } from '@pages/test-report-dashboard/components/review-f
   ],
   exports: [DashboardItemComponent, ReviewFeedback],
 })
-export class TestReportCatADIPart3ComponentsModule {}
+export class TestReportCatADIPart3 {}

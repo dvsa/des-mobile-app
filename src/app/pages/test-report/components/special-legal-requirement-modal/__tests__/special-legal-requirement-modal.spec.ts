@@ -1,10 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { ComponentsModule } from '@components/common/common-components.module';
 import { ModalController } from '@ionic/angular';
 import { ModalControllerMock } from '@mocks/index.mock';
 import { ModalEvent } from '@pages/test-report/test-report.constants';
-import { AppModule } from 'src/app/app.module';
 import { SpecialLegalRequirementModal } from '../special-legal-requirement-modal';
 
 describe('LegalRequirementsModal', () => {
@@ -14,7 +12,7 @@ describe('LegalRequirementsModal', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [AppModule, ComponentsModule, SpecialLegalRequirementModal],
+      imports: [SpecialLegalRequirementModal],
       providers: [{ provide: ModalController, useClass: ModalControllerMock }],
     });
 

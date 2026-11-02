@@ -1,8 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormControl, UntypedFormGroup, Validators } from '@angular/forms';
-import { AppModule } from '@app/app.module';
-import { ComponentsModule } from '@components/common/common-components.module';
+
 import { TestFlowHeaderComponent } from '@components/common/test-flow-header/test-flow-header.component';
 import { CatBUniqueTypes } from '@dvsa/mes-test-schema/categories/B';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
@@ -89,7 +88,6 @@ describe('TestReportDashboardPage', () => {
     TestBed.configureTestingModule({
       imports: [
         AppModule,
-        ComponentsModule,
         CommonModule,
         TestReportDashboardPage,
         MockComponent(TimerComponent),

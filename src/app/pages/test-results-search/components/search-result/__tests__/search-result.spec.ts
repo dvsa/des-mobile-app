@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MockAppComponent } from '@app/__mocks__/app.component.mock';
 import { AppComponent } from '@app/app.component';
-import { AppModule } from '@app/app.module';
+
 import { SearchResultTestSchema } from '@dvsa/mes-search-schema';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 
@@ -32,7 +32,7 @@ describe('SearchResultComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [AppModule, SearchResultComponent],
+      imports: [SearchResultComponent],
       providers: [
         { provide: CompressionProvider, useClass: CompressionProviderMock },
         { provide: AppComponent, useClass: MockAppComponent },

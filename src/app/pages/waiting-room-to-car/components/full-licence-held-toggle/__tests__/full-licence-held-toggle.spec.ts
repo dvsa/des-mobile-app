@@ -2,7 +2,6 @@ import { EventEmitter } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule, UntypedFormGroup } from '@angular/forms';
 import { By } from '@angular/platform-browser';
-import { AppModule } from '@app/app.module';
 
 import { FullLicenceHeldComponent } from '../full-licence-held-toggle';
 
@@ -12,7 +11,7 @@ describe('FullLicenceHeldComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [AppModule, ReactiveFormsModule, FullLicenceHeldComponent],
+      imports: [ReactiveFormsModule, FullLicenceHeldComponent],
     });
 
     fixture = TestBed.createComponent(FullLicenceHeldComponent);

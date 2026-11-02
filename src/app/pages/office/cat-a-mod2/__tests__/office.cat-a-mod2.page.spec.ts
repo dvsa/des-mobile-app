@@ -1,7 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
-import { AppModule } from '@app/app.module';
-import { ComponentsModule } from '@components/common/common-components.module';
+
 import { TestFlowHeaderComponent } from '@components/common/test-flow-header/test-flow-header.component';
 import { ModeOfTransport } from '@dvsa/mes-test-schema/categories/AM2';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
@@ -66,7 +65,6 @@ describe('OfficeCatAMod2Page', () => {
     TestBed.configureTestingModule({
       imports: [
         AppModule,
-        ComponentsModule,
         PipesModule,
         StoreModule.forRoot({
           tests: () => ({

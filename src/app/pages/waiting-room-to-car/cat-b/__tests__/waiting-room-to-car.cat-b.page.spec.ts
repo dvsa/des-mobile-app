@@ -46,7 +46,6 @@ import {
 import { EyesightTestReset } from '@store/tests/test-data/common/eyesight-test/eyesight-test.actions';
 import { TestsModel } from '@store/tests/tests.model';
 
-import { AppModule } from '@app/app.module';
 import { WaitingRoomToCarCatBPage } from '../waiting-room-to-car.cat-b.page';
 
 describe('WaitingRoomToCarCatBPage', () => {

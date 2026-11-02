@@ -2,7 +2,6 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
-import { ComponentsModule } from '@components/common/common-components.module';
 import {
   IonAccordion,
   IonAccordionGroup,
@@ -25,7 +24,6 @@ import { SearchResultComponent } from './search-result/search-result';
 
 @NgModule({
   imports: [
-    ComponentsModule,
     CommonModule,
     FormsModule,
     IonCol,
