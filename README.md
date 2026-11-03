@@ -31,7 +31,8 @@ DVSA Driving Examiner Application
 
 Components, directives, and pipes use Angular's standalone default and declare their template dependencies
 in their own `imports`. Import them directly rather than creating component NgModules.
-`app-routing.module.ts` is retained for root routing; application providers are configured in `src/main.ts`.
+Root routes are defined in `src/app/app.routes.ts` and registered with `provideRouter()` in `src/main.ts`,
+alongside the application providers.
 
 ### Config
 

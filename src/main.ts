@@ -2,10 +2,10 @@ import { ErrorHandler, enableProdMode, importProvidersFrom, inject, provideAppIn
 import { BrowserModule, bootstrapApplication } from '@angular/platform-browser';
 
 import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
-import { RouteReuseStrategy } from '@angular/router';
-import { AppRoutingModule } from '@app/app-routing.module';
+import { PreloadAllModules, RouteReuseStrategy, provideRouter, withPreloading } from '@angular/router';
 import { AppComponent } from '@app/app.component';
 import { appEffects } from '@app/app.effects';
+import { routes } from '@app/app.routes';
 import { SentryIonicErrorHandler } from '@app/sentry-error-handler';
 import { IsDebug } from '@awesome-cordova-plugins/is-debug/ngx';
 import { SecureStorage } from '@awesome-cordova-plugins/secure-storage/ngx';
@@ -91,12 +91,12 @@ bootstrapApplication(AppComponent, {
   providers: [
     importProvidersFrom(
       BrowserModule,
-      AppRoutingModule,
       IonicStorageModule.forRoot({
         driverOrder: [storageDriver],
       }),
       NgbModule
     ),
+    provideRouter(routes, withPreloading(PreloadAllModules)),
     provideStore(reducers, { metaReducers }),
     ...(enableDevTools ? [provideStoreDevtools()] : []),
     appEffects,

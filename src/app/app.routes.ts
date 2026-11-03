@@ -1,5 +1,4 @@
-import { NgModule } from '@angular/core';
-import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
+import { Routes } from '@angular/router';
 import { NonPassFinalisationResolver } from '@pages/non-pass-finalisation/non-pass-finalisation.resolver';
 import {
   DASHBOARD_PAGE,
@@ -22,7 +21,7 @@ import { Pass_Finalisation_Route } from './routing/pass-finalisation-route';
 import { Test_Report_Route } from './routing/test-report-route';
 import { Waiting_Room_To_Car_Route } from './routing/waiting-room-to-car-route';
 
-const routes: Routes = [
+export const routes: Routes = [
   {
     path: '',
     redirectTo: LOGIN_PAGE,
@@ -145,9 +144,3 @@ const routes: Routes = [
   ...Pass_Finalisation_Route,
   ...Office_Route,
 ];
-
-@NgModule({
-  imports: [RouterModule.forRoot(routes, { preloadingStrategy: PreloadAllModules })],
-  exports: [RouterModule],
-})
-export class AppRoutingModule {}
