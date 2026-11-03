@@ -1,22 +1,21 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { MockAppComponent } from '@app/__mocks__/app.component.mock';
-import { AppComponent } from '@app/app.component';
+
 import { provideBasePageMocks } from '@mocks/test-providers';
 import { provideMockStore } from '@ngrx/store/testing';
 
 import { TestCentre } from '@dvsa/mes-journal-schema';
-import { ModalController, Platform } from '@ionic/angular';
-import { ModalControllerMock, PlatformMock } from '@mocks/index.mock';
+import { ModalController } from '@ionic/angular';
+
 import { AdvancedSearchComponent } from '@pages/test-results-search/components/advanced-search/advanced-search';
 import { SearchResultComponent } from '@pages/test-results-search/components/search-result/search-result';
 import { TestResultSearchViewDidEnter } from '@pages/test-results-search/test-results-search.actions';
-import { AppConfigProviderMock } from '@providers/app-config/__mocks__/app-config.mock';
+
 import { AppConfigProvider } from '@providers/app-config/app-config';
 import { AppConfig } from '@providers/app-config/app-config.model';
 import { ExaminerRole } from '@providers/app-config/constants/examiner-role.constants';
-import { AuthenticationProviderMock } from '@providers/authentication/__mocks__/authentication.mock';
+
 import { AuthenticationProvider } from '@providers/authentication/authentication';
 import { NetworkStateProviderMock } from '@providers/network-state/__mocks__/network-state.mock';
 import { NetworkStateProvider } from '@providers/network-state/network-state';
@@ -52,28 +51,8 @@ describe('TestResultsSearchPage', () => {
         provideBasePageMocks(),
         provideMockStore({ initialState: { refData: { testCentres: { active: [], inactive: [] } } } }),
         {
-          provide: Platform,
-          useClass: PlatformMock,
-        },
-        {
-          provide: ModalController,
-          useClass: ModalControllerMock,
-        },
-        {
-          provide: AuthenticationProvider,
-          useClass: AuthenticationProviderMock,
-        },
-        {
           provide: SearchProvider,
           useClass: SearchProviderMock,
-        },
-        {
-          provide: AppConfigProvider,
-          useClass: AppConfigProviderMock,
-        },
-        {
-          provide: AppComponent,
-          useClass: MockAppComponent,
         },
         {
           provide: NetworkStateProvider,

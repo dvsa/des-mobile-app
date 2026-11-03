@@ -1,7 +1,7 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { ModalController, Platform, ToastController } from '@ionic/angular';
-import { ModalControllerMock, PlatformMock } from '@mocks/index.mock';
+import { ToastController } from '@ionic/angular';
+
 import { provideBasePageMocks } from '@mocks/test-providers';
 import { Store, StoreModule } from '@ngrx/store';
 import { MockComponent } from 'ng-mocks';
@@ -12,8 +12,7 @@ import { ReverseManoeuvreComponent } from '@pages/test-report/cat-manoeuvre/comp
 import { EtaComponent } from '@pages/test-report/components/examiner-takes-action/eta';
 import { ToolbarComponent } from '@pages/test-report/components/toolbar/toolbar';
 import { UncoupleRecoupleComponent } from '@pages/test-report/components/uncouple-recouple/uncouple-recouple';
-import { AuthenticationProviderMock } from '@providers/authentication/__mocks__/authentication.mock';
-import { AuthenticationProvider } from '@providers/authentication/authentication';
+
 import { DateTimeProviderMock } from '@providers/date-time/__mocks__/date-time.mock';
 import { DateTimeProvider } from '@providers/date-time/date-time';
 import { TestReportValidatorProviderMock } from '@providers/test-report-validator/__mocks__/test-report-validator.mock';
@@ -65,20 +64,8 @@ describe('TestReportCatManoeuvrePage', () => {
       providers: [
         provideBasePageMocks(),
         {
-          provide: Platform,
-          useClass: PlatformMock,
-        },
-        {
-          provide: AuthenticationProvider,
-          useClass: AuthenticationProviderMock,
-        },
-        {
           provide: DateTimeProvider,
           useClass: DateTimeProviderMock,
-        },
-        {
-          provide: ModalController,
-          useClass: ModalControllerMock,
         },
         {
           provide: TestReportValidatorProvider,

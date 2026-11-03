@@ -1,6 +1,5 @@
 import { ChangeDetectorRef } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { Router } from '@angular/router';
 
 import { Adi3DebriefCard } from '@components/common/adi3-debrief-card/adi3-debrief-card';
 import { CPCDebriefCardComponent } from '@components/common/cpc-debrief-card/cpc-debrief-card';
@@ -13,10 +12,8 @@ import {
 } from '@dvsa/mes-test-schema/categories/ADI3';
 import { JournalData, TestResultCommonSchema } from '@dvsa/mes-test-schema/categories/common';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
-import { ModalController, Platform } from '@ionic/angular';
-import { RouterMock } from '@mocks/angular-mocks/router-mock';
-import { ModalControllerMock } from '@mocks/ionic-mocks/modal-controller.mock';
-import { PlatformMock } from '@mocks/ionic-mocks/platform-mock';
+import { ModalController } from '@ionic/angular';
+
 import { provideBasePageMocks } from '@mocks/test-providers';
 import { Store } from '@ngrx/store';
 import { provideMockStore } from '@ngrx/store/testing';
@@ -37,16 +34,14 @@ import { ViewTestResultViewDidEnter } from '@pages/view-test-result/view-test-re
 import { RegeneratedEmails } from '@pages/view-test-result/view-test-result.model';
 import { ViewTestResultPage } from '@pages/view-test-result/view-test-result.page';
 import { ADI3AssessmentProvider } from '@providers/adi3-assessment/adi3-assessment';
-import { AuthenticationProviderMock } from '@providers/authentication/__mocks__/authentication.mock';
-import { AuthenticationProvider } from '@providers/authentication/authentication';
+
 import { CompressionProviderMock } from '@providers/compression/__mocks__/compression.mock';
 import { CompressionProvider } from '@providers/compression/compression';
 import { FaultCountProvider } from '@providers/fault-count/fault-count';
 import { FaultSummaryProviderMock } from '@providers/fault-summary/__mocks__/fault-summary.mock';
 import { FaultSummaryProvider } from '@providers/fault-summary/fault-summary';
 import { LoadingProvider } from '@providers/loader/loader';
-import { LogHelperMock } from '@providers/logs/__mocks__/logs-helper.mock';
-import { LogHelper } from '@providers/logs/logs-helper';
+
 import { SearchProviderMock } from '@providers/search/__mocks__/search.mock';
 import { SearchProvider } from '@providers/search/search';
 import { LogType } from '@shared/models/log.model';
@@ -115,10 +110,6 @@ describe('ViewTestResultPage', () => {
         provideBasePageMocks(),
         provideMockStore(),
         {
-          provide: Platform,
-          useClass: PlatformMock,
-        },
-        {
           provide: getCandidateName,
           useClass: getCandidateNameMock,
         },
@@ -127,28 +118,12 @@ describe('ViewTestResultPage', () => {
           useClass: getTestOutcomeTextMock,
         },
         {
-          provide: AuthenticationProvider,
-          useClass: AuthenticationProviderMock,
-        },
-        {
-          provide: Router,
-          useClass: RouterMock,
-        },
-        {
-          provide: ModalController,
-          useClass: ModalControllerMock,
-        },
-        {
           provide: SearchProvider,
           useClass: SearchProviderMock,
         },
         {
           provide: CompressionProvider,
           useClass: CompressionProviderMock,
-        },
-        {
-          provide: LogHelper,
-          useClass: LogHelperMock,
         },
         {
           provide: LoadingProvider,

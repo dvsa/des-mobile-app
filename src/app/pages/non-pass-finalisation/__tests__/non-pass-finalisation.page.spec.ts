@@ -2,8 +2,7 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
 import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Data, Router } from '@angular/router';
-import { ModalController, NavController, Platform } from '@ionic/angular';
-import { NavControllerMock, PlatformMock } from '@mocks/index.mock';
+
 import { Store } from '@ngrx/store';
 import { MockComponent } from 'ng-mocks';
 
@@ -16,16 +15,14 @@ import { FinalisationHeaderComponent } from '@components/test-finalisation/final
 import { LanguagePreferencesComponent } from '@components/test-finalisation/language-preference/language-preference';
 import { TestResultCommonSchema } from '@dvsa/mes-test-schema/categories/common';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
-import { RouterMock } from '@mocks/angular-mocks/router-mock';
-import { ModalControllerMock } from '@mocks/ionic-mocks/modal-controller.mock';
+
 import { provideBasePageMocks } from '@mocks/test-providers';
 import { provideMockStore } from '@ngrx/store/testing';
 import { NonPassFinalisationPage } from '@pages/non-pass-finalisation/non-pass-finalisation.page';
 import { TestFlowPageNames } from '@pages/page-names.constants';
 import { ActivityCodeFinalisationMock } from '@providers/activity-code-finalisation/__mocks__/activity-code-finalisation.mock';
 import { ActivityCodeFinalisationProvider } from '@providers/activity-code-finalisation/activity-code-finalisation';
-import { AuthenticationProviderMock } from '@providers/authentication/__mocks__/authentication.mock';
-import { AuthenticationProvider } from '@providers/authentication/authentication';
+
 import { OutcomeBehaviourMapProviderMock } from '@providers/outcome-behaviour-map/__mocks__/outcome-behaviour-map.mock';
 import { OutcomeBehaviourMapProvider } from '@providers/outcome-behaviour-map/outcome-behaviour-map';
 import { TestDataByCategoryProviderMock } from '@providers/test-data-by-category/__mocks__/test-data-by-category.mock';
@@ -136,22 +133,6 @@ describe('NonPassFinalisationPage', () => {
       providers: [
         provideBasePageMocks(),
         {
-          provide: Router,
-          useClass: RouterMock,
-        },
-        {
-          provide: NavController,
-          useClass: NavControllerMock,
-        },
-        {
-          provide: Platform,
-          useClass: PlatformMock,
-        },
-        {
-          provide: AuthenticationProvider,
-          useClass: AuthenticationProviderMock,
-        },
-        {
           provide: ActivityCodeFinalisationProvider,
           useClass: ActivityCodeFinalisationMock,
         },
@@ -162,10 +143,6 @@ describe('NonPassFinalisationPage', () => {
         {
           provide: ActivatedRoute,
           useValue: activatedRouteMock,
-        },
-        {
-          provide: ModalController,
-          useClass: ModalControllerMock,
         },
         {
           provide: TestDataByCategoryProvider,

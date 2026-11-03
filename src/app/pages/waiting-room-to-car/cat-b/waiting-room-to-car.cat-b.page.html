@@ -25,7 +25,7 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content [class.hidden]="failedMOTModalCurrentlyOpen" forceOverscroll="false">
+<ion-content [class.hidden]="failedMOTModalCurrentlyOpen" [forceOverscroll]="false">
   @if (!isEndToEndPracticeMode) {
     <offline-banner [isOffline]="pageState.isOffline$ | async"></offline-banner>
   }

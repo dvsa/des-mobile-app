@@ -3,15 +3,14 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Router } from '@angular/router';
 import { TestSlotAttributes } from '@dvsa/mes-test-schema/categories/common';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
-import { AlertController, ModalController, NavController, Platform } from '@ionic/angular';
-import { AlertControllerMock, NavControllerMock, PlatformMock } from '@mocks/index.mock';
-import { ModalControllerMock } from '@mocks/ionic-mocks/modal-controller.mock';
+import { AlertController, ModalController } from '@ionic/angular';
+import { AlertControllerMock } from '@mocks/index.mock';
+
 import { provideBasePageMocks } from '@mocks/test-providers';
 import { Store, StoreModule } from '@ngrx/store';
 
 import { ADI3AssessmentProvider } from '@providers/adi3-assessment/adi3-assessment';
-import { AuthenticationProviderMock } from '@providers/authentication/__mocks__/authentication.mock';
-import { AuthenticationProvider } from '@providers/authentication/authentication';
+
 import { VehicleDetailsByCategoryProvider } from '@providers/vehicle-details-by-category/vehicle-details-by-category';
 import { ActivityCodeModel } from '@shared/constants/activity-code/activity-code.constants';
 import { StoreModel } from '@shared/models/store.model';
@@ -74,24 +73,8 @@ describe('ConfirmTestDetailsPage', () => {
       providers: [
         provideBasePageMocks(),
         {
-          provide: Platform,
-          useClass: PlatformMock,
-        },
-        {
-          provide: NavController,
-          useClass: NavControllerMock,
-        },
-        {
-          provide: AuthenticationProvider,
-          useClass: AuthenticationProviderMock,
-        },
-        {
           provide: AlertController,
           useClass: AlertControllerMock,
-        },
-        {
-          provide: ModalController,
-          useClass: ModalControllerMock,
         },
         {
           provide: ADI3AssessmentProvider,

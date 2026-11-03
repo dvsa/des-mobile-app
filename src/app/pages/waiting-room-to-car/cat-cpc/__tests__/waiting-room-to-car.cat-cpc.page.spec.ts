@@ -1,14 +1,12 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
 import { ReactiveFormsModule, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
 
 import { EndTestLinkComponent } from '@components/common/end-test-link/end-test-link';
 import { WarningBannerComponent } from '@components/common/warning-banner/warning-banner';
 import { Question, Question5, TestResultCatCPCSchema } from '@dvsa/mes-test-schema/categories/CPC';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
-import { Platform } from '@ionic/angular';
-import { PlatformMock, RouterMock } from '@mocks/index.mock';
+
 import { provideBasePageMocks } from '@mocks/test-providers';
 import { Store } from '@ngrx/store';
 import { provideMockStore } from '@ngrx/store/testing';
@@ -21,8 +19,7 @@ import { CandidateDeclarationSignedComponent } from '@pages/waiting-room-to-car/
 import { VehicleDetailsComponent } from '@pages/waiting-room-to-car/components/vehicle-details/vehicle-details';
 import { VehicleRegistrationComponent } from '@pages/waiting-room-to-car/components/vehicle-registration/vehicle-registration';
 import { WaitingRoomToCarValidationError } from '@pages/waiting-room-to-car/waiting-room-to-car.actions';
-import { AuthenticationProviderMock } from '@providers/authentication/__mocks__/authentication.mock';
-import { AuthenticationProvider } from '@providers/authentication/authentication';
+
 import { CpcQuestionsMock } from '@providers/cpc-questions/__mocks__/cpc-questions.mock';
 import { CPCQuestionProvider } from '@providers/cpc-questions/cpc-questions';
 import { DateTimeProviderMock } from '@providers/date-time/__mocks__/date-time.mock';
@@ -92,18 +89,6 @@ describe('WaitingRoomToCarCatCPCPage', () => {
         {
           provide: RouteByCategoryProvider,
           useClass: RouteByCategoryProviderMock,
-        },
-        {
-          provide: AuthenticationProvider,
-          useClass: AuthenticationProviderMock,
-        },
-        {
-          provide: Platform,
-          useClass: PlatformMock,
-        },
-        {
-          provide: Router,
-          useClass: RouterMock,
         },
         {
           provide: DateTimeProvider,

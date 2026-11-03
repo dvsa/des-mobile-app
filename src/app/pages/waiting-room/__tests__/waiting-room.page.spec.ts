@@ -6,15 +6,12 @@ import { KeepAwake as Insomnia } from '@capacitor-community/keep-awake';
 import { ScreenOrientation } from '@capawesome/capacitor-screen-orientation';
 import { JournalData, TestResultCommonSchema, TestSlotAttributes } from '@dvsa/mes-test-schema/categories/common';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
-import { ModalController, Platform } from '@ionic/angular';
-import { PlatformMock, RouterMock } from '@mocks/index.mock';
+import { ModalController } from '@ionic/angular';
+
 import { Store, StoreModule } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
 import { MockComponent } from 'ng-mocks';
 import { Observable, Subscription } from 'rxjs';
-
-import { MockAppComponent } from '@app/__mocks__/app.component.mock';
-import { AppComponent } from '@app/app.component';
 
 import { CandidateSectionComponent } from '@components/common/candidate-section/candidate-section';
 import { EndTestLinkComponent } from '@components/common/end-test-link/end-test-link';
@@ -25,13 +22,12 @@ import { provideBasePageMocks } from '@mocks/test-providers';
 import { provideMockStore } from '@ngrx/store/testing';
 import { GetCandidateLicenceData } from '@pages/candidate-licence/candidate-licence.actions';
 import { TestFlowPageNames } from '@pages/page-names.constants';
-import { AuthenticationProviderMock } from '@providers/authentication/__mocks__/authentication.mock';
-import { AuthenticationProvider } from '@providers/authentication/authentication';
+
 import { DateTimeProviderMock } from '@providers/date-time/__mocks__/date-time.mock';
 import { DateTimeProvider } from '@providers/date-time/date-time';
 import { DeviceAuthenticationProviderMock } from '@providers/device-authentication/__mocks__/device-authentication.mock';
 import { DeviceAuthenticationProvider } from '@providers/device-authentication/device-authentication';
-import { DeviceProviderMock } from '@providers/device/__mocks__/device.mock';
+
 import { DeviceProvider } from '@providers/device/device';
 import { BasePageComponent } from '@shared/classes/base-page';
 import { StoreModel } from '@shared/models/store.model';
@@ -177,32 +173,12 @@ describe('WaitingRoomPage', () => {
       providers: [
         provideBasePageMocks(),
         {
-          provide: Router,
-          useClass: RouterMock,
-        },
-        {
-          provide: Platform,
-          useClass: PlatformMock,
-        },
-        {
-          provide: AuthenticationProvider,
-          useClass: AuthenticationProviderMock,
-        },
-        {
           provide: DeviceAuthenticationProvider,
           useClass: DeviceAuthenticationProviderMock,
         },
         {
           provide: DateTimeProvider,
           useClass: DateTimeProviderMock,
-        },
-        {
-          provide: DeviceProvider,
-          useClass: DeviceProviderMock,
-        },
-        {
-          provide: AppComponent,
-          useClass: MockAppComponent,
         },
         provideMockStore({ initialState }),
       ],

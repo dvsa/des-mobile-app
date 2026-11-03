@@ -7,7 +7,7 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content forceOverscroll="false">
+<ion-content [forceOverscroll]="false">
   <offline-banner [isOffline]="pageState.isOffline$ | async"></offline-banner>
 
   <div class="search-inputs">

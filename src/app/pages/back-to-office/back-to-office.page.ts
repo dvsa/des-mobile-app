@@ -14,7 +14,7 @@ import { select } from '@ngrx/store';
 import { Observable, Subscription, merge } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-import { NgClass } from '@angular/common';
+import { NgClass, NgOptimizedImage } from '@angular/common';
 import {
   ASAMPopupPresented,
   BackToOfficeViewDidEnter,
@@ -45,7 +45,7 @@ export enum NavigationTarget {
   selector: '.back-to-office-page',
   templateUrl: 'back-to-office.page.html',
   styleUrls: ['back-to-office.page.scss'],
-  imports: [IonHeader, IonToolbar, NgClass, TestFlowHeaderComponent, IonContent, IonButton],
+  imports: [IonHeader, IonToolbar, NgClass, TestFlowHeaderComponent, IonContent, IonButton, NgOptimizedImage],
 })
 export class BackToOfficePage extends PracticeableBasePageComponent implements OnInit, ViewDidEnter, ViewDidLeave {
   pageState: BackToOfficePageState;

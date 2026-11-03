@@ -1,8 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Router } from '@angular/router';
 import { KeepAwake as Insomnia } from '@capacitor-community/keep-awake';
-import { Platform } from '@ionic/angular';
-import { PlatformMock, RouterMock } from '@mocks/index.mock';
+
 import { provideBasePageMocks } from '@mocks/test-providers';
 import { Store, StoreModule } from '@ngrx/store';
 import { Subscription, of } from 'rxjs';
@@ -10,11 +9,10 @@ import { Subscription, of } from 'rxjs';
 import { JOURNAL_PAGE, REKEY_SEARCH_PAGE } from '@pages/page-names.constants';
 import { RekeyUploadOutcomeViewDidEnter } from '@pages/rekey-upload-outcome/rekey-upload-outcome.actions';
 import { RekeyUploadOutcomePage } from '@pages/rekey-upload-outcome/rekey-upload-outcome.page';
-import { AuthenticationProviderMock } from '@providers/authentication/__mocks__/authentication.mock';
-import { AuthenticationProvider } from '@providers/authentication/authentication';
+
 import { DateTimeProviderMock } from '@providers/date-time/__mocks__/date-time.mock';
 import { DateTimeProvider } from '@providers/date-time/date-time';
-import { DeviceProviderMock } from '@providers/device/__mocks__/device.mock';
+
 import { DeviceProvider } from '@providers/device/device';
 import { BasePageComponent } from '@shared/classes/base-page';
 import { StoreModel } from '@shared/models/store.model';
@@ -42,24 +40,8 @@ describe('RekeyUploadOutcomePage', () => {
       providers: [
         provideBasePageMocks(),
         {
-          provide: Platform,
-          useClass: PlatformMock,
-        },
-        {
-          provide: Router,
-          useClass: RouterMock,
-        },
-        {
-          provide: AuthenticationProvider,
-          useClass: AuthenticationProviderMock,
-        },
-        {
           provide: DateTimeProvider,
           useClass: DateTimeProviderMock,
-        },
-        {
-          provide: DeviceProvider,
-          useClass: DeviceProviderMock,
         },
       ],
     });

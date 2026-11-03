@@ -1,9 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { DomSanitizer } from '@angular/platform-browser';
-import { ActivatedRoute, Router } from '@angular/router';
-import { Platform } from '@ionic/angular';
-import { RouterMock } from '@mocks/angular-mocks/router-mock';
+import { Router } from '@angular/router';
+
 import { provideBasePageMocks } from '@mocks/test-providers';
 import { provideMockStore } from '@ngrx/store/testing';
 import { MockComponent } from 'ng-mocks';
@@ -13,9 +12,9 @@ import { OfflineBannerComponent } from '@components/common/offline-banner/offlin
 import { DriverPhotograph } from '@dvsa/mes-driver-schema';
 import { CatBUniqueTypes } from '@dvsa/mes-test-schema/categories/B';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
-import { ActivatedRouteMock } from '@mocks/angular-mocks/activated-route.mock';
+
 import { DomSanitizerMock } from '@mocks/angular-mocks/dom-sanitizer.mock';
-import { PlatformMock } from '@mocks/ionic-mocks/platform-mock';
+
 import { Store } from '@ngrx/store';
 import {
   CandidateLicenceDataValidationError,
@@ -27,14 +26,10 @@ import { LicenceInformation } from '@pages/candidate-licence/components/licence-
 import { LicencePhoto } from '@pages/candidate-licence/components/licence-photo/licence-photo';
 import { TrueLikenessComponent } from '@pages/office/components/true-likeness/true-likeness';
 import { TestFlowPageNames } from '@pages/page-names.constants';
-import { AuthenticationProviderMock } from '@providers/authentication/__mocks__/authentication.mock';
-import { AuthenticationProvider } from '@providers/authentication/authentication';
+
 import { CandidateLicenceProviderMock } from '@providers/candidate-licence/__mocks__/candidate-licence.mock';
 import { CandidateLicenceErr, CandidateLicenceProvider } from '@providers/candidate-licence/candidate-licence';
-import { DeviceProviderMock } from '@providers/device/__mocks__/device.mock';
-import { DeviceProvider } from '@providers/device/device';
-import { LogHelperMock } from '@providers/logs/__mocks__/logs-helper.mock';
-import { LogHelper } from '@providers/logs/logs-helper';
+
 import { NetworkStateProviderMock } from '@providers/network-state/__mocks__/network-state.mock';
 import { NetworkStateProvider } from '@providers/network-state/network-state';
 import { DateTime, Duration } from '@shared/helpers/date-time';
@@ -116,32 +111,8 @@ describe('CandidateLicencePage', () => {
           useClass: NetworkStateProviderMock,
         },
         {
-          provide: AuthenticationProvider,
-          useClass: AuthenticationProviderMock,
-        },
-        {
           provide: CandidateLicenceProvider,
           useClass: CandidateLicenceProviderMock,
-        },
-        {
-          provide: Platform,
-          useClass: PlatformMock,
-        },
-        {
-          provide: Router,
-          useClass: RouterMock,
-        },
-        {
-          provide: DeviceProvider,
-          useClass: DeviceProviderMock,
-        },
-        {
-          provide: ActivatedRoute,
-          useClass: ActivatedRouteMock,
-        },
-        {
-          provide: LogHelper,
-          useClass: LogHelperMock,
         },
         provideMockStore({ initialState }),
       ],

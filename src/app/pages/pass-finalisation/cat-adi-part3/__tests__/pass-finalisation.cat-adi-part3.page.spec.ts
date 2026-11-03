@@ -1,15 +1,14 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
-import { Router, RouterModule } from '@angular/router';
+import { RouterModule } from '@angular/router';
 
 import { PracticeModeOptionsBar } from '@components/common/practice-mode-options-bar/practice-mode-options-bar';
 import { DebriefWitnessedComponent } from '@components/test-finalisation/debrief-witnessed/debrief-witnessed';
 import { FinalisationHeaderComponent } from '@components/test-finalisation/finalisation-header/finalisation-header';
 import { TestResultCommonSchema } from '@dvsa/mes-test-schema/categories/common';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
-import { NavController, Platform } from '@ionic/angular';
-import { NavControllerMock, PlatformMock, RouterMock } from '@mocks/index.mock';
+
 import { provideBasePageMocks } from '@mocks/test-providers';
 import { Store } from '@ngrx/store';
 import { provideMockStore } from '@ngrx/store/testing';
@@ -18,8 +17,7 @@ import {
   PassFinalisationValidationError,
   PassFinalisationViewDidEnter,
 } from '@pages/pass-finalisation/pass-finalisation.actions';
-import { AuthenticationProviderMock } from '@providers/authentication/__mocks__/authentication.mock';
-import { AuthenticationProvider } from '@providers/authentication/authentication';
+
 import { OutcomeBehaviourMapProvider } from '@providers/outcome-behaviour-map/outcome-behaviour-map';
 import { DateTime } from '@shared/helpers/date-time';
 import { StoreModel } from '@shared/models/store.model';
@@ -121,23 +119,7 @@ describe('PassFinalisationCatADIPart3Page', () => {
       ],
       providers: [
         provideBasePageMocks(),
-        {
-          provide: Platform,
-          useClass: PlatformMock,
-        },
-        {
-          provide: AuthenticationProvider,
-          useClass: AuthenticationProviderMock,
-        },
-        {
-          provide: Router,
-          useClass: RouterMock,
-        },
         { provide: Store },
-        {
-          provide: NavController,
-          useClass: NavControllerMock,
-        },
         OutcomeBehaviourMapProvider,
         provideMockStore({ initialState }),
       ],

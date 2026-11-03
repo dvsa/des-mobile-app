@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { ModalController, NavController, Platform } from '@ionic/angular';
-import { ModalControllerMock, PlatformMock } from '@mocks/index.mock';
+import { NavController } from '@ionic/angular';
+
 import { MockComponent } from 'ng-mocks';
 
 import { PracticeModeOptionsBar } from '@components/common/practice-mode-options-bar/practice-mode-options-bar';
@@ -14,8 +14,7 @@ import { LessonThemeComponent } from '@pages/test-report/cat-adi-part3/component
 import { StudentComponent } from '@pages/test-report/cat-adi-part3/components/student/student';
 import { TestReportAssessmentCard } from '@pages/test-report/cat-adi-part3/components/tr-assessment-card/tr-assessment-card';
 import { TestReportCatADI3Page } from '@pages/test-report/cat-adi-part3/test-report.cat-adi-part3.page';
-import { AuthenticationProviderMock } from '@providers/authentication/__mocks__/authentication.mock';
-import { AuthenticationProvider } from '@providers/authentication/authentication';
+
 import { DateTimeProviderMock } from '@providers/date-time/__mocks__/date-time.mock';
 import { DateTimeProvider } from '@providers/date-time/date-time';
 import { TestReportValidatorProviderMock } from '@providers/test-report-validator/__mocks__/test-report-validator.mock';
@@ -74,20 +73,8 @@ describe('TestReportCatADI3Page', () => {
       providers: [
         provideBasePageMocks(),
         {
-          provide: Platform,
-          useClass: PlatformMock,
-        },
-        {
-          provide: AuthenticationProvider,
-          useClass: AuthenticationProviderMock,
-        },
-        {
           provide: DateTimeProvider,
           useClass: DateTimeProviderMock,
-        },
-        {
-          provide: ModalController,
-          useClass: ModalControllerMock,
         },
         {
           provide: TestReportValidatorProvider,

@@ -6,8 +6,8 @@ import { Router } from '@angular/router';
 
 import { default as welshTranslations } from '@assets/i18n/cy.json';
 import { TestSlotAttributes } from '@dvsa/mes-test-schema/categories/common';
-import { AlertController, NavController, Platform } from '@ionic/angular';
-import { AlertControllerMock, NavControllerMock, PlatformMock, RouterMock } from '@mocks/index.mock';
+import { AlertController } from '@ionic/angular';
+import { AlertControllerMock } from '@mocks/index.mock';
 import { provideBasePageMocks } from '@mocks/test-providers';
 import { Store, StoreModule } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
@@ -18,8 +18,7 @@ import {
   HealthDeclarationViewDidEnter,
 } from '@pages/health-declaration/health-declaration.actions';
 import { HealthDeclarationPage } from '@pages/health-declaration/health-declaration.page';
-import { AuthenticationProviderMock } from '@providers/authentication/__mocks__/authentication.mock';
-import { AuthenticationProvider } from '@providers/authentication/authentication';
+
 import { DateTimeProviderMock } from '@providers/date-time/__mocks__/date-time.mock';
 import { DateTimeProvider } from '@providers/date-time/date-time';
 import { DeviceAuthenticationProviderMock } from '@providers/device-authentication/__mocks__/device-authentication.mock';
@@ -91,20 +90,8 @@ describe('HealthDeclarationPage', () => {
       providers: [
         provideBasePageMocks(),
         {
-          provide: NavController,
-          useClass: NavControllerMock,
-        },
-        {
           provide: AlertController,
           useClass: AlertControllerMock,
-        },
-        {
-          provide: Platform,
-          useClass: PlatformMock,
-        },
-        {
-          provide: AuthenticationProvider,
-          useClass: AuthenticationProviderMock,
         },
         {
           provide: DateTimeProvider,
@@ -113,10 +100,6 @@ describe('HealthDeclarationPage', () => {
         {
           provide: DeviceAuthenticationProvider,
           useClass: DeviceAuthenticationProviderMock,
-        },
-        {
-          provide: Router,
-          useClass: RouterMock,
         },
       ],
     });

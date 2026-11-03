@@ -1,6 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { ModalController, Platform } from '@ionic/angular';
-import { ModalControllerMock, PlatformMock } from '@mocks/index.mock';
+
 import { MockComponent } from 'ng-mocks';
 
 import { ScreenOrientation } from '@capawesome/capacitor-screen-orientation';
@@ -11,8 +10,7 @@ import { TestResultSchemasUnion } from '@dvsa/mes-test-schema/categories';
 import { provideBasePageMocks } from '@mocks/test-providers';
 import { StoreModule } from '@ngrx/store';
 import { provideMockStore } from '@ngrx/store/testing';
-import { AuthenticationProviderMock } from '@providers/authentication/__mocks__/authentication.mock';
-import { AuthenticationProvider } from '@providers/authentication/authentication';
+
 import { DateTimeProviderMock } from '@providers/date-time/__mocks__/date-time.mock';
 import { DateTimeProvider } from '@providers/date-time/date-time';
 import { TestReportValidatorProviderMock } from '@providers/test-report-validator/__mocks__/test-report-validator.mock';
@@ -95,20 +93,8 @@ describe('TestReportCatBPage', () => {
       providers: [
         provideBasePageMocks(),
         {
-          provide: Platform,
-          useClass: PlatformMock,
-        },
-        {
-          provide: AuthenticationProvider,
-          useClass: AuthenticationProviderMock,
-        },
-        {
           provide: DateTimeProvider,
           useClass: DateTimeProviderMock,
-        },
-        {
-          provide: ModalController,
-          useClass: ModalControllerMock,
         },
         {
           provide: TestReportValidatorProvider,

@@ -1,11 +1,9 @@
 import { ComponentFixture, TestBed, fakeAsync, tick, waitForAsync } from '@angular/core/testing';
-import { Platform } from '@ionic/angular';
-import { PlatformMock, RouterMock } from '@mocks/index.mock';
 
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
-import { Router, RouterModule } from '@angular/router';
+import { RouterModule } from '@angular/router';
 import { CandidateSectionComponent } from '@components/common/candidate-section/candidate-section';
 import { EndTestLinkComponent } from '@components/common/end-test-link/end-test-link';
 import { PracticeModeOptionsBar } from '@components/common/practice-mode-options-bar/practice-mode-options-bar';
@@ -16,12 +14,10 @@ import { Store, StoreModule } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
 import { CommunicationSubmitInfo, CommunicationViewDidEnter } from '@pages/communication/communication.actions';
 import { CommunicationPage } from '@pages/communication/communication.page';
-import { AuthenticationProviderMock } from '@providers/authentication/__mocks__/authentication.mock';
-import { AuthenticationProvider } from '@providers/authentication/authentication';
+
 import { DeviceAuthenticationProviderMock } from '@providers/device-authentication/__mocks__/device-authentication.mock';
 import { DeviceAuthenticationProvider } from '@providers/device-authentication/device-authentication';
-import { DeviceProviderMock } from '@providers/device/__mocks__/device.mock';
-import { DeviceProvider } from '@providers/device/device';
+
 import { StoreModel } from '@shared/models/store.model';
 import { candidateMock } from '@store/tests/__mocks__/tests.mock';
 import * as communicationPreferencesActions from '@store/tests/communication-preferences/communication-preferences.actions';
@@ -81,24 +77,8 @@ describe('CommunicationPage', () => {
       providers: [
         provideBasePageMocks(),
         {
-          provide: Platform,
-          useClass: PlatformMock,
-        },
-        {
-          provide: Router,
-          useClass: RouterMock,
-        },
-        {
-          provide: AuthenticationProvider,
-          useClass: AuthenticationProviderMock,
-        },
-        {
           provide: DeviceAuthenticationProvider,
           useClass: DeviceAuthenticationProviderMock,
-        },
-        {
-          provide: DeviceProvider,
-          useClass: DeviceProviderMock,
         },
       ],
     });

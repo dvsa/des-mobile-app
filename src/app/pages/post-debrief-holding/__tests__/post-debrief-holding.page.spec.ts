@@ -4,7 +4,7 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 
 import { PracticeModeOptionsBar } from '@components/common/practice-mode-options-bar/practice-mode-options-bar';
-import { RouterMock } from '@mocks/angular-mocks/router-mock';
+
 import { provideBasePageMocks } from '@mocks/test-providers';
 import { StoreModule } from '@ngrx/store';
 import { TestFlowPageNames } from '@pages/page-names.constants';
@@ -27,13 +27,7 @@ describe('PostDebriefHoldingPage', () => {
         PostDebriefHoldingPage,
         MockComponent(PracticeModeOptionsBar),
       ],
-      providers: [
-        provideBasePageMocks(),
-        {
-          provide: Router,
-          useClass: RouterMock,
-        },
-      ],
+      providers: [provideBasePageMocks()],
     });
 
     fixture = TestBed.createComponent(PostDebriefHoldingPage);

@@ -237,8 +237,7 @@ describe('SingleFaultCompetencyComponent', () => {
 
     describe('removeSeriousFault', () => {
       it('should dispatch a RemoveSingleSeriousFaultCompetencyOutcome for press and hold', () => {
-        const competencyName = SingleFaultCompetencyNames.useOfStand;
-        component.competency = competencyName;
+        component.competency = SingleFaultCompetencyNames.useOfStand;
         component.hasSeriousFault = true;
         component.isSeriousMode = true;
 
@@ -248,8 +247,7 @@ describe('SingleFaultCompetencyComponent', () => {
         expect(storeDispatchSpy).toHaveBeenCalledWith(RemoveSingleSeriousFaultCompetencyOutcome(component.competency));
       });
       it('should dispatch a RemoveSingleSeriousFaultCompetencyOutcome for press', () => {
-        const competencyName = SingleFaultCompetencyNames.useOfStand;
-        component.competency = competencyName;
+        component.competency = SingleFaultCompetencyNames.useOfStand;
         component.hasSeriousFault = true;
         component.isSeriousMode = true;
 
@@ -259,8 +257,7 @@ describe('SingleFaultCompetencyComponent', () => {
         expect(storeDispatchSpy).toHaveBeenCalledWith(RemoveSingleSeriousFaultCompetencyOutcome(component.competency));
       });
       it('should not dispatch a RemoveSingleDangerousFaultCompetencyOutcome when is dangerous mode', () => {
-        const competencyName = SingleFaultCompetencyNames.useOfStand;
-        component.competency = competencyName;
+        component.competency = SingleFaultCompetencyNames.useOfStand;
         component.hasSeriousFault = true;
         component.isDangerousMode = true;
 
@@ -273,8 +270,7 @@ describe('SingleFaultCompetencyComponent', () => {
       });
 
       it('should not remove serious mode after removal attempt on competency with no serious fault', () => {
-        const competencyName = SingleFaultCompetencyNames.useOfStand;
-        component.competency = competencyName;
+        component.competency = SingleFaultCompetencyNames.useOfStand;
         component.hasSeriousFault = false;
         component.isSeriousMode = true;
 
@@ -287,8 +283,7 @@ describe('SingleFaultCompetencyComponent', () => {
 
     describe('removeDangerousFault', () => {
       it('should dispatch a RemoveSingleDangerousFaultCompetencyOutcome for press and hold', () => {
-        const competencyName = SingleFaultCompetencyNames.useOfStand;
-        component.competency = competencyName;
+        component.competency = SingleFaultCompetencyNames.useOfStand;
         component.hasDangerousFault = true;
         component.isDangerousMode = true;
 
@@ -301,8 +296,7 @@ describe('SingleFaultCompetencyComponent', () => {
       });
 
       it('should dispatch a RemoveSingleDangerousFaultCompetencyOutcome for press', () => {
-        const competencyName = SingleFaultCompetencyNames.useOfStand;
-        component.competency = competencyName;
+        component.competency = SingleFaultCompetencyNames.useOfStand;
         component.hasDangerousFault = true;
         component.isDangerousMode = true;
 
@@ -315,8 +309,7 @@ describe('SingleFaultCompetencyComponent', () => {
       });
 
       it('should not dispatch a RemoveSingleSeriousFaultCompetencyOutcome when is serious mode', () => {
-        const competencyName = SingleFaultCompetencyNames.useOfStand;
-        component.competency = competencyName;
+        component.competency = SingleFaultCompetencyNames.useOfStand;
         component.hasDangerousFault = true;
         component.isSeriousMode = true;
 
@@ -329,8 +322,7 @@ describe('SingleFaultCompetencyComponent', () => {
       });
 
       it('should not remove dangerous mode after removal attempt on competency with no dangerous fault', () => {
-        const competencyName = SingleFaultCompetencyNames.useOfStand;
-        component.competency = competencyName;
+        component.competency = SingleFaultCompetencyNames.useOfStand;
         component.hasDangerousFault = false;
         component.isDangerousMode = true;
 

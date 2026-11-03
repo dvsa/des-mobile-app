@@ -1,15 +1,13 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule, ReactiveFormsModule, UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
-import { ModalController, Platform } from '@ionic/angular';
+import { ModalController } from '@ionic/angular';
 import { OverlayEventDetail } from '@ionic/core';
-import { ModalControllerMock, PlatformMock, RouterMock } from '@mocks/index.mock';
+
 import { provideBasePageMocks } from '@mocks/test-providers';
 import { Store, StoreModule } from '@ngrx/store';
 import { MockComponent } from 'ng-mocks';
 
-import { AuthenticationProviderMock } from '@providers/authentication/__mocks__/authentication.mock';
-import { AuthenticationProvider } from '@providers/authentication/authentication';
 import { SetExaminerConducted } from '@store/tests/examiner-conducted/examiner-conducted.actions';
 import {
   IpadIssueBrokenSelected,
@@ -130,24 +128,8 @@ describe('RekeyReasonPage', () => {
       providers: [
         provideBasePageMocks(),
         {
-          provide: Router,
-          useClass: RouterMock,
-        },
-        {
           provide: LoadingProvider,
           useClass: LoaderProviderMock,
-        },
-        {
-          provide: Platform,
-          useClass: PlatformMock,
-        },
-        {
-          provide: AuthenticationProvider,
-          useClass: AuthenticationProviderMock,
-        },
-        {
-          provide: ModalController,
-          useClass: ModalControllerMock,
         },
         {
           provide: FindUserProvider,

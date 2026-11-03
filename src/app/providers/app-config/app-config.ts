@@ -255,7 +255,7 @@ export class AppConfigProvider {
               .map((err: ValidationError) => (err?.property ? `${err?.property} - ` : '') + err.message)
               .join(', ');
 
-            let dataString = '';
+            let dataString: string;
             if (!data) {
               dataString = 'data is null';
             } else {

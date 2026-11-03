@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { ModalController, NavParams, Platform } from '@ionic/angular';
-import { ModalControllerMock, NavParamsMock, PlatformMock } from '@mocks/index.mock';
+import { NavParams } from '@ionic/angular';
+import { NavParamsMock } from '@mocks/index.mock';
 import { MockComponent } from 'ng-mocks';
 
 import { By } from '@angular/platform-browser';
@@ -16,8 +16,7 @@ import { SafetyQuestionsCatDComponent } from '@pages/test-report/cat-d/component
 import { VehicleChecksCompactCatDComponent } from '@pages/test-report/cat-d/components/vehicle-checks-compact/vehicle-checks-compact.cat-d';
 import { MultiLegalRequirementComponent } from '@pages/test-report/components/multi-legal-requirement/multi-legal-requirement';
 import { UncoupleRecoupleComponent } from '@pages/test-report/components/uncouple-recouple/uncouple-recouple';
-import { AuthenticationProviderMock } from '@providers/authentication/__mocks__/authentication.mock';
-import { AuthenticationProvider } from '@providers/authentication/authentication';
+
 import { DateTimeProviderMock } from '@providers/date-time/__mocks__/date-time.mock';
 import { DateTimeProvider } from '@providers/date-time/date-time';
 import { TestReportValidatorProviderMock } from '@providers/test-report-validator/__mocks__/test-report-validator.mock';
@@ -82,20 +81,8 @@ describe('TestReportCatDPage', () => {
           useClass: NavParamsMock,
         },
         {
-          provide: Platform,
-          useClass: PlatformMock,
-        },
-        {
-          provide: AuthenticationProvider,
-          useClass: AuthenticationProviderMock,
-        },
-        {
           provide: DateTimeProvider,
           useClass: DateTimeProviderMock,
-        },
-        {
-          provide: ModalController,
-          useClass: ModalControllerMock,
         },
         {
           provide: TestReportValidatorProvider,

@@ -1,9 +1,8 @@
 import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
-import { NavController, Platform } from '@ionic/angular';
 
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
-import { Router, RouterModule } from '@angular/router';
+import { RouterModule } from '@angular/router';
 
 import { BikeCategoryTypeComponent } from '@components/common/bike-category-type/bike-category-type';
 import { PracticeModeOptionsBar } from '@components/common/practice-mode-options-bar/practice-mode-options-bar';
@@ -13,7 +12,7 @@ import { D255Component } from '@components/test-finalisation/d255/d255';
 import { DebriefWitnessedComponent } from '@components/test-finalisation/debrief-witnessed/debrief-witnessed';
 import { FinalisationHeaderComponent } from '@components/test-finalisation/finalisation-header/finalisation-header';
 import { LanguagePreferencesComponent } from '@components/test-finalisation/language-preference/language-preference';
-import { NavControllerMock, PlatformMock, RouterMock } from '@mocks/index.mock';
+
 import { provideBasePageMocks } from '@mocks/test-providers';
 import { Store } from '@ngrx/store';
 import { provideMockStore } from '@ngrx/store/testing';
@@ -25,8 +24,7 @@ import {
   PassFinalisationValidationError,
   PassFinalisationViewDidEnter,
 } from '@pages/pass-finalisation/pass-finalisation.actions';
-import { AuthenticationProviderMock } from '@providers/authentication/__mocks__/authentication.mock';
-import { AuthenticationProvider } from '@providers/authentication/authentication';
+
 import { OutcomeBehaviourMapProvider } from '@providers/outcome-behaviour-map/outcome-behaviour-map';
 import { PassFinalisationPageComponent } from '@shared/classes/test-flow-base-pages/pass-finalisation/pass-finalisation-base-page';
 import { StoreModel } from '@shared/models/store.model';
@@ -60,27 +58,7 @@ describe('PassFinalisationCatAMod2Page', () => {
         MockComponent(WarningBannerComponent),
         MockComponent(LicenceProvidedWarningBannerComponent),
       ],
-      providers: [
-        provideBasePageMocks(),
-        provideMockStore(),
-        {
-          provide: Platform,
-          useClass: PlatformMock,
-        },
-        {
-          provide: Router,
-          useClass: RouterMock,
-        },
-        {
-          provide: AuthenticationProvider,
-          useClass: AuthenticationProviderMock,
-        },
-        {
-          provide: NavController,
-          useClass: NavControllerMock,
-        },
-        OutcomeBehaviourMapProvider,
-      ],
+      providers: [provideBasePageMocks(), provideMockStore(), OutcomeBehaviourMapProvider],
     });
 
     fixture = TestBed.createComponent(PassFinalisationCatAMod2Page);

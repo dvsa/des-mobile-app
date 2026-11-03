@@ -5,11 +5,10 @@ import {
   ExitSAMMethodUsed,
   TestFlowHeaderComponent,
 } from '@components/common/test-flow-header/test-flow-header.component';
-import { ModalController } from '@ionic/angular';
-import { ModalControllerMock } from '@mocks/index.mock';
+
 import { provideBasePageMocks } from '@mocks/test-providers';
 import { Store, StoreModule } from '@ngrx/store';
-import { DeviceProviderMock } from '@providers/device/__mocks__/device.mock';
+
 import { DeviceProvider } from '@providers/device/device';
 import { RouteByCategoryProviderMock } from '@providers/route-by-category/__mocks__/route-by-category.mock';
 import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
@@ -26,9 +25,7 @@ describe('TestFlowHeaderComponent', () => {
       imports: [StoreModule.forRoot({})],
       providers: [
         provideBasePageMocks(),
-        { provide: DeviceProvider, useClass: DeviceProviderMock },
-        { provide: RouteByCategoryProvider, useClass: RouteByCategoryProviderMock },
-        { provide: ModalController, useClass: ModalControllerMock }, // ADD THIS
+        { provide: RouteByCategoryProvider, useClass: RouteByCategoryProviderMock }, // ADD THIS
       ],
     });
 
