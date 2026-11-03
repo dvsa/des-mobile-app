@@ -1,10 +1,10 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { ChartComponent } from '@components/common/chart/chart';
+import { DataGridComponent } from '@components/common/data-grid/data-grid';
 import { IonCard, IonCardContent, IonCardHeader, IonCardTitle, IonCol, IonIcon, IonRow, IonText } from '@ionic/angular';
 import { ExaminerRecordDataWithPercentage } from '@pages/examiner-records/examiner-records.selector';
 import { AccessibilityService } from '@providers/accessibility/accessibility.service';
 import { ChartType } from 'ng-apexcharts';
-import { ChartComponent } from '../../../../../components/common/chart/chart';
-import { DataGridComponent } from '../../../../../components/common/data-grid/data-grid';
 
 export interface ExaminerReportsCardClick {
   isExpanded: boolean;

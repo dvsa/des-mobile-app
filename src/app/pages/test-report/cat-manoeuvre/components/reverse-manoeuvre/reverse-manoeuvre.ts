@@ -1,5 +1,7 @@
 import { NgClass } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { DangerousFaultBadgeComponent } from '@components/common/dangerous-fault-badge/dangerous-fault-badge';
+import { SeriousFaultBadgeComponent } from '@components/common/serious-fault-badge/serious-fault-badge';
 import { CatCMUniqueTypes } from '@dvsa/mes-test-schema/categories/CM';
 import { ManoeuvreOutcome } from '@dvsa/mes-test-schema/categories/common';
 import { IonCol } from '@ionic/angular';
@@ -29,8 +31,6 @@ import { getTests } from '@store/tests/tests.reducer';
 import { getCurrentTest } from '@store/tests/tests.selector';
 import { Observable, Subscription, merge } from 'rxjs';
 import { map, takeUntil } from 'rxjs/operators';
-import { DangerousFaultBadgeComponent } from '../../../../../../components/common/dangerous-fault-badge/dangerous-fault-badge';
-import { SeriousFaultBadgeComponent } from '../../../../../../components/common/serious-fault-badge/serious-fault-badge';
 import { CompetencyButtonComponent } from '../../../components/competency-button/competency-button';
 
 interface ReverseManoeuvreCompetencyComponentState {

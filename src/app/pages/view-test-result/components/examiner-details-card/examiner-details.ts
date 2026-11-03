@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
+import { DataRowComponent } from '@components/common/data-row/data-row';
 import { IonCard, IonCardContent, IonCardHeader, IonGrid } from '@ionic/angular';
-import { DataRowComponent } from '../../../../../components/common/data-row/data-row';
 import { ExaminerDetailsModel } from './examiner-details-card.model';
 
 @Component({

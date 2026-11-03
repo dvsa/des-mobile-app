@@ -1,4 +1,5 @@
 import { Component, Input } from '@angular/core';
+import { DataRowComponent } from '@components/common/data-row/data-row';
 import { TestSummary as CatAMod2TestSummary } from '@dvsa/mes-test-schema/categories/AM2';
 import {
   Accompaniment,
@@ -12,7 +13,6 @@ import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/
 import { IonCard, IonCardContent, IonCardHeader, IonGrid } from '@ionic/angular';
 import { isBikeTest } from '@shared/helpers/simplifiers';
 import { get } from 'lodash-es';
-import { DataRowComponent } from '../../../../../components/common/data-row/data-row';
 import { convertBooleanToString, flattenArray } from '../../view-test-result-helpers';
 
 @Component({

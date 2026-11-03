@@ -1,5 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormsModule, ReactiveFormsModule, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { ModalAlertTitleComponent } from '@components/common/modal-alert-title/modal-alert-title';
+import { InputRestrictionUppercaseAlphanumDirective } from '@directives/input-restriction-uppercasealphanum.directive';
 import { IonButton, IonCol, IonInput, IonRow, ModalController } from '@ionic/angular';
 import { Store } from '@ngrx/store';
 import { InvalidMotModalValidationError } from '@pages/waiting-room-to-car/waiting-room-to-car.actions';
@@ -10,8 +12,6 @@ import {
 } from '@shared/constants/field-validators/field-validators';
 import { StoreModel } from '@shared/models/store.model';
 import { isEmpty } from 'lodash-es';
-import { ModalAlertTitleComponent } from '../../../../../../components/common/modal-alert-title/modal-alert-title';
-import { InputRestrictionUppercaseAlphanumDirective } from '../../../../../../directives/input-restriction-uppercasealphanum.directive';
 
 export enum ModalEvent {
   CANCEL = 'cancel',

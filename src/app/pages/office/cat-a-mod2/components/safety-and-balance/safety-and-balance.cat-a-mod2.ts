@@ -1,5 +1,6 @@
 import { AsyncPipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
+import { AddOrRemoveLangCyDirective } from '@directives/add-or-remove-lang-cy.directive';
 import { QuestionResult } from '@dvsa/mes-test-schema/categories/common';
 import { IonCol, IonRow } from '@ionic/angular';
 import { Store, select } from '@ngrx/store';
@@ -12,7 +13,6 @@ import { getTests } from '@store/tests/tests.reducer';
 import { getCurrentTest } from '@store/tests/tests.selector';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { AddOrRemoveLangCyDirective } from '../../../../../../directives/add-or-remove-lang-cy.directive';
 
 @Component({
   selector: 'safety-and-balance-cat-a-mod2',

@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
+import { AddOrRemoveLangCyDirective } from '@directives/add-or-remove-lang-cy.directive';
 import { IonCol, IonRow } from '@ionic/angular';
 import { TranslatePipe } from '@ngx-translate/core';
-import { AddOrRemoveLangCyDirective } from '../../../directives/add-or-remove-lang-cy.directive';
 
 @Component({
   selector: 'lock-screen-indicator',

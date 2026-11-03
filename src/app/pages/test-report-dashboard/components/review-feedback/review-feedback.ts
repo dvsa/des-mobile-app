@@ -9,11 +9,11 @@ import {
   ValidatorFn,
   Validators,
 } from '@angular/forms';
+import { CharacterCountDirective } from '@directives/character-count.directive';
+import { EmojiBlockDirective } from '@directives/emoji-block.directive';
+import { PasteSanitiserDirective } from '@directives/paste-sanitiser';
 import { IonCard, IonCardContent, IonCol, IonIcon, IonRow } from '@ionic/angular';
 import { CharacterCountService } from '@providers/character-count/character-count.service';
-import { CharacterCountDirective } from '../../../../../directives/character-count.directive';
-import { EmojiBlockDirective } from '../../../../../directives/emoji-block.directive';
-import { PasteSanitiserDirective } from '../../../../../directives/paste-sanitiser';
 
 @Component({
   selector: 'review-feedback',

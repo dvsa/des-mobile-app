@@ -5,8 +5,8 @@ import { Store } from '@ngrx/store';
 import { StoreModel } from '@shared/models/store.model';
 import { EarlyStartDidContinue, EarlyStartDidReturn } from '@store/journal/journal.actions';
 
+import { ModalAlertTitleComponent } from '@components/common/modal-alert-title/modal-alert-title';
 import { DateTime } from '@shared/helpers/date-time';
-import { ModalAlertTitleComponent } from '../../../../../components/common/modal-alert-title/modal-alert-title';
 import { ModalEvent } from './journal-early-start-modal.constants';
 
 @Component({

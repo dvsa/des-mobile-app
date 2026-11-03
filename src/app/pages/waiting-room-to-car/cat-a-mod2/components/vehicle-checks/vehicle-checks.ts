@@ -1,6 +1,8 @@
 import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
 import { FormsModule, ReactiveFormsModule, UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { Style } from '@capacitor/status-bar';
+import { DrivingFaultsBadgeComponent } from '@components/common/driving-faults-badge/driving-faults-badge';
+import { TickIndicatorComponent } from '@components/common/tick-indicator/tick-indicator';
 import { SafetyAndBalanceQuestions } from '@dvsa/mes-test-schema/categories/AM2';
 import { QuestionResult } from '@dvsa/mes-test-schema/categories/common';
 import { IonButton, IonCol, IonIcon, IonRow, ModalController } from '@ionic/angular';
@@ -8,8 +10,6 @@ import { VehicleChecksCatAMod2Modal } from '@pages/waiting-room-to-car/cat-a-mod
 import { AccessibilityService } from '@providers/accessibility/accessibility.service';
 import { SafetyQuestionsScore } from '@shared/models/safety-questions-score.model';
 import { get } from 'lodash-es';
-import { DrivingFaultsBadgeComponent } from '../../../../../../components/common/driving-faults-badge/driving-faults-badge';
-import { TickIndicatorComponent } from '../../../../../../components/common/tick-indicator/tick-indicator';
 
 @Component({
   selector: 'vehicle-checks-cat-a-mod2',

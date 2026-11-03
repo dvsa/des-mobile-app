@@ -18,6 +18,9 @@ import {
 } from '@ionic/angular';
 
 import { AsyncPipe } from '@angular/common';
+import { IncompleteTestsBanner } from '@components/common/incomplete-tests-banner/incomplete-tests-banner';
+import { OfflineBannerComponent } from '@components/common/offline-banner/offline-banner';
+import { VehicleRecallsBanner } from '@components/common/vehicle-recall-banner/vehicle-recalls-banner';
 import { environment } from '@environments/environment';
 import { TestersEnvironmentFile } from '@environments/models/environment.model';
 import { select } from '@ngrx/store';
@@ -62,9 +65,6 @@ import { TestCentreJournalEnteredFromDashboard } from '@store/test-centre-journa
 import { getTests } from '@store/tests/tests.reducer';
 import { Observable, Subscription, combineLatest, from, merge, takeWhile } from 'rxjs';
 import { filter, map, switchMap, tap, withLatestFrom } from 'rxjs/operators';
-import { IncompleteTestsBanner } from '../../../components/common/incomplete-tests-banner/incomplete-tests-banner';
-import { OfflineBannerComponent } from '../../../components/common/offline-banner/offline-banner';
-import { VehicleRecallsBanner } from '../../../components/common/vehicle-recall-banner/vehicle-recalls-banner';
 import { DelegatedSearchCardComponent } from './components/delegated-rekey-card/delegated-rekey-card';
 import { GoToJournalCardComponent } from './components/go-to-journal-card/go-to-journal-card';
 import { PracticeEndToEndCardComponent } from './components/practice-end-to-end-card/practice-end-to-end-card';

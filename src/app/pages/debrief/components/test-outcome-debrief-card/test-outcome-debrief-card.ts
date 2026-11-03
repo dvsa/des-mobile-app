@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
+import { AddOrRemoveLangCyDirective } from '@directives/add-or-remove-lang-cy.directive';
 import { IonText } from '@ionic/angular';
 import { TranslatePipe } from '@ngx-translate/core';
-import { AddOrRemoveLangCyDirective } from '../../../../../directives/add-or-remove-lang-cy.directive';
 
 @Component({
   selector: 'test-outcome-debrief-card',

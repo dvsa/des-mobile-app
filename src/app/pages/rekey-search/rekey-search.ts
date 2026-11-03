@@ -7,6 +7,13 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { AsyncPipe, NgClass } from '@angular/common';
+import { OfflineBannerComponent } from '@components/common/offline-banner/offline-banner';
+import { TabComponent } from '@components/common/tab/tab';
+import { TabsComponent } from '@components/common/tabs/tabs';
+import { TestSlotComponent } from '@components/test-slot/test-slot/test-slot';
+import { EmojiBlockDirective } from '@directives/emoji-block.directive';
+import { InputRestrictionNumbersDirective } from '@directives/input-restriction-numbers.directive';
+import { PasteSanitiserDirective } from '@directives/paste-sanitiser';
 import {
   IonBackButton,
   IonButton,
@@ -46,13 +53,6 @@ import { OrientationMonitorProvider } from '@providers/orientation-monitor/orien
 import { BasePageComponent } from '@shared/classes/base-page';
 import { bookingReferenceMask, formatBookingReferenceForBackend, maskPredicate } from '@shared/helpers/formatters';
 import { selectEmployeeId } from '@store/app-info/app-info.selectors';
-import { OfflineBannerComponent } from '../../../components/common/offline-banner/offline-banner';
-import { TabComponent } from '../../../components/common/tab/tab';
-import { TabsComponent } from '../../../components/common/tabs/tabs';
-import { TestSlotComponent } from '../../../components/test-slot/test-slot/test-slot';
-import { EmojiBlockDirective } from '../../../directives/emoji-block.directive';
-import { InputRestrictionNumbersDirective } from '../../../directives/input-restriction-numbers.directive';
-import { PasteSanitiserDirective } from '../../../directives/paste-sanitiser';
 
 interface RekeySearchPageState {
   isLoading$: Observable<boolean>;

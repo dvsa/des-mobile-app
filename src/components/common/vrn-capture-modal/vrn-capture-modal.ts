@@ -7,6 +7,8 @@ import {
   UntypedFormGroup,
   Validators,
 } from '@angular/forms';
+import { EmojiBlockDirective } from '@directives/emoji-block.directive';
+import { PasteSanitiserDirective } from '@directives/paste-sanitiser';
 import { IonButton, IonCard, IonCol, IonInput, IonRow, IonText, ModalController } from '@ionic/angular';
 import { Store, select } from '@ngrx/store';
 import {
@@ -21,8 +23,6 @@ import { getVehicleDetails } from '@store/tests/vehicle-details/vehicle-details.
 import { getRegistrationNumber } from '@store/tests/vehicle-details/vehicle-details.selector';
 import { Observable, Subscription, merge } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { EmojiBlockDirective } from '../../../directives/emoji-block.directive';
-import { PasteSanitiserDirective } from '../../../directives/paste-sanitiser';
 
 interface ComponentState {
   vehicleRegistration$: Observable<string>;

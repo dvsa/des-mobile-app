@@ -5,6 +5,9 @@ import { Observable, Subscription, merge } from 'rxjs';
 import { map, takeUntil, tap } from 'rxjs/operators';
 
 import { NgClass } from '@angular/common';
+import { DangerousFaultBadgeComponent } from '@components/common/dangerous-fault-badge/dangerous-fault-badge';
+import { DrivingFaultsBadgeComponent } from '@components/common/driving-faults-badge/driving-faults-badge';
+import { SeriousFaultBadgeComponent } from '@components/common/serious-fault-badge/serious-fault-badge';
 import { PcvDoorExerciseTypes } from '@providers/fault-summary/cat-d/fault-summary.cat-d';
 import { trDestroy$ } from '@shared/classes/test-flow-base-pages/test-report/test-report-base-page';
 import { StoreModel } from '@shared/models/store.model';
@@ -20,9 +23,6 @@ import { getPcvDoorExercise } from '@store/tests/test-data/cat-d/pcv-door-exerci
 import { getTestData } from '@store/tests/test-data/cat-d/test-data.cat-d.reducer';
 import { getTests } from '@store/tests/tests.reducer';
 import { getCurrentTest } from '@store/tests/tests.selector';
-import { DangerousFaultBadgeComponent } from '../../../../../../components/common/dangerous-fault-badge/dangerous-fault-badge';
-import { DrivingFaultsBadgeComponent } from '../../../../../../components/common/driving-faults-badge/driving-faults-badge';
-import { SeriousFaultBadgeComponent } from '../../../../../../components/common/serious-fault-badge/serious-fault-badge';
 import { CompetencyButtonComponent } from '../../../components/competency-button/competency-button';
 import { ToggleDangerousFaultMode, ToggleRemoveFaultMode, ToggleSeriousFaultMode } from '../../../test-report.actions';
 import { getTestReportState } from '../../../test-report.reducer';

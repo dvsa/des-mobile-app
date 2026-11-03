@@ -1,10 +1,10 @@
 import { Component, Input } from '@angular/core';
+import { ModalAlertTitleComponent } from '@components/common/modal-alert-title/modal-alert-title';
+import { ModalReturnButtonComponent } from '@components/common/modal-return-button/modal-return-button';
 import { TestSlot } from '@dvsa/mes-journal-schema';
 import { IonButton, IonCard, IonCol, IonRow, ModalController } from '@ionic/angular';
 import { CandidateDetailsPage } from '@pages/candidate-details/candidate-details.page';
 import { CANDIDATE_DETAILS_PAGE, JOURNAL_FORCE_CHECK_MODAL } from '@pages/page-names.constants';
-import { ModalAlertTitleComponent } from '../../../../../components/common/modal-alert-title/modal-alert-title';
-import { ModalReturnButtonComponent } from '../../../../../components/common/modal-return-button/modal-return-button';
 import { ModalEvent } from './journal-force-check-modal.constants';
 
 @Component({

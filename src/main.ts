@@ -21,6 +21,7 @@ import { provideStoreDevtools } from '@ngrx/store-devtools';
 import { provideTranslateService } from '@ngx-translate/core';
 import { provideTranslateHttpLoader } from '@ngx-translate/http-loader';
 import { delegatedSearchReducer } from '@pages/delegated-rekey-search/delegated-rekey-search.reducer';
+import { rekeyReasonReducer } from '@pages/rekey-reason/rekey-reason.reducer';
 import { rekeySearchReducer } from '@pages/rekey-search/rekey-search.reducer';
 import { testReportFeatureKey, testReportReducer } from '@pages/test-report/test-report.reducer';
 import { AppConfigProvider } from '@providers/app-config/app-config';
@@ -75,6 +76,7 @@ const reducers: ActionReducerMap<unknown> = {
   [appConfigFeatureKey]: appConfigReducer,
   tests: testsReducer,
   rekeySearch: rekeySearchReducer,
+  rekeyReason: rekeyReasonReducer,
   delegatedRekeySearch: delegatedSearchReducer,
   [examinerRecordsReducer.examinerRecordsFeatureKey]: examinerRecordsReducer.examinerRecordsReducer,
   [refDataFeatureKey]: referenceDataReducer,

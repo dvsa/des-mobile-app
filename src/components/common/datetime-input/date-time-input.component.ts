@@ -1,9 +1,9 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { EmojiBlockDirective } from '@directives/emoji-block.directive';
+import { PasteSanitiserDirective } from '@directives/paste-sanitiser';
 import { IonButton, IonButtons, IonDatetime, IonInput, IonModal } from '@ionic/angular';
 import { DateTime } from '@shared/helpers/date-time';
-import { EmojiBlockDirective } from '../../../directives/emoji-block.directive';
-import { PasteSanitiserDirective } from '../../../directives/paste-sanitiser';
 
 export enum DisplayType {
   Date = 'date',

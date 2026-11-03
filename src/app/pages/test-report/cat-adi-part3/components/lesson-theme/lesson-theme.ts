@@ -8,12 +8,12 @@ import {
   ValidationErrors,
   ValidatorFn,
 } from '@angular/forms';
+import { CharacterCountDirective } from '@directives/character-count.directive';
+import { EmojiBlockDirective } from '@directives/emoji-block.directive';
+import { PasteSanitiserDirective } from '@directives/paste-sanitiser';
 import { LessonTheme } from '@dvsa/mes-test-schema/categories/ADI3';
 import { IonCard, IonCardContent, IonCardHeader, IonCol, IonGrid, IonRow } from '@ionic/angular';
 import { CharacterCountService } from '@providers/character-count/character-count.service';
-import { CharacterCountDirective } from '../../../../../../directives/character-count.directive';
-import { EmojiBlockDirective } from '../../../../../../directives/emoji-block.directive';
-import { PasteSanitiserDirective } from '../../../../../../directives/paste-sanitiser';
 import { AssessmentAnswerComponent } from '../assessment-answer/assessment-answer';
 
 @Component({

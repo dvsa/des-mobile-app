@@ -1,11 +1,11 @@
 import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
 import { FormsModule, ReactiveFormsModule, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { AddOrRemoveLangCyDirective } from '@directives/add-or-remove-lang-cy.directive';
+import { EmojiBlockDirective } from '@directives/emoji-block.directive';
+import { PasteSanitiserDirective } from '@directives/paste-sanitiser';
 import { IonCol, IonInput, IonRow } from '@ionic/angular';
 import { TranslatePipe } from '@ngx-translate/core';
 import { emailValidator } from '@providers/custom-validators/custom-validators';
-import { AddOrRemoveLangCyDirective } from '../../../../../directives/add-or-remove-lang-cy.directive';
-import { EmojiBlockDirective } from '../../../../../directives/emoji-block.directive';
-import { PasteSanitiserDirective } from '../../../../../directives/paste-sanitiser';
 
 @Component({
   selector: 'new-email',

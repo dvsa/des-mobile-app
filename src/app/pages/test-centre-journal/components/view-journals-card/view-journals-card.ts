@@ -8,6 +8,8 @@ import { first, map } from 'rxjs/operators';
 import { AsyncPipe } from '@angular/common';
 import { SearchablePicklistComponentWrapper } from '@components/common/searchable-picklist-wrapper/searchable-picklist-wrapper';
 import { Store } from '@ngrx/store';
+import { JournalNavigationComponent } from '@pages/journal/components/journal-navigation/journal-navigation';
+import { JournalSlotComponent } from '@pages/journal/components/journal-slot/journal-slot';
 import {
   TestCentreJournalDateNavigation,
   TestCentreJournalSelectExaminer,
@@ -24,8 +26,6 @@ import { TestCentreDetailResponse } from '@shared/models/test-centre-journal.mod
 import { ExaminerSlotItems, ExaminerSlotItemsByDate } from '@store/journal/journal.model';
 import { get } from 'lodash-es';
 import { SearchablePicklistComponentWrapper as SearchablePicklistComponentWrapper_1 } from '../../../../../components/common/searchable-picklist-wrapper/searchable-picklist-wrapper';
-import { JournalNavigationComponent } from '../../../journal/components/journal-navigation/journal-navigation';
-import { JournalSlotComponent } from '../../../journal/components/journal-slot/journal-slot';
 import { TestCentreNameComponent } from '../test-centre-name/test-centre-name';
 
 export enum Day {

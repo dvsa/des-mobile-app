@@ -15,6 +15,7 @@ import { Observable, Subscription, merge } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { NgClass, NgOptimizedImage } from '@angular/common';
+import { TestFlowHeaderComponent } from '@components/common/test-flow-header/test-flow-header.component';
 import {
   ASAMPopupPresented,
   BackToOfficeViewDidEnter,
@@ -30,7 +31,6 @@ import { wrtcDestroy$ } from '@shared/classes/test-flow-base-pages/waiting-room-
 import { getTestCategory } from '@store/tests/category/category.reducer';
 import { getTests } from '@store/tests/tests.reducer';
 import { getCurrentTest } from '@store/tests/tests.selector';
-import { TestFlowHeaderComponent } from '../../../components/common/test-flow-header/test-flow-header.component';
 
 interface BackToOfficePageState {
   testCategory$: Observable<CategoryCode>;

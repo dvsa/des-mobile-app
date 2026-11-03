@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
+import { ModalAlertTitleComponent } from '@components/common/modal-alert-title/modal-alert-title';
+import { ModalReturnButtonComponent } from '@components/common/modal-return-button/modal-return-button';
 import { IonCard, IonCol, IonRow, ModalController } from '@ionic/angular';
-import { ModalAlertTitleComponent } from '../../../../../components/common/modal-alert-title/modal-alert-title';
-import { ModalReturnButtonComponent } from '../../../../../components/common/modal-return-button/modal-return-button';
 import { ModalEvent } from '../../test-report.constants';
 
 @Component({

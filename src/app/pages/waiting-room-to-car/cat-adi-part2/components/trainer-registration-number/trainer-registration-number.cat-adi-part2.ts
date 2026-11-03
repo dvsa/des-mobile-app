@@ -1,13 +1,13 @@
 import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
 import { FormsModule, ReactiveFormsModule, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { EmojiBlockDirective } from '@directives/emoji-block.directive';
+import { InputRestrictionNumbersDirective } from '@directives/input-restriction-numbers.directive';
+import { PasteSanitiserDirective } from '@directives/paste-sanitiser';
 import { IonCol, IonInput, IonRow } from '@ionic/angular';
 import {
   FieldValidators,
   getTrainerRegistrationNumberValidator,
 } from '@shared/constants/field-validators/field-validators';
-import { EmojiBlockDirective } from '../../../../../../directives/emoji-block.directive';
-import { InputRestrictionNumbersDirective } from '../../../../../../directives/input-restriction-numbers.directive';
-import { PasteSanitiserDirective } from '../../../../../../directives/paste-sanitiser';
 
 @Component({
   selector: 'trainer-registration-number-cat-adi-part2',

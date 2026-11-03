@@ -1,10 +1,10 @@
 import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
 import { FormsModule, ReactiveFormsModule, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { EmojiBlockDirective } from '@directives/emoji-block.directive';
+import { InputRestrictionNumbersDirective } from '@directives/input-restriction-numbers.directive';
+import { PasteSanitiserDirective } from '@directives/paste-sanitiser';
 import { IonCol, IonInput, IonItem, IonRow } from '@ionic/angular';
 import { AccessibilityService } from '@providers/accessibility/accessibility.service';
-import { EmojiBlockDirective } from '../../../../../directives/emoji-block.directive';
-import { InputRestrictionNumbersDirective } from '../../../../../directives/input-restriction-numbers.directive';
-import { PasteSanitiserDirective } from '../../../../../directives/paste-sanitiser';
 
 @Component({
   selector: 'transfer',

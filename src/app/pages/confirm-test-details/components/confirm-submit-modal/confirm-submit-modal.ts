@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
+import { ModalAlertTitleComponent } from '@components/common/modal-alert-title/modal-alert-title';
 import { IonButton, IonCard, IonCol, IonRow, ModalController } from '@ionic/angular';
-import { ModalAlertTitleComponent } from '../../../../../components/common/modal-alert-title/modal-alert-title';
 
 @Component({
   selector: 'confirm-submit-modal',

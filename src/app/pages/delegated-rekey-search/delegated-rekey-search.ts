@@ -9,6 +9,9 @@ import {
   UntypedFormGroup,
   Validators,
 } from '@angular/forms';
+import { TabComponent } from '@components/common/tab/tab';
+import { TabsComponent } from '@components/common/tabs/tabs';
+import { TestSlotComponent } from '@components/test-slot/test-slot/test-slot';
 import { TestSlot } from '@dvsa/mes-journal-schema';
 import {
   IonBackButton,
@@ -50,9 +53,6 @@ import { ErrorTypes } from '@shared/models/error-message';
 import { isEmpty } from 'lodash-es';
 import { Observable, Subscription } from 'rxjs';
 import { distinctUntilChanged, map } from 'rxjs/operators';
-import { TabComponent } from '../../../components/common/tab/tab';
-import { TabsComponent } from '../../../components/common/tabs/tabs';
-import { TestSlotComponent } from '../../../components/test-slot/test-slot/test-slot';
 import {
   DelegatedRekeySearchClearState,
   DelegatedRekeySearchViewDidEnter,

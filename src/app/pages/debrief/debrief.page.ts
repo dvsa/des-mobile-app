@@ -28,6 +28,10 @@ import { getUntitledCandidateName } from '@store/tests/journal-data/common/candi
 
 import { AsyncPipe, NgClass } from '@angular/common';
 import { Style } from '@capacitor/status-bar';
+import { Adi3DebriefCard } from '@components/common/adi3-debrief-card/adi3-debrief-card';
+import { CPCDebriefCardComponent } from '@components/common/cpc-debrief-card/cpc-debrief-card';
+import { TestFlowHeaderComponent } from '@components/common/test-flow-header/test-flow-header.component';
+import { AddOrRemoveLangCyDirective } from '@directives/add-or-remove-lang-cy.directive';
 import {
   LessonAndTheme,
   LessonPlanning,
@@ -78,10 +82,6 @@ import {
   getSafetyQuestionsCatD,
 } from '@store/tests/test-data/cat-d/safety-questions/safety-questions.cat-d.selector';
 import { TestOutcome as OutcomeType } from '@store/tests/tests.constants';
-import { Adi3DebriefCard } from '../../../components/common/adi3-debrief-card/adi3-debrief-card';
-import { CPCDebriefCardComponent } from '../../../components/common/cpc-debrief-card/cpc-debrief-card';
-import { TestFlowHeaderComponent } from '../../../components/common/test-flow-header/test-flow-header.component';
-import { AddOrRemoveLangCyDirective } from '../../../directives/add-or-remove-lang-cy.directive';
 import { DangerousFaultsDebriefCardComponent } from './components/dangerous-faults-debrief-card/dangerous-faults-debrief-card';
 import { DrivingFaultsDebriefCardComponent } from './components/driving-faults-debrief-card/driving-faults-debrief-card';
 import { EcoDebriefCardComponent } from './components/eco-debrief-card/eco-debrief-card';

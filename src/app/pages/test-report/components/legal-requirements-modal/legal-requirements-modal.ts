@@ -1,9 +1,9 @@
 import { NgClass } from '@angular/common';
 import { Component, Input } from '@angular/core';
+import { ModalAlertTitleComponent } from '@components/common/modal-alert-title/modal-alert-title';
+import { ModalReturnButtonComponent } from '@components/common/modal-return-button/modal-return-button';
 import { IonButton, IonCard, IonCol, IonRow, IonText, ModalController } from '@ionic/angular';
 import { legalRequirementsLabels } from '@shared/constants/legal-requirements/legal-requirements.constants';
-import { ModalAlertTitleComponent } from '../../../../../components/common/modal-alert-title/modal-alert-title';
-import { ModalReturnButtonComponent } from '../../../../../components/common/modal-return-button/modal-return-button';
 import { ModalEvent } from '../../test-report.constants';
 
 @Component({

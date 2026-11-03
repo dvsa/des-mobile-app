@@ -1,10 +1,10 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { UntypedFormGroup } from '@angular/forms';
+import { DisplayAddressComponent } from '@components/common/display-address/display-address';
+import { AddOrRemoveLangCyDirective } from '@directives/add-or-remove-lang-cy.directive';
 import { Address } from '@dvsa/mes-test-schema/categories/common';
 import { IonCol, IonRow } from '@ionic/angular';
 import { TranslatePipe } from '@ngx-translate/core';
-import { DisplayAddressComponent } from '../../../../../components/common/display-address/display-address';
-import { AddOrRemoveLangCyDirective } from '../../../../../directives/add-or-remove-lang-cy.directive';
 
 @Component({
   selector: 'postal-address',

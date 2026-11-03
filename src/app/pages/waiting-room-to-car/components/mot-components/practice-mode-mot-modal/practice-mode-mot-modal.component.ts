@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormsModule, ReactiveFormsModule, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { ModalAlertTitleComponent } from '@components/common/modal-alert-title/modal-alert-title';
 import { IonButton, IonCol, IonRow, ModalController } from '@ionic/angular';
 import { ModalEvent } from '@pages/journal/components/journal-force-check-modal/journal-force-check-modal.constants';
-import { ModalAlertTitleComponent } from '../../../../../../components/common/modal-alert-title/modal-alert-title';
 
 export enum PracticeModeMOTType {
   FAILED = 'fail',

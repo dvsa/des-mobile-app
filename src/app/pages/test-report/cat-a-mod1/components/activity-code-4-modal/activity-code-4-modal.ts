@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
+import { ModalAlertTitleComponent } from '@components/common/modal-alert-title/modal-alert-title';
 import { IonButton, IonCard, IonCol, IonRow, IonText, ModalController } from '@ionic/angular';
-import { ModalAlertTitleComponent } from '../../../../../../components/common/modal-alert-title/modal-alert-title';
 import { ModalEvent } from '../../../test-report.constants';
 import { ModalReason } from './activity-code-4-modal.constants';
 

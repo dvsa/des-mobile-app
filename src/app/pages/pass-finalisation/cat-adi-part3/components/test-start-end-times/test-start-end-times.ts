@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { DisplayType } from '@components/common/datetime-input/date-time-input.component';
+import { DateTimeInputComponent } from '@components/common/datetime-input/date-time-input.component';
 import { IonCol, IonDatetime, IonRow } from '@ionic/angular';
 import { Store } from '@ngrx/store';
 import {
@@ -8,7 +9,6 @@ import {
   PassFinalisationAmendTimeConfirmed,
 } from '@pages/pass-finalisation/pass-finalisation.actions';
 import { StoreModel } from '@shared/models/store.model';
-import { DateTimeInputComponent } from '../../../../../../components/common/datetime-input/date-time-input.component';
 
 export enum PassFinalisationAmendTimeType {
   StartTime = 'start-time',

@@ -1,6 +1,9 @@
 import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
 import { FormsModule, ReactiveFormsModule, UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { Style } from '@capacitor/status-bar';
+import { DrivingFaultsBadgeComponent } from '@components/common/driving-faults-badge/driving-faults-badge';
+import { SeriousFaultBadgeComponent } from '@components/common/serious-fault-badge/serious-fault-badge';
+import { TickIndicatorComponent } from '@components/common/tick-indicator/tick-indicator';
 import { CatDUniqueTypes } from '@dvsa/mes-test-schema/categories/D';
 import { CategoryCode, QuestionResult } from '@dvsa/mes-test-schema/categories/common';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
@@ -15,9 +18,6 @@ import { SafetyQuestionsScore } from '@shared/models/safety-questions-score.mode
 import { VehicleChecksScore } from '@shared/models/vehicle-checks-score.model';
 import { CatCVehicleChecks, CatDVehicleChecks, CatHomeTestVehicleChecks } from '@shared/unions/test-schema-unions';
 import { get } from 'lodash-es';
-import { DrivingFaultsBadgeComponent } from '../../../../../components/common/driving-faults-badge/driving-faults-badge';
-import { SeriousFaultBadgeComponent } from '../../../../../components/common/serious-fault-badge/serious-fault-badge';
-import { TickIndicatorComponent } from '../../../../../components/common/tick-indicator/tick-indicator';
 
 interface VehicleCheckFormState {
   vehicleChecks: boolean;

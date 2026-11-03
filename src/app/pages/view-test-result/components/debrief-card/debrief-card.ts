@@ -1,5 +1,9 @@
 import { NgClass } from '@angular/common';
 import { Component, Input, OnInit } from '@angular/core';
+import { DataRowCustomComponent } from '@components/common/data-row-custom/data-row-custom';
+import { DataRowComponent } from '@components/common/data-row/data-row';
+import { DrivingFaultsBadgeComponent } from '@components/common/driving-faults-badge/driving-faults-badge';
+import { TickIndicatorComponent } from '@components/common/tick-indicator/tick-indicator';
 import { CatADI2UniqueTypes } from '@dvsa/mes-test-schema/categories/ADI2';
 import { QuestionResult, SafetyQuestionResult } from '@dvsa/mes-test-schema/categories/common';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
@@ -14,10 +18,6 @@ import { isAnyOf, isBikeTest } from '@shared/helpers/simplifiers';
 import { FaultSummary } from '@shared/models/fault-marking.model';
 import { TestDataUnion } from '@shared/unions/test-schema-unions';
 import { get } from 'lodash-es';
-import { DataRowCustomComponent } from '../../../../../components/common/data-row-custom/data-row-custom';
-import { DataRowComponent } from '../../../../../components/common/data-row/data-row';
-import { DrivingFaultsBadgeComponent } from '../../../../../components/common/driving-faults-badge/driving-faults-badge';
-import { TickIndicatorComponent } from '../../../../../components/common/tick-indicator/tick-indicator';
 import { DataRowWithListComponent } from '../data-row-with-list/data-list-with-row';
 import {
   DataRowListItem,

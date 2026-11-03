@@ -1,10 +1,10 @@
 import { NgClass } from '@angular/common';
 import { Component, Input, OnInit } from '@angular/core';
+import { TickIndicatorComponent } from '@components/common/tick-indicator/tick-indicator';
 import { Store } from '@ngrx/store';
 import { StoreModel } from '@shared/models/store.model';
 import { ToggleLegalRequirement } from '@store/tests/test-data/common/test-requirements/test-requirements.actions';
 import { LegalRequirements } from '@store/tests/test-data/test-data.constants';
-import { TickIndicatorComponent } from '../../../../../components/common/tick-indicator/tick-indicator';
 import { CompetencyButtonComponent } from '../competency-button/competency-button';
 import { legalRequirementLabels } from './legal-requirement.constants';
 

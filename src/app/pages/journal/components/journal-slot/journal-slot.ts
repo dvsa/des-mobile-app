@@ -1,4 +1,5 @@
 import { Component, Input } from '@angular/core';
+import { TestSlotComponent } from '@components/test-slot/test-slot/test-slot';
 import { TestSlot } from '@dvsa/mes-journal-schema';
 import { SearchResultTestSchema } from '@dvsa/mes-search-schema';
 import { IonList } from '@ionic/angular';
@@ -6,7 +7,6 @@ import { SlotItem } from '@providers/slot-selector/slot-item';
 import { SlotSelectorProvider } from '@providers/slot-selector/slot-selector';
 import { getFormattedApplicationReference } from '@shared/helpers/formatters';
 import { get, has, isEmpty } from 'lodash-es';
-import { TestSlotComponent } from '../../../../../components/test-slot/test-slot/test-slot';
 import { ActivitySlotComponent } from '../activity-slot/activity-slot';
 import { EmptySlotComponent } from '../empty-slot/empty-slot';
 import { PersonalCommitmentSlotComponent } from '../personal-commitment/personal-commitment';

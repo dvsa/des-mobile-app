@@ -1,8 +1,8 @@
 import { Component, Input } from '@angular/core';
+import { DataRowComponent } from '@components/common/data-row/data-row';
 import { IpadIssue, RekeyReason } from '@dvsa/mes-test-schema/categories/common';
 import { IonCard, IonCardContent, IonCardHeader, IonGrid } from '@ionic/angular';
 import { get } from 'lodash-es';
-import { DataRowComponent } from '../../../../../components/common/data-row/data-row';
 
 @Component({
   selector: 'rekey-reason-card',

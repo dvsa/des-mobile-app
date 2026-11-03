@@ -1,6 +1,7 @@
 import { AsyncPipe, DatePipe } from '@angular/common';
 import { Component, EventEmitter, Input, OnChanges, Output, ViewChild } from '@angular/core';
 import { SearchablePicklistComponentWrapper } from '@components/common/searchable-picklist-wrapper/searchable-picklist-wrapper';
+import { TestSlotComponent } from '@components/test-slot/test-slot/test-slot';
 import { Candidate, TestCentre, TestSlot } from '@dvsa/mes-journal-schema';
 import { IonButton, IonCol, IonGrid, IonList, IonRow, IonText } from '@ionic/angular';
 import { Store } from '@ngrx/store';
@@ -13,7 +14,6 @@ import { DateTime, Duration } from '@shared/helpers/date-time';
 import { StoreModel } from '@shared/models/store.model';
 import { Examiner, TestCentreDetailResponse } from '@shared/models/test-centre-journal.model';
 import { SearchablePicklistComponentWrapper as SearchablePicklistComponentWrapper_1 } from '../../../../../components/common/searchable-picklist-wrapper/searchable-picklist-wrapper';
-import { TestSlotComponent } from '../../../../../components/test-slot/test-slot/test-slot';
 import { CandidateTestSlot } from '../../models/candidate-test-slot';
 import { TestCentreNameComponent } from '../test-centre-name/test-centre-name';
 

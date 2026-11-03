@@ -1,5 +1,9 @@
 import { AsyncPipe, DatePipe, NgClass } from '@angular/common';
 import { Component, Injector, OnInit } from '@angular/core';
+import { DataRowCustomComponent } from '@components/common/data-row-custom/data-row-custom';
+import { DataRowComponent } from '@components/common/data-row/data-row';
+import { TestFlowHeaderComponent } from '@components/common/test-flow-header/test-flow-header.component';
+import { TransmissionDisplayComponent } from '@components/common/transmission-display/transmission-display';
 import { LessonTheme } from '@dvsa/mes-test-schema/categories/ADI3';
 import { GearboxCategory } from '@dvsa/mes-test-schema/categories/common';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
@@ -72,10 +76,6 @@ import {
 import { getGearboxCategory } from '@store/tests/vehicle-details/vehicle-details.selector';
 import { Observable, Subscription, merge } from 'rxjs';
 import { filter, map, take, tap, withLatestFrom } from 'rxjs/operators';
-import { DataRowCustomComponent } from '../../../components/common/data-row-custom/data-row-custom';
-import { DataRowComponent } from '../../../components/common/data-row/data-row';
-import { TestFlowHeaderComponent } from '../../../components/common/test-flow-header/test-flow-header.component';
-import { TransmissionDisplayComponent } from '../../../components/common/transmission-display/transmission-display';
 import { TestFlowPageNames } from '../page-names.constants';
 import { ConfirmSubmitModal } from './components/confirm-submit-modal/confirm-submit-modal';
 import { BackButtonClick, BackToDebrief, ConfirmTestDetailsViewDidEnter } from './confirm-test-details.actions';

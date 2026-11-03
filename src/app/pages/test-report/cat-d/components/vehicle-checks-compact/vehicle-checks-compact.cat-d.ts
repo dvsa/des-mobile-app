@@ -5,6 +5,8 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { AsyncPipe } from '@angular/common';
+import { DrivingFaultsBadgeComponent } from '@components/common/driving-faults-badge/driving-faults-badge';
+import { SeriousFaultBadgeComponent } from '@components/common/serious-fault-badge/serious-fault-badge';
 import { CategoryCode } from '@dvsa/mes-test-schema/categories/common';
 import { FaultCountProvider } from '@providers/fault-count/fault-count';
 import { TestDataByCategoryProvider } from '@providers/test-data-by-category/test-data-by-category';
@@ -12,8 +14,6 @@ import { StoreModel } from '@shared/models/store.model';
 import { getVehicleChecksCatD } from '@store/tests/test-data/cat-d/vehicle-checks/vehicle-checks.cat-d.selector';
 import { getTests } from '@store/tests/tests.reducer';
 import { getCurrentTest } from '@store/tests/tests.selector';
-import { DrivingFaultsBadgeComponent } from '../../../../../../components/common/driving-faults-badge/driving-faults-badge';
-import { SeriousFaultBadgeComponent } from '../../../../../../components/common/serious-fault-badge/serious-fault-badge';
 
 interface ComponentState {
   vehicleChecksDrivingFaultCount$: Observable<number>;

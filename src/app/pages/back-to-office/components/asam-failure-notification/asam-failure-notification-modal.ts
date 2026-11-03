@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
+import { ModalAlertTitleComponent } from '@components/common/modal-alert-title/modal-alert-title';
 import { IonButton, IonCard, IonCol, IonRow, IonText, ModalController } from '@ionic/angular';
-import { ModalAlertTitleComponent } from '../../../../../components/common/modal-alert-title/modal-alert-title';
 
 @Component({
   selector: 'app-asam-failure-notification',

@@ -1,5 +1,7 @@
 import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
 import { FormsModule, ReactiveFormsModule, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { EmojiBlockDirective } from '@directives/emoji-block.directive';
+import { PasteSanitiserDirective } from '@directives/paste-sanitiser';
 import { MotHistory } from '@dvsa/mes-mot-schema';
 import { IonButton, IonCol, IonInput, IonRow, IonSpinner, IonText, ModalController } from '@ionic/angular';
 import {
@@ -22,8 +24,6 @@ import { HttpStatusCodes } from '@shared/models/http-status-codes';
 import { isEmpty, toInteger } from 'lodash-es';
 import { Subject } from 'rxjs';
 import { finalize, takeUntil } from 'rxjs/operators';
-import { EmojiBlockDirective } from '../../../../../directives/emoji-block.directive';
-import { PasteSanitiserDirective } from '../../../../../directives/paste-sanitiser';
 import { MotCardComponent } from '../mot-components/mot-card/mot-card.component';
 
 export enum MOTAbortedMethod {

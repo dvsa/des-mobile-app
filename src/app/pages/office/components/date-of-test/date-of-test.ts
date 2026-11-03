@@ -1,10 +1,10 @@
 import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { DisplayType } from '@components/common/datetime-input/date-time-input.component';
+import { DateTimeInputComponent } from '@components/common/datetime-input/date-time-input.component';
 import { IonCol, IonDatetime, IonRow } from '@ionic/angular';
 import { DateTime, Duration } from '@shared/helpers/date-time';
 import { PRESS_TIME_TO_ENABLE_EDIT, isValidStartDate } from '@shared/helpers/test-start-time';
 import moment from 'moment';
-import { DateTimeInputComponent } from '../../../../../components/common/datetime-input/date-time-input.component';
 
 @Component({
   selector: 'date-of-test',

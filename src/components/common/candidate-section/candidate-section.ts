@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { VRNCaptureModal } from '@components/common/vrn-capture-modal/vrn-capture-modal';
+import { AddOrRemoveLangCyDirective } from '@directives/add-or-remove-lang-cy.directive';
 import { IonButton, IonCol, IonRow, IonText, ModalController } from '@ionic/angular';
 import { Store } from '@ngrx/store';
 import { TranslatePipe } from '@ngx-translate/core';
@@ -12,7 +13,6 @@ import {
   VRNModalSaved,
 } from '@store/tests/candidate-section/candidate-section.actions';
 import { VehicleRegistrationChanged } from '@store/tests/vehicle-details/vehicle-details.actions';
-import { AddOrRemoveLangCyDirective } from '../../../directives/add-or-remove-lang-cy.directive';
 
 @Component({
   selector: 'candidate-section',

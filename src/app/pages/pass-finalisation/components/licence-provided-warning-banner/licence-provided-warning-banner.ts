@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { WarningBannerComponent } from '../../../../../components/common/warning-banner/warning-banner';
+import { WarningBannerComponent } from '@components/common/warning-banner/warning-banner';
 
 @Component({
   selector: 'licence-provided-warning-banner',

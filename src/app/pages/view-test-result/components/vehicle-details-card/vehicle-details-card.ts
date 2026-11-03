@@ -1,4 +1,9 @@
 import { Component, Input } from '@angular/core';
+import { DataRowCustomComponent } from '@components/common/data-row-custom/data-row-custom';
+import { DataRowComponent } from '@components/common/data-row/data-row';
+import { MotStatusDisplayTextComponent } from '@components/common/mot-status-display-text/mot-status-display-text.component';
+import { RegistrationWithPreviousMotTextComponent } from '@components/common/registration-with-previous-mot-text/registration-with-previous-mot-text.component';
+import { TransmissionDisplayComponent } from '@components/common/transmission-display/transmission-display';
 import { MotStatusCodes } from '@dvsa/mes-mot-schema';
 import { CatADI2UniqueTypes } from '@dvsa/mes-test-schema/categories/ADI2';
 import * as CatADI3Types from '@dvsa/mes-test-schema/categories/ADI3';
@@ -15,11 +20,6 @@ import { flattenArray } from '@pages/view-test-result/view-test-result-helpers';
 import { getMakeAndModel, hasMakeOrModel } from '@shared/helpers/mot-formatter';
 import { isBikeTest } from '@shared/helpers/simplifiers';
 import { get } from 'lodash-es';
-import { DataRowCustomComponent } from '../../../../../components/common/data-row-custom/data-row-custom';
-import { DataRowComponent } from '../../../../../components/common/data-row/data-row';
-import { MotStatusDisplayTextComponent } from '../../../../../components/common/mot-status-display-text/mot-status-display-text.component';
-import { RegistrationWithPreviousMotTextComponent } from '../../../../../components/common/registration-with-previous-mot-text/registration-with-previous-mot-text.component';
-import { TransmissionDisplayComponent } from '../../../../../components/common/transmission-display/transmission-display';
 
 @Component({
   selector: 'vehicle-details-card',

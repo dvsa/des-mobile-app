@@ -1,5 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Style } from '@capacitor/status-bar';
+import { EmojiBlockDirective } from '@directives/emoji-block.directive';
+import { InputRestrictionNumbersDirective } from '@directives/input-restriction-numbers.directive';
+import { PasteSanitiserDirective } from '@directives/paste-sanitiser';
 import { CategoryCode } from '@dvsa/mes-test-schema/categories/common';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import {
@@ -26,9 +29,6 @@ import { getCurrentTest } from '@store//tests/tests.selector';
 import { getTests } from '@store/tests/tests.reducer';
 import { Observable, Subscription, merge } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { EmojiBlockDirective } from '../../../../../directives/emoji-block.directive';
-import { InputRestrictionNumbersDirective } from '../../../../../directives/input-restriction-numbers.directive';
-import { PasteSanitiserDirective } from '../../../../../directives/paste-sanitiser';
 import { ReverseDiagramLengthChanged, ReverseDiagramWidthChanged } from './reverse-diagram-modal.actions';
 
 interface ReverseDiagramPageState {
