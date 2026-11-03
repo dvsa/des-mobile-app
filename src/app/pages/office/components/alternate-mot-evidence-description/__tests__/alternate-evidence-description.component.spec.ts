@@ -17,7 +17,7 @@ describe('AlternateEvidenceDescriptionComponent', () => {
     fixture = TestBed.createComponent(AlternateEvidenceDescriptionComponent);
     component = fixture.componentInstance;
     component.formGroup = new UntypedFormGroup({});
-    component.formControl = new UntypedFormControl();
+    component.ngOnChanges();
     fixture.detectChanges();
   });
 

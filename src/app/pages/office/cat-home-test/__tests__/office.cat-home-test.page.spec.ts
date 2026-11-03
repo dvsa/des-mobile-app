@@ -7,6 +7,7 @@ import { TestFlowHeaderComponent } from '@components/common/test-flow-header/tes
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { ModalController, NavController, Platform, ToastController } from '@ionic/angular';
 import { ModalControllerMock, PlatformMock } from '@mocks/index.mock';
+import { provideBasePageMocks } from '@mocks/test-providers';
 import { Store, StoreModule } from '@ngrx/store';
 import { AdditionalInformationComponent } from '@pages/office/components/additional-information/additional-information';
 import { CandidateDescriptionComponent } from '@pages/office/components/candidate-description/candidate-description';
@@ -74,7 +75,6 @@ describe('OfficeCatHomeTestPage', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
-        AppModule,
         StoreModule.forRoot({
           tests: () => ({
             currentTest: {
@@ -86,6 +86,8 @@ describe('OfficeCatHomeTestPage', () => {
                 category: TestCategory.F,
                 vehicleDetails: {},
                 accompaniment: {},
+                testSummary: {},
+                userExitedApp: {},
                 testData: {
                   dangerousFaults: {},
                   drivingFaults: {},
@@ -101,6 +103,7 @@ describe('OfficeCatHomeTestPage', () => {
                 },
                 activityCode: '28',
                 journalData: {
+                  testSlotAttributes: { start: '2026-01-01T09:00:00' },
                   candidate: {
                     candidateName: 'Joe Bloggs',
                     driverNumber: '123',
@@ -133,6 +136,7 @@ describe('OfficeCatHomeTestPage', () => {
         MockComponent(TestFlowHeaderComponent),
       ],
       providers: [
+        provideBasePageMocks(),
         { provide: Platform, useClass: PlatformMock },
         { provide: AuthenticationProvider, useClass: AuthenticationProviderMock },
         { provide: NavController, useClass: NavControllerMock },
@@ -218,6 +222,7 @@ describe('OfficeCatHomeTestPage', () => {
       it('should dispatch an action to persist tests + pop navstack to root when defer is called', () => {
         spyOn(component, 'popToRoot');
         fixture.detectChanges();
+        component.hasNavigatedFromUnsubmitted = false;
         component.defer();
         expect(component.popToRoot).toHaveBeenCalled();
       });

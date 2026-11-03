@@ -6,6 +6,7 @@ import { TestFlowHeaderComponent } from '@components/common/test-flow-header/tes
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { ModalController, NavController, Platform, ToastController } from '@ionic/angular';
 import { ModalControllerMock, PlatformMock } from '@mocks/index.mock';
+import { provideBasePageMocks } from '@mocks/test-providers';
 import { Store, StoreModule } from '@ngrx/store';
 import { DrivingFaultsComponent } from '@pages/office/components/driving-faults/driving-faults.component';
 import { OfficeFooterComponent } from '@pages/office/components/office-footer/office-footer.component';
@@ -57,7 +58,7 @@ import {
 } from '@store/tests/test-data/common/serious-faults/serious-faults.actions';
 import { Competencies, ExaminerActions } from '@store/tests/test-data/test-data.constants';
 import { MockComponent } from 'ng-mocks';
-import { AppModule } from 'src/app/app.module';
+
 import { AdditionalInformationComponent } from '../../components/additional-information/additional-information';
 import { CandidateDescriptionComponent } from '../../components/candidate-description/candidate-description';
 import { CandidateSectionComponent } from '../../components/candidate-section/candidate-section';
@@ -80,7 +81,6 @@ describe('OfficeCatBPage', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
-        AppModule,
         StoreModule.forRoot({
           tests: () => ({
             currentTest: {
@@ -92,6 +92,8 @@ describe('OfficeCatBPage', () => {
                 category: TestCategory.B,
                 vehicleDetails: {},
                 accompaniment: {},
+                testSummary: {},
+                userExitedApp: {},
                 testData: {
                   dangerousFaults: {},
                   drivingFaults: {},
@@ -116,6 +118,7 @@ describe('OfficeCatBPage', () => {
                 },
                 activityCode: '28',
                 journalData: {
+                  testSlotAttributes: { start: '2026-01-01T09:00:00' },
                   candidate: {
                     candidateName: 'Joe Bloggs',
                     driverNumber: '123',
@@ -149,6 +152,7 @@ describe('OfficeCatBPage', () => {
         MockComponent(DrivingFaultsComponent),
       ],
       providers: [
+        provideBasePageMocks(),
         { provide: Platform, useClass: PlatformMock },
         { provide: AuthenticationProvider, useClass: AuthenticationProviderMock },
         { provide: NavController, useClass: NavControllerMock },

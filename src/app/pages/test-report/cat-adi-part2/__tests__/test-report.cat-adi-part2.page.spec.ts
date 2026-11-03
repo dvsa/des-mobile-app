@@ -8,6 +8,7 @@ import { CatADI2UniqueTypes } from '@dvsa/mes-test-schema/categories/ADI2';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { ModalController, Platform } from '@ionic/angular';
 import { ModalControllerMock, PlatformMock } from '@mocks/index.mock';
+import { provideBasePageMocks } from '@mocks/test-providers';
 import { StoreModule } from '@ngrx/store';
 import { ManoeuvresPopoverComponentAdiPart2 } from '@pages/test-report/cat-adi-part2/components/manoeuvres-popover/manoeuvres-popover';
 import { ManoeuvresComponent } from '@pages/test-report/cat-adi-part2/components/manoeuvres/manoeuvres';
@@ -41,7 +42,8 @@ describe('TestReportCatADI2Page', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
-        AppModule,
+        StoreModule.forRoot({}),
+
         StoreModule.forFeature('tests', () => ({
           currentTest: {
             slotId: '123',
@@ -76,6 +78,7 @@ describe('TestReportCatADI2Page', () => {
         MockComponent(ManoeuvresPopoverComponentAdiPart2),
       ],
       providers: [
+        provideBasePageMocks(),
         {
           provide: Platform,
           useClass: PlatformMock,

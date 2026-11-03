@@ -3,6 +3,8 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { MockAppComponent } from '@app/__mocks__/app.component.mock';
 import { AppComponent } from '@app/app.component';
+import { provideBasePageMocks } from '@mocks/test-providers';
+import { provideMockStore } from '@ngrx/store/testing';
 
 import { TestCentre } from '@dvsa/mes-journal-schema';
 import { ModalController, Platform } from '@ionic/angular';
@@ -41,13 +43,14 @@ describe('TestResultsSearchPage', () => {
     TestBed.configureTestingModule({
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       imports: [
-        AppModule,
         TestResultsSearchComponentsModule,
         TestResultsSearchPage,
         MockComponent(AdvancedSearchComponent),
         MockComponent(SearchResultComponent),
       ],
       providers: [
+        provideBasePageMocks(),
+        provideMockStore({ initialState: { refData: { testCentres: { active: [], inactive: [] } } } }),
         {
           provide: Platform,
           useClass: PlatformMock,

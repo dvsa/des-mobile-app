@@ -7,7 +7,9 @@ import { getManoeuvres as getManoeuvresC } from '@store/tests/test-data/cat-c/te
 import { getManoeuvres as getManoeuvresD } from '@store/tests/test-data/cat-d/test-data.cat-d.selector';
 import { getManoeuvres as getManoeuvresHomeTest } from '@store/tests/test-data/cat-home/test-data.cat-home.selector';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class ManoeuvresByCategoryProvider {
   static getManoeuvresByCategoryCodeErrMsg = 'Error getting test category manoeuvres';
 

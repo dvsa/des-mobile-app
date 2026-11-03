@@ -616,7 +616,7 @@ describe('OfficeBasePageComponent', () => {
     });
   });
   describe('destroyTestSubs', () => {
-    it('should run next and complete on both wrtcDestroy$ and trDestroy$', () => {
+    it('should signal cleanup without completing the reusable subjects', () => {
       spyOn(wrtcDestroy$, 'next');
       spyOn(wrtcDestroy$, 'complete');
       spyOn(trDestroy$, 'next');
@@ -625,9 +625,9 @@ describe('OfficeBasePageComponent', () => {
       basePageComponent.destroyTestSubs();
 
       expect(wrtcDestroy$.next).toHaveBeenCalled();
-      expect(wrtcDestroy$.complete).toHaveBeenCalled();
+      expect(wrtcDestroy$.complete).not.toHaveBeenCalled();
       expect(trDestroy$.next).toHaveBeenCalled();
-      expect(trDestroy$.complete).toHaveBeenCalled();
+      expect(trDestroy$.complete).not.toHaveBeenCalled();
     });
   });
   describe('completeTestDelegated', () => {

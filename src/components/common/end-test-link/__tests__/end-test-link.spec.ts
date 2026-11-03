@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { ModalController } from '@ionic/angular';
 import { Store } from '@ngrx/store';
+import { provideMockStore } from '@ngrx/store/testing';
 
 import { RouterMock } from '@mocks/angular-mocks/router-mock';
 import { ModalControllerMock } from '@mocks/ionic-mocks/modal-controller.mock';
@@ -22,6 +23,7 @@ describe('EndTestLinkComponent', () => {
     TestBed.configureTestingModule({
       imports: [EndTestLinkComponent],
       providers: [
+        provideMockStore(),
         { provide: ModalController, useClass: ModalControllerMock },
         { provide: Router, useClass: RouterMock },
         { provide: RouteByCategoryProvider, useClass: RouteByCategoryProviderMock },

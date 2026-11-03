@@ -6,7 +6,7 @@ import { default as englishTranslations } from '@assets/i18n/en.json';
 import { QuestionResult } from '@dvsa/mes-test-schema/categories/common';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 
-import { TranslateModule, TranslateService, provideTranslateService } from '@ngx-translate/core';
+import { TranslateService, provideTranslateService } from '@ngx-translate/core';
 import { provideTranslateHttpLoader } from '@ngx-translate/http-loader';
 import { getMalformedVehicleChecks } from '../__mocks__/vehicle-checks-card.mock';
 import { VehicleChecksCardComponent } from '../vehicle-checks-card';
@@ -18,7 +18,7 @@ describe('VehicleChecksCardComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [TranslateModule.forRoot(), VehicleChecksCardComponent],
+      imports: [VehicleChecksCardComponent],
       providers: [
         provideHttpClient(withInterceptorsFromDi()),
         provideTranslateService({
@@ -32,7 +32,7 @@ describe('VehicleChecksCardComponent', () => {
     fixture = TestBed.createComponent(VehicleChecksCardComponent);
     component = fixture.componentInstance;
     translate = TestBed.inject(TranslateService);
-    translate.setDefaultLang('en');
+    translate.setFallbackLang('en');
   }));
 
   describe('questionHasFault', () => {

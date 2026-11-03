@@ -1,12 +1,11 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { Router } from '@angular/router';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { Store, select } from '@ngrx/store';
-import { Observable } from 'rxjs';
-import { map, take } from 'rxjs/operators';
+import { Observable, Subscription } from 'rxjs';
+import { filter, map, take } from 'rxjs/operators';
 
 import { Style } from '@capacitor/status-bar';
-import { IonButton, IonButtons, IonCol, IonRow, IonText } from '@ionic/angular';
+import { IonButton, IonButtons, IonCol, IonRouterOutlet, IonRow, IonText, NavController } from '@ionic/angular';
 import { DASHBOARD_PAGE } from '@pages/page-names.constants';
 import { AccessibilityService } from '@providers/accessibility/accessibility.service';
 import { CategoryWhitelistProvider } from '@providers/category-whitelist/category-whitelist';
@@ -39,7 +38,8 @@ export class PracticeModeOptionsBar implements OnInit {
   public displayMsg$: Observable<string>;
 
   constructor(
-    public router: Router,
+    private navController: NavController,
+    private routerOutlet: IonRouterOutlet,
     private categoryWhitelistProvider: CategoryWhitelistProvider,
     private accessibilityService: AccessibilityService,
     private store$: Store<StoreModel>
@@ -67,12 +67,27 @@ export class PracticeModeOptionsBar implements OnInit {
 
   async exitPracticeMode(): Promise<void> {
     await this.accessibilityService.configureStatusBar(Style.Dark);
-    this.destroyTestSubs();
+    let subscription: Subscription;
+    const transition = new Promise<void>((resolve) => {
+      subscription = this.routerOutlet.activateEvents
+        .pipe(
+          filter((component) => component === this.routerOutlet.component),
+          take(1)
+        )
+        .subscribe(() => resolve());
+    });
 
-    // Clear any residual practice mode tests from store
-    this.store$.dispatch(DeletePracticeModeTests());
-
-    await this.router.navigate([DASHBOARD_PAGE], { replaceUrl: true });
+    try {
+      const navigated = await this.navController.navigateRoot([DASHBOARD_PAGE], { replaceUrl: true });
+      if (navigated) {
+        // Ionic finishes destroying the test views after Angular navigation resolves.
+        await transition;
+        this.destroyTestSubs();
+        this.store$.dispatch(DeletePracticeModeTests());
+      }
+    } finally {
+      subscription.unsubscribe();
+    }
   }
 
   private destroyTestSubs = (): void => {
@@ -81,9 +96,7 @@ export class PracticeModeOptionsBar implements OnInit {
 
     // Waiting room to car
     wrtcDestroy$.next(null);
-    wrtcDestroy$.complete();
     // Test report
     trDestroy$.next(null);
-    trDestroy$.complete();
   };
 }

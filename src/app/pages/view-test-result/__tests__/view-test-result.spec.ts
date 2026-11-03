@@ -17,7 +17,9 @@ import { ModalController, Platform } from '@ionic/angular';
 import { RouterMock } from '@mocks/angular-mocks/router-mock';
 import { ModalControllerMock } from '@mocks/ionic-mocks/modal-controller.mock';
 import { PlatformMock } from '@mocks/ionic-mocks/platform-mock';
+import { provideBasePageMocks } from '@mocks/test-providers';
 import { Store } from '@ngrx/store';
+import { provideMockStore } from '@ngrx/store/testing';
 import { ActivityCodeCard } from '@pages/view-test-result/components/activity-code-card/activity-code-card';
 import { BusinessDetailsCardComponent } from '@pages/view-test-result/components/business-details-card/business-details-card';
 import { ContactDetailsCardComponent } from '@pages/view-test-result/components/contact-details-card/contact-details-card';
@@ -92,7 +94,6 @@ describe('ViewTestResultPage', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
-        AppModule,
         ViewTestResultPage,
         MockComponent(ErrorMessageComponent),
         MockComponent(ViewTestHeaderComponent),
@@ -111,6 +112,8 @@ describe('ViewTestResultPage', () => {
         MockComponent(TestSummaryCardComponent),
       ],
       providers: [
+        provideBasePageMocks(),
+        provideMockStore(),
         {
           provide: Platform,
           useClass: PlatformMock,

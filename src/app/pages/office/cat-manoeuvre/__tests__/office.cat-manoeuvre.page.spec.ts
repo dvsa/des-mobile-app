@@ -6,6 +6,7 @@ import { TestFlowHeaderComponent } from '@components/common/test-flow-header/tes
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { ModalController, NavController, Platform, ToastController } from '@ionic/angular';
 import { ModalControllerMock, PlatformMock } from '@mocks/index.mock';
+import { provideBasePageMocks } from '@mocks/test-providers';
 import { Store, StoreModule } from '@ngrx/store';
 import { OfficeCatManoeuvrePage } from '@pages/office/cat-manoeuvre/office.cat-manoeuvre.page';
 import { OfficeFooterComponent } from '@pages/office/components/office-footer/office-footer.component';
@@ -51,7 +52,7 @@ import { Competencies, ExaminerActions } from '@store/tests/test-data/test-data.
 import { TestOutcome } from '@store/tests/tests.constants';
 import { MockComponent } from 'ng-mocks';
 import { Subscription } from 'rxjs';
-import { AppModule } from 'src/app/app.module';
+
 import { AdditionalInformationComponent } from '../../components/additional-information/additional-information';
 import { CandidateDescriptionComponent } from '../../components/candidate-description/candidate-description';
 import { CandidateSectionComponent } from '../../components/candidate-section/candidate-section';
@@ -70,7 +71,6 @@ describe('OfficeCatManoeuvrePage', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
-        AppModule,
         StoreModule.forRoot({
           tests: () => ({
             currentTest: {
@@ -82,6 +82,9 @@ describe('OfficeCatManoeuvrePage', () => {
                 category: TestCategory.CM,
                 vehicleDetails: {},
                 accompaniment: {},
+                testSummary: {},
+                userExitedApp: {},
+                communicationPreferences: { conductedLanguage: 'English' },
                 testData: {
                   dangerousFaults: {},
                   drivingFaults: {},
@@ -93,6 +96,7 @@ describe('OfficeCatManoeuvrePage', () => {
                 },
                 activityCode: '28',
                 journalData: {
+                  testSlotAttributes: { start: '2026-01-01T09:00:00' },
                   candidate: {
                     candidateName: 'Joe Bloggs',
                     driverNumber: '123',
@@ -122,6 +126,7 @@ describe('OfficeCatManoeuvrePage', () => {
         MockComponent(AccompanimentComponent),
       ],
       providers: [
+        provideBasePageMocks(),
         { provide: Platform, useClass: PlatformMock },
         { provide: AuthenticationProvider, useClass: AuthenticationProviderMock },
         { provide: NavController, useClass: NavControllerMock },
@@ -208,6 +213,7 @@ describe('OfficeCatManoeuvrePage', () => {
       it('should dispatch an action to persist tests + pop navstack to root when defer is called', () => {
         spyOn(component, 'popToRoot');
         fixture.detectChanges();
+        component.hasNavigatedFromUnsubmitted = false;
         component.defer();
         expect(component.popToRoot).toHaveBeenCalled();
       });

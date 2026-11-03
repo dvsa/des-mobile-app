@@ -1,7 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 
-import { Store } from '@ngrx/store';
+import { provideBasePageMocks } from '@mocks/test-providers';
+import { provideMockStore } from '@ngrx/store/testing';
 import { MotHistoryWithStatus } from '@providers/mot-history-api/mot-history-api.service';
 import { NetworkConnectionStatus } from '@providers/network-state/network-state';
 import { HttpStatusCodes } from '@shared/models/http-status-codes';
@@ -14,7 +15,7 @@ describe('VehicleRegistrationComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [Store],
+      providers: [provideBasePageMocks(), provideMockStore()],
       imports: [ReactiveFormsModule, VehicleRegistrationComponent],
     });
 

@@ -18,6 +18,7 @@ import { TestResultCommonSchema } from '@dvsa/mes-test-schema/categories/common'
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { RouterMock } from '@mocks/angular-mocks/router-mock';
 import { ModalControllerMock } from '@mocks/ionic-mocks/modal-controller.mock';
+import { provideBasePageMocks } from '@mocks/test-providers';
 import { provideMockStore } from '@ngrx/store/testing';
 import { NonPassFinalisationPage } from '@pages/non-pass-finalisation/non-pass-finalisation.page';
 import { TestFlowPageNames } from '@pages/page-names.constants';
@@ -123,7 +124,6 @@ describe('NonPassFinalisationPage', () => {
     TestBed.configureTestingModule({
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       imports: [
-        AppModule,
         NonPassFinalisationPage,
         MockComponent(PracticeModeOptionsBar),
         MockComponent(ActivityCodeComponent),
@@ -134,6 +134,7 @@ describe('NonPassFinalisationPage', () => {
         MockComponent(FinalisationHeaderComponent),
       ],
       providers: [
+        provideBasePageMocks(),
         {
           provide: Router,
           useClass: RouterMock,

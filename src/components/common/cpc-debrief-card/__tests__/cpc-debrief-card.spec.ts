@@ -3,8 +3,6 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Question } from '@dvsa/mes-test-schema/categories/CPC';
 
 import { StoreModule } from '@ngrx/store';
-import { TranslateModule } from '@ngx-translate/core';
-import {} from '../../common-components.module';
 import { CPCDebriefCardComponent } from '../cpc-debrief-card';
 
 describe('CPCDebriefCardComponent', () => {
@@ -14,7 +12,7 @@ describe('CPCDebriefCardComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [StoreModule.forRoot({}), TranslateModule],
+      imports: [StoreModule.forRoot({})],
     });
 
     fixture = TestBed.createComponent(CPCDebriefCardComponent);

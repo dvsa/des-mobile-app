@@ -49,7 +49,6 @@ import { LoadJournalSilent } from '@store/journal/journal.actions';
 import { MockComponent } from 'ng-mocks';
 import { Subscription, of } from 'rxjs';
 import { DashboardComponentsModule } from '../components/dashboard-components.module';
-import { DashboardPageRoutingModule } from '../dashboard-routing.module';
 import { DashboardViewDidEnter, PracticeTestReportCard } from '../dashboard.actions';
 import { DashboardPage } from '../dashboard.page';
 
@@ -82,7 +81,6 @@ describe('DashboardPage', () => {
           },
         ]),
         StoreModule.forRoot({ appInfo: appInfoReducer }),
-        DashboardPageRoutingModule,
         DashboardComponentsModule,
         IonMenuButton,
         DashboardPage,

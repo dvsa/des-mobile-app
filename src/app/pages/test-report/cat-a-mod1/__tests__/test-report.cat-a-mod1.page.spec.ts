@@ -9,6 +9,7 @@ import { PracticeModeOptionsBar } from '@components/common/practice-mode-options
 import { TestFlowHeaderComponent } from '@components/common/test-flow-header/test-flow-header.component';
 import { TickIndicatorComponent } from '@components/common/tick-indicator/tick-indicator';
 import { OverlayEventDetail } from '@ionic/core';
+import { provideBasePageMocks } from '@mocks/test-providers';
 import { Store, StoreModule } from '@ngrx/store';
 import { ActivityCode4Modal } from '@pages/test-report/cat-a-mod1/components/activity-code-4-modal/activity-code-4-modal';
 import { ModalReason } from '@pages/test-report/cat-a-mod1/components/activity-code-4-modal/activity-code-4-modal.constants';
@@ -54,7 +55,8 @@ describe('TestReportCatAMod1Page', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
-        AppModule,
+        StoreModule.forRoot({}),
+
         StoreModule.forFeature('tests', () => ({
           currentTest: {
             slotId: '123',
@@ -86,6 +88,7 @@ describe('TestReportCatAMod1Page', () => {
         MockComponent(TestFlowHeaderComponent),
       ],
       providers: [
+        provideBasePageMocks(),
         {
           provide: Platform,
           useClass: PlatformMock,

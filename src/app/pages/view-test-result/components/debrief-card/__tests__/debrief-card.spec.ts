@@ -33,7 +33,7 @@ describe('DebriefCardComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         EtaCardComponent,
-        AppModule,
+
         DebriefCardComponent,
         MockComponent(DataRowWithListComponent),
         MockComponent(DataRowComponent),

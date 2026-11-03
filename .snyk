@@ -15,7 +15,7 @@ ignore:
   SNYK-JS-BRACES-19963945:
     - '*':
         reason: Remediation not yet available
-        expires: 2026-11-02T16:00:00.122Z
+        expires: 2026-12-02T16:00:00.122Z
         created: 2026-09-21T16:00:00.122Z
   SNYK-JS-QS-21755395:
     - '*':
@@ -25,7 +25,7 @@ ignore:
   SNYK-JS-UUID-16133035:
       - '*':
           reason: Remediation not yet available
-          expires: 2026-11-02T16:00:00.122Z
+          expires: 2026-12-02T16:00:00.122Z
           created: 2026-10-01T13:00:00.122Z
   SNYK-JS-PICOMATCH-21248802:
       - '*':

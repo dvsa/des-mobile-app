@@ -7,7 +7,9 @@ export enum VisibilityType {
   VisibleIfPresent = 'A',
 }
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class OutcomeBehaviourMapProvider {
   behaviourMap: OutcomeBehaviourMapping = {};
 

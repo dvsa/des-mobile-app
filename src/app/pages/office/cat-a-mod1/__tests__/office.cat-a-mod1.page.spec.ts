@@ -6,6 +6,7 @@ import { TestFlowHeaderComponent } from '@components/common/test-flow-header/tes
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { ModalController, NavController, Platform, ToastController } from '@ionic/angular';
 import { ModalControllerMock, PlatformMock } from '@mocks/index.mock';
+import { provideBasePageMocks } from '@mocks/test-providers';
 import { Store, StoreModule } from '@ngrx/store';
 import { CircuitComponent } from '@pages/office/cat-a-mod1/components/circuit/circuit';
 import { DrivingFaultsComponent } from '@pages/office/components/driving-faults/driving-faults.component';
@@ -34,7 +35,7 @@ import { ToastControllerMock } from '@shared/mocks/toast-controller.mock';
 import { ActivityCodes } from '@shared/models/activity-codes';
 import { CommentSource } from '@shared/models/fault-marking.model';
 import { StoreModel } from '@shared/models/store.model';
-import { PipesModule } from '@shared/pipes/pipes.module';
+
 import { AddAvoidanceComment } from '@store/tests/test-data/cat-a-mod1/avoidance/avoidance.actions';
 import { AddAnEmergencyStopComment } from '@store/tests/test-data/cat-a-mod1/emergency-stop/emergency-stop.actions';
 import {
@@ -51,7 +52,7 @@ import {
 import { AddSingleFaultCompetencyComment } from '@store/tests/test-data/common/single-fault-competencies/single-fault-competencies.actions';
 import { Competencies, ExaminerActions, SingleFaultCompetencyNames } from '@store/tests/test-data/test-data.constants';
 import { MockComponent } from 'ng-mocks';
-import { AppModule } from 'src/app/app.module';
+
 import { AdditionalInformationComponent } from '../../components/additional-information/additional-information';
 import { CandidateDescriptionComponent } from '../../components/candidate-description/candidate-description';
 import { CandidateSectionComponent } from '../../components/candidate-section/candidate-section';
@@ -72,8 +73,6 @@ describe('OfficeCatAMod1Page', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
-        PipesModule,
-        AppModule,
         StoreModule.forRoot({
           tests: () => ({
             currentTest: {
@@ -85,6 +84,8 @@ describe('OfficeCatAMod1Page', () => {
                 category: TestCategory.EUAM1,
                 vehicleDetails: {},
                 accompaniment: {},
+                testSummary: {},
+                userExitedApp: {},
                 testData: {
                   dangerousFaults: {},
                   drivingFaults: {},
@@ -93,9 +94,12 @@ describe('OfficeCatAMod1Page', () => {
                   testRequirements: {},
                   ETA: {},
                   eco: {},
+                  emergencyStop: {},
+                  avoidance: {},
                 },
                 activityCode: '28',
                 journalData: {
+                  testSlotAttributes: { start: '2026-01-01T09:00:00' },
                   candidate: {
                     candidateName: 'Joe Bloggs',
                     driverNumber: '123',
@@ -130,6 +134,7 @@ describe('OfficeCatAMod1Page', () => {
         MockComponent(TestFlowHeaderComponent),
       ],
       providers: [
+        provideBasePageMocks(),
         { provide: Platform, useClass: PlatformMock },
         { provide: AuthenticationProvider, useClass: AuthenticationProviderMock },
         { provide: NavController, useClass: NavControllerMock },
@@ -215,6 +220,7 @@ describe('OfficeCatAMod1Page', () => {
       it('should dispatch an action to persist tests + pop navstack to root when defer is called', () => {
         spyOn(component, 'popToRoot');
         fixture.detectChanges();
+        component.hasNavigatedFromUnsubmitted = false;
         component.defer();
         expect(component.popToRoot).toHaveBeenCalled();
       });

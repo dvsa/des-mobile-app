@@ -11,6 +11,7 @@ import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/
 import { Platform } from '@ionic/angular';
 import { RouterMock } from '@mocks/angular-mocks/router-mock';
 import { PlatformMock } from '@mocks/ionic-mocks/platform-mock';
+import { provideBasePageMocks } from '@mocks/test-providers';
 import { Store } from '@ngrx/store';
 import { provideMockStore } from '@ngrx/store/testing';
 import { TestFlowPageNames } from '@pages/page-names.constants';
@@ -80,7 +81,6 @@ describe('WaitingRoomToCarCatADIPart3Page', () => {
     TestBed.configureTestingModule({
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       imports: [
-        AppModule,
         ReactiveFormsModule,
         WaitingRoomToCarCatADIPart3Page,
         MockComponent(TestCategoryComponent),
@@ -97,6 +97,7 @@ describe('WaitingRoomToCarCatADIPart3Page', () => {
         MockComponent(DualControlsComponent),
       ],
       providers: [
+        provideBasePageMocks(),
         {
           provide: RouteByCategoryProvider,
           useClass: RouteByCategoryProviderMock,

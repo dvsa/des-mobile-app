@@ -6,8 +6,9 @@ import { ModeOfTransport } from '@dvsa/mes-test-schema/categories/AM2';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { ModalController, NavController, Platform, ToastController } from '@ionic/angular';
 import { ModalControllerMock, PlatformMock, ToastControllerMock } from '@mocks/index.mock';
+import { provideBasePageMocks } from '@mocks/test-providers';
 import { Store, StoreModule } from '@ngrx/store';
-import { TranslateModule } from '@ngx-translate/core';
+
 import { DrivingFaultsComponent } from '@pages/office/components/driving-faults/driving-faults.component';
 import { OfficeFooterComponent } from '@pages/office/components/office-footer/office-footer.component';
 import { OfficeRegistrationAndMotComponent } from '@pages/office/components/office-registration-and-mot/office-registration-and-mot.component';
@@ -32,7 +33,7 @@ import { activityCodeModelList } from '@shared/constants/activity-code/activity-
 import { NavControllerMock } from '@shared/mocks/nav-controller.mock';
 import { CommentSource } from '@shared/models/fault-marking.model';
 import { StoreModel } from '@shared/models/store.model';
-import { PipesModule } from '@shared/pipes/pipes.module';
+
 import { SetActivityCode } from '@store/tests/activity-code/activity-code.actions';
 import { AddSafetyAndBalanceComment } from '@store/tests/test-data/cat-a-mod2/safety-and-balance/safety-and-balance.cat-a-mod2.actions';
 import { AddDangerousFaultComment } from '@store/tests/test-data/common/dangerous-faults/dangerous-faults.actions';
@@ -64,8 +65,6 @@ describe('OfficeCatAMod2Page', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
-        AppModule,
-        PipesModule,
         StoreModule.forRoot({
           tests: () => ({
             currentTest: {
@@ -77,6 +76,8 @@ describe('OfficeCatAMod2Page', () => {
                 category: TestCategory.EUA2M2,
                 vehicleDetails: {},
                 accompaniment: {},
+                testSummary: {},
+                userExitedApp: {},
                 testData: {
                   dangerousFaults: {},
                   drivingFaults: {},
@@ -102,9 +103,11 @@ describe('OfficeCatAMod2Page', () => {
                     ],
                   },
                   eyesightTest: {},
+                  safetyAndBalanceQuestions: { safetyQuestions: [], balanceQuestions: [] },
                 },
                 activityCode: '28',
                 journalData: {
+                  testSlotAttributes: { start: '2026-01-01T09:00:00' },
                   candidate: {
                     candidateName: 'Joe Bloggs',
                     driverNumber: '123',
@@ -115,7 +118,7 @@ describe('OfficeCatAMod2Page', () => {
             },
           }),
         }),
-        TranslateModule,
+
         ReactiveFormsModule,
         OfficeCatAMod2Page,
         MockComponent(TestFlowHeaderComponent),
@@ -141,6 +144,7 @@ describe('OfficeCatAMod2Page', () => {
         MockComponent(DrivingFaultsComponent),
       ],
       providers: [
+        provideBasePageMocks(),
         { provide: Platform, useClass: PlatformMock },
         { provide: AuthenticationProvider, useClass: AuthenticationProviderMock },
         { provide: NavController, useClass: NavControllerMock },
@@ -273,6 +277,7 @@ describe('OfficeCatAMod2Page', () => {
       it('should dispatch an action to persist tests + pop navstack to root when defer is called', () => {
         spyOn(component, 'popToRoot');
         fixture.detectChanges();
+        component.hasNavigatedFromUnsubmitted = false;
         component.defer();
         expect(component.popToRoot).toHaveBeenCalled();
       });

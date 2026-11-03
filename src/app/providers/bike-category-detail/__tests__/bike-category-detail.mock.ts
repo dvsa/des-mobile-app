@@ -3,7 +3,9 @@ import { CategoryCode } from '@dvsa/mes-test-schema/categories/common';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { BikeCategoryDetail, BikeTestType } from '@providers/bike-category-detail/bike-category-detail.model';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class BikeCategoryDetailProviderMock {
   public getDetailByCategoryCode(category: CategoryCode): BikeCategoryDetail {
     return {

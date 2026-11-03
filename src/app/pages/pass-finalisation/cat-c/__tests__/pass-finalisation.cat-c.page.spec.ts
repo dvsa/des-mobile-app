@@ -14,6 +14,7 @@ import { TestResultCommonSchema } from '@dvsa/mes-test-schema/categories/common'
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { NavController, Platform } from '@ionic/angular';
 import { NavControllerMock, PlatformMock, RouterMock } from '@mocks/index.mock';
+import { provideBasePageMocks } from '@mocks/test-providers';
 import { Store } from '@ngrx/store';
 import { provideMockStore } from '@ngrx/store/testing';
 import { LicenceProvidedWarningBannerComponent } from '@pages/pass-finalisation/components/licence-provided-warning-banner/licence-provided-warning-banner';
@@ -251,7 +252,7 @@ describe('PassFinalisationCatCPage', () => {
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       imports: [
         RouterModule.forRoot([]),
-        AppModule,
+
         PassFinalisationCatCPage,
         MockComponent(PracticeModeOptionsBar),
         MockComponent(PassCertificateNumberComponent),
@@ -265,6 +266,7 @@ describe('PassFinalisationCatCPage', () => {
         MockComponent(LicenceProvidedWarningBannerComponent),
       ],
       providers: [
+        provideBasePageMocks(),
         {
           provide: Platform,
           useClass: PlatformMock,

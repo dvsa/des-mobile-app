@@ -9,6 +9,7 @@ import { PracticeModeOptionsBar } from '@components/common/practice-mode-options
 import { TestFlowHeaderComponent } from '@components/common/test-flow-header/test-flow-header.component';
 import { TickIndicatorComponent } from '@components/common/tick-indicator/tick-indicator';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
+import { provideBasePageMocks } from '@mocks/test-providers';
 import { StoreModule } from '@ngrx/store';
 import { PcvDoorExerciseComponent } from '@pages/test-report/cat-d/components/pcv-door-exercise/pcv-door-exercise';
 import { SafetyQuestionsCatDComponent } from '@pages/test-report/cat-d/components/safety-questions/safety-questions.cat-d';
@@ -40,7 +41,8 @@ describe('TestReportCatDPage', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
-        AppModule,
+        StoreModule.forRoot({}),
+
         StoreModule.forFeature('tests', () => ({
           currentTest: {
             slotId: '123',
@@ -74,6 +76,7 @@ describe('TestReportCatDPage', () => {
         MockComponent(TestFlowHeaderComponent),
       ],
       providers: [
+        provideBasePageMocks(),
         {
           provide: NavParams,
           useClass: NavParamsMock,

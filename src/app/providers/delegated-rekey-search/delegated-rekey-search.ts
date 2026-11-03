@@ -17,7 +17,9 @@ export interface DelegatedExaminerBooking {
   testSlot: TestSlot;
 }
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class DelegatedRekeySearchProvider {
   constructor(
     private http: HttpClient,

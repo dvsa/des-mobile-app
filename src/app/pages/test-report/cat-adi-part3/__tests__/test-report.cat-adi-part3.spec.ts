@@ -7,6 +7,7 @@ import { PracticeModeOptionsBar } from '@components/common/practice-mode-options
 import { TestFlowHeaderComponent } from '@components/common/test-flow-header/test-flow-header.component';
 import { TestResultCatADI3Schema } from '@dvsa/mes-test-schema/categories/ADI3';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
+import { provideBasePageMocks } from '@mocks/test-providers';
 import { Action, Store, StoreModule } from '@ngrx/store';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { LessonThemeComponent } from '@pages/test-report/cat-adi-part3/components/lesson-theme/lesson-theme';
@@ -45,7 +46,8 @@ describe('TestReportCatADI3Page', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
-        AppModule,
+        StoreModule.forRoot({}),
+
         StoreModule.forFeature('tests', () => ({
           currentTest: {
             slotId: '123',
@@ -70,6 +72,7 @@ describe('TestReportCatADI3Page', () => {
         MockComponent(TestFlowHeaderComponent),
       ],
       providers: [
+        provideBasePageMocks(),
         {
           provide: Platform,
           useClass: PlatformMock,

@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { KeepAwake as Insomnia } from '@capacitor-community/keep-awake';
 import { Platform } from '@ionic/angular';
 import { PlatformMock, RouterMock } from '@mocks/index.mock';
+import { provideBasePageMocks } from '@mocks/test-providers';
 import { Store, StoreModule } from '@ngrx/store';
 
 import { delegatedSearchReducer } from '@pages/delegated-rekey-search/delegated-rekey-search.reducer';
@@ -30,7 +31,6 @@ describe('DelegatedRekeyUploadOutcomePage', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
-        AppModule,
         StoreModule.forRoot({
           tests: testsReducer,
           delegatedRekeySearch: delegatedSearchReducer,
@@ -38,6 +38,7 @@ describe('DelegatedRekeyUploadOutcomePage', () => {
         DelegatedRekeyUploadOutcomePage,
       ],
       providers: [
+        provideBasePageMocks(),
         {
           provide: Router,
           useClass: RouterMock,

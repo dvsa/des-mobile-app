@@ -2,7 +2,7 @@ import { EventEmitter } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule, UntypedFormGroup } from '@angular/forms';
 
-import { TranslateLoader, TranslateModule, TranslateParser, TranslateService } from '@ngx-translate/core';
+import { provideTestTranslations } from '@mocks/test-providers';
 import { HealthDeclarationComponent } from '../health-declaration';
 
 describe('HealthDeclarationComponent', () => {
@@ -11,8 +11,8 @@ describe('HealthDeclarationComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [TranslateModule.forRoot(), ReactiveFormsModule, HealthDeclarationComponent],
-      providers: [TranslateService, TranslateLoader, TranslateParser],
+      imports: [ReactiveFormsModule, HealthDeclarationComponent],
+      providers: [provideTestTranslations()],
     });
 
     fixture = TestBed.createComponent(HealthDeclarationComponent);

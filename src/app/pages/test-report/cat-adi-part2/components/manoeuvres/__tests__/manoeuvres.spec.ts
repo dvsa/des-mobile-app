@@ -22,7 +22,6 @@ describe('ManoeuvresComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
-        AppModule,
         StoreModule.forRoot({
           tests: () => ({
             currentTest: {

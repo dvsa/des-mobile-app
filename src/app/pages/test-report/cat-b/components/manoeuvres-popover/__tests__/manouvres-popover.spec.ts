@@ -43,7 +43,6 @@ describe('ManoeuvresPopoverComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
-        AppModule,
         StoreModule.forRoot({
           tests: () => ({
             currentTest: {

@@ -5,7 +5,7 @@ import { default as welshTranslations } from '@assets/i18n/cy.json';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 
 import { Store, StoreModule } from '@ngrx/store';
-import { TranslateModule, TranslateService, provideTranslateService } from '@ngx-translate/core';
+import { TranslateService, provideTranslateService } from '@ngx-translate/core';
 import { provideTranslateHttpLoader } from '@ngx-translate/http-loader';
 import { StoreModel } from '@shared/models/store.model';
 import {
@@ -29,7 +29,7 @@ describe('VehicleChecksCardCatBComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({ tests: testsReducer }),
-        TranslateModule.forRoot(),
+
         VehicleChecksCardCatBComponent,
       ],
       providers: [
@@ -45,7 +45,7 @@ describe('VehicleChecksCardCatBComponent', () => {
     fixture = TestBed.createComponent(VehicleChecksCardCatBComponent);
     store$ = TestBed.inject(Store);
     translate = TestBed.inject(TranslateService);
-    translate.setDefaultLang('en');
+    translate.setFallbackLang('en');
     store$.dispatch(StartTest(105, TestCategory.B));
   }));
 

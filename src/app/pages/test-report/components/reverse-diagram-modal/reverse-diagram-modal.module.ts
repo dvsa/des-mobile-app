@@ -14,14 +14,11 @@ import {
   IonTitle,
   IonToolbar,
 } from '@ionic/angular';
-import { EffectsModule } from '@ngrx/effects';
 import { ReversingDistancesProvider } from '@providers/reversing-distances/reversing-distances';
 import { ReverseDiagramPage } from './reverse-diagram-modal';
-import { ReverseDiagramModalAnalyticsEffects } from './reverse-diagram-modal.analytics.effects';
 
 @NgModule({
   imports: [
-    EffectsModule.forFeature([ReverseDiagramModalAnalyticsEffects]),
     IonCol,
     IonRow,
     IonLabel,

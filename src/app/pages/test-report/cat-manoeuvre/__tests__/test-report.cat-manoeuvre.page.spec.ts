@@ -2,6 +2,7 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ModalController, Platform, ToastController } from '@ionic/angular';
 import { ModalControllerMock, PlatformMock } from '@mocks/index.mock';
+import { provideBasePageMocks } from '@mocks/test-providers';
 import { Store, StoreModule } from '@ngrx/store';
 import { MockComponent } from 'ng-mocks';
 
@@ -37,7 +38,8 @@ describe('TestReportCatManoeuvrePage', () => {
     TestBed.configureTestingModule({
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       imports: [
-        AppModule,
+        StoreModule.forRoot({}),
+
         StoreModule.forFeature('testReport', testReportReducer),
         StoreModule.forFeature('tests', () => ({
           currentTest: {
@@ -61,6 +63,7 @@ describe('TestReportCatManoeuvrePage', () => {
         MockComponent(TestFlowHeaderComponent),
       ],
       providers: [
+        provideBasePageMocks(),
         {
           provide: Platform,
           useClass: PlatformMock,

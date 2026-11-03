@@ -6,7 +6,9 @@ import { timeout } from 'rxjs/operators';
 import { AppConfigProvider } from '../app-config/app-config';
 import { UrlProvider } from '../url/url';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class TestCentreJournalProvider {
   constructor(
     private http: HttpClient,

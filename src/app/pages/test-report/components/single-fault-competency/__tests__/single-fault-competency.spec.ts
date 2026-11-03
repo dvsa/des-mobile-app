@@ -19,7 +19,7 @@ import {
 import { SingleFaultCompetencyNames } from '@store/tests/test-data/test-data.constants';
 import { testsReducer } from '@store/tests/tests.reducer';
 import { MockComponent } from 'ng-mocks';
-import { AppModule } from 'src/app/app.module';
+
 import { ToggleDangerousFaultMode, ToggleRemoveFaultMode, ToggleSeriousFaultMode } from '../../../test-report.actions';
 import { testReportReducer } from '../../../test-report.reducer';
 import { SingleFaultCompetencyComponent } from '../single-fault-competency';
@@ -32,7 +32,6 @@ describe('SingleFaultCompetencyComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
-        AppModule,
         StoreModule.forRoot({
           journal: journalReducer,
           tests: testsReducer,

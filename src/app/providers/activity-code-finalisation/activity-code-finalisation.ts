@@ -17,7 +17,9 @@ import {
 import { lastValueFrom } from 'rxjs';
 import { TestResultProvider } from '../test-result/test-result';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class ActivityCodeFinalisationProvider {
   constructor(private testResultProvider: TestResultProvider) {}
 
@@ -30,10 +32,9 @@ export class ActivityCodeFinalisationProvider {
       return false;
     }
 
-    const isPass =
-      (await lastValueFrom(this.testResultProvider.calculateTestResult(category, testData))) === ActivityCodes.PASS;
-
-    return isPass;
+    return (
+      (await lastValueFrom(this.testResultProvider.calculateTestResult(category, testData))) === ActivityCodes.PASS
+    );
   }
 
   async catAMod2TestDataIsInvalid(

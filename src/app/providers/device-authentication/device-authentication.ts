@@ -11,7 +11,9 @@ import { NativeBiometric } from 'capacitor-native-biometric';
 import { AppConfigProvider } from '../app-config/app-config';
 import { ExaminerRole } from '../app-config/constants/examiner-role.constants';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class DeviceAuthenticationProvider {
   constructor(
     private platform: Platform,

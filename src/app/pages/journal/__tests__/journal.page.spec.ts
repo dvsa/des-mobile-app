@@ -48,7 +48,7 @@ import { JournalRehydrationType } from '@store/journal/journal.effects';
 import { journalReducer } from '@store/journal/journal.reducer';
 import { getRecallAutoPopupLastDisplayedTime } from '@store/journal/journal.selector';
 import { TestStatus } from '@store/tests/test-status/test-status.model';
-import { getTests } from '@store/tests/tests.reducer';
+import { getTests, testsReducer } from '@store/tests/tests.reducer';
 import { Subscription, of } from 'rxjs';
 
 describe('JournalPage', () => {
@@ -72,6 +72,7 @@ describe('JournalPage', () => {
         TestSlotComponentsModule,
         StoreModule.forRoot({
           journal: journalReducer,
+          tests: testsReducer,
         }),
         JournalPage,
       ],

@@ -26,7 +26,6 @@ describe('VehicleChecksCatAMod2Modal', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
-        AppModule,
         StoreModule.forRoot({}),
         VehicleChecksCatAMod2Modal,
         MockComponent(VehicleChecksQuestionCatAMod2Component),

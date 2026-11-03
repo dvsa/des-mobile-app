@@ -8,7 +8,9 @@ import {
 } from '@dvsa/mes-test-schema/categories/ADI3';
 import { get } from 'lodash-es';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class ADI3AssessmentProvider {
   private static readonly QuestionCount: number = 17;
 

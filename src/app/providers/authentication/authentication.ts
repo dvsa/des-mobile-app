@@ -49,7 +49,9 @@ export interface AuthResult {
   isMSAuth?: boolean;
 }
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class AuthenticationProvider {
   authResult: Signal<AuthResult> = this.store$.selectSignal(selectAuthResult);
   authOptions: LoginOptions = null;

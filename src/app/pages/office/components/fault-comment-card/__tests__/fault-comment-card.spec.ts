@@ -3,9 +3,9 @@ import { ReactiveFormsModule, UntypedFormGroup } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 
 import { FaultSummary } from '@shared/models/fault-marking.model';
-import { PipesModule } from '@shared/pipes/pipes.module';
+
 import { MockComponent } from 'ng-mocks';
-import { AppModule } from 'src/app/app.module';
+
 import { FaultCommentComponent } from '../../fault-comment/fault-comment';
 import { FaultCommentCardComponent } from '../fault-comment-card';
 
@@ -16,9 +16,8 @@ describe('FaultCommentCardComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
-        AppModule,
         ReactiveFormsModule,
-        PipesModule,
+
         FaultCommentCardComponent,
         MockComponent(FaultCommentComponent),
       ],

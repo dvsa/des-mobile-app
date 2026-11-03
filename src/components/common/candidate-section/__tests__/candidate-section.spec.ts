@@ -2,6 +2,8 @@ import { CommonModule } from '@angular/common';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { CandidateSectionComponent } from '@components/common/candidate-section/candidate-section';
+import { provideBasePageMocks } from '@mocks/test-providers';
+import { provideMockStore } from '@ngrx/store/testing';
 
 import { OverlayEventDetail } from '@ionic/core';
 import {
@@ -18,6 +20,7 @@ describe('CandidateSectionComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [CommonModule, CandidateSectionComponent],
+      providers: [provideBasePageMocks(), provideMockStore()],
     });
     fixture = TestBed.createComponent(CandidateSectionComponent);
     component = fixture.componentInstance;

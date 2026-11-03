@@ -148,7 +148,6 @@ describe('VehicleChecksCatDModal', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
-        AppModule,
         StoreModule.forRoot({}),
         VehicleChecksCatDModal,
         MockComponent(FullLicenceHeldComponent),

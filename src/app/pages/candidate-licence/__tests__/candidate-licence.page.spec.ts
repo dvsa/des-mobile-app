@@ -4,6 +4,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Platform } from '@ionic/angular';
 import { RouterMock } from '@mocks/angular-mocks/router-mock';
+import { provideBasePageMocks } from '@mocks/test-providers';
 import { provideMockStore } from '@ngrx/store/testing';
 import { MockComponent } from 'ng-mocks';
 
@@ -105,6 +106,7 @@ describe('CandidateLicencePage', () => {
         MockComponent(LicenceInformation),
       ],
       providers: [
+        provideBasePageMocks(),
         {
           provide: DomSanitizer,
           useClass: DomSanitizerMock,

@@ -7,7 +7,7 @@ import { QuestionResult } from '@dvsa/mes-test-schema/categories/common';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 
 import { Store, StoreModule } from '@ngrx/store';
-import { TranslateModule, TranslateService, provideTranslateService } from '@ngx-translate/core';
+import { TranslateService, provideTranslateService } from '@ngx-translate/core';
 import { provideTranslateHttpLoader } from '@ngx-translate/http-loader';
 import { StoreModel } from '@shared/models/store.model';
 import { candidateMock } from '@store/tests/__mocks__/tests.mock';
@@ -30,7 +30,7 @@ describe('SafetyAndBalanceCardCatAMod2Component', () => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({ tests: testsReducer }),
-        TranslateModule.forRoot(),
+
         SafetyAndBalanceCardCatAMod2Component,
       ],
       providers: [
@@ -46,7 +46,7 @@ describe('SafetyAndBalanceCardCatAMod2Component', () => {
     fixture = TestBed.createComponent(SafetyAndBalanceCardCatAMod2Component);
     store$ = TestBed.inject(Store);
     translate = TestBed.inject(TranslateService);
-    translate.setDefaultLang('en');
+    translate.setFallbackLang('en');
     store$.dispatch(StartTest(105, TestCategory.EUA2M2));
     store$.dispatch(PopulateTestCategory(TestCategory.EUA2M2));
     store$.dispatch(PopulateCandidateDetails(candidateMock));

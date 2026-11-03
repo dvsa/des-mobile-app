@@ -1,7 +1,7 @@
 import { EventEmitter } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule, UntypedFormGroup } from '@angular/forms';
-import { TranslateModule } from '@ngx-translate/core';
+import { provideTestTranslations } from '@mocks/test-providers';
 
 import { ReceiptDeclarationComponent } from '../receipt-declaration';
 
@@ -11,7 +11,8 @@ describe('ReceiptDeclarationComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [ReactiveFormsModule, TranslateModule.forRoot(), ReceiptDeclarationComponent],
+      imports: [ReactiveFormsModule, ReceiptDeclarationComponent],
+      providers: [provideTestTranslations()],
     });
 
     fixture = TestBed.createComponent(ReceiptDeclarationComponent);

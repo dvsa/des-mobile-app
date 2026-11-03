@@ -5,6 +5,7 @@ import { By } from '@angular/platform-browser';
 import { InputRestrictionNumbersDirective } from '@directives/input-restriction-numbers.directive';
 
 @Component({
+  imports: [InputRestrictionNumbersDirective],
   template: `
     <form>
       <input type="text" numbersOnly />
@@ -28,6 +29,7 @@ describe('Directive: InputRestrictionNumbersDirective', () => {
       providers: [{ provide: ElementRef, useValue: ElementRefMock }],
     });
     fixture = TestBed.createComponent(TestInputRestrictionNumbersComponent);
+    fixture.detectChanges();
     directiveEl = fixture.debugElement.query(By.directive(InputRestrictionNumbersDirective));
     directiveInstance = directiveEl.injector.get(InputRestrictionNumbersDirective);
   });

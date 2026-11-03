@@ -11,8 +11,9 @@ import { EndTestLinkComponent } from '@components/common/end-test-link/end-test-
 import { PracticeModeOptionsBar } from '@components/common/practice-mode-options-bar/practice-mode-options-bar';
 import { LockScreenIndicator } from '@components/common/screen-lock-indicator/lock-screen-indicator';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
+import { provideBasePageMocks } from '@mocks/test-providers';
 import { Store, StoreModule } from '@ngrx/store';
-import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { TranslateService } from '@ngx-translate/core';
 import { CommunicationSubmitInfo, CommunicationViewDidEnter } from '@pages/communication/communication.actions';
 import { CommunicationPage } from '@pages/communication/communication.page';
 import { AuthenticationProviderMock } from '@providers/authentication/__mocks__/authentication.mock';
@@ -28,7 +29,6 @@ import { ValidPassCertChanged } from '@store/tests/pre-test-declarations/pre-tes
 import { initialState as preTestDeclarationInitialState } from '@store/tests/pre-test-declarations/pre-test-declarations.reducer';
 import { MockComponent } from 'ng-mocks';
 import { Subscription } from 'rxjs';
-import { AppModule } from 'src/app/app.module';
 
 describe('CommunicationPage', () => {
   let fixture: ComponentFixture<CommunicationPage>;
@@ -41,9 +41,9 @@ describe('CommunicationPage', () => {
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       imports: [
         RouterModule.forRoot([]),
-        AppModule,
-        TranslateModule,
+
         ReactiveFormsModule,
+        StoreModule.forRoot({}),
         StoreModule.forFeature('tests', () => ({
           currentTest: {
             slotId: '123',
@@ -65,7 +65,7 @@ describe('CommunicationPage', () => {
                 },
               },
               communicationPreferences: {
-                updatedEmaill: 'test@mail.com',
+                updatedEmail: 'test@mail.com',
                 communicationMethod: 'Email',
                 conductedLanguage: 'English',
               },
@@ -79,6 +79,7 @@ describe('CommunicationPage', () => {
         MockComponent(CandidateSectionComponent),
       ],
       providers: [
+        provideBasePageMocks(),
         {
           provide: Platform,
           useClass: PlatformMock,
@@ -105,7 +106,7 @@ describe('CommunicationPage', () => {
     fixture = TestBed.createComponent(CommunicationPage);
     component = fixture.componentInstance;
     translate = TestBed.inject(TranslateService);
-    translate.setDefaultLang('en');
+    translate.setFallbackLang('en');
     store$ = TestBed.inject(Store);
     spyOn(store$, 'dispatch');
     component.subscription = new Subscription();
@@ -120,6 +121,7 @@ describe('CommunicationPage', () => {
       it('should dispatch the SubmitCommunicationInfo action', fakeAsync(() => {
         const { form } = component;
         form.get('radioCtrl').setValue(true);
+        form.get('newEmailCtrl').setValue('test@mail.com');
         component.onSubmit();
         tick();
         expect(store$.dispatch).toHaveBeenCalledWith(CommunicationSubmitInfo());
@@ -127,6 +129,7 @@ describe('CommunicationPage', () => {
       it('form should only be valid whenever all form controls are initialised', () => {
         const { form } = component;
         form.get('radioCtrl').setValue(true);
+        form.get('newEmailCtrl').setValue('test@mail.com');
         expect(form.get('radioCtrl').status).toEqual('VALID');
         expect(form.valid).toEqual(true);
       });

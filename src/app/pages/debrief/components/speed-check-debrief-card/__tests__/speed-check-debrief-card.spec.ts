@@ -1,7 +1,8 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
+import { provideTestTranslations } from '@mocks/test-providers';
 import { StoreModule } from '@ngrx/store';
-import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { TranslateService } from '@ngx-translate/core';
 import { SpeedCheckDebriefCardComponent } from '../speed-check-debrief-card';
 
 describe('SeriousFaultsDebriefCardComponent', () => {
@@ -11,7 +12,8 @@ describe('SeriousFaultsDebriefCardComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [StoreModule.forRoot({}), TranslateModule, SpeedCheckDebriefCardComponent],
+      imports: [StoreModule.forRoot({}), SpeedCheckDebriefCardComponent],
+      providers: [provideTestTranslations()],
     });
 
     fixture = TestBed.createComponent(SpeedCheckDebriefCardComponent);
@@ -33,10 +35,10 @@ describe('SeriousFaultsDebriefCardComponent', () => {
 
   describe('ngOnInit', () => {
     it('should default to english if isTranslatable is false', () => {
-      translate.setDefaultLang('cy');
+      translate.setFallbackLang('cy');
       component.isTranslatable = false;
       fixture.detectChanges();
-      expect(translate.currentLang).toEqual('en');
+      expect(translate.getCurrentLang()).toEqual('en');
     });
   });
 });

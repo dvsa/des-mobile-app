@@ -11,7 +11,9 @@ import { FinalisationHeaderComponent } from '@components/test-finalisation/final
 import { LanguagePreferencesComponent } from '@components/test-finalisation/language-preference/language-preference';
 import { NavController, Platform } from '@ionic/angular';
 import { NavControllerMock, PlatformMock, RouterMock } from '@mocks/index.mock';
+import { provideBasePageMocks } from '@mocks/test-providers';
 import { Store } from '@ngrx/store';
+import { provideMockStore } from '@ngrx/store/testing';
 import { PassFinalisationCatManoeuvrePage } from '@pages/pass-finalisation/cat-manoeuvre/pass-finalisation.cat-manoeuvre.page';
 import { LicenceProvidedWarningBannerComponent } from '@pages/pass-finalisation/components/licence-provided-warning-banner/licence-provided-warning-banner';
 import { LicenseProvidedComponent } from '@pages/pass-finalisation/components/license-provided/license-provided';
@@ -35,7 +37,7 @@ describe('PassFinalisationCatManoeuvrePage', () => {
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       imports: [
         RouterModule.forRoot([]),
-        AppModule,
+
         PassFinalisationCatManoeuvrePage,
         MockComponent(PracticeModeOptionsBar),
         MockComponent(PassCertificateNumberComponent),
@@ -48,6 +50,8 @@ describe('PassFinalisationCatManoeuvrePage', () => {
         MockComponent(LicenceProvidedWarningBannerComponent),
       ],
       providers: [
+        provideBasePageMocks(),
+        provideMockStore(),
         {
           provide: Platform,
           useClass: PlatformMock,

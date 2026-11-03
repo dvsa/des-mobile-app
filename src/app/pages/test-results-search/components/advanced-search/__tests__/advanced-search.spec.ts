@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MockAppComponent } from '@app/__mocks__/app.component.mock';
 import { AppComponent } from '@app/app.component';
+import { provideMockStore } from '@ngrx/store/testing';
 
 import { DateTimeInputComponent } from '@components/common/datetime-input/date-time-input.component';
 import { SearchablePicklistComponentWrapper } from '@components/common/searchable-picklist-wrapper/searchable-picklist-wrapper';
@@ -14,12 +15,11 @@ describe('AdvancedSearchComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
-        AppModule,
         AdvancedSearchComponent,
         MockComponent(DateTimeInputComponent),
         MockComponent(SearchablePicklistComponentWrapper),
       ],
-      providers: [{ provide: AppComponent, useClass: MockAppComponent }],
+      providers: [provideMockStore(), { provide: AppComponent, useClass: MockAppComponent }],
     });
 
     fixture = TestBed.createComponent(AdvancedSearchComponent);

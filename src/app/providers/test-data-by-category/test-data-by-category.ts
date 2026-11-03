@@ -19,7 +19,9 @@ import { getTestData as getTestDataCatH } from '@store/tests/test-data/cat-home/
 import { getTestData as getTestDataCatK } from '@store/tests/test-data/cat-home/test-data.cat-k.reducer';
 import { getTestData as getTestDataCatManoeuvre } from '@store/tests/test-data/cat-manoeuvres/test-data.cat-manoeuvres.reducer';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class TestDataByCategoryProvider {
   static getTestDataByCategoryCodeErrMsg = 'Error getting test category';
 

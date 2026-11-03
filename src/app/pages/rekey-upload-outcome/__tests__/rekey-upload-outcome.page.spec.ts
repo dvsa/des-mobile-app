@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { KeepAwake as Insomnia } from '@capacitor-community/keep-awake';
 import { Platform } from '@ionic/angular';
 import { PlatformMock, RouterMock } from '@mocks/index.mock';
+import { provideBasePageMocks } from '@mocks/test-providers';
 import { Store, StoreModule } from '@ngrx/store';
 import { Subscription, of } from 'rxjs';
 
@@ -32,7 +33,6 @@ describe('RekeyUploadOutcomePage', () => {
     jasmine.getEnv().allowRespy(true);
     TestBed.configureTestingModule({
       imports: [
-        AppModule,
         StoreModule.forRoot({
           tests: testsReducer,
           rekeyReason: rekeyReasonReducer,
@@ -40,6 +40,7 @@ describe('RekeyUploadOutcomePage', () => {
         RekeyUploadOutcomePage,
       ],
       providers: [
+        provideBasePageMocks(),
         {
           provide: Platform,
           useClass: PlatformMock,

@@ -9,7 +9,7 @@ import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/
 import { ModalController, Platform } from '@ionic/angular';
 import { PlatformMock, RouterMock } from '@mocks/index.mock';
 import { Store, StoreModule } from '@ngrx/store';
-import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { TranslateService } from '@ngx-translate/core';
 import { MockComponent } from 'ng-mocks';
 import { Observable, Subscription } from 'rxjs';
 
@@ -21,6 +21,7 @@ import { EndTestLinkComponent } from '@components/common/end-test-link/end-test-
 import { PracticeModeOptionsBar } from '@components/common/practice-mode-options-bar/practice-mode-options-bar';
 import { LockScreenIndicator } from '@components/common/screen-lock-indicator/lock-screen-indicator';
 import { SignatureComponent } from '@components/common/signature/signature';
+import { provideBasePageMocks } from '@mocks/test-providers';
 import { provideMockStore } from '@ngrx/store/testing';
 import { GetCandidateLicenceData } from '@pages/candidate-licence/candidate-licence.actions';
 import { TestFlowPageNames } from '@pages/page-names.constants';
@@ -132,8 +133,7 @@ describe('WaitingRoomPage', () => {
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       imports: [
         RouterModule.forRoot([]),
-        AppModule,
-        TranslateModule,
+        StoreModule.forRoot({}),
         StoreModule.forFeature('tests', () => ({
           currentTest: {
             slotId: '123',
@@ -175,6 +175,7 @@ describe('WaitingRoomPage', () => {
         MockComponent(CBTNumberComponent),
       ],
       providers: [
+        provideBasePageMocks(),
         {
           provide: Router,
           useClass: RouterMock,
@@ -212,7 +213,7 @@ describe('WaitingRoomPage', () => {
     deviceProvider = TestBed.inject(DeviceProvider);
     deviceAuthenticationProvider = TestBed.inject(DeviceAuthenticationProvider);
     translate = TestBed.inject(TranslateService);
-    translate.setDefaultLang('en');
+    translate.setFallbackLang('en');
     store$ = TestBed.inject(Store);
     modalController = TestBed.inject(ModalController);
     router = TestBed.inject(Router);

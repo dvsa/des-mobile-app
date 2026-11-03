@@ -7,6 +7,7 @@ import { TestResultSchemasUnion } from '@dvsa/mes-test-schema/categories';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { Platform } from '@ionic/angular';
 import { PlatformMock, RouterMock } from '@mocks/index.mock';
+import { provideBasePageMocks } from '@mocks/test-providers';
 import { Store } from '@ngrx/store';
 import { provideMockStore } from '@ngrx/store/testing';
 import { MockComponent } from 'ng-mocks';
@@ -82,7 +83,6 @@ describe('WaitingRoomToCarCatBPage', () => {
     TestBed.configureTestingModule({
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       imports: [
-        AppModule,
         ReactiveFormsModule,
         WaitingRoomToCarCatBPage,
         MockComponent(EyesightTestComponent),
@@ -101,6 +101,7 @@ describe('WaitingRoomToCarCatBPage', () => {
         MockComponent(PracticeModeOptionsBar),
       ],
       providers: [
+        provideBasePageMocks(),
         { provide: RouteByCategoryProvider, useClass: RouteByCategoryProviderMock },
         { provide: AuthenticationProvider, useClass: AuthenticationProviderMock },
         { provide: Platform, useClass: PlatformMock },

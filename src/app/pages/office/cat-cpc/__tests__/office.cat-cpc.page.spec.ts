@@ -7,6 +7,7 @@ import { DebriefWitnessedComponent } from '@components/test-finalisation/debrief
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { ModalController, NavController, Platform, ToastController } from '@ionic/angular';
 import { ModalControllerMock, PlatformMock } from '@mocks/index.mock';
+import { provideBasePageMocks } from '@mocks/test-providers';
 import { Store, StoreModule } from '@ngrx/store';
 import { AssessmentReportComponent } from '@pages/office/cat-cpc/components/assessment-report/assessment-report';
 import { CombinationComponent } from '@pages/office/cat-cpc/components/combination/combination';
@@ -43,7 +44,7 @@ import { Competencies, ExaminerActions } from '@store/tests/test-data/test-data.
 import { AssessmentReportChanged } from '@store/tests/test-summary/cat-cpc/test-summary.cat-cpc.actions';
 import { MockComponent } from 'ng-mocks';
 import { Subscription } from 'rxjs';
-import { AppModule } from 'src/app/app.module';
+
 import { AdditionalInformationComponent } from '../../components/additional-information/additional-information';
 import { CandidateDescriptionComponent } from '../../components/candidate-description/candidate-description';
 import { CandidateSectionComponent } from '../../components/candidate-section/candidate-section';
@@ -59,7 +60,6 @@ describe('OfficeCatCPCPage', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
-        AppModule,
         StoreModule.forRoot({
           tests: () => ({
             currentTest: {
@@ -71,6 +71,7 @@ describe('OfficeCatCPCPage', () => {
                 category: TestCategory.CCPC,
                 vehicleDetails: {},
                 accompaniment: {},
+                userExitedApp: {},
                 testSummary: {
                   candidateDescription: 'tall',
                   additionalInformation: 'additional',
@@ -223,6 +224,7 @@ describe('OfficeCatCPCPage', () => {
                 },
                 activityCode: '28',
                 journalData: {
+                  testSlotAttributes: { start: '2026-01-01T09:00:00' },
                   candidate: {
                     candidateName: 'Joe Bloggs',
                     driverNumber: '123',
@@ -251,6 +253,7 @@ describe('OfficeCatCPCPage', () => {
         MockComponent(TestFlowHeaderComponent),
       ],
       providers: [
+        provideBasePageMocks(),
         { provide: Platform, useClass: PlatformMock },
         { provide: AuthenticationProvider, useClass: AuthenticationProviderMock },
         { provide: NavController, useClass: NavControllerMock },
@@ -336,6 +339,7 @@ describe('OfficeCatCPCPage', () => {
       it('should dispatch an action to persist tests + pop navstack to root when defer is called', () => {
         spyOn(component, 'popToRoot');
         fixture.detectChanges();
+        component.hasNavigatedFromUnsubmitted = false;
         component.defer();
         expect(component.popToRoot).toHaveBeenCalled();
       });

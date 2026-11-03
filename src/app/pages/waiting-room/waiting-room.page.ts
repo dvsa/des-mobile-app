@@ -329,6 +329,7 @@ export class WaitingRoomPage extends PracticeableBasePageComponent implements On
   }
 
   async showCandidateDataMissingError(): Promise<void> {
+    console.error('candidate data missing error');
     const errorModal: HTMLIonModalElement = await this.modalController.create({
       component: ErrorPage,
       cssClass: `modal-fullscreen ${this.accessibilityService.getTextZoomClass()}`,

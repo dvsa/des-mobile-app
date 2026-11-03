@@ -4,6 +4,7 @@ import { By } from '@angular/platform-browser';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { ModalController, NavController, Platform, ToastController } from '@ionic/angular';
 import { ModalControllerMock, PlatformMock } from '@mocks/index.mock';
+import { provideBasePageMocks } from '@mocks/test-providers';
 import { Store, StoreModule } from '@ngrx/store';
 import { NavControllerMock } from '@shared/mocks/nav-controller.mock';
 import { MockComponent } from 'ng-mocks';
@@ -39,7 +40,7 @@ import { ActivityCodes } from '@shared/models/activity-codes';
 import { CompetencyOutcome } from '@shared/models/competency-outcome';
 import { CommentSource } from '@shared/models/fault-marking.model';
 import { StoreModel } from '@shared/models/store.model';
-import { PipesModule } from '@shared/pipes/pipes.module';
+
 import { AddManoeuvreComment } from '@store/tests/test-data/cat-adi-part2/manoeuvres/manoeuvres.actions';
 import {
   AddShowMeTellMeComment,
@@ -65,7 +66,7 @@ import {
 } from '@store/tests/test-data/common/serious-faults/serious-faults.actions';
 import { AddUncoupleRecoupleComment } from '@store/tests/test-data/common/uncouple-recouple/uncouple-recouple.actions';
 import { Competencies, ExaminerActions } from '@store/tests/test-data/test-data.constants';
-import { AppModule } from 'src/app/app.module';
+
 import { AdditionalInformationComponent } from '../../components/additional-information/additional-information';
 import { CandidateDescriptionComponent } from '../../components/candidate-description/candidate-description';
 import { CandidateSectionComponent } from '../../components/candidate-section/candidate-section';
@@ -85,8 +86,6 @@ describe('OfficeCatADI2Page', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
-        PipesModule,
-        AppModule,
         StoreModule.forRoot({
           tests: () => ({
             currentTest: {
@@ -98,6 +97,8 @@ describe('OfficeCatADI2Page', () => {
                 category: TestCategory.ADI2,
                 vehicleDetails: {},
                 accompaniment: {},
+                testSummary: {},
+                userExitedApp: {},
                 testData: {
                   dangerousFaults: {},
                   drivingFaults: {},
@@ -113,6 +114,7 @@ describe('OfficeCatADI2Page', () => {
                 },
                 activityCode: '28',
                 journalData: {
+                  testSlotAttributes: { start: '2026-01-01T09:00:00' },
                   candidate: {
                     candidateName: {},
                     driverNumber: '123',
@@ -146,6 +148,7 @@ describe('OfficeCatADI2Page', () => {
         MockComponent(VehicleDetailsCardComponent),
       ],
       providers: [
+        provideBasePageMocks(),
         {
           provide: Platform,
           useClass: PlatformMock,
@@ -272,6 +275,7 @@ describe('OfficeCatADI2Page', () => {
     it('should dispatch an action to persist tests + pop navstack to root when defer is called', () => {
       spyOn(component, 'popToRoot');
       fixture.detectChanges();
+      component.hasNavigatedFromUnsubmitted = false;
       component.defer();
       expect(component.popToRoot).toHaveBeenCalled();
     });

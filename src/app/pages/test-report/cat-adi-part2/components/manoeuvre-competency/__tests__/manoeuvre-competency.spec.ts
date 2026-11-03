@@ -36,7 +36,6 @@ describe('ManoeuvreCompetencyComponentAdiPart2', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
-        AppModule,
         StoreModule.forRoot({
           journal: () => ({
             isLoading: false,

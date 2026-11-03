@@ -3,7 +3,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule, UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 
-import { TranslateModule, TranslateService, provideTranslateService } from '@ngx-translate/core';
+import { TranslateService, provideTranslateService } from '@ngx-translate/core';
 import { provideTranslateHttpLoader } from '@ngx-translate/http-loader';
 import { ProvidedEmailComponent } from '../provided-email';
 
@@ -14,7 +14,7 @@ describe('ProvidedEmailComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [ReactiveFormsModule, TranslateModule.forRoot(), ProvidedEmailComponent],
+      imports: [ReactiveFormsModule, ProvidedEmailComponent],
       providers: [
         provideHttpClient(withInterceptorsFromDi()),
         provideTranslateService({
@@ -32,7 +32,7 @@ describe('ProvidedEmailComponent', () => {
     component.shouldRender = true;
     component.isProvidedEmailAddressChosen = true;
     translate = TestBed.inject(TranslateService);
-    translate.setDefaultLang('en');
+    translate.setFallbackLang('en');
   });
 
   describe('DOM', () => {

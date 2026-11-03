@@ -26,7 +26,9 @@ interface PracticeableBasePageState {
   isDelegated$: Observable<boolean>;
 }
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export abstract class PracticeableBasePageComponent extends BasePageComponent implements OnInit, ViewDidLeave {
   public store$ = this.injector.get<Store<StoreModel>>(Store);
 

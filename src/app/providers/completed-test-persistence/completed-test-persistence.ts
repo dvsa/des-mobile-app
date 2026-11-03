@@ -9,7 +9,9 @@ import { LoadCompletedTestsSuccess } from '@store/journal/journal.actions';
 import { SaveLog } from '@store/logs/logs.actions';
 import { DataStoreProvider, LocalStorageKey } from '../data-store/data-store';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class CompletedTestPersistenceProvider {
   constructor(
     private dataStoreProvider: DataStoreProvider,

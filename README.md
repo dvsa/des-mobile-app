@@ -62,6 +62,17 @@ DVSA Driving Examiner Application
 
 - `npm run test`
 
+To run tests without regenerating mock data or replacing the environment file:
+
+```shell
+npx ng test --watch=false --progress=false --code-coverage=false
+```
+
+Standalone tests must configure their own dependencies; application bootstrap providers are not inherited.
+Use `provideBasePageMocks()` from `mock/test-providers.ts` for page dependencies, or
+`provideTestTranslations()` for translation-only components. Configure a root store or `provideMockStore()`
+separately, and include directives in standalone test host components' `imports`.
+
 ### Sentry
 
 ###### In order to manually create a Sentry release, you should obtain the `.sentryclirc` file and place at root

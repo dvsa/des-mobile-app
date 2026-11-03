@@ -2,8 +2,9 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { By } from '@angular/platform-browser';
 
+import { provideTestTranslations } from '@mocks/test-providers';
 import { StoreModule } from '@ngrx/store';
-import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { TranslateService } from '@ngx-translate/core';
 import { EtaDebriefCardComponent } from '../eta-debrief-card';
 
 describe('EtaDebriefCardComponent', () => {
@@ -13,13 +14,14 @@ describe('EtaDebriefCardComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [StoreModule.forRoot({}), TranslateModule, EtaDebriefCardComponent],
+      imports: [StoreModule.forRoot({}), EtaDebriefCardComponent],
+      providers: [provideTestTranslations()],
     });
 
     fixture = TestBed.createComponent(EtaDebriefCardComponent);
     component = fixture.componentInstance;
     translate = TestBed.inject(TranslateService);
-    translate.setDefaultLang('en');
+    translate.setFallbackLang('en');
   });
 
   describe('DOM', () => {

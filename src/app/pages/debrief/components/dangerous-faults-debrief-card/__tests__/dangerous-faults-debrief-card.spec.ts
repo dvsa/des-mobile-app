@@ -4,10 +4,11 @@ import { firstValueFrom } from 'rxjs';
 import { By } from '@angular/platform-browser';
 
 import { default as welshTranslations } from '@assets/i18n/cy.json';
+import { provideTestTranslations } from '@mocks/test-providers';
 import { StoreModule } from '@ngrx/store';
-import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { TranslateService } from '@ngx-translate/core';
 import { configureI18N } from '@shared/helpers/translation.helpers';
-import { PipesModule } from '@shared/pipes/pipes.module';
+
 import { Language } from '@store/tests/communication-preferences/communication-preferences.model';
 import { Competencies } from '@store/tests/test-data/test-data.constants';
 import { DangerousFaultsDebriefCardComponent } from '../dangerous-faults-debrief-card';
@@ -27,7 +28,8 @@ describe('DangerousFaultsDebriefCardComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [AppModule, StoreModule.forRoot({}), TranslateModule, PipesModule, DangerousFaultsDebriefCardComponent],
+      imports: [StoreModule.forRoot({}), DangerousFaultsDebriefCardComponent],
+      providers: [provideTestTranslations()],
     });
 
     fixture = TestBed.createComponent(DangerousFaultsDebriefCardComponent);

@@ -29,7 +29,9 @@ export enum ExitSAMFlowResult {
   NONE = 'none',
 }
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class ExitSAMProvider {
   constructor(
     public platform: Platform,

@@ -32,7 +32,6 @@ describe('ReverseManoeuvreComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
-        AppModule,
         StoreModule.forRoot({
           journal: () => ({
             isLoading: false,

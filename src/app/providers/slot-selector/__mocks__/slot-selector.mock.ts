@@ -2,7 +2,9 @@ import { Injectable } from '@angular/core';
 import { ActivityCode } from '@dvsa/mes-search-schema';
 import { SlotItem } from '../slot-item';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class SlotSelectorProviderMock {
   private ignoreBookingProperty: string[] = [
     'entitlementCheck',

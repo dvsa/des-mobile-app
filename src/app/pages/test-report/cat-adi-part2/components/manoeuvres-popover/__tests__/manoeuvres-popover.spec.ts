@@ -2,6 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 
 import { DrivingFaultsBadgeComponent } from '@components/common/driving-faults-badge/driving-faults-badge';
+import { CatADI2UniqueTypes } from '@dvsa/mes-test-schema/categories/ADI2';
 import { NavController } from '@ionic/angular';
 import { NavControllerMock } from '@mocks/index.mock';
 import { Store, StoreModule } from '@ngrx/store';
@@ -15,8 +16,10 @@ import {
   RecordManoeuvresSelection,
 } from '@store/tests/test-data/cat-adi-part2/manoeuvres/manoeuvres.actions';
 import { ManoeuvreCompetencies, ManoeuvreTypes } from '@store/tests/test-data/test-data.constants';
+import { testsCatADIPart2Reducer } from '@store/tests/tests.cat-adi-part2.reducer';
+import { testsReducer } from '@store/tests/tests.reducer';
 import { MockComponent } from 'ng-mocks';
-import { testReportReducer } from '../../../../test-report.reducer';
+import { initialState as initialTestReportState, testReportReducer } from '../../../../test-report.reducer';
 import { ManoeuvreCompetencyComponentAdiPart2 } from '../../manoeuvre-competency/manoeuvre-competency';
 import { ManoeuvresPopoverComponentAdiPart2 } from '../manoeuvres-popover';
 
@@ -25,7 +28,7 @@ describe('ManoeuvresPopoverComponentAdiPart2', () => {
   let component: ManoeuvresPopoverComponentAdiPart2;
   let store$: Store<StoreModel>;
 
-  const mockTestData = {
+  const mockTestData: CatADI2UniqueTypes.TestData = {
     dangerousFaults: {},
     drivingFaults: {},
     manoeuvres: [{ reverseRight: { selected: true } }, {}],
@@ -34,8 +37,8 @@ describe('ManoeuvresPopoverComponentAdiPart2', () => {
     ETA: {},
     eco: {},
     vehicleChecks: {
-      showMeQuestion: [],
-      tellMeQuestion: [
+      showMeQuestions: [],
+      tellMeQuestions: [
         {
           code: 'T4',
           description: '',
@@ -49,33 +52,37 @@ describe('ManoeuvresPopoverComponentAdiPart2', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
-        AppModule,
-        StoreModule.forRoot({
-          tests: () => ({
-            currentTest: {
-              slotId: '123',
-            },
-            testStatus: {},
-            startedTests: {
-              123: {
-                testData: mockTestData,
-                postTestDeclarations: {
-                  healthDeclarationAccepted: false,
-                  passCertificateNumberReceived: false,
-                  postTestSignature: '',
+        StoreModule.forRoot(
+          { tests: testsReducer, testReport: testReportReducer },
+          {
+            initialState: {
+              testReport: initialTestReportState,
+              tests: {
+                currentTest: {
+                  slotId: '123',
                 },
-                journalData: {},
-                category: 'ADI2',
-                communicationPreferences: {
-                  updatedEmail: '',
-                  communicationMethod: 'Not provided',
-                  conductedLanguage: 'Not provided',
+                testStatus: {},
+                startedTests: {
+                  123: {
+                    ...testsCatADIPart2Reducer({ type: '@@init' }, undefined),
+                    testData: mockTestData,
+                    postTestDeclarations: {
+                      healthDeclarationAccepted: false,
+                      passCertificateNumberReceived: false,
+                      postTestSignature: '',
+                    },
+                    category: 'ADI2',
+                    communicationPreferences: {
+                      updatedEmail: '',
+                      communicationMethod: 'Not provided',
+                      conductedLanguage: 'Not provided',
+                    },
+                  },
                 },
               },
             },
-          }),
-          testReport: testReportReducer,
-        }),
+          }
+        ),
         ManoeuvresPopoverComponentAdiPart2,
         MockComponent(DrivingFaultsBadgeComponent),
         MockComponent(ManoeuvreCompetencyComponentAdiPart2),

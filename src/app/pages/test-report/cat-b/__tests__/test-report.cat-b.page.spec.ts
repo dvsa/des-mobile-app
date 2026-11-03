@@ -8,6 +8,7 @@ import { PracticeModeOptionsBar } from '@components/common/practice-mode-options
 import { TestFlowHeaderComponent } from '@components/common/test-flow-header/test-flow-header.component';
 import { TickIndicatorComponent } from '@components/common/tick-indicator/tick-indicator';
 import { TestResultSchemasUnion } from '@dvsa/mes-test-schema/categories';
+import { provideBasePageMocks } from '@mocks/test-providers';
 import { StoreModule } from '@ngrx/store';
 import { provideMockStore } from '@ngrx/store/testing';
 import { AuthenticationProviderMock } from '@providers/authentication/__mocks__/authentication.mock';
@@ -70,7 +71,6 @@ describe('TestReportCatBPage', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
-        AppModule,
         StoreModule.forRoot({
           tests: testsReducer,
         }),
@@ -93,6 +93,7 @@ describe('TestReportCatBPage', () => {
         MockComponent(PracticeModeOptionsBar),
       ],
       providers: [
+        provideBasePageMocks(),
         {
           provide: Platform,
           useClass: PlatformMock,

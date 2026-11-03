@@ -2,8 +2,9 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { By } from '@angular/platform-browser';
 
+import { provideTestTranslations } from '@mocks/test-providers';
 import { StoreModule } from '@ngrx/store';
-import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { TranslateService } from '@ngx-translate/core';
 import { EcoDebriefCardComponent } from '../eco-debrief-card';
 
 describe('EcoDebriefCardComponent', () => {
@@ -13,13 +14,14 @@ describe('EcoDebriefCardComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [StoreModule.forRoot({}), TranslateModule, EcoDebriefCardComponent],
+      imports: [StoreModule.forRoot({}), EcoDebriefCardComponent],
+      providers: [provideTestTranslations()],
     });
 
     fixture = TestBed.createComponent(EcoDebriefCardComponent);
     component = fixture.componentInstance;
     translate = TestBed.inject(TranslateService);
-    translate.setDefaultLang('en');
+    translate.setFallbackLang('en');
   });
 
   describe('DOM', () => {

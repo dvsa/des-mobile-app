@@ -10,6 +10,7 @@ import { TestResultCatAM1Schema } from '@dvsa/mes-test-schema/categories/AM1';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { Platform } from '@ionic/angular';
 import { PlatformMock, RouterMock } from '@mocks/index.mock';
+import { provideBasePageMocks } from '@mocks/test-providers';
 import { Store } from '@ngrx/store';
 import { provideMockStore } from '@ngrx/store/testing';
 import { TestFlowPageNames } from '@pages/page-names.constants';
@@ -66,7 +67,6 @@ describe('WaitingRoomToCarCatAMod1Page', () => {
     TestBed.configureTestingModule({
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       imports: [
-        AppModule,
         ReactiveFormsModule,
         WaitingRoomToCarCatAMod1Page,
         MockComponent(EndTestLinkComponent),
@@ -79,6 +79,7 @@ describe('WaitingRoomToCarCatAMod1Page', () => {
         MockComponent(TransmissionComponent),
       ],
       providers: [
+        provideBasePageMocks(),
         { provide: RouteByCategoryProvider, useClass: RouteByCategoryProviderMock },
         { provide: AuthenticationProvider, useClass: AuthenticationProviderMock },
         { provide: Platform, useClass: PlatformMock },

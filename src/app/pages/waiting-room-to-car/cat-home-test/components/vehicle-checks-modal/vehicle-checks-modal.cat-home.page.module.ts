@@ -19,14 +19,11 @@ import {
   IonTitle,
   IonToolbar,
 } from '@ionic/angular';
-import { EffectsModule } from '@ngrx/effects';
 import { VehicleChecksCatHomeTestModal } from '@pages/waiting-room-to-car/cat-home-test/components/vehicle-checks-modal/vehicle-checks-modal.cat-home.page';
 import { WaitingRoomToCarComponentsModule } from '../../../components/waiting-room-to-car.components.module';
-import { VehicleChecksModalCatHomeTestAnalyticsEffects } from './vehicle-checks-modal.cat-home-test.analytics.effects';
 
 @NgModule({
   imports: [
-    EffectsModule.forFeature([VehicleChecksModalCatHomeTestAnalyticsEffects]),
     WaitingRoomToCarComponentsModule,
     CommonModule,
     ReactiveFormsModule,

@@ -3,6 +3,8 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { CommonModule } from '@angular/common';
 import { Style } from '@capacitor/status-bar';
 import { CandidateLinkComponent } from '@components/test-slot/candidate-link/candidate-link';
+import { ModalController } from '@ionic/angular';
+import { ModalControllerMock } from '@mocks/index.mock';
 import { StoreModule } from '@ngrx/store';
 
 describe('CandidateLinkComponent', () => {
@@ -12,6 +14,7 @@ describe('CandidateLinkComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [CommonModule, StoreModule.forRoot({}), CandidateLinkComponent],
+      providers: [{ provide: ModalController, useClass: ModalControllerMock }],
     });
 
     fixture = TestBed.createComponent(CandidateLinkComponent);

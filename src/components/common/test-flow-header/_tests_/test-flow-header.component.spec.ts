@@ -7,6 +7,7 @@ import {
 } from '@components/common/test-flow-header/test-flow-header.component';
 import { ModalController } from '@ionic/angular';
 import { ModalControllerMock } from '@mocks/index.mock';
+import { provideBasePageMocks } from '@mocks/test-providers';
 import { Store, StoreModule } from '@ngrx/store';
 import { DeviceProviderMock } from '@providers/device/__mocks__/device.mock';
 import { DeviceProvider } from '@providers/device/device';
@@ -24,6 +25,7 @@ describe('TestFlowHeaderComponent', () => {
     TestBed.configureTestingModule({
       imports: [StoreModule.forRoot({})],
       providers: [
+        provideBasePageMocks(),
         { provide: DeviceProvider, useClass: DeviceProviderMock },
         { provide: RouteByCategoryProvider, useClass: RouteByCategoryProviderMock },
         { provide: ModalController, useClass: ModalControllerMock }, // ADD THIS

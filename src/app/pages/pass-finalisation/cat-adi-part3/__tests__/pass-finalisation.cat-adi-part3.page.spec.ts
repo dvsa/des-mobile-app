@@ -10,6 +10,7 @@ import { TestResultCommonSchema } from '@dvsa/mes-test-schema/categories/common'
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { NavController, Platform } from '@ionic/angular';
 import { NavControllerMock, PlatformMock, RouterMock } from '@mocks/index.mock';
+import { provideBasePageMocks } from '@mocks/test-providers';
 import { Store } from '@ngrx/store';
 import { provideMockStore } from '@ngrx/store/testing';
 import { FurtherDevelopmentComponent } from '@pages/pass-finalisation/cat-adi-part3/components/further-development/further-development.component';
@@ -55,6 +56,7 @@ describe('PassFinalisationCatADIPart3Page', () => {
             code78Present: true,
           },
           category: TestCategory.SC,
+          communicationPreferences: { conductedLanguage: 'English' },
           changeMarker: null,
           examinerBooked: null,
           examinerConducted: null,
@@ -110,7 +112,7 @@ describe('PassFinalisationCatADIPart3Page', () => {
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       imports: [
         RouterModule.forRoot([]),
-        AppModule,
+
         PassFinalisationCatADIPart3Page,
         MockComponent(PracticeModeOptionsBar),
         MockComponent(FinalisationHeaderComponent),
@@ -118,6 +120,7 @@ describe('PassFinalisationCatADIPart3Page', () => {
         MockComponent(FurtherDevelopmentComponent),
       ],
       providers: [
+        provideBasePageMocks(),
         {
           provide: Platform,
           useClass: PlatformMock,

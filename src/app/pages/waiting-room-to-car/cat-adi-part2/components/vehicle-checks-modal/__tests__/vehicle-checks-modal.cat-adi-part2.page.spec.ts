@@ -100,7 +100,6 @@ describe('VehicleChecksCatADIPart2Modal', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
-        AppModule,
         StoreModule.forRoot({}),
         VehicleChecksCatADIPart2Modal,
         MockComponent(VehicleChecksQuestionComponent),

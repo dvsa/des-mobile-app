@@ -1,6 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MockAppComponent } from '@app/__mocks__/app.component.mock';
 import { AppComponent } from '@app/app.component';
+import { ModalController } from '@ionic/angular';
+import { ModalControllerMock } from '@mocks/index.mock';
 
 import { SearchResultTestSchema } from '@dvsa/mes-search-schema';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
@@ -34,6 +36,7 @@ describe('SearchResultComponent', () => {
     TestBed.configureTestingModule({
       imports: [SearchResultComponent],
       providers: [
+        { provide: ModalController, useClass: ModalControllerMock },
         { provide: CompressionProvider, useClass: CompressionProviderMock },
         { provide: AppComponent, useClass: MockAppComponent },
         { provide: FaultSummaryProvider, useClass: FaultSummaryProviderMock },

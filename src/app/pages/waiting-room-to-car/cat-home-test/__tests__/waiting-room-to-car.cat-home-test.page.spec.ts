@@ -9,6 +9,7 @@ import { CatCUniqueTypes } from '@dvsa/mes-test-schema/categories/C';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { Platform } from '@ionic/angular';
 import { PlatformMock, RouterMock } from '@mocks/index.mock';
+import { provideBasePageMocks } from '@mocks/test-providers';
 import { Store } from '@ngrx/store';
 import { provideMockStore } from '@ngrx/store/testing';
 import { TestFlowPageNames } from '@pages/page-names.constants';
@@ -79,7 +80,6 @@ describe('WaitingRoomToCarCatHomeTestPage', () => {
     TestBed.configureTestingModule({
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       imports: [
-        AppModule,
         ReactiveFormsModule,
         WaitingRoomToCarCatHomeTestPage,
         MockComponent(EndTestLinkComponent),
@@ -95,6 +95,7 @@ describe('WaitingRoomToCarCatHomeTestPage', () => {
         MockComponent(FullLicenceHeldComponent),
       ],
       providers: [
+        provideBasePageMocks(),
         {
           provide: RouteByCategoryProvider,
           useClass: RouteByCategoryProviderMock,

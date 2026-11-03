@@ -14,7 +14,9 @@ import { DebriefWitnessedComponent } from '@components/test-finalisation/debrief
 import { FinalisationHeaderComponent } from '@components/test-finalisation/finalisation-header/finalisation-header';
 import { LanguagePreferencesComponent } from '@components/test-finalisation/language-preference/language-preference';
 import { NavControllerMock, PlatformMock, RouterMock } from '@mocks/index.mock';
+import { provideBasePageMocks } from '@mocks/test-providers';
 import { Store } from '@ngrx/store';
+import { provideMockStore } from '@ngrx/store/testing';
 import { PassCertificateNumberCatAMod1Component } from '@pages/pass-finalisation/cat-a-mod1/components/pass-certificate-number/pass-certificate-number.cat-a-mod1';
 import { LicenceProvidedWarningBannerComponent } from '@pages/pass-finalisation/components/licence-provided-warning-banner/licence-provided-warning-banner';
 import { LicenseProvidedComponent } from '@pages/pass-finalisation/components/license-provided/license-provided';
@@ -44,7 +46,7 @@ describe('PassFinalisationCatAMod2Page', () => {
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       imports: [
         RouterModule.forRoot([]),
-        AppModule,
+
         PassFinalisationCatAMod2Page,
         MockComponent(PracticeModeOptionsBar),
         MockComponent(PassCertificateNumberCatAMod1Component),
@@ -59,6 +61,8 @@ describe('PassFinalisationCatAMod2Page', () => {
         MockComponent(LicenceProvidedWarningBannerComponent),
       ],
       providers: [
+        provideBasePageMocks(),
+        provideMockStore(),
         {
           provide: Platform,
           useClass: PlatformMock,

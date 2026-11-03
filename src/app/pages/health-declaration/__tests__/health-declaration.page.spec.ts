@@ -8,8 +8,9 @@ import { default as welshTranslations } from '@assets/i18n/cy.json';
 import { TestSlotAttributes } from '@dvsa/mes-test-schema/categories/common';
 import { AlertController, NavController, Platform } from '@ionic/angular';
 import { AlertControllerMock, NavControllerMock, PlatformMock, RouterMock } from '@mocks/index.mock';
+import { provideBasePageMocks } from '@mocks/test-providers';
 import { Store, StoreModule } from '@ngrx/store';
-import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { TranslateService } from '@ngx-translate/core';
 import { HealthDeclarationComponent } from '@pages/health-declaration/components/health-declaration/health-declaration';
 import { ReceiptDeclarationComponent } from '@pages/health-declaration/components/receipt-declaration/receipt-declaration';
 import {
@@ -59,7 +60,7 @@ describe('HealthDeclarationPage', () => {
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       imports: [
         ReactiveFormsModule,
-        AppModule,
+
         StoreModule.forRoot({
           tests: () => ({
             currentTest: {
@@ -68,6 +69,8 @@ describe('HealthDeclarationPage', () => {
             testStatus: {},
             startedTests: {
               123: {
+                communicationPreferences: { conductedLanguage: 'English' },
+                passCompletion: {},
                 postTestDeclarations: {
                   healthDeclarationAccepted: false,
                   passCertificateNumberReceived: false,
@@ -81,12 +84,12 @@ describe('HealthDeclarationPage', () => {
             },
           }),
         }),
-        TranslateModule,
         HealthDeclarationPage,
         MockComponent(HealthDeclarationComponent),
         MockComponent(ReceiptDeclarationComponent),
       ],
       providers: [
+        provideBasePageMocks(),
         {
           provide: NavController,
           useClass: NavControllerMock,
@@ -124,7 +127,7 @@ describe('HealthDeclarationPage', () => {
     spyOn(store$, 'dispatch').and.callThrough();
     translate = TestBed.inject(TranslateService);
     router = TestBed.inject(Router);
-    translate.setDefaultLang('en');
+    translate.setFallbackLang('en');
     component.subscription = new Subscription();
   }));
 

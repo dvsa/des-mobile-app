@@ -7,6 +7,7 @@ import { CatBUniqueTypes } from '@dvsa/mes-test-schema/categories/B';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { ModalController } from '@ionic/angular';
 import { ModalControllerMock } from '@mocks/ionic-mocks/modal-controller.mock';
+import { provideBasePageMocks } from '@mocks/test-providers';
 import { provideMockStore } from '@ngrx/store/testing';
 import { TestFlowPageNames } from '@pages/page-names.constants';
 import { DashboardItemComponent } from '@pages/test-report-dashboard/components/dashboard-item/dashboard-item';
@@ -87,7 +88,6 @@ describe('TestReportDashboardPage', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
-        AppModule,
         CommonModule,
         TestReportDashboardPage,
         MockComponent(TimerComponent),
@@ -96,6 +96,7 @@ describe('TestReportDashboardPage', () => {
         MockComponent(TestFlowHeaderComponent),
       ],
       providers: [
+        provideBasePageMocks(),
         provideMockStore({ initialState }),
         TestReportValidatorProvider,
         {

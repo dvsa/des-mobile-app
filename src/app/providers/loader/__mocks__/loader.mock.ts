@@ -1,7 +1,9 @@
 import { Injectable } from '@angular/core';
 import { LoadingOptions } from '@ionic/core';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class LoaderProviderMock {
   public handleUILoading = async (): Promise<void> => {};
 

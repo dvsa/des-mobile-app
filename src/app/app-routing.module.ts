@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
+import { NonPassFinalisationResolver } from '@pages/non-pass-finalisation/non-pass-finalisation.resolver';
 import {
   DASHBOARD_PAGE,
   DELEGATED_REKEY_SEARCH_PAGE,
@@ -109,6 +110,7 @@ const routes: Routes = [
   },
   {
     path: TestFlowPageNames.NON_PASS_FINALISATION_PAGE,
+    resolve: { nonPassData: NonPassFinalisationResolver },
     loadComponent: () =>
       import('./pages/non-pass-finalisation/non-pass-finalisation.page').then((m) => m.NonPassFinalisationPage),
   },

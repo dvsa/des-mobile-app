@@ -39,7 +39,9 @@ export const whiteList: TestCategory[] = [
   TestCategory.K,
 ];
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class CategoryWhitelistProvider {
   isWhiteListed(category: TestCategory): boolean {
     return whiteList.some((cat) => cat === category);

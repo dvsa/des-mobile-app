@@ -6,6 +6,7 @@ import { TickIndicatorComponent } from '@components/common/tick-indicator/tick-i
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { ModalController, Platform } from '@ionic/angular';
 import { ModalControllerMock, PlatformMock } from '@mocks/index.mock';
+import { provideBasePageMocks } from '@mocks/test-providers';
 import { StoreModule } from '@ngrx/store';
 import { VehicleChecksComponent } from '@pages/test-report/cat-c/components/vehicle-checks/vehicle-checks';
 import { ReverseLeftPopoverComponent } from '@pages/test-report/components/reverse-left-popover/reverse-left-popover';
@@ -40,7 +41,8 @@ describe('TestReportCatCPage', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
-        AppModule,
+        StoreModule.forRoot({}),
+
         StoreModule.forFeature('tests', () => ({
           currentTest: {
             slotId: '123',
@@ -75,6 +77,7 @@ describe('TestReportCatCPage', () => {
         MockComponent(UncoupleRecoupleComponent),
       ],
       providers: [
+        provideBasePageMocks(),
         {
           provide: Platform,
           useClass: PlatformMock,
@@ -89,7 +92,7 @@ describe('TestReportCatCPage', () => {
         },
         {
           provide: ModalController,
-          useClas: ModalControllerMock,
+          useClass: ModalControllerMock,
         },
         {
           provide: TestReportValidatorProvider,

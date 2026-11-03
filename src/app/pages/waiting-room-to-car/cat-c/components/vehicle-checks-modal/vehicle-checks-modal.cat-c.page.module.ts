@@ -20,14 +20,11 @@ import {
   IonTitle,
   IonToolbar,
 } from '@ionic/angular';
-import { EffectsModule } from '@ngrx/effects';
 import { WaitingRoomToCarComponentsModule } from '../../../components/waiting-room-to-car.components.module';
-import { VehicleChecksModalCatCAnalyticsEffects } from './vehicle-checks-modal.cat-c.analytics.effects';
 import { VehicleChecksCatCModal } from './vehicle-checks-modal.cat-c.page';
 
 @NgModule({
   imports: [
-    EffectsModule.forFeature([VehicleChecksModalCatCAnalyticsEffects]),
     WaitingRoomToCarComponentsModule,
     CommonModule,
     ReactiveFormsModule,

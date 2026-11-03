@@ -63,7 +63,9 @@ import { AppConfigError } from './app-config.constants';
  *  isRemote set to false
  */
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class AppConfigProvider {
   isDebugMode = false;
   storeSubscription: Subscription;

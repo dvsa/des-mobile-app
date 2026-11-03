@@ -47,7 +47,9 @@ export enum LocalStorageKey {
 
 export type StorageKey = LocalStorageKey | Token;
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class DataStoreProvider {
   private static readonly defaultStorageTimeoutMilliseconds = 5000;
   private static readonly storageTimeoutErrorText = 'DataStoreProvider Storage Call Timeout';

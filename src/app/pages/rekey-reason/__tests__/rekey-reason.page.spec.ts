@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { ModalController, Platform } from '@ionic/angular';
 import { OverlayEventDetail } from '@ionic/core';
 import { ModalControllerMock, PlatformMock, RouterMock } from '@mocks/index.mock';
+import { provideBasePageMocks } from '@mocks/test-providers';
 import { Store, StoreModule } from '@ngrx/store';
 import { MockComponent } from 'ng-mocks';
 
@@ -118,7 +119,7 @@ describe('RekeyReasonPage', () => {
           }),
           rekeyReason: rekeyReasonReducer,
         }),
-        AppModule,
+
         FormsModule,
         ReactiveFormsModule,
         RekeyReasonPage,
@@ -127,6 +128,7 @@ describe('RekeyReasonPage', () => {
         MockComponent(OtherReasonComponent),
       ],
       providers: [
+        provideBasePageMocks(),
         {
           provide: Router,
           useClass: RouterMock,

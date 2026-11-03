@@ -10,6 +10,7 @@ import { CatADI2UniqueTypes } from '@dvsa/mes-test-schema/categories/ADI2';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { Platform } from '@ionic/angular';
 import { PlatformMock, RouterMock } from '@mocks/index.mock';
+import { provideBasePageMocks } from '@mocks/test-providers';
 import { Store } from '@ngrx/store';
 import { provideMockStore } from '@ngrx/store/testing';
 import { TestFlowPageNames } from '@pages/page-names.constants';
@@ -57,6 +58,7 @@ describe('WaitingRoomToCarCatADIPart2Page', () => {
           trainerDetails: {},
           testData: {
             seriousFaults: {},
+            vehicleChecks: { showMeQuestions: [], tellMeQuestions: [] },
           },
           journalData: {
             candidate: {
@@ -75,7 +77,6 @@ describe('WaitingRoomToCarCatADIPart2Page', () => {
     TestBed.configureTestingModule({
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       imports: [
-        AppModule,
         ReactiveFormsModule,
         WaitingRoomToCarCatADIPart2Page,
         MockComponent(EndTestLinkComponent),
@@ -91,6 +92,7 @@ describe('WaitingRoomToCarCatADIPart2Page', () => {
         MockComponent(OrditTrainerCatAdiPart2Component),
       ],
       providers: [
+        provideBasePageMocks(),
         { provide: RouteByCategoryProvider, useClass: RouteByCategoryProviderMock },
         { provide: AuthenticationProvider, useClass: AuthenticationProviderMock },
         { provide: Platform, useClass: PlatformMock },

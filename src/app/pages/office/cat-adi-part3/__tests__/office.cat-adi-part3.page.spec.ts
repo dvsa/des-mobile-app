@@ -5,6 +5,7 @@ import { TestResultCatADI3Schema } from '@dvsa/mes-test-schema/categories/ADI3';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { ModalController, NavController, Platform, ToastController } from '@ionic/angular';
 import { ModalControllerMock, PlatformMock } from '@mocks/index.mock';
+import { provideBasePageMocks } from '@mocks/test-providers';
 import { Store, StoreModule } from '@ngrx/store';
 import { OfficeCatADI3Page } from '@pages/office/cat-adi-part3/office.cat-adi-part3.page';
 import { AdditionalInformationComponent } from '@pages/office/components/additional-information/additional-information';
@@ -25,9 +26,8 @@ import { BasePageComponent } from '@shared/classes/base-page';
 import { NavControllerMock } from '@shared/mocks/nav-controller.mock';
 import { ToastControllerMock } from '@shared/mocks/toast-controller.mock';
 import { StoreModel } from '@shared/models/store.model';
-import { PipesModule } from '@shared/pipes/pipes.module';
+
 import { MockComponent } from 'ng-mocks';
-import { AppModule } from 'src/app/app.module';
 
 describe('OfficeCatADI3Page', () => {
   let fixture: ComponentFixture<OfficeCatADI3Page>;
@@ -37,8 +37,6 @@ describe('OfficeCatADI3Page', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
-        PipesModule,
-        AppModule,
         StoreModule.forRoot({
           tests: () => ({
             currentTest: {
@@ -52,6 +50,7 @@ describe('OfficeCatADI3Page', () => {
                 testData: {},
                 activityCode: '28',
                 journalData: {
+                  testSlotAttributes: { start: '2026-01-01T09:00:00' },
                   candidate: {
                     candidateName: {},
                     driverNumber: '123',
@@ -71,6 +70,7 @@ describe('OfficeCatADI3Page', () => {
         MockComponent(TestFlowHeaderComponent),
       ],
       providers: [
+        provideBasePageMocks(),
         { provide: Platform, useClass: PlatformMock },
         { provide: AuthenticationProvider, useClass: AuthenticationProviderMock },
         { provide: NavController, useClass: NavControllerMock },

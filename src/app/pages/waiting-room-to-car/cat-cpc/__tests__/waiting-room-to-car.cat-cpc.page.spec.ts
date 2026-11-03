@@ -9,6 +9,7 @@ import { Question, Question5, TestResultCatCPCSchema } from '@dvsa/mes-test-sche
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { Platform } from '@ionic/angular';
 import { PlatformMock, RouterMock } from '@mocks/index.mock';
+import { provideBasePageMocks } from '@mocks/test-providers';
 import { Store } from '@ngrx/store';
 import { provideMockStore } from '@ngrx/store/testing';
 import { TestFlowPageNames } from '@pages/page-names.constants';
@@ -74,7 +75,6 @@ describe('WaitingRoomToCarCatCPCPage', () => {
     TestBed.configureTestingModule({
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       imports: [
-        AppModule,
         ReactiveFormsModule,
         WaitingRoomToCarCatCPCPage,
         MockComponent(EndTestLinkComponent),
@@ -88,6 +88,7 @@ describe('WaitingRoomToCarCatCPCPage', () => {
         MockComponent(CombinationComponent),
       ],
       providers: [
+        provideBasePageMocks(),
         {
           provide: RouteByCategoryProvider,
           useClass: RouteByCategoryProviderMock,
