@@ -26,7 +26,7 @@ PODS:
     - Capacitor
   - CapawesomeCapacitorScreenOrientation (8.0.4):
     - Capacitor
-  - CordovaPlugins (8.5.3):
+  - CordovaPlugins (8.6.0):
     - CapacitorCordova
   - CordovaPluginsResources (0.0.105)
   - DvsaCapacitorPluginAsam (3.0.2):
@@ -125,7 +125,7 @@ SPEC CHECKSUMS:
   CapacitorTextZoom: b3c80b09abef831245bc3434b1c03aa898ad4762
   CapawesomeCapacitorManagedConfigurations: b466d066a6d301a041043d6393af62e920e2bfec
   CapawesomeCapacitorScreenOrientation: e229fc3e7d2bf4695fd6b5219fd9e90f0c15c4a9
-  CordovaPlugins: 23e522d2bd72bbebd34fffd78d181be281f236c6
+  CordovaPlugins: 8432a455559a05f57f6f2b5da4cad6f89e96334b
   CordovaPluginsResources: da93847212bf7b16ba770e4d6c3e7dba820174c7
   DvsaCapacitorPluginAsam: 2428e912504b5a044f669b31ba493221475de678
   DvsaCapacitorPluginMsauth: b6ddf645efb20edc59ea3971f72c8d1de73f7eed

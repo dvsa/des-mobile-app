@@ -11,37 +11,37 @@
 </ion-header>
 
 <ion-content class="ion-padding">
-  @if (!isLoading && showErrorMessage) {
-    <error-message class="error" returnTo="{{errorLink}}" (exitModal)="onClose()"></error-message>
+  @if (!isLoading() && showErrorMessage()) {
+    <error-message class="error" returnTo="{{errorLink()}}" (exitModal)="onClose()"></error-message>
   }
 
-  @if (!isLoading && !showErrorMessage && testResult) {
-    <view-test-header [data]="getHeaderDetails()" [appVersion]="testResult.appVersion"></view-test-header>
+  @if (!isLoading() && !showErrorMessage() && testResult()) {
+    <view-test-header [data]="getHeaderDetails()" [appVersion]="testResult().appVersion"></view-test-header>
 
-    <activity-code-card [activityCode]="testResult.activityCode"></activity-code-card>
+    <activity-code-card [activityCode]="testResult().activityCode"></activity-code-card>
 
     <test-details-card [candidateDetails]="getCandidateDetails()" [data]="getTestDetails()"></test-details-card>
 
-    @if (testResult.journalData.testSlotAttributes.fitMarker) {
+    @if (testResult().journalData.testSlotAttributes.fitMarker) {
       <fit-marker-banner
         [isTestResult]="true"
-        [fitCaseNumber]="testResult.journalData.testSlotAttributes.fitCaseNumber"
+        [fitCaseNumber]="testResult().journalData.testSlotAttributes.fitCaseNumber"
       >
       </fit-marker-banner>
     }
 
     <contact-details-card
-      [candidateData]="testResult.journalData.candidate"
-      [reEnterEmail]="reEnterEmail"
-      [communicationPreferencesData]="testResult.communicationPreferences"
+      [candidateData]="testResult().journalData.candidate"
+      [reEnterEmail]="reEnterEmail()"
+      [communicationPreferencesData]="testResult().communicationPreferences"
     >
     </contact-details-card>
 
-    <business-details-card [data]="testResult.journalData.candidate"></business-details-card>
+    <business-details-card [data]="testResult().journalData.candidate"></business-details-card>
 
-    @if (testResult.rekey) {
-      <rekey-details-card [data]="testResult"></rekey-details-card>
-      <rekey-reason-card [data]="testResult.rekeyReason"></rekey-reason-card>
+    @if (testResult().rekey) {
+      <rekey-details-card [data]="testResult()"></rekey-details-card>
+      <rekey-reason-card [data]="testResult().rekeyReason"></rekey-reason-card>
     }
 
     <examiner-details-card [data]="getExaminerDetails()"></examiner-details-card>
@@ -51,9 +51,9 @@
         [trainerData]="getTrainerData()"
         [vehicleDetails]="getVehicleDetails()"
         [instructorDetails]="getInstructorData()"
-        [data]="testResult.vehicleDetails"
-        [category]="testResult.category"
-        [passCompletion]="testResult.passCompletion"
+        [data]="testResult().vehicleDetails"
+        [category]="testResult().category"
+        [passCompletion]="testResult().passCompletion"
         [prnLabel]="getPrnLabel()"
       >
       </vehicle-details-card>
@@ -61,7 +61,7 @@
 
     @if (isADI3()) {
       <trainer-details-card
-        [category]="testResult.category"
+        [category]="testResult().category"
         [reasonForNoAdviceGiven]="getReason()"
         [trainerData]="getTrainerData()"
         [reviewData]="getReviewData()"
@@ -76,24 +76,24 @@
         [drivingFaults]="getDrivingFaults()"
         [seriousFaults]="getSeriousFaults()"
         [dangerousFaults]="getDangerousFaults()"
-        [data]="testResult.testData"
-        [category]="testResult.category"
-        [delegatedTest]="testResult['delegatedTest']"
+        [data]="testResult().testData"
+        [category]="testResult().category"
+        [delegatedTest]="testResult()['delegatedTest']"
       >
       </debrief-card>
     }
 
-    @if (testResult.testData && testResult.testData['combination'] && showCPCDebriefCommonCard()) {
+    @if (testResult().testData && testResult().testData['combination'] && showCPCDebriefCommonCard()) {
       <cpc-debrief-card
         [isDetailedTestView]="true"
         [testOutcome]="getHeaderDetails()?.testOutcome"
-        [question1]="testResult.testData['question1']"
-        [question2]="testResult.testData['question2']"
-        [question3]="testResult.testData['question3']"
-        [question4]="testResult.testData['question4']"
-        [question5]="testResult.testData['question5']"
-        [overallScore]="testResult.testData['totalPercent']"
-        [combination]="testResult.testData['combination']"
+        [question1]="testResult().testData['question1']"
+        [question2]="testResult().testData['question2']"
+        [question3]="testResult().testData['question3']"
+        [question4]="testResult().testData['question4']"
+        [question5]="testResult().testData['question5']"
+        [overallScore]="testResult().testData['totalPercent']"
+        [combination]="testResult().testData['combination']"
       >
       </cpc-debrief-card>
     }
@@ -104,31 +104,31 @@
         [isOnResultsPage]="true"
         [testCategory]="testCategory"
         [totalScore]="totalScore"
-        [lessonTheme]="testResult.testData['lessonAndTheme']"
-        [lessonPlanning]="testResult.testData['lessonPlanning']"
-        [riskManagement]="testResult.testData['riskManagement']"
-        [teachingLearningStrategies]="testResult.testData['teachingLearningStrategies']"
-        [grade]="testResult.testData['review']?.grade"
-        [review]="testResult.testData['review']"
+        [lessonTheme]="testResult().testData['lessonAndTheme']"
+        [lessonPlanning]="testResult().testData['lessonPlanning']"
+        [riskManagement]="testResult().testData['riskManagement']"
+        [teachingLearningStrategies]="testResult().testData['teachingLearningStrategies']"
+        [grade]="testResult().testData['review']?.grade"
+        [review]="testResult().testData['review']"
       >
       </adi3-debrief-card>
     }
 
     @if (isCategorySC()) {
       <sc-debrief-card
-        [startTime]="testResult.testData['startTime']"
-        [endTime]="testResult.testData['endTime']"
+        [startTime]="testResult().testData['startTime']"
+        [endTime]="testResult().testData['endTime']"
       >
       </sc-debrief-card>
     }
 
     <test-summary-card
-      [category]="testResult.category"
-      [accompaniment]="testResult.accompaniment"
-      [passCompletion]="testResult.passCompletion"
-      [testSummary]="testResult.testSummary"
-      [userExitedApp]="testResult.userExitedApp"
-      [communicationPreferences]="testResult.communicationPreferences"
+      [category]="testResult().category"
+      [accompaniment]="testResult().accompaniment"
+      [passCompletion]="testResult().passCompletion"
+      [testSummary]="testResult().testSummary"
+      [userExitedApp]="testResult().userExitedApp"
+      [communicationPreferences]="testResult().communicationPreferences"
       [validCertificate]="getValidCertificate()"
     >
     </test-summary-card>

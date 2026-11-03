@@ -1,5 +1,6 @@
-import { ChangeDetectorRef } from '@angular/core';
+import { HttpResponse } from '@angular/common/http';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
 
 import { Adi3DebriefCard } from '@components/common/adi3-debrief-card/adi3-debrief-card';
 import { CPCDebriefCardComponent } from '@components/common/cpc-debrief-card/cpc-debrief-card';
@@ -44,6 +45,8 @@ import { LoadingProvider } from '@providers/loader/loader';
 
 import { SearchProviderMock } from '@providers/search/__mocks__/search.mock';
 import { SearchProvider } from '@providers/search/search';
+import { categoryBTestResultMock } from '@shared/mocks/cat-b-test-result.mock';
+import { ErrorTypes } from '@shared/models/error-message';
 import { LogType } from '@shared/models/log.model';
 import { StoreModel } from '@shared/models/store.model';
 import { SaveLog } from '@store/logs/logs.actions';
@@ -51,7 +54,7 @@ import { getCandidateName } from '@store/tests/journal-data/common/candidate/can
 import { TestOutcome } from '@store/tests/tests.constants';
 import { getTestOutcomeText } from '@store/tests/tests.selector';
 import { MockComponent } from 'ng-mocks';
-import { Subscription } from 'rxjs';
+import { Subject, Subscription } from 'rxjs';
 
 describe('ViewTestResultPage', () => {
   let fixture: ComponentFixture<ViewTestResultPage>;
@@ -138,10 +141,6 @@ describe('ViewTestResultPage', () => {
           useClass: FaultSummaryProviderMock,
         },
         {
-          provide: ChangeDetectorRef,
-          useClass: ChangeDetectorRef,
-        }, // stub
-        {
           provide: ADI3AssessmentProvider,
           useClass: ADI3AssessmentProvider,
         },
@@ -155,7 +154,7 @@ describe('ViewTestResultPage', () => {
     store$ = TestBed.inject(Store);
     loadingProvider = TestBed.inject(LoadingProvider);
     compressionProvider = TestBed.inject(CompressionProvider);
-    component.testResult = mockTestResult;
+    component.testResult.set(mockTestResult);
   });
 
   it('should ', () => {
@@ -262,25 +261,25 @@ describe('ViewTestResultPage', () => {
 
   describe('getReason', () => {
     it('should return reasonForNoAdviceGiven', () => {
-      component.testResult.testData = { review: { reasonForNoAdviceGiven: 'testData' } };
+      component.testResult().testData = { review: { reasonForNoAdviceGiven: 'testData' } };
       expect(component.getReason()).toEqual('testData');
     });
   });
 
   describe('getInstructorData', () => {
     it('should return registrationNumber if test result is present', () => {
-      component.testResult = { instructorDetails: { registrationNumber: 1 } } as TestResultSchemasUnion;
+      component.testResult.set({ instructorDetails: { registrationNumber: 1 } } as TestResultSchemasUnion);
       const { registrationNumber } = component.getInstructorData();
       expect(registrationNumber).toEqual(Object(1));
     });
     it('should return null if test result is not present', () => {
-      component.testResult = null;
+      component.testResult.set(null);
       expect(component.getInstructorData()).toEqual(null);
     });
   });
   describe('getReviewData', () => {
     it('should return review if test result is present', () => {
-      component.testResult.testData = {
+      component.testResult().testData = {
         review: {
           feedback: 'testData',
           seekFurtherDevelopment: true,
@@ -291,13 +290,13 @@ describe('ViewTestResultPage', () => {
       expect(seekFurtherDevelopment).toEqual(Object(true));
     });
     it('should return null if test result is not present', () => {
-      component.testResult = null;
+      component.testResult.set(null);
       expect(component.getReviewData()).toEqual(null);
     });
   });
   describe('getTrainerData', () => {
     it('should return trainerDetails if test result is present', () => {
-      component.testResult = {
+      component.testResult.set({
         trainerDetails: {
           pdiLogbook: true,
           traineeLicence: true,
@@ -305,7 +304,7 @@ describe('ViewTestResultPage', () => {
           trainingRecords: true,
           trainerRegistrationNumber: 1,
         } as CatADI3TrainerDetails,
-      } as TestResultCatADI3Schema;
+      } as TestResultCatADI3Schema);
 
       const { pdiLogbook, traineeLicence, orditTrainedCandidate, trainingRecords, trainerRegistrationNumber } =
         component.getTrainerData() as CatADI3TrainerDetails & CatADI2UniqueTypes.TrainerDetails;
@@ -317,14 +316,14 @@ describe('ViewTestResultPage', () => {
       expect(trainerRegistrationNumber).toEqual(Object(1));
     });
     it('should return null if test result is not present', () => {
-      component.testResult = null;
+      component.testResult.set(null);
       expect(component.getTrainerData()).toEqual(null);
     });
   });
 
   describe('getExaminerDetails', () => {
     it('should return journalData if test result is present', () => {
-      component.testResult = {
+      component.testResult.set({
         journalData: {
           examiner: {
             staffNumber: 'testData',
@@ -334,7 +333,7 @@ describe('ViewTestResultPage', () => {
             centreName: 'testData2',
           },
         } as JournalData,
-      } as TestResultCommonSchema;
+      } as TestResultCommonSchema);
 
       const { staffNumber, costCode, testCentreName } = component.getExaminerDetails() as ExaminerDetailsModel;
 
@@ -343,7 +342,7 @@ describe('ViewTestResultPage', () => {
       expect(testCentreName).toEqual(Object('testData2'));
     });
     it('should return null if test result is not present', () => {
-      component.testResult = null;
+      component.testResult.set(null);
       expect(component.getExaminerDetails()).toEqual(null);
     });
   });
@@ -496,15 +495,15 @@ describe('ViewTestResultPage', () => {
 
   describe('didTestTerminate', () => {
     it('should return true if the activityCode is not set to a fail value or the pass value', () => {
-      component.testResult.activityCode = '41';
+      component.testResult().activityCode = '41';
       expect(component.didTestTerminate()).toEqual(true);
     });
     it('should return true if the activityCode is set to a fail value', () => {
-      component.testResult.activityCode = '2';
+      component.testResult().activityCode = '2';
       expect(component.didTestTerminate()).toEqual(false);
     });
     it('should return false if the activityCode is set to the pass value', () => {
-      component.testResult.activityCode = '1';
+      component.testResult().activityCode = '1';
       expect(component.didTestTerminate()).toEqual(false);
     });
   });
@@ -526,52 +525,52 @@ describe('ViewTestResultPage', () => {
 
   describe('getVehicleDetails', () => {
     it('should return null if there is no test result and the category is B', () => {
-      component.testResult = null;
+      component.testResult.set(null);
       spyOn(component, 'isCategoryB').and.returnValue(true);
       expect(component.getVehicleDetails()).toEqual(null);
     });
     it('should return null if there a no test result and the category is not B or ADI2', () => {
-      component.testResult = { activityCode: '1' } as TestResultSchemasUnion;
+      component.testResult.set({ activityCode: '1' } as TestResultSchemasUnion);
       component.testCategory = TestCategory.SC;
       expect(component.getVehicleDetails()).toEqual(null);
     });
     it('should return Dual controls if dualControls is true and the category is B', () => {
-      component.testResult = { vehicleDetails: { dualControls: true } } as TestResultSchemasUnion;
+      component.testResult.set({ vehicleDetails: { dualControls: true } } as TestResultSchemasUnion);
       component.testCategory = TestCategory.B;
       expect(component.getVehicleDetails()).toEqual(['Dual controls']);
     });
     it('should return School car if schoolCar is true and the category is B', () => {
-      component.testResult = { vehicleDetails: { schoolCar: true } } as TestResultSchemasUnion;
+      component.testResult.set({ vehicleDetails: { schoolCar: true } } as TestResultSchemasUnion);
       component.testCategory = TestCategory.B;
       expect(component.getVehicleDetails()).toEqual(['School car']);
     });
     it('should return School car and Dual controls' + ' if schoolCar is true and the category is B', () => {
-      component.testResult = {
+      component.testResult.set({
         vehicleDetails: {
           schoolCar: true,
           dualControls: true,
         },
-      } as TestResultSchemasUnion;
+      } as TestResultSchemasUnion);
       component.testCategory = TestCategory.B;
       expect(component.getVehicleDetails()).toEqual(['Dual controls', 'School car']);
     });
     it('should return Dual controls if dualControls is true and the category is ADI2', () => {
-      component.testResult = { vehicleDetails: { dualControls: true } } as TestResultSchemasUnion;
+      component.testResult.set({ vehicleDetails: { dualControls: true } } as TestResultSchemasUnion);
       component.testCategory = TestCategory.ADI2;
       expect(component.getVehicleDetails()).toEqual(['Dual controls']);
     });
     it('should return School car if schoolCar is true and the category is ADI2', () => {
-      component.testResult = { vehicleDetails: { schoolCar: true } } as TestResultSchemasUnion;
+      component.testResult.set({ vehicleDetails: { schoolCar: true } } as TestResultSchemasUnion);
       component.testCategory = TestCategory.ADI2;
       expect(component.getVehicleDetails()).toEqual(['School car']);
     });
     it('should return School car and Dual controls' + ' if schoolCar is true and the category is ADI2', () => {
-      component.testResult = {
+      component.testResult.set({
         vehicleDetails: {
           schoolCar: true,
           dualControls: true,
         },
-      } as TestResultSchemasUnion;
+      } as TestResultSchemasUnion);
       component.testCategory = TestCategory.ADI2;
       expect(component.getVehicleDetails()).toEqual(['Dual controls', 'School car']);
     });
@@ -579,18 +578,18 @@ describe('ViewTestResultPage', () => {
 
   describe('getCandidateDetails', () => {
     it('should return null if there is no test result', () => {
-      component.testResult = null;
+      component.testResult.set(null);
       expect(component.getCandidateDetails()).toEqual(null);
     });
     it('should return an object with PRN and amount of attempts if the data is in testResult', () => {
-      component.testResult = {
+      component.testResult.set({
         journalData: {
           candidate: {
             prn: 1,
             previousADITests: 2,
           },
         },
-      } as TestResultSchemasUnion;
+      } as TestResultSchemasUnion);
       expect(component.getCandidateDetails()).toEqual({
         prn: 1,
         attemptNumber: 2,
@@ -600,11 +599,11 @@ describe('ViewTestResultPage', () => {
 
   describe('getHeaderDetails', () => {
     it('should return null if there is no test result', () => {
-      component.testResult = null;
+      component.testResult.set(null);
       expect(component.getHeaderDetails()).toEqual(null);
     });
     it('should return an object with correct data if the data is in testResult', () => {
-      component.testResult = {
+      component.testResult.set({
         journalData: {
           candidate: {
             candidateName: {
@@ -617,7 +616,7 @@ describe('ViewTestResultPage', () => {
         },
         activityCode: '1',
         testData: { review: { grade: 'A' } },
-      } as TestResultSchemasUnion;
+      } as TestResultSchemasUnion);
 
       expect(component.getHeaderDetails()).toEqual({
         candidateName: 'Mr Firstname Lastname',
@@ -631,11 +630,11 @@ describe('ViewTestResultPage', () => {
 
   describe('getTestDetails', () => {
     it('should return null if there is no test result', () => {
-      component.testResult = null;
+      component.testResult.set(null);
       expect(component.getTestDetails()).toEqual(null);
     });
     it('should return an object with correct data if the data is in testResult', () => {
-      component.testResult = {
+      component.testResult.set({
         category: 'B',
         journalData: {
           testSlotAttributes: {
@@ -655,7 +654,7 @@ describe('ViewTestResultPage', () => {
         testData: {
           vehicleChecks: { fullLicenceHeld: true },
         },
-      } as TestResultSchemasUnion;
+      } as TestResultSchemasUnion);
 
       expect(component.getTestDetails()).toEqual({
         date: 'Friday 25th December 2020',
@@ -674,16 +673,95 @@ describe('ViewTestResultPage', () => {
 
   describe('handleLoadingUI', () => {
     it('should set isLoading to the value passed in', async () => {
-      component.isLoading = null;
+      component.isLoading.set(null);
       await component.handleLoadingUI(false);
       spyOn(loadingProvider, 'handleUILoading').and.callThrough();
-      expect(component.isLoading).toEqual(false);
+      expect(component.isLoading()).toEqual(false);
     });
   });
 
   describe('ngOnInit', () => {
+    for (const emailsFirst of [false, true]) {
+      it(`should render asynchronous results with emails arriving ${emailsFirst ? 'first' : 'last'}`, async () => {
+        const result$ = new Subject<HttpResponse<string>>();
+        const emails$ = new Subject<string>();
+        const result: TestResultSchemasUnion = {
+          ...categoryBTestResultMock,
+          appVersion: '4.29.0.0',
+          userExitedApp: { exitFlag: false },
+        };
+        const emails: RegeneratedEmails = {
+          appRef: 1,
+          emailRegenerationDetails: [
+            {
+              newEmail: 'updated@example.com',
+              newLanguage: 'English',
+              regeneratedDate: '2026-11-03',
+            },
+          ],
+        };
+        spyOn(TestBed.inject(SearchProvider), 'getTestResult').and.returnValue(result$);
+        spyOn(TestBed.inject(SearchProvider), 'getRegeneratedEmails').and.returnValue(emails$);
+        const compression = new CompressionProvider();
+        spyOn(compressionProvider, 'extract').and.callFake(compression.extract.bind(compression));
+        spyOn(loadingProvider, 'handleUILoading').and.resolveTo();
+        component.testResult.set(null);
+        component.testCategory = TestCategory.B;
+        component.applicationReference = '12345678901';
+        fixture.detectChanges();
+        await Promise.resolve();
+        await Promise.resolve();
+        fixture.autoDetectChanges();
+        await fixture.whenStable();
+        expect(fixture.debugElement.query(By.directive(ViewTestHeaderComponent))).toBeNull();
+
+        if (emailsFirst) {
+          emails$.next(compression.compress(emails));
+          await fixture.whenStable();
+        }
+        result$.next(new HttpResponse({ body: compression.compress(result) }));
+        await fixture.whenStable();
+        expect(fixture.debugElement.query(By.directive(ViewTestHeaderComponent))).not.toBeNull();
+        expect(() => fixture.checkNoChanges()).not.toThrow();
+
+        if (!emailsFirst) {
+          emails$.next(compression.compress(emails));
+          await fixture.whenStable();
+        }
+        const contactCard = fixture.debugElement.query(By.directive(ContactDetailsCardComponent));
+        expect(contactCard.componentInstance.reEnterEmail).toEqual(emails);
+        expect(() => fixture.checkNoChanges()).not.toThrow();
+        result$.complete();
+        emails$.complete();
+      });
+    }
+
+    it('should render an asynchronous result error without a forced refresh', async () => {
+      const result$ = new Subject<HttpResponse<string>>();
+      const emails$ = new Subject<string>();
+      spyOn(TestBed.inject(SearchProvider), 'getTestResult').and.returnValue(result$);
+      spyOn(TestBed.inject(SearchProvider), 'getRegeneratedEmails').and.returnValue(emails$);
+      spyOn(loadingProvider, 'handleUILoading').and.resolveTo();
+      spyOn(component.store$, 'dispatch');
+      component.testResult.set(null);
+      fixture.detectChanges();
+      await Promise.resolve();
+      await Promise.resolve();
+      fixture.autoDetectChanges();
+      await fixture.whenStable();
+
+      result$.error(new Error('Result request failed'));
+      await fixture.whenStable();
+      const error = fixture.debugElement.query(By.directive(ErrorMessageComponent));
+      expect(error).not.toBeNull();
+      expect(error.componentInstance.returnTo).toBe(ErrorTypes.SEARCH_RESULT);
+      expect(component.store$.dispatch).toHaveBeenCalled();
+      expect(() => fixture.checkNoChanges()).not.toThrow();
+      emails$.complete();
+    });
+
     it('should set subscription to the correct values', async () => {
-      component.testResult = null;
+      component.testResult.set(null);
       spyOn(component, 'handleLoadingUI').and.resolveTo();
       spyOn(compressionProvider, 'extract').and.returnValue({
         testData: { startTime: '1' },
@@ -691,12 +769,12 @@ describe('ViewTestResultPage', () => {
 
       await component.ngOnInit();
 
-      expect(component.testResult).toEqual({
+      expect(component.testResult()).toEqual({
         testData: { startTime: '1' },
       } as TestResultSchemasUnion);
     });
     it('should set reEnterEmailSubscription to the correct values', async () => {
-      component.reEnterEmail = null;
+      component.reEnterEmail.set(null);
       spyOn(component, 'handleLoadingUI').and.resolveTo();
       spyOn(compressionProvider, 'extract').and.returnValue({
         appRef: 1,
@@ -704,12 +782,12 @@ describe('ViewTestResultPage', () => {
 
       await component.ngOnInit();
 
-      expect(component.reEnterEmail).toEqual({
+      expect(component.reEnterEmail()).toEqual({
         appRef: 1,
       } as RegeneratedEmails);
     });
     it('should call dispatch with a saveLog if it is unable to get a testResult', async () => {
-      component.testResult = null;
+      component.testResult.set(null);
       spyOn(component, 'handleLoadingUI').and.resolveTo();
       spyOn(component.store$, 'dispatch');
       spyOn(compressionProvider, 'extract').and.throwError('test');
@@ -736,7 +814,7 @@ describe('ViewTestResultPage', () => {
     it('should call getTotalAssessmentScore if category is ADI3', () => {
       spyOn(component, 'isCategoryADI3').and.returnValue(true);
       spyOn(component.adi3AssessmentProvider, 'getTotalAssessmentScore').and.returnValue(10);
-      component.testResult.testData = { startTime: '1' };
+      component.testResult().testData = { startTime: '1' };
       expect(component.totalScore).toEqual(10);
       expect(component.adi3AssessmentProvider.getTotalAssessmentScore).toHaveBeenCalledWith({ startTime: '1' });
     });
