@@ -48,7 +48,17 @@ import {
 import { LoadJournalSilent } from '@store/journal/journal.actions';
 import { MockComponent } from 'ng-mocks';
 import { Subscription, of } from 'rxjs';
-import { DashboardComponentsModule } from '../components/dashboard-components.module';
+
+import { PracticeTestModal } from '@pages/dashboard/components/practice-test-modal/practice-test-modal';
+import { DelegatedSearchCardComponent } from '../components/delegated-rekey-card/delegated-rekey-card';
+import { GoToJournalCardComponent } from '../components/go-to-journal-card/go-to-journal-card';
+import { PracticeEndToEndCardComponent } from '../components/practice-end-to-end-card/practice-end-to-end-card';
+import { PracticeTestReportCardComponent } from '../components/practice-test-report-card/practice-test-report-card';
+import { ProfileHeaderComponent } from '../components/profile-header/profile-header';
+import { RekeySearchCardComponent } from '../components/rekey-search-card/rekey-search-card';
+import { TestCentreJournalCardComponent } from '../components/test-centre-journal-card/test-centre-journal-card';
+import { TestResultsSearchCardComponent } from '../components/test-results-search-card/test-results-search-card';
+import { UpdateAvailableModal } from '../components/update-available-modal/update-available-modal';
 import { DashboardViewDidEnter, PracticeTestReportCard } from '../dashboard.actions';
 import { DashboardPage } from '../dashboard.page';
 
@@ -81,7 +91,16 @@ describe('DashboardPage', () => {
           },
         ]),
         StoreModule.forRoot({ appInfo: appInfoReducer }),
-        DashboardComponentsModule,
+        ProfileHeaderComponent,
+        GoToJournalCardComponent,
+        RekeySearchCardComponent,
+        PracticeEndToEndCardComponent,
+        TestResultsSearchCardComponent,
+        PracticeTestReportCardComponent,
+        TestCentreJournalCardComponent,
+        PracticeTestModal,
+        DelegatedSearchCardComponent,
+        UpdateAvailableModal,
         IonMenuButton,
         DashboardPage,
         MockComponent(VehicleRecallsBanner),

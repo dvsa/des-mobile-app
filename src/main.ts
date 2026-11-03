@@ -21,7 +21,6 @@ import { provideStoreDevtools } from '@ngrx/store-devtools';
 import { provideTranslateService } from '@ngx-translate/core';
 import { provideTranslateHttpLoader } from '@ngx-translate/http-loader';
 import { delegatedSearchReducer } from '@pages/delegated-rekey-search/delegated-rekey-search.reducer';
-import { ExaminerRecordsComponentsModule } from '@pages/examiner-records/components/examiner-records-components.module';
 import { rekeySearchReducer } from '@pages/rekey-search/rekey-search.reducer';
 import { testReportFeatureKey, testReportReducer } from '@pages/test-report/test-report.reducer';
 import { AppConfigProvider } from '@providers/app-config/app-config';
@@ -96,8 +95,7 @@ bootstrapApplication(AppComponent, {
       IonicStorageModule.forRoot({
         driverOrder: [storageDriver],
       }),
-      NgbModule,
-      ExaminerRecordsComponentsModule
+      NgbModule
     ),
     provideStore(reducers, { metaReducers }),
     ...(enableDevTools ? [provideStoreDevtools()] : []),

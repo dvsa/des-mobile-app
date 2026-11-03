@@ -27,6 +27,12 @@ DVSA Driving Examiner Application
 1. `npm install` (or `npm i`)
 2. `npm run build`
 
+### Standalone components
+
+Components, directives, and pipes use Angular's standalone default and declare their template dependencies
+in their own `imports`. Import them directly rather than creating component NgModules.
+`app-routing.module.ts` is retained for root routing; application providers are configured in `src/main.ts`.
+
 ### Config
 
 ###### Run the following to switch between configurations

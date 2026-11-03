@@ -15,7 +15,9 @@ import { SlotProvider } from '@providers/slot/slot';
 import { StoreModel } from '@shared/models/store.model';
 import { TestCentreDetailResponse } from '@shared/models/test-centre-journal.model';
 import { ExaminerSlotItemsByDate } from '@store/journal/journal.model';
-import { TestCentreJournalComponentsModule } from '../../test-centre-journal-components.module';
+
+import { CandidateSearchCardComponent } from '../../candidate-search-card/candidate-search-card';
+import { TestCentreNameComponent } from '../../test-centre-name/test-centre-name';
 import { Day, ViewJournalsCardComponent } from '../view-journals-card';
 
 describe('ViewJournalsCardComponent', () => {
@@ -33,7 +35,7 @@ describe('ViewJournalsCardComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [TestCentreJournalComponentsModule, CommonModule, ViewJournalsCardComponent],
+      imports: [CandidateSearchCardComponent, TestCentreNameComponent, CommonModule, ViewJournalsCardComponent],
       providers: [
         { provide: SlotProvider, useClass: SlotProviderMock },
         { provide: SlotSelectorProvider, useClass: SlotSelectorProviderMock },

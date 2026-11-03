@@ -23,7 +23,9 @@ import { SearchProviderMock } from '@providers/search/__mocks__/search.mock';
 import { SearchProvider } from '@providers/search/search';
 import { MockComponent } from 'ng-mocks';
 import { Observable, Subscription } from 'rxjs';
-import { TestResultsSearchComponentsModule } from '../components/test-results-search-components.module';
+
+import { AdvancedSearchComponent as AdvancedSearchComponent_1 } from '../components/advanced-search/advanced-search';
+import { SearchResultComponent as SearchResultComponent_1 } from '../components/search-result/search-result';
 import { TestResultsSearchPage } from '../test-results-search';
 
 enum SearchBy {
@@ -42,7 +44,8 @@ describe('TestResultsSearchPage', () => {
     TestBed.configureTestingModule({
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       imports: [
-        TestResultsSearchComponentsModule,
+        SearchResultComponent_1,
+        AdvancedSearchComponent_1,
         TestResultsSearchPage,
         MockComponent(AdvancedSearchComponent),
         MockComponent(SearchResultComponent),

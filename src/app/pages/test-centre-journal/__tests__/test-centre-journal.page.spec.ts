@@ -29,7 +29,10 @@ import { ActivatedRouteMock } from '@mocks/angular-mocks/activated-route.mock';
 import { DeviceProviderMock } from '@providers/device/__mocks__/device.mock';
 import { DeviceProvider } from '@providers/device/device';
 import { MockComponent } from 'ng-mocks';
-import { TestCentreJournalComponentsModule } from '../components/test-centre-journal-components.module';
+
+import { CandidateSearchCardComponent } from '../components/candidate-search-card/candidate-search-card';
+import { TestCentreNameComponent } from '../components/test-centre-name/test-centre-name';
+import { ViewJournalsCardComponent } from '../components/view-journals-card/view-journals-card';
 import {
   TestCentreJournalGetData,
   TestCentreJournalTabChanged,
@@ -54,7 +57,9 @@ describe('TestCenterJournalPage', () => {
       imports: [
         MockComponent(RefreshButtonComponent),
         CommonModule,
-        TestCentreJournalComponentsModule,
+        CandidateSearchCardComponent,
+        TestCentreNameComponent,
+        ViewJournalsCardComponent,
         RouterModule.forRoot([
           {
             path: '',
