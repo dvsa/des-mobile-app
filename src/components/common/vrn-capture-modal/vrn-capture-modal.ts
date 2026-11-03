@@ -7,7 +7,6 @@ import {
   UntypedFormGroup,
   Validators,
 } from '@angular/forms';
-import { AppComponent } from '@app/app.component';
 import { IonButton, IonCard, IonCol, IonInput, IonRow, IonText, ModalController } from '@ionic/angular';
 import { Store, select } from '@ngrx/store';
 import {
@@ -61,8 +60,7 @@ export class VRNCaptureModal implements OnInit {
 
   constructor(
     public modalController: ModalController,
-    private store$: Store<StoreModel>,
-    public appComponent: AppComponent
+    private store$: Store<StoreModel>
   ) {
     this.formGroup = new UntypedFormGroup({});
     this.formGroup.addControl(

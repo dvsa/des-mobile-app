@@ -28,6 +28,10 @@ describe('CandidateSectionComponent', () => {
   });
 
   describe('proceed', () => {
+    it('should create without an AppComponent provider', () => {
+      expect(component).toBeTruthy();
+    });
+
     it('should emit continueClickEvent with true', () => {
       spyOn(component.continueClickEvent, 'emit');
       component.proceed();

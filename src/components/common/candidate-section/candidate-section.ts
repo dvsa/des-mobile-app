@@ -1,5 +1,4 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { AppComponent } from '@app/app.component';
 import { VRNCaptureModal } from '@components/common/vrn-capture-modal/vrn-capture-modal';
 import { IonButton, IonCol, IonRow, IonText, ModalController } from '@ionic/angular';
 import { Store } from '@ngrx/store';
@@ -25,7 +24,6 @@ export class CandidateSectionComponent {
   constructor(
     public modalController: ModalController,
     public store$: Store<StoreModel>,
-    public appComponent: AppComponent,
     public accessibilityService: AccessibilityService
   ) {}
 

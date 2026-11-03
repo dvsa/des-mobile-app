@@ -1,8 +1,6 @@
 import { provideHttpClient } from '@angular/common/http';
 import { EnvironmentProviders, Provider } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { MockAppComponent } from '@app/__mocks__/app.component.mock';
-import { AppComponent } from '@app/app.component';
 import { ModalController, NavController, Platform } from '@ionic/angular';
 import {
   ActivatedRouteMock,
@@ -30,7 +28,6 @@ export function provideBasePageMocks(): (Provider | EnvironmentProviders)[] {
     { provide: Platform, useClass: PlatformMock },
     { provide: ModalController, useClass: ModalControllerMock },
     { provide: NavController, useClass: NavControllerMock },
-    { provide: AppComponent, useClass: MockAppComponent },
     { provide: AccessibilityService, useClass: AccessibilityServiceMock },
     { provide: AuthenticationProvider, useClass: AuthenticationProviderMock },
     { provide: Router, useClass: RouterMock },
