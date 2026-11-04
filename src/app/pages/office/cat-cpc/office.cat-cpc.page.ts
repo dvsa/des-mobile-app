@@ -1,6 +1,24 @@
+import { AsyncPipe, NgClass } from '@angular/common';
 import { Component, Injector, OnInit } from '@angular/core';
-import { UntypedFormGroup } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule, UntypedFormGroup } from '@angular/forms';
+import { ActivityCodeComponent } from '@components/common/activity-code/activity-code';
+import { CPCDebriefCardComponent } from '@components/common/cpc-debrief-card/cpc-debrief-card';
+import { TestFlowHeaderComponent } from '@components/common/test-flow-header/test-flow-header.component';
+import { DebriefWitnessedComponent } from '@components/test-finalisation/debrief-witnessed/debrief-witnessed';
+import { LanguagePreferencesComponent } from '@components/test-finalisation/language-preference/language-preference';
 import { CombinationCodes, Question, Question5 } from '@dvsa/mes-test-schema/categories/CPC';
+import {
+  IonCard,
+  IonCardContent,
+  IonCardHeader,
+  IonCol,
+  IonContent,
+  IonFooter,
+  IonGrid,
+  IonHeader,
+  IonRow,
+  IonToolbar,
+} from '@ionic/angular';
 import { select } from '@ngrx/store';
 import { behaviourMap } from '@pages/office/office-behaviour-map.cat-cpc';
 import { AppConfigProvider } from '@providers/app-config/app-config';
@@ -34,6 +52,22 @@ import { getCurrentTest } from '@store/tests/tests.selector';
 import { Observable, Subscription, merge } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { getTestOutcome as getTestOutcomeDebrief } from '../../debrief/debrief.selector';
+import { PassCertificateNumberComponent } from '../../pass-finalisation/components/pass-certificate-number/pass-certificate-number';
+import { AccompanimentCardCatCPCComponent } from '../../waiting-room-to-car/cat-cpc/components/accompaniment-card/accompaniment-card.cat-cpc';
+import { AdditionalInformationComponent } from '../components/additional-information/additional-information';
+import { AlternateEvidenceDescriptionComponent } from '../components/alternate-mot-evidence-description/alternate-evidence-description.component';
+import { AlternateEvidenceProvidedComponent } from '../components/alternate-mot-evidence-provided/alternate-evidence-provided.component';
+import { CandidateDescriptionComponent } from '../components/candidate-description/candidate-description';
+import { CandidateSectionComponent } from '../components/candidate-section/candidate-section';
+import { DateOfTest } from '../components/date-of-test/date-of-test';
+import { IdentificationComponent } from '../components/identification/identification';
+import { OfficeFooterComponent } from '../components/office-footer/office-footer.component';
+import { OfficeRegistrationAndMotComponent } from '../components/office-registration-and-mot/office-registration-and-mot.component';
+import { ReasonForEnteringTeamsComponent } from '../components/reason-for-entering-teams/reason-for-entering-teams';
+import { TrueLikenessComponent } from '../components/true-likeness/true-likeness';
+import { AssessmentReportComponent } from './components/assessment-report/assessment-report';
+import { CombinationComponent } from './components/combination/combination';
+import { PassCertificateDeclarationComponent } from './components/pass-certificate-declaration/pass-certificate-declaration';
 
 interface CatCPCOfficePageState {
   testResult$: Observable<string>;
@@ -51,10 +85,47 @@ interface CatCPCOfficePageState {
 type OfficePageState = CommonOfficePageState & CatCPCOfficePageState;
 
 @Component({
+  standalone: true,
   selector: '.office-cat-cpc-page',
   templateUrl: './office.cat-cpc.page.html',
   styleUrls: ['../office.page.scss'],
-  standalone: false,
+  imports: [
+    IonHeader,
+    IonToolbar,
+    NgClass,
+    TestFlowHeaderComponent,
+    IonContent,
+    CandidateSectionComponent,
+    FormsModule,
+    ReactiveFormsModule,
+    IonCard,
+    IonCardHeader,
+    IonCardContent,
+    IonGrid,
+    DateOfTest,
+    IonRow,
+    IonCol,
+    ActivityCodeComponent,
+    PassCertificateNumberComponent,
+    PassCertificateDeclarationComponent,
+    LanguagePreferencesComponent,
+    DebriefWitnessedComponent,
+    TrueLikenessComponent,
+    CandidateDescriptionComponent,
+    IdentificationComponent,
+    OfficeRegistrationAndMotComponent,
+    AlternateEvidenceProvidedComponent,
+    AlternateEvidenceDescriptionComponent,
+    AdditionalInformationComponent,
+    ReasonForEnteringTeamsComponent,
+    AccompanimentCardCatCPCComponent,
+    CombinationComponent,
+    AssessmentReportComponent,
+    CPCDebriefCardComponent,
+    IonFooter,
+    OfficeFooterComponent,
+    AsyncPipe,
+  ],
 })
 export class OfficeCatCPCPage extends OfficeBasePageComponent implements OnInit {
   pageState: OfficePageState;

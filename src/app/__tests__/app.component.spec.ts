@@ -11,7 +11,7 @@ import {
   RouterMock,
 } from '@mocks/index.mock';
 import { Store, StoreModule } from '@ngrx/store';
-import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { TranslateService } from '@ngx-translate/core';
 import { AppConfigProviderMock } from '@providers/app-config/__mocks__/app-config.mock';
 import { AppConfigProvider } from '@providers/app-config/app-config';
 import { AppInfoProviderMock } from '@providers/app-info/__mocks__/app-info.mock';
@@ -28,7 +28,7 @@ import { NetworkStateProviderMock } from '@providers/network-state/__mocks__/net
 import { NetworkStateProvider } from '@providers/network-state/network-state';
 import { SlotProvider } from '@providers/slot/slot';
 import { translateServiceMock } from '@shared/helpers/__mocks__/translate.mock';
-import { PipesModule } from '@shared/pipes/pipes.module';
+
 import { AppResumed, AppSuspended, LoadAppVersion } from '@store/app-info/app-info.actions';
 
 import { ExaminerRole } from '@dvsa/mes-microservice-common/domain/examiner-role';
@@ -41,6 +41,7 @@ import { AccessibilityService } from '@providers/accessibility/accessibility.ser
 import { AppConfig } from '@providers/app-config/app-config.model';
 import { LogHelperMock } from '@providers/logs/__mocks__/logs-helper.mock';
 import { LogHelper } from '@providers/logs/logs-helper';
+import { testsReducer } from '@store/tests/tests.reducer';
 import { Subscription } from 'rxjs';
 import { AppComponent, Page } from '../app.component';
 
@@ -61,9 +62,8 @@ describe('AppComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [AppComponent],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      imports: [StoreModule.forRoot({}), TranslateModule.forRoot(), PipesModule],
+      imports: [StoreModule.forRoot({ tests: testsReducer }), AppComponent],
       providers: [
         {
           provide: Platform,
@@ -257,9 +257,9 @@ describe('AppComponent', () => {
 
   describe('configureLocale', () => {
     it('should configure the locale to be English by default', () => {
-      spyOn(translate, 'setDefaultLang');
+      spyOn(translate, 'setFallbackLang');
       component.configureLocale();
-      expect(translate.setDefaultLang).toHaveBeenCalledWith('en');
+      expect(translate.setFallbackLang).toHaveBeenCalledWith('en');
     });
   });
 

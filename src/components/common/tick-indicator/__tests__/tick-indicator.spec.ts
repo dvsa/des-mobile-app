@@ -9,7 +9,7 @@ describe('TickIndicatorComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [TickIndicatorComponent],
+      imports: [TickIndicatorComponent],
     });
 
     fixture = TestBed.createComponent(TickIndicatorComponent);

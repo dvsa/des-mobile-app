@@ -14,8 +14,7 @@ describe('PassCertificateNumberCatAMod1Component', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [PassCertificateNumberCatAMod1Component],
-
+      imports: [PassCertificateNumberCatAMod1Component],
       providers: [
         {
           provide: AppComponent,

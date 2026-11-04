@@ -5,7 +5,9 @@ import { getFormattedApplicationReference } from '@shared/helpers/formatters';
 import { forOwn, has, isEmpty, isNil, isObject } from 'lodash-es';
 import { SlotItem } from './slot-item';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class SlotSelectorProvider {
   private ignoreBookingProperty: string[] = [
     'entitlementCheck',

@@ -14,7 +14,7 @@ import { filter, map, take, tap, withLatestFrom } from 'rxjs/operators';
 import { KeepAwake as Insomnia } from '@capacitor-community/keep-awake';
 import { CategoryCode, ETA, Eco, QuestionResult, SafetyQuestionResult } from '@dvsa/mes-test-schema/categories/common';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
-import { TranslateService } from '@ngx-translate/core';
+import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { getTestOutcome } from '@pages/debrief/debrief.selector';
 import { FaultCountProvider } from '@providers/fault-count/fault-count';
 import { FaultSummaryProvider } from '@providers/fault-summary/fault-summary';
@@ -26,7 +26,12 @@ import { getConductedLanguage } from '@store/tests/communication-preferences/com
 import { getCandidate } from '@store/tests/journal-data/common/candidate/candidate.reducer';
 import { getUntitledCandidateName } from '@store/tests/journal-data/common/candidate/candidate.selector';
 
+import { AsyncPipe, NgClass } from '@angular/common';
 import { Style } from '@capacitor/status-bar';
+import { Adi3DebriefCard } from '@components/common/adi3-debrief-card/adi3-debrief-card';
+import { CPCDebriefCardComponent } from '@components/common/cpc-debrief-card/cpc-debrief-card';
+import { TestFlowHeaderComponent } from '@components/common/test-flow-header/test-flow-header.component';
+import { AddOrRemoveLangCyDirective } from '@directives/add-or-remove-lang-cy.directive';
 import {
   LessonAndTheme,
   LessonPlanning,
@@ -36,7 +41,18 @@ import {
 } from '@dvsa/mes-test-schema/categories/ADI3';
 import { Avoidance, EmergencyStop } from '@dvsa/mes-test-schema/categories/AM1';
 import { Question, Question5 } from '@dvsa/mes-test-schema/categories/CPC';
-import { ViewDidEnter, ViewDidLeave } from '@ionic/angular';
+import {
+  IonButton,
+  IonCol,
+  IonContent,
+  IonFooter,
+  IonHeader,
+  IonRow,
+  IonText,
+  IonToolbar,
+  ViewDidEnter,
+  ViewDidLeave,
+} from '@ionic/angular';
 import { DASHBOARD_PAGE, TestFlowPageNames } from '@pages/page-names.constants';
 import { AccessibilityService } from '@providers/accessibility/accessibility.service';
 import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
@@ -66,6 +82,17 @@ import {
   getSafetyQuestionsCatD,
 } from '@store/tests/test-data/cat-d/safety-questions/safety-questions.cat-d.selector';
 import { TestOutcome as OutcomeType } from '@store/tests/tests.constants';
+import { DangerousFaultsDebriefCardComponent } from './components/dangerous-faults-debrief-card/dangerous-faults-debrief-card';
+import { DrivingFaultsDebriefCardComponent } from './components/driving-faults-debrief-card/driving-faults-debrief-card';
+import { EcoDebriefCardComponent } from './components/eco-debrief-card/eco-debrief-card';
+import { EtaDebriefCardComponent } from './components/eta-debrief-card/eta-debrief-card';
+import { SafetyAndBalanceCardCatAMod2Component } from './components/safety-and-balance-card/safety-and-balance-card.cat-a-mod2';
+import { SafetyQuestionsCardComponent } from './components/safety-questions-card/safety-questions-card';
+import { SeriousFaultsDebriefCardComponent } from './components/serious-faults-debrief-card/serious-faults-debrief-card';
+import { SpeedCheckDebriefCardComponent } from './components/speed-check-debrief-card/speed-check-debrief-card';
+import { TestOutcomeDebriefCardComponent } from './components/test-outcome-debrief-card/test-outcome-debrief-card';
+import { VehicleChecksCardCatBComponent } from './components/vehicle-checks-card-cat-b/vehicle-checks-card.cat-b';
+import { VehicleChecksCardComponent } from './components/vehicle-checks-card/vehicle-checks-card';
 
 interface DebriefPageState {
   seriousFaults$: Observable<string[]>;
@@ -107,7 +134,34 @@ interface DebriefPageState {
   selector: '.debrief-page',
   templateUrl: 'debrief.page.html',
   styleUrls: ['debrief.page.scss'],
-  standalone: false,
+  imports: [
+    IonHeader,
+    IonToolbar,
+    NgClass,
+    TestFlowHeaderComponent,
+    IonContent,
+    TestOutcomeDebriefCardComponent,
+    SpeedCheckDebriefCardComponent,
+    EtaDebriefCardComponent,
+    DangerousFaultsDebriefCardComponent,
+    SeriousFaultsDebriefCardComponent,
+    DrivingFaultsDebriefCardComponent,
+    EcoDebriefCardComponent,
+    VehicleChecksCardCatBComponent,
+    VehicleChecksCardComponent,
+    CPCDebriefCardComponent,
+    SafetyQuestionsCardComponent,
+    SafetyAndBalanceCardCatAMod2Component,
+    Adi3DebriefCard,
+    IonFooter,
+    IonRow,
+    IonCol,
+    IonButton,
+    IonText,
+    AddOrRemoveLangCyDirective,
+    AsyncPipe,
+    TranslatePipe,
+  ],
 })
 export class DebriefPage extends PracticeableBasePageComponent implements OnInit, ViewDidEnter, ViewDidLeave {
   pageState: DebriefPageState;

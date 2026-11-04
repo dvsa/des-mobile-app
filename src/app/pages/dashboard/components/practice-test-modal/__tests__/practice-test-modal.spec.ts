@@ -10,8 +10,7 @@ describe('PracticeTestModal', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [PracticeTestModal],
-
+      imports: [PracticeTestModal],
       providers: [{ provide: ModalController, useClass: ModalControllerMock }],
     });
 

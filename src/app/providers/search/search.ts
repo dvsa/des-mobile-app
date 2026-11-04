@@ -8,7 +8,9 @@ import { AppConfigProvider } from '../app-config/app-config';
 import { UrlProvider } from '../url/url';
 import { AdvancedSearchParams } from './search.models';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class SearchProvider {
   constructor(
     private http: HttpClient,

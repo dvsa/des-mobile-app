@@ -7,7 +7,7 @@ describe('FitMarkerBannerComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [FitMarkerBannerComponent],
+      imports: [FitMarkerBannerComponent],
     });
 
     fixture = TestBed.createComponent(FitMarkerBannerComponent);

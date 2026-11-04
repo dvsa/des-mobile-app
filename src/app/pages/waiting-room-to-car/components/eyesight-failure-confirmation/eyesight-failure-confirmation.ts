@@ -1,5 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { Router } from '@angular/router';
+import { IonButton, IonCol, IonGrid, IonIcon, IonRow, IonText } from '@ionic/angular';
 import { Store } from '@ngrx/store';
 import { ActivityCodes } from '@shared/models/activity-codes';
 import { StoreModel } from '@shared/models/store.model';
@@ -9,7 +10,7 @@ import { SetActivityCode } from '@store/tests/activity-code/activity-code.action
   selector: 'eyesight-failure-confirmation',
   templateUrl: './eyesight-failure-confirmation.html',
   styleUrls: ['./eyesight-failure-confirmation.scss'],
-  standalone: false,
+  imports: [IonGrid, IonRow, IonCol, IonIcon, IonText, IonButton],
 })
 export class EyesightFailureConfirmationComponent {
   constructor(

@@ -1,8 +1,10 @@
+import { AsyncPipe, NgClass } from '@angular/common';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { TestSlot } from '@dvsa/mes-journal-schema';
 import { SearchResultTestSchema } from '@dvsa/mes-search-schema';
 import { ActivityCode } from '@dvsa/mes-test-schema/categories/common';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
+import { IonButton, IonCard, IonCol, IonGrid, IonRow, IonText } from '@ionic/angular';
 import { Store, select } from '@ngrx/store';
 import { AccessibilityService } from '@providers/accessibility/accessibility.service';
 import { AppConfigProvider } from '@providers/app-config/app-config';
@@ -30,7 +32,22 @@ import {
 import { get, isNil } from 'lodash-es';
 import { Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
+import { AdditionalCandidateDetailsComponent } from '../additional-candidate-details/additional-candidate-details';
+import { AutosaveStatusComponent } from '../autosave-status/autosave-status';
+import { CandidateLinkComponent } from '../candidate-link/candidate-link';
+import { DateComponent } from '../date/date';
+import { ExaminerNameComponent } from '../examiner-name/examiner-name';
+import { IndicatorsComponent } from '../indicators/indicators';
+import { IntegrityMarkerComponent } from '../integrity-marker/integrity-marker';
+import { LanguageComponent } from '../language/language';
+import { LocationComponent } from '../location/location';
+import { ProgressiveAccessComponent } from '../progressive-access/progressive-access';
 import { SlotComponent } from '../slot/slot';
+import { SubmissionStatusComponent } from '../submission-status/submission-status';
+import { TestCategoryComponent } from '../test-category/test-category';
+import { TestOutcomeComponent } from '../test-outcome/test-outcome';
+import { TimeComponent } from '../time/time';
+import { VehicleDetailsComponent } from '../vehicle-details/vehicle-details';
 import { vehicleDetails } from './test-slot.constants';
 
 interface TestSlotComponentState {
@@ -45,7 +62,31 @@ interface TestSlotComponentState {
   selector: 'test-slot',
   templateUrl: 'test-slot.html',
   styleUrls: ['test-slot.scss'],
-  standalone: false,
+  imports: [
+    LocationComponent,
+    IonCard,
+    NgClass,
+    IonGrid,
+    IonRow,
+    IonCol,
+    LanguageComponent,
+    SubmissionStatusComponent,
+    IntegrityMarkerComponent,
+    AutosaveStatusComponent,
+    IndicatorsComponent,
+    TimeComponent,
+    CandidateLinkComponent,
+    IonButton,
+    IonText,
+    TestCategoryComponent,
+    TestOutcomeComponent,
+    ExaminerNameComponent,
+    DateComponent,
+    ProgressiveAccessComponent,
+    VehicleDetailsComponent,
+    AdditionalCandidateDetailsComponent,
+    AsyncPipe,
+  ],
 })
 export class TestSlotComponent implements SlotComponent, OnInit {
   @Input()

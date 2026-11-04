@@ -71,7 +71,26 @@ describe('NetworkStateProvider', () => {
       spyOn(networkStateProvider, 'applyStatus').and.callThrough();
 
       await networkStateProvider.initialiseNetworkState();
+      expect(Network.getStatus).toHaveBeenCalledTimes(1);
       expect(networkStateProvider.applyStatus).toHaveBeenCalledWith(currentStatus);
+    });
+
+    it('should apply status when the network changes', async () => {
+      const changedStatus: ConnectionStatus = {
+        connected: false,
+        connectionType: 'none',
+      };
+      const addListener = spyOn(Network, 'addListener').and.resolveTo({ remove: async () => {} });
+      const applyStatus = spyOn(networkStateProvider, 'applyStatus').and.callThrough();
+
+      await networkStateProvider.initialiseNetworkState();
+      applyStatus.calls.reset();
+
+      expect(addListener).toHaveBeenCalledWith('networkStatusChange', jasmine.any(Function));
+      const [, listener] = addListener.calls.mostRecent().args;
+      listener(changedStatus);
+
+      expect(applyStatus).toHaveBeenCalledOnceWith(changedStatus);
     });
   });
 

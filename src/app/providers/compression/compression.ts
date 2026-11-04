@@ -1,7 +1,9 @@
 import { Injectable } from '@angular/core';
 import pako from 'pako';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class CompressionProvider {
   private static readonly textDecoder = new TextDecoder();
   private static readonly textEncoder = new TextEncoder();

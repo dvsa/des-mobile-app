@@ -1,9 +1,6 @@
 import { Directive, ElementRef, HostListener } from '@angular/core';
 
-@Directive({
-  selector: '[uppercaseAlphanumOnly]',
-  standalone: false,
-})
+@Directive({ selector: '[uppercaseAlphanumOnly]' })
 export class InputRestrictionUppercaseAlphanumDirective {
   constructor(public ref: ElementRef) {}
 

@@ -1,6 +1,20 @@
+import { AsyncPipe, NgClass } from '@angular/common';
 import { Component, Injector, OnInit } from '@angular/core';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ActivityCodeComponent } from '@components/common/activity-code/activity-code';
+import { TestFlowHeaderComponent } from '@components/common/test-flow-header/test-flow-header.component';
 import { QuestionResult } from '@dvsa/mes-test-schema/categories/common';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
+import {
+  IonCard,
+  IonCardContent,
+  IonCardHeader,
+  IonContent,
+  IonFooter,
+  IonGrid,
+  IonHeader,
+  IonToolbar,
+} from '@ionic/angular';
 import { select } from '@ngrx/store';
 import { behaviourMap } from '@pages/office/office-behaviour-map.cat-adi-part2';
 import { AppConfigProvider } from '@providers/app-config/app-config';
@@ -49,6 +63,31 @@ import { getCurrentTest, getTestOutcome, getTestOutcomeText } from '@store/tests
 import { startsWith } from 'lodash-es';
 import { Observable, combineLatest } from 'rxjs';
 import { map, withLatestFrom } from 'rxjs/operators';
+import { AccompanimentCardComponent } from '../../waiting-room-to-car/components/accompaniment-card/accompaniment-card';
+import { VehicleDetailsCardComponent } from '../../waiting-room-to-car/components/vehicle-details-card/vehicle-details-card';
+import { AdditionalInformationComponent } from '../components/additional-information/additional-information';
+import { AlternateEvidenceDescriptionComponent } from '../components/alternate-mot-evidence-description/alternate-evidence-description.component';
+import { AlternateEvidenceProvidedComponent } from '../components/alternate-mot-evidence-provided/alternate-evidence-provided.component';
+import { CandidateDescriptionComponent } from '../components/candidate-description/candidate-description';
+import { CandidateSectionComponent } from '../components/candidate-section/candidate-section';
+import { DateOfTest } from '../components/date-of-test/date-of-test';
+import { DrivingFaultsComponent } from '../components/driving-faults/driving-faults.component';
+import { ECOCardComponent } from '../components/eco-card/eco-card.component';
+import { ETACardComponent } from '../components/eta-card/eta-card.component';
+import { FaultCommentCardComponent } from '../components/fault-comment-card/fault-comment-card';
+import { IdentificationComponent } from '../components/identification/identification';
+import { IndependentDrivingComponent } from '../components/independent-driving/independent-driving';
+import { OfficeFooterComponent } from '../components/office-footer/office-footer.component';
+import { OfficeRegistrationAndMotComponent } from '../components/office-registration-and-mot/office-registration-and-mot.component';
+import { ReasonForEnteringTeamsComponent } from '../components/reason-for-entering-teams/reason-for-entering-teams';
+import { RouteNumberComponent } from '../components/route-number/route-number';
+import { TrueLikenessComponent } from '../components/true-likeness/true-likeness';
+import { WeatherConditionsComponent } from '../components/weather-conditions/weather-conditions';
+import { EcoCaptureReasonComponent } from './components/eco-capture-reason/eco-capture-reason';
+import { EcoRelatedFaultComponent } from './components/eco-related-fault/eco-related-fault';
+import { FuelEfficientDriving } from './components/fuel-efficient-driving/fuel-efficient-driving';
+import { ShowMeQuestionsCatADI2Component } from './components/show-me-questions/show-me-questions';
+import { VehicleChecksOfficeCardCatADI2Component } from './components/vehicle-checks/vehicle-checks-office-card';
 
 interface CatADI2OfficePageState {
   displayDrivingFaultComments$: Observable<boolean>;
@@ -72,7 +111,47 @@ type OfficePageState = CommonOfficePageState & CatADI2OfficePageState;
   selector: 'app-office-cat-adi-part2',
   templateUrl: './office.cat-adi-part2.page.html',
   styleUrls: ['../../office/office.page.scss'],
-  standalone: false,
+  imports: [
+    IonHeader,
+    IonToolbar,
+    NgClass,
+    TestFlowHeaderComponent,
+    IonContent,
+    CandidateSectionComponent,
+    FormsModule,
+    ReactiveFormsModule,
+    IonCard,
+    IonCardHeader,
+    IonCardContent,
+    IonGrid,
+    DateOfTest,
+    ActivityCodeComponent,
+    RouteNumberComponent,
+    IndependentDrivingComponent,
+    TrueLikenessComponent,
+    CandidateDescriptionComponent,
+    IdentificationComponent,
+    VehicleChecksOfficeCardCatADI2Component,
+    ShowMeQuestionsCatADI2Component,
+    WeatherConditionsComponent,
+    AccompanimentCardComponent,
+    VehicleDetailsCardComponent,
+    OfficeRegistrationAndMotComponent,
+    AlternateEvidenceProvidedComponent,
+    AlternateEvidenceDescriptionComponent,
+    AdditionalInformationComponent,
+    ReasonForEnteringTeamsComponent,
+    ETACardComponent,
+    ECOCardComponent,
+    FuelEfficientDriving,
+    EcoRelatedFaultComponent,
+    EcoCaptureReasonComponent,
+    FaultCommentCardComponent,
+    DrivingFaultsComponent,
+    IonFooter,
+    OfficeFooterComponent,
+    AsyncPipe,
+  ],
 })
 export class OfficeCatADI2Page extends OfficeBasePageComponent implements OnInit {
   pageState: OfficePageState;

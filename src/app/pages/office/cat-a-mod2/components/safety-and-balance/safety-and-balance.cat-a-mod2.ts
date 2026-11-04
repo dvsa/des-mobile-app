@@ -1,6 +1,10 @@
+import { AsyncPipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
+import { AddOrRemoveLangCyDirective } from '@directives/add-or-remove-lang-cy.directive';
 import { QuestionResult } from '@dvsa/mes-test-schema/categories/common';
+import { IonCol, IonRow } from '@ionic/angular';
 import { Store, select } from '@ngrx/store';
+import { TranslatePipe } from '@ngx-translate/core';
 import { CompetencyOutcome } from '@shared/models/competency-outcome';
 import { StoreModel } from '@shared/models/store.model';
 import { getTestData } from '@store/tests/test-data/cat-a-mod2/test-data.cat-a-mod2.reducer';
@@ -14,7 +18,7 @@ import { map } from 'rxjs/operators';
   selector: 'safety-and-balance-cat-a-mod2',
   templateUrl: 'safety-and-balance.cat-a-mod2.html',
   styleUrls: ['safety-and-balance.cat-a-mod2.scss'],
-  standalone: false,
+  imports: [IonRow, IonCol, AddOrRemoveLangCyDirective, AsyncPipe, TranslatePipe],
 })
 export class SafetyAndBalanceCardCatAMod2Component implements OnInit {
   safetyAndBalanceQuestions$: Observable<QuestionResult[]>;

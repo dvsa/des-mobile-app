@@ -17,7 +17,9 @@ import {
 import { lastValueFrom } from 'rxjs';
 import { TestResultProvider } from '../test-result/test-result';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class ActivityCodeFinalisationProvider {
   constructor(private testResultProvider: TestResultProvider) {}
 
@@ -30,10 +32,9 @@ export class ActivityCodeFinalisationProvider {
       return false;
     }
 
-    const isPass =
-      (await lastValueFrom(this.testResultProvider.calculateTestResult(category, testData))) === ActivityCodes.PASS;
-
-    return isPass;
+    return (
+      (await lastValueFrom(this.testResultProvider.calculateTestResult(category, testData))) === ActivityCodes.PASS
+    );
   }
 
   async catAMod2TestDataIsInvalid(
@@ -43,10 +44,9 @@ export class ActivityCodeFinalisationProvider {
   ): Promise<boolean> {
     if (!this.activityCodeIs4or5(activityCode)) return false;
 
-    const isPass =
-      (await lastValueFrom(this.testResultProvider.calculateTestResult(category, testData))) === ActivityCodes.PASS;
-
-    return isPass;
+    return (
+      (await lastValueFrom(this.testResultProvider.calculateTestResult(category, testData))) === ActivityCodes.PASS
+    );
   }
 
   async catADIPart2TestDataIsInvalid(
@@ -56,10 +56,9 @@ export class ActivityCodeFinalisationProvider {
   ): Promise<boolean> {
     if (!this.activityCodeIs4or5(activityCode)) return false;
 
-    const isPass =
-      (await lastValueFrom(this.testResultProvider.calculateTestResult(category, testData))) === ActivityCodes.PASS;
-
-    return isPass;
+    return (
+      (await lastValueFrom(this.testResultProvider.calculateTestResult(category, testData))) === ActivityCodes.PASS
+    );
   }
 
   async catADIPart3TestDataIsInvalid(
@@ -69,10 +68,9 @@ export class ActivityCodeFinalisationProvider {
   ): Promise<boolean> {
     if (activityCode !== ActivityCodes.FAIL_PUBLIC_SAFETY && testData.riskManagement.score >= 8) return false;
 
-    const isPass =
-      (await lastValueFrom(this.testResultProvider.calculateTestResult(category, testData))) === ActivityCodes.PASS;
-
-    return isPass;
+    return (
+      (await lastValueFrom(this.testResultProvider.calculateTestResult(category, testData))) === ActivityCodes.PASS
+    );
   }
 
   async catBTestDataIsInvalid(
@@ -82,10 +80,9 @@ export class ActivityCodeFinalisationProvider {
   ): Promise<boolean> {
     if (!this.activityCodeIs4or5(activityCode)) return false;
 
-    const isPass =
-      (await lastValueFrom(this.testResultProvider.calculateTestResult(category, testData))) === ActivityCodes.PASS;
-
-    return isPass;
+    return (
+      (await lastValueFrom(this.testResultProvider.calculateTestResult(category, testData))) === ActivityCodes.PASS
+    );
   }
 
   async catCTestDataIsInvalid(
@@ -95,10 +92,9 @@ export class ActivityCodeFinalisationProvider {
   ): Promise<boolean> {
     if (!this.activityCodeIs4or5(activityCode)) return false;
 
-    const isPass =
-      (await lastValueFrom(this.testResultProvider.calculateTestResult(category, testData))) === ActivityCodes.PASS;
-
-    return isPass;
+    return (
+      (await lastValueFrom(this.testResultProvider.calculateTestResult(category, testData))) === ActivityCodes.PASS
+    );
   }
 
   async catManoeuvresTestDataIsInvalid(
@@ -108,10 +104,9 @@ export class ActivityCodeFinalisationProvider {
   ): Promise<boolean> {
     if (!this.activityCodeIs4or5(activityCode)) return false;
 
-    const isPass =
-      (await lastValueFrom(this.testResultProvider.calculateTestResult(category, testData))) === ActivityCodes.PASS;
-
-    return isPass;
+    return (
+      (await lastValueFrom(this.testResultProvider.calculateTestResult(category, testData))) === ActivityCodes.PASS
+    );
   }
 
   async catDTestDataIsInvalid(
@@ -121,10 +116,9 @@ export class ActivityCodeFinalisationProvider {
   ): Promise<boolean> {
     if (!this.activityCodeIs4or5(activityCode)) return false;
 
-    const isPass =
-      (await lastValueFrom(this.testResultProvider.calculateTestResult(category, testData))) === ActivityCodes.PASS;
-
-    return isPass;
+    return (
+      (await lastValueFrom(this.testResultProvider.calculateTestResult(category, testData))) === ActivityCodes.PASS
+    );
   }
 
   async catHomeTestDataIsInvalid(
@@ -134,10 +128,9 @@ export class ActivityCodeFinalisationProvider {
   ): Promise<boolean> {
     if (!this.activityCodeIs4or5(activityCode)) return false;
 
-    const isPass =
-      (await lastValueFrom(this.testResultProvider.calculateTestResult(category, testData))) === ActivityCodes.PASS;
-
-    return isPass;
+    return (
+      (await lastValueFrom(this.testResultProvider.calculateTestResult(category, testData))) === ActivityCodes.PASS
+    );
   }
 
   private activityCodeIs4or5(activityCode: ActivityCode): boolean {

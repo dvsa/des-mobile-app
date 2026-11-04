@@ -1,14 +1,31 @@
 import { Component, Injector, OnInit } from '@angular/core';
-import { UntypedFormGroup } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule, UntypedFormGroup } from '@angular/forms';
 import { TestSlot } from '@dvsa/mes-journal-schema';
 import { IpadIssue, Other, Transfer } from '@dvsa/mes-test-schema/categories/common';
-import { ModalController } from '@ionic/angular';
+import {
+  IonBackButton,
+  IonButton,
+  IonButtons,
+  IonCard,
+  IonCardHeader,
+  IonCol,
+  IonContent,
+  IonFooter,
+  IonGrid,
+  IonHeader,
+  IonRow,
+  IonText,
+  IonTitle,
+  IonToolbar,
+  ModalController,
+} from '@ionic/angular';
 import { LoadingOptions } from '@ionic/core';
 import { Store, select } from '@ngrx/store';
 import { isEmpty } from 'lodash-es';
 import { Observable, Subscription, merge } from 'rxjs';
 import { map, withLatestFrom } from 'rxjs/operators';
 
+import { AsyncPipe } from '@angular/common';
 import { JOURNAL_PAGE, REKEY_SEARCH_PAGE, TestFlowPageNames } from '@pages/page-names.constants';
 import { ExitRekeyModal } from '@pages/rekey-reason/components/exit-rekey-modal/exit-rekey-modal';
 import { UploadRekeyModal } from '@pages/rekey-reason/components/upload-rekey-modal/upload-rekey-modal';
@@ -48,6 +65,9 @@ import { SendCurrentTest } from '@store/tests/tests.actions';
 import { getTests } from '@store/tests/tests.reducer';
 import { getCurrentTest, getJournalData } from '@store/tests/tests.selector';
 import { ExitRekeyModalEvent } from './components/exit-rekey-modal/exit-rekey-modal.constants';
+import { IpadIssueComponent } from './components/ipad-issue/ipad-issue';
+import { OtherReasonComponent } from './components/other-reason/other-reason';
+import { TransferComponent } from './components/transfer/transfer';
 import {
   RekeyReasonViewDidEnter,
   RekeyUploadTest,
@@ -70,7 +90,28 @@ interface RekeyReasonPageState {
   selector: '.rekey-reason-page',
   templateUrl: './rekey-reason.page.html',
   styleUrls: ['./rekey-reason.page.scss'],
-  standalone: false,
+  imports: [
+    IonHeader,
+    IonToolbar,
+    IonButtons,
+    IonBackButton,
+    IonTitle,
+    IonButton,
+    IonContent,
+    IonCard,
+    IonCardHeader,
+    FormsModule,
+    ReactiveFormsModule,
+    IonGrid,
+    IpadIssueComponent,
+    TransferComponent,
+    OtherReasonComponent,
+    IonFooter,
+    IonRow,
+    IonCol,
+    IonText,
+    AsyncPipe,
+  ],
 })
 export class RekeyReasonPage extends BasePageComponent implements OnInit {
   private static loadingOpts: LoadingOptions = {

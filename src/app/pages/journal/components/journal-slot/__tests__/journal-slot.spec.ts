@@ -1,5 +1,4 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { ComponentsModule } from '@components/common/common-components.module';
 import { TestSlot } from '@dvsa/mes-journal-schema';
 
 import { SearchResultTestSchema } from '@dvsa/mes-search-schema';
@@ -15,8 +14,7 @@ describe('JournalSlotComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [JournalSlotComponent],
-      imports: [ComponentsModule],
+      imports: [JournalSlotComponent],
       providers: [{ provide: SlotSelectorProvider, useClass: SlotSelectorProviderMock }],
     });
 

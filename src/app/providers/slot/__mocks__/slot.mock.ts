@@ -1,7 +1,9 @@
 import { Injectable } from '@angular/core';
 import { SlotItem } from '../../slot-selector/slot-item';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class SlotProviderMock {
   detectSlotChanges(): SlotItem[] {
     return [];

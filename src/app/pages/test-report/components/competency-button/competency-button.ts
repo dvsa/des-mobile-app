@@ -1,3 +1,4 @@
+import { NgClass } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -13,8 +14,9 @@ import {
   selector: 'competency-button',
   templateUrl: './competency-button.html',
   styleUrls: ['./competency-button.scss'],
-  standalone: false,
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [NgClass],
 })
 export class CompetencyButtonComponent {
   constructor(private hostElementRef: ElementRef<HTMLElement>) {}

@@ -27,7 +27,7 @@ import { createPopulateVehicleDimensionsAction } from '@store/tests/vehicle-deta
 import { GearboxCategoryChanged } from '@store/tests/vehicle-details/vehicle-details.actions';
 import { switchMap } from 'rxjs/operators';
 import { fakeJournalTestSlots } from './__mocks__/fake-journal.mock';
-import * as fakeJournalActions from './fake-journal.actions';
+import { StartE2EPracticeTest } from './fake-journal.actions';
 
 @Injectable()
 export class FakeJournalEffects {
@@ -35,10 +35,9 @@ export class FakeJournalEffects {
 
   startE2EPracticeTestEffect$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(fakeJournalActions.StartE2EPracticeTest),
-      switchMap((action) => {
-        const startTestAction = action as ReturnType<typeof fakeJournalActions.StartE2EPracticeTest>;
-        const slot = fakeJournalTestSlots.find((s) => s.slotDetail.slotId.toString() === startTestAction.slotId);
+      ofType(StartE2EPracticeTest),
+      switchMap(({ slotId, category }) => {
+        const slot = fakeJournalTestSlots.find((s) => s.slotDetail.slotId.toString() === slotId);
         const examiner: Examiner = {
           staffNumber: '01234567',
         };
@@ -47,47 +46,47 @@ export class FakeJournalEffects {
 
         const arrayOfActions: Action[] = [
           PopulateExaminer(examiner),
-          PopulateTestCategory(slot.booking.application.testCategory as CategoryCode),
-          PopulateApplicationReference(slot.booking.application as Application),
-          createPopulateCandidateDetailsAction(action.category, slot.booking as Booking),
+          PopulateTestCategory(slot?.booking?.application?.testCategory as CategoryCode),
+          PopulateApplicationReference(slot?.booking?.application as Application),
+          createPopulateCandidateDetailsAction(category, slot?.booking as Booking),
           PopulateTestSlotAttributes(testSlotAttributes),
-          PopulateTestCentre({ centreId: slot.testCentre.centreId, costCode: slot.testCentre.costCode }),
-          testStatusActions.SetTestStatusBooked(slot.slotDetail.slotId.toString()),
+          PopulateTestCentre({ centreId: slot?.testCentre?.centreId, costCode: slot?.testCentre?.costCode }),
+          testStatusActions.SetTestStatusBooked(slotId.toString()),
           PopulateConductedLanguage(conductedLanguage),
         ];
 
-        if (startTestAction.category !== TestCategory.B && startTestAction.category !== TestCategory.ADI2) {
+        if (category !== TestCategory.B && category !== TestCategory.ADI2) {
           arrayOfActions.push(
-            createPopulateVehicleDimensionsAction(startTestAction.category, slot.booking.application as Application)
+            createPopulateVehicleDimensionsAction(category, slot?.booking?.application as Application)
           );
         }
         if (
-          startTestAction.category === TestCategory.C ||
-          startTestAction.category === TestCategory.C1 ||
-          startTestAction.category === TestCategory.C1E ||
-          startTestAction.category === TestCategory.CE
+          category === TestCategory.C ||
+          category === TestCategory.C1 ||
+          category === TestCategory.C1E ||
+          category === TestCategory.CE
         ) {
-          arrayOfActions.push(InitialiseVehicleChecksCatC(startTestAction.category));
+          arrayOfActions.push(InitialiseVehicleChecksCatC(category));
         }
         if (
-          startTestAction.category === TestCategory.D ||
-          startTestAction.category === TestCategory.D1 ||
-          startTestAction.category === TestCategory.D1E ||
-          startTestAction.category === TestCategory.DE
+          category === TestCategory.D ||
+          category === TestCategory.D1 ||
+          category === TestCategory.D1E ||
+          category === TestCategory.DE
         ) {
-          arrayOfActions.push(InitializeVehicleChecksCatD(startTestAction.category));
+          arrayOfActions.push(InitializeVehicleChecksCatD(category));
         }
-        if (startTestAction.category === TestCategory.C || startTestAction.category === TestCategory.C1) {
+        if (category === TestCategory.C || category === TestCategory.C1) {
           arrayOfActions.push(SetFullLicenceHeldCatC(false));
         }
-        if (startTestAction.category === TestCategory.D || startTestAction.category === TestCategory.D1) {
+        if (category === TestCategory.D || category === TestCategory.D1) {
           arrayOfActions.push(SetFullLicenceHeldCatD(false));
         }
         if (
-          startTestAction.category === TestCategory.F ||
-          startTestAction.category === TestCategory.G ||
-          startTestAction.category === TestCategory.H ||
-          startTestAction.category === TestCategory.K
+          category === TestCategory.F ||
+          category === TestCategory.G ||
+          category === TestCategory.H ||
+          category === TestCategory.K
         ) {
           arrayOfActions.push(GearboxCategoryChanged('Manual'));
           arrayOfActions.push(RouteNumberChanged(88));

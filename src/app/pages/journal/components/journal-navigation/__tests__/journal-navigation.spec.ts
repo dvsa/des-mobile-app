@@ -8,7 +8,7 @@ describe('JournalNavigationComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [JournalNavigationComponent],
+      imports: [JournalNavigationComponent],
     });
 
     fixture = TestBed.createComponent(JournalNavigationComponent);

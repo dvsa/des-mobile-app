@@ -1,10 +1,11 @@
 import { Component, Input } from '@angular/core';
+import { IonCol, IonGrid, IonRow, IonText } from '@ionic/angular';
 
 @Component({
   selector: 'finalisation-header',
   templateUrl: './finalisation-header.html',
   styleUrls: ['./finalisation-header.scss'],
-  standalone: false,
+  imports: [IonGrid, IonRow, IonCol, IonText],
 })
 export class FinalisationHeaderComponent {
   @Input()

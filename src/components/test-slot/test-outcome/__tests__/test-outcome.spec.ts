@@ -30,7 +30,22 @@ import { SetExaminerBooked } from '@store/tests/examiner-booked/examiner-booked.
 import { SetExaminerConducted } from '@store/tests/examiner-conducted/examiner-conducted.actions';
 import { TestStatus } from '@store/tests/test-status/test-status.model';
 import { ActivateTest, RemoveTestBySlotId, StartTest } from '@store/tests/tests.actions';
-import { TestSlotComponentsModule } from '../../test-slot-components.module';
+
+import { AutosaveStatusComponent } from '@components/test-slot/autosave-status/autosave-status';
+import { IntegrityMarkerComponent } from '@components/test-slot/integrity-marker/integrity-marker';
+import { AdditionalCandidateDetailsComponent } from '../../additional-candidate-details/additional-candidate-details';
+import { CandidateLinkComponent } from '../../candidate-link/candidate-link';
+import { DateComponent } from '../../date/date';
+import { ExaminerNameComponent } from '../../examiner-name/examiner-name';
+import { IndicatorsComponent } from '../../indicators/indicators';
+import { LanguageComponent } from '../../language/language';
+import { LocationComponent } from '../../location/location';
+import { ProgressiveAccessComponent } from '../../progressive-access/progressive-access';
+import { SubmissionStatusComponent } from '../../submission-status/submission-status';
+import { TestCategoryComponent } from '../../test-category/test-category';
+import { TestSlotComponent } from '../../test-slot/test-slot';
+import { TimeComponent } from '../../time/time';
+import { VehicleDetailsComponent } from '../../vehicle-details/vehicle-details';
 import { TestOutcomeComponent } from '../test-outcome';
 
 describe('TestOutcomeComponent', () => {
@@ -140,7 +155,6 @@ describe('TestOutcomeComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [TestOutcomeComponent],
       imports: [
         StoreModule.forRoot({
           tests: () => ({
@@ -158,7 +172,22 @@ describe('TestOutcomeComponent', () => {
           journal: () => journal,
           rekeySearch: () => ({ bookedTestSlot: {} }),
         }),
-        TestSlotComponentsModule,
+        AdditionalCandidateDetailsComponent,
+        AutosaveStatusComponent,
+        CandidateLinkComponent,
+        IndicatorsComponent,
+        LanguageComponent,
+        ProgressiveAccessComponent,
+        SubmissionStatusComponent,
+        TestCategoryComponent,
+        TestSlotComponent,
+        TimeComponent,
+        DateComponent,
+        VehicleDetailsComponent,
+        LocationComponent,
+        ExaminerNameComponent,
+        IntegrityMarkerComponent,
+        TestOutcomeComponent,
       ],
       providers: [
         { provide: ModalController, useClass: ModalControllerMock },

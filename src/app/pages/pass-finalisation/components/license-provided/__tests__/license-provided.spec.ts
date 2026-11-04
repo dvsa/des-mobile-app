@@ -9,8 +9,7 @@ describe('LicenseProvidedComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [LicenseProvidedComponent],
-      imports: [ReactiveFormsModule],
+      imports: [ReactiveFormsModule, LicenseProvidedComponent],
     });
 
     fixture = TestBed.createComponent(LicenseProvidedComponent);

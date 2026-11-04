@@ -7,7 +7,7 @@ describe('InappropriateUseBannerComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [InappropriateUseBannerComponent],
+      imports: [InappropriateUseBannerComponent],
     });
 
     fixture = TestBed.createComponent(InappropriateUseBannerComponent);

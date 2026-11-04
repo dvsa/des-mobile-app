@@ -1,6 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { UntypedFormGroup } from '@angular/forms';
-import { AppModule } from '@app/app.module';
 import { LanguagePreferencesComponent } from '@components/test-finalisation/language-preference/language-preference';
 
 describe('LanguagePreferencesComponent', () => {
@@ -9,8 +8,7 @@ describe('LanguagePreferencesComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [LanguagePreferencesComponent],
-      imports: [AppModule],
+      imports: [LanguagePreferencesComponent],
     });
 
     fixture = TestBed.createComponent(LanguagePreferencesComponent);

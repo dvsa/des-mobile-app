@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
-import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { IonCol, IonRow } from '@ionic/angular';
 
 enum ValidCode78Values {
   YES = 'yes',
@@ -10,7 +11,7 @@ enum ValidCode78Values {
   selector: 'code-78',
   templateUrl: 'code-78.html',
   styleUrls: ['./code-78.scss'],
-  standalone: false,
+  imports: [IonRow, IonCol, FormsModule, ReactiveFormsModule],
 })
 export class Code78Component implements OnChanges {
   @Input()

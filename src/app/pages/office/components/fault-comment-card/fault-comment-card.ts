@@ -1,13 +1,25 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule, UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
+import { IonCard, IonCardContent, IonCardHeader, IonRow } from '@ionic/angular';
 import { FaultSummary } from '@shared/models/fault-marking.model';
+import { FormatIdPipe } from '@shared/pipes/format-id.pipe';
+import { FaultCommentComponent } from '../fault-comment/fault-comment';
 
 @Component({
   selector: 'fault-comment-card',
   templateUrl: 'fault-comment-card.html',
   styleUrls: ['fault-comment-card.scss'],
-  standalone: false,
+  imports: [
+    IonCard,
+    FormsModule,
+    ReactiveFormsModule,
+    IonCardHeader,
+    IonCardContent,
+    IonRow,
+    FaultCommentComponent,
+    FormatIdPipe,
+  ],
 })
 export class FaultCommentCardComponent {
   @Input()

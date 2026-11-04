@@ -1,10 +1,12 @@
 import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
-import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { IonCol, IonRow } from '@ionic/angular';
+import { FormatIdPipe } from '@shared/pipes/format-id.pipe';
 
 @Component({
   selector: 'pass-certificate-declaration',
   templateUrl: 'pass-certificate-declaration.html',
-  standalone: false,
+  imports: [IonRow, FormsModule, ReactiveFormsModule, IonCol, FormatIdPipe],
 })
 export class PassCertificateDeclarationComponent implements OnChanges {
   @Output()

@@ -63,7 +63,9 @@ import { AppConfigError } from './app-config.constants';
  *  isRemote set to false
  */
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class AppConfigProvider {
   isDebugMode = false;
   storeSubscription: Subscription;
@@ -253,7 +255,7 @@ export class AppConfigProvider {
               .map((err: ValidationError) => (err?.property ? `${err?.property} - ` : '') + err.message)
               .join(', ');
 
-            let dataString = '';
+            let dataString: string;
             if (!data) {
               dataString = 'data is null';
             } else {

@@ -3,7 +3,6 @@ import { By } from '@angular/platform-browser';
 import { ModalController } from '@ionic/angular';
 import { ModalControllerMock } from '@mocks/index.mock';
 import { ModalEvent } from '@pages/test-report/test-report.constants';
-import { AppModule } from 'src/app/app.module';
 import { EndTestModal } from '../end-test-modal';
 
 describe('EndTestModal', () => {
@@ -13,8 +12,7 @@ describe('EndTestModal', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [EndTestModal],
-      imports: [AppModule],
+      imports: [EndTestModal],
       providers: [{ provide: ModalController, useClass: ModalControllerMock }],
     });
 

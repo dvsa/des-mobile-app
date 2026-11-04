@@ -2,12 +2,12 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { ActivityCodeComponent } from '@components/common/activity-code/activity-code';
-import { ComponentsModule } from '@components/common/common-components.module';
 import { TestFlowHeaderComponent } from '@components/common/test-flow-header/test-flow-header.component';
 import { DebriefWitnessedComponent } from '@components/test-finalisation/debrief-witnessed/debrief-witnessed';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
-import { ModalController, NavController, Platform, ToastController } from '@ionic/angular';
-import { ModalControllerMock, PlatformMock } from '@mocks/index.mock';
+import { NavController, ToastController } from '@ionic/angular';
+
+import { provideBasePageMocks } from '@mocks/test-providers';
 import { Store, StoreModule } from '@ngrx/store';
 import { AssessmentReportComponent } from '@pages/office/cat-cpc/components/assessment-report/assessment-report';
 import { CombinationComponent } from '@pages/office/cat-cpc/components/combination/combination';
@@ -16,10 +16,7 @@ import { OfficeFooterComponent } from '@pages/office/components/office-footer/of
 import { OfficeRegistrationAndMotComponent } from '@pages/office/components/office-registration-and-mot/office-registration-and-mot.component';
 import { AccompanimentCardCatCPCComponent } from '@pages/waiting-room-to-car/cat-cpc/components/accompaniment-card/accompaniment-card.cat-cpc';
 import { AccompanimentComponent } from '@pages/waiting-room-to-car/components/accompaniment/accompaniment';
-import { AuthenticationProviderMock } from '@providers/authentication/__mocks__/authentication.mock';
-import { AuthenticationProvider } from '@providers/authentication/authentication';
-import { DeviceProviderMock } from '@providers/device/__mocks__/device.mock';
-import { DeviceProvider } from '@providers/device/device';
+
 import { FaultCountProvider } from '@providers/fault-count/fault-count';
 import { FaultSummaryProvider } from '@providers/fault-summary/fault-summary';
 import { OutcomeBehaviourMapProviderMock } from '@providers/outcome-behaviour-map/__mocks__/outcome-behaviour-map.mock';
@@ -44,7 +41,7 @@ import { Competencies, ExaminerActions } from '@store/tests/test-data/test-data.
 import { AssessmentReportChanged } from '@store/tests/test-summary/cat-cpc/test-summary.cat-cpc.actions';
 import { MockComponent } from 'ng-mocks';
 import { Subscription } from 'rxjs';
-import { AppModule } from 'src/app/app.module';
+
 import { AdditionalInformationComponent } from '../../components/additional-information/additional-information';
 import { CandidateDescriptionComponent } from '../../components/candidate-description/candidate-description';
 import { CandidateSectionComponent } from '../../components/candidate-section/candidate-section';
@@ -59,26 +56,7 @@ describe('OfficeCatCPCPage', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        OfficeCatCPCPage,
-        MockComponent(OfficeFooterComponent),
-        MockComponent(DebriefWitnessedComponent),
-        MockComponent(CandidateDescriptionComponent),
-        MockComponent(IdentificationComponent),
-        MockComponent(CombinationComponent),
-        MockComponent(AdditionalInformationComponent),
-        MockComponent(AssessmentReportComponent),
-        MockComponent(CandidateSectionComponent),
-        MockComponent(OfficeRegistrationAndMotComponent),
-        MockComponent(PassCertificateDeclarationComponent),
-        MockComponent(DateOfTest),
-        MockComponent(AccompanimentCardCatCPCComponent),
-        MockComponent(AccompanimentComponent),
-        MockComponent(TestFlowHeaderComponent),
-      ],
       imports: [
-        AppModule,
-        ComponentsModule,
         StoreModule.forRoot({
           tests: () => ({
             currentTest: {
@@ -90,6 +68,7 @@ describe('OfficeCatCPCPage', () => {
                 category: TestCategory.CCPC,
                 vehicleDetails: {},
                 accompaniment: {},
+                userExitedApp: {},
                 testSummary: {
                   candidateDescription: 'tall',
                   additionalInformation: 'additional',
@@ -242,6 +221,7 @@ describe('OfficeCatCPCPage', () => {
                 },
                 activityCode: '28',
                 journalData: {
+                  testSlotAttributes: { start: '2026-01-01T09:00:00' },
                   candidate: {
                     candidateName: 'Joe Bloggs',
                     driverNumber: '123',
@@ -253,19 +233,31 @@ describe('OfficeCatCPCPage', () => {
           }),
         }),
         ReactiveFormsModule,
+        OfficeCatCPCPage,
+        MockComponent(OfficeFooterComponent),
+        MockComponent(DebriefWitnessedComponent),
+        MockComponent(CandidateDescriptionComponent),
+        MockComponent(IdentificationComponent),
+        MockComponent(CombinationComponent),
+        MockComponent(AdditionalInformationComponent),
+        MockComponent(AssessmentReportComponent),
+        MockComponent(CandidateSectionComponent),
+        MockComponent(OfficeRegistrationAndMotComponent),
+        MockComponent(PassCertificateDeclarationComponent),
+        MockComponent(DateOfTest),
+        MockComponent(AccompanimentCardCatCPCComponent),
+        MockComponent(AccompanimentComponent),
+        MockComponent(TestFlowHeaderComponent),
       ],
       providers: [
-        { provide: Platform, useClass: PlatformMock },
-        { provide: AuthenticationProvider, useClass: AuthenticationProviderMock },
+        provideBasePageMocks(),
         { provide: NavController, useClass: NavControllerMock },
         { provide: ToastController, useClass: ToastControllerMock },
-        { provide: ModalController, useClass: ModalControllerMock },
         { provide: OutcomeBehaviourMapProvider, useClass: OutcomeBehaviourMapProviderMock },
         WeatherConditionProvider,
         { provide: QuestionProvider, useClass: QuestionProviderMock },
         { provide: FaultSummaryProvider, useClass: FaultSummaryProvider },
         { provide: FaultCountProvider, useClass: FaultCountProvider },
-        { provide: DeviceProvider, useClass: DeviceProviderMock },
       ],
     });
 
@@ -340,6 +332,7 @@ describe('OfficeCatCPCPage', () => {
       it('should dispatch an action to persist tests + pop navstack to root when defer is called', () => {
         spyOn(component, 'popToRoot');
         fixture.detectChanges();
+        component.hasNavigatedFromUnsubmitted = false;
         component.defer();
         expect(component.popToRoot).toHaveBeenCalled();
       });

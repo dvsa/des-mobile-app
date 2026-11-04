@@ -1,5 +1,15 @@
 import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
-import { UntypedFormControl, UntypedFormGroup, ValidationErrors, Validators } from '@angular/forms';
+import {
+  FormsModule,
+  ReactiveFormsModule,
+  UntypedFormControl,
+  UntypedFormGroup,
+  ValidationErrors,
+  Validators,
+} from '@angular/forms';
+import { EmojiBlockDirective } from '@directives/emoji-block.directive';
+import { PasteSanitiserDirective } from '@directives/paste-sanitiser';
+import { IonCol, IonInput, IonRow } from '@ionic/angular';
 import { AccessibilityService } from '@providers/accessibility/accessibility.service';
 import { PassCertificateValidationProvider } from '@providers/pass-certificate-validation/pass-certificate-validation';
 import { PASS_CERTIFICATE_LENGTH } from '@providers/pass-certificate-validation/pass-certificate-validation.constants';
@@ -9,7 +19,7 @@ import { PASS_CERTIFICATE_NUMBER_CTRL } from './pass-certificate-number.constant
   selector: 'pass-certificate-number',
   templateUrl: './pass-certificate-number.html',
   styleUrls: ['./pass-certificate-number.scss'],
-  standalone: false,
+  imports: [IonRow, IonCol, FormsModule, ReactiveFormsModule, IonInput, EmojiBlockDirective, PasteSanitiserDirective],
 })
 export class PassCertificateNumberComponent implements OnChanges {
   static readonly fieldName: string = PASS_CERTIFICATE_NUMBER_CTRL;

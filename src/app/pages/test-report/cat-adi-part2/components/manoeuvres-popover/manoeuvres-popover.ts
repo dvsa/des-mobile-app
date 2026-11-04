@@ -1,5 +1,7 @@
+import { AsyncPipe } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { CatADI2UniqueTypes } from '@dvsa/mes-test-schema/categories/ADI2';
+import { IonCol, IonGrid, IonRow } from '@ionic/angular';
 import { Store, select } from '@ngrx/store';
 import { trDestroy$ } from '@shared/classes/test-flow-base-pages/test-report/test-report-base-page';
 import { StoreModel } from '@shared/models/store.model';
@@ -15,6 +17,7 @@ import { getCurrentTest } from '@store/tests/tests.selector';
 import { omit, some } from 'lodash-es';
 import { Observable, Subscription, merge, of } from 'rxjs';
 import { map, takeUntil, tap } from 'rxjs/operators';
+import { ManoeuvreCompetencyComponentAdiPart2 } from '../manoeuvre-competency/manoeuvre-competency';
 
 interface ManoeuvresFaultState {
   reverseRight: boolean;
@@ -27,7 +30,7 @@ interface ManoeuvresFaultState {
   selector: 'manoeuvres-popover-adi-part2',
   templateUrl: 'manoeuvres-popover.html',
   styleUrls: ['manoeuvres-popover.scss'],
-  standalone: false,
+  imports: [IonGrid, IonRow, IonCol, ManoeuvreCompetencyComponentAdiPart2, AsyncPipe],
 })
 export class ManoeuvresPopoverComponentAdiPart2 implements OnInit, OnDestroy {
   manoeuvreTypes = ManoeuvreTypes;

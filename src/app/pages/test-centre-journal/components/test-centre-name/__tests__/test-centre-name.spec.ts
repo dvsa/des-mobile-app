@@ -8,7 +8,7 @@ describe('TestCentreNameComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [TestCentreNameComponent],
+      imports: [TestCentreNameComponent],
     });
 
     fixture = TestBed.createComponent(TestCentreNameComponent);

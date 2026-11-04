@@ -1,10 +1,13 @@
 import { Component, Input } from '@angular/core';
+import { AddOrRemoveLangCyDirective } from '@directives/add-or-remove-lang-cy.directive';
+import { IonText } from '@ionic/angular';
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
   selector: 'test-outcome-debrief-card',
   templateUrl: 'test-outcome-debrief-card.html',
   styleUrls: ['test-outcome-debrief-card.scss'],
-  standalone: false,
+  imports: [IonText, AddOrRemoveLangCyDirective, TranslatePipe],
 })
 export class TestOutcomeDebriefCardComponent {
   @Input()

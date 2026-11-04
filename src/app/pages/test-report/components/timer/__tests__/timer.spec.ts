@@ -14,8 +14,7 @@ describe('TimerComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [TimerComponent],
-      imports: [StoreModule.forRoot({ tests: testsReducer, testReport: testReportReducer })],
+      imports: [StoreModule.forRoot({ tests: testsReducer, testReport: testReportReducer }), TimerComponent],
     });
 
     fixture = TestBed.createComponent(TimerComponent);

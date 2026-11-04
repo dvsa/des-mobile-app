@@ -1,11 +1,12 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { Configuration } from '@dvsa/mes-test-schema/categories/CPC';
+import { IonCol, IonRow } from '@ionic/angular';
 
 @Component({
   selector: 'vehicle-details-cat-cpc',
   templateUrl: 'vehicle-details.html',
-  standalone: false,
+  imports: [IonRow, FormsModule, ReactiveFormsModule, IonCol],
 })
 export class VehicleDetailsCatCPCComponent {
   @Input()

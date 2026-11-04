@@ -1,12 +1,14 @@
 import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
 import { ReactiveFormsModule, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
-import { DirectivesModule } from '@directives/directives.module';
+
+import { EmojiBlockDirective } from '@directives/emoji-block.directive';
+import { PasteSanitiserDirective } from '@directives/paste-sanitiser';
 import { IonCol, IonRow } from '@ionic/angular';
 
 @Component({
   selector: 'reason-for-entering-teams',
   templateUrl: 'reason-for-entering-teams.html',
-  imports: [ReactiveFormsModule, DirectivesModule, IonRow, IonCol],
+  imports: [ReactiveFormsModule, EmojiBlockDirective, PasteSanitiserDirective, IonRow, IonCol],
   standalone: true,
 })
 export class ReasonForEnteringTeamsComponent implements OnChanges {

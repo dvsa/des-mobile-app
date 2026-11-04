@@ -7,7 +7,7 @@ import { ReversingDistancesProvider } from '@providers/reversing-distances/rever
 import { StoreModel } from '@shared/models/store.model';
 import { MockAppComponent } from 'src/app/__mocks__/app.component.mock';
 import { AppComponent } from 'src/app/app.component';
-import { AppModule } from 'src/app/app.module';
+
 import { ReverseDiagramModalMock, VehicleData } from '../__mocks__/reverse-diagram-modal.mock';
 import { ReverseDiagramPage } from '../reverse-diagram-modal';
 import { ReverseDiagramLengthChanged, ReverseDiagramWidthChanged } from '../reverse-diagram-modal.actions';
@@ -21,10 +21,7 @@ describe('reverseDiagramModal', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [ReverseDiagramPage],
       imports: [
-        AppModule,
-
         StoreModule.forRoot({
           tests: () => ({
             currentTest: {
@@ -60,6 +57,7 @@ describe('reverseDiagramModal', () => {
             },
           }),
         }),
+        ReverseDiagramPage,
       ],
       providers: [
         { provide: Platform, useClass: PlatformMock },

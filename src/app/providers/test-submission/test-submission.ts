@@ -22,7 +22,9 @@ export interface TestToSubmit {
   status: TestStatus;
 }
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class TestSubmissionProvider {
   constructor(
     public httpClient: HttpClient,

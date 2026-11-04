@@ -1,38 +1,42 @@
+import { EventEmitter } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { Router, RouterModule } from '@angular/router';
-import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
-
-import { StoreModule } from '@ngrx/store';
-
-import { RouterMock } from '@mocks/angular-mocks/router-mock';
+import { IonRouterOutlet, NavController } from '@ionic/angular';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
+import { DASHBOARD_PAGE } from '@pages/page-names.constants';
+import { AccessibilityServiceMock } from '@providers/accessibility/__mocks__/accessibility-service.mock';
+import { AccessibilityService } from '@providers/accessibility/accessibility.service';
 import { CategoryWhitelistProvider } from '@providers/category-whitelist/category-whitelist';
+import { trDestroy$ } from '@shared/classes/test-flow-base-pages/test-report/test-report-base-page';
+import { wrtcDestroy$ } from '@shared/classes/test-flow-base-pages/waiting-room-to-car/waiting-room-to-car-base-page';
 import { DeletePracticeModeTests } from '@store/tests/tests.actions';
 import { PracticeModeOptionsBar } from '../practice-mode-options-bar';
 
 describe('PracticeModeOptionsBar', () => {
   let fixture: ComponentFixture<PracticeModeOptionsBar>;
   let component: PracticeModeOptionsBar;
-  let router: Router;
+  let navigateRoot: jasmine.Spy;
+  let activateEvents: EventEmitter<object>;
+  let dashboard: object;
   let store$: MockStore;
 
   beforeEach(() => {
+    navigateRoot = jasmine.createSpy('navigateRoot').and.resolveTo(true);
+    activateEvents = new EventEmitter<object>();
+    dashboard = {};
     TestBed.configureTestingModule({
-      declarations: [PracticeModeOptionsBar],
-      imports: [
-        RouterModule,
-        StoreModule.forRoot({
-          tests: () => ({
-            currentTest: { testCategory: TestCategory.B },
-            testStatus: {},
-            startedTests: {},
-          }),
-        }),
-      ],
+      imports: [PracticeModeOptionsBar],
       providers: [
         {
-          provide: Router,
-          useClass: RouterMock,
+          provide: NavController,
+          useValue: { navigateRoot },
+        },
+        {
+          provide: IonRouterOutlet,
+          useValue: { activateEvents, component: dashboard },
+        },
+        {
+          provide: AccessibilityService,
+          useClass: AccessibilityServiceMock,
         },
         CategoryWhitelistProvider,
         provideMockStore({}),
@@ -40,22 +44,70 @@ describe('PracticeModeOptionsBar', () => {
     });
 
     fixture = TestBed.createComponent(PracticeModeOptionsBar);
-    router = TestBed.inject(Router);
     component = fixture.componentInstance;
     store$ = TestBed.inject(MockStore);
     spyOn(store$, 'dispatch');
   });
 
   describe('exitPracticeMode', () => {
-    it('should take the user back to the root page', async () => {
-      spyOn(router, 'navigate');
-      await component.exitPracticeMode();
-      expect(router.navigate).toHaveBeenCalled();
+    it('should clear practice tests only after the dashboard transition finishes', async () => {
+      const exit = component.exitPracticeMode();
+      await Promise.resolve();
+      await Promise.resolve();
+
+      expect(navigateRoot).toHaveBeenCalledWith([DASHBOARD_PAGE], { replaceUrl: true });
+      expect(store$.dispatch).not.toHaveBeenCalled();
+
+      activateEvents.emit(dashboard);
+      await exit;
+      expect(store$.dispatch).toHaveBeenCalledWith(DeletePracticeModeTests());
     });
 
-    it('should dispatch practice mode clear', async () => {
-      await component.exitPracticeMode();
+    it('should ignore an earlier page transition still finishing', async () => {
+      const exit = component.exitPracticeMode();
+      await Promise.resolve();
+      activateEvents.emit({});
+      await Promise.resolve();
+      expect(store$.dispatch).not.toHaveBeenCalled();
+
+      activateEvents.emit(dashboard);
+      await exit;
       expect(store$.dispatch).toHaveBeenCalledWith(DeletePracticeModeTests());
+    });
+
+    it('should retain practice tests when navigation is cancelled', async () => {
+      navigateRoot.and.resolveTo(false);
+      await component.exitPracticeMode();
+      activateEvents.emit(dashboard);
+      expect(store$.dispatch).not.toHaveBeenCalled();
+    });
+
+    it('should retain practice tests and propagate navigation failures', async () => {
+      const error = new Error('Navigation failed');
+      navigateRoot.and.rejectWith(error);
+      await expectAsync(component.exitPracticeMode()).toBeRejectedWith(error);
+      activateEvents.emit(dashboard);
+      expect(store$.dispatch).not.toHaveBeenCalled();
+    });
+
+    it('should signal subscription cleanup on every practice exit', async () => {
+      const testReportCleanup = jasmine.createSpy('testReportCleanup');
+      const waitingRoomCleanup = jasmine.createSpy('waitingRoomCleanup');
+      const testReportSubscription = trDestroy$.subscribe(testReportCleanup);
+      const waitingRoomSubscription = wrtcDestroy$.subscribe(waitingRoomCleanup);
+      try {
+        for (let i = 0; i < 2; i++) {
+          const exit = component.exitPracticeMode();
+          await Promise.resolve();
+          activateEvents.emit(dashboard);
+          await exit;
+        }
+        expect(testReportCleanup).toHaveBeenCalledTimes(2);
+        expect(waitingRoomCleanup).toHaveBeenCalledTimes(2);
+      } finally {
+        testReportSubscription.unsubscribe();
+        waitingRoomSubscription.unsubscribe();
+      }
     });
   });
 });

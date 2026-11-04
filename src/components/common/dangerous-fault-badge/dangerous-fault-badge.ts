@@ -4,7 +4,6 @@ import { Component, Input } from '@angular/core';
   selector: 'dangerous-fault-badge',
   templateUrl: './dangerous-fault-badge.html',
   styleUrls: ['./dangerous-fault-badge.scss'],
-  standalone: false,
 })
 export class DangerousFaultBadgeComponent {
   @Input()

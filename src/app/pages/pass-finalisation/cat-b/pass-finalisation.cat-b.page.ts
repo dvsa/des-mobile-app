@@ -1,6 +1,26 @@
+import { AsyncPipe, NgClass } from '@angular/common';
 import { Component, ElementRef, Injector, OnInit, ViewChild } from '@angular/core';
-import { UntypedFormGroup } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule, UntypedFormGroup } from '@angular/forms';
+import { DangerBannerComponent } from '@components/common/danger-banner/danger-banner';
+import { TestFlowHeaderComponent } from '@components/common/test-flow-header/test-flow-header.component';
+import { TransmissionComponent } from '@components/common/transmission/transmission';
+import { WarningBannerComponent } from '@components/common/warning-banner/warning-banner';
+import { D255Component } from '@components/test-finalisation/d255/d255';
+import { DebriefWitnessedComponent } from '@components/test-finalisation/debrief-witnessed/debrief-witnessed';
+import { FinalisationHeaderComponent } from '@components/test-finalisation/finalisation-header/finalisation-header';
+import { LanguagePreferencesComponent } from '@components/test-finalisation/language-preference/language-preference';
 import { ActivityCode, GearboxCategory } from '@dvsa/mes-test-schema/categories/common';
+import {
+  IonButton,
+  IonCol,
+  IonContent,
+  IonFooter,
+  IonGrid,
+  IonHeader,
+  IonRow,
+  IonText,
+  IonToolbar,
+} from '@ionic/angular';
 import { select } from '@ngrx/store';
 import { behaviourMap } from '@pages/office/office-behaviour-map';
 import { TestFlowPageNames } from '@pages/page-names.constants';
@@ -21,6 +41,10 @@ import { getVehicleDetails } from '@store/tests/vehicle-details/vehicle-details.
 import { isAutomatic, isManual } from '@store/tests/vehicle-details/vehicle-details.selector';
 import { Observable, merge } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
+import { ApplicationReferenceComponent } from '../components/application-reference/application-reference';
+import { LicenceProvidedWarningBannerComponent } from '../components/licence-provided-warning-banner/licence-provided-warning-banner';
+import { LicenseProvidedComponent } from '../components/license-provided/license-provided';
+import { PassCertificateNumberComponent } from '../components/pass-certificate-number/pass-certificate-number';
 import { PASS_CERTIFICATE_NUMBER_CTRL } from '../components/pass-certificate-number/pass-certificate-number.constants';
 
 interface PassFinalisationCatBPageState {
@@ -34,7 +58,33 @@ type PassFinalisationPageState = CommonPassFinalisationPageState & PassFinalisat
   selector: 'app-pass-finalisation-cat-b-page',
   templateUrl: './pass-finalisation.cat-b.page.html',
   styleUrls: ['./../pass-finalisation.page.scss'],
-  standalone: false,
+  imports: [
+    IonHeader,
+    IonToolbar,
+    NgClass,
+    TestFlowHeaderComponent,
+    IonContent,
+    FormsModule,
+    ReactiveFormsModule,
+    IonGrid,
+    FinalisationHeaderComponent,
+    ApplicationReferenceComponent,
+    LicenseProvidedComponent,
+    LicenceProvidedWarningBannerComponent,
+    DangerBannerComponent,
+    TransmissionComponent,
+    PassCertificateNumberComponent,
+    D255Component,
+    WarningBannerComponent,
+    LanguagePreferencesComponent,
+    DebriefWitnessedComponent,
+    IonFooter,
+    IonRow,
+    IonCol,
+    IonButton,
+    IonText,
+    AsyncPipe,
+  ],
 })
 export class PassFinalisationCatBPage extends PassFinalisationPageComponent implements OnInit {
   pageState: PassFinalisationPageState;

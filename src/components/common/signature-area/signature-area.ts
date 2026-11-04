@@ -1,4 +1,5 @@
 import { NgSignaturePadOptions, SignaturePadComponent } from '@almothafar/angular-signature-pad';
+import { NgStyle } from '@angular/common';
 import {
   AfterViewInit,
   Component,
@@ -10,6 +11,7 @@ import {
   forwardRef,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { IonCol, IonRow, IonText } from '@ionic/angular';
 
 const defaultSignatureHeight: number = 256;
 const defaultSignatureWidth: number = 706;
@@ -25,7 +27,7 @@ const defaultSignatureWidth: number = 706;
       multi: true,
     },
   ],
-  standalone: false,
+  imports: [IonRow, IonCol, IonText, NgStyle, SignaturePadComponent],
 })
 export class SignatureAreaComponent implements ControlValueAccessor, AfterViewInit {
   @Input()

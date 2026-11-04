@@ -1,7 +1,8 @@
+import { TitleCasePipe } from '@angular/common';
 import { Component, Input } from '@angular/core';
 import { SearchResultTestSchema } from '@dvsa/mes-search-schema';
 import { Name } from '@dvsa/mes-test-schema/categories/common';
-import { ModalController } from '@ionic/angular';
+import { IonCard, IonCol, IonGrid, IonRow, IonText, ModalController } from '@ionic/angular';
 import { ViewTestResultPage } from '@pages/view-test-result/view-test-result.page';
 import { AccessibilityService } from '@providers/accessibility/accessibility.service';
 import { DateTime } from '@shared/helpers/date-time';
@@ -10,7 +11,7 @@ import { DateTime } from '@shared/helpers/date-time';
   selector: 'search-result',
   templateUrl: 'search-result.html',
   styleUrls: ['search-result.scss'],
-  standalone: false,
+  imports: [IonCard, IonGrid, IonRow, IonCol, IonText, TitleCasePipe],
 })
 export class SearchResultComponent {
   @Input()

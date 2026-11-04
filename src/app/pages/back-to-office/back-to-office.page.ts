@@ -1,11 +1,21 @@
 import { Component, Injector, OnInit } from '@angular/core';
 import { CategoryCode } from '@dvsa/mes-test-schema/categories/common';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
-import { ModalController, ViewDidEnter, ViewDidLeave } from '@ionic/angular';
+import {
+  IonButton,
+  IonContent,
+  IonHeader,
+  IonToolbar,
+  ModalController,
+  ViewDidEnter,
+  ViewDidLeave,
+} from '@ionic/angular';
 import { select } from '@ngrx/store';
 import { Observable, Subscription, merge } from 'rxjs';
 import { map } from 'rxjs/operators';
 
+import { NgClass, NgOptimizedImage } from '@angular/common';
+import { TestFlowHeaderComponent } from '@components/common/test-flow-header/test-flow-header.component';
 import {
   ASAMPopupPresented,
   BackToOfficeViewDidEnter,
@@ -35,7 +45,7 @@ export enum NavigationTarget {
   selector: '.back-to-office-page',
   templateUrl: 'back-to-office.page.html',
   styleUrls: ['back-to-office.page.scss'],
-  standalone: false,
+  imports: [IonHeader, IonToolbar, NgClass, TestFlowHeaderComponent, IonContent, IonButton, NgOptimizedImage],
 })
 export class BackToOfficePage extends PracticeableBasePageComponent implements OnInit, ViewDidEnter, ViewDidLeave {
   pageState: BackToOfficePageState;

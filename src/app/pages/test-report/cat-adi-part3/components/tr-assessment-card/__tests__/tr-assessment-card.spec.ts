@@ -3,7 +3,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { TestReportAssessmentAnswer } from '@pages/test-report/cat-adi-part3/components/tr-assessment-answer/tr-assessment-answer';
 import { TestReportAssessmentCard } from '@pages/test-report/cat-adi-part3/components/tr-assessment-card/tr-assessment-card';
-import { PipesModule } from '@shared/pipes/pipes.module';
+
 import { MockComponent } from 'ng-mocks';
 
 describe('TestReportAssessmentCard', () => {
@@ -12,8 +12,7 @@ describe('TestReportAssessmentCard', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [TestReportAssessmentCard, MockComponent(TestReportAssessmentAnswer)],
-      imports: [PipesModule, CommonModule],
+      imports: [CommonModule, TestReportAssessmentCard, MockComponent(TestReportAssessmentAnswer)],
     });
 
     fixture = TestBed.createComponent(TestReportAssessmentCard);

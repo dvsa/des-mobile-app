@@ -1,5 +1,7 @@
 import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
-import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { IonCol, IonInput, IonRow } from '@ionic/angular';
+import { MaskitoDirective } from '@maskito/angular';
 import { MaskitoElementPredicate, MaskitoOptions } from '@maskito/core';
 import { AccessibilityService } from '@providers/accessibility/accessibility.service';
 import { getDL196CBTCertificateNumberValidator } from '@shared/constants/field-validators/field-validators';
@@ -9,7 +11,7 @@ import { maskPredicate } from '@shared/helpers/formatters';
   selector: 'cbt-number',
   templateUrl: 'cbt-number.html',
   styleUrls: ['cbt-number.scss'],
-  standalone: false,
+  imports: [IonRow, FormsModule, ReactiveFormsModule, IonCol, IonInput, MaskitoDirective],
 })
 export class CBTNumberComponent implements OnChanges {
   @Input()

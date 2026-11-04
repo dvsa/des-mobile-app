@@ -8,7 +8,6 @@ import { CatCMUniqueTypes } from '@dvsa/mes-test-schema/categories/CM';
 import { VehicleDetails } from '@dvsa/mes-test-schema/categories/common';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 
-import { PipesModule } from '@shared/pipes/pipes.module';
 import { MockComponent } from 'ng-mocks';
 import { VehicleDetailsCardComponent } from '../vehicle-details-card';
 
@@ -18,7 +17,7 @@ describe('VehicleDetailsCardComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [
+      imports: [
         VehicleDetailsCardComponent,
         MockComponent(DataRowComponent),
         MockComponent(RegistrationWithPreviousMotTextComponent),
@@ -26,7 +25,6 @@ describe('VehicleDetailsCardComponent', () => {
         MockComponent(DataRowCustomComponent),
         MockComponent(TransmissionDisplayComponent),
       ],
-      imports: [PipesModule],
     });
 
     fixture = TestBed.createComponent(VehicleDetailsCardComponent);

@@ -1,10 +1,25 @@
+import { AsyncPipe, NgClass } from '@angular/common';
 import { Component, Injector, OnInit } from '@angular/core';
-import { UntypedFormGroup } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule, UntypedFormGroup } from '@angular/forms';
+import { OfflineBannerComponent } from '@components/common/offline-banner/offline-banner';
+import { TestFlowHeaderComponent } from '@components/common/test-flow-header/test-flow-header.component';
+import { WarningBannerComponent } from '@components/common/warning-banner/warning-banner';
 import { CatFUniqueTypes } from '@dvsa/mes-test-schema/categories/F';
 import { CatGUniqueTypes } from '@dvsa/mes-test-schema/categories/G';
 import { CatHUniqueTypes } from '@dvsa/mes-test-schema/categories/H';
 import { CatKUniqueTypes } from '@dvsa/mes-test-schema/categories/K';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
+import {
+  IonButton,
+  IonCol,
+  IonContent,
+  IonFooter,
+  IonGrid,
+  IonHeader,
+  IonRow,
+  IonText,
+  IonToolbar,
+} from '@ionic/angular';
 import { select } from '@ngrx/store';
 import { ClearCandidateLicenceData } from '@pages/candidate-licence/candidate-licence.actions';
 import { TestFlowPageNames } from '@pages/page-names.constants';
@@ -29,6 +44,13 @@ import { getCurrentTest } from '@store/tests/tests.selector';
 import { MotEvidenceProvidedReset } from '@store/tests/vehicle-details/vehicle-details.actions';
 import { Observable } from 'rxjs';
 import { map, withLatestFrom } from 'rxjs/operators';
+import { AccompanimentCardComponent } from '../components/accompaniment-card/accompaniment-card';
+import { EyesightFailureConfirmationComponent } from '../components/eyesight-failure-confirmation/eyesight-failure-confirmation';
+import { EyesightTestComponent } from '../components/eyesight-test/eyesight-test';
+import { MotNoEvidenceConfirmationComponent } from '../components/mot-components/mot-no-evidence-confirmation/mot-no-evidence-confirmation';
+import { TestCategoryComponent } from '../components/test-category/test-category';
+import { VehicleChecksComponent } from '../components/vehicle-checks/vehicle-checks';
+import { VehicleRegistrationComponent } from '../components/vehicle-registration/vehicle-registration';
 
 interface CatHomeWaitingRoomToCarPageState {
   candidateDeclarationSigned$: Observable<boolean>;
@@ -50,7 +72,31 @@ type WaitingRoomToCarPageState = CommonWaitingRoomToCarPageState & CatHomeWaitin
   selector: 'app-waiting-room-to-car-cat-home-test',
   templateUrl: './waiting-room-to-car.cat-home-test.page.html',
   styleUrls: ['./waiting-room-to-car.cat-home-test.page.scss'],
-  standalone: false,
+  imports: [
+    IonHeader,
+    IonToolbar,
+    NgClass,
+    TestFlowHeaderComponent,
+    IonContent,
+    OfflineBannerComponent,
+    WarningBannerComponent,
+    FormsModule,
+    ReactiveFormsModule,
+    IonGrid,
+    EyesightTestComponent,
+    IonRow,
+    EyesightFailureConfirmationComponent,
+    IonCol,
+    VehicleRegistrationComponent,
+    MotNoEvidenceConfirmationComponent,
+    TestCategoryComponent,
+    VehicleChecksComponent,
+    AccompanimentCardComponent,
+    IonFooter,
+    IonButton,
+    IonText,
+    AsyncPipe,
+  ],
 })
 export class WaitingRoomToCarCatHomeTestPage extends WaitingRoomToCarBasePageComponent implements OnInit {
   form: UntypedFormGroup;

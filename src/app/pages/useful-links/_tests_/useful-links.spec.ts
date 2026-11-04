@@ -31,8 +31,7 @@ describe('UsefulLinksPage', () => {
     const modalControllerSpy = jasmine.createSpyObj('ModalController', ['create']);
 
     TestBed.configureTestingModule({
-      imports: [StoreModule.forRoot({})],
-      declarations: [UsefulLinksPage],
+      imports: [StoreModule.forRoot({}), UsefulLinksPage],
       providers: [
         { provide: UrlProvider, useValue: urlProviderSpy },
         { provide: AuthenticationProvider, useClass: AuthenticationProviderMock },

@@ -9,8 +9,7 @@ describe('TransmissionComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [TransmissionComponent],
-      imports: [ReactiveFormsModule],
+      imports: [ReactiveFormsModule, TransmissionComponent],
     });
 
     fixture = TestBed.createComponent(TransmissionComponent);

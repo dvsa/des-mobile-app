@@ -1,7 +1,9 @@
 import { Injectable } from '@angular/core';
 import { PASS_CERTIFICATE_LENGTH } from './pass-certificate-validation.constants';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class PassCertificateValidationProvider {
   isPassCertificateValid(certificate: string | null): boolean {
     if (!certificate || certificate.length !== PASS_CERTIFICATE_LENGTH) {
@@ -17,11 +19,7 @@ export class PassCertificateValidationProvider {
       return false;
     }
 
-    if (checkDigit.toUpperCase() !== certificate.toUpperCase()[7]) {
-      return false;
-    }
-
-    return true;
+    return checkDigit.toUpperCase() === certificate.toUpperCase()[7];
   }
 
   isLetter(char: string): boolean {
@@ -66,7 +64,6 @@ export class PassCertificateValidationProvider {
 
     // return the check digit from the checkDigits array at the position
     // calculated
-    const checkDigit = checkDigits[position];
-    return checkDigit;
+    return checkDigits[position];
   }
 }

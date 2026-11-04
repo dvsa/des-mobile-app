@@ -1,5 +1,21 @@
+import { AsyncPipe, NgClass } from '@angular/common';
 import { Component, Injector, OnInit } from '@angular/core';
-import { UntypedFormGroup } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule, UntypedFormGroup } from '@angular/forms';
+import { TestFlowHeaderComponent } from '@components/common/test-flow-header/test-flow-header.component';
+import { DebriefWitnessedComponent } from '@components/test-finalisation/debrief-witnessed/debrief-witnessed';
+import { FinalisationHeaderComponent } from '@components/test-finalisation/finalisation-header/finalisation-header';
+import { LanguagePreferencesComponent } from '@components/test-finalisation/language-preference/language-preference';
+import {
+  IonButton,
+  IonCol,
+  IonContent,
+  IonFooter,
+  IonGrid,
+  IonHeader,
+  IonRow,
+  IonText,
+  IonToolbar,
+} from '@ionic/angular';
 import { behaviourMap } from '@pages/office/office-behaviour-map.cat-cm';
 import { TestFlowPageNames } from '@pages/page-names.constants';
 import { PASS_CERTIFICATE_NUMBER_CTRL } from '@pages/pass-finalisation/components/pass-certificate-number/pass-certificate-number.constants';
@@ -13,6 +29,8 @@ import {
   PassFinalisationPageComponent,
 } from '@shared/classes/test-flow-base-pages/pass-finalisation/pass-finalisation-base-page';
 import { PersistTests } from '@store/tests/tests.actions';
+import { ApplicationReferenceComponent } from '../components/application-reference/application-reference';
+import { PassCertificateNumberComponent } from '../components/pass-certificate-number/pass-certificate-number';
 
 type PassFinalisationPageState = CommonPassFinalisationPageState;
 
@@ -20,7 +38,27 @@ type PassFinalisationPageState = CommonPassFinalisationPageState;
   selector: 'app-pass-finalisation-cat-manoeuvre',
   templateUrl: './pass-finalisation.cat-manoeuvre.page.html',
   styleUrls: ['./../pass-finalisation.page.scss'],
-  standalone: false,
+  imports: [
+    IonHeader,
+    IonToolbar,
+    NgClass,
+    TestFlowHeaderComponent,
+    IonContent,
+    FormsModule,
+    ReactiveFormsModule,
+    IonGrid,
+    FinalisationHeaderComponent,
+    ApplicationReferenceComponent,
+    PassCertificateNumberComponent,
+    LanguagePreferencesComponent,
+    DebriefWitnessedComponent,
+    IonFooter,
+    IonRow,
+    IonCol,
+    IonButton,
+    IonText,
+    AsyncPipe,
+  ],
 })
 export class PassFinalisationCatManoeuvrePage extends PassFinalisationPageComponent implements OnInit {
   form: UntypedFormGroup;

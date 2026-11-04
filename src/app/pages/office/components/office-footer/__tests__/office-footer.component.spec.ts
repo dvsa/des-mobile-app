@@ -8,7 +8,7 @@ describe('OfficeFooterComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [OfficeFooterComponent],
+      imports: [OfficeFooterComponent],
     }).compileComponents();
 
     fixture = TestBed.createComponent(OfficeFooterComponent);

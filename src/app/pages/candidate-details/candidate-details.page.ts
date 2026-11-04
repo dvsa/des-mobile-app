@@ -1,10 +1,33 @@
+import { DatePipe } from '@angular/common';
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Style } from '@capacitor/status-bar';
+import { DataRowCustomComponent } from '@components/common/data-row-custom/data-row-custom';
+import { DataRowComponent } from '@components/common/data-row/data-row';
+import { DisplayAddressComponent } from '@components/common/display-address/display-address';
+import { FitMarkerBannerComponent } from '@components/common/fit-marker-banner/fit-marker-banner';
+import { InappropriateUseBannerComponent } from '@components/common/inappropriate-use-banner/inappropriate-use-banner';
 import { Business, TestSlot } from '@dvsa/mes-journal-schema';
 import { ActivityCode, SearchResultTestSchema } from '@dvsa/mes-search-schema';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
-import { ModalController, ViewDidEnter } from '@ionic/angular';
+import {
+  IonButton,
+  IonButtons,
+  IonCard,
+  IonCardContent,
+  IonCardHeader,
+  IonCol,
+  IonContent,
+  IonGrid,
+  IonHeader,
+  IonIcon,
+  IonLabel,
+  IonRow,
+  IonTitle,
+  IonToolbar,
+  ModalController,
+  ViewDidEnter,
+} from '@ionic/angular';
 import { Store } from '@ngrx/store';
 import { AccessibilityService } from '@providers/accessibility/accessibility.service';
 import { SlotProvider } from '@providers/slot/slot';
@@ -26,6 +49,7 @@ import { getCandidateName } from '@store/tests/journal-data/common/candidate/can
 import { TestStatus } from '@store/tests/test-status/test-status.model';
 import { Subject } from 'rxjs';
 import { Details } from './candidate-details.page.model';
+import { CandidateDetailNavigationComponent } from './components/candidate-detail-navigation/candidate-detail-navigation';
 
 interface CandidateDetailsPageState {
   name: string;
@@ -43,7 +67,29 @@ interface CandidateDetailsPageState {
   selector: 'app-candidate-details',
   templateUrl: 'candidate-details.page.html',
   styleUrls: ['candidate-details.page.scss'],
-  standalone: false,
+  imports: [
+    IonHeader,
+    IonToolbar,
+    IonTitle,
+    IonButtons,
+    IonButton,
+    IonIcon,
+    IonLabel,
+    IonContent,
+    IonGrid,
+    IonRow,
+    CandidateDetailNavigationComponent,
+    FitMarkerBannerComponent,
+    IonCard,
+    IonCardHeader,
+    IonCardContent,
+    InappropriateUseBannerComponent,
+    DataRowComponent,
+    DataRowCustomComponent,
+    IonCol,
+    DisplayAddressComponent,
+    DatePipe,
+  ],
 })
 export class CandidateDetailsPage implements OnInit, OnDestroy, ViewDidEnter {
   @Input()

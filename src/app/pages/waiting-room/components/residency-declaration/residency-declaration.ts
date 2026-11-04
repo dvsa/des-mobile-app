@@ -1,11 +1,14 @@
 import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
-import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { AddOrRemoveLangCyDirective } from '@directives/add-or-remove-lang-cy.directive';
+import { IonCol, IonRow } from '@ionic/angular';
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
   selector: 'residency-declaration',
   templateUrl: 'residency-declaration.html',
   styleUrls: ['residency-declaration.scss'],
-  standalone: false,
+  imports: [IonRow, IonCol, AddOrRemoveLangCyDirective, FormsModule, ReactiveFormsModule, TranslatePipe],
 })
 export class ResidencyDeclarationComponent implements OnChanges {
   @Input()

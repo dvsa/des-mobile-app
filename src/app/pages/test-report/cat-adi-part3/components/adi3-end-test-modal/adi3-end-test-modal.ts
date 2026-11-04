@@ -1,16 +1,17 @@
 import { Component, Input } from '@angular/core';
 import { TestData } from '@dvsa/mes-test-schema/categories/ADI3';
 import { ActivityCode } from '@dvsa/mes-test-schema/categories/common';
-import { ModalController } from '@ionic/angular';
+import { IonButton, IonCard, IonCol, IonRow, IonText, ModalController } from '@ionic/angular';
 import { ADI3AssessmentProvider } from '@providers/adi3-assessment/adi3-assessment';
 import { ActivityCodes } from '@shared/models/activity-codes';
+import { ModalResultItemComponent } from '../../../cat-cpc/components/cpc-end-test-modal/components/modal-result-item/modal-result-item';
 import { ModalEvent } from '../../../test-report.constants';
 
 @Component({
   selector: 'adi-3end-test-modal',
   templateUrl: 'adi3-end-test-modal.html',
   styleUrls: ['adi3-end-test-modal.scss'],
-  standalone: false,
+  imports: [IonCard, IonRow, IonCol, ModalResultItemComponent, IonButton, IonText],
 })
 export class Adi3EndTestModal {
   testState: number;

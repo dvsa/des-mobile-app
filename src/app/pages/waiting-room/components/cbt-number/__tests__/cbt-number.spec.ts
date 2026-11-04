@@ -2,8 +2,6 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { UntypedFormGroup } from '@angular/forms';
 import { MockAppComponent } from '@app/__mocks__/app.component.mock';
 import { AppComponent } from '@app/app.component';
-
-import { AppModule } from 'src/app/app.module';
 import { CBTNumberComponent } from '../cbt-number';
 
 describe('CBTNumberComponent', () => {
@@ -12,8 +10,7 @@ describe('CBTNumberComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [CBTNumberComponent],
-      imports: [AppModule],
+      imports: [CBTNumberComponent],
       providers: [{ provide: AppComponent, useClass: MockAppComponent }],
     });
 

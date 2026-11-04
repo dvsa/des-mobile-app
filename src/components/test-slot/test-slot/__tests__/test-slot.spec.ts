@@ -105,7 +105,17 @@ describe('TestSlotComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [
+      imports: [
+        StoreModule.forRoot({
+          tests: testsReducer,
+        }),
+        IonButton,
+        IonCard,
+        IonCol,
+        IonGrid,
+        IonIcon,
+        IonRow,
+        IonText,
         TestSlotComponent,
         MockComponent(LanguageComponent),
         MockComponent(IndicatorsComponent),
@@ -119,18 +129,6 @@ describe('TestSlotComponent', () => {
         MockComponent(CandidateLinkComponent),
         MockComponent(SubmissionStatusComponent),
         MockComponent(ProgressiveAccessComponent),
-      ],
-      imports: [
-        StoreModule.forRoot({
-          tests: testsReducer,
-        }),
-        IonButton,
-        IonCard,
-        IonCol,
-        IonGrid,
-        IonIcon,
-        IonRow,
-        IonText,
       ],
       providers: [
         {

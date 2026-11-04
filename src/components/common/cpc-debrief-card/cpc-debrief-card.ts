@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Question, Question5 } from '@dvsa/mes-test-schema/categories/CPC';
+import { IonCard, IonCardContent, IonCardHeader, IonCardTitle, IonCol, IonGrid, IonRow, IonText } from '@ionic/angular';
 import { TestOutcome } from '@shared/models/test-outcome';
 import { TestOutcome as OutcomeType } from '@store/tests/tests.constants';
 
@@ -11,7 +12,7 @@ export const MINIMUM_QUESTION_SCORE: number = 15;
   selector: 'cpc-debrief-card',
   templateUrl: 'cpc-debrief-card.html',
   styleUrls: ['cpc-debrief-card.scss'],
-  standalone: false,
+  imports: [IonCard, IonCardHeader, IonCardTitle, IonCardContent, IonGrid, IonRow, IonCol, IonText],
 })
 export class CPCDebriefCardComponent implements OnInit {
   @Input()

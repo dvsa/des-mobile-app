@@ -7,7 +7,7 @@ import { QuestionResult } from '@dvsa/mes-test-schema/categories/common';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 
 import { Store, StoreModule } from '@ngrx/store';
-import { TranslateModule, TranslateService, provideTranslateService } from '@ngx-translate/core';
+import { TranslateService, provideTranslateService } from '@ngx-translate/core';
 import { provideTranslateHttpLoader } from '@ngx-translate/http-loader';
 import { StoreModel } from '@shared/models/store.model';
 import { candidateMock } from '@store/tests/__mocks__/tests.mock';
@@ -30,8 +30,11 @@ describe('SafetyAndBalanceCardCatAMod2Component', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [SafetyAndBalanceCardCatAMod2Component],
-      imports: [StoreModule.forRoot({ tests: testsReducer }), TranslateModule.forRoot()],
+      imports: [
+        StoreModule.forRoot({ tests: testsReducer }),
+
+        SafetyAndBalanceCardCatAMod2Component,
+      ],
       providers: [
         provideHttpClient(withInterceptorsFromDi()),
         provideTranslateService({
@@ -77,7 +80,7 @@ describe('SafetyAndBalanceCardCatAMod2Component', () => {
     });
 
     translate = TestBed.inject(TranslateService);
-    translate.setDefaultLang('en');
+    translate.setFallbackLang('en');
   }));
 
   describe('DOM', () => {

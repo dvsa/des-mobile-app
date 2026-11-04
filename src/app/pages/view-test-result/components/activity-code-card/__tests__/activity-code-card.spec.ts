@@ -10,7 +10,7 @@ describe('ActivityCodeCard', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [ActivityCodeCard, MockComponent(DataRowComponent)],
+      imports: [ActivityCodeCard, MockComponent(DataRowComponent)],
     });
 
     fixture = TestBed.createComponent(ActivityCodeCard);

@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { ComponentsModule } from '@components/common/common-components.module';
+import { DataRowComponent } from '@components/common/data-row/data-row';
 import { ETAPhysicalType } from '@dvsa/mes-test-schema/categories/common';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { IonCol, IonRow, IonText } from '@ionic/angular';
@@ -11,7 +11,7 @@ import { get } from 'lodash-es';
   selector: 'test-result-eta-card',
   templateUrl: './eta-card.component.html',
   styleUrls: ['./eta-card.component.scss'],
-  imports: [ComponentsModule, IonRow, IonText, IonCol],
+  imports: [IonRow, IonText, IonCol, DataRowComponent],
 })
 export class EtaCardComponent {
   @Input() shouldHaveSeparator = false;

@@ -1,5 +1,6 @@
 import { Component, Injector, Input } from '@angular/core';
-import { ModalController } from '@ionic/angular';
+import { ErrorMessageComponent } from '@components/common/error-message/error-message';
+import { IonButton, IonButtons, IonContent, IonHeader, IonTitle, IonToolbar, ModalController } from '@ionic/angular';
 import { LogoutBasePageComponent } from '@shared/classes/logout-base-page/logout-base-page';
 import { ErrorTypes } from '@shared/models/error-message';
 
@@ -7,7 +8,7 @@ import { ErrorTypes } from '@shared/models/error-message';
   selector: 'page-error',
   templateUrl: 'error.html',
   styleUrls: ['error.scss'],
-  standalone: false,
+  imports: [IonHeader, IonToolbar, IonButtons, IonButton, IonTitle, IonContent, ErrorMessageComponent],
 })
 export class ErrorPage extends LogoutBasePageComponent {
   @Input()

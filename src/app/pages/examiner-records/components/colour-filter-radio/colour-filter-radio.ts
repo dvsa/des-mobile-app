@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
-import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule, UntypedFormControl, UntypedFormGroup } from '@angular/forms';
+import { IonCol, IonRow } from '@ionic/angular';
 import { AccessibilityService } from '@providers/accessibility/accessibility.service';
 import { ColourEnum } from '@providers/examiner-records/examiner-records';
 
@@ -7,7 +8,7 @@ import { ColourEnum } from '@providers/examiner-records/examiner-records';
   selector: 'colour-filter-radio',
   templateUrl: 'colour-filter-radio.html',
   styleUrls: ['colour-filter-radio.scss'],
-  standalone: false,
+  imports: [IonRow, FormsModule, ReactiveFormsModule, IonCol],
 })
 export class ColourFilterRadioComponent implements OnChanges {
   @Input()

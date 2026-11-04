@@ -1,10 +1,13 @@
+import { NgClass, NgStyle } from '@angular/common';
 import { Component, Input } from '@angular/core';
+import { IonCol, IonRow } from '@ionic/angular';
+import { FormatIdPipe } from '@shared/pipes/format-id.pipe';
 
 @Component({
   selector: 'data-row-custom',
   templateUrl: 'data-row-custom.html',
   styleUrls: ['data-row-custom.scss'],
-  standalone: false,
+  imports: [IonRow, NgClass, IonCol, NgStyle, FormatIdPipe],
 })
 export class DataRowCustomComponent {
   @Input()

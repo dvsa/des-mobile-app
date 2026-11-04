@@ -1,5 +1,7 @@
 import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
-import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { IonCol, IonInput, IonRow } from '@ionic/angular';
+import { MaskitoDirective } from '@maskito/angular';
 import { MaskitoElementPredicate, MaskitoOptions } from '@maskito/core';
 import { OutcomeBehaviourMapProvider, VisibilityType } from '@providers/outcome-behaviour-map/outcome-behaviour-map';
 import { maskPredicate } from '@shared/helpers/formatters';
@@ -7,7 +9,7 @@ import { maskPredicate } from '@shared/helpers/formatters';
 @Component({
   selector: 'route-number',
   templateUrl: 'route-number.html',
-  standalone: false,
+  imports: [IonRow, FormsModule, ReactiveFormsModule, IonCol, IonInput, MaskitoDirective],
 })
 export class RouteNumberComponent implements OnChanges {
   @Input()

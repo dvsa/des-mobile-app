@@ -2,11 +2,11 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { ActivityCodeComponent } from '@components/common/activity-code/activity-code';
-import { ComponentsModule } from '@components/common/common-components.module';
 import { TestFlowHeaderComponent } from '@components/common/test-flow-header/test-flow-header.component';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
-import { ModalController, NavController, Platform, ToastController } from '@ionic/angular';
-import { ModalControllerMock, PlatformMock } from '@mocks/index.mock';
+import { NavController, ToastController } from '@ionic/angular';
+
+import { provideBasePageMocks } from '@mocks/test-providers';
 import { Store, StoreModule } from '@ngrx/store';
 import { DrivingFaultsComponent } from '@pages/office/components/driving-faults/driving-faults.component';
 import { OfficeFooterComponent } from '@pages/office/components/office-footer/office-footer.component';
@@ -15,10 +15,7 @@ import { AccompanimentCardComponent } from '@pages/waiting-room-to-car/component
 import { AccompanimentComponent } from '@pages/waiting-room-to-car/components/accompaniment/accompaniment';
 import { VehicleDetailsCardComponent } from '@pages/waiting-room-to-car/components/vehicle-details-card/vehicle-details-card';
 import { VehicleDetailsComponent } from '@pages/waiting-room-to-car/components/vehicle-details/vehicle-details';
-import { AuthenticationProviderMock } from '@providers/authentication/__mocks__/authentication.mock';
-import { AuthenticationProvider } from '@providers/authentication/authentication';
-import { DeviceProviderMock } from '@providers/device/__mocks__/device.mock';
-import { DeviceProvider } from '@providers/device/device';
+
 import { FaultCountProvider } from '@providers/fault-count/fault-count';
 import { FaultSummaryProvider } from '@providers/fault-summary/fault-summary';
 import { OutcomeBehaviourMapProviderMock } from '@providers/outcome-behaviour-map/__mocks__/outcome-behaviour-map.mock';
@@ -58,7 +55,7 @@ import {
 } from '@store/tests/test-data/common/serious-faults/serious-faults.actions';
 import { Competencies, ExaminerActions } from '@store/tests/test-data/test-data.constants';
 import { MockComponent } from 'ng-mocks';
-import { AppModule } from 'src/app/app.module';
+
 import { AdditionalInformationComponent } from '../../components/additional-information/additional-information';
 import { CandidateDescriptionComponent } from '../../components/candidate-description/candidate-description';
 import { CandidateSectionComponent } from '../../components/candidate-section/candidate-section';
@@ -80,31 +77,7 @@ describe('OfficeCatBPage', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        OfficeCatBPage,
-        MockComponent(TestFlowHeaderComponent),
-        MockComponent(RouteNumberComponent),
-        MockComponent(OfficeFooterComponent),
-        MockComponent(CandidateDescriptionComponent),
-        MockComponent(IdentificationComponent),
-        MockComponent(ShowMeQuestionComponent),
-        MockComponent(WeatherConditionsComponent),
-        MockComponent(AdditionalInformationComponent),
-        MockComponent(IndependentDrivingComponent),
-        MockComponent(FaultCommentCardComponent),
-        MockComponent(CandidateSectionComponent),
-        MockComponent(DateOfTest),
-        MockComponent(TrueLikenessComponent),
-        MockComponent(VehicleDetailsCardComponent),
-        MockComponent(VehicleDetailsComponent),
-        MockComponent(AccompanimentCardComponent),
-        MockComponent(OfficeRegistrationAndMotComponent),
-        MockComponent(AccompanimentComponent),
-        MockComponent(DrivingFaultsComponent),
-      ],
       imports: [
-        AppModule,
-        ComponentsModule,
         StoreModule.forRoot({
           tests: () => ({
             currentTest: {
@@ -116,6 +89,8 @@ describe('OfficeCatBPage', () => {
                 category: TestCategory.B,
                 vehicleDetails: {},
                 accompaniment: {},
+                testSummary: {},
+                userExitedApp: {},
                 testData: {
                   dangerousFaults: {},
                   drivingFaults: {},
@@ -140,6 +115,7 @@ describe('OfficeCatBPage', () => {
                 },
                 activityCode: '28',
                 journalData: {
+                  testSlotAttributes: { start: '2026-01-01T09:00:00' },
                   candidate: {
                     candidateName: 'Joe Bloggs',
                     driverNumber: '123',
@@ -151,19 +127,36 @@ describe('OfficeCatBPage', () => {
           }),
         }),
         ReactiveFormsModule,
+        OfficeCatBPage,
+        MockComponent(TestFlowHeaderComponent),
+        MockComponent(RouteNumberComponent),
+        MockComponent(OfficeFooterComponent),
+        MockComponent(CandidateDescriptionComponent),
+        MockComponent(IdentificationComponent),
+        MockComponent(ShowMeQuestionComponent),
+        MockComponent(WeatherConditionsComponent),
+        MockComponent(AdditionalInformationComponent),
+        MockComponent(IndependentDrivingComponent),
+        MockComponent(FaultCommentCardComponent),
+        MockComponent(CandidateSectionComponent),
+        MockComponent(DateOfTest),
+        MockComponent(TrueLikenessComponent),
+        MockComponent(VehicleDetailsCardComponent),
+        MockComponent(VehicleDetailsComponent),
+        MockComponent(AccompanimentCardComponent),
+        MockComponent(OfficeRegistrationAndMotComponent),
+        MockComponent(AccompanimentComponent),
+        MockComponent(DrivingFaultsComponent),
       ],
       providers: [
-        { provide: Platform, useClass: PlatformMock },
-        { provide: AuthenticationProvider, useClass: AuthenticationProviderMock },
+        provideBasePageMocks(),
         { provide: NavController, useClass: NavControllerMock },
         { provide: ToastController, useClass: ToastControllerMock },
-        { provide: ModalController, useClass: ModalControllerMock },
         { provide: OutcomeBehaviourMapProvider, useClass: OutcomeBehaviourMapProviderMock },
         WeatherConditionProvider,
         { provide: QuestionProvider, useClass: QuestionProviderMock },
         { provide: FaultSummaryProvider, useClass: FaultSummaryProvider },
         { provide: FaultCountProvider, useClass: FaultCountProvider },
-        { provide: DeviceProvider, useClass: DeviceProviderMock },
       ],
     });
 

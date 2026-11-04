@@ -17,8 +17,7 @@ describe('AlternateMotEvidenceComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
-      declarations: [AlternateMotEvidenceComponent],
-      imports: [CommonModule],
+      imports: [CommonModule, AlternateMotEvidenceComponent],
     }).compileComponents();
 
     fixture = TestBed.createComponent(AlternateMotEvidenceComponent);

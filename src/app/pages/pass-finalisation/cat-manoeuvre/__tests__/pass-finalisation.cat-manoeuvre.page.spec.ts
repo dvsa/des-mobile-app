@@ -1,25 +1,25 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
 import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
-import { Router, RouterModule } from '@angular/router';
-import { AppModule } from '@app/app.module';
+import { RouterModule } from '@angular/router';
+
 import { PracticeModeOptionsBar } from '@components/common/practice-mode-options-bar/practice-mode-options-bar';
 import { WarningBannerComponent } from '@components/common/warning-banner/warning-banner';
 import { D255Component } from '@components/test-finalisation/d255/d255';
 import { DebriefWitnessedComponent } from '@components/test-finalisation/debrief-witnessed/debrief-witnessed';
 import { FinalisationHeaderComponent } from '@components/test-finalisation/finalisation-header/finalisation-header';
 import { LanguagePreferencesComponent } from '@components/test-finalisation/language-preference/language-preference';
-import { NavController, Platform } from '@ionic/angular';
-import { NavControllerMock, PlatformMock, RouterMock } from '@mocks/index.mock';
+
+import { provideBasePageMocks } from '@mocks/test-providers';
 import { Store } from '@ngrx/store';
+import { provideMockStore } from '@ngrx/store/testing';
 import { PassFinalisationCatManoeuvrePage } from '@pages/pass-finalisation/cat-manoeuvre/pass-finalisation.cat-manoeuvre.page';
 import { LicenceProvidedWarningBannerComponent } from '@pages/pass-finalisation/components/licence-provided-warning-banner/licence-provided-warning-banner';
 import { LicenseProvidedComponent } from '@pages/pass-finalisation/components/license-provided/license-provided';
 import { PassCertificateNumberComponent } from '@pages/pass-finalisation/components/pass-certificate-number/pass-certificate-number';
 import { PASS_CERTIFICATE_NUMBER_CTRL } from '@pages/pass-finalisation/components/pass-certificate-number/pass-certificate-number.constants';
 import { PassFinalisationValidationError } from '@pages/pass-finalisation/pass-finalisation.actions';
-import { AuthenticationProviderMock } from '@providers/authentication/__mocks__/authentication.mock';
-import { AuthenticationProvider } from '@providers/authentication/authentication';
+
 import { OutcomeBehaviourMapProvider } from '@providers/outcome-behaviour-map/outcome-behaviour-map';
 import { StoreModel } from '@shared/models/store.model';
 import { PersistTests } from '@store/tests/tests.actions';
@@ -33,7 +33,9 @@ describe('PassFinalisationCatManoeuvrePage', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      declarations: [
+      imports: [
+        RouterModule.forRoot([]),
+
         PassFinalisationCatManoeuvrePage,
         MockComponent(PracticeModeOptionsBar),
         MockComponent(PassCertificateNumberComponent),
@@ -45,26 +47,7 @@ describe('PassFinalisationCatManoeuvrePage', () => {
         MockComponent(WarningBannerComponent),
         MockComponent(LicenceProvidedWarningBannerComponent),
       ],
-      imports: [RouterModule.forRoot([]), AppModule],
-      providers: [
-        {
-          provide: Platform,
-          useClass: PlatformMock,
-        },
-        {
-          provide: Router,
-          useClass: RouterMock,
-        },
-        {
-          provide: AuthenticationProvider,
-          useClass: AuthenticationProviderMock,
-        },
-        {
-          provide: NavController,
-          useClass: NavControllerMock,
-        },
-        OutcomeBehaviourMapProvider,
-      ],
+      providers: [provideBasePageMocks(), provideMockStore(), OutcomeBehaviourMapProvider],
     });
 
     fixture = TestBed.createComponent(PassFinalisationCatManoeuvrePage);

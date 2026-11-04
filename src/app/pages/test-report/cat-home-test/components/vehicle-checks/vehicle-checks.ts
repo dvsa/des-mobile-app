@@ -1,4 +1,7 @@
+import { AsyncPipe } from '@angular/common';
 import { Component, Input, OnInit } from '@angular/core';
+import { DrivingFaultsBadgeComponent } from '@components/common/driving-faults-badge/driving-faults-badge';
+import { SeriousFaultBadgeComponent } from '@components/common/serious-fault-badge/serious-fault-badge';
 import { CategoryCode } from '@dvsa/mes-test-schema/categories/common';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { Store, select } from '@ngrx/store';
@@ -20,7 +23,7 @@ interface ComponentState {
   selector: 'vehicle-checks-home',
   templateUrl: 'vehicle-checks.html',
   styleUrls: ['vehicle-checks.scss'],
-  standalone: false,
+  imports: [DrivingFaultsBadgeComponent, SeriousFaultBadgeComponent, AsyncPipe],
 })
 export class VehicleChecksComponent implements OnInit {
   @Input()

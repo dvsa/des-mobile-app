@@ -10,7 +10,9 @@ import {
   questionCombinations,
 } from '@shared/constants/cpc-questions/cpc-question-combinations.constants';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class CPCQuestionProvider {
   private getQuestionCombination = (combinationCode: CombinationCodes): Combination => {
     return questionCombinations.find((question: Combination) => question.code === combinationCode);

@@ -10,7 +10,7 @@ describe('ExaminerRecordsLearnMoreModalComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ExaminerRecordsLearnMoreModal],
+      imports: [ExaminerRecordsLearnMoreModal],
       providers: [{ provide: ModalController, useClass: ModalControllerMock }],
     }).compileComponents();
 

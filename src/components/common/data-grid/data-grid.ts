@@ -1,4 +1,5 @@
 import { Component, Input, OnInit, SimpleChanges } from '@angular/core';
+import { IonCol, IonRow } from '@ionic/angular';
 import { AccessibilityService } from '@providers/accessibility/accessibility.service';
 import { isEqual } from 'lodash-es';
 
@@ -8,7 +9,7 @@ export type PassedData = [string, number, string];
   selector: 'data-grid',
   templateUrl: 'data-grid.html',
   styleUrls: ['data-grid.scss'],
-  standalone: false,
+  imports: [IonRow, IonCol],
 })
 export class DataGridComponent implements OnInit {
   @Input() headers: string[] = null;

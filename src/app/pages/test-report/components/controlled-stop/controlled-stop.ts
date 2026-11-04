@@ -1,5 +1,11 @@
+import { NgClass } from '@angular/common';
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { DangerousFaultBadgeComponent } from '@components/common/dangerous-fault-badge/dangerous-fault-badge';
+import { DrivingFaultsBadgeComponent } from '@components/common/driving-faults-badge/driving-faults-badge';
+import { SeriousFaultBadgeComponent } from '@components/common/serious-fault-badge/serious-fault-badge';
+import { TickIndicatorComponent } from '@components/common/tick-indicator/tick-indicator';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
+import { IonCol, IonRow } from '@ionic/angular';
 import { Store, select } from '@ngrx/store';
 import { TestDataByCategoryProvider } from '@providers/test-data-by-category/test-data-by-category';
 import { trDestroy$ } from '@shared/classes/test-flow-base-pages/test-report/test-report-base-page';
@@ -18,6 +24,7 @@ import { map, takeUntil } from 'rxjs/operators';
 import { ToggleDangerousFaultMode, ToggleRemoveFaultMode, ToggleSeriousFaultMode } from '../../test-report.actions';
 import { getTestReportState } from '../../test-report.reducer';
 import { isDangerousMode, isRemoveFaultMode, isSeriousMode } from '../../test-report.selector';
+import { CompetencyButtonComponent } from '../competency-button/competency-button';
 
 interface ControlledStopComponentState {
   isRemoveFaultMode$: Observable<boolean>;
@@ -31,7 +38,16 @@ interface ControlledStopComponentState {
   selector: 'controlled-stop',
   templateUrl: 'controlled-stop.html',
   styleUrls: ['controlled-stop.scss'],
-  standalone: false,
+  imports: [
+    IonRow,
+    IonCol,
+    CompetencyButtonComponent,
+    NgClass,
+    TickIndicatorComponent,
+    DrivingFaultsBadgeComponent,
+    SeriousFaultBadgeComponent,
+    DangerousFaultBadgeComponent,
+  ],
 })
 export class ControlledStopComponent implements OnInit, OnDestroy {
   @Input()

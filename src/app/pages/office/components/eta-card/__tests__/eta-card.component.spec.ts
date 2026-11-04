@@ -8,7 +8,7 @@ describe('EtaCardComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [ETACardComponent],
+      imports: [ETACardComponent],
     });
 
     fixture = TestBed.createComponent(ETACardComponent);

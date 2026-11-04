@@ -28,7 +28,9 @@ interface CustomError extends Error {
   originalError?: Error;
 }
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class SentryIonicErrorHandler extends ErrorHandler {
   // Cyclic DI dependency error if injecting services via the constructor
   constructor(@Inject(Injector) private injector: Injector) {

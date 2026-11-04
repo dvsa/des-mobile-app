@@ -29,7 +29,14 @@ describe('HighwayCodeSafetyComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [
+      providers: [
+        {
+          provide: TestDataByCategoryProvider,
+          useClass: TestDataByCategoryProviderMock,
+        },
+      ],
+      imports: [
+        StoreModule.forRoot({ tests: testsReducer, testReport: testReportReducer }),
         HighwayCodeSafetyComponent,
         MockComponent(TickIndicatorComponent),
         MockComponent(DrivingFaultsBadgeComponent),
@@ -37,13 +44,6 @@ describe('HighwayCodeSafetyComponent', () => {
         MockComponent(DangerousFaultBadgeComponent),
         MockComponent(CompetencyButtonComponent),
       ],
-      providers: [
-        {
-          provide: TestDataByCategoryProvider,
-          useClass: TestDataByCategoryProviderMock,
-        },
-      ],
-      imports: [StoreModule.forRoot({ tests: testsReducer, testReport: testReportReducer })],
     });
 
     fixture = TestBed.createComponent(HighwayCodeSafetyComponent);

@@ -3,7 +3,9 @@ import { DateTime } from '@shared/helpers/date-time';
 import { isEmpty } from 'lodash-es';
 import { AppConfigProvider } from '../app-config/app-config';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class DateTimeProvider {
   constructor(private appConfigProvider: AppConfigProvider) {}
 

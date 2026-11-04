@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
-import { ModalController } from '@ionic/angular';
+import { FormsModule, ReactiveFormsModule, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { ModalAlertTitleComponent } from '@components/common/modal-alert-title/modal-alert-title';
+import { IonButton, IonCol, IonRow, ModalController } from '@ionic/angular';
 import { ModalEvent } from '@pages/journal/components/journal-force-check-modal/journal-force-check-modal.constants';
 
 export enum PracticeModeMOTType {
@@ -13,7 +14,7 @@ export enum PracticeModeMOTType {
   selector: 'practice-mode-mot-modal',
   templateUrl: './practice-mode-mot-modal.component.html',
   styleUrls: ['./practice-mode-mot-modal.component.scss'],
-  standalone: false,
+  imports: [FormsModule, ReactiveFormsModule, IonRow, IonCol, ModalAlertTitleComponent, IonButton],
 })
 export class PracticeModeMOTModal implements OnInit {
   form: UntypedFormGroup = new UntypedFormGroup({});

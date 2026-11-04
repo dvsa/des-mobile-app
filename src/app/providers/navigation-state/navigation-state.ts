@@ -2,7 +2,9 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { DELEGATED_REKEY_SEARCH_PAGE, REKEY_SEARCH_PAGE } from '@pages/page-names.constants';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class NavigationStateProvider {
   constructor(public router: Router) {}
 

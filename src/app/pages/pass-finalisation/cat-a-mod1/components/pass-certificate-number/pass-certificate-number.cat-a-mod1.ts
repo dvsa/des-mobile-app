@@ -1,5 +1,8 @@
 import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
-import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { EmojiBlockDirective } from '@directives/emoji-block.directive';
+import { PasteSanitiserDirective } from '@directives/paste-sanitiser';
+import { IonCol, IonInput, IonRow } from '@ionic/angular';
 import { AccessibilityService } from '@providers/accessibility/accessibility.service';
 import { getByteCount, getPassCertificateAMOD1Validator } from '@shared/constants/field-validators/field-validators';
 import { toInteger } from 'lodash-es';
@@ -8,7 +11,7 @@ import { PASS_CERTIFICATE_NUMBER_CTRL } from './pass-certificate-number.cat-a-mo
 @Component({
   selector: 'pass-certificate-number-cat-a-mod1',
   templateUrl: 'pass-certificate-number.cat-a-mod1.html',
-  standalone: false,
+  imports: [IonRow, IonCol, FormsModule, ReactiveFormsModule, IonInput, EmojiBlockDirective, PasteSanitiserDirective],
 })
 export class PassCertificateNumberCatAMod1Component implements OnChanges {
   static readonly fieldName: string = PASS_CERTIFICATE_NUMBER_CTRL;

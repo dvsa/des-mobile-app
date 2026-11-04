@@ -1,12 +1,12 @@
 import { Component } from '@angular/core';
-import { ModalController } from '@ionic/angular';
+import { IonButton, IonCard, IonCol, IonGrid, IonIcon, IonRow, IonText, ModalController } from '@ionic/angular';
 import { ExitRekeyModalEvent } from './exit-rekey-modal.constants';
 
 @Component({
   selector: 'exit-rekey-modal',
   templateUrl: 'exit-rekey-modal.html',
   styleUrls: ['exit-rekey-modal.scss'],
-  standalone: false,
+  imports: [IonCard, IonGrid, IonRow, IonCol, IonIcon, IonText, IonButton],
 })
 export class ExitRekeyModal {
   constructor(public modalCtrl: ModalController) {}

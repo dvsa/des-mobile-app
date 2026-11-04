@@ -1,4 +1,9 @@
+import { Event } from '@angular/router';
+import { Subject } from 'rxjs';
+
 export class RouterMock {
+  events = new Subject<Event>();
+
   url = '/url';
 
   routerState = { root: '' };

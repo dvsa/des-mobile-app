@@ -16,7 +16,9 @@ type JournalCache = {
   data: ExaminerWorkSchedule;
 };
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class JournalProvider {
   constructor(
     public http: HttpClient,

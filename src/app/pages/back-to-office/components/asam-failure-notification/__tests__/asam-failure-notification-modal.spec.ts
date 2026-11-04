@@ -12,7 +12,7 @@ describe('AsamFailureNotificationModal', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [AsamFailureNotificationModal, MockComponent(ModalAlertTitleComponent)],
+      imports: [AsamFailureNotificationModal, MockComponent(ModalAlertTitleComponent)],
       providers: [{ provide: ModalController, useClass: ModalControllerMock }],
     });
 

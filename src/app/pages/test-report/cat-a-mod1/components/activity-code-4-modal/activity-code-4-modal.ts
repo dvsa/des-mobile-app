@@ -1,5 +1,6 @@
 import { Component, Input } from '@angular/core';
-import { ModalController } from '@ionic/angular';
+import { ModalAlertTitleComponent } from '@components/common/modal-alert-title/modal-alert-title';
+import { IonButton, IonCard, IonCol, IonRow, IonText, ModalController } from '@ionic/angular';
 import { ModalEvent } from '../../../test-report.constants';
 import { ModalReason } from './activity-code-4-modal.constants';
 
@@ -7,7 +8,7 @@ import { ModalReason } from './activity-code-4-modal.constants';
   selector: 'activity-code-4-modal',
   templateUrl: 'activity-code-4-modal.html',
   styleUrls: ['activity-code-4-modal.scss'],
-  standalone: false,
+  imports: [IonCard, ModalAlertTitleComponent, IonRow, IonCol, IonButton, IonText],
 })
 export class ActivityCode4Modal {
   @Input()

@@ -1,10 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { ComponentsModule } from '@components/common/common-components.module';
 import { ModalController } from '@ionic/angular';
 import { ModalControllerMock } from '@mocks/index.mock';
 import { ModalEvent } from '@pages/dashboard/components/practice-test-modal/practice-test-modal.constants';
-import { AppModule } from 'src/app/app.module';
 import { EtaInvalidModal } from '../eta-invalid-modal';
 
 describe('EtaInvalidModal', () => {
@@ -13,8 +11,7 @@ describe('EtaInvalidModal', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [EtaInvalidModal],
-      imports: [AppModule, ComponentsModule],
+      imports: [EtaInvalidModal],
       providers: [{ provide: ModalController, useClass: ModalControllerMock }],
     });
 

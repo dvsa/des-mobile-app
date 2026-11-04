@@ -1,3 +1,4 @@
+import { NgClass } from '@angular/common';
 import { Component, Input } from '@angular/core';
 import { AccessibilityService } from '@providers/accessibility/accessibility.service';
 import { TestStatus } from '@store/tests/test-status/test-status.model';
@@ -6,7 +7,7 @@ import { TestStatus } from '@store/tests/test-status/test-status.model';
   selector: 'indicators',
   templateUrl: 'indicators.html',
   styleUrls: ['indicators.scss'],
-  standalone: false,
+  imports: [NgClass],
 })
 export class IndicatorsComponent {
   @Input()

@@ -1,14 +1,14 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
-import { AppModule } from '@app/app.module';
-import { ComponentsModule } from '@components/common/common-components.module';
+
 import { TestFlowHeaderComponent } from '@components/common/test-flow-header/test-flow-header.component';
 import { ModeOfTransport } from '@dvsa/mes-test-schema/categories/AM2';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
-import { ModalController, NavController, Platform, ToastController } from '@ionic/angular';
-import { ModalControllerMock, PlatformMock, ToastControllerMock } from '@mocks/index.mock';
+import { NavController, ToastController } from '@ionic/angular';
+import { ToastControllerMock } from '@mocks/index.mock';
+import { provideBasePageMocks } from '@mocks/test-providers';
 import { Store, StoreModule } from '@ngrx/store';
-import { TranslateModule } from '@ngx-translate/core';
+
 import { DrivingFaultsComponent } from '@pages/office/components/driving-faults/driving-faults.component';
 import { OfficeFooterComponent } from '@pages/office/components/office-footer/office-footer.component';
 import { OfficeRegistrationAndMotComponent } from '@pages/office/components/office-registration-and-mot/office-registration-and-mot.component';
@@ -17,10 +17,7 @@ import { AccompanimentCardComponent } from '@pages/waiting-room-to-car/component
 import { AccompanimentComponent } from '@pages/waiting-room-to-car/components/accompaniment/accompaniment';
 import { VehicleDetailsCardComponent } from '@pages/waiting-room-to-car/components/vehicle-details-card/vehicle-details-card';
 import { VehicleDetailsComponent } from '@pages/waiting-room-to-car/components/vehicle-details/vehicle-details';
-import { AuthenticationProviderMock } from '@providers/authentication/__mocks__/authentication.mock';
-import { AuthenticationProvider } from '@providers/authentication/authentication';
-import { DeviceProviderMock } from '@providers/device/__mocks__/device.mock';
-import { DeviceProvider } from '@providers/device/device';
+
 import { FaultCountProvider } from '@providers/fault-count/fault-count';
 import { FaultSummaryProvider } from '@providers/fault-summary/fault-summary';
 import { OutcomeBehaviourMapProviderMock } from '@providers/outcome-behaviour-map/__mocks__/outcome-behaviour-map.mock';
@@ -33,7 +30,7 @@ import { activityCodeModelList } from '@shared/constants/activity-code/activity-
 import { NavControllerMock } from '@shared/mocks/nav-controller.mock';
 import { CommentSource } from '@shared/models/fault-marking.model';
 import { StoreModel } from '@shared/models/store.model';
-import { PipesModule } from '@shared/pipes/pipes.module';
+
 import { SetActivityCode } from '@store/tests/activity-code/activity-code.actions';
 import { AddSafetyAndBalanceComment } from '@store/tests/test-data/cat-a-mod2/safety-and-balance/safety-and-balance.cat-a-mod2.actions';
 import { AddDangerousFaultComment } from '@store/tests/test-data/common/dangerous-faults/dangerous-faults.actions';
@@ -64,34 +61,7 @@ describe('OfficeCatAMod2Page', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        OfficeCatAMod2Page,
-        MockComponent(TestFlowHeaderComponent),
-        MockComponent(OfficeFooterComponent),
-        MockComponent(SafetyAndBalanceCardCatAMod2Component),
-        MockComponent(ModeOfTransportCatAMod2Component),
-        MockComponent(RouteNumberComponent),
-        MockComponent(CandidateDescriptionComponent),
-        MockComponent(IdentificationComponent),
-        MockComponent(ShowMeQuestionComponent),
-        MockComponent(WeatherConditionsComponent),
-        MockComponent(AdditionalInformationComponent),
-        MockComponent(IndependentDrivingComponent),
-        MockComponent(FaultCommentCardComponent),
-        MockComponent(VehicleChecksOfficeCardComponent),
-        MockComponent(CandidateSectionComponent),
-        MockComponent(DateOfTest),
-        MockComponent(VehicleDetailsCardComponent),
-        MockComponent(VehicleDetailsComponent),
-        MockComponent(AccompanimentCardComponent),
-        MockComponent(AccompanimentComponent),
-        MockComponent(OfficeRegistrationAndMotComponent),
-        MockComponent(DrivingFaultsComponent),
-      ],
       imports: [
-        AppModule,
-        ComponentsModule,
-        PipesModule,
         StoreModule.forRoot({
           tests: () => ({
             currentTest: {
@@ -103,6 +73,8 @@ describe('OfficeCatAMod2Page', () => {
                 category: TestCategory.EUA2M2,
                 vehicleDetails: {},
                 accompaniment: {},
+                testSummary: {},
+                userExitedApp: {},
                 testData: {
                   dangerousFaults: {},
                   drivingFaults: {},
@@ -128,9 +100,11 @@ describe('OfficeCatAMod2Page', () => {
                     ],
                   },
                   eyesightTest: {},
+                  safetyAndBalanceQuestions: { safetyQuestions: [], balanceQuestions: [] },
                 },
                 activityCode: '28',
                 journalData: {
+                  testSlotAttributes: { start: '2026-01-01T09:00:00' },
                   candidate: {
                     candidateName: 'Joe Bloggs',
                     driverNumber: '123',
@@ -141,21 +115,40 @@ describe('OfficeCatAMod2Page', () => {
             },
           }),
         }),
-        TranslateModule,
+
         ReactiveFormsModule,
+        OfficeCatAMod2Page,
+        MockComponent(TestFlowHeaderComponent),
+        MockComponent(OfficeFooterComponent),
+        MockComponent(SafetyAndBalanceCardCatAMod2Component),
+        MockComponent(ModeOfTransportCatAMod2Component),
+        MockComponent(RouteNumberComponent),
+        MockComponent(CandidateDescriptionComponent),
+        MockComponent(IdentificationComponent),
+        MockComponent(ShowMeQuestionComponent),
+        MockComponent(WeatherConditionsComponent),
+        MockComponent(AdditionalInformationComponent),
+        MockComponent(IndependentDrivingComponent),
+        MockComponent(FaultCommentCardComponent),
+        MockComponent(VehicleChecksOfficeCardComponent),
+        MockComponent(CandidateSectionComponent),
+        MockComponent(DateOfTest),
+        MockComponent(VehicleDetailsCardComponent),
+        MockComponent(VehicleDetailsComponent),
+        MockComponent(AccompanimentCardComponent),
+        MockComponent(AccompanimentComponent),
+        MockComponent(OfficeRegistrationAndMotComponent),
+        MockComponent(DrivingFaultsComponent),
       ],
       providers: [
-        { provide: Platform, useClass: PlatformMock },
-        { provide: AuthenticationProvider, useClass: AuthenticationProviderMock },
+        provideBasePageMocks(),
         { provide: NavController, useClass: NavControllerMock },
         { provide: ToastController, useClass: ToastControllerMock },
-        { provide: ModalController, useClass: ModalControllerMock },
         { provide: OutcomeBehaviourMapProvider, useClass: OutcomeBehaviourMapProviderMock },
         WeatherConditionProvider,
         { provide: QuestionProvider, useClass: QuestionProviderMock },
         { provide: FaultSummaryProvider, useClass: FaultSummaryProvider },
         { provide: FaultCountProvider, useClass: FaultCountProvider },
-        { provide: DeviceProvider, useClass: DeviceProviderMock },
       ],
     });
 
@@ -277,6 +270,7 @@ describe('OfficeCatAMod2Page', () => {
       it('should dispatch an action to persist tests + pop navstack to root when defer is called', () => {
         spyOn(component, 'popToRoot');
         fixture.detectChanges();
+        component.hasNavigatedFromUnsubmitted = false;
         component.defer();
         expect(component.popToRoot).toHaveBeenCalled();
       });

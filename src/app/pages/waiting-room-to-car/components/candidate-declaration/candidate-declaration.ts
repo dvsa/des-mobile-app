@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { IonCol, IonRow } from '@ionic/angular';
 
 enum DeclarationSigned {
   YES = 'Y',
@@ -9,7 +10,7 @@ enum DeclarationSigned {
 @Component({
   selector: 'candidate-declaration-signed',
   templateUrl: 'candidate-declaration.html',
-  standalone: false,
+  imports: [IonRow, FormsModule, ReactiveFormsModule, IonCol],
 })
 export class CandidateDeclarationSignedComponent {
   @Input()

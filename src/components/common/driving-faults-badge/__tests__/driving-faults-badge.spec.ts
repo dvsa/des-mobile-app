@@ -8,7 +8,7 @@ describe('DrivingFaultsBadgeComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [DrivingFaultsBadgeComponent],
+      imports: [DrivingFaultsBadgeComponent],
     });
 
     fixture = TestBed.createComponent(DrivingFaultsBadgeComponent);

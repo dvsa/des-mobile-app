@@ -1,10 +1,11 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { IonButton, IonCol, IonRow, IonText } from '@ionic/angular';
 
 @Component({
   selector: 'examiner-records-label-text',
   templateUrl: 'examiner-records-label-text.html',
   styleUrls: ['examiner-records-label-text.scss'],
-  standalone: false,
+  imports: [IonRow, IonCol, IonText, IonButton],
 })
 export class ExaminerRecordsLabelTextComponent {
   @Input() testCount: number;

@@ -1,10 +1,13 @@
+import { NgClass, NgStyle } from '@angular/common';
 import { Component, Input } from '@angular/core';
+import { IonCol, IonRow } from '@ionic/angular';
+import { FormatIdPipe } from '@shared/pipes/format-id.pipe';
 
 @Component({
   selector: 'data-row',
   templateUrl: 'data-row.html',
   styleUrls: ['data-row.scss'],
-  standalone: false,
+  imports: [IonRow, NgStyle, NgClass, IonCol, FormatIdPipe],
 })
 export class DataRowComponent {
   @Input()

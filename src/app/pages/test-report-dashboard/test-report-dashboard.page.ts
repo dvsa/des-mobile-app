@@ -1,6 +1,9 @@
+import { AsyncPipe, NgClass } from '@angular/common';
 import { Component, Injector, OnInit } from '@angular/core';
 import { UntypedFormGroup } from '@angular/forms';
+import { TestFlowHeaderComponent } from '@components/common/test-flow-header/test-flow-header.component';
 import { LessonAndTheme, TestData } from '@dvsa/mes-test-schema/categories/ADI3';
+import { IonButton, IonCol, IonContent, IonFooter, IonHeader, IonRow, IonText, IonToolbar } from '@ionic/angular';
 import { select } from '@ngrx/store';
 import { TestFlowPageNames } from '@pages/page-names.constants';
 import {
@@ -31,6 +34,9 @@ import { getTests } from '@store/tests/tests.reducer';
 import { getCurrentTest } from '@store/tests/tests.selector';
 import { Observable, Subscription, firstValueFrom, merge } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
+import { TimerComponent } from '../test-report/components/timer/timer';
+import { DashboardItemComponent } from './components/dashboard-item/dashboard-item';
+import { ReviewFeedback } from './components/review-feedback/review-feedback';
 
 interface TestReportDashboardState {
   testDataADI3$: Observable<TestData>;
@@ -43,7 +49,22 @@ type TestReportDashboardPageState = CommonTestReportPageState & TestReportDashbo
   selector: 'app-test-report-dashboard',
   templateUrl: './test-report-dashboard.page.html',
   styleUrls: ['./test-report-dashboard.page.scss'],
-  standalone: false,
+  imports: [
+    IonHeader,
+    IonToolbar,
+    NgClass,
+    TestFlowHeaderComponent,
+    IonContent,
+    IonRow,
+    IonCol,
+    TimerComponent,
+    DashboardItemComponent,
+    ReviewFeedback,
+    IonFooter,
+    IonButton,
+    IonText,
+    AsyncPipe,
+  ],
 })
 export class TestReportDashboardPage extends TestReportBasePageComponent implements OnInit {
   pageState: TestReportDashboardPageState;

@@ -1,7 +1,7 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
-import { AppModule } from '@app/app.module';
+
 import { OrditTrainerCatAdiPart2Component } from '@pages/waiting-room-to-car/cat-adi-part2/components/ordit-trainer/ordit-trainer.cat-adi-part2';
 import { AuthenticationProviderMock } from '@providers/authentication/__mocks__/authentication.mock';
 import { AuthenticationProvider } from '@providers/authentication/authentication';
@@ -20,8 +20,7 @@ describe('OrditTrainerCatAdiPart2Component', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      declarations: [OrditTrainerCatAdiPart2Component],
-      imports: [AppModule, ReactiveFormsModule],
+      imports: [ReactiveFormsModule, OrditTrainerCatAdiPart2Component],
       providers: [
         { provide: RouteByCategoryProvider, useClass: RouteByCategoryProviderMock },
         { provide: AuthenticationProvider, useClass: AuthenticationProviderMock },

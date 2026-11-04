@@ -2,15 +2,15 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { firstValueFrom } from 'rxjs';
 
 import { By } from '@angular/platform-browser';
-import { AppModule } from '@app/app.module';
+
 import { default as welshTranslations } from '@assets/i18n/cy.json';
-import { ComponentsModule } from '@components/common/common-components.module';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
+import { provideTestTranslations } from '@mocks/test-providers';
 import { StoreModule } from '@ngrx/store';
-import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { TranslateService } from '@ngx-translate/core';
 import { configureI18N } from '@shared/helpers/translation.helpers';
 import { FaultSummary } from '@shared/models/fault-marking.model';
-import { PipesModule } from '@shared/pipes/pipes.module';
+
 import { Language } from '@store/tests/communication-preferences/communication-preferences.model';
 import { DrivingFaultsDebriefCardComponent } from '../driving-faults-debrief-card';
 
@@ -21,8 +21,8 @@ describe('DrivingFaultsDebriefCardComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [DrivingFaultsDebriefCardComponent],
-      imports: [AppModule, ComponentsModule, StoreModule.forRoot({}), TranslateModule, PipesModule],
+      imports: [StoreModule.forRoot({}), DrivingFaultsDebriefCardComponent],
+      providers: [provideTestTranslations()],
     });
 
     fixture = TestBed.createComponent(DrivingFaultsDebriefCardComponent);

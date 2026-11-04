@@ -26,8 +26,7 @@ describe('DrivingFaultSummary', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [DrivingFaultSummaryComponent],
-      imports: [StoreModule.forRoot({ tests: testsReducer })],
+      imports: [StoreModule.forRoot({ tests: testsReducer }), DrivingFaultSummaryComponent],
       providers: [FaultCountProvider],
     });
 

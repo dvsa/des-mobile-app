@@ -1,11 +1,12 @@
 import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
-import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
+import { IonCol, IonRow } from '@ionic/angular';
 
 @Component({
   selector: 'full-licence-held-toggle',
   templateUrl: 'full-licence-held-toggle.html',
-  standalone: false,
+  imports: [IonRow, FormsModule, ReactiveFormsModule, IonCol],
 })
 export class FullLicenceHeldComponent implements OnChanges {
   @Input()

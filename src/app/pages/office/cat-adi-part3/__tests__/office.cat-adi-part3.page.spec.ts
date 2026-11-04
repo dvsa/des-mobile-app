@@ -1,21 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
-import { ComponentsModule } from '@components/common/common-components.module';
 import { TestFlowHeaderComponent } from '@components/common/test-flow-header/test-flow-header.component';
 import { TestResultCatADI3Schema } from '@dvsa/mes-test-schema/categories/ADI3';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
-import { ModalController, NavController, Platform, ToastController } from '@ionic/angular';
-import { ModalControllerMock, PlatformMock } from '@mocks/index.mock';
+import { NavController, ToastController } from '@ionic/angular';
+
+import { provideBasePageMocks } from '@mocks/test-providers';
 import { Store, StoreModule } from '@ngrx/store';
 import { OfficeCatADI3Page } from '@pages/office/cat-adi-part3/office.cat-adi-part3.page';
 import { AdditionalInformationComponent } from '@pages/office/components/additional-information/additional-information';
 import { CandidateSectionComponent } from '@pages/office/components/candidate-section/candidate-section';
 import { OfficeFooterComponent } from '@pages/office/components/office-footer/office-footer.component';
 import { OfficeRegistrationAndMotComponent } from '@pages/office/components/office-registration-and-mot/office-registration-and-mot.component';
-import { AuthenticationProviderMock } from '@providers/authentication/__mocks__/authentication.mock';
-import { AuthenticationProvider } from '@providers/authentication/authentication';
-import { DeviceProviderMock } from '@providers/device/__mocks__/device.mock';
-import { DeviceProvider } from '@providers/device/device';
+
 import { FaultSummaryProviderMock } from '@providers/fault-summary/__mocks__/fault-summary.mock';
 import { FaultSummaryProvider } from '@providers/fault-summary/fault-summary';
 import { OutcomeBehaviourMapProviderMock } from '@providers/outcome-behaviour-map/__mocks__/outcome-behaviour-map.mock';
@@ -26,9 +23,8 @@ import { BasePageComponent } from '@shared/classes/base-page';
 import { NavControllerMock } from '@shared/mocks/nav-controller.mock';
 import { ToastControllerMock } from '@shared/mocks/toast-controller.mock';
 import { StoreModel } from '@shared/models/store.model';
-import { PipesModule } from '@shared/pipes/pipes.module';
+
 import { MockComponent } from 'ng-mocks';
-import { AppModule } from 'src/app/app.module';
 
 describe('OfficeCatADI3Page', () => {
   let fixture: ComponentFixture<OfficeCatADI3Page>;
@@ -37,19 +33,7 @@ describe('OfficeCatADI3Page', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        OfficeCatADI3Page,
-        MockComponent(OfficeFooterComponent),
-        MockComponent(AdditionalInformationComponent),
-        MockComponent(OfficeRegistrationAndMotComponent),
-        MockComponent(CandidateSectionComponent),
-        MockComponent(TestFlowHeaderComponent),
-      ],
       imports: [
-        PipesModule,
-
-        AppModule,
-        ComponentsModule,
         StoreModule.forRoot({
           tests: () => ({
             currentTest: {
@@ -63,6 +47,7 @@ describe('OfficeCatADI3Page', () => {
                 testData: {},
                 activityCode: '28',
                 journalData: {
+                  testSlotAttributes: { start: '2026-01-01T09:00:00' },
                   candidate: {
                     candidateName: {},
                     driverNumber: '123',
@@ -74,16 +59,19 @@ describe('OfficeCatADI3Page', () => {
           }),
         }),
         ReactiveFormsModule,
+        OfficeCatADI3Page,
+        MockComponent(OfficeFooterComponent),
+        MockComponent(AdditionalInformationComponent),
+        MockComponent(OfficeRegistrationAndMotComponent),
+        MockComponent(CandidateSectionComponent),
+        MockComponent(TestFlowHeaderComponent),
       ],
       providers: [
-        { provide: Platform, useClass: PlatformMock },
-        { provide: AuthenticationProvider, useClass: AuthenticationProviderMock },
+        provideBasePageMocks(),
         { provide: NavController, useClass: NavControllerMock },
         { provide: ToastController, useClass: ToastControllerMock },
-        { provide: ModalController, useClass: ModalControllerMock },
         { provide: FaultSummaryProvider, useClass: FaultSummaryProviderMock },
         { provide: OutcomeBehaviourMapProvider, useClass: OutcomeBehaviourMapProviderMock },
-        { provide: DeviceProvider, useClass: DeviceProviderMock },
         { provide: TestResultProvider, useClass: TestResultProviderMock },
       ],
     });

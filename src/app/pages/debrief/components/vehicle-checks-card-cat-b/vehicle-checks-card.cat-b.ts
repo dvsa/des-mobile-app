@@ -5,6 +5,10 @@ import { Store, select } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
+import { AsyncPipe } from '@angular/common';
+import { AddOrRemoveLangCyDirective } from '@directives/add-or-remove-lang-cy.directive';
+import { IonCard, IonCardContent, IonCol, IonGrid, IonRow, IonText } from '@ionic/angular';
+import { TranslatePipe } from '@ngx-translate/core';
 import { CompetencyOutcome } from '@shared/models/competency-outcome';
 import { StoreModel } from '@shared/models/store.model';
 import { getVehicleChecks } from '@store//tests/test-data/cat-b/test-data.cat-b.selector';
@@ -23,7 +27,17 @@ interface VehicleChecksCardComponentState {
   selector: 'vehicle-checks-card-cat-b',
   templateUrl: 'vehicle-checks-card.cat-b.html',
   styleUrls: ['vehicle-checks-card.cat-b.scss'],
-  standalone: false,
+  imports: [
+    IonCard,
+    IonCardContent,
+    IonGrid,
+    IonRow,
+    IonCol,
+    IonText,
+    AddOrRemoveLangCyDirective,
+    AsyncPipe,
+    TranslatePipe,
+  ],
 })
 export class VehicleChecksCardCatBComponent implements OnInit {
   componentState: VehicleChecksCardComponentState;

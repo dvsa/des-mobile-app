@@ -1,7 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 
-import { AppModule } from '@app/app.module';
 import { CombinationComponent } from '../combination';
 
 describe('CombinationComponent', () => {
@@ -10,8 +9,7 @@ describe('CombinationComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [CombinationComponent],
-      imports: [AppModule],
+      imports: [CombinationComponent],
     });
 
     fixture = TestBed.createComponent(CombinationComponent);

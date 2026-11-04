@@ -4,6 +4,8 @@ import { Store, select } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
+import { AsyncPipe } from '@angular/common';
+import { DrivingFaultsBadgeComponent } from '@components/common/driving-faults-badge/driving-faults-badge';
 import { CategoryCode } from '@dvsa/mes-test-schema/categories/common';
 import { FaultCountProvider } from '@providers/fault-count/fault-count';
 import { TestDataByCategoryProvider } from '@providers/test-data-by-category/test-data-by-category';
@@ -20,7 +22,7 @@ interface ComponentState {
   selector: 'safety-questions-cat-d',
   templateUrl: 'safety-questions.cat-d.html',
   styleUrls: ['safety-questions.cat-d.scss'],
-  standalone: false,
+  imports: [DrivingFaultsBadgeComponent, AsyncPipe],
 })
 export class SafetyQuestionsCatDComponent implements OnInit {
   @Input()

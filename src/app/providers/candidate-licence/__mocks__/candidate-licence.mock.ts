@@ -3,7 +3,9 @@ import { DriverLicenceSchema, DriverPhotograph, DriverSignature, DriverStandard 
 import { DriverLicenceDetails } from '@providers/candidate-licence/candidate-licence';
 import { Observable } from 'rxjs';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class CandidateLicenceProviderMock {
   private requestError: string;
   private driverLicenceResponse: DriverLicenceDetails;

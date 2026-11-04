@@ -2,7 +2,7 @@ import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http'
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { QuestionResult } from '@dvsa/mes-test-schema/categories/common';
 
-import { TranslateModule, TranslateService, provideTranslateService } from '@ngx-translate/core';
+import { TranslateService, provideTranslateService } from '@ngx-translate/core';
 import { provideTranslateHttpLoader } from '@ngx-translate/http-loader';
 import { SafetyQuestionsCardComponent } from '@pages/debrief/components/safety-questions-card/safety-questions-card';
 
@@ -13,8 +13,7 @@ describe('SafetyQuestionsCardComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [SafetyQuestionsCardComponent],
-      imports: [TranslateModule.forRoot()],
+      imports: [SafetyQuestionsCardComponent],
       providers: [
         provideHttpClient(withInterceptorsFromDi()),
         provideTranslateService({
@@ -28,7 +27,7 @@ describe('SafetyQuestionsCardComponent', () => {
     fixture = TestBed.createComponent(SafetyQuestionsCardComponent);
     component = fixture.componentInstance;
     translate = TestBed.inject(TranslateService);
-    translate.setDefaultLang('en');
+    translate.setFallbackLang('en');
   });
 
   describe('questionHasFault', () => {

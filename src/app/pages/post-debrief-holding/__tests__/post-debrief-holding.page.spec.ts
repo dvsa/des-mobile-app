@@ -2,9 +2,10 @@ import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testin
 
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
-import { AppModule } from '@app/app.module';
+
 import { PracticeModeOptionsBar } from '@components/common/practice-mode-options-bar/practice-mode-options-bar';
-import { RouterMock } from '@mocks/angular-mocks/router-mock';
+
+import { provideBasePageMocks } from '@mocks/test-providers';
 import { StoreModule } from '@ngrx/store';
 import { TestFlowPageNames } from '@pages/page-names.constants';
 import { MockComponent } from 'ng-mocks';
@@ -18,14 +19,15 @@ describe('PostDebriefHoldingPage', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      declarations: [PostDebriefHoldingPage, MockComponent(PracticeModeOptionsBar)],
-      imports: [RouterModule.forRoot([]), AppModule, StoreModule.forFeature('tests', () => ({}))],
-      providers: [
-        {
-          provide: Router,
-          useClass: RouterMock,
-        },
+      imports: [
+        RouterModule.forRoot([]),
+        StoreModule.forRoot({}),
+
+        StoreModule.forFeature('tests', () => ({})),
+        PostDebriefHoldingPage,
+        MockComponent(PracticeModeOptionsBar),
       ],
+      providers: [provideBasePageMocks()],
     });
 
     fixture = TestBed.createComponent(PostDebriefHoldingPage);

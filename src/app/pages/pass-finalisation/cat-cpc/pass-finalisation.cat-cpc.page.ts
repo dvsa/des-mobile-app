@@ -1,11 +1,27 @@
 import { Component, Injector, OnInit } from '@angular/core';
-import { UntypedFormGroup } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule, UntypedFormGroup } from '@angular/forms';
 import { select } from '@ngrx/store';
 import { Observable, merge } from 'rxjs';
 import { map } from 'rxjs/operators';
 
+import { AsyncPipe, NgClass } from '@angular/common';
+import { TestFlowHeaderComponent } from '@components/common/test-flow-header/test-flow-header.component';
+import { DebriefWitnessedComponent } from '@components/test-finalisation/debrief-witnessed/debrief-witnessed';
+import { FinalisationHeaderComponent } from '@components/test-finalisation/finalisation-header/finalisation-header';
+import { LanguagePreferencesComponent } from '@components/test-finalisation/language-preference/language-preference';
 import { CategoryCode } from '@dvsa/mes-test-schema/categories/common';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
+import {
+  IonButton,
+  IonCol,
+  IonContent,
+  IonFooter,
+  IonGrid,
+  IonHeader,
+  IonRow,
+  IonText,
+  IonToolbar,
+} from '@ionic/angular';
 import { behaviourMap } from '@pages/office/office-behaviour-map.cat-cpc';
 import { TestFlowPageNames } from '@pages/page-names.constants';
 import { PASS_CERTIFICATE_NUMBER_CTRL } from '@pages/pass-finalisation/components/pass-certificate-number/pass-certificate-number.constants';
@@ -21,6 +37,8 @@ import { getTestCategory } from '@store/tests/category/category.reducer';
 import { PersistTests } from '@store/tests/tests.actions';
 import { getTests } from '@store/tests/tests.reducer';
 import { getCurrentTest } from '@store/tests/tests.selector';
+import { ApplicationReferenceComponent } from '../components/application-reference/application-reference';
+import { PassCertificateNumberComponent } from '../components/pass-certificate-number/pass-certificate-number';
 
 interface CatCPCPassFinalisationPageState {
   testCategory$: Observable<CategoryCode>;
@@ -32,7 +50,27 @@ type PassFinalisationPageState = CommonPassFinalisationPageState & CatCPCPassFin
   selector: 'app-pass-finalisation-cat-cpc',
   templateUrl: './pass-finalisation.cat-cpc.page.html',
   styleUrls: ['./../pass-finalisation.page.scss'],
-  standalone: false,
+  imports: [
+    IonHeader,
+    IonToolbar,
+    NgClass,
+    TestFlowHeaderComponent,
+    IonContent,
+    FormsModule,
+    ReactiveFormsModule,
+    IonGrid,
+    FinalisationHeaderComponent,
+    ApplicationReferenceComponent,
+    PassCertificateNumberComponent,
+    LanguagePreferencesComponent,
+    DebriefWitnessedComponent,
+    IonFooter,
+    IonRow,
+    IonCol,
+    IonButton,
+    IonText,
+    AsyncPipe,
+  ],
 })
 export class PassFinalisationCatCPCPage extends PassFinalisationPageComponent implements OnInit {
   form: UntypedFormGroup;

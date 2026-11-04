@@ -1,6 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { ComponentsModule } from '@components/common/common-components.module';
 import { TestSlot } from '@dvsa/mes-journal-schema';
 import { ModalController } from '@ionic/angular';
 import { OverlayEventDetail } from '@ionic/core';
@@ -17,8 +16,7 @@ describe('JournalForceCheckModal', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [JournalForceCheckModal],
-      imports: [ComponentsModule],
+      imports: [JournalForceCheckModal],
       providers: [{ provide: ModalController, useClass: ModalControllerMock }],
     });
 

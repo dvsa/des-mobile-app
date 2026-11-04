@@ -1,6 +1,6 @@
 import { SimpleChange } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { AppModule } from '@app/app.module';
+
 import { DataGridComponent } from '@components/common/data-grid/data-grid';
 
 describe('DataGridComponent', () => {
@@ -9,8 +9,7 @@ describe('DataGridComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [DataGridComponent],
-      imports: [AppModule],
+      imports: [DataGridComponent],
       providers: [],
     });
 

@@ -22,7 +22,7 @@ import {
 } from '@store/tests/test-data/common/serious-faults/serious-faults.actions';
 import { Competencies } from '@store/tests/test-data/test-data.constants';
 import { MockComponent } from 'ng-mocks';
-import { AppModule } from 'src/app/app.module';
+
 import { ToggleDangerousFaultMode, ToggleRemoveFaultMode, ToggleSeriousFaultMode } from '../../../test-report.actions';
 import { testReportReducer } from '../../../test-report.reducer';
 import { CompetencyButtonComponent } from '../../competency-button/competency-button';
@@ -35,16 +35,7 @@ describe('CompetencyComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        CompetencyComponent,
-        MockComponent(CompetencyButtonComponent),
-        MockComponent(DrivingFaultsBadgeComponent),
-        MockComponent(SeriousFaultBadgeComponent),
-        MockComponent(DangerousFaultBadgeComponent),
-      ],
       imports: [
-        AppModule,
-
         StoreModule.forRoot({
           journal: () => ({
             isLoading: false,
@@ -99,6 +90,11 @@ describe('CompetencyComponent', () => {
           }),
           testReport: testReportReducer,
         }),
+        CompetencyComponent,
+        MockComponent(CompetencyButtonComponent),
+        MockComponent(DrivingFaultsBadgeComponent),
+        MockComponent(SeriousFaultBadgeComponent),
+        MockComponent(DangerousFaultBadgeComponent),
       ],
       providers: [{ provide: DateTimeProvider, useClass: DateTimeProviderMock }],
     });

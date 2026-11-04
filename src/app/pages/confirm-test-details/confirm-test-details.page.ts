@@ -1,8 +1,31 @@
+import { AsyncPipe, DatePipe, NgClass } from '@angular/common';
 import { Component, Injector, OnInit } from '@angular/core';
+import { DataRowCustomComponent } from '@components/common/data-row-custom/data-row-custom';
+import { DataRowComponent } from '@components/common/data-row/data-row';
+import { TestFlowHeaderComponent } from '@components/common/test-flow-header/test-flow-header.component';
+import { TransmissionDisplayComponent } from '@components/common/transmission-display/transmission-display';
 import { LessonTheme } from '@dvsa/mes-test-schema/categories/ADI3';
 import { GearboxCategory } from '@dvsa/mes-test-schema/categories/common';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
-import { ModalController, NavController, ViewDidEnter, ViewDidLeave, ViewWillEnter } from '@ionic/angular';
+import {
+  IonButton,
+  IonCard,
+  IonCardContent,
+  IonCardHeader,
+  IonCol,
+  IonContent,
+  IonFooter,
+  IonGrid,
+  IonHeader,
+  IonRow,
+  IonText,
+  IonToolbar,
+  ModalController,
+  NavController,
+  ViewDidEnter,
+  ViewDidLeave,
+  ViewWillEnter,
+} from '@ionic/angular';
 import { select } from '@ngrx/store';
 import { ClearCandidateLicenceData } from '@pages/candidate-licence/candidate-licence.actions';
 import { ADI3AssessmentProvider } from '@providers/adi3-assessment/adi3-assessment';
@@ -92,7 +115,27 @@ enum D255 {
   selector: 'confirm-test-details-page',
   templateUrl: 'confirm-test-details.page.html',
   styleUrls: ['confirm-test-details.page.scss'],
-  standalone: false,
+  imports: [
+    IonHeader,
+    IonToolbar,
+    NgClass,
+    TestFlowHeaderComponent,
+    IonContent,
+    IonCard,
+    IonCardHeader,
+    IonCardContent,
+    IonGrid,
+    DataRowComponent,
+    TransmissionDisplayComponent,
+    DataRowCustomComponent,
+    IonFooter,
+    IonRow,
+    IonCol,
+    IonButton,
+    IonText,
+    AsyncPipe,
+    DatePipe,
+  ],
 })
 export class ConfirmTestDetailsPage
   extends PracticeableBasePageComponent

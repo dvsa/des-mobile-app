@@ -1,10 +1,11 @@
 import { Component, Input } from '@angular/core';
+import { IonCol, IonIcon, IonRow, IonText } from '@ionic/angular';
 
 @Component({
   selector: 'licence-data-error',
   templateUrl: 'licence-data-error.html',
   styleUrls: ['licence-data-error.scss'],
-  standalone: false,
+  imports: [IonRow, IonCol, IonText, IonIcon],
 })
 export class LicenceDataError {
   @Input()

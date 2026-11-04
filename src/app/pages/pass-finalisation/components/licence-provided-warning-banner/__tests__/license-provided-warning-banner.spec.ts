@@ -10,8 +10,7 @@ describe('LicenceProvidedWarningBannerComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [LicenceProvidedWarningBannerComponent, WarningBannerComponent],
-
+      imports: [LicenceProvidedWarningBannerComponent, WarningBannerComponent],
       providers: [LicenceProvidedWarningBannerComponent],
     });
 

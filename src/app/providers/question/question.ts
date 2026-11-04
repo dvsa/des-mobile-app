@@ -17,7 +17,9 @@ import tellMeQuestionsVocationalConstants from '@shared/constants/tell-me-questi
 import { SafetyQuestion } from './safety-question.model';
 import { VehicleChecksQuestion } from './vehicle-checks-question.model';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class QuestionProvider {
   getTellMeQuestions(testCategory: TestCategory): VehicleChecksQuestion[] {
     switch (testCategory) {

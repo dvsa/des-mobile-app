@@ -13,8 +13,7 @@ describe('LessonThemeComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [LessonThemeComponent, MockComponent(AssessmentAnswerComponent)],
-
+      imports: [LessonThemeComponent, MockComponent(AssessmentAnswerComponent)],
       providers: [{ provider: CharacterCountService, useClass: CharacterCountService }],
     });
 

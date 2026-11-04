@@ -1,5 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { Router } from '@angular/router';
+import { IonButton, IonCol, IonGrid, IonIcon, IonRow, IonText } from '@ionic/angular';
 import { Store } from '@ngrx/store';
 import {
   InvalidMotTerminate,
@@ -13,7 +14,7 @@ import { SetActivityCode } from '@store/tests/activity-code/activity-code.action
   selector: 'mot-no-evidence-confirmation',
   templateUrl: './mot-no-evidence-confirmation.html',
   styleUrls: ['./mot-no-evidence-confirmation.scss'],
-  standalone: false,
+  imports: [IonGrid, IonRow, IonCol, IonIcon, IonText, IonButton],
 })
 export class MotNoEvidenceConfirmationComponent {
   constructor(

@@ -12,8 +12,7 @@ describe('Adi3DebriefCard', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [Adi3DebriefCard, MockComponent(Adi3DebriefCardBox)],
-      imports: [CommonModule],
+      imports: [CommonModule, Adi3DebriefCard, MockComponent(Adi3DebriefCardBox)],
     });
 
     fixture = TestBed.createComponent(Adi3DebriefCard);

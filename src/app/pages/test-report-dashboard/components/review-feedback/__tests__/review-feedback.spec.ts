@@ -11,8 +11,7 @@ describe('ReviewFeedback', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [ReviewFeedback],
-
+      imports: [ReviewFeedback],
       providers: [{ provide: CharacterCountService, useClass: CharacterCountService }],
     });
 

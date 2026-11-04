@@ -1,7 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule, UntypedFormGroup } from '@angular/forms';
 import { By } from '@angular/platform-browser';
-import { AppModule } from '@app/app.module';
 
 import { IpadIssueComponent } from '../ipad-issue';
 
@@ -11,8 +10,7 @@ describe('IpadIssueComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [IpadIssueComponent],
-      imports: [AppModule, ReactiveFormsModule],
+      imports: [ReactiveFormsModule, IpadIssueComponent],
     });
 
     fixture = TestBed.createComponent(IpadIssueComponent);

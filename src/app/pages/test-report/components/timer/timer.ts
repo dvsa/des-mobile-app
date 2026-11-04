@@ -1,4 +1,6 @@
+import { NgClass } from '@angular/common';
 import { Component, OnDestroy } from '@angular/core';
+import { IonButton, IonText } from '@ionic/angular';
 import { Store } from '@ngrx/store';
 import { StoreModel } from '@shared/models/store.model';
 import { StartTimer } from '../../test-report.actions';
@@ -7,7 +9,7 @@ import { StartTimer } from '../../test-report.actions';
   selector: 'timer',
   templateUrl: 'timer.html',
   styleUrls: ['timer.scss'],
-  standalone: false,
+  imports: [IonButton, IonText, NgClass],
 })
 export class TimerComponent implements OnDestroy {
   showStartTimerButton: boolean;

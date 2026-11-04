@@ -1,8 +1,9 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { AppComponent } from '@app/app.component';
 import { VRNCaptureModal } from '@components/common/vrn-capture-modal/vrn-capture-modal';
-import { ModalController } from '@ionic/angular';
+import { AddOrRemoveLangCyDirective } from '@directives/add-or-remove-lang-cy.directive';
+import { IonButton, IonCol, IonRow, IonText, ModalController } from '@ionic/angular';
 import { Store } from '@ngrx/store';
+import { TranslatePipe } from '@ngx-translate/core';
 import { AccessibilityService } from '@providers/accessibility/accessibility.service';
 import { FieldValidators, getRegistrationNumberValidator } from '@shared/constants/field-validators/field-validators';
 import { StoreModel } from '@shared/models/store.model';
@@ -17,13 +18,12 @@ import { VehicleRegistrationChanged } from '@store/tests/vehicle-details/vehicle
   selector: 'candidate-section',
   templateUrl: './candidate-section.html',
   styleUrls: ['./candidate-section.scss'],
-  standalone: false,
+  imports: [IonRow, IonCol, IonText, IonButton, AddOrRemoveLangCyDirective, TranslatePipe],
 })
 export class CandidateSectionComponent {
   constructor(
     public modalController: ModalController,
     public store$: Store<StoreModel>,
-    public appComponent: AppComponent,
     public accessibilityService: AccessibilityService
   ) {}
 

@@ -13,8 +13,7 @@ describe('LicenceInformation', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [LicenceInformation],
-
+      imports: [LicenceInformation],
       providers: [{ provide: DomSanitizer, useClass: DomSanitizerMock }],
     });
 

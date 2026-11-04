@@ -9,8 +9,7 @@ describe('HealthDeclarationSignedComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [HealthDeclarationSignedComponent],
-      imports: [ReactiveFormsModule],
+      imports: [ReactiveFormsModule, HealthDeclarationSignedComponent],
     });
 
     fixture = TestBed.createComponent(HealthDeclarationSignedComponent);

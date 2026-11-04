@@ -37,7 +37,7 @@ describe('FakeJournalPage', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [
+      imports: [
         FakeJournalPage,
         MockComponent(PracticeModeOptionsBar),
         MockComponent(VehicleRecallsBanner),
@@ -47,7 +47,6 @@ describe('FakeJournalPage', () => {
         MockComponent(JournalNavigationComponent),
         MockComponent(PracticeModeExitButton),
       ],
-
       providers: [
         {
           provide: OrientationMonitorProvider,

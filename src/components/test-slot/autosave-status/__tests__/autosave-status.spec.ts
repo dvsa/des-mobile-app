@@ -7,7 +7,7 @@ describe('AutosaveStatusComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [AutosaveStatusComponent],
+      imports: [AutosaveStatusComponent],
     });
 
     fixture = TestBed.createComponent(AutosaveStatusComponent);

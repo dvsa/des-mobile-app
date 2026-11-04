@@ -27,14 +27,14 @@ describe('ToolbarComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [
+      imports: [
+        StoreModule.forRoot({ tests: testsReducer, testReport: testReportReducer }),
         ToolbarComponent,
         MockComponent(DrivingFaultSummaryComponent),
         MockComponent(SeriousTooltipComponent),
         MockComponent(DangerousTooltipComponent),
         MockComponent(TimerComponent),
       ],
-      imports: [StoreModule.forRoot({ tests: testsReducer, testReport: testReportReducer })],
       providers: [
         { provide: NavController, useClass: NavControllerMock },
         { provide: FaultCountProvider, useClass: FaultCountProvider },

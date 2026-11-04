@@ -1,10 +1,29 @@
+import { AsyncPipe, NgClass } from '@angular/common';
 import { Component, Injector, OnInit } from '@angular/core';
-import { UntypedFormGroup } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule, UntypedFormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
+import { ActivityCodeComponent } from '@components/common/activity-code/activity-code';
+import { TestFlowHeaderComponent } from '@components/common/test-flow-header/test-flow-header.component';
+import { WarningBannerComponent } from '@components/common/warning-banner/warning-banner';
+import { D255Component } from '@components/test-finalisation/d255/d255';
+import { DebriefWitnessedComponent } from '@components/test-finalisation/debrief-witnessed/debrief-witnessed';
+import { FinalisationHeaderComponent } from '@components/test-finalisation/finalisation-header/finalisation-header';
+import { LanguagePreferencesComponent } from '@components/test-finalisation/language-preference/language-preference';
 import { CatBUniqueTypes } from '@dvsa/mes-test-schema/categories/B';
 import { CategoryCode } from '@dvsa/mes-test-schema/categories/common';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
-import { ModalController } from '@ionic/angular';
+import {
+  IonButton,
+  IonCol,
+  IonContent,
+  IonFooter,
+  IonGrid,
+  IonHeader,
+  IonRow,
+  IonText,
+  IonToolbar,
+  ModalController,
+} from '@ionic/angular';
 import { select } from '@ngrx/store';
 import {
   NonPassFinalisationReportActivityCode,
@@ -68,6 +87,9 @@ import {
 } from '@store/tests/tests.selector';
 import { Observable, Subscription, merge } from 'rxjs';
 import { filter, map, withLatestFrom } from 'rxjs/operators';
+import { FurtherDevelopmentComponent } from '../pass-finalisation/cat-adi-part3/components/further-development/further-development.component';
+import { ReasonGivenComponent } from '../pass-finalisation/cat-adi-part3/components/reason-given/reason-given.component';
+import { TestStartEndTimesComponent } from '../pass-finalisation/cat-adi-part3/components/test-start-end-times/test-start-end-times';
 import { TestFinalisationInvalidTestDataModal } from '../test-report/components/test-finalisation-invalid-test-data-modal/test-finalisation-invalid-test-data-modal';
 
 interface NonPassFinalisationPageState {
@@ -104,7 +126,31 @@ interface NonPassFinalisationPageState {
   selector: 'app-non-pass-finalisation',
   templateUrl: './non-pass-finalisation.page.html',
   styleUrls: ['./non-pass-finalisation.page.scss'],
-  standalone: false,
+  imports: [
+    IonHeader,
+    IonToolbar,
+    NgClass,
+    TestFlowHeaderComponent,
+    IonContent,
+    FinalisationHeaderComponent,
+    FormsModule,
+    ReactiveFormsModule,
+    IonGrid,
+    ActivityCodeComponent,
+    D255Component,
+    WarningBannerComponent,
+    LanguagePreferencesComponent,
+    DebriefWitnessedComponent,
+    FurtherDevelopmentComponent,
+    ReasonGivenComponent,
+    TestStartEndTimesComponent,
+    IonFooter,
+    IonRow,
+    IonCol,
+    IonButton,
+    IonText,
+    AsyncPipe,
+  ],
 })
 export class NonPassFinalisationPage extends PracticeableBasePageComponent implements OnInit {
   pageState: NonPassFinalisationPageState;

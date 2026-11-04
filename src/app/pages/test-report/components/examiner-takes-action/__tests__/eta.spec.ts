@@ -31,8 +31,7 @@ describe('EtaComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [EtaComponent, MockComponent(CompetencyButtonComponent)],
-      imports: [StoreModule.forRoot({ tests: testsReducer })],
+      imports: [StoreModule.forRoot({ tests: testsReducer }), EtaComponent, MockComponent(CompetencyButtonComponent)],
       providers: [provideMockStore({ initialState })],
     });
 

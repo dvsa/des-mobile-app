@@ -1,6 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { AppModule } from '@app/app.module';
 import { mockEmptyAdditionalItems, mockPopulatedAdditionalItems } from '../__mocks__/additional-items.mock';
 import { AdditionalItemsComponent } from '../additional-items';
 
@@ -10,8 +9,7 @@ describe('AdditionalItemsComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [AdditionalItemsComponent],
-      imports: [AppModule],
+      imports: [AdditionalItemsComponent],
     });
 
     fixture = TestBed.createComponent(AdditionalItemsComponent);

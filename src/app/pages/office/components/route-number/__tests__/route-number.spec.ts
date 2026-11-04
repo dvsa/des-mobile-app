@@ -4,7 +4,6 @@ import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms
 import { behaviourMap } from '@pages/office/office-behaviour-map';
 import { OutcomeBehaviourMapProvider, VisibilityType } from '@providers/outcome-behaviour-map/outcome-behaviour-map';
 import { CircuitType } from '@shared/models/circuit-type';
-import { AppModule } from 'src/app/app.module';
 import { RouteNumberComponent } from '../route-number';
 
 describe('RouteNumberComponent', () => {
@@ -14,8 +13,7 @@ describe('RouteNumberComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [RouteNumberComponent],
-      imports: [AppModule],
+      imports: [RouteNumberComponent],
       providers: [{ provide: OutcomeBehaviourMapProvider, useClass: OutcomeBehaviourMapProvider }],
     });
 

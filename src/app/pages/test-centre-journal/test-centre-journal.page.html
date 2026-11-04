@@ -19,21 +19,21 @@
     </ion-col>
   </ion-row>
 
-  @if (didError) {
-    <error-message class="error" returnTo="{{errorMessage}}" [displayAsModal]="false"></error-message>
+  @if (didError()) {
+    <error-message class="error" returnTo="{{errorMessage()}}" [displayAsModal]="false"></error-message>
   } @else {
-    @if (isLDTM || testCentreResults) {
+    @if (isLDTM || testCentreResults()) {
       <div class="search-inputs">
         <tabs (tabChanged)="tabChanged($event?.title)">
           <tab [tabTitle]="'Candidate search'" id="candidate-search-tab">
             <candidate-search-card
               #candidateSearchCard
               [testCentreName]="testCentreNames"
-              [testCentreResults]="testCentreResults"
-              [manuallyRefreshed]="manuallyRefreshed"
+              [testCentreResults]="testCentreResults()"
+              [manuallyRefreshed]="manuallyRefreshed()"
               [testCentres]="pageState.activeTestCentres$ | async"
               [isLDTM]="isLDTM"
-              [selectedTestCentre]="testCentreSelected"
+              [selectedTestCentre]="testCentreSelected()"
               (testCentreChanged)="testCentreChange($event)"
             >
             </candidate-search-card>
@@ -42,11 +42,11 @@
             <view-journals-card
               #viewJournalsCard
               [testCentreName]="testCentreNames"
-              [manuallyRefreshed]="manuallyRefreshed"
-              [testCentreResults]="testCentreResults"
+              [manuallyRefreshed]="manuallyRefreshed()"
+              [testCentreResults]="testCentreResults()"
               [testCentres]="pageState.activeTestCentres$ | async"
               [isLDTM]="isLDTM"
-              [selectedTestCentre]="testCentreSelected"
+              [selectedTestCentre]="testCentreSelected()"
               (testCentreChanged)="testCentreChange($event)"
             >
             </view-journals-card>

@@ -14,7 +14,7 @@ import {
 } from '@store/tests/test-data/common/manoeuvres/manoeuvres.actions';
 import { ManoeuvreTypes } from '@store/tests/test-data/test-data.constants';
 import { MockComponent } from 'ng-mocks';
-import { AppModule } from 'src/app/app.module';
+
 import { testReportReducer } from '../../../test-report.reducer';
 import { CompetencyButtonComponent } from '../../competency-button/competency-button';
 import { ReverseLeftComponent } from '../reverse-left';
@@ -27,16 +27,7 @@ describe('ReverseLeftComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        ReverseLeftComponent,
-        MockComponent(TickIndicatorComponent),
-        MockComponent(DrivingFaultsBadgeComponent),
-        MockComponent(SeriousFaultBadgeComponent),
-        MockComponent(DangerousFaultBadgeComponent),
-        MockComponent(CompetencyButtonComponent),
-      ],
       imports: [
-        AppModule,
         StoreModule.forRoot({
           tests: () => ({
             currentTest: {
@@ -89,6 +80,12 @@ describe('ReverseLeftComponent', () => {
           }),
           testReport: testReportReducer,
         }),
+        ReverseLeftComponent,
+        MockComponent(TickIndicatorComponent),
+        MockComponent(DrivingFaultsBadgeComponent),
+        MockComponent(SeriousFaultBadgeComponent),
+        MockComponent(DangerousFaultBadgeComponent),
+        MockComponent(CompetencyButtonComponent),
       ],
       providers: [ManoeuvresByCategoryProvider],
     });

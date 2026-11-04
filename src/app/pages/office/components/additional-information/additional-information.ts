@@ -1,10 +1,13 @@
 import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
-import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule, UntypedFormControl, UntypedFormGroup } from '@angular/forms';
+import { EmojiBlockDirective } from '@directives/emoji-block.directive';
+import { PasteSanitiserDirective } from '@directives/paste-sanitiser';
+import { IonCol, IonRow } from '@ionic/angular';
 
 @Component({
   selector: 'additional-information',
   templateUrl: 'additional-information.html',
-  standalone: false,
+  imports: [IonRow, FormsModule, ReactiveFormsModule, IonCol, EmojiBlockDirective, PasteSanitiserDirective],
 })
 export class AdditionalInformationComponent implements OnChanges {
   @Input()

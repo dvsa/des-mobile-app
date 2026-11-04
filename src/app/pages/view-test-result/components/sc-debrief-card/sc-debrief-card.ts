@@ -1,10 +1,12 @@
+import { DatePipe } from '@angular/common';
 import { Component, Input } from '@angular/core';
+import { IonCard, IonCol, IonRow } from '@ionic/angular';
 
 @Component({
   selector: 'sc-debrief-card',
   templateUrl: 'sc-debrief-card.html',
   styleUrls: ['sc-debrief-card.scss'],
-  standalone: false,
+  imports: [IonRow, IonCol, IonCard, DatePipe],
 })
 export class ScDebriefCard {
   @Input()

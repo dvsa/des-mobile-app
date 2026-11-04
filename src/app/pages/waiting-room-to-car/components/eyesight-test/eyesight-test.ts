@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
-import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { IonCol, IonRow } from '@ionic/angular';
 
 enum EyesightTestResult {
   Pass = 'P',
@@ -9,7 +10,7 @@ enum EyesightTestResult {
 @Component({
   selector: 'eyesight-test',
   templateUrl: 'eyesight-test.html',
-  standalone: false,
+  imports: [IonRow, FormsModule, ReactiveFormsModule, IonCol],
 })
 export class EyesightTestComponent implements OnChanges {
   formControl: UntypedFormControl;

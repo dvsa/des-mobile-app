@@ -1,5 +1,9 @@
 import { Component, Input } from '@angular/core';
+import { DataRowCustomComponent } from '@components/common/data-row-custom/data-row-custom';
+import { DataRowComponent } from '@components/common/data-row/data-row';
+import { InappropriateUseBannerComponent } from '@components/common/inappropriate-use-banner/inappropriate-use-banner';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
+import { IonCard, IonCardContent, IonCardHeader, IonGrid, IonRow } from '@ionic/angular';
 import { get } from 'lodash-es';
 import { TestDetailsModel } from './test-details-card.model';
 
@@ -9,7 +13,16 @@ export type CandidateDetails = { prn: number; attemptNumber: number };
   selector: 'test-details-card',
   templateUrl: 'test-details-card.html',
   styleUrls: ['test-details-card.scss'],
-  standalone: false,
+  imports: [
+    IonCard,
+    IonCardHeader,
+    IonCardContent,
+    IonGrid,
+    IonRow,
+    InappropriateUseBannerComponent,
+    DataRowComponent,
+    DataRowCustomComponent,
+  ],
 })
 export class TestDetailsCardComponent {
   @Input()

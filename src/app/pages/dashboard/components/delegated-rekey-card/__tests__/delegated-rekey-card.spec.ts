@@ -12,8 +12,7 @@ describe('DelegatedSearchCardComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [DelegatedSearchCardComponent],
-
+      imports: [DelegatedSearchCardComponent],
       providers: [{ provide: Router, useClass: RouterMock }],
     });
 

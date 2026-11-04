@@ -8,12 +8,14 @@ import {
   TeachingLearningStrategies,
 } from '@dvsa/mes-test-schema/categories/ADI3';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
+import { IonCard, IonCol, IonGrid, IonRow } from '@ionic/angular';
+import { Adi3DebriefCardBox } from '../adi3-debrief-card-box/adi3-debrief-card-box';
 
 @Component({
   selector: 'adi3-debrief-card',
   templateUrl: 'adi3-debrief-card.html',
   styleUrls: ['adi3-debrief-card.scss'],
-  standalone: false,
+  imports: [IonGrid, IonCard, IonRow, IonCol, Adi3DebriefCardBox],
 })
 export class Adi3DebriefCard implements OnInit {
   @Input()

@@ -6,31 +6,28 @@ import { KeepAwake as Insomnia } from '@capacitor-community/keep-awake';
 import { ScreenOrientation } from '@capawesome/capacitor-screen-orientation';
 import { JournalData, TestResultCommonSchema, TestSlotAttributes } from '@dvsa/mes-test-schema/categories/common';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
-import { ModalController, Platform } from '@ionic/angular';
-import { PlatformMock, RouterMock } from '@mocks/index.mock';
+import { ModalController } from '@ionic/angular';
+
 import { Store, StoreModule } from '@ngrx/store';
-import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { TranslateService } from '@ngx-translate/core';
 import { MockComponent } from 'ng-mocks';
 import { Observable, Subscription } from 'rxjs';
 
-import { MockAppComponent } from '@app/__mocks__/app.component.mock';
-import { AppComponent } from '@app/app.component';
-import { AppModule } from '@app/app.module';
 import { CandidateSectionComponent } from '@components/common/candidate-section/candidate-section';
 import { EndTestLinkComponent } from '@components/common/end-test-link/end-test-link';
 import { PracticeModeOptionsBar } from '@components/common/practice-mode-options-bar/practice-mode-options-bar';
 import { LockScreenIndicator } from '@components/common/screen-lock-indicator/lock-screen-indicator';
 import { SignatureComponent } from '@components/common/signature/signature';
+import { provideBasePageMocks } from '@mocks/test-providers';
 import { provideMockStore } from '@ngrx/store/testing';
 import { GetCandidateLicenceData } from '@pages/candidate-licence/candidate-licence.actions';
 import { TestFlowPageNames } from '@pages/page-names.constants';
-import { AuthenticationProviderMock } from '@providers/authentication/__mocks__/authentication.mock';
-import { AuthenticationProvider } from '@providers/authentication/authentication';
+
 import { DateTimeProviderMock } from '@providers/date-time/__mocks__/date-time.mock';
 import { DateTimeProvider } from '@providers/date-time/date-time';
 import { DeviceAuthenticationProviderMock } from '@providers/device-authentication/__mocks__/device-authentication.mock';
 import { DeviceAuthenticationProvider } from '@providers/device-authentication/device-authentication';
-import { DeviceProviderMock } from '@providers/device/__mocks__/device.mock';
+
 import { DeviceProvider } from '@providers/device/device';
 import { BasePageComponent } from '@shared/classes/base-page';
 import { StoreModel } from '@shared/models/store.model';
@@ -130,23 +127,9 @@ describe('WaitingRoomPage', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      declarations: [
-        WaitingRoomPage,
-        MockComponent(PracticeModeOptionsBar),
-        MockComponent(EndTestLinkComponent),
-        MockComponent(LockScreenIndicator),
-        MockComponent(CandidateSectionComponent),
-        MockComponent(ConductedLanguageComponent),
-        MockComponent(InsuranceDeclarationComponent),
-        MockComponent(ResidencyDeclarationComponent),
-        MockComponent(SignatureComponent),
-        MockComponent(ManoeuvresPassCertificateComponent),
-        MockComponent(CBTNumberComponent),
-      ],
       imports: [
         RouterModule.forRoot([]),
-        AppModule,
-        TranslateModule,
+        StoreModule.forRoot({}),
         StoreModule.forFeature('tests', () => ({
           currentTest: {
             slotId: '123',
@@ -175,20 +158,20 @@ describe('WaitingRoomPage', () => {
             },
           },
         })),
+        WaitingRoomPage,
+        MockComponent(PracticeModeOptionsBar),
+        MockComponent(EndTestLinkComponent),
+        MockComponent(LockScreenIndicator),
+        MockComponent(CandidateSectionComponent),
+        MockComponent(ConductedLanguageComponent),
+        MockComponent(InsuranceDeclarationComponent),
+        MockComponent(ResidencyDeclarationComponent),
+        MockComponent(SignatureComponent),
+        MockComponent(ManoeuvresPassCertificateComponent),
+        MockComponent(CBTNumberComponent),
       ],
       providers: [
-        {
-          provide: Router,
-          useClass: RouterMock,
-        },
-        {
-          provide: Platform,
-          useClass: PlatformMock,
-        },
-        {
-          provide: AuthenticationProvider,
-          useClass: AuthenticationProviderMock,
-        },
+        provideBasePageMocks(),
         {
           provide: DeviceAuthenticationProvider,
           useClass: DeviceAuthenticationProviderMock,
@@ -196,14 +179,6 @@ describe('WaitingRoomPage', () => {
         {
           provide: DateTimeProvider,
           useClass: DateTimeProviderMock,
-        },
-        {
-          provide: DeviceProvider,
-          useClass: DeviceProviderMock,
-        },
-        {
-          provide: AppComponent,
-          useClass: MockAppComponent,
         },
         provideMockStore({ initialState }),
       ],
@@ -214,7 +189,7 @@ describe('WaitingRoomPage', () => {
     deviceProvider = TestBed.inject(DeviceProvider);
     deviceAuthenticationProvider = TestBed.inject(DeviceAuthenticationProvider);
     translate = TestBed.inject(TranslateService);
-    translate.setDefaultLang('en');
+    translate.setFallbackLang('en');
     store$ = TestBed.inject(Store);
     modalController = TestBed.inject(ModalController);
     router = TestBed.inject(Router);

@@ -40,7 +40,6 @@ import { AfterViewInit, Directive, ElementRef, EventEmitter, Input, Output } fro
     '(input)': 'onInput($event)',
     '(ionChange)': 'onIonChange($event)',
   },
-  standalone: false,
 })
 export class CharacterCountDirective implements AfterViewInit {
   @Input() charLimit: number = null;

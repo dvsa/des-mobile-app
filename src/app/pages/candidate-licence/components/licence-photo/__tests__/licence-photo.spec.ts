@@ -8,7 +8,7 @@ describe('LicencePhoto', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [LicencePhoto],
+      imports: [LicencePhoto],
     });
 
     fixture = TestBed.createComponent(LicencePhoto);

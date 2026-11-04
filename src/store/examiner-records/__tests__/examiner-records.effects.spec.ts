@@ -1,4 +1,5 @@
 import { TestBed } from '@angular/core/testing';
+import { provideBasePageMocks } from '@mocks/test-providers';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { Action, Store, StoreModule } from '@ngrx/store';
 import {
@@ -6,15 +7,17 @@ import {
   ColourFilterChanged,
   UpdateLastCached,
 } from '@pages/examiner-records/examiner-records.actions';
+import { ExaminerRecordsEffects } from '@pages/examiner-records/examiner-records.effects';
 import { DataStoreProviderMock } from '@providers/data-store/__mocks__/data-store.mock';
 import { DataStoreProvider } from '@providers/data-store/data-store';
 import { ColourEnum } from '@providers/examiner-records/examiner-records';
+import { SearchProviderMock } from '@providers/search/__mocks__/search.mock';
+import { SearchProvider } from '@providers/search/search';
 import { StoreModel } from '@shared/models/store.model';
 import {
   LoadExaminerRecordsFailure,
   LoadExaminerRecordsPreferences,
 } from '@store/examiner-records/examiner-records.actions';
-import { ExaminerRecordsEffects } from '@store/examiner-records/examiner-records.effects';
 import { ReplaySubject, of } from 'rxjs';
 
 describe('ExaminerRecordsStoreEffects', () => {
@@ -27,6 +30,8 @@ describe('ExaminerRecordsStoreEffects', () => {
     TestBed.configureTestingModule({
       imports: [StoreModule.forRoot({})],
       providers: [
+        provideBasePageMocks(),
+        { provide: SearchProvider, useClass: SearchProviderMock },
         ExaminerRecordsEffects,
         provideMockActions(() => actions$),
         { provide: DataStoreProvider, useClass: DataStoreProviderMock },

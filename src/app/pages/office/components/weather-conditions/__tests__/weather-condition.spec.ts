@@ -11,8 +11,7 @@ describe('WeatherConditionsComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [WeatherConditionsComponent],
-      imports: [ReactiveFormsModule],
+      imports: [ReactiveFormsModule, WeatherConditionsComponent],
       providers: [{ provide: OutcomeBehaviourMapProvider, useClass: OutcomeBehaviourMapProvider }],
     });
 

@@ -1,12 +1,14 @@
+import { NgClass } from '@angular/common';
 import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
-import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { GearboxCategory } from '@dvsa/mes-test-schema/categories/common';
+import { IonButton, IonCol, IonIcon, IonRow, IonText } from '@ionic/angular';
 
 @Component({
   selector: 'transmission',
   templateUrl: 'transmission.html',
   styleUrls: ['transmission.scss'],
-  standalone: false,
+  imports: [IonRow, FormsModule, ReactiveFormsModule, IonCol, IonText, IonIcon, IonButton, NgClass],
 })
 export class TransmissionComponent implements OnChanges {
   @Input()

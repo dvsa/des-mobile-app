@@ -1,7 +1,8 @@
+import { NgOptimizedImage } from '@angular/common';
 import { Component } from '@angular/core';
 import { Style } from '@capacitor/status-bar';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
-import { ModalController } from '@ionic/angular';
+import { IonButton, IonCol, IonGrid, IonRow, IonText, ModalController } from '@ionic/angular';
 import { Store } from '@ngrx/store';
 import { PracticeTestModal } from '@pages/dashboard/components/practice-test-modal/practice-test-modal';
 import { ModalEvent } from '@pages/dashboard/components/practice-test-modal/practice-test-modal.constants';
@@ -20,7 +21,7 @@ import { StartTestReportPracticeTest } from '@store/tests/tests.actions';
   selector: 'practice-test-report-card',
   templateUrl: 'practice-test-report-card.html',
   styleUrls: ['practice-test-report-card.scss'],
-  standalone: false,
+  imports: [IonButton, IonGrid, IonRow, IonCol, NgOptimizedImage, IonText],
 })
 export class PracticeTestReportCardComponent {
   slotId: string = testReportPracticeModeSlot.slotDetail.slotId;

@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
+import { ModalController } from '@ionic/angular';
+import { ModalControllerMock } from '@mocks/index.mock';
 
-import { AppModule } from '@app/app.module';
 import { DeviceProviderMock } from '@providers/device/__mocks__/device.mock';
 import { DeviceProvider } from '@providers/device/device';
 import { ExitSamBanner } from '../exit-sam-banner';
@@ -11,8 +12,11 @@ describe('ExitSamBanner', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [AppModule, ExitSamBanner],
-      providers: [{ provide: DeviceProvider, useClass: DeviceProviderMock }],
+      imports: [ExitSamBanner],
+      providers: [
+        { provide: DeviceProvider, useClass: DeviceProviderMock },
+        { provide: ModalController, useClass: ModalControllerMock },
+      ],
     });
 
     fixture = TestBed.createComponent(ExitSamBanner);

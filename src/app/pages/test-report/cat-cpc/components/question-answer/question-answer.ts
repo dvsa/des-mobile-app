@@ -1,11 +1,12 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Answer } from '@dvsa/mes-test-schema/categories/CPC';
+import { IonCol, IonRow } from '@ionic/angular';
 
 @Component({
   selector: 'question-answer',
   templateUrl: 'question-answer.html',
   styleUrls: ['question-answer.scss'],
-  standalone: false,
+  imports: [IonRow, IonCol],
 })
 export class QuestionAnswerComponent {
   @Input()

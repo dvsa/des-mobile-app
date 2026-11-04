@@ -1,9 +1,11 @@
 import { Component, Input } from '@angular/core';
+import { IonCol, IonRow } from '@ionic/angular';
+import { FormatIdPipe } from '@shared/pipes/format-id.pipe';
 
 @Component({
   selector: 'dimensions-card',
   templateUrl: 'dimensions.html',
-  standalone: false,
+  imports: [IonRow, IonCol, FormatIdPipe],
 })
 export class DimensionsComponent {
   @Input()

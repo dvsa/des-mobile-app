@@ -1,5 +1,9 @@
 import { HttpResponse } from '@angular/common/http';
-import { ChangeDetectorRef, Component, Injector, Input, OnInit } from '@angular/core';
+import { Component, Injector, Input, OnInit, signal } from '@angular/core';
+import { Adi3DebriefCard } from '@components/common/adi3-debrief-card/adi3-debrief-card';
+import { CPCDebriefCardComponent } from '@components/common/cpc-debrief-card/cpc-debrief-card';
+import { ErrorMessageComponent } from '@components/common/error-message/error-message';
+import { FitMarkerBannerComponent } from '@components/common/fit-marker-banner/fit-marker-banner';
 import { TestResultSchemasUnion } from '@dvsa/mes-test-schema/categories';
 import { CatADI2UniqueTypes } from '@dvsa/mes-test-schema/categories/ADI2';
 import {
@@ -10,7 +14,17 @@ import {
 import { CatBUniqueTypes } from '@dvsa/mes-test-schema/categories/B';
 import { TestResultCommonSchema } from '@dvsa/mes-test-schema/categories/common';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
-import { ModalController } from '@ionic/angular';
+import {
+  IonButton,
+  IonButtons,
+  IonContent,
+  IonHeader,
+  IonIcon,
+  IonLabel,
+  IonTitle,
+  IonToolbar,
+  ModalController,
+} from '@ionic/angular';
 import { getTestOutcome } from '@pages/debrief/debrief.selector';
 import { ExaminerDetailsModel } from '@pages/view-test-result/components/examiner-details-card/examiner-details-card.model';
 import { ViewTestHeaderModel } from '@pages/view-test-result/components/view-test-header/view-test-header.model';
@@ -37,13 +51,52 @@ import * as compareVersions from 'compare-versions';
 import { get } from 'lodash-es';
 import { Subscription, of } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
+import { ActivityCodeCard } from './components/activity-code-card/activity-code-card';
+import { BusinessDetailsCardComponent } from './components/business-details-card/business-details-card';
+import { ContactDetailsCardComponent } from './components/contact-details-card/contact-details-card';
+import { DebriefCardComponent } from './components/debrief-card/debrief-card';
+import { ExaminerDetailsCardComponent } from './components/examiner-details-card/examiner-details';
+import { RekeyDetailsCardComponent } from './components/rekey-details-card/rekey-details';
+import { RekeyReasonCardComponent } from './components/rekey-reason-card/rekey-reason';
+import { ScDebriefCard } from './components/sc-debrief-card/sc-debrief-card';
+import { TestDetailsCardComponent } from './components/test-details-card/test-details-card';
 import { TestDetailsModel } from './components/test-details-card/test-details-card.model';
+import { TestSummaryCardComponent } from './components/test-summary-card/test-summary-card';
+import { TrainerDetailsCardComponent } from './components/trainer-details-card/trainer-details-card';
+import { VehicleDetailsCardComponent } from './components/vehicle-details-card/vehicle-details-card';
+import { ViewTestHeaderComponent } from './components/view-test-header/view-test-header';
 
 @Component({
   selector: '.view-test-result',
   templateUrl: 'view-test-result.page.html',
   styleUrls: ['view-test-result.page.scss'],
-  standalone: false,
+  imports: [
+    IonHeader,
+    IonToolbar,
+    IonButtons,
+    IonButton,
+    IonIcon,
+    IonLabel,
+    IonTitle,
+    IonContent,
+    ErrorMessageComponent,
+    ViewTestHeaderComponent,
+    ActivityCodeCard,
+    TestDetailsCardComponent,
+    FitMarkerBannerComponent,
+    ContactDetailsCardComponent,
+    BusinessDetailsCardComponent,
+    RekeyDetailsCardComponent,
+    RekeyReasonCardComponent,
+    ExaminerDetailsCardComponent,
+    VehicleDetailsCardComponent,
+    TrainerDetailsCardComponent,
+    DebriefCardComponent,
+    CPCDebriefCardComponent,
+    Adi3DebriefCard,
+    ScDebriefCard,
+    TestSummaryCardComponent,
+  ],
 })
 export class ViewTestResultPage extends BasePageComponent implements OnInit {
   @Input()
@@ -52,14 +105,14 @@ export class ViewTestResultPage extends BasePageComponent implements OnInit {
   @Input()
   testCategory: TestCategory;
 
-  isLoading: boolean;
-  testResult: TestResultSchemasUnion;
+  readonly isLoading = signal(false);
+  readonly testResult = signal<TestResultSchemasUnion>(null);
   subscription: Subscription;
-  showErrorMessage = false;
-  errorLink: string;
-  additionalErrorText: boolean;
+  readonly showErrorMessage = signal(false);
+  readonly errorLink = signal<string>(null);
+  readonly additionalErrorText = signal(false);
   reEnterEmailSubscription: Subscription;
-  reEnterEmail: RegeneratedEmails = null;
+  readonly reEnterEmail = signal<RegeneratedEmails>(null);
   prnLabel: string;
 
   constructor(
@@ -69,7 +122,6 @@ export class ViewTestResultPage extends BasePageComponent implements OnInit {
     private loadingProvider: LoadingProvider,
     public faultCountProvider: FaultCountProvider,
     private faultSummaryProvider: FaultSummaryProvider,
-    private ref: ChangeDetectorRef,
     public adi3AssessmentProvider: ADI3AssessmentProvider,
     injector: Injector
   ) {
@@ -83,7 +135,7 @@ export class ViewTestResultPage extends BasePageComponent implements OnInit {
       .getRegeneratedEmails(formatBookingReferenceForBackend(this.applicationReference))
       .pipe(
         map((response) => this.compressionProvider.extract<RegeneratedEmails>(response)),
-        tap((data) => (this.reEnterEmail = data)),
+        tap((data) => this.reEnterEmail.set(data)),
         catchError(() => of(null))
       )
       .subscribe();
@@ -92,7 +144,7 @@ export class ViewTestResultPage extends BasePageComponent implements OnInit {
       .getTestResult(this.applicationReference, this.authenticationProvider.getEmployeeId())
       .pipe(
         map((response: HttpResponse<string>): string => response.body),
-        map((data) => (this.testResult = this.compressionProvider.extract<TestResultSchemasUnion>(data))),
+        map((data) => this.compressionProvider.extract<TestResultSchemasUnion>(data)),
         tap((data) => {
           //If there are previously searched reg numbers, filter out the current reg number and any duplicates
           if (data?.vehicleDetails?.previouslySearchedRegNumbers) {
@@ -103,6 +155,7 @@ export class ViewTestResultPage extends BasePageComponent implements OnInit {
           }
           return data;
         }),
+        tap((data) => this.testResult.set(data)),
         tap(async () => this.handleLoadingUI(false)),
         catchError(async (err) => {
           this.store$.dispatch(
@@ -114,9 +167,9 @@ export class ViewTestResultPage extends BasePageComponent implements OnInit {
               ),
             })
           );
-          this.errorLink = ErrorTypes.SEARCH_RESULT;
-          this.additionalErrorText = true;
-          this.showErrorMessage = true;
+          this.errorLink.set(ErrorTypes.SEARCH_RESULT);
+          this.additionalErrorText.set(true);
+          this.showErrorMessage.set(true);
           await this.handleLoadingUI(false);
           return of();
         })
@@ -137,87 +190,85 @@ export class ViewTestResultPage extends BasePageComponent implements OnInit {
     }
   }
 
-  public isADI3 = (): boolean => this.testResult.category === TestCategory.ADI3;
+  public isADI3 = (): boolean => this.testResult().category === TestCategory.ADI3;
 
   getReason() {
-    return get(this.testResult, 'testData.review.reasonForNoAdviceGiven');
+    return get(this.testResult(), 'testData.review.reasonForNoAdviceGiven');
   }
 
   get totalScore(): number {
     if (this.isCategoryADI3() || this.isCategorySC()) {
-      return this.adi3AssessmentProvider.getTotalAssessmentScore(this.testResult.testData as CatADI3TestData);
+      return this.adi3AssessmentProvider.getTotalAssessmentScore(this.testResult().testData as CatADI3TestData);
     }
     return null;
   }
 
   handleLoadingUI = async (isLoading: boolean): Promise<void> => {
-    this.isLoading = isLoading;
+    this.isLoading.set(isLoading);
 
     await this.loadingProvider.handleUILoading(isLoading, { spinner: 'circles' });
-
-    if (!isLoading) {
-      this.ref.detach();
-    }
   };
 
   getTestDetails(): TestDetailsModel {
-    if (!this.testResult) {
+    if (!this.testResult()) {
       return null;
     }
 
-    const startDate = DateTime.at(get(this.testResult, 'journalData.testSlotAttributes.start'));
+    const startDate = DateTime.at(get(this.testResult(), 'journalData.testSlotAttributes.start'));
 
     return {
       date: startDate.format('dddd Do MMMM YYYY'),
       time: startDate.format('HH:mm'),
-      applicationReference: getFormattedApplicationReference(get(this.testResult, 'journalData.applicationReference')),
-      category: get(this.testResult, 'category') as TestCategory,
-      specialNeeds: get(this.testResult, 'journalData.testSlotAttributes.specialNeedsArray'),
-      entitlementCheck: get(this.testResult, 'journalData.testSlotAttributes.entitlementCheck'),
-      slotType: get(this.testResult, 'journalData.testSlotAttributes.slotType'),
-      previousCancellations: get(this.testResult, 'journalData.testSlotAttributes.previousCancellation', []),
-      fullLicenceHeld: get(this.testResult, 'testData.vehicleChecks.fullLicenceHeld'),
-      manoeuvrePassCertificateNumber: get(this.testResult, 'preTestDeclarations.manoeuvrePassCertificateNumber'),
+      applicationReference: getFormattedApplicationReference(
+        get(this.testResult(), 'journalData.applicationReference')
+      ),
+      category: get(this.testResult(), 'category') as TestCategory,
+      specialNeeds: get(this.testResult(), 'journalData.testSlotAttributes.specialNeedsArray'),
+      entitlementCheck: get(this.testResult(), 'journalData.testSlotAttributes.entitlementCheck'),
+      slotType: get(this.testResult(), 'journalData.testSlotAttributes.slotType'),
+      previousCancellations: get(this.testResult(), 'journalData.testSlotAttributes.previousCancellation', []),
+      fullLicenceHeld: get(this.testResult(), 'testData.vehicleChecks.fullLicenceHeld'),
+      manoeuvrePassCertificateNumber: get(this.testResult(), 'preTestDeclarations.manoeuvrePassCertificateNumber'),
     };
   }
 
   getHeaderDetails(): ViewTestHeaderModel {
-    if (!this.testResult) {
+    if (!this.testResult()) {
       return null;
     }
 
     return {
-      candidateName: getCandidateName(get(this.testResult, 'journalData.candidate')),
-      candidateDriverNumber: get(this.testResult, 'journalData.candidate.driverNumber'),
-      activityCode: get(this.testResult, 'activityCode'),
-      testOutcome: getTestOutcomeText(this.testResult),
-      grade: get(this.testResult, 'testData.review.grade'),
+      candidateName: getCandidateName(get(this.testResult(), 'journalData.candidate')),
+      candidateDriverNumber: get(this.testResult(), 'journalData.candidate.driverNumber'),
+      activityCode: get(this.testResult(), 'activityCode'),
+      testOutcome: getTestOutcomeText(this.testResult()),
+      grade: get(this.testResult(), 'testData.review.grade'),
     };
   }
 
   getCandidateDetails(): { prn: number; attemptNumber: number } {
-    if (!this.testResult) {
+    if (!this.testResult()) {
       return null;
     }
 
     return {
-      prn: get(this.testResult, 'journalData.candidate.prn'),
-      attemptNumber: get(this.testResult, 'journalData.candidate.previousADITests'),
+      prn: get(this.testResult(), 'journalData.candidate.prn'),
+      attemptNumber: get(this.testResult(), 'journalData.candidate.previousADITests'),
     };
   }
 
   getVehicleDetails(): string[] {
-    if (!this.testResult || !isAnyOf(this.testCategory, [TestCategory.B, TestCategory.ADI2])) {
+    if (!this.testResult() || !isAnyOf(this.testCategory, [TestCategory.B, TestCategory.ADI2])) {
       return null;
     }
 
     const vehicleInformation: string[] = [];
 
-    if (get(this.testResult, 'vehicleDetails.dualControls')) {
+    if (get(this.testResult(), 'vehicleDetails.dualControls')) {
       vehicleInformation.push('Dual controls');
     }
 
-    if (get(this.testResult, 'vehicleDetails.schoolCar')) {
+    if (get(this.testResult(), 'vehicleDetails.schoolCar')) {
       vehicleInformation.push('School car');
     }
 
@@ -225,58 +276,58 @@ export class ViewTestResultPage extends BasePageComponent implements OnInit {
   }
 
   getExaminerDetails(): ExaminerDetailsModel {
-    if (!this.testResult) {
+    if (!this.testResult()) {
       return null;
     }
 
     return {
-      staffNumber: get(this.testResult, 'journalData.examiner.staffNumber'),
-      costCode: get(this.testResult, 'journalData.testCentre.costCode'),
-      testCentreName: get(this.testResult, 'journalData.testCentre.centreName'),
+      staffNumber: get(this.testResult(), 'journalData.examiner.staffNumber'),
+      costCode: get(this.testResult(), 'journalData.testCentre.costCode'),
+      testCentreName: get(this.testResult(), 'journalData.testCentre.centreName'),
     };
   }
 
   getTrainerData(): CatADI3TrainerDetails | CatADI2UniqueTypes.TrainerDetails {
-    if (!this.testResult) {
+    if (!this.testResult()) {
       return null;
     }
 
     return {
-      pdiLogbook: get(this.testResult, 'trainerDetails.pdiLogbook'),
-      traineeLicence: get(this.testResult, 'trainerDetails.traineeLicence'),
-      orditTrainedCandidate: get(this.testResult, 'trainerDetails.orditTrainedCandidate'),
-      trainingRecords: get(this.testResult, 'trainerDetails.trainingRecords'),
-      trainerRegistrationNumber: get(this.testResult, 'trainerDetails.trainerRegistrationNumber'),
+      pdiLogbook: get(this.testResult(), 'trainerDetails.pdiLogbook'),
+      traineeLicence: get(this.testResult(), 'trainerDetails.traineeLicence'),
+      orditTrainedCandidate: get(this.testResult(), 'trainerDetails.orditTrainedCandidate'),
+      trainingRecords: get(this.testResult(), 'trainerDetails.trainingRecords'),
+      trainerRegistrationNumber: get(this.testResult(), 'trainerDetails.trainerRegistrationNumber'),
     };
   }
 
   getReviewData(): CatADI3Review {
-    if (!this.testResult) {
+    if (!this.testResult()) {
       return null;
     }
 
     return {
-      feedback: get(this.testResult, 'testData.review.feedback'),
-      seekFurtherDevelopment: get(this.testResult, 'testData.review.seekFurtherDevelopment'),
+      feedback: get(this.testResult(), 'testData.review.feedback'),
+      seekFurtherDevelopment: get(this.testResult(), 'testData.review.seekFurtherDevelopment'),
     };
   }
 
   getInstructorData(): CatBUniqueTypes.InstructorDetails {
-    if (!this.testResult) {
+    if (!this.testResult()) {
       return null;
     }
 
     return {
-      registrationNumber: get(this.testResult, 'instructorDetails.registrationNumber'),
+      registrationNumber: get(this.testResult(), 'instructorDetails.registrationNumber'),
     };
   }
 
   getValidCertificate() {
-    if (!this.testResult || !this.isCategorySC()) {
+    if (!this.testResult() || !this.isCategorySC()) {
       return null;
     }
 
-    return get(this.testResult, 'preTestDeclarations.validCertificate') ? 'Yes' : 'No';
+    return get(this.testResult(), 'preTestDeclarations.validCertificate') ? 'Yes' : 'No';
   }
 
   isCategoryB = (): boolean => isAnyOf(this.testCategory, [TestCategory.B]);
@@ -362,19 +413,19 @@ export class ViewTestResultPage extends BasePageComponent implements OnInit {
     ]);
 
   getDrivingFaultSumCount(): number {
-    return this.faultCountProvider.getDrivingFaultSumCount(this.testCategory, this.testResult.testData);
+    return this.faultCountProvider.getDrivingFaultSumCount(this.testCategory, this.testResult().testData);
   }
 
   getDangerousFaults(): FaultSummary[] {
-    return this.faultSummaryProvider.getDangerousFaultsList(get(this.testResult, 'testData'), this.testCategory);
+    return this.faultSummaryProvider.getDangerousFaultsList(get(this.testResult(), 'testData'), this.testCategory);
   }
 
   getSeriousFaults(): FaultSummary[] {
-    return this.faultSummaryProvider.getSeriousFaultsList(get(this.testResult, 'testData'), this.testCategory);
+    return this.faultSummaryProvider.getSeriousFaultsList(get(this.testResult(), 'testData'), this.testCategory);
   }
 
   getDrivingFaults(): FaultSummary[] {
-    return this.faultSummaryProvider.getDrivingFaultsList(get(this.testResult, 'testData'), this.testCategory);
+    return this.faultSummaryProvider.getDrivingFaultsList(get(this.testResult(), 'testData'), this.testCategory);
   }
 
   async onClose(): Promise<void> {
@@ -382,11 +433,11 @@ export class ViewTestResultPage extends BasePageComponent implements OnInit {
   }
 
   didTestTerminate(): boolean {
-    return getTestOutcome(this.testResult as TestResultCommonSchema) === 'Terminated';
+    return getTestOutcome(this.testResult() as TestResultCommonSchema) === 'Terminated';
   }
 
   getPrnLabel(): string {
-    if (compareVersions.compare(get(this.testResult, 'appVersion'), '4.29.0.0', '<')) {
+    if (compareVersions.compare(get(this.testResult(), 'appVersion'), '4.29.0.0', '<')) {
       return "Trainer's PRN";
     }
     return this.isADI3() ? "Sponsor's PRN" : "Trainer's PRN";

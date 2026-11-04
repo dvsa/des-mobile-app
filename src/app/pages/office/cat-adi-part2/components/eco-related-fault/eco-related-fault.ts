@@ -1,11 +1,12 @@
 import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { IonCol, IonRow, IonSelect, IonSelectOption } from '@ionic/angular';
 import { FaultSummary } from '@shared/models/fault-marking.model';
 
 @Component({
   selector: 'eco-related-fault',
   templateUrl: 'eco-related-fault.html',
-  standalone: false,
+  imports: [IonRow, FormsModule, ReactiveFormsModule, IonCol, IonSelect, IonSelectOption],
 })
 export class EcoRelatedFaultComponent implements OnChanges {
   @Input()

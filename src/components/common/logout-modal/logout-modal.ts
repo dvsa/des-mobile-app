@@ -1,5 +1,6 @@
+import { AsyncPipe } from '@angular/common';
 import { Component, Input } from '@angular/core';
-import { ModalController } from '@ionic/angular';
+import { IonButton, IonCard, IonCol, IonRow, IonText, ModalController } from '@ionic/angular';
 import { Observable } from 'rxjs';
 
 export enum LogoutModalEvent {
@@ -11,7 +12,7 @@ export enum LogoutModalEvent {
   selector: 'logout-modal',
   templateUrl: './logout-modal.html',
   styleUrls: ['./logout-modal.scss'],
-  standalone: false,
+  imports: [IonCard, IonRow, IonCol, IonText, IonButton, AsyncPipe],
 })
 export class LogoutModal {
   constructor(public modalController: ModalController) {}

@@ -8,7 +8,7 @@ describe('CandidateDetailNavigationComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [CandidateDetailNavigationComponent],
+      imports: [CandidateDetailNavigationComponent],
     });
 
     fixture = TestBed.createComponent(CandidateDetailNavigationComponent);

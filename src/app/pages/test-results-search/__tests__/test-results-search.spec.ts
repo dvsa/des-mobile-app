@@ -1,29 +1,32 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { MockAppComponent } from '@app/__mocks__/app.component.mock';
-import { AppComponent } from '@app/app.component';
-import { AppModule } from '@app/app.module';
-import { ComponentsModule } from '@components/common/common-components.module';
+
+import { provideBasePageMocks } from '@mocks/test-providers';
+import { provideMockStore } from '@ngrx/store/testing';
+
 import { TestCentre } from '@dvsa/mes-journal-schema';
-import { ModalController, Platform } from '@ionic/angular';
-import { ModalControllerMock, PlatformMock } from '@mocks/index.mock';
+import { ModalController } from '@ionic/angular';
+
 import { AdvancedSearchComponent } from '@pages/test-results-search/components/advanced-search/advanced-search';
 import { SearchResultComponent } from '@pages/test-results-search/components/search-result/search-result';
 import { TestResultSearchViewDidEnter } from '@pages/test-results-search/test-results-search.actions';
-import { AppConfigProviderMock } from '@providers/app-config/__mocks__/app-config.mock';
+
 import { AppConfigProvider } from '@providers/app-config/app-config';
 import { AppConfig } from '@providers/app-config/app-config.model';
 import { ExaminerRole } from '@providers/app-config/constants/examiner-role.constants';
-import { AuthenticationProviderMock } from '@providers/authentication/__mocks__/authentication.mock';
+
+import { SearchResultTestSchema } from '@dvsa/mes-search-schema';
 import { AuthenticationProvider } from '@providers/authentication/authentication';
 import { NetworkStateProviderMock } from '@providers/network-state/__mocks__/network-state.mock';
 import { NetworkStateProvider } from '@providers/network-state/network-state';
 import { SearchProviderMock } from '@providers/search/__mocks__/search.mock';
 import { SearchProvider } from '@providers/search/search';
 import { MockComponent } from 'ng-mocks';
-import { Observable, Subscription } from 'rxjs';
-import { TestResultsSearchComponentsModule } from '../components/test-results-search-components.module';
+import { Observable, Subject, Subscription } from 'rxjs';
+
+import { AdvancedSearchComponent as AdvancedSearchComponent_1 } from '../components/advanced-search/advanced-search';
+import { SearchResultComponent as SearchResultComponent_1 } from '../components/search-result/search-result';
 import { TestResultsSearchPage } from '../test-results-search';
 
 enum SearchBy {
@@ -41,36 +44,19 @@ describe('TestResultsSearchPage', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      declarations: [
+      imports: [
+        SearchResultComponent_1,
+        AdvancedSearchComponent_1,
         TestResultsSearchPage,
         MockComponent(AdvancedSearchComponent),
         MockComponent(SearchResultComponent),
       ],
-      imports: [AppModule, TestResultsSearchComponentsModule, ComponentsModule],
       providers: [
-        {
-          provide: Platform,
-          useClass: PlatformMock,
-        },
-        {
-          provide: ModalController,
-          useClass: ModalControllerMock,
-        },
-        {
-          provide: AuthenticationProvider,
-          useClass: AuthenticationProviderMock,
-        },
+        provideBasePageMocks(),
+        provideMockStore({ initialState: { refData: { testCentres: { active: [], inactive: [] } } } }),
         {
           provide: SearchProvider,
           useClass: SearchProviderMock,
-        },
-        {
-          provide: AppConfigProvider,
-          useClass: AppConfigProviderMock,
-        },
-        {
-          provide: AppComponent,
-          useClass: MockAppComponent,
         },
         {
           provide: NetworkStateProvider,
@@ -87,6 +73,11 @@ describe('TestResultsSearchPage', () => {
   });
 
   describe('DOM', () => {
+    it('should keep initial bindings stable during change detection', () => {
+      fixture.detectChanges();
+      expect(() => fixture.checkNoChanges()).not.toThrow();
+    });
+
     describe('ionViewWillEnter', () => {
       it('should setup subscription if merged is present', () => {
         component.merged$ = new Observable<TestCentre[]>();
@@ -138,6 +129,30 @@ describe('TestResultsSearchPage', () => {
     });
 
     describe('searchTests', () => {
+      for (const searchBy of [SearchBy.ApplicationReference, SearchBy.DriverNumber]) {
+        it(`should refresh the spinner and results after an asynchronous ${searchBy} search`, async () => {
+          const results$ = new Subject<SearchResultTestSchema[]>();
+          spyOn(component.searchProvider, 'applicationReferenceSearch').and.returnValue(results$);
+          spyOn(component.searchProvider, 'driverNumberSearch').and.returnValue(results$);
+          component.searchBy = searchBy;
+          fixture.autoDetectChanges();
+          await fixture.whenStable();
+          component.candidateInfoChanged('12345678901');
+          fixture.detectChanges();
+          fixture.debugElement.query(By.css('#test-result-search-button')).triggerEventHandler('click');
+          await fixture.whenStable();
+          expect(fixture.debugElement.query(By.css('#search-spinner'))).not.toBeNull();
+
+          results$.next([]);
+          results$.complete();
+          await fixture.whenStable();
+
+          expect(fixture.debugElement.query(By.css('#search-spinner'))).toBeNull();
+          expect(fixture.debugElement.query(By.css('#test-result-search-no-results-message'))).not.toBeNull();
+          expect(() => fixture.checkNoChanges()).not.toThrow();
+        });
+      }
+
       it('should set define subscription using ApplicationReference', () => {
         component.searchBy = SearchBy.ApplicationReference;
         component.searchTests();
@@ -151,11 +166,69 @@ describe('TestResultsSearchPage', () => {
     });
 
     describe('advancedSearch', () => {
+      it('should refresh the spinner and results after an asynchronous advanced search', async () => {
+        const results$ = new Subject<SearchResultTestSchema[]>();
+        spyOn(component.searchProvider, 'advancedSearch').and.returnValue(results$);
+        fixture.autoDetectChanges();
+        await fixture.whenStable();
+        const advancedSearch = fixture.debugElement.query(By.directive(AdvancedSearchComponent));
+        advancedSearch.triggerEventHandler('onSearchTests', {});
+        await fixture.whenStable();
+        expect(advancedSearch.componentInstance.showSpinner).toBeTrue();
+
+        results$.next([]);
+        results$.complete();
+        await fixture.whenStable();
+
+        expect(advancedSearch.componentInstance.showSpinner).toBeFalse();
+        expect(fixture.debugElement.query(By.css('#test-result-search-no-results-message'))).not.toBeNull();
+        expect(() => fixture.checkNoChanges()).not.toThrow();
+      });
+
       it('should set define subscription', () => {
         component.advancedSearch({});
         expect(component.subscription).toBeDefined();
       });
     });
+
+    for (const searchType of ['applicationReferenceSearch', 'driverNumberSearch', 'advancedSearch'] as const) {
+      it(`should refresh the view when ${searchType} fails`, async () => {
+        const results$ = new Subject<SearchResultTestSchema[]>();
+        spyOn(component.searchProvider, searchType).and.returnValue(results$);
+        let finishErrorModal: () => void;
+        spyOn(component, 'showError').and.returnValue(
+          new Promise<void>((resolve) => {
+            finishErrorModal = resolve;
+          })
+        );
+        fixture.autoDetectChanges();
+        await fixture.whenStable();
+        component.hasSearched.set(true);
+        component.candidateInfoChanged('12345678901');
+        if (searchType === 'advancedSearch') {
+          component.advancedSearch({});
+        } else {
+          component.searchBy =
+            searchType === 'driverNumberSearch' ? SearchBy.DriverNumber : SearchBy.ApplicationReference;
+          component.searchTests();
+        }
+        fixture.detectChanges();
+
+        results$.error(new Error('Search failed'));
+        await fixture.whenStable();
+        expect(component.showError).toHaveBeenCalled();
+        expect(fixture.debugElement.query(By.css('#search-spinner'))).toBeNull();
+        const advancedSearch = fixture.debugElement.query(By.directive(AdvancedSearchComponent));
+        expect(advancedSearch.componentInstance.showSpinner).toBeFalsy();
+        expect(() => fixture.checkNoChanges()).not.toThrow();
+
+        finishErrorModal();
+        await Promise.resolve();
+        await fixture.whenStable();
+        expect(fixture.debugElement.query(By.css('#test-result-search-no-results-message'))).toBeNull();
+        expect(() => fixture.checkNoChanges()).not.toThrow();
+      });
+    }
 
     describe('setFocus', () => {
       it('should set focusedElement to the passed parameter', () => {

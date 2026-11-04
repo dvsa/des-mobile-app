@@ -1,10 +1,12 @@
+import { NgClass } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { IonCol, IonRow } from '@ionic/angular';
 
 @Component({
   selector: 'conducted-language',
   templateUrl: 'conducted-language.html',
   styleUrls: ['conducted-language.scss'],
-  standalone: false,
+  imports: [IonRow, IonCol, NgClass],
 })
 export class ConductedLanguageComponent {
   @Input()

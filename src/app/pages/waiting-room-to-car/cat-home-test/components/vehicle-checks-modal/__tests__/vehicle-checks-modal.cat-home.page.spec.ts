@@ -3,7 +3,6 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule, ReactiveFormsModule, UntypedFormGroup } from '@angular/forms';
 import { Style } from '@capacitor/status-bar';
-import { ComponentsModule } from '@components/common/common-components.module';
 import { CatFUniqueTypes } from '@dvsa/mes-test-schema/categories/F';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { ModalController } from '@ionic/angular';
@@ -11,7 +10,10 @@ import { ModalControllerMock } from '@mocks/ionic-mocks/modal-controller.mock';
 import { StoreModule } from '@ngrx/store';
 import { provideMockStore } from '@ngrx/store/testing';
 import { VehicleChecksCatHomeTestModal } from '@pages/waiting-room-to-car/cat-home-test/components/vehicle-checks-modal/vehicle-checks-modal.cat-home.page';
-import { WaitingRoomToCarComponentsModule } from '@pages/waiting-room-to-car/components/waiting-room-to-car.components.module';
+
+import { MotCardComponent } from '@pages/waiting-room-to-car/components/mot-components/mot-card/mot-card.component';
+import { MotNoEvidenceConfirmationComponent } from '@pages/waiting-room-to-car/components/mot-components/mot-no-evidence-confirmation/mot-no-evidence-confirmation';
+import { PracticeModeMOTModal } from '@pages/waiting-room-to-car/components/mot-components/practice-mode-mot-modal/practice-mode-mot-modal.component';
 import { AuthenticationProviderMock } from '@providers/authentication/__mocks__/authentication.mock';
 import { AuthenticationProvider } from '@providers/authentication/authentication';
 import { DateTimeProviderMock } from '@providers/date-time/__mocks__/date-time.mock';
@@ -31,6 +33,21 @@ import {
 import { TestsModel } from '@store/tests/tests.model';
 import { Subscription } from 'rxjs';
 import { take } from 'rxjs/operators';
+import { AccompanimentCardComponent } from '../../../../components/accompaniment-card/accompaniment-card';
+import { AccompanimentComponent } from '../../../../components/accompaniment/accompaniment';
+import { CandidateDeclarationSignedComponent } from '../../../../components/candidate-declaration/candidate-declaration';
+import { EyesightFailureConfirmationComponent } from '../../../../components/eyesight-failure-confirmation/eyesight-failure-confirmation';
+import { EyesightTestComponent } from '../../../../components/eyesight-test/eyesight-test';
+import { FullLicenceHeldComponent } from '../../../../components/full-licence-held-toggle/full-licence-held-toggle';
+import { AlternateMotEvidenceComponent } from '../../../../components/mot-components/alternate-mot-evidence/alternate-mot-evidence.component';
+import { MotFailedModal } from '../../../../components/mot-components/mot-failed-modal/mot-failed-modal.component';
+import { TestCategoryComponent } from '../../../../components/test-category/test-category';
+import { VehicleChecksToggleComponent } from '../../../../components/vehicle-checks-completed/vehicle-checks-completed';
+import { VehicleChecksQuestionComponent } from '../../../../components/vehicle-checks-question/vehicle-checks-question';
+import { VehicleChecksComponent } from '../../../../components/vehicle-checks/vehicle-checks';
+import { VehicleDetailsCardComponent } from '../../../../components/vehicle-details-card/vehicle-details-card';
+import { VehicleDetailsComponent } from '../../../../components/vehicle-details/vehicle-details';
+import { VehicleRegistrationComponent } from '../../../../components/vehicle-registration/vehicle-registration';
 
 describe('VehicleChecksCatHomeTestModal', () => {
   let component: VehicleChecksCatHomeTestModal;
@@ -79,15 +96,30 @@ describe('VehicleChecksCatHomeTestModal', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      declarations: [VehicleChecksCatHomeTestModal],
       imports: [
-        ComponentsModule,
-        WaitingRoomToCarComponentsModule,
-
+        EyesightTestComponent,
+        EyesightFailureConfirmationComponent,
+        VehicleRegistrationComponent,
+        AccompanimentCardComponent,
+        AccompanimentComponent,
+        VehicleDetailsCardComponent,
+        VehicleDetailsComponent,
+        VehicleChecksToggleComponent,
+        CandidateDeclarationSignedComponent,
+        FullLicenceHeldComponent,
+        TestCategoryComponent,
+        VehicleChecksComponent,
+        VehicleChecksQuestionComponent,
+        MotCardComponent,
+        MotFailedModal,
+        PracticeModeMOTModal,
+        AlternateMotEvidenceComponent,
+        MotNoEvidenceConfirmationComponent,
         CommonModule,
         ReactiveFormsModule,
         FormsModule,
         StoreModule,
+        VehicleChecksCatHomeTestModal,
       ],
       providers: [
         { provide: ModalController, useClass: ModalControllerMock },

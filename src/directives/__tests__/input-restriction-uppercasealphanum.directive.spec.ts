@@ -5,7 +5,7 @@ import { InputRestrictionUppercaseAlphanumDirective } from '../input-restriction
 
 @Component({
   template: '<input type="text" uppercaseAlphanumOnly>',
-  standalone: false,
+  imports: [InputRestrictionUppercaseAlphanumDirective],
 })
 class TestAlphaNumComponent {}
 
@@ -15,7 +15,7 @@ describe('Directive: InputRestrictionUppercaseAlphanumDirective', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [TestAlphaNumComponent, InputRestrictionUppercaseAlphanumDirective],
+      imports: [TestAlphaNumComponent, InputRestrictionUppercaseAlphanumDirective],
     });
     fixture = TestBed.createComponent(TestAlphaNumComponent);
   });

@@ -12,8 +12,7 @@ describe('TestResultsSearchCard ', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [TestResultsSearchCardComponent],
-
+      imports: [TestResultsSearchCardComponent],
       providers: [{ provide: Router, useClass: RouterMock }],
     });
 

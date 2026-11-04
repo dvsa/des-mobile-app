@@ -14,8 +14,7 @@ describe('MotCardComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [MotCardComponent],
-      imports: [IonIcon, IonText, StoreModule.forRoot()],
+      imports: [IonIcon, IonText, StoreModule.forRoot(), MotCardComponent],
       providers: [{ provide: NetworkStateProvider, useClass: NetworkStateProviderMock }, Store],
     }).compileComponents();
 

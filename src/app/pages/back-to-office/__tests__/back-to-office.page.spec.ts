@@ -3,18 +3,18 @@ import { By } from '@angular/platform-browser';
 import { PracticeModeOptionsBar } from '@components/common/practice-mode-options-bar/practice-mode-options-bar';
 import { TestFlowHeaderComponent } from '@components/common/test-flow-header/test-flow-header.component';
 import { ModalController } from '@ionic/angular';
-import { ModalControllerMock } from '@mocks/ionic-mocks/modal-controller.mock';
+
+import { provideBasePageMocks } from '@mocks/test-providers';
 import { Store } from '@ngrx/store';
 import { provideMockStore } from '@ngrx/store/testing';
 import { JOURNAL_PAGE } from '@pages/page-names.constants';
-import { DeviceProviderMock } from '@providers/device/__mocks__/device.mock';
-import { DeviceProvider } from '@providers/device/device';
+
 import { RouteByCategoryProviderMock } from '@providers/route-by-category/__mocks__/route-by-category.mock';
 import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
 import { BasePageComponent } from '@shared/classes/base-page';
 import { StoreModel } from '@shared/models/store.model';
 import { MockComponent } from 'ng-mocks';
-import { AppModule } from 'src/app/app.module';
+
 import { BackToOfficePage, NavigationTarget } from '../back-to-office.page';
 
 describe('BackToOfficePage', () => {
@@ -26,9 +26,9 @@ describe('BackToOfficePage', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [BackToOfficePage, MockComponent(PracticeModeOptionsBar)],
-      imports: [AppModule, MockComponent(TestFlowHeaderComponent)],
+      imports: [MockComponent(TestFlowHeaderComponent), BackToOfficePage, MockComponent(PracticeModeOptionsBar)],
       providers: [
+        provideBasePageMocks(),
         provideMockStore({
           initialState: {
             appInfo: { versionNumber: '' },
@@ -44,14 +44,6 @@ describe('BackToOfficePage', () => {
         {
           provide: RouteByCategoryProvider,
           useClass: RouteByCategoryProviderMock,
-        },
-        {
-          provide: DeviceProvider,
-          useClass: DeviceProviderMock,
-        },
-        {
-          provide: ModalController,
-          useClass: ModalControllerMock,
         },
       ],
     });

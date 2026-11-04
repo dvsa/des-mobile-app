@@ -1,10 +1,13 @@
 import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
-import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule, UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { Style } from '@capacitor/status-bar';
+import { DrivingFaultsBadgeComponent } from '@components/common/driving-faults-badge/driving-faults-badge';
+import { SeriousFaultBadgeComponent } from '@components/common/serious-fault-badge/serious-fault-badge';
+import { TickIndicatorComponent } from '@components/common/tick-indicator/tick-indicator';
 import { CatDUniqueTypes } from '@dvsa/mes-test-schema/categories/D';
 import { CategoryCode, QuestionResult } from '@dvsa/mes-test-schema/categories/common';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
-import { ModalController } from '@ionic/angular';
+import { IonButton, IonCol, IonIcon, IonRow, ModalController } from '@ionic/angular';
 import { VehicleChecksCatADIPart2Modal } from '@pages/waiting-room-to-car/cat-adi-part2/components/vehicle-checks-modal/vehicle-checks-modal.cat-adi-part2.page';
 import { VehicleChecksCatCModal } from '@pages/waiting-room-to-car/cat-c/components/vehicle-checks-modal/vehicle-checks-modal.cat-c.page';
 import { VehicleChecksCatDModal } from '@pages/waiting-room-to-car/cat-d/components/vehicle-checks-modal/vehicle-checks-modal.cat-d.page';
@@ -24,7 +27,17 @@ interface VehicleCheckFormState {
   selector: 'vehicle-checks-vocational',
   templateUrl: 'vehicle-checks.html',
   styleUrls: ['vehicle-checks.scss'],
-  standalone: false,
+  imports: [
+    IonRow,
+    FormsModule,
+    ReactiveFormsModule,
+    IonCol,
+    IonButton,
+    TickIndicatorComponent,
+    SeriousFaultBadgeComponent,
+    DrivingFaultsBadgeComponent,
+    IonIcon,
+  ],
 })
 export class VehicleChecksComponent implements OnChanges {
   @Input()

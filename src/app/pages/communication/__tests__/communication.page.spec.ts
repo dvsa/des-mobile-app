@@ -1,26 +1,23 @@
 import { ComponentFixture, TestBed, fakeAsync, tick, waitForAsync } from '@angular/core/testing';
-import { Platform } from '@ionic/angular';
-import { PlatformMock, RouterMock } from '@mocks/index.mock';
 
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
-import { Router, RouterModule } from '@angular/router';
+import { RouterModule } from '@angular/router';
 import { CandidateSectionComponent } from '@components/common/candidate-section/candidate-section';
 import { EndTestLinkComponent } from '@components/common/end-test-link/end-test-link';
 import { PracticeModeOptionsBar } from '@components/common/practice-mode-options-bar/practice-mode-options-bar';
 import { LockScreenIndicator } from '@components/common/screen-lock-indicator/lock-screen-indicator';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
+import { provideBasePageMocks } from '@mocks/test-providers';
 import { Store, StoreModule } from '@ngrx/store';
-import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { TranslateService } from '@ngx-translate/core';
 import { CommunicationSubmitInfo, CommunicationViewDidEnter } from '@pages/communication/communication.actions';
 import { CommunicationPage } from '@pages/communication/communication.page';
-import { AuthenticationProviderMock } from '@providers/authentication/__mocks__/authentication.mock';
-import { AuthenticationProvider } from '@providers/authentication/authentication';
+
 import { DeviceAuthenticationProviderMock } from '@providers/device-authentication/__mocks__/device-authentication.mock';
 import { DeviceAuthenticationProvider } from '@providers/device-authentication/device-authentication';
-import { DeviceProviderMock } from '@providers/device/__mocks__/device.mock';
-import { DeviceProvider } from '@providers/device/device';
+
 import { StoreModel } from '@shared/models/store.model';
 import { candidateMock } from '@store/tests/__mocks__/tests.mock';
 import * as communicationPreferencesActions from '@store/tests/communication-preferences/communication-preferences.actions';
@@ -28,7 +25,6 @@ import { ValidPassCertChanged } from '@store/tests/pre-test-declarations/pre-tes
 import { initialState as preTestDeclarationInitialState } from '@store/tests/pre-test-declarations/pre-test-declarations.reducer';
 import { MockComponent } from 'ng-mocks';
 import { Subscription } from 'rxjs';
-import { AppModule } from 'src/app/app.module';
 
 describe('CommunicationPage', () => {
   let fixture: ComponentFixture<CommunicationPage>;
@@ -39,18 +35,11 @@ describe('CommunicationPage', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      declarations: [
-        CommunicationPage,
-        MockComponent(PracticeModeOptionsBar),
-        MockComponent(EndTestLinkComponent),
-        MockComponent(LockScreenIndicator),
-        MockComponent(CandidateSectionComponent),
-      ],
       imports: [
         RouterModule.forRoot([]),
-        AppModule,
-        TranslateModule,
+
         ReactiveFormsModule,
+        StoreModule.forRoot({}),
         StoreModule.forFeature('tests', () => ({
           currentTest: {
             slotId: '123',
@@ -72,34 +61,24 @@ describe('CommunicationPage', () => {
                 },
               },
               communicationPreferences: {
-                updatedEmaill: 'test@mail.com',
+                updatedEmail: 'test@mail.com',
                 communicationMethod: 'Email',
                 conductedLanguage: 'English',
               },
             },
           },
         })),
+        CommunicationPage,
+        MockComponent(PracticeModeOptionsBar),
+        MockComponent(EndTestLinkComponent),
+        MockComponent(LockScreenIndicator),
+        MockComponent(CandidateSectionComponent),
       ],
       providers: [
-        {
-          provide: Platform,
-          useClass: PlatformMock,
-        },
-        {
-          provide: Router,
-          useClass: RouterMock,
-        },
-        {
-          provide: AuthenticationProvider,
-          useClass: AuthenticationProviderMock,
-        },
+        provideBasePageMocks(),
         {
           provide: DeviceAuthenticationProvider,
           useClass: DeviceAuthenticationProviderMock,
-        },
-        {
-          provide: DeviceProvider,
-          useClass: DeviceProviderMock,
         },
       ],
     });
@@ -107,7 +86,7 @@ describe('CommunicationPage', () => {
     fixture = TestBed.createComponent(CommunicationPage);
     component = fixture.componentInstance;
     translate = TestBed.inject(TranslateService);
-    translate.setDefaultLang('en');
+    translate.setFallbackLang('en');
     store$ = TestBed.inject(Store);
     spyOn(store$, 'dispatch');
     component.subscription = new Subscription();
@@ -122,6 +101,7 @@ describe('CommunicationPage', () => {
       it('should dispatch the SubmitCommunicationInfo action', fakeAsync(() => {
         const { form } = component;
         form.get('radioCtrl').setValue(true);
+        form.get('newEmailCtrl').setValue('test@mail.com');
         component.onSubmit();
         tick();
         expect(store$.dispatch).toHaveBeenCalledWith(CommunicationSubmitInfo());
@@ -129,6 +109,7 @@ describe('CommunicationPage', () => {
       it('form should only be valid whenever all form controls are initialised', () => {
         const { form } = component;
         form.get('radioCtrl').setValue(true);
+        form.get('newEmailCtrl').setValue('test@mail.com');
         expect(form.get('radioCtrl').status).toEqual('VALID');
         expect(form.valid).toEqual(true);
       });

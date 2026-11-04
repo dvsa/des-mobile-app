@@ -33,7 +33,8 @@ describe('VehicleCheckComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [
+      imports: [
+        StoreModule.forRoot({ tests: testsReducer, testReport: testReportReducer }),
         VehicleCheckComponent,
         MockComponent(TickIndicatorComponent),
         MockComponent(DrivingFaultsBadgeComponent),
@@ -41,7 +42,6 @@ describe('VehicleCheckComponent', () => {
         MockComponent(DangerousFaultBadgeComponent),
         MockComponent(CompetencyButtonComponent),
       ],
-      imports: [StoreModule.forRoot({ tests: testsReducer, testReport: testReportReducer })],
     });
 
     fixture = TestBed.createComponent(VehicleCheckComponent);

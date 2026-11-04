@@ -20,11 +20,12 @@ describe('SafetyQuestionsComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [SafetyQuestionsCatDComponent, MockComponent(DrivingFaultsBadgeComponent)],
       imports: [
         StoreModule.forRoot({
           tests: testsReducer,
         }),
+        SafetyQuestionsCatDComponent,
+        MockComponent(DrivingFaultsBadgeComponent),
       ],
       providers: [FaultCountProvider, TestDataByCategoryProvider],
     });
