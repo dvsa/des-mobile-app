@@ -1,4 +1,6 @@
 import { Routes } from '@angular/router';
+import type { CommunicationPage } from '@pages/communication/communication.page';
+import type { HealthDeclarationPage } from '@pages/health-declaration/health-declaration.page';
 import { NonPassFinalisationResolver } from '@pages/non-pass-finalisation/non-pass-finalisation.resolver';
 import {
   DASHBOARD_PAGE,
@@ -16,6 +18,7 @@ import {
   UNUPLOADED_TESTS_PAGE,
   USEFUL_LINKS_PAGE,
 } from '@pages/page-names.constants';
+import type { WaitingRoomPage } from '@pages/waiting-room/waiting-room.page';
 import { Office_Route } from './routing/office-route';
 import { Pass_Finalisation_Route } from './routing/pass-finalisation-route';
 import { Test_Report_Route } from './routing/test-report-route';
@@ -90,10 +93,15 @@ export const routes: Routes = [
   },
   {
     path: TestFlowPageNames.COMMUNICATION_PAGE,
+    canDeactivate: [
+      (component: CommunicationPage, _currentRoute, _currentState, nextState) =>
+        nextState.url.includes(TestFlowPageNames.CANDIDATE_LICENCE_PAGE) ? component.canDeActivate() : true,
+    ],
     loadComponent: () => import('./pages/communication/communication.page').then((m) => m.CommunicationPage),
   },
   {
     path: TestFlowPageNames.HEALTH_DECLARATION_PAGE,
+    canDeactivate: [(component: HealthDeclarationPage) => component.canDeActivate()],
     loadComponent: () =>
       import('./pages/health-declaration/health-declaration.page').then((m) => m.HealthDeclarationPage),
   },
@@ -128,6 +136,10 @@ export const routes: Routes = [
   },
   {
     path: TestFlowPageNames.WAITING_ROOM_PAGE,
+    canDeactivate: [
+      (component: WaitingRoomPage, _currentRoute, _currentState, nextState) =>
+        nextState.url.includes(JOURNAL_PAGE) ? component.canDeActivate() : true,
+    ],
     loadComponent: () => import('./pages/waiting-room/waiting-room.page').then((m) => m.WaitingRoomPage),
   },
   {

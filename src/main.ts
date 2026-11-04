@@ -1,4 +1,11 @@
-import { ErrorHandler, enableProdMode, importProvidersFrom, inject, provideAppInitializer } from '@angular/core';
+import {
+  ErrorHandler,
+  enableProdMode,
+  importProvidersFrom,
+  inject,
+  provideAppInitializer,
+  provideZoneChangeDetection,
+} from '@angular/core';
 import { BrowserModule, bootstrapApplication } from '@angular/platform-browser';
 
 import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
@@ -98,6 +105,7 @@ bootstrapApplication(AppComponent, {
       }),
       NgbModule
     ),
+    provideZoneChangeDetection(),
     provideRouter(routes, withPreloading(PreloadAllModules)),
     provideStore(reducers, { metaReducers }),
     ...(enableDevTools ? [provideStoreDevtools()] : []),
