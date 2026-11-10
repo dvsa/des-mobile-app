@@ -55,7 +55,7 @@
       "buffer": [
         "node_modules/buffer"
       ],
-      "capacitor-native-biometric": [
+      "@capgo/capacitor-native-biometric": [
         "mock/capacitor-native-biometric"
       ]
     }

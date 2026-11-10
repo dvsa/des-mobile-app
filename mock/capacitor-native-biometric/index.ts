@@ -4,7 +4,7 @@ import {
   GetCredentialOptions,
   IsAvailableOptions,
   SetCredentialOptions,
-} from 'capacitor-native-biometric/dist/esm/definitions';
+} from '@capgo/capacitor-native-biometric/dist/esm/definitions';
 
 export const NativeBiometric = {
   isAvailable: async (e?: IsAvailableOptions) => {
