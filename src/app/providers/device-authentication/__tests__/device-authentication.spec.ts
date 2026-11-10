@@ -1,4 +1,5 @@
 import { TestBed } from '@angular/core/testing';
+import { NativeBiometric } from '@capgo/capacitor-native-biometric';
 import { Platform } from '@ionic/angular';
 import { Store } from '@ngrx/store';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
@@ -9,7 +10,6 @@ import { LoadingProvider } from '@providers/loader/loader';
 import { LogHelper } from '@providers/logs/logs-helper';
 import { LogType } from '@shared/models/log.model';
 import { SaveLog } from '@store/logs/logs.actions';
-import { NativeBiometric } from '@capgo/capacitor-native-biometric';
 import { DeviceAuthenticationProvider } from '../device-authentication';
 
 describe('DeviceAuthenticationProvider', () => {
