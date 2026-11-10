@@ -61,6 +61,56 @@ const getFakeTests = () => {
     {
       booking: {
         application: {
+          applicationId: 1434532,
+          bookingSequence: 7,
+          checkDigit: 7,
+          entitlementCheck: false,
+          categoryEntitlementCheck: false,
+          extendedTest: false,
+          progressiveAccess: false,
+          testCategory: 'B',
+          vehicleGearbox: 'Manual',
+          welshTest: false,
+          specialNeedsCode: 'NONE',
+          specialNeedsExtendedTest: false,
+          meetingPlace: 'Near Sheffield',
+        },
+        candidate: {
+          candidateAddress: {
+            addressLine1: 'Mini Lane',
+            addressLine2: 'Italian Job',
+            addressLine3: 'Sheffield',
+            postcode: 'IS78 9CD',
+          },
+          candidateId: 157,
+          candidateName: {
+            firstName: 'Stiofán',
+            lastName: 'Homles',
+            title: 'Sir',
+          },
+          gender: 'M',
+          dateOfBirth: '1976-04-26',
+          driverNumber: '123456789',
+          primaryTelephone: '01234 567890',
+          emailAddress: 'stiofan@homles.com',
+        },
+      },
+      slotDetail: {
+        duration: 57,
+        slotId: `${end2endPracticeSlotId}_1`,
+        start: todayAtHour(6).add(35, 'minutes').format(),
+      },
+      testCentre: {
+        centreId: 54321,
+        centreName: 'Example Test Centre',
+        costCode: 'EXTC1',
+      },
+      vehicleSlotType: 'B57mins',
+      vehicleSlotTypeCode: 7,
+    },
+    {
+      booking: {
+        application: {
           applicationId: 1234572,
           bookingSequence: 1,
           checkDigit: 3,
@@ -104,7 +154,7 @@ const getFakeTests = () => {
       },
       slotDetail: {
         duration: 57,
-        slotId: `${end2endPracticeSlotId}_1`,
+        slotId: `${end2endPracticeSlotId}_2`,
         start: todayAtHour(6).add(55, 'minutes').format(),
       },
       testCentre: {
@@ -162,7 +212,7 @@ const getFakeTests = () => {
       },
       slotDetail: {
         duration: 57,
-        slotId: `${end2endPracticeSlotId}_2`,
+        slotId: `${end2endPracticeSlotId}_3`,
         start: todayAtHour(7).add(30, 'minutes').format(),
       },
       testCentre: {
@@ -221,7 +271,7 @@ const getFakeTests = () => {
       },
       slotDetail: {
         duration: 57,
-        slotId: `${end2endPracticeSlotId}_3`,
+        slotId: `${end2endPracticeSlotId}_4`,
         start: todayAtHour(8).add(10, 'minutes').format(),
       },
       testCentre: {
@@ -280,7 +330,7 @@ const getFakeTests = () => {
       },
       slotDetail: {
         duration: 57,
-        slotId: `${end2endPracticeSlotId}_4`,
+        slotId: `${end2endPracticeSlotId}_5`,
         start: todayAtHour(8).add(58, 'minutes').format(),
       },
       testCentre: {
@@ -340,7 +390,7 @@ const getFakeTests = () => {
       },
       slotDetail: {
         duration: 57,
-        slotId: `${end2endPracticeSlotId}_5`,
+        slotId: `${end2endPracticeSlotId}_6`,
         start: todayAtHour(9).add(45, 'minutes').format(),
       },
       testCentre: {
@@ -400,7 +450,7 @@ const getFakeTests = () => {
       },
       slotDetail: {
         duration: 57,
-        slotId: `${end2endPracticeSlotId}_6`,
+        slotId: `${end2endPracticeSlotId}_7`,
         start: todayAtHour(10).add(18, 'minutes').format(),
       },
       testCentre: {
@@ -459,7 +509,7 @@ const getFakeTests = () => {
       },
       slotDetail: {
         duration: 57,
-        slotId: `${end2endPracticeSlotId}_7`,
+        slotId: `${end2endPracticeSlotId}_8`,
         start: todayAtHour(10).add(59, 'minutes').format(),
       },
       testCentre: {
@@ -518,7 +568,7 @@ const getFakeTests = () => {
       },
       slotDetail: {
         duration: 57,
-        slotId: `${end2endPracticeSlotId}_8`,
+        slotId: `${end2endPracticeSlotId}_9`,
         start: todayAtHour(11).add(25, 'minutes').format(),
       },
       testCentre: {
@@ -577,7 +627,7 @@ const getFakeTests = () => {
       },
       slotDetail: {
         duration: 57,
-        slotId: `${end2endPracticeSlotId}_9`,
+        slotId: `${end2endPracticeSlotId}_10`,
         start: todayAtHour(11).add(55, 'minutes').format(),
       },
       testCentre: {
@@ -636,7 +686,7 @@ const getFakeTests = () => {
       },
       slotDetail: {
         duration: 57,
-        slotId: `${end2endPracticeSlotId}_10`,
+        slotId: `${end2endPracticeSlotId}_11`,
         start: todayAtHour(12).add(30, 'minutes').format(),
       },
       testCentre: {
@@ -695,7 +745,7 @@ const getFakeTests = () => {
       },
       slotDetail: {
         duration: 57,
-        slotId: `${end2endPracticeSlotId}_11`,
+        slotId: `${end2endPracticeSlotId}_12`,
         start: todayAtHour(13).add(5, 'minutes').format(),
       },
       testCentre: {
@@ -754,7 +804,7 @@ const getFakeTests = () => {
       },
       slotDetail: {
         duration: 57,
-        slotId: `${end2endPracticeSlotId}_12`,
+        slotId: `${end2endPracticeSlotId}_13`,
         start: todayAtHour(13).add(48, 'minutes').format(),
       },
       testCentre: {
@@ -812,7 +862,7 @@ const getFakeTests = () => {
       },
       slotDetail: {
         duration: 57,
-        slotId: `${end2endPracticeSlotId}_13`,
+        slotId: `${end2endPracticeSlotId}_14`,
         start: todayAtHour(14).add(40, 'minutes').format(),
       },
       testCentre: {
@@ -870,7 +920,7 @@ const getFakeTests = () => {
       },
       slotDetail: {
         duration: 57,
-        slotId: `${end2endPracticeSlotId}_14`,
+        slotId: `${end2endPracticeSlotId}_15`,
         start: todayAtHour(15).add(15, 'minutes').format(),
       },
       testCentre: {
@@ -928,7 +978,7 @@ const getFakeTests = () => {
       },
       slotDetail: {
         duration: 57,
-        slotId: `${end2endPracticeSlotId}_15`,
+        slotId: `${end2endPracticeSlotId}_16`,
         start: todayAtHour(16).add(0, 'minutes').format(),
       },
       testCentre: {
@@ -996,7 +1046,7 @@ const getFakeTests = () => {
       },
       slotDetail: {
         duration: 57,
-        slotId: `${end2endPracticeSlotId}_16`,
+        slotId: `${end2endPracticeSlotId}_17`,
         start: todayAtHour(16).add(42, 'minutes').format(),
       },
       testCentre: {
@@ -1044,7 +1094,7 @@ const getFakeTests = () => {
       },
       slotDetail: {
         duration: 57,
-        slotId: `${end2endPracticeSlotId}_17`,
+        slotId: `${end2endPracticeSlotId}_18`,
         start: todayAtHour(17).add(15, 'minutes').format(),
       },
       testCentre: {
@@ -1112,7 +1162,7 @@ const getFakeTests = () => {
       },
       slotDetail: {
         duration: 57,
-        slotId: `${end2endPracticeSlotId}_18`,
+        slotId: `${end2endPracticeSlotId}_19`,
         start: todayAtHour(17).add(50, 'minutes').format(),
       },
       testCentre: {
@@ -1177,7 +1227,7 @@ const getFakeTests = () => {
       },
       slotDetail: {
         duration: 57,
-        slotId: `${end2endPracticeSlotId}_19`,
+        slotId: `${end2endPracticeSlotId}_20`,
         start: todayAtHour(17).add(50, 'minutes').format(),
       },
       testCentre: {
@@ -1241,7 +1291,7 @@ const getFakeTests = () => {
       },
       slotDetail: {
         duration: 57,
-        slotId: `${end2endPracticeSlotId}_20`,
+        slotId: `${end2endPracticeSlotId}_21`,
         start: todayAtHour(18).add(15, 'minutes').format(),
       },
       testCentre: {
@@ -1305,7 +1355,7 @@ const getFakeTests = () => {
       },
       slotDetail: {
         duration: 57,
-        slotId: `${end2endPracticeSlotId}_21`,
+        slotId: `${end2endPracticeSlotId}_22`,
         start: todayAtHour(18).add(33, 'minutes').format(),
       },
       testCentre: {
@@ -1369,7 +1419,7 @@ const getFakeTests = () => {
       },
       slotDetail: {
         duration: 57,
-        slotId: `${end2endPracticeSlotId}_22`,
+        slotId: `${end2endPracticeSlotId}_23`,
         start: todayAtHour(18).add(58, 'minutes').format(),
       },
       testCentre: {
@@ -1437,7 +1487,7 @@ const getFakeTests = () => {
       },
       slotDetail: {
         duration: 57,
-        slotId: `${end2endPracticeSlotId}_23`,
+        slotId: `${end2endPracticeSlotId}_24`,
         start: todayAtHour(17).add(20, 'minutes').format(),
       },
       testCentre: {
@@ -1504,7 +1554,7 @@ const getFakeTests = () => {
       },
       slotDetail: {
         duration: 57,
-        slotId: `${end2endPracticeSlotId}_24`,
+        slotId: `${end2endPracticeSlotId}_25`,
         start: todayAtHour(18).add(55, 'minutes').format(),
       },
       testCentre: {
@@ -1571,7 +1621,7 @@ const getFakeTests = () => {
       },
       slotDetail: {
         duration: 57,
-        slotId: `${end2endPracticeSlotId}_25`,
+        slotId: `${end2endPracticeSlotId}_26`,
         start: todayAtHour(18).add(25, 'minutes').format(),
       },
       testCentre: {
@@ -1638,7 +1688,7 @@ const getFakeTests = () => {
       },
       slotDetail: {
         duration: 57,
-        slotId: `${end2endPracticeSlotId}_26`,
+        slotId: `${end2endPracticeSlotId}_27`,
         start: todayAtHour(19).add(6, 'minutes').format(),
       },
       testCentre: {
@@ -1689,7 +1739,7 @@ const getFakeTests = () => {
       },
       slotDetail: {
         duration: 57,
-        slotId: `${end2endPracticeSlotId}_27`,
+        slotId: `${end2endPracticeSlotId}_28`,
         start: todayAtHour(19).add(45, 'minutes').format(),
       },
       testCentre: {
@@ -1753,7 +1803,7 @@ const getFakeTests = () => {
       },
       slotDetail: {
         duration: 57,
-        slotId: `${end2endPracticeSlotId}_28`,
+        slotId: `${end2endPracticeSlotId}_29`,
         start: todayAtHour(20).add(15, 'minutes').format(),
       },
       testCentre: {
@@ -1817,7 +1867,7 @@ const getFakeTests = () => {
       },
       slotDetail: {
         duration: 57,
-        slotId: `${end2endPracticeSlotId}_29`,
+        slotId: `${end2endPracticeSlotId}_30`,
         start: todayAtHour(20).add(45, 'minutes').format(),
       },
       testCentre: {
@@ -1881,7 +1931,7 @@ const getFakeTests = () => {
       },
       slotDetail: {
         duration: 57,
-        slotId: `${end2endPracticeSlotId}_30`,
+        slotId: `${end2endPracticeSlotId}_31`,
         start: todayAtHour(21).add(10, 'minutes').format(),
       },
       testCentre: {
@@ -1945,7 +1995,7 @@ const getFakeTests = () => {
       },
       slotDetail: {
         duration: 57,
-        slotId: `${end2endPracticeSlotId}_31`,
+        slotId: `${end2endPracticeSlotId}_32`,
         start: todayAtHour(21).add(45, 'minutes').format(),
       },
       testCentre: {
@@ -1997,7 +2047,7 @@ const getFakeTests = () => {
       },
       slotDetail: {
         duration: 57,
-        slotId: `${end2endPracticeSlotId}_32`,
+        slotId: `${end2endPracticeSlotId}_33`,
         start: todayAtHour(22).add(15, 'minutes').format(),
       },
       testCentre: {
@@ -2049,7 +2099,7 @@ const getFakeTests = () => {
       },
       slotDetail: {
         duration: 57,
-        slotId: `${end2endPracticeSlotId}_33`,
+        slotId: `${end2endPracticeSlotId}_34`,
         start: todayAtHour(22).add(35, 'minutes').format(),
       },
       testCentre: {
@@ -2108,7 +2158,7 @@ const getFakeTests = () => {
       },
       slotDetail: {
         duration: 57,
-        slotId: `${end2endPracticeSlotId}_39`,
+        slotId: `${end2endPracticeSlotId}_35`,
         start: todayAtHour(22).add(50, 'minutes').format(),
       },
       testCentre: {
