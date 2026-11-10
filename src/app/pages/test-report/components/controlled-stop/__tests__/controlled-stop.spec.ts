@@ -28,7 +28,14 @@ describe('ControlledStopComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [
+      providers: [
+        {
+          provide: TestDataByCategoryProvider,
+          useClass: TestDataByCategoryProviderMock,
+        },
+      ],
+      imports: [
+        StoreModule.forRoot({ tests: testsReducer, testReport: testReportReducer }),
         ControlledStopComponent,
         MockComponent(TickIndicatorComponent),
         MockComponent(DrivingFaultsBadgeComponent),
@@ -36,13 +43,6 @@ describe('ControlledStopComponent', () => {
         MockComponent(DangerousFaultBadgeComponent),
         MockComponent(CompetencyButtonComponent),
       ],
-      providers: [
-        {
-          provide: TestDataByCategoryProvider,
-          useClass: TestDataByCategoryProviderMock,
-        },
-      ],
-      imports: [StoreModule.forRoot({ tests: testsReducer, testReport: testReportReducer })],
     });
 
     fixture = TestBed.createComponent(ControlledStopComponent);

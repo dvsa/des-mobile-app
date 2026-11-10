@@ -1,6 +1,22 @@
+import { AsyncPipe, NgClass } from '@angular/common';
 import { Component, Injector } from '@angular/core';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ActivityCodeComponent } from '@components/common/activity-code/activity-code';
+import { TestFlowHeaderComponent } from '@components/common/test-flow-header/test-flow-header.component';
 import { ETA } from '@dvsa/mes-test-schema/categories/common';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
+import {
+  IonCard,
+  IonCardContent,
+  IonCardHeader,
+  IonCol,
+  IonContent,
+  IonFooter,
+  IonGrid,
+  IonHeader,
+  IonRow,
+  IonToolbar,
+} from '@ionic/angular';
 import { select } from '@ngrx/store';
 import { QuestionProvider } from '@providers/question/question';
 import { VehicleChecksQuestion } from '@providers/question/vehicle-checks-question.model';
@@ -39,6 +55,26 @@ import { getCurrentTest, getTestOutcome } from '@store/tests/tests.selector';
 import { startsWith } from 'lodash-es';
 import { Observable } from 'rxjs';
 import { map, withLatestFrom } from 'rxjs/operators';
+import { AccompanimentCardComponent } from '../../waiting-room-to-car/components/accompaniment-card/accompaniment-card';
+import { VehicleDetailsCardComponent } from '../../waiting-room-to-car/components/vehicle-details-card/vehicle-details-card';
+import { AdditionalInformationComponent } from '../components/additional-information/additional-information';
+import { AlternateEvidenceDescriptionComponent } from '../components/alternate-mot-evidence-description/alternate-evidence-description.component';
+import { AlternateEvidenceProvidedComponent } from '../components/alternate-mot-evidence-provided/alternate-evidence-provided.component';
+import { CandidateDescriptionComponent } from '../components/candidate-description/candidate-description';
+import { CandidateSectionComponent } from '../components/candidate-section/candidate-section';
+import { DateOfTest } from '../components/date-of-test/date-of-test';
+import { DrivingFaultsComponent } from '../components/driving-faults/driving-faults.component';
+import { ECOCardComponent } from '../components/eco-card/eco-card.component';
+import { ETACardComponent } from '../components/eta-card/eta-card.component';
+import { FaultCommentCardComponent } from '../components/fault-comment-card/fault-comment-card';
+import { IdentificationComponent } from '../components/identification/identification';
+import { OfficeFooterComponent } from '../components/office-footer/office-footer.component';
+import { OfficeRegistrationAndMotComponent } from '../components/office-registration-and-mot/office-registration-and-mot.component';
+import { ReasonForEnteringTeamsComponent } from '../components/reason-for-entering-teams/reason-for-entering-teams';
+import { RouteNumberComponent } from '../components/route-number/route-number';
+import { ShowMeQuestionComponent } from '../components/show-me-question/show-me-question';
+import { TrueLikenessComponent } from '../components/true-likeness/true-likeness';
+import { WeatherConditionsComponent } from '../components/weather-conditions/weather-conditions';
 import { behaviourMap } from '../office-behaviour-map';
 
 interface CatBOfficePageState {
@@ -58,7 +94,44 @@ type OfficePageState = CommonOfficePageState & CatBOfficePageState;
   selector: '.office-cat-b-page',
   templateUrl: 'office.cat-b.page.html',
   styleUrls: ['../office.page.scss'],
-  standalone: false,
+  imports: [
+    IonHeader,
+    IonToolbar,
+    NgClass,
+    TestFlowHeaderComponent,
+    IonContent,
+    CandidateSectionComponent,
+    FormsModule,
+    ReactiveFormsModule,
+    IonCard,
+    IonCardHeader,
+    IonCardContent,
+    IonGrid,
+    DateOfTest,
+    ActivityCodeComponent,
+    RouteNumberComponent,
+    TrueLikenessComponent,
+    CandidateDescriptionComponent,
+    IdentificationComponent,
+    IonRow,
+    IonCol,
+    ShowMeQuestionComponent,
+    WeatherConditionsComponent,
+    AccompanimentCardComponent,
+    VehicleDetailsCardComponent,
+    OfficeRegistrationAndMotComponent,
+    AlternateEvidenceProvidedComponent,
+    AlternateEvidenceDescriptionComponent,
+    AdditionalInformationComponent,
+    ReasonForEnteringTeamsComponent,
+    ETACardComponent,
+    ECOCardComponent,
+    FaultCommentCardComponent,
+    DrivingFaultsComponent,
+    IonFooter,
+    OfficeFooterComponent,
+    AsyncPipe,
+  ],
 })
 export class OfficeCatBPage extends OfficeBasePageComponent {
   pageState: OfficePageState;

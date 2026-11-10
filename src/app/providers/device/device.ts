@@ -12,7 +12,9 @@ import { AppConfigProvider } from '../app-config/app-config';
 import { ExaminerRole } from '../app-config/constants/examiner-role.constants';
 import { LogHelper } from '../logs/logs-helper';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class DeviceProvider {
   private enableASAMRetryLimit = 4;
   private enableASAMRetryInternal = 750;

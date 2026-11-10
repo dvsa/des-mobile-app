@@ -1,7 +1,15 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { AbstractControl, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
-import { AppComponent } from '@app/app.component';
-import { ModalController } from '@ionic/angular';
+import {
+  AbstractControl,
+  FormsModule,
+  ReactiveFormsModule,
+  UntypedFormControl,
+  UntypedFormGroup,
+  Validators,
+} from '@angular/forms';
+import { EmojiBlockDirective } from '@directives/emoji-block.directive';
+import { PasteSanitiserDirective } from '@directives/paste-sanitiser';
+import { IonButton, IonCard, IonCol, IonInput, IonRow, IonText, ModalController } from '@ionic/angular';
 import { Store, select } from '@ngrx/store';
 import {
   FieldValidators,
@@ -24,7 +32,18 @@ interface ComponentState {
   selector: 'vrn-capture-modal',
   templateUrl: './vrn-capture-modal.html',
   styleUrls: ['./vrn-capture-modal.scss'],
-  standalone: false,
+  imports: [
+    IonCard,
+    FormsModule,
+    ReactiveFormsModule,
+    IonRow,
+    IonCol,
+    IonText,
+    IonInput,
+    EmojiBlockDirective,
+    PasteSanitiserDirective,
+    IonButton,
+  ],
 })
 export class VRNCaptureModal implements OnInit {
   @Input()
@@ -41,8 +60,7 @@ export class VRNCaptureModal implements OnInit {
 
   constructor(
     public modalController: ModalController,
-    private store$: Store<StoreModel>,
-    public appComponent: AppComponent
+    private store$: Store<StoreModel>
   ) {
     this.formGroup = new UntypedFormGroup({});
     this.formGroup.addControl(

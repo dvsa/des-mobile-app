@@ -1,6 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { UntypedFormGroup } from '@angular/forms';
-import { AppModule } from '@app/app.module';
 
 import { MockComponent } from 'ng-mocks';
 import { QuestionTitleComponent } from '../../question-title/question-title';
@@ -12,8 +11,7 @@ describe('QuestionDelExRadioCardComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [QuestionDelExRadioCardComponent, MockComponent(QuestionTitleComponent)],
-      imports: [AppModule],
+      imports: [QuestionDelExRadioCardComponent, MockComponent(QuestionTitleComponent)],
     });
 
     fixture = TestBed.createComponent(QuestionDelExRadioCardComponent);

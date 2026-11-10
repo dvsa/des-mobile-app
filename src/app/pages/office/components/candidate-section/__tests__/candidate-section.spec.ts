@@ -2,7 +2,6 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ReactiveFormsModule } from '@angular/forms';
 import { TestOutcome } from '@store/tests/tests.constants';
-import { AppModule } from 'src/app/app.module';
 import { CandidateSectionComponent } from '../candidate-section';
 
 describe('CandidateSectionComponent', () => {
@@ -11,8 +10,7 @@ describe('CandidateSectionComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [CandidateSectionComponent],
-      imports: [AppModule, ReactiveFormsModule],
+      imports: [ReactiveFormsModule, CandidateSectionComponent],
     });
 
     fixture = TestBed.createComponent(CandidateSectionComponent);

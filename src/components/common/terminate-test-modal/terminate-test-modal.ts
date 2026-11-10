@@ -1,11 +1,12 @@
 import { Component, Input } from '@angular/core';
+import { IonButton, IonCard, IonCol, IonIcon, IonRow, IonText } from '@ionic/angular';
 import { DeviceAuthenticationProvider } from '@providers/device-authentication/device-authentication';
 
 @Component({
   selector: 'terminate-test-modal',
   templateUrl: './terminate-test-modal.html',
   styleUrls: ['./terminate-test-modal.scss'],
-  standalone: false,
+  imports: [IonCard, IonRow, IonCol, IonIcon, IonText, IonButton],
 })
 export class TerminateTestModal {
   @Input()

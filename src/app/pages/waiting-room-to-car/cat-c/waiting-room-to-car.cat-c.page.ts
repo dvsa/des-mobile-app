@@ -1,7 +1,22 @@
+import { AsyncPipe, NgClass } from '@angular/common';
 import { Component, Injector, OnInit } from '@angular/core';
-import { UntypedFormGroup } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule, UntypedFormGroup } from '@angular/forms';
+import { OfflineBannerComponent } from '@components/common/offline-banner/offline-banner';
+import { TestFlowHeaderComponent } from '@components/common/test-flow-header/test-flow-header.component';
+import { WarningBannerComponent } from '@components/common/warning-banner/warning-banner';
 import { CatCUniqueTypes } from '@dvsa/mes-test-schema/categories/C';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
+import {
+  IonButton,
+  IonCol,
+  IonContent,
+  IonFooter,
+  IonGrid,
+  IonHeader,
+  IonRow,
+  IonText,
+  IonToolbar,
+} from '@ionic/angular';
 import { select } from '@ngrx/store';
 import { ClearCandidateLicenceData } from '@pages/candidate-licence/candidate-licence.actions';
 import { TestFlowPageNames } from '@pages/page-names.constants';
@@ -43,6 +58,14 @@ import {
 } from '@store/tests/vehicle-details/vehicle-details.actions';
 import { Observable, merge } from 'rxjs';
 import { map, withLatestFrom } from 'rxjs/operators';
+import { AccompanimentCardComponent } from '../components/accompaniment-card/accompaniment-card';
+import { CandidateDeclarationSignedComponent } from '../components/candidate-declaration/candidate-declaration';
+import { FullLicenceHeldComponent } from '../components/full-licence-held-toggle/full-licence-held-toggle';
+import { MotNoEvidenceConfirmationComponent } from '../components/mot-components/mot-no-evidence-confirmation/mot-no-evidence-confirmation';
+import { TestCategoryComponent } from '../components/test-category/test-category';
+import { VehicleChecksToggleComponent } from '../components/vehicle-checks-completed/vehicle-checks-completed';
+import { VehicleChecksComponent } from '../components/vehicle-checks/vehicle-checks';
+import { VehicleRegistrationComponent } from '../components/vehicle-registration/vehicle-registration';
 
 interface CatCWaitingRoomToCarPageState {
   candidateDeclarationSigned$: Observable<boolean>;
@@ -61,7 +84,32 @@ type WaitingRoomToCarPageState = CommonWaitingRoomToCarPageState & CatCWaitingRo
   selector: '.waiting-room-to-car-cat-c-page',
   templateUrl: './waiting-room-to-car.cat-c.page.html',
   styleUrls: ['./waiting-room-to-car.cat-c.page.scss'],
-  standalone: false,
+  imports: [
+    IonHeader,
+    IonToolbar,
+    NgClass,
+    TestFlowHeaderComponent,
+    IonContent,
+    OfflineBannerComponent,
+    FormsModule,
+    ReactiveFormsModule,
+    IonGrid,
+    IonRow,
+    IonCol,
+    CandidateDeclarationSignedComponent,
+    VehicleRegistrationComponent,
+    MotNoEvidenceConfirmationComponent,
+    TestCategoryComponent,
+    VehicleChecksComponent,
+    FullLicenceHeldComponent,
+    VehicleChecksToggleComponent,
+    AccompanimentCardComponent,
+    WarningBannerComponent,
+    IonFooter,
+    IonButton,
+    IonText,
+    AsyncPipe,
+  ],
 })
 export class WaitingRoomToCarCatCPage extends WaitingRoomToCarBasePageComponent implements OnInit {
   form: UntypedFormGroup;

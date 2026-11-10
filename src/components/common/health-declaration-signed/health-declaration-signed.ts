@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
-import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { IonCol, IonRow } from '@ionic/angular';
 
 export enum HealthDeclatationValidValues {
   SIGNED = 'Signed',
@@ -9,7 +10,7 @@ export enum HealthDeclatationValidValues {
 @Component({
   selector: 'health-declaration-signed',
   templateUrl: 'health-declaration-signed.html',
-  standalone: false,
+  imports: [IonRow, IonCol, FormsModule, ReactiveFormsModule],
 })
 export class HealthDeclarationSignedComponent implements OnChanges {
   @Input()

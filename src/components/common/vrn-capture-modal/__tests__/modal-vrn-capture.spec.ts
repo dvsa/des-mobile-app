@@ -1,8 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MockAppComponent } from '@app/__mocks__/app.component.mock';
-import { AppComponent } from '@app/app.component';
 import { VRNCaptureModal } from '@components/common/vrn-capture-modal/vrn-capture-modal';
 import { ModalController } from '@ionic/angular';
 import { ModalControllerMock } from '@mocks/index.mock';
@@ -16,12 +14,10 @@ describe('VRNCaptureModal', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [VRNCaptureModal],
-      imports: [FormsModule, ReactiveFormsModule, CommonModule],
+      imports: [FormsModule, ReactiveFormsModule, CommonModule, VRNCaptureModal],
       providers: [
         { provide: ModalController, useClass: ModalControllerMock },
         { provide: Store, useClass: StoreMock },
-        { provide: AppComponent, useClass: MockAppComponent },
       ],
     });
 
@@ -30,6 +26,10 @@ describe('VRNCaptureModal', () => {
   });
 
   describe('class', () => {
+    it('should create without an AppComponent provider', () => {
+      expect(component).toBeTruthy();
+    });
+
     describe('validateThenDismiss', () => {
       it('should test the parameter against the validation before saving', () => {
         spyOn(component.registrationNumberValidator.pattern, 'test');

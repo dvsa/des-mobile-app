@@ -17,8 +17,18 @@ describe('MotFailedModal', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [MotFailedModal, MockComponent(ModalAlertTitleComponent)],
-      imports: [CommonModule, StoreModule.forRoot(), ReactiveFormsModule, IonButton, IonCard, IonCol, IonInput, IonRow],
+      imports: [
+        CommonModule,
+        StoreModule.forRoot(),
+        ReactiveFormsModule,
+        IonButton,
+        IonCard,
+        IonCol,
+        IonInput,
+        IonRow,
+        MotFailedModal,
+        MockComponent(ModalAlertTitleComponent),
+      ],
       providers: [Store, { provide: ModalController, useClass: ModalControllerMock }],
     }).compileComponents();
 

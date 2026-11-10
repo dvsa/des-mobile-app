@@ -8,8 +8,7 @@ describe('TestCategoryComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [IonText],
-      declarations: [TestCategoryComponent],
+      imports: [IonText, TestCategoryComponent],
     });
 
     fixture = TestBed.createComponent(TestCategoryComponent);

@@ -16,7 +16,7 @@ describe('TransmissionDisplayComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [TransmissionDisplayComponent],
+      imports: [TransmissionDisplayComponent],
     });
 
     fixture = TestBed.createComponent(TransmissionDisplayComponent);

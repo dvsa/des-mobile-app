@@ -5,6 +5,7 @@ import {
   SpeedRequirementCompetencyOutcome,
   TestData,
 } from '@dvsa/mes-test-schema/categories/AM1';
+import { IonCol, IonRow } from '@ionic/angular';
 import { Store, select } from '@ngrx/store';
 import { trDestroy$ } from '@shared/classes/test-flow-base-pages/test-report/test-report-base-page';
 import { competencyLabels } from '@shared/constants/competencies/competencies';
@@ -40,12 +41,14 @@ import { getCurrentTest } from '@store/tests/tests.selector';
 import { isEmpty } from 'lodash-es';
 import { Subscription, merge } from 'rxjs';
 import { map, takeUntil } from 'rxjs/operators';
+import { CompetencyButtonComponent } from '../../../components/competency-button/competency-button';
+import { SingleFaultCompetencyComponent } from '../../../components/single-fault-competency/single-fault-competency';
 
 @Component({
   selector: 'speed-check',
   templateUrl: 'speed-check.html',
   styleUrls: ['speed-check.scss'],
-  standalone: false,
+  imports: [IonRow, IonCol, SingleFaultCompetencyComponent, CompetencyButtonComponent],
 })
 export class SpeedCheckComponent {
   subscription: Subscription;

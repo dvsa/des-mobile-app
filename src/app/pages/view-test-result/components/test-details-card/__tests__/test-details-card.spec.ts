@@ -14,7 +14,7 @@ describe('TestDetailsCardComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [
+      imports: [
         TestDetailsCardComponent,
         MockComponent(DataRowComponent),
         MockComponent(DataRowCustomComponent),

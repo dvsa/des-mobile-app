@@ -486,10 +486,8 @@ export abstract class OfficeBasePageComponent extends PracticeableBasePageCompon
 
     // Waiting room to car
     wrtcDestroy$.next(null);
-    wrtcDestroy$.complete();
     // Test report
     trDestroy$.next(null);
-    trDestroy$.complete();
   };
 
   setIsValidStartDateTime(isValid: boolean) {

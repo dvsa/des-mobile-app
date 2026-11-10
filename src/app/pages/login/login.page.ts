@@ -1,7 +1,19 @@
+import { AsyncPipe } from '@angular/common';
 import { Component, Injector, OnInit } from '@angular/core';
 import { Capacitor } from '@capacitor/core';
 import { SplashScreen } from '@capacitor/splash-screen';
-import { AlertController, MenuController } from '@ionic/angular';
+import {
+  AlertController,
+  IonButton,
+  IonCol,
+  IonContent,
+  IonHeader,
+  IonRow,
+  IonText,
+  IonTitle,
+  IonToolbar,
+  MenuController,
+} from '@ionic/angular';
 import { LoadingOptions } from '@ionic/core';
 import { ReportError } from '@pages/login/login-page.actions';
 import { AnalyticsProvider } from '@providers/analytics/analytics';
@@ -27,7 +39,7 @@ import { DASHBOARD_PAGE } from '../page-names.constants';
   selector: 'app-login',
   templateUrl: './login.page.html',
   styleUrls: ['./login.page.scss'],
-  standalone: false,
+  imports: [IonHeader, IonToolbar, IonTitle, IonRow, IonText, IonContent, IonCol, IonButton, AsyncPipe],
 })
 export class LoginPage extends LogoutBasePageComponent implements OnInit {
   appInitError: AuthenticationError | AppConfigError | unknown;

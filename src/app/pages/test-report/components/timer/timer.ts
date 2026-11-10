@@ -1,4 +1,6 @@
-import { Component, OnDestroy } from '@angular/core';
+import { NgClass } from '@angular/common';
+import { Component, OnDestroy, signal } from '@angular/core';
+import { IonButton, IonText } from '@ionic/angular';
 import { Store } from '@ngrx/store';
 import { StoreModel } from '@shared/models/store.model';
 import { StartTimer } from '../../test-report.actions';
@@ -7,13 +9,13 @@ import { StartTimer } from '../../test-report.actions';
   selector: 'timer',
   templateUrl: 'timer.html',
   styleUrls: ['timer.scss'],
-  standalone: false,
+  imports: [IonButton, IonText, NgClass],
 })
 export class TimerComponent implements OnDestroy {
   showStartTimerButton: boolean;
   interval: NodeJS.Timeout;
   seconds: number;
-  timerString: string;
+  timerString = signal('00:00:00');
   isPaused = true;
   private startedAt: number;
 
@@ -69,8 +71,10 @@ export class TimerComponent implements OnDestroy {
     const showExtraZeroMinutes = date.getMinutes() < 10;
     const showExtraZeroSeconds = date.getSeconds() < 10;
 
-    this.timerString = `${showExtraZeroHours ? '0' : ''}${date.getHours()}:${
-      showExtraZeroMinutes ? '0' : ''
-    }${date.getMinutes()}:${showExtraZeroSeconds ? '0' : ''}${date.getSeconds()}`;
+    this.timerString.set(
+      `${showExtraZeroHours ? '0' : ''}${date.getHours()}:${
+        showExtraZeroMinutes ? '0' : ''
+      }${date.getMinutes()}:${showExtraZeroSeconds ? '0' : ''}${date.getSeconds()}`
+    );
   };
 }

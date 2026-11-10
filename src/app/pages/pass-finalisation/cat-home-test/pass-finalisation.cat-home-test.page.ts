@@ -1,5 +1,23 @@
+import { AsyncPipe, NgClass } from '@angular/common';
 import { Component, Injector } from '@angular/core';
-import { UntypedFormGroup } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule, UntypedFormGroup } from '@angular/forms';
+import { TestFlowHeaderComponent } from '@components/common/test-flow-header/test-flow-header.component';
+import { WarningBannerComponent } from '@components/common/warning-banner/warning-banner';
+import { D255Component } from '@components/test-finalisation/d255/d255';
+import { DebriefWitnessedComponent } from '@components/test-finalisation/debrief-witnessed/debrief-witnessed';
+import { FinalisationHeaderComponent } from '@components/test-finalisation/finalisation-header/finalisation-header';
+import { LanguagePreferencesComponent } from '@components/test-finalisation/language-preference/language-preference';
+import {
+  IonButton,
+  IonCol,
+  IonContent,
+  IonFooter,
+  IonGrid,
+  IonHeader,
+  IonRow,
+  IonText,
+  IonToolbar,
+} from '@ionic/angular';
 import { behaviourMap } from '@pages/office/office-behaviour-map.cat-home-test';
 import {
   CommonPassFinalisationPageState,
@@ -7,6 +25,10 @@ import {
 } from '@shared/classes/test-flow-base-pages/pass-finalisation/pass-finalisation-base-page';
 import { PersistTests } from '@store/tests/tests.actions';
 import { TestFlowPageNames } from '../../page-names.constants';
+import { ApplicationReferenceComponent } from '../components/application-reference/application-reference';
+import { LicenceProvidedWarningBannerComponent } from '../components/licence-provided-warning-banner/licence-provided-warning-banner';
+import { LicenseProvidedComponent } from '../components/license-provided/license-provided';
+import { PassCertificateNumberComponent } from '../components/pass-certificate-number/pass-certificate-number';
 import { PASS_CERTIFICATE_NUMBER_CTRL } from '../components/pass-certificate-number/pass-certificate-number.constants';
 import {
   PassFinalisationReportActivityCode,
@@ -20,7 +42,31 @@ type PassFinalisationPageState = CommonPassFinalisationPageState;
   selector: 'app-pass-finalisation-cat-home-test',
   templateUrl: './pass-finalisation.cat-home-test.page.html',
   styleUrls: ['./../pass-finalisation.page.scss'],
-  standalone: false,
+  imports: [
+    IonHeader,
+    IonToolbar,
+    NgClass,
+    TestFlowHeaderComponent,
+    IonContent,
+    FormsModule,
+    ReactiveFormsModule,
+    IonGrid,
+    FinalisationHeaderComponent,
+    ApplicationReferenceComponent,
+    LicenseProvidedComponent,
+    LicenceProvidedWarningBannerComponent,
+    PassCertificateNumberComponent,
+    D255Component,
+    WarningBannerComponent,
+    LanguagePreferencesComponent,
+    DebriefWitnessedComponent,
+    IonFooter,
+    IonRow,
+    IonCol,
+    IonButton,
+    IonText,
+    AsyncPipe,
+  ],
 })
 export class PassFinalisationCatHomeTestPage extends PassFinalisationPageComponent {
   pageState: PassFinalisationPageState;

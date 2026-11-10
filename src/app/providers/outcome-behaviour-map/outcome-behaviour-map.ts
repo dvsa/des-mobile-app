@@ -7,7 +7,9 @@ export enum VisibilityType {
   VisibleIfPresent = 'A',
 }
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class OutcomeBehaviourMapProvider {
   behaviourMap: OutcomeBehaviourMapping = {};
 
@@ -52,10 +54,7 @@ export class OutcomeBehaviourMapProvider {
       return false;
     }
 
-    if (field.defaultValue && field.defaultValue !== '') {
-      return true;
-    }
-    return false;
+    return !!(field?.defaultValue && field?.defaultValue !== '');
   }
 
   getDefault(outcomeId: string, fieldName: string): string {

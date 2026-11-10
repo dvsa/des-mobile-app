@@ -1,5 +1,22 @@
+import { AsyncPipe, NgClass } from '@angular/common';
 import { Component, Injector, OnInit } from '@angular/core';
-import { UntypedFormGroup } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule, UntypedFormGroup } from '@angular/forms';
+import { TestFlowHeaderComponent } from '@components/common/test-flow-header/test-flow-header.component';
+import { WarningBannerComponent } from '@components/common/warning-banner/warning-banner';
+import { DebriefWitnessedComponent } from '@components/test-finalisation/debrief-witnessed/debrief-witnessed';
+import { FinalisationHeaderComponent } from '@components/test-finalisation/finalisation-header/finalisation-header';
+import { LanguagePreferencesComponent } from '@components/test-finalisation/language-preference/language-preference';
+import {
+  IonButton,
+  IonCol,
+  IonContent,
+  IonFooter,
+  IonGrid,
+  IonHeader,
+  IonRow,
+  IonText,
+  IonToolbar,
+} from '@ionic/angular';
 import { TestFlowPageNames } from '@pages/page-names.constants';
 import {
   PassFinalisationReportActivityCode,
@@ -21,7 +38,26 @@ type PassFinalisationPageState = CommonPassFinalisationPageState;
   selector: 'app-pass-finalisation-cat-adi-part2',
   templateUrl: './pass-finalisation.cat-adi-part2.page.html',
   styleUrls: ['./../pass-finalisation.page.scss'],
-  standalone: false,
+  imports: [
+    IonHeader,
+    IonToolbar,
+    NgClass,
+    TestFlowHeaderComponent,
+    IonContent,
+    FormsModule,
+    ReactiveFormsModule,
+    IonGrid,
+    FinalisationHeaderComponent,
+    LanguagePreferencesComponent,
+    DebriefWitnessedComponent,
+    WarningBannerComponent,
+    IonFooter,
+    IonRow,
+    IonCol,
+    IonButton,
+    IonText,
+    AsyncPipe,
+  ],
 })
 export class PassFinalisationCatADI2Page extends PassFinalisationPageComponent implements OnInit {
   pageState: PassFinalisationPageState;

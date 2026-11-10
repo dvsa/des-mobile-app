@@ -9,7 +9,9 @@ export enum NetworkConnectionStatus {
   OFFLINE = 1,
 }
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class NetworkStateProvider {
   networkStatus$: BehaviorSubject<NetworkConnectionStatus> = new BehaviorSubject<number>(
     NetworkConnectionStatus.OFFLINE

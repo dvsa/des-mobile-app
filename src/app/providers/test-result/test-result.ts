@@ -23,7 +23,9 @@ import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { FaultCountProvider } from '../fault-count/fault-count';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class TestResultProvider {
   constructor(private faultCountProvider: FaultCountProvider) {}
 

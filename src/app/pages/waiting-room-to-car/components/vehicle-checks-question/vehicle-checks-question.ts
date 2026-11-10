@@ -1,6 +1,8 @@
+import { NgClass } from '@angular/common';
 import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
-import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { QuestionOutcome, QuestionResult } from '@dvsa/mes-test-schema/categories/common';
+import { IonCol, IonRow, IonSelect, IonSelectOption } from '@ionic/angular';
 import { VehicleChecksQuestion } from '@providers/question/vehicle-checks-question.model';
 import { CompetencyOutcome } from '@shared/models/competency-outcome';
 import { uniqueId } from 'lodash-es';
@@ -9,7 +11,7 @@ import { uniqueId } from 'lodash-es';
   selector: 'vehicle-checks-question',
   templateUrl: 'vehicle-checks-question.html',
   styleUrls: ['vehicle-checks-question.scss'],
-  standalone: false,
+  imports: [IonRow, FormsModule, ReactiveFormsModule, NgClass, IonCol, IonSelect, IonSelectOption],
 })
 export class VehicleChecksQuestionComponent implements OnChanges {
   @Input()

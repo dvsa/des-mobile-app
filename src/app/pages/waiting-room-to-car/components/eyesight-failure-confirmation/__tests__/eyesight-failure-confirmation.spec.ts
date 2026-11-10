@@ -21,12 +21,12 @@ describe('EyesightFailureConfirmationComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [EyesightFailureConfirmationComponent],
       imports: [
         StoreModule.forRoot({
           tests: testsReducer,
         }),
         ReactiveFormsModule,
+        EyesightFailureConfirmationComponent,
       ],
       providers: [
         {

@@ -7,7 +7,7 @@ describe('TestRecoveredBannerComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [TestRecoveredBannerComponent],
+      imports: [TestRecoveredBannerComponent],
     });
 
     fixture = TestBed.createComponent(TestRecoveredBannerComponent);

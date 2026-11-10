@@ -1,16 +1,18 @@
+import { NgClass } from '@angular/common';
 import { Component } from '@angular/core';
 import { ActivityCodeModalEvent } from '@components/common/activity-code/acitivity-code-modal-event';
 import { ActivityCode } from '@dvsa/mes-test-schema/categories/common';
-import { ModalController } from '@ionic/angular';
+import { IonButton, IonCol, IonContent, IonGrid, IonIcon, IonRow, ModalController } from '@ionic/angular';
 import { ActivityCodeModel } from '@shared/constants/activity-code/activity-code.constants';
 import { ActivityCodes } from '@shared/models/activity-codes';
+import { FormatIdPipe } from '@shared/pipes/format-id.pipe';
 import { get } from 'lodash-es';
 
 @Component({
   selector: 'modal-activity-code-list',
   templateUrl: './modal-activity-code-list.html',
   styleUrls: ['./modal-activity-code-list.scss'],
-  standalone: false,
+  imports: [IonContent, IonGrid, IonRow, IonCol, NgClass, IonIcon, IonButton, FormatIdPipe],
 })
 export class ModalActivityCodeListComponent {
   activityCodeModel: ActivityCodeModel;

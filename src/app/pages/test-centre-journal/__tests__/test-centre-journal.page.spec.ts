@@ -1,17 +1,17 @@
 import { CommonModule } from '@angular/common';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
+import { ErrorMessageComponent } from '@components/common/error-message/error-message';
 import { LoadingController } from '@ionic/angular';
 import { StoreModule } from '@ngrx/store';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
-import { of, throwError } from 'rxjs';
+import { AppConfig } from '@providers/app-config/app-config.model';
+import { ExaminerRole } from '@providers/app-config/constants/examiner-role.constants';
+import { Subject, of, throwError } from 'rxjs';
 
-import { ComponentsModule } from '@components/common/common-components.module';
 import { LoadingControllerMock } from '@mocks/ionic-mocks/loading-controller.mock';
-import { AppConfigProviderMock } from '@providers/app-config/__mocks__/app-config.mock';
+import { provideBasePageMocks } from '@mocks/test-providers';
 import { AppConfigProvider } from '@providers/app-config/app-config';
-import { AuthenticationProviderMock } from '@providers/authentication/__mocks__/authentication.mock';
-import { AuthenticationProvider } from '@providers/authentication/authentication';
-import { LogHelperMock } from '@providers/logs/__mocks__/logs-helper.mock';
 import { LogHelper } from '@providers/logs/logs-helper';
 import { NetworkStateProviderMock } from '@providers/network-state/__mocks__/network-state.mock';
 import { NetworkStateProvider } from '@providers/network-state/network-state';
@@ -23,14 +23,14 @@ import { StoreModel } from '@shared/models/store.model';
 import { TestCentre, TestCentreDetailResponse } from '@shared/models/test-centre-journal.model';
 
 import { HttpStatusCode } from '@angular/common/http';
-import { ActivatedRoute, RouterModule } from '@angular/router';
+import { RouterModule } from '@angular/router';
 import { RefreshButtonComponent } from '@components/common/refresh-button/refresh-button.component';
 import { TestFlowHeaderComponent } from '@components/common/test-flow-header/test-flow-header.component';
-import { ActivatedRouteMock } from '@mocks/angular-mocks/activated-route.mock';
-import { DeviceProviderMock } from '@providers/device/__mocks__/device.mock';
-import { DeviceProvider } from '@providers/device/device';
 import { MockComponent } from 'ng-mocks';
-import { TestCentreJournalComponentsModule } from '../components/test-centre-journal-components.module';
+
+import { CandidateSearchCardComponent } from '../components/candidate-search-card/candidate-search-card';
+import { TestCentreNameComponent } from '../components/test-centre-name/test-centre-name';
+import { ViewJournalsCardComponent } from '../components/view-journals-card/view-journals-card';
 import {
   TestCentreJournalGetData,
   TestCentreJournalTabChanged,
@@ -48,16 +48,17 @@ describe('TestCenterJournalPage', () => {
   let store$: MockStore;
   const initialState = {
     testCentreJournal: { lastRefreshed: new Date('2021-03-22') },
+    refData: { testCentres: { active: [], inactive: [] } },
   } as StoreModel;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [TestCentreJournalPage, MockComponent(TestFlowHeaderComponent)],
       imports: [
         MockComponent(RefreshButtonComponent),
         CommonModule,
-        ComponentsModule,
-        TestCentreJournalComponentsModule,
+        CandidateSearchCardComponent,
+        TestCentreNameComponent,
+        ViewJournalsCardComponent,
         RouterModule.forRoot([
           {
             path: '',
@@ -65,19 +66,14 @@ describe('TestCenterJournalPage', () => {
           },
         ]),
         StoreModule.forRoot({}),
+        TestCentreJournalPage,
+        MockComponent(TestFlowHeaderComponent),
       ],
       providers: [
-        {
-          provide: AuthenticationProvider,
-          useClass: AuthenticationProviderMock,
-        },
+        provideBasePageMocks(),
         {
           provide: NetworkStateProvider,
           useClass: NetworkStateProviderMock,
-        },
-        {
-          provide: LogHelper,
-          useClass: LogHelperMock,
         },
         {
           provide: TestCentreJournalProvider,
@@ -86,22 +82,6 @@ describe('TestCenterJournalPage', () => {
         {
           provide: LoadingController,
           useClass: LoadingControllerMock,
-        },
-        {
-          provide: AppConfigProvider,
-          useClass: AppConfigProviderMock,
-        },
-        {
-          provide: DeviceProvider,
-          useClass: DeviceProviderMock,
-        },
-        {
-          provide: LogHelper,
-          useClass: LogHelperMock,
-        },
-        {
-          provide: ActivatedRoute,
-          useClass: ActivatedRouteMock,
         },
         provideMockStore({ initialState }),
       ],
@@ -119,6 +99,67 @@ describe('TestCenterJournalPage', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  describe('asynchronous rendering', () => {
+    const results: TestCentreDetailResponse = {
+      staffNumber: '123',
+      examiners: [],
+      testCentres: [{ id: 1, name: 'Centre A' }],
+    };
+
+    it('should show both tabs when the journal response arrives without a forced refresh', async () => {
+      const response$ = new Subject<TestCentreDetailResponse>();
+      spyOn(testCentreJournalProvider, 'getTestCentreJournal').and.returnValue(response$);
+      fixture.detectChanges();
+      fixture.autoDetectChanges();
+      await fixture.whenStable();
+      expect(fixture.debugElement.query(By.css('#candidate-search-tab'))).toBeNull();
+
+      await component.getTestCentreData();
+      response$.next(results);
+      response$.complete();
+      await fixture.whenStable();
+
+      expect(fixture.debugElement.query(By.css('#candidate-search-tab'))).not.toBeNull();
+      expect(fixture.debugElement.query(By.css('#view-journals-tab'))).not.toBeNull();
+      expect(component.testCentreNames).toBe('Centre A');
+      expect(() => fixture.checkNoChanges()).not.toThrow();
+    });
+
+    it('should render errors and restore the tabs after a successful retry', async () => {
+      const response$ = new Subject<TestCentreDetailResponse>();
+      spyOn(testCentreJournalProvider, 'getTestCentreJournal').and.returnValues(response$, of(results));
+      fixture.detectChanges();
+      fixture.autoDetectChanges();
+      await fixture.whenStable();
+      await component.getTestCentreData();
+      response$.error({ message: 'Journal failed', error: ErrorTypes.TEST_CENTRE_JOURNAL_ERROR });
+      await fixture.whenStable();
+
+      expect(fixture.debugElement.query(By.directive(ErrorMessageComponent))).not.toBeNull();
+      expect(fixture.debugElement.query(By.css('#candidate-search-tab'))).toBeNull();
+      expect(() => fixture.checkNoChanges()).not.toThrow();
+
+      await component.getTestCentreData();
+      await fixture.whenStable();
+      expect(fixture.debugElement.query(By.directive(ErrorMessageComponent))).toBeNull();
+      expect(fixture.debugElement.query(By.css('#candidate-search-tab'))).not.toBeNull();
+      expect(() => fixture.checkNoChanges()).not.toThrow();
+    });
+
+    it('should show LDTM tabs before a test centre is selected', async () => {
+      spyOn(TestBed.inject(AppConfigProvider), 'getAppConfig').and.returnValue({
+        role: ExaminerRole.LDTM,
+      } as AppConfig);
+      fixture.detectChanges();
+      fixture.autoDetectChanges();
+      await fixture.whenStable();
+      expect(component.testCentreResults()).toBeNull();
+      expect(fixture.debugElement.query(By.css('#candidate-search-tab'))).not.toBeNull();
+      expect(fixture.debugElement.query(By.css('#view-journals-tab'))).not.toBeNull();
+      expect(() => fixture.checkNoChanges()).not.toThrow();
+    });
   });
 
   describe('ionViewDidEnter', () => {
@@ -178,11 +219,11 @@ describe('TestCenterJournalPage', () => {
       spyOn(component, 'mapError');
       spyOn(logHelper, 'createLog');
       spyOn(loadingController, 'create').and.callThrough();
-      component.isOffline = false;
+      component.isOffline.set(false);
     });
     it('should set an offline error and not call getTestCentreJournal if in offline state', async () => {
       spyOn(testCentreJournalProvider, 'getTestCentreJournal');
-      component.isOffline = true;
+      component.isOffline.set(true);
       await component.getTestCentreData();
       expect(store$.dispatch).toHaveBeenCalledWith(TestCentreJournalGetData(false));
       expect(testCentreJournalProvider.getTestCentreJournal).not.toHaveBeenCalled();
@@ -191,10 +232,10 @@ describe('TestCenterJournalPage', () => {
       spyOn(testCentreJournalProvider, 'getTestCentreJournal').and.returnValue(of({}));
       await component.getTestCentreData();
       expect(testCentreJournalProvider.getTestCentreJournal).toHaveBeenCalled();
-      expect(component.hasSearched).toEqual(true);
-      expect(component.testCentreResults).toEqual({} as TestCentreDetailResponse);
-      expect(component.showSearchSpinner).toEqual(false);
-      expect(component.didError).toEqual(false);
+      expect(component.hasSearched()).toEqual(true);
+      expect(component.testCentreResults()).toEqual({} as TestCentreDetailResponse);
+      expect(component.showSearchSpinner()).toEqual(false);
+      expect(component.didError()).toEqual(false);
     });
     it('should dispatch failure log and call map error when error is recognised', async () => {
       spyOn(testCentreJournalProvider, 'getTestCentreJournal').and.callFake(() => {
@@ -207,18 +248,18 @@ describe('TestCenterJournalPage', () => {
       await component.getTestCentreData();
       expect(testCentreJournalProvider.getTestCentreJournal).toHaveBeenCalled();
       expect(logHelper.createLog).toHaveBeenCalledWith(LogType.ERROR, 'Getting test centre journal', 'Some error');
-      expect(component.didError).toEqual(true);
-      expect(component.testCentreResults).toEqual(null);
-      expect(component.showSearchSpinner).toEqual(false);
+      expect(component.didError()).toEqual(true);
+      expect(component.testCentreResults()).toEqual(null);
+      expect(component.showSearchSpinner()).toEqual(false);
       expect(component.mapError).toHaveBeenCalled();
     });
   });
 
   describe('get testCentreNames', () => {
     it('should concatenate all test centre names into a single string', () => {
-      component.testCentreResults = {
+      component.testCentreResults.set({
         testCentres: [{ name: 'Centre A' }, { name: 'Centre B' }, { name: 'Centre C' }] as TestCentre[],
-      } as TestCentreDetailResponse;
+      } as TestCentreDetailResponse);
       expect(component.testCentreNames).toEqual('Centre A, Centre B, Centre C');
     });
   });

@@ -4,7 +4,6 @@ import { FormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { behaviourMap } from '@pages/office/office-behaviour-map';
 import { CharacterCountService } from '@providers/character-count/character-count.service';
 import { OutcomeBehaviourMapProvider } from '@providers/outcome-behaviour-map/outcome-behaviour-map';
-import { AppModule } from 'src/app/app.module';
 import { CandidateDescriptionComponent } from '../candidate-description';
 
 describe('CandidateDescriptionComponent', () => {
@@ -15,8 +14,7 @@ describe('CandidateDescriptionComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [CandidateDescriptionComponent],
-      imports: [AppModule],
+      imports: [CandidateDescriptionComponent],
       providers: [
         { provide: OutcomeBehaviourMapProvider, useClass: OutcomeBehaviourMapProvider },
         { provide: CharacterCountService, useClass: CharacterCountService },

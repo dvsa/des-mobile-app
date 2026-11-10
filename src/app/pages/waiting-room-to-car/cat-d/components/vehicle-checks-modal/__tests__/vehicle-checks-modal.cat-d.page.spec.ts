@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { AppModule } from '@app/app.module';
+
 import { QuestionOutcome, QuestionResult } from '@dvsa/mes-test-schema/categories/common';
 import { ModalController } from '@ionic/angular';
 import { ModalControllerMock } from '@mocks/ionic-mocks/modal-controller.mock';
@@ -147,14 +147,14 @@ describe('VehicleChecksCatDModal', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [
+      imports: [
+        StoreModule.forRoot({}),
         VehicleChecksCatDModal,
         MockComponent(FullLicenceHeldComponent),
         MockComponent(VehicleChecksQuestionComponent),
         MockComponent(SafetyQuestionComponent),
         MockComponent(WarningBannerComponent),
       ],
-      imports: [AppModule, StoreModule.forRoot({})],
       providers: [
         {
           provide: ModalController,

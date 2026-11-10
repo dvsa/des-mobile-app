@@ -4,7 +4,9 @@ import { Observable } from 'rxjs';
 import { UrlProvider } from '../url/url';
 import { RekeySearchParams } from './rekey-search.model';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class RekeySearchProvider {
   constructor(
     private httpClient: HttpClient,

@@ -30,16 +30,14 @@ describe('VehicleChecksComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        VehicleChecksComponent,
-        SeriousFaultBadgeComponent,
-        DrivingFaultsBadgeComponent,
-        TickIndicatorComponent,
-      ],
       imports: [
         StoreModule.forRoot({
           tests: testsReducer,
         }),
+        VehicleChecksComponent,
+        SeriousFaultBadgeComponent,
+        DrivingFaultsBadgeComponent,
+        TickIndicatorComponent,
       ],
       providers: [
         { provide: AccessibilityService, useClass: AccessibilityServiceMock },

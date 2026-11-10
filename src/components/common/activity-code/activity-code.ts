@@ -1,16 +1,17 @@
 import { ChangeDetectorRef, Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
-import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { ActivityCodeModalEvent } from '@components/common/activity-code/acitivity-code-modal-event';
 import { ModalActivityCodeListComponent } from '@components/common/modal-activity-code-list/modal-activity-code-list';
-import { ModalController } from '@ionic/angular';
+import { IonCol, IonIcon, IonRow, IonText, ModalController } from '@ionic/angular';
 import { ActivityCodeModel } from '@shared/constants/activity-code/activity-code.constants';
 import { ActivityCodes } from '@shared/models/activity-codes';
+import { EllipsisPipe } from '@shared/pipes/ellipsis.pipe';
 
 @Component({
   selector: 'activity-code',
   templateUrl: 'activity-code.html',
   styleUrls: ['activity-code.scss'],
-  standalone: false,
+  imports: [IonRow, FormsModule, ReactiveFormsModule, IonCol, IonText, IonIcon, EllipsisPipe],
 })
 export class ActivityCodeComponent implements OnChanges {
   @Input()

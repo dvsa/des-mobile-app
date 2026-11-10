@@ -14,7 +14,9 @@ import { SlotHasChanged } from './slot.actions';
 
 const MS_PER_DAY: number = 1000 * 60 * 60 * 24;
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class SlotProvider {
   constructor(
     private store$: Store<StoreModel>,

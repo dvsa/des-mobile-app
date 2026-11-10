@@ -1,17 +1,14 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { AppModule } from '@app/app.module';
 import { AppLauncher, OpenURLResult } from '@capacitor/app-launcher';
-import { ComponentsModule } from '@components/common/common-components.module';
 import { ExitSAMConfirmButtonClicked, ExitSamError } from '@components/common/test-flow-header/exit-sam.actions';
 import {
   ExitSAMMethodUsed,
   TestFlowHeaderComponent,
 } from '@components/common/test-flow-header/test-flow-header.component';
-import { ModalController } from '@ionic/angular';
-import { ModalControllerMock } from '@mocks/index.mock';
+
+import { provideBasePageMocks } from '@mocks/test-providers';
 import { Store, StoreModule } from '@ngrx/store';
-import { TranslateModule } from '@ngx-translate/core';
-import { DeviceProviderMock } from '@providers/device/__mocks__/device.mock';
+
 import { DeviceProvider } from '@providers/device/device';
 import { RouteByCategoryProviderMock } from '@providers/route-by-category/__mocks__/route-by-category.mock';
 import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
@@ -25,11 +22,10 @@ describe('TestFlowHeaderComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [AppModule, ComponentsModule, StoreModule.forRoot({}), TranslateModule],
+      imports: [StoreModule.forRoot({})],
       providers: [
-        { provide: DeviceProvider, useClass: DeviceProviderMock },
-        { provide: RouteByCategoryProvider, useClass: RouteByCategoryProviderMock },
-        { provide: ModalController, useClass: ModalControllerMock }, // ADD THIS
+        provideBasePageMocks(),
+        { provide: RouteByCategoryProvider, useClass: RouteByCategoryProviderMock }, // ADD THIS
       ],
     });
 

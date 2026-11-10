@@ -9,6 +9,8 @@ export const initialState: TestReportModel = {
   removeFaultMode: false,
 };
 
+export const testReportFeatureKey = 'testReport';
+
 export const testReportReducer = createReducer(
   initialState,
   on(testReportActions.ToggleRemoveFaultMode, (state) => ({

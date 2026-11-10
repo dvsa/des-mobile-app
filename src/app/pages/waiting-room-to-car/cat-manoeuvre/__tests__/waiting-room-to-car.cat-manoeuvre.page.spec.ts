@@ -1,14 +1,13 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
 import { ReactiveFormsModule, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
-import { AppModule } from '@app/app.module';
+
 import { EndTestLinkComponent } from '@components/common/end-test-link/end-test-link';
 import { WarningBannerComponent } from '@components/common/warning-banner/warning-banner';
 import { CatCMUniqueTypes } from '@dvsa/mes-test-schema/categories/CM';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
-import { Platform } from '@ionic/angular';
-import { PlatformMock, RouterMock } from '@mocks/index.mock';
+
+import { provideBasePageMocks } from '@mocks/test-providers';
 import { Store } from '@ngrx/store';
 import { provideMockStore } from '@ngrx/store/testing';
 import { TestFlowPageNames } from '@pages/page-names.constants';
@@ -18,8 +17,7 @@ import { AccompanimentCardComponent } from '@pages/waiting-room-to-car/component
 import { AccompanimentComponent } from '@pages/waiting-room-to-car/components/accompaniment/accompaniment';
 import { VehicleRegistrationComponent } from '@pages/waiting-room-to-car/components/vehicle-registration/vehicle-registration';
 import { WaitingRoomToCarValidationError } from '@pages/waiting-room-to-car/waiting-room-to-car.actions';
-import { AuthenticationProviderMock } from '@providers/authentication/__mocks__/authentication.mock';
-import { AuthenticationProvider } from '@providers/authentication/authentication';
+
 import { DateTimeProviderMock } from '@providers/date-time/__mocks__/date-time.mock';
 import { DateTimeProvider } from '@providers/date-time/date-time';
 import { FaultCountProvider } from '@providers/fault-count/fault-count';
@@ -68,7 +66,8 @@ describe('WaitingRoomToCarCatManoeuvrePage', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      declarations: [
+      imports: [
+        ReactiveFormsModule,
         WaitingRoomToCarCatManoeuvrePage,
         MockComponent(EndTestLinkComponent),
         MockComponent(VehicleRegistrationComponent),
@@ -77,23 +76,11 @@ describe('WaitingRoomToCarCatManoeuvrePage', () => {
         MockComponent(WarningBannerComponent),
         MockComponent(DimensionsComponent),
       ],
-      imports: [AppModule, ReactiveFormsModule],
       providers: [
+        provideBasePageMocks(),
         {
           provide: RouteByCategoryProvider,
           useClass: RouteByCategoryProviderMock,
-        },
-        {
-          provide: AuthenticationProvider,
-          useClass: AuthenticationProviderMock,
-        },
-        {
-          provide: Platform,
-          useClass: PlatformMock,
-        },
-        {
-          provide: Router,
-          useClass: RouterMock,
         },
         {
           provide: DateTimeProvider,

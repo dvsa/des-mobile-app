@@ -1,12 +1,30 @@
 import { Component, Injector, OnInit } from '@angular/core';
 import { ScreenOrientation } from '@capawesome/capacitor-screen-orientation';
 import { ActivityCode, SearchResultTestSchema } from '@dvsa/mes-search-schema';
-import { ModalController, RefresherEventDetail } from '@ionic/angular';
+import {
+  IonBackButton,
+  IonButtons,
+  IonCol,
+  IonContent,
+  IonHeader,
+  IonRefresher,
+  IonRefresherContent,
+  IonRow,
+  IonTitle,
+  IonToolbar,
+  ModalController,
+  RefresherEventDetail,
+} from '@ionic/angular';
 import { IonRefresherCustomEvent, LoadingOptions } from '@ionic/core';
 import { select } from '@ngrx/store';
 import { Observable, Subscription, merge, of } from 'rxjs';
 import { map, switchMap, take, tap } from 'rxjs/operators';
 
+import { AsyncPipe } from '@angular/common';
+import { IncompleteTestsBanner } from '@components/common/incomplete-tests-banner/incomplete-tests-banner';
+import { OfflineBannerComponent } from '@components/common/offline-banner/offline-banner';
+import { RefreshButtonComponent } from '@components/common/refresh-button/refresh-button.component';
+import { VehicleRecallsBanner } from '@components/common/vehicle-recall-banner/vehicle-recalls-banner';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { environment } from '@environments/environment';
 import { TestersEnvironmentFile } from '@environments/models/environment.model';
@@ -43,6 +61,8 @@ import { TestStatus } from '@store/tests/test-status/test-status.model';
 import { getTests } from '@store/tests/tests.reducer';
 import { isEndToEndPracticeTest } from '@store/tests/tests.selector';
 import { ErrorPage } from '../error-page/error';
+import { JournalNavigationComponent } from './components/journal-navigation/journal-navigation';
+import { JournalSlotComponent } from './components/journal-slot/journal-slot';
 
 interface JournalPageState {
   selectedDate$: Observable<string>;
@@ -70,7 +90,25 @@ export interface CompletedJournalSlot {
   selector: 'app-journal',
   templateUrl: './journal.page.html',
   styleUrls: ['./journal.page.scss'],
-  standalone: false,
+  imports: [
+    IonHeader,
+    IonToolbar,
+    IonTitle,
+    IonButtons,
+    IonBackButton,
+    IonContent,
+    OfflineBannerComponent,
+    IncompleteTestsBanner,
+    IonRefresher,
+    IonRefresherContent,
+    IonRow,
+    IonCol,
+    RefreshButtonComponent,
+    JournalNavigationComponent,
+    VehicleRecallsBanner,
+    JournalSlotComponent,
+    AsyncPipe,
+  ],
 })
 export class JournalPage extends BasePageComponent implements OnInit {
   private static loadingOpts: LoadingOptions = {

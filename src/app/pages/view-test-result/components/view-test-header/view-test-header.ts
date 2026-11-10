@@ -1,4 +1,6 @@
+import { NgClass } from '@angular/common';
 import { Component, Input } from '@angular/core';
+import { IonCol, IonRow, IonText } from '@ionic/angular';
 import { ActivityCodeDescription } from '@shared/constants/activity-code/activity-code.constants';
 import { getEnumKeyByValue } from '@shared/helpers/enum-keys';
 import { ActivityCodes } from '@shared/models/activity-codes';
@@ -8,7 +10,7 @@ import { ViewTestHeaderModel } from './view-test-header.model';
   selector: 'view-test-header',
   templateUrl: 'view-test-header.html',
   styleUrls: ['view-test-header.scss'],
-  standalone: false,
+  imports: [IonRow, IonCol, IonText, NgClass],
 })
 export class ViewTestHeaderComponent {
   @Input()

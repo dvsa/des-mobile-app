@@ -8,8 +8,8 @@ describe('QuestionFiveCardComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
+      imports: [QuestionFiveCardComponent],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      declarations: [QuestionFiveCardComponent],
     });
 
     fixture = TestBed.createComponent(QuestionFiveCardComponent);

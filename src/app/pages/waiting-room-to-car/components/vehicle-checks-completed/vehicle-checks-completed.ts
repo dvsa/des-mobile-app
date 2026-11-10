@@ -1,7 +1,9 @@
+import { AsyncPipe } from '@angular/common';
 import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
-import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { CategoryCode } from '@dvsa/mes-test-schema/categories/common';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
+import { IonCol, IonRow, IonSelect, IonSelectOption } from '@ionic/angular';
 import { Store, select } from '@ngrx/store';
 import { wrtcDestroy$ } from '@shared/classes/test-flow-base-pages/waiting-room-to-car/waiting-room-to-car-base-page';
 import { vehicleChecksQuestionsByLicenceHeld } from '@shared/helpers/vehicle-checks-questions-by-category';
@@ -32,7 +34,7 @@ interface ComponentState {
   selector: 'vehicle-checks-completed',
   templateUrl: 'vehicle-checks-completed.html',
   styleUrls: ['vehicle-checks-completed.scss'],
-  standalone: false,
+  imports: [IonRow, FormsModule, ReactiveFormsModule, IonCol, IonSelect, IonSelectOption, AsyncPipe],
 })
 export class VehicleChecksToggleComponent implements OnChanges {
   formControl: UntypedFormControl;

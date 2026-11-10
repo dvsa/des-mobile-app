@@ -1,11 +1,25 @@
 import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
-import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { EmojiBlockDirective } from '@directives/emoji-block.directive';
+import { InputRestrictionNumbersDirective } from '@directives/input-restriction-numbers.directive';
+import { PasteSanitiserDirective } from '@directives/paste-sanitiser';
+import { IonCol, IonInput, IonItem, IonRow } from '@ionic/angular';
 import { AccessibilityService } from '@providers/accessibility/accessibility.service';
 
 @Component({
   selector: 'transfer',
   templateUrl: 'transfer.html',
-  standalone: false,
+  imports: [
+    IonRow,
+    FormsModule,
+    ReactiveFormsModule,
+    IonCol,
+    IonItem,
+    IonInput,
+    InputRestrictionNumbersDirective,
+    EmojiBlockDirective,
+    PasteSanitiserDirective,
+  ],
 })
 export class TransferComponent implements OnChanges {
   static readonly checkBoxCtrl: string = 'transferSelected';

@@ -3,7 +3,9 @@ import { CategoryCode } from '@dvsa/mes-test-schema/categories/common';
 import bikeCategoryDetails from '@shared/constants/bike-category-details/bike-category-details';
 import { BikeCategoryDetail, BikeTestType } from './bike-category-detail.model';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class BikeCategoryDetailProvider {
   public getDetailByCategoryCode(category: CategoryCode): BikeCategoryDetail {
     return bikeCategoryDetails.find((item) => item.categoryCode === category);

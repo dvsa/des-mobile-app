@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
-import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { QuestionResult } from '@dvsa/mes-test-schema/categories/common';
+import { IonCol, IonGrid, IonRow, IonSelect, IonSelectOption } from '@ionic/angular';
 import { OutcomeBehaviourMapProvider, VisibilityType } from '@providers/outcome-behaviour-map/outcome-behaviour-map';
 import { VehicleChecksQuestion } from '@providers/question/vehicle-checks-question.model';
 import { CompetencyOutcome } from '@shared/models/competency-outcome';
@@ -9,7 +10,7 @@ import { uniqueId } from 'lodash-es';
 @Component({
   selector: 'show-me-questions-cat-adi2',
   templateUrl: 'show-me-questions.html',
-  standalone: false,
+  imports: [IonGrid, FormsModule, ReactiveFormsModule, IonRow, IonCol, IonSelect, IonSelectOption],
 })
 export class ShowMeQuestionsCatADI2Component implements OnChanges, OnInit {
   @Input()

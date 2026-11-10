@@ -9,7 +9,7 @@ describe('VehicleChecksOfficeCardComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [VehicleChecksOfficeCardComponent],
+      imports: [VehicleChecksOfficeCardComponent],
     });
 
     fixture = TestBed.createComponent(VehicleChecksOfficeCardComponent);

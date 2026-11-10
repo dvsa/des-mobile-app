@@ -1,10 +1,11 @@
 import { Component, Input } from '@angular/core';
+import { IonText } from '@ionic/angular';
 
 @Component({
   selector: 'progressive-access',
   templateUrl: 'progressive-access.html',
   styleUrls: ['progressive-access.scss'],
-  standalone: false,
+  imports: [IonText],
 })
 export class ProgressiveAccessComponent {
   @Input()

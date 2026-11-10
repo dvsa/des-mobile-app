@@ -12,8 +12,7 @@ describe('ColourFilterRadioComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [ColourFilterRadioComponent],
-
+      imports: [ColourFilterRadioComponent],
       providers: [
         provideMockStore({ ...{} }),
         { provide: OutcomeBehaviourMapProvider, useClass: OutcomeBehaviourMapProvider },

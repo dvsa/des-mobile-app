@@ -1,10 +1,27 @@
+import { AsyncPipe, NgClass } from '@angular/common';
 import { Component, Injector, OnInit } from '@angular/core';
-import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule, UntypedFormControl, UntypedFormGroup } from '@angular/forms';
+import { CandidateSectionComponent } from '@components/common/candidate-section/candidate-section';
+import { LockScreenIndicator } from '@components/common/screen-lock-indicator/lock-screen-indicator';
+import { SignatureComponent } from '@components/common/signature/signature';
+import { TestFlowHeaderComponent } from '@components/common/test-flow-header/test-flow-header.component';
+import { AddOrRemoveLangCyDirective } from '@directives/add-or-remove-lang-cy.directive';
 import { CategoryCode } from '@dvsa/mes-test-schema/categories/common';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
-import { ModalController, ViewDidEnter, ViewDidLeave, ViewWillEnter } from '@ionic/angular';
+import {
+  IonCol,
+  IonContent,
+  IonHeader,
+  IonRow,
+  IonText,
+  IonToolbar,
+  ModalController,
+  ViewDidEnter,
+  ViewDidLeave,
+  ViewWillEnter,
+} from '@ionic/angular';
 import { select } from '@ngrx/store';
-import { TranslateService } from '@ngx-translate/core';
+import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { HealthDeclarationModal } from '@pages/health-declaration/components/health-declaration-modal/health-declaration-modal';
 import {
   ContinueFromDeclaration,
@@ -45,6 +62,8 @@ import { getTests } from '@store/tests/tests.reducer';
 import { getCurrentTest, getJournalData } from '@store/tests/tests.selector';
 import { Observable, Subscription, merge } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
+import { HealthDeclarationComponent } from './components/health-declaration/health-declaration';
+import { ReceiptDeclarationComponent } from './components/receipt-declaration/receipt-declaration';
 
 interface HealthDeclarationPageState {
   healthDeclarationAccepted$: Observable<boolean>;
@@ -66,7 +85,26 @@ interface HealthDeclarationPageState {
   selector: 'app-health-declaration',
   templateUrl: './health-declaration.page.html',
   styleUrls: ['./health-declaration.page.scss'],
-  standalone: false,
+  imports: [
+    IonHeader,
+    IonToolbar,
+    NgClass,
+    TestFlowHeaderComponent,
+    IonContent,
+    LockScreenIndicator,
+    FormsModule,
+    ReactiveFormsModule,
+    CandidateSectionComponent,
+    IonRow,
+    IonCol,
+    IonText,
+    AddOrRemoveLangCyDirective,
+    HealthDeclarationComponent,
+    ReceiptDeclarationComponent,
+    SignatureComponent,
+    AsyncPipe,
+    TranslatePipe,
+  ],
 })
 export class HealthDeclarationPage
   extends PracticeableBasePageComponent

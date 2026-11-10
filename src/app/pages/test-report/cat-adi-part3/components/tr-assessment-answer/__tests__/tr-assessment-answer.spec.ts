@@ -7,7 +7,7 @@ describe('TestReportAssessmentAnswer', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [TestReportAssessmentAnswer],
+      imports: [TestReportAssessmentAnswer],
     });
 
     fixture = TestBed.createComponent(TestReportAssessmentAnswer);

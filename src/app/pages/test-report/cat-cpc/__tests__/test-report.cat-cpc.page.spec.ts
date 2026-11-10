@@ -1,12 +1,12 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
-import { ModalController, Platform } from '@ionic/angular';
-import { ModalControllerMock, PlatformMock } from '@mocks/index.mock';
+import { ModalController } from '@ionic/angular';
+
+import { provideBasePageMocks } from '@mocks/test-providers';
 import { Store, StoreModule } from '@ngrx/store';
 import { MockComponent } from 'ng-mocks';
 import { Subscription, of } from 'rxjs';
 
-import { AppModule } from '@app/app.module';
 import { PracticeModeOptionsBar } from '@components/common/practice-mode-options-bar/practice-mode-options-bar';
 import { TestFlowHeaderComponent } from '@components/common/test-flow-header/test-flow-header.component';
 import { OverlayEventDetail } from '@ionic/core';
@@ -19,8 +19,7 @@ import { QuestionDelExRadioCardComponent } from '@pages/test-report/cat-cpc/comp
 import { QuestionFooterComponent } from '@pages/test-report/cat-cpc/components/question-footer/question-footer';
 import { QuestionTitleComponent } from '@pages/test-report/cat-cpc/components/question-title/question-title';
 import { CompetencyComponent } from '@pages/test-report/components/competency/competency';
-import { AuthenticationProviderMock } from '@providers/authentication/__mocks__/authentication.mock';
-import { AuthenticationProvider } from '@providers/authentication/authentication';
+
 import { CPCQuestionProvider } from '@providers/cpc-questions/cpc-questions';
 import { DateTimeProviderMock } from '@providers/date-time/__mocks__/date-time.mock';
 import { DateTimeProvider } from '@providers/date-time/date-time';
@@ -53,23 +52,9 @@ describe('TestReportCatCPCPage', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        TestReportCatCPCPage,
-        MockComponent(PracticeModeOptionsBar),
-        MockComponent(CompetencyComponent),
-        MockComponent(ModuleAssessmentComponent),
-        MockComponent(QuestionAnswerComponent),
-        MockComponent(QuestionCardComponent),
-        MockComponent(QuestionFiveCardComponent),
-        MockComponent(QuestionFooterComponent),
-        MockComponent(QuestionScoreComponent),
-        MockComponent(QuestionSubtitleComponent),
-        MockComponent(QuestionTitleComponent),
-        MockComponent(QuestionDelExRadioCardComponent),
-        MockComponent(TestFlowHeaderComponent),
-      ],
       imports: [
-        AppModule,
+        StoreModule.forRoot({}),
+
         StoreModule.forFeature('tests', () => ({
           currentTest: {
             slotId: '123',
@@ -92,23 +77,25 @@ describe('TestReportCatCPCPage', () => {
           },
         })),
         StoreModule.forFeature('testReport', testReportReducer),
+        TestReportCatCPCPage,
+        MockComponent(PracticeModeOptionsBar),
+        MockComponent(CompetencyComponent),
+        MockComponent(ModuleAssessmentComponent),
+        MockComponent(QuestionAnswerComponent),
+        MockComponent(QuestionCardComponent),
+        MockComponent(QuestionFiveCardComponent),
+        MockComponent(QuestionFooterComponent),
+        MockComponent(QuestionScoreComponent),
+        MockComponent(QuestionSubtitleComponent),
+        MockComponent(QuestionTitleComponent),
+        MockComponent(QuestionDelExRadioCardComponent),
+        MockComponent(TestFlowHeaderComponent),
       ],
       providers: [
-        {
-          provide: Platform,
-          useClass: PlatformMock,
-        },
-        {
-          provide: AuthenticationProvider,
-          useClass: AuthenticationProviderMock,
-        },
+        provideBasePageMocks(),
         {
           provide: DateTimeProvider,
           useClass: DateTimeProviderMock,
-        },
-        {
-          provide: ModalController,
-          useClass: ModalControllerMock,
         },
         {
           provide: TestReportValidatorProvider,

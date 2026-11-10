@@ -1,11 +1,33 @@
-import { Component, Injector } from '@angular/core';
+import { Component, Injector, signal } from '@angular/core';
 import { SearchResultTestSchema } from '@dvsa/mes-search-schema';
-import { ModalController } from '@ionic/angular';
+import {
+  IonBackButton,
+  IonButton,
+  IonButtons,
+  IonCol,
+  IonContent,
+  IonGrid,
+  IonHeader,
+  IonIcon,
+  IonInput,
+  IonRow,
+  IonSpinner,
+  IonText,
+  IonTitle,
+  IonToolbar,
+  ModalController,
+} from '@ionic/angular';
 import { select } from '@ngrx/store';
 import { Observable, Subscription, merge, of } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
 
+import { AsyncPipe, NgClass } from '@angular/common';
+import { OfflineBannerComponent } from '@components/common/offline-banner/offline-banner';
+import { TabComponent } from '@components/common/tab/tab';
+import { TabsComponent } from '@components/common/tabs/tabs';
+import { InputRestrictionUppercaseAlphanumDirective } from '@directives/input-restriction-uppercasealphanum.directive';
 import { TestCentre as JournalTestCentre } from '@dvsa/mes-journal-schema';
+import { MaskitoDirective } from '@maskito/angular';
 import { MaskitoElementPredicate, MaskitoOptions } from '@maskito/core';
 import { ErrorPage } from '@pages/error-page/error';
 import { AccessibilityService } from '@providers/accessibility/accessibility.service';
@@ -22,6 +44,8 @@ import { SaveLog } from '@store/logs/logs.actions';
 import { getRefDataState } from '@store/reference-data/reference-data.reducer';
 import { getActiveTestCentres, getTestCentres } from '@store/reference-data/reference-data.selector';
 import { orderBy } from 'lodash-es';
+import { AdvancedSearchComponent } from './components/advanced-search/advanced-search';
+import { SearchResultComponent } from './components/search-result/search-result';
 import {
   PerformApplicationReferenceSearch,
   PerformDriverNumberSearch,
@@ -43,16 +67,40 @@ interface TestResultPageState {
   selector: 'app-test-results-search',
   templateUrl: 'test-results-search.html',
   styleUrls: ['test-results-search.scss'],
-  standalone: false,
+  imports: [
+    IonHeader,
+    IonToolbar,
+    IonTitle,
+    IonButtons,
+    IonBackButton,
+    IonContent,
+    OfflineBannerComponent,
+    TabsComponent,
+    TabComponent,
+    IonGrid,
+    IonRow,
+    IonCol,
+    IonInput,
+    NgClass,
+    MaskitoDirective,
+    InputRestrictionUppercaseAlphanumDirective,
+    IonText,
+    IonButton,
+    IonIcon,
+    IonSpinner,
+    AdvancedSearchComponent,
+    SearchResultComponent,
+    AsyncPipe,
+  ],
 })
 export class TestResultsSearchPage extends BasePageComponent {
   searchBy: SearchBy = SearchBy.ApplicationReference;
   candidateInfo = '';
   focusedElement: string = null;
-  searchResults: SearchResultTestSchema[] = [];
-  hasSearched = false;
-  showSearchSpinner = false;
-  showAdvancedSearchSpinner = false;
+  readonly searchResults = signal<SearchResultTestSchema[]>([]);
+  readonly hasSearched = signal(false);
+  readonly showSearchSpinner = signal(false);
+  readonly showAdvancedSearchSpinner = signal(false);
   subscription: Subscription = Subscription.EMPTY;
   rekeySearch = false;
   pageState: TestResultPageState;
@@ -127,14 +175,14 @@ export class TestResultsSearchPage extends BasePageComponent {
     if (this.searchBy === SearchBy.DriverNumber) {
       this.subscription.unsubscribe();
       this.store$.dispatch(PerformDriverNumberSearch());
-      this.showSearchSpinner = true;
+      this.showSearchSpinner.set(true);
       this.subscription = this.searchProvider
         .driverNumberSearch(this.candidateInfo)
         .pipe(
-          tap(() => (this.hasSearched = true)),
+          tap(() => this.hasSearched.set(true)),
           map((results) => {
-            this.searchResults = results;
-            this.showSearchSpinner = false;
+            this.searchResults.set(results);
+            this.showSearchSpinner.set(false);
           }),
           catchError(async (err: Error) => {
             this.store$.dispatch(
@@ -142,16 +190,17 @@ export class TestResultsSearchPage extends BasePageComponent {
                 payload: this.logHelper.createLog(LogType.ERROR, 'Searching tests by driver number', err.message),
               })
             );
-            this.searchResults = [];
-            this.showSearchSpinner = false;
+            this.searchResults.set([]);
+            this.showSearchSpinner.set(false);
 
             if (err) {
               await this.showError(err);
-              this.hasSearched = false;
+              this.hasSearched.set(false);
               return of();
             }
 
-            return of((this.hasSearched = true));
+            this.hasSearched.set(true);
+            return of(true);
           })
         )
         .subscribe();
@@ -160,14 +209,14 @@ export class TestResultsSearchPage extends BasePageComponent {
     if (this.searchBy === SearchBy.ApplicationReference) {
       this.subscription.unsubscribe();
       this.store$.dispatch(PerformApplicationReferenceSearch());
-      this.showSearchSpinner = true;
+      this.showSearchSpinner.set(true);
       this.subscription = this.searchProvider
         .applicationReferenceSearch(formatBookingReferenceForBackend(this.candidateInfo))
         .pipe(
-          tap(() => (this.hasSearched = true)),
+          tap(() => this.hasSearched.set(true)),
           tap((results) => {
-            this.searchResults = results;
-            this.showSearchSpinner = false;
+            this.searchResults.set(results);
+            this.showSearchSpinner.set(false);
           }),
           catchError(async (err: Error) => {
             this.store$.dispatch(
@@ -179,16 +228,17 @@ export class TestResultsSearchPage extends BasePageComponent {
                 ),
               })
             );
-            this.searchResults = [];
-            this.showSearchSpinner = false;
+            this.searchResults.set([]);
+            this.showSearchSpinner.set(false);
 
             if (err) {
               await this.showError(err);
-              this.hasSearched = false;
+              this.hasSearched.set(false);
               return of();
             }
 
-            return of((this.hasSearched = true));
+            this.hasSearched.set(true);
+            return of(true);
           })
         )
         .subscribe();
@@ -198,14 +248,14 @@ export class TestResultsSearchPage extends BasePageComponent {
   advancedSearch(advancedSearchParams: AdvancedSearchParams): void {
     this.subscription.unsubscribe();
     this.store$.dispatch(PerformLDTMSearch(advancedSearchParams));
-    this.showAdvancedSearchSpinner = true;
+    this.showAdvancedSearchSpinner.set(true);
     this.subscription = this.searchProvider
       .advancedSearch(advancedSearchParams)
       .pipe(
-        tap(() => (this.hasSearched = true)),
+        tap(() => this.hasSearched.set(true)),
         tap((results) => {
-          this.searchResults = orderBy(results, ['testDate', 'category'], ['desc', 'asc']);
-          this.showAdvancedSearchSpinner = false;
+          this.searchResults.set(orderBy(results, ['testDate', 'category'], ['desc', 'asc']));
+          this.showAdvancedSearchSpinner.set(false);
         }),
         catchError(async (err: Error) => {
           this.store$.dispatch(
@@ -219,11 +269,11 @@ export class TestResultsSearchPage extends BasePageComponent {
               ),
             })
           );
-          this.searchResults = [];
-          this.showAdvancedSearchSpinner = false;
+          this.searchResults.set([]);
+          this.showAdvancedSearchSpinner.set(false);
           if (err) {
             await this.showError(err);
-            this.hasSearched = false;
+            this.hasSearched.set(false);
           }
           return of();
         })

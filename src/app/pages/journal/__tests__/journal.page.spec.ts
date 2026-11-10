@@ -5,14 +5,31 @@ import { By } from '@angular/platform-browser';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { MockAppComponent } from '@app/__mocks__/app.component.mock';
 import { AppComponent } from '@app/app.component';
-import { TestSlotComponentsModule } from '@components/test-slot/test-slot-components.module';
+
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { ModalController, Platform, RefresherEventDetail } from '@ionic/angular';
 import { IonRefresherCustomEvent, LoadingOptions } from '@ionic/core';
 import { ActivatedRouteMock, ModalControllerMock, PlatformMock } from '@mocks/index.mock';
 import { Store, StoreModule } from '@ngrx/store';
 import { ErrorPage } from '@pages/error-page/error';
-import { JournalComponentsModule } from '@pages/journal/components/journal-components.module';
+
+import { AdditionalCandidateDetailsComponent } from '@components/test-slot/additional-candidate-details/additional-candidate-details';
+import { AutosaveStatusComponent } from '@components/test-slot/autosave-status/autosave-status';
+import { CandidateLinkComponent } from '@components/test-slot/candidate-link/candidate-link';
+import { DateComponent } from '@components/test-slot/date/date';
+import { ExaminerNameComponent } from '@components/test-slot/examiner-name/examiner-name';
+import { IndicatorsComponent } from '@components/test-slot/indicators/indicators';
+import { IntegrityMarkerComponent } from '@components/test-slot/integrity-marker/integrity-marker';
+import { LanguageComponent } from '@components/test-slot/language/language';
+import { LocationComponent } from '@components/test-slot/location/location';
+import { ProgressiveAccessComponent } from '@components/test-slot/progressive-access/progressive-access';
+import { SubmissionStatusComponent } from '@components/test-slot/submission-status/submission-status';
+import { TestCategoryComponent } from '@components/test-slot/test-category/test-category';
+import { TestOutcomeComponent } from '@components/test-slot/test-outcome/test-outcome';
+import { TestSlotComponent } from '@components/test-slot/test-slot/test-slot';
+import { TimeComponent } from '@components/test-slot/time/time';
+import { VehicleDetailsComponent } from '@components/test-slot/vehicle-details/vehicle-details';
+import { JournalSlotComponent } from '@pages/journal/components/journal-slot/journal-slot';
 import { JournalPage } from '@pages/journal/journal.page';
 import { AccessibilityServiceMock } from '@providers/accessibility/__mocks__/accessibility-service.mock';
 import { AccessibilityService } from '@providers/accessibility/accessibility.service';
@@ -48,8 +65,12 @@ import { JournalRehydrationType } from '@store/journal/journal.effects';
 import { journalReducer } from '@store/journal/journal.reducer';
 import { getRecallAutoPopupLastDisplayedTime } from '@store/journal/journal.selector';
 import { TestStatus } from '@store/tests/test-status/test-status.model';
-import { getTests } from '@store/tests/tests.reducer';
+import { getTests, testsReducer } from '@store/tests/tests.reducer';
 import { Subscription, of } from 'rxjs';
+import { ActivitySlotComponent } from '../components/activity-slot/activity-slot';
+import { EmptySlotComponent } from '../components/empty-slot/empty-slot';
+import { JournalNavigationComponent } from '../components/journal-navigation/journal-navigation';
+import { PersonalCommitmentSlotComponent } from '../components/personal-commitment/personal-commitment';
 
 describe('JournalPage', () => {
   let fixture: ComponentFixture<JournalPage>;
@@ -66,14 +87,34 @@ describe('JournalPage', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      declarations: [JournalPage],
       imports: [
         RouterModule.forRoot([]),
-        JournalComponentsModule,
-        TestSlotComponentsModule,
+        ActivitySlotComponent,
+        EmptySlotComponent,
+        JournalNavigationComponent,
+        PersonalCommitmentSlotComponent,
+        JournalSlotComponent,
+        AdditionalCandidateDetailsComponent,
+        AutosaveStatusComponent,
+        CandidateLinkComponent,
+        IndicatorsComponent,
+        LanguageComponent,
+        ProgressiveAccessComponent,
+        SubmissionStatusComponent,
+        TestCategoryComponent,
+        TestOutcomeComponent,
+        TestSlotComponent,
+        TimeComponent,
+        DateComponent,
+        VehicleDetailsComponent,
+        LocationComponent,
+        ExaminerNameComponent,
+        IntegrityMarkerComponent,
         StoreModule.forRoot({
           journal: journalReducer,
+          tests: testsReducer,
         }),
+        JournalPage,
       ],
       providers: [
         {

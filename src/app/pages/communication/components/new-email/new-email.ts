@@ -1,12 +1,27 @@
 import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
-import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { AddOrRemoveLangCyDirective } from '@directives/add-or-remove-lang-cy.directive';
+import { EmojiBlockDirective } from '@directives/emoji-block.directive';
+import { PasteSanitiserDirective } from '@directives/paste-sanitiser';
+import { IonCol, IonInput, IonRow } from '@ionic/angular';
+import { TranslatePipe } from '@ngx-translate/core';
 import { emailValidator } from '@providers/custom-validators/custom-validators';
 
 @Component({
   selector: 'new-email',
   templateUrl: 'new-email.html',
   styleUrls: ['new-email.scss'],
-  standalone: false,
+  imports: [
+    IonRow,
+    FormsModule,
+    ReactiveFormsModule,
+    AddOrRemoveLangCyDirective,
+    IonCol,
+    IonInput,
+    EmojiBlockDirective,
+    PasteSanitiserDirective,
+    TranslatePipe,
+  ],
 })
 export class NewEmailComponent implements OnChanges {
   static readonly newEmail: string = 'newEmail';

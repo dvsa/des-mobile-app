@@ -5,7 +5,22 @@ import { select } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-import { ViewDidEnter } from '@ionic/angular';
+import { AsyncPipe } from '@angular/common';
+import {
+  IonButton,
+  IonCol,
+  IonContent,
+  IonFooter,
+  IonGrid,
+  IonHeader,
+  IonIcon,
+  IonRow,
+  IonSpinner,
+  IonText,
+  IonTitle,
+  IonToolbar,
+  ViewDidEnter,
+} from '@ionic/angular';
 import { DASHBOARD_PAGE, DELEGATED_REKEY_SEARCH_PAGE } from '@pages/page-names.constants';
 import { BasePageComponent } from '@shared/classes/base-page';
 import { TestStatus } from '@store/tests/test-status/test-status.model';
@@ -24,7 +39,21 @@ interface DelegatedRekeyUploadOutcomePageState {
   selector: 'page-delegated-rekey-upload-outcome',
   templateUrl: 'delegated-rekey-upload-outcome.html',
   styleUrls: ['delegated-rekey-upload-outcome.scss'],
-  standalone: false,
+  imports: [
+    IonHeader,
+    IonToolbar,
+    IonTitle,
+    IonContent,
+    IonGrid,
+    IonRow,
+    IonCol,
+    IonSpinner,
+    IonIcon,
+    IonText,
+    IonButton,
+    IonFooter,
+    AsyncPipe,
+  ],
 })
 export class DelegatedRekeyUploadOutcomePage extends BasePageComponent implements OnInit, ViewDidEnter {
   pageState: DelegatedRekeyUploadOutcomePageState;

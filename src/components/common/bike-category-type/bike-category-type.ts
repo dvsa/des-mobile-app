@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnChanges, Output, ViewChild } from '@angular/core';
-import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule, UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { CategoryCode } from '@dvsa/mes-test-schema/categories/common';
-import { IonSelect } from '@ionic/angular';
+import { IonButton, IonCol, IonIcon, IonRow, IonSelect, IonSelectOption } from '@ionic/angular';
 import { Store } from '@ngrx/store';
 import * as waitingRoomToCarActions from '@pages/waiting-room-to-car/waiting-room-to-car.actions';
 import { BikeCategoryDetailProvider } from '@providers/bike-category-detail/bike-category-detail';
@@ -12,7 +12,7 @@ import { StoreModel } from '@shared/models/store.model';
   selector: 'bike-category-type',
   templateUrl: './bike-category-type.html',
   styleUrls: ['./bike-category-type.scss'],
-  standalone: false,
+  imports: [IonRow, FormsModule, ReactiveFormsModule, IonCol, IonButton, IonIcon, IonSelect, IonSelectOption],
 })
 export class BikeCategoryTypeComponent implements OnChanges {
   @ViewChild('categorySelect') selectRef: IonSelect;

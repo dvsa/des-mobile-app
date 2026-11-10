@@ -2,10 +2,7 @@ import { Directive, ElementRef, Input, OnDestroy, OnInit, Renderer2 } from '@ang
 import { TranslateService } from '@ngx-translate/core';
 import { Subscription } from 'rxjs';
 
-@Directive({
-  selector: '[addOrRemoveLangCy]',
-  standalone: false,
-})
+@Directive({ selector: '[addOrRemoveLangCy]' })
 export class AddOrRemoveLangCyDirective implements OnInit, OnDestroy {
   @Input()
   shouldListenToLanguageChanges = true;

@@ -5,7 +5,6 @@ import { Address } from '@dvsa/mes-test-schema/categories/common';
   selector: 'display-address',
   templateUrl: 'display-address.html',
   styleUrls: ['display-address.scss'],
-  standalone: false,
 })
 export class DisplayAddressComponent {
   @Input()

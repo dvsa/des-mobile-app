@@ -12,8 +12,7 @@ describe('DebriefWitnessedComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [DebriefWitnessedComponent],
-
+      imports: [DebriefWitnessedComponent],
       providers: [
         provideMockStore({ ...{} }),
         { provide: OutcomeBehaviourMapProvider, useClass: OutcomeBehaviourMapProvider },

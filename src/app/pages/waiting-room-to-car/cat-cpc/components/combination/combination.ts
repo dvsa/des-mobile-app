@@ -1,12 +1,13 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { IonCol, IonRow, IonSelect, IonSelectOption } from '@ionic/angular';
 import { Combination } from '@shared/constants/cpc-questions/cpc-question-combinations.constants';
 
 @Component({
   selector: 'combination',
   templateUrl: 'combination.html',
   styleUrls: ['combination.scss'],
-  standalone: false,
+  imports: [IonRow, FormsModule, ReactiveFormsModule, IonCol, IonSelect, IonSelectOption],
 })
 export class CombinationComponent {
   @Input()

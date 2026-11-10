@@ -6,7 +6,9 @@ import { switchMap } from 'rxjs/operators';
 import { UrlProvider } from '../url/url';
 import { AuthenticationProvider } from './authentication';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class AuthInterceptor implements HttpInterceptor {
   constructor(
     private platform: Platform,

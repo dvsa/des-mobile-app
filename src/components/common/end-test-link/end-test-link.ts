@@ -1,8 +1,9 @@
+import { NgClass } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Router } from '@angular/router';
 import { TerminateTestModal } from '@components/common/terminate-test-modal/terminate-test-modal';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
-import { ModalController } from '@ionic/angular';
+import { IonButton, IonText, ModalController } from '@ionic/angular';
 import { Store } from '@ngrx/store';
 import { TestFlowPageNames } from '@pages/page-names.constants';
 import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
@@ -13,7 +14,7 @@ import { SetActivityCode } from '@store/tests/activity-code/activity-code.action
   selector: 'end-test-link',
   templateUrl: './end-test-link.html',
   styleUrls: ['./end-test-link.scss'],
-  standalone: false,
+  imports: [IonButton, IonText, NgClass],
 })
 export class EndTestLinkComponent {
   terminateTestModal: HTMLIonModalElement;

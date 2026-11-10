@@ -12,8 +12,7 @@ describe('PracticeEndToEndCard ', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [PracticeEndToEndCardComponent],
-
+      imports: [PracticeEndToEndCardComponent],
       providers: [{ provide: Router, useClass: RouterMock }],
     });
 

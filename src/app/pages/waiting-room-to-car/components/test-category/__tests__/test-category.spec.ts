@@ -8,7 +8,7 @@ describe('TestCategoryComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [TestCategoryComponent],
+      imports: [TestCategoryComponent],
     });
 
     fixture = TestBed.createComponent(TestCategoryComponent);

@@ -1,11 +1,13 @@
+import { NgClass } from '@angular/common';
 import { Component, Input } from '@angular/core';
+import { IonCol, IonRow, IonText } from '@ionic/angular';
 import { TestOutcome } from '@store/tests/tests.constants';
 
 @Component({
   selector: 'office-candidate-section',
   templateUrl: 'candidate-section.html',
   styleUrls: ['candidate-section.scss'],
-  standalone: false,
+  imports: [IonRow, IonCol, IonText, NgClass],
 })
 export class CandidateSectionComponent {
   @Input()

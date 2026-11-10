@@ -1,10 +1,11 @@
 import { Component, Input } from '@angular/core';
 import { CombinationCodes } from '@dvsa/mes-test-schema/categories/CPC';
+import { IonCol, IonRow } from '@ionic/angular';
 
 @Component({
   selector: 'combination-office',
   templateUrl: 'combination.html',
-  standalone: false,
+  imports: [IonRow, IonCol],
 })
 export class CombinationComponent {
   @Input()

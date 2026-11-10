@@ -3,7 +3,9 @@ import { IDeviceProvider } from '../device.model';
 
 const supportedDevices: string[] = ['iPad7,4'];
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class DeviceProviderMock implements IDeviceProvider {
   validDeviceType = (): boolean => {
     const model = this.getDeviceType();

@@ -12,8 +12,7 @@ describe('IndependentDrivingComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [IndependentDrivingComponent],
-      imports: [ReactiveFormsModule],
+      imports: [ReactiveFormsModule, IndependentDrivingComponent],
       providers: [{ provide: OutcomeBehaviourMapProvider, useClass: OutcomeBehaviourMapProvider }],
     });
 

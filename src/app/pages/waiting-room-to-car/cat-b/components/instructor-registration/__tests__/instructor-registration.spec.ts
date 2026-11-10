@@ -16,8 +16,7 @@ describe('InstructorRegistrationComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [InstructorRegistrationComponent],
-      imports: [ReactiveFormsModule],
+      imports: [ReactiveFormsModule, InstructorRegistrationComponent],
     });
 
     fixture = TestBed.createComponent(InstructorRegistrationComponent);

@@ -1,6 +1,21 @@
+import { AsyncPipe, NgClass } from '@angular/common';
 import { Component, Injector, OnInit } from '@angular/core';
-import { UntypedFormGroup } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule, UntypedFormGroup } from '@angular/forms';
+import { OfflineBannerComponent } from '@components/common/offline-banner/offline-banner';
+import { TestFlowHeaderComponent } from '@components/common/test-flow-header/test-flow-header.component';
+import { TransmissionComponent } from '@components/common/transmission/transmission';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
+import {
+  IonButton,
+  IonCol,
+  IonContent,
+  IonFooter,
+  IonGrid,
+  IonHeader,
+  IonRow,
+  IonText,
+  IonToolbar,
+} from '@ionic/angular';
 import { select } from '@ngrx/store';
 import { ClearCandidateLicenceData } from '@pages/candidate-licence/candidate-licence.actions';
 import { TestFlowPageNames } from '@pages/page-names.constants';
@@ -36,6 +51,15 @@ import {
 } from '@store/tests/vehicle-details/vehicle-details.actions';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { AccompanimentCardComponent } from '../components/accompaniment-card/accompaniment-card';
+import { EyesightFailureConfirmationComponent } from '../components/eyesight-failure-confirmation/eyesight-failure-confirmation';
+import { EyesightTestComponent } from '../components/eyesight-test/eyesight-test';
+import { MotNoEvidenceConfirmationComponent } from '../components/mot-components/mot-no-evidence-confirmation/mot-no-evidence-confirmation';
+import { SafetyRecallComponent } from '../components/safety-recall/safety-recall';
+import { VehicleDetailsCardComponent } from '../components/vehicle-details-card/vehicle-details-card';
+import { VehicleRegistrationComponent } from '../components/vehicle-registration/vehicle-registration';
+import { InstructorRegistrationComponent } from './components/instructor-registration/instructor-registration';
+import { TellMeQuestionCardComponent } from './components/tell-me-question-card/tell-me-question-card';
 
 interface CatBWaitingRoomToCarPageState {
   tellMeQuestion$: Observable<VehicleChecksQuestion>;
@@ -47,10 +71,37 @@ interface CatBWaitingRoomToCarPageState {
 type WaitingRoomToCarPageState = CommonWaitingRoomToCarPageState & CatBWaitingRoomToCarPageState;
 
 @Component({
+  standalone: true,
   selector: 'app-waiting-room-to-car-cat-b',
   templateUrl: './waiting-room-to-car.cat-b.page.html',
   styleUrls: ['./waiting-room-to-car.cat-b.page.scss'],
-  standalone: false,
+  imports: [
+    IonHeader,
+    IonToolbar,
+    NgClass,
+    TestFlowHeaderComponent,
+    IonContent,
+    OfflineBannerComponent,
+    FormsModule,
+    ReactiveFormsModule,
+    IonGrid,
+    EyesightTestComponent,
+    IonRow,
+    EyesightFailureConfirmationComponent,
+    IonCol,
+    VehicleRegistrationComponent,
+    MotNoEvidenceConfirmationComponent,
+    SafetyRecallComponent,
+    TellMeQuestionCardComponent,
+    TransmissionComponent,
+    InstructorRegistrationComponent,
+    AccompanimentCardComponent,
+    VehicleDetailsCardComponent,
+    IonFooter,
+    IonButton,
+    IonText,
+    AsyncPipe,
+  ],
 })
 export class WaitingRoomToCarCatBPage extends WaitingRoomToCarBasePageComponent implements OnInit {
   pageState: WaitingRoomToCarPageState;

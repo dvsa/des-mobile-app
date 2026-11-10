@@ -1,15 +1,17 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { UntypedFormGroup } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule, UntypedFormGroup } from '@angular/forms';
 import { MotHistory } from '@dvsa/mes-mot-schema';
+import { IonCol, IonIcon, IonRow, IonText } from '@ionic/angular';
 import { NetworkStateProvider } from '@providers/network-state/network-state';
 import { getMakeAndModel, hasMakeOrModel } from '@shared/helpers/mot-formatter';
 import { HttpStatusCodes } from '@shared/models/http-status-codes';
+import { AlternateMotEvidenceComponent } from '../alternate-mot-evidence/alternate-mot-evidence.component';
 
 @Component({
   selector: 'mot-card',
   templateUrl: './mot-card.component.html',
   styleUrls: ['./mot-card.component.scss'],
-  standalone: false,
+  imports: [IonRow, IonCol, IonIcon, IonText, AlternateMotEvidenceComponent, FormsModule, ReactiveFormsModule],
 })
 export class MotCardComponent {
   @Input()

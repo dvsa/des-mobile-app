@@ -2,14 +2,14 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
-import { ModalController, NavController, Platform, ToastController } from '@ionic/angular';
-import { ModalControllerMock, PlatformMock } from '@mocks/index.mock';
+import { NavController, ToastController } from '@ionic/angular';
+
+import { provideBasePageMocks } from '@mocks/test-providers';
 import { Store, StoreModule } from '@ngrx/store';
 import { NavControllerMock } from '@shared/mocks/nav-controller.mock';
 import { MockComponent } from 'ng-mocks';
 
 import { ActivityCodeComponent } from '@components/common/activity-code/activity-code';
-import { ComponentsModule } from '@components/common/common-components.module';
 import { TestFlowHeaderComponent } from '@components/common/test-flow-header/test-flow-header.component';
 import { CatADI2UniqueTypes } from '@dvsa/mes-test-schema/categories/ADI2';
 import { ShowMeQuestionsCatADI2Component } from '@pages/office/cat-adi-part2/components/show-me-questions/show-me-questions';
@@ -21,10 +21,7 @@ import { TrueLikenessComponent } from '@pages/office/components/true-likeness/tr
 import { AccompanimentCardComponent } from '@pages/waiting-room-to-car/components/accompaniment-card/accompaniment-card';
 import { AccompanimentComponent } from '@pages/waiting-room-to-car/components/accompaniment/accompaniment';
 import { VehicleDetailsCardComponent } from '@pages/waiting-room-to-car/components/vehicle-details-card/vehicle-details-card';
-import { AuthenticationProviderMock } from '@providers/authentication/__mocks__/authentication.mock';
-import { AuthenticationProvider } from '@providers/authentication/authentication';
-import { DeviceProviderMock } from '@providers/device/__mocks__/device.mock';
-import { DeviceProvider } from '@providers/device/device';
+
 import { FaultCountProvider } from '@providers/fault-count/fault-count';
 import { FaultSummaryProvider } from '@providers/fault-summary/fault-summary';
 import { OutcomeBehaviourMapProviderMock } from '@providers/outcome-behaviour-map/__mocks__/outcome-behaviour-map.mock';
@@ -40,7 +37,7 @@ import { ActivityCodes } from '@shared/models/activity-codes';
 import { CompetencyOutcome } from '@shared/models/competency-outcome';
 import { CommentSource } from '@shared/models/fault-marking.model';
 import { StoreModel } from '@shared/models/store.model';
-import { PipesModule } from '@shared/pipes/pipes.module';
+
 import { AddManoeuvreComment } from '@store/tests/test-data/cat-adi-part2/manoeuvres/manoeuvres.actions';
 import {
   AddShowMeTellMeComment,
@@ -66,7 +63,7 @@ import {
 } from '@store/tests/test-data/common/serious-faults/serious-faults.actions';
 import { AddUncoupleRecoupleComment } from '@store/tests/test-data/common/uncouple-recouple/uncouple-recouple.actions';
 import { Competencies, ExaminerActions } from '@store/tests/test-data/test-data.constants';
-import { AppModule } from 'src/app/app.module';
+
 import { AdditionalInformationComponent } from '../../components/additional-information/additional-information';
 import { CandidateDescriptionComponent } from '../../components/candidate-description/candidate-description';
 import { CandidateSectionComponent } from '../../components/candidate-section/candidate-section';
@@ -85,7 +82,47 @@ describe('OfficeCatADI2Page', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [
+      imports: [
+        StoreModule.forRoot({
+          tests: () => ({
+            currentTest: {
+              slotId: '123',
+            },
+            testStatus: {},
+            startedTests: {
+              123: {
+                category: TestCategory.ADI2,
+                vehicleDetails: {},
+                accompaniment: {},
+                testSummary: {},
+                userExitedApp: {},
+                testData: {
+                  dangerousFaults: {},
+                  drivingFaults: {},
+                  manoeuvres: [{}, {}],
+                  seriousFaults: {},
+                  testRequirements: {},
+                  ETA: {},
+                  eco: {},
+                  vehicleChecks: {
+                    tellMeQuestions: [{}, {}],
+                    showMeQuestions: [{}, {}],
+                  },
+                },
+                activityCode: '28',
+                journalData: {
+                  testSlotAttributes: { start: '2026-01-01T09:00:00' },
+                  candidate: {
+                    candidateName: {},
+                    driverNumber: '123',
+                  },
+                },
+                rekey: false,
+              } as CatADI2UniqueTypes.TestResult,
+            },
+          }),
+        }),
+        ReactiveFormsModule,
         OfficeCatADI2Page,
         MockComponent(OfficeFooterComponent),
         MockComponent(RouteNumberComponent),
@@ -107,58 +144,8 @@ describe('OfficeCatADI2Page', () => {
         MockComponent(TestFlowHeaderComponent),
         MockComponent(VehicleDetailsCardComponent),
       ],
-      imports: [
-        PipesModule,
-
-        AppModule,
-        ComponentsModule,
-        StoreModule.forRoot({
-          tests: () => ({
-            currentTest: {
-              slotId: '123',
-            },
-            testStatus: {},
-            startedTests: {
-              123: {
-                category: TestCategory.ADI2,
-                vehicleDetails: {},
-                accompaniment: {},
-                testData: {
-                  dangerousFaults: {},
-                  drivingFaults: {},
-                  manoeuvres: [{}, {}],
-                  seriousFaults: {},
-                  testRequirements: {},
-                  ETA: {},
-                  eco: {},
-                  vehicleChecks: {
-                    tellMeQuestions: [{}, {}],
-                    showMeQuestions: [{}, {}],
-                  },
-                },
-                activityCode: '28',
-                journalData: {
-                  candidate: {
-                    candidateName: {},
-                    driverNumber: '123',
-                  },
-                },
-                rekey: false,
-              } as CatADI2UniqueTypes.TestResult,
-            },
-          }),
-        }),
-        ReactiveFormsModule,
-      ],
       providers: [
-        {
-          provide: Platform,
-          useClass: PlatformMock,
-        },
-        {
-          provide: AuthenticationProvider,
-          useClass: AuthenticationProviderMock,
-        },
+        provideBasePageMocks(),
         {
           provide: NavController,
           useClass: NavControllerMock,
@@ -166,10 +153,6 @@ describe('OfficeCatADI2Page', () => {
         {
           provide: ToastController,
           useClass: ToastControllerMock,
-        },
-        {
-          provide: ModalController,
-          useClass: ModalControllerMock,
         },
         {
           provide: OutcomeBehaviourMapProvider,
@@ -187,10 +170,6 @@ describe('OfficeCatADI2Page', () => {
         {
           provide: FaultCountProvider,
           useClass: FaultCountProvider,
-        },
-        {
-          provide: DeviceProvider,
-          useClass: DeviceProviderMock,
         },
       ],
     });
@@ -277,6 +256,7 @@ describe('OfficeCatADI2Page', () => {
     it('should dispatch an action to persist tests + pop navstack to root when defer is called', () => {
       spyOn(component, 'popToRoot');
       fixture.detectChanges();
+      component.hasNavigatedFromUnsubmitted = false;
       component.defer();
       expect(component.popToRoot).toHaveBeenCalled();
     });

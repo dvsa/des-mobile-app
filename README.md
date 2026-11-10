@@ -27,6 +27,13 @@ DVSA Driving Examiner Application
 1. `npm install` (or `npm i`)
 2. `npm run build`
 
+### Standalone components
+
+Components, directives, and pipes use Angular's standalone default and declare their template dependencies
+in their own `imports`. Import them directly rather than creating component NgModules.
+Root routes are defined in `src/app/app.routes.ts` and registered with `provideRouter()` in `src/main.ts`,
+alongside the application providers.
+
 ### Config
 
 ###### Run the following to switch between configurations
@@ -61,6 +68,17 @@ DVSA Driving Examiner Application
 ###### Running the following command will execute the unit test suite, as well as creating a folder containing code coverage here `./coverage`.
 
 - `npm run test`
+
+To run tests without regenerating mock data or replacing the environment file:
+
+```shell
+npx ng test --watch=false --progress=false --code-coverage=false
+```
+
+Standalone tests must configure their own dependencies; application bootstrap providers are not inherited.
+Use `provideBasePageMocks()` from `mock/test-providers.ts` for page dependencies, or
+`provideTestTranslations()` for translation-only components. Configure a root store or `provideMockStore()`
+separately, and include directives in standalone test host components' `imports`.
 
 ### Sentry
 

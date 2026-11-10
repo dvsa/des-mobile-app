@@ -1,7 +1,7 @@
 import { EventEmitter } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
-import { AppModule } from '@app/app.module';
+
 import { QuestionResult } from '@dvsa/mes-test-schema/categories/common';
 
 import { VehicleChecksQuestion } from '@providers/question/vehicle-checks-question.model';
@@ -19,8 +19,7 @@ describe('VehicleChecksQuestionComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [VehicleChecksQuestionComponent],
-      imports: [AppModule],
+      imports: [VehicleChecksQuestionComponent],
     });
 
     fixture = TestBed.createComponent(VehicleChecksQuestionComponent);

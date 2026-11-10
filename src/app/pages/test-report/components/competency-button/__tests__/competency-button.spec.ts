@@ -1,6 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { AppModule } from '@app/app.module';
 
 import { DateTimeProviderMock } from '@providers/date-time/__mocks__/date-time.mock';
 import { DateTimeProvider } from '@providers/date-time/date-time';
@@ -12,8 +11,7 @@ describe('CompetencyButtonComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [CompetencyButtonComponent],
-      imports: [AppModule],
+      imports: [CompetencyButtonComponent],
       providers: [{ provide: DateTimeProvider, useClass: DateTimeProviderMock }],
     });
 

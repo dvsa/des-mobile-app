@@ -1,11 +1,13 @@
 import { Component, Input } from '@angular/core';
+import { DataRowComponent } from '@components/common/data-row/data-row';
 import { IpadIssue, RekeyReason } from '@dvsa/mes-test-schema/categories/common';
+import { IonCard, IonCardContent, IonCardHeader, IonGrid } from '@ionic/angular';
 import { get } from 'lodash-es';
 
 @Component({
   selector: 'rekey-reason-card',
   templateUrl: 'rekey-reason-card.html',
-  standalone: false,
+  imports: [IonCard, IonCardHeader, IonCardContent, IonGrid, DataRowComponent],
 })
 export class RekeyReasonCardComponent {
   @Input()

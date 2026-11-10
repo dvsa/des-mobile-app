@@ -2,11 +2,11 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
 import { ReactiveFormsModule, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { By } from '@angular/platform-browser';
-import { Router } from '@angular/router';
+
 import { TestResultSchemasUnion } from '@dvsa/mes-test-schema/categories';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
-import { Platform } from '@ionic/angular';
-import { PlatformMock, RouterMock } from '@mocks/index.mock';
+
+import { provideBasePageMocks } from '@mocks/test-providers';
 import { Store } from '@ngrx/store';
 import { provideMockStore } from '@ngrx/store/testing';
 import { MockComponent } from 'ng-mocks';
@@ -28,8 +28,7 @@ import { VehicleDetailsCardComponent } from '@pages/waiting-room-to-car/componen
 import { VehicleDetailsComponent } from '@pages/waiting-room-to-car/components/vehicle-details/vehicle-details';
 import { VehicleRegistrationComponent } from '@pages/waiting-room-to-car/components/vehicle-registration/vehicle-registration';
 import { WaitingRoomToCarValidationError } from '@pages/waiting-room-to-car/waiting-room-to-car.actions';
-import { AuthenticationProviderMock } from '@providers/authentication/__mocks__/authentication.mock';
-import { AuthenticationProvider } from '@providers/authentication/authentication';
+
 import { VehicleChecksQuestion } from '@providers/question/vehicle-checks-question.model';
 import { RouteByCategoryProviderMock } from '@providers/route-by-category/__mocks__/route-by-category.mock';
 import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
@@ -46,7 +45,6 @@ import {
 import { EyesightTestReset } from '@store/tests/test-data/common/eyesight-test/eyesight-test.actions';
 import { TestsModel } from '@store/tests/tests.model';
 
-import { AppModule } from '@app/app.module';
 import { WaitingRoomToCarCatBPage } from '../waiting-room-to-car.cat-b.page';
 
 describe('WaitingRoomToCarCatBPage', () => {
@@ -82,7 +80,8 @@ describe('WaitingRoomToCarCatBPage', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      declarations: [
+      imports: [
+        ReactiveFormsModule,
         WaitingRoomToCarCatBPage,
         MockComponent(EyesightTestComponent),
         MockComponent(EyesightFailureConfirmationComponent),
@@ -99,12 +98,9 @@ describe('WaitingRoomToCarCatBPage', () => {
         MockComponent(AccompanimentComponent),
         MockComponent(PracticeModeOptionsBar),
       ],
-      imports: [AppModule, ReactiveFormsModule],
       providers: [
+        provideBasePageMocks(),
         { provide: RouteByCategoryProvider, useClass: RouteByCategoryProviderMock },
-        { provide: AuthenticationProvider, useClass: AuthenticationProviderMock },
-        { provide: Platform, useClass: PlatformMock },
-        { provide: Router, useClass: RouterMock },
         provideMockStore({ initialState }),
       ],
     });

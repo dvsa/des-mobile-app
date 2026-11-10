@@ -1,5 +1,8 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { IonDatetime } from '@ionic/angular';
+import { FormsModule } from '@angular/forms';
+import { EmojiBlockDirective } from '@directives/emoji-block.directive';
+import { PasteSanitiserDirective } from '@directives/paste-sanitiser';
+import { IonButton, IonButtons, IonDatetime, IonInput, IonModal } from '@ionic/angular';
 import { DateTime } from '@shared/helpers/date-time';
 
 export enum DisplayType {
@@ -11,7 +14,16 @@ export enum DisplayType {
   selector: 'datetime-input',
   templateUrl: './date-time-input.component.html',
   styleUrls: ['./date-time-input.component.scss'],
-  standalone: false,
+  imports: [
+    IonInput,
+    EmojiBlockDirective,
+    PasteSanitiserDirective,
+    FormsModule,
+    IonModal,
+    IonDatetime,
+    IonButtons,
+    IonButton,
+  ],
 })
 export class DateTimeInputComponent {
   @Input()

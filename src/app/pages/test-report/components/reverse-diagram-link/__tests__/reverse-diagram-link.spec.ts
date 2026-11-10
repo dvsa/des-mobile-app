@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { AppModule } from '@app/app.module';
+
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { ModalController } from '@ionic/angular';
 import { OverlayEventDetail } from '@ionic/core';
@@ -22,9 +22,7 @@ describe('ReverseDiagramLinkComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [ReverseDiagramLinkComponent],
       imports: [
-        AppModule,
         StoreModule.forRoot({
           tests: () => ({
             currentTest: {
@@ -78,6 +76,7 @@ describe('ReverseDiagramLinkComponent', () => {
           }),
           testReport: testReportReducer,
         }),
+        ReverseDiagramLinkComponent,
       ],
       providers: [
         { provide: ModalController, useClass: ModalControllerMock },

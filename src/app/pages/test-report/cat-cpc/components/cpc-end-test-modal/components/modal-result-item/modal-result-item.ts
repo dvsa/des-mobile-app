@@ -1,10 +1,12 @@
+import { NgOptimizedImage } from '@angular/common';
 import { Component, Input } from '@angular/core';
+import { IonCol, IonGrid, IonRow } from '@ionic/angular';
 
 @Component({
   selector: 'modal-result-item',
   templateUrl: 'modal-result-item.html',
   styleUrls: ['modal-result-item.scss'],
-  standalone: false,
+  imports: [IonRow, IonCol, NgOptimizedImage, IonGrid],
 })
 export class ModalResultItemComponent {
   @Input()

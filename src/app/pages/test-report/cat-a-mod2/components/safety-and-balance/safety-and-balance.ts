@@ -1,4 +1,6 @@
+import { AsyncPipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
+import { DrivingFaultsBadgeComponent } from '@components/common/driving-faults-badge/driving-faults-badge';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { Store, select } from '@ngrx/store';
 import { FaultCountProvider } from '@providers/fault-count/fault-count';
@@ -19,7 +21,7 @@ interface ComponentState {
   selector: 'safety-and-balance',
   templateUrl: 'safety-and-balance.html',
   styleUrls: ['safety-and-balance.scss'],
-  standalone: false,
+  imports: [DrivingFaultsBadgeComponent, AsyncPipe],
 })
 export class SafetyAndBalanceComponent implements OnInit {
   componentState: ComponentState;

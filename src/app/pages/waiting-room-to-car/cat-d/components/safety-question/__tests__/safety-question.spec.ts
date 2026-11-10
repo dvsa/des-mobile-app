@@ -1,7 +1,6 @@
 import { EventEmitter } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
-import { AppModule } from '@app/app.module';
 
 import { SafetyQuestion } from '@providers/question/safety-question.model';
 import { SafetyQuestionComponent } from '../safety-question';
@@ -16,8 +15,7 @@ describe('SafetyQuestionComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [SafetyQuestionComponent],
-      imports: [AppModule],
+      imports: [SafetyQuestionComponent],
     });
 
     fixture = TestBed.createComponent(SafetyQuestionComponent);

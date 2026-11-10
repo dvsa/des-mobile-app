@@ -1,5 +1,6 @@
 import { Location } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { IonText } from '@ionic/angular';
 import { ErrorTypes } from '@shared/models/error-message';
 
 export enum additionalText {
@@ -12,7 +13,7 @@ export enum additionalText {
   selector: 'error-message',
   templateUrl: './error-message.html',
   styleUrls: ['./error-message.scss'],
-  standalone: false,
+  imports: [IonText],
 })
 export class ErrorMessageComponent {
   public additionalText: string;

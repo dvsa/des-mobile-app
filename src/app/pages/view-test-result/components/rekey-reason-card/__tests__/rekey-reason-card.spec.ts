@@ -10,7 +10,7 @@ describe('RekeyReasonCardComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [RekeyReasonCardComponent, MockComponent(DataRowComponent)],
+      imports: [RekeyReasonCardComponent, MockComponent(DataRowComponent)],
     });
 
     fixture = TestBed.createComponent(RekeyReasonCardComponent);

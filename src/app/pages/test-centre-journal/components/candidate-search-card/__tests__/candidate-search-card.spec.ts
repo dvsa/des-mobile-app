@@ -3,11 +3,12 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ModalController } from '@ionic/angular';
 import { provideMockStore } from '@ngrx/store/testing';
 
-import { ComponentsModule } from '@components/common/common-components.module';
 import { TestCentre } from '@dvsa/mes-journal-schema';
 import { ModalControllerMock } from '@mocks/ionic-mocks/modal-controller.mock';
 import { TestCentreDetailResponse } from '@shared/models/test-centre-journal.model';
-import { TestCentreJournalComponentsModule } from '../../test-centre-journal-components.module';
+
+import { TestCentreNameComponent } from '../../test-centre-name/test-centre-name';
+import { ViewJournalsCardComponent } from '../../view-journals-card/view-journals-card';
 import * as mockData from '../__mocks__/candidate-search-card.mock';
 import { CandidateData, CandidateSearchCardComponent } from '../candidate-search-card';
 
@@ -17,8 +18,7 @@ describe('CandidateSearchCardComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [CandidateSearchCardComponent],
-      imports: [CommonModule, ComponentsModule, TestCentreJournalComponentsModule],
+      imports: [CommonModule, TestCentreNameComponent, ViewJournalsCardComponent, CandidateSearchCardComponent],
       providers: [{ provide: ModalController, useClass: ModalControllerMock }, provideMockStore({ initialState: {} })],
     });
 

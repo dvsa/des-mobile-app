@@ -1,6 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { AppModule } from '@app/app.module';
-import { ComponentsModule } from '@components/common/common-components.module';
+
 import { DataRowCustomComponent } from '@components/common/data-row-custom/data-row-custom';
 import { DataRowComponent } from '@components/common/data-row/data-row';
 import { DrivingFaultsBadgeComponent } from '@components/common/driving-faults-badge/driving-faults-badge';
@@ -32,7 +31,9 @@ describe('DebriefCardComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [
+      imports: [
+        EtaCardComponent,
+
         DebriefCardComponent,
         MockComponent(DataRowWithListComponent),
         MockComponent(DataRowComponent),
@@ -45,7 +46,6 @@ describe('DebriefCardComponent', () => {
         MockComponent(SafetyAndBalanceDataRowComponent),
         MockComponent(FaultsDataRowComponent),
       ],
-      imports: [EtaCardComponent, AppModule, ComponentsModule],
       providers: [QuestionProvider],
     });
 

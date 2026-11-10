@@ -2,7 +2,7 @@ import { EventEmitter } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { UntypedFormGroup, Validators } from '@angular/forms';
-import { AppModule } from '@app/app.module';
+
 import { AccessibilityServiceMock } from '@providers/accessibility/__mocks__/accessibility-service.mock';
 import { AccessibilityService } from '@providers/accessibility/accessibility.service';
 import { VehicleChecksQuestion } from '@providers/question/vehicle-checks-question.model';
@@ -21,8 +21,7 @@ describe('ShowMeQuestionsCatADI2Component', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [ShowMeQuestionsCatADI2Component],
-      imports: [AppModule],
+      imports: [ShowMeQuestionsCatADI2Component],
       providers: [
         {
           provide: AccessibilityService,

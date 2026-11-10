@@ -1,10 +1,12 @@
+import { DatePipe } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { IonCol, IonGrid, IonIcon, IonRow, IonText } from '@ionic/angular';
 
 @Component({
   selector: 'journal-navigation',
   templateUrl: 'journal-navigation.html',
   styleUrls: ['journal-navigation.scss'],
-  standalone: false,
+  imports: [IonGrid, IonRow, IonCol, IonIcon, IonText, DatePipe],
 })
 export class JournalNavigationComponent {
   @Input()

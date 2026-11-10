@@ -1,7 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { By } from '@angular/platform-browser';
-import { AppModule } from '@app/app.module';
 
 import { TellMeQuestionOutcomeComponent } from '../tell-me-question-outcome';
 
@@ -11,8 +10,7 @@ describe('TellMeQuestionOutcomeComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [TellMeQuestionOutcomeComponent],
-      imports: [AppModule, ReactiveFormsModule],
+      imports: [ReactiveFormsModule, TellMeQuestionOutcomeComponent],
     });
 
     fixture = TestBed.createComponent(TellMeQuestionOutcomeComponent);

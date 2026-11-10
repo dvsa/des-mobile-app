@@ -4,7 +4,7 @@ import { ReactiveFormsModule, UntypedFormControl, UntypedFormGroup } from '@angu
 import { By } from '@angular/platform-browser';
 import { IonCol, IonInput, IonRow } from '@ionic/angular';
 
-import { TranslateModule, TranslateService, provideTranslateService } from '@ngx-translate/core';
+import { TranslateService, provideTranslateService } from '@ngx-translate/core';
 import { provideTranslateHttpLoader } from '@ngx-translate/http-loader';
 import { NewEmailComponent } from '../new-email';
 
@@ -15,8 +15,7 @@ describe('NewEmailComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [NewEmailComponent],
-      imports: [ReactiveFormsModule, TranslateModule.forRoot(), IonCol, IonInput, IonRow],
+      imports: [ReactiveFormsModule, IonCol, IonInput, IonRow, NewEmailComponent],
       providers: [
         provideHttpClient(withInterceptorsFromDi()),
         provideTranslateService({
@@ -30,7 +29,7 @@ describe('NewEmailComponent', () => {
     fixture = TestBed.createComponent(NewEmailComponent);
     component = fixture.componentInstance;
     translate = TestBed.inject(TranslateService);
-    translate.setDefaultLang('en');
+    translate.setFallbackLang('en');
     component.formGroup = new UntypedFormGroup({});
     const radioCtrl = new UntypedFormControl('radioCtrl');
     component.formGroup.addControl('radioCtrl', radioCtrl);

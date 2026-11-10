@@ -1,7 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { AppModule } from '@app/app.module';
-import { ComponentsModule } from '@components/common/common-components.module';
+
 import { ModalController } from '@ionic/angular';
 import { ModalControllerMock } from '@mocks/ionic-mocks/modal-controller.mock';
 import { ModalEvent } from '../../../../test-report.constants';
@@ -14,8 +13,7 @@ describe('ActivityCode4Modal', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [ActivityCode4Modal],
-      imports: [AppModule, ComponentsModule],
+      imports: [ActivityCode4Modal],
       providers: [{ provide: ModalController, useClass: ModalControllerMock }],
     });
 

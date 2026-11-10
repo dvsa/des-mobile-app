@@ -1,5 +1,4 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { AppModule } from '@app/app.module';
 import { ModalController } from '@ionic/angular';
 import { ModalControllerMock } from '@mocks/ionic-mocks/modal-controller.mock';
 import { ExitSamErrorModal } from '../exit-sam-error-modal';
@@ -10,7 +9,7 @@ describe('ExitSamErrorModal', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [ExitSamErrorModal, AppModule],
+      imports: [ExitSamErrorModal],
       providers: [{ provide: ModalController, useClass: ModalControllerMock }],
     });
 

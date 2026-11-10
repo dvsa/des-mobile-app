@@ -1,8 +1,23 @@
 import { Component, Injector, OnInit } from '@angular/core';
-import { UntypedFormGroup } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule, UntypedFormGroup } from '@angular/forms';
 import { select } from '@ngrx/store';
 import { Observable } from 'rxjs';
 
+import { AsyncPipe, NgClass } from '@angular/common';
+import { OfflineBannerComponent } from '@components/common/offline-banner/offline-banner';
+import { TestFlowHeaderComponent } from '@components/common/test-flow-header/test-flow-header.component';
+import { WarningBannerComponent } from '@components/common/warning-banner/warning-banner';
+import {
+  IonButton,
+  IonCol,
+  IonContent,
+  IonFooter,
+  IonGrid,
+  IonHeader,
+  IonRow,
+  IonText,
+  IonToolbar,
+} from '@ionic/angular';
 import { ClearCandidateLicenceData } from '@pages/candidate-licence/candidate-licence.actions';
 import { TestFlowPageNames } from '@pages/page-names.constants';
 import { WaitingRoomToCarValidationError } from '@pages/waiting-room-to-car/waiting-room-to-car.actions';
@@ -20,6 +35,11 @@ import {
   getVehicleWidth,
 } from '@store/tests/vehicle-details/cat-manoeuvres/vehicle-details.cat-manoeuvre.selector';
 import { MotEvidenceProvidedReset } from '@store/tests/vehicle-details/vehicle-details.actions';
+import { AccompanimentCardComponent } from '../components/accompaniment-card/accompaniment-card';
+import { MotNoEvidenceConfirmationComponent } from '../components/mot-components/mot-no-evidence-confirmation/mot-no-evidence-confirmation';
+import { TestCategoryComponent } from '../components/test-category/test-category';
+import { VehicleRegistrationComponent } from '../components/vehicle-registration/vehicle-registration';
+import { DimensionsComponent } from './components/dimensions/dimensions';
 
 interface CatManoeuvreWaitingRoomToCarPageState {
   vehicleLength$: Observable<number>;
@@ -34,7 +54,29 @@ type WaitingRoomToCarPageState = CommonWaitingRoomToCarPageState & CatManoeuvreW
   selector: 'app-waiting-room-to-car-cat-manoeuvre',
   templateUrl: './waiting-room-to-car.cat-manoeuvre.page.html',
   styleUrls: ['./waiting-room-to-car.cat-manoeuvre.page.scss'],
-  standalone: false,
+  imports: [
+    IonHeader,
+    IonToolbar,
+    NgClass,
+    TestFlowHeaderComponent,
+    IonContent,
+    OfflineBannerComponent,
+    FormsModule,
+    ReactiveFormsModule,
+    IonGrid,
+    IonRow,
+    IonCol,
+    VehicleRegistrationComponent,
+    MotNoEvidenceConfirmationComponent,
+    TestCategoryComponent,
+    DimensionsComponent,
+    AccompanimentCardComponent,
+    WarningBannerComponent,
+    IonFooter,
+    IonButton,
+    IonText,
+    AsyncPipe,
+  ],
 })
 export class WaitingRoomToCarCatManoeuvrePage extends WaitingRoomToCarBasePageComponent implements OnInit {
   form: UntypedFormGroup;

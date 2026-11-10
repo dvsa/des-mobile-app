@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { SlotDetail, TestSlot } from '@dvsa/mes-journal-schema';
 import { ActivityCode } from '@dvsa/mes-test-schema/categories/common';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
-import { ModalController } from '@ionic/angular';
+import { IonButton, IonCol, IonGrid, IonRow, IonText, ModalController } from '@ionic/angular';
 import { Store, select } from '@ngrx/store';
 import { JOURNAL_FORCE_CHECK_MODAL, TestFlowPageNames } from '@pages/page-names.constants';
 import { getRekeySearchState } from '@pages/rekey-search/rekey-search.reducer';
@@ -42,7 +42,7 @@ import { StartedTests, getStartedTests, getTestById } from '@store/tests/tests.s
   selector: 'test-outcome',
   templateUrl: 'test-outcome.html',
   styleUrls: ['test-outcome.scss'],
-  standalone: false,
+  imports: [IonGrid, IonRow, IonText, IonCol, IonButton],
 })
 export class TestOutcomeComponent implements OnDestroy, OnInit {
   @Input()

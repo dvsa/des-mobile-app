@@ -8,7 +8,7 @@ describe('ExaminerRecordsLearnMoreModalComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ExaminerRecordsLabelTextComponent],
+      imports: [ExaminerRecordsLabelTextComponent],
     }).compileComponents();
 
     fixture = TestBed.createComponent(ExaminerRecordsLabelTextComponent);

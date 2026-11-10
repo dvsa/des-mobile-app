@@ -1,12 +1,39 @@
+import { NgClass } from '@angular/common';
 import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
-import { UntypedFormControl, UntypedFormGroup, ValidationErrors, ValidatorFn } from '@angular/forms';
+import {
+  FormsModule,
+  ReactiveFormsModule,
+  UntypedFormControl,
+  UntypedFormGroup,
+  ValidationErrors,
+  ValidatorFn,
+} from '@angular/forms';
+import { CharacterCountDirective } from '@directives/character-count.directive';
+import { EmojiBlockDirective } from '@directives/emoji-block.directive';
+import { PasteSanitiserDirective } from '@directives/paste-sanitiser';
 import { LessonTheme } from '@dvsa/mes-test-schema/categories/ADI3';
+import { IonCard, IonCardContent, IonCardHeader, IonCol, IonGrid, IonRow } from '@ionic/angular';
 import { CharacterCountService } from '@providers/character-count/character-count.service';
+import { AssessmentAnswerComponent } from '../assessment-answer/assessment-answer';
 
 @Component({
   selector: 'lesson-theme',
   templateUrl: 'lesson-theme.html',
-  standalone: false,
+  imports: [
+    IonCard,
+    IonCardHeader,
+    IonCardContent,
+    FormsModule,
+    ReactiveFormsModule,
+    IonGrid,
+    IonRow,
+    IonCol,
+    AssessmentAnswerComponent,
+    CharacterCountDirective,
+    EmojiBlockDirective,
+    PasteSanitiserDirective,
+    NgClass,
+  ],
 })
 export class LessonThemeComponent implements OnChanges {
   @Input()

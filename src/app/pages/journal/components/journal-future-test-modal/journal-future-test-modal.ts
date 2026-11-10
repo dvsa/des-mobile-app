@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { ModalController } from '@ionic/angular';
+import { IonButton, IonCard, IonCol, IonIcon, IonRow, IonText, ModalController } from '@ionic/angular';
 import { Store } from '@ngrx/store';
 import { ModalEvent } from '@pages/journal/components/journal-rekey-modal/journal-rekey-modal.constants';
 import * as futureTestModalActions from '@pages/journal/journal.actions';
@@ -8,7 +8,7 @@ import * as futureTestModalActions from '@pages/journal/journal.actions';
   selector: 'journal-rekey-modal',
   templateUrl: './journal-future-test-modal.html',
   styleUrls: ['./journal-future-test-modal.scss'],
-  standalone: false,
+  imports: [IonCard, IonRow, IonIcon, IonText, IonCol, IonButton],
 })
 export class JournalFutureTestModal {
   constructor(

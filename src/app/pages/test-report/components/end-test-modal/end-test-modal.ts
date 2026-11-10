@@ -1,12 +1,12 @@
 import { Component } from '@angular/core';
-import { ModalController } from '@ionic/angular';
+import { IonButton, IonCard, IonCol, IonRow, IonText, ModalController } from '@ionic/angular';
 import { ModalEvent } from '../../test-report.constants';
 
 @Component({
   selector: 'end-test-modal',
   templateUrl: 'end-test-modal.html',
   styleUrls: ['end-test-modal.scss'],
-  standalone: false,
+  imports: [IonCard, IonRow, IonCol, IonText, IonButton],
 })
 export class EndTestModal {
   constructor(public modalCtrl: ModalController) {}

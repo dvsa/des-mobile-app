@@ -3,7 +3,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule, UntypedFormGroup } from '@angular/forms';
 
 import { IonCol, IonRow } from '@ionic/angular';
-import { TranslateLoader, TranslateModule, TranslateParser, TranslateService } from '@ngx-translate/core';
+import { provideTestTranslations } from '@mocks/test-providers';
 import { ResidencyDeclarationComponent } from '../residency-declaration';
 
 describe('ResidencyDeclarationComponent', () => {
@@ -12,9 +12,8 @@ describe('ResidencyDeclarationComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [ResidencyDeclarationComponent],
-      imports: [TranslateModule.forRoot(), ReactiveFormsModule, IonRow, IonCol],
-      providers: [TranslateService, TranslateLoader, TranslateParser],
+      imports: [ReactiveFormsModule, IonRow, IonCol, ResidencyDeclarationComponent],
+      providers: [provideTestTranslations()],
     });
 
     fixture = TestBed.createComponent(ResidencyDeclarationComponent);

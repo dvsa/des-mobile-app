@@ -1,10 +1,12 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { UntypedFormGroup } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule, UntypedFormGroup } from '@angular/forms';
+import { IonCol, IonRow } from '@ionic/angular';
+import { VehicleDetailsComponent } from '../vehicle-details/vehicle-details';
 
 @Component({
   selector: 'vehicle-details-card',
   templateUrl: 'vehicle-details-card.html',
-  standalone: false,
+  imports: [IonRow, FormsModule, ReactiveFormsModule, IonCol, VehicleDetailsComponent],
 })
 export class VehicleDetailsCardComponent {
   @Input()

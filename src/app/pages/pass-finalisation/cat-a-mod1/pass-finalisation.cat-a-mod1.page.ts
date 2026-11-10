@@ -1,9 +1,29 @@
 import { Component, Injector, OnInit } from '@angular/core';
-import { UntypedFormGroup } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule, UntypedFormGroup } from '@angular/forms';
 import { GearboxCategory } from '@dvsa/mes-test-schema/categories/common';
 import { Observable, merge } from 'rxjs';
 import { map } from 'rxjs/operators';
 
+import { AsyncPipe, NgClass } from '@angular/common';
+import { BikeCategoryTypeComponent } from '@components/common/bike-category-type/bike-category-type';
+import { TestFlowHeaderComponent } from '@components/common/test-flow-header/test-flow-header.component';
+import { TransmissionComponent } from '@components/common/transmission/transmission';
+import { WarningBannerComponent } from '@components/common/warning-banner/warning-banner';
+import { D255Component } from '@components/test-finalisation/d255/d255';
+import { DebriefWitnessedComponent } from '@components/test-finalisation/debrief-witnessed/debrief-witnessed';
+import { FinalisationHeaderComponent } from '@components/test-finalisation/finalisation-header/finalisation-header';
+import { LanguagePreferencesComponent } from '@components/test-finalisation/language-preference/language-preference';
+import {
+  IonButton,
+  IonCol,
+  IonContent,
+  IonFooter,
+  IonGrid,
+  IonHeader,
+  IonRow,
+  IonText,
+  IonToolbar,
+} from '@ionic/angular';
 import { behaviourMap } from '@pages/office/office-behaviour-map.cat-a-mod1';
 import { TestFlowPageNames } from '@pages/page-names.constants';
 import { PASS_CERTIFICATE_NUMBER_CTRL } from '@pages/pass-finalisation/components/pass-certificate-number/pass-certificate-number.constants';
@@ -18,6 +38,8 @@ import {
 } from '@shared/classes/test-flow-base-pages/pass-finalisation/pass-finalisation-base-page';
 import { TransmissionType } from '@shared/models/transmission-type';
 import { PersistTests } from '@store/tests/tests.actions';
+import { ApplicationReferenceComponent } from '../components/application-reference/application-reference';
+import { PassCertificateNumberCatAMod1Component } from './components/pass-certificate-number/pass-certificate-number.cat-a-mod1';
 
 type PassFinalisationPageState = CommonPassFinalisationPageState;
 
@@ -25,7 +47,31 @@ type PassFinalisationPageState = CommonPassFinalisationPageState;
   selector: 'app-pass-finalisation-cat-a-mod1',
   templateUrl: './pass-finalisation.cat-a-mod1.page.html',
   styleUrls: ['./../pass-finalisation.page.scss'],
-  standalone: false,
+  imports: [
+    IonHeader,
+    IonToolbar,
+    NgClass,
+    TestFlowHeaderComponent,
+    IonContent,
+    FormsModule,
+    ReactiveFormsModule,
+    IonGrid,
+    FinalisationHeaderComponent,
+    ApplicationReferenceComponent,
+    BikeCategoryTypeComponent,
+    TransmissionComponent,
+    WarningBannerComponent,
+    PassCertificateNumberCatAMod1Component,
+    D255Component,
+    LanguagePreferencesComponent,
+    DebriefWitnessedComponent,
+    IonFooter,
+    IonRow,
+    IonCol,
+    IonButton,
+    IonText,
+    AsyncPipe,
+  ],
 })
 export class PassFinalisationCatAMod1Page extends PassFinalisationPageComponent implements OnInit {
   form: UntypedFormGroup;

@@ -1,10 +1,11 @@
 import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
-import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule, UntypedFormControl, UntypedFormGroup } from '@angular/forms';
+import { FormatIdPipe } from '@shared/pipes/format-id.pipe';
 
 @Component({
   selector: 'accompaniment',
   templateUrl: './accompaniment.html',
-  standalone: false,
+  imports: [FormsModule, ReactiveFormsModule, FormatIdPipe],
 })
 export class AccompanimentComponent implements OnChanges {
   @Input()

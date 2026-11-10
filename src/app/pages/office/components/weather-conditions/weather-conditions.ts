@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
-import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { WeatherConditions } from '@dvsa/mes-test-schema/categories/common';
+import { IonCol, IonRow, IonSelect, IonSelectOption } from '@ionic/angular';
 import { OutcomeBehaviourMapProvider, VisibilityType } from '@providers/outcome-behaviour-map/outcome-behaviour-map';
 import { WeatherConditionSelection } from '@providers/weather-conditions/weather-conditions.model';
 
@@ -8,7 +9,7 @@ import { WeatherConditionSelection } from '@providers/weather-conditions/weather
   selector: 'weather-conditions',
   templateUrl: 'weather-conditions.html',
   styleUrls: ['weather-conditions.scss'],
-  standalone: false,
+  imports: [IonRow, FormsModule, ReactiveFormsModule, IonCol, IonSelect, IonSelectOption],
 })
 export class WeatherConditionsComponent implements OnChanges {
   @Input()

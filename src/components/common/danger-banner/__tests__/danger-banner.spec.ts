@@ -9,7 +9,7 @@ describe('DangerBanner', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [DangerBannerComponent],
+      imports: [DangerBannerComponent],
     });
 
     fixture = TestBed.createComponent(DangerBannerComponent);

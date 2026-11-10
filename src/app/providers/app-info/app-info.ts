@@ -3,7 +3,9 @@ import { App } from '@capacitor/app';
 import { Observable, from } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class AppInfoProvider {
   public getVersionNumber(): Observable<string> {
     return from(App.getInfo()).pipe(map((info) => info.version));

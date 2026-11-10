@@ -1,7 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { DimensionsComponent } from '@pages/waiting-room-to-car/cat-manoeuvre/components/dimensions/dimensions';
-import { PipesModule } from '@shared/pipes/pipes.module';
 
 describe('DimensionsComponent', () => {
   let component: DimensionsComponent;
@@ -9,8 +8,7 @@ describe('DimensionsComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [DimensionsComponent],
-      imports: [PipesModule],
+      imports: [DimensionsComponent],
     });
 
     fixture = TestBed.createComponent(DimensionsComponent);

@@ -13,7 +13,9 @@ import { omit } from 'lodash-es';
 import { AppConfigProvider } from '../app-config/app-config';
 import { DataStoreProvider, LocalStorageKey } from '../data-store/data-store';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class TestPersistenceProvider {
   private testKeychainKey = LocalStorageKey.TESTS;
 

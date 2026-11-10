@@ -1,10 +1,11 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { IonCol, IonRow } from '@ionic/angular';
 
 @Component({
   selector: 'assessment-answer',
   templateUrl: 'assessment-answer.html',
   styleUrls: ['assessment-answer.scss'],
-  standalone: false,
+  imports: [IonRow, IonCol],
 })
 export class AssessmentAnswerComponent {
   @Input()

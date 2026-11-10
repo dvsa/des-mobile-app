@@ -6,6 +6,31 @@ import { isEmpty } from 'lodash-es';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
+import { AsyncPipe, NgClass } from '@angular/common';
+import { OfflineBannerComponent } from '@components/common/offline-banner/offline-banner';
+import { TabComponent } from '@components/common/tab/tab';
+import { TabsComponent } from '@components/common/tabs/tabs';
+import { TestSlotComponent } from '@components/test-slot/test-slot/test-slot';
+import { EmojiBlockDirective } from '@directives/emoji-block.directive';
+import { InputRestrictionNumbersDirective } from '@directives/input-restriction-numbers.directive';
+import { PasteSanitiserDirective } from '@directives/paste-sanitiser';
+import {
+  IonBackButton,
+  IonButton,
+  IonButtons,
+  IonCol,
+  IonContent,
+  IonGrid,
+  IonHeader,
+  IonIcon,
+  IonInput,
+  IonRow,
+  IonSpinner,
+  IonText,
+  IonTitle,
+  IonToolbar,
+} from '@ionic/angular';
+import { MaskitoDirective } from '@maskito/angular';
 import { MaskitoElementPredicate, MaskitoOptions } from '@maskito/core';
 import { RekeySearchError, RekeySearchErrorMessages } from '@pages/rekey-search/rekey-search-error-model';
 import {
@@ -43,7 +68,32 @@ interface RekeySearchPageState {
   selector: 'page-rekey-search',
   templateUrl: './rekey-search.html',
   styleUrls: ['./rekey-search.scss'],
-  standalone: false,
+  imports: [
+    IonHeader,
+    IonToolbar,
+    IonButtons,
+    IonBackButton,
+    IonTitle,
+    IonContent,
+    OfflineBannerComponent,
+    TabsComponent,
+    TabComponent,
+    IonGrid,
+    IonRow,
+    IonCol,
+    IonInput,
+    NgClass,
+    MaskitoDirective,
+    IonText,
+    InputRestrictionNumbersDirective,
+    EmojiBlockDirective,
+    PasteSanitiserDirective,
+    IonButton,
+    IonIcon,
+    IonSpinner,
+    TestSlotComponent,
+    AsyncPipe,
+  ],
 })
 export class RekeySearchPage extends BasePageComponent implements OnInit {
   pageState: RekeySearchPageState;

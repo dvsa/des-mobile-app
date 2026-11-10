@@ -4,6 +4,9 @@ import { Store, select } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
+import { AsyncPipe } from '@angular/common';
+import { DrivingFaultsBadgeComponent } from '@components/common/driving-faults-badge/driving-faults-badge';
+import { SeriousFaultBadgeComponent } from '@components/common/serious-fault-badge/serious-fault-badge';
 import { CategoryCode } from '@dvsa/mes-test-schema/categories/common';
 import { FaultCountProvider } from '@providers/fault-count/fault-count';
 import { TestDataByCategoryProvider } from '@providers/test-data-by-category/test-data-by-category';
@@ -21,7 +24,7 @@ interface ComponentState {
   selector: 'vehicle-checks-compact-cat-d',
   templateUrl: 'vehicle-checks-compact.cat-d.html',
   styleUrls: ['vehicle-checks-compact.cat-d.scss'],
-  standalone: false,
+  imports: [DrivingFaultsBadgeComponent, SeriousFaultBadgeComponent, AsyncPipe],
 })
 export class VehicleChecksCompactCatDComponent implements OnInit {
   @Input()

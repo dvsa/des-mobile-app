@@ -7,7 +7,7 @@ describe('DangerousTooltipComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [DangerousTooltipComponent],
+      imports: [DangerousTooltipComponent],
     });
 
     fixture = TestBed.createComponent(DangerousTooltipComponent);

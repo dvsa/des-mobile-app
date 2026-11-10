@@ -3,7 +3,6 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
 import { MockComponent } from 'ng-mocks';
 
-import { AppModule } from '@app/app.module';
 import { DangerousFaultBadgeComponent } from '@components/common/dangerous-fault-badge/dangerous-fault-badge';
 import { DrivingFaultsBadgeComponent } from '@components/common/driving-faults-badge/driving-faults-badge';
 import { SeriousFaultBadgeComponent } from '@components/common/serious-fault-badge/serious-fault-badge';
@@ -36,16 +35,7 @@ describe('PcvDoorExerciseComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        PcvDoorExerciseComponent,
-        MockComponent(CompetencyButtonComponent),
-        MockComponent(DrivingFaultsBadgeComponent),
-        MockComponent(SeriousFaultBadgeComponent),
-        MockComponent(DangerousFaultBadgeComponent),
-      ],
       imports: [
-        AppModule,
-
         StoreModule.forRoot({
           journal: () => ({
             isLoading: false,
@@ -100,6 +90,11 @@ describe('PcvDoorExerciseComponent', () => {
           }),
           testReport: testReportReducer,
         }),
+        PcvDoorExerciseComponent,
+        MockComponent(CompetencyButtonComponent),
+        MockComponent(DrivingFaultsBadgeComponent),
+        MockComponent(SeriousFaultBadgeComponent),
+        MockComponent(DangerousFaultBadgeComponent),
       ],
       providers: [
         { provide: DateTimeProvider, useClass: DateTimeProviderMock },

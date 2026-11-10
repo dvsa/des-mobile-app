@@ -3,7 +3,9 @@ import { NavigationExtras, Router } from '@angular/router';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { PageNameKeys, getPageNameByCategoryAndKey } from '@pages/page-names.constants';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class RouteByCategoryProvider {
   constructor(private router: Router) {}
 

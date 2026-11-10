@@ -1,7 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
-import { ComponentsModule } from '@components/common/common-components.module';
 import { ModalController } from '@ionic/angular';
 import { ModalControllerMock } from '@mocks/ionic-mocks/modal-controller.mock';
 import { FinishTestModal } from '@pages/office/components/finish-test-modal/finish-test-modal';
@@ -12,8 +11,7 @@ describe('FinishTestModal', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [FinishTestModal],
-      imports: [CommonModule, FormsModule, ComponentsModule],
+      imports: [CommonModule, FormsModule, FinishTestModal],
       providers: [{ provide: ModalController, useClass: ModalControllerMock }],
     });
 

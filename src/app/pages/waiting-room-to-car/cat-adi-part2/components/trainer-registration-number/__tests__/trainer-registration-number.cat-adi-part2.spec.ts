@@ -16,7 +16,7 @@ describe('TrainerRegistrationNumberCatAdiPart2Component', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [TrainerRegistrationNumberCatAdiPart2Component],
+      imports: [TrainerRegistrationNumberCatAdiPart2Component],
     });
 
     fixture = TestBed.createComponent(TrainerRegistrationNumberCatAdiPart2Component);

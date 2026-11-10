@@ -1,6 +1,5 @@
 import { CommonModule } from '@angular/common';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { ComponentsModule } from '@components/common/common-components.module';
 import { AlternateEvidenceProvidedComponent } from '@pages/office/components/alternate-mot-evidence-provided/alternate-evidence-provided.component';
 
 describe('AlternateEvidenceProvidedComponent', () => {
@@ -9,8 +8,7 @@ describe('AlternateEvidenceProvidedComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [AlternateEvidenceProvidedComponent],
-      imports: [CommonModule, ComponentsModule],
+      imports: [CommonModule, AlternateEvidenceProvidedComponent],
     });
   });
 

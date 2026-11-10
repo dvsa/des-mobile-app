@@ -20,12 +20,12 @@ describe('LinkModalComponent', () => {
     const exitSAMProviderSpy = jasmine.createSpyObj('ExitSAMProvider', ['attemptToDisableSAMForEscape']);
 
     TestBed.configureTestingModule({
-      declarations: [
+      imports: [
+        StoreModule.forRoot({}),
         LinkModalComponent,
         MockComponent(ModalReturnButtonComponent),
         MockComponent(ModalAlertTitleComponent),
       ],
-      imports: [StoreModule.forRoot({})],
       providers: [
         { provide: ModalController, useValue: modalControllerSpy },
         { provide: ExitSAMProvider, useValue: exitSAMProviderSpy },

@@ -11,7 +11,9 @@ import { Log, LogType } from '@shared/models/log.model';
 import { StoreModel } from '@shared/models/store.model';
 import { selectEmployeeId, selectVersionNumber } from '@store/app-info/app-info.selectors';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class LogHelper {
   private appVersion: string;
   private employeeId: string;

@@ -8,7 +8,7 @@ describe('SafetyAndBalanceDataRowComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [SafetyAndBalanceDataRowComponent],
+      imports: [SafetyAndBalanceDataRowComponent],
     });
 
     fixture = TestBed.createComponent(SafetyAndBalanceDataRowComponent);

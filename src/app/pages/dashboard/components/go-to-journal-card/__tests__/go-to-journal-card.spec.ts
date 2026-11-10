@@ -13,7 +13,6 @@ describe('GoToJournalCard', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [GoToJournalCardComponent],
       imports: [
         RouterModule.forRoot([
           {
@@ -21,6 +20,7 @@ describe('GoToJournalCard', () => {
             component: JournalPage,
           },
         ]),
+        GoToJournalCardComponent,
       ],
       providers: [
         {

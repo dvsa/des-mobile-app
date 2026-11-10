@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { AppModule } from '@app/app.module';
 import { ModalController } from '@ionic/angular';
+import { ModalControllerMock } from '@mocks/index.mock';
 import { LogoutModal, LogoutModalEvent } from '../logout-modal';
 
 describe('LogoutModal', () => {
@@ -10,9 +10,8 @@ describe('LogoutModal', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [LogoutModal],
-      imports: [AppModule],
-      providers: [ModalController],
+      imports: [LogoutModal],
+      providers: [{ provide: ModalController, useClass: ModalControllerMock }],
     });
 
     fixture = TestBed.createComponent(LogoutModal);

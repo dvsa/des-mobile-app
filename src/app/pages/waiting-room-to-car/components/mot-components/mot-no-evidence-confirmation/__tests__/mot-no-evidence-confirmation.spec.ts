@@ -22,12 +22,12 @@ describe('MotNoEvidenceConfirmationComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [MotNoEvidenceConfirmationComponent],
       imports: [
         StoreModule.forRoot({
           tests: testsReducer,
         }),
         ReactiveFormsModule,
+        MotNoEvidenceConfirmationComponent,
       ],
       providers: [
         {

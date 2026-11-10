@@ -69,7 +69,7 @@ describe('EmptySlotComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [EmptySlotComponent, MockComponent(TimeComponent), MockComponent(LocationComponent)],
+      imports: [EmptySlotComponent, MockComponent(TimeComponent), MockComponent(LocationComponent)],
     });
 
     fixture = TestBed.createComponent(EmptySlotComponent);

@@ -8,7 +8,7 @@ describe('ECOCardComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [ECOCardComponent],
+      imports: [ECOCardComponent],
     }).compileComponents();
 
     fixture = TestBed.createComponent(ECOCardComponent);

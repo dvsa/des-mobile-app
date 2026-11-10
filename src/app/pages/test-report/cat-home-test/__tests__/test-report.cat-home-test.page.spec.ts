@@ -1,13 +1,12 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { ModalController, Platform } from '@ionic/angular';
-import { ModalControllerMock, PlatformMock } from '@mocks/index.mock';
+
 import { MockComponent } from 'ng-mocks';
 
-import { AppModule } from '@app/app.module';
 import { PracticeModeOptionsBar } from '@components/common/practice-mode-options-bar/practice-mode-options-bar';
 import { TestFlowHeaderComponent } from '@components/common/test-flow-header/test-flow-header.component';
 import { TickIndicatorComponent } from '@components/common/tick-indicator/tick-indicator';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
+import { provideBasePageMocks } from '@mocks/test-providers';
 import { StoreModule } from '@ngrx/store';
 import { VehicleChecksComponent } from '@pages/test-report/cat-home-test/components/vehicle-checks/vehicle-checks';
 import { TestReportCatHomeTestPage } from '@pages/test-report/cat-home-test/test-report.cat-home-test.page';
@@ -15,8 +14,7 @@ import { HighwayCodeSafetyComponent } from '@pages/test-report/components/highwa
 import { ReverseLeftPopoverComponent } from '@pages/test-report/components/reverse-left-popover/reverse-left-popover';
 import { ReverseLeftComponent } from '@pages/test-report/components/reverse-left/reverse-left';
 import { UncoupleRecoupleComponent } from '@pages/test-report/components/uncouple-recouple/uncouple-recouple';
-import { AuthenticationProviderMock } from '@providers/authentication/__mocks__/authentication.mock';
-import { AuthenticationProvider } from '@providers/authentication/authentication';
+
 import { DateTimeProviderMock } from '@providers/date-time/__mocks__/date-time.mock';
 import { DateTimeProvider } from '@providers/date-time/date-time';
 import { TestReportValidatorProviderMock } from '@providers/test-report-validator/__mocks__/test-report-validator.mock';
@@ -41,7 +39,25 @@ describe('TestReportCatHomeTestPage', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [
+      imports: [
+        StoreModule.forRoot({}),
+
+        StoreModule.forFeature('tests', () => ({
+          currentTest: {
+            slotId: '123',
+          },
+          testStatus: {},
+          startedTests: {
+            123: {
+              testData: initialState,
+              journalData: {
+                candidate: candidateMock,
+              },
+              delegatedTest: false,
+            },
+          },
+        })),
+        StoreModule.forFeature('testReport', testReportReducer),
         TestReportCatHomeTestPage,
         MockComponent(ReverseLeftPopoverComponent),
         MockComponent(ReverseLeftComponent),
@@ -61,41 +77,11 @@ describe('TestReportCatHomeTestPage', () => {
         MockComponent(HighwayCodeSafetyComponent),
         MockComponent(TestFlowHeaderComponent),
       ],
-      imports: [
-        AppModule,
-        StoreModule.forFeature('tests', () => ({
-          currentTest: {
-            slotId: '123',
-          },
-          testStatus: {},
-          startedTests: {
-            123: {
-              testData: initialState,
-              journalData: {
-                candidate: candidateMock,
-              },
-              delegatedTest: false,
-            },
-          },
-        })),
-        StoreModule.forFeature('testReport', testReportReducer),
-      ],
       providers: [
-        {
-          provide: Platform,
-          useClass: PlatformMock,
-        },
-        {
-          provide: AuthenticationProvider,
-          useClass: AuthenticationProviderMock,
-        },
+        provideBasePageMocks(),
         {
           provide: DateTimeProvider,
           useClass: DateTimeProviderMock,
-        },
-        {
-          provide: ModalController,
-          useClass: ModalControllerMock,
         },
         {
           provide: TestReportValidatorProvider,

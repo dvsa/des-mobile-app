@@ -9,7 +9,7 @@ describe('LanguageComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [LanguageComponent],
+      imports: [LanguageComponent],
     });
 
     fixture = TestBed.createComponent(LanguageComponent);

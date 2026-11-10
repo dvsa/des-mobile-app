@@ -8,7 +8,7 @@ describe('PersonalCommitmentSlotComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [PersonalCommitmentSlotComponent],
+      imports: [PersonalCommitmentSlotComponent],
     });
 
     fixture = TestBed.createComponent(PersonalCommitmentSlotComponent);

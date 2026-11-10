@@ -1,11 +1,12 @@
 import { Component } from '@angular/core';
-import { ModalController } from '@ionic/angular';
+import { ModalAlertTitleComponent } from '@components/common/modal-alert-title/modal-alert-title';
+import { IonButton, IonCard, IonCol, IonRow, ModalController } from '@ionic/angular';
 
 @Component({
   selector: 'health-declaration-modal',
   templateUrl: './health-declaration-modal.html',
   styleUrls: ['./health-declaration-modal.scss'],
-  standalone: false,
+  imports: [IonCard, ModalAlertTitleComponent, IonRow, IonCol, IonButton],
 })
 export class HealthDeclarationModal {
   onTestDetailsConfirm: Function;

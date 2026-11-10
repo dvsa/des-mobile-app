@@ -1,15 +1,16 @@
 import { Component, Input } from '@angular/core';
 import { ActivityCode, Question, Question5 } from '@dvsa/mes-test-schema/categories/CPC';
-import { ModalController } from '@ionic/angular';
+import { IonButton, IonCard, IonCol, IonRow, IonText, ModalController } from '@ionic/angular';
 import { ActivityCodes } from '@shared/models/activity-codes';
 import { TestOutcome } from '@store/tests/tests.constants';
 import { ModalEvent } from '../../../test-report.constants';
+import { ModalResultItemComponent } from './components/modal-result-item/modal-result-item';
 
 @Component({
   selector: 'end-test-modal',
   templateUrl: 'cpc-end-test-modal.html',
   styleUrls: ['cpc-end-test-modal.scss'],
-  standalone: false,
+  imports: [IonCard, IonRow, IonCol, IonText, ModalResultItemComponent, IonButton],
 })
 export class CPCEndTestModal {
   @Input()

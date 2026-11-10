@@ -1,8 +1,9 @@
 import { CommonModule } from '@angular/common';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { AppModule } from '@app/app.module';
+
 import { CandidateSectionComponent } from '@components/common/candidate-section/candidate-section';
-import { ComponentsModule } from '@components/common/common-components.module';
+import { provideBasePageMocks } from '@mocks/test-providers';
+import { provideMockStore } from '@ngrx/store/testing';
 
 import { OverlayEventDetail } from '@ionic/core';
 import {
@@ -18,8 +19,8 @@ describe('CandidateSectionComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [CandidateSectionComponent],
-      imports: [AppModule, ComponentsModule, CommonModule],
+      imports: [CommonModule, CandidateSectionComponent],
+      providers: [provideBasePageMocks(), provideMockStore()],
     });
     fixture = TestBed.createComponent(CandidateSectionComponent);
     component = fixture.componentInstance;
@@ -27,6 +28,10 @@ describe('CandidateSectionComponent', () => {
   });
 
   describe('proceed', () => {
+    it('should create without an AppComponent provider', () => {
+      expect(component).toBeTruthy();
+    });
+
     it('should emit continueClickEvent with true', () => {
       spyOn(component.continueClickEvent, 'emit');
       component.proceed();

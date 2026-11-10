@@ -10,8 +10,7 @@ describe('ModeOfTransportCatAMod2Component', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [ModeOfTransportCatAMod2Component],
-      imports: [ReactiveFormsModule],
+      imports: [ReactiveFormsModule, ModeOfTransportCatAMod2Component],
       providers: [{ provide: OutcomeBehaviourMapProvider, useClass: OutcomeBehaviourMapProvider }],
     });
 

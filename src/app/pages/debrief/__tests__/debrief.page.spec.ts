@@ -1,11 +1,12 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { AppModule } from '@app/app.module';
+
 import { KeepAwake as Insomnia } from '@capacitor-community/keep-awake';
 import { ScreenOrientation } from '@capawesome/capacitor-screen-orientation';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
+import { provideBasePageMocks } from '@mocks/test-providers';
 import { Store, StoreModule } from '@ngrx/store';
-import { TranslateModule } from '@ngx-translate/core';
+
 import { DebriefViewDidEnter } from '@pages/debrief/debrief.actions';
 import { DebriefPage } from '@pages/debrief/debrief.page';
 import { TestFlowPageNames } from '@pages/page-names.constants';
@@ -140,15 +141,15 @@ describe('DebriefPage', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      declarations: [DebriefPage],
       imports: [
-        AppModule,
-        TranslateModule,
+        StoreModule.forRoot({}),
         StoreModule.forFeature('tests', () => ({
           ...initialState[testsFeatureKey],
         })),
+        DebriefPage,
       ],
       providers: [
+        provideBasePageMocks(),
         Store,
         {
           provide: FaultSummaryProvider,

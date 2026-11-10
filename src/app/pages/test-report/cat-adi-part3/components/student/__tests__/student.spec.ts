@@ -10,7 +10,7 @@ describe('StudentComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [StudentComponent, MockComponent(AssessmentAnswerComponent)],
+      imports: [StudentComponent, MockComponent(AssessmentAnswerComponent)],
     });
     fixture = TestBed.createComponent(StudentComponent);
     component = fixture.componentInstance;

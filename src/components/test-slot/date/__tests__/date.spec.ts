@@ -12,8 +12,7 @@ xdescribe('TimeComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [DateComponent],
-
+      imports: [DateComponent],
       providers: [{ provide: LogHelper, useClass: LogHelperMock }],
     });
 

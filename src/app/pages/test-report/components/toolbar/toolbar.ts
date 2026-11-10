@@ -1,5 +1,7 @@
+import { AsyncPipe, NgClass } from '@angular/common';
 import { Component, Input } from '@angular/core';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
+import { IonButton, IonCol, IonRow, IonText } from '@ionic/angular';
 import { Store, select } from '@ngrx/store';
 import { FaultCountProvider } from '@providers/fault-count/fault-count';
 import { trDestroy$ } from '@shared/classes/test-flow-base-pages/test-report/test-report-base-page';
@@ -14,6 +16,10 @@ import { map, takeUntil, withLatestFrom } from 'rxjs/operators';
 import { ToggleDangerousFaultMode, ToggleRemoveFaultMode, ToggleSeriousFaultMode } from '../../test-report.actions';
 import { getTestReportState } from '../../test-report.reducer';
 import { isDangerousMode, isRemoveFaultMode, isSeriousMode } from '../../test-report.selector';
+import { DangerousTooltipComponent } from '../dangerous-tooltip/dangerous-tooltip';
+import { DrivingFaultSummaryComponent } from '../driving-fault-summary/driving-fault-summary';
+import { SeriousTooltipComponent } from '../serious-tooltip/serious-tooltip';
+import { TimerComponent } from '../timer/timer';
 
 interface ToolbarComponentState {
   isSeriousMode$: Observable<boolean>;
@@ -26,7 +32,19 @@ interface ToolbarComponentState {
   selector: 'toolbar',
   templateUrl: 'toolbar.html',
   styleUrls: ['toolbar.scss'],
-  standalone: false,
+  standalone: true,
+  imports: [
+    IonRow,
+    IonCol,
+    IonButton,
+    NgClass,
+    IonText,
+    DrivingFaultSummaryComponent,
+    TimerComponent,
+    SeriousTooltipComponent,
+    DangerousTooltipComponent,
+    AsyncPipe,
+  ],
 })
 export class ToolbarComponent {
   @Input()

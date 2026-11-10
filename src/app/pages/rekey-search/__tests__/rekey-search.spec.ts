@@ -7,7 +7,7 @@ import { ActivatedRouteMock } from '@mocks/angular-mocks/activated-route.mock';
 import { PlatformMock } from '@mocks/ionic-mocks/platform-mock';
 import { StorageMock } from '@mocks/ionic-mocks/storage.mock';
 import { Store, StoreModule } from '@ngrx/store';
-import { TranslateModule } from '@ngx-translate/core';
+
 import { AppConfigProvider } from '@providers/app-config/app-config';
 import { ExaminerRole } from '@providers/app-config/constants/examiner-role.constants';
 import { AuthenticationProviderMock } from '@providers/authentication/__mocks__/authentication.mock';
@@ -19,7 +19,7 @@ import { LogHelper } from '@providers/logs/logs-helper';
 import { NetworkStateProvider } from '@providers/network-state/network-state';
 import { OrientationMonitorProviderMock } from '@providers/orientation-monitor/__mocks/orientation-monitor.provider.mock';
 import { OrientationMonitorProvider } from '@providers/orientation-monitor/orientation-monitor.provider';
-import { PipesModule } from '@shared/pipes/pipes.module';
+
 import { of } from 'rxjs';
 import { RekeySearchPage } from '../rekey-search';
 
@@ -39,8 +39,7 @@ describe('RekeySearchPage', () => {
 
     await TestBed.configureTestingModule({
       schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
-      declarations: [RekeySearchPage],
-      imports: [StoreModule.forRoot({}), TranslateModule.forRoot(), PipesModule],
+      imports: [StoreModule.forRoot({}), RekeySearchPage],
       providers: [
         {
           provide: AppConfigProvider,

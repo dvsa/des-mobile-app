@@ -1,17 +1,16 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Router } from '@angular/router';
-import { ComponentsModule } from '@components/common/common-components.module';
 import { TestSlotAttributes } from '@dvsa/mes-test-schema/categories/common';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
-import { AlertController, ModalController, NavController, Platform } from '@ionic/angular';
-import { AlertControllerMock, NavControllerMock, PlatformMock } from '@mocks/index.mock';
-import { ModalControllerMock } from '@mocks/ionic-mocks/modal-controller.mock';
+import { AlertController, ModalController } from '@ionic/angular';
+import { AlertControllerMock } from '@mocks/index.mock';
+
+import { provideBasePageMocks } from '@mocks/test-providers';
 import { Store, StoreModule } from '@ngrx/store';
-import { TranslateModule } from '@ngx-translate/core';
+
 import { ADI3AssessmentProvider } from '@providers/adi3-assessment/adi3-assessment';
-import { AuthenticationProviderMock } from '@providers/authentication/__mocks__/authentication.mock';
-import { AuthenticationProvider } from '@providers/authentication/authentication';
+
 import { VehicleDetailsByCategoryProvider } from '@providers/vehicle-details-by-category/vehicle-details-by-category';
 import { ActivityCodeModel } from '@shared/constants/activity-code/activity-code.constants';
 import { StoreModel } from '@shared/models/store.model';
@@ -20,7 +19,7 @@ import { SetTestStatusWriteUp } from '@store/tests/test-status/test-status.actio
 import { PersistTests } from '@store/tests/tests.actions';
 import { TestOutcome } from '@store/tests/tests.constants';
 import { Observable, Subscription } from 'rxjs';
-import { AppModule } from 'src/app/app.module';
+
 import { TestFlowPageNames } from '../../page-names.constants';
 import { BackButtonClick, BackToDebrief, ConfirmTestDetailsViewDidEnter } from '../confirm-test-details.actions';
 import { ConfirmTestDetailsPage } from '../confirm-test-details.page';
@@ -44,10 +43,7 @@ describe('ConfirmTestDetailsPage', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      declarations: [ConfirmTestDetailsPage],
       imports: [
-        AppModule,
-        ComponentsModule,
         StoreModule.forRoot({
           tests: () => ({
             currentTest: {
@@ -71,28 +67,14 @@ describe('ConfirmTestDetailsPage', () => {
             },
           }),
         }),
-        TranslateModule,
+
+        ConfirmTestDetailsPage,
       ],
       providers: [
-        {
-          provide: Platform,
-          useClass: PlatformMock,
-        },
-        {
-          provide: NavController,
-          useClass: NavControllerMock,
-        },
-        {
-          provide: AuthenticationProvider,
-          useClass: AuthenticationProviderMock,
-        },
+        provideBasePageMocks(),
         {
           provide: AlertController,
           useClass: AlertControllerMock,
-        },
-        {
-          provide: ModalController,
-          useClass: ModalControllerMock,
         },
         {
           provide: ADI3AssessmentProvider,

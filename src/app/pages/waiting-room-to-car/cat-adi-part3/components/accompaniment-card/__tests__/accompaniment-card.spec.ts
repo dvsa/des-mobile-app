@@ -1,7 +1,7 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule, UntypedFormGroup } from '@angular/forms';
-import { AppModule } from '@app/app.module';
+
 import { AccompanimentCardADI3Component } from '@pages/waiting-room-to-car/cat-adi-part3/components/accompaniment-card/accompaniment-card';
 import { AuthenticationProviderMock } from '@providers/authentication/__mocks__/authentication.mock';
 import { AuthenticationProvider } from '@providers/authentication/authentication';
@@ -20,8 +20,7 @@ describe('AccompanimentCardADI3Component', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      declarations: [AccompanimentCardADI3Component],
-      imports: [AppModule, ReactiveFormsModule],
+      imports: [ReactiveFormsModule, AccompanimentCardADI3Component],
       providers: [
         {
           provide: RouteByCategoryProvider,

@@ -1,7 +1,8 @@
+import { NgClass } from '@angular/common';
 import { Component, Input } from '@angular/core';
 import { Style } from '@capacitor/status-bar';
 import { Name, TestSlot } from '@dvsa/mes-journal-schema';
-import { ModalController } from '@ionic/angular';
+import { IonButton, IonIcon, IonText, ModalController } from '@ionic/angular';
 import { CandidateDetailsPage } from '@pages/candidate-details/candidate-details.page';
 import { AccessibilityService } from '@providers/accessibility/accessibility.service';
 
@@ -9,7 +10,7 @@ import { AccessibilityService } from '@providers/accessibility/accessibility.ser
   selector: 'candidate-link',
   templateUrl: 'candidate-link.html',
   styleUrls: ['candidate-link.scss'],
-  standalone: false,
+  imports: [IonButton, IonText, NgClass, IonIcon],
 })
 export class CandidateLinkComponent {
   @Input()

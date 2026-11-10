@@ -1,9 +1,29 @@
+import { AsyncPipe } from '@angular/common';
 import { Component, Input } from '@angular/core';
-import { UntypedFormGroup } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule, UntypedFormGroup } from '@angular/forms';
 import { Style } from '@capacitor/status-bar';
+import { WarningBannerComponent } from '@components/common/warning-banner/warning-banner';
 import { QuestionOutcome, QuestionResult } from '@dvsa/mes-test-schema/categories/common';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
-import { ModalController } from '@ionic/angular';
+import {
+  IonButton,
+  IonButtons,
+  IonCard,
+  IonCardContent,
+  IonCardHeader,
+  IonCardTitle,
+  IonCol,
+  IonContent,
+  IonFooter,
+  IonHeader,
+  IonIcon,
+  IonLabel,
+  IonRow,
+  IonText,
+  IonTitle,
+  IonToolbar,
+  ModalController,
+} from '@ionic/angular';
 import { Store, select } from '@ngrx/store';
 import { AccessibilityService } from '@providers/accessibility/accessibility.service';
 import { FaultCountProvider } from '@providers/fault-count/fault-count';
@@ -27,6 +47,7 @@ import { getTests } from '@store/tests/tests.reducer';
 import { getCurrentTest, getJournalData } from '@store/tests/tests.selector';
 import { Observable, Subscription, merge } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { VehicleChecksQuestionCatAMod2Component } from '../vehicle-checks-question/vehicle-checks-question';
 import * as vehicleChecksModalActions from './vehicle-checks-modal.cat-a-mod2.actions';
 
 interface VehicleChecksModalState {
@@ -40,7 +61,29 @@ interface VehicleChecksModalState {
   selector: 'vehicle-checks-modal-cat-a-mod2',
   templateUrl: 'vehicle-checks-modal.cat-a-mod2.page.html',
   styleUrls: ['vehicle-checks-modal.cat-a-mod2.page.scss'],
-  standalone: false,
+  imports: [
+    IonHeader,
+    IonToolbar,
+    IonButtons,
+    IonButton,
+    IonIcon,
+    IonLabel,
+    IonTitle,
+    IonContent,
+    IonCard,
+    IonCardHeader,
+    IonCardTitle,
+    IonCardContent,
+    VehicleChecksQuestionCatAMod2Component,
+    FormsModule,
+    ReactiveFormsModule,
+    WarningBannerComponent,
+    IonFooter,
+    IonRow,
+    IonCol,
+    IonText,
+    AsyncPipe,
+  ],
 })
 export class VehicleChecksCatAMod2Modal {
   pageState: VehicleChecksModalState;

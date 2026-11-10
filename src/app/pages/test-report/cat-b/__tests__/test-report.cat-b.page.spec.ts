@@ -1,18 +1,16 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { ModalController, Platform } from '@ionic/angular';
-import { ModalControllerMock, PlatformMock } from '@mocks/index.mock';
+
 import { MockComponent } from 'ng-mocks';
 
-import { AppModule } from '@app/app.module';
 import { ScreenOrientation } from '@capawesome/capacitor-screen-orientation';
 import { PracticeModeOptionsBar } from '@components/common/practice-mode-options-bar/practice-mode-options-bar';
 import { TestFlowHeaderComponent } from '@components/common/test-flow-header/test-flow-header.component';
 import { TickIndicatorComponent } from '@components/common/tick-indicator/tick-indicator';
 import { TestResultSchemasUnion } from '@dvsa/mes-test-schema/categories';
+import { provideBasePageMocks } from '@mocks/test-providers';
 import { StoreModule } from '@ngrx/store';
 import { provideMockStore } from '@ngrx/store/testing';
-import { AuthenticationProviderMock } from '@providers/authentication/__mocks__/authentication.mock';
-import { AuthenticationProvider } from '@providers/authentication/authentication';
+
 import { DateTimeProviderMock } from '@providers/date-time/__mocks__/date-time.mock';
 import { DateTimeProvider } from '@providers/date-time/date-time';
 import { TestReportValidatorProviderMock } from '@providers/test-report-validator/__mocks__/test-report-validator.mock';
@@ -70,7 +68,12 @@ describe('TestReportCatBPage', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [
+      imports: [
+        StoreModule.forRoot({
+          tests: testsReducer,
+        }),
+        StoreModule.forFeature('testReport', testReportReducer),
+        MockComponent(TestFlowHeaderComponent),
         TestReportCatBPage,
         MockComponent(ManoeuvresPopoverComponent),
         MockComponent(ManoeuvresComponent),
@@ -87,30 +90,11 @@ describe('TestReportCatBPage', () => {
         MockComponent(EcoComponent),
         MockComponent(PracticeModeOptionsBar),
       ],
-      imports: [
-        AppModule,
-        StoreModule.forRoot({
-          tests: testsReducer,
-        }),
-        StoreModule.forFeature('testReport', testReportReducer),
-        MockComponent(TestFlowHeaderComponent),
-      ],
       providers: [
-        {
-          provide: Platform,
-          useClass: PlatformMock,
-        },
-        {
-          provide: AuthenticationProvider,
-          useClass: AuthenticationProviderMock,
-        },
+        provideBasePageMocks(),
         {
           provide: DateTimeProvider,
           useClass: DateTimeProviderMock,
-        },
-        {
-          provide: ModalController,
-          useClass: ModalControllerMock,
         },
         {
           provide: TestReportValidatorProvider,

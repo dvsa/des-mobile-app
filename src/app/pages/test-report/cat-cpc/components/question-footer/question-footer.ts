@@ -1,11 +1,11 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { UntypedFormGroup } from '@angular/forms';
-import { ToastController } from '@ionic/angular';
+import { IonButton, IonCol, IonFooter, IonRow, IonText, IonToolbar, ToastController } from '@ionic/angular';
 
 @Component({
   selector: 'question-footer',
   templateUrl: 'question-footer.html',
-  standalone: false,
+  imports: [IonFooter, IonToolbar, IonRow, IonCol, IonButton, IonText],
 })
 export class QuestionFooterComponent {
   @Output()

@@ -7,6 +7,20 @@ import { isEmpty } from 'lodash-es';
 import { Observable, Subscription, merge } from 'rxjs';
 import { map, withLatestFrom } from 'rxjs/operators';
 
+import { AsyncPipe } from '@angular/common';
+import {
+  IonButton,
+  IonCol,
+  IonContent,
+  IonFooter,
+  IonGrid,
+  IonHeader,
+  IonIcon,
+  IonRow,
+  IonText,
+  IonTitle,
+  IonToolbar,
+} from '@ionic/angular';
 import { JOURNAL_PAGE, REKEY_SEARCH_PAGE } from '@pages/page-names.constants';
 import { getRekeyReasonState } from '@pages/rekey-reason/rekey-reason.reducer';
 import { getRekeySearchState } from '@pages/rekey-search/rekey-search.reducer';
@@ -30,7 +44,20 @@ interface RekeyUploadOutcomePageState {
   selector: '.rekey-upload-outcome-page',
   templateUrl: './rekey-upload-outcome.page.html',
   styleUrls: ['./rekey-upload-outcome.page.scss'],
-  standalone: false,
+  imports: [
+    IonHeader,
+    IonToolbar,
+    IonTitle,
+    IonContent,
+    IonGrid,
+    IonRow,
+    IonCol,
+    IonIcon,
+    IonText,
+    IonFooter,
+    IonButton,
+    AsyncPipe,
+  ],
 })
 export class RekeyUploadOutcomePage extends BasePageComponent implements OnInit {
   pageState: RekeyUploadOutcomePageState;

@@ -3,14 +3,14 @@ import { ComponentFixture, TestBed, fakeAsync, flush, tick, waitForAsync } from 
 import { ReactiveFormsModule, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { Router } from '@angular/router';
-import { AppModule } from '@app/app.module';
+
 import { default as welshTranslations } from '@assets/i18n/cy.json';
-import { ComponentsModule } from '@components/common/common-components.module';
 import { TestSlotAttributes } from '@dvsa/mes-test-schema/categories/common';
-import { AlertController, NavController, Platform } from '@ionic/angular';
-import { AlertControllerMock, NavControllerMock, PlatformMock, RouterMock } from '@mocks/index.mock';
+import { AlertController } from '@ionic/angular';
+import { AlertControllerMock } from '@mocks/index.mock';
+import { provideBasePageMocks } from '@mocks/test-providers';
 import { Store, StoreModule } from '@ngrx/store';
-import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { TranslateService } from '@ngx-translate/core';
 import { HealthDeclarationComponent } from '@pages/health-declaration/components/health-declaration/health-declaration';
 import { ReceiptDeclarationComponent } from '@pages/health-declaration/components/receipt-declaration/receipt-declaration';
 import {
@@ -18,8 +18,7 @@ import {
   HealthDeclarationViewDidEnter,
 } from '@pages/health-declaration/health-declaration.actions';
 import { HealthDeclarationPage } from '@pages/health-declaration/health-declaration.page';
-import { AuthenticationProviderMock } from '@providers/authentication/__mocks__/authentication.mock';
-import { AuthenticationProvider } from '@providers/authentication/authentication';
+
 import { DateTimeProviderMock } from '@providers/date-time/__mocks__/date-time.mock';
 import { DateTimeProvider } from '@providers/date-time/date-time';
 import { DeviceAuthenticationProviderMock } from '@providers/device-authentication/__mocks__/device-authentication.mock';
@@ -58,15 +57,9 @@ describe('HealthDeclarationPage', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      declarations: [
-        HealthDeclarationPage,
-        MockComponent(HealthDeclarationComponent),
-        MockComponent(ReceiptDeclarationComponent),
-      ],
       imports: [
         ReactiveFormsModule,
-        AppModule,
-        ComponentsModule,
+
         StoreModule.forRoot({
           tests: () => ({
             currentTest: {
@@ -75,6 +68,8 @@ describe('HealthDeclarationPage', () => {
             testStatus: {},
             startedTests: {
               123: {
+                communicationPreferences: { conductedLanguage: 'English' },
+                passCompletion: {},
                 postTestDeclarations: {
                   healthDeclarationAccepted: false,
                   passCertificateNumberReceived: false,
@@ -88,24 +83,15 @@ describe('HealthDeclarationPage', () => {
             },
           }),
         }),
-        TranslateModule,
+        HealthDeclarationPage,
+        MockComponent(HealthDeclarationComponent),
+        MockComponent(ReceiptDeclarationComponent),
       ],
       providers: [
-        {
-          provide: NavController,
-          useClass: NavControllerMock,
-        },
+        provideBasePageMocks(),
         {
           provide: AlertController,
           useClass: AlertControllerMock,
-        },
-        {
-          provide: Platform,
-          useClass: PlatformMock,
-        },
-        {
-          provide: AuthenticationProvider,
-          useClass: AuthenticationProviderMock,
         },
         {
           provide: DateTimeProvider,
@@ -114,10 +100,6 @@ describe('HealthDeclarationPage', () => {
         {
           provide: DeviceAuthenticationProvider,
           useClass: DeviceAuthenticationProviderMock,
-        },
-        {
-          provide: Router,
-          useClass: RouterMock,
         },
       ],
     });
@@ -128,7 +110,7 @@ describe('HealthDeclarationPage', () => {
     spyOn(store$, 'dispatch').and.callThrough();
     translate = TestBed.inject(TranslateService);
     router = TestBed.inject(Router);
-    translate.setDefaultLang('en');
+    translate.setFallbackLang('en');
     component.subscription = new Subscription();
   }));
 

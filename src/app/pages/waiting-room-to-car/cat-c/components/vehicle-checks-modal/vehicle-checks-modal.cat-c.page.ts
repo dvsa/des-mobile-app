@@ -1,8 +1,26 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input } from '@angular/core';
-import { UntypedFormGroup } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule, UntypedFormGroup } from '@angular/forms';
 import { QuestionOutcome, QuestionResult } from '@dvsa/mes-test-schema/categories/common';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
-import { ModalController } from '@ionic/angular';
+import {
+  IonButton,
+  IonButtons,
+  IonCard,
+  IonCardContent,
+  IonCardHeader,
+  IonCardTitle,
+  IonCol,
+  IonContent,
+  IonFooter,
+  IonHeader,
+  IonIcon,
+  IonLabel,
+  IonRow,
+  IonText,
+  IonTitle,
+  IonToolbar,
+  ModalController,
+} from '@ionic/angular';
 import { Store, select } from '@ngrx/store';
 import { FaultCountProvider } from '@providers/fault-count/fault-count';
 import { QuestionProvider } from '@providers/question/question';
@@ -31,7 +49,9 @@ import { getCurrentTest, getJournalData } from '@store/tests/tests.selector';
 import { Observable, Subscription, merge } from 'rxjs';
 import { map } from 'rxjs/operators';
 
+import { AsyncPipe } from '@angular/common';
 import { Style } from '@capacitor/status-bar';
+import { WarningBannerComponent } from '@components/common/warning-banner/warning-banner';
 import { AccessibilityService } from '@providers/accessibility/accessibility.service';
 import { isAnyOf } from '@shared/helpers/simplifiers';
 import {
@@ -44,6 +64,8 @@ import {
   NUMBER_OF_TELL_ME_QUESTIONS_EXTRA as NUMBER_OF_TELL_ME_QUESTIONS_TRAILER_EXTRA,
 } from '../../../../../shared/constants/tell-me-questions/tell-me-questions.vocational-trailer.constants';
 import { NUMBER_OF_TELL_ME_QUESTIONS as NUMBER_OF_TELL_ME_QUESTIONS_NON_TRAILER } from '../../../../../shared/constants/tell-me-questions/tell-me-questions.vocational.constants';
+import { FullLicenceHeldComponent } from '../../../components/full-licence-held-toggle/full-licence-held-toggle';
+import { VehicleChecksQuestionComponent } from '../../../components/vehicle-checks-question/vehicle-checks-question';
 import * as vehicleChecksModalActions from './vehicle-checks-modal.cat-c.actions';
 
 interface VehicleChecksModalCatCState {
@@ -62,7 +84,30 @@ interface VehicleChecksModalCatCState {
   templateUrl: 'vehicle-checks-modal.cat-c.page.html',
   styleUrls: ['vehicle-checks-modal.cat-c.page.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
+  imports: [
+    IonHeader,
+    IonToolbar,
+    IonButtons,
+    IonButton,
+    IonIcon,
+    IonLabel,
+    IonTitle,
+    IonContent,
+    IonCard,
+    FullLicenceHeldComponent,
+    FormsModule,
+    ReactiveFormsModule,
+    IonCardHeader,
+    IonCardTitle,
+    IonCardContent,
+    VehicleChecksQuestionComponent,
+    WarningBannerComponent,
+    IonFooter,
+    IonRow,
+    IonCol,
+    IonText,
+    AsyncPipe,
+  ],
 })
 export class VehicleChecksCatCModal {
   pageState: VehicleChecksModalCatCState;
@@ -228,14 +273,6 @@ export class VehicleChecksCatCModal {
 
   isNonTrailerBanner(): boolean {
     return this.vehicleChecksScore.drivingFaults === 4 && this.vehicleChecksScore.seriousFaults === 1;
-  }
-
-  isTrailerBanner(): boolean {
-    return (
-      this.vehicleChecksScore.drivingFaults === 1 &&
-      this.vehicleChecksScore.seriousFaults === 1 &&
-      isAnyOf(this.category, [TestCategory.CE, TestCategory.C1E])
-    );
   }
 
   shouldDisplayBanner = (): boolean => {

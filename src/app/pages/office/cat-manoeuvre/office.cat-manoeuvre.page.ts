@@ -1,11 +1,30 @@
 import { Component, Injector, OnInit } from '@angular/core';
-import { UntypedFormGroup } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule, UntypedFormGroup } from '@angular/forms';
 import { select } from '@ngrx/store';
 import { startsWith } from 'lodash-es';
 import { Observable, Subscription, merge } from 'rxjs';
 import { map, take, withLatestFrom } from 'rxjs/operators';
 
+import { AsyncPipe, NgClass } from '@angular/common';
+import { ActivityCodeComponent } from '@components/common/activity-code/activity-code';
+import { HealthDeclarationSignedComponent } from '@components/common/health-declaration-signed/health-declaration-signed';
+import { TestFlowHeaderComponent } from '@components/common/test-flow-header/test-flow-header.component';
+import { D255Component } from '@components/test-finalisation/d255/d255';
+import { DebriefWitnessedComponent } from '@components/test-finalisation/debrief-witnessed/debrief-witnessed';
+import { LanguagePreferencesComponent } from '@components/test-finalisation/language-preference/language-preference';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
+import {
+  IonCard,
+  IonCardContent,
+  IonCardHeader,
+  IonCol,
+  IonContent,
+  IonFooter,
+  IonGrid,
+  IonHeader,
+  IonRow,
+  IonToolbar,
+} from '@ionic/angular';
 import { behaviourMap } from '@pages/office/office-behaviour-map.cat-cm';
 import { AppConfigProvider } from '@providers/app-config/app-config';
 import { ExaminerRole } from '@providers/app-config/constants/examiner-role.constants';
@@ -30,6 +49,23 @@ import { AddUncoupleRecoupleComment } from '@store/tests/test-data/common/uncoup
 import { TestOutcome } from '@store/tests/tests.constants';
 import { getTests } from '@store/tests/tests.reducer';
 import { getCurrentTest } from '@store/tests/tests.selector';
+import { PassCertificateNumberComponent } from '../../pass-finalisation/components/pass-certificate-number/pass-certificate-number';
+import { AccompanimentCardComponent } from '../../waiting-room-to-car/components/accompaniment-card/accompaniment-card';
+import { AdditionalInformationComponent } from '../components/additional-information/additional-information';
+import { AlternateEvidenceDescriptionComponent } from '../components/alternate-mot-evidence-description/alternate-evidence-description.component';
+import { AlternateEvidenceProvidedComponent } from '../components/alternate-mot-evidence-provided/alternate-evidence-provided.component';
+import { CandidateDescriptionComponent } from '../components/candidate-description/candidate-description';
+import { CandidateSectionComponent } from '../components/candidate-section/candidate-section';
+import { DateOfTest } from '../components/date-of-test/date-of-test';
+import { ECOCardComponent } from '../components/eco-card/eco-card.component';
+import { ETACardComponent } from '../components/eta-card/eta-card.component';
+import { FaultCommentCardComponent } from '../components/fault-comment-card/fault-comment-card';
+import { IdentificationComponent } from '../components/identification/identification';
+import { OfficeFooterComponent } from '../components/office-footer/office-footer.component';
+import { OfficeRegistrationAndMotComponent } from '../components/office-registration-and-mot/office-registration-and-mot.component';
+import { ReasonForEnteringTeamsComponent } from '../components/reason-for-entering-teams/reason-for-entering-teams';
+import { TrueLikenessComponent } from '../components/true-likeness/true-likeness';
+import { WeatherConditionsComponent } from '../components/weather-conditions/weather-conditions';
 
 interface CatManoeuvreOfficePageState {
   conductedLanguage$: Observable<string>;
@@ -41,7 +77,45 @@ type OfficePageState = CommonOfficePageState & CatManoeuvreOfficePageState;
   selector: '.office-cat-manoeuvre-page',
   templateUrl: './office.cat-manoeuvre.page.html',
   styleUrls: ['../office.page.scss'],
-  standalone: false,
+  imports: [
+    IonHeader,
+    IonToolbar,
+    NgClass,
+    TestFlowHeaderComponent,
+    IonContent,
+    CandidateSectionComponent,
+    FormsModule,
+    ReactiveFormsModule,
+    IonCard,
+    IonCardHeader,
+    IonCardContent,
+    IonGrid,
+    DateOfTest,
+    IonRow,
+    IonCol,
+    ActivityCodeComponent,
+    PassCertificateNumberComponent,
+    HealthDeclarationSignedComponent,
+    D255Component,
+    LanguagePreferencesComponent,
+    DebriefWitnessedComponent,
+    TrueLikenessComponent,
+    CandidateDescriptionComponent,
+    IdentificationComponent,
+    WeatherConditionsComponent,
+    AccompanimentCardComponent,
+    OfficeRegistrationAndMotComponent,
+    AlternateEvidenceProvidedComponent,
+    AlternateEvidenceDescriptionComponent,
+    AdditionalInformationComponent,
+    ReasonForEnteringTeamsComponent,
+    ETACardComponent,
+    ECOCardComponent,
+    FaultCommentCardComponent,
+    IonFooter,
+    OfficeFooterComponent,
+    AsyncPipe,
+  ],
 })
 export class OfficeCatManoeuvrePage extends OfficeBasePageComponent implements OnInit {
   pageState: OfficePageState;

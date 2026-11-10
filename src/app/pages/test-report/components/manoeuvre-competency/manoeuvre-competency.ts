@@ -1,4 +1,8 @@
+import { NgClass } from '@angular/common';
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { DangerousFaultBadgeComponent } from '@components/common/dangerous-fault-badge/dangerous-fault-badge';
+import { DrivingFaultsBadgeComponent } from '@components/common/driving-faults-badge/driving-faults-badge';
+import { SeriousFaultBadgeComponent } from '@components/common/serious-fault-badge/serious-fault-badge';
 import { CatBUniqueTypes } from '@dvsa/mes-test-schema/categories/B';
 import { ManoeuvreOutcome } from '@dvsa/mes-test-schema/categories/common';
 import { Store, select } from '@ngrx/store';
@@ -24,6 +28,7 @@ import { map, takeUntil } from 'rxjs/operators';
 import { ToggleDangerousFaultMode, ToggleRemoveFaultMode, ToggleSeriousFaultMode } from '../../test-report.actions';
 import { getTestReportState } from '../../test-report.reducer';
 import { isDangerousMode, isRemoveFaultMode, isSeriousMode } from '../../test-report.selector';
+import { CompetencyButtonComponent } from '../competency-button/competency-button';
 
 interface ManoeuvreCompetencyComponentState {
   isRemoveFaultMode$: Observable<boolean>;
@@ -37,7 +42,14 @@ interface ManoeuvreCompetencyComponentState {
   selector: 'manoeuvre-competency',
   templateUrl: 'manoeuvre-competency.html',
   styleUrls: ['manoeuvre-competency.scss'],
-  standalone: false,
+  standalone: true,
+  imports: [
+    CompetencyButtonComponent,
+    NgClass,
+    DrivingFaultsBadgeComponent,
+    SeriousFaultBadgeComponent,
+    DangerousFaultBadgeComponent,
+  ],
 })
 export class ManoeuvreCompetencyComponent implements OnInit, OnDestroy {
   @Input()

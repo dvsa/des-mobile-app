@@ -12,8 +12,7 @@ describe('RekeySearchCardComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [RekeySearchCardComponent],
-
+      imports: [RekeySearchCardComponent],
       providers: [{ provide: Router, useClass: RouterMock }],
     });
 

@@ -65,14 +65,6 @@ describe('VehicleCheckComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        VehicleCheckComponent,
-        MockComponent(TickIndicatorComponent),
-        MockComponent(DrivingFaultsBadgeComponent),
-        MockComponent(SeriousFaultBadgeComponent),
-        MockComponent(DangerousFaultBadgeComponent),
-        MockComponent(CompetencyButtonComponent),
-      ],
       imports: [
         StoreModule.forRoot({
           tests: () => ({
@@ -100,6 +92,12 @@ describe('VehicleCheckComponent', () => {
           }),
           testReport: testReportReducer,
         }),
+        VehicleCheckComponent,
+        MockComponent(TickIndicatorComponent),
+        MockComponent(DrivingFaultsBadgeComponent),
+        MockComponent(SeriousFaultBadgeComponent),
+        MockComponent(DangerousFaultBadgeComponent),
+        MockComponent(CompetencyButtonComponent),
       ],
       providers: [FaultCountProvider],
     });

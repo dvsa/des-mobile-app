@@ -1,4 +1,9 @@
 import { Component, Input } from '@angular/core';
+import { DataRowCustomComponent } from '@components/common/data-row-custom/data-row-custom';
+import { DataRowComponent } from '@components/common/data-row/data-row';
+import { MotStatusDisplayTextComponent } from '@components/common/mot-status-display-text/mot-status-display-text.component';
+import { RegistrationWithPreviousMotTextComponent } from '@components/common/registration-with-previous-mot-text/registration-with-previous-mot-text.component';
+import { TransmissionDisplayComponent } from '@components/common/transmission-display/transmission-display';
 import { MotStatusCodes } from '@dvsa/mes-mot-schema';
 import { CatADI2UniqueTypes } from '@dvsa/mes-test-schema/categories/ADI2';
 import * as CatADI3Types from '@dvsa/mes-test-schema/categories/ADI3';
@@ -10,6 +15,7 @@ import { CatC1EUniqueTypes } from '@dvsa/mes-test-schema/categories/C1E';
 import { CatCEUniqueTypes } from '@dvsa/mes-test-schema/categories/CE';
 import { CategoryCode } from '@dvsa/mes-test-schema/categories/common';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
+import { IonCard, IonCardContent, IonCardHeader, IonCol, IonGrid, IonRow } from '@ionic/angular';
 import { flattenArray } from '@pages/view-test-result/view-test-result-helpers';
 import { getMakeAndModel, hasMakeOrModel } from '@shared/helpers/mot-formatter';
 import { isBikeTest } from '@shared/helpers/simplifiers';
@@ -19,7 +25,19 @@ import { get } from 'lodash-es';
   selector: 'vehicle-details-card',
   templateUrl: 'vehicle-details-card.html',
   styleUrls: ['vehicle-details-card.scss'],
-  standalone: false,
+  imports: [
+    IonCard,
+    IonCardHeader,
+    IonCardContent,
+    IonGrid,
+    TransmissionDisplayComponent,
+    DataRowComponent,
+    DataRowCustomComponent,
+    RegistrationWithPreviousMotTextComponent,
+    MotStatusDisplayTextComponent,
+    IonRow,
+    IonCol,
+  ],
 })
 export class VehicleDetailsCardComponent {
   @Input()

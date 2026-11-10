@@ -18,12 +18,12 @@ describe('LegalRequirementComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [
+      imports: [
+        StoreModule.forRoot({ tests: testsReducer }),
         LegalRequirementComponent,
         MockComponent(CompetencyButtonComponent),
         MockComponent(TickIndicatorComponent),
       ],
-      imports: [StoreModule.forRoot({ tests: testsReducer })],
     });
 
     fixture = TestBed.createComponent(LegalRequirementComponent);

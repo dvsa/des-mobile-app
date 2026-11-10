@@ -1,7 +1,9 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { AddOrRemoveLangCyDirective } from '@directives/add-or-remove-lang-cy.directive';
 import { CategoryCode } from '@dvsa/mes-test-schema/categories/common';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
-import { TranslateService } from '@ngx-translate/core';
+import { IonCol, IonGrid, IonIcon, IonRow } from '@ionic/angular';
+import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { configureI18N } from '@shared/helpers/translation.helpers';
 import { Language } from '@store/tests/communication-preferences/communication-preferences.model';
 
@@ -9,7 +11,7 @@ import { Language } from '@store/tests/communication-preferences/communication-p
   selector: 'privacy-notice',
   templateUrl: 'privacy-notice.html',
   styleUrls: ['./privacy-notice.scss'],
-  standalone: false,
+  imports: [IonGrid, IonRow, IonCol, IonIcon, AddOrRemoveLangCyDirective, TranslatePipe],
 })
 export class PrivacyNoticeComponent implements OnInit {
   @Input()

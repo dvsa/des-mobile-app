@@ -1,10 +1,13 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { LessonPlanning, RiskManagement, TeachingLearningStrategies } from '@dvsa/mes-test-schema/categories/ADI3';
+import { IonCard, IonCardContent, IonCardHeader, IonCol, IonGrid, IonRow } from '@ionic/angular';
+import { FormatIdPipe } from '@shared/pipes/format-id.pipe';
+import { TestReportAssessmentAnswer } from '../tr-assessment-answer/tr-assessment-answer';
 
 @Component({
   selector: 'tr-assessment-card',
   templateUrl: 'tr-assessment-card.html',
-  standalone: false,
+  imports: [IonCard, IonCardHeader, IonRow, IonCol, IonCardContent, IonGrid, TestReportAssessmentAnswer, FormatIdPipe],
 })
 export class TestReportAssessmentCard {
   @Input()

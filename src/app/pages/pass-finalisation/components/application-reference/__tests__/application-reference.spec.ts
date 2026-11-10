@@ -7,7 +7,7 @@ describe('ApplicationReferenceComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [ApplicationReferenceComponent],
+      imports: [ApplicationReferenceComponent],
     });
 
     fixture = TestBed.createComponent(ApplicationReferenceComponent);

@@ -5,7 +5,9 @@ import { Observable, of } from 'rxjs';
 import { Log } from '@shared/models/log.model';
 import { UrlProvider } from '../url/url';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class LogsProvider {
   constructor(
     public http: HttpClient,

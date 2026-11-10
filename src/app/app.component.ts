@@ -2,12 +2,27 @@ import { Component, Injector, OnInit } from '@angular/core';
 import { map } from 'rxjs/operators';
 
 import { Style } from '@capacitor/status-bar';
-import { MenuController } from '@ionic/angular';
+import {
+  IonApp,
+  IonBadge,
+  IonContent,
+  IonFooter,
+  IonHeader,
+  IonItem,
+  IonLabel,
+  IonList,
+  IonMenu,
+  IonRouterOutlet,
+  IonTitle,
+  IonToolbar,
+  MenuController,
+} from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
 import * as SentryAngular from '@sentry/angular';
 import * as Sentry from '@sentry/capacitor';
 import { Observable, Subscription, merge } from 'rxjs';
 
+import { AsyncPipe, NgClass } from '@angular/common';
 import { SENTRY_ERRORS } from '@app/sentry-error-handler';
 import { SideMenuClosed, SideMenuItemSelected, SideMenuOpened } from '@pages/dashboard/dashboard.actions';
 import {
@@ -29,6 +44,7 @@ import { SlotProvider } from '@providers/slot/slot';
 import { LogoutBasePageComponent } from '@shared/classes/logout-base-page/logout-base-page';
 import { iconList } from '@shared/constants/ion-icon-list';
 import { isAnyOf } from '@shared/helpers/simplifiers';
+import { FormatIdPipe } from '@shared/pipes/format-id.pipe';
 import { AppResumed, AppSuspended, LoadAppVersion, UpdateAuthResult } from '@store/app-info/app-info.actions';
 import { SetupPolling, StopPolling } from '@store/journal/journal.actions';
 import { getJournalState } from '@store/journal/journal.reducer';
@@ -52,7 +68,23 @@ export interface Page {
   selector: 'app-root',
   templateUrl: 'app.component.html',
   styleUrls: ['app.component.scss'],
-  standalone: false,
+  imports: [
+    IonApp,
+    NgClass,
+    IonMenu,
+    IonHeader,
+    IonToolbar,
+    IonTitle,
+    IonContent,
+    IonItem,
+    IonLabel,
+    IonBadge,
+    IonFooter,
+    IonList,
+    IonRouterOutlet,
+    AsyncPipe,
+    FormatIdPipe,
+  ],
 })
 export class AppComponent extends LogoutBasePageComponent implements OnInit {
   pages: Page[] = [
@@ -187,7 +219,7 @@ export class AppComponent extends LogoutBasePageComponent implements OnInit {
   };
 
   configureLocale(): void {
-    this.translate.setDefaultLang('en');
+    this.translate.setFallbackLang('en');
   }
 
   initialiseSentry = async () => {

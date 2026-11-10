@@ -12,7 +12,9 @@ import { AnalyticsEventCategories, GoogleAnalyticsCustomDimension } from './anal
 
 declare const gtag: Function;
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class AnalyticsProvider {
   googleAnalytics4Key = '';
 
@@ -203,6 +205,7 @@ export class AnalyticsProvider {
           if (title3 && value3) {
             eventData[title3] = value3;
           }
+          console.log('event', eventName, eventData);
           gtag('event', eventName, eventData);
         } catch (error) {
           console.error('Analytics - logEvent', error);

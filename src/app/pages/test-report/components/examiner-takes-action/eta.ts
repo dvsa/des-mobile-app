@@ -1,3 +1,4 @@
+import { AsyncPipe, NgClass } from '@angular/common';
 import { Component, Input, OnInit } from '@angular/core';
 import { Store, select } from '@ngrx/store';
 import { StoreModel } from '@shared/models/store.model';
@@ -8,6 +9,7 @@ import { ExaminerActions } from '@store/tests/test-data/test-data.constants';
 import { getTests } from '@store/tests/tests.reducer';
 import { getCurrentTest } from '@store/tests/tests.selector';
 import { Observable } from 'rxjs';
+import { CompetencyButtonComponent } from '../competency-button/competency-button';
 import { etaLabels } from './eta.constants';
 
 interface ETAComponentState {
@@ -18,7 +20,7 @@ interface ETAComponentState {
   selector: 'eta',
   templateUrl: 'eta.html',
   styleUrls: ['eta.scss'],
-  standalone: false,
+  imports: [CompetencyButtonComponent, NgClass, AsyncPipe],
 })
 export class EtaComponent implements OnInit {
   @Input()

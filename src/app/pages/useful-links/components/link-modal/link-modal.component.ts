@@ -1,6 +1,8 @@
 import { Component, Input } from '@angular/core';
+import { ModalAlertTitleComponent } from '@components/common/modal-alert-title/modal-alert-title';
+import { ModalReturnButtonComponent } from '@components/common/modal-return-button/modal-return-button';
 import { UsefulLink } from '@dvsa/mes-config-schema/remote-config';
-import { ModalController } from '@ionic/angular';
+import { IonButton, IonCard, IonCol, IonRow, ModalController } from '@ionic/angular';
 import { Store } from '@ngrx/store';
 import { ExitSAMProvider } from '@providers/exitSAM/exitSAM';
 import { StoreModel } from '@shared/models/store.model';
@@ -15,7 +17,7 @@ export enum LinkModalEvent {
   selector: 'link-modal',
   templateUrl: './link-modal.component.html',
   styleUrls: ['./link-modal.component.scss'],
-  standalone: false,
+  imports: [IonCard, ModalAlertTitleComponent, IonRow, IonCol, ModalReturnButtonComponent, IonButton],
 })
 export class LinkModalComponent {
   @Input()
