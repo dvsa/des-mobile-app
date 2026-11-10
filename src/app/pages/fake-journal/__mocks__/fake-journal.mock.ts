@@ -85,14 +85,14 @@ const getFakeTests = () => {
           candidateId: 157,
           candidateName: {
             firstName: 'Stiofán',
-            lastName: 'Homles',
+            lastName: 'Holmes',
             title: 'Sir',
           },
           gender: 'M',
           dateOfBirth: '1976-04-26',
           driverNumber: '123456789',
           primaryTelephone: '01234 567890',
-          emailAddress: 'stiofan@homles.com',
+          emailAddress: 'stiofan@holmes.com',
         },
       },
       slotDetail: {
