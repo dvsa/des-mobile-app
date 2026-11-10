@@ -1,6 +1,5 @@
 import UIKit
-import Capacitor
-import DvsaCapacitorPluginMsauth
+import CapApp_SPM
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
   var window: UIWindow?

@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { NativeBiometric } from '@capgo/capacitor-native-biometric';
 import { Platform } from '@ionic/angular';
 import { Store } from '@ngrx/store';
 import { DeviceProvider } from '@providers/device/device';
@@ -7,7 +8,6 @@ import { LogHelper } from '@providers/logs/logs-helper';
 import { LogType } from '@shared/models/log.model';
 import { StoreModel } from '@shared/models/store.model';
 import { SaveLog } from '@store/logs/logs.actions';
-import { NativeBiometric } from 'capacitor-native-biometric';
 import { AppConfigProvider } from '../app-config/app-config';
 import { ExaminerRole } from '../app-config/constants/examiner-role.constants';
 

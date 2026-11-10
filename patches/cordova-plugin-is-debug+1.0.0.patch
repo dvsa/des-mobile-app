@@ -1,0 +1,14 @@
+diff --git a/node_modules/cordova-plugin-is-debug/plugin.xml b/node_modules/cordova-plugin-is-debug/plugin.xml
+index f64ec28..925cd00 100644
+--- a/node_modules/cordova-plugin-is-debug/plugin.xml
++++ b/node_modules/cordova-plugin-is-debug/plugin.xml
+@@ -24,7 +24,7 @@
+                 <param name="ios-package" value="IsDebug" />
+             </feature>
+         </config-file>
+-        <source-file src="src/ios/IsDebug.h" />
++        <header-file src="src/ios/IsDebug.h" />
+         <source-file src="src/ios/IsDebug.m" />
+     </platform>
+ </plugin>
+\ No newline at end of file
