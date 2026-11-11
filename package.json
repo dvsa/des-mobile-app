@@ -36,7 +36,7 @@
     "lint": "biome check src",
     "lint:fix": "npm run lint -- --fix",
     "gitSecrets": "git secrets --scan && git log -p -n 200 | scanrepo",
-    "e2e-build": "xcodebuild -workspace ios/App/App.xcworkspace -scheme App SYMROOT=$(PWD)/build",
+    "e2e-build": "xcodebuild -project ios/App/App.xcodeproj -scheme App -configuration Debug -sdk iphonesimulator -destination 'generic/platform=iOS Simulator' SYMROOT=\"$PWD/build\"",
     "config:dev-tools": "cp src/environments/environment.dev.dev-tools.ts src/environments/environment.ts",
     "config:dev": "cp src/environments/environment.dev.ts src/environments/environment.ts",
     "config:sit": "cp src/environments/environment.sit.ts src/environments/environment.ts",
