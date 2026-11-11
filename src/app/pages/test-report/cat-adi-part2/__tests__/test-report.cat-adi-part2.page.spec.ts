@@ -1,5 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { PracticeModeOptionsBar } from '@components/common/practice-mode-options-bar/practice-mode-options-bar';
 import { TestFlowHeaderComponent } from '@components/common/test-flow-header/test-flow-header.component';
@@ -114,8 +115,8 @@ describe('TestReportCatADI2Page', () => {
 
   describe('ionViewDidLeave', () => {
     it('should run basePageComponent functions', () => {
-      spyOn(TestReportBasePageComponent.prototype, 'ionViewDidLeave');
-      spyOn(TestReportBasePageComponent.prototype, 'cancelSubscription');
+      vi.spyOn(TestReportBasePageComponent.prototype, 'ionViewDidLeave').mockReturnValue(undefined);
+      vi.spyOn(TestReportBasePageComponent.prototype, 'cancelSubscription').mockReturnValue(undefined);
       component.ionViewDidLeave();
 
       expect(TestReportBasePageComponent.prototype.ionViewDidLeave).toHaveBeenCalled();

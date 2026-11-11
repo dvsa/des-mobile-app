@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { vi } from 'vitest';
 import { IDeviceProvider } from '../device.model';
 
 const supportedDevices: string[] = ['iPad7,4'];
@@ -23,7 +24,7 @@ export class DeviceProviderMock implements IDeviceProvider {
     return 'A1234';
   };
 
-  getDeviceInfo = jasmine.createSpy('getDeviceInfo').and.returnValue(
+  getDeviceInfo = vi.fn().mockReturnValue(
     Promise.resolve({
       iOSVersion: 16.6,
       model: 'iPad7,4',
@@ -33,19 +34,19 @@ export class DeviceProviderMock implements IDeviceProvider {
     })
   );
 
-  getBatteryInfo = jasmine.createSpy('getBatteryInfo').and.returnValue(
+  getBatteryInfo = vi.fn().mockReturnValue(
     Promise.resolve({
       batteryLevel: 0.9,
     })
   );
 
-  enableSingleAppMode = jasmine.createSpy('enableSingleAppMode').and.returnValue(Promise.resolve(true));
+  enableSingleAppMode = vi.fn().mockReturnValue(Promise.resolve(true));
 
-  disableSingleAppMode = jasmine.createSpy('disableSingleAppMode').and.returnValue(Promise.resolve(true));
+  disableSingleAppMode = vi.fn().mockReturnValue(Promise.resolve(true));
 
-  checkSingleAppMode = jasmine.createSpy('checkSingleAppMode').and.returnValue(Promise.resolve(true));
+  checkSingleAppMode = vi.fn().mockReturnValue(Promise.resolve(true));
 
-  is8thGenDevice = jasmine.createSpy('is8thGenDevice').and.returnValue(true);
+  is8thGenDevice = vi.fn().mockReturnValue(true);
 
-  isSAMEnabled = jasmine.createSpy('isSAMEnabled').and.returnValue(Promise.resolve(true));
+  isSAMEnabled = vi.fn().mockReturnValue(Promise.resolve(true));
 }

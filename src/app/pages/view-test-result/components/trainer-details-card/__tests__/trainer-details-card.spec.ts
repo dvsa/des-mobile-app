@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { DataRowComponent } from '@components/common/data-row/data-row';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
+import { beforeEach, describe, expect, it } from 'vitest';
 
 import { MockComponent } from 'ng-mocks';
 import { TrainerDetailsCardComponent } from '../trainer-details-card';

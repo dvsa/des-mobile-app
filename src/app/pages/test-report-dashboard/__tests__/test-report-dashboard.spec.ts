@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { TestFlowHeaderComponent } from '@components/common/test-flow-header/test-flow-header.component';
 import { CatBUniqueTypes } from '@dvsa/mes-test-schema/categories/B';
@@ -115,7 +116,7 @@ describe('TestReportDashboardPage', () => {
     fixture = TestBed.createComponent(TestReportDashboardPage);
     component = fixture.componentInstance;
     routeByCategory = TestBed.inject(RouteByCategoryProvider);
-    spyOn(routeByCategory, 'navigateToPage');
+    vi.spyOn(routeByCategory, 'navigateToPage').mockReturnValue(undefined);
   });
 
   describe('isValidDashboard', () => {
@@ -214,7 +215,7 @@ describe('TestReportDashboardPage', () => {
   });
   describe('feedbackChanged', () => {
     it('should dispatch store with correct parameters', () => {
-      spyOn(component.store$, 'dispatch');
+      vi.spyOn(component.store$, 'dispatch').mockReturnValue(undefined);
       component.feedbackChanged('feedback');
       expect(component.store$.dispatch).toHaveBeenCalledWith(FeedbackChanged('feedback'));
     });
@@ -224,7 +225,7 @@ describe('TestReportDashboardPage', () => {
       'should call empty displayEndTestModal with no data if isTestReportPopulated is false' +
         ' or riskManagement.score is more than 8',
       async () => {
-        spyOn(component, 'displayEndTestModal').and.callThrough();
+        vi.spyOn(component, 'displayEndTestModal');
         component.isTestReportPopulated = false;
         component.testDataADI3 = {
           lessonPlanning: { score: 10 },
@@ -238,8 +239,8 @@ describe('TestReportDashboardPage', () => {
       'should create a modal and call displayEndTestModal with data' +
         ' if isTestReportPopulated is true riskManagement.score is less than 8',
       async () => {
-        spyOn(component, 'displayEndTestModal');
-        spyOn(component.modalController, 'create').and.returnValue(
+        vi.spyOn(component, 'displayEndTestModal').mockReturnValue(undefined);
+        vi.spyOn(component.modalController, 'create').mockReturnValue(
           Promise.resolve({
             present: async () => {},
             onWillDismiss: () => {
@@ -247,7 +248,7 @@ describe('TestReportDashboardPage', () => {
             },
           } as HTMLIonModalElement)
         );
-        spyOn(component.modalController, 'dismiss').and.callThrough();
+        vi.spyOn(component.modalController, 'dismiss');
         component.isTestReportPopulated = true;
         component.testDataADI3 = {
           lessonPlanning: { score: 10 },
@@ -262,9 +263,9 @@ describe('TestReportDashboardPage', () => {
   describe('ionViewDidLeave', () => {
     it('should call basePage functions and unsubscribe from subscription if there is one', () => {
       component.localSubscription = new Subscription();
-      spyOn(TestReportBasePageComponent.prototype, 'ionViewDidLeave');
-      spyOn(TestReportBasePageComponent.prototype, 'cancelSubscription');
-      spyOn(component.localSubscription, 'unsubscribe');
+      vi.spyOn(TestReportBasePageComponent.prototype, 'ionViewDidLeave').mockReturnValue(undefined);
+      vi.spyOn(TestReportBasePageComponent.prototype, 'cancelSubscription').mockReturnValue(undefined);
+      vi.spyOn(component.localSubscription, 'unsubscribe').mockReturnValue(undefined);
 
       component.ionViewDidLeave();
       expect(TestReportBasePageComponent.prototype.ionViewDidLeave).toHaveBeenCalled();
@@ -274,7 +275,7 @@ describe('TestReportDashboardPage', () => {
   });
   describe('navigateToPage', () => {
     it('should dispatch TestReportDashboardNavigateToPage with the parameter passed', async () => {
-      spyOn(component.store$, 'dispatch');
+      vi.spyOn(component.store$, 'dispatch').mockReturnValue(undefined);
       await component.navigateToPage('lessonTheme');
       expect(component.store$.dispatch).toHaveBeenCalledWith(TestReportDashboardNavigateToPage('lessonTheme'));
     });
@@ -300,7 +301,7 @@ describe('TestReportDashboardPage', () => {
       'should dispatch GradeChanged with passed grade, CalculateTestResult and ' +
         'SetActivityCode with 4 if ModalEvent is ModalEvent.CONTINUE',
       async () => {
-        spyOn(component.store$, 'dispatch');
+        vi.spyOn(component.store$, 'dispatch').mockReturnValue(undefined);
 
         await component.onModalDismiss(ModalEvent.CONTINUE, 'test', true);
 
@@ -310,7 +311,7 @@ describe('TestReportDashboardPage', () => {
       }
     );
     it('should dispatch ReturnToTest if ModalEvent is ModalEvent.CANCEL', async () => {
-      spyOn(component.store$, 'dispatch');
+      vi.spyOn(component.store$, 'dispatch').mockReturnValue(undefined);
 
       await component.onModalDismiss(ModalEvent.CANCEL, 'test', true);
 
@@ -321,8 +322,8 @@ describe('TestReportDashboardPage', () => {
         'TerminateTestFromTestReport if ModalEvent is ' +
         'ModalEvent.TERMINATE and isTestReportPopulated is true',
       async () => {
-        spyOn(component.store$, 'dispatch');
-        spyOn(component.router, 'navigate');
+        vi.spyOn(component.store$, 'dispatch').mockReturnValue(undefined);
+        vi.spyOn(component.router, 'navigate');
 
         component.isTestReportPopulated = true;
         await component.onModalDismiss(ModalEvent.TERMINATE, 'test', true);
@@ -336,7 +337,7 @@ describe('TestReportDashboardPage', () => {
       'should navigate to NON_PASS_FINALISATION_PAGE if ModalEvent is ' +
         'ModalEvent.TERMINATE and isTestReportPopulated is true',
       async () => {
-        spyOn(component.router, 'navigate');
+        vi.spyOn(component.router, 'navigate');
 
         component.isTestReportPopulated = false;
         await component.onModalDismiss(ModalEvent.TERMINATE, 'test', true);

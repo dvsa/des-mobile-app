@@ -1,4 +1,5 @@
 import { PreTestDeclarations } from '@dvsa/mes-test-schema/categories/common';
+import { describe, expect, it } from 'vitest';
 import {
   ClearPreTestDeclarations,
   SetDeclarationStatus,

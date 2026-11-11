@@ -3,7 +3,8 @@ import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/
 import { provideMockActions } from '@ngrx/effects/testing';
 import { Action, Store, StoreModule } from '@ngrx/store';
 import { StoreModel } from '@shared/models/store.model';
-import { ReplaySubject } from 'rxjs';
+import { ReplaySubject, firstValueFrom } from 'rxjs';
+import { beforeEach, describe, expect, it } from 'vitest';
 
 import { SetChangeMarker } from '../../change-marker/change-marker.actions';
 import { SetExaminerConducted } from '../../examiner-conducted/examiner-conducted.actions';
@@ -33,29 +34,19 @@ describe('ExaminerBookedEffects', () => {
   });
 
   describe('setExaminerBookedEffect', () => {
-    it('should set the change marker to true when the examiner booked is different to the conducted', (done) => {
-      // ARRANGE
+    it('should set the change marker to true when the examiner booked is different to the conducted', async () => {
       store$.dispatch(StartTest(12345, TestCategory.B));
       store$.dispatch(SetExaminerConducted(123456));
-      // ACT
       actions$.next(SetExaminerBooked(100001));
-      // ASSERT
-      effects.setExaminerBookedEffect$.subscribe((result) => {
-        expect(result).toEqual(SetChangeMarker(true));
-        done();
-      });
+      const result = await firstValueFrom(effects.setExaminerBookedEffect$);
+      expect(result).toEqual(SetChangeMarker(true));
     });
-    it('should set the change marker to false when the examiner booked is the same as the conducted', (done) => {
-      // ARRANGE
+    it('should set the change marker to false when the examiner booked is the same as the conducted', async () => {
       store$.dispatch(StartTest(12345, TestCategory.B));
       store$.dispatch(SetExaminerConducted(123456));
-      // ACT
       actions$.next(SetExaminerBooked(123456));
-      // ASSERT
-      effects.setExaminerBookedEffect$.subscribe((result) => {
-        expect(result).toEqual(SetChangeMarker(false));
-        done();
-      });
+      const result = await firstValueFrom(effects.setExaminerBookedEffect$);
+      expect(result).toEqual(SetChangeMarker(false));
     });
   });
 });

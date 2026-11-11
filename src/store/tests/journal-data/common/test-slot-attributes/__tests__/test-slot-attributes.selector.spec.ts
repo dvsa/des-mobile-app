@@ -2,6 +2,7 @@ import { TestSlot } from '@dvsa/mes-journal-schema';
 import { Initiator, TestSlotAttributes } from '@dvsa/mes-test-schema/categories/common';
 import { DateTime } from '@shared/helpers/date-time';
 import { SlotTypes } from '@shared/models/slot-types';
+import { describe, expect, it } from 'vitest';
 import {
   extractTestSlotAttributes,
   getSlotId,

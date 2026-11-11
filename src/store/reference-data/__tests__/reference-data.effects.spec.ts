@@ -1,7 +1,8 @@
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { Store, StoreModule } from '@ngrx/store';
-import { ReplaySubject, of } from 'rxjs';
+import { ReplaySubject, firstValueFrom, of } from 'rxjs';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { DateTimeProviderMock } from '@providers/date-time/__mocks__/date-time.mock';
 import { DateTimeProvider } from '@providers/date-time/date-time';
@@ -61,8 +62,8 @@ describe('ReferenceDataEffects', () => {
   describe('testCentreRefData$', () => {
     it('should not call getTestCentres when offline', () => {
       // ARRANGE
-      spyOn(dateTimeProvider, 'now').and.returnValue(new DateTime(mockTomorrowDate));
-      spyOn(networkStateProvider, 'getNetworkState').and.returnValue(NetworkConnectionStatus.OFFLINE);
+      vi.spyOn(dateTimeProvider, 'now').mockReturnValue(new DateTime(mockTomorrowDate));
+      vi.spyOn(networkStateProvider, 'getNetworkState').mockReturnValue(NetworkConnectionStatus.OFFLINE);
       // ACT
       actions$.next(GetTestCentresRefData());
       // ASSERT
@@ -72,8 +73,8 @@ describe('ReferenceDataEffects', () => {
     });
     it('should not call getTestCentres when saved date is current date', () => {
       // ARRANGE
-      spyOn(dateTimeProvider, 'now').and.returnValue(new DateTime(mockTodayDate));
-      spyOn(networkStateProvider, 'getNetworkState').and.returnValue(NetworkConnectionStatus.ONLINE);
+      vi.spyOn(dateTimeProvider, 'now').mockReturnValue(new DateTime(mockTodayDate));
+      vi.spyOn(networkStateProvider, 'getNetworkState').mockReturnValue(NetworkConnectionStatus.ONLINE);
       store$.dispatch(SetDateRefDataUpdated(mockTodayDate));
       // ACT
       actions$.next(GetTestCentresRefData());
@@ -82,46 +83,34 @@ describe('ReferenceDataEffects', () => {
         expect(referenceDataProvider.getTestCentres).not.toHaveBeenCalled();
       });
     });
-    it('should return value from getTestCentres and call LoadTestCentresRefDataSuccess with data', (done) => {
-      spyOn(referenceDataProvider, 'getTestCentres').and.returnValue(of(mockTestCentres));
-      // ARRANGE
-      spyOn(dateTimeProvider, 'now').and.returnValue(new DateTime(mockTomorrowDate));
-      spyOn(networkStateProvider, 'getNetworkState').and.returnValue(NetworkConnectionStatus.ONLINE);
+    it('should return value from getTestCentres and call LoadTestCentresRefDataSuccess with data', async () => {
+      vi.spyOn(referenceDataProvider, 'getTestCentres').mockReturnValue(of(mockTestCentres));
+      vi.spyOn(dateTimeProvider, 'now').mockReturnValue(new DateTime(mockTomorrowDate));
+      vi.spyOn(networkStateProvider, 'getNetworkState').mockReturnValue(NetworkConnectionStatus.ONLINE);
       store$.dispatch(SetDateRefDataUpdated(mockTodayDate));
-      // ACT
       actions$.next(GetTestCentresRefData());
-      // ASSERT
-      effects.testCentreRefData$.subscribe((action) => {
-        expect(referenceDataProvider.getTestCentres).toHaveBeenCalled();
-        expect(action.type).toEqual(LoadTestCentresRefDataSuccess(mockTestCentres).type);
-        done();
-      });
+      const action = await firstValueFrom(effects.testCentreRefData$);
+      expect(referenceDataProvider.getTestCentres).toHaveBeenCalled();
+      expect(action.type).toEqual(LoadTestCentresRefDataSuccess(mockTestCentres).type);
     });
-    it('should throw error from getTestCentres and call LoadTestCentresRefDataFail', (done) => {
-      spyOn(referenceDataProvider, 'getTestCentres').and.throwError(new Error('some error'));
-      // ARRANGE
-      store$.dispatch(SetDateRefDataUpdated(mockTodayDate));
-      spyOn(dateTimeProvider, 'now').and.returnValue(new DateTime(mockTomorrowDate));
-      spyOn(networkStateProvider, 'getNetworkState').and.returnValue(NetworkConnectionStatus.ONLINE);
-      // ACT
-      actions$.next(GetTestCentresRefData());
-      // ASSERT
-      effects.testCentreRefData$.subscribe((action) => {
-        expect(referenceDataProvider.getTestCentres).toHaveBeenCalled();
-        expect(action.type).toEqual(LoadTestCentresRefDataFail().type);
-        done();
+    it('should throw error from getTestCentres and call LoadTestCentresRefDataFail', async () => {
+      vi.spyOn(referenceDataProvider, 'getTestCentres').mockImplementation(() => {
+        throw new Error('some error');
       });
+      store$.dispatch(SetDateRefDataUpdated(mockTodayDate));
+      vi.spyOn(dateTimeProvider, 'now').mockReturnValue(new DateTime(mockTomorrowDate));
+      vi.spyOn(networkStateProvider, 'getNetworkState').mockReturnValue(NetworkConnectionStatus.ONLINE);
+      actions$.next(GetTestCentresRefData());
+      const action = await firstValueFrom(effects.testCentreRefData$);
+      expect(referenceDataProvider.getTestCentres).toHaveBeenCalled();
+      expect(action.type).toEqual(LoadTestCentresRefDataFail().type);
     });
   });
   describe('testCentreRefDataSuccess$', () => {
-    it('should call SetDateRefDataUpdated with date', (done) => {
-      // ACT
+    it('should call SetDateRefDataUpdated with date', async () => {
       actions$.next(LoadTestCentresRefDataSuccess(mockTestCentres));
-      // ASSERT
-      effects.testCentreRefDataSuccess$.subscribe((action) => {
-        expect(action.type).toEqual(SetDateRefDataUpdated(mockTodayDate).type);
-        done();
-      });
+      const action = await firstValueFrom(effects.testCentreRefDataSuccess$);
+      expect(action.type).toEqual(SetDateRefDataUpdated(mockTodayDate).type);
     });
   });
 });

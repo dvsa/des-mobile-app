@@ -7,6 +7,7 @@ import { ActivatedRouteMock } from '@mocks/angular-mocks/activated-route.mock';
 import { PlatformMock } from '@mocks/ionic-mocks/platform-mock';
 import { StorageMock } from '@mocks/ionic-mocks/storage.mock';
 import { Store, StoreModule } from '@ngrx/store';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { AppConfigProvider } from '@providers/app-config/app-config';
 import { ExaminerRole } from '@providers/app-config/constants/examiner-role.constants';
@@ -30,7 +31,7 @@ describe('RekeySearchPage', () => {
 
   beforeEach(async () => {
     const appConfigProviderMock = {
-      getAppConfig: jasmine.createSpy('getAppConfig').and.returnValue({ role: ExaminerRole.LDTM }),
+      getAppConfig: vi.fn().mockReturnValue({ role: ExaminerRole.LDTM }),
     };
 
     const networkStateProviderMock = {
@@ -83,7 +84,7 @@ describe('RekeySearchPage', () => {
     fixture = TestBed.createComponent(RekeySearchPage);
     component = fixture.componentInstance;
     store$ = TestBed.inject(Store);
-    spyOn(store$, 'dispatch');
+    vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
   });
 
   it('should create', () => {
@@ -109,43 +110,43 @@ describe('RekeySearchPage', () => {
   describe('disableSearch', () => {
     it('should disable search if applicationReference is empty or staffNumber is empty and not LDTM', () => {
       component.isLDTM = false;
-      expect(component.disableSearch('', '12345', component.isLDTM)).toBeTrue();
-      expect(component.disableSearch('12345', '', component.isLDTM)).toBeTrue();
-      expect(component.disableSearch('12345', '67890', component.isLDTM)).toBeFalse();
+      expect(component.disableSearch('', '12345', component.isLDTM)).toBe(true);
+      expect(component.disableSearch('12345', '', component.isLDTM)).toBe(true);
+      expect(component.disableSearch('12345', '67890', component.isLDTM)).toBe(false);
     });
 
     it('should disable search if applicationReference is empty or staffNumber is empty and not LDTM', () => {
       component.isLDTM = true;
-      expect(component.disableSearch('', '12345', component.isLDTM)).toBeTrue();
-      expect(component.disableSearch('12345', '', component.isLDTM)).toBeFalse();
-      expect(component.disableSearch('12345', '67890', component.isLDTM)).toBeFalse();
+      expect(component.disableSearch('', '12345', component.isLDTM)).toBe(true);
+      expect(component.disableSearch('12345', '', component.isLDTM)).toBe(false);
+      expect(component.disableSearch('12345', '67890', component.isLDTM)).toBe(false);
     });
   });
 
   describe('blockTestFromBeingRekeyed', () => {
     it('returns false if bookingsStaffNumber matches usersStaffNumber', () => {
       const result = component.blockTestFromBeingRekeyed(true, '12345', '12345');
-      expect(result).toBeFalse();
+      expect(result).toBe(false);
     });
 
     it('returns true if bookingsStaffNumber does not match usersStaffNumber and isTestTimePastCutOff is true', () => {
       const result = component.blockTestFromBeingRekeyed(true, '12345', '67890');
-      expect(result).toBeTrue();
+      expect(result).toBe(true);
     });
 
     it('returns false if bookingsStaffNumber does not match usersStaffNumber and isTestTimePastCutOff is false', () => {
       const result = component.blockTestFromBeingRekeyed(false, '12345', '67890');
-      expect(result).toBeFalse();
+      expect(result).toBe(false);
     });
 
     it('handles empty usersStaffNumber and bookingsStaffNumber gracefully', () => {
       const result = component.blockTestFromBeingRekeyed(true, '', '');
-      expect(result).toBeFalse();
+      expect(result).toBe(false);
     });
 
     it('handles null usersStaffNumber and bookingsStaffNumber gracefully', () => {
       const result = component.blockTestFromBeingRekeyed(true, null, null);
-      expect(result).toBeFalse();
+      expect(result).toBe(false);
     });
   });
 });

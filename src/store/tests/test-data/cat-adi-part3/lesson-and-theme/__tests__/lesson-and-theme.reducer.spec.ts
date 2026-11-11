@@ -1,5 +1,6 @@
 import { LessonTheme } from '@dvsa/mes-test-schema/categories/ADI3';
 import { lessonAndThemeReducer } from '@store/tests/test-data/cat-adi-part3/lesson-and-theme/lesson-and-theme.reducer';
+import { describe, expect, it } from 'vitest';
 import * as lessonAndThemeActions from '../lesson-and-theme.actions';
 
 describe('lessonAndThemeReducer', () => {

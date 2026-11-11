@@ -5,6 +5,7 @@ import {
   ExitSAMMethodUsed,
   TestFlowHeaderComponent,
 } from '@components/common/test-flow-header/test-flow-header.component';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { provideBasePageMocks } from '@mocks/test-providers';
 import { Store, StoreModule } from '@ngrx/store';
@@ -33,13 +34,13 @@ describe('TestFlowHeaderComponent', () => {
     component = fixture.componentInstance;
     deviceProvider = TestBed.inject(DeviceProvider);
     store$ = TestBed.inject(Store);
-    spyOn(store$, 'dispatch');
+    vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
     fixture.detectChanges();
   });
 
   describe('onEndTestClicked', () => {
     it('should emit endTestButtonClicked event', () => {
-      spyOn(component.endTestButtonClicked, 'emit');
+      vi.spyOn(component.endTestButtonClicked, 'emit').mockReturnValue(undefined);
 
       component.onEndTestClicked();
 
@@ -49,7 +50,7 @@ describe('TestFlowHeaderComponent', () => {
 
   describe('onCloseClicked', () => {
     it('should emit onCloseButtonClicked event', () => {
-      spyOn(component.onCloseButtonClicked, 'emit');
+      vi.spyOn(component.onCloseButtonClicked, 'emit').mockReturnValue(undefined);
 
       component.onCloseClicked();
 
@@ -59,18 +60,18 @@ describe('TestFlowHeaderComponent', () => {
 
   describe('changeExitSAMValue', () => {
     it('should change isExitSAMActivated and emit onExitSAMActivatedChanged event', () => {
-      spyOn(component.onExitSAMActivatedChanged, 'emit');
+      vi.spyOn(component.onExitSAMActivatedChanged, 'emit').mockReturnValue(undefined);
 
       component.changeExitSAMValue(true);
 
-      expect(component.isExitSAMActivated).toBeTrue();
+      expect(component.isExitSAMActivated).toBe(true);
       expect(component.onExitSAMActivatedChanged.emit).toHaveBeenCalledWith(true);
     });
   });
 
   describe('openDESUnlockedModal', () => {
     it('should create and present DES unlocked modal', async () => {
-      spyOn(component.exitSAMProvider, 'openExitSamErrorModal').and.returnValue(Promise.resolve());
+      vi.spyOn(component.exitSAMProvider, 'openExitSamErrorModal').mockReturnValue(Promise.resolve());
 
       await component.openDESUnlockedModal();
 
@@ -83,7 +84,7 @@ describe('TestFlowHeaderComponent', () => {
 
   describe('openDESDidNotUnlockModal', () => {
     it('should call exitSAMProvider.openExitSamErrorModal with correct messages', async () => {
-      spyOn(component.exitSAMProvider, 'openExitSamErrorModal').and.returnValue(Promise.resolve());
+      vi.spyOn(component.exitSAMProvider, 'openExitSamErrorModal').mockReturnValue(Promise.resolve());
 
       await component.openDESDidNotUnlockModal();
 
@@ -96,7 +97,7 @@ describe('TestFlowHeaderComponent', () => {
 
   describe('handleDisableSAMFailure', () => {
     it('should log error, open DES did not unlock modal and dispatch ExitSamError', async () => {
-      spyOn(component.exitSAMProvider, 'openExitSamErrorModal').and.returnValue(Promise.resolve());
+      vi.spyOn(component.exitSAMProvider, 'openExitSamErrorModal').mockReturnValue(Promise.resolve());
 
       await component.handleDisableSAMFailure();
 
@@ -107,7 +108,7 @@ describe('TestFlowHeaderComponent', () => {
 
   describe('handleTeamsNotFound', () => {
     it('should log error, open DES unlocked modal and dispatch ExitSamError', async () => {
-      spyOn(component.exitSAMProvider, 'openExitSamErrorModal').and.returnValue(Promise.resolve());
+      vi.spyOn(component.exitSAMProvider, 'openExitSamErrorModal').mockReturnValue(Promise.resolve());
 
       await component.handleTeamsNotFound();
 
@@ -119,7 +120,7 @@ describe('TestFlowHeaderComponent', () => {
   describe('handleTeamsOpenFailure', () => {
     it('should log error, open DES unlocked modal and dispatch ExitSamError', async () => {
       const openURLResult: OpenURLResult = { completed: false };
-      spyOn(component.exitSAMProvider, 'openExitSamErrorModal').and.returnValue(Promise.resolve());
+      vi.spyOn(component.exitSAMProvider, 'openExitSamErrorModal').mockReturnValue(Promise.resolve());
 
       await component.handleTeamsOpenFailure(openURLResult);
 
@@ -131,10 +132,10 @@ describe('TestFlowHeaderComponent', () => {
   describe('disableSAMAndExit', () => {
     it('should handle failure to disable single app mode', async () => {
       component.isPracticeMode = false;
-      spyOn(deviceProvider, 'disableSingleAppMode').and.resolveTo(false);
-      spyOn(component.exitSAMProvider, 'openExitSamErrorModal').and.returnValue(Promise.resolve());
-      spyOn(component.setupResumeSubscription, 'emit');
-      spyOn(component.setupLeaveSubscription, 'emit');
+      vi.spyOn(deviceProvider, 'disableSingleAppMode').mockResolvedValue(false);
+      vi.spyOn(component.exitSAMProvider, 'openExitSamErrorModal').mockReturnValue(Promise.resolve());
+      vi.spyOn(component.setupResumeSubscription, 'emit').mockReturnValue(undefined);
+      vi.spyOn(component.setupLeaveSubscription, 'emit').mockReturnValue(undefined);
 
       await component.disableSAMAndExit(ExitSAMMethodUsed.BANNER);
 
@@ -146,11 +147,11 @@ describe('TestFlowHeaderComponent', () => {
 
     it('should handle failure to find Microsoft Teams', async () => {
       component.isPracticeMode = false;
-      spyOn(deviceProvider, 'disableSingleAppMode').and.resolveTo(true);
-      spyOn(AppLauncher, 'canOpenUrl').and.resolveTo({ value: false });
-      spyOn(component.exitSAMProvider, 'openExitSamErrorModal').and.returnValue(Promise.resolve());
-      spyOn(component.setupResumeSubscription, 'emit');
-      spyOn(component.setupLeaveSubscription, 'emit');
+      vi.spyOn(deviceProvider, 'disableSingleAppMode').mockResolvedValue(true);
+      vi.spyOn(AppLauncher, 'canOpenUrl').mockResolvedValue({ value: false });
+      vi.spyOn(component.exitSAMProvider, 'openExitSamErrorModal').mockReturnValue(Promise.resolve());
+      vi.spyOn(component.setupResumeSubscription, 'emit').mockReturnValue(undefined);
+      vi.spyOn(component.setupLeaveSubscription, 'emit').mockReturnValue(undefined);
 
       await component.disableSAMAndExit(ExitSAMMethodUsed.BANNER);
 
@@ -161,12 +162,12 @@ describe('TestFlowHeaderComponent', () => {
 
     it('should handle failure to open Microsoft Teams', async () => {
       component.isPracticeMode = false;
-      spyOn(deviceProvider, 'disableSingleAppMode').and.resolveTo(true);
-      spyOn(AppLauncher, 'canOpenUrl').and.resolveTo({ value: true });
-      spyOn(AppLauncher, 'openUrl').and.resolveTo({ completed: false });
-      spyOn(component.exitSAMProvider, 'openExitSamErrorModal').and.returnValue(Promise.resolve());
-      spyOn(component.setupResumeSubscription, 'emit');
-      spyOn(component.setupLeaveSubscription, 'emit');
+      vi.spyOn(deviceProvider, 'disableSingleAppMode').mockResolvedValue(true);
+      vi.spyOn(AppLauncher, 'canOpenUrl').mockResolvedValue({ value: true });
+      vi.spyOn(AppLauncher, 'openUrl').mockResolvedValue({ completed: false });
+      vi.spyOn(component.exitSAMProvider, 'openExitSamErrorModal').mockReturnValue(Promise.resolve());
+      vi.spyOn(component.setupResumeSubscription, 'emit').mockReturnValue(undefined);
+      vi.spyOn(component.setupLeaveSubscription, 'emit').mockReturnValue(undefined);
 
       await component.disableSAMAndExit(ExitSAMMethodUsed.BANNER);
 
@@ -177,11 +178,11 @@ describe('TestFlowHeaderComponent', () => {
 
     it('should set up the resume subscription when Teams opens successfully', async () => {
       component.isPracticeMode = false;
-      spyOn(deviceProvider, 'disableSingleAppMode').and.resolveTo(true);
-      spyOn(AppLauncher, 'canOpenUrl').and.resolveTo({ value: true });
-      spyOn(AppLauncher, 'openUrl').and.resolveTo({ completed: true });
-      spyOn(component.setupResumeSubscription, 'emit');
-      spyOn(component.setupLeaveSubscription, 'emit');
+      vi.spyOn(deviceProvider, 'disableSingleAppMode').mockResolvedValue(true);
+      vi.spyOn(AppLauncher, 'canOpenUrl').mockResolvedValue({ value: true });
+      vi.spyOn(AppLauncher, 'openUrl').mockResolvedValue({ completed: true });
+      vi.spyOn(component.setupResumeSubscription, 'emit').mockReturnValue(undefined);
+      vi.spyOn(component.setupLeaveSubscription, 'emit').mockReturnValue(undefined);
 
       await component.disableSAMAndExit(ExitSAMMethodUsed.BANNER);
 
@@ -191,10 +192,10 @@ describe('TestFlowHeaderComponent', () => {
 
     it('should set up the leave subscription when checking whether Teams can open throws', async () => {
       component.isPracticeMode = false;
-      spyOn(deviceProvider, 'disableSingleAppMode').and.resolveTo(true);
-      spyOn(AppLauncher, 'canOpenUrl').and.rejectWith(new Error('Launcher unavailable'));
-      spyOn(component.exitSAMProvider, 'openExitSamErrorModal').and.returnValue(Promise.resolve());
-      spyOn(component.setupLeaveSubscription, 'emit');
+      vi.spyOn(deviceProvider, 'disableSingleAppMode').mockResolvedValue(true);
+      vi.spyOn(AppLauncher, 'canOpenUrl').mockRejectedValue(new Error('Launcher unavailable'));
+      vi.spyOn(component.exitSAMProvider, 'openExitSamErrorModal').mockReturnValue(Promise.resolve());
+      vi.spyOn(component.setupLeaveSubscription, 'emit').mockReturnValue(undefined);
 
       await component.disableSAMAndExit(ExitSAMMethodUsed.BANNER);
 
@@ -203,11 +204,11 @@ describe('TestFlowHeaderComponent', () => {
 
     it('should set up the leave subscription when opening Teams throws', async () => {
       component.isPracticeMode = false;
-      spyOn(deviceProvider, 'disableSingleAppMode').and.resolveTo(true);
-      spyOn(AppLauncher, 'canOpenUrl').and.resolveTo({ value: true });
-      spyOn(AppLauncher, 'openUrl').and.rejectWith(new Error('Launcher unavailable'));
-      spyOn(component.exitSAMProvider, 'openExitSamErrorModal').and.returnValue(Promise.resolve());
-      spyOn(component.setupLeaveSubscription, 'emit');
+      vi.spyOn(deviceProvider, 'disableSingleAppMode').mockResolvedValue(true);
+      vi.spyOn(AppLauncher, 'canOpenUrl').mockResolvedValue({ value: true });
+      vi.spyOn(AppLauncher, 'openUrl').mockRejectedValue(new Error('Launcher unavailable'));
+      vi.spyOn(component.exitSAMProvider, 'openExitSamErrorModal').mockReturnValue(Promise.resolve());
+      vi.spyOn(component.setupLeaveSubscription, 'emit').mockReturnValue(undefined);
 
       await component.disableSAMAndExit(ExitSAMMethodUsed.BANNER);
 
@@ -216,10 +217,10 @@ describe('TestFlowHeaderComponent', () => {
 
     it('should handle error during disableSAMAndExit', async () => {
       component.isPracticeMode = false;
-      spyOn(deviceProvider, 'disableSingleAppMode').and.rejectWith(new Error('Test Error'));
-      spyOn(component.exitSAMProvider, 'openExitSamErrorModal').and.returnValue(Promise.resolve());
-      spyOn(component.setupResumeSubscription, 'emit');
-      spyOn(component.setupLeaveSubscription, 'emit');
+      vi.spyOn(deviceProvider, 'disableSingleAppMode').mockRejectedValue(new Error('Test Error'));
+      vi.spyOn(component.exitSAMProvider, 'openExitSamErrorModal').mockReturnValue(Promise.resolve());
+      vi.spyOn(component.setupResumeSubscription, 'emit').mockReturnValue(undefined);
+      vi.spyOn(component.setupLeaveSubscription, 'emit').mockReturnValue(undefined);
 
       await component.disableSAMAndExit(ExitSAMMethodUsed.BANNER);
 

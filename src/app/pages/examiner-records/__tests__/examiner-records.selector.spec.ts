@@ -21,6 +21,7 @@ import {
 import { DateRange } from '@shared/helpers/date-time';
 import { ManoeuvreTypes } from '@store/tests/test-data/test-data.constants';
 import moment from 'moment';
+import { describe, expect, it } from 'vitest';
 
 describe('examiner records selector', () => {
   const startedTests: ExaminerRecordModel[] = [

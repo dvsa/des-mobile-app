@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { By } from '@angular/platform-browser';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { TellMeQuestionOutcomeComponent } from '../tell-me-question-outcome';
 
@@ -21,12 +22,12 @@ describe('TellMeQuestionOutcomeComponent', () => {
   describe('tellMeQuestionChanged', () => {
     it('should emit the correct event with the parameter given when form control is valid', () => {
       component.formControl = new UntypedFormControl(1, [Validators.required]);
-      spyOn(component.tellMeQuestionOutcomeChange, 'emit');
+      vi.spyOn(component.tellMeQuestionOutcomeChange, 'emit').mockReturnValue(undefined);
       component.tellMeQuestionOutcomeChanged('test');
       expect(component.tellMeQuestionOutcomeChange.emit).toHaveBeenCalledWith('test');
     });
     it('should emit nothing if form control is invalid', () => {
-      spyOn(component.tellMeQuestionOutcomeChange, 'emit');
+      vi.spyOn(component.tellMeQuestionOutcomeChange, 'emit').mockReturnValue(undefined);
       component.formControl = new UntypedFormControl(null, [Validators.required]);
       expect(component.tellMeQuestionOutcomeChange.emit).not.toHaveBeenCalled();
     });
@@ -34,7 +35,7 @@ describe('TellMeQuestionOutcomeComponent', () => {
 
   describe('DOM', () => {
     it('should call tellMeQuestionOutcomeChanged  with P when Pass is pressed', () => {
-      spyOn(component, 'tellMeQuestionOutcomeChanged');
+      vi.spyOn(component, 'tellMeQuestionOutcomeChanged').mockReturnValue(undefined);
       component.ngOnChanges();
       component.tellMeQuestionSelected = true;
       fixture.detectChanges();
@@ -44,7 +45,7 @@ describe('TellMeQuestionOutcomeComponent', () => {
       expect(component.tellMeQuestionOutcomeChanged).toHaveBeenCalledWith('P');
     });
     it('should call tellMeQuestionOutcomeChanged with DF when Fail is pressed', () => {
-      spyOn(component, 'tellMeQuestionOutcomeChanged');
+      vi.spyOn(component, 'tellMeQuestionOutcomeChanged').mockReturnValue(undefined);
       component.ngOnChanges();
       component.tellMeQuestionSelected = true;
       fixture.detectChanges();

@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule, UntypedFormGroup } from '@angular/forms';
 import { By } from '@angular/platform-browser';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { CharacterCountDirective } from '@directives/character-count.directive';
 
@@ -36,13 +37,13 @@ describe('OtherReasonComponent', () => {
 
     describe('selectedValueChanged', () => {
       it('should emit when reason is selected', () => {
-        spyOn(component.selectedChange, 'emit');
+        vi.spyOn(component.selectedChange, 'emit').mockReturnValue(undefined);
         component.selectedValueChanged(true);
         expect(component.selectedChange.emit).toHaveBeenCalledWith(true);
       });
       it('should reset the field when unselecting the checkbox', () => {
         const field = component.formGroup.get('reason');
-        spyOn(field, 'reset');
+        vi.spyOn(field, 'reset').mockReturnValue(undefined);
         component.selectedValueChanged(false);
         expect(field.reset).toHaveBeenCalled();
       });
@@ -50,7 +51,7 @@ describe('OtherReasonComponent', () => {
 
     describe('reasonTextChanged', () => {
       it('should emit the reason', () => {
-        spyOn(component.reasonChange, 'emit');
+        vi.spyOn(component.reasonChange, 'emit').mockReturnValue(undefined);
         const reasonText = 'reason for change';
         component.reasonTextChanged(reasonText);
         expect(component.reasonChange.emit).toHaveBeenCalledWith(reasonText);
@@ -59,7 +60,7 @@ describe('OtherReasonComponent', () => {
 
     describe('getCharacterCountText', () => {
       it('should call service with charsRemaining', () => {
-        spyOn(characterCountService, 'getCharacterCountText');
+        vi.spyOn(characterCountService, 'getCharacterCountText').mockReturnValue(undefined);
         component.charsRemaining = 1;
         component.getCharacterCountText();
 
@@ -69,7 +70,7 @@ describe('OtherReasonComponent', () => {
 
     describe('charactersExceeded', () => {
       it('should call service with charsRemaining', () => {
-        spyOn(characterCountService, 'charactersExceeded');
+        vi.spyOn(characterCountService, 'charactersExceeded').mockReturnValue(undefined);
         component.charsRemaining = 1;
         component.charactersExceeded();
 

@@ -1,13 +1,14 @@
 import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { default as welshTranslations } from '@assets/i18n/cy.json';
 import { default as englishTranslations } from '@assets/i18n/en.json';
 import { QuestionResult } from '@dvsa/mes-test-schema/categories/common';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
+import { beforeEach, describe, expect, it } from 'vitest';
 
-import { TranslateService, provideTranslateService } from '@ngx-translate/core';
-import { provideTranslateHttpLoader } from '@ngx-translate/http-loader';
+import { provideTestTranslations } from '@mocks/test-providers';
+import { TranslateService } from '@ngx-translate/core';
 import { getMalformedVehicleChecks } from '../__mocks__/vehicle-checks-card.mock';
 import { VehicleChecksCardComponent } from '../vehicle-checks-card';
 
@@ -16,24 +17,17 @@ describe('VehicleChecksCardComponent', () => {
   let component: VehicleChecksCardComponent;
   let translate: TranslateService;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [VehicleChecksCardComponent],
-      providers: [
-        provideHttpClient(withInterceptorsFromDi()),
-        provideTranslateService({
-          loader: provideTranslateHttpLoader({ prefix: 'assets/i18n/' }),
-          fallbackLang: 'en',
-          lang: 'en',
-        }),
-      ],
+      providers: [provideHttpClient(withInterceptorsFromDi()), provideTestTranslations()],
     });
 
     fixture = TestBed.createComponent(VehicleChecksCardComponent);
     component = fixture.componentInstance;
     translate = TestBed.inject(TranslateService);
     translate.setFallbackLang('en');
-  }));
+  });
 
   describe('questionHasFault', () => {
     const questionResult: QuestionResult = {
@@ -100,27 +94,35 @@ describe('VehicleChecksCardComponent', () => {
         );
       });
 
-      it('should show results in Welsh for a Welsh test', (done) => {
-        fixture.componentRef.setInput('category', TestCategory.BE);
-        fixture.componentRef.setInput('tellMeShowMeQuestions', [
-          {
-            code: 'S01',
-            description: 'Show me how you would check that the direction indicators are working.',
-            outcome: 'P',
-          },
-        ]);
+      it('should show results in Welsh for a Welsh test', async () => {
+        await new Promise<void>((done, reject) => {
+          fixture.componentRef.setInput('category', TestCategory.BE);
+          fixture.componentRef.setInput('tellMeShowMeQuestions', [
+            {
+              code: 'S01',
+              description: 'Show me how you would check that the direction indicators are working.',
+              outcome: 'P',
+            },
+          ]);
 
-        fixture.detectChanges();
-
-        // Language change handled by parent page component, force the switch
-        translate.use('cy').subscribe(() => {
           fixture.detectChanges();
-          const tellMeQuestionText = fixture.debugElement.query(By.css('#vehicle-checks .counter-label')).nativeElement;
 
-          expect(tellMeQuestionText.innerHTML.trim()).toContain(
-            welshTranslations.debrief.showMeTellMeQuestions[TestCategory.BE].S01
-          );
-          done();
+          // Language change handled by parent page component, force the switch
+          translate.use('cy').subscribe(() => {
+            try {
+              fixture.detectChanges();
+              const tellMeQuestionText = fixture.debugElement.query(
+                By.css('#vehicle-checks .counter-label')
+              ).nativeElement;
+
+              expect(tellMeQuestionText.innerHTML.trim()).toContain(
+                welshTranslations.debrief.showMeTellMeQuestions[TestCategory.BE].S01
+              );
+              done();
+            } catch (error) {
+              reject(error);
+            }
+          }, reject);
         });
       });
     });

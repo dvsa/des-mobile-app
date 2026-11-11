@@ -3,6 +3,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { NavController, ToastController } from '@ionic/angular';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { provideBasePageMocks } from '@mocks/test-providers';
 import { Store, StoreModule } from '@ngrx/store';
@@ -180,15 +181,15 @@ describe('OfficeCatADI2Page', () => {
     fixture = TestBed.createComponent(OfficeCatADI2Page);
     component = fixture.componentInstance;
     store$ = TestBed.inject(Store);
-    spyOn(store$, 'dispatch');
+    vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
   });
 
   describe('ionViewWillEnter', () => {
     it('should disable single app mode if it not in practice mode and isIos is true', async () => {
       component.isPracticeMode = false;
-      spyOn(BasePageComponent.prototype, 'isIos').and.returnValue(true);
-      spyOn(BasePageComponent.prototype, 'ionViewWillEnter');
-      spyOn(component.deviceProvider, 'disableSingleAppMode');
+      vi.spyOn(BasePageComponent.prototype, 'isIos').mockReturnValue(true);
+      vi.spyOn(BasePageComponent.prototype, 'ionViewWillEnter').mockReturnValue(undefined);
+      vi.spyOn(component.deviceProvider, 'disableSingleAppMode');
       await component.ionViewWillEnter();
       expect(component.deviceProvider.disableSingleAppMode).toHaveBeenCalled();
     });
@@ -254,7 +255,7 @@ describe('OfficeCatADI2Page', () => {
   });
   describe('deferring the write up', () => {
     it('should dispatch an action to persist tests + pop navstack to root when defer is called', () => {
-      spyOn(component, 'popToRoot');
+      vi.spyOn(component, 'popToRoot').mockReturnValue(undefined);
       fixture.detectChanges();
       component.hasNavigatedFromUnsubmitted = false;
       component.defer();
@@ -292,7 +293,7 @@ describe('OfficeCatADI2Page', () => {
 
   describe('ionViewDidLeave', () => {
     it('should call super.ionViewDidLeave', () => {
-      spyOn(OfficeBasePageComponent.prototype, 'ionViewDidLeave');
+      vi.spyOn(OfficeBasePageComponent.prototype, 'ionViewDidLeave').mockReturnValue(undefined);
       component.ionViewDidLeave();
       expect(OfficeBasePageComponent.prototype.ionViewDidLeave).toHaveBeenCalled();
     });

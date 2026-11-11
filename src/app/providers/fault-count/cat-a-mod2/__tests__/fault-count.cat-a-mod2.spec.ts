@@ -1,3 +1,4 @@
+import { describe, expect, it } from 'vitest';
 import {
   catAM2TestDataStateObject,
   safetyAndBalanceMock0Faults,

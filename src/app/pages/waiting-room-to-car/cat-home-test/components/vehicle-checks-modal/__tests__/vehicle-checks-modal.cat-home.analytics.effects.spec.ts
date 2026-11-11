@@ -16,7 +16,8 @@ import { StoreModel } from '@shared/models/store.model';
 import * as VehicleChecksActions from '@store/tests/test-data/cat-home/vehicle-checks/vehicle-checks.cat-home.actions';
 import * as testsActions from '@store/tests/tests.actions';
 import { testsReducer } from '@store/tests/tests.reducer';
-import { ReplaySubject } from 'rxjs';
+import { ReplaySubject, firstValueFrom } from 'rxjs';
+import { beforeEach, describe, expect, it } from 'vitest';
 
 import { QuestionOutcome, QuestionResult } from '@dvsa/mes-test-schema/categories/common';
 import * as fakeJournalActions from '@pages/fake-journal/fake-journal.actions';
@@ -52,14 +53,12 @@ describe('VehicleChecksModalCatHomeTestAnalyticsEffects', () => {
   });
 
   describe('vehicleChecksModalViewDidEnter$ effect', () => {
-    it('should call analytics.setCurrentPage', (done) => {
+    it('should call analytics.setCurrentPage', async () => {
       store$.dispatch(testsActions.StartTest(12345, TestCategory.K));
       actions$.next(VehicleChecksViewDidEnter());
-      effects.vehicleChecksModalViewDidEnter$.subscribe((result) => {
-        expect(result.type === AnalyticRecorded.type).toBe(true);
-        expect(analyticsProviderMock.setGACurrentPage).toHaveBeenCalledWith(screenName);
-        done();
-      });
+      const result = await firstValueFrom(effects.vehicleChecksModalViewDidEnter$);
+      expect(result.type === AnalyticRecorded.type).toBe(true);
+      expect(analyticsProviderMock.setGACurrentPage).toHaveBeenCalledWith(screenName);
     });
   });
 
@@ -68,64 +67,56 @@ describe('VehicleChecksModalCatHomeTestAnalyticsEffects', () => {
     const showMeQuestion: QuestionResult = {
       code: 'S01',
     };
-    it('should log an analytics event with show me question info', (done) => {
+    it('should log an analytics event with show me question info', async () => {
       store$.dispatch(testsActions.StartTest(12345, TestCategory.K));
       actions$.next(VehicleChecksActions.ShowMeQuestionSelected(showMeQuestion, questionNumber));
-      effects.showMeQuestionChanged$.subscribe((result) => {
-        expect(result.type === AnalyticRecorded.type).toBe(true);
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-          `${GoogleAnalyticsEvents.SHOW_ME_QUESTION}2`,
-          GoogleAnalyticsEventsTitles.QUESTION_NUMBER,
-          showMeQuestion.code
-        );
-        done();
-      });
+      const result = await firstValueFrom(effects.showMeQuestionChanged$);
+      expect(result.type === AnalyticRecorded.type).toBe(true);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+        `${GoogleAnalyticsEvents.SHOW_ME_QUESTION}2`,
+        GoogleAnalyticsEventsTitles.QUESTION_NUMBER,
+        showMeQuestion.code
+      );
     });
-    it('should log an analytics event in practice mode with show me question info', (done) => {
+    it('should log an analytics event in practice mode with show me question info', async () => {
       store$.dispatch(testsActions.StartTest(12345, TestCategory.K));
       store$.dispatch(fakeJournalActions.StartE2EPracticeTest(end2endPracticeSlotId));
       actions$.next(VehicleChecksActions.ShowMeQuestionSelected(showMeQuestion, questionNumber));
-      effects.showMeQuestionChanged$.subscribe((result) => {
-        expect(result.type === AnalyticRecorded.type).toBe(true);
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-          `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEvents.SHOW_ME_QUESTION}2`,
-          GoogleAnalyticsEventsTitles.QUESTION_NUMBER,
-          showMeQuestion.code
-        );
-        done();
-      });
+      const result = await firstValueFrom(effects.showMeQuestionChanged$);
+      expect(result.type === AnalyticRecorded.type).toBe(true);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+        `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEvents.SHOW_ME_QUESTION}2`,
+        GoogleAnalyticsEventsTitles.QUESTION_NUMBER,
+        showMeQuestion.code
+      );
     });
   });
 
   describe('showMeQuestionOutComeChanged$', () => {
     const questionOutcome: QuestionOutcome = 'P';
     const questionNumber: number = 1;
-    it('should log an analytics event with show me question outcome info', (done) => {
+    it('should log an analytics event with show me question outcome info', async () => {
       store$.dispatch(testsActions.StartTest(12345, TestCategory.K));
       actions$.next(VehicleChecksActions.ShowMeQuestionOutcomeChanged(questionOutcome, questionNumber));
-      effects.showMeQuestionOutComeChanged$.subscribe((result) => {
-        expect(result.type === AnalyticRecorded.type).toBe(true);
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-          `${GoogleAnalyticsEvents.SHOW_ME_QUESTION}2`,
-          GoogleAnalyticsEventsTitles.RESULT,
-          GoogleAnalyticsEventsValues.CORRECT
-        );
-        done();
-      });
+      const result = await firstValueFrom(effects.showMeQuestionOutComeChanged$);
+      expect(result.type === AnalyticRecorded.type).toBe(true);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+        `${GoogleAnalyticsEvents.SHOW_ME_QUESTION}2`,
+        GoogleAnalyticsEventsTitles.RESULT,
+        GoogleAnalyticsEventsValues.CORRECT
+      );
     });
-    it('should log an analytics event in practice mode with show me question outcome info', (done) => {
+    it('should log an analytics event in practice mode with show me question outcome info', async () => {
       store$.dispatch(testsActions.StartTest(12345, TestCategory.K));
       store$.dispatch(fakeJournalActions.StartE2EPracticeTest(end2endPracticeSlotId));
       actions$.next(VehicleChecksActions.ShowMeQuestionOutcomeChanged(questionOutcome, questionNumber));
-      effects.showMeQuestionOutComeChanged$.subscribe((result) => {
-        expect(result.type === AnalyticRecorded.type).toBe(true);
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-          `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEvents.SHOW_ME_QUESTION}2`,
-          GoogleAnalyticsEventsTitles.RESULT,
-          GoogleAnalyticsEventsValues.CORRECT
-        );
-        done();
-      });
+      const result = await firstValueFrom(effects.showMeQuestionOutComeChanged$);
+      expect(result.type === AnalyticRecorded.type).toBe(true);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+        `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEvents.SHOW_ME_QUESTION}2`,
+        GoogleAnalyticsEventsTitles.RESULT,
+        GoogleAnalyticsEventsValues.CORRECT
+      );
     });
   });
 
@@ -134,64 +125,56 @@ describe('VehicleChecksModalCatHomeTestAnalyticsEffects', () => {
     const tellMeQuestion: QuestionResult = {
       code: 'T01',
     };
-    it('should log an analyics event with tell me question info', (done) => {
+    it('should log an analyics event with tell me question info', async () => {
       store$.dispatch(testsActions.StartTest(12345, TestCategory.K));
       actions$.next(VehicleChecksActions.TellMeQuestionSelected(tellMeQuestion, questionNumber));
-      effects.tellMeQuestionChanged$.subscribe((result) => {
-        expect(result.type === AnalyticRecorded.type).toBe(true);
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-          `${GoogleAnalyticsEvents.TELL_ME_QUESTION}2`,
-          GoogleAnalyticsEventsTitles.QUESTION_NUMBER,
-          tellMeQuestion.code
-        );
-        done();
-      });
+      const result = await firstValueFrom(effects.tellMeQuestionChanged$);
+      expect(result.type === AnalyticRecorded.type).toBe(true);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+        `${GoogleAnalyticsEvents.TELL_ME_QUESTION}2`,
+        GoogleAnalyticsEventsTitles.QUESTION_NUMBER,
+        tellMeQuestion.code
+      );
     });
-    it('should log an analyics event in practice mode with tell me question info', (done) => {
+    it('should log an analyics event in practice mode with tell me question info', async () => {
       store$.dispatch(testsActions.StartTest(12345, TestCategory.K));
       store$.dispatch(fakeJournalActions.StartE2EPracticeTest(end2endPracticeSlotId));
       actions$.next(VehicleChecksActions.TellMeQuestionSelected(tellMeQuestion, questionNumber));
-      effects.tellMeQuestionChanged$.subscribe((result) => {
-        expect(result.type === AnalyticRecorded.type).toBe(true);
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-          `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEvents.TELL_ME_QUESTION}2`,
-          GoogleAnalyticsEventsTitles.QUESTION_NUMBER,
-          tellMeQuestion.code
-        );
-        done();
-      });
+      const result = await firstValueFrom(effects.tellMeQuestionChanged$);
+      expect(result.type === AnalyticRecorded.type).toBe(true);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+        `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEvents.TELL_ME_QUESTION}2`,
+        GoogleAnalyticsEventsTitles.QUESTION_NUMBER,
+        tellMeQuestion.code
+      );
     });
   });
 
   describe('tellMeQuestionOutComeChanged$', () => {
     const questionOutcome: QuestionOutcome = 'DF';
     const questionNumber: number = 1;
-    it('should log an analytics event with tell me question outcome info', (done) => {
+    it('should log an analytics event with tell me question outcome info', async () => {
       store$.dispatch(testsActions.StartTest(12345, TestCategory.K));
       actions$.next(VehicleChecksActions.TellMeQuestionOutcomeChanged(questionOutcome, questionNumber));
-      effects.tellMeQuestionOutComeChanged$.subscribe((result) => {
-        expect(result.type === AnalyticRecorded.type).toBe(true);
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-          `${GoogleAnalyticsEvents.TELL_ME_QUESTION}2`,
-          GoogleAnalyticsEventsTitles.RESULT,
-          GoogleAnalyticsEventsValues.DRIVING_FAULT
-        );
-        done();
-      });
+      const result = await firstValueFrom(effects.tellMeQuestionOutComeChanged$);
+      expect(result.type === AnalyticRecorded.type).toBe(true);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+        `${GoogleAnalyticsEvents.TELL_ME_QUESTION}2`,
+        GoogleAnalyticsEventsTitles.RESULT,
+        GoogleAnalyticsEventsValues.DRIVING_FAULT
+      );
     });
-    it('should log an analytics event in practice mode with tell me question outcome info', (done) => {
+    it('should log an analytics event in practice mode with tell me question outcome info', async () => {
       store$.dispatch(testsActions.StartTest(12345, TestCategory.K));
       store$.dispatch(fakeJournalActions.StartE2EPracticeTest(end2endPracticeSlotId));
       actions$.next(VehicleChecksActions.TellMeQuestionOutcomeChanged(questionOutcome, questionNumber));
-      effects.tellMeQuestionOutComeChanged$.subscribe((result) => {
-        expect(result.type === AnalyticRecorded.type).toBe(true);
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-          `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEvents.TELL_ME_QUESTION}2`,
-          GoogleAnalyticsEventsTitles.RESULT,
-          GoogleAnalyticsEventsValues.DRIVING_FAULT
-        );
-        done();
-      });
+      const result = await firstValueFrom(effects.tellMeQuestionOutComeChanged$);
+      expect(result.type === AnalyticRecorded.type).toBe(true);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+        `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEvents.TELL_ME_QUESTION}2`,
+        GoogleAnalyticsEventsTitles.RESULT,
+        GoogleAnalyticsEventsValues.DRIVING_FAULT
+      );
     });
   });
 });

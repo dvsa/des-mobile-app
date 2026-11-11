@@ -1,5 +1,6 @@
 import { Accompaniment } from '@dvsa/mes-test-schema/categories/ADI3';
 import { accompanimentCatADI3Reducer } from '@store/tests/accompaniment/cat-adi3/accompaniment.cat-adi3.reducer';
+import { describe, expect, it } from 'vitest';
 import * as accompanimentActions from '../../accompaniment.actions';
 import * as accompanimentADI3Actions from '../accompaniment.cat-adi3.actions';
 

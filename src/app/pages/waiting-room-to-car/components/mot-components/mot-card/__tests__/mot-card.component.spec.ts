@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { MotHistory } from '@dvsa/mes-mot-schema';
 import { IonIcon, IonText } from '@ionic/angular';
@@ -40,7 +41,7 @@ describe('MotCardComponent', () => {
 
   describe('callWasSuccessful', () => {
     it('should return true if status is 200, data.status is not "No details" and the app is online', () => {
-      spyOn(component.networkState, 'getNetworkState').and.returnValue(NetworkConnectionStatus.ONLINE);
+      vi.spyOn(component.networkState, 'getNetworkState').mockReturnValue(NetworkConnectionStatus.ONLINE);
       component.data = { status: 'Valid' } as MotHistory;
       component.status = '200';
       expect(component.isCallSuccessful()).toEqual(true);
@@ -49,20 +50,20 @@ describe('MotCardComponent', () => {
       'should return false if status is not 200 or Already Saved, data.status is ' +
         'not "No details" and the app is online',
       () => {
-        spyOn(component.networkState, 'getNetworkState').and.returnValue(NetworkConnectionStatus.ONLINE);
+        vi.spyOn(component.networkState, 'getNetworkState').mockReturnValue(NetworkConnectionStatus.ONLINE);
         component.data = { status: 'Valid' } as MotHistory;
         component.status = '100';
         expect(component.isCallSuccessful()).toEqual(false);
       }
     );
     it('should return false if status is 200, data.status is ' + '"No details" and the app is online', () => {
-      spyOn(component.networkState, 'getNetworkState').and.returnValue(NetworkConnectionStatus.ONLINE);
+      vi.spyOn(component.networkState, 'getNetworkState').mockReturnValue(NetworkConnectionStatus.ONLINE);
       component.data = { status: 'No details' } as MotHistory;
       component.status = '200';
       expect(component.isCallSuccessful()).toBeFalsy();
     });
     it('should return false if status is 200, data.status is ' + 'not "No details" and the app is not online', () => {
-      spyOn(component.networkState, 'getNetworkState').and.returnValue(NetworkConnectionStatus.OFFLINE);
+      vi.spyOn(component.networkState, 'getNetworkState').mockReturnValue(NetworkConnectionStatus.OFFLINE);
       component.data = { status: 'No details' } as MotHistory;
       component.status = '200';
       expect(component.isCallSuccessful()).toEqual(false);
@@ -76,38 +77,38 @@ describe('MotCardComponent', () => {
     });
 
     it('should return true if data.status is NO_DETAILS', () => {
-      spyOn(component, 'is404').and.returnValue(false);
-      spyOn(component, 'isSearchFailed').and.returnValue(false);
+      vi.spyOn(component, 'is404').mockReturnValue(false);
+      vi.spyOn(component, 'isSearchFailed').mockReturnValue(false);
       component.data = { status: 'No details' } as MotHistory;
       expect(component.isNoDetails()).toEqual(true);
     });
 
     it('should return true if data.status is AGE_EXEMPTION', () => {
-      spyOn(component, 'is404').and.returnValue(false);
-      spyOn(component, 'isSearchFailed').and.returnValue(false);
+      vi.spyOn(component, 'is404').mockReturnValue(false);
+      vi.spyOn(component, 'isSearchFailed').mockReturnValue(false);
       component.data = { status: 'Age exemption' } as MotHistory;
       expect(component.isNoDetails()).toEqual(true);
     });
 
     it('should return false if status and data.status do not match NO_CONTENT, NO_DETAILS, or AGE_EXEMPTION', () => {
-      spyOn(component, 'is404').and.returnValue(false);
-      spyOn(component, 'isSearchFailed').and.returnValue(false);
+      vi.spyOn(component, 'is404').mockReturnValue(false);
+      vi.spyOn(component, 'isSearchFailed').mockReturnValue(false);
       component.status = HttpStatusCodes.OK.toString();
       component.data = { status: 'Valid' } as MotHistory;
       expect(component.isNoDetails()).toEqual(false);
     });
 
     it('should return true if status is equal to 404', () => {
-      spyOn(component, 'is404').and.returnValue(true);
-      spyOn(component, 'isSearchFailed').and.returnValue(false);
+      vi.spyOn(component, 'is404').mockReturnValue(true);
+      vi.spyOn(component, 'isSearchFailed').mockReturnValue(false);
       component.status = HttpStatusCodes.NOT_FOUND.toString();
       component.data = { status: 'Valid' } as MotHistory;
       expect(component.isNoDetails()).toEqual(true);
     });
 
     it('should return true if searchFailed', () => {
-      spyOn(component, 'is404').and.returnValue(false);
-      spyOn(component, 'isSearchFailed').and.returnValue(true);
+      vi.spyOn(component, 'is404').mockReturnValue(false);
+      vi.spyOn(component, 'isSearchFailed').mockReturnValue(true);
       component.status = HttpStatusCodes.NOT_FOUND.toString();
       component.data = { status: 'Valid' } as MotHistory;
       expect(component.isNoDetails()).toEqual(false);
@@ -160,7 +161,7 @@ describe('MotCardComponent', () => {
   describe('evidenceRadioSelected', () => {
     it('should emit the passed value and set alternateEvidenceRadioCheck to its value', () => {
       component.alternateEvidenceRadioCheck = false;
-      spyOn(component.alternateEvidenceChange, 'emit');
+      vi.spyOn(component.alternateEvidenceChange, 'emit').mockReturnValue(undefined);
       component.evidenceRadioSelected(true);
       expect(component.alternateEvidenceChange.emit).toHaveBeenCalledWith(true);
       expect(component.alternateEvidenceRadioCheck).toEqual(true);

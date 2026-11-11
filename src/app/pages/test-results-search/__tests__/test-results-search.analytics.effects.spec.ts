@@ -1,6 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
-import { ReplaySubject } from 'rxjs';
+import { ReplaySubject, firstValueFrom } from 'rxjs';
+import { beforeEach, describe, expect, it } from 'vitest';
 
 import { Action } from '@ngrx/store';
 import { AnalyticsProviderMock } from '@providers/analytics/__mocks__/analytics.mock';
@@ -40,85 +41,64 @@ describe('TestResultsSearchAnalyticsEffects', () => {
   });
 
   describe('TestResultSearchViewDidEnter', () => {
-    it('should call setCurrentPage', (done) => {
-      // ACT
+    it('should call setCurrentPage', async () => {
       actions$.next(testResultSearchActions.TestResultSearchViewDidEnter());
-      // ASSERT
-      effects.testResultSearchViewDidEnter$.subscribe((result) => {
-        expect(result.type === AnalyticRecorded.type).toBe(true);
-        expect(analyticsProviderMock.setGACurrentPage).toHaveBeenCalledWith(screenName);
-        done();
-      });
+      const result = await firstValueFrom(effects.testResultSearchViewDidEnter$);
+      expect(result.type === AnalyticRecorded.type).toBe(true);
+      expect(analyticsProviderMock.setGACurrentPage).toHaveBeenCalledWith(screenName);
     });
   });
 
   describe('PerformApplicationReferenceSearch', () => {
-    it('should call logEvent', (done) => {
-      // ACT
+    it('should call logEvent', async () => {
       actions$.next(testResultSearchActions.PerformApplicationReferenceSearch());
-      // ASSERT
-      effects.performApplicationReferenceSearch$.subscribe((result) => {
-        expect(result.type === AnalyticRecorded.type).toBe(true);
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-          GoogleAnalyticsEvents.COMPLETED_TEST_SEARCH,
-          GoogleAnalyticsEventsTitles.FILTER,
-          GoogleAnalyticsEventsValues.APP_REF
-        );
-        done();
-      });
+      const result = await firstValueFrom(effects.performApplicationReferenceSearch$);
+      expect(result.type === AnalyticRecorded.type).toBe(true);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+        GoogleAnalyticsEvents.COMPLETED_TEST_SEARCH,
+        GoogleAnalyticsEventsTitles.FILTER,
+        GoogleAnalyticsEventsValues.APP_REF
+      );
     });
   });
 
   describe('PerformDriverNumberSearch', () => {
-    it('should call logEvent', (done) => {
-      // ACT
+    it('should call logEvent', async () => {
       actions$.next(testResultSearchActions.PerformDriverNumberSearch());
-      // ASSERT
-      effects.performDriverNumberSearch$.subscribe((result) => {
-        expect(result.type === AnalyticRecorded.type).toBe(true);
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-          GoogleAnalyticsEvents.COMPLETED_TEST_SEARCH,
-          GoogleAnalyticsEventsTitles.FILTER,
-          GoogleAnalyticsEventsValues.DRIVER_NUMBER
-        );
-        done();
-      });
+      const result = await firstValueFrom(effects.performDriverNumberSearch$);
+      expect(result.type === AnalyticRecorded.type).toBe(true);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+        GoogleAnalyticsEvents.COMPLETED_TEST_SEARCH,
+        GoogleAnalyticsEventsTitles.FILTER,
+        GoogleAnalyticsEventsValues.DRIVER_NUMBER
+      );
     });
   });
 
   describe('PerformLDTMSearch', () => {
-    it('should call logEvent with the correct custom dimensions when no search params are provided', (done) => {
-      // ACT
+    it('should call logEvent with the correct custom dimensions when no search params are provided', async () => {
       actions$.next(testResultSearchActions.PerformLDTMSearch({}));
-      // ASSERT
-      effects.performLDTMSearch$.subscribe((result) => {
-        expect(result.type === AnalyticRecorded.type).toBe(true);
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-          GoogleAnalyticsEvents.LDTM_SEARCH,
-          GoogleAnalyticsEventsTitles.FILTER,
-          ''
-        );
-        done();
-      });
+      const result = await firstValueFrom(effects.performLDTMSearch$);
+      expect(result.type === AnalyticRecorded.type).toBe(true);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+        GoogleAnalyticsEvents.LDTM_SEARCH,
+        GoogleAnalyticsEventsTitles.FILTER,
+        ''
+      );
     });
 
-    it('should call logEvent with the correct custom dimensions when 1 search param is provided', (done) => {
-      // ACT
+    it('should call logEvent with the correct custom dimensions when 1 search param is provided', async () => {
       actions$.next(testResultSearchActions.PerformLDTMSearch({ costCode: 'mock-cost-code' }));
-      // ASSERT
-      effects.performLDTMSearch$.subscribe((result) => {
-        expect(result.type === AnalyticRecorded.type).toBe(true);
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-          GoogleAnalyticsEvents.LDTM_SEARCH,
-          GoogleAnalyticsEventsTitles.FILTER,
-          'test centre'
-        );
-        done();
-      });
+      const result = await firstValueFrom(effects.performLDTMSearch$);
+      expect(result.type === AnalyticRecorded.type).toBe(true);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+        GoogleAnalyticsEvents.LDTM_SEARCH,
+        GoogleAnalyticsEventsTitles.FILTER,
+        'test centre'
+      );
     });
 
-    it('should call logEvent with the correct custom dimensions when all search params are provided', (done) => {
-      // ACT
+    it('should call logEvent with the correct custom dimensions when all search params are provided', async () => {
       actions$.next(
         testResultSearchActions.PerformLDTMSearch({
           costCode: 'mock-cost-code',
@@ -130,16 +110,13 @@ describe('TestResultsSearchAnalyticsEffects', () => {
           rekey: true,
         } as AdvancedSearchParams)
       );
-      // ASSERT
-      effects.performLDTMSearch$.subscribe((result) => {
-        expect(result.type === AnalyticRecorded.type).toBe(true);
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-          GoogleAnalyticsEvents.LDTM_SEARCH,
-          GoogleAnalyticsEventsTitles.FILTER,
-          'date, staff id, test centre, activity code, test category, pass certificate, rekey'
-        );
-        done();
-      });
+      const result = await firstValueFrom(effects.performLDTMSearch$);
+      expect(result.type === AnalyticRecorded.type).toBe(true);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+        GoogleAnalyticsEvents.LDTM_SEARCH,
+        GoogleAnalyticsEventsTitles.FILTER,
+        'date, staff id, test centre, activity code, test category, pass certificate, rekey'
+      );
     });
   });
 });

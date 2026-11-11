@@ -1,11 +1,12 @@
 import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
-import { TestBed, fakeAsync, flushMicrotasks } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 import { ExaminerWorkSchedule } from '@dvsa/mes-journal-schema';
 import { JournalData } from '@dvsa/mes-test-schema/categories/common';
 import { DateTime, Duration } from '@shared/helpers/date-time';
 import { of } from 'rxjs';
 import { take } from 'rxjs/operators';
+import { afterAll, beforeEach, describe, expect, it, vi } from 'vitest';
 import { AppConfigProviderMock } from '../../app-config/__mocks__/app-config.mock';
 import { AppConfigProvider } from '../../app-config/app-config';
 import { AppConfig } from '../../app-config/app-config.model';
@@ -82,15 +83,15 @@ describe('JournalProvider', () => {
 
   describe('getJournal', () => {
     beforeEach(() => {
-      spyOn(authProviderMock, 'getEmployeeId').and.returnValue('12345678');
-      spyOn(journalProvider.urlProvider, 'getPersonalJournalUrl');
-      spyOn(appConfigProviderMock, 'getAppConfig').and.returnValue({ requestTimeout: 100000 } as AppConfig);
-      spyOn(authProviderMock, 'isOffline').and.returnValue(false);
-      spyOn(journalProvider, 'getOfflineJournal').and.returnValue(of({}));
+      vi.spyOn(authProviderMock, 'getEmployeeId').mockReturnValue('12345678');
+      vi.spyOn(journalProvider.urlProvider, 'getPersonalJournalUrl');
+      vi.spyOn(appConfigProviderMock, 'getAppConfig').mockReturnValue({ requestTimeout: 100000 } as AppConfig);
+      vi.spyOn(authProviderMock, 'isOffline').mockReturnValue(false);
+      vi.spyOn(journalProvider, 'getOfflineJournal').mockReturnValue(of({}));
     });
 
     it('should get the journal record using the url', () => {
-      spyOn(journalProvider.networkStateProvider, 'getNetworkState').and.returnValue(NetworkConnectionStatus.ONLINE);
+      vi.spyOn(journalProvider.networkStateProvider, 'getNetworkState').mockReturnValue(NetworkConnectionStatus.ONLINE);
       journalProvider
         .getJournal(null)
         .pipe(take(1))
@@ -103,7 +104,9 @@ describe('JournalProvider', () => {
       expect(req.request.headers.get('If-Modified-Since')).toBe(null);
     });
     it('should get the offline journal when lastRefreshed is null and ConnectionStatus is OFFLINE', () => {
-      spyOn(journalProvider.networkStateProvider, 'getNetworkState').and.returnValue(NetworkConnectionStatus.OFFLINE);
+      vi.spyOn(journalProvider.networkStateProvider, 'getNetworkState').mockReturnValue(
+        NetworkConnectionStatus.OFFLINE
+      );
       journalProvider
         .getJournal(null)
         .pipe(take(1))
@@ -114,7 +117,7 @@ describe('JournalProvider', () => {
       expect(journalProvider.getOfflineJournal).toHaveBeenCalled();
     });
     it('should get the journal record with an `If-Modified-Since` header', () => {
-      spyOn(journalProvider.networkStateProvider, 'getNetworkState').and.returnValue(NetworkConnectionStatus.ONLINE);
+      vi.spyOn(journalProvider.networkStateProvider, 'getNetworkState').mockReturnValue(NetworkConnectionStatus.ONLINE);
       journalProvider
         .getJournal(new Date('2020-01-01'))
         .pipe(take(1))
@@ -127,7 +130,9 @@ describe('JournalProvider', () => {
       expect(req.request.headers.get('If-Modified-Since')).toBeDefined();
     });
     it('should get the offline journal when lastRefreshed is defined but ConnectionStatus is OFFLINE', () => {
-      spyOn(journalProvider.networkStateProvider, 'getNetworkState').and.returnValue(NetworkConnectionStatus.OFFLINE);
+      vi.spyOn(journalProvider.networkStateProvider, 'getNetworkState').mockReturnValue(
+        NetworkConnectionStatus.OFFLINE
+      );
       journalProvider
         .getJournal(new Date('2020-01-01'))
         .pipe(take(1))
@@ -164,36 +169,39 @@ describe('JournalProvider', () => {
       };
 
       // override mock getItem as we need data to test
-      spyOn(dataStoreMock, 'getItem').and.returnValue(Promise.resolve(JSON.stringify(dataWthinWindowCache)));
-      spyOn(dataStoreMock, 'setItem').and.returnValue(Promise.resolve(''));
-      spyOn(journalProvider, 'emptyCachedData');
+      vi.spyOn(dataStoreMock, 'getItem').mockReturnValue(Promise.resolve(JSON.stringify(dataWthinWindowCache)));
+      vi.spyOn(dataStoreMock, 'setItem').mockReturnValue(Promise.resolve(''));
+      vi.spyOn(journalProvider, 'emptyCachedData').mockReturnValue(undefined);
 
       const data = await journalProvider.getAndConvertOfflineJournal();
       expect(data).toEqual(dataWthinWindowCache.data);
     });
-    it('should empty cached data if cache is too old', fakeAsync(async () => {
-      const exampleSchedule: ExaminerWorkSchedule = {
-        examiner: { staffNumber: '1234' },
-      };
-      const agedCache = {
-        dateStored: new DateTime().add(-(cacheDays + 1), Duration.DAY).format('YYYY/MM/DD'),
-        data: exampleSchedule,
-      };
-      // override mock getItem as we need data to test
-      spyOn(dataStoreMock, 'getItem').and.returnValue(Promise.resolve(JSON.stringify(agedCache)));
-      spyOn(dataStoreMock, 'setItem').and.returnValue(Promise.resolve(''));
-      spyOn(journalProvider, 'emptyCachedData').and.callThrough();
+    it('should empty cached data if cache is too old', async () => {
+      vi.useFakeTimers();
+      try {
+        const exampleSchedule: ExaminerWorkSchedule = {
+          examiner: { staffNumber: '1234' },
+        };
+        const agedCache = {
+          dateStored: new DateTime().add(-(cacheDays + 1), Duration.DAY).format('YYYY/MM/DD'),
+          data: exampleSchedule,
+        };
+        // override mock getItem as we need data to test
+        vi.spyOn(dataStoreMock, 'getItem').mockReturnValue(Promise.resolve(JSON.stringify(agedCache)));
+        vi.spyOn(dataStoreMock, 'setItem').mockReturnValue(Promise.resolve(''));
+        vi.spyOn(journalProvider, 'emptyCachedData');
 
-      journalProvider.getAndConvertOfflineJournal().then((data) => {
-        flushMicrotasks();
+        const data = await journalProvider.getAndConvertOfflineJournal();
         expect(journalProvider.emptyCachedData).toHaveBeenCalled();
         expect(dataStoreMock.setItem).toHaveBeenCalled();
         expect(data).toEqual({} as ExaminerWorkSchedule);
-      });
-    }));
+      } finally {
+        vi.useRealTimers();
+      }
+    });
     it('should fall through catch and not run then code in then', async () => {
-      spyOn(dataStoreMock, 'getItem').and.callFake(() => Promise.reject(new Error('cannot get')));
-      spyOn(journalProvider, 'isCacheTooOld');
+      vi.spyOn(dataStoreMock, 'getItem').mockImplementation(() => Promise.reject(new Error('cannot get')));
+      vi.spyOn(journalProvider, 'isCacheTooOld').mockReturnValue(undefined);
       await journalProvider.getAndConvertOfflineJournal();
       expect(journalProvider.isCacheTooOld).not.toHaveBeenCalled();
     });
@@ -201,9 +209,9 @@ describe('JournalProvider', () => {
 
   describe('saveJournalForOffline', () => {
     beforeEach(() => {
-      spyOn(dateTimeProviderMock, 'now').and.returnValue(new DateTime('2021-01-01'));
-      spyOn(dataStoreMock, 'setItem').and.returnValue(Promise.resolve(''));
-      spyOn(networkStateProviderMock, 'getNetworkState').and.returnValue(NetworkConnectionStatus.ONLINE);
+      vi.spyOn(dateTimeProviderMock, 'now').mockReturnValue(new DateTime('2021-01-01'));
+      vi.spyOn(dataStoreMock, 'setItem').mockReturnValue(Promise.resolve(''));
+      vi.spyOn(networkStateProviderMock, 'getNetworkState').mockReturnValue(NetworkConnectionStatus.ONLINE);
     });
     it('should set the journalData param into data store', () => {
       const journalDataToStore = {
@@ -218,7 +226,7 @@ describe('JournalProvider', () => {
 
   describe('getOfflineJournal', () => {
     beforeEach(() => {
-      spyOn(journalProvider, 'getAndConvertOfflineJournal').and.returnValue(Promise.resolve({}));
+      vi.spyOn(journalProvider, 'getAndConvertOfflineJournal').mockReturnValue(Promise.resolve({}));
     });
     it('should convert the promise returned from getAndConvertOfflineJournal into an observable', () => {
       journalProvider

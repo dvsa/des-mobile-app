@@ -1,4 +1,5 @@
 import { QuestionResult } from '@dvsa/mes-test-schema/categories/common';
+import { describe, expect, it } from 'vitest';
 
 import { CatFUniqueTypes } from '@dvsa/mes-test-schema/categories/F';
 import { cloneDeep } from 'lodash-es';

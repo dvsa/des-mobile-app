@@ -1,5 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { UntypedFormGroup } from '@angular/forms';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { OutcomeBehaviourMapProvider, VisibilityType } from '@providers/outcome-behaviour-map/outcome-behaviour-map';
 import { D255Component } from '../d255';
@@ -24,13 +25,13 @@ describe('D255Component', () => {
   describe('Class', () => {
     describe('ngOnChanges', () => {
       it('should add a form control for D255 with a validator if the field should be visible', () => {
-        spyOn(outcomeBehaviourMapProvider, 'getVisibilityType').and.returnValue(VisibilityType.Visible);
+        vi.spyOn(outcomeBehaviourMapProvider, 'getVisibilityType').mockReturnValue(VisibilityType.Visible);
         component.ngOnChanges();
         expect(component.formGroup.get(D255Component.fieldName)).not.toBeNull();
         expect(component.formGroup.get(D255Component.fieldName).validator).not.toBeNull();
       });
       it('should add a form control for D255 with no validator if the field should be hidden', () => {
-        spyOn(outcomeBehaviourMapProvider, 'getVisibilityType').and.returnValue(VisibilityType.NotVisible);
+        vi.spyOn(outcomeBehaviourMapProvider, 'getVisibilityType').mockReturnValue(VisibilityType.NotVisible);
         component.ngOnChanges();
         expect(component.formGroup.get(D255Component.fieldName)).not.toBeNull();
         expect(component.formGroup.get(D255Component.fieldName).validator).toBeNull();
@@ -39,13 +40,13 @@ describe('D255Component', () => {
 
     describe('d255Changed', () => {
       it('should emit a event with the correct value if the form control is valid', () => {
-        spyOn(component.d255Change, 'emit');
+        vi.spyOn(component.d255Change, 'emit').mockReturnValue(undefined);
         component.ngOnChanges();
         component.d255Changed('d255-yes');
         expect(component.d255Change.emit).toHaveBeenCalledWith(true);
       });
       it('should emit a event with the correct value if the form control is valid', () => {
-        spyOn(component.d255Change, 'emit');
+        vi.spyOn(component.d255Change, 'emit').mockReturnValue(undefined);
         component.ngOnChanges();
         component.d255Changed('d255-no');
         expect(component.d255Change.emit).toHaveBeenCalledWith(false);

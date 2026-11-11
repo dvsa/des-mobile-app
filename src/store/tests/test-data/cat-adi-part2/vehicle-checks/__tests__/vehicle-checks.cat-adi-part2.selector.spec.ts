@@ -1,4 +1,5 @@
 import { CatADI2UniqueTypes } from '@dvsa/mes-test-schema/categories/ADI2';
+import { describe, expect, it } from 'vitest';
 import {
   getVehicleChecksDangerous,
   getVehicleChecksSerious,

@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { mockAnswer, mockAnswerNumber } from '../__mocks__/question-answer.mock';
 import { QuestionAnswerComponent } from '../question-answer';
@@ -34,7 +35,7 @@ describe('QuestionAnswerComponent', () => {
 
   describe('answerChanged', () => {
     it('should emit an object containing the answer ', () => {
-      spyOn(component.answerToggled, 'emit');
+      vi.spyOn(component.answerToggled, 'emit').mockReturnValue(undefined);
       component.answer = mockAnswer;
       component.answerNumber = mockAnswerNumber;
       component.answerChanged();

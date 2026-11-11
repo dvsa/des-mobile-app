@@ -1,6 +1,7 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { EndTestLinkComponent } from '@components/common/end-test-link/end-test-link';
 import { TransmissionComponent } from '@components/common/transmission/transmission';
@@ -103,7 +104,7 @@ describe('WaitingRoomToCarCatADIPart2Page', () => {
     fixture.detectChanges();
     store$ = TestBed.inject(Store);
     routeByCategoryProvider = TestBed.inject(RouteByCategoryProvider);
-    spyOn(store$, 'dispatch');
+    vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
   });
 
   afterEach(() => {
@@ -117,7 +118,7 @@ describe('WaitingRoomToCarCatADIPart2Page', () => {
   describe('Class', () => {
     describe('ngOnInit', () => {
       it('should call through to the base page init method', () => {
-        spyOn(WaitingRoomToCarBasePageComponent.prototype, 'onInitialisation');
+        vi.spyOn(WaitingRoomToCarBasePageComponent.prototype, 'onInitialisation').mockReturnValue(undefined);
         component.ngOnInit();
         expect(WaitingRoomToCarBasePageComponent.prototype.onInitialisation).toHaveBeenCalled();
       });
@@ -132,36 +133,46 @@ describe('WaitingRoomToCarCatADIPart2Page', () => {
     });
     describe('onSubmit', () => {
       beforeEach(() => {
-        spyOn(routeByCategoryProvider, 'navigateToPage');
+        vi.spyOn(routeByCategoryProvider, 'navigateToPage').mockReturnValue(undefined);
       });
-      it('should recognise a valid form and navigate to test report', fakeAsync(async () => {
-        component.form = new UntypedFormGroup({
-          notRequiredControl: new UntypedFormControl(null),
-        });
-        component.testCategory = TestCategory.ADI2;
-        await component.onSubmit();
-        tick();
-        expect(routeByCategoryProvider.navigateToPage).toHaveBeenCalledWith(
-          TestFlowPageNames.TEST_REPORT_PAGE,
-          TestCategory.ADI2,
-          { replaceUrl: true }
-        );
-      }));
-      it('should dispatch the appropriate WaitingRoomToCarValidationError actions', fakeAsync(async () => {
-        component.form = new UntypedFormGroup({
-          requiredControl1: new UntypedFormControl(null, [Validators.required]),
-          requiredControl2: new UntypedFormControl(null, [Validators.required]),
-          notRequiredControl: new UntypedFormControl(null),
-        });
+      it('should recognise a valid form and navigate to test report', async () => {
+        vi.useFakeTimers();
+        try {
+          component.form = new UntypedFormGroup({
+            notRequiredControl: new UntypedFormControl(null),
+          });
+          component.testCategory = TestCategory.ADI2;
+          await component.onSubmit();
+          await vi.advanceTimersByTimeAsync(0);
+          expect(routeByCategoryProvider.navigateToPage).toHaveBeenCalledWith(
+            TestFlowPageNames.TEST_REPORT_PAGE,
+            TestCategory.ADI2,
+            { replaceUrl: true }
+          );
+        } finally {
+          vi.useRealTimers();
+        }
+      });
+      it('should dispatch the appropriate WaitingRoomToCarValidationError actions', async () => {
+        vi.useFakeTimers();
+        try {
+          component.form = new UntypedFormGroup({
+            requiredControl1: new UntypedFormControl(null, [Validators.required]),
+            requiredControl2: new UntypedFormControl(null, [Validators.required]),
+            notRequiredControl: new UntypedFormControl(null),
+          });
 
-        await component.onSubmit();
-        tick();
-        expect(store$.dispatch).toHaveBeenCalledWith(WaitingRoomToCarValidationError('requiredControl1 is blank'));
-        expect(store$.dispatch).toHaveBeenCalledWith(WaitingRoomToCarValidationError('requiredControl2 is blank'));
-        expect(store$.dispatch).not.toHaveBeenCalledWith(
-          WaitingRoomToCarValidationError('notRequiredControl is blank')
-        );
-      }));
+          await component.onSubmit();
+          await vi.advanceTimersByTimeAsync(0);
+          expect(store$.dispatch).toHaveBeenCalledWith(WaitingRoomToCarValidationError('requiredControl1 is blank'));
+          expect(store$.dispatch).toHaveBeenCalledWith(WaitingRoomToCarValidationError('requiredControl2 is blank'));
+          expect(store$.dispatch).not.toHaveBeenCalledWith(
+            WaitingRoomToCarValidationError('notRequiredControl is blank')
+          );
+        } finally {
+          vi.useRealTimers();
+        }
+      });
     });
   });
 });

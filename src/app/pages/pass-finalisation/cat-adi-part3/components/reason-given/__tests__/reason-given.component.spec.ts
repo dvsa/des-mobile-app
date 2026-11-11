@@ -1,5 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormControl, ReactiveFormsModule, UntypedFormGroup, Validators } from '@angular/forms';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { CharacterCountService } from '@providers/character-count/character-count.service';
 import { ReasonGivenComponent } from '../reason-given.component';
@@ -33,7 +34,7 @@ describe('ReasonGivenComponent', () => {
     });
     it('should check the validity of the form control', () => {
       component.formControl = new FormControl();
-      spyOn(component.formControl, 'updateValueAndValidity');
+      vi.spyOn(component.formControl, 'updateValueAndValidity').mockReturnValue(undefined);
       component.characterCountChanged(1);
       expect(component.formControl.updateValueAndValidity).toHaveBeenCalled();
     });
@@ -41,7 +42,7 @@ describe('ReasonGivenComponent', () => {
 
   describe('charactersExceeded', () => {
     it('should call service with charsRemaining', () => {
-      spyOn(characterCountService, 'charactersExceeded');
+      vi.spyOn(characterCountService, 'charactersExceeded').mockReturnValue(undefined);
       component.charsRemaining = 1;
       component.charactersExceeded();
 
@@ -51,7 +52,7 @@ describe('ReasonGivenComponent', () => {
 
   describe('getCharacterCountText', () => {
     it('should call service with charsRemaining', () => {
-      spyOn(characterCountService, 'getCharacterCountText');
+      vi.spyOn(characterCountService, 'getCharacterCountText').mockReturnValue(undefined);
       component.charsRemaining = 1;
       component.getCharacterCountText();
 
@@ -61,7 +62,7 @@ describe('ReasonGivenComponent', () => {
 
   describe('adviceReasonChange', () => {
     it('should emit text', () => {
-      spyOn(component.adviceReason, 'emit');
+      vi.spyOn(component.adviceReason, 'emit').mockReturnValue(undefined);
       const text = 'this is test text';
       component.adviceReasonChange(text);
       expect(component.adviceReason.emit).toHaveBeenCalledWith(text);

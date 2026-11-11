@@ -1,3 +1,4 @@
+import { describe, expect, it } from 'vitest';
 import { candidateMock } from '../../../../__mocks__/tests.mock';
 import { PopulateCandidateDetails } from '../candidate.actions';
 import { candidateReducer } from '../candidate.reducer';

@@ -1,4 +1,5 @@
-import { ComponentFixture, TestBed, fakeAsync, tick, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -32,7 +33,7 @@ describe('CommunicationPage', () => {
   let store$: Store<StoreModel>;
   let translate: TranslateService;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       imports: [
@@ -88,9 +89,9 @@ describe('CommunicationPage', () => {
     translate = TestBed.inject(TranslateService);
     translate.setFallbackLang('en');
     store$ = TestBed.inject(Store);
-    spyOn(store$, 'dispatch');
+    vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
     component.subscription = new Subscription();
-  }));
+  });
 
   describe('Class', () => {
     it('should create component', () => {
@@ -98,14 +99,23 @@ describe('CommunicationPage', () => {
     });
 
     describe('Submit', () => {
-      it('should dispatch the SubmitCommunicationInfo action', fakeAsync(() => {
-        const { form } = component;
-        form.get('radioCtrl').setValue(true);
-        form.get('newEmailCtrl').setValue('test@mail.com');
-        component.onSubmit();
-        tick();
-        expect(store$.dispatch).toHaveBeenCalledWith(CommunicationSubmitInfo());
-      }));
+      beforeEach(() => {
+        fixture.detectChanges();
+      });
+
+      it('should dispatch the SubmitCommunicationInfo action', async () => {
+        vi.useFakeTimers();
+        try {
+          const { form } = component;
+          form.get('radioCtrl').setValue(true);
+          form.get('newEmailCtrl').setValue('test@mail.com');
+          component.onSubmit();
+          await vi.advanceTimersByTimeAsync(0);
+          expect(store$.dispatch).toHaveBeenCalledWith(CommunicationSubmitInfo());
+        } finally {
+          vi.useRealTimers();
+        }
+      });
       it('form should only be valid whenever all form controls are initialised', () => {
         const { form } = component;
         form.get('radioCtrl').setValue(true);
@@ -130,7 +140,7 @@ describe('CommunicationPage', () => {
 
     describe('dispatchCandidateChoseNewEmail', () => {
       it('should dispatch a CandidateChoseEmailAsCommunicationPreference action', () => {
-        spyOn(component, 'isNewEmailSelected').and.returnValue(true);
+        vi.spyOn(component, 'isNewEmailSelected').mockReturnValue(true);
         component.dispatchCandidateChoseNewEmail(candidateMock.emailAddress);
         expect(store$.dispatch).toHaveBeenCalledWith(
           communicationPreferencesActions.CandidateChoseEmailAsCommunicationPreference(
@@ -193,7 +203,7 @@ describe('CommunicationPage', () => {
 
   describe('validCertificateChanged', () => {
     it('should dispatch ValidPassCertChanged with passed value', () => {
-      spyOn(component.store$, 'dispatch');
+      vi.spyOn(component.store$, 'dispatch').mockReturnValue(undefined);
       component.validCertificateChanged(true);
       expect(component.store$.dispatch).toHaveBeenCalledWith(ValidPassCertChanged(true));
     });
@@ -209,7 +219,7 @@ describe('CommunicationPage', () => {
   describe('ionViewDidLeave', () => {
     it('should unsubscribe from subscription if there is one', () => {
       component.subscription = new Subscription();
-      spyOn(component.subscription, 'unsubscribe');
+      vi.spyOn(component.subscription, 'unsubscribe').mockReturnValue(undefined);
       component.ionViewDidLeave();
       expect(component.subscription.unsubscribe).toHaveBeenCalled();
     });
@@ -252,7 +262,7 @@ describe('CommunicationPage', () => {
     });
     it('should call dispatchCandidateChoseProvidedEmail if candidateProvidedEmail is present', () => {
       component.candidateProvidedEmail = 'test';
-      spyOn(component, 'dispatchCandidateChoseProvidedEmail');
+      vi.spyOn(component, 'dispatchCandidateChoseProvidedEmail').mockReturnValue(undefined);
 
       component.initialiseDefaultSelections();
 
@@ -288,8 +298,8 @@ describe('CommunicationPage', () => {
       'should call dispatchCandidateChoseNewEmail if isNewEmailSelected is true and ' +
         'communicationEmail is not empty',
       () => {
-        spyOn(component, 'isNewEmailSelected').and.returnValue(true);
-        spyOn(component, 'dispatchCandidateChoseNewEmail');
+        vi.spyOn(component, 'isNewEmailSelected').mockReturnValue(true);
+        vi.spyOn(component, 'dispatchCandidateChoseNewEmail').mockReturnValue(undefined);
         component.communicationEmail = 'test@mail.com';
         component.conditionalDispatchCandidateChoseNewEmail();
         expect(component.dispatchCandidateChoseNewEmail).toHaveBeenCalled();
@@ -299,13 +309,13 @@ describe('CommunicationPage', () => {
 
   describe('restoreRadiosFromState', () => {
     it('should call assertEmailType if communicationType is equal to CommunicationPage.email', () => {
-      spyOn(component, 'assertEmailType');
+      vi.spyOn(component, 'assertEmailType').mockReturnValue(undefined);
       component.communicationType = CommunicationPage.email;
       component.restoreRadiosFromState();
       expect(component.assertEmailType).toHaveBeenCalled();
     });
     it('should not call assertEmailType if communicationType ' + 'is not equal to CommunicationPage.email', () => {
-      spyOn(component, 'assertEmailType');
+      vi.spyOn(component, 'assertEmailType').mockReturnValue(undefined);
       component.communicationType = CommunicationPage.notProvided;
       component.restoreRadiosFromState();
       expect(component.assertEmailType).not.toHaveBeenCalled();

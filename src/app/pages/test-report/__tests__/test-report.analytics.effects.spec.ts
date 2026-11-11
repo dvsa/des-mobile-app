@@ -64,7 +64,8 @@ import {
 } from '@store/tests/test-data/test-data.constants';
 import * as testsActions from '@store/tests/tests.actions';
 import { testsReducer } from '@store/tests/tests.reducer';
-import { ReplaySubject } from 'rxjs';
+import { ReplaySubject, firstValueFrom } from 'rxjs';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { ModalReason } from '../cat-a-mod1/components/activity-code-4-modal/activity-code-4-modal.constants';
 import * as testReportCatAMod1Actions from '../cat-a-mod1/test-report.cat-a-mod1.actions';
 import * as reverseLeftActions from '../components/reverse-left/reverse-left.actions';
@@ -106,412 +107,279 @@ describe('TestReportAnalyticsEffects', () => {
     analyticsProviderMock = TestBed.inject(AnalyticsProvider);
     store$ = TestBed.inject(Store);
     appConfigProvider = TestBed.inject(AppConfigProvider);
-    spyOn(appConfigProvider, 'getAppConfig').and.returnValue({
+    vi.spyOn(appConfigProvider, 'getAppConfig').mockReturnValue({
       journal: { enablePracticeModeAnalytics: true },
     } as AppConfig);
   });
 
   describe('testReportViewDidEnter', () => {
-    it('should call setCurrentPage and addCustomDimension', (done) => {
-      // ARRANGE
+    it('should call setCurrentPage and addCustomDimension', async () => {
       store$.dispatch(testsActions.StartTest(123456, TestCategory.B));
-      // ACT
       actions$.next(testReportActions.TestReportViewDidEnter());
-      // ASSERT
-      effects.testReportViewDidEnter$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-        expect(analyticsProviderMock.setGACurrentPage).toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.setGACurrentPage).toHaveBeenCalledWith(AnalyticsScreenNames.TEST_REPORT);
-        done();
-      });
+      const result = await firstValueFrom(effects.testReportViewDidEnter$);
+      expect(result.type).toEqual(AnalyticRecorded.type);
+      expect(analyticsProviderMock.setGACurrentPage).toHaveBeenCalledTimes(1);
+      expect(analyticsProviderMock.setGACurrentPage).toHaveBeenCalledWith(AnalyticsScreenNames.TEST_REPORT);
     });
   });
 
   describe('toggleRemoveFaultMode', () => {
-    it('should call logEvent when the action is user generated', (done) => {
-      // ARRANGE
+    it('should call logEvent when the action is user generated', async () => {
       store$.dispatch(testsActions.StartTest(123456, TestCategory.B));
-      // ACT
       store$.dispatch(testReportActions.ToggleRemoveFaultMode());
       actions$.next(testReportActions.ToggleRemoveFaultMode(true));
-      // ASSERT
-      effects.toggleRemoveFaultMode$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-
-        // GA4 Analytics
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-          GoogleAnalyticsEvents.SELECT_MODE,
-          GoogleAnalyticsEventsTitles.MODE,
-          GoogleAnalyticsEventsValues.REMOVE
-        );
-        done();
-      });
+      const result = await firstValueFrom(effects.toggleRemoveFaultMode$);
+      expect(result.type).toEqual(AnalyticRecorded.type);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+        GoogleAnalyticsEvents.SELECT_MODE,
+        GoogleAnalyticsEventsTitles.MODE,
+        GoogleAnalyticsEventsValues.REMOVE
+      );
     });
-    it('should call logEvent when the action is user generated for untoggling of remove fault mode', (done) => {
-      // ARRANGE
+    it('should call logEvent when the action is user generated for untoggling of remove fault mode', async () => {
       store$.dispatch(testsActions.StartTest(123456, TestCategory.B));
-      // ACT
       actions$.next(testReportActions.ToggleRemoveFaultMode(true));
-      // ASSERT
-      effects.toggleRemoveFaultMode$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-
-        // GA4 Analytics
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-          GoogleAnalyticsEvents.EXIT_MODE,
-          GoogleAnalyticsEventsTitles.MODE,
-          GoogleAnalyticsEventsValues.REMOVE
-        );
-        done();
-      });
+      const result = await firstValueFrom(effects.toggleRemoveFaultMode$);
+      expect(result.type).toEqual(AnalyticRecorded.type);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+        GoogleAnalyticsEvents.EXIT_MODE,
+        GoogleAnalyticsEventsTitles.MODE,
+        GoogleAnalyticsEventsValues.REMOVE
+      );
     });
-    it('should call logEvent when the action is user generated, prefixed with practice test', (done) => {
-      // ARRANGE
+    it('should call logEvent when the action is user generated, prefixed with practice test', async () => {
       store$.dispatch(testsActions.StartTestReportPracticeTest(testReportPracticeModeSlot.slotDetail.slotId));
-      // ACT
       store$.dispatch(testReportActions.ToggleRemoveFaultMode());
       actions$.next(testReportActions.ToggleRemoveFaultMode(true));
-      // ASSERT
-      effects.toggleRemoveFaultMode$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-
-        // GA4 Analytics
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-          `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEvents.SELECT_MODE}`,
-          GoogleAnalyticsEventsTitles.MODE,
-          GoogleAnalyticsEventsValues.REMOVE
-        );
-        done();
-      });
+      const result = await firstValueFrom(effects.toggleRemoveFaultMode$);
+      expect(result.type).toEqual(AnalyticRecorded.type);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+        `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEvents.SELECT_MODE}`,
+        GoogleAnalyticsEventsTitles.MODE,
+        GoogleAnalyticsEventsValues.REMOVE
+      );
     });
-    it('should not call logEvent when the action is not user generated', (done) => {
-      // ARRANGE
+    it('should not call logEvent when the action is not user generated', async () => {
       store$.dispatch(testsActions.StartTest(123456, TestCategory.B));
-      // ACT
       actions$.next(testReportActions.ToggleRemoveFaultMode());
-      // ASSERT
-      effects.toggleRemoveFaultMode$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticNotRecorded.type);
-
-        // GA4 Analytics
-        expect(analyticsProviderMock.logGAEvent).not.toHaveBeenCalled();
-        done();
-      });
+      const result = await firstValueFrom(effects.toggleRemoveFaultMode$);
+      expect(result.type).toEqual(AnalyticNotRecorded.type);
+      expect(analyticsProviderMock.logGAEvent).not.toHaveBeenCalled();
     });
   });
 
   describe('toggleSeriousFaultMode', () => {
-    it('should call logEvent when action is user generated', (done) => {
-      // ARRANGE
+    it('should call logEvent when action is user generated', async () => {
       store$.dispatch(testsActions.StartTest(123456, TestCategory.B));
-      // ACT
       actions$.next(testReportActions.ToggleSeriousFaultMode(true));
-      // ASSERT
-      effects.toggleSeriousFaultMode$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-
-        // GA4 Analytics
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-          GoogleAnalyticsEvents.SELECT_MODE,
-          GoogleAnalyticsEventsTitles.MODE,
-          ValidFaultTypes.SERIOUS
-        );
-        done();
-      });
+      const result = await firstValueFrom(effects.toggleSeriousFaultMode$);
+      expect(result.type).toEqual(AnalyticRecorded.type);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+        GoogleAnalyticsEvents.SELECT_MODE,
+        GoogleAnalyticsEventsTitles.MODE,
+        ValidFaultTypes.SERIOUS
+      );
     });
-    it('should call logEvent when action is user generated, prefixed with practice test', (done) => {
-      // ARRANGE
+    it('should call logEvent when action is user generated, prefixed with practice test', async () => {
       store$.dispatch(testsActions.StartTestReportPracticeTest(testReportPracticeModeSlot.slotDetail.slotId));
-      // ACT
       actions$.next(testReportActions.ToggleSeriousFaultMode(true));
-      // ASSERT
-      effects.toggleSeriousFaultMode$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-
-        // GA4 Analytics
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-          `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEvents.SELECT_MODE}`,
-          GoogleAnalyticsEventsTitles.MODE,
-          ValidFaultTypes.SERIOUS
-        );
-        done();
-      });
+      const result = await firstValueFrom(effects.toggleSeriousFaultMode$);
+      expect(result.type).toEqual(AnalyticRecorded.type);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+        `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEvents.SELECT_MODE}`,
+        GoogleAnalyticsEventsTitles.MODE,
+        ValidFaultTypes.SERIOUS
+      );
     });
-    it('should not call logEvent when action is not user generated', (done) => {
-      // ARRANGE
+    it('should not call logEvent when action is not user generated', async () => {
       store$.dispatch(testsActions.StartTest(123456, TestCategory.B));
-      // ACT
       actions$.next(testReportActions.ToggleSeriousFaultMode());
-      // ASSERT
-      effects.toggleSeriousFaultMode$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticNotRecorded.type);
-
-        // GA4 Analytics
-        expect(analyticsProviderMock.logGAEvent).not.toHaveBeenCalled();
-        done();
-      });
+      const result = await firstValueFrom(effects.toggleSeriousFaultMode$);
+      expect(result.type).toEqual(AnalyticNotRecorded.type);
+      expect(analyticsProviderMock.logGAEvent).not.toHaveBeenCalled();
     });
   });
 
   describe('toggleDangerousFaultMode', () => {
-    it('should call logEvent when action is user generated', (done) => {
-      // ARRANGE
+    it('should call logEvent when action is user generated', async () => {
       store$.dispatch(testsActions.StartTest(123456, TestCategory.B));
-      // ACT
       actions$.next(testReportActions.ToggleDangerousFaultMode(true));
-      // ASSERT
-      effects.toggleDangerousFaultMode$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-
-        // GA4 Analytics
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-          GoogleAnalyticsEvents.SELECT_MODE,
-          GoogleAnalyticsEventsTitles.MODE,
-          ValidFaultTypes.DANGEROUS
-        );
-        done();
-      });
+      const result = await firstValueFrom(effects.toggleDangerousFaultMode$);
+      expect(result.type).toEqual(AnalyticRecorded.type);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+        GoogleAnalyticsEvents.SELECT_MODE,
+        GoogleAnalyticsEventsTitles.MODE,
+        ValidFaultTypes.DANGEROUS
+      );
     });
-    it('should call logEvent when action is user generated prefixed with practice test', (done) => {
-      // ARRANGE
+    it('should call logEvent when action is user generated prefixed with practice test', async () => {
       store$.dispatch(testsActions.StartTestReportPracticeTest(testReportPracticeModeSlot.slotDetail.slotId));
-      // ACT
       actions$.next(testReportActions.ToggleDangerousFaultMode(true));
-      // ASSERT
-      effects.toggleDangerousFaultMode$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-
-        // GA4 Analytics
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-          `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEvents.SELECT_MODE}`,
-          GoogleAnalyticsEventsTitles.MODE,
-          ValidFaultTypes.DANGEROUS
-        );
-        done();
-      });
+      const result = await firstValueFrom(effects.toggleDangerousFaultMode$);
+      expect(result.type).toEqual(AnalyticRecorded.type);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+        `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEvents.SELECT_MODE}`,
+        GoogleAnalyticsEventsTitles.MODE,
+        ValidFaultTypes.DANGEROUS
+      );
     });
-    it('should not call logEvent when action is not user generated', (done) => {
-      // ARRANGE
+    it('should not call logEvent when action is not user generated', async () => {
       store$.dispatch(testsActions.StartTest(123456, TestCategory.B));
-      // ACT
       actions$.next(testReportActions.ToggleDangerousFaultMode());
-      // ASSERT
-      effects.toggleDangerousFaultMode$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticNotRecorded.type);
-
-        // GA4 Analytics
-        expect(analyticsProviderMock.logGAEvent).not.toHaveBeenCalled();
-        done();
-      });
+      const result = await firstValueFrom(effects.toggleDangerousFaultMode$);
+      expect(result.type).toEqual(AnalyticNotRecorded.type);
+      expect(analyticsProviderMock.logGAEvent).not.toHaveBeenCalled();
     });
   });
 
   describe('addDrivingFault', () => {
-    it('should call logEvent for this competency', (done) => {
-      // ARRANGE
+    it('should call logEvent for this competency', async () => {
       store$.dispatch(testsActions.StartTest(123456, TestCategory.B));
-      // ACT
       actions$.next(
         drivingFaultsActions.AddDrivingFault({
           competency: Competencies.controlsGears,
           newFaultCount: 1,
         })
       );
-      // ASSERT
-      effects.addDrivingFault$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-
-        // GA4 Analytics
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-          `${GoogleAnalyticsEvents.ADD_FAULT}_${fullAnalyticCompetencyLabels[Competencies.controlsGears]}`,
-          GoogleAnalyticsEventsTitles.SEVERITY,
-          ValidFaultTypes.DRIVING
-        );
-        done();
-      });
+      const result = await firstValueFrom(effects.addDrivingFault$);
+      expect(result.type).toEqual(AnalyticRecorded.type);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+        `${GoogleAnalyticsEvents.ADD_FAULT}_${fullAnalyticCompetencyLabels[Competencies.controlsGears]}`,
+        GoogleAnalyticsEventsTitles.SEVERITY,
+        ValidFaultTypes.DRIVING
+      );
     });
-    it('should call logEvent for this competency, prefixed with practice test', (done) => {
-      // ARRANGE
+    it('should call logEvent for this competency, prefixed with practice test', async () => {
       store$.dispatch(testsActions.StartTestReportPracticeTest(testReportPracticeModeSlot.slotDetail.slotId));
-      // ACT
       actions$.next(
         drivingFaultsActions.AddDrivingFault({
           competency: Competencies.controlsGears,
           newFaultCount: 1,
         })
       );
-      // ASSERT
-      effects.addDrivingFault$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-
-        // GA4 Analytics
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-          `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${
-            GoogleAnalyticsEvents.ADD_FAULT
-          }_${fullAnalyticCompetencyLabels[Competencies.controlsGears]}`,
-          GoogleAnalyticsEventsTitles.SEVERITY,
-          ValidFaultTypes.DRIVING
-        );
-        done();
-      });
+      const result = await firstValueFrom(effects.addDrivingFault$);
+      expect(result.type).toEqual(AnalyticRecorded.type);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+        `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${
+          GoogleAnalyticsEvents.ADD_FAULT
+        }_${fullAnalyticCompetencyLabels[Competencies.controlsGears]}`,
+        GoogleAnalyticsEventsTitles.SEVERITY,
+        ValidFaultTypes.DRIVING
+      );
     });
   });
 
   describe('addSeriousFault', () => {
-    it('should call logEvent for this competency', (done) => {
-      // ARRANGE
+    it('should call logEvent for this competency', async () => {
       store$.dispatch(testsActions.StartTest(123456, TestCategory.B));
-      // ACT
       actions$.next(seriousFaultsActions.AddSeriousFault(Competencies.controlsGears));
-      // ASSERT
-      effects.addSeriousFault$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-
-        // GA4 Analytics
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-          `${GoogleAnalyticsEvents.ADD_FAULT}_${fullAnalyticCompetencyLabels[Competencies.controlsGears]}`,
-          GoogleAnalyticsEventsTitles.SEVERITY,
-          ValidFaultTypes.SERIOUS
-        );
-        done();
-      });
+      const result = await firstValueFrom(effects.addSeriousFault$);
+      expect(result.type).toEqual(AnalyticRecorded.type);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+        `${GoogleAnalyticsEvents.ADD_FAULT}_${fullAnalyticCompetencyLabels[Competencies.controlsGears]}`,
+        GoogleAnalyticsEventsTitles.SEVERITY,
+        ValidFaultTypes.SERIOUS
+      );
     });
-    it('should call logEvent for this competency, prefixed with practice test', (done) => {
-      // ARRANGE
+    it('should call logEvent for this competency, prefixed with practice test', async () => {
       store$.dispatch(testsActions.StartTestReportPracticeTest(testReportPracticeModeSlot.slotDetail.slotId));
-      // ACT
       actions$.next(seriousFaultsActions.AddSeriousFault(Competencies.controlsGears));
-      // ASSERT
-      effects.addSeriousFault$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-
-        // GA4 Analytics
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-          `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${
-            GoogleAnalyticsEvents.ADD_FAULT
-          }_${fullAnalyticCompetencyLabels[Competencies.controlsGears]}`,
-          GoogleAnalyticsEventsTitles.SEVERITY,
-          ValidFaultTypes.SERIOUS
-        );
-        done();
-      });
+      const result = await firstValueFrom(effects.addSeriousFault$);
+      expect(result.type).toEqual(AnalyticRecorded.type);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+        `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${
+          GoogleAnalyticsEvents.ADD_FAULT
+        }_${fullAnalyticCompetencyLabels[Competencies.controlsGears]}`,
+        GoogleAnalyticsEventsTitles.SEVERITY,
+        ValidFaultTypes.SERIOUS
+      );
     });
   });
 
   describe('addDangerousFault', () => {
-    it('should call logEvent for this competency', (done) => {
-      // ARRANGE
+    it('should call logEvent for this competency', async () => {
       store$.dispatch(testsActions.StartTest(123456, TestCategory.B));
-      // ACT
       actions$.next(dangerousFaultsActions.AddDangerousFault(Competencies.controlsGears));
-      // ASSERT
-      effects.addDangerousFault$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-
-        // GA4 Analytics
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-          `${GoogleAnalyticsEvents.ADD_FAULT}_${fullAnalyticCompetencyLabels[Competencies.controlsGears]}`,
-          GoogleAnalyticsEventsTitles.SEVERITY,
-          ValidFaultTypes.DANGEROUS
-        );
-        done();
-      });
+      const result = await firstValueFrom(effects.addDangerousFault$);
+      expect(result.type).toEqual(AnalyticRecorded.type);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+        `${GoogleAnalyticsEvents.ADD_FAULT}_${fullAnalyticCompetencyLabels[Competencies.controlsGears]}`,
+        GoogleAnalyticsEventsTitles.SEVERITY,
+        ValidFaultTypes.DANGEROUS
+      );
     });
-    it('should call logEvent for this competency, prefixed with practice test', (done) => {
-      // ARRANGE
+    it('should call logEvent for this competency, prefixed with practice test', async () => {
       store$.dispatch(testsActions.StartTestReportPracticeTest(testReportPracticeModeSlot.slotDetail.slotId));
-      // ACT
       actions$.next(dangerousFaultsActions.AddDangerousFault(Competencies.controlsGears));
-      // ASSERT
-      effects.addDangerousFault$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-
-        // GA4 Analytics
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-          `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${
-            GoogleAnalyticsEvents.ADD_FAULT
-          }_${fullAnalyticCompetencyLabels[Competencies.controlsGears]}`,
-          GoogleAnalyticsEventsTitles.SEVERITY,
-          ValidFaultTypes.DANGEROUS
-        );
-        done();
-      });
+      const result = await firstValueFrom(effects.addDangerousFault$);
+      expect(result.type).toEqual(AnalyticRecorded.type);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+        `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${
+          GoogleAnalyticsEvents.ADD_FAULT
+        }_${fullAnalyticCompetencyLabels[Competencies.controlsGears]}`,
+        GoogleAnalyticsEventsTitles.SEVERITY,
+        ValidFaultTypes.DANGEROUS
+      );
     });
   });
 
   describe('addManoeuvreDrivingFault', () => {
-    it('should call logEvent for this competency', (done) => {
-      // ARRANGE
+    it('should call logEvent for this competency', async () => {
       store$.dispatch(testsActions.StartTest(123456, TestCategory.B));
-      // ACT
       actions$.next(
         manoeuvresActions.AddManoeuvreDrivingFault({
           manoeuvre: ManoeuvreTypes.reverseRight,
           competency: ManoeuvreCompetencies.controlFault,
         })
       );
-      // ASSERT
-      effects.addManoeuvreDrivingFault$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-
-        // GA4 Analytics
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-          `${GoogleAnalyticsEvents.ADD_FAULT}_${manoeuvreTypeAnalyticLabels[ManoeuvreTypes.reverseRight]}_${
-            manoeuvreCompetencyAnalyticLabels[ManoeuvreCompetencies.controlFault]
-          }`,
-          GoogleAnalyticsEventsTitles.SEVERITY,
-          ValidFaultTypes.DRIVING
-        );
-        done();
-      });
+      const result = await firstValueFrom(effects.addManoeuvreDrivingFault$);
+      expect(result.type).toEqual(AnalyticRecorded.type);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+        `${GoogleAnalyticsEvents.ADD_FAULT}_${manoeuvreTypeAnalyticLabels[ManoeuvreTypes.reverseRight]}_${
+          manoeuvreCompetencyAnalyticLabels[ManoeuvreCompetencies.controlFault]
+        }`,
+        GoogleAnalyticsEventsTitles.SEVERITY,
+        ValidFaultTypes.DRIVING
+      );
     });
-    it('should call logEvent for this competency, prefixed with practice test', (done) => {
-      // ARRANGE
+    it('should call logEvent for this competency, prefixed with practice test', async () => {
       store$.dispatch(testsActions.StartTestReportPracticeTest(testReportPracticeModeSlot.slotDetail.slotId));
-      // ACT
       actions$.next(
         manoeuvresActions.AddManoeuvreDrivingFault({
           manoeuvre: ManoeuvreTypes.reverseRight,
           competency: ManoeuvreCompetencies.controlFault,
         })
       );
-      // ASSERT
-      effects.addManoeuvreDrivingFault$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-
-        // GA4 Analytics
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-          `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEvents.ADD_FAULT}_${
-            manoeuvreTypeAnalyticLabels[ManoeuvreTypes.reverseRight]
-          }_${manoeuvreCompetencyAnalyticLabels[ManoeuvreCompetencies.controlFault]}`,
-          GoogleAnalyticsEventsTitles.SEVERITY,
-          ValidFaultTypes.DRIVING
-        );
-        done();
-      });
+      const result = await firstValueFrom(effects.addManoeuvreDrivingFault$);
+      expect(result.type).toEqual(AnalyticRecorded.type);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+        `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEvents.ADD_FAULT}_${
+          manoeuvreTypeAnalyticLabels[ManoeuvreTypes.reverseRight]
+        }_${manoeuvreCompetencyAnalyticLabels[ManoeuvreCompetencies.controlFault]}`,
+        GoogleAnalyticsEventsTitles.SEVERITY,
+        ValidFaultTypes.DRIVING
+      );
     });
   });
 
   describe('addManoeuvreDrivingFaultCatADIPart2', () => {
-    it('should call logEvent for this competency', (done) => {
-      // ARRANGE
+    it('should call logEvent for this competency', async () => {
       store$.dispatch(testsActions.StartTest(123456, TestCategory.ADI2));
-      // ACT
       actions$.next(
         manoeuvresADIPart2Actions.AddManoeuvreDrivingFault(
           {
@@ -521,84 +389,63 @@ describe('TestReportAnalyticsEffects', () => {
           0
         )
       );
-      // ASSERT
-      effects.addManoeuvreDrivingFaultCatADIPart2$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-
-        // GA4 Analytics
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-          `${GoogleAnalyticsEvents.ADD_FAULT}_${manoeuvreTypeAnalyticLabels[ManoeuvreTypes.reverseRight]}_${
-            manoeuvreCompetencyAnalyticLabels[ManoeuvreCompetencies.controlFault]
-          }`,
-          GoogleAnalyticsEventsTitles.SEVERITY,
-          ValidFaultTypes.DRIVING
-        );
-        done();
-      });
+      const result = await firstValueFrom(effects.addManoeuvreDrivingFaultCatADIPart2$);
+      expect(result.type).toEqual(AnalyticRecorded.type);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+        `${GoogleAnalyticsEvents.ADD_FAULT}_${manoeuvreTypeAnalyticLabels[ManoeuvreTypes.reverseRight]}_${
+          manoeuvreCompetencyAnalyticLabels[ManoeuvreCompetencies.controlFault]
+        }`,
+        GoogleAnalyticsEventsTitles.SEVERITY,
+        ValidFaultTypes.DRIVING
+      );
     });
   });
 
   describe('addManoeuvreSeriousFault', () => {
-    it('should call logEvent for this competency', (done) => {
-      // ARRANGE
+    it('should call logEvent for this competency', async () => {
       store$.dispatch(testsActions.StartTest(123456, TestCategory.B));
-      // ACT
       actions$.next(
         manoeuvresActions.AddManoeuvreSeriousFault({
           manoeuvre: ManoeuvreTypes.reverseRight,
           competency: ManoeuvreCompetencies.controlFault,
         })
       );
-      // ASSERT
-      effects.addManoeuvreSeriousFault$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-
-        // GA4 Analytics
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-          `${GoogleAnalyticsEvents.ADD_FAULT}_${manoeuvreTypeAnalyticLabels[ManoeuvreTypes.reverseRight]}_${
-            manoeuvreCompetencyAnalyticLabels[ManoeuvreCompetencies.controlFault]
-          }`,
-          GoogleAnalyticsEventsTitles.SEVERITY,
-          ValidFaultTypes.SERIOUS
-        );
-        done();
-      });
+      const result = await firstValueFrom(effects.addManoeuvreSeriousFault$);
+      expect(result.type).toEqual(AnalyticRecorded.type);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+        `${GoogleAnalyticsEvents.ADD_FAULT}_${manoeuvreTypeAnalyticLabels[ManoeuvreTypes.reverseRight]}_${
+          manoeuvreCompetencyAnalyticLabels[ManoeuvreCompetencies.controlFault]
+        }`,
+        GoogleAnalyticsEventsTitles.SEVERITY,
+        ValidFaultTypes.SERIOUS
+      );
     });
-    it('should call logEvent for this competency, prefixed with practice test', (done) => {
-      // ARRANGE
+    it('should call logEvent for this competency, prefixed with practice test', async () => {
       store$.dispatch(testsActions.StartTestReportPracticeTest(testReportPracticeModeSlot.slotDetail.slotId));
-      // ACT
       actions$.next(
         manoeuvresActions.AddManoeuvreSeriousFault({
           manoeuvre: ManoeuvreTypes.reverseRight,
           competency: ManoeuvreCompetencies.controlFault,
         })
       );
-      // ASSERT
-      effects.addManoeuvreSeriousFault$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-
-        // GA4 Analytics
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-          `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEvents.ADD_FAULT}_${
-            manoeuvreTypeAnalyticLabels[ManoeuvreTypes.reverseRight]
-          }_${manoeuvreCompetencyAnalyticLabels[ManoeuvreCompetencies.controlFault]}`,
-          GoogleAnalyticsEventsTitles.SEVERITY,
-          ValidFaultTypes.SERIOUS
-        );
-        done();
-      });
+      const result = await firstValueFrom(effects.addManoeuvreSeriousFault$);
+      expect(result.type).toEqual(AnalyticRecorded.type);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+        `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEvents.ADD_FAULT}_${
+          manoeuvreTypeAnalyticLabels[ManoeuvreTypes.reverseRight]
+        }_${manoeuvreCompetencyAnalyticLabels[ManoeuvreCompetencies.controlFault]}`,
+        GoogleAnalyticsEventsTitles.SEVERITY,
+        ValidFaultTypes.SERIOUS
+      );
     });
   });
 
   describe('addManoeuvreSeriousFaultCatADIPart2', () => {
-    it('should call logEvent for this competency', (done) => {
-      // ARRANGE
+    it('should call logEvent for this competency', async () => {
       store$.dispatch(testsActions.StartTest(123456, TestCategory.ADI2));
-      // ACT
       actions$.next(
         manoeuvresADIPart2Actions.AddManoeuvreSeriousFault(
           {
@@ -608,84 +455,63 @@ describe('TestReportAnalyticsEffects', () => {
           0
         )
       );
-      // ASSERT
-      effects.addManoeuvreSeriousFaultCatADIPart2$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-
-        // GA4 Analytics
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-          `${GoogleAnalyticsEvents.ADD_FAULT}_${manoeuvreTypeAnalyticLabels[ManoeuvreTypes.reverseRight]}_${
-            manoeuvreCompetencyAnalyticLabels[ManoeuvreCompetencies.controlFault]
-          }`,
-          GoogleAnalyticsEventsTitles.SEVERITY,
-          ValidFaultTypes.SERIOUS
-        );
-        done();
-      });
+      const result = await firstValueFrom(effects.addManoeuvreSeriousFaultCatADIPart2$);
+      expect(result.type).toEqual(AnalyticRecorded.type);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+        `${GoogleAnalyticsEvents.ADD_FAULT}_${manoeuvreTypeAnalyticLabels[ManoeuvreTypes.reverseRight]}_${
+          manoeuvreCompetencyAnalyticLabels[ManoeuvreCompetencies.controlFault]
+        }`,
+        GoogleAnalyticsEventsTitles.SEVERITY,
+        ValidFaultTypes.SERIOUS
+      );
     });
   });
 
   describe('addManoeuvreDangerousFault', () => {
-    it('should call logEvent for this competency', (done) => {
-      // ARRANGE
+    it('should call logEvent for this competency', async () => {
       store$.dispatch(testsActions.StartTest(123456, TestCategory.B));
-      // ACT
       actions$.next(
         manoeuvresActions.AddManoeuvreDangerousFault({
           manoeuvre: ManoeuvreTypes.reverseRight,
           competency: ManoeuvreCompetencies.controlFault,
         })
       );
-      // ASSERT
-      effects.addManoeuvreDangerousFault$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-
-        // GA4 Analytics
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-          `${GoogleAnalyticsEvents.ADD_FAULT}_${manoeuvreTypeAnalyticLabels[ManoeuvreTypes.reverseRight]}_${
-            manoeuvreCompetencyAnalyticLabels[ManoeuvreCompetencies.controlFault]
-          }`,
-          GoogleAnalyticsEventsTitles.SEVERITY,
-          ValidFaultTypes.DANGEROUS
-        );
-        done();
-      });
+      const result = await firstValueFrom(effects.addManoeuvreDangerousFault$);
+      expect(result.type).toEqual(AnalyticRecorded.type);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+        `${GoogleAnalyticsEvents.ADD_FAULT}_${manoeuvreTypeAnalyticLabels[ManoeuvreTypes.reverseRight]}_${
+          manoeuvreCompetencyAnalyticLabels[ManoeuvreCompetencies.controlFault]
+        }`,
+        GoogleAnalyticsEventsTitles.SEVERITY,
+        ValidFaultTypes.DANGEROUS
+      );
     });
-    it('should call logEvent for this competency, prefixed with practice test', (done) => {
-      // ARRANGE
+    it('should call logEvent for this competency, prefixed with practice test', async () => {
       store$.dispatch(testsActions.StartTestReportPracticeTest(testReportPracticeModeSlot.slotDetail.slotId));
-      // ACT
       actions$.next(
         manoeuvresActions.AddManoeuvreDangerousFault({
           manoeuvre: ManoeuvreTypes.reverseRight,
           competency: ManoeuvreCompetencies.controlFault,
         })
       );
-      // ASSERT
-      effects.addManoeuvreDangerousFault$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-
-        // GA4 Analytics
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-          `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEvents.ADD_FAULT}_${
-            manoeuvreTypeAnalyticLabels[ManoeuvreTypes.reverseRight]
-          }_${manoeuvreCompetencyAnalyticLabels[ManoeuvreCompetencies.controlFault]}`,
-          GoogleAnalyticsEventsTitles.SEVERITY,
-          ValidFaultTypes.DANGEROUS
-        );
-        done();
-      });
+      const result = await firstValueFrom(effects.addManoeuvreDangerousFault$);
+      expect(result.type).toEqual(AnalyticRecorded.type);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+        `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEvents.ADD_FAULT}_${
+          manoeuvreTypeAnalyticLabels[ManoeuvreTypes.reverseRight]
+        }_${manoeuvreCompetencyAnalyticLabels[ManoeuvreCompetencies.controlFault]}`,
+        GoogleAnalyticsEventsTitles.SEVERITY,
+        ValidFaultTypes.DANGEROUS
+      );
     });
   });
 
   describe('addManoeuvreDangerousFaultCatADIPart2', () => {
-    it('should call logEvent for this competency', (done) => {
-      // ARRANGE
+    it('should call logEvent for this competency', async () => {
       store$.dispatch(testsActions.StartTest(123456, TestCategory.ADI2));
-      // ACT
       actions$.next(
         manoeuvresADIPart2Actions.AddManoeuvreDangerousFault(
           {
@@ -695,426 +521,293 @@ describe('TestReportAnalyticsEffects', () => {
           0
         )
       );
-      // ASSERT
-      effects.addManoeuvreDangerousFaultCatADIPart2$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-
-        // GA4 Analytics
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-          `${GoogleAnalyticsEvents.ADD_FAULT}_${manoeuvreTypeAnalyticLabels[ManoeuvreTypes.reverseRight]}_${
-            manoeuvreCompetencyAnalyticLabels[ManoeuvreCompetencies.controlFault]
-          }`,
-          GoogleAnalyticsEventsTitles.SEVERITY,
-          ValidFaultTypes.DANGEROUS
-        );
-        done();
-      });
+      const result = await firstValueFrom(effects.addManoeuvreDangerousFaultCatADIPart2$);
+      expect(result.type).toEqual(AnalyticRecorded.type);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+        `${GoogleAnalyticsEvents.ADD_FAULT}_${manoeuvreTypeAnalyticLabels[ManoeuvreTypes.reverseRight]}_${
+          manoeuvreCompetencyAnalyticLabels[ManoeuvreCompetencies.controlFault]
+        }`,
+        GoogleAnalyticsEventsTitles.SEVERITY,
+        ValidFaultTypes.DANGEROUS
+      );
     });
   });
 
   describe('controlledStopAddDrivingFault', () => {
-    it('should call logEvent for this competency', (done) => {
-      // ARRANGE
+    it('should call logEvent for this competency', async () => {
       store$.dispatch(testsActions.StartTest(123456, TestCategory.B));
-      // ACT
       actions$.next(controlledStopActions.ControlledStopAddDrivingFault());
-      // ASSERT
-      effects.controlledStopAddDrivingFault$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-
-        // GA4 Analytics
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-          `${GoogleAnalyticsEvents.ADD_FAULT}_${fullAnalyticCompetencyLabels.outcomeControlledStop}`,
-          GoogleAnalyticsEventsTitles.SEVERITY,
-          ValidFaultTypes.DRIVING
-        );
-        done();
-      });
+      const result = await firstValueFrom(effects.controlledStopAddDrivingFault$);
+      expect(result.type).toEqual(AnalyticRecorded.type);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+        `${GoogleAnalyticsEvents.ADD_FAULT}_${fullAnalyticCompetencyLabels.outcomeControlledStop}`,
+        GoogleAnalyticsEventsTitles.SEVERITY,
+        ValidFaultTypes.DRIVING
+      );
     });
-    it('should call logEvent for this competency, prefixed with practice test', (done) => {
-      // ARRANGE
+    it('should call logEvent for this competency, prefixed with practice test', async () => {
       store$.dispatch(testsActions.StartTestReportPracticeTest(testReportPracticeModeSlot.slotDetail.slotId));
-      // ACT
       actions$.next(controlledStopActions.ControlledStopAddDrivingFault());
-      // ASSERT
-      effects.controlledStopAddDrivingFault$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-
-        // GA4 Analytics
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-          `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${
-            GoogleAnalyticsEvents.ADD_FAULT
-          }_${fullAnalyticCompetencyLabels.outcomeControlledStop}`,
-          GoogleAnalyticsEventsTitles.SEVERITY,
-          ValidFaultTypes.DRIVING
-        );
-        done();
-      });
+      const result = await firstValueFrom(effects.controlledStopAddDrivingFault$);
+      expect(result.type).toEqual(AnalyticRecorded.type);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+        `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${
+          GoogleAnalyticsEvents.ADD_FAULT
+        }_${fullAnalyticCompetencyLabels.outcomeControlledStop}`,
+        GoogleAnalyticsEventsTitles.SEVERITY,
+        ValidFaultTypes.DRIVING
+      );
     });
   });
 
   describe('controlledStopAddSeriousFault', () => {
-    it('should call logEvent for this competency', (done) => {
-      // ARRANGE
+    it('should call logEvent for this competency', async () => {
       store$.dispatch(testsActions.StartTest(123456, TestCategory.B));
-      // ACT
       actions$.next(controlledStopActions.ControlledStopAddSeriousFault());
-      // ASSERT
-      effects.controlledStopAddSeriousFault$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-
-        // GA4 Analytics
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-          `${GoogleAnalyticsEvents.ADD_FAULT}_${fullAnalyticCompetencyLabels.outcomeControlledStop}`,
-          GoogleAnalyticsEventsTitles.SEVERITY,
-          ValidFaultTypes.SERIOUS
-        );
-        done();
-      });
+      const result = await firstValueFrom(effects.controlledStopAddSeriousFault$);
+      expect(result.type).toEqual(AnalyticRecorded.type);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+        `${GoogleAnalyticsEvents.ADD_FAULT}_${fullAnalyticCompetencyLabels.outcomeControlledStop}`,
+        GoogleAnalyticsEventsTitles.SEVERITY,
+        ValidFaultTypes.SERIOUS
+      );
     });
-    it('should call logEvent for this competency, prefixed with practice test', (done) => {
-      // ARRANGE
+    it('should call logEvent for this competency, prefixed with practice test', async () => {
       store$.dispatch(testsActions.StartTestReportPracticeTest(testReportPracticeModeSlot.slotDetail.slotId));
-      // ACT
       actions$.next(controlledStopActions.ControlledStopAddSeriousFault());
-      // ASSERT
-      effects.controlledStopAddSeriousFault$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-
-        // GA4 Analytics
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-          `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${
-            GoogleAnalyticsEvents.ADD_FAULT
-          }_${fullAnalyticCompetencyLabels.outcomeControlledStop}`,
-          GoogleAnalyticsEventsTitles.SEVERITY,
-          ValidFaultTypes.SERIOUS
-        );
-        done();
-      });
+      const result = await firstValueFrom(effects.controlledStopAddSeriousFault$);
+      expect(result.type).toEqual(AnalyticRecorded.type);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+        `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${
+          GoogleAnalyticsEvents.ADD_FAULT
+        }_${fullAnalyticCompetencyLabels.outcomeControlledStop}`,
+        GoogleAnalyticsEventsTitles.SEVERITY,
+        ValidFaultTypes.SERIOUS
+      );
     });
   });
 
   describe('controlledStopAddDangerousFault', () => {
-    it('should call logEvent for this competency', (done) => {
-      // ARRANGE
+    it('should call logEvent for this competency', async () => {
       store$.dispatch(testsActions.StartTest(123456, TestCategory.B));
-      // ACT
       actions$.next(controlledStopActions.ControlledStopAddDangerousFault());
-      // ASSERT
-      effects.controlledStopAddDangerousFault$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-
-        // GA4 Analytics
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-          `${GoogleAnalyticsEvents.ADD_FAULT}_${fullAnalyticCompetencyLabels.outcomeControlledStop}`,
-          GoogleAnalyticsEventsTitles.SEVERITY,
-          ValidFaultTypes.DANGEROUS
-        );
-        done();
-      });
+      const result = await firstValueFrom(effects.controlledStopAddDangerousFault$);
+      expect(result.type).toEqual(AnalyticRecorded.type);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+        `${GoogleAnalyticsEvents.ADD_FAULT}_${fullAnalyticCompetencyLabels.outcomeControlledStop}`,
+        GoogleAnalyticsEventsTitles.SEVERITY,
+        ValidFaultTypes.DANGEROUS
+      );
     });
-    it('should call logEvent for this competency, prefixed with practice test', (done) => {
-      // ARRANGE
+    it('should call logEvent for this competency, prefixed with practice test', async () => {
       store$.dispatch(testsActions.StartTestReportPracticeTest(testReportPracticeModeSlot.slotDetail.slotId));
-      // ACT
       actions$.next(controlledStopActions.ControlledStopAddDangerousFault());
-      // ASSERT
-      effects.controlledStopAddDangerousFault$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-
-        // GA4 Analytics
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-          `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${
-            GoogleAnalyticsEvents.ADD_FAULT
-          }_${fullAnalyticCompetencyLabels.outcomeControlledStop}`,
-          GoogleAnalyticsEventsTitles.SEVERITY,
-          ValidFaultTypes.DANGEROUS
-        );
-        done();
-      });
+      const result = await firstValueFrom(effects.controlledStopAddDangerousFault$);
+      expect(result.type).toEqual(AnalyticRecorded.type);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+        `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${
+          GoogleAnalyticsEvents.ADD_FAULT
+        }_${fullAnalyticCompetencyLabels.outcomeControlledStop}`,
+        GoogleAnalyticsEventsTitles.SEVERITY,
+        ValidFaultTypes.DANGEROUS
+      );
     });
   });
 
   describe('showMeQuestionDrivingFault', () => {
-    it('should call logEvent for this competency', (done) => {
-      // ARRANGE
+    it('should call logEvent for this competency', async () => {
       store$.dispatch(testsActions.StartTest(123456, TestCategory.B));
-      // ACT
       actions$.next(vehicleChecksActions.ShowMeQuestionDrivingFault());
-      // ASSERT
-      effects.showMeQuestionDrivingFault$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-
-        // GA4 Analytics
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-          `${GoogleAnalyticsEvents.ADD_FAULT}_${fullAnalyticCompetencyLabels.showMeQuestion}`,
-          GoogleAnalyticsEventsTitles.SEVERITY,
-          ValidFaultTypes.DRIVING
-        );
-        done();
-      });
+      const result = await firstValueFrom(effects.showMeQuestionDrivingFault$);
+      expect(result.type).toEqual(AnalyticRecorded.type);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+        `${GoogleAnalyticsEvents.ADD_FAULT}_${fullAnalyticCompetencyLabels.showMeQuestion}`,
+        GoogleAnalyticsEventsTitles.SEVERITY,
+        ValidFaultTypes.DRIVING
+      );
     });
-    it('should call logEvent for this competency, prefixed with practice test', (done) => {
-      // ARRANGE
+    it('should call logEvent for this competency, prefixed with practice test', async () => {
       store$.dispatch(testsActions.StartTestReportPracticeTest(testReportPracticeModeSlot.slotDetail.slotId));
-      // ACT
       actions$.next(vehicleChecksActions.ShowMeQuestionDrivingFault());
-      // ASSERT
-      effects.showMeQuestionDrivingFault$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-
-        // GA4 Analytics
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-          `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${
-            GoogleAnalyticsEvents.ADD_FAULT
-          }_${fullAnalyticCompetencyLabels.showMeQuestion}`,
-          GoogleAnalyticsEventsTitles.SEVERITY,
-          ValidFaultTypes.DRIVING
-        );
-        done();
-      });
+      const result = await firstValueFrom(effects.showMeQuestionDrivingFault$);
+      expect(result.type).toEqual(AnalyticRecorded.type);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+        `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${
+          GoogleAnalyticsEvents.ADD_FAULT
+        }_${fullAnalyticCompetencyLabels.showMeQuestion}`,
+        GoogleAnalyticsEventsTitles.SEVERITY,
+        ValidFaultTypes.DRIVING
+      );
     });
   });
 
   describe('showMeQuestionSeriousFault', () => {
-    it('should call logEvent for this competency', (done) => {
-      // ARRANGE
+    it('should call logEvent for this competency', async () => {
       store$.dispatch(testsActions.StartTest(123456, TestCategory.B));
-      // ACT
       actions$.next(vehicleChecksActions.ShowMeQuestionSeriousFault());
-      // ASSERT
-      effects.showMeQuestionSeriousFault$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-
-        // GA4 Analytics
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-          `${GoogleAnalyticsEvents.ADD_FAULT}_${fullAnalyticCompetencyLabels.showMeQuestion}`,
-          GoogleAnalyticsEventsTitles.SEVERITY,
-          ValidFaultTypes.SERIOUS
-        );
-        done();
-      });
+      const result = await firstValueFrom(effects.showMeQuestionSeriousFault$);
+      expect(result.type).toEqual(AnalyticRecorded.type);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+        `${GoogleAnalyticsEvents.ADD_FAULT}_${fullAnalyticCompetencyLabels.showMeQuestion}`,
+        GoogleAnalyticsEventsTitles.SEVERITY,
+        ValidFaultTypes.SERIOUS
+      );
     });
-    it('should call logEvent for this competency, prefixed with practice test', (done) => {
-      // ARRANGE
+    it('should call logEvent for this competency, prefixed with practice test', async () => {
       store$.dispatch(testsActions.StartTestReportPracticeTest(testReportPracticeModeSlot.slotDetail.slotId));
-      // ACT
       actions$.next(vehicleChecksActions.ShowMeQuestionSeriousFault());
-      // ASSERT
-      effects.showMeQuestionSeriousFault$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-
-        // GA4 Analytics
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-          `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${
-            GoogleAnalyticsEvents.ADD_FAULT
-          }_${fullAnalyticCompetencyLabels.showMeQuestion}`,
-          GoogleAnalyticsEventsTitles.SEVERITY,
-          ValidFaultTypes.SERIOUS
-        );
-        done();
-      });
+      const result = await firstValueFrom(effects.showMeQuestionSeriousFault$);
+      expect(result.type).toEqual(AnalyticRecorded.type);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+        `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${
+          GoogleAnalyticsEvents.ADD_FAULT
+        }_${fullAnalyticCompetencyLabels.showMeQuestion}`,
+        GoogleAnalyticsEventsTitles.SEVERITY,
+        ValidFaultTypes.SERIOUS
+      );
     });
   });
 
   describe('showMeQuestionDangerousFault', () => {
-    it('should call logEvent for this competency', (done) => {
-      // ARRANGE
+    it('should call logEvent for this competency', async () => {
       store$.dispatch(testsActions.StartTest(123456, TestCategory.B));
-      // ACT
       actions$.next(vehicleChecksActions.ShowMeQuestionDangerousFault());
-      // ASSERT
-      effects.showMeQuestionDangerousFault$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-
-        // GA4 Analytics
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-          `${GoogleAnalyticsEvents.ADD_FAULT}_${fullAnalyticCompetencyLabels.showMeQuestion}`,
-          GoogleAnalyticsEventsTitles.SEVERITY,
-          ValidFaultTypes.DANGEROUS
-        );
-        done();
-      });
+      const result = await firstValueFrom(effects.showMeQuestionDangerousFault$);
+      expect(result.type).toEqual(AnalyticRecorded.type);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+        `${GoogleAnalyticsEvents.ADD_FAULT}_${fullAnalyticCompetencyLabels.showMeQuestion}`,
+        GoogleAnalyticsEventsTitles.SEVERITY,
+        ValidFaultTypes.DANGEROUS
+      );
     });
-    it('should call logEvent for this competency, prefixed with practice test', (done) => {
-      // ARRANGE
+    it('should call logEvent for this competency, prefixed with practice test', async () => {
       store$.dispatch(testsActions.StartTestReportPracticeTest(testReportPracticeModeSlot.slotDetail.slotId));
-      // ACT
       actions$.next(vehicleChecksActions.ShowMeQuestionDangerousFault());
-      // ASSERT
-      effects.showMeQuestionDangerousFault$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-
-        // GA4 Analytics
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-          `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${
-            GoogleAnalyticsEvents.ADD_FAULT
-          }_${fullAnalyticCompetencyLabels.showMeQuestion}`,
-          GoogleAnalyticsEventsTitles.SEVERITY,
-          ValidFaultTypes.DANGEROUS
-        );
-        done();
-      });
+      const result = await firstValueFrom(effects.showMeQuestionDangerousFault$);
+      expect(result.type).toEqual(AnalyticRecorded.type);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+        `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${
+          GoogleAnalyticsEvents.ADD_FAULT
+        }_${fullAnalyticCompetencyLabels.showMeQuestion}`,
+        GoogleAnalyticsEventsTitles.SEVERITY,
+        ValidFaultTypes.DANGEROUS
+      );
     });
   });
 
   describe('removeDrivingFault', () => {
-    it('should call logEvent for this competency', (done) => {
-      // ARRANGE
+    it('should call logEvent for this competency', async () => {
       store$.dispatch(testsActions.StartTest(123456, TestCategory.B));
-      // ACT
       actions$.next(
         drivingFaultsActions.RemoveDrivingFault({
           competency: Competencies.controlsGears,
           newFaultCount: 0,
         })
       );
-      // ASSERT
-      effects.removeDrivingFault$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-
-        // GA4 Analytics
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-          `${GoogleAnalyticsEvents.REMOVE_FAULT}_${fullAnalyticCompetencyLabels[Competencies.controlsGears]}`,
-          GoogleAnalyticsEventsTitles.SEVERITY,
-          ValidFaultTypes.DRIVING
-        );
-        done();
-      });
+      const result = await firstValueFrom(effects.removeDrivingFault$);
+      expect(result.type).toEqual(AnalyticRecorded.type);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+        `${GoogleAnalyticsEvents.REMOVE_FAULT}_${fullAnalyticCompetencyLabels[Competencies.controlsGears]}`,
+        GoogleAnalyticsEventsTitles.SEVERITY,
+        ValidFaultTypes.DRIVING
+      );
     });
-    it('should call logEvent for this competency, prefixed with practice test', (done) => {
-      // ARRANGE
+    it('should call logEvent for this competency, prefixed with practice test', async () => {
       store$.dispatch(testsActions.StartTestReportPracticeTest(testReportPracticeModeSlot.slotDetail.slotId));
-      // ACT
       actions$.next(
         drivingFaultsActions.RemoveDrivingFault({
           competency: Competencies.controlsGears,
           newFaultCount: 0,
         })
       );
-      // ASSERT
-      effects.removeDrivingFault$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-
-        // GA4 Analytics
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-          `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${
-            GoogleAnalyticsEvents.REMOVE_FAULT
-          }_${fullAnalyticCompetencyLabels[Competencies.controlsGears]}`,
-          GoogleAnalyticsEventsTitles.SEVERITY,
-          ValidFaultTypes.DRIVING
-        );
-        done();
-      });
+      const result = await firstValueFrom(effects.removeDrivingFault$);
+      expect(result.type).toEqual(AnalyticRecorded.type);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+        `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${
+          GoogleAnalyticsEvents.REMOVE_FAULT
+        }_${fullAnalyticCompetencyLabels[Competencies.controlsGears]}`,
+        GoogleAnalyticsEventsTitles.SEVERITY,
+        ValidFaultTypes.DRIVING
+      );
     });
   });
 
   describe('removeSeriousFault', () => {
-    it('should call logEvent for this competency', (done) => {
-      // ARRANGE
+    it('should call logEvent for this competency', async () => {
       store$.dispatch(testsActions.StartTest(123456, TestCategory.B));
-      // ACT
       actions$.next(seriousFaultsActions.RemoveSeriousFault(Competencies.controlsGears));
-      // ASSERT
-      effects.removeSeriousFault$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-
-        // GA4 Analytics
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-          `${GoogleAnalyticsEvents.REMOVE_FAULT}_${fullAnalyticCompetencyLabels[Competencies.controlsGears]}`,
-          GoogleAnalyticsEventsTitles.SEVERITY,
-          ValidFaultTypes.SERIOUS
-        );
-        done();
-      });
+      const result = await firstValueFrom(effects.removeSeriousFault$);
+      expect(result.type).toEqual(AnalyticRecorded.type);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+        `${GoogleAnalyticsEvents.REMOVE_FAULT}_${fullAnalyticCompetencyLabels[Competencies.controlsGears]}`,
+        GoogleAnalyticsEventsTitles.SEVERITY,
+        ValidFaultTypes.SERIOUS
+      );
     });
-    it('should call logEvent for this competency, prefixed with practice test', (done) => {
-      // ARRANGE
+    it('should call logEvent for this competency, prefixed with practice test', async () => {
       store$.dispatch(testsActions.StartTestReportPracticeTest(testReportPracticeModeSlot.slotDetail.slotId));
-      // ACT
       actions$.next(seriousFaultsActions.RemoveSeriousFault(Competencies.controlsGears));
-      // ASSERT
-      effects.removeSeriousFault$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-
-        // GA4 Analytics
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-          `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${
-            GoogleAnalyticsEvents.REMOVE_FAULT
-          }_${fullAnalyticCompetencyLabels[Competencies.controlsGears]}`,
-          GoogleAnalyticsEventsTitles.SEVERITY,
-          ValidFaultTypes.SERIOUS
-        );
-        done();
-      });
+      const result = await firstValueFrom(effects.removeSeriousFault$);
+      expect(result.type).toEqual(AnalyticRecorded.type);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+        `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${
+          GoogleAnalyticsEvents.REMOVE_FAULT
+        }_${fullAnalyticCompetencyLabels[Competencies.controlsGears]}`,
+        GoogleAnalyticsEventsTitles.SEVERITY,
+        ValidFaultTypes.SERIOUS
+      );
     });
   });
 
   describe('removeDangerousFault', () => {
-    it('should call logEvent for this competency', (done) => {
-      // ARRANGE
+    it('should call logEvent for this competency', async () => {
       store$.dispatch(testsActions.StartTest(123456, TestCategory.B));
-      // ACT
       actions$.next(dangerousFaultsActions.RemoveDangerousFault(Competencies.controlsGears));
-      // ASSERT
-      effects.removeDangerousFault$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-
-        // GA4 Analytics
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-          `${GoogleAnalyticsEvents.REMOVE_FAULT}_${fullAnalyticCompetencyLabels[Competencies.controlsGears]}`,
-          GoogleAnalyticsEventsTitles.SEVERITY,
-          ValidFaultTypes.DANGEROUS
-        );
-        done();
-      });
+      const result = await firstValueFrom(effects.removeDangerousFault$);
+      expect(result.type).toEqual(AnalyticRecorded.type);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+        `${GoogleAnalyticsEvents.REMOVE_FAULT}_${fullAnalyticCompetencyLabels[Competencies.controlsGears]}`,
+        GoogleAnalyticsEventsTitles.SEVERITY,
+        ValidFaultTypes.DANGEROUS
+      );
     });
-    it('should call logEvent for this competency, prefixed with practice test', (done) => {
-      // ARRANGE
+    it('should call logEvent for this competency, prefixed with practice test', async () => {
       store$.dispatch(testsActions.StartTestReportPracticeTest(testReportPracticeModeSlot.slotDetail.slotId));
-      // ACT
       actions$.next(dangerousFaultsActions.RemoveDangerousFault(Competencies.controlsGears));
-      // ASSERT
-      effects.removeDangerousFault$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-
-        // GA4 Analytics
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-          `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${
-            GoogleAnalyticsEvents.REMOVE_FAULT
-          }_${fullAnalyticCompetencyLabels[Competencies.controlsGears]}`,
-          GoogleAnalyticsEventsTitles.SEVERITY,
-          ValidFaultTypes.DANGEROUS
-        );
-        done();
-      });
+      const result = await firstValueFrom(effects.removeDangerousFault$);
+      expect(result.type).toEqual(AnalyticRecorded.type);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+        `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${
+          GoogleAnalyticsEvents.REMOVE_FAULT
+        }_${fullAnalyticCompetencyLabels[Competencies.controlsGears]}`,
+        GoogleAnalyticsEventsTitles.SEVERITY,
+        ValidFaultTypes.DANGEROUS
+      );
     });
   });
 
   describe('removeManoeuvreDrivingFault', () => {
-    it('should call logEvent for this competency', (done) => {
-      // ARRANGE
+    it('should call logEvent for this competency', async () => {
       store$.dispatch(testsActions.StartTest(123456, TestCategory.B));
-      // ACT
       actions$.next(
         manoeuvresActions.RemoveManoeuvreFault(
           {
@@ -1124,26 +817,19 @@ describe('TestReportAnalyticsEffects', () => {
           CompetencyOutcome.DF
         )
       );
-      // ASSERT
-      effects.removeManoeuvreFault$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-
-        // GA4 Analytics
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-          `${GoogleAnalyticsEvents.REMOVE_FAULT}_${manoeuvreTypeAnalyticLabels[ManoeuvreTypes.reverseRight]}_${
-            manoeuvreCompetencyAnalyticLabels[ManoeuvreCompetencies.controlFault]
-          }`,
-          GoogleAnalyticsEventsTitles.SEVERITY,
-          ValidFaultTypes.DRIVING
-        );
-        done();
-      });
+      const result = await firstValueFrom(effects.removeManoeuvreFault$);
+      expect(result.type).toEqual(AnalyticRecorded.type);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+        `${GoogleAnalyticsEvents.REMOVE_FAULT}_${manoeuvreTypeAnalyticLabels[ManoeuvreTypes.reverseRight]}_${
+          manoeuvreCompetencyAnalyticLabels[ManoeuvreCompetencies.controlFault]
+        }`,
+        GoogleAnalyticsEventsTitles.SEVERITY,
+        ValidFaultTypes.DRIVING
+      );
     });
-    it('should call logEvent for this competency, prefixed with practice test', (done) => {
-      // ARRANGE
+    it('should call logEvent for this competency, prefixed with practice test', async () => {
       store$.dispatch(testsActions.StartTestReportPracticeTest(testReportPracticeModeSlot.slotDetail.slotId));
-      // ACT
       actions$.next(
         manoeuvresActions.RemoveManoeuvreFault(
           {
@@ -1153,30 +839,23 @@ describe('TestReportAnalyticsEffects', () => {
           CompetencyOutcome.DF
         )
       );
-      // ASSERT
-      effects.removeManoeuvreFault$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-
-        // GA4 Analytics
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-          `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEvents.REMOVE_FAULT}_${
-            manoeuvreTypeAnalyticLabels[ManoeuvreTypes.reverseRight]
-          }_${manoeuvreCompetencyAnalyticLabels[ManoeuvreCompetencies.controlFault]}`,
-          // eslint-disable-next-line max-len
-          GoogleAnalyticsEventsTitles.SEVERITY,
-          ValidFaultTypes.DRIVING
-        );
-        done();
-      });
+      const result = await firstValueFrom(effects.removeManoeuvreFault$);
+      expect(result.type).toEqual(AnalyticRecorded.type);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+        `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEvents.REMOVE_FAULT}_${
+          manoeuvreTypeAnalyticLabels[ManoeuvreTypes.reverseRight]
+        }_${manoeuvreCompetencyAnalyticLabels[ManoeuvreCompetencies.controlFault]}`,
+        // eslint-disable-next-line max-len
+        GoogleAnalyticsEventsTitles.SEVERITY,
+        ValidFaultTypes.DRIVING
+      );
     });
   });
 
   describe('removeManoeuvreDrivingFaultCatADIPart2', () => {
-    it('should call logEvent for this competency', (done) => {
-      // ARRANGE
+    it('should call logEvent for this competency', async () => {
       store$.dispatch(testsActions.StartTest(123456, TestCategory.ADI2));
-      // ACT
       actions$.next(
         manoeuvresADIPart2Actions.RemoveManoeuvreFault(
           {
@@ -1187,1904 +866,1495 @@ describe('TestReportAnalyticsEffects', () => {
           CompetencyOutcome.DF
         )
       );
-      // ASSERT
-      effects.removeManoeuvreFaultCatADIPart2$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-
-        // GA4 Analytics
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-          `${GoogleAnalyticsEvents.REMOVE_FAULT}_${manoeuvreTypeAnalyticLabels[ManoeuvreTypes.reverseRight]}_${
-            manoeuvreCompetencyAnalyticLabels[ManoeuvreCompetencies.controlFault]
-          }`,
-          GoogleAnalyticsEventsTitles.SEVERITY,
-          ValidFaultTypes.DRIVING
-        );
-        done();
-      });
+      const result = await firstValueFrom(effects.removeManoeuvreFaultCatADIPart2$);
+      expect(result.type).toEqual(AnalyticRecorded.type);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+        `${GoogleAnalyticsEvents.REMOVE_FAULT}_${manoeuvreTypeAnalyticLabels[ManoeuvreTypes.reverseRight]}_${
+          manoeuvreCompetencyAnalyticLabels[ManoeuvreCompetencies.controlFault]
+        }`,
+        GoogleAnalyticsEventsTitles.SEVERITY,
+        ValidFaultTypes.DRIVING
+      );
     });
   });
 
   describe('controlledStopRemoveFault', () => {
-    it('should call logEvent for this competency', (done) => {
-      // ARRANGE
+    it('should call logEvent for this competency', async () => {
       store$.dispatch(testsActions.StartTest(123456, TestCategory.B));
-      // ACT
       actions$.next(controlledStopActions.ControlledStopRemoveFault(CompetencyOutcome.DF));
-      // ASSERT
-      effects.controlledStopRemoveFault$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-
-        // GA4 Analytics
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-          `${GoogleAnalyticsEvents.REMOVE_FAULT}_${fullAnalyticCompetencyLabels.outcomeControlledStop}`,
-          GoogleAnalyticsEventsTitles.SEVERITY,
-          ValidFaultTypes.DRIVING
-        );
-        done();
-      });
+      const result = await firstValueFrom(effects.controlledStopRemoveFault$);
+      expect(result.type).toEqual(AnalyticRecorded.type);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+        `${GoogleAnalyticsEvents.REMOVE_FAULT}_${fullAnalyticCompetencyLabels.outcomeControlledStop}`,
+        GoogleAnalyticsEventsTitles.SEVERITY,
+        ValidFaultTypes.DRIVING
+      );
     });
-    it('should call logEvent for this competency, prefixed with practice test', (done) => {
-      // ARRANGE
+    it('should call logEvent for this competency, prefixed with practice test', async () => {
       store$.dispatch(testsActions.StartTestReportPracticeTest(testReportPracticeModeSlot.slotDetail.slotId));
-      // ACT
       actions$.next(controlledStopActions.ControlledStopRemoveFault(CompetencyOutcome.DF));
-      // ASSERT
-      effects.controlledStopRemoveFault$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-
-        // GA4 Analytics
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-          `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${
-            GoogleAnalyticsEvents.REMOVE_FAULT
-          }_${fullAnalyticCompetencyLabels.outcomeControlledStop}`,
-          GoogleAnalyticsEventsTitles.SEVERITY,
-          ValidFaultTypes.DRIVING
-        );
-        done();
-      });
+      const result = await firstValueFrom(effects.controlledStopRemoveFault$);
+      expect(result.type).toEqual(AnalyticRecorded.type);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+        `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${
+          GoogleAnalyticsEvents.REMOVE_FAULT
+        }_${fullAnalyticCompetencyLabels.outcomeControlledStop}`,
+        GoogleAnalyticsEventsTitles.SEVERITY,
+        ValidFaultTypes.DRIVING
+      );
     });
   });
 
   describe('showMeQuestionRemoveFault', () => {
-    it('should call logEvent for this competency', (done) => {
-      // ARRANGE
+    it('should call logEvent for this competency', async () => {
       store$.dispatch(testsActions.StartTest(123456, TestCategory.B));
-      // ACT
       actions$.next(vehicleChecksActions.ShowMeQuestionRemoveFault(CompetencyOutcome.DF));
-      // ASSERT
-      effects.showMeQuestionRemoveFault$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-
-        // GA4 Analytics
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-          `${GoogleAnalyticsEvents.REMOVE_FAULT}_${fullAnalyticCompetencyLabels.showMeQuestion}`,
-          GoogleAnalyticsEventsTitles.SEVERITY,
-          ValidFaultTypes.DRIVING
-        );
-        done();
-      });
+      const result = await firstValueFrom(effects.showMeQuestionRemoveFault$);
+      expect(result.type).toEqual(AnalyticRecorded.type);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+        `${GoogleAnalyticsEvents.REMOVE_FAULT}_${fullAnalyticCompetencyLabels.showMeQuestion}`,
+        GoogleAnalyticsEventsTitles.SEVERITY,
+        ValidFaultTypes.DRIVING
+      );
     });
-    it('should call logEvent for this competency, prefixed with practice test', (done) => {
-      // ARRANGE
+    it('should call logEvent for this competency, prefixed with practice test', async () => {
       store$.dispatch(testsActions.StartTestReportPracticeTest(testReportPracticeModeSlot.slotDetail.slotId));
-      // ACT
       actions$.next(vehicleChecksActions.ShowMeQuestionRemoveFault(CompetencyOutcome.DF));
-      // ASSERT
-      effects.showMeQuestionRemoveFault$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-
-        // GA4 Analytics
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-          `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${
-            GoogleAnalyticsEvents.REMOVE_FAULT
-          }_${fullAnalyticCompetencyLabels.showMeQuestion}`,
-          GoogleAnalyticsEventsTitles.SEVERITY,
-          ValidFaultTypes.DRIVING
-        );
-        done();
-      });
+      const result = await firstValueFrom(effects.showMeQuestionRemoveFault$);
+      expect(result.type).toEqual(AnalyticRecorded.type);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+        `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${
+          GoogleAnalyticsEvents.REMOVE_FAULT
+        }_${fullAnalyticCompetencyLabels.showMeQuestion}`,
+        GoogleAnalyticsEventsTitles.SEVERITY,
+        ValidFaultTypes.DRIVING
+      );
     });
   });
 
   describe('testTermination', () => {
-    it('should call logEvent for termination event', (done) => {
-      // ARRANGE
+    it('should call logEvent for termination event', async () => {
       store$.dispatch(testsActions.StartTest(123456, TestCategory.B));
-      // ACT
       actions$.next(testReportActions.TerminateTestFromTestReport());
-      // ASSERT
-      effects.testTermination$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-
-        // GA4 Analytics
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(GoogleAnalyticsEvents.TEST_TERMINATED);
-        done();
-      });
+      const result = await firstValueFrom(effects.testTermination$);
+      expect(result.type).toEqual(AnalyticRecorded.type);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(GoogleAnalyticsEvents.TEST_TERMINATED);
     });
-    it('should call logEvent for termination event, prefixed with practice test', (done) => {
-      // ARRANGE
+    it('should call logEvent for termination event, prefixed with practice test', async () => {
       store$.dispatch(testsActions.StartTestReportPracticeTest(testReportPracticeModeSlot.slotDetail.slotId));
-      // ACT
       actions$.next(testReportActions.TerminateTestFromTestReport());
-      // ASSERT
-      effects.testTermination$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-
-        // GA4 Analytics
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-          `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEvents.TEST_TERMINATED}`
-        );
-        done();
-      });
+      const result = await firstValueFrom(effects.testTermination$);
+      expect(result.type).toEqual(AnalyticRecorded.type);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+        `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEvents.TEST_TERMINATED}`
+      );
     });
   });
 
   describe('toggleLegalRequirement', () => {
-    it('should call logEvent for normal start completed', (done) => {
-      // ARRANGE
+    it('should call logEvent for normal start completed', async () => {
       store$.dispatch(testsActions.StartTest(123456, TestCategory.B));
       store$.dispatch(testRequirementsActions.ToggleLegalRequirement(LegalRequirements.normalStart1));
-      // ACT
       actions$.next(testRequirementsActions.ToggleLegalRequirement(LegalRequirements.normalStart1));
-      // ASSERT
-      effects.toggleLegalRequirement$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-
-        // GA4 Analytics
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-          `${GoogleAnalyticsEvents.LEGAL_REQUIREMENT}_NS1`,
-          GoogleAnalyticsEventsTitles.ITEM_STATUS,
-          legalRequirementToggleValues.completed
-        );
-        done();
-      });
+      const result = await firstValueFrom(effects.toggleLegalRequirement$);
+      expect(result.type).toEqual(AnalyticRecorded.type);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+        `${GoogleAnalyticsEvents.LEGAL_REQUIREMENT}_NS1`,
+        GoogleAnalyticsEventsTitles.ITEM_STATUS,
+        legalRequirementToggleValues.completed
+      );
     });
-    it('should call logEvent for normal start uncompleted', (done) => {
-      // ARRANGE
+    it('should call logEvent for normal start uncompleted', async () => {
       store$.dispatch(testsActions.StartTest(123456, TestCategory.B));
-      // ACT
       actions$.next(testRequirementsActions.ToggleLegalRequirement(LegalRequirements.normalStart1));
-      // ASSERT
-      effects.toggleLegalRequirement$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-
-        // GA4 Analytics
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-          `${GoogleAnalyticsEvents.LEGAL_REQUIREMENT}_NS1`,
-          GoogleAnalyticsEventsTitles.ITEM_STATUS,
-          legalRequirementToggleValues.uncompleted
-        );
-        done();
-      });
+      const result = await firstValueFrom(effects.toggleLegalRequirement$);
+      expect(result.type).toEqual(AnalyticRecorded.type);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+        `${GoogleAnalyticsEvents.LEGAL_REQUIREMENT}_NS1`,
+        GoogleAnalyticsEventsTitles.ITEM_STATUS,
+        legalRequirementToggleValues.uncompleted
+      );
     });
-    it('should call logEvent for eco completed', (done) => {
-      // ARRANGE
+    it('should call logEvent for eco completed', async () => {
       store$.dispatch(testsActions.StartTest(123456, TestCategory.B));
       store$.dispatch(ecoActions.ToggleEco());
-      // ACT
       actions$.next(ecoActions.ToggleEco());
-      // ASSERT
-      effects.toggleEco$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-
-        // GA4 Analytics
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-          `${GoogleAnalyticsEvents.LEGAL_REQUIREMENT}_ECO`,
-          GoogleAnalyticsEventsTitles.ITEM_STATUS,
-          legalRequirementToggleValues.completed
-        );
-        done();
-      });
+      const result = await firstValueFrom(effects.toggleEco$);
+      expect(result.type).toEqual(AnalyticRecorded.type);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+        `${GoogleAnalyticsEvents.LEGAL_REQUIREMENT}_ECO`,
+        GoogleAnalyticsEventsTitles.ITEM_STATUS,
+        legalRequirementToggleValues.completed
+      );
     });
-    it('should call logEvent for eco uncompleted', (done) => {
-      // ARRANGE
+    it('should call logEvent for eco uncompleted', async () => {
       store$.dispatch(testsActions.StartTest(123456, TestCategory.B));
-      // ACT
       actions$.next(ecoActions.ToggleEco());
-      // ASSERT
-      effects.toggleEco$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-
-        // GA4 Analytics
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-          `${GoogleAnalyticsEvents.LEGAL_REQUIREMENT}_ECO`,
-          GoogleAnalyticsEventsTitles.ITEM_STATUS,
-          legalRequirementToggleValues.uncompleted
-        );
-        done();
-      });
+      const result = await firstValueFrom(effects.toggleEco$);
+      expect(result.type).toEqual(AnalyticRecorded.type);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+        `${GoogleAnalyticsEvents.LEGAL_REQUIREMENT}_ECO`,
+        GoogleAnalyticsEventsTitles.ITEM_STATUS,
+        legalRequirementToggleValues.uncompleted
+      );
     });
 
-    it('should call logEvent for selected manoeuvre', (done) => {
-      // ARRANGE
+    it('should call logEvent for selected manoeuvre', async () => {
       store$.dispatch(testsActions.StartTest(123456, TestCategory.B));
-      // ACT
       actions$.next(manoeuvresActions.RecordManoeuvresSelection(ManoeuvreTypes.reverseParkRoad));
-      // ASSERT
-      effects.manoeuvreCompletedEffect$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-
-        // GA4 Analytics
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-          `${GoogleAnalyticsEvents.LEGAL_REQUIREMENT}_MAN`,
-          GoogleAnalyticsEventsTitles.ITEM_STATUS,
-          legalRequirementToggleValues.completed
-        );
-        done();
-      });
+      const result = await firstValueFrom(effects.manoeuvreCompletedEffect$);
+      expect(result.type).toEqual(AnalyticRecorded.type);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+        `${GoogleAnalyticsEvents.LEGAL_REQUIREMENT}_MAN`,
+        GoogleAnalyticsEventsTitles.ITEM_STATUS,
+        legalRequirementToggleValues.completed
+      );
     });
 
-    it('should call logEvent for selected manoeuvre for ADI part2', (done) => {
-      // ARRANGE
+    it('should call logEvent for selected manoeuvre for ADI part2', async () => {
       store$.dispatch(testsActions.StartTest(123456, TestCategory.ADI2));
-      // ACT
       actions$.next(manoeuvresADIPart2Actions.RecordManoeuvresSelection(ManoeuvreTypes.reverseParkRoad, 0));
-      // ASSERT
-      effects.manoeuvreCompletedEffectCatADIPart2$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-
-        // GA4 Analytics
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-          `${GoogleAnalyticsEvents.LEGAL_REQUIREMENT}_MAN`,
-          GoogleAnalyticsEventsTitles.ITEM_STATUS,
-          legalRequirementToggleValues.completed
-        );
-        done();
-      });
+      const result = await firstValueFrom(effects.manoeuvreCompletedEffectCatADIPart2$);
+      expect(result.type).toEqual(AnalyticRecorded.type);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+        `${GoogleAnalyticsEvents.LEGAL_REQUIREMENT}_MAN`,
+        GoogleAnalyticsEventsTitles.ITEM_STATUS,
+        legalRequirementToggleValues.completed
+      );
     });
 
-    it('should call logEvent for deselected manoeuvre', (done) => {
-      // ARRANGE
+    it('should call logEvent for deselected manoeuvre', async () => {
       store$.dispatch(testsActions.StartTest(123456, TestCategory.B));
       actions$.next(manoeuvresActions.RecordManoeuvresSelection(ManoeuvreTypes.reverseParkRoad));
-      // ACT
       actions$.next(manoeuvresActions.RecordManoeuvresDeselection(ManoeuvreTypes.reverseParkRoad));
-      // ASSERT
-      effects.deselectReverseLeftManoeuvreEffect$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-
-        // GA4 Analytics
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-          `${GoogleAnalyticsEvents.LEGAL_REQUIREMENT}_MAN`,
-          GoogleAnalyticsEventsTitles.ITEM_STATUS,
-          legalRequirementToggleValues.uncompleted
-        );
-        done();
-      });
+      const result = await firstValueFrom(effects.deselectReverseLeftManoeuvreEffect$);
+      expect(result.type).toEqual(AnalyticRecorded.type);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+        `${GoogleAnalyticsEvents.LEGAL_REQUIREMENT}_MAN`,
+        GoogleAnalyticsEventsTitles.ITEM_STATUS,
+        legalRequirementToggleValues.uncompleted
+      );
     });
 
-    it('should call logEvent for normal start, prefixed with practice test', (done) => {
-      // ARRANGE
+    it('should call logEvent for normal start, prefixed with practice test', async () => {
       store$.dispatch(testsActions.StartTestReportPracticeTest(testReportPracticeModeSlot.slotDetail.slotId));
       store$.dispatch(testRequirementsActions.ToggleLegalRequirement(LegalRequirements.normalStart1));
-      // ACT
       actions$.next(testRequirementsActions.ToggleLegalRequirement(LegalRequirements.normalStart1));
-      // ASSERT
-      effects.toggleLegalRequirement$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-
-        // GA4 Analytics
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-          `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEvents.LEGAL_REQUIREMENT}_NS1`,
-          GoogleAnalyticsEventsTitles.ITEM_STATUS,
-          legalRequirementToggleValues.completed
-        );
-        done();
-      });
+      const result = await firstValueFrom(effects.toggleLegalRequirement$);
+      expect(result.type).toEqual(AnalyticRecorded.type);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+        `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEvents.LEGAL_REQUIREMENT}_NS1`,
+        GoogleAnalyticsEventsTitles.ITEM_STATUS,
+        legalRequirementToggleValues.completed
+      );
     });
-    it('should call logEvent for eco, prefixed with practice test', (done) => {
-      // ARRANGE
+    it('should call logEvent for eco, prefixed with practice test', async () => {
       store$.dispatch(testsActions.StartTestReportPracticeTest(testReportPracticeModeSlot.slotDetail.slotId));
       store$.dispatch(ecoActions.ToggleEco());
-      // ACT
       actions$.next(ecoActions.ToggleEco());
-      // ASSERT
-      effects.toggleEco$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-
-        // GA4 Analytics
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-          `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEvents.LEGAL_REQUIREMENT}_ECO`,
-          GoogleAnalyticsEventsTitles.ITEM_STATUS,
-          legalRequirementToggleValues.completed
-        );
-        done();
-      });
+      const result = await firstValueFrom(effects.toggleEco$);
+      expect(result.type).toEqual(AnalyticRecorded.type);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+        `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEvents.LEGAL_REQUIREMENT}_ECO`,
+        GoogleAnalyticsEventsTitles.ITEM_STATUS,
+        legalRequirementToggleValues.completed
+      );
     });
 
-    it('should call logEvent for show me / tell me completed', (done) => {
-      // ARRANGE
+    it('should call logEvent for show me / tell me completed', async () => {
       store$.dispatch(testsActions.StartTest(123456, TestCategory.B));
       const showMeQuestionPassedAction = vehicleChecksActions.ShowMeQuestionPassed();
       store$.dispatch(showMeQuestionPassedAction);
-      // ACT
       actions$.next(showMeQuestionPassedAction);
-      // ASSERT
-      effects.showMeQuestionCompletedEffect$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-
-        // GA4 Analytics
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-          `${GoogleAnalyticsEvents.LEGAL_REQUIREMENT}_SM`,
-          GoogleAnalyticsEventsTitles.ITEM_STATUS,
-          legalRequirementToggleValues.completed
-        );
-        done();
-      });
+      const result = await firstValueFrom(effects.showMeQuestionCompletedEffect$);
+      expect(result.type).toEqual(AnalyticRecorded.type);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+        `${GoogleAnalyticsEvents.LEGAL_REQUIREMENT}_SM`,
+        GoogleAnalyticsEventsTitles.ITEM_STATUS,
+        legalRequirementToggleValues.completed
+      );
     });
 
-    it('should call logEvent for show me / tell me uncompleted', (done) => {
-      // ARRANGE
+    it('should call logEvent for show me / tell me uncompleted', async () => {
       store$.dispatch(testsActions.StartTest(123456, TestCategory.B));
       store$.dispatch(vehicleChecksActions.ShowMeQuestionPassed());
       const showMeQuestionRemoveFaultAction = vehicleChecksActions.ShowMeQuestionRemoveFault(CompetencyOutcome.DF);
       store$.dispatch(showMeQuestionRemoveFaultAction);
-      // ACT
       actions$.next(showMeQuestionRemoveFaultAction);
-      // ASSERT
-      effects.showMeQuestionUncompletedEffect$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-
-        // GA4 Analytics
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-          `${GoogleAnalyticsEvents.LEGAL_REQUIREMENT}_SM`,
-          GoogleAnalyticsEventsTitles.ITEM_STATUS,
-          legalRequirementToggleValues.uncompleted
-        );
-        done();
-      });
+      const result = await firstValueFrom(effects.showMeQuestionUncompletedEffect$);
+      expect(result.type).toEqual(AnalyticRecorded.type);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+        `${GoogleAnalyticsEvents.LEGAL_REQUIREMENT}_SM`,
+        GoogleAnalyticsEventsTitles.ITEM_STATUS,
+        legalRequirementToggleValues.uncompleted
+      );
     });
   });
 
   describe('uncoupleRecoupleAddDrivingFault', () => {
-    it('should call logEvent for this competency', (done) => {
-      // ARRANGE
+    it('should call logEvent for this competency', async () => {
       store$.dispatch(testsActions.StartTest(123456, TestCategory.BE));
-      // ACT
       actions$.next(uncoupleRecoupleActions.UncoupleRecoupleAddDrivingFault());
-      // ASSERT
-      effects.uncoupleRecoupleAddDrivingFault$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-
-        // GA4 Analytics
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-          `${GoogleAnalyticsEvents.ADD_FAULT}_${fullAnalyticCompetencyLabels.uncoupleRecouple}`,
-          GoogleAnalyticsEventsTitles.SEVERITY,
-          ValidFaultTypes.DRIVING
-        );
-        done();
-      });
+      const result = await firstValueFrom(effects.uncoupleRecoupleAddDrivingFault$);
+      expect(result.type).toEqual(AnalyticRecorded.type);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+        `${GoogleAnalyticsEvents.ADD_FAULT}_${fullAnalyticCompetencyLabels.uncoupleRecouple}`,
+        GoogleAnalyticsEventsTitles.SEVERITY,
+        ValidFaultTypes.DRIVING
+      );
     });
-    it('should call logEvent for this competency, prefixed with practice test', (done) => {
-      // ARRANGE
+    it('should call logEvent for this competency, prefixed with practice test', async () => {
       store$.dispatch(testsActions.StartTestReportPracticeTest(testReportPracticeModeSlot.slotDetail.slotId));
-      // ACT
       actions$.next(uncoupleRecoupleActions.UncoupleRecoupleAddDrivingFault());
-      // ASSERT
-      effects.uncoupleRecoupleAddDrivingFault$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-
-        // GA4 Analytics
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-          `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${
-            GoogleAnalyticsEvents.ADD_FAULT
-          }_${fullAnalyticCompetencyLabels.uncoupleRecouple}`,
-          GoogleAnalyticsEventsTitles.SEVERITY,
-          ValidFaultTypes.DRIVING
-        );
-        done();
-      });
+      const result = await firstValueFrom(effects.uncoupleRecoupleAddDrivingFault$);
+      expect(result.type).toEqual(AnalyticRecorded.type);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+        `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${
+          GoogleAnalyticsEvents.ADD_FAULT
+        }_${fullAnalyticCompetencyLabels.uncoupleRecouple}`,
+        GoogleAnalyticsEventsTitles.SEVERITY,
+        ValidFaultTypes.DRIVING
+      );
     });
   });
 
   describe('uncoupleRecoupleAddSeriousFault', () => {
-    it('should call logEvent for this competency', (done) => {
-      // ARRANGE
+    it('should call logEvent for this competency', async () => {
       store$.dispatch(testsActions.StartTest(123456, TestCategory.BE));
-      // ACT
       actions$.next(uncoupleRecoupleActions.UncoupleRecoupleAddSeriousFault());
-      // ASSERT
-      effects.uncoupleRecoupleAddSeriousFault$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-
-        // GA4 Analytics
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-          `${GoogleAnalyticsEvents.ADD_FAULT}_${fullAnalyticCompetencyLabels.uncoupleRecouple}`,
-          GoogleAnalyticsEventsTitles.SEVERITY,
-          ValidFaultTypes.SERIOUS
-        );
-        done();
-      });
+      const result = await firstValueFrom(effects.uncoupleRecoupleAddSeriousFault$);
+      expect(result.type).toEqual(AnalyticRecorded.type);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+        `${GoogleAnalyticsEvents.ADD_FAULT}_${fullAnalyticCompetencyLabels.uncoupleRecouple}`,
+        GoogleAnalyticsEventsTitles.SEVERITY,
+        ValidFaultTypes.SERIOUS
+      );
     });
-    it('should call logEvent for this competency, prefixed with practice test', (done) => {
-      // ARRANGE
+    it('should call logEvent for this competency, prefixed with practice test', async () => {
       store$.dispatch(testsActions.StartTestReportPracticeTest(testReportPracticeModeSlot.slotDetail.slotId));
-      // ACT
       actions$.next(uncoupleRecoupleActions.UncoupleRecoupleAddSeriousFault());
-      // ASSERT
-      effects.uncoupleRecoupleAddSeriousFault$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-
-        // GA4 Analytics
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-          `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${
-            GoogleAnalyticsEvents.ADD_FAULT
-          }_${fullAnalyticCompetencyLabels.uncoupleRecouple}`,
-          GoogleAnalyticsEventsTitles.SEVERITY,
-          ValidFaultTypes.SERIOUS
-        );
-        done();
-      });
+      const result = await firstValueFrom(effects.uncoupleRecoupleAddSeriousFault$);
+      expect(result.type).toEqual(AnalyticRecorded.type);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+        `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${
+          GoogleAnalyticsEvents.ADD_FAULT
+        }_${fullAnalyticCompetencyLabels.uncoupleRecouple}`,
+        GoogleAnalyticsEventsTitles.SEVERITY,
+        ValidFaultTypes.SERIOUS
+      );
     });
   });
 
   describe('uncoupleRecoupleAddDangerousFault', () => {
-    it('should call logEvent for this competency', (done) => {
-      // ARRANGE
+    it('should call logEvent for this competency', async () => {
       store$.dispatch(testsActions.StartTest(123456, TestCategory.BE));
-      // ACT
       actions$.next(uncoupleRecoupleActions.UncoupleRecoupleAddDangerousFault());
-      // ASSERT
-      effects.uncoupleRecoupleAddDangerousFault$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-
-        // GA4 Analytics
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-          `${GoogleAnalyticsEvents.ADD_FAULT}_${fullAnalyticCompetencyLabels.uncoupleRecouple}`,
-          GoogleAnalyticsEventsTitles.SEVERITY,
-          ValidFaultTypes.DANGEROUS
-        );
-        done();
-      });
+      const result = await firstValueFrom(effects.uncoupleRecoupleAddDangerousFault$);
+      expect(result.type).toEqual(AnalyticRecorded.type);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+        `${GoogleAnalyticsEvents.ADD_FAULT}_${fullAnalyticCompetencyLabels.uncoupleRecouple}`,
+        GoogleAnalyticsEventsTitles.SEVERITY,
+        ValidFaultTypes.DANGEROUS
+      );
     });
-    it('should call logEvent for this competency, prefixed with practice test', (done) => {
-      // ARRANGE
+    it('should call logEvent for this competency, prefixed with practice test', async () => {
       store$.dispatch(testsActions.StartTestReportPracticeTest(testReportPracticeModeSlot.slotDetail.slotId));
-      // ACT
       actions$.next(uncoupleRecoupleActions.UncoupleRecoupleAddDangerousFault());
-      // ASSERT
-      effects.uncoupleRecoupleAddDangerousFault$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-
-        // GA4 Analytics
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-          `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${
-            GoogleAnalyticsEvents.ADD_FAULT
-          }_${fullAnalyticCompetencyLabels.uncoupleRecouple}`,
-          GoogleAnalyticsEventsTitles.SEVERITY,
-          ValidFaultTypes.DANGEROUS
-        );
-        done();
-      });
+      const result = await firstValueFrom(effects.uncoupleRecoupleAddDangerousFault$);
+      expect(result.type).toEqual(AnalyticRecorded.type);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+        `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${
+          GoogleAnalyticsEvents.ADD_FAULT
+        }_${fullAnalyticCompetencyLabels.uncoupleRecouple}`,
+        GoogleAnalyticsEventsTitles.SEVERITY,
+        ValidFaultTypes.DANGEROUS
+      );
     });
   });
 
   describe('reverseLeftPopoverOpened', () => {
-    it('should call logEvent with the correct parameters', (done) => {
-      // ARRANGE
+    it('should call logEvent with the correct parameters', async () => {
       store$.dispatch(testsActions.StartTestReportPracticeTest(testReportPracticeModeSlot.slotDetail.slotId));
-      // ACT
       actions$.next(reverseLeftActions.ReverseLeftPopoverOpened());
-      // ASSERT
-      effects.reverseLeftPopoverOpened$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-
-        // GA4 Analytics
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-          `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEvents.NAVIGATION}`,
-          GoogleAnalyticsEventsTitles.OPENED,
-          GoogleAnalyticsEventsValues.REVERSE_MANOEUVRE
-        );
-        done();
-      });
+      const result = await firstValueFrom(effects.reverseLeftPopoverOpened$);
+      expect(result.type).toEqual(AnalyticRecorded.type);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+        `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEvents.NAVIGATION}`,
+        GoogleAnalyticsEventsTitles.OPENED,
+        GoogleAnalyticsEventsValues.REVERSE_MANOEUVRE
+      );
     });
   });
 
   describe('reverseLeftPopoverClosed', () => {
-    it('should call logEvent with the correct parameters', (done) => {
-      // ARRANGE
+    it('should call logEvent with the correct parameters', async () => {
       store$.dispatch(testsActions.StartTestReportPracticeTest(testReportPracticeModeSlot.slotDetail.slotId));
-      // ACT
       actions$.next(reverseLeftActions.ReverseLeftPopoverClosed());
-      // ASSERT
-      effects.reverseLeftPopoverClosed$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-
-        // GA4 Analytics
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-          `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEvents.NAVIGATION}`,
-          GoogleAnalyticsEventsTitles.CLOSED,
-          GoogleAnalyticsEventsValues.REVERSE_MANOEUVRE
-        );
-        done();
-      });
+      const result = await firstValueFrom(effects.reverseLeftPopoverClosed$);
+      expect(result.type).toEqual(AnalyticRecorded.type);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+        `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEvents.NAVIGATION}`,
+        GoogleAnalyticsEventsTitles.CLOSED,
+        GoogleAnalyticsEventsValues.REVERSE_MANOEUVRE
+      );
     });
   });
 
   describe('toggleAvoidanceSpeedReq', () => {
-    it('should log speed not met for this competency', (done) => {
-      // ARRANGE
+    it('should log speed not met for this competency', async () => {
       store$.dispatch(testsActions.StartTest(123456, TestCategory.EUAM1));
       store$.dispatch(PopulateTestCategory(TestCategory.EUAM1));
       store$.dispatch(PopulateCandidateDetails(candidateMock));
-
       actions$.next(avoidanceActions.AddAvoidanceSeriousFault());
-      // ASSERT
-      effects.toggleAvoidanceSpeedReq$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-
-        // GA4 Analytics
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-          GoogleAnalyticsEvents.AVOIDANCE_MANOEUVRE,
-          GoogleAnalyticsEventsTitles.ITEM_STATUS,
-          GoogleAnalyticsEventsValues.NOT_MET
-        );
-        done();
-      });
+      const result = await firstValueFrom(effects.toggleAvoidanceSpeedReq$);
+      expect(result.type).toEqual(AnalyticRecorded.type);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+        GoogleAnalyticsEvents.AVOIDANCE_MANOEUVRE,
+        GoogleAnalyticsEventsTitles.ITEM_STATUS,
+        GoogleAnalyticsEventsValues.NOT_MET
+      );
     });
 
-    it('should call logEvent for speed met for this competency', (done) => {
-      // ARRANGE
+    it('should call logEvent for speed met for this competency', async () => {
       store$.dispatch(testsActions.StartTest(123456, TestCategory.EUAM1));
       store$.dispatch(PopulateTestCategory(TestCategory.EUAM1));
       store$.dispatch(PopulateCandidateDetails(candidateMock));
-
-      // ACT
       actions$.next(avoidanceActions.RemoveAvoidanceSeriousFault());
-
-      // ASSERT
-      effects.toggleAvoidanceSpeedReq$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-
-        // GA4 Analytics
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-          GoogleAnalyticsEvents.AVOIDANCE_MANOEUVRE,
-          GoogleAnalyticsEventsTitles.ITEM_STATUS,
-          GoogleAnalyticsEventsValues.MET
-        );
-        done();
-      });
+      const result = await firstValueFrom(effects.toggleAvoidanceSpeedReq$);
+      expect(result.type).toEqual(AnalyticRecorded.type);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+        GoogleAnalyticsEvents.AVOIDANCE_MANOEUVRE,
+        GoogleAnalyticsEventsTitles.ITEM_STATUS,
+        GoogleAnalyticsEventsValues.MET
+      );
     });
   });
 
   describe('reportAvoidanceFirstAttempt', () => {
-    it('should call logEvent for report avoidance first attempt', (done) => {
-      // ARRANGE
+    it('should call logEvent for report avoidance first attempt', async () => {
       store$.dispatch(testsActions.StartTest(123456, TestCategory.EUAM1));
       store$.dispatch(PopulateTestCategory(TestCategory.EUAM1));
       store$.dispatch(PopulateCandidateDetails(candidateMock));
       const attemptValue = 27;
       store$.dispatch(avoidanceActions.RecordAvoidanceFirstAttempt(attemptValue));
       store$.dispatch(avoidanceActions.ReportAvoidanceFirstAttempt(attemptValue));
-
-      // ACT
       actions$.next(avoidanceActions.ReportAvoidanceFirstAttempt(attemptValue));
-
-      // ASSERT
-      effects.reportAvoidanceFirstAttempt$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-
-        // GA4 Analytics
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-          GoogleAnalyticsEvents.AVOIDANCE_MANOEUVRE,
-          GoogleAnalyticsEventsTitles.FIRST_ATTEMPT,
-          `${competencyLabels.speedCheckAvoidance} - ${attemptValue}`
-        );
-        done();
-      });
+      const result = await firstValueFrom(effects.reportAvoidanceFirstAttempt$);
+      expect(result.type).toEqual(AnalyticRecorded.type);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+        GoogleAnalyticsEvents.AVOIDANCE_MANOEUVRE,
+        GoogleAnalyticsEventsTitles.FIRST_ATTEMPT,
+        `${competencyLabels.speedCheckAvoidance} - ${attemptValue}`
+      );
     });
   });
 
   describe('reportAvoidanceSecondAttempt', () => {
-    it('should call logEvent for report avoidance second attempt', (done) => {
-      // ARRANGE
+    it('should call logEvent for report avoidance second attempt', async () => {
       store$.dispatch(testsActions.StartTest(123456, TestCategory.EUAM1));
       store$.dispatch(PopulateTestCategory(TestCategory.EUAM1));
       store$.dispatch(PopulateCandidateDetails(candidateMock));
       const attemptValue = 5;
       store$.dispatch(avoidanceActions.RecordAvoidanceSecondAttempt(attemptValue));
       store$.dispatch(avoidanceActions.ReportAvoidanceSecondAttempt(attemptValue));
-
-      // ACT
       actions$.next(avoidanceActions.ReportAvoidanceSecondAttempt(attemptValue));
-
-      // ASSERT
-      effects.reportAvoidanceSecondAttempt$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-
-        // GA4 Analytics
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-          GoogleAnalyticsEvents.AVOIDANCE_MANOEUVRE,
-          GoogleAnalyticsEventsTitles.SECOND_ATTEMPT,
-          `${competencyLabels.speedCheckAvoidance} - ${attemptValue}`
-        );
-        done();
-      });
+      const result = await firstValueFrom(effects.reportAvoidanceSecondAttempt$);
+      expect(result.type).toEqual(AnalyticRecorded.type);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+        GoogleAnalyticsEvents.AVOIDANCE_MANOEUVRE,
+        GoogleAnalyticsEventsTitles.SECOND_ATTEMPT,
+        `${competencyLabels.speedCheckAvoidance} - ${attemptValue}`
+      );
     });
   });
 
   describe('speedRequirementNotMetModalOpened', () => {
-    it('should call logEvent for speed requirement not met modal opened', (done) => {
-      // ARRANGE
+    it('should call logEvent for speed requirement not met modal opened', async () => {
       store$.dispatch(testsActions.StartTest(123456, TestCategory.EUAM1));
       store$.dispatch(PopulateTestCategory(TestCategory.EUAM1));
       store$.dispatch(PopulateCandidateDetails(candidateMock));
-
-      // ACT
       actions$.next(testReportCatAMod1Actions.SpeedRequirementNotMetModalOpened());
-
-      // ASSERT
-      effects.speedRequirementNotMetModalOpened$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-
-        // GA4 Analytics
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-          GoogleAnalyticsEvents.VALIDATION_ERROR,
-          GoogleAnalyticsEventsTitles.MODAL,
-          GoogleAnalyticsEventsValues.SPEED_REQ_NOT_MET
-        );
-        done();
-      });
+      const result = await firstValueFrom(effects.speedRequirementNotMetModalOpened$);
+      expect(result.type).toEqual(AnalyticRecorded.type);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+        GoogleAnalyticsEvents.VALIDATION_ERROR,
+        GoogleAnalyticsEventsTitles.MODAL,
+        GoogleAnalyticsEventsValues.SPEED_REQ_NOT_MET
+      );
     });
   });
 
   describe('emergencyStopDangerousFaultModelOpened', () => {
-    it('should call logEvent for emergency stop dangerous fault modal opened', (done) => {
-      // ARRANGE
+    it('should call logEvent for emergency stop dangerous fault modal opened', async () => {
       store$.dispatch(testsActions.StartTest(123456, TestCategory.EUAM1));
       store$.dispatch(PopulateTestCategory(TestCategory.EUAM1));
       store$.dispatch(PopulateCandidateDetails(candidateMock));
-
-      // ACT
       actions$.next(testReportCatAMod1Actions.EmergencyStopDangerousFaultModelOpened());
-
-      // ASSERT
-      effects.emergencyStopDangerousFaultModelOpened$.subscribe((result) => {
-        expect(result.type);
-
-        // GA4 Analytics
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-          GoogleAnalyticsEvents.NAVIGATION,
-          GoogleAnalyticsEventsTitles.OPENED,
-          ModalReason.EMERGENCY_STOP_DANGEROUS
-        );
-        done();
-      });
+      const result = await firstValueFrom(effects.emergencyStopDangerousFaultModelOpened$);
+      expect(result.type);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+        GoogleAnalyticsEvents.NAVIGATION,
+        GoogleAnalyticsEventsTitles.OPENED,
+        ModalReason.EMERGENCY_STOP_DANGEROUS
+      );
     });
   });
 
   describe('emergencyStopSeriousFaultModelOpened', () => {
-    it('should call logEvent for emergency stop serious fault modal opened', (done) => {
-      // ARRANGE
+    it('should call logEvent for emergency stop serious fault modal opened', async () => {
       store$.dispatch(testsActions.StartTest(123456, TestCategory.EUAM1));
       store$.dispatch(PopulateTestCategory(TestCategory.EUAM1));
       store$.dispatch(PopulateCandidateDetails(candidateMock));
-
-      // ACT
       actions$.next(testReportCatAMod1Actions.EmergencyStopSeriousFaultModelOpened());
-
-      // ASSERT
-      effects.emergencyStopSeriousFaultModelOpened$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-
-        // GA4 Analytics
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-          GoogleAnalyticsEvents.NAVIGATION,
-          GoogleAnalyticsEventsTitles.OPENED,
-          ModalReason.EMERGENCY_STOP_SERIOUS
-        );
-        done();
-      });
+      const result = await firstValueFrom(effects.emergencyStopSeriousFaultModelOpened$);
+      expect(result.type).toEqual(AnalyticRecorded.type);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+        GoogleAnalyticsEvents.NAVIGATION,
+        GoogleAnalyticsEventsTitles.OPENED,
+        ModalReason.EMERGENCY_STOP_SERIOUS
+      );
     });
   });
 
   describe('toggleEmergencyStopSpeedReq', () => {
-    it('should call logEvent for speed not met', (done) => {
-      // ARRANGE
+    it('should call logEvent for speed not met', async () => {
       store$.dispatch(testsActions.StartTest(123456, TestCategory.EUAM1));
       store$.dispatch(PopulateTestCategory(TestCategory.EUAM1));
       store$.dispatch(PopulateCandidateDetails(candidateMock));
-      // ACT
       actions$.next(emergencyStopActions.AddEmergencyStopSeriousFault());
-
-      // ASSERT
-      effects.toggleEmergencyStopSpeedReq$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-
-        // GA4 Analytics
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-          GoogleAnalyticsEvents.EMERGENCY_STOP,
-          GoogleAnalyticsEventsTitles.SPEED_REQ,
-          GoogleAnalyticsEventsValues.NOT_MET
-        );
-        done();
-      });
+      const result = await firstValueFrom(effects.toggleEmergencyStopSpeedReq$);
+      expect(result.type).toEqual(AnalyticRecorded.type);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+        GoogleAnalyticsEvents.EMERGENCY_STOP,
+        GoogleAnalyticsEventsTitles.SPEED_REQ,
+        GoogleAnalyticsEventsValues.NOT_MET
+      );
     });
 
-    it('should call logEvent for speed met', (done) => {
-      // ARRANGE
+    it('should call logEvent for speed met', async () => {
       store$.dispatch(testsActions.StartTest(123456, TestCategory.EUAM1));
       store$.dispatch(PopulateTestCategory(TestCategory.EUAM1));
       store$.dispatch(PopulateCandidateDetails(candidateMock));
-
-      // ACT
       actions$.next(emergencyStopActions.RemoveEmergencyStopSeriousFault());
-
-      // ASSERT
-      effects.toggleEmergencyStopSpeedReq$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-
-        // GA4 Analytics
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-          GoogleAnalyticsEvents.EMERGENCY_STOP,
-          GoogleAnalyticsEventsTitles.SPEED_REQ,
-          GoogleAnalyticsEventsValues.MET
-        );
-        done();
-      });
+      const result = await firstValueFrom(effects.toggleEmergencyStopSpeedReq$);
+      expect(result.type).toEqual(AnalyticRecorded.type);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+        GoogleAnalyticsEvents.EMERGENCY_STOP,
+        GoogleAnalyticsEventsTitles.SPEED_REQ,
+        GoogleAnalyticsEventsValues.MET
+      );
     });
   });
 
   describe('reportEmergencyStopFirstAttempt', () => {
-    it('should call logEvent for report emergency stop first attempt', (done) => {
-      // ARRANGE
+    it('should call logEvent for report emergency stop first attempt', async () => {
       store$.dispatch(testsActions.StartTest(123456, TestCategory.EUAM1));
       store$.dispatch(PopulateTestCategory(TestCategory.EUAM1));
       store$.dispatch(PopulateCandidateDetails(candidateMock));
       const attemptValue = 27;
       store$.dispatch(emergencyStopActions.RecordEmergencyStopFirstAttempt(attemptValue));
       store$.dispatch(emergencyStopActions.ReportEmergencyStopFirstAttempt(attemptValue));
-
-      // ACT
       actions$.next(emergencyStopActions.ReportEmergencyStopFirstAttempt(attemptValue));
-
-      // ASSERT
-      effects.reportEmergencyStopFirstAttempt$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-
-        // GA4 Analytics
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-          GoogleAnalyticsEvents.EMERGENCY_STOP,
-          GoogleAnalyticsEventsTitles.FIRST_ATTEMPT,
-          `${competencyLabels.speedCheckEmergency} - ${attemptValue}`
-        );
-        done();
-      });
+      const result = await firstValueFrom(effects.reportEmergencyStopFirstAttempt$);
+      expect(result.type).toEqual(AnalyticRecorded.type);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+        GoogleAnalyticsEvents.EMERGENCY_STOP,
+        GoogleAnalyticsEventsTitles.FIRST_ATTEMPT,
+        `${competencyLabels.speedCheckEmergency} - ${attemptValue}`
+      );
     });
   });
 
   describe('reportEmergencyStopSecondAttempt', () => {
-    it('should call logEvent for report emergency stop second attempt', (done) => {
-      // ARRANGE
+    it('should call logEvent for report emergency stop second attempt', async () => {
       store$.dispatch(testsActions.StartTest(123456, TestCategory.EUAM1));
       store$.dispatch(PopulateTestCategory(TestCategory.EUAM1));
       store$.dispatch(PopulateCandidateDetails(candidateMock));
       const attemptValue = 27;
       store$.dispatch(emergencyStopActions.RecordEmergencyStopSecondAttempt(attemptValue));
       store$.dispatch(emergencyStopActions.ReportEmergencyStopSecondAttempt(attemptValue));
-
-      // ACT
       actions$.next(emergencyStopActions.ReportEmergencyStopSecondAttempt(attemptValue));
-
-      // ASSERT
-      effects.reportEmergencyStopSecondAttempt$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-
-        // GA4 Analytics
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-          GoogleAnalyticsEvents.EMERGENCY_STOP,
-          GoogleAnalyticsEventsTitles.SECOND_ATTEMPT,
-          `${competencyLabels.speedCheckEmergency} - ${attemptValue}`
-        );
-        done();
-      });
+      const result = await firstValueFrom(effects.reportEmergencyStopSecondAttempt$);
+      expect(result.type).toEqual(AnalyticRecorded.type);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+        GoogleAnalyticsEvents.EMERGENCY_STOP,
+        GoogleAnalyticsEventsTitles.SECOND_ATTEMPT,
+        `${competencyLabels.speedCheckEmergency} - ${attemptValue}`
+      );
     });
   });
 
   describe('setSingleFaultCompetencyOutcome', () => {
-    it('should call logEvent for adding a single competency driving fault', (done) => {
-      // ARRANGE
+    it('should call logEvent for adding a single competency driving fault', async () => {
       store$.dispatch(testsActions.StartTest(123456, TestCategory.EUAM1));
       store$.dispatch(PopulateTestCategory(TestCategory.EUAM1));
       store$.dispatch(PopulateCandidateDetails(candidateMock));
-
-      // ACT
       actions$.next(
         singleFaultCompetencyActions.SetSingleFaultCompetencyOutcome(
           SingleFaultCompetencyNames.slalom,
           CompetencyOutcome.DF
         )
       );
-
-      // ASSERT
-      effects.setSingleFaultCompetencyOutcome$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-
-        // GA4 Analytics
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-          `${GoogleAnalyticsEvents.ADD_FAULT}_${fullAnalyticCompetencyLabels.slalom}`,
-          GoogleAnalyticsEventsTitles.SEVERITY,
-          ValidFaultTypes.DRIVING
-        );
-        done();
-      });
+      const result = await firstValueFrom(effects.setSingleFaultCompetencyOutcome$);
+      expect(result.type).toEqual(AnalyticRecorded.type);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+        `${GoogleAnalyticsEvents.ADD_FAULT}_${fullAnalyticCompetencyLabels.slalom}`,
+        GoogleAnalyticsEventsTitles.SEVERITY,
+        ValidFaultTypes.DRIVING
+      );
     });
 
-    it('should call logEvent for adding a single competency dangerous fault', (done) => {
-      // ARRANGE
+    it('should call logEvent for adding a single competency dangerous fault', async () => {
       store$.dispatch(testsActions.StartTest(123456, TestCategory.EUAM1));
       store$.dispatch(PopulateTestCategory(TestCategory.EUAM1));
       store$.dispatch(PopulateCandidateDetails(candidateMock));
-
-      // ACT
       actions$.next(
         singleFaultCompetencyActions.SetSingleFaultCompetencyOutcome(
           SingleFaultCompetencyNames.slalom,
           CompetencyOutcome.D
         )
       );
-
-      // ASSERT
-      effects.setSingleFaultCompetencyOutcome$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-
-        // GA4 Analytics
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-          `${GoogleAnalyticsEvents.ADD_FAULT}_${fullAnalyticCompetencyLabels.slalom}`,
-          GoogleAnalyticsEventsTitles.SEVERITY,
-          ValidFaultTypes.DANGEROUS
-        );
-        done();
-      });
+      const result = await firstValueFrom(effects.setSingleFaultCompetencyOutcome$);
+      expect(result.type).toEqual(AnalyticRecorded.type);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+        `${GoogleAnalyticsEvents.ADD_FAULT}_${fullAnalyticCompetencyLabels.slalom}`,
+        GoogleAnalyticsEventsTitles.SEVERITY,
+        ValidFaultTypes.DANGEROUS
+      );
     });
 
-    it('should call logEvent for adding a single competency serious fault', (done) => {
-      // ARRANGE
+    it('should call logEvent for adding a single competency serious fault', async () => {
       store$.dispatch(testsActions.StartTest(123456, TestCategory.EUAM1));
       store$.dispatch(PopulateTestCategory(TestCategory.EUAM1));
       store$.dispatch(PopulateCandidateDetails(candidateMock));
-
-      // ACT
       actions$.next(
         singleFaultCompetencyActions.SetSingleFaultCompetencyOutcome(
           SingleFaultCompetencyNames.slalom,
           CompetencyOutcome.S
         )
       );
-
-      // ASSERT
-      effects.setSingleFaultCompetencyOutcome$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-
-        // GA4 Analytics
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-          `${GoogleAnalyticsEvents.ADD_FAULT}_${fullAnalyticCompetencyLabels.slalom}`,
-          GoogleAnalyticsEventsTitles.SEVERITY,
-          ValidFaultTypes.SERIOUS
-        );
-        done();
-      });
+      const result = await firstValueFrom(effects.setSingleFaultCompetencyOutcome$);
+      expect(result.type).toEqual(AnalyticRecorded.type);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+        `${GoogleAnalyticsEvents.ADD_FAULT}_${fullAnalyticCompetencyLabels.slalom}`,
+        GoogleAnalyticsEventsTitles.SEVERITY,
+        ValidFaultTypes.SERIOUS
+      );
     });
   });
 
   describe('removeSingleFaultCompetencyOutcome', () => {
-    it('should call logEvent for removing a single competency driving fault', (done) => {
-      // ARRANGE
+    it('should call logEvent for removing a single competency driving fault', async () => {
       store$.dispatch(testsActions.StartTest(123456, TestCategory.EUAM1));
       store$.dispatch(PopulateTestCategory(TestCategory.EUAM1));
       store$.dispatch(PopulateCandidateDetails(candidateMock));
-
-      // ACT
       actions$.next(singleFaultCompetencyActions.RemoveSingleFaultCompetencyOutcome(SingleFaultCompetencyNames.slalom));
-
-      // ASSERT
-      effects.removeSingleFaultCompetencyOutcome$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-
-        // GA4 Analytics
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-          `${GoogleAnalyticsEvents.REMOVE_FAULT}_${fullAnalyticCompetencyLabels.slalom}`,
-          GoogleAnalyticsEventsTitles.SEVERITY,
-          ValidFaultTypes.DRIVING
-        );
-        done();
-      });
+      const result = await firstValueFrom(effects.removeSingleFaultCompetencyOutcome$);
+      expect(result.type).toEqual(AnalyticRecorded.type);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+        `${GoogleAnalyticsEvents.REMOVE_FAULT}_${fullAnalyticCompetencyLabels.slalom}`,
+        GoogleAnalyticsEventsTitles.SEVERITY,
+        ValidFaultTypes.DRIVING
+      );
     });
   });
 
   describe('removeSingleDangerousFaultCompetencyOutcome', () => {
-    it('should call logEvent for removing a single competency dangerous fault', (done) => {
-      // ARRANGE
+    it('should call logEvent for removing a single competency dangerous fault', async () => {
       store$.dispatch(testsActions.StartTest(123456, TestCategory.EUAM1));
       store$.dispatch(PopulateTestCategory(TestCategory.EUAM1));
       store$.dispatch(PopulateCandidateDetails(candidateMock));
-
-      // ACT
       actions$.next(
         singleFaultCompetencyActions.RemoveSingleDangerousFaultCompetencyOutcome(SingleFaultCompetencyNames.slalom)
       );
-
-      // ASSERT
-      effects.removeSingleDangerousFaultCompetencyOutcome$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-
-        // GA4 Analytics
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-          `${GoogleAnalyticsEvents.REMOVE_FAULT}_${fullAnalyticCompetencyLabels.slalom}`,
-          GoogleAnalyticsEventsTitles.SEVERITY,
-          ValidFaultTypes.DANGEROUS
-        );
-        done();
-      });
+      const result = await firstValueFrom(effects.removeSingleDangerousFaultCompetencyOutcome$);
+      expect(result.type).toEqual(AnalyticRecorded.type);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+        `${GoogleAnalyticsEvents.REMOVE_FAULT}_${fullAnalyticCompetencyLabels.slalom}`,
+        GoogleAnalyticsEventsTitles.SEVERITY,
+        ValidFaultTypes.DANGEROUS
+      );
     });
   });
 
   describe('removeSingleSeriousFaultCompetencyOutcome', () => {
-    it('should call logEvent for removing a single competency serious fault', (done) => {
-      // ARRANGE
+    it('should call logEvent for removing a single competency serious fault', async () => {
       store$.dispatch(testsActions.StartTest(123456, TestCategory.EUAM1));
       store$.dispatch(PopulateTestCategory(TestCategory.EUAM1));
       store$.dispatch(PopulateCandidateDetails(candidateMock));
-
-      // ACT
       actions$.next(
         singleFaultCompetencyActions.RemoveSingleSeriousFaultCompetencyOutcome(SingleFaultCompetencyNames.slalom)
       );
-
-      // ASSERT
-      effects.removeSingleSeriousFaultCompetencyOutcome$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-
-        // GA4 Analytics
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-          `${GoogleAnalyticsEvents.REMOVE_FAULT}_${fullAnalyticCompetencyLabels.slalom}`,
-          GoogleAnalyticsEventsTitles.SEVERITY,
-          ValidFaultTypes.SERIOUS
-        );
-        done();
-      });
+      const result = await firstValueFrom(effects.removeSingleSeriousFaultCompetencyOutcome$);
+      expect(result.type).toEqual(AnalyticRecorded.type);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+        `${GoogleAnalyticsEvents.REMOVE_FAULT}_${fullAnalyticCompetencyLabels.slalom}`,
+        GoogleAnalyticsEventsTitles.SEVERITY,
+        ValidFaultTypes.SERIOUS
+      );
     });
   });
 
   describe('PcvDoorExerciseAddDrivingFault', () => {
-    it('should call logEvent for this competency', (done) => {
-      // ARRANGE
+    it('should call logEvent for this competency', async () => {
       store$.dispatch(testsActions.StartTest(123456, TestCategory.D));
-      // ACT
       actions$.next(pcvDoorExerciseActions.PcvDoorExerciseAddDrivingFault());
-      // ASSERT
-      effects.pcvDoorExerciseAddDrivingFault$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-
-        // GA4 Analytics
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-          `${GoogleAnalyticsEvents.ADD_FAULT}_${fullAnalyticCompetencyLabels.pcvDoorExercise}`,
-          GoogleAnalyticsEventsTitles.SEVERITY,
-          ValidFaultTypes.DRIVING
-        );
-        done();
-      });
+      const result = await firstValueFrom(effects.pcvDoorExerciseAddDrivingFault$);
+      expect(result.type).toEqual(AnalyticRecorded.type);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+        `${GoogleAnalyticsEvents.ADD_FAULT}_${fullAnalyticCompetencyLabels.pcvDoorExercise}`,
+        GoogleAnalyticsEventsTitles.SEVERITY,
+        ValidFaultTypes.DRIVING
+      );
     });
-    it('should call logEvent for this competency, prefixed with practice test', (done) => {
-      // ARRANGE
+    it('should call logEvent for this competency, prefixed with practice test', async () => {
       store$.dispatch(testsActions.StartTestReportPracticeTest(testReportPracticeModeSlot.slotDetail.slotId));
-      // ACT
       actions$.next(pcvDoorExerciseActions.PcvDoorExerciseAddDrivingFault());
-      // ASSERT
-      effects.pcvDoorExerciseAddDrivingFault$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-
-        // GA4 Analytics
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-          `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${
-            GoogleAnalyticsEvents.ADD_FAULT
-          }_${fullAnalyticCompetencyLabels.pcvDoorExercise}`,
-          GoogleAnalyticsEventsTitles.SEVERITY,
-          ValidFaultTypes.DRIVING
-        );
-        done();
-      });
+      const result = await firstValueFrom(effects.pcvDoorExerciseAddDrivingFault$);
+      expect(result.type).toEqual(AnalyticRecorded.type);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+        `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${
+          GoogleAnalyticsEvents.ADD_FAULT
+        }_${fullAnalyticCompetencyLabels.pcvDoorExercise}`,
+        GoogleAnalyticsEventsTitles.SEVERITY,
+        ValidFaultTypes.DRIVING
+      );
     });
   });
 
   describe('PcvDoorExerciseSeriousDrivingFault', () => {
-    it('should call logEvent for this competency', (done) => {
-      // ARRANGE
+    it('should call logEvent for this competency', async () => {
       store$.dispatch(testsActions.StartTest(123456, TestCategory.D));
-      // ACT
       actions$.next(pcvDoorExerciseActions.PcvDoorExerciseAddSeriousFault());
-      // ASSERT
-      effects.pcvDoorExerciseAddSeriousFault$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-
-        // GA4 Analytics
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-          `${GoogleAnalyticsEvents.ADD_FAULT}_${fullAnalyticCompetencyLabels.pcvDoorExercise}`,
-          GoogleAnalyticsEventsTitles.SEVERITY,
-          ValidFaultTypes.SERIOUS
-        );
-        done();
-      });
+      const result = await firstValueFrom(effects.pcvDoorExerciseAddSeriousFault$);
+      expect(result.type).toEqual(AnalyticRecorded.type);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+        `${GoogleAnalyticsEvents.ADD_FAULT}_${fullAnalyticCompetencyLabels.pcvDoorExercise}`,
+        GoogleAnalyticsEventsTitles.SEVERITY,
+        ValidFaultTypes.SERIOUS
+      );
     });
-    it('should call logEvent for this competency, prefixed with practice test', (done) => {
-      // ARRANGE
+    it('should call logEvent for this competency, prefixed with practice test', async () => {
       store$.dispatch(testsActions.StartTestReportPracticeTest(testReportPracticeModeSlot.slotDetail.slotId));
-      // ACT
       actions$.next(pcvDoorExerciseActions.PcvDoorExerciseAddSeriousFault());
-      // ASSERT
-      effects.pcvDoorExerciseAddSeriousFault$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-
-        // GA4 Analytics
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-          `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${
-            GoogleAnalyticsEvents.ADD_FAULT
-          }_${fullAnalyticCompetencyLabels.pcvDoorExercise}`,
-          GoogleAnalyticsEventsTitles.SEVERITY,
-          ValidFaultTypes.SERIOUS
-        );
-        done();
-      });
+      const result = await firstValueFrom(effects.pcvDoorExerciseAddSeriousFault$);
+      expect(result.type).toEqual(AnalyticRecorded.type);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+        `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${
+          GoogleAnalyticsEvents.ADD_FAULT
+        }_${fullAnalyticCompetencyLabels.pcvDoorExercise}`,
+        GoogleAnalyticsEventsTitles.SEVERITY,
+        ValidFaultTypes.SERIOUS
+      );
     });
   });
 
   describe('pcvDoorExerciseAddDangerousFault', () => {
-    it('should call logEvent for this competency', (done) => {
-      // ARRANGE
+    it('should call logEvent for this competency', async () => {
       store$.dispatch(testsActions.StartTest(123456, TestCategory.D));
-      // ACT
       actions$.next(pcvDoorExerciseActions.PcvDoorExerciseAddDangerousFault());
-      // ASSERT
-      effects.pcvDoorExerciseAddDangerousFault$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-
-        // GA4 Analytics
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-          `${GoogleAnalyticsEvents.ADD_FAULT}_${fullAnalyticCompetencyLabels.pcvDoorExercise}`,
-          GoogleAnalyticsEventsTitles.SEVERITY,
-          ValidFaultTypes.DANGEROUS
-        );
-        done();
-      });
+      const result = await firstValueFrom(effects.pcvDoorExerciseAddDangerousFault$);
+      expect(result.type).toEqual(AnalyticRecorded.type);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+        `${GoogleAnalyticsEvents.ADD_FAULT}_${fullAnalyticCompetencyLabels.pcvDoorExercise}`,
+        GoogleAnalyticsEventsTitles.SEVERITY,
+        ValidFaultTypes.DANGEROUS
+      );
     });
-    it('should call logEvent for this competency, prefixed with practice test', (done) => {
-      // ARRANGE
+    it('should call logEvent for this competency, prefixed with practice test', async () => {
       store$.dispatch(testsActions.StartTestReportPracticeTest(testReportPracticeModeSlot.slotDetail.slotId));
-      // ACT
       actions$.next(pcvDoorExerciseActions.PcvDoorExerciseAddDangerousFault());
-      // ASSERT
-      effects.pcvDoorExerciseAddDangerousFault$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-
-        // GA4 Analytics
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-          `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${
-            GoogleAnalyticsEvents.ADD_FAULT
-          }_${fullAnalyticCompetencyLabels.pcvDoorExercise}`,
-          GoogleAnalyticsEventsTitles.SEVERITY,
-          ValidFaultTypes.DANGEROUS
-        );
-        done();
-      });
+      const result = await firstValueFrom(effects.pcvDoorExerciseAddDangerousFault$);
+      expect(result.type).toEqual(AnalyticRecorded.type);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+        `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${
+          GoogleAnalyticsEvents.ADD_FAULT
+        }_${fullAnalyticCompetencyLabels.pcvDoorExercise}`,
+        GoogleAnalyticsEventsTitles.SEVERITY,
+        ValidFaultTypes.DANGEROUS
+      );
     });
   });
 
   describe('PcvDoorExerciseRemoveDrivingFault', () => {
-    it('should call logEvent for this competency', (done) => {
-      // ARRANGE
+    it('should call logEvent for this competency', async () => {
       store$.dispatch(testsActions.StartTest(123456, TestCategory.D));
-      // ACT
       actions$.next(pcvDoorExerciseActions.PcvDoorExerciseRemoveDrivingFault());
-      // ASSERT
-      effects.pcvDoorExerciseRemoveDrivingFault$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-
-        // GA4 Analytics
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-          `${GoogleAnalyticsEvents.REMOVE_FAULT}_${fullAnalyticCompetencyLabels.pcvDoorExercise}`,
-          GoogleAnalyticsEventsTitles.SEVERITY,
-          ValidFaultTypes.DRIVING
-        );
-        done();
-      });
+      const result = await firstValueFrom(effects.pcvDoorExerciseRemoveDrivingFault$);
+      expect(result.type).toEqual(AnalyticRecorded.type);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+        `${GoogleAnalyticsEvents.REMOVE_FAULT}_${fullAnalyticCompetencyLabels.pcvDoorExercise}`,
+        GoogleAnalyticsEventsTitles.SEVERITY,
+        ValidFaultTypes.DRIVING
+      );
     });
-    it('should call logEvent for this competency, prefixed with practice test', (done) => {
-      // ARRANGE
+    it('should call logEvent for this competency, prefixed with practice test', async () => {
       store$.dispatch(testsActions.StartTestReportPracticeTest(testReportPracticeModeSlot.slotDetail.slotId));
-      // ACT
       actions$.next(pcvDoorExerciseActions.PcvDoorExerciseRemoveDrivingFault());
-      // ASSERT
-      effects.pcvDoorExerciseRemoveDrivingFault$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-
-        // GA4 Analytics
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-          `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${
-            GoogleAnalyticsEvents.REMOVE_FAULT
-          }_${fullAnalyticCompetencyLabels.pcvDoorExercise}`,
-          GoogleAnalyticsEventsTitles.SEVERITY,
-          ValidFaultTypes.DRIVING
-        );
-        done();
-      });
+      const result = await firstValueFrom(effects.pcvDoorExerciseRemoveDrivingFault$);
+      expect(result.type).toEqual(AnalyticRecorded.type);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+        `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${
+          GoogleAnalyticsEvents.REMOVE_FAULT
+        }_${fullAnalyticCompetencyLabels.pcvDoorExercise}`,
+        GoogleAnalyticsEventsTitles.SEVERITY,
+        ValidFaultTypes.DRIVING
+      );
     });
   });
 
   describe('pcvDoorExerciseRemoveSeriousFault', () => {
-    it('should call logEvent for this competency', (done) => {
-      // ARRANGE
+    it('should call logEvent for this competency', async () => {
       store$.dispatch(testsActions.StartTest(123456, TestCategory.D));
-      // ACT
       actions$.next(pcvDoorExerciseActions.PcvDoorExerciseRemoveSeriousFault());
-      // ASSERT
-      effects.pcvDoorExerciseRemoveSeriousFault$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-
-        // GA4 Analytics
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-          `${GoogleAnalyticsEvents.REMOVE_FAULT}_${fullAnalyticCompetencyLabels.pcvDoorExercise}`,
-          GoogleAnalyticsEventsTitles.SEVERITY,
-          ValidFaultTypes.SERIOUS
-        );
-        done();
-      });
+      const result = await firstValueFrom(effects.pcvDoorExerciseRemoveSeriousFault$);
+      expect(result.type).toEqual(AnalyticRecorded.type);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+        `${GoogleAnalyticsEvents.REMOVE_FAULT}_${fullAnalyticCompetencyLabels.pcvDoorExercise}`,
+        GoogleAnalyticsEventsTitles.SEVERITY,
+        ValidFaultTypes.SERIOUS
+      );
     });
-    it('should call logEvent for this competency, prefixed with practice test', (done) => {
-      // ARRANGE
+    it('should call logEvent for this competency, prefixed with practice test', async () => {
       store$.dispatch(testsActions.StartTestReportPracticeTest(testReportPracticeModeSlot.slotDetail.slotId));
-      // ACT
       actions$.next(pcvDoorExerciseActions.PcvDoorExerciseRemoveSeriousFault());
-      // ASSERT
-      effects.pcvDoorExerciseRemoveSeriousFault$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-
-        // GA4 Analytics
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-          `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${
-            GoogleAnalyticsEvents.REMOVE_FAULT
-          }_${fullAnalyticCompetencyLabels.pcvDoorExercise}`,
-          GoogleAnalyticsEventsTitles.SEVERITY,
-          ValidFaultTypes.SERIOUS
-        );
-        done();
-      });
+      const result = await firstValueFrom(effects.pcvDoorExerciseRemoveSeriousFault$);
+      expect(result.type).toEqual(AnalyticRecorded.type);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+        `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${
+          GoogleAnalyticsEvents.REMOVE_FAULT
+        }_${fullAnalyticCompetencyLabels.pcvDoorExercise}`,
+        GoogleAnalyticsEventsTitles.SEVERITY,
+        ValidFaultTypes.SERIOUS
+      );
     });
   });
 
   describe('pcvDoorExerciseRemoveDangerousFault', () => {
-    it('should call logEvent for this competency', (done) => {
-      // ARRANGE
+    it('should call logEvent for this competency', async () => {
       store$.dispatch(testsActions.StartTest(123456, TestCategory.D));
-      // ACT
       actions$.next(pcvDoorExerciseActions.PcvDoorExerciseRemoveDangerousFault());
-      // ASSERT
-      effects.pcvDoorExerciseRemoveDangerousFault$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-
-        // GA4 Analytics
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-          `${GoogleAnalyticsEvents.REMOVE_FAULT}_${fullAnalyticCompetencyLabels.pcvDoorExercise}`,
-          GoogleAnalyticsEventsTitles.SEVERITY,
-          ValidFaultTypes.DANGEROUS
-        );
-        done();
-      });
+      const result = await firstValueFrom(effects.pcvDoorExerciseRemoveDangerousFault$);
+      expect(result.type).toEqual(AnalyticRecorded.type);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+        `${GoogleAnalyticsEvents.REMOVE_FAULT}_${fullAnalyticCompetencyLabels.pcvDoorExercise}`,
+        GoogleAnalyticsEventsTitles.SEVERITY,
+        ValidFaultTypes.DANGEROUS
+      );
     });
-    it('should call logEvent for this competency, prefixed with practice test', (done) => {
-      // ARRANGE
+    it('should call logEvent for this competency, prefixed with practice test', async () => {
       store$.dispatch(testsActions.StartTestReportPracticeTest(testReportPracticeModeSlot.slotDetail.slotId));
-      // ACT
       actions$.next(pcvDoorExerciseActions.PcvDoorExerciseRemoveDangerousFault());
-      // ASSERT
-      effects.pcvDoorExerciseRemoveDangerousFault$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-
-        // GA4 Analytics
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-          `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${
-            GoogleAnalyticsEvents.REMOVE_FAULT
-          }_${fullAnalyticCompetencyLabels.pcvDoorExercise}`,
-          GoogleAnalyticsEventsTitles.SEVERITY,
-          ValidFaultTypes.DANGEROUS
-        );
-        done();
-      });
+      const result = await firstValueFrom(effects.pcvDoorExerciseRemoveDangerousFault$);
+      expect(result.type).toEqual(AnalyticRecorded.type);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+        `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${
+          GoogleAnalyticsEvents.REMOVE_FAULT
+        }_${fullAnalyticCompetencyLabels.pcvDoorExercise}`,
+        GoogleAnalyticsEventsTitles.SEVERITY,
+        ValidFaultTypes.DANGEROUS
+      );
     });
   });
 
   describe('toggleHighwayCodeSafety', () => {
-    it('should call log event with toggle highway code stop completed', (done) => {
-      // ARRANGE
+    it('should call log event with toggle highway code stop completed', async () => {
       store$.dispatch(testsActions.StartTest(123456, TestCategory.F));
       store$.dispatch(PopulateTestCategory(TestCategory.F));
       store$.dispatch(highwayCodeActions.ToggleHighwayCodeSafety());
-      // ACT
       actions$.next(highwayCodeActions.ToggleHighwayCodeSafety());
-      // ASSERT
-      effects.toggleHighwayCodeSafety$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-
-        // GA4 Analytics
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-          GoogleAnalyticsEvents.LEGAL_REQUIREMENT,
-          GoogleAnalyticsEventsTitles.ITEM_NAME,
-          legalRequirementsLabels.highwayCodeSafety,
-          GoogleAnalyticsEventsTitles.ITEM_STATUS,
-          legalRequirementToggleValues.completed
-        );
-        done();
-      });
+      const result = await firstValueFrom(effects.toggleHighwayCodeSafety$);
+      expect(result.type).toEqual(AnalyticRecorded.type);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+        GoogleAnalyticsEvents.LEGAL_REQUIREMENT,
+        GoogleAnalyticsEventsTitles.ITEM_NAME,
+        legalRequirementsLabels.highwayCodeSafety,
+        GoogleAnalyticsEventsTitles.ITEM_STATUS,
+        legalRequirementToggleValues.completed
+      );
     });
-    it('should call log event with toggle highway code uncompleted', (done) => {
-      // ARRANGE
+    it('should call log event with toggle highway code uncompleted', async () => {
       store$.dispatch(testsActions.StartTest(123456, TestCategory.F));
       store$.dispatch(PopulateTestCategory(TestCategory.F));
-      // ACT
       actions$.next(highwayCodeActions.ToggleHighwayCodeSafety());
-      // ASSERT
-      effects.toggleHighwayCodeSafety$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-
-        // GA4 Analytics
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-          GoogleAnalyticsEvents.LEGAL_REQUIREMENT,
-          GoogleAnalyticsEventsTitles.ITEM_NAME,
-          legalRequirementsLabels.highwayCodeSafety,
-          GoogleAnalyticsEventsTitles.ITEM_STATUS,
-          legalRequirementToggleValues.uncompleted
-        );
-        done();
-      });
+      const result = await firstValueFrom(effects.toggleHighwayCodeSafety$);
+      expect(result.type).toEqual(AnalyticRecorded.type);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+        GoogleAnalyticsEvents.LEGAL_REQUIREMENT,
+        GoogleAnalyticsEventsTitles.ITEM_NAME,
+        legalRequirementsLabels.highwayCodeSafety,
+        GoogleAnalyticsEventsTitles.ITEM_STATUS,
+        legalRequirementToggleValues.uncompleted
+      );
     });
   });
   describe('toggleEcoControl', () => {
-    it('should call log event with toggle eco control selected', (done) => {
-      // ARRANGE
+    it('should call log event with toggle eco control selected', async () => {
       store$.dispatch(testsActions.StartTest(123456, TestCategory.B));
       store$.dispatch(ecoActions.ToggleControlEco());
-      // ACT
       actions$.next(ecoActions.ToggleControlEco());
-      // ASSERT
-      effects.toggleEcoControl$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-
-        // GA4 Analytics
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-          GoogleAnalyticsEvents.ECO_CONTROL,
-          GoogleAnalyticsEventsTitles.ITEM_STATUS,
-          'selected'
-        );
-        done();
-      });
+      const result = await firstValueFrom(effects.toggleEcoControl$);
+      expect(result.type).toEqual(AnalyticRecorded.type);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+        GoogleAnalyticsEvents.ECO_CONTROL,
+        GoogleAnalyticsEventsTitles.ITEM_STATUS,
+        'selected'
+      );
     });
-    it('should call log event with toggle eco control unselected', (done) => {
-      // ARRANGE
+    it('should call log event with toggle eco control unselected', async () => {
       store$.dispatch(testsActions.StartTest(123456, TestCategory.B));
-      // ACT
       actions$.next(ecoActions.ToggleControlEco());
-      // ASSERT
-      effects.toggleEcoControl$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-
-        // GA4 Analytics
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-          GoogleAnalyticsEvents.ECO_CONTROL,
-          GoogleAnalyticsEventsTitles.ITEM_STATUS,
-          'unselected'
-        );
-        done();
-      });
+      const result = await firstValueFrom(effects.toggleEcoControl$);
+      expect(result.type).toEqual(AnalyticRecorded.type);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+        GoogleAnalyticsEvents.ECO_CONTROL,
+        GoogleAnalyticsEventsTitles.ITEM_STATUS,
+        'unselected'
+      );
     });
   });
   describe('toggleEcoPlanning', () => {
-    it('should call log event with toggle eco planning selected', (done) => {
-      // ARRANGE
+    it('should call log event with toggle eco planning selected', async () => {
       store$.dispatch(testsActions.StartTest(123456, TestCategory.B));
       store$.dispatch(ecoActions.TogglePlanningEco());
-      // ACT
       actions$.next(ecoActions.TogglePlanningEco());
-      // ASSERT
-      effects.toggleEcoPlanning$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-
-        // GA4 Analytics
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-          GoogleAnalyticsEvents.ECO_PLANNING,
-          GoogleAnalyticsEventsTitles.ITEM_STATUS,
-          'selected'
-        );
-        done();
-      });
+      const result = await firstValueFrom(effects.toggleEcoPlanning$);
+      expect(result.type).toEqual(AnalyticRecorded.type);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+        GoogleAnalyticsEvents.ECO_PLANNING,
+        GoogleAnalyticsEventsTitles.ITEM_STATUS,
+        'selected'
+      );
     });
-    it('should call log event with toggle eco planning unselected', (done) => {
-      // ARRANGE
+    it('should call log event with toggle eco planning unselected', async () => {
       store$.dispatch(testsActions.StartTest(123456, TestCategory.B));
-      // ACT
       actions$.next(ecoActions.TogglePlanningEco());
-      // ASSERT
-      effects.toggleEcoPlanning$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-
-        // GA4 Analytics
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-          GoogleAnalyticsEvents.ECO_PLANNING,
-          GoogleAnalyticsEventsTitles.ITEM_STATUS,
-          'unselected'
-        );
-        done();
-      });
+      const result = await firstValueFrom(effects.toggleEcoPlanning$);
+      expect(result.type).toEqual(AnalyticRecorded.type);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+        GoogleAnalyticsEvents.ECO_PLANNING,
+        GoogleAnalyticsEventsTitles.ITEM_STATUS,
+        'unselected'
+      );
     });
   });
   describe('toggleETA', () => {
-    it('should call log event with toggle eta physical selected', (done) => {
-      // ARRANGE
+    it('should call log event with toggle eta physical selected', async () => {
       store$.dispatch(testsActions.StartTest(123456, TestCategory.B));
       store$.dispatch(etaActions.ToggleETA(ExaminerActions.physical));
-      // ACT
       actions$.next(etaActions.ToggleETA(ExaminerActions.physical));
-      // ASSERT
-      effects.toggleETA$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-
-        // GA4 Analytics
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-          GoogleAnalyticsEvents.ETA,
-          GoogleAnalyticsEventsTitles.ITEM_NAME,
-          GoogleAnalyticsEventsValues.ETA_PHYSICAL,
-          GoogleAnalyticsEventsTitles.ITEM_STATUS,
-          'selected'
-        );
-        done();
-      });
+      const result = await firstValueFrom(effects.toggleETA$);
+      expect(result.type).toEqual(AnalyticRecorded.type);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+        GoogleAnalyticsEvents.ETA,
+        GoogleAnalyticsEventsTitles.ITEM_NAME,
+        GoogleAnalyticsEventsValues.ETA_PHYSICAL,
+        GoogleAnalyticsEventsTitles.ITEM_STATUS,
+        'selected'
+      );
     });
-    it('should call log event with toggle eta physical unselected', (done) => {
-      // ARRANGE
+    it('should call log event with toggle eta physical unselected', async () => {
       store$.dispatch(testsActions.StartTest(123456, TestCategory.B));
-      // ACT
       actions$.next(etaActions.ToggleETA(ExaminerActions.physical));
-      // ASSERT
-      effects.toggleETA$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-
-        // GA4 Analytics
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-          GoogleAnalyticsEvents.ETA,
-          GoogleAnalyticsEventsTitles.ITEM_NAME,
-          GoogleAnalyticsEventsValues.ETA_PHYSICAL,
-          GoogleAnalyticsEventsTitles.ITEM_STATUS,
-          'unselected'
-        );
-        done();
-      });
+      const result = await firstValueFrom(effects.toggleETA$);
+      expect(result.type).toEqual(AnalyticRecorded.type);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+        GoogleAnalyticsEvents.ETA,
+        GoogleAnalyticsEventsTitles.ITEM_NAME,
+        GoogleAnalyticsEventsValues.ETA_PHYSICAL,
+        GoogleAnalyticsEventsTitles.ITEM_STATUS,
+        'unselected'
+      );
     });
-    it('should call log event with toggle eta verbal selected', (done) => {
-      // ARRANGE
+    it('should call log event with toggle eta verbal selected', async () => {
       store$.dispatch(testsActions.StartTest(123456, TestCategory.B));
       store$.dispatch(etaActions.ToggleETA(ExaminerActions.verbal));
-      // ACT
       actions$.next(etaActions.ToggleETA(ExaminerActions.verbal));
-      // ASSERT
-      effects.toggleETA$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-
-        // GA4 Analytics
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-          GoogleAnalyticsEvents.ETA,
-          GoogleAnalyticsEventsTitles.ITEM_NAME,
-          GoogleAnalyticsEventsValues.ETA_VERBAL,
-          GoogleAnalyticsEventsTitles.ITEM_STATUS,
-          'selected'
-        );
-        done();
-      });
+      const result = await firstValueFrom(effects.toggleETA$);
+      expect(result.type).toEqual(AnalyticRecorded.type);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+        GoogleAnalyticsEvents.ETA,
+        GoogleAnalyticsEventsTitles.ITEM_NAME,
+        GoogleAnalyticsEventsValues.ETA_VERBAL,
+        GoogleAnalyticsEventsTitles.ITEM_STATUS,
+        'selected'
+      );
     });
-    it('should call log event with toggle eta verbal unselected', (done) => {
-      // ARRANGE
+    it('should call log event with toggle eta verbal unselected', async () => {
       store$.dispatch(testsActions.StartTest(123456, TestCategory.B));
-      // ACT
       actions$.next(etaActions.ToggleETA(ExaminerActions.verbal));
-      // ASSERT
-      effects.toggleETA$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-
-        // GA4 Analytics
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-          GoogleAnalyticsEvents.ETA,
-          GoogleAnalyticsEventsTitles.ITEM_NAME,
-          GoogleAnalyticsEventsValues.ETA_VERBAL,
-          GoogleAnalyticsEventsTitles.ITEM_STATUS,
-          'unselected'
-        );
-        done();
-      });
+      const result = await firstValueFrom(effects.toggleETA$);
+      expect(result.type).toEqual(AnalyticRecorded.type);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+        GoogleAnalyticsEvents.ETA,
+        GoogleAnalyticsEventsTitles.ITEM_NAME,
+        GoogleAnalyticsEventsValues.ETA_VERBAL,
+        GoogleAnalyticsEventsTitles.ITEM_STATUS,
+        'unselected'
+      );
     });
   });
   describe('startTimer', () => {
-    it('should call logEvent with a start timer event', (done) => {
-      // ARRANGE
+    it('should call logEvent with a start timer event', async () => {
       store$.dispatch(testsActions.StartTest(123456, TestCategory.D));
-      // ACT
       actions$.next(testReportActions.StartTimer());
-      // ASSERT
-      effects.startTimer$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-
-        // GA4 Analytics
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(GoogleAnalyticsEvents.START_TIMER);
-        done();
-      });
+      const result = await firstValueFrom(effects.startTimer$);
+      expect(result.type).toEqual(AnalyticRecorded.type);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(GoogleAnalyticsEvents.START_TIMER);
     });
   });
   describe('toggleControlledStop', () => {
-    it('should call log event with toggle controlled stop completed', (done) => {
-      // ARRANGE
+    it('should call log event with toggle controlled stop completed', async () => {
       store$.dispatch(testsActions.StartTest(123456, TestCategory.B));
       store$.dispatch(controlledStopActions.ToggleControlledStop());
-      // ACT
       actions$.next(controlledStopActions.ToggleControlledStop());
-      // ASSERT
-      effects.toggleControlledStop$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-
-        // GA4 Analytics
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-          GoogleAnalyticsEvents.CONTROLLED_STOP,
-          GoogleAnalyticsEventsTitles.ITEM_STATUS,
-          legalRequirementToggleValues.completed
-        );
-        done();
-      });
+      const result = await firstValueFrom(effects.toggleControlledStop$);
+      expect(result.type).toEqual(AnalyticRecorded.type);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+        GoogleAnalyticsEvents.CONTROLLED_STOP,
+        GoogleAnalyticsEventsTitles.ITEM_STATUS,
+        legalRequirementToggleValues.completed
+      );
     });
-    it('should call log event with toggle controlled stop uncompleted', (done) => {
-      // ARRANGE
+    it('should call log event with toggle controlled stop uncompleted', async () => {
       store$.dispatch(testsActions.StartTest(123456, TestCategory.B));
-      // ACT
       actions$.next(controlledStopActions.ToggleControlledStop());
-      // ASSERT
-      effects.toggleControlledStop$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-
-        // GA4 Analytics
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-          GoogleAnalyticsEvents.CONTROLLED_STOP,
-          GoogleAnalyticsEventsTitles.ITEM_STATUS,
-          legalRequirementToggleValues.uncompleted
-        );
-        done();
-      });
+      const result = await firstValueFrom(effects.toggleControlledStop$);
+      expect(result.type).toEqual(AnalyticRecorded.type);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+        GoogleAnalyticsEvents.CONTROLLED_STOP,
+        GoogleAnalyticsEventsTitles.ITEM_STATUS,
+        legalRequirementToggleValues.uncompleted
+      );
     });
   });
   describe('studentLevelChanged', () => {
-    it('should call log event for this competency', (done) => {
-      // ARRANGE
-      const studentLevel = 'beginner';
-      store$.dispatch(testsActions.StartTest(123456, TestCategory.ADI3));
-      // ACT
-      store$.dispatch(lessonThemeActions.StudentLevelChanged(studentLevel));
-      // ASSERT
-      expect(effects.studentLevelChanged$).toBeDefined();
-      effects.studentLevelChanged$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
+    it('should call log event for this competency', async () => {
+      await new Promise<void>((done, reject) => {
+        // ARRANGE
+        const studentLevel = 'beginner';
+        store$.dispatch(testsActions.StartTest(123456, TestCategory.ADI3));
+        // ACT
+        store$.dispatch(lessonThemeActions.StudentLevelChanged(studentLevel));
+        // ASSERT
+        expect(effects.studentLevelChanged$).toBeDefined();
+        effects.studentLevelChanged$.subscribe((result) => {
+          try {
+            expect(result.type).toEqual(AnalyticRecorded.type);
 
-        // GA4 Analytics
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-          GoogleAnalyticsEvents.STUDENT_EXPERIENCE,
-          GoogleAnalyticsEventsTitles.LEVEL,
-          studentLevel
-        );
+            // GA4 Analytics
+            expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
+            expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+              GoogleAnalyticsEvents.STUDENT_EXPERIENCE,
+              GoogleAnalyticsEventsTitles.LEVEL,
+              studentLevel
+            );
+          } catch (error) {
+            reject(error);
+          }
+        }, reject);
+        done();
       });
-      done();
     });
-    it('should call logEvent for this competency, prefixed with practice test', (done) => {
-      // ARRANGE
-      const studentLevel = 'beginner';
-      store$.dispatch(testsActions.StartTestReportPracticeTest(123456, TestCategory.ADI3));
-      // ACT
-      store$.dispatch(lessonThemeActions.StudentLevelChanged(studentLevel));
-      // ASSERT
-      effects.studentLevelChanged$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
+    it('should call logEvent for this competency, prefixed with practice test', async () => {
+      await new Promise<void>((done, reject) => {
+        // ARRANGE
+        const studentLevel = 'beginner';
+        store$.dispatch(testsActions.StartTestReportPracticeTest(123456, TestCategory.ADI3));
+        // ACT
+        store$.dispatch(lessonThemeActions.StudentLevelChanged(studentLevel));
+        // ASSERT
+        effects.studentLevelChanged$.subscribe((result) => {
+          try {
+            expect(result.type).toEqual(AnalyticRecorded.type);
 
-        // GA4 Analytics
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-          `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEvents.STUDENT_EXPERIENCE}`,
-          GoogleAnalyticsEventsTitles.LEVEL,
-          studentLevel
-        );
+            // GA4 Analytics
+            expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
+            expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+              `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEvents.STUDENT_EXPERIENCE}`,
+              GoogleAnalyticsEventsTitles.LEVEL,
+              studentLevel
+            );
+          } catch (error) {
+            reject(error);
+          }
+        }, reject);
+        done();
       });
-      done();
     });
   });
   describe('addLessonTheme', () => {
-    it('should call log event for this competency', (done) => {
-      // ARRANGE
-      const lessonTheme = 'junctions';
-      store$.dispatch(testsActions.StartTest(123456, TestCategory.ADI3));
-      // ACT
-      store$.dispatch(lessonThemeActions.LessonThemeAdded(lessonTheme));
-      // ASSERT
-      effects.studentLevelChanged$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
+    it('should call log event for this competency', async () => {
+      await new Promise<void>((done, reject) => {
+        // ARRANGE
+        const lessonTheme = 'junctions';
+        store$.dispatch(testsActions.StartTest(123456, TestCategory.ADI3));
+        // ACT
+        store$.dispatch(lessonThemeActions.LessonThemeAdded(lessonTheme));
+        // ASSERT
+        effects.studentLevelChanged$.subscribe((result) => {
+          try {
+            expect(result.type).toEqual(AnalyticRecorded.type);
 
-        // GA4 Analytics
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-          GoogleAnalyticsEvents.LESSON_THEME,
-          GoogleAnalyticsEventsTitles.ADDED,
-          lessonThemeValues[lessonTheme]
-        );
+            // GA4 Analytics
+            expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
+            expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+              GoogleAnalyticsEvents.LESSON_THEME,
+              GoogleAnalyticsEventsTitles.ADDED,
+              lessonThemeValues[lessonTheme]
+            );
+          } catch (error) {
+            reject(error);
+          }
+        }, reject);
+        done();
       });
-      done();
     });
-    it('should call log event for this competency, prefixed with practice test', (done) => {
-      // ARRANGE
-      const lessonTheme = 'junctions';
-      store$.dispatch(testsActions.StartTestReportPracticeTest(123456, TestCategory.ADI3));
-      // ACT
-      store$.dispatch(lessonThemeActions.LessonThemeAdded(lessonTheme));
-      // ASSERT
-      effects.addLessonTheme$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
+    it('should call log event for this competency, prefixed with practice test', async () => {
+      await new Promise<void>((done, reject) => {
+        // ARRANGE
+        const lessonTheme = 'junctions';
+        store$.dispatch(testsActions.StartTestReportPracticeTest(123456, TestCategory.ADI3));
+        // ACT
+        store$.dispatch(lessonThemeActions.LessonThemeAdded(lessonTheme));
+        // ASSERT
+        effects.addLessonTheme$.subscribe((result) => {
+          try {
+            expect(result.type).toEqual(AnalyticRecorded.type);
 
-        // GA4 Analytics
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-          `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEvents.LESSON_THEME}`,
-          GoogleAnalyticsEventsTitles.ADDED,
-          lessonThemeValues[lessonTheme]
-        );
+            // GA4 Analytics
+            expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
+            expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+              `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEvents.LESSON_THEME}`,
+              GoogleAnalyticsEventsTitles.ADDED,
+              lessonThemeValues[lessonTheme]
+            );
+          } catch (error) {
+            reject(error);
+          }
+        }, reject);
+        done();
       });
-      done();
     });
   });
   describe('removeLessonTheme', () => {
-    it('should call log event for this competency', (done) => {
-      // ARRANGE
-      const lessonTheme = 'junctions';
-      store$.dispatch(testsActions.StartTest(123456, TestCategory.ADI3));
-      // ACT
-      store$.dispatch(lessonThemeActions.LessonThemeRemoved(lessonTheme));
-      // ASSERT
-      effects.removeLessonTheme$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
+    it('should call log event for this competency', async () => {
+      await new Promise<void>((done, reject) => {
+        // ARRANGE
+        const lessonTheme = 'junctions';
+        store$.dispatch(testsActions.StartTest(123456, TestCategory.ADI3));
+        // ACT
+        store$.dispatch(lessonThemeActions.LessonThemeRemoved(lessonTheme));
+        // ASSERT
+        effects.removeLessonTheme$.subscribe((result) => {
+          try {
+            expect(result.type).toEqual(AnalyticRecorded.type);
 
-        // GA4 Analytics
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-          GoogleAnalyticsEvents.LESSON_THEME,
-          GoogleAnalyticsEventsTitles.REMOVED,
-          lessonThemeValues[lessonTheme]
-        );
+            // GA4 Analytics
+            expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
+            expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+              GoogleAnalyticsEvents.LESSON_THEME,
+              GoogleAnalyticsEventsTitles.REMOVED,
+              lessonThemeValues[lessonTheme]
+            );
+          } catch (error) {
+            reject(error);
+          }
+        }, reject);
+        done();
       });
-      done();
     });
-    it('should call log event for this competency, prefixed with practice test', (done) => {
-      // ARRANGE
-      const lessonTheme = 'junctions';
-      store$.dispatch(testsActions.StartTestReportPracticeTest(123456, TestCategory.ADI3));
-      // ACT
-      store$.dispatch(lessonThemeActions.LessonThemeRemoved(lessonTheme));
-      // ASSERT
-      effects.removeLessonTheme$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
+    it('should call log event for this competency, prefixed with practice test', async () => {
+      await new Promise<void>((done, reject) => {
+        // ARRANGE
+        const lessonTheme = 'junctions';
+        store$.dispatch(testsActions.StartTestReportPracticeTest(123456, TestCategory.ADI3));
+        // ACT
+        store$.dispatch(lessonThemeActions.LessonThemeRemoved(lessonTheme));
+        // ASSERT
+        effects.removeLessonTheme$.subscribe((result) => {
+          try {
+            expect(result.type).toEqual(AnalyticRecorded.type);
 
-        // GA4 Analytics
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-          `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEvents.LESSON_THEME}`,
-          GoogleAnalyticsEventsTitles.REMOVED,
-          lessonThemeValues[lessonTheme]
-        );
+            // GA4 Analytics
+            expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
+            expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+              `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEvents.LESSON_THEME}`,
+              GoogleAnalyticsEventsTitles.REMOVED,
+              lessonThemeValues[lessonTheme]
+            );
+          } catch (error) {
+            reject(error);
+          }
+        }, reject);
+        done();
       });
-      done();
     });
   });
   describe('otherReasonChanged', () => {
-    it('should call log event for this competency', (done) => {
-      // ARRANGE
-      const otherReason = 'Other Reason';
-      store$.dispatch(testsActions.StartTest(123456, TestCategory.ADI3));
-      // ACT
-      store$.dispatch(lessonThemeActions.OtherChanged(otherReason));
-      // ASSERT
-      effects.otherReasonChanged$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
+    it('should call log event for this competency', async () => {
+      await new Promise<void>((done, reject) => {
+        // ARRANGE
+        const otherReason = 'Other Reason';
+        store$.dispatch(testsActions.StartTest(123456, TestCategory.ADI3));
+        // ACT
+        store$.dispatch(lessonThemeActions.OtherChanged(otherReason));
+        // ASSERT
+        effects.otherReasonChanged$.subscribe((result) => {
+          try {
+            expect(result.type).toEqual(AnalyticRecorded.type);
 
-        // GA4 Analytics
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-          GoogleAnalyticsEvents.FEEDBACK,
-          GoogleAnalyticsEventsTitles.FEEDBACK_CATEGORY,
-          GoogleAnalyticsEventsValues.OTHER_REASON,
-          GoogleAnalyticsEventsTitles.REASON,
-          otherReason
-        );
+            // GA4 Analytics
+            expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
+            expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+              GoogleAnalyticsEvents.FEEDBACK,
+              GoogleAnalyticsEventsTitles.FEEDBACK_CATEGORY,
+              GoogleAnalyticsEventsValues.OTHER_REASON,
+              GoogleAnalyticsEventsTitles.REASON,
+              otherReason
+            );
+          } catch (error) {
+            reject(error);
+          }
+        }, reject);
+        done();
       });
-      done();
     });
-    it('should call log event for this competency, prefixed with practice test', (done) => {
-      // ARRANGE
-      const otherReason = 'Other Reason';
-      store$.dispatch(testsActions.StartTestReportPracticeTest(123456, TestCategory.ADI3));
-      // ACT
-      store$.dispatch(lessonThemeActions.OtherChanged(otherReason));
-      // ASSERT
-      effects.otherReasonChanged$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
+    it('should call log event for this competency, prefixed with practice test', async () => {
+      await new Promise<void>((done, reject) => {
+        // ARRANGE
+        const otherReason = 'Other Reason';
+        store$.dispatch(testsActions.StartTestReportPracticeTest(123456, TestCategory.ADI3));
+        // ACT
+        store$.dispatch(lessonThemeActions.OtherChanged(otherReason));
+        // ASSERT
+        effects.otherReasonChanged$.subscribe((result) => {
+          try {
+            expect(result.type).toEqual(AnalyticRecorded.type);
 
-        // GA4 Analytics
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-          `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEvents.FEEDBACK}`,
-          GoogleAnalyticsEventsTitles.FEEDBACK_CATEGORY,
-          GoogleAnalyticsEventsValues.OTHER_REASON,
-          GoogleAnalyticsEventsTitles.REASON,
-          otherReason
-        );
+            // GA4 Analytics
+            expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
+            expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+              `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEvents.FEEDBACK}`,
+              GoogleAnalyticsEventsTitles.FEEDBACK_CATEGORY,
+              GoogleAnalyticsEventsValues.OTHER_REASON,
+              GoogleAnalyticsEventsTitles.REASON,
+              otherReason
+            );
+          } catch (error) {
+            reject(error);
+          }
+        }, reject);
+        done();
       });
-      done();
     });
   });
   describe('lessonPlanningQuestionScoreChanged', () => {
-    it('should call log event for this competency', (done) => {
-      const question = 1;
-      const score = 2;
-      // ARRANGE
-      store$.dispatch(testsActions.StartTest(123456, TestCategory.ADI3));
-      // ACT
-      store$.dispatch(lessonPlanningActions.LessonPlanningQuestionScoreChanged(question, score));
-      // ASSERT
-      effects.lessonPlanningQuestionScoreChanged$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
+    it('should call log event for this competency', async () => {
+      await new Promise<void>((done, reject) => {
+        const question = 1;
+        const score = 2;
+        // ARRANGE
+        store$.dispatch(testsActions.StartTest(123456, TestCategory.ADI3));
+        // ACT
+        store$.dispatch(lessonPlanningActions.LessonPlanningQuestionScoreChanged(question, score));
+        // ASSERT
+        effects.lessonPlanningQuestionScoreChanged$.subscribe((result) => {
+          try {
+            expect(result.type).toEqual(AnalyticRecorded.type);
 
-        // GA4 Analytics
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-          GoogleAnalyticsEvents.LESSON_PLANNING,
-          GoogleAnalyticsEventsTitles.QUESTION_NUMBER,
-          String(question),
-          GoogleAnalyticsEventsTitles.QUESTION_SCORE,
-          String(score)
-        );
+            // GA4 Analytics
+            expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
+            expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+              GoogleAnalyticsEvents.LESSON_PLANNING,
+              GoogleAnalyticsEventsTitles.QUESTION_NUMBER,
+              String(question),
+              GoogleAnalyticsEventsTitles.QUESTION_SCORE,
+              String(score)
+            );
+          } catch (error) {
+            reject(error);
+          }
+        }, reject);
+        done();
       });
-      done();
     });
-    it('should call log event for this competency, prefixed with practice test', (done) => {
-      // ARRANGE
-      const question = 1;
-      const score = 2;
-      store$.dispatch(testsActions.StartTestReportPracticeTest(123456, TestCategory.ADI3));
-      // ACT
-      store$.dispatch(lessonPlanningActions.LessonPlanningQuestionScoreChanged(question, score));
-      // ASSERT
-      effects.lessonPlanningQuestionScoreChanged$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
+    it('should call log event for this competency, prefixed with practice test', async () => {
+      await new Promise<void>((done, reject) => {
+        // ARRANGE
+        const question = 1;
+        const score = 2;
+        store$.dispatch(testsActions.StartTestReportPracticeTest(123456, TestCategory.ADI3));
+        // ACT
+        store$.dispatch(lessonPlanningActions.LessonPlanningQuestionScoreChanged(question, score));
+        // ASSERT
+        effects.lessonPlanningQuestionScoreChanged$.subscribe((result) => {
+          try {
+            expect(result.type).toEqual(AnalyticRecorded.type);
 
-        // GA4 Analytics
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-          `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEvents.LESSON_PLANNING}`,
-          GoogleAnalyticsEventsTitles.QUESTION_NUMBER,
-          String(question),
-          GoogleAnalyticsEventsTitles.QUESTION_SCORE,
-          String(score)
-        );
+            // GA4 Analytics
+            expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
+            expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+              `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEvents.LESSON_PLANNING}`,
+              GoogleAnalyticsEventsTitles.QUESTION_NUMBER,
+              String(question),
+              GoogleAnalyticsEventsTitles.QUESTION_SCORE,
+              String(score)
+            );
+          } catch (error) {
+            reject(error);
+          }
+        }, reject);
+        done();
       });
-      done();
     });
   });
   describe('riskManagementQuestionScoreChanged', () => {
-    it('should call log event for this competency', (done) => {
-      const question = 1;
-      const score = 2;
-      // ARRANGE
-      store$.dispatch(testsActions.StartTest(123456, TestCategory.ADI3));
-      // ACT
-      store$.dispatch(riskManagementActions.RiskManagementQuestionScoreChanged(question, score));
-      // ASSERT
-      effects.riskManagementQuestionScoreChanged$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
+    it('should call log event for this competency', async () => {
+      await new Promise<void>((done, reject) => {
+        const question = 1;
+        const score = 2;
+        // ARRANGE
+        store$.dispatch(testsActions.StartTest(123456, TestCategory.ADI3));
+        // ACT
+        store$.dispatch(riskManagementActions.RiskManagementQuestionScoreChanged(question, score));
+        // ASSERT
+        effects.riskManagementQuestionScoreChanged$.subscribe((result) => {
+          try {
+            expect(result.type).toEqual(AnalyticRecorded.type);
 
-        // GA4 Analytics
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-          GoogleAnalyticsEvents.RISK_MANAGEMENT,
-          GoogleAnalyticsEventsTitles.QUESTION_NUMBER,
-          String(question),
-          GoogleAnalyticsEventsTitles.QUESTION_SCORE,
-          String(score)
-        );
+            // GA4 Analytics
+            expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
+            expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+              GoogleAnalyticsEvents.RISK_MANAGEMENT,
+              GoogleAnalyticsEventsTitles.QUESTION_NUMBER,
+              String(question),
+              GoogleAnalyticsEventsTitles.QUESTION_SCORE,
+              String(score)
+            );
+          } catch (error) {
+            reject(error);
+          }
+        }, reject);
+        done();
       });
-      done();
     });
-    it('should call log event for this competency, prefixed with practice test', (done) => {
-      // ARRANGE
-      const question = 1;
-      const score = 2;
-      store$.dispatch(testsActions.StartTestReportPracticeTest(123456, TestCategory.ADI3));
-      // ACT
-      store$.dispatch(riskManagementActions.RiskManagementQuestionScoreChanged(question, score));
-      // ASSERT
-      effects.riskManagementQuestionScoreChanged$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
+    it('should call log event for this competency, prefixed with practice test', async () => {
+      await new Promise<void>((done, reject) => {
+        // ARRANGE
+        const question = 1;
+        const score = 2;
+        store$.dispatch(testsActions.StartTestReportPracticeTest(123456, TestCategory.ADI3));
+        // ACT
+        store$.dispatch(riskManagementActions.RiskManagementQuestionScoreChanged(question, score));
+        // ASSERT
+        effects.riskManagementQuestionScoreChanged$.subscribe((result) => {
+          try {
+            expect(result.type).toEqual(AnalyticRecorded.type);
 
-        // GA4 Analytics
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-          `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEvents.RISK_MANAGEMENT}`,
-          GoogleAnalyticsEventsTitles.QUESTION_NUMBER,
-          String(question),
-          GoogleAnalyticsEventsTitles.QUESTION_SCORE,
-          String(score)
-        );
+            // GA4 Analytics
+            expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
+            expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+              `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEvents.RISK_MANAGEMENT}`,
+              GoogleAnalyticsEventsTitles.QUESTION_NUMBER,
+              String(question),
+              GoogleAnalyticsEventsTitles.QUESTION_SCORE,
+              String(score)
+            );
+          } catch (error) {
+            reject(error);
+          }
+        }, reject);
+        done();
       });
-      done();
     });
   });
   describe('teachingLearningStrategyQuestionScoreChanged', () => {
-    it('should call log event for this competency', (done) => {
-      const question = 1;
-      const score = 2;
-      // ARRANGE
-      store$.dispatch(testsActions.StartTest(123456, TestCategory.ADI3));
-      // ACT
-      // eslint-disable-next-line max-len
-      store$.dispatch(
-        teachingLearningStrategiesActions.TeachingLearningStrategiesQuestionScoreChanged(question, score)
-      );
-      // ASSERT
-      effects.teachingLearningStrategyQuestionScoreChanged$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-
-        // GA4 Analytics
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-          GoogleAnalyticsEvents.LEARNING_STRATEGY,
-          GoogleAnalyticsEventsTitles.QUESTION_NUMBER,
-          String(question),
-          GoogleAnalyticsEventsTitles.QUESTION_SCORE,
-          String(score)
+    it('should call log event for this competency', async () => {
+      await new Promise<void>((done, reject) => {
+        const question = 1;
+        const score = 2;
+        // ARRANGE
+        store$.dispatch(testsActions.StartTest(123456, TestCategory.ADI3));
+        // ACT
+        // eslint-disable-next-line max-len
+        store$.dispatch(
+          teachingLearningStrategiesActions.TeachingLearningStrategiesQuestionScoreChanged(question, score)
         );
+        // ASSERT
+        effects.teachingLearningStrategyQuestionScoreChanged$.subscribe((result) => {
+          try {
+            expect(result.type).toEqual(AnalyticRecorded.type);
+
+            // GA4 Analytics
+            expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
+            expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+              GoogleAnalyticsEvents.LEARNING_STRATEGY,
+              GoogleAnalyticsEventsTitles.QUESTION_NUMBER,
+              String(question),
+              GoogleAnalyticsEventsTitles.QUESTION_SCORE,
+              String(score)
+            );
+          } catch (error) {
+            reject(error);
+          }
+        }, reject);
+        done();
       });
-      done();
     });
-    it('should call log event for this competency, prefixed with practice test', (done) => {
-      // ARRANGE
-      const question = 1;
-      const score = 2;
-      store$.dispatch(testsActions.StartTestReportPracticeTest(123456, TestCategory.ADI3));
-      // ACT
-      store$.dispatch(
-        teachingLearningStrategiesActions.TeachingLearningStrategiesQuestionScoreChanged(question, score)
-      );
-      // ASSERT
-      effects.teachingLearningStrategyQuestionScoreChanged$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-
-        // GA4 Analytics
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-          `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEvents.LEARNING_STRATEGY}`,
-          GoogleAnalyticsEventsTitles.QUESTION_NUMBER,
-          String(question),
-          GoogleAnalyticsEventsTitles.QUESTION_SCORE,
-          String(score)
+    it('should call log event for this competency, prefixed with practice test', async () => {
+      await new Promise<void>((done, reject) => {
+        // ARRANGE
+        const question = 1;
+        const score = 2;
+        store$.dispatch(testsActions.StartTestReportPracticeTest(123456, TestCategory.ADI3));
+        // ACT
+        store$.dispatch(
+          teachingLearningStrategiesActions.TeachingLearningStrategiesQuestionScoreChanged(question, score)
         );
+        // ASSERT
+        effects.teachingLearningStrategyQuestionScoreChanged$.subscribe((result) => {
+          try {
+            expect(result.type).toEqual(AnalyticRecorded.type);
+
+            // GA4 Analytics
+            expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
+            expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+              `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEvents.LEARNING_STRATEGY}`,
+              GoogleAnalyticsEventsTitles.QUESTION_NUMBER,
+              String(question),
+              GoogleAnalyticsEventsTitles.QUESTION_SCORE,
+              String(score)
+            );
+          } catch (error) {
+            reject(error);
+          }
+        }, reject);
+        done();
       });
-      done();
     });
   });
   describe('testReportAssessmentOverallScore', () => {
-    it('should call log event for this competency', (done) => {
-      const score = 10;
-      // ARRANGE
-      store$.dispatch(testsActions.StartTest(123456, TestCategory.ADI3));
-      // ACT
-      // eslint-disable-next-line max-len
-      store$.dispatch(testReportAdi3Actions.AssessmentOverallScoreChanged(score));
-      // ASSERT
-      effects.testReportAssessmentOverallScore$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
+    it('should call log event for this competency', async () => {
+      await new Promise<void>((done, reject) => {
+        const score = 10;
+        // ARRANGE
+        store$.dispatch(testsActions.StartTest(123456, TestCategory.ADI3));
+        // ACT
+        // eslint-disable-next-line max-len
+        store$.dispatch(testReportAdi3Actions.AssessmentOverallScoreChanged(score));
+        // ASSERT
+        effects.testReportAssessmentOverallScore$.subscribe((result) => {
+          try {
+            expect(result.type).toEqual(AnalyticRecorded.type);
 
-        // GA4 Analytics
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-          GoogleAnalyticsEvents.OVERALL_ASSESSMENT,
-          GoogleAnalyticsEventsTitles.SCORE,
-          String(score)
-        );
+            // GA4 Analytics
+            expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
+            expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+              GoogleAnalyticsEvents.OVERALL_ASSESSMENT,
+              GoogleAnalyticsEventsTitles.SCORE,
+              String(score)
+            );
+          } catch (error) {
+            reject(error);
+          }
+        }, reject);
+        done();
       });
-      done();
     });
-    it('should call log event for this competency, prefixed with practice test', (done) => {
-      // ARRANGE
-      const score = 10;
-      store$.dispatch(testsActions.StartTestReportPracticeTest(123456, TestCategory.ADI3));
-      // ACT
-      store$.dispatch(testReportAdi3Actions.AssessmentOverallScoreChanged(score));
-      // ASSERT
-      effects.teachingLearningStrategyQuestionScoreChanged$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
+    it('should call log event for this competency, prefixed with practice test', async () => {
+      await new Promise<void>((done, reject) => {
+        // ARRANGE
+        const score = 10;
+        store$.dispatch(testsActions.StartTestReportPracticeTest(123456, TestCategory.ADI3));
+        // ACT
+        store$.dispatch(testReportAdi3Actions.AssessmentOverallScoreChanged(score));
+        // ASSERT
+        effects.teachingLearningStrategyQuestionScoreChanged$.subscribe((result) => {
+          try {
+            expect(result.type).toEqual(AnalyticRecorded.type);
 
-        // GA4 Analytics
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-          `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEvents.OVERALL_ASSESSMENT}`,
-          GoogleAnalyticsEventsTitles.SCORE,
-          String(score)
-        );
+            // GA4 Analytics
+            expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
+            expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+              `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEvents.OVERALL_ASSESSMENT}`,
+              GoogleAnalyticsEventsTitles.SCORE,
+              String(score)
+            );
+          } catch (error) {
+            reject(error);
+          }
+        }, reject);
+        done();
       });
-      done();
     });
   });
 });

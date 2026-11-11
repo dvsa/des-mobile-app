@@ -1,5 +1,6 @@
 import { TestSlotAttributes } from '@dvsa/mes-test-schema/categories/common';
 import { DateTime } from '@shared/helpers/date-time';
+import { describe, expect, it } from 'vitest';
 import { PopulateTestSlotAttributes, SetStartDate } from '../test-slot-attributes.actions';
 import { testSlotsAttributesReducer } from '../test-slot-attributes.reducer';
 

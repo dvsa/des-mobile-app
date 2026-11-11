@@ -2,6 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { CatBUniqueTypes } from '@dvsa/mes-test-schema/categories/B';
 import { CatBEUniqueTypes } from '@dvsa/mes-test-schema/categories/BE';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { catManoeuvreTestDataStateObject } from '@providers/fault-count/__mocks__/cat-man-test-data-state-object.mock';
 import { FaultCountManoeuvreTestHelper } from '@providers/fault-count/cat-manoeuvre/fault-count.cat-manoeuvre';
@@ -46,63 +47,63 @@ describe('FaultCountProvider', () => {
 
     faultCountProvider = TestBed.inject(FaultCountProvider);
 
-    spyOn(FaultCountADIPart2Helper, 'getDrivingFaultSumCountCatADIPart2').and.callThrough();
-    spyOn(FaultCountADIPart2Helper, 'getSeriousFaultSumCountCatADIPart2').and.callThrough();
-    spyOn(FaultCountADIPart2Helper, 'getDangerousFaultSumCountCatADIPart2').and.callThrough();
+    vi.spyOn(FaultCountADIPart2Helper, 'getDrivingFaultSumCountCatADIPart2');
+    vi.spyOn(FaultCountADIPart2Helper, 'getSeriousFaultSumCountCatADIPart2');
+    vi.spyOn(FaultCountADIPart2Helper, 'getDangerousFaultSumCountCatADIPart2');
 
-    spyOn(FaultCountBHelper, 'getDrivingFaultSumCountCatB').and.callThrough();
-    spyOn(FaultCountBHelper, 'getSeriousFaultSumCountCatB').and.callThrough();
-    spyOn(FaultCountBHelper, 'getDangerousFaultSumCountCatB').and.callThrough();
+    vi.spyOn(FaultCountBHelper, 'getDrivingFaultSumCountCatB');
+    vi.spyOn(FaultCountBHelper, 'getSeriousFaultSumCountCatB');
+    vi.spyOn(FaultCountBHelper, 'getDangerousFaultSumCountCatB');
 
-    spyOn(FaultCountBEHelper, 'getDrivingFaultSumCountCatBE').and.callThrough();
-    spyOn(FaultCountBEHelper, 'getSeriousFaultSumCountCatBE').and.callThrough();
-    spyOn(FaultCountBEHelper, 'getDangerousFaultSumCountCatBE').and.callThrough();
-    spyOn(FaultCountBEHelper, 'getVehicleChecksFaultCountCatBE').and.callThrough();
+    vi.spyOn(FaultCountBEHelper, 'getDrivingFaultSumCountCatBE');
+    vi.spyOn(FaultCountBEHelper, 'getSeriousFaultSumCountCatBE');
+    vi.spyOn(FaultCountBEHelper, 'getDangerousFaultSumCountCatBE');
+    vi.spyOn(FaultCountBEHelper, 'getVehicleChecksFaultCountCatBE');
 
-    spyOn(FaultCountCHelper, 'getDrivingFaultSumCountCatC').and.callThrough();
-    spyOn(FaultCountCHelper, 'getSeriousFaultSumCountCatC').and.callThrough();
-    spyOn(FaultCountCHelper, 'getDangerousFaultSumCountCatC').and.callThrough();
+    vi.spyOn(FaultCountCHelper, 'getDrivingFaultSumCountCatC');
+    vi.spyOn(FaultCountCHelper, 'getSeriousFaultSumCountCatC');
+    vi.spyOn(FaultCountCHelper, 'getDangerousFaultSumCountCatC');
 
-    spyOn(FaultCountCHelper, 'getDrivingFaultSumCountCatC1').and.callThrough();
-    spyOn(FaultCountCHelper, 'getSeriousFaultSumCountCatC1').and.callThrough();
-    spyOn(FaultCountCHelper, 'getDangerousFaultSumCountCatC1').and.callThrough();
+    vi.spyOn(FaultCountCHelper, 'getDrivingFaultSumCountCatC1');
+    vi.spyOn(FaultCountCHelper, 'getSeriousFaultSumCountCatC1');
+    vi.spyOn(FaultCountCHelper, 'getDangerousFaultSumCountCatC1');
 
-    spyOn(FaultCountCHelper, 'getDrivingFaultSumCountCatCE').and.callThrough();
-    spyOn(FaultCountCHelper, 'getSeriousFaultSumCountCatCE').and.callThrough();
-    spyOn(FaultCountCHelper, 'getDangerousFaultSumCountCatCE').and.callThrough();
+    vi.spyOn(FaultCountCHelper, 'getDrivingFaultSumCountCatCE');
+    vi.spyOn(FaultCountCHelper, 'getSeriousFaultSumCountCatCE');
+    vi.spyOn(FaultCountCHelper, 'getDangerousFaultSumCountCatCE');
 
-    spyOn(FaultCountCHelper, 'getDrivingFaultSumCountCatC1E').and.callThrough();
-    spyOn(FaultCountCHelper, 'getSeriousFaultSumCountCatC1E').and.callThrough();
-    spyOn(FaultCountCHelper, 'getDangerousFaultSumCountCatC1E').and.callThrough();
+    vi.spyOn(FaultCountCHelper, 'getDrivingFaultSumCountCatC1E');
+    vi.spyOn(FaultCountCHelper, 'getSeriousFaultSumCountCatC1E');
+    vi.spyOn(FaultCountCHelper, 'getDangerousFaultSumCountCatC1E');
 
-    spyOn(FaultCountAM1Helper, 'getDangerousFaultSumCountCatAM1').and.callThrough();
-    spyOn(FaultCountAM1Helper, 'getSeriousFaultSumCountCatAM1').and.callThrough();
-    spyOn(FaultCountAM1Helper, 'getRidingFaultSumCountCatAM1').and.callThrough();
+    vi.spyOn(FaultCountAM1Helper, 'getDangerousFaultSumCountCatAM1');
+    vi.spyOn(FaultCountAM1Helper, 'getSeriousFaultSumCountCatAM1');
+    vi.spyOn(FaultCountAM1Helper, 'getRidingFaultSumCountCatAM1');
 
-    spyOn(FaultCountAM2Helper, 'getDangerousFaultSumCountCatAM2').and.callThrough();
-    spyOn(FaultCountAM2Helper, 'getSeriousFaultSumCountCatAM2').and.callThrough();
-    spyOn(FaultCountAM2Helper, 'getRidingFaultSumCountCatAM2').and.callThrough();
+    vi.spyOn(FaultCountAM2Helper, 'getDangerousFaultSumCountCatAM2');
+    vi.spyOn(FaultCountAM2Helper, 'getSeriousFaultSumCountCatAM2');
+    vi.spyOn(FaultCountAM2Helper, 'getRidingFaultSumCountCatAM2');
 
-    spyOn(FaultCountDHelper, 'getDrivingFaultSumCountCatD').and.callThrough();
-    spyOn(FaultCountDHelper, 'getSeriousFaultSumCountCatD').and.callThrough();
-    spyOn(FaultCountDHelper, 'getDangerousFaultSumCountCatD').and.callThrough();
+    vi.spyOn(FaultCountDHelper, 'getDrivingFaultSumCountCatD');
+    vi.spyOn(FaultCountDHelper, 'getSeriousFaultSumCountCatD');
+    vi.spyOn(FaultCountDHelper, 'getDangerousFaultSumCountCatD');
 
-    spyOn(FaultCountDHelper, 'getDrivingFaultSumCountCatD1').and.callThrough();
-    spyOn(FaultCountDHelper, 'getSeriousFaultSumCountCatD1').and.callThrough();
-    spyOn(FaultCountDHelper, 'getDangerousFaultSumCountCatD1').and.callThrough();
+    vi.spyOn(FaultCountDHelper, 'getDrivingFaultSumCountCatD1');
+    vi.spyOn(FaultCountDHelper, 'getSeriousFaultSumCountCatD1');
+    vi.spyOn(FaultCountDHelper, 'getDangerousFaultSumCountCatD1');
 
-    spyOn(FaultCountDHelper, 'getDrivingFaultSumCountCatDE').and.callThrough();
-    spyOn(FaultCountDHelper, 'getSeriousFaultSumCountCatDE').and.callThrough();
-    spyOn(FaultCountDHelper, 'getDangerousFaultSumCountCatDE').and.callThrough();
+    vi.spyOn(FaultCountDHelper, 'getDrivingFaultSumCountCatDE');
+    vi.spyOn(FaultCountDHelper, 'getSeriousFaultSumCountCatDE');
+    vi.spyOn(FaultCountDHelper, 'getDangerousFaultSumCountCatDE');
 
-    spyOn(FaultCountDHelper, 'getDrivingFaultSumCountCatD1E').and.callThrough();
-    spyOn(FaultCountDHelper, 'getSeriousFaultSumCountCatD1E').and.callThrough();
-    spyOn(FaultCountDHelper, 'getDangerousFaultSumCountCatD1E').and.callThrough();
+    vi.spyOn(FaultCountDHelper, 'getDrivingFaultSumCountCatD1E');
+    vi.spyOn(FaultCountDHelper, 'getSeriousFaultSumCountCatD1E');
+    vi.spyOn(FaultCountDHelper, 'getDangerousFaultSumCountCatD1E');
 
-    spyOn(FaultCountDHelper, 'getSafetyQuestionsFaultCount').and.callThrough();
+    vi.spyOn(FaultCountDHelper, 'getSafetyQuestionsFaultCount');
 
-    spyOn(FaultCountManoeuvreTestHelper, 'getSeriousFaultSumCountManoeuvreTest').and.callThrough();
-    spyOn(FaultCountManoeuvreTestHelper, 'getDangerousFaultSumCountManoeuvreTest').and.callThrough();
+    vi.spyOn(FaultCountManoeuvreTestHelper, 'getSeriousFaultSumCountManoeuvreTest');
+    vi.spyOn(FaultCountManoeuvreTestHelper, 'getDangerousFaultSumCountManoeuvreTest');
   });
 
   describe('getDrivingFaultSumCount', () => {

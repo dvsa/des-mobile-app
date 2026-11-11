@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { beforeEach, describe, expect, it } from 'vitest';
 
 import { mockEmptyAdditionalItems, mockPopulatedAdditionalItems } from '../__mocks__/additional-items.mock';
 import { AdditionalItemsComponent } from '../additional-items';

@@ -1,6 +1,7 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { OrditTrainerCatAdiPart2Component } from '@pages/waiting-room-to-car/cat-adi-part2/components/ordit-trainer/ordit-trainer.cat-adi-part2';
 import { AuthenticationProviderMock } from '@providers/authentication/__mocks__/authentication.mock';
@@ -66,13 +67,13 @@ describe('OrditTrainerCatAdiPart2Component', () => {
 
     describe('orditTrainingOutcomeChanged', () => {
       it('should emit true if orditTrained is set to "true" and formControl is valid', () => {
-        spyOn(component.orditTrainedOutcomeChange, 'emit');
+        vi.spyOn(component.orditTrainedOutcomeChange, 'emit').mockReturnValue(undefined);
         component.formControl.setValue(1);
         component.orditTrainingOutcomeChanged('true');
         expect(component.orditTrainedOutcomeChange.emit).toHaveBeenCalledWith(true);
       });
       it('should emit false if orditTrained is set to "false" and formControl is valid', () => {
-        spyOn(component.orditTrainedOutcomeChange, 'emit');
+        vi.spyOn(component.orditTrainedOutcomeChange, 'emit').mockReturnValue(undefined);
         component.formControl.setValue(1);
         component.orditTrainingOutcomeChanged('false');
         expect(component.orditTrainedOutcomeChange.emit).toHaveBeenCalledWith(false);

@@ -3,6 +3,7 @@ import { provideMockActions } from '@ngrx/effects/testing';
 import { Action, Store, StoreModule } from '@ngrx/store';
 import * as testsActions from '@store/tests/tests.actions';
 import { ReplaySubject } from 'rxjs';
+import { beforeEach, describe, expect, it } from 'vitest';
 import * as healthDeclarationActions from '../health-declaration.actions';
 import { HealthDeclarationEffects } from '../health-declaration.effects';
 
@@ -32,14 +33,20 @@ describe('HealthDeclarationEffects', () => {
   });
 
   describe('endHealthDeclarationEffect', () => {
-    it('should return SET_TEST_STATUS_WRITE_UP & PERSIST_TESTS actions', (done) => {
-      actions$.next(healthDeclarationActions.ContinueFromDeclaration());
+    it('should return SET_TEST_STATUS_WRITE_UP & PERSIST_TESTS actions', async () => {
+      await new Promise<void>((done, reject) => {
+        actions$.next(healthDeclarationActions.ContinueFromDeclaration());
 
-      effects.endHealthDeclarationEffect$.subscribe((result) => {
-        if (result.type === testsActions.PersistTests.type) {
-          expect(result).toEqual(testsActions.PersistTests());
-          done();
-        }
+        effects.endHealthDeclarationEffect$.subscribe((result) => {
+          try {
+            if (result.type === testsActions.PersistTests.type) {
+              expect(result).toEqual(testsActions.PersistTests());
+              done();
+            }
+          } catch (error) {
+            reject(error);
+          }
+        }, reject);
       });
     });
   });

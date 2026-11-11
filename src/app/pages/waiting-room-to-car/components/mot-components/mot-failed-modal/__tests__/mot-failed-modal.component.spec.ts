@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule, UntypedFormControl } from '@angular/forms';
 import { IonButton, IonCard, IonCol, IonInput, IonRow, ModalController } from '@ionic/angular';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { ModalAlertTitleComponent } from '@components/common/modal-alert-title/modal-alert-title';
 import { ModalControllerMock } from '@mocks/ionic-mocks/modal-controller.mock';
@@ -43,7 +44,7 @@ describe('MotFailedModal', () => {
       'should call dismiss with an uppercase version of the data inputted into the modal ' +
         'if the new vrn and the old vrn match',
       () => {
-        spyOn(component.modalCtrl, 'dismiss');
+        vi.spyOn(component.modalCtrl, 'dismiss').mockReturnValue(undefined);
         component.formControl = new UntypedFormControl('string');
         component.originalRegistration = 'string';
         component.onConfirm();
@@ -51,7 +52,7 @@ describe('MotFailedModal', () => {
       }
     );
     it('should not call and set ifMatches to false if the new vrn and the old vrn do not match', () => {
-      spyOn(component.modalCtrl, 'dismiss');
+      vi.spyOn(component.modalCtrl, 'dismiss').mockReturnValue(undefined);
       component.formControl = new UntypedFormControl('aaaaaaaaaa');
       component.originalRegistration = 'string';
       component.onConfirm();

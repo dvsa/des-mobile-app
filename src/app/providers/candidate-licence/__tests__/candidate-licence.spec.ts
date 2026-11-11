@@ -13,6 +13,7 @@ import {
 } from '@providers/candidate-licence/candidate-licence';
 import { of, throwError } from 'rxjs';
 import { take } from 'rxjs/operators';
+import { afterAll, beforeEach, describe, expect, it, vi } from 'vitest';
 import { AppConfigProviderMock } from '../../app-config/__mocks__/app-config.mock';
 import { AppConfigProvider } from '../../app-config/app-config';
 import { NetworkStateProviderMock } from '../../network-state/__mocks__/network-state.mock';
@@ -84,7 +85,7 @@ describe('CandidateLicenceProvider', () => {
     });
 
     it('should throw an error if offline and no cached data', () => {
-      spyOn(candidateLicenceProvider.networkStateProvider, 'getNetworkState').and.returnValue(
+      vi.spyOn(candidateLicenceProvider.networkStateProvider, 'getNetworkState').mockReturnValue(
         NetworkConnectionStatus.OFFLINE
       );
 
@@ -94,9 +95,9 @@ describe('CandidateLicenceProvider', () => {
     });
 
     it('should return combined data from all endpoints', () => {
-      spyOn(candidateLicenceProvider, 'getDriverPhoto').and.returnValue(of(mockDriverPhoto));
-      spyOn(candidateLicenceProvider, 'getDriverSignature').and.returnValue(of(mockDriverSignature));
-      spyOn(candidateLicenceProvider, 'getDriverStandardData').and.returnValue(of(mockDriverStandard));
+      vi.spyOn(candidateLicenceProvider, 'getDriverPhoto').mockReturnValue(of(mockDriverPhoto));
+      vi.spyOn(candidateLicenceProvider, 'getDriverSignature').mockReturnValue(of(mockDriverSignature));
+      vi.spyOn(candidateLicenceProvider, 'getDriverStandardData').mockReturnValue(of(mockDriverStandard));
 
       candidateLicenceProvider.getCandidateData('ABC1', '1231212').subscribe((response) => {
         expect(response).toEqual({
@@ -108,9 +109,11 @@ describe('CandidateLicenceProvider', () => {
     });
 
     it('should throw an error if any endpoint returns an error', () => {
-      spyOn(candidateLicenceProvider, 'getDriverPhoto').and.throwError(CandidateLicenceErr.UNAVAILABLE);
-      spyOn(candidateLicenceProvider, 'getDriverSignature').and.returnValue(of(mockDriverSignature));
-      spyOn(candidateLicenceProvider, 'getDriverStandardData').and.returnValue(of(mockDriverStandard));
+      vi.spyOn(candidateLicenceProvider, 'getDriverPhoto').mockImplementation(() => {
+        throw new Error(CandidateLicenceErr.UNAVAILABLE);
+      });
+      vi.spyOn(candidateLicenceProvider, 'getDriverSignature').mockReturnValue(of(mockDriverSignature));
+      vi.spyOn(candidateLicenceProvider, 'getDriverStandardData').mockReturnValue(of(mockDriverStandard));
 
       expect(() => candidateLicenceProvider.getCandidateData('ABC1', '1231212')).toThrowError(
         CandidateLicenceErr.UNAVAILABLE
@@ -118,11 +121,11 @@ describe('CandidateLicenceProvider', () => {
     });
 
     it('should set requestError and driverLicenceResponse if not found', () => {
-      spyOn(candidateLicenceProvider, 'getDriverPhoto').and.returnValue(
+      vi.spyOn(candidateLicenceProvider, 'getDriverPhoto').mockReturnValue(
         throwError(() => new HttpErrorResponse({ status: 404 }))
       );
-      spyOn(candidateLicenceProvider, 'getDriverSignature').and.returnValue(of(mockDriverSignature));
-      spyOn(candidateLicenceProvider, 'getDriverStandardData').and.returnValue(of(mockDriverStandard));
+      vi.spyOn(candidateLicenceProvider, 'getDriverSignature').mockReturnValue(of(mockDriverSignature));
+      vi.spyOn(candidateLicenceProvider, 'getDriverStandardData').mockReturnValue(of(mockDriverStandard));
 
       candidateLicenceProvider.getCandidateData('ABC1', '1231212').subscribe({
         error: (error) => {

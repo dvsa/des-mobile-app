@@ -1,6 +1,7 @@
 import { CatDUniqueTypes } from '@dvsa/mes-test-schema/categories/D';
 import { CompetencyOutcome } from '@shared/models/competency-outcome';
 import { cloneDeep } from 'lodash-es';
+import { describe, expect, it } from 'vitest';
 import { getEcoFaultText, hasDangerousFault, hasSeriousFault } from '../../common/test-data.selector';
 import { Competencies } from '../../test-data.constants';
 import {

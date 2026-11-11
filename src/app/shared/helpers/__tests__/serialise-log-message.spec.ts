@@ -1,4 +1,5 @@
 import { serialiseLogMessage } from '@shared/helpers/serialise-log-message';
+import { describe, expect, it } from 'vitest';
 
 describe('serialiseLogMessage', () => {
   it('should return the string if the data is already a string', () => {

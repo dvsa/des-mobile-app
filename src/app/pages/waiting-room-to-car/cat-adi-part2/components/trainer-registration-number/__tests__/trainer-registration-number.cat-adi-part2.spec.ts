@@ -1,5 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { TrainerRegistrationNumberCatAdiPart2Component } from '../trainer-registration-number.cat-adi-part2';
 import {
@@ -63,7 +64,7 @@ describe('TrainerRegistrationNumberCatAdiPart2Component', () => {
 
   describe('trainerRegistrationChanged', () => {
     beforeEach(() => {
-      spyOn(component.trainerRegistrationChange, 'emit');
+      vi.spyOn(component.trainerRegistrationChange, 'emit').mockReturnValue(undefined);
     });
 
     it('should recognise a valid numeric string and emit the value as a number', () => {

@@ -2,6 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { DangerousFaultBadgeComponent } from '@components/common/dangerous-fault-badge/dangerous-fault-badge';
 import { DrivingFaultsBadgeComponent } from '@components/common/driving-faults-badge/driving-faults-badge';
 import { SeriousFaultBadgeComponent } from '@components/common/serious-fault-badge/serious-fault-badge';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { Store, StoreModule } from '@ngrx/store';
 import { DateTimeProviderMock } from '@providers/date-time/__mocks__/date-time.mock';
@@ -121,7 +122,7 @@ describe('CompetencyComponent', () => {
       it('should dispatch a THROTTLE_ADD_DRIVING_FAULT action for press', () => {
         component.competency = Competencies.controlsSteering;
 
-        const storeDispatchSpy = spyOn(store$, 'dispatch');
+        const storeDispatchSpy = vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
         component.addOrRemoveFault(true);
 
         expect(storeDispatchSpy).toHaveBeenCalledWith(
@@ -134,7 +135,7 @@ describe('CompetencyComponent', () => {
       it('should not dispatch an ADD_DRIVING_FAULT action for tap', () => {
         component.competency = Competencies.controlsSteering;
 
-        const storeDispatchSpy = spyOn(store$, 'dispatch');
+        const storeDispatchSpy = vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
         component.addOrRemoveFault();
 
         expect(storeDispatchSpy).not.toHaveBeenCalledWith(
@@ -148,7 +149,7 @@ describe('CompetencyComponent', () => {
         component.competency = Competencies.awarenessPlanning;
         component.hasSeriousFault = true;
 
-        const storeDispatchSpy = spyOn(store$, 'dispatch');
+        const storeDispatchSpy = vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
         component.addOrRemoveFault();
 
         expect(storeDispatchSpy).not.toHaveBeenCalledWith(
@@ -162,7 +163,7 @@ describe('CompetencyComponent', () => {
         component.competency = Competencies.clearance;
         component.isSeriousMode = true;
 
-        const storeDispatchSpy = spyOn(store$, 'dispatch');
+        const storeDispatchSpy = vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
         component.addOrRemoveFault();
 
         expect(storeDispatchSpy).not.toHaveBeenCalledWith(
@@ -176,7 +177,7 @@ describe('CompetencyComponent', () => {
         component.competency = Competencies.awarenessPlanning;
         component.hasDangerousFault = true;
 
-        const storeDispatchSpy = spyOn(store$, 'dispatch');
+        const storeDispatchSpy = vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
         component.addOrRemoveFault();
 
         expect(storeDispatchSpy).not.toHaveBeenCalledWith(
@@ -190,7 +191,7 @@ describe('CompetencyComponent', () => {
         component.competency = Competencies.clearance;
         component.isDangerousMode = true;
 
-        const storeDispatchSpy = spyOn(store$, 'dispatch');
+        const storeDispatchSpy = vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
         component.addOrRemoveFault();
 
         expect(storeDispatchSpy).not.toHaveBeenCalledWith(
@@ -207,7 +208,7 @@ describe('CompetencyComponent', () => {
         component.competency = Competencies.clearance;
         component.isDangerousMode = true;
 
-        const storeDispatchSpy = spyOn(store$, 'dispatch');
+        const storeDispatchSpy = vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
         component.addOrRemoveFault();
 
         expect(storeDispatchSpy).toHaveBeenCalledWith(AddDangerousFault(component.competency));
@@ -217,7 +218,7 @@ describe('CompetencyComponent', () => {
         component.competency = Competencies.clearance;
         component.isDangerousMode = true;
 
-        const storeDispatchSpy = spyOn(store$, 'dispatch');
+        const storeDispatchSpy = vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
         component.addOrRemoveFault();
 
         expect(storeDispatchSpy).toHaveBeenCalledWith(AddDangerousFault(component.competency));
@@ -228,7 +229,7 @@ describe('CompetencyComponent', () => {
         component.hasDangerousFault = true;
         component.isDangerousMode = true;
 
-        const storeDispatchSpy = spyOn(store$, 'dispatch');
+        const storeDispatchSpy = vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
         component.addOrRemoveFault();
 
         expect(storeDispatchSpy).not.toHaveBeenCalledWith(AddDangerousFault(component.competency));
@@ -241,7 +242,7 @@ describe('CompetencyComponent', () => {
         component.competency = Competencies.clearance;
         component.isSeriousMode = true;
 
-        const storeDispatchSpy = spyOn(store$, 'dispatch');
+        const storeDispatchSpy = vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
         component.addOrRemoveFault();
 
         expect(storeDispatchSpy).toHaveBeenCalledWith(AddSeriousFault(component.competency));
@@ -252,7 +253,7 @@ describe('CompetencyComponent', () => {
         component.hasSeriousFault = true;
         component.isSeriousMode = true;
 
-        const storeDispatchSpy = spyOn(store$, 'dispatch');
+        const storeDispatchSpy = vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
         component.addOrRemoveFault();
 
         expect(storeDispatchSpy).not.toHaveBeenCalledWith(AddSeriousFault(component.competency));
@@ -262,7 +263,7 @@ describe('CompetencyComponent', () => {
         component.competency = Competencies.clearance;
         component.isDangerousMode = true;
 
-        const storeDispatchSpy = spyOn(store$, 'dispatch');
+        const storeDispatchSpy = vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
         component.addOrRemoveFault();
 
         expect(storeDispatchSpy).not.toHaveBeenCalledWith(AddSeriousFault(component.competency));
@@ -273,7 +274,7 @@ describe('CompetencyComponent', () => {
         component.hasDangerousFault = true;
         component.isSeriousMode = true;
 
-        const storeDispatchSpy = spyOn(store$, 'dispatch');
+        const storeDispatchSpy = vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
         component.addOrRemoveFault();
 
         expect(storeDispatchSpy).not.toHaveBeenCalledWith(AddSeriousFault(component.competency));
@@ -287,7 +288,7 @@ describe('CompetencyComponent', () => {
         component.faultCount = 1;
         component.isRemoveFaultMode = true;
 
-        const storeDispatchSpy = spyOn(store$, 'dispatch');
+        const storeDispatchSpy = vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
         component.addOrRemoveFault();
 
         expect(storeDispatchSpy).toHaveBeenCalledWith(
@@ -302,7 +303,7 @@ describe('CompetencyComponent', () => {
         component.faultCount = 0;
         component.isRemoveFaultMode = true;
 
-        const storeDispatchSpy = spyOn(store$, 'dispatch');
+        const storeDispatchSpy = vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
         component.addOrRemoveFault();
 
         expect(storeDispatchSpy).not.toHaveBeenCalledWith(
@@ -318,7 +319,7 @@ describe('CompetencyComponent', () => {
         component.isSeriousMode = true;
         component.isRemoveFaultMode = true;
 
-        const storeDispatchSpy = spyOn(store$, 'dispatch');
+        const storeDispatchSpy = vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
         component.addOrRemoveFault();
 
         expect(storeDispatchSpy).not.toHaveBeenCalledWith(
@@ -334,7 +335,7 @@ describe('CompetencyComponent', () => {
         component.isDangerousMode = true;
         component.isRemoveFaultMode = true;
 
-        const storeDispatchSpy = spyOn(store$, 'dispatch');
+        const storeDispatchSpy = vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
         component.addOrRemoveFault();
 
         expect(storeDispatchSpy).not.toHaveBeenCalledWith(
@@ -353,7 +354,7 @@ describe('CompetencyComponent', () => {
         component.isSeriousMode = true;
         component.isRemoveFaultMode = false;
 
-        const storeDispatchSpy = spyOn(store$, 'dispatch');
+        const storeDispatchSpy = vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
         component.addOrRemoveFault();
 
         expect(storeDispatchSpy).not.toHaveBeenCalledWith(RemoveSeriousFault(component.competency));
@@ -364,7 +365,7 @@ describe('CompetencyComponent', () => {
         component.isSeriousMode = true;
         component.isRemoveFaultMode = true;
 
-        const storeDispatchSpy = spyOn(store$, 'dispatch');
+        const storeDispatchSpy = vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
         component.addOrRemoveFault();
 
         expect(storeDispatchSpy).toHaveBeenCalledWith(RemoveSeriousFault(component.competency));
@@ -375,7 +376,7 @@ describe('CompetencyComponent', () => {
         component.isSeriousMode = true;
         component.isRemoveFaultMode = true;
 
-        const storeDispatchSpy = spyOn(store$, 'dispatch');
+        const storeDispatchSpy = vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
         component.addOrRemoveFault();
 
         expect(storeDispatchSpy).toHaveBeenCalledWith(RemoveSeriousFault(component.competency));
@@ -386,7 +387,7 @@ describe('CompetencyComponent', () => {
         component.isDangerousMode = true;
         component.isRemoveFaultMode = true;
 
-        const storeDispatchSpy = spyOn(store$, 'dispatch');
+        const storeDispatchSpy = vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
         component.addOrRemoveFault();
 
         expect(storeDispatchSpy).not.toHaveBeenCalledWith(RemoveSeriousFault(component.competency));
@@ -398,7 +399,7 @@ describe('CompetencyComponent', () => {
         component.isSeriousMode = true;
         component.isRemoveFaultMode = true;
 
-        const storeDispatchSpy = spyOn(store$, 'dispatch');
+        const storeDispatchSpy = vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
         component.addOrRemoveFault();
         expect(storeDispatchSpy).not.toHaveBeenCalledWith(ToggleSeriousFaultMode());
         expect(storeDispatchSpy).not.toHaveBeenCalledWith(ToggleRemoveFaultMode());
@@ -413,7 +414,7 @@ describe('CompetencyComponent', () => {
         component.isDangerousMode = true;
         component.isRemoveFaultMode = false;
 
-        const storeDispatchSpy = spyOn(store$, 'dispatch');
+        const storeDispatchSpy = vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
         component.addOrRemoveFault();
 
         expect(storeDispatchSpy).not.toHaveBeenCalledWith(RemoveDangerousFault(component.competency));
@@ -424,7 +425,7 @@ describe('CompetencyComponent', () => {
         component.isDangerousMode = true;
         component.isRemoveFaultMode = true;
 
-        const storeDispatchSpy = spyOn(store$, 'dispatch');
+        const storeDispatchSpy = vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
         component.addOrRemoveFault();
 
         expect(storeDispatchSpy).toHaveBeenCalledWith(RemoveDangerousFault(component.competency));
@@ -435,7 +436,7 @@ describe('CompetencyComponent', () => {
         component.isDangerousMode = true;
         component.isRemoveFaultMode = true;
 
-        const storeDispatchSpy = spyOn(store$, 'dispatch');
+        const storeDispatchSpy = vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
         component.addOrRemoveFault();
 
         expect(storeDispatchSpy).toHaveBeenCalledWith(RemoveDangerousFault(component.competency));
@@ -446,7 +447,7 @@ describe('CompetencyComponent', () => {
         component.isSeriousMode = true;
         component.isRemoveFaultMode = true;
 
-        const storeDispatchSpy = spyOn(store$, 'dispatch');
+        const storeDispatchSpy = vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
         component.addOrRemoveFault();
 
         expect(storeDispatchSpy).not.toHaveBeenCalledWith(RemoveDangerousFault(component.competency));
@@ -457,7 +458,7 @@ describe('CompetencyComponent', () => {
         component.isDangerousMode = true;
         component.isRemoveFaultMode = true;
 
-        const storeDispatchSpy = spyOn(store$, 'dispatch');
+        const storeDispatchSpy = vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
         component.addOrRemoveFault();
         expect(storeDispatchSpy).not.toHaveBeenCalledWith(ToggleDangerousFaultMode());
         expect(storeDispatchSpy).not.toHaveBeenCalledWith(ToggleRemoveFaultMode());
@@ -470,7 +471,7 @@ describe('CompetencyComponent', () => {
         component.competency = Competencies.clearance;
         component.isDangerousMode = true;
 
-        const storeDispatchSpy = spyOn(store$, 'dispatch');
+        const storeDispatchSpy = vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
         component.addOrRemoveFault();
 
         expect(storeDispatchSpy).toHaveBeenCalledWith(AddDangerousFault(component.competency));
@@ -481,7 +482,7 @@ describe('CompetencyComponent', () => {
         component.competency = Competencies.clearance;
         component.isSeriousMode = true;
 
-        const storeDispatchSpy = spyOn(store$, 'dispatch');
+        const storeDispatchSpy = vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
         component.addOrRemoveFault();
 
         expect(storeDispatchSpy).toHaveBeenCalledWith(AddSeriousFault(component.competency));

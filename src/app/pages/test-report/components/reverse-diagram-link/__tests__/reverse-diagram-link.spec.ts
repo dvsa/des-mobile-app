@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { ModalController } from '@ionic/angular';
@@ -90,15 +91,15 @@ describe('ReverseDiagramLinkComponent', () => {
     store$ = TestBed.inject(Store);
     accessibilityService = TestBed.inject(AccessibilityService);
 
-    spyOn(store$, 'dispatch');
-    spyOn(modalController, 'create').and.returnValue(
+    vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
+    vi.spyOn(modalController, 'create').mockReturnValue(
       Promise.resolve({
         present: () => Promise.resolve(),
         dismiss: () => Promise.resolve(true),
         onDidDismiss: () => Promise.resolve({} as OverlayEventDetail),
       } as HTMLIonModalElement)
     );
-    spyOn(accessibilityService, 'getTextZoomClass').and.returnValue('regular');
+    vi.spyOn(accessibilityService, 'getTextZoomClass').mockReturnValue('regular');
   });
 
   describe('Class', () => {
@@ -107,11 +108,11 @@ describe('ReverseDiagramLinkComponent', () => {
         await component.openReverseDiagramModal();
         expect(store$.dispatch).toHaveBeenCalledWith(ReverseDiagramOpened());
       });
-      xit('should create an instance of the modal with the correct properties', async () => {
+      it.skip('should create an instance of the modal with the correct properties', async () => {
         await component.openReverseDiagramModal();
         expect(modalController.create).toHaveBeenCalledWith({
           component: ReverseDiagramPage,
-          componentProps: { onClose: () => jasmine.any(Function) },
+          componentProps: { onClose: () => expect.any(Function) },
           cssClass: 'modal-fullscreen regular',
         });
       });

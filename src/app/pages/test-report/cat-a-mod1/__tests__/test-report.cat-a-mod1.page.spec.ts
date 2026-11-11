@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { MockComponent } from 'ng-mocks';
 
@@ -101,7 +102,7 @@ describe('TestReportCatAMod1Page', () => {
     fixture = TestBed.createComponent(TestReportCatAMod1Page);
     store$ = TestBed.inject(Store);
     component = fixture.componentInstance;
-    spyOn(store$, 'dispatch');
+    vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
   });
 
   describe('DOM', () => {
@@ -128,7 +129,7 @@ describe('TestReportCatAMod1Page', () => {
   describe('createEtaInvalidModal', () => {
     it('should create a modal if isEtaValid is false', () => {
       component.isEtaValid = false;
-      spyOn(component.modalController, 'create').and.callThrough();
+      vi.spyOn(component.modalController, 'create');
       component.createEtaInvalidModal();
       expect(component.modalController.create).toHaveBeenCalledWith({
         component: EtaInvalidModal,
@@ -145,7 +146,7 @@ describe('TestReportCatAMod1Page', () => {
   describe('createEndTestModal', () => {
     it('should create a modal if speedCheckState is VALID', () => {
       component.speedCheckState = SpeedCheckState.VALID;
-      spyOn(component.modalController, 'create').and.callThrough();
+      vi.spyOn(component.modalController, 'create');
       component.createEndTestModal();
       expect(component.modalController.create).toHaveBeenCalledWith({
         component: EndTestModal,
@@ -162,7 +163,7 @@ describe('TestReportCatAMod1Page', () => {
   describe('createActivityCode4Modal', () => {
     it('should create a modal with a modalReason of SPEED_REQUIREMENTS if speedCheckState is NOT_MET', () => {
       component.speedCheckState = SpeedCheckState.NOT_MET;
-      spyOn(component.modalController, 'create').and.callThrough();
+      vi.spyOn(component.modalController, 'create');
       component.createActivityCode4Modal();
       expect(component.modalController.create).toHaveBeenCalledWith({
         component: ActivityCode4Modal,
@@ -180,7 +181,7 @@ describe('TestReportCatAMod1Page', () => {
         'if speedCheckState is EMERGENCY_STOP_DANGEROUS_FAULT',
       () => {
         component.speedCheckState = SpeedCheckState.EMERGENCY_STOP_DANGEROUS_FAULT;
-        spyOn(component.modalController, 'create').and.callThrough();
+        vi.spyOn(component.modalController, 'create');
         component.createActivityCode4Modal();
         expect(component.modalController.create).toHaveBeenCalledWith({
           component: ActivityCode4Modal,
@@ -199,7 +200,7 @@ describe('TestReportCatAMod1Page', () => {
         'if speedCheckState is EMERGENCY_STOP_SERIOUS_FAULT',
       () => {
         component.speedCheckState = SpeedCheckState.EMERGENCY_STOP_SERIOUS_FAULT;
-        spyOn(component.modalController, 'create').and.callThrough();
+        vi.spyOn(component.modalController, 'create');
         component.createActivityCode4Modal();
         expect(component.modalController.create).toHaveBeenCalledWith({
           component: ActivityCode4Modal,
@@ -229,7 +230,7 @@ describe('TestReportCatAMod1Page', () => {
         'speedCheckState is EMERGENCY_STOP_AND_AVOIDANCE_MISSING',
       () => {
         component.speedCheckState = SpeedCheckState.EMERGENCY_STOP_AND_AVOIDANCE_MISSING;
-        spyOn(component.modalController, 'create').and.callThrough();
+        vi.spyOn(component.modalController, 'create');
         component.createSpeedCheckModal();
         expect(component.modalController.create).toHaveBeenCalledWith({
           component: SpeedCheckModal,
@@ -245,7 +246,7 @@ describe('TestReportCatAMod1Page', () => {
         'if speedCheckState is EMERGENCY_STOP_MISSING',
       () => {
         component.speedCheckState = SpeedCheckState.EMERGENCY_STOP_MISSING;
-        spyOn(component.modalController, 'create').and.callThrough();
+        vi.spyOn(component.modalController, 'create');
         component.createSpeedCheckModal();
         expect(component.modalController.create).toHaveBeenCalledWith({
           component: SpeedCheckModal,
@@ -261,7 +262,7 @@ describe('TestReportCatAMod1Page', () => {
         'if speedCheckState is AVOIDANCE_MISSING',
       () => {
         component.speedCheckState = SpeedCheckState.AVOIDANCE_MISSING;
-        spyOn(component.modalController, 'create').and.callThrough();
+        vi.spyOn(component.modalController, 'create');
         component.createSpeedCheckModal();
         expect(component.modalController.create).toHaveBeenCalledWith({
           component: SpeedCheckModal,
@@ -279,7 +280,7 @@ describe('TestReportCatAMod1Page', () => {
   describe('ionViewDidLeave', () => {
     it('should unsubscribe from the subscription if there is one', () => {
       component.subscription = new Subscription();
-      spyOn(component.subscription, 'unsubscribe');
+      vi.spyOn(component.subscription, 'unsubscribe').mockReturnValue(undefined);
       component.ionViewDidLeave();
       expect(component.subscription.unsubscribe).toHaveBeenCalled();
     });
@@ -288,7 +289,7 @@ describe('TestReportCatAMod1Page', () => {
   describe('onEndTestClick', () => {
     it('should call onModalDismiss with the data returned', async () => {
       component.isEtaValid = false;
-      spyOn(component.modalController, 'create').and.returnValue(
+      vi.spyOn(component.modalController, 'create').mockReturnValue(
         Promise.resolve({
           present: () => Promise.resolve(),
           onDidDismiss: () =>
@@ -297,7 +298,7 @@ describe('TestReportCatAMod1Page', () => {
             }) as OverlayEventDetail,
         } as HTMLIonModalElement)
       );
-      spyOn(component, 'onModalDismiss');
+      vi.spyOn(component, 'onModalDismiss').mockReturnValue(undefined);
 
       await component.onEndTestClick();
       expect(component.onModalDismiss).toHaveBeenCalledWith(ModalEvent.CANCEL);
@@ -305,7 +306,7 @@ describe('TestReportCatAMod1Page', () => {
     it('should call createSpeedCheckModal if modal is still null at that point', async () => {
       component.isEtaValid = true;
       component.speedCheckState = SpeedCheckState.EMERGENCY_STOP_AND_AVOIDANCE_MISSING;
-      spyOn(component, 'createSpeedCheckModal').and.callThrough();
+      vi.spyOn(component, 'createSpeedCheckModal');
 
       await component.onEndTestClick();
       expect(component.createSpeedCheckModal).toHaveBeenCalled();
@@ -313,7 +314,7 @@ describe('TestReportCatAMod1Page', () => {
     it('should call createActivityCode4Modal if modal is still null at that point', async () => {
       component.isEtaValid = true;
       component.speedCheckState = SpeedCheckState.NOT_MET;
-      spyOn(component, 'createActivityCode4Modal').and.callThrough();
+      vi.spyOn(component, 'createActivityCode4Modal');
 
       await component.onEndTestClick();
       expect(component.createActivityCode4Modal).toHaveBeenCalled();
@@ -321,7 +322,7 @@ describe('TestReportCatAMod1Page', () => {
     it('should call createEndTestModal if modal is still null at that point', async () => {
       component.isEtaValid = true;
       component.speedCheckState = SpeedCheckState.VALID;
-      spyOn(component, 'createEndTestModal').and.callThrough();
+      vi.spyOn(component, 'createEndTestModal');
 
       await component.onEndTestClick();
       expect(component.createEndTestModal).toHaveBeenCalled();

@@ -17,6 +17,7 @@ import { TimeComponent } from '@components/test-slot/time/time';
 import { VehicleDetailsComponent } from '@components/test-slot/vehicle-details/vehicle-details';
 import { TestSlot } from '@dvsa/mes-journal-schema';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
+import { afterAll, beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { Store, StoreModule } from '@ngrx/store';
 import { AccessibilityService } from '@providers/accessibility/accessibility.service';
@@ -163,9 +164,7 @@ describe('TestSlotComponent', () => {
   });
 
   afterAll(() => {
-    if (jasmine.clock) {
-      jasmine.clock().uninstall();
-    }
+    vi.useRealTimers();
   });
 
   describe('Class', () => {
@@ -405,7 +404,7 @@ describe('TestSlotComponent', () => {
         });
 
         it('should pass something to sub-component vehicle-details input', () => {
-          spyOn(component, 'showVehicleDetails').and.returnValue(true);
+          vi.spyOn(component, 'showVehicleDetails').mockReturnValue(true);
           fixture.detectChanges();
 
           const subByDirective = fixture.debugElement.query(

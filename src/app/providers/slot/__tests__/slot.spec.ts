@@ -1,5 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { cloneDeep } from 'lodash-es';
+import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { TestSlotComponent } from '@components/test-slot/test-slot/test-slot';
 import { ExaminerWorkSchedule, Gender, NonTestActivity, TestSlot, VehicleGearbox } from '@dvsa/mes-journal-schema';
@@ -99,7 +100,7 @@ describe('SlotProvider', () => {
     store$ = TestBed.inject(Store);
     slotProvider = TestBed.inject(SlotProvider);
     appConfigProvider = TestBed.inject(AppConfigProvider);
-    spyOn(store$, 'dispatch');
+    vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
   });
 
   describe('getRelevantSlots', () => {
@@ -347,17 +348,17 @@ describe('SlotProvider', () => {
       expect(numberOfDays).toBe(7);
     });
     it('should generate consecutive date keys for configured number of days starting from today', () => {
-      const getAppConfigSpy = jasmine.createSpy('getAppConfig');
+      const getAppConfigSpy = vi.fn();
       (appConfigProvider as any).getAppConfig = getAppConfigSpy;
-      getAppConfigSpy.and.returnValue({ journal: { numberOfDaysToView: 3 } });
+      getAppConfigSpy.mockReturnValue({ journal: { numberOfDaysToView: 3 } });
 
       const result = slotProvider.extendWithEmptyDays({});
       expect(Object.keys(result)).toEqual(['2019-02-01', '2019-02-02', '2019-02-03']);
     });
     it('should preserve provided slot arrays for dates within the generated days', () => {
-      const getAppConfigSpy = jasmine.createSpy('getAppConfig');
+      const getAppConfigSpy = vi.fn();
       (appConfigProvider as any).getAppConfig = getAppConfigSpy;
-      getAppConfigSpy.and.returnValue({ journal: { numberOfDaysToView: 3 } });
+      getAppConfigSpy.mockReturnValue({ journal: { numberOfDaysToView: 3 } });
 
       const existingSlotArray: SlotItem[] = [{} as SlotItem];
       const slots: Record<string, SlotItem[]> = {
@@ -371,9 +372,9 @@ describe('SlotProvider', () => {
       expect(Object.keys(result)).toContain('2019-02-02');
     });
     it('should return only the original slots when numberOfDaysToView is zero', () => {
-      const getAppConfigSpy = jasmine.createSpy('getAppConfig');
+      const getAppConfigSpy = vi.fn();
       (appConfigProvider as any).getAppConfig = getAppConfigSpy;
-      getAppConfigSpy.and.returnValue({ journal: { numberOfDaysToView: 0 } });
+      getAppConfigSpy.mockReturnValue({ journal: { numberOfDaysToView: 0 } });
       const slots: Record<string, SlotItem[]> = {
         '2020-01-01': [{} as SlotItem],
       };
@@ -384,9 +385,9 @@ describe('SlotProvider', () => {
       expect(result['2020-01-01']).toBe(slots['2020-01-01']);
     });
     it('should not mutate the original slots object when extending with empty days', () => {
-      const getAppConfigSpy = jasmine.createSpy('getAppConfig');
+      const getAppConfigSpy = vi.fn();
       (appConfigProvider as any).getAppConfig = getAppConfigSpy;
-      getAppConfigSpy.and.returnValue({ journal: { numberOfDaysToView: 3 } });
+      getAppConfigSpy.mockReturnValue({ journal: { numberOfDaysToView: 3 } });
 
       const originalSlots: Record<string, SlotItem[]> = {
         '2019-02-02': [{} as SlotItem],
@@ -400,17 +401,17 @@ describe('SlotProvider', () => {
   });
 
   describe('canStartTest', () => {
-    let getAppConfigSpy: jasmine.Spy;
+    let getAppConfigSpy: Mock;
     beforeEach(() => {
-      getAppConfigSpy = jasmine.createSpy('getAppConfig');
+      getAppConfigSpy = vi.fn();
       appConfigProvider.getAppConfig = getAppConfigSpy;
     });
     it('should disallow the test when there are no permissions', () => {
-      getAppConfigSpy.and.returnValue({ journal: { testPermissionPeriods: [] } });
+      getAppConfigSpy.mockReturnValue({ journal: { testPermissionPeriods: [] } });
       expect(slotProvider.canStartTest(mockSlot)).toBe(false);
     });
     it('should disallow the test when there are only permissions for other test categories', () => {
-      getAppConfigSpy.and.returnValue({
+      getAppConfigSpy.mockReturnValue({
         journal: {
           testPermissionPeriods: [
             {
@@ -424,7 +425,7 @@ describe('SlotProvider', () => {
       expect(slotProvider.canStartTest(mockSlot)).toBe(false);
     });
     it('should disallow the test when there are permissions for the category which have expired', () => {
-      getAppConfigSpy.and.returnValue({
+      getAppConfigSpy.mockReturnValue({
         journal: {
           testPermissionPeriods: [
             {
@@ -438,7 +439,7 @@ describe('SlotProvider', () => {
       expect(slotProvider.canStartTest(mockSlot)).toBe(false);
     });
     it('should allow the test when there are multiple expired ranges and a subsequent valid range', () => {
-      getAppConfigSpy.and.returnValue({
+      getAppConfigSpy.mockReturnValue({
         journal: {
           testPermissionPeriods: [
             {
@@ -462,7 +463,7 @@ describe('SlotProvider', () => {
       expect(slotProvider.canStartTest(mockSlot)).toBe(true);
     });
     it('should allow the test when there is a permission range including the slot date', () => {
-      getAppConfigSpy.and.returnValue({
+      getAppConfigSpy.mockReturnValue({
         journal: {
           testPermissionPeriods: [
             {
@@ -476,7 +477,7 @@ describe('SlotProvider', () => {
       expect(slotProvider.canStartTest(mockSlot)).toBe(true);
     });
     it('should allow the test when there is a permission range starting on the slot date', () => {
-      getAppConfigSpy.and.returnValue({
+      getAppConfigSpy.mockReturnValue({
         journal: {
           testPermissionPeriods: [
             {
@@ -490,7 +491,7 @@ describe('SlotProvider', () => {
       expect(slotProvider.canStartTest(mockSlot)).toBe(true);
     });
     it('should allow the test when there is a permission range ending on the slot date', () => {
-      getAppConfigSpy.and.returnValue({
+      getAppConfigSpy.mockReturnValue({
         journal: {
           testPermissionPeriods: [
             {
@@ -504,7 +505,7 @@ describe('SlotProvider', () => {
       expect(slotProvider.canStartTest(mockSlot)).toBe(true);
     });
     it('should allow the test when there is a permission range for the slot date only', () => {
-      getAppConfigSpy.and.returnValue({
+      getAppConfigSpy.mockReturnValue({
         journal: {
           testPermissionPeriods: [
             {
@@ -518,7 +519,7 @@ describe('SlotProvider', () => {
       expect(slotProvider.canStartTest(mockSlot)).toBe(true);
     });
     it('should allow the test when there is a non-date bounded permission range', () => {
-      getAppConfigSpy.and.returnValue({
+      getAppConfigSpy.mockReturnValue({
         journal: {
           testPermissionPeriods: [
             {
@@ -532,7 +533,7 @@ describe('SlotProvider', () => {
       expect(slotProvider.canStartTest(mockSlot)).toBe(true);
     });
     it('should disallow starting of tests that arent today', () => {
-      getAppConfigSpy.and.returnValue({
+      getAppConfigSpy.mockReturnValue({
         journal: {
           testPermissionPeriods: [
             {

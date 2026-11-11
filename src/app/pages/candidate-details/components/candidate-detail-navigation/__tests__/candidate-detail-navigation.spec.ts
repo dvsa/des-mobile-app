@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { CandidateDetailNavigationComponent } from '@pages/candidate-details/components/candidate-detail-navigation/candidate-detail-navigation';
 
@@ -17,14 +18,14 @@ describe('CandidateDetailNavigationComponent', () => {
 
   describe('onPreviousCandidateClick', () => {
     it('should emit previousCandidateClicked', () => {
-      spyOn(component.previousCandidateClicked, 'emit');
+      vi.spyOn(component.previousCandidateClicked, 'emit').mockReturnValue(undefined);
       component.onPreviousCandidateClick();
       expect(component.previousCandidateClicked.emit).toHaveBeenCalled();
     });
   });
   describe('onNextCandidateClick', () => {
     it('should emit nextCandidateClicked', () => {
-      spyOn(component.nextCandidateClicked, 'emit');
+      vi.spyOn(component.nextCandidateClicked, 'emit').mockReturnValue(undefined);
       component.onNextCandidateClick();
       expect(component.nextCandidateClicked.emit).toHaveBeenCalled();
     });
@@ -32,30 +33,30 @@ describe('CandidateDetailNavigationComponent', () => {
 
   describe('isToday', () => {
     beforeEach(() => {
-      jasmine.clock().install();
-      jasmine.clock().mockDate(new Date('2026-09-02T10:00:00'));
+      vi.useFakeTimers();
+      vi.setSystemTime(new Date('2026-09-02T10:00:00'));
     });
 
     afterEach(() => {
-      jasmine.clock().uninstall();
+      vi.useRealTimers();
     });
 
     it('should return true when date is the current day', () => {
       component.date = '2026-09-02T00:01:00';
 
-      expect(component.isToday()).toBeTrue();
+      expect(component.isToday()).toBe(true);
     });
 
     it('should return false when date is not the current day', () => {
       component.date = '2026-09-03T00:01:00';
 
-      expect(component.isToday()).toBeFalse();
+      expect(component.isToday()).toBe(false);
     });
 
     it('should return false when date is invalid', () => {
       component.date = 'not-a-valid-date';
 
-      expect(component.isToday()).toBeFalse();
+      expect(component.isToday()).toBe(false);
     });
   });
 });

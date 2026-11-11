@@ -1,6 +1,7 @@
 import { HttpResponse } from '@angular/common/http';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { Adi3DebriefCard } from '@components/common/adi3-debrief-card/adi3-debrief-card';
 import { CPCDebriefCardComponent } from '@components/common/cpc-debrief-card/cpc-debrief-card';
@@ -163,7 +164,7 @@ describe('ViewTestResultPage', () => {
   describe('getDrivingFaultSumCount', () => {
     it('should call faultCountProvider with the correct parameters', () => {
       component.testCategory = TestCategory.B;
-      spyOn(component.faultCountProvider, 'getDrivingFaultSumCount');
+      vi.spyOn(component.faultCountProvider, 'getDrivingFaultSumCount').mockReturnValue(undefined);
       component.getDrivingFaultSumCount();
       expect(component.faultCountProvider.getDrivingFaultSumCount).toHaveBeenCalledWith(TestCategory.B, {
         dangerousFaults: {
@@ -184,7 +185,7 @@ describe('ViewTestResultPage', () => {
 
   describe('getDangerousFaults', () => {
     it('should call faultSummaryProvider with the correct parameters', () => {
-      spyOn(faultSummaryProvider, 'getDangerousFaultsList');
+      vi.spyOn(faultSummaryProvider, 'getDangerousFaultsList').mockReturnValue(undefined);
       component.testCategory = TestCategory.B;
 
       component.getDangerousFaults();
@@ -209,7 +210,7 @@ describe('ViewTestResultPage', () => {
   });
   describe('getSeriousFaults', () => {
     it('should call faultSummaryProvider with the correct parameters', () => {
-      spyOn(faultSummaryProvider, 'getSeriousFaultsList');
+      vi.spyOn(faultSummaryProvider, 'getSeriousFaultsList').mockReturnValue(undefined);
       component.testCategory = TestCategory.B;
 
       component.getSeriousFaults();
@@ -235,7 +236,7 @@ describe('ViewTestResultPage', () => {
 
   describe('getDrivingFaults', () => {
     it('should call faultSummaryProvider with the correct parameters', () => {
-      spyOn(faultSummaryProvider, 'getDrivingFaultsList');
+      vi.spyOn(faultSummaryProvider, 'getDrivingFaultsList').mockReturnValue(undefined);
       component.testCategory = TestCategory.B;
 
       component.getDrivingFaults();
@@ -270,7 +271,7 @@ describe('ViewTestResultPage', () => {
     it('should return registrationNumber if test result is present', () => {
       component.testResult.set({ instructorDetails: { registrationNumber: 1 } } as TestResultSchemasUnion);
       const { registrationNumber } = component.getInstructorData();
-      expect(registrationNumber).toEqual(Object(1));
+      expect(registrationNumber).toEqual(1);
     });
     it('should return null if test result is not present', () => {
       component.testResult.set(null);
@@ -286,8 +287,8 @@ describe('ViewTestResultPage', () => {
         },
       };
       const { feedback, seekFurtherDevelopment } = component.getReviewData();
-      expect(feedback).toEqual(Object('testData'));
-      expect(seekFurtherDevelopment).toEqual(Object(true));
+      expect(feedback).toEqual('testData');
+      expect(seekFurtherDevelopment).toEqual(true);
     });
     it('should return null if test result is not present', () => {
       component.testResult.set(null);
@@ -309,11 +310,11 @@ describe('ViewTestResultPage', () => {
       const { pdiLogbook, traineeLicence, orditTrainedCandidate, trainingRecords, trainerRegistrationNumber } =
         component.getTrainerData() as CatADI3TrainerDetails & CatADI2UniqueTypes.TrainerDetails;
 
-      expect(pdiLogbook).toEqual(Object(true));
-      expect(traineeLicence).toEqual(Object(true));
-      expect(orditTrainedCandidate).toEqual(Object(true));
-      expect(trainingRecords).toEqual(Object(true));
-      expect(trainerRegistrationNumber).toEqual(Object(1));
+      expect(pdiLogbook).toEqual(true);
+      expect(traineeLicence).toEqual(true);
+      expect(orditTrainedCandidate).toEqual(true);
+      expect(trainingRecords).toEqual(true);
+      expect(trainerRegistrationNumber).toEqual(1);
     });
     it('should return null if test result is not present', () => {
       component.testResult.set(null);
@@ -337,9 +338,9 @@ describe('ViewTestResultPage', () => {
 
       const { staffNumber, costCode, testCentreName } = component.getExaminerDetails() as ExaminerDetailsModel;
 
-      expect(staffNumber).toEqual(Object('testData'));
-      expect(costCode).toEqual(Object('testData1'));
-      expect(testCentreName).toEqual(Object('testData2'));
+      expect(staffNumber).toEqual('testData');
+      expect(costCode).toEqual('testData1');
+      expect(testCentreName).toEqual('testData2');
     });
     it('should return null if test result is not present', () => {
       component.testResult.set(null);
@@ -446,7 +447,7 @@ describe('ViewTestResultPage', () => {
 
   describe('onClose', () => {
     it('should dismiss modalCtrl', async () => {
-      spyOn(component.modalCtrl, 'dismiss');
+      vi.spyOn(component.modalCtrl, 'dismiss').mockReturnValue(undefined);
       await component.onClose();
       expect(component.modalCtrl.dismiss).toHaveBeenCalled();
     });
@@ -454,7 +455,7 @@ describe('ViewTestResultPage', () => {
 
   describe('ionViewDidEnter', () => {
     it('should dispatch the ViewTestResultViewDidEnter action', () => {
-      spyOn(store$, 'dispatch');
+      vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
       component.ionViewDidEnter();
       expect(store$.dispatch).toHaveBeenCalledWith(ViewTestResultViewDidEnter(component.applicationReference));
     });
@@ -511,13 +512,13 @@ describe('ViewTestResultPage', () => {
   describe('ionViewDidLeave', () => {
     it('should unsubscribe from the subscription if there is one', () => {
       component.subscription = new Subscription();
-      spyOn(component.subscription, 'unsubscribe');
+      vi.spyOn(component.subscription, 'unsubscribe').mockReturnValue(undefined);
       component.ionViewDidLeave();
       expect(component.subscription.unsubscribe).toHaveBeenCalled();
     });
     it('should unsubscribe from reEnterEmailSubscription if there is one', () => {
       component.reEnterEmailSubscription = new Subscription();
-      spyOn(component.reEnterEmailSubscription, 'unsubscribe');
+      vi.spyOn(component.reEnterEmailSubscription, 'unsubscribe').mockReturnValue(undefined);
       component.ionViewDidLeave();
       expect(component.reEnterEmailSubscription.unsubscribe).toHaveBeenCalled();
     });
@@ -526,7 +527,7 @@ describe('ViewTestResultPage', () => {
   describe('getVehicleDetails', () => {
     it('should return null if there is no test result and the category is B', () => {
       component.testResult.set(null);
-      spyOn(component, 'isCategoryB').and.returnValue(true);
+      vi.spyOn(component, 'isCategoryB').mockReturnValue(true);
       expect(component.getVehicleDetails()).toEqual(null);
     });
     it('should return null if there a no test result and the category is not B or ADI2', () => {
@@ -675,7 +676,7 @@ describe('ViewTestResultPage', () => {
     it('should set isLoading to the value passed in', async () => {
       component.isLoading.set(null);
       await component.handleLoadingUI(false);
-      spyOn(loadingProvider, 'handleUILoading').and.callThrough();
+      vi.spyOn(loadingProvider, 'handleUILoading');
       expect(component.isLoading()).toEqual(false);
     });
   });
@@ -700,11 +701,11 @@ describe('ViewTestResultPage', () => {
             },
           ],
         };
-        spyOn(TestBed.inject(SearchProvider), 'getTestResult').and.returnValue(result$);
-        spyOn(TestBed.inject(SearchProvider), 'getRegeneratedEmails').and.returnValue(emails$);
+        vi.spyOn(TestBed.inject(SearchProvider), 'getTestResult').mockReturnValue(result$);
+        vi.spyOn(TestBed.inject(SearchProvider), 'getRegeneratedEmails').mockReturnValue(emails$);
         const compression = new CompressionProvider();
-        spyOn(compressionProvider, 'extract').and.callFake(compression.extract.bind(compression));
-        spyOn(loadingProvider, 'handleUILoading').and.resolveTo();
+        vi.spyOn(compressionProvider, 'extract').mockImplementation(compression.extract.bind(compression));
+        vi.spyOn(loadingProvider, 'handleUILoading').mockResolvedValue(undefined);
         component.testResult.set(null);
         component.testCategory = TestCategory.B;
         component.applicationReference = '12345678901';
@@ -739,10 +740,10 @@ describe('ViewTestResultPage', () => {
     it('should render an asynchronous result error without a forced refresh', async () => {
       const result$ = new Subject<HttpResponse<string>>();
       const emails$ = new Subject<string>();
-      spyOn(TestBed.inject(SearchProvider), 'getTestResult').and.returnValue(result$);
-      spyOn(TestBed.inject(SearchProvider), 'getRegeneratedEmails').and.returnValue(emails$);
-      spyOn(loadingProvider, 'handleUILoading').and.resolveTo();
-      spyOn(component.store$, 'dispatch');
+      vi.spyOn(TestBed.inject(SearchProvider), 'getTestResult').mockReturnValue(result$);
+      vi.spyOn(TestBed.inject(SearchProvider), 'getRegeneratedEmails').mockReturnValue(emails$);
+      vi.spyOn(loadingProvider, 'handleUILoading').mockResolvedValue(undefined);
+      vi.spyOn(component.store$, 'dispatch').mockReturnValue(undefined);
       component.testResult.set(null);
       fixture.detectChanges();
       await Promise.resolve();
@@ -762,8 +763,8 @@ describe('ViewTestResultPage', () => {
 
     it('should set subscription to the correct values', async () => {
       component.testResult.set(null);
-      spyOn(component, 'handleLoadingUI').and.resolveTo();
-      spyOn(compressionProvider, 'extract').and.returnValue({
+      vi.spyOn(component, 'handleLoadingUI').mockResolvedValue(undefined);
+      vi.spyOn(compressionProvider, 'extract').mockReturnValue({
         testData: { startTime: '1' },
       } as TestResultSchemasUnion);
 
@@ -775,8 +776,8 @@ describe('ViewTestResultPage', () => {
     });
     it('should set reEnterEmailSubscription to the correct values', async () => {
       component.reEnterEmail.set(null);
-      spyOn(component, 'handleLoadingUI').and.resolveTo();
-      spyOn(compressionProvider, 'extract').and.returnValue({
+      vi.spyOn(component, 'handleLoadingUI').mockResolvedValue(undefined);
+      vi.spyOn(compressionProvider, 'extract').mockReturnValue({
         appRef: 1,
       });
 
@@ -788,9 +789,11 @@ describe('ViewTestResultPage', () => {
     });
     it('should call dispatch with a saveLog if it is unable to get a testResult', async () => {
       component.testResult.set(null);
-      spyOn(component, 'handleLoadingUI').and.resolveTo();
-      spyOn(component.store$, 'dispatch');
-      spyOn(compressionProvider, 'extract').and.throwError('test');
+      vi.spyOn(component, 'handleLoadingUI').mockResolvedValue(undefined);
+      vi.spyOn(component.store$, 'dispatch').mockReturnValue(undefined);
+      vi.spyOn(compressionProvider, 'extract').mockImplementation(() => {
+        throw new Error('test');
+      });
 
       await component.ngOnInit();
 
@@ -808,12 +811,12 @@ describe('ViewTestResultPage', () => {
 
   describe('totalScore', () => {
     it('should return null if category is not ADI3', () => {
-      spyOn(component, 'isCategoryADI3').and.returnValue(false);
+      vi.spyOn(component, 'isCategoryADI3').mockReturnValue(false);
       expect(component.totalScore).toEqual(null);
     });
     it('should call getTotalAssessmentScore if category is ADI3', () => {
-      spyOn(component, 'isCategoryADI3').and.returnValue(true);
-      spyOn(component.adi3AssessmentProvider, 'getTotalAssessmentScore').and.returnValue(10);
+      vi.spyOn(component, 'isCategoryADI3').mockReturnValue(true);
+      vi.spyOn(component.adi3AssessmentProvider, 'getTotalAssessmentScore').mockReturnValue(10);
       component.testResult().testData = { startTime: '1' };
       expect(component.totalScore).toEqual(10);
       expect(component.adi3AssessmentProvider.getTotalAssessmentScore).toHaveBeenCalledWith({ startTime: '1' });

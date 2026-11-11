@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ModalController } from '@ionic/angular';
 import { ModalControllerMock } from '@mocks/ionic-mocks/modal-controller.mock';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { ExitSamErrorModal } from '../exit-sam-error-modal';
 
 describe('ExitSamErrorModal', () => {
@@ -19,7 +20,7 @@ describe('ExitSamErrorModal', () => {
 
   describe('onOk', () => {
     it('should dismiss the modal with CANCEL event', async () => {
-      spyOn(component.modalController, 'dismiss').and.resolveTo(true);
+      vi.spyOn(component.modalController, 'dismiss').mockResolvedValue(true);
       await component.onOk();
       expect(component.modalController.dismiss).toHaveBeenCalled();
     });

@@ -2,6 +2,7 @@ import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/
 import { getManoeuvres as getManoeuvresC } from '@store/tests/test-data/cat-c/test-data.cat-c.selector';
 import { getManoeuvres as getManoeuvresD } from '@store/tests/test-data/cat-d/test-data.cat-d.selector';
 import { getManoeuvres as getManoeuvresHomeTest } from '@store/tests/test-data/cat-home/test-data.cat-home.selector';
+import { beforeEach, describe, expect, it } from 'vitest';
 import { ManoeuvresByCategoryProvider } from '../manoeuvres-by-category';
 
 describe('ManoeuvresByCategoryProvider', () => {

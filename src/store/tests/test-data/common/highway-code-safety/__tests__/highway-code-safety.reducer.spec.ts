@@ -1,4 +1,5 @@
 import { HighwayCodeSafetyUnion } from '@shared/unions/test-schema-unions';
+import { describe, expect, it } from 'vitest';
 import {
   HighwayCodeSafetyAddComment,
   HighwayCodeSafetyAddDrivingFault,

@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ModalController } from '@ionic/angular';
 import { MockComponent } from 'ng-mocks';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { ModalAlertTitleComponent } from '@components/common/modal-alert-title/modal-alert-title';
 import { ModalControllerMock } from '@mocks/ionic-mocks/modal-controller.mock';
@@ -28,7 +29,7 @@ describe('UpdateAvailableModal', () => {
     fixture = TestBed.createComponent(UpdateAvailableModal);
     component = fixture.componentInstance;
     modalController = TestBed.inject(ModalController);
-    spyOn(modalController, 'dismiss');
+    vi.spyOn(modalController, 'dismiss').mockReturnValue(undefined);
   });
 
   describe('Class', () => {

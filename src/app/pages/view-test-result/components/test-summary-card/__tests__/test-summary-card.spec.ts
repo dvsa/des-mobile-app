@@ -4,6 +4,7 @@ import { DataRowComponent } from '@components/common/data-row/data-row';
 import { ModeOfTransport } from '@dvsa/mes-test-schema/categories/AM2';
 import { IndependentDriving, WeatherConditions } from '@dvsa/mes-test-schema/categories/common';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
+import { beforeEach, describe, expect, it } from 'vitest';
 
 import { MockComponent } from 'ng-mocks';
 import { TestSummaryCardComponent } from '../test-summary-card';

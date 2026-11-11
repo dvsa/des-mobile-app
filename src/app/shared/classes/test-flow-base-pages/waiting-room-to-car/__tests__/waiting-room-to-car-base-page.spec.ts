@@ -66,6 +66,7 @@ import {
 } from '@store/tests/vehicle-details/vehicle-details.actions';
 import { Subscription } from 'rxjs';
 import { take } from 'rxjs/operators';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { WaitingRoomToCarBasePageComponent } from '../waiting-room-to-car-base-page';
 
 describe('WaitingRoomToCarBasePageComponent', () => {
@@ -161,7 +162,7 @@ describe('WaitingRoomToCarBasePageComponent', () => {
     store$ = TestBed.inject(MockStore);
     injector = TestBed.inject(Injector);
 
-    spyOn(store$, 'dispatch');
+    vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
 
     class BasePageClass extends WaitingRoomToCarBasePageComponent {
       constructor(public inj: Injector) {
@@ -221,7 +222,7 @@ describe('WaitingRoomToCarBasePageComponent', () => {
   describe('ionViewDidLeave', () => {
     it('should unsubscribe when subscription is defined', () => {
       basePageComponent.subscription = new Subscription();
-      spyOn(basePageComponent.subscription, 'unsubscribe');
+      vi.spyOn(basePageComponent.subscription, 'unsubscribe').mockReturnValue(undefined);
       basePageComponent.ionViewDidLeave();
       expect(basePageComponent.subscription.unsubscribe).toHaveBeenCalled();
     });
@@ -350,14 +351,14 @@ describe('WaitingRoomToCarBasePageComponent', () => {
   });
   describe('onViewTestCentreJournal', () => {
     it('should navigate to TEST_CENTRE_JOURNAL_PAGE if not in practice made', async () => {
-      spyOn(router, 'navigate');
+      vi.spyOn(router, 'navigate');
       basePageComponent.isEndToEndPracticeMode = false;
       await basePageComponent.onViewTestCentreJournal();
       expect(router.navigate).toHaveBeenCalledWith([TEST_CENTRE_JOURNAL_PAGE]);
     });
 
     it('should navigate to TEST_CENTRE_JOURNAL_PAGE if not in practice made', async () => {
-      spyOn(router, 'navigate');
+      vi.spyOn(router, 'navigate');
       basePageComponent.isEndToEndPracticeMode = true;
       await basePageComponent.onViewTestCentreJournal();
       expect(router.navigate).not.toHaveBeenCalled();
@@ -392,7 +393,7 @@ describe('WaitingRoomToCarBasePageComponent', () => {
     });
 
     it('emits a value from abortSubject', () => {
-      spyOn(basePageComponent.abortSubject, 'next');
+      vi.spyOn(basePageComponent.abortSubject, 'next').mockReturnValue(undefined);
       basePageComponent.isSearchingForMOT = true;
       basePageComponent.abortMOTCall(MOTAbortedMethod.NAVIGATION);
       expect(basePageComponent.abortSubject.next).toHaveBeenCalled();
@@ -406,7 +407,7 @@ describe('WaitingRoomToCarBasePageComponent', () => {
     });
 
     it('does not emit a value from abortSubject if not searching for MOT', () => {
-      spyOn(basePageComponent.abortSubject, 'next');
+      vi.spyOn(basePageComponent.abortSubject, 'next').mockReturnValue(undefined);
       basePageComponent.isSearchingForMOT = false;
       basePageComponent.abortMOTCall(MOTAbortedMethod.NAVIGATION);
       expect(basePageComponent.abortSubject.next).not.toHaveBeenCalled();

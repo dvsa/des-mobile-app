@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { QuestionFooterComponent } from '../question-footer';
 
@@ -50,7 +51,7 @@ describe('QuestionFooterComponent', () => {
 
   describe('goToPreviousQuestion', () => {
     it('should deduct one to the question number and emit the value', () => {
-      spyOn(component.questionPageChange, 'emit');
+      vi.spyOn(component.questionPageChange, 'emit').mockReturnValue(undefined);
       component.questionNumber = 3;
       component.goToPreviousQuestion();
       expect(component.questionPageChange.emit).toHaveBeenCalledWith(2);
@@ -59,7 +60,7 @@ describe('QuestionFooterComponent', () => {
 
   describe('goToNextQuestion', () => {
     it('should add one to the question number and emit the value', () => {
-      spyOn(component.questionPageChange, 'emit');
+      vi.spyOn(component.questionPageChange, 'emit').mockReturnValue(undefined);
       component.questionNumber = 3;
       component.goToNextQuestion();
       expect(component.questionPageChange.emit).toHaveBeenCalledWith(4);
@@ -68,14 +69,14 @@ describe('QuestionFooterComponent', () => {
 
   describe('goToSummary', () => {
     it('should emit testSummaryRequested with true if isDelegated is false', () => {
-      spyOn(component.testSummaryRequested, 'emit');
+      vi.spyOn(component.testSummaryRequested, 'emit').mockReturnValue(undefined);
       component.isDelegated = false;
       component.goToSummary();
       expect(component.testSummaryRequested.emit).toHaveBeenCalledWith(true);
     });
     it('should not emit testSummaryRequested with true ' + 'if isDelegated is true and isFormValid is false', () => {
-      spyOn(component.testSummaryRequested, 'emit');
-      spyOn(component, 'isFormValid').and.returnValue(Promise.resolve(false));
+      vi.spyOn(component.testSummaryRequested, 'emit').mockReturnValue(undefined);
+      vi.spyOn(component, 'isFormValid').mockReturnValue(Promise.resolve(false));
       component.isDelegated = true;
       component.goToSummary();
       expect(component.testSummaryRequested.emit).not.toHaveBeenCalledWith(true);
@@ -84,7 +85,7 @@ describe('QuestionFooterComponent', () => {
 
   describe('createToast', () => {
     it('should call toastController.create with the correct params', async () => {
-      spyOn(component.toastController, 'create');
+      vi.spyOn(component.toastController, 'create');
       await component.createToast('string');
       expect(component.toastController.create).toHaveBeenCalledWith({
         message: 'string',

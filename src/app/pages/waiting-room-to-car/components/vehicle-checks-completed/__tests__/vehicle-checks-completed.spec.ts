@@ -4,6 +4,7 @@ import { By } from '@angular/platform-browser';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { IonCol, IonRow, IonSelect, IonSelectOption } from '@ionic/angular';
 import { provideMockStore } from '@ngrx/store/testing';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { VehicleChecksToggleComponent } from '../vehicle-checks-completed';
 
 describe('VehicleChecksToggleComponent', () => {
@@ -45,7 +46,7 @@ describe('VehicleChecksToggleComponent', () => {
 
   describe('DOM', () => {
     it('should call VehicleChecksToggleResultChanged with Completed when selected', () => {
-      spyOn(component, 'vehicleChecksToggleResultChanged');
+      vi.spyOn(component, 'vehicleChecksToggleResultChanged').mockReturnValue(undefined);
       component.testCategory = TestCategory.BE;
       fixture.detectChanges();
       const vehicleChecksCompletedRadio = fixture.debugElement.query(By.css('#vehicle-checks-toggle-completed'));
@@ -55,7 +56,7 @@ describe('VehicleChecksToggleComponent', () => {
       expect(component.vehicleChecksToggleResultChanged).toHaveBeenCalledWith('Completed');
     });
     it('should call VehicleChecksToggleResultChanged with Not completed when not selected', () => {
-      spyOn(component, 'vehicleChecksToggleResultChanged');
+      vi.spyOn(component, 'vehicleChecksToggleResultChanged').mockReturnValue(undefined);
       component.testCategory = TestCategory.BE;
       fixture.detectChanges();
       const vehicleChecksCompletedRadio = fixture.debugElement.query(By.css('#vehicle-checks-toggle-non-completed'));
@@ -68,13 +69,13 @@ describe('VehicleChecksToggleComponent', () => {
   describe('vehicleChecksToggleResultChanged', () => {
     it('should output true if result is set to "Completed" and formControl is valid', () => {
       component.formControl = new UntypedFormControl(1);
-      spyOn(component.vehicleChecksCompletedOutcomeChange, 'emit');
+      vi.spyOn(component.vehicleChecksCompletedOutcomeChange, 'emit').mockReturnValue(undefined);
       component.vehicleChecksToggleResultChanged('Completed');
       expect(component.vehicleChecksCompletedOutcomeChange.emit).toHaveBeenCalledWith(true);
     });
     it('should output false if result is not set to "Completed" and formControl is valid', () => {
       component.formControl = new UntypedFormControl(1);
-      spyOn(component.vehicleChecksCompletedOutcomeChange, 'emit');
+      vi.spyOn(component.vehicleChecksCompletedOutcomeChange, 'emit').mockReturnValue(undefined);
       component.vehicleChecksToggleResultChanged('Not completed');
       expect(component.vehicleChecksCompletedOutcomeChange.emit).toHaveBeenCalledWith(false);
     });

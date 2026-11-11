@@ -23,7 +23,8 @@ import * as applicationReferenceActions from '@store/tests/journal-data/common/a
 import { PopulateCandidateDetails } from '@store/tests/journal-data/common/candidate/candidate.actions';
 import * as testsActions from '@store/tests/tests.actions';
 import { testsReducer } from '@store/tests/tests.reducer';
-import { ReplaySubject } from 'rxjs';
+import { ReplaySubject, firstValueFrom } from 'rxjs';
+import { beforeEach, describe, expect, it } from 'vitest';
 import * as reverseDiagramModalActions from '../reverse-diagram-modal.actions';
 import { ReverseDiagramModalAnalyticsEffects } from '../reverse-diagram-modal.analytics.effects';
 
@@ -61,157 +62,115 @@ describe('ReverseDiagramModalAnalyticsEffects', () => {
   });
 
   describe('reverseDiagramViewDidEnter', () => {
-    it('should call setCurrentPage and addCustomDimension', (done) => {
-      // ARRANGE
+    it('should call setCurrentPage and addCustomDimension', async () => {
       store$.dispatch(testsActions.StartTest(123, TestCategory.BE));
       store$.dispatch(PopulateCandidateDetails(candidateMock));
       store$.dispatch(applicationReferenceActions.PopulateApplicationReference(mockApplication));
       store$.dispatch(PopulateTestCategory(TestCategory.BE));
-      // ACT
       actions$.next(reverseDiagramModalActions.ReverseDiagramViewDidEnter());
-      // ASSERT
-      effects.reverseDiagramViewDidEnter$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-
-        // GA4 Analytics
-        expect(analyticsProviderMock.addGACustomDimension).toHaveBeenCalledWith(
-          GoogleAnalyticsCustomDimension.TEST_CATEGORY,
-          'B+E'
-        );
-        expect(analyticsProviderMock.addGACustomDimension).toHaveBeenCalledWith(
-          GoogleAnalyticsCustomDimension.CANDIDATE_ID,
-          '1'
-        );
-        expect(analyticsProviderMock.addGACustomDimension).toHaveBeenCalledWith(
-          GoogleAnalyticsCustomDimension.APPLICATION_REFERENCE,
-          '123456789'
-        );
-        expect(analyticsProviderMock.setGACurrentPage).toHaveBeenCalledWith(screenName);
-        done();
-      });
+      const result = await firstValueFrom(effects.reverseDiagramViewDidEnter$);
+      expect(result.type).toEqual(AnalyticRecorded.type);
+      expect(analyticsProviderMock.addGACustomDimension).toHaveBeenCalledWith(
+        GoogleAnalyticsCustomDimension.TEST_CATEGORY,
+        'B+E'
+      );
+      expect(analyticsProviderMock.addGACustomDimension).toHaveBeenCalledWith(
+        GoogleAnalyticsCustomDimension.CANDIDATE_ID,
+        '1'
+      );
+      expect(analyticsProviderMock.addGACustomDimension).toHaveBeenCalledWith(
+        GoogleAnalyticsCustomDimension.APPLICATION_REFERENCE,
+        '123456789'
+      );
+      expect(analyticsProviderMock.setGACurrentPage).toHaveBeenCalledWith(screenName);
     });
-    it('should call setCurrentPage with practice mode prefix and addCustomDimension', (done) => {
-      // ARRANGE
+    it('should call setCurrentPage with practice mode prefix and addCustomDimension', async () => {
       store$.dispatch(fakeJournalActions.StartE2EPracticeTest(end2endPracticeSlotId));
       store$.dispatch(PopulateCandidateDetails(candidateMock));
       store$.dispatch(applicationReferenceActions.PopulateApplicationReference(mockApplication));
       store$.dispatch(PopulateTestCategory(TestCategory.BE));
-      // ACT
       actions$.next(reverseDiagramModalActions.ReverseDiagramViewDidEnter());
-      // ASSERT
-      effects.reverseDiagramViewDidEnter$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-
-        // GA4 Analytics
-        expect(analyticsProviderMock.addGACustomDimension).toHaveBeenCalledWith(
-          GoogleAnalyticsCustomDimension.TEST_CATEGORY,
-          'B+E'
-        );
-        expect(analyticsProviderMock.addGACustomDimension).toHaveBeenCalledWith(
-          GoogleAnalyticsCustomDimension.CANDIDATE_ID,
-          '1'
-        );
-        expect(analyticsProviderMock.addGACustomDimension).toHaveBeenCalledWith(
-          GoogleAnalyticsCustomDimension.APPLICATION_REFERENCE,
-          '123456789'
-        );
-        expect(analyticsProviderMock.setGACurrentPage).toHaveBeenCalledWith(
-          `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${screenName}`
-        );
-        done();
-      });
+      const result = await firstValueFrom(effects.reverseDiagramViewDidEnter$);
+      expect(result.type).toEqual(AnalyticRecorded.type);
+      expect(analyticsProviderMock.addGACustomDimension).toHaveBeenCalledWith(
+        GoogleAnalyticsCustomDimension.TEST_CATEGORY,
+        'B+E'
+      );
+      expect(analyticsProviderMock.addGACustomDimension).toHaveBeenCalledWith(
+        GoogleAnalyticsCustomDimension.CANDIDATE_ID,
+        '1'
+      );
+      expect(analyticsProviderMock.addGACustomDimension).toHaveBeenCalledWith(
+        GoogleAnalyticsCustomDimension.APPLICATION_REFERENCE,
+        '123456789'
+      );
+      expect(analyticsProviderMock.setGACurrentPage).toHaveBeenCalledWith(
+        `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${screenName}`
+      );
     });
   });
 
   describe('reverseDiagramOpened', () => {
-    it('should call logEvent with the correct parameters', (done) => {
-      // ARRANGE
+    it('should call logEvent with the correct parameters', async () => {
       store$.dispatch(testsActions.StartTestReportPracticeTest(testReportPracticeModeSlot.slotDetail.slotId));
-      // ACT
       actions$.next(reverseDiagramModalActions.ReverseDiagramOpened());
-      // ASSERT
-      effects.reverseDiagramOpened$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-
-        // GA4 Analytics
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-          GoogleAnalyticsEvents.NAVIGATION,
-          GoogleAnalyticsEventsTitles.OPENED,
-          GoogleAnalyticsEventsValues.REVERSE_DIAGRAM
-        );
-        done();
-      });
+      const result = await firstValueFrom(effects.reverseDiagramOpened$);
+      expect(result.type).toEqual(AnalyticRecorded.type);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+        GoogleAnalyticsEvents.NAVIGATION,
+        GoogleAnalyticsEventsTitles.OPENED,
+        GoogleAnalyticsEventsValues.REVERSE_DIAGRAM
+      );
     });
   });
 
   describe('reverseDiagramClosed', () => {
-    it('should call logEvent with the correct parameters', (done) => {
-      // ARRANGE
+    it('should call logEvent with the correct parameters', async () => {
       store$.dispatch(testsActions.StartTestReportPracticeTest(testReportPracticeModeSlot.slotDetail.slotId));
-      // ACT
       actions$.next(reverseDiagramModalActions.ReverseDiagramClosed());
-      // ASSERT
-      effects.reverseDiagramClosed$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-
-        // GA4 Analytics
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-          GoogleAnalyticsEvents.NAVIGATION,
-          GoogleAnalyticsEventsTitles.CLOSED,
-          GoogleAnalyticsEventsValues.REVERSE_DIAGRAM
-        );
-        done();
-      });
+      const result = await firstValueFrom(effects.reverseDiagramClosed$);
+      expect(result.type).toEqual(AnalyticRecorded.type);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+        GoogleAnalyticsEvents.NAVIGATION,
+        GoogleAnalyticsEventsTitles.CLOSED,
+        GoogleAnalyticsEventsValues.REVERSE_DIAGRAM
+      );
     });
   });
 
   describe('reverseDiagramLengthChanged', () => {
-    it('should call logEvent with the correct parameters', (done) => {
-      // ARRANGE
+    it('should call logEvent with the correct parameters', async () => {
       store$.dispatch(testsActions.StartTestReportPracticeTest(testReportPracticeModeSlot.slotDetail.slotId));
-      // ACT
       actions$.next(reverseDiagramModalActions.ReverseDiagramLengthChanged(100, 10));
-      // ASSERT
-      effects.reverseDiagramLengthChanged$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-
-        // GA4 Analytics
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-          GoogleAnalyticsEvents.VEHICLE_LENGTH,
-          GoogleAnalyticsEventsTitles.CHANGED_FROM,
-          '100',
-          GoogleAnalyticsEventsTitles.CHANGED_TO,
-          '10'
-        );
-        done();
-      });
+      const result = await firstValueFrom(effects.reverseDiagramLengthChanged$);
+      expect(result.type).toEqual(AnalyticRecorded.type);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+        GoogleAnalyticsEvents.VEHICLE_LENGTH,
+        GoogleAnalyticsEventsTitles.CHANGED_FROM,
+        '100',
+        GoogleAnalyticsEventsTitles.CHANGED_TO,
+        '10'
+      );
     });
   });
 
   describe('reverseDiagramWidthChanged', () => {
-    it('should call logEvent with the correct parameters', (done) => {
-      // ARRANGE
+    it('should call logEvent with the correct parameters', async () => {
       store$.dispatch(testsActions.StartTestReportPracticeTest(testReportPracticeModeSlot.slotDetail.slotId));
-      // ACT
       actions$.next(reverseDiagramModalActions.ReverseDiagramWidthChanged(100, 10));
-      // ASSERT
-      effects.reverseDiagramWidthChanged$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-
-        // GA4 Analytics
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-          GoogleAnalyticsEvents.VEHICLE_WIDTH,
-          GoogleAnalyticsEventsTitles.CHANGED_FROM,
-          '100',
-          GoogleAnalyticsEventsTitles.CHANGED_TO,
-          '10'
-        );
-        done();
-      });
+      const result = await firstValueFrom(effects.reverseDiagramWidthChanged$);
+      expect(result.type).toEqual(AnalyticRecorded.type);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledTimes(1);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+        GoogleAnalyticsEvents.VEHICLE_WIDTH,
+        GoogleAnalyticsEventsTitles.CHANGED_FROM,
+        '100',
+        GoogleAnalyticsEventsTitles.CHANGED_TO,
+        '10'
+      );
     });
   });
 });

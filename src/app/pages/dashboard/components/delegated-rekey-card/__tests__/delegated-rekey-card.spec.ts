@@ -1,5 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Router } from '@angular/router';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { RouterMock } from '@mocks/angular-mocks/router-mock';
 import { DELEGATED_REKEY_SEARCH_PAGE } from '@pages/page-names.constants';
@@ -19,7 +20,7 @@ describe('DelegatedSearchCardComponent', () => {
     fixture = TestBed.createComponent(DelegatedSearchCardComponent);
     component = fixture.componentInstance;
     router = TestBed.inject(Router);
-    spyOn(router, 'navigate');
+    vi.spyOn(router, 'navigate');
   });
 
   describe('Class', () => {

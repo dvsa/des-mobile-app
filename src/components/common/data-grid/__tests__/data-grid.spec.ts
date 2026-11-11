@@ -1,5 +1,6 @@
 import { SimpleChange } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { DataGridComponent } from '@components/common/data-grid/data-grid';
 
@@ -19,7 +20,7 @@ describe('DataGridComponent', () => {
 
   describe('ngOnChanges', () => {
     it('should set finalColourArray to loopColours if the changes include colourScheme', () => {
-      spyOn(component, 'loopColours').and.returnValue(['1', '2']);
+      vi.spyOn(component, 'loopColours').mockReturnValue(['1', '2']);
 
       component.finalColourArray = null;
       component.ngOnChanges({ colourScheme: null });
@@ -27,7 +28,7 @@ describe('DataGridComponent', () => {
       expect(component.finalColourArray).toEqual(['1', '2']);
     });
     it('should set finalColourArray to loopColours if dataChanged is true', () => {
-      spyOn(component, 'loopColours').and.returnValue(['1', '2']);
+      vi.spyOn(component, 'loopColours').mockReturnValue(['1', '2']);
 
       component.finalColourArray = null;
       component.ngOnChanges({ data: { previousValue: '1', currentValue: '2' } as SimpleChange });

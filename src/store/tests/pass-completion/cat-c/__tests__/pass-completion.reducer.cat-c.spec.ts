@@ -1,4 +1,5 @@
 import { CatCUniqueTypes } from '@dvsa/mes-test-schema/categories/C';
+import { describe, expect, it } from 'vitest';
 import {
   Code78NotPresent,
   Code78Present,

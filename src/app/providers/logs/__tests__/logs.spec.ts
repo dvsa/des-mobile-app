@@ -4,6 +4,7 @@ import { TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
 import { Log, LogType } from '@shared/models/log.model';
 import { take } from 'rxjs/operators';
+import { afterAll, beforeEach, describe, expect, it } from 'vitest';
 import { AuthenticationProviderMock } from '../../authentication/__mocks__/authentication.mock';
 import { AuthenticationProvider } from '../../authentication/authentication';
 import { LOGS_SERVICE_URL, UrlProviderMock } from '../../url/__mocks__/url.mock';

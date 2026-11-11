@@ -1,6 +1,7 @@
 import { EventEmitter } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule, UntypedFormGroup } from '@angular/forms';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { provideTestTranslations } from '@mocks/test-providers';
 import { HealthDeclarationComponent } from '../health-declaration';
@@ -38,7 +39,7 @@ describe('HealthDeclarationComponent', () => {
         component.formGroup = new UntypedFormGroup({});
         component.ngOnChanges();
         component.healthDeclarationChange = new EventEmitter();
-        spyOn(component.healthDeclarationChange, 'emit');
+        vi.spyOn(component.healthDeclarationChange, 'emit').mockReturnValue(undefined);
 
         // ACT
         component.healthDeclarationChanged(true);

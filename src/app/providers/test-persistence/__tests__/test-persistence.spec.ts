@@ -1,16 +1,16 @@
 import { TestBed } from '@angular/core/testing';
 import { StoreModule } from '@ngrx/store';
+import { LogHelperMock } from '@providers/logs/__mocks__/logs-helper.mock';
+import { LogHelper } from '@providers/logs/logs-helper';
 import { DateTime } from '@shared/helpers/date-time';
 import { TestStatus } from '@store/tests/test-status/test-status.model';
 import { TestsModel } from '@store/tests/tests.model';
+import { type Mock as Spy, beforeEach, describe, expect, it, vi } from 'vitest';
 import { AppConfigProviderMock } from '../../app-config/__mocks__/app-config.mock';
 import { AppConfigProvider } from '../../app-config/app-config';
 import { DataStoreProviderMock } from '../../data-store/__mocks__/data-store.mock';
 import { DataStoreProvider, LocalStorageKey } from '../../data-store/data-store';
 import { TestPersistenceProvider } from '../test-persistence';
-import Spy = jasmine.Spy;
-import { LogHelperMock } from '@providers/logs/__mocks__/logs-helper.mock';
-import { LogHelper } from '@providers/logs/logs-helper';
 
 describe('TestPersistenceProvider', () => {
   let testPersistenceProvider: TestPersistenceProvider;
@@ -123,19 +123,19 @@ describe('TestPersistenceProvider', () => {
 
   describe('persistTests', () => {
     it('should take the tests state slice and pass it to the data store provider stringified', async () => {
-      const newSpy: Spy = spyOn(dataStoreProvider, 'setItem').and.resolveTo();
+      const newSpy: Spy = vi.spyOn(dataStoreProvider, 'setItem').mockResolvedValue(undefined);
 
       await testPersistenceProvider.persistTests(testState);
 
       expect(newSpy).toHaveBeenCalledTimes(1);
-      expect(newSpy.calls.first().args[0]).toBe(LocalStorageKey.TESTS);
-      expect(JSON.parse(newSpy.calls.first().args[1])).toEqual(testState);
+      expect(newSpy.mock.calls[0][0]).toBe(LocalStorageKey.TESTS);
+      expect(JSON.parse(newSpy.mock.calls[0][1])).toEqual(testState);
     });
   });
 
   describe('loadPersistedTests', () => {
     it('should return the test JSON from the data store parsed into a TestsModel', async () => {
-      spyOn(dataStoreProvider, 'getItem').and.resolveTo(JSON.stringify(testState));
+      vi.spyOn(dataStoreProvider, 'getItem').mockResolvedValue(JSON.stringify(testState));
 
       const result = await testPersistenceProvider.loadPersistedTests();
 
@@ -151,7 +151,9 @@ describe('TestPersistenceProvider', () => {
       });
     });
     it('should return null if the data store provider throws', async () => {
-      spyOn(dataStoreProvider, 'getItem').and.throwError('This error is being thrown by unit tests, ignore it');
+      vi.spyOn(dataStoreProvider, 'getItem').mockImplementation(() => {
+        throw new Error('This error is being thrown by unit tests, ignore it');
+      });
 
       const result = await testPersistenceProvider.loadPersistedTests();
 

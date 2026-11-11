@@ -1,5 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideTestTranslations } from '@mocks/test-providers';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { TranslateService } from '@ngx-translate/core';
 import { PostalAddressComponent } from '../postal-address';
@@ -33,7 +34,7 @@ describe('PostalAddressComponent', () => {
   describe('Class', () => {
     describe('ngOnInit', () => {
       it('should call formatAddress', () => {
-        spyOn(component, 'formatAddress').and.returnValue(mockAddress);
+        vi.spyOn(component, 'formatAddress').mockReturnValue(mockAddress);
         component.ngOnInit();
         expect(component.postalAddress).toEqual(mockAddress);
       });

@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { AlternateEvidenceProvidedComponent } from '@pages/office/components/alternate-mot-evidence-provided/alternate-evidence-provided.component';
+import { beforeEach, describe, expect, it } from 'vitest';
 
 describe('AlternateEvidenceProvidedComponent', () => {
   let modalFixture: ComponentFixture<AlternateEvidenceProvidedComponent>;

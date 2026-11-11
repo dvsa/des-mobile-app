@@ -1,5 +1,6 @@
+import { vi } from 'vitest';
 export class TestPersistenceProviderMock {
-  persistTests = jasmine.createSpy('persistTests');
-  loadPersistedTests = jasmine.createSpy('loadPersistedTests');
-  clearPersistedTests = jasmine.createSpy('clearPersistedTests');
+  persistTests = vi.fn();
+  loadPersistedTests = vi.fn();
+  clearPersistedTests = vi.fn();
 }

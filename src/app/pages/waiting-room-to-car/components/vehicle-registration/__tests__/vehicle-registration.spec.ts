@@ -1,5 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { provideBasePageMocks } from '@mocks/test-providers';
 import { provideMockStore } from '@ngrx/store/testing';
@@ -41,7 +42,7 @@ describe('VehicleRegistrationComponent', () => {
     it('should remove altEvidenceDetailsCtrl and alternateEvidenceCtrl from the form', () => {
       component.formGroup.addControl('alternateEvidenceCtrl', component.formControl);
       component.formGroup.addControl('altEvidenceDetailsCtrl', component.formControl);
-      spyOn(component.motApiService, 'getMotHistoryByIdentifier').and.returnValue(
+      vi.spyOn(component.motApiService, 'getMotHistoryByIdentifier').mockReturnValue(
         of({
           status: '200',
           data: {
@@ -61,7 +62,7 @@ describe('VehicleRegistrationComponent', () => {
 
   describe('abortMOTCall', () => {
     it('should emit motCallAborted', () => {
-      spyOn(component.motCallAborted, 'emit');
+      vi.spyOn(component.motCallAborted, 'emit').mockReturnValue(undefined);
       component.abortMOTCall(MOTAbortedMethod.NAVIGATION);
       expect(component.motCallAborted.emit).toHaveBeenCalled();
     });
@@ -69,17 +70,17 @@ describe('VehicleRegistrationComponent', () => {
 
   describe('updateMotList', () => {
     it('should emit vrnSearchListUpdate with passed param', () => {
-      spyOn(component.vrnSearchListUpdate, 'emit');
+      vi.spyOn(component.vrnSearchListUpdate, 'emit').mockReturnValue(undefined);
       component.updateMotList('ABC123');
       expect(component.vrnSearchListUpdate.emit).toHaveBeenCalledWith('ABC123');
     });
     it('should set hasCalledMOT to true', () => {
       component.hasCalledMOT = false;
       component.updateMotList('ABC123');
-      expect(component.hasCalledMOT).toBeTrue();
+      expect(component.hasCalledMOT).toBe(true);
     });
     it('should call updateIsSearchingForMOT with false', () => {
-      spyOn(component, 'updateIsSearchingForMOT');
+      vi.spyOn(component, 'updateIsSearchingForMOT').mockReturnValue(undefined);
       component.hasCalledMOT = false;
       component.updateMotList('ABC123');
       expect(component.updateIsSearchingForMOT).toHaveBeenCalledWith(false);
@@ -88,16 +89,16 @@ describe('VehicleRegistrationComponent', () => {
 
   describe('updateIsSearchingForMOT', () => {
     it('should set isSearchingForMOT to true and emit the new value', () => {
-      spyOn(component.motSearchingStatusChange, 'emit');
+      vi.spyOn(component.motSearchingStatusChange, 'emit').mockReturnValue(undefined);
       component.updateIsSearchingForMOT(true);
-      expect(component.isSearchingForMOT).toBeTrue();
+      expect(component.isSearchingForMOT).toBe(true);
       expect(component.motSearchingStatusChange.emit).toHaveBeenCalledWith(true);
     });
 
     it('should set isSearchingForMOT to false and emit the new value', () => {
-      spyOn(component.motSearchingStatusChange, 'emit');
+      vi.spyOn(component.motSearchingStatusChange, 'emit').mockReturnValue(undefined);
       component.updateIsSearchingForMOT(false);
-      expect(component.isSearchingForMOT).toBeFalse();
+      expect(component.isSearchingForMOT).toBe(false);
       expect(component.motSearchingStatusChange.emit).toHaveBeenCalledWith(false);
     });
   });
@@ -131,8 +132,8 @@ describe('VehicleRegistrationComponent', () => {
 
   describe('registrationInput', () => {
     it('clears existing data and aborts ongoing MOT call if searching', () => {
-      spyOn(component, 'clearData');
-      spyOn(component, 'abortMOTCall');
+      vi.spyOn(component, 'clearData').mockReturnValue(undefined);
+      vi.spyOn(component, 'abortMOTCall').mockReturnValue(undefined);
       component.isSearchingForMOT = true;
 
       component.registrationInput({ value: 'ABC123' } as HTMLInputElement);
@@ -144,7 +145,7 @@ describe('VehicleRegistrationComponent', () => {
     it('sets hasCalledMOT to false', () => {
       component.hasCalledMOT = true;
       component.registrationInput({ value: 'ABC123' } as HTMLInputElement);
-      expect(component.hasCalledMOT).toBeFalse();
+      expect(component.hasCalledMOT).toBe(false);
     });
 
     it('removes non-alphanumeric characters from input value', () => {
@@ -155,7 +156,7 @@ describe('VehicleRegistrationComponent', () => {
 
     it('sets form control error if input value is empty after removing non-alphanumeric characters', () => {
       const event: HTMLInputElement = { value: '@!#$' } as HTMLInputElement;
-      spyOn(component.formControl, 'setErrors');
+      vi.spyOn(component.formControl, 'setErrors').mockReturnValue(undefined);
       component.registrationInput(event);
       expect(component.formControl.setErrors).toHaveBeenCalledWith({ invalidValue: '' });
     });
@@ -171,43 +172,43 @@ describe('VehicleRegistrationComponent', () => {
     it('should return true if the search spinner is shown', () => {
       component.isSearchingForMOT = true;
       component.formControl.setValue('valid');
-      spyOn(component.networkState, 'getNetworkState').and.returnValue(NetworkConnectionStatus.ONLINE);
+      vi.spyOn(component.networkState, 'getNetworkState').mockReturnValue(NetworkConnectionStatus.ONLINE);
 
-      expect(component.shouldDisableMOTButton()).toBeTrue();
+      expect(component.shouldDisableMOTButton()).toBe(true);
     });
 
     it('should return true if the form control is not valid', () => {
       component.isSearchingForMOT = false;
       component.formControl.setValue(null);
-      spyOn(component.networkState, 'getNetworkState').and.returnValue(NetworkConnectionStatus.ONLINE);
+      vi.spyOn(component.networkState, 'getNetworkState').mockReturnValue(NetworkConnectionStatus.ONLINE);
 
-      expect(component.shouldDisableMOTButton()).toBeTrue();
+      expect(component.shouldDisableMOTButton()).toBe(true);
     });
 
     it('should return true if the network state is offline and not in practice mode', () => {
       component.isSearchingForMOT = false;
       component.formControl.setValue('valid');
       component.isPracticeMode = false;
-      spyOn(component.networkState, 'getNetworkState').and.returnValue(NetworkConnectionStatus.OFFLINE);
+      vi.spyOn(component.networkState, 'getNetworkState').mockReturnValue(NetworkConnectionStatus.OFFLINE);
 
-      expect(component.shouldDisableMOTButton()).toBeTrue();
+      expect(component.shouldDisableMOTButton()).toBe(true);
     });
 
     it('should return false if the search spinner is not shown, form control is valid, and network state is online', () => {
       component.isSearchingForMOT = false;
       component.formControl.setValue('valid');
-      spyOn(component.networkState, 'getNetworkState').and.returnValue(NetworkConnectionStatus.ONLINE);
+      vi.spyOn(component.networkState, 'getNetworkState').mockReturnValue(NetworkConnectionStatus.ONLINE);
 
-      expect(component.shouldDisableMOTButton()).toBeFalse();
+      expect(component.shouldDisableMOTButton()).toBe(false);
     });
 
     it('should return false if the search spinner is not shown, form control is valid, and in practice mode', () => {
       component.isSearchingForMOT = false;
       component.formControl.setValue('valid');
       component.isPracticeMode = true;
-      spyOn(component.networkState, 'getNetworkState').and.returnValue(NetworkConnectionStatus.OFFLINE);
+      vi.spyOn(component.networkState, 'getNetworkState').mockReturnValue(NetworkConnectionStatus.OFFLINE);
 
-      expect(component.shouldDisableMOTButton()).toBeFalse();
+      expect(component.shouldDisableMOTButton()).toBe(false);
     });
   });
   describe('isSearchFailed', () => {

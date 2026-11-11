@@ -1,5 +1,5 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { UntypedFormControl, Validators } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { KeepAwake as Insomnia } from '@capacitor-community/keep-awake';
@@ -7,6 +7,7 @@ import { ScreenOrientation } from '@capawesome/capacitor-screen-orientation';
 import { JournalData, TestResultCommonSchema, TestSlotAttributes } from '@dvsa/mes-test-schema/categories/common';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { ModalController } from '@ionic/angular';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { Store, StoreModule } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
@@ -193,7 +194,7 @@ describe('WaitingRoomPage', () => {
     store$ = TestBed.inject(Store);
     modalController = TestBed.inject(ModalController);
     router = TestBed.inject(Router);
-    spyOn(store$, 'dispatch');
+    vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
     component.subscription = new Subscription();
   });
 
@@ -253,7 +254,7 @@ describe('WaitingRoomPage', () => {
           removeEventListener: () => {},
         };
 
-        spyOn(modalController, 'create').and.returnValue(Promise.resolve(mockModalElement as HTMLIonModalElement));
+        vi.spyOn(modalController, 'create').mockReturnValue(Promise.resolve(mockModalElement as HTMLIonModalElement));
         await component.showCandidateDataMissingError();
         expect(modalController.create).toHaveBeenCalled();
       });
@@ -261,25 +262,25 @@ describe('WaitingRoomPage', () => {
 
     describe('ionViewDidEnter', () => {
       beforeEach(() => {
-        spyOn(Insomnia, 'keepAwake').and.returnValue(Promise.resolve());
-        spyOn(ScreenOrientation, 'lock').and.returnValue(Promise.resolve());
+        vi.spyOn(Insomnia, 'keepAwake').mockReturnValue(Promise.resolve());
+        vi.spyOn(ScreenOrientation, 'lock').mockReturnValue(Promise.resolve());
       });
       it('should not enable single app mode if on ios and in practice mode', async () => {
-        spyOn(BasePageComponent.prototype, 'isIos').and.returnValue(true);
+        vi.spyOn(BasePageComponent.prototype, 'isIos').mockReturnValue(true);
         component.isEndToEndPracticeMode = true;
         await component.ionViewDidEnter();
         expect(deviceProvider.enableSingleAppMode).not.toHaveBeenCalled();
       });
 
       it('should enable single app mode if on ios and not in practice mode', async () => {
-        spyOn(BasePageComponent.prototype, 'isIos').and.returnValue(true);
+        vi.spyOn(BasePageComponent.prototype, 'isIos').mockReturnValue(true);
         component.isEndToEndPracticeMode = false;
         await component.ionViewDidEnter();
         expect(deviceProvider.enableSingleAppMode).toHaveBeenCalled();
       });
 
       it('should keep the device awake', async () => {
-        spyOn(BasePageComponent.prototype, 'isIos').and.returnValue(true);
+        vi.spyOn(BasePageComponent.prototype, 'isIos').mockReturnValue(true);
         component.isEndToEndPracticeMode = false;
         await component.ionViewDidEnter();
         expect(Insomnia.keepAwake).toHaveBeenCalled();
@@ -330,7 +331,7 @@ describe('WaitingRoomPage', () => {
     describe('ionViewDidLeave', () => {
       it('should unsubscribe from the subscription if there is one', () => {
         component.subscription = new Subscription();
-        spyOn(component.subscription, 'unsubscribe');
+        vi.spyOn(component.subscription, 'unsubscribe').mockReturnValue(undefined);
         component.ionViewDidLeave();
         expect(component.subscription.unsubscribe).toHaveBeenCalled();
       });
@@ -375,14 +376,19 @@ describe('WaitingRoomPage', () => {
         await component.onSubmit();
         expect(router.navigate).toHaveBeenCalledWith([TestFlowPageNames.CANDIDATE_LICENCE_PAGE]);
       });
-      it('should dispatch the WaitingRoomValidationError action if a field is not valid', fakeAsync(() => {
-        const { formGroup } = component;
-        formGroup.addControl('insuranceCheckbox', new UntypedFormControl('', [Validators.requiredTrue]));
-        formGroup.get('insuranceCheckbox').setValue(false);
-        component.onSubmit();
-        tick();
-        expect(store$.dispatch).toHaveBeenCalledWith(WaitingRoomValidationError('insuranceCheckbox is blank'));
-      }));
+      it('should dispatch the WaitingRoomValidationError action if a field is not valid', async () => {
+        vi.useFakeTimers();
+        try {
+          const { formGroup } = component;
+          formGroup.addControl('insuranceCheckbox', new UntypedFormControl('', [Validators.requiredTrue]));
+          formGroup.get('insuranceCheckbox').setValue(false);
+          component.onSubmit();
+          await vi.advanceTimersByTimeAsync(0);
+          expect(store$.dispatch).toHaveBeenCalledWith(WaitingRoomValidationError('insuranceCheckbox is blank'));
+        } finally {
+          vi.useRealTimers();
+        }
+      });
     });
 
     describe('isJournalDataInvalid', () => {

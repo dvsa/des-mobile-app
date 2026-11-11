@@ -1,6 +1,7 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { provideBasePageMocks } from '@mocks/test-providers';
 import { provideMockStore } from '@ngrx/store/testing';
@@ -89,7 +90,7 @@ describe('TestResultsSearchPage', () => {
     describe('advanced search', () => {
       describe('when the user is an LDTM', () => {
         beforeEach(() => {
-          spyOn(appConfigProviderMock, 'getAppConfig').and.returnValue({ role: ExaminerRole.LDTM } as AppConfig);
+          vi.spyOn(appConfigProviderMock, 'getAppConfig').mockReturnValue({ role: ExaminerRole.LDTM } as AppConfig);
           fixture.detectChanges();
         });
 
@@ -100,8 +101,8 @@ describe('TestResultsSearchPage', () => {
 
       describe('when the user is a DE', () => {
         beforeEach(() => {
-          spyOn(appConfigProviderMock, 'getAppConfig').and.returnValue({ role: ExaminerRole.DE } as AppConfig);
-          spyOn(authProviderMock, 'getEmployeeId').and.returnValue('testValue');
+          vi.spyOn(appConfigProviderMock, 'getAppConfig').mockReturnValue({ role: ExaminerRole.DE } as AppConfig);
+          vi.spyOn(authProviderMock, 'getEmployeeId').mockReturnValue('testValue');
           fixture.detectChanges();
         });
 
@@ -113,7 +114,7 @@ describe('TestResultsSearchPage', () => {
 
     describe('ionViewDidEnter', () => {
       it('should dispatch the view did enter action', () => {
-        spyOn(component.store$, 'dispatch');
+        vi.spyOn(component.store$, 'dispatch').mockReturnValue(undefined);
         component.ionViewDidEnter();
         expect(component.store$.dispatch).toHaveBeenCalledWith(TestResultSearchViewDidEnter());
       });
@@ -122,7 +123,7 @@ describe('TestResultsSearchPage', () => {
     describe('ionViewDidLeave', () => {
       it('should unsubscribe from the subscription if there is one', () => {
         component.subscription = new Subscription();
-        spyOn(component.subscription, 'unsubscribe');
+        vi.spyOn(component.subscription, 'unsubscribe').mockReturnValue(undefined);
         component.ionViewDidLeave();
         expect(component.subscription.unsubscribe).toHaveBeenCalled();
       });
@@ -132,8 +133,8 @@ describe('TestResultsSearchPage', () => {
       for (const searchBy of [SearchBy.ApplicationReference, SearchBy.DriverNumber]) {
         it(`should refresh the spinner and results after an asynchronous ${searchBy} search`, async () => {
           const results$ = new Subject<SearchResultTestSchema[]>();
-          spyOn(component.searchProvider, 'applicationReferenceSearch').and.returnValue(results$);
-          spyOn(component.searchProvider, 'driverNumberSearch').and.returnValue(results$);
+          vi.spyOn(component.searchProvider, 'applicationReferenceSearch').mockReturnValue(results$);
+          vi.spyOn(component.searchProvider, 'driverNumberSearch').mockReturnValue(results$);
           component.searchBy = searchBy;
           fixture.autoDetectChanges();
           await fixture.whenStable();
@@ -168,19 +169,19 @@ describe('TestResultsSearchPage', () => {
     describe('advancedSearch', () => {
       it('should refresh the spinner and results after an asynchronous advanced search', async () => {
         const results$ = new Subject<SearchResultTestSchema[]>();
-        spyOn(component.searchProvider, 'advancedSearch').and.returnValue(results$);
+        vi.spyOn(component.searchProvider, 'advancedSearch').mockReturnValue(results$);
         fixture.autoDetectChanges();
         await fixture.whenStable();
         const advancedSearch = fixture.debugElement.query(By.directive(AdvancedSearchComponent));
         advancedSearch.triggerEventHandler('onSearchTests', {});
         await fixture.whenStable();
-        expect(advancedSearch.componentInstance.showSpinner).toBeTrue();
+        expect(advancedSearch.componentInstance.showSpinner).toBe(true);
 
         results$.next([]);
         results$.complete();
         await fixture.whenStable();
 
-        expect(advancedSearch.componentInstance.showSpinner).toBeFalse();
+        expect(advancedSearch.componentInstance.showSpinner).toBe(false);
         expect(fixture.debugElement.query(By.css('#test-result-search-no-results-message'))).not.toBeNull();
         expect(() => fixture.checkNoChanges()).not.toThrow();
       });
@@ -194,9 +195,9 @@ describe('TestResultsSearchPage', () => {
     for (const searchType of ['applicationReferenceSearch', 'driverNumberSearch', 'advancedSearch'] as const) {
       it(`should refresh the view when ${searchType} fails`, async () => {
         const results$ = new Subject<SearchResultTestSchema[]>();
-        spyOn(component.searchProvider, searchType).and.returnValue(results$);
+        vi.spyOn(component.searchProvider, searchType).mockReturnValue(results$);
         let finishErrorModal: () => void;
-        spyOn(component, 'showError').and.returnValue(
+        vi.spyOn(component, 'showError').mockReturnValue(
           new Promise<void>((resolve) => {
             finishErrorModal = resolve;
           })
@@ -253,7 +254,7 @@ describe('TestResultsSearchPage', () => {
 
     describe('showError', () => {
       it('should display a modal on error', async () => {
-        spyOn(modalController, 'create').and.returnValue(
+        vi.spyOn(modalController, 'create').mockReturnValue(
           Promise.resolve({
             present: async () => {},
           } as HTMLIonModalElement)

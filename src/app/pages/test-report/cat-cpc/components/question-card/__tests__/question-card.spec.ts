@@ -7,6 +7,7 @@ import { QuestionScoreComponent } from '@pages/test-report/cat-cpc/components/qu
 import { QuestionSubtitleComponent } from '@pages/test-report/cat-cpc/components/question-subtitle/question-subtitle';
 import { QuestionTitleComponent } from '@pages/test-report/cat-cpc/components/question-title/question-title';
 import { MockComponent } from 'ng-mocks';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 describe('QuestionCardComponent', () => {
   let fixture: ComponentFixture<QuestionCardComponent>;
@@ -31,7 +32,7 @@ describe('QuestionCardComponent', () => {
 
   describe('answerChanged', () => {
     it('should emit answerPayload with the correct values', () => {
-      spyOn(component.answerPayload, 'emit');
+      vi.spyOn(component.answerPayload, 'emit').mockReturnValue(undefined);
       component.questionNumber = 1;
       component.answerChanged({
         answer: {

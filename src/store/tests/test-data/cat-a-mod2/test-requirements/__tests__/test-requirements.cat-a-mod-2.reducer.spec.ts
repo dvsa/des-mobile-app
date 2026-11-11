@@ -1,5 +1,6 @@
 import { testRequirementsCatAMod2Reducer } from '@store/tests/test-data/cat-a-mod2/test-requirements/test-requirements.cat-a-mod-2.reducer';
 import { LegalRequirements } from '@store/tests/test-data/test-data.constants';
+import { describe, expect, it } from 'vitest';
 import * as testRequirementsActions from '../../../common/test-requirements/test-requirements.actions';
 
 describe('testRequirementsCatAMod2Reducer', () => {

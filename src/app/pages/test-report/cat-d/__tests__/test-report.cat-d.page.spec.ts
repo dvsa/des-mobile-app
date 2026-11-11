@@ -2,6 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { NavParams } from '@ionic/angular';
 import { NavParamsMock } from '@mocks/index.mock';
 import { MockComponent } from 'ng-mocks';
+import { beforeEach, describe, expect, it } from 'vitest';
 
 import { By } from '@angular/platform-browser';
 

@@ -1,6 +1,7 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ToastController } from '@ionic/angular';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { provideBasePageMocks } from '@mocks/test-providers';
 import { Store, StoreModule } from '@ngrx/store';
@@ -82,7 +83,7 @@ describe('TestReportCatManoeuvrePage', () => {
     component = fixture.componentInstance;
     toastController = TestBed.inject(ToastController);
     store$ = TestBed.inject(Store);
-    spyOn(store$, 'dispatch');
+    vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
   });
 
   it('should create', () => {
@@ -128,19 +129,19 @@ describe('TestReportCatManoeuvrePage', () => {
   });
   describe('competencyClick', () => {
     beforeEach(() => {
-      spyOn(toastController, 'create').and.returnValue(
+      vi.spyOn(toastController, 'create').mockReturnValue(
         Promise.resolve({
           present: () => Promise.resolve(),
         } as HTMLIonToastElement)
       );
     });
     it('should not call toast create if toast already exists', async () => {
-      spyOn(toastController, 'getTop').and.returnValue(Promise.resolve({} as HTMLIonToastElement));
+      vi.spyOn(toastController, 'getTop').mockReturnValue(Promise.resolve({} as HTMLIonToastElement));
       await component.competencyClick();
       expect(toastController.create).not.toHaveBeenCalled();
     });
     it('should create toast controller if none already exist', async () => {
-      spyOn(toastController, 'getTop').and.returnValue(Promise.resolve(null));
+      vi.spyOn(toastController, 'getTop').mockReturnValue(Promise.resolve(null));
       await component.competencyClick();
       expect(toastController.create).toHaveBeenCalled();
     });
@@ -153,7 +154,7 @@ describe('TestReportCatManoeuvrePage', () => {
       expect(component.manoeuvreSubscription).toBeDefined();
     });
     it('should call base page ionViewWillEnter', async () => {
-      spyOn(TestReportBasePageComponent.prototype, 'ionViewWillEnter');
+      vi.spyOn(TestReportBasePageComponent.prototype, 'ionViewWillEnter').mockReturnValue(undefined);
       await component.ionViewWillEnter();
 
       expect(TestReportBasePageComponent.prototype.ionViewWillEnter).toHaveBeenCalled();
@@ -162,9 +163,9 @@ describe('TestReportCatManoeuvrePage', () => {
   describe('ionViewDidLeave', () => {
     it('should call basePage functions and unsubscribe from subscription if there is one', () => {
       component.manoeuvreSubscription = new Subscription();
-      spyOn(TestReportBasePageComponent.prototype, 'ionViewDidLeave');
-      spyOn(TestReportBasePageComponent.prototype, 'cancelSubscription');
-      spyOn(component.manoeuvreSubscription, 'unsubscribe');
+      vi.spyOn(TestReportBasePageComponent.prototype, 'ionViewDidLeave').mockReturnValue(undefined);
+      vi.spyOn(TestReportBasePageComponent.prototype, 'cancelSubscription').mockReturnValue(undefined);
+      vi.spyOn(component.manoeuvreSubscription, 'unsubscribe').mockReturnValue(undefined);
 
       component.ionViewDidLeave();
       expect(TestReportBasePageComponent.prototype.ionViewDidLeave).toHaveBeenCalled();

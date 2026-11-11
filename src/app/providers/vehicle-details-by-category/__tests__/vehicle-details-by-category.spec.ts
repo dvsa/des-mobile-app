@@ -21,6 +21,7 @@ import {
   getVehicleWidth as getVehicleWidthManoeuvre,
 } from '@store/tests/vehicle-details/cat-manoeuvres/vehicle-details.cat-manoeuvre.selector';
 import { getVehicleDetails } from '@store/tests/vehicle-details/vehicle-details.reducer';
+import { beforeEach, describe, expect, it } from 'vitest';
 import { VehicleDetailsByCategoryProvider } from '../vehicle-details-by-category';
 
 describe('VehicleDetailsByCategoryProvider', () => {

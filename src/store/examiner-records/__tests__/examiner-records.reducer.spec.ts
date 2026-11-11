@@ -8,6 +8,7 @@ import {
 import { ColourEnum } from '@providers/examiner-records/examiner-records';
 import { ExaminerRecordStateModel } from '@store/examiner-records/examiner-records.model';
 import { examinerRecordsReducer } from '@store/examiner-records/examiner-records.reducer';
+import { beforeEach, describe, expect, it } from 'vitest';
 
 describe('ExaminerRecordsReducer', () => {
   let initialState: ExaminerRecordStateModel = {

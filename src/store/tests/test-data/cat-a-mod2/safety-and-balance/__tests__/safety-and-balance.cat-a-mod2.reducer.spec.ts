@@ -1,6 +1,7 @@
 import { SafetyAndBalanceQuestions } from '@dvsa/mes-test-schema/categories/AM2';
 import { QuestionResult } from '@dvsa/mes-test-schema/categories/common';
 import { cloneDeep } from 'lodash-es';
+import { describe, expect, it } from 'vitest';
 import {
   AddSafetyAndBalanceComment,
   BalanceQuestionOutcomeChanged,

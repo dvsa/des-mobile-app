@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { AlternateEvidenceDescriptionComponent } from '../alternate-evidence-description.component';
 
 describe('AlternateEvidenceDescriptionComponent', () => {
@@ -40,12 +41,12 @@ describe('AlternateEvidenceDescriptionComponent', () => {
       component.formControl = null;
       component.formGroup = new UntypedFormGroup({});
       component.ngOnChanges();
-      expect(component.formGroup.contains('altEvidenceDetailsCtrl')).toBeTrue();
+      expect(component.formGroup.contains('altEvidenceDetailsCtrl')).toBe(true);
     });
 
     it('should set formControl in formGroup if altEvidenceDetailsCtrl exists', () => {
       component.formControl = null;
-      spyOn(component.formGroup, 'contains').and.returnValue(true);
+      vi.spyOn(component.formGroup, 'contains').mockReturnValue(true);
       component.ngOnChanges();
       expect(component.formGroup.controls.altEvidenceDetailsCtrl).toBe(component.formControl);
     });
@@ -100,15 +101,15 @@ describe('AlternateEvidenceDescriptionComponent', () => {
 
   describe('charactersExceeded', () => {
     it('should return true if the character count has been exceeded', () => {
-      spyOn(component.characterCountService, 'charactersExceeded').and.returnValue(true);
+      vi.spyOn(component.characterCountService, 'charactersExceeded').mockReturnValue(true);
       component.charsRemaining = -1;
-      expect(component.charactersExceeded()).toBeTrue();
+      expect(component.charactersExceeded()).toBe(true);
     });
 
     it('should return false if the character count has not been exceeded', () => {
-      spyOn(component.characterCountService, 'charactersExceeded').and.returnValue(false);
+      vi.spyOn(component.characterCountService, 'charactersExceeded').mockReturnValue(false);
       component.charsRemaining = 10;
-      expect(component.charactersExceeded()).toBeFalse();
+      expect(component.charactersExceeded()).toBe(false);
     });
   });
 
@@ -117,7 +118,7 @@ describe('AlternateEvidenceDescriptionComponent', () => {
       component.formGroup = new UntypedFormGroup({});
       component.formControl = new UntypedFormControl();
       component.formGroup.addControl('altEvidenceDetailsCtrl', component.formControl);
-      spyOn(component.formGroup.get('altEvidenceDetailsCtrl'), 'updateValueAndValidity');
+      vi.spyOn(component.formGroup.get('altEvidenceDetailsCtrl'), 'updateValueAndValidity').mockReturnValue(undefined);
       component.characterCountChanged(5);
       expect(component.charsRemaining).toBe(5);
       expect(component.formGroup.get('altEvidenceDetailsCtrl').updateValueAndValidity).toHaveBeenCalled();
@@ -126,7 +127,7 @@ describe('AlternateEvidenceDescriptionComponent', () => {
 
   describe('getCharacterCountText', () => {
     it('should return the correct character count text from the service', () => {
-      spyOn(component.characterCountService, 'getCharacterCountText').and.returnValue('5 characters remaining');
+      vi.spyOn(component.characterCountService, 'getCharacterCountText').mockReturnValue('5 characters remaining');
       component.charsRemaining = 5;
       expect(component.getCharacterCountText()).toBe('5 characters remaining');
     });
@@ -134,7 +135,7 @@ describe('AlternateEvidenceDescriptionComponent', () => {
 
   describe('evidenceDescriptionTestResultChanged', () => {
     it('should emit evidenceDescriptionTestResultChange with the value passed', () => {
-      spyOn(component.evidenceDescriptionTestResultChange, 'emit');
+      vi.spyOn(component.evidenceDescriptionTestResultChange, 'emit').mockReturnValue(undefined);
       component.evidenceDescriptionTestResultChanged('string');
       expect(component.evidenceDescriptionTestResultChange.emit).toHaveBeenCalledWith('string');
     });

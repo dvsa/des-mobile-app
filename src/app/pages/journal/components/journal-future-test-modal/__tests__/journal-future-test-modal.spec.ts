@@ -9,6 +9,7 @@ import { DeviceProvider } from '@providers/device/device';
 import { LogHelperMock } from '@providers/logs/__mocks__/logs-helper.mock';
 import { LogHelper } from '@providers/logs/logs-helper';
 import { StoreModel } from '@shared/models/store.model';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { JournalFutureTestModal } from '../journal-future-test-modal';
 
 describe('JournalRekeyModal', () => {
@@ -32,13 +33,13 @@ describe('JournalRekeyModal', () => {
     component = fixture.componentInstance;
     store$ = TestBed.inject(Store);
 
-    spyOn(store$, 'dispatch');
+    vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
   });
 
   describe('DOM', () => {
     it('should call onStartTest when the Start test button is clicked', () => {
       fixture.detectChanges();
-      spyOn(component, 'onStartTest');
+      vi.spyOn(component, 'onStartTest').mockReturnValue(undefined);
       const button = fixture.debugElement.query(By.css('ion-button.cancel-button'));
       button.triggerEventHandler('click', null);
 
@@ -48,7 +49,7 @@ describe('JournalRekeyModal', () => {
 
     it('should call onCancel when the Cancel button is clicked', () => {
       fixture.detectChanges();
-      spyOn(component, 'onCancel');
+      vi.spyOn(component, 'onCancel').mockReturnValue(undefined);
       const button = fixture.debugElement.query(By.css('ion-button.start-test-button'));
       button.triggerEventHandler('click', null);
 
@@ -59,14 +60,14 @@ describe('JournalRekeyModal', () => {
 
   describe('onCancel', () => {
     it('should call dismiss with CANCEL', async () => {
-      spyOn(modalController, 'dismiss').and.callThrough();
+      vi.spyOn(modalController, 'dismiss');
       await component.onCancel();
       expect(modalController.dismiss).toHaveBeenCalledWith(ModalEvent.CANCEL);
     });
   });
   describe('onStartTest', () => {
     it('should call dismiss with START', async () => {
-      spyOn(modalController, 'dismiss').and.callThrough();
+      vi.spyOn(modalController, 'dismiss');
       await component.onStartTest();
       expect(modalController.dismiss).toHaveBeenCalledWith(ModalEvent.START);
     });

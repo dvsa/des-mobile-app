@@ -1,6 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
-import { ReplaySubject } from 'rxjs';
+import { ReplaySubject, firstValueFrom } from 'rxjs';
+import { beforeEach, describe, expect, it } from 'vitest';
 
 import { AnalyticsProviderMock } from '@providers/analytics/__mocks__/analytics.mock';
 import { AnalyticsProvider } from '@providers/analytics/analytics';
@@ -37,168 +38,135 @@ describe('TestCentreJournalAnalyticsEffects', () => {
   });
 
   describe('testCentreJournalView$', () => {
-    it('should call setCurrentPage', (done) => {
+    it('should call setCurrentPage', async () => {
       actions$.next(testCentreJournalActions.TestCentreJournalViewDidEnter());
-      effects.testCentreJournalView$.subscribe((result) => {
-        expect(result.type === AnalyticRecorded.type).toBe(true);
-        // GA4 Analytics
-        expect(analyticsProviderMock.setGACurrentPage).toHaveBeenCalledWith(screenName);
-        done();
-      });
+      const result = await firstValueFrom(effects.testCentreJournalView$);
+      expect(result.type === AnalyticRecorded.type).toBe(true);
+      expect(analyticsProviderMock.setGACurrentPage).toHaveBeenCalledWith(screenName);
     });
   });
 
   describe('testCentreJournalRefresh$', () => {
-    it('should call logEvent with refresh details', (done) => {
+    it('should call logEvent with refresh details', async () => {
       actions$.next(testCentreJournalActions.TestCentreJournalGetData(false));
-      effects.testCentreJournalRefresh$.subscribe((result) => {
-        expect(result.type === AnalyticRecorded.type).toBe(true);
-        // GA4 Analytics
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-          GoogleAnalyticsEvents.TEST_CENTRE_JOURNAL,
-          GoogleAnalyticsEventsTitles.REFRESH,
-          GoogleAnalyticsEventsValues.AUTOMATIC
-        );
-        done();
-      });
+      const result = await firstValueFrom(effects.testCentreJournalRefresh$);
+      expect(result.type === AnalyticRecorded.type).toBe(true);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+        GoogleAnalyticsEvents.TEST_CENTRE_JOURNAL,
+        GoogleAnalyticsEventsTitles.REFRESH,
+        GoogleAnalyticsEventsValues.AUTOMATIC
+      );
     });
   });
 
   describe('testCentreJournalSelectTestCentre$', () => {
-    it('should log an event', (done) => {
+    it('should log an event', async () => {
       actions$.next(testCentreJournalActions.TestCentreJournalSelectTestCentre());
-      effects.testCentreJournalSelectTestCentre$.subscribe((result) => {
-        expect(result.type === AnalyticRecorded.type).toBe(true);
-        // GA4 Analytics
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-          GoogleAnalyticsEvents.TEST_CENTRE_JOURNAL,
-          GoogleAnalyticsEventsTitles.FILTER,
-          GoogleAnalyticsEventsValues.LOCATION
-        );
-        done();
-      });
+      const result = await firstValueFrom(effects.testCentreJournalSelectTestCentre$);
+      expect(result.type === AnalyticRecorded.type).toBe(true);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+        GoogleAnalyticsEvents.TEST_CENTRE_JOURNAL,
+        GoogleAnalyticsEventsTitles.FILTER,
+        GoogleAnalyticsEventsValues.LOCATION
+      );
     });
   });
 
   describe('testCentreJournalTabChanged$', () => {
-    it('should log an event with an option not listed in the GA4 switch', (done) => {
+    it('should log an event with an option not listed in the GA4 switch', async () => {
       actions$.next(testCentreJournalActions.TestCentreJournalTabChanged('tab1'));
-      effects.testCentreJournalTabChanged$.subscribe((result) => {
-        expect(result.type === AnalyticRecorded.type).toBe(true);
-        // GA4 Analytics
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-          GoogleAnalyticsEvents.TEST_CENTRE_JOURNAL,
-          GoogleAnalyticsEventsTitles.TAB_SELECTION,
-          GoogleAnalyticsEventsValues.UNKNOWN
-        );
-        done();
-      });
+      const result = await firstValueFrom(effects.testCentreJournalTabChanged$);
+      expect(result.type === AnalyticRecorded.type).toBe(true);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+        GoogleAnalyticsEvents.TEST_CENTRE_JOURNAL,
+        GoogleAnalyticsEventsTitles.TAB_SELECTION,
+        GoogleAnalyticsEventsValues.UNKNOWN
+      );
     });
-    it('should log an event', (done) => {
+    it('should log an event', async () => {
       actions$.next(testCentreJournalActions.TestCentreJournalTabChanged('View Journals'));
-      effects.testCentreJournalTabChanged$.subscribe((result) => {
-        expect(result.type === AnalyticRecorded.type).toBe(true);
-        // GA4 Analytics
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-          GoogleAnalyticsEvents.TEST_CENTRE_JOURNAL,
-          GoogleAnalyticsEventsTitles.TAB_SELECTION,
-          GoogleAnalyticsEventsValues.JOURNALS
-        );
-        done();
-      });
+      const result = await firstValueFrom(effects.testCentreJournalTabChanged$);
+      expect(result.type === AnalyticRecorded.type).toBe(true);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+        GoogleAnalyticsEvents.TEST_CENTRE_JOURNAL,
+        GoogleAnalyticsEventsTitles.TAB_SELECTION,
+        GoogleAnalyticsEventsValues.JOURNALS
+      );
     });
   });
 
   describe('testCentreJournalSelectCandidate$', () => {
-    it('should log an event', (done) => {
+    it('should log an event', async () => {
       actions$.next(testCentreJournalActions.TestCentreJournalSelectCandidate());
-      effects.testCentreJournalSelectCandidate$.subscribe((result) => {
-        expect(result.type === AnalyticRecorded.type).toBe(true);
-        // GA4 Analytics
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-          GoogleAnalyticsEvents.TEST_CENTRE_JOURNAL,
-          GoogleAnalyticsEventsTitles.FILTER,
-          GoogleAnalyticsEventsValues.CANDIDATE
-        );
-        done();
-      });
+      const result = await firstValueFrom(effects.testCentreJournalSelectCandidate$);
+      expect(result.type === AnalyticRecorded.type).toBe(true);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+        GoogleAnalyticsEvents.TEST_CENTRE_JOURNAL,
+        GoogleAnalyticsEventsTitles.FILTER,
+        GoogleAnalyticsEventsValues.CANDIDATE
+      );
     });
   });
 
   describe('testCentreJournalShowBookings$', () => {
-    it('should log an event', (done) => {
+    it('should log an event', async () => {
       actions$.next(testCentreJournalActions.TestCentreJournalShowBookings());
-      effects.testCentreJournalShowBookings$.subscribe((result) => {
-        expect(result.type === AnalyticRecorded.type).toBe(true);
-        // GA4 Analytics
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-          GoogleAnalyticsEvents.TEST_CENTRE_JOURNAL,
-          GoogleAnalyticsEventsTitles.BUTTON_SELECTION,
-          GoogleAnalyticsEventsValues.BOOKINGS
-        );
-        done();
-      });
+      const result = await firstValueFrom(effects.testCentreJournalShowBookings$);
+      expect(result.type === AnalyticRecorded.type).toBe(true);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+        GoogleAnalyticsEvents.TEST_CENTRE_JOURNAL,
+        GoogleAnalyticsEventsTitles.BUTTON_SELECTION,
+        GoogleAnalyticsEventsValues.BOOKINGS
+      );
     });
   });
 
   describe('testCentreJournalSelectExaminer$', () => {
-    it('should log an event', (done) => {
+    it('should log an event', async () => {
       actions$.next(testCentreJournalActions.TestCentreJournalSelectExaminer());
-      effects.testCentreJournalSelectExaminer$.subscribe((result) => {
-        expect(result.type === AnalyticRecorded.type).toBe(true);
-        // GA4 Analytics
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-          GoogleAnalyticsEvents.TEST_CENTRE_JOURNAL,
-          GoogleAnalyticsEventsTitles.FILTER,
-          GoogleAnalyticsEventsValues.EXAMINER
-        );
-        done();
-      });
+      const result = await firstValueFrom(effects.testCentreJournalSelectExaminer$);
+      expect(result.type === AnalyticRecorded.type).toBe(true);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+        GoogleAnalyticsEvents.TEST_CENTRE_JOURNAL,
+        GoogleAnalyticsEventsTitles.FILTER,
+        GoogleAnalyticsEventsValues.EXAMINER
+      );
     });
   });
 
   describe('testCentreJournalShowJournals$', () => {
-    it('should log an event', (done) => {
+    it('should log an event', async () => {
       actions$.next(testCentreJournalActions.TestCentreJournalShowJournals());
-      effects.testCentreJournalShowJournals$.subscribe((result) => {
-        expect(result.type === AnalyticRecorded.type).toBe(true);
-        // GA4 Analytics
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-          GoogleAnalyticsEvents.TEST_CENTRE_JOURNAL,
-          GoogleAnalyticsEventsTitles.BUTTON_SELECTION,
-          GoogleAnalyticsEventsValues.JOURNALS
-        );
-        done();
-      });
+      const result = await firstValueFrom(effects.testCentreJournalShowJournals$);
+      expect(result.type === AnalyticRecorded.type).toBe(true);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+        GoogleAnalyticsEvents.TEST_CENTRE_JOURNAL,
+        GoogleAnalyticsEventsTitles.BUTTON_SELECTION,
+        GoogleAnalyticsEventsValues.JOURNALS
+      );
     });
   });
 
   describe('testCentreJournalDateNavigation$', () => {
-    it('should log an event with an option not listed in the GA4 switch', (done) => {
+    it('should log an event with an option not listed in the GA4 switch', async () => {
       actions$.next(testCentreJournalActions.TestCentreJournalDateNavigation('some day'));
-      effects.testCentreJournalDateNavigation$.subscribe((result) => {
-        expect(result.type === AnalyticRecorded.type).toBe(true);
-        // GA4 Analytics
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-          GoogleAnalyticsEvents.TEST_CENTRE_JOURNAL,
-          GoogleAnalyticsEventsTitles.NAVIGATION,
-          GoogleAnalyticsEventsValues.UNKNOWN
-        );
-        done();
-      });
+      const result = await firstValueFrom(effects.testCentreJournalDateNavigation$);
+      expect(result.type === AnalyticRecorded.type).toBe(true);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+        GoogleAnalyticsEvents.TEST_CENTRE_JOURNAL,
+        GoogleAnalyticsEventsTitles.NAVIGATION,
+        GoogleAnalyticsEventsValues.UNKNOWN
+      );
     });
-    it('should log an event', (done) => {
+    it('should log an event', async () => {
       actions$.next(testCentreJournalActions.TestCentreJournalDateNavigation('today'));
-      effects.testCentreJournalDateNavigation$.subscribe((result) => {
-        expect(result.type === AnalyticRecorded.type).toBe(true);
-        // GA4 Analytics
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-          GoogleAnalyticsEvents.TEST_CENTRE_JOURNAL,
-          GoogleAnalyticsEventsTitles.NAVIGATION,
-          GoogleAnalyticsEventsValues.TODAY
-        );
-        done();
-      });
+      const result = await firstValueFrom(effects.testCentreJournalDateNavigation$);
+      expect(result.type === AnalyticRecorded.type).toBe(true);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+        GoogleAnalyticsEvents.TEST_CENTRE_JOURNAL,
+        GoogleAnalyticsEventsTitles.NAVIGATION,
+        GoogleAnalyticsEventsValues.TODAY
+      );
     });
   });
 });

@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { UntypedFormGroup, Validators } from '@angular/forms';
 
@@ -26,7 +27,7 @@ describe('ActivityCodeComponent', () => {
   describe('Class', () => {
     describe('activityCodeChanged', () => {
       it('should emit activityCodeChange with passed value', () => {
-        spyOn(component.activityCodeChange, 'emit');
+        vi.spyOn(component.activityCodeChange, 'emit').mockReturnValue(undefined);
         component.activityCodeChanged({ activityCode: '1' } as ActivityCodeModel);
 
         expect(component.activityCodeChange.emit).toHaveBeenCalledWith({ activityCode: '1' } as ActivityCodeModel);
@@ -35,13 +36,13 @@ describe('ActivityCodeComponent', () => {
 
     describe('onModalDismiss', () => {
       it('should call activityCodeChanged with data passed if event is SELECT_CODE', async () => {
-        spyOn(component, 'activityCodeChanged');
+        vi.spyOn(component, 'activityCodeChanged').mockReturnValue(undefined);
         await component.onModalDismiss({ activityCode: '1' } as ActivityCodeModel, ActivityCodeModalEvent.SELECT_CODE);
 
         expect(component.activityCodeChanged).toHaveBeenCalledWith({ activityCode: '1' } as ActivityCodeModel);
       });
       it('should not call activityCodeChanged with data passed if event is CANCEL', async () => {
-        spyOn(component, 'activityCodeChanged');
+        vi.spyOn(component, 'activityCodeChanged').mockReturnValue(undefined);
         await component.onModalDismiss({ activityCode: '1' } as ActivityCodeModel, ActivityCodeModalEvent.CANCEL);
         expect(component.activityCodeChanged).not.toHaveBeenCalled();
       });
@@ -49,8 +50,8 @@ describe('ActivityCodeComponent', () => {
 
     describe('openActivityCodeListModal', () => {
       it('should call alertController.create if isSelectDisabled returns false', async () => {
-        spyOn(component, 'isSelectDisabled').and.returnValue(false);
-        spyOn(component.modalController, 'create').and.returnValue(
+        vi.spyOn(component, 'isSelectDisabled').mockReturnValue(false);
+        vi.spyOn(component.modalController, 'create').mockReturnValue(
           Promise.resolve({
             present: () => Promise.resolve(),
             onWillDismiss: () => Promise.resolve({ data: true }),

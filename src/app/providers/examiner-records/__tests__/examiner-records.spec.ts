@@ -13,6 +13,7 @@ import { SearchProviderMock } from '@providers/search/__mocks__/search.mock';
 import { SearchProvider } from '@providers/search/search';
 import { DateRange } from '@shared/helpers/date-time';
 import moment from 'moment';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { ExaminerRecordsProvider } from '../examiner-records';
 
 describe('ExaminerRecordsProvider', () => {
@@ -371,7 +372,7 @@ describe('ExaminerRecordsProvider', () => {
 
   describe('handleLoadingUI', () => {
     it('should call handleUILoading if should load while not currently loading', () => {
-      spyOn(provider.loadingProvider, 'handleUILoading').and.callThrough();
+      vi.spyOn(provider.loadingProvider, 'handleUILoading');
       provider.currentlyLoading = false;
       provider.handleLoadingUI(true);
       expect(provider.loadingProvider.handleUILoading).toHaveBeenCalledWith(true, {
@@ -383,7 +384,7 @@ describe('ExaminerRecordsProvider', () => {
       });
     });
     it('should call handleUILoading if should not load while currently loading', () => {
-      spyOn(provider.loadingProvider, 'handleUILoading').and.callThrough();
+      vi.spyOn(provider.loadingProvider, 'handleUILoading');
       provider.currentlyLoading = true;
       provider.handleLoadingUI(false);
       expect(provider.loadingProvider.handleUILoading).toHaveBeenCalledWith(false, {
@@ -395,13 +396,13 @@ describe('ExaminerRecordsProvider', () => {
       });
     });
     it('should not call handleUILoading if should load while currently loading', () => {
-      spyOn(provider.loadingProvider, 'handleUILoading').and.callThrough();
+      vi.spyOn(provider.loadingProvider, 'handleUILoading');
       provider.currentlyLoading = true;
       provider.handleLoadingUI(true);
       expect(provider.loadingProvider.handleUILoading).not.toHaveBeenCalled();
     });
     it('should not call handleUILoading if should not load while not currently loading', () => {
-      spyOn(provider.loadingProvider, 'handleUILoading').and.callThrough();
+      vi.spyOn(provider.loadingProvider, 'handleUILoading');
       provider.currentlyLoading = true;
       provider.handleLoadingUI(true);
       expect(provider.loadingProvider.handleUILoading).not.toHaveBeenCalled();

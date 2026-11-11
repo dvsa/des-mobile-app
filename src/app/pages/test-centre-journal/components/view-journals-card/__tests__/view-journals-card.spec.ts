@@ -4,6 +4,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ExaminerWorkSchedule, TestCentre } from '@dvsa/mes-journal-schema';
 import { IonSelect } from '@ionic/angular';
 import { provideMockStore } from '@ngrx/store/testing';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { Store } from '@ngrx/store';
 import { TestCentreJournalDateNavigation } from '@pages/test-centre-journal/test-centre-journal.actions';
@@ -47,13 +48,13 @@ describe('ViewJournalsCardComponent', () => {
     component = fixture.componentInstance;
     slotProvider = TestBed.inject(SlotProvider);
     store$ = TestBed.inject(Store);
-    spyOn(store$, 'dispatch');
+    vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
   });
 
   describe('Class', () => {
     describe('ngOnChanges', () => {
       beforeEach(() => {
-        spyOn(component, 'onManualRefresh');
+        vi.spyOn(component, 'onManualRefresh').mockReturnValue(undefined);
       });
       it('should not run onManualRefresh when manuallyRefreshed is false', () => {
         component.manuallyRefreshed = false;
@@ -71,7 +72,7 @@ describe('ViewJournalsCardComponent', () => {
         component.slotContainer = {
           clear: () => {},
         } as ViewContainerRef;
-        spyOn(component.slotContainer, 'clear');
+        vi.spyOn(component.slotContainer, 'clear');
         component.examinerSelect = {
           value: 'something',
         } as IonSelect;
@@ -101,7 +102,7 @@ describe('ViewJournalsCardComponent', () => {
           clear: () => {},
         } as ViewContainerRef;
         component.testCentreResults = mockTestCentreDetailResponse;
-        spyOn(component.slotContainer, 'clear');
+        vi.spyOn(component.slotContainer, 'clear');
       });
       it('should use the staffNumber to do a lookup and retrieve appropriate journal', () => {
         component.examinerChanged('456');
@@ -120,10 +121,12 @@ describe('ViewJournalsCardComponent', () => {
     });
     describe('onShowJournalClick', () => {
       beforeEach(() => {
-        spyOn(slotProvider, 'detectSlotChanges').and.returnValue([]);
-        spyOn(slotProvider, 'getRelevantSlotItemsByDate').and.returnValue({
+        vi.spyOn(slotProvider, 'detectSlotChanges').mockReturnValue([]);
+        vi.spyOn(slotProvider, 'getRelevantSlotItemsByDate').mockReturnValue({
           '2021-03-27': [],
-        } as { [date: string]: SlotItem[] });
+        } as {
+          [date: string]: SlotItem[];
+        });
         component.currentSelectedDate = '2021-03-27';
         component.hasClickedShowJournal = false;
       });
@@ -161,7 +164,9 @@ describe('ViewJournalsCardComponent', () => {
         examiner: {},
         slotItemsByDate: {
           '2021-03-26': [{} as SlotItem],
-        } as { [date: string]: SlotItem[] },
+        } as {
+          [date: string]: SlotItem[];
+        },
       } as ExaminerSlotItemsByDate;
       expect(component.canNavigateToNextDay()).toEqual(true);
     });
@@ -172,7 +177,9 @@ describe('ViewJournalsCardComponent', () => {
         examiner: {},
         slotItemsByDate: {
           '2021-03-25': [],
-        } as { [date: string]: SlotItem[] },
+        } as {
+          [date: string]: SlotItem[];
+        },
       } as ExaminerSlotItemsByDate;
       expect(component.canNavigateToNextDay()).toEqual(true);
     });
@@ -182,7 +189,9 @@ describe('ViewJournalsCardComponent', () => {
         examiner: {},
         slotItemsByDate: {
           '2021-03-24': [],
-        } as { [date: string]: SlotItem[] },
+        } as {
+          [date: string]: SlotItem[];
+        },
       } as ExaminerSlotItemsByDate;
       expect(component.canNavigateToNextDay()).toEqual(false);
     });
@@ -194,7 +203,9 @@ describe('ViewJournalsCardComponent', () => {
         examiner: {},
         slotItemsByDate: {
           '2021-03-24': [{} as SlotItem],
-        } as { [date: string]: SlotItem[] },
+        } as {
+          [date: string]: SlotItem[];
+        },
       } as ExaminerSlotItemsByDate;
       expect(component.canNavigateToPreviousDay()).toEqual(true);
     });
@@ -204,7 +215,9 @@ describe('ViewJournalsCardComponent', () => {
         examiner: {},
         slotItemsByDate: {
           '2021-03-24': [],
-        } as { [date: string]: SlotItem[] },
+        } as {
+          [date: string]: SlotItem[];
+        },
       } as ExaminerSlotItemsByDate;
       expect(component.canNavigateToPreviousDay()).toEqual(false);
     });
@@ -223,7 +236,7 @@ describe('ViewJournalsCardComponent', () => {
   });
   describe('onPreviousDayClick', () => {
     it('should set currentSelectedDate to be today and call onShowJournalClick', () => {
-      spyOn(component, 'onShowJournalClick');
+      vi.spyOn(component, 'onShowJournalClick').mockReturnValue(undefined);
       component.today = '2021-03-24';
       component.onPreviousDayClick();
       expect(component.currentSelectedDate).toEqual('2021-03-24');
@@ -238,7 +251,9 @@ describe('ViewJournalsCardComponent', () => {
         examiner: {},
         slotItemsByDate: {
           '2021-03-25': [],
-        } as { [date: string]: SlotItem[] },
+        } as {
+          [date: string]: SlotItem[];
+        },
       } as ExaminerSlotItemsByDate;
       expect(component.shouldShowBanner()).toEqual(true);
     });
@@ -249,24 +264,26 @@ describe('ViewJournalsCardComponent', () => {
         examiner: {},
         slotItemsByDate: {
           '2021-03-25': [{} as SlotItem],
-        } as { [date: string]: SlotItem[] },
+        } as {
+          [date: string]: SlotItem[];
+        },
       } as ExaminerSlotItemsByDate;
       expect(component.shouldShowBanner()).toEqual(false);
     });
   });
   describe('dayLabel', () => {
     it('should return today when is isSelectedDateToday', () => {
-      spyOn(component, 'isSelectedDateToday').and.returnValue(true);
+      vi.spyOn(component, 'isSelectedDateToday').mockReturnValue(true);
       expect(component.dayLabel).toEqual('today');
     });
     it('should return tomorrow when not isSelectedDateToday', () => {
-      spyOn(component, 'isSelectedDateToday').and.returnValue(false);
+      vi.spyOn(component, 'isSelectedDateToday').mockReturnValue(false);
       expect(component.dayLabel).toEqual('tomorrow');
     });
   });
   describe('warningText', () => {
     it('should generate a string indicating examiner has no slots at test centre on given day', () => {
-      spyOnProperty(component, 'dayLabel', 'get').and.returnValue('today');
+      vi.spyOn(component, 'dayLabel', 'get').mockReturnValue('today');
       component.testCentreName = 'Some centre';
       component.examinerName = 'Some name';
       expect(component.warningText).toEqual('Some name does not have any test bookings at Some centre today');
@@ -274,7 +291,7 @@ describe('ViewJournalsCardComponent', () => {
   });
   describe('onNextDayClick', () => {
     it('should dispatch an action for navigation and call onShowJournalClick', () => {
-      spyOn(component, 'onShowJournalClick');
+      vi.spyOn(component, 'onShowJournalClick').mockReturnValue(undefined);
       component.onNextDayClick();
       expect(store$.dispatch).toHaveBeenCalledWith(TestCentreJournalDateNavigation(Day.TOMORROW));
       expect(component.onShowJournalClick).toHaveBeenCalled();
@@ -282,8 +299,8 @@ describe('ViewJournalsCardComponent', () => {
   });
   describe('onTestCentreDidChange', () => {
     beforeEach(() => {
-      spyOn(component, 'onManualRefresh');
-      spyOn(component.testCentreChanged, 'emit');
+      vi.spyOn(component, 'onManualRefresh').mockReturnValue(undefined);
+      vi.spyOn(component.testCentreChanged, 'emit').mockReturnValue(undefined);
     });
     it('should not call the refresh or emission when input not defined', () => {
       component.onTestCentreDidChange(null);

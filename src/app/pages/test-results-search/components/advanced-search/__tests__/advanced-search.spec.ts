@@ -2,6 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MockAppComponent } from '@app/__mocks__/app.component.mock';
 import { AppComponent } from '@app/app.component';
 import { provideMockStore } from '@ngrx/store/testing';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { DateTimeInputComponent } from '@components/common/datetime-input/date-time-input.component';
 import { SearchablePicklistComponentWrapper } from '@components/common/searchable-picklist-wrapper/searchable-picklist-wrapper';
@@ -98,7 +99,7 @@ describe('AdvancedSearchComponent', () => {
       component.rekeySearch = false;
       component.passCertificateNumber = 'passCert';
 
-      spyOn(component.onSearchTests, 'emit');
+      vi.spyOn(component.onSearchTests, 'emit').mockReturnValue(undefined);
       component.searchTests();
 
       expect(component.onSearchTests.emit).toHaveBeenCalledWith({
@@ -124,13 +125,13 @@ describe('AdvancedSearchComponent', () => {
   describe('blurElement', () => {
     it('should run blur on the active Element if the id does not contain input', () => {
       document.getElementById('advanced-search-pass-certificate-input').focus();
-      spyOn(document.activeElement as HTMLElement, 'blur');
+      vi.spyOn(document.activeElement as HTMLElement, 'blur').mockReturnValue(undefined);
       component.blurElement({ id: 'string' } as HTMLElement);
       expect((document.activeElement as HTMLElement).blur).toHaveBeenCalled();
     });
     it('should run blur on the active Element if the id contains input', () => {
       document.getElementById('advanced-search-pass-certificate-input').focus();
-      spyOn(document.activeElement as HTMLElement, 'blur');
+      vi.spyOn(document.activeElement as HTMLElement, 'blur').mockReturnValue(undefined);
       component.blurElement({ id: 'input' } as HTMLElement);
       expect((document.activeElement as HTMLElement).blur).not.toHaveBeenCalled();
     });

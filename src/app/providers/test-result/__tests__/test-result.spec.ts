@@ -4,6 +4,8 @@ import { TestData as TestDataCPC } from '@dvsa/mes-test-schema/categories/CPC';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { ActivityCodes } from '@shared/models/activity-codes';
 import { CompetencyOutcome } from '@shared/models/competency-outcome';
+import { firstValueFrom } from 'rxjs';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { FaultCountProvider } from '../../fault-count/fault-count';
 import * as mocks from '../__mocks__/test-result-data.mock';
 import { TestResultProvider } from '../test-result';
@@ -55,7 +57,9 @@ describe('TestResultCalculatorProvider', () => {
       TestCategory.D1EM,
     ].forEach((cat) => {
       it(`should call calculateCatCPCTestResult if testCategory is ${cat}`, () => {
-        spyOn<TestResultProvider>(testResultProvider, 'calculateCatManoeuvreTestResult' as keyof TestResultProvider);
+        vi.spyOn(testResultProvider, 'calculateCatManoeuvreTestResult' as keyof TestResultProvider).mockReturnValue(
+          undefined
+        );
         testResultProvider.calculateTestResult(cat, null);
         expect(testResultProvider.calculateCatManoeuvreTestResult).toHaveBeenCalled();
       });
@@ -63,10 +67,10 @@ describe('TestResultCalculatorProvider', () => {
 
     [TestCategory.EUAM1, TestCategory.EUA1M1, TestCategory.EUA2M1, TestCategory.EUAMM1].forEach((cat) => {
       it(`should call calculateCatEUAM1AndSubCategoryTestResult if testCategory is ${cat}`, () => {
-        spyOn<TestResultProvider>(
+        vi.spyOn(
           testResultProvider,
           'calculateCatEUAM1AndSubCategoryTestResult' as keyof TestResultProvider
-        );
+        ).mockReturnValue(undefined);
         testResultProvider.calculateTestResult(cat, null);
         expect(testResultProvider.calculateCatEUAM1AndSubCategoryTestResult).toHaveBeenCalled();
       });
@@ -74,10 +78,10 @@ describe('TestResultCalculatorProvider', () => {
 
     [TestCategory.EUAM2, TestCategory.EUA1M2, TestCategory.EUA2M2, TestCategory.EUAMM2].forEach((cat) => {
       it(`should call calculateCatEUAM2AndSubCategoryTestResult if testCategory is ${cat}`, () => {
-        spyOn<TestResultProvider>(
+        vi.spyOn(
           testResultProvider,
           'calculateCatEUAM2AndSubCategoryTestResult' as keyof TestResultProvider
-        );
+        ).mockReturnValue(undefined);
         testResultProvider.calculateTestResult(cat, null);
         expect(testResultProvider.calculateCatEUAM2AndSubCategoryTestResult).toHaveBeenCalled();
       });
@@ -85,7 +89,9 @@ describe('TestResultCalculatorProvider', () => {
 
     [TestCategory.CCPC, TestCategory.DCPC].forEach((cat) => {
       it(`should call calculateCatCPCTestResult if testCategory is ${cat}`, () => {
-        spyOn<TestResultProvider>(testResultProvider, 'calculateCatCPCTestResult' as keyof TestResultProvider);
+        vi.spyOn(testResultProvider, 'calculateCatCPCTestResult' as keyof TestResultProvider).mockReturnValue(
+          undefined
+        );
         testResultProvider.calculateTestResult(cat, null);
         expect(testResultProvider.calculateCatCPCTestResult).toHaveBeenCalled();
       });
@@ -93,23 +99,17 @@ describe('TestResultCalculatorProvider', () => {
 
     describe(`${allCategories.join(', ')}`, () => {
       allCategories.forEach((cat) => {
-        it(`should return a Pass when there are no driving faults for a Cat ${cat} test`, (done) => {
-          testResultProvider.calculateTestResult(cat, mocks.noFaultsMock).subscribe((result) => {
-            expect(result).toBe(ActivityCodes.PASS);
-            done();
-          });
+        it(`should return a Pass when there are no driving faults for a Cat ${cat} test`, async () => {
+          const result = await firstValueFrom(testResultProvider.calculateTestResult(cat, mocks.noFaultsMock));
+          expect(result).toBe(ActivityCodes.PASS);
         });
-        it(`should return a Fail when a dangerous fault exists for a Cat ${cat} test`, (done) => {
-          testResultProvider.calculateTestResult(cat, mocks.dangerousFaultMock).subscribe((result) => {
-            expect(result).toBe(ActivityCodes.FAIL);
-            done();
-          });
+        it(`should return a Fail when a dangerous fault exists for a Cat ${cat} test`, async () => {
+          const result = await firstValueFrom(testResultProvider.calculateTestResult(cat, mocks.dangerousFaultMock));
+          expect(result).toBe(ActivityCodes.FAIL);
         });
-        it(`should return a Fail when a serious fault exists for a Cat ${cat} test`, (done) => {
-          testResultProvider.calculateTestResult(cat, mocks.seriousFaultMock).subscribe((result) => {
-            expect(result).toBe(ActivityCodes.FAIL);
-            done();
-          });
+        it(`should return a Fail when a serious fault exists for a Cat ${cat} test`, async () => {
+          const result = await firstValueFrom(testResultProvider.calculateTestResult(cat, mocks.seriousFaultMock));
+          expect(result).toBe(ActivityCodes.FAIL);
         });
       });
     });
@@ -117,23 +117,23 @@ describe('TestResultCalculatorProvider', () => {
 
   describe('calculateCatManoeuvreTestResult', () => {
     it('should return FAIL if getDangerousFaultSumCount returns more than 0', () => {
-      spyOn(faultCountProvider, 'getDangerousFaultSumCount').and.returnValue(1);
+      vi.spyOn(faultCountProvider, 'getDangerousFaultSumCount').mockReturnValue(1);
 
       testResultProvider.calculateCatManoeuvreTestResult(TestCategory.B, {}).subscribe((val) => {
         expect(val).toEqual(ActivityCodes.FAIL);
       });
     });
     it('should return FAIL if getSeriousFaultSumCount returns more than 0', () => {
-      spyOn(faultCountProvider, 'getDangerousFaultSumCount').and.returnValue(0);
-      spyOn(faultCountProvider, 'getSeriousFaultSumCount').and.returnValue(1);
+      vi.spyOn(faultCountProvider, 'getDangerousFaultSumCount').mockReturnValue(0);
+      vi.spyOn(faultCountProvider, 'getSeriousFaultSumCount').mockReturnValue(1);
 
       testResultProvider.calculateCatManoeuvreTestResult(TestCategory.B, {}).subscribe((val) => {
         expect(val).toEqual(ActivityCodes.FAIL);
       });
     });
     it('should return FAIL if getSeriousFaultSumCount and getDangerousFaultSumCount return 0', () => {
-      spyOn(faultCountProvider, 'getDangerousFaultSumCount').and.returnValue(0);
-      spyOn(faultCountProvider, 'getSeriousFaultSumCount').and.returnValue(0);
+      vi.spyOn(faultCountProvider, 'getDangerousFaultSumCount').mockReturnValue(0);
+      vi.spyOn(faultCountProvider, 'getSeriousFaultSumCount').mockReturnValue(0);
 
       testResultProvider.calculateCatManoeuvreTestResult(TestCategory.B, {}).subscribe((val) => {
         expect(val).toEqual(ActivityCodes.PASS);
@@ -152,7 +152,7 @@ describe('TestResultCalculatorProvider', () => {
         });
     });
     it('should return FAIL if getDangerousFaultSumCount returns more than 0', () => {
-      spyOn(faultCountProvider, 'getDangerousFaultSumCount').and.returnValue(1);
+      vi.spyOn(faultCountProvider, 'getDangerousFaultSumCount').mockReturnValue(1);
 
       testResultProvider
         .calculateCatEUAM1AndSubCategoryTestResult(TestCategory.B, {
@@ -163,8 +163,8 @@ describe('TestResultCalculatorProvider', () => {
         });
     });
     it('should return FAIL if getSeriousFaultSumCount returns more than 0', () => {
-      spyOn(faultCountProvider, 'getDangerousFaultSumCount').and.returnValue(0);
-      spyOn(faultCountProvider, 'getSeriousFaultSumCount').and.returnValue(1);
+      vi.spyOn(faultCountProvider, 'getDangerousFaultSumCount').mockReturnValue(0);
+      vi.spyOn(faultCountProvider, 'getSeriousFaultSumCount').mockReturnValue(1);
 
       testResultProvider
         .calculateCatEUAM1AndSubCategoryTestResult(TestCategory.B, {
@@ -175,9 +175,9 @@ describe('TestResultCalculatorProvider', () => {
         });
     });
     it('should return FAIL if getDrivingFaultSumCount returns 6 or more', () => {
-      spyOn(faultCountProvider, 'getDangerousFaultSumCount').and.returnValue(0);
-      spyOn(faultCountProvider, 'getSeriousFaultSumCount').and.returnValue(0);
-      spyOn(faultCountProvider, 'getDrivingFaultSumCount').and.returnValue(6);
+      vi.spyOn(faultCountProvider, 'getDangerousFaultSumCount').mockReturnValue(0);
+      vi.spyOn(faultCountProvider, 'getSeriousFaultSumCount').mockReturnValue(0);
+      vi.spyOn(faultCountProvider, 'getDrivingFaultSumCount').mockReturnValue(6);
 
       testResultProvider
         .calculateCatEUAM1AndSubCategoryTestResult(TestCategory.B, {
@@ -191,9 +191,9 @@ describe('TestResultCalculatorProvider', () => {
       'should return PASS if getDangerousFaultSumCount and ' +
         'getSeriousFaultSumCount return 0 and driving faults is less than 6',
       () => {
-        spyOn(faultCountProvider, 'getDangerousFaultSumCount').and.returnValue(0);
-        spyOn(faultCountProvider, 'getSeriousFaultSumCount').and.returnValue(0);
-        spyOn(faultCountProvider, 'getDrivingFaultSumCount').and.returnValue(0);
+        vi.spyOn(faultCountProvider, 'getDangerousFaultSumCount').mockReturnValue(0);
+        vi.spyOn(faultCountProvider, 'getSeriousFaultSumCount').mockReturnValue(0);
+        vi.spyOn(faultCountProvider, 'getDrivingFaultSumCount').mockReturnValue(0);
 
         testResultProvider
           .calculateCatEUAM1AndSubCategoryTestResult(TestCategory.B, {
@@ -207,24 +207,24 @@ describe('TestResultCalculatorProvider', () => {
   });
   describe('calculateCatEUAM2AndSubCategoryTestResult', () => {
     it('should return FAIL if getDangerousFaultSumCount returns more than 0', () => {
-      spyOn(faultCountProvider, 'getDangerousFaultSumCount').and.returnValue(1);
+      vi.spyOn(faultCountProvider, 'getDangerousFaultSumCount').mockReturnValue(1);
 
       testResultProvider.calculateCatEUAM2AndSubCategoryTestResult(TestCategory.B, {}).subscribe((val) => {
         expect(val).toEqual(ActivityCodes.FAIL);
       });
     });
     it('should return FAIL if getSeriousFaultSumCount returns more than 0', () => {
-      spyOn(faultCountProvider, 'getDangerousFaultSumCount').and.returnValue(0);
-      spyOn(faultCountProvider, 'getSeriousFaultSumCount').and.returnValue(1);
+      vi.spyOn(faultCountProvider, 'getDangerousFaultSumCount').mockReturnValue(0);
+      vi.spyOn(faultCountProvider, 'getSeriousFaultSumCount').mockReturnValue(1);
 
       testResultProvider.calculateCatEUAM2AndSubCategoryTestResult(TestCategory.B, {}).subscribe((val) => {
         expect(val).toEqual(ActivityCodes.FAIL);
       });
     });
     it('should return FAIL if getDrivingFaultSumCount returns more than 10', () => {
-      spyOn(faultCountProvider, 'getDangerousFaultSumCount').and.returnValue(0);
-      spyOn(faultCountProvider, 'getSeriousFaultSumCount').and.returnValue(0);
-      spyOn(faultCountProvider, 'getDrivingFaultSumCount').and.returnValue(11);
+      vi.spyOn(faultCountProvider, 'getDangerousFaultSumCount').mockReturnValue(0);
+      vi.spyOn(faultCountProvider, 'getSeriousFaultSumCount').mockReturnValue(0);
+      vi.spyOn(faultCountProvider, 'getDrivingFaultSumCount').mockReturnValue(11);
 
       testResultProvider.calculateCatEUAM2AndSubCategoryTestResult(TestCategory.B, {}).subscribe((val) => {
         expect(val).toEqual(ActivityCodes.FAIL);
@@ -234,9 +234,9 @@ describe('TestResultCalculatorProvider', () => {
       'should return PASS if getDangerousFaultSumCount and ' +
         'getSeriousFaultSumCount return 0 and driving faults is less than 10',
       () => {
-        spyOn(faultCountProvider, 'getDangerousFaultSumCount').and.returnValue(0);
-        spyOn(faultCountProvider, 'getSeriousFaultSumCount').and.returnValue(0);
-        spyOn(faultCountProvider, 'getDrivingFaultSumCount').and.returnValue(0);
+        vi.spyOn(faultCountProvider, 'getDangerousFaultSumCount').mockReturnValue(0);
+        vi.spyOn(faultCountProvider, 'getSeriousFaultSumCount').mockReturnValue(0);
+        vi.spyOn(faultCountProvider, 'getDrivingFaultSumCount').mockReturnValue(0);
 
         testResultProvider.calculateCatEUAM2AndSubCategoryTestResult(TestCategory.B, {}).subscribe((val) => {
           expect(val).toEqual(ActivityCodes.PASS);
@@ -435,133 +435,127 @@ describe('TestResultCalculatorProvider', () => {
 
   describe('ADI2', () => {
     adiCategories.forEach((cat) => {
-      it(`should return a Fail when there are 7 driving faults for a Cat ${cat} test`, (done) => {
-        testResultProvider.calculateTestResult(cat, mocks.adi2SevenDrivingFaultsMock).subscribe((result) => {
-          expect(result).toBe(ActivityCodes.FAIL);
-          done();
-        });
+      it(`should return a Fail when there are 7 driving faults for a Cat ${cat} test`, async () => {
+        const result = await firstValueFrom(
+          testResultProvider.calculateTestResult(cat, mocks.adi2SevenDrivingFaultsMock)
+        );
+        expect(result).toBe(ActivityCodes.FAIL);
       });
-      it(`should return a Fail when there are 7 driving faults and a dangerous for a Cat ${cat} test`, (done) => {
-        testResultProvider
-          .calculateTestResult(cat, mocks.adi2SevenDrivingFaultsWithDangerousMock)
-          .subscribe((result) => {
-            expect(result).toBe(ActivityCodes.FAIL);
-            done();
-          });
+      it(`should return a Fail when there are 7 driving faults and a dangerous for a Cat ${cat} test`, async () => {
+        const result = await firstValueFrom(
+          testResultProvider.calculateTestResult(cat, mocks.adi2SevenDrivingFaultsWithDangerousMock)
+        );
+        expect(result).toBe(ActivityCodes.FAIL);
       });
-      it(`should return a Fail when there are 7 driving faults and a serious fault for a Cat ${cat} test`, (done) => {
-        testResultProvider.calculateTestResult(cat, mocks.adi2SevenDrivingFaultsWithSeriousMock).subscribe((result) => {
-          expect(result).toBe(ActivityCodes.FAIL);
-          done();
-        });
+      it(`should return a Fail when there are 7 driving faults and a serious fault for a Cat ${cat} test`, async () => {
+        const result = await firstValueFrom(
+          testResultProvider.calculateTestResult(cat, mocks.adi2SevenDrivingFaultsWithSeriousMock)
+        );
+        expect(result).toBe(ActivityCodes.FAIL);
       });
-      it(`should return a Fail when there are 6 driving faults and a dangerous for a Cat ${cat} test`, (done) => {
-        testResultProvider.calculateTestResult(cat, mocks.adi2SixDrivingFaultsWithDangerousMock).subscribe((result) => {
-          expect(result).toBe(ActivityCodes.FAIL);
-          done();
-        });
+      it(`should return a Fail when there are 6 driving faults and a dangerous for a Cat ${cat} test`, async () => {
+        const result = await firstValueFrom(
+          testResultProvider.calculateTestResult(cat, mocks.adi2SixDrivingFaultsWithDangerousMock)
+        );
+        expect(result).toBe(ActivityCodes.FAIL);
       });
-      it(`should return a Fail when there are 6 driving faults and a serious fault for a Cat ${cat} test`, (done) => {
-        testResultProvider.calculateTestResult(cat, mocks.adi2SixDrivingFaultsWithSeriousMock).subscribe((result) => {
-          expect(result).toBe(ActivityCodes.FAIL);
-          done();
-        });
+      it(`should return a Fail when there are 6 driving faults and a serious fault for a Cat ${cat} test`, async () => {
+        const result = await firstValueFrom(
+          testResultProvider.calculateTestResult(cat, mocks.adi2SixDrivingFaultsWithSeriousMock)
+        );
+        expect(result).toBe(ActivityCodes.FAIL);
       });
-      it(`should return a Pass when there are 6 driving faults for a Cat ${cat} test`, (done) => {
-        testResultProvider.calculateTestResult(cat, mocks.adi2SixDrivingFaultsMock).subscribe((result) => {
-          expect(result).toBe(ActivityCodes.PASS);
-          done();
-        });
+      it(`should return a Pass when there are 6 driving faults for a Cat ${cat} test`, async () => {
+        const result = await firstValueFrom(
+          testResultProvider.calculateTestResult(cat, mocks.adi2SixDrivingFaultsMock)
+        );
+        expect(result).toBe(ActivityCodes.PASS);
       });
-      it(`should return a Fail when theres is a dangerous vehicle check for a Cat ${cat} test`, (done) => {
-        testResultProvider.calculateTestResult(cat, mocks.adi2DangerousVehicleCheckFaultsMock).subscribe((result) => {
-          expect(result).toBe(ActivityCodes.FAIL);
-          done();
-        });
+      it(`should return a Fail when theres is a dangerous vehicle check for a Cat ${cat} test`, async () => {
+        const result = await firstValueFrom(
+          testResultProvider.calculateTestResult(cat, mocks.adi2DangerousVehicleCheckFaultsMock)
+        );
+        expect(result).toBe(ActivityCodes.FAIL);
       });
     });
   });
 
   describe(`${fifteenCategories.join(', ')}`, () => {
     fifteenCategories.forEach((cat) => {
-      it(`should return a Fail when there are 16 driving faults for a Cat ${cat} test`, (done) => {
-        testResultProvider.calculateTestResult(cat, mocks.sixteenDrivingFaultsMock).subscribe((result) => {
-          expect(result).toBe(ActivityCodes.FAIL);
-          done();
-        });
+      it(`should return a Fail when there are 16 driving faults for a Cat ${cat} test`, async () => {
+        const result = await firstValueFrom(
+          testResultProvider.calculateTestResult(cat, mocks.sixteenDrivingFaultsMock)
+        );
+        expect(result).toBe(ActivityCodes.FAIL);
       });
-      it(`should return a Fail when there are 16 driving faults and a dangerous for a Cat ${cat} test`, (done) => {
-        testResultProvider.calculateTestResult(cat, mocks.sixteenDrivingFaultsWithDangerousMock).subscribe((result) => {
-          expect(result).toBe(ActivityCodes.FAIL);
-          done();
-        });
+      it(`should return a Fail when there are 16 driving faults and a dangerous for a Cat ${cat} test`, async () => {
+        const result = await firstValueFrom(
+          testResultProvider.calculateTestResult(cat, mocks.sixteenDrivingFaultsWithDangerousMock)
+        );
+        expect(result).toBe(ActivityCodes.FAIL);
       });
-      it(`should return a Fail when there are 16 driving faults and a serious fault for a Cat ${cat} test`, (done) => {
-        testResultProvider.calculateTestResult(cat, mocks.sixteenDrivingFaultsWithSeriousMock).subscribe((result) => {
-          expect(result).toBe(ActivityCodes.FAIL);
-          done();
-        });
+      it(`should return a Fail when there are 16 driving faults and a serious fault for a Cat ${cat} test`, async () => {
+        const result = await firstValueFrom(
+          testResultProvider.calculateTestResult(cat, mocks.sixteenDrivingFaultsWithSeriousMock)
+        );
+        expect(result).toBe(ActivityCodes.FAIL);
       });
-      it(`should return a Fail when there are 15 driving faults and a dangerous for a Cat ${cat} test`, (done) => {
-        testResultProvider.calculateTestResult(cat, mocks.fifteenDrivingFaultsWithDangerousMock).subscribe((result) => {
-          expect(result).toBe(ActivityCodes.FAIL);
-          done();
-        });
+      it(`should return a Fail when there are 15 driving faults and a dangerous for a Cat ${cat} test`, async () => {
+        const result = await firstValueFrom(
+          testResultProvider.calculateTestResult(cat, mocks.fifteenDrivingFaultsWithDangerousMock)
+        );
+        expect(result).toBe(ActivityCodes.FAIL);
       });
-      it(`should return a Fail when there are 15 driving faults and a serious fault for a Cat ${cat} test`, (done) => {
-        testResultProvider.calculateTestResult(cat, mocks.fifteenDrivingFaultsWithSeriousMock).subscribe((result) => {
-          expect(result).toBe(ActivityCodes.FAIL);
-          done();
-        });
+      it(`should return a Fail when there are 15 driving faults and a serious fault for a Cat ${cat} test`, async () => {
+        const result = await firstValueFrom(
+          testResultProvider.calculateTestResult(cat, mocks.fifteenDrivingFaultsWithSeriousMock)
+        );
+        expect(result).toBe(ActivityCodes.FAIL);
       });
-      it(`should return a Pass when there are 15 driving faults for a Cat ${cat} test`, (done) => {
-        testResultProvider.calculateTestResult(cat, mocks.fifteenDrivingFaultsMock).subscribe((result) => {
-          expect(result).toBe(ActivityCodes.PASS);
-          done();
-        });
+      it(`should return a Pass when there are 15 driving faults for a Cat ${cat} test`, async () => {
+        const result = await firstValueFrom(
+          testResultProvider.calculateTestResult(cat, mocks.fifteenDrivingFaultsMock)
+        );
+        expect(result).toBe(ActivityCodes.PASS);
       });
     });
   });
 
   describe(`${twelveCategories.join(', ')}`, () => {
     twelveCategories.forEach((cat) => {
-      it(`should return a Fail when there are 13 driving faults for a Cat ${cat} test`, (done) => {
-        testResultProvider.calculateTestResult(cat, mocks.thirteenDrivingFaultsMock).subscribe((result) => {
-          expect(result).toBe(ActivityCodes.FAIL);
-          done();
-        });
+      it(`should return a Fail when there are 13 driving faults for a Cat ${cat} test`, async () => {
+        const result = await firstValueFrom(
+          testResultProvider.calculateTestResult(cat, mocks.thirteenDrivingFaultsMock)
+        );
+        expect(result).toBe(ActivityCodes.FAIL);
       });
-      it(`should return a Fail when there are 13 driving faults and a dangerous for a Cat ${cat} test`, (done) => {
-        testResultProvider
-          .calculateTestResult(cat, mocks.thirteenDrivingFaultsWithDangerousMock)
-          .subscribe((result) => {
-            expect(result).toBe(ActivityCodes.FAIL);
-            done();
-          });
+      it(`should return a Fail when there are 13 driving faults and a dangerous for a Cat ${cat} test`, async () => {
+        const result = await firstValueFrom(
+          testResultProvider.calculateTestResult(cat, mocks.thirteenDrivingFaultsWithDangerousMock)
+        );
+        expect(result).toBe(ActivityCodes.FAIL);
       });
-      it(`should return a Fail when there are 13 driving faults and a serious fault for a Cat ${cat} test`, (done) => {
-        testResultProvider.calculateTestResult(cat, mocks.thirteenDrivingFaultsWithSeriousMock).subscribe((result) => {
-          expect(result).toBe(ActivityCodes.FAIL);
-          done();
-        });
+      it(`should return a Fail when there are 13 driving faults and a serious fault for a Cat ${cat} test`, async () => {
+        const result = await firstValueFrom(
+          testResultProvider.calculateTestResult(cat, mocks.thirteenDrivingFaultsWithSeriousMock)
+        );
+        expect(result).toBe(ActivityCodes.FAIL);
       });
-      it(`should return a Fail when there are 12 driving faults and a dangerous for a Cat ${cat} test`, (done) => {
-        testResultProvider.calculateTestResult(cat, mocks.twelveDrivingFaultsWithDangerousMock).subscribe((result) => {
-          expect(result).toBe(ActivityCodes.FAIL);
-          done();
-        });
+      it(`should return a Fail when there are 12 driving faults and a dangerous for a Cat ${cat} test`, async () => {
+        const result = await firstValueFrom(
+          testResultProvider.calculateTestResult(cat, mocks.twelveDrivingFaultsWithDangerousMock)
+        );
+        expect(result).toBe(ActivityCodes.FAIL);
       });
-      it(`should return a Fail when there are 12 driving faults and a serious fault for a Cat ${cat} test`, (done) => {
-        testResultProvider.calculateTestResult(cat, mocks.twelveDrivingFaultsWithSeriousMock).subscribe((result) => {
-          expect(result).toBe(ActivityCodes.FAIL);
-          done();
-        });
+      it(`should return a Fail when there are 12 driving faults and a serious fault for a Cat ${cat} test`, async () => {
+        const result = await firstValueFrom(
+          testResultProvider.calculateTestResult(cat, mocks.twelveDrivingFaultsWithSeriousMock)
+        );
+        expect(result).toBe(ActivityCodes.FAIL);
       });
-      it(`should return a Pass when there are 12 driving faults for a Cat ${cat} test`, (done) => {
-        testResultProvider.calculateTestResult(cat, mocks.twelveDrivingFaultsMock).subscribe((result) => {
-          expect(result).toBe(ActivityCodes.PASS);
-          done();
-        });
+      it(`should return a Pass when there are 12 driving faults for a Cat ${cat} test`, async () => {
+        const result = await firstValueFrom(testResultProvider.calculateTestResult(cat, mocks.twelveDrivingFaultsMock));
+        expect(result).toBe(ActivityCodes.PASS);
       });
     });
   });

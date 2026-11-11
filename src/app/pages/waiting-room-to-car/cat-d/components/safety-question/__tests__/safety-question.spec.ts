@@ -1,6 +1,7 @@
 import { EventEmitter } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { SafetyQuestion } from '@providers/question/safety-question.model';
 import { SafetyQuestionComponent } from '../safety-question';
@@ -27,7 +28,7 @@ describe('SafetyQuestionComponent', () => {
     describe('safetyQuestionPassSelected', () => {
       it('should emit the correct event', () => {
         component.safetyQuestionOutcomeChange = new EventEmitter();
-        spyOn(component.safetyQuestionOutcomeChange, 'emit');
+        vi.spyOn(component.safetyQuestionOutcomeChange, 'emit').mockReturnValue(undefined);
 
         component.safetyQuestionsPassSelected();
 
@@ -37,7 +38,7 @@ describe('SafetyQuestionComponent', () => {
     describe('safetyQuestionsDrivingFaultSelected', () => {
       it('should emit the correct event', () => {
         component.safetyQuestionOutcomeChange = new EventEmitter();
-        spyOn(component.safetyQuestionOutcomeChange, 'emit');
+        vi.spyOn(component.safetyQuestionOutcomeChange, 'emit').mockReturnValue(undefined);
 
         component.safetyQuestionsDrivingFaultSelected();
 
@@ -72,7 +73,7 @@ describe('SafetyQuestionComponent', () => {
         'should have safetyQuestionFormControl form control be patched with ' +
           'findQuestion() if questionResult is already valid',
         () => {
-          spyOn(component, 'findQuestion').and.returnValue({
+          vi.spyOn(component, 'findQuestion').mockReturnValue({
             outcome: 'P',
             description: 'Description',
           });
@@ -89,7 +90,7 @@ describe('SafetyQuestionComponent', () => {
         'should have safetyQuestionOutcomeFormControl form control be patched with ' +
           'questionResult.outcome if questionResult is already valid',
         () => {
-          spyOn(component, 'findQuestion').and.returnValue({
+          vi.spyOn(component, 'findQuestion').mockReturnValue({
             outcome: 'P',
             description: 'Description',
           });

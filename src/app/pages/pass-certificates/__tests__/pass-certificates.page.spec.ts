@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { Store } from '@ngrx/store';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
@@ -27,7 +28,7 @@ describe('PassCertificatesPage', () => {
 
   describe('ionViewDidEnter', () => {
     it('should dispatch the store with PassCertificatedViewDidEnter', () => {
-      spyOn(component.store$, 'dispatch');
+      vi.spyOn(component.store$, 'dispatch').mockReturnValue(undefined);
       component.ionViewDidEnter();
       expect(component.store$.dispatch).toHaveBeenCalledWith(PassCertificatedViewDidEnter());
     });

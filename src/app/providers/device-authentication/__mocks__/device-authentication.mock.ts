@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
+import { vi } from 'vitest';
 
 @Injectable({
   providedIn: 'root',
 })
 export class DeviceAuthenticationProviderMock {
-  triggerLockScreen = jasmine.createSpy('triggerLockScreen').and.returnValue(Promise.resolve(true));
+  triggerLockScreen = vi.fn().mockReturnValue(Promise.resolve(true));
 }

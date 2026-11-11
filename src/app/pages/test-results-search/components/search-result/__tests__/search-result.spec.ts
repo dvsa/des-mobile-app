@@ -3,6 +3,7 @@ import { MockAppComponent } from '@app/__mocks__/app.component.mock';
 import { AppComponent } from '@app/app.component';
 import { ModalController } from '@ionic/angular';
 import { ModalControllerMock } from '@mocks/index.mock';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { SearchResultTestSchema } from '@dvsa/mes-search-schema';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
@@ -56,7 +57,7 @@ describe('SearchResultComponent', () => {
 
   describe('openTestResult', () => {
     it('should display modal', async () => {
-      spyOn(component.modalController, 'create').and.returnValue(
+      vi.spyOn(component.modalController, 'create').mockReturnValue(
         Promise.resolve({
           present: async () => {},
         } as HTMLIonModalElement)

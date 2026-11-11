@@ -1,15 +1,16 @@
 import { HttpResponse, HttpStatusCode } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
+import { vi } from 'vitest';
 import { searchResultsMock } from './search-results.mock';
 
 export class SearchProviderMock {
-  examinerRecordsSearch = jasmine.createSpy('examinerRecordsSearch').and.returnValue(of(searchResultsMock));
+  examinerRecordsSearch = vi.fn().mockReturnValue(of(searchResultsMock));
 
-  driverNumberSearch = jasmine.createSpy('driverNumberSearch').and.returnValue(of(searchResultsMock));
+  driverNumberSearch = vi.fn().mockReturnValue(of(searchResultsMock));
 
-  applicationReferenceSearch = jasmine.createSpy('applicationReferenceSearch').and.returnValue(of(searchResultsMock));
+  applicationReferenceSearch = vi.fn().mockReturnValue(of(searchResultsMock));
 
-  advancedSearch = jasmine.createSpy('advancedSearch').and.returnValue(of(searchResultsMock));
+  advancedSearch = vi.fn().mockReturnValue(of(searchResultsMock));
 
   getTestResult(): Observable<HttpResponse<Object>> {
     return of(

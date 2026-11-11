@@ -5,6 +5,7 @@ import { PlatformMock } from '@mocks/ionic-mocks/platform-mock';
 import { NetworkConnectionStatus, NetworkStateProvider } from '@providers/network-state/network-state';
 import { BehaviorSubject } from 'rxjs';
 import { take } from 'rxjs/operators';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 describe('NetworkStateProvider', () => {
   let networkStateProvider: NetworkStateProvider;
@@ -23,8 +24,8 @@ describe('NetworkStateProvider', () => {
     networkStateProvider = TestBed.inject(NetworkStateProvider);
     platform = TestBed.inject(Platform);
 
-    spyOn(platform, 'ready').and.returnValue(Promise.resolve(''));
-    spyOn(networkStateProvider.networkStatus$, 'next');
+    vi.spyOn(platform, 'ready').mockReturnValue(Promise.resolve(''));
+    vi.spyOn(networkStateProvider.networkStatus$, 'next').mockReturnValue(undefined);
   });
 
   describe('onNetworkChange', () => {
@@ -67,8 +68,8 @@ describe('NetworkStateProvider', () => {
         connectionType: 'wifi',
       };
 
-      spyOn(Network, 'getStatus').and.resolveTo(currentStatus);
-      spyOn(networkStateProvider, 'applyStatus').and.callThrough();
+      vi.spyOn(Network, 'getStatus').mockResolvedValue(currentStatus);
+      vi.spyOn(networkStateProvider, 'applyStatus');
 
       await networkStateProvider.initialiseNetworkState();
       expect(Network.getStatus).toHaveBeenCalledTimes(1);
@@ -80,17 +81,19 @@ describe('NetworkStateProvider', () => {
         connected: false,
         connectionType: 'none',
       };
-      const addListener = spyOn(Network, 'addListener').and.resolveTo({ remove: async () => {} });
-      const applyStatus = spyOn(networkStateProvider, 'applyStatus').and.callThrough();
+      const addListener = vi.spyOn(Network, 'addListener').mockResolvedValue({ remove: async () => {} });
+      const applyStatus = vi.spyOn(networkStateProvider, 'applyStatus');
 
       await networkStateProvider.initialiseNetworkState();
-      applyStatus.calls.reset();
+      applyStatus.mockClear();
 
-      expect(addListener).toHaveBeenCalledWith('networkStatusChange', jasmine.any(Function));
-      const [, listener] = addListener.calls.mostRecent().args;
+      expect(addListener).toHaveBeenCalledWith('networkStatusChange', expect.any(Function));
+      const [, listener] = vi.mocked(addListener).mock.lastCall;
       listener(changedStatus);
 
-      expect(applyStatus).toHaveBeenCalledOnceWith(changedStatus);
+      expect(applyStatus).toHaveBeenCalledTimes(1);
+
+      expect(applyStatus).toHaveBeenCalledWith(changedStatus);
     });
   });
 
@@ -122,18 +125,18 @@ describe('NetworkStateProvider', () => {
   describe('getNetworkState', () => {
     it('should return ONLINE if network status is null and the platform is cordova', () => {
       networkStateProvider.networkStatus$ = null;
-      spyOn(platform, 'is').and.returnValue(true);
+      vi.spyOn(platform, 'is').mockReturnValue(true);
       expect(networkStateProvider.getNetworkState()).toEqual(NetworkConnectionStatus.ONLINE);
     });
     it('should return ONLINE if network status is not null and the platform is not cordova', () => {
       networkStateProvider.networkStatus$ = new BehaviorSubject(NetworkConnectionStatus.OFFLINE);
-      spyOn(platform, 'is').and.returnValue(false);
+      vi.spyOn(platform, 'is').mockReturnValue(false);
       expect(networkStateProvider.getNetworkState()).toEqual(NetworkConnectionStatus.ONLINE);
     });
     it('should return networkStatus$.getValue if network status is not null and the platform is cordova', () => {
       networkStateProvider.networkStatus$ = new BehaviorSubject(NetworkConnectionStatus.OFFLINE);
-      spyOn(platform, 'is').and.returnValue(true);
-      spyOn(networkStateProvider.networkStatus$, 'getValue').and.returnValue(NetworkConnectionStatus.OFFLINE);
+      vi.spyOn(platform, 'is').mockReturnValue(true);
+      vi.spyOn(networkStateProvider.networkStatus$, 'getValue').mockReturnValue(NetworkConnectionStatus.OFFLINE);
       expect(networkStateProvider.getNetworkState()).toEqual(NetworkConnectionStatus.OFFLINE);
     });
   });

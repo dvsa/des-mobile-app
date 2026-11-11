@@ -1,4 +1,5 @@
 import { vehicleDetailsCatADIPart3Reducer } from '@store/tests/vehicle-details/cat-adi-part3/vehicle-details.cat-adi-part3.reducer';
+import { describe, expect, it } from 'vitest';
 import * as vehicleDetailsActions from '../../vehicle-details.actions';
 
 describe('vehicleDetailsCatADIPart3Reducer', () => {

@@ -1,4 +1,5 @@
 import { TestData } from '@dvsa/mes-test-schema/categories/AM1';
+import { describe, expect, it } from 'vitest';
 import { hasDangerousFault, hasSeriousFault } from '../../common/test-data.selector';
 import { Competencies } from '../../test-data.constants';
 import { getDrivingFaultCount } from '../test-data.cat-a-mod1.selector';

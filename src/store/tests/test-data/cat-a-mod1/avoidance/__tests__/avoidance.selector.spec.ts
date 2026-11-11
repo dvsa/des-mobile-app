@@ -1,4 +1,5 @@
 import { Avoidance, TestData } from '@dvsa/mes-test-schema/categories/AM1';
+import { describe, expect, it } from 'vitest';
 import { getAvoidance, getAvoidanceAttempted } from '../avoidance.selector';
 
 describe('emergency stop selector', () => {

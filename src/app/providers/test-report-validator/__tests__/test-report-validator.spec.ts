@@ -3,6 +3,7 @@ import { TestData as CatAMod1TestData } from '@dvsa/mes-test-schema/categories/A
 import { TestData } from '@dvsa/mes-test-schema/categories/common';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { CompetencyOutcome } from '@shared/models/competency-outcome';
+import { beforeEach, describe, expect, it } from 'vitest';
 import { FaultCountProvider } from '../../fault-count/fault-count';
 import * as mocks from '../__mocks__/test-result.mock';
 import { TestReportValidatorProvider } from '../test-report-validator';

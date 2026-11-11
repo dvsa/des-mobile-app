@@ -1,5 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { TestResultProviderMock } from '@providers/test-result/__mocks__/test-result.mock';
 import { ActivityCodes } from '@shared/models/activity-codes';
@@ -28,7 +29,7 @@ describe('ActivityCodeFinalisationProvider', () => {
 
   describe('Check if test data for different categories are invalid', () => {
     beforeEach(() => {
-      spyOn(testResultProvider, 'calculateTestResult').and.returnValue(of(ActivityCodes.PASS));
+      vi.spyOn(testResultProvider, 'calculateTestResult').mockReturnValue(of(ActivityCodes.PASS));
     });
 
     it('should call testResultProvider with the correct category for B', async () => {
@@ -106,7 +107,7 @@ describe('ActivityCodeFinalisationProvider', () => {
 
   describe('activityCodeIs4or5', () => {
     beforeEach(() => {
-      spyOn(testResultProvider, 'calculateTestResult').and.returnValue(of(ActivityCodes.PASS));
+      vi.spyOn(testResultProvider, 'calculateTestResult').mockReturnValue(of(ActivityCodes.PASS));
     });
     it('should return false when activity code is not 4/5 for Home', async () => {
       const result = await activityCodeFinalisationProvider.catHomeTestDataIsInvalid(
@@ -168,22 +169,24 @@ describe('ActivityCodeFinalisationProvider', () => {
 
   describe('testDataIsInvalid', () => {
     it('should return catADIPart2TestDataIsInvalid if category is ADI2', async () => {
-      spyOn(activityCodeFinalisationProvider, 'catADIPart2TestDataIsInvalid').and.returnValue(Promise.resolve(true));
+      vi.spyOn(activityCodeFinalisationProvider, 'catADIPart2TestDataIsInvalid').mockReturnValue(Promise.resolve(true));
       expect(await activityCodeFinalisationProvider.testDataIsInvalid(TestCategory.ADI2, null, null)).toEqual(true);
     });
     [TestCategory.ADI3, TestCategory.SC].forEach((value) => {
       it(`should return catADIPart3TestDataIsInvalid if category is ${value}`, async () => {
-        spyOn(activityCodeFinalisationProvider, 'catADIPart3TestDataIsInvalid').and.returnValue(Promise.resolve(true));
+        vi.spyOn(activityCodeFinalisationProvider, 'catADIPart3TestDataIsInvalid').mockReturnValue(
+          Promise.resolve(true)
+        );
         expect(await activityCodeFinalisationProvider.testDataIsInvalid(value, null, null)).toEqual(true);
       });
     });
     it('should return catBTestDataIsInvalid if category is B', async () => {
-      spyOn(activityCodeFinalisationProvider, 'catBTestDataIsInvalid').and.returnValue(Promise.resolve(true));
+      vi.spyOn(activityCodeFinalisationProvider, 'catBTestDataIsInvalid').mockReturnValue(Promise.resolve(true));
       expect(await activityCodeFinalisationProvider.testDataIsInvalid(TestCategory.B, null, null)).toEqual(true);
     });
     [TestCategory.C1, TestCategory.C1E, TestCategory.CE, TestCategory.C].forEach((value) => {
       it(`should return catCTestDataIsInvalid if category is ${value}`, async () => {
-        spyOn(activityCodeFinalisationProvider, 'catCTestDataIsInvalid').and.returnValue(Promise.resolve(true));
+        vi.spyOn(activityCodeFinalisationProvider, 'catCTestDataIsInvalid').mockReturnValue(Promise.resolve(true));
         expect(await activityCodeFinalisationProvider.testDataIsInvalid(value, null, null)).toEqual(true);
       });
     });
@@ -198,7 +201,7 @@ describe('ActivityCodeFinalisationProvider', () => {
       TestCategory.DM,
     ].forEach((value) => {
       it(`should return catManoeuvresTestDataIsInvalid if category is ${value}`, async () => {
-        spyOn(activityCodeFinalisationProvider, 'catManoeuvresTestDataIsInvalid').and.returnValue(
+        vi.spyOn(activityCodeFinalisationProvider, 'catManoeuvresTestDataIsInvalid').mockReturnValue(
           Promise.resolve(true)
         );
         expect(await activityCodeFinalisationProvider.testDataIsInvalid(value, null, null)).toEqual(true);
@@ -206,25 +209,25 @@ describe('ActivityCodeFinalisationProvider', () => {
     });
     [TestCategory.D1, TestCategory.D1E, TestCategory.DE, TestCategory.D].forEach((value) => {
       it(`should return catDTestDataIsInvalid if category is ${value}`, async () => {
-        spyOn(activityCodeFinalisationProvider, 'catDTestDataIsInvalid').and.returnValue(Promise.resolve(true));
+        vi.spyOn(activityCodeFinalisationProvider, 'catDTestDataIsInvalid').mockReturnValue(Promise.resolve(true));
         expect(await activityCodeFinalisationProvider.testDataIsInvalid(value, null, null)).toEqual(true);
       });
     });
     [TestCategory.EUAM1, TestCategory.EUA1M1, TestCategory.EUA2M1, TestCategory.EUAMM1].forEach((value) => {
       it(`should return catAMod1TestDataIsInvalid if category is ${value}`, async () => {
-        spyOn(activityCodeFinalisationProvider, 'catAMod1TestDataIsInvalid').and.returnValue(Promise.resolve(true));
+        vi.spyOn(activityCodeFinalisationProvider, 'catAMod1TestDataIsInvalid').mockReturnValue(Promise.resolve(true));
         expect(await activityCodeFinalisationProvider.testDataIsInvalid(value, null, null)).toEqual(true);
       });
     });
     [TestCategory.EUAM2, TestCategory.EUA1M2, TestCategory.EUA2M2, TestCategory.EUAMM2].forEach((value) => {
       it(`should return catAMod2TestDataIsInvalid if category is ${value}`, async () => {
-        spyOn(activityCodeFinalisationProvider, 'catAMod2TestDataIsInvalid').and.returnValue(Promise.resolve(true));
+        vi.spyOn(activityCodeFinalisationProvider, 'catAMod2TestDataIsInvalid').mockReturnValue(Promise.resolve(true));
         expect(await activityCodeFinalisationProvider.testDataIsInvalid(value, null, null)).toEqual(true);
       });
     });
     [TestCategory.F, TestCategory.G, TestCategory.H, TestCategory.K].forEach((value) => {
       it(`should return catHomeTestDataIsInvalid if category is ${value}`, async () => {
-        spyOn(activityCodeFinalisationProvider, 'catHomeTestDataIsInvalid').and.returnValue(Promise.resolve(true));
+        vi.spyOn(activityCodeFinalisationProvider, 'catHomeTestDataIsInvalid').mockReturnValue(Promise.resolve(true));
         expect(await activityCodeFinalisationProvider.testDataIsInvalid(value, null, null)).toEqual(true);
       });
     });

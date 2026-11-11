@@ -10,6 +10,7 @@ import { LoadingProvider } from '@providers/loader/loader';
 import { LogHelper } from '@providers/logs/logs-helper';
 import { LogType } from '@shared/models/log.model';
 import { SaveLog } from '@store/logs/logs.actions';
+import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
 import { DeviceAuthenticationProvider } from '../device-authentication';
 
 describe('DeviceAuthenticationProvider', () => {
@@ -25,14 +26,14 @@ describe('DeviceAuthenticationProvider', () => {
       providers: [
         DeviceAuthenticationProvider,
         provideMockStore(),
-        { provide: Platform, useValue: { ready: jasmine.createSpy(), is: jasmine.createSpy() } },
-        { provide: AppConfigProvider, useValue: { getAppConfig: jasmine.createSpy() } },
+        { provide: Platform, useValue: { ready: vi.fn(), is: vi.fn() } },
+        { provide: AppConfigProvider, useValue: { getAppConfig: vi.fn() } },
         {
           provide: DeviceProvider,
-          useValue: { disableSingleAppMode: jasmine.createSpy(), enableSingleAppMode: jasmine.createSpy() },
+          useValue: { disableSingleAppMode: vi.fn(), enableSingleAppMode: vi.fn() },
         },
-        { provide: LoadingProvider, useValue: { handleUILoading: jasmine.createSpy() } },
-        { provide: LogHelper, useValue: { createLog: jasmine.createSpy() } },
+        { provide: LoadingProvider, useValue: { handleUILoading: vi.fn() } },
+        { provide: LogHelper, useValue: { createLog: vi.fn() } },
       ],
     });
 
@@ -43,35 +44,37 @@ describe('DeviceAuthenticationProvider', () => {
     deviceProvider = TestBed.inject(DeviceProvider);
     loadingProvider = TestBed.inject(LoadingProvider);
 
-    spyOn(store, 'dispatch');
+    vi.spyOn(store, 'dispatch').mockReturnValue(undefined);
   });
 
   describe('triggerLockScreen', () => {
     it('should bypass device authentication if platform is not cordova', async () => {
-      (platform.is as jasmine.Spy).and.returnValue(false);
+      (platform.is as Mock).mockReturnValue(false);
       await deviceAuthenticationProvider.triggerLockScreen();
       expect(platform.is).toHaveBeenCalledWith('cordova');
     });
 
     it('should bypass device authentication if role is DLG', async () => {
-      (platform.is as jasmine.Spy).and.returnValue(true);
-      (deviceAuthenticationProvider.appConfig.getAppConfig as jasmine.Spy).and.returnValue({ role: ExaminerRole.DLG });
+      (platform.is as Mock).mockReturnValue(true);
+      (deviceAuthenticationProvider.appConfig.getAppConfig as Mock).mockReturnValue({ role: ExaminerRole.DLG });
       await deviceAuthenticationProvider.triggerLockScreen();
       expect(deviceAuthenticationProvider.appConfig.getAppConfig).toHaveBeenCalled();
     });
 
     it('should call performBiometricVerification if conditions are met', async () => {
-      spyOn(deviceAuthenticationProvider as any, 'performBiometricVerification').and.returnValue(Promise.resolve());
-      (platform.is as jasmine.Spy).and.returnValue(true);
-      (deviceAuthenticationProvider.appConfig.getAppConfig as jasmine.Spy).and.returnValue({ role: 'DE' });
+      vi.spyOn(deviceAuthenticationProvider as any, 'performBiometricVerification').mockReturnValue(Promise.resolve());
+      (platform.is as Mock).mockReturnValue(true);
+      (deviceAuthenticationProvider.appConfig.getAppConfig as Mock).mockReturnValue({ role: 'DE' });
       await deviceAuthenticationProvider.triggerLockScreen();
       expect(deviceAuthenticationProvider.performBiometricVerification).toHaveBeenCalled();
     });
 
     it('should log an error if an exception occurs', async () => {
       const error = new Error('Test error');
-      spyOn(deviceAuthenticationProvider as any, 'performBiometricVerification').and.throwError(error);
-      spyOn(deviceAuthenticationProvider, 'logEvent');
+      vi.spyOn(deviceAuthenticationProvider as any, 'performBiometricVerification').mockImplementation(() => {
+        throw error;
+      });
+      vi.spyOn(deviceAuthenticationProvider, 'logEvent').mockReturnValue(undefined);
       try {
         await deviceAuthenticationProvider.triggerLockScreen();
       } catch (err) {
@@ -82,10 +85,10 @@ describe('DeviceAuthenticationProvider', () => {
 
   describe('performBiometricVerification', () => {
     it('should disable single app mode and enable it again if not in practice mode', async () => {
-      spyOn(deviceProvider, 'disableSingleAppMode').and.returnValue(Promise.resolve(true));
-      spyOn(deviceProvider, 'enableSingleAppMode').and.returnValue(Promise.resolve(true));
-      spyOn(loadingProvider, 'handleUILoading').and.returnValue(Promise.resolve());
-      spyOn(NativeBiometric, 'verifyIdentity').and.returnValue(Promise.resolve());
+      vi.spyOn(deviceProvider, 'disableSingleAppMode').mockReturnValue(Promise.resolve(true));
+      vi.spyOn(deviceProvider, 'enableSingleAppMode').mockReturnValue(Promise.resolve(true));
+      vi.spyOn(loadingProvider, 'handleUILoading').mockReturnValue(Promise.resolve());
+      vi.spyOn(NativeBiometric, 'verifyIdentity').mockReturnValue(Promise.resolve());
 
       await deviceAuthenticationProvider.performBiometricVerification(false);
 
@@ -100,10 +103,10 @@ describe('DeviceAuthenticationProvider', () => {
     });
 
     it('should not enable single app mode if in practice mode', async () => {
-      spyOn(deviceProvider, 'disableSingleAppMode').and.returnValue(Promise.resolve(true));
-      spyOn(deviceProvider, 'enableSingleAppMode').and.returnValue(Promise.resolve(true));
-      spyOn(loadingProvider, 'handleUILoading').and.returnValue(Promise.resolve());
-      spyOn(NativeBiometric, 'verifyIdentity').and.returnValue(Promise.resolve());
+      vi.spyOn(deviceProvider, 'disableSingleAppMode').mockReturnValue(Promise.resolve(true));
+      vi.spyOn(deviceProvider, 'enableSingleAppMode').mockReturnValue(Promise.resolve(true));
+      vi.spyOn(loadingProvider, 'handleUILoading').mockReturnValue(Promise.resolve());
+      vi.spyOn(NativeBiometric, 'verifyIdentity').mockReturnValue(Promise.resolve());
 
       await deviceAuthenticationProvider.performBiometricVerification(true);
 
@@ -120,7 +123,7 @@ describe('DeviceAuthenticationProvider', () => {
     it('should dispatch a SaveLog action with the correct payload', () => {
       const error = new Error('Test error');
       const mockTimestamp = Date.now(); // Generate a valid number for the timestamp
-      (logHelper.createLog as jasmine.Spy).and.returnValue({
+      (logHelper.createLog as Mock).mockReturnValue({
         type: LogType.ERROR,
         message: 'Test error',
         timestamp: mockTimestamp, // Use a valid number here

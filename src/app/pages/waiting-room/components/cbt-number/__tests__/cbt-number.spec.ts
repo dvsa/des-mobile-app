@@ -2,6 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { UntypedFormGroup } from '@angular/forms';
 import { MockAppComponent } from '@app/__mocks__/app.component.mock';
 import { AppComponent } from '@app/app.component';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { CBTNumberComponent } from '../cbt-number';
 
 describe('CBTNumberComponent', () => {
@@ -22,7 +23,7 @@ describe('CBTNumberComponent', () => {
   describe('Class', () => {
     describe('cbtNumberChanged', () => {
       it('It should emit a cbt number if the characters only contain numbers', () => {
-        spyOn(component.cbtNumberChange, 'emit');
+        vi.spyOn(component.cbtNumberChange, 'emit').mockReturnValue(undefined);
         const cbtNumber = '1234567';
         component.cbtNumberChanged(cbtNumber);
         expect(component.cbtNumberChange.emit).toHaveBeenCalledWith(cbtNumber);

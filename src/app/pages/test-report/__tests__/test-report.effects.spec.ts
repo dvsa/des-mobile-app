@@ -12,7 +12,8 @@ import * as etaActions from '@store/tests/test-data/common/eta/eta.actions';
 import { ExaminerActions } from '@store/tests/test-data/test-data.constants';
 import * as testsActions from '@store/tests/tests.actions';
 import { testsReducer } from '@store/tests/tests.reducer';
-import { ReplaySubject, of } from 'rxjs';
+import { ReplaySubject, firstValueFrom, of } from 'rxjs';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 import * as testReportActions from '../test-report.actions';
 import { TestReportEffects } from '../test-report.effects';
 
@@ -44,17 +45,12 @@ describe('TestReportEffects', () => {
       store$.dispatch(PopulateTestCategory(TestCategory.B));
     });
 
-    it('should dispatch an action containing the correct result for a test', (done) => {
-      // ARRANGE
-      spyOn(testResultProvider, 'calculateTestResult').and.returnValue(of(ActivityCodes.PASS));
-      // ACT
+    it('should dispatch an action containing the correct result for a test', async () => {
+      vi.spyOn(testResultProvider, 'calculateTestResult').mockReturnValue(of(ActivityCodes.PASS));
       actions$.next(testReportActions.CalculateTestResult());
-      // ASSERT
-      effects.calculateTestResult$.subscribe((result) => {
-        expect(testResultProvider.calculateTestResult).toHaveBeenCalled();
-        expect(result).toEqual(activityCodeActions.SetActivityCode(ActivityCodes.PASS));
-        done();
-      });
+      const result = await firstValueFrom(effects.calculateTestResult$);
+      expect(testResultProvider.calculateTestResult).toHaveBeenCalled();
+      expect(result).toEqual(activityCodeActions.SetActivityCode(ActivityCodes.PASS));
     });
   });
 
@@ -63,14 +59,10 @@ describe('TestReportEffects', () => {
       store$.dispatch(testsActions.StartTest(123456, TestCategory.B));
     });
 
-    it('should dispatch an action requesting the test data to be saved when triggered', (done) => {
-      // ACT
+    it('should dispatch an action requesting the test data to be saved when triggered', async () => {
       actions$.next(etaActions.ToggleETA(ExaminerActions.physical));
-      // ASSERT
-      effects.persistTestReport$.subscribe((result) => {
-        expect(result).toEqual(testsActions.PersistTests());
-        done();
-      });
+      const result = await firstValueFrom(effects.persistTestReport$);
+      expect(result).toEqual(testsActions.PersistTests());
     });
   });
 
@@ -79,14 +71,10 @@ describe('TestReportEffects', () => {
       store$.dispatch(testsActions.StartTest(123456, TestCategory.B));
     });
 
-    it('should dispatch an action terminating the test', (done) => {
-      // ACT
+    it('should dispatch an action terminating the test', async () => {
       actions$.next(testReportActions.TerminateTestFromTestReport());
-      // ASSERT
-      effects.terminateTestFromTestReport$.subscribe((result) => {
-        expect(result).toEqual(activityCodeActions.SetActivityCode(null));
-        done();
-      });
+      const result = await firstValueFrom(effects.terminateTestFromTestReport$);
+      expect(result).toEqual(activityCodeActions.SetActivityCode(null));
     });
   });
 });

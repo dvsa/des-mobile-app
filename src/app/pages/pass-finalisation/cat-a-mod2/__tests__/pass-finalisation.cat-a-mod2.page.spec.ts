@@ -1,4 +1,5 @@
-import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
@@ -65,13 +66,13 @@ describe('PassFinalisationCatAMod2Page', () => {
     component = fixture.componentInstance;
     component.subscription = new Subscription();
     store$ = TestBed.inject(Store);
-    spyOn(store$, 'dispatch');
+    vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
   });
 
   describe('Class', () => {
     describe('ionViewWillEnter', () => {
       it('should dispatch the VIEW_DID_ENTER action when the function is run', () => {
-        spyOn(PassFinalisationPageComponent.prototype, 'ionViewWillEnter');
+        vi.spyOn(PassFinalisationPageComponent.prototype, 'ionViewWillEnter').mockReturnValue(undefined);
         component.ionViewWillEnter();
         expect(store$.dispatch).toHaveBeenCalledWith(PassFinalisationViewDidEnter());
         expect(store$.dispatch).toHaveBeenCalledTimes(1);
@@ -85,31 +86,36 @@ describe('PassFinalisationCatAMod2Page', () => {
         expect(store$.dispatch).toHaveBeenCalledWith(PersistTests());
       });
 
-      it('should dispatch the appropriate ValidationError actions', fakeAsync(() => {
-        component.form = new UntypedFormGroup({
-          requiredControl1: new UntypedFormControl(null, [Validators.required]),
-          requiredControl2: new UntypedFormControl(null, [Validators.required]),
-          [PASS_CERTIFICATE_NUMBER_CTRL]: new UntypedFormControl(null, [Validators.required]),
-          notRequiredControl: new UntypedFormControl(null),
-        });
+      it('should dispatch the appropriate ValidationError actions', async () => {
+        vi.useFakeTimers();
+        try {
+          component.form = new UntypedFormGroup({
+            requiredControl1: new UntypedFormControl(null, [Validators.required]),
+            requiredControl2: new UntypedFormControl(null, [Validators.required]),
+            [PASS_CERTIFICATE_NUMBER_CTRL]: new UntypedFormControl(null, [Validators.required]),
+            notRequiredControl: new UntypedFormControl(null),
+          });
 
-        component.onSubmit();
-        tick();
-        expect(store$.dispatch).toHaveBeenCalledWith(PassFinalisationValidationError('requiredControl1 is blank'));
-        expect(store$.dispatch).toHaveBeenCalledWith(PassFinalisationValidationError('requiredControl2 is blank'));
-        expect(store$.dispatch).toHaveBeenCalledWith(
-          PassFinalisationValidationError(`${PASS_CERTIFICATE_NUMBER_CTRL} is invalid`)
-        );
-        expect(store$.dispatch).not.toHaveBeenCalledWith(
-          PassFinalisationValidationError('notRequiredControl is blank')
-        );
-      }));
+          component.onSubmit();
+          await vi.advanceTimersByTimeAsync(0);
+          expect(store$.dispatch).toHaveBeenCalledWith(PassFinalisationValidationError('requiredControl1 is blank'));
+          expect(store$.dispatch).toHaveBeenCalledWith(PassFinalisationValidationError('requiredControl2 is blank'));
+          expect(store$.dispatch).toHaveBeenCalledWith(
+            PassFinalisationValidationError(`${PASS_CERTIFICATE_NUMBER_CTRL} is invalid`)
+          );
+          expect(store$.dispatch).not.toHaveBeenCalledWith(
+            PassFinalisationValidationError('notRequiredControl is blank')
+          );
+        } finally {
+          vi.useRealTimers();
+        }
+      });
     });
 
     describe('ionViewDidLeave', () => {
       it('should unsubscribe when subscription', () => {
         component.subscription = new Subscription();
-        spyOn(component.subscription, 'unsubscribe');
+        vi.spyOn(component.subscription, 'unsubscribe').mockReturnValue(undefined);
         component.ionViewDidLeave();
         expect(component.subscription.unsubscribe).toHaveBeenCalled();
       });

@@ -1,5 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { TickIndicatorComponent } from '@components/common/tick-indicator/tick-indicator';
+import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { Store, StoreModule } from '@ngrx/store';
 import { StoreModel } from '@shared/models/store.model';
@@ -14,7 +15,7 @@ describe('LegalRequirementComponent', () => {
   let fixture: ComponentFixture<LegalRequirementComponent>;
   let component: LegalRequirementComponent;
   let store$: Store<StoreModel>;
-  let storeDispatchSpy: jasmine.Spy;
+  let storeDispatchSpy: Mock;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -29,7 +30,7 @@ describe('LegalRequirementComponent', () => {
     fixture = TestBed.createComponent(LegalRequirementComponent);
     component = fixture.componentInstance;
     store$ = TestBed.inject(Store);
-    storeDispatchSpy = spyOn(store$, 'dispatch');
+    storeDispatchSpy = vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
   });
 
   describe('Class', () => {

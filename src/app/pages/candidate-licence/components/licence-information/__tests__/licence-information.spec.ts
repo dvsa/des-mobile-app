@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { DomSanitizer } from '@angular/platform-browser';
 import { DriverLicenceSchema } from '@dvsa/mes-driver-schema';
+import { afterAll, beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { DomSanitizerMock } from '@mocks/angular-mocks/dom-sanitizer.mock';
 import { SIGNATURE_MOCK } from '@pages/candidate-licence/candidate-licence.mock';
@@ -43,7 +44,7 @@ describe('LicenceInformation', () => {
   });
 
   afterAll(() => {
-    jasmine.clock()?.uninstall();
+    vi.useRealTimers();
   });
 
   describe('Class', () => {
@@ -94,7 +95,7 @@ describe('LicenceInformation', () => {
     });
     describe('get cardExpiryDate', () => {
       it('should return a date 5 years from date in UK format', () => {
-        jasmine.clock().mockDate(new Date('2022-10-24'));
+        vi.setSystemTime(new Date('2022-10-24'));
         component.isPracticeMode = true;
         expect(component.cardExpiryDate).toEqual('24/10/2027');
       });
@@ -105,7 +106,7 @@ describe('LicenceInformation', () => {
     });
     describe('get signature', () => {
       beforeEach(() => {
-        spyOn(domSanitizer, 'bypassSecurityTrustUrl').and.returnValue('stub url');
+        vi.spyOn(domSanitizer, 'bypassSecurityTrustUrl').mockReturnValue('stub url');
       });
       it('should use the mock signature in practice mode', () => {
         component.isPracticeMode = true;

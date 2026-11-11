@@ -11,13 +11,17 @@ import { SearchProviderMock } from '@providers/search/__mocks__/search.mock';
 import { SearchProvider } from '@providers/search/search';
 import { UrlProviderMock } from '@providers/url/__mocks__/url.mock';
 import { UrlProvider } from '@providers/url/url';
-import { ReplaySubject, defer, of } from 'rxjs';
+import { ReplaySubject, defer, firstValueFrom, of } from 'rxjs';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { DelegatedRekeySearchErrorMessages } from '../delegated-rekey-search-error-model';
 import * as delegatedRekeySearchActions from '../delegated-rekey-search.actions';
 import { DelegatedRekeySearchEffects } from '../delegated-rekey-search.effects';
 import { delegatedSearchReducer } from '../delegated-rekey-search.reducer';
 
-function asyncError(errorObject: { status: number; error: string }) {
+function asyncError(errorObject: {
+  status: number;
+  error: string;
+}) {
   return defer(() => Promise.reject(errorObject));
 }
 
@@ -72,26 +76,23 @@ describe('DelegatedRekeySearchEffects', () => {
     searchProvider = TestBed.inject(SearchProvider);
   });
 
-  it('should dispatch the SearchBookedTestSuccess action when searched with success', (done) => {
-    spyOn(delegatedRekeySearchProvider, 'getDelegatedExaminerBookingByAppRef').and.returnValue(
+  it('should dispatch the SearchBookedTestSuccess action when searched with success', async () => {
+    vi.spyOn(delegatedRekeySearchProvider, 'getDelegatedExaminerBookingByAppRef').mockReturnValue(
       of(mockGetDelegatedBooking())
     );
-    spyOn(searchProvider, 'getTestResult').and.returnValue(
+    vi.spyOn(searchProvider, 'getTestResult').mockReturnValue(
       asyncError(getTestResultHttpErrorResponse(HttpStatusCode.BadRequest))
     );
     actions$.next(delegatedRekeySearchActions.SearchBookedDelegatedTest('12345678910'));
-
-    effects.getBooking$.subscribe((result) => {
-      expect(result.type === delegatedRekeySearchActions.SearchBookedDelegatedTestSuccess.type).toBeTruthy();
-      done();
-    });
+    const result = await firstValueFrom(effects.getBooking$);
+    expect(result.type === delegatedRekeySearchActions.SearchBookedDelegatedTestSuccess.type).toBeTruthy();
   });
 
-  it('should dispatch the SearchBookedTestFailure action when searched with failure', (done) => {
-    spyOn(searchProvider, 'getTestResult').and.returnValue(
+  it('should dispatch the SearchBookedTestFailure action when searched with failure', async () => {
+    vi.spyOn(searchProvider, 'getTestResult').mockReturnValue(
       asyncError(getTestResultHttpErrorResponse(HttpStatusCode.BadRequest))
     );
-    spyOn(delegatedRekeySearchProvider, 'getDelegatedExaminerBookingByAppRef').and.returnValue(
+    vi.spyOn(delegatedRekeySearchProvider, 'getDelegatedExaminerBookingByAppRef').mockReturnValue(
       asyncError(
         new HttpErrorResponse({
           error: 'Error message',
@@ -100,45 +101,43 @@ describe('DelegatedRekeySearchEffects', () => {
         })
       )
     );
-
     actions$.next(delegatedRekeySearchActions.SearchBookedDelegatedTest('12345678911'));
+    const result = await firstValueFrom(effects.getBooking$);
+    expect(result.type === delegatedRekeySearchActions.SearchBookedDelegatedTestFailure.type).toBeTruthy();
+  });
 
-    effects.getBooking$.subscribe((result) => {
-      expect(result.type === delegatedRekeySearchActions.SearchBookedDelegatedTestFailure.type).toBeTruthy();
-      done();
+  it('should call getDelegatedExaminerBookingByAppRef on the test search provider', async () => {
+    await new Promise<void>((done, reject) => {
+      vi.spyOn(searchProvider, 'getTestResult').mockReturnValue(
+        asyncError(getTestResultHttpErrorResponse(HttpStatusCode.BadRequest))
+      );
+      vi.spyOn(delegatedRekeySearchProvider, 'getDelegatedExaminerBookingByAppRef').mockReturnValue(
+        of(mockGetDelegatedBooking())
+      );
+
+      actions$.next(delegatedRekeySearchActions.SearchBookedDelegatedTest(appRef));
+
+      effects.getBooking$.subscribe(() => {
+        try {
+          expect(delegatedRekeySearchProvider.getDelegatedExaminerBookingByAppRef).toHaveBeenCalledWith(appRef);
+          done();
+        } catch (error) {
+          reject(error);
+        }
+      }, reject);
     });
   });
 
-  it('should call getDelegatedExaminerBookingByAppRef on the test search provider', (done) => {
-    spyOn(searchProvider, 'getTestResult').and.returnValue(
-      asyncError(getTestResultHttpErrorResponse(HttpStatusCode.BadRequest))
-    );
-    spyOn(delegatedRekeySearchProvider, 'getDelegatedExaminerBookingByAppRef').and.returnValue(
+  it('should not call getBooking if getTestResult succeeds', async () => {
+    vi.spyOn(delegatedRekeySearchProvider, 'getDelegatedExaminerBookingByAppRef').mockReturnValue(
       of(mockGetDelegatedBooking())
     );
-
-    actions$.next(delegatedRekeySearchActions.SearchBookedDelegatedTest(appRef));
-
-    effects.getBooking$.subscribe(() => {
-      expect(delegatedRekeySearchProvider.getDelegatedExaminerBookingByAppRef).toHaveBeenCalledWith(appRef);
-      done();
-    });
-  });
-
-  it('should not call getBooking if getTestResult succeeds', (done) => {
-    spyOn(delegatedRekeySearchProvider, 'getDelegatedExaminerBookingByAppRef').and.returnValue(
-      of(mockGetDelegatedBooking())
-    );
-
     const expectedFailureAction = delegatedRekeySearchActions.SearchBookedDelegatedTestFailure({
       message: DelegatedRekeySearchErrorMessages.BookingAlreadyCompleted,
     });
     actions$.next(delegatedRekeySearchActions.SearchBookedDelegatedTest(appRef));
-
-    effects.getBooking$.subscribe((result) => {
-      expect(delegatedRekeySearchProvider.getDelegatedExaminerBookingByAppRef).not.toHaveBeenCalled();
-      expect(result).toEqual(expectedFailureAction);
-      done();
-    });
+    const result = await firstValueFrom(effects.getBooking$);
+    expect(delegatedRekeySearchProvider.getDelegatedExaminerBookingByAppRef).not.toHaveBeenCalled();
+    expect(result).toEqual(expectedFailureAction);
   });
 });

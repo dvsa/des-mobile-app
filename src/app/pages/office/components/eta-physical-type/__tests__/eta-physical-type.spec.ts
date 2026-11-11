@@ -1,5 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { AccompanimentComponent } from '@pages/waiting-room-to-car/components/accompaniment/accompaniment';
 
@@ -30,13 +31,13 @@ describe('AccompanimentComponent', () => {
   describe('accompanimentChanged', () => {
     it('should emit when formControl is valid', () => {
       component.formControl = new UntypedFormControl(1);
-      spyOn(component.accompanimentChange, 'emit');
+      vi.spyOn(component.accompanimentChange, 'emit').mockReturnValue(undefined);
       component.accompanimentChanged();
       expect(component.accompanimentChange.emit).toHaveBeenCalled();
     });
     it('should not emit when formControl is invalid', () => {
       component.formControl.setValue(null);
-      spyOn(component.accompanimentChange, 'emit');
+      vi.spyOn(component.accompanimentChange, 'emit').mockReturnValue(undefined);
       component.accompanimentChanged();
       expect(component.accompanimentChange.emit).not.toHaveBeenCalled();
     });

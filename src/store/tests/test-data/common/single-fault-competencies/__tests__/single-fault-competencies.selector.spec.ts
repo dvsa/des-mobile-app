@@ -1,5 +1,6 @@
 import { SingleFaultCompetencies, TestData } from '@dvsa/mes-test-schema/categories/AM1';
 import { CompetencyOutcome } from '@shared/models/competency-outcome';
+import { describe, expect, it } from 'vitest';
 import { SingleFaultCompetencyNames } from '../../../test-data.constants';
 import {
   getSingleFaultCompetencies,

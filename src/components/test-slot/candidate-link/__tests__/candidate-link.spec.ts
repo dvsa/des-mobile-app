@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { CommonModule } from '@angular/common';
 import { Style } from '@capacitor/status-bar';
@@ -53,24 +54,24 @@ describe('CandidateLinkComponent', () => {
 
   describe('openCandidateDetailsModal', () => {
     it('should configure status bar to dark style', async () => {
-      spyOn(component.accessibilityService, 'configureStatusBar').and.resolveTo();
-      spyOn(component.modalController, 'getTop').and.resolveTo({} as HTMLIonModalElement);
+      vi.spyOn(component.accessibilityService, 'configureStatusBar').mockResolvedValue(undefined);
+      vi.spyOn(component.modalController, 'getTop').mockResolvedValue({} as HTMLIonModalElement);
       await component.openCandidateDetailsModal();
       expect(component.accessibilityService.configureStatusBar).toHaveBeenCalledWith(Style.Dark);
     });
 
     it('should not create a new modal if one is already present', async () => {
-      spyOn(component.modalController, 'getTop').and.resolveTo({
+      vi.spyOn(component.modalController, 'getTop').mockResolvedValue({
         present: async () => {},
       } as HTMLIonModalElement);
-      spyOn(component.modalController, 'create');
+      vi.spyOn(component.modalController, 'create');
       await component.openCandidateDetailsModal();
       expect(component.modalController.create).not.toHaveBeenCalled();
     });
 
     it('should create and present a new modal if none is present', async () => {
-      spyOn(component.modalController, 'getTop').and.returnValue(Promise.resolve(null));
-      spyOn(component.modalController, 'create').and.resolveTo({
+      vi.spyOn(component.modalController, 'getTop').mockReturnValue(Promise.resolve(null));
+      vi.spyOn(component.modalController, 'create').mockResolvedValue({
         present: async () => {},
       } as HTMLIonModalElement);
       await component.openCandidateDetailsModal();
@@ -78,8 +79,8 @@ describe('CandidateLinkComponent', () => {
     });
 
     it('should pass correct component props to the modal', async () => {
-      spyOn(component.modalController, 'getTop').and.resolveTo(null);
-      spyOn(component.modalController, 'create').and.callFake(async (options) => {
+      vi.spyOn(component.modalController, 'getTop').mockResolvedValue(null);
+      vi.spyOn(component.modalController, 'create').mockImplementation(async (options) => {
         expect(options.componentProps).toEqual({
           isPracticeMode: component.isPracticeMode,
           slots: component.slots,
@@ -95,9 +96,9 @@ describe('CandidateLinkComponent', () => {
     });
 
     it('should apply the correct zoom class to the modal', async () => {
-      spyOn(component.modalController, 'getTop').and.resolveTo(null);
-      spyOn(component.accessibilityService, 'getTextZoomClass').and.returnValue('zoom-class');
-      spyOn(component.modalController, 'create').and.callFake(async (options) => {
+      vi.spyOn(component.modalController, 'getTop').mockResolvedValue(null);
+      vi.spyOn(component.accessibilityService, 'getTextZoomClass').mockReturnValue('zoom-class');
+      vi.spyOn(component.modalController, 'create').mockImplementation(async (options) => {
         expect(options.cssClass).toContain('modal-fullscreen zoom-class');
         return {
           present: async () => {},

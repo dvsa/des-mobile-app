@@ -709,7 +709,7 @@ export class ExaminerRecordsPage implements OnInit {
       this.subscription.unsubscribe();
     }
     await ScreenOrientation.removeAllListeners();
-    this.windowMedia.removeAllListeners();
+    this.windowMedia.removeEventListener('change', this.darkModeListener);
   }
 
   /**

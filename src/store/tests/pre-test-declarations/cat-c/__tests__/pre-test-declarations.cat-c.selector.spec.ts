@@ -1,4 +1,5 @@
 import { CatCUniqueTypes } from '@dvsa/mes-test-schema/categories/C';
+import { describe, expect, it } from 'vitest';
 import { getManoeuvrePassCertificateNumber } from '../pre-test-declarations.cat-c.selector';
 
 describe('PreTestDeclarations selector', () => {

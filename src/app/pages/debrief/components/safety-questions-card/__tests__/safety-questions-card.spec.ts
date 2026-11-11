@@ -1,9 +1,10 @@
 import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { QuestionResult } from '@dvsa/mes-test-schema/categories/common';
+import { beforeEach, describe, expect, it } from 'vitest';
 
-import { TranslateService, provideTranslateService } from '@ngx-translate/core';
-import { provideTranslateHttpLoader } from '@ngx-translate/http-loader';
+import { provideTestTranslations } from '@mocks/test-providers';
+import { TranslateService } from '@ngx-translate/core';
 import { SafetyQuestionsCardComponent } from '@pages/debrief/components/safety-questions-card/safety-questions-card';
 
 describe('SafetyQuestionsCardComponent', () => {
@@ -14,14 +15,7 @@ describe('SafetyQuestionsCardComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [SafetyQuestionsCardComponent],
-      providers: [
-        provideHttpClient(withInterceptorsFromDi()),
-        provideTranslateService({
-          loader: provideTranslateHttpLoader({ prefix: 'assets/i18n/' }),
-          fallbackLang: 'en',
-          lang: 'en',
-        }),
-      ],
+      providers: [provideHttpClient(withInterceptorsFromDi()), provideTestTranslations()],
     });
 
     fixture = TestBed.createComponent(SafetyQuestionsCardComponent);

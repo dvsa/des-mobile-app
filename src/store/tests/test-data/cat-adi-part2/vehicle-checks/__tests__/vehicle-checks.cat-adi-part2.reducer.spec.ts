@@ -2,6 +2,7 @@ import { CatADI2UniqueTypes } from '@dvsa/mes-test-schema/categories/ADI2';
 import { VehicleChecks } from '@dvsa/mes-test-schema/categories/ADI2/partial';
 import { QuestionResult } from '@dvsa/mes-test-schema/categories/common';
 import { cloneDeep } from 'lodash-es';
+import { describe, expect, it } from 'vitest';
 import * as vehicleChecksCatADI2ActionTypes from '../vehicle-checks.cat-adi-part2.action';
 import {
   AddShowMeTellMeComment,

@@ -1,6 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
-import { ReplaySubject } from 'rxjs';
+import { ReplaySubject, firstValueFrom } from 'rxjs';
+import { beforeEach, describe, expect, it } from 'vitest';
 
 import { AnalyticsProviderMock } from '@providers/analytics/__mocks__/analytics.mock';
 import { AnalyticsProvider } from '@providers/analytics/analytics';
@@ -66,39 +67,25 @@ describe('TestReportDashboardAnalyticsEffects', () => {
   });
 
   describe('testReportDashboardViewDidEnter$', () => {
-    it('should call setCurrentPage', (done) => {
-      // ARRANGE
+    it('should call setCurrentPage', async () => {
       store$.dispatch(testsActions.StartTest(123, TestCategory.ADI3));
       store$.dispatch(PopulateCandidateDetails(candidateMock));
-      // ACT
       actions$.next(testReportDashboardActions.TestReportDashboardViewDidEnter());
-      // ASSERT
-      effects.testReportDashboardViewDidEnter$.subscribe((result) => {
-        expect(result.type === AnalyticRecorded.type).toBe(true);
-
-        // GA4 Analytics
-        expect(analyticsProviderMock.setGACurrentPage).toHaveBeenCalledWith(AnalyticsScreenNames.TEST_REPORT_DASHBOARD);
-        done();
-      });
+      const result = await firstValueFrom(effects.testReportDashboardViewDidEnter$);
+      expect(result.type === AnalyticRecorded.type).toBe(true);
+      expect(analyticsProviderMock.setGACurrentPage).toHaveBeenCalledWith(AnalyticsScreenNames.TEST_REPORT_DASHBOARD);
     });
 
-    it('should call setCurrentPage and prefix correctly when practice mode', (done) => {
-      // ARRANGE
+    it('should call setCurrentPage and prefix correctly when practice mode', async () => {
       store$.dispatch(testsActions.StartTest(123, TestCategory.ADI3));
       store$.dispatch(fakeJournalActions.StartE2EPracticeTest(end2endPracticeSlotId));
       store$.dispatch(PopulateCandidateDetails(candidateMock));
-      // ACT
       actions$.next(testReportDashboardActions.TestReportDashboardViewDidEnter());
-      // ASSERT
-      effects.testReportDashboardViewDidEnter$.subscribe((result) => {
-        expect(result.type === AnalyticRecorded.type).toBe(true);
-
-        // GA4 Analytics
-        expect(analyticsProviderMock.setGACurrentPage).toHaveBeenCalledWith(
-          `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${AnalyticsScreenNames.TEST_REPORT_DASHBOARD}`
-        );
-        done();
-      });
+      const result = await firstValueFrom(effects.testReportDashboardViewDidEnter$);
+      expect(result.type === AnalyticRecorded.type).toBe(true);
+      expect(analyticsProviderMock.setGACurrentPage).toHaveBeenCalledWith(
+        `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${AnalyticsScreenNames.TEST_REPORT_DASHBOARD}`
+      );
     });
   });
 

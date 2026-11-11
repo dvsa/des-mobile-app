@@ -2,6 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { Capacitor } from '@capacitor/core';
 import { StatusBar, Style } from '@capacitor/status-bar';
 import { AccessibilityService } from '@providers/accessibility/accessibility.service';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 describe('AccessibilityService', () => {
   let accessibilityService: AccessibilityService;
@@ -31,14 +32,14 @@ describe('AccessibilityService', () => {
 
   describe('getTextZoomClass', () => {
     it('should concatenate the value from getTextZoom to a text-zoom string', () => {
-      spyOn(accessibilityService, 'getTextZoom').and.returnValue('regular');
+      vi.spyOn(accessibilityService, 'getTextZoom').mockReturnValue('regular');
       expect(accessibilityService.getTextZoomClass()).toEqual('text-zoom-regular');
     });
   });
 
   describe('configureAccessibility', () => {
     it('should call updateTextZoom and call getTextZoomCallback with the value of getTextZoom', async () => {
-      spyOn(accessibilityService, 'getTextZoomCallback');
+      vi.spyOn(accessibilityService, 'getTextZoomCallback').mockReturnValue(undefined);
       await accessibilityService.configureAccessibility();
 
       expect(accessibilityService.getTextZoomCallback).toHaveBeenCalledWith(150);
@@ -48,7 +49,7 @@ describe('AccessibilityService', () => {
     it(
       'should call usePreferredTextZoom with true and' + ' call getTextZoomCallback with the value of getTextZoom',
       async () => {
-        spyOn(accessibilityService, 'getTextZoomCallback');
+        vi.spyOn(accessibilityService, 'getTextZoomCallback').mockReturnValue(undefined);
 
         await accessibilityService.afterAppResume();
 
@@ -59,8 +60,8 @@ describe('AccessibilityService', () => {
 
   describe('configureStatusBar', () => {
     it('should set status bar styles when plugin is available', async () => {
-      spyOn(StatusBar, 'setStyle');
-      spyOn(Capacitor, 'isPluginAvailable').and.returnValue(true);
+      vi.spyOn(StatusBar, 'setStyle').mockReturnValue(undefined);
+      vi.spyOn(Capacitor, 'isPluginAvailable').mockReturnValue(true);
       await accessibilityService.configureStatusBar(Style.Dark);
       expect(StatusBar.setStyle).toHaveBeenCalledWith({ style: Style.Dark });
     });

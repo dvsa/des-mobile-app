@@ -5,7 +5,8 @@ import { AnalyticsProviderMock } from '@providers/analytics/__mocks__/analytics.
 import { AnalyticsProvider } from '@providers/analytics/analytics';
 import { AnalyticRecorded } from '@providers/analytics/analytics.actions';
 import { AnalyticsScreenNames, GoogleAnalyticsCustomDimension } from '@providers/analytics/analytics.model';
-import { ReplaySubject } from 'rxjs';
+import { ReplaySubject, firstValueFrom } from 'rxjs';
+import { beforeEach, describe, expect, it } from 'vitest';
 import * as viewTestResultActions from '../view-test-result.actions';
 import { ViewTestResultAnalyticsEffects } from '../view-test-result.analytics.effects';
 
@@ -30,19 +31,15 @@ describe('ViewTestResultAnalyticsEffects', () => {
   });
 
   describe('viewTestResultViewDidEnter$', () => {
-    it('should call setCurrentPage', (done) => {
-      // ACT
+    it('should call setCurrentPage', async () => {
       actions$.next(viewTestResultActions.ViewTestResultViewDidEnter('12345'));
-      // ASSERT
-      effects.viewTestResultViewDidEnter$.subscribe((result) => {
-        expect(result.type === AnalyticRecorded.type).toBe(true);
-        expect(analyticsProviderMock.setGACurrentPage).toHaveBeenCalledWith(screenName);
-        expect(analyticsProviderMock.addGACustomDimension).toHaveBeenCalledWith(
-          GoogleAnalyticsCustomDimension.APPLICATION_REFERENCE,
-          '12345'
-        );
-        done();
-      });
+      const result = await firstValueFrom(effects.viewTestResultViewDidEnter$);
+      expect(result.type === AnalyticRecorded.type).toBe(true);
+      expect(analyticsProviderMock.setGACurrentPage).toHaveBeenCalledWith(screenName);
+      expect(analyticsProviderMock.addGACustomDimension).toHaveBeenCalledWith(
+        GoogleAnalyticsCustomDimension.APPLICATION_REFERENCE,
+        '12345'
+      );
     });
   });
 });

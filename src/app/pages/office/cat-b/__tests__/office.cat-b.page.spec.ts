@@ -5,6 +5,7 @@ import { ActivityCodeComponent } from '@components/common/activity-code/activity
 import { TestFlowHeaderComponent } from '@components/common/test-flow-header/test-flow-header.component';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { NavController, ToastController } from '@ionic/angular';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { provideBasePageMocks } from '@mocks/test-providers';
 import { Store, StoreModule } from '@ngrx/store';
@@ -166,7 +167,7 @@ describe('OfficeCatBPage', () => {
     fixture = TestBed.createComponent(OfficeCatBPage);
     component = fixture.componentInstance;
     store$ = TestBed.inject(Store);
-    spyOn(store$, 'dispatch');
+    vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
     faultCountProvider = TestBed.inject(FaultCountProvider);
   });
 
@@ -185,9 +186,9 @@ describe('OfficeCatBPage', () => {
 
     describe('shouldDisplayDrivingFaultComments', () => {
       it('should return false if there are less than 16 driving faults', () => {
-        spyOn(faultCountProvider, 'getDrivingFaultSumCount').and.returnValue(15);
-        spyOn(faultCountProvider, 'getSeriousFaultSumCount').and.returnValue(0);
-        spyOn(faultCountProvider, 'getDangerousFaultSumCount').and.returnValue(0);
+        vi.spyOn(faultCountProvider, 'getDrivingFaultSumCount').mockReturnValue(15);
+        vi.spyOn(faultCountProvider, 'getSeriousFaultSumCount').mockReturnValue(0);
+        vi.spyOn(faultCountProvider, 'getDangerousFaultSumCount').mockReturnValue(0);
 
         const result = component.faultCountProvider.shouldDisplayDrivingFaultComments(
           {},
@@ -197,9 +198,9 @@ describe('OfficeCatBPage', () => {
         expect(result).toEqual(false);
       });
       it('should return true if there are more than 15 driving faults and no serious or dangerous faults', () => {
-        spyOn(faultCountProvider, 'getDrivingFaultSumCount').and.returnValue(16);
-        spyOn(faultCountProvider, 'getSeriousFaultSumCount').and.returnValue(0);
-        spyOn(faultCountProvider, 'getDangerousFaultSumCount').and.returnValue(0);
+        vi.spyOn(faultCountProvider, 'getDrivingFaultSumCount').mockReturnValue(16);
+        vi.spyOn(faultCountProvider, 'getSeriousFaultSumCount').mockReturnValue(0);
+        vi.spyOn(faultCountProvider, 'getDangerousFaultSumCount').mockReturnValue(0);
 
         const result = component.faultCountProvider.shouldDisplayDrivingFaultComments(
           {},
@@ -209,9 +210,9 @@ describe('OfficeCatBPage', () => {
         expect(result).toEqual(true);
       });
       it('should return false if there are more than 15 driving faults and a serious fault', () => {
-        spyOn(faultCountProvider, 'getDrivingFaultSumCount').and.returnValue(16);
-        spyOn(faultCountProvider, 'getSeriousFaultSumCount').and.returnValue(1);
-        spyOn(faultCountProvider, 'getDangerousFaultSumCount').and.returnValue(0);
+        vi.spyOn(faultCountProvider, 'getDrivingFaultSumCount').mockReturnValue(16);
+        vi.spyOn(faultCountProvider, 'getSeriousFaultSumCount').mockReturnValue(1);
+        vi.spyOn(faultCountProvider, 'getDangerousFaultSumCount').mockReturnValue(0);
 
         const result = component.faultCountProvider.shouldDisplayDrivingFaultComments(
           {},
@@ -221,9 +222,9 @@ describe('OfficeCatBPage', () => {
         expect(result).toEqual(false);
       });
       it('should return false if there are more than 15 driving faults and a dangerous fault', () => {
-        spyOn(faultCountProvider, 'getDrivingFaultSumCount').and.returnValue(16);
-        spyOn(faultCountProvider, 'getSeriousFaultSumCount').and.returnValue(0);
-        spyOn(faultCountProvider, 'getDangerousFaultSumCount').and.returnValue(1);
+        vi.spyOn(faultCountProvider, 'getDrivingFaultSumCount').mockReturnValue(16);
+        vi.spyOn(faultCountProvider, 'getSeriousFaultSumCount').mockReturnValue(0);
+        vi.spyOn(faultCountProvider, 'getDangerousFaultSumCount').mockReturnValue(1);
 
         const result = component.faultCountProvider.shouldDisplayDrivingFaultComments(
           {},
@@ -238,9 +239,9 @@ describe('OfficeCatBPage', () => {
   describe('ionViewWillEnter', () => {
     it('should disable single app mode if it not in practice mode and isIos is true', async () => {
       component.isPracticeMode = false;
-      spyOn(BasePageComponent.prototype, 'isIos').and.returnValue(true);
-      spyOn(BasePageComponent.prototype, 'ionViewWillEnter');
-      spyOn(component.deviceProvider, 'disableSingleAppMode');
+      vi.spyOn(BasePageComponent.prototype, 'isIos').mockReturnValue(true);
+      vi.spyOn(BasePageComponent.prototype, 'ionViewWillEnter').mockReturnValue(undefined);
+      vi.spyOn(component.deviceProvider, 'disableSingleAppMode');
       await component.ionViewWillEnter();
       expect(component.deviceProvider.disableSingleAppMode).toHaveBeenCalled();
     });

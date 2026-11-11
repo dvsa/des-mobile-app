@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { Store, StoreModule } from '@ngrx/store';
 import { StoreModel } from '@shared/models/store.model';
@@ -29,7 +30,7 @@ describe('TimerComponent', () => {
   describe('Class', () => {
     describe('startTimer', () => {
       it('should dispatch the start timer action, hide the start test button and set up an interval', () => {
-        const storeDispatchSpy = spyOn(store$, 'dispatch');
+        const storeDispatchSpy = vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
         component.startTimer();
         expect(storeDispatchSpy).toHaveBeenCalledWith(StartTimer());
         expect(component.showStartTimerButton).toEqual(false);
@@ -37,17 +38,17 @@ describe('TimerComponent', () => {
       });
 
       it('should include time elapsed while the app was suspended', () => {
-        jasmine.clock().install();
+        vi.useFakeTimers();
         try {
-          jasmine.clock().mockDate(new Date(0));
+          vi.setSystemTime(new Date(0));
 
           component.startTimer();
-          jasmine.clock().mockDate(new Date(30 * 60 * 1000));
+          vi.setSystemTime(new Date(30 * 60 * 1000));
           component.pauseTimer();
 
           expect(component.seconds).toBe(1800);
         } finally {
-          jasmine.clock().uninstall();
+          vi.useRealTimers();
         }
       });
     });

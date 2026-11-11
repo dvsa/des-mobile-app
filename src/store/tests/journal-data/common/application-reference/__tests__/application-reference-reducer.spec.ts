@@ -1,3 +1,4 @@
+import { describe, expect, it } from 'vitest';
 import { PopulateApplicationReference } from '../application-reference.actions';
 import { applicationReferenceReducer } from '../application-reference.reducer';
 

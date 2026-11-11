@@ -1,4 +1,5 @@
 import { CatCUniqueTypes } from '@dvsa/mes-test-schema/categories/C';
+import { describe, expect, it } from 'vitest';
 import { getCode78 } from '../pass-completion.cat-c.selector';
 
 describe('pass completion cat C selector', () => {

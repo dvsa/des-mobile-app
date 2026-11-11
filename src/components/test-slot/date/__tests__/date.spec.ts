@@ -1,12 +1,13 @@
 import { DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
+import { beforeEach, describe, expect, it } from 'vitest';
 
 import { LogHelperMock } from '@providers/logs/__mocks__/logs-helper.mock';
 import { LogHelper } from '@providers/logs/logs-helper';
 import { DateComponent } from '../date';
 
-xdescribe('TimeComponent', () => {
+describe.skip('TimeComponent', () => {
   let component: DateComponent;
   let fixture: ComponentFixture<DateComponent>;
 

@@ -3,6 +3,7 @@ import { SearchablePicklistModal } from '@components/common/searchable-picklist-
 import { SearchablePicklistModalEvent } from '@components/common/searchable-picklist-wrapper/searchable-picklist-wrapper';
 import { ModalController } from '@ionic/angular';
 import { ModalControllerMock } from '@mocks/ionic-mocks/modal-controller.mock';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 describe('SearchablePicklistModal', () => {
   interface Model {
@@ -52,7 +53,7 @@ describe('SearchablePicklistModal', () => {
     });
     describe('conditionalStyles', () => {
       it('should return an object with booleans set against each property', () => {
-        spyOn(component, 'isActiveSelection').and.returnValue(false);
+        vi.spyOn(component, 'isActiveSelection').mockReturnValue(false);
         expect(component.conditionalStyles(null)).toEqual({
           selected: false,
           'button-style': true,
@@ -95,7 +96,7 @@ describe('SearchablePicklistModal', () => {
     });
     describe('onClick', () => {
       it('should call modal dismiss with data and role', async () => {
-        spyOn(modalController, 'dismiss').and.returnValue(Promise.resolve(true));
+        vi.spyOn(modalController, 'dismiss').mockReturnValue(Promise.resolve(true));
         await component.onClick('data');
         expect(modalController.dismiss).toHaveBeenCalledWith('data', SearchablePicklistModalEvent.SUBMIT);
       });

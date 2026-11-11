@@ -11,7 +11,8 @@ import { SetExaminerBooked } from '@store/tests/examiner-booked/examiner-booked.
 import { SetExaminerConducted } from '@store/tests/examiner-conducted/examiner-conducted.actions';
 import * as testActions from '@store/tests/tests.actions';
 import { testsReducer } from '@store/tests/tests.reducer';
-import { ReplaySubject, defer } from 'rxjs';
+import { ReplaySubject, defer, firstValueFrom } from 'rxjs';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { rekeySearchReducer } from '../../rekey-search/rekey-search.reducer';
 import * as rekeyReasonActions from '../rekey-reason.actions';
@@ -59,29 +60,23 @@ describe('RekeyReasonEffects', () => {
 
   describe('rekeyReasonValidateTransferEffect', () => {
     describe('not a transfer', () => {
-      it('should send the current test and not call the find user provider', (done) => {
-        // ARRANGE
+      it('should send the current test and not call the find user provider', async () => {
         store$.dispatch(testActions.StartTest(12345, TestCategory.B));
         store$.dispatch(SetExaminerBooked(333));
         store$.dispatch(SetExaminerConducted(333));
-        spyOn(findUserProvider, 'userExists');
-        // ACT
+        vi.spyOn(findUserProvider, 'userExists').mockReturnValue(undefined);
         actions$.next(rekeyReasonActions.ValidateTransferRekey());
-        // ASSERT
-        effects.rekeyReasonValidateTransferEffect$.subscribe((res) => {
-          expect(res).toEqual(testActions.SendCurrentTest());
-          expect(findUserProvider.userExists).not.toHaveBeenCalled();
-          done();
-        });
+        const res = await firstValueFrom(effects.rekeyReasonValidateTransferEffect$);
+        expect(res).toEqual(testActions.SendCurrentTest());
+        expect(findUserProvider.userExists).not.toHaveBeenCalled();
       });
     });
     describe('transfer', () => {
-      it('should send the current test when the staff number is valid', (done) => {
-        // ARRANGE
+      it('should send the current test when the staff number is valid', async () => {
         store$.dispatch(testActions.StartTest(12345, TestCategory.B));
         store$.dispatch(SetExaminerBooked(333));
         store$.dispatch(SetExaminerConducted(789));
-        spyOn(findUserProvider, 'userExists').and.returnValue(
+        vi.spyOn(findUserProvider, 'userExists').mockReturnValue(
           asyncSuccess(
             new HttpResponse({
               status: HttpStatusCode.Ok,
@@ -89,21 +84,16 @@ describe('RekeyReasonEffects', () => {
             })
           )
         );
-        // ACT
         actions$.next(rekeyReasonActions.ValidateTransferRekey());
-        // ASSERT
-        effects.rekeyReasonValidateTransferEffect$.subscribe((res) => {
-          expect(res).toEqual(testActions.SendCurrentTest());
-          expect(findUserProvider.userExists).toHaveBeenCalled();
-          done();
-        });
+        const res = await firstValueFrom(effects.rekeyReasonValidateTransferEffect$);
+        expect(res).toEqual(testActions.SendCurrentTest());
+        expect(findUserProvider.userExists).toHaveBeenCalled();
       });
-      it('should return a failure action with a true payload when the staff number is not valid', (done) => {
-        // ARRANGE
+      it('should return a failure action with a true payload when the staff number is not valid', async () => {
         store$.dispatch(testActions.StartTest(12345, TestCategory.B));
         store$.dispatch(SetExaminerBooked(333));
         store$.dispatch(SetExaminerConducted(57463524));
-        spyOn(findUserProvider, 'userExists').and.returnValue(
+        vi.spyOn(findUserProvider, 'userExists').mockReturnValue(
           asyncError(
             new HttpErrorResponse({
               error: 'Error message',
@@ -112,18 +102,13 @@ describe('RekeyReasonEffects', () => {
             })
           )
         );
-        // ACT
         actions$.next(rekeyReasonActions.ValidateTransferRekey());
-        // ASSERT
-        effects.rekeyReasonValidateTransferEffect$.subscribe((res) => {
-          expect(res).toEqual(rekeyReasonActions.ValidateTransferRekeyFailed(true));
-          expect(findUserProvider.userExists).toHaveBeenCalled();
-          done();
-        });
+        const res = await firstValueFrom(effects.rekeyReasonValidateTransferEffect$);
+        expect(res).toEqual(rekeyReasonActions.ValidateTransferRekeyFailed(true));
+        expect(findUserProvider.userExists).toHaveBeenCalled();
       });
-      it('should return a failure action with a false payload when the find user provider errors', (done) => {
-        // ARRANGE
-        spyOn(findUserProvider, 'userExists').and.returnValue(
+      it('should return a failure action with a false payload when the find user provider errors', async () => {
+        vi.spyOn(findUserProvider, 'userExists').mockReturnValue(
           asyncError(
             new HttpErrorResponse({
               error: 'Error message',
@@ -135,14 +120,10 @@ describe('RekeyReasonEffects', () => {
         store$.dispatch(testActions.StartTest(12345, TestCategory.B));
         store$.dispatch(SetExaminerBooked(333));
         store$.dispatch(SetExaminerConducted(789));
-        // ACT
         actions$.next(rekeyReasonActions.ValidateTransferRekey());
-        // ASSERT
-        effects.rekeyReasonValidateTransferEffect$.subscribe((res) => {
-          expect(res).toEqual(rekeyReasonActions.ValidateTransferRekeyFailed(false));
-          expect(findUserProvider.userExists).toHaveBeenCalled();
-          done();
-        });
+        const res = await firstValueFrom(effects.rekeyReasonValidateTransferEffect$);
+        expect(res).toEqual(rekeyReasonActions.ValidateTransferRekeyFailed(false));
+        expect(findUserProvider.userExists).toHaveBeenCalled();
       });
     });
   });

@@ -2,6 +2,7 @@ import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http'
 import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { take } from 'rxjs/operators';
+import { afterAll, beforeEach, describe, expect, it, vi } from 'vitest';
 import { AppConfigProviderMock } from '../../app-config/__mocks__/app-config.mock';
 import { AppConfigProvider } from '../../app-config/app-config';
 import { UrlProviderMock } from '../../url/__mocks__/url.mock';
@@ -34,7 +35,7 @@ describe('FindUserProvider', () => {
     httpMock = TestBed.inject(HttpTestingController);
     findUserProvider = TestBed.inject(FindUserProvider);
     urlProvider = TestBed.inject(UrlProvider);
-    spyOn(urlProvider, 'getRekeyFindUserUrl');
+    vi.spyOn(urlProvider, 'getRekeyFindUserUrl');
   });
 
   afterAll(() => {

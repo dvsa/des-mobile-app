@@ -1,5 +1,6 @@
 import { CommonModule, Location } from '@angular/common';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { ErrorTypes } from '@shared/models/error-message';
 import { ErrorMessageComponent, additionalText } from '../error-message';
@@ -8,7 +9,9 @@ describe('ErrorMessageComponent', () => {
   let fixture: ComponentFixture<ErrorMessageComponent>;
   let component: ErrorMessageComponent;
   let location: Location;
-  const locationSpy = jasmine.createSpyObj('Location', ['back']);
+  const locationSpy = {
+    back: vi.fn().mockName('Location.back'),
+  };
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -88,7 +91,7 @@ describe('ErrorMessageComponent', () => {
     });
     describe('dismiss', () => {
       it('should call emit from exitModal when dismiss is called', () => {
-        spyOn(component.exitModal, 'emit');
+        vi.spyOn(component.exitModal, 'emit').mockReturnValue(undefined);
         component.dismiss();
         expect(component.exitModal.emit).toHaveBeenCalled();
       });

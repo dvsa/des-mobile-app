@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { WarningBannerComponent } from '@components/common/warning-banner/warning-banner';
+import { beforeEach, describe, expect, it } from 'vitest';
 
 import { LicenceProvidedWarningBannerComponent } from '../licence-provided-warning-banner';
 

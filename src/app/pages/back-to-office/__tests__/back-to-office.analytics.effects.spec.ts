@@ -26,7 +26,8 @@ import * as applicationReferenceActions from '@store/tests/journal-data/common/a
 import { PopulateCandidateDetails } from '@store/tests/journal-data/common/candidate/candidate.actions';
 import { SetStartDate } from '@store/tests/journal-data/common/test-slot-attributes/test-slot-attributes.actions';
 import * as testsActions from '@store/tests/tests.actions';
-import { ReplaySubject } from 'rxjs';
+import { ReplaySubject, firstValueFrom } from 'rxjs';
+import { beforeEach, describe, expect, it } from 'vitest';
 import * as fakeJournalActions from '../../fake-journal/fake-journal.actions';
 import * as backToOfficeActions from '../back-to-office.actions';
 import { BackToOfficeAnalyticsEffects } from '../back-to-office.analytics.effects';
@@ -72,180 +73,139 @@ describe('BackToOfficeAnalyticsEffects', () => {
   });
 
   describe('backToOfficeViewDidEnter', () => {
-    it('should call setCurrentPage', (done) => {
-      // ARRANGE
+    it('should call setCurrentPage', async () => {
       store$.dispatch(testsActions.StartTest(123, TestCategory.B));
       store$.dispatch(PopulateCandidateDetails(candidateMock));
-      // ACT
       actions$.next(backToOfficeActions.BackToOfficeViewDidEnter());
-      // ASSERT
-      effects.backToOfficeViewDidEnter$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-
-        // GA4 Analytics
-        expect(analyticsProviderMock.setGACurrentPage).toHaveBeenCalledWith(screenName);
-        done();
-      });
+      const result = await firstValueFrom(effects.backToOfficeViewDidEnter$);
+      expect(result.type).toEqual(AnalyticRecorded.type);
+      expect(analyticsProviderMock.setGACurrentPage).toHaveBeenCalledWith(screenName);
     });
-    it('should call setCurrentPage with practice mode prefix', (done) => {
-      // ARRANGE
+    it('should call setCurrentPage with practice mode prefix', async () => {
       store$.dispatch(fakeJournalActions.StartE2EPracticeTest(end2endPracticeSlotId));
       store$.dispatch(PopulateCandidateDetails(candidateMock));
-      // ACT
       actions$.next(backToOfficeActions.BackToOfficeViewDidEnter());
-      // ASSERT
-      effects.backToOfficeViewDidEnter$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-        // GA4 Analytics
-        expect(analyticsProviderMock.setGACurrentPage).toHaveBeenCalledWith(
-          `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${screenName}`
-        );
-        done();
-      });
+      const result = await firstValueFrom(effects.backToOfficeViewDidEnter$);
+      expect(result.type).toEqual(AnalyticRecorded.type);
+      expect(analyticsProviderMock.setGACurrentPage).toHaveBeenCalledWith(
+        `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${screenName}`
+      );
     });
   });
 
   describe('deferWriteUpEffect', () => {
-    it('should call logEvent with pass page and addCustomDimension', (done) => {
-      // ARRANGE
+    it('should call logEvent with pass page and addCustomDimension', async () => {
       const startDate = '2026-10-15T09:30:00.000Z';
       store$.dispatch(testsActions.StartTest(123, TestCategory.B));
       store$.dispatch(PopulateCandidateDetails(candidateMock));
       store$.dispatch(activityCodeActions.SetActivityCode(ActivityCodes.PASS));
       store$.dispatch(applicationReferenceActions.PopulateApplicationReference(mockApplication));
       store$.dispatch(SetStartDate(startDate));
-      // ACT
       actions$.next(backToOfficeActions.DeferWriteUp());
-      // ASSERT
-      effects.deferWriteUpEffect$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-
-        // GA4 Analytics
-        expect(analyticsProviderMock.addGACustomDimension).toHaveBeenCalledWith(
-          GoogleAnalyticsCustomDimension.CANDIDATE_ID,
-          '1'
-        );
-        expect(analyticsProviderMock.addGACustomDimension).toHaveBeenCalledWith(
-          GoogleAnalyticsCustomDimension.APPLICATION_REFERENCE,
-          '123456789'
-        );
-        expect(analyticsProviderMock.addGACustomDimension).toHaveBeenCalledWith(
-          GoogleAnalyticsCustomDimension.TEST_SLOT_DATETIME,
-          startDate
-        );
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-          GoogleAnalyticsEvents.DEFER_WRITE_UP,
-          GoogleAnalyticsEventsTitles.RESULT,
-          GoogleAnalyticsEventsValues.PASS
-        );
-        done();
-      });
+      const result = await firstValueFrom(effects.deferWriteUpEffect$);
+      expect(result.type).toEqual(AnalyticRecorded.type);
+      expect(analyticsProviderMock.addGACustomDimension).toHaveBeenCalledWith(
+        GoogleAnalyticsCustomDimension.CANDIDATE_ID,
+        '1'
+      );
+      expect(analyticsProviderMock.addGACustomDimension).toHaveBeenCalledWith(
+        GoogleAnalyticsCustomDimension.APPLICATION_REFERENCE,
+        '123456789'
+      );
+      expect(analyticsProviderMock.addGACustomDimension).toHaveBeenCalledWith(
+        GoogleAnalyticsCustomDimension.TEST_SLOT_DATETIME,
+        startDate
+      );
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+        GoogleAnalyticsEvents.DEFER_WRITE_UP,
+        GoogleAnalyticsEventsTitles.RESULT,
+        GoogleAnalyticsEventsValues.PASS
+      );
     });
-    it('should call logEvent with fail page and addCustomDimension', (done) => {
-      // ARRANGE
+    it('should call logEvent with fail page and addCustomDimension', async () => {
       const startDate = '2026-10-15T09:30:00.000Z';
       store$.dispatch(testsActions.StartTest(123, TestCategory.B));
       store$.dispatch(PopulateCandidateDetails(candidateMock));
       store$.dispatch(activityCodeActions.SetActivityCode(ActivityCodes.FAIL));
       store$.dispatch(applicationReferenceActions.PopulateApplicationReference(mockApplication));
       store$.dispatch(SetStartDate(startDate));
-      // ACT
       actions$.next(backToOfficeActions.DeferWriteUp());
-      // ASSERT
-      effects.deferWriteUpEffect$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-
-        // GA4 Analytics
-        expect(analyticsProviderMock.addGACustomDimension).toHaveBeenCalledWith(
-          GoogleAnalyticsCustomDimension.CANDIDATE_ID,
-          '1'
-        );
-        expect(analyticsProviderMock.addGACustomDimension).toHaveBeenCalledWith(
-          GoogleAnalyticsCustomDimension.APPLICATION_REFERENCE,
-          '123456789'
-        );
-        expect(analyticsProviderMock.addGACustomDimension).toHaveBeenCalledWith(
-          GoogleAnalyticsCustomDimension.TEST_SLOT_DATETIME,
-          startDate
-        );
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-          GoogleAnalyticsEvents.DEFER_WRITE_UP,
-          GoogleAnalyticsEventsTitles.RESULT,
-          GoogleAnalyticsEventsValues.FAIL
-        );
-        done();
-      });
+      const result = await firstValueFrom(effects.deferWriteUpEffect$);
+      expect(result.type).toEqual(AnalyticRecorded.type);
+      expect(analyticsProviderMock.addGACustomDimension).toHaveBeenCalledWith(
+        GoogleAnalyticsCustomDimension.CANDIDATE_ID,
+        '1'
+      );
+      expect(analyticsProviderMock.addGACustomDimension).toHaveBeenCalledWith(
+        GoogleAnalyticsCustomDimension.APPLICATION_REFERENCE,
+        '123456789'
+      );
+      expect(analyticsProviderMock.addGACustomDimension).toHaveBeenCalledWith(
+        GoogleAnalyticsCustomDimension.TEST_SLOT_DATETIME,
+        startDate
+      );
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+        GoogleAnalyticsEvents.DEFER_WRITE_UP,
+        GoogleAnalyticsEventsTitles.RESULT,
+        GoogleAnalyticsEventsValues.FAIL
+      );
     });
-    it('should call logEvent with pass page, practice mode prefix and addCustomDimension', (done) => {
-      // ARRANGE
+    it('should call logEvent with pass page, practice mode prefix and addCustomDimension', async () => {
       const startDate = '2026-10-15T09:30:00.000Z';
       store$.dispatch(fakeJournalActions.StartE2EPracticeTest(end2endPracticeSlotId));
       store$.dispatch(PopulateCandidateDetails(candidateMock));
       store$.dispatch(activityCodeActions.SetActivityCode(ActivityCodes.PASS));
       store$.dispatch(applicationReferenceActions.PopulateApplicationReference(mockApplication));
       store$.dispatch(SetStartDate(startDate));
-      // ACT
       actions$.next(backToOfficeActions.DeferWriteUp());
-      // ASSERT
-      effects.deferWriteUpEffect$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-
-        // GA4 Analytics
-        expect(analyticsProviderMock.addGACustomDimension).toHaveBeenCalledWith(
-          GoogleAnalyticsCustomDimension.CANDIDATE_ID,
-          '1'
-        );
-        expect(analyticsProviderMock.addGACustomDimension).toHaveBeenCalledWith(
-          GoogleAnalyticsCustomDimension.APPLICATION_REFERENCE,
-          '123456789'
-        );
-        expect(analyticsProviderMock.addGACustomDimension).toHaveBeenCalledWith(
-          GoogleAnalyticsCustomDimension.TEST_SLOT_DATETIME,
-          startDate
-        );
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-          `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEvents.DEFER_WRITE_UP}`,
-          GoogleAnalyticsEventsTitles.RESULT,
-          GoogleAnalyticsEventsValues.PASS
-        );
-        done();
-      });
+      const result = await firstValueFrom(effects.deferWriteUpEffect$);
+      expect(result.type).toEqual(AnalyticRecorded.type);
+      expect(analyticsProviderMock.addGACustomDimension).toHaveBeenCalledWith(
+        GoogleAnalyticsCustomDimension.CANDIDATE_ID,
+        '1'
+      );
+      expect(analyticsProviderMock.addGACustomDimension).toHaveBeenCalledWith(
+        GoogleAnalyticsCustomDimension.APPLICATION_REFERENCE,
+        '123456789'
+      );
+      expect(analyticsProviderMock.addGACustomDimension).toHaveBeenCalledWith(
+        GoogleAnalyticsCustomDimension.TEST_SLOT_DATETIME,
+        startDate
+      );
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+        `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEvents.DEFER_WRITE_UP}`,
+        GoogleAnalyticsEventsTitles.RESULT,
+        GoogleAnalyticsEventsValues.PASS
+      );
     });
 
-    it('should call logEvent with fail page, practice mode prefix and addCustomDimension', (done) => {
-      // ARRANGE
+    it('should call logEvent with fail page, practice mode prefix and addCustomDimension', async () => {
       const startDate = '2026-10-15T09:30:00.000Z';
       store$.dispatch(fakeJournalActions.StartE2EPracticeTest(end2endPracticeSlotId));
       store$.dispatch(PopulateCandidateDetails(candidateMock));
       store$.dispatch(activityCodeActions.SetActivityCode(ActivityCodes.FAIL));
       store$.dispatch(applicationReferenceActions.PopulateApplicationReference(mockApplication));
       store$.dispatch(SetStartDate(startDate));
-      // ACT
       actions$.next(backToOfficeActions.DeferWriteUp());
-      // ASSERT
-      effects.deferWriteUpEffect$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-
-        // GA4 Analytics
-        expect(analyticsProviderMock.addGACustomDimension).toHaveBeenCalledWith(
-          GoogleAnalyticsCustomDimension.CANDIDATE_ID,
-          '1'
-        );
-        expect(analyticsProviderMock.addGACustomDimension).toHaveBeenCalledWith(
-          GoogleAnalyticsCustomDimension.APPLICATION_REFERENCE,
-          '123456789'
-        );
-        expect(analyticsProviderMock.addGACustomDimension).toHaveBeenCalledWith(
-          GoogleAnalyticsCustomDimension.TEST_SLOT_DATETIME,
-          startDate
-        );
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-          `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEvents.DEFER_WRITE_UP}`,
-          GoogleAnalyticsEventsTitles.RESULT,
-          GoogleAnalyticsEventsValues.FAIL
-        );
-        done();
-      });
+      const result = await firstValueFrom(effects.deferWriteUpEffect$);
+      expect(result.type).toEqual(AnalyticRecorded.type);
+      expect(analyticsProviderMock.addGACustomDimension).toHaveBeenCalledWith(
+        GoogleAnalyticsCustomDimension.CANDIDATE_ID,
+        '1'
+      );
+      expect(analyticsProviderMock.addGACustomDimension).toHaveBeenCalledWith(
+        GoogleAnalyticsCustomDimension.APPLICATION_REFERENCE,
+        '123456789'
+      );
+      expect(analyticsProviderMock.addGACustomDimension).toHaveBeenCalledWith(
+        GoogleAnalyticsCustomDimension.TEST_SLOT_DATETIME,
+        startDate
+      );
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+        `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEvents.DEFER_WRITE_UP}`,
+        GoogleAnalyticsEventsTitles.RESULT,
+        GoogleAnalyticsEventsValues.FAIL
+      );
     });
   });
 });

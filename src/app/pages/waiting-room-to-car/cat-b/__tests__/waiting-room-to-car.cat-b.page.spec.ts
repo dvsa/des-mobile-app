@@ -1,7 +1,8 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { By } from '@angular/platform-browser';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { TestResultSchemasUnion } from '@dvsa/mes-test-schema/categories';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
@@ -111,7 +112,7 @@ describe('WaitingRoomToCarCatBPage', () => {
 
     store$ = TestBed.inject(Store);
     routeByCategoryProvider = TestBed.inject(RouteByCategoryProvider);
-    spyOn(store$, 'dispatch');
+    vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
   });
 
   afterEach(() => {
@@ -125,57 +126,67 @@ describe('WaitingRoomToCarCatBPage', () => {
   describe('Class', () => {
     describe('ngOnInit', () => {
       it('should call through to the base page init method', () => {
-        spyOn(WaitingRoomToCarBasePageComponent.prototype, 'onInitialisation');
+        vi.spyOn(WaitingRoomToCarBasePageComponent.prototype, 'onInitialisation').mockReturnValue(undefined);
         component.ngOnInit();
         expect(WaitingRoomToCarBasePageComponent.prototype.onInitialisation).toHaveBeenCalled();
       });
     });
     describe('ionViewDidEnter', () => {
       it('should call through to the base page ionViewDidEnter', () => {
-        spyOn(WaitingRoomToCarBasePageComponent.prototype, 'ionViewDidEnter');
+        vi.spyOn(WaitingRoomToCarBasePageComponent.prototype, 'ionViewDidEnter').mockReturnValue(undefined);
         component.ionViewDidEnter();
         expect(WaitingRoomToCarBasePageComponent.prototype.ionViewDidEnter).toHaveBeenCalled();
       });
     });
     describe('ionViewWillLeave', () => {
       it('should call through to the base page ionViewWillLeave', () => {
-        spyOn(WaitingRoomToCarBasePageComponent.prototype, 'ionViewWillLeave');
+        vi.spyOn(WaitingRoomToCarBasePageComponent.prototype, 'ionViewWillLeave').mockReturnValue(undefined);
         component.ionViewWillLeave();
         expect(WaitingRoomToCarBasePageComponent.prototype.ionViewWillLeave).toHaveBeenCalled();
       });
     });
     describe('onSubmit', () => {
       beforeEach(() => {
-        spyOn(routeByCategoryProvider, 'navigateToPage');
+        vi.spyOn(routeByCategoryProvider, 'navigateToPage').mockReturnValue(undefined);
       });
-      it('should recongnise a valid form and navigate to test report', fakeAsync(async () => {
-        component.form = new UntypedFormGroup({
-          notRequiredControl: new UntypedFormControl(null),
-        });
-        component.testCategory = TestCategory.B;
-        await component.onSubmit();
-        tick();
-        expect(routeByCategoryProvider.navigateToPage).toHaveBeenCalledWith(
-          TestFlowPageNames.TEST_REPORT_PAGE,
-          TestCategory.B,
-          { replaceUrl: true }
-        );
-      }));
-      it('should dispatch the appropriate WaitingRoomToCarValidationError actions', fakeAsync(async () => {
-        component.form = new UntypedFormGroup({
-          requiredControl1: new UntypedFormControl(null, [Validators.required]),
-          requiredControl2: new UntypedFormControl(null, [Validators.required]),
-          notRequiredControl: new UntypedFormControl(null),
-        });
+      it('should recongnise a valid form and navigate to test report', async () => {
+        vi.useFakeTimers();
+        try {
+          component.form = new UntypedFormGroup({
+            notRequiredControl: new UntypedFormControl(null),
+          });
+          component.testCategory = TestCategory.B;
+          await component.onSubmit();
+          await vi.advanceTimersByTimeAsync(0);
+          expect(routeByCategoryProvider.navigateToPage).toHaveBeenCalledWith(
+            TestFlowPageNames.TEST_REPORT_PAGE,
+            TestCategory.B,
+            { replaceUrl: true }
+          );
+        } finally {
+          vi.useRealTimers();
+        }
+      });
+      it('should dispatch the appropriate WaitingRoomToCarValidationError actions', async () => {
+        vi.useFakeTimers();
+        try {
+          component.form = new UntypedFormGroup({
+            requiredControl1: new UntypedFormControl(null, [Validators.required]),
+            requiredControl2: new UntypedFormControl(null, [Validators.required]),
+            notRequiredControl: new UntypedFormControl(null),
+          });
 
-        await component.onSubmit();
-        tick();
-        expect(store$.dispatch).toHaveBeenCalledWith(WaitingRoomToCarValidationError('requiredControl1 is blank'));
-        expect(store$.dispatch).toHaveBeenCalledWith(WaitingRoomToCarValidationError('requiredControl2 is blank'));
-        expect(store$.dispatch).not.toHaveBeenCalledWith(
-          WaitingRoomToCarValidationError('notRequiredControl is blank')
-        );
-      }));
+          await component.onSubmit();
+          await vi.advanceTimersByTimeAsync(0);
+          expect(store$.dispatch).toHaveBeenCalledWith(WaitingRoomToCarValidationError('requiredControl1 is blank'));
+          expect(store$.dispatch).toHaveBeenCalledWith(WaitingRoomToCarValidationError('requiredControl2 is blank'));
+          expect(store$.dispatch).not.toHaveBeenCalledWith(
+            WaitingRoomToCarValidationError('notRequiredControl is blank')
+          );
+        } finally {
+          vi.useRealTimers();
+        }
+      });
     });
     describe('eyesightFailCancelled', () => {
       it('should dispatch the action EyesightTestReset', () => {

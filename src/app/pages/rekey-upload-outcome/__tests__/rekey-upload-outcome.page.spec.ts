@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Router } from '@angular/router';
 import { KeepAwake as Insomnia } from '@capacitor-community/keep-awake';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { provideBasePageMocks } from '@mocks/test-providers';
 import { Store, StoreModule } from '@ngrx/store';
@@ -28,7 +29,6 @@ describe('RekeyUploadOutcomePage', () => {
   let router: Router;
 
   beforeEach(() => {
-    jasmine.getEnv().allowRespy(true);
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({
@@ -51,15 +51,15 @@ describe('RekeyUploadOutcomePage', () => {
     deviceProvider = TestBed.inject(DeviceProvider);
     store$ = TestBed.inject(Store);
     router = TestBed.inject(Router);
-    spyOn(router, 'navigate');
-    spyOn(store$, 'dispatch');
-    spyOn(BasePageComponent.prototype, 'isIos').and.returnValue(true);
+    vi.spyOn(router, 'navigate');
+    vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
+    vi.spyOn(BasePageComponent.prototype, 'isIos').mockReturnValue(true);
   });
 
   describe('Class', () => {
     describe('ionViewDidEnter', () => {
       it('should disable test inhibitions', async () => {
-        spyOn(Insomnia, 'allowSleep');
+        vi.spyOn(Insomnia, 'allowSleep').mockReturnValue(undefined);
         await component.ionViewDidEnter();
         expect(Insomnia.allowSleep).toHaveBeenCalled();
         expect(deviceProvider.disableSingleAppMode).toHaveBeenCalled();
@@ -89,7 +89,7 @@ describe('RekeyUploadOutcomePage', () => {
     it('should subscribe to merged if it exists', () => {
       component.subscription = null;
       component.merged$ = of(true);
-      spyOn(component.merged$, 'subscribe');
+      vi.spyOn(component.merged$, 'subscribe').mockReturnValue(undefined);
       component.ionViewWillEnter();
       expect(component.subscription).not.toEqual(null);
     });
@@ -98,7 +98,7 @@ describe('RekeyUploadOutcomePage', () => {
   describe('ionViewDidLeave', () => {
     it('should unsubscribe from the subscription if there is one', () => {
       component.subscription = new Subscription();
-      spyOn(component.subscription, 'unsubscribe');
+      vi.spyOn(component.subscription, 'unsubscribe').mockReturnValue(undefined);
       component.ionViewDidLeave();
       expect(component.subscription.unsubscribe).toHaveBeenCalled();
     });

@@ -1,5 +1,6 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { KeepAwake as Insomnia } from '@capacitor-community/keep-awake';
 import { ScreenOrientation } from '@capawesome/capacitor-screen-orientation';
@@ -162,7 +163,7 @@ describe('DebriefPage', () => {
     component = fixture.componentInstance;
     store$ = TestBed.inject(Store);
     routeByCategoryProvider = TestBed.inject(RouteByCategoryProvider);
-    spyOn(store$, 'dispatch');
+    vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
   });
 
   it('should create', () => {
@@ -333,7 +334,7 @@ describe('DebriefPage', () => {
   });
   describe('ionViewDidEnter', () => {
     it('should call dispatch with DebriefViewDidEnter', () => {
-      spyOn(component.store$, 'dispatch');
+      vi.spyOn(component.store$, 'dispatch').mockReturnValue(undefined);
       component.ionViewDidEnter();
       expect(component.store$.dispatch).toHaveBeenCalledWith(DebriefViewDidEnter());
     });
@@ -341,7 +342,7 @@ describe('DebriefPage', () => {
 
   describe('endDebrief', () => {
     it('should call navigate with DASHBOARD_PAGE if isTestReportPracticeMode is true', () => {
-      spyOn(component.router, 'navigate');
+      vi.spyOn(component.router, 'navigate');
       component.isTestReportPracticeMode = true;
 
       component.endDebrief();
@@ -351,7 +352,7 @@ describe('DebriefPage', () => {
       'should call navigate with PASS_FINALISATION_PAGE and the correct category if ' +
         'isTestReportPracticeMode is false and outcome is PASS',
       () => {
-        spyOn(routeByCategoryProvider, 'navigateToPage');
+        vi.spyOn(routeByCategoryProvider, 'navigateToPage').mockReturnValue(undefined);
         component.isTestReportPracticeMode = false;
         component.outcome = TestOutcome.PASS;
         component.testCategory = TestCategory.B;
@@ -367,7 +368,7 @@ describe('DebriefPage', () => {
       'should call navigate with POST_DEBRIEF_HOLDING_PAGE if ' +
         'isTestReportPracticeMode is false and outcome is not PASS',
       () => {
-        spyOn(component.router, 'navigate');
+        vi.spyOn(component.router, 'navigate');
         component.isTestReportPracticeMode = false;
         component.outcome = TestOutcome.FAIL;
 
@@ -379,20 +380,20 @@ describe('DebriefPage', () => {
 
   describe('ionViewDidLeave', () => {
     beforeEach(() => {
-      spyOn(ScreenOrientation, 'unlock');
-      spyOn(Insomnia, 'allowSleep');
+      vi.spyOn(ScreenOrientation, 'unlock');
+      vi.spyOn(Insomnia, 'allowSleep').mockReturnValue(undefined);
     });
     it('should unsubscribe from subscription if there is one', async () => {
       component.subscription = new Subscription();
-      spyOn(component.subscription, 'unsubscribe');
+      vi.spyOn(component.subscription, 'unsubscribe').mockReturnValue(undefined);
       await component.ionViewDidLeave();
       expect(component.subscription.unsubscribe).toHaveBeenCalled();
     });
     it(
       'should unlock screenOrientation and run allowSleepAgain if ' + 'isIos and isTestReportPracticeMode are true',
       async () => {
-        spyOn(PracticeableBasePageComponent.prototype, 'isIos').and.returnValue(true);
-        spyOn(ScreenOrientation, 'unlock');
+        vi.spyOn(PracticeableBasePageComponent.prototype, 'isIos').mockReturnValue(true);
+        vi.spyOn(ScreenOrientation, 'unlock');
         component.isTestReportPracticeMode = true;
 
         await component.ionViewDidLeave();

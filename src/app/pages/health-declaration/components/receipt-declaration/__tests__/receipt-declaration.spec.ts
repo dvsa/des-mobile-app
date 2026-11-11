@@ -2,6 +2,7 @@ import { EventEmitter } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule, UntypedFormGroup } from '@angular/forms';
 import { provideTestTranslations } from '@mocks/test-providers';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { ReceiptDeclarationComponent } from '../receipt-declaration';
 
@@ -40,7 +41,7 @@ describe('ReceiptDeclarationComponent', () => {
         component.formGroup = new UntypedFormGroup({});
         component.ngOnChanges();
         component.receiptDeclarationChange = new EventEmitter();
-        spyOn(component.receiptDeclarationChange, 'emit');
+        vi.spyOn(component.receiptDeclarationChange, 'emit').mockReturnValue(undefined);
 
         // ACT
         component.receiptDeclarationChanged(true);

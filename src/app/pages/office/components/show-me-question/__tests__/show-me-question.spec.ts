@@ -1,5 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { provideMockStore } from '@ngrx/store/testing';
 import { ShowMeQuestionComponent } from '@pages/office/components/show-me-question/show-me-question';
@@ -29,7 +30,7 @@ describe('ShowMeQuestionComponent', () => {
       component.formGroup.addControl(ShowMeQuestionComponent.fieldName, component.formControl);
       component.formGroup.get(ShowMeQuestionComponent.fieldName).setValidators([Validators.required]);
 
-      spyOn(component.outcomeBehaviourProvider, 'getVisibilityType').and.returnValue(VisibilityType.NotVisible);
+      vi.spyOn(component.outcomeBehaviourProvider, 'getVisibilityType').mockReturnValue(VisibilityType.NotVisible);
       component.ngOnChanges();
 
       expect(component.formGroup.get(ShowMeQuestionComponent.fieldName).hasValidator(Validators.required)).toBe(false);
@@ -37,7 +38,7 @@ describe('ShowMeQuestionComponent', () => {
     it('should set validators to FormControl if visibilityType is not VisibilityType.NotVisible', () => {
       component.formGroup = new UntypedFormGroup({});
 
-      spyOn(component.outcomeBehaviourProvider, 'getVisibilityType').and.returnValue(VisibilityType.Visible);
+      vi.spyOn(component.outcomeBehaviourProvider, 'getVisibilityType').mockReturnValue(VisibilityType.Visible);
       component.ngOnChanges();
 
       expect(component.formGroup.get(ShowMeQuestionComponent.fieldName).hasValidator(Validators.required)).toBe(true);
@@ -46,7 +47,7 @@ describe('ShowMeQuestionComponent', () => {
 
   describe('showMeQuestionChanged', () => {
     it('should emit showMeQuestion while from control is valid', () => {
-      spyOn(component.showMeQuestionChange, 'emit');
+      vi.spyOn(component.showMeQuestionChange, 'emit').mockReturnValue(undefined);
       component.formGroup = new UntypedFormGroup({});
       component.ngOnChanges();
 
@@ -65,7 +66,7 @@ describe('ShowMeQuestionComponent', () => {
       });
     });
     it('should not emit showMeQuestion while from control is not valid', () => {
-      spyOn(component.showMeQuestionChange, 'emit');
+      vi.spyOn(component.showMeQuestionChange, 'emit').mockReturnValue(undefined);
       component.formGroup = new UntypedFormGroup({});
 
       component.ngOnChanges();

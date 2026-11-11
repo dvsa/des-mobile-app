@@ -1,5 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { behaviourMap } from '@pages/office/office-behaviour-map';
 import { CharacterCountService } from '@providers/character-count/character-count.service';
@@ -77,7 +78,7 @@ describe('CandidateDescriptionComponent', () => {
 
   describe('getCharacterCountText', () => {
     it('should call service with charsRemaining', () => {
-      spyOn(characterCountService, 'getCharacterCountText');
+      vi.spyOn(characterCountService, 'getCharacterCountText').mockReturnValue(undefined);
       component.charsRemaining = 1;
       component.getCharacterCountText();
 
@@ -93,7 +94,7 @@ describe('CandidateDescriptionComponent', () => {
     });
     it('should check the validity of the form control', () => {
       component.formControl = new FormControl();
-      spyOn(component.formControl, 'updateValueAndValidity');
+      vi.spyOn(component.formControl, 'updateValueAndValidity').mockReturnValue(undefined);
       component.characterCountChanged(1);
       expect(component.formControl.updateValueAndValidity).toHaveBeenCalled();
     });
@@ -101,7 +102,7 @@ describe('CandidateDescriptionComponent', () => {
 
   describe('charactersExceeded', () => {
     it('should call service with charsRemaining', () => {
-      spyOn(characterCountService, 'charactersExceeded');
+      vi.spyOn(characterCountService, 'charactersExceeded').mockReturnValue(undefined);
       component.charsRemaining = 1;
       component.charactersExceeded();
 
@@ -111,7 +112,7 @@ describe('CandidateDescriptionComponent', () => {
 
   describe('candidateDescriptionChanged', () => {
     it('should emit candidate description', () => {
-      spyOn(component.candidateDescriptionChange, 'emit');
+      vi.spyOn(component.candidateDescriptionChange, 'emit').mockReturnValue(undefined);
       const candidateDescription = 'this is the candidate description';
       component.candidateDescriptionChanged(candidateDescription);
       expect(component.candidateDescriptionChange.emit).toHaveBeenCalledWith(candidateDescription);

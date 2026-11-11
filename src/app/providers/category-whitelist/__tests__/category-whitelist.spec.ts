@@ -1,4 +1,5 @@
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
+import { beforeEach, describe, expect, it } from 'vitest';
 import { CategoryWhitelistProvider } from '../category-whitelist';
 
 describe('CategoryWhitelistProvider', () => {

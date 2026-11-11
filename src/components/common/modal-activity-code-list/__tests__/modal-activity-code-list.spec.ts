@@ -6,6 +6,7 @@ import { ModalControllerMock } from '@mocks/ionic-mocks/modal-controller.mock';
 import { provideMockStore } from '@ngrx/store/testing';
 import { ActivityCodeDescription } from '@shared/constants/activity-code/activity-code.constants';
 import { ActivityCodes } from '@shared/models/activity-codes';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 describe('ModalActivityCodeListComponent', () => {
   let fixture: ComponentFixture<ModalActivityCodeListComponent>;
@@ -22,7 +23,7 @@ describe('ModalActivityCodeListComponent', () => {
 
   describe('onCancel', () => {
     it('should call dismiss with ActivityCodeModalEvent.CANCEL', () => {
-      spyOn(component.modalController, 'dismiss').and.returnValue(Promise.resolve(true));
+      vi.spyOn(component.modalController, 'dismiss').mockReturnValue(Promise.resolve(true));
       component.onCancel();
 
       expect(component.modalController.dismiss).toHaveBeenCalledWith(null, ActivityCodeModalEvent.CANCEL);
@@ -31,13 +32,13 @@ describe('ModalActivityCodeListComponent', () => {
 
   describe('selectActivityCode', () => {
     it('should not call dismiss on modalController if isOptionDisabled returns true', () => {
-      spyOn(component.modalController, 'dismiss').and.returnValue(Promise.resolve(true));
+      vi.spyOn(component.modalController, 'dismiss').mockReturnValue(Promise.resolve(true));
       component.selectActivityCode({ activityCode: '1', description: ActivityCodeDescription.FAIL });
 
       expect(component.modalController.dismiss).not.toHaveBeenCalled();
     });
     it('should call dismiss on modalController if isOptionDisabled returns false', () => {
-      spyOn(component.modalController, 'dismiss').and.returnValue(Promise.resolve(true));
+      vi.spyOn(component.modalController, 'dismiss').mockReturnValue(Promise.resolve(true));
       component.selectActivityCode({ activityCode: '11', description: ActivityCodeDescription.FAIL });
 
       expect(component.modalController.dismiss).toHaveBeenCalledWith(

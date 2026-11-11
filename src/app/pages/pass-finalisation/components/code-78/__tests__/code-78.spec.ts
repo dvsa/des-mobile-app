@@ -1,5 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule, UntypedFormGroup } from '@angular/forms';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { Code78Component } from '../code-78';
 
@@ -20,7 +21,7 @@ describe('Code78Component', () => {
   describe('Class', () => {
     describe('Code78Present', () => {
       it('should emit code 78 present if code 78 is present is selected', () => {
-        spyOn(component.code78Present, 'emit');
+        vi.spyOn(component.code78Present, 'emit').mockReturnValue(undefined);
         component.code78IsPresent();
         expect(component.code78Present.emit).toHaveBeenCalledWith(true);
       });
@@ -28,7 +29,7 @@ describe('Code78Component', () => {
 
     describe('Code78NotPresent', () => {
       it('should emit code 78 not present if code 78 is not present is selected', () => {
-        spyOn(component.code78Present, 'emit');
+        vi.spyOn(component.code78Present, 'emit').mockReturnValue(undefined);
         component.code78IsNotPresent();
         expect(component.code78Present.emit).toHaveBeenCalledWith(false);
       });

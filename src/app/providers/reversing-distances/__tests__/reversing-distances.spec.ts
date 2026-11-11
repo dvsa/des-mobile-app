@@ -1,6 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { VehicleDetailsUnion } from '@shared/unions/test-schema-unions';
+import { beforeEach, describe, expect, it } from 'vitest';
 import { ReversingDistancesProvider } from '../reversing-distances';
 
 describe('ReversingDistancesProvider', () => {
