@@ -3,6 +3,10 @@ version: v1.25.0
 
 # ignores vulnerabilities until expiry date; change duration by modifying expiry date
 ignore:
+  snyk:lic:npm:capgo:capacitor-native-biometric:MPL-2.0:
+    - '*':
+        reason: Use of MPL-2.0 licensed package
+        created: 2026-11-11T10:44:17.917Z
   snyk:lic:npm:dvsa:capacitor-plugin-msauth:LGPL-3.0:
     - '*':
         reason: Use of LGPL-3.0 licensed package
@@ -22,11 +26,6 @@ ignore:
         reason: Remediation not yet available
         expires: 2026-12-15T16:00:00.122Z
         created: 2026-11-15T11:00:00.122Z
-  SNYK-JS-UUID-16133035:
-      - '*':
-          reason: Remediation not yet available
-          expires: 2026-12-02T16:00:00.122Z
-          created: 2026-10-01T13:00:00.122Z
   SNYK-JS-PICOMATCH-21248802:
       - '*':
           reason: Remediation not yet available

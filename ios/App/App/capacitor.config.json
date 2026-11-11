@@ -26,10 +26,10 @@
 		"TextZoomPlugin",
 		"ManagedConfigurationsPlugin",
 		"ScreenOrientationPlugin",
+		"NativeBiometricPlugin",
 		"AsamPlugin",
 		"MsAuthPlugin",
 		"SentryCapacitorPlugin",
-		"NativeBiometric",
 		"CDVPlugin"
 	]
 }

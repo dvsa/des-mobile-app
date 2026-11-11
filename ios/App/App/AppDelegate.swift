@@ -1,7 +1,5 @@
 import UIKit
-import Capacitor
-import CapawesomeCapacitorScreenOrientation
-import DvsaCapacitorPluginMsauth
+import CapApp_SPM
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -77,4 +75,3 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
   }
 
 }
-
