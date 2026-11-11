@@ -3,6 +3,10 @@ version: v1.25.0
 
 # ignores vulnerabilities until expiry date; change duration by modifying expiry date
 ignore:
+  snyk:lic:npm:capgo:capacitor-native-biometric:MPL-2.0:
+    - '*':
+        reason: Use of MPL-2.0 licensed package
+        created: 2026-11-11T10:44:17.917Z
   snyk:lic:npm:dvsa:capacitor-plugin-msauth:LGPL-3.0:
     - '*':
         reason: Use of LGPL-3.0 licensed package
