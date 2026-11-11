@@ -22,11 +22,6 @@ ignore:
         reason: Remediation not yet available
         expires: 2026-12-15T16:00:00.122Z
         created: 2026-11-15T11:00:00.122Z
-  SNYK-JS-UUID-16133035:
-      - '*':
-          reason: Remediation not yet available
-          expires: 2026-12-02T16:00:00.122Z
-          created: 2026-10-01T13:00:00.122Z
   SNYK-JS-PICOMATCH-21248802:
       - '*':
           reason: Remediation not yet available
