@@ -3,7 +3,7 @@ default_platform(:ios)
 before_all do
   import_from_git(
     url: "git@github.com:dvsa/dvsa-fastlane-library.git",
-    branch: "main",
+    branch: "feat/spm-migration",
     path: "fastlane/Fastfile"
   )
 
