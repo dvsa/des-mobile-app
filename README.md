@@ -75,9 +75,8 @@ npm run test:fast
 ```
 
 `test` and `test:reload` prepare mock data and the development environment first. `test` runs once with
-coverage; `test:reload` watches for changes without coverage. `test:fast` skips preparation and
-coverage for local iteration, so run `npm test` first if mock data or the environment needs preparing.
-CI runs the same `npm run test` command.
+coverage; `test:reload` watches for changes without coverage. `test:fast` skips coverage.
+CI runs `npm run test:fast` command for brevity.
 HTML, LCOV, and summary coverage reports are written to `coverage/vitest`.
 
 To run tests without regenerating mock data or replacing the environment file:

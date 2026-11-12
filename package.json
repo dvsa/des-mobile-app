@@ -14,7 +14,7 @@
     "vulnerability-check": "snyk test",
     "test": "run-s update-mock-data copy-mock-data config:dev && ng test --no-watch",
     "test:reload": "run-s update-mock-data copy-mock-data config:dev && ng test --watch --coverage=false",
-    "test:fast": "ng test --no-watch --coverage=false",
+    "test:fast": "run-s update-mock-data copy-mock-data config:dev && ng test --no-watch --coverage=false",
     "remote-devtools-server": "./bin/remote-devtools-server.sh",
     "serve:local": "run-s update-mock-data copy-mock-data schema-version config:local && ionic serve --configuration local",
     "serve:emulator": "npm run schema-version && ionic cap run ios --configuration development",
