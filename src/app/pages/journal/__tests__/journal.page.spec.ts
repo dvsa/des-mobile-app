@@ -552,18 +552,29 @@ describe('JournalPage', () => {
       });
     });
 
-    // @TODO: MES-7134 - Come back and look at this test / This is also a TODO in DES3
-    it.skip('there should be one slot for every journal entry', () => {
-      const slotsList = componentEl.query(By.css('ion-list'));
-      expect(slotsList.children.length).toBe(0);
+    it('should show journal slots when entries are available', () => {
+      expect(componentEl.query(By.css('journal-slots'))).toBeNull();
+      expect(componentEl.query(By.css('.no-results'))).not.toBeNull();
 
+      const slots = Object.values(journalSlotsDataMock)
+        .flat()
+        .filter((slot) => 'booking' in slot.slotData && slot.slotData.booking)
+        .slice(0, 2);
+      expect(slots).toHaveLength(2);
+      vi.spyOn(TestBed.inject(SlotSelectorProvider), 'isBookingEmptyOrNull').mockReturnValue(false);
+      Object.assign(TestBed.inject(SlotProvider), {
+        canViewCandidateDetails: vi.fn().mockReturnValue(true),
+        isTestCentreJournalADIBooking: vi.fn().mockReturnValue(false),
+      });
+      component.pageState.slots$ = of(slots);
+      fixture.changeDetectorRef.markForCheck();
       fixture.detectChanges();
 
-      let noOfSlotsReturned: number;
-      component.pageState.slots$.subscribe((slots) => (noOfSlotsReturned = slots.length));
-
-      expect(slotsList.children.length).toBe(noOfSlotsReturned);
-      expect(slotsList.children.every((child) => child.name === 'test-slot')).toEqual(true);
+      const journalSlots = componentEl.query(By.directive(JournalSlotComponent));
+      expect(journalSlots).not.toBeNull();
+      expect(journalSlots.componentInstance.slots).toEqual(slots);
+      expect(journalSlots.queryAll(By.css('test-slot'))).toHaveLength(slots.length);
+      expect(componentEl.query(By.css('.no-results'))).toBeNull();
     });
   });
 });

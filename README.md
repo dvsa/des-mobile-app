@@ -107,7 +107,7 @@ Angular initializes TestBed automatically. `src/test-setup.vitest.ts` registers 
 Buffer/global shims, IndexedDB emulation, and the existing `detectChanges(false)` default.
 Tests run in isolated environments; mock cleanup and timeouts are configured in `vitest.config.ts`.
 The runner uses a thread pool capped at eight workers (or the available CPU count on smaller
-machines) to limit contention while retaining test isolation.
+machines) to limit contention.
 Translation tests load the real English/Welsh JSON through `provideTestTranslations()` in
 `mock/test-providers.ts`, without HTTP requests.
 Four legacy spec files containing only commented-out tests are explicitly excluded in

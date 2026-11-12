@@ -1,3 +1,4 @@
+import 'fake-indexeddb/auto';
 import { signal } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { SecureStorageObject } from '@awesome-cordova-plugins/secure-storage';

@@ -5,7 +5,7 @@ export default defineConfig({
   test: {
     pool: 'threads',
     maxWorkers: Math.min(8, availableParallelism()),
-    isolate: true,
+    isolate: false,
     clearMocks: true,
     restoreMocks: true,
     unstubGlobals: true,

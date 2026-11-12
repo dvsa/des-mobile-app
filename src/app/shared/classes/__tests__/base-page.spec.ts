@@ -189,8 +189,7 @@ describe('BasePageComponent', () => {
         },
       });
     });
-    // @TODO MES-7133 fix intermittently failing test
-    it.skip('should not try to logout when platform is not ios', async () => {
+    it('should not try to logout when platform is not ios', async () => {
       basePageComponent.isIos = vi.fn().mockReturnValue(false);
       await basePageComponent.logout();
       expect(authenticationProvider.logout).toHaveBeenCalledTimes(0);
@@ -378,7 +377,7 @@ describe('BasePageComponent', () => {
       basePageComponent.leaveAppSubscription = new Subscription();
       vi.spyOn(basePageComponent, 'reEnableSingleAppMode').mockReturnValue(Promise.resolve());
       vi.spyOn(basePageComponent, 'destroyLeaveAppSubscription').mockReturnValue(undefined);
-      await basePageComponent.ionViewDidLeave();
+      basePageComponent.ionViewDidLeave();
       expect(basePageComponent.reEnableSingleAppMode).toHaveBeenCalled();
       expect(basePageComponent.destroyLeaveAppSubscription).toHaveBeenCalled();
     });

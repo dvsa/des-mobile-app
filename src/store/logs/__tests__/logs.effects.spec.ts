@@ -83,7 +83,7 @@ describe('LogsEffects', () => {
     });
   });
 
-  describe.skip('persistLogs', () => {
+  describe('persistLogs', () => {
     it('should call saveLogs', async () => {
       vi.useFakeTimers();
       try {
@@ -140,7 +140,7 @@ describe('LogsEffects', () => {
       });
     });
 
-    it.skip('should return data without emptying cache if data is not too old', async () => {
+    it('should return data without emptying cache if data is not too old', async () => {
       const log: Log = {
         test: 'xyz',
         type: LogType.DEBUG,

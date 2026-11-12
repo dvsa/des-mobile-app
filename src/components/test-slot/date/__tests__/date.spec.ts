@@ -7,7 +7,7 @@ import { LogHelperMock } from '@providers/logs/__mocks__/logs-helper.mock';
 import { LogHelper } from '@providers/logs/logs-helper';
 import { DateComponent } from '../date';
 
-describe.skip('TimeComponent', () => {
+describe('DateComponent', () => {
   let component: DateComponent;
   let fixture: ComponentFixture<DateComponent>;
 
@@ -33,7 +33,7 @@ describe.skip('TimeComponent', () => {
       it('should be displayed', () => {
         const dateSpan: HTMLElement = componentEl.query(By.css('p')).nativeElement;
         fixture.detectChanges();
-        expect(dateSpan.textContent).toBe('31/12/2018');
+        expect(dateSpan.textContent).toBe('31/12/18');
       });
     });
   });

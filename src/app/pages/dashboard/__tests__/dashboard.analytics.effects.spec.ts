@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { ReplaySubject, firstValueFrom } from 'rxjs';
-import { beforeEach, describe, expect, it } from 'vitest';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { AnalyticsProviderMock } from '@providers/analytics/__mocks__/analytics.mock';
 import { AnalyticsProvider } from '@providers/analytics/analytics';
@@ -155,17 +155,37 @@ describe('DashboardAnalyticsEffects', () => {
       );
     });
   });
-  // TODO: MES-10108 - fix these tests
-  describe.skip('detectDeviceTheme$', () => {
-    it('should log an event', async () => {
-      actions$.next(DetectDeviceTheme());
-      const result = await firstValueFrom(effects.detectDeviceTheme$);
-      expect(result.type === AnalyticRecorded.type).toBe(true);
-      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-        GoogleAnalyticsEvents.METADATA,
-        GoogleAnalyticsEventsTitles.DEVICE_THEME,
-        GoogleAnalyticsEventsValues.LIGHT_MODE
+  describe('detectDeviceTheme$', () => {
+    it.each([
+      [false, GoogleAnalyticsEventsValues.LIGHT_MODE],
+      [true, GoogleAnalyticsEventsValues.DARK_MODE],
+    ])('should log the device theme when dark mode is %s', async (matches, expectedTheme) => {
+      vi.stubGlobal(
+        'matchMedia',
+        vi.fn(
+          (media: string): MediaQueryList =>
+            Object.assign(new EventTarget(), {
+              media,
+              matches,
+              onchange: null,
+              addListener: vi.fn(),
+              removeListener: vi.fn(),
+            })
+        )
       );
+      try {
+        actions$.next(DetectDeviceTheme());
+        const result = await firstValueFrom(effects.detectDeviceTheme$);
+        expect(result.type).toBe(AnalyticRecorded.type);
+        expect(window.matchMedia).toHaveBeenCalledWith('(prefers-color-scheme: dark)');
+        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+          GoogleAnalyticsEvents.METADATA,
+          GoogleAnalyticsEventsTitles.DEVICE_THEME,
+          expectedTheme
+        );
+      } finally {
+        vi.unstubAllGlobals();
+      }
     });
   });
 });

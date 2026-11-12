@@ -108,11 +108,12 @@ describe('ReverseDiagramLinkComponent', () => {
         await component.openReverseDiagramModal();
         expect(store$.dispatch).toHaveBeenCalledWith(ReverseDiagramOpened());
       });
-      it.skip('should create an instance of the modal with the correct properties', async () => {
+      it('should create an instance of the modal with the correct properties', async () => {
+        component.isPracticeMode = true;
         await component.openReverseDiagramModal();
         expect(modalController.create).toHaveBeenCalledWith({
           component: ReverseDiagramPage,
-          componentProps: { onClose: () => expect.any(Function) },
+          componentProps: { onClose: expect.any(Function), isPracticeMode: true },
           cssClass: 'modal-fullscreen regular',
         });
       });

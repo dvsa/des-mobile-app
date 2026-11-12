@@ -225,6 +225,7 @@
             "unit-testing": {
               "polyfills": ["@angular/localize/init"],
               "styles": [],
+              "aot": false,
               "optimization": false,
               "sourceMap": true,
               "fileReplacements": [

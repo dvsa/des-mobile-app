@@ -49,6 +49,18 @@ import { TestsEffects } from '../tests.effects';
 import { TestsModel } from '../tests.model';
 import { initialState, testsReducer } from '../tests.reducer';
 
+const selectedDateForSlot = (slotId: number): string => {
+  const slot = Object.values(journalSlotsDataMock)
+    .flat()
+    .find(({ slotData }) => slotData.slotDetail.slotId === slotId);
+
+  if (!slot) {
+    throw new Error(`Journal fixture does not contain slot ${slotId}`);
+  }
+
+  return DateTime.at(slot.slotData.slotDetail.start).format('YYYY-MM-DD');
+};
+
 describe('TestsEffects', () => {
   let effects: TestsEffects;
   let actions$: ReplaySubject<Action>;
@@ -247,7 +259,7 @@ describe('TestsEffects', () => {
   describe('startTestEffect$', () => {
     it('should copy the examiner from the journal state into the test state', async () => {
       await new Promise<void>((done, reject) => {
-        const selectedDate: string = new DateTime().format('YYYY-MM-DD');
+        const selectedDate = selectedDateForSlot(1001);
         const examiner = {
           staffNumber: '123',
           individualId: 456,
@@ -283,7 +295,7 @@ describe('TestsEffects', () => {
 
     it('should mark the test as a rekey when this is a rekey', async () => {
       await new Promise<void>((done, reject) => {
-        const selectedDate: string = new DateTime().format('YYYY-MM-DD');
+        const selectedDate = selectedDateForSlot(1001);
         const examiner = {
           staffNumber: '123',
           individualId: 456,

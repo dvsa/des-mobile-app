@@ -306,8 +306,19 @@ describe('AppConfigProvider', () => {
   });
 
   describe('getDebugMode', () => {
+    let originalIsTest: PropertyDescriptor | undefined;
+
     beforeEach(() => {
+      originalIsTest = Object.getOwnPropertyDescriptor(environment, 'isTest');
       (environment as TestersEnvironmentFile).isTest = false;
+    });
+
+    afterEach(() => {
+      if (originalIsTest) {
+        Object.defineProperty(environment, 'isTest', originalIsTest);
+      } else {
+        (environment as TestersEnvironmentFile).isTest = undefined;
+      }
     });
 
     it('should return the value from the plugin when not isTest', async () => {
