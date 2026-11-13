@@ -1,19 +1,20 @@
 import { Injectable } from '@angular/core';
 import { Storage } from '@ionic/storage-angular';
+import { vi } from 'vitest';
 
 @Injectable()
 export class StorageMock {
-  clear = jasmine.createSpy('clear').and.resolveTo();
+  clear = vi.fn().mockResolvedValue(undefined);
 
-  defineDriver = jasmine.createSpy('defineDriver').and.resolveTo();
+  defineDriver = vi.fn().mockResolvedValue(undefined);
 
-  create = jasmine.createSpy('create').and.resolveTo({} as Storage);
+  create = vi.fn().mockResolvedValue({} as Storage);
 
-  get = jasmine.createSpy('get').and.resolveTo('storage data');
+  get = vi.fn().mockResolvedValue('storage data');
 
-  keys = jasmine.createSpy('keys').and.resolveTo(['key1', 'key2']);
+  keys = vi.fn().mockResolvedValue(['key1', 'key2']);
 
-  remove = jasmine.createSpy('remove').and.resolveTo();
+  remove = vi.fn().mockResolvedValue(undefined);
 
-  set = jasmine.createSpy('set').and.resolveTo();
+  set = vi.fn().mockResolvedValue(undefined);
 }

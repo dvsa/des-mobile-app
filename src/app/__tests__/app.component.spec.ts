@@ -1,5 +1,5 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { ComponentFixture, TestBed, fakeAsync, flushMicrotasks } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AlertController, MenuController, ModalController, Platform } from '@ionic/angular';
 import {
@@ -28,6 +28,7 @@ import { NetworkStateProviderMock } from '@providers/network-state/__mocks__/net
 import { NetworkStateProvider } from '@providers/network-state/network-state';
 import { SlotProvider } from '@providers/slot/slot';
 import { translateServiceMock } from '@shared/helpers/__mocks__/translate.mock';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { AppResumed, AppSuspended, LoadAppVersion } from '@store/app-info/app-info.actions';
 
@@ -43,6 +44,7 @@ import { LogHelperMock } from '@providers/logs/__mocks__/logs-helper.mock';
 import { LogHelper } from '@providers/logs/logs-helper';
 import { testsReducer } from '@store/tests/tests.reducer';
 import { Subscription } from 'rxjs';
+import { unitTestErrorCause } from '../../test-setup.vitest';
 import { AppComponent, Page } from '../app.component';
 
 describe('AppComponent', () => {
@@ -154,7 +156,7 @@ describe('AppComponent', () => {
     deviceProvider = TestBed.inject(DeviceProvider);
     router = TestBed.inject(Router);
     storage = TestBed.inject(Storage);
-    spyOn(store$, 'dispatch');
+    vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
   });
 
   it('should create the app', () => {
@@ -164,42 +166,54 @@ describe('AppComponent', () => {
 
   describe('ngOnInit', () => {
     beforeEach(() => {
-      spyOn(platform, 'ready').and.returnValue(Promise.resolve(''));
-      spyOn(platform, 'is').and.returnValue(true);
-      spyOn(store$, 'dispatch');
-      spyOn(component, 'configurePlatformSubscriptions');
-      spyOn(component, 'configureLocale');
-      spyOn(component, 'initialiseSentry').and.returnValue(Promise.resolve());
-      spyOn(component.accessibilityService, 'configureStatusBar').and.returnValue(Promise.resolve());
-      spyOn(component, 'disableMenuSwipe').and.returnValue(Promise.resolve());
-      spyOn(appConfigProvider, 'initialiseAppConfig').and.returnValue(Promise.resolve());
+      vi.spyOn(platform, 'ready').mockReturnValue(Promise.resolve(''));
+      vi.spyOn(platform, 'is').mockReturnValue(true);
+      vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
+      vi.spyOn(component, 'configurePlatformSubscriptions').mockReturnValue(undefined);
+      vi.spyOn(component, 'configureLocale').mockReturnValue(undefined);
+      vi.spyOn(component, 'initialiseSentry').mockReturnValue(Promise.resolve());
+      vi.spyOn(component.accessibilityService, 'configureStatusBar').mockReturnValue(Promise.resolve());
+      vi.spyOn(component, 'disableMenuSwipe').mockReturnValue(Promise.resolve());
+      vi.spyOn(appConfigProvider, 'initialiseAppConfig').mockReturnValue(Promise.resolve());
     });
-    it('should run app initialisation code', fakeAsync(() => {
-      spyOn(dataStore, 'initDataStore').and.callThrough();
-      spyOn(authenticationProvider, 'getStoredAuthResult').and.callThrough();
-      spyOn(deviceProvider, 'disableSingleAppMode').and.returnValue(Promise.resolve(true));
-      component.ngOnInit();
-      flushMicrotasks();
-      expect(deviceProvider.disableSingleAppMode).toHaveBeenCalled();
-      expect(appConfigProvider.initialiseAppConfig).toHaveBeenCalled();
-      expect(store$.dispatch).toHaveBeenCalledWith(LoadAppVersion());
-      expect(component.accessibilityService.configureStatusBar).toHaveBeenCalled();
-      expect(component.disableMenuSwipe).toHaveBeenCalled();
-      expect(component.configureLocale).toHaveBeenCalled();
-    }));
-    it('should run through catch block if error detected', fakeAsync(() => {
-      spyOn(dataStore, 'initDataStore').and.callThrough();
-      spyOn(authenticationProvider, 'getStoredAuthResult').and.callThrough();
-      spyOn(deviceProvider, 'disableSingleAppMode').and.returnValue(Promise.reject(new Error('Failed to disable')));
-      component.ngOnInit();
-      flushMicrotasks();
-      expect(router.navigate).toHaveBeenCalledWith([LOGIN_PAGE], { replaceUrl: true });
-    }));
+    it('should run app initialisation code', async () => {
+      vi.useFakeTimers();
+      try {
+        vi.spyOn(dataStore, 'initDataStore');
+        vi.spyOn(authenticationProvider, 'getStoredAuthResult');
+        vi.spyOn(deviceProvider, 'disableSingleAppMode').mockReturnValue(Promise.resolve(true));
+        component.ngOnInit();
+        await vi.advanceTimersByTimeAsync(0);
+        expect(deviceProvider.disableSingleAppMode).toHaveBeenCalled();
+        expect(appConfigProvider.initialiseAppConfig).toHaveBeenCalled();
+        expect(store$.dispatch).toHaveBeenCalledWith(LoadAppVersion());
+        expect(component.accessibilityService.configureStatusBar).toHaveBeenCalled();
+        expect(component.disableMenuSwipe).toHaveBeenCalled();
+        expect(component.configureLocale).toHaveBeenCalled();
+      } finally {
+        vi.useRealTimers();
+      }
+    });
+    it('should run through catch block if error detected', async () => {
+      vi.useFakeTimers();
+      try {
+        vi.spyOn(dataStore, 'initDataStore');
+        vi.spyOn(authenticationProvider, 'getStoredAuthResult');
+        vi.spyOn(deviceProvider, 'disableSingleAppMode').mockReturnValue(
+          Promise.reject(new Error('Failed to disable', { cause: unitTestErrorCause }))
+        );
+        component.ngOnInit();
+        await vi.advanceTimersByTimeAsync(0);
+        expect(router.navigate).toHaveBeenCalledWith([LOGIN_PAGE], { replaceUrl: true });
+      } finally {
+        vi.useRealTimers();
+      }
+    });
   });
 
   describe('getFilteredPages', () => {
     it('should return all pages if role is not defined', () => {
-      spyOn(appConfigProvider, 'getAppConfig').and.returnValue({ role: undefined } as AppConfig);
+      vi.spyOn(appConfigProvider, 'getAppConfig').mockReturnValue({ role: undefined } as AppConfig);
       const pages: Page[] = [
         { title: 'Page1', descriptor: 'Page1' },
         { title: 'Page2', descriptor: 'Page2' },
@@ -209,7 +223,7 @@ describe('AppComponent', () => {
     });
 
     it('should return filtered pages based on role', () => {
-      spyOn(appConfigProvider, 'getAppConfig').and.returnValue({ role: ExaminerRole.DLG } as AppConfig);
+      vi.spyOn(appConfigProvider, 'getAppConfig').mockReturnValue({ role: ExaminerRole.DLG } as AppConfig);
       const pages: Page[] = [
         { title: 'Page1', descriptor: 'Page1', hideWhenRole: [ExaminerRole.DLG] },
         { title: 'Page2', descriptor: 'Page2' },
@@ -219,7 +233,7 @@ describe('AppComponent', () => {
     });
 
     it('should return all pages if hideWhenRole is not defined', () => {
-      spyOn(appConfigProvider, 'getAppConfig').and.returnValue({ role: ExaminerRole.DLG } as AppConfig);
+      vi.spyOn(appConfigProvider, 'getAppConfig').mockReturnValue({ role: ExaminerRole.DLG } as AppConfig);
       const pages: Page[] = [
         { title: 'Page1', descriptor: 'Page1' },
         { title: 'Page2', descriptor: 'Page2' },
@@ -229,7 +243,7 @@ describe('AppComponent', () => {
     });
 
     it('should return empty array if all pages are hidden for the role', () => {
-      spyOn(appConfigProvider, 'getAppConfig').and.returnValue({ role: ExaminerRole.DLG } as AppConfig);
+      vi.spyOn(appConfigProvider, 'getAppConfig').mockReturnValue({ role: ExaminerRole.DLG } as AppConfig);
       const pages: Page[] = [
         { title: 'Page1', descriptor: 'Page1', hideWhenRole: [ExaminerRole.DLG] },
         { title: 'Page2', descriptor: 'Page2', hideWhenRole: [ExaminerRole.DLG] },
@@ -241,7 +255,7 @@ describe('AppComponent', () => {
 
   describe('disableMenuSwipe', () => {
     it('should call swipeGesture with false to disable side menu swipe', async () => {
-      spyOn(menuController, 'swipeGesture');
+      vi.spyOn(menuController, 'swipeGesture').mockReturnValue(undefined);
       await component.disableMenuSwipe();
       expect(menuController.swipeGesture).toHaveBeenCalledWith(false);
     });
@@ -249,7 +263,7 @@ describe('AppComponent', () => {
 
   describe('onLogoutClick', () => {
     it('should call through to openLogoutModal', async () => {
-      spyOn(component, 'openLogoutModal');
+      vi.spyOn(component, 'openLogoutModal').mockReturnValue(undefined);
       await component.onLogoutClick();
       expect(component.openLogoutModal).toHaveBeenCalled();
     });
@@ -257,7 +271,7 @@ describe('AppComponent', () => {
 
   describe('configureLocale', () => {
     it('should configure the locale to be English by default', () => {
-      spyOn(translate, 'setFallbackLang');
+      vi.spyOn(translate, 'setFallbackLang').mockReturnValue(undefined);
       component.configureLocale();
       expect(translate.setFallbackLang).toHaveBeenCalledWith('en');
     });
@@ -308,7 +322,7 @@ describe('AppComponent', () => {
   describe('ionViewWillUnload', () => {
     it('should unsubscribe from subscription if there is one', () => {
       component.platformSubscription = new Subscription();
-      spyOn(component.platformSubscription, 'unsubscribe');
+      vi.spyOn(component.platformSubscription, 'unsubscribe').mockReturnValue(undefined);
       component.ionViewWillUnload();
       expect(component.platformSubscription.unsubscribe).toHaveBeenCalled();
     });
@@ -323,7 +337,7 @@ describe('AppComponent', () => {
       expect(router.navigate).toHaveBeenCalledWith(['test']);
     });
     it('should call menuController.close', async () => {
-      spyOn(menuController, 'close');
+      vi.spyOn(menuController, 'close').mockReturnValue(undefined);
       await component.navPage({
         title: 'test',
         descriptor: 'test2',

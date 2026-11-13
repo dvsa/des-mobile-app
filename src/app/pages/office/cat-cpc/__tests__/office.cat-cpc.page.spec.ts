@@ -6,6 +6,7 @@ import { TestFlowHeaderComponent } from '@components/common/test-flow-header/tes
 import { DebriefWitnessedComponent } from '@components/test-finalisation/debrief-witnessed/debrief-witnessed';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { NavController, ToastController } from '@ionic/angular';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { provideBasePageMocks } from '@mocks/test-providers';
 import { Store, StoreModule } from '@ngrx/store';
@@ -67,6 +68,7 @@ describe('OfficeCatCPCPage', () => {
               123: {
                 category: TestCategory.CCPC,
                 vehicleDetails: {},
+                delegatedTest: false,
                 accompaniment: {},
                 userExitedApp: {},
                 testSummary: {
@@ -221,6 +223,11 @@ describe('OfficeCatCPCPage', () => {
                 },
                 activityCode: '28',
                 journalData: {
+                  applicationReference: {
+                    applicationId: 1,
+                    bookingSequence: 1,
+                    checkDigit: 1,
+                  },
                   testSlotAttributes: { start: '2026-01-01T09:00:00' },
                   candidate: {
                     candidateName: 'Joe Bloggs',
@@ -267,7 +274,7 @@ describe('OfficeCatCPCPage', () => {
     fixture = TestBed.createComponent(OfficeCatCPCPage);
     component = fixture.componentInstance;
     store$ = TestBed.inject(Store);
-    spyOn(store$, 'dispatch');
+    vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
   });
 
   describe('DOM', () => {
@@ -330,7 +337,7 @@ describe('OfficeCatCPCPage', () => {
 
     describe('deferring the write up', () => {
       it('should dispatch an action to persist tests + pop navstack to root when defer is called', () => {
-        spyOn(component, 'popToRoot');
+        vi.spyOn(component, 'popToRoot').mockReturnValue(undefined);
         fixture.detectChanges();
         component.hasNavigatedFromUnsubmitted = false;
         component.defer();
@@ -381,7 +388,7 @@ describe('OfficeCatCPCPage', () => {
     describe('ionViewDidLeave', () => {
       it('should unsubscribe from subscription if there is one', () => {
         component.pageSubscription = new Subscription();
-        spyOn(component.pageSubscription, 'unsubscribe');
+        vi.spyOn(component.pageSubscription, 'unsubscribe').mockReturnValue(undefined);
         component.ionViewDidLeave();
         expect(component.pageSubscription.unsubscribe).toHaveBeenCalled();
       });
@@ -389,9 +396,9 @@ describe('OfficeCatCPCPage', () => {
     describe('ionViewWillEnter', () => {
       it('should disable single app mode if it not in practice mode and isIos is true', async () => {
         component.isPracticeMode = false;
-        spyOn(BasePageComponent.prototype, 'isIos').and.returnValue(true);
-        spyOn(BasePageComponent.prototype, 'ionViewWillEnter');
-        spyOn(component.deviceProvider, 'disableSingleAppMode');
+        vi.spyOn(BasePageComponent.prototype, 'isIos').mockReturnValue(true);
+        vi.spyOn(BasePageComponent.prototype, 'ionViewWillEnter').mockReturnValue(undefined);
+        vi.spyOn(component.deviceProvider, 'disableSingleAppMode');
         await component.ionViewWillEnter();
         expect(component.deviceProvider.disableSingleAppMode).toHaveBeenCalled();
       });

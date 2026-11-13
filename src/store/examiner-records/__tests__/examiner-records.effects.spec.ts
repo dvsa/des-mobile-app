@@ -18,7 +18,8 @@ import {
   LoadExaminerRecordsFailure,
   LoadExaminerRecordsPreferences,
 } from '@store/examiner-records/examiner-records.actions';
-import { ReplaySubject, of } from 'rxjs';
+import { ReplaySubject, firstValueFrom, of } from 'rxjs';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 describe('ExaminerRecordsStoreEffects', () => {
   let actions$: ReplaySubject<Action>;
@@ -47,62 +48,77 @@ describe('ExaminerRecordsStoreEffects', () => {
   });
 
   describe('persistExaminerRecordsPreferences$', () => {
-    it('should persist examiner records preferences on ColourFilterChanged action', (done) => {
-      const action = ColourFilterChanged(ColourEnum.GREYSCALE);
-      const examinerRecordsPreferences = { colourScheme: ColourEnum.GREYSCALE };
-      spyOn(store$, 'select').and.returnValue(of(examinerRecordsPreferences));
-      actions$.next(action);
+    it('should persist examiner records preferences on ColourFilterChanged action', async () => {
+      await new Promise<void>((done, reject) => {
+        const action = ColourFilterChanged(ColourEnum.GREYSCALE);
+        const examinerRecordsPreferences = { colourScheme: ColourEnum.GREYSCALE };
+        vi.spyOn(store$, 'select').mockReturnValue(of(examinerRecordsPreferences));
+        actions$.next(action);
 
-      effects.persistExaminerRecordsPreferences$.subscribe(() => {
-        expect(dataStore.setItem).toHaveBeenCalledWith(
-          ExaminerRecordsEffects.EXAMINER_RECORDS_KEY,
-          JSON.stringify(examinerRecordsPreferences)
-        );
-        done();
+        effects.persistExaminerRecordsPreferences$.subscribe(() => {
+          try {
+            expect(dataStore.setItem).toHaveBeenCalledWith(
+              ExaminerRecordsEffects.EXAMINER_RECORDS_KEY,
+              JSON.stringify(examinerRecordsPreferences)
+            );
+            done();
+          } catch (error) {
+            reject(error);
+          }
+        }, reject);
       });
     });
 
-    it('should persist examiner records preferences on CacheExaminerRecords action', (done) => {
-      const action = CacheExaminerRecords([]);
-      const examinerRecordsPreferences = { cachedRecords: [] };
-      spyOn(store$, 'select').and.returnValue(of(examinerRecordsPreferences));
-      actions$.next(action);
+    it('should persist examiner records preferences on CacheExaminerRecords action', async () => {
+      await new Promise<void>((done, reject) => {
+        const action = CacheExaminerRecords([]);
+        const examinerRecordsPreferences = { cachedRecords: [] };
+        vi.spyOn(store$, 'select').mockReturnValue(of(examinerRecordsPreferences));
+        actions$.next(action);
 
-      effects.persistExaminerRecordsPreferences$.subscribe(() => {
-        expect(dataStore.setItem).toHaveBeenCalledWith(
-          ExaminerRecordsEffects.EXAMINER_RECORDS_KEY,
-          JSON.stringify(examinerRecordsPreferences)
-        );
-        done();
+        effects.persistExaminerRecordsPreferences$.subscribe(() => {
+          try {
+            expect(dataStore.setItem).toHaveBeenCalledWith(
+              ExaminerRecordsEffects.EXAMINER_RECORDS_KEY,
+              JSON.stringify(examinerRecordsPreferences)
+            );
+            done();
+          } catch (error) {
+            reject(error);
+          }
+        }, reject);
       });
     });
 
-    it('should persist examiner records preferences on UpdateLastCached action', (done) => {
-      const action = UpdateLastCached('2023-10-01T00:00:00Z');
-      const examinerRecordsPreferences = { lastUpdatedTime: '2023-10-01T00:00:00Z' };
-      spyOn(store$, 'select').and.returnValue(of(examinerRecordsPreferences));
-      actions$.next(action);
+    it('should persist examiner records preferences on UpdateLastCached action', async () => {
+      await new Promise<void>((done, reject) => {
+        const action = UpdateLastCached('2023-10-01T00:00:00Z');
+        const examinerRecordsPreferences = { lastUpdatedTime: '2023-10-01T00:00:00Z' };
+        vi.spyOn(store$, 'select').mockReturnValue(of(examinerRecordsPreferences));
+        actions$.next(action);
 
-      effects.persistExaminerRecordsPreferences$.subscribe(() => {
-        expect(dataStore.setItem).toHaveBeenCalledWith(
-          ExaminerRecordsEffects.EXAMINER_RECORDS_KEY,
-          JSON.stringify(examinerRecordsPreferences)
-        );
-        done();
+        effects.persistExaminerRecordsPreferences$.subscribe(() => {
+          try {
+            expect(dataStore.setItem).toHaveBeenCalledWith(
+              ExaminerRecordsEffects.EXAMINER_RECORDS_KEY,
+              JSON.stringify(examinerRecordsPreferences)
+            );
+            done();
+          } catch (error) {
+            reject(error);
+          }
+        }, reject);
       });
     });
   });
 
   describe('loadExaminerRecordsPreferences$', () => {
-    it('should dispatch LoadExaminerRecordsFailure when no preferences are found', (done) => {
+    it('should dispatch LoadExaminerRecordsFailure when no preferences are found', async () => {
       const action = LoadExaminerRecordsPreferences();
-      spyOn(dataStore, 'getItem').and.returnValue(Promise.resolve(null));
+      vi.spyOn(dataStore, 'getItem').mockReturnValue(Promise.resolve(null));
       actions$.next(action);
-
-      effects.loadExaminerRecordsPreferences$.subscribe((result) => {
-        expect(result).toEqual(LoadExaminerRecordsFailure('Examiner stats preferences not found'));
-        done();
-      });
+      const result = await firstValueFrom(effects.loadExaminerRecordsPreferences$);
+      expect(result).toEqual(LoadExaminerRecordsFailure('Examiner stats preferences not found'));
     });
 
     it('should dispatch appropriate actions when preferences are found', () => {
@@ -113,7 +129,7 @@ describe('ExaminerRecordsStoreEffects', () => {
         lastUpdatedTime: '2023-10-01T00:00:00Z',
       });
       // actions$ = of(action);
-      spyOn(dataStore, 'getItem').and.returnValue(Promise.resolve(examinerRecords));
+      vi.spyOn(dataStore, 'getItem').mockReturnValue(Promise.resolve(examinerRecords));
       actions$.next(action);
 
       effects.loadExaminerRecordsPreferences$.subscribe((result) => {

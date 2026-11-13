@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Platform } from '@ionic/angular';
 import { ActivatedRouteMock, PlatformMock, RouterMock } from '@mocks/index.mock';
 import { MockComponent } from 'ng-mocks';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { Style } from '@capacitor/status-bar';
 import { PracticeModeBanner } from '@components/common/practice-mode-banner/practice-mode-banner';
@@ -92,7 +93,7 @@ describe('FakeJournalPage', () => {
     component = fixture.componentInstance;
     fixture.detectChanges();
     store$ = TestBed.inject(Store);
-    spyOn(store$, 'dispatch');
+    vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
   });
 
   it('should setup test', () => {
@@ -108,7 +109,7 @@ describe('FakeJournalPage', () => {
 
   describe('ionViewWillLeave', () => {
     it('should call tearDownListener', () => {
-      spyOn(component.orientationMonitorProvider, 'tearDownListener');
+      vi.spyOn(component.orientationMonitorProvider, 'tearDownListener');
       component.ionViewWillLeave();
       expect(component.orientationMonitorProvider.tearDownListener).toHaveBeenCalled();
     });
@@ -116,8 +117,8 @@ describe('FakeJournalPage', () => {
 
   describe('ionViewWillEnter', () => {
     it('should call monitorOrientation and configureStatusBar', async () => {
-      spyOn(component.orientationMonitorProvider, 'monitorOrientation').and.resolveTo();
-      spyOn(component.accessibilityService, 'configureStatusBar').and.resolveTo();
+      vi.spyOn(component.orientationMonitorProvider, 'monitorOrientation').mockResolvedValue(undefined);
+      vi.spyOn(component.accessibilityService, 'configureStatusBar').mockResolvedValue(undefined);
 
       await component.ionViewWillEnter();
 

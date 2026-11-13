@@ -1,5 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { DateTimeProviderMock } from '@providers/date-time/__mocks__/date-time.mock';
 import { DateTimeProvider } from '@providers/date-time/date-time';
@@ -22,65 +23,73 @@ describe('CompetencyButtonComponent', () => {
   describe('Class', () => {
     describe('onPointerDown', () => {
       it('should not emit onTap event on pointer down', () => {
-        spyOn(component.onTap, 'emit');
+        vi.spyOn(component.onTap, 'emit').mockReturnValue(undefined);
         component.onPointerDown(new PointerEvent('pointerdown', { pointerId: 1, clientX: 10, clientY: 10 }));
         expect(component.onTap.emit).not.toHaveBeenCalled();
       });
 
       it('should not emit onTap when disabled', () => {
         component.disabled = true;
-        spyOn(component.onTap, 'emit');
+        vi.spyOn(component.onTap, 'emit').mockReturnValue(undefined);
         component.onPointerDown(new PointerEvent('pointerdown', { pointerId: 1, clientX: 10, clientY: 10 }));
         component.onPointerEnd(new PointerEvent('pointerup', { pointerId: 1, clientX: 10, clientY: 10 }));
         expect(component.onTap.emit).not.toHaveBeenCalled();
       });
 
-      it('should emit onPress event after longPressDelay', (done) => {
-        spyOn(component.onPress, 'emit');
-        spyOn(component.onTap, 'emit');
-        component.onPointerDown(new PointerEvent('pointerdown', { pointerId: 2, clientX: 10, clientY: 10 }));
-        setTimeout(() => {
-          expect(component.onPress.emit).toHaveBeenCalled();
-          component.onPointerEnd(new PointerEvent('pointerup', { pointerId: 2, clientX: 10, clientY: 10 }));
-          expect(component.onTap.emit).not.toHaveBeenCalled();
-          done();
-        }, component.longPressDelay + 50);
+      it('should emit onPress event after longPressDelay', async () => {
+        await new Promise<void>((done, reject) => {
+          vi.spyOn(component.onPress, 'emit').mockReturnValue(undefined);
+          vi.spyOn(component.onTap, 'emit').mockReturnValue(undefined);
+          component.onPointerDown(new PointerEvent('pointerdown', { pointerId: 2, clientX: 10, clientY: 10 }));
+          setTimeout(() => {
+            expect(component.onPress.emit).toHaveBeenCalled();
+            component.onPointerEnd(new PointerEvent('pointerup', { pointerId: 2, clientX: 10, clientY: 10 }));
+            expect(component.onTap.emit).not.toHaveBeenCalled();
+            done();
+          }, component.longPressDelay + 50);
+        });
       });
 
-      it('should not emit onPress when disabled', (done) => {
-        component.disabled = true;
-        spyOn(component.onPress, 'emit');
-        component.onPointerDown(new PointerEvent('pointerdown'));
-        setTimeout(() => {
-          expect(component.onPress.emit).not.toHaveBeenCalled();
-          done();
-        }, component.longPressDelay + 50);
+      it('should not emit onPress when disabled', async () => {
+        await new Promise<void>((done, reject) => {
+          component.disabled = true;
+          vi.spyOn(component.onPress, 'emit').mockReturnValue(undefined);
+          component.onPointerDown(new PointerEvent('pointerdown'));
+          setTimeout(() => {
+            expect(component.onPress.emit).not.toHaveBeenCalled();
+            done();
+          }, component.longPressDelay + 50);
+        });
       });
 
-      it('should trigger ripple effect when onPress is emitted and ripple is enabled', (done) => {
-        component.allowRipple = true;
-        component.onPointerDown(new PointerEvent('pointerdown'));
-        setTimeout(() => {
-          expect(component.rippleState()).toEqual(true);
-          done();
-        }, component.longPressDelay + 50);
+      it('should trigger ripple effect when onPress is emitted and ripple is enabled', async () => {
+        await new Promise<void>((done, reject) => {
+          component.allowRipple = true;
+          component.onPointerDown(new PointerEvent('pointerdown'));
+          setTimeout(() => {
+            expect(component.rippleState()).toEqual(true);
+            done();
+          }, component.longPressDelay + 50);
+        });
       });
 
-      it('should not trigger ripple effect when ripple is disabled', (done) => {
-        component.allowRipple = false;
-        component.onPointerDown(new PointerEvent('pointerdown'));
-        setTimeout(() => {
-          expect(component.rippleState()).toEqual(false);
-          done();
-        }, component.longPressDelay + 50);
+      it('should not trigger ripple effect when ripple is disabled', async () => {
+        await new Promise<void>((done, reject) => {
+          component.allowRipple = false;
+          component.onPointerDown(new PointerEvent('pointerdown'));
+          setTimeout(() => {
+            expect(component.rippleState()).toEqual(false);
+            done();
+          }, component.longPressDelay + 50);
+        });
       });
     });
 
     describe('onPointerEnd', () => {
       it('should emit onTap when pointer is released within longPressDelay', () => {
-        spyOn(component.onTap, 'emit');
+        vi.spyOn(component.onTap, 'emit').mockReturnValue(undefined);
         const hostElement = (component as any).hostElementRef.nativeElement as HTMLElement;
-        spyOn(hostElement, 'getBoundingClientRect').and.returnValue({
+        vi.spyOn(hostElement, 'getBoundingClientRect').mockReturnValue({
           left: 0,
           top: 0,
           right: 200,
@@ -94,49 +103,55 @@ describe('CompetencyButtonComponent', () => {
         expect(component.onTap.emit).toHaveBeenCalled();
       });
 
-      it('should cancel long press when pointer released before longPressDelay', (done) => {
-        spyOn(component.onPress, 'emit');
-        component.onPointerDown(new PointerEvent('pointerdown', { pointerId: 5, clientX: 10, clientY: 10 }));
-        component.onPointerEnd();
-        setTimeout(() => {
-          expect(component.onPress.emit).not.toHaveBeenCalled();
-          done();
-        }, component.longPressDelay + 50);
+      it('should cancel long press when pointer released before longPressDelay', async () => {
+        await new Promise<void>((done, reject) => {
+          vi.spyOn(component.onPress, 'emit').mockReturnValue(undefined);
+          component.onPointerDown(new PointerEvent('pointerdown', { pointerId: 5, clientX: 10, clientY: 10 }));
+          component.onPointerEnd();
+          setTimeout(() => {
+            expect(component.onPress.emit).not.toHaveBeenCalled();
+            done();
+          }, component.longPressDelay + 50);
+        });
       });
 
-      it('should cancel long press when pointer leaves before longPressDelay', (done) => {
-        spyOn(component.onPress, 'emit');
-        component.onPointerDown(new PointerEvent('pointerdown'));
-        component.onPointerEnd();
-        setTimeout(() => {
-          expect(component.onPress.emit).not.toHaveBeenCalled();
-          done();
-        }, component.longPressDelay + 50);
+      it('should cancel long press when pointer leaves before longPressDelay', async () => {
+        await new Promise<void>((done, reject) => {
+          vi.spyOn(component.onPress, 'emit').mockReturnValue(undefined);
+          component.onPointerDown(new PointerEvent('pointerdown'));
+          component.onPointerEnd();
+          setTimeout(() => {
+            expect(component.onPress.emit).not.toHaveBeenCalled();
+            done();
+          }, component.longPressDelay + 50);
+        });
       });
     });
 
     describe('onPointerMove', () => {
-      it('should cancel long press when pointer moves outside of the component bounds', (done) => {
-        spyOn(component.onPress, 'emit');
-        const hostElement = (component as any).hostElementRef.nativeElement as HTMLElement;
-        spyOn(hostElement, 'getBoundingClientRect').and.returnValue({
-          left: 0,
-          top: 0,
-          right: 50,
-          bottom: 50,
-          width: 50,
-          height: 50,
-        } as DOMRect);
+      it('should cancel long press when pointer moves outside of the component bounds', async () => {
+        await new Promise<void>((done, reject) => {
+          vi.spyOn(component.onPress, 'emit').mockReturnValue(undefined);
+          const hostElement = (component as any).hostElementRef.nativeElement as HTMLElement;
+          vi.spyOn(hostElement, 'getBoundingClientRect').mockReturnValue({
+            left: 0,
+            top: 0,
+            right: 50,
+            bottom: 50,
+            width: 50,
+            height: 50,
+          } as DOMRect);
 
-        component.onPointerDown(new PointerEvent('pointerdown', { pointerId: 3, clientX: 49, clientY: 10 }));
-        component.onPointerMove(new PointerEvent('pointermove', { pointerId: 3, clientX: 51, clientY: 10 }));
+          component.onPointerDown(new PointerEvent('pointerdown', { pointerId: 3, clientX: 49, clientY: 10 }));
+          component.onPointerMove(new PointerEvent('pointermove', { pointerId: 3, clientX: 51, clientY: 10 }));
 
-        expect(component.touchState()).toEqual(false);
+          expect(component.touchState()).toEqual(false);
 
-        setTimeout(() => {
-          expect(component.onPress.emit).not.toHaveBeenCalled();
-          done();
-        }, component.longPressDelay + 50);
+          setTimeout(() => {
+            expect(component.onPress.emit).not.toHaveBeenCalled();
+            done();
+          }, component.longPressDelay + 50);
+        });
       });
     });
 
@@ -154,13 +169,15 @@ describe('CompetencyButtonComponent', () => {
     });
 
     describe('onTouchEnd', () => {
-      it('should set touchState to false after touchStateDelay', (done) => {
-        component.onTouchStart();
-        component.onTouchEnd();
-        setTimeout(() => {
-          expect(component.touchState()).toEqual(false);
-          done();
-        }, component.touchStateDelay + 10);
+      it('should set touchState to false after touchStateDelay', async () => {
+        await new Promise<void>((done, reject) => {
+          component.onTouchStart();
+          component.onTouchEnd();
+          setTimeout(() => {
+            expect(component.touchState()).toEqual(false);
+            done();
+          }, component.touchStateDelay + 10);
+        });
       });
 
       it('should not change touchState when disabled', () => {
@@ -186,16 +203,18 @@ describe('CompetencyButtonComponent', () => {
         expect(button.nativeElement.className).toContain('ripple-effect');
       });
 
-      it('should remove ripple effect after rippleEffectAnimationDuration', (done) => {
-        component.rippleState.set(true);
-        fixture.detectChanges();
-        setTimeout(() => {
-          component.rippleState.set(false);
+      it('should remove ripple effect after rippleEffectAnimationDuration', async () => {
+        await new Promise<void>((done, reject) => {
+          component.rippleState.set(true);
           fixture.detectChanges();
-          const button = fixture.debugElement.query(By.css('.competency-button'));
-          expect(button.nativeElement.className).not.toContain('ripple-effect');
-          done();
-        }, component.rippleEffectAnimationDuration);
+          setTimeout(() => {
+            component.rippleState.set(false);
+            fixture.detectChanges();
+            const button = fixture.debugElement.query(By.css('.competency-button'));
+            expect(button.nativeElement.className).not.toContain('ripple-effect');
+            done();
+          }, component.rippleEffectAnimationDuration);
+        });
       });
     });
   });
@@ -226,18 +245,20 @@ describe('CompetencyButtonComponent', () => {
         expect(component.touchState()).toEqual(true);
       });
 
-      it('should remove the activated class after a specified delay when the button is not pressed', (done) => {
-        component.onTouchEnd();
-        fixture.detectChanges();
-        const button = fixture.debugElement.query(By.css('.competency-button'));
-        setTimeout(() => {
+      it('should remove the activated class after a specified delay when the button is not pressed', async () => {
+        await new Promise<void>((done, reject) => {
+          component.onTouchEnd();
           fixture.detectChanges();
+          const button = fixture.debugElement.query(By.css('.competency-button'));
+          setTimeout(() => {
+            fixture.detectChanges();
 
-          expect(button).toBeDefined();
-          expect(button.nativeElement.className).not.toContain('activated');
-          expect(component.touchState()).toEqual(false);
-          done();
-        }, component.touchStateDelay);
+            expect(button).toBeDefined();
+            expect(button.nativeElement.className).not.toContain('activated');
+            expect(component.touchState()).toEqual(false);
+            done();
+          }, component.touchStateDelay);
+        });
       });
 
       it('should add the ripple effect animation css class', () => {
@@ -256,17 +277,19 @@ describe('CompetencyButtonComponent', () => {
         expect(button.nativeElement.className).not.toContain('ripple-effect');
       });
 
-      it('should remove the ripple effect animation css class within the required time frame', (done) => {
-        component.triggerRipple();
-        fixture.detectChanges();
-        const button = fixture.debugElement.query(By.css('.competency-button'));
-        setTimeout(() => {
+      it('should remove the ripple effect animation css class within the required time frame', async () => {
+        await new Promise<void>((done, reject) => {
+          component.triggerRipple();
           fixture.detectChanges();
+          const button = fixture.debugElement.query(By.css('.competency-button'));
+          setTimeout(() => {
+            fixture.detectChanges();
 
-          expect(button).toBeDefined();
-          expect(button.nativeElement.className).not.toContain('ripple-effect');
-          done();
-        }, component.rippleEffectAnimationDuration);
+            expect(button).toBeDefined();
+            expect(button.nativeElement.className).not.toContain('ripple-effect');
+            done();
+          }, component.rippleEffectAnimationDuration);
+        });
       });
     });
   });

@@ -1,4 +1,5 @@
 import { CategoryCode } from '@dvsa/mes-test-schema/categories/common';
+import { describe, expect, it } from 'vitest';
 import { PopulateTestCategory } from '../category.actions';
 import { categoryReducer } from '../category.reducer';
 

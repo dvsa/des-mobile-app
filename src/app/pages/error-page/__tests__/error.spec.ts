@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, fakeAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ErrorMessageComponent } from '@components/common/error-message/error-message';
@@ -13,6 +13,7 @@ import { DeviceProvider } from '@providers/device/device';
 import { LogHelperMock } from '@providers/logs/__mocks__/logs-helper.mock';
 import { LogHelper } from '@providers/logs/logs-helper';
 import { MockComponent } from 'ng-mocks';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { ErrorPage } from '../error';
 
 describe('ErrorPage', () => {
@@ -60,11 +61,16 @@ describe('ErrorPage', () => {
   });
 
   describe('dismiss', () => {
-    it('should dismiss open modal', fakeAsync(async () => {
-      spyOn(component.modalController, 'dismiss');
-      await component.dismiss();
-      expect(component.modalController.dismiss).toHaveBeenCalled();
-    }));
+    it('should dismiss open modal', async () => {
+      vi.useFakeTimers();
+      try {
+        vi.spyOn(component.modalController, 'dismiss').mockReturnValue(undefined);
+        await component.dismiss();
+        expect(component.modalController.dismiss).toHaveBeenCalled();
+      } finally {
+        vi.useRealTimers();
+      }
+    });
   });
 
   describe('DOM', () => {

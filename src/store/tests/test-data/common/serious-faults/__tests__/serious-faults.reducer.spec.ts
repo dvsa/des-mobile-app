@@ -1,4 +1,5 @@
 import { SeriousFaults } from '@dvsa/mes-test-schema/categories/common';
+import { describe, expect, it } from 'vitest';
 import { Competencies } from '../../../test-data.constants';
 import { AddSeriousFault, AddSeriousFaultComment, RemoveSeriousFault } from '../serious-faults.actions';
 import { seriousFaultsReducer } from '../serious-faults.reducer';

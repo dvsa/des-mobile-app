@@ -1,5 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormControl, UntypedFormGroup } from '@angular/forms';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { ReviewFeedback } from '@pages/test-report-dashboard/components/review-feedback/review-feedback';
 import { CharacterCountService } from '@providers/character-count/character-count.service';
@@ -23,7 +24,7 @@ describe('ReviewFeedback', () => {
 
   describe('feedbackChanged', () => {
     it('should emit getCharacterCountText with correct parameters', () => {
-      spyOn(component.feedbackChange, 'emit');
+      vi.spyOn(component.feedbackChange, 'emit').mockReturnValue(undefined);
       component.feedbackChanged('feedback');
       expect(component.feedbackChange.emit).toHaveBeenCalledWith('feedback');
     });
@@ -31,7 +32,7 @@ describe('ReviewFeedback', () => {
 
   describe('getCharacterCountText', () => {
     it('should call service with charsRemaining', () => {
-      spyOn(characterCountService, 'getCharacterCountText');
+      vi.spyOn(characterCountService, 'getCharacterCountText').mockReturnValue(undefined);
       component.charsRemaining = 1;
       component.getCharacterCountText();
 
@@ -47,7 +48,7 @@ describe('ReviewFeedback', () => {
     });
     it('should check the validity of the form control', () => {
       component.formControl = new FormControl();
-      spyOn(component.formControl, 'updateValueAndValidity');
+      vi.spyOn(component.formControl, 'updateValueAndValidity').mockReturnValue(undefined);
       component.characterCountChanged(1);
       expect(component.formControl.updateValueAndValidity).toHaveBeenCalled();
     });

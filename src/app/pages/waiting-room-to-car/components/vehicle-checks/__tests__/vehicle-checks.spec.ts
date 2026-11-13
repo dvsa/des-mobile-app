@@ -18,6 +18,7 @@ import { StoreModel } from '@shared/models/store.model';
 import { VehicleChecksScore } from '@shared/models/vehicle-checks-score.model';
 import { StartTest } from '@store/tests/tests.actions';
 import { testsReducer } from '@store/tests/tests.reducer';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { VehicleChecksCatADIPart2Modal } from '../../../cat-adi-part2/components/vehicle-checks-modal/vehicle-checks-modal.cat-adi-part2.page';
 import { VehicleChecksComponent } from '../vehicle-checks';
 
@@ -53,8 +54,8 @@ describe('VehicleChecksComponent', () => {
     store$ = TestBed.inject(Store);
     accessibilityService = TestBed.inject(AccessibilityService);
 
-    spyOn(accessibilityService, 'getTextZoomClass').and.returnValue('regular');
-    spyOn(modalController, 'create').and.returnValue(
+    vi.spyOn(accessibilityService, 'getTextZoomClass').mockReturnValue('regular');
+    vi.spyOn(modalController, 'create').mockReturnValue(
       Promise.resolve({
         present: async () => {},
         onDidDismiss: () => ({ data: '' }) as OverlayEventDetail,
@@ -79,7 +80,7 @@ describe('VehicleChecksComponent', () => {
         });
       });
       it('should emit onCloseVehicleChecksModal when onDidDismiss', async () => {
-        spyOn(component.onCloseVehicleChecksModal, 'emit');
+        vi.spyOn(component.onCloseVehicleChecksModal, 'emit').mockReturnValue(undefined);
         component.category = TestCategory.C1E;
         await component.openVehicleChecksModal();
         expect(component.onCloseVehicleChecksModal.emit).toHaveBeenCalled();
@@ -225,16 +226,16 @@ describe('VehicleChecksComponent', () => {
     describe('validateVehicleChecks', () => {
       it('should call incompleteVehicleChecks() if all questions have NOT been answered', () => {
         store$.dispatch(StartTest(12345, TestCategory.C));
-        spyOn(component, 'everyQuestionHasOutcome').and.returnValue(false);
-        spyOn(component, 'incompleteVehicleChecks');
+        vi.spyOn(component, 'everyQuestionHasOutcome').mockReturnValue(false);
+        vi.spyOn(component, 'incompleteVehicleChecks').mockReturnValue(undefined);
         component.validateVehicleChecks();
         expect(component.incompleteVehicleChecks).toHaveBeenCalled();
       });
 
       it('should return null if all questions have been answered', () => {
         store$.dispatch(StartTest(12345, TestCategory.C));
-        spyOn(component, 'everyQuestionHasOutcome').and.returnValue(true);
-        spyOn(component, 'incompleteVehicleChecks');
+        vi.spyOn(component, 'everyQuestionHasOutcome').mockReturnValue(true);
+        vi.spyOn(component, 'incompleteVehicleChecks').mockReturnValue(undefined);
         const result = component.validateVehicleChecks();
         expect(result).toEqual(null);
       });
@@ -292,7 +293,7 @@ describe('VehicleChecksComponent', () => {
         component.formGroup = formBuilder.group({
           vehicleChecksSelectQuestions: null,
         });
-        spyOn(component, 'everyQuestionHasOutcome').and.returnValue(true);
+        vi.spyOn(component, 'everyQuestionHasOutcome').mockReturnValue(true);
         component.ngOnChanges();
         const result = component.formGroup.contains('vehicleChecksSelectQuestions');
         expect(result).toEqual(true);
@@ -303,8 +304,8 @@ describe('VehicleChecksComponent', () => {
         component.formGroup = formBuilder.group({
           vehicleChecksSelectQuestions: null,
         });
-        spyOn(component, 'everyQuestionHasOutcome').and.returnValue(true);
-        spyOn(component, 'validateVehicleChecks');
+        vi.spyOn(component, 'everyQuestionHasOutcome').mockReturnValue(true);
+        vi.spyOn(component, 'validateVehicleChecks').mockReturnValue(undefined);
         component.ngOnChanges();
         expect(component.validateVehicleChecks).toHaveBeenCalled();
       });

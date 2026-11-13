@@ -1,5 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { CombinationComponent } from '../combination';
 
@@ -62,7 +63,7 @@ describe('CombinationComponent', () => {
 
   describe('combinationChanged', () => {
     it('should emit the value passed into the function', () => {
-      spyOn(component.combinationChange, 'emit');
+      vi.spyOn(component.combinationChange, 'emit').mockReturnValue(undefined);
       component.combinationChanged('LGV1');
       expect(component.combinationChange.emit).toHaveBeenCalledWith('LGV1');
     });

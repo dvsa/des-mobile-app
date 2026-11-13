@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { CommonModule } from '@angular/common';
 import { CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from '@angular/core';
@@ -41,7 +42,7 @@ describe('AlternateMotEvidenceComponent', () => {
     });
 
     it('should add the form control to the form group when it does not exist', () => {
-      spyOn(component.formGroup, 'contains').and.returnValue(false);
+      vi.spyOn(component.formGroup, 'contains').mockReturnValue(false);
 
       component.setupControl();
 
@@ -53,7 +54,7 @@ describe('AlternateMotEvidenceComponent', () => {
     it('should set the form control value based on alternate evidence test result', () => {
       component.alternateEvidencePassRadioChecked = true;
       component.alternateEvidenceFailRadioChecked = false;
-      spyOn(component.formControl, 'patchValue');
+      vi.spyOn(component.formControl, 'patchValue').mockReturnValue(undefined);
 
       component.setupControl();
 
@@ -110,7 +111,7 @@ describe('AlternateMotEvidenceComponent', () => {
 
   describe('alternateEvidenceTestResultChanged', () => {
     it('should emit alternateEvidenceChange with true if the passed parameter is equal to P', () => {
-      spyOn(component.alternateEvidenceChange, 'emit');
+      vi.spyOn(component.alternateEvidenceChange, 'emit').mockReturnValue(undefined);
       component.formControl = new UntypedFormControl();
 
       component.alternateEvidenceTestResultChanged('P');
@@ -121,7 +122,7 @@ describe('AlternateMotEvidenceComponent', () => {
 
   describe('alternateEvidenceTestResultChanged', () => {
     it('should emit alternateEvidenceChange with true if the passed parameter ' + 'is not equal to P', () => {
-      spyOn(component.alternateEvidenceChange, 'emit');
+      vi.spyOn(component.alternateEvidenceChange, 'emit').mockReturnValue(undefined);
       component.formControl = new UntypedFormControl();
 
       component.alternateEvidenceTestResultChanged('string');

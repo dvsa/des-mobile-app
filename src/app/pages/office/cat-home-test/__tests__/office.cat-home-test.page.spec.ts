@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { ActivityCodeComponent } from '@components/common/activity-code/activity-code';
 import { TestFlowHeaderComponent } from '@components/common/test-flow-header/test-flow-header.component';
@@ -81,6 +82,7 @@ describe('OfficeCatHomeTestPage', () => {
             startedTests: {
               123: {
                 category: TestCategory.F,
+                delegatedTest: false,
                 vehicleDetails: {},
                 accompaniment: {},
                 testSummary: {},
@@ -100,6 +102,11 @@ describe('OfficeCatHomeTestPage', () => {
                 },
                 activityCode: '28',
                 journalData: {
+                  applicationReference: {
+                    applicationId: 1,
+                    bookingSequence: 1,
+                    checkDigit: 1,
+                  },
                   testSlotAttributes: { start: '2026-01-01T09:00:00' },
                   candidate: {
                     candidateName: 'Joe Bloggs',
@@ -150,7 +157,7 @@ describe('OfficeCatHomeTestPage', () => {
     fixture = TestBed.createComponent(OfficeCatHomeTestPage);
     component = fixture.componentInstance;
     store$ = TestBed.inject(Store);
-    spyOn(store$, 'dispatch');
+    vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
   });
 
   describe('DOM', () => {
@@ -213,7 +220,7 @@ describe('OfficeCatHomeTestPage', () => {
 
     describe('deferring the write up', () => {
       it('should dispatch an action to persist tests + pop navstack to root when defer is called', () => {
-        spyOn(component, 'popToRoot');
+        vi.spyOn(component, 'popToRoot').mockReturnValue(undefined);
         fixture.detectChanges();
         component.hasNavigatedFromUnsubmitted = false;
         component.defer();
@@ -225,7 +232,7 @@ describe('OfficeCatHomeTestPage', () => {
   describe('ionViewDidLeave', () => {
     it('should unsubscribe from the subscription if there is one', () => {
       component.pageSubscription = new Subscription();
-      spyOn(component.pageSubscription, 'unsubscribe');
+      vi.spyOn(component.pageSubscription, 'unsubscribe').mockReturnValue(undefined);
       component.ionViewDidLeave();
       expect(component.pageSubscription.unsubscribe).toHaveBeenCalled();
     });
@@ -234,9 +241,9 @@ describe('OfficeCatHomeTestPage', () => {
   describe('ionViewWillEnter', () => {
     it('should disable single app mode if it not in practice mode and isIos is true', async () => {
       component.isPracticeMode = false;
-      spyOn(BasePageComponent.prototype, 'isIos').and.returnValue(true);
-      spyOn(BasePageComponent.prototype, 'ionViewWillEnter');
-      spyOn(component.deviceProvider, 'disableSingleAppMode');
+      vi.spyOn(BasePageComponent.prototype, 'isIos').mockReturnValue(true);
+      vi.spyOn(BasePageComponent.prototype, 'ionViewWillEnter').mockReturnValue(undefined);
+      vi.spyOn(component.deviceProvider, 'disableSingleAppMode');
       await component.ionViewWillEnter();
       expect(component.deviceProvider.disableSingleAppMode).toHaveBeenCalled();
     });

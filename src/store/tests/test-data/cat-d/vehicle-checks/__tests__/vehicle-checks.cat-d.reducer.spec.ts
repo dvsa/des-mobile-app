@@ -1,6 +1,7 @@
 import { CatDUniqueTypes } from '@dvsa/mes-test-schema/categories/D';
 import { QuestionResult } from '@dvsa/mes-test-schema/categories/common';
 import { cloneDeep } from 'lodash-es';
+import { describe, expect, it } from 'vitest';
 import {
   ShowMeQuestionOutcomeChanged,
   ShowMeQuestionSelected,

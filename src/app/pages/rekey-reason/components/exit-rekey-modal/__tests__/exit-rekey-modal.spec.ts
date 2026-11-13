@@ -3,6 +3,7 @@ import { ModalController } from '@ionic/angular';
 import { ModalControllerMock } from '@mocks/ionic-mocks/modal-controller.mock';
 import { ExitRekeyModal } from '@pages/rekey-reason/components/exit-rekey-modal/exit-rekey-modal';
 import { ExitRekeyModalEvent } from '@pages/rekey-reason/components/exit-rekey-modal/exit-rekey-modal.constants';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 describe('ExitRekeyModal', () => {
   let fixture: ComponentFixture<ExitRekeyModal>;
@@ -16,7 +17,7 @@ describe('ExitRekeyModal', () => {
 
     fixture = TestBed.createComponent(ExitRekeyModal);
     component = fixture.componentInstance;
-    spyOn(component.modalCtrl, 'dismiss');
+    vi.spyOn(component.modalCtrl, 'dismiss').mockReturnValue(undefined);
   });
 
   describe('DOM', () => {

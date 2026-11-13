@@ -29,6 +29,8 @@ import { ClearLogs } from '@store/logs/logs.actions';
 import { ClearTestCentresRefData } from '@store/reference-data/reference-data.actions';
 import { ResetTestCentreJournal } from '@store/test-centre-journal/test-centre-journal.actions';
 import { UnloadTests } from '@store/tests/tests.actions';
+import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
+import { unitTestErrorCause } from '../../../../test-setup.vitest';
 import { AppConfigProviderMock } from '../../app-config/__mocks__/app-config.mock';
 import { AppConfigProvider } from '../../app-config/app-config';
 import { DataStoreProviderMock } from '../../data-store/__mocks__/data-store.mock';
@@ -87,12 +89,12 @@ describe('AuthenticationProvider', () => {
     authenticationProvider = TestBed.inject(AuthenticationProvider);
     networkStateProvider = TestBed.inject(NetworkStateProvider);
 
-    spyOn(authenticationProvider.store$, 'dispatch');
+    vi.spyOn(authenticationProvider.store$, 'dispatch').mockReturnValue(undefined);
   });
 
   describe('Provider', () => {
     beforeEach(() => {
-      spyOn(authenticationProvider, 'logEvent');
+      vi.spyOn(authenticationProvider, 'logEvent').mockReturnValue(undefined);
     });
     it('should compile', () => {
       expect(authenticationProvider).toBeDefined();
@@ -102,7 +104,7 @@ describe('AuthenticationProvider', () => {
   describe('getEmployeeId', () => {
     it('should return the employee id from the store', () => {
       // Mock selectSignal to return a function that returns a test value
-      const mockSelectSignal = jasmine.createSpy().and.returnValue(() => 'EMP123');
+      const mockSelectSignal = vi.fn().mockReturnValue(() => 'EMP123');
       authenticationProvider.store$.selectSignal = mockSelectSignal;
 
       const result = authenticationProvider.getEmployeeId();
@@ -113,10 +115,10 @@ describe('AuthenticationProvider', () => {
 
   describe('getAuthenticationToken', () => {
     beforeEach(() => {
-      spyOn(authenticationProvider, 'isOffline').and.returnValue(false);
-      spyOn(authenticationProvider, 'hasTokenExpired').and.returnValue(Promise.resolve(false));
-      spyOn(authenticationProvider, 'login').and.returnValue(Promise.resolve());
-      spyOn(authenticationProvider, 'isAuthenticated').and.returnValue(Promise.resolve(true));
+      vi.spyOn(authenticationProvider, 'isOffline').mockReturnValue(false);
+      vi.spyOn(authenticationProvider, 'hasTokenExpired').mockReturnValue(Promise.resolve(false));
+      vi.spyOn(authenticationProvider, 'login').mockReturnValue(Promise.resolve());
+      vi.spyOn(authenticationProvider, 'isAuthenticated').mockReturnValue(Promise.resolve(true));
       authenticationProvider.authResult = (() => ({ idToken: 'token123' })) as Signal<AuthResult>;
     });
 
@@ -133,7 +135,7 @@ describe('AuthenticationProvider', () => {
     });
 
     it('should return null if user is not authenticated', async () => {
-      spyOn(authenticationProvider, 'isAuthenticated').and.returnValue(Promise.resolve(false));
+      vi.spyOn(authenticationProvider, 'isAuthenticated').mockReturnValue(Promise.resolve(false));
       const token = await authenticationProvider.getAuthenticationToken();
       expect(token).toBeNull();
     });
@@ -141,11 +143,11 @@ describe('AuthenticationProvider', () => {
 
   describe('loadEmployeeDetails', () => {
     it('should dispatch both name and id if present, stripping any leading zeroes', async () => {
-      spyOn(authenticationProvider.appConfig, 'getAppConfigAsync').and.resolveTo({
+      vi.spyOn(authenticationProvider.appConfig, 'getAppConfigAsync').mockResolvedValue({
         authentication: { employeeNameKey: 'name', employeeIdKey: 'id' },
       } as AppConfig);
 
-      spyOn(authenticationProvider, 'decodeToken').and.returnValue({ name: 'Alice', id: '0011' });
+      vi.spyOn(authenticationProvider, 'decodeToken').mockReturnValue({ name: 'Alice', id: '0011' });
 
       await authenticationProvider.loadEmployeeDetails({ idToken: 'token' } as AuthResult);
 
@@ -161,8 +163,8 @@ describe('AuthenticationProvider', () => {
 
   describe('refreshEmployeeDetails', () => {
     it('should call loadEmployeeDetails() with the authResult', async () => {
-      spyOn(authenticationProvider, 'loadEmployeeDetails');
-      spyOn(authenticationProvider, 'getAuthResult').and.returnValue(Promise.resolve({} as AuthResult));
+      vi.spyOn(authenticationProvider, 'loadEmployeeDetails').mockReturnValue(undefined);
+      vi.spyOn(authenticationProvider, 'getAuthResult').mockReturnValue(Promise.resolve({} as AuthResult));
 
       await authenticationProvider.refreshEmployeeDetails();
 
@@ -172,8 +174,8 @@ describe('AuthenticationProvider', () => {
 
   describe('storeAuthResult', () => {
     it('should dispatch the updateAuthResult action, set the local storage & call loadEmployeeDetails with the authResult', async () => {
-      spyOn(authenticationProvider, 'loadEmployeeDetails');
-      spyOn(authenticationProvider.dataStoreProvider, 'setItem');
+      vi.spyOn(authenticationProvider, 'loadEmployeeDetails').mockReturnValue(undefined);
+      vi.spyOn(authenticationProvider.dataStoreProvider, 'setItem');
 
       const testAuth = { idToken: 'token123' } as AuthResult;
 
@@ -187,8 +189,8 @@ describe('AuthenticationProvider', () => {
       expect(authenticationProvider.loadEmployeeDetails).toHaveBeenCalledWith(testAuth);
     });
     it('should remove the authResult from the storage if there is no value', async () => {
-      spyOn(authenticationProvider, 'loadEmployeeDetails');
-      spyOn(authenticationProvider.dataStoreProvider, 'setItem');
+      vi.spyOn(authenticationProvider, 'loadEmployeeDetails').mockReturnValue(undefined);
+      vi.spyOn(authenticationProvider.dataStoreProvider, 'setItem');
 
       const testAuth = null;
 
@@ -233,7 +235,7 @@ describe('AuthenticationProvider', () => {
         accessToken: 'token123',
         scopes: ['email'],
       } as AuthResult;
-      spyOn(authenticationProvider.dataStoreProvider, 'getItem').and.returnValue(
+      vi.spyOn(authenticationProvider.dataStoreProvider, 'getItem').mockReturnValue(
         Promise.resolve(JSON.stringify(mockAuthResult))
       );
 
@@ -243,7 +245,7 @@ describe('AuthenticationProvider', () => {
     });
 
     it('should return null when stored result does not exist', async () => {
-      spyOn(authenticationProvider.dataStoreProvider, 'getItem').and.returnValue(Promise.resolve(null));
+      vi.spyOn(authenticationProvider.dataStoreProvider, 'getItem').mockReturnValue(Promise.resolve(null));
 
       const result = await authenticationProvider.getStoredAuthResult();
 
@@ -252,7 +254,7 @@ describe('AuthenticationProvider', () => {
 
     it('should return null when stored result exists but has no provider', async () => {
       const mockAuthResult = { idToken: 'token' };
-      spyOn(authenticationProvider.dataStoreProvider, 'getItem').and.returnValue(
+      vi.spyOn(authenticationProvider.dataStoreProvider, 'getItem').mockReturnValue(
         Promise.resolve(JSON.stringify(mockAuthResult))
       );
 
@@ -263,7 +265,7 @@ describe('AuthenticationProvider', () => {
 
     it('should return null when stored result exists but is not an object', async () => {
       const mockAuthResult = 1;
-      spyOn(authenticationProvider.dataStoreProvider, 'getItem').and.returnValue(
+      vi.spyOn(authenticationProvider.dataStoreProvider, 'getItem').mockReturnValue(
         Promise.resolve(JSON.stringify(mockAuthResult))
       );
 
@@ -273,9 +275,11 @@ describe('AuthenticationProvider', () => {
     });
 
     it('should return null and log error when getItem throws', async () => {
-      const error = new Error('getItem failed');
-      spyOn(authenticationProvider.dataStoreProvider, 'getItem').and.throwError(error.message);
-      spyOn(authenticationProvider, 'logEvent');
+      const error = new Error('getItem failed', { cause: unitTestErrorCause });
+      vi.spyOn(authenticationProvider.dataStoreProvider, 'getItem').mockImplementation(() => {
+        throw new Error(error.message, { cause: unitTestErrorCause });
+      });
+      vi.spyOn(authenticationProvider, 'logEvent').mockReturnValue(undefined);
 
       const result = await authenticationProvider.getStoredAuthResult();
 
@@ -291,14 +295,14 @@ describe('AuthenticationProvider', () => {
   describe('login', () => {
     it('should set auth options if not initialised', async () => {
       authenticationProvider.authOptions = null;
-      spyOn(authenticationProvider, 'pluginLogin').and.resolveTo({
+      vi.spyOn(authenticationProvider, 'pluginLogin').mockResolvedValue({
         idToken: 'token',
         accessToken: 'token123',
         scopes: ['email'],
       } as AuthResult);
-      spyOn(authenticationProvider, 'storeAuthResult').and.resolveTo();
-      spyOn(authenticationProvider, 'isOffline').and.returnValue(false);
-      spyOn(authenticationProvider, 'init');
+      vi.spyOn(authenticationProvider, 'storeAuthResult').mockResolvedValue(undefined);
+      vi.spyOn(authenticationProvider, 'isOffline').mockReturnValue(false);
+      vi.spyOn(authenticationProvider, 'init').mockReturnValue(undefined);
 
       await authenticationProvider.login();
 
@@ -308,13 +312,13 @@ describe('AuthenticationProvider', () => {
 
     it('should not call setProviderOptions if providerOptions is already set', async () => {
       authenticationProvider.authOptions = { clientId: 'test' };
-      spyOn(authenticationProvider, 'pluginLogin').and.resolveTo({
+      vi.spyOn(authenticationProvider, 'pluginLogin').mockResolvedValue({
         idToken: 'token',
         accessToken: 'token123',
         scopes: ['email'],
       } as AuthResult);
-      spyOn(authenticationProvider, 'storeAuthResult').and.returnValue(Promise.resolve());
-      spyOn(authenticationProvider, 'init');
+      vi.spyOn(authenticationProvider, 'storeAuthResult').mockReturnValue(Promise.resolve());
+      vi.spyOn(authenticationProvider, 'init').mockReturnValue(undefined);
 
       await authenticationProvider.login();
 
@@ -323,12 +327,12 @@ describe('AuthenticationProvider', () => {
 
     it('should call plugin login and storeAuthResult', async () => {
       authenticationProvider.authOptions = { clientId: 'test' };
-      spyOn(authenticationProvider, 'pluginLogin').and.resolveTo({
+      vi.spyOn(authenticationProvider, 'pluginLogin').mockResolvedValue({
         idToken: 'token',
         accessToken: 'token123',
         scopes: ['email'],
       } as AuthResult);
-      spyOn(authenticationProvider, 'storeAuthResult').and.returnValue(Promise.resolve());
+      vi.spyOn(authenticationProvider, 'storeAuthResult').mockReturnValue(Promise.resolve());
 
       await authenticationProvider.login();
 
@@ -338,12 +342,12 @@ describe('AuthenticationProvider', () => {
 
     it('should log and rethrow errors from AuthConnect.login', async () => {
       authenticationProvider.authOptions = { clientId: 'test' };
-      const error = new Error('login failed');
-      spyOn(authenticationProvider, 'pluginLogin').and.rejectWith(error);
-      spyOn(authenticationProvider, 'storeAuthResult');
-      spyOn(authenticationProvider, 'logEvent');
+      const error = new Error('login failed', { cause: unitTestErrorCause });
+      vi.spyOn(authenticationProvider, 'pluginLogin').mockRejectedValue(error);
+      vi.spyOn(authenticationProvider, 'storeAuthResult').mockReturnValue(undefined);
+      vi.spyOn(authenticationProvider, 'logEvent').mockReturnValue(undefined);
 
-      await expectAsync(authenticationProvider.login()).toBeRejectedWith(error);
+      await expect(authenticationProvider.login()).rejects.toEqual(error);
       expect(authenticationProvider.logEvent).toHaveBeenCalledWith(
         LogType.ERROR,
         'Authentication provider - Login error',
@@ -354,12 +358,12 @@ describe('AuthenticationProvider', () => {
 
     it('should pass forceTokenRefresh parameter to pluginLogin when provided', async () => {
       authenticationProvider.authOptions = { clientId: 'test' };
-      spyOn(authenticationProvider, 'pluginLogin').and.resolveTo({
+      vi.spyOn(authenticationProvider, 'pluginLogin').mockResolvedValue({
         idToken: 'token',
         accessToken: 'token123',
         scopes: ['email'],
       } as AuthResult);
-      spyOn(authenticationProvider, 'storeAuthResult').and.returnValue(Promise.resolve());
+      vi.spyOn(authenticationProvider, 'storeAuthResult').mockReturnValue(Promise.resolve());
 
       await authenticationProvider.login(true);
 
@@ -369,12 +373,12 @@ describe('AuthenticationProvider', () => {
 
     it('should pass undefined to pluginLogin when forceTokenRefresh is not provided', async () => {
       authenticationProvider.authOptions = { clientId: 'test' };
-      spyOn(authenticationProvider, 'pluginLogin').and.resolveTo({
+      vi.spyOn(authenticationProvider, 'pluginLogin').mockResolvedValue({
         idToken: 'token',
         accessToken: 'token123',
         scopes: ['email'],
       } as AuthResult);
-      spyOn(authenticationProvider, 'storeAuthResult').and.returnValue(Promise.resolve());
+      vi.spyOn(authenticationProvider, 'storeAuthResult').mockReturnValue(Promise.resolve());
 
       await authenticationProvider.login();
 
@@ -385,14 +389,14 @@ describe('AuthenticationProvider', () => {
 
   describe('isOffline', () => {
     it('should return true if network state is offline', () => {
-      spyOn(networkStateProvider, 'getNetworkState').and.returnValue(1);
+      vi.spyOn(networkStateProvider, 'getNetworkState').mockReturnValue(1);
 
       const result = authenticationProvider.isOffline();
       expect(result).toBe(true);
     });
 
     it('should return false if network state is online', () => {
-      spyOn(networkStateProvider, 'getNetworkState').and.returnValue(0);
+      vi.spyOn(networkStateProvider, 'getNetworkState').mockReturnValue(0);
 
       const result = authenticationProvider.isOffline();
       expect(result).toBe(false);
@@ -401,14 +405,14 @@ describe('AuthenticationProvider', () => {
 
   describe('isAuthenticated', () => {
     beforeEach(() => {
-      spyOn(authenticationProvider, 'logEvent');
-      spyOn(authenticationProvider, 'isOffline');
-      spyOn(authenticationProvider, 'getAuthResult');
-      spyOn(authenticationProvider, 'hasTokenExpired');
-      spyOn(authenticationProvider, 'isTokenFromMSAuth');
+      vi.spyOn(authenticationProvider, 'logEvent').mockReturnValue(undefined);
+      vi.spyOn(authenticationProvider, 'isOffline').mockReturnValue(undefined);
+      vi.spyOn(authenticationProvider, 'getAuthResult').mockReturnValue(undefined);
+      vi.spyOn(authenticationProvider, 'hasTokenExpired').mockReturnValue(undefined);
+      vi.spyOn(authenticationProvider, 'isTokenFromMSAuth').mockReturnValue(undefined);
     });
     it('should return true when offline', async () => {
-      spyOn(authenticationProvider, 'isOffline').and.returnValue(true);
+      vi.spyOn(authenticationProvider, 'isOffline').mockReturnValue(true);
 
       const result = await authenticationProvider.isAuthenticated();
 
@@ -417,8 +421,8 @@ describe('AuthenticationProvider', () => {
     });
 
     it('should return false when no auth result exists', async () => {
-      spyOn(authenticationProvider, 'isOffline').and.returnValue(false);
-      spyOn(authenticationProvider, 'getAuthResult').and.resolveTo(null);
+      vi.spyOn(authenticationProvider, 'isOffline').mockReturnValue(false);
+      vi.spyOn(authenticationProvider, 'getAuthResult').mockResolvedValue(null);
 
       const result = await authenticationProvider.isAuthenticated();
 
@@ -428,10 +432,10 @@ describe('AuthenticationProvider', () => {
 
     it('should return true when token is valid, not expired and has MSAuth flag', async () => {
       const mockAuthResult = {} as AuthResult;
-      spyOn(authenticationProvider, 'isTokenFromMSAuth').and.returnValue(true);
-      spyOn(authenticationProvider, 'isOffline').and.returnValue(false);
-      spyOn(authenticationProvider, 'getAuthResult').and.resolveTo(mockAuthResult);
-      spyOn(authenticationProvider, 'login').and.resolveTo();
+      vi.spyOn(authenticationProvider, 'isTokenFromMSAuth').mockReturnValue(true);
+      vi.spyOn(authenticationProvider, 'isOffline').mockReturnValue(false);
+      vi.spyOn(authenticationProvider, 'getAuthResult').mockResolvedValue(mockAuthResult);
+      vi.spyOn(authenticationProvider, 'login').mockResolvedValue(undefined);
 
       const result = await authenticationProvider.isAuthenticated();
 
@@ -442,11 +446,11 @@ describe('AuthenticationProvider', () => {
 
     it('should return false when token is valid, but has no MSAuth flag', async () => {
       const mockAuthResult = {} as AuthResult;
-      spyOn(authenticationProvider, 'isTokenFromMSAuth').and.returnValue(false);
-      spyOn(authenticationProvider, 'isOffline').and.returnValue(false);
-      spyOn(authenticationProvider, 'getAuthResult').and.resolveTo(mockAuthResult);
-      spyOn(authenticationProvider, 'login').and.resolveTo();
-      spyOn(authenticationProvider, 'storeAuthResult');
+      vi.spyOn(authenticationProvider, 'isTokenFromMSAuth').mockReturnValue(false);
+      vi.spyOn(authenticationProvider, 'isOffline').mockReturnValue(false);
+      vi.spyOn(authenticationProvider, 'getAuthResult').mockResolvedValue(mockAuthResult);
+      vi.spyOn(authenticationProvider, 'login').mockResolvedValue(undefined);
+      vi.spyOn(authenticationProvider, 'storeAuthResult').mockReturnValue(undefined);
 
       const result = await authenticationProvider.isAuthenticated();
 
@@ -457,11 +461,11 @@ describe('AuthenticationProvider', () => {
 
     it('should attempt token refresh when token is expired', async () => {
       const mockAuthResult = {} as AuthResult;
-      spyOn(authenticationProvider, 'isTokenFromMSAuth').and.returnValue(true);
-      spyOn(authenticationProvider, 'isOffline').and.returnValue(false);
-      spyOn(authenticationProvider, 'getAuthResult').and.resolveTo(mockAuthResult);
-      spyOn(authenticationProvider, 'hasTokenExpired').and.resolveTo(true);
-      spyOn(authenticationProvider, 'login').and.resolveTo();
+      vi.spyOn(authenticationProvider, 'isTokenFromMSAuth').mockReturnValue(true);
+      vi.spyOn(authenticationProvider, 'isOffline').mockReturnValue(false);
+      vi.spyOn(authenticationProvider, 'getAuthResult').mockResolvedValue(mockAuthResult);
+      vi.spyOn(authenticationProvider, 'hasTokenExpired').mockResolvedValue(true);
+      vi.spyOn(authenticationProvider, 'login').mockResolvedValue(undefined);
 
       const result = await authenticationProvider.isAuthenticated();
 
@@ -470,10 +474,10 @@ describe('AuthenticationProvider', () => {
     });
 
     it('should catch errors from getAuthResult and return false', async () => {
-      const testError = new Error('Auth result retrieval failed');
-      spyOn(authenticationProvider, 'isTokenFromMSAuth').and.returnValue(true);
-      spyOn(authenticationProvider, 'isOffline').and.returnValue(false);
-      spyOn(authenticationProvider, 'getAuthResult').and.rejectWith(testError);
+      const testError = new Error('Auth result retrieval failed', { cause: unitTestErrorCause });
+      vi.spyOn(authenticationProvider, 'isTokenFromMSAuth').mockReturnValue(true);
+      vi.spyOn(authenticationProvider, 'isOffline').mockReturnValue(false);
+      vi.spyOn(authenticationProvider, 'getAuthResult').mockRejectedValue(testError);
 
       const result = await authenticationProvider.isAuthenticated();
 
@@ -483,12 +487,12 @@ describe('AuthenticationProvider', () => {
 
     it('should catch errors from hasTokenExpired and return false', async () => {
       const mockAuthResult = {} as AuthResult;
-      const testError = new Error('Token expiry check failed');
+      const testError = new Error('Token expiry check failed', { cause: unitTestErrorCause });
 
-      spyOn(authenticationProvider, 'isOffline').and.returnValue(false);
-      spyOn(authenticationProvider, 'getAuthResult').and.resolveTo(mockAuthResult);
-      spyOn(authenticationProvider, 'isTokenFromMSAuth').and.returnValue(true);
-      spyOn(authenticationProvider, 'hasTokenExpired').and.rejectWith(testError);
+      vi.spyOn(authenticationProvider, 'isOffline').mockReturnValue(false);
+      vi.spyOn(authenticationProvider, 'getAuthResult').mockResolvedValue(mockAuthResult);
+      vi.spyOn(authenticationProvider, 'isTokenFromMSAuth').mockReturnValue(true);
+      vi.spyOn(authenticationProvider, 'hasTokenExpired').mockRejectedValue(testError);
 
       const result = await authenticationProvider.isAuthenticated();
 
@@ -497,13 +501,13 @@ describe('AuthenticationProvider', () => {
     });
 
     it('should catch errors from refreshSession and return false', async () => {
-      const testError = new Error('Token refresh failed');
+      const testError = new Error('Token refresh failed', { cause: unitTestErrorCause });
       const mockAuthResult = {} as AuthResult;
-      spyOn(authenticationProvider, 'isOffline').and.returnValue(false);
-      spyOn(authenticationProvider, 'getAuthResult').and.resolveTo(mockAuthResult);
-      spyOn(authenticationProvider, 'hasTokenExpired').and.resolveTo(true);
-      spyOn(authenticationProvider, 'isTokenFromMSAuth').and.returnValue(true);
-      spyOn(authenticationProvider, 'login').and.rejectWith(testError);
+      vi.spyOn(authenticationProvider, 'isOffline').mockReturnValue(false);
+      vi.spyOn(authenticationProvider, 'getAuthResult').mockResolvedValue(mockAuthResult);
+      vi.spyOn(authenticationProvider, 'hasTokenExpired').mockResolvedValue(true);
+      vi.spyOn(authenticationProvider, 'isTokenFromMSAuth').mockReturnValue(true);
+      vi.spyOn(authenticationProvider, 'login').mockRejectedValue(testError);
 
       const result = await authenticationProvider.isAuthenticated();
 
@@ -515,26 +519,26 @@ describe('AuthenticationProvider', () => {
   describe('hasTokenExpired', () => {
     it('should return true if token is expired', async () => {
       const expiredExp = Math.floor(Date.now() / 1000) - 1000;
-      spyOn(authenticationProvider, 'decodeToken').and.returnValue({ exp: expiredExp });
+      vi.spyOn(authenticationProvider, 'decodeToken').mockReturnValue({ exp: expiredExp });
       const result = await authenticationProvider.hasTokenExpired({ idToken: 'expired' } as AuthResult);
       expect(result).toBe(true);
     });
 
     it('should return false if token is not expired', async () => {
       const futureExp = Math.floor(Date.now() / 1000) + 1000;
-      spyOn(authenticationProvider, 'decodeToken').and.returnValue({ exp: futureExp });
+      vi.spyOn(authenticationProvider, 'decodeToken').mockReturnValue({ exp: futureExp });
       const result = await authenticationProvider.hasTokenExpired({ idToken: 'valid' } as AuthResult);
       expect(result).toBe(false);
     });
 
     it('should return false if exp is missing', async () => {
-      spyOn(authenticationProvider, 'decodeToken').and.returnValue({});
+      vi.spyOn(authenticationProvider, 'decodeToken').mockReturnValue({});
       const result: boolean = await authenticationProvider.hasTokenExpired({ idToken: 'invalid' } as AuthResult);
       expect(result).toBe(false);
     });
 
     it('should return true if decodeToken returns null/undefined', async () => {
-      spyOn(authenticationProvider, 'decodeToken').and.returnValue(undefined);
+      vi.spyOn(authenticationProvider, 'decodeToken').mockReturnValue(undefined);
       const result = await authenticationProvider.hasTokenExpired({ idToken: 'bad' } as AuthResult);
       expect(result).toBe(true);
     });
@@ -542,13 +546,15 @@ describe('AuthenticationProvider', () => {
 
   describe('clearStore', () => {
     it('should dispatch all unload actions and clear persisted data', async () => {
-      spyOn(authenticationProvider.store$, 'dispatch');
-      spyOn(authenticationProvider.testPersistenceProvider, 'clearPersistedTests').and.returnValue(Promise.resolve());
-      spyOn(authenticationProvider.dataStoreProvider, 'removeItem').and.returnValue(Promise.resolve(''));
-      spyOn(authenticationProvider.examinerRecordsProvider, 'clearExaminerRecordsCache').and.returnValue(
+      vi.spyOn(authenticationProvider.store$, 'dispatch').mockReturnValue(undefined);
+      vi.spyOn(authenticationProvider.testPersistenceProvider, 'clearPersistedTests').mockReturnValue(
         Promise.resolve()
       );
-      spyOn(authenticationProvider.completedTestPersistenceProvider, 'clearPersistedCompletedTests').and.returnValue(
+      vi.spyOn(authenticationProvider.dataStoreProvider, 'removeItem').mockReturnValue(Promise.resolve(''));
+      vi.spyOn(authenticationProvider.examinerRecordsProvider, 'clearExaminerRecordsCache').mockReturnValue(
+        Promise.resolve()
+      );
+      vi.spyOn(authenticationProvider.completedTestPersistenceProvider, 'clearPersistedCompletedTests').mockReturnValue(
         Promise.resolve()
       );
 
@@ -580,11 +586,11 @@ describe('AuthenticationProvider', () => {
 
   describe('logout', () => {
     beforeEach(() => {
-      spyOn(authenticationProvider, 'logEvent');
-      spyOn(authenticationProvider.appConfig, 'shutDownStoreSubscription');
-      spyOn(authenticationProvider, 'getAuthResult').and.resolveTo({} as AuthResult);
-      spyOn(authenticationProvider, 'clearStore').and.returnValue(Promise.resolve());
-      spyOn(authenticationProvider, 'pluginLogout').and.returnValue(Promise.resolve());
+      vi.spyOn(authenticationProvider, 'logEvent').mockReturnValue(undefined);
+      vi.spyOn(authenticationProvider.appConfig, 'shutDownStoreSubscription');
+      vi.spyOn(authenticationProvider, 'getAuthResult').mockResolvedValue({} as AuthResult);
+      vi.spyOn(authenticationProvider, 'clearStore').mockReturnValue(Promise.resolve());
+      vi.spyOn(authenticationProvider, 'pluginLogout').mockReturnValue(Promise.resolve());
       authenticationProvider.authResult = (() => {}) as Signal<AuthResult>;
     });
 
@@ -598,8 +604,8 @@ describe('AuthenticationProvider', () => {
     });
 
     it('should log error if AuthConnect.logout throws, then call clearStore and shutDownStoreSubscription', async () => {
-      const error = new Error('logout failed');
-      (authenticationProvider.pluginLogout as jasmine.Spy).and.rejectWith(error);
+      const error = new Error('logout failed', { cause: unitTestErrorCause });
+      (authenticationProvider.pluginLogout as Mock).mockRejectedValue(error);
 
       await authenticationProvider.logout();
 

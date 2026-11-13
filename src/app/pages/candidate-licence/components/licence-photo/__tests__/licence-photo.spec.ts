@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { beforeEach, describe, expect, it } from 'vitest';
 
 import { LicencePhoto } from '@pages/candidate-licence/components/licence-photo/licence-photo';
 

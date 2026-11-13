@@ -1,4 +1,5 @@
 import { vehicleDetailsCatAMod2Reducer } from '@store/tests/vehicle-details/cat-a-mod2/vehicle-details.cat-a-mod2.reducer';
+import { describe, expect, it } from 'vitest';
 import * as vehicleDetailsActions from '../../vehicle-details.actions';
 
 describe('vehicleDetailsCatAMod2Reducer', () => {

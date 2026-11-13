@@ -1,4 +1,5 @@
 import { PreTestDeclarations } from '@dvsa/mes-test-schema/categories/AM1';
+import { describe, expect, it } from 'vitest';
 import { getCBTNumberStatus } from '../pre-test-declarations.cat-a-mod1.selector';
 
 describe('PreTestDeclarations selector', () => {

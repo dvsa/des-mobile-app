@@ -1,4 +1,5 @@
 import { lessonPlanningReducer } from '@store/tests/test-data/cat-adi-part3/lesson-planning/lesson-planning.reducer';
+import { describe, expect, it } from 'vitest';
 import * as lessonPlanningActions from '../lesson-planning.actions';
 
 describe('lessonPlanningReducer', () => {

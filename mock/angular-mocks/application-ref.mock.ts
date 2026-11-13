@@ -1,7 +1,8 @@
 import { of } from 'rxjs';
+import { vi } from 'vitest';
 
 export class ApplicationRefMock {
-  tick = jasmine.createSpy('tick');
+  tick = vi.fn();
 
-  isStable = jasmine.createSpy('isStable').and.returnValue(of(true));
+  isStable = vi.fn().mockReturnValue(of(true));
 }

@@ -1,4 +1,6 @@
 import { serialiseLogMessage } from '@shared/helpers/serialise-log-message';
+import { describe, expect, it } from 'vitest';
+import { unitTestErrorCause } from '../../../../test-setup.vitest';
 
 describe('serialiseLogMessage', () => {
   it('should return the string if the data is already a string', () => {
@@ -6,7 +8,7 @@ describe('serialiseLogMessage', () => {
     expect(res).toEqual('test');
   });
   it('should return an error that contains the stack, class and information', () => {
-    const res = serialiseLogMessage(new Error('test'));
+    const res = serialiseLogMessage(new Error('test', { cause: unitTestErrorCause }));
     expect(res).toContain('stack');
     expect(res).toContain('Error');
     expect(res).toContain('test');

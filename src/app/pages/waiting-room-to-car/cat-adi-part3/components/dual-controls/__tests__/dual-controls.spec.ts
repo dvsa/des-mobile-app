@@ -1,6 +1,7 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { DualControlsComponent } from '@pages/waiting-room-to-car/cat-adi-part3/components/dual-controls/dual-controls';
 import { AuthenticationProviderMock } from '@providers/authentication/__mocks__/authentication.mock';
@@ -100,12 +101,12 @@ describe('DualControlsComponent', () => {
 
     describe('dualControlsChanged', () => {
       it('should emit the correct event with false if it is not passed the word true', () => {
-        spyOn(component.dualControlsChange, 'emit');
+        vi.spyOn(component.dualControlsChange, 'emit').mockReturnValue(undefined);
         component.dualControlsChanged('test');
         expect(component.dualControlsChange.emit).toHaveBeenCalledWith(false);
       });
       it('should emit the correct event with true if it is passed the word true', () => {
-        spyOn(component.dualControlsChange, 'emit');
+        vi.spyOn(component.dualControlsChange, 'emit').mockReturnValue(undefined);
         component.dualControlsChanged('true');
         expect(component.dualControlsChange.emit).toHaveBeenCalledWith(true);
       });

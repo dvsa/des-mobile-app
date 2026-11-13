@@ -14,7 +14,7 @@
           <ion-buttons class="width-100">
             <practice-mode-exit-button
               class="width-30"
-              [pageTitle]="'fake journal page'"
+              [pageTitle]="'fake-journal-page'"
               (exitPracticeMode)="onEndPracticeModeClicked()">
             </practice-mode-exit-button>
           </ion-buttons>
@@ -22,6 +22,7 @@
       </ion-row>
     } @else {
       <practice-mode-options-bar
+        [pageName]="'fake-journal-page'"
         class="header-height-76"
         (closeExitPracticeMode)="closeExitPracticeMode()">
       </practice-mode-options-bar>

@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { MockComponent } from 'ng-mocks';
 
@@ -106,14 +107,14 @@ describe('TestReportCatBPage', () => {
 
     fixture = TestBed.createComponent(TestReportCatBPage);
     component = fixture.componentInstance;
-    spyOn(BasePageComponent.prototype, 'isIos').and.returnValue(true);
-    spyOn(ScreenOrientation, 'lock').and.returnValue(Promise.resolve());
+    vi.spyOn(BasePageComponent.prototype, 'isIos').mockReturnValue(true);
+    vi.spyOn(ScreenOrientation, 'lock').mockReturnValue(Promise.resolve());
   });
 
   describe('Class', () => {
     describe('ngOnInit', () => {
       it('should call setupSubscription on ngOnInit', () => {
-        spyOn(component, 'setupSubscription');
+        vi.spyOn(component, 'setupSubscription').mockReturnValue(undefined);
         component.ngOnInit();
         expect(component.setupSubscription).toHaveBeenCalled();
       });
@@ -121,8 +122,8 @@ describe('TestReportCatBPage', () => {
 
     describe('ionViewDidLeave', () => {
       it("should call the base page's ionViewDidLeave and cancelSubscription", () => {
-        spyOn(TestReportBasePageComponent.prototype, 'ionViewDidLeave');
-        spyOn(TestReportBasePageComponent.prototype, 'cancelSubscription');
+        vi.spyOn(TestReportBasePageComponent.prototype, 'ionViewDidLeave').mockReturnValue(undefined);
+        vi.spyOn(TestReportBasePageComponent.prototype, 'cancelSubscription').mockReturnValue(undefined);
         component.ionViewDidLeave();
         expect(TestReportBasePageComponent.prototype.ionViewDidLeave).toHaveBeenCalled();
         expect(TestReportBasePageComponent.prototype.cancelSubscription).toHaveBeenCalled();

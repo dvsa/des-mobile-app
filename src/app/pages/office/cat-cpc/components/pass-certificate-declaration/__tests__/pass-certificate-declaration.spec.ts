@@ -1,5 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule, UntypedFormGroup } from '@angular/forms';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { PassCertificateDeclarationComponent } from '../pass-certificate-declaration';
 
@@ -20,12 +21,12 @@ describe('PassCertificateDeclarationComponent', () => {
   describe('Class', () => {
     describe('passCertificateDeclarationChanged', () => {
       it('should emit selected value - true', () => {
-        spyOn(component.passCertificateDeclarationChange, 'emit');
+        vi.spyOn(component.passCertificateDeclarationChange, 'emit').mockReturnValue(undefined);
         component.passCertificateDeclarationChanged(true);
         expect(component.passCertificateDeclarationChange.emit).toHaveBeenCalledWith(true);
       });
       it('should emit selected value - false', () => {
-        spyOn(component.passCertificateDeclarationChange, 'emit');
+        vi.spyOn(component.passCertificateDeclarationChange, 'emit').mockReturnValue(undefined);
         component.passCertificateDeclarationChanged(false);
         expect(component.passCertificateDeclarationChange.emit).toHaveBeenCalledWith(false);
       });

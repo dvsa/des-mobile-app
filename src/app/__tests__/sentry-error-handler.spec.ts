@@ -1,5 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { provideMockStore } from '@ngrx/store/testing';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { HttpErrorResponse } from '@angular/common/http';
 import { SentryIonicErrorHandler } from '@app/sentry-error-handler';
@@ -15,6 +16,7 @@ import { LogHelperMock } from '@providers/logs/__mocks__/logs-helper.mock';
 import { LogHelper } from '@providers/logs/logs-helper';
 import { Log } from '@shared/models/log.model';
 import { SaveLog } from '@store/logs/logs.actions';
+import { unitTestErrorCause } from '../../test-setup.vitest';
 
 describe('SentryIonicErrorHandler', () => {
   let sentryErrorHandler: SentryIonicErrorHandler;
@@ -46,8 +48,8 @@ describe('SentryIonicErrorHandler', () => {
 
     sentryErrorHandler = TestBed.inject(SentryIonicErrorHandler);
 
-    spyOn(sentryErrorHandler.store$, 'dispatch');
-    spyOn(sentryErrorHandler.appConfigProvider, 'getAppConfigAsync').and.returnValue(
+    vi.spyOn(sentryErrorHandler.store$, 'dispatch').mockReturnValue(undefined);
+    vi.spyOn(sentryErrorHandler.appConfigProvider, 'getAppConfigAsync').mockReturnValue(
       Promise.resolve({
         role: ExaminerRole.DE,
       } as AppConfig)
@@ -56,31 +58,31 @@ describe('SentryIonicErrorHandler', () => {
 
   describe('handleError', () => {
     it('should call through to all providers and pass error to Sentry', async () => {
-      spyOn(sentryErrorHandler.appInfoProvider, 'getFullVersionNumber').and.returnValue(Promise.resolve('4.8.0.5'));
+      vi.spyOn(sentryErrorHandler.appInfoProvider, 'getFullVersionNumber').mockReturnValue(Promise.resolve('4.8.0.5'));
 
-      await sentryErrorHandler.handleError(new Error('Some runtime error'));
+      await sentryErrorHandler.handleError(new Error('Some runtime error', { cause: unitTestErrorCause }));
       expect(sentryErrorHandler.appConfigProvider.getAppConfigAsync).toHaveBeenCalled();
       expect(sentryErrorHandler.appInfoProvider.getFullVersionNumber).toHaveBeenCalled();
       expect(sentryErrorHandler.authenticationProvider.getEmployeeId).toHaveBeenCalled();
       expect(sentryErrorHandler.store$.dispatch).not.toHaveBeenCalled();
     });
     it('should attempt call to providers and fail, but report via store$ dispatch', async () => {
-      spyOn(sentryErrorHandler.appInfoProvider, 'getFullVersionNumber').and.returnValue(
-        Promise.reject(new Error('RUNTIME err'))
+      vi.spyOn(sentryErrorHandler.appInfoProvider, 'getFullVersionNumber').mockReturnValue(
+        Promise.reject(new Error('RUNTIME err', { cause: unitTestErrorCause }))
       );
-      spyOn(sentryErrorHandler.logHelper, 'createLog').and.returnValue(mockLog);
+      vi.spyOn(sentryErrorHandler.logHelper, 'createLog').mockReturnValue(mockLog);
 
-      await sentryErrorHandler.handleError(new Error('Some runtime error'));
+      await sentryErrorHandler.handleError(new Error('Some runtime error', { cause: unitTestErrorCause }));
       expect(sentryErrorHandler.appConfigProvider.getAppConfigAsync).toHaveBeenCalled();
       expect(sentryErrorHandler.appInfoProvider.getFullVersionNumber).toHaveBeenCalled();
       expect(sentryErrorHandler.authenticationProvider.getEmployeeId).toHaveBeenCalled();
       expect(sentryErrorHandler.store$.dispatch).toHaveBeenCalledWith(SaveLog({ payload: mockLog }));
     });
     it('should attempt call to providers and fail, and report a custom error object', async () => {
-      spyOn(sentryErrorHandler.appInfoProvider, 'getFullVersionNumber').and.returnValue(
-        Promise.reject(new Error('RUNTIME err'))
+      vi.spyOn(sentryErrorHandler.appInfoProvider, 'getFullVersionNumber').mockReturnValue(
+        Promise.reject(new Error('RUNTIME err', { cause: unitTestErrorCause }))
       );
-      spyOn(sentryErrorHandler.logHelper, 'createLog').and.returnValue(mockLog);
+      vi.spyOn(sentryErrorHandler.logHelper, 'createLog').mockReturnValue(mockLog);
 
       await sentryErrorHandler.handleError({
         message: 'message',

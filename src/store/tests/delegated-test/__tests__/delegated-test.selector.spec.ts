@@ -1,3 +1,4 @@
+import { describe, expect, it } from 'vitest';
 import { isDelegatedTest } from '../delegated-test.selector';
 
 describe('Delegated test selector', () => {

@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { ModalController } from '@ionic/angular';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { ModalControllerMock } from '@mocks/ionic-mocks/modal-controller.mock';
 import { ModalEvent } from '@pages/fake-journal/components/preview-mode-modal/preview-mode-modal.constants';
@@ -20,7 +21,7 @@ describe('PreviewModeModal', () => {
     fixture = TestBed.createComponent(PreviewModeModal);
     component = fixture.componentInstance;
     modalController = TestBed.inject(ModalController);
-    spyOn(modalController, 'dismiss');
+    vi.spyOn(modalController, 'dismiss').mockReturnValue(undefined);
   });
 
   it('should create', () => {
@@ -45,7 +46,7 @@ describe('PreviewModeModal', () => {
   describe('DOM', () => {
     it('should call onCancel when the Cancel button is clicked', () => {
       fixture.detectChanges();
-      spyOn(component, 'onCancel');
+      vi.spyOn(component, 'onCancel').mockReturnValue(undefined);
       const button = fixture.debugElement.query(By.css('#preview-mode-return-to-journal-button'));
       button.triggerEventHandler('click', null);
 
@@ -54,7 +55,7 @@ describe('PreviewModeModal', () => {
     });
     it('should call onContinue when the Continue button is clicked', () => {
       fixture.detectChanges();
-      spyOn(component, 'onContinue');
+      vi.spyOn(component, 'onContinue').mockReturnValue(undefined);
       const button = fixture.debugElement.query(By.css('#preview-mode-continue-button'));
       button.triggerEventHandler('click', null);
 

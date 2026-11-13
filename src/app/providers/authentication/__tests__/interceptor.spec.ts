@@ -10,6 +10,7 @@ import { TestBed } from '@angular/core/testing';
 import { Platform } from '@ionic/angular';
 import { PlatformMock } from '@mocks/index.mock';
 import { of } from 'rxjs';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { AppConfigProviderMock } from '../../app-config/__mocks__/app-config.mock';
 import { AppConfigProvider } from '../../app-config/app-config';
 import { DataStoreProviderMock } from '../../data-store/__mocks__/data-store.mock';
@@ -92,7 +93,7 @@ describe('Authentication interceptor', () => {
     });
 
     it('should not modify the request if not on ios', () => {
-      platform.is = jasmine.createSpy('platform.is').and.returnValue(false);
+      platform.is = vi.fn().mockReturnValue(false);
       journalProvider.getJournal(null).subscribe({
         next: () => {},
         error: () => {},
@@ -101,8 +102,8 @@ describe('Authentication interceptor', () => {
       expect(httpRequest.request.headers.has('Authorization')).toBe(false);
     });
 
-    it('should add the authentication header to the request if running on ios', (done) => {
-      platform.is = jasmine.createSpy('platform.is').and.returnValue(true);
+    it('should add the authentication header to the request if running on ios', async () => {
+      platform.is = vi.fn().mockReturnValue(true);
       const next = {
         handle: (request: HttpRequest<unknown>) => {
           expect(request.headers.has('Authorization')).toEqual(true);
@@ -111,7 +112,9 @@ describe('Authentication interceptor', () => {
         },
       } as HttpHandler;
       const req = new HttpRequest<unknown>('GET', journalUrl);
-      interceptor.intercept(req, next).subscribe(() => done());
+      await new Promise<void>((resolve, reject) => {
+        interceptor.intercept(req, next).subscribe({ next: () => resolve(), error: reject });
+      });
     });
   });
 });

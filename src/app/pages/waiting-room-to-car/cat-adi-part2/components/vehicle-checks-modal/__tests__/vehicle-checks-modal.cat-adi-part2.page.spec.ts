@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { WarningBannerComponent } from '@components/common/warning-banner/warning-banner';
 import { CatADI2UniqueTypes } from '@dvsa/mes-test-schema/categories/ADI2';
@@ -121,7 +122,7 @@ describe('VehicleChecksCatADIPart2Modal', () => {
     fixture = TestBed.createComponent(VehicleChecksCatADIPart2Modal);
     component = fixture.componentInstance;
     store$ = TestBed.inject(Store);
-    spyOn(store$, 'dispatch');
+    vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
   });
 
   describe('Class', () => {
@@ -162,7 +163,7 @@ describe('VehicleChecksCatADIPart2Modal', () => {
     describe('ionViewDidLeave', () => {
       it('should unsubscribe from the subscription if there is one', () => {
         component.subscription = new Subscription();
-        spyOn(component.subscription, 'unsubscribe');
+        vi.spyOn(component.subscription, 'unsubscribe').mockReturnValue(undefined);
         component.ionViewDidLeave();
         expect(component.subscription.unsubscribe).toHaveBeenCalled();
       });
@@ -170,7 +171,7 @@ describe('VehicleChecksCatADIPart2Modal', () => {
 
     describe('ionViewDidEnter', () => {
       it('should dispatch the store with VehicleChecksViewDidEnter', () => {
-        spyOn(component.store$, 'dispatch');
+        vi.spyOn(component.store$, 'dispatch').mockReturnValue(undefined);
         component.ionViewDidEnter();
         expect(component.store$.dispatch).toHaveBeenCalledWith(vehicleChecksModalActions.VehicleChecksViewDidEnter());
       });
@@ -178,7 +179,7 @@ describe('VehicleChecksCatADIPart2Modal', () => {
 
     describe('onClose', () => {
       it('should dismiss the modal card', async () => {
-        spyOn(component.modalCtrl, 'dismiss');
+        vi.spyOn(component.modalCtrl, 'dismiss').mockReturnValue(undefined);
         await component.onClose();
         expect(component.modalCtrl.dismiss).toHaveBeenCalled();
       });
@@ -186,7 +187,7 @@ describe('VehicleChecksCatADIPart2Modal', () => {
 
     describe('onSubmit', () => {
       it('should dismiss the modal card', async () => {
-        spyOn(component.modalCtrl, 'dismiss');
+        vi.spyOn(component.modalCtrl, 'dismiss').mockReturnValue(undefined);
         await component.onSubmit();
         expect(component.modalCtrl.dismiss).toHaveBeenCalled();
       });

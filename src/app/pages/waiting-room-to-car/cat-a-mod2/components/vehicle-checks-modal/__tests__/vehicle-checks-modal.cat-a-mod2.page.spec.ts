@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { WarningBannerComponent } from '@components/common/warning-banner/warning-banner';
 import { QuestionOutcome, QuestionResult } from '@dvsa/mes-test-schema/categories/common';
@@ -37,7 +38,7 @@ describe('VehicleChecksCatAMod2Modal', () => {
     fixture = TestBed.createComponent(VehicleChecksCatAMod2Modal);
     component = fixture.componentInstance;
     store$ = TestBed.inject(Store);
-    spyOn(store$, 'dispatch');
+    vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
   });
 
   describe('Class', () => {
@@ -48,7 +49,7 @@ describe('VehicleChecksCatAMod2Modal', () => {
     describe('ionViewDidLeave', () => {
       it('should unsubscribe from the subscription if there is one', () => {
         component.subscription = new Subscription();
-        spyOn(component.subscription, 'unsubscribe');
+        vi.spyOn(component.subscription, 'unsubscribe').mockReturnValue(undefined);
         component.ionViewDidLeave();
         expect(component.subscription.unsubscribe).toHaveBeenCalled();
       });
@@ -104,7 +105,7 @@ describe('VehicleChecksCatAMod2Modal', () => {
 
     describe('ionViewDidEnter', () => {
       it('should dispatch the store with VehicleChecksViewDidEnter', () => {
-        spyOn(component.store$, 'dispatch');
+        vi.spyOn(component.store$, 'dispatch').mockReturnValue(undefined);
         component.ionViewDidEnter();
         expect(component.store$.dispatch).toHaveBeenCalledWith(vehicleChecksModalActions.VehicleChecksViewDidEnter());
       });
@@ -112,7 +113,7 @@ describe('VehicleChecksCatAMod2Modal', () => {
 
     describe('onClose', () => {
       it('should dismiss the modal card', async () => {
-        spyOn(component.modalCtrl, 'dismiss');
+        vi.spyOn(component.modalCtrl, 'dismiss').mockReturnValue(undefined);
         await component.onClose();
         expect(component.modalCtrl.dismiss).toHaveBeenCalled();
       });
@@ -120,7 +121,7 @@ describe('VehicleChecksCatAMod2Modal', () => {
 
     describe('onSubmit', () => {
       it('should dismiss the modal card', async () => {
-        spyOn(component.modalCtrl, 'dismiss');
+        vi.spyOn(component.modalCtrl, 'dismiss').mockReturnValue(undefined);
         await component.onSubmit();
         expect(component.modalCtrl.dismiss).toHaveBeenCalled();
       });

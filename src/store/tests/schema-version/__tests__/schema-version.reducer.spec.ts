@@ -1,3 +1,4 @@
+import { describe, expect, it } from 'vitest';
 import { PopulateTestSchemaVersion } from '../schema-version.actions';
 import { schemaVersionReducer } from '../schema-version.reducer';
 

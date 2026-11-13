@@ -1,5 +1,6 @@
 import { EventEmitter } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { UntypedFormGroup, Validators } from '@angular/forms';
 
@@ -65,7 +66,7 @@ describe('ShowMeQuestionsCatADI2Component', () => {
     describe('vehicleChecksQuestionChanged', () => {
       it('should emit the correct event', () => {
         component.showMeQuestionsChange = new EventEmitter();
-        spyOn(component.showMeQuestionsChange, 'emit');
+        vi.spyOn(component.showMeQuestionsChange, 'emit').mockReturnValue(undefined);
         component.questionResult = {
           outcome: 'P',
         };
@@ -81,7 +82,7 @@ describe('ShowMeQuestionsCatADI2Component', () => {
     describe('showMeOutcomeChanged', () => {
       it('should emit the correct event', () => {
         component.showMeQuestionsChange = new EventEmitter();
-        spyOn(component.showMeQuestionsChange, 'emit');
+        vi.spyOn(component.showMeQuestionsChange, 'emit').mockReturnValue(undefined);
         component.questionResult = {
           code: 'A15',
           description: 'Rear windscreen',

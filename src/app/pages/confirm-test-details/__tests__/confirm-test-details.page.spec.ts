@@ -5,6 +5,7 @@ import { TestSlotAttributes } from '@dvsa/mes-test-schema/categories/common';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { AlertController, ModalController } from '@ionic/angular';
 import { AlertControllerMock } from '@mocks/index.mock';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { provideBasePageMocks } from '@mocks/test-providers';
 import { Store, StoreModule } from '@ngrx/store';
@@ -89,8 +90,8 @@ describe('ConfirmTestDetailsPage', () => {
     router = TestBed.inject(Router);
     store$ = TestBed.inject(Store);
     modalController = TestBed.inject(ModalController);
-    spyOn(store$, 'dispatch');
-    spyOn(router, 'navigate');
+    vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
+    vi.spyOn(router, 'navigate');
     component.subscription = new Subscription();
   });
 
@@ -142,7 +143,7 @@ describe('ConfirmTestDetailsPage', () => {
 
   describe('onSubmit', () => {
     it('should call showConfirmTestDetailsModal', async () => {
-      spyOn(component, 'showConfirmTestDetailsModal');
+      vi.spyOn(component, 'showConfirmTestDetailsModal').mockReturnValue(undefined);
       await component.onSubmit();
       expect(component.showConfirmTestDetailsModal).toHaveBeenCalled();
     });
@@ -150,7 +151,7 @@ describe('ConfirmTestDetailsPage', () => {
 
   describe('showConfirmTestDetailsModal', () => {
     it('should call alertController.create', async () => {
-      spyOn(modalController, 'create').and.returnValue(
+      vi.spyOn(modalController, 'create').mockReturnValue(
         Promise.resolve({
           present: () => Promise.resolve(),
         } as HTMLIonModalElement)
@@ -189,7 +190,7 @@ describe('ConfirmTestDetailsPage', () => {
   describe('ionViewDidLeave', () => {
     it('should unsubscribe from subscription if there is one', () => {
       component.subscription = new Subscription();
-      spyOn(component.subscription, 'unsubscribe');
+      vi.spyOn(component.subscription, 'unsubscribe').mockReturnValue(undefined);
       component.ionViewDidLeave();
       expect(component.subscription.unsubscribe).toHaveBeenCalled();
     });
@@ -254,7 +255,7 @@ describe('ConfirmTestDetailsPage', () => {
 
   describe('goBackToDebrief', () => {
     it('should dispatch BackToDebrief', async () => {
-      spyOn(component.navController, 'navigateBack').and.callThrough();
+      vi.spyOn(component.navController, 'navigateBack');
       await component.goBackToDebrief();
 
       expect(component.store$.dispatch).toHaveBeenCalledWith(BackToDebrief());

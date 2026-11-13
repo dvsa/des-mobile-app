@@ -2,6 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { UntypedFormGroup } from '@angular/forms';
 import { MockAppComponent } from '@app/__mocks__/app.component.mock';
 import { AppComponent } from '@app/app.component';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { AccessibilityServiceMock } from '@providers/accessibility/__mocks__/accessibility-service.mock';
 import { AccessibilityService } from '@providers/accessibility/accessibility.service';
@@ -30,7 +31,7 @@ describe('ManoeuvresPassCertificateComponent', () => {
   describe('Class', () => {
     describe('manoeuvresPassCertificateNumberChanged', () => {
       it('should emit manoeuvre pass certificate number if 8 characters and valid', () => {
-        spyOn(component.manoeuvresPassCertificateNumberChange, 'emit');
+        vi.spyOn(component.manoeuvresPassCertificateNumberChange, 'emit').mockReturnValue(undefined);
         const passCertificateNumber = 'C267548E';
         component.manoeuvresPassCertificateNumberChanged(passCertificateNumber);
         expect(component.manoeuvresPassCertificateNumberChange.emit).toHaveBeenCalledWith(passCertificateNumber);
@@ -39,26 +40,26 @@ describe('ManoeuvresPassCertificateComponent', () => {
 
     describe('manoeuvresPassCertificateNumberChanged', () => {
       it('should emit manoeuvre pass certificate number in uppercase if valid', () => {
-        spyOn(component.manoeuvresPassCertificateNumberChange, 'emit');
+        vi.spyOn(component.manoeuvresPassCertificateNumberChange, 'emit').mockReturnValue(undefined);
         const passCertificateNumber = 'c267548e';
         component.manoeuvresPassCertificateNumberChanged(passCertificateNumber);
         expect(component.manoeuvresPassCertificateNumberChange.emit).toHaveBeenCalledWith('C267548E');
       });
 
       it('should emit undefined if pass certificate number is null', () => {
-        spyOn(component.manoeuvresPassCertificateNumberChange, 'emit');
+        vi.spyOn(component.manoeuvresPassCertificateNumberChange, 'emit').mockReturnValue(undefined);
         component.manoeuvresPassCertificateNumberChanged(null);
         expect(component.manoeuvresPassCertificateNumberChange.emit).toHaveBeenCalledWith(undefined);
       });
 
       it('should emit undefined if pass certificate number is undefined', () => {
-        spyOn(component.manoeuvresPassCertificateNumberChange, 'emit');
+        vi.spyOn(component.manoeuvresPassCertificateNumberChange, 'emit').mockReturnValue(undefined);
         component.manoeuvresPassCertificateNumberChanged(undefined);
         expect(component.manoeuvresPassCertificateNumberChange.emit).toHaveBeenCalledWith(undefined);
       });
 
       it('should emit empty string if pass certificate number is empty', () => {
-        spyOn(component.manoeuvresPassCertificateNumberChange, 'emit');
+        vi.spyOn(component.manoeuvresPassCertificateNumberChange, 'emit').mockReturnValue(undefined);
         component.manoeuvresPassCertificateNumberChanged('');
         expect(component.manoeuvresPassCertificateNumberChange.emit).toHaveBeenCalledWith('');
       });

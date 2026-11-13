@@ -4,6 +4,7 @@ import { TestFlowHeaderComponent } from '@components/common/test-flow-header/tes
 import { TestResultCatADI3Schema } from '@dvsa/mes-test-schema/categories/ADI3';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { NavController, ToastController } from '@ionic/angular';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { provideBasePageMocks } from '@mocks/test-providers';
 import { Store, StoreModule } from '@ngrx/store';
@@ -23,7 +24,6 @@ import { BasePageComponent } from '@shared/classes/base-page';
 import { NavControllerMock } from '@shared/mocks/nav-controller.mock';
 import { ToastControllerMock } from '@shared/mocks/toast-controller.mock';
 import { StoreModel } from '@shared/models/store.model';
-
 import { MockComponent } from 'ng-mocks';
 
 describe('OfficeCatADI3Page', () => {
@@ -82,8 +82,8 @@ describe('OfficeCatADI3Page', () => {
     fixture = TestBed.createComponent(OfficeCatADI3Page);
     component = fixture.componentInstance;
     store$ = TestBed.inject(Store);
-    spyOn(store$, 'dispatch');
-    spyOn(component.deviceProvider, 'disableSingleAppMode');
+    vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
+    vi.spyOn(component.deviceProvider, 'disableSingleAppMode');
   });
 
   it('should create', () => {
@@ -93,9 +93,9 @@ describe('OfficeCatADI3Page', () => {
   describe('ionViewWillEnter', () => {
     it('should disable single app mode if it not in practice mode and isIos is true', async () => {
       component.isPracticeMode = false;
-      spyOn(BasePageComponent.prototype, 'isIos').and.returnValue(true);
-      spyOn(BasePageComponent.prototype, 'ionViewWillEnter');
-      spyOn(component.deviceProvider, 'disableSingleAppMode');
+      vi.spyOn(BasePageComponent.prototype, 'isIos').mockReturnValue(true);
+      vi.spyOn(BasePageComponent.prototype, 'ionViewWillEnter').mockReturnValue(undefined);
+      vi.spyOn(component.deviceProvider, 'disableSingleAppMode');
       await component.ionViewWillEnter();
       expect(component.deviceProvider.disableSingleAppMode).toHaveBeenCalled();
     });

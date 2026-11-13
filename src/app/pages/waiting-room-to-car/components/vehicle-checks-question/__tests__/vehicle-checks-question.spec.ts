@@ -1,6 +1,7 @@
 import { EventEmitter } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { QuestionResult } from '@dvsa/mes-test-schema/categories/common';
 
@@ -63,7 +64,7 @@ describe('VehicleChecksQuestionComponent', () => {
         'should have questionFormControl form control be patched with ' +
           'findQuestion() if questionResult is already valid',
         () => {
-          spyOn(component, 'findQuestion').and.returnValue({
+          vi.spyOn(component, 'findQuestion').mockReturnValue({
             shortName: 'shortName',
             code: 'test',
             description: 'Description',
@@ -82,7 +83,7 @@ describe('VehicleChecksQuestionComponent', () => {
         'should have questionOutcomeFormControl form control be patched with ' +
           'questionResult.outcome if questionResult is already valid',
         () => {
-          spyOn(component, 'findQuestion').and.returnValue({
+          vi.spyOn(component, 'findQuestion').mockReturnValue({
             shortName: 'shortName',
             code: 'test',
             description: 'Description',
@@ -101,7 +102,7 @@ describe('VehicleChecksQuestionComponent', () => {
     describe('vehicleChecksQuestionChanged', () => {
       it('should emit the correct event', () => {
         component.vehicleChecksQuestionChange = new EventEmitter();
-        spyOn(component.vehicleChecksQuestionChange, 'emit');
+        vi.spyOn(component.vehicleChecksQuestionChange, 'emit').mockReturnValue(undefined);
         component.vehicleChecksQuestionChanged(vehicleChecksQuestion);
         expect(component.vehicleChecksQuestionChange.emit).toHaveBeenCalledWith({
           code: 'S04',
@@ -112,7 +113,7 @@ describe('VehicleChecksQuestionComponent', () => {
     describe('vehicleChecksPassSelected', () => {
       it('should emit the correct event', () => {
         component.vehicleChecksQuestionOutcomeChange = new EventEmitter();
-        spyOn(component.vehicleChecksQuestionOutcomeChange, 'emit');
+        vi.spyOn(component.vehicleChecksQuestionOutcomeChange, 'emit').mockReturnValue(undefined);
         component.vehicleChecksPassSelected();
         expect(component.vehicleChecksQuestionOutcomeChange.emit).toHaveBeenCalledWith('P');
       });
@@ -120,7 +121,7 @@ describe('VehicleChecksQuestionComponent', () => {
     describe('vehicleChecksDrivingFaultSelected', () => {
       it('should emit the correct event', () => {
         component.vehicleChecksQuestionOutcomeChange = new EventEmitter();
-        spyOn(component.vehicleChecksQuestionOutcomeChange, 'emit');
+        vi.spyOn(component.vehicleChecksQuestionOutcomeChange, 'emit').mockReturnValue(undefined);
         component.vehicleChecksDrivingFaultSelected();
         expect(component.vehicleChecksQuestionOutcomeChange.emit).toHaveBeenCalledWith('DF');
       });

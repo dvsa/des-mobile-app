@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { By } from '@angular/platform-browser';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { VehicleDetailsComponent } from '../vehicle-details';
 
@@ -22,7 +23,7 @@ describe('VehicleDetailsComponent', () => {
     it('should emit vehicleDetailsChange if formControl is valid', () => {
       component.formControl = new UntypedFormControl(null, [Validators.required]);
       component.formControl.setValue(1);
-      spyOn(component.vehicleDetailsChange, 'emit');
+      vi.spyOn(component.vehicleDetailsChange, 'emit').mockReturnValue(undefined);
       component.vehicleDetailsChanged();
       expect(component.vehicleDetailsChange.emit).toHaveBeenCalled();
     });
@@ -31,7 +32,7 @@ describe('VehicleDetailsComponent', () => {
   describe('DOM', () => {
     describe('setting optional vehicle details', () => {
       it('should call vehicleDetailsChanged when school car is selected', () => {
-        spyOn(component, 'vehicleDetailsChanged');
+        vi.spyOn(component, 'vehicleDetailsChanged').mockReturnValue(undefined);
         component.vehicleDetailsType = 'School car';
         component.ngOnChanges();
         fixture.detectChanges();
@@ -41,7 +42,7 @@ describe('VehicleDetailsComponent', () => {
         expect(component.vehicleDetailsChanged).toHaveBeenCalled();
       });
       it('should call vehicleDetailsChanged when dual controls is selected', () => {
-        spyOn(component, 'vehicleDetailsChanged');
+        vi.spyOn(component, 'vehicleDetailsChanged').mockReturnValue(undefined);
         component.vehicleDetailsType = 'Dual control';
         component.ngOnChanges();
         fixture.detectChanges();

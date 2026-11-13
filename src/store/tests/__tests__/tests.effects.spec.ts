@@ -1,4 +1,4 @@
-import { TestBed, fakeAsync } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 import { TestSlot } from '@dvsa/mes-journal-schema';
 import { CategoryCode } from '@dvsa/mes-test-schema/categories/common';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
@@ -29,8 +29,10 @@ import journalSlotsDataMock from '@store/journal/__mocks__/journal-slots-data.mo
 import * as journalActions from '@store/journal/journal.actions';
 import { journalReducer } from '@store/journal/journal.reducer';
 import { TestStatus } from '@store/tests/test-status/test-status.model';
-import { ReplaySubject } from 'rxjs';
+import { ReplaySubject, firstValueFrom } from 'rxjs';
 import { bufferCount } from 'rxjs/operators';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { unitTestErrorCause } from '../../../test-setup.vitest';
 import { candidateMock, testApplicationMock, testReportPracticeModeSlot } from '../__mocks__/tests.mock';
 import { PopulateTestCategory } from '../category/category.actions';
 import { StartDelegatedTest } from '../delegated-test/delegated-test.actions';
@@ -47,6 +49,18 @@ import * as testsActions from '../tests.actions';
 import { TestsEffects } from '../tests.effects';
 import { TestsModel } from '../tests.model';
 import { initialState, testsReducer } from '../tests.reducer';
+
+const selectedDateForSlot = (slotId: number): string => {
+  const slot = Object.values(journalSlotsDataMock)
+    .flat()
+    .find(({ slotData }) => slotData.slotDetail.slotId === slotId);
+
+  if (!slot) {
+    throw new Error(`Journal fixture does not contain slot ${slotId}`, { cause: unitTestErrorCause });
+  }
+
+  return DateTime.at(slot.slotData.slotDetail.start).format('YYYY-MM-DD');
+};
 
 describe('TestsEffects', () => {
   let effects: TestsEffects;
@@ -128,29 +142,34 @@ describe('TestsEffects', () => {
     navigationStateProviderMock = TestBed.inject(NavigationStateProvider);
     store$ = TestBed.inject(Store);
     logHelper = TestBed.inject(LogHelper);
-    spyOn(logHelper, 'createLog');
-    spyOn(testPersistenceProviderMock, 'persistTests').and.returnValue(Promise.resolve(''));
-    spyOn(testPersistenceProviderMock, 'loadPersistedTests').and.returnValue(Promise.resolve({} as TestsModel));
+    vi.spyOn(logHelper, 'createLog');
+    vi.spyOn(testPersistenceProviderMock, 'persistTests').mockReturnValue(Promise.resolve(''));
+    vi.spyOn(testPersistenceProviderMock, 'loadPersistedTests').mockReturnValue(Promise.resolve({} as TestsModel));
   });
 
   describe('persistTestsEffect', () => {
-    it('should respond to a PERSIST_TESTS action and delegate to the persistence provider', (done) => {
-      // ARRANGE
-      store$.dispatch(testsActions.StartTest(12345, TestCategory.B));
-      spyOn(testPersistenceProviderMock, 'persistTests').and.returnValue(Promise.resolve(''));
-      // ACT
-      actions$.next(testsActions.PersistTests());
-      // ASSERT
-      effects.persistTestsEffect$.subscribe(() => {
-        expect(testPersistenceProviderMock.persistTests).toHaveBeenCalled();
-        done();
+    it('should respond to a PERSIST_TESTS action and delegate to the persistence provider', async () => {
+      await new Promise<void>((done, reject) => {
+        // ARRANGE
+        store$.dispatch(testsActions.StartTest(12345, TestCategory.B));
+        vi.spyOn(testPersistenceProviderMock, 'persistTests').mockReturnValue(Promise.resolve(''));
+        // ACT
+        actions$.next(testsActions.PersistTests());
+        // ASSERT
+        effects.persistTestsEffect$.subscribe(() => {
+          try {
+            expect(testPersistenceProviderMock.persistTests).toHaveBeenCalled();
+            done();
+          } catch (error) {
+            reject(error);
+          }
+        }, reject);
       });
     });
   });
 
   describe('loadPersistedTestsEffect', () => {
-    it('should respond to a LOAD_PERSISTED_TESTS action by loading tests and dispatching a success action', (done) => {
-      // ARRANGE
+    it('should respond to a LOAD_PERSISTED_TESTS action by loading tests and dispatching a success action', async () => {
       const persistedTests: TestsModel = {
         ...initialState,
         currentTest: {
@@ -158,15 +177,11 @@ describe('TestsEffects', () => {
           slotId: '123',
         },
       };
-      spyOn(testPersistenceProviderMock, 'loadPersistedTests').and.returnValue(Promise.resolve(persistedTests));
-      // ACT
+      vi.spyOn(testPersistenceProviderMock, 'loadPersistedTests').mockReturnValue(Promise.resolve(persistedTests));
       actions$.next(testsActions.LoadPersistedTests());
-      // ASSERT
-      effects.loadPersistedTestsEffect$.subscribe((emission) => {
-        expect(testPersistenceProviderMock.loadPersistedTests).toHaveBeenCalled();
-        expect(emission).toEqual(testsActions.LoadPersistedTestsSuccess(persistedTests));
-        done();
-      });
+      const emission = await firstValueFrom(effects.loadPersistedTestsEffect$);
+      expect(testPersistenceProviderMock.loadPersistedTests).toHaveBeenCalled();
+      expect(emission).toEqual(testsActions.LoadPersistedTestsSuccess(persistedTests));
     });
   });
 
@@ -217,7 +232,7 @@ describe('TestsEffects', () => {
             expect(result.type).toEqual(testsActions.SendCompletedTestsFailure().type);
           }
           if (result.payload === testReportPracticeModeSlot.slotDetail.slotId) {
-            fail('Practice test should not be submitted');
+            throw new Error('Practice test should not be submitted', { cause: unitTestErrorCause });
           }
         }
       });
@@ -243,125 +258,143 @@ describe('TestsEffects', () => {
   });
 
   describe('startTestEffect$', () => {
-    it('should copy the examiner from the journal state into the test state', (done) => {
-      const selectedDate: string = new DateTime().format('YYYY-MM-DD');
-      const examiner = {
-        staffNumber: '123',
-        individualId: 456,
-      };
-      store$.dispatch(journalActions.SetSelectedDate(selectedDate));
-      store$.dispatch(
-        journalActions.LoadJournalSuccess(
-          {
-            examiner,
-            slotItemsByDate: journalSlotsDataMock,
-          },
-          NetworkConnectionStatus.ONLINE,
-          false,
-          new Date()
-        )
-      ); // Load in mock journal state
-      // ACT
-      actions$.next(testsActions.StartTest(1001, TestCategory.B));
-      // ASSERT
-      effects.startTestEffect$.pipe(bufferCount(13)).subscribe(([, res1, , , , , , res7, res8, res9]) => {
-        expect(res1).toEqual(PopulateExaminer(examiner));
-        expect(res7).toEqual(SetExaminerBooked(Number.parseInt(examiner.staffNumber, 10)));
-        expect(res8).toEqual(SetExaminerConducted(Number.parseInt(examiner.staffNumber, 10)));
-        expect(res9).toEqual(SetExaminerKeyed(Number.parseInt(authenticationProviderMock.getEmployeeId(), 10)));
-        done();
+    it('should copy the examiner from the journal state into the test state', async () => {
+      await new Promise<void>((done, reject) => {
+        const selectedDate = selectedDateForSlot(1001);
+        const examiner = {
+          staffNumber: '123',
+          individualId: 456,
+        };
+        store$.dispatch(journalActions.SetSelectedDate(selectedDate));
+        store$.dispatch(
+          journalActions.LoadJournalSuccess(
+            {
+              examiner,
+              slotItemsByDate: journalSlotsDataMock,
+            },
+            NetworkConnectionStatus.ONLINE,
+            false,
+            new Date()
+          )
+        ); // Load in mock journal state
+        // ACT
+        actions$.next(testsActions.StartTest(1001, TestCategory.B));
+        // ASSERT
+        effects.startTestEffect$.pipe(bufferCount(13)).subscribe(([, res1, , , , , , res7, res8, res9]) => {
+          try {
+            expect(res1).toEqual(PopulateExaminer(examiner));
+            expect(res7).toEqual(SetExaminerBooked(Number.parseInt(examiner.staffNumber, 10)));
+            expect(res8).toEqual(SetExaminerConducted(Number.parseInt(examiner.staffNumber, 10)));
+            expect(res9).toEqual(SetExaminerKeyed(Number.parseInt(authenticationProviderMock.getEmployeeId(), 10)));
+            done();
+          } catch (error) {
+            reject(error);
+          }
+        }, reject);
       });
     });
 
-    it('should mark the test as a rekey when this is a rekey', (done) => {
-      const selectedDate: string = new DateTime().format('YYYY-MM-DD');
-      const examiner = {
-        staffNumber: '123',
-        individualId: 456,
-      };
-      store$.dispatch(journalActions.SetSelectedDate(selectedDate));
-      store$.dispatch(
-        journalActions.LoadJournalSuccess(
-          {
-            examiner,
-            slotItemsByDate: journalSlotsDataMock,
-          },
-          NetworkConnectionStatus.ONLINE,
-          false,
-          new Date()
-        )
-      ); // Load in mock journal state
-      // ACT
-      actions$.next(testsActions.StartTest(1001, TestCategory.B, true));
-      // ASSERT
-      effects.startTestEffect$.pipe(bufferCount(14)).subscribe(([, res1, , , , , , res7, res8, res9, , , , res13]) => {
-        expect(res1).toEqual(PopulateExaminer(examiner));
-        expect(res7).toEqual(SetExaminerBooked(Number.parseInt(examiner.staffNumber, 10)));
-        expect(res8).toEqual(SetExaminerConducted(Number.parseInt(examiner.staffNumber, 10)));
-        expect(res9).toEqual(SetExaminerKeyed(Number.parseInt(authenticationProviderMock.getEmployeeId(), 10)));
-        expect(res13).toEqual(rekeyActions.MarkAsRekey());
-        done();
+    it('should mark the test as a rekey when this is a rekey', async () => {
+      await new Promise<void>((done, reject) => {
+        const selectedDate = selectedDateForSlot(1001);
+        const examiner = {
+          staffNumber: '123',
+          individualId: 456,
+        };
+        store$.dispatch(journalActions.SetSelectedDate(selectedDate));
+        store$.dispatch(
+          journalActions.LoadJournalSuccess(
+            {
+              examiner,
+              slotItemsByDate: journalSlotsDataMock,
+            },
+            NetworkConnectionStatus.ONLINE,
+            false,
+            new Date()
+          )
+        ); // Load in mock journal state
+        // ACT
+        actions$.next(testsActions.StartTest(1001, TestCategory.B, true));
+        // ASSERT
+        effects.startTestEffect$
+          .pipe(bufferCount(14))
+          .subscribe(([, res1, , , , , , res7, res8, res9, , , , res13]) => {
+            try {
+              expect(res1).toEqual(PopulateExaminer(examiner));
+              expect(res7).toEqual(SetExaminerBooked(Number.parseInt(examiner.staffNumber, 10)));
+              expect(res8).toEqual(SetExaminerConducted(Number.parseInt(examiner.staffNumber, 10)));
+              expect(res9).toEqual(SetExaminerKeyed(Number.parseInt(authenticationProviderMock.getEmployeeId(), 10)));
+              expect(res13).toEqual(rekeyActions.MarkAsRekey());
+              done();
+            } catch (error) {
+              reject(error);
+            }
+          }, reject);
       });
     });
 
-    it('should get the slot from booked slots when this is a rekey test started from the rekey search', (done) => {
-      spyOn(navigationStateProviderMock, 'isRekeySearch').and.returnValue(true);
-      const staffNumber = '654321';
-      store$.dispatch(rekeySearchActions.SearchBookedTestSuccess(testSlot, staffNumber));
-      // ACT
-      actions$.next(testsActions.StartTest(1001, testSlot.booking.application.testCategory as TestCategory, true));
-      // ASSERT
-      effects.startTestEffect$
-        .pipe(bufferCount(14))
-        .subscribe(([res0, res1, res2, res3, , , , res7, res8, res9, , , , res13]) => {
-          expect(res0).toEqual(PopulateTestCategory(testSlot.booking.application.testCategory as CategoryCode));
-          expect(res1).toEqual(PopulateExaminer({ staffNumber }));
-          expect(res2).toEqual(PopulateApplicationReference(testSlot.booking.application));
-          expect(res3).toEqual(PopulateCandidateDetails(testSlot.booking.candidate));
-          expect(res7).toEqual(SetExaminerBooked(Number.parseInt(staffNumber, 10)));
-          expect(res8).toEqual(SetExaminerConducted(Number.parseInt(staffNumber, 10)));
-          expect(res9).toEqual(SetExaminerKeyed(Number.parseInt(authenticationProviderMock.getEmployeeId(), 10)));
-          expect(res13).toEqual(rekeyActions.MarkAsRekey());
-          done();
-        });
+    it('should get the slot from booked slots when this is a rekey test started from the rekey search', async () => {
+      await new Promise<void>((done, reject) => {
+        vi.spyOn(navigationStateProviderMock, 'isRekeySearch').mockReturnValue(true);
+        const staffNumber = '654321';
+        store$.dispatch(rekeySearchActions.SearchBookedTestSuccess(testSlot, staffNumber));
+        // ACT
+        actions$.next(testsActions.StartTest(1001, testSlot.booking.application.testCategory as TestCategory, true));
+        // ASSERT
+        effects.startTestEffect$
+          .pipe(bufferCount(14))
+          .subscribe(([res0, res1, res2, res3, , , , res7, res8, res9, , , , res13]) => {
+            try {
+              expect(res0).toEqual(PopulateTestCategory(testSlot.booking.application.testCategory as CategoryCode));
+              expect(res1).toEqual(PopulateExaminer({ staffNumber }));
+              expect(res2).toEqual(PopulateApplicationReference(testSlot.booking.application));
+              expect(res3).toEqual(PopulateCandidateDetails(testSlot.booking.candidate));
+              expect(res7).toEqual(SetExaminerBooked(Number.parseInt(staffNumber, 10)));
+              expect(res8).toEqual(SetExaminerConducted(Number.parseInt(staffNumber, 10)));
+              expect(res9).toEqual(SetExaminerKeyed(Number.parseInt(authenticationProviderMock.getEmployeeId(), 10)));
+              expect(res13).toEqual(rekeyActions.MarkAsRekey());
+              done();
+            } catch (error) {
+              reject(error);
+            }
+          }, reject);
+      });
     });
 
-    it('should set the rekey reason and reason correctly when it is a delegated examiner test', fakeAsync(() => {
-      spyOn(navigationStateProviderMock, 'isDelegatedExaminerRekeySearch').and.returnValue(true);
-      store$.dispatch(delegatedRekeySearchActions.SearchBookedDelegatedTestSuccess(testSlot));
-      // ACT
-      actions$.next(testsActions.StartTest(1001, TestCategory.B, false, true));
-      // ASSERT
-      effects.startTestEffect$.pipe(bufferCount(17)).subscribe(([, , , , , , , , , , , , , , res13, res14, res15]) => {
-        expect(res13).toEqual(StartDelegatedTest());
-        expect(res14).toEqual(OtherSelected(true));
-        expect(res15).toEqual(OtherReasonUpdated('Delegated Examiner'));
-      });
-    }));
+    it('should set the rekey reason and reason correctly when it is a delegated examiner test', async () => {
+      vi.useFakeTimers();
+      try {
+        vi.spyOn(navigationStateProviderMock, 'isDelegatedExaminerRekeySearch').mockReturnValue(true);
+        store$.dispatch(delegatedRekeySearchActions.SearchBookedDelegatedTestSuccess(testSlot));
+        // ACT
+        actions$.next(testsActions.StartTest(1001, TestCategory.B, false, true));
+        // ASSERT
+        effects.startTestEffect$
+          .pipe(bufferCount(17))
+          .subscribe(([, , , , , , , , , , , , , , res13, res14, res15]) => {
+            expect(res13).toEqual(StartDelegatedTest());
+            expect(res14).toEqual(OtherSelected(true));
+            expect(res15).toEqual(OtherReasonUpdated('Delegated Examiner'));
+          });
+      } finally {
+        vi.useRealTimers();
+      }
+    });
   });
 
   describe('activateTestEffect', () => {
-    it('should call theMarkAsRekey action', (done) => {
-      // ACT
+    it('should call theMarkAsRekey action', async () => {
       actions$.next(testsActions.ActivateTest(1234, TestCategory.B, true));
-      // ASSERT
-      effects.activateTestEffect$.subscribe((result) => {
-        expect(result.type).toEqual(rekeyActions.MarkAsRekey.type);
-        done();
-      });
+      const result = await firstValueFrom(effects.activateTestEffect$);
+      expect(result.type).toEqual(rekeyActions.MarkAsRekey.type);
     });
   });
 
   describe('sendPartialTest', () => {
-    it('should call the ', (done) => {
-      // Act
+    it('should call the ', async () => {
       actions$.next(testStatusActions.SetTestStatusWriteUp('123'));
-
-      // Assert
-      effects.sendPartialTest$.subscribe((result) => {
-        expect(result.type).toEqual(testsActions.SendCompletedTests.type);
-        done();
-      });
+      const result = await firstValueFrom(effects.sendPartialTest$);
+      expect(result.type).toEqual(testsActions.SendCompletedTests.type);
     });
   });
 });

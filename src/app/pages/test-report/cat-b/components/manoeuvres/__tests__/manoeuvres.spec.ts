@@ -1,5 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { DangerousFaultBadgeComponent } from '@components/common/dangerous-fault-badge/dangerous-fault-badge';
 import { DrivingFaultsBadgeComponent } from '@components/common/driving-faults-badge/driving-faults-badge';
@@ -98,7 +99,7 @@ describe('ManoeuvresComponent', () => {
     });
     describe('togglePopoverDisplay', () => {
       it('should invert displayPopover and call toggleOverlay', () => {
-        spyOn(component, 'toggleOverlay');
+        vi.spyOn(component, 'toggleOverlay').mockReturnValue(undefined);
         component.displayPopover = true;
         component.togglePopoverDisplay();
         expect(component.displayPopover).toEqual(false);
@@ -110,7 +111,7 @@ describe('ManoeuvresComponent', () => {
         component.clickCallback = {
           callbackMethod: () => {},
         };
-        spyOn(component.clickCallback, 'callbackMethod');
+        vi.spyOn(component.clickCallback, 'callbackMethod').mockReturnValue(undefined);
         component.toggleOverlay();
         expect(component.clickCallback.callbackMethod).toHaveBeenCalled();
       });

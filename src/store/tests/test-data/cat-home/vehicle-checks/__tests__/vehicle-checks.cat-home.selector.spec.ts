@@ -1,4 +1,5 @@
 import { CatFUniqueTypes } from '@dvsa/mes-test-schema/categories/F';
+import { describe, expect, it } from 'vitest';
 import { vehicleChecksExist } from '../vehicle-checks.cat-home.selector';
 
 describe('Vehicle Checks Selector Cat HOME', () => {

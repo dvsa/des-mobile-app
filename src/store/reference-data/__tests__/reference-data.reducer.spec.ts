@@ -1,5 +1,6 @@
 import { LoadTestCentresRefDataSuccess, SetDateRefDataUpdated } from '@store/reference-data/reference-data.actions';
 import { initialState, referenceDataReducer } from '@store/reference-data/reference-data.reducer';
+import { describe, expect, it } from 'vitest';
 
 describe('referenceDataReducer', () => {
   it('should update the value of dateLoaded', () => {

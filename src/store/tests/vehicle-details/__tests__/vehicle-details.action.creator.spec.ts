@@ -1,6 +1,7 @@
 import { Application } from '@dvsa/mes-journal-schema';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { createPopulateVehicleDimensionsAction } from '@store/tests/vehicle-details/vehicle-details.action.creator';
+import { describe, expect, it } from 'vitest';
 
 describe('createPopulateVehicleDimensionsAction', () => {
   [

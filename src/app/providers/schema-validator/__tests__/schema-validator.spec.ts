@@ -1,6 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { RemoteConfig } from '@dvsa/mes-config-schema/remote-config';
 import { SchemaValidatorProvider } from '@providers/schema-validator/schema-validator';
+import { beforeEach, describe, expect, it } from 'vitest';
 
 describe('SchemaValidatorProvider', () => {
   let provider: SchemaValidatorProvider;

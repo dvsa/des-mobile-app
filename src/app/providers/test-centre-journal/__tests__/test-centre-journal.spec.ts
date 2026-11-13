@@ -2,6 +2,7 @@ import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http'
 import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { take } from 'rxjs/operators';
+import { afterAll, beforeEach, describe, expect, it, vi } from 'vitest';
 import { AppConfigProviderMock } from '../../app-config/__mocks__/app-config.mock';
 import { AppConfigProvider } from '../../app-config/app-config';
 import { AppConfig } from '../../app-config/app-config.model';
@@ -46,7 +47,7 @@ describe('TestCentreJournalProvider', () => {
 
   describe('getTestCentreJournal', () => {
     beforeEach(() => {
-      spyOn(appConfigProviderMock, 'getAppConfig').and.returnValue({ requestTimeout: 100000 } as AppConfig);
+      vi.spyOn(appConfigProviderMock, 'getAppConfig').mockReturnValue({ requestTimeout: 100000 } as AppConfig);
     });
     it('should call through to the URL provider for the test centre journal URL', () => {
       testCentreJournalProvider.getTestCentreJournal().pipe(take(1)).subscribe();

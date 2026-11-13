@@ -1,4 +1,5 @@
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
+import { describe, expect, it } from 'vitest';
 import { getDrivingOrRidingLabel } from '../driver-type';
 
 describe('getDrivingOrRidingLabel()', () => {

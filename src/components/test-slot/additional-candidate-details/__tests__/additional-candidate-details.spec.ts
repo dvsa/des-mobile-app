@@ -1,5 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { TestStatus } from '@store/tests/test-status/test-status.model';
+import { beforeEach, describe, expect, it } from 'vitest';
 import { AdditionalCandidateDetailsComponent } from '../additional-candidate-details';
 
 describe('AdditionalCandidateDetailsComponent', () => {

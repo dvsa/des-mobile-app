@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { RouterMock } from '@mocks/angular-mocks/router-mock';
 import { DELEGATED_REKEY_SEARCH_PAGE, REKEY_SEARCH_PAGE } from '@pages/page-names.constants';
 import { NavigationStateProvider } from '@providers/navigation-state/navigation-state';
+import { beforeEach, describe, expect, it } from 'vitest';
 
 describe('NavigationStateProvider', () => {
   let navProvider: NavigationStateProvider;

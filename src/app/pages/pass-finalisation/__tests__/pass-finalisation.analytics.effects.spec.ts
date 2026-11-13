@@ -30,7 +30,8 @@ import * as testSummaryActions from '@store/tests/test-summary/test-summary.acti
 import * as testsActions from '@store/tests/tests.actions';
 import { testsReducer } from '@store/tests/tests.reducer';
 import * as vehicleDetailsActions from '@store/tests/vehicle-details/vehicle-details.actions';
-import { ReplaySubject } from 'rxjs';
+import { ReplaySubject, firstValueFrom } from 'rxjs';
+import { beforeEach, describe, expect, it } from 'vitest';
 import * as fakeJournalActions from '../../fake-journal/fake-journal.actions';
 import * as passFinalisationActions from '../pass-finalisation.actions';
 import { PassFinalisationAnalyticsEffects } from '../pass-finalisation.analytics.effects';
@@ -75,420 +76,288 @@ describe('PassFinalisationAnalyticsEffects', () => {
   });
 
   describe('passFinalisationViewDidEnter', () => {
-    it('should call setCurrentPage and addCustomDimension', (done) => {
-      // ARRANGE
+    it('should call setCurrentPage and addCustomDimension', async () => {
       store$.dispatch(testsActions.StartTest(123, TestCategory.B));
       store$.dispatch(PopulateCandidateDetails(candidateMock));
-      // ACT
       actions$.next(passFinalisationActions.PassFinalisationViewDidEnter());
-      // ASSERT
-      effects.passFinalisationViewDidEnter$.subscribe((result) => {
-        expect(result.type === AnalyticRecorded.type).toBe(true);
-        //GA4 Analytics
-        expect(analyticsProviderMock.setGACurrentPage).toHaveBeenCalledWith(screenName);
-        done();
-      });
+      const result = await firstValueFrom(effects.passFinalisationViewDidEnter$);
+      expect(result.type === AnalyticRecorded.type).toBe(true);
+      expect(analyticsProviderMock.setGACurrentPage).toHaveBeenCalledWith(screenName);
     });
-    it('should call setCurrentPage with practice mode prefix and addCustomDimension', (done) => {
-      // ARRANGE
+    it('should call setCurrentPage with practice mode prefix and addCustomDimension', async () => {
       store$.dispatch(fakeJournalActions.StartE2EPracticeTest(end2endPracticeSlotId));
       store$.dispatch(PopulateCandidateDetails(candidateMock));
-      // ACT
       actions$.next(passFinalisationActions.PassFinalisationViewDidEnter());
-      // ASSERT
-      effects.passFinalisationViewDidEnter$.subscribe((result) => {
-        expect(result.type === AnalyticRecorded.type).toBe(true);
-        //GA4 Analytics
-        expect(analyticsProviderMock.setGACurrentPage).toHaveBeenCalledWith(
-          `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${screenName}`
-        );
-        done();
-      });
+      const result = await firstValueFrom(effects.passFinalisationViewDidEnter$);
+      expect(result.type === AnalyticRecorded.type).toBe(true);
+      expect(analyticsProviderMock.setGACurrentPage).toHaveBeenCalledWith(
+        `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${screenName}`
+      );
     });
   });
 
   describe('validationErrorEffect', () => {
-    it('should call logError', (done) => {
-      // ARRANGE
+    it('should call logError', async () => {
       store$.dispatch(testsActions.StartTest(123, TestCategory.B));
-      // ACT
       actions$.next(passFinalisationActions.PassFinalisationValidationError('error is blank'));
-      // ASSERT
-      effects.validationErrorEffect$.subscribe((result) => {
-        expect(result.type === AnalyticRecorded.type);
-        //GA4 Analytics
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-          GoogleAnalyticsEvents.VALIDATION_ERROR,
-          GoogleAnalyticsEventsTitles.BLANK_FIELD,
-          'error'
-        );
-        done();
-      });
+      const result = await firstValueFrom(effects.validationErrorEffect$);
+      expect(result.type === AnalyticRecorded.type);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+        GoogleAnalyticsEvents.VALIDATION_ERROR,
+        GoogleAnalyticsEventsTitles.BLANK_FIELD,
+        'error'
+      );
     });
 
-    it('should call logError with pass, prefixed with practice mode', (done) => {
-      // ARRANGE
+    it('should call logError with pass, prefixed with practice mode', async () => {
       store$.dispatch(fakeJournalActions.StartE2EPracticeTest(end2endPracticeSlotId));
-      // ACT
       actions$.next(passFinalisationActions.PassFinalisationValidationError('error message'));
-      // ASSERT
-      effects.validationErrorEffect$.subscribe((result) => {
-        expect(result.type === AnalyticRecorded.type).toBe(true);
-        //GA4 Analytics
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-          GoogleAnalyticsEvents.VALIDATION_ERROR,
-          GoogleAnalyticsEventsTitles.BLANK_FIELD,
-          'error'
-        );
-        done();
-      });
+      const result = await firstValueFrom(effects.validationErrorEffect$);
+      expect(result.type === AnalyticRecorded.type).toBe(true);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+        GoogleAnalyticsEvents.VALIDATION_ERROR,
+        GoogleAnalyticsEventsTitles.BLANK_FIELD,
+        'error'
+      );
     });
   });
   describe('code78PresentEffect', () => {
-    it('should call logEvent', (done) => {
-      // ARRANGE
+    it('should call logEvent', async () => {
       store$.dispatch(testsActions.StartTest(123, TestCategory.C));
       store$.dispatch(PopulateCandidateDetails(candidateMock));
-      // ACT
       actions$.next(passCompletionActions.Code78Present());
-      // ASSERT
-      effects.code78PresentEffect$.subscribe((result) => {
-        expect(result.type === AnalyticRecorded.type).toBe(true);
-        //GA4 Analytics
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-          GoogleAnalyticsEvents.CODE78,
-          GoogleAnalyticsEventsTitles.TRANSMISSION_TYPE,
-          GoogleAnalyticsEventsValues.AUTOMATIC
-        );
-        done();
-      });
+      const result = await firstValueFrom(effects.code78PresentEffect$);
+      expect(result.type === AnalyticRecorded.type).toBe(true);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+        GoogleAnalyticsEvents.CODE78,
+        GoogleAnalyticsEventsTitles.TRANSMISSION_TYPE,
+        GoogleAnalyticsEventsValues.AUTOMATIC
+      );
     });
   });
   describe('code78NotPresentEffect', () => {
-    it('should call logEvent', (done) => {
-      // ARRANGE
+    it('should call logEvent', async () => {
       store$.dispatch(testsActions.StartTest(123, TestCategory.C));
       store$.dispatch(PopulateCandidateDetails(candidateMock));
-      // ACT
       actions$.next(passCompletionActions.Code78NotPresent());
-      // ASSERT
-      effects.code78NotPresentEffect$.subscribe((result) => {
-        expect(result.type === AnalyticRecorded.type).toBe(true);
-        //GA4 Analytics
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-          GoogleAnalyticsEvents.CODE78,
-          GoogleAnalyticsEventsTitles.TRANSMISSION_TYPE,
-          GoogleAnalyticsEventsValues.MANUAL
-        );
-        done();
-      });
+      const result = await firstValueFrom(effects.code78NotPresentEffect$);
+      expect(result.type === AnalyticRecorded.type).toBe(true);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+        GoogleAnalyticsEvents.CODE78,
+        GoogleAnalyticsEventsTitles.TRANSMISSION_TYPE,
+        GoogleAnalyticsEventsValues.MANUAL
+      );
     });
   });
   describe('provisionalLicenseNotReceived', () => {
-    it('should call logEvent', (done) => {
-      // ARRANGE
+    it('should call logEvent', async () => {
       store$.dispatch(testsActions.StartTest(123, TestCategory.C));
       store$.dispatch(PopulateCandidateDetails(candidateMock));
-      // ACT
       actions$.next(passCompletionActions.ProvisionalLicenseNotReceived());
-      // ASSERT
-      effects.provisionalLicenseNotReceived$.subscribe((result) => {
-        expect(result.type === AnalyticRecorded.type).toBe(true);
-        //GA4 Analytics
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-          GoogleAnalyticsEvents.LICENCE_RECEIVED,
-          GoogleAnalyticsEventsTitles.RECEIVED,
-          GoogleAnalyticsEventsValues.NO
-        );
-        done();
-      });
+      const result = await firstValueFrom(effects.provisionalLicenseNotReceived$);
+      expect(result.type === AnalyticRecorded.type).toBe(true);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+        GoogleAnalyticsEvents.LICENCE_RECEIVED,
+        GoogleAnalyticsEventsTitles.RECEIVED,
+        GoogleAnalyticsEventsValues.NO
+      );
     });
-    it('should call logEvent with practice mode prefix', (done) => {
-      // ARRANGE
+    it('should call logEvent with practice mode prefix', async () => {
       store$.dispatch(testsActions.StartTest(123, TestCategory.C));
       store$.dispatch(fakeJournalActions.StartE2EPracticeTest(end2endPracticeSlotId));
       store$.dispatch(PopulateCandidateDetails(candidateMock));
-      // ACT
       actions$.next(passCompletionActions.ProvisionalLicenseNotReceived());
-      // ASSERT
-      effects.provisionalLicenseNotReceived$.subscribe((result) => {
-        expect(result.type === AnalyticRecorded.type).toBe(true);
-        //GA4 Analytics
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-          `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEvents.LICENCE_RECEIVED}`,
-          GoogleAnalyticsEventsTitles.RECEIVED,
-          GoogleAnalyticsEventsValues.NO
-        );
-        done();
-      });
+      const result = await firstValueFrom(effects.provisionalLicenseNotReceived$);
+      expect(result.type === AnalyticRecorded.type).toBe(true);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+        `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEvents.LICENCE_RECEIVED}`,
+        GoogleAnalyticsEventsTitles.RECEIVED,
+        GoogleAnalyticsEventsValues.NO
+      );
     });
   });
   describe('provisionalLicenseReceived', () => {
-    it('should call logEvent', (done) => {
-      // ARRANGE
+    it('should call logEvent', async () => {
       store$.dispatch(testsActions.StartTest(123, TestCategory.C));
       store$.dispatch(PopulateCandidateDetails(candidateMock));
-      // ACT
       actions$.next(passCompletionActions.ProvisionalLicenseReceived());
-      // ASSERT
-      effects.provisionalLicenseReceived$.subscribe((result) => {
-        expect(result.type === AnalyticRecorded.type).toBe(true);
-        //GA4 Analytics
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-          GoogleAnalyticsEvents.LICENCE_RECEIVED,
-          GoogleAnalyticsEventsTitles.RECEIVED,
-          GoogleAnalyticsEventsValues.YES
-        );
-        done();
-      });
+      const result = await firstValueFrom(effects.provisionalLicenseReceived$);
+      expect(result.type === AnalyticRecorded.type).toBe(true);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+        GoogleAnalyticsEvents.LICENCE_RECEIVED,
+        GoogleAnalyticsEventsTitles.RECEIVED,
+        GoogleAnalyticsEventsValues.YES
+      );
     });
-    it('should call logEvent with practice mode prefix', (done) => {
-      // ARRANGE
+    it('should call logEvent with practice mode prefix', async () => {
       store$.dispatch(testsActions.StartTest(123, TestCategory.C));
       store$.dispatch(fakeJournalActions.StartE2EPracticeTest(end2endPracticeSlotId));
       store$.dispatch(PopulateCandidateDetails(candidateMock));
-      // ACT
       actions$.next(passCompletionActions.ProvisionalLicenseReceived());
-      // ASSERT
-      effects.provisionalLicenseReceived$.subscribe((result) => {
-        expect(result.type === AnalyticRecorded.type).toBe(true);
-        //GA4 Analytics
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-          `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEvents.LICENCE_RECEIVED}`,
-          GoogleAnalyticsEventsTitles.RECEIVED,
-          GoogleAnalyticsEventsValues.YES
-        );
-        done();
-      });
+      const result = await firstValueFrom(effects.provisionalLicenseReceived$);
+      expect(result.type === AnalyticRecorded.type).toBe(true);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+        `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEvents.LICENCE_RECEIVED}`,
+        GoogleAnalyticsEventsTitles.RECEIVED,
+        GoogleAnalyticsEventsValues.YES
+      );
     });
   });
   describe('transmissionChanged$', () => {
-    it('should call logEvent with Manual if Gearbox Category is Manual', (done) => {
-      // ARRANGE
+    it('should call logEvent with Manual if Gearbox Category is Manual', async () => {
       store$.dispatch(testsActions.StartTest(123, TestCategory.C));
       store$.dispatch(PopulateCandidateDetails(candidateMock));
       store$.dispatch(SetActivityCode(ActivityCodes.PASS));
-      // ACT
       actions$.next(vehicleDetailsActions.GearboxCategoryChanged(TransmissionType.Manual));
-      // ASSERT
-      effects.transmissionChanged$.subscribe((result) => {
-        expect(result.type === AnalyticRecorded.type).toBe(true);
-        //GA4 Analytics
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-          GoogleAnalyticsEvents.SET_TRANSMISSION,
-          GoogleAnalyticsEventsTitles.TRANSMISSION_TYPE,
-          GoogleAnalyticsEventsValues.MANUAL
-        );
-        done();
-      });
+      const result = await firstValueFrom(effects.transmissionChanged$);
+      expect(result.type === AnalyticRecorded.type).toBe(true);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+        GoogleAnalyticsEvents.SET_TRANSMISSION,
+        GoogleAnalyticsEventsTitles.TRANSMISSION_TYPE,
+        GoogleAnalyticsEventsValues.MANUAL
+      );
     });
-    it('should call logEvent with Manual if Gearbox Category is Manual with practice mode prefix', (done) => {
-      // ARRANGE
+    it('should call logEvent with Manual if Gearbox Category is Manual with practice mode prefix', async () => {
       store$.dispatch(testsActions.StartTest(123, TestCategory.C));
       store$.dispatch(PopulateCandidateDetails(candidateMock));
       store$.dispatch(fakeJournalActions.StartE2EPracticeTest(end2endPracticeSlotId));
       store$.dispatch(SetActivityCode(ActivityCodes.PASS));
-      // ACT
       actions$.next(vehicleDetailsActions.GearboxCategoryChanged(TransmissionType.Manual));
-      // ASSERT
-      effects.transmissionChanged$.subscribe((result) => {
-        expect(result.type === AnalyticRecorded.type).toBe(true);
-        //GA4 Analytics
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-          `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEvents.SET_TRANSMISSION}`,
-          GoogleAnalyticsEventsTitles.TRANSMISSION_TYPE,
-          GoogleAnalyticsEventsValues.MANUAL
-        );
-        done();
-      });
+      const result = await firstValueFrom(effects.transmissionChanged$);
+      expect(result.type === AnalyticRecorded.type).toBe(true);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+        `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEvents.SET_TRANSMISSION}`,
+        GoogleAnalyticsEventsTitles.TRANSMISSION_TYPE,
+        GoogleAnalyticsEventsValues.MANUAL
+      );
     });
-    it('should call logEvent with Automatic if Gearbox Category is Automatic', (done) => {
-      // ARRANGE
+    it('should call logEvent with Automatic if Gearbox Category is Automatic', async () => {
       store$.dispatch(testsActions.StartTest(123, TestCategory.C));
       store$.dispatch(PopulateCandidateDetails(candidateMock));
       store$.dispatch(SetActivityCode(ActivityCodes.PASS));
-      // ACT
       actions$.next(vehicleDetailsActions.GearboxCategoryChanged(TransmissionType.Automatic));
-      // ASSERT
-      effects.transmissionChanged$.subscribe((result) => {
-        expect(result.type === AnalyticRecorded.type).toBe(true);
-        //GA4 Analytics
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-          GoogleAnalyticsEvents.SET_TRANSMISSION,
-          GoogleAnalyticsEventsTitles.TRANSMISSION_TYPE,
-          GoogleAnalyticsEventsValues.AUTOMATIC
-        );
-        done();
-      });
+      const result = await firstValueFrom(effects.transmissionChanged$);
+      expect(result.type === AnalyticRecorded.type).toBe(true);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+        GoogleAnalyticsEvents.SET_TRANSMISSION,
+        GoogleAnalyticsEventsTitles.TRANSMISSION_TYPE,
+        GoogleAnalyticsEventsValues.AUTOMATIC
+      );
     });
-    it('should not call logEvent if there is no activity code', (done) => {
-      // ARRANGE
+    it('should not call logEvent if there is no activity code', async () => {
       store$.dispatch(testsActions.StartTest(123, TestCategory.C));
       store$.dispatch(PopulateCandidateDetails(candidateMock));
       store$.dispatch(SetActivityCode(null));
-      // ACT
       actions$.next(vehicleDetailsActions.GearboxCategoryChanged(TransmissionType.Manual));
-      // ASSERT
-      effects.transmissionChanged$.subscribe((result) => {
-        expect(result.type === AnalyticNotRecorded.type).toBe(true);
-        //GA4 Analytics
-        expect(analyticsProviderMock.logGAEvent).not.toHaveBeenCalled();
-        done();
-      });
+      const result = await firstValueFrom(effects.transmissionChanged$);
+      expect(result.type === AnalyticNotRecorded.type).toBe(true);
+      expect(analyticsProviderMock.logGAEvent).not.toHaveBeenCalled();
     });
   });
   describe('d255Yes', () => {
-    it('should call logEvent', (done) => {
-      // ARRANGE
+    it('should call logEvent', async () => {
       store$.dispatch(testsActions.StartTest(123, TestCategory.C));
       store$.dispatch(PopulateCandidateDetails(candidateMock));
       store$.dispatch(SetActivityCode('1'));
-      // ACT
       actions$.next(testSummaryActions.D255Yes());
-      // ASSERT
-      effects.d255Yes$.subscribe((result) => {
-        expect(result.type === AnalyticRecorded.type).toBe(true);
-        //GA4 Analytics
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-          GoogleAnalyticsEvents.SET_D255,
-          GoogleAnalyticsEventsTitles.FINALISATION_D255,
-          GoogleAnalyticsEventsValues.YES
-        );
-        done();
-      });
+      const result = await firstValueFrom(effects.d255Yes$);
+      expect(result.type === AnalyticRecorded.type).toBe(true);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+        GoogleAnalyticsEvents.SET_D255,
+        GoogleAnalyticsEventsTitles.FINALISATION_D255,
+        GoogleAnalyticsEventsValues.YES
+      );
     });
-    it('should call logEvent with the practice mode prefix', (done) => {
-      // ARRANGE
+    it('should call logEvent with the practice mode prefix', async () => {
       store$.dispatch(testsActions.StartTest(123, TestCategory.C));
       store$.dispatch(PopulateCandidateDetails(candidateMock));
       store$.dispatch(fakeJournalActions.StartE2EPracticeTest(end2endPracticeSlotId));
       store$.dispatch(SetActivityCode('1'));
-      // ACT
       actions$.next(testSummaryActions.D255Yes());
-      // ASSERT
-      effects.d255Yes$.subscribe((result) => {
-        expect(result.type === AnalyticRecorded.type).toBe(true);
-        //GA4 Analytics
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-          `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEvents.SET_D255}`,
-          GoogleAnalyticsEventsTitles.FINALISATION_D255,
-          GoogleAnalyticsEventsValues.YES
-        );
-        done();
-      });
+      const result = await firstValueFrom(effects.d255Yes$);
+      expect(result.type === AnalyticRecorded.type).toBe(true);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+        `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEvents.SET_D255}`,
+        GoogleAnalyticsEventsTitles.FINALISATION_D255,
+        GoogleAnalyticsEventsValues.YES
+      );
     });
   });
   describe('d255No', () => {
-    it('should call logEvent', (done) => {
-      // ARRANGE
+    it('should call logEvent', async () => {
       store$.dispatch(testsActions.StartTest(123, TestCategory.C));
       store$.dispatch(PopulateCandidateDetails(candidateMock));
       store$.dispatch(SetActivityCode('1'));
-      // ACT
       actions$.next(testSummaryActions.D255No());
-      // ASSERT
-      effects.d255No$.subscribe((result) => {
-        expect(result.type === AnalyticRecorded.type).toBe(true);
-        //GA4 Analytics
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-          GoogleAnalyticsEvents.SET_D255,
-          GoogleAnalyticsEventsTitles.FINALISATION_D255,
-          GoogleAnalyticsEventsValues.NO
-        );
-        done();
-      });
+      const result = await firstValueFrom(effects.d255No$);
+      expect(result.type === AnalyticRecorded.type).toBe(true);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+        GoogleAnalyticsEvents.SET_D255,
+        GoogleAnalyticsEventsTitles.FINALISATION_D255,
+        GoogleAnalyticsEventsValues.NO
+      );
     });
-    it('should call logEvent with the practice mode prefix', (done) => {
-      // ARRANGE
+    it('should call logEvent with the practice mode prefix', async () => {
       store$.dispatch(testsActions.StartTest(123, TestCategory.C));
       store$.dispatch(PopulateCandidateDetails(candidateMock));
       store$.dispatch(fakeJournalActions.StartE2EPracticeTest(end2endPracticeSlotId));
       store$.dispatch(SetActivityCode('1'));
-      // ACT
       actions$.next(testSummaryActions.D255No());
-      // ASSERT
-      effects.d255No$.subscribe((result) => {
-        expect(result.type === AnalyticRecorded.type).toBe(true);
-        //GA4 Analytics
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-          `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEvents.SET_D255}`,
-          GoogleAnalyticsEventsTitles.FINALISATION_D255,
-          GoogleAnalyticsEventsValues.NO
-        );
-        done();
-      });
+      const result = await firstValueFrom(effects.d255No$);
+      expect(result.type === AnalyticRecorded.type).toBe(true);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+        `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEvents.SET_D255}`,
+        GoogleAnalyticsEventsTitles.FINALISATION_D255,
+        GoogleAnalyticsEventsValues.NO
+      );
     });
   });
   describe('candidateChoseToProceedWithTestInEnglish$', () => {
-    it('should call logEvent with the correct parameters', (done) => {
-      // ARRANGE
+    it('should call logEvent with the correct parameters', async () => {
       store$.dispatch(testsActions.StartTest(123, TestCategory.C));
       store$.dispatch(PopulateCandidateDetails(candidateMock));
       store$.dispatch(SetActivityCode(ActivityCodes.PASS));
-      // ACT
       actions$.next(commsActions.CandidateChoseToProceedWithTestInEnglish(Language.ENGLISH));
-      // ASSERT
-      effects.candidateChoseToProceedWithTestInEnglish$.subscribe((result) => {
-        expect(result.type === AnalyticRecorded.type).toBe(true);
-        //GA4 Analytics
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-          GoogleAnalyticsEvents.LANGUAGE_CHANGED,
-          GoogleAnalyticsEventsTitles.LANGUAGE,
-          Language.ENGLISH
-        );
-        done();
-      });
+      const result = await firstValueFrom(effects.candidateChoseToProceedWithTestInEnglish$);
+      expect(result.type === AnalyticRecorded.type).toBe(true);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+        GoogleAnalyticsEvents.LANGUAGE_CHANGED,
+        GoogleAnalyticsEventsTitles.LANGUAGE,
+        Language.ENGLISH
+      );
     });
-    it('should not call logEvent if there is no activity code', (done) => {
-      // ARRANGE
+    it('should not call logEvent if there is no activity code', async () => {
       store$.dispatch(testsActions.StartTest(123, TestCategory.C));
       store$.dispatch(PopulateCandidateDetails(candidateMock));
       store$.dispatch(SetActivityCode(null));
-      // ACT
       actions$.next(commsActions.CandidateChoseToProceedWithTestInEnglish(Language.ENGLISH));
-      // ASSERT
-      effects.candidateChoseToProceedWithTestInEnglish$.subscribe((result) => {
-        expect(result.type === AnalyticNotRecorded.type).toBe(true);
-        //GA4 Analytics
-        expect(analyticsProviderMock.logGAEvent).not.toHaveBeenCalled();
-        done();
-      });
+      const result = await firstValueFrom(effects.candidateChoseToProceedWithTestInEnglish$);
+      expect(result.type === AnalyticNotRecorded.type).toBe(true);
+      expect(analyticsProviderMock.logGAEvent).not.toHaveBeenCalled();
     });
   });
   describe('candidateChoseToProceedWithTestInWelsh$', () => {
-    it('should call logEvent with the correct parameters', (done) => {
-      // ARRANGE
+    it('should call logEvent with the correct parameters', async () => {
       store$.dispatch(testsActions.StartTest(123, TestCategory.C));
       store$.dispatch(PopulateCandidateDetails(candidateMock));
       store$.dispatch(SetActivityCode(ActivityCodes.PASS));
-      // ACT
       actions$.next(commsActions.CandidateChoseToProceedWithTestInWelsh(Language.CYMRAEG));
-      // ASSERT
-      effects.candidateChoseToProceedWithTestInWelsh$.subscribe((result) => {
-        expect(result.type === AnalyticRecorded.type).toBe(true);
-        //GA4 Analytics
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-          GoogleAnalyticsEvents.LANGUAGE_CHANGED,
-          GoogleAnalyticsEventsTitles.LANGUAGE,
-          Language.CYMRAEG
-        );
-        done();
-      });
+      const result = await firstValueFrom(effects.candidateChoseToProceedWithTestInWelsh$);
+      expect(result.type === AnalyticRecorded.type).toBe(true);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+        GoogleAnalyticsEvents.LANGUAGE_CHANGED,
+        GoogleAnalyticsEventsTitles.LANGUAGE,
+        Language.CYMRAEG
+      );
     });
-    it('should not call logEvent if there is no activity code', (done) => {
-      // ARRANGE
+    it('should not call logEvent if there is no activity code', async () => {
       store$.dispatch(testsActions.StartTest(123, TestCategory.C));
       store$.dispatch(PopulateCandidateDetails(candidateMock));
       store$.dispatch(SetActivityCode(null));
-      // ACT
       actions$.next(commsActions.CandidateChoseToProceedWithTestInWelsh(Language.CYMRAEG));
-      // ASSERT
-      effects.candidateChoseToProceedWithTestInWelsh$.subscribe((result) => {
-        expect(result.type === AnalyticNotRecorded.type).toBe(true);
-        //GA4 Analytics
-        expect(analyticsProviderMock.logGAEvent).not.toHaveBeenCalled();
-        done();
-      });
+      const result = await firstValueFrom(effects.candidateChoseToProceedWithTestInWelsh$);
+      expect(result.type === AnalyticNotRecorded.type).toBe(true);
+      expect(analyticsProviderMock.logGAEvent).not.toHaveBeenCalled();
     });
   });
 });

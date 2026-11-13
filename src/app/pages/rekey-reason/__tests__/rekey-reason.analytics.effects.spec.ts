@@ -2,7 +2,8 @@ import { TestBed } from '@angular/core/testing';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { Action, Store, StoreModule } from '@ngrx/store';
-import { ReplaySubject } from 'rxjs';
+import { ReplaySubject, firstValueFrom } from 'rxjs';
+import { beforeEach, describe, expect, it } from 'vitest';
 
 import * as fakeJournalActions from '@pages/fake-journal/fake-journal.actions';
 import { AnalyticsProviderMock } from '@providers/analytics/__mocks__/analytics.mock';
@@ -56,56 +57,36 @@ describe('RekeyReasonAnalyticsEffects', () => {
   });
 
   describe('rekeyReasonViewDidEnter', () => {
-    it('should call setCurrentPage', (done) => {
-      // ARRANGE
+    it('should call setCurrentPage', async () => {
       store$.dispatch(testsActions.StartTest(123, TestCategory.B));
       store$.dispatch(candidateActions.PopulateCandidateDetails(candidateMock));
-      // ACT
       actions$.next(rekeyReasonActions.RekeyReasonViewDidEnter());
-      // ASSERT
-      effects.rekeyReasonViewDidEnter$.subscribe((result) => {
-        expect(result.type === AnalyticRecorded.type).toBe(true);
-        // GA4 Analytics
-        expect(analyticsProviderMock.setGACurrentPage).toHaveBeenCalledWith(screenName);
-        done();
-      });
+      const result = await firstValueFrom(effects.rekeyReasonViewDidEnter$);
+      expect(result.type === AnalyticRecorded.type).toBe(true);
+      expect(analyticsProviderMock.setGACurrentPage).toHaveBeenCalledWith(screenName);
     });
 
-    it('should call setCurrentPage with pass and practice mode prefix', (done) => {
-      // ARRANGE
+    it('should call setCurrentPage with pass and practice mode prefix', async () => {
       store$.dispatch(testsActions.StartTest(123, TestCategory.B));
       store$.dispatch(fakeJournalActions.StartE2EPracticeTest(end2endPracticeSlotId));
       store$.dispatch(candidateActions.PopulateCandidateDetails(candidateMock));
-      // ACT
       actions$.next(rekeyReasonActions.RekeyReasonViewDidEnter());
-      // ASSERT
-      effects.rekeyReasonViewDidEnter$.subscribe((result) => {
-        expect(result.type === AnalyticRecorded.type).toBe(true);
-
-        // GA4 Analytics
-        expect(analyticsProviderMock.setGACurrentPage).toHaveBeenCalledWith(
-          `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${screenName}`
-        );
-        done();
-      });
+      const result = await firstValueFrom(effects.rekeyReasonViewDidEnter$);
+      expect(result.type === AnalyticRecorded.type).toBe(true);
+      expect(analyticsProviderMock.setGACurrentPage).toHaveBeenCalledWith(
+        `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${screenName}`
+      );
     });
   });
 
   describe('rekeyReasonUploadTest$', () => {
-    it('should call log event', (done) => {
-      // ARRANGE
+    it('should call log event', async () => {
       store$.dispatch(testsActions.StartTest(123, TestCategory.B));
       store$.dispatch(candidateActions.PopulateCandidateDetails(candidateMock));
-      // ACT
       actions$.next(rekeyReasonActions.RekeyUploadTest());
-      // ASSERT
-      effects.rekeyReasonUploadTest$.subscribe((result) => {
-        expect(result.type === AnalyticRecorded.type).toBe(true);
-
-        // GA4 Analytics
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalled();
-        done();
-      });
+      const result = await firstValueFrom(effects.rekeyReasonUploadTest$);
+      expect(result.type === AnalyticRecorded.type).toBe(true);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalled();
     });
   });
 });

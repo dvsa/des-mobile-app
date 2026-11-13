@@ -1,6 +1,7 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { TellMeQuestionComponent } from '@pages/waiting-room-to-car/cat-b/components/tell-me-question/tell-me-question';
 import { AuthenticationProviderMock } from '@providers/authentication/__mocks__/authentication.mock';
@@ -75,7 +76,7 @@ describe('TellMeQuestionComponent', () => {
     describe('tellMeQuestionChanged', () => {
       it('should emit the correct event with the parameter given when form control is valid', () => {
         component.formControl.setValue(1);
-        spyOn(component.tellMeQuestionChange, 'emit');
+        vi.spyOn(component.tellMeQuestionChange, 'emit').mockReturnValue(undefined);
         component.tellMeQuestionChanged({
           code: 'A',
           description: 'B',
@@ -88,7 +89,7 @@ describe('TellMeQuestionComponent', () => {
         });
       });
       it('should emit nothing if form control is invalid', () => {
-        spyOn(component.tellMeQuestionChange, 'emit');
+        vi.spyOn(component.tellMeQuestionChange, 'emit').mockReturnValue(undefined);
         component.formControl.setValue(null);
         expect(component.tellMeQuestionChange.emit).not.toHaveBeenCalled();
       });

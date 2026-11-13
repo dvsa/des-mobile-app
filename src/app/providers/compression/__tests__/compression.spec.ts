@@ -1,5 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import pako from 'pako';
+import { beforeEach, describe, expect, it } from 'vitest';
 import { CompressionProvider } from '../compression';
 
 describe('CompressionProvider', () => {

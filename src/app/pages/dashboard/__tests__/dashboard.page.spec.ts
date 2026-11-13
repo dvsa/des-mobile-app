@@ -48,6 +48,7 @@ import {
 import { LoadJournalSilent } from '@store/journal/journal.actions';
 import { MockComponent } from 'ng-mocks';
 import { Subscription, of } from 'rxjs';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { PracticeTestModal } from '@pages/dashboard/components/practice-test-modal/practice-test-modal';
 import { DelegatedSearchCardComponent } from '../components/delegated-rekey-card/delegated-rekey-card';
@@ -171,7 +172,7 @@ describe('DashboardPage', () => {
     appConfigProvider = TestBed.inject(AppConfigProvider);
     store$ = TestBed.inject(MockStore);
     modalController = TestBed.inject(ModalController);
-    spyOn(store$, 'dispatch');
+    vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
     store$.dispatch(LoadAppVersionSuccess({ versionNumber: '4.0.0.0' }));
   });
 
@@ -182,7 +183,7 @@ describe('DashboardPage', () => {
   describe('Class', () => {
     describe('ngOnInit', () => {
       it('should get the selectVersionNumber and selectEmployeeName from store on init', () => {
-        spyOn(store$, 'select').and.returnValue(of({}));
+        vi.spyOn(store$, 'select').mockReturnValue(of({}));
         component.ngOnInit();
         expect(store$.select).toHaveBeenCalledWith(selectVersionNumber);
         expect(store$.select).toHaveBeenCalledWith(selectEmployeeName);
@@ -194,7 +195,7 @@ describe('DashboardPage', () => {
     });
     describe('ionViewWillEnter', () => {
       it('should set todaysDate and todaysDateFormatted on view will enter', async () => {
-        spyOn(BasePageComponent.prototype, 'ionViewWillEnter');
+        vi.spyOn(BasePageComponent.prototype, 'ionViewWillEnter').mockReturnValue(undefined);
         await component.ionViewWillEnter();
         expect(component.todaysDate).toEqual(new DateTime('2019-02-01'));
         expect(component.todaysDateFormatted).toEqual('Friday 1st February 2019');
@@ -202,25 +203,25 @@ describe('DashboardPage', () => {
     });
     describe('ionViewDidEnter', () => {
       beforeEach(() => {
-        spyOn(BasePageComponent.prototype, 'unlockDevice');
+        vi.spyOn(BasePageComponent.prototype, 'unlockDevice').mockReturnValue(undefined);
       });
       it('should dispatch the actions but not the native features', async () => {
-        spyOn(BasePageComponent.prototype, 'isIos').and.returnValue(false);
+        vi.spyOn(BasePageComponent.prototype, 'isIos').mockReturnValue(false);
         await component.ionViewDidEnter();
         expect(store$.dispatch).toHaveBeenCalledWith(DashboardViewDidEnter());
         expect(BasePageComponent.prototype.unlockDevice).toHaveBeenCalled();
         expect(store$.dispatch).toHaveBeenCalledWith(LoadJournalSilent());
       });
       it('should dispatch the actions and run native functionality', async () => {
-        spyOn(BasePageComponent.prototype, 'isIos').and.returnValue(true);
+        vi.spyOn(BasePageComponent.prototype, 'isIos').mockReturnValue(true);
         await component.ionViewDidEnter();
         expect(store$.dispatch).toHaveBeenCalledWith(DashboardViewDidEnter());
         expect(BasePageComponent.prototype.unlockDevice).toHaveBeenCalled();
         expect(store$.dispatch).toHaveBeenCalledWith(LoadJournalSilent());
       });
       it('should exclude various actions when delegated examiner', async () => {
-        spyOn(BasePageComponent.prototype, 'isIos').and.returnValue(true);
-        spyOn(appConfigProvider, 'getAppConfig').and.returnValue({ role: ExaminerRole.DLG } as AppConfig);
+        vi.spyOn(BasePageComponent.prototype, 'isIos').mockReturnValue(true);
+        vi.spyOn(appConfigProvider, 'getAppConfig').mockReturnValue({ role: ExaminerRole.DLG } as AppConfig);
         await component.ionViewDidEnter();
         expect(store$.dispatch).not.toHaveBeenCalledWith(LoadJournalSilent());
       });
@@ -230,7 +231,7 @@ describe('DashboardPage', () => {
         expect(component.showTestReportPracticeMode()).toEqual(true);
       });
       it('should return false when enableTestReportPracticeMode is not true', () => {
-        spyOn(appConfigProvider, 'getAppConfig').and.returnValue({
+        vi.spyOn(appConfigProvider, 'getAppConfig').mockReturnValue({
           journal: {
             enableTestReportPracticeMode: false,
           },
@@ -243,7 +244,7 @@ describe('DashboardPage', () => {
         expect(component.showEndToEndPracticeMode()).toEqual(true);
       });
       it('should return false when enableEndToEndPracticeMode is not true', () => {
-        spyOn(appConfigProvider, 'getAppConfig').and.returnValue({
+        vi.spyOn(appConfigProvider, 'getAppConfig').mockReturnValue({
           journal: {
             enableEndToEndPracticeMode: false,
           },
@@ -256,7 +257,7 @@ describe('DashboardPage', () => {
         expect(component.showDelegatedExaminerRekey()).toEqual(false);
       });
       it('should return true when role is DLG', () => {
-        spyOn(appConfigProvider, 'getAppConfig').and.returnValue({ role: ExaminerRole.DLG } as AppConfig);
+        vi.spyOn(appConfigProvider, 'getAppConfig').mockReturnValue({ role: ExaminerRole.DLG } as AppConfig);
         expect(component.showDelegatedExaminerRekey()).toEqual(true);
       });
     });
@@ -286,7 +287,7 @@ describe('DashboardPage', () => {
       it('should dispatch a clear action and unsubscribe from page subs', () => {
         component.subscription = new Subscription();
 
-        spyOn(component.subscription, 'unsubscribe');
+        vi.spyOn(component.subscription, 'unsubscribe').mockReturnValue(undefined);
 
         component.ionViewWillLeave();
         expect(store$.dispatch).toHaveBeenCalledWith(RekeySearchClearState());
@@ -296,12 +297,12 @@ describe('DashboardPage', () => {
   });
   describe('showUpdateAvailableModal', () => {
     it('should dispatch UpdateAvailableBadgeClicked when manualClick is false', async () => {
-      spyOn(modalController, 'dismiss').and.returnValue(Promise.resolve(true));
+      vi.spyOn(modalController, 'dismiss').mockReturnValue(Promise.resolve(true));
       await component.showUpdateAvailableModal(true);
       expect(store$.dispatch).toHaveBeenCalledWith(UpdateAvailableBadgeClicked());
     });
     it('should create and dismiss the modal, then dispatch HasSeenUpdateAvailablePopup', async () => {
-      spyOn(modalController, 'dismiss').and.returnValue(Promise.resolve(true));
+      vi.spyOn(modalController, 'dismiss').mockReturnValue(Promise.resolve(true));
       await component.showUpdateAvailableModal(false);
       expect(store$.dispatch).toHaveBeenCalledWith(HasSeenUpdateAvailablePopup(true));
     });
@@ -309,46 +310,46 @@ describe('DashboardPage', () => {
   describe('DOM', () => {
     describe('test report practice mode', () => {
       it('should show test report practice mode banner when config is set to true', () => {
-        component.showTestReportPracticeMode = jasmine.createSpy('showTestReportPracticeMode').and.returnValue(true);
+        component.showTestReportPracticeMode = vi.fn().mockReturnValue(true);
         fixture.detectChanges();
         expect(fixture.debugElement.query(By.css('#testReportPracticeMode'))).not.toBeNull();
       });
       it('should not show test report practice mode banner when config is set to false', () => {
-        component.showTestReportPracticeMode = jasmine.createSpy('showTestReportPracticeMode').and.returnValue(false);
+        component.showTestReportPracticeMode = vi.fn().mockReturnValue(false);
         fixture.detectChanges();
         expect(fixture.debugElement.query(By.css('#testReportPracticeMode'))).toBeNull();
       });
       it('should show test report practice mode banner when showDelegatedExaminerRekey returns true', () => {
-        spyOn(component, 'showDelegatedExaminerRekey').and.returnValue(true);
+        vi.spyOn(component, 'showDelegatedExaminerRekey').mockReturnValue(true);
         fixture.detectChanges();
         expect(fixture.debugElement.query(By.css('practice-test-report-card'))).not.toBeNull();
       });
     });
     describe('end to end practice mode', () => {
       it('should show the end to end practice mode banner when config is set to true', () => {
-        component.showEndToEndPracticeMode = jasmine.createSpy('showEndToEndPracticeMode').and.returnValue(true);
+        component.showEndToEndPracticeMode = vi.fn().mockReturnValue(true);
         fixture.detectChanges();
         expect(fixture.debugElement.query(By.css('#endToendPracticeMode'))).not.toBeNull();
       });
       it('should not show the end to end practice mode banner when config is set to false', () => {
-        component.showEndToEndPracticeMode = jasmine.createSpy('showEndToEndPracticeMode').and.returnValue(false);
+        component.showEndToEndPracticeMode = vi.fn().mockReturnValue(false);
         fixture.detectChanges();
         expect(fixture.debugElement.query(By.css('#endToendPracticeMode'))).toBeNull();
       });
       it('should show the end to end practice mode banner when showDelegatedExaminerRekey returns true', () => {
-        spyOn(component, 'showDelegatedExaminerRekey').and.returnValue(true);
+        vi.spyOn(component, 'showDelegatedExaminerRekey').mockReturnValue(true);
         fixture.detectChanges();
         expect(fixture.debugElement.query(By.css('practice-end-to-end-card'))).not.toBeNull();
       });
     });
     describe('goToJournalCard', () => {
       it('should not show journal card when showDelegatedExaminerRekey returns true', () => {
-        spyOn(component, 'showDelegatedExaminerRekey').and.returnValue(true);
+        vi.spyOn(component, 'showDelegatedExaminerRekey').mockReturnValue(true);
         fixture.detectChanges();
         expect(fixture.debugElement.query(By.css('go-to-journal-card'))).toBeNull();
       });
       it('should show the journal card when showDelegatedExaminerRekey returns false', () => {
-        spyOn(component, 'showDelegatedExaminerRekey').and.returnValue(false);
+        vi.spyOn(component, 'showDelegatedExaminerRekey').mockReturnValue(false);
         fixture.detectChanges();
         expect(fixture.debugElement.query(By.css('go-to-journal-card'))).not.toBeNull();
       });
@@ -356,7 +357,7 @@ describe('DashboardPage', () => {
 
     describe('showDelegatedExaminerRekey', () => {
       it('should show the delegated examiner rekey card when showDelegatedExaminerRekey returns true', () => {
-        spyOn(component, 'showDelegatedExaminerRekey').and.returnValue(true);
+        vi.spyOn(component, 'showDelegatedExaminerRekey').mockReturnValue(true);
         fixture.detectChanges();
         expect(fixture.debugElement.query(By.css('delegated-examiner-rekey'))).not.toBeNull();
       });
@@ -364,29 +365,29 @@ describe('DashboardPage', () => {
 
     describe('isDelegatedExaminer', () => {
       it('should return true when the role is DLG', () => {
-        spyOn(appConfigProvider, 'getAppConfig').and.returnValue({ role: ExaminerRole.DLG } as AppConfig);
-        expect(component.isDelegatedExaminer()).toBeTrue();
+        vi.spyOn(appConfigProvider, 'getAppConfig').mockReturnValue({ role: ExaminerRole.DLG } as AppConfig);
+        expect(component.isDelegatedExaminer()).toBe(true);
       });
 
       it('should return false when the role is not DLG', () => {
-        spyOn(appConfigProvider, 'getAppConfig').and.returnValue({ role: ExaminerRole.DE } as AppConfig);
-        expect(component.isDelegatedExaminer()).toBeFalse();
+        vi.spyOn(appConfigProvider, 'getAppConfig').mockReturnValue({ role: ExaminerRole.DE } as AppConfig);
+        expect(component.isDelegatedExaminer()).toBe(false);
       });
 
       it('should return false when the role is undefined', () => {
-        spyOn(appConfigProvider, 'getAppConfig').and.returnValue({} as AppConfig);
-        expect(component.isDelegatedExaminer()).toBeFalse();
+        vi.spyOn(appConfigProvider, 'getAppConfig').mockReturnValue({} as AppConfig);
+        expect(component.isDelegatedExaminer()).toBe(false);
       });
 
       it('should return false when the app config is undefined', () => {
-        spyOn(appConfigProvider, 'getAppConfig').and.returnValue(undefined);
-        expect(component.isDelegatedExaminer()).toBeFalse();
+        vi.spyOn(appConfigProvider, 'getAppConfig').mockReturnValue(undefined);
+        expect(component.isDelegatedExaminer()).toBe(false);
       });
     });
 
     describe('rekeySearchCard', () => {
       it('should NOT hide the rekey search card when showDelegatedExaminerRekey returns true', () => {
-        spyOn(component, 'showDelegatedExaminerRekey').and.returnValue(true);
+        vi.spyOn(component, 'showDelegatedExaminerRekey').mockReturnValue(true);
         fixture.detectChanges();
         expect(fixture.debugElement.query(By.css('rekey-search-card'))).not.toBeNull();
       });

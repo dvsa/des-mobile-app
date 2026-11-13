@@ -1,4 +1,5 @@
 import { VehicleDetails } from '@dvsa/mes-test-schema/categories/common';
+import { describe, expect, it } from 'vitest';
 import {
   ClearGearboxCategory,
   DualControlsToggled,
@@ -74,7 +75,9 @@ describe('vehicle details reducer', () => {
   });
 
   it('should toggle the state of school car when school car toggled action is received', () => {
-    let result: VehicleDetails & { schoolCar?: boolean };
+    let result: VehicleDetails & {
+      schoolCar?: boolean;
+    };
     result = vehicleDetailsReducer({}, SchoolCarToggled());
     expect(result.schoolCar).toBe(true);
     result = vehicleDetailsReducer(result, SchoolCarToggled());
@@ -82,7 +85,9 @@ describe('vehicle details reducer', () => {
   });
 
   it('should toggle the state of dual controls when dual controls toggled action is received', () => {
-    let result: VehicleDetails & { dualControls?: boolean };
+    let result: VehicleDetails & {
+      dualControls?: boolean;
+    };
     result = vehicleDetailsReducer({}, DualControlsToggled());
     expect(result.dualControls).toBe(true);
     result = vehicleDetailsReducer(result, DualControlsToggled());

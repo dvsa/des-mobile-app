@@ -2,9 +2,10 @@ import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http'
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule, UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { By } from '@angular/platform-browser';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
-import { TranslateService, provideTranslateService } from '@ngx-translate/core';
-import { provideTranslateHttpLoader } from '@ngx-translate/http-loader';
+import { provideTestTranslations } from '@mocks/test-providers';
+import { TranslateService } from '@ngx-translate/core';
 import { ProvidedEmailComponent } from '../provided-email';
 
 describe('ProvidedEmailComponent', () => {
@@ -15,14 +16,7 @@ describe('ProvidedEmailComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [ReactiveFormsModule, ProvidedEmailComponent],
-      providers: [
-        provideHttpClient(withInterceptorsFromDi()),
-        provideTranslateService({
-          loader: provideTranslateHttpLoader({ prefix: 'assets/i18n/' }),
-          fallbackLang: 'en',
-          lang: 'en',
-        }),
-      ],
+      providers: [provideHttpClient(withInterceptorsFromDi()), provideTestTranslations()],
     });
 
     fixture = TestBed.createComponent(ProvidedEmailComponent);
@@ -37,29 +31,41 @@ describe('ProvidedEmailComponent', () => {
 
   describe('DOM', () => {
     describe('i18n', () => {
-      it('should render in English by default', (done) => {
-        translate.use('en').subscribe(() => {
-          fixture.detectChanges();
-          expect(fixture.debugElement.query(By.css('.communication-text')).nativeElement.innerHTML.trim()).toBe(
-            'The following email address was used when booking the test:'
-          );
-          expect(fixture.debugElement.query(By.css('#providedEmail + label')).nativeElement.innerHTML.trim()).toBe(
-            'By email (provided at time of booking)'
-          );
-          done();
+      it('should render in English by default', async () => {
+        await new Promise<void>((done, reject) => {
+          translate.use('en').subscribe(() => {
+            try {
+              fixture.detectChanges();
+              expect(fixture.debugElement.query(By.css('.communication-text')).nativeElement.innerHTML.trim()).toBe(
+                'The following email address was used when booking the test:'
+              );
+              expect(fixture.debugElement.query(By.css('#providedEmail + label')).nativeElement.innerHTML.trim()).toBe(
+                'By email (provided at time of booking)'
+              );
+              done();
+            } catch (error) {
+              reject(error);
+            }
+          }, reject);
         });
       });
 
-      it('should render in Welsh when its a Welsh test', (done) => {
-        translate.use('cy').subscribe(() => {
-          fixture.detectChanges();
-          expect(fixture.debugElement.query(By.css('.communication-text')).nativeElement.innerHTML.trim()).toBe(
-            "Defnyddiwyd y cyfeiriad e-bost dilynol wrth archebu'r prawf:"
-          );
-          expect(fixture.debugElement.query(By.css('#providedEmail + label')).nativeElement.innerHTML.trim()).toBe(
-            'Trwy e-bost (a ddarparwyd ar adeg archebu)'
-          );
-          done();
+      it('should render in Welsh when its a Welsh test', async () => {
+        await new Promise<void>((done, reject) => {
+          translate.use('cy').subscribe(() => {
+            try {
+              fixture.detectChanges();
+              expect(fixture.debugElement.query(By.css('.communication-text')).nativeElement.innerHTML.trim()).toBe(
+                "Defnyddiwyd y cyfeiriad e-bost dilynol wrth archebu'r prawf:"
+              );
+              expect(fixture.debugElement.query(By.css('#providedEmail + label')).nativeElement.innerHTML.trim()).toBe(
+                'Trwy e-bost (a ddarparwyd ar adeg archebu)'
+              );
+              done();
+            } catch (error) {
+              reject(error);
+            }
+          }, reject);
         });
       });
     });
@@ -75,7 +81,7 @@ describe('ProvidedEmailComponent', () => {
 
   describe('providedEmailRadioSelected', () => {
     it('should emit newEmailRadioSelect with correct parameters', () => {
-      spyOn(component.providedEmailRadioSelect, 'emit');
+      vi.spyOn(component.providedEmailRadioSelect, 'emit').mockReturnValue(undefined);
       component.providedEmailRadioSelected();
       expect(component.providedEmailRadioSelect.emit).toHaveBeenCalledWith(ProvidedEmailComponent.providedEmail);
     });

@@ -9,6 +9,7 @@ import { LogHelperMock } from '@providers/logs/__mocks__/logs-helper.mock';
 import { TestStatus } from '@store/tests/test-status/test-status.model';
 import pako from 'pako';
 import { take } from 'rxjs/operators';
+import { afterAll, beforeEach, describe, expect, it, vi } from 'vitest';
 import { AppConfigProviderMock } from '../../app-config/__mocks__/app-config.mock';
 import { AppConfigProvider } from '../../app-config/app-config';
 import { LogHelper } from '../../logs/logs-helper';
@@ -60,9 +61,9 @@ describe('TestSubmissionProvider', () => {
     testSubmissionProvider = TestBed.inject(TestSubmissionProvider);
     httpMock = TestBed.inject(HttpTestingController);
     urlProvider = TestBed.inject(UrlProvider);
-    spyOn(testSubmissionProvider, 'compressData').and.callThrough();
-    spyOn(testSubmissionProvider, 'removeNullFieldsDeep').and.callThrough();
-    spyOn(testSubmissionProvider, 'submitTest').and.callThrough();
+    vi.spyOn(testSubmissionProvider, 'compressData');
+    vi.spyOn(testSubmissionProvider, 'removeNullFieldsDeep');
+    vi.spyOn(testSubmissionProvider, 'submitTest');
   });
 
   afterAll(() => {

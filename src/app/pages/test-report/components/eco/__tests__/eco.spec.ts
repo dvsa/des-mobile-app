@@ -2,6 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { TickIndicatorComponent } from '@components/common/tick-indicator/tick-indicator';
 import { TestResultCommonSchema } from '@dvsa/mes-test-schema/categories/common';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
+import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { Store, StoreModule } from '@ngrx/store';
 import { provideMockStore } from '@ngrx/store/testing';
@@ -20,7 +21,7 @@ describe('EcoComponent', () => {
   let fixture: ComponentFixture<EcoComponent>;
   let component: EcoComponent;
   let store$: Store<StoreModel>;
-  let storeDispatchSpy: jasmine.Spy;
+  let storeDispatchSpy: Mock;
 
   const initialState = {
     appInfo: { employeeId: '123456' },
@@ -79,7 +80,7 @@ describe('EcoComponent', () => {
     component = fixture.componentInstance;
     store$ = TestBed.inject(Store);
     store$.dispatch(StartTest(105, TestCategory.B));
-    storeDispatchSpy = spyOn(store$, 'dispatch');
+    storeDispatchSpy = vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
   });
 
   describe('Class', () => {
@@ -105,7 +106,7 @@ describe('EcoComponent', () => {
     describe('ngOnDestroy', () => {
       it('should unsubscribe from the subscription if there is one', () => {
         component.subscription = new Subscription();
-        spyOn(component.subscription, 'unsubscribe');
+        vi.spyOn(component.subscription, 'unsubscribe').mockReturnValue(undefined);
         component.ngOnDestroy();
         expect(component.subscription.unsubscribe).toHaveBeenCalled();
       });

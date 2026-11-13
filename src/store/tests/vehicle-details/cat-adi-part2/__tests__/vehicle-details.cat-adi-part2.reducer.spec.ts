@@ -7,6 +7,7 @@ import {
   SchoolCarToggled,
   VehicleRegistrationChanged,
 } from '@store/tests/vehicle-details/vehicle-details.actions';
+import { describe, expect, it } from 'vitest';
 import { initialState, vehicleDetailsCatADIPart2Reducer } from '../vehicle-details.cat-adi-part2.reducer';
 
 describe('vehicleDetailsCatADIPart2Reducer', () => {

@@ -1,6 +1,7 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule, UntypedFormGroup } from '@angular/forms';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { AccompanimentCardADI3Component } from '@pages/waiting-room-to-car/cat-adi-part3/components/accompaniment-card/accompaniment-card';
 import { AuthenticationProviderMock } from '@providers/authentication/__mocks__/authentication.mock';
@@ -57,21 +58,21 @@ describe('AccompanimentCardADI3Component', () => {
   describe('Class', () => {
     describe('trainerAccompanimentChanged', () => {
       it('should emit the correct event', () => {
-        spyOn(component.trainerAccompanimentChange, 'emit');
+        vi.spyOn(component.trainerAccompanimentChange, 'emit').mockReturnValue(undefined);
         component.trainerAccompanimentChanged();
         expect(component.trainerAccompanimentChange.emit).toHaveBeenCalled();
       });
     });
     describe('supervisorAccompanimentChanged', () => {
       it('should emit the correct event', () => {
-        spyOn(component.supervisorAccompanimentChange, 'emit');
+        vi.spyOn(component.supervisorAccompanimentChange, 'emit').mockReturnValue(undefined);
         component.supervisorAccompanimentChanged();
         expect(component.supervisorAccompanimentChange.emit).toHaveBeenCalled();
       });
     });
     describe('otherAccompanimentChanged', () => {
       it('should emit the correct event', () => {
-        spyOn(component.otherAccompanimentChange, 'emit');
+        vi.spyOn(component.otherAccompanimentChange, 'emit').mockReturnValue(undefined);
         component.otherAccompanimentChanged();
         expect(component.otherAccompanimentChange.emit).toHaveBeenCalled();
       });

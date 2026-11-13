@@ -31,7 +31,8 @@ import * as applicationReferenceActions from '@store/tests/journal-data/common/a
 import { PopulateCandidateDetails } from '@store/tests/journal-data/common/candidate/candidate.actions';
 import * as testsActions from '@store/tests/tests.actions';
 import { testsReducer } from '@store/tests/tests.reducer';
-import { ReplaySubject } from 'rxjs';
+import { ReplaySubject, firstValueFrom } from 'rxjs';
+import { beforeEach, describe, expect, it } from 'vitest';
 import * as fakeJournalActions from '../../fake-journal/fake-journal.actions';
 import * as communicationActions from '../communication.actions';
 import { CommunicationAnalyticsEffects } from '../communication.analytics.effects';
@@ -82,101 +83,77 @@ describe('CommunicationAnalyticsEffects', () => {
   });
 
   describe('communicationViewDidEnter', () => {
-    it('should call setCurrentPage and addCustomDimension', (done) => {
-      // ARRANGE
+    it('should call setCurrentPage and addCustomDimension', async () => {
       store$.dispatch(testsActions.StartTest(123, TestCategory.B));
       store$.dispatch(PopulateTestCategory(TestCategory.B));
       store$.dispatch(PopulateCandidateDetails(candidateMock));
       store$.dispatch(applicationReferenceActions.PopulateApplicationReference(mockApplication));
-      // ACT
       actions$.next(communicationActions.CommunicationViewDidEnter());
-      // ASSERT
-      effects.communicationViewDidEnter$.subscribe((result) => {
-        expect(result.type === AnalyticRecorded.type).toBe(true);
-        // GA4 Analytics
-        expect(analyticsProviderMock.setGACurrentPage).toHaveBeenCalledWith(screenName);
-        expect(analyticsProviderMock.addGACustomDimension).toHaveBeenCalledWith(
-          GoogleAnalyticsCustomDimension.TEST_CATEGORY,
-          'B'
-        );
-        expect(analyticsProviderMock.addGACustomDimension).toHaveBeenCalledWith(
-          GoogleAnalyticsCustomDimension.CANDIDATE_ID,
-          '1'
-        );
-        expect(analyticsProviderMock.addGACustomDimension).toHaveBeenCalledWith(
-          GoogleAnalyticsCustomDimension.APPLICATION_REFERENCE,
-          '123456789'
-        );
-        done();
-      });
+      const result = await firstValueFrom(effects.communicationViewDidEnter$);
+      expect(result.type === AnalyticRecorded.type).toBe(true);
+      expect(analyticsProviderMock.setGACurrentPage).toHaveBeenCalledWith(screenName);
+      expect(analyticsProviderMock.addGACustomDimension).toHaveBeenCalledWith(
+        GoogleAnalyticsCustomDimension.TEST_CATEGORY,
+        'B'
+      );
+      expect(analyticsProviderMock.addGACustomDimension).toHaveBeenCalledWith(
+        GoogleAnalyticsCustomDimension.CANDIDATE_ID,
+        '1'
+      );
+      expect(analyticsProviderMock.addGACustomDimension).toHaveBeenCalledWith(
+        GoogleAnalyticsCustomDimension.APPLICATION_REFERENCE,
+        '123456789'
+      );
     });
-    it('should call setCurrentPage with practice mode prefix and addCustomDimension', (done) => {
-      // ARRANGE
+    it('should call setCurrentPage with practice mode prefix and addCustomDimension', async () => {
       store$.dispatch(fakeJournalActions.StartE2EPracticeTest(end2endPracticeSlotId));
       store$.dispatch(PopulateTestCategory(TestCategory.B));
       store$.dispatch(PopulateCandidateDetails(candidateMock));
       store$.dispatch(applicationReferenceActions.PopulateApplicationReference(mockApplication));
-      // ACT
       actions$.next(communicationActions.CommunicationViewDidEnter());
-      // ASSERT
-      effects.communicationViewDidEnter$.subscribe((result) => {
-        expect(result.type === AnalyticRecorded.type).toBe(true);
-        // GA4 Analytics
-        expect(analyticsProviderMock.setGACurrentPage).toHaveBeenCalledWith(screenNamePM);
-        expect(analyticsProviderMock.addGACustomDimension).toHaveBeenCalledWith(
-          GoogleAnalyticsCustomDimension.TEST_CATEGORY,
-          'B'
-        );
-        expect(analyticsProviderMock.addGACustomDimension).toHaveBeenCalledWith(
-          GoogleAnalyticsCustomDimension.CANDIDATE_ID,
-          '1'
-        );
-        expect(analyticsProviderMock.addGACustomDimension).toHaveBeenCalledWith(
-          GoogleAnalyticsCustomDimension.APPLICATION_REFERENCE,
-          '123456789'
-        );
-        done();
-      });
+      const result = await firstValueFrom(effects.communicationViewDidEnter$);
+      expect(result.type === AnalyticRecorded.type).toBe(true);
+      expect(analyticsProviderMock.setGACurrentPage).toHaveBeenCalledWith(screenNamePM);
+      expect(analyticsProviderMock.addGACustomDimension).toHaveBeenCalledWith(
+        GoogleAnalyticsCustomDimension.TEST_CATEGORY,
+        'B'
+      );
+      expect(analyticsProviderMock.addGACustomDimension).toHaveBeenCalledWith(
+        GoogleAnalyticsCustomDimension.CANDIDATE_ID,
+        '1'
+      );
+      expect(analyticsProviderMock.addGACustomDimension).toHaveBeenCalledWith(
+        GoogleAnalyticsCustomDimension.APPLICATION_REFERENCE,
+        '123456789'
+      );
     });
   });
 
   describe('communicationValidationError', () => {
-    it('should call logError', (done) => {
-      // ARRANGE
+    it('should call logError', async () => {
       store$.dispatch(testsActions.StartTest(123, TestCategory.B));
       store$.dispatch(PopulateTestCategory(TestCategory.B));
       store$.dispatch(PopulateCandidateDetails(candidateMock));
-      // ACT
       actions$.next(communicationActions.CommunicationValidationError('formControl1'));
-      // ASSERT
-      effects.communicationValidationError$.subscribe((result) => {
-        expect(result.type === AnalyticRecorded.type).toBe(true);
-        // GA4 Analytics
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-          GoogleAnalyticsEvents.VALIDATION_ERROR,
-          GoogleAnalyticsEventsTitles.BLANK_FIELD,
-          'formControl1'
-        );
-        done();
-      });
+      const result = await firstValueFrom(effects.communicationValidationError$);
+      expect(result.type === AnalyticRecorded.type).toBe(true);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+        GoogleAnalyticsEvents.VALIDATION_ERROR,
+        GoogleAnalyticsEventsTitles.BLANK_FIELD,
+        'formControl1'
+      );
     });
-    it('should call logError, prefixed with practice mode', (done) => {
-      // ARRANGE
+    it('should call logError, prefixed with practice mode', async () => {
       store$.dispatch(fakeJournalActions.StartE2EPracticeTest(end2endPracticeSlotId));
       store$.dispatch(PopulateCandidateDetails(candidateMock));
-      // ACT
       actions$.next(communicationActions.CommunicationValidationError('formControl1'));
-      // ASSERT
-      effects.communicationValidationError$.subscribe((result) => {
-        expect(result.type === AnalyticRecorded.type).toBe(true);
-        // GA4 Analytics
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-          `PM_${GoogleAnalyticsEvents.VALIDATION_ERROR}`,
-          GoogleAnalyticsEventsTitles.BLANK_FIELD,
-          'formControl1'
-        );
-        done();
-      });
+      const result = await firstValueFrom(effects.communicationValidationError$);
+      expect(result.type === AnalyticRecorded.type).toBe(true);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+        `PM_${GoogleAnalyticsEvents.VALIDATION_ERROR}`,
+        GoogleAnalyticsEventsTitles.BLANK_FIELD,
+        'formControl1'
+      );
     });
   });
 
@@ -244,50 +221,41 @@ describe('CommunicationAnalyticsEffects', () => {
   });
 
   describe('bookingEmailSelected$', () => {
-    it('should dispatch action when booking email option is selected', (done) => {
+    it('should dispatch action when booking email option is selected', async () => {
       actions$.next(communicationActions.BookingEmailSelected());
-      effects.bookingEmailSelected$.subscribe((result) => {
-        expect(result.type === AnalyticRecorded.type).toBe(true);
-        // GA4 Analytics
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-          GoogleAnalyticsEvents.CANDIDATE_RECEIVE_TEST_RESULTS,
-          GoogleAnalyticsEventsTitles.COMMS_CHANNEL,
-          GoogleAnalyticsEventsValues.COMMS_METHOD_BOOKING_EMAIL
-        );
-        done();
-      });
+      const result = await firstValueFrom(effects.bookingEmailSelected$);
+      expect(result.type === AnalyticRecorded.type).toBe(true);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+        GoogleAnalyticsEvents.CANDIDATE_RECEIVE_TEST_RESULTS,
+        GoogleAnalyticsEventsTitles.COMMS_CHANNEL,
+        GoogleAnalyticsEventsValues.COMMS_METHOD_BOOKING_EMAIL
+      );
     });
   });
 
   describe('newEmailSelected$', () => {
-    it('should dispatch action when new email option is selected', (done) => {
+    it('should dispatch action when new email option is selected', async () => {
       actions$.next(communicationActions.NewEmailSelected());
-      effects.newEmailSelected$.subscribe((result) => {
-        expect(result.type === AnalyticRecorded.type).toBe(true);
-        // GA4 Analytics
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-          GoogleAnalyticsEvents.CANDIDATE_RECEIVE_TEST_RESULTS,
-          GoogleAnalyticsEventsTitles.COMMS_CHANNEL,
-          GoogleAnalyticsEventsValues.COMMS_METHOD_NEW_EMAIL
-        );
-        done();
-      });
+      const result = await firstValueFrom(effects.newEmailSelected$);
+      expect(result.type === AnalyticRecorded.type).toBe(true);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+        GoogleAnalyticsEvents.CANDIDATE_RECEIVE_TEST_RESULTS,
+        GoogleAnalyticsEventsTitles.COMMS_CHANNEL,
+        GoogleAnalyticsEventsValues.COMMS_METHOD_NEW_EMAIL
+      );
     });
   });
 
   describe('postalSelected$', () => {
-    it('should dispatch action when postal option is selected', (done) => {
+    it('should dispatch action when postal option is selected', async () => {
       actions$.next(communicationActions.PostalSelected());
-      effects.postalSelected$.subscribe((result) => {
-        expect(result.type === AnalyticRecorded.type).toBe(true);
-        // GA4 Analytics
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-          GoogleAnalyticsEvents.CANDIDATE_RECEIVE_TEST_RESULTS,
-          GoogleAnalyticsEventsTitles.COMMS_CHANNEL,
-          GoogleAnalyticsEventsValues.COMMS_METHOD_POST
-        );
-        done();
-      });
+      const result = await firstValueFrom(effects.postalSelected$);
+      expect(result.type === AnalyticRecorded.type).toBe(true);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+        GoogleAnalyticsEvents.CANDIDATE_RECEIVE_TEST_RESULTS,
+        GoogleAnalyticsEventsTitles.COMMS_CHANNEL,
+        GoogleAnalyticsEventsValues.COMMS_METHOD_POST
+      );
     });
   });
 });

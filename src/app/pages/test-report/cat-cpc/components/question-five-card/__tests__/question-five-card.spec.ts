@@ -1,6 +1,7 @@
 import { CUSTOM_ELEMENTS_SCHEMA, EventEmitter } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { QuestionFiveCardComponent } from '@pages/test-report/cat-cpc/components/question-five-card/question-five-card';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 describe('QuestionFiveCardComponent', () => {
   let fixture: ComponentFixture<QuestionFiveCardComponent>;
@@ -19,7 +20,7 @@ describe('QuestionFiveCardComponent', () => {
   describe('answerChanged', () => {
     it('emits answerPayload with correct parameters when answer is selected', () => {
       component.answerPayload = new EventEmitter();
-      spyOn(component.answerPayload, 'emit');
+      vi.spyOn(component.answerPayload, 'emit').mockReturnValue(undefined);
       component.answerChanged({
         answer: {
           selected: true,
@@ -38,7 +39,7 @@ describe('QuestionFiveCardComponent', () => {
     });
 
     it('emits answerPayload with correct parameters when answer is not selected', () => {
-      spyOn(component.answerPayload, 'emit');
+      vi.spyOn(component.answerPayload, 'emit').mockReturnValue(undefined);
       component.answerChanged({
         answer: {
           selected: false,
@@ -57,7 +58,7 @@ describe('QuestionFiveCardComponent', () => {
     });
 
     it('emits answerPayload with correct parameters when answerNumber is empty', () => {
-      spyOn(component.answerPayload, 'emit');
+      vi.spyOn(component.answerPayload, 'emit').mockReturnValue(undefined);
       component.answerChanged({
         answer: {
           selected: true,
@@ -76,7 +77,7 @@ describe('QuestionFiveCardComponent', () => {
     });
 
     it('emits answerPayload with correct parameters when answer label is empty', () => {
-      spyOn(component.answerPayload, 'emit');
+      vi.spyOn(component.answerPayload, 'emit').mockReturnValue(undefined);
       component.answerChanged({
         answer: {
           selected: true,

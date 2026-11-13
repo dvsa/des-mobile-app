@@ -65,20 +65,52 @@ alongside the application providers.
 
 ### Unit Tests
 
-###### Running the following command will execute the unit test suite, as well as creating a folder containing code coverage here `./coverage`.
+The complete unit test suite runs with Vitest through Angular's `@angular/build:unit-test`
+builder, using jsdom rather than a headless Chrome process.
 
-- `npm run test`
+```shell
+npm run test
+npm run test:reload
+npm run test:fast
+```
+
+`test` and `test:reload` prepare mock data and the development environment first. `test` runs once with
+coverage; `test:reload` watches for changes without coverage. `test:fast` skips coverage.
+CI runs `npm run test:fast` command for brevity.
+HTML, LCOV, and summary coverage reports are written to `coverage/vitest`.
 
 To run tests without regenerating mock data or replacing the environment file:
 
 ```shell
-npx ng test --watch=false --progress=false --code-coverage=false
+npx ng test --watch=false --progress=false --coverage=false
 ```
 
 Standalone tests must configure their own dependencies; application bootstrap providers are not inherited.
 Use `provideBasePageMocks()` from `mock/test-providers.ts` for page dependencies, or
 `provideTestTranslations()` for translation-only components. Configure a root store or `provideMockStore()`
 separately, and include directives in standalone test host components' `imports`.
+
+To run a single spec:
+
+```shell
+npx ng test --watch=false --coverage=false --include=src/store/journal/__tests__/journal.selector.spec.ts
+```
+
+Specs and shared mocks use native Vitest APIs. `vi.spyOn()` calls the original implementation
+unless explicitly stubbed; use `mockReturnValue`, `mockResolvedValue`, or `mockImplementation`
+when the real method must not run. Await asynchronous assertions, use `firstValueFrom` for
+single observable emissions, and restore Vitest fake timers in `finally` blocks.
+Angular 21's Zone-based `fakeAsync`, `tick`, and `waitForAsync` are not used in this suite.
+
+Angular initializes TestBed automatically. `src/test-setup.vitest.ts` registers icons, browser
+Buffer/global shims, IndexedDB emulation, and the existing `detectChanges(false)` default.
+Tests run in isolated environments; mock cleanup and timeouts are configured in `vitest.config.ts`.
+The runner uses a thread pool capped at eight workers (or the available CPU count on smaller
+machines) to limit contention.
+Translation tests load the real English/Welsh JSON through `provideTestTranslations()` in
+`mock/test-providers.ts`, without HTTP requests.
+Four legacy spec files containing only commented-out tests are explicitly excluded in
+`angular.json`; no active tests are excluded. Existing skipped tests remain skipped.
 
 ### Sentry
 

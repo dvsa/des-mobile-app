@@ -1,35 +1,36 @@
+import { vi } from 'vitest';
 export class AuthenticationProviderMock {
-  init = jasmine.createSpy('init').and.returnValue(Promise.resolve());
+  init = vi.fn().mockReturnValue(Promise.resolve());
 
-  setProviderOptions = jasmine.createSpy('setProviderOptions').and.returnValue(Promise.resolve());
+  setProviderOptions = vi.fn().mockReturnValue(Promise.resolve());
 
-  getEmployeeId = jasmine.createSpy('getEmployeeId').and.returnValue('12345678');
+  getEmployeeId = vi.fn().mockReturnValue('12345678');
 
-  decodeToken = jasmine.createSpy('decodeToken').and.resolveTo({ name: 'joe blogs', id: '12345678' });
+  decodeToken = vi.fn().mockResolvedValue({ name: 'joe blogs', id: '12345678' });
 
-  getAuthenticationToken = jasmine.createSpy('getAuthenticationToken').and.resolveTo('token');
+  getAuthenticationToken = vi.fn().mockResolvedValue('token');
 
-  loadEmployeeDetails = jasmine.createSpy('loadEmployeeDetails').and.returnValue(Promise.resolve());
+  loadEmployeeDetails = vi.fn().mockReturnValue(Promise.resolve());
 
-  refreshEmployeeDetails = jasmine.createSpy('refreshEmployeeDetails').and.returnValue(Promise.resolve());
+  refreshEmployeeDetails = vi.fn().mockReturnValue(Promise.resolve());
 
-  storeAuthResult = jasmine.createSpy('storeAuthResult').and.returnValue(Promise.resolve());
+  storeAuthResult = vi.fn().mockReturnValue(Promise.resolve());
 
-  getAuthResult = jasmine.createSpy('getAuthResult').and.returnValue(Promise.resolve());
+  getAuthResult = vi.fn().mockReturnValue(Promise.resolve());
 
-  getStoredAuthResult = jasmine.createSpy('getStoredAuthResult').and.returnValue(Promise.resolve());
+  getStoredAuthResult = vi.fn().mockReturnValue(Promise.resolve());
 
-  login = jasmine.createSpy('login').and.returnValue(Promise.resolve());
+  login = vi.fn().mockReturnValue(Promise.resolve());
 
-  isOffline = jasmine.createSpy('isOffline').and.returnValue(false);
+  isOffline = vi.fn().mockReturnValue(false);
 
-  refreshSession = jasmine.createSpy('refreshSession').and.returnValue(Promise.resolve());
+  refreshSession = vi.fn().mockReturnValue(Promise.resolve());
 
-  isAuthenticated = jasmine.createSpy('isAuthenticated').and.returnValue(Promise.resolve(true));
+  isAuthenticated = vi.fn().mockReturnValue(Promise.resolve(true));
 
-  hasTokenExpired = jasmine.createSpy('hasTokenExpired').and.returnValue(Promise.resolve(true));
+  hasTokenExpired = vi.fn().mockReturnValue(Promise.resolve(true));
 
-  clearStore = jasmine.createSpy('clearStore').and.returnValue(Promise.resolve());
+  clearStore = vi.fn().mockReturnValue(Promise.resolve());
 
-  logout = jasmine.createSpy('logout').and.returnValue(Promise.resolve());
+  logout = vi.fn().mockReturnValue(Promise.resolve());
 }

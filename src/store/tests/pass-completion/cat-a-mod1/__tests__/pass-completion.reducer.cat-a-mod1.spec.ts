@@ -1,3 +1,4 @@
+import { describe, expect, it } from 'vitest';
 import { PassCertificateNumberChanged } from '../../pass-completion.actions';
 import { initialState, passCompletionCatAMod1Reducer } from '../pass-completion.cat-a-mod1.reducer';
 

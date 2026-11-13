@@ -1,5 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Router } from '@angular/router';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { RouterMock } from '@mocks/angular-mocks/router-mock';
 import { FAKE_JOURNAL_PAGE } from '@pages/page-names.constants';
@@ -24,7 +25,7 @@ describe('PracticeEndToEndCard ', () => {
   describe('Class', () => {
     describe('navigateToFakeJournal', () => {
       it('should trigger navigation to Fake Journal', async () => {
-        spyOn(router, 'navigate');
+        vi.spyOn(router, 'navigate');
         await component.navigateToFakeJournal();
         expect(router.navigate).toHaveBeenCalledWith([FAKE_JOURNAL_PAGE]);
       });

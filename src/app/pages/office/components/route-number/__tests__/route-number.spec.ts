@@ -1,5 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { behaviourMap } from '@pages/office/office-behaviour-map';
 import { OutcomeBehaviourMapProvider, VisibilityType } from '@providers/outcome-behaviour-map/outcome-behaviour-map';
@@ -25,21 +26,21 @@ describe('RouteNumberComponent', () => {
 
   describe('class', () => {
     it('should emit route number if 1 character', () => {
-      spyOn(component.routeNumberChange, 'emit');
+      vi.spyOn(component.routeNumberChange, 'emit').mockReturnValue(undefined);
       const routeNumber = '7';
       component.routeNumberChanged(routeNumber);
       expect(component.routeNumberChange.emit).toHaveBeenCalledWith(Number.parseInt(routeNumber, 10));
     });
 
     it('should emit route number if 2 characters', () => {
-      spyOn(component.routeNumberChange, 'emit');
+      vi.spyOn(component.routeNumberChange, 'emit').mockReturnValue(undefined);
       const routeNumber = '44';
       component.routeNumberChanged(routeNumber);
       expect(component.routeNumberChange.emit).toHaveBeenCalledWith(Number.parseInt(routeNumber, 10));
     });
 
     it('should emit no route number if not numeric', () => {
-      spyOn(component.routeNumberChange, 'emit');
+      vi.spyOn(component.routeNumberChange, 'emit').mockReturnValue(undefined);
       const routeNumber = 'ABC123';
       component.routeNumberChanged(routeNumber);
       expect(component.routeNumberChange.emit).toHaveBeenCalledWith(null);
@@ -53,7 +54,7 @@ describe('RouteNumberComponent', () => {
       component.formGroup.addControl(RouteNumberComponent.fieldName, component.formControl);
       component.formGroup.get(RouteNumberComponent.fieldName).setValidators([Validators.required]);
 
-      spyOn(component.outcomeBehaviourProvider, 'getVisibilityType').and.returnValue(VisibilityType.NotVisible);
+      vi.spyOn(component.outcomeBehaviourProvider, 'getVisibilityType').mockReturnValue(VisibilityType.NotVisible);
       component.ngOnChanges();
 
       expect(component.formGroup.get(RouteNumberComponent.fieldName).hasValidator(Validators.required)).toBe(false);
@@ -61,7 +62,7 @@ describe('RouteNumberComponent', () => {
     it('should set validators to FormControl if visibilityType is not VisibilityType.NotVisible', () => {
       component.formGroup = new UntypedFormGroup({});
 
-      spyOn(component.outcomeBehaviourProvider, 'getVisibilityType').and.returnValue(VisibilityType.Visible);
+      vi.spyOn(component.outcomeBehaviourProvider, 'getVisibilityType').mockReturnValue(VisibilityType.Visible);
       component.ngOnChanges();
 
       expect(component.formGroup.get(RouteNumberComponent.fieldName).hasValidator(Validators.required)).toBe(true);

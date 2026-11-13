@@ -1,5 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule, UntypedFormControl, UntypedFormGroup } from '@angular/forms';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { TransmissionComponent } from '../transmission';
 
@@ -23,7 +24,7 @@ describe('TransmissionComponent', () => {
       component.transmission = 'Automatic';
       component.shouldShowEditBox = false;
       component.autoConfirmSelected = true;
-      spyOn(component.automaticConfirmChange, 'emit');
+      vi.spyOn(component.automaticConfirmChange, 'emit').mockReturnValue(undefined);
       component.ngOnChanges();
       const ctrl = component.formGroup.get(component.autoConfirmFieldName);
       expect(ctrl).toBeTruthy();
@@ -48,7 +49,7 @@ describe('TransmissionComponent', () => {
       component.transmission = 'Automatic';
       component.shouldShowEditBox = false;
       component.ngOnChanges();
-      spyOn(component.automaticConfirmChange, 'emit');
+      vi.spyOn(component.automaticConfirmChange, 'emit').mockReturnValue(undefined);
       component.transmissionChanged('Manual');
       expect(component.formGroup.get(component.autoConfirmFieldName)).toBeNull();
       expect(component.autoCheckboxFormControl).toBeNull();
@@ -63,19 +64,19 @@ describe('TransmissionComponent', () => {
       component.shouldShowEditBox = false;
       component.autoConfirmSelected = true;
       component.ngOnChanges();
-      spyOn(component.automaticConfirmChange, 'emit');
+      vi.spyOn(component.automaticConfirmChange, 'emit').mockReturnValue(undefined);
       component.deactivateEditMode();
       const ctrl = component.formGroup.get(component.autoConfirmFieldName) as UntypedFormControl;
-      expect(component.autoConfirmSelected).toBeFalse();
-      expect(ctrl.value).toBeFalse();
+      expect(component.autoConfirmSelected).toBe(false);
+      expect(ctrl.value).toBe(false);
       expect(component.automaticConfirmChange.emit).toHaveBeenCalledWith(false);
     });
   });
 
   describe('automaticConfirmChanged', () => {
     it('automaticConfirmChanged sets isShowingEditBox to false and emits provided value', () => {
-      spyOn(component.automaticConfirmChange, 'emit');
-      spyOn(component.userClickedEditButton, 'emit');
+      vi.spyOn(component.automaticConfirmChange, 'emit').mockReturnValue(undefined);
+      vi.spyOn(component.userClickedEditButton, 'emit').mockReturnValue(undefined);
       component.automaticConfirmChanged(true);
       expect(component.automaticConfirmChange.emit).toHaveBeenCalledWith(true);
       expect(component.userClickedEditButton.emit).toHaveBeenCalled();
@@ -85,7 +86,7 @@ describe('TransmissionComponent', () => {
   describe('isAutoConfirmInvalid', () => {
     it('returns false when control is not present', () => {
       component.autoCheckboxFormControl = null;
-      expect(component.isAutoConfirmInvalid()).toBeFalse();
+      expect(component.isAutoConfirmInvalid()).toBe(false);
     });
 
     it('returns true when control is invalid and dirty', () => {
@@ -96,7 +97,7 @@ describe('TransmissionComponent', () => {
       component.ngOnChanges();
       const ctrl = component.formGroup.get(component.autoConfirmFieldName) as UntypedFormControl;
       ctrl.markAsDirty();
-      expect(component.isAutoConfirmInvalid()).toBeTrue();
+      expect(component.isAutoConfirmInvalid()).toBe(true);
     });
   });
 });

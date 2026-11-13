@@ -5,6 +5,7 @@ import {
   CompetencyOutcomeGA4Event,
 } from '@shared/helpers/competency-outcome-analytic-event';
 import { CompetencyOutcome } from '@shared/models/competency-outcome';
+import { describe, expect, it } from 'vitest';
 
 describe('CompetencyOutcomeAnalyticEvent', () => {
   it('should return REMOVE_DANGEROUS_FAULT when faultLevel is D', () => {

@@ -18,13 +18,14 @@ import { OrientationMonitorProviderMock } from '@providers/orientation-monitor/_
 import { OrientationMonitorProvider } from '@providers/orientation-monitor/orientation-monitor.provider';
 import { SlotProviderMock } from '@providers/slot/__mocks__/slot.mock';
 import { SlotProvider } from '@providers/slot/slot';
+import { type MockedObject, beforeEach, describe, expect, it, vi } from 'vitest';
 import { UnuploadedTestsViewDidEnter } from '../unuploaded-tests.actions';
 import { UnuploadedTestsPage } from '../unuploaded-tests.page';
 
 describe('UnuploadedTestsPage', () => {
   let component: UnuploadedTestsPage;
   let fixture: ComponentFixture<UnuploadedTestsPage>;
-  let store$: jasmine.SpyObj<Store<any>>;
+  let store$: MockedObject<Store<any>>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -43,12 +44,12 @@ describe('UnuploadedTestsPage', () => {
 
     fixture = TestBed.createComponent(UnuploadedTestsPage);
     component = fixture.componentInstance;
-    store$ = TestBed.inject(Store) as jasmine.SpyObj<Store<any>>;
+    store$ = TestBed.inject(Store) as MockedObject<Store<any>>;
   });
 
   describe('ionViewDidEnter', () => {
     it('should dispatch UnuploadedTestsViewDidEnter action', async () => {
-      spyOn(component.store$, 'dispatch').and.callThrough();
+      vi.spyOn(component.store$, 'dispatch');
       await component.ionViewDidEnter();
       expect(store$.dispatch).toHaveBeenCalledWith(UnuploadedTestsViewDidEnter());
     });
@@ -56,7 +57,7 @@ describe('UnuploadedTestsPage', () => {
 
   describe('goToDashboard', () => {
     it('should navigate back to the dashboard page', () => {
-      spyOn(component.router, 'navigate').and.callThrough();
+      vi.spyOn(component.router, 'navigate').mockResolvedValue(true);
       component.goToDashboard();
       expect(component.router.navigate).toHaveBeenCalledWith([DASHBOARD_PAGE], { replaceUrl: true });
     });

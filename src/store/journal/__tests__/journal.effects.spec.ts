@@ -1,7 +1,8 @@
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { Store, StoreModule } from '@ngrx/store';
-import { ReplaySubject, of } from 'rxjs';
+import { ReplaySubject, firstValueFrom, of } from 'rxjs';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { JournalRefreshModes } from '@providers/analytics/analytics.model';
 import { AppConfigProviderMock } from '@providers/app-config/__mocks__/app-config.mock';
@@ -36,6 +37,7 @@ import { TestStatus } from '@store/tests/test-status/test-status.model';
 import { LoadRemoteTests } from '@store/tests/tests.actions';
 import { TestResultsRehydrated } from '@store/tests/tests.model';
 import { TestResultRehydration, getTests } from '@store/tests/tests.reducer';
+import { unitTestErrorCause } from '../../../test-setup.vitest';
 import * as journalActions from '../journal.actions';
 import { JournalRehydrationNull, JournalRehydrationSuccess } from '../journal.actions';
 import { JournalEffects, JournalRehydrationPage, JournalRehydrationType } from '../journal.effects';
@@ -121,83 +123,68 @@ describe('JournalEffects', () => {
     compressionProvider = TestBed.inject(CompressionProvider);
   });
 
-  it('should dispatch the success action when the journal loads successfully', (done) => {
-    // ARRANGE
-    spyOn(journalProvider, 'getJournal').and.callThrough();
-    spyOn(journalProvider, 'saveJournalForOffline').and.callThrough();
-    spyOn(slotProvider, 'detectSlotChanges').and.callThrough();
-    spyOn(slotProvider, 'extendWithEmptyDays').and.callThrough();
-    spyOn(slotProvider, 'getRelevantSlots').and.callThrough();
-    spyOn(compressionProvider, 'extract');
-    spyOn(compressionProvider, 'compress');
-    // ACT
+  it('should dispatch the success action when the journal loads successfully', async () => {
+    vi.spyOn(journalProvider, 'getJournal');
+    vi.spyOn(journalProvider, 'saveJournalForOffline');
+    vi.spyOn(slotProvider, 'detectSlotChanges');
+    vi.spyOn(slotProvider, 'extendWithEmptyDays');
+    vi.spyOn(slotProvider, 'getRelevantSlots');
+    vi.spyOn(compressionProvider, 'extract');
+    vi.spyOn(compressionProvider, 'compress');
     actions$.next(journalActions.LoadJournal());
-    // ASSERT
-    effects.loadJournal$.subscribe((result) => {
-      expect(journalProvider.getJournal).toHaveBeenCalled();
-      expect(journalProvider.saveJournalForOffline).toHaveBeenCalled();
-      expect(slotProvider.detectSlotChanges).toHaveBeenCalled();
-      expect(slotProvider.extendWithEmptyDays).toHaveBeenCalled();
-      expect(slotProvider.getRelevantSlots).toHaveBeenCalled();
-      expect(result.type === '[JournalPage] Load Journal Success').toBe(true);
-      done();
-    });
+    const result = await firstValueFrom(effects.loadJournal$);
+    expect(journalProvider.getJournal).toHaveBeenCalled();
+    expect(journalProvider.saveJournalForOffline).toHaveBeenCalled();
+    expect(slotProvider.detectSlotChanges).toHaveBeenCalled();
+    expect(slotProvider.extendWithEmptyDays).toHaveBeenCalled();
+    expect(slotProvider.getRelevantSlots).toHaveBeenCalled();
+    expect(result.type === '[JournalPage] Load Journal Success').toBe(true);
   });
 
-  it('should dispatch the success action when an error is thrown indicating HTTP 304 for the journal', (done) => {
-    // ARRANGE
-    spyOn(journalProvider, 'getJournal').and.callThrough();
-    spyOn(journalProvider, 'saveJournalForOffline').and.callThrough();
-    spyOn(slotProvider, 'detectSlotChanges').and.callThrough();
-    spyOn(slotProvider, 'extendWithEmptyDays').and.callThrough();
-    spyOn(slotProvider, 'getRelevantSlots').and.callThrough();
+  it('should dispatch the success action when an error is thrown indicating HTTP 304 for the journal', async () => {
+    vi.spyOn(journalProvider, 'getJournal');
+    vi.spyOn(journalProvider, 'saveJournalForOffline');
+    vi.spyOn(slotProvider, 'detectSlotChanges');
+    vi.spyOn(slotProvider, 'extendWithEmptyDays');
+    vi.spyOn(slotProvider, 'getRelevantSlots');
     (<any>journalProvider).setupHttp304Error();
-    // ACT
     actions$.next(journalActions.LoadJournal());
-    // ASSERT
-    effects.loadJournal$.subscribe((result) => {
-      expect(journalProvider.getJournal).toHaveBeenCalled();
-      expect(journalProvider.saveJournalForOffline).not.toHaveBeenCalled();
-      expect(slotProvider.detectSlotChanges).not.toHaveBeenCalled();
-      expect(slotProvider.extendWithEmptyDays).not.toHaveBeenCalled();
-      expect(slotProvider.getRelevantSlots).not.toHaveBeenCalled();
-      expect(result.type === '[JournalPage] Load Journal Success').toBe(true);
-      done();
-    });
+    const result = await firstValueFrom(effects.loadJournal$);
+    expect(journalProvider.getJournal).toHaveBeenCalled();
+    expect(journalProvider.saveJournalForOffline).not.toHaveBeenCalled();
+    expect(slotProvider.detectSlotChanges).not.toHaveBeenCalled();
+    expect(slotProvider.extendWithEmptyDays).not.toHaveBeenCalled();
+    expect(slotProvider.getRelevantSlots).not.toHaveBeenCalled();
+    expect(result.type === '[JournalPage] Load Journal Success').toBe(true);
   });
 
-  it('should save a log if a timeout error occurs', (done) => {
-    // ARRANGE
-    spyOn(journalProvider, 'getJournal').and.callThrough();
-    spyOn(journalProvider, 'saveJournalForOffline').and.callThrough();
-    spyOn(slotProvider, 'detectSlotChanges').and.callThrough();
-    spyOn(slotProvider, 'extendWithEmptyDays').and.callThrough();
-    spyOn(slotProvider, 'getRelevantSlots').and.callThrough();
-    spyOn(store$, 'dispatch').and.callThrough();
+  it('should save a log if a timeout error occurs', async () => {
+    vi.spyOn(journalProvider, 'getJournal');
+    vi.spyOn(journalProvider, 'saveJournalForOffline');
+    vi.spyOn(slotProvider, 'detectSlotChanges');
+    vi.spyOn(slotProvider, 'extendWithEmptyDays');
+    vi.spyOn(slotProvider, 'getRelevantSlots');
+    vi.spyOn(store$, 'dispatch');
     (<any>journalProvider).setupTimeoutError();
-    // ACT
     actions$.next(journalActions.LoadJournal());
-    // ASSERT
-    effects.loadJournal$.subscribe((result) => {
-      expect(journalProvider.getJournal).toHaveBeenCalled();
-      expect(journalProvider.saveJournalForOffline).not.toHaveBeenCalled();
-      expect(slotProvider.detectSlotChanges).not.toHaveBeenCalledWith({}, JournalProviderMock.mockJournal);
-      expect(slotProvider.extendWithEmptyDays).not.toHaveBeenCalled();
-      expect(slotProvider.getRelevantSlots).not.toHaveBeenCalled();
-      expect(result.type === '[JournalPage] Journal Refresh Error').toBe(true);
-      expect(store$.dispatch).toHaveBeenCalledWith(journalActions.JournalRefresh(JournalRefreshModes.MANUAL));
-      done();
-    });
+    const result = await firstValueFrom(effects.loadJournal$);
+    expect(journalProvider.getJournal).toHaveBeenCalled();
+    expect(journalProvider.saveJournalForOffline).not.toHaveBeenCalled();
+    expect(slotProvider.detectSlotChanges).not.toHaveBeenCalledWith({}, JournalProviderMock.mockJournal);
+    expect(slotProvider.extendWithEmptyDays).not.toHaveBeenCalled();
+    expect(slotProvider.getRelevantSlots).not.toHaveBeenCalled();
+    expect(result.type === '[JournalPage] Journal Refresh Error').toBe(true);
+    expect(store$.dispatch).toHaveBeenCalledWith(journalActions.JournalRefresh(JournalRefreshModes.MANUAL));
   });
 
   it('should save a log if an actual error occurs', () => {
     // ARRANGE
-    spyOn(journalProvider, 'getJournal').and.callThrough();
-    spyOn(journalProvider, 'saveJournalForOffline').and.callThrough();
-    spyOn(slotProvider, 'detectSlotChanges').and.callThrough();
-    spyOn(slotProvider, 'extendWithEmptyDays').and.callThrough();
-    spyOn(slotProvider, 'getRelevantSlots').and.callThrough();
-    spyOn(store$, 'dispatch').and.callThrough();
+    vi.spyOn(journalProvider, 'getJournal');
+    vi.spyOn(journalProvider, 'saveJournalForOffline');
+    vi.spyOn(slotProvider, 'detectSlotChanges');
+    vi.spyOn(slotProvider, 'extendWithEmptyDays');
+    vi.spyOn(slotProvider, 'getRelevantSlots');
+    vi.spyOn(store$, 'dispatch');
     (<any>journalProvider).setupActualError();
     // ACT
     actions$.next(journalActions.LoadJournal());
@@ -210,16 +197,16 @@ describe('JournalEffects', () => {
       expect(slotProvider.getRelevantSlots).not.toHaveBeenCalled();
       expect(result.type === '[JournalPage] Load Journal Success').toBe(false);
       expect(store$.dispatch).toHaveBeenCalledWith(journalActions.JournalRefresh(JournalRefreshModes.MANUAL));
-      // expect(store$.dispatch).toHaveBeenCalledWith(jasmine.any(SaveLog));
+      // expect(store$.dispatch).toHaveBeenCalledWith(expect.any(SaveLog));
     });
   });
 
   it('should dispatch the failure action when the journal fails to load', () => {
     // ARRANGE
-    spyOn(journalProvider, 'getJournal').and.callThrough();
-    spyOn(slotProvider, 'detectSlotChanges').and.callThrough();
-    spyOn(slotProvider, 'extendWithEmptyDays').and.callThrough();
-    spyOn(slotProvider, 'getRelevantSlots').and.callThrough();
+    vi.spyOn(journalProvider, 'getJournal');
+    vi.spyOn(slotProvider, 'detectSlotChanges');
+    vi.spyOn(slotProvider, 'extendWithEmptyDays');
+    vi.spyOn(slotProvider, 'getRelevantSlots');
     (<any>journalProvider).setupHttpError();
     // ACT
     actions$.next(journalActions.LoadJournal());
@@ -236,7 +223,7 @@ describe('JournalEffects', () => {
         expect(result.type === '[JournalEffects] Load Journal Failure').toEqual(true);
         expect((result as any).error.message).toBe('Http failure response for (unknown url): 403 Forbidden');
       } else {
-        fail('Unknown Action Sent');
+        throw new Error('Unknown Action Sent', { cause: unitTestErrorCause });
       }
     });
   });
@@ -267,132 +254,147 @@ describe('JournalEffects', () => {
     });
   });
 
-  it('should call the relevant methods and return correctly in the pollingSetup effect', (done) => {
-    // ARRANGE
-    spyOn(networkStateProvider, 'onNetworkChange').and.returnValue(of(NetworkConnectionStatus.ONLINE)); // Force to online
-    spyOn(appConfigProvider, 'getAppConfig').and.returnValue({
+  it('should call the relevant methods and return correctly in the pollingSetup effect', async () => {
+    vi.spyOn(networkStateProvider, 'onNetworkChange').mockReturnValue(of(NetworkConnectionStatus.ONLINE));
+    vi.spyOn(appConfigProvider, 'getAppConfig').mockReturnValue({
       journal: { autoRefreshInterval: 200 },
-    } as AppConfig); // Set autoRefreshInterval to 200ms for test
-    // ACT
+    } as AppConfig);
     actions$.next(journalActions.SetupPolling());
-    // ASSERT
-    effects.pollingSetup$.subscribe((result) => {
-      expect(appConfigProvider.getAppConfig).toHaveBeenCalled();
-      expect(networkStateProvider.onNetworkChange).toHaveBeenCalled();
-      expect(result).toEqual({ type: '[JournalPage] Load Journal Silent' });
-      actions$.next(journalActions.StopPolling());
-      done();
-    });
+    const result = await firstValueFrom(effects.pollingSetup$);
+    expect(appConfigProvider.getAppConfig).toHaveBeenCalled();
+    expect(networkStateProvider.onNetworkChange).toHaveBeenCalled();
+    expect(result).toEqual({ type: '[JournalPage] Load Journal Silent' });
+    actions$.next(journalActions.StopPolling());
   });
 
   describe('journalRehydration$', () => {
-    it('should dispatch LoadRemoteTests and JournalRehydrationSuccess when rehydrated tests are returned', (done) => {
-      const mockSlot = {
-        slotData: {
-          slotDetail: { slotId: 123 },
-          booking: { application: { applicationId: 999, bookingSequence: 1, checkDigit: 2, bookingReference: '999' } },
-        },
-      };
+    it('should dispatch LoadRemoteTests and JournalRehydrationSuccess when rehydrated tests are returned', async () => {
+      await new Promise<void>((done, reject) => {
+        const mockSlot = {
+          slotData: {
+            slotDetail: { slotId: 123 },
+            booking: {
+              application: { applicationId: 999, bookingSequence: 1, checkDigit: 2, bookingReference: '999' },
+            },
+          },
+        };
 
-      const mockResponse: TestResultsRehydrated[] = [
-        {
-          autosave: 1,
-          test_result: {
-            journalData: {
-              applicationReference: {
-                applicationId: 999,
-                bookingSequence: 1,
-                checkDigit: 2,
-                bookingReference: '999',
-              },
-              testSlotAttributes: { slotId: 123 } as TestSlotAttributes,
-            } as JournalData,
-          } as TestResultSchemasUnion,
-        },
-      ];
+        const mockResponse: TestResultsRehydrated[] = [
+          {
+            autosave: 1,
+            test_result: {
+              journalData: {
+                applicationReference: {
+                  applicationId: 999,
+                  bookingSequence: 1,
+                  checkDigit: 2,
+                  bookingReference: '999',
+                },
+                testSlotAttributes: { slotId: 123 } as TestSlotAttributes,
+              } as JournalData,
+            } as TestResultSchemasUnion,
+          },
+        ];
 
-      const expectedMapped: TestResultRehydration[] = [
-        {
-          autosave: true,
-          testData: mockResponse[0].test_result,
-          slotId: '123',
-        },
-      ];
+        const expectedMapped: TestResultRehydration[] = [
+          {
+            autosave: true,
+            testData: mockResponse[0].test_result,
+            slotId: '123',
+          },
+        ];
 
-      spyOn(store$, 'dispatch');
-      spyOn(store$, 'select').and.callFake((selector) => {
-        if (selector === getTests) {
-          return of({ testStatus: { 123: TestStatus.Booked } });
-        }
-        if (selector === getJournalState) {
-          return of({ slots: [mockSlot] });
-        }
-        return of(null);
-      });
+        vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
+        vi.spyOn(store$, 'select').mockImplementation((selector: unknown) => {
+          if (selector === getTests) {
+            return of({ testStatus: { 123: TestStatus.Booked } });
+          }
+          if (selector === getJournalState) {
+            return of({ slots: [mockSlot] });
+          }
+          return of(null);
+        });
 
-      spyOn(searchProvider, 'getTestResults').and.returnValue(of({ body: mockResponse } as any));
-      spyOn(compressionProvider, 'compress').and.callThrough();
-      spyOn(compressionProvider, 'extract').and.returnValue(mockResponse);
+        vi.spyOn(searchProvider, 'getTestResults').mockReturnValue(of({ body: mockResponse } as any));
+        vi.spyOn(compressionProvider, 'compress');
+        vi.spyOn(compressionProvider, 'extract').mockReturnValue(mockResponse);
 
-      actions$.next(journalActions.JournalRehydration(JournalRehydrationType.MANUAL, JournalRehydrationPage.JOURNAL));
+        actions$.next(journalActions.JournalRehydration(JournalRehydrationType.MANUAL, JournalRehydrationPage.JOURNAL));
 
-      effects.journalRehydration$.subscribe(() => {
-        expect(compressionProvider.compress).toHaveBeenCalled();
-        expect(compressionProvider.extract).toHaveBeenCalled();
-        expect(searchProvider.getTestResults).toHaveBeenCalled();
-        expect(store$.dispatch).toHaveBeenCalledWith(LoadRemoteTests(expectedMapped));
-        expect(store$.dispatch).toHaveBeenCalledWith(
-          JournalRehydrationSuccess(JournalRehydrationType.MANUAL, JournalRehydrationPage.JOURNAL)
-        );
-        done();
-      });
-    });
-    it('should dispatch JournalRehydrationNull when no eligible slots exist', (done) => {
-      spyOn(searchProvider, 'getTestResults').and.returnValue(of({} as HttpResponse<string>));
-      spyOn(compressionProvider, 'compress').and.callThrough();
-      spyOn(compressionProvider, 'extract').and.returnValue([]);
-      spyOn(store$, 'dispatch');
-      actions$.next(journalActions.JournalRehydration(JournalRehydrationType.MANUAL, JournalRehydrationPage.JOURNAL));
-      effects.journalRehydration$.subscribe(() => {
-        expect(compressionProvider.compress).toHaveBeenCalled();
-        expect(compressionProvider.extract).toHaveBeenCalled();
-        expect(searchProvider.getTestResults).toHaveBeenCalled();
-        expect(store$.dispatch).toHaveBeenCalledWith(
-          JournalRehydrationNull(JournalRehydrationType.MANUAL, JournalRehydrationPage.JOURNAL)
-        );
-        done();
+        effects.journalRehydration$.subscribe(() => {
+          try {
+            expect(compressionProvider.compress).toHaveBeenCalled();
+            expect(compressionProvider.extract).toHaveBeenCalled();
+            expect(searchProvider.getTestResults).toHaveBeenCalled();
+            expect(store$.dispatch).toHaveBeenCalledWith(LoadRemoteTests(expectedMapped));
+            expect(store$.dispatch).toHaveBeenCalledWith(
+              JournalRehydrationSuccess(JournalRehydrationType.MANUAL, JournalRehydrationPage.JOURNAL)
+            );
+            done();
+          } catch (error) {
+            reject(error);
+          }
+        }, reject);
       });
     });
-    it('should dispatch JournalRehydrationNull when provider returns no results', (done) => {
-      const mockSlot = {
-        slotData: {
-          slotDetail: { slotId: 123 },
-          booking: { application: { applicationId: 999 } },
-        },
-      };
-
-      spyOn(store$, 'dispatch');
-      spyOn(store$, 'select').and.callFake((selector) => {
-        if (selector === getTests) {
-          return of({ testStatus: { 123: TestStatus.Booked } });
-        }
-        if (selector === getJournalState) {
-          return of({ slots: [mockSlot] });
-        }
-        return of(null);
+    it('should dispatch JournalRehydrationNull when no eligible slots exist', async () => {
+      await new Promise<void>((done, reject) => {
+        vi.spyOn(searchProvider, 'getTestResults').mockReturnValue(of({} as HttpResponse<string>));
+        vi.spyOn(compressionProvider, 'compress');
+        vi.spyOn(compressionProvider, 'extract').mockReturnValue([]);
+        vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
+        actions$.next(journalActions.JournalRehydration(JournalRehydrationType.MANUAL, JournalRehydrationPage.JOURNAL));
+        effects.journalRehydration$.subscribe(() => {
+          try {
+            expect(compressionProvider.compress).toHaveBeenCalled();
+            expect(compressionProvider.extract).toHaveBeenCalled();
+            expect(searchProvider.getTestResults).toHaveBeenCalled();
+            expect(store$.dispatch).toHaveBeenCalledWith(
+              JournalRehydrationNull(JournalRehydrationType.MANUAL, JournalRehydrationPage.JOURNAL)
+            );
+            done();
+          } catch (error) {
+            reject(error);
+          }
+        }, reject);
       });
+    });
+    it('should dispatch JournalRehydrationNull when provider returns no results', async () => {
+      await new Promise<void>((done, reject) => {
+        const mockSlot = {
+          slotData: {
+            slotDetail: { slotId: 123 },
+            booking: { application: { applicationId: 999 } },
+          },
+        };
 
-      spyOn(searchProvider, 'getTestResults').and.returnValue(of({ body: [] } as any));
-      spyOn(compressionProvider, 'compress').and.callThrough();
-      spyOn(compressionProvider, 'extract').and.returnValue([]);
+        vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
+        vi.spyOn(store$, 'select').mockImplementation((selector: unknown) => {
+          if (selector === getTests) {
+            return of({ testStatus: { 123: TestStatus.Booked } });
+          }
+          if (selector === getJournalState) {
+            return of({ slots: [mockSlot] });
+          }
+          return of(null);
+        });
 
-      actions$.next(journalActions.JournalRehydration(JournalRehydrationType.MANUAL, JournalRehydrationPage.JOURNAL));
+        vi.spyOn(searchProvider, 'getTestResults').mockReturnValue(of({ body: [] } as any));
+        vi.spyOn(compressionProvider, 'compress');
+        vi.spyOn(compressionProvider, 'extract').mockReturnValue([]);
 
-      effects.journalRehydration$.subscribe(() => {
-        expect(store$.dispatch).toHaveBeenCalledWith(
-          JournalRehydrationNull(JournalRehydrationType.MANUAL, JournalRehydrationPage.JOURNAL)
-        );
-        done();
+        actions$.next(journalActions.JournalRehydration(JournalRehydrationType.MANUAL, JournalRehydrationPage.JOURNAL));
+
+        effects.journalRehydration$.subscribe(() => {
+          try {
+            expect(store$.dispatch).toHaveBeenCalledWith(
+              JournalRehydrationNull(JournalRehydrationType.MANUAL, JournalRehydrationPage.JOURNAL)
+            );
+            done();
+          } catch (error) {
+            reject(error);
+          }
+        }, reject);
       });
     });
   });

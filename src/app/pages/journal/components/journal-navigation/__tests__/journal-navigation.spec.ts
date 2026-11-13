@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { JournalNavigationComponent } from '../journal-navigation';
 
@@ -17,7 +18,7 @@ describe('JournalNavigationComponent', () => {
 
   describe('onPreviousDayClick', () => {
     it('should emit previousDayClicked', () => {
-      spyOn(component.previousDayClicked, 'emit');
+      vi.spyOn(component.previousDayClicked, 'emit').mockReturnValue(undefined);
       component.onPreviousDayClick();
       expect(component.previousDayClicked.emit).toHaveBeenCalled();
     });
@@ -25,7 +26,7 @@ describe('JournalNavigationComponent', () => {
 
   describe('onNextDayClick', () => {
     it('should emit nextDayClicked', () => {
-      spyOn(component.nextDayClicked, 'emit');
+      vi.spyOn(component.nextDayClicked, 'emit').mockReturnValue(undefined);
       component.onNextDayClick();
       expect(component.nextDayClicked.emit).toHaveBeenCalled();
     });

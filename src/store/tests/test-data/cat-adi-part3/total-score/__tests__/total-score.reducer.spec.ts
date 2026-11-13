@@ -1,4 +1,5 @@
 import { totalScoreReducer } from '@store/tests/test-data/cat-adi-part3/total-score/total-score.reducer';
+import { describe, expect, it } from 'vitest';
 import * as testRequirementsActions from '../total-score.actions';
 
 describe('totalScoreReducer', () => {

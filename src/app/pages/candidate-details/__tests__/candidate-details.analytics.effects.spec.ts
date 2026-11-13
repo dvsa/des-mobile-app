@@ -25,7 +25,8 @@ import {
 import { candidateMock } from '@store/tests/__mocks__/tests.mock';
 import { PopulateCandidateDetails } from '@store/tests/journal-data/common/candidate/candidate.actions';
 import * as testsActions from '@store/tests/tests.actions';
-import { ReplaySubject } from 'rxjs';
+import { ReplaySubject, firstValueFrom } from 'rxjs';
+import { beforeEach, describe, expect, it } from 'vitest';
 
 describe('CandidateDetailsAnalyticsEffects', () => {
   let effects: CandidateDetailsAnalyticsEffects;
@@ -74,82 +75,61 @@ describe('CandidateDetailsAnalyticsEffects', () => {
   });
 
   describe('candidateView$', () => {
-    it('should call setCurrentPage', (done) => {
-      // ARRANGE
+    it('should call setCurrentPage', async () => {
       store$.dispatch(testsActions.StartTest(123, TestCategory.B));
       store$.dispatch(PopulateCandidateDetails(candidateMock));
-      // ACT
       actions$.next(CandidateDetailsViewDidEnter({ slot: mockTestSlot }));
-      // ASSERT
-      effects.candidateView$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-
-        // GA4 Analytics
-        expect(analyticsProviderMock.setGACurrentPage).toHaveBeenCalledWith(screenName);
-        expect(analyticsProviderMock.addGACustomDimension).toHaveBeenCalledWith(
-          GoogleAnalyticsCustomDimension.CANDIDATE_ID,
-          '123'
-        );
-        expect(analyticsProviderMock.addGACustomDimension).toHaveBeenCalledWith(
-          GoogleAnalyticsCustomDimension.CANDIDATE_WITH_SPECIAL_NEEDS,
-          '1'
-        );
-        expect(analyticsProviderMock.addGACustomDimension).toHaveBeenCalledWith(
-          GoogleAnalyticsCustomDimension.CANDIDATE_WITH_CHECK,
-          '1'
-        );
-        done();
-      });
+      const result = await firstValueFrom(effects.candidateView$);
+      expect(result.type).toEqual(AnalyticRecorded.type);
+      expect(analyticsProviderMock.setGACurrentPage).toHaveBeenCalledWith(screenName);
+      expect(analyticsProviderMock.addGACustomDimension).toHaveBeenCalledWith(
+        GoogleAnalyticsCustomDimension.CANDIDATE_ID,
+        '123'
+      );
+      expect(analyticsProviderMock.addGACustomDimension).toHaveBeenCalledWith(
+        GoogleAnalyticsCustomDimension.CANDIDATE_WITH_SPECIAL_NEEDS,
+        '1'
+      );
+      expect(analyticsProviderMock.addGACustomDimension).toHaveBeenCalledWith(
+        GoogleAnalyticsCustomDimension.CANDIDATE_WITH_CHECK,
+        '1'
+      );
     });
   });
   describe('candidateModalDismiss$', () => {
-    it('should set analytic data to null and stamp page with source', (done) => {
-      // ARRANGE
+    it('should set analytic data to null and stamp page with source', async () => {
       store$.dispatch(testsActions.StartTest(123, TestCategory.B));
       store$.dispatch(PopulateCandidateDetails(candidateMock));
-      // ACT
       actions$.next(CandidateDetailsModalDismiss({ sourcePage: 'JournalPage' }));
-      // ASSERT
-      effects.candidateModalDismiss$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-
-        // GA4 Analytics
-        expect(analyticsProviderMock.setGACurrentPage).toHaveBeenCalledWith(AnalyticsScreenNames.JOURNAL);
-        expect(analyticsProviderMock.addGACustomDimension).toHaveBeenCalledWith(
-          GoogleAnalyticsCustomDimension.CANDIDATE_ID,
-          null
-        );
-        expect(analyticsProviderMock.addGACustomDimension).toHaveBeenCalledWith(
-          GoogleAnalyticsCustomDimension.CANDIDATE_WITH_SPECIAL_NEEDS,
-          null
-        );
-        expect(analyticsProviderMock.addGACustomDimension).toHaveBeenCalledWith(
-          GoogleAnalyticsCustomDimension.CANDIDATE_WITH_CHECK,
-          null
-        );
-        done();
-      });
+      const result = await firstValueFrom(effects.candidateModalDismiss$);
+      expect(result.type).toEqual(AnalyticRecorded.type);
+      expect(analyticsProviderMock.setGACurrentPage).toHaveBeenCalledWith(AnalyticsScreenNames.JOURNAL);
+      expect(analyticsProviderMock.addGACustomDimension).toHaveBeenCalledWith(
+        GoogleAnalyticsCustomDimension.CANDIDATE_ID,
+        null
+      );
+      expect(analyticsProviderMock.addGACustomDimension).toHaveBeenCalledWith(
+        GoogleAnalyticsCustomDimension.CANDIDATE_WITH_SPECIAL_NEEDS,
+        null
+      );
+      expect(analyticsProviderMock.addGACustomDimension).toHaveBeenCalledWith(
+        GoogleAnalyticsCustomDimension.CANDIDATE_WITH_CHECK,
+        null
+      );
     });
   });
   describe('slotChangeViewed$', () => {
-    it('should dispatch logEvent with slotId', (done) => {
-      // ARRANGE
+    it('should dispatch logEvent with slotId', async () => {
       store$.dispatch(testsActions.StartTest(123, TestCategory.B));
       store$.dispatch(PopulateCandidateDetails(candidateMock));
-      // ACT
       actions$.next(CandidateDetailsSlotChangeViewed({ slotId: 123 }));
-      // ASSERT
-      effects.slotChangeViewed$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-
-        // GA4 Analytics
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-          GoogleAnalyticsEvents.JOURNAL,
-          GoogleAnalyticsEventsTitles.SLOT_VIEWED,
-          '123'
-        );
-        done();
-      });
+      const result = await firstValueFrom(effects.slotChangeViewed$);
+      expect(result.type).toEqual(AnalyticRecorded.type);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+        GoogleAnalyticsEvents.JOURNAL,
+        GoogleAnalyticsEventsTitles.SLOT_VIEWED,
+        '123'
+      );
     });
   });
 });

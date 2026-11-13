@@ -2,6 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Router } from '@angular/router';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { provideBasePageMocks } from '@mocks/test-providers';
 import { provideMockStore } from '@ngrx/store/testing';
@@ -124,8 +125,8 @@ describe('CandidateLicencePage', () => {
     router = TestBed.inject(Router);
     domSanitizer = TestBed.inject(DomSanitizer);
 
-    spyOn(store$, 'dispatch');
-    spyOn(router, 'navigate');
+    vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
+    vi.spyOn(router, 'navigate');
 
     component.isPracticeMode = false;
     component.formGroup = new FormGroup({
@@ -170,7 +171,7 @@ describe('CandidateLicencePage', () => {
         expect(component.getImage({} as DriverPhotograph, 'image')).toEqual(null);
       });
       it('should use the values from driverPhotograph and pass into dom sanitizer method', () => {
-        spyOn(domSanitizer, 'bypassSecurityTrustUrl');
+        vi.spyOn(domSanitizer, 'bypassSecurityTrustUrl').mockReturnValue(undefined);
         component.driverDataReturned = true;
         component.getImage(
           {

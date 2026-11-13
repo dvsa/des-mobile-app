@@ -1,6 +1,7 @@
 import { EventEmitter } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { QuestionResult } from '@dvsa/mes-test-schema/categories/common';
 
@@ -52,7 +53,7 @@ describe('VehicleChecksQuestionCatAMod2Component', () => {
         'should have questionFormControl form control be patched with ' +
           'findQuestion() if questionResult is already valid',
         () => {
-          spyOn(component, 'findQuestion').and.returnValue({
+          vi.spyOn(component, 'findQuestion').mockReturnValue({
             shortName: 'shortName',
             code: 'test',
             description: 'Description',
@@ -71,7 +72,7 @@ describe('VehicleChecksQuestionCatAMod2Component', () => {
         'should have questionOutcomeFormControl form control be patched with ' +
           'questionResult.outcome if questionResult is already valid',
         () => {
-          spyOn(component, 'findQuestion').and.returnValue({
+          vi.spyOn(component, 'findQuestion').mockReturnValue({
             shortName: 'shortName',
             code: 'test',
             description: 'Description',
@@ -126,7 +127,7 @@ describe('VehicleChecksQuestionCatAMod2Component', () => {
         component.safetyAndBalanceQuestionChanged(null);
         expect(component.safetyAndBalanceQuestionChanged(null)).toEqual(undefined);
 
-        spyOn(component.safetyAndBalanceQuestionChange, 'emit');
+        vi.spyOn(component.safetyAndBalanceQuestionChange, 'emit').mockReturnValue(undefined);
 
         component.safetyAndBalanceQuestionChanged(null);
 
@@ -134,7 +135,7 @@ describe('VehicleChecksQuestionCatAMod2Component', () => {
       });
       it('should emit the correct event', () => {
         component.safetyAndBalanceQuestionChange = new EventEmitter();
-        spyOn(component.safetyAndBalanceQuestionChange, 'emit');
+        vi.spyOn(component.safetyAndBalanceQuestionChange, 'emit').mockReturnValue(undefined);
 
         component.safetyAndBalanceQuestionChanged(safetyAndBalanceQuestion);
 
@@ -147,7 +148,7 @@ describe('VehicleChecksQuestionCatAMod2Component', () => {
     describe('safetyAndBalancePassSelected', () => {
       it('should emit the correct event', () => {
         component.safetyAndBalanceQuestionOutcomeChange = new EventEmitter();
-        spyOn(component.safetyAndBalanceQuestionOutcomeChange, 'emit');
+        vi.spyOn(component.safetyAndBalanceQuestionOutcomeChange, 'emit').mockReturnValue(undefined);
 
         component.safetyAndBalancePassSelected();
 
@@ -157,7 +158,7 @@ describe('VehicleChecksQuestionCatAMod2Component', () => {
     describe('safetyAndBalanceDrivingFaultSelected', () => {
       it('should emit the correct event', () => {
         component.safetyAndBalanceQuestionOutcomeChange = new EventEmitter();
-        spyOn(component.safetyAndBalanceQuestionOutcomeChange, 'emit');
+        vi.spyOn(component.safetyAndBalanceQuestionOutcomeChange, 'emit').mockReturnValue(undefined);
 
         component.safetyAndBalanceDrivingFaultSelected();
 

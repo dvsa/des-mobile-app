@@ -1,4 +1,5 @@
 import { CatDUniqueTypes } from '@dvsa/mes-test-schema/categories/D';
+import { describe, expect, it } from 'vitest';
 import { safetyQuestionsExist } from '../safety-questions.cat-d.selector';
 
 describe('Safety Questions Selector Cat D', () => {

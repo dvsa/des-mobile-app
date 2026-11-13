@@ -4,6 +4,7 @@ import { TestResultSchemasUnion } from '@dvsa/mes-test-schema/categories';
 import { ModalController, Platform } from '@ionic/angular';
 import { ActivatedRouteMock, ModalControllerMock, PlatformMock, RouterMock } from '@mocks/index.mock';
 import { provideMockStore } from '@ngrx/store/testing';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { Injector } from '@angular/core';
 import { CatADI2UniqueTypes } from '@dvsa/mes-test-schema/categories/ADI2';
@@ -235,7 +236,7 @@ describe('TestReportBasePageComponent', () => {
   describe('cancelSubscription', () => {
     it('should unsubscribe from the subscription if there is one', () => {
       basePageComponent.subscription = new Subscription();
-      spyOn(basePageComponent.subscription, 'unsubscribe');
+      vi.spyOn(basePageComponent.subscription, 'unsubscribe').mockReturnValue(undefined);
       basePageComponent.cancelSubscription();
       expect(basePageComponent.subscription.unsubscribe).toHaveBeenCalled();
     });
@@ -252,7 +253,7 @@ describe('TestReportBasePageComponent', () => {
   describe('onEndTestClick', () => {
     it('should create LegalRequirementsModal if test report is invalid', async () => {
       basePageComponent.isTestReportValid = false;
-      spyOn(basePageComponent.modalController, 'create').and.callThrough();
+      vi.spyOn(basePageComponent.modalController, 'create');
       await basePageComponent.onEndTestClick();
       expect(basePageComponent.modalController.create).toHaveBeenCalledWith({
         component: LegalRequirementsModal,
@@ -267,7 +268,7 @@ describe('TestReportBasePageComponent', () => {
     it('should create EtaInvalidModal if ETA is invalid', async () => {
       basePageComponent.isTestReportValid = true;
       basePageComponent.isEtaValid = false;
-      spyOn(basePageComponent.modalController, 'create').and.callThrough();
+      vi.spyOn(basePageComponent.modalController, 'create');
       await basePageComponent.onEndTestClick();
       expect(basePageComponent.modalController.create).toHaveBeenCalledWith({
         component: EtaInvalidModal,
@@ -280,7 +281,7 @@ describe('TestReportBasePageComponent', () => {
       basePageComponent.isEtaValid = true;
       basePageComponent.manoeuvresCompleted = false;
       basePageComponent.testCategory = TestCategory.F;
-      spyOn(basePageComponent.modalController, 'create').and.callThrough();
+      vi.spyOn(basePageComponent.modalController, 'create');
       await basePageComponent.onEndTestClick();
       expect(basePageComponent.modalController.create).toHaveBeenCalledWith({
         component: SpecialLegalRequirementModal,
@@ -292,7 +293,7 @@ describe('TestReportBasePageComponent', () => {
       basePageComponent.isTestReportValid = true;
       basePageComponent.isEtaValid = true;
       basePageComponent.manoeuvresCompleted = true;
-      spyOn(basePageComponent.modalController, 'create').and.callThrough();
+      vi.spyOn(basePageComponent.modalController, 'create');
       await basePageComponent.onEndTestClick();
       expect(basePageComponent.modalController.create).toHaveBeenCalledWith({
         component: EndTestModal,
@@ -305,13 +306,13 @@ describe('TestReportBasePageComponent', () => {
       basePageComponent.isTestReportValid = true;
       basePageComponent.isEtaValid = true;
       basePageComponent.manoeuvresCompleted = true;
-      spyOn(basePageComponent.modalController, 'create').and.returnValue(
+      vi.spyOn(basePageComponent.modalController, 'create').mockReturnValue(
         Promise.resolve({
           present: () => Promise.resolve(),
           onWillDismiss: () => Promise.resolve(modalData),
         } as any)
       );
-      spyOn(basePageComponent, 'onModalDismiss');
+      vi.spyOn(basePageComponent, 'onModalDismiss').mockReturnValue(undefined);
       await basePageComponent.onEndTestClick();
       expect(basePageComponent.onModalDismiss).toHaveBeenCalledWith(modalData.data);
     });
@@ -320,46 +321,46 @@ describe('TestReportBasePageComponent', () => {
   describe('onModalDismiss', () => {
     it('should navigate to DEBRIEF_PAGE on CONTINUE event when test is not delegated', async () => {
       basePageComponent.isDelegated = false;
-      spyOn(basePageComponent.router, 'navigate');
+      vi.spyOn(basePageComponent.router, 'navigate');
       await basePageComponent.onModalDismiss(ModalEvent.CONTINUE);
       expect(basePageComponent.router.navigate).toHaveBeenCalledWith([TestFlowPageNames.DEBRIEF_PAGE]);
     });
 
     it('should dispatch CalculateTestResult action on CONTINUE event', async () => {
-      spyOn(basePageComponent.store$, 'dispatch');
+      vi.spyOn(basePageComponent.store$, 'dispatch').mockReturnValue(undefined);
       await basePageComponent.onModalDismiss(ModalEvent.CONTINUE);
       expect(basePageComponent.store$.dispatch).toHaveBeenCalledWith(CalculateTestResult());
     });
 
     it('should navigate to OFFICE_PAGE on CONTINUE event when test is delegated', async () => {
       basePageComponent.isDelegated = true;
-      spyOn(basePageComponent.routeByCategory, 'getNextPage').and.returnValue(TestFlowPageNames.OFFICE_PAGE);
-      spyOn(basePageComponent.router, 'navigate');
+      vi.spyOn(basePageComponent.routeByCategory, 'getNextPage').mockReturnValue(TestFlowPageNames.OFFICE_PAGE);
+      vi.spyOn(basePageComponent.router, 'navigate');
       await basePageComponent.onModalDismiss(ModalEvent.CONTINUE);
       expect(basePageComponent.router.navigate).toHaveBeenCalledWith([TestFlowPageNames.OFFICE_PAGE]);
     });
 
     it('should dispatch TerminateTestFromTestReport action on TERMINATE event', async () => {
-      spyOn(basePageComponent.store$, 'dispatch');
+      vi.spyOn(basePageComponent.store$, 'dispatch').mockReturnValue(undefined);
       await basePageComponent.onModalDismiss(ModalEvent.TERMINATE);
       expect(basePageComponent.store$.dispatch).toHaveBeenCalledWith(TerminateTestFromTestReport());
     });
 
     it('should dispatch SetActivityCode action with code "4" on END_WITH_ACTIVITY_CODE_4 event', async () => {
-      spyOn(basePageComponent.store$, 'dispatch');
+      vi.spyOn(basePageComponent.store$, 'dispatch').mockReturnValue(undefined);
       await basePageComponent.onModalDismiss(ModalEvent.END_WITH_ACTIVITY_CODE_4);
       expect(basePageComponent.store$.dispatch).toHaveBeenCalledWith(SetActivityCode('4'));
     });
 
     it('should dispatch ReturnToTest action on CANCEL event', async () => {
-      spyOn(basePageComponent.store$, 'dispatch');
+      vi.spyOn(basePageComponent.store$, 'dispatch').mockReturnValue(undefined);
       await basePageComponent.onModalDismiss(ModalEvent.CANCEL);
       expect(basePageComponent.store$.dispatch).toHaveBeenCalledWith(ReturnToTest());
     });
 
     it('should not navigate or dispatch any action on default case', async () => {
-      spyOn(basePageComponent.store$, 'dispatch');
-      spyOn(basePageComponent.router, 'navigate');
+      vi.spyOn(basePageComponent.store$, 'dispatch').mockReturnValue(undefined);
+      vi.spyOn(basePageComponent.router, 'navigate');
       await basePageComponent.onModalDismiss(null);
       expect(basePageComponent.store$.dispatch).not.toHaveBeenCalled();
       expect(basePageComponent.router.navigate).not.toHaveBeenCalled();
@@ -369,20 +370,20 @@ describe('TestReportBasePageComponent', () => {
   describe('ionViewDidEnter', () => {
     it('should setup subscription if none exists', () => {
       basePageComponent.subscription = null;
-      spyOn(basePageComponent, 'setupSubscription');
+      vi.spyOn(basePageComponent, 'setupSubscription').mockReturnValue(undefined);
       basePageComponent.ionViewDidEnter();
       expect(basePageComponent.setupSubscription).toHaveBeenCalled();
     });
     it('should setup subscription if existing subscription is closed', () => {
       basePageComponent.subscription = new Subscription();
       basePageComponent.subscription.unsubscribe(); // Manually close the subscription
-      spyOn(basePageComponent, 'setupSubscription');
+      vi.spyOn(basePageComponent, 'setupSubscription').mockReturnValue(undefined);
       basePageComponent.ionViewDidEnter();
       expect(basePageComponent.setupSubscription).toHaveBeenCalled();
     });
     it('should dispatch TestReportViewDidEnter action', () => {
       basePageComponent.subscription = new Subscription();
-      spyOn(basePageComponent.store$, 'dispatch');
+      vi.spyOn(basePageComponent.store$, 'dispatch').mockReturnValue(undefined);
       basePageComponent.ionViewDidEnter();
       expect(basePageComponent.store$.dispatch).toHaveBeenCalledWith(TestReportViewDidEnter());
     });

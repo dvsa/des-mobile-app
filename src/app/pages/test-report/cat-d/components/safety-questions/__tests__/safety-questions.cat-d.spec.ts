@@ -1,5 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
+import { firstValueFrom } from 'rxjs';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { Store, StoreModule } from '@ngrx/store';
 import { StoreModel } from '@shared/models/store.model';
@@ -42,17 +44,15 @@ describe('SafetyQuestionsComponent', () => {
     };
 
     beforeEach(() => {
-      spyOn(component.faultCountProvider, 'getSafetyQuestionsFaultCount').and.returnValue(safetyQuestionsScore);
+      vi.spyOn(component.faultCountProvider, 'getSafetyQuestionsFaultCount').mockReturnValue(safetyQuestionsScore);
     });
 
-    it('should set the safety questions driving fault count', (done: DoneFn) => {
+    it('should set the safety questions driving fault count', async () => {
       component.testCategory = TestCategory.D;
       component.ngOnInit();
-      component.componentState.safetyQuestionsDrivingFaultCount$.subscribe((result) => {
-        expect(component.faultCountProvider.getSafetyQuestionsFaultCount).toHaveBeenCalled();
-        expect(result).toEqual(1);
-        done();
-      });
+      const result = await firstValueFrom(component.componentState.safetyQuestionsDrivingFaultCount$);
+      expect(component.faultCountProvider.getSafetyQuestionsFaultCount).toHaveBeenCalled();
+      expect(result).toEqual(1);
     });
   });
 });

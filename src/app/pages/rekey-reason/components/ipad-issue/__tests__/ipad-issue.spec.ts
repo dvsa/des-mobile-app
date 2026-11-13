@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule, UntypedFormGroup } from '@angular/forms';
 import { By } from '@angular/platform-browser';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { IpadIssueComponent } from '../ipad-issue';
 
@@ -32,19 +33,19 @@ describe('IpadIssueComponent', () => {
 
     describe('selectedValueChanged', () => {
       it('should emit when checkbox is selected', () => {
-        spyOn(component.selectedChange, 'emit');
+        vi.spyOn(component.selectedChange, 'emit').mockReturnValue(undefined);
         component.selectedValueChanged(true);
         expect(component.selectedChange.emit).toHaveBeenCalledWith(true);
       });
       it('should reset the fields when unselecting the checkbox', () => {
         const technicalFault = component.formGroup.get('ipadIssueTechnicalFault');
-        spyOn(technicalFault, 'reset');
+        vi.spyOn(technicalFault, 'reset').mockReturnValue(undefined);
         const lost = component.formGroup.get('ipadIssueLost');
-        spyOn(lost, 'reset');
+        vi.spyOn(lost, 'reset').mockReturnValue(undefined);
         const stolen = component.formGroup.get('ipadIssueStolen');
-        spyOn(stolen, 'reset');
+        vi.spyOn(stolen, 'reset').mockReturnValue(undefined);
         const broken = component.formGroup.get('ipadIssueBroken');
-        spyOn(broken, 'reset');
+        vi.spyOn(broken, 'reset').mockReturnValue(undefined);
         component.selectedValueChanged(false);
         expect(technicalFault.reset).toHaveBeenCalled();
         expect(lost.reset).toHaveBeenCalled();
@@ -55,7 +56,7 @@ describe('IpadIssueComponent', () => {
 
     describe('technicalFaultSelected', () => {
       it('should emit', () => {
-        spyOn(component.technicalFaultChange, 'emit');
+        vi.spyOn(component.technicalFaultChange, 'emit').mockReturnValue(undefined);
         component.technicalFaultSelected();
         expect(component.technicalFaultChange.emit).toHaveBeenCalledWith(true);
       });
@@ -63,7 +64,7 @@ describe('IpadIssueComponent', () => {
 
     describe('lostSelected', () => {
       it('should emit', () => {
-        spyOn(component.lostChange, 'emit');
+        vi.spyOn(component.lostChange, 'emit').mockReturnValue(undefined);
         component.lostSelected();
         expect(component.lostChange.emit).toHaveBeenCalledWith(true);
       });
@@ -71,7 +72,7 @@ describe('IpadIssueComponent', () => {
 
     describe('stolenSelected', () => {
       it('should emit', () => {
-        spyOn(component.stolenChange, 'emit');
+        vi.spyOn(component.stolenChange, 'emit').mockReturnValue(undefined);
         component.stolenSelected();
         expect(component.stolenChange.emit).toHaveBeenCalledWith(true);
       });
@@ -79,7 +80,7 @@ describe('IpadIssueComponent', () => {
 
     describe('brokenSelected', () => {
       it('should emit', () => {
-        spyOn(component.brokenChange, 'emit');
+        vi.spyOn(component.brokenChange, 'emit').mockReturnValue(undefined);
         component.brokenSelected();
         expect(component.brokenChange.emit).toHaveBeenCalledWith(true);
       });

@@ -1,7 +1,8 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { RouterModule } from '@angular/router';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { PracticeModeOptionsBar } from '@components/common/practice-mode-options-bar/practice-mode-options-bar';
 import { TransmissionComponent } from '@components/common/transmission/transmission';
@@ -269,7 +270,7 @@ describe('PassFinalisationCatCPage', () => {
     fixture = TestBed.createComponent(PassFinalisationCatCPage);
     component = fixture.componentInstance;
     store$ = TestBed.inject(Store);
-    spyOn(store$, 'dispatch');
+    vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
     component.subscription = new Subscription();
   });
 
@@ -277,7 +278,7 @@ describe('PassFinalisationCatCPage', () => {
     describe('ionViewDidLeave', () => {
       it('should unsubscribe from subscription if there is one', () => {
         component.subscription = new Subscription();
-        spyOn(component.subscription, 'unsubscribe');
+        vi.spyOn(component.subscription, 'unsubscribe').mockReturnValue(undefined);
         component.ionViewDidLeave();
         expect(component.subscription.unsubscribe).toHaveBeenCalled();
       });
@@ -299,7 +300,7 @@ describe('PassFinalisationCatCPage', () => {
 
     describe('ionViewWillEnter', () => {
       it('should dispatch PassFinalisationViewDidEnter', () => {
-        spyOn(store$, 'dispatch');
+        vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
         component.ionViewWillEnter();
         expect(store$.dispatch).toHaveBeenCalledWith(PassFinalisationViewDidEnter());
       });
@@ -310,25 +311,30 @@ describe('PassFinalisationCatCPage', () => {
         component.onSubmit();
         expect(store$.dispatch).toHaveBeenCalledWith(PersistTests());
       });
-      it('should dispatch the appropriate ValidationError actions', fakeAsync(() => {
-        component.form = new UntypedFormGroup({
-          requiredControl1: new UntypedFormControl(null, [Validators.required]),
-          requiredControl2: new UntypedFormControl(null, [Validators.required]),
-          [PASS_CERTIFICATE_NUMBER_CTRL]: new UntypedFormControl(null, [Validators.required]),
-          notRequiredControl: new UntypedFormControl(null),
-        });
+      it('should dispatch the appropriate ValidationError actions', async () => {
+        vi.useFakeTimers();
+        try {
+          component.form = new UntypedFormGroup({
+            requiredControl1: new UntypedFormControl(null, [Validators.required]),
+            requiredControl2: new UntypedFormControl(null, [Validators.required]),
+            [PASS_CERTIFICATE_NUMBER_CTRL]: new UntypedFormControl(null, [Validators.required]),
+            notRequiredControl: new UntypedFormControl(null),
+          });
 
-        component.onSubmit();
-        tick();
-        expect(store$.dispatch).toHaveBeenCalledWith(PassFinalisationValidationError('requiredControl1 is blank'));
-        expect(store$.dispatch).toHaveBeenCalledWith(PassFinalisationValidationError('requiredControl2 is blank'));
-        expect(store$.dispatch).toHaveBeenCalledWith(
-          PassFinalisationValidationError(`${PASS_CERTIFICATE_NUMBER_CTRL} is invalid`)
-        );
-        expect(store$.dispatch).not.toHaveBeenCalledWith(
-          PassFinalisationValidationError('notRequiredControl is blank')
-        );
-      }));
+          component.onSubmit();
+          await vi.advanceTimersByTimeAsync(0);
+          expect(store$.dispatch).toHaveBeenCalledWith(PassFinalisationValidationError('requiredControl1 is blank'));
+          expect(store$.dispatch).toHaveBeenCalledWith(PassFinalisationValidationError('requiredControl2 is blank'));
+          expect(store$.dispatch).toHaveBeenCalledWith(
+            PassFinalisationValidationError(`${PASS_CERTIFICATE_NUMBER_CTRL} is invalid`)
+          );
+          expect(store$.dispatch).not.toHaveBeenCalledWith(
+            PassFinalisationValidationError('notRequiredControl is blank')
+          );
+        } finally {
+          vi.useRealTimers();
+        }
+      });
     });
     describe('shouldShowAutomaticBanner & shouldShowManualBanner', () => {
       automaticManualBannerConditions.forEach((cat) => {

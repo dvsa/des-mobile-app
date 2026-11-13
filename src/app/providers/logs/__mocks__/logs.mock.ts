@@ -1,3 +1,4 @@
+import { vi } from 'vitest';
 export class LogsProviderMock {
-  sendLogs = jasmine.createSpy('sendLogs');
+  sendLogs = vi.fn();
 }

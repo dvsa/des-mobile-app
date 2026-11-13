@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ModalController } from '@ionic/angular';
 import { provideMockStore } from '@ngrx/store/testing';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { TestCentre } from '@dvsa/mes-journal-schema';
 import { ModalControllerMock } from '@mocks/ionic-mocks/modal-controller.mock';
@@ -53,7 +54,7 @@ describe('CandidateSearchCardComponent', () => {
 
   describe('onCandidateDidChange', () => {
     it('should enable the show results button if valid candidate selected', () => {
-      spyOn(component, 'createCandidateSlots');
+      vi.spyOn(component, 'createCandidateSlots').mockReturnValue(undefined);
       const candidateName: string = 'Joe Bloggs';
       component.testCentreResults = {
         examiners: [],
@@ -92,8 +93,8 @@ describe('CandidateSearchCardComponent', () => {
   });
   describe('onTestCentreDidChange', () => {
     beforeEach(() => {
-      spyOn(component, 'onManualRefresh');
-      spyOn(component.testCentreChanged, 'emit');
+      vi.spyOn(component, 'onManualRefresh').mockReturnValue(undefined);
+      vi.spyOn(component.testCentreChanged, 'emit').mockReturnValue(undefined);
     });
     it('should not call the refresh or emission when input not defined', () => {
       component.onTestCentreDidChange(null);

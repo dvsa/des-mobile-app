@@ -2,6 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { MockAppComponent } from '@app/__mocks__/app.component.mock';
 import { AppComponent } from '@app/app.component';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { AccessibilityServiceMock } from '@providers/accessibility/__mocks__/accessibility-service.mock';
 import { AccessibilityService } from '@providers/accessibility/accessibility.service';
@@ -38,7 +39,7 @@ describe('PassCertificateNumberComponent', () => {
   describe('Class', () => {
     describe('passCertificateNumberChanged', () => {
       it('should emit pass certificate number if 8 characters and valid', () => {
-        spyOn(component.passCertificateNumberChange, 'emit');
+        vi.spyOn(component.passCertificateNumberChange, 'emit').mockReturnValue(undefined);
         const passCertificateNumber = 'C267548E';
         component.passCertificateNumberChanged(passCertificateNumber);
         expect(component.passCertificateNumberChange.emit).toHaveBeenCalledWith(passCertificateNumber);
@@ -46,11 +47,11 @@ describe('PassCertificateNumberComponent', () => {
     });
     describe('validatePassCertificate', () => {
       it('should return { valid: false }  when isPassCertificateValid returns false', () => {
-        spyOn(passCertValidationProvider, 'isPassCertificateValid').and.returnValue(false);
+        vi.spyOn(passCertValidationProvider, 'isPassCertificateValid').mockReturnValue(false);
         expect(component.validatePassCertificate(new UntypedFormControl(''))).toEqual({ valid: false });
       });
       it('should return { valid: true, duplicate: true  } when already used before', () => {
-        spyOn(passCertValidationProvider, 'isPassCertificateValid').and.returnValue(true);
+        vi.spyOn(passCertValidationProvider, 'isPassCertificateValid').mockReturnValue(true);
         component.pastPassCerts = ['A123456X'];
         expect(component.validatePassCertificate(new UntypedFormControl('A123456X'))).toEqual({
           valid: true,
@@ -58,7 +59,7 @@ describe('PassCertificateNumberComponent', () => {
         });
       });
       it('should return null when already used valid and un-used', () => {
-        spyOn(passCertValidationProvider, 'isPassCertificateValid').and.returnValue(true);
+        vi.spyOn(passCertValidationProvider, 'isPassCertificateValid').mockReturnValue(true);
         component.pastPassCerts = ['A123456X'];
         expect(component.validatePassCertificate(new UntypedFormControl('C123456X'))).toEqual(null);
       });

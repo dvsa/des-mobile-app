@@ -10,6 +10,7 @@ import { ModalControllerMock } from '@mocks/ionic-mocks/modal-controller.mock';
 import { StoreModule } from '@ngrx/store';
 import { provideMockStore } from '@ngrx/store/testing';
 import { VehicleChecksCatHomeTestModal } from '@pages/waiting-room-to-car/cat-home-test/components/vehicle-checks-modal/vehicle-checks-modal.cat-home.page';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { MotCardComponent } from '@pages/waiting-room-to-car/components/mot-components/mot-card/mot-card.component';
 import { MotNoEvidenceConfirmationComponent } from '@pages/waiting-room-to-car/components/mot-components/mot-no-evidence-confirmation/mot-no-evidence-confirmation';
@@ -160,8 +161,8 @@ describe('VehicleChecksCatHomeTestModal', () => {
   describe('Class', () => {
     describe('onClose', () => {
       it('should dismiss the modal when the function is run & set the status bar to Light styling if practice mode is true', async () => {
-        spyOn(component.modalCtrl, 'dismiss');
-        spyOn(component.accessibilityService, 'configureStatusBar');
+        vi.spyOn(component.modalCtrl, 'dismiss').mockReturnValue(undefined);
+        vi.spyOn(component.accessibilityService, 'configureStatusBar').mockReturnValue(undefined);
         component.isPracticeMode = true;
         await component.onClose().then(() => {
           expect(component.accessibilityService.configureStatusBar).toHaveBeenCalledWith(Style.Light);
@@ -211,8 +212,8 @@ describe('VehicleChecksCatHomeTestModal', () => {
 
     describe('onSubmit', () => {
       it('should dismiss the modal when the function is run & set the status bar to Light styling if practice mode is true', async () => {
-        spyOn(component.accessibilityService, 'configureStatusBar');
-        spyOn(component.modalCtrl, 'dismiss');
+        vi.spyOn(component.accessibilityService, 'configureStatusBar').mockReturnValue(undefined);
+        vi.spyOn(component.modalCtrl, 'dismiss').mockReturnValue(undefined);
         component.isPracticeMode = true;
         await component.onSubmit().then(() => {
           expect(component.accessibilityService.configureStatusBar).toHaveBeenCalledWith(Style.Light);
@@ -222,35 +223,35 @@ describe('VehicleChecksCatHomeTestModal', () => {
     });
     describe('showMeQuestionChanged', () => {
       it('should ', () => {
-        spyOn(component.store$, 'dispatch');
+        vi.spyOn(component.store$, 'dispatch').mockReturnValue(undefined);
         component.showMeQuestionChanged(null, 0);
         expect(component.store$.dispatch).toHaveBeenCalledWith(ShowMeQuestionSelected(null, 0));
       });
     });
     describe('showMeQuestionOutcomeChanged', () => {
       it('should dispatch', () => {
-        spyOn(component.store$, 'dispatch');
+        vi.spyOn(component.store$, 'dispatch').mockReturnValue(undefined);
         component.showMeQuestionOutcomeChanged(null, 0);
         expect(component.store$.dispatch).toHaveBeenCalledWith(ShowMeQuestionOutcomeChanged(null, 0));
       });
     });
     describe('ionViewDidEnter', () => {
       it('should dispatch', () => {
-        spyOn(component.store$, 'dispatch');
+        vi.spyOn(component.store$, 'dispatch').mockReturnValue(undefined);
         component.ionViewDidEnter();
         expect(component.store$.dispatch).toHaveBeenCalled();
       });
     });
     describe('tellMeQuestionChanged', () => {
       it('should dispatch', () => {
-        spyOn(component.store$, 'dispatch');
+        vi.spyOn(component.store$, 'dispatch').mockReturnValue(undefined);
         component.tellMeQuestionChanged(null, 0);
         expect(component.store$.dispatch).toHaveBeenCalledWith(TellMeQuestionSelected(null, 0));
       });
     });
     describe('tellMeQuestionOutcomeChanged', () => {
       it('should dispatch', () => {
-        spyOn(component.store$, 'dispatch');
+        vi.spyOn(component.store$, 'dispatch').mockReturnValue(undefined);
         component.tellMeQuestionOutcomeChanged(null, 0);
         expect(component.store$.dispatch).toHaveBeenCalledWith(TellMeQuestionOutcomeChanged(null, 0));
       });
@@ -258,7 +259,7 @@ describe('VehicleChecksCatHomeTestModal', () => {
     describe('ionViewDidLeave', () => {
       it('should unsubscribe from the subscription if there is one', () => {
         component.subscription = new Subscription();
-        spyOn(component.subscription, 'unsubscribe');
+        vi.spyOn(component.subscription, 'unsubscribe').mockReturnValue(undefined);
         component.ionViewDidLeave();
         expect(component.subscription.unsubscribe).toHaveBeenCalled();
       });

@@ -1,6 +1,7 @@
 import { behaviourMap } from '@pages/office/office-behaviour-map';
 import { OutcomeBehaviourMapProvider } from '@providers/outcome-behaviour-map/outcome-behaviour-map';
 import { VehicleChecksQuestion } from '@providers/question/vehicle-checks-question.model';
+import { describe, expect, it } from 'vitest';
 
 import { getShowMeQuestionOptions } from '../common/test-data.selector';
 

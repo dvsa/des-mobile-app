@@ -1,10 +1,14 @@
-import { ElementRef, Renderer2 } from '@angular/core';
+import { ElementRef, Renderer2, RendererFactory2 } from '@angular/core';
+import { TestBed } from '@angular/core/testing';
 import { Subject } from 'rxjs';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { AddOrRemoveLangCyDirective } from '../add-or-remove-lang-cy.directive';
 
 class MockTranslateService {
   current = 'en';
-  onLangChange = new Subject<{ lang: string }>();
+  onLangChange = new Subject<{
+    lang: string;
+  }>();
   getCurrentLang() {
     return this.current;
   }
@@ -12,14 +16,16 @@ class MockTranslateService {
 
 describe('AddOrRemoveLangCyDirective', () => {
   let translateService: MockTranslateService;
-  let renderer: jasmine.SpyObj<Renderer2>;
+  let renderer: Renderer2;
   let nativeElement: any;
   let elementRef: ElementRef;
   let directive: AddOrRemoveLangCyDirective;
 
   beforeEach(() => {
     translateService = new MockTranslateService();
-    renderer = jasmine.createSpyObj<Renderer2>('renderer', ['setAttribute', 'removeAttribute']);
+    renderer = TestBed.inject(RendererFactory2).createRenderer(null, null);
+    vi.spyOn(renderer, 'setAttribute').mockReturnValue(undefined);
+    vi.spyOn(renderer, 'removeAttribute').mockReturnValue(undefined);
   });
 
   it('sets lang="cy" on init when current language is "cy"', () => {
@@ -101,7 +107,7 @@ describe('AddOrRemoveLangCyDirective', () => {
     // ensure listener is set
     expect((directive as any).listener).not.toBeNull();
 
-    const unsubscribeSpy = spyOn((directive as any).listener, 'unsubscribe').and.callThrough();
+    const unsubscribeSpy = vi.spyOn((directive as any).listener, 'unsubscribe');
     directive.ngOnDestroy();
 
     expect(unsubscribeSpy).toHaveBeenCalled();

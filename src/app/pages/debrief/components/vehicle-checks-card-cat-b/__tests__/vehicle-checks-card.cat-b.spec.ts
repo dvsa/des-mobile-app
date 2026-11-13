@@ -1,12 +1,13 @@
 import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { default as welshTranslations } from '@assets/i18n/cy.json';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
+import { beforeEach, describe, expect, it } from 'vitest';
 
+import { provideTestTranslations } from '@mocks/test-providers';
 import { Store, StoreModule } from '@ngrx/store';
-import { TranslateService, provideTranslateService } from '@ngx-translate/core';
-import { provideTranslateHttpLoader } from '@ngx-translate/http-loader';
+import { TranslateService } from '@ngx-translate/core';
 import { StoreModel } from '@shared/models/store.model';
 import {
   ShowMeQuestionDangerousFault,
@@ -25,21 +26,14 @@ describe('VehicleChecksCardCatBComponent', () => {
   let store$: Store<StoreModel>;
   let translate: TranslateService;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({ tests: testsReducer }),
 
         VehicleChecksCardCatBComponent,
       ],
-      providers: [
-        provideHttpClient(withInterceptorsFromDi()),
-        provideTranslateService({
-          loader: provideTranslateHttpLoader({ prefix: 'assets/i18n/' }),
-          fallbackLang: 'en',
-          lang: 'en',
-        }),
-      ],
+      providers: [provideHttpClient(withInterceptorsFromDi()), provideTestTranslations()],
     });
 
     fixture = TestBed.createComponent(VehicleChecksCardCatBComponent);
@@ -47,7 +41,7 @@ describe('VehicleChecksCardCatBComponent', () => {
     translate = TestBed.inject(TranslateService);
     translate.setFallbackLang('en');
     store$.dispatch(StartTest(105, TestCategory.B));
-  }));
+  });
 
   describe('DOM', () => {
     it('should not display the card when no fault marked', () => {
@@ -98,16 +92,22 @@ describe('VehicleChecksCardCatBComponent', () => {
           const tellMeQuestionText = fixture.debugElement.query(By.css('#tell-me-question')).nativeElement;
           expect(tellMeQuestionText.innerHTML.trim()).toBe('Tell me question - Incorrect');
         });
-        it('should indicate a tell me fault in Welsh for a Welsh test', (done) => {
-          fixture.detectChanges();
-          store$.dispatch(TellMeQuestionDrivingFault());
-          // Language change handled by parent page component, force the switch
-          translate.use('cy').subscribe(() => {
+        it('should indicate a tell me fault in Welsh for a Welsh test', async () => {
+          await new Promise<void>((done, reject) => {
             fixture.detectChanges();
-            const tellMeQuestionText = fixture.debugElement.query(By.css('#tell-me-question')).nativeElement;
-            const { tellMeQuestion, incorrect } = welshTranslations.debrief;
-            expect(tellMeQuestionText.innerHTML.trim()).toBe(`${tellMeQuestion} - ${incorrect}`);
-            done();
+            store$.dispatch(TellMeQuestionDrivingFault());
+            // Language change handled by parent page component, force the switch
+            translate.use('cy').subscribe(() => {
+              try {
+                fixture.detectChanges();
+                const tellMeQuestionText = fixture.debugElement.query(By.css('#tell-me-question')).nativeElement;
+                const { tellMeQuestion, incorrect } = welshTranslations.debrief;
+                expect(tellMeQuestionText.innerHTML.trim()).toBe(`${tellMeQuestion} - ${incorrect}`);
+                done();
+              } catch (error) {
+                reject(error);
+              }
+            }, reject);
           });
         });
       });
@@ -121,17 +121,25 @@ describe('VehicleChecksCardCatBComponent', () => {
             expect(showMeQuestionText.innerHTML.trim()).toBe('Show me question - Incorrect');
           });
         });
-        it('should indicate a show me driving fault in Welsh for a Welsh test', (done) => {
-          fixture.detectChanges();
-          store$.dispatch(ShowMeQuestionDrivingFault());
-          // Language change handled by parent page component, force the switch
-          translate.use('cy').subscribe(() => {
+        it('should indicate a show me driving fault in Welsh for a Welsh test', async () => {
+          await new Promise<void>((done, reject) => {
             fixture.detectChanges();
-            const showMeQuestionText = fixture.debugElement.query(By.css('#show-me-question-outcome-df')).nativeElement;
-            const { showMeQuestion, incorrect } = welshTranslations.debrief;
-            const expectedTranslation = `${showMeQuestion} - ${incorrect}`;
-            expect(showMeQuestionText.innerHTML.trim()).toBe(expectedTranslation);
-            done();
+            store$.dispatch(ShowMeQuestionDrivingFault());
+            // Language change handled by parent page component, force the switch
+            translate.use('cy').subscribe(() => {
+              try {
+                fixture.detectChanges();
+                const showMeQuestionText = fixture.debugElement.query(
+                  By.css('#show-me-question-outcome-df')
+                ).nativeElement;
+                const { showMeQuestion, incorrect } = welshTranslations.debrief;
+                const expectedTranslation = `${showMeQuestion} - ${incorrect}`;
+                expect(showMeQuestionText.innerHTML.trim()).toBe(expectedTranslation);
+                done();
+              } catch (error) {
+                reject(error);
+              }
+            }, reject);
           });
         });
         it('should indicate when there was a serious fault on the show me question', () => {
@@ -143,17 +151,25 @@ describe('VehicleChecksCardCatBComponent', () => {
             expect(showMeQuestionText.innerHTML.trim()).toBe('Show me question - Serious fault');
           });
         });
-        it('should indicate a show me serious fault in Welsh for a Welsh test', (done) => {
-          fixture.detectChanges();
-          store$.dispatch(ShowMeQuestionSeriousFault());
-          // Language change handled by parent page component, force the switch
-          translate.use('cy').subscribe(() => {
+        it('should indicate a show me serious fault in Welsh for a Welsh test', async () => {
+          await new Promise<void>((done, reject) => {
             fixture.detectChanges();
-            const showMeQuestionText = fixture.debugElement.query(By.css('#show-me-question-outcome-s')).nativeElement;
-            const { showMeQuestion, seriousFault } = welshTranslations.debrief;
-            const expectedTranslation = `${showMeQuestion} - ${seriousFault}`;
-            expect(showMeQuestionText.innerHTML.trim()).toBe(expectedTranslation);
-            done();
+            store$.dispatch(ShowMeQuestionSeriousFault());
+            // Language change handled by parent page component, force the switch
+            translate.use('cy').subscribe(() => {
+              try {
+                fixture.detectChanges();
+                const showMeQuestionText = fixture.debugElement.query(
+                  By.css('#show-me-question-outcome-s')
+                ).nativeElement;
+                const { showMeQuestion, seriousFault } = welshTranslations.debrief;
+                const expectedTranslation = `${showMeQuestion} - ${seriousFault}`;
+                expect(showMeQuestionText.innerHTML.trim()).toBe(expectedTranslation);
+                done();
+              } catch (error) {
+                reject(error);
+              }
+            }, reject);
           });
         });
         it('should indicate when there was a dangerous fault on the show me question', () => {
@@ -165,17 +181,25 @@ describe('VehicleChecksCardCatBComponent', () => {
             expect(showMeQuestionText.innerHTML.trim()).toBe('Show me question - Dangerous fault');
           });
         });
-        it('should indicate a tell me dangerous fault in Welsh for a Welsh test', (done) => {
-          fixture.detectChanges();
-          store$.dispatch(ShowMeQuestionDangerousFault());
-          // Language change handled by parent page component, force the switch
-          translate.use('cy').subscribe(() => {
+        it('should indicate a tell me dangerous fault in Welsh for a Welsh test', async () => {
+          await new Promise<void>((done, reject) => {
             fixture.detectChanges();
-            const showMeQuestionText = fixture.debugElement.query(By.css('#show-me-question-outcome-d')).nativeElement;
-            const { showMeQuestion, dangerousFault } = welshTranslations.debrief;
-            const expectedTranslation = `${showMeQuestion} - ${dangerousFault}`;
-            expect(showMeQuestionText.innerHTML.trim()).toBe(expectedTranslation);
-            done();
+            store$.dispatch(ShowMeQuestionDangerousFault());
+            // Language change handled by parent page component, force the switch
+            translate.use('cy').subscribe(() => {
+              try {
+                fixture.detectChanges();
+                const showMeQuestionText = fixture.debugElement.query(
+                  By.css('#show-me-question-outcome-d')
+                ).nativeElement;
+                const { showMeQuestion, dangerousFault } = welshTranslations.debrief;
+                const expectedTranslation = `${showMeQuestion} - ${dangerousFault}`;
+                expect(showMeQuestionText.innerHTML.trim()).toBe(expectedTranslation);
+                done();
+              } catch (error) {
+                reject(error);
+              }
+            }, reject);
           });
         });
       });

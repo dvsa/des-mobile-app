@@ -1,5 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { TestReportAssessmentAnswer } from '@pages/test-report/cat-adi-part3/components/tr-assessment-answer/tr-assessment-answer';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 describe('TestReportAssessmentAnswer', () => {
   let fixture: ComponentFixture<TestReportAssessmentAnswer>;
@@ -16,13 +17,13 @@ describe('TestReportAssessmentAnswer', () => {
 
   describe('valueChanged', () => {
     it('should emit answerChanged with null if key and answer match', () => {
-      spyOn(component.answerChanged, 'emit');
+      vi.spyOn(component.answerChanged, 'emit').mockReturnValue(undefined);
       component.answer = 1;
       component.valueChanged('1');
       expect(component.answerChanged.emit).toHaveBeenCalledWith(null);
     });
     it('should emit answerChanged with the passed in key if it and answer do not match', () => {
-      spyOn(component.answerChanged, 'emit');
+      vi.spyOn(component.answerChanged, 'emit').mockReturnValue(undefined);
       component.answer = 1;
       component.valueChanged('test');
       expect(component.answerChanged.emit).toHaveBeenCalledWith('test');
@@ -32,22 +33,22 @@ describe('TestReportAssessmentAnswer', () => {
   describe('hasBeenMissed', () => {
     it('should return true if showMissing is true and hasValue is false', () => {
       component.showMissing = true;
-      spyOn(component, 'hasValue').and.returnValue(false);
+      vi.spyOn(component, 'hasValue').mockReturnValue(false);
       expect(component.hasBeenMissed()).toBe(true);
     });
     it('should return false if showMissing is false and hasValue is false', () => {
       component.showMissing = false;
-      spyOn(component, 'hasValue').and.returnValue(false);
+      vi.spyOn(component, 'hasValue').mockReturnValue(false);
       expect(component.hasBeenMissed()).toBe(false);
     });
     it('should return false if showMissing is false and hasValue is true', () => {
       component.showMissing = false;
-      spyOn(component, 'hasValue').and.returnValue(true);
+      vi.spyOn(component, 'hasValue').mockReturnValue(true);
       expect(component.hasBeenMissed()).toBe(false);
     });
     it('should return false if showMissing is true and hasValue is true', () => {
       component.showMissing = true;
-      spyOn(component, 'hasValue').and.returnValue(true);
+      vi.spyOn(component, 'hasValue').mockReturnValue(true);
       expect(component.hasBeenMissed()).toBe(false);
     });
   });
@@ -65,7 +66,7 @@ describe('TestReportAssessmentAnswer', () => {
 
   describe('errorHighlighting', () => {
     it('should set both items to the value of hasBeenMissed', () => {
-      spyOn(component, 'hasBeenMissed').and.returnValue(true);
+      vi.spyOn(component, 'hasBeenMissed').mockReturnValue(true);
       expect(component.errorHighlighting()).toEqual({
         'ng-dirty': true,
         'ng-invalid': true,

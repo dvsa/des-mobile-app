@@ -1,6 +1,7 @@
 import { CompetencyDisplayName } from '@shared/models/competency-display-name';
 import { CompetencyOutcome } from '@shared/models/competency-outcome';
 import { CommentSource, CompetencyIdentifiers } from '@shared/models/fault-marking.model';
+import { describe, expect, it } from 'vitest';
 import { FaultSummaryCatAM2Helper } from '../fault-summary.cat-a-mod2';
 import { catAM2TestDataStateObject } from './cat-AM2-test-data.mock';
 
@@ -43,7 +44,7 @@ describe('FaultSummaryCatAM2Helper', () => {
   });
 
   describe('getSafetyAndBalanceFaults', () => {
-    xit('should return a single driving fault if any safety / balance questions are incorrect', () => {
+    it('should return a single driving fault if any safety / balance questions are incorrect', () => {
       expect(
         FaultSummaryCatAM2Helper.getSafetyAndBalanceFaults(catAM2TestDataStateObject.safetyAndBalanceQuestions)
       ).toEqual(expectedSafetyAndBalanceQuestionsFault);

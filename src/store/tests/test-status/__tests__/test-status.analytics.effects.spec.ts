@@ -2,6 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { Action, Store, StoreModule } from '@ngrx/store';
 import { ReplaySubject } from 'rxjs';
+import { beforeEach, describe, expect, it } from 'vitest';
 
 import { TestResultSchemasUnion } from '@dvsa/mes-test-schema/categories';
 import { JournalData } from '@dvsa/mes-test-schema/categories/common';
@@ -57,113 +58,155 @@ describe('TestStatusAnalyticsEffects', () => {
   });
 
   describe('setTestStatusBookedEffect$', () => {
-    it('should log GA event when SetTestStatusBooked action is dispatched', (done) => {
-      const slotId = '12345';
-      actions$.next(testStatusActions.SetTestStatusBooked(slotId));
+    it('should log GA event when SetTestStatusBooked action is dispatched', async () => {
+      await new Promise<void>((done, reject) => {
+        const slotId = '12345';
+        actions$.next(testStatusActions.SetTestStatusBooked(slotId));
 
-      effects.setTestStatusBookedEffect$.subscribe(() => {
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-          GoogleAnalyticsEvents.TEST_STATUS_CHANGED,
-          TestStatus.Booked,
-          '1023'
-        );
-        done();
+        effects.setTestStatusBookedEffect$.subscribe(() => {
+          try {
+            expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+              GoogleAnalyticsEvents.TEST_STATUS_CHANGED,
+              TestStatus.Booked,
+              '1023'
+            );
+            done();
+          } catch (error) {
+            reject(error);
+          }
+        }, reject);
       });
     });
   });
 
   describe('setTestStatusStartedEffect$', () => {
-    it('should log GA event when SetTestStatusStarted action is dispatched', (done) => {
-      const slotId = '12345';
-      actions$.next(testStatusActions.SetTestStatusStarted(slotId));
+    it('should log GA event when SetTestStatusStarted action is dispatched', async () => {
+      await new Promise<void>((done, reject) => {
+        const slotId = '12345';
+        actions$.next(testStatusActions.SetTestStatusStarted(slotId));
 
-      effects.setTestStatusStartedEffect$.subscribe(() => {
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-          GoogleAnalyticsEvents.TEST_STATUS_CHANGED,
-          TestStatus.Started,
-          '1023'
-        );
-        done();
+        effects.setTestStatusStartedEffect$.subscribe(() => {
+          try {
+            expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+              GoogleAnalyticsEvents.TEST_STATUS_CHANGED,
+              TestStatus.Started,
+              '1023'
+            );
+            done();
+          } catch (error) {
+            reject(error);
+          }
+        }, reject);
       });
     });
   });
 
   describe('setTestStatusDecidedEffect$', () => {
-    it('should log GA event when SetTestStatusDecided action is dispatched', (done) => {
-      const slotId = '12345';
-      actions$.next(testStatusActions.SetTestStatusDecided(slotId));
+    it('should log GA event when SetTestStatusDecided action is dispatched', async () => {
+      await new Promise<void>((done, reject) => {
+        const slotId = '12345';
+        actions$.next(testStatusActions.SetTestStatusDecided(slotId));
 
-      effects.setTestStatusDecidedEffect$.subscribe(() => {
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-          GoogleAnalyticsEvents.TEST_STATUS_CHANGED,
-          TestStatus.Decided,
-          '1023'
-        );
-        done();
+        effects.setTestStatusDecidedEffect$.subscribe(() => {
+          try {
+            expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+              GoogleAnalyticsEvents.TEST_STATUS_CHANGED,
+              TestStatus.Decided,
+              '1023'
+            );
+            done();
+          } catch (error) {
+            reject(error);
+          }
+        }, reject);
       });
     });
   });
 
   describe('setTestStatusWriteUpEffect$', () => {
-    it('should log GA event when SetTestStatusWriteUp action is dispatched', (done) => {
-      const slotId = '12345';
-      actions$.next(testStatusActions.SetTestStatusWriteUp(slotId));
+    it('should log GA event when SetTestStatusWriteUp action is dispatched', async () => {
+      await new Promise<void>((done, reject) => {
+        const slotId = '12345';
+        actions$.next(testStatusActions.SetTestStatusWriteUp(slotId));
 
-      effects.setTestStatusWriteUpEffect$.subscribe(() => {
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-          GoogleAnalyticsEvents.TEST_STATUS_CHANGED,
-          TestStatus.WriteUp,
-          '1023'
-        );
-        done();
+        effects.setTestStatusWriteUpEffect$.subscribe(() => {
+          try {
+            expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+              GoogleAnalyticsEvents.TEST_STATUS_CHANGED,
+              TestStatus.WriteUp,
+              '1023'
+            );
+            done();
+          } catch (error) {
+            reject(error);
+          }
+        }, reject);
       });
     });
   });
 
   describe('setTestStatusAutosavedEffect$', () => {
-    it('should log GA event when SetTestStatusAutosaved action is dispatched', (done) => {
-      const slotId = '12345';
-      actions$.next(testStatusActions.SetTestStatusAutosaved(slotId));
+    it('should log GA event when SetTestStatusAutosaved action is dispatched', async () => {
+      await new Promise<void>((done, reject) => {
+        const slotId = '12345';
+        actions$.next(testStatusActions.SetTestStatusAutosaved(slotId));
 
-      effects.setTestStatusAutosavedEffect$.subscribe(() => {
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-          GoogleAnalyticsEvents.TEST_STATUS_CHANGED,
-          TestStatus.Autosaved,
-          '1023'
-        );
-        done();
+        effects.setTestStatusAutosavedEffect$.subscribe(() => {
+          try {
+            expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+              GoogleAnalyticsEvents.TEST_STATUS_CHANGED,
+              TestStatus.Autosaved,
+              '1023'
+            );
+            done();
+          } catch (error) {
+            reject(error);
+          }
+        }, reject);
       });
     });
   });
 
   describe('setTestStatusCompletedEffect$', () => {
-    it('should log GA event when SetTestStatusCompleted action is dispatched', (done) => {
-      const slotId = '12345';
-      actions$.next(testStatusActions.SetTestStatusCompleted(slotId));
+    it('should log GA event when SetTestStatusCompleted action is dispatched', async () => {
+      await new Promise<void>((done, reject) => {
+        const slotId = '12345';
+        actions$.next(testStatusActions.SetTestStatusCompleted(slotId));
 
-      effects.setTestStatusCompletedEffect$.subscribe(() => {
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-          GoogleAnalyticsEvents.TEST_STATUS_CHANGED,
-          TestStatus.Completed,
-          '1023'
-        );
-        done();
+        effects.setTestStatusCompletedEffect$.subscribe(() => {
+          try {
+            expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+              GoogleAnalyticsEvents.TEST_STATUS_CHANGED,
+              TestStatus.Completed,
+              '1023'
+            );
+            done();
+          } catch (error) {
+            reject(error);
+          }
+        }, reject);
       });
     });
   });
 
   describe('setTestStatusSubmittedEffect$', () => {
-    it('should log GA event when SetTestStatusSubmitted action is dispatched', (done) => {
-      const slotId = '12345';
-      actions$.next(testStatusActions.SetTestStatusSubmitted(slotId));
+    it('should log GA event when SetTestStatusSubmitted action is dispatched', async () => {
+      await new Promise<void>((done, reject) => {
+        const slotId = '12345';
+        actions$.next(testStatusActions.SetTestStatusSubmitted(slotId));
 
-      effects.setTestStatusSubmittedEffect$.subscribe(() => {
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-          GoogleAnalyticsEvents.TEST_STATUS_CHANGED,
-          TestStatus.Submitted,
-          '1023'
-        );
-        done();
+        effects.setTestStatusSubmittedEffect$.subscribe(() => {
+          try {
+            expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+              GoogleAnalyticsEvents.TEST_STATUS_CHANGED,
+              TestStatus.Submitted,
+              '1023'
+            );
+            done();
+          } catch (error) {
+            reject(error);
+          }
+        }, reject);
       });
     });
   });

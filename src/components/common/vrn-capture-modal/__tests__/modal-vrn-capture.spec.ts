@@ -5,6 +5,7 @@ import { VRNCaptureModal } from '@components/common/vrn-capture-modal/vrn-captur
 import { ModalController } from '@ionic/angular';
 import { ModalControllerMock } from '@mocks/index.mock';
 import { Store } from '@ngrx/store';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 describe('VRNCaptureModal', () => {
   let fixture: ComponentFixture<VRNCaptureModal>;
@@ -32,19 +33,19 @@ describe('VRNCaptureModal', () => {
 
     describe('validateThenDismiss', () => {
       it('should test the parameter against the validation before saving', () => {
-        spyOn(component.registrationNumberValidator.pattern, 'test');
+        vi.spyOn(component.registrationNumberValidator.pattern, 'test').mockReturnValue(undefined);
         component.vehicleRegistrationNumber = 'X12345X';
         component.validateThenDismiss();
         expect(component.registrationNumberValidator.pattern.test).toHaveBeenCalledWith('X12345X');
       });
       it('should call modalController.dismiss after being passed a valid parameter', () => {
-        spyOn(component.modalController, 'dismiss');
+        vi.spyOn(component.modalController, 'dismiss').mockReturnValue(undefined);
         component.vehicleRegistrationNumber = 'X12345X';
         component.validateThenDismiss();
         expect(component.modalController.dismiss).toHaveBeenCalledWith({ vehicleRegNumber: 'X12345X' });
       });
       it('should not call modalController.dismiss when passed an invalid parameter', () => {
-        spyOn(component.modalController, 'dismiss');
+        vi.spyOn(component.modalController, 'dismiss').mockReturnValue(undefined);
         component.vehicleRegistrationNumber = 'X123456X';
         component.validateThenDismiss();
         expect(component.modalController.dismiss).not.toHaveBeenCalled();

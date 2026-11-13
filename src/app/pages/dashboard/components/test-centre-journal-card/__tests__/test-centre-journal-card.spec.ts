@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Router } from '@angular/router';
+import { beforeEach, describe, expect, it } from 'vitest';
 
 import { RouterMock } from '@mocks/angular-mocks/router-mock';
 import { TEST_CENTRE_JOURNAL_PAGE } from '@pages/page-names.constants';

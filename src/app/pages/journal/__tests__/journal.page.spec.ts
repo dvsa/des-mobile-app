@@ -5,6 +5,7 @@ import { By } from '@angular/platform-browser';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { MockAppComponent } from '@app/__mocks__/app.component.mock';
 import { AppComponent } from '@app/app.component';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { ModalController, Platform, RefresherEventDetail } from '@ionic/angular';
@@ -31,6 +32,7 @@ import { TimeComponent } from '@components/test-slot/time/time';
 import { VehicleDetailsComponent } from '@components/test-slot/vehicle-details/vehicle-details';
 import { JournalSlotComponent } from '@pages/journal/components/journal-slot/journal-slot';
 import { JournalPage } from '@pages/journal/journal.page';
+import { rekeySearchReducer } from '@pages/rekey-search/rekey-search.reducer';
 import { AccessibilityServiceMock } from '@providers/accessibility/__mocks__/accessibility-service.mock';
 import { AccessibilityService } from '@providers/accessibility/accessibility.service';
 import { AppConfigProviderMock } from '@providers/app-config/__mocks__/app-config.mock';
@@ -111,6 +113,7 @@ describe('JournalPage', () => {
         ExaminerNameComponent,
         IntegrityMarkerComponent,
         StoreModule.forRoot({
+          rekeySearch: rekeySearchReducer,
           journal: journalReducer,
           tests: testsReducer,
         }),
@@ -186,9 +189,9 @@ describe('JournalPage', () => {
     component.subscription = new Subscription();
     store$ = TestBed.inject(Store);
     loaderService = TestBed.inject(LoadingProvider);
-    spyOn(store$, 'dispatch');
-    spyOn(loaderService, 'handleUILoading');
-    spyOn(BasePageComponent.prototype, 'isIos').and.returnValue(true);
+    vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
+    vi.spyOn(loaderService, 'handleUILoading').mockReturnValue(undefined);
+    vi.spyOn(BasePageComponent.prototype, 'isIos').mockReturnValue(true);
   });
 
   describe('Class', () => {
@@ -221,7 +224,7 @@ describe('JournalPage', () => {
 
   describe('showError', () => {
     it('should create a modal instance if there is an error', () => {
-      spyOn(component.modalController, 'create').and.callThrough();
+      vi.spyOn(component.modalController, 'create');
       const errorMessage: MesError = {
         message: 'Error',
         status: HttpStatusCode.InternalServerError,
@@ -240,7 +243,7 @@ describe('JournalPage', () => {
 
     describe('ionViewDidEnter', () => {
       it('should call through to base page unlock method', async () => {
-        spyOn(BasePageComponent.prototype, 'unlockDevice');
+        vi.spyOn(BasePageComponent.prototype, 'unlockDevice').mockReturnValue(undefined);
         await component.ionViewDidEnter();
         expect(store$.dispatch).toHaveBeenCalledWith(JournalViewDidEnter());
         expect(BasePageComponent.prototype.unlockDevice).toHaveBeenCalled();
@@ -275,7 +278,7 @@ describe('JournalPage', () => {
     describe('ionViewDidLeave', () => {
       it('should unsubscribe from the subscription if there is one', () => {
         component.subscription = new Subscription();
-        spyOn(component.subscription, 'unsubscribe');
+        vi.spyOn(component.subscription, 'unsubscribe').mockReturnValue(undefined);
         component.ionViewDidLeave();
         expect(component.subscription.unsubscribe).toHaveBeenCalled();
       });
@@ -305,11 +308,11 @@ describe('JournalPage', () => {
         const mockModal = { onDidDismiss: () => onDidDismissPromise } as any;
 
         component.setUpLearnMoreModalDismissed(mockModal);
-        expect(component.isDisplayingLearnMoreModal).toBeTrue();
+        expect(component.isDisplayingLearnMoreModal).toBe(true);
 
         resolveDismiss();
         await onDidDismissPromise;
-        expect(component.isDisplayingLearnMoreModal).toBeFalse();
+        expect(component.isDisplayingLearnMoreModal).toBe(false);
       });
 
       it('sets isDisplayingLearnMoreModal to false when modal is dismissed (promise rejects)', async () => {
@@ -318,23 +321,23 @@ describe('JournalPage', () => {
         const mockModal = { onDidDismiss: () => onDidDismissPromise } as any;
 
         component.setUpLearnMoreModalDismissed(mockModal);
-        expect(component.isDisplayingLearnMoreModal).toBeTrue();
+        expect(component.isDisplayingLearnMoreModal).toBe(true);
 
         await onDidDismissPromise.catch(() => {});
-        expect(component.isDisplayingLearnMoreModal).toBeFalse();
+        expect(component.isDisplayingLearnMoreModal).toBe(false);
       });
     });
 
     describe('openLearnMoreModal', () => {
       it('opens modal and dispatches action when not already open', async () => {
         component.isDisplayingLearnMoreModal = false;
-        spyOn(component.store$, 'dispatch');
-        spyOn(component, 'setUpLearnMoreModalDismissed');
-        spyOn(component.accessibilityService, 'getTextZoomClass').and.returnValue('zoom-class');
+        vi.spyOn(component.store$, 'dispatch').mockReturnValue(undefined);
+        vi.spyOn(component, 'setUpLearnMoreModalDismissed').mockReturnValue(undefined);
+        vi.spyOn(component.accessibilityService, 'getTextZoomClass').mockReturnValue('zoom-class');
 
-        const presentSpy = jasmine.createSpy().and.returnValue(Promise.resolve());
-        const onDidDismissSpy = jasmine.createSpy().and.returnValue(Promise.resolve());
-        spyOn(component.modalController, 'create').and.returnValue(
+        const presentSpy = vi.fn().mockReturnValue(Promise.resolve());
+        const onDidDismissSpy = vi.fn().mockReturnValue(Promise.resolve());
+        vi.spyOn(component.modalController, 'create').mockReturnValue(
           Promise.resolve({
             present: presentSpy,
             onDidDismiss: onDidDismissSpy,
@@ -343,7 +346,7 @@ describe('JournalPage', () => {
 
         await component.openLearnMoreModal();
 
-        expect(component.isDisplayingLearnMoreModal).toBeTrue();
+        expect(component.isDisplayingLearnMoreModal).toBe(true);
         expect(component.store$.dispatch).toHaveBeenCalledWith(RecallLearnMoreModalOpened());
         expect(component.modalController.create).toHaveBeenCalled();
         expect(presentSpy).toHaveBeenCalled();
@@ -351,7 +354,7 @@ describe('JournalPage', () => {
 
       it('does nothing if modal is already displaying', async () => {
         component.isDisplayingLearnMoreModal = true;
-        spyOn(component.modalController, 'create');
+        vi.spyOn(component.modalController, 'create');
 
         await component.openLearnMoreModal();
 
@@ -361,15 +364,14 @@ describe('JournalPage', () => {
 
     describe('displayAutoRecallPopup', () => {
       beforeEach(() => {
-        component.todaysDate = jasmine.createSpyObj('DateTime', ['format']);
-        spyOn(component.todaysDate, 'format').and.returnValue('01/01/2024');
+        vi.spyOn(component.todaysDate, 'format').mockReturnValue('01/01/2024');
         component.pageState = { ...component.pageState, isSelectedDateToday$: of(true) } as any;
-        spyOn(component, 'openLearnMoreModal').and.returnValue(Promise.resolve());
-        spyOn(component.store$, 'dispatch');
+        vi.spyOn(component, 'openLearnMoreModal').mockReturnValue(Promise.resolve());
+        vi.spyOn(component.store$, 'dispatch').mockReturnValue(undefined);
       });
 
       it('dispatches RecallAutoPopupDisplayedTimeChanged and opens modal when slot has affected category, has not been conducted and not already displayed today', async () => {
-        component.store$.selectSignal = jasmine.createSpy().and.callFake((selector) => {
+        component.store$.selectSignal = vi.fn().mockImplementation((selector) => {
           if (selector === getRecallAutoPopupLastDisplayedTime) return () => 'not-today';
           if (selector === getTests) return () => ({ testStatus: {} });
         });
@@ -408,7 +410,7 @@ describe('JournalPage', () => {
       });
 
       it('does not dispatch or open modal if popup already displayed today', async () => {
-        component.store$.selectSignal = jasmine.createSpy().and.callFake((selector) => {
+        component.store$.selectSignal = vi.fn().mockImplementation((selector) => {
           if (selector === getRecallAutoPopupLastDisplayedTime) return () => '01/01/2024';
           if (selector === getTests) return () => ({ testStatus: {} });
         });
@@ -427,7 +429,7 @@ describe('JournalPage', () => {
       });
 
       it('does not dispatch or open modal if no slots have affected categories', async () => {
-        component.store$.selectSignal = jasmine.createSpy().and.callFake((selector) => {
+        component.store$.selectSignal = vi.fn().mockImplementation((selector) => {
           if (selector === getRecallAutoPopupLastDisplayedTime) return () => 'not-today';
           if (selector === getTests) return () => ({ testStatus: {} });
         });
@@ -446,7 +448,7 @@ describe('JournalPage', () => {
       });
 
       it('handles multiple slots and only displays popup if at least one is affected and incomplete', async () => {
-        component.store$.selectSignal = jasmine.createSpy().and.callFake((selector) => {
+        component.store$.selectSignal = vi.fn().mockImplementation((selector) => {
           if (selector === getRecallAutoPopupLastDisplayedTime) return () => 'not-today';
           if (selector === getTests)
             return () => ({
@@ -475,7 +477,7 @@ describe('JournalPage', () => {
       });
 
       it('does not display popup if all affected slots are completed, autosaved, or submitted', async () => {
-        component.store$.selectSignal = jasmine.createSpy().and.callFake((selector) => {
+        component.store$.selectSignal = vi.fn().mockImplementation((selector) => {
           if (selector === getRecallAutoPopupLastDisplayedTime) return () => 'not-today';
           if (selector === getTests)
             return () => ({
@@ -508,10 +510,10 @@ describe('JournalPage', () => {
 
     describe('ionViewWillEnter', () => {
       it('should run necessary functions', async () => {
-        spyOn(BasePageComponent.prototype, 'ionViewWillEnter');
-        spyOn(component, 'requestJournal').and.callThrough();
-        spyOn(component, 'setupPolling');
-        spyOn(component, 'configurePlatformSubscriptions');
+        vi.spyOn(BasePageComponent.prototype, 'ionViewWillEnter').mockReturnValue(undefined);
+        vi.spyOn(component, 'requestJournal');
+        vi.spyOn(component, 'setupPolling').mockReturnValue(undefined);
+        vi.spyOn(component, 'configurePlatformSubscriptions').mockReturnValue(undefined);
 
         await component.ionViewWillEnter();
         expect(BasePageComponent.prototype.ionViewWillEnter).toHaveBeenCalled();
@@ -523,7 +525,7 @@ describe('JournalPage', () => {
 
     describe('refreshJournal', () => {
       it('should run requestJournal', async () => {
-        spyOn(component, 'requestJournal').and.callThrough();
+        vi.spyOn(component, 'requestJournal');
 
         await component.refreshJournal(JournalRehydrationType.MANUAL);
         expect(component.requestJournal).toHaveBeenCalled();
@@ -532,7 +534,7 @@ describe('JournalPage', () => {
 
     describe('pullRefreshJournal', () => {
       it('should run refreshJournal and set pageRefresher to the value passed', async () => {
-        spyOn(component, 'refreshJournal').and.callThrough();
+        vi.spyOn(component, 'refreshJournal');
 
         const event = { target: {} } as IonRefresherCustomEvent<RefresherEventDetail>;
 
@@ -545,25 +547,36 @@ describe('JournalPage', () => {
     describe('ionViewWillLeave', () => {
       it('should dispatch StopPolling and unsubscribe from a subscription if there is one', () => {
         component.platformSubscription = new Subscription();
-        spyOn(component.platformSubscription, 'unsubscribe');
+        vi.spyOn(component.platformSubscription, 'unsubscribe').mockReturnValue(undefined);
         component.ionViewWillLeave();
         expect(component.platformSubscription.unsubscribe).toHaveBeenCalled();
         expect(store$.dispatch).toHaveBeenCalledWith(journalActions.StopPolling());
       });
     });
 
-    // @TODO: MES-7134 - Come back and look at this test / This is also a TODO in DES3
-    xit('there should be one slot for every journal entry', () => {
-      const slotsList = componentEl.query(By.css('ion-list'));
-      expect(slotsList.children.length).toBe(0);
+    it('should show journal slots when entries are available', () => {
+      expect(componentEl.query(By.css('journal-slots'))).toBeNull();
+      expect(componentEl.query(By.css('.no-results'))).not.toBeNull();
 
+      const slots = Object.values(journalSlotsDataMock)
+        .flat()
+        .filter((slot) => 'booking' in slot.slotData && slot.slotData.booking)
+        .slice(0, 2);
+      expect(slots).toHaveLength(2);
+      vi.spyOn(TestBed.inject(SlotSelectorProvider), 'isBookingEmptyOrNull').mockReturnValue(false);
+      Object.assign(TestBed.inject(SlotProvider), {
+        canViewCandidateDetails: vi.fn().mockReturnValue(true),
+        isTestCentreJournalADIBooking: vi.fn().mockReturnValue(false),
+      });
+      component.pageState.slots$ = of(slots);
+      fixture.changeDetectorRef.markForCheck();
       fixture.detectChanges();
 
-      let noOfSlotsReturned: number;
-      component.pageState.slots$.subscribe((slots) => (noOfSlotsReturned = slots.length));
-
-      expect(slotsList.children.length).toBe(noOfSlotsReturned);
-      expect(slotsList.children.every((child) => child.name === 'test-slot')).toEqual(true);
+      const journalSlots = componentEl.query(By.directive(JournalSlotComponent));
+      expect(journalSlots).not.toBeNull();
+      expect(journalSlots.componentInstance.slots).toEqual(slots);
+      expect(journalSlots.queryAll(By.css('test-slot'))).toHaveLength(slots.length);
+      expect(componentEl.query(By.css('.no-results'))).toBeNull();
     });
   });
 });

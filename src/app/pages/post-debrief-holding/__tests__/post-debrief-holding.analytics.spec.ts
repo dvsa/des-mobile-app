@@ -14,7 +14,8 @@ import { candidateMock } from '@store/tests/__mocks__/tests.mock';
 import { PopulateCandidateDetails } from '@store/tests/journal-data/common/candidate/candidate.actions';
 import * as testsActions from '@store/tests/tests.actions';
 import { testsReducer } from '@store/tests/tests.reducer';
-import { ReplaySubject } from 'rxjs';
+import { ReplaySubject, firstValueFrom } from 'rxjs';
+import { beforeEach, describe, expect, it } from 'vitest';
 import * as fakeJournalActions from '../../fake-journal/fake-journal.actions';
 import * as postDebriefHoldingActions from '../post-debrief-holding.actions';
 import { PostDebriefHoldingAnalyticsEffects } from '../post-debrief-holding.analytics.effects';
@@ -55,36 +56,23 @@ describe('PostDebriefHoldingAnalyticsEffects', () => {
   });
 
   describe('backToOfficeViewDidEnter', () => {
-    it('should call setCurrentPage', (done) => {
-      // ARRANGE
+    it('should call setCurrentPage', async () => {
       store$.dispatch(testsActions.StartTest(123, TestCategory.B));
       store$.dispatch(PopulateCandidateDetails(candidateMock));
-      // ACT
       actions$.next(postDebriefHoldingActions.PostDebriefHoldingViewDidEnter());
-      // ASSERT
-      effects.postDebriefHoldingViewDidEnterEffect$.subscribe((result) => {
-        expect(result.type === AnalyticRecorded.type).toBe(true);
-        // GA4 Analytics
-        expect(analyticsProviderMock.setGACurrentPage).toHaveBeenCalledWith(screenName);
-        done();
-      });
+      const result = await firstValueFrom(effects.postDebriefHoldingViewDidEnterEffect$);
+      expect(result.type === AnalyticRecorded.type).toBe(true);
+      expect(analyticsProviderMock.setGACurrentPage).toHaveBeenCalledWith(screenName);
     });
-    it('should call setCurrentPage with practice mode prefix', (done) => {
-      // ARRANGE
+    it('should call setCurrentPage with practice mode prefix', async () => {
       store$.dispatch(fakeJournalActions.StartE2EPracticeTest(end2endPracticeSlotId));
       store$.dispatch(PopulateCandidateDetails(candidateMock));
-      // ACT
       actions$.next(postDebriefHoldingActions.PostDebriefHoldingViewDidEnter());
-      // ASSERT
-      effects.postDebriefHoldingViewDidEnterEffect$.subscribe((result) => {
-        expect(result.type === AnalyticRecorded.type).toBe(true);
-
-        // GA4 Analytics
-        expect(analyticsProviderMock.setGACurrentPage).toHaveBeenCalledWith(
-          `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${screenName}`
-        );
-        done();
-      });
+      const result = await firstValueFrom(effects.postDebriefHoldingViewDidEnterEffect$);
+      expect(result.type === AnalyticRecorded.type).toBe(true);
+      expect(analyticsProviderMock.setGACurrentPage).toHaveBeenCalledWith(
+        `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${screenName}`
+      );
     });
   });
 });

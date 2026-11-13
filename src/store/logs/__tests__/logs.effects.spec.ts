@@ -1,7 +1,8 @@
-import { TestBed, fakeAsync, tick } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { Action, Store, StoreModule } from '@ngrx/store';
-import { ReplaySubject } from 'rxjs';
+import { ReplaySubject, firstValueFrom, of } from 'rxjs';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { AppConfigProviderMock } from '@providers/app-config/__mocks__/app-config.mock';
 import { AppConfigProvider } from '@providers/app-config/app-config';
@@ -54,7 +55,7 @@ describe('LogsEffects', () => {
     dataStoreMock = TestBed.inject(DataStoreProvider);
   });
 
-  it('should dispatch the persist logs action when the logs post successfully', (done) => {
+  it('should dispatch the persist logs action when the logs post successfully', async () => {
     // ARRANGE
     const timestamps: number[] = [12345678];
     // ACT
@@ -62,11 +63,10 @@ describe('LogsEffects', () => {
     // ASSERT
     effects.sendLogsSuccessEffect$.subscribe((result) => {
       expect(result.type).toEqual(logsActions.ClearLogs.type);
-      done();
     });
   });
 
-  it('should dispatch the persist logs action when an individual log is added', (done) => {
+  it('should dispatch the persist logs action when an individual log is added', async () => {
     // ARRANGE
     const log: Log = {
       test: 'xyz',
@@ -80,43 +80,41 @@ describe('LogsEffects', () => {
     // ASSERT
     effects.saveLogEffect$.subscribe((result) => {
       expect(result.type).toEqual(logsActions.PersistLog.type);
-      done();
     });
   });
 
-  xdescribe('persistLogs', () => {
-    it('should call saveLogs', fakeAsync((done) => {
-      // ARRANGE
-      spyOn(effects, 'saveLogs').and.callThrough();
-      // ACT
-      actions$.next(logsActions.PersistLog());
-      tick();
-      // ASSERT
-      effects.persistLogEffect$.subscribe((result) => {
-        expect(effects.saveLogs).toHaveBeenCalled();
-        expect(result.type).toEqual('[LogsEffects] Persist Log Finished');
-        done();
-      });
-    }));
+  describe('persistLogs', () => {
+    it('should call saveLogs', async () => {
+      vi.useFakeTimers();
+      try {
+        // ARRANGE
+        vi.spyOn(effects, 'saveLogs');
+        // ACT
+        actions$.next(logsActions.PersistLog());
+        await vi.advanceTimersByTimeAsync(0);
+        // ASSERT
+        effects.persistLogEffect$.subscribe((result) => {
+          expect(effects.saveLogs).toHaveBeenCalled();
+          expect(result.type).toEqual('[LogsEffects] Persist Log Finished');
+        });
+      } finally {
+        vi.useRealTimers();
+      }
+    });
   });
   describe('LoadLog', () => {
-    it('should call getPersistedLogs and return LoadLogState', fakeAsync((done) => {
-      // ARRANGE
-      spyOn(effects, 'getPersistedLogs').and.callThrough();
-      // ACT
+    it('should call getPersistedLogs and return LoadLogState', async () => {
+      vi.spyOn(effects, 'getPersistedLogs').mockReturnValue(of([]));
+      const resultPromise = firstValueFrom(effects.loadLogEffect$);
       actions$.next(logsActions.LoadLog());
-      tick();
-      // ASSERT
-      effects.persistLogEffect$.subscribe((result) => {
-        expect(effects.getPersistedLogs).toHaveBeenCalled();
-        expect(result instanceof logsActions.LoadLogState).toBe(true);
-        done();
-      });
-    }));
+      const result = await resultPromise;
+      expect(effects.getPersistedLogs).toHaveBeenCalled();
+      expect(result).toEqual(logsActions.LoadLogState({ payload: [] }));
+    });
   });
 
   describe('getAndConvertPersistedLogs', () => {
-    it('should empty cached data if cache is too old', (done) => {
+    it('should empty cached data if cache is too old', async () => {
       const log: Log = {
         test: 'xyz',
         type: LogType.DEBUG,
@@ -132,19 +130,17 @@ describe('LogsEffects', () => {
 
       // override mock getItem as we need data to test
       // @ts-ignore
-      dataStoreMock.getItem.and.callFake(() => Promise.resolve(JSON.stringify(agedCache)));
+      dataStoreMock.getItem.mockImplementation(() => Promise.resolve(JSON.stringify(agedCache)));
 
-      spyOn(effects, 'emptyCachedData').and.callThrough();
-
-      effects.getAndConvertPersistedLogs().then((data) => {
+      vi.spyOn(effects, 'emptyCachedData');
+      await effects.getAndConvertPersistedLogs().then((data) => {
         expect(effects.emptyCachedData).toHaveBeenCalled();
         expect(dataStoreMock.setItem).toHaveBeenCalled();
         expect(data).toEqual([] as Log[]);
-        done();
       });
     });
 
-    xit('should return data without emptying cache if data is not too old', (done) => {
+    it('should return data without emptying cache if data is not too old', async () => {
       const log: Log = {
         test: 'xyz',
         type: LogType.DEBUG,
@@ -159,32 +155,29 @@ describe('LogsEffects', () => {
 
       // override mock getItem as we need data to test
       // @ts-ignore
-      dataStoreMock.getItem.and.callFake(() => Promise.resolve(JSON.stringify(dataWithinWindowCache)));
+      dataStoreMock.getItem.mockImplementation(() => Promise.resolve(JSON.stringify(dataWithinWindowCache)));
 
-      spyOn(effects, 'emptyCachedData').and.callThrough();
+      vi.spyOn(effects, 'emptyCachedData');
 
-      effects.getAndConvertPersistedLogs().then((data) => {
+      await effects.getAndConvertPersistedLogs().then((data) => {
         expect(effects.emptyCachedData).toHaveBeenCalledTimes(0);
         expect(dataStoreMock.setItem).toHaveBeenCalledTimes(0);
         expect(data).toEqual(dataWithinWindowCache.data);
-        done();
       });
     });
   });
 
   describe('isCacheTooOld', () => {
-    it('should return true if date is greater than cacheDays days ago', (done) => {
+    it('should return true if date is greater than cacheDays days ago', async () => {
       const today = new DateTime();
       const tooOld = new DateTime().add(-(cacheDays + 1), Duration.DAY);
       expect(effects.isCacheTooOld(tooOld, today)).toBe(true);
-      done();
     });
 
-    it('should return true if date is less than or equal to cacheDays days ago', (done) => {
+    it('should return true if date is less than or equal to cacheDays days ago', async () => {
       const today = new DateTime();
       const withinWindow = new DateTime().add(-cacheDays, Duration.DAY);
       expect(effects.isCacheTooOld(withinWindow, today)).toBe(false);
-      done();
     });
   });
 });

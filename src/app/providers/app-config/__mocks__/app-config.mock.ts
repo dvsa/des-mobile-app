@@ -1,4 +1,5 @@
 import { EnvironmentFile } from '@environments/models/environment.model';
+import { vi } from 'vitest';
 import { AppConfig } from '../app-config.model';
 import { localEnvironmentMock } from './environment.mock';
 
@@ -67,13 +68,13 @@ export class AppConfigProviderMock {
 
   environmentFile: EnvironmentFile = localEnvironmentMock;
 
-  public initialiseAppConfig = jasmine.createSpy('initialiseAppConfig');
+  public initialiseAppConfig = vi.fn();
 
-  public loadRemoteConfig = jasmine.createSpy('loadRemoteConfig').and.returnValue(Promise.resolve());
+  public loadRemoteConfig = vi.fn().mockReturnValue(Promise.resolve());
 
-  public shutDownStoreSubscription = jasmine.createSpy('shutDownStoreSubscription');
+  public shutDownStoreSubscription = vi.fn();
 
-  public getDebugMode = jasmine.createSpy('getDebugMode').and.returnValue(Promise.resolve());
+  public getDebugMode = vi.fn().mockReturnValue(Promise.resolve());
 
   public getAppConfigAsync(): Promise<AppConfig> {
     return Promise.resolve(this.appConfig);

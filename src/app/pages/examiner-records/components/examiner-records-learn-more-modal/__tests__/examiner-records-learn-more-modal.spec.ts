@@ -1,5 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ModalController } from '@ionic/angular';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { ModalControllerMock } from '@mocks/ionic-mocks/modal-controller.mock';
 import { ExaminerRecordsLearnMoreModal } from '@pages/examiner-records/components/examiner-records-learn-more-modal/examiner-records-learn-more-modal';
@@ -21,7 +22,7 @@ describe('ExaminerRecordsLearnMoreModalComponent', () => {
 
   describe('onOk', () => {
     it('should dismiss modal', () => {
-      const dismissSpy = spyOn(component.modalCtrl, 'dismiss');
+      const dismissSpy = vi.spyOn(component.modalCtrl, 'dismiss').mockReturnValue(undefined);
       component.onOk();
       expect(dismissSpy).toHaveBeenCalled();
     });

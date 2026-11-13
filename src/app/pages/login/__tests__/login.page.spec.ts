@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, fakeAsync, flushMicrotasks } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Navigation, NavigationExtras, Router, RouterModule } from '@angular/router';
 import { Capacitor } from '@capacitor/core';
 import { SplashScreen } from '@capacitor/splash-screen';
@@ -36,6 +36,7 @@ import { NetworkStateProviderMock } from '@providers/network-state/__mocks__/net
 import { NetworkStateProvider } from '@providers/network-state/network-state';
 import { Log, LogType } from '@shared/models/log.model';
 import { SaveLog, SendLogs } from '@store/logs/logs.actions';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { LoginPage } from '../login.page';
 
 describe('LoginPage', () => {
@@ -149,106 +150,136 @@ describe('LoginPage', () => {
 
   describe('ngOnInit', () => {
     beforeEach(() => {
-      spyOn(component, 'isIos').and.returnValue(true);
-      spyOn(component, 'login').and.returnValue(Promise.resolve());
-      spyOn(component, 'closeSideMenuIfOpen').and.returnValue(Promise.resolve());
+      vi.spyOn(component, 'isIos').mockReturnValue(true);
+      vi.spyOn(component, 'login').mockReturnValue(Promise.resolve());
+      vi.spyOn(component, 'closeSideMenuIfOpen').mockReturnValue(Promise.resolve());
     });
-    it('should call login function when on ios', fakeAsync(() => {
-      spyOn(router, 'getCurrentNavigation').and.returnValue({
-        extras: { state: { hasLoggedOut: false } } as NavigationExtras,
-      } as Navigation);
-      component.ngOnInit();
-      flushMicrotasks();
-      expect(component.login).toHaveBeenCalled();
-    }));
-    it('should not run login on hasLoggedOut', fakeAsync(() => {
-      spyOn(router, 'getCurrentNavigation').and.returnValue({
-        extras: { state: { hasLoggedOut: true } } as NavigationExtras,
-      } as Navigation);
-      component.ngOnInit();
-      flushMicrotasks();
-      expect(component.closeSideMenuIfOpen).toHaveBeenCalled();
-      expect(component.login).not.toHaveBeenCalled();
-    }));
+    it('should call login function when on ios', async () => {
+      vi.useFakeTimers();
+      try {
+        vi.spyOn(router, 'getCurrentNavigation').mockReturnValue({
+          extras: { state: { hasLoggedOut: false } } as NavigationExtras,
+        } as Navigation);
+        component.ngOnInit();
+        await vi.advanceTimersByTimeAsync(0);
+        expect(component.login).toHaveBeenCalled();
+      } finally {
+        vi.useRealTimers();
+      }
+    });
+    it('should not run login on hasLoggedOut', async () => {
+      vi.useFakeTimers();
+      try {
+        vi.spyOn(router, 'getCurrentNavigation').mockReturnValue({
+          extras: { state: { hasLoggedOut: true } } as NavigationExtras,
+        } as Navigation);
+        component.ngOnInit();
+        await vi.advanceTimersByTimeAsync(0);
+        expect(component.closeSideMenuIfOpen).toHaveBeenCalled();
+        expect(component.login).not.toHaveBeenCalled();
+      } finally {
+        vi.useRealTimers();
+      }
+    });
   });
   describe('closeSideMenuIfOpen', () => {
     beforeEach(() => {
-      spyOn(menuController, 'close');
+      vi.spyOn(menuController, 'close').mockReturnValue(undefined);
     });
     it('should call menu close when isOpen', async () => {
-      spyOn(menuController, 'isOpen').and.returnValue(Promise.resolve(true));
+      vi.spyOn(menuController, 'isOpen').mockReturnValue(Promise.resolve(true));
       await component.closeSideMenuIfOpen();
       expect(menuController.close).toHaveBeenCalled();
     });
     it('should not call menu close when isOpen returns false', async () => {
-      spyOn(menuController, 'isOpen').and.returnValue(Promise.resolve(false));
+      vi.spyOn(menuController, 'isOpen').mockReturnValue(Promise.resolve(false));
       await component.closeSideMenuIfOpen();
       expect(menuController.close).not.toHaveBeenCalled();
     });
   });
   describe('login', () => {
     beforeEach(() => {
-      spyOn(component, 'handleLoadingUI').and.returnValue(Promise.resolve());
-      spyOn(component, 'hideSplashscreen').and.returnValue(Promise.resolve());
-      spyOn(appConfigProvider, 'initialiseAppConfig').and.returnValue(Promise.resolve());
-      spyOn(appConfigProvider, 'loadRemoteConfig').and.returnValue(Promise.resolve());
-      spyOn(authenticationProvider, 'isAuthenticated').and.resolveTo(false);
-      spyOn(authenticationProvider, 'getEmployeeId').and.returnValue('123456');
-      spyOn(authenticationProvider, 'login').and.returnValue(Promise.resolve());
-      spyOn(authenticationProvider, 'logout').and.returnValue(Promise.resolve());
-      spyOn(authenticationProvider, 'refreshEmployeeDetails').and.returnValue(Promise.resolve());
-      spyOn(store$, 'dispatch');
-      spyOn(component, 'appInitializedLog');
-      spyOn(component, 'dispatchLog');
+      vi.spyOn(component, 'handleLoadingUI').mockReturnValue(Promise.resolve());
+      vi.spyOn(component, 'hideSplashscreen').mockReturnValue(Promise.resolve());
+      vi.spyOn(appConfigProvider, 'initialiseAppConfig').mockReturnValue(Promise.resolve());
+      vi.spyOn(appConfigProvider, 'loadRemoteConfig').mockReturnValue(Promise.resolve());
+      vi.spyOn(authenticationProvider, 'isAuthenticated').mockResolvedValue(false);
+      vi.spyOn(authenticationProvider, 'getEmployeeId').mockReturnValue('123456');
+      vi.spyOn(authenticationProvider, 'login').mockReturnValue(Promise.resolve());
+      vi.spyOn(authenticationProvider, 'logout').mockReturnValue(Promise.resolve());
+      vi.spyOn(authenticationProvider, 'refreshEmployeeDetails').mockReturnValue(Promise.resolve());
+      vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
+      vi.spyOn(component, 'appInitializedLog').mockReturnValue(undefined);
+      vi.spyOn(component, 'dispatchLog').mockReturnValue(undefined);
     });
     describe('Successful login flow', () => {
-      it('should run the login flow code', fakeAsync(() => {
-        spyOn(platform, 'ready').and.returnValue(Promise.resolve(''));
-        component.login();
-        flushMicrotasks();
-        expect(appConfigProvider.initialiseAppConfig).toHaveBeenCalled();
-        expect(component.appInitializedLog).toHaveBeenCalled();
-        expect(authenticationProvider.isAuthenticated).toHaveBeenCalled();
-        expect(appConfigProvider.loadRemoteConfig).toHaveBeenCalled();
-        expect(component.handleLoadingUI).toHaveBeenCalled();
-      }));
+      it('should run the login flow code', async () => {
+        vi.useFakeTimers();
+        try {
+          vi.spyOn(platform, 'ready').mockReturnValue(Promise.resolve(''));
+          component.login();
+          await vi.advanceTimersByTimeAsync(0);
+          expect(appConfigProvider.initialiseAppConfig).toHaveBeenCalled();
+          expect(component.appInitializedLog).toHaveBeenCalled();
+          expect(authenticationProvider.isAuthenticated).toHaveBeenCalled();
+          expect(appConfigProvider.loadRemoteConfig).toHaveBeenCalled();
+          expect(component.handleLoadingUI).toHaveBeenCalled();
+        } finally {
+          vi.useRealTimers();
+        }
+      });
     });
     describe('Unsuccessful login flow', () => {
-      it('should log an exception and dispatch log when when rejection due to UNABLE_TO_LOGOUT', fakeAsync(() => {
-        spyOn(platform, 'ready').and.returnValue(Promise.reject(AuthenticationError.UNABLE_TO_LOGOUT));
-        component.login();
-        flushMicrotasks();
-        expect(component.dispatchLog).toHaveBeenCalledWith(`"${AuthenticationError.UNABLE_TO_LOGOUT}"`);
-        expect(component.hasUserLoggedOut).toEqual(false);
-      }));
-      it('should dispatch log when error is USER_NOT_AUTHORISED and a token is present', fakeAsync(() => {
-        spyOn(authenticationProvider, 'getAuthenticationToken').and.returnValue(Promise.resolve('token'));
-        spyOn(platform, 'ready').and.returnValue(Promise.reject(AuthenticationError.USER_NOT_AUTHORISED));
-        component.login();
-        flushMicrotasks();
-        expect(authenticationProvider.getAuthenticationToken).toHaveBeenCalled();
-        expect(authenticationProvider.getEmployeeId).toHaveBeenCalled();
-        expect(component.dispatchLog).toHaveBeenCalledWith('user 123456 not authorised: TOKEN token');
-        expect(component.appInitError).toEqual(AuthenticationError.USER_NOT_AUTHORISED);
-        expect(component.hasUserLoggedOut).toEqual(false);
-      }));
-      it('should dispatch log when error is USER_NOT_AUTHORISED and no token is present', fakeAsync(() => {
-        spyOn(authenticationProvider, 'getAuthenticationToken').and.returnValue(Promise.resolve(null));
-        spyOn(platform, 'ready').and.returnValue(Promise.reject(AuthenticationError.USER_NOT_AUTHORISED));
-        component.login();
-        flushMicrotasks();
-        expect(authenticationProvider.getAuthenticationToken).toHaveBeenCalled();
-        expect(authenticationProvider.getEmployeeId).toHaveBeenCalled();
-        expect(component.dispatchLog).toHaveBeenCalledWith('user 123456 not authorised: Could not get token');
-        expect(component.appInitError).toEqual(AuthenticationError.USER_NOT_AUTHORISED);
-        expect(component.hasUserLoggedOut).toEqual(false);
-      }));
+      it('should log an exception and dispatch log when when rejection due to UNABLE_TO_LOGOUT', async () => {
+        vi.useFakeTimers();
+        try {
+          vi.spyOn(platform, 'ready').mockReturnValue(Promise.reject(AuthenticationError.UNABLE_TO_LOGOUT));
+          component.login();
+          await vi.advanceTimersByTimeAsync(0);
+          expect(component.dispatchLog).toHaveBeenCalledWith(`"${AuthenticationError.UNABLE_TO_LOGOUT}"`);
+          expect(component.hasUserLoggedOut).toEqual(false);
+        } finally {
+          vi.useRealTimers();
+        }
+      });
+      it('should dispatch log when error is USER_NOT_AUTHORISED and a token is present', async () => {
+        vi.useFakeTimers();
+        try {
+          vi.spyOn(authenticationProvider, 'getAuthenticationToken').mockReturnValue(Promise.resolve('token'));
+          vi.spyOn(platform, 'ready').mockReturnValue(Promise.reject(AuthenticationError.USER_NOT_AUTHORISED));
+          component.login();
+          await vi.advanceTimersByTimeAsync(0);
+          expect(authenticationProvider.getAuthenticationToken).toHaveBeenCalled();
+          expect(authenticationProvider.getEmployeeId).toHaveBeenCalled();
+          expect(component.dispatchLog).toHaveBeenCalledWith('user 123456 not authorised: TOKEN token');
+          expect(component.appInitError).toEqual(AuthenticationError.USER_NOT_AUTHORISED);
+          expect(component.hasUserLoggedOut).toEqual(false);
+        } finally {
+          vi.useRealTimers();
+        }
+      });
+      it('should dispatch log when error is USER_NOT_AUTHORISED and no token is present', async () => {
+        vi.useFakeTimers();
+        try {
+          vi.spyOn(authenticationProvider, 'getAuthenticationToken').mockReturnValue(Promise.resolve(null));
+          vi.spyOn(platform, 'ready').mockReturnValue(Promise.reject(AuthenticationError.USER_NOT_AUTHORISED));
+          component.login();
+          await vi.advanceTimersByTimeAsync(0);
+          expect(authenticationProvider.getAuthenticationToken).toHaveBeenCalled();
+          expect(authenticationProvider.getEmployeeId).toHaveBeenCalled();
+          expect(component.dispatchLog).toHaveBeenCalledWith('user 123456 not authorised: Could not get token');
+          expect(component.appInitError).toEqual(AuthenticationError.USER_NOT_AUTHORISED);
+          expect(component.hasUserLoggedOut).toEqual(false);
+        } finally {
+          vi.useRealTimers();
+        }
+      });
     });
   });
   describe('dispatchLog', () => {
     it('should dispatch two actions SaveLog/SendLogs with custom param', () => {
-      spyOn(store$, 'dispatch');
-      spyOn(logHelper, 'createLog').and.returnValue({} as Log);
+      vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
+      vi.spyOn(logHelper, 'createLog').mockReturnValue({} as Log);
       component.dispatchLog('msg');
       expect(store$.dispatch).toHaveBeenCalledWith(SaveLog({ payload: {} as Log }));
       expect(store$.dispatch).toHaveBeenCalledWith(SendLogs());
@@ -257,8 +288,8 @@ describe('LoginPage', () => {
   });
   describe('appInitializedLog', () => {
     it('should dispatch a SaveLog action indicating app has initialised', () => {
-      spyOn(store$, 'dispatch');
-      spyOn(logHelper, 'createLog').and.returnValue({} as Log);
+      vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
+      vi.spyOn(logHelper, 'createLog').mockReturnValue({} as Log);
       component.appInitializedLog();
       expect(store$.dispatch).toHaveBeenCalledWith(SaveLog({ payload: {} as Log }));
       expect(logHelper.createLog).toHaveBeenCalledWith(
@@ -424,37 +455,52 @@ describe('LoginPage', () => {
     });
   });
   describe('showErrorDetails', () => {
-    it('should create the alert controller with params', fakeAsync(() => {
-      spyOn(alertController, 'create').and.callThrough();
-      component.appInitError = AppConfigError.MDM_ERROR;
-      component.showErrorDetails();
-      flushMicrotasks();
-      expect(alertController.create).toHaveBeenCalledWith({
-        header: 'Error details',
-        message: '"error getting mobile device management config"',
-        buttons: ['OK'],
-      });
-    }));
+    it('should create the alert controller with params', async () => {
+      vi.useFakeTimers();
+      try {
+        vi.spyOn(alertController, 'create');
+        component.appInitError = AppConfigError.MDM_ERROR;
+        component.showErrorDetails();
+        await vi.advanceTimersByTimeAsync(0);
+        expect(alertController.create).toHaveBeenCalledWith({
+          header: 'Error details',
+          message: '"error getting mobile device management config"',
+          buttons: ['OK'],
+        });
+      } finally {
+        vi.useRealTimers();
+      }
+    });
   });
   describe('handleLoadingUI', () => {
     beforeEach(() => {
-      spyOn(loadingProvider, 'handleUILoading');
+      vi.spyOn(loadingProvider, 'handleUILoading').mockReturnValue(undefined);
     });
-    it('should call through to provider with loading status of true', fakeAsync(() => {
-      component.handleLoadingUI(true);
-      flushMicrotasks();
-      expect(loadingProvider.handleUILoading).toHaveBeenCalledWith(true, component.loadingOptions);
-    }));
-    it('should call through to provider with loading status of false', fakeAsync(() => {
-      component.handleLoadingUI(false);
-      flushMicrotasks();
-      expect(loadingProvider.handleUILoading).toHaveBeenCalledWith(false, component.loadingOptions);
-    }));
+    it('should call through to provider with loading status of true', async () => {
+      vi.useFakeTimers();
+      try {
+        component.handleLoadingUI(true);
+        await vi.advanceTimersByTimeAsync(0);
+        expect(loadingProvider.handleUILoading).toHaveBeenCalledWith(true, component.loadingOptions);
+      } finally {
+        vi.useRealTimers();
+      }
+    });
+    it('should call through to provider with loading status of false', async () => {
+      vi.useFakeTimers();
+      try {
+        component.handleLoadingUI(false);
+        await vi.advanceTimersByTimeAsync(0);
+        expect(loadingProvider.handleUILoading).toHaveBeenCalledWith(false, component.loadingOptions);
+      } finally {
+        vi.useRealTimers();
+      }
+    });
   });
   describe('hideSplashscreen', () => {
     it('should hide splashscreen if plugin is available', async () => {
-      spyOn(SplashScreen, 'hide');
-      spyOn(Capacitor, 'isPluginAvailable').and.returnValue(true);
+      vi.spyOn(SplashScreen, 'hide').mockReturnValue(undefined);
+      vi.spyOn(Capacitor, 'isPluginAvailable').mockReturnValue(true);
       await component.hideSplashscreen();
       expect(SplashScreen.hide).toHaveBeenCalled();
     });

@@ -1,11 +1,12 @@
 import { HttpErrorResponse, HttpResponse, HttpStatusCode } from '@angular/common/http';
 import { TestResultSchemasUnion } from '@dvsa/mes-test-schema/categories';
 import { of } from 'rxjs';
+import { vi } from 'vitest';
 
 export class TestSubmissionProviderMock {
-  submitTests = jasmine
-    .createSpy('submitTests')
-    .and.returnValue(
+  submitTests = vi
+    .fn()
+    .mockReturnValue(
       of([
         new HttpResponse({ status: HttpStatusCode.Created }),
         new HttpResponse({ status: HttpStatusCode.Created }),
@@ -13,21 +14,17 @@ export class TestSubmissionProviderMock {
       ])
     );
 
-  buildUrl = jasmine.createSpy('buildUrl').and.returnValue('some-url');
+  buildUrl = vi.fn().mockReturnValue('some-url');
 
-  compressData = jasmine.createSpy('compressData').and.returnValue('some-data');
+  compressData = vi.fn().mockReturnValue('some-data');
 
-  removeFieldsForPartialData = jasmine
-    .createSpy('removeFieldsForPartialData')
-    .and.returnValue({} as TestResultSchemasUnion);
+  removeFieldsForPartialData = vi.fn().mockReturnValue({} as TestResultSchemasUnion);
 
-  removeNullFieldsDeep = jasmine.createSpy('removeNullFieldsDeep').and.returnValue({} as TestResultSchemasUnion);
+  removeNullFieldsDeep = vi.fn().mockReturnValue({} as TestResultSchemasUnion);
 
-  removePassCompletionWhenTestIsNotPass = jasmine
-    .createSpy('removePassCompletionWhenTestIsNotPass')
-    .and.returnValue({} as TestResultSchemasUnion);
+  removePassCompletionWhenTestIsNotPass = vi.fn().mockReturnValue({} as TestResultSchemasUnion);
 
-  submitTest = jasmine.createSpy('submitTest').and.returnValue(new HttpResponse());
+  submitTest = vi.fn().mockReturnValue(new HttpResponse());
 
-  isPartialSubmission = jasmine.createSpy('isPartialSubmission').and.returnValue(false);
+  isPartialSubmission = vi.fn().mockReturnValue(false);
 }

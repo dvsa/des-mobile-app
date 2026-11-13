@@ -8,16 +8,21 @@ import { LinkModalComponent, LinkModalEvent } from '@pages/useful-links/componen
 import { ExitSAMProvider } from '@providers/exitSAM/exitSAM';
 import { StoreModel } from '@shared/models/store.model';
 import { MockComponent } from 'ng-mocks';
+import { type MockedObject, beforeEach, describe, expect, it, vi } from 'vitest';
 
 describe('LinkModalComponent', () => {
   let fixture: ComponentFixture<LinkModalComponent>;
   let component: LinkModalComponent;
   let store$: Store<StoreModel>;
-  let modalController: jasmine.SpyObj<ModalController>;
+  let modalController: MockedObject<ModalController>;
 
   beforeEach(() => {
-    const modalControllerSpy = jasmine.createSpyObj('ModalController', ['dismiss']);
-    const exitSAMProviderSpy = jasmine.createSpyObj('ExitSAMProvider', ['attemptToDisableSAMForEscape']);
+    const modalControllerSpy = {
+      dismiss: vi.fn().mockName('ModalController.dismiss'),
+    };
+    const exitSAMProviderSpy = {
+      attemptToDisableSAMForEscape: vi.fn().mockName('ExitSAMProvider.attemptToDisableSAMForEscape'),
+    };
 
     TestBed.configureTestingModule({
       imports: [
@@ -35,9 +40,9 @@ describe('LinkModalComponent', () => {
     fixture = TestBed.createComponent(LinkModalComponent);
     component = fixture.componentInstance;
     store$ = TestBed.inject(Store);
-    modalController = TestBed.inject(ModalController) as jasmine.SpyObj<ModalController>;
+    modalController = TestBed.inject(ModalController) as MockedObject<ModalController>;
 
-    spyOn(store$, 'dispatch');
+    vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
   });
 
   it('should create', () => {
@@ -60,7 +65,7 @@ describe('LinkModalComponent', () => {
         url: 'https://example.com',
         displayText: 'Example',
       };
-      spyOn(window, 'open').and.callThrough();
+      vi.spyOn(window, 'open').mockReturnValue(null);
 
       await component.onContinue();
 

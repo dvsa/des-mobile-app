@@ -1,11 +1,12 @@
+import { vi } from 'vitest';
 export class DataStoreProviderMock {
-  initDataStore = jasmine.createSpy('initDataStore').and.callThrough();
+  initDataStore = vi.fn();
 
-  setItem = jasmine.createSpy('setItem').and.returnValue(Promise.resolve('set'));
+  setItem = vi.fn().mockReturnValue(Promise.resolve('set'));
 
-  getItem = jasmine.createSpy('getItem').and.returnValue(Promise.resolve('get'));
+  getItem = vi.fn().mockReturnValue(Promise.resolve('get'));
 
-  removeItem = jasmine.createSpy('removeItem');
+  removeItem = vi.fn();
 
-  getKeys = jasmine.createSpy('getKeys').and.returnValue(Promise.resolve(['TESTS']));
+  getKeys = vi.fn().mockReturnValue(Promise.resolve(['TESTS']));
 }

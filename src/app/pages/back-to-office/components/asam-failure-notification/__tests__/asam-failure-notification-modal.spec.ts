@@ -3,6 +3,7 @@ import { ModalAlertTitleComponent } from '@components/common/modal-alert-title/m
 import { ModalController } from '@ionic/angular';
 import { ModalControllerMock } from '@mocks/ionic-mocks/modal-controller.mock';
 import { MockComponent } from 'ng-mocks';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { AsamFailureNotificationModal } from '../asam-failure-notification-modal';
 
 describe('AsamFailureNotificationModal', () => {
@@ -19,7 +20,7 @@ describe('AsamFailureNotificationModal', () => {
     fixture = TestBed.createComponent(AsamFailureNotificationModal);
     component = fixture.componentInstance;
     modalController = TestBed.inject(ModalController);
-    spyOn(modalController, 'dismiss');
+    vi.spyOn(modalController, 'dismiss').mockReturnValue(undefined);
   });
 
   it('should create', () => {

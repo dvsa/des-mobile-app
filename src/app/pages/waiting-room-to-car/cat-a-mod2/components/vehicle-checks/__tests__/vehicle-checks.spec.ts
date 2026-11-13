@@ -11,6 +11,7 @@ import { VehicleChecksCatAMod2Modal } from '@pages/waiting-room-to-car/cat-a-mod
 import { AccessibilityServiceMock } from '@providers/accessibility/__mocks__/accessibility-service.mock';
 import { AccessibilityService } from '@providers/accessibility/accessibility.service';
 import { MockComponent } from 'ng-mocks';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { VehicleChecksCatAMod2Component } from '../vehicle-checks';
 
 class MockStore {}
@@ -42,8 +43,8 @@ describe('VehicleChecksCatAMod2Component', () => {
     modalController = TestBed.inject(ModalController);
     accessibilityService = TestBed.inject(AccessibilityService);
 
-    spyOn(accessibilityService, 'getTextZoomClass').and.returnValue('regular');
-    spyOn(modalController, 'create').and.returnValue(
+    vi.spyOn(accessibilityService, 'getTextZoomClass').mockReturnValue('regular');
+    vi.spyOn(modalController, 'create').mockReturnValue(
       Promise.resolve({
         present: async () => {},
         onDidDismiss: () => ({ data: '' }) as OverlayEventDetail,
@@ -66,7 +67,7 @@ describe('VehicleChecksCatAMod2Component', () => {
         });
       });
       it('should emit onCloseVehicleChecksModal when onDidDismiss', async () => {
-        spyOn(component.onCloseVehicleChecksModal, 'emit');
+        vi.spyOn(component.onCloseVehicleChecksModal, 'emit').mockReturnValue(undefined);
         await component.openVehicleChecksModal();
         expect(component.onCloseVehicleChecksModal.emit).toHaveBeenCalled();
       });
@@ -130,15 +131,15 @@ describe('VehicleChecksCatAMod2Component', () => {
 
     describe('validateVehicleChecks', () => {
       it('should call incompleteVehicleChecks() if all questions have NOT been answered', () => {
-        spyOn(component, 'everyQuestionHasOutcome').and.returnValue(false);
-        spyOn(component, 'incompleteVehicleChecks');
+        vi.spyOn(component, 'everyQuestionHasOutcome').mockReturnValue(false);
+        vi.spyOn(component, 'incompleteVehicleChecks').mockReturnValue(undefined);
         component.validateVehicleChecks();
         expect(component.incompleteVehicleChecks).toHaveBeenCalled();
       });
 
       it('should return null if all questions have been answered', () => {
-        spyOn(component, 'everyQuestionHasOutcome').and.returnValue(true);
-        spyOn(component, 'incompleteVehicleChecks');
+        vi.spyOn(component, 'everyQuestionHasOutcome').mockReturnValue(true);
+        vi.spyOn(component, 'incompleteVehicleChecks').mockReturnValue(undefined);
         const result = component.validateVehicleChecks();
         expect(result).toEqual(null);
       });
@@ -183,7 +184,7 @@ describe('VehicleChecksCatAMod2Component', () => {
         component.formGroup = formBuilder.group({
           vehicleChecksSelectQuestions: null,
         });
-        spyOn(component, 'everyQuestionHasOutcome').and.returnValue(true);
+        vi.spyOn(component, 'everyQuestionHasOutcome').mockReturnValue(true);
         component.ngOnChanges();
         const result = component.formGroup.contains('vehicleChecksSelectQuestions');
         expect(result).toEqual(true);
@@ -194,8 +195,8 @@ describe('VehicleChecksCatAMod2Component', () => {
         component.formGroup = formBuilder.group({
           vehicleChecksSelectQuestions: null,
         });
-        spyOn(component, 'everyQuestionHasOutcome').and.returnValue(true);
-        spyOn(component, 'validateVehicleChecks');
+        vi.spyOn(component, 'everyQuestionHasOutcome').mockReturnValue(true);
+        vi.spyOn(component, 'validateVehicleChecks').mockReturnValue(undefined);
         component.ngOnChanges();
         expect(component.validateVehicleChecks).toHaveBeenCalled();
       });

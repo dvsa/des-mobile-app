@@ -1,4 +1,5 @@
 import { VehicleDetails } from '@dvsa/mes-test-schema/categories/common';
+import { beforeEach, describe, expect, it } from 'vitest';
 import {
   getGearboxCategory,
   getMotEvidence,

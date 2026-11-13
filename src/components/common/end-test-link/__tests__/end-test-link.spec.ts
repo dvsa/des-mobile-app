@@ -4,6 +4,7 @@ import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/
 import { ModalController } from '@ionic/angular';
 import { Store } from '@ngrx/store';
 import { provideMockStore } from '@ngrx/store/testing';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { RouterMock } from '@mocks/angular-mocks/router-mock';
 import { ModalControllerMock } from '@mocks/ionic-mocks/modal-controller.mock';
@@ -35,15 +36,15 @@ describe('EndTestLinkComponent', () => {
     store$ = TestBed.inject(Store);
     modalController = TestBed.inject(ModalController);
 
-    spyOn(component.routerByCategory, 'navigateToPage');
-    spyOn(component.router, 'navigate');
-    spyOn(store$, 'dispatch');
+    vi.spyOn(component.routerByCategory, 'navigateToPage').mockReturnValue(undefined);
+    vi.spyOn(component.router, 'navigate');
+    vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
   });
 
   describe('Class', () => {
     describe('openEndTestModal', () => {
       it('should create an error modal', async () => {
-        spyOn(modalController, 'create').and.returnValue(
+        vi.spyOn(modalController, 'create').mockReturnValue(
           Promise.resolve({
             present: async () => {},
             onWillDismiss: async () => {},
@@ -57,7 +58,7 @@ describe('EndTestLinkComponent', () => {
     describe('onCancel', () => {
       it('should call dismiss', async () => {
         await component.openEndTestModal();
-        spyOn(component.terminateTestModal, 'dismiss');
+        vi.spyOn(component.terminateTestModal, 'dismiss').mockReturnValue(undefined);
         await component.onCancel();
         expect(await component.terminateTestModal.dismiss).toHaveBeenCalled();
       });
