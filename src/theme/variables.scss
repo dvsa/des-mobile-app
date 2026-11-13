@@ -709,6 +709,10 @@ ion-button {
   color: var(--gds-theme-opposite);
 }
 
+.alert-radio-label.sc-ion-alert-ios {
+  width: 100% !important;
+}
+
 // Shared Variables
 // --------------------------------------------------
 // To customize the look and feel of this app, you can override
