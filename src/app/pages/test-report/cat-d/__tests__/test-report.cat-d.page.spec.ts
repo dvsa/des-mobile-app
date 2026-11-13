@@ -50,7 +50,7 @@ describe('TestReportCatDPage', () => {
           testStatus: {},
           startedTests: {
             123: {
-              delegatedTest: {},
+              delegatedTest: false,
               category: TestCategory.D,
               rekey: {},
               testData: initialState,

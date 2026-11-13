@@ -79,11 +79,10 @@ describe('OfficeCatHomeTestPage', () => {
               slotId: '123',
             },
             testStatus: {},
-            delegatedTest: {},
             startedTests: {
               123: {
                 category: TestCategory.F,
-                delegatedTest: {},
+                delegatedTest: false,
                 vehicleDetails: {},
                 accompaniment: {},
                 testSummary: {},

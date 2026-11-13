@@ -80,7 +80,7 @@ describe('OfficeCatAMod1Page', () => {
             startedTests: {
               123: {
                 category: TestCategory.EUAM1,
-                delegatedTest: {},
+                delegatedTest: false,
                 vehicleDetails: {},
                 accompaniment: {},
                 testSummary: {},

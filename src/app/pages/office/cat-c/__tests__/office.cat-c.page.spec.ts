@@ -85,7 +85,7 @@ describe('OfficeCatCPage', () => {
               123: {
                 category: TestCategory.C,
                 vehicleDetails: {},
-                delegatedTest: {},
+                delegatedTest: false,
                 accompaniment: {},
                 testSummary: {},
                 userExitedApp: {},

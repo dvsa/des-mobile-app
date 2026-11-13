@@ -79,7 +79,7 @@ describe('OfficeCatManoeuvrePage', () => {
               123: {
                 category: TestCategory.CM,
                 vehicleDetails: {},
-                delegatedTest: {},
+                delegatedTest: false,
                 accompaniment: {},
                 testSummary: {},
                 userExitedApp: {},

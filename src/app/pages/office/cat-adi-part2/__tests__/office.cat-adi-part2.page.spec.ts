@@ -94,7 +94,7 @@ describe('OfficeCatADI2Page', () => {
               123: {
                 category: TestCategory.ADI2,
                 vehicleDetails: {},
-                delegatedTest: {},
+                delegatedTest: false,
                 accompaniment: {},
                 testSummary: {},
                 userExitedApp: {},

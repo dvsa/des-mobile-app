@@ -71,7 +71,7 @@ describe('OfficeCatAMod2Page', () => {
             testStatus: {},
             startedTests: {
               123: {
-                delegatedTest: {},
+                delegatedTest: false,
                 category: TestCategory.EUA2M2,
                 vehicleDetails: {},
                 accompaniment: {},

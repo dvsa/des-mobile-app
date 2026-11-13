@@ -49,7 +49,7 @@ describe('CommunicationPage', () => {
           startedTests: {
             123: {
               rekey: {},
-              delegatedTest: {},
+              delegatedTest: false,
               category: TestCategory.B,
               preTestDeclarations: preTestDeclarationInitialState,
               postTestDeclarations: {
