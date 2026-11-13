@@ -69,7 +69,7 @@ describe('TestReportCatAMod2Page', () => {
         MockComponent(SafetyAndBalanceComponent),
       ],
       providers: [
-        provideBasePageMocks(),
+        provideBasePageMocks(false),
         {
           provide: DateTimeProvider,
           useClass: DateTimeProviderMock,

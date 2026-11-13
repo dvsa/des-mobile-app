@@ -77,7 +77,7 @@ describe('TestReportCatADI2Page', () => {
         MockComponent(ManoeuvresPopoverComponentAdiPart2),
       ],
       providers: [
-        provideBasePageMocks(),
+        provideBasePageMocks(false),
         {
           provide: DateTimeProvider,
           useClass: DateTimeProviderMock,

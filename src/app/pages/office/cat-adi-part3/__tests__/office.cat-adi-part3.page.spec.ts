@@ -24,7 +24,6 @@ import { BasePageComponent } from '@shared/classes/base-page';
 import { NavControllerMock } from '@shared/mocks/nav-controller.mock';
 import { ToastControllerMock } from '@shared/mocks/toast-controller.mock';
 import { StoreModel } from '@shared/models/store.model';
-
 import { MockComponent } from 'ng-mocks';
 
 describe('OfficeCatADI3Page', () => {
@@ -68,7 +67,7 @@ describe('OfficeCatADI3Page', () => {
         MockComponent(TestFlowHeaderComponent),
       ],
       providers: [
-        provideBasePageMocks(),
+        provideBasePageMocks(false),
         { provide: NavController, useClass: NavControllerMock },
         { provide: ToastController, useClass: ToastControllerMock },
         { provide: FaultSummaryProvider, useClass: FaultSummaryProviderMock },

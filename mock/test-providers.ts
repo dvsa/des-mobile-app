@@ -11,6 +11,7 @@ import {
   PlatformMock,
   RouterMock,
 } from '@mocks/index.mock';
+import { provideMockStore } from '@ngrx/store/testing';
 import { TranslateLoader, provideTranslateService } from '@ngx-translate/core';
 import { AccessibilityServiceMock } from '@providers/accessibility/__mocks__/accessibility-service.mock';
 import { AccessibilityService } from '@providers/accessibility/accessibility.service';
@@ -24,7 +25,7 @@ import { LogHelperMock } from '@providers/logs/__mocks__/logs-helper.mock';
 import { LogHelper } from '@providers/logs/logs-helper';
 import { of } from 'rxjs';
 
-export function provideBasePageMocks(): (Provider | EnvironmentProviders)[] {
+export function provideBasePageMocks(shouldProvideMockStore = true): (Provider | EnvironmentProviders)[] {
   return [
     ...provideTestTranslations(),
     { provide: Platform, useClass: PlatformMock },
@@ -37,6 +38,7 @@ export function provideBasePageMocks(): (Provider | EnvironmentProviders)[] {
     { provide: AppConfigProvider, useClass: AppConfigProviderMock },
     { provide: DeviceProvider, useClass: DeviceProviderMock },
     { provide: LogHelper, useClass: LogHelperMock },
+    shouldProvideMockStore ? provideMockStore({ ...{} }) : [],
   ];
 }
 

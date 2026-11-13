@@ -87,7 +87,7 @@ describe('TestReportCatAMod1Page', () => {
         MockComponent(TestFlowHeaderComponent),
       ],
       providers: [
-        provideBasePageMocks(),
+        provideBasePageMocks(false),
         {
           provide: DateTimeProvider,
           useClass: DateTimeProviderMock,

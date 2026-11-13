@@ -139,7 +139,7 @@ describe('OfficeCatDPage', () => {
         MockComponent(DrivingFaultsComponent),
       ],
       providers: [
-        provideBasePageMocks(),
+        provideBasePageMocks(false),
         { provide: NavController, useClass: NavControllerMock },
         { provide: ToastController, useClass: ToastControllerMock },
         { provide: OutcomeBehaviourMapProvider, useClass: OutcomeBehaviourMapProviderMock },

@@ -150,7 +150,7 @@ describe('DebriefPage', () => {
         DebriefPage,
       ],
       providers: [
-        provideBasePageMocks(),
+        provideBasePageMocks(false),
         Store,
         {
           provide: FaultSummaryProvider,

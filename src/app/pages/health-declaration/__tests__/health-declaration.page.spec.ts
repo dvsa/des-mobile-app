@@ -89,7 +89,7 @@ describe('HealthDeclarationPage', () => {
         MockComponent(ReceiptDeclarationComponent),
       ],
       providers: [
-        provideBasePageMocks(),
+        provideBasePageMocks(false),
         {
           provide: AlertController,
           useClass: AlertControllerMock,

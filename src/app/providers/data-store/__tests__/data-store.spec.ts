@@ -76,7 +76,7 @@ describe('DataStoreProvider', () => {
     vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
     vi.spyOn(platform, 'is').mockReturnValue(true);
     secureStorage.create = vi.fn().mockReturnValue(Promise.resolve({} as SecureStorageObject));
-    vi.spyOn(provider, 'reportLog');
+    vi.spyOn(provider, 'reportLog').mockReturnValue(undefined);
   });
 
   describe('tryToResetStorage', () => {

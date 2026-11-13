@@ -76,7 +76,7 @@ describe('CommunicationPage', () => {
         MockComponent(CandidateSectionComponent),
       ],
       providers: [
-        provideBasePageMocks(),
+        provideBasePageMocks(false),
         {
           provide: DeviceAuthenticationProvider,
           useClass: DeviceAuthenticationProviderMock,
