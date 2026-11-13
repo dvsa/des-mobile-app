@@ -30,6 +30,7 @@ import { ClearTestCentresRefData } from '@store/reference-data/reference-data.ac
 import { ResetTestCentreJournal } from '@store/test-centre-journal/test-centre-journal.actions';
 import { UnloadTests } from '@store/tests/tests.actions';
 import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
+import { unitTestErrorCause } from '../../../../test-setup.vitest';
 import { AppConfigProviderMock } from '../../app-config/__mocks__/app-config.mock';
 import { AppConfigProvider } from '../../app-config/app-config';
 import { DataStoreProviderMock } from '../../data-store/__mocks__/data-store.mock';
@@ -274,9 +275,9 @@ describe('AuthenticationProvider', () => {
     });
 
     it('should return null and log error when getItem throws', async () => {
-      const error = new Error('getItem failed');
+      const error = new Error('getItem failed', { cause: unitTestErrorCause });
       vi.spyOn(authenticationProvider.dataStoreProvider, 'getItem').mockImplementation(() => {
-        throw new Error(error.message);
+        throw new Error(error.message, { cause: unitTestErrorCause });
       });
       vi.spyOn(authenticationProvider, 'logEvent').mockReturnValue(undefined);
 
@@ -341,7 +342,7 @@ describe('AuthenticationProvider', () => {
 
     it('should log and rethrow errors from AuthConnect.login', async () => {
       authenticationProvider.authOptions = { clientId: 'test' };
-      const error = new Error('login failed');
+      const error = new Error('login failed', { cause: unitTestErrorCause });
       vi.spyOn(authenticationProvider, 'pluginLogin').mockRejectedValue(error);
       vi.spyOn(authenticationProvider, 'storeAuthResult').mockReturnValue(undefined);
       vi.spyOn(authenticationProvider, 'logEvent').mockReturnValue(undefined);
@@ -473,7 +474,7 @@ describe('AuthenticationProvider', () => {
     });
 
     it('should catch errors from getAuthResult and return false', async () => {
-      const testError = new Error('Auth result retrieval failed');
+      const testError = new Error('Auth result retrieval failed', { cause: unitTestErrorCause });
       vi.spyOn(authenticationProvider, 'isTokenFromMSAuth').mockReturnValue(true);
       vi.spyOn(authenticationProvider, 'isOffline').mockReturnValue(false);
       vi.spyOn(authenticationProvider, 'getAuthResult').mockRejectedValue(testError);
@@ -486,7 +487,7 @@ describe('AuthenticationProvider', () => {
 
     it('should catch errors from hasTokenExpired and return false', async () => {
       const mockAuthResult = {} as AuthResult;
-      const testError = new Error('Token expiry check failed');
+      const testError = new Error('Token expiry check failed', { cause: unitTestErrorCause });
 
       vi.spyOn(authenticationProvider, 'isOffline').mockReturnValue(false);
       vi.spyOn(authenticationProvider, 'getAuthResult').mockResolvedValue(mockAuthResult);
@@ -500,7 +501,7 @@ describe('AuthenticationProvider', () => {
     });
 
     it('should catch errors from refreshSession and return false', async () => {
-      const testError = new Error('Token refresh failed');
+      const testError = new Error('Token refresh failed', { cause: unitTestErrorCause });
       const mockAuthResult = {} as AuthResult;
       vi.spyOn(authenticationProvider, 'isOffline').mockReturnValue(false);
       vi.spyOn(authenticationProvider, 'getAuthResult').mockResolvedValue(mockAuthResult);
@@ -603,7 +604,7 @@ describe('AuthenticationProvider', () => {
     });
 
     it('should log error if AuthConnect.logout throws, then call clearStore and shutDownStoreSubscription', async () => {
-      const error = new Error('logout failed');
+      const error = new Error('logout failed', { cause: unitTestErrorCause });
       (authenticationProvider.pluginLogout as Mock).mockRejectedValue(error);
 
       await authenticationProvider.logout();

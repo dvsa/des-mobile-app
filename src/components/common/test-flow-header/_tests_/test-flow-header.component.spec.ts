@@ -14,6 +14,7 @@ import { DeviceProvider } from '@providers/device/device';
 import { RouteByCategoryProviderMock } from '@providers/route-by-category/__mocks__/route-by-category.mock';
 import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
 import { StoreModel } from '@shared/models/store.model';
+import { unitTestErrorCause } from '../../../../test-setup.vitest';
 
 describe('TestFlowHeaderComponent', () => {
   let component: TestFlowHeaderComponent;
@@ -193,7 +194,9 @@ describe('TestFlowHeaderComponent', () => {
     it('should set up the leave subscription when checking whether Teams can open throws', async () => {
       component.isPracticeMode = false;
       vi.spyOn(deviceProvider, 'disableSingleAppMode').mockResolvedValue(true);
-      vi.spyOn(AppLauncher, 'canOpenUrl').mockRejectedValue(new Error('Launcher unavailable'));
+      vi.spyOn(AppLauncher, 'canOpenUrl').mockRejectedValue(
+        new Error('Launcher unavailable', { cause: unitTestErrorCause })
+      );
       vi.spyOn(component.exitSAMProvider, 'openExitSamErrorModal').mockReturnValue(Promise.resolve());
       vi.spyOn(component.setupLeaveSubscription, 'emit').mockReturnValue(undefined);
 
@@ -217,7 +220,9 @@ describe('TestFlowHeaderComponent', () => {
 
     it('should handle error during disableSAMAndExit', async () => {
       component.isPracticeMode = false;
-      vi.spyOn(deviceProvider, 'disableSingleAppMode').mockRejectedValue(new Error('Test Error'));
+      vi.spyOn(deviceProvider, 'disableSingleAppMode').mockRejectedValue(
+        new Error('Test Error', { cause: unitTestErrorCause })
+      );
       vi.spyOn(component.exitSAMProvider, 'openExitSamErrorModal').mockReturnValue(Promise.resolve());
       vi.spyOn(component.setupResumeSubscription, 'emit').mockReturnValue(undefined);
       vi.spyOn(component.setupLeaveSubscription, 'emit').mockReturnValue(undefined);
@@ -225,7 +230,9 @@ describe('TestFlowHeaderComponent', () => {
       await component.disableSAMAndExit(ExitSAMMethodUsed.BANNER);
 
       expect(component.exitSAMProvider.openExitSamErrorModal).toHaveBeenCalled();
-      expect(store$.dispatch).toHaveBeenCalledWith(ExitSamError('Error', new Error('Test Error')));
+      expect(store$.dispatch).toHaveBeenCalledWith(
+        ExitSamError('Error', new Error('Test Error', { cause: unitTestErrorCause }))
+      );
       expect(component.setupResumeSubscription.emit).not.toHaveBeenCalled();
       expect(component.setupLeaveSubscription.emit).not.toHaveBeenCalled();
     });

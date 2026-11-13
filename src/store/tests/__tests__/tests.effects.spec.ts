@@ -32,6 +32,7 @@ import { TestStatus } from '@store/tests/test-status/test-status.model';
 import { ReplaySubject, firstValueFrom } from 'rxjs';
 import { bufferCount } from 'rxjs/operators';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { unitTestErrorCause } from '../../../test-setup.vitest';
 import { candidateMock, testApplicationMock, testReportPracticeModeSlot } from '../__mocks__/tests.mock';
 import { PopulateTestCategory } from '../category/category.actions';
 import { StartDelegatedTest } from '../delegated-test/delegated-test.actions';
@@ -55,7 +56,7 @@ const selectedDateForSlot = (slotId: number): string => {
     .find(({ slotData }) => slotData.slotDetail.slotId === slotId);
 
   if (!slot) {
-    throw new Error(`Journal fixture does not contain slot ${slotId}`);
+    throw new Error(`Journal fixture does not contain slot ${slotId}`, { cause: unitTestErrorCause });
   }
 
   return DateTime.at(slot.slotData.slotDetail.start).format('YYYY-MM-DD');
@@ -231,7 +232,7 @@ describe('TestsEffects', () => {
             expect(result.type).toEqual(testsActions.SendCompletedTestsFailure().type);
           }
           if (result.payload === testReportPracticeModeSlot.slotDetail.slotId) {
-            throw new Error('Practice test should not be submitted');
+            throw new Error('Practice test should not be submitted', { cause: unitTestErrorCause });
           }
         }
       });

@@ -24,6 +24,7 @@ import { getLogsState } from '@store/logs/logs.reducer';
 import { getTests } from '@store/tests/tests.reducer';
 import CordovaSQLiteDriver from 'localforage-cordovasqlitedriver';
 import { type Mock, type MockedObject, beforeEach, describe, expect, it, vi } from 'vitest';
+import { unitTestErrorCause } from '../../../../test-setup.vitest';
 import { WindowWithSQLitePlugin } from '../data-store';
 
 describe('DataStoreProvider', () => {
@@ -75,41 +76,44 @@ describe('DataStoreProvider', () => {
     vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
     vi.spyOn(platform, 'is').mockReturnValue(true);
     secureStorage.create = vi.fn().mockReturnValue(Promise.resolve({} as SecureStorageObject));
+    vi.spyOn(provider, 'reportLog');
   });
 
   describe('tryToResetStorage', () => {
     it('calls resetStorage when error message equals storage timeout text', async () => {
       const timeoutMsg = 'DataStoreProvider Storage Call Timeout';
-      const err = new Error(timeoutMsg);
+      const err = new Error(timeoutMsg, { cause: unitTestErrorCause });
       const resetSpy = vi.spyOn(provider, 'resetStorage').mockReturnValue(Promise.resolve());
       await provider.tryToResetStorage(err);
       expect(resetSpy).toHaveBeenCalled();
     });
     it('calls resetStorage when error message contains "malformed"', async () => {
-      const err = new Error('response malformed payload');
+      const err = new Error('response malformed payload', { cause: unitTestErrorCause });
       const resetSpy = vi.spyOn(provider, 'resetStorage').mockReturnValue(Promise.resolve());
       await provider.tryToResetStorage(err);
       expect(resetSpy).toHaveBeenCalled();
     });
     it('calls resetStorage when error message contains both "no such table" and "_ionicstorage"', async () => {
-      const err = new Error('no such table some_table _ionicstorage');
+      const err = new Error('no such table some_table _ionicstorage', { cause: unitTestErrorCause });
       const resetSpy = vi.spyOn(provider, 'resetStorage').mockReturnValue(Promise.resolve());
       await provider.tryToResetStorage(err);
       expect(resetSpy).toHaveBeenCalled();
     });
     it('does not call resetStorage for unrelated error messages', async () => {
-      const err = new Error('unrelated error occurred');
+      const err = new Error('unrelated error occurred', { cause: unitTestErrorCause });
       const resetSpy = vi.spyOn(provider, 'resetStorage').mockReturnValue(Promise.resolve());
       await provider.tryToResetStorage(err);
       expect(resetSpy).not.toHaveBeenCalled();
     });
     it('reports and rethrows when resetStorage throws an error', async () => {
       const timeoutMsg = 'DataStoreProvider Storage Call Timeout';
-      const resetError = new Error('reset failed');
+      const resetError = new Error('reset failed', { cause: unitTestErrorCause });
       vi.spyOn(provider, 'resetStorage').mockReturnValue(Promise.reject(resetError));
       const reportSpy = vi.spyOn(provider, 'reportLog').mockReturnValue(undefined);
 
-      await expect(provider.tryToResetStorage(new Error(timeoutMsg))).rejects.toThrowError('reset failed');
+      await expect(provider.tryToResetStorage(new Error(timeoutMsg, { cause: unitTestErrorCause }))).rejects.toThrow(
+        'reset failed'
+      );
       expect(reportSpy).toHaveBeenCalledWith('Resetting storage error', '', resetError, false);
     });
   });
@@ -117,7 +121,7 @@ describe('DataStoreProvider', () => {
   describe('resetStorage', () => {
     it('throws Missing SQL Lite plugin error when sqlitePlugin is not present', async () => {
       (window as WindowWithSQLitePlugin).sqlitePlugin = null;
-      await expect(provider.resetStorage()).rejects.toThrowError('Missing SQL Lite plugin');
+      await expect(provider.resetStorage()).rejects.toThrow('Missing SQL Lite plugin');
     });
     it('calls initDataStore and repopulateStorage when deleteDatabase success callback is invoked', async () => {
       (window as WindowWithSQLitePlugin).sqlitePlugin = {
@@ -153,7 +157,9 @@ describe('DataStoreProvider', () => {
     });
     it('rejects when deleteDatabase promise rejects with an error', async () => {
       (window as WindowWithSQLitePlugin).sqlitePlugin = {
-        deleteDatabase: vi.fn().mockReturnValue(Promise.reject(new Error('delete failed'))),
+        deleteDatabase: vi
+          .fn()
+          .mockReturnValue(Promise.reject(new Error('delete failed', { cause: unitTestErrorCause }))),
       };
 
       await expect(provider.resetStorage()).rejects.toThrowError('delete failed');
@@ -245,7 +251,7 @@ describe('DataStoreProvider', () => {
     });
 
     it('should call reportLog and throw if defineDriver throws an error', async () => {
-      const error = new Error('defineDriver failed');
+      const error = new Error('defineDriver failed', { cause: unitTestErrorCause });
       vi.spyOn(storage, 'defineDriver').mockReturnValue(Promise.reject(error));
       const reportLogSpy = vi.spyOn(provider, 'reportLog').mockReturnValue(undefined);
       await expect(provider.initDataStore()).rejects.toEqual(error);
@@ -254,7 +260,7 @@ describe('DataStoreProvider', () => {
 
     it('should call reportLog and throw if storage.create throws an error', async () => {
       vi.spyOn(storage, 'defineDriver').mockReturnValue(Promise.resolve());
-      const error = new Error('create failed');
+      const error = new Error('create failed', { cause: unitTestErrorCause });
       vi.spyOn(storage, 'create').mockReturnValue(Promise.reject(error));
       const reportLogSpy = vi.spyOn(provider, 'reportLog').mockReturnValue(undefined);
       await expect(provider.initDataStore()).rejects.toEqual(error);
@@ -277,7 +283,7 @@ describe('DataStoreProvider', () => {
     });
 
     it('should call reportLog and throw if an error occurs during clearIndexedDB', async () => {
-      const error = new Error('databases failed');
+      const error = new Error('databases failed', { cause: unitTestErrorCause });
       vi.spyOn(window.indexedDB, 'databases').mockReturnValue(Promise.reject(error));
       const reportLogSpy = vi.spyOn(provider, 'reportLog').mockReturnValue(undefined);
 
@@ -382,7 +388,7 @@ describe('DataStoreProvider', () => {
     });
 
     it('rejects and logs when request.onerror is triggered', async () => {
-      const mockError = new Error('IndexedDB error');
+      const mockError = new Error('IndexedDB error', { cause: unitTestErrorCause });
       const mockEvent = { target: { error: mockError } };
       const objectStore = {
         get: vi.fn().mockImplementation(() => {
@@ -571,7 +577,7 @@ describe('DataStoreProvider', () => {
     });
     it('retries keys after reset and returns keys when retry succeeds', async () => {
       vi.spyOn(provider, 'isIos').mockReturnValue(true);
-      const initialError = new Error('initial failure');
+      const initialError = new Error('initial failure', { cause: unitTestErrorCause });
       vi.spyOn(storage, 'keys')
         .mockReturnValueOnce(Promise.reject(initialError))
         .mockReturnValueOnce(Promise.resolve(['recoveredKey']));
@@ -587,9 +593,11 @@ describe('DataStoreProvider', () => {
     });
     it('propagates original error when tryToResetStorage throws while handling keys error', async () => {
       vi.spyOn(provider, 'isIos').mockReturnValue(true);
-      const initialError = new Error('initial failure');
+      const initialError = new Error('initial failure', { cause: unitTestErrorCause });
       vi.spyOn(storage, 'keys').mockReturnValue(Promise.reject(initialError));
-      vi.spyOn(provider, 'tryToResetStorage').mockReturnValue(Promise.reject(new Error('reset failed')));
+      vi.spyOn(provider, 'tryToResetStorage').mockReturnValue(
+        Promise.reject(new Error('reset failed', { cause: unitTestErrorCause }))
+      );
       vi.spyOn(provider, 'reportLog').mockReturnValue(undefined);
 
       await expect(provider.getKeys()).rejects.toEqual(initialError);
@@ -597,8 +605,8 @@ describe('DataStoreProvider', () => {
     });
     it('throws post-retry error and logs when retrying keys after reset fails', async () => {
       vi.spyOn(provider, 'isIos').mockReturnValue(true);
-      const initialError = new Error('initial failure');
-      const postError = new Error('post retry failure');
+      const initialError = new Error('initial failure', { cause: unitTestErrorCause });
+      const postError = new Error('post retry failure', { cause: unitTestErrorCause });
       vi.spyOn(storage, 'keys')
         .mockReturnValueOnce(Promise.reject(initialError))
         .mockReturnValueOnce(Promise.reject(postError));
@@ -719,7 +727,7 @@ describe('DataStoreProvider', () => {
     });
     it('retries after reset and returns value when initial storage.get fails then reset succeeds and second get succeeds', async () => {
       vi.spyOn(provider, 'isIos').mockReturnValue(true);
-      const initialError = new Error('initial failure');
+      const initialError = new Error('initial failure', { cause: unitTestErrorCause });
       vi.spyOn(storage, 'get')
         .mockReturnValueOnce(Promise.reject(initialError))
         .mockReturnValueOnce(Promise.resolve('savedAfterRetry'));
@@ -733,17 +741,19 @@ describe('DataStoreProvider', () => {
     });
     it('propagates the original error when tryToResetStorage throws while handling a storage.get error', async () => {
       vi.spyOn(provider, 'isIos').mockReturnValue(true);
-      const initialError = new Error('initial failure');
+      const initialError = new Error('initial failure', { cause: unitTestErrorCause });
       vi.spyOn(storage, 'get').mockReturnValue(Promise.reject(initialError));
-      vi.spyOn(provider, 'tryToResetStorage').mockReturnValue(Promise.reject(new Error('reset failed')));
+      vi.spyOn(provider, 'tryToResetStorage').mockReturnValue(
+        Promise.reject(new Error('reset failed', { cause: unitTestErrorCause }))
+      );
 
       await expect(provider.getItem(LocalStorageKey.LOGS)).rejects.toEqual(initialError);
       expect(provider.tryToResetStorage).toHaveBeenCalledWith(initialError);
     });
     it('throws the post-retry error when retrying storage.get after reset fails', async () => {
       vi.spyOn(provider, 'isIos').mockReturnValue(true);
-      const initialError = new Error('initial failure');
-      const postError = new Error('post retry failure');
+      const initialError = new Error('initial failure', { cause: unitTestErrorCause });
+      const postError = new Error('post retry failure', { cause: unitTestErrorCause });
       vi.spyOn(storage, 'get')
         .mockReturnValueOnce(Promise.reject(initialError))
         .mockReturnValueOnce(Promise.reject(postError));
@@ -788,7 +798,7 @@ describe('DataStoreProvider', () => {
     });
     it('retries setting storage after reset when initial set fails and retry succeeds', async () => {
       vi.spyOn(provider, 'isIos').mockReturnValue(true);
-      const initialError = new Error('initial failure');
+      const initialError = new Error('initial failure', { cause: unitTestErrorCause });
       vi.spyOn(storage, 'set')
         .mockReturnValueOnce(Promise.reject(initialError))
         .mockReturnValueOnce(Promise.resolve('savedAfterRetry'));
@@ -802,17 +812,19 @@ describe('DataStoreProvider', () => {
     });
     it('propagates the original error if tryToResetStorage throws while handling a set error', async () => {
       vi.spyOn(provider, 'isIos').mockReturnValue(true);
-      const initialError = new Error('initial failure');
+      const initialError = new Error('initial failure', { cause: unitTestErrorCause });
       vi.spyOn(storage, 'set').mockReturnValue(Promise.reject(initialError));
-      vi.spyOn(provider, 'tryToResetStorage').mockReturnValue(Promise.reject(new Error('reset failed')));
+      vi.spyOn(provider, 'tryToResetStorage').mockReturnValue(
+        Promise.reject(new Error('reset failed', { cause: unitTestErrorCause }))
+      );
 
       await expect(provider.setItem(LocalStorageKey.LOGS, 'val1')).rejects.toEqual(initialError);
       expect(provider.tryToResetStorage).toHaveBeenCalledWith(initialError);
     });
     it('throws the post-retry error if retrying storage.set after reset fails', async () => {
       vi.spyOn(provider, 'isIos').mockReturnValue(true);
-      const initialError = new Error('initial failure');
-      const postError = new Error('post retry failure');
+      const initialError = new Error('initial failure', { cause: unitTestErrorCause });
+      const postError = new Error('post retry failure', { cause: unitTestErrorCause });
       vi.spyOn(storage, 'set')
         .mockReturnValueOnce(Promise.reject(initialError))
         .mockReturnValueOnce(Promise.reject(postError));
@@ -850,7 +862,7 @@ describe('DataStoreProvider', () => {
     });
     it('retries remove after reset and returns value when initial remove fails then retry succeeds', async () => {
       vi.spyOn(provider, 'isIos').mockReturnValue(true);
-      const initialError = new Error('initial failure');
+      const initialError = new Error('initial failure', { cause: unitTestErrorCause });
       vi.spyOn(storage, 'remove')
         .mockReturnValueOnce(Promise.reject(initialError))
         .mockReturnValueOnce(Promise.resolve('removedAfterRetry'));
@@ -864,17 +876,19 @@ describe('DataStoreProvider', () => {
     });
     it('propagates the original error when tryToResetStorage throws while handling a remove error', async () => {
       vi.spyOn(provider, 'isIos').mockReturnValue(true);
-      const initialError = new Error('initial failure');
+      const initialError = new Error('initial failure', { cause: unitTestErrorCause });
       vi.spyOn(storage, 'remove').mockReturnValue(Promise.reject(initialError));
-      vi.spyOn(provider, 'tryToResetStorage').mockReturnValue(Promise.reject(new Error('reset failed')));
+      vi.spyOn(provider, 'tryToResetStorage').mockReturnValue(
+        Promise.reject(new Error('reset failed', { cause: unitTestErrorCause }))
+      );
 
       await expect(provider.removeItem(LocalStorageKey.LOGS)).rejects.toEqual(initialError);
       expect(provider.tryToResetStorage).toHaveBeenCalledWith(initialError);
     });
     it('throws the post-retry error when retrying storage.remove after reset fails', async () => {
       vi.spyOn(provider, 'isIos').mockReturnValue(true);
-      const initialError = new Error('initial failure');
-      const postError = new Error('post retry failure');
+      const initialError = new Error('initial failure', { cause: unitTestErrorCause });
+      const postError = new Error('post retry failure', { cause: unitTestErrorCause });
       vi.spyOn(storage, 'remove')
         .mockReturnValueOnce(Promise.reject(initialError))
         .mockReturnValueOnce(Promise.reject(postError));

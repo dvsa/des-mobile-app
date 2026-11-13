@@ -7,6 +7,7 @@ import { DateTime, Duration } from '@shared/helpers/date-time';
 import { of } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { afterAll, beforeEach, describe, expect, it, vi } from 'vitest';
+import { unitTestErrorCause } from '../../../../test-setup.vitest';
 import { AppConfigProviderMock } from '../../app-config/__mocks__/app-config.mock';
 import { AppConfigProvider } from '../../app-config/app-config';
 import { AppConfig } from '../../app-config/app-config.model';
@@ -200,7 +201,9 @@ describe('JournalProvider', () => {
       }
     });
     it('should fall through catch and not run then code in then', async () => {
-      vi.spyOn(dataStoreMock, 'getItem').mockImplementation(() => Promise.reject(new Error('cannot get')));
+      vi.spyOn(dataStoreMock, 'getItem').mockImplementation(() =>
+        Promise.reject(new Error('cannot get', { cause: unitTestErrorCause }))
+      );
       vi.spyOn(journalProvider, 'isCacheTooOld').mockReturnValue(undefined);
       await journalProvider.getAndConvertOfflineJournal();
       expect(journalProvider.isCacheTooOld).not.toHaveBeenCalled();

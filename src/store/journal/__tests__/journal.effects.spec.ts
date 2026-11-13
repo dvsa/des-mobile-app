@@ -37,6 +37,7 @@ import { TestStatus } from '@store/tests/test-status/test-status.model';
 import { LoadRemoteTests } from '@store/tests/tests.actions';
 import { TestResultsRehydrated } from '@store/tests/tests.model';
 import { TestResultRehydration, getTests } from '@store/tests/tests.reducer';
+import { unitTestErrorCause } from '../../../test-setup.vitest';
 import * as journalActions from '../journal.actions';
 import { JournalRehydrationNull, JournalRehydrationSuccess } from '../journal.actions';
 import { JournalEffects, JournalRehydrationPage, JournalRehydrationType } from '../journal.effects';
@@ -222,7 +223,7 @@ describe('JournalEffects', () => {
         expect(result.type === '[JournalEffects] Load Journal Failure').toEqual(true);
         expect((result as any).error.message).toBe('Http failure response for (unknown url): 403 Forbidden');
       } else {
-        throw new Error('Unknown Action Sent');
+        throw new Error('Unknown Action Sent', { cause: unitTestErrorCause });
       }
     });
   });

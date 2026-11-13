@@ -19,6 +19,7 @@ import {
 } from '@store/reference-data/reference-data.actions';
 import { ReferenceDataEffects } from '@store/reference-data/reference-data.effects';
 import { RefDataStateModel, referenceDataReducer } from '@store/reference-data/reference-data.reducer';
+import { unitTestErrorCause } from '../../../test-setup.vitest';
 
 describe('ReferenceDataEffects', () => {
   let effects: ReferenceDataEffects;
@@ -95,7 +96,7 @@ describe('ReferenceDataEffects', () => {
     });
     it('should throw error from getTestCentres and call LoadTestCentresRefDataFail', async () => {
       vi.spyOn(referenceDataProvider, 'getTestCentres').mockImplementation(() => {
-        throw new Error('some error');
+        throw new Error('some error', { cause: unitTestErrorCause });
       });
       store$.dispatch(SetDateRefDataUpdated(mockTodayDate));
       vi.spyOn(dateTimeProvider, 'now').mockReturnValue(new DateTime(mockTomorrowDate));

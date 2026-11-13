@@ -20,6 +20,7 @@ import { LogType } from '@shared/models/log.model';
 import { StoreModel } from '@shared/models/store.model';
 import { Subscription } from 'rxjs';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
+import { unitTestErrorCause } from '../../../../test-setup.vitest';
 import { BasePageComponent } from '../base-page';
 
 describe('BasePageComponent', () => {
@@ -226,7 +227,9 @@ describe('BasePageComponent', () => {
     it('should capture thrown errors with page name and method', async () => {
       basePageComponent.isIos = vi.fn().mockReturnValue(true);
 
-      vi.spyOn(deviceProvider, 'enableSingleAppMode').mockReturnValue(Promise.reject(new Error('Thrown err')));
+      vi.spyOn(deviceProvider, 'enableSingleAppMode').mockReturnValue(
+        Promise.reject(new Error('Thrown err', { cause: unitTestErrorCause }))
+      );
 
       await basePageComponent.lockDevice(false);
 
@@ -282,7 +285,9 @@ describe('BasePageComponent', () => {
     it('should capture thrown errors with page name and method', async () => {
       basePageComponent.isIos = vi.fn().mockReturnValue(true);
 
-      vi.spyOn(deviceProvider, 'disableSingleAppMode').mockReturnValue(Promise.reject(new Error('Thrown err')));
+      vi.spyOn(deviceProvider, 'disableSingleAppMode').mockReturnValue(
+        Promise.reject(new Error('Thrown err', { cause: unitTestErrorCause }))
+      );
 
       await basePageComponent.unlockDevice();
 

@@ -56,6 +56,7 @@ import { TestOutcome } from '@store/tests/tests.constants';
 import { getTestOutcomeText } from '@store/tests/tests.selector';
 import { MockComponent } from 'ng-mocks';
 import { Subject, Subscription } from 'rxjs';
+import { unitTestErrorCause } from '../../../../test-setup.vitest';
 
 describe('ViewTestResultPage', () => {
   let fixture: ComponentFixture<ViewTestResultPage>;
@@ -751,7 +752,7 @@ describe('ViewTestResultPage', () => {
       fixture.autoDetectChanges();
       await fixture.whenStable();
 
-      result$.error(new Error('Result request failed'));
+      result$.error(new Error('Result request failed', { cause: unitTestErrorCause }));
       await fixture.whenStable();
       const error = fixture.debugElement.query(By.directive(ErrorMessageComponent));
       expect(error).not.toBeNull();
@@ -792,7 +793,7 @@ describe('ViewTestResultPage', () => {
       vi.spyOn(component, 'handleLoadingUI').mockResolvedValue(undefined);
       vi.spyOn(component.store$, 'dispatch').mockReturnValue(undefined);
       vi.spyOn(compressionProvider, 'extract').mockImplementation(() => {
-        throw new Error('test');
+        throw new Error('test', { cause: unitTestErrorCause });
       });
 
       await component.ngOnInit();

@@ -16,6 +16,7 @@ import { LogHelperMock } from '@providers/logs/__mocks__/logs-helper.mock';
 import { LogHelper } from '@providers/logs/logs-helper';
 import { Log } from '@shared/models/log.model';
 import { SaveLog } from '@store/logs/logs.actions';
+import { unitTestErrorCause } from '../../test-setup.vitest';
 
 describe('SentryIonicErrorHandler', () => {
   let sentryErrorHandler: SentryIonicErrorHandler;
@@ -59,7 +60,7 @@ describe('SentryIonicErrorHandler', () => {
     it('should call through to all providers and pass error to Sentry', async () => {
       vi.spyOn(sentryErrorHandler.appInfoProvider, 'getFullVersionNumber').mockReturnValue(Promise.resolve('4.8.0.5'));
 
-      await sentryErrorHandler.handleError(new Error('Some runtime error'));
+      await sentryErrorHandler.handleError(new Error('Some runtime error', { cause: unitTestErrorCause }));
       expect(sentryErrorHandler.appConfigProvider.getAppConfigAsync).toHaveBeenCalled();
       expect(sentryErrorHandler.appInfoProvider.getFullVersionNumber).toHaveBeenCalled();
       expect(sentryErrorHandler.authenticationProvider.getEmployeeId).toHaveBeenCalled();
@@ -67,11 +68,11 @@ describe('SentryIonicErrorHandler', () => {
     });
     it('should attempt call to providers and fail, but report via store$ dispatch', async () => {
       vi.spyOn(sentryErrorHandler.appInfoProvider, 'getFullVersionNumber').mockReturnValue(
-        Promise.reject(new Error('RUNTIME err'))
+        Promise.reject(new Error('RUNTIME err', { cause: unitTestErrorCause }))
       );
       vi.spyOn(sentryErrorHandler.logHelper, 'createLog').mockReturnValue(mockLog);
 
-      await sentryErrorHandler.handleError(new Error('Some runtime error'));
+      await sentryErrorHandler.handleError(new Error('Some runtime error', { cause: unitTestErrorCause }));
       expect(sentryErrorHandler.appConfigProvider.getAppConfigAsync).toHaveBeenCalled();
       expect(sentryErrorHandler.appInfoProvider.getFullVersionNumber).toHaveBeenCalled();
       expect(sentryErrorHandler.authenticationProvider.getEmployeeId).toHaveBeenCalled();
@@ -79,7 +80,7 @@ describe('SentryIonicErrorHandler', () => {
     });
     it('should attempt call to providers and fail, and report a custom error object', async () => {
       vi.spyOn(sentryErrorHandler.appInfoProvider, 'getFullVersionNumber').mockReturnValue(
-        Promise.reject(new Error('RUNTIME err'))
+        Promise.reject(new Error('RUNTIME err', { cause: unitTestErrorCause }))
       );
       vi.spyOn(sentryErrorHandler.logHelper, 'createLog').mockReturnValue(mockLog);
 

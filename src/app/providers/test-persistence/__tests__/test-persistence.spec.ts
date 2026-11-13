@@ -6,6 +6,7 @@ import { DateTime } from '@shared/helpers/date-time';
 import { TestStatus } from '@store/tests/test-status/test-status.model';
 import { TestsModel } from '@store/tests/tests.model';
 import { type Mock as Spy, beforeEach, describe, expect, it, vi } from 'vitest';
+import { unitTestErrorCause } from '../../../../test-setup.vitest';
 import { AppConfigProviderMock } from '../../app-config/__mocks__/app-config.mock';
 import { AppConfigProvider } from '../../app-config/app-config';
 import { DataStoreProviderMock } from '../../data-store/__mocks__/data-store.mock';
@@ -152,7 +153,7 @@ describe('TestPersistenceProvider', () => {
     });
     it('should return null if the data store provider throws', async () => {
       vi.spyOn(dataStoreProvider, 'getItem').mockImplementation(() => {
-        throw new Error('This error is being thrown by unit tests, ignore it');
+        throw new Error('This error is being thrown by unit tests, ignore it', { cause: unitTestErrorCause });
       });
 
       const result = await testPersistenceProvider.loadPersistedTests();

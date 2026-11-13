@@ -10,6 +10,7 @@ import { trDestroy$ } from '@shared/classes/test-flow-base-pages/test-report/tes
 import { wrtcDestroy$ } from '@shared/classes/test-flow-base-pages/waiting-room-to-car/waiting-room-to-car-base-page';
 import { DeletePracticeModeTests } from '@store/tests/tests.actions';
 import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
+import { unitTestErrorCause } from '../../../../test-setup.vitest';
 import { PracticeModeOptionsBar } from '../practice-mode-options-bar';
 
 describe('PracticeModeOptionsBar', () => {
@@ -83,7 +84,7 @@ describe('PracticeModeOptionsBar', () => {
     });
 
     it('should retain practice tests and propagate navigation failures', async () => {
-      const error = new Error('Navigation failed');
+      const error = new Error('Navigation failed', { cause: unitTestErrorCause });
       navigateRoot.mockRejectedValue(error);
       await expect(component.exitPracticeMode()).rejects.toEqual(error);
       activateEvents.emit(dashboard);

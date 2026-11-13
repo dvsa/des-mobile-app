@@ -26,6 +26,7 @@ import { SearchProvider } from '@providers/search/search';
 import { MockComponent } from 'ng-mocks';
 import { Observable, Subject, Subscription } from 'rxjs';
 
+import { unitTestErrorCause } from '../../../../test-setup.vitest';
 import { AdvancedSearchComponent as AdvancedSearchComponent_1 } from '../components/advanced-search/advanced-search';
 import { SearchResultComponent as SearchResultComponent_1 } from '../components/search-result/search-result';
 import { TestResultsSearchPage } from '../test-results-search';
@@ -215,7 +216,7 @@ describe('TestResultsSearchPage', () => {
         }
         fixture.detectChanges();
 
-        results$.error(new Error('Search failed'));
+        results$.error(new Error('Search failed', { cause: unitTestErrorCause }));
         await fixture.whenStable();
         expect(component.showError).toHaveBeenCalled();
         expect(fixture.debugElement.query(By.css('#search-spinner'))).toBeNull();
@@ -259,7 +260,7 @@ describe('TestResultsSearchPage', () => {
             present: async () => {},
           } as HTMLIonModalElement)
         );
-        await component.showError(new Error('error'));
+        await component.showError(new Error('error', { cause: unitTestErrorCause }));
         expect(modalController.create).toHaveBeenCalled();
       });
     });

@@ -14,6 +14,7 @@ import {
 import { of, throwError } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { afterAll, beforeEach, describe, expect, it, vi } from 'vitest';
+import { unitTestErrorCause } from '../../../../test-setup.vitest';
 import { AppConfigProviderMock } from '../../app-config/__mocks__/app-config.mock';
 import { AppConfigProvider } from '../../app-config/app-config';
 import { NetworkStateProviderMock } from '../../network-state/__mocks__/network-state.mock';
@@ -110,7 +111,7 @@ describe('CandidateLicenceProvider', () => {
 
     it('should throw an error if any endpoint returns an error', () => {
       vi.spyOn(candidateLicenceProvider, 'getDriverPhoto').mockImplementation(() => {
-        throw new Error(CandidateLicenceErr.UNAVAILABLE);
+        throw new Error(CandidateLicenceErr.UNAVAILABLE, { cause: unitTestErrorCause });
       });
       vi.spyOn(candidateLicenceProvider, 'getDriverSignature').mockReturnValue(of(mockDriverSignature));
       vi.spyOn(candidateLicenceProvider, 'getDriverStandardData').mockReturnValue(of(mockDriverStandard));

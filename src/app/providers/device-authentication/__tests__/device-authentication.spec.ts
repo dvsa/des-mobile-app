@@ -11,6 +11,7 @@ import { LogHelper } from '@providers/logs/logs-helper';
 import { LogType } from '@shared/models/log.model';
 import { SaveLog } from '@store/logs/logs.actions';
 import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
+import { unitTestErrorCause } from '../../../../test-setup.vitest';
 import { DeviceAuthenticationProvider } from '../device-authentication';
 
 describe('DeviceAuthenticationProvider', () => {
@@ -70,7 +71,7 @@ describe('DeviceAuthenticationProvider', () => {
     });
 
     it('should log an error if an exception occurs', async () => {
-      const error = new Error('Test error');
+      const error = new Error('Test error', { cause: unitTestErrorCause });
       vi.spyOn(deviceAuthenticationProvider as any, 'performBiometricVerification').mockImplementation(() => {
         throw error;
       });
@@ -121,7 +122,7 @@ describe('DeviceAuthenticationProvider', () => {
 
   describe('logEvent', () => {
     it('should dispatch a SaveLog action with the correct payload', () => {
-      const error = new Error('Test error');
+      const error = new Error('Test error', { cause: unitTestErrorCause });
       const mockTimestamp = Date.now(); // Generate a valid number for the timestamp
       (logHelper.createLog as Mock).mockReturnValue({
         type: LogType.ERROR,

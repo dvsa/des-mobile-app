@@ -44,6 +44,7 @@ import { LogHelperMock } from '@providers/logs/__mocks__/logs-helper.mock';
 import { LogHelper } from '@providers/logs/logs-helper';
 import { testsReducer } from '@store/tests/tests.reducer';
 import { Subscription } from 'rxjs';
+import { unitTestErrorCause } from '../../test-setup.vitest';
 import { AppComponent, Page } from '../app.component';
 
 describe('AppComponent', () => {
@@ -199,7 +200,7 @@ describe('AppComponent', () => {
         vi.spyOn(dataStore, 'initDataStore');
         vi.spyOn(authenticationProvider, 'getStoredAuthResult');
         vi.spyOn(deviceProvider, 'disableSingleAppMode').mockReturnValue(
-          Promise.reject(new Error('Failed to disable'))
+          Promise.reject(new Error('Failed to disable', { cause: unitTestErrorCause }))
         );
         component.ngOnInit();
         await vi.advanceTimersByTimeAsync(0);

@@ -32,6 +32,7 @@ import { AppInfoEffects } from '@store/app-info/app-info.effects';
 import { appInfoReducer } from '@store/app-info/app-info.reducer';
 import { ReplaySubject, firstValueFrom, throwError } from 'rxjs';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { unitTestErrorCause } from '../../../test-setup.vitest';
 
 describe('AppInfoEffects', () => {
   let effects: AppInfoEffects;
@@ -91,7 +92,7 @@ describe('AppInfoEffects', () => {
     });
     it('should detect error thrown from `getVersionNumber` and call to `LoadAppVersionFailure`', async () => {
       vi.spyOn(appInfoProvider, 'getVersionNumber').mockImplementation(() =>
-        throwError(() => new Error('version error'))
+        throwError(() => new Error('version error', { cause: unitTestErrorCause }))
       );
       actions$.next(LoadAppVersion());
       const result = await firstValueFrom(effects.loadAppInfo$);
