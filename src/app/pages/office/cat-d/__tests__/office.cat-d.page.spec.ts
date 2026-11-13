@@ -87,6 +87,7 @@ describe('OfficeCatDPage', () => {
               123: {
                 category: TestCategory.D,
                 vehicleDetails: {},
+                delegatedTest: {},
                 accompaniment: {},
                 testSummary: {},
                 userExitedApp: {},
@@ -106,6 +107,11 @@ describe('OfficeCatDPage', () => {
                 },
                 activityCode: '28',
                 journalData: {
+                  applicationReference: {
+                    applicationId: 1,
+                    bookingSequence: 1,
+                    checkDigit: 1,
+                  },
                   testSlotAttributes: { start: '2026-01-01T09:00:00' },
                   candidate: {
                     candidateName: 'Joe Bloggs',
@@ -139,7 +145,7 @@ describe('OfficeCatDPage', () => {
         MockComponent(DrivingFaultsComponent),
       ],
       providers: [
-        provideBasePageMocks(false),
+        provideBasePageMocks(),
         { provide: NavController, useClass: NavControllerMock },
         { provide: ToastController, useClass: ToastControllerMock },
         { provide: OutcomeBehaviourMapProvider, useClass: OutcomeBehaviourMapProviderMock },

@@ -32,6 +32,7 @@ import { TimeComponent } from '@components/test-slot/time/time';
 import { VehicleDetailsComponent } from '@components/test-slot/vehicle-details/vehicle-details';
 import { JournalSlotComponent } from '@pages/journal/components/journal-slot/journal-slot';
 import { JournalPage } from '@pages/journal/journal.page';
+import { rekeySearchReducer } from '@pages/rekey-search/rekey-search.reducer';
 import { AccessibilityServiceMock } from '@providers/accessibility/__mocks__/accessibility-service.mock';
 import { AccessibilityService } from '@providers/accessibility/accessibility.service';
 import { AppConfigProviderMock } from '@providers/app-config/__mocks__/app-config.mock';
@@ -112,6 +113,7 @@ describe('JournalPage', () => {
         ExaminerNameComponent,
         IntegrityMarkerComponent,
         StoreModule.forRoot({
+          rekeySearch: rekeySearchReducer,
           journal: journalReducer,
           tests: testsReducer,
         }),

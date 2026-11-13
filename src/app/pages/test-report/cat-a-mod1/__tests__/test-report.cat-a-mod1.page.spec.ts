@@ -63,6 +63,8 @@ describe('TestReportCatAMod1Page', () => {
           testStatus: {},
           startedTests: {
             123: {
+              delegatedTest: false,
+              rekey: false,
               testData: initialState,
               journalData: {
                 candidate: candidateMock,
@@ -87,7 +89,7 @@ describe('TestReportCatAMod1Page', () => {
         MockComponent(TestFlowHeaderComponent),
       ],
       providers: [
-        provideBasePageMocks(false),
+        provideBasePageMocks(),
         {
           provide: DateTimeProvider,
           useClass: DateTimeProviderMock,

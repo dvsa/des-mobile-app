@@ -67,7 +67,7 @@ describe('OfficeCatADI3Page', () => {
         MockComponent(TestFlowHeaderComponent),
       ],
       providers: [
-        provideBasePageMocks(false),
+        provideBasePageMocks(),
         { provide: NavController, useClass: NavControllerMock },
         { provide: ToastController, useClass: ToastControllerMock },
         { provide: FaultSummaryProvider, useClass: FaultSummaryProviderMock },

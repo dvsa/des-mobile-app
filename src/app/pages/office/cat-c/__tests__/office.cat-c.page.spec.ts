@@ -85,6 +85,7 @@ describe('OfficeCatCPage', () => {
               123: {
                 category: TestCategory.C,
                 vehicleDetails: {},
+                delegatedTest: {},
                 accompaniment: {},
                 testSummary: {},
                 userExitedApp: {},
@@ -104,6 +105,11 @@ describe('OfficeCatCPage', () => {
                 },
                 activityCode: '28',
                 journalData: {
+                  applicationReference: {
+                    applicationId: 1,
+                    bookingSequence: 1,
+                    checkDigit: 1,
+                  },
                   testSlotAttributes: { start: '2026-01-01T09:00:00' },
                   candidate: {
                     candidateName: 'Joe Bloggs',

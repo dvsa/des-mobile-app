@@ -45,6 +45,7 @@ describe('TestReportCatAMod2Page', () => {
           testStatus: {},
           startedTests: {
             123: {
+              rekey: false,
               category: TestCategory.EUAM2,
               testData: initialState,
               delegatedTest: false,
@@ -69,7 +70,7 @@ describe('TestReportCatAMod2Page', () => {
         MockComponent(SafetyAndBalanceComponent),
       ],
       providers: [
-        provideBasePageMocks(false),
+        provideBasePageMocks(),
         {
           provide: DateTimeProvider,
           useClass: DateTimeProviderMock,

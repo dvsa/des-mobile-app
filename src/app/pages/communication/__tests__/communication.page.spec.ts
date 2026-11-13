@@ -48,6 +48,8 @@ describe('CommunicationPage', () => {
           testStatus: {},
           startedTests: {
             123: {
+              rekey: {},
+              delegatedTest: {},
               category: TestCategory.B,
               preTestDeclarations: preTestDeclarationInitialState,
               postTestDeclarations: {
@@ -76,7 +78,7 @@ describe('CommunicationPage', () => {
         MockComponent(CandidateSectionComponent),
       ],
       providers: [
-        provideBasePageMocks(false),
+        provideBasePageMocks(),
         {
           provide: DeviceAuthenticationProvider,
           useClass: DeviceAuthenticationProviderMock,

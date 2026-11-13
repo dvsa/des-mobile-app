@@ -50,6 +50,8 @@ describe('TestReportCatADI2Page', () => {
           testStatus: {},
           startedTests: {
             123: {
+              delegatedTest: false,
+              rekey: false,
               testData: initialState,
               journalData: {
                 candidate: candidateMock,
@@ -77,7 +79,7 @@ describe('TestReportCatADI2Page', () => {
         MockComponent(ManoeuvresPopoverComponentAdiPart2),
       ],
       providers: [
-        provideBasePageMocks(false),
+        provideBasePageMocks(),
         {
           provide: DateTimeProvider,
           useClass: DateTimeProviderMock,

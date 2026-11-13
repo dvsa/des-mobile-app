@@ -22,6 +22,7 @@ import {
 } from '@pages/health-declaration/health-declaration.actions';
 import { HealthDeclarationPage } from '@pages/health-declaration/health-declaration.page';
 
+import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { DateTimeProviderMock } from '@providers/date-time/__mocks__/date-time.mock';
 import { DateTimeProvider } from '@providers/date-time/date-time';
 import { DeviceAuthenticationProviderMock } from '@providers/device-authentication/__mocks__/device-authentication.mock';
@@ -68,6 +69,7 @@ describe('HealthDeclarationPage', () => {
             },
             testStatus: {},
             startedTests: {
+              category: TestCategory.B,
               123: {
                 communicationPreferences: { conductedLanguage: 'English' },
                 passCompletion: {},
@@ -89,7 +91,7 @@ describe('HealthDeclarationPage', () => {
         MockComponent(ReceiptDeclarationComponent),
       ],
       providers: [
-        provideBasePageMocks(false),
+        provideBasePageMocks(),
         {
           provide: AlertController,
           useClass: AlertControllerMock,

@@ -71,6 +71,7 @@ describe('OfficeCatAMod2Page', () => {
             testStatus: {},
             startedTests: {
               123: {
+                delegatedTest: {},
                 category: TestCategory.EUA2M2,
                 vehicleDetails: {},
                 accompaniment: {},
@@ -142,7 +143,7 @@ describe('OfficeCatAMod2Page', () => {
         MockComponent(DrivingFaultsComponent),
       ],
       providers: [
-        provideBasePageMocks(false),
+        provideBasePageMocks(),
         { provide: NavController, useClass: NavControllerMock },
         { provide: ToastController, useClass: ToastControllerMock },
         { provide: OutcomeBehaviourMapProvider, useClass: OutcomeBehaviourMapProviderMock },

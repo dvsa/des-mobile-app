@@ -88,6 +88,7 @@ describe('OfficeCatBPage', () => {
             startedTests: {
               123: {
                 category: TestCategory.B,
+                delegatedTest: {},
                 vehicleDetails: {},
                 accompaniment: {},
                 testSummary: {},

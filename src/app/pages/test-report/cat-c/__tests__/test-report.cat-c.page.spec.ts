@@ -76,7 +76,7 @@ describe('TestReportCatCPage', () => {
         MockComponent(UncoupleRecoupleComponent),
       ],
       providers: [
-        provideBasePageMocks(false),
+        provideBasePageMocks(),
         {
           provide: DateTimeProvider,
           useClass: DateTimeProviderMock,
