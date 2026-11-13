@@ -32,6 +32,8 @@ export class PracticeModeOptionsBar implements OnInit {
   @Output()
   closeExitPracticeMode = new EventEmitter<void>();
 
+  @Input() pageName: string;
+
   @Input()
   practiceJournal = false;
 

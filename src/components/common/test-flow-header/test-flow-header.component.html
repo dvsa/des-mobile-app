@@ -102,6 +102,7 @@
 
 @if (displayExitPracticeMode) {
   <practice-mode-options-bar
+    [pageName]="pageName"
     class="header-height-76"
     (closeExitPracticeMode)="closeExitPracticeMode()">
   </practice-mode-options-bar>
