@@ -10,6 +10,7 @@ import { AuthenticationProviderMock } from '@providers/authentication/__mocks__/
 import { AuthenticationProvider } from '@providers/authentication/authentication';
 import { DeviceProviderMock } from '@providers/device/__mocks__/device.mock';
 import { DeviceProvider } from '@providers/device/device';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 describe('AnalyticsProvider', () => {
   let analyticsProvider: AnalyticsProvider;
@@ -42,7 +43,7 @@ describe('AnalyticsProvider', () => {
     });
 
     analyticsProvider = TestBed.inject(AnalyticsProvider);
-    spyOn(analyticsProvider, 'isIos').and.returnValue(true);
+    vi.spyOn(analyticsProvider, 'isIos').mockReturnValue(true);
   });
 
   it('should create', () => {

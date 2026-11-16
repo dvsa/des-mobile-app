@@ -90,5 +90,4 @@ jobs:
         run: npm run lint
 
       - name: 🧪️ Execute unit tests
-        run: npm run test
-
+        run: npm run test:fast

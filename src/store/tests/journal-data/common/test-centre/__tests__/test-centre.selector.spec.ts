@@ -1,4 +1,5 @@
 import { TestCentre } from '@dvsa/mes-test-schema/categories/common';
+import { describe, expect, it } from 'vitest';
 import { getCostCentre } from '../test-centre.selector';
 
 describe('testCentre selector', () => {

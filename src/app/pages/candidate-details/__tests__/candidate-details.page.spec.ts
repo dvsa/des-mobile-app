@@ -1,5 +1,6 @@
-import { ComponentFixture, TestBed, fakeAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ModalController } from '@ionic/angular';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { Router } from '@angular/router';
 import { DataRowCustomComponent } from '@components/common/data-row-custom/data-row-custom';
@@ -37,7 +38,9 @@ describe('CandidateDetailsPage', () => {
       slots: {
         '2023-03-06': [],
         '2023-03-07': [],
-      } as { [k: string]: SlotItem[] },
+      } as {
+        [k: string]: SlotItem[];
+      },
       selectedDate: '2023-03-06',
     } as JournalModel,
   } as StoreModel;
@@ -97,7 +100,7 @@ describe('CandidateDetailsPage', () => {
         },
       };
       component.slots = [{ vehicleSlotTypeCode: 1 }, { vehicleSlotTypeCode: 2 }, { vehicleSlotTypeCode: 3 }];
-      spyOn(window, 'setTimeout').and.callThrough();
+      vi.spyOn(window, 'setTimeout');
       component.ngOnInit();
       expect(setTimeout).toHaveBeenCalledTimes(2);
     });
@@ -108,7 +111,7 @@ describe('CandidateDetailsPage', () => {
       component.prevSlot = { vehicleSlotTypeCode: 1 };
       component.nextSlot = { vehicleSlotTypeCode: 2 };
       component.slot = { vehicleSlotTypeCode: 3 };
-      spyOn(component, 'ngOnInit');
+      vi.spyOn(component, 'ngOnInit').mockReturnValue(undefined);
 
       component.changeCandidate('prev');
 
@@ -119,7 +122,7 @@ describe('CandidateDetailsPage', () => {
       component.prevSlot = { vehicleSlotTypeCode: 1 };
       component.nextSlot = { vehicleSlotTypeCode: 2 };
       component.slot = { vehicleSlotTypeCode: 3 };
-      spyOn(component, 'ngOnInit');
+      vi.spyOn(component, 'ngOnInit').mockReturnValue(undefined);
 
       component.changeCandidate('next');
 
@@ -130,7 +133,7 @@ describe('CandidateDetailsPage', () => {
       component.prevSlot = { vehicleSlotTypeCode: 1 };
       component.nextSlot = { vehicleSlotTypeCode: 2 };
       component.slot = { vehicleSlotTypeCode: 3 };
-      spyOn(component, 'ngOnInit');
+      vi.spyOn(component, 'ngOnInit').mockReturnValue(undefined);
 
       component.changeCandidate('test');
 
@@ -141,7 +144,7 @@ describe('CandidateDetailsPage', () => {
 
   describe('ionViewDidEnter', () => {
     it('should test ionViewDidEnter', () => {
-      spyOn(store$, 'dispatch').and.stub();
+      vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
       component.slot = {
         slotDetail: {
           slotId: 123,
@@ -201,15 +204,20 @@ describe('CandidateDetailsPage', () => {
   });
 
   describe('dismiss', () => {
-    it('should dismiss open modal', fakeAsync(async () => {
-      spyOn(store$, 'dispatch');
-      spyOn(component.modalController, 'dismiss').and.returnValue(Promise.resolve(true));
-      await component.dismiss();
-      expect(component.modalController.dismiss).toHaveBeenCalled();
-      expect(store$.dispatch).toHaveBeenCalledWith(
-        candidateDetailActions.CandidateDetailsModalDismiss({ sourcePage: 'url' })
-      );
-    }));
+    it('should dismiss open modal', async () => {
+      vi.useFakeTimers();
+      try {
+        vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
+        vi.spyOn(component.modalController, 'dismiss').mockReturnValue(Promise.resolve(true));
+        await component.dismiss();
+        expect(component.modalController.dismiss).toHaveBeenCalled();
+        expect(store$.dispatch).toHaveBeenCalledWith(
+          candidateDetailActions.CandidateDetailsModalDismiss({ sourcePage: 'url' })
+        );
+      } finally {
+        vi.useRealTimers();
+      }
+    });
   });
 
   describe('formatUrl', () => {

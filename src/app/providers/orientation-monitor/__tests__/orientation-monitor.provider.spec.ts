@@ -3,6 +3,7 @@ import { TestBed } from '@angular/core/testing';
 import { ScreenOrientation } from '@capawesome/capacitor-screen-orientation';
 import { GetCurrentOrientationResult } from '@capawesome/capacitor-screen-orientation/dist/esm/definitions';
 import { OrientationMonitorProvider } from '@providers/orientation-monitor/orientation-monitor.provider';
+import { afterAll, beforeEach, describe, expect, it, vi } from 'vitest';
 
 describe('OrientationMonitorProvider', () => {
   let provider: OrientationMonitorProvider;
@@ -21,9 +22,9 @@ describe('OrientationMonitorProvider', () => {
     });
 
     provider = TestBed.inject(OrientationMonitorProvider);
-    spyOn(ScreenOrientation, 'removeAllListeners');
-    spyOn(ScreenOrientation, 'addListener');
-    spyOn(ScreenOrientation, 'getCurrentOrientation').and.returnValue(Promise.resolve(mockCurrentOrientation));
+    vi.spyOn(ScreenOrientation, 'removeAllListeners').mockReturnValue(undefined);
+    vi.spyOn(ScreenOrientation, 'addListener').mockReturnValue(undefined);
+    vi.spyOn(ScreenOrientation, 'getCurrentOrientation').mockReturnValue(Promise.resolve(mockCurrentOrientation));
   });
 
   afterAll(() => {
@@ -40,7 +41,7 @@ describe('OrientationMonitorProvider', () => {
 
   describe('monitorOrientation', () => {
     it('should set isPortraitMode$ to true if the device is in portrait mode', async () => {
-      spyOn(provider.isPortraitMode$, 'next');
+      vi.spyOn(provider.isPortraitMode$, 'next').mockReturnValue(undefined);
 
       await provider.monitorOrientation();
 

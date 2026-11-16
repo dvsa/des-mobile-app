@@ -1,5 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { AppConfig } from '@providers/app-config/app-config.model';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { AppConfigProviderMock } from '../../app-config/__mocks__/app-config.mock';
 import { AppConfigProvider } from '../../app-config/app-config';
 import { UrlProvider } from '../url';
@@ -38,13 +39,13 @@ describe('UrlProvider', () => {
 
   describe('getLogsServiceApiKey', () => {
     it('should get logsPostApiKey', () => {
-      spyOn(urlProvider.appConfigProvider, 'getAppConfig').and.returnValue({ logsPostApiKey: 'key' } as AppConfig);
+      vi.spyOn(urlProvider.appConfigProvider, 'getAppConfig').mockReturnValue({ logsPostApiKey: 'key' } as AppConfig);
       expect(urlProvider.getLogsServiceApiKey()).toBe('key');
     });
   });
   describe('getMotUrl', () => {
     it('should get Mot Url', () => {
-      spyOn(urlProvider.appConfigProvider, 'getAppConfig').and.returnValue({
+      vi.spyOn(urlProvider.appConfigProvider, 'getAppConfig').mockReturnValue({
         mot: { motHistoryUrl: 'url' },
       } as AppConfig);
       expect(urlProvider.getMotUrl('')).toBe('url');
@@ -52,7 +53,7 @@ describe('UrlProvider', () => {
   });
   describe('getTestCentreJournalUrl', () => {
     it('should get teamJournalUrl', () => {
-      spyOn(urlProvider.appConfigProvider, 'getAppConfig').and.returnValue({
+      vi.spyOn(urlProvider.appConfigProvider, 'getAppConfig').mockReturnValue({
         journal: { teamJournalUrl: 'url' },
       } as AppConfig);
       expect(urlProvider.getTestCentreJournalUrl()).toBe('url');
@@ -60,7 +61,7 @@ describe('UrlProvider', () => {
   });
   describe('getCandidateStandardDataUrl', () => {
     it('should get standardUrl', () => {
-      spyOn(urlProvider.appConfigProvider, 'getAppConfig').and.returnValue({
+      vi.spyOn(urlProvider.appConfigProvider, 'getAppConfig').mockReturnValue({
         driver: { standardUrl: 'url' },
       } as AppConfig);
       expect(urlProvider.getCandidateStandardDataUrl()).toBe('url');
@@ -83,7 +84,7 @@ describe('UrlProvider', () => {
 
   describe('getRefDataTestCentreUrl', () => {
     it('should return appConfigProvider testCentreUrl', () => {
-      spyOn(urlProvider.appConfigProvider, 'getAppConfig').and.returnValue({
+      vi.spyOn(urlProvider.appConfigProvider, 'getAppConfig').mockReturnValue({
         refData: { testCentreUrl: '1' },
       } as AppConfig);
       expect(urlProvider.getRefDataTestCentreUrl()).toBe('1');
@@ -92,13 +93,13 @@ describe('UrlProvider', () => {
 
   describe('getDelegatedExaminerSearchBookingUrl', () => {
     it('should replace {applicationReference} with passed variable', () => {
-      spyOn(urlProvider.appConfigProvider, 'getAppConfig').and.returnValue({
+      vi.spyOn(urlProvider.appConfigProvider, 'getAppConfig').mockReturnValue({
         journal: { delegatedExaminerSearchBookingUrl: '{applicationReference}' },
       } as AppConfig);
       expect(urlProvider.getDelegatedExaminerSearchBookingUrl('test')).toBe('test');
     });
     it('should replace {applicationReference} with 00000000 if there is no passed variable', () => {
-      spyOn(urlProvider.appConfigProvider, 'getAppConfig').and.returnValue({
+      vi.spyOn(urlProvider.appConfigProvider, 'getAppConfig').mockReturnValue({
         journal: { delegatedExaminerSearchBookingUrl: '{applicationReference}' },
       } as AppConfig);
       expect(urlProvider.getDelegatedExaminerSearchBookingUrl(null)).toBe('00000000');
@@ -107,13 +108,13 @@ describe('UrlProvider', () => {
 
   describe('getRekeyFindUserUrl', () => {
     it('should replace {staffNumber} with passed variable', () => {
-      spyOn(urlProvider.appConfigProvider, 'getAppConfig').and.returnValue({
+      vi.spyOn(urlProvider.appConfigProvider, 'getAppConfig').mockReturnValue({
         user: { findUserUrl: '{staffNumber}' },
       } as AppConfig);
       expect(urlProvider.getRekeyFindUserUrl('test')).toBe('test');
     });
     it('should replace {staffNumber} with 00000000 if there is no passed variable', () => {
-      spyOn(urlProvider.appConfigProvider, 'getAppConfig').and.returnValue({
+      vi.spyOn(urlProvider.appConfigProvider, 'getAppConfig').mockReturnValue({
         user: { findUserUrl: '{staffNumber}' },
       } as AppConfig);
       expect(urlProvider.getRekeyFindUserUrl(null)).toBe('00000000');
@@ -122,7 +123,7 @@ describe('UrlProvider', () => {
 
   describe('getCandidateSignatureUrl', () => {
     it('should replace {drivingLicenceNumber} with passed variable', () => {
-      spyOn(urlProvider.appConfigProvider, 'getAppConfig').and.returnValue({
+      vi.spyOn(urlProvider.appConfigProvider, 'getAppConfig').mockReturnValue({
         driver: { signatureUrl: '{drivingLicenceNumber}' },
       } as AppConfig);
       expect(urlProvider.getCandidateSignatureUrl('test')).toBe('test');
@@ -131,7 +132,7 @@ describe('UrlProvider', () => {
 
   describe('getCandidatePhotoUrl', () => {
     it('should replace {drivingLicenceNumber} with passed variable', () => {
-      spyOn(urlProvider.appConfigProvider, 'getAppConfig').and.returnValue({
+      vi.spyOn(urlProvider.appConfigProvider, 'getAppConfig').mockReturnValue({
         driver: { photographUrl: '{drivingLicenceNumber}' },
       } as AppConfig);
       expect(urlProvider.getCandidatePhotoUrl('test')).toBe('test');

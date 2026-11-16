@@ -1,5 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule, UntypedFormGroup } from '@angular/forms';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { LicenseProvidedComponent } from '../license-provided';
 
@@ -20,7 +21,7 @@ describe('LicenseProvidedComponent', () => {
   describe('Class', () => {
     describe('ProvisionalLicenseReceived', () => {
       it('should emit license received if license received is selected', () => {
-        spyOn(component.licenseReceived, 'emit');
+        vi.spyOn(component.licenseReceived, 'emit').mockReturnValue(undefined);
         component.provisionalLicenseReceived();
         expect(component.licenseReceived.emit).toHaveBeenCalled();
       });
@@ -28,7 +29,7 @@ describe('LicenseProvidedComponent', () => {
 
     describe('ProvisionalLicneseNotReceived', () => {
       it('should emit license not received if license not received is selected', () => {
-        spyOn(component.licenseNotReceived, 'emit');
+        vi.spyOn(component.licenseNotReceived, 'emit').mockReturnValue(undefined);
         component.provisionalLicenseNotReceived();
         expect(component.licenseNotReceived.emit).toHaveBeenCalled();
       });

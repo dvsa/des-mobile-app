@@ -1,4 +1,5 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { beforeEach, describe, expect, it } from 'vitest';
 
 import { provideTestTranslations } from '@mocks/test-providers';
 import { StoreModule } from '@ngrx/store';
@@ -10,7 +11,7 @@ describe('SeriousFaultsDebriefCardComponent', () => {
   let fixture: ComponentFixture<SpeedCheckDebriefCardComponent>;
   let component: SpeedCheckDebriefCardComponent;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [StoreModule.forRoot({}), SpeedCheckDebriefCardComponent],
       providers: [provideTestTranslations()],
@@ -31,7 +32,7 @@ describe('SeriousFaultsDebriefCardComponent', () => {
       outcome: null,
       comments: null,
     };
-  }));
+  });
 
   describe('ngOnInit', () => {
     it('should default to english if isTranslatable is false', () => {

@@ -4,6 +4,7 @@ import { DrivingFaultsBadgeComponent } from '@components/common/driving-faults-b
 import { SeriousFaultBadgeComponent } from '@components/common/serious-fault-badge/serious-fault-badge';
 import { TickIndicatorComponent } from '@components/common/tick-indicator/tick-indicator';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { Store, StoreModule } from '@ngrx/store';
 import { TestDataByCategoryProviderMock } from '@providers/test-data-by-category/__mocks__/test-data-by-category.mock';
@@ -51,19 +52,19 @@ describe('HighwayCodeSafetyComponent', () => {
     store$ = TestBed.inject(Store);
     store$.dispatch(StartTest(105, TestCategory.F));
     testDataByCategoryProvider = TestBed.inject(TestDataByCategoryProvider);
-    spyOn(testDataByCategoryProvider, 'getTestDataByCategoryCode').and.returnValue(getTestDataCatF);
+    vi.spyOn(testDataByCategoryProvider, 'getTestDataByCategoryCode').mockReturnValue(getTestDataCatF);
   });
 
   describe('Class', () => {
     describe('HighwayCodeSafetyAddDrivingFault', () => {
       it('should dispatch an HIGHWAY_CODE_SAFETY_ADD_DRIVING_FAULT action for press', () => {
-        const storeDispatchSpy = spyOn(store$, 'dispatch');
+        const storeDispatchSpy = vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
         component.addOrRemoveFault(true);
 
         expect(storeDispatchSpy).toHaveBeenCalledWith(HighwayCodeSafetyAddDrivingFault());
       });
       it('should not dispatch an HIGHWAY_CODE_SAFETY_ADD_DRIVING_FAULT action for tap', () => {
-        const storeDispatchSpy = spyOn(store$, 'dispatch');
+        const storeDispatchSpy = vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
         component.addOrRemoveFault();
 
         expect(storeDispatchSpy).not.toHaveBeenCalledWith(HighwayCodeSafetyAddDrivingFault());
@@ -71,7 +72,7 @@ describe('HighwayCodeSafetyComponent', () => {
       it('should not dispatch an HIGHWAY_CODE_SAFETY_ADD_DRIVING_FAULT action if already a driving fault', () => {
         component.highwayCodeSafetyDrivingFault = true;
 
-        const storeDispatchSpy = spyOn(store$, 'dispatch');
+        const storeDispatchSpy = vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
         component.addOrRemoveFault(true);
 
         expect(storeDispatchSpy).not.toHaveBeenCalledWith(HighwayCodeSafetyAddDrivingFault());
@@ -79,7 +80,7 @@ describe('HighwayCodeSafetyComponent', () => {
       it('should not dispatch an HIGHWAY_CODE_SAFETY_ADD_DRIVING_FAULT action if there is a serious fault', () => {
         component.highwayCodeSafetySeriousFault = true;
 
-        const storeDispatchSpy = spyOn(store$, 'dispatch');
+        const storeDispatchSpy = vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
         component.addOrRemoveFault();
 
         expect(storeDispatchSpy).not.toHaveBeenCalledWith(HighwayCodeSafetyAddDrivingFault());
@@ -87,7 +88,7 @@ describe('HighwayCodeSafetyComponent', () => {
       it('should not dispatch an HIGHWAY_CODE_SAFETY_ADD_DRIVING_FAULT action if serious mode is active', () => {
         component.isSeriousMode = true;
 
-        const storeDispatchSpy = spyOn(store$, 'dispatch');
+        const storeDispatchSpy = vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
         component.addOrRemoveFault();
 
         expect(storeDispatchSpy).not.toHaveBeenCalledWith(HighwayCodeSafetyAddDrivingFault());
@@ -95,7 +96,7 @@ describe('HighwayCodeSafetyComponent', () => {
       it('should not dispatch an HIGHWAY_CODE_SAFETY_ADD_DRIVING_FAULT action if dangerous mode is active', () => {
         component.isDangerousMode = true;
 
-        const storeDispatchSpy = spyOn(store$, 'dispatch');
+        const storeDispatchSpy = vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
         component.addOrRemoveFault();
 
         expect(storeDispatchSpy).not.toHaveBeenCalledWith(HighwayCodeSafetyAddDrivingFault());
@@ -107,7 +108,7 @@ describe('HighwayCodeSafetyComponent', () => {
         component.isRemoveFaultMode = true;
         component.highwayCodeSafetyDrivingFault = true;
 
-        const storeDispatchSpy = spyOn(store$, 'dispatch');
+        const storeDispatchSpy = vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
         component.addOrRemoveFault(true);
 
         expect(storeDispatchSpy).toHaveBeenCalledWith(HighwayCodeSafetyRemoveFault());
@@ -116,7 +117,7 @@ describe('HighwayCodeSafetyComponent', () => {
         component.isRemoveFaultMode = true;
         component.highwayCodeSafetyDrivingFault = true;
 
-        const storeDispatchSpy = spyOn(store$, 'dispatch');
+        const storeDispatchSpy = vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
         component.addOrRemoveFault();
 
         expect(storeDispatchSpy).toHaveBeenCalledWith(HighwayCodeSafetyRemoveFault());
@@ -126,7 +127,7 @@ describe('HighwayCodeSafetyComponent', () => {
         component.isSeriousMode = true;
         component.highwayCodeSafetyDrivingFault = true;
 
-        const storeDispatchSpy = spyOn(store$, 'dispatch');
+        const storeDispatchSpy = vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
         component.addOrRemoveFault();
 
         expect(storeDispatchSpy).not.toHaveBeenCalledWith(HighwayCodeSafetyRemoveFault());
@@ -137,7 +138,7 @@ describe('HighwayCodeSafetyComponent', () => {
         component.isSeriousMode = true;
         component.highwayCodeSafetySeriousFault = true;
 
-        const storeDispatchSpy = spyOn(store$, 'dispatch');
+        const storeDispatchSpy = vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
         component.addOrRemoveFault(true);
 
         expect(storeDispatchSpy).toHaveBeenCalledWith(HighwayCodeSafetyRemoveFault());

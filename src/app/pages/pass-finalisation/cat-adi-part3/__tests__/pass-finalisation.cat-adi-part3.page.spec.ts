@@ -2,6 +2,7 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { RouterModule } from '@angular/router';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { PracticeModeOptionsBar } from '@components/common/practice-mode-options-bar/practice-mode-options-bar';
 import { DebriefWitnessedComponent } from '@components/test-finalisation/debrief-witnessed/debrief-witnessed';
@@ -128,7 +129,7 @@ describe('PassFinalisationCatADIPart3Page', () => {
     fixture = TestBed.createComponent(PassFinalisationCatADIPart3Page);
     component = fixture.componentInstance;
     store$ = TestBed.inject(Store);
-    spyOn(store$, 'dispatch');
+    vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
   });
 
   describe('class', () => {
@@ -156,10 +157,10 @@ describe('PassFinalisationCatADIPart3Page', () => {
         const originalEndTime = testResult.testData.endTime;
         testResult.testData.endTime = '';
 
-        spyOn(DateTime.prototype, 'add').and.callFake(function (amount, unit) {
+        vi.spyOn(DateTime.prototype, 'add').mockImplementation(function (amount, unit) {
           return this;
         });
-        spyOn(DateTime.prototype, 'toISOString').and.returnValue('mock-end-time');
+        vi.spyOn(DateTime.prototype, 'toISOString').mockReturnValue('mock-end-time');
 
         component.ngOnInit();
 
@@ -173,7 +174,7 @@ describe('PassFinalisationCatADIPart3Page', () => {
     describe('ionViewDidLeave', () => {
       it('should unsubscribe from the subscription if there is one', () => {
         component.subscription = new Subscription();
-        spyOn(component.subscription, 'unsubscribe');
+        vi.spyOn(component.subscription, 'unsubscribe').mockReturnValue(undefined);
         component.ionViewDidLeave();
         expect(component.subscription.unsubscribe).toHaveBeenCalled();
       });
@@ -181,7 +182,7 @@ describe('PassFinalisationCatADIPart3Page', () => {
 
     describe('testStartTimeChanged', () => {
       it('should dispatch endTime to store', () => {
-        spyOn(store$, 'dispatch');
+        vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
         component.testStartTimeChanged('test');
         expect(store$.dispatch).toHaveBeenCalledWith(StartTimeChanged('test'));
       });
@@ -189,7 +190,7 @@ describe('PassFinalisationCatADIPart3Page', () => {
 
     describe('testEndTimeChanged', () => {
       it('should dispatch endTime to store', () => {
-        spyOn(store$, 'dispatch');
+        vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
         component.testEndTimeChanged('test');
         expect(store$.dispatch).toHaveBeenCalledWith(EndTimeChanged('test'));
       });
@@ -197,7 +198,7 @@ describe('PassFinalisationCatADIPart3Page', () => {
 
     describe('ionViewWillEnter', () => {
       it('should dispatch PassFinalisationViewDidEnter', () => {
-        spyOn(store$, 'dispatch');
+        vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
         component.ionViewWillEnter();
         expect(store$.dispatch).toHaveBeenCalledWith(PassFinalisationViewDidEnter());
       });
@@ -214,7 +215,7 @@ describe('PassFinalisationCatADIPart3Page', () => {
       it('should call adviceReasonChanged with null if form is valid and furtherDevelopment is true', () => {
         component.form.clearValidators();
         component.furtherDevelopment = true;
-        spyOn(component, 'adviceReasonChanged');
+        vi.spyOn(component, 'adviceReasonChanged').mockReturnValue(undefined);
         component.onSubmit();
 
         expect(component.adviceReasonChanged).toHaveBeenCalledWith(null);

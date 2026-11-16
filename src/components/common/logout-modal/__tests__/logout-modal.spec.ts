@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ModalController } from '@ionic/angular';
 import { ModalControllerMock } from '@mocks/index.mock';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { LogoutModal, LogoutModalEvent } from '../logout-modal';
 
 describe('LogoutModal', () => {
@@ -21,7 +22,7 @@ describe('LogoutModal', () => {
 
   describe('onCancel', () => {
     it('should dismiss the modal with CANCEL event', async () => {
-      spyOn(modalController, 'dismiss').and.resolveTo(true);
+      vi.spyOn(modalController, 'dismiss').mockResolvedValue(true);
       await component.onCancel();
       expect(modalController.dismiss).toHaveBeenCalledWith({ event: LogoutModalEvent.CANCEL });
     });
@@ -29,7 +30,7 @@ describe('LogoutModal', () => {
 
   describe('onLogout', () => {
     it('should dismiss the modal with LOGOUT event', async () => {
-      spyOn(modalController, 'dismiss').and.resolveTo(true);
+      vi.spyOn(modalController, 'dismiss').mockResolvedValue(true);
       await component.onLogout();
       expect(modalController.dismiss).toHaveBeenCalledWith({ event: LogoutModalEvent.LOGOUT });
     });

@@ -1,6 +1,7 @@
 import { SingleFaultCompetencies } from '@dvsa/mes-test-schema/categories/AM1';
 import { CompetencyOutcome } from '@shared/models/competency-outcome';
 import { Competencies } from '@store/tests/test-data/test-data.constants';
+import { describe, expect, it, vi } from 'vitest';
 import { FaultSummaryCatAM1Helper } from '../fault-summary.cat-a-mod1';
 import { catAM1TestDataStateObject } from './cat-AM1-test-data.mock';
 
@@ -38,7 +39,7 @@ describe('FaultSummaryCatAM1Helper', () => {
       expect(result).toEqual(expected);
     });
     it("should get called whenever the helper's main methods are used", () => {
-      spyOn(FaultSummaryCatAM1Helper, 'matchCompetenciesIncludingComments').and.callThrough();
+      vi.spyOn(FaultSummaryCatAM1Helper, 'matchCompetenciesIncludingComments');
       FaultSummaryCatAM1Helper.getDrivingFaultsCatAM1(catAM1TestDataStateObject);
       FaultSummaryCatAM1Helper.getSeriousFaultsCatAM1(catAM1TestDataStateObject);
       FaultSummaryCatAM1Helper.getDangerousFaultsCatAM1(catAM1TestDataStateObject);

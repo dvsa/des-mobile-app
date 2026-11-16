@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { ReasonForEnteringTeamsComponent } from '@pages/office/components/reason-for-entering-teams/reason-for-entering-teams';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 describe('ReasonForEnteringTeamsComponent', () => {
   let fixture: ComponentFixture<ReasonForEnteringTeamsComponent>;
@@ -33,7 +34,7 @@ describe('ReasonForEnteringTeamsComponent', () => {
     it('should add formControl to formGroup if not already present', () => {
       component.formGroup = new UntypedFormGroup({});
       component.ngOnChanges();
-      expect(component.formGroup.contains(component.fieldName)).toBeTrue();
+      expect(component.formGroup.contains(component.fieldName)).toBe(true);
     });
 
     it('should update formControl value if formGroup already contains fieldName', () => {
@@ -48,7 +49,7 @@ describe('ReasonForEnteringTeamsComponent', () => {
 
   describe('reasonForOpeningTeamsChanged', () => {
     it('should emit reasonForOpeningTeamsChange event with new reason', () => {
-      spyOn(component.reasonForOpeningTeamsChange, 'emit');
+      vi.spyOn(component.reasonForOpeningTeamsChange, 'emit').mockReturnValue(undefined);
       const newReason = 'New Reason';
       component.reasonForOpeningTeamsChanged(newReason);
       expect(component.reasonForOpeningTeamsChange.emit).toHaveBeenCalledWith(newReason);
@@ -59,17 +60,17 @@ describe('ReasonForEnteringTeamsComponent', () => {
     it('should return true if formControl is invalid and dirty', () => {
       component.formControl = new UntypedFormControl('', [Validators.required]);
       component.formControl.markAsDirty();
-      expect(component.invalid).toBeTrue();
+      expect(component.invalid).toBe(true);
     });
 
     it('should return false if formControl is valid', () => {
       component.formControl = new UntypedFormControl('Valid Value', [Validators.required]);
-      expect(component.invalid).toBeFalse();
+      expect(component.invalid).toBe(false);
     });
 
     it('should return false if formControl is not dirty', () => {
       component.formControl = new UntypedFormControl('', [Validators.required]);
-      expect(component.invalid).toBeFalse();
+      expect(component.invalid).toBe(false);
     });
   });
 });

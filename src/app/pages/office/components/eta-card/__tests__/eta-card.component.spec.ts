@@ -1,5 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { UntypedFormGroup } from '@angular/forms';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { ETACardComponent } from '../eta-card.component';
 
 describe('EtaCardComponent', () => {
@@ -37,19 +38,19 @@ describe('EtaCardComponent', () => {
       expect(component.shouldDisplay()).toBeFalsy();
 
       component.faults = { physical: true, verbal: false } as never;
-      expect(component.shouldDisplay()).toBeTrue();
+      expect(component.shouldDisplay()).toBe(true);
 
       component.faults = { physical: false, verbal: true } as never;
-      expect(component.shouldDisplay()).toBeTrue();
+      expect(component.shouldDisplay()).toBe(true);
     });
   });
 
   it('should emit the matching events when ETA change handlers are called', () => {
-    spyOn(component.footbrakeETAChanged, 'emit');
-    spyOn(component.handbrakeETAChanged, 'emit');
-    spyOn(component.otherETAChanged, 'emit');
-    spyOn(component.otherETATextChanged, 'emit');
-    spyOn(component.steeringETAChanged, 'emit');
+    vi.spyOn(component.footbrakeETAChanged, 'emit').mockReturnValue(undefined);
+    vi.spyOn(component.handbrakeETAChanged, 'emit').mockReturnValue(undefined);
+    vi.spyOn(component.otherETAChanged, 'emit').mockReturnValue(undefined);
+    vi.spyOn(component.otherETATextChanged, 'emit').mockReturnValue(undefined);
+    vi.spyOn(component.steeringETAChanged, 'emit').mockReturnValue(undefined);
 
     component.footbrakeETAChange();
     component.handbrakeETAChange();
@@ -73,11 +74,11 @@ describe('EtaCardComponent', () => {
 
       component.ngOnChanges();
 
-      expect(component.invalid).toBeFalse();
+      expect(component.invalid).toBe(false);
 
       component.formControl.markAsDirty();
 
-      expect(component.invalid).toBeTrue();
+      expect(component.invalid).toBe(true);
     });
 
     it('should report the other text as invalid when the character limit is exceeded', () => {
@@ -90,8 +91,8 @@ describe('EtaCardComponent', () => {
       component.formControl.markAsDirty();
       component.characterCountChanged(-1);
 
-      expect(component.formControl.hasError('charactersExceeded')).toBeTrue();
-      expect(component.invalid).toBeTrue();
+      expect(component.formControl.hasError('charactersExceeded')).toBe(true);
+      expect(component.invalid).toBe(true);
     });
 
     it('should not report the other text as invalid when the character limit is not exceeded', () => {
@@ -104,8 +105,8 @@ describe('EtaCardComponent', () => {
       component.formControl.markAsDirty();
       component.characterCountChanged(0);
 
-      expect(component.formControl.hasError('charactersExceeded')).toBeFalse();
-      expect(component.invalid).toBeFalse();
+      expect(component.formControl.hasError('charactersExceeded')).toBe(false);
+      expect(component.invalid).toBe(false);
     });
 
     it('should report eta type invalid only when the eta type control is dirty and invalid', () => {
@@ -114,11 +115,11 @@ describe('EtaCardComponent', () => {
 
       component.ngOnChanges();
 
-      expect(component.etaTypeInvalid).toBeFalse();
+      expect(component.etaTypeInvalid).toBe(false);
 
       component.etaTypeRequiredControl.markAsDirty();
 
-      expect(component.etaTypeInvalid).toBeTrue();
+      expect(component.etaTypeInvalid).toBe(true);
     });
   });
 });

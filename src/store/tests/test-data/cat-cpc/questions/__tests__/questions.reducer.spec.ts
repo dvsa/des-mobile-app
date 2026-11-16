@@ -1,6 +1,7 @@
 import { Question, Question5 } from '@dvsa/mes-test-schema/categories/CPC';
 import { QuestionNumber } from '@shared/constants/cpc-questions/cpc-question-combinations.constants';
 import { question, question5 } from '@store/tests/test-data/cat-cpc/__tests__/test-data.cat-cpc.mock';
+import { describe, expect, it } from 'vitest';
 import { AnswerToggled, PopulateQuestionScore, PopulateQuestions } from '../questions.action';
 import {
   question1Reducer,

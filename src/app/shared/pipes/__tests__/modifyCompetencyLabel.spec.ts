@@ -1,4 +1,5 @@
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
+import { beforeEach, describe, expect, it } from 'vitest';
 import { ModifyCompetencyLabel } from '../modifyCompetencyLabel';
 
 describe('ModifyCompetencyLabel', () => {

@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { OfficeFooterComponent } from '../office-footer.component';
 
@@ -21,21 +22,21 @@ describe('OfficeFooterComponent', () => {
   });
   describe('saveClick', () => {
     it('should emit saveClicked', () => {
-      spyOn(component.saveClicked, 'emit');
+      vi.spyOn(component.saveClicked, 'emit').mockReturnValue(undefined);
       component.saveClick();
       expect(component.saveClicked.emit).toHaveBeenCalled();
     });
   });
   describe('submitClick', () => {
     it('should emit submitClicked with the value of delegated', () => {
-      spyOn(component.submitClicked, 'emit');
+      vi.spyOn(component.submitClicked, 'emit').mockReturnValue(undefined);
       component.submitClick();
       expect(component.submitClicked.emit).toHaveBeenCalledWith(component.isDelegated);
     });
   });
   describe('continueClick', () => {
     it('should emit continueClicked', () => {
-      spyOn(component.continueClicked, 'emit');
+      vi.spyOn(component.continueClicked, 'emit').mockReturnValue(undefined);
       component.continueClick();
       expect(component.continueClicked.emit).toHaveBeenCalled();
     });

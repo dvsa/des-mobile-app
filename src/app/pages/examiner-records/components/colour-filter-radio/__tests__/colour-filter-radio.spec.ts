@@ -1,5 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { UntypedFormGroup } from '@angular/forms';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { provideMockStore } from '@ngrx/store/testing';
 import { ColourFilterRadioComponent } from '@pages/examiner-records/components/colour-filter-radio/colour-filter-radio';
@@ -25,7 +26,7 @@ describe('ColourFilterRadioComponent', () => {
 
   describe('viewFilterChanged', () => {
     it('should emit identification while from control is valid', () => {
-      spyOn(component.filterChange, 'emit');
+      vi.spyOn(component.filterChange, 'emit').mockReturnValue(undefined);
       component.formGroup = new UntypedFormGroup({});
       component.ngOnChanges();
 

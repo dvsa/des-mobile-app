@@ -1,13 +1,14 @@
-import { TestBed, fakeAsync, tick } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TestResultSchemasUnion } from '@dvsa/mes-test-schema/categories';
 import { ModalController, NavController, Platform, ToastController } from '@ionic/angular';
 import { ActivatedRouteMock, ModalControllerMock, PlatformMock, RouterMock } from '@mocks/index.mock';
 import { Store } from '@ngrx/store';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { Injector } from '@angular/core';
-import { AbstractControl, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { Identification, IndependentDriving, WeatherConditions } from '@dvsa/mes-test-schema/categories/common';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { FinishTestModal } from '@pages/office/components/finish-test-modal/finish-test-modal';
@@ -186,7 +187,7 @@ describe('OfficeBasePageComponent', () => {
     router = TestBed.inject(Router);
     store$ = TestBed.inject(MockStore);
     navController = TestBed.inject(NavController);
-    spyOn(store$, 'dispatch');
+    vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
 
     class BasePageClass extends OfficeBasePageComponent {
       constructor(public inj: Injector) {
@@ -256,7 +257,6 @@ describe('OfficeBasePageComponent', () => {
   describe('activityCodeChanged', () => {
     beforeEach(() => {
       basePageComponent.form.addControl('showMeQuestion', new UntypedFormControl('', []));
-      spyOn(basePageComponent.form.controls.showMeQuestion, 'setValue');
     });
     it('should dispatch a SetActivityCode action with the activity code', () => {
       basePageComponent.form.controls = { showMeQuestion: null };
@@ -264,22 +264,14 @@ describe('OfficeBasePageComponent', () => {
       expect(store$.dispatch).toHaveBeenCalledWith(SetActivityCode(activityCodeModelList[0].activityCode));
     });
     it('should setValue of showMeQuestion to {}', () => {
-      basePageComponent.form.controls = {
-        showMeQuestion: {
-          ...basePageComponent.form.controls.showMeQuestion,
-          value: { code: 'N/A' },
-        } as AbstractControl,
-      };
+      basePageComponent.form.controls.showMeQuestion.setValue({ code: 'N/A' });
+      vi.spyOn(basePageComponent.form.controls.showMeQuestion, 'setValue').mockReturnValue(undefined);
       basePageComponent.activityCodeChanged(activityCodeModelList[0]);
       expect(basePageComponent.form.controls.showMeQuestion.setValue).toHaveBeenCalledWith({});
     });
     it('should not setValue of showMeQuestion when value is not N/A', () => {
-      basePageComponent.form.controls = {
-        showMeQuestion: {
-          ...basePageComponent.form.controls.showMeQuestion,
-          value: { code: 'A1' },
-        } as AbstractControl,
-      };
+      basePageComponent.form.controls.showMeQuestion.setValue({ code: 'A1' });
+      vi.spyOn(basePageComponent.form.controls.showMeQuestion, 'setValue').mockReturnValue(undefined);
       basePageComponent.activityCodeChanged(activityCodeModelList[0]);
       expect(basePageComponent.form.controls.showMeQuestion.setValue).not.toHaveBeenCalled();
     });
@@ -287,8 +279,8 @@ describe('OfficeBasePageComponent', () => {
 
   describe('completeTest', () => {
     beforeEach(() => {
-      spyOn(basePageComponent, 'popToRoot');
-      spyOn(basePageComponent, 'dispatchTestConfirmedActions').and.callThrough();
+      vi.spyOn(basePageComponent, 'popToRoot').mockReturnValue(undefined);
+      vi.spyOn(basePageComponent, 'dispatchTestConfirmedActions');
       basePageComponent.finishTestModal = { dismiss: async () => true } as HTMLIonModalElement;
     });
     it('should successfully end the test', async () => {
@@ -309,14 +301,14 @@ describe('OfficeBasePageComponent', () => {
       basePageComponent.commonPageState = {
         testCategory$: of(TestCategory.B),
       } as any;
-      expect(basePageComponent.categoryIncludesRouteNumber()).toBeTrue();
+      expect(basePageComponent.categoryIncludesRouteNumber()).toBe(true);
     });
 
     it('returns false when testCategory is not in categoriesWithRouteNumbers', () => {
       basePageComponent.commonPageState = {
         testCategory$: of(TestCategory.ADI3),
       } as any;
-      expect(basePageComponent.categoryIncludesRouteNumber()).toBeFalse();
+      expect(basePageComponent.categoryIncludesRouteNumber()).toBe(false);
     });
   });
 
@@ -327,7 +319,7 @@ describe('OfficeBasePageComponent', () => {
         displayRouteNumber$: of(true),
         // other properties not needed for this test
       } as CommonOfficePageState;
-      spyOn(basePageComponent, 'categoryIncludesRouteNumber').and.returnValue(true);
+      vi.spyOn(basePageComponent, 'categoryIncludesRouteNumber').mockReturnValue(true);
       basePageComponent.dispatchTestConfirmedActions();
       expect(store$.dispatch).toHaveBeenCalledWith(RouteNumberConfirmed(123));
     });
@@ -335,7 +327,7 @@ describe('OfficeBasePageComponent', () => {
 
   describe('popToRoot', () => {
     beforeEach(() => {
-      spyOn(basePageComponent, 'exitPracticeMode');
+      vi.spyOn(basePageComponent, 'exitPracticeMode').mockReturnValue(undefined);
     });
     it('should not call navigateBack when in practice mode', async () => {
       basePageComponent.isEndToEndPracticeMode = true;
@@ -352,7 +344,7 @@ describe('OfficeBasePageComponent', () => {
   describe('defer', () => {
     it('should call navigate back and dispatch two actions when hasNavigatedFromUnsubmitted is true;', async () => {
       basePageComponent.hasNavigatedFromUnsubmitted = true;
-      spyOn(navController, 'navigateBack');
+      vi.spyOn(navController, 'navigateBack');
       await basePageComponent.defer();
       expect(basePageComponent.navController.navigateBack).toHaveBeenCalledWith(UNUPLOADED_TESTS_PAGE);
       expect(store$.dispatch).toHaveBeenCalledWith(SavingWriteUpForLater());
@@ -360,7 +352,7 @@ describe('OfficeBasePageComponent', () => {
     });
     it('should call popToRoot and dispatch two actions when hasNavigatedFromUnsubmitted is false', async () => {
       basePageComponent.hasNavigatedFromUnsubmitted = false;
-      spyOn(basePageComponent, 'popToRoot');
+      vi.spyOn(basePageComponent, 'popToRoot').mockReturnValue(undefined);
       await basePageComponent.defer();
       expect(basePageComponent.popToRoot).toHaveBeenCalled();
       expect(store$.dispatch).toHaveBeenCalledWith(SavingWriteUpForLater());
@@ -382,7 +374,7 @@ describe('OfficeBasePageComponent', () => {
   describe('ionViewDidLeave', () => {
     it('should unsubscribe when subscription', () => {
       basePageComponent.subscription = new Subscription();
-      spyOn(basePageComponent.subscription, 'unsubscribe');
+      vi.spyOn(basePageComponent.subscription, 'unsubscribe').mockReturnValue(undefined);
       basePageComponent.ionViewDidLeave();
       expect(basePageComponent.subscription.unsubscribe).toHaveBeenCalled();
     });
@@ -390,15 +382,15 @@ describe('OfficeBasePageComponent', () => {
 
   describe('onSubmit', () => {
     beforeEach(() => {
-      spyOn(basePageComponent, 'showFinishTestModal');
+      vi.spyOn(basePageComponent, 'showFinishTestModal').mockReturnValue(undefined);
     });
     it('should call through to showFinishTestModal when form is valid', async () => {
-      spyOn(basePageComponent, 'isFormValid').and.returnValue(Promise.resolve(true));
+      vi.spyOn(basePageComponent, 'isFormValid').mockReturnValue(Promise.resolve(true));
       await basePageComponent.onSubmit();
       expect(basePageComponent.showFinishTestModal).toHaveBeenCalled();
     });
     it('should not call through to showFinishTestModal when form is invalid', async () => {
-      spyOn(basePageComponent, 'isFormValid').and.returnValue(Promise.resolve(false));
+      vi.spyOn(basePageComponent, 'isFormValid').mockReturnValue(Promise.resolve(false));
       await basePageComponent.onSubmit();
       expect(basePageComponent.showFinishTestModal).not.toHaveBeenCalled();
     });
@@ -406,16 +398,16 @@ describe('OfficeBasePageComponent', () => {
 
   describe('goToReasonForRekey', () => {
     beforeEach(() => {
-      spyOn(router, 'navigate');
-      spyOn(basePageComponent, 'dispatchTestConfirmedActions').and.callThrough();
+      vi.spyOn(router, 'navigate');
+      vi.spyOn(basePageComponent, 'dispatchTestConfirmedActions');
     });
     it('should call through to router.navigate when form is valid', async () => {
-      spyOn(basePageComponent, 'isFormValid').and.returnValue(Promise.resolve(true));
+      vi.spyOn(basePageComponent, 'isFormValid').mockReturnValue(Promise.resolve(true));
       await basePageComponent.goToReasonForRekey();
       expect(router.navigate).toHaveBeenCalledWith([TestFlowPageNames.REKEY_REASON_PAGE]);
     });
     it('should not call through to router.navigate when form is invalid', async () => {
-      spyOn(basePageComponent, 'isFormValid').and.returnValue(Promise.resolve(false));
+      vi.spyOn(basePageComponent, 'isFormValid').mockReturnValue(Promise.resolve(false));
       await basePageComponent.goToReasonForRekey();
       expect(router.navigate).not.toHaveBeenCalled();
     });
@@ -600,7 +592,7 @@ describe('OfficeBasePageComponent', () => {
   });
   describe('showFinishTestModal', async () => {
     it('should create a modal', async () => {
-      spyOn(basePageComponent.modalController, 'create').and.callThrough();
+      vi.spyOn(basePageComponent.modalController, 'create');
       await basePageComponent.showFinishTestModal();
       expect(basePageComponent.modalController.create).toHaveBeenCalledWith({
         id: 'FinishTestModal',
@@ -617,10 +609,10 @@ describe('OfficeBasePageComponent', () => {
   });
   describe('destroyTestSubs', () => {
     it('should signal cleanup without completing the reusable subjects', () => {
-      spyOn(wrtcDestroy$, 'next');
-      spyOn(wrtcDestroy$, 'complete');
-      spyOn(trDestroy$, 'next');
-      spyOn(trDestroy$, 'complete');
+      vi.spyOn(wrtcDestroy$, 'next').mockReturnValue(undefined);
+      vi.spyOn(wrtcDestroy$, 'complete').mockReturnValue(undefined);
+      vi.spyOn(trDestroy$, 'next').mockReturnValue(undefined);
+      vi.spyOn(trDestroy$, 'complete').mockReturnValue(undefined);
 
       basePageComponent.destroyTestSubs();
 
@@ -634,10 +626,10 @@ describe('OfficeBasePageComponent', () => {
     it('should dispatch store and then navigate to ' + 'rekey upload after the modal is dismissed', async () => {
       await basePageComponent.showFinishTestModal();
 
-      spyOn(basePageComponent, 'dispatchTestConfirmedActions').and.callThrough();
-      spyOn(store$, 'dispatch');
-      spyOn(basePageComponent.finishTestModal, 'dismiss');
-      spyOn(basePageComponent.router, 'navigate');
+      vi.spyOn(basePageComponent, 'dispatchTestConfirmedActions');
+      vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
+      vi.spyOn(basePageComponent.finishTestModal, 'dismiss').mockReturnValue(undefined);
+      vi.spyOn(basePageComponent.router, 'navigate');
 
       await basePageComponent.completeTestDelegated();
 
@@ -655,19 +647,24 @@ describe('OfficeBasePageComponent', () => {
       expect(basePageComponent.form.valid).toEqual(true);
     });
 
-    it('should dispatch the appropriate ValidationError actions', fakeAsync(() => {
-      basePageComponent.form = new UntypedFormGroup({
-        requiredControl1: new UntypedFormControl(null, [Validators.required]),
-        requiredControl2: new UntypedFormControl(null, [Validators.required]),
-        notRequiredControl: new UntypedFormControl(null),
-      });
+    it('should dispatch the appropriate ValidationError actions', async () => {
+      vi.useFakeTimers();
+      try {
+        basePageComponent.form = new UntypedFormGroup({
+          requiredControl1: new UntypedFormControl(null, [Validators.required]),
+          requiredControl2: new UntypedFormControl(null, [Validators.required]),
+          notRequiredControl: new UntypedFormControl(null),
+        });
 
-      basePageComponent.isFormValid();
-      tick();
-      expect(store$.dispatch).toHaveBeenCalledWith(OfficeValidationError('requiredControl1 is blank'));
-      expect(store$.dispatch).toHaveBeenCalledWith(OfficeValidationError('requiredControl2 is blank'));
-      expect(store$.dispatch).not.toHaveBeenCalledWith(OfficeValidationError('notRequiredControl is blank'));
-      expect(basePageComponent.toast).not.toBeUndefined();
-    }));
+        basePageComponent.isFormValid();
+        await vi.advanceTimersByTimeAsync(0);
+        expect(store$.dispatch).toHaveBeenCalledWith(OfficeValidationError('requiredControl1 is blank'));
+        expect(store$.dispatch).toHaveBeenCalledWith(OfficeValidationError('requiredControl2 is blank'));
+        expect(store$.dispatch).not.toHaveBeenCalledWith(OfficeValidationError('notRequiredControl is blank'));
+        expect(basePageComponent.toast).not.toBeUndefined();
+      } finally {
+        vi.useRealTimers();
+      }
+    });
   });
 });

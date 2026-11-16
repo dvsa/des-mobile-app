@@ -1,3 +1,4 @@
+import { describe, expect, it } from 'vitest';
 import { ResetFaultMode, ToggleDangerousFaultMode, ToggleSeriousFaultMode } from '../test-report.actions';
 import { initialState, testReportReducer } from '../test-report.reducer';
 

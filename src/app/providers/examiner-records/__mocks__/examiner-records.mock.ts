@@ -2,6 +2,7 @@ import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/
 import { ColourEnum, ColourScheme, SelectableDateRange } from '@providers/examiner-records/examiner-records';
 import { DateRange } from '@shared/helpers/date-time';
 import moment from 'moment/moment';
+import { vi } from 'vitest';
 
 export class ExaminerRecordsProviderMock {
   public colours: {
@@ -54,11 +55,11 @@ export class ExaminerRecordsProviderMock {
     },
   ];
 
-  getRangeDate = jasmine.createSpy('getRangeDate').and.returnValue(moment(new Date()));
+  getRangeDate = vi.fn().mockReturnValue(moment(new Date()));
 
-  handleLoadingUI = jasmine.createSpy('handleLoadingUI');
+  handleLoadingUI = vi.fn();
 
-  formatForExaminerRecords = jasmine.createSpy('formatForExaminerRecords').and.returnValue({
+  formatForExaminerRecords = vi.fn().mockReturnValue({
     appRef: 1,
     testCategory: TestCategory.B,
     testCentre: {
@@ -102,5 +103,5 @@ export class ExaminerRecordsProviderMock {
     ],
   });
 
-  clearExaminerRecordsCache = jasmine.createSpy('clearExaminerRecordsCache').and.returnValue(Promise.resolve());
+  clearExaminerRecordsCache = vi.fn().mockReturnValue(Promise.resolve());
 }

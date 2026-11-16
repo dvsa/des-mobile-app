@@ -1,4 +1,5 @@
 import { PreTestDeclarations } from '@dvsa/mes-test-schema/categories/AM2';
+import { describe, expect, it } from 'vitest';
 import { CbtNumberChanged } from '../../cat-a/pre-test-declarations.cat-a.actions';
 import {
   ClearPreTestDeclarations,

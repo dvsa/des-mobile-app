@@ -1,4 +1,5 @@
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
+import { beforeEach, describe, expect, it } from 'vitest';
 import { TestDataByCategoryProvider } from '../test-data-by-category';
 
 describe('TestDataByCategoryProvider', () => {
@@ -30,7 +31,7 @@ describe('TestDataByCategoryProvider', () => {
       it(`should return ${cat.category} test data for a ${cat.category} Category Code`, () => {
         expect(() => {
           provider.getTestDataByCategoryCode(cat.category);
-        }).toEqual(jasmine.any(Function));
+        }).toEqual(expect.any(Function));
 
         expect(() => {
           provider.getTestDataByCategoryCode(cat.category);

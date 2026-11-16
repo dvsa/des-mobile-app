@@ -19,7 +19,8 @@ import { candidateMock } from '@store/tests/__mocks__/tests.mock';
 import { PopulateCandidateDetails } from '@store/tests/journal-data/common/candidate/candidate.actions';
 import * as testsActions from '@store/tests/tests.actions';
 import { testsReducer } from '@store/tests/tests.reducer';
-import { ReplaySubject } from 'rxjs';
+import { ReplaySubject, firstValueFrom } from 'rxjs';
+import { beforeEach, describe, expect, it } from 'vitest';
 import * as fakeJournalActions from '../../fake-journal/fake-journal.actions';
 import * as healthDeclarationActions from '../health-declaration.actions';
 import { HealthDeclarationAnalyticsEffects } from '../health-declaration.analytics.effects';
@@ -60,56 +61,38 @@ describe('HealthDeclarationAnalyticsEffects', () => {
   });
 
   describe('healthDeclarationViewDidEnter', () => {
-    it('should call setCurrentPage', (done) => {
-      // ARRANGE
+    it('should call setCurrentPage', async () => {
       store$.dispatch(testsActions.StartTest(123, TestCategory.B));
       store$.dispatch(PopulateCandidateDetails(candidateMock));
-      // ACT
       actions$.next(healthDeclarationActions.HealthDeclarationViewDidEnter());
-      // ASSERT
-      effects.healthDeclarationViewDidEnter$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-
-        expect(analyticsProviderMock.setGACurrentPage).toHaveBeenCalledWith(screenName);
-        done();
-      });
+      const result = await firstValueFrom(effects.healthDeclarationViewDidEnter$);
+      expect(result.type).toEqual(AnalyticRecorded.type);
+      expect(analyticsProviderMock.setGACurrentPage).toHaveBeenCalledWith(screenName);
     });
 
-    it('should call setCurrentPage with practice mode prefix', (done) => {
-      // ARRANGE
+    it('should call setCurrentPage with practice mode prefix', async () => {
       store$.dispatch(fakeJournalActions.StartE2EPracticeTest(end2endPracticeSlotId));
       store$.dispatch(PopulateCandidateDetails(candidateMock));
-      // ACT
       actions$.next(healthDeclarationActions.HealthDeclarationViewDidEnter());
-      // ASSERT
-      effects.healthDeclarationViewDidEnter$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-
-        expect(analyticsProviderMock.setGACurrentPage).toHaveBeenCalledWith(
-          `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${screenName}`
-        );
-        done();
-      });
+      const result = await firstValueFrom(effects.healthDeclarationViewDidEnter$);
+      expect(result.type).toEqual(AnalyticRecorded.type);
+      expect(analyticsProviderMock.setGACurrentPage).toHaveBeenCalledWith(
+        `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${screenName}`
+      );
     });
   });
 
   describe('validationErrorEffect', () => {
-    it('should call logError', (done) => {
-      // ARRANGE
+    it('should call logError', async () => {
       store$.dispatch(testsActions.StartTest(123, TestCategory.B));
-      // ACT
       actions$.next(healthDeclarationActions.HealthDeclarationValidationError('error message'));
-      // ASSERT
-      effects.validationErrorEffect$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-          GoogleAnalyticsEvents.VALIDATION_ERROR,
-          GoogleAnalyticsEventsTitles.BLANK_FIELD,
-          'error message'
-        );
-        done();
-      });
+      const result = await firstValueFrom(effects.validationErrorEffect$);
+      expect(result.type).toEqual(AnalyticRecorded.type);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+        GoogleAnalyticsEvents.VALIDATION_ERROR,
+        GoogleAnalyticsEventsTitles.BLANK_FIELD,
+        'error message'
+      );
     });
   });
 });

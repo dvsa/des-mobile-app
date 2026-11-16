@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { DataRowCustomComponent } from '@components/common/data-row-custom/data-row-custom';
 import { DataRowComponent } from '@components/common/data-row/data-row';
@@ -226,21 +227,21 @@ describe('DebriefCardComponent', () => {
 
   describe('testRequirements', () => {
     it('should return data from getTestRequirementsCatADI2 if ADI2 is passed', () => {
-      spyOn(component, 'getTestRequirementsCatADI2').and.returnValue([{ label: '1' } as DataRowListItem]);
+      vi.spyOn(component, 'getTestRequirementsCatADI2').mockReturnValue([{ label: '1' } as DataRowListItem]);
       component.category = TestCategory.ADI2;
 
       expect(component.testRequirements).toEqual([{ label: '1' } as DataRowListItem]);
       expect(component.getTestRequirementsCatADI2).toHaveBeenCalled();
     });
     it('should return data from getTestRequirementsCatB if B is passed', () => {
-      spyOn(component, 'getTestRequirementsCatB').and.returnValue([{ label: '1' } as DataRowListItem]);
+      vi.spyOn(component, 'getTestRequirementsCatB').mockReturnValue([{ label: '1' } as DataRowListItem]);
       component.category = TestCategory.B;
 
       expect(component.testRequirements).toEqual([{ label: '1' } as DataRowListItem]);
       expect(component.getTestRequirementsCatB).toHaveBeenCalled();
     });
     it('should return data from getTestRequirementsCatB if category is C', () => {
-      spyOn(component, 'getTestRequirementsCatC').and.returnValue([{ label: '1' } as DataRowListItem]);
+      vi.spyOn(component, 'getTestRequirementsCatC').mockReturnValue([{ label: '1' } as DataRowListItem]);
       component.category = TestCategory.C;
 
       expect(component.testRequirements).toEqual([{ label: '1' } as DataRowListItem]);
@@ -248,7 +249,7 @@ describe('DebriefCardComponent', () => {
     });
 
     it('should return data from getTestRequirementsCatManoeuvre if category is CM', () => {
-      spyOn(component, 'getTestRequirementsCatManoeuvre').and.returnValue([{ label: '1' } as DataRowListItem]);
+      vi.spyOn(component, 'getTestRequirementsCatManoeuvre').mockReturnValue([{ label: '1' } as DataRowListItem]);
       component.category = TestCategory.CM;
 
       expect(component.testRequirements).toEqual([{ label: '1' } as DataRowListItem]);
@@ -256,7 +257,7 @@ describe('DebriefCardComponent', () => {
     });
 
     it('should return data from getTestRequirementsCatD if category is D', () => {
-      spyOn(component, 'getTestRequirementsCatD').and.returnValue([{ label: '1' } as DataRowListItem]);
+      vi.spyOn(component, 'getTestRequirementsCatD').mockReturnValue([{ label: '1' } as DataRowListItem]);
       component.category = TestCategory.D;
 
       expect(component.testRequirements).toEqual([{ label: '1' } as DataRowListItem]);
@@ -264,7 +265,7 @@ describe('DebriefCardComponent', () => {
     });
 
     it('should return data from getTestRequirementsCatHome if category is F', () => {
-      spyOn(component, 'getTestRequirementsCatHome').and.returnValue([{ label: '1' } as DataRowListItem]);
+      vi.spyOn(component, 'getTestRequirementsCatHome').mockReturnValue([{ label: '1' } as DataRowListItem]);
       component.category = TestCategory.F;
 
       expect(component.testRequirements).toEqual([{ label: '1' } as DataRowListItem]);
@@ -298,17 +299,17 @@ describe('DebriefCardComponent', () => {
     it(
       'should return false if isMod2 is false while isValidEmergencyStopOrAvoidance is false' + 'and isMod1 is true',
       () => {
-        spyOn(component, 'isMod2').and.returnValue(false);
-        spyOn(component, 'isValidEmergencyStopOrAvoidance').and.returnValue(false);
-        spyOn(component, 'isMod1').and.returnValue(true);
+        vi.spyOn(component, 'isMod2').mockReturnValue(false);
+        vi.spyOn(component, 'isValidEmergencyStopOrAvoidance').mockReturnValue(false);
+        vi.spyOn(component, 'isMod1').mockReturnValue(true);
 
         expect(component.ETASeparator()).toEqual(false);
       }
     );
     it('should return true if isMod2 while isValidEmergencyStopOrAvoidance is false and isMod1 is true', () => {
-      spyOn(component, 'isMod2').and.returnValue(true);
-      spyOn(component, 'isValidEmergencyStopOrAvoidance').and.returnValue(false);
-      spyOn(component, 'isMod1').and.returnValue(true);
+      vi.spyOn(component, 'isMod2').mockReturnValue(true);
+      vi.spyOn(component, 'isValidEmergencyStopOrAvoidance').mockReturnValue(false);
+      vi.spyOn(component, 'isMod1').mockReturnValue(true);
 
       expect(component.ETASeparator()).toEqual(true);
     });
@@ -316,19 +317,19 @@ describe('DebriefCardComponent', () => {
       'should return true if delegatedTest, isMod1 and isMod2 are all false ' +
         'while the other 2 statements are false',
       () => {
-        spyOn(component, 'isMod2').and.returnValue(false);
-        spyOn(component, 'isValidEmergencyStopOrAvoidance').and.returnValue(false);
+        vi.spyOn(component, 'isMod2').mockReturnValue(false);
+        vi.spyOn(component, 'isValidEmergencyStopOrAvoidance').mockReturnValue(false);
 
-        spyOn(component, 'isMod1').and.returnValue(false);
+        vi.spyOn(component, 'isMod1').mockReturnValue(false);
         component.delegatedTest = false;
 
         expect(component.ETASeparator()).toEqual(true);
       }
     );
     it('should return true if isValidEmergencyStopOrAvoidance while isMod1 is true and isMod2 is false', () => {
-      spyOn(component, 'isMod2').and.returnValue(false);
-      spyOn(component, 'isValidEmergencyStopOrAvoidance').and.returnValue(true);
-      spyOn(component, 'isMod1').and.returnValue(true);
+      vi.spyOn(component, 'isMod2').mockReturnValue(false);
+      vi.spyOn(component, 'isValidEmergencyStopOrAvoidance').mockReturnValue(true);
+      vi.spyOn(component, 'isMod1').mockReturnValue(true);
 
       expect(component.ETASeparator()).toEqual(true);
     });
@@ -336,19 +337,19 @@ describe('DebriefCardComponent', () => {
 
   describe('isValidEmergencyStopOrAvoidance', () => {
     it('should return false if isMod1 is false while emergencyStop and avoidance are empty', () => {
-      spyOn(component, 'isMod1').and.returnValue(false);
+      vi.spyOn(component, 'isMod1').mockReturnValue(false);
       component.data = null;
 
       expect(component.ETASeparator()).toEqual(true);
     });
     it('should return true if isMod1 is true while emergencyStop is not empty' + 'and avoidance is empty', () => {
-      spyOn(component, 'isMod1').and.returnValue(true);
+      vi.spyOn(component, 'isMod1').mockReturnValue(true);
       component.data = { emergencyStop: { firstAttempt: true } } as TestDataUnion;
 
       expect(component.ETASeparator()).toEqual(true);
     });
     it('should return true if isMod1 is true while emergencyStop is empty' + 'and avoidance is not empty', () => {
-      spyOn(component, 'isMod1').and.returnValue(true);
+      vi.spyOn(component, 'isMod1').mockReturnValue(true);
       component.data = { avoidance: { secondAttempt: true } } as TestDataUnion;
 
       expect(component.ETASeparator()).toEqual(true);
@@ -446,9 +447,9 @@ describe('DebriefCardComponent', () => {
   });
   describe('ngOnInit', () => {
     it('should call correct functions', () => {
-      spyOn(component, 'getShowMeQuestion').and.returnValue(null);
-      spyOn(component, 'getTellMeQuestion').and.returnValue(null);
-      spyOn(component, 'getManoeuvres').and.returnValue(null);
+      vi.spyOn(component, 'getShowMeQuestion').mockReturnValue(null);
+      vi.spyOn(component, 'getTellMeQuestion').mockReturnValue(null);
+      vi.spyOn(component, 'getManoeuvres').mockReturnValue(null);
 
       component.ngOnInit();
 

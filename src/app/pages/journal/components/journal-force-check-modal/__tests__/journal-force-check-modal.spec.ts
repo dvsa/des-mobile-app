@@ -7,6 +7,7 @@ import { ModalControllerMock } from '@mocks/ionic-mocks/modal-controller.mock';
 import { CandidateDetailsPage } from '@pages/candidate-details/candidate-details.page';
 import { ModalEvent } from '@pages/fake-journal/components/preview-mode-modal/preview-mode-modal.constants';
 import { CANDIDATE_DETAILS_PAGE } from '@pages/page-names.constants';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { JournalForceCheckModal } from '../journal-force-check-modal';
 
 describe('JournalForceCheckModal', () => {
@@ -33,7 +34,7 @@ describe('JournalForceCheckModal', () => {
 
   describe('onCancel', () => {
     it('should dismiss modal with `cancel` callback', async () => {
-      spyOn(modalController, 'dismiss');
+      vi.spyOn(modalController, 'dismiss').mockReturnValue(undefined);
       await component.onCancel();
       expect(modalController.dismiss).toHaveBeenCalledWith(ModalEvent.CANCEL);
     });
@@ -41,7 +42,7 @@ describe('JournalForceCheckModal', () => {
 
   describe('openCandidateDetailsModal', () => {
     it('should create a modal with the correct parameters', async () => {
-      spyOn(modalController, 'create').and.returnValue(
+      vi.spyOn(modalController, 'create').mockReturnValue(
         Promise.resolve({
           present: async () => {},
           onWillDismiss: () => ({ data: ModalEvent.CANCEL }) as OverlayEventDetail,
@@ -70,7 +71,7 @@ describe('JournalForceCheckModal', () => {
   describe('DOM', () => {
     it('should call onCancel when the Cancel button is clicked', () => {
       fixture.detectChanges();
-      spyOn(component, 'onCancel');
+      vi.spyOn(component, 'onCancel').mockReturnValue(undefined);
       const button = fixture.debugElement.query(By.css('#return-to-journal-button'));
       button.triggerEventHandler('click', null);
 

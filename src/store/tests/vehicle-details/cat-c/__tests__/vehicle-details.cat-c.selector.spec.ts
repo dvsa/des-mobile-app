@@ -1,4 +1,5 @@
 import { CatCUniqueTypes } from '@dvsa/mes-test-schema/categories/C';
+import { describe, expect, it } from 'vitest';
 import { getVehicleLength, getVehicleWidth } from '../vehicle-details.cat-c.selector';
 
 describe('vehicle details CAT C selector', () => {

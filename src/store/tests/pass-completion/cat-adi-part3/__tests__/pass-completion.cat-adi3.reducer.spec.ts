@@ -1,4 +1,5 @@
 import { passCompletionCatADI3Reducer } from '@store/tests/pass-completion/cat-adi-part3/pass-completion.cat-adi3.reducer';
+import { describe, expect, it } from 'vitest';
 import * as fromTestSummaryActions from '../../pass-completion.actions';
 
 describe('passCompletionCatADI3Reducer', () => {

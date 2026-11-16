@@ -3,6 +3,7 @@ import { HttpTestingController, provideHttpClientTesting } from '@angular/common
 import { TestBed } from '@angular/core/testing';
 import { RekeySearchParams } from '@providers/rekey-search/rekey-search.model';
 import { take } from 'rxjs/operators';
+import { afterAll, beforeEach, describe, expect, it, vi } from 'vitest';
 import { UrlProviderMock } from '../../url/__mocks__/url.mock';
 import { UrlProvider } from '../../url/url';
 import { RekeySearchProvider } from '../rekey-search';
@@ -29,7 +30,7 @@ describe('RekeySearchProvider', () => {
     httpMock = TestBed.inject(HttpTestingController);
     rekeySearchProvider = TestBed.inject(RekeySearchProvider);
     urlProvider = TestBed.inject(UrlProvider);
-    spyOn(urlProvider, 'getRekeySearchUrl');
+    vi.spyOn(urlProvider, 'getRekeySearchUrl');
   });
 
   afterAll(() => {

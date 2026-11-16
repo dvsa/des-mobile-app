@@ -1,6 +1,7 @@
 import { SimpleChanges } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ChartComponent } from '@components/common/chart/chart';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { NgApexchartsModule } from 'ng-apexcharts';
 import { MockModule } from 'ng-mocks';
@@ -39,13 +40,13 @@ describe('ChartComponent', () => {
       expect(component.dataValues).toEqual([2, 3]);
     });
     it('should leave values as an array if getChartType returns 1Axis', () => {
-      spyOn(component, 'getChartType').and.returnValue('1Axis');
+      vi.spyOn(component, 'getChartType').mockReturnValue('1Axis');
 
       component.filterData();
       expect(component.dataValues).toEqual([2, 3]);
     });
     it('should move values into an object if getChartType returns 2Axis', () => {
-      spyOn(component, 'getChartType').and.returnValue('2Axis');
+      vi.spyOn(component, 'getChartType').mockReturnValue('2Axis');
 
       component.filterData();
       expect(component.dataValues).toEqual([{ data: [2, 3] }]);
@@ -213,7 +214,7 @@ describe('ChartComponent', () => {
 
   describe('ngOnChanges', () => {
     it('should run filterData with options if dataChanged is true', () => {
-      spyOn(component, 'filterData');
+      vi.spyOn(component, 'filterData').mockReturnValue(undefined);
 
       const changes: SimpleChanges = {
         data: {

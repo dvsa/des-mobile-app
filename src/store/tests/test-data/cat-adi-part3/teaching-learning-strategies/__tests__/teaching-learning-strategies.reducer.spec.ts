@@ -1,4 +1,5 @@
 import { teachingLearningStrategiesReducer } from '@store/tests/test-data/cat-adi-part3/teaching-learning-strategies/teaching-learning-strategies.reducer';
+import { describe, expect, it } from 'vitest';
 import * as teachingLearningStrategiesActions from '../teaching-learning-strategies.actions';
 
 describe('vehicleDetailsCatDReducer', () => {

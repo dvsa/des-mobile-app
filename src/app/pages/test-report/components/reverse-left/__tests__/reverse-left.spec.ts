@@ -4,6 +4,7 @@ import { DrivingFaultsBadgeComponent } from '@components/common/driving-faults-b
 import { SeriousFaultBadgeComponent } from '@components/common/serious-fault-badge/serious-fault-badge';
 import { TickIndicatorComponent } from '@components/common/tick-indicator/tick-indicator';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
+import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { Store, StoreModule } from '@ngrx/store';
 import { ManoeuvresByCategoryProvider } from '@providers/manoeuvres-by-category/manoeuvres-by-category';
@@ -122,11 +123,11 @@ describe('ReverseLeftComponent', () => {
     });
 
     describe('togglePopoverDisplay', () => {
-      let storeDispatchSpy: jasmine.Spy;
-      let toggleOverlaySpy: jasmine.Spy;
+      let storeDispatchSpy: Mock;
+      let toggleOverlaySpy: Mock;
       beforeEach(() => {
-        storeDispatchSpy = spyOn(store$, 'dispatch');
-        toggleOverlaySpy = spyOn(component, 'toggleOverlay');
+        storeDispatchSpy = vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
+        toggleOverlaySpy = vi.spyOn(component, 'toggleOverlay').mockReturnValue(undefined);
       });
       it('should dispatch ReverseLeftPopoverClosed and set displayPopover to false', () => {
         component.displayPopover = true;
@@ -147,7 +148,7 @@ describe('ReverseLeftComponent', () => {
     describe('toggleReverseLeft', () => {
       describe('when reverseLeft is selected and there are no faults', () => {
         it('should deselect the manoeuvre', () => {
-          const storeDispatchSpy = spyOn(store$, 'dispatch');
+          const storeDispatchSpy = vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
           component.testCategory = TestCategory.C;
           // Test category has to be defined otherwise provider will throw an error trying to fetch an undefined cat
           component.ngOnInit();
@@ -158,7 +159,7 @@ describe('ReverseLeftComponent', () => {
       });
       describe('when reverseLeft is not selected', () => {
         it('should record the manoeuvre', () => {
-          const storeDispatchSpy = spyOn(store$, 'dispatch');
+          const storeDispatchSpy = vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
           component.completedReverseLeft = false;
           component.toggleReverseLeft();
           expect(storeDispatchSpy).toHaveBeenCalledWith(RecordManoeuvresSelection(ManoeuvreTypes.reverseLeft));
@@ -171,7 +172,7 @@ describe('ReverseLeftComponent', () => {
         component.clickCallback = {
           callbackMethod: () => {},
         };
-        const callbackMethodSpy = spyOn(component.clickCallback, 'callbackMethod');
+        const callbackMethodSpy = vi.spyOn(component.clickCallback, 'callbackMethod').mockReturnValue(undefined);
         component.toggleOverlay();
         expect(callbackMethodSpy).toHaveBeenCalled();
       });

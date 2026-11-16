@@ -1,4 +1,5 @@
 import { Examiner } from '@dvsa/mes-test-schema/categories/common';
+import { describe, expect, it } from 'vitest';
 import { PopulateExaminer } from '../examiner.actions';
 import { examinerReducer } from '../examiner.reducer';
 

@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { ModalController } from '@ionic/angular';
 import { ModalControllerMock } from '@mocks/ionic-mocks/modal-controller.mock';
 import { FinishTestModal } from '@pages/office/components/finish-test-modal/finish-test-modal';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 describe('FinishTestModal', () => {
   let modalFixture: ComponentFixture<FinishTestModal>;
@@ -17,9 +18,9 @@ describe('FinishTestModal', () => {
 
     modalFixture = TestBed.createComponent(FinishTestModal);
     modalComponent = modalFixture.componentInstance;
-    spyOn(modalComponent.modalController, 'dismiss').and.returnValue(Promise.resolve(true));
-    modalComponent.completeTest = jasmine.createSpy('completeTest');
-    modalComponent.destroyTestSubs = jasmine.createSpy('destroyTestSubs');
+    vi.spyOn(modalComponent.modalController, 'dismiss').mockReturnValue(Promise.resolve(true));
+    modalComponent.completeTest = vi.fn();
+    modalComponent.destroyTestSubs = vi.fn();
   });
 
   describe('onCompleteTest', () => {

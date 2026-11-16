@@ -5,6 +5,7 @@ import { lgvQuestion5 } from '@shared/constants/cpc-questions/cpc-lgv-questions.
 import { pcvQuestion5 } from '@shared/constants/cpc-questions/cpc-pcv-questions.constants';
 import { Combination, QuestionNumber } from '@shared/constants/cpc-questions/cpc-question-combinations.constants';
 import { question, question5 } from '@store/tests/test-data/cat-cpc/__tests__/test-data.cat-cpc.mock';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { CPCQuestionProvider } from '../cpc-questions';
 
 describe('CPCQuestionProvider', () => {
@@ -59,7 +60,7 @@ describe('CPCQuestionProvider', () => {
 
   describe('getQuestionScore', () => {
     beforeEach(() => {
-      spyOn(cpcQuestionProvider, 'roundToNearestFive').and.callThrough();
+      vi.spyOn(cpcQuestionProvider, 'roundToNearestFive');
     });
 
     it('should increment the total question score by 5 for every answer that is true', () => {

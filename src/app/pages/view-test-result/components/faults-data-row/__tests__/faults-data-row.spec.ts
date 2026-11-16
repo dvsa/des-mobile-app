@@ -2,6 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { DangerousFaultBadgeComponent } from '@components/common/dangerous-fault-badge/dangerous-fault-badge';
 import { DrivingFaultsBadgeComponent } from '@components/common/driving-faults-badge/driving-faults-badge';
 import { SeriousFaultBadgeComponent } from '@components/common/serious-fault-badge/serious-fault-badge';
+import { beforeEach, describe, expect, it } from 'vitest';
 
 import { AccessibilityServiceMock } from '@providers/accessibility/__mocks__/accessibility-service.mock';
 import { AccessibilityService } from '@providers/accessibility/accessibility.service';

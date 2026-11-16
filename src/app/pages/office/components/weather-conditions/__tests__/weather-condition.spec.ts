@@ -1,5 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { WeatherConditionsComponent } from '@pages/office/components/weather-conditions/weather-conditions';
 import { OutcomeBehaviourMapProvider, VisibilityType } from '@providers/outcome-behaviour-map/outcome-behaviour-map';
@@ -26,7 +27,7 @@ describe('WeatherConditionsComponent', () => {
       component.formGroup.addControl(WeatherConditionsComponent.fieldName, component.formControl);
       component.formGroup.get(WeatherConditionsComponent.fieldName).setValidators([Validators.required]);
 
-      spyOn(component.outcomeBehaviourProvider, 'getVisibilityType').and.returnValue(VisibilityType.NotVisible);
+      vi.spyOn(component.outcomeBehaviourProvider, 'getVisibilityType').mockReturnValue(VisibilityType.NotVisible);
       component.ngOnChanges();
 
       expect(component.formGroup.get(WeatherConditionsComponent.fieldName).hasValidator(Validators.required)).toBe(
@@ -36,7 +37,7 @@ describe('WeatherConditionsComponent', () => {
     it('should set validators to FormControl if visibilityType is not VisibilityType.NotVisible', () => {
       component.formGroup = new UntypedFormGroup({});
 
-      spyOn(component.outcomeBehaviourProvider, 'getVisibilityType').and.returnValue(VisibilityType.Visible);
+      vi.spyOn(component.outcomeBehaviourProvider, 'getVisibilityType').mockReturnValue(VisibilityType.Visible);
       component.ngOnChanges();
 
       expect(component.formGroup.get(WeatherConditionsComponent.fieldName).hasValidator(Validators.required)).toBe(
@@ -48,21 +49,21 @@ describe('WeatherConditionsComponent', () => {
   describe('weatherConditionsChanged', () => {
     it('should emit weatherConditions', () => {
       component.formControl = new UntypedFormControl([]);
-      spyOn(component.weatherConditionsChange, 'emit');
+      vi.spyOn(component.weatherConditionsChange, 'emit').mockReturnValue(undefined);
 
       component.weatherConditionsChanged(['Showers']);
       expect(component.weatherConditionsChange.emit).toHaveBeenCalledWith(['Showers']);
     });
     it('should mark the field as pristine if the passed array is empty', () => {
       component.formControl = new UntypedFormControl([]);
-      spyOn(component.formControl, 'markAsPristine');
+      vi.spyOn(component.formControl, 'markAsPristine').mockReturnValue(undefined);
 
       component.weatherConditionsChanged([]);
       expect(component.formControl.markAsPristine).toHaveBeenCalled();
     });
     it('should not mark the field as pristine if the passed array is empty', () => {
       component.formControl = new UntypedFormControl([]);
-      spyOn(component.formControl, 'markAsPristine');
+      vi.spyOn(component.formControl, 'markAsPristine').mockReturnValue(undefined);
 
       component.weatherConditionsChanged(['Icy']);
       expect(component.formControl.markAsPristine).not.toHaveBeenCalled();

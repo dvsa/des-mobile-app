@@ -1,4 +1,5 @@
 import { passCompletionCatCPCReducer } from '@store/tests/pass-completion/cat-cpc/pass-completion.cat-cpc.reducer';
+import { describe, expect, it } from 'vitest';
 import * as passCompletionActions from '../../pass-completion.actions';
 
 describe('passCompletionCatCPCReducer', () => {

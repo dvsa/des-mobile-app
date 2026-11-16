@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule, UntypedFormGroup } from '@angular/forms';
 import { By } from '@angular/platform-browser';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { FaultSummary } from '@shared/models/fault-marking.model';
 
@@ -69,7 +70,7 @@ describe('FaultCommentCardComponent', () => {
   });
   describe('faultCommentChanged', () => {
     it('should emit faultCommentsChange with faultComment', () => {
-      spyOn(component.faultCommentsChange, 'emit');
+      vi.spyOn(component.faultCommentsChange, 'emit').mockReturnValue(undefined);
       component.faultCommentChanged({ competencyIdentifier: 'test' } as FaultSummary);
       expect(component.faultCommentsChange.emit).toHaveBeenCalledWith({ competencyIdentifier: 'test' } as FaultSummary);
     });

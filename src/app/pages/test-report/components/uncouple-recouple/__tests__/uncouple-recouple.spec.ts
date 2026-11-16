@@ -4,6 +4,7 @@ import { DrivingFaultsBadgeComponent } from '@components/common/driving-faults-b
 import { SeriousFaultBadgeComponent } from '@components/common/serious-fault-badge/serious-fault-badge';
 import { TickIndicatorComponent } from '@components/common/tick-indicator/tick-indicator';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { Store, StoreModule } from '@ngrx/store';
 import { CompetencyButtonComponent } from '@pages/test-report/components/competency-button/competency-button';
@@ -49,48 +50,48 @@ describe('UncoupleRecoupleComponent', () => {
   describe('Class', () => {
     describe('Add Driving Fault', () => {
       it('should dispatch an UNCOUPLE_RECOUPLE_ADD_DRIVING_FAULT action for press', () => {
-        const storeDispatchSpy = spyOn(store$, 'dispatch');
+        const storeDispatchSpy = vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
         component.addOrRemoveFault(true);
         expect(storeDispatchSpy).toHaveBeenCalledWith(UncoupleRecoupleAddDrivingFault());
       });
 
       it('should not dispatch an UNCOUPLE_RECOUPLE_ADD_DRIVING_FAULT action for tap', () => {
-        const storeDispatchSpy = spyOn(store$, 'dispatch');
+        const storeDispatchSpy = vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
         component.addOrRemoveFault();
         expect(storeDispatchSpy).not.toHaveBeenCalledWith(UncoupleRecoupleAddDrivingFault());
       });
 
       it('should not dispatch an UNCOUPLE_RECOUPLE_ADD_DRIVING_FAULT action if there is already a driving fault', () => {
         component.uncoupleRecoupleOutcome = CompetencyOutcome.DF;
-        const storeDispatchSpy = spyOn(store$, 'dispatch');
+        const storeDispatchSpy = vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
         component.addOrRemoveFault(true);
         expect(storeDispatchSpy).not.toHaveBeenCalledWith(UncoupleRecoupleAddDrivingFault());
       });
 
       it('should not dispatch an UNCOUPLE_RECOUPLE_ADD_DRIVING_FAULT action if there is a serious fault', () => {
         component.uncoupleRecoupleOutcome = CompetencyOutcome.S;
-        const storeDispatchSpy = spyOn(store$, 'dispatch');
+        const storeDispatchSpy = vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
         component.addOrRemoveFault();
         expect(storeDispatchSpy).not.toHaveBeenCalledWith(UncoupleRecoupleAddDrivingFault());
       });
 
       it('should not dispatch an UNCOUPLE_RECOUPLE_ADD_DRIVING_FAULT action if serious mode is active', () => {
         component.isSeriousMode = true;
-        const storeDispatchSpy = spyOn(store$, 'dispatch');
+        const storeDispatchSpy = vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
         component.addOrRemoveFault();
         expect(storeDispatchSpy).not.toHaveBeenCalledWith(UncoupleRecoupleAddDrivingFault());
       });
 
       it('should not dispatch an UNCOUPLE_RECOUPLE_ADD_DRIVING_FAULT action if there is a dangerous fault', () => {
         component.uncoupleRecoupleOutcome = CompetencyOutcome.D;
-        const storeDispatchSpy = spyOn(store$, 'dispatch');
+        const storeDispatchSpy = vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
         component.addOrRemoveFault();
         expect(storeDispatchSpy).not.toHaveBeenCalledWith(UncoupleRecoupleAddDrivingFault());
       });
 
       it('should not dispatch an UNCOUPLE_RECOUPLE_ADD_DRIVING_FAULT action if dangerous mode is active', () => {
         component.isDangerousMode = true;
-        const storeDispatchSpy = spyOn(store$, 'dispatch');
+        const storeDispatchSpy = vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
         component.addOrRemoveFault();
         expect(storeDispatchSpy).not.toHaveBeenCalledWith(UncoupleRecoupleAddDrivingFault());
       });
@@ -100,7 +101,7 @@ describe('UncoupleRecoupleComponent', () => {
       it('should dispatch an UNCOUPLE_RECOUPLE_REMOVE_FAULT action for press', () => {
         component.isRemoveFaultMode = true;
         component.uncoupleRecoupleOutcome = CompetencyOutcome.DF;
-        const storeDispatchSpy = spyOn(store$, 'dispatch');
+        const storeDispatchSpy = vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
         component.addOrRemoveFault(true);
         expect(storeDispatchSpy).toHaveBeenCalledWith(UncoupleRecoupleRemoveFault());
       });
@@ -108,7 +109,7 @@ describe('UncoupleRecoupleComponent', () => {
       it('should dispatch an UNCOUPLE_RECOUPLE_REMOVE_FAULT action for tap', () => {
         component.isRemoveFaultMode = true;
         component.uncoupleRecoupleOutcome = CompetencyOutcome.DF;
-        const storeDispatchSpy = spyOn(store$, 'dispatch');
+        const storeDispatchSpy = vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
         component.addOrRemoveFault();
         expect(storeDispatchSpy).toHaveBeenCalledWith(UncoupleRecoupleRemoveFault());
       });
@@ -117,7 +118,7 @@ describe('UncoupleRecoupleComponent', () => {
         component.isRemoveFaultMode = true;
         component.isSeriousMode = true;
         component.uncoupleRecoupleOutcome = CompetencyOutcome.D;
-        const storeDispatchSpy = spyOn(store$, 'dispatch');
+        const storeDispatchSpy = vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
         component.addOrRemoveFault();
         expect(storeDispatchSpy).not.toHaveBeenCalledWith(UncoupleRecoupleRemoveFault());
       });
@@ -126,7 +127,7 @@ describe('UncoupleRecoupleComponent', () => {
         component.isRemoveFaultMode = true;
         component.isSeriousMode = true;
         component.uncoupleRecoupleOutcome = CompetencyOutcome.S;
-        const storeDispatchSpy = spyOn(store$, 'dispatch');
+        const storeDispatchSpy = vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
         component.addOrRemoveFault(true);
         expect(storeDispatchSpy).toHaveBeenCalledWith(UncoupleRecoupleRemoveFault());
         expect(storeDispatchSpy).toHaveBeenCalledWith(ToggleSeriousFaultMode());
@@ -136,7 +137,7 @@ describe('UncoupleRecoupleComponent', () => {
         component.isRemoveFaultMode = true;
         component.isDangerousMode = true;
         component.uncoupleRecoupleOutcome = CompetencyOutcome.D;
-        const storeDispatchSpy = spyOn(store$, 'dispatch');
+        const storeDispatchSpy = vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
         component.addOrRemoveFault();
         expect(storeDispatchSpy).toHaveBeenCalledWith(UncoupleRecoupleRemoveFault());
       });

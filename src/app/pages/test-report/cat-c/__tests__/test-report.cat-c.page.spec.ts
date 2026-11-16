@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { PracticeModeOptionsBar } from '@components/common/practice-mode-options-bar/practice-mode-options-bar';
 import { TestFlowHeaderComponent } from '@components/common/test-flow-header/test-flow-header.component';
@@ -94,7 +95,7 @@ describe('TestReportCatCPage', () => {
   describe('Class', () => {
     describe('ngOnInit', () => {
       it('should call setupSubscription on ngOnInit', () => {
-        spyOn(component, 'setupSubscription');
+        vi.spyOn(component, 'setupSubscription').mockReturnValue(undefined);
         component.ngOnInit();
         expect(component.setupSubscription).toHaveBeenCalled();
       });
@@ -102,8 +103,8 @@ describe('TestReportCatCPage', () => {
 
     describe('ionViewDidLeave', () => {
       it("should call the base page's ionViewDidLeave and cancelSubscription", () => {
-        spyOn(TestReportBasePageComponent.prototype, 'ionViewDidLeave');
-        spyOn(TestReportBasePageComponent.prototype, 'cancelSubscription');
+        vi.spyOn(TestReportBasePageComponent.prototype, 'ionViewDidLeave').mockReturnValue(undefined);
+        vi.spyOn(TestReportBasePageComponent.prototype, 'cancelSubscription').mockReturnValue(undefined);
         component.ionViewDidLeave();
         expect(TestReportBasePageComponent.prototype.ionViewDidLeave).toHaveBeenCalled();
         expect(TestReportBasePageComponent.prototype.cancelSubscription).toHaveBeenCalled();

@@ -1,5 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { VisibilityType } from '@providers/outcome-behaviour-map/outcome-behaviour-map';
 import { CircuitType } from '@shared/models/circuit-type';
@@ -29,7 +30,7 @@ describe('FurtherDevelopmentComponent', () => {
       component.formGroup.addControl(FurtherDevelopmentComponent.fieldName, component.formControl);
       component.formGroup.get(FurtherDevelopmentComponent.fieldName).setValidators([Validators.required]);
 
-      spyOn(component.outcomeBehaviourProvider, 'getVisibilityType').and.returnValue(VisibilityType.NotVisible);
+      vi.spyOn(component.outcomeBehaviourProvider, 'getVisibilityType').mockReturnValue(VisibilityType.NotVisible);
       component.ngOnChanges();
 
       expect(component.formGroup.get(FurtherDevelopmentComponent.fieldName).hasValidator(Validators.required)).toBe(
@@ -39,7 +40,7 @@ describe('FurtherDevelopmentComponent', () => {
     it('should set validators to FormControl if visibilityType is not VisibilityType.NotVisible', () => {
       component.formGroup = new UntypedFormGroup({});
 
-      spyOn(component.outcomeBehaviourProvider, 'getVisibilityType').and.returnValue(VisibilityType.Visible);
+      vi.spyOn(component.outcomeBehaviourProvider, 'getVisibilityType').mockReturnValue(VisibilityType.Visible);
       component.ngOnChanges();
 
       expect(component.formGroup.get(FurtherDevelopmentComponent.fieldName).hasValidator(Validators.required)).toBe(
@@ -78,7 +79,7 @@ describe('FurtherDevelopmentComponent', () => {
 
   describe('furtherDevelopmentChanged', () => {
     it('should emit true while from control is valid and the value passed in is "true"', () => {
-      spyOn(component.furtherDevelopmentChange, 'emit');
+      vi.spyOn(component.furtherDevelopmentChange, 'emit').mockReturnValue(undefined);
       component.formGroup = new UntypedFormGroup({});
       component.ngOnChanges();
 
@@ -89,7 +90,7 @@ describe('FurtherDevelopmentComponent', () => {
       expect(component.furtherDevelopmentChange.emit).toHaveBeenCalledWith(true);
     });
     it('should emit false while from control is valid and the value passed in is not "true"', () => {
-      spyOn(component.furtherDevelopmentChange, 'emit');
+      vi.spyOn(component.furtherDevelopmentChange, 'emit').mockReturnValue(undefined);
       component.formGroup = new UntypedFormGroup({});
       component.ngOnChanges();
 
@@ -100,7 +101,7 @@ describe('FurtherDevelopmentComponent', () => {
       expect(component.furtherDevelopmentChange.emit).toHaveBeenCalledWith(false);
     });
     it('should not emit independentDriving while from control is not valid', () => {
-      spyOn(component.furtherDevelopmentChange, 'emit');
+      vi.spyOn(component.furtherDevelopmentChange, 'emit').mockReturnValue(undefined);
       component.formGroup = new UntypedFormGroup({});
 
       component.ngOnChanges();

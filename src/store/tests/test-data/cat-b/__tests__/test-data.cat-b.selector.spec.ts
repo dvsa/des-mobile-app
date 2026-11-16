@@ -5,6 +5,7 @@ import { cloneDeep } from 'lodash-es';
 import { behaviourMap } from 'src/app/pages/office/office-behaviour-map';
 import { OutcomeBehaviourMapProvider } from 'src/app/providers/outcome-behaviour-map/outcome-behaviour-map';
 import { VehicleChecksQuestion } from 'src/app/providers/question/vehicle-checks-question.model';
+import { describe, expect, it } from 'vitest';
 import {
   getEcoFaultText,
   getShowMeQuestionOptions,

@@ -10,6 +10,7 @@ import {
   TrueLikenessToPhotoChanged,
   WeatherConditionsChanged,
 } from '@store/tests/test-summary/test-summary.actions';
+import { describe, expect, it } from 'vitest';
 import { initialState, testSummaryMod1Reducer } from '../test-summary.cat-a-mod1.reducer';
 
 describe('testSummaryMod1Reducer', () => {

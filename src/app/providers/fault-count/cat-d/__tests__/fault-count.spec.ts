@@ -1,3 +1,4 @@
+import { describe, expect, it } from 'vitest';
 import { vehicleChecksFiveFaults, vehicleChecksTwoFaults } from '../../__mocks__/cat-D-test-data-state-object.mock';
 import { FaultCountDHelper } from '../fault-count.cat-d';
 

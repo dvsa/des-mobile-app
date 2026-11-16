@@ -3,6 +3,7 @@ import { Component, DebugElement, ElementRef } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { InputRestrictionNumbersDirective } from '@directives/input-restriction-numbers.directive';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 @Component({
   imports: [InputRestrictionNumbersDirective],
@@ -44,7 +45,7 @@ describe('Directive: InputRestrictionNumbersDirective', () => {
         preventDefault() {},
         key: 10,
       } as unknown as KeyboardEvent;
-      spyOn(e, 'preventDefault');
+      vi.spyOn(e, 'preventDefault').mockReturnValue(undefined);
       directiveInstance.onKeyDown(e);
       expect(e.preventDefault).toHaveBeenCalled();
     });
@@ -53,7 +54,7 @@ describe('Directive: InputRestrictionNumbersDirective', () => {
         preventDefault() {},
         key: 8,
       } as unknown as KeyboardEvent;
-      spyOn(e, 'preventDefault');
+      vi.spyOn(e, 'preventDefault').mockReturnValue(undefined);
       directiveInstance.onKeyDown(e);
       expect(e.preventDefault).not.toHaveBeenCalled();
     });

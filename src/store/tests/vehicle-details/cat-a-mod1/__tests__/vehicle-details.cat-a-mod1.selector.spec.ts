@@ -1,4 +1,5 @@
 import { VehicleDetails } from '@dvsa/mes-test-schema/categories/AM1';
+import { describe, expect, it } from 'vitest';
 import { getSchoolBike } from '../vehicle-details.cat-a-mod1.selector';
 
 describe('vehicle details CAT A Mod 1 selector', () => {

@@ -5,6 +5,7 @@ import { ActivityCodeComponent } from '@components/common/activity-code/activity
 import { TestFlowHeaderComponent } from '@components/common/test-flow-header/test-flow-header.component';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { NavController, ToastController } from '@ionic/angular';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { provideBasePageMocks } from '@mocks/test-providers';
 import { Store, StoreModule } from '@ngrx/store';
@@ -79,6 +80,7 @@ describe('OfficeCatAMod1Page', () => {
             startedTests: {
               123: {
                 category: TestCategory.EUAM1,
+                delegatedTest: false,
                 vehicleDetails: {},
                 accompaniment: {},
                 testSummary: {},
@@ -96,6 +98,11 @@ describe('OfficeCatAMod1Page', () => {
                 },
                 activityCode: '28',
                 journalData: {
+                  applicationReference: {
+                    applicationId: 1,
+                    bookingSequence: 1,
+                    checkDigit: 1,
+                  },
                   testSlotAttributes: { start: '2026-01-01T09:00:00' },
                   candidate: {
                     candidateName: 'Joe Bloggs',
@@ -148,7 +155,7 @@ describe('OfficeCatAMod1Page', () => {
     fixture = TestBed.createComponent(OfficeCatAMod1Page);
     component = fixture.componentInstance;
     store$ = TestBed.inject(Store);
-    spyOn(store$, 'dispatch');
+    vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
   });
 
   describe('DOM', () => {
@@ -211,7 +218,7 @@ describe('OfficeCatAMod1Page', () => {
 
     describe('deferring the write up', () => {
       it('should dispatch an action to persist tests + pop navstack to root when defer is called', () => {
-        spyOn(component, 'popToRoot');
+        vi.spyOn(component, 'popToRoot').mockReturnValue(undefined);
         fixture.detectChanges();
         component.hasNavigatedFromUnsubmitted = false;
         component.defer();
@@ -222,9 +229,9 @@ describe('OfficeCatAMod1Page', () => {
     describe('ionViewWillEnter', () => {
       it('should disable single app mode if it not in practice mode and isIos is true', async () => {
         component.isPracticeMode = false;
-        spyOn(BasePageComponent.prototype, 'isIos').and.returnValue(true);
-        spyOn(BasePageComponent.prototype, 'ionViewWillEnter');
-        spyOn(component.deviceProvider, 'disableSingleAppMode');
+        vi.spyOn(BasePageComponent.prototype, 'isIos').mockReturnValue(true);
+        vi.spyOn(BasePageComponent.prototype, 'ionViewWillEnter').mockReturnValue(undefined);
+        vi.spyOn(component.deviceProvider, 'disableSingleAppMode');
         await component.ionViewWillEnter();
         expect(component.deviceProvider.disableSingleAppMode).toHaveBeenCalled();
       });

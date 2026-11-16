@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { ModalController } from '@ionic/angular';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { ModalControllerMock } from '@mocks/ionic-mocks/modal-controller.mock';
 import { UploadRekeyModal } from '../upload-rekey-modal';
@@ -24,7 +25,7 @@ describe('UploadRekeyModal', () => {
   describe('DOM', () => {
     it('should call the provided onCancel function when cancelling the upload', () => {
       fixture.detectChanges();
-      spyOn(component, 'onCancel');
+      vi.spyOn(component, 'onCancel').mockReturnValue(undefined);
       const button = fixture.debugElement.query(By.css('.cancel-button'));
       button.triggerEventHandler('click', null);
 
@@ -33,7 +34,7 @@ describe('UploadRekeyModal', () => {
     });
     it('should call the provided onUpload function when confirming the upload', () => {
       fixture.detectChanges();
-      spyOn(component, 'onUpload');
+      vi.spyOn(component, 'onUpload').mockReturnValue(undefined);
       const button = fixture.debugElement.query(By.css('.upload-button'));
       button.triggerEventHandler('click', null);
 

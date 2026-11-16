@@ -6,6 +6,7 @@ import {
   ToggleInsuranceDeclaration,
   ToggleResidencyDeclaration,
 } from '@store/tests/pre-test-declarations/pre-test-declarations.actions';
+import { describe, expect, it } from 'vitest';
 import { CbtNumberChanged } from '../../cat-a/pre-test-declarations.cat-a.actions';
 import { initialState, preTestDeclarationsCatAMod1Reducer } from '../pre-test-declarations.cat-a-mod1.reducer';
 

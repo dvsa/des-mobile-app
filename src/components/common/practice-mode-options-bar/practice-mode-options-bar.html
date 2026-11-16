@@ -12,7 +12,8 @@
   <ion-col class="align-center">
     <ion-buttons class="practice-mode-options-bar-button align-center">
       <ion-button
-        class="width-100"
+        [id]="pageName+'-practice-mode-cancel'"
+      class="width-100"
         (click)="cancelExitPracticeMode()">
         <ion-text class="practice-mode-options-bar-text">Cancel</ion-text>
       </ion-button>
@@ -22,6 +23,7 @@
   <ion-col class="align-center">
     <ion-buttons class="practice-mode-options-bar-button align-center">
       <ion-button
+        [id]="pageName+'-practice-mode-continue'"
         class="width-100"
         (click)="exitPracticeMode()">
         <ion-text class="practice-mode-options-bar-text">Continue</ion-text>

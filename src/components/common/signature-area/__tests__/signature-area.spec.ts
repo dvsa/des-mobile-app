@@ -1,6 +1,7 @@
 import { NgSignaturePadOptions, SignaturePadComponent } from '@almothafar/angular-signature-pad';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { Store } from '@ngrx/store';
 import { MockComponent } from 'ng-mocks';
@@ -38,21 +39,21 @@ describe('SignatureAreaComponent', () => {
   describe('Class', () => {
     describe('signature', () => {
       it('setSignature should update the signature property and call signatureDataChangedDispatch', async () => {
-        spyOn(component, 'signatureDataChangedDispatch');
+        vi.spyOn(component, 'signatureDataChangedDispatch').mockReturnValue(undefined);
         component.signature = undefined;
         await component.setSignature('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAyEAAAD');
         expect(component.signature).toEqual('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAyEAAAD');
         expect(component.signatureDataChangedDispatch).toHaveBeenCalled();
       });
       it('clear should clear the signature property and call signatureDataClearedDispatch', () => {
-        spyOn(component, 'signatureDataClearedDispatch');
+        vi.spyOn(component, 'signatureDataClearedDispatch').mockReturnValue(undefined);
         component.signature = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAyEAAAD';
         component.clear();
         expect(component.signature).toBeNull();
         expect(component.signatureDataClearedDispatch).toHaveBeenCalled();
       });
       it('drawComplete should call signatureDataChangedDispatch', () => {
-        spyOn(component, 'signatureDataChangedDispatch');
+        vi.spyOn(component, 'signatureDataChangedDispatch').mockReturnValue(undefined);
         component.drawComplete();
         expect(component.signatureDataChangedDispatch).toHaveBeenCalled();
       });

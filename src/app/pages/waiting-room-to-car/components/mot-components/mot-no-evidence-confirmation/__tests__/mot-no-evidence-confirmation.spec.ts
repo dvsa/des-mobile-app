@@ -1,5 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { Store, StoreModule } from '@ngrx/store';
 
@@ -42,19 +43,19 @@ describe('MotNoEvidenceConfirmationComponent', () => {
     component = fixture.componentInstance;
     router = TestBed.inject(Router);
     store$ = TestBed.inject(Store);
-    spyOn(store$, 'dispatch');
+    vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
   });
 
   describe('DOM', () => {
     it('should call the cancel function when cancel is pressed', () => {
-      const cancelSpy = jasmine.createSpy('onCancel');
+      const cancelSpy = vi.fn();
       component.cancelFn = cancelSpy;
       const cancelButton = fixture.debugElement.query(By.css('#cancel-mot-no-evidence'));
       cancelButton.triggerEventHandler('click', null);
       expect(cancelSpy).toHaveBeenCalled();
     });
     it('should navigate to debrief when continue is pressed', () => {
-      spyOn(router, 'navigate');
+      vi.spyOn(router, 'navigate');
       const confirmButton = fixture.debugElement.query(By.css('#confirm-mot-no-evidence'));
       component.nextPageOnFail = CAT_B.DEBRIEF_PAGE;
       confirmButton.triggerEventHandler('click', null);

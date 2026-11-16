@@ -1,6 +1,7 @@
 import { DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
+import { beforeEach, describe, expect, it } from 'vitest';
 
 import { IonText } from '@ionic/angular';
 import { LogHelperMock } from '@providers/logs/__mocks__/logs-helper.mock';

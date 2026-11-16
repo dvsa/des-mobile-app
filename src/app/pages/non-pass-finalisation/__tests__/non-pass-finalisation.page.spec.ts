@@ -1,7 +1,8 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Data, Router } from '@angular/router';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { Store } from '@ngrx/store';
 import { MockComponent } from 'ng-mocks';
@@ -155,16 +156,16 @@ describe('NonPassFinalisationPage', () => {
     fixture = TestBed.createComponent(NonPassFinalisationPage);
     component = fixture.componentInstance;
     store$ = TestBed.inject(Store);
-    spyOn(store$, 'dispatch');
+    vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
     router = TestBed.inject(Router);
     outcomeBehaviourProvider = TestBed.inject(OutcomeBehaviourMapProvider);
-    spyOn(router, 'navigate');
+    vi.spyOn(router, 'navigate');
   });
 
   describe('Class', () => {
     describe('ngOnInit', () => {
       it('should resolve state variables', () => {
-        spyOn(outcomeBehaviourProvider, 'isVisible').and.returnValue(true);
+        vi.spyOn(outcomeBehaviourProvider, 'isVisible').mockReturnValue(true);
 
         component.ngOnInit();
         component.pageState.displayDebriefWitnessed$.pipe(take(1)).subscribe((res) => expect(res).toEqual(true));
@@ -234,7 +235,7 @@ describe('NonPassFinalisationPage', () => {
     describe('onCancel', () => {
       it('should dismiss modal', async () => {
         await component.openTestDataValidationModal();
-        spyOn(component.invalidTestDataModal, 'dismiss');
+        vi.spyOn(component.invalidTestDataModal, 'dismiss').mockReturnValue(undefined);
         await component.onCancel();
         expect(component.invalidTestDataModal.dismiss).toHaveBeenCalled();
       });
@@ -242,12 +243,12 @@ describe('NonPassFinalisationPage', () => {
     describe('onReturnToTestReport', () => {
       it('should dismiss modal', async () => {
         await component.openTestDataValidationModal();
-        spyOn(component.invalidTestDataModal, 'dismiss');
+        vi.spyOn(component.invalidTestDataModal, 'dismiss').mockReturnValue(undefined);
         await component.onReturnToTestReport();
         expect(component.invalidTestDataModal.dismiss).toHaveBeenCalled();
       });
       it('should call navigateToPage with TEST_REPORT_DASHBOARD_PAGE if' + ' test category is ADI3', async () => {
-        spyOn(component.routeByCat, 'navigateToPage');
+        vi.spyOn(component.routeByCat, 'navigateToPage').mockReturnValue(undefined);
         await component.openTestDataValidationModal();
 
         component.testCategory = TestCategory.ADI3;
@@ -258,7 +259,7 @@ describe('NonPassFinalisationPage', () => {
       it(
         'should call navigateToPage with TEST_REPORT_PAGE and testCategory if' + ' test category is not ADI3',
         async () => {
-          spyOn(component.routeByCat, 'navigateToPage');
+          vi.spyOn(component.routeByCat, 'navigateToPage').mockReturnValue(undefined);
           await component.openTestDataValidationModal();
 
           component.testCategory = TestCategory.B;
@@ -275,9 +276,11 @@ describe('NonPassFinalisationPage', () => {
       it(`should create the TestFinalisationInvalidTestDataModal
       when activityCode is 5 and no S/D faults`, async () => {
         store$.dispatch(testActions.StartTest(123, TestCategory.B));
-        spyOn(component, 'openTestDataValidationModal').and.callThrough();
-        spyOn(component.modalController, 'create').and.callThrough();
-        spyOn(component.activityCodeFinalisationProvider, 'testDataIsInvalid').and.returnValue(Promise.resolve(true));
+        vi.spyOn(component, 'openTestDataValidationModal');
+        vi.spyOn(component.modalController, 'create');
+        vi.spyOn(component.activityCodeFinalisationProvider, 'testDataIsInvalid').mockReturnValue(
+          Promise.resolve(true)
+        );
 
         // component.slotId = '123';
         component.activityCode = {
@@ -304,10 +307,12 @@ describe('NonPassFinalisationPage', () => {
         };
         store$.dispatch(testActions.StartTest(123, TestCategory.B));
 
-        spyOn(component.routeByCat, 'navigateToPage');
-        spyOn(component, 'openTestDataValidationModal').and.callThrough();
-        spyOn(component.modalController, 'create').and.callThrough();
-        spyOn(component.activityCodeFinalisationProvider, 'testDataIsInvalid').and.returnValue(Promise.resolve(false));
+        vi.spyOn(component.routeByCat, 'navigateToPage').mockReturnValue(undefined);
+        vi.spyOn(component, 'openTestDataValidationModal');
+        vi.spyOn(component.modalController, 'create');
+        vi.spyOn(component.activityCodeFinalisationProvider, 'testDataIsInvalid').mockReturnValue(
+          Promise.resolve(false)
+        );
 
         // Act
         await component.continue();
@@ -321,9 +326,11 @@ describe('NonPassFinalisationPage', () => {
       when activityCode is 4 and no S/D faults`, async () => {
         // Arrange
         store$.dispatch(testActions.StartTest(123, TestCategory.B));
-        spyOn(component, 'openTestDataValidationModal').and.callThrough();
-        spyOn(component.modalController, 'create').and.callThrough();
-        spyOn(component.activityCodeFinalisationProvider, 'testDataIsInvalid').and.returnValue(Promise.resolve(true));
+        vi.spyOn(component, 'openTestDataValidationModal');
+        vi.spyOn(component.modalController, 'create');
+        vi.spyOn(component.activityCodeFinalisationProvider, 'testDataIsInvalid').mockReturnValue(
+          Promise.resolve(true)
+        );
 
         // component.slotId = '123';
         component.activityCode = {
@@ -343,30 +350,35 @@ describe('NonPassFinalisationPage', () => {
         expect(component.modalController.create).toHaveBeenCalled();
       });
 
-      it('should dispatch the appropriate ValidationError actions', fakeAsync(() => {
-        component.form = new UntypedFormGroup({
-          requiredControl1: new UntypedFormControl(null, [Validators.required]),
-          requiredControl2: new UntypedFormControl(null, [Validators.required]),
-          notRequiredControl: new UntypedFormControl(null),
-        });
+      it('should dispatch the appropriate ValidationError actions', async () => {
+        vi.useFakeTimers();
+        try {
+          component.form = new UntypedFormGroup({
+            requiredControl1: new UntypedFormControl(null, [Validators.required]),
+            requiredControl2: new UntypedFormControl(null, [Validators.required]),
+            notRequiredControl: new UntypedFormControl(null),
+          });
 
-        component.activityCode = {
-          activityCode: ActivityCodes.FAIL,
-          description: ActivityCodeDescription.FAIL,
-        };
-        component.testData = {
-          dangerousFaults: {},
-          seriousFaults: {},
-        };
+          component.activityCode = {
+            activityCode: ActivityCodes.FAIL,
+            description: ActivityCodeDescription.FAIL,
+          };
+          component.testData = {
+            dangerousFaults: {},
+            seriousFaults: {},
+          };
 
-        component.continue();
-        tick();
-        expect(store$.dispatch).toHaveBeenCalledWith(NonPassFinalisationValidationError('requiredControl1 is blank'));
-        expect(store$.dispatch).toHaveBeenCalledWith(NonPassFinalisationValidationError('requiredControl2 is blank'));
-        expect(store$.dispatch).not.toHaveBeenCalledWith(
-          NonPassFinalisationValidationError('notRequiredControl is blank')
-        );
-      }));
+          component.continue();
+          await vi.advanceTimersByTimeAsync(0);
+          expect(store$.dispatch).toHaveBeenCalledWith(NonPassFinalisationValidationError('requiredControl1 is blank'));
+          expect(store$.dispatch).toHaveBeenCalledWith(NonPassFinalisationValidationError('requiredControl2 is blank'));
+          expect(store$.dispatch).not.toHaveBeenCalledWith(
+            NonPassFinalisationValidationError('notRequiredControl is blank')
+          );
+        } finally {
+          vi.useRealTimers();
+        }
+      });
     });
     describe('navigateToDebrief', () => {
       it('should call the back method from Location to navigate back to Debrief', async () => {
@@ -416,7 +428,7 @@ describe('NonPassFinalisationPage', () => {
     describe('ionViewDidLeave', () => {
       it('should unsubscribe from subscription if there is one', () => {
         component.subscription = new Subscription();
-        spyOn(component.subscription, 'unsubscribe');
+        vi.spyOn(component.subscription, 'unsubscribe').mockReturnValue(undefined);
         component.ionViewDidLeave();
         expect(component.subscription.unsubscribe).toHaveBeenCalled();
       });
@@ -469,14 +481,14 @@ describe('NonPassFinalisationPage', () => {
     });
     describe('testStartTimeChanged', () => {
       it('should dispatch endTime to store', () => {
-        spyOn(store$, 'dispatch');
+        vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
         component.testStartTimeChanged('test');
         expect(store$.dispatch).toHaveBeenCalledWith(StartTimeChanged('test'));
       });
     });
     describe('testEndTimeChanged', () => {
       it('should dispatch endTime to store', () => {
-        spyOn(store$, 'dispatch');
+        vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
         component.testEndTimeChanged('test');
         expect(store$.dispatch).toHaveBeenCalledWith(EndTimeChanged('test'));
       });
@@ -495,23 +507,23 @@ describe('NonPassFinalisationPage', () => {
     describe('handleBackButtonClicked', () => {
       it('should navigate to debrief if test is not ADI3', async () => {
         component.testCategory = TestCategory.B;
-        spyOn(component, 'navigateToDebrief');
+        vi.spyOn(component, 'navigateToDebrief').mockReturnValue(undefined);
         await component.handleBackButtonClicked();
         expect(component.navigateToDebrief).toHaveBeenCalled();
       });
 
       it('should navigate to debrief if test is ADI3 and test is completed', async () => {
         component.testCategory = TestCategory.ADI3;
-        spyOn(component, 'didTestComplete').and.returnValue(true);
-        spyOn(component, 'navigateToDebrief');
+        vi.spyOn(component, 'didTestComplete').mockReturnValue(true);
+        vi.spyOn(component, 'navigateToDebrief').mockReturnValue(undefined);
         await component.handleBackButtonClicked();
         expect(component.navigateToDebrief).toHaveBeenCalled();
       });
 
       it('should not navigate to debrief if test is ADI3 and test is not completed', async () => {
         component.testCategory = TestCategory.ADI3;
-        spyOn(component, 'didTestComplete').and.returnValue(false);
-        spyOn(component, 'navigateToDebrief');
+        vi.spyOn(component, 'didTestComplete').mockReturnValue(false);
+        vi.spyOn(component, 'navigateToDebrief').mockReturnValue(undefined);
         await component.handleBackButtonClicked();
         expect(component.navigateToDebrief).not.toHaveBeenCalled();
       });

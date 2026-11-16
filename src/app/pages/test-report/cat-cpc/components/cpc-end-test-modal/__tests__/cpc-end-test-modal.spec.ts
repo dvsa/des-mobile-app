@@ -1,5 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { ModalController } from '@ionic/angular';
 import { ModalControllerMock } from '@mocks/ionic-mocks/modal-controller.mock';
@@ -29,13 +30,13 @@ describe('CPCEndTestModal', () => {
     fixture = TestBed.createComponent(CPCEndTestModal);
     component = fixture.componentInstance;
     modalController = TestBed.inject(ModalController);
-    spyOn(modalController, 'dismiss');
+    vi.spyOn(modalController, 'dismiss').mockReturnValue(undefined);
   });
 
   describe('DOM', () => {
     it('should call onContinue when the Continue to debrief button is clicked', () => {
       fixture.detectChanges();
-      spyOn(component, 'onContinue');
+      vi.spyOn(component, 'onContinue').mockReturnValue(undefined);
       const button = fixture.debugElement.query(By.css('ion-button.mes-primary-button'));
       button.triggerEventHandler('click', null);
 
@@ -45,7 +46,7 @@ describe('CPCEndTestModal', () => {
 
     it('should call onCancel when the Return to test button is clicked', () => {
       fixture.detectChanges();
-      spyOn(component, 'onCancel');
+      vi.spyOn(component, 'onCancel').mockReturnValue(undefined);
       const button = fixture.debugElement.query(By.css('ion-button.return-button'));
       button.triggerEventHandler('click', null);
 
@@ -55,7 +56,7 @@ describe('CPCEndTestModal', () => {
 
     it('should call onTerminate when the Terminate test button is clicked', () => {
       fixture.detectChanges();
-      spyOn(component, 'onTerminate');
+      vi.spyOn(component, 'onTerminate').mockReturnValue(undefined);
       const button = fixture.debugElement.query(By.css('ion-button.terminate-button'));
       button.triggerEventHandler('click', null);
 

@@ -3,7 +3,8 @@ import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/
 import { provideMockActions } from '@ngrx/effects/testing';
 import { Action, Store, StoreModule } from '@ngrx/store';
 import { StoreModel } from '@shared/models/store.model';
-import { ReplaySubject } from 'rxjs';
+import { ReplaySubject, firstValueFrom } from 'rxjs';
+import { beforeEach, describe, expect, it } from 'vitest';
 
 import * as testsActions from '../../tests.actions';
 import { testsReducer } from '../../tests.reducer';
@@ -33,22 +34,17 @@ describe('TestDataEffects', () => {
   });
 
   describe('throttleAddDrivingFaultEffect', () => {
-    it('should dispatch an action to add driving fault', (done) => {
+    it('should dispatch an action to add driving fault', async () => {
       const faultPayload: FaultPayload = {
         competency: Competencies.ancillaryControls,
         newFaultCount: 1,
       };
       const throttleAddDrivingFault = drivingFaultsActions.ThrottleAddDrivingFault(faultPayload);
-      // ARRANGE - setup the store
       store$.dispatch(testsActions.StartTest(123456, TestCategory.B));
       store$.dispatch(throttleAddDrivingFault);
-      // ACT - replay the action for the effect
       actions$.next(throttleAddDrivingFault);
-      // ASSERT
-      effects.throttleAddDrivingFaultEffect$.subscribe((result) => {
-        expect(result).toEqual(drivingFaultsActions.AddDrivingFault(faultPayload));
-        done();
-      });
+      const result = await firstValueFrom(effects.throttleAddDrivingFaultEffect$);
+      expect(result).toEqual(drivingFaultsActions.AddDrivingFault(faultPayload));
     });
   });
 

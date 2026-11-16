@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { By } from '@angular/platform-browser';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { EyesightTestComponent } from '../eyesight-test';
 
@@ -20,7 +21,7 @@ describe('EyesightTestComponent', () => {
 
   describe('DOM', () => {
     it('should call EyesightResultChanged with P when Pass is pressed', () => {
-      spyOn(component, 'eyesightTestResultChanged');
+      vi.spyOn(component, 'eyesightTestResultChanged').mockReturnValue(undefined);
       component.ngOnChanges();
       const passEyesightRadio = fixture.debugElement.query(By.css('#eyesight-pass'));
       passEyesightRadio.triggerEventHandler('change', { target: { value: 'P' } });
@@ -28,7 +29,7 @@ describe('EyesightTestComponent', () => {
       expect(component.eyesightTestResultChanged).toHaveBeenCalledWith('P');
     });
     it('should call EyesightResultChanged with F when Fail is pressed', () => {
-      spyOn(component, 'eyesightTestResultChanged');
+      vi.spyOn(component, 'eyesightTestResultChanged').mockReturnValue(undefined);
       component.ngOnChanges();
       const passEyesightRadio = fixture.debugElement.query(By.css('#eyesight-fail'));
       passEyesightRadio.triggerEventHandler('change', { target: { value: 'F' } });
@@ -60,7 +61,7 @@ describe('EyesightTestComponent', () => {
     it('should emit true if result is set to P and formControl is valid', () => {
       component.formControl = new UntypedFormControl(null, [Validators.required]);
       component.formControl.setValue(true);
-      spyOn(component.eyesightTestResultChange, 'emit');
+      vi.spyOn(component.eyesightTestResultChange, 'emit').mockReturnValue(undefined);
 
       component.eyesightTestResultChanged('P');
 

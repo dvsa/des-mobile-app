@@ -1,5 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { UntypedFormGroup, Validators } from '@angular/forms';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { provideMockStore } from '@ngrx/store/testing';
 import { IdentificationComponent } from '@pages/office/components/identification/identification';
@@ -24,7 +25,7 @@ describe('IdentificationComponent', () => {
 
   describe('identificationChanged', () => {
     it('should emit identification while from control is valid', () => {
-      spyOn(component.identificationChange, 'emit');
+      vi.spyOn(component.identificationChange, 'emit').mockReturnValue(undefined);
       component.formGroup = new UntypedFormGroup({});
       component.ngOnChanges();
 
@@ -35,7 +36,7 @@ describe('IdentificationComponent', () => {
       expect(component.identificationChange.emit).toHaveBeenCalledWith('Licence');
     });
     it('should not emit identification while from control is not valid', () => {
-      spyOn(component.identificationChange, 'emit');
+      vi.spyOn(component.identificationChange, 'emit').mockReturnValue(undefined);
       component.formGroup = new UntypedFormGroup({});
 
       component.ngOnChanges();

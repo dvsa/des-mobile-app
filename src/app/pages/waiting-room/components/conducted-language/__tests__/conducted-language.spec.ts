@@ -1,5 +1,6 @@
 import { EventEmitter } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { IonCol, IonRow } from '@ionic/angular';
 import { ConductedLanguageComponent } from '../conducted-language';
@@ -22,7 +23,7 @@ describe('ConductedLanguageComponent', () => {
       it('should emit an event if welsh is selected ', () => {
         // ARRANGE
         component.welshTextSelect = new EventEmitter<void>();
-        spyOn(component.welshTextSelect, 'emit');
+        vi.spyOn(component.welshTextSelect, 'emit').mockReturnValue(undefined);
         component.welshIsSelected = false;
         component.englishIsSelected = true;
 
@@ -40,7 +41,7 @@ describe('ConductedLanguageComponent', () => {
       it('should emit an event if english is selected ', () => {
         // ARRANGE
         component.englishTextSelect = new EventEmitter<void>();
-        spyOn(component.englishTextSelect, 'emit');
+        vi.spyOn(component.englishTextSelect, 'emit').mockReturnValue(undefined);
         component.welshIsSelected = true;
         component.englishIsSelected = false;
 

@@ -2,6 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ModalController } from '@ionic/angular';
 import { ModalControllerMock } from '@mocks/ionic-mocks/modal-controller.mock';
 import { ModalEvent } from '@pages/dashboard/components/practice-test-modal/practice-test-modal.constants';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { PracticeTestModal } from '../practice-test-modal';
 
 describe('PracticeTestModal', () => {
@@ -16,7 +17,7 @@ describe('PracticeTestModal', () => {
 
     fixture = TestBed.createComponent(PracticeTestModal);
     modalComponent = fixture.componentInstance;
-    spyOn(modalComponent.modalController, 'dismiss').and.returnValue(Promise.resolve(true));
+    vi.spyOn(modalComponent.modalController, 'dismiss').mockReturnValue(Promise.resolve(true));
   });
 
   describe('Class', () => {

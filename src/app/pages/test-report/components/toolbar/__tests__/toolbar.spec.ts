@@ -5,6 +5,7 @@ import { NavController } from '@ionic/angular';
 import { NavControllerMock } from '@mocks/index.mock';
 import { Store, StoreModule } from '@ngrx/store';
 import { MockComponent } from 'ng-mocks';
+import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { FaultCountProvider } from '@providers/fault-count/fault-count';
 import { StoreModel } from '@shared/models/store.model';
@@ -22,7 +23,7 @@ describe('ToolbarComponent', () => {
   let fixture: ComponentFixture<ToolbarComponent>;
   let component: ToolbarComponent;
   let store$: Store<StoreModel>;
-  let storeDispatchSpy: jasmine.Spy;
+  let storeDispatchSpy: Mock;
   let faultCountProvider: FaultCountProvider;
 
   beforeEach(() => {
@@ -46,7 +47,7 @@ describe('ToolbarComponent', () => {
     store$ = TestBed.inject(Store);
     store$.dispatch(StartTest(105, TestCategory.B));
     faultCountProvider = TestBed.inject(FaultCountProvider);
-    storeDispatchSpy = spyOn(store$, 'dispatch');
+    storeDispatchSpy = vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
   });
 
   describe('Class', () => {
@@ -89,30 +90,30 @@ describe('ToolbarComponent', () => {
 
   describe('currentTestHasFaults', () => {
     it('should return false if drivingFaultCount is more than 0', () => {
-      spyOn(faultCountProvider, 'getDrivingFaultSumCount').and.returnValue(1);
-      spyOn(faultCountProvider, 'getSeriousFaultSumCount').and.returnValue(0);
-      spyOn(faultCountProvider, 'getDangerousFaultSumCount').and.returnValue(0);
+      vi.spyOn(faultCountProvider, 'getDrivingFaultSumCount').mockReturnValue(1);
+      vi.spyOn(faultCountProvider, 'getSeriousFaultSumCount').mockReturnValue(0);
+      vi.spyOn(faultCountProvider, 'getDangerousFaultSumCount').mockReturnValue(0);
 
       expect(component.currentTestHasFaults(null, null)).toEqual(false);
     });
     it('should return false if seriousFaultCount is more than 0', () => {
-      spyOn(faultCountProvider, 'getDrivingFaultSumCount').and.returnValue(0);
-      spyOn(faultCountProvider, 'getSeriousFaultSumCount').and.returnValue(1);
-      spyOn(faultCountProvider, 'getDangerousFaultSumCount').and.returnValue(0);
+      vi.spyOn(faultCountProvider, 'getDrivingFaultSumCount').mockReturnValue(0);
+      vi.spyOn(faultCountProvider, 'getSeriousFaultSumCount').mockReturnValue(1);
+      vi.spyOn(faultCountProvider, 'getDangerousFaultSumCount').mockReturnValue(0);
 
       expect(component.currentTestHasFaults(null, null)).toEqual(false);
     });
     it('should return false if dangerousFaultCount is more than 0', () => {
-      spyOn(faultCountProvider, 'getDrivingFaultSumCount').and.returnValue(0);
-      spyOn(faultCountProvider, 'getSeriousFaultSumCount').and.returnValue(0);
-      spyOn(faultCountProvider, 'getDangerousFaultSumCount').and.returnValue(1);
+      vi.spyOn(faultCountProvider, 'getDrivingFaultSumCount').mockReturnValue(0);
+      vi.spyOn(faultCountProvider, 'getSeriousFaultSumCount').mockReturnValue(0);
+      vi.spyOn(faultCountProvider, 'getDangerousFaultSumCount').mockReturnValue(1);
 
       expect(component.currentTestHasFaults(null, null)).toEqual(false);
     });
     it('should return true if all counts are 0', () => {
-      spyOn(faultCountProvider, 'getDrivingFaultSumCount').and.returnValue(0);
-      spyOn(faultCountProvider, 'getSeriousFaultSumCount').and.returnValue(0);
-      spyOn(faultCountProvider, 'getDangerousFaultSumCount').and.returnValue(0);
+      vi.spyOn(faultCountProvider, 'getDrivingFaultSumCount').mockReturnValue(0);
+      vi.spyOn(faultCountProvider, 'getSeriousFaultSumCount').mockReturnValue(0);
+      vi.spyOn(faultCountProvider, 'getDangerousFaultSumCount').mockReturnValue(0);
 
       expect(component.currentTestHasFaults(null, null)).toEqual(true);
     });
@@ -120,9 +121,9 @@ describe('ToolbarComponent', () => {
 
   describe('DOM', () => {
     beforeEach(() => {
-      spyOn(faultCountProvider, 'getDrivingFaultSumCount').and.returnValue(0);
-      spyOn(faultCountProvider, 'getSeriousFaultSumCount').and.returnValue(0);
-      spyOn(faultCountProvider, 'getDangerousFaultSumCount').and.returnValue(0);
+      vi.spyOn(faultCountProvider, 'getDrivingFaultSumCount').mockReturnValue(0);
+      vi.spyOn(faultCountProvider, 'getSeriousFaultSumCount').mockReturnValue(0);
+      vi.spyOn(faultCountProvider, 'getDangerousFaultSumCount').mockReturnValue(0);
     });
 
     it('should not show any tooltips in default mode', () => {

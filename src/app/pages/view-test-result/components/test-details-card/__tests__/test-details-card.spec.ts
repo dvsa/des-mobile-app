@@ -3,6 +3,7 @@ import { DataRowCustomComponent } from '@components/common/data-row-custom/data-
 import { DataRowComponent } from '@components/common/data-row/data-row';
 import { InappropriateUseBannerComponent } from '@components/common/inappropriate-use-banner/inappropriate-use-banner';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
+import { beforeEach, describe, expect, it } from 'vitest';
 
 import { MockComponent } from 'ng-mocks';
 import { CandidateDetails, TestDetailsCardComponent } from '../test-details-card';

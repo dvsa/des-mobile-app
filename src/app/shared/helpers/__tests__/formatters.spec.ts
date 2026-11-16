@@ -12,6 +12,7 @@ import {
   removeNonAlphaNumeric,
   stripNullishValues,
 } from '@shared/helpers/formatters';
+import { beforeEach, describe, expect, it } from 'vitest';
 
 describe('Formatters', () => {
   describe('formatApplicationReference', () => {
@@ -197,10 +198,18 @@ describe('Formatters', () => {
   });
 
   describe('bookingReferenceMask', () => {
-    let maskFn: (context: { value: string }) => (RegExp | string)[];
+    let maskFn: (context: {
+      value: string;
+    }) => (RegExp | string)[];
 
     beforeEach(() => {
-      maskFn = (bookingReferenceMask as { mask: (context: { value: string }) => (RegExp | string)[] }).mask;
+      maskFn = (
+        bookingReferenceMask as {
+          mask: (context: {
+            value: string;
+          }) => (RegExp | string)[];
+        }
+      ).mask;
     });
 
     describe('when value starts with a digit', () => {

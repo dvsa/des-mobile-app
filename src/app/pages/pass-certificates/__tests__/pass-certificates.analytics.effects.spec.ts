@@ -7,7 +7,8 @@ import { AnalyticsProviderMock } from '@providers/analytics/__mocks__/analytics.
 import { AnalyticsProvider } from '@providers/analytics/analytics';
 import { AnalyticRecorded } from '@providers/analytics/analytics.actions';
 import { AnalyticsScreenNames } from '@providers/analytics/analytics.model';
-import { ReplaySubject } from 'rxjs';
+import { ReplaySubject, firstValueFrom } from 'rxjs';
+import { beforeEach, describe, expect, it } from 'vitest';
 
 describe('PassCertificatesAnalyticsEffects', () => {
   let effects: PassCertificatesAnalyticsEffects;
@@ -31,15 +32,10 @@ describe('PassCertificatesAnalyticsEffects', () => {
     actions$ = new ReplaySubject(1);
   });
 
-  it('should log page view when pass certificates page is entered', (done) => {
+  it('should log page view when pass certificates page is entered', async () => {
     actions$.next(PassCertificatedViewDidEnter());
-
-    effects.passCertificatesView$.subscribe((result) => {
-      expect(result.type).toEqual(AnalyticRecorded.type);
-
-      // GA4 Analytics
-      expect(analyticsProvider.setGACurrentPage).toHaveBeenCalledWith(AnalyticsScreenNames.PASS_CERTIFICATES);
-      done();
-    });
+    const result = await firstValueFrom(effects.passCertificatesView$);
+    expect(result.type).toEqual(AnalyticRecorded.type);
+    expect(analyticsProvider.setGACurrentPage).toHaveBeenCalledWith(AnalyticsScreenNames.PASS_CERTIFICATES);
   });
 });

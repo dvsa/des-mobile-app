@@ -18,6 +18,7 @@ import {
   TellMeQuestionDrivingFault,
 } from '@store/tests/test-data/cat-b/vehicle-checks/vehicle-checks.actions';
 import { StartTestReportPracticeTest } from '@store/tests/tests.actions';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 describe('PracticeTestReportCardComponent', () => {
   let component: PracticeTestReportCardComponent;
@@ -45,9 +46,9 @@ describe('PracticeTestReportCardComponent', () => {
     modalController = TestBed.inject(ModalController);
     accessibilityService = TestBed.inject(AccessibilityService);
 
-    spyOn(routeByCategory, 'navigateToPage');
-    spyOn(store$, 'dispatch');
-    spyOn(accessibilityService, 'configureStatusBar');
+    vi.spyOn(routeByCategory, 'navigateToPage').mockReturnValue(undefined);
+    vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
+    vi.spyOn(accessibilityService, 'configureStatusBar').mockReturnValue(undefined);
   });
 
   it('should create', () => {
@@ -57,8 +58,8 @@ describe('PracticeTestReportCardComponent', () => {
   describe('Class', () => {
     describe('showDrivingFaultModal', () => {
       it('should create practice test modal and call through to onModalDismiss', async () => {
-        spyOn(component, 'onModalDismiss');
-        spyOn(modalController, 'create').and.returnValue(
+        vi.spyOn(component, 'onModalDismiss').mockReturnValue(undefined);
+        vi.spyOn(modalController, 'create').mockReturnValue(
           Promise.resolve({
             present: async () => {},
             onDidDismiss: () => ({ data: ModalEvent.CANCEL }) as OverlayEventDetail,

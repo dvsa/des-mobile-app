@@ -1,5 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { provideMockStore } from '@ngrx/store/testing';
 import { CircuitComponent } from '@pages/office/cat-a-mod1/components/circuit/circuit';
@@ -31,7 +32,7 @@ describe('CircuitComponent', () => {
       component.formGroup.addControl(component.formField, component.formControl);
       component.formGroup.get(component.formField).setValidators([Validators.required]);
 
-      spyOn(component.outcomeBehaviourProvider, 'getVisibilityType').and.returnValue(VisibilityType.NotVisible);
+      vi.spyOn(component.outcomeBehaviourProvider, 'getVisibilityType').mockReturnValue(VisibilityType.NotVisible);
       component.ngOnChanges();
 
       expect(component.formGroup.get(component.formField).hasValidator(Validators.required)).toBe(false);
@@ -39,7 +40,7 @@ describe('CircuitComponent', () => {
     it('should set validators to FormControl if visibilityType is not VisibilityType.NotVisible', () => {
       component.formGroup = new UntypedFormGroup({});
 
-      spyOn(component.outcomeBehaviourProvider, 'getVisibilityType').and.returnValue(VisibilityType.Visible);
+      vi.spyOn(component.outcomeBehaviourProvider, 'getVisibilityType').mockReturnValue(VisibilityType.Visible);
       component.ngOnChanges();
 
       expect(component.formGroup.get(component.formField).hasValidator(Validators.required)).toBe(true);
@@ -48,7 +49,7 @@ describe('CircuitComponent', () => {
 
   describe('circuitChanged', () => {
     it('should emit params if formControl is valid ', () => {
-      spyOn(component.circuitChange, 'emit');
+      vi.spyOn(component.circuitChange, 'emit').mockReturnValue(undefined);
       component.formControl = new UntypedFormControl(CircuitType.Left);
       component.formGroup = new UntypedFormGroup({});
       component.formGroup.addControl(component.formField, component.formControl);
@@ -60,7 +61,7 @@ describe('CircuitComponent', () => {
       expect(component.circuitChange.emit).toHaveBeenCalledWith('Left');
     });
     it('should not emit params if formControl is invalid ', () => {
-      spyOn(component.circuitChange, 'emit');
+      vi.spyOn(component.circuitChange, 'emit').mockReturnValue(undefined);
       component.formControl = new UntypedFormControl(CircuitType.Left);
       component.formGroup = new UntypedFormGroup({});
       component.formGroup.addControl(component.formField, component.formControl);

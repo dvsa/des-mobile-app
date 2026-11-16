@@ -6,6 +6,7 @@ import { TestData } from '@dvsa/mes-test-schema/categories/common';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { CompetencyOutcome } from '@shared/models/competency-outcome';
 import { CatManoeuvreTestData } from '@shared/unions/test-schema-unions';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { FaultCountProvider } from '../../fault-count/fault-count';
 import { FaultSummaryCatAM1Helper } from '../cat-a-mod1/fault-summary.cat-a-mod1';
 import { FaultSummaryCatBHelper } from '../cat-b/fault-summary.cat-b';
@@ -131,21 +132,21 @@ describe('FaultSummaryProvider', () => {
     });
     faultSummaryProvider = TestBed.inject(FaultSummaryProvider);
 
-    spyOn(FaultSummaryCatBHelper, 'getDrivingFaultsCatB').and.callThrough();
-    spyOn(FaultSummaryCatBHelper, 'getSeriousFaultsCatB').and.callThrough();
-    spyOn(FaultSummaryCatBHelper, 'getDangerousFaultsCatB').and.callThrough();
-    spyOn(FaultSummaryCatCHelper, 'getDrivingFaultsNonTrailer').and.callThrough();
-    spyOn(FaultSummaryCatCHelper, 'getSeriousFaultsNonTrailer').and.callThrough();
-    spyOn(FaultSummaryCatCHelper, 'getDangerousFaultsNonTrailer').and.callThrough();
-    spyOn(FaultSummaryCatCHelper, 'getDrivingFaultsTrailer').and.callThrough();
-    spyOn(FaultSummaryCatCHelper, 'getSeriousFaultsTrailer').and.callThrough();
-    spyOn(FaultSummaryCatCHelper, 'getDangerousFaultsTrailer').and.callThrough();
-    spyOn(FaultSummaryCatDHelper, 'getDrivingFaultsNonTrailer').and.callThrough();
-    spyOn(FaultSummaryCatDHelper, 'getSeriousFaultsNonTrailer').and.callThrough();
-    spyOn(FaultSummaryCatDHelper, 'getDangerousFaultsNonTrailer').and.callThrough();
-    spyOn(FaultSummaryCatDHelper, 'getDrivingFaultsTrailer').and.callThrough();
-    spyOn(FaultSummaryCatDHelper, 'getSeriousFaultsTrailer').and.callThrough();
-    spyOn(FaultSummaryCatDHelper, 'getDangerousFaultsTrailer').and.callThrough();
+    vi.spyOn(FaultSummaryCatBHelper, 'getDrivingFaultsCatB');
+    vi.spyOn(FaultSummaryCatBHelper, 'getSeriousFaultsCatB');
+    vi.spyOn(FaultSummaryCatBHelper, 'getDangerousFaultsCatB');
+    vi.spyOn(FaultSummaryCatCHelper, 'getDrivingFaultsNonTrailer');
+    vi.spyOn(FaultSummaryCatCHelper, 'getSeriousFaultsNonTrailer');
+    vi.spyOn(FaultSummaryCatCHelper, 'getDangerousFaultsNonTrailer');
+    vi.spyOn(FaultSummaryCatCHelper, 'getDrivingFaultsTrailer');
+    vi.spyOn(FaultSummaryCatCHelper, 'getSeriousFaultsTrailer');
+    vi.spyOn(FaultSummaryCatCHelper, 'getDangerousFaultsTrailer');
+    vi.spyOn(FaultSummaryCatDHelper, 'getDrivingFaultsNonTrailer');
+    vi.spyOn(FaultSummaryCatDHelper, 'getSeriousFaultsNonTrailer');
+    vi.spyOn(FaultSummaryCatDHelper, 'getDangerousFaultsNonTrailer');
+    vi.spyOn(FaultSummaryCatDHelper, 'getDrivingFaultsTrailer');
+    vi.spyOn(FaultSummaryCatDHelper, 'getSeriousFaultsTrailer');
+    vi.spyOn(FaultSummaryCatDHelper, 'getDangerousFaultsTrailer');
   });
 
   describe('shouldShowIncorrect', () => {
@@ -368,7 +369,9 @@ describe('FaultSummaryProvider', () => {
     categoryAMod1.forEach((cat) => {
       describe(`Category ${cat.category}`, () => {
         it('should call correct helper function', () => {
-          const getDrivingFaultsCatAM1Spy = spyOn(FaultSummaryCatAM1Helper, 'getDrivingFaultsCatAM1');
+          const getDrivingFaultsCatAM1Spy = vi
+            .spyOn(FaultSummaryCatAM1Helper, 'getDrivingFaultsCatAM1')
+            .mockReturnValue(undefined);
 
           const testData = {};
           faultSummaryProvider.getDrivingFaultsList(testData, cat.category);
@@ -534,7 +537,9 @@ describe('FaultSummaryProvider', () => {
     categoryAMod1.forEach((cat) => {
       describe(`Category ${cat.category}`, () => {
         it('should call correct helper function', () => {
-          const getSeriousFaultsCatAM1Spy = spyOn(FaultSummaryCatAM1Helper, 'getSeriousFaultsCatAM1');
+          const getSeriousFaultsCatAM1Spy = vi
+            .spyOn(FaultSummaryCatAM1Helper, 'getSeriousFaultsCatAM1')
+            .mockReturnValue(undefined);
 
           const testData = {};
           faultSummaryProvider.getSeriousFaultsList(testData, cat.category);
@@ -678,7 +683,9 @@ describe('FaultSummaryProvider', () => {
     categoryAMod1.forEach((cat) => {
       describe(`Category ${cat.category}`, () => {
         it('should call correct helper function', () => {
-          const getDangerousFaultsCatAM1Spy = spyOn(FaultSummaryCatAM1Helper, 'getDangerousFaultsCatAM1');
+          const getDangerousFaultsCatAM1Spy = vi
+            .spyOn(FaultSummaryCatAM1Helper, 'getDangerousFaultsCatAM1')
+            .mockReturnValue(undefined);
 
           const testData = {};
           faultSummaryProvider.getDangerousFaultsList(testData, cat.category);

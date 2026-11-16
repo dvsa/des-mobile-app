@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { AssessmentAnswerComponent } from '@pages/test-report/cat-adi-part3/components/assessment-answer/assessment-answer';
 import { StudentComponent } from '@pages/test-report/cat-adi-part3/components/student/student';
@@ -19,7 +20,7 @@ describe('StudentComponent', () => {
   describe('Class', () => {
     describe('studentLevelChanged', () => {
       it('should dispatch a value via studentLevelChange', () => {
-        spyOn(component.studentLevelChange, 'emit');
+        vi.spyOn(component.studentLevelChange, 'emit').mockReturnValue(undefined);
         component.studentLevelChanged('beginner');
         expect(component.studentLevelChange.emit).toHaveBeenCalledWith('beginner');
       });

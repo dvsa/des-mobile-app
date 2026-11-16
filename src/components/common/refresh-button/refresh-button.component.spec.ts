@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { RefreshButtonComponent } from './refresh-button.component';
 
@@ -21,7 +22,7 @@ describe('RefreshButtonComponent', () => {
   });
 
   it('should emit refreshButtonClicked event when refreshClicked is called', () => {
-    spyOn(component.refreshButtonClicked, 'emit');
+    vi.spyOn(component.refreshButtonClicked, 'emit').mockReturnValue(undefined);
     component.refreshClicked();
     expect(component.refreshButtonClicked.emit).toHaveBeenCalled();
   });

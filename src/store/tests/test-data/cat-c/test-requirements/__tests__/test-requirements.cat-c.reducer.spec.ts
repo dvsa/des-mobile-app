@@ -1,4 +1,5 @@
 import { TestRequirements } from '@dvsa/mes-test-schema/categories/common';
+import { describe, expect, it } from 'vitest';
 import { ToggleLegalRequirement } from '../../../common/test-requirements/test-requirements.actions';
 import { LegalRequirements } from '../../../test-data.constants';
 import { testRequirementsCatCReducer } from '../test-requirements.cat-c.reducer';

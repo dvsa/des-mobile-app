@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { DebriefWitnessedComponent } from '@components/test-finalisation/debrief-witnessed/debrief-witnessed';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { provideMockStore } from '@ngrx/store/testing';
 import { OutcomeBehaviourMapProvider, VisibilityType } from '@providers/outcome-behaviour-map/outcome-behaviour-map';
@@ -30,7 +31,7 @@ describe('DebriefWitnessedComponent', () => {
       component.formGroup.addControl(DebriefWitnessedComponent.fieldName, component.formControl);
       component.formGroup.get(DebriefWitnessedComponent.fieldName).setValidators([Validators.required]);
 
-      spyOn(component.outcomeBehaviourProvider, 'getVisibilityType').and.returnValue(VisibilityType.NotVisible);
+      vi.spyOn(component.outcomeBehaviourProvider, 'getVisibilityType').mockReturnValue(VisibilityType.NotVisible);
       component.ngOnChanges();
 
       expect(component.formGroup.get(DebriefWitnessedComponent.fieldName).hasValidator(Validators.required)).toBe(
@@ -40,7 +41,7 @@ describe('DebriefWitnessedComponent', () => {
     it('should set validators to FormControl if visibilityType is not VisibilityType.NotVisible', () => {
       component.formGroup = new UntypedFormGroup({});
 
-      spyOn(component.outcomeBehaviourProvider, 'getVisibilityType').and.returnValue(VisibilityType.Visible);
+      vi.spyOn(component.outcomeBehaviourProvider, 'getVisibilityType').mockReturnValue(VisibilityType.Visible);
       component.ngOnChanges();
 
       expect(component.formGroup.get(DebriefWitnessedComponent.fieldName).hasValidator(Validators.required)).toBe(true);
@@ -56,7 +57,7 @@ describe('DebriefWitnessedComponent', () => {
 
   describe('debriefWitnessedChanged', () => {
     it('should emit debriefWitnessedFormValue while from control is valid', () => {
-      spyOn(component.debriefWitnessedChange, 'emit');
+      vi.spyOn(component.debriefWitnessedChange, 'emit').mockReturnValue(undefined);
       component.formGroup = new UntypedFormGroup({});
       component.ngOnChanges();
 
@@ -67,7 +68,7 @@ describe('DebriefWitnessedComponent', () => {
       expect(component.debriefWitnessedChange.emit).toHaveBeenCalledWith(true);
     });
     it('should not emit debriefWitnessedFormValue while from control is not valid', () => {
-      spyOn(component.debriefWitnessedChange, 'emit');
+      vi.spyOn(component.debriefWitnessedChange, 'emit').mockReturnValue(undefined);
       component.formGroup = new UntypedFormGroup({});
 
       component.ngOnChanges();

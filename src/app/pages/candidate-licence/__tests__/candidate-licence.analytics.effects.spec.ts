@@ -20,7 +20,8 @@ import * as applicationReferenceActions from '@store/tests/journal-data/common/a
 import { PopulateCandidateDetails } from '@store/tests/journal-data/common/candidate/candidate.actions';
 import * as testsActions from '@store/tests/tests.actions';
 import { testsReducer } from '@store/tests/tests.reducer';
-import { ReplaySubject } from 'rxjs';
+import { ReplaySubject, firstValueFrom } from 'rxjs';
+import { beforeEach, describe, expect, it } from 'vitest';
 import * as fakeJournalActions from '../../fake-journal/fake-journal.actions';
 import * as candidateLicenceActions from '../candidate-licence.actions';
 
@@ -69,38 +70,26 @@ describe('CommunicationAnalyticsEffects', () => {
   });
 
   describe('candidateLicenceInfoViewDidEnter', () => {
-    it('should call setCurrentPage and addCustomDimension', (done) => {
-      // ARRANGE
+    it('should call setCurrentPage and addCustomDimension', async () => {
       store$.dispatch(testsActions.StartTest(123, TestCategory.B));
       store$.dispatch(PopulateTestCategory(TestCategory.B));
       store$.dispatch(PopulateCandidateDetails(candidateMock));
-      // ACT
       actions$.next(candidateLicenceActions.CandidateLicenceViewDidEnter());
-      // ASSERT
-      effects.candidateLicenceInfoViewDidEnter$.subscribe((result) => {
-        expect(result.type === AnalyticRecorded.type).toBe(true);
-        // GA4 Analytics
-        expect(analyticsProviderMock.setGACurrentPage).toHaveBeenCalledWith(screenName);
-        done();
-      });
+      const result = await firstValueFrom(effects.candidateLicenceInfoViewDidEnter$);
+      expect(result.type === AnalyticRecorded.type).toBe(true);
+      expect(analyticsProviderMock.setGACurrentPage).toHaveBeenCalledWith(screenName);
     });
-    it('should call setCurrentPage with practice mode prefix and addCustomDimension', (done) => {
-      // ARRANGE
+    it('should call setCurrentPage with practice mode prefix and addCustomDimension', async () => {
       store$.dispatch(fakeJournalActions.StartE2EPracticeTest(end2endPracticeSlotId));
       store$.dispatch(PopulateTestCategory(TestCategory.B));
       store$.dispatch(PopulateCandidateDetails(candidateMock));
       store$.dispatch(applicationReferenceActions.PopulateApplicationReference(mockApplication));
-      // ACT
       actions$.next(candidateLicenceActions.CandidateLicenceViewDidEnter());
-      // ASSERT
-      effects.candidateLicenceInfoViewDidEnter$.subscribe((result) => {
-        expect(result.type === AnalyticRecorded.type).toBe(true);
-        // GA4 Analytics
-        expect(analyticsProviderMock.setGACurrentPage).toHaveBeenCalledWith(
-          `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${screenName}`
-        );
-        done();
-      });
+      const result = await firstValueFrom(effects.candidateLicenceInfoViewDidEnter$);
+      expect(result.type === AnalyticRecorded.type).toBe(true);
+      expect(analyticsProviderMock.setGACurrentPage).toHaveBeenCalledWith(
+        `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${screenName}`
+      );
     });
   });
 });

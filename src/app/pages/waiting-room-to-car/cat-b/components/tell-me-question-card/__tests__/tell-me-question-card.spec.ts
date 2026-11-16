@@ -1,6 +1,7 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { TellMeQuestionCardComponent } from '@pages/waiting-room-to-car/cat-b/components/tell-me-question-card/tell-me-question-card';
 import { AuthenticationProviderMock } from '@providers/authentication/__mocks__/authentication.mock';
@@ -57,7 +58,7 @@ describe('TellMeQuestionCardComponent', () => {
   describe('Class', () => {
     describe('tellMeQuestionChanged', () => {
       it('should emit the correct event with the parameter given', () => {
-        spyOn(component.tellMeQuestionChange, 'emit');
+        vi.spyOn(component.tellMeQuestionChange, 'emit').mockReturnValue(undefined);
         component.tellMeQuestionChanged({
           code: 'A',
           description: 'B',
@@ -72,7 +73,7 @@ describe('TellMeQuestionCardComponent', () => {
     });
     describe('tellMeQuestionOutcomeChanged', () => {
       it('should emit the correct event with the parameter given', () => {
-        spyOn(component.tellMeQuestionOutcomeChange, 'emit');
+        vi.spyOn(component.tellMeQuestionOutcomeChange, 'emit').mockReturnValue(undefined);
         component.tellMeQuestionOutcomeChanged('test');
         expect(component.tellMeQuestionOutcomeChange.emit).toHaveBeenCalledWith('test');
       });

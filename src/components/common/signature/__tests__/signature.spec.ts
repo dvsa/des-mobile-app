@@ -2,6 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule, UntypedFormGroup } from '@angular/forms';
 import { SignatureAreaComponent } from '@components/common/signature-area/signature-area';
 import { provideTestTranslations } from '@mocks/test-providers';
+import { beforeEach, describe, expect, it } from 'vitest';
 
 import { MockComponent } from 'ng-mocks';
 import { SignatureComponent } from '../signature';

@@ -1,4 +1,5 @@
 import { TestData } from '@dvsa/mes-test-schema/categories/CPC';
+import { describe, expect, it } from 'vitest';
 import {
   getCombination,
   getQuestion1,

@@ -91,7 +91,7 @@
             (click)="onEndTestClicked()"
             class="end-test-font-size end-test-button"
             [class]="isPracticeMode ? 'end-test-button-practice' : 'end-test-button-color'"
-            [id]="pageName+'end-test-button'">
+            [id]="pageName+'-end-test-button'">
             End test
           </ion-button>
         }
@@ -102,6 +102,7 @@
 
 @if (displayExitPracticeMode) {
   <practice-mode-options-bar
+    [pageName]="pageName"
     class="header-height-76"
     (closeExitPracticeMode)="closeExitPracticeMode()">
   </practice-mode-options-bar>

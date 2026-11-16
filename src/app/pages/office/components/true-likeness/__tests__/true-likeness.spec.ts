@@ -1,5 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule, UntypedFormGroup, Validators } from '@angular/forms';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { TrueLikenessComponent } from '@pages/office/components/true-likeness/true-likeness';
 
@@ -48,7 +49,7 @@ describe('TrueLikenessComponent', () => {
 
   describe('trueLikenessChanged', () => {
     it('should emit trueLikeness while from control is valid', () => {
-      spyOn(component.trueLikenessChange, 'emit');
+      vi.spyOn(component.trueLikenessChange, 'emit').mockReturnValue(undefined);
       component.formGroup = new UntypedFormGroup({});
       component.ngOnChanges();
 
@@ -59,7 +60,7 @@ describe('TrueLikenessComponent', () => {
       expect(component.trueLikenessChange.emit).toHaveBeenCalledWith(true);
     });
     it('should not emit trueLikeness while from control is not valid', () => {
-      spyOn(component.trueLikenessChange, 'emit');
+      vi.spyOn(component.trueLikenessChange, 'emit').mockReturnValue(undefined);
       component.formGroup = new UntypedFormGroup({});
 
       component.ngOnChanges();

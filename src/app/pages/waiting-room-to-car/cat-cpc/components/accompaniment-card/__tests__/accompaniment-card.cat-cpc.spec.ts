@@ -11,6 +11,7 @@ import { QuestionProviderMock } from '@providers/question/__mocks__/question.moc
 import { QuestionProvider } from '@providers/question/question';
 import { RouteByCategoryProviderMock } from '@providers/route-by-category/__mocks__/route-by-category.mock';
 import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 describe('AccompanimentCardCatCPCComponent', () => {
   let component: AccompanimentCardCatCPCComponent;
@@ -56,14 +57,14 @@ describe('AccompanimentCardCatCPCComponent', () => {
   describe('Class', () => {
     describe('supervisorAccompanimentChanged', () => {
       it('should emit the correct event', () => {
-        spyOn(component.supervisorAccompanimentChange, 'emit');
+        vi.spyOn(component.supervisorAccompanimentChange, 'emit').mockReturnValue(undefined);
         component.supervisorAccompanimentChanged();
         expect(component.supervisorAccompanimentChange.emit).toHaveBeenCalled();
       });
     });
     describe('interpreterAccompanimentChanged', () => {
       it('should emit the correct event', () => {
-        spyOn(component.interpreterAccompanimentChange, 'emit');
+        vi.spyOn(component.interpreterAccompanimentChange, 'emit').mockReturnValue(undefined);
         component.interpreterAccompanimentChanged();
         expect(component.interpreterAccompanimentChange.emit).toHaveBeenCalled();
       });

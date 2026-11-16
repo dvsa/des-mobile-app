@@ -35,6 +35,7 @@ import { selectCachedExaminerRecords, selectLastCachedDate } from '@store/examin
 import moment from 'moment';
 import { MockComponent } from 'ng-mocks';
 import { Subscription, of } from 'rxjs';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { ExaminerRecordsPage, ExaminerRecordsPageStateData } from '../examiner-records.page';
 
 describe('ExaminerRecordsPage', () => {
@@ -89,6 +90,19 @@ describe('ExaminerRecordsPage', () => {
   ] as ExaminerRecordModel[];
 
   beforeEach(() => {
+    vi.stubGlobal(
+      'matchMedia',
+      vi.fn(
+        (media: string): MediaQueryList =>
+          Object.assign(new EventTarget(), {
+            media,
+            matches: false,
+            onchange: null,
+            addListener: vi.fn(),
+            removeListener: vi.fn(),
+          })
+      )
+    );
     TestBed.configureTestingModule({
       imports: [
         CommonModule,
@@ -295,9 +309,9 @@ describe('ExaminerRecordsPage', () => {
     fixture = TestBed.createComponent(ExaminerRecordsPage);
     component = fixture.componentInstance;
     store$ = TestBed.inject(MockStore);
-    spyOn(component.store$, 'dispatch');
+    vi.spyOn(component.store$, 'dispatch').mockReturnValue(undefined);
     router = TestBed.inject(Router);
-    spyOn(router, 'navigate');
+    vi.spyOn(router, 'navigate');
     component.pageState = initialState;
   });
   it('should create', () => {
@@ -307,8 +321,8 @@ describe('ExaminerRecordsPage', () => {
 
   describe('ngOnInit', () => {
     it('should initialize testResults and update testSubject$', async () => {
-      spyOn(component, 'removeDuplicatesAndSort').and.returnValue(mockTests);
-      spyOn(component.testSubject$, 'next');
+      vi.spyOn(component, 'removeDuplicatesAndSort').mockReturnValue(mockTests);
+      vi.spyOn(component.testSubject$, 'next').mockReturnValue(undefined);
 
       await component.ngOnInit();
 
@@ -317,7 +331,7 @@ describe('ExaminerRecordsPage', () => {
     });
 
     it('should set default date filter', async () => {
-      spyOn(component, 'handleDateFilter');
+      vi.spyOn(component, 'handleDateFilter').mockReturnValue(undefined);
 
       await component.ngOnInit();
 
@@ -328,23 +342,23 @@ describe('ExaminerRecordsPage', () => {
 
     it('should set categorySelectPristine to false if categorySubject$ has value', async () => {
       component.categorySelectPristine = true;
-      spyOn(component.categorySubject$, 'getValue').and.returnValue(TestCategory.B);
+      vi.spyOn(component.categorySubject$, 'getValue').mockReturnValue(TestCategory.B);
       await component.ngOnInit();
-      expect(component.categorySelectPristine).toBeFalse();
+      expect(component.categorySelectPristine).toBe(false);
     });
 
     it('should set locationSelectPristine to false if locationSubject$ has value', async () => {
       component.locationSubject$.next('TEST');
-      spyOn(component, 'setLocationFilter');
+      vi.spyOn(component, 'setLocationFilter').mockReturnValue(undefined);
 
       await component.ngOnInit();
 
-      expect(component.locationSelectPristine).toBeFalse();
+      expect(component.locationSelectPristine).toBe(false);
     });
 
     it('should set location filter and fetch online records', async () => {
-      spyOn(component, 'setLocationFilter');
-      spyOn(component, 'getOnlineRecords');
+      vi.spyOn(component, 'setLocationFilter').mockReturnValue(undefined);
+      vi.spyOn(component, 'getOnlineRecords').mockReturnValue(undefined);
 
       await component.ngOnInit();
 
@@ -353,8 +367,8 @@ describe('ExaminerRecordsPage', () => {
     });
 
     it('should use 0.0% as the emergency stop percentage when there are no eligible tests', async () => {
-      spyOn(component, 'setLocationFilter');
-      spyOn(component, 'getOnlineRecords');
+      vi.spyOn(component, 'setLocationFilter').mockReturnValue(undefined);
+      vi.spyOn(component, 'getOnlineRecords').mockReturnValue(undefined);
 
       await component.ngOnInit();
 
@@ -412,8 +426,8 @@ describe('ExaminerRecordsPage', () => {
           count: 2,
         },
       ];
-      spyOn(component, 'setDefault').and.returnValue(categories[1]);
-      spyOn(component, 'handleCategoryFilter');
+      vi.spyOn(component, 'setDefault').mockReturnValue(categories[1]);
+      vi.spyOn(component, 'handleCategoryFilter').mockReturnValue(undefined);
 
       component.categorySubject$.next(TestCategory.A);
       component.setupCategorySelectList(categories);
@@ -433,7 +447,7 @@ describe('ExaminerRecordsPage', () => {
         },
       ];
       component.categorySubject$.next(TestCategory.B);
-      spyOn(component, 'changeEligibleTests');
+      vi.spyOn(component, 'changeEligibleTests').mockReturnValue(undefined);
       component.setupCategorySelectList(categories);
       expect(component.changeEligibleTests).toHaveBeenCalled();
     });
@@ -449,10 +463,10 @@ describe('ExaminerRecordsPage', () => {
           count: 2,
         },
       ];
-      spyOn(component, 'setDefault').and.returnValue(categories[1]);
+      vi.spyOn(component, 'setDefault').mockReturnValue(categories[1]);
       component.categorySubject$.next(TestCategory.A);
       component.setupCategorySelectList(categories);
-      expect(component.categorySelectPristine).toBeTrue();
+      expect(component.categorySelectPristine).toBe(true);
     });
 
     it('should not set categorySelectPristine if current category is included in categoryFilterOptions', () => {
@@ -468,7 +482,7 @@ describe('ExaminerRecordsPage', () => {
         },
       ];
       component.categorySubject$.next(TestCategory.B);
-      spyOn(component, 'changeEligibleTests');
+      vi.spyOn(component, 'changeEligibleTests').mockReturnValue(undefined);
       component.setupCategorySelectList(categories);
       expect(component.categorySelectPristine).toEqual(false);
     });
@@ -552,8 +566,8 @@ describe('ExaminerRecordsPage', () => {
           count: 2,
         },
       ];
-      spyOn(component, 'setDefault').and.returnValue(locations[1]);
-      spyOn(component, 'handleLocationFilter');
+      vi.spyOn(component, 'setDefault').mockReturnValue(locations[1]);
+      vi.spyOn(component, 'handleLocationFilter').mockReturnValue(undefined);
 
       component.locationSubject$.next('TEST');
       component.setupLocationSelectList(locations);
@@ -563,7 +577,7 @@ describe('ExaminerRecordsPage', () => {
 
     it('should set locationPlaceholder to an empty string if locations array is empty', () => {
       const locations = [];
-      spyOn(component, 'handleLocationFilter');
+      vi.spyOn(component, 'handleLocationFilter').mockReturnValue(undefined);
 
       component.setupLocationSelectList(locations);
       expect(component.locationPlaceholder).toEqual('');
@@ -766,7 +780,7 @@ describe('ExaminerRecordsPage', () => {
 
   describe('colourFilterChanged', () => {
     it('should set colourOption to the value passed', () => {
-      spyOn(component, 'getColour').and.returnValue(component.examinerRecordsProvider.colours.greyscale);
+      vi.spyOn(component, 'getColour').mockReturnValue(component.examinerRecordsProvider.colours.greyscale);
       component.colourFilterChanged(ColourEnum.GREYSCALE);
       expect(component.colourOption).toEqual(component.examinerRecordsProvider.colours.greyscale);
     });
@@ -849,14 +863,14 @@ describe('ExaminerRecordsPage', () => {
 
   describe('ionViewDidEnter', () => {
     it('should dispatch ExaminerRecordsViewDidEnter action', async () => {
-      spyOn(component.orientationProvider, 'monitorOrientation').and.callThrough();
+      vi.spyOn(component.orientationProvider, 'monitorOrientation');
 
       await component.ionViewDidEnter();
       expect(component.store$.dispatch).toHaveBeenCalledWith(ExaminerRecordsViewDidEnter());
     });
 
     it('should call monitorOrientation on orientationProvider', async () => {
-      spyOn(component.orientationProvider, 'monitorOrientation').and.callThrough();
+      vi.spyOn(component.orientationProvider, 'monitorOrientation');
       await component.ionViewDidEnter();
       expect(component.orientationProvider.monitorOrientation).toHaveBeenCalled();
     });
@@ -864,13 +878,13 @@ describe('ExaminerRecordsPage', () => {
 
   describe('ionViewWillLeave', () => {
     it('should remove all listeners from screen orientation', () => {
-      spyOn(ScreenOrientation, 'removeAllListeners').and.callThrough();
+      vi.spyOn(ScreenOrientation, 'removeAllListeners');
       component.ionViewWillLeave();
       expect(ScreenOrientation.removeAllListeners).toHaveBeenCalled();
     });
     it('should unsubscribe from the subscription if there is one', () => {
       component.subscription = new Subscription();
-      spyOn(component.subscription, 'unsubscribe');
+      vi.spyOn(component.subscription, 'unsubscribe').mockReturnValue(undefined);
       component.ionViewWillLeave();
       expect(component.subscription.unsubscribe).toHaveBeenCalled();
     });
@@ -926,7 +940,7 @@ describe('ExaminerRecordsPage', () => {
         locationList: [],
         categoryList: [],
       };
-      expect(component.displayNoDataCard(data)).toBeTrue();
+      expect(component.displayNoDataCard(data)).toBe(true);
     });
 
     it('should return true when locationList is not empty but categoryList is', () => {
@@ -958,7 +972,7 @@ describe('ExaminerRecordsPage', () => {
         ],
         categoryList: [],
       };
-      expect(component.displayNoDataCard(data)).toBeTrue();
+      expect(component.displayNoDataCard(data)).toBe(true);
     });
 
     it('should return false when locationList && categoryList not empty', () => {
@@ -995,7 +1009,7 @@ describe('ExaminerRecordsPage', () => {
           },
         ],
       };
-      expect(component.displayNoDataCard(data)).toBeFalse();
+      expect(component.displayNoDataCard(data)).toBe(false);
     });
   });
 });

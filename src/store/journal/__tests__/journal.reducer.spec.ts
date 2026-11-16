@@ -2,6 +2,7 @@ import { Action } from '@ngrx/store';
 import { NetworkConnectionStatus } from '@providers/network-state/network-state';
 import { searchResultsMock } from '@providers/search/__mocks__/search-results.mock';
 import { SlotItem } from '@providers/slot-selector/slot-item';
+import { describe, expect, it } from 'vitest';
 import {
   CandidateDetailsSeen,
   ClearChangedSlot,
@@ -71,7 +72,7 @@ describe('Journal Reducer', () => {
       expect(result).toEqual({
         ...state,
         isLoading: false,
-        lastRefreshed: jasmine.any(Date),
+        lastRefreshed: expect.any(Date),
         slots: {
           '2019-01-13': [
             {

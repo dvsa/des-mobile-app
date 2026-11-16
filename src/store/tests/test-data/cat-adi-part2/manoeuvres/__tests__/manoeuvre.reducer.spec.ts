@@ -1,5 +1,6 @@
 import { CatADI2UniqueTypes } from '@dvsa/mes-test-schema/categories/ADI2';
 import { CompetencyOutcome } from '@shared/models/competency-outcome';
+import { describe, expect, it } from 'vitest';
 import { ManoeuvreCompetencies, ManoeuvreTypes } from '../../../test-data.constants';
 import {
   AddManoeuvreComment,

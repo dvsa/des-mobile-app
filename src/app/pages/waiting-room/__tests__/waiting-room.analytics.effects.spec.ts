@@ -24,7 +24,8 @@ import * as applicationReferenceActions from '@store/tests/journal-data/common/a
 import { PopulateCandidateDetails } from '@store/tests/journal-data/common/candidate/candidate.actions';
 import * as testsActions from '@store/tests/tests.actions';
 import { testsReducer } from '@store/tests/tests.reducer';
-import { ReplaySubject } from 'rxjs';
+import { ReplaySubject, firstValueFrom } from 'rxjs';
+import { beforeEach, describe, expect, it } from 'vitest';
 import * as waitingRoomActions from '../waiting-room.actions';
 import { WaitingRoomAnalyticsEffects } from '../waiting-room.analytics.effects';
 
@@ -70,62 +71,42 @@ describe('WaitingRoomAnalyticsEffects', () => {
   });
 
   describe('waitingRoomViewDidEnter', () => {
-    it('should call setCurrentPage and addCustomDimension', (done) => {
-      // ARRANGE
+    it('should call setCurrentPage and addCustomDimension', async () => {
       store$.dispatch(testsActions.StartTest(123, TestCategory.B));
       store$.dispatch(PopulateCandidateDetails(candidateMock));
       store$.dispatch(applicationReferenceActions.PopulateApplicationReference(mockApplication));
       store$.dispatch(PopulateTestCategory(TestCategory.B));
-      // ACT
       actions$.next(waitingRoomActions.WaitingRoomViewDidEnter());
-      // ASSERT
-      effects.waitingRoomViewDidEnter$.subscribe((result: ReturnType<typeof AnalyticRecorded>) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-        done();
-      });
+      const result = await firstValueFrom(effects.waitingRoomViewDidEnter$);
+      expect(result.type).toEqual(AnalyticRecorded.type);
     });
-    it('should call setCurrentPage with practice mode prefix and addCustomDimension', (done) => {
-      // ARRANGE
+    it('should call setCurrentPage with practice mode prefix and addCustomDimension', async () => {
       store$.dispatch(fakeJournalActions.StartE2EPracticeTest(end2endPracticeSlotId));
       store$.dispatch(PopulateCandidateDetails(candidateMock));
       store$.dispatch(applicationReferenceActions.PopulateApplicationReference(mockApplication));
       store$.dispatch(PopulateTestCategory(TestCategory.B));
-      // ACT
       actions$.next(waitingRoomActions.WaitingRoomViewDidEnter());
-      // ASSERT
-      effects.waitingRoomViewDidEnter$.subscribe((result: ReturnType<typeof AnalyticRecorded>) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-        done();
-      });
+      const result = await firstValueFrom(effects.waitingRoomViewDidEnter$);
+      expect(result.type).toEqual(AnalyticRecorded.type);
     });
   });
 
   describe('waitingRoomValidationError', () => {
-    it('should call logError', (done) => {
-      // ARRANGE
+    it('should call logError', async () => {
       store$.dispatch(testsActions.StartTest(123, TestCategory.B));
       store$.dispatch(PopulateCandidateDetails(candidateMock));
       store$.dispatch(PopulateTestCategory(TestCategory.B));
-      // ACT
       actions$.next(waitingRoomActions.WaitingRoomValidationError('formControl1'));
-      // ASSERT
-      effects.waitingRoomValidationError$.subscribe((result: ReturnType<typeof AnalyticRecorded>) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-        done();
-      });
+      const result = await firstValueFrom(effects.waitingRoomValidationError$);
+      expect(result.type).toEqual(AnalyticRecorded.type);
     });
-    it('should call logError, prefixed with practice mode', (done) => {
-      // ARRANGE
+    it('should call logError, prefixed with practice mode', async () => {
       store$.dispatch(fakeJournalActions.StartE2EPracticeTest(end2endPracticeSlotId));
       store$.dispatch(PopulateCandidateDetails(candidateMock));
       store$.dispatch(PopulateTestCategory(TestCategory.B));
-      // ACT
       actions$.next(waitingRoomActions.WaitingRoomValidationError('formControl1'));
-      // ASSERT
-      effects.waitingRoomValidationError$.subscribe((result: ReturnType<typeof AnalyticRecorded>) => {
-        expect(result.type).toBe(AnalyticRecorded.type);
-        done();
-      });
+      const result = await firstValueFrom(effects.waitingRoomValidationError$);
+      expect(result.type).toBe(AnalyticRecorded.type);
     });
   });
 

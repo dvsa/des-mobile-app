@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { beforeEach, describe, expect, it } from 'vitest';
 
 import { ViewTestHeaderModel } from '@pages/view-test-result/components/view-test-header/view-test-header.model';
 import { TestOutcome } from '@store/tests/tests.constants';

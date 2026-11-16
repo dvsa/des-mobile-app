@@ -1,5 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { ADI3AssessmentProvider } from '@providers/adi3-assessment/adi3-assessment';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 describe('ADI3AssessmentProvider', () => {
   let adi3AssessmentProvider: ADI3AssessmentProvider;
@@ -59,7 +60,7 @@ describe('ADI3AssessmentProvider', () => {
       'should return true if validateTestReport returns 17,' +
         'studentLevel is present, lessonAndTheme.other is present and feedback is present',
       () => {
-        spyOn(adi3AssessmentProvider, 'validateTestReport').and.returnValue(17);
+        vi.spyOn(adi3AssessmentProvider, 'validateTestReport').mockReturnValue(17);
         expect(
           adi3AssessmentProvider.isTestReportPopulated({
             lessonPlanning: null,
@@ -80,7 +81,7 @@ describe('ADI3AssessmentProvider', () => {
         'studentLevel is present, the length of lessonAndTheme.lessonThemes is more than 0' +
         'and feedback is present',
       () => {
-        spyOn(adi3AssessmentProvider, 'validateTestReport').and.returnValue(17);
+        vi.spyOn(adi3AssessmentProvider, 'validateTestReport').mockReturnValue(17);
         expect(
           adi3AssessmentProvider.isTestReportPopulated({
             lessonPlanning: null,
@@ -100,7 +101,7 @@ describe('ADI3AssessmentProvider', () => {
         'studentLevel is present, the length of lessonAndTheme.lessonThemes is more than 0' +
         'and feedback is present',
       () => {
-        spyOn(adi3AssessmentProvider, 'validateTestReport').and.returnValue(16);
+        vi.spyOn(adi3AssessmentProvider, 'validateTestReport').mockReturnValue(16);
         expect(
           adi3AssessmentProvider.isTestReportPopulated({
             lessonPlanning: null,
@@ -120,7 +121,7 @@ describe('ADI3AssessmentProvider', () => {
         'studentLevel is present, the length of lessonAndTheme.lessonThemes is 0' +
         'and feedback is present',
       () => {
-        spyOn(adi3AssessmentProvider, 'validateTestReport').and.returnValue(16);
+        vi.spyOn(adi3AssessmentProvider, 'validateTestReport').mockReturnValue(16);
         expect(
           adi3AssessmentProvider.isTestReportPopulated({
             lessonPlanning: null,
@@ -140,7 +141,7 @@ describe('ADI3AssessmentProvider', () => {
         'studentLevel is present, the length of lessonAndTheme.lessonThemes is more than 0' +
         'and feedback is not present',
       () => {
-        spyOn(adi3AssessmentProvider, 'validateTestReport').and.returnValue(16);
+        vi.spyOn(adi3AssessmentProvider, 'validateTestReport').mockReturnValue(16);
         expect(
           adi3AssessmentProvider.isTestReportPopulated({
             lessonPlanning: null,
@@ -159,7 +160,7 @@ describe('ADI3AssessmentProvider', () => {
         'studentLevel is not present, the length of lessonAndTheme.lessonThemes is more than 0' +
         'and feedback is present',
       () => {
-        spyOn(adi3AssessmentProvider, 'validateTestReport').and.returnValue(17);
+        vi.spyOn(adi3AssessmentProvider, 'validateTestReport').mockReturnValue(17);
         expect(
           adi3AssessmentProvider.isTestReportPopulated({
             lessonPlanning: null,
@@ -175,14 +176,14 @@ describe('ADI3AssessmentProvider', () => {
 
   describe('countScoreIfTouched', () => {
     it('should return `-` if validateTestReport returns 0', () => {
-      spyOn(adi3AssessmentProvider, 'validateTestReport').and.returnValue(0);
+      vi.spyOn(adi3AssessmentProvider, 'validateTestReport').mockReturnValue(0);
       const result = adi3AssessmentProvider.countScoreIfTouched({});
       expect(result).toBe('-');
     });
 
     it('should return `score` if validateTestReport returns other then 0', () => {
-      spyOn(adi3AssessmentProvider, 'validateTestReport').and.returnValue(1);
-      spyOn(adi3AssessmentProvider, 'getTotalAssessmentScore').and.returnValue(3);
+      vi.spyOn(adi3AssessmentProvider, 'validateTestReport').mockReturnValue(1);
+      vi.spyOn(adi3AssessmentProvider, 'getTotalAssessmentScore').mockReturnValue(3);
       const result = adi3AssessmentProvider.countScoreIfTouched({});
       expect(result).toBe(3);
     });

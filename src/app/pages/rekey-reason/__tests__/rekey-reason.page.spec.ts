@@ -3,6 +3,7 @@ import { FormsModule, ReactiveFormsModule, UntypedFormControl, UntypedFormGroup 
 import { Router } from '@angular/router';
 import { ModalController } from '@ionic/angular';
 import { OverlayEventDetail } from '@ionic/core';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { provideBasePageMocks } from '@mocks/test-providers';
 import { Store, StoreModule } from '@ngrx/store';
@@ -149,7 +150,7 @@ describe('RekeyReasonPage', () => {
     router = TestBed.inject(Router);
     modalController = TestBed.inject(ModalController);
     store$ = TestBed.inject(Store);
-    spyOn(store$, 'dispatch');
+    vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
   });
 
   describe('Class', () => {
@@ -234,14 +235,14 @@ describe('RekeyReasonPage', () => {
     });
     describe('onExitRekeyPressed', () => {
       it('should call through to showExitRekeyModal', async () => {
-        spyOn(component, 'showExitRekeyModal');
+        vi.spyOn(component, 'showExitRekeyModal').mockReturnValue(undefined);
         await component.onExitRekeyPressed();
         expect(component.showExitRekeyModal).toHaveBeenCalled();
       });
     });
     describe('onExitRekeyModalDismiss', () => {
       beforeEach(() => {
-        spyOn(component, 'exitRekey');
+        vi.spyOn(component, 'exitRekey').mockReturnValue(undefined);
       });
       it('should not call exitRekey when modal event is CANCEL', async () => {
         await component.onExitRekeyModalDismiss(ExitRekeyModalEvent.CANCEL);
@@ -262,13 +263,13 @@ describe('RekeyReasonPage', () => {
     });
     describe('showExitRekeyModal', () => {
       it('should display an exit rekey modal', async () => {
-        spyOn(modalController, 'create').and.returnValue(
+        vi.spyOn(modalController, 'create').mockReturnValue(
           Promise.resolve({
             present: async () => {},
             onDidDismiss: () => ({ data: 'cancel' }) as OverlayEventDetail,
           } as HTMLIonModalElement)
         );
-        spyOn(component, 'onExitRekeyModalDismiss');
+        vi.spyOn(component, 'onExitRekeyModalDismiss').mockReturnValue(undefined);
 
         await component.showExitRekeyModal();
 
@@ -281,13 +282,13 @@ describe('RekeyReasonPage', () => {
     });
     describe('onShowUploadRekeyModal', () => {
       it('should display an upload modal', async () => {
-        spyOn(modalController, 'create').and.returnValue(
+        vi.spyOn(modalController, 'create').mockReturnValue(
           Promise.resolve({
             present: async () => {},
             onDidDismiss: () => ({ data: 'cancel' }) as OverlayEventDetail,
           } as HTMLIonModalElement)
         );
-        spyOn(component, 'onUploadRekeyModalDismiss');
+        vi.spyOn(component, 'onUploadRekeyModalDismiss').mockReturnValue(undefined);
 
         await component.onShowUploadRekeyModal(true);
 
@@ -309,7 +310,7 @@ describe('RekeyReasonPage', () => {
     });
     describe('isFormValid', () => {
       it('should run markSpecificControlsAsDirty', () => {
-        spyOn(component, 'markSpecificControlsAsDirty');
+        vi.spyOn(component, 'markSpecificControlsAsDirty').mockReturnValue(undefined);
         component.isFormValid();
 
         expect(component.markSpecificControlsAsDirty).toHaveBeenCalled();
@@ -318,7 +319,7 @@ describe('RekeyReasonPage', () => {
     describe('ionViewDidLeave', () => {
       it('should unsubscribe from subscription if there is one', () => {
         component.subscription = new Subscription();
-        spyOn(component.subscription, 'unsubscribe');
+        vi.spyOn(component.subscription, 'unsubscribe').mockReturnValue(undefined);
         component.ionViewDidLeave();
         expect(component.subscription.unsubscribe).toHaveBeenCalled();
       });
@@ -350,22 +351,22 @@ describe('RekeyReasonPage', () => {
     });
     describe('onUploadPressed', () => {
       it('should call onShowUploadRekeyModal if isFormValid is true', async () => {
-        spyOn(component, 'isFormValid').and.returnValue(true);
-        spyOn(component, 'onShowUploadRekeyModal').and.callThrough();
+        vi.spyOn(component, 'isFormValid').mockReturnValue(true);
+        vi.spyOn(component, 'onShowUploadRekeyModal');
         await component.onUploadPressed();
         expect(component.onShowUploadRekeyModal).toHaveBeenCalled();
       });
     });
     describe('exitRekey', () => {
       it('should run navigate with REKEY_SEARCH_PAGE if fromRekeySearch is true', async () => {
-        spyOn(component.router, 'navigate');
+        vi.spyOn(component.router, 'navigate');
         component.fromRekeySearch = true;
         await component.exitRekey();
 
         expect(component.router.navigate).toHaveBeenCalledWith([REKEY_SEARCH_PAGE]);
       });
       it('should run navigate with JOURNAL_PAGE if fromRekeySearch is false', async () => {
-        spyOn(component.router, 'navigate');
+        vi.spyOn(component.router, 'navigate');
         component.fromRekeySearch = false;
         await component.exitRekey();
 
@@ -418,8 +419,8 @@ describe('RekeyReasonPage', () => {
     });
     describe('handleUploadOutcome', () => {
       beforeEach(() => {
-        spyOn(loaderService, 'handleUILoading');
-        spyOn(component, 'onShowUploadRekeyModal');
+        vi.spyOn(loaderService, 'handleUILoading').mockReturnValue(undefined);
+        vi.spyOn(component, 'onShowUploadRekeyModal').mockReturnValue(undefined);
       });
       it('should not navigate or open the retry modal unless the upload button was pressed', async () => {
         const action = SendCurrentTestSuccess();

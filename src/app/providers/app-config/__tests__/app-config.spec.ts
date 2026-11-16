@@ -1,6 +1,6 @@
 import { HttpErrorResponse, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
-import { TestBed, fakeAsync, tick } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 import { IsDebug } from '@awesome-cordova-plugins/is-debug/ngx';
 import { environment } from '@environments/environment';
 import { TestersEnvironmentFile } from '@environments/models/environment.model';
@@ -11,6 +11,7 @@ import { AppConfigError } from '@providers/app-config/app-config.constants';
 import { AppConfig } from '@providers/app-config/app-config.model';
 import { appConfigReducer } from '@store/app-config/app-config.reducer';
 import { testsReducer } from '@store/tests/tests.reducer';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { AppInfoProviderMock } from '../../app-info/__mocks__/app-info.mock';
 import { AppInfoProvider } from '../../app-info/app-info';
 import { DataStoreProviderMock } from '../../data-store/__mocks__/data-store.mock';
@@ -90,7 +91,7 @@ describe('AppConfigProvider', () => {
     dataStoreProvider = TestBed.inject(DataStoreProvider);
     schemaValidatorProvider = TestBed.inject(SchemaValidatorProvider);
     appConfig.isDebugMode = true;
-    spyOn(appConfig, 'getDebugMode').and.returnValue(Promise.resolve());
+    vi.spyOn(appConfig, 'getDebugMode').mockReturnValue(Promise.resolve());
   });
 
   afterEach(() => {
@@ -98,42 +99,57 @@ describe('AppConfigProvider', () => {
   });
 
   describe('initialiseAppConfig', () => {
-    it('should run loadMangedConfig() when platform is Ios', fakeAsync(() => {
-      platform.is = jasmine.createSpy('platform.is').and.returnValue(true);
-      appConfig.loadManagedConfig = jasmine.createSpy('appConfig.loadManagedConfig');
+    it('should run loadMangedConfig() when platform is Ios', async () => {
+      vi.useFakeTimers();
+      try {
+        platform.is = vi.fn().mockReturnValue(true);
+        appConfig.loadManagedConfig = vi.fn();
 
-      appConfig.initialiseAppConfig();
-      tick();
+        appConfig.initialiseAppConfig();
+        await vi.advanceTimersByTimeAsync(0);
 
-      expect(appConfig.loadManagedConfig).toHaveBeenCalled();
-    }));
-    it('should not run loadMangedConfig() when platform is not ios', fakeAsync(() => {
-      platform.is = jasmine.createSpy('platform.is').and.returnValue(false);
-      appConfig.loadManagedConfig = jasmine.createSpy('appConfig.loadManagedConfig');
+        expect(appConfig.loadManagedConfig).toHaveBeenCalled();
+      } finally {
+        vi.useRealTimers();
+      }
+    });
+    it('should not run loadMangedConfig() when platform is not ios', async () => {
+      vi.useFakeTimers();
+      try {
+        platform.is = vi.fn().mockReturnValue(false);
+        appConfig.loadManagedConfig = vi.fn();
 
-      appConfig.initialiseAppConfig();
-      tick();
+        appConfig.initialiseAppConfig();
+        await vi.advanceTimersByTimeAsync(0);
 
-      expect(appConfig.loadManagedConfig).toHaveBeenCalledTimes(0);
-    }));
+        expect(appConfig.loadManagedConfig).toHaveBeenCalledTimes(0);
+      } finally {
+        vi.useRealTimers();
+      }
+    });
   });
 
   describe('loadRemoteConfig', () => {
-    it('should load remote config', fakeAsync(() => {
-      appConfig.environmentFile = remoteEnvironmentMock;
+    it('should load remote config', async () => {
+      vi.useFakeTimers();
+      try {
+        appConfig.environmentFile = remoteEnvironmentMock;
 
-      appConfig.loadRemoteConfig();
-      tick();
+        appConfig.loadRemoteConfig();
+        await vi.advanceTimersByTimeAsync(0);
 
-      const request = httpMock.expectOne(`${remoteEnvironmentMock.configUrl}?app_version=4.0.0.0`);
-      expect(request.request.method).toBe('GET');
-      request.flush(environmentResponseMock);
-    }));
+        const request = httpMock.expectOne(`${remoteEnvironmentMock.configUrl}?app_version=4.0.0.0`);
+        expect(request.request.method).toBe('GET');
+        request.flush(environmentResponseMock);
+      } finally {
+        vi.useRealTimers();
+      }
+    });
   });
 
   describe('getAppConfig', () => {
     it('should asynchronously set the appConfig then return it', async () => {
-      spyOn(appConfig, 'getAppConfigAsync').and.returnValue(Promise.resolve({ configUrl: 'url' } as AppConfig));
+      vi.spyOn(appConfig, 'getAppConfigAsync').mockReturnValue(Promise.resolve({ configUrl: 'url' } as AppConfig));
       const conf = appConfig.getAppConfig();
       expect(conf).not.toBeUndefined();
     });
@@ -148,7 +164,7 @@ describe('AppConfigProvider', () => {
 
     it('should call getAppConfigAsync if appConfig is not set', () => {
       (appConfig as any).appConfig = undefined;
-      spyOn(appConfig, 'getAppConfigAsync');
+      vi.spyOn(appConfig, 'getAppConfigAsync').mockReturnValue(undefined);
 
       appConfig.getAppConfig();
 
@@ -159,7 +175,7 @@ describe('AppConfigProvider', () => {
   describe('getAppConfigAsync', () => {
     it('should return existing appConfig without reinitializing', async () => {
       (appConfig as any).appConfig = { configUrl: 'url' };
-      spyOn(appConfig, 'initialiseAppConfig');
+      vi.spyOn(appConfig, 'initialiseAppConfig');
 
       const result = await appConfig.getAppConfigAsync();
 
@@ -167,71 +183,96 @@ describe('AppConfigProvider', () => {
       expect(appConfig.initialiseAppConfig).not.toHaveBeenCalled();
     });
 
-    it('should validate remote config and skip mapping if validation fails', fakeAsync(() => {
-      (appConfig as any).appConfig = undefined;
-      appConfig.environmentFile.isRemote = true;
+    it('should validate remote config and skip mapping if validation fails', async () => {
+      vi.useFakeTimers();
+      try {
+        (appConfig as any).appConfig = undefined;
+        appConfig.environmentFile.isRemote = true;
 
-      spyOn(appConfig, 'initialiseAppConfig').and.returnValue(Promise.resolve());
-      spyOn(schemaValidatorProvider, 'validateRemoteConfig').and.returnValue({
-        errors: [{ message: 'Invalid' }],
-      } as any);
-      spyOn(appConfig as any, 'mapRemoteConfig');
+        vi.spyOn(appConfig, 'initialiseAppConfig').mockReturnValue(Promise.resolve());
+        vi.spyOn(schemaValidatorProvider, 'validateRemoteConfig').mockReturnValue({
+          errors: [{ message: 'Invalid' }],
+        } as any);
+        vi.spyOn(appConfig as any, 'mapRemoteConfig').mockReturnValue(undefined);
 
-      appConfig.getAppConfigAsync();
-      tick();
+        appConfig.getAppConfigAsync();
+        await vi.advanceTimersByTimeAsync(0);
 
-      expect((appConfig as any).mapRemoteConfig).not.toHaveBeenCalled();
-    }));
+        expect((appConfig as any).mapRemoteConfig).not.toHaveBeenCalled();
+      } finally {
+        vi.useRealTimers();
+      }
+    });
 
-    it('should handle error during initialization', fakeAsync(() => {
-      (appConfig as any).appConfig = undefined;
-      spyOn(appConfig, 'initialiseAppConfig').and.returnValue(Promise.reject('Init error'));
+    it('should handle error during initialization', async () => {
+      vi.useFakeTimers();
+      try {
+        (appConfig as any).appConfig = undefined;
+        vi.spyOn(appConfig, 'initialiseAppConfig').mockReturnValue(Promise.reject('Init error'));
 
-      appConfig.getAppConfigAsync();
-      tick();
+        appConfig.getAppConfigAsync();
+        await vi.advanceTimersByTimeAsync(0);
 
-      expect(true).toBe(true);
-    }));
+        expect(true).toBe(true);
+      } finally {
+        vi.useRealTimers();
+      }
+    });
 
-    it('should handle error during config retrieval', fakeAsync(() => {
-      (appConfig as any).appConfig = undefined;
-      appConfig.environmentFile.isRemote = true;
+    it('should handle error during config retrieval', async () => {
+      vi.useFakeTimers();
+      try {
+        (appConfig as any).appConfig = undefined;
+        appConfig.environmentFile.isRemote = true;
 
-      spyOn(appConfig, 'initialiseAppConfig').and.returnValue(Promise.resolve());
-      spyOn(dataStoreProvider, 'getItem').and.returnValue(Promise.reject('Retrieval error'));
+        vi.spyOn(appConfig, 'initialiseAppConfig').mockReturnValue(Promise.resolve());
+        vi.spyOn(dataStoreProvider, 'getItem').mockReturnValue(Promise.reject('Retrieval error'));
 
-      appConfig.getAppConfigAsync();
-      tick();
+        appConfig.getAppConfigAsync();
+        await vi.advanceTimersByTimeAsync(0);
 
-      expect(true).toBe(true);
-    }));
+        expect(true).toBe(true);
+      } finally {
+        vi.useRealTimers();
+      }
+    });
   });
 
   describe('getCachedRemoteConfig', () => {
-    it('should parse and return cached config from storage', fakeAsync(() => {
-      const mockConfig = { configUrl: 'url' };
-      spyOn(dataStoreProvider, 'getItem').and.returnValue(Promise.resolve(JSON.stringify(mockConfig)));
+    it('should parse and return cached config from storage', async () => {
+      vi.useFakeTimers();
+      try {
+        const mockConfig = { configUrl: 'url' };
+        vi.spyOn(dataStoreProvider, 'getItem').mockReturnValue(Promise.resolve(JSON.stringify(mockConfig)));
 
-      let result: any;
-      (appConfig as any).getCachedRemoteConfig().then((config) => {
-        result = config;
-      });
-      tick();
+        let result: any;
+        (appConfig as any).getCachedRemoteConfig().then((config) => {
+          result = config;
+        });
+        await vi.advanceTimersByTimeAsync(0);
 
-      expect(result).toEqual(mockConfig);
-    }));
+        expect(result).toEqual(mockConfig);
+      } finally {
+        vi.useRealTimers();
+      }
+    });
 
-    it('should throw error if config retrieval fails', fakeAsync(() => {
-      spyOn(dataStoreProvider, 'getItem').and.returnValue(Promise.reject('Storage error'));
+    it('should throw error if config retrieval fails', async () => {
+      vi.useFakeTimers();
+      try {
+        vi.spyOn(dataStoreProvider, 'getItem').mockReturnValue(Promise.reject('Storage error'));
 
-      let error: string;
-      (appConfig as any).getCachedRemoteConfig().catch((e) => {
-        error = e;
-      });
-      tick();
+        let error: string;
+        (appConfig as any).getCachedRemoteConfig().catch((e) => {
+          error = e;
+        });
+        await vi.advanceTimersByTimeAsync(0);
 
-      expect(error).toBe('Storage error');
-    }));
+        expect(error).toBe('Storage error');
+      } finally {
+        vi.useRealTimers();
+      }
+    });
   });
 
   describe('shouldGetCachedConfig', () => {
@@ -265,12 +306,23 @@ describe('AppConfigProvider', () => {
   });
 
   describe('getDebugMode', () => {
+    let originalIsTest: PropertyDescriptor | undefined;
+
     beforeEach(() => {
+      originalIsTest = Object.getOwnPropertyDescriptor(environment, 'isTest');
       (environment as TestersEnvironmentFile).isTest = false;
     });
 
+    afterEach(() => {
+      if (originalIsTest) {
+        Object.defineProperty(environment, 'isTest', originalIsTest);
+      } else {
+        (environment as TestersEnvironmentFile).isTest = undefined;
+      }
+    });
+
     it('should return the value from the plugin when not isTest', async () => {
-      spyOn(isDebug, 'getIsDebug').and.returnValue(Promise.resolve(true));
+      vi.spyOn(isDebug, 'getIsDebug').mockReturnValue(Promise.resolve(true));
 
       await appConfig.getDebugMode();
 
@@ -280,7 +332,7 @@ describe('AppConfigProvider', () => {
     it('should return true when isTest regardless of plugin', async () => {
       (environment as TestersEnvironmentFile).isTest = true;
 
-      spyOn(isDebug, 'getIsDebug').and.returnValue(Promise.resolve(false));
+      vi.spyOn(isDebug, 'getIsDebug').mockReturnValue(Promise.resolve(false));
 
       await appConfig.getDebugMode();
 

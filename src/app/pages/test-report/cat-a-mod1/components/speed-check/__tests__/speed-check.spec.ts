@@ -3,6 +3,7 @@ import { DangerousFaultBadgeComponent } from '@components/common/dangerous-fault
 import { DrivingFaultsBadgeComponent } from '@components/common/driving-faults-badge/driving-faults-badge';
 import { SeriousFaultBadgeComponent } from '@components/common/serious-fault-badge/serious-fault-badge';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { Store, StoreModule } from '@ngrx/store';
 import { CompetencyOutcome } from '@shared/models/competency-outcome';
@@ -63,7 +64,7 @@ describe('SpeedCheckComponent', () => {
       it('should dispatch AddEmergencyStopSeriousFault when Emergency Stop is the speed check', () => {
         component.competency = Competencies.speedCheckEmergency;
         component.outcome = null;
-        const storeDispatchSpy = spyOn(store$, 'dispatch');
+        const storeDispatchSpy = vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
         component.toggleNotMet();
         expect(storeDispatchSpy).toHaveBeenCalledWith(AddEmergencyStopSeriousFault());
       });
@@ -73,7 +74,7 @@ describe('SpeedCheckComponent', () => {
         () => {
           component.competency = Competencies.speedCheckEmergency;
           component.outcome = CompetencyOutcome.S;
-          const storeDispatchSpy = spyOn(store$, 'dispatch');
+          const storeDispatchSpy = vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
           component.toggleNotMet();
           expect(storeDispatchSpy).toHaveBeenCalledWith(RemoveEmergencyStopSeriousFault());
         }
@@ -82,14 +83,14 @@ describe('SpeedCheckComponent', () => {
       it('should dispatch AddAvoidanceSeriousFault when Avoidance is the speed check', () => {
         component.competency = Competencies.speedCheckAvoidance;
         component.outcome = null;
-        const storeDispatchSpy = spyOn(store$, 'dispatch');
+        const storeDispatchSpy = vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
         component.toggleNotMet();
         expect(storeDispatchSpy).toHaveBeenCalledWith(AddAvoidanceSeriousFault());
       });
       it('should dispatch RemoveAvoidanceSeriousFault when Avoidance is the speed check and outcome is "S"', () => {
         component.competency = Competencies.speedCheckAvoidance;
         component.outcome = CompetencyOutcome.S;
-        const storeDispatchSpy = spyOn(store$, 'dispatch');
+        const storeDispatchSpy = vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
         component.toggleNotMet();
         expect(storeDispatchSpy).toHaveBeenCalledWith(RemoveAvoidanceSeriousFault());
       });
@@ -126,7 +127,7 @@ describe('SpeedCheckComponent', () => {
     describe('ngOnDestroy', () => {
       it('should unsubscribe from the subscription if there is one', () => {
         component.subscription = new Subscription();
-        spyOn(component.subscription, 'unsubscribe');
+        vi.spyOn(component.subscription, 'unsubscribe').mockReturnValue(undefined);
         component.ngOnDestroy();
         expect(component.subscription.unsubscribe).toHaveBeenCalled();
       });
@@ -161,7 +162,7 @@ describe('SpeedCheckComponent', () => {
     describe('onFirstAttemptInput', () => {
       it('should record emergency stop first attempt', () => {
         component.competency = Competencies.speedCheckEmergency;
-        const storeDispatchSpy = spyOn(store$, 'dispatch');
+        const storeDispatchSpy = vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
         const attemptedSpeed = {
           target: {
             value: '48',
@@ -173,7 +174,7 @@ describe('SpeedCheckComponent', () => {
 
       it('should record avoidance first attempt', () => {
         component.competency = Competencies.speedCheckAvoidance;
-        const storeDispatchSpy = spyOn(store$, 'dispatch');
+        const storeDispatchSpy = vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
         const attemptedSpeed = {
           target: {
             value: '48',
@@ -185,7 +186,7 @@ describe('SpeedCheckComponent', () => {
 
       it('should record undefined as Emergency Stop firstAttempt when attemptedSpeed is an empty string', () => {
         component.competency = Competencies.speedCheckEmergency;
-        const storeDispatchSpy = spyOn(store$, 'dispatch');
+        const storeDispatchSpy = vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
         const attemptedSpeed = {
           target: {
             value: '',
@@ -197,7 +198,7 @@ describe('SpeedCheckComponent', () => {
 
       it('should record undefined as Avoidance firstAttempt when attemptedSpeed is an empty string', () => {
         component.competency = Competencies.speedCheckAvoidance;
-        const storeDispatchSpy = spyOn(store$, 'dispatch');
+        const storeDispatchSpy = vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
         const attemptedSpeed = {
           target: {
             value: '',
@@ -211,7 +212,7 @@ describe('SpeedCheckComponent', () => {
     describe('onSecondAttemptInput', () => {
       it('should record emergency stop second attempt', () => {
         component.competency = Competencies.speedCheckEmergency;
-        const storeDispatchSpy = spyOn(store$, 'dispatch');
+        const storeDispatchSpy = vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
         const attemptedSpeed = {
           target: {
             value: '48',
@@ -223,7 +224,7 @@ describe('SpeedCheckComponent', () => {
 
       it('should record avoidance second attempt', () => {
         component.competency = Competencies.speedCheckAvoidance;
-        const storeDispatchSpy = spyOn(store$, 'dispatch');
+        const storeDispatchSpy = vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
         const attemptedSpeed = {
           target: {
             value: '48',
@@ -235,7 +236,7 @@ describe('SpeedCheckComponent', () => {
 
       it('should record undefined as Emergency Stop secondAttempt when attemptedSpeed is an empty string', () => {
         component.competency = Competencies.speedCheckEmergency;
-        const storeDispatchSpy = spyOn(store$, 'dispatch');
+        const storeDispatchSpy = vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
         const attemptedSpeed = {
           target: {
             value: '',
@@ -247,7 +248,7 @@ describe('SpeedCheckComponent', () => {
 
       it('should record undefined as Avoidance secondAttempt when attemptedSpeed is an empty string', () => {
         component.competency = Competencies.speedCheckAvoidance;
-        const storeDispatchSpy = spyOn(store$, 'dispatch');
+        const storeDispatchSpy = vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
         const attemptedSpeed = {
           target: {
             value: '',
@@ -261,32 +262,32 @@ describe('SpeedCheckComponent', () => {
     describe('onFirstAttemptChange', () => {
       it('should report emergency stop first attempt', () => {
         component.competency = Competencies.speedCheckEmergency;
-        const storeDispatchSpy = spyOn(store$, 'dispatch');
-        spyOn(component, 'getFirstAttempt').and.returnValue(48);
+        const storeDispatchSpy = vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
+        vi.spyOn(component, 'getFirstAttempt').mockReturnValue(48);
         component.onFirstAttemptChange();
         expect(storeDispatchSpy).toHaveBeenCalledWith(ReportEmergencyStopFirstAttempt(48));
       });
 
       it('should report avoidance first attempt', () => {
         component.competency = Competencies.speedCheckAvoidance;
-        const storeDispatchSpy = spyOn(store$, 'dispatch');
-        spyOn(component, 'getFirstAttempt').and.returnValue(48);
+        const storeDispatchSpy = vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
+        vi.spyOn(component, 'getFirstAttempt').mockReturnValue(48);
         component.onFirstAttemptChange();
         expect(storeDispatchSpy).toHaveBeenCalledWith(ReportAvoidanceFirstAttempt(48));
       });
 
       it('should report undefined as Emergency Stop firstAttempt when attemptedSpeed is undefined', () => {
         component.competency = Competencies.speedCheckEmergency;
-        const storeDispatchSpy = spyOn(store$, 'dispatch');
-        spyOn(component, 'getFirstAttempt').and.returnValue(undefined);
+        const storeDispatchSpy = vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
+        vi.spyOn(component, 'getFirstAttempt').mockReturnValue(undefined);
         component.onFirstAttemptChange();
         expect(storeDispatchSpy).toHaveBeenCalledWith(ReportEmergencyStopFirstAttempt(undefined));
       });
 
       it('should report undefined as Avoidance firstAttempt when attemptedSpeed is undefined', () => {
         component.competency = Competencies.speedCheckAvoidance;
-        const storeDispatchSpy = spyOn(store$, 'dispatch');
-        spyOn(component, 'getFirstAttempt').and.returnValue(undefined);
+        const storeDispatchSpy = vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
+        vi.spyOn(component, 'getFirstAttempt').mockReturnValue(undefined);
         component.onFirstAttemptChange();
         expect(storeDispatchSpy).toHaveBeenCalledWith(ReportAvoidanceFirstAttempt(undefined));
       });
@@ -295,32 +296,32 @@ describe('SpeedCheckComponent', () => {
     describe('onSecondAttemptChange', () => {
       it('should report emergency stop second attempt', () => {
         component.competency = Competencies.speedCheckEmergency;
-        const storeDispatchSpy = spyOn(store$, 'dispatch');
-        spyOn(component, 'getSecondAttempt').and.returnValue(48);
+        const storeDispatchSpy = vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
+        vi.spyOn(component, 'getSecondAttempt').mockReturnValue(48);
         component.onSecondAttemptChange();
         expect(storeDispatchSpy).toHaveBeenCalledWith(ReportEmergencyStopSecondAttempt(48));
       });
 
       it('should report avoidance second attempt', () => {
         component.competency = Competencies.speedCheckAvoidance;
-        const storeDispatchSpy = spyOn(store$, 'dispatch');
-        spyOn(component, 'getSecondAttempt').and.returnValue(48);
+        const storeDispatchSpy = vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
+        vi.spyOn(component, 'getSecondAttempt').mockReturnValue(48);
         component.onSecondAttemptChange();
         expect(storeDispatchSpy).toHaveBeenCalledWith(ReportAvoidanceSecondAttempt(48));
       });
 
       it('should report undefined as Emergency Stop secondAttempt when attemptedSpeed is undefined', () => {
         component.competency = Competencies.speedCheckEmergency;
-        const storeDispatchSpy = spyOn(store$, 'dispatch');
-        spyOn(component, 'getSecondAttempt').and.returnValue(undefined);
+        const storeDispatchSpy = vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
+        vi.spyOn(component, 'getSecondAttempt').mockReturnValue(undefined);
         component.onSecondAttemptChange();
         expect(storeDispatchSpy).toHaveBeenCalledWith(ReportEmergencyStopSecondAttempt(undefined));
       });
 
       it('should report undefined as Avoidance secondAttempt when attemptedSpeed is undefined', () => {
         component.competency = Competencies.speedCheckAvoidance;
-        const storeDispatchSpy = spyOn(store$, 'dispatch');
-        spyOn(component, 'getSecondAttempt').and.returnValue(undefined);
+        const storeDispatchSpy = vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
+        vi.spyOn(component, 'getSecondAttempt').mockReturnValue(undefined);
         component.onSecondAttemptChange();
         expect(storeDispatchSpy).toHaveBeenCalledWith(ReportAvoidanceSecondAttempt(undefined));
       });

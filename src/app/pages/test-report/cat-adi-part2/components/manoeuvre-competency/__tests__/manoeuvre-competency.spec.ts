@@ -1,5 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { DangerousFaultBadgeComponent } from '@components/common/dangerous-fault-badge/dangerous-fault-badge';
 import { DrivingFaultsBadgeComponent } from '@components/common/driving-faults-badge/driving-faults-badge';
@@ -197,7 +198,7 @@ describe('ManoeuvreCompetencyComponentAdiPart2', () => {
         component.competency = ManoeuvreCompetencies.controlFault;
         component.isDangerousMode = true;
 
-        const storeDispatchSpy = spyOn(store$, 'dispatch');
+        const storeDispatchSpy = vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
         component.addOrRemoveFault();
 
         expect(storeDispatchSpy).toHaveBeenCalledWith(
@@ -217,7 +218,7 @@ describe('ManoeuvreCompetencyComponentAdiPart2', () => {
         component.competency = ManoeuvreCompetencies.controlFault;
         component.isSeriousMode = true;
 
-        const storeDispatchSpy = spyOn(store$, 'dispatch');
+        const storeDispatchSpy = vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
         component.addOrRemoveFault();
 
         expect(storeDispatchSpy).toHaveBeenCalledWith(
@@ -236,7 +237,7 @@ describe('ManoeuvreCompetencyComponentAdiPart2', () => {
         component.manoeuvre = ManoeuvreTypes.reverseRight;
         component.competency = ManoeuvreCompetencies.controlFault;
 
-        const storeDispatchSpy = spyOn(store$, 'dispatch');
+        const storeDispatchSpy = vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
         component.addOrRemoveFault(true);
 
         expect(storeDispatchSpy).toHaveBeenCalledWith(
@@ -256,7 +257,7 @@ describe('ManoeuvreCompetencyComponentAdiPart2', () => {
         component.manoeuvre = ManoeuvreTypes.reverseRight;
         component.competency = ManoeuvreCompetencies.controlFault;
         fixture.detectChanges();
-        const storeDispatchSpy = spyOn(store$, 'dispatch');
+        const storeDispatchSpy = vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
         component.addOrRemoveFault(true);
 
         expect(storeDispatchSpy).toHaveBeenCalledWith(
@@ -282,7 +283,7 @@ describe('ManoeuvreCompetencyComponentAdiPart2', () => {
         });
         it('should only toggle remove fault when remove fault mode is true', () => {
           fixture.detectChanges();
-          const storeDispatchSpy = spyOn(store$, 'dispatch');
+          const storeDispatchSpy = vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
           component.addOrRemoveFault();
           expect(storeDispatchSpy).toHaveBeenCalledTimes(1);
           expect(storeDispatchSpy).toHaveBeenCalledWith(ToggleRemoveFaultMode());
@@ -290,7 +291,7 @@ describe('ManoeuvreCompetencyComponentAdiPart2', () => {
         it('should only toggle remove and serious fault when remove and serious fault modes are true', () => {
           component.isSeriousMode = true;
           fixture.detectChanges();
-          const storeDispatchSpy = spyOn(store$, 'dispatch');
+          const storeDispatchSpy = vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
           component.addOrRemoveFault();
           expect(storeDispatchSpy).toHaveBeenCalledTimes(2);
           expect(storeDispatchSpy).toHaveBeenCalledWith(ToggleRemoveFaultMode());
@@ -299,7 +300,7 @@ describe('ManoeuvreCompetencyComponentAdiPart2', () => {
         it('should only toggle remove and serious fault when remove and serious fault modes are true', () => {
           component.isDangerousMode = true;
           fixture.detectChanges();
-          const storeDispatchSpy = spyOn(store$, 'dispatch');
+          const storeDispatchSpy = vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
           component.addOrRemoveFault();
           expect(storeDispatchSpy).toHaveBeenCalledTimes(2);
           expect(storeDispatchSpy).toHaveBeenCalledWith(ToggleRemoveFaultMode());
@@ -314,7 +315,7 @@ describe('ManoeuvreCompetencyComponentAdiPart2', () => {
         component.isDangerousMode = true;
         component.manoeuvreCompetencyOutcome = CompetencyOutcome.D;
         fixture.detectChanges();
-        const storeDispatchSpy = spyOn(store$, 'dispatch');
+        const storeDispatchSpy = vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
         component.addOrRemoveFault();
         expect(storeDispatchSpy).toHaveBeenCalledTimes(3);
         expect(storeDispatchSpy).toHaveBeenCalledWith(
@@ -338,7 +339,7 @@ describe('ManoeuvreCompetencyComponentAdiPart2', () => {
         component.isSeriousMode = true;
         component.manoeuvreCompetencyOutcome = CompetencyOutcome.S;
         fixture.detectChanges();
-        const storeDispatchSpy = spyOn(store$, 'dispatch');
+        const storeDispatchSpy = vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
         component.addOrRemoveFault();
         expect(storeDispatchSpy).toHaveBeenCalledTimes(3);
         expect(storeDispatchSpy).toHaveBeenCalledWith(
@@ -361,7 +362,7 @@ describe('ManoeuvreCompetencyComponentAdiPart2', () => {
         component.isRemoveFaultMode = true;
         component.manoeuvreCompetencyOutcome = CompetencyOutcome.DF;
         fixture.detectChanges();
-        const storeDispatchSpy = spyOn(store$, 'dispatch');
+        const storeDispatchSpy = vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
         component.addOrRemoveFault();
         expect(storeDispatchSpy).toHaveBeenCalledTimes(2);
         expect(storeDispatchSpy).toHaveBeenCalledWith(

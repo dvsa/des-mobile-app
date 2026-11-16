@@ -1,5 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { TestFlowHeaderComponent } from '@components/common/test-flow-header/test-flow-header.component';
 import { ModeOfTransport } from '@dvsa/mes-test-schema/categories/AM2';
@@ -70,6 +71,7 @@ describe('OfficeCatAMod2Page', () => {
             testStatus: {},
             startedTests: {
               123: {
+                delegatedTest: false,
                 category: TestCategory.EUA2M2,
                 vehicleDetails: {},
                 accompaniment: {},
@@ -158,7 +160,7 @@ describe('OfficeCatAMod2Page', () => {
     fixture = TestBed.createComponent(OfficeCatAMod2Page);
     component = fixture.componentInstance;
     store$ = TestBed.inject(Store);
-    spyOn(store$, 'dispatch');
+    vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
   });
 
   describe('DOM', () => {
@@ -220,9 +222,9 @@ describe('OfficeCatAMod2Page', () => {
     describe('ionViewWillEnter', () => {
       it('should disable single app mode if it not in practice mode and isIos is true', async () => {
         component.isPracticeMode = false;
-        spyOn(BasePageComponent.prototype, 'isIos').and.returnValue(true);
-        spyOn(BasePageComponent.prototype, 'ionViewWillEnter');
-        spyOn(component.deviceProvider, 'disableSingleAppMode');
+        vi.spyOn(BasePageComponent.prototype, 'isIos').mockReturnValue(true);
+        vi.spyOn(BasePageComponent.prototype, 'ionViewWillEnter').mockReturnValue(undefined);
+        vi.spyOn(component.deviceProvider, 'disableSingleAppMode');
         await component.ionViewWillEnter();
         expect(component.deviceProvider.disableSingleAppMode).toHaveBeenCalled();
       });
@@ -268,7 +270,7 @@ describe('OfficeCatAMod2Page', () => {
 
     describe('deferring the write up', () => {
       it('should dispatch an action to persist tests + pop navstack to root when defer is called', () => {
-        spyOn(component, 'popToRoot');
+        vi.spyOn(component, 'popToRoot').mockReturnValue(undefined);
         fixture.detectChanges();
         component.hasNavigatedFromUnsubmitted = false;
         component.defer();

@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { IndependentDrivingComponent } from '@pages/office/components/independent-driving/independent-driving';
 import { OutcomeBehaviourMapProvider, VisibilityType } from '@providers/outcome-behaviour-map/outcome-behaviour-map';
@@ -55,7 +56,7 @@ describe('IndependentDrivingComponent', () => {
       component.formGroup.addControl('independentDriving', component.formControl);
       component.formGroup.get('independentDriving').setValidators([Validators.required]);
 
-      spyOn(component.outcomeBehaviourProvider, 'getVisibilityType').and.returnValue(VisibilityType.NotVisible);
+      vi.spyOn(component.outcomeBehaviourProvider, 'getVisibilityType').mockReturnValue(VisibilityType.NotVisible);
       component.ngOnChanges();
 
       expect(component.formGroup.get('independentDriving').hasValidator(Validators.required)).toBe(false);
@@ -63,7 +64,7 @@ describe('IndependentDrivingComponent', () => {
     it('should set validators to FormControl if visibilityType is not VisibilityType.NotVisible', () => {
       component.formGroup = new UntypedFormGroup({});
 
-      spyOn(component.outcomeBehaviourProvider, 'getVisibilityType').and.returnValue(VisibilityType.Visible);
+      vi.spyOn(component.outcomeBehaviourProvider, 'getVisibilityType').mockReturnValue(VisibilityType.Visible);
       component.ngOnChanges();
 
       expect(component.formGroup.get('independentDriving').hasValidator(Validators.required)).toBe(true);
@@ -72,7 +73,7 @@ describe('IndependentDrivingComponent', () => {
 
   describe('independentDrivingChanged', () => {
     it('should emit independentDriving while from control is valid', () => {
-      spyOn(component.independentDrivingChange, 'emit');
+      vi.spyOn(component.independentDrivingChange, 'emit').mockReturnValue(undefined);
       component.formGroup = new UntypedFormGroup({});
       component.ngOnChanges();
 
@@ -83,7 +84,7 @@ describe('IndependentDrivingComponent', () => {
       expect(component.independentDrivingChange.emit).toHaveBeenCalledWith('Diagram');
     });
     it('should not emit independentDriving while from control is not valid', () => {
-      spyOn(component.independentDrivingChange, 'emit');
+      vi.spyOn(component.independentDrivingChange, 'emit').mockReturnValue(undefined);
       component.formGroup = new UntypedFormGroup({});
 
       component.ngOnChanges();

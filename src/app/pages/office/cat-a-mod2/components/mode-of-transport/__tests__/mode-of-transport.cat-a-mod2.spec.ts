@@ -1,5 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { ModeOfTransportCatAMod2Component } from '@pages/office/cat-a-mod2/components/mode-of-transport/mode-of-transport.cat-a-mod2';
 import { OutcomeBehaviourMapProvider, VisibilityType } from '@providers/outcome-behaviour-map/outcome-behaviour-map';
@@ -20,7 +21,7 @@ describe('ModeOfTransportCatAMod2Component', () => {
 
   describe('modeOfTransportChanged', () => {
     it('should emit independentDriving while from control is valid', () => {
-      spyOn(component.modeOfTransportChange, 'emit');
+      vi.spyOn(component.modeOfTransportChange, 'emit').mockReturnValue(undefined);
       component.formGroup = new UntypedFormGroup({});
       component.ngOnChanges();
 
@@ -31,7 +32,7 @@ describe('ModeOfTransportCatAMod2Component', () => {
       expect(component.modeOfTransportChange.emit).toHaveBeenCalledWith('Car to bike');
     });
     it('should not emit independentDriving while from control is not valid', () => {
-      spyOn(component.modeOfTransportChange, 'emit');
+      vi.spyOn(component.modeOfTransportChange, 'emit').mockReturnValue(undefined);
       component.formGroup = new UntypedFormGroup({});
 
       component.ngOnChanges();
@@ -98,7 +99,7 @@ describe('ModeOfTransportCatAMod2Component', () => {
       component.formGroup.addControl('modeOfTransport', component.formControl);
       component.formGroup.get('modeOfTransport').setValidators([Validators.required]);
 
-      spyOn(component.outcomeBehaviourProvider, 'getVisibilityType').and.returnValue(VisibilityType.NotVisible);
+      vi.spyOn(component.outcomeBehaviourProvider, 'getVisibilityType').mockReturnValue(VisibilityType.NotVisible);
       component.ngOnChanges();
 
       expect(component.formGroup.get('modeOfTransport').hasValidator(Validators.required)).toBe(false);
@@ -106,7 +107,7 @@ describe('ModeOfTransportCatAMod2Component', () => {
     it('should set validators to FormControl if visibilityType is not VisibilityType.NotVisible', () => {
       component.formGroup = new UntypedFormGroup({});
 
-      spyOn(component.outcomeBehaviourProvider, 'getVisibilityType').and.returnValue(VisibilityType.Visible);
+      vi.spyOn(component.outcomeBehaviourProvider, 'getVisibilityType').mockReturnValue(VisibilityType.Visible);
       component.ngOnChanges();
 
       expect(component.formGroup.get('modeOfTransport').hasValidator(Validators.required)).toBe(true);

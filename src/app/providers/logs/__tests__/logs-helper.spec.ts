@@ -3,6 +3,7 @@ import { Store, StoreModule } from '@ngrx/store';
 import { NetworkStateProviderMock } from '@providers/network-state/__mocks__/network-state.mock';
 import { NetworkStateProvider } from '@providers/network-state/network-state';
 import { LogType } from '@shared/models/log.model';
+import { beforeEach, describe, expect, it } from 'vitest';
 import { LogHelper } from '../logs-helper';
 
 describe('LogHelper', () => {
@@ -31,13 +32,15 @@ describe('LogHelper', () => {
   });
 
   describe('createLog', () => {
-    it('creates log successfully', (done) => {
-      const log = logHelper.createLog(LogType.ERROR, 'description', 'error');
-      expect(log.message).toBe('error');
-      expect(log.type).toBe(LogType.ERROR);
-      expect(log.description).toBe('description');
-      expect(log.appVersion).toBe('5');
-      done();
+    it('creates log successfully', async () => {
+      await new Promise<void>((done, reject) => {
+        const log = logHelper.createLog(LogType.ERROR, 'description', 'error');
+        expect(log.message).toBe('error');
+        expect(log.type).toBe(LogType.ERROR);
+        expect(log.description).toBe('description');
+        expect(log.appVersion).toBe('5');
+        done();
+      });
     });
   });
 });

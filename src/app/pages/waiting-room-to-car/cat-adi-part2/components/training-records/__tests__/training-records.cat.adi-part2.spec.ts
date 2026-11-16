@@ -1,6 +1,7 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { TrainingRecordsCatAdiPart2Component } from '@pages/waiting-room-to-car/cat-adi-part2/components/training-records/training-records.cat-adi-part2';
 import { AuthenticationProviderMock } from '@providers/authentication/__mocks__/authentication.mock';
@@ -75,13 +76,13 @@ describe('TrainingRecordsCatAdiPart2Component', () => {
 
     describe('trainingRecordOutcomeChanged', () => {
       it('should emit true if trainingRecorded is set to "Y" and formControl is valid', () => {
-        spyOn(component.trainingRecordOutcomeChange, 'emit');
+        vi.spyOn(component.trainingRecordOutcomeChange, 'emit').mockReturnValue(undefined);
         component.formControl.setValue(1);
         component.trainingRecordOutcomeChanged('Y');
         expect(component.trainingRecordOutcomeChange.emit).toHaveBeenCalledWith(true);
       });
       it('should emit false if orditTrained is set to "N" and formControl is valid', () => {
-        spyOn(component.trainingRecordOutcomeChange, 'emit');
+        vi.spyOn(component.trainingRecordOutcomeChange, 'emit').mockReturnValue(undefined);
         component.formControl.setValue(1);
         component.trainingRecordOutcomeChanged('N');
         expect(component.trainingRecordOutcomeChange.emit).toHaveBeenCalledWith(false);

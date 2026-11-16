@@ -1,3 +1,4 @@
+import { describe, expect, it } from 'vitest';
 import { isRekey } from '../rekey.selector';
 
 describe('rekey selector', () => {

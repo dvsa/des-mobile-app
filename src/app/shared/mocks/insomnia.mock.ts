@@ -1,4 +1,5 @@
+import { vi } from 'vitest';
 export class InsomniaMock {
-  keepAwake = jasmine.createSpy('keepAwake').and.returnValue(Promise.resolve());
-  allowSleepAgain = jasmine.createSpy('allowSleepAgain');
+  keepAwake = vi.fn().mockReturnValue(Promise.resolve());
+  allowSleepAgain = vi.fn();
 }

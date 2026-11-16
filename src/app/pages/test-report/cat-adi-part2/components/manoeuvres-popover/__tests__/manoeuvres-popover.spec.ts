@@ -1,5 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { DrivingFaultsBadgeComponent } from '@components/common/driving-faults-badge/driving-faults-badge';
 import { CatADI2UniqueTypes } from '@dvsa/mes-test-schema/categories/ADI2';
@@ -97,7 +98,7 @@ describe('ManoeuvresPopoverComponentAdiPart2', () => {
     component = fixture.componentInstance;
     fixture.detectChanges();
     store$ = TestBed.inject(Store);
-    spyOn(store$, 'dispatch').and.callThrough();
+    vi.spyOn(store$, 'dispatch');
   });
 
   describe('Class', () => {

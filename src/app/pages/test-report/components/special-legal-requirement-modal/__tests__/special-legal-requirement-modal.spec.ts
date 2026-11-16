@@ -3,6 +3,7 @@ import { By } from '@angular/platform-browser';
 import { ModalController } from '@ionic/angular';
 import { ModalControllerMock } from '@mocks/index.mock';
 import { ModalEvent } from '@pages/test-report/test-report.constants';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { SpecialLegalRequirementModal } from '../special-legal-requirement-modal';
 
 describe('LegalRequirementsModal', () => {
@@ -19,13 +20,13 @@ describe('LegalRequirementsModal', () => {
     fixture = TestBed.createComponent(SpecialLegalRequirementModal);
     modalController = TestBed.inject(ModalController);
     component = fixture.componentInstance;
-    spyOn(component.modalCtrl, 'dismiss');
+    vi.spyOn(component.modalCtrl, 'dismiss').mockReturnValue(undefined);
   });
 
   describe('DOM', () => {
     it('should call onCancel when the Return to test button is clicked', () => {
       fixture.detectChanges();
-      spyOn(component, 'onCancel');
+      vi.spyOn(component, 'onCancel').mockReturnValue(undefined);
       const button = fixture.debugElement.query(By.css('ion-button.return-button'));
       button.triggerEventHandler('click', null);
 
@@ -35,7 +36,7 @@ describe('LegalRequirementsModal', () => {
 
     it('should call onTerminate when the Terminate test button is clicked', () => {
       fixture.detectChanges();
-      spyOn(component, 'onTerminate');
+      vi.spyOn(component, 'onTerminate').mockReturnValue(undefined);
       const button = fixture.debugElement.query(By.css('ion-button.terminate-button'));
       button.triggerEventHandler('click', null);
 
@@ -45,7 +46,7 @@ describe('LegalRequirementsModal', () => {
 
     it('should call onProceed when the Continue test button is clicked', () => {
       fixture.detectChanges();
-      spyOn(component, 'onProceed');
+      vi.spyOn(component, 'onProceed').mockReturnValue(undefined);
       const button = fixture.debugElement.query(By.css('.mes-primary-button'));
       button.triggerEventHandler('click', null);
 

@@ -4,6 +4,7 @@ import { CatCEMUniqueTypes } from '@dvsa/mes-test-schema/categories/CEM';
 import { CatCMUniqueTypes } from '@dvsa/mes-test-schema/categories/CM';
 import { CompetencyOutcome } from '@shared/models/competency-outcome';
 import { manoeuvresCatManoeuvreReducer } from '@store/tests/test-data/cat-manoeuvres/manoeuvres/manoeuvres.cat-cm.reducer';
+import { describe, expect, it } from 'vitest';
 import {
   AddManoeuvreComment,
   AddManoeuvreDangerousFault,

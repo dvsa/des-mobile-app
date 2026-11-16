@@ -3,6 +3,7 @@ import { ReactiveFormsModule, UntypedFormGroup } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { MockAppComponent } from '@app/__mocks__/app.component.mock';
 import { AppComponent } from '@app/app.component';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { IonCol, IonInput, IonItem, IonRow } from '@ionic/angular';
 
@@ -34,13 +35,13 @@ describe('TransferComponent', () => {
 
     describe('selectedValueChanged', () => {
       it('should emit when reason is selected', () => {
-        spyOn(component.selectedChange, 'emit');
+        vi.spyOn(component.selectedChange, 'emit').mockReturnValue(undefined);
         component.selectedValueChanged(true);
         expect(component.selectedChange.emit).toHaveBeenCalledWith(true);
       });
       it('should reset the field when unselecting the checkbox', () => {
         const field = component.formGroup.get('staffNumber');
-        spyOn(field, 'reset');
+        vi.spyOn(field, 'reset').mockReturnValue(undefined);
         component.selectedValueChanged(false);
         expect(field.reset).toHaveBeenCalled();
       });
@@ -48,7 +49,7 @@ describe('TransferComponent', () => {
 
     describe('staffNumberValueChanged', () => {
       it('should emit the staff number', () => {
-        spyOn(component.staffNumberChange, 'emit');
+        vi.spyOn(component.staffNumberChange, 'emit').mockReturnValue(undefined);
         const staffNumber = '123';
         component.staffNumberValueChanged(staffNumber);
         expect(component.staffNumberChange.emit).toHaveBeenCalledWith(123);

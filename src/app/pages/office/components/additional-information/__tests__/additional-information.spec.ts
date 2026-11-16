@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { AdditionalInformationComponent } from '@pages/office/components/additional-information/additional-information';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 describe('AdditionalInformationComponent', () => {
   let fixture: ComponentFixture<AdditionalInformationComponent>;
@@ -36,7 +37,7 @@ describe('AdditionalInformationComponent', () => {
 
   describe('newEmailRadioSelected', () => {
     it('should emit newEmailRadioSelect with correct parameters', () => {
-      spyOn(component.additionalInformationChange, 'emit');
+      vi.spyOn(component.additionalInformationChange, 'emit').mockReturnValue(undefined);
       component.additionalInformationChanged('test');
       expect(component.additionalInformationChange.emit).toHaveBeenCalledWith('test');
     });

@@ -1,5 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { ColourContrastService } from '@providers/colour-contrast/colour-contrast.service';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 describe('ColourContrastService', () => {
   let colourContrastService: ColourContrastService;
@@ -14,7 +15,7 @@ describe('ColourContrastService', () => {
 
   describe('luminance', () => {
     it('should return properly calculated variables', () => {
-      spyOn(colourContrastService, 'relativeLuminance').and.returnValue(1);
+      vi.spyOn(colourContrastService, 'relativeLuminance').mockReturnValue(1);
       expect(colourContrastService.luminance([1, 2, 3])).toEqual(1);
     });
   });
@@ -25,7 +26,7 @@ describe('ColourContrastService', () => {
   });
   describe('getContrastRatio', () => {
     it('should convert the hex codes to rgb if strings are passed in', () => {
-      spyOn(colourContrastService, 'hexToRgb').and.callThrough();
+      vi.spyOn(colourContrastService, 'hexToRgb');
       colourContrastService.getContrastRatio('#FFFFFF', '#000000');
       expect(colourContrastService.hexToRgb).toHaveBeenCalledWith('#FFFFFF');
       expect(colourContrastService.hexToRgb).toHaveBeenCalledWith('#000000');

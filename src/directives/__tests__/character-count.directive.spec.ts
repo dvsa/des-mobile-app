@@ -2,6 +2,7 @@ import { Component, DebugElement, ElementRef } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { CharacterCountDirective } from '@directives/character-count.directive';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 @Component({ template: '<input type="text" charCount>', imports: [CharacterCountDirective] })
 class TestCharCountComponent {}
@@ -28,7 +29,7 @@ describe('Directive: CharacterCountDirective', () => {
     fixture.detectChanges();
     directiveEl = fixture.debugElement.query(By.directive(CharacterCountDirective));
     directiveInstance = directiveEl.injector.get(CharacterCountDirective);
-    spyOn(directiveInstance.onCharacterCountChanged, 'emit');
+    vi.spyOn(directiveInstance.onCharacterCountChanged, 'emit').mockReturnValue(undefined);
   });
   it('should be created', () => {
     expect(directiveEl).not.toBeNull();
@@ -45,7 +46,7 @@ describe('Directive: CharacterCountDirective', () => {
 
   describe('onInput', () => {
     it('should call handleChange with the correct value', () => {
-      spyOn(directiveInstance, 'handleChange');
+      vi.spyOn(directiveInstance, 'handleChange').mockReturnValue(undefined);
       directiveInstance.onInput({ target: { value: 'hello' } });
       expect(directiveInstance.handleChange).toHaveBeenCalledWith('hello');
     });
@@ -53,7 +54,7 @@ describe('Directive: CharacterCountDirective', () => {
 
   describe('onIonChange', () => {
     it('should call handleChange with the correct value', () => {
-      spyOn(directiveInstance, 'handleChange');
+      vi.spyOn(directiveInstance, 'handleChange').mockReturnValue(undefined);
       directiveInstance.onIonChange({ target: { value: 'hello' } });
       expect(directiveInstance.handleChange).toHaveBeenCalledWith('hello');
     });

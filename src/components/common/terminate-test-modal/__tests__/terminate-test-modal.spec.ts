@@ -8,6 +8,7 @@ import { DateTimeProviderMock } from '@providers/date-time/__mocks__/date-time.m
 import { DateTimeProvider } from '@providers/date-time/date-time';
 import { DeviceAuthenticationProviderMock } from '@providers/device-authentication/__mocks__/device-authentication.mock';
 import { DeviceAuthenticationProvider } from '@providers/device-authentication/device-authentication';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { TerminateTestModal } from '../terminate-test-modal';
 
 describe('TerminateTestModal', () => {
@@ -30,8 +31,8 @@ describe('TerminateTestModal', () => {
     fixture = TestBed.createComponent(TerminateTestModal);
     component = fixture.componentInstance;
     deviceAuthenticationProvider = TestBed.inject(DeviceAuthenticationProvider);
-    component.onTerminate = jasmine.createSpy('onTerminate');
-    component.onCancel = jasmine.createSpy('onCancel');
+    component.onTerminate = vi.fn();
+    component.onCancel = vi.fn();
   });
 
   describe('DOM', () => {
@@ -41,7 +42,7 @@ describe('TerminateTestModal', () => {
       expect(component.onCancel).toHaveBeenCalled();
     });
     it('should call the provided onTerminate function when confirming test termination', () => {
-      spyOn(component, 'terminationWrapper');
+      vi.spyOn(component, 'terminationWrapper').mockReturnValue(undefined);
       const terminateButton = fixture.debugElement.query(By.css('.terminate-button'));
       terminateButton.triggerEventHandler('click', null);
       expect(component.terminationWrapper).toHaveBeenCalled();
@@ -51,31 +52,25 @@ describe('TerminateTestModal', () => {
   describe('Class', () => {
     describe('terminationWrapper', () => {
       it('should trigger the lock screen', async () => {
-        deviceAuthenticationProvider.triggerLockScreen = jasmine
-          .createSpy('triggerLockScreen')
-          .and.returnValue(Promise.resolve(true));
+        deviceAuthenticationProvider.triggerLockScreen = vi.fn().mockReturnValue(Promise.resolve(true));
         component.shouldAuthenticate = true;
         await component.terminationWrapper();
         expect(deviceAuthenticationProvider.triggerLockScreen).toHaveBeenCalled();
       });
       it('should not call the onTerminate callback when the lock screen returns false', async () => {
-        deviceAuthenticationProvider.triggerLockScreen = jasmine
-          .createSpy('triggerLockScreen')
-          .and.returnValue(Promise.resolve(false));
+        deviceAuthenticationProvider.triggerLockScreen = vi.fn().mockReturnValue(Promise.resolve(false));
         component.shouldAuthenticate = true;
         await component.terminationWrapper();
         expect(component.onTerminate).not.toHaveBeenCalled();
       });
       it('should call the onTerminate callback when the lock screen returns true', async () => {
-        deviceAuthenticationProvider.triggerLockScreen = jasmine
-          .createSpy('triggerLockScreen')
-          .and.returnValue(Promise.resolve(true));
+        deviceAuthenticationProvider.triggerLockScreen = vi.fn().mockReturnValue(Promise.resolve(true));
         component.shouldAuthenticate = true;
         await component.terminationWrapper();
         expect(component.onTerminate).toHaveBeenCalled();
       });
       it('should not trigger the lock screen if shouldAuthenticate equals false', async () => {
-        deviceAuthenticationProvider.triggerLockScreen = jasmine.createSpy('triggerLockScreen');
+        deviceAuthenticationProvider.triggerLockScreen = vi.fn();
         component.shouldAuthenticate = false;
         const result = await component.terminationWrapper();
         expect(result).toEqual(undefined);

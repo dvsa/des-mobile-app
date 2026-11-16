@@ -1,19 +1,20 @@
+import { vi } from 'vitest';
 export class AnalyticsProviderMock {
-  setGACurrentPage = jasmine.createSpy('setGACurrentPage');
+  setGACurrentPage = vi.fn();
 
-  initialiseGoogleAnalytics = jasmine.createSpy('initialiseGoogleAnalytics').and.returnValue(Promise.resolve());
+  initialiseGoogleAnalytics = vi.fn().mockReturnValue(Promise.resolve());
 
-  logGAEvent = jasmine.createSpy('logGAEvent');
+  logGAEvent = vi.fn();
 
-  addGACustomDimension = jasmine.createSpy('addGACustomDimension');
+  addGACustomDimension = vi.fn();
 
-  logGAError = jasmine.createSpy('logGAError');
+  logGAError = vi.fn();
 
-  setGAUserId = jasmine.createSpy('setGAUserId');
+  setGAUserId = vi.fn();
 
-  setGADeviceId = jasmine.createSpy('setGADeviceId');
+  setGADeviceId = vi.fn();
 
-  getDescriptiveDate = jasmine.createSpy('getDescriptiveDate').and.returnValue('Tomorrow');
+  getDescriptiveDate = vi.fn().mockReturnValue('Tomorrow');
 
-  getDiffDays = jasmine.createSpy('getDiffDays').and.returnValue(4);
+  getDiffDays = vi.fn().mockReturnValue(4);
 }

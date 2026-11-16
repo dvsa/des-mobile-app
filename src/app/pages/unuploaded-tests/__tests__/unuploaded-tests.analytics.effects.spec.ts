@@ -12,7 +12,8 @@ import {
   GoogleAnalyticsEventsTitles,
 } from '@providers/analytics/analytics.model';
 import { TestStatus } from '@store/tests/test-status/test-status.model';
-import { ReplaySubject } from 'rxjs';
+import { ReplaySubject, firstValueFrom } from 'rxjs';
+import { beforeEach, describe, expect, it } from 'vitest';
 
 describe('UnuploadedTestsAnalyticsEffects', () => {
   let effects: UnuploadedTestsAnalyticsEffects;
@@ -35,32 +36,24 @@ describe('UnuploadedTestsAnalyticsEffects', () => {
   });
 
   describe('UnuploadedTestsViewDidEnter', () => {
-    it('should call setCurrentPage', (done) => {
+    it('should call setCurrentPage', async () => {
       actions$.next(UnuploadedTestsViewDidEnter());
-      effects.unUploadedTestViewDidEnter$.subscribe((result) => {
-        expect(result.type === AnalyticRecorded.type).toBe(true);
-
-        //GA4 Analytics
-        expect(analyticsProviderMock.setGACurrentPage).toHaveBeenCalledWith(screenName);
-        done();
-      });
+      const result = await firstValueFrom(effects.unUploadedTestViewDidEnter$);
+      expect(result.type === AnalyticRecorded.type).toBe(true);
+      expect(analyticsProviderMock.setGACurrentPage).toHaveBeenCalledWith(screenName);
     });
   });
 
   describe('continueUnUploadedTest$', () => {
-    it('should log an event', (done) => {
+    it('should log an event', async () => {
       actions$.next(ContinueUnuploadedTest(TestStatus.WriteUp));
-      effects.continueUnUploadedTest$.subscribe((result) => {
-        expect(result.type === AnalyticRecorded.type).toBe(true);
-
-        //GA4 Analytics
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-          GoogleAnalyticsEvents.INCOMPLETE_TESTS,
-          GoogleAnalyticsEventsTitles.TEST_STATUS,
-          TestStatus.WriteUp
-        );
-        done();
-      });
+      const result = await firstValueFrom(effects.continueUnUploadedTest$);
+      expect(result.type === AnalyticRecorded.type).toBe(true);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+        GoogleAnalyticsEvents.INCOMPLETE_TESTS,
+        GoogleAnalyticsEventsTitles.TEST_STATUS,
+        TestStatus.WriteUp
+      );
     });
   });
 });

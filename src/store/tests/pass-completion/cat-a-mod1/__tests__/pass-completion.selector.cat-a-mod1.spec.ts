@@ -1,4 +1,5 @@
 import { PassCompletion } from '@dvsa/mes-test-schema/categories/AM1';
+import { describe, expect, it } from 'vitest';
 import { getPassCertificateNumber } from '../pass-completion.cat-a-mod1.selector';
 
 describe('pass completion selector', () => {

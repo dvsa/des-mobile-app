@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { beforeEach, describe, expect, it } from 'vitest';
 
 import { TranslateService } from '@ngx-translate/core';
 import { translateServiceMock } from '@shared/helpers/__mocks__/translate.mock';

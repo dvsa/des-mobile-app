@@ -3,6 +3,7 @@ import { behaviourMap } from '@pages/office/office-behaviour-map';
 import { OutcomeBehaviourMapProvider } from '@providers/outcome-behaviour-map/outcome-behaviour-map';
 import { VehicleChecksQuestion } from '@providers/question/vehicle-checks-question.model';
 import { CompetencyOutcome } from '@shared/models/competency-outcome';
+import { describe, expect, it } from 'vitest';
 import {
   hasEyesightTestBeenCompleted,
   hasEyesightTestGotSeriousFault,

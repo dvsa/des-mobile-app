@@ -2,6 +2,7 @@ import { TestSlot } from '@dvsa/mes-journal-schema';
 import { SlotItem } from '@providers/slot-selector/slot-item';
 import { SpecialNeedsCode, getSlotType } from '@shared/helpers/get-slot-type';
 import { SlotTypes } from '@shared/models/slot-types';
+import { describe, expect, it } from 'vitest';
 import {
   getBusiness,
   getCandidateId,

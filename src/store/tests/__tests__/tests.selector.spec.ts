@@ -6,6 +6,7 @@ import { end2endPracticeSlotId, testReportPracticeSlotId } from '@shared/mocks/t
 import { ActivityCodes } from '@shared/models/activity-codes';
 import { AppInfoStateModel } from '@store/app-info/app-info.model';
 import { JournalModel } from '@store/journal/journal.model';
+import { describe, expect, it } from 'vitest';
 import { LogsModel } from '../../logs/logs.model';
 import { TestStatus } from '../test-status/test-status.model';
 import { TestOutcome } from '../tests.constants';

@@ -18,17 +18,22 @@ import { OpenLinkProvider } from '@providers/open-link/open-link';
 import { OrientationMonitorProvider } from '@providers/orientation-monitor/orientation-monitor.provider';
 import { UrlProvider } from '@providers/url/url';
 import { StoreModel } from '@shared/models/store.model';
+import { type MockedObject, beforeEach, describe, expect, it, vi } from 'vitest';
 
 describe('UsefulLinksPage', () => {
   let component: UsefulLinksPage;
   let store$: Store<StoreModel>;
   let fixture: ComponentFixture<UsefulLinksPage>;
-  let urlProvider: jasmine.SpyObj<UrlProvider>;
-  let modalController: jasmine.SpyObj<ModalController>;
+  let urlProvider: MockedObject<UrlProvider>;
+  let modalController: MockedObject<ModalController>;
 
   beforeEach(() => {
-    const urlProviderSpy = jasmine.createSpyObj('UrlProvider', ['getUsefulLinks']);
-    const modalControllerSpy = jasmine.createSpyObj('ModalController', ['create']);
+    const urlProviderSpy = {
+      getUsefulLinks: vi.fn().mockName('UrlProvider.getUsefulLinks'),
+    };
+    const modalControllerSpy = {
+      create: vi.fn().mockName('ModalController.create'),
+    };
 
     TestBed.configureTestingModule({
       imports: [StoreModule.forRoot({}), UsefulLinksPage],
@@ -49,10 +54,10 @@ describe('UsefulLinksPage', () => {
     fixture = TestBed.createComponent(UsefulLinksPage);
     component = fixture.componentInstance;
     store$ = TestBed.inject(Store);
-    urlProvider = TestBed.inject(UrlProvider) as jasmine.SpyObj<UrlProvider>;
-    modalController = TestBed.inject(ModalController) as jasmine.SpyObj<ModalController>;
+    urlProvider = TestBed.inject(UrlProvider) as MockedObject<UrlProvider>;
+    modalController = TestBed.inject(ModalController) as MockedObject<ModalController>;
 
-    spyOn(store$, 'dispatch');
+    vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
   });
 
   it('should create', () => {
@@ -73,7 +78,7 @@ describe('UsefulLinksPage', () => {
           url: 'e2',
         },
       ];
-      urlProvider.getUsefulLinks.and.returnValue(mockLinks);
+      urlProvider.getUsefulLinks.mockReturnValue(mockLinks);
 
       component.ngOnInit();
 
@@ -91,8 +96,9 @@ describe('UsefulLinksPage', () => {
         },
       ];
 
-      const modalSpy = jasmine.createSpyObj('HTMLIonModalElement', ['present']);
-      modalController.create.and.returnValue(Promise.resolve(modalSpy));
+      const modalSpy = document.createElement('ion-modal');
+      modalSpy.present = vi.fn().mockResolvedValue(undefined);
+      modalController.create.mockReturnValue(Promise.resolve(modalSpy));
 
       await component.openLinkProvider.openLinkModal(mockLinks[0]);
 
@@ -106,7 +112,7 @@ describe('UsefulLinksPage', () => {
 
   describe('goToDashboard', () => {
     it('should navigate back to the dashboard page', () => {
-      spyOn(component.router, 'navigate').and.callThrough();
+      vi.spyOn(component.router, 'navigate').mockResolvedValue(true);
       component.goToDashboard();
       expect(component.router.navigate).toHaveBeenCalledWith([DASHBOARD_PAGE], { replaceUrl: true });
     });

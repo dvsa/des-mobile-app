@@ -3,9 +3,10 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule, UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { IonCol, IonInput, IonRow } from '@ionic/angular';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
-import { TranslateService, provideTranslateService } from '@ngx-translate/core';
-import { provideTranslateHttpLoader } from '@ngx-translate/http-loader';
+import { provideTestTranslations } from '@mocks/test-providers';
+import { TranslateService } from '@ngx-translate/core';
 import { NewEmailComponent } from '../new-email';
 
 describe('NewEmailComponent', () => {
@@ -16,14 +17,7 @@ describe('NewEmailComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [ReactiveFormsModule, IonCol, IonInput, IonRow, NewEmailComponent],
-      providers: [
-        provideHttpClient(withInterceptorsFromDi()),
-        provideTranslateService({
-          loader: provideTranslateHttpLoader({ prefix: 'assets/i18n/' }),
-          fallbackLang: 'en',
-          lang: 'en',
-        }),
-      ],
+      providers: [provideHttpClient(withInterceptorsFromDi()), provideTestTranslations()],
     });
 
     fixture = TestBed.createComponent(NewEmailComponent);
@@ -71,7 +65,7 @@ describe('NewEmailComponent', () => {
 
   describe('newEmailRadioSelected', () => {
     it('should emit newEmailRadioSelect with correct parameters', () => {
-      spyOn(component.newEmailRadioSelect, 'emit');
+      vi.spyOn(component.newEmailRadioSelect, 'emit').mockReturnValue(undefined);
       component.newEmailRadioSelected();
       expect(component.newEmailRadioSelect.emit).toHaveBeenCalledWith(NewEmailComponent.newEmail);
     });
@@ -79,7 +73,7 @@ describe('NewEmailComponent', () => {
 
   describe('newEmailTextChanged', () => {
     it('should emit newEmailTextChanged with correct parameters', () => {
-      spyOn(component.newEmailTextChange, 'emit');
+      vi.spyOn(component.newEmailTextChange, 'emit').mockReturnValue(undefined);
       component.formControl.setValidators(null);
       component.newEmailTextChanged('1');
       expect(component.newEmailTextChange.emit).toHaveBeenCalledWith('1');
@@ -88,29 +82,41 @@ describe('NewEmailComponent', () => {
 
   describe('DOM', () => {
     describe('i18n', () => {
-      it('should render in English by default', (done) => {
-        translate.use('en').subscribe(() => {
-          fixture.detectChanges();
-          expect(fixture.debugElement.query(By.css('.validation-text')).nativeElement.innerHTML.trim()).toBe(
-            'Enter a valid email address (For example, name@example.co.uk)'
-          );
-          expect(fixture.debugElement.query(By.css('.communication-text')).nativeElement.innerHTML.trim()).toBe(
-            'Enter the email address you want us to send your results to.'
-          );
-          done();
+      it('should render in English by default', async () => {
+        await new Promise<void>((done, reject) => {
+          translate.use('en').subscribe(() => {
+            try {
+              fixture.detectChanges();
+              expect(fixture.debugElement.query(By.css('.validation-text')).nativeElement.innerHTML.trim()).toBe(
+                'Enter a valid email address (For example, name@example.co.uk)'
+              );
+              expect(fixture.debugElement.query(By.css('.communication-text')).nativeElement.innerHTML.trim()).toBe(
+                'Enter the email address you want us to send your results to.'
+              );
+              done();
+            } catch (error) {
+              reject(error);
+            }
+          }, reject);
         });
       });
 
-      it('should render in Welsh when its a Welsh test', (done) => {
-        translate.use('cy').subscribe(() => {
-          fixture.detectChanges();
-          expect(fixture.debugElement.query(By.css('.validation-text')).nativeElement.innerHTML.trim()).toBe(
-            'Cofnodwch gyfeiriad e-bost dilys (Er enghraifft, name@example.co.uk)'
-          );
-          expect(fixture.debugElement.query(By.css('.communication-text')).nativeElement.innerHTML.trim()).toBe(
-            'Nodwch y cyfeiriad e-bost rydych chi am i ni anfon eich canlyniadau ato'
-          );
-          done();
+      it('should render in Welsh when its a Welsh test', async () => {
+        await new Promise<void>((done, reject) => {
+          translate.use('cy').subscribe(() => {
+            try {
+              fixture.detectChanges();
+              expect(fixture.debugElement.query(By.css('.validation-text')).nativeElement.innerHTML.trim()).toBe(
+                'Cofnodwch gyfeiriad e-bost dilys (Er enghraifft, name@example.co.uk)'
+              );
+              expect(fixture.debugElement.query(By.css('.communication-text')).nativeElement.innerHTML.trim()).toBe(
+                'Nodwch y cyfeiriad e-bost rydych chi am i ni anfon eich canlyniadau ato'
+              );
+              done();
+            } catch (error) {
+              reject(error);
+            }
+          }, reject);
         });
       });
     });

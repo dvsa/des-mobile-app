@@ -1,6 +1,8 @@
 import { provideHttpClient } from '@angular/common/http';
 import { EnvironmentProviders, Provider } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import welshTranslations from '@assets/i18n/cy.json';
+import englishTranslations from '@assets/i18n/en.json';
 import { ModalController, NavController, Platform } from '@ionic/angular';
 import {
   ActivatedRouteMock,
@@ -9,8 +11,7 @@ import {
   PlatformMock,
   RouterMock,
 } from '@mocks/index.mock';
-import { provideTranslateService } from '@ngx-translate/core';
-import { provideTranslateHttpLoader } from '@ngx-translate/http-loader';
+import { TranslateLoader, provideTranslateService } from '@ngx-translate/core';
 import { AccessibilityServiceMock } from '@providers/accessibility/__mocks__/accessibility-service.mock';
 import { AccessibilityService } from '@providers/accessibility/accessibility.service';
 import { AppConfigProviderMock } from '@providers/app-config/__mocks__/app-config.mock';
@@ -21,6 +22,7 @@ import { DeviceProviderMock } from '@providers/device/__mocks__/device.mock';
 import { DeviceProvider } from '@providers/device/device';
 import { LogHelperMock } from '@providers/logs/__mocks__/logs-helper.mock';
 import { LogHelper } from '@providers/logs/logs-helper';
+import { of } from 'rxjs';
 
 export function provideBasePageMocks(): (Provider | EnvironmentProviders)[] {
   return [
@@ -42,9 +44,17 @@ export function provideTestTranslations(): (Provider | EnvironmentProviders)[] {
   return [
     provideHttpClient(),
     provideTranslateService({
-      loader: provideTranslateHttpLoader({ prefix: 'assets/i18n/' }),
+      loader: { provide: TranslateLoader, useClass: TestTranslationLoader },
       fallbackLang: 'en',
       lang: 'en',
     }),
   ];
+}
+
+class TestTranslationLoader implements TranslateLoader {
+  getTranslation(language: string) {
+    if (language === 'en') return of(englishTranslations);
+    if (language === 'cy') return of(welshTranslations);
+    throw new Error(`Unsupported test translation language: ${language}`);
+  }
 }

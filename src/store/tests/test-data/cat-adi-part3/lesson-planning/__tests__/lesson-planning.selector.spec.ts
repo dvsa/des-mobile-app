@@ -5,6 +5,7 @@ import {
   getLessonPlanningQ4,
   getLessonPlanningScore,
 } from '@store/tests/test-data/cat-adi-part3/lesson-planning/lesson-planning.selector';
+import { describe, expect, it } from 'vitest';
 
 describe('teaching learning strategies selector', () => {
   describe('getLessonPlanningQ1', () => {

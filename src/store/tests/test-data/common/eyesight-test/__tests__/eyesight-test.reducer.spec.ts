@@ -1,4 +1,5 @@
 import { EyesightTest } from '@dvsa/mes-test-schema/categories/common';
+import { describe, expect, it } from 'vitest';
 import {
   EyesightTestAddComment,
   EyesightTestFailed,

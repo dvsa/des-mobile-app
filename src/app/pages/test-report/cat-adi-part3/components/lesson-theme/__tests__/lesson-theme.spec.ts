@@ -1,5 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormControl, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { AssessmentAnswerComponent } from '@pages/test-report/cat-adi-part3/components/assessment-answer/assessment-answer';
 import { LessonThemeComponent } from '@pages/test-report/cat-adi-part3/components/lesson-theme/lesson-theme';
@@ -24,7 +25,7 @@ describe('LessonThemeComponent', () => {
 
   describe('otherReasoningChanged', () => {
     it('should emit getCharacterCountText with correct parameters', () => {
-      spyOn(component.otherReasoningChange, 'emit');
+      vi.spyOn(component.otherReasoningChange, 'emit').mockReturnValue(undefined);
       component.otherReasoningChanged('feedback');
       expect(component.otherReasoningChange.emit).toHaveBeenCalledWith('feedback');
     });
@@ -33,7 +34,7 @@ describe('LessonThemeComponent', () => {
   describe('lessonThemeChanged', () => {
     it('should emit lessonThemeChange with correct parameters', () => {
       component.lessonThemes = ['junctions'];
-      spyOn(component.lessonThemeChange, 'emit');
+      vi.spyOn(component.lessonThemeChange, 'emit').mockReturnValue(undefined);
 
       component.lessonThemeChanged('junctions');
       expect(component.lessonThemeChange.emit).toHaveBeenCalledWith({ lessonTheme: 'junctions', added: false });
@@ -48,7 +49,7 @@ describe('LessonThemeComponent', () => {
     });
     it('should check the validity of the form control', () => {
       component.formControl = new FormControl();
-      spyOn(component.formControl, 'updateValueAndValidity');
+      vi.spyOn(component.formControl, 'updateValueAndValidity').mockReturnValue(undefined);
       component.characterCountChanged(1);
       expect(component.formControl.updateValueAndValidity).toHaveBeenCalled();
     });
@@ -110,7 +111,7 @@ describe('LessonThemeComponent', () => {
 
   describe('getCharacterCountText', () => {
     it('should call service with charsRemaining', () => {
-      spyOn(characterCountService, 'getCharacterCountText');
+      vi.spyOn(characterCountService, 'getCharacterCountText').mockReturnValue(undefined);
       component.charsRemaining = 1;
       component.getCharacterCountText();
 
@@ -120,7 +121,7 @@ describe('LessonThemeComponent', () => {
 
   describe('charactersExceeded', () => {
     it('should call service with charsRemaining', () => {
-      spyOn(characterCountService, 'charactersExceeded');
+      vi.spyOn(characterCountService, 'charactersExceeded').mockReturnValue(undefined);
       component.charsRemaining = 1;
       component.charactersExceeded();
 

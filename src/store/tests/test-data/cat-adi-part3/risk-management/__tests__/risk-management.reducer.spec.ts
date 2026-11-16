@@ -3,6 +3,7 @@ import {
   initialState,
   riskManagementReducer,
 } from '@store/tests/test-data/cat-adi-part3/risk-management/risk-management.reducer';
+import { describe, expect, it } from 'vitest';
 import * as riskManagementActions from '../risk-management.actions';
 
 describe('riskManagementReducer', () => {

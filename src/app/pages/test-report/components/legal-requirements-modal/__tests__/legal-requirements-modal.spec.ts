@@ -2,6 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { ModalController } from '@ionic/angular';
 import { ModalControllerMock } from '@mocks/index.mock';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { ModalEvent } from '../../../test-report.constants';
 import { LegalRequirementsModal } from '../legal-requirements-modal';
 
@@ -25,7 +26,7 @@ describe('LegalRequirementsModal', () => {
     it('should call onCancel when the Return to test button is clicked', () => {
       component.legalRequirements = [];
       fixture.detectChanges();
-      spyOn(component, 'onCancel');
+      vi.spyOn(component, 'onCancel').mockReturnValue(undefined);
       const button = fixture.debugElement.query(By.css('ion-button.modal-return-button'));
       button.triggerEventHandler('click', null);
 
@@ -36,7 +37,7 @@ describe('LegalRequirementsModal', () => {
     it('should call onTerminate when the Terminate test button is clicked', () => {
       component.legalRequirements = [];
       fixture.detectChanges();
-      spyOn(component, 'onTerminate');
+      vi.spyOn(component, 'onTerminate').mockReturnValue(undefined);
       const button = fixture.debugElement.query(By.css('ion-button.terminate-button'));
       button.triggerEventHandler('click', null);
 
@@ -46,21 +47,21 @@ describe('LegalRequirementsModal', () => {
   });
   describe('onCancel', () => {
     it('should call dismiss with CANCEL', async () => {
-      spyOn(modalCtrl, 'dismiss');
+      vi.spyOn(modalCtrl, 'dismiss').mockReturnValue(undefined);
       await component.onCancel();
       expect(await modalCtrl.dismiss).toHaveBeenCalledWith(ModalEvent.CANCEL);
     });
   });
   describe('onContinue', () => {
     it('should call dismiss with CONTINUE', async () => {
-      spyOn(modalCtrl, 'dismiss');
+      vi.spyOn(modalCtrl, 'dismiss').mockReturnValue(undefined);
       await component.onContinue();
       expect(await modalCtrl.dismiss).toHaveBeenCalledWith(ModalEvent.CONTINUE);
     });
   });
   describe('onTerminate', () => {
     it('should call dismiss with TERMINATE', async () => {
-      spyOn(modalCtrl, 'dismiss');
+      vi.spyOn(modalCtrl, 'dismiss').mockReturnValue(undefined);
       await component.onTerminate();
       expect(await modalCtrl.dismiss).toHaveBeenCalledWith(ModalEvent.TERMINATE);
     });

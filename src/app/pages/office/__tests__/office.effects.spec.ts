@@ -8,7 +8,8 @@ import { Competencies } from '@store/tests/test-data/test-data.constants';
 import * as testStatusActions from '@store/tests/test-status/test-status.actions';
 import * as testSummaryActions from '@store/tests/test-summary/test-summary.actions';
 import * as testActions from '@store/tests/tests.actions';
-import { ReplaySubject } from 'rxjs';
+import { ReplaySubject, firstValueFrom } from 'rxjs';
+import { beforeEach, describe, expect, it } from 'vitest';
 import * as officeActions from '../office.actions';
 import { OfficeEffects } from '../office.effects';
 
@@ -38,158 +39,106 @@ describe('OfficeEffects', () => {
   });
 
   describe('additionalInformationChanged effect', () => {
-    it('should invoke the PersistTest action', (done) => {
-      // ACT
+    it('should invoke the PersistTest action', async () => {
       actions$.next(testSummaryActions.AdditionalInformationChanged('xyz'));
-      // ASSERT
-      effects.persistOfficeDataEffect$.subscribe((result) => {
-        expect(result.type === testActions.PersistTests.type).toBe(true);
-        done();
-      });
+      const result = await firstValueFrom(effects.persistOfficeDataEffect$);
+      expect(result.type === testActions.PersistTests.type).toBe(true);
     });
   });
 
   describe('candidateDescriptionChanged effect', () => {
-    it('should invoke the PersistTest action', (done) => {
-      // ACT
+    it('should invoke the PersistTest action', async () => {
       actions$.next(testSummaryActions.CandidateDescriptionChanged('xyz'));
-      // ASSERT
-      effects.persistOfficeDataEffect$.subscribe((result) => {
-        expect(result.type === testActions.PersistTests.type).toBe(true);
-        done();
-      });
+      const result = await firstValueFrom(effects.persistOfficeDataEffect$);
+      expect(result.type === testActions.PersistTests.type).toBe(true);
     });
   });
 
   describe('routeNumberChanged effect', () => {
-    it('should invoke the PersistTest action', (done) => {
-      // ACT
+    it('should invoke the PersistTest action', async () => {
       actions$.next(testSummaryActions.RouteNumberChanged(14));
-      // ASSERT
-      effects.persistOfficeDataEffect$.subscribe((result) => {
-        expect(result.type === testActions.PersistTests.type).toBe(true);
-        done();
-      });
+      const result = await firstValueFrom(effects.persistOfficeDataEffect$);
+      expect(result.type === testActions.PersistTests.type).toBe(true);
     });
   });
 
   describe('debriefWitnessedChanged effect', () => {
-    it('should invoke the PersistTest action', (done) => {
-      // ACT
+    it('should invoke the PersistTest action', async () => {
       actions$.next(testSummaryActions.DebriefWitnessed());
-      // ASSERT
-      effects.persistOfficeDataEffect$.subscribe((result) => {
-        expect(result.type === testActions.PersistTests.type).toBe(true);
-        done();
-      });
+      const result = await firstValueFrom(effects.persistOfficeDataEffect$);
+      expect(result.type === testActions.PersistTests.type).toBe(true);
     });
   });
 
   describe('debriefUnWitnessedChanged effect', () => {
-    it('should invoke the PersistTest action', (done) => {
-      // ACT
+    it('should invoke the PersistTest action', async () => {
       actions$.next(testSummaryActions.DebriefUnWitnessed());
-      // ASSERT
-      effects.persistOfficeDataEffect$.subscribe((result) => {
-        expect(result.type === testActions.PersistTests.type).toBe(true);
-        done();
-      });
+      const result = await firstValueFrom(effects.persistOfficeDataEffect$);
+      expect(result.type === testActions.PersistTests.type).toBe(true);
     });
   });
 
   describe('identificationUsedChanged effect', () => {
-    it('should invoke the PersistTest action', (done) => {
-      // ACT
+    it('should invoke the PersistTest action', async () => {
       actions$.next(testSummaryActions.IdentificationUsedChanged('Licence'));
-      // ASSERT
-      effects.persistOfficeDataEffect$.subscribe((result) => {
-        expect(result.type === testActions.PersistTests.type).toBe(true);
-        done();
-      });
+      const result = await firstValueFrom(effects.persistOfficeDataEffect$);
+      expect(result.type === testActions.PersistTests.type).toBe(true);
     });
   });
 
   describe('independentDrivingTypeChanged effect', () => {
-    it('should invoke the PersistTest action', (done) => {
-      // ACT
+    it('should invoke the PersistTest action', async () => {
       actions$.next(testSummaryActions.IndependentDrivingTypeChanged('Sat nav'));
-      // ASSERT
-      effects.persistOfficeDataEffect$.subscribe((result) => {
-        expect(result.type === testActions.PersistTests.type).toBe(true);
-        done();
-      });
+      const result = await firstValueFrom(effects.persistOfficeDataEffect$);
+      expect(result.type === testActions.PersistTests.type).toBe(true);
     });
   });
 
   describe('d255Yes effect', () => {
-    it('should invoke the PersistTest action', (done) => {
-      // ACT
+    it('should invoke the PersistTest action', async () => {
       actions$.next(testSummaryActions.D255Yes());
-      // ASSERT
-      effects.persistOfficeDataEffect$.subscribe((result) => {
-        expect(result.type === testActions.PersistTests.type).toBe(true);
-        done();
-      });
+      const result = await firstValueFrom(effects.persistOfficeDataEffect$);
+      expect(result.type === testActions.PersistTests.type).toBe(true);
     });
   });
 
   describe('d255No effect', () => {
-    it('should invoke the PersistTest action', (done) => {
-      // ACT
+    it('should invoke the PersistTest action', async () => {
       actions$.next(testSummaryActions.D255No());
-      // ASSERT
-      effects.persistOfficeDataEffect$.subscribe((result) => {
-        expect(result.type === testActions.PersistTests.type).toBe(true);
-        done();
-      });
+      const result = await firstValueFrom(effects.persistOfficeDataEffect$);
+      expect(result.type === testActions.PersistTests.type).toBe(true);
     });
   });
 
   describe('weatherConditionsChanged effect', () => {
-    it('should invoke the PersistTest action', (done) => {
-      // ACT
+    it('should invoke the PersistTest action', async () => {
       actions$.next(testSummaryActions.WeatherConditionsChanged(['Icy']));
-      // ASSERT
-      effects.persistOfficeDataEffect$.subscribe((result) => {
-        expect(result.type === testActions.PersistTests.type).toBe(true);
-        done();
-      });
+      const result = await firstValueFrom(effects.persistOfficeDataEffect$);
+      expect(result.type === testActions.PersistTests.type).toBe(true);
     });
   });
 
   describe('AddDangerousFaultComment effect', () => {
-    it('should invoke the PersistTest action', (done) => {
-      // ACT
+    it('should invoke the PersistTest action', async () => {
       actions$.next(AddDangerousFaultComment(Competencies.controlsParkingBrake, 'xyz'));
-      // ASSERT
-      effects.persistOfficeDataEffect$.subscribe((result) => {
-        expect(result.type === testActions.PersistTests.type).toBe(true);
-        done();
-      });
+      const result = await firstValueFrom(effects.persistOfficeDataEffect$);
+      expect(result.type === testActions.PersistTests.type).toBe(true);
     });
   });
 
   describe('AddSeriousFaultComment effect', () => {
-    it('should invoke the PersistTest action', (done) => {
-      // ACT
+    it('should invoke the PersistTest action', async () => {
       actions$.next(AddSeriousFaultComment(Competencies.controlsParkingBrake, 'abc'));
-      // ASSERT
-      effects.persistOfficeDataEffect$.subscribe((result) => {
-        expect(result.type === testActions.PersistTests.type).toBe(true);
-        done();
-      });
+      const result = await firstValueFrom(effects.persistOfficeDataEffect$);
+      expect(result.type === testActions.PersistTests.type).toBe(true);
     });
   });
 
   describe('AddDrivingFaultComment effect', () => {
-    it('should invoke the PersistTest action', (done) => {
-      // ACT
+    it('should invoke the PersistTest action', async () => {
       actions$.next(AddDrivingFaultComment(Competencies.controlsParkingBrake, 'def'));
-      // ASSERT
-      effects.persistOfficeDataEffect$.subscribe((result) => {
-        expect(result.type === testActions.PersistTests.type).toBe(true);
-        done();
-      });
+      const result = await firstValueFrom(effects.persistOfficeDataEffect$);
+      expect(result.type === testActions.PersistTests.type).toBe(true);
     });
   });
 

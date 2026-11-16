@@ -1,4 +1,5 @@
 import { FormatIdPipe } from '@shared/pipes/format-id.pipe';
+import { beforeEach, describe, expect, it } from 'vitest';
 
 describe('FormatIdPipe', () => {
   let pipe: FormatIdPipe;

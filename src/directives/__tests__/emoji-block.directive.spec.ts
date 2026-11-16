@@ -1,17 +1,18 @@
 import { ElementRef } from '@angular/core';
 import { EmojiBlockDirective } from '@directives/emoji-block.directive';
+import { type MockedObject, beforeEach, describe, expect, it, vi } from 'vitest';
 
 describe('EmojiBlockDirective', () => {
   let directive: EmojiBlockDirective;
-  let elementRefMock: jasmine.SpyObj<ElementRef>;
+  let elementRefMock: MockedObject<ElementRef>;
 
   beforeEach(() => {
     elementRefMock = {
       nativeElement: {
         value: 'Hello😀 World🌎',
-        setAttribute: jasmine.createSpy(),
-        getAttribute: jasmine.createSpy(),
-        hasAttribute: jasmine.createSpy(),
+        setAttribute: vi.fn(),
+        getAttribute: vi.fn(),
+        hasAttribute: vi.fn(),
       },
     };
     directive = new EmojiBlockDirective(elementRefMock as ElementRef);

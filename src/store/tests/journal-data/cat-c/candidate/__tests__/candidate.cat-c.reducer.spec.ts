@@ -1,4 +1,5 @@
 import { candidateCatCReducer } from '@store/tests/journal-data/cat-c/candidate/candidate.cat-c.reducer';
+import { describe, expect, it } from 'vitest';
 import * as candidateActions from '../candidate.cat-c.actions';
 
 describe('candidateCatCReducer', () => {

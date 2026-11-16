@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { MockComponent } from 'ng-mocks';
+import { beforeEach, describe, expect, it } from 'vitest';
 
 import { CommonModule } from '@angular/common';
 import { Adi3DebriefCardBox } from '@components/common/adi3-debrief-card-box/adi3-debrief-card-box';

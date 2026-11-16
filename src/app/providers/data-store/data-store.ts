@@ -245,7 +245,6 @@ export class DataStoreProvider {
       // Get the keys from storage with a timeout (Some storage errors can hang indefinitely)
       return await this.forceTimeoutAfterSetTime(this.storage.keys());
     } catch (err) {
-      console.error('get keys', err);
       this.reportLog('Getting keys error', '', err, false);
       try {
         await this.tryToResetStorage(err);
@@ -270,7 +269,6 @@ export class DataStoreProvider {
    * @param error - The Error we're assessing.
    */
   tryToResetStorage = async (error: Error) => {
-    console.error(error);
     if (
       error.message === DataStoreProvider.storageTimeoutErrorText ||
       error.message.includes('malformed') ||
@@ -496,7 +494,6 @@ export class DataStoreProvider {
     saveToStorage = true,
     level: LogType = LogType.ERROR
   ): void => {
-    console.error(action, key, error);
     this.store$.dispatch(
       SaveLog(
         {

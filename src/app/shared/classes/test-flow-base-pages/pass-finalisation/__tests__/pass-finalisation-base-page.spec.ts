@@ -5,6 +5,7 @@ import { Platform } from '@ionic/angular';
 import { ActivatedRouteMock, PlatformMock, RouterMock } from '@mocks/index.mock';
 import { Store } from '@ngrx/store';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { Injector } from '@angular/core';
 import { AuthenticationProviderMock } from '@providers/authentication/__mocks__/authentication.mock';
@@ -103,7 +104,7 @@ describe('PassFinalisationPageComponent', () => {
     injector = TestBed.inject(Injector);
     store$ = TestBed.inject(MockStore);
 
-    spyOn(store$, 'dispatch');
+    vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
 
     class BasePageClass extends PassFinalisationPageComponent {
       constructor(public inj: Injector) {

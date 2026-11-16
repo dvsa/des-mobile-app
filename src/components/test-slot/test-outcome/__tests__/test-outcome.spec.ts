@@ -5,6 +5,7 @@ import { SlotDetail } from '@dvsa/mes-journal-schema';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { Store, StoreModule } from '@ngrx/store';
 import { Subscription } from 'rxjs';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { MockAppComponent } from '@app/__mocks__/app.component.mock';
 import { AppComponent } from '@app/app.component';
@@ -220,15 +221,15 @@ describe('TestOutcomeComponent', () => {
     store$ = TestBed.inject(Store);
     routeByCategory = TestBed.inject(RouteByCategoryProvider);
     router = TestBed.inject(Router);
-    spyOn(store$, 'dispatch');
-    spyOn(routeByCategory, 'navigateToPage');
-    spyOn(router, 'navigate');
+    vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
+    vi.spyOn(routeByCategory, 'navigateToPage').mockReturnValue(undefined);
+    vi.spyOn(router, 'navigate');
   });
 
   describe('Class', () => {
     describe('startTest', () => {
       it('should dispatch a start test action with the slot - cat b', async () => {
-        spyOn(component, 'hasSlotChanged').and.resolveTo(false);
+        vi.spyOn(component, 'hasSlotChanged').mockResolvedValue(false);
 
         component.slotDetail = testSlotDetail;
         component.category = TestCategory.B;
@@ -237,7 +238,7 @@ describe('TestOutcomeComponent', () => {
         expect(store$.dispatch).toHaveBeenCalledWith(StartTest(component.slotDetail.slotId, component.category));
       });
       it('should dispatch a start test action with the slot - cat c', async () => {
-        spyOn(component, 'hasSlotChanged').and.resolveTo(false);
+        vi.spyOn(component, 'hasSlotChanged').mockResolvedValue(false);
 
         component.slotDetail = testSlotDetail;
         component.category = TestCategory.C;
@@ -249,7 +250,7 @@ describe('TestOutcomeComponent', () => {
 
     describe('displayCategoryPreviewModeModal', () => {
       it('should create and present the modal', async () => {
-        spyOn(component.modalController, 'create').and.returnValue(
+        vi.spyOn(component.modalController, 'create').mockReturnValue(
           Promise.resolve({
             present: async () => {},
             onWillDismiss: () => ({ data: ModalEvent.CANCEL }) as OverlayEventDetail,
@@ -265,11 +266,11 @@ describe('TestOutcomeComponent', () => {
       it('should call onModalDismiss with the modal data', async () => {
         const modalData = { data: ModalEvent.START };
         const modal = {
-          present: jasmine.createSpy('present').and.returnValue(Promise.resolve()),
-          onDidDismiss: jasmine.createSpy('onDidDismiss').and.returnValue(Promise.resolve(modalData)),
+          present: vi.fn().mockReturnValue(Promise.resolve()),
+          onDidDismiss: vi.fn().mockReturnValue(Promise.resolve(modalData)),
         };
-        spyOn(component.modalController, 'create').and.returnValue(Promise.resolve(modal as any));
-        spyOn(component, 'onModalDismiss');
+        vi.spyOn(component.modalController, 'create').mockReturnValue(Promise.resolve(modal as any));
+        vi.spyOn(component, 'onModalDismiss').mockReturnValue(undefined);
         await component.displayCategoryPreviewModeModal();
         expect(component.onModalDismiss).toHaveBeenCalledWith(modalData.data);
       });
@@ -284,7 +285,7 @@ describe('TestOutcomeComponent', () => {
           component.isPracticeMode = false;
           component.specialRequirements = true;
           component.hasSeenCandidateDetails = false;
-          spyOn(component, 'displayForceCheckModal');
+          vi.spyOn(component, 'displayForceCheckModal').mockReturnValue(undefined);
           await component.clickStartOrResumeTest();
           expect(component.displayForceCheckModal).toHaveBeenCalled();
         }
@@ -293,8 +294,8 @@ describe('TestOutcomeComponent', () => {
       it('should display rekey modal if rekey conditions are met and not in practice mode', async () => {
         component.slotDetail = testSlotDetail;
         component.isPracticeMode = false;
-        spyOn(component, 'shouldDisplayRekeyModal').and.returnValue(true);
-        spyOn(component, 'displayRekeyModal');
+        vi.spyOn(component, 'shouldDisplayRekeyModal').mockReturnValue(true);
+        vi.spyOn(component, 'displayRekeyModal').mockReturnValue(undefined);
         await component.clickStartOrResumeTest();
         expect(component.displayRekeyModal).toHaveBeenCalled();
       });
@@ -304,9 +305,9 @@ describe('TestOutcomeComponent', () => {
         async () => {
           component.slotDetail = testSlotDetail;
           component.isPracticeMode = false;
-          spyOn(component, 'isE2EPracticeMode').and.returnValue(true);
-          spyOn(component.categoryWhitelistProvider, 'isWhiteListed').and.returnValue(false);
-          spyOn(component, 'displayCategoryPreviewModeModal');
+          vi.spyOn(component, 'isE2EPracticeMode').mockReturnValue(true);
+          vi.spyOn(component.categoryWhitelistProvider, 'isWhiteListed').mockReturnValue(false);
+          vi.spyOn(component, 'displayCategoryPreviewModeModal').mockReturnValue(undefined);
           await component.clickStartOrResumeTest();
           expect(component.displayCategoryPreviewModeModal).toHaveBeenCalled();
         }
@@ -315,8 +316,8 @@ describe('TestOutcomeComponent', () => {
       it('should display check start modal if check start conditions are met and not in practice mode', async () => {
         component.slotDetail = testSlotDetail;
         component.isPracticeMode = false;
-        spyOn(component, 'shouldDisplayCheckStartModal').and.returnValue(true);
-        spyOn(component, 'displayCheckStartModal');
+        vi.spyOn(component, 'shouldDisplayCheckStartModal').mockReturnValue(true);
+        vi.spyOn(component, 'displayCheckStartModal').mockReturnValue(undefined);
         await component.clickStartOrResumeTest();
         expect(component.displayCheckStartModal).toHaveBeenCalled();
       });
@@ -324,7 +325,7 @@ describe('TestOutcomeComponent', () => {
       it('should start or resume test if no other conditions are met', async () => {
         component.slotDetail = testSlotDetail;
         component.isPracticeMode = false;
-        spyOn(component, 'startOrResumeTestDependingOnStatus');
+        vi.spyOn(component, 'startOrResumeTestDependingOnStatus').mockReturnValue(undefined);
         await component.clickStartOrResumeTest();
         expect(component.startOrResumeTestDependingOnStatus).toHaveBeenCalled();
       });
@@ -332,7 +333,7 @@ describe('TestOutcomeComponent', () => {
       it('should start or resume test if in practice mode', async () => {
         component.slotDetail = testSlotDetail;
         component.isPracticeMode = true;
-        spyOn(component, 'startOrResumeTestDependingOnStatus');
+        vi.spyOn(component, 'startOrResumeTestDependingOnStatus').mockReturnValue(undefined);
         await component.clickStartOrResumeTest();
         expect(component.startOrResumeTestDependingOnStatus).toHaveBeenCalled();
       });
@@ -398,7 +399,7 @@ describe('TestOutcomeComponent', () => {
         'should set startTestAsRekey and isRekey to false and call' +
           ' startOrResumeTestDependingOnStatus when event is START',
         async () => {
-          spyOn(component, 'startOrResumeTestDependingOnStatus');
+          vi.spyOn(component, 'startOrResumeTestDependingOnStatus').mockReturnValue(undefined);
           await component.onModalDismiss(ModalEvent.START);
           expect(component.startTestAsRekey).toBe(false);
           expect(component.isRekey).toBe(false);
@@ -410,7 +411,7 @@ describe('TestOutcomeComponent', () => {
         'should set startTestAsRekey to true and call ' + 'startOrResumeTestDependingOnStatus when event is REKEY',
         async () => {
           component.slotDetail = testSlotDetail;
-          spyOn(component, 'startTest');
+          vi.spyOn(component, 'startTest').mockReturnValue(undefined);
           await component.onModalDismiss(ModalEvent.REKEY);
           expect(component.startTestAsRekey).toBe(true);
           expect(component.startTest).toHaveBeenCalled();
@@ -418,7 +419,7 @@ describe('TestOutcomeComponent', () => {
       );
 
       it('should do nothing when event is not START or REKEY', async () => {
-        spyOn(component, 'startOrResumeTestDependingOnStatus');
+        vi.spyOn(component, 'startOrResumeTestDependingOnStatus').mockReturnValue(undefined);
         await component.onModalDismiss('UNKNOWN_EVENT' as ModalEvent);
         expect(component.startOrResumeTestDependingOnStatus).not.toHaveBeenCalled();
       });
@@ -441,7 +442,7 @@ describe('TestOutcomeComponent', () => {
         if (cat.category !== TestCategory.SC) {
           it(`Cat ${cat.category} should dispatch an ActivateTest action
         and navigate to the Waiting Room page if the category is not Standards Checks`, async () => {
-            spyOn(component, 'hasSlotChanged').and.resolveTo(false);
+            vi.spyOn(component, 'hasSlotChanged').mockResolvedValue(false);
             component.testStatus = TestStatus.Started;
             component.category = cat.category;
             await component.resumeTest();
@@ -451,7 +452,7 @@ describe('TestOutcomeComponent', () => {
         } else {
           it(`Cat ${cat.category} should dispatch an ActivateTest action
         and navigate to the Communication page`, async () => {
-            spyOn(component, 'hasSlotChanged').and.resolveTo(false);
+            vi.spyOn(component, 'hasSlotChanged').mockResolvedValue(false);
             component.testStatus = TestStatus.Started;
             component.category = cat.category;
             await component.resumeTest();
@@ -461,7 +462,7 @@ describe('TestOutcomeComponent', () => {
         }
         it(`Cat ${cat.category} should dispatch an ActivateTest action and
          navigate to the Pass Finalisation page`, async () => {
-          spyOn(component, 'hasSlotChanged').and.resolveTo(false);
+          vi.spyOn(component, 'hasSlotChanged').mockResolvedValue(false);
           component.testStatus = TestStatus.Decided;
           component.activityCode = ActivityCodes.PASS;
           component.category = cat.category;
@@ -474,7 +475,7 @@ describe('TestOutcomeComponent', () => {
         });
         it(`Cat ${cat.category} should dispatch an ActivateTest action
         and navigate to the Non Pass Finalisation page`, async () => {
-          spyOn(component, 'hasSlotChanged').and.resolveTo(false);
+          vi.spyOn(component, 'hasSlotChanged').mockResolvedValue(false);
           component.testStatus = TestStatus.Decided;
           component.activityCode = ActivityCodes.FAIL;
           component.category = cat.category;
@@ -591,7 +592,7 @@ describe('TestOutcomeComponent', () => {
     describe('ionViewDidLeave', () => {
       it('should unsubscribe from the subscription if there is one', () => {
         component.subscription = new Subscription();
-        spyOn(component.subscription, 'unsubscribe');
+        vi.spyOn(component.subscription, 'unsubscribe').mockReturnValue(undefined);
         component.ionViewDidLeave();
         expect(component.subscription.unsubscribe).toHaveBeenCalled();
       });
@@ -638,7 +639,7 @@ describe('TestOutcomeComponent', () => {
   describe('DOM', () => {
     describe('show start test button', () => {
       it('should show the start test button when the test status is Booked', () => {
-        spyOn(component, 'showRekeyButton').and.returnValue(false);
+        vi.spyOn(component, 'showRekeyButton').mockReturnValue(false);
 
         component.slotDetail = testSlotDetail;
         component.testStatus = TestStatus.Booked;
@@ -659,13 +660,13 @@ describe('TestOutcomeComponent', () => {
 
     describe('start a test', () => {
       it('should call the startTest method when `Start test` is clicked', () => {
-        spyOn(component, 'showRekeyButton').and.returnValue(false);
+        vi.spyOn(component, 'showRekeyButton').mockReturnValue(false);
 
         component.slotDetail = testSlotDetail;
         component.testStatus = TestStatus.Booked;
         component.isDelegatedTest = false;
         fixture.detectChanges();
-        spyOn(component, 'startTest');
+        vi.spyOn(component, 'startTest').mockReturnValue(undefined);
 
         const startButton = fixture.debugElement.query(By.css('.mes-primary-button'));
         startButton?.triggerEventHandler('click', null);
@@ -679,7 +680,7 @@ describe('TestOutcomeComponent', () => {
         component.slotDetail = testSlotDetail;
         component.slotDetail.start = new DateTime().add(8, Duration.MINUTE).format('YYYY-MM-DDTHH:mm:ss');
         component.testStatus = TestStatus.Booked;
-        spyOn(component, 'displayCheckStartModal');
+        vi.spyOn(component, 'displayCheckStartModal').mockReturnValue(undefined);
         fixture.detectChanges();
         const startButton = fixture.debugElement.query(By.css('.mes-primary-button'));
         startButton.triggerEventHandler('click', null);
@@ -689,7 +690,7 @@ describe('TestOutcomeComponent', () => {
         component.slotDetail = testSlotDetail;
         component.slotDetail.start = new DateTime().add(2, Duration.MINUTE).format('YYYY-MM-DDTHH:mm:ss');
         component.testStatus = TestStatus.Booked;
-        spyOn(component, 'displayCheckStartModal');
+        vi.spyOn(component, 'displayCheckStartModal').mockReturnValue(undefined);
         fixture.detectChanges();
         const startButton = fixture.debugElement.query(By.css('.mes-primary-button'));
         startButton.triggerEventHandler('click', null);
@@ -713,7 +714,7 @@ describe('TestOutcomeComponent', () => {
         component.testStatus = TestStatus.Booked;
         component.slotDetail.start = new DateTime().subtract(1, Duration.DAY).format('YYYY-MM-DDTHH:mm:ss');
         fixture.detectChanges();
-        spyOn(component, 'rekeyTest');
+        vi.spyOn(component, 'rekeyTest').mockReturnValue(undefined);
         const rekeyButton = fixture.debugElement.query(By.css('.mes-rekey-button'));
         rekeyButton.triggerEventHandler('click', null);
         expect(component.rekeyTest).toHaveBeenCalled();
@@ -734,8 +735,8 @@ describe('TestOutcomeComponent', () => {
         component.slotDetail.start = new DateTime().subtract(1, Duration.DAY).format('YYYY-MM-DDTHH:mm:ss');
         component.category = TestCategory.BE;
         component.isDelegatedTest = true;
-        spyOn(component, 'showDelegatedExaminerRekeyButton').and.returnValue(true);
-        spyOn(component, 'rekeyDelegatedTest');
+        vi.spyOn(component, 'showDelegatedExaminerRekeyButton').mockReturnValue(true);
+        vi.spyOn(component, 'rekeyDelegatedTest').mockReturnValue(undefined);
         fixture.detectChanges();
         const rekeyDelegatedButton = fixture.debugElement.query(By.css('.mes-rekey-button'));
         rekeyDelegatedButton.triggerEventHandler('click', null);
@@ -745,11 +746,11 @@ describe('TestOutcomeComponent', () => {
 
     describe('debrief a test', () => {
       it('should call the resumeTest method when `Resume` is clicked', () => {
-        spyOn(component, 'showResumeButton').and.returnValue(true);
+        vi.spyOn(component, 'showResumeButton').mockReturnValue(true);
         component.slotDetail = testSlotDetail;
         component.testStatus = TestStatus.Started;
         fixture.detectChanges();
-        spyOn(component, 'resumeTest');
+        vi.spyOn(component, 'resumeTest').mockReturnValue(undefined);
         const debriefButton = fixture.debugElement.query(By.css('.mes-secondary-button'));
         debriefButton.triggerEventHandler('click', null);
 
@@ -762,7 +763,7 @@ describe('TestOutcomeComponent', () => {
         component.testStatus = TestStatus.Autosaved;
         component.slotDetail = testSlotDetail;
         fixture.detectChanges();
-        spyOn(component, 'writeUpTest');
+        vi.spyOn(component, 'writeUpTest').mockReturnValue(undefined);
 
         const writeUpButton = fixture.debugElement.query(By.css('.mes-secondary-button'));
         writeUpButton.triggerEventHandler('click', null);
@@ -773,12 +774,12 @@ describe('TestOutcomeComponent', () => {
 
     describe('resume a test', () => {
       it('should call the resumeTest method when `Resume` is clicked', () => {
-        spyOn(component, 'showResumeButton').and.returnValue(true);
+        vi.spyOn(component, 'showResumeButton').mockReturnValue(true);
         component.slotDetail = testSlotDetail;
         component.applicationId = '1';
         component.testStatus = TestStatus.Started;
         fixture.detectChanges();
-        spyOn(component, 'resumeTest');
+        vi.spyOn(component, 'resumeTest').mockReturnValue(undefined);
 
         const resumeButton = fixture.debugElement.query(By.css('#resume-button-1'));
         resumeButton.triggerEventHandler('click', null);
@@ -789,7 +790,7 @@ describe('TestOutcomeComponent', () => {
 
     describe('rekey button', () => {
       it('should show rekey button', () => {
-        spyOn(component, 'showRekeyButton').and.returnValue(true);
+        vi.spyOn(component, 'showRekeyButton').mockReturnValue(true);
         fixture.detectChanges();
 
         const rekeyButton = fixture.debugElement.query(By.css('.mes-rekey-button'));
@@ -797,7 +798,7 @@ describe('TestOutcomeComponent', () => {
         expect(rekeyButton).not.toBeNull();
       });
       it('should hide rekey button', () => {
-        spyOn(component, 'showRekeyButton').and.returnValue(false);
+        vi.spyOn(component, 'showRekeyButton').mockReturnValue(false);
         fixture.detectChanges();
 
         const rekeyButton = fixture.debugElement.query(By.css('.mes-rekey-button'));
@@ -826,13 +827,13 @@ describe('TestOutcomeComponent', () => {
 
       describe('show force detail check modal', () => {
         it('should display the force detail check modal', () => {
-          spyOn(component, 'showRekeyButton').and.returnValue(false);
+          vi.spyOn(component, 'showRekeyButton').mockReturnValue(false);
 
           component.specialRequirements = true;
           component.slotDetail = testSlotDetail;
           component.testStatus = TestStatus.Booked;
           component.hasSeenCandidateDetails = false;
-          spyOn(component, 'displayForceCheckModal');
+          vi.spyOn(component, 'displayForceCheckModal').mockReturnValue(undefined);
           fixture.detectChanges();
 
           const startButton = fixture.debugElement.query(By.css('.mes-primary-button'));
@@ -844,14 +845,14 @@ describe('TestOutcomeComponent', () => {
 
       describe('candidate details seen, force detail check modal should not be seen', () => {
         it('should not display the force detail check modal', () => {
-          spyOn(component, 'showRekeyButton').and.returnValue(false);
+          vi.spyOn(component, 'showRekeyButton').mockReturnValue(false);
 
           component.specialRequirements = true;
           component.slotDetail = testSlotDetail;
           component.testStatus = TestStatus.Booked;
           component.slotDetail.slotId = 123456;
           component.hasSeenCandidateDetails = true;
-          spyOn(component, 'displayForceCheckModal');
+          vi.spyOn(component, 'displayForceCheckModal').mockReturnValue(undefined);
           fixture.detectChanges();
 
           const startButton = fixture.debugElement.query(By.css('.mes-primary-button'));
@@ -871,8 +872,8 @@ describe('TestOutcomeComponent', () => {
     it('should dispatch RemoveTestBySlotId and call startTest when testExistsAsRekey is true', async () => {
       component.testStatus = TestStatus.Booked;
       component.testExistsAsRekey = true;
-      spyOn(component.store$, 'dispatch');
-      spyOn(component, 'startTest').and.returnValue(Promise.resolve());
+      vi.spyOn(component.store$, 'dispatch').mockReturnValue(undefined);
+      vi.spyOn(component, 'startTest').mockReturnValue(Promise.resolve());
 
       await component.startOrResumeTestDependingOnStatus();
 
@@ -883,8 +884,8 @@ describe('TestOutcomeComponent', () => {
     it('should only call startTest when testStatus is Booked and testExistsAsRekey is false', async () => {
       component.testStatus = TestStatus.Booked;
       component.testExistsAsRekey = false;
-      spyOn(component.store$, 'dispatch');
-      spyOn(component, 'startTest').and.returnValue(Promise.resolve());
+      vi.spyOn(component.store$, 'dispatch').mockReturnValue(undefined);
+      vi.spyOn(component, 'startTest').mockReturnValue(Promise.resolve());
 
       await component.startOrResumeTestDependingOnStatus();
 
@@ -895,7 +896,7 @@ describe('TestOutcomeComponent', () => {
     it('should call resumeTest when testStatus is not Booked and testExistsAsRekey is false', async () => {
       component.testStatus = TestStatus.Started;
       component.testExistsAsRekey = false;
-      spyOn(component, 'resumeTest').and.returnValue(Promise.resolve());
+      vi.spyOn(component, 'resumeTest').mockReturnValue(Promise.resolve());
 
       await component.startOrResumeTestDependingOnStatus();
 
@@ -905,8 +906,8 @@ describe('TestOutcomeComponent', () => {
     it('should dispatch RemoveTestBySlotId and call startTest when testExistsAsRekey is true and testStatus is not Booked', async () => {
       component.testStatus = TestStatus.Started;
       component.testExistsAsRekey = true;
-      spyOn(component.store$, 'dispatch');
-      spyOn(component, 'startTest').and.returnValue(Promise.resolve());
+      vi.spyOn(component.store$, 'dispatch').mockReturnValue(undefined);
+      vi.spyOn(component, 'startTest').mockReturnValue(Promise.resolve());
 
       await component.startOrResumeTestDependingOnStatus();
 
@@ -918,7 +919,7 @@ describe('TestOutcomeComponent', () => {
   describe('ionViewDidLeave', () => {
     it('should unsubscribe from the subscription if there is one', () => {
       component.subscription = new Subscription();
-      spyOn(component.subscription, 'unsubscribe');
+      vi.spyOn(component.subscription, 'unsubscribe').mockReturnValue(undefined);
       component.ionViewDidLeave();
       expect(component.subscription.unsubscribe).toHaveBeenCalled();
     });

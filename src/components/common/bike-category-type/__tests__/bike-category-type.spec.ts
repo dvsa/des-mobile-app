@@ -1,6 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule, UntypedFormGroup, Validators } from '@angular/forms';
 import { BikeCategoryTypeComponent } from '@components/common/bike-category-type/bike-category-type';
+import { IonSelect } from '@ionic/angular';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { provideMockStore } from '@ngrx/store/testing';
 import * as waitingRoomToCarActions from '@pages/waiting-room-to-car/waiting-room-to-car.actions';
@@ -26,7 +28,8 @@ describe('BikeCategoryTypeComponent', () => {
     bikeCategoryDetailProvider = TestBed.inject(BikeCategoryDetailProvider);
     component = fixture.componentInstance;
     component.formGroup = new UntypedFormGroup({});
-    component.selectRef = jasmine.createSpyObj('IonSelect', ['open']);
+    component.selectRef = TestBed.createComponent(IonSelect).componentInstance;
+    vi.spyOn(component.selectRef, 'open').mockResolvedValue(undefined);
   });
 
   describe('validateCategorySelection', () => {
@@ -100,7 +103,7 @@ describe('BikeCategoryTypeComponent', () => {
 
   describe('bikeCategoryModalShown', () => {
     it('should dispatch waitingRoomToCarActions.WaitingRoomToCarViewBikeCategoryModal', () => {
-      spyOn(component.store$, 'dispatch');
+      vi.spyOn(component.store$, 'dispatch').mockReturnValue(undefined);
       component.bikeCategoryModalShown();
 
       expect(component.store$.dispatch).toHaveBeenCalledWith(
@@ -111,14 +114,14 @@ describe('BikeCategoryTypeComponent', () => {
 
   describe('categoryCodeChanged', () => {
     it('should emit categoryCodeChange with the category passed in', () => {
-      spyOn(component.categoryCodeChange, 'emit');
+      vi.spyOn(component.categoryCodeChange, 'emit').mockReturnValue(undefined);
       component.categoryCodeChanged('B');
 
       expect(component.categoryCodeChange.emit).toHaveBeenCalledWith('B');
     });
 
     it('should not emit categoryCodeChange with the category no passed in', () => {
-      spyOn(component.categoryCodeChange, 'emit');
+      vi.spyOn(component.categoryCodeChange, 'emit').mockReturnValue(undefined);
       component.categoryCodeChanged(undefined);
 
       expect(component.categoryCodeChange.emit).not.toHaveBeenCalled();
@@ -145,7 +148,7 @@ describe('BikeCategoryTypeComponent', () => {
     });
 
     it('should populate bikeCategoryDetails based on MOD1 test type', () => {
-      spyOn(bikeCategoryDetailProvider, 'getAllDetailsByTestType').and.returnValue([
+      vi.spyOn(bikeCategoryDetailProvider, 'getAllDetailsByTestType').mockReturnValue([
         {
           categoryCode: 'A1',
           displayName: 'A1',
@@ -159,7 +162,7 @@ describe('BikeCategoryTypeComponent', () => {
     });
 
     it('should populate bikeCategoryDetails based on MOD2 test type', () => {
-      spyOn(bikeCategoryDetailProvider, 'getAllDetailsByTestType').and.returnValue([
+      vi.spyOn(bikeCategoryDetailProvider, 'getAllDetailsByTestType').mockReturnValue([
         {
           categoryCode: 'A2',
           displayName: 'A2',
@@ -175,14 +178,14 @@ describe('BikeCategoryTypeComponent', () => {
 
   describe('openCategorySelector', () => {
     it('should call loadImages before opening the category selector', async () => {
-      spyOn(component, 'loadImages');
+      vi.spyOn(component, 'loadImages').mockReturnValue(undefined);
       await component.openCategorySelector();
       expect(component.loadImages).toHaveBeenCalled();
     });
 
     it('should open the category selector', async () => {
       await component.openCategorySelector();
-      spyOn(component.selectRef, 'open');
+      vi.spyOn(component.selectRef, 'open').mockReturnValue(undefined);
       expect(component.selectRef.open).toHaveBeenCalled();
     });
   });

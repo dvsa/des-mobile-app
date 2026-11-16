@@ -1,5 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { NavController } from '@ionic/angular';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { MockComponent } from 'ng-mocks';
 
@@ -95,7 +96,7 @@ describe('TestReportCatADI3Page', () => {
     fixture = TestBed.createComponent(TestReportCatADI3Page);
     component = fixture.componentInstance;
     store$ = TestBed.inject(MockStore);
-    spyOn(store$, 'dispatch');
+    vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
   });
 
   describe('Class', () => {
@@ -149,8 +150,8 @@ describe('TestReportCatADI3Page', () => {
     });
     describe('ionViewDidLeave', () => {
       it('should run basePageComponent functions', () => {
-        spyOn(TestReportBasePageComponent.prototype, 'ionViewDidLeave');
-        spyOn(TestReportBasePageComponent.prototype, 'cancelSubscription');
+        vi.spyOn(TestReportBasePageComponent.prototype, 'ionViewDidLeave').mockReturnValue(undefined);
+        vi.spyOn(TestReportBasePageComponent.prototype, 'cancelSubscription').mockReturnValue(undefined);
         component.ionViewDidLeave();
 
         expect(TestReportBasePageComponent.prototype.ionViewDidLeave).toHaveBeenCalled();

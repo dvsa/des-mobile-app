@@ -7,6 +7,7 @@ import { TransmissionDisplayComponent } from '@components/common/transmission-di
 import { CatCMUniqueTypes } from '@dvsa/mes-test-schema/categories/CM';
 import { VehicleDetails } from '@dvsa/mes-test-schema/categories/common';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { MockComponent } from 'ng-mocks';
 import { VehicleDetailsCardComponent } from '../vehicle-details-card';
@@ -66,37 +67,37 @@ describe('VehicleDetailsCardComponent', () => {
     describe('shouldHideCard', () => {
       it('returns true if all conditions are false or undefined', () => {
         component.data = {};
-        spyOnProperty(component, 'transmission').and.returnValue(undefined);
-        spyOnProperty(component, 'registrationNumber').and.returnValue(undefined);
-        spyOnProperty(component, 'previousVRNs').and.returnValue([]);
-        spyOnProperty(component, 'schoolBike').and.returnValue(undefined);
-        spyOnProperty(component, 'instructorRegistrationNumber').and.returnValue(undefined);
-        expect(component.shouldHideCard()).toBeTrue();
+        vi.spyOn(component, 'transmission', 'get').mockReturnValue(undefined);
+        vi.spyOn(component, 'registrationNumber', 'get').mockReturnValue(undefined);
+        vi.spyOn(component, 'previousVRNs', 'get').mockReturnValue([]);
+        vi.spyOn(component, 'schoolBike', 'get').mockReturnValue(undefined);
+        vi.spyOn(component, 'instructorRegistrationNumber', 'get').mockReturnValue(undefined);
+        expect(component.shouldHideCard()).toBe(true);
       });
 
       it('returns false if transmission is defined', () => {
-        spyOnProperty(component, 'transmission').and.returnValue('Manual');
-        expect(component.shouldHideCard()).toBeFalse();
+        vi.spyOn(component, 'transmission', 'get').mockReturnValue('Manual');
+        expect(component.shouldHideCard()).toBe(false);
       });
 
       it('returns false if registrationNumber is defined', () => {
-        spyOnProperty(component, 'registrationNumber').and.returnValue('ABC 1234');
-        expect(component.shouldHideCard()).toBeFalse();
+        vi.spyOn(component, 'registrationNumber', 'get').mockReturnValue('ABC 1234');
+        expect(component.shouldHideCard()).toBe(false);
       });
 
       it('returns false if previousVRNs has values', () => {
-        spyOnProperty(component, 'previousVRNs').and.returnValue(['DEF 5678']);
-        expect(component.shouldHideCard()).toBeFalse();
+        vi.spyOn(component, 'previousVRNs', 'get').mockReturnValue(['DEF 5678']);
+        expect(component.shouldHideCard()).toBe(false);
       });
 
       it('returns false if schoolBike is defined', () => {
-        spyOnProperty(component, 'schoolBike').and.returnValue('Yes');
-        expect(component.shouldHideCard()).toBeFalse();
+        vi.spyOn(component, 'schoolBike', 'get').mockReturnValue('Yes');
+        expect(component.shouldHideCard()).toBe(false);
       });
 
       it('returns false if instructorRegistrationNumber is defined', () => {
-        spyOnProperty(component, 'instructorRegistrationNumber').and.returnValue(12345);
-        expect(component.shouldHideCard()).toBeFalse();
+        vi.spyOn(component, 'instructorRegistrationNumber', 'get').mockReturnValue(12345);
+        expect(component.shouldHideCard()).toBe(false);
       });
     });
 
@@ -147,17 +148,17 @@ describe('VehicleDetailsCardComponent', () => {
 
     describe('schoolBike', () => {
       it('should return Yes if orditTrainedCandidate and isBike is trie', () => {
-        spyOn(component, 'isBike').and.returnValue(true);
+        vi.spyOn(component, 'isBike').mockReturnValue(true);
         component.data = { schoolBike: true };
         expect(component.schoolBike).toEqual('Yes');
       });
       it('should return No if orditTrainedCandidate is false and isBike is true', () => {
-        spyOn(component, 'isBike').and.returnValue(true);
+        vi.spyOn(component, 'isBike').mockReturnValue(true);
         component.data = { schoolBike: false };
         expect(component.schoolBike).toEqual('No');
       });
       it('should return null if isBike is false', () => {
-        spyOn(component, 'isBike').and.returnValue(false);
+        vi.spyOn(component, 'isBike').mockReturnValue(false);
         expect(component.schoolBike).toEqual(null);
       });
     });
@@ -242,158 +243,158 @@ describe('VehicleDetailsCardComponent', () => {
 
       it('should return true if instructorRegistrationNumber is defined', () => {
         component.data = {};
-        spyOnProperty(component, 'instructorRegistrationNumber').and.returnValue(12345);
+        vi.spyOn(component, 'instructorRegistrationNumber', 'get').mockReturnValue(12345);
         expect(component.displayMotSeparator).toBeTruthy();
       });
 
       it('should return true if shouldShowDimensions is true', () => {
         component.data = {};
-        spyOnProperty(component, 'shouldShowDimensions').and.returnValue(true);
+        vi.spyOn(component, 'shouldShowDimensions', 'get').mockReturnValue(true);
         expect(component.displayMotSeparator).toBeTruthy();
       });
 
       it('should return true if schoolBike is defined', () => {
         component.data = {};
-        spyOnProperty(component, 'schoolBike').and.returnValue('Yes');
+        vi.spyOn(component, 'schoolBike', 'get').mockReturnValue('Yes');
         expect(component.displayMotSeparator).toBeTruthy();
       });
 
       it('should return true if trainerPRN is defined and is not ADI3', () => {
         component.data = {};
-        spyOn(component, 'isADI3').and.returnValue(false);
-        spyOnProperty(component, 'trainerPRN').and.returnValue(12345);
+        vi.spyOn(component, 'isADI3').mockReturnValue(false);
+        vi.spyOn(component, 'trainerPRN', 'get').mockReturnValue(12345);
         expect(component.displayMotSeparator).toBeTruthy();
       });
 
       it('should return true if isADI2 is true', () => {
         component.data = {};
-        spyOn(component, 'isADI2').and.returnValue(true);
+        vi.spyOn(component, 'isADI2').mockReturnValue(true);
         expect(component.displayMotSeparator).toBeTruthy();
       });
 
       it('should return true if isADI3 is true', () => {
         component.data = {};
-        spyOn(component, 'isADI3').and.returnValue(true);
+        vi.spyOn(component, 'isADI3').mockReturnValue(true);
         expect(component.displayMotSeparator).toBeTruthy();
       });
 
       it('should return false if all conditions are false or undefined', () => {
         component.data = {};
         component.data.motEvidenceProvided = undefined;
-        spyOnProperty(component, 'instructorRegistrationNumber').and.returnValue(undefined);
-        spyOnProperty(component, 'shouldShowDimensions').and.returnValue(false);
-        spyOnProperty(component, 'schoolBike').and.returnValue(undefined);
-        spyOn(component, 'isADI3').and.returnValue(false);
-        spyOn(component, 'isADI2').and.returnValue(false);
-        spyOnProperty(component, 'trainerPRN').and.returnValue(undefined);
+        vi.spyOn(component, 'instructorRegistrationNumber', 'get').mockReturnValue(undefined);
+        vi.spyOn(component, 'shouldShowDimensions', 'get').mockReturnValue(false);
+        vi.spyOn(component, 'schoolBike', 'get').mockReturnValue(undefined);
+        vi.spyOn(component, 'isADI3').mockReturnValue(false);
+        vi.spyOn(component, 'isADI2').mockReturnValue(false);
+        vi.spyOn(component, 'trainerPRN', 'get').mockReturnValue(undefined);
         expect(component.displayMotSeparator).toBeFalsy();
       });
     });
 
     describe('displayVehicleDetailsSeparator', () => {
       it('should return true if instructorRegistrationNumber is defined', () => {
-        spyOnProperty(component, 'instructorRegistrationNumber').and.returnValue(12345);
+        vi.spyOn(component, 'instructorRegistrationNumber', 'get').mockReturnValue(12345);
         expect(component.displayVehicleDetailsSeparator).toBeTruthy();
       });
 
       it('should return true if shouldShowDimensions is true', () => {
-        spyOnProperty(component, 'shouldShowDimensions').and.returnValue(true);
+        vi.spyOn(component, 'shouldShowDimensions', 'get').mockReturnValue(true);
         expect(component.displayVehicleDetailsSeparator).toBeTruthy();
       });
 
       it('should return true if schoolBike is defined', () => {
-        spyOnProperty(component, 'schoolBike').and.returnValue('Yes');
+        vi.spyOn(component, 'schoolBike', 'get').mockReturnValue('Yes');
         expect(component.displayVehicleDetailsSeparator).toBeTruthy();
       });
 
       it('should return true if trainerPRN is defined and is not ADI3', () => {
-        spyOn(component, 'isADI3').and.returnValue(false);
-        spyOnProperty(component, 'trainerPRN').and.returnValue(12345);
+        vi.spyOn(component, 'isADI3').mockReturnValue(false);
+        vi.spyOn(component, 'trainerPRN', 'get').mockReturnValue(12345);
         expect(component.displayVehicleDetailsSeparator).toBeTruthy();
       });
 
       it('should return true if isADI2 is true', () => {
-        spyOn(component, 'isADI2').and.returnValue(true);
+        vi.spyOn(component, 'isADI2').mockReturnValue(true);
         expect(component.displayVehicleDetailsSeparator).toBeTruthy();
       });
 
       it('should return true if isADI3 is true', () => {
-        spyOn(component, 'isADI3').and.returnValue(true);
+        vi.spyOn(component, 'isADI3').mockReturnValue(true);
         expect(component.displayVehicleDetailsSeparator).toBeTruthy();
       });
 
       it('should return false if all conditions are false or undefined', () => {
-        spyOnProperty(component, 'instructorRegistrationNumber').and.returnValue(undefined);
-        spyOnProperty(component, 'shouldShowDimensions').and.returnValue(false);
-        spyOnProperty(component, 'schoolBike').and.returnValue(undefined);
-        spyOn(component, 'isADI3').and.returnValue(false);
-        spyOn(component, 'isADI2').and.returnValue(false);
-        spyOnProperty(component, 'trainerPRN').and.returnValue(undefined);
+        vi.spyOn(component, 'instructorRegistrationNumber', 'get').mockReturnValue(undefined);
+        vi.spyOn(component, 'shouldShowDimensions', 'get').mockReturnValue(false);
+        vi.spyOn(component, 'schoolBike', 'get').mockReturnValue(undefined);
+        vi.spyOn(component, 'isADI3').mockReturnValue(false);
+        vi.spyOn(component, 'isADI2').mockReturnValue(false);
+        vi.spyOn(component, 'trainerPRN', 'get').mockReturnValue(undefined);
         expect(component.displayVehicleDetailsSeparator).toBeFalsy();
       });
     });
 
     describe('showInstructorRegistrationNumberSeparator', () => {
       it('returns true if shouldShowDimensions is true', () => {
-        spyOnProperty(component, 'shouldShowDimensions').and.returnValue(true);
+        vi.spyOn(component, 'shouldShowDimensions', 'get').mockReturnValue(true);
         expect(component.showInstructorRegistrationNumberSeparator).toBeTruthy();
       });
 
       it('returns true if schoolBike is defined', () => {
-        spyOnProperty(component, 'schoolBike').and.returnValue('Yes');
+        vi.spyOn(component, 'schoolBike', 'get').mockReturnValue('Yes');
         expect(component.showInstructorRegistrationNumberSeparator).toBeTruthy();
       });
 
       it('returns true if isADI2 is true', () => {
-        spyOn(component, 'isADI2').and.returnValue(true);
+        vi.spyOn(component, 'isADI2').mockReturnValue(true);
         expect(component.showInstructorRegistrationNumberSeparator).toBeTruthy();
       });
 
       it('returns true if isADI3 is true', () => {
-        spyOn(component, 'isADI3').and.returnValue(true);
+        vi.spyOn(component, 'isADI3').mockReturnValue(true);
         expect(component.showInstructorRegistrationNumberSeparator).toBeTruthy();
       });
 
       it('returns true if trainerPRN is defined and isADI3 is false', () => {
-        spyOn(component, 'isADI3').and.returnValue(false);
-        spyOnProperty(component, 'trainerPRN').and.returnValue(12345);
+        vi.spyOn(component, 'isADI3').mockReturnValue(false);
+        vi.spyOn(component, 'trainerPRN', 'get').mockReturnValue(12345);
         expect(component.showInstructorRegistrationNumberSeparator).toBeTruthy();
       });
 
       it('returns false if all conditions are false or undefined', () => {
-        spyOnProperty(component, 'shouldShowDimensions').and.returnValue(false);
-        spyOnProperty(component, 'schoolBike').and.returnValue(undefined);
-        spyOn(component, 'isADI2').and.returnValue(false);
-        spyOn(component, 'isADI3').and.returnValue(false);
-        spyOnProperty(component, 'trainerPRN').and.returnValue(undefined);
+        vi.spyOn(component, 'shouldShowDimensions', 'get').mockReturnValue(false);
+        vi.spyOn(component, 'schoolBike', 'get').mockReturnValue(undefined);
+        vi.spyOn(component, 'isADI2').mockReturnValue(false);
+        vi.spyOn(component, 'isADI3').mockReturnValue(false);
+        vi.spyOn(component, 'trainerPRN', 'get').mockReturnValue(undefined);
         expect(component.showInstructorRegistrationNumberSeparator).toBeFalsy();
       });
     });
 
     describe('showRegistrationNumberSeparator', () => {
       it('returns true if isADI2 is true', () => {
-        spyOn(component, 'isADI2').and.returnValue(true);
+        vi.spyOn(component, 'isADI2').mockReturnValue(true);
         expect(component.showRegistrationNumberSeparator).toBeTruthy();
       });
 
       it('returns true if isADI3 is true', () => {
-        spyOn(component, 'isADI3').and.returnValue(true);
+        vi.spyOn(component, 'isADI3').mockReturnValue(true);
         expect(component.showRegistrationNumberSeparator).toBeTruthy();
       });
 
       it('returns true if trainerPRN is defined and isADI3 is false', () => {
-        spyOn(component, 'isADI3').and.returnValue(false);
-        spyOnProperty(component, 'trainerPRN').and.returnValue(12345);
+        vi.spyOn(component, 'isADI3').mockReturnValue(false);
+        vi.spyOn(component, 'trainerPRN', 'get').mockReturnValue(12345);
         expect(component.showRegistrationNumberSeparator).toBeTruthy();
       });
 
       it('returns true if schoolBike is defined', () => {
-        spyOnProperty(component, 'schoolBike').and.returnValue('Yes');
+        vi.spyOn(component, 'schoolBike', 'get').mockReturnValue('Yes');
         expect(component.showRegistrationNumberSeparator).toBeTruthy();
       });
 
       it('returns true if displayRegistration is true', () => {
-        spyOn(component, 'displayRegistration').and.returnValue(true);
+        vi.spyOn(component, 'displayRegistration').mockReturnValue(true);
         expect(component.showRegistrationNumberSeparator).toBeTruthy();
       });
 
@@ -403,11 +404,11 @@ describe('VehicleDetailsCardComponent', () => {
       });
 
       it('returns false if all conditions are false or undefined', () => {
-        spyOn(component, 'isADI2').and.returnValue(false);
-        spyOn(component, 'isADI3').and.returnValue(false);
-        spyOnProperty(component, 'trainerPRN').and.returnValue(undefined);
-        spyOnProperty(component, 'schoolBike').and.returnValue(undefined);
-        spyOn(component, 'displayRegistration').and.returnValue(false);
+        vi.spyOn(component, 'isADI2').mockReturnValue(false);
+        vi.spyOn(component, 'isADI3').mockReturnValue(false);
+        vi.spyOn(component, 'trainerPRN', 'get').mockReturnValue(undefined);
+        vi.spyOn(component, 'schoolBike', 'get').mockReturnValue(undefined);
+        vi.spyOn(component, 'displayRegistration').mockReturnValue(false);
         component.vehicleDetails = undefined;
         expect(component.showRegistrationNumberSeparator).toBeFalsy();
       });
@@ -415,31 +416,31 @@ describe('VehicleDetailsCardComponent', () => {
 
     describe('shouldShowDimensionsSeparator', () => {
       it('returns true if isADI2 is true', () => {
-        spyOn(component, 'isADI2').and.returnValue(true);
+        vi.spyOn(component, 'isADI2').mockReturnValue(true);
         expect(component.shouldShowDimensionsSeparator).toBeTruthy();
       });
 
       it('returns true if schoolBike is defined', () => {
-        spyOnProperty(component, 'schoolBike').and.returnValue('Yes');
+        vi.spyOn(component, 'schoolBike', 'get').mockReturnValue('Yes');
         expect(component.shouldShowDimensionsSeparator).toBeTruthy();
       });
 
       it('returns true if isADI3 is true', () => {
-        spyOn(component, 'isADI3').and.returnValue(true);
+        vi.spyOn(component, 'isADI3').mockReturnValue(true);
         expect(component.shouldShowDimensionsSeparator).toBeTruthy();
       });
 
       it('returns true if trainerPRN is defined and isADI3 is false', () => {
-        spyOn(component, 'isADI3').and.returnValue(false);
-        spyOnProperty(component, 'trainerPRN').and.returnValue(12345);
+        vi.spyOn(component, 'isADI3').mockReturnValue(false);
+        vi.spyOn(component, 'trainerPRN', 'get').mockReturnValue(12345);
         expect(component.shouldShowDimensionsSeparator).toBeTruthy();
       });
 
       it('returns false if all conditions are false or undefined', () => {
-        spyOn(component, 'isADI2').and.returnValue(false);
-        spyOn(component, 'isADI3').and.returnValue(false);
-        spyOnProperty(component, 'schoolBike').and.returnValue(undefined);
-        spyOnProperty(component, 'trainerPRN').and.returnValue(undefined);
+        vi.spyOn(component, 'isADI2').mockReturnValue(false);
+        vi.spyOn(component, 'isADI3').mockReturnValue(false);
+        vi.spyOn(component, 'schoolBike', 'get').mockReturnValue(undefined);
+        vi.spyOn(component, 'trainerPRN', 'get').mockReturnValue(undefined);
         expect(component.shouldShowDimensionsSeparator).toBeFalsy();
       });
     });
@@ -498,12 +499,12 @@ describe('VehicleDetailsCardComponent', () => {
       });
 
       it('should return true if instructorRegistrationNumber is not undefined', () => {
-        spyOnProperty(component, 'instructorRegistrationNumber').and.returnValue(12345);
+        vi.spyOn(component, 'instructorRegistrationNumber', 'get').mockReturnValue(12345);
         expect(component.displayRegistration()).toEqual(true);
       });
 
       it('should return true if shouldShowDimensions is true', () => {
-        spyOnProperty(component, 'shouldShowDimensions').and.returnValue(true);
+        vi.spyOn(component, 'shouldShowDimensions', 'get').mockReturnValue(true);
         expect(component.displayRegistration()).toEqual(true);
       });
 
@@ -513,8 +514,8 @@ describe('VehicleDetailsCardComponent', () => {
       });
 
       it('should return false if all conditions are false or undefined', () => {
-        spyOnProperty(component, 'instructorRegistrationNumber').and.returnValue(undefined);
-        spyOnProperty(component, 'shouldShowDimensions').and.returnValue(false);
+        vi.spyOn(component, 'instructorRegistrationNumber', 'get').mockReturnValue(undefined);
+        vi.spyOn(component, 'shouldShowDimensions', 'get').mockReturnValue(false);
         component.vehicleDetails = undefined;
         component.category = TestCategory.B;
         expect(component.displayRegistration()).toEqual(false);

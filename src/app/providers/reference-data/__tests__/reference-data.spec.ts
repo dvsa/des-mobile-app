@@ -7,6 +7,7 @@ import { RefDataTestCentreResponse, ReferenceDataProvider } from '@providers/ref
 import { UrlProviderMock } from '@providers/url/__mocks__/url.mock';
 import { UrlProvider } from '@providers/url/url';
 import { take } from 'rxjs/operators';
+import { afterAll, beforeEach, describe, expect, it, vi } from 'vitest';
 
 describe('ReferenceDataProvider', () => {
   let referenceDataProvider: ReferenceDataProvider;
@@ -34,7 +35,7 @@ describe('ReferenceDataProvider', () => {
     httpMock = TestBed.inject(HttpTestingController);
     referenceDataProvider = TestBed.inject(ReferenceDataProvider);
     urlProvider = TestBed.inject(UrlProvider);
-    spyOn(urlProvider, 'getRefDataTestCentreUrl');
+    vi.spyOn(urlProvider, 'getRefDataTestCentreUrl');
   });
 
   afterAll(() => {

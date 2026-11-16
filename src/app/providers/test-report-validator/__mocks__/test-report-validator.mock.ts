@@ -1,11 +1,12 @@
+import { vi } from 'vitest';
 import { SpeedCheckState } from '../test-report-validator.constants';
 
 export class TestReportValidatorProviderMock {
-  isTestReportValid = jasmine.createSpy('isTestReportValid').and.returnValue(true);
+  isTestReportValid = vi.fn().mockReturnValue(true);
 
-  getMissingLegalRequirements = jasmine.createSpy('getMissingLegalRequirements').and.returnValue([]);
+  getMissingLegalRequirements = vi.fn().mockReturnValue([]);
 
-  isETAValid = jasmine.createSpy('isETAValid').and.returnValue(true);
+  isETAValid = vi.fn().mockReturnValue(true);
 
-  validateSpeedChecksCatAMod1 = jasmine.createSpy('validateSpeedChecksCatAMod1').and.returnValue(SpeedCheckState.VALID);
+  validateSpeedChecksCatAMod1 = vi.fn().mockReturnValue(SpeedCheckState.VALID);
 }

@@ -1,5 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { UntypedFormGroup, Validators } from '@angular/forms';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { AssessmentReportComponent } from '@pages/office/cat-cpc/components/assessment-report/assessment-report';
 
@@ -65,7 +66,7 @@ describe('AssessmentReportComponent', () => {
 
   describe('assessmentReportChanged', () => {
     it('should emit assessmentReportChange with correct parameters', () => {
-      spyOn(component.assessmentReportChange, 'emit');
+      vi.spyOn(component.assessmentReportChange, 'emit').mockReturnValue(undefined);
       component.assessmentReportChanged('test');
       expect(component.assessmentReportChange.emit).toHaveBeenCalledWith('test');
     });

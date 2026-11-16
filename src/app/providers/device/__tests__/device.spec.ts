@@ -5,6 +5,7 @@ import { AppConfig } from '@providers/app-config/app-config.model';
 import { LogType } from '@shared/models/log.model';
 import { StoreModel } from '@shared/models/store.model';
 import { SaveLog } from '@store/logs/logs.actions';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { AppConfigProviderMock } from '../../app-config/__mocks__/app-config.mock';
 import { AppConfigProvider } from '../../app-config/app-config';
 import { LogHelperMock } from '../../logs/__mocks__/logs-helper.mock';
@@ -42,7 +43,7 @@ describe('DeviceProvider', () => {
     store$ = TestBed.inject(Store);
     deviceProvider = TestBed.inject(DeviceProvider);
     logHelper = TestBed.inject(LogHelper);
-    spyOn(store$, 'dispatch');
+    vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
   });
 
   describe('getDeviceType', () => {
@@ -54,12 +55,12 @@ describe('DeviceProvider', () => {
 
   describe('validDeviceType', () => {
     it('should return true if the device in supported devices list', async () => {
-      spyOn(deviceProvider, 'getDeviceType').and.returnValue(Promise.resolve('iPad7,4'));
+      vi.spyOn(deviceProvider, 'getDeviceType').mockReturnValue(Promise.resolve('iPad7,4'));
       const deviceValid = await deviceProvider.validDeviceType();
       expect(deviceValid).toEqual(true);
     });
     it('should return false if the device is not in supported devices list', async () => {
-      spyOn(deviceProvider, 'getDeviceType').and.returnValue(Promise.resolve('nonIpad7,4'));
+      vi.spyOn(deviceProvider, 'getDeviceType').mockReturnValue(Promise.resolve('nonIpad7,4'));
       const deviceValid = await deviceProvider.validDeviceType();
       expect(deviceValid).toEqual(false);
     });
@@ -104,14 +105,14 @@ describe('DeviceProvider', () => {
 
   describe('singleAppMode', () => {
     it('should return true when enabling single app mode', async () => {
-      spyOn(deviceProvider, 'setSingleAppMode').and.returnValue(Promise.resolve(true));
+      vi.spyOn(deviceProvider, 'setSingleAppMode').mockReturnValue(Promise.resolve(true));
       const result = await deviceProvider.enableSingleAppMode();
       expect(result).toBe(true);
     });
 
     it('should retry until the specified limit if calling setSingleAppMode(true) fails', async () => {
       // Simulate the ASAM toggle failing
-      spyOn(deviceProvider, 'setSingleAppMode').and.returnValue(Promise.resolve(false));
+      vi.spyOn(deviceProvider, 'setSingleAppMode').mockReturnValue(Promise.resolve(false));
       const asamFailureLog = SaveLog({
         payload: logHelper.createLog(LogType.ERROR, null, 'All retries to enable ASAM failed'),
       });
@@ -123,13 +124,13 @@ describe('DeviceProvider', () => {
     });
 
     it('should return true when disabling single app mode', async () => {
-      spyOn(deviceProvider, 'setSingleAppMode').and.returnValue(Promise.resolve(true));
+      vi.spyOn(deviceProvider, 'setSingleAppMode').mockReturnValue(Promise.resolve(true));
       const result = await deviceProvider.disableSingleAppMode();
       expect(result).toBe(true);
     });
 
     it('should detect examiner role as DLG and resolve with false', async () => {
-      spyOn(deviceProvider.appConfig, 'getAppConfig').and.returnValue({ role: 'DLG' } as AppConfig);
+      vi.spyOn(deviceProvider.appConfig, 'getAppConfig').mockReturnValue({ role: 'DLG' } as AppConfig);
       const result = await deviceProvider.enableSingleAppMode();
       expect(result).toBe(false);
     });
@@ -137,13 +138,13 @@ describe('DeviceProvider', () => {
 
   describe('isSAMEnabled', () => {
     it('should return true if single app mode enabled', async () => {
-      spyOn(Asam, 'isSingleAppModeEnabled').and.returnValue(Promise.resolve({ isEnabled: true }));
+      vi.spyOn(Asam, 'isSingleAppModeEnabled').mockReturnValue(Promise.resolve({ isEnabled: true }));
       const result = await deviceProvider.isSAMEnabled();
       expect(result).toBe(true);
     });
 
     it('should return false if single app mode not enabled', async () => {
-      spyOn(Asam, 'isSingleAppModeEnabled').and.returnValue(Promise.resolve({ isEnabled: false }));
+      vi.spyOn(Asam, 'isSingleAppModeEnabled').mockReturnValue(Promise.resolve({ isEnabled: false }));
       const result = await deviceProvider.isSAMEnabled();
       expect(result).toBe(false);
     });
@@ -151,14 +152,14 @@ describe('DeviceProvider', () => {
 
   describe('setSingleAppMode', () => {
     it('should succeed, return true and not log an event', async () => {
-      spyOn(Asam, 'setSingleAppMode').and.returnValue(Promise.resolve({ didSucceed: true }));
+      vi.spyOn(Asam, 'setSingleAppMode').mockReturnValue(Promise.resolve({ didSucceed: true }));
       const res = await deviceProvider.setSingleAppMode(true);
       expect(res).toEqual(true);
       expect(Asam.setSingleAppMode).toHaveBeenCalledWith({ shouldEnable: true });
       expect(store$.dispatch).not.toHaveBeenCalled();
     });
     it('should fail, return false and log an event', async () => {
-      spyOn(Asam, 'setSingleAppMode').and.returnValue(Promise.resolve({ didSucceed: false }));
+      vi.spyOn(Asam, 'setSingleAppMode').mockReturnValue(Promise.resolve({ didSucceed: false }));
       const res = await deviceProvider.setSingleAppMode(false);
       expect(res).toEqual(false);
       expect(Asam.setSingleAppMode).toHaveBeenCalledWith({ shouldEnable: false });
@@ -168,12 +169,12 @@ describe('DeviceProvider', () => {
 
   describe('manuallyDisableSingleAppMode', () => {
     it('should call setSingleAppMode, and not dispatch on didSucceed = true', async () => {
-      spyOn(Asam, 'setSingleAppMode').and.returnValue(Promise.resolve({ didSucceed: true }));
+      vi.spyOn(Asam, 'setSingleAppMode').mockReturnValue(Promise.resolve({ didSucceed: true }));
       await deviceProvider.manuallyDisableSingleAppMode();
       expect(store$.dispatch).not.toHaveBeenCalled();
     });
     it('should call setSingleAppMode, and dispatch when didSucceed = false', async () => {
-      spyOn(Asam, 'setSingleAppMode').and.returnValue(Promise.resolve({ didSucceed: false }));
+      vi.spyOn(Asam, 'setSingleAppMode').mockReturnValue(Promise.resolve({ didSucceed: false }));
       await deviceProvider.manuallyDisableSingleAppMode();
       expect(store$.dispatch).toHaveBeenCalled();
     });

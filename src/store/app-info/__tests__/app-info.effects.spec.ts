@@ -30,7 +30,9 @@ import {
 } from '@store/app-info/app-info.actions';
 import { AppInfoEffects } from '@store/app-info/app-info.effects';
 import { appInfoReducer } from '@store/app-info/app-info.reducer';
-import { ReplaySubject, throwError } from 'rxjs';
+import { ReplaySubject, firstValueFrom, throwError } from 'rxjs';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { unitTestErrorCause } from '../../../test-setup.vitest';
 
 describe('AppInfoEffects', () => {
   let effects: AppInfoEffects;
@@ -79,62 +81,43 @@ describe('AppInfoEffects', () => {
     store$ = TestBed.inject(Store);
     router = TestBed.inject(Router);
     dateTimeProvider = TestBed.inject(DateTimeProvider);
-    spyOn(dateTimeProvider, 'now').and.returnValue(new DateTime('2023-01-01'));
+    vi.spyOn(dateTimeProvider, 'now').mockReturnValue(new DateTime('2023-01-01'));
   });
 
   describe('loadAppInfo$', () => {
-    it('should call through to `LoadAppVersionSuccess`', (done) => {
-      // ACT
+    it('should call through to `LoadAppVersionSuccess`', async () => {
       actions$.next(LoadAppVersion());
-      // ASSERT
-      effects.loadAppInfo$.subscribe((result) => {
-        expect(result.type).toEqual(LoadAppVersionSuccess.type);
-        done();
-      });
+      const result = await firstValueFrom(effects.loadAppInfo$);
+      expect(result.type).toEqual(LoadAppVersionSuccess.type);
     });
-    it('should detect error thrown from `getVersionNumber` and call to `LoadAppVersionFailure`', (done) => {
-      spyOn(appInfoProvider, 'getVersionNumber').and.callFake(() => throwError(() => new Error('version error')));
-      // ACT
+    it('should detect error thrown from `getVersionNumber` and call to `LoadAppVersionFailure`', async () => {
+      vi.spyOn(appInfoProvider, 'getVersionNumber').mockImplementation(() =>
+        throwError(() => new Error('version error', { cause: unitTestErrorCause }))
+      );
       actions$.next(LoadAppVersion());
-      // ASSERT
-      effects.loadAppInfo$.subscribe((result) => {
-        expect(result.type).toEqual(LoadAppVersionFailure.type);
-        done();
-      });
+      const result = await firstValueFrom(effects.loadAppInfo$);
+      expect(result.type).toEqual(LoadAppVersionFailure.type);
     });
   });
   describe('loadConfigSuccessEffect$', () => {
-    it('should call through to `SetDateConfigLoaded`', (done) => {
-      // ACT
+    it('should call through to `SetDateConfigLoaded`', async () => {
       actions$.next(LoadConfigSuccess());
-      // ASSERT
-      effects.loadConfigSuccessEffect$.subscribe((result: ReturnType<typeof SetDateConfigLoaded>) => {
-        expect(result.type).toEqual(SetDateConfigLoaded.type);
-        done();
-      });
+      const result = await firstValueFrom(effects.loadConfigSuccessEffect$);
+      expect(result.type).toEqual(SetDateConfigLoaded.type);
     });
   });
   describe('dateConfigLoaded$', () => {
-    it('should call through to `RestartApp` when dates are the same and navigate', (done) => {
-      // ASSERT
+    it('should call through to `RestartApp` when dates are the same and navigate', async () => {
       store$.dispatch(SetDateConfigLoaded({ refreshDate: '2023-01-02' }));
-      // ACT
       actions$.next(SetDateConfigLoaded({ refreshDate: '2023-01-01' }));
-      // ASSERT
-      effects.dateConfigLoaded$.subscribe((result: ReturnType<typeof HasSeenUpdateAvailablePopup>) => {
-        expect(result.type).toEqual(HasSeenUpdateAvailablePopup.type);
-        done();
-      });
+      const result = await firstValueFrom(effects.dateConfigLoaded$);
+      expect(result.type).toEqual(HasSeenUpdateAvailablePopup.type);
     });
-    it('should call through to `RestartApp` when dates are the same and navigate', () => {
-      // ASSERT
-      store$.dispatch(SetDateConfigLoaded({ refreshDate: '2023-01-01' }));
-      // ACT
+    it('should call through to `RestartApp` when dates are the same and navigate', async () => {
+      store$.dispatch(SetDateConfigLoaded({ refreshDate: '2023-01-02' }));
       actions$.next(SetDateConfigLoaded({ refreshDate: '2023-01-01' }));
-      // ASSERT
-      effects.dateConfigLoaded$.subscribe((result: ReturnType<typeof HasSeenUpdateAvailablePopup>) => {
-        expect(result.type).toEqual(HasSeenUpdateAvailablePopup.type);
-      });
+      const result = await firstValueFrom(effects.dateConfigLoaded$);
+      expect(result.type).toEqual(HasSeenUpdateAvailablePopup.type);
     });
   });
   describe('appResumedEffect$', () => {
@@ -149,7 +132,7 @@ describe('AppInfoEffects', () => {
       });
     });
     it('should call through to `RestartApp` when dates differ then navigate to LOGIN_PAGE', () => {
-      spyOn(router, 'navigate').and.returnValue(Promise.resolve(true));
+      vi.spyOn(router, 'navigate').mockReturnValue(Promise.resolve(true));
       // ASSERT
       store$.dispatch(SetDateConfigLoaded({ refreshDate: '2023-01-02' }));
       // ACT
@@ -166,15 +149,11 @@ describe('AppInfoEffects', () => {
     });
   });
   describe('loadEmployeeName$', () => {
-    it('should call through to `LoadEmployeeNameSuccess`', (done) => {
-      // ACT
+    it('should call through to `LoadEmployeeNameSuccess`', async () => {
       actions$.next(LoadEmployeeName('joe blogs'));
-      // ASSERT
-      effects.loadEmployeeName$.subscribe((result: ReturnType<typeof LoadEmployeeNameSuccess>) => {
-        expect(result.type).toEqual(LoadEmployeeNameSuccess.type);
-        expect(result.employeeName).toEqual('joe blogs');
-        done();
-      });
+      const result = await firstValueFrom(effects.loadEmployeeName$);
+      expect(result.type).toEqual(LoadEmployeeNameSuccess.type);
+      expect(result.employeeName).toEqual('joe blogs');
     });
   });
 });

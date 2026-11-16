@@ -1,5 +1,5 @@
 import { Injector } from '@angular/core';
-import { TestBed, fakeAsync, flushMicrotasks } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 import { ActivatedRoute, Data, Router } from '@angular/router';
 import { KeepAwake as Insomnia } from '@capacitor-community/keep-awake';
 import { OrientationType, ScreenOrientation } from '@capawesome/capacitor-screen-orientation';
@@ -19,6 +19,8 @@ import { LogHelper } from '@providers/logs/logs-helper';
 import { LogType } from '@shared/models/log.model';
 import { StoreModel } from '@shared/models/store.model';
 import { Subscription } from 'rxjs';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
+import { unitTestErrorCause } from '../../../../test-setup.vitest';
 import { BasePageComponent } from '../base-page';
 
 describe('BasePageComponent', () => {
@@ -76,10 +78,10 @@ describe('BasePageComponent', () => {
     deviceProvider = TestBed.inject(DeviceProvider);
     store$ = TestBed.inject(Store);
     logHelper = TestBed.inject(LogHelper);
-    router.navigate = jasmine.createSpy().and.returnValue(Promise.resolve(true));
+    router.navigate = vi.fn().mockReturnValue(Promise.resolve(true));
 
-    spyOn(store$, 'dispatch');
-    spyOn(logHelper, 'createLog');
+    vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
+    vi.spyOn(logHelper, 'createLog');
 
     class BasePageClass extends BasePageComponent {
       constructor(public inj: Injector) {
@@ -96,53 +98,73 @@ describe('BasePageComponent', () => {
   });
 
   describe('ionViewWillEnter', () => {
-    it('should allow user access if authentication is not required', fakeAsync(() => {
-      basePageComponent.loginRequired = false;
-      basePageComponent.ionViewWillEnter();
-      flushMicrotasks();
-      expect(router.navigate).not.toHaveBeenCalled();
-    }));
+    it('should allow user access if authentication is not required', async () => {
+      vi.useFakeTimers();
+      try {
+        basePageComponent.loginRequired = false;
+        basePageComponent.ionViewWillEnter();
+        await vi.advanceTimersByTimeAsync(0);
+        expect(router.navigate).not.toHaveBeenCalled();
+      } finally {
+        vi.useRealTimers();
+      }
+    });
 
-    it('should allow user access if authentication is required and device is not ios', fakeAsync(() => {
-      basePageComponent.isIos = jasmine.createSpy().and.returnValue(false);
-      basePageComponent.ionViewWillEnter();
-      expect(router.navigate).not.toHaveBeenCalled();
-      flushMicrotasks();
-    }));
+    it('should allow user access if authentication is required and device is not ios', async () => {
+      vi.useFakeTimers();
+      try {
+        basePageComponent.isIos = vi.fn().mockReturnValue(false);
+        basePageComponent.ionViewWillEnter();
+        expect(router.navigate).not.toHaveBeenCalled();
+        await vi.advanceTimersByTimeAsync(0);
+      } finally {
+        vi.useRealTimers();
+      }
+    });
 
-    it('should allow user access if authenticated , is an ios device and is required', fakeAsync(() => {
-      spyOn(authenticationProvider, 'isAuthenticated').and.resolveTo(false);
-      basePageComponent.ionViewWillEnter();
-      flushMicrotasks();
+    it('should allow user access if authenticated , is an ios device and is required', async () => {
+      vi.useFakeTimers();
+      try {
+        vi.spyOn(authenticationProvider, 'isAuthenticated').mockResolvedValue(false);
+        basePageComponent.ionViewWillEnter();
+        await vi.advanceTimersByTimeAsync(0);
 
-      expect(router.navigate).not.toHaveBeenCalled();
-    }));
-    it('should not allow access if user is not authed, auth is required and is ios', fakeAsync(() => {
-      basePageComponent.isIos = jasmine.createSpy().and.returnValue(true);
+        expect(router.navigate).not.toHaveBeenCalled();
+      } finally {
+        vi.useRealTimers();
+      }
+    });
+    it('should not allow access if user is not authed, auth is required and is ios', async () => {
+      vi.useFakeTimers();
+      try {
+        basePageComponent.isIos = vi.fn().mockReturnValue(true);
 
-      spyOn(authenticationProvider, 'isAuthenticated').and.resolveTo(false);
-      spyOn(authenticationProvider, 'isOffline').and.returnValue(false);
+        vi.spyOn(authenticationProvider, 'isAuthenticated').mockResolvedValue(false);
+        vi.spyOn(authenticationProvider, 'isOffline').mockReturnValue(false);
 
-      basePageComponent.loginRequired = true;
-      basePageComponent.ionViewWillEnter();
-      flushMicrotasks();
-      expect(router.navigate).toHaveBeenCalledWith([LOGIN_PAGE], {
-        replaceUrl: true,
-        state: {
-          hasLoggedOut: false,
-          invalidToken: true,
-        },
-      });
-    }));
+        basePageComponent.loginRequired = true;
+        basePageComponent.ionViewWillEnter();
+        await vi.advanceTimersByTimeAsync(0);
+        expect(router.navigate).toHaveBeenCalledWith([LOGIN_PAGE], {
+          replaceUrl: true,
+          state: {
+            hasLoggedOut: false,
+            invalidToken: true,
+          },
+        });
+      } finally {
+        vi.useRealTimers();
+      }
+    });
   });
 
   describe('isIos', () => {
     it('should return true if platform is ios', () => {
-      platform.is = jasmine.createSpy('platform.is').and.returnValue(true);
+      platform.is = vi.fn().mockReturnValue(true);
       expect(basePageComponent.isIos()).toBe(true);
     });
     it('should return false if platform is not ios', () => {
-      platform.is = jasmine.createSpy('platform.is').and.returnValue(false);
+      platform.is = vi.fn().mockReturnValue(false);
       expect(basePageComponent.isIos()).toBe(false);
     });
   });
@@ -156,8 +178,8 @@ describe('BasePageComponent', () => {
 
   describe('logout()', () => {
     it('should try to logout when platform is ios', async () => {
-      basePageComponent.isIos = jasmine.createSpy().and.returnValue(true);
-      spyOn(authenticationProvider, 'logout').and.callThrough();
+      basePageComponent.isIos = vi.fn().mockReturnValue(true);
+      vi.spyOn(authenticationProvider, 'logout');
       await basePageComponent.logout();
       expect(authenticationProvider.logout).toHaveBeenCalledTimes(1);
       expect(router.navigate).toHaveBeenCalledTimes(1);
@@ -168,9 +190,8 @@ describe('BasePageComponent', () => {
         },
       });
     });
-    // @TODO MES-7133 fix intermittently failing test
-    xit('should not try to logout when platform is not ios', async () => {
-      basePageComponent.isIos = jasmine.createSpy().and.returnValue(false);
+    it('should not try to logout when platform is not ios', async () => {
+      basePageComponent.isIos = vi.fn().mockReturnValue(false);
       await basePageComponent.logout();
       expect(authenticationProvider.logout).toHaveBeenCalledTimes(0);
       expect(router.navigate).toHaveBeenCalledTimes(0);
@@ -179,12 +200,12 @@ describe('BasePageComponent', () => {
 
   describe('lockDevice', () => {
     beforeEach(() => {
-      spyOn(ScreenOrientation, 'lock').and.returnValue(Promise.resolve());
-      spyOn(Insomnia, 'keepAwake').and.returnValue(Promise.resolve());
+      vi.spyOn(ScreenOrientation, 'lock').mockReturnValue(Promise.resolve());
+      vi.spyOn(Insomnia, 'keepAwake').mockReturnValue(Promise.resolve());
     });
 
     it('should lock device and keep awake in practice mode, but not single app mode', async () => {
-      basePageComponent.isIos = jasmine.createSpy().and.returnValue(true);
+      basePageComponent.isIos = vi.fn().mockReturnValue(true);
 
       await basePageComponent.lockDevice(true);
 
@@ -193,9 +214,9 @@ describe('BasePageComponent', () => {
       expect(deviceProvider.enableSingleAppMode).not.toHaveBeenCalled();
     });
     it('should lock device, keep awake and call single app mode when not practice mode', async () => {
-      basePageComponent.isIos = jasmine.createSpy().and.returnValue(true);
+      basePageComponent.isIos = vi.fn().mockReturnValue(true);
 
-      spyOn(deviceProvider, 'enableSingleAppMode').and.returnValue(Promise.resolve(true));
+      vi.spyOn(deviceProvider, 'enableSingleAppMode').mockReturnValue(Promise.resolve(true));
 
       await basePageComponent.lockDevice(false);
 
@@ -204,9 +225,11 @@ describe('BasePageComponent', () => {
       expect(deviceProvider.enableSingleAppMode).toHaveBeenCalled();
     });
     it('should capture thrown errors with page name and method', async () => {
-      basePageComponent.isIos = jasmine.createSpy().and.returnValue(true);
+      basePageComponent.isIos = vi.fn().mockReturnValue(true);
 
-      spyOn(deviceProvider, 'enableSingleAppMode').and.returnValue(Promise.reject(new Error('Thrown err')));
+      vi.spyOn(deviceProvider, 'enableSingleAppMode').mockReturnValue(
+        Promise.reject(new Error('Thrown err', { cause: unitTestErrorCause }))
+      );
 
       await basePageComponent.lockDevice(false);
 
@@ -214,12 +237,12 @@ describe('BasePageComponent', () => {
       expect(logHelper.createLog).toHaveBeenCalledWith(
         LogType.ERROR,
         'BasePageComponent => /test => lockDevice',
-        jasmine.stringContaining('Thrown err')
+        expect.stringContaining('Thrown err')
       );
     });
 
     it('should not run logic for locking when not in iOS', async () => {
-      basePageComponent.isIos = jasmine.createSpy().and.returnValue(false);
+      basePageComponent.isIos = vi.fn().mockReturnValue(false);
 
       await basePageComponent.lockDevice(false);
 
@@ -232,15 +255,15 @@ describe('BasePageComponent', () => {
 
   describe('unlockDevice', () => {
     beforeEach(() => {
-      spyOn(ScreenOrientation, 'unlock').and.returnValue(Promise.resolve());
-      spyOn(Insomnia, 'allowSleep').and.returnValue(Promise.resolve());
-      spyOn(deviceProvider, 'disableSingleAppMode').and.returnValue(Promise.resolve(true));
+      vi.spyOn(ScreenOrientation, 'unlock').mockReturnValue(Promise.resolve());
+      vi.spyOn(Insomnia, 'allowSleep').mockReturnValue(Promise.resolve());
+      vi.spyOn(deviceProvider, 'disableSingleAppMode').mockReturnValue(Promise.resolve(true));
     });
 
     it('should disable SAM, but if it fails then do not call unlock and sleep again', async () => {
-      basePageComponent.isIos = jasmine.createSpy().and.returnValue(true);
+      basePageComponent.isIos = vi.fn().mockReturnValue(true);
 
-      spyOn(deviceProvider, 'isSAMEnabled').and.returnValue(Promise.resolve(true));
+      vi.spyOn(deviceProvider, 'isSAMEnabled').mockReturnValue(Promise.resolve(true));
 
       await basePageComponent.unlockDevice();
 
@@ -249,9 +272,9 @@ describe('BasePageComponent', () => {
       expect(Insomnia.allowSleep).not.toHaveBeenCalled();
     });
     it('should call SAM, when that succeeds then call unlock and allow sleep', async () => {
-      basePageComponent.isIos = jasmine.createSpy().and.returnValue(true);
+      basePageComponent.isIos = vi.fn().mockReturnValue(true);
 
-      spyOn(deviceProvider, 'isSAMEnabled').and.returnValue(Promise.resolve(false));
+      vi.spyOn(deviceProvider, 'isSAMEnabled').mockReturnValue(Promise.resolve(false));
 
       await basePageComponent.unlockDevice();
 
@@ -260,9 +283,11 @@ describe('BasePageComponent', () => {
       expect(Insomnia.allowSleep).toHaveBeenCalled();
     });
     it('should capture thrown errors with page name and method', async () => {
-      basePageComponent.isIos = jasmine.createSpy().and.returnValue(true);
+      basePageComponent.isIos = vi.fn().mockReturnValue(true);
 
-      spyOn(deviceProvider, 'disableSingleAppMode').and.returnValue(Promise.reject(new Error('Thrown err')));
+      vi.spyOn(deviceProvider, 'disableSingleAppMode').mockReturnValue(
+        Promise.reject(new Error('Thrown err', { cause: unitTestErrorCause }))
+      );
 
       await basePageComponent.unlockDevice();
 
@@ -270,12 +295,12 @@ describe('BasePageComponent', () => {
       expect(logHelper.createLog).toHaveBeenCalledWith(
         LogType.ERROR,
         'BasePageComponent => /test => unlockDevice',
-        jasmine.stringContaining('Thrown err')
+        expect.stringContaining('Thrown err')
       );
     });
 
     it('should not run logic for unlocking when not in iOS', async () => {
-      basePageComponent.isIos = jasmine.createSpy().and.returnValue(false);
+      basePageComponent.isIos = vi.fn().mockReturnValue(false);
 
       await basePageComponent.unlockDevice();
 
@@ -287,13 +312,13 @@ describe('BasePageComponent', () => {
   });
   describe('reEnableSingleAppMode', () => {
     it('should dispatch ExitSamError if enabling single app mode fails', async () => {
-      spyOn(deviceProvider, 'enableSingleAppMode').and.returnValue(Promise.resolve(false));
+      vi.spyOn(deviceProvider, 'enableSingleAppMode').mockReturnValue(Promise.resolve(false));
       await basePageComponent.reEnableSingleAppMode();
       expect(store$.dispatch).toHaveBeenCalledWith(ExitSamError('Could not enable single app mode', false));
     });
 
     it('should dispatch ExitSamError if an error occurs while enabling single app mode', async () => {
-      spyOn(deviceProvider, 'enableSingleAppMode').and.returnValue(Promise.reject('Error'));
+      vi.spyOn(deviceProvider, 'enableSingleAppMode').mockReturnValue(Promise.reject('Error'));
       await basePageComponent.reEnableSingleAppMode();
       expect(store$.dispatch).toHaveBeenCalledWith(ExitSamError('Enable single app mode error', 'Error'));
     });
@@ -302,14 +327,14 @@ describe('BasePageComponent', () => {
   describe('setupEscapeSAMLeaveSubscription', () => {
     it('should set up a subscription to the platform pause event if there is not already one', () => {
       basePageComponent.leaveAppSubscription = null;
-      spyOn(platform.pause, 'subscribe').and.callThrough();
+      vi.spyOn(platform.pause, 'subscribe');
       basePageComponent.setupEscapeSAMLeaveSubscription();
       expect(platform.pause.subscribe).toHaveBeenCalled();
       expect(basePageComponent.leaveAppSubscription).not.toBeNull();
     });
     it('should not set up a subscription to the platform pause event if there is already one', () => {
       basePageComponent.leaveAppSubscription = new Subscription();
-      spyOn(platform.pause, 'subscribe').and.callThrough();
+      vi.spyOn(platform.pause, 'subscribe');
       basePageComponent.setupEscapeSAMLeaveSubscription();
       expect(platform.pause.subscribe).not.toHaveBeenCalled();
     });
@@ -318,19 +343,19 @@ describe('BasePageComponent', () => {
   describe('setupEscapeSAMResumeSubscription', () => {
     it('should set up a subscription to the platform resume event if there is not already one', () => {
       basePageComponent.returnToAppSubscription = null;
-      spyOn(platform.resume, 'subscribe').and.callThrough();
+      vi.spyOn(platform.resume, 'subscribe');
       basePageComponent.setupEscapeSAMResumeSubscription();
       expect(platform.resume.subscribe).toHaveBeenCalled();
     });
     it('should not set up a subscription to the platform resume event if there is already one', () => {
       basePageComponent.returnToAppSubscription = new Subscription();
-      spyOn(platform.resume, 'subscribe').and.callThrough();
+      vi.spyOn(platform.resume, 'subscribe');
       basePageComponent.setupEscapeSAMLeaveSubscription();
       expect(platform.resume.subscribe).not.toHaveBeenCalled();
     });
 
     it('returnToAppSubscription should have a value', async () => {
-      spyOn(basePageComponent, 'reEnableSingleAppMode').and.returnValue(Promise.resolve());
+      vi.spyOn(basePageComponent, 'reEnableSingleAppMode').mockReturnValue(Promise.resolve());
       basePageComponent.setupEscapeSAMResumeSubscription();
       expect(basePageComponent.returnToAppSubscription).not.toBeNull();
     });
@@ -355,9 +380,9 @@ describe('BasePageComponent', () => {
   describe('ionViewDidLeave', () => {
     it('should re-enable single app mode and destroy leaveAppSubscription if active', async () => {
       basePageComponent.leaveAppSubscription = new Subscription();
-      spyOn(basePageComponent, 'reEnableSingleAppMode').and.returnValue(Promise.resolve());
-      spyOn(basePageComponent, 'destroyLeaveAppSubscription');
-      await basePageComponent.ionViewDidLeave();
+      vi.spyOn(basePageComponent, 'reEnableSingleAppMode').mockReturnValue(Promise.resolve());
+      vi.spyOn(basePageComponent, 'destroyLeaveAppSubscription').mockReturnValue(undefined);
+      basePageComponent.ionViewDidLeave();
       expect(basePageComponent.reEnableSingleAppMode).toHaveBeenCalled();
       expect(basePageComponent.destroyLeaveAppSubscription).toHaveBeenCalled();
     });

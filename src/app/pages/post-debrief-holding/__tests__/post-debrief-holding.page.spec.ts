@@ -1,4 +1,5 @@
-import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
@@ -33,7 +34,7 @@ describe('PostDebriefHoldingPage', () => {
     fixture = TestBed.createComponent(PostDebriefHoldingPage);
     component = fixture.componentInstance;
     router = TestBed.inject(Router);
-    spyOn(router, 'navigate');
+    vi.spyOn(router, 'navigate');
   });
 
   describe('Class', () => {
@@ -42,11 +43,16 @@ describe('PostDebriefHoldingPage', () => {
     });
 
     describe('continueButton', () => {
-      it('should call navigateToPage function', fakeAsync(async () => {
-        await component.continueButton();
-        tick();
-        expect(router.navigate).toHaveBeenCalledWith([TestFlowPageNames.NON_PASS_FINALISATION_PAGE]);
-      }));
+      it('should call navigateToPage function', async () => {
+        vi.useFakeTimers();
+        try {
+          await component.continueButton();
+          await vi.advanceTimersByTimeAsync(0);
+          expect(router.navigate).toHaveBeenCalledWith([TestFlowPageNames.NON_PASS_FINALISATION_PAGE]);
+        } finally {
+          vi.useRealTimers();
+        }
+      });
     });
   });
 });

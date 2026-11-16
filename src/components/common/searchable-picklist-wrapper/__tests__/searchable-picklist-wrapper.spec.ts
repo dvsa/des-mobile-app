@@ -2,6 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { SearchablePicklistComponentWrapper } from '@components/common/searchable-picklist-wrapper/searchable-picklist-wrapper';
 import { ModalController } from '@ionic/angular';
 import { ModalControllerMock } from '@mocks/ionic-mocks/modal-controller.mock';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 describe('SearchablePicklistComponentWrapper', () => {
   let fixture: ComponentFixture<SearchablePicklistComponentWrapper<unknown>>;
@@ -20,8 +21,8 @@ describe('SearchablePicklistComponentWrapper', () => {
     modalController = TestBed.inject(ModalController);
     component.disabled = false;
 
-    spyOn(component.outputChanged, 'emit');
-    spyOn(modalController, 'create').and.returnValue(
+    vi.spyOn(component.outputChanged, 'emit').mockReturnValue(undefined);
+    vi.spyOn(modalController, 'create').mockReturnValue(
       Promise.resolve({
         present: () => Promise.resolve(),
         dismiss: () => Promise.resolve(true),
@@ -42,13 +43,13 @@ describe('SearchablePicklistComponentWrapper', () => {
         expect(modalController.create).not.toHaveBeenCalled();
       });
       it('should not call the modal create if getTop is defined', async () => {
-        spyOn(modalController, 'getTop').and.returnValue(Promise.resolve({} as HTMLIonModalElement));
+        vi.spyOn(modalController, 'getTop').mockReturnValue(Promise.resolve({} as HTMLIonModalElement));
         component.disabled = false;
         await component.openModal();
         expect(modalController.create).not.toHaveBeenCalled();
       });
       it('should call through when disable not set and no modal currently exists', async () => {
-        spyOn(modalController, 'getTop').and.returnValue(Promise.resolve(undefined));
+        vi.spyOn(modalController, 'getTop').mockReturnValue(Promise.resolve(undefined));
         component.disabled = false;
         await component.openModal();
         expect(modalController.create).toHaveBeenCalled();

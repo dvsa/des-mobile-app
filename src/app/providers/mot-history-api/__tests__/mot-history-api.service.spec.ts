@@ -9,7 +9,8 @@ import { SearchProvider } from '@providers/search/search';
 import { UrlProviderMock } from '@providers/url/__mocks__/url.mock';
 import { UrlProvider } from '@providers/url/url';
 import { HttpStatusCodes } from '@shared/models/http-status-codes';
-import { of, throwError } from 'rxjs';
+import { firstValueFrom, of, throwError } from 'rxjs';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { MotHistoryApiService, MotHistoryWithStatus } from '../mot-history-api.service';
 
 describe('MotHistoryApiService', () => {
@@ -36,7 +37,7 @@ describe('MotHistoryApiService', () => {
 
     vehicleDetailsService = TestBed.inject(MotHistoryApiService);
     urlProvider = TestBed.inject(UrlProvider);
-    spyOn(urlProvider, 'getMotUrl');
+    vi.spyOn(urlProvider, 'getMotUrl');
   });
 
   describe('addRegistrationToFakeRecords', () => {
@@ -57,28 +58,28 @@ describe('MotHistoryApiService', () => {
   });
 
   describe('getMockResultByIdentifier', () => {
-    it('should return pass MOT data when motType is PASS', (done) => {
-      vehicleDetailsService.getMockResultByIdentifier('XX01VLD', PracticeModeMOTType.PASS).subscribe((result) => {
-        expect(result.data.registration).toBe('XX01VLD');
-        expect(result.data.status).toBe('Valid');
-        done();
-      });
+    it('should return pass MOT data when motType is PASS', async () => {
+      const result = await firstValueFrom(
+        vehicleDetailsService.getMockResultByIdentifier('XX01VLD', PracticeModeMOTType.PASS)
+      );
+      expect(result.data.registration).toBe('XX01VLD');
+      expect(result.data.status).toBe('Valid');
     });
 
-    it('should return fail MOT data when motType is FAILED', (done) => {
-      vehicleDetailsService.getMockResultByIdentifier('XX01INV', PracticeModeMOTType.FAILED).subscribe((result) => {
-        expect(result.data.registration).toBe('XX01INV');
-        expect(result.data.status).toBe('Not valid');
-        done();
-      });
+    it('should return fail MOT data when motType is FAILED', async () => {
+      const result = await firstValueFrom(
+        vehicleDetailsService.getMockResultByIdentifier('XX01INV', PracticeModeMOTType.FAILED)
+      );
+      expect(result.data.registration).toBe('XX01INV');
+      expect(result.data.status).toBe('Not valid');
     });
 
-    it('should return no details MOT data when motType is NO_DETAILS', (done) => {
-      vehicleDetailsService.getMockResultByIdentifier('XX01NDT', PracticeModeMOTType.NO_DETAILS).subscribe((result) => {
-        expect(result.data.registration).toBe('XX01NDT');
-        expect(result.data.status).toBe('No details');
-        done();
-      });
+    it('should return no details MOT data when motType is NO_DETAILS', async () => {
+      const result = await firstValueFrom(
+        vehicleDetailsService.getMockResultByIdentifier('XX01NDT', PracticeModeMOTType.NO_DETAILS)
+      );
+      expect(result.data.registration).toBe('XX01NDT');
+      expect(result.data.status).toBe('No details');
     });
   });
 
@@ -299,25 +300,22 @@ describe('MotHistoryApiService', () => {
   });
 
   describe('getVehicleByIdentifier', () => {
-    it('should return cached vehicle details if vehicle is cached', (done) => {
-      spyOn(vehicleDetailsService, 'isResultCached').and.returnValue(true);
-      spyOn(vehicleDetailsService, 'getCachedMotHistory').and.returnValue(
+    it('should return cached vehicle details if vehicle is cached', async () => {
+      vi.spyOn(vehicleDetailsService, 'isResultCached').mockReturnValue(true);
+      vi.spyOn(vehicleDetailsService, 'getCachedMotHistory').mockReturnValue(
         of({
           status: 'Already Saved',
           data: { registration: 'ABC123' } as MotHistory,
         })
       );
-
-      vehicleDetailsService.getMotHistoryByIdentifier('ABC123').subscribe((result) => {
-        expect(result.status).toBe('Already Saved');
-        expect(result.data.registration).toBe('ABC123');
-        done();
-      });
+      const result = await firstValueFrom(vehicleDetailsService.getMotHistoryByIdentifier('ABC123'));
+      expect(result.status).toBe('Already Saved');
+      expect(result.data.registration).toBe('ABC123');
     });
 
-    it('should fetch vehicle details from API if vehicle is not cached', (done) => {
-      spyOn(vehicleDetailsService, 'isResultCached').and.returnValue(false);
-      spyOn(vehicleDetailsService.http, 'get').and.returnValue(
+    it('should fetch vehicle details from API if vehicle is not cached', async () => {
+      vi.spyOn(vehicleDetailsService, 'isResultCached').mockReturnValue(false);
+      vi.spyOn(vehicleDetailsService.http, 'get').mockReturnValue(
         of(
           new HttpResponse<MotHistory>({
             body: { registration: 'ABC123' } as MotHistory,
@@ -325,21 +323,18 @@ describe('MotHistoryApiService', () => {
           })
         )
       );
-      spyOn(vehicleDetailsService, 'cacheMotHistory');
-      spyOn(vehicleDetailsService, 'mapResponseToMotData').and.callThrough();
-
-      vehicleDetailsService.getMotHistoryByIdentifier('ABC123').subscribe((result) => {
-        expect(result.data.registration).toBe('ABC123');
-        expect(vehicleDetailsService.cacheMotHistory).toHaveBeenCalled();
-        expect(vehicleDetailsService.mapResponseToMotData).toHaveBeenCalled();
-        done();
-      });
+      vi.spyOn(vehicleDetailsService, 'cacheMotHistory').mockReturnValue(undefined);
+      vi.spyOn(vehicleDetailsService, 'mapResponseToMotData');
+      const result = await firstValueFrom(vehicleDetailsService.getMotHistoryByIdentifier('ABC123'));
+      expect(result.data.registration).toBe('ABC123');
+      expect(vehicleDetailsService.cacheMotHistory).toHaveBeenCalled();
+      expect(vehicleDetailsService.mapResponseToMotData).toHaveBeenCalled();
     });
 
-    it('should handle API error and return default error response', (done) => {
-      spyOn(vehicleDetailsService, 'isResultCached').and.returnValue(false);
-      spyOn(vehicleDetailsService.http, 'get').and.returnValue(throwError({ status: 500 }));
-      spyOn(vehicleDetailsService, 'handleError').and.returnValue(
+    it('should handle API error and return default error response', async () => {
+      vi.spyOn(vehicleDetailsService, 'isResultCached').mockReturnValue(false);
+      vi.spyOn(vehicleDetailsService.http, 'get').mockReturnValue(throwError({ status: 500 }));
+      vi.spyOn(vehicleDetailsService, 'handleError').mockReturnValue(
         of({
           status: '500',
           data: {
@@ -351,12 +346,9 @@ describe('MotHistoryApiService', () => {
           },
         })
       );
-
-      vehicleDetailsService.getMotHistoryByIdentifier('ABC123').subscribe((result) => {
-        expect(result.status).toBe('500');
-        expect(result.data.registration).toBe('ABC123');
-        done();
-      });
+      const result = await firstValueFrom(vehicleDetailsService.getMotHistoryByIdentifier('ABC123'));
+      expect(result.status).toBe('500');
+      expect(result.data.registration).toBe('ABC123');
     });
   });
 });

@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { DateTimeInputComponent, DisplayType } from '@components/common/datetime-input/date-time-input.component';
 import { IonDatetime } from '@ionic/angular';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 describe('DateTimeInputComponent', () => {
   let fixture: ComponentFixture<DateTimeInputComponent>;
@@ -27,7 +28,7 @@ describe('DateTimeInputComponent', () => {
 
   describe('buttonEmit', () => {
     it('should emit customButtonEvent with the correct parameters', () => {
-      spyOn(component.customButtonEvent, 'emit');
+      vi.spyOn(component.customButtonEvent, 'emit').mockReturnValue(undefined);
       component.buttonEmit({} as IonDatetime, 'test');
       expect(component.customButtonEvent.emit).toHaveBeenCalledWith({
         data: {} as IonDatetime,
@@ -38,7 +39,7 @@ describe('DateTimeInputComponent', () => {
 
   describe('onSelected', () => {
     it('should emit blank variables if the DisplayType is not type Date or Time', () => {
-      spyOn(component.onDataPicked, 'emit');
+      vi.spyOn(component.onDataPicked, 'emit').mockReturnValue(undefined);
       component.control = 'test';
       component.onSelected({} as IonDatetime, null);
       expect(component.onDataPicked.emit).toHaveBeenCalledWith({
@@ -51,7 +52,7 @@ describe('DateTimeInputComponent', () => {
       'should emit event.value in the correct format and set displayValue to the correct value' +
         ' if the DisplayType is Time',
       () => {
-        spyOn(component.onDataPicked, 'emit');
+        vi.spyOn(component.onDataPicked, 'emit').mockReturnValue(undefined);
         component.control = 'test';
         component.onSelected({ value: '2000-01-02 12:11' } as IonDatetime, DisplayType.Time);
         expect(component.onDataPicked.emit).toHaveBeenCalledWith({
@@ -65,7 +66,7 @@ describe('DateTimeInputComponent', () => {
       'should emit event.value in the correct format and set displayValue to the correct value' +
         ' if the DisplayType is Date',
       () => {
-        spyOn(component.onDataPicked, 'emit');
+        vi.spyOn(component.onDataPicked, 'emit').mockReturnValue(undefined);
         component.control = 'test';
         component.onSelected({ value: '2000-01-02' } as IonDatetime, DisplayType.Date);
         expect(component.onDataPicked.emit).toHaveBeenCalledWith({

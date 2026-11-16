@@ -5,6 +5,7 @@ import { DrivingFaultsBadgeComponent } from '@components/common/driving-faults-b
 import { SeriousFaultBadgeComponent } from '@components/common/serious-fault-badge/serious-fault-badge';
 import { TickIndicatorComponent } from '@components/common/tick-indicator/tick-indicator';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { Store, StoreModule } from '@ngrx/store';
 import { CompetencyButtonComponent } from '@pages/test-report/components/competency-button/competency-button';
@@ -57,7 +58,7 @@ describe('VehicleCheckComponent', () => {
         fixture.detectChanges();
         component.isSeriousMode = true;
 
-        const storeDisptachSpy = spyOn(store$, 'dispatch');
+        const storeDisptachSpy = vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
 
         component.addFault(false);
 
@@ -68,7 +69,7 @@ describe('VehicleCheckComponent', () => {
         fixture.detectChanges();
         component.isDangerousMode = true;
 
-        const storeDisptachSpy = spyOn(store$, 'dispatch');
+        const storeDisptachSpy = vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
 
         component.addFault(false);
 
@@ -78,7 +79,7 @@ describe('VehicleCheckComponent', () => {
       it('should dispatch SHOW_ME_QUESTION_DRIVING_FAULT when competency is pressed', () => {
         fixture.detectChanges();
 
-        const storeDisptachSpy = spyOn(store$, 'dispatch');
+        const storeDisptachSpy = vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
 
         component.addFault(true);
 
@@ -88,7 +89,7 @@ describe('VehicleCheckComponent', () => {
       it('should not dispatch SHOW_ME_QUESTION_DRIVING_FAULT when competency was just tapped', () => {
         fixture.detectChanges();
 
-        const storeDisptachSpy = spyOn(store$, 'dispatch');
+        const storeDisptachSpy = vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
 
         component.addFault(false);
 
@@ -103,7 +104,7 @@ describe('VehicleCheckComponent', () => {
 
         component.isRemoveFaultMode = true;
 
-        const storeDispatchSpy = spyOn(store$, 'dispatch');
+        const storeDispatchSpy = vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
         component.removeFault();
 
         expect(storeDispatchSpy).toHaveBeenCalledWith(ShowMeQuestionPassed());
@@ -116,7 +117,7 @@ describe('VehicleCheckComponent', () => {
         component.isRemoveFaultMode = true;
         component.isSeriousMode = true;
 
-        const storeDispatchSpy = spyOn(store$, 'dispatch');
+        const storeDispatchSpy = vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
         component.addOrRemoveFault(true);
 
         expect(storeDispatchSpy).toHaveBeenCalledWith(ShowMeQuestionPassed());
@@ -129,7 +130,7 @@ describe('VehicleCheckComponent', () => {
         component.isRemoveFaultMode = true;
         component.isDangerousMode = true;
 
-        const storeDispatchSpy = spyOn(store$, 'dispatch');
+        const storeDispatchSpy = vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
         component.addOrRemoveFault();
 
         expect(storeDispatchSpy).toHaveBeenCalledWith(ShowMeQuestionPassed());
@@ -142,7 +143,7 @@ describe('VehicleCheckComponent', () => {
         component.showMeQuestionFault = null;
         component.tellMeQuestionFault = null;
 
-        const storeDisptachSpy = spyOn(store$, 'dispatch');
+        const storeDisptachSpy = vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
 
         component.toggleShowMeQuestion();
 
@@ -153,7 +154,7 @@ describe('VehicleCheckComponent', () => {
         fixture.detectChanges();
         component.showMeQuestionFault = CompetencyOutcome.DF;
 
-        const storeDisptachSpy = spyOn(store$, 'dispatch');
+        const storeDisptachSpy = vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
 
         component.toggleShowMeQuestion();
 
@@ -164,7 +165,7 @@ describe('VehicleCheckComponent', () => {
         fixture.detectChanges();
         component.showMeQuestionFault = CompetencyOutcome.S;
 
-        const storeDisptachSpy = spyOn(store$, 'dispatch');
+        const storeDisptachSpy = vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
 
         component.toggleShowMeQuestion();
 
@@ -175,7 +176,7 @@ describe('VehicleCheckComponent', () => {
         fixture.detectChanges();
         component.showMeQuestionFault = CompetencyOutcome.D;
 
-        const storeDisptachSpy = spyOn(store$, 'dispatch');
+        const storeDisptachSpy = vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
 
         component.toggleShowMeQuestion();
 
@@ -186,7 +187,7 @@ describe('VehicleCheckComponent', () => {
         fixture.detectChanges();
         component.showMeQuestionFault = CompetencyOutcome.P;
 
-        const storeDisptachSpy = spyOn(store$, 'dispatch');
+        const storeDisptachSpy = vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
 
         component.toggleShowMeQuestion();
 

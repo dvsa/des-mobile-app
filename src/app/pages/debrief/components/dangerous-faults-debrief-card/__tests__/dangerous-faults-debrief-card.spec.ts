@@ -1,5 +1,6 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { firstValueFrom } from 'rxjs';
+import { beforeEach, describe, expect, it } from 'vitest';
 
 import { By } from '@angular/platform-browser';
 
@@ -26,7 +27,7 @@ describe('DangerousFaultsDebriefCardComponent', () => {
     };
   }
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [StoreModule.forRoot({}), DangerousFaultsDebriefCardComponent],
       providers: [provideTestTranslations()],
@@ -37,7 +38,7 @@ describe('DangerousFaultsDebriefCardComponent', () => {
     translate = TestBed.inject(TranslateService);
     translate.setFallbackLang('en');
     fixture.detectChanges();
-  }));
+  });
 
   describe('DOM', () => {
     it('correct dangerous faults showing', () => {

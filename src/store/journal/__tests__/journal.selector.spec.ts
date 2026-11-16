@@ -1,13 +1,14 @@
 import { HttpStatusCode } from '@angular/common/http';
 import { TestBed } from '@angular/core/testing';
 import { Store } from '@ngrx/store';
-import { AppConfigProviderMock } from '@providers/app-config/__mocks__/app-config.mock';
+import { localEnvironmentMock } from '@providers/app-config/__mocks__/environment.mock';
 import { AppConfigProvider } from '@providers/app-config/app-config';
 import { DateTimeProviderMock } from '@providers/date-time/__mocks__/date-time.mock';
 import { DateTimeProvider } from '@providers/date-time/date-time';
 import { SlotProvider } from '@providers/slot/slot';
 import { DateTime } from '@shared/helpers/date-time';
 import { MesError } from '@shared/models/mes-error.model';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { JournalModel } from '../journal.model';
 import {
   canNavigateToNextDay,
@@ -36,7 +37,9 @@ describe('JournalSelector', () => {
         },
         {
           provide: AppConfigProvider,
-          useClass: AppConfigProviderMock,
+          useValue: {
+            getAppConfig: vi.fn().mockReturnValue(localEnvironmentMock),
+          },
         },
         {
           provide: DateTimeProvider,
@@ -187,7 +190,7 @@ describe('JournalSelector', () => {
 
   describe('canNavigateToNextDay', () => {
     beforeEach(() => {
-      spyOn(DateTime, 'today').and.returnValue(new Date('2019-01-29'));
+      vi.spyOn(DateTime, 'today').mockReturnValue(new Date('2019-01-29'));
     });
 
     it('should return true if there are any next days', () => {

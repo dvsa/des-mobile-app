@@ -1,5 +1,6 @@
 import { Accompaniment } from '@dvsa/mes-test-schema/categories/common';
 import { accompanimentCatCPCReducer } from '@store/tests/accompaniment/cat-cpc/accompaniment.cat-cpc.reducer';
+import { describe, expect, it } from 'vitest';
 import * as accompanimentActions from '../accompaniment.cat-cpc.actions';
 
 describe('accompanimentCatCPCReducer', () => {

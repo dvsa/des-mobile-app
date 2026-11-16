@@ -222,6 +222,19 @@
               "optimization": false,
               "namedChunks": false
             },
+            "unit-testing": {
+              "polyfills": ["@angular/localize/init"],
+              "styles": [],
+              "aot": false,
+              "optimization": false,
+              "sourceMap": true,
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.dev.ts"
+                }
+              ]
+            },
             "ci": {
               "progress": true,
               "fileReplacements": [
@@ -288,42 +301,33 @@
           }
         },
         "test": {
-          "builder": "@angular/build:karma",
+          "builder": "@angular/build:unit-test",
           "options": {
-            "stylePreprocessorOptions": {
-              "includePaths": [
-                "."
-              ]
-            },
-            "main": "src/test.ts",
-            "polyfills": ["src/polyfills.ts"],
+            "buildTarget": "app:build:unit-testing",
             "tsConfig": "tsconfig.spec.json",
-            "karmaConfig": "karma.conf.js",
-            "styles": [],
-            "scripts": [],
-            "codeCoverage": true,
-            "codeCoverageExclude": [
+            "include": [
+              "src/**/*.spec.ts"
+            ],
+            "exclude": [
+              "src/app/providers/app-info/__tests__/app-info.spec.ts",
+              "src/store/tests/test-data/common/manoeuvres/__tests__/manoeuvre.reducer.spec.ts",
+              "src/store/tests/test-data/common/manoeuvres/__tests__/manoeuvres.selectors.spec.ts",
+              "src/store/tests/test-data/common/single-fault-competencies/__tests__/single-fault-competencies.reducer.spec.ts"
+            ],
+            "setupFiles": ["src/test-setup.vitest.ts"],
+            "runnerConfig": "vitest.config.ts",
+            "coverage": true,
+            "coverageExclude": [
               "dist/org-angular-core/**/*",
               "dist/attestation-lib/**/*",
               "dist/product-lib/**/*",
               "dist/profile-lib/**/*",
               "dist/program-lib/**/*",
-              "/**/*module*.ts",
-              "/**/*route.ts",
-              "/**/*.mock.ts"
+              "**/*module*.ts",
+              "**/*route.ts",
+              "**/*.mock.ts"
             ],
-            "assets": [
-              {
-                "glob": "favicon.ico",
-                "input": "src/",
-                "output": "/"
-              },
-              {
-                "glob": "**/*",
-                "input": "src/assets",
-                "output": "/assets"
-              }
-            ]
+            "coverageReporters": ["html", "lcovonly", "text-summary"]
           },
           "configurations": {
             "ci": {

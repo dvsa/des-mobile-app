@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { ModalController } from '@ionic/angular';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { provideBasePageMocks } from '@mocks/test-providers';
 import { Store, StoreModule } from '@ngrx/store';
@@ -114,13 +115,13 @@ describe('TestReportCatCPCPage', () => {
     store$ = TestBed.inject(Store);
     cpcQuestionProvider = TestBed.inject(CPCQuestionProvider);
     modalController = TestBed.inject(ModalController);
-    spyOn(store$, 'dispatch');
+    vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
   });
 
   describe('ionViewWillEnter', () => {
     it('should call the correct functions', async () => {
-      spyOn(TestReportBasePageComponent.prototype, 'ionViewWillEnter');
-      spyOn(component, 'setUpSubscription');
+      vi.spyOn(TestReportBasePageComponent.prototype, 'ionViewWillEnter').mockReturnValue(undefined);
+      vi.spyOn(component, 'setUpSubscription').mockReturnValue(undefined);
       await component.ionViewWillEnter();
       expect(TestReportBasePageComponent.prototype.ionViewWillEnter).toHaveBeenCalled();
       expect(component.setUpSubscription).toHaveBeenCalled();
@@ -129,11 +130,11 @@ describe('TestReportCatCPCPage', () => {
 
   describe('ionViewDidLeave', () => {
     it('should unsubscribe from the localSubscription if there is one', () => {
-      spyOn(TestReportBasePageComponent.prototype, 'ionViewDidLeave');
-      spyOn(TestReportBasePageComponent.prototype, 'cancelSubscription');
+      vi.spyOn(TestReportBasePageComponent.prototype, 'ionViewDidLeave').mockReturnValue(undefined);
+      vi.spyOn(TestReportBasePageComponent.prototype, 'cancelSubscription').mockReturnValue(undefined);
 
       component.localSubscription = new Subscription();
-      spyOn(component.localSubscription, 'unsubscribe');
+      vi.spyOn(component.localSubscription, 'unsubscribe').mockReturnValue(undefined);
 
       component.ionViewDidLeave();
 
@@ -145,7 +146,7 @@ describe('TestReportCatCPCPage', () => {
 
   describe('onEndTestClick', () => {
     it('should create the end test modal with necessary params', async () => {
-      spyOn(modalController, 'create').and.returnValue(
+      vi.spyOn(modalController, 'create').mockReturnValue(
         Promise.resolve({
           present: () => Promise.resolve(),
           onDidDismiss: () => ({ data: ModalEvent.CANCEL }) as OverlayEventDetail,
@@ -176,9 +177,9 @@ describe('TestReportCatCPCPage', () => {
 
   describe('populateAnswer', () => {
     it('should dispatch actions populating the answer selected value & the question scores', () => {
-      spyOn(store$, 'dispatch');
-      spyOn(cpcQuestionProvider, 'getQuestionScore').and.returnValue(5);
-      spyOn(cpcQuestionProvider, 'getTotalQuestionScore').and.returnValue(40);
+      vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
+      vi.spyOn(cpcQuestionProvider, 'getQuestionScore').mockReturnValue(5);
+      vi.spyOn(cpcQuestionProvider, 'getTotalQuestionScore').mockReturnValue(40);
 
       component.testData = catCPCTestData;
       component.populateAnswer(mockToggleEvent);
@@ -194,8 +195,8 @@ describe('TestReportCatCPCPage', () => {
       'should set questionNum to the value of translateToQuestionNumberInterface, ' +
         'calculate the total score and dispatch both results',
       () => {
-        spyOn(component, 'translateToQuestionNumberInterface').and.returnValue(QuestionNumber.ONE);
-        spyOn(cpcQuestionProvider, 'getTotalQuestionScore').and.returnValue(1);
+        vi.spyOn(component, 'translateToQuestionNumberInterface').mockReturnValue(QuestionNumber.ONE);
+        vi.spyOn(cpcQuestionProvider, 'getTotalQuestionScore').mockReturnValue(1);
         component.populateScore({
           answer: {
             label: null,

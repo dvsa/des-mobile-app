@@ -14,7 +14,8 @@ import { StoreModel } from '@shared/models/store.model';
 import * as activityCodeActions from '@store/tests/activity-code/activity-code.actions';
 import * as testsActions from '@store/tests/tests.actions';
 import { testsReducer } from '@store/tests/tests.reducer';
-import { ReplaySubject } from 'rxjs';
+import { ReplaySubject, firstValueFrom } from 'rxjs';
+import { beforeEach, describe, expect, it } from 'vitest';
 import * as fakeJournalActions from '../../fake-journal/fake-journal.actions';
 import * as debriefActions from '../debrief.actions';
 import { DebriefAnalyticsEffects } from '../debrief.analytics.effects';
@@ -56,65 +57,41 @@ describe('DebriefAnalyticsEffects', () => {
   });
 
   describe('debriefViewDidEnter', () => {
-    it('should call setCurrentPage with pass page', (done) => {
-      // ARRANGE
+    it('should call setCurrentPage with pass page', async () => {
       store$.dispatch(testsActions.StartTest(123, TestCategory.B));
       store$.dispatch(activityCodeActions.SetActivityCode(ActivityCodes.PASS));
-      // ACT
       actions$.next(debriefActions.DebriefViewDidEnter());
-      // ASSERT
-      effects.debriefViewDidEnter$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-        // GA4 Analytics
-        expect(analyticsProviderMock.setGACurrentPage).toHaveBeenCalledWith(screenNamePass);
-        done();
-      });
+      const result = await firstValueFrom(effects.debriefViewDidEnter$);
+      expect(result.type).toEqual(AnalyticRecorded.type);
+      expect(analyticsProviderMock.setGACurrentPage).toHaveBeenCalledWith(screenNamePass);
     });
-    it('should call setCurrentPage with fail page', (done) => {
-      // ARRANGE
+    it('should call setCurrentPage with fail page', async () => {
       store$.dispatch(testsActions.StartTest(123, TestCategory.B));
       store$.dispatch(activityCodeActions.SetActivityCode(ActivityCodes.FAIL));
-      // ACT
       actions$.next(debriefActions.DebriefViewDidEnter());
-      // ASSERT
-      effects.debriefViewDidEnter$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-        // GA4 Analytics
-        expect(analyticsProviderMock.setGACurrentPage).toHaveBeenCalledWith(screenNameFail);
-        done();
-      });
+      const result = await firstValueFrom(effects.debriefViewDidEnter$);
+      expect(result.type).toEqual(AnalyticRecorded.type);
+      expect(analyticsProviderMock.setGACurrentPage).toHaveBeenCalledWith(screenNameFail);
     });
-    it('should call setCurrentPage with pass and practice mode prefix', (done) => {
-      // ARRANGE
+    it('should call setCurrentPage with pass and practice mode prefix', async () => {
       store$.dispatch(fakeJournalActions.StartE2EPracticeTest(end2endPracticeSlotId));
       store$.dispatch(activityCodeActions.SetActivityCode(ActivityCodes.PASS));
-      // ACT
       actions$.next(debriefActions.DebriefViewDidEnter());
-      // ASSERT
-      effects.debriefViewDidEnter$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-        // GA4 Analytics
-        expect(analyticsProviderMock.setGACurrentPage).toHaveBeenCalledWith(
-          `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${screenNamePass}`
-        );
-        done();
-      });
+      const result = await firstValueFrom(effects.debriefViewDidEnter$);
+      expect(result.type).toEqual(AnalyticRecorded.type);
+      expect(analyticsProviderMock.setGACurrentPage).toHaveBeenCalledWith(
+        `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${screenNamePass}`
+      );
     });
-    it('should call setCurrentPage with fail and practice mode prefix', (done) => {
-      // ARRANGE
+    it('should call setCurrentPage with fail and practice mode prefix', async () => {
       store$.dispatch(fakeJournalActions.StartE2EPracticeTest(end2endPracticeSlotId));
       store$.dispatch(activityCodeActions.SetActivityCode(ActivityCodes.FAIL));
-      // ACT
       actions$.next(debriefActions.DebriefViewDidEnter());
-      // ASSERT
-      effects.debriefViewDidEnter$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-        // GA4 Analytics
-        expect(analyticsProviderMock.setGACurrentPage).toHaveBeenCalledWith(
-          `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${screenNameFail}`
-        );
-        done();
-      });
+      const result = await firstValueFrom(effects.debriefViewDidEnter$);
+      expect(result.type).toEqual(AnalyticRecorded.type);
+      expect(analyticsProviderMock.setGACurrentPage).toHaveBeenCalledWith(
+        `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${screenNameFail}`
+      );
     });
   });
 });

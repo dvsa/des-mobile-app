@@ -1,6 +1,7 @@
 import { CatBUniqueTypes } from '@dvsa/mes-test-schema/categories/B';
 import { VehicleChecksQuestion } from '@providers/question/vehicle-checks-question.model';
 import { CompetencyOutcome } from '@shared/models/competency-outcome';
+import { describe, expect, it } from 'vitest';
 import {
   AddShowMeTellMeComment,
   ShowMeQuestionDangerousFault,

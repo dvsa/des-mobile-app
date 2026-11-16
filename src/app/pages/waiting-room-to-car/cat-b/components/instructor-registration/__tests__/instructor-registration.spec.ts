@@ -1,5 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { InstructorRegistrationComponent } from '../instructor-registration';
 import {
@@ -66,7 +67,7 @@ describe('InstructorRegistrationComponent', () => {
 
   describe('vehicleRegistrationChanged', () => {
     beforeEach(() => {
-      spyOn(component.instructorRegistrationChange, 'emit');
+      vi.spyOn(component.instructorRegistrationChange, 'emit').mockReturnValue(undefined);
     });
 
     it('should recognise a valid numeric string and emit the value as a number', () => {

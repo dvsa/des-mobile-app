@@ -1,4 +1,5 @@
 import { CompetencyOutcome } from '@shared/models/competency-outcome';
+import { describe, expect, it } from 'vitest';
 import { FaultCountHomeTestHelper } from '../fault-count.cat-home-test';
 
 import {

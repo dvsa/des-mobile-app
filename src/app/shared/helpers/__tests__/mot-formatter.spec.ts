@@ -1,3 +1,4 @@
+import { describe, expect, it } from 'vitest';
 import { getMakeAndModel, hasMakeOrModel } from '../mot-formatter';
 
 describe('MotFormatter', () => {

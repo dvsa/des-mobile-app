@@ -15,7 +15,8 @@ import { candidateMock } from '@store/tests/__mocks__/tests.mock';
 import { PopulateCandidateDetails } from '@store/tests/journal-data/common/candidate/candidate.actions';
 import * as testsActions from '@store/tests/tests.actions';
 import { testsReducer } from '@store/tests/tests.reducer';
-import { ReplaySubject } from 'rxjs';
+import { ReplaySubject, firstValueFrom } from 'rxjs';
+import { beforeEach, describe, expect, it } from 'vitest';
 import * as rekeyUploadedActions from '../rekey-upload-outcome.actions';
 import { RekeyUploadOutcomeAnalyticsEffects } from '../rekey-upload-outcome.analytics.effects';
 
@@ -54,39 +55,25 @@ describe('RekeyUploadOutcomeAnalyticsEffects', () => {
   });
 
   describe('rekeyUploadedViewDidEnter', () => {
-    it('should call setCurrentPage', (done) => {
-      // ARRANGE
+    it('should call setCurrentPage', async () => {
       store$.dispatch(testsActions.StartTest(123, TestCategory.B));
       store$.dispatch(PopulateCandidateDetails(candidateMock));
-      // ACT
       actions$.next(rekeyUploadedActions.RekeyUploadOutcomeViewDidEnter());
-      // ASSERT
-      effects.rekeyUploadedViewDidEnter$.subscribe((result) => {
-        expect(result.type === AnalyticRecorded.type).toBe(true);
-
-        // GA4 analytics
-        expect(analyticsProviderMock.setGACurrentPage).toHaveBeenCalledWith(AnalyticsScreenNames.REKEY_UPLOADED);
-        done();
-      });
+      const result = await firstValueFrom(effects.rekeyUploadedViewDidEnter$);
+      expect(result.type === AnalyticRecorded.type).toBe(true);
+      expect(analyticsProviderMock.setGACurrentPage).toHaveBeenCalledWith(AnalyticsScreenNames.REKEY_UPLOADED);
     });
 
-    it('should call setCurrentPage and prefix correctly when practice mode', (done) => {
-      // ARRANGE
+    it('should call setCurrentPage and prefix correctly when practice mode', async () => {
       store$.dispatch(testsActions.StartTest(123, TestCategory.B));
       store$.dispatch(fakeJournalActions.StartE2EPracticeTest(end2endPracticeSlotId));
       store$.dispatch(PopulateCandidateDetails(candidateMock));
-      // ACT
       actions$.next(rekeyUploadedActions.RekeyUploadOutcomeViewDidEnter());
-      // ASSERT
-      effects.rekeyUploadedViewDidEnter$.subscribe((result) => {
-        expect(result.type === AnalyticRecorded.type).toBe(true);
-
-        // GA4 analytics
-        expect(analyticsProviderMock.setGACurrentPage).toHaveBeenCalledWith(
-          `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${AnalyticsScreenNames.REKEY_UPLOADED}`
-        );
-        done();
-      });
+      const result = await firstValueFrom(effects.rekeyUploadedViewDidEnter$);
+      expect(result.type === AnalyticRecorded.type).toBe(true);
+      expect(analyticsProviderMock.setGACurrentPage).toHaveBeenCalledWith(
+        `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${AnalyticsScreenNames.REKEY_UPLOADED}`
+      );
     });
   });
 });

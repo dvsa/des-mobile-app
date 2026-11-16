@@ -6,6 +6,7 @@ import { RouterModule } from '@angular/router';
 import { ModalController } from '@ionic/angular';
 import { ModalControllerMock } from '@mocks/ionic-mocks/modal-controller.mock';
 import { provideMockStore } from '@ngrx/store/testing';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { HealthDeclarationModal } from '../health-declaration-modal';
 
 describe('healthDeclarationModal', () => {
@@ -26,11 +27,11 @@ describe('healthDeclarationModal', () => {
 
     modalFixture = TestBed.createComponent(HealthDeclarationModal);
     modalComponent = modalFixture.componentInstance;
-    spyOn(modalComponent.modalController, 'dismiss').and.returnValue(Promise.resolve(true));
+    vi.spyOn(modalComponent.modalController, 'dismiss').mockReturnValue(Promise.resolve(true));
   });
 
   it('should call onBack when the Cancel button is clicked', async () => {
-    spyOn(modalComponent.modalController, 'dismiss');
+    vi.spyOn(modalComponent.modalController, 'dismiss').mockReturnValue(undefined);
     const button = modalFixture.debugElement.query(By.css('#cancel-button'));
     button.triggerEventHandler('click', null);
     modalFixture.detectChanges();
@@ -41,7 +42,7 @@ describe('healthDeclarationModal', () => {
   it('should call onCompleteTest when the Submit button is clicked', () => {
     modalComponent.onTestDetailsConfirm = async () => {};
     modalFixture.detectChanges();
-    spyOn(modalComponent, 'onCompleteTest').and.callThrough();
+    vi.spyOn(modalComponent, 'onCompleteTest');
     const button = modalFixture.debugElement.query(By.css('#continue-button'));
     button.triggerEventHandler('click', null);
     modalFixture.detectChanges();

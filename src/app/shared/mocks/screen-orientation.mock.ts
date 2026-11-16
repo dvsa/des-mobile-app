@@ -1,4 +1,5 @@
 import { EMPTY } from 'rxjs';
+import { vi } from 'vitest';
 
 export class ScreenOrientationMock {
   ORIENTATIONS: {
@@ -21,9 +22,9 @@ export class ScreenOrientationMock {
 
   type: string = this.ORIENTATIONS.ANY;
 
-  onChange = jasmine.createSpy('onChange').and.returnValue(EMPTY);
+  onChange = vi.fn().mockReturnValue(EMPTY);
 
-  lock = jasmine.createSpy('lock').and.returnValue(Promise.resolve());
+  lock = vi.fn().mockReturnValue(Promise.resolve());
 
-  unlock = jasmine.createSpy('unlock');
+  unlock = vi.fn();
 }

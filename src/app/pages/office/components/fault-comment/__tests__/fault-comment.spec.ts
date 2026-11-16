@@ -3,6 +3,7 @@ import { ReactiveFormsModule, UntypedFormControl, UntypedFormGroup } from '@angu
 import { By } from '@angular/platform-browser';
 import { DrivingFaultsBadgeComponent } from '@components/common/driving-faults-badge/driving-faults-badge';
 import { CharacterCountDirective } from '@directives/character-count.directive';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { CharacterCountService } from '@providers/character-count/character-count.service';
 import { OutcomeBehaviourMapProvider } from '@providers/outcome-behaviour-map/outcome-behaviour-map';
@@ -140,7 +141,7 @@ describe('FaultCommentComponent', () => {
     });
 
     it('should emit fault comment', () => {
-      spyOn(component.faultCommentChange, 'emit');
+      vi.spyOn(component.faultCommentChange, 'emit').mockReturnValue(undefined);
       const faultComment = 'this is a fault comment';
       component.faultComment = {
         comment: faultComment,
@@ -158,7 +159,7 @@ describe('FaultCommentComponent', () => {
   describe('class', () => {
     describe('getCharacterCountText', () => {
       it('should call service with charsRemaining', () => {
-        spyOn(characterCountService, 'getCharacterCountText');
+        vi.spyOn(characterCountService, 'getCharacterCountText').mockReturnValue(undefined);
         component.charsRemaining = 1;
         component.getCharacterCountText();
 
@@ -168,7 +169,7 @@ describe('FaultCommentComponent', () => {
 
     describe('charactersExceeded', () => {
       it('should call service with charsRemaining', () => {
-        spyOn(characterCountService, 'charactersExceeded');
+        vi.spyOn(characterCountService, 'charactersExceeded').mockReturnValue(undefined);
         component.charsRemaining = 1;
         component.charactersExceeded();
 

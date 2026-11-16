@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule, UntypedFormGroup } from '@angular/forms';
 import { AccompanimentCardComponent } from '@pages/waiting-room-to-car/components/accompaniment-card/accompaniment-card';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 describe('AccompanimentCardComponent', () => {
   let fixture: ComponentFixture<AccompanimentCardComponent>;
@@ -18,28 +19,28 @@ describe('AccompanimentCardComponent', () => {
 
   describe('instructorAccompanimentChanged', () => {
     it('should emit', () => {
-      spyOn(component.instructorAccompanimentChange, 'emit');
+      vi.spyOn(component.instructorAccompanimentChange, 'emit').mockReturnValue(undefined);
       component.instructorAccompanimentChanged();
       expect(component.instructorAccompanimentChange.emit).toHaveBeenCalled();
     });
   });
   describe('supervisorAccompanimentChanged', () => {
     it('should emit', () => {
-      spyOn(component.supervisorAccompanimentChange, 'emit');
+      vi.spyOn(component.supervisorAccompanimentChange, 'emit').mockReturnValue(undefined);
       component.supervisorAccompanimentChanged();
       expect(component.supervisorAccompanimentChange.emit).toHaveBeenCalled();
     });
   });
   describe('otherAccompanimentChanged', () => {
     it('should emit', () => {
-      spyOn(component.otherAccompanimentChange, 'emit');
+      vi.spyOn(component.otherAccompanimentChange, 'emit').mockReturnValue(undefined);
       component.otherAccompanimentChanged();
       expect(component.otherAccompanimentChange.emit).toHaveBeenCalled();
     });
   });
   describe('interpreterAccompanimentChanged', () => {
     it('should emit', () => {
-      spyOn(component.interpreterAccompanimentChange, 'emit');
+      vi.spyOn(component.interpreterAccompanimentChange, 'emit').mockReturnValue(undefined);
       component.interpreterAccompanimentChanged();
       expect(component.interpreterAccompanimentChange.emit).toHaveBeenCalled();
     });

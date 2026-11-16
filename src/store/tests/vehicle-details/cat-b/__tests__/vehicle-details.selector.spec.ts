@@ -1,4 +1,5 @@
 import { CatBUniqueTypes } from '@dvsa/mes-test-schema/categories/B';
+import { describe, expect, it } from 'vitest';
 import { getGearboxCategory, getRegistrationNumber } from '../../vehicle-details.selector';
 
 import { getDualControls, getSchoolCar } from '../vehicle-details.cat-b.selector';

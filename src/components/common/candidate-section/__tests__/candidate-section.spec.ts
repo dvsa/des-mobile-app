@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { CandidateSectionComponent } from '@components/common/candidate-section/candidate-section';
 import { provideBasePageMocks } from '@mocks/test-providers';
@@ -24,7 +25,7 @@ describe('CandidateSectionComponent', () => {
     });
     fixture = TestBed.createComponent(CandidateSectionComponent);
     component = fixture.componentInstance;
-    spyOn(component.store$, 'dispatch');
+    vi.spyOn(component.store$, 'dispatch').mockReturnValue(undefined);
   });
 
   describe('proceed', () => {
@@ -33,14 +34,14 @@ describe('CandidateSectionComponent', () => {
     });
 
     it('should emit continueClickEvent with true', () => {
-      spyOn(component.continueClickEvent, 'emit');
+      vi.spyOn(component.continueClickEvent, 'emit').mockReturnValue(undefined);
       component.proceed();
       expect(component.continueClickEvent.emit).toHaveBeenCalledWith(true);
     });
   });
   describe('openTestResult', () => {
     it('should display modal', async () => {
-      spyOn(component.modalController, 'create').and.returnValue(
+      vi.spyOn(component.modalController, 'create').mockReturnValue(
         Promise.resolve({
           present: async () => {},
           onDidDismiss: () => {
@@ -52,7 +53,7 @@ describe('CandidateSectionComponent', () => {
       expect(component.modalController.create).toHaveBeenCalledTimes(1);
     });
     it('should dispatch store with VRNModalOpened', async () => {
-      spyOn(component.modalController, 'create').and.returnValue(
+      vi.spyOn(component.modalController, 'create').mockReturnValue(
         Promise.resolve({
           present: async () => {},
           onDidDismiss: () => {
@@ -65,7 +66,7 @@ describe('CandidateSectionComponent', () => {
     });
 
     it('should dispatch store with VRNModalCancelled if there is no data', async () => {
-      spyOn(component.modalController, 'create').and.returnValue(
+      vi.spyOn(component.modalController, 'create').mockReturnValue(
         Promise.resolve({
           present: async () => {},
           onDidDismiss: () => {
@@ -75,7 +76,7 @@ describe('CandidateSectionComponent', () => {
       );
       await component.openVRNModal();
 
-      spyOn(component.vrnModal, 'onDidDismiss').and.returnValue(Promise.resolve({}));
+      vi.spyOn(component.vrnModal, 'onDidDismiss').mockReturnValue(Promise.resolve({}));
       await component.openVRNModal();
       expect(component.store$.dispatch).toHaveBeenCalledWith(VRNModalCancelled());
     });
@@ -83,7 +84,7 @@ describe('CandidateSectionComponent', () => {
     it(
       'should dispatch store with VRNModalSaved and ' + 'VehicleRegistrationChanged if there is vehicleRegNumber',
       async () => {
-        spyOn(component.modalController, 'create').and.returnValue(
+        vi.spyOn(component.modalController, 'create').mockReturnValue(
           Promise.resolve({
             present: async () => {},
             onDidDismiss: () => {

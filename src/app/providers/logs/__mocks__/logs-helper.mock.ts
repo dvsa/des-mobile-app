@@ -1,7 +1,8 @@
 import { LogType } from '@shared/models/log.model';
+import { vi } from 'vitest';
 
 export class LogHelperMock {
-  createLog = jasmine.createSpy('createLog').and.returnValue({
+  createLog = vi.fn().mockReturnValue({
     message: 'error',
     type: LogType.ERROR,
     timestamp: 123,

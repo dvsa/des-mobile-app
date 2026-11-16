@@ -1,5 +1,6 @@
 import { CatBUniqueTypes } from '@dvsa/mes-test-schema/categories/B';
 import { CompetencyOutcome } from '@shared/models/competency-outcome';
+import { describe, expect, it } from 'vitest';
 import { VehicleChecksCardCatBComponent } from '../vehicle-checks-card.cat-b';
 
 describe('vehicleChecksCardSelector', () => {

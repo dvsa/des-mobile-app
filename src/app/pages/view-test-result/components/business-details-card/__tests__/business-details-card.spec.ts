@@ -2,6 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { DataRowCustomComponent } from '@components/common/data-row-custom/data-row-custom';
 import { DataRowComponent } from '@components/common/data-row/data-row';
 import { DisplayAddressComponent } from '@components/common/display-address/display-address';
+import { beforeEach, describe, expect, it } from 'vitest';
 
 import { MockComponent } from 'ng-mocks';
 import { BusinessDetailsCardComponent, CandidateWithBusinessDetails } from '../business-details-card';

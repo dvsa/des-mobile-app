@@ -1,5 +1,6 @@
 import { CatDUniqueTypes } from '@dvsa/mes-test-schema/categories/D';
 import { vehicleDetailsCatDReducer } from '@store/tests/vehicle-details/cat-d/vehicle-details.cat-d.reducer';
+import { describe, expect, it } from 'vitest';
 import * as vehicleDetailsActions from '../../vehicle-details.actions';
 
 describe('vehicleDetailsCatDReducer', () => {

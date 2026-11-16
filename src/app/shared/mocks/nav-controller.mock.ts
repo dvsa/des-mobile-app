@@ -1,4 +1,5 @@
+import { vi } from 'vitest';
 export class NavControllerMock {
-  navigateBack = jasmine.createSpy('navigateBack').and.returnValue(Promise.resolve(true));
-  back = jasmine.createSpy('back').and.returnValue(Promise.resolve(true));
+  navigateBack = vi.fn().mockReturnValue(Promise.resolve(true));
+  back = vi.fn().mockReturnValue(Promise.resolve(true));
 }

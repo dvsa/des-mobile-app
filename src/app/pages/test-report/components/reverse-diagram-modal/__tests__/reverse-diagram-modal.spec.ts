@@ -5,8 +5,10 @@ import { NavControllerMock, PlatformMock } from '@mocks/index.mock';
 import { Store, StoreModule } from '@ngrx/store';
 import { ReversingDistancesProvider } from '@providers/reversing-distances/reversing-distances';
 import { StoreModel } from '@shared/models/store.model';
+import { firstValueFrom } from 'rxjs';
 import { MockAppComponent } from 'src/app/__mocks__/app.component.mock';
 import { AppComponent } from 'src/app/app.component';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { ReverseDiagramModalMock, VehicleData } from '../__mocks__/reverse-diagram-modal.mock';
 import { ReverseDiagramPage } from '../reverse-diagram-modal';
@@ -70,7 +72,7 @@ describe('reverseDiagramModal', () => {
     fixture = TestBed.createComponent(ReverseDiagramPage);
     component = fixture.componentInstance;
     store$ = TestBed.inject(Store);
-    spyOn(store$, 'dispatch');
+    vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
   });
 
   describe('Class', () => {
@@ -83,26 +85,22 @@ describe('reverseDiagramModal', () => {
       const cappedStartDistanceCategories = mockFile.getCappedStartDistanceCategories();
       describe(`Category ${testCategory}`, () => {
         describe('ngOnInit', () => {
-          it('should set the distance based on booked in vehicle length', (done: DoneFn) => {
+          it('should set the distance based on booked in vehicle length', async () => {
             component.category = testCategory;
             component.ngOnInit();
-            component.componentState.vehicleLength$.subscribe((result) => {
-              expect(result).toEqual(value.vLength);
-              done();
-            });
+            const result = await firstValueFrom(component.componentState.vehicleLength$);
+            expect(result).toEqual(value.vLength);
           });
-          it('should set the distance based on booked in vehicle width', (done: DoneFn) => {
+          it('should set the distance based on booked in vehicle width', async () => {
             component.category = testCategory;
             component.ngOnInit();
-            component.componentState.vehicleWidth$.subscribe((result) => {
-              expect(result).toEqual(mockFile.vehicleDetails.get(component.category).vWidth);
-              done();
-            });
+            const result = await firstValueFrom(component.componentState.vehicleWidth$);
+            expect(result).toEqual(mockFile.vehicleDetails.get(component.category).vWidth);
           });
         });
         describe('calculateReversingLengths', () => {
           it(`should resolve aAndA1 to ${value.expStartDist}`, () => {
-            spyOn(component, 'calculateReversingLengths').and.callThrough();
+            vi.spyOn(component, 'calculateReversingLengths');
             component.category = testCategory;
             component.onLengthKeyup(value.vLength);
             expect(store$.dispatch).toHaveBeenCalledWith(ReverseDiagramLengthChanged(undefined, value.vLength));
@@ -119,7 +117,7 @@ describe('reverseDiagramModal', () => {
             });
           }
           it(`should resolve b to ${value.expMidDist}`, () => {
-            spyOn(component, 'calculateReversingLengths').and.callThrough();
+            vi.spyOn(component, 'calculateReversingLengths');
             component.category = testCategory;
             component.onLengthKeyup(value.vLength);
             expect(store$.dispatch).toHaveBeenCalledWith(ReverseDiagramLengthChanged(undefined, value.vLength));
@@ -131,7 +129,7 @@ describe('reverseDiagramModal', () => {
         describe('calculateReversingWidth', () => {
           it(`should resolve aToA1 to ${value.expWidthDist}`, () => {
             component.category = testCategory;
-            spyOn(component, 'calculateReversingWidth').and.callThrough();
+            vi.spyOn(component, 'calculateReversingWidth');
             component.category = testCategory;
             component.onWidthKeyup(value.vWidth);
             expect(store$.dispatch).toHaveBeenCalledWith(ReverseDiagramWidthChanged(undefined, value.vWidth));
@@ -154,9 +152,11 @@ describe('reverseDiagramModal', () => {
 
     describe('ionViewWillEnter', () => {
       it('should calculate the distances if vehicle dimensions are populated', () => {
-        const calculateDistanceLengthSpy = spyOn(component, 'calculateReversingLengths');
-        const calculateDistanceWidthSpy = spyOn(component, 'calculateReversingWidth');
-        const calculateAtoBMultiplierTextSpy = spyOn(component, 'calculateAtoBMultiplierText');
+        const calculateDistanceLengthSpy = vi.spyOn(component, 'calculateReversingLengths').mockReturnValue(undefined);
+        const calculateDistanceWidthSpy = vi.spyOn(component, 'calculateReversingWidth').mockReturnValue(undefined);
+        const calculateAtoBMultiplierTextSpy = vi
+          .spyOn(component, 'calculateAtoBMultiplierText')
+          .mockReturnValue(undefined);
         component.ngOnInit();
         const result = component.ionViewWillEnter();
         expect(calculateDistanceLengthSpy).toHaveBeenCalled();

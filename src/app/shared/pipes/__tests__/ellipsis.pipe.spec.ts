@@ -1,4 +1,5 @@
 import { EllipsisPipe } from '@shared/pipes/ellipsis.pipe';
+import { beforeEach, describe, expect, it } from 'vitest';
 
 describe('EllipsisPipe', () => {
   let pipe: EllipsisPipe;

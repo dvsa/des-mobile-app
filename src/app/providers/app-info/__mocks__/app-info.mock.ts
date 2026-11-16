@@ -1,11 +1,10 @@
 import { of } from 'rxjs';
+import { vi } from 'vitest';
 
 export class AppInfoProviderMock {
-  getVersionNumber = jasmine.createSpy('getVersionNumber').and.returnValue(of('4.0.0'));
+  getVersionNumber = vi.fn().mockReturnValue(of('4.0.0'));
 
-  getFullVersionNumber = jasmine.createSpy('getFullVersionNumber').and.returnValue(Promise.resolve('4.0.0.0'));
+  getFullVersionNumber = vi.fn().mockReturnValue(Promise.resolve('4.0.0.0'));
 
-  getMajorAndMinorVersionNumber = jasmine
-    .createSpy('getMajorAndMinorVersionNumber')
-    .and.returnValue(Promise.resolve('4.0'));
+  getMajorAndMinorVersionNumber = vi.fn().mockReturnValue(Promise.resolve('4.0'));
 }

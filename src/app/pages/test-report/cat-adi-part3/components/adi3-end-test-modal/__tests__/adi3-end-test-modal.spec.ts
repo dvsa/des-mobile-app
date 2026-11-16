@@ -6,6 +6,7 @@ import { provideMockStore } from '@ngrx/store/testing';
 import { Adi3EndTestModal } from '@pages/test-report/cat-adi-part3/components/adi3-end-test-modal/adi3-end-test-modal';
 import { ADI3AssessmentProvider } from '@providers/adi3-assessment/adi3-assessment';
 import { ActivityCodes } from '@shared/models/activity-codes';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { ModalEvent } from '../../../../test-report.constants';
 
 describe('Adi3EndTestModal', () => {
@@ -39,7 +40,7 @@ describe('Adi3EndTestModal', () => {
 
   describe('onCancel', () => {
     it('should call dismiss with ModalEvent.CANCEL', () => {
-      spyOn(component.modalCtrl, 'dismiss').and.returnValue(Promise.resolve(true));
+      vi.spyOn(component.modalCtrl, 'dismiss').mockReturnValue(Promise.resolve(true));
       component.onCancel();
 
       expect(component.modalCtrl.dismiss).toHaveBeenCalledWith(ModalEvent.CANCEL);
@@ -48,7 +49,7 @@ describe('Adi3EndTestModal', () => {
 
   describe('onContinue', () => {
     it('should call dismiss with ModalEvent.CANCEL', () => {
-      spyOn(component.modalCtrl, 'dismiss').and.returnValue(Promise.resolve(true));
+      vi.spyOn(component.modalCtrl, 'dismiss').mockReturnValue(Promise.resolve(true));
       component.onContinue();
 
       expect(component.modalCtrl.dismiss).toHaveBeenCalledWith(ModalEvent.CONTINUE);
@@ -57,7 +58,7 @@ describe('Adi3EndTestModal', () => {
 
   describe('onTerminate', () => {
     it('should call dismiss with ModalEvent.CANCEL', () => {
-      spyOn(component.modalCtrl, 'dismiss').and.returnValue(Promise.resolve(true));
+      vi.spyOn(component.modalCtrl, 'dismiss').mockReturnValue(Promise.resolve(true));
       component.onTerminate();
 
       expect(component.modalCtrl.dismiss).toHaveBeenCalledWith(ModalEvent.TERMINATE);

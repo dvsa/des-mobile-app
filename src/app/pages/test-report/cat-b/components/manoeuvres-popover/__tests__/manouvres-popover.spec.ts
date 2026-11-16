@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { DrivingFaultsBadgeComponent } from '@components/common/driving-faults-badge/driving-faults-badge';
 import { NavController } from '@ionic/angular';
@@ -83,7 +84,7 @@ describe('ManoeuvresPopoverComponent', () => {
     component = fixture.componentInstance;
     fixture.detectChanges();
     store$ = TestBed.inject(Store);
-    spyOn(store$, 'dispatch').and.callThrough();
+    vi.spyOn(store$, 'dispatch');
   });
 
   describe('manoeuvreHasFaults', () => {

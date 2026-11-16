@@ -1,3 +1,4 @@
+import { describe, expect, it } from 'vitest';
 import { SetExaminerConducted } from '../examiner-conducted.actions';
 import { examinerConductedReducer } from '../examiner-conducted.reducer';
 

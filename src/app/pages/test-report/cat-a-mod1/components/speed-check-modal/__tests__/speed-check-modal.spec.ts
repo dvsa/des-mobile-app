@@ -1,5 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { ModalController } from '@ionic/angular';
 import { ModalControllerMock } from '@mocks/ionic-mocks/modal-controller.mock';
@@ -20,7 +21,7 @@ describe('SpeedCheckModal', () => {
     fixture = TestBed.createComponent(SpeedCheckModal);
     component = fixture.componentInstance;
     modalController = TestBed.inject(ModalController);
-    spyOn(modalController, 'dismiss').and.returnValue(Promise.resolve(true));
+    vi.spyOn(modalController, 'dismiss').mockReturnValue(Promise.resolve(true));
   });
 
   describe('onCancel', () => {
@@ -40,7 +41,7 @@ describe('SpeedCheckModal', () => {
     it('should call onCancel when the Return to test button is clicked', () => {
       component.speedChecksNeedCompleting = [];
       fixture.detectChanges();
-      spyOn(component, 'onCancel');
+      vi.spyOn(component, 'onCancel').mockReturnValue(undefined);
       const button = fixture.debugElement.query(By.css('ion-button.modal-return-button'));
       button.triggerEventHandler('click', null);
 
@@ -51,7 +52,7 @@ describe('SpeedCheckModal', () => {
     it('should call onTerminate when the Terminate test button is clicked', () => {
       component.speedChecksNeedCompleting = [];
       fixture.detectChanges();
-      spyOn(component, 'onTerminate');
+      vi.spyOn(component, 'onTerminate').mockReturnValue(undefined);
       const button = fixture.debugElement.query(By.css('ion-button.terminate-button'));
       button.triggerEventHandler('click', null);
 

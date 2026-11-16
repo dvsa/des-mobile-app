@@ -2,6 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { MockAppComponent } from '@app/__mocks__/app.component.mock';
 import { AppComponent } from '@app/app.component';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { AccessibilityServiceMock } from '@providers/accessibility/__mocks__/accessibility-service.mock';
 import { AccessibilityService } from '@providers/accessibility/accessibility.service';
@@ -41,8 +42,8 @@ describe('PassCertificateNumberCatAMod1Component', () => {
   describe('Class', () => {
     describe('passCertificateNumberChanged', () => {
       beforeEach(() => {
-        spyOn(component.formControl, 'setErrors');
-        spyOn(component.passCertificateNumberChange, 'emit');
+        vi.spyOn(component.formControl, 'setErrors').mockReturnValue(undefined);
+        vi.spyOn(component.passCertificateNumberChange, 'emit').mockReturnValue(undefined);
       });
       it('should emit pass certificate number if 7 characters and valid', () => {
         const passCertificateNumber = 'C26754E';

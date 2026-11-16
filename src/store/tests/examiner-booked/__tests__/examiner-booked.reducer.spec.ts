@@ -1,3 +1,4 @@
+import { describe, expect, it } from 'vitest';
 import { SetExaminerBooked } from '../examiner-booked.actions';
 import { examinerBookedReducer } from '../examiner-booked.reducer';
 

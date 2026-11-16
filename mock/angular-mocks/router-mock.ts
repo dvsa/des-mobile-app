@@ -1,5 +1,6 @@
 import { Event } from '@angular/router';
 import { Subject } from 'rxjs';
+import { vi } from 'vitest';
 
 export class RouterMock {
   events = new Subject<Event>();
@@ -8,11 +9,9 @@ export class RouterMock {
 
   routerState = { root: '' };
 
-  navigate = jasmine.createSpy('navigate').and.resolveTo(true);
+  navigate = vi.fn().mockResolvedValue(true);
 
-  navigateByUrl = jasmine.createSpy('navigateByUrl').and.resolveTo(true);
+  navigateByUrl = vi.fn().mockResolvedValue(true);
 
-  getCurrentNavigation = jasmine
-    .createSpy('getCurrentNavigation')
-    .and.returnValue({ extras: { state: { hasNavigatedFromUnsubmitted: true } } });
+  getCurrentNavigation = vi.fn().mockReturnValue({ extras: { state: { hasNavigatedFromUnsubmitted: true } } });
 }

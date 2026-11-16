@@ -1,4 +1,5 @@
 import { TestData } from '@dvsa/mes-test-schema/categories/AM2';
+import { describe, expect, it } from 'vitest';
 import { safetyAndBalanceQuestionsExist } from '../safety-and-balance.cat-a-mod2.selector';
 
 describe('Vehicle Checks Selector Cat A Mod 2', () => {

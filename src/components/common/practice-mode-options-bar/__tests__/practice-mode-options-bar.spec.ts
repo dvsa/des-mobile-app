@@ -9,18 +9,20 @@ import { CategoryWhitelistProvider } from '@providers/category-whitelist/categor
 import { trDestroy$ } from '@shared/classes/test-flow-base-pages/test-report/test-report-base-page';
 import { wrtcDestroy$ } from '@shared/classes/test-flow-base-pages/waiting-room-to-car/waiting-room-to-car-base-page';
 import { DeletePracticeModeTests } from '@store/tests/tests.actions';
+import { type Mock, beforeEach, describe, expect, it, vi } from 'vitest';
+import { unitTestErrorCause } from '../../../../test-setup.vitest';
 import { PracticeModeOptionsBar } from '../practice-mode-options-bar';
 
 describe('PracticeModeOptionsBar', () => {
   let fixture: ComponentFixture<PracticeModeOptionsBar>;
   let component: PracticeModeOptionsBar;
-  let navigateRoot: jasmine.Spy;
+  let navigateRoot: Mock;
   let activateEvents: EventEmitter<object>;
   let dashboard: object;
   let store$: MockStore;
 
   beforeEach(() => {
-    navigateRoot = jasmine.createSpy('navigateRoot').and.resolveTo(true);
+    navigateRoot = vi.fn().mockResolvedValue(true);
     activateEvents = new EventEmitter<object>();
     dashboard = {};
     TestBed.configureTestingModule({
@@ -46,14 +48,13 @@ describe('PracticeModeOptionsBar', () => {
     fixture = TestBed.createComponent(PracticeModeOptionsBar);
     component = fixture.componentInstance;
     store$ = TestBed.inject(MockStore);
-    spyOn(store$, 'dispatch');
+    vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
   });
 
   describe('exitPracticeMode', () => {
     it('should clear practice tests only after the dashboard transition finishes', async () => {
       const exit = component.exitPracticeMode();
-      await Promise.resolve();
-      await Promise.resolve();
+      await vi.waitFor(() => expect(navigateRoot).toHaveBeenCalled());
 
       expect(navigateRoot).toHaveBeenCalledWith([DASHBOARD_PAGE], { replaceUrl: true });
       expect(store$.dispatch).not.toHaveBeenCalled();
@@ -65,7 +66,7 @@ describe('PracticeModeOptionsBar', () => {
 
     it('should ignore an earlier page transition still finishing', async () => {
       const exit = component.exitPracticeMode();
-      await Promise.resolve();
+      await vi.waitFor(() => expect(navigateRoot).toHaveBeenCalled());
       activateEvents.emit({});
       await Promise.resolve();
       expect(store$.dispatch).not.toHaveBeenCalled();
@@ -76,29 +77,29 @@ describe('PracticeModeOptionsBar', () => {
     });
 
     it('should retain practice tests when navigation is cancelled', async () => {
-      navigateRoot.and.resolveTo(false);
+      navigateRoot.mockResolvedValue(false);
       await component.exitPracticeMode();
       activateEvents.emit(dashboard);
       expect(store$.dispatch).not.toHaveBeenCalled();
     });
 
     it('should retain practice tests and propagate navigation failures', async () => {
-      const error = new Error('Navigation failed');
-      navigateRoot.and.rejectWith(error);
-      await expectAsync(component.exitPracticeMode()).toBeRejectedWith(error);
+      const error = new Error('Navigation failed', { cause: unitTestErrorCause });
+      navigateRoot.mockRejectedValue(error);
+      await expect(component.exitPracticeMode()).rejects.toEqual(error);
       activateEvents.emit(dashboard);
       expect(store$.dispatch).not.toHaveBeenCalled();
     });
 
     it('should signal subscription cleanup on every practice exit', async () => {
-      const testReportCleanup = jasmine.createSpy('testReportCleanup');
-      const waitingRoomCleanup = jasmine.createSpy('waitingRoomCleanup');
+      const testReportCleanup = vi.fn();
+      const waitingRoomCleanup = vi.fn();
       const testReportSubscription = trDestroy$.subscribe(testReportCleanup);
       const waitingRoomSubscription = wrtcDestroy$.subscribe(waitingRoomCleanup);
       try {
         for (let i = 0; i < 2; i++) {
           const exit = component.exitPracticeMode();
-          await Promise.resolve();
+          await vi.waitFor(() => expect(navigateRoot).toHaveBeenCalledTimes(i + 1));
           activateEvents.emit(dashboard);
           await exit;
         }

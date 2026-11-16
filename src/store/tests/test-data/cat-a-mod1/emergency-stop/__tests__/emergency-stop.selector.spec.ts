@@ -1,4 +1,5 @@
 import { TestData } from '@dvsa/mes-test-schema/categories/AM1';
+import { describe, expect, it } from 'vitest';
 import { getEmergencyStop } from '../emergency-stop.selector';
 
 describe('emergency stop selector', () => {

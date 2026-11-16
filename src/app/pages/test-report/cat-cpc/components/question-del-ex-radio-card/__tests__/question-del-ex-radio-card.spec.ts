@@ -1,5 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { UntypedFormGroup } from '@angular/forms';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { MockComponent } from 'ng-mocks';
 import { QuestionTitleComponent } from '../../question-title/question-title';
@@ -78,7 +79,7 @@ describe('QuestionDelExRadioCardComponent', () => {
 
   describe('questionScoreChanged', () => {
     it('should emit a numeric answer along with the question number', () => {
-      spyOn(component.questionScore, 'emit');
+      vi.spyOn(component.questionScore, 'emit').mockReturnValue(undefined);
       component.questionNumber = 1;
       component.questionScoreChanged(5);
 

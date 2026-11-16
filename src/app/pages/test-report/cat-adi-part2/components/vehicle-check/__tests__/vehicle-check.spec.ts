@@ -3,6 +3,7 @@ import { DangerousFaultBadgeComponent } from '@components/common/dangerous-fault
 import { DrivingFaultsBadgeComponent } from '@components/common/driving-faults-badge/driving-faults-badge';
 import { SeriousFaultBadgeComponent } from '@components/common/serious-fault-badge/serious-fault-badge';
 import { TickIndicatorComponent } from '@components/common/tick-indicator/tick-indicator';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { Store, StoreModule } from '@ngrx/store';
 import { StoreModel } from '@shared/models/store.model';
@@ -106,7 +107,7 @@ describe('VehicleCheckComponent', () => {
     component = fixture.componentInstance;
     store$ = TestBed.inject(Store);
     store$.dispatch(StartTest(105, TestCategory.ADI2));
-    spyOn(store$, 'dispatch');
+    vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
   });
 
   describe('Class', () => {
@@ -115,15 +116,15 @@ describe('VehicleCheckComponent', () => {
         'should return true if hasDangerousFault and isDangerousMode are true ' + 'and isRemoveFaultMode is true',
         () => {
           component.isRemoveFaultMode = true;
-          spyOn(component, 'hasDangerousFault').and.returnValue(true);
+          vi.spyOn(component, 'hasDangerousFault').mockReturnValue(true);
           component.isDangerousMode = true;
           expect(component.canButtonRipple()).toEqual(true);
         }
       );
       it('should return true if hasSeriousFault and isSeriousMode are true ' + 'and isRemoveFaultMode is true', () => {
         component.isRemoveFaultMode = true;
-        spyOn(component, 'hasDangerousFault').and.returnValue(false);
-        spyOn(component, 'hasSeriousFault').and.returnValue(true);
+        vi.spyOn(component, 'hasDangerousFault').mockReturnValue(false);
+        vi.spyOn(component, 'hasSeriousFault').mockReturnValue(true);
         component.isSeriousMode = true;
         expect(component.canButtonRipple()).toEqual(true);
       });
@@ -132,9 +133,9 @@ describe('VehicleCheckComponent', () => {
           'isSeriousMode and isDangerousMode are false and isRemoveFaultMode is true',
         () => {
           component.isRemoveFaultMode = true;
-          spyOn(component, 'hasDangerousFault').and.returnValue(false);
-          spyOn(component, 'hasSeriousFault').and.returnValue(false);
-          spyOn(component, 'hasShowMeDrivingFault').and.returnValue(true);
+          vi.spyOn(component, 'hasDangerousFault').mockReturnValue(false);
+          vi.spyOn(component, 'hasSeriousFault').mockReturnValue(false);
+          vi.spyOn(component, 'hasShowMeDrivingFault').mockReturnValue(true);
           component.isDangerousMode = false;
           component.isSeriousMode = false;
           expect(component.canButtonRipple()).toEqual(true);
@@ -142,9 +143,9 @@ describe('VehicleCheckComponent', () => {
       );
       it('should return false if no other condition is met ' + 'and isRemoveFaultMode is true', () => {
         component.isRemoveFaultMode = true;
-        spyOn(component, 'hasDangerousFault').and.returnValue(false);
-        spyOn(component, 'hasSeriousFault').and.returnValue(false);
-        spyOn(component, 'hasShowMeDrivingFault').and.returnValue(false);
+        vi.spyOn(component, 'hasDangerousFault').mockReturnValue(false);
+        vi.spyOn(component, 'hasSeriousFault').mockReturnValue(false);
+        vi.spyOn(component, 'hasShowMeDrivingFault').mockReturnValue(false);
         component.isDangerousMode = false;
         component.isSeriousMode = false;
         expect(component.canButtonRipple()).toEqual(false);
@@ -154,9 +155,9 @@ describe('VehicleCheckComponent', () => {
           'and hasDangerousFault, hasSeriousFault and hasShowMeDrivingFault are true',
         () => {
           component.isRemoveFaultMode = false;
-          spyOn(component, 'hasDangerousFault').and.returnValue(true);
-          spyOn(component, 'hasSeriousFault').and.returnValue(true);
-          spyOn(component, 'hasShowMeDrivingFault').and.returnValue(true);
+          vi.spyOn(component, 'hasDangerousFault').mockReturnValue(true);
+          vi.spyOn(component, 'hasSeriousFault').mockReturnValue(true);
+          vi.spyOn(component, 'hasShowMeDrivingFault').mockReturnValue(true);
           expect(component.canButtonRipple()).toEqual(false);
         }
       );
@@ -165,23 +166,23 @@ describe('VehicleCheckComponent', () => {
           'and hasDangerousFault, hasSeriousFault and hasShowMeDrivingFault are false',
         () => {
           component.isRemoveFaultMode = false;
-          spyOn(component, 'hasDangerousFault').and.returnValue(false);
-          spyOn(component, 'hasSeriousFault').and.returnValue(false);
-          spyOn(component, 'hasShowMeDrivingFault').and.returnValue(false);
+          vi.spyOn(component, 'hasDangerousFault').mockReturnValue(false);
+          vi.spyOn(component, 'hasSeriousFault').mockReturnValue(false);
+          vi.spyOn(component, 'hasShowMeDrivingFault').mockReturnValue(false);
           expect(component.canButtonRipple()).toEqual(true);
         }
       );
     });
     describe('onTap', () => {
       it('should run addOrRemoveFault', () => {
-        spyOn(component, 'addOrRemoveFault');
+        vi.spyOn(component, 'addOrRemoveFault').mockReturnValue(undefined);
         component.onTap();
         expect(component.addOrRemoveFault).toHaveBeenCalled();
       });
     });
     describe('onPress', () => {
       it('should run addOrRemoveFault with true', () => {
-        spyOn(component, 'addOrRemoveFault');
+        vi.spyOn(component, 'addOrRemoveFault').mockReturnValue(undefined);
         component.onPress();
         expect(component.addOrRemoveFault).toHaveBeenCalledWith(true);
       });
@@ -226,7 +227,7 @@ describe('VehicleCheckComponent', () => {
           'VehicleChecksRemoveDangerousFault, ToggleDangerousFaultMode and ToggleRemoveFaultMode ' +
           'if hasDangerousFault, isDangerousMode and isRemoveFaultMode are all true',
         () => {
-          spyOn(component, 'hasDangerousFault').and.returnValue(true);
+          vi.spyOn(component, 'hasDangerousFault').mockReturnValue(true);
           component.isDangerousMode = true;
           component.isRemoveFaultMode = true;
           component.removeFault();
@@ -241,8 +242,8 @@ describe('VehicleCheckComponent', () => {
           'VehicleChecksRemoveSeriousFault, ToggleSeriousFaultMode and ToggleRemoveFaultMode ' +
           'if hasSeriousFault, isSeriousMode and isRemoveFaultMode are all true',
         () => {
-          spyOn(component, 'hasDangerousFault').and.returnValue(false);
-          spyOn(component, 'hasSeriousFault').and.returnValue(true);
+          vi.spyOn(component, 'hasDangerousFault').mockReturnValue(false);
+          vi.spyOn(component, 'hasSeriousFault').mockReturnValue(true);
           component.isSeriousMode = true;
           component.isRemoveFaultMode = true;
           component.removeFault();
@@ -258,9 +259,9 @@ describe('VehicleCheckComponent', () => {
           'if isDangerousMode and isSeriousMode are false ' +
           'and isRemoveFaultMode and hasShowMeDrivingFault are true',
         () => {
-          spyOn(component, 'hasDangerousFault').and.returnValue(false);
-          spyOn(component, 'hasSeriousFault').and.returnValue(false);
-          spyOn(component, 'hasShowMeDrivingFault').and.returnValue(true);
+          vi.spyOn(component, 'hasDangerousFault').mockReturnValue(false);
+          vi.spyOn(component, 'hasSeriousFault').mockReturnValue(false);
+          vi.spyOn(component, 'hasShowMeDrivingFault').mockReturnValue(true);
           component.isSeriousMode = false;
           component.isDangerousMode = false;
           component.isRemoveFaultMode = true;

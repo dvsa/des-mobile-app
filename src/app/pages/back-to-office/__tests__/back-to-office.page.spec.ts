@@ -3,6 +3,7 @@ import { By } from '@angular/platform-browser';
 import { PracticeModeOptionsBar } from '@components/common/practice-mode-options-bar/practice-mode-options-bar';
 import { TestFlowHeaderComponent } from '@components/common/test-flow-header/test-flow-header.component';
 import { ModalController } from '@ionic/angular';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { provideBasePageMocks } from '@mocks/test-providers';
 import { Store } from '@ngrx/store';
@@ -53,15 +54,15 @@ describe('BackToOfficePage', () => {
     modalController = TestBed.inject(ModalController);
     store$ = TestBed.inject(Store);
     routeByCategoryProvider = TestBed.inject(RouteByCategoryProvider);
-    spyOn(store$, 'dispatch');
-    spyOn(routeByCategoryProvider, 'navigateToPage').and.returnValue(Promise.resolve());
-    spyOn(BasePageComponent.prototype, 'isIos').and.returnValue(true);
+    vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
+    vi.spyOn(routeByCategoryProvider, 'navigateToPage').mockReturnValue(Promise.resolve());
+    vi.spyOn(BasePageComponent.prototype, 'isIos').mockReturnValue(true);
   });
 
   describe('Class', () => {
     describe('ionViewDidEnter', () => {
       it('should disable test inhibitions when in practice mode', async () => {
-        spyOn(BasePageComponent.prototype, 'unlockDevice');
+        vi.spyOn(BasePageComponent.prototype, 'unlockDevice').mockReturnValue(undefined);
         await component.ionViewDidEnter();
         expect(BasePageComponent.prototype.unlockDevice).toHaveBeenCalled();
       });
@@ -70,13 +71,13 @@ describe('BackToOfficePage', () => {
     describe('navigateForward', () => {
       it('should display modal and call onContinue with office when singleAppModeEnabled is false', async () => {
         component.singleAppModeEnabled = false;
-        spyOn(modalController, 'create').and.returnValue(
+        vi.spyOn(modalController, 'create').mockReturnValue(
           Promise.resolve({
             present: async () => {},
             onDidDismiss: () => {},
           } as HTMLIonModalElement)
         );
-        spyOn(component, 'onContinue');
+        vi.spyOn(component, 'onContinue').mockReturnValue(undefined);
         await component.navigateForward(NavigationTarget.OFFICE);
         expect(modalController.create).toHaveBeenCalledTimes(1);
         expect(component.onContinue).toHaveBeenCalledWith(NavigationTarget.OFFICE);
@@ -85,13 +86,13 @@ describe('BackToOfficePage', () => {
       // eslint-disable-next-line max-len
       it('should NOT display modal, but still call onContinue with office when singleAppModeEnabled is true', async () => {
         component.singleAppModeEnabled = true;
-        spyOn(modalController, 'create').and.returnValue(
+        vi.spyOn(modalController, 'create').mockReturnValue(
           Promise.resolve({
             present: async () => {},
             onDidDismiss: () => {},
           } as HTMLIonModalElement)
         );
-        spyOn(component, 'onContinue');
+        vi.spyOn(component, 'onContinue').mockReturnValue(undefined);
         await component.navigateForward(NavigationTarget.OFFICE);
         expect(modalController.create).toHaveBeenCalledTimes(0);
         expect(component.onContinue).toHaveBeenCalledWith(NavigationTarget.OFFICE);
@@ -100,13 +101,13 @@ describe('BackToOfficePage', () => {
 
     describe('onContinue', () => {
       it('should call goToOfficePage when office is passed in', () => {
-        spyOn(component, 'goToOfficePage');
+        vi.spyOn(component, 'goToOfficePage').mockReturnValue(undefined);
         component.onContinue(NavigationTarget.OFFICE);
         expect(component.goToOfficePage).toHaveBeenCalled();
       });
 
       it('should call goToJournal when journal is passed in', () => {
-        spyOn(component, 'goToJournal');
+        vi.spyOn(component, 'goToJournal').mockReturnValue(undefined);
         component.onContinue(NavigationTarget.JOURNAL);
         expect(component.goToJournal).toHaveBeenCalled();
       });
@@ -119,7 +120,7 @@ describe('BackToOfficePage', () => {
       });
       it('should call the popTo method in the navcontroller if in practice mode', async () => {
         component.isEndToEndPracticeMode = true;
-        spyOn(component, 'exitPracticeMode');
+        vi.spyOn(component, 'exitPracticeMode').mockReturnValue(undefined);
         await component.goToJournal();
         expect(component.exitPracticeMode).toHaveBeenCalled();
       });

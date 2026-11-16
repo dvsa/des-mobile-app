@@ -1,6 +1,7 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { TraineeLicenceComponent } from '@pages/waiting-room-to-car/cat-adi-part3/components/trainee-licence/trainee-licence';
 import { AuthenticationProviderMock } from '@providers/authentication/__mocks__/authentication.mock';
@@ -100,12 +101,12 @@ describe('TraineeLicenceComponent', () => {
 
     describe('traineeLicenceChanged', () => {
       it('should emit the correct event with false if it is not passed the word true', () => {
-        spyOn(component.traineeLicenceChange, 'emit');
+        vi.spyOn(component.traineeLicenceChange, 'emit').mockReturnValue(undefined);
         component.traineeLicenceChanged('test');
         expect(component.traineeLicenceChange.emit).toHaveBeenCalledWith(false);
       });
       it('should emit the correct event with true if it is passed the word true', () => {
-        spyOn(component.traineeLicenceChange, 'emit');
+        vi.spyOn(component.traineeLicenceChange, 'emit').mockReturnValue(undefined);
         component.traineeLicenceChanged('true');
         expect(component.traineeLicenceChange.emit).toHaveBeenCalledWith(true);
       });

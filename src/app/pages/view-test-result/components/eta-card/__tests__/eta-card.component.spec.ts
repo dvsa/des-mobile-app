@@ -1,4 +1,5 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { beforeEach, describe, expect, it } from 'vitest';
 
 import { EtaCardComponent } from '../eta-card.component';
 
@@ -6,7 +7,7 @@ describe('EtaCardComponent', () => {
   let component: EtaCardComponent;
   let fixture: ComponentFixture<EtaCardComponent>;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [EtaCardComponent],
     }).compileComponents();
@@ -14,7 +15,7 @@ describe('EtaCardComponent', () => {
     fixture = TestBed.createComponent(EtaCardComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
-  }));
+  });
 
   describe('ETA', () => {
     it('should push ETA to an array if they are present', () => {
@@ -54,7 +55,7 @@ describe('EtaCardComponent', () => {
     it('should not show extended ETA when ETA data is missing', () => {
       component.data = undefined;
 
-      expect(component.shouldShowAdditionalETAPhysicalDetails()).toBeFalse();
+      expect(component.shouldShowAdditionalETAPhysicalDetails()).toBe(false);
     });
 
     it('should not show extended ETA when physical type data is empty', () => {
@@ -64,7 +65,7 @@ describe('EtaCardComponent', () => {
         },
       };
 
-      expect(component.shouldShowAdditionalETAPhysicalDetails()).toBeFalse();
+      expect(component.shouldShowAdditionalETAPhysicalDetails()).toBe(false);
     });
 
     it('should show extended ETA when physical type details are present', () => {
@@ -76,7 +77,7 @@ describe('EtaCardComponent', () => {
         },
       };
 
-      expect(component.shouldShowAdditionalETAPhysicalDetails()).toBeTrue();
+      expect(component.shouldShowAdditionalETAPhysicalDetails()).toBe(true);
     });
   });
 

@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { beforeEach, describe, expect, it } from 'vitest';
 
 import { MotStatusDisplayTextComponent } from '../mot-status-display-text.component';
 
@@ -19,17 +20,17 @@ describe('MotStatusDisplayTextComponent', () => {
   describe('isInvalidMOT', () => {
     it('returns true when motStatus is NOT_VALID', () => {
       component.motStatus = 'Not valid';
-      expect(component.isInvalidMOT()).toBeTrue();
+      expect(component.isInvalidMOT()).toBe(true);
     });
 
     it('returns false when motStatus is not NOT_VALID', () => {
       component.motStatus = 'Valid';
-      expect(component.isInvalidMOT()).toBeFalse();
+      expect(component.isInvalidMOT()).toBe(false);
     });
 
     it('returns false when motStatus is null', () => {
       component.motStatus = null;
-      expect(component.isInvalidMOT()).toBeFalse();
+      expect(component.isInvalidMOT()).toBe(false);
     });
   });
 

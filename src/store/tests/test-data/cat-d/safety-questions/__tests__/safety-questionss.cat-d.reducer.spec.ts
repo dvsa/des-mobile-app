@@ -1,5 +1,6 @@
 import { CatDUniqueTypes } from '@dvsa/mes-test-schema/categories/D';
 import { CompetencyOutcome } from '@shared/models/competency-outcome';
+import { describe, expect, it } from 'vitest';
 import { AddSafetyQuestionComment, SafetyQuestionOutcomeChanged } from '../safety-questions.cat-d.action';
 import { safetyQuestionsCatDReducer } from '../safety-questions.cat-d.reducer';
 

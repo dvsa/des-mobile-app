@@ -1,5 +1,6 @@
 import { EmergencyStop } from '@dvsa/mes-test-schema/categories/AM1';
 import { CompetencyOutcome } from '@shared/models/competency-outcome';
+import { describe, expect, it } from 'vitest';
 import * as emergencyStopActions from '../emergency-stop.actions';
 import { emergencyStopReducer, initialState } from '../emergency-stop.reducer';
 

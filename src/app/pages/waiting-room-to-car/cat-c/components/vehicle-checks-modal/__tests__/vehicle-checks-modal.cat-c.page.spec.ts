@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { WarningBannerComponent } from '@components/common/warning-banner/warning-banner';
 import { CatCUniqueTypes } from '@dvsa/mes-test-schema/categories/C';
@@ -179,7 +180,7 @@ describe('VehicleChecksCatCModal', () => {
     store$ = TestBed.inject(Store);
     faultCountProvider = TestBed.inject(FaultCountProvider);
     component.category = TestCategory.C;
-    spyOn(store$, 'dispatch');
+    vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
   });
 
   describe('showFullLicenceHeld', () => {
@@ -283,7 +284,7 @@ describe('VehicleChecksCatCModal', () => {
           () => {
             component.category = category;
             component.setNumberOfShowMeTellMeQuestions(true);
-            spyOn(component, 'getNumberOfShowMeQuestions');
+            vi.spyOn(component, 'getNumberOfShowMeQuestions').mockReturnValue(undefined);
             expect(component.showMeQuestionsNumberArray).toEqual(
               Array(component.getNumberOfShowMeQuestions(component.fullLicenceHeld))
             );
@@ -294,7 +295,7 @@ describe('VehicleChecksCatCModal', () => {
           () => {
             component.category = category;
             component.setNumberOfShowMeTellMeQuestions(true);
-            spyOn(component, 'getNumberOfTellMeQuestions');
+            vi.spyOn(component, 'getNumberOfTellMeQuestions').mockReturnValue(undefined);
             expect(component.tellMeQuestionsNumberArray).toEqual(
               Array(component.getNumberOfTellMeQuestions(component.fullLicenceHeld))
             );
@@ -318,7 +319,7 @@ describe('VehicleChecksCatCModal', () => {
     describe('ionViewDidLeave', () => {
       it('should unsubscribe from the subscription if there is one', () => {
         component.subscription = new Subscription();
-        spyOn(component.subscription, 'unsubscribe');
+        vi.spyOn(component.subscription, 'unsubscribe').mockReturnValue(undefined);
         component.ionViewDidLeave();
         expect(component.subscription.unsubscribe).toHaveBeenCalled();
       });
@@ -326,7 +327,7 @@ describe('VehicleChecksCatCModal', () => {
 
     describe('ionViewDidEnter', () => {
       it('should dispatch the store with VehicleChecksViewDidEnter', () => {
-        spyOn(component.store$, 'dispatch');
+        vi.spyOn(component.store$, 'dispatch').mockReturnValue(undefined);
         component.ionViewDidEnter();
         expect(component.store$.dispatch).toHaveBeenCalledWith(vehicleChecksModalActions.VehicleChecksViewDidEnter());
       });
@@ -334,7 +335,7 @@ describe('VehicleChecksCatCModal', () => {
 
     describe('onClose', () => {
       it('should dismiss the modal card', async () => {
-        spyOn(component.modalCtrl, 'dismiss');
+        vi.spyOn(component.modalCtrl, 'dismiss').mockReturnValue(undefined);
         await component.onClose();
         expect(component.modalCtrl.dismiss).toHaveBeenCalled();
       });
@@ -342,7 +343,7 @@ describe('VehicleChecksCatCModal', () => {
 
     describe('onSubmit', () => {
       it('should dismiss the modal card', async () => {
-        spyOn(component.modalCtrl, 'dismiss');
+        vi.spyOn(component.modalCtrl, 'dismiss').mockReturnValue(undefined);
         await component.onSubmit();
         expect(component.modalCtrl.dismiss).toHaveBeenCalled();
       });
@@ -455,8 +456,8 @@ describe('VehicleChecksCatCModal', () => {
 
       describe('fullLicenceHeldChange', () => {
         it('should convert input to a boolean and pass into setNumberOfShowMeTellMeQuestions', () => {
-          spyOn(component, 'setNumberOfShowMeTellMeQuestions');
-          spyOn(faultCountProvider, 'getVehicleChecksFaultCount').and.returnValue({} as VehicleChecksScore);
+          vi.spyOn(component, 'setNumberOfShowMeTellMeQuestions').mockReturnValue(undefined);
+          vi.spyOn(faultCountProvider, 'getVehicleChecksFaultCount').mockReturnValue({} as VehicleChecksScore);
           component.category = TestCategory.C1E;
           component.vehicleChecks = {};
           component.fullLicenceHeldChange(true);

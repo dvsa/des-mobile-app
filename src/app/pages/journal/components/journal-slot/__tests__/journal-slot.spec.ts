@@ -1,5 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { TestSlot } from '@dvsa/mes-journal-schema';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { SearchResultTestSchema } from '@dvsa/mes-search-schema';
 import { JournalSlotComponent } from '@pages/journal/components/journal-slot/journal-slot';
@@ -33,11 +34,11 @@ describe('JournalSlotComponent', () => {
       expect(component.slotType(slotItem)).toEqual('activity');
     });
     it('should return `empty` when isBookingEmptyOrNull returns true', () => {
-      spyOn(slotSelector, 'isBookingEmptyOrNull').and.returnValue(true);
+      vi.spyOn(slotSelector, 'isBookingEmptyOrNull').mockReturnValue(true);
       expect(component.slotType({} as SlotItem)).toEqual('empty');
     });
     it('should return `test-slot` when isBookingEmptyOrNull returns false', () => {
-      spyOn(slotSelector, 'isBookingEmptyOrNull').and.returnValue(false);
+      vi.spyOn(slotSelector, 'isBookingEmptyOrNull').mockReturnValue(false);
       expect(component.slotType({} as SlotItem)).toEqual('test-slot');
     });
   });

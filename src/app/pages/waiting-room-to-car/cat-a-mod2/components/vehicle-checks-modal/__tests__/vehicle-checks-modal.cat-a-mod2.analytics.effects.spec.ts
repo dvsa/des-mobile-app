@@ -19,7 +19,8 @@ import { StoreModel } from '@shared/models/store.model';
 import * as SafetyAndBalanceQuestionsActions from '@store/tests/test-data/cat-a-mod2/safety-and-balance/safety-and-balance.cat-a-mod2.actions';
 import * as testsActions from '@store/tests/tests.actions';
 import { testsReducer } from '@store/tests/tests.reducer';
-import { ReplaySubject } from 'rxjs';
+import { ReplaySubject, firstValueFrom } from 'rxjs';
+import { beforeEach, describe, expect, it } from 'vitest';
 import { VehicleChecksViewDidEnter } from '../vehicle-checks-modal.cat-a-mod2.actions';
 import { VehicleChecksModalCatAMod2AnalyticsEffects } from '../vehicle-checks-modal.cat-a-mod2.analytics.effects';
 
@@ -52,14 +53,12 @@ describe('VehicleChecksModalCatAMod2AnalyticsEffects', () => {
   });
 
   describe('vehicleChecksModalViewDidEnter$ effect', () => {
-    it('should call analytics.setCurrentPage', (done) => {
+    it('should call analytics.setCurrentPage', async () => {
       store$.dispatch(testsActions.StartTest(12345, TestCategory.EUAM2));
       actions$.next(VehicleChecksViewDidEnter());
-      effects.vehicleChecksModalViewDidEnter$.subscribe((result) => {
-        expect(result.type === AnalyticRecorded.type).toBe(true);
-        expect(analyticsProviderMock.setGACurrentPage).toHaveBeenCalledWith(screenName);
-        done();
-      });
+      const result = await firstValueFrom(effects.vehicleChecksModalViewDidEnter$);
+      expect(result.type === AnalyticRecorded.type).toBe(true);
+      expect(analyticsProviderMock.setGACurrentPage).toHaveBeenCalledWith(screenName);
     });
   });
 
@@ -68,64 +67,56 @@ describe('VehicleChecksModalCatAMod2AnalyticsEffects', () => {
     const safetyQuestion: QuestionResult = {
       code: 'S01',
     };
-    it('should log an analytics event with safety question info', (done) => {
+    it('should log an analytics event with safety question info', async () => {
       store$.dispatch(testsActions.StartTest(12345, TestCategory.EUAM2));
       actions$.next(SafetyAndBalanceQuestionsActions.SafetyQuestionSelected(safetyQuestion, questionNumber));
-      effects.safetyQuestionChanged$.subscribe((result) => {
-        expect(result.type === AnalyticRecorded.type).toBe(true);
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-          `${GoogleAnalyticsEvents.SAFETY_QUESTION}2`,
-          GoogleAnalyticsEventsTitles.QUESTION_NUMBER,
-          safetyQuestion.code
-        );
-        done();
-      });
+      const result = await firstValueFrom(effects.safetyQuestionChanged$);
+      expect(result.type === AnalyticRecorded.type).toBe(true);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+        `${GoogleAnalyticsEvents.SAFETY_QUESTION}2`,
+        GoogleAnalyticsEventsTitles.QUESTION_NUMBER,
+        safetyQuestion.code
+      );
     });
-    it('should log an analytics event in practice mode with safety question info', (done) => {
+    it('should log an analytics event in practice mode with safety question info', async () => {
       store$.dispatch(testsActions.StartTest(12345, TestCategory.EUAM2));
       store$.dispatch(fakeJournalActions.StartE2EPracticeTest(end2endPracticeSlotId));
       actions$.next(SafetyAndBalanceQuestionsActions.SafetyQuestionSelected(safetyQuestion, questionNumber));
-      effects.safetyQuestionChanged$.subscribe((result) => {
-        expect(result.type === AnalyticRecorded.type).toBe(true);
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-          `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEvents.SAFETY_QUESTION}2`,
-          GoogleAnalyticsEventsTitles.QUESTION_NUMBER,
-          safetyQuestion.code
-        );
-        done();
-      });
+      const result = await firstValueFrom(effects.safetyQuestionChanged$);
+      expect(result.type === AnalyticRecorded.type).toBe(true);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+        `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEvents.SAFETY_QUESTION}2`,
+        GoogleAnalyticsEventsTitles.QUESTION_NUMBER,
+        safetyQuestion.code
+      );
     });
   });
 
   describe('safetyQuestionOutComeChanged$', () => {
     const questionOutcome: QuestionOutcome = 'P';
     const questionNumber: number = 1;
-    it('should log an analytics event with safety question outcome info', (done) => {
+    it('should log an analytics event with safety question outcome info', async () => {
       store$.dispatch(testsActions.StartTest(12345, TestCategory.EUAM2));
       actions$.next(SafetyAndBalanceQuestionsActions.SafetyQuestionOutcomeChanged(questionOutcome, questionNumber));
-      effects.safetyQuestionOutcomeChanged$.subscribe((result) => {
-        expect(result.type === AnalyticRecorded.type).toBe(true);
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-          `${GoogleAnalyticsEvents.SAFETY_QUESTION}2`,
-          GoogleAnalyticsEventsTitles.RESULT,
-          GoogleAnalyticsEventsValues.CORRECT
-        );
-        done();
-      });
+      const result = await firstValueFrom(effects.safetyQuestionOutcomeChanged$);
+      expect(result.type === AnalyticRecorded.type).toBe(true);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+        `${GoogleAnalyticsEvents.SAFETY_QUESTION}2`,
+        GoogleAnalyticsEventsTitles.RESULT,
+        GoogleAnalyticsEventsValues.CORRECT
+      );
     });
-    it('should log an analytics event in practice mode with safety question outcome info', (done) => {
+    it('should log an analytics event in practice mode with safety question outcome info', async () => {
       store$.dispatch(testsActions.StartTest(12345, TestCategory.EUAM2));
       store$.dispatch(fakeJournalActions.StartE2EPracticeTest(end2endPracticeSlotId));
       actions$.next(SafetyAndBalanceQuestionsActions.SafetyQuestionOutcomeChanged(questionOutcome, questionNumber));
-      effects.safetyQuestionOutcomeChanged$.subscribe((result) => {
-        expect(result.type === AnalyticRecorded.type).toBe(true);
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-          `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEvents.SAFETY_QUESTION}2`,
-          GoogleAnalyticsEventsTitles.RESULT,
-          GoogleAnalyticsEventsValues.CORRECT
-        );
-        done();
-      });
+      const result = await firstValueFrom(effects.safetyQuestionOutcomeChanged$);
+      expect(result.type === AnalyticRecorded.type).toBe(true);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+        `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEvents.SAFETY_QUESTION}2`,
+        GoogleAnalyticsEventsTitles.RESULT,
+        GoogleAnalyticsEventsValues.CORRECT
+      );
     });
   });
 
@@ -134,64 +125,56 @@ describe('VehicleChecksModalCatAMod2AnalyticsEffects', () => {
     const balanceQuestion: QuestionResult = {
       code: 'T01',
     };
-    it('should log an analytics event with balance question info', (done) => {
+    it('should log an analytics event with balance question info', async () => {
       store$.dispatch(testsActions.StartTest(12345, TestCategory.EUAM2));
       actions$.next(SafetyAndBalanceQuestionsActions.BalanceQuestionSelected(balanceQuestion, questionNumber));
-      effects.balanceQuestionChanged$.subscribe((result) => {
-        expect(result.type === AnalyticRecorded.type).toBe(true);
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-          `${GoogleAnalyticsEvents.BALANCE_QUESTION}2`,
-          GoogleAnalyticsEventsTitles.QUESTION_NUMBER,
-          balanceQuestion.code
-        );
-        done();
-      });
+      const result = await firstValueFrom(effects.balanceQuestionChanged$);
+      expect(result.type === AnalyticRecorded.type).toBe(true);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+        `${GoogleAnalyticsEvents.BALANCE_QUESTION}2`,
+        GoogleAnalyticsEventsTitles.QUESTION_NUMBER,
+        balanceQuestion.code
+      );
     });
-    it('should log an analytics event in practice mode with balance question info', (done) => {
+    it('should log an analytics event in practice mode with balance question info', async () => {
       store$.dispatch(testsActions.StartTest(12345, TestCategory.EUAM2));
       store$.dispatch(fakeJournalActions.StartE2EPracticeTest(end2endPracticeSlotId));
       actions$.next(SafetyAndBalanceQuestionsActions.BalanceQuestionSelected(balanceQuestion, questionNumber));
-      effects.balanceQuestionChanged$.subscribe((result) => {
-        expect(result.type === AnalyticRecorded.type).toBe(true);
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-          `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEvents.BALANCE_QUESTION}2`,
-          GoogleAnalyticsEventsTitles.QUESTION_NUMBER,
-          balanceQuestion.code
-        );
-        done();
-      });
+      const result = await firstValueFrom(effects.balanceQuestionChanged$);
+      expect(result.type === AnalyticRecorded.type).toBe(true);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+        `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEvents.BALANCE_QUESTION}2`,
+        GoogleAnalyticsEventsTitles.QUESTION_NUMBER,
+        balanceQuestion.code
+      );
     });
   });
 
   describe('balanceQuestionOutcomeChanged$', () => {
     const questionOutcome: QuestionOutcome = 'DF';
     const questionNumber: number = 1;
-    it('should log an analytics event with balance question outcome info', (done) => {
+    it('should log an analytics event with balance question outcome info', async () => {
       store$.dispatch(testsActions.StartTest(12345, TestCategory.EUAM2));
       actions$.next(SafetyAndBalanceQuestionsActions.BalanceQuestionOutcomeChanged(questionOutcome, questionNumber));
-      effects.balanceQuestionOutcomeChanged$.subscribe((result) => {
-        expect(result.type === AnalyticRecorded.type).toBe(true);
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-          `${GoogleAnalyticsEvents.BALANCE_QUESTION}2`,
-          GoogleAnalyticsEventsTitles.RESULT,
-          GoogleAnalyticsEventsValues.DRIVING_FAULT
-        );
-        done();
-      });
+      const result = await firstValueFrom(effects.balanceQuestionOutcomeChanged$);
+      expect(result.type === AnalyticRecorded.type).toBe(true);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+        `${GoogleAnalyticsEvents.BALANCE_QUESTION}2`,
+        GoogleAnalyticsEventsTitles.RESULT,
+        GoogleAnalyticsEventsValues.DRIVING_FAULT
+      );
     });
-    it('should log an analytics event in practice mode with balance question outcome info', (done) => {
+    it('should log an analytics event in practice mode with balance question outcome info', async () => {
       store$.dispatch(testsActions.StartTest(12345, TestCategory.EUAM2));
       store$.dispatch(fakeJournalActions.StartE2EPracticeTest(end2endPracticeSlotId));
       actions$.next(SafetyAndBalanceQuestionsActions.BalanceQuestionOutcomeChanged(questionOutcome, questionNumber));
-      effects.balanceQuestionOutcomeChanged$.subscribe((result) => {
-        expect(result.type === AnalyticRecorded.type).toBe(true);
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-          `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEvents.BALANCE_QUESTION}2`,
-          GoogleAnalyticsEventsTitles.RESULT,
-          GoogleAnalyticsEventsValues.DRIVING_FAULT
-        );
-        done();
-      });
+      const result = await firstValueFrom(effects.balanceQuestionOutcomeChanged$);
+      expect(result.type === AnalyticRecorded.type).toBe(true);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+        `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEvents.BALANCE_QUESTION}2`,
+        GoogleAnalyticsEventsTitles.RESULT,
+        GoogleAnalyticsEventsValues.DRIVING_FAULT
+      );
     });
   });
 });

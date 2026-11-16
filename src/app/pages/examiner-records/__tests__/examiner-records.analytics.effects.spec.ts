@@ -25,7 +25,8 @@ import {
 } from '@providers/analytics/analytics.model';
 import { ColourEnum } from '@providers/examiner-records/examiner-records';
 import { DateRange } from '@shared/helpers/date-time';
-import { ReplaySubject } from 'rxjs';
+import { ReplaySubject, firstValueFrom } from 'rxjs';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 describe('ExaminerStatsAnalyticsEffects', () => {
   let effects: ExaminerRecordsAnalyticsEffects;
@@ -49,204 +50,156 @@ describe('ExaminerStatsAnalyticsEffects', () => {
     actions$ = new ReplaySubject(1);
     effects = TestBed.inject(ExaminerRecordsAnalyticsEffects);
     analyticsProviderMock = TestBed.inject(AnalyticsProvider);
-    spyOn(analyticsProviderMock, 'logGAEvent');
+    vi.spyOn(analyticsProviderMock, 'logGAEvent');
   });
 
   describe('examinerStatsViewDidEnter$', () => {
-    it('should call setCurrentPage', (done) => {
-      // ACT
+    it('should call setCurrentPage', async () => {
       actions$.next(ExaminerRecordsViewDidEnter());
-      // ASSERT
-      effects.examinerStatsViewDidEnter$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-        expect(analyticsProviderMock.setGACurrentPage).toHaveBeenCalledWith(screenName);
-        done();
-      });
+      const result = await firstValueFrom(effects.examinerStatsViewDidEnter$);
+      expect(result.type).toEqual(AnalyticRecorded.type);
+      expect(analyticsProviderMock.setGACurrentPage).toHaveBeenCalledWith(screenName);
     });
   });
   describe('dateRangeChanged$', () => {
-    it('should log an event', (done) => {
-      // ACT
+    it('should log an event', async () => {
       actions$.next(
         DateRangeChanged({
           display: '1',
           val: DateRange.TODAY,
         })
       );
-      // ASSERT
-      effects.dateRangeChanged$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-          GoogleAnalyticsEvents.EXAMINER_RECORDS,
-          GoogleAnalyticsEventsTitles.DATE_RANGE_CHANGED,
-          'today'
-        );
-        done();
-      });
+      const result = await firstValueFrom(effects.dateRangeChanged$);
+      expect(result.type).toEqual(AnalyticRecorded.type);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+        GoogleAnalyticsEvents.EXAMINER_RECORDS,
+        GoogleAnalyticsEventsTitles.DATE_RANGE_CHANGED,
+        'today'
+      );
     });
   });
   describe('locationChanged$', () => {
-    it('should log an event', (done) => {
-      // ACT
+    it('should log an event', async () => {
       actions$.next(LocationChanged({ centreId: 1, centreName: '2', costCode: '3' }));
-      // ASSERT
-      effects.locationChanged$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-          GoogleAnalyticsEvents.EXAMINER_RECORDS,
-          GoogleAnalyticsEventsTitles.LOCATION_FILTER,
-          '2'
-        );
-        done();
-      });
+      const result = await firstValueFrom(effects.locationChanged$);
+      expect(result.type).toEqual(AnalyticRecorded.type);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+        GoogleAnalyticsEvents.EXAMINER_RECORDS,
+        GoogleAnalyticsEventsTitles.LOCATION_FILTER,
+        '2'
+      );
     });
   });
   describe('testCategoryChanged$', () => {
-    it('should log an event', (done) => {
-      // ACT
+    it('should log an event', async () => {
       actions$.next(TestCategoryChanged(TestCategory.ADI2));
-      // ASSERT
-      effects.testCategoryChanged$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-          GoogleAnalyticsEvents.EXAMINER_RECORDS,
-          GoogleAnalyticsEventsTitles.TEST_CATEGORY_FILTER,
-          TestCategory.ADI2
-        );
-        done();
-      });
+      const result = await firstValueFrom(effects.testCategoryChanged$);
+      expect(result.type).toEqual(AnalyticRecorded.type);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+        GoogleAnalyticsEvents.EXAMINER_RECORDS,
+        GoogleAnalyticsEventsTitles.TEST_CATEGORY_FILTER,
+        TestCategory.ADI2
+      );
     });
   });
   describe('colourFilterChanged$', () => {
-    it('should log an event with the default colour title if default is selected', (done) => {
-      // ACT
+    it('should log an event with the default colour title if default is selected', async () => {
       actions$.next(ColourFilterChanged(ColourEnum.DEFAULT));
-      // ASSERT
-      effects.colourFilterChanged$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-          GoogleAnalyticsEvents.EXAMINER_RECORDS,
-          GoogleAnalyticsEventsTitles.DEFAULT_COLOUR,
-          GoogleAnalyticsEventsValues.SELECTED
-        );
-        done();
-      });
+      const result = await firstValueFrom(effects.colourFilterChanged$);
+      expect(result.type).toEqual(AnalyticRecorded.type);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+        GoogleAnalyticsEvents.EXAMINER_RECORDS,
+        GoogleAnalyticsEventsTitles.DEFAULT_COLOUR,
+        GoogleAnalyticsEventsValues.SELECTED
+      );
     });
-    it('should log an event with the greyscale colour title if greyscale is selected', (done) => {
-      // ACT
+    it('should log an event with the greyscale colour title if greyscale is selected', async () => {
       actions$.next(ColourFilterChanged(ColourEnum.GREYSCALE));
-      // ASSERT
-      effects.colourFilterChanged$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-          GoogleAnalyticsEvents.EXAMINER_RECORDS,
-          GoogleAnalyticsEventsTitles.GREYSCALE_COLOUR,
-          GoogleAnalyticsEventsValues.SELECTED
-        );
-        done();
-      });
+      const result = await firstValueFrom(effects.colourFilterChanged$);
+      expect(result.type).toEqual(AnalyticRecorded.type);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+        GoogleAnalyticsEvents.EXAMINER_RECORDS,
+        GoogleAnalyticsEventsTitles.GREYSCALE_COLOUR,
+        GoogleAnalyticsEventsValues.SELECTED
+      );
     });
   });
   describe('hideChartsChanged$', () => {
-    it('should log unselected if called with false', (done) => {
-      // ACT
+    it('should log unselected if called with false', async () => {
       actions$.next(HideChartsChanged(false));
-      // ASSERT
-      effects.hideChartsChanged$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-          GoogleAnalyticsEvents.EXAMINER_RECORDS,
-          GoogleAnalyticsEventsTitles.CHART_VISUALISATION,
-          GoogleAnalyticsEventsValues.UNSELECTED
-        );
-        done();
-      });
+      const result = await firstValueFrom(effects.hideChartsChanged$);
+      expect(result.type).toEqual(AnalyticRecorded.type);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+        GoogleAnalyticsEvents.EXAMINER_RECORDS,
+        GoogleAnalyticsEventsTitles.CHART_VISUALISATION,
+        GoogleAnalyticsEventsValues.UNSELECTED
+      );
     });
-    it('should log selected if called with true', (done) => {
-      // ACT
+    it('should log selected if called with true', async () => {
       actions$.next(HideChartsChanged(true));
-      // ASSERT
-      effects.hideChartsChanged$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-          GoogleAnalyticsEvents.EXAMINER_RECORDS,
-          GoogleAnalyticsEventsTitles.CHART_VISUALISATION,
-          GoogleAnalyticsEventsValues.SELECTED
-        );
-        done();
-      });
+      const result = await firstValueFrom(effects.hideChartsChanged$);
+      expect(result.type).toEqual(AnalyticRecorded.type);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+        GoogleAnalyticsEvents.EXAMINER_RECORDS,
+        GoogleAnalyticsEventsTitles.CHART_VISUALISATION,
+        GoogleAnalyticsEventsValues.SELECTED
+      );
     });
   });
   describe('returnToDashboardPressed$', () => {
-    it('should log an event', (done) => {
-      // ACT
+    it('should log an event', async () => {
       actions$.next(ReturnToDashboardPressed());
-      // ASSERT
-      effects.returnToDashboardPressed$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-          GoogleAnalyticsEvents.EXAMINER_RECORDS,
-          GoogleAnalyticsEventsTitles.BUTTON_SELECTION,
-          GoogleAnalyticsEventsValues.RETURN_TO_DASHBOARD
-        );
-        done();
-      });
+      const result = await firstValueFrom(effects.returnToDashboardPressed$);
+      expect(result.type).toEqual(AnalyticRecorded.type);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+        GoogleAnalyticsEvents.EXAMINER_RECORDS,
+        GoogleAnalyticsEventsTitles.BUTTON_SELECTION,
+        GoogleAnalyticsEventsValues.RETURN_TO_DASHBOARD
+      );
     });
   });
   describe('onCardClicked$', () => {
-    it('should log an event with the tap to show title if expanded', (done) => {
-      // ACT
+    it('should log an event with the tap to show title if expanded', async () => {
       actions$.next(
         ClickDataCard({
           isExpanded: true,
           title: 'title',
         })
       );
-      // ASSERT
-      effects.onCardClicked$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-          GoogleAnalyticsEvents.EXAMINER_RECORDS,
-          GoogleAnalyticsEventsTitles.TAP_TO_SHOW,
-          'title'
-        );
-        done();
-      });
+      const result = await firstValueFrom(effects.onCardClicked$);
+      expect(result.type).toEqual(AnalyticRecorded.type);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+        GoogleAnalyticsEvents.EXAMINER_RECORDS,
+        GoogleAnalyticsEventsTitles.TAP_TO_SHOW,
+        'title'
+      );
     });
-    it('should log an event with the tap to hide title if not expanded', (done) => {
-      // ACT
+    it('should log an event with the tap to hide title if not expanded', async () => {
       actions$.next(
         ClickDataCard({
           isExpanded: false,
           title: 'title',
         })
       );
-      // ASSERT
-      effects.onCardClicked$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-          GoogleAnalyticsEvents.EXAMINER_RECORDS,
-          GoogleAnalyticsEventsTitles.TAP_TO_HIDE,
-          'title'
-        );
-        done();
-      });
+      const result = await firstValueFrom(effects.onCardClicked$);
+      expect(result.type).toEqual(AnalyticRecorded.type);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+        GoogleAnalyticsEvents.EXAMINER_RECORDS,
+        GoogleAnalyticsEventsTitles.TAP_TO_HIDE,
+        'title'
+      );
     });
   });
   describe('partialBannerDisplayed$', () => {
-    it('should log an event', (done) => {
-      // ACT
+    it('should log an event', async () => {
       actions$.next(DisplayPartialBanner());
-      // ASSERT
-      effects.partialBannerDisplayed$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-          GoogleAnalyticsEvents.EXAMINER_RECORDS,
-          GoogleAnalyticsEventsTitles.DATA_UNAVAILABLE,
-          GoogleAnalyticsEventsValues.DATA_BANNER_DISPLAY
-        );
-        done();
-      });
+      const result = await firstValueFrom(effects.partialBannerDisplayed$);
+      expect(result.type).toEqual(AnalyticRecorded.type);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+        GoogleAnalyticsEvents.EXAMINER_RECORDS,
+        GoogleAnalyticsEventsTitles.DATA_UNAVAILABLE,
+        GoogleAnalyticsEventsValues.DATA_BANNER_DISPLAY
+      );
     });
   });
 });

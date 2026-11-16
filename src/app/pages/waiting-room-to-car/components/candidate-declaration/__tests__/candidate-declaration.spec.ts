@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { By } from '@angular/platform-browser';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { CandidateDeclarationSignedComponent } from '../candidate-declaration';
 
@@ -20,7 +21,7 @@ describe('CandidateDeclarationSignedComponent', () => {
 
   describe('DOM', () => {
     it('should call CandidateDeclarationChanged with Y when signed is pressed', () => {
-      spyOn(component, 'candidateDeclarationChanged');
+      vi.spyOn(component, 'candidateDeclarationChanged').mockReturnValue(undefined);
       component.ngOnChanges();
       const declarationSignedRadio = fixture.debugElement.query(By.css('#declaration-signed'));
       declarationSignedRadio.triggerEventHandler('change', { target: { value: 'Y' } });
@@ -28,7 +29,7 @@ describe('CandidateDeclarationSignedComponent', () => {
       expect(component.candidateDeclarationChanged).toHaveBeenCalledWith('Y');
     });
     it('should call CandidateDeclarationChanged with N when not signed is pressed', () => {
-      spyOn(component, 'candidateDeclarationChanged');
+      vi.spyOn(component, 'candidateDeclarationChanged').mockReturnValue(undefined);
       component.ngOnChanges();
       const declarationSignedRadio = fixture.debugElement.query(By.css('#declaration-not-signed'));
       declarationSignedRadio.triggerEventHandler('change', { target: { value: 'N' } });
@@ -56,7 +57,7 @@ describe('CandidateDeclarationSignedComponent', () => {
     it('should emit true if declarationSelected is set to Y and formControl is valid', () => {
       component.formControl = new UntypedFormControl(null, [Validators.required]);
       component.formControl.setValue(true);
-      spyOn(component.candidateDeclarationChange, 'emit');
+      vi.spyOn(component.candidateDeclarationChange, 'emit').mockReturnValue(undefined);
 
       component.candidateDeclarationChanged('Y');
 

@@ -1,4 +1,5 @@
 import { mapAnalyticsScreenName } from '@shared/helpers/map-analytics-screen-name';
+import { describe, expect, it } from 'vitest';
 
 describe('mapAnalyticsScreenName()', () => {
   it('should return journal screen when JournalPage specified,', () => {

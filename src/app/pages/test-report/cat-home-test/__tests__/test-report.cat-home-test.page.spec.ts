@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { MockComponent } from 'ng-mocks';
 
@@ -96,8 +97,8 @@ describe('TestReportCatHomeTestPage', () => {
 
   describe('ionViewDidLeave', () => {
     it('should call parent ionViewDidLeave and cancelSubscription', () => {
-      spyOn(TestReportBasePageComponent.prototype, 'ionViewDidLeave').and.callThrough();
-      spyOn(TestReportBasePageComponent.prototype, 'cancelSubscription').and.callThrough();
+      vi.spyOn(TestReportBasePageComponent.prototype, 'ionViewDidLeave');
+      vi.spyOn(TestReportBasePageComponent.prototype, 'cancelSubscription');
       component.ionViewDidLeave();
       expect(TestReportBasePageComponent.prototype.ionViewDidLeave).toHaveBeenCalled();
       expect(TestReportBasePageComponent.prototype.cancelSubscription).toHaveBeenCalled();
@@ -107,12 +108,12 @@ describe('TestReportCatHomeTestPage', () => {
   describe('showManoeuvreButton', () => {
     it('should return false if testCategory is K', () => {
       component.testCategory = TestCategory.K;
-      expect(component.showManoeuvreButton()).toBeFalse();
+      expect(component.showManoeuvreButton()).toBe(false);
     });
 
     it('should return true if testCategory is not K', () => {
       component.testCategory = TestCategory.F;
-      expect(component.showManoeuvreButton()).toBeTrue();
+      expect(component.showManoeuvreButton()).toBe(true);
     });
   });
 });

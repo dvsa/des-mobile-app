@@ -1,6 +1,7 @@
 import { catManoeuvreTestDataStateObject } from '@providers/fault-count/__mocks__/cat-man-test-data-state-object.mock';
 import { FaultCountManoeuvreTestHelper } from '@providers/fault-count/cat-manoeuvre/fault-count.cat-manoeuvre';
 import { CompetencyOutcome } from '@shared/models/competency-outcome';
+import { describe, expect, it } from 'vitest';
 
 describe('FaultCountManoeuvreTestHelper', () => {
   describe('getManoeuvreCountIfAny', () => {

@@ -1,4 +1,5 @@
 import { candidateCatManoeuvreReducer } from '@store/tests/journal-data/cat-manoeuvre/candidate/candidate.cat-manoeuvre.reducer';
+import { describe, expect, it } from 'vitest';
 import * as candidateActions from '../candidate.cat-manoeuvre.actions';
 
 describe('candidateCatManoeuvreReducer', () => {

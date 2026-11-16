@@ -8,6 +8,7 @@ import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { AppConfig } from '@providers/app-config/app-config.model';
 import { ExaminerRole } from '@providers/app-config/constants/examiner-role.constants';
 import { Subject, of, throwError } from 'rxjs';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { LoadingControllerMock } from '@mocks/ionic-mocks/loading-controller.mock';
 import { provideBasePageMocks } from '@mocks/test-providers';
@@ -94,7 +95,7 @@ describe('TestCenterJournalPage', () => {
     store$ = TestBed.inject(MockStore);
     networkStateProvider = TestBed.inject(NetworkStateProvider);
     loadingController = TestBed.inject(LoadingController);
-    spyOn(store$, 'dispatch');
+    vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
   });
 
   it('should create', () => {
@@ -110,7 +111,7 @@ describe('TestCenterJournalPage', () => {
 
     it('should show both tabs when the journal response arrives without a forced refresh', async () => {
       const response$ = new Subject<TestCentreDetailResponse>();
-      spyOn(testCentreJournalProvider, 'getTestCentreJournal').and.returnValue(response$);
+      vi.spyOn(testCentreJournalProvider, 'getTestCentreJournal').mockReturnValue(response$);
       fixture.detectChanges();
       fixture.autoDetectChanges();
       await fixture.whenStable();
@@ -129,7 +130,9 @@ describe('TestCenterJournalPage', () => {
 
     it('should render errors and restore the tabs after a successful retry', async () => {
       const response$ = new Subject<TestCentreDetailResponse>();
-      spyOn(testCentreJournalProvider, 'getTestCentreJournal').and.returnValues(response$, of(results));
+      vi.spyOn(testCentreJournalProvider, 'getTestCentreJournal')
+        .mockReturnValueOnce(response$)
+        .mockReturnValueOnce(of(results));
       fixture.detectChanges();
       fixture.autoDetectChanges();
       await fixture.whenStable();
@@ -149,7 +152,7 @@ describe('TestCenterJournalPage', () => {
     });
 
     it('should show LDTM tabs before a test centre is selected', async () => {
-      spyOn(TestBed.inject(AppConfigProvider), 'getAppConfig').and.returnValue({
+      vi.spyOn(TestBed.inject(AppConfigProvider), 'getAppConfig').mockReturnValue({
         role: ExaminerRole.LDTM,
       } as AppConfig);
       fixture.detectChanges();
@@ -164,7 +167,7 @@ describe('TestCenterJournalPage', () => {
 
   describe('ionViewDidEnter', () => {
     it('should dispatch the view did enter action', () => {
-      spyOn(store$, 'dispatch');
+      vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
       component.ionViewDidEnter();
       expect(store$.dispatch).toHaveBeenCalledWith(TestCentreJournalViewDidEnter());
     });
@@ -172,21 +175,22 @@ describe('TestCenterJournalPage', () => {
 
   describe('ionViewWillEnter', () => {
     it('should call getTestCentreData if not LDTM', async () => {
-      spyOn(component, 'getTestCentreData');
+      vi.spyOn(component, 'getTestCentreData').mockReturnValue(undefined);
       component.isLDTM = false;
       await component.ionViewWillEnter();
       expect(component.getTestCentreData).toHaveBeenCalled();
     });
 
     it('should not call getTestCentreData if LDTM', async () => {
-      spyOn(component, 'getTestCentreData');
+      vi.spyOn(component, 'getTestCentreData').mockReturnValue(undefined);
       component.isLDTM = true;
       await component.ionViewWillEnter();
       expect(component.getTestCentreData).not.toHaveBeenCalled();
     });
 
     it('should call monitorOrientation', async () => {
-      spyOn(component.orientationMonitorProvider, 'monitorOrientation');
+      vi.spyOn(component, 'getTestCentreData').mockResolvedValue(undefined);
+      vi.spyOn(component.orientationMonitorProvider, 'monitorOrientation');
       await component.ionViewWillEnter();
       expect(component.orientationMonitorProvider.monitorOrientation).toHaveBeenCalled();
     });
@@ -194,9 +198,9 @@ describe('TestCenterJournalPage', () => {
 
   describe('ngOnDestroy', () => {
     it('should close subscriptions on page destroy', () => {
-      spyOn(component.destroy$, 'next');
-      spyOn(component.destroy$, 'complete');
-      spyOn(component.subscription, 'unsubscribe');
+      vi.spyOn(component.destroy$, 'next').mockReturnValue(undefined);
+      vi.spyOn(component.destroy$, 'complete').mockReturnValue(undefined);
+      vi.spyOn(component.subscription, 'unsubscribe').mockReturnValue(undefined);
       component.ngOnDestroy();
       expect(component.destroy$.next).toHaveBeenCalled();
       expect(component.destroy$.complete).toHaveBeenCalled();
@@ -206,7 +210,7 @@ describe('TestCenterJournalPage', () => {
 
   describe('ionViewWillLeave', () => {
     it('should call tearDownListener', () => {
-      spyOn(component.orientationMonitorProvider, 'tearDownListener');
+      vi.spyOn(component.orientationMonitorProvider, 'tearDownListener');
       component.ionViewWillLeave();
       expect(component.orientationMonitorProvider.tearDownListener).toHaveBeenCalled();
     });
@@ -214,22 +218,22 @@ describe('TestCenterJournalPage', () => {
 
   describe('getTestCentreData', () => {
     beforeEach(() => {
-      spyOn(store$, 'dispatch');
-      spyOn(component, 'setOfflineError');
-      spyOn(component, 'mapError');
-      spyOn(logHelper, 'createLog');
-      spyOn(loadingController, 'create').and.callThrough();
+      vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
+      vi.spyOn(component, 'setOfflineError').mockReturnValue(undefined);
+      vi.spyOn(component, 'mapError').mockReturnValue(undefined);
+      vi.spyOn(logHelper, 'createLog');
+      vi.spyOn(loadingController, 'create');
       component.isOffline.set(false);
     });
     it('should set an offline error and not call getTestCentreJournal if in offline state', async () => {
-      spyOn(testCentreJournalProvider, 'getTestCentreJournal');
+      vi.spyOn(testCentreJournalProvider, 'getTestCentreJournal').mockReturnValue(undefined);
       component.isOffline.set(true);
       await component.getTestCentreData();
       expect(store$.dispatch).toHaveBeenCalledWith(TestCentreJournalGetData(false));
       expect(testCentreJournalProvider.getTestCentreJournal).not.toHaveBeenCalled();
     });
     it('should call getTestCentreJournal when online', async () => {
-      spyOn(testCentreJournalProvider, 'getTestCentreJournal').and.returnValue(of({}));
+      vi.spyOn(testCentreJournalProvider, 'getTestCentreJournal').mockReturnValue(of({}));
       await component.getTestCentreData();
       expect(testCentreJournalProvider.getTestCentreJournal).toHaveBeenCalled();
       expect(component.hasSearched()).toEqual(true);
@@ -238,7 +242,7 @@ describe('TestCenterJournalPage', () => {
       expect(component.didError()).toEqual(false);
     });
     it('should dispatch failure log and call map error when error is recognised', async () => {
-      spyOn(testCentreJournalProvider, 'getTestCentreJournal').and.callFake(() => {
+      vi.spyOn(testCentreJournalProvider, 'getTestCentreJournal').mockImplementation(() => {
         return throwError(() => ({
           statusCode: HttpStatusCode.BadRequest,
           message: 'Some error',

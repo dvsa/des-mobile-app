@@ -2,7 +2,8 @@ import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { Action, Store, StoreModule } from '@ngrx/store';
 import { testsReducer } from '@store/tests/tests.reducer';
-import { ReplaySubject } from 'rxjs';
+import { ReplaySubject, firstValueFrom } from 'rxjs';
+import { beforeEach, describe, expect, it } from 'vitest';
 
 import { AnalyticsProviderMock } from '@providers/analytics/__mocks__/analytics.mock';
 import { AnalyticsProvider } from '@providers/analytics/analytics';
@@ -58,43 +59,37 @@ describe('ConfirmTestDetailsAnalyticsEffects', () => {
   });
 
   describe('confirmTestDetailsView$', () => {
-    it('should call setCurrentPage', (done) => {
+    it('should call setCurrentPage', async () => {
       actions$.next(confirmTestDetailsActions.ConfirmTestDetailsViewDidEnter());
-      effects.confirmTestDetailsView$.subscribe((result) => {
-        expect(result.type === AnalyticRecorded.type).toBe(true);
-        expect(analyticsProviderMock.setGACurrentPage).toHaveBeenCalledWith(screenName);
-        done();
-      });
+      const result = await firstValueFrom(effects.confirmTestDetailsView$);
+      expect(result.type === AnalyticRecorded.type).toBe(true);
+      expect(analyticsProviderMock.setGACurrentPage).toHaveBeenCalledWith(screenName);
     });
   });
   describe('backToDebriefClicked', () => {
-    it('should log an event', (done) => {
+    it('should log an event', async () => {
       store$.dispatch(fakeJournalActions.StartE2EPracticeTest(end2endPracticeSlotId));
       actions$.next(confirmTestDetailsActions.BackToDebrief());
-      effects.backToDebriefClicked$.subscribe((result) => {
-        expect(result.type === AnalyticRecorded.type).toBe(true);
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-          GoogleAnalyticsEvents.NAVIGATION,
-          GoogleAnalyticsEventsTitles.BACK,
-          GoogleAnalyticsEventsValues.DEBRIEF
-        );
-        done();
-      });
+      const result = await firstValueFrom(effects.backToDebriefClicked$);
+      expect(result.type === AnalyticRecorded.type).toBe(true);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+        GoogleAnalyticsEvents.NAVIGATION,
+        GoogleAnalyticsEventsTitles.BACK,
+        GoogleAnalyticsEventsValues.DEBRIEF
+      );
     });
   });
   describe('backButtonClicked', () => {
-    it('should log an event', (done) => {
+    it('should log an event', async () => {
       store$.dispatch(fakeJournalActions.StartE2EPracticeTest(end2endPracticeSlotId));
       actions$.next(confirmTestDetailsActions.BackButtonClick());
-      effects.backButtonClicked$.subscribe((result) => {
-        expect(result.type === AnalyticRecorded.type).toBe(true);
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-          GoogleAnalyticsEvents.NAVIGATION,
-          GoogleAnalyticsEventsTitles.BACK,
-          GoogleAnalyticsEventsValues.FINALISE_OUTCOME
-        );
-        done();
-      });
+      const result = await firstValueFrom(effects.backButtonClicked$);
+      expect(result.type === AnalyticRecorded.type).toBe(true);
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+        GoogleAnalyticsEvents.NAVIGATION,
+        GoogleAnalyticsEventsTitles.BACK,
+        GoogleAnalyticsEventsValues.FINALISE_OUTCOME
+      );
     });
   });
 });

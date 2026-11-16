@@ -1,5 +1,6 @@
 import { TestRequirements } from '@dvsa/mes-test-schema/categories/common';
 import { testRequirementsCatADI2Reducer } from '@store/tests/test-data/cat-adi-part2/test-requirements/test-requirements.cat-adi-part2.reducer';
+import { describe, expect, it } from 'vitest';
 import { ToggleLegalRequirement } from '../../../common/test-requirements/test-requirements.actions';
 import { LegalRequirements } from '../../../test-data.constants';
 

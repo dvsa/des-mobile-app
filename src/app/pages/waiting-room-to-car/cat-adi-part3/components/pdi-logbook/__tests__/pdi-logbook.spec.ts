@@ -1,6 +1,7 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { PDILogbookComponent } from '@pages/waiting-room-to-car/cat-adi-part3/components/pdi-logbook/pdi-logbook';
 import { AuthenticationProviderMock } from '@providers/authentication/__mocks__/authentication.mock';
@@ -100,12 +101,12 @@ describe('PDILogbookComponent', () => {
 
     describe('pdiLogbookChanged', () => {
       it('should emit the correct event with false if it is not passed the word true', () => {
-        spyOn(component.pdiLogbookChange, 'emit');
+        vi.spyOn(component.pdiLogbookChange, 'emit').mockReturnValue(undefined);
         component.pdiLogbookChanged('test');
         expect(component.pdiLogbookChange.emit).toHaveBeenCalledWith(false);
       });
       it('should emit the correct event with true if it is passed the word true', () => {
-        spyOn(component.pdiLogbookChange, 'emit');
+        vi.spyOn(component.pdiLogbookChange, 'emit').mockReturnValue(undefined);
         component.pdiLogbookChanged('true');
         expect(component.pdiLogbookChange.emit).toHaveBeenCalledWith(true);
       });

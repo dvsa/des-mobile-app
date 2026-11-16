@@ -1,6 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { Application } from '@dvsa/mes-journal-schema';
 import { SlotItem } from '@providers/slot-selector/slot-item';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { SlotSelectorProvider } from '../slot-selector';
 
 describe('SlotSelectorProvider', () => {
@@ -100,11 +101,11 @@ describe('SlotSelectorProvider', () => {
   describe('isBookingEmptyOrNull', () => {
     it('should return true if slotData does not have booking', () => {
       const slotData: SlotItem = { slotData: {} } as SlotItem;
-      expect(slotSelector.isBookingEmptyOrNull(slotData)).toBeTrue();
+      expect(slotSelector.isBookingEmptyOrNull(slotData)).toBe(true);
     });
 
     it('should call checkPropertiesHaveValues if booking has relevant properties with values', () => {
-      spyOn(slotSelector, 'checkPropertiesHaveValues').and.returnValue(true);
+      vi.spyOn(slotSelector, 'checkPropertiesHaveValues').mockReturnValue(true);
       const slotData: SlotItem = {
         slotData: {
           booking: {
@@ -121,37 +122,37 @@ describe('SlotSelectorProvider', () => {
 
   describe('checkPropertiesHaveValues', () => {
     it('should return false for an empty object', () => {
-      expect(slotSelector.checkPropertiesHaveValues({})).toBeFalse();
+      expect(slotSelector.checkPropertiesHaveValues({})).toBe(false);
     });
 
     it('should return true for an object with non-ignored properties', () => {
       const obj = { applicationId: 123 };
-      expect(slotSelector.checkPropertiesHaveValues(obj)).toBeTrue();
+      expect(slotSelector.checkPropertiesHaveValues(obj)).toBe(true);
     });
 
     it('should return false for an object with only ignored properties', () => {
       const obj = { entitlementCheck: true };
-      expect(slotSelector.checkPropertiesHaveValues(obj)).toBeFalse();
+      expect(slotSelector.checkPropertiesHaveValues(obj)).toBe(false);
     });
 
     it('should return true for nested objects with non-ignored properties', () => {
       const obj = { booking: { application: { applicationId: 123 } } };
-      expect(slotSelector.checkPropertiesHaveValues(obj)).toBeTrue();
+      expect(slotSelector.checkPropertiesHaveValues(obj)).toBe(true);
     });
 
     it('should return false for nested objects with only ignored properties', () => {
       const obj = { booking: { entitlementCheck: true } };
-      expect(slotSelector.checkPropertiesHaveValues(obj)).toBeFalse();
+      expect(slotSelector.checkPropertiesHaveValues(obj)).toBe(false);
     });
 
     it('should return false for an object with all values set to null', () => {
       const obj = { applicationId: null };
-      expect(slotSelector.checkPropertiesHaveValues(obj)).toBeFalse();
+      expect(slotSelector.checkPropertiesHaveValues(obj)).toBe(false);
     });
 
     it('should return true for an object with mixed ignored and non-ignored properties', () => {
       const obj = { applicationId: 123, entitlementCheck: true };
-      expect(slotSelector.checkPropertiesHaveValues(obj)).toBeTrue();
+      expect(slotSelector.checkPropertiesHaveValues(obj)).toBe(true);
     });
   });
 });

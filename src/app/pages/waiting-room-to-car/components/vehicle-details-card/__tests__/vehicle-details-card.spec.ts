@@ -1,5 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule, UntypedFormGroup } from '@angular/forms';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { VehicleDetailsCardComponent } from '@pages/waiting-room-to-car/components/vehicle-details-card/vehicle-details-card';
 
@@ -19,21 +20,21 @@ describe('VehicleDetailsCardComponent', () => {
 
   describe('schoolVehicleDetailsChanged', () => {
     it('should emit the correct event', () => {
-      spyOn(component.schoolVehicleDetailsChange, 'emit');
+      vi.spyOn(component.schoolVehicleDetailsChange, 'emit').mockReturnValue(undefined);
       component.schoolVehicleDetailsChanged();
       expect(component.schoolVehicleDetailsChange.emit).toHaveBeenCalled();
     });
   });
   describe('dualVehicleDetailsChanged', () => {
     it('should emit the correct event', () => {
-      spyOn(component.dualVehicleDetailsChange, 'emit');
+      vi.spyOn(component.dualVehicleDetailsChange, 'emit').mockReturnValue(undefined);
       component.dualVehicleDetailsChanged();
       expect(component.dualVehicleDetailsChange.emit).toHaveBeenCalled();
     });
   });
   describe('schoolBikeVehicleDetailsChanged', () => {
     it('should emit the correct event', () => {
-      spyOn(component.schoolBikeVehicleDetailsChange, 'emit');
+      vi.spyOn(component.schoolBikeVehicleDetailsChange, 'emit').mockReturnValue(undefined);
       component.schoolBikeVehicleDetailsChanged();
       expect(component.schoolBikeVehicleDetailsChange.emit).toHaveBeenCalled();
     });

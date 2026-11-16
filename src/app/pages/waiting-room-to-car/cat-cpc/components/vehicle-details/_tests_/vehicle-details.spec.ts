@@ -1,5 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { VehicleDetailsCatCPCComponent } from '../vehicle-details';
 
@@ -62,7 +63,7 @@ describe('VehicleDetailsCatCPCComponent', () => {
 
   describe('vehicleDetailsChanged', () => {
     it('should emit the value passed into the function', () => {
-      spyOn(component.vehicleDetailsChange, 'emit');
+      vi.spyOn(component.vehicleDetailsChange, 'emit').mockReturnValue(undefined);
       component.vehicleDetailsChanged('Rigid');
       expect(component.vehicleDetailsChange.emit).toHaveBeenCalledWith('Rigid');
     });

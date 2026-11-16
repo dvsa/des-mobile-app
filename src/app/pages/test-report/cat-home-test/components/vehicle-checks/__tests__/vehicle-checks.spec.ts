@@ -2,6 +2,8 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { DrivingFaultsBadgeComponent } from '@components/common/driving-faults-badge/driving-faults-badge';
 import { SeriousFaultBadgeComponent } from '@components/common/serious-fault-badge/serious-fault-badge';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
+import { firstValueFrom } from 'rxjs';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { Store, StoreModule } from '@ngrx/store';
 import { FaultCountProvider } from '@providers/fault-count/fault-count';
@@ -44,26 +46,22 @@ describe('VehicleChecksComponent', () => {
     };
 
     beforeEach(() => {
-      spyOn(component.faultCountProvider, 'getVehicleChecksFaultCount').and.returnValue(vehicleChecksScore);
+      vi.spyOn(component.faultCountProvider, 'getVehicleChecksFaultCount').mockReturnValue(vehicleChecksScore);
     });
 
-    it('should set the vehicle checks driving fault count', (done: DoneFn) => {
+    it('should set the vehicle checks driving fault count', async () => {
       component.testCategory = TestCategory.F;
       component.ngOnInit();
-      component.componentState.vehicleChecksDrivingFaultCount$.subscribe((result) => {
-        expect(component.faultCountProvider.getVehicleChecksFaultCount).toHaveBeenCalled();
-        expect(result).toEqual(4);
-        done();
-      });
+      const result = await firstValueFrom(component.componentState.vehicleChecksDrivingFaultCount$);
+      expect(component.faultCountProvider.getVehicleChecksFaultCount).toHaveBeenCalled();
+      expect(result).toEqual(4);
     });
-    it('should set the vehicle checks serious fault count', (done: DoneFn) => {
+    it('should set the vehicle checks serious fault count', async () => {
       component.testCategory = TestCategory.F;
       component.ngOnInit();
-      component.componentState.vehicleChecksSeriousFaultCount$.subscribe((result) => {
-        expect(component.faultCountProvider.getVehicleChecksFaultCount).toHaveBeenCalled();
-        expect(result).toEqual(1);
-        done();
-      });
+      const result = await firstValueFrom(component.componentState.vehicleChecksSeriousFaultCount$);
+      expect(component.faultCountProvider.getVehicleChecksFaultCount).toHaveBeenCalled();
+      expect(result).toEqual(1);
     });
   });
 });

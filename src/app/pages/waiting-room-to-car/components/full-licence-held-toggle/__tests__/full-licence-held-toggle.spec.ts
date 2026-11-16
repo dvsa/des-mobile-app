@@ -2,6 +2,7 @@ import { EventEmitter } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule, UntypedFormGroup } from '@angular/forms';
 import { By } from '@angular/platform-browser';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { FullLicenceHeldComponent } from '../full-licence-held-toggle';
 
@@ -23,7 +24,7 @@ describe('FullLicenceHeldComponent', () => {
   describe('Class', () => {
     describe('fullLicenceHeldChanged', () => {
       it('should convert value passed in to a boolean and emit', () => {
-        spyOn(component.fullLicenceHeldChange, 'emit');
+        vi.spyOn(component.fullLicenceHeldChange, 'emit').mockReturnValue(undefined);
         component.fullLicenceHeldChanged('Y');
         expect(component.fullLicenceHeldChange.emit).toHaveBeenCalledWith(true);
       });
@@ -31,7 +32,7 @@ describe('FullLicenceHeldComponent', () => {
   });
   describe('DOM', () => {
     it('should call fullLicenceHeldChanged with Y when Yes is pressed', () => {
-      spyOn(component, 'fullLicenceHeldChanged');
+      vi.spyOn(component, 'fullLicenceHeldChanged').mockReturnValue(undefined);
       component.ngOnChanges();
       const declarationSignedRadio = fixture.debugElement.query(By.css('#full-licence-held-yes'));
       declarationSignedRadio.triggerEventHandler('change', { target: { value: 'Y' } });
@@ -39,7 +40,7 @@ describe('FullLicenceHeldComponent', () => {
       expect(component.fullLicenceHeldChanged).toHaveBeenCalledWith('Y');
     });
     it('should call fullLicenceHeldChanged with N when No is pressed', () => {
-      spyOn(component, 'fullLicenceHeldChanged');
+      vi.spyOn(component, 'fullLicenceHeldChanged').mockReturnValue(undefined);
       component.ngOnChanges();
       const declarationSignedRadio = fixture.debugElement.query(By.css('#full-licence-held-no'));
       declarationSignedRadio.triggerEventHandler('change', { target: { value: 'N' } });

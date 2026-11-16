@@ -1,5 +1,6 @@
+import { vi } from 'vitest';
 export class CompressionProviderMock {
-  extract = jasmine.createSpy('extract').and.returnValue({ data: 'mockedData' });
+  extract = vi.fn().mockReturnValue({ data: 'mockedData' });
 
-  compress = jasmine.createSpy('compress').and.returnValue('mockedCompressedData');
+  compress = vi.fn().mockReturnValue('mockedCompressedData');
 }

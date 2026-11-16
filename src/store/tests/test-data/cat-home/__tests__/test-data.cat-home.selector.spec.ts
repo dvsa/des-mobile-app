@@ -1,5 +1,6 @@
 import { CompetencyOutcome } from '@shared/models/competency-outcome';
 import { CatHomeTestData } from '@shared/unions/test-schema-unions';
+import { describe, expect, it } from 'vitest';
 import {
   getManoeuvres,
   getVehicleChecks,

@@ -1,5 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
+import { beforeEach, describe, expect, it } from 'vitest';
 
 import { FaultCountProvider } from '@providers/fault-count/fault-count';
 import { ManoeuvreCompetencies } from '@store/tests/test-data/test-data.constants';

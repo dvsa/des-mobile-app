@@ -1,5 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { QuestionScoreComponent } from '@pages/test-report/cat-cpc/components/question-score/question-score';
+import { beforeEach, describe, expect, it } from 'vitest';
 
 describe('QuestionScoreComponent', () => {
   let fixture: ComponentFixture<QuestionScoreComponent>;

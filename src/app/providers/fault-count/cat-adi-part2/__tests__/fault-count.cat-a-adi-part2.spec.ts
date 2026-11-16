@@ -1,4 +1,5 @@
 import { CompetencyOutcome } from '@shared/models/competency-outcome';
+import { describe, expect, it } from 'vitest';
 import {
   catADI2TestDataStateObjectControlledStopDrivingFaults,
   catADI2TestDataStateObjectDangerousFaults,
