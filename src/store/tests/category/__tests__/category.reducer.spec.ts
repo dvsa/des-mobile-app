@@ -1,4 +1,7 @@
 import { CategoryCode } from '@dvsa/mes-test-schema/categories/common';
+import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
+import { StartE2EPracticeTest } from '@pages/fake-journal/fake-journal.actions';
+import { ActivateTest, StartTest, StartTestReportPracticeTest } from '@store/tests/tests.actions';
 import { describe, expect, it } from 'vitest';
 import { PopulateTestCategory } from '../category.actions';
 import { categoryReducer } from '../category.reducer';

@@ -9,6 +9,7 @@ import * as candidateActions from '@store/tests/journal-data/common/candidate/ca
 import * as candidateReducer from '@store/tests/journal-data/common/candidate/candidate.reducer';
 import * as preTestDeclarationActions from '@store/tests/pre-test-declarations/pre-test-declarations.actions';
 import * as preTestDeclarationsReducer from '@store/tests/pre-test-declarations/pre-test-declarations.reducer';
+import { UnhandledTestCategory, unhandledTestCategory$ } from '@store/tests/tests-reducer-factory';
 import { beforeEach, describe, expect, it } from 'vitest';
 import * as testsActions from '../tests.actions';
 import { TestsModel } from '../tests.model';
