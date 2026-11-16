@@ -1,6 +1,13 @@
+import { TestResultCatAM2Schema } from '@dvsa/mes-test-schema/categories/AM2';
 import { CatBUniqueTypes } from '@dvsa/mes-test-schema/categories/B';
-import { Candidate, PreTestDeclarations, TestResultCommonSchema } from '@dvsa/mes-test-schema/categories/common';
+import {
+  Candidate,
+  PreTestDeclarations,
+  QuestionResult,
+  TestResultCommonSchema,
+} from '@dvsa/mes-test-schema/categories/common';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
+import { ActionReducer } from '@ngrx/store';
 import { NeverType } from '@pages/test-report/test-report.effects';
 import { testReportPracticeSlotId } from '@shared/mocks/test-slot-ids.mock';
 import { CompetencyOutcome } from '@shared/models/competency-outcome';
@@ -9,6 +16,12 @@ import * as candidateActions from '@store/tests/journal-data/common/candidate/ca
 import * as candidateReducer from '@store/tests/journal-data/common/candidate/candidate.reducer';
 import * as preTestDeclarationActions from '@store/tests/pre-test-declarations/pre-test-declarations.actions';
 import * as preTestDeclarationsReducer from '@store/tests/pre-test-declarations/pre-test-declarations.reducer';
+import {
+  BalanceQuestionOutcomeChanged,
+  BalanceQuestionSelected,
+  SafetyQuestionOutcomeChanged,
+  SafetyQuestionSelected,
+} from '@store/tests/test-data/cat-a-mod2/safety-and-balance/safety-and-balance.cat-a-mod2.actions';
 import { UnhandledTestCategory, unhandledTestCategory$ } from '@store/tests/tests-reducer-factory';
 import { beforeEach, describe, expect, it } from 'vitest';
 import * as testsActions from '../tests.actions';
@@ -168,6 +181,22 @@ describe('testsReducer', () => {
 
     const result = testsReducer(state, testsActions.StartTest(123, TestCategory.B));
     expect(result.startedTests['123'].preTestDeclarations).toBe(preTestDeclarations);
+  });
+
+  it('should record safety and balance questions for a newly started category A module 2 test', () => {
+    const safetyQuestion: QuestionResult = { code: 'M4', description: 'Safety question' };
+    const balanceQuestion: QuestionResult = { code: 'B1', description: 'Balance question' };
+    const reducer: ActionReducer<TestsModel> = testsReducer;
+    let state = reducer(undefined, testsActions.StartTest(123, TestCategory.EUA2M2));
+
+    state = reducer(state, SafetyQuestionSelected(safetyQuestion, 1));
+    state = reducer(state, SafetyQuestionOutcomeChanged('P', 1));
+    state = reducer(state, BalanceQuestionSelected(balanceQuestion, 0));
+    state = reducer(state, BalanceQuestionOutcomeChanged('DF', 0));
+
+    const { safetyAndBalanceQuestions } = (state.startedTests['123'] as TestResultCatAM2Schema).testData;
+    expect(safetyAndBalanceQuestions.safetyQuestions[1]).toEqual({ ...safetyQuestion, outcome: 'P' });
+    expect(safetyAndBalanceQuestions.balanceQuestions[0]).toEqual({ ...balanceQuestion, outcome: 'DF' });
   });
 
   it('should assign the slot ID as the current test when a test is activated', () => {

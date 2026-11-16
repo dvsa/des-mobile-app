@@ -117,15 +117,14 @@ describe('BackToOfficeAnalyticsEffects', () => {
         startDate
       );
       expect(analyticsProviderMock.addGACustomDimension).toHaveBeenCalledWith(
-          GoogleAnalyticsCustomDimension.TEST_SLOT_DATETIME,
-          startDate
-        );
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-          GoogleAnalyticsEvents.DEFER_WRITE_UP,
-          GoogleAnalyticsEventsTitles.RESULT,
-          GoogleAnalyticsEventsValues.PASS
-        );
-
+        GoogleAnalyticsCustomDimension.TEST_SLOT_DATETIME,
+        startDate
+      );
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+        GoogleAnalyticsEvents.DEFER_WRITE_UP,
+        GoogleAnalyticsEventsTitles.RESULT,
+        GoogleAnalyticsEventsValues.PASS
+      );
     });
     it('should call logEvent with fail page and addCustomDimension', async () => {
       const startDate = '2026-10-15T09:30:00.000Z';
@@ -150,15 +149,14 @@ describe('BackToOfficeAnalyticsEffects', () => {
         startDate
       );
       expect(analyticsProviderMock.addGACustomDimension).toHaveBeenCalledWith(
-          GoogleAnalyticsCustomDimension.TEST_SLOT_DATETIME,
-          startDate
-        );
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-          GoogleAnalyticsEvents.DEFER_WRITE_UP,
-          GoogleAnalyticsEventsTitles.RESULT,
-          GoogleAnalyticsEventsValues.FAIL
-        );
-
+        GoogleAnalyticsCustomDimension.TEST_SLOT_DATETIME,
+        startDate
+      );
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+        GoogleAnalyticsEvents.DEFER_WRITE_UP,
+        GoogleAnalyticsEventsTitles.RESULT,
+        GoogleAnalyticsEventsValues.FAIL
+      );
     });
     it('should call logEvent with pass page, practice mode prefix and addCustomDimension', async () => {
       const startDate = '2026-10-15T09:30:00.000Z';
@@ -183,15 +181,14 @@ describe('BackToOfficeAnalyticsEffects', () => {
         startDate
       );
       expect(analyticsProviderMock.addGACustomDimension).toHaveBeenCalledWith(
-          GoogleAnalyticsCustomDimension.TEST_SLOT_DATETIME,
-          startDate
-        );
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-          `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEvents.DEFER_WRITE_UP}`,
-          GoogleAnalyticsEventsTitles.RESULT,
-          GoogleAnalyticsEventsValues.PASS
-        );
-
+        GoogleAnalyticsCustomDimension.TEST_SLOT_DATETIME,
+        startDate
+      );
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+        `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEvents.DEFER_WRITE_UP}`,
+        GoogleAnalyticsEventsTitles.RESULT,
+        GoogleAnalyticsEventsValues.PASS
+      );
     });
 
     it('should call logEvent with fail page, practice mode prefix and addCustomDimension', async () => {
@@ -217,15 +214,14 @@ describe('BackToOfficeAnalyticsEffects', () => {
         startDate
       );
       expect(analyticsProviderMock.addGACustomDimension).toHaveBeenCalledWith(
-          GoogleAnalyticsCustomDimension.TEST_SLOT_DATETIME,
-          startDate
-        );
-        expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
-          `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEvents.DEFER_WRITE_UP}`,
-          GoogleAnalyticsEventsTitles.RESULT,
-          GoogleAnalyticsEventsValues.FAIL
-        );
-
+        GoogleAnalyticsCustomDimension.TEST_SLOT_DATETIME,
+        startDate
+      );
+      expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
+        `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEvents.DEFER_WRITE_UP}`,
+        GoogleAnalyticsEventsTitles.RESULT,
+        GoogleAnalyticsEventsValues.FAIL
+      );
     });
   });
 });
