@@ -223,7 +223,7 @@ export class TestsEffects {
             createPopulateCandidateDetailsAction(startTestAction.category, slot.booking),
             PopulateTestSlotAttributes(testSlotAttributes),
             PopulateTestCentre(extractTestCentre(slot)),
-            testStatusActions.SetTestStatusBooked(startTestAction.slotId.toString()),
+            testStatusActions.SetTestStatusStarted(startTestAction.slotId.toString()),
             SetExaminerBooked(Number.parseInt(examinerBooked, 10) ? Number.parseInt(examinerBooked, 10) : null),
             SetExaminerConducted(Number.parseInt(examinerBooked, 10) ? Number.parseInt(examinerBooked, 10) : null),
             SetExaminerKeyed(Number.parseInt(examinerKeyed, 10) ? Number.parseInt(examinerKeyed, 10) : null),

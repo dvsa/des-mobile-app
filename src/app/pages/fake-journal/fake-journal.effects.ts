@@ -51,7 +51,7 @@ export class FakeJournalEffects {
           createPopulateCandidateDetailsAction(category, slot?.booking as Booking),
           PopulateTestSlotAttributes(testSlotAttributes),
           PopulateTestCentre({ centreId: slot?.testCentre?.centreId, costCode: slot?.testCentre?.costCode }),
-          testStatusActions.SetTestStatusBooked(slotId.toString()),
+          testStatusActions.SetTestStatusStarted(slotId.toString()),
           PopulateConductedLanguage(conductedLanguage),
         ];
 
