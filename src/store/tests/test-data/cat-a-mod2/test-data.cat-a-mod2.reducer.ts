@@ -6,7 +6,10 @@ import { ecoReducer } from '../common/eco/eco.reducer';
 import { etaReducer } from '../common/eta/eta.reducer';
 import { eyesightTestReducer } from '../common/eyesight-test/eyesight-test.reducer';
 import { seriousFaultsReducer } from '../common/serious-faults/serious-faults.reducer';
-import { safetyAndBalanceCatAMod2Reducer } from './safety-and-balance/safety-and-balance.cat-a-mod2.reducer';
+import {
+  safetyAndBalanceCatAMod2Reducer,
+  initialState as safetyAndBalanceInitialState,
+} from './safety-and-balance/safety-and-balance.cat-a-mod2.reducer';
 import { testRequirementsCatAMod2Reducer } from './test-requirements/test-requirements.cat-a-mod-2.reducer';
 
 export const initialState: TestData = {
@@ -15,10 +18,7 @@ export const initialState: TestData = {
   drivingFaults: {},
   seriousFaults: {},
   dangerousFaults: {},
-  safetyAndBalanceQuestions: {
-    safetyQuestions: [],
-    balanceQuestions: [],
-  },
+  safetyAndBalanceQuestions: safetyAndBalanceInitialState,
   eco: {},
   eyesightTest: {},
 };

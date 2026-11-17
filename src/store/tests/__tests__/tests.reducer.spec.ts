@@ -1,13 +1,28 @@
+import { TestResultCatAM2Schema } from '@dvsa/mes-test-schema/categories/AM2';
 import { CatBUniqueTypes } from '@dvsa/mes-test-schema/categories/B';
-import { Candidate, PreTestDeclarations, TestResultCommonSchema } from '@dvsa/mes-test-schema/categories/common';
+import {
+  Candidate,
+  PreTestDeclarations,
+  QuestionResult,
+  TestResultCommonSchema,
+} from '@dvsa/mes-test-schema/categories/common';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
+import { ActionReducer } from '@ngrx/store';
 import { NeverType } from '@pages/test-report/test-report.effects';
 import { testReportPracticeSlotId } from '@shared/mocks/test-slot-ids.mock';
 import { CompetencyOutcome } from '@shared/models/competency-outcome';
+import { PopulateTestCategory } from '@store/tests/category/category.actions';
 import * as candidateActions from '@store/tests/journal-data/common/candidate/candidate.actions';
 import * as candidateReducer from '@store/tests/journal-data/common/candidate/candidate.reducer';
 import * as preTestDeclarationActions from '@store/tests/pre-test-declarations/pre-test-declarations.actions';
 import * as preTestDeclarationsReducer from '@store/tests/pre-test-declarations/pre-test-declarations.reducer';
+import {
+  BalanceQuestionOutcomeChanged,
+  BalanceQuestionSelected,
+  SafetyQuestionOutcomeChanged,
+  SafetyQuestionSelected,
+} from '@store/tests/test-data/cat-a-mod2/safety-and-balance/safety-and-balance.cat-a-mod2.actions';
+import { UnhandledTestCategory, unhandledTestCategory$ } from '@store/tests/tests-reducer-factory';
 import { beforeEach, describe, expect, it } from 'vitest';
 import * as testsActions from '../tests.actions';
 import { TestsModel } from '../tests.model';
@@ -168,6 +183,22 @@ describe('testsReducer', () => {
     expect(result.startedTests['123'].preTestDeclarations).toBe(preTestDeclarations);
   });
 
+  it('should record safety and balance questions for a newly started category A module 2 test', () => {
+    const safetyQuestion: QuestionResult = { code: 'M4', description: 'Safety question' };
+    const balanceQuestion: QuestionResult = { code: 'B1', description: 'Balance question' };
+    const reducer: ActionReducer<TestsModel> = testsReducer;
+    let state = reducer(undefined, testsActions.StartTest(123, TestCategory.EUA2M2));
+
+    state = reducer(state, SafetyQuestionSelected(safetyQuestion, 1));
+    state = reducer(state, SafetyQuestionOutcomeChanged('P', 1));
+    state = reducer(state, BalanceQuestionSelected(balanceQuestion, 0));
+    state = reducer(state, BalanceQuestionOutcomeChanged('DF', 0));
+
+    const { safetyAndBalanceQuestions } = (state.startedTests['123'] as TestResultCatAM2Schema).testData;
+    expect(safetyAndBalanceQuestions.safetyQuestions[1]).toEqual({ ...safetyQuestion, outcome: 'P' });
+    expect(safetyAndBalanceQuestions.balanceQuestions[0]).toEqual({ ...balanceQuestion, outcome: 'DF' });
+  });
+
   it('should assign the slot ID as the current test when a test is activated', () => {
     const state: TestsModel = {
       currentTest: { slotId: '123' },
@@ -177,5 +208,74 @@ describe('testsReducer', () => {
 
     const result = testsReducer(state, testsActions.ActivateTest(456, TestCategory.B));
     expect(result.currentTest.slotId).toBe('456');
+  });
+
+  describe('RemoveStartedTest', () => {
+    it('should clear the current test when the removed test is the current test', () => {
+      const started = testsReducer(undefined, testsActions.StartTest(123, TestCategory.C));
+
+      const result = testsReducer(started, testsActions.RemoveStartedTest(123));
+
+      expect(result.currentTest.slotId).toBeNull();
+      expect(result.startedTests['123']).toBeUndefined();
+      expect(result.testStatus['123']).toBeUndefined();
+    });
+
+    it('should keep the current test when a different test is removed', () => {
+      const first = testsReducer(undefined, testsActions.StartTest(123, TestCategory.C));
+      const second = testsReducer(first, testsActions.StartTest(456, TestCategory.C));
+
+      const result = testsReducer(second, testsActions.RemoveStartedTest(123));
+
+      expect(result.currentTest.slotId).toBe('456');
+      expect(result.startedTests['456']).toBeDefined();
+      expect(result.startedTests['123']).toBeUndefined();
+    });
+
+    it('should not recreate the removed test on subsequent actions', () => {
+      const started = testsReducer(undefined, testsActions.StartTest(123, TestCategory.C));
+      const removed = testsReducer(started, testsActions.RemoveStartedTest(123));
+
+      const result = testsReducer(removed, testsActions.PersistTests());
+
+      expect(result.startedTests['123']).toBeUndefined();
+    });
+  });
+
+  describe('category derivation', () => {
+    it('should store the category on the test as soon as it is started', () => {
+      const result = testsReducer(undefined, testsActions.StartTest(123, TestCategory.C));
+
+      expect(result.startedTests['123'].category).toBe(TestCategory.C);
+    });
+
+    it('should not fall through to the default reducer for actions following a test start', () => {
+      const emitted: UnhandledTestCategory[] = [];
+      const subscription = unhandledTestCategory$.subscribe((value) => emitted.push(value));
+
+      const started = testsReducer(undefined, testsActions.StartTest(123, TestCategory.C));
+      // testsReducer receives every action at runtime, not just those in its typed union
+      testsReducer(
+        started,
+        PopulateTestCategory(TestCategory.C) as unknown as ReturnType<typeof testsActions.PersistTests>
+      );
+      subscription.unsubscribe();
+
+      expect(emitted).toEqual([]);
+    });
+
+    it('should keep the stored category when an existing test is activated with a different category', () => {
+      const started = testsReducer(undefined, testsActions.StartTest(123, TestCategory.C));
+
+      const result = testsReducer(started, testsActions.ActivateTest(123, TestCategory.CE));
+
+      expect(result.startedTests['123'].category).toBe(TestCategory.C);
+    });
+
+    it('should use the action category when activating a test that has not been started', () => {
+      const result = testsReducer(undefined, testsActions.ActivateTest(456, TestCategory.C));
+
+      expect(result.startedTests['456'].category).toBe(TestCategory.C);
+    });
   });
 });

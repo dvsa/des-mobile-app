@@ -6,8 +6,18 @@ import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Action, Store, select } from '@ngrx/store';
 import { find, get, has, omit, startsWith } from 'lodash-es';
-import { from, interval, of } from 'rxjs';
-import { catchError, concatMap, filter, map, switchMap, takeUntil, withLatestFrom } from 'rxjs/operators';
+import { asapScheduler, from, interval, of } from 'rxjs';
+import {
+  catchError,
+  concatMap,
+  distinct,
+  filter,
+  map,
+  observeOn,
+  switchMap,
+  takeUntil,
+  withLatestFrom,
+} from 'rxjs/operators';
 
 import { version } from '@environments/test-schema-version';
 import {
@@ -73,6 +83,7 @@ import {
 } from './test-data/cat-d/vehicle-checks/vehicle-checks.cat-d.action';
 import * as testStatusActions from './test-status/test-status.actions';
 import { TestStatus } from './test-status/test-status.model';
+import { unhandledTestCategory$ } from './tests-reducer-factory';
 import * as testActions from './tests.actions';
 import { SendCompletedTests, StartTest, StopSendingCompletedTests } from './tests.actions';
 import { TestsModel } from './tests.model';
@@ -153,6 +164,27 @@ export class TestsEffects {
             return of(testActions.LoadPersistedTestsFailure());
           })
         )
+      )
+    )
+  );
+
+  unhandledTestCategoryEffect$ = createEffect(() =>
+    unhandledTestCategory$.pipe(
+      // so exclude this effect's own action and log each category/action/state combo once
+      filter(({ actionType }) => actionType !== SaveLog.type),
+      // the default branch runs on every action for the current test (SaveLog included),
+      // so only log once per category/action/state combo to avoid flooding / a feedback loop
+      distinct(({ category, actionType, hasState }) => `${category}|${actionType}|${hasState}`),
+      // emitted from inside the reducer - defer so we don't dispatch mid-reduce
+      observeOn(asapScheduler),
+      map(({ category, actionType, hasState }) =>
+        SaveLog({
+          payload: this.logHelper.createLog(
+            LogType.WARNING,
+            'testsReducerFactory fell through to default reducer',
+            `Unhandled category: ${category}, action: ${actionType}, hasState: ${hasState}`
+          ),
+        })
       )
     )
   );

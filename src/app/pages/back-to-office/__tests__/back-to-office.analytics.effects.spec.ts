@@ -116,6 +116,10 @@ describe('BackToOfficeAnalyticsEffects', () => {
         GoogleAnalyticsCustomDimension.TEST_SLOT_DATETIME,
         startDate
       );
+      expect(analyticsProviderMock.addGACustomDimension).toHaveBeenCalledWith(
+        GoogleAnalyticsCustomDimension.TEST_SLOT_DATETIME,
+        startDate
+      );
       expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
         GoogleAnalyticsEvents.DEFER_WRITE_UP,
         GoogleAnalyticsEventsTitles.RESULT,
@@ -139,6 +143,10 @@ describe('BackToOfficeAnalyticsEffects', () => {
       expect(analyticsProviderMock.addGACustomDimension).toHaveBeenCalledWith(
         GoogleAnalyticsCustomDimension.APPLICATION_REFERENCE,
         '123456789'
+      );
+      expect(analyticsProviderMock.addGACustomDimension).toHaveBeenCalledWith(
+        GoogleAnalyticsCustomDimension.TEST_SLOT_DATETIME,
+        startDate
       );
       expect(analyticsProviderMock.addGACustomDimension).toHaveBeenCalledWith(
         GoogleAnalyticsCustomDimension.TEST_SLOT_DATETIME,
@@ -172,6 +180,10 @@ describe('BackToOfficeAnalyticsEffects', () => {
         GoogleAnalyticsCustomDimension.TEST_SLOT_DATETIME,
         startDate
       );
+      expect(analyticsProviderMock.addGACustomDimension).toHaveBeenCalledWith(
+        GoogleAnalyticsCustomDimension.TEST_SLOT_DATETIME,
+        startDate
+      );
       expect(analyticsProviderMock.logGAEvent).toHaveBeenCalledWith(
         `${GoogleAnalyticsEventPrefix.PRACTICE_MODE}_${GoogleAnalyticsEvents.DEFER_WRITE_UP}`,
         GoogleAnalyticsEventsTitles.RESULT,
@@ -196,6 +208,10 @@ describe('BackToOfficeAnalyticsEffects', () => {
       expect(analyticsProviderMock.addGACustomDimension).toHaveBeenCalledWith(
         GoogleAnalyticsCustomDimension.APPLICATION_REFERENCE,
         '123456789'
+      );
+      expect(analyticsProviderMock.addGACustomDimension).toHaveBeenCalledWith(
+        GoogleAnalyticsCustomDimension.TEST_SLOT_DATETIME,
+        startDate
       );
       expect(analyticsProviderMock.addGACustomDimension).toHaveBeenCalledWith(
         GoogleAnalyticsCustomDimension.TEST_SLOT_DATETIME,

@@ -19,6 +19,7 @@ import { CatHUniqueTypes } from '@dvsa/mes-test-schema/categories/H';
 import { CatKUniqueTypes } from '@dvsa/mes-test-schema/categories/K';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { Action } from '@ngrx/store';
+import { Subject } from 'rxjs';
 
 import { TestResultManoeuvresUnion, testsCatManoeuvreReducer } from '@store/tests/tests.cat-manoeuvre.reducer';
 import { testsCatAMod1Reducer } from './tests.cat-a-mod1.reducer';
@@ -39,6 +40,14 @@ import { testsCatFReducer } from './tests.cat-f.reducer';
 import { testsCatGReducer } from './tests.cat-g.reducer';
 import { testsCatHReducer } from './tests.cat-h.reducer';
 import { testsCatKReducer } from './tests.cat-k.reducer';
+
+export interface UnhandledTestCategory {
+  category: TestCategory | null;
+  actionType: string;
+  hasState: boolean;
+}
+
+export const unhandledTestCategory$ = new Subject<UnhandledTestCategory>();
 
 export function testsReducerFactory(
   category: TestCategory | null,
@@ -100,6 +109,11 @@ export function testsReducerFactory(
     case TestCategory.DEM:
       return testsCatManoeuvreReducer(action, state as Required<TestResultManoeuvresUnion>);
     default:
+      unhandledTestCategory$.next({
+        category,
+        actionType: action.type,
+        hasState: !!state,
+      });
       return testsCatBReducer(action, state as Required<CatBUniqueTypes.TestResult>);
   }
 }
