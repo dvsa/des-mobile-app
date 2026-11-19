@@ -1,12 +1,10 @@
-import { AsyncPipe, NgClass, NgStyle } from '@angular/common';
+import { NgClass, NgStyle } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { TestFlowHeaderComponent } from '@components/common/test-flow-header/test-flow-header.component';
+import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { IonCol, IonContent, IonGrid, IonHeader, IonRow, IonToolbar } from '@ionic/angular';
-import {
-  CommonTestReportPageState,
-  TestReportBasePageComponent,
-} from '@shared/classes/test-flow-base-pages/test-report/test-report-base-page';
+import { ToolbarComponent } from '@pages/test-report/components/toolbar/test-report-toolbar';
+import { TestReportBasePageComponent } from '@shared/classes/test-flow-base-pages/test-report/test-report-base-page';
 import { CompetencyComponent } from '../components/competency/competency';
 import { ControlledStopComponent } from '../components/controlled-stop/controlled-stop';
 import { EcoComponent } from '../components/eco/eco';
@@ -15,7 +13,6 @@ import { HighwayCodeSafetyComponent } from '../components/highway-code-safety/hi
 import { LegalRequirementComponent } from '../components/legal-requirement/legal-requirement';
 import { ReverseLeftPopoverComponent } from '../components/reverse-left-popover/reverse-left-popover';
 import { ReverseLeftComponent } from '../components/reverse-left/reverse-left';
-import { ToolbarComponent } from '../components/toolbar/toolbar';
 import { VehicleChecksComponent } from './components/vehicle-checks/vehicle-checks';
 
 @Component({
@@ -42,7 +39,6 @@ import { VehicleChecksComponent } from './components/vehicle-checks/vehicle-chec
     ControlledStopComponent,
     EtaComponent,
     CompetencyComponent,
-    AsyncPipe,
   ],
 })
 export class TestReportCatHomeTestPage extends TestReportBasePageComponent implements OnInit {

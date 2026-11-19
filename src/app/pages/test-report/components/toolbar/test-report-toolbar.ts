@@ -11,7 +11,6 @@ import { ToggleDangerousFaultMode, ToggleRemoveFaultMode, ToggleSeriousFaultMode
   selector: 'test-report-toolbar',
   templateUrl: 'test-report-toolbar.html',
   styleUrls: ['test-report-toolbar.scss'],
-  standalone: false,
 })
 export class ToolbarComponent {
   @Input()

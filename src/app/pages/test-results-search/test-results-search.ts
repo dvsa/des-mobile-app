@@ -1,4 +1,4 @@
-import { Component, Injector, signal } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { SearchResultTestSchema } from '@dvsa/mes-search-schema';
 import {
   IonBackButton,

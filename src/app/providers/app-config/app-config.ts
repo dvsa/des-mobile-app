@@ -1,4 +1,3 @@
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { IsDebug } from '@awesome-cordova-plugins/is-debug/ngx';
 import { GetResult, ManagedConfigurations } from '@capawesome/capacitor-managed-configurations';
@@ -25,6 +24,7 @@ import { getAppConfigState } from '@store/app-config/app-config.reducer';
 import { SaveLog } from '@store/logs/logs.actions';
 import { AppConfig } from './app-config.model';
 
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { HttpStatusCodes } from '@shared/models/http-status-codes';
 import { AppInfoProvider } from '../app-info/app-info';
 import { AuthenticationError } from '../authentication/authentication.constants';

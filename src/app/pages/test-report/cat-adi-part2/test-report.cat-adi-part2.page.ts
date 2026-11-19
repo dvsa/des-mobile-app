@@ -1,16 +1,14 @@
-import { AsyncPipe, NgClass } from '@angular/common';
+import { NgClass } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { TestFlowHeaderComponent } from '@components/common/test-flow-header/test-flow-header.component';
 import { IonCol, IonContent, IonGrid, IonHeader, IonRow, IonToolbar } from '@ionic/angular';
-import {
-  TestReportBasePageComponent,
-} from '@shared/classes/test-flow-base-pages/test-report/test-report-base-page';
+import { ToolbarComponent } from '@pages/test-report/components/toolbar/test-report-toolbar';
+import { TestReportBasePageComponent } from '@shared/classes/test-flow-base-pages/test-report/test-report-base-page';
 import { CompetencyComponent } from '../components/competency/competency';
 import { ControlledStopComponent } from '../components/controlled-stop/controlled-stop';
 import { EcoComponent } from '../components/eco/eco';
 import { EtaComponent } from '../components/examiner-takes-action/eta';
 import { LegalRequirementComponent } from '../components/legal-requirement/legal-requirement';
-import { ToolbarComponent } from '../components/toolbar/toolbar';
 import { ManoeuvresPopoverComponentAdiPart2 } from './components/manoeuvres-popover/manoeuvres-popover';
 import { ManoeuvresComponent } from './components/manoeuvres/manoeuvres';
 import { VehicleCheckComponent } from './components/vehicle-check/vehicle-check';
@@ -37,7 +35,6 @@ import { VehicleCheckComponent } from './components/vehicle-check/vehicle-check'
     ControlledStopComponent,
     EtaComponent,
     CompetencyComponent,
-    AsyncPipe,
   ],
 })
 export class TestReportCatADI2Page extends TestReportBasePageComponent implements OnInit {

@@ -1,4 +1,3 @@
-import { HttpErrorResponse, HttpStatusCode } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ExaminerWorkSchedule, TestSlot } from '@dvsa/mes-journal-schema';
 import { Examiner, JournalData, TestSlotAttributes } from '@dvsa/mes-test-schema/categories/common';
@@ -49,6 +48,7 @@ import {
   getSlots,
 } from './journal.selector';
 
+import { HttpErrorResponse, HttpStatusCode } from '@angular/common/http';
 import { CompressionProvider } from '@providers/compression/compression';
 import { DataStoreProvider, LocalStorageKey } from '@providers/data-store/data-store';
 import { getFormattedApplicationReference, getResultTableApplicationReference } from '@shared/helpers/formatters';

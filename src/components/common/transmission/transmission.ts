@@ -61,16 +61,6 @@ export class TransmissionComponent implements OnChanges {
     this.autoConfirmSelected = false;
   }
 
-  deactivateEditMode() {
-    this.userClickedEditButton.emit();
-    this.setupAutoCheckboxFormControl();
-    this.automaticConfirmChanged(false);
-    if (this.autoCheckboxFormControl) {
-      this.autoCheckboxFormControl.setValue(false, { emitEvent: false });
-    }
-    this.autoConfirmSelected = false;
-  }
-
   ngOnChanges(): void {
     if (!this.transmissionFormControl) {
       this.transmissionFormControl = new UntypedFormControl('Transmission', [Validators.required]);

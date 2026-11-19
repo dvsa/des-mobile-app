@@ -64,11 +64,7 @@ interface TestSlotComponentState {
   styleUrls: ['test-slot.scss'],
   imports: [
     LocationComponent,
-    IonCard,
     NgClass,
-    IonGrid,
-    IonRow,
-    IonCol,
     LanguageComponent,
     SubmissionStatusComponent,
     IntegrityMarkerComponent,
@@ -76,8 +72,6 @@ interface TestSlotComponentState {
     IndicatorsComponent,
     TimeComponent,
     CandidateLinkComponent,
-    IonButton,
-    IonText,
     TestCategoryComponent,
     TestOutcomeComponent,
     ExaminerNameComponent,
@@ -86,6 +80,12 @@ interface TestSlotComponentState {
     VehicleDetailsComponent,
     AdditionalCandidateDetailsComponent,
     AsyncPipe,
+    IonCol,
+    IonGrid,
+    IonCard,
+    IonRow,
+    IonText,
+    IonButton,
   ],
 })
 export class TestSlotComponent implements SlotComponent, OnInit {

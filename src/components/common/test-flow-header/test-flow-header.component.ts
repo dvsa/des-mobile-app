@@ -25,7 +25,6 @@ import {
   IonRow,
   ModalController,
 } from '@ionic/angular';
-import { Platform } from '@ionic/angular';
 import { Store } from '@ngrx/store';
 import { AccessibilityService } from '@providers/accessibility/accessibility.service';
 import { DeviceProvider } from '@providers/device/device';
@@ -54,7 +53,6 @@ export { ExitSAMMethodUsed } from '@providers/exitSAM/exitSAM';
     PracticeModeOptionsBar,
     EndTestLinkComponent,
   ],
-  standalone: true,
 })
 export class TestFlowHeaderComponent {
   @Input() isPracticeMode = false;
@@ -92,7 +90,6 @@ export class TestFlowHeaderComponent {
   /**
    * Constructor for the PageHeaderComponent.
    * @param deviceProvider - Service for device-related operations.
-   * @param platform - Ionic platform service.
    * @param modalController - Controller for managing modals.
    * @param store$ - NgRx store for state management.
    * @param exitSAMProvider
@@ -100,7 +97,6 @@ export class TestFlowHeaderComponent {
    */
   constructor(
     public deviceProvider: DeviceProvider,
-    public platform: Platform,
     public modalController: ModalController,
     public store$: Store<StoreModel>,
     public exitSAMProvider: ExitSAMProvider,
