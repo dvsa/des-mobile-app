@@ -27,15 +27,6 @@ import { CPCDebriefCardComponent } from '@components/common/cpc-debrief-card/cpc
 import { TestFlowHeaderComponent } from '@components/common/test-flow-header/test-flow-header.component';
 import { AddOrRemoveLangCyDirective } from '@directives/add-or-remove-lang-cy.directive';
 import {
-  LessonAndTheme,
-  LessonPlanning,
-  Review,
-  RiskManagement,
-  TeachingLearningStrategies,
-} from '@dvsa/mes-test-schema/categories/ADI3';
-import { Avoidance, EmergencyStop } from '@dvsa/mes-test-schema/categories/AM1';
-import { Question, Question5 } from '@dvsa/mes-test-schema/categories/CPC';
-import {
   IonButton,
   IonCol,
   IonContent,

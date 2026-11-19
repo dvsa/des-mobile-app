@@ -19,7 +19,7 @@ import { candidateMock } from '@store/tests/__mocks__/tests.mock';
 import { SetTestStatusWriteUp } from '@store/tests/test-status/test-status.actions';
 import { PersistTests } from '@store/tests/tests.actions';
 import { TestOutcome } from '@store/tests/tests.constants';
-import { Observable, Subscription } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { TestFlowPageNames } from '../../page-names.constants';
 import { BackButtonClick, BackToDebrief, ConfirmTestDetailsViewDidEnter } from '../confirm-test-details.actions';
 import { ConfirmTestDetailsPage } from '../confirm-test-details.page';

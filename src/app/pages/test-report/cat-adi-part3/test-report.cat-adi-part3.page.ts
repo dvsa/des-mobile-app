@@ -1,16 +1,9 @@
 import { AsyncPipe, NgClass } from '@angular/common';
+import { Component, OnInit, computed } from '@angular/core';
 import { FormsModule, UntypedFormGroup } from '@angular/forms';
 import { TestFlowHeaderComponent } from '@components/common/test-flow-header/test-flow-header.component';
-import {
-  LessonPlanning,
-  RiskManagement,
-  TeachingLearningStrategies,
-  TestData,
-} from '@dvsa/mes-test-schema/categories/ADI3';
-import { IonButton, IonCol, IonContent, IonHeader, IonRow, IonText, IonToolbar, NavController } from '@ionic/angular';
-import { select } from '@ngrx/store';
-import { Component, OnInit, computed } from '@angular/core';
 import { TestData as CatADI3TestData, LessonTheme, StudentLevel } from '@dvsa/mes-test-schema/categories/ADI3';
+import { IonButton, IonCol, IonContent, IonHeader, IonRow, IonText, IonToolbar, NavController } from '@ionic/angular';
 import { AssessmentOverallScoreChanged } from '@pages/test-report/cat-adi-part3/test-report.cat-adi-part3.actions';
 import { ADI3AssessmentProvider } from '@providers/adi3-assessment/adi3-assessment';
 import { TestReportBasePageComponent } from '@shared/classes/test-flow-base-pages/test-report/test-report-base-page';
@@ -31,12 +24,6 @@ import { selectLessonPlanning } from '@store/tests/test-data/cat-adi-part3/lesso
 import { RiskManagementQuestionScoreChanged } from '@store/tests/test-data/cat-adi-part3/risk-management/risk-management.actions';
 import { selectRiskManagement } from '@store/tests/test-data/cat-adi-part3/risk-management/risk-management.selector';
 import { TeachingLearningStrategiesQuestionScoreChanged } from '@store/tests/test-data/cat-adi-part3/teaching-learning-strategies/teaching-learning-strategies.actions';
-import { getTeachingLearningStrategies } from '@store/tests/test-data/cat-adi-part3/teaching-learning-strategies/teaching-learning-strategies.reducer';
-import { getTestData } from '@store/tests/test-data/cat-adi-part3/test-data.cat-adi-part3.reducer';
-import { getTests } from '@store/tests/tests.reducer';
-import { getCurrentTest } from '@store/tests/tests.selector';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
 import { QuestionScoreComponent } from '../cat-cpc/components/question-score/question-score';
 import { LessonThemeComponent } from './components/lesson-theme/lesson-theme';
 import { StudentComponent } from './components/student/student';

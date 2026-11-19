@@ -3,7 +3,6 @@ import { FormsModule, ReactiveFormsModule, UntypedFormGroup } from '@angular/for
 import { SignatureAreaComponent } from '@components/common/signature-area/signature-area';
 import { JournalData } from '@dvsa/mes-test-schema/categories/common';
 import { IonCol, IonContent, IonHeader, IonRow, IonText, IonToolbar, ModalController } from '@ionic/angular';
-import { select } from '@ngrx/store';
 import { TranslatePipe } from '@ngx-translate/core';
 import { DeviceAuthenticationProvider } from '@providers/device-authentication/device-authentication';
 import { PracticeableBasePageComponent } from '@shared/classes/practiceable-base-page';

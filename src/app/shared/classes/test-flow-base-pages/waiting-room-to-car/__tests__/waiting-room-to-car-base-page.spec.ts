@@ -64,7 +64,6 @@ import {
   VehicleRegistrationChanged,
 } from '@store/tests/vehicle-details/vehicle-details.actions';
 import { Subscription } from 'rxjs';
-import { take } from 'rxjs/operators';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { WaitingRoomToCarBasePageComponent } from '../waiting-room-to-car-base-page';
 

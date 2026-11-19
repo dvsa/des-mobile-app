@@ -5,7 +5,6 @@ import { TestFlowHeaderComponent } from '@components/common/test-flow-header/tes
 import { CombinationCodes, Question, Question5, TestData } from '@dvsa/mes-test-schema/categories/CPC';
 import { CategoryCode } from '@dvsa/mes-test-schema/categories/common';
 import { IonContent, IonHeader, IonToolbar } from '@ionic/angular';
-import { select } from '@ngrx/store';
 import { CPCEndTestModal } from '@pages/test-report/cat-cpc/components/cpc-end-test-modal/cpc-end-test-modal';
 import { CPCQuestionProvider } from '@providers/cpc-questions/cpc-questions';
 import { TestResultProvider } from '@providers/test-result/test-result';
@@ -13,21 +12,7 @@ import { TestReportBasePageComponent } from '@shared/classes/test-flow-base-page
 import { QuestionNumber } from '@shared/constants/cpc-questions/cpc-question-combinations.constants';
 import { PopulateTestScore } from '@store/tests/test-data/cat-cpc/overall-score/total-percentage.action';
 import { AnswerToggled, PopulateQuestionScore } from '@store/tests/test-data/cat-cpc/questions/questions.action';
-import { getTestData } from '@store/tests/test-data/cat-cpc/test-data.cat-cpc.reducer';
-import {
-  getCombination,
-  getQuestion1,
-  getQuestion2,
-  getQuestion3,
-  getQuestion4,
-  getQuestion5,
-  getTotalPercent,
-  selectCPCTestData,
-} from '@store/tests/test-data/cat-cpc/test-data.cat-cpc.selector';
-import { getTests } from '@store/tests/tests.reducer';
-import { getCurrentTest } from '@store/tests/tests.selector';
-import { Observable, Subscription, combineLatest, lastValueFrom } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { Observable, lastValueFrom } from 'rxjs';
 import { ModuleAssessmentComponent } from './components/module-assessment/module-assessment';
 import { QuestionCardComponent } from './components/question-card/question-card';
 import { QuestionDelExRadioCardComponent } from './components/question-del-ex-radio-card/question-del-ex-radio-card';

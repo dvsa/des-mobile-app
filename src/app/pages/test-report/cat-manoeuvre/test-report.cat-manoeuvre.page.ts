@@ -2,7 +2,6 @@ import { AsyncPipe, NgClass } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { TestFlowHeaderComponent } from '@components/common/test-flow-header/test-flow-header.component';
 import { TickIndicatorComponent } from '@components/common/tick-indicator/tick-indicator';
-import { CatCMUniqueTypes } from '@dvsa/mes-test-schema/categories/CM';
 import { Manoeuvre } from '@dvsa/mes-test-schema/categories/CM/partial';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { IonCol, IonContent, IonGrid, IonHeader, IonRow, IonToolbar, ToastController } from '@ionic/angular';

@@ -1,5 +1,5 @@
 import { AsyncPipe, NgClass } from '@angular/common';
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormsModule, ReactiveFormsModule, UntypedFormGroup } from '@angular/forms';
 import { DangerBannerComponent } from '@components/common/danger-banner/danger-banner';
 import { TestFlowHeaderComponent } from '@components/common/test-flow-header/test-flow-header.component';
@@ -9,7 +9,7 @@ import { D255Component } from '@components/test-finalisation/d255/d255';
 import { DebriefWitnessedComponent } from '@components/test-finalisation/debrief-witnessed/debrief-witnessed';
 import { FinalisationHeaderComponent } from '@components/test-finalisation/finalisation-header/finalisation-header';
 import { LanguagePreferencesComponent } from '@components/test-finalisation/language-preference/language-preference';
-import { ActivityCode, GearboxCategory } from '@dvsa/mes-test-schema/categories/common';
+import { ActivityCode } from '@dvsa/mes-test-schema/categories/common';
 import {
   IonButton,
   IonCol,
@@ -21,7 +21,6 @@ import {
   IonText,
   IonToolbar,
 } from '@ionic/angular';
-import { select } from '@ngrx/store';
 import { behaviourMap } from '@pages/office/office-behaviour-map';
 import { TestFlowPageNames } from '@pages/page-names.constants';
 import {
@@ -32,12 +31,6 @@ import {
 import { PassFinalisationPageComponent } from '@shared/classes/test-flow-base-pages/pass-finalisation/pass-finalisation-base-page';
 import { ProvisionalLicenseNotReceived } from '@store/tests/pass-completion/pass-completion.actions';
 import { PersistTests } from '@store/tests/tests.actions';
-import { getTests } from '@store/tests/tests.reducer';
-import { getCurrentTest } from '@store/tests/tests.selector';
-import { getVehicleDetails } from '@store/tests/vehicle-details/vehicle-details.reducer';
-import { isAutomatic, isManual } from '@store/tests/vehicle-details/vehicle-details.selector';
-import { Observable, merge } from 'rxjs';
-import { map, tap } from 'rxjs/operators';
 import { ApplicationReferenceComponent } from '../components/application-reference/application-reference';
 import { LicenceProvidedWarningBannerComponent } from '../components/licence-provided-warning-banner/licence-provided-warning-banner';
 import { LicenseProvidedComponent } from '../components/license-provided/license-provided';

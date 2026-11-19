@@ -16,7 +16,6 @@ import {
   IonText,
   IonToolbar,
 } from '@ionic/angular';
-import { select } from '@ngrx/store';
 import { ClearCandidateLicenceData } from '@pages/candidate-licence/candidate-licence.actions';
 import { TestFlowPageNames } from '@pages/page-names.constants';
 import { WaitingRoomToCarValidationError } from '@pages/waiting-room-to-car/waiting-room-to-car.actions';
@@ -44,8 +43,6 @@ import {
   MotEvidenceProvidedReset,
   MotEvidenceProvidedToggled,
 } from '@store/tests/vehicle-details/vehicle-details.actions';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
 import { AccompanimentCardComponent } from '../components/accompaniment-card/accompaniment-card';
 import { EyesightFailureConfirmationComponent } from '../components/eyesight-failure-confirmation/eyesight-failure-confirmation';
 import { EyesightTestComponent } from '../components/eyesight-test/eyesight-test';

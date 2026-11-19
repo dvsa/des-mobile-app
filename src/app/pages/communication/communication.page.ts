@@ -8,7 +8,7 @@ import { AddOrRemoveLangCyDirective } from '@directives/add-or-remove-lang-cy.di
 import { CommunicationMethod } from '@dvsa/mes-test-schema/categories/common';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { IonCol, IonContent, IonHeader, IonRow, IonText, IonToolbar } from '@ionic/angular';
-import { TranslatePipe, TranslateService } from '@ngx-translate/core';
+import { TranslatePipe } from '@ngx-translate/core';
 import {
   BookingEmailSelected,
   CommunicationSubmitInfo,
@@ -40,17 +40,11 @@ import {
 } from '@store/tests/journal-data/common/candidate/candidate.selector';
 import { selectValidCertificateStatus } from '@store/tests/pre-test-declarations/cat-a-mod2/pre-test-declarations.cat-adi-part3.selector';
 import { ValidPassCertChanged } from '@store/tests/pre-test-declarations/pre-test-declarations.actions';
-import { getPreTestDeclarations } from '@store/tests/pre-test-declarations/pre-test-declarations.reducer';
-import { getTests } from '@store/tests/tests.reducer';
-import { getCurrentTest, getJournalData } from '@store/tests/tests.selector';
-import { showVrnButton } from '@store/tests/vehicle-details/vehicle-details.selector';
-import { Observable, Subscription, merge } from 'rxjs';
-import { map, take, tap } from 'rxjs/operators';
+import { selectShowVrnButton } from '@store/tests/vehicle-details/vehicle-details.selector';
 import { NewEmailComponent } from './components/new-email/new-email';
 import { PostalAddressComponent } from './components/postal-address/postal-address';
 import { ProvidedEmailComponent } from './components/provided-email/provided-email';
 import { ValidCertificateComponent } from './components/valid-certificate/valid-certificate';
-import { selectShowVrnButton } from '@store/tests/vehicle-details/vehicle-details.selector';
 
 @Component({
   selector: 'app-communication',

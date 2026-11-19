@@ -47,7 +47,7 @@ import { getTests } from '@store/tests/tests.reducer';
 import { getCurrentTest, getJournalData, selectCurrentTest, selectIsRekey } from '@store/tests/tests.selector';
 import { get } from 'lodash-es';
 import { Observable, of } from 'rxjs';
-import { catchError, filter, map, switchMap, take, tap, withLatestFrom } from 'rxjs/operators';
+import { catchError, filter, switchMap, tap, withLatestFrom } from 'rxjs/operators';
 import { TrueLikenessComponent } from '../office/components/true-likeness/true-likeness';
 import { LicenceDataError } from './components/licence-data-error/licence-data-error';
 import { LicenceInformation } from './components/licence-information/licence-information';

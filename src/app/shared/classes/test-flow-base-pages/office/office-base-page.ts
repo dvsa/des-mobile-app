@@ -13,7 +13,7 @@ import {
 } from '@store/tests/tests.selector';
 import { Observable, Subscription, merge } from 'rxjs';
 
-import {inject, Inject, Signal } from '@angular/core';
+import { Inject, Signal, inject } from '@angular/core';
 import { UntypedFormGroup } from '@angular/forms';
 import { MotStatusCodes } from '@dvsa/mes-mot-schema';
 import { Circuit } from '@dvsa/mes-test-schema/categories/AM1';
