@@ -8,6 +8,16 @@
     color: var(--mes-theme-opposing-colour);
   }
 
+  .scrollable {
+    overflow: scroll;
+    height: 65vh;
+  }
+
+  .footer {
+    bottom: 0;
+    position: sticky;
+  }
+
   .full-width-padding {
     display: block;
     padding-inline: clamp(16px, 4vw, 32px);
