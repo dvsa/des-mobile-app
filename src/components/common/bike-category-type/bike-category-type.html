@@ -8,34 +8,29 @@
     <ion-row>
       @if (!categoryConfirmed) {
         <ion-col size="48">
-          @if (!categoryConfirmed) {
-            @if (!categoryConfirmed) {
-            <ion-button (click)="openCategorySelector()" class="mes-return-button"
-              ><label id="select-cat-type-label">Select cat type..</label></ion-button
-              >
-            }
-          </ion-col>
-        }
-        @if (categoryConfirmed) {
-          <ion-col class="selected-category-code ion-align-self-center" size="40">
-            <span class="opposing-text">
-              {{bikeCategoryDetailProvider.getDetailByCategoryCode(testCategory)?.displayId}} -
-              {{bikeCategoryDetailProvider.getDetailByCategoryCode(testCategory)?.displayName}}
+          <ion-button (click)="openCategorySelector()" class="mes-return-button">
+            <label id="select-cat-type-label">Select cat type..</label>
+          </ion-button>
+        </ion-col>
+      }
+      @if (categoryConfirmed) {
+        <ion-col class="selected-category-code ion-align-self-center" size="40">
+          <span class="opposing-text">
+            {{bikeCategoryDetailProvider.getDetailByCategoryCode(testCategory)?.displayId}} -
+            {{bikeCategoryDetailProvider.getDetailByCategoryCode(testCategory)?.displayName}}
+          </span>
+        </ion-col>
+      }
+      @if (categoryConfirmed) {
+        <ion-col class="select-category-link-container ion-padding-right" size="55">
+          <ion-button (click)="openCategorySelector()" class="mes-link-button category-selector-link" fill="clear">
+            <span>
+              Select cat type
+              <ion-icon name="arrow-forward"></ion-icon>
             </span>
-          </ion-col>
-        }
-        @if (categoryConfirmed) {
-          }
-        @if (categoryConfirmed) {
-          <ion-col class="select-category-link-container ion-padding-right" size="55">
-            <ion-button (click)="openCategorySelector()" class="mes-link-button category-selector-link" fill="clear">
-              <span>
-                Select cat type
-                <ion-icon name="arrow-forward"></ion-icon>
-              </span>
-            </ion-button>
-          </ion-col>
-        }
+          </ion-button>
+        </ion-col>
+      }
       </ion-row>
       <ion-row class="validation-message-row ion-align-items-center">
         <div [class.ng-invalid]="invalid" class="validation-text" id="waiting-room-to-car-category-type-validation-text">

@@ -1,16 +1,33 @@
+import { NgClass } from '@angular/common';
 import { Component, Input } from '@angular/core';
 import { CategoryCode } from '@dvsa/mes-test-schema/categories/common';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
+import { IonButton, IonCol, IonRow, IonText } from '@ionic/angular';
 import { Store } from '@ngrx/store';
 import { FaultCountProvider } from '@providers/fault-count/fault-count';
 import { StoreModel } from '@shared/models/store.model';
 import { TestDataUnion } from '@shared/unions/test-schema-unions';
 import { ToggleDangerousFaultMode, ToggleRemoveFaultMode, ToggleSeriousFaultMode } from '../../test-report.actions';
+import { DangerousTooltipComponent } from '../dangerous-tooltip/dangerous-tooltip';
+import { DrivingFaultSummaryComponent } from '../driving-fault-summary/driving-fault-summary';
+import { SeriousTooltipComponent } from '../serious-tooltip/serious-tooltip';
+import { TimerComponent } from '../timer/timer';
 
 @Component({
   selector: 'test-report-toolbar',
   templateUrl: 'test-report-toolbar.html',
   styleUrls: ['test-report-toolbar.scss'],
+  imports: [
+    NgClass,
+    IonRow,
+    IonCol,
+    IonButton,
+    IonText,
+    DrivingFaultSummaryComponent,
+    TimerComponent,
+    SeriousTooltipComponent,
+    DangerousTooltipComponent,
+  ],
 })
 export class ToolbarComponent {
   @Input()

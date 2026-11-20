@@ -49,6 +49,7 @@ import * as journalActions from '@store/journal/journal.actions';
 import { formatCandidateName } from '@store/tests/journal-data/common/candidate/candidate.selector';
 import { TestStatus } from '@store/tests/test-status/test-status.model';
 import { Subject } from 'rxjs';
+import { CandidateDetailNavigationComponent } from './components/candidate-detail-navigation/candidate-detail-navigation';
 
 @Component({
   selector: 'app-candidate-details',

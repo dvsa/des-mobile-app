@@ -43,8 +43,9 @@ alongside the application providers.
 
 ### Running Application
 
-- For simulator/device (A list of devices will be displayed based on Xcode installations)
+- For an iOS simulator or device (Ionic prompts you to select a target)
   - `npm run serve:emulator`
+  - This builds, installs, and launches the app with bundled web assets. It does not start a live-reload server.
 - For browser (Opens in default browser using data from `./mocks/generate-local-*.ts` files)
   - `npm run serve:local`
 

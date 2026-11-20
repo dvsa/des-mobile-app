@@ -23,7 +23,7 @@ import { CompetencyComponent } from '../components/competency/competency';
 import { EtaInvalidModal } from '../components/eta-invalid-modal/eta-invalid-modal';
 import { EtaComponent } from '../components/examiner-takes-action/eta';
 import { SingleFaultCompetencyComponent } from '../components/single-fault-competency/single-fault-competency';
-import { ToolbarComponent } from '../components/toolbar/toolbar';
+import { ToolbarComponent } from '../components/toolbar/test-report-toolbar';
 import { SpeedCheckHeaderComponent } from './components/speed-check-header/speed-check-header';
 import { SpeedCheckComponent } from './components/speed-check/speed-check';
 

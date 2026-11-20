@@ -10,7 +10,7 @@ import { EtaComponent } from '../components/examiner-takes-action/eta';
 import { LegalRequirementComponent } from '../components/legal-requirement/legal-requirement';
 import { ReverseLeftPopoverComponent } from '../components/reverse-left-popover/reverse-left-popover';
 import { ReverseLeftComponent } from '../components/reverse-left/reverse-left';
-import { ToolbarComponent } from '../components/toolbar/toolbar';
+import { ToolbarComponent } from '../components/toolbar/test-report-toolbar';
 import { UncoupleRecoupleComponent } from '../components/uncouple-recouple/uncouple-recouple';
 import { VehicleChecksComponent } from './components/vehicle-checks/vehicle-checks';
 

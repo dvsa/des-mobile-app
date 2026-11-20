@@ -61,14 +61,12 @@
             [label]="'Vehicle details'"
             [shouldHaveSeperator]="displayVehicleDetailsSeparator"
             >@if (vehicleDetails?.length === 0) {
-            @if (vehicleDetails?.length === 0) {
               <span class="mes-data">None</span>
-            }
             }
             <span class="mes-data">{{ getFlattenArray(vehicleDetails) }}</span>
           </data-row-custom>
-
-  }      @if (instructorRegistrationNumber) {
+        }
+        @if (instructorRegistrationNumber) {
           <data-row
             [label]="'Instructor registration number'"
             [value]="instructorRegistrationNumber"
@@ -95,11 +93,9 @@
                   </ion-col>
                 }
                 @if (shouldShowExtraDimensions) {
-                  }
-                @if (shouldShowExtraDimensions) {
                   <ion-col size="34">
                     <span class="mes-data"><span class="mes-data bold">Seats:</span> {{ numberOfSeats }}</span>
-                  </ion-col>}
+                  </ion-col>
                 }
               </ion-row>
             </ion-grid>
