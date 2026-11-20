@@ -286,7 +286,7 @@
                   [value]="getTotal(data.independentDrivingGrid)"
                   [label]="'Total tests with ' + (isBike() ? 'independent riding' : 'independent driving')"
                   >
-                </data-row>@if (shouldDisplayIndependentDrivingTarget()) {
+                </data-row>
                 @if (shouldDisplayIndependentDrivingTarget()) {
                   <data-row
                     class="additional-data-row target-padding"
@@ -297,12 +297,11 @@
                     [value]="'20%'"
                     label='Target percentage of tests using {{(data.independentDrivingGrid[0].item).split("-")[1].toLowerCase()}}'
                     >
-                  </data-row>}
+                  </data-row>
                 }
               </div>
-            </examiner-reports-card>
-          </ion-col>}
-        }
+                </examiner-reports-card>
+              </ion-col>}
         @if (data.emergencyStops && showEmergencyStop()) {
           @if (isCatB()) {
             <ion-col class="ion-no-padding" size="auto">
@@ -393,7 +392,7 @@
                         </ion-text>
                       </ion-col>
                     }
-                  }</ion-row>
+                  </ion-row>
                 </div>
               </examiner-reports-card>
             </ion-col>
@@ -497,11 +496,6 @@
           [strokeColour]="strokeColour"
           [dataLabelBackgroundColour]="dataLabelBackgroundColour"
           [dataLabelFontColour]="dataLabelFontColour"
-          [averageColour]="averageColour"
-        [labelColour]="labelColour"
-          [strokeColour]="strokeColour"
-          [dataLabelBackgroundColour]="dataLabelBackgroundColour"
-          [dataLabelFontColour]="dataLabelFontColour"
           [averageColour]="averageColour">
         </examiner-reports-card>
       </ion-col>
@@ -546,11 +540,6 @@
           [passedData]="data.tellMeQuestionsGrid"
           (onCardClick)="cardClicked($event)"
           [labelColour]="labelColour"
-          [strokeColour]="strokeColour"
-          [dataLabelBackgroundColour]="dataLabelBackgroundColour"
-          [dataLabelFontColour]="dataLabelFontColour"
-          [averageColour]="averageColour"
-        [labelColour]="labelColour"
           [strokeColour]="strokeColour"
           [dataLabelBackgroundColour]="dataLabelBackgroundColour"
           [dataLabelFontColour]="dataLabelFontColour"
@@ -603,11 +592,6 @@
           [strokeColour]="strokeColour"
           [dataLabelBackgroundColour]="dataLabelBackgroundColour"
           [dataLabelFontColour]="dataLabelFontColour"
-          [averageColour]="averageColour"
-        [labelColour]="labelColour"
-          [strokeColour]="strokeColour"
-          [dataLabelBackgroundColour]="dataLabelBackgroundColour"
-          [dataLabelFontColour]="dataLabelFontColour"
           [averageColour]="averageColour">
         </examiner-reports-card>
       </ion-col>
@@ -638,7 +622,7 @@
             </examiner-reports-card>
           </ion-col>
         }
-      }</ion-row>
+      </ion-row>
     </div>
   }
   @if (displayNoDataCard(data)) {

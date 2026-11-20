@@ -1,5 +1,5 @@
-import { AsyncPipe, NgClass } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { NgClass } from '@angular/common';
+import { Component, OnInit, computed, effect } from '@angular/core';
 import { FormsModule, ReactiveFormsModule, UntypedFormGroup } from '@angular/forms';
 import { DangerBannerComponent } from '@components/common/danger-banner/danger-banner';
 import { TestFlowHeaderComponent } from '@components/common/test-flow-header/test-flow-header.component';
@@ -66,7 +66,6 @@ import { PASS_CERTIFICATE_NUMBER_CTRL } from '../components/pass-certificate-num
     IonCol,
     IonButton,
     IonText,
-    AsyncPipe,
   ],
 })
 export class PassFinalisationCatBPage extends PassFinalisationPageComponent implements OnInit {

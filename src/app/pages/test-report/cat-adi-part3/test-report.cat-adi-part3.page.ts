@@ -1,4 +1,4 @@
-import { AsyncPipe, NgClass } from '@angular/common';
+import { NgClass } from '@angular/common';
 import { Component, OnInit, computed } from '@angular/core';
 import { FormsModule, UntypedFormGroup } from '@angular/forms';
 import { TestFlowHeaderComponent } from '@components/common/test-flow-header/test-flow-header.component';
@@ -24,6 +24,7 @@ import { selectLessonPlanning } from '@store/tests/test-data/cat-adi-part3/lesso
 import { RiskManagementQuestionScoreChanged } from '@store/tests/test-data/cat-adi-part3/risk-management/risk-management.actions';
 import { selectRiskManagement } from '@store/tests/test-data/cat-adi-part3/risk-management/risk-management.selector';
 import { TeachingLearningStrategiesQuestionScoreChanged } from '@store/tests/test-data/cat-adi-part3/teaching-learning-strategies/teaching-learning-strategies.actions';
+import { selectTeachingLearningScore } from '@store/tests/test-data/cat-adi-part3/teaching-learning-strategies/teaching-learning-strategies.selector';
 import { QuestionScoreComponent } from '../cat-cpc/components/question-score/question-score';
 import { LessonThemeComponent } from './components/lesson-theme/lesson-theme';
 import { StudentComponent } from './components/student/student';
@@ -48,7 +49,6 @@ import { TestReportAssessmentCard } from './components/tr-assessment-card/tr-ass
     TestReportAssessmentCard,
     QuestionScoreComponent,
     IonButton,
-    AsyncPipe,
   ],
 })
 export class TestReportCatADI3Page extends TestReportBasePageComponent implements OnInit {

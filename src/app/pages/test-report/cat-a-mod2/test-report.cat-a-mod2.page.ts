@@ -1,4 +1,4 @@
-import { AsyncPipe, NgClass } from '@angular/common';
+import { NgClass } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { TestFlowHeaderComponent } from '@components/common/test-flow-header/test-flow-header.component';
 import { IonCol, IonContent, IonGrid, IonHeader, IonRow, IonToolbar } from '@ionic/angular';
@@ -7,7 +7,7 @@ import { CompetencyComponent } from '../components/competency/competency';
 import { EcoComponent } from '../components/eco/eco';
 import { EtaComponent } from '../components/examiner-takes-action/eta';
 import { LegalRequirementComponent } from '../components/legal-requirement/legal-requirement';
-import { ToolbarComponent } from '../components/toolbar/toolbar';
+import { ToolbarComponent } from '../components/toolbar/test-report-toolbar';
 import { SafetyAndBalanceComponent } from './components/safety-and-balance/safety-and-balance';
 
 @Component({
@@ -29,7 +29,6 @@ import { SafetyAndBalanceComponent } from './components/safety-and-balance/safet
     SafetyAndBalanceComponent,
     EtaComponent,
     CompetencyComponent,
-    AsyncPipe,
   ],
 })
 export class TestReportCatAMod2Page extends TestReportBasePageComponent implements OnInit {

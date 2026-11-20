@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
-import { AsyncPipe, NgClass } from '@angular/common';
+import { NgClass } from '@angular/common';
 import { TestFlowHeaderComponent } from '@components/common/test-flow-header/test-flow-header.component';
 import { IonCol, IonContent, IonGrid, IonHeader, IonRow, IonToolbar } from '@ionic/angular';
 import { TestReportBasePageComponent } from '@shared/classes/test-flow-base-pages/test-report/test-report-base-page';
@@ -9,7 +9,7 @@ import { ControlledStopComponent } from '../components/controlled-stop/controlle
 import { EcoComponent } from '../components/eco/eco';
 import { EtaComponent } from '../components/examiner-takes-action/eta';
 import { LegalRequirementComponent } from '../components/legal-requirement/legal-requirement';
-import { ToolbarComponent } from '../components/toolbar/toolbar';
+import { ToolbarComponent } from '../components/toolbar/test-report-toolbar';
 import { ManoeuvresPopoverComponent } from './components/manoeuvres-popover/manoeuvres-popover';
 import { ManoeuvresComponent } from './components/manoeuvres/manoeuvres';
 import { VehicleCheckComponent } from './components/vehicle-check/vehicle-check';
@@ -37,7 +37,6 @@ import { VehicleCheckComponent } from './components/vehicle-check/vehicle-check'
     ControlledStopComponent,
     EtaComponent,
     CompetencyComponent,
-    AsyncPipe,
   ],
 })
 export class TestReportCatBPage extends TestReportBasePageComponent implements OnInit {

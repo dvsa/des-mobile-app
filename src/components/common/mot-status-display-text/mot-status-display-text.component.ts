@@ -1,5 +1,4 @@
 import { Component, Input } from '@angular/core';
-import { MotStatusCodes } from '@dvsa/mes-mot-schema';
 import { IonCol, IonText } from '@ionic/angular';
 
 @Component({
@@ -17,7 +16,7 @@ export class MotStatusDisplayTextComponent {
   previousVRNs: string[] = [];
 
   @Input()
-  motStatus: MotStatusCodes = null;
+  motStatus = '';
 
   @Input()
   motTestExpiryDate: string;
@@ -25,7 +24,7 @@ export class MotStatusDisplayTextComponent {
   /**
    * Check if the vehicle's MOT status is invalid.
    *
-   * @returns {boolean} - Returns true if the MOT status is NOT\_VALID, otherwise false.
+   * @returns {boolean} - Returns true if the MOT status is 'Not valid', otherwise false.
    */
   isInvalidMOT(): boolean {
     return this.motStatus === 'Not valid';
