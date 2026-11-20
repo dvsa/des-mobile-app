@@ -1,11 +1,10 @@
-import { AsyncPipe, NgClass } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { NgClass } from '@angular/common';
+import { Component, OnInit, computed, signal } from '@angular/core';
 import { UntypedFormGroup } from '@angular/forms';
 import { TestFlowHeaderComponent } from '@components/common/test-flow-header/test-flow-header.component';
-import { LessonAndTheme, TestData } from '@dvsa/mes-test-schema/categories/ADI3';
+import { LessonAndTheme } from '@dvsa/mes-test-schema/categories/ADI3';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { IonButton, IonCol, IonContent, IonFooter, IonHeader, IonRow, IonText, IonToolbar } from '@ionic/angular';
-import { select } from '@ngrx/store';
 import { TestFlowPageNames } from '@pages/page-names.constants';
 import {
   TestReportDashboardModalOpened,
@@ -30,18 +29,10 @@ import { getFeedback } from '@store/tests/test-data/cat-adi-part3/review/review.
 import { getTestData } from '@store/tests/test-data/cat-adi-part3/test-data.cat-adi-part3.reducer';
 import { getTests } from '@store/tests/tests.reducer';
 import { getCurrentTest } from '@store/tests/tests.selector';
-import { Observable, Subscription, firstValueFrom, merge } from 'rxjs';
-import { map, tap } from 'rxjs/operators';
+import { firstValueFrom } from 'rxjs';
 import { TimerComponent } from '../test-report/components/timer/timer';
 import { DashboardItemComponent } from './components/dashboard-item/dashboard-item';
 import { ReviewFeedback } from './components/review-feedback/review-feedback';
-
-interface TestReportDashboardState {
-  testDataADI3$: Observable<TestData>;
-  feedback$: Observable<string>;
-}
-
-type TestReportDashboardPageState = TestReportDashboardState;
 
 @Component({
   selector: 'app-test-report-dashboard',
@@ -61,20 +52,26 @@ type TestReportDashboardPageState = TestReportDashboardState;
     IonFooter,
     IonButton,
     IonText,
-    AsyncPipe,
   ],
 })
 export class TestReportDashboardPage extends TestReportBasePageComponent implements OnInit {
-  pageState: TestReportDashboardPageState;
-  localSubscription: Subscription;
-  testDataADI3: TestData;
-  isTestReportPopulated: boolean;
-  lessonAndThemeState: { valid: boolean; score: number };
-  testReportState: number;
+  private readonly tests = this.store$.selectSignal(getTests);
+  private readonly currentTest = computed(() => getCurrentTest(this.tests()));
+  readonly testDataADI3 = computed(() => getTestData(this.currentTest()));
+  readonly feedback = computed(() => getFeedback(getReview(this.testDataADI3())));
+  readonly lessonAndThemeState = computed(() => this.validateLessonTheme(this.testDataADI3().lessonAndTheme));
+  readonly isTestReportPopulated = computed(() =>
+    this.adi3AssessmentProvider.isTestReportPopulated(this.testDataADI3())
+  );
+  readonly testReportState = computed(() =>
+    this.adi3AssessmentProvider.validateTestReport(
+      this.testDataADI3().lessonPlanning,
+      this.testDataADI3().riskManagement,
+      this.testDataADI3().teachingLearningStrategies
+    )
+  );
   form: UntypedFormGroup;
-  feedback: string;
-  hasClickedComplete = false;
-  merged$: Observable<string | void>;
+  hasClickedComplete = signal(false);
 
   constructor(
     private testResultProvider: TestResultProvider,
@@ -85,36 +82,11 @@ export class TestReportDashboardPage extends TestReportBasePageComponent impleme
   }
 
   get isValidDashboard(): boolean {
-    return this.testReportState === 17 && this.lessonAndThemeState.valid === true && this.form.valid;
+    return this.testReportState() === 17 && this.lessonAndThemeState().valid === true && this.form.valid;
   }
 
   ngOnInit() {
     super.onInitialisation();
-
-    const currentTest$ = this.store$.pipe(select(getTests), select(getCurrentTest));
-
-    this.pageState = {
-      testDataADI3$: currentTest$.pipe(select(getTestData)),
-      feedback$: currentTest$.pipe(select(getTestData), select(getReview), select(getFeedback)),
-    };
-
-    const { feedback$, testDataADI3$ } = this.pageState;
-
-    this.merged$ = merge(
-      feedback$.pipe(tap((feedback: string) => (this.feedback = feedback))),
-      testDataADI3$.pipe(
-        map((testData: TestData) => {
-          this.testDataADI3 = testData;
-          this.lessonAndThemeState = this.validateLessonTheme(testData.lessonAndTheme);
-          this.isTestReportPopulated = this.adi3AssessmentProvider.isTestReportPopulated(testData);
-          this.testReportState = this.adi3AssessmentProvider.validateTestReport(
-            testData.lessonPlanning,
-            testData.riskManagement,
-            testData.teachingLearningStrategies
-          );
-        })
-      )
-    );
   }
 
   ionViewDidEnter(): void {
@@ -122,20 +94,11 @@ export class TestReportDashboardPage extends TestReportBasePageComponent impleme
   }
 
   async ionViewWillEnter() {
-    this.ngOnInit();
     await super.ionViewWillEnter();
-
-    if (this.merged$) {
-      this.localSubscription = this.merged$.subscribe();
-    }
   }
 
   ionViewDidLeave(): void {
     super.ionViewDidLeave();
-
-    if (this.localSubscription) {
-      this.localSubscription.unsubscribe();
-    }
   }
 
   feedbackChanged = (feedback: string) => {
@@ -166,8 +129,8 @@ export class TestReportDashboardPage extends TestReportBasePageComponent impleme
 
   onContinueClick = async (): Promise<void> => {
     Object.keys(this.form.controls).forEach((controlName: string) => this.form.controls[controlName].markAsDirty());
-    this.hasClickedComplete = true;
-    if (this.isTestReportPopulated && this.testDataADI3.riskManagement.score < 8) {
+    this.hasClickedComplete.set(true);
+    if (this.isTestReportPopulated() && this.testDataADI3().riskManagement.score < 8) {
       const code4Modal: HTMLIonModalElement = await this.modalController.create({
         component: Code4Modal,
         cssClass: 'mes-modal-alert text-zoom-regular',
@@ -183,19 +146,19 @@ export class TestReportDashboardPage extends TestReportBasePageComponent impleme
   };
 
   displayEndTestModal = async (riskToPublicSafety = false): Promise<void> => {
-    const result = await firstValueFrom(this.testResultProvider.calculateTestResultADI3(this.testDataADI3));
+    const result = await firstValueFrom(this.testResultProvider.calculateTestResultADI3(this.testDataADI3()));
 
-    const totalScore: number = this.adi3AssessmentProvider.getTotalAssessmentScore(this.testDataADI3);
+    const totalScore: number = this.adi3AssessmentProvider.getTotalAssessmentScore(this.testDataADI3());
     const modal: HTMLIonModalElement = await this.modalController.create({
       component: Adi3EndTestModal,
       cssClass: 'mes-modal-alert text-zoom-regular',
       componentProps: {
-        testState: this.testReportState,
-        testData: this.testDataADI3,
+        testState: this.testReportState(),
+        testData: this.testDataADI3(),
         testResult: result,
         totalScore,
-        isTestReportPopulated: this.isTestReportPopulated,
-        feedback: this.feedback,
+        isTestReportPopulated: this.isTestReportPopulated(),
+        feedback: this.feedback(),
         isValidDashboard: this.isValidDashboard,
         riskToPublicSafety,
       },
@@ -221,7 +184,9 @@ export class TestReportDashboardPage extends TestReportBasePageComponent impleme
         this.store$.dispatch(GradeChanged(null));
         this.store$.dispatch(TerminateTestFromTestReport());
         await this.router.navigate(
-          this.isTestReportPopulated ? [TestFlowPageNames.DEBRIEF_PAGE] : [TestFlowPageNames.NON_PASS_FINALISATION_PAGE]
+          this.isTestReportPopulated()
+            ? [TestFlowPageNames.DEBRIEF_PAGE]
+            : [TestFlowPageNames.NON_PASS_FINALISATION_PAGE]
         );
         break;
       case ModalEvent.CANCEL:
@@ -237,7 +202,7 @@ export class TestReportDashboardPage extends TestReportBasePageComponent impleme
     await this.routeByCategory.navigateToPage(TestFlowPageNames.TEST_REPORT_PAGE, this.category as TestCategory, {
       state: {
         page,
-        showMissing: this.testReportState > 0 && this.testReportState < 17,
+        showMissing: this.testReportState() > 0 && this.testReportState() < 17,
       },
     });
   };

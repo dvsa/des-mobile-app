@@ -8,13 +8,13 @@
 </ion-header>
 
 <ion-content>
-  <offline-banner [isOffline]="pageState.isOffline$ | async"></offline-banner>
+  <offline-banner [isOffline]="isOffline()"></offline-banner>
 
   <ion-row>
     <ion-col class="display-flex ion-align-items-center padding-left">
       <refresh-button
         (refreshButtonClicked)="getTestCentreData(true)"
-        [lastSyncTime]="pageState.lastRefreshedTime$ | async"
+        [lastSyncTime]="lastRefreshedTime()"
       ></refresh-button>
     </ion-col>
   </ion-row>
@@ -31,7 +31,7 @@
               [testCentreName]="testCentreNames"
               [testCentreResults]="testCentreResults()"
               [manuallyRefreshed]="manuallyRefreshed()"
-              [testCentres]="pageState.activeTestCentres$ | async"
+              [testCentres]="activeTestCentres()"
               [isLDTM]="isLDTM"
               [selectedTestCentre]="testCentreSelected()"
               (testCentreChanged)="testCentreChange($event)"
@@ -44,7 +44,7 @@
               [testCentreName]="testCentreNames"
               [manuallyRefreshed]="manuallyRefreshed()"
               [testCentreResults]="testCentreResults()"
-              [testCentres]="pageState.activeTestCentres$ | async"
+              [testCentres]="activeTestCentres()"
               [isLDTM]="isLDTM"
               [selectedTestCentre]="testCentreSelected()"
               (testCentreChanged)="testCentreChange($event)"

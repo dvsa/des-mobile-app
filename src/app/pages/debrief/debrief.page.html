@@ -26,7 +26,7 @@
 </ion-header>
 
 <ion-content>
-  <test-outcome-debrief-card [outcome]="outcome" [grade]="grade()"></test-outcome-debrief-card>
+  <test-outcome-debrief-card [outcome]="outcome()" [grade]="grade()"></test-outcome-debrief-card>
   @if (showSpeedCheck()) {
     <speed-check-debrief-card
       [emergencyStop]="emergencyStop()"
@@ -37,31 +37,31 @@
   }
 
   <eta-debrief-card
-    [hasPhysicalEta]="hasPhysicalEta"
-    [hasVerbalEta]="hasVerbalEta">
+    [hasPhysicalEta]="hasPhysicalEta()"
+    [hasVerbalEta]="hasVerbalEta()">
   </eta-debrief-card>
 
   <dangerous-faults-debrief-card
-    [testCategory]="testCategory"
+    [testCategory]="category()"
     [dangerousFaults]="dangerousFaults()">
   </dangerous-faults-debrief-card>
 
   <serious-faults-debrief-card
-    [testCategory]="testCategory"
+    [testCategory]="category()"
     [seriousFaults]="seriousFaults()">
   </serious-faults-debrief-card>
 
   <driving-faults-debrief-card
     [drivingFaults]="drivingFaults()"
     [drivingFaultCount]="drivingFaultCount()"
-    [testCategory]="testCategory"
+    [testCategory]="category()"
     >
   </driving-faults-debrief-card>
 
   @if (showEco()) {
     <eco-debrief-card
-      [adviceGivenControl]="adviceGivenControl"
-      [adviceGivenPlanning]="adviceGivenPlanning"
+      [adviceGivenControl]="adviceGivenControl()"
+      [adviceGivenPlanning]="adviceGivenPlanning()"
       >
     </eco-debrief-card>
   }
@@ -86,7 +86,7 @@
       [question3]="question3()"
       [question4]="question4()"
       [question5]="question5()"
-      [testOutcome]="outcome"
+      [testOutcome]="outcome()"
       >
     </cpc-debrief-card>
   }
@@ -105,7 +105,7 @@
 
   @if (showADI3DebriefCard()) {
     <adi3-debrief-card
-      [testCategory]="testCategory"
+      [testCategory]="category()"
       [totalScore]="totalScore()"
       [lessonTheme]="lessonTheme()"
       [lessonPlanning]="lessonPlanning()"

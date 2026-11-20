@@ -7,14 +7,13 @@ import { StoreModule } from '@ngrx/store';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { AppConfig } from '@providers/app-config/app-config.model';
 import { ExaminerRole } from '@providers/app-config/constants/examiner-role.constants';
-import { Subject, of, throwError } from 'rxjs';
+import { BehaviorSubject, Subject, of, throwError } from 'rxjs';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { LoadingControllerMock } from '@mocks/ionic-mocks/loading-controller.mock';
 import { provideBasePageMocks } from '@mocks/test-providers';
 import { AppConfigProvider } from '@providers/app-config/app-config';
 import { LogHelper } from '@providers/logs/logs-helper';
-import { NetworkStateProviderMock } from '@providers/network-state/__mocks__/network-state.mock';
 import { NetworkStateProvider } from '@providers/network-state/network-state';
 import { TestCentreJournalMock } from '@providers/test-centre-journal/__mocks__/test-centre-journal.mock';
 import { TestCentreJournalProvider } from '@providers/test-centre-journal/test-centre-journal';
@@ -43,7 +42,7 @@ describe('TestCenterJournalPage', () => {
   let component: TestCentreJournalPage;
   let fixture: ComponentFixture<TestCentreJournalPage>;
   let testCentreJournalProvider: TestCentreJournalProvider;
-  let networkStateProvider: NetworkStateProvider;
+  let isOffline$: BehaviorSubject<boolean>;
   let loadingController: LoadingController;
   let logHelper: LogHelper;
   let store$: MockStore;
@@ -53,6 +52,7 @@ describe('TestCenterJournalPage', () => {
   } as StoreModel;
 
   beforeEach(() => {
+    isOffline$ = new BehaviorSubject(false);
     TestBed.configureTestingModule({
       imports: [
         MockComponent(RefreshButtonComponent),
@@ -74,7 +74,7 @@ describe('TestCenterJournalPage', () => {
         provideBasePageMocks(),
         {
           provide: NetworkStateProvider,
-          useClass: NetworkStateProviderMock,
+          useValue: { isOffline$: isOffline$.asObservable() },
         },
         {
           provide: TestCentreJournalProvider,
@@ -93,7 +93,6 @@ describe('TestCenterJournalPage', () => {
     testCentreJournalProvider = TestBed.inject(TestCentreJournalProvider);
     logHelper = TestBed.inject(LogHelper);
     store$ = TestBed.inject(MockStore);
-    networkStateProvider = TestBed.inject(NetworkStateProvider);
     loadingController = TestBed.inject(LoadingController);
     vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
   });
@@ -223,11 +222,11 @@ describe('TestCenterJournalPage', () => {
       vi.spyOn(component, 'mapError').mockReturnValue(undefined);
       vi.spyOn(logHelper, 'createLog');
       vi.spyOn(loadingController, 'create');
-      component.isOffline.set(false);
+      isOffline$.next(false);
     });
     it('should set an offline error and not call getTestCentreJournal if in offline state', async () => {
       vi.spyOn(testCentreJournalProvider, 'getTestCentreJournal').mockReturnValue(undefined);
-      component.isOffline.set(true);
+      isOffline$.next(true);
       await component.getTestCentreData();
       expect(store$.dispatch).toHaveBeenCalledWith(TestCentreJournalGetData(false));
       expect(testCentreJournalProvider.getTestCentreJournal).not.toHaveBeenCalled();

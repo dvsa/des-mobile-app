@@ -12,7 +12,7 @@
 </ion-header>
 
 <ion-content class="ion-no-padding">
-  <offline-banner [isOffline]="pageState.isOffline$ | async"></offline-banner>
+  <offline-banner [isOffline]="isOffline()"></offline-banner>
 
   <incomplete-tests-banner></incomplete-tests-banner>
 
@@ -35,18 +35,18 @@
     <ion-col class="display-flex justify-content-center padding-top">
       <refresh-button
         (refreshButtonClicked)="clickRefreshJournal()"
-        [lastSyncTime]="pageState.lastRefreshedTime$ | async"
-        [isDisabled]="pageState.isLoading$ | async"
+        [lastSyncTime]="lastRefreshedTime()"
+        [isDisabled]="isLoading()"
       ></refresh-button>
     </ion-col>
     <ion-col size="55">
       <journal-navigation
         (nextDayClicked)="onNextDayClick()"
         (previousDayClicked)="onPreviousDayClick()"
-        [canNavigateToNextDay]="pageState.canNavigateToNextDay$ | async"
-        [canNavigateToPreviousDay]="pageState.canNavigateToPreviousDay$ | async"
-        [isSelectedDateToday]="pageState.isSelectedDateToday$ | async"
-        [selectedDate]="pageState.selectedDate$ | async"
+        [canNavigateToNextDay]="canNavigateToNextDay()"
+        [canNavigateToPreviousDay]="canNavigateToPreviousDay()"
+        [isSelectedDateToday]="isSelectedDateToday()"
+        [selectedDate]="selectedDate()"
       >
       </journal-navigation>
     </ion-col>
@@ -55,11 +55,11 @@
 
   <vehicle-recalls-banner></vehicle-recalls-banner>
 
-  @if ((pageState.slots$ | async)?.length > 0) {
+  @if (slots()?.length > 0) {
     <journal-slots
-      [completedTests]="pageState.completedTests$ | async"
-      [isPortrait]="orientationMonitorProvider.isPortraitMode$ | async"
-      [slots]="pageState.slots$ | async">
+      [completedTests]="completedTests()"
+      [isPortrait]="isPortrait()"
+      [slots]="slots()">
     </journal-slots>
   } @else {
     <div class="no-results ion-text-center">

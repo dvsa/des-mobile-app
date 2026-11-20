@@ -1,10 +1,9 @@
-import { AsyncPipe, NgClass } from '@angular/common';
-import { Component } from '@angular/core';
+import { NgClass } from '@angular/common';
+import { Component, computed } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ActivityCodeComponent } from '@components/common/activity-code/activity-code';
 import { TestFlowHeaderComponent } from '@components/common/test-flow-header/test-flow-header.component';
 import { ModeOfTransport } from '@dvsa/mes-test-schema/categories/AM2';
-import { SafetyQuestionResult } from '@dvsa/mes-test-schema/categories/common';
 import {
   IonCard,
   IonCardContent,
@@ -15,11 +14,7 @@ import {
   IonHeader,
   IonToolbar,
 } from '@ionic/angular';
-import { select } from '@ngrx/store';
-import {
-  CommonOfficePageState,
-  OfficeBasePageComponent,
-} from '@shared/classes/test-flow-base-pages/office/office-base-page';
+import { OfficeBasePageComponent, mapOfficeValue } from '@shared/classes/test-flow-base-pages/office/office-base-page';
 import { activityCodeModelList } from '@shared/constants/activity-code/activity-code.constants';
 import { CommentSource, FaultSummary } from '@shared/models/fault-marking.model';
 import { AddSafetyAndBalanceComment } from '@store/tests/test-data/cat-a-mod2/safety-and-balance/safety-and-balance.cat-a-mod2.actions';
@@ -33,12 +28,9 @@ import { AddSeriousFaultComment } from '@store/tests/test-data/common/serious-fa
 import { ModeOfTransportChanged } from '@store/tests/test-summary/cat-a-mod2/test-summary.cat-a-mod2.actions';
 import { getTestSummary } from '@store/tests/test-summary/cat-a-mod2/test-summary.cat-a-mod2.reducer';
 import { getModeOfTransport } from '@store/tests/test-summary/cat-a-mod2/test-summary.cat-a-mod2.selector';
-import { getTests } from '@store/tests/tests.reducer';
-import { getCurrentTest, getTestOutcome } from '@store/tests/tests.selector';
+import { getTestOutcome } from '@store/tests/tests.selector';
 import { getSchoolBike } from '@store/tests/vehicle-details/cat-a-mod1/vehicle-details.cat-a-mod1.selector';
 import { getVehicleDetails } from '@store/tests/vehicle-details/vehicle-details.reducer';
-import { Observable, Subscription } from 'rxjs';
-import { map, withLatestFrom } from 'rxjs/operators';
 import { AccompanimentCardComponent } from '../../waiting-room-to-car/components/accompaniment-card/accompaniment-card';
 import { VehicleDetailsCardComponent } from '../../waiting-room-to-car/components/vehicle-details-card/vehicle-details-card';
 import { AdditionalInformationComponent } from '../components/additional-information/additional-information';
@@ -63,17 +55,6 @@ import { behaviourMap } from '../office-behaviour-map.cat-a-mod2';
 import { OfficeViewDidEnter } from '../office.actions';
 import { ModeOfTransportCatAMod2Component } from './components/mode-of-transport/mode-of-transport.cat-a-mod2';
 import { SafetyAndBalanceCardCatAMod2Component } from './components/safety-and-balance/safety-and-balance.cat-a-mod2';
-
-interface CatAMod2OfficePageState {
-  schoolBike$: Observable<boolean>;
-  displayModeOfTransport$: Observable<boolean>;
-  modeOfTransport$: Observable<ModeOfTransport>;
-  displayDrivingFaultComments$: Observable<boolean>;
-  safetyAndBalanceQuestions$: Observable<SafetyQuestionResult[]>;
-  displaySafetyAndBalance$: Observable<boolean>;
-}
-
-type OfficePageState = CommonOfficePageState & CatAMod2OfficePageState;
 
 @Component({
   selector: '.office-cat-a-mod2-page',
@@ -115,12 +96,43 @@ type OfficePageState = CommonOfficePageState & CatAMod2OfficePageState;
     DrivingFaultsComponent,
     IonFooter,
     OfficeFooterComponent,
-    AsyncPipe,
   ],
 })
 export class OfficeCatAMod2Page extends OfficeBasePageComponent {
-  pageState: OfficePageState;
-  pageSubscription: Subscription;
+  schoolBike = computed(() => getSchoolBike(getVehicleDetails(this.officeCurrentTest() as never) as never));
+  displayModeOfTransport = computed(() =>
+    mapOfficeValue(
+      [
+        getTestOutcome(this.officeCurrentTest() as never),
+        getModeOfTransport(getTestSummary(this.officeCurrentTest() as never) as never),
+      ] as const,
+      ([outcome, modeOfTransport]) =>
+        this.outcomeBehaviourProvider.isVisible(outcome, 'modeOfTransport', modeOfTransport)
+    )
+  );
+  displaySafetyAndBalance = computed(() =>
+    mapOfficeValue(
+      [getTestOutcome(this.officeCurrentTest() as never), getTestData(this.officeCurrentTest() as never)] as const,
+      ([outcome, data]) =>
+        this.outcomeBehaviourProvider.isVisible(
+          outcome,
+          'safetyAndBalance',
+          safetyAndBalanceQuestionsExist(data.safetyAndBalanceQuestions)
+        )
+    )
+  );
+  modeOfTransport = computed(() => getModeOfTransport(getTestSummary(this.officeCurrentTest() as never) as never));
+  displayDrivingFaultComments = computed(() =>
+    mapOfficeValue([getTestData(this.officeCurrentTest() as never), this.testCategory()] as const, ([data, category]) =>
+      this.faultCountProvider.shouldDisplayDrivingFaultComments(data, category, OfficeCatAMod2Page.maxFaultCount)
+    )
+  );
+  safetyAndBalanceQuestions = computed(() =>
+    mapOfficeValue(getSafetyAndBalanceQuestions(getTestData(this.officeCurrentTest() as never) as never), (checks) => [
+      ...checks.safetyQuestions,
+      ...checks.balanceQuestions,
+    ])
+  );
   static readonly maxFaultCount = 10;
 
   constructor() {
@@ -135,46 +147,6 @@ export class OfficeCatAMod2Page extends OfficeBasePageComponent {
 
   ngOnInit(): void {
     super.onInitialisation();
-
-    const currentTest$ = this.store$.pipe(select(getTests), select(getCurrentTest));
-
-    this.pageState = {
-      ...this.commonPageState,
-      schoolBike$: currentTest$.pipe(select(getVehicleDetails), select(getSchoolBike)),
-      displayModeOfTransport$: currentTest$.pipe(
-        select(getTestOutcome),
-        withLatestFrom(currentTest$.pipe(select(getTestSummary), select(getModeOfTransport))),
-        map(([outcome, modeOfTransport]) =>
-          this.outcomeBehaviourProvider.isVisible(outcome, 'modeOfTransport', modeOfTransport)
-        )
-      ),
-      displaySafetyAndBalance$: currentTest$.pipe(
-        select(getTestOutcome),
-        withLatestFrom(currentTest$.pipe(select(getTestData))),
-        map(([outcome, data]) =>
-          this.outcomeBehaviourProvider.isVisible(
-            outcome,
-            'safetyAndBalance',
-            safetyAndBalanceQuestionsExist(data.safetyAndBalanceQuestions)
-          )
-        )
-      ),
-      modeOfTransport$: currentTest$.pipe(select(getTestSummary), select(getModeOfTransport)),
-      displayDrivingFaultComments$: currentTest$.pipe(
-        select(getTestData),
-        withLatestFrom(this.commonPageState.testCategory$),
-        map(([data, category]) =>
-          this.faultCountProvider.shouldDisplayDrivingFaultComments(data, category, OfficeCatAMod2Page.maxFaultCount)
-        )
-      ),
-      safetyAndBalanceQuestions$: currentTest$.pipe(
-        select(getTestData),
-        select(getSafetyAndBalanceQuestions),
-        map((checks) => [...checks.safetyQuestions, ...checks.balanceQuestions])
-      ),
-    };
-
-    this.setupSubscriptions();
   }
 
   async ionViewWillEnter() {

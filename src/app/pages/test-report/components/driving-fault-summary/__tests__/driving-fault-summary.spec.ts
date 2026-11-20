@@ -2,25 +2,20 @@ import { DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
-import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { beforeEach, describe, expect, it } from 'vitest';
 
 import { Store, StoreModule } from '@ngrx/store';
 import { FaultCountProvider } from '@providers/fault-count/fault-count';
 import { StoreModel } from '@shared/models/store.model';
 import { PopulateTestCategory } from '@store/tests/category/category.actions';
 import { AddDrivingFault } from '@store/tests/test-data/common/driving-faults/driving-faults.actions';
+import { selectTestData } from '@store/tests/test-data/common/test-data.selector';
 import { Competencies } from '@store/tests/test-data/test-data.constants';
 import { StartTest } from '@store/tests/tests.actions';
 import { testsReducer } from '@store/tests/tests.reducer';
-import { Subscription, of } from 'rxjs';
 import { DrivingFaultSummaryComponent } from '../driving-fault-summary';
 
 describe('DrivingFaultSummary', () => {
-  enum driverType {
-    R = 'R',
-    D = 'D',
-  }
-
   let fixture: ComponentFixture<DrivingFaultSummaryComponent>;
   let component: DrivingFaultSummaryComponent;
   let store$: Store<StoreModel>;
@@ -33,7 +28,6 @@ describe('DrivingFaultSummary', () => {
 
     fixture = TestBed.createComponent(DrivingFaultSummaryComponent);
     component = fixture.componentInstance;
-    component.subscription = new Subscription();
     store$ = TestBed.inject(Store);
   });
 
@@ -45,6 +39,8 @@ describe('DrivingFaultSummary', () => {
 
       store$.dispatch(StartTest(103, TestCategory.B));
       store$.dispatch(PopulateTestCategory(TestCategory.B));
+      fixture.componentRef.setInput('testCategory', TestCategory.B);
+      fixture.componentRef.setInput('testData', store$.selectSignal(selectTestData)());
     });
 
     it('should display 0 driving faults for a new test', () => {
@@ -58,28 +54,11 @@ describe('DrivingFaultSummary', () => {
       store$.dispatch(AddDrivingFault({ competency: Competencies.controlsSteering, newFaultCount: 1 }));
       store$.dispatch(AddDrivingFault({ competency: Competencies.moveOffControl, newFaultCount: 1 }));
 
+      fixture.componentRef.setInput('testData', store$.selectSignal(selectTestData)());
       fixture.detectChanges();
 
       const summaryCount: HTMLElement = componentEl.query(By.css('#summary-count')).nativeElement;
       expect(summaryCount.textContent).toBe('3');
-    });
-  });
-
-  describe('ionViewDidLeave', () => {
-    it('should unsubscribe from subscription if there is one', () => {
-      component.subscription = new Subscription();
-      vi.spyOn(component.subscription, 'unsubscribe').mockReturnValue(undefined);
-      component.ionViewDidLeave();
-      expect(component.subscription.unsubscribe).toHaveBeenCalled();
-    });
-  });
-
-  describe('ionViewWillEnter', () => {
-    it('should setup subscription', () => {
-      component.componentState = { count$: of(1), driverRiderFlag$: of(driverType.R) };
-      component.ionViewWillEnter();
-
-      expect(component.subscription).toBeDefined();
     });
   });
 

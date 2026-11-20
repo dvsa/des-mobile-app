@@ -10,7 +10,7 @@ import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/
 
 import { provideBasePageMocks } from '@mocks/test-providers';
 import { Store } from '@ngrx/store';
-import { provideMockStore } from '@ngrx/store/testing';
+import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { TestFlowPageNames } from '@pages/page-names.constants';
 import { AccompanimentCardComponent } from '@pages/waiting-room-to-car/components/accompaniment-card/accompaniment-card';
 import { AccompanimentComponent } from '@pages/waiting-room-to-car/components/accompaniment/accompaniment';
@@ -128,6 +128,24 @@ describe('WaitingRoomToCarCatHomeTestPage', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('recomputes the vehicle checks score when the category changes', () => {
+    const faultCount = TestBed.inject(FaultCountProvider);
+    const getScore = vi.spyOn(faultCount, 'getVehicleChecksFaultCount');
+    component.vehicleChecksScore();
+    TestBed.inject(MockStore).setState({
+      ...initialState,
+      tests: {
+        ...initialState.tests,
+        startedTests: {
+          ...initialState.tests.startedTests,
+          123: { ...initialState.tests.startedTests[123], category: TestCategory.G },
+        },
+      },
+    });
+    component.vehicleChecksScore();
+    expect(getScore).toHaveBeenLastCalledWith(TestCategory.G, component.vehicleChecks());
   });
 
   describe('Class', () => {

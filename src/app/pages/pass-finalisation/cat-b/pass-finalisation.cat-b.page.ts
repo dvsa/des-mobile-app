@@ -9,7 +9,6 @@ import { D255Component } from '@components/test-finalisation/d255/d255';
 import { DebriefWitnessedComponent } from '@components/test-finalisation/debrief-witnessed/debrief-witnessed';
 import { FinalisationHeaderComponent } from '@components/test-finalisation/finalisation-header/finalisation-header';
 import { LanguagePreferencesComponent } from '@components/test-finalisation/language-preference/language-preference';
-import { ActivityCode } from '@dvsa/mes-test-schema/categories/common';
 import {
   IonButton,
   IonCol,
@@ -69,9 +68,7 @@ import { PASS_CERTIFICATE_NUMBER_CTRL } from '../components/pass-certificate-num
   ],
 })
 export class PassFinalisationCatBPage extends PassFinalisationPageComponent implements OnInit {
-  activityCode: ActivityCode;
   form: UntypedFormGroup;
-  candidateDriverNumberValue: string;
 
   transmissionAutomaticRadioChecked = computed(() => this.transmissionSignal() === 'Automatic');
   transmissionManualRadioChecked = computed(() => this.transmissionSignal() === 'Manual');
@@ -83,14 +80,6 @@ export class PassFinalisationCatBPage extends PassFinalisationPageComponent impl
     super();
     this.form = new UntypedFormGroup({});
     this.outcomeBehaviourProvider.setBehaviourMap(behaviourMap);
-
-    effect(() => {
-      this.activityCode = this.testOutcomeCode();
-    });
-
-    effect(() => {
-      this.candidateDriverNumberValue = this.candidateDriverNumber();
-    });
 
     effect(() => {
       if (this.transmissionAutomaticRadioChecked()) {
@@ -113,12 +102,12 @@ export class PassFinalisationCatBPage extends PassFinalisationPageComponent impl
 
   async onSubmit() {
     Object.keys(this.form.controls).forEach((controlName) => this.form.controls[controlName].markAsDirty());
-    if (this.isNorthernIreland(this.candidateDriverNumberValue)) {
+    if (this.isNorthernIreland(this.candidateDriverNumber())) {
       this.store$.dispatch(ProvisionalLicenseNotReceived());
     }
     if (this.form.valid) {
       this.store$.dispatch(PersistTests());
-      this.store$.dispatch(PassFinalisationReportActivityCode(this.activityCode));
+      this.store$.dispatch(PassFinalisationReportActivityCode(this.testOutcomeCode()));
       await this.routeByCat.navigateToPage(TestFlowPageNames.HEALTH_DECLARATION_PAGE);
       return;
     }

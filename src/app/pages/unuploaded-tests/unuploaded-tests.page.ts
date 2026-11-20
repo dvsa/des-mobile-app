@@ -1,7 +1,6 @@
-import { AsyncPipe } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, computed } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { TestSlotComponent } from '@components/test-slot/test-slot/test-slot';
-import { TestSlot } from '@dvsa/mes-journal-schema';
 import {
   IonButton,
   IonButtons,
@@ -18,31 +17,19 @@ import {
   UnuploadedTestsReturnToDashboardPressed,
   UnuploadedTestsViewDidEnter,
 } from '@pages/unuploaded-tests/unuploaded-tests.actions';
-import { unsubmittedTestSlots$ } from '@pages/unuploaded-tests/unuploaded-tests.selector';
+import { getUnsubmittedTestSlots } from '@pages/unuploaded-tests/unuploaded-tests.selector';
 import { AppConfigProvider } from '@providers/app-config/app-config';
 import { ExaminerRoleDescription } from '@providers/app-config/constants/examiner-role.constants';
 import { DateTimeProvider } from '@providers/date-time/date-time';
 import { DeviceProvider } from '@providers/device/device';
 import { OrientationMonitorProvider } from '@providers/orientation-monitor/orientation-monitor.provider';
-import { SlotItem } from '@providers/slot-selector/slot-item';
 import { SlotProvider } from '@providers/slot/slot';
 import { BasePageComponent } from '@shared/classes/base-page';
 import { selectRole } from '@store/app-config/app-config.selectors';
-import { selectEmployeeId, selectEmployeeName, selectVersionNumber } from '@store/app-info/app-info.selectors';
+import { selectEmployeeId, selectEmployeeName } from '@store/app-info/app-info.selectors';
 import { getJournalState } from '@store/journal/journal.reducer';
 import { getTests } from '@store/tests/tests.reducer';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
 import { ProfileHeaderComponent } from '../dashboard/components/profile-header/profile-header';
-
-interface UnunploadedTestsPageState {
-  unSubmittedTestSlotData$: Observable<TestSlot[]>;
-  appVersion$: Observable<string>;
-  employeeName$: Observable<string>;
-  employeeId$: Observable<string>;
-  role$: Observable<string>;
-  unSubmittedTestSlots$?: Observable<SlotItem[]>;
-}
 
 @Component({
   selector: 'unuploaded-tests',
@@ -60,11 +47,27 @@ interface UnunploadedTestsPageState {
     ProfileHeaderComponent,
     IonText,
     TestSlotComponent,
-    AsyncPipe,
   ],
 })
-export class UnuploadedTestsPage extends BasePageComponent implements OnInit {
-  pageState: UnunploadedTestsPageState;
+export class UnuploadedTestsPage extends BasePageComponent {
+  private readonly journal = this.store$.selectSignal(getJournalState);
+  private readonly tests = this.store$.selectSignal(getTests);
+  private readonly selectedEmployeeId = this.store$.selectSignal(selectEmployeeId);
+  private readonly selectedRole = this.store$.selectSignal(selectRole);
+  readonly employeeName = this.store$.selectSignal(selectEmployeeName);
+  readonly employeeId = computed(() => this.getEmployeeNumberDisplayValue(this.selectedEmployeeId()));
+  readonly role = computed(() => this.getRoleDisplayValue(this.selectedRole()));
+  readonly isPortrait = toSignal(this.orientationMonitorProvider.isPortraitMode$, { initialValue: false });
+  readonly slots = computed(() =>
+    getUnsubmittedTestSlots(
+      this.journal(),
+      this.tests(),
+      this.dateTimeProvider,
+      this.slotProvider,
+      this.appConfigProvider.getAppConfig()?.journal?.numberOfDaysToView
+    )
+  );
+  readonly slotData = computed(() => this.slots().map((slot) => slot.slotData));
 
   constructor(
     public orientationMonitorProvider: OrientationMonitorProvider,
@@ -74,29 +77,6 @@ export class UnuploadedTestsPage extends BasePageComponent implements OnInit {
     public deviceProvider: DeviceProvider
   ) {
     super();
-  }
-
-  ngOnInit() {
-    this.pageState = {
-      appVersion$: this.store$.select(selectVersionNumber),
-      employeeName$: this.store$.select(selectEmployeeName),
-      employeeId$: this.store$.select(selectEmployeeId).pipe(map(this.getEmployeeNumberDisplayValue)),
-      role$: this.store$.select(selectRole).pipe(map(this.getRoleDisplayValue)),
-      unSubmittedTestSlots$: unsubmittedTestSlots$(
-        this.store$.select(getJournalState),
-        this.store$.select(getTests),
-        this.dateTimeProvider,
-        this.slotProvider,
-        this.appConfigProvider.getAppConfig()?.journal?.numberOfDaysToView
-      ),
-      unSubmittedTestSlotData$: unsubmittedTestSlots$(
-        this.store$.select(getJournalState),
-        this.store$.select(getTests),
-        this.dateTimeProvider,
-        this.slotProvider,
-        this.appConfigProvider.getAppConfig()?.journal?.numberOfDaysToView
-      ).pipe(map((data) => data.map((slot) => slot.slotData))),
-    };
   }
 
   async ionViewWillEnter() {

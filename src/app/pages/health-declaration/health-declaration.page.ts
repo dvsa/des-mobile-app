@@ -1,12 +1,11 @@
-import { AsyncPipe, NgClass } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { NgClass } from '@angular/common';
+import { Component, computed } from '@angular/core';
 import { FormsModule, ReactiveFormsModule, UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { CandidateSectionComponent } from '@components/common/candidate-section/candidate-section';
 import { LockScreenIndicator } from '@components/common/screen-lock-indicator/lock-screen-indicator';
 import { SignatureComponent } from '@components/common/signature/signature';
 import { TestFlowHeaderComponent } from '@components/common/test-flow-header/test-flow-header.component';
 import { AddOrRemoveLangCyDirective } from '@directives/add-or-remove-lang-cy.directive';
-import { CategoryCode } from '@dvsa/mes-test-schema/categories/common';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import {
   IonCol,
@@ -33,7 +32,7 @@ import { DeviceAuthenticationProvider } from '@providers/device-authentication/d
 import { PracticeableBasePageComponent } from '@shared/classes/practiceable-base-page';
 import { isAnyOf } from '@shared/helpers/simplifiers';
 import { configureI18N } from '@shared/helpers/translation.helpers';
-import { getTestCategory } from '@store/tests/category/category.reducer';
+import { selectTestCategory } from '@store/tests/category/category.reducer';
 import { Language } from '@store/tests/communication-preferences/communication-preferences.model';
 import { getCommunicationPreference } from '@store/tests/communication-preferences/communication-preferences.reducer';
 import { getConductedLanguage } from '@store/tests/communication-preferences/communication-preferences.selector';
@@ -58,28 +57,10 @@ import {
   getReceiptDeclarationStatus,
   getSignatureStatus,
 } from '@store/tests/post-test-declarations/post-test-declarations.selector';
-import { getTests } from '@store/tests/tests.reducer';
-import { getCurrentTest, getJournalData } from '@store/tests/tests.selector';
-import { Observable, Subscription, merge } from 'rxjs';
-import { map, tap } from 'rxjs/operators';
+import { selectCurrentTest } from '@store/tests/tests.selector';
+import { Subscription } from 'rxjs';
 import { HealthDeclarationComponent } from './components/health-declaration/health-declaration';
 import { ReceiptDeclarationComponent } from './components/receipt-declaration/receipt-declaration';
-
-interface HealthDeclarationPageState {
-  healthDeclarationAccepted$: Observable<boolean>;
-  receiptDeclarationAccepted$: Observable<boolean>;
-  signature$: Observable<string>;
-  candidateName$: Observable<string>;
-  candidateUntitledName$: Observable<string>;
-  candidateDriverNumber$: Observable<string>;
-  passCertificateNumber$: Observable<string>;
-  licenseProvided$: Observable<boolean>;
-  conductedLanguage$: Observable<string>;
-  testCategory$: Observable<CategoryCode>;
-  showHealthDec$: Observable<boolean>;
-  prn$: Observable<number>;
-  isStandardsCheck$: Observable<boolean>;
-}
 
 @Component({
   selector: 'app-health-declaration',
@@ -102,23 +83,45 @@ interface HealthDeclarationPageState {
     HealthDeclarationComponent,
     ReceiptDeclarationComponent,
     SignatureComponent,
-    AsyncPipe,
     TranslatePipe,
   ],
 })
 export class HealthDeclarationPage
   extends PracticeableBasePageComponent
-  implements OnInit, ViewDidEnter, ViewWillEnter, ViewDidLeave
+  implements ViewDidEnter, ViewWillEnter, ViewDidLeave
 {
   static readonly fieldName: string = 'healthCheckbox';
-  pageState: HealthDeclarationPageState;
   formGroup: UntypedFormGroup;
-  licenseProvided: boolean;
-  healthDeclarationAccepted: boolean;
   subscription: Subscription;
-  merged$: Observable<boolean | string>;
   formControl: UntypedFormControl;
-  showHealthDec = true;
+  private readonly currentTest = this.store$.selectSignal(selectCurrentTest);
+  private readonly declarations = computed(() => getPostTestDeclarations(this.currentTest()));
+  private readonly candidate = computed(() => getCandidate(this.currentTest().journalData));
+  private readonly passCompletion = computed(() => getPassCompletion(this.currentTest()));
+  private readonly testCategory = this.store$.selectSignal(selectTestCategory);
+  healthDeclarationAccepted = computed(() => getHealthDeclarationStatus(this.declarations()));
+  receiptDeclarationAccepted = computed(() => getReceiptDeclarationStatus(this.declarations()));
+  signature = computed(() => getSignatureStatus(this.declarations()));
+  readonly candidateName = computed(() => getCandidateName(this.candidate()));
+  readonly candidateUntitledName = computed(() => getUntitledCandidateName(this.candidate()));
+  readonly candidateDriverNumber = computed(() => formatDriverNumber(getCandidateDriverNumber(this.candidate())));
+  readonly passCertificateNumber = computed(() => getPassCertificateNumber(this.passCompletion()));
+  licenseProvided = computed(() => isProvisionalLicenseProvided(this.passCompletion()));
+  readonly prn = computed(() => getCandidatePrn(this.candidate()));
+  readonly isStandardsCheck = computed(() => this.testCategory() === TestCategory.SC);
+  readonly showHealthDec = computed(
+    () =>
+      !isAnyOf(this.testCategory(), [
+        TestCategory.CM,
+        TestCategory.C1M,
+        TestCategory.CEM,
+        TestCategory.C1EM,
+        TestCategory.DM,
+        TestCategory.D1M,
+        TestCategory.DEM,
+        TestCategory.D1EM,
+      ])
+  );
 
   constructor(
     public deviceAuthenticationProvider: DeviceAuthenticationProvider,
@@ -137,75 +140,11 @@ export class HealthDeclarationPage
     return await this.deviceAuthenticationProvider.triggerLockScreen(this.isPracticeMode);
   }
 
-  ngOnInit(): void {
-    super.ngOnInit();
-
-    const currentTest$ = this.store$.pipe(select(getTests), select(getCurrentTest));
-
-    this.pageState = {
-      healthDeclarationAccepted$: currentTest$.pipe(
-        select(getPostTestDeclarations),
-        select(getHealthDeclarationStatus)
-      ),
-      receiptDeclarationAccepted$: currentTest$.pipe(
-        select(getPostTestDeclarations),
-        select(getReceiptDeclarationStatus)
-      ),
-      signature$: currentTest$.pipe(select(getPostTestDeclarations), select(getSignatureStatus)),
-      candidateName$: currentTest$.pipe(select(getJournalData), select(getCandidate), select(getCandidateName)),
-      candidateUntitledName$: currentTest$.pipe(
-        select(getJournalData),
-        select(getCandidate),
-        select(getUntitledCandidateName)
-      ),
-      candidateDriverNumber$: currentTest$.pipe(
-        select(getJournalData),
-        select(getCandidate),
-        select(getCandidateDriverNumber),
-        map(formatDriverNumber)
-      ),
-      passCertificateNumber$: currentTest$.pipe(select(getPassCompletion), select(getPassCertificateNumber)),
-      licenseProvided$: currentTest$.pipe(select(getPassCompletion), map(isProvisionalLicenseProvided)),
-      conductedLanguage$: currentTest$.pipe(select(getCommunicationPreference), select(getConductedLanguage)),
-      testCategory$: currentTest$.pipe(select(getTestCategory)),
-      showHealthDec$: currentTest$.pipe(
-        select(getTestCategory),
-        map(
-          (category) =>
-            !isAnyOf(category, [
-              TestCategory.CM,
-              TestCategory.C1M,
-              TestCategory.CEM,
-              TestCategory.C1EM,
-              TestCategory.DM,
-              TestCategory.D1M,
-              TestCategory.DEM,
-              TestCategory.D1EM,
-            ])
-        )
-      ),
-      prn$: currentTest$.pipe(select(getJournalData), select(getCandidate), select(getCandidatePrn)),
-      isStandardsCheck$: currentTest$.pipe(
-        select(getTestCategory),
-        map((category) => isAnyOf(category, [TestCategory.SC]))
-      ),
-    };
-
-    const { licenseProvided$, healthDeclarationAccepted$, conductedLanguage$, showHealthDec$ } = this.pageState;
-
-    this.merged$ = merge(
-      licenseProvided$.pipe(map((val) => (this.licenseProvided = val))),
-      healthDeclarationAccepted$.pipe(map((val) => (this.healthDeclarationAccepted = val))),
-      showHealthDec$.pipe(map((val) => (this.showHealthDec = val))),
-      conductedLanguage$.pipe(tap((value) => configureI18N(value as Language, this.translate)))
-    );
-  }
-
   ionViewWillEnter(): boolean {
-    if (this.merged$) {
-      this.subscription = this.merged$.subscribe();
-    }
-
+    this.subscription?.unsubscribe();
+    this.subscription = this.store$
+      .pipe(select(selectCurrentTest), select(getCommunicationPreference), select(getConductedLanguage))
+      .subscribe((value) => configureI18N(value as Language, this.translate));
     return true;
   }
 
@@ -231,7 +170,7 @@ export class HealthDeclarationPage
     });
 
     if (this.formGroup.valid) {
-      if (!this.healthDeclarationAccepted && this.showHealthDec) {
+      if (!this.healthDeclarationAccepted() && this.showHealthDec()) {
         await this.showConfirmHealthDeclarationModal();
       } else {
         await this.persistAndNavigate(false);
@@ -255,7 +194,7 @@ export class HealthDeclarationPage
       showBackdrop: true,
       componentProps: {
         onTestDetailsConfirm: async () => this.persistAndNavigate(true),
-        licenseProvided: this.licenseProvided,
+        licenseProvided: this.licenseProvided(),
       },
     });
     await modal.present();
@@ -265,7 +204,7 @@ export class HealthDeclarationPage
     const canNavigate: boolean = await this.router.navigate([CONFIRM_TEST_DETAILS]);
 
     if (canNavigate) {
-      if (this.licenseProvided && resetLicenseProvided) {
+      if (this.licenseProvided() && resetLicenseProvided) {
         this.store$.dispatch(ProvisionalLicenseNotReceived());
       }
       this.store$.dispatch(ContinueFromDeclaration());

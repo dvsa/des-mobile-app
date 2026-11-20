@@ -3,11 +3,11 @@
   (click)="togglePopoverDisplay()"
   [class.promoted]="displayPopover"
   [ngClass]="{
-    'fault': drivingFaults > 0,
-    'serious-fault': hasSeriousFault,
-    'dangerous-fault': hasDangerousFault
+    'fault': drivingFaults() > 0,
+    'serious-fault': hasSeriousFault(),
+    'dangerous-fault': hasDangerousFault()
   }"
-  >
+>
   <div id="manoeuvers-tick" class="tickwrapper">
     <tick-indicator [ticked]="completed"></tick-indicator>
   </div>
@@ -15,27 +15,37 @@
   <driving-faults-badge
     id="manoeuvers-driving-faults"
     class="driving-faults-manoeuvers"
-    [count]="drivingFaults"
+    [count]="drivingFaults()"
   ></driving-faults-badge>
 
   <div class="label-wrapper">
-    <ion-icon class="popover-arrow" [class.arrow-down]="displayPopover" name="caret-forward"></ion-icon>
+    <ion-icon
+      class="popover-arrow"
+      [class.arrow-down]="displayPopover"
+      name="caret-forward"
+    ></ion-icon>
     <span class="label">{{controlLabel}}</span>
   </div>
 
   <div class="fault-wrapper">
-    <serious-fault-badge id="manoeuvers-serious-faults" [showBadge]="hasSeriousFault"></serious-fault-badge>
-    <dangerous-fault-badge id="manoeuvers-dangerous-faults" [showBadge]="hasDangerousFault"></dangerous-fault-badge>
+    <serious-fault-badge
+      id="manoeuvers-serious-faults"
+      [showBadge]="hasSeriousFault()"
+    ></serious-fault-badge>
+    <dangerous-fault-badge
+      id="manoeuvers-dangerous-faults"
+      [showBadge]="hasDangerousFault()"
+    ></dangerous-fault-badge>
   </div>
 </button>
 @if (displayPopover) {
-  <div class="manoeuvres-popover">
-    <ion-grid>
-      <ion-row>
-        <ion-col>
-          <ng-content></ng-content>
-        </ion-col>
-      </ion-row>
-    </ion-grid>
-  </div>
+<div class="manoeuvres-popover">
+  <ion-grid>
+    <ion-row>
+      <ion-col>
+        <ng-content></ng-content>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</div>
 }

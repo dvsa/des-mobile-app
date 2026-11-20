@@ -1,5 +1,4 @@
-import { AsyncPipe } from '@angular/common';
-import { Component, Input } from '@angular/core';
+import { Component, Input, computed } from '@angular/core';
 import { FormsModule, ReactiveFormsModule, UntypedFormGroup } from '@angular/forms';
 import { Style } from '@capacitor/status-bar';
 import { QuestionOutcome, QuestionResult } from '@dvsa/mes-test-schema/categories/common';
@@ -23,16 +22,14 @@ import {
   IonToolbar,
   ModalController,
 } from '@ionic/angular';
-import { Store, select } from '@ngrx/store';
+import { Store } from '@ngrx/store';
 import { AccessibilityService } from '@providers/accessibility/accessibility.service';
 import { FaultCountProvider } from '@providers/fault-count/fault-count';
 import { QuestionProvider } from '@providers/question/question';
 import { VehicleChecksQuestion } from '@providers/question/vehicle-checks-question.model';
 import { NUMBER_OF_TELL_ME_QUESTIONS } from '@shared/constants/tell-me-questions/tell-me-questions.cat-adi-part2.constants';
 import { StoreModel } from '@shared/models/store.model';
-import { VehicleChecksScore } from '@shared/models/vehicle-checks-score.model';
-import { getCandidate } from '@store/tests/journal-data/common/candidate/candidate.reducer';
-import { getUntitledCandidateName } from '@store/tests/journal-data/common/candidate/candidate.selector';
+import { selectUntitledCandidateName } from '@store/tests/journal-data/common/candidate/candidate.selector';
 import { getTestData } from '@store/tests/test-data/cat-adi-part2/test-data.cat-adi-part2.reducer';
 import {
   TellMeQuestionOutcomeChanged,
@@ -42,18 +39,9 @@ import {
   getSelectedTellMeQuestions,
   getVehicleChecksCatADI2,
 } from '@store/tests/test-data/cat-adi-part2/vehicle-checks/vehicle-checks.cat-adi-part2.selector';
-import { getTests } from '@store/tests/tests.reducer';
-import { getCurrentTest, getJournalData } from '@store/tests/tests.selector';
-import { Observable, Subscription, merge } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { selectCurrentTest } from '@store/tests/tests.selector';
 import { VehicleChecksQuestionComponent } from '../../../components/vehicle-checks-question/vehicle-checks-question';
 import * as vehicleChecksModalActions from './vehicle-checks-modal.cat-adi-part2.actions';
-
-interface VehicleChecksModalCatADIPart2State {
-  candidateName$: Observable<string>;
-  tellMeQuestions$: Observable<QuestionResult[]>;
-  vehicleChecksScore$: Observable<VehicleChecksScore>;
-}
 
 @Component({
   selector: 'vehicle-checks-modal-cat-adi-part2',
@@ -79,16 +67,19 @@ interface VehicleChecksModalCatADIPart2State {
     IonRow,
     IonCol,
     IonText,
-    AsyncPipe,
   ],
 })
 export class VehicleChecksCatADIPart2Modal {
-  pageState: VehicleChecksModalCatADIPart2State;
+  private currentTest = this.store$.selectSignal(selectCurrentTest);
+  private checks = computed(() => getVehicleChecksCatADI2(getTestData(this.currentTest() as never)));
+  candidateName = this.store$.selectSignal(selectUntitledCandidateName);
+  selectedTellMeQuestions = computed(() => getSelectedTellMeQuestions(this.checks()));
+  vehicleChecksScore = computed(() =>
+    this.faultCountProvider.getVehicleChecksFaultCount(TestCategory.ADI2, this.checks())
+  );
   formGroup: UntypedFormGroup;
   tellMeQuestions: VehicleChecksQuestion[];
   readonly tellMeQuestionsNumberArray: number[] = Array(NUMBER_OF_TELL_ME_QUESTIONS);
-  vehicleChecksScore: VehicleChecksScore;
-  subscription: Subscription;
   @Input()
   submitClicked: boolean;
   @Input()
@@ -106,33 +97,6 @@ export class VehicleChecksCatADIPart2Modal {
 
   ngOnInit(): void {
     this.tellMeQuestions = this.questionProvider.getTellMeQuestions(TestCategory.ADI2);
-
-    const currentTest$ = this.store$.pipe(select(getTests), select(getCurrentTest));
-    this.pageState = {
-      candidateName$: currentTest$.pipe(select(getJournalData), select(getCandidate), select(getUntitledCandidateName)),
-      tellMeQuestions$: currentTest$.pipe(
-        select(getTestData),
-        select(getVehicleChecksCatADI2),
-        select(getSelectedTellMeQuestions)
-      ),
-      vehicleChecksScore$: currentTest$.pipe(
-        select(getTestData),
-        select(getVehicleChecksCatADI2),
-        map((vehicleChecks) => this.faultCountProvider.getVehicleChecksFaultCount(TestCategory.ADI2, vehicleChecks))
-      ),
-    };
-
-    const { vehicleChecksScore$ } = this.pageState;
-
-    const merged$ = merge(vehicleChecksScore$.pipe(map((score) => (this.vehicleChecksScore = score))));
-
-    this.subscription = merged$.subscribe();
-  }
-
-  ionViewDidLeave(): void {
-    if (this.subscription) {
-      this.subscription.unsubscribe();
-    }
   }
 
   async onClose() {

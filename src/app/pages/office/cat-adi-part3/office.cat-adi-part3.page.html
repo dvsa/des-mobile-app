@@ -21,13 +21,13 @@
 
 <ion-content force-overscroll="false">
   <office-candidate-section
-    [candidateName]="pageState.candidateName$ | async"
-    [driverNumber]="pageState.candidateDriverNumber$ | async"
-    [startTime]="pageState.startTime$ | async"
-    [testOutcomeText]="pageState.testOutcomeText$ | async"
-    [grade]="pageState.testOutcomeGrade$ | async"
-    [candidatePrnNumber]="pageState.prn$ | async"
-    [isStandardsCheck]="pageState.isStandardsCheck$ | async"
+    [candidateName]="candidateName()"
+    [driverNumber]="candidateDriverNumber()"
+    [startTime]="startTime()"
+    [testOutcomeText]="testOutcomeText()"
+    [grade]="testOutcomeGrade()"
+    [candidatePrnNumber]="prn()"
+    [isStandardsCheck]="isStandardsCheck()"
     >
   </office-candidate-section>
 
@@ -42,7 +42,7 @@
           <activity-code
             id="activity-code-card"
             [formGroup]="form"
-            [activityCodeModel]="pageState.activityCode$ | async"
+            [activityCodeModel]="activityCode()"
             [activityCodeOptions]="activityCodeOptions"
             [isAdi3]="true"
             (activityCodeChange)="activityCodeChanged($event)"
@@ -51,47 +51,47 @@
           </activity-code>
 
           <office-registration-and-mot
-            [registrationNumber]="pageState.registrationNumber$ | async"
-            [previousVRNs]="pageState.previouslySearchedVRNs$ | async"
-            [vehicleMake]="pageState.vehicleMake$ | async"
-            [motStatus]="pageState.motStatus$ | async"
-            [motTestExpiryDate]="pageState.motTestExpiryDate$ | async"
-            [vehicleModel]="pageState.vehicleModel$ | async"
+            [registrationNumber]="registrationNumber()"
+            [previousVRNs]="previouslySearchedVRNs()"
+            [vehicleMake]="vehicleMake()"
+            [motStatus]="motStatus()"
+            [motTestExpiryDate]="motTestExpiryDate()"
+            [vehicleModel]="vehicleModel()"
           ></office-registration-and-mot>
 
-          @if ((pageState.motAlternativeEvidenceProvided$ | async) != null) {
+          @if ((motAlternativeEvidenceProvided()) != null) {
             <alternate-mot-evidence-provided
-              [alternativeEvidenceProvided]="pageState.motAlternativeEvidenceProvided$ | async"
-              [shouldHaveSeparator]="(pageState.motAlternativeEvidenceProvided$ | async) || (pageState.displayAdditionalInformation$ | async)"
+              [alternativeEvidenceProvided]="motAlternativeEvidenceProvided()"
+              [shouldHaveSeparator]="(motAlternativeEvidenceProvided()) || (displayAdditionalInformation())"
             ></alternate-mot-evidence-provided>
           }
 
-          @if (pageState.motAlternativeEvidenceProvided$ | async) {
+          @if (motAlternativeEvidenceProvided()) {
             <alternate-mot-evidence-description
-              [shouldHaveSeparator]="pageState.displayAdditionalInformation$ | async"
+              [shouldHaveSeparator]="displayAdditionalInformation()"
               (evidenceDescriptionTestResultChange)="alternativeMOTEvidenceDescriptionUpdated($event)"
-              [alternateEvidenceDescription]="pageState.motAlternativeEvidenceDescription$ | async"
+              [alternateEvidenceDescription]="motAlternativeEvidenceDescription()"
               [formGroup]="form"
               >
             </alternate-mot-evidence-description>
           }
 
-          <div class="ion-no-padding" [hidden]="!(pageState.isTestOutcomeSet$ | async)">
+          <div class="ion-no-padding" [hidden]="!(isTestOutcomeSet())">
             <additional-information
-              [display]="pageState.displayAdditionalInformation$ | async"
-              [additionalInformation]="pageState.additionalInformation$ | async"
+              [display]="displayAdditionalInformation()"
+              [additionalInformation]="additionalInformation()"
               [formGroup]="form"
-              [outcome]="pageState.testOutcome$ | async"
+              [outcome]="testOutcome()"
               (additionalInformationChange)="additionalInformationChanged($event)"
-              [shouldShowSeparator]="pageState.hasEnteredTeamsOnThisTest$ | async"
+              [shouldShowSeparator]="hasEnteredTeamsOnThisTest()"
             >
             </additional-information>
           </div>
 
-          @if (pageState.hasEnteredTeamsOnThisTest$ | async) {
+          @if (hasEnteredTeamsOnThisTest()) {
             <reason-for-entering-teams
-              [display]="pageState.hasEnteredTeamsOnThisTest$ | async"
-              [reasonForOpeningTeams]="pageState.reasonForEnteringTeams$ | async"
+              [display]="hasEnteredTeamsOnThisTest()"
+              [reasonForOpeningTeams]="reasonForEnteringTeams()"
               [formGroup]="form"
               (reasonForOpeningTeamsChange)="reasonForEnteringTeamsChanged($event)"
             ></reason-for-entering-teams>

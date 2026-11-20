@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, computed, signal } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { ScreenOrientation } from '@capawesome/capacitor-screen-orientation';
 import { ActivityCode, SearchResultTestSchema } from '@dvsa/mes-search-schema';
 import {
@@ -17,10 +18,9 @@ import {
 } from '@ionic/angular';
 import { IonRefresherCustomEvent, LoadingOptions } from '@ionic/core';
 import { select } from '@ngrx/store';
-import { Observable, Subscription, merge, of } from 'rxjs';
+import { Observable, Subscription, merge } from 'rxjs';
 import { map, switchMap, take, tap } from 'rxjs/operators';
 
-import { AsyncPipe } from '@angular/common';
 import { IncompleteTestsBanner } from '@components/common/incomplete-tests-banner/incomplete-tests-banner';
 import { OfflineBannerComponent } from '@components/common/offline-banner/offline-banner';
 import { RefreshButtonComponent } from '@components/common/refresh-button/refresh-button.component';
@@ -64,21 +64,6 @@ import { ErrorPage } from '../error-page/error';
 import { JournalNavigationComponent } from './components/journal-navigation/journal-navigation';
 import { JournalSlotComponent } from './components/journal-slot/journal-slot';
 
-interface JournalPageState {
-  selectedDate$: Observable<string>;
-  slots$: Observable<SlotItem[]>;
-  error$: Observable<MesError>;
-  isLoading$: Observable<boolean>;
-  lastRefreshedTime$: Observable<string>;
-  recallAutoPopupLastDisplayedTime$: Observable<string>;
-  appVersion$: Observable<string>;
-  completedTests$: Observable<SearchResultTestSchema[]>;
-  isOffline$: Observable<boolean>;
-  canNavigateToPreviousDay$: Observable<boolean>;
-  canNavigateToNextDay$: Observable<boolean>;
-  isSelectedDateToday$: Observable<boolean>;
-}
-
 export interface CompletedJournalSlot {
   applicationReference: string;
   activityCode: ActivityCode;
@@ -107,23 +92,38 @@ export interface CompletedJournalSlot {
     JournalNavigationComponent,
     VehicleRecallsBanner,
     JournalSlotComponent,
-    AsyncPipe,
   ],
 })
-export class JournalPage extends BasePageComponent implements OnInit {
+export class JournalPage extends BasePageComponent {
   private static loadingOpts: LoadingOptions = {
     id: 'journal_loading_spinner',
     spinner: 'circles',
     backdropDismiss: true,
     translucent: false,
   };
-  pageState: JournalPageState;
   pageRefresher: IonRefresherCustomEvent<RefresherEventDetail>;
   subscription: Subscription;
-  merged$: Observable<void | Promise<unknown>>;
+  merged$: Observable<unknown>;
   todaysDate: DateTime;
   platformSubscription: Subscription;
   isDisplayingLearnMoreModal = false;
+  private readonly journalState = this.store$.selectSignal(getJournalState);
+  readonly selectedDate = computed(() => getSelectedDate(this.journalState()));
+  readonly slots = computed(() => getSlotsOnSelectedDate(this.journalState()));
+  readonly isLoading = computed(() => getIsLoading(this.journalState()));
+  readonly lastRefreshedTime = computed(() => getLastRefreshedTime(getLastRefreshed(this.journalState())));
+  readonly recallAutoPopupLastDisplayedTime = this.store$.selectSignal(getRecallAutoPopupLastDisplayedTime);
+  readonly appVersion = this.store$.selectSignal(selectVersionNumber);
+  readonly completedTests = signal<SearchResultTestSchema[]>([]);
+  readonly isOffline = toSignal(this.networkStateProvider.isOffline$, { initialValue: false });
+  readonly isPortrait = toSignal(this.orientationMonitorProvider.isPortraitMode$, { initialValue: false });
+  readonly canNavigateToPreviousDay = computed(() =>
+    canNavigateToPreviousDay(this.journalState(), this.dateTimeProvider.now())
+  );
+  readonly canNavigateToNextDay = computed(() => canNavigateToNextDay(this.journalState()));
+  readonly isSelectedDateToday = computed(
+    () => this.selectedDate() === this.dateTimeProvider.now().format('YYYY-MM-DD')
+  );
 
   constructor(
     public modalController: ModalController,
@@ -139,41 +139,6 @@ export class JournalPage extends BasePageComponent implements OnInit {
     this.todaysDate = this.dateTimeProvider.now();
   }
 
-  ngOnInit(): void {
-    this.pageState = {
-      selectedDate$: this.store$.pipe(select(getJournalState), map(getSelectedDate)),
-      recallAutoPopupLastDisplayedTime$: this.store$.pipe(
-        select(getJournalState),
-        map(getRecallAutoPopupLastDisplayedTime)
-      ),
-      slots$: this.store$.pipe(
-        select(getJournalState),
-        map(getSlotsOnSelectedDate),
-        tap((slots) => this.displayAutoRecallPopup(slots))
-      ),
-      error$: this.store$.pipe(select(getJournalState), map(getError), take(1)),
-      isLoading$: this.store$.pipe(select(getJournalState), map(getIsLoading)),
-      lastRefreshedTime$: this.store$.pipe(select(getJournalState), map(getLastRefreshed), map(getLastRefreshedTime)),
-      appVersion$: this.store$.select(selectVersionNumber),
-      isOffline$: this.networkStateProvider.isOffline$,
-      canNavigateToPreviousDay$: this.store$.pipe(
-        select(getJournalState),
-        map((journal) => canNavigateToPreviousDay(journal, this.dateTimeProvider.now()))
-      ),
-      canNavigateToNextDay$: this.store$.pipe(select(getJournalState), map(canNavigateToNextDay)),
-      isSelectedDateToday$: this.store$.pipe(
-        select(getJournalState),
-        map(getSelectedDate),
-        map((selectedDate) => selectedDate === this.dateTimeProvider.now().format('YYYY-MM-DD'))
-      ),
-      completedTests$: of([]),
-    };
-
-    const { error$, isLoading$ } = this.pageState;
-
-    this.merged$ = merge(error$.pipe(switchMap(this.showError)), isLoading$.pipe(map(this.handleLoadingUI)));
-  }
-
   ionViewDidLeave(): void {
     if (this.subscription) {
       this.subscription.unsubscribe();
@@ -181,42 +146,29 @@ export class JournalPage extends BasePageComponent implements OnInit {
   }
 
   async displayAutoRecallPopup(slots: SlotItem[]) {
-    this.pageState.isSelectedDateToday$
-      .subscribe(async (isToday) => {
-        // If the selected date is not today or there are no slots, do not display the popup
-        if (!isToday || slots.length === 0) return;
+    if (!this.isSelectedDateToday() || slots.length === 0) return;
 
-        // Check if the popup has already been displayed today
-        const formattedTodayDate = this.todaysDate.format('DD/MM/YYYY');
+    const formattedTodayDate = this.todaysDate.format('DD/MM/YYYY');
+    if (this.recallAutoPopupLastDisplayedTime() === formattedTodayDate) return;
 
-        if (this.store$.selectSignal(getRecallAutoPopupLastDisplayedTime)() === formattedTodayDate) return;
+    const testStatus = this.store$.selectSignal(getTests)().testStatus;
+    const affectedCategories = [TestCategory.ADI2, TestCategory.ADI3, TestCategory.SC, TestCategory.B];
+    const hasIncompleteAffectedSlot = slots.some(
+      (slot) =>
+        'booking' in slot.slotData &&
+        affectedCategories.includes(slot.slotData?.booking?.application?.testCategory as TestCategory) &&
+        !isAnyOf(testStatus[slot.slotData.slotDetail.slotId], [
+          TestStatus.Autosaved,
+          TestStatus.Completed,
+          TestStatus.Submitted,
+          TestStatus.WriteUp,
+        ])
+    );
 
-        // Check if there are any affected slots that are not autosaved, completed, or submitted
-        const testStatus = this.store$.selectSignal(getTests)().testStatus;
-
-        // Define the categories that are affected by the auto-recall popup
-        const affectedCategories = [TestCategory.ADI2, TestCategory.ADI3, TestCategory.SC, TestCategory.B];
-
-        // Check if there are any slots with bookings in the affected categories that are not completed, autosaved, or submitted
-        const hasIncompleteAffectedSlot = slots.some(
-          (slot) =>
-            'booking' in slot.slotData &&
-            affectedCategories.includes(slot.slotData?.booking?.application?.testCategory as TestCategory) &&
-            !isAnyOf(testStatus[slot.slotData.slotDetail.slotId], [
-              TestStatus.Autosaved,
-              TestStatus.Completed,
-              TestStatus.Submitted,
-              TestStatus.WriteUp,
-            ])
-        );
-
-        // If there are incomplete affected slots, dispatch the action to display the popup
-        if (hasIncompleteAffectedSlot) {
-          this.store$.dispatch(journalActions.RecallAutoPopupDisplayedTimeChanged(formattedTodayDate));
-          await this.openLearnMoreModal();
-        }
-      })
-      .unsubscribe();
+    if (hasIncompleteAffectedSlot) {
+      this.store$.dispatch(journalActions.RecallAutoPopupDisplayedTimeChanged(formattedTodayDate));
+      await this.openLearnMoreModal();
+    }
   }
 
   async openLearnMoreModal() {
@@ -257,9 +209,15 @@ export class JournalPage extends BasePageComponent implements OnInit {
     this.setupPolling();
     this.configurePlatformSubscriptions();
 
-    if (this.merged$) {
-      this.subscription = this.merged$.subscribe();
-    }
+    const journalState$ = this.store$.pipe(select(getJournalState));
+    const error$ = journalState$.pipe(map(getError), take(1));
+    const isLoading$ = journalState$.pipe(map(getIsLoading));
+    const slots$ = journalState$.pipe(
+      map(getSlotsOnSelectedDate),
+      tap((slots) => this.displayAutoRecallPopup(slots))
+    );
+    this.merged$ = merge(error$.pipe(switchMap(this.showError)), isLoading$.pipe(map(this.handleLoadingUI)), slots$);
+    this.subscription = this.merged$.subscribe();
     this.todaysDate = this.dateTimeProvider.now();
 
     return true;

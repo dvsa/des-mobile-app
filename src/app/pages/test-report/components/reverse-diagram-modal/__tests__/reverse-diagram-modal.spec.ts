@@ -5,7 +5,6 @@ import { NavControllerMock, PlatformMock } from '@mocks/index.mock';
 import { Store, StoreModule } from '@ngrx/store';
 import { ReversingDistancesProvider } from '@providers/reversing-distances/reversing-distances';
 import { StoreModel } from '@shared/models/store.model';
-import { firstValueFrom } from 'rxjs';
 import { MockAppComponent } from 'src/app/__mocks__/app.component.mock';
 import { AppComponent } from 'src/app/app.component';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
@@ -84,18 +83,14 @@ describe('reverseDiagramModal', () => {
       const value = vehicleDetails.get(testCategory);
       const cappedStartDistanceCategories = mockFile.getCappedStartDistanceCategories();
       describe(`Category ${testCategory}`, () => {
-        describe('ngOnInit', () => {
-          it('should set the distance based on booked in vehicle length', async () => {
-            component.category = testCategory;
-            component.ngOnInit();
-            const result = await firstValueFrom(component.componentState.vehicleLength$);
-            expect(result).toEqual(value.vLength);
+        describe('ionViewWillEnter', () => {
+          it('should load the recorded vehicle length', () => {
+            component.ionViewWillEnter();
+            expect(component.vehicleLength).toEqual(value.vLength);
           });
-          it('should set the distance based on booked in vehicle width', async () => {
-            component.category = testCategory;
-            component.ngOnInit();
-            const result = await firstValueFrom(component.componentState.vehicleWidth$);
-            expect(result).toEqual(mockFile.vehicleDetails.get(component.category).vWidth);
+          it('should load the recorded vehicle width', () => {
+            component.ionViewWillEnter();
+            expect(component.vehicleWidth).toEqual(value.vWidth);
           });
         });
         describe('calculateReversingLengths', () => {
@@ -157,7 +152,6 @@ describe('reverseDiagramModal', () => {
         const calculateAtoBMultiplierTextSpy = vi
           .spyOn(component, 'calculateAtoBMultiplierText')
           .mockReturnValue(undefined);
-        component.ngOnInit();
         const result = component.ionViewWillEnter();
         expect(calculateDistanceLengthSpy).toHaveBeenCalled();
         expect(calculateDistanceWidthSpy).toHaveBeenCalled();

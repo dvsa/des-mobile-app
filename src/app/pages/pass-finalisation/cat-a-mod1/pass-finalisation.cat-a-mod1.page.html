@@ -18,7 +18,7 @@
       (setupLeaveSubscription)="setupEscapeSAMLeaveSubscription()"
       (setupResumeSubscription)="setupEscapeSAMResumeSubscription()"
       (onExitSAMActivatedChanged)="isSamActivatedChanged($event)">
-      Finalise outcome - {{ pageState.candidateUntitledName$ | async }}
+      Finalise outcome - {{ candidateUntitledName() }}
     </test-flow-header>
   </ion-toolbar>
 </ion-header>
@@ -28,20 +28,20 @@
     <form (ngSubmit)="onSubmit()" [formGroup]="form">
       <ion-grid>
         <finalisation-header
-          [candidateDriverNumber]="pageState.candidateDriverNumber$ | async"
-          [candidateName]="pageState.candidateName$ | async"
-          [outcomeText]="pageState.testOutcomeText$ | async"
+          [candidateDriverNumber]="candidateDriverNumber()"
+          [candidateName]="candidateName()"
+          [outcomeText]="testOutcomeText()"
           >
         </finalisation-header>
 
-        <application-reference-number [applicationNumber]="pageState.applicationNumber$ | async">
+        <application-reference-number [applicationNumber]="applicationNumber()">
         </application-reference-number>
 
         <bike-category-type
           (categoryCodeChange)="categoryCodeChanged($event)"
           [categoryConfirmed]="true"
           [formGroup]="form"
-          [testCategory]="pageState.testCategory$ | async"
+          [testCategory]="testCategorySignal()"
           testType="MOD1"
           >
         </bike-category-type>
@@ -57,21 +57,21 @@
           (passCertificateNumberChange)="passCertificateNumberChanged($event)"
           [form]="form"
           [isPracticeMode]="isPracticeMode"
-          [passCertificateNumberInput]="pageState.passCertificateNumber$ | async"
+          [passCertificateNumberInput]="passCertificateNumber()"
           >
         </pass-certificate-number-cat-a-mod1>
 
         <d255
           (d255Change)="d255Changed($event)"
-          [d255]="pageState.d255$ | async"
+          [d255]="d255()"
           [display]="true"
-          [eyesightTestFailed]="pageState.eyesightTestFailed$ | async"
+          [eyesightTestFailed]="eyesightTestFailed()"
           [formGroup]="form"
-          [outcome]="pageState.testOutcome$ | async"
+          [outcome]="testOutcomeCode()"
           >
         </d255>
 
-        @if (pageState.d255$ | async) {
+        @if (d255()) {
           <warning-banner
             [warningIdentifier]="'d255-'"
             warningText="DVLA will not process the result until a D255 is received."
@@ -82,17 +82,17 @@
         <language-preferences
           (welshChanged)="isWelshChanged($event)"
           [formGroup]="form"
-          [isWelsh]="(pageState.conductedLanguage$ | async) === 'Cymraeg'"
+          [isWelsh]="(conductedLanguage()) === 'Cymraeg'"
           >
         </language-preferences>
 
         <debrief-witnessed
           (debriefWitnessedChange)="debriefWitnessedChanged($event)"
-          [debriefWitnessed]="pageState.debriefWitnessed$ | async"
+          [debriefWitnessed]="debriefWitnessed()"
           [display]="true"
           [shouldShowSeparator]="false"
           [formGroup]="form"
-          [outcome]="pageState.testOutcome$ | async"
+          [outcome]="testOutcomeCode()"
           >
         </debrief-witnessed>
       </ion-grid>

@@ -18,7 +18,7 @@
       (setupLeaveSubscription)="setupEscapeSAMLeaveSubscription()"
       (setupResumeSubscription)="setupEscapeSAMResumeSubscription()"
       (onExitSAMActivatedChanged)="isSamActivatedChanged($event)">
-      Finalise outcome - {{ pageState.candidateUntitledName$ | async }}
+      Finalise outcome - {{ candidateUntitledName() }}
     </test-flow-header>
   </ion-toolbar>
 </ion-header>
@@ -28,15 +28,15 @@
     <form [formGroup]="form" (ngSubmit)="onSubmit()">
       <ion-grid>
         <finalisation-header
-          [candidateName]="pageState.candidateName$ | async"
-          [candidateDriverNumber]="pageState.candidateDriverNumber$ | async"
-          [outcomeText]="pageState.testOutcomeText$ | async"
+          [candidateName]="candidateName()"
+          [candidateDriverNumber]="candidateDriverNumber()"
+          [outcomeText]="testOutcomeText()"
           >
         </finalisation-header>
 
         <language-preferences
           [formGroup]="form"
-          [isWelsh]="(pageState.conductedLanguage$ | async) === 'Cymraeg'"
+          [isWelsh]="(conductedLanguage()) === 'Cymraeg'"
           (welshChanged)="isWelshChanged($event)"
           >
         </language-preferences>
@@ -44,7 +44,7 @@
         <debrief-witnessed
           [display]="true"
           [formGroup]="form"
-          [debriefWitnessed]="pageState.debriefWitnessed$ | async"
+          [debriefWitnessed]="debriefWitnessed()"
           [outcome]="testOutcome"
           (debriefWitnessedChange)="debriefWitnessedChanged($event)"
           >

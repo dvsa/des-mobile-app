@@ -1,13 +1,11 @@
 import { NgClass } from '@angular/common';
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, computed } from '@angular/core';
 import { DangerousFaultBadgeComponent } from '@components/common/dangerous-fault-badge/dangerous-fault-badge';
 import { DrivingFaultsBadgeComponent } from '@components/common/driving-faults-badge/driving-faults-badge';
 import { SeriousFaultBadgeComponent } from '@components/common/serious-fault-badge/serious-fault-badge';
 import { TickIndicatorComponent } from '@components/common/tick-indicator/tick-indicator';
-import { CatBUniqueTypes } from '@dvsa/mes-test-schema/categories/B';
 import { IonCol, IonRow } from '@ionic/angular';
-import { Store, select } from '@ngrx/store';
-import { trDestroy$ } from '@shared/classes/test-flow-base-pages/test-report/test-report-base-page';
+import { Store } from '@ngrx/store';
 import { CompetencyOutcome } from '@shared/models/competency-outcome';
 import { StoreModel } from '@shared/models/store.model';
 import { getVehicleChecks } from '@store/tests/test-data/cat-b/test-data.cat-b.selector';
@@ -22,8 +20,6 @@ import {
 import { getTests } from '@store/tests/tests.reducer';
 import { getCurrentTest } from '@store/tests/tests.selector';
 import { isEmpty } from 'lodash-es';
-import { Observable, Subscription, merge } from 'rxjs';
-import { map, takeUntil } from 'rxjs/operators';
 import { CompetencyButtonComponent } from '../../../components/competency-button/competency-button';
 import { ToggleDangerousFaultMode, ToggleRemoveFaultMode, ToggleSeriousFaultMode } from '../../../test-report.actions';
 import { getTestReportState } from '../../../test-report.reducer';
@@ -45,57 +41,21 @@ import { isDangerousMode, isRemoveFaultMode, isSeriousMode } from '../../../test
     DangerousFaultBadgeComponent,
   ],
 })
-export class VehicleCheckComponent implements OnInit, OnDestroy {
-  selectedShowMeQuestion = false;
+export class VehicleCheckComponent {
+  private readonly tests = this.store$.selectSignal(getTests);
+  private readonly currentTest = computed(() => getCurrentTest(this.tests()));
+  private readonly testData = computed(() => getTestData(this.currentTest()));
+  private readonly vehicleChecks = computed(() => getVehicleChecks(this.testData()));
+  private readonly testReportState = this.store$.selectSignal(getTestReportState);
 
-  tellMeQuestionFault: string;
-  showMeQuestionFault: string;
-
-  isRemoveFaultMode = false;
-  isSeriousMode = false;
-  isDangerousMode = false;
-
-  merged$: Observable<void | boolean>;
-
-  subscription: Subscription;
+  tellMeQuestionFault = computed(() => this.vehicleChecks().tellMeQuestion.outcome);
+  showMeQuestionFault = computed(() => this.vehicleChecks().showMeQuestion.outcome);
+  selectedShowMeQuestion = computed(() => !isEmpty(this.showMeQuestionFault()));
+  isRemoveFaultMode = computed(() => isRemoveFaultMode(this.testReportState()));
+  isSeriousMode = computed(() => isSeriousMode(this.testReportState()));
+  isDangerousMode = computed(() => isDangerousMode(this.testReportState()));
 
   constructor(private store$: Store<StoreModel>) {}
-
-  ngOnInit(): void {
-    const vehicleChecks$ = this.store$.pipe(
-      select(getTests),
-      select(getCurrentTest),
-      select(getTestData),
-      select(getVehicleChecks)
-    );
-
-    const isSeriousMode$ = this.store$.pipe(select(getTestReportState), select(isSeriousMode));
-
-    const isDangerousMode$ = this.store$.pipe(select(getTestReportState), select(isDangerousMode));
-
-    const isRemoveFaultMode$ = this.store$.pipe(select(getTestReportState), select(isRemoveFaultMode));
-
-    this.subscription = merge(
-      vehicleChecks$.pipe(
-        map((vehicleChecks: CatBUniqueTypes.VehicleChecks) => {
-          this.tellMeQuestionFault = vehicleChecks.tellMeQuestion.outcome;
-          this.showMeQuestionFault = vehicleChecks.showMeQuestion.outcome;
-          this.selectedShowMeQuestion = !isEmpty(vehicleChecks.showMeQuestion.outcome);
-        })
-      ),
-      isSeriousMode$.pipe(map((toggle) => (this.isSeriousMode = toggle))),
-      isDangerousMode$.pipe(map((toggle) => (this.isDangerousMode = toggle))),
-      isRemoveFaultMode$.pipe(map((toggle) => (this.isRemoveFaultMode = toggle)))
-    )
-      .pipe(takeUntil(trDestroy$))
-      .subscribe();
-  }
-
-  ngOnDestroy(): void {
-    if (this.subscription) {
-      this.subscription.unsubscribe();
-    }
-  }
 
   onTap = () => {
     this.addOrRemoveFault();
@@ -110,7 +70,7 @@ export class VehicleCheckComponent implements OnInit, OnDestroy {
       return;
     }
 
-    if (this.showMeQuestionFault === CompetencyOutcome.P) {
+    if (this.showMeQuestionFault() === CompetencyOutcome.P) {
       this.store$.dispatch(ShowMeQuestionRemoveFault(CompetencyOutcome.P));
       return;
     }
@@ -119,16 +79,16 @@ export class VehicleCheckComponent implements OnInit, OnDestroy {
   };
 
   canButtonRipple = () => {
-    if (this.isRemoveFaultMode) {
-      if (this.hasDangerousFault() && this.isDangerousMode) {
+    if (this.isRemoveFaultMode()) {
+      if (this.hasDangerousFault() && this.isDangerousMode()) {
         return true;
       }
 
-      if (this.hasSeriousFault() && this.isSeriousMode) {
+      if (this.hasSeriousFault() && this.isSeriousMode()) {
         return true;
       }
 
-      if (this.hasShowMeDrivingFault() && !this.isSeriousMode && !this.isDangerousMode) {
+      if (this.hasShowMeDrivingFault() && !this.isSeriousMode() && !this.isDangerousMode()) {
         return true;
       }
 
@@ -139,7 +99,7 @@ export class VehicleCheckComponent implements OnInit, OnDestroy {
   };
 
   addOrRemoveFault = (wasPress = false): void => {
-    if (this.isRemoveFaultMode) {
+    if (this.isRemoveFaultMode()) {
       this.removeFault();
       return;
     }
@@ -148,7 +108,7 @@ export class VehicleCheckComponent implements OnInit, OnDestroy {
   };
 
   removeFault = (): void => {
-    if (this.hasDangerousFault() && this.isDangerousMode && this.isRemoveFaultMode) {
+    if (this.hasDangerousFault() && this.isDangerousMode() && this.isRemoveFaultMode()) {
       this.store$.dispatch(ShowMeQuestionRemoveFault(CompetencyOutcome.D));
       this.store$.dispatch(ShowMeQuestionPassed());
       this.store$.dispatch(ToggleDangerousFaultMode());
@@ -156,7 +116,7 @@ export class VehicleCheckComponent implements OnInit, OnDestroy {
       return;
     }
 
-    if (this.hasSeriousFault() && this.isSeriousMode && this.isRemoveFaultMode) {
+    if (this.hasSeriousFault() && this.isSeriousMode() && this.isRemoveFaultMode()) {
       this.store$.dispatch(ShowMeQuestionRemoveFault(CompetencyOutcome.S));
       this.store$.dispatch(ShowMeQuestionPassed());
       this.store$.dispatch(ToggleSeriousFaultMode());
@@ -164,7 +124,7 @@ export class VehicleCheckComponent implements OnInit, OnDestroy {
       return;
     }
 
-    if (!this.isSeriousMode && !this.isDangerousMode && this.isRemoveFaultMode && this.hasShowMeDrivingFault()) {
+    if (!this.isSeriousMode() && !this.isDangerousMode() && this.isRemoveFaultMode() && this.hasShowMeDrivingFault()) {
       this.store$.dispatch(ShowMeQuestionRemoveFault(CompetencyOutcome.DF));
       this.store$.dispatch(ShowMeQuestionPassed());
       this.store$.dispatch(ToggleRemoveFaultMode());
@@ -176,13 +136,13 @@ export class VehicleCheckComponent implements OnInit, OnDestroy {
       return;
     }
 
-    if (this.isDangerousMode) {
+    if (this.isDangerousMode()) {
       this.store$.dispatch(ShowMeQuestionDangerousFault());
       this.store$.dispatch(ToggleDangerousFaultMode());
       return;
     }
 
-    if (this.isSeriousMode) {
+    if (this.isSeriousMode()) {
       this.store$.dispatch(ShowMeQuestionSeriousFault());
       this.store$.dispatch(ToggleSeriousFaultMode());
       return;
@@ -206,18 +166,18 @@ export class VehicleCheckComponent implements OnInit, OnDestroy {
   };
 
   hasShowMeDrivingFault = (): boolean => {
-    return this.showMeQuestionFault === CompetencyOutcome.DF;
+    return this.showMeQuestionFault() === CompetencyOutcome.DF;
   };
 
   hasTellMeDrivingFault = (): boolean => {
-    return this.tellMeQuestionFault === CompetencyOutcome.DF;
+    return this.tellMeQuestionFault() === CompetencyOutcome.DF;
   };
 
   hasSeriousFault = (): boolean => {
-    return this.showMeQuestionFault === CompetencyOutcome.S;
+    return this.showMeQuestionFault() === CompetencyOutcome.S;
   };
 
   hasDangerousFault = (): boolean => {
-    return this.showMeQuestionFault === CompetencyOutcome.D;
+    return this.showMeQuestionFault() === CompetencyOutcome.D;
   };
 }

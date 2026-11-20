@@ -29,6 +29,7 @@ import { LogHelper } from '@providers/logs/logs-helper';
 import { OrientationMonitorProviderMock } from '@providers/orientation-monitor/__mocks/orientation-monitor.provider.mock';
 import { OrientationMonitorProvider } from '@providers/orientation-monitor/orientation-monitor.provider';
 import { StoreModel } from '@shared/models/store.model';
+import { BehaviorSubject } from 'rxjs';
 import { FakeJournalPage } from '../fake-journal.page';
 
 describe('FakeJournalPage', () => {
@@ -51,7 +52,10 @@ describe('FakeJournalPage', () => {
       providers: [
         {
           provide: OrientationMonitorProvider,
-          useClass: OrientationMonitorProviderMock,
+          useFactory: () => ({
+            ...new OrientationMonitorProviderMock(),
+            isPortraitMode$: new BehaviorSubject(false),
+          }),
         },
         {
           provide: Platform,

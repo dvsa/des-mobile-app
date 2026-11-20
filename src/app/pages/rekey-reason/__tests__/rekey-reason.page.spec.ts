@@ -32,7 +32,7 @@ import { NavigationStateProvider } from '@providers/navigation-state/navigation-
 import { AppInfoStateModel } from '@store/app-info/app-info.model';
 import { getUploadStatus } from '@store/tests/rekey-reason/rekey-reason.selector';
 
-import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, signal } from '@angular/core';
 import { ExitRekeyModal } from '@pages/rekey-reason/components/exit-rekey-modal/exit-rekey-modal';
 import { ExitRekeyModalEvent } from '@pages/rekey-reason/components/exit-rekey-modal/exit-rekey-modal.constants';
 import { UploadRekeyModal } from '@pages/rekey-reason/components/upload-rekey-modal/upload-rekey-modal';
@@ -45,7 +45,7 @@ import {
 } from '@pages/rekey-reason/rekey-reason.actions';
 import { LoaderProviderMock } from '@providers/loader/__mocks__/loader.mock';
 import { SetRekeyDate } from '@store/tests/rekey-date/rekey-date.actions';
-import { Observable, Subscription } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { IpadIssueComponent } from '../components/ipad-issue/ipad-issue';
 import { OtherReasonComponent } from '../components/other-reason/other-reason';
 import { TransferComponent } from '../components/transfer/transfer';
@@ -217,7 +217,7 @@ describe('RekeyReasonPage', () => {
       });
       it('should dispatch the set examiner with the examinerKeyed and the reset action', () => {
         component.transferSelected(false);
-        expect(store$.dispatch).toHaveBeenCalledWith(SetExaminerConducted(component.examinerKeyed));
+        expect(store$.dispatch).toHaveBeenCalledWith(SetExaminerConducted(component.examinerKeyed()));
         expect(store$.dispatch).toHaveBeenCalledWith(ResetStaffNumberValidationError());
       });
     });
@@ -301,8 +301,7 @@ describe('RekeyReasonPage', () => {
       });
     });
     describe('ionViewWillEnter', () => {
-      it('should setup subscription if merged is present', () => {
-        component.merged$ = new Observable<number | boolean | Promise<void>>();
+      it('should monitor upload status while the view is active', () => {
         component.ionViewWillEnter();
 
         expect(component.subscription).toBeDefined();
@@ -329,7 +328,7 @@ describe('RekeyReasonPage', () => {
         'should set uploadButtonPressed, dispatch SetRekeyDate and ValidateTransferRekey if ' +
           'passed parameter is UploadRekeyModalEvent.UPLOAD and isTransferSelected is true',
         () => {
-          component.isTransferSelected = true;
+          component.isTransferSelected = signal(true);
           component.onUploadRekeyModalDismiss(UploadRekeyModalEvent.UPLOAD);
           expect(component.uploadButtonPressed).toEqual(true);
           expect(store$.dispatch).toHaveBeenCalledWith(SetRekeyDate());
@@ -340,7 +339,7 @@ describe('RekeyReasonPage', () => {
         'should set uploadButtonPressed, dispatch SetRekeyDate, SendCurrentTest and RekeyUploadTest if ' +
           'passed parameter is UploadRekeyModalEvent.UPLOAD and isTransferSelected is false',
         () => {
-          component.isTransferSelected = false;
+          component.isTransferSelected = signal(false);
           component.onUploadRekeyModalDismiss(UploadRekeyModalEvent.UPLOAD);
           expect(component.uploadButtonPressed).toEqual(true);
           expect(store$.dispatch).toHaveBeenCalledWith(SetRekeyDate());
@@ -360,14 +359,14 @@ describe('RekeyReasonPage', () => {
     describe('exitRekey', () => {
       it('should run navigate with REKEY_SEARCH_PAGE if fromRekeySearch is true', async () => {
         vi.spyOn(component.router, 'navigate');
-        component.fromRekeySearch = true;
+        component.fromRekeySearch = signal(true);
         await component.exitRekey();
 
         expect(component.router.navigate).toHaveBeenCalledWith([REKEY_SEARCH_PAGE]);
       });
       it('should run navigate with JOURNAL_PAGE if fromRekeySearch is false', async () => {
         vi.spyOn(component.router, 'navigate');
-        component.fromRekeySearch = false;
+        component.fromRekeySearch = signal(false);
         await component.exitRekey();
 
         expect(component.router.navigate).toHaveBeenCalledWith([JOURNAL_PAGE]);

@@ -1,69 +1,35 @@
-import { AsyncPipe, NgClass } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { NgClass } from '@angular/common';
+import { Component, computed } from '@angular/core';
 import { TickIndicatorComponent } from '@components/common/tick-indicator/tick-indicator';
 import { IonCol, IonRow } from '@ionic/angular';
-import { Store, select } from '@ngrx/store';
-import { trDestroy$ } from '@shared/classes/test-flow-base-pages/test-report/test-report-base-page';
+import { Store } from '@ngrx/store';
 import { StoreModel } from '@shared/models/store.model';
 import { getTestData } from '@store/tests/test-data/cat-b/test-data.reducer';
 import { ToggleControlEco, ToggleEco, TogglePlanningEco } from '@store/tests/test-data/common/eco/eco.actions';
 import { getEco } from '@store/tests/test-data/common/test-data.selector';
 import { getTests } from '@store/tests/tests.reducer';
 import { getCurrentTest } from '@store/tests/tests.selector';
-import { Observable, Subscription, merge } from 'rxjs';
-import { map, takeUntil } from 'rxjs/operators';
 import { CompetencyButtonComponent } from '../competency-button/competency-button';
-
-interface EcoComponentState {
-  completed$: Observable<boolean>;
-  adviceGivenPlanning$: Observable<boolean>;
-  adviceGivenControl$: Observable<boolean>;
-}
 
 @Component({
   selector: 'eco',
   templateUrl: 'eco.html',
   styleUrls: ['eco.scss'],
-  imports: [IonRow, IonCol, CompetencyButtonComponent, NgClass, TickIndicatorComponent, AsyncPipe],
+  imports: [IonRow, IonCol, CompetencyButtonComponent, NgClass, TickIndicatorComponent],
 })
-export class EcoComponent implements OnInit {
-  subscription: Subscription;
-
-  adviceGivenPlanning = false;
-  adviceGivenControl = false;
-  componentState: EcoComponentState;
-  merged$: Observable<boolean>;
+export class EcoComponent {
+  private readonly tests = this.store$.selectSignal(getTests);
+  private readonly currentTest = computed(() => getCurrentTest(this.tests()));
+  private readonly testData = computed(() => getTestData(this.currentTest()));
+  private readonly eco = computed(() => getEco(this.testData()));
+  completed = computed(() => this.eco().completed);
+  adviceGivenPlanning = computed(() => this.eco().adviceGivenPlanning);
+  adviceGivenControl = computed(() => this.eco().adviceGivenControl);
 
   constructor(private store$: Store<StoreModel>) {}
 
-  ngOnInit(): void {
-    const eco$ = this.store$.pipe(select(getTests), select(getCurrentTest), select(getTestData), select(getEco));
-
-    this.componentState = {
-      completed$: eco$.pipe(map((eco) => eco.completed)),
-      adviceGivenPlanning$: eco$.pipe(map((eco) => eco.adviceGivenPlanning)),
-      adviceGivenControl$: eco$.pipe(map((eco) => eco.adviceGivenControl)),
-    };
-
-    const { completed$, adviceGivenPlanning$, adviceGivenControl$ } = this.componentState;
-
-    const merged$ = merge(
-      completed$,
-      adviceGivenPlanning$.pipe(map((toggle) => (this.adviceGivenPlanning = toggle))),
-      adviceGivenControl$.pipe(map((toggle) => (this.adviceGivenControl = toggle)))
-    );
-
-    this.subscription = merged$.pipe(takeUntil(trDestroy$)).subscribe();
-  }
-
-  ngOnDestroy(): void {
-    if (this.subscription) {
-      this.subscription.unsubscribe();
-    }
-  }
-
   toggleEco = (): void => {
-    if (this.adviceGivenPlanning || this.adviceGivenControl) {
+    if (this.adviceGivenPlanning() || this.adviceGivenControl()) {
       return;
     }
     this.store$.dispatch(ToggleEco());

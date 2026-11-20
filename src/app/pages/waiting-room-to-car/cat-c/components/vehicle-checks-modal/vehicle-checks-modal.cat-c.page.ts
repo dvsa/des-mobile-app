@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, computed } from '@angular/core';
 import { FormsModule, ReactiveFormsModule, UntypedFormGroup } from '@angular/forms';
 import { QuestionOutcome, QuestionResult } from '@dvsa/mes-test-schema/categories/common';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
@@ -21,14 +21,13 @@ import {
   IonToolbar,
   ModalController,
 } from '@ionic/angular';
-import { Store, select } from '@ngrx/store';
+import { Store } from '@ngrx/store';
 import { FaultCountProvider } from '@providers/fault-count/fault-count';
 import { QuestionProvider } from '@providers/question/question';
 import { VehicleChecksQuestion } from '@providers/question/vehicle-checks-question.model';
 import { StoreModel } from '@shared/models/store.model';
 import { VehicleChecksScore } from '@shared/models/vehicle-checks-score.model';
-import { getCandidate } from '@store/tests/journal-data/cat-c/candidate/candidate.cat-c.reducer';
-import { getUntitledCandidateName } from '@store/tests/journal-data/common/candidate/candidate.selector';
+import { selectUntitledCandidateName } from '@store/tests/journal-data/common/candidate/candidate.selector';
 import { getTestData } from '@store/tests/test-data/cat-c/test-data.cat-c.reducer';
 import {
   SetFullLicenceHeld,
@@ -44,12 +43,8 @@ import {
   getSelectedTellMeQuestions,
   getVehicleChecksCatC,
 } from '@store/tests/test-data/cat-c/vehicle-checks/vehicle-checks.cat-c.selector';
-import { getTests } from '@store/tests/tests.reducer';
-import { getCurrentTest, getJournalData } from '@store/tests/tests.selector';
-import { Observable, Subscription, merge } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { selectCurrentTest } from '@store/tests/tests.selector';
 
-import { AsyncPipe } from '@angular/common';
 import { Style } from '@capacitor/status-bar';
 import { WarningBannerComponent } from '@components/common/warning-banner/warning-banner';
 import { AccessibilityService } from '@providers/accessibility/accessibility.service';
@@ -67,17 +62,6 @@ import { NUMBER_OF_TELL_ME_QUESTIONS as NUMBER_OF_TELL_ME_QUESTIONS_NON_TRAILER 
 import { FullLicenceHeldComponent } from '../../../components/full-licence-held-toggle/full-licence-held-toggle';
 import { VehicleChecksQuestionComponent } from '../../../components/vehicle-checks-question/vehicle-checks-question';
 import * as vehicleChecksModalActions from './vehicle-checks-modal.cat-c.actions';
-
-interface VehicleChecksModalCatCState {
-  candidateName$: Observable<string>;
-  showMeQuestions$: Observable<QuestionResult[]>;
-  tellMeQuestions$: Observable<QuestionResult[]>;
-  vehicleChecksScore$: Observable<VehicleChecksScore>;
-  vehicleChecks$: Observable<CatCVehicleChecks>;
-  fullLicenceHeld$: Observable<boolean>;
-  showFullLicenceHeld$: Observable<boolean>;
-  fullLicenceHeldSelection$: Observable<string>;
-}
 
 @Component({
   selector: 'vehicle-checks-modal-cat-c',
@@ -106,11 +90,31 @@ interface VehicleChecksModalCatCState {
     IonRow,
     IonCol,
     IonText,
-    AsyncPipe,
   ],
 })
 export class VehicleChecksCatCModal {
-  pageState: VehicleChecksModalCatCState;
+  private viewCurrentTest = this.store$.selectSignal(selectCurrentTest);
+  private viewTestData = computed(() => getTestData(this.viewCurrentTest() as never));
+  private viewVehicleChecks = computed(() => getVehicleChecksCatC(this.viewTestData()));
+  private checksScore = computed(() =>
+    this.faultCountProvider.getVehicleChecksFaultCount(this.category, this.viewVehicleChecks())
+  );
+  get vehicleChecksScore(): VehicleChecksScore {
+    return this.checksScore();
+  }
+  get vehicleChecks(): CatCVehicleChecks {
+    return this.viewVehicleChecks();
+  }
+  get fullLicenceHeld(): boolean {
+    return getFullLicenceHeld(this.viewVehicleChecks());
+  }
+  candidateName = this.store$.selectSignal(selectUntitledCandidateName);
+  selectedShowMeQuestions = computed(() => getSelectedShowMeQuestions(this.viewVehicleChecks()));
+  selectedTellMeQuestions = computed(() => getSelectedTellMeQuestions(this.viewVehicleChecks()));
+  showFullLicenceHeldInStore = computed(() => getFullLicenceHeld(this.viewVehicleChecks()) !== null);
+  fullLicenceHeldSelection = computed(() =>
+    this.hasFullLicenceHeldBeenSelected(getFullLicenceHeld(this.viewVehicleChecks()))
+  );
   formGroup: UntypedFormGroup;
 
   showMeQuestions: VehicleChecksQuestion[];
@@ -123,13 +127,8 @@ export class VehicleChecksCatCModal {
   @Input()
   isPracticeMode: boolean;
 
-  fullLicenceHeld: boolean = null;
   showMeQuestionsNumberArray: number[];
   tellMeQuestionsNumberArray: number[];
-
-  vehicleChecksScore: VehicleChecksScore;
-  vehicleChecks: CatCVehicleChecks;
-  subscription: Subscription;
 
   constructor(
     public store$: Store<StoreModel>,
@@ -146,53 +145,6 @@ export class VehicleChecksCatCModal {
     this.showMeQuestions = this.questionProvider.getShowMeQuestions(this.category);
     this.tellMeQuestions = this.questionProvider.getTellMeQuestions(this.category);
 
-    const currentTest$ = this.store$.pipe(select(getTests), select(getCurrentTest));
-    this.pageState = {
-      candidateName$: currentTest$.pipe(select(getJournalData), select(getCandidate), select(getUntitledCandidateName)),
-      showMeQuestions$: currentTest$.pipe(
-        select(getTestData),
-        select(getVehicleChecksCatC),
-        select(getSelectedShowMeQuestions)
-      ),
-      tellMeQuestions$: currentTest$.pipe(
-        select(getTestData),
-        select(getVehicleChecksCatC),
-        select(getSelectedTellMeQuestions)
-      ),
-      vehicleChecksScore$: currentTest$.pipe(
-        select(getTestData),
-        select(getVehicleChecksCatC),
-        map((vehicleChecks) => this.faultCountProvider.getVehicleChecksFaultCount(this.category, vehicleChecks))
-      ),
-      vehicleChecks$: currentTest$.pipe(select(getTestData), select(getVehicleChecksCatC)),
-      fullLicenceHeld$: currentTest$.pipe(
-        select(getTestData),
-        select(getVehicleChecksCatC),
-        select(getFullLicenceHeld)
-      ),
-      showFullLicenceHeld$: currentTest$.pipe(
-        select(getTestData),
-        select(getVehicleChecksCatC),
-        select(getFullLicenceHeld),
-        map((licenceHeld: boolean) => licenceHeld !== null)
-      ),
-      fullLicenceHeldSelection$: currentTest$.pipe(
-        select(getTestData),
-        select(getVehicleChecksCatC),
-        select(getFullLicenceHeld),
-        map((licenceHeld) => this.hasFullLicenceHeldBeenSelected(licenceHeld))
-      ),
-    };
-
-    const { vehicleChecksScore$, vehicleChecks$, fullLicenceHeld$ } = this.pageState;
-
-    const merged$ = merge(
-      vehicleChecksScore$.pipe(map((score) => (this.vehicleChecksScore = score))),
-      vehicleChecks$.pipe(map((checks) => (this.vehicleChecks = checks))),
-      fullLicenceHeld$.pipe(map((held) => (this.fullLicenceHeld = held)))
-    );
-
-    this.subscription = merged$.subscribe();
     this.setNumberOfShowMeTellMeQuestions(this.fullLicenceHeld);
     this.ref.detectChanges();
   }
@@ -217,12 +169,6 @@ export class VehicleChecksCatCModal {
     }
     this.showMeQuestionsNumberArray = Array(numberOfShowMeQuestions);
     this.tellMeQuestionsNumberArray = Array(numberOfTellMeQuestions);
-  }
-
-  ionViewDidLeave(): void {
-    if (this.subscription) {
-      this.subscription.unsubscribe();
-    }
   }
 
   ionViewDidEnter(): void {
@@ -261,12 +207,8 @@ export class VehicleChecksCatCModal {
   }
 
   fullLicenceHeldChange = (licenceHeld: boolean): void => {
-    this.fullLicenceHeld = licenceHeld;
     this.store$.dispatch(SetFullLicenceHeld(licenceHeld));
     this.setNumberOfShowMeTellMeQuestions(licenceHeld);
-
-    // on licence held toggle change, we need to re-evaluate the vehicleChecksScore to control the banner display
-    this.vehicleChecksScore = this.faultCountProvider.getVehicleChecksFaultCount(this.category, this.vehicleChecks);
   };
 
   showFullLicenceHeld = (): boolean => isAnyOf(this.category, [TestCategory.CE, TestCategory.C1E]);

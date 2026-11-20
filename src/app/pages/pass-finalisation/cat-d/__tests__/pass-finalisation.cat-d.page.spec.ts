@@ -1,4 +1,4 @@
-import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, signal } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { RouterModule } from '@angular/router';
@@ -29,8 +29,6 @@ import { TransmissionType } from '@shared/models/transmission-type';
 import { PersistTests } from '@store/tests/tests.actions';
 import { TestsModel } from '@store/tests/tests.model';
 import { MockComponent } from 'ng-mocks';
-import { Observable, Subscription } from 'rxjs';
-import { take } from 'rxjs/operators';
 import { PassFinalisationCatDPage } from '../pass-finalisation.cat-d.page';
 
 describe('PassFinalisationCatDPage', () => {
@@ -269,7 +267,6 @@ describe('PassFinalisationCatDPage', () => {
     component = fixture.componentInstance;
     store$ = TestBed.inject(Store);
     vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
-    component.subscription = new Subscription();
   });
 
   describe('Class', () => {
@@ -306,9 +303,9 @@ describe('PassFinalisationCatDPage', () => {
     describe('shouldShowAutomaticBanner & shouldShowManualBanner', () => {
       automaticManualBannerConditions.forEach((cat) => {
         it(`${cat.desc} (${cat.category})`, () => {
-          component.transmission = cat.transmission;
-          component.code78Present = cat.code78;
-          component.testCategory = cat.category;
+          component.transmissionSignal = signal(cat.transmission);
+          component.code78Present = signal(cat.code78);
+          component.testCategory = signal(cat.category);
           expect(component.shouldShowAutomaticBanner()).toEqual(cat.automaticBanner);
           expect(component.shouldShowManualBanner()).toEqual(cat.manualBanner);
         });
@@ -316,46 +313,25 @@ describe('PassFinalisationCatDPage', () => {
     });
 
     describe('ngOnInit', () => {
-      it('should define subscription', () => {
-        component.ngOnInit();
-        expect(component.subscription).toBeDefined();
-      });
       it('should resolve state variables', () => {
         component.ngOnInit();
 
-        component.pageState.testCategory$.pipe(take(1)).subscribe((res) => expect(res).toEqual(TestCategory.D));
-        component.pageState.code78$.pipe(take(1)).subscribe((res) => expect(res).toEqual(true));
-      });
-    });
-
-    describe('ionViewWillEnter', () => {
-      it('should setup subscription if merged is present', () => {
-        component.merged$ = new Observable<string | boolean>();
-        component.ionViewWillEnter();
-
-        expect(component.subscription).toBeDefined();
+        expect(component.testCategory()).toEqual(TestCategory.D);
+        expect(component.code78Present()).toEqual(true);
       });
     });
 
     describe('shouldShowCandidateDoesntNeedLicenseBanner', () => {
       it('should return provisionalLicenseIsReceived', () => {
-        component.provisionalLicenseIsReceived = true;
+        component.provisionalLicense = signal(true);
         expect(component.shouldShowCandidateDoesntNeedLicenseBanner()).toEqual(true);
-      });
-    });
-
-    describe('ionViewDidLeave', () => {
-      it('should unsubscribe from subscription if there is one', () => {
-        component.subscription = new Subscription();
-        vi.spyOn(component.subscription, 'unsubscribe').mockReturnValue(undefined);
-        component.ionViewDidLeave();
-        expect(component.subscription.unsubscribe).toHaveBeenCalled();
       });
     });
 
     describe('shouldHideBanner', () => {
       it('should hide banner when only transmission is selected', () => {
-        component.transmission = TransmissionType.Manual;
+        component.transmissionSignal = signal(TransmissionType.Manual);
+        component.code78Present = signal(null);
         expect(component.shouldShowCode78Banner()).toEqual(false);
       });
     });

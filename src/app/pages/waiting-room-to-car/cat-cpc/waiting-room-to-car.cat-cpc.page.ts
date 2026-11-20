@@ -1,5 +1,5 @@
-import { AsyncPipe, NgClass } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { NgClass } from '@angular/common';
+import { Component, OnInit, computed } from '@angular/core';
 import { FormsModule, ReactiveFormsModule, UntypedFormGroup } from '@angular/forms';
 import { OfflineBannerComponent } from '@components/common/offline-banner/offline-banner';
 import { TestFlowHeaderComponent } from '@components/common/test-flow-header/test-flow-header.component';
@@ -16,14 +16,12 @@ import {
   IonText,
   IonToolbar,
 } from '@ionic/angular';
-import { select } from '@ngrx/store';
 import { ClearCandidateLicenceData } from '@pages/candidate-licence/candidate-licence.actions';
 import { TestFlowPageNames } from '@pages/page-names.constants';
 import { WaitingRoomToCarValidationError } from '@pages/waiting-room-to-car/waiting-room-to-car.actions';
 import { CPCQuestionProvider } from '@providers/cpc-questions/cpc-questions';
 import { WaitingRoomToCarBasePageComponent } from '@shared/classes/test-flow-base-pages/waiting-room-to-car/waiting-room-to-car-base-page';
 import { Combination } from '@shared/constants/cpc-questions/cpc-question-combinations.constants';
-import { getTestCategory } from '@store/tests/category/category.reducer';
 import { getPreTestDeclarations } from '@store/tests/pre-test-declarations/pre-test-declarations.reducer';
 import {
   getCandidateDeclarationSignedStatus,
@@ -35,31 +33,18 @@ import { PopulateTestScore } from '@store/tests/test-data/cat-cpc/overall-score/
 import { PopulateQuestions } from '@store/tests/test-data/cat-cpc/questions/questions.action';
 import { getTestData } from '@store/tests/test-data/cat-cpc/test-data.cat-cpc.reducer';
 import { getCombination } from '@store/tests/test-data/cat-cpc/test-data.cat-cpc.selector';
-import { getTests } from '@store/tests/tests.reducer';
-import { getCurrentTest } from '@store/tests/tests.selector';
 import { getVehicleDetails } from '@store/tests/vehicle-details/cat-cpc/vehicle-details.cat-cpc.reducer';
 import { getVehicleConfiguration } from '@store/tests/vehicle-details/cat-cpc/vehicle-details.cat-cpc.selector';
 import {
   MotEvidenceProvidedReset,
   PopulateVehicleConfiguration,
 } from '@store/tests/vehicle-details/vehicle-details.actions';
-import { Observable } from 'rxjs';
-import { map, take } from 'rxjs/operators';
 import { CandidateDeclarationSignedComponent } from '../components/candidate-declaration/candidate-declaration';
 import { MotNoEvidenceConfirmationComponent } from '../components/mot-components/mot-no-evidence-confirmation/mot-no-evidence-confirmation';
 import { VehicleRegistrationComponent } from '../components/vehicle-registration/vehicle-registration';
 import { AccompanimentCardCatCPCComponent } from './components/accompaniment-card/accompaniment-card.cat-cpc';
 import { CombinationComponent } from './components/combination/combination';
 import { VehicleDetailsCatCPCComponent } from './components/vehicle-details/vehicle-details';
-
-interface CatCWaitingRoomToCarPageState {
-  candidateDeclarationSigned$: Observable<boolean>;
-  insuranceDeclarationAccepted$: Observable<boolean>;
-  residencyDeclarationAccepted$: Observable<boolean>;
-  combinations$: Observable<Combination[]>;
-  combination$: Observable<CombinationCodes>;
-  configuration$: Observable<Configuration>;
-}
 
 @Component({
   selector: 'app-waiting-room-to-car-cat-cpc',
@@ -86,12 +71,22 @@ interface CatCWaitingRoomToCarPageState {
     IonFooter,
     IonButton,
     IonText,
-    AsyncPipe,
   ],
 })
 export class WaitingRoomToCarCatCPCPage extends WaitingRoomToCarBasePageComponent implements OnInit {
   form: UntypedFormGroup;
-  pageState: CatCWaitingRoomToCarPageState;
+  insuranceDeclarationAccepted = computed(() =>
+    getInsuranceDeclarationStatus(getPreTestDeclarations(this.currentTest()))
+  );
+  residencyDeclarationAccepted = computed(() =>
+    getResidencyDeclarationStatus(getPreTestDeclarations(this.currentTest()))
+  );
+  candidateDeclarationSigned = computed(() =>
+    getCandidateDeclarationSignedStatus(getPreTestDeclarations(this.currentTest()))
+  );
+  combination = computed(() => getCombination(getTestData(this.currentTest())));
+  configuration = computed(() => getVehicleConfiguration(getVehicleDetails(this.currentTest())));
+  combinations: Combination[];
 
   constructor(private cpcQuestionProvider: CPCQuestionProvider) {
     super();
@@ -101,29 +96,7 @@ export class WaitingRoomToCarCatCPCPage extends WaitingRoomToCarBasePageComponen
   ngOnInit(): void {
     super.onInitialisation();
 
-    const currentTest$ = this.store$.pipe(select(getTests), select(getCurrentTest));
-
-    this.pageState = {
-      insuranceDeclarationAccepted$: currentTest$.pipe(
-        select(getPreTestDeclarations),
-        select(getInsuranceDeclarationStatus)
-      ),
-      residencyDeclarationAccepted$: currentTest$.pipe(
-        select(getPreTestDeclarations),
-        select(getResidencyDeclarationStatus)
-      ),
-      candidateDeclarationSigned$: currentTest$.pipe(
-        select(getPreTestDeclarations),
-        select(getCandidateDeclarationSignedStatus)
-      ),
-      combinations$: currentTest$.pipe(
-        select(getTestCategory),
-        take(1),
-        map((category) => this.cpcQuestionProvider.getCombinations(category as TestCategory))
-      ),
-      combination$: currentTest$.pipe(select(getTestData), select(getCombination)),
-      configuration$: currentTest$.pipe(select(getVehicleDetails), select(getVehicleConfiguration)),
-    };
+    this.combinations = this.cpcQuestionProvider.getCombinations(this.category() as TestCategory);
   }
 
   motNoEvidenceCancelled = (): void => {

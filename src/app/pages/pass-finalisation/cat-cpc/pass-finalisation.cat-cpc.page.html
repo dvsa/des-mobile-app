@@ -9,7 +9,7 @@
     mode="ios">
     <test-flow-header
       class="display-flex flex-direction-column"
-      [testCategory]="pageState.testCategory$ | async"
+      [testCategory]="testCategory()"
       [isDelegatedRekey]="isDelegated"
       [pageName]="'pass-finalisation-page-cat-cpc'"
       [shouldShowEscapeFromSamButton]="!isRekey && !isDelegated"
@@ -20,7 +20,7 @@
       (setupResumeSubscription)="setupEscapeSAMResumeSubscription()"
       [isExitSAMActivated]="isExitSAMBannerActivated"
       (onExitSAMActivatedChanged)="isSamActivatedChanged($event)">
-      Finalise outcome - {{ pageState.candidateUntitledName$ | async }}
+      Finalise outcome - {{ candidateUntitledName() }}
     </test-flow-header>
   </ion-toolbar>
 </ion-header>
@@ -30,33 +30,33 @@
     <form (ngSubmit)="onSubmit()" [formGroup]="form">
       <ion-grid>
         <finalisation-header
-          [candidateDriverNumber]="pageState.candidateDriverNumber$ | async"
-          [candidateName]="pageState.candidateName$ | async"
-          [outcomeText]="pageState.testOutcomeText$ | async"
+          [candidateDriverNumber]="candidateDriverNumber()"
+          [candidateName]="candidateName()"
+          [outcomeText]="testOutcomeText()"
           >
         </finalisation-header>
 
-        <application-reference-number [applicationNumber]="pageState.applicationNumber$ | async">
+        <application-reference-number [applicationNumber]="applicationNumber()">
         </application-reference-number>
 
         <pass-certificate-number
           (passCertificateNumberChange)="passCertificateNumberChanged($event)"
           [form]="form"
           [isPracticeMode]="isPracticeMode"
-          [passCertificateNumberInput]="pageState.passCertificateNumber$ | async"
+          [passCertificateNumberInput]="passCertificateNumber()"
           >
         </pass-certificate-number>
 
         <language-preferences
           (welshChanged)="isWelshChanged($event)"
           [formGroup]="form"
-          [isWelsh]="(pageState.conductedLanguage$ | async) === 'Cymraeg'"
+          [isWelsh]="(conductedLanguage()) === 'Cymraeg'"
           >
         </language-preferences>
 
         <debrief-witnessed
           (debriefWitnessedChange)="debriefWitnessedChanged($event)"
-          [debriefWitnessed]="pageState.debriefWitnessed$ | async"
+          [debriefWitnessed]="debriefWitnessed()"
           [display]="true"
           [shouldShowSeparator]="false"
           [formGroup]="form"

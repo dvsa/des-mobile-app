@@ -1,15 +1,12 @@
-import { Component, Input } from '@angular/core';
-import { Store, select } from '@ngrx/store';
+import { Component, Input, computed } from '@angular/core';
+import { Store } from '@ngrx/store';
 import { get } from 'lodash-es';
-import { Observable, Subscription, merge } from 'rxjs';
-import { map, takeUntil, tap } from 'rxjs/operators';
 
 import { NgClass } from '@angular/common';
 import { DangerousFaultBadgeComponent } from '@components/common/dangerous-fault-badge/dangerous-fault-badge';
 import { DrivingFaultsBadgeComponent } from '@components/common/driving-faults-badge/driving-faults-badge';
 import { SeriousFaultBadgeComponent } from '@components/common/serious-fault-badge/serious-fault-badge';
 import { PcvDoorExerciseTypes } from '@providers/fault-summary/cat-d/fault-summary.cat-d';
-import { trDestroy$ } from '@shared/classes/test-flow-base-pages/test-report/test-report-base-page';
 import { StoreModel } from '@shared/models/store.model';
 import {
   PcvDoorExerciseAddDangerousFault,
@@ -28,13 +25,6 @@ import { ToggleDangerousFaultMode, ToggleRemoveFaultMode, ToggleSeriousFaultMode
 import { getTestReportState } from '../../../test-report.reducer';
 import { isDangerousMode, isRemoveFaultMode, isSeriousMode } from '../../../test-report.selector';
 
-interface CompetencyState {
-  isRemoveFaultMode$: Observable<boolean>;
-  isSeriousMode$: Observable<boolean>;
-  isDangerousMode$: Observable<boolean>;
-  pcvDoorExercise$: Observable<PcvDoorExerciseTypes>;
-}
-
 @Component({
   selector: 'pcv-door-exercise',
   templateUrl: 'pcv-door-exercise.html',
@@ -51,43 +41,28 @@ export class PcvDoorExerciseComponent {
   @Input()
   oneFaultLimit = false;
 
-  competencyState: CompetencyState;
-  subscription: Subscription;
-  isRemoveFaultMode = false;
-  isSeriousMode = false;
-  isDangerousMode = false;
-  pcvDoorExercise: PcvDoorExerciseTypes;
-  allowRipple = true;
+  private readonly tests = this.store$.selectSignal(getTests);
+  private readonly currentTest = computed(() => getCurrentTest(this.tests()));
+  private readonly testData = computed(() => getTestData(this.currentTest()));
+  private readonly pcvDoorExerciseState = computed(() => getPcvDoorExercise(this.testData()));
+  private readonly testReportState = this.store$.selectSignal(getTestReportState);
+  get isRemoveFaultMode(): boolean {
+    return isRemoveFaultMode(this.testReportState());
+  }
+  get isSeriousMode(): boolean {
+    return isSeriousMode(this.testReportState());
+  }
+  get isDangerousMode(): boolean {
+    return isDangerousMode(this.testReportState());
+  }
+  get pcvDoorExercise(): PcvDoorExerciseTypes {
+    return this.pcvDoorExerciseState();
+  }
+  get allowRipple(): boolean {
+    return this.canButtonRipple();
+  }
 
   constructor(private store$: Store<StoreModel>) {}
-
-  ngOnInit(): void {
-    const currentTest$ = this.store$.pipe(select(getTests), select(getCurrentTest));
-
-    this.competencyState = {
-      isRemoveFaultMode$: this.store$.pipe(select(getTestReportState), select(isRemoveFaultMode)),
-      isSeriousMode$: this.store$.pipe(select(getTestReportState), select(isSeriousMode)),
-      isDangerousMode$: this.store$.pipe(select(getTestReportState), select(isDangerousMode)),
-      pcvDoorExercise$: currentTest$.pipe(select(getTestData), select(getPcvDoorExercise)),
-    };
-
-    const { isRemoveFaultMode$, isSeriousMode$, isDangerousMode$, pcvDoorExercise$ } = this.competencyState;
-
-    const merged$ = merge(
-      isRemoveFaultMode$.pipe(map((toggle) => (this.isRemoveFaultMode = toggle))),
-      isSeriousMode$.pipe(map((toggle) => (this.isSeriousMode = toggle))),
-      isDangerousMode$.pipe(map((toggle) => (this.isDangerousMode = toggle))),
-      pcvDoorExercise$.pipe(map((toggle) => (this.pcvDoorExercise = toggle)))
-    ).pipe(tap(this.canButtonRipple));
-
-    this.subscription = merged$.pipe(takeUntil(trDestroy$)).subscribe();
-  }
-
-  ngOnDestroy(): void {
-    if (this.subscription) {
-      this.subscription.unsubscribe();
-    }
-  }
 
   onTap = () => {
     this.addOrRemoveFault();
@@ -97,45 +72,31 @@ export class PcvDoorExerciseComponent {
     this.addOrRemoveFault(true);
   };
 
-  canButtonRipple = (): void => {
+  canButtonRipple = (): boolean => {
     if (this.isRemoveFaultMode) {
       if (this.hasDangerousFault() && this.isDangerousMode) {
-        this.allowRipple = true;
-        return;
+        return true;
       }
 
       if (this.hasSeriousFault() && this.isSeriousMode) {
-        this.allowRipple = true;
-        return;
+        return true;
       }
 
       if (!this.isSeriousMode && !this.isDangerousMode && this.hasDrivingFault()) {
-        this.allowRipple = true;
-        return;
+        return true;
       }
-      this.allowRipple = false;
-    } else {
-      if (this.hasDangerousFault()) {
-        this.allowRipple = false;
-        return;
-      }
-
-      if (this.isDangerousMode) {
-        this.allowRipple = true;
-        return;
-      }
-
-      if (this.hasSeriousFault()) {
-        this.allowRipple = false;
-        return;
-      }
-
-      if (this.isSeriousMode) {
-        this.allowRipple = true;
-        return;
-      }
-      this.allowRipple = true;
+      return false;
     }
+
+    if (this.hasDangerousFault()) {
+      return false;
+    }
+
+    if (this.isDangerousMode) {
+      return true;
+    }
+
+    return !this.hasSeriousFault();
   };
 
   addOrRemoveFault = (wasPress = false): void => {

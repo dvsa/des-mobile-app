@@ -41,7 +41,6 @@ import { AddSeriousFault } from '@store/tests/test-data/common/serious-faults/se
 import { Competencies, ExaminerActions } from '@store/tests/test-data/test-data.constants';
 import { AssessmentReportChanged } from '@store/tests/test-summary/cat-cpc/test-summary.cat-cpc.actions';
 import { MockComponent } from 'ng-mocks';
-import { Subscription } from 'rxjs';
 
 import { AdditionalInformationComponent } from '../../components/additional-information/additional-information';
 import { CandidateDescriptionComponent } from '../../components/candidate-description/candidate-description';
@@ -385,14 +384,6 @@ describe('OfficeCatCPCPage', () => {
         }
       );
     });
-    describe('ionViewDidLeave', () => {
-      it('should unsubscribe from subscription if there is one', () => {
-        component.pageSubscription = new Subscription();
-        vi.spyOn(component.pageSubscription, 'unsubscribe').mockReturnValue(undefined);
-        component.ionViewDidLeave();
-        expect(component.pageSubscription.unsubscribe).toHaveBeenCalled();
-      });
-    });
     describe('ionViewWillEnter', () => {
       it('should disable single app mode if it not in practice mode and isIos is true', async () => {
         component.isPracticeMode = false;
@@ -406,21 +397,21 @@ describe('OfficeCatCPCPage', () => {
 
     describe('isFail', () => {
       it('should return false if test outcome is pass', () => {
-        component.outcome = TestOutcome.PASS;
+        vi.spyOn(component, 'outcome', 'get').mockReturnValue(TestOutcome.PASS);
         expect(component.isFail()).toEqual(false);
       });
       it('should return true if test outcome is fail', () => {
-        component.outcome = TestOutcome.FAIL;
+        vi.spyOn(component, 'outcome', 'get').mockReturnValue(TestOutcome.FAIL);
         expect(component.isFail()).toEqual(true);
       });
     });
     describe('isPass', () => {
       it('should return true if test outcome is pass', () => {
-        component.outcome = TestOutcome.PASS;
+        vi.spyOn(component, 'outcome', 'get').mockReturnValue(TestOutcome.PASS);
         expect(component.isPass()).toEqual(true);
       });
       it('should return false if test outcome is fail', () => {
-        component.outcome = TestOutcome.FAIL;
+        vi.spyOn(component, 'outcome', 'get').mockReturnValue(TestOutcome.FAIL);
         expect(component.isPass()).toEqual(false);
       });
     });

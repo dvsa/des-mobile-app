@@ -18,7 +18,7 @@
       (setupLeaveSubscription)="setupEscapeSAMLeaveSubscription()"
       (setupResumeSubscription)="setupEscapeSAMResumeSubscription()"
       (onExitSAMActivatedChanged)="isSamActivatedChanged($event)">
-      Finalise outcome - {{ pageState.candidateUntitledName$ | async }}
+      Finalise outcome - {{ candidateUntitledName() }}
     </test-flow-header>
   </ion-toolbar>
 </ion-header>
@@ -28,18 +28,18 @@
     <form (ngSubmit)="onSubmit()" [formGroup]="form">
       <ion-grid>
         <finalisation-header
-          [candidateDriverNumber]="pageState.candidateDriverNumber$ | async"
-          [candidateName]="pageState.candidateName$ | async"
-          [candidatePrnNumber]="pageState.prn$ | async"
-          [grade]="pageState.testOutcomeGrade$ | async"
-          [isStandardsCheck]="pageState.isStandardsCheck$ | async"
-          [outcomeText]="pageState.testOutcomeText$ | async"
+          [candidateDriverNumber]="candidateDriverNumber()"
+          [candidateName]="candidateName()"
+          [candidatePrnNumber]="prn()"
+          [grade]="testOutcomeGrade()"
+          [isStandardsCheck]="isStandardsCheck()"
+          [outcomeText]="testOutcomeText()"
           >
         </finalisation-header>
 
         <debrief-witnessed
           (debriefWitnessedChange)="debriefWitnessedChanged($event)"
-          [debriefWitnessed]="pageState.debriefWitnessed$ | async"
+          [debriefWitnessed]="debriefWitnessed()"
           [display]="true"
           [formGroup]="form"
           [outcome]="testOutcome"
@@ -50,12 +50,12 @@
           (furtherDevelopmentChange)="furtherDevelopmentChanged($event)"
           [display]="true"
           [formGroup]="form"
-          [furtherDevelopment]="pageState.furtherDevelopment$ | async"
+          [furtherDevelopment]="furtherDevelopment()"
           [outcome]="testOutcome"
           >
         </further-development>
 
-        @if ((pageState.furtherDevelopment$ | async) !== false) {
+        @if ((furtherDevelopment()) !== false) {
           <div class="mes-row-separator padding-top-10"></div>
         }
 
@@ -63,19 +63,19 @@
           (adviceReason)="adviceReasonChanged($event)"
           [display]="true"
           [formGroup]="form"
-          [furtherDevelopment]="pageState.furtherDevelopment$ | async"
+          [furtherDevelopment]="furtherDevelopment()"
           [outcome]="testOutcome"
-          [reasonGivenText]="pageState.adviceReason$ | async"
+          [reasonGivenText]="adviceReason()"
           >
         </reason-given>
 
-        @if (pageState.isStandardsCheck$ | async) {
+        @if (isStandardsCheck()) {
           <test-start-end-times
             (testEndTimeChange)="testEndTimeChanged($event)"
             (testStartTimeChange)="testStartTimeChanged($event)"
-            [endTime]="pageState.testEndTime$ | async"
+            [endTime]="testEndTime()"
             [formGroup]="form"
-            [startTime]="pageState.testStartTime$ | async"
+            [startTime]="testStartTime()"
             >
           </test-start-end-times>
         }

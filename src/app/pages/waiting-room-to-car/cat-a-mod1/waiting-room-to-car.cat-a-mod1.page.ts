@@ -1,10 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, computed } from '@angular/core';
 import { FormsModule, ReactiveFormsModule, UntypedFormGroup } from '@angular/forms';
-import { select } from '@ngrx/store';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
 
-import { AsyncPipe, NgClass } from '@angular/common';
+import { NgClass } from '@angular/common';
 import { BikeCategoryTypeComponent } from '@components/common/bike-category-type/bike-category-type';
 import { OfflineBannerComponent } from '@components/common/offline-banner/offline-banner';
 import { TestFlowHeaderComponent } from '@components/common/test-flow-header/test-flow-header.component';
@@ -25,8 +22,6 @@ import { TestFlowPageNames } from '@pages/page-names.constants';
 import { WaitingRoomToCarValidationError } from '@pages/waiting-room-to-car/waiting-room-to-car.actions';
 import { BikeTestType } from '@providers/bike-category-detail/bike-category-detail.model';
 import { WaitingRoomToCarBasePageComponent } from '@shared/classes/test-flow-base-pages/waiting-room-to-car/waiting-room-to-car-base-page';
-import { getTests } from '@store/tests/tests.reducer';
-import { getCurrentTest } from '@store/tests/tests.selector';
 import { getSchoolBike } from '@store/tests/vehicle-details/cat-a-mod1/vehicle-details.cat-a-mod1.selector';
 import { MotEvidenceProvidedReset } from '@store/tests/vehicle-details/vehicle-details.actions';
 import { getVehicleDetails } from '@store/tests/vehicle-details/vehicle-details.reducer';
@@ -35,12 +30,6 @@ import { AccompanimentCardComponent } from '../components/accompaniment-card/acc
 import { MotNoEvidenceConfirmationComponent } from '../components/mot-components/mot-no-evidence-confirmation/mot-no-evidence-confirmation';
 import { VehicleDetailsCardComponent } from '../components/vehicle-details-card/vehicle-details-card';
 import { VehicleRegistrationComponent } from '../components/vehicle-registration/vehicle-registration';
-
-interface CatMod1WaitingRoomToCarPageState {
-  schoolBike$: Observable<boolean>;
-  gearboxAutomaticRadioChecked$: Observable<boolean>;
-  gearboxManualRadioChecked$: Observable<boolean>;
-}
 
 @Component({
   selector: 'app-waiting-room-to-car-cat-a-mod1',
@@ -67,11 +56,12 @@ interface CatMod1WaitingRoomToCarPageState {
     IonFooter,
     IonButton,
     IonText,
-    AsyncPipe,
   ],
 })
 export class WaitingRoomToCarCatAMod1Page extends WaitingRoomToCarBasePageComponent implements OnInit {
-  pageState: CatMod1WaitingRoomToCarPageState;
+  schoolBike = computed(() => getSchoolBike(getVehicleDetails(this.currentTest())));
+  gearboxAutomaticRadioChecked = computed(() => isAutomatic(getVehicleDetails(this.currentTest())));
+  gearboxManualRadioChecked = computed(() => isManual(getVehicleDetails(this.currentTest())));
   form: UntypedFormGroup;
 
   constructor() {
@@ -81,14 +71,6 @@ export class WaitingRoomToCarCatAMod1Page extends WaitingRoomToCarBasePageCompon
 
   ngOnInit(): void {
     super.onInitialisation();
-
-    const currentTest$ = this.store$.pipe(select(getTests), select(getCurrentTest));
-
-    this.pageState = {
-      schoolBike$: currentTest$.pipe(select(getVehicleDetails), select(getSchoolBike)),
-      gearboxAutomaticRadioChecked$: currentTest$.pipe(select(getVehicleDetails), map(isAutomatic)),
-      gearboxManualRadioChecked$: currentTest$.pipe(select(getVehicleDetails), map(isManual)),
-    };
   }
 
   motNoEvidenceCancelled = (): void => {

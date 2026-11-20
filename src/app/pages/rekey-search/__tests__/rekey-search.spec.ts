@@ -68,7 +68,7 @@ describe('RekeySearchPage', () => {
         },
         {
           provide: OrientationMonitorProvider,
-          useClass: OrientationMonitorProviderMock,
+          useValue: Object.assign(new OrientationMonitorProviderMock(), { isPortraitMode$: of(false) }),
         },
         {
           provide: NetworkStateProvider,

@@ -96,6 +96,16 @@ describe('SafetyAndBalanceCardCatAMod2Component', () => {
         );
       });
 
+      it('updates the displayed questions when the store changes', () => {
+        fixture.detectChanges();
+        store$.dispatch(SafetyQuestionSelected({ code: 'M8', description: 'Updated question' }, 0));
+        fixture.detectChanges();
+
+        const questions = fixture.debugElement.queryAll(By.css('.counter-label'));
+        expect(questions.length).toBe(3);
+        expect(questions[0].nativeElement.textContent).toContain('M8');
+      });
+
       it('should show results in Welsh for a Welsh test', async () => {
         await new Promise<void>((done, reject) => {
           fixture.detectChanges();

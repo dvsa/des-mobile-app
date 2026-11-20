@@ -10,20 +10,12 @@ import { isAnyOf } from '@shared/helpers/simplifiers';
 import { RecordManoeuvresSelection } from '@store/tests/test-data/common/manoeuvres/manoeuvres.actions';
 import { ManoeuvreCompetencies, ManoeuvreTypes } from '@store/tests/test-data/test-data.constants';
 import { get } from 'lodash-es';
-import { Observable } from 'rxjs';
 import { CompetencyButtonComponent } from '../components/competency-button/competency-button';
 import { EtaComponent } from '../components/examiner-takes-action/eta';
 import { ReverseDiagramLinkComponent } from '../components/reverse-diagram-link/reverse-diagram-link';
 import { ToolbarComponent } from '../components/toolbar/test-report-toolbar';
 import { UncoupleRecoupleComponent } from '../components/uncouple-recouple/uncouple-recouple';
 import { ReverseManoeuvreComponent } from './components/reverse-manoeuvre/reverse-manoeuvre';
-
-interface CatManoeuvreTestReportPageState {
-  manoeuvresHasFaults$: Observable<boolean>;
-  showUncoupleRecouple$: Observable<boolean>;
-}
-
-type TestReportPageState = CatManoeuvreTestReportPageState;
 
 @Component({
   selector: '.test-report-cat-manoeuvre-page',

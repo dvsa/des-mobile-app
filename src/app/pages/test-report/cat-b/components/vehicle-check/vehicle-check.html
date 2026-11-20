@@ -7,11 +7,11 @@
       (onPress)="toggleShowMeQuestion()"
       [allowRipple]="false"
       [ngClass]="{
-        'checked' : selectedShowMeQuestion
+        'checked' : selectedShowMeQuestion()
       }"
     >
       <span class="tickwrapper">
-        <tick-indicator [ticked]="selectedShowMeQuestion"></tick-indicator>
+        <tick-indicator [ticked]="selectedShowMeQuestion()"></tick-indicator>
       </span>
     </competency-button>
   </ion-col>
@@ -22,7 +22,7 @@
       (onPress)="onPress()"
       [allowRipple]="canButtonRipple()"
       [ngClass]="{
-        'checked': selectedShowMeQuestion,
+        'checked': selectedShowMeQuestion(),
         'fault': hasShowMeDrivingFault(),
         'serious-fault': hasSeriousFault(),
         'dangerous-fault': hasDangerousFault()
@@ -33,9 +33,14 @@
         class="driving-faults"
         [count]="getDrivingFaultCount()"
       ></driving-faults-badge>
-      <div id="show-me-question-label" class="show-me-tell-me-label">Show / tell</div>
+      <div id="show-me-question-label" class="show-me-tell-me-label">
+        Show / tell
+      </div>
       <div class="fault-wrapper">
-        <serious-fault-badge id="show-me-question-serious-fault" [showBadge]="hasSeriousFault()"></serious-fault-badge>
+        <serious-fault-badge
+          id="show-me-question-serious-fault"
+          [showBadge]="hasSeriousFault()"
+        ></serious-fault-badge>
         <dangerous-fault-badge
           id="show-me-question-dangerous-fault"
           [showBadge]="hasDangerousFault()"

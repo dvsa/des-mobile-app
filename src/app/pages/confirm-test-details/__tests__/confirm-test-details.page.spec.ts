@@ -19,7 +19,6 @@ import { candidateMock } from '@store/tests/__mocks__/tests.mock';
 import { SetTestStatusWriteUp } from '@store/tests/test-status/test-status.actions';
 import { PersistTests } from '@store/tests/tests.actions';
 import { TestOutcome } from '@store/tests/tests.constants';
-import { Subscription } from 'rxjs';
 import { TestFlowPageNames } from '../../page-names.constants';
 import { BackButtonClick, BackToDebrief, ConfirmTestDetailsViewDidEnter } from '../confirm-test-details.actions';
 import { ConfirmTestDetailsPage } from '../confirm-test-details.page';
@@ -178,16 +177,7 @@ describe('ConfirmTestDetailsPage', () => {
 
   describe('ionViewWillEnter', () => {
     it('should return true', () => {
-      expect(component.ionViewWillEnter()).toBeTrue();
-    });
-  });
-
-  describe('ionViewDidLeave', () => {
-    it('should unsubscribe from subscription if there is one', () => {
-      component.subscription = new Subscription();
-      vi.spyOn(component.subscription, 'unsubscribe').mockReturnValue(undefined);
-      component.ionViewDidLeave();
-      expect(component.subscription.unsubscribe).toHaveBeenCalled();
+      expect(component.ionViewWillEnter()).toBe(true);
     });
   });
 

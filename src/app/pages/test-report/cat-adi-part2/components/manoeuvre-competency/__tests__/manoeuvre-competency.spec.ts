@@ -112,7 +112,7 @@ describe('ManoeuvreCompetencyComponentAdiPart2', () => {
     it('should display the correct driving fault badge with a count of 1', () => {
       component.manoeuvre = ManoeuvreTypes.reverseRight;
       component.competency = ManoeuvreCompetencies.controlFault;
-      component.manoeuvreCompetencyOutcome = 'DF';
+      vi.spyOn(component, 'manoeuvreCompetencyOutcome', 'get').mockReturnValue('DF');
       const result = component.hasDrivingFault();
       fixture.detectChanges();
       const drivingFaultsBadge = fixture.debugElement.query(By.css('.driving-faults')).componentInstance;
@@ -135,7 +135,7 @@ describe('ManoeuvreCompetencyComponentAdiPart2', () => {
       it('should return 0 when not driving fault', () => {
         component.manoeuvre = ManoeuvreTypes.reverseRight;
         component.competency = ManoeuvreCompetencies.controlFault;
-        component.manoeuvreCompetencyOutcome = CompetencyOutcome.S;
+        vi.spyOn(component, 'manoeuvreCompetencyOutcome', 'get').mockReturnValue(CompetencyOutcome.S);
         fixture.detectChanges();
 
         const result = component.hasDrivingFault();
@@ -145,7 +145,7 @@ describe('ManoeuvreCompetencyComponentAdiPart2', () => {
       it('should return 1 when has a driving fault', () => {
         component.manoeuvre = ManoeuvreTypes.reverseRight;
         component.competency = ManoeuvreCompetencies.controlFault;
-        component.manoeuvreCompetencyOutcome = CompetencyOutcome.DF;
+        vi.spyOn(component, 'manoeuvreCompetencyOutcome', 'get').mockReturnValue(CompetencyOutcome.DF);
 
         const result = component.hasDrivingFault();
         expect(result).toBe(1);
@@ -156,7 +156,7 @@ describe('ManoeuvreCompetencyComponentAdiPart2', () => {
       it('should return false if it does not have a serious fault', () => {
         component.manoeuvre = ManoeuvreTypes.reverseRight;
         component.competency = ManoeuvreCompetencies.controlFault;
-        component.manoeuvreCompetencyOutcome = CompetencyOutcome.DF;
+        vi.spyOn(component, 'manoeuvreCompetencyOutcome', 'get').mockReturnValue(CompetencyOutcome.DF);
 
         const result = component.hasSeriousFault();
         expect(result).toBe(false);
@@ -165,7 +165,7 @@ describe('ManoeuvreCompetencyComponentAdiPart2', () => {
       it('should return true if it has a serious fault', () => {
         component.manoeuvre = ManoeuvreTypes.reverseRight;
         component.competency = ManoeuvreCompetencies.controlFault;
-        component.manoeuvreCompetencyOutcome = CompetencyOutcome.S;
+        vi.spyOn(component, 'manoeuvreCompetencyOutcome', 'get').mockReturnValue(CompetencyOutcome.S);
 
         const result = component.hasSeriousFault();
         expect(result).toBe(true);
@@ -176,7 +176,7 @@ describe('ManoeuvreCompetencyComponentAdiPart2', () => {
       it('should return false if it does not have a dangerous fault', () => {
         component.manoeuvre = ManoeuvreTypes.reverseRight;
         component.competency = ManoeuvreCompetencies.controlFault;
-        component.manoeuvreCompetencyOutcome = CompetencyOutcome.DF;
+        vi.spyOn(component, 'manoeuvreCompetencyOutcome', 'get').mockReturnValue(CompetencyOutcome.DF);
 
         const result = component.hasDangerousFault();
         expect(result).toBe(false);
@@ -185,7 +185,7 @@ describe('ManoeuvreCompetencyComponentAdiPart2', () => {
       it('should return true if it has a dangerous fault', () => {
         component.manoeuvre = ManoeuvreTypes.reverseRight;
         component.competency = ManoeuvreCompetencies.controlFault;
-        component.manoeuvreCompetencyOutcome = CompetencyOutcome.D;
+        vi.spyOn(component, 'manoeuvreCompetencyOutcome', 'get').mockReturnValue(CompetencyOutcome.D);
 
         const result = component.hasDangerousFault();
         expect(result).toBe(true);
@@ -196,7 +196,7 @@ describe('ManoeuvreCompetencyComponentAdiPart2', () => {
       it('should dispatch a ADD_MANOEUVRE_DANGEROUS_FAULT action if dangerous mode is active on press', () => {
         component.manoeuvre = ManoeuvreTypes.reverseRight;
         component.competency = ManoeuvreCompetencies.controlFault;
-        component.isDangerousMode = true;
+        vi.spyOn(component, 'isDangerousMode', 'get').mockReturnValue(true);
 
         const storeDispatchSpy = vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
         component.addOrRemoveFault();
@@ -216,7 +216,7 @@ describe('ManoeuvreCompetencyComponentAdiPart2', () => {
       it('should dispatch a ADD_MANOEUVRE_SERIOUS_FAULT action if serious mode is active on press', () => {
         component.manoeuvre = ManoeuvreTypes.reverseRight;
         component.competency = ManoeuvreCompetencies.controlFault;
-        component.isSeriousMode = true;
+        vi.spyOn(component, 'isSeriousMode', 'get').mockReturnValue(true);
 
         const storeDispatchSpy = vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
         component.addOrRemoveFault();
@@ -278,8 +278,8 @@ describe('ManoeuvreCompetencyComponentAdiPart2', () => {
           fixture.detectChanges();
           component.manoeuvre = ManoeuvreTypes.reverseRight;
           component.competency = ManoeuvreCompetencies.controlFault;
-          component.isRemoveFaultMode = true;
-          component.manoeuvreCompetencyOutcome = undefined;
+          vi.spyOn(component, 'isRemoveFaultMode', 'get').mockReturnValue(true);
+          vi.spyOn(component, 'manoeuvreCompetencyOutcome', 'get').mockReturnValue(undefined);
         });
         it('should only toggle remove fault when remove fault mode is true', () => {
           fixture.detectChanges();
@@ -289,7 +289,7 @@ describe('ManoeuvreCompetencyComponentAdiPart2', () => {
           expect(storeDispatchSpy).toHaveBeenCalledWith(ToggleRemoveFaultMode());
         });
         it('should only toggle remove and serious fault when remove and serious fault modes are true', () => {
-          component.isSeriousMode = true;
+          vi.spyOn(component, 'isSeriousMode', 'get').mockReturnValue(true);
           fixture.detectChanges();
           const storeDispatchSpy = vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
           component.addOrRemoveFault();
@@ -298,7 +298,7 @@ describe('ManoeuvreCompetencyComponentAdiPart2', () => {
           expect(storeDispatchSpy).toHaveBeenCalledWith(ToggleSeriousFaultMode());
         });
         it('should only toggle remove and serious fault when remove and serious fault modes are true', () => {
-          component.isDangerousMode = true;
+          vi.spyOn(component, 'isDangerousMode', 'get').mockReturnValue(true);
           fixture.detectChanges();
           const storeDispatchSpy = vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
           component.addOrRemoveFault();
@@ -311,9 +311,9 @@ describe('ManoeuvreCompetencyComponentAdiPart2', () => {
         fixture.detectChanges();
         component.manoeuvre = ManoeuvreTypes.reverseRight;
         component.competency = ManoeuvreCompetencies.controlFault;
-        component.isRemoveFaultMode = true;
-        component.isDangerousMode = true;
-        component.manoeuvreCompetencyOutcome = CompetencyOutcome.D;
+        vi.spyOn(component, 'isRemoveFaultMode', 'get').mockReturnValue(true);
+        vi.spyOn(component, 'isDangerousMode', 'get').mockReturnValue(true);
+        vi.spyOn(component, 'manoeuvreCompetencyOutcome', 'get').mockReturnValue(CompetencyOutcome.D);
         fixture.detectChanges();
         const storeDispatchSpy = vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
         component.addOrRemoveFault();
@@ -335,9 +335,9 @@ describe('ManoeuvreCompetencyComponentAdiPart2', () => {
         fixture.detectChanges();
         component.manoeuvre = ManoeuvreTypes.reverseRight;
         component.competency = ManoeuvreCompetencies.controlFault;
-        component.isRemoveFaultMode = true;
-        component.isSeriousMode = true;
-        component.manoeuvreCompetencyOutcome = CompetencyOutcome.S;
+        vi.spyOn(component, 'isRemoveFaultMode', 'get').mockReturnValue(true);
+        vi.spyOn(component, 'isSeriousMode', 'get').mockReturnValue(true);
+        vi.spyOn(component, 'manoeuvreCompetencyOutcome', 'get').mockReturnValue(CompetencyOutcome.S);
         fixture.detectChanges();
         const storeDispatchSpy = vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
         component.addOrRemoveFault();
@@ -359,8 +359,8 @@ describe('ManoeuvreCompetencyComponentAdiPart2', () => {
         fixture.detectChanges();
         component.manoeuvre = ManoeuvreTypes.reverseRight;
         component.competency = ManoeuvreCompetencies.controlFault;
-        component.isRemoveFaultMode = true;
-        component.manoeuvreCompetencyOutcome = CompetencyOutcome.DF;
+        vi.spyOn(component, 'isRemoveFaultMode', 'get').mockReturnValue(true);
+        vi.spyOn(component, 'manoeuvreCompetencyOutcome', 'get').mockReturnValue(CompetencyOutcome.DF);
         fixture.detectChanges();
         const storeDispatchSpy = vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
         component.addOrRemoveFault();

@@ -22,7 +22,7 @@
       class="background-colour width-100-percent ion-padding-bottom position-fixed mes-padding-right mes-padding-left"
       >
       <examiner-records-label-text
-        [testCount]="pageState.testCount$ | async"
+        [testCount]="testCount()"
         [currentCategory]="currentCategory"
         [startDateFilter]="startDateFilter"
         [endDateFilter]="endDateFilter"
@@ -34,18 +34,18 @@
 </ion-header>
 
 @if ({
-  routeGrid: pageState.routeNumbers$ | async,
-  manoeuvresGrid: pageState.manoeuvres$ | async,
-  showMeQuestionsGrid: pageState.showMeQuestions$ | async,
-  independentDrivingGrid: pageState.independentDriving$ | async,
-  tellMeQuestionsGrid: pageState.tellMeQuestions$ | async,
-  safetyGrid: pageState.safetyQuestions$ | async,
-  balanceGrid: pageState.balanceQuestions$ | async,
-  testCount: pageState.testCount$ | async,
-  emergencyStops: pageState.emergencyStops$ | async,
-  circuits: pageState.circuits$ | async,
-  locationList: pageState.locationList$ | async,
-  categoryList: pageState.categoryList$ | async
+  routeGrid: routeNumbers(),
+  manoeuvresGrid: manoeuvres(),
+  showMeQuestionsGrid: showMeQuestions(),
+  independentDrivingGrid: independentDriving(),
+  tellMeQuestionsGrid: tellMeQuestions(),
+  safetyGrid: safetyQuestions(),
+  balanceGrid: balanceQuestions(),
+  testCount: testCount(),
+  emergencyStops: emergencyStops(),
+  circuits: circuits(),
+  locationList: locationList(),
+  categoryList: categoryList()
   }; as data) {
   <ion-content
     [fullscreen]="true"
@@ -175,7 +175,7 @@
   </ion-row>
   <ion-grid class="mes-padding-right mes-padding-left">
     <examiner-records-label-text
-      [testCount]="pageState.testCount$ | async"
+      [testCount]="testCount()"
       [currentCategory]="currentCategory"
       [startDateFilter]="startDateFilter"
       [endDateFilter]="endDateFilter"
@@ -194,7 +194,7 @@
               [cardTitle]="'Test routes completed'"
               [showMainContent]="!hideMainContent"
               [averageColour]="averageColour"
-              [isPortrait]="orientationProvider.isPortraitMode$ | async"
+              [isPortrait]="isPortrait()"
               [gridHeaders]="['Route', 'Amount', '%']"
               [chartID]="'testRoutes'"
               [splitChartLabel]="true"
@@ -221,7 +221,7 @@
               [useGrid]="false"
               [chartID]="'independentDriving'"
               [cardTitle]="isBike() ? 'Independent riding' : 'Independent driving'"
-              [isPortrait]="orientationProvider.isPortraitMode$ | async"
+              [isPortrait]="isPortrait()"
               [passedData]="data.independentDrivingGrid"
               (onCardClick)="cardClicked($event)"
               >
@@ -313,13 +313,13 @@
                 [hasCustomMainContent]="true"
                 [showMainContent]="!hideMainContent"
                 [hasCustomExpandedContent]="true"
-                [chartColSize]="(orientationProvider.isPortraitMode$ | async) ? '40': '30'"
+                [chartColSize]="isPortrait() ? '40': '30'"
                 [chartType]="'pie'"
                 [useGrid]="false"
                 [chartID]="'emergencyStops-cat-b'"
                 [cardTitle]="'Emergency stops'"
                 [colourScheme]="colourOption.emergencyStop ? colourOption.emergencyStop : colourOption.pie"
-                [isPortrait]="orientationProvider.isPortraitMode$ | async"
+                [isPortrait]="isPortrait()"
                 [passedData]="data.emergencyStops"
                 [hasCustomChartRowContent]="true"
                 (onCardClick)="cardClicked($event)"
@@ -407,7 +407,7 @@
                 [useGrid]="false"
                 [chartID]="'emergencyStops'"
                 [cardTitle]="'Emergency stops'"
-                [isPortrait]="orientationProvider.isPortraitMode$ | async"
+                [isPortrait]="isPortrait()"
                 [passedData]="data.emergencyStops"
                 (onCardClick)="cardClicked($event)"
                 >
@@ -484,7 +484,7 @@
           [showExpandedData]="showExpandedData"
           [showMainContent]="!hideMainContent"
           [cardTitle]="'Manoeuvres completed'"
-          [isPortrait]="orientationProvider.isPortraitMode$ | async"
+          [isPortrait]="isPortrait()"
           [gridHeaders]="['Question', 'Amount', '%']"
           [chartID]="'manoeuvresChart'"
           [splitChartLabel]="true"
@@ -507,7 +507,7 @@
               [showExpandedData]="showExpandedData"
               [showMainContent]="!hideMainContent"
               [cardTitle]="'Show me questions asked'"
-              [isPortrait]="orientationProvider.isPortraitMode$ | async"
+              [isPortrait]="isPortrait()"
           [gridHeaders]="['Question', 'Amount', '%']"
           [chartID]="'showMeChart'"
           [splitChartLabel]="true"
@@ -531,7 +531,7 @@
           [showExpandedData]="showExpandedData"
           [showMainContent]="!hideMainContent"
           [cardTitle]="'Tell me questions asked'"
-          [isPortrait]="orientationProvider.isPortraitMode$ | async"
+          [isPortrait]="isPortrait()"
           [gridHeaders]="['Question', 'Amount', '%']"
           [chartID]="'tellMeChart'"
           [splitChartLabel]="true"
@@ -554,7 +554,7 @@
               [showExpandedData]="showExpandedData"
               [showMainContent]="!hideMainContent"
               [cardTitle]="'Balance questions asked'"
-              [isPortrait]="orientationProvider.isPortraitMode$ | async"
+              [isPortrait]="isPortrait()"
           [gridHeaders]="['Question', 'Amount', '%']"
           [displayColoursOnDataGrid]="!hideMainContent"
           [chartTransform]="{ portrait: { width: 320, height: 300 }, landscape: { width: 450, height: 300 } }"
@@ -580,7 +580,7 @@
           [showExpandedData]="showExpandedData"
           [showMainContent]="!hideMainContent"
           [cardTitle]="'Safety questions asked'"
-          [isPortrait]="orientationProvider.isPortraitMode$ | async"
+          [isPortrait]="isPortrait()"
           [gridHeaders]="['Question', 'Amount', '%']"
           [chartID]="'safetyChart'"
           [splitChartLabel]="true"
@@ -603,7 +603,7 @@
           [showMainContent]="!hideMainContent"
           [canExpand]="!hideMainContent"
           [cardTitle]="'Circuits'"
-          [isPortrait]="orientationProvider.isPortraitMode$ | async"
+          [isPortrait]="isPortrait()"
           [gridHeaders]="['Circuit', 'Amount', '%']"
           [displayColoursOnDataGrid]="!hideMainContent"
           [chartTransform]="{ portrait: { width: 320, height: 300 }, landscape: { width: 450, height: 300 } }"

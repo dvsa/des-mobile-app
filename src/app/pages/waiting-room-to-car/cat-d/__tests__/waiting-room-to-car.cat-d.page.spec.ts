@@ -221,7 +221,7 @@ describe('WaitingRoomToCarCatDPage', () => {
           vi.spyOn(component.store$, 'dispatch').mockReturnValue(undefined);
           component.testCategory = TestCategory.DE;
           component.isDelegated = true;
-          component.fullLicenceHeld = true;
+          vi.spyOn(component, 'fullLicenceHeld').mockReturnValue(true);
           component.onSubmit();
           expect(component.store$.dispatch).toHaveBeenCalledWith(DropExtraVehicleChecksDelegated());
         }
@@ -232,7 +232,7 @@ describe('WaitingRoomToCarCatDPage', () => {
           vi.spyOn(component.store$, 'dispatch').mockReturnValue(undefined);
           component.testCategory = TestCategory.DE;
           component.isDelegated = false;
-          component.fullLicenceHeld = true;
+          vi.spyOn(component, 'fullLicenceHeld').mockReturnValue(true);
           component.onSubmit();
           expect(component.store$.dispatch).toHaveBeenCalledWith(DropExtraVehicleChecks());
         }

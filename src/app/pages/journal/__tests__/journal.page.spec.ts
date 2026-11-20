@@ -59,16 +59,16 @@ import { BasePageComponent } from '@shared/classes/base-page';
 import { ErrorTypes } from '@shared/models/error-message';
 import { MesError } from '@shared/models/mes-error.model';
 import { StoreModel } from '@shared/models/store.model';
+import { appInfoReducer } from '@store/app-info/app-info.reducer';
 import { RecallLearnMoreModalOpened } from '@store/general/safety-recall/safety-recall.actions';
 import journalSlotsDataMock from '@store/journal/__mocks__/journal-slots-data.mock';
 import * as journalActions from '@store/journal/journal.actions';
 import { JournalViewDidEnter, RecallAutoPopupDisplayedTimeChanged } from '@store/journal/journal.actions';
 import { JournalRehydrationType } from '@store/journal/journal.effects';
 import { journalReducer } from '@store/journal/journal.reducer';
-import { getRecallAutoPopupLastDisplayedTime } from '@store/journal/journal.selector';
 import { TestStatus } from '@store/tests/test-status/test-status.model';
 import { getTests, testsReducer } from '@store/tests/tests.reducer';
-import { Subscription, of } from 'rxjs';
+import { BehaviorSubject, Subscription } from 'rxjs';
 import { ActivitySlotComponent } from '../components/activity-slot/activity-slot';
 import { EmptySlotComponent } from '../components/empty-slot/empty-slot';
 import { JournalNavigationComponent } from '../components/journal-navigation/journal-navigation';
@@ -113,6 +113,7 @@ describe('JournalPage', () => {
         ExaminerNameComponent,
         IntegrityMarkerComponent,
         StoreModule.forRoot({
+          appInfo: appInfoReducer,
           rekeySearch: rekeySearchReducer,
           journal: journalReducer,
           tests: testsReducer,
@@ -122,7 +123,10 @@ describe('JournalPage', () => {
       providers: [
         {
           provide: OrientationMonitorProvider,
-          useClass: OrientationMonitorProviderMock,
+          useFactory: () => ({
+            ...new OrientationMonitorProviderMock(),
+            isPortraitMode$: new BehaviorSubject(false),
+          }),
         },
         {
           provide: ModalController,
@@ -365,17 +369,12 @@ describe('JournalPage', () => {
     describe('displayAutoRecallPopup', () => {
       beforeEach(() => {
         vi.spyOn(component.todaysDate, 'format').mockReturnValue('01/01/2024');
-        component.pageState = { ...component.pageState, isSelectedDateToday$: of(true) } as any;
+        vi.spyOn(component, 'isSelectedDateToday').mockReturnValue(true);
         vi.spyOn(component, 'openLearnMoreModal').mockReturnValue(Promise.resolve());
         vi.spyOn(component.store$, 'dispatch').mockReturnValue(undefined);
       });
 
       it('dispatches RecallAutoPopupDisplayedTimeChanged and opens modal when slot has affected category, has not been conducted and not already displayed today', async () => {
-        component.store$.selectSignal = vi.fn().mockImplementation((selector) => {
-          if (selector === getRecallAutoPopupLastDisplayedTime) return () => 'not-today';
-          if (selector === getTests) return () => ({ testStatus: {} });
-        });
-
         const slots = [
           {
             slotData: {
@@ -397,7 +396,7 @@ describe('JournalPage', () => {
       });
 
       it('does not open modal if selected date is not today', async () => {
-        component.pageState = { ...component.pageState, isSelectedDateToday$: of(false) } as any;
+        vi.spyOn(component, 'isSelectedDateToday').mockReturnValue(false);
         await component.displayAutoRecallPopup([
           {
             slotData: {
@@ -410,10 +409,7 @@ describe('JournalPage', () => {
       });
 
       it('does not dispatch or open modal if popup already displayed today', async () => {
-        component.store$.selectSignal = vi.fn().mockImplementation((selector) => {
-          if (selector === getRecallAutoPopupLastDisplayedTime) return () => '01/01/2024';
-          if (selector === getTests) return () => ({ testStatus: {} });
-        });
+        vi.spyOn(component, 'recallAutoPopupLastDisplayedTime').mockReturnValue('01/01/2024');
 
         await component.displayAutoRecallPopup([
           {
@@ -429,11 +425,6 @@ describe('JournalPage', () => {
       });
 
       it('does not dispatch or open modal if no slots have affected categories', async () => {
-        component.store$.selectSignal = vi.fn().mockImplementation((selector) => {
-          if (selector === getRecallAutoPopupLastDisplayedTime) return () => 'not-today';
-          if (selector === getTests) return () => ({ testStatus: {} });
-        });
-
         await component.displayAutoRecallPopup([
           {
             slotData: {
@@ -449,7 +440,6 @@ describe('JournalPage', () => {
 
       it('handles multiple slots and only displays popup if at least one is affected and incomplete', async () => {
         component.store$.selectSignal = vi.fn().mockImplementation((selector) => {
-          if (selector === getRecallAutoPopupLastDisplayedTime) return () => 'not-today';
           if (selector === getTests)
             return () => ({
               testStatus: {
@@ -478,7 +468,6 @@ describe('JournalPage', () => {
 
       it('does not display popup if all affected slots are completed, autosaved, or submitted', async () => {
         component.store$.selectSignal = vi.fn().mockImplementation((selector) => {
-          if (selector === getRecallAutoPopupLastDisplayedTime) return () => 'not-today';
           if (selector === getTests)
             return () => ({
               testStatus: {
@@ -568,7 +557,7 @@ describe('JournalPage', () => {
         canViewCandidateDetails: vi.fn().mockReturnValue(true),
         isTestCentreJournalADIBooking: vi.fn().mockReturnValue(false),
       });
-      component.pageState.slots$ = of(slots);
+      vi.spyOn(component, 'slots').mockReturnValue(slots);
       fixture.changeDetectorRef.markForCheck();
       fixture.detectChanges();
 

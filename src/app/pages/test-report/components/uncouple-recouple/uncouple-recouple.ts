@@ -1,14 +1,13 @@
 import { NgClass } from '@angular/common';
-import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output, computed } from '@angular/core';
 import { DangerousFaultBadgeComponent } from '@components/common/dangerous-fault-badge/dangerous-fault-badge';
 import { DrivingFaultsBadgeComponent } from '@components/common/driving-faults-badge/driving-faults-badge';
 import { SeriousFaultBadgeComponent } from '@components/common/serious-fault-badge/serious-fault-badge';
 import { TickIndicatorComponent } from '@components/common/tick-indicator/tick-indicator';
 import { CategoryCode } from '@dvsa/mes-test-schema/categories/common';
 import { IonCol, IonGrid, IonRow } from '@ionic/angular';
-import { Store, select } from '@ngrx/store';
+import { Store } from '@ngrx/store';
 import { TestDataByCategoryProvider } from '@providers/test-data-by-category/test-data-by-category';
-import { trDestroy$ } from '@shared/classes/test-flow-base-pages/test-report/test-report-base-page';
 import { CompetencyOutcome } from '@shared/models/competency-outcome';
 import { StoreModel } from '@shared/models/store.model';
 import {
@@ -21,20 +20,10 @@ import {
 import { getTests } from '@store/tests/tests.reducer';
 import { getCurrentTest } from '@store/tests/tests.selector';
 import { get } from 'lodash-es';
-import { Observable, Subscription, merge } from 'rxjs';
-import { map, takeUntil } from 'rxjs/operators';
 import { ToggleDangerousFaultMode, ToggleRemoveFaultMode, ToggleSeriousFaultMode } from '../../test-report.actions';
 import { getTestReportState } from '../../test-report.reducer';
 import { isDangerousMode, isRemoveFaultMode, isSeriousMode } from '../../test-report.selector';
 import { CompetencyButtonComponent } from '../competency-button/competency-button';
-
-interface UncoupleRecoupleComponentState {
-  isRemoveFaultMode$: Observable<boolean>;
-  isSeriousMode$: Observable<boolean>;
-  isDangerousMode$: Observable<boolean>;
-  selectedUncoupleRecouple$: Observable<boolean>;
-  uncoupleRecoupleOutcome$: Observable<CompetencyOutcome>;
-}
 
 @Component({
   selector: 'uncouple-recouple',
@@ -52,7 +41,7 @@ interface UncoupleRecoupleComponentState {
     DangerousFaultBadgeComponent,
   ],
 })
-export class UncoupleRecoupleComponent implements OnInit, OnDestroy {
+export class UncoupleRecoupleComponent {
   @Input()
   category: CategoryCode;
 
@@ -65,63 +54,34 @@ export class UncoupleRecoupleComponent implements OnInit, OnDestroy {
   @Output()
   competencyClicked = new EventEmitter<void>();
 
-  componentState: UncoupleRecoupleComponentState;
-  subscription: Subscription;
+  private readonly tests = this.store$.selectSignal(getTests);
+  private readonly currentTest = computed(() => getCurrentTest(this.tests()));
+  private readonly testData = computed(() =>
+    this.testDataByCategory.getTestDataByCategoryCode(this.category)(this.currentTest())
+  );
+  private readonly uncoupleRecouple = computed(() => get(this.testData(), 'uncoupleRecouple'));
+  private readonly testReportState = this.store$.selectSignal(getTestReportState);
 
-  isRemoveFaultMode = false;
-  isSeriousMode = false;
-  isDangerousMode = false;
-
-  selectedUncoupleRecouple = false;
-  uncoupleRecoupleOutcome: CompetencyOutcome;
-  merged$: Observable<boolean | CompetencyOutcome>;
+  get isRemoveFaultMode(): boolean {
+    return isRemoveFaultMode(this.testReportState());
+  }
+  get isSeriousMode(): boolean {
+    return isSeriousMode(this.testReportState());
+  }
+  get isDangerousMode(): boolean {
+    return isDangerousMode(this.testReportState());
+  }
+  get selectedUncoupleRecouple(): boolean {
+    return get(this.uncoupleRecouple(), 'selected');
+  }
+  get uncoupleRecoupleOutcome(): CompetencyOutcome {
+    return get(this.uncoupleRecouple(), 'fault') as CompetencyOutcome;
+  }
 
   constructor(
     private store$: Store<StoreModel>,
     private testDataByCategory: TestDataByCategoryProvider
   ) {}
-
-  ngOnInit(): void {
-    const currentTest$ = this.store$.pipe(select(getTests), select(getCurrentTest));
-
-    this.componentState = {
-      isRemoveFaultMode$: this.store$.pipe(select(getTestReportState), select(isRemoveFaultMode)),
-      isSeriousMode$: this.store$.pipe(select(getTestReportState), select(isSeriousMode)),
-      isDangerousMode$: this.store$.pipe(select(getTestReportState), select(isDangerousMode)),
-      selectedUncoupleRecouple$: currentTest$.pipe(
-        map((data) => this.testDataByCategory.getTestDataByCategoryCode(this.category)(data)),
-        select((testData) => get(testData, 'uncoupleRecouple.selected'))
-      ),
-      uncoupleRecoupleOutcome$: currentTest$.pipe(
-        map((data) => this.testDataByCategory.getTestDataByCategoryCode(this.category)(data)),
-        select((testData): CompetencyOutcome => get(testData, 'uncoupleRecouple.fault') as CompetencyOutcome)
-      ),
-    };
-
-    const {
-      isRemoveFaultMode$,
-      isSeriousMode$,
-      isDangerousMode$,
-      selectedUncoupleRecouple$,
-      uncoupleRecoupleOutcome$,
-    } = this.componentState;
-
-    this.subscription = merge(
-      isRemoveFaultMode$.pipe(map((toggle) => (this.isRemoveFaultMode = toggle))),
-      isSeriousMode$.pipe(map((toggle) => (this.isSeriousMode = toggle))),
-      isDangerousMode$.pipe(map((toggle) => (this.isDangerousMode = toggle))),
-      selectedUncoupleRecouple$.pipe(map((value) => (this.selectedUncoupleRecouple = value))),
-      uncoupleRecoupleOutcome$.pipe(map((outcome) => (this.uncoupleRecoupleOutcome = outcome)))
-    )
-      .pipe(takeUntil(trDestroy$))
-      .subscribe();
-  }
-
-  ngOnDestroy(): void {
-    if (this.subscription) {
-      this.subscription.unsubscribe();
-    }
-  }
 
   onTap = () => {
     this.addOrRemoveFault();

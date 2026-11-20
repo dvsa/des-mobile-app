@@ -1,4 +1,5 @@
 import { CommonModule } from '@angular/common';
+import { signal } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Router } from '@angular/router';
 import { ScreenOrientation } from '@capawesome/capacitor-screen-orientation';
@@ -23,7 +24,6 @@ import {
   LocationChanged,
   TestCategoryChanged,
 } from '@pages/examiner-records/examiner-records.actions';
-import { ExaminerRecordDataWithPercentage } from '@pages/examiner-records/examiner-records.selector';
 import { DASHBOARD_PAGE } from '@pages/page-names.constants';
 import { CompressionProvider } from '@providers/compression/compression';
 import { ExaminerRecordsProviderMock } from '@providers/examiner-records/__mocks__/examiner-records.mock';
@@ -44,20 +44,18 @@ describe('ExaminerRecordsPage', () => {
   let store$: MockStore;
   let router: Router;
   const initialState = {
-    cachedRecords$: of([]),
-    isLoadingRecords$: of(false),
-    routeNumbers$: of([]),
-    manoeuvres$: of([]),
-    balanceQuestions$: of([]),
-    safetyQuestions$: of([]),
-    independentDriving$: of([]),
-    showMeQuestions$: of([]),
-    tellMeQuestions$: of([]),
-    testCount$: of(0),
-    circuits$: of([]),
-    locationList$: of([]),
-    categoryList$: of([]),
-    emergencyStops$: of([]),
+    routeNumbers: signal([]),
+    manoeuvres: signal([]),
+    balanceQuestions: signal([]),
+    safetyQuestions: signal([]),
+    independentDriving: signal([]),
+    showMeQuestions: signal([]),
+    tellMeQuestions: signal([]),
+    testCount: signal(0),
+    circuits: signal([]),
+    locationList: signal([]),
+    categoryList: signal([]),
+    emergencyStops: signal([]),
   };
   const mockTests: ExaminerRecordModel[] = [
     {
@@ -312,7 +310,7 @@ describe('ExaminerRecordsPage', () => {
     vi.spyOn(component.store$, 'dispatch').mockReturnValue(undefined);
     router = TestBed.inject(Router);
     vi.spyOn(router, 'navigate');
-    component.pageState = initialState;
+    Object.assign(component, initialState);
   });
   it('should create', () => {
     expect(component).toBeTruthy();
@@ -349,7 +347,9 @@ describe('ExaminerRecordsPage', () => {
 
     it('should set locationSelectPristine to false if locationSubject$ has value', async () => {
       component.locationSubject$.next('TEST');
-      vi.spyOn(component, 'setLocationFilter').mockReturnValue(undefined);
+      vi.spyOn(component, 'getLocationsByParameters').mockReturnValue(
+        of([{ item: { centreName: 'Test centre', costCode: 'TEST' }, count: 1 }])
+      );
 
       await component.ngOnInit();
 
@@ -372,13 +372,9 @@ describe('ExaminerRecordsPage', () => {
 
       await component.ngOnInit();
 
-      let emergencyStops: ExaminerRecordDataWithPercentage<string>[] = [];
-      component.pageState.emergencyStops$.subscribe((value: ExaminerRecordDataWithPercentage<string>[]) => {
-        emergencyStops = value;
-      });
       component.eligTestSubject$.next([]);
 
-      expect(emergencyStops).toEqual([
+      expect(component.emergencyStops()).toEqual([
         { item: 'Stop', count: 0, percentage: '0.0%' },
         { item: 'No stop', count: 0, percentage: '0.0%' },
       ]);

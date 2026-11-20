@@ -1,8 +1,8 @@
-@if ((componentState.count$ | async) > 0) {
+@if (count() > 0) {
   <div>
     <ion-icon class="warning-icon" aria-label="Alert icon" ios="alert-circle"></ion-icon>
     <label>
-      <span class="banner-text">{{getIncompleteText((componentState.count$ | async))}}</span>
+      <span class="banner-text">{{ getIncompleteText(count()) }}</span>
     </label>
   </div>
 }

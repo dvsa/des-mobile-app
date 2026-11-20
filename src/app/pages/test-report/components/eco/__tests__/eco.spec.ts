@@ -1,3 +1,4 @@
+import { signal } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { TickIndicatorComponent } from '@components/common/tick-indicator/tick-indicator';
 import { TestResultCommonSchema } from '@dvsa/mes-test-schema/categories/common';
@@ -12,7 +13,6 @@ import { StartTest } from '@store/tests/tests.actions';
 import { TestsModel } from '@store/tests/tests.model';
 import { testsReducer } from '@store/tests/tests.reducer';
 import { MockComponent } from 'ng-mocks';
-import { Subscription } from 'rxjs';
 import { testReportReducer } from '../../../test-report.reducer';
 import { CompetencyButtonComponent } from '../../competency-button/competency-button';
 import { EcoComponent } from '../eco';
@@ -86,11 +86,13 @@ describe('EcoComponent', () => {
   describe('Class', () => {
     describe('Record that Eco has been assessed', () => {
       it('should dispatch a TOGGLE_ECO action', () => {
+        component.adviceGivenControl = signal(false);
+        component.adviceGivenPlanning = signal(false);
         component.toggleEco();
         expect(storeDispatchSpy).toHaveBeenCalledWith(ToggleEco());
       });
       it('should not dispatch a TOGGLE_ECO action when advice has been given', () => {
-        component.adviceGivenControl = true;
+        component.adviceGivenControl = signal(true);
         component.toggleEco();
         expect(storeDispatchSpy).not.toHaveBeenCalledWith(ToggleEco());
       });
@@ -103,22 +105,10 @@ describe('EcoComponent', () => {
       });
     });
 
-    describe('ngOnDestroy', () => {
-      it('should unsubscribe from the subscription if there is one', () => {
-        component.subscription = new Subscription();
-        vi.spyOn(component.subscription, 'unsubscribe').mockReturnValue(undefined);
-        component.ngOnDestroy();
-        expect(component.subscription.unsubscribe).toHaveBeenCalled();
-      });
-    });
-
-    describe('ngOnInit', () => {
-      it('should resolve state variables', () => {
-        component.ngOnInit();
-        component.componentState.completed$.subscribe((res) => expect(res).toEqual(true));
-        component.componentState.adviceGivenPlanning$.subscribe((res) => expect(res).toEqual(true));
-        component.componentState.adviceGivenControl$.subscribe((res) => expect(res).toEqual(true));
-      });
+    it('should expose state through signals', () => {
+      expect(component.completed()).toBe(true);
+      expect(component.adviceGivenPlanning()).toBe(true);
+      expect(component.adviceGivenControl()).toBe(true);
     });
     describe('Record that Eco Planning advice was given', () => {
       it('should dispatch a TOGGLE_PLANNING_ECO action', () => {

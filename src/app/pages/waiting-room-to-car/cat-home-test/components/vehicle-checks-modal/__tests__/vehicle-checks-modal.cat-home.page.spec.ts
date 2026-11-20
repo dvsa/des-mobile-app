@@ -10,7 +10,7 @@ import { ModalControllerMock } from '@mocks/ionic-mocks/modal-controller.mock';
 import { StoreModule } from '@ngrx/store';
 import { provideMockStore } from '@ngrx/store/testing';
 import { VehicleChecksCatHomeTestModal } from '@pages/waiting-room-to-car/cat-home-test/components/vehicle-checks-modal/vehicle-checks-modal.cat-home.page';
-import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { MotCardComponent } from '@pages/waiting-room-to-car/components/mot-components/mot-card/mot-card.component';
 import { MotNoEvidenceConfirmationComponent } from '@pages/waiting-room-to-car/components/mot-components/mot-no-evidence-confirmation/mot-no-evidence-confirmation';
@@ -32,8 +32,6 @@ import {
   TellMeQuestionSelected,
 } from '@store/tests/test-data/cat-home/vehicle-checks/vehicle-checks.cat-home.actions';
 import { TestsModel } from '@store/tests/tests.model';
-import { Subscription } from 'rxjs';
-import { take } from 'rxjs/operators';
 import { AccompanimentCardComponent } from '../../../../components/accompaniment-card/accompaniment-card';
 import { AccompanimentComponent } from '../../../../components/accompaniment/accompaniment';
 import { CandidateDeclarationSignedComponent } from '../../../../components/candidate-declaration/candidate-declaration';
@@ -171,42 +169,17 @@ describe('VehicleChecksCatHomeTestModal', () => {
       });
     });
 
-    describe('ngOnInit', () => {
-      afterEach(() => {
-        // clean up subs
-        component.subscription.unsubscribe();
-      });
-      it('should merge the correct data into the subscription', () => {
+    describe('signal state', () => {
+      it('resolves state variables', () => {
         component.ngOnInit();
-        expect(component.subscription).toBeDefined();
-      });
-      it('should resolve state variables', () => {
-        component.ngOnInit();
-        component.pageState.candidateName$.pipe(take(1)).subscribe((res) => expect(res).toEqual('Firstname Lastname'));
-        component.pageState.showMeQuestions$.pipe(take(1)).subscribe((res) =>
-          expect(res).toEqual([
-            {
-              code: 'Q1',
-              outcome: 'DF',
-              description: 'All doors secure',
-            },
-          ])
-        );
-        component.pageState.tellMeQuestions$.pipe(take(1)).subscribe((res) =>
-          expect(res).toEqual([
-            {
-              code: 'Q3',
-              outcome: 'P',
-              description: 'Safety factors while loading',
-            },
-          ])
-        );
-        component.pageState.vehicleChecksScore$.pipe(take(1)).subscribe((res) =>
-          expect(res).toEqual({
-            seriousFaults: 0,
-            drivingFaults: 1,
-          })
-        );
+        expect(component.candidateName()).toEqual('Firstname Lastname');
+        expect(component.selectedShowMeQuestions()).toEqual([
+          { code: 'Q1', outcome: 'DF', description: 'All doors secure' },
+        ]);
+        expect(component.selectedTellMeQuestions()).toEqual([
+          { code: 'Q3', outcome: 'P', description: 'Safety factors while loading' },
+        ]);
+        expect(component.vehicleChecksScore()).toEqual({ seriousFaults: 0, drivingFaults: 1 });
       });
     });
 
@@ -254,14 +227,6 @@ describe('VehicleChecksCatHomeTestModal', () => {
         vi.spyOn(component.store$, 'dispatch').mockReturnValue(undefined);
         component.tellMeQuestionOutcomeChanged(null, 0);
         expect(component.store$.dispatch).toHaveBeenCalledWith(TellMeQuestionOutcomeChanged(null, 0));
-      });
-    });
-    describe('ionViewDidLeave', () => {
-      it('should unsubscribe from the subscription if there is one', () => {
-        component.subscription = new Subscription();
-        vi.spyOn(component.subscription, 'unsubscribe').mockReturnValue(undefined);
-        component.ionViewDidLeave();
-        expect(component.subscription.unsubscribe).toHaveBeenCalled();
       });
     });
   });

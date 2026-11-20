@@ -1,5 +1,4 @@
-import { AsyncPipe } from '@angular/common';
-import { Component, Input } from '@angular/core';
+import { Component, Input, computed } from '@angular/core';
 import { FormsModule, ReactiveFormsModule, UntypedFormGroup } from '@angular/forms';
 import { Style } from '@capacitor/status-bar';
 import { QuestionOutcome, QuestionResult } from '@dvsa/mes-test-schema/categories/common';
@@ -23,7 +22,7 @@ import {
   IonToolbar,
   ModalController,
 } from '@ionic/angular';
-import { Store, select } from '@ngrx/store';
+import { Store } from '@ngrx/store';
 import { AccessibilityService } from '@providers/accessibility/accessibility.service';
 import { FaultCountProvider } from '@providers/fault-count/fault-count';
 import { QuestionProvider } from '@providers/question/question';
@@ -31,9 +30,7 @@ import { VehicleChecksQuestion } from '@providers/question/vehicle-checks-questi
 import { NUMBER_OF_SHOW_ME_QUESTIONS } from '@shared/constants/show-me-questions/show-me-questions.cat-home-test.constants';
 import { NUMBER_OF_TELL_ME_QUESTIONS } from '@shared/constants/tell-me-questions/tell-me-questions.cat-home-test.constants';
 import { StoreModel } from '@shared/models/store.model';
-import { VehicleChecksScore } from '@shared/models/vehicle-checks-score.model';
-import { getCandidate } from '@store/tests/journal-data/cat-home/candidate/candidate.cat-home.reducer';
-import { getUntitledCandidateName } from '@store/tests/journal-data/common/candidate/candidate.selector';
+import { selectUntitledCandidateName } from '@store/tests/journal-data/common/candidate/candidate.selector';
 import { getTestData } from '@store/tests/test-data/cat-home/test-data.cat-h.reducer';
 import {
   ShowMeQuestionOutcomeChanged,
@@ -46,19 +43,9 @@ import {
   getSelectedTellMeQuestions,
   getVehicleChecksCatHomeTest,
 } from '@store/tests/test-data/cat-home/vehicle-checks/vehicle-checks.cat-home.selector';
-import { getTests } from '@store/tests/tests.reducer';
-import { getCurrentTest, getJournalData } from '@store/tests/tests.selector';
-import { Observable, Subscription, merge } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { selectCurrentTest } from '@store/tests/tests.selector';
 import { VehicleChecksQuestionComponent } from '../../../components/vehicle-checks-question/vehicle-checks-question';
 import * as vehicleChecksModalActions from './vehicle-checks-modal.cat-home.actions';
-
-interface VehicleChecksModalCatHomeTestState {
-  candidateName$: Observable<string>;
-  showMeQuestions$: Observable<QuestionResult[]>;
-  tellMeQuestions$: Observable<QuestionResult[]>;
-  vehicleChecksScore$: Observable<VehicleChecksScore>;
-}
 
 @Component({
   selector: 'vehicle-checks-modal-cat-home-test',
@@ -84,11 +71,15 @@ interface VehicleChecksModalCatHomeTestState {
     IonRow,
     IonCol,
     IonText,
-    AsyncPipe,
   ],
 })
 export class VehicleChecksCatHomeTestModal {
-  pageState: VehicleChecksModalCatHomeTestState;
+  private currentTest = this.store$.selectSignal(selectCurrentTest);
+  private checks = computed(() => getVehicleChecksCatHomeTest(getTestData(this.currentTest() as never)));
+  candidateName = this.store$.selectSignal(selectUntitledCandidateName);
+  selectedShowMeQuestions = computed(() => getSelectedShowMeQuestions(this.checks()));
+  selectedTellMeQuestions = computed(() => getSelectedTellMeQuestions(this.checks()));
+  vehicleChecksScore = computed(() => this.faultCountProvider.getVehicleChecksFaultCount(this.category, this.checks()));
   formGroup: UntypedFormGroup;
   showMeQuestions: VehicleChecksQuestion[];
   tellMeQuestions: VehicleChecksQuestion[];
@@ -100,8 +91,6 @@ export class VehicleChecksCatHomeTestModal {
   isPracticeMode: boolean;
   readonly showMeQuestionsNumberArray: number[] = Array(NUMBER_OF_SHOW_ME_QUESTIONS);
   readonly tellMeQuestionsNumberArray: number[] = Array(NUMBER_OF_TELL_ME_QUESTIONS);
-  vehicleChecksScore: VehicleChecksScore;
-  subscription: Subscription;
 
   constructor(
     public store$: Store<StoreModel>,
@@ -116,38 +105,6 @@ export class VehicleChecksCatHomeTestModal {
   ngOnInit(): void {
     this.showMeQuestions = this.questionProvider.getShowMeQuestions(this.category);
     this.tellMeQuestions = this.questionProvider.getTellMeQuestions(this.category);
-    const currentTest$ = this.store$.pipe(select(getTests), select(getCurrentTest));
-
-    this.pageState = {
-      candidateName$: currentTest$.pipe(select(getJournalData), select(getCandidate), select(getUntitledCandidateName)),
-      showMeQuestions$: currentTest$.pipe(
-        select(getTestData),
-        select(getVehicleChecksCatHomeTest),
-        select(getSelectedShowMeQuestions)
-      ),
-      tellMeQuestions$: currentTest$.pipe(
-        select(getTestData),
-        select(getVehicleChecksCatHomeTest),
-        select(getSelectedTellMeQuestions)
-      ),
-      vehicleChecksScore$: currentTest$.pipe(
-        select(getTestData),
-        select(getVehicleChecksCatHomeTest),
-        map((vehicleChecks) => this.faultCountProvider.getVehicleChecksFaultCount(this.category, vehicleChecks))
-      ),
-    };
-
-    const { vehicleChecksScore$ } = this.pageState;
-
-    const merged$ = merge(vehicleChecksScore$.pipe(map((score) => (this.vehicleChecksScore = score))));
-
-    this.subscription = merged$.subscribe();
-  }
-
-  ionViewDidLeave(): void {
-    if (this.subscription) {
-      this.subscription.unsubscribe();
-    }
   }
 
   ionViewDidEnter() {

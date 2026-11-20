@@ -6,7 +6,6 @@ import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { provideBasePageMocks } from '@mocks/test-providers';
 import { provideMockStore } from '@ngrx/store/testing';
 
-import { TestCentre } from '@dvsa/mes-journal-schema';
 import { ModalController } from '@ionic/angular';
 
 import { AdvancedSearchComponent } from '@pages/test-results-search/components/advanced-search/advanced-search';
@@ -24,7 +23,7 @@ import { NetworkStateProvider } from '@providers/network-state/network-state';
 import { SearchProviderMock } from '@providers/search/__mocks__/search.mock';
 import { SearchProvider } from '@providers/search/search';
 import { MockComponent } from 'ng-mocks';
-import { Observable, Subject, Subscription } from 'rxjs';
+import { Subject, Subscription } from 'rxjs';
 
 import { unitTestErrorCause } from '../../../../test-setup.vitest';
 import { AdvancedSearchComponent as AdvancedSearchComponent_1 } from '../components/advanced-search/advanced-search';
@@ -81,11 +80,8 @@ describe('TestResultsSearchPage', () => {
     });
 
     describe('ionViewWillEnter', () => {
-      it('should setup subscription if merged is present', () => {
-        component.merged$ = new Observable<TestCentre[]>();
-        component.ionViewWillEnter();
-
-        expect(component.subscription).toBeDefined();
+      it('should allow the view to enter', () => {
+        expect(component.ionViewWillEnter()).toBe(true);
       });
     });
     describe('advanced search', () => {
@@ -136,7 +132,7 @@ describe('TestResultsSearchPage', () => {
           const results$ = new Subject<SearchResultTestSchema[]>();
           vi.spyOn(component.searchProvider, 'applicationReferenceSearch').mockReturnValue(results$);
           vi.spyOn(component.searchProvider, 'driverNumberSearch').mockReturnValue(results$);
-          component.searchBy = searchBy;
+          component.searchBy.set(searchBy);
           fixture.autoDetectChanges();
           await fixture.whenStable();
           component.candidateInfoChanged('12345678901');
@@ -156,12 +152,12 @@ describe('TestResultsSearchPage', () => {
       }
 
       it('should set define subscription using ApplicationReference', () => {
-        component.searchBy = SearchBy.ApplicationReference;
+        component.searchBy.set(SearchBy.ApplicationReference);
         component.searchTests();
         expect(component.subscription).toBeDefined();
       });
       it('should set define subscription using DriverNumber', () => {
-        component.searchBy = SearchBy.DriverNumber;
+        component.searchBy.set(SearchBy.DriverNumber);
         component.searchTests();
         expect(component.subscription).toBeDefined();
       });
@@ -210,8 +206,9 @@ describe('TestResultsSearchPage', () => {
         if (searchType === 'advancedSearch') {
           component.advancedSearch({});
         } else {
-          component.searchBy =
-            searchType === 'driverNumberSearch' ? SearchBy.DriverNumber : SearchBy.ApplicationReference;
+          component.searchBy.set(
+            searchType === 'driverNumberSearch' ? SearchBy.DriverNumber : SearchBy.ApplicationReference
+          );
           component.searchTests();
         }
         fixture.detectChanges();
@@ -235,21 +232,21 @@ describe('TestResultsSearchPage', () => {
     describe('setFocus', () => {
       it('should set focusedElement to the passed parameter', () => {
         component.setFocus('test');
-        expect(component.focusedElement).toEqual('test');
+        expect(component.focusedElement()).toEqual('test');
       });
     });
 
     describe('searchByChanged', () => {
       it('should set searchBy to the passed parameter', () => {
         component.searchByChanged('test');
-        expect(component.searchBy).toEqual('test');
+        expect(component.searchBy()).toEqual('test');
       });
     });
 
     describe('candidateInfoChanged', () => {
       it('should set candidateInfo to the passed parameter formatted correctly', () => {
         component.candidateInfoChanged('test');
-        expect(component.candidateInfo).toEqual('TEST');
+        expect(component.candidateInfo()).toEqual('TEST');
       });
     });
 

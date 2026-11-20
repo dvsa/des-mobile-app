@@ -1,5 +1,5 @@
 import { HttpErrorResponse, HttpStatusCode } from '@angular/common/http';
-import { ErrorHandler, Inject, Injectable, Injector, inject } from '@angular/core';
+import { ErrorHandler, Inject, Injectable, Injector } from '@angular/core';
 import { Device } from '@capacitor/device';
 import { Store } from '@ngrx/store';
 import { AppConfigProvider } from '@providers/app-config/app-config';
@@ -78,22 +78,22 @@ export class SentryIonicErrorHandler extends ErrorHandler {
   }
 
   get authenticationProvider(): AuthenticationProvider {
-    return inject<AuthenticationProvider>(AuthenticationProvider);
+    return this.injector.get(AuthenticationProvider);
   }
 
   get appConfigProvider(): AppConfigProvider {
-    return inject<AppConfigProvider>(AppConfigProvider);
+    return this.injector.get(AppConfigProvider);
   }
 
   get appInfoProvider(): AppInfoProvider {
-    return inject<AppInfoProvider>(AppInfoProvider);
+    return this.injector.get(AppInfoProvider);
   }
 
   get logHelper(): LogHelper {
-    return inject<LogHelper>(LogHelper);
+    return this.injector.get(LogHelper);
   }
 
   get store$(): Store<StoreModel> {
-    return inject<Store<StoreModel>>(Store);
+    return this.injector.get(Store);
   }
 }

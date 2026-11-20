@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, computed } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { AppLauncher } from '@capacitor/app-launcher';
 import {
   IonBadge,
@@ -17,7 +18,6 @@ import {
   ViewWillEnter,
 } from '@ionic/angular';
 
-import { AsyncPipe } from '@angular/common';
 import { IncompleteTestsBanner } from '@components/common/incomplete-tests-banner/incomplete-tests-banner';
 import { OfflineBannerComponent } from '@components/common/offline-banner/offline-banner';
 import { VehicleRecallsBanner } from '@components/common/vehicle-recall-banner/vehicle-recalls-banner';
@@ -37,7 +37,6 @@ import { AppConfigProvider } from '@providers/app-config/app-config';
 import { ExaminerRole, ExaminerRoleDescription } from '@providers/app-config/constants/examiner-role.constants';
 import { DateTimeProvider } from '@providers/date-time/date-time';
 import { NetworkStateProvider } from '@providers/network-state/network-state';
-import { SlotItem } from '@providers/slot-selector/slot-item';
 import { SlotProvider } from '@providers/slot/slot';
 import { BasePageComponent } from '@shared/classes/base-page';
 import { DateTime } from '@shared/helpers/date-time';
@@ -64,7 +63,7 @@ import { getAllSlots } from '@store/journal/journal.selector';
 import { TestCentreJournalEnteredFromDashboard } from '@store/test-centre-journal/test-centre-journal.actions';
 import { getTests } from '@store/tests/tests.reducer';
 import { Observable, Subscription, combineLatest, from, merge, takeWhile } from 'rxjs';
-import { filter, map, switchMap, tap, withLatestFrom } from 'rxjs/operators';
+import { filter, map, switchMap, withLatestFrom } from 'rxjs/operators';
 import { DelegatedSearchCardComponent } from './components/delegated-rekey-card/delegated-rekey-card';
 import { GoToJournalCardComponent } from './components/go-to-journal-card/go-to-journal-card';
 import { PracticeEndToEndCardComponent } from './components/practice-end-to-end-card/practice-end-to-end-card';
@@ -74,18 +73,6 @@ import { RekeySearchCardComponent } from './components/rekey-search-card/rekey-s
 import { TestCentreJournalCardComponent } from './components/test-centre-journal-card/test-centre-journal-card';
 import { TestResultsSearchCardComponent } from './components/test-results-search-card/test-results-search-card';
 import { DashboardViewDidEnter, PracticeTestReportCard, ReportCurrentTimeZone } from './dashboard.actions';
-
-interface DashboardPageState {
-  appVersion$: Observable<string>;
-  employeeName$: Observable<string>;
-  employeeId$: Observable<string>;
-  role$: Observable<string>;
-  liveAppVersion$: Observable<string>;
-  showUpdatesAvailable$: Observable<boolean>;
-  isOffline$: Observable<boolean>;
-  notificationCount$: Observable<number>;
-  testSlots$: Observable<SlotItem[]>;
-}
 
 @Component({
   selector: 'app-dashboard',
@@ -114,18 +101,41 @@ interface DashboardPageState {
     RekeySearchCardComponent,
     PracticeTestReportCardComponent,
     PracticeEndToEndCardComponent,
-    AsyncPipe,
   ],
 })
 export class DashboardPage extends BasePageComponent implements OnInit, ViewDidEnter, ViewWillEnter {
-  pageState: DashboardPageState;
   todaysDateFormatted: string;
   todaysDate: DateTime;
-  liveAppVersion: string;
   subscription: Subscription;
   hasRehydrated = false;
 
   private merged$: Observable<void | string>;
+  private readonly showUpdatesAvailable$ = showUpdateAvailable$(this.store$, this.platform);
+  readonly appVersion = this.store$.selectSignal(selectVersionNumber);
+  readonly employeeName = this.store$.selectSignal(selectEmployeeName);
+  private readonly employeeIdState = this.store$.selectSignal(selectEmployeeId);
+  private readonly roleState = this.store$.selectSignal(selectRole);
+  readonly employeeId = computed(() => this.getEmployeeNumberDisplayValue(this.employeeIdState()));
+  readonly role = computed(() => this.getRoleDisplayValue(this.roleState()));
+  readonly liveAppVersion = this.store$.selectSignal(selectLiveAppVersion);
+  readonly showUpdatesAvailable = toSignal(this.showUpdatesAvailable$, { initialValue: false });
+  readonly isOffline = toSignal(this.networkStateProvider.isOffline$, { initialValue: false });
+  readonly notificationCount = toSignal(
+    combineLatest([
+      unsubmittedTestSlotsCount$(
+        this.store$.select(getJournalState),
+        this.store$.select(getTests),
+        this.dateTimeProvider,
+        this.slotProvider,
+        this.appConfigProvider.getAppConfig()?.journal?.numberOfDaysToView
+      ),
+      getUpdateAvailableCount$(this.store$, this.platform),
+    ]).pipe(map(sumFlatArray)),
+    { initialValue: 0 }
+  );
+  private readonly journalState = this.store$.selectSignal(getJournalState);
+  readonly testSlots = computed(() => getAllSlots(this.journalState()));
+  private readonly testSlots$ = this.store$.pipe(select(getJournalState), map(getAllSlots));
   private static readonly CompanyPortalURLScheme = 'companyportal://apps';
 
   constructor(
@@ -144,30 +154,8 @@ export class DashboardPage extends BasePageComponent implements OnInit, ViewDidE
   }
 
   ngOnInit() {
-    this.pageState = {
-      appVersion$: this.store$.select(selectVersionNumber),
-      employeeName$: this.store$.select(selectEmployeeName),
-      employeeId$: this.store$.select(selectEmployeeId).pipe(map(this.getEmployeeNumberDisplayValue)),
-      role$: this.store$.select(selectRole).pipe(map(this.getRoleDisplayValue)),
-      liveAppVersion$: this.store$.select(selectLiveAppVersion),
-      showUpdatesAvailable$: showUpdateAvailable$(this.store$, this.platform),
-      isOffline$: this.networkStateProvider.isOffline$,
-      notificationCount$: combineLatest([
-        unsubmittedTestSlotsCount$(
-          this.store$.select(getJournalState),
-          this.store$.select(getTests),
-          this.dateTimeProvider,
-          this.slotProvider,
-          this.appConfigProvider.getAppConfig()?.journal?.numberOfDaysToView
-        ),
-        getUpdateAvailableCount$(this.store$, this.platform),
-      ]).pipe(map(sumFlatArray) /* Sum all individual counts to determine, overall count */),
-      testSlots$: this.store$.pipe(select(getJournalState), map(getAllSlots)),
-    };
-
     this.merged$ = merge(
-      this.pageState.liveAppVersion$.pipe(tap((appVersion) => (this.liveAppVersion = appVersion))),
-      this.pageState.showUpdatesAvailable$.pipe(
+      this.showUpdatesAvailable$.pipe(
         withLatestFrom(this.store$.select(selectUpdateAvailablePresented)),
         filter(
           ([showBasedOnAppVersion, hasUpdateAvailablePresented]) =>
@@ -177,7 +165,7 @@ export class DashboardPage extends BasePageComponent implements OnInit, ViewDidE
       )
     );
 
-    this.pageState.testSlots$.pipe(takeWhile(() => !this.hasRehydrated)).subscribe((value) => {
+    this.testSlots$.pipe(takeWhile(() => !this.hasRehydrated)).subscribe((value) => {
       if (value.length > 0) {
         this.hasRehydrated = true;
         if (!(environment as unknown as TestersEnvironmentFile)?.isTest) {
@@ -260,7 +248,7 @@ export class DashboardPage extends BasePageComponent implements OnInit, ViewDidE
 
     const modal = await this.modalController.create({
       component: UpdateAvailableModal,
-      componentProps: { appVersion: this.liveAppVersion },
+      componentProps: { appVersion: this.liveAppVersion() },
       cssClass: 'mes-modal-alert text-zoom-regular',
       backdropDismiss: false,
       showBackdrop: true,

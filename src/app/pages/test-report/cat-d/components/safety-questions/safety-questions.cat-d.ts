@@ -1,10 +1,7 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, computed } from '@angular/core';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
-import { Store, select } from '@ngrx/store';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { Store } from '@ngrx/store';
 
-import { AsyncPipe } from '@angular/common';
 import { DrivingFaultsBadgeComponent } from '@components/common/driving-faults-badge/driving-faults-badge';
 import { CategoryCode } from '@dvsa/mes-test-schema/categories/common';
 import { FaultCountProvider } from '@providers/fault-count/fault-count';
@@ -14,42 +11,30 @@ import { getSafetyQuestionsCatD } from '@store/tests/test-data/cat-d/safety-ques
 import { getTests } from '@store/tests/tests.reducer';
 import { getCurrentTest } from '@store/tests/tests.selector';
 
-interface ComponentState {
-  safetyQuestionsDrivingFaultCount$: Observable<number>;
-}
-
 @Component({
   selector: 'safety-questions-cat-d',
   templateUrl: 'safety-questions.cat-d.html',
   styleUrls: ['safety-questions.cat-d.scss'],
-  imports: [DrivingFaultsBadgeComponent, AsyncPipe],
+  imports: [DrivingFaultsBadgeComponent],
 })
-export class SafetyQuestionsCatDComponent implements OnInit {
+export class SafetyQuestionsCatDComponent {
   @Input()
   testCategory: TestCategory | CategoryCode;
 
-  componentState: ComponentState;
+  private readonly tests = this.store$.selectSignal(getTests);
+  private readonly currentTest = computed(() => getCurrentTest(this.tests()));
+  private readonly safetyQuestions = computed(() =>
+    getSafetyQuestionsCatD(this.testDataByCategory.getTestDataByCategoryCode(this.testCategory)(this.currentTest()))
+  );
+  safetyQuestionsDrivingFaultCount = computed(
+    () =>
+      this.faultCountProvider.getSafetyQuestionsFaultCount(this.testCategory as TestCategory, this.safetyQuestions())
+        .drivingFaults
+  );
 
   constructor(
     private store$: Store<StoreModel>,
     public faultCountProvider: FaultCountProvider,
     private testDataByCategory: TestDataByCategoryProvider
   ) {}
-
-  ngOnInit(): void {
-    const testCategory = this.testCategory as TestCategory;
-
-    this.componentState = {
-      safetyQuestionsDrivingFaultCount$: this.store$.pipe(
-        select(getTests),
-        select(getCurrentTest),
-        map((data) => this.testDataByCategory.getTestDataByCategoryCode(this.testCategory)(data)),
-        select(getSafetyQuestionsCatD),
-        map(
-          (safetyQuestions) =>
-            this.faultCountProvider.getSafetyQuestionsFaultCount(testCategory, safetyQuestions).drivingFaults
-        )
-      ),
-    };
-  }
 }

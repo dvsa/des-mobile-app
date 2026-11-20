@@ -25,6 +25,7 @@ import { PassFinalisationValidationError } from '@pages/pass-finalisation/pass-f
 import { OutcomeBehaviourMapProvider } from '@providers/outcome-behaviour-map/outcome-behaviour-map';
 import { StoreModel } from '@shared/models/store.model';
 import { PersistTests } from '@store/tests/tests.actions';
+import { initialState as initialTestsState } from '@store/tests/tests.reducer';
 import { MockComponent } from 'ng-mocks';
 
 describe('PassFinalisationCatHomeTestPage', () => {
@@ -50,7 +51,11 @@ describe('PassFinalisationCatHomeTestPage', () => {
         MockComponent(WarningBannerComponent),
         MockComponent(LicenceProvidedWarningBannerComponent),
       ],
-      providers: [provideBasePageMocks(), provideMockStore(), OutcomeBehaviourMapProvider],
+      providers: [
+        provideBasePageMocks(),
+        provideMockStore({ initialState: { tests: initialTestsState } }),
+        OutcomeBehaviourMapProvider,
+      ],
     });
 
     fixture = TestBed.createComponent(PassFinalisationCatHomeTestPage);

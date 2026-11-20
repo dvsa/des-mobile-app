@@ -85,7 +85,7 @@
                 <trainee-licence
                   (traineeLicenceChange)="traineeLicenceChanged($event)"
                   [formGroup]="form"
-                  [traineeLicence]="pageState.traineeLicence$ | async"
+                  [traineeLicence]="traineeLicence()"
                 >
                 </trainee-licence>
               }
@@ -94,7 +94,7 @@
                 (orditTrainedOutcomeChange)="orditTrainedOutcomeChanged($event)"
                 [formGroup]="form"
                 [notSC]="notSC(category())"
-                [orditTrainedRadioChecked]="pageState.orditTrained$ | async"
+                [orditTrainedRadioChecked]="orditTrained()"
               >
               </ordit-trainer-cat-adi-part2>
 
@@ -105,14 +105,14 @@
                 [formGroup]="form"
                 [otherAccompaniment]="otherAccompaniment()"
                 [supervisorAccompaniment]="supervisorAccompaniment()"
-                [trainerAccompaniment]="pageState.trainerAccompaniment$ | async"
+                [trainerAccompaniment]="trainerAccompaniment()"
               >
               </accompaniment-card-adi3>
 
               <trainer-registration-number-cat-adi-part2
                 (trainerRegistrationChange)="trainerRegistrationNumberChanged($event)"
                 [formGroup]="form"
-                [trainerRegistration]="pageState.trainerRegistrationNumber$ | async"
+                [trainerRegistration]="trainerRegistrationNumber()"
                 [trainerLabel]="notSC(category()) ? `Sponsor's PRN (optional)` : 'Trainer PRN (optional)'"
               >
               </trainer-registration-number-cat-adi-part2>

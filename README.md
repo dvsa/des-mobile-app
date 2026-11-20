@@ -34,6 +34,14 @@ in their own `imports`. Import them directly rather than creating component NgMo
 Root routes are defined in `src/app/app.routes.ts` and registered with `provideRouter()` in `src/main.ts`,
 alongside the application providers.
 
+### Reactive view state
+
+Follow the Category B test flow: use `Store.selectSignal` for NgRx state, `computed` for derived
+values, and `toSignal` at the view boundary when a provider exposes an Observable. Declare page
+signals as named fields rather than grouping them in a page-state object. Reuse existing signals
+directly instead of aliasing them. Keep RxJS for work that depends on individual events,
+cancellation, or Ionic view entry and leave.
+
 ### Config
 
 ###### Run the following to switch between configurations

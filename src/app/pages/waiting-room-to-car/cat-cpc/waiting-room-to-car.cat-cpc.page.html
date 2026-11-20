@@ -38,8 +38,8 @@
             @if (isDelegated) {
               <candidate-declaration-signed
                 (candidateDeclarationChange)="candidateDeclarationOutcomeChanged($event)"
-                [candidateSigned]="pageState.candidateDeclarationSigned$ | async"
-                [declarationSelected]="(pageState.insuranceDeclarationAccepted$ | async) && (pageState.residencyDeclarationAccepted$ | async)"
+                [candidateSigned]="candidateDeclarationSigned()"
+                [declarationSelected]="(insuranceDeclarationAccepted()) && (residencyDeclarationAccepted())"
                 [formGroup]="form"
               >
               </candidate-declaration-signed>
@@ -75,7 +75,7 @@
               @if (showVehicleDetails() && !isDelegated) {
                 <vehicle-details-cat-cpc
                   (vehicleDetailsChange)="vehicleConfiguration($event)"
-                  [configuration]="pageState?.configuration$ | async"
+                  [configuration]="configuration()"
                   [formGroup]="form"
                 >
                 </vehicle-details-cat-cpc>
@@ -83,8 +83,8 @@
 
               <combination
                 (combinationChange)="combinationSelected($event)"
-                [combination]="pageState.combination$ | async"
-                [combinations]="pageState.combinations$ | async"
+                [combination]="combination()"
+                [combinations]="combinations"
                 [formGroup]="form"
               >
               </combination>

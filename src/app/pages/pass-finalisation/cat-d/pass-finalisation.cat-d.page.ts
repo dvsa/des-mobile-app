@@ -1,5 +1,5 @@
-import { AsyncPipe, NgClass } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { NgClass } from '@angular/common';
+import { Component, OnInit, Signal, computed } from '@angular/core';
 import { FormsModule, ReactiveFormsModule, UntypedFormGroup } from '@angular/forms';
 import { TestFlowHeaderComponent } from '@components/common/test-flow-header/test-flow-header.component';
 import { TransmissionComponent } from '@components/common/transmission/transmission';
@@ -8,7 +8,6 @@ import { D255Component } from '@components/test-finalisation/d255/d255';
 import { DebriefWitnessedComponent } from '@components/test-finalisation/debrief-witnessed/debrief-witnessed';
 import { FinalisationHeaderComponent } from '@components/test-finalisation/finalisation-header/finalisation-header';
 import { LanguagePreferencesComponent } from '@components/test-finalisation/language-preference/language-preference';
-import { CategoryCode, GearboxCategory } from '@dvsa/mes-test-schema/categories/common';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import {
   IonButton,
@@ -21,7 +20,6 @@ import {
   IonText,
   IonToolbar,
 } from '@ionic/angular';
-import { select } from '@ngrx/store';
 import { behaviourMap } from '@pages/office/office-behaviour-map.cat-d';
 import { TestFlowPageNames } from '@pages/page-names.constants';
 import { PASS_CERTIFICATE_NUMBER_CTRL } from '@pages/pass-finalisation/components/pass-certificate-number/pass-certificate-number.constants';
@@ -29,31 +27,16 @@ import {
   PassFinalisationReportActivityCode,
   PassFinalisationValidationError,
 } from '@pages/pass-finalisation/pass-finalisation.actions';
-import {
-  CommonPassFinalisationPageState,
-  PassFinalisationPageComponent,
-} from '@shared/classes/test-flow-base-pages/pass-finalisation/pass-finalisation-base-page';
+import { PassFinalisationPageComponent } from '@shared/classes/test-flow-base-pages/pass-finalisation/pass-finalisation-base-page';
 import { TransmissionType } from '@shared/models/transmission-type';
-import { getTestCategory } from '@store/tests/category/category.reducer';
 import { getPassCompletion } from '@store/tests/pass-completion/cat-d/pass-completion.cat-d.reducer';
 import { getCode78 } from '@store/tests/pass-completion/cat-d/pass-completion.cat-d.selector';
 import { PersistTests } from '@store/tests/tests.actions';
-import { getTests } from '@store/tests/tests.reducer';
-import { getCurrentTest } from '@store/tests/tests.selector';
-import { Observable, merge } from 'rxjs';
-import { map } from 'rxjs/operators';
 import { ApplicationReferenceComponent } from '../components/application-reference/application-reference';
 import { Code78Component } from '../components/code-78/code-78';
 import { LicenceProvidedWarningBannerComponent } from '../components/licence-provided-warning-banner/licence-provided-warning-banner';
 import { LicenseProvidedComponent } from '../components/license-provided/license-provided';
 import { PassCertificateNumberComponent } from '../components/pass-certificate-number/pass-certificate-number';
-
-interface CatDPassFinalisationPageState {
-  code78$: Observable<boolean>;
-  testCategory$: Observable<CategoryCode>;
-}
-
-type PassFinalisationPageState = CommonPassFinalisationPageState & CatDPassFinalisationPageState;
 
 @Component({
   selector: 'app-pass-finalisation-cat-d',
@@ -84,20 +67,18 @@ type PassFinalisationPageState = CommonPassFinalisationPageState & CatDPassFinal
     IonCol,
     IonButton,
     IonText,
-    AsyncPipe,
   ],
 })
 export class PassFinalisationCatDPage extends PassFinalisationPageComponent implements OnInit {
-  pageState: PassFinalisationPageState;
   form: UntypedFormGroup;
-  merged$: Observable<string | boolean>;
   manualMessage = 'A <b><em>manual</em></b> licence will be issued';
   automaticMessage = 'An <b><em>automatic</em></b> licence will be issued';
   askCandidateLicenseMessage = "Check that the candidate doesn't need their driving licence (e.g CPC Mod4)";
-  transmission: GearboxCategory;
-  code78Present: boolean = null;
-  provisionalLicenseIsReceived: boolean;
-  testCategory: TestCategory;
+  code78Present: Signal<boolean | null> = computed(() => {
+    const test = this.currentTest();
+    return test ? getCode78(getPassCompletion(test as never) as never) : null;
+  });
+  testCategory: Signal<TestCategory> = computed(() => this.currentTest()?.category as TestCategory);
 
   constructor() {
     super();
@@ -107,42 +88,22 @@ export class PassFinalisationCatDPage extends PassFinalisationPageComponent impl
 
   ngOnInit(): void {
     super.onInitialisation();
-
-    const currentTest$ = this.store$.pipe(select(getTests), select(getCurrentTest));
-
-    this.pageState = {
-      ...this.commonPageState,
-      code78$: currentTest$.pipe(select(getPassCompletion), select(getCode78)),
-      testCategory$: currentTest$.pipe(select(getTestCategory)),
-    };
-
-    const { transmission$, code78$, provisionalLicense$, testCategory$ } = this.pageState;
-
-    this.merged$ = merge(
-      transmission$.pipe(map((value) => (this.transmission = value))),
-      code78$.pipe(map((value) => (this.code78Present = value))),
-      provisionalLicense$.pipe(map((value) => (this.provisionalLicenseIsReceived = value))),
-      testCategory$.pipe(map((value) => (this.testCategory = value as TestCategory)))
-    );
   }
 
   ionViewWillEnter(): boolean {
     super.ionViewWillEnter();
-    if (this.merged$) {
-      this.subscription = this.merged$.subscribe();
-    }
     return true;
   }
 
   shouldShowCode78Banner(): boolean {
-    return this.code78Present !== null && this.transmission !== null;
+    return this.code78Present() !== null && this.transmissionSignal() !== null;
   }
 
   shouldShowManualBanner(): boolean {
     if (this.shouldShowCode78Banner()) {
       return (
-        this.transmission === TransmissionType.Manual ||
-        (this.transmission === TransmissionType.Automatic && !this.code78Present)
+        this.transmissionSignal() === TransmissionType.Manual ||
+        (this.transmissionSignal() === TransmissionType.Automatic && !this.code78Present())
       );
     }
     return false;
@@ -150,13 +111,13 @@ export class PassFinalisationCatDPage extends PassFinalisationPageComponent impl
 
   shouldShowAutomaticBanner(): boolean {
     if (this.shouldShowCode78Banner()) {
-      return this.code78Present && this.transmission === TransmissionType.Automatic;
+      return this.code78Present() && this.transmissionSignal() === TransmissionType.Automatic;
     }
     return false;
   }
 
   shouldShowCandidateDoesntNeedLicenseBanner(): boolean {
-    return this.provisionalLicenseIsReceived;
+    return this.provisionalLicense();
   }
 
   async onSubmit(): Promise<void> {

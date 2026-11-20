@@ -1,18 +1,14 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, computed, untracked } from '@angular/core';
 import { FormsModule, ReactiveFormsModule, UntypedFormGroup } from '@angular/forms';
-import { select } from '@ngrx/store';
 import { startsWith } from 'lodash-es';
-import { Observable, Subscription, merge } from 'rxjs';
-import { map, take, withLatestFrom } from 'rxjs/operators';
 
-import { AsyncPipe, NgClass } from '@angular/common';
+import { NgClass } from '@angular/common';
 import { ActivityCodeComponent } from '@components/common/activity-code/activity-code';
 import { HealthDeclarationSignedComponent } from '@components/common/health-declaration-signed/health-declaration-signed';
 import { TestFlowHeaderComponent } from '@components/common/test-flow-header/test-flow-header.component';
 import { D255Component } from '@components/test-finalisation/d255/d255';
 import { DebriefWitnessedComponent } from '@components/test-finalisation/debrief-witnessed/debrief-witnessed';
 import { LanguagePreferencesComponent } from '@components/test-finalisation/language-preference/language-preference';
-import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import {
   IonCard,
   IonCardContent,
@@ -28,27 +24,20 @@ import {
 import { behaviourMap } from '@pages/office/office-behaviour-map.cat-cm';
 import { AppConfigProvider } from '@providers/app-config/app-config';
 import { ExaminerRole } from '@providers/app-config/constants/examiner-role.constants';
-import {
-  CommonOfficePageState,
-  OfficeBasePageComponent,
-} from '@shared/classes/test-flow-base-pages/office/office-base-page';
+import { OfficeBasePageComponent } from '@shared/classes/test-flow-base-pages/office/office-base-page';
 import { getActivityCodeOptions } from '@shared/constants/activity-code/activity-code.constants';
 import { CompetencyOutcome } from '@shared/models/competency-outcome';
 import { CommentSource, FaultSummary } from '@shared/models/fault-marking.model';
-import { getTestCategory } from '@store/tests/category/category.reducer';
 import { Language } from '@store/tests/communication-preferences/communication-preferences.model';
 import { getCommunicationPreference } from '@store/tests/communication-preferences/communication-preferences.reducer';
 import { getConductedLanguage } from '@store/tests/communication-preferences/communication-preferences.selector';
 import { PassCertificateNumberChanged } from '@store/tests/pass-completion/pass-completion.actions';
 import { PassCertificateNumberReceived } from '@store/tests/post-test-declarations/post-test-declarations.actions';
-import { getTestData } from '@store/tests/test-data/cat-b/test-data.reducer';
 import { AddDangerousFaultComment } from '@store/tests/test-data/common/dangerous-faults/dangerous-faults.actions';
 import { AddManoeuvreComment } from '@store/tests/test-data/common/manoeuvres/manoeuvres.actions';
 import { AddSeriousFaultComment } from '@store/tests/test-data/common/serious-faults/serious-faults.actions';
 import { AddUncoupleRecoupleComment } from '@store/tests/test-data/common/uncouple-recouple/uncouple-recouple.actions';
 import { TestOutcome } from '@store/tests/tests.constants';
-import { getTests } from '@store/tests/tests.reducer';
-import { getCurrentTest } from '@store/tests/tests.selector';
 import { PassCertificateNumberComponent } from '../../pass-finalisation/components/pass-certificate-number/pass-certificate-number';
 import { AccompanimentCardComponent } from '../../waiting-room-to-car/components/accompaniment-card/accompaniment-card';
 import { AdditionalInformationComponent } from '../components/additional-information/additional-information';
@@ -66,12 +55,6 @@ import { OfficeRegistrationAndMotComponent } from '../components/office-registra
 import { ReasonForEnteringTeamsComponent } from '../components/reason-for-entering-teams/reason-for-entering-teams';
 import { TrueLikenessComponent } from '../components/true-likeness/true-likeness';
 import { WeatherConditionsComponent } from '../components/weather-conditions/weather-conditions';
-
-interface CatManoeuvreOfficePageState {
-  conductedLanguage$: Observable<string>;
-}
-
-type OfficePageState = CommonOfficePageState & CatManoeuvreOfficePageState;
 
 @Component({
   selector: '.office-cat-manoeuvre-page',
@@ -114,15 +97,13 @@ type OfficePageState = CommonOfficePageState & CatManoeuvreOfficePageState;
     FaultCommentCardComponent,
     IonFooter,
     OfficeFooterComponent,
-    AsyncPipe,
   ],
 })
 export class OfficeCatManoeuvrePage extends OfficeBasePageComponent implements OnInit {
-  pageState: OfficePageState;
-  pageSubscription: Subscription;
+  conductedLanguage = computed(() =>
+    getConductedLanguage(getCommunicationPreference(this.officeCurrentTest() as never) as never)
+  );
   form: UntypedFormGroup;
-  testOutcomeText: string;
-  conductedLanguage: string;
 
   constructor(private appConfig: AppConfigProvider) {
     super();
@@ -132,42 +113,10 @@ export class OfficeCatManoeuvrePage extends OfficeBasePageComponent implements O
 
   ngOnInit(): void {
     super.onInitialisation();
-
-    const currentTest$ = this.store$.pipe(select(getTests), select(getCurrentTest));
-
-    this.pageState = {
-      ...this.commonPageState,
-      conductedLanguage$: currentTest$.pipe(select(getCommunicationPreference), select(getConductedLanguage)),
-      dangerousFaults$: currentTest$.pipe(
-        select(getTestData),
-        withLatestFrom(currentTest$.pipe(select(getTestCategory))),
-        take(1),
-        map(([testData, category]) =>
-          this.faultSummaryProvider.getDangerousFaultsList(testData, category as TestCategory)
-        )
-      ),
-      seriousFaults$: currentTest$.pipe(
-        select(getTestData),
-        withLatestFrom(currentTest$.pipe(select(getTestCategory))),
-        take(1),
-        map(([testData, category]) =>
-          this.faultSummaryProvider.getSeriousFaultsList(testData, category as TestCategory)
-        )
-      ),
-    };
-
-    this.setupSubscription();
-  }
-
-  setupSubscription(): void {
-    super.setupSubscriptions();
-
-    const { testOutcomeText$, conductedLanguage$ } = this.pageState;
-
-    this.pageSubscription = merge(
-      conductedLanguage$.pipe(map((result) => (this.conductedLanguage = result))),
-      testOutcomeText$.pipe(map((result) => (this.testOutcomeText = result)))
-    ).subscribe();
+    // Keep the original fault lists once the comment cards first read them.
+    const { dangerousFaults, seriousFaults } = this;
+    this.dangerousFaults = computed(() => untracked(dangerousFaults));
+    this.seriousFaults = computed(() => untracked(seriousFaults));
   }
 
   async ionViewWillEnter() {
@@ -178,20 +127,12 @@ export class OfficeCatManoeuvrePage extends OfficeBasePageComponent implements O
     }
   }
 
-  ionViewDidLeave(): void {
-    super.ionViewDidLeave();
-
-    if (this.pageSubscription) {
-      this.pageSubscription.unsubscribe();
-    }
-  }
-
   isPass(): boolean {
-    return this.testOutcomeText === TestOutcome.Passed;
+    return this.testOutcomeText() === TestOutcome.Passed;
   }
 
   isWelsh(): boolean {
-    return this.conductedLanguage === Language.CYMRAEG;
+    return this.conductedLanguage() === Language.CYMRAEG;
   }
 
   passCertificateNumberChanged(passCertificateNumber: string): void {

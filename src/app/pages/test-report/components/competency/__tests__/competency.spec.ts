@@ -147,7 +147,7 @@ describe('CompetencyComponent', () => {
       });
       it('should not dispatch an ADD_DRIVING_FAULT action if there is a serious fault', () => {
         component.competency = Competencies.awarenessPlanning;
-        component.hasSeriousFault = true;
+        vi.spyOn(component, 'hasSeriousFault', 'get').mockReturnValue(true);
 
         const storeDispatchSpy = vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
         component.addOrRemoveFault();
@@ -161,7 +161,7 @@ describe('CompetencyComponent', () => {
       });
       it('should not dispatch an ADD_DRIVING_FAULT action if serious mode is active', () => {
         component.competency = Competencies.clearance;
-        component.isSeriousMode = true;
+        vi.spyOn(component, 'isSeriousMode', 'get').mockReturnValue(true);
 
         const storeDispatchSpy = vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
         component.addOrRemoveFault();
@@ -175,7 +175,7 @@ describe('CompetencyComponent', () => {
       });
       it('should not dispatch an ADD_DRIVING_FAULT action if there is a dangerous fault', () => {
         component.competency = Competencies.awarenessPlanning;
-        component.hasDangerousFault = true;
+        vi.spyOn(component, 'hasDangerousFault', 'get').mockReturnValue(true);
 
         const storeDispatchSpy = vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
         component.addOrRemoveFault();
@@ -189,7 +189,7 @@ describe('CompetencyComponent', () => {
       });
       it('should not dispatch an ADD_DRIVING_FAULT action if dangerous mode is active', () => {
         component.competency = Competencies.clearance;
-        component.isDangerousMode = true;
+        vi.spyOn(component, 'isDangerousMode', 'get').mockReturnValue(true);
 
         const storeDispatchSpy = vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
         component.addOrRemoveFault();
@@ -206,7 +206,7 @@ describe('CompetencyComponent', () => {
     describe('addDangerousFault', () => {
       it('should dispatch a ADD_DANGEROUS_FAULT action if dangerous mode is active on press', () => {
         component.competency = Competencies.clearance;
-        component.isDangerousMode = true;
+        vi.spyOn(component, 'isDangerousMode', 'get').mockReturnValue(true);
 
         const storeDispatchSpy = vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
         component.addOrRemoveFault();
@@ -216,7 +216,7 @@ describe('CompetencyComponent', () => {
       });
       it('should dispatch a ADD_DANGEROUS_FAULT action if dangerous mode is active on press and hold', () => {
         component.competency = Competencies.clearance;
-        component.isDangerousMode = true;
+        vi.spyOn(component, 'isDangerousMode', 'get').mockReturnValue(true);
 
         const storeDispatchSpy = vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
         component.addOrRemoveFault();
@@ -226,8 +226,8 @@ describe('CompetencyComponent', () => {
       });
       it('should not dispatch a ADD_DANGEROUS_FAULT action if there is a dangerous fault', () => {
         component.competency = Competencies.clearance;
-        component.hasDangerousFault = true;
-        component.isDangerousMode = true;
+        vi.spyOn(component, 'hasDangerousFault', 'get').mockReturnValue(true);
+        vi.spyOn(component, 'isDangerousMode', 'get').mockReturnValue(true);
 
         const storeDispatchSpy = vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
         component.addOrRemoveFault();
@@ -240,7 +240,7 @@ describe('CompetencyComponent', () => {
     describe('addSeriousFault', () => {
       it('should dispatch an ADD_SERIOUS_FAULT action if serious mode is active', () => {
         component.competency = Competencies.clearance;
-        component.isSeriousMode = true;
+        vi.spyOn(component, 'isSeriousMode', 'get').mockReturnValue(true);
 
         const storeDispatchSpy = vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
         component.addOrRemoveFault();
@@ -250,8 +250,8 @@ describe('CompetencyComponent', () => {
       });
       it('should not dispatch a ADD_SERIOUS_FAULT action if there is a serious fault', () => {
         component.competency = Competencies.clearance;
-        component.hasSeriousFault = true;
-        component.isSeriousMode = true;
+        vi.spyOn(component, 'hasSeriousFault', 'get').mockReturnValue(true);
+        vi.spyOn(component, 'isSeriousMode', 'get').mockReturnValue(true);
 
         const storeDispatchSpy = vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
         component.addOrRemoveFault();
@@ -261,7 +261,7 @@ describe('CompetencyComponent', () => {
       });
       it('should not dispatch a ADD_SERIOUS_FAULT action if dangerous mode is active', () => {
         component.competency = Competencies.clearance;
-        component.isDangerousMode = true;
+        vi.spyOn(component, 'isDangerousMode', 'get').mockReturnValue(true);
 
         const storeDispatchSpy = vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
         component.addOrRemoveFault();
@@ -271,8 +271,8 @@ describe('CompetencyComponent', () => {
       });
       it('should not dispatch a ADD_SERIOUS_FAULT action if there is a dangerous fault', () => {
         component.competency = Competencies.clearance;
-        component.hasDangerousFault = true;
-        component.isSeriousMode = true;
+        vi.spyOn(component, 'hasDangerousFault', 'get').mockReturnValue(true);
+        vi.spyOn(component, 'isSeriousMode', 'get').mockReturnValue(true);
 
         const storeDispatchSpy = vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
         component.addOrRemoveFault();
@@ -285,8 +285,8 @@ describe('CompetencyComponent', () => {
     describe('removeDrivingFault', () => {
       it('should dispatch a REMOVE_DRIVING_FAULT', () => {
         component.competency = Competencies.controlsSteering;
-        component.faultCount = 1;
-        component.isRemoveFaultMode = true;
+        vi.spyOn(component, 'faultCount', 'get').mockReturnValue(1);
+        vi.spyOn(component, 'isRemoveFaultMode', 'get').mockReturnValue(true);
 
         const storeDispatchSpy = vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
         component.addOrRemoveFault();
@@ -300,8 +300,8 @@ describe('CompetencyComponent', () => {
       });
       it('should not dispatch a REMOVE_DRIVING_FAULT when limit is zero', () => {
         component.competency = Competencies.controlsSteering;
-        component.faultCount = 0;
-        component.isRemoveFaultMode = true;
+        vi.spyOn(component, 'faultCount', 'get').mockReturnValue(0);
+        vi.spyOn(component, 'isRemoveFaultMode', 'get').mockReturnValue(true);
 
         const storeDispatchSpy = vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
         component.addOrRemoveFault();
@@ -315,9 +315,9 @@ describe('CompetencyComponent', () => {
       });
       it('should NOT remove driving fault when serious mode is active', () => {
         component.competency = Competencies.controlsSteering;
-        component.faultCount = 1;
-        component.isSeriousMode = true;
-        component.isRemoveFaultMode = true;
+        vi.spyOn(component, 'faultCount', 'get').mockReturnValue(1);
+        vi.spyOn(component, 'isSeriousMode', 'get').mockReturnValue(true);
+        vi.spyOn(component, 'isRemoveFaultMode', 'get').mockReturnValue(true);
 
         const storeDispatchSpy = vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
         component.addOrRemoveFault();
@@ -331,9 +331,9 @@ describe('CompetencyComponent', () => {
       });
       it('should NOT remove driving fault when dangerous mode is active', () => {
         component.competency = Competencies.controlsSteering;
-        component.faultCount = 1;
-        component.isDangerousMode = true;
-        component.isRemoveFaultMode = true;
+        vi.spyOn(component, 'faultCount', 'get').mockReturnValue(1);
+        vi.spyOn(component, 'isDangerousMode', 'get').mockReturnValue(true);
+        vi.spyOn(component, 'isRemoveFaultMode', 'get').mockReturnValue(true);
 
         const storeDispatchSpy = vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
         component.addOrRemoveFault();
@@ -350,9 +350,9 @@ describe('CompetencyComponent', () => {
     describe('removeSeriousFault', () => {
       it('should not dispatch a REMOVE_SERIOUS_FAULT when not in remove mode', () => {
         component.competency = Competencies.controlsSteering;
-        component.hasSeriousFault = true;
-        component.isSeriousMode = true;
-        component.isRemoveFaultMode = false;
+        vi.spyOn(component, 'hasSeriousFault', 'get').mockReturnValue(true);
+        vi.spyOn(component, 'isSeriousMode', 'get').mockReturnValue(true);
+        vi.spyOn(component, 'isRemoveFaultMode', 'get').mockReturnValue(false);
 
         const storeDispatchSpy = vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
         component.addOrRemoveFault();
@@ -361,9 +361,9 @@ describe('CompetencyComponent', () => {
       });
       it('should dispatch a REMOVE_SERIOUS_FAULT for press and hold', () => {
         component.competency = Competencies.controlsSteering;
-        component.hasSeriousFault = true;
-        component.isSeriousMode = true;
-        component.isRemoveFaultMode = true;
+        vi.spyOn(component, 'hasSeriousFault', 'get').mockReturnValue(true);
+        vi.spyOn(component, 'isSeriousMode', 'get').mockReturnValue(true);
+        vi.spyOn(component, 'isRemoveFaultMode', 'get').mockReturnValue(true);
 
         const storeDispatchSpy = vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
         component.addOrRemoveFault();
@@ -372,9 +372,9 @@ describe('CompetencyComponent', () => {
       });
       it('should dispatch a REMOVE_SERIOUS_FAULT for press', () => {
         component.competency = Competencies.controlsSteering;
-        component.hasSeriousFault = true;
-        component.isSeriousMode = true;
-        component.isRemoveFaultMode = true;
+        vi.spyOn(component, 'hasSeriousFault', 'get').mockReturnValue(true);
+        vi.spyOn(component, 'isSeriousMode', 'get').mockReturnValue(true);
+        vi.spyOn(component, 'isRemoveFaultMode', 'get').mockReturnValue(true);
 
         const storeDispatchSpy = vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
         component.addOrRemoveFault();
@@ -383,9 +383,9 @@ describe('CompetencyComponent', () => {
       });
       it('should not dispatch a REMOVE_SERIOUS_FAULT when is dangerous mode', () => {
         component.competency = Competencies.controlsSteering;
-        component.hasSeriousFault = true;
-        component.isDangerousMode = true;
-        component.isRemoveFaultMode = true;
+        vi.spyOn(component, 'hasSeriousFault', 'get').mockReturnValue(true);
+        vi.spyOn(component, 'isDangerousMode', 'get').mockReturnValue(true);
+        vi.spyOn(component, 'isRemoveFaultMode', 'get').mockReturnValue(true);
 
         const storeDispatchSpy = vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
         component.addOrRemoveFault();
@@ -395,9 +395,9 @@ describe('CompetencyComponent', () => {
 
       it('should not remove serious mode after removal attempt on competency with no serious fault', () => {
         component.competency = Competencies.controlsSteering;
-        component.hasSeriousFault = false;
-        component.isSeriousMode = true;
-        component.isRemoveFaultMode = true;
+        vi.spyOn(component, 'hasSeriousFault', 'get').mockReturnValue(false);
+        vi.spyOn(component, 'isSeriousMode', 'get').mockReturnValue(true);
+        vi.spyOn(component, 'isRemoveFaultMode', 'get').mockReturnValue(true);
 
         const storeDispatchSpy = vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
         component.addOrRemoveFault();
@@ -410,9 +410,9 @@ describe('CompetencyComponent', () => {
     describe('removeDangerousFault', () => {
       it('should not dispatch a REMOVE_DANGEROUS_FAULT when not in remove mode', () => {
         component.competency = Competencies.controlsSteering;
-        component.hasDangerousFault = true;
-        component.isDangerousMode = true;
-        component.isRemoveFaultMode = false;
+        vi.spyOn(component, 'hasDangerousFault', 'get').mockReturnValue(true);
+        vi.spyOn(component, 'isDangerousMode', 'get').mockReturnValue(true);
+        vi.spyOn(component, 'isRemoveFaultMode', 'get').mockReturnValue(false);
 
         const storeDispatchSpy = vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
         component.addOrRemoveFault();
@@ -421,9 +421,9 @@ describe('CompetencyComponent', () => {
       });
       it('should dispatch a REMOVE_DANGEROUS_FAULT for press and hold', () => {
         component.competency = Competencies.controlsSteering;
-        component.hasDangerousFault = true;
-        component.isDangerousMode = true;
-        component.isRemoveFaultMode = true;
+        vi.spyOn(component, 'hasDangerousFault', 'get').mockReturnValue(true);
+        vi.spyOn(component, 'isDangerousMode', 'get').mockReturnValue(true);
+        vi.spyOn(component, 'isRemoveFaultMode', 'get').mockReturnValue(true);
 
         const storeDispatchSpy = vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
         component.addOrRemoveFault();
@@ -432,9 +432,9 @@ describe('CompetencyComponent', () => {
       });
       it('should dispatch a REMOVE_DANGEROUS_FAULT for press', () => {
         component.competency = Competencies.controlsSteering;
-        component.hasDangerousFault = true;
-        component.isDangerousMode = true;
-        component.isRemoveFaultMode = true;
+        vi.spyOn(component, 'hasDangerousFault', 'get').mockReturnValue(true);
+        vi.spyOn(component, 'isDangerousMode', 'get').mockReturnValue(true);
+        vi.spyOn(component, 'isRemoveFaultMode', 'get').mockReturnValue(true);
 
         const storeDispatchSpy = vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
         component.addOrRemoveFault();
@@ -443,9 +443,9 @@ describe('CompetencyComponent', () => {
       });
       it('should not dispatch a REMOVE_DANGEROUS_FAULT when is serious mode', () => {
         component.competency = Competencies.controlsSteering;
-        component.hasDangerousFault = true;
-        component.isSeriousMode = true;
-        component.isRemoveFaultMode = true;
+        vi.spyOn(component, 'hasDangerousFault', 'get').mockReturnValue(true);
+        vi.spyOn(component, 'isSeriousMode', 'get').mockReturnValue(true);
+        vi.spyOn(component, 'isRemoveFaultMode', 'get').mockReturnValue(true);
 
         const storeDispatchSpy = vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
         component.addOrRemoveFault();
@@ -454,9 +454,9 @@ describe('CompetencyComponent', () => {
       });
       it('should not remove dangerous mode after removal attempt on competency with no dangerous fault', () => {
         component.competency = Competencies.controlsSteering;
-        component.hasDangerousFault = false;
-        component.isDangerousMode = true;
-        component.isRemoveFaultMode = true;
+        vi.spyOn(component, 'hasDangerousFault', 'get').mockReturnValue(false);
+        vi.spyOn(component, 'isDangerousMode', 'get').mockReturnValue(true);
+        vi.spyOn(component, 'isRemoveFaultMode', 'get').mockReturnValue(true);
 
         const storeDispatchSpy = vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
         component.addOrRemoveFault();
@@ -469,7 +469,7 @@ describe('CompetencyComponent', () => {
     describe('buttonClick', () => {
       it('should dispatch ADD_DANGEROUS_FAULT action if dangerous mode is active', () => {
         component.competency = Competencies.clearance;
-        component.isDangerousMode = true;
+        vi.spyOn(component, 'isDangerousMode', 'get').mockReturnValue(true);
 
         const storeDispatchSpy = vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
         component.addOrRemoveFault();
@@ -480,7 +480,7 @@ describe('CompetencyComponent', () => {
 
       it('should dispatch ADD_SERIOUS_FAULT action if serious mode is active', () => {
         component.competency = Competencies.clearance;
-        component.isSeriousMode = true;
+        vi.spyOn(component, 'isSeriousMode', 'get').mockReturnValue(true);
 
         const storeDispatchSpy = vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
         component.addOrRemoveFault();
@@ -493,118 +493,118 @@ describe('CompetencyComponent', () => {
 
   describe('canButtonRipple', () => {
     it('should allow ripple when in remove dangerous mode and there is a dangerous fault', () => {
-      component.isRemoveFaultMode = true;
-      component.isDangerousMode = true;
-      component.hasDangerousFault = true;
+      vi.spyOn(component, 'isRemoveFaultMode', 'get').mockReturnValue(true);
+      vi.spyOn(component, 'isDangerousMode', 'get').mockReturnValue(true);
+      vi.spyOn(component, 'hasDangerousFault', 'get').mockReturnValue(true);
 
       component.canButtonRipple();
       expect(component.allowRipple).toEqual(true);
     });
 
     it('should not allow ripple when in remove dangerous mode and there is not a dangerous fault', () => {
-      component.isRemoveFaultMode = true;
-      component.isDangerousMode = true;
-      component.hasDangerousFault = false;
+      vi.spyOn(component, 'isRemoveFaultMode', 'get').mockReturnValue(true);
+      vi.spyOn(component, 'isDangerousMode', 'get').mockReturnValue(true);
+      vi.spyOn(component, 'hasDangerousFault', 'get').mockReturnValue(false);
 
       component.canButtonRipple();
       expect(component.allowRipple).toEqual(false);
     });
 
     it('should allow ripple when in remove serious mode and there is a serious fault', () => {
-      component.isRemoveFaultMode = true;
-      component.isSeriousMode = true;
-      component.hasSeriousFault = true;
+      vi.spyOn(component, 'isRemoveFaultMode', 'get').mockReturnValue(true);
+      vi.spyOn(component, 'isSeriousMode', 'get').mockReturnValue(true);
+      vi.spyOn(component, 'hasSeriousFault', 'get').mockReturnValue(true);
 
       component.canButtonRipple();
       expect(component.allowRipple).toEqual(true);
     });
 
     it('should not allow ripple when in remove serious mode and there is not a serious fault', () => {
-      component.isRemoveFaultMode = true;
-      component.isSeriousMode = true;
-      component.hasSeriousFault = false;
+      vi.spyOn(component, 'isRemoveFaultMode', 'get').mockReturnValue(true);
+      vi.spyOn(component, 'isSeriousMode', 'get').mockReturnValue(true);
+      vi.spyOn(component, 'hasSeriousFault', 'get').mockReturnValue(false);
 
       component.canButtonRipple();
       expect(component.allowRipple).toEqual(false);
     });
 
     it('should allow ripple when in remove fault mode and there is a driving fault', () => {
-      component.isRemoveFaultMode = true;
-      component.faultCount = 1;
+      vi.spyOn(component, 'isRemoveFaultMode', 'get').mockReturnValue(true);
+      vi.spyOn(component, 'faultCount', 'get').mockReturnValue(1);
 
       component.canButtonRipple();
       expect(component.allowRipple).toEqual(true);
     });
 
     it('should not allow ripple when in remove fault mode and there is not a driving fault', () => {
-      component.isRemoveFaultMode = true;
-      component.faultCount = 0;
+      vi.spyOn(component, 'isRemoveFaultMode', 'get').mockReturnValue(true);
+      vi.spyOn(component, 'faultCount', 'get').mockReturnValue(0);
 
       component.canButtonRipple();
       expect(component.allowRipple).toEqual(false);
     });
 
     it('should not allow ripple when in remove fault mode and driving fault is undefined', () => {
-      component.isRemoveFaultMode = true;
+      vi.spyOn(component, 'isRemoveFaultMode', 'get').mockReturnValue(true);
 
       component.canButtonRipple();
       expect(component.allowRipple).toEqual(false);
     });
 
     it('should not allow ripple when in add dangerous mode and there is a dangerous fault', () => {
-      component.isRemoveFaultMode = false;
-      component.isDangerousMode = true;
-      component.hasDangerousFault = true;
+      vi.spyOn(component, 'isRemoveFaultMode', 'get').mockReturnValue(false);
+      vi.spyOn(component, 'isDangerousMode', 'get').mockReturnValue(true);
+      vi.spyOn(component, 'hasDangerousFault', 'get').mockReturnValue(true);
 
       component.canButtonRipple();
       expect(component.allowRipple).toEqual(false);
     });
 
     it('should allow ripple when in add dangerous mode and there is not a dangerous fault', () => {
-      component.isRemoveFaultMode = false;
-      component.isDangerousMode = true;
-      component.hasDangerousFault = false;
+      vi.spyOn(component, 'isRemoveFaultMode', 'get').mockReturnValue(false);
+      vi.spyOn(component, 'isDangerousMode', 'get').mockReturnValue(true);
+      vi.spyOn(component, 'hasDangerousFault', 'get').mockReturnValue(false);
 
       component.canButtonRipple();
       expect(component.allowRipple).toEqual(true);
     });
 
     it('should not allow ripple when in add serious mode and there is a serious fault', () => {
-      component.isRemoveFaultMode = false;
-      component.isSeriousMode = true;
-      component.hasSeriousFault = true;
+      vi.spyOn(component, 'isRemoveFaultMode', 'get').mockReturnValue(false);
+      vi.spyOn(component, 'isSeriousMode', 'get').mockReturnValue(true);
+      vi.spyOn(component, 'hasSeriousFault', 'get').mockReturnValue(true);
 
       component.canButtonRipple();
       expect(component.allowRipple).toEqual(false);
     });
 
     it('should allow ripple when in add serious mode and there is not a serious fault', () => {
-      component.isRemoveFaultMode = false;
-      component.isSeriousMode = true;
-      component.hasSeriousFault = false;
+      vi.spyOn(component, 'isRemoveFaultMode', 'get').mockReturnValue(false);
+      vi.spyOn(component, 'isSeriousMode', 'get').mockReturnValue(true);
+      vi.spyOn(component, 'hasSeriousFault', 'get').mockReturnValue(false);
 
       component.canButtonRipple();
       expect(component.allowRipple).toEqual(true);
     });
 
     it('should allow ripple when in add fault mode and there is a driving fault', () => {
-      component.isRemoveFaultMode = false;
-      component.faultCount = 1;
+      vi.spyOn(component, 'isRemoveFaultMode', 'get').mockReturnValue(false);
+      vi.spyOn(component, 'faultCount', 'get').mockReturnValue(1);
 
       component.canButtonRipple();
       expect(component.allowRipple).toEqual(true);
     });
 
     it('should allow ripple when in add fault mode and there is not a driving fault', () => {
-      component.isRemoveFaultMode = false;
-      component.faultCount = 0;
+      vi.spyOn(component, 'isRemoveFaultMode', 'get').mockReturnValue(false);
+      vi.spyOn(component, 'faultCount', 'get').mockReturnValue(0);
 
       component.canButtonRipple();
       expect(component.allowRipple).toEqual(true);
     });
 
     it('should allow ripple when in add fault mode and driving fault is undefined', () => {
-      component.isRemoveFaultMode = false;
+      vi.spyOn(component, 'isRemoveFaultMode', 'get').mockReturnValue(false);
 
       component.canButtonRipple();
       expect(component.allowRipple).toEqual(true);
@@ -613,24 +613,24 @@ describe('CompetencyComponent', () => {
 
   describe('competencyHasFault', () => {
     it('should return true if competency has a driving fault', () => {
-      component.faultCount = 1;
+      vi.spyOn(component, 'faultCount', 'get').mockReturnValue(1);
 
       expect(component.competencyHasFault()).toBe(true);
     });
     it('should return true if competency has a serious fault', () => {
-      component.hasSeriousFault = true;
+      vi.spyOn(component, 'hasSeriousFault', 'get').mockReturnValue(true);
 
       expect(component.competencyHasFault()).toBe(true);
     });
     it('should return true if competency has a dangerous fault', () => {
-      component.hasDangerousFault = true;
+      vi.spyOn(component, 'hasDangerousFault', 'get').mockReturnValue(true);
 
       expect(component.competencyHasFault()).toBe(true);
     });
     it('should return false if competency does not have a fault', () => {
-      component.faultCount = undefined;
-      component.hasDangerousFault = false;
-      component.hasSeriousFault = false;
+      vi.spyOn(component, 'faultCount', 'get').mockReturnValue(undefined);
+      vi.spyOn(component, 'hasDangerousFault', 'get').mockReturnValue(false);
+      vi.spyOn(component, 'hasSeriousFault', 'get').mockReturnValue(false);
 
       expect(component.competencyHasFault()).toBe(false);
     });
@@ -638,11 +638,11 @@ describe('CompetencyComponent', () => {
 
   describe('hasDrivingFault', () => {
     it('should return true if faultCount is not undefined', () => {
-      component.faultCount = 1;
+      vi.spyOn(component, 'faultCount', 'get').mockReturnValue(1);
       expect(component.hasDrivingFault()).toBe(true);
     });
     it('should return false if faultCount is undefined', () => {
-      component.faultCount = undefined;
+      vi.spyOn(component, 'faultCount', 'get').mockReturnValue(undefined);
       expect(component.hasDrivingFault()).toBe(false);
     });
   });

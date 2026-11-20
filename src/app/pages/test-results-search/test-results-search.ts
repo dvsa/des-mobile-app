@@ -1,4 +1,5 @@
-import { Component, signal } from '@angular/core';
+import { Component, computed, signal } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { SearchResultTestSchema } from '@dvsa/mes-search-schema';
 import {
   IonBackButton,
@@ -17,16 +18,14 @@ import {
   IonToolbar,
   ModalController,
 } from '@ionic/angular';
-import { select } from '@ngrx/store';
-import { Observable, Subscription, merge, of } from 'rxjs';
+import { Subscription, of } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
 
-import { AsyncPipe, NgClass } from '@angular/common';
+import { NgClass } from '@angular/common';
 import { OfflineBannerComponent } from '@components/common/offline-banner/offline-banner';
 import { TabComponent } from '@components/common/tab/tab';
 import { TabsComponent } from '@components/common/tabs/tabs';
 import { InputRestrictionUppercaseAlphanumDirective } from '@directives/input-restriction-uppercasealphanum.directive';
-import { TestCentre as JournalTestCentre } from '@dvsa/mes-journal-schema';
 import { MaskitoDirective } from '@maskito/angular';
 import { MaskitoElementPredicate, MaskitoOptions } from '@maskito/core';
 import { ErrorPage } from '@pages/error-page/error';
@@ -58,11 +57,6 @@ enum SearchBy {
   ApplicationReference = 'appReference',
 }
 
-interface TestResultPageState {
-  activeTestCentres$: Observable<JournalTestCentre[]>;
-  isOffline$: Observable<boolean>;
-}
-
 @Component({
   selector: 'app-test-results-search',
   templateUrl: 'test-results-search.html',
@@ -90,24 +84,24 @@ interface TestResultPageState {
     IonSpinner,
     AdvancedSearchComponent,
     SearchResultComponent,
-    AsyncPipe,
   ],
 })
 export class TestResultsSearchPage extends BasePageComponent {
-  searchBy: SearchBy = SearchBy.ApplicationReference;
-  candidateInfo = '';
-  focusedElement: string = null;
+  searchBy = signal<SearchBy>(SearchBy.ApplicationReference);
+  candidateInfo = signal('');
+  focusedElement = signal<string>(null);
   readonly searchResults = signal<SearchResultTestSchema[]>([]);
   readonly hasSearched = signal(false);
   readonly showSearchSpinner = signal(false);
   readonly showAdvancedSearchSpinner = signal(false);
   subscription: Subscription = Subscription.EMPTY;
   rekeySearch = false;
-  pageState: TestResultPageState;
-  merged$: Observable<JournalTestCentre[]>;
+  private readonly referenceDataState = this.store$.selectSignal(getRefDataState);
+  readonly activeTestCentres = computed(() => getActiveTestCentres(getTestCentres(this.referenceDataState())));
+  readonly isOffline = toSignal(this.networkStateProvider.isOffline$, { initialValue: false });
   activeTab = 'Candidate details';
 
-  isUserEnteringApplicationReference = false;
+  isUserEnteringApplicationReference = signal(false);
 
   constructor(
     public modalController: ModalController,
@@ -122,18 +116,7 @@ export class TestResultsSearchPage extends BasePageComponent {
   getBookingReferenceMask = (): MaskitoOptions => bookingReferenceMask;
   getMaskPredicate = (): MaskitoElementPredicate => maskPredicate;
 
-  ngOnInit(): void {
-    this.pageState = {
-      activeTestCentres$: this.store$.pipe(select(getRefDataState), map(getTestCentres), map(getActiveTestCentres)),
-      isOffline$: this.networkStateProvider.isOffline$,
-    };
-    this.merged$ = merge(this.pageState.activeTestCentres$);
-  }
-
   ionViewWillEnter(): boolean {
-    if (this.merged$) {
-      this.subscription = this.merged$.subscribe();
-    }
     return true;
   }
 
@@ -148,7 +131,7 @@ export class TestResultsSearchPage extends BasePageComponent {
   }
 
   searchByChanged(val: string): void {
-    this.searchBy = val as SearchBy;
+    this.searchBy.set(val as SearchBy);
     this.candidateInfoChanged('');
   }
 
@@ -162,21 +145,21 @@ export class TestResultsSearchPage extends BasePageComponent {
 
   candidateInfoChanged(val: string) {
     if (val.length > 0) {
-      this.isUserEnteringApplicationReference = !Number.isNaN(Number(val[0]));
-      this.candidateInfo = val?.toUpperCase();
+      this.isUserEnteringApplicationReference.set(!Number.isNaN(Number(val[0])));
+      this.candidateInfo.set(val?.toUpperCase());
     } else {
-      this.isUserEnteringApplicationReference = false;
-      this.candidateInfo = '';
+      this.isUserEnteringApplicationReference.set(false);
+      this.candidateInfo.set('');
     }
   }
 
   searchTests(): void {
-    if (this.searchBy === SearchBy.DriverNumber) {
+    if (this.searchBy() === SearchBy.DriverNumber) {
       this.subscription.unsubscribe();
       this.store$.dispatch(PerformDriverNumberSearch());
       this.showSearchSpinner.set(true);
       this.subscription = this.searchProvider
-        .driverNumberSearch(this.candidateInfo)
+        .driverNumberSearch(this.candidateInfo())
         .pipe(
           tap(() => this.hasSearched.set(true)),
           map((results) => {
@@ -205,12 +188,12 @@ export class TestResultsSearchPage extends BasePageComponent {
         .subscribe();
     }
 
-    if (this.searchBy === SearchBy.ApplicationReference) {
+    if (this.searchBy() === SearchBy.ApplicationReference) {
       this.subscription.unsubscribe();
       this.store$.dispatch(PerformApplicationReferenceSearch());
       this.showSearchSpinner.set(true);
       this.subscription = this.searchProvider
-        .applicationReferenceSearch(formatBookingReferenceForBackend(this.candidateInfo))
+        .applicationReferenceSearch(formatBookingReferenceForBackend(this.candidateInfo()))
         .pipe(
           tap(() => this.hasSearched.set(true)),
           tap((results) => {
@@ -222,7 +205,7 @@ export class TestResultsSearchPage extends BasePageComponent {
               SaveLog({
                 payload: this.logHelper.createLog(
                   LogType.ERROR,
-                  `Searching tests by app ref (${this.candidateInfo})`,
+                  `Searching tests by app ref (${this.candidateInfo()})`,
                   err.message
                 ),
               })
@@ -295,7 +278,7 @@ export class TestResultsSearchPage extends BasePageComponent {
   };
 
   setFocus(focus: string): void {
-    this.focusedElement = focus;
+    this.focusedElement.set(focus);
   }
 
   isEmpty(input: string) {

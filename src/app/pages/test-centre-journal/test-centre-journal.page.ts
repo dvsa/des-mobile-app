@@ -1,6 +1,6 @@
-import { AsyncPipe } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, OnDestroy, OnInit, ViewChild, signal } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild, computed, signal } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { ErrorMessageComponent } from '@components/common/error-message/error-message';
 import { OfflineBannerComponent } from '@components/common/offline-banner/offline-banner';
 import { RefreshButtonComponent } from '@components/common/refresh-button/refresh-button.component';
@@ -18,7 +18,6 @@ import {
   IonToolbar,
   LoadingController,
 } from '@ionic/angular';
-import { select } from '@ngrx/store';
 import { CandidateSearchCardComponent } from '@pages/test-centre-journal/components/candidate-search-card/candidate-search-card';
 import { ViewJournalsCardComponent } from '@pages/test-centre-journal/components/view-journals-card/view-journals-card';
 import { AppConfigProvider } from '@providers/app-config/app-config';
@@ -35,12 +34,8 @@ import { getRefDataState } from '@store/reference-data/reference-data.reducer';
 import { getActiveTestCentres, getTestCentres } from '@store/reference-data/reference-data.selector';
 import { SetLastRefreshed } from '@store/test-centre-journal/test-centre-journal.actions';
 import { getTestCentreJournalState } from '@store/test-centre-journal/test-centre-journal.reducer';
-import {
-  getEnteredFromTest,
-  getLastRefreshed,
-  getLastRefreshedTime,
-} from '@store/test-centre-journal/test-centre-journal.selector';
-import { Observable, Subject, Subscription, merge, of } from 'rxjs';
+import { getLastRefreshed, getLastRefreshedTime } from '@store/test-centre-journal/test-centre-journal.selector';
+import { Subject, Subscription, of } from 'rxjs';
 import { catchError, finalize, map, takeUntil, tap } from 'rxjs/operators';
 import { CandidateSearchCardComponent as CandidateSearchCardComponent_1 } from './components/candidate-search-card/candidate-search-card';
 import { ViewJournalsCardComponent as ViewJournalsCardComponent_1 } from './components/view-journals-card/view-journals-card';
@@ -50,13 +45,6 @@ import {
   TestCentreJournalTabChanged,
   TestCentreJournalViewDidEnter,
 } from './test-centre-journal.actions';
-
-interface TestCentreJournalPageState {
-  isOffline$: Observable<boolean>;
-  lastRefreshedTime$: Observable<string>;
-  activeTestCentres$: Observable<JournalTestCentre[]>;
-  enteredFromTest$: Observable<boolean>;
-}
 
 @Component({
   selector: 'app-test-centre-journal',
@@ -78,15 +66,16 @@ interface TestCentreJournalPageState {
     TabComponent,
     CandidateSearchCardComponent_1,
     ViewJournalsCardComponent_1,
-    AsyncPipe,
   ],
 })
 export class TestCentreJournalPage extends BasePageComponent implements OnDestroy, OnInit {
-  pageState: TestCentreJournalPageState;
+  private readonly testCentreJournalState = this.store$.selectSignal(getTestCentreJournalState);
+  private readonly referenceDataState = this.store$.selectSignal(getRefDataState);
   readonly testCentreResults = signal<TestCentreDetailResponse>(null);
-  merged$: Observable<boolean>;
   readonly manuallyRefreshed = signal(false);
-  readonly isOffline = signal(false);
+  readonly isOffline = toSignal(this.networkStateProvider.isOffline$, { initialValue: false });
+  readonly lastRefreshedTime = computed(() => getLastRefreshedTime(getLastRefreshed(this.testCentreJournalState())));
+  readonly activeTestCentres = computed(() => getActiveTestCentres(getTestCentres(this.referenceDataState())));
   readonly hasSearched = signal(false);
   readonly showSearchSpinner = signal(false);
   subscription: Subscription = Subscription.EMPTY;
@@ -115,23 +104,7 @@ export class TestCentreJournalPage extends BasePageComponent implements OnDestro
   }
 
   ngOnInit(): void {
-    this.pageState = {
-      isOffline$: this.networkStateProvider.isOffline$,
-      lastRefreshedTime$: this.store$.pipe(
-        select(getTestCentreJournalState),
-        map(getLastRefreshed),
-        map(getLastRefreshedTime)
-      ),
-      activeTestCentres$: this.store$.pipe(select(getRefDataState), map(getTestCentres), map(getActiveTestCentres)),
-      enteredFromTest$: this.store$.pipe(select(getTestCentreJournalState), map(getEnteredFromTest)),
-    };
-
     this.isLDTM = this.appConfig.getAppConfig()?.role === ExaminerRole.LDTM;
-
-    const { isOffline$ } = this.pageState;
-
-    this.merged$ = merge(isOffline$.pipe(tap((isOffline) => this.isOffline.set(isOffline))));
-    this.merged$.pipe(takeUntil(this.destroy$)).subscribe();
   }
 
   async ionViewWillEnter(): Promise<void> {

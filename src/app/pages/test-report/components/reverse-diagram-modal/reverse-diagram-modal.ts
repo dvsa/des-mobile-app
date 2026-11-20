@@ -1,9 +1,8 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { Style } from '@capacitor/status-bar';
 import { EmojiBlockDirective } from '@directives/emoji-block.directive';
 import { InputRestrictionNumbersDirective } from '@directives/input-restriction-numbers.directive';
 import { PasteSanitiserDirective } from '@directives/paste-sanitiser';
-import { CategoryCode } from '@dvsa/mes-test-schema/categories/common';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import {
   IonButton,
@@ -19,23 +18,13 @@ import {
   IonTitle,
   IonToolbar,
 } from '@ionic/angular';
-import { Store, select } from '@ngrx/store';
+import { Store } from '@ngrx/store';
 import { AccessibilityService } from '@providers/accessibility/accessibility.service';
 import { ReversingDistancesProvider } from '@providers/reversing-distances/reversing-distances';
 import { VehicleDetailsByCategoryProvider } from '@providers/vehicle-details-by-category/vehicle-details-by-category';
 import { StoreModel } from '@shared/models/store.model';
-import { getTestCategory } from '@store//tests/category/category.reducer';
-import { getCurrentTest } from '@store//tests/tests.selector';
-import { getTests } from '@store/tests/tests.reducer';
-import { Observable, Subscription, merge } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { selectCurrentTest } from '@store/tests/tests.selector';
 import { ReverseDiagramLengthChanged, ReverseDiagramWidthChanged } from './reverse-diagram-modal.actions';
-
-interface ReverseDiagramPageState {
-  vehicleLength$: Observable<number>;
-  vehicleWidth$: Observable<number>;
-  category$: Observable<CategoryCode>;
-}
 
 type OnCloseFunc = () => void;
 
@@ -61,7 +50,7 @@ type OnCloseFunc = () => void;
     PasteSanitiserDirective,
   ],
 })
-export class ReverseDiagramPage implements OnInit {
+export class ReverseDiagramPage {
   @Input()
   vehicleLength: number;
 
@@ -74,10 +63,7 @@ export class ReverseDiagramPage implements OnInit {
   @Input()
   isPracticeMode: boolean;
 
-  componentState: ReverseDiagramPageState;
-  subscription: Subscription;
-  catSubscription: Subscription;
-  merged$: Observable<number | CategoryCode>;
+  private readonly currentTest = this.store$.selectSignal(selectCurrentTest);
   reversingLengthStart: number;
   reversingLengthMiddle: number;
   reversingWidth: number;
@@ -90,31 +76,6 @@ export class ReverseDiagramPage implements OnInit {
     public reversingDistancesProvider: ReversingDistancesProvider,
     public vehicleDetailsProvider: VehicleDetailsByCategoryProvider
   ) {}
-
-  ngOnInit(): void {
-    const currentTest$ = this.store$.pipe(select(getTests), select(getCurrentTest));
-
-    this.catSubscription = currentTest$.pipe(select(getTestCategory)).subscribe((value) => {
-      const category = value as TestCategory;
-      if (!category) {
-        return;
-      }
-
-      const vehicleDetails = this.vehicleDetailsProvider.getVehicleDetailsByCategoryCode(category);
-      this.componentState = {
-        vehicleLength$: currentTest$.pipe(select(vehicleDetails.vehicleDetails), select(vehicleDetails.vehicleLength)),
-        vehicleWidth$: currentTest$.pipe(select(vehicleDetails.vehicleDetails), select(vehicleDetails.vehicleWidth)),
-        category$: currentTest$.pipe(select(getTestCategory)),
-      };
-
-      const { vehicleLength$, vehicleWidth$, category$ } = this.componentState;
-      this.merged$ = merge(
-        vehicleLength$.pipe(map((val) => (this.vehicleLength = val))),
-        vehicleWidth$.pipe(map((val) => (this.vehicleWidth = val))),
-        category$.pipe(map((val) => (this.category = val as TestCategory)))
-      );
-    });
-  }
 
   getReversingDiagramLabel = (): string => {
     switch (this.category) {
@@ -169,19 +130,18 @@ export class ReverseDiagramPage implements OnInit {
   }
 
   ionViewWillEnter(): boolean {
-    if (this.merged$) {
-      this.subscription = this.merged$.subscribe();
+    const test = this.currentTest();
+    if (test?.category) {
+      this.category = test.category as TestCategory;
+      const selectors = this.vehicleDetailsProvider.getVehicleDetailsByCategoryCode(this.category);
+      this.vehicleLength = selectors.vehicleLength(test.vehicleDetails);
+      this.vehicleWidth = selectors.vehicleWidth(test.vehicleDetails);
       this.calculateReversingLengths(this.vehicleLength);
       this.calculateReversingWidth(this.vehicleWidth);
       this.calculateAtoBMultiplierText();
     }
 
     return true;
-  }
-
-  ionViewDidLeave(): void {
-    this.subscription?.unsubscribe();
-    this.catSubscription?.unsubscribe();
   }
 
   async closeModal() {

@@ -1,5 +1,5 @@
-import { AsyncPipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { Capacitor } from '@capacitor/core';
 import { SplashScreen } from '@capacitor/splash-screen';
 import {
@@ -32,6 +32,7 @@ import { LoadConfigSuccess } from '@store/app-info/app-info.actions';
 import { LoadLog, SaveLog, SendLogs, StartSendingLogs } from '@store/logs/logs.actions';
 import { GetTestCentresRefData } from '@store/reference-data/reference-data.actions';
 import { LoadPersistedTests, StartSendingCompletedTests } from '@store/tests/tests.actions';
+import { from } from 'rxjs';
 import { Observable, Subscription } from 'rxjs';
 import { DASHBOARD_PAGE } from '../page-names.constants';
 
@@ -39,7 +40,7 @@ import { DASHBOARD_PAGE } from '../page-names.constants';
   selector: 'app-login',
   templateUrl: './login.page.html',
   styleUrls: ['./login.page.scss'],
-  imports: [IonHeader, IonToolbar, IonTitle, IonRow, IonText, IonContent, IonCol, IonButton, AsyncPipe],
+  imports: [IonHeader, IonToolbar, IonTitle, IonRow, IonText, IonContent, IonCol, IonButton],
 })
 export class LoginPage extends LogoutBasePageComponent implements OnInit {
   appInitError: AuthenticationError | AppConfigError | unknown;
@@ -47,7 +48,7 @@ export class LoginPage extends LogoutBasePageComponent implements OnInit {
   queryParamSub: Subscription;
   isLoggedIn = false;
   isLoggingIn = false;
-  versionNum: Promise<string> = this.appInfoProvider.getFullVersionNumber();
+  readonly versionNum = toSignal(from(this.appInfoProvider.getFullVersionNumber()), { initialValue: '' });
 
   connectionStatus$: Observable<NetworkConnectionStatus> = this.networkStateProvider.onNetworkChange();
   connectionStatusSubscription: Subscription = null;
@@ -77,6 +78,7 @@ export class LoginPage extends LogoutBasePageComponent implements OnInit {
    * Monitor the online status of the app and if it comes back online after being offline, automatically attempt to log in
    */
   monitorOnlineStatus() {
+    this.connectionStatusSubscription?.unsubscribe();
     this.connectionStatusSubscription = this.connectionStatus$.subscribe(async (newConnectionStatus) => {
       if (newConnectionStatus !== this.previousConnectionStatus) {
         this.previousConnectionStatus = newConnectionStatus;
@@ -130,7 +132,7 @@ export class LoginPage extends LogoutBasePageComponent implements OnInit {
   }
 
   ionViewDidLeave(): void {
-    this.connectionStatusSubscription.unsubscribe();
+    this.connectionStatusSubscription?.unsubscribe();
     this.queryParamSub?.unsubscribe();
   }
 

@@ -1,31 +1,20 @@
-import { AsyncPipe } from '@angular/common';
 import { Component, Input, OnChanges } from '@angular/core';
 import { CategoryCode } from '@dvsa/mes-test-schema/categories/common';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { FaultCountProvider } from '@providers/fault-count/fault-count';
 import { TestDataUnion } from '@shared/unions/test-schema-unions';
-import { Observable, Subscription } from 'rxjs';
 
 enum driverType {
   R = 'R',
   D = 'D',
 }
 
-interface DrivingFaultSummaryState {
-  count$: Observable<number>;
-  driverRiderFlag$: Observable<driverType>;
-}
-
 @Component({
   selector: 'driving-fault-summary',
   templateUrl: 'driving-fault-summary.html',
   styleUrls: ['driving-fault-summary.scss'],
-  imports: [AsyncPipe],
 })
 export class DrivingFaultSummaryComponent implements OnChanges {
-  componentState: DrivingFaultSummaryState;
-  subscription: Subscription;
-
   count = 0;
   driverRiderFlag: driverType;
 

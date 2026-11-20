@@ -38,8 +38,8 @@
             @if (isDelegated) {
               <candidate-declaration-signed
                 (candidateDeclarationChange)="candidateDeclarationOutcomeChanged($event)"
-                [candidateSigned]="pageState.candidateDeclarationSigned$ | async"
-                [declarationSelected]="(pageState.insuranceDeclarationAccepted$ | async) && (pageState.residencyDeclarationAccepted$ | async)"
+                [candidateSigned]="candidateDeclarationSigned()"
+                [declarationSelected]="(insuranceDeclarationAccepted()) && (residencyDeclarationAccepted())"
                 [formGroup]="form"
               >
               </candidate-declaration-signed>
@@ -80,9 +80,9 @@
                   [category]="category()"
                   [formGroup]="form"
                   [practiceMode]="isEndToEndPracticeMode"
-                  [fullLicenceHeld]="pageState.fullLicenceHeld$ | async"
-                  [vehicleChecksScore]="pageState.vehicleChecksScore$ | async"
-                  [vehicleChecks]="pageState.vehicleChecks$ | async"
+                  [fullLicenceHeld]="fullLicenceHeld()"
+                  [vehicleChecksScore]="vehicleChecksScore()"
+                  [vehicleChecks]="vehicleChecks()"
                   [submitClicked]="submitClicked"
                 >
                 </vehicle-checks-vocational>
@@ -92,7 +92,7 @@
                 <full-licence-held-toggle
                   (fullLicenceHeldChange)="fullLicenceHeldChange($event)"
                   [formGroup]="form"
-                  [fullLicenceHeld]="pageState.fullLicenceHeldSelection$ | async"
+                  [fullLicenceHeld]="fullLicenceHeldSelection()"
                   [required]="true"
                   [testCategory]="testCategory"
                 >
@@ -105,7 +105,7 @@
                   (vehicleChecksDrivingFaultsNumberChange)="vehicleChecksDrivingFaultsNumberChanged($event)"
                   [formGroup]="form"
                   [testCategory]="category()"
-                  [vehicleChecksCompleted]="pageState.vehicleChecksCompleted$ | async"
+                  [vehicleChecksCompleted]="vehicleChecksCompleted()"
                 >
                 </vehicle-checks-completed>
               }

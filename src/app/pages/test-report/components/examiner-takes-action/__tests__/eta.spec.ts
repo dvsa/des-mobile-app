@@ -44,30 +44,28 @@ describe('EtaComponent', () => {
 
   describe('Class', () => {
     it('should dispatch a TOGGLE_ETA_VERBAL action', () => {
-      component.eta = ExaminerActions.verbal;
+      fixture.componentRef.setInput('eta', ExaminerActions.verbal);
       component.toggleETA();
       expect(store$.dispatch).toHaveBeenCalledWith(ToggleETA(ExaminerActions.verbal));
     });
 
     it('should dispatch a TOGGLE_ETA_PHYSICAL action', () => {
-      component.eta = ExaminerActions.physical;
+      fixture.componentRef.setInput('eta', ExaminerActions.physical);
       component.toggleETA();
       expect(store$.dispatch).toHaveBeenCalledWith(ToggleETA(ExaminerActions.physical));
     });
   });
-  describe('ngOnInit', () => {
-    it('should resolve state variables', () => {
-      component.eta = ExaminerActions.physical;
-      component.ngOnInit();
-
-      component.componentState.actionTaken$.subscribe((val) => {
-        expect(val).toEqual(true);
-      });
+  describe('actionTaken', () => {
+    it('should derive the selected action from store state', () => {
+      fixture.componentRef.setInput('eta', ExaminerActions.verbal);
+      expect(component.actionTaken()).toBe(false);
+      fixture.componentRef.setInput('eta', ExaminerActions.physical);
+      expect(component.actionTaken()).toBe(true);
     });
   });
   describe('toggleETA', () => {
     it('should dispatch ToggleETA with eta', () => {
-      component.eta = ExaminerActions.physical;
+      fixture.componentRef.setInput('eta', ExaminerActions.physical);
       component.toggleETA();
 
       expect(component.store$.dispatch).toHaveBeenCalledWith(ToggleETA(ExaminerActions.physical));

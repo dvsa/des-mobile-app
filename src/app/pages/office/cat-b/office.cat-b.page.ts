@@ -1,9 +1,8 @@
-import { AsyncPipe, NgClass } from '@angular/common';
-import { Component } from '@angular/core';
+import { NgClass } from '@angular/common';
+import { Component, computed } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ActivityCodeComponent } from '@components/common/activity-code/activity-code';
 import { TestFlowHeaderComponent } from '@components/common/test-flow-header/test-flow-header.component';
-import { ETA } from '@dvsa/mes-test-schema/categories/common';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import {
   IonCard,
@@ -17,13 +16,9 @@ import {
   IonRow,
   IonToolbar,
 } from '@ionic/angular';
-import { select } from '@ngrx/store';
 import { QuestionProvider } from '@providers/question/question';
 import { VehicleChecksQuestion } from '@providers/question/vehicle-checks-question.model';
-import {
-  CommonOfficePageState,
-  OfficeBasePageComponent,
-} from '@shared/classes/test-flow-base-pages/office/office-base-page';
+import { OfficeBasePageComponent } from '@shared/classes/test-flow-base-pages/office/office-base-page';
 import { ActivityCodeModel } from '@shared/constants/activity-code/activity-code.constants';
 import { CompetencyOutcome } from '@shared/models/competency-outcome';
 import { CommentSource, FaultSummary } from '@shared/models/fault-marking.model';
@@ -44,17 +39,9 @@ import { AddDrivingFaultComment } from '@store/tests/test-data/common/driving-fa
 import { EyesightTestAddComment } from '@store/tests/test-data/common/eyesight-test/eyesight-test.actions';
 import { AddManoeuvreComment } from '@store/tests/test-data/common/manoeuvres/manoeuvres.actions';
 import { AddSeriousFaultComment } from '@store/tests/test-data/common/serious-faults/serious-faults.actions';
-import {
-  getETA,
-  getEco,
-  getEcoFaultText,
-  getShowMeQuestionOptions,
-} from '@store/tests/test-data/common/test-data.selector';
-import { getTests } from '@store/tests/tests.reducer';
-import { getCurrentTest, getTestOutcome } from '@store/tests/tests.selector';
+import { getShowMeQuestionOptions } from '@store/tests/test-data/common/test-data.selector';
+import { getTestOutcome } from '@store/tests/tests.selector';
 import { startsWith } from 'lodash-es';
-import { Observable } from 'rxjs';
-import { map, withLatestFrom } from 'rxjs/operators';
 import { AccompanimentCardComponent } from '../../waiting-room-to-car/components/accompaniment-card/accompaniment-card';
 import { VehicleDetailsCardComponent } from '../../waiting-room-to-car/components/vehicle-details-card/vehicle-details-card';
 import { AdditionalInformationComponent } from '../components/additional-information/additional-information';
@@ -76,19 +63,6 @@ import { ShowMeQuestionComponent } from '../components/show-me-question/show-me-
 import { TrueLikenessComponent } from '../components/true-likeness/true-likeness';
 import { WeatherConditionsComponent } from '../components/weather-conditions/weather-conditions';
 import { behaviourMap } from '../office-behaviour-map';
-
-interface CatBOfficePageState {
-  displayShowMeQuestion$: Observable<boolean>;
-  displayTellMeQuestion$: Observable<boolean>;
-  showMeQuestion$: Observable<VehicleChecksQuestion>;
-  showMeQuestionOptions$: Observable<VehicleChecksQuestion[]>;
-  tellMeQuestionText$: Observable<string>;
-  etaFaults$: Observable<ETA>;
-  ecoFaults$: Observable<string>;
-  displayDrivingFaultComments$: Observable<boolean>;
-}
-
-type OfficePageState = CommonOfficePageState & CatBOfficePageState;
 
 @Component({
   selector: '.office-cat-b-page',
@@ -130,11 +104,41 @@ type OfficePageState = CommonOfficePageState & CatBOfficePageState;
     DrivingFaultsComponent,
     IonFooter,
     OfficeFooterComponent,
-    AsyncPipe,
   ],
 })
 export class OfficeCatBPage extends OfficeBasePageComponent {
-  pageState: OfficePageState;
+  private testData = computed(() => getTestData(this.officeCurrentTest() as never));
+  private checks = computed(() => getVehicleChecks(this.testData()));
+  showMeQuestion = computed(() => getShowMeQuestion(this.checks()));
+  displayShowMeQuestion = computed(() =>
+    this.outcomeBehaviourProvider.isVisible(
+      getTestOutcome(this.officeCurrentTest() as never),
+      'showMeQuestion',
+      this.showMeQuestion()
+    )
+  );
+  displayTellMeQuestion = computed(() =>
+    this.outcomeBehaviourProvider.isVisible(
+      getTestOutcome(this.officeCurrentTest() as never),
+      'tellMeQuestion',
+      getTellMeQuestion(this.checks())
+    )
+  );
+  showMeQuestionOptions = computed(() =>
+    getShowMeQuestionOptions(
+      this.showMeQuestions,
+      getTestOutcome(this.officeCurrentTest() as never),
+      this.outcomeBehaviourProvider
+    )
+  );
+  tellMeQuestionText = computed(() => getSelectedTellMeQuestionText(this.checks()));
+  displayDrivingFaultComments = computed(() =>
+    this.faultCountProvider.shouldDisplayDrivingFaultComments(
+      this.testData(),
+      TestCategory.B,
+      OfficeCatBPage.maxFaultCount
+    )
+  );
   drivingFaultCtrl = 'drivingFaultCtrl';
   seriousFaultCtrl = 'seriousFaultCtrl';
   dangerousFaultCtrl = 'dangerousFaultCtrl';
@@ -151,40 +155,6 @@ export class OfficeCatBPage extends OfficeBasePageComponent {
 
   ngOnInit(): void {
     super.onInitialisation();
-    const currentTest$ = this.store$.pipe(select(getTests), select(getCurrentTest));
-    this.pageState = {
-      ...this.commonPageState,
-      displayShowMeQuestion$: currentTest$.pipe(
-        select(getTestOutcome),
-        withLatestFrom(currentTest$.pipe(select(getTestData), select(getVehicleChecks), select(getShowMeQuestion))),
-        map(([outcome, question]) => this.outcomeBehaviourProvider.isVisible(outcome, 'showMeQuestion', question))
-      ),
-      displayTellMeQuestion$: currentTest$.pipe(
-        select(getTestOutcome),
-        withLatestFrom(currentTest$.pipe(select(getTestData), select(getVehicleChecks), select(getTellMeQuestion))),
-        map(([outcome, question]) => this.outcomeBehaviourProvider.isVisible(outcome, 'tellMeQuestion', question))
-      ),
-      showMeQuestion$: currentTest$.pipe(select(getTestData), select(getVehicleChecks), select(getShowMeQuestion)),
-      showMeQuestionOptions$: currentTest$.pipe(
-        select(getTestOutcome),
-        map((outcome) => getShowMeQuestionOptions(this.showMeQuestions, outcome, this.outcomeBehaviourProvider))
-      ),
-      tellMeQuestionText$: currentTest$.pipe(
-        select(getTestData),
-        select(getVehicleChecks),
-        select(getSelectedTellMeQuestionText)
-      ),
-      etaFaults$: currentTest$.pipe(select(getTestData), select(getETA)),
-      ecoFaults$: currentTest$.pipe(select(getTestData), select(getEco), select(getEcoFaultText)),
-      displayDrivingFaultComments$: currentTest$.pipe(
-        select(getTestData),
-        map((data) =>
-          this.faultCountProvider.shouldDisplayDrivingFaultComments(data, TestCategory.B, OfficeCatBPage.maxFaultCount)
-        )
-      ),
-    };
-
-    this.setupSubscriptions();
   }
 
   async ionViewWillEnter() {

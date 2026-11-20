@@ -1,4 +1,4 @@
-import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, signal } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { RouterModule } from '@angular/router';
@@ -28,8 +28,8 @@ import {
 import { OutcomeBehaviourMapProvider } from '@providers/outcome-behaviour-map/outcome-behaviour-map';
 import { StoreModel } from '@shared/models/store.model';
 import { PersistTests } from '@store/tests/tests.actions';
+import { initialState as initialTestsState } from '@store/tests/tests.reducer';
 import { MockComponent } from 'ng-mocks';
-import { Observable, Subscription } from 'rxjs';
 import { PassFinalisationCatAMod1Page } from '../pass-finalisation.cat-a-mod1.page';
 
 describe('PassFinalisationCatAMod1Page', () => {
@@ -56,30 +56,22 @@ describe('PassFinalisationCatAMod1Page', () => {
         MockComponent(WarningBannerComponent),
         MockComponent(LicenceProvidedWarningBannerComponent),
       ],
-      providers: [provideBasePageMocks(), provideMockStore(), OutcomeBehaviourMapProvider],
+      providers: [
+        provideBasePageMocks(),
+        provideMockStore({ initialState: { tests: initialTestsState } }),
+        OutcomeBehaviourMapProvider,
+      ],
     });
 
     fixture = TestBed.createComponent(PassFinalisationCatAMod1Page);
     component = fixture.componentInstance;
     store$ = TestBed.inject(Store);
     vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
-    component.subscription = new Subscription();
   });
 
   describe('Class', () => {
-    describe('ionViewDidLeave', () => {
-      it('should unsubscribe from subscription if there is one', () => {
-        component.subscription = new Subscription();
-        vi.spyOn(component.subscription, 'unsubscribe').mockReturnValue(undefined);
-        component.ionViewDidLeave();
-        expect(component.subscription.unsubscribe).toHaveBeenCalled();
-      });
-    });
-
     describe('ionViewWillEnter', () => {
       it('should dispatch PassFinalisationViewDidEnter', () => {
-        component.merged$ = new Observable<string>();
-        component.subscription.closed = true;
         vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
         component.ionViewWillEnter();
         expect(store$.dispatch).toHaveBeenCalledWith(PassFinalisationViewDidEnter());
@@ -88,25 +80,25 @@ describe('PassFinalisationCatAMod1Page', () => {
 
     describe('displayTransmissionBanner', () => {
       it('should return true if transmission is automatic and form is dirty', () => {
-        component.transmission = 'Automatic';
+        component.transmissionSignal = signal('Automatic');
         component.form = new UntypedFormGroup({ transmissionCtrl: new UntypedFormControl() });
         component.form.controls.transmissionCtrl.markAsDirty();
         expect(component.displayTransmissionBanner()).toEqual(true);
       });
       it('should return false if transmission is not automatic and form is dirty', () => {
-        component.transmission = 'Manual';
+        component.transmissionSignal = signal('Manual');
         component.form = new UntypedFormGroup({ transmissionCtrl: new UntypedFormControl() });
         component.form.controls.transmissionCtrl.markAsDirty();
         expect(component.displayTransmissionBanner()).toEqual(false);
       });
       it('should return false if transmission is automatic and form is not dirty', () => {
-        component.transmission = 'Automatic';
+        component.transmissionSignal = signal('Automatic');
         component.form = new UntypedFormGroup({ transmissionCtrl: new UntypedFormControl() });
         component.form.controls.transmissionCtrl.markAsPristine();
         expect(component.displayTransmissionBanner()).toEqual(false);
       });
       it('should return false if transmission is not automatic and form is not dirty', () => {
-        component.transmission = 'Manual';
+        component.transmissionSignal = signal('Manual');
         component.form = new UntypedFormGroup({ transmissionCtrl: new UntypedFormControl() });
         component.form.controls.transmissionCtrl.markAsPristine();
         expect(component.displayTransmissionBanner()).toEqual(false);

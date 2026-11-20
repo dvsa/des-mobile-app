@@ -119,15 +119,9 @@ export class BackToOfficePage extends PracticeableBasePageComponent implements O
   }
 
   private destroyTestSubs = (): void => {
-    // At this point in a test, you can not go back at all in the journey - therefore shutdown any subscriptions
-    // where takeUntil(wrtcDestroy$) or takeUntil(trDestroy$) has been piped onto.
-
-    // Waiting room to car
+    // End the current test's subscriptions without closing the notifiers used by later tests.
     wrtcDestroy$.next(null);
-    wrtcDestroy$.complete();
-    // Test report
     trDestroy$.next(null);
-    trDestroy$.complete();
   };
 
   /**

@@ -8,7 +8,7 @@
 </ion-header>
 
 <ion-content [forceOverscroll]="false">
-  <offline-banner [isOffline]="pageState.isOffline$ | async"></offline-banner>
+  <offline-banner [isOffline]="isOffline()"></offline-banner>
 
   <div class="search-inputs">
     <tabs>
@@ -25,7 +25,7 @@
                 class="gds-radio-button"
                 name="searchBy"
                 value="appReference"
-                [checked]="searchBy === 'appReference'"
+                [checked]="searchBy() === 'appReference'"
                 (change)="searchByChanged('appReference')"
               />
               <label for="search-by-app-reference" class="radio-label"> Booking reference </label>
@@ -37,7 +37,7 @@
                 class="gds-radio-button"
                 name="searchBy"
                 value="driverNumber"
-                [checked]="searchBy === 'driverNumber'"
+                [checked]="searchBy() === 'driverNumber'"
                 (change)="searchByChanged('driverNumber')"
               />
               <label for="search-by-driver-number" class="radio-label"> Driver number </label>
@@ -45,18 +45,18 @@
           </ion-row>
           <ion-row class="ion-padding-top">
             <ion-col size="96">
-              @if (searchBy === 'appReference') {
+              @if (searchBy() === 'appReference') {
                 <ion-input
                   placeholder="Enter a booking reference"
-                  id="test-result-search-{{searchBy}}-input"
+                  id="test-result-search-{{searchBy()}}-input"
                   type="text"
                   class="ion-input-styling custom-font-size"
                   aria-label="Booking reference"
                   [clearInput]="true"
                   (ionFocus)="setFocus('field')"
                   (ionBlur)="setFocus(null)"
-                  [ngClass]="{'input-focus': focusedElement === 'field'}"
-                  [value]="candidateInfo"
+                  [ngClass]="{'input-focus': focusedElement() === 'field'}"
+                  [value]="candidateInfo()"
                   (ionInput)="candidateInfoChanged($event.target.value)"
                   [maskito]="getBookingReferenceMask()"
                   [maskitoElement]="getMaskPredicate()"
@@ -64,7 +64,7 @@
                 </ion-input>
               } @else {
                 <ion-input
-                  id="test-result-search-{{searchBy}}-input"
+                  id="test-result-search-{{searchBy()}}-input"
                   [placeholder]="'Enter a driver number'"
                   aria-label="Driver number"
                   type="text"
@@ -73,8 +73,8 @@
                   uppercaseAlphanumOnly
                   (ionFocus)="setFocus('field')"
                   (ionBlur)="setFocus(null)"
-                  [value]="candidateInfo"
-                  [ngClass]="{'input-focus': focusedElement === 'field'}"
+                  [value]="candidateInfo()"
+                  [ngClass]="{'input-focus': focusedElement() === 'field'}"
                   (ionInput)="candidateInfoChanged($event.target.value)"
                 >
                 </ion-input>
@@ -83,7 +83,7 @@
           </ion-row>
           <ion-row>
             <ion-col class="ion-align-content-center">
-              <ion-text [class.booking-ref-explainer]="candidateInfo !== '' && searchBy === 'appReference' && !isUserEnteringApplicationReference"
+              <ion-text [class.booking-ref-explainer]="candidateInfo() !== '' && searchBy() === 'appReference' && !isUserEnteringApplicationReference()"
                         class="mes-data ion-align-content-center transparent">Enter the reference without spaces
               </ion-text>
             </ion-col>
@@ -91,7 +91,7 @@
           <ion-row class="ion-padding-top">
             <ion-button
               (click)="searchTests()"
-              [attr.disabled]="showSearchSpinner() || (pageState.isOffline$ | async) ? 'true' : isEmpty(candidateInfo)"
+              [attr.disabled]="showSearchSpinner() || isOffline() ? 'true' : isEmpty(candidateInfo())"
               class="mes-primary-button search-tests"
               id="test-result-search-button"
             >
@@ -116,10 +116,10 @@
       <tab [tabTitle]="'Advanced search'" id="tab-search-advanced">
         <advanced-search
           [importStaffNumber]="verifyAdvancedSearch()"
-          [testCentres]="pageState.activeTestCentres$ | async"
+          [testCentres]="activeTestCentres()"
           (onSearchTests)="advancedSearch($event)"
           [showSpinner]="showAdvancedSearchSpinner()"
-          [isOffline]="pageState.isOffline$ | async"
+          [isOffline]="isOffline()"
         >
         </advanced-search>
       </tab>

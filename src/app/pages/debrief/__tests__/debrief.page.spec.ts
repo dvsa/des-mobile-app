@@ -1,4 +1,4 @@
-import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, signal } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 
@@ -18,7 +18,6 @@ import { StoreModel } from '@shared/models/store.model';
 import { TestOutcome } from '@shared/models/test-outcome';
 import { TestOutcome as OutcomeType } from '@store/tests/tests.constants';
 import { testsFeatureKey } from '@store/tests/tests.reducer';
-import { Subscription } from 'rxjs';
 
 describe('DebriefPage', () => {
   let fixture: ComponentFixture<DebriefPage>;
@@ -174,7 +173,7 @@ describe('DebriefPage', () => {
       component.ngOnInit();
       expect(component.etaFaults()).toEqual({ physical: true });
       expect(component.ecoFaults()).toEqual({ completed: true });
-      expect(component.testResult()).toEqual('Terminated');
+      expect(component.outcome()).toEqual('Terminated');
       expect(component.conductedLanguage()).toEqual('English');
       expect(component.candidateName()).toEqual('firstName lastName');
       expect(component.category()).toEqual(TestCategory.ADI3);
@@ -250,68 +249,68 @@ describe('DebriefPage', () => {
       TestCategory.K,
     ].forEach((value) => {
       it(`should return true if category is ${value}`, () => {
-        component.testCategory = value;
+        component.category = signal(value);
         expect(component.showVehicleChecksArrayCard()).toEqual(true);
       });
     });
     it('should return false if the category is not listed', () => {
-      component.testCategory = TestCategory.B;
+      component.category = signal(TestCategory.B);
       expect(component.showVehicleChecksArrayCard()).toEqual(false);
     });
   });
   describe('showADI3DebriefCard', () => {
     [TestCategory.ADI3, TestCategory.SC].forEach((value) => {
       it(`should return true if category is ${value}`, () => {
-        component.testCategory = value;
+        component.category = signal(value);
         expect(component.showADI3DebriefCard()).toEqual(true);
       });
     });
     it('should return false if the category is not listed', () => {
-      component.testCategory = TestCategory.B;
+      component.category = signal(TestCategory.B);
       expect(component.showADI3DebriefCard()).toEqual(false);
     });
   });
   describe('showCPCDebriefCard', () => {
     [TestCategory.CCPC, TestCategory.DCPC].forEach((value) => {
       it(`should return true if category is ${value}`, () => {
-        component.testCategory = value;
+        component.category = signal(value);
         expect(component.showCPCDebriefCard()).toEqual(true);
       });
     });
     it('should return false if the category is not listed', () => {
-      component.testCategory = TestCategory.B;
+      component.category = signal(TestCategory.B);
       expect(component.showCPCDebriefCard()).toEqual(false);
     });
   });
   describe('isCatD', () => {
     [TestCategory.D, TestCategory.D1, TestCategory.D1E, TestCategory.DE].forEach((value) => {
       it(`should return true if category is ${value}`, () => {
-        component.testCategory = value;
+        component.category = signal(value);
         expect(component.isCatD()).toEqual(true);
       });
     });
     it('should return false if the category is not listed', () => {
-      component.testCategory = TestCategory.B;
+      component.category = signal(TestCategory.B);
       expect(component.isCatD()).toEqual(false);
     });
   });
   describe('isTerminated', () => {
     it('should return true if outcome is OutcomeType.Terminated', () => {
-      component.outcome = OutcomeType.Terminated;
+      component.outcome = signal(OutcomeType.Terminated);
       expect(component.isTerminated()).toEqual(true);
     });
     it('should return false if outcome is not OutcomeType.Terminated', () => {
-      component.outcome = OutcomeType.Passed;
+      component.outcome = signal(OutcomeType.Passed);
       expect(component.isTerminated()).toEqual(false);
     });
   });
   describe('isCategoryBTest', () => {
     it('should return true if outcome is OutcomeType.Terminated', () => {
-      component.testCategory = TestCategory.B;
+      component.category = signal(TestCategory.B);
       expect(component.isCategoryBTest()).toEqual(true);
     });
     it('should return false if outcome is not OutcomeType.Terminated', () => {
-      component.testCategory = TestCategory.D;
+      component.category = signal(TestCategory.D);
       expect(component.isCategoryBTest()).toEqual(false);
     });
   });
@@ -337,8 +336,8 @@ describe('DebriefPage', () => {
       () => {
         vi.spyOn(routeByCategoryProvider, 'navigateToPage').mockReturnValue(undefined);
         component.isTestReportPracticeMode = false;
-        component.outcome = TestOutcome.PASS;
-        component.testCategory = TestCategory.B;
+        component.outcome = signal(TestOutcome.PASS);
+        component.category = signal(TestCategory.B);
 
         component.endDebrief();
         expect(routeByCategoryProvider.navigateToPage).toHaveBeenCalledWith(
@@ -353,7 +352,7 @@ describe('DebriefPage', () => {
       () => {
         vi.spyOn(component.router, 'navigate');
         component.isTestReportPracticeMode = false;
-        component.outcome = TestOutcome.FAIL;
+        component.outcome = signal(TestOutcome.FAIL);
 
         component.endDebrief();
         expect(component.router.navigate).toHaveBeenCalledWith(['PostDebriefHoldingPage']);
@@ -365,12 +364,6 @@ describe('DebriefPage', () => {
     beforeEach(() => {
       vi.spyOn(ScreenOrientation, 'unlock');
       vi.spyOn(Insomnia, 'allowSleep').mockReturnValue(undefined);
-    });
-    it('should unsubscribe from subscription if there is one', async () => {
-      component.subscription = new Subscription();
-      vi.spyOn(component.subscription, 'unsubscribe').mockReturnValue(undefined);
-      await component.ionViewDidLeave();
-      expect(component.subscription.unsubscribe).toHaveBeenCalled();
     });
     it(
       'should unlock screenOrientation and run allowSleepAgain if ' + 'isIos and isTestReportPracticeMode are true',

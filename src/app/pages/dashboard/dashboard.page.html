@@ -1,20 +1,20 @@
 <ion-header>
   <ion-toolbar mode="ios">
     <ion-title role="heading" aria-level="1" id="dashboard-page-title">DES dashboard</ion-title>
-    <ion-buttons class="display-flex" [class.flex-direction-column]="getIsLargerTextSize() && pageState.showUpdatesAvailable$ | async" slot="end">
+    <ion-buttons class="display-flex" [class.flex-direction-column]="getIsLargerTextSize() && showUpdatesAvailable()" slot="end">
       <ion-row>
-        <ion-text class="des-header-style-6 version-number">Version {{ pageState.appVersion$ | async }}</ion-text>
+        <ion-text class="des-header-style-6 version-number">Version {{ appVersion() }}</ion-text>
       </ion-row>
       @if (!getIsLargerTextSize()) {
         <div>&nbsp;</div>
       }
-      @if (pageState.showUpdatesAvailable$ | async) {
+      @if (showUpdatesAvailable()) {
         <ion-row>
           <ion-badge
             color="danger"
             (click)="showUpdateAvailableModal(true)"
             >
-            Version {{ pageState.liveAppVersion$ | async }} available
+            Version {{ liveAppVersion() }} available
           </ion-badge>
         </ion-row>
       }
@@ -23,7 +23,7 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <offline-banner [isOffline]="pageState.isOffline$ | async"></offline-banner>
+  <offline-banner [isOffline]="isOffline()"></offline-banner>
 
   <incomplete-tests-banner></incomplete-tests-banner>
 
@@ -34,7 +34,7 @@
         <ion-menu-button class="burger-menu black-text" id="dashboard-menu-button"></ion-menu-button>
       </ion-col>
       <ion-col size="3.5" class="display-flex ion-no-padding justify-content-center align-items-center">
-        @if ((pageState.notificationCount$ | async)) {
+        @if (notificationCount()) {
           <ion-badge
             color="danger"
             id="dashboard-notification-count-badge"
@@ -48,9 +48,9 @@
       <ion-col class="ion-no-padding">
         <profile-header
       [disableASAM]="deviceProvider.manuallyDisableSingleAppMode"
-      [employeeId]="pageState.employeeId$ | async"
-      [name]="pageState.employeeName$ | async"
-      [role]="pageState.role$ | async"
+      [employeeId]="employeeId()"
+      [name]="employeeName()"
+      [role]="role()"
       >
     </profile-header></ion-col>
     </ion-row>

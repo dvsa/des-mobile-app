@@ -62,7 +62,6 @@ import {
 import { AddUncoupleRecoupleComment } from '@store/tests/test-data/common/uncouple-recouple/uncouple-recouple.actions';
 import { Competencies, ExaminerActions } from '@store/tests/test-data/test-data.constants';
 import { MockComponent } from 'ng-mocks';
-import { Subscription } from 'rxjs';
 import { OfficeCatHomeTestPage } from '../office.cat-home-test.page';
 
 describe('OfficeCatHomeTestPage', () => {
@@ -226,15 +225,6 @@ describe('OfficeCatHomeTestPage', () => {
         component.defer();
         expect(component.popToRoot).toHaveBeenCalled();
       });
-    });
-  });
-
-  describe('ionViewDidLeave', () => {
-    it('should unsubscribe from the subscription if there is one', () => {
-      component.pageSubscription = new Subscription();
-      vi.spyOn(component.pageSubscription, 'unsubscribe').mockReturnValue(undefined);
-      component.ionViewDidLeave();
-      expect(component.pageSubscription.unsubscribe).toHaveBeenCalled();
     });
   });
 

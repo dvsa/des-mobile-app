@@ -4,10 +4,12 @@
   (onPress)="toggleETA()"
   [allowRipple]="false"
   [ngClass]="{
-    'complete': componentState.actionTaken$ | async
+    'complete': actionTaken()
   }"
 >
   <div class="label">
-    <span id="eta-label-{{ label }}" class="competency-label">{{ label }}</span>
+    <span id="eta-label-{{ label() }}" class="competency-label"
+      >{{ label() }}</span
+    >
   </div>
 </competency-button>

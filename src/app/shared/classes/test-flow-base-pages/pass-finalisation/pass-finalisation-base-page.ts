@@ -1,7 +1,5 @@
 import { Inject, Signal, computed, inject, signal } from '@angular/core';
-import { toObservable } from '@angular/core/rxjs-interop';
 import { ActivityCode, CategoryCode, GearboxCategory } from '@dvsa/mes-test-schema/categories/common';
-import { Observable, Subscription } from 'rxjs';
 
 import { OutcomeBehaviourMapProvider } from '@providers/outcome-behaviour-map/outcome-behaviour-map';
 import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
@@ -57,31 +55,11 @@ import {
 import { getVehicleDetails } from '@store/tests/vehicle-details/vehicle-details.reducer';
 import { getGearboxCategory, isAutomaticConfirmed } from '@store/tests/vehicle-details/vehicle-details.selector';
 
-export interface CommonPassFinalisationPageState {
-  candidateName$: Observable<string>;
-  candidateUntitledName$: Observable<string>;
-  candidateDriverNumber$: Observable<string>;
-  testOutcomeText$: Observable<string>;
-  testOutcome$: Observable<ActivityCode>;
-  applicationNumber$: Observable<string>;
-  provisionalLicense$: Observable<boolean>;
-  passCertificateNumber$: Observable<string>;
-  transmission$: Observable<GearboxCategory>;
-  isAutomaticConfirmed$: Observable<boolean>;
-  d255$: Observable<boolean>;
-  debriefWitnessed$: Observable<boolean>;
-  conductedLanguage$: Observable<string>;
-  eyesightTestFailed$: Observable<boolean>;
-  testCategory$: Observable<CategoryCode>;
-  pastPassCerts$: Observable<string[]>;
-}
-
 export abstract class PassFinalisationPageComponent extends PracticeableBasePageComponent {
   protected routeByCat = inject(RouteByCategoryProvider);
   protected outcomeBehaviourProvider = inject(OutcomeBehaviourMapProvider);
 
   isShowingEditBox = signal<boolean>(true);
-  isShowingEditBox$ = toObservable(this.isShowingEditBox);
 
   currentTest = this.store$.selectSignal(selectCurrentTest);
   tests = this.store$.selectSignal(getTests);
@@ -163,9 +141,7 @@ export abstract class PassFinalisationPageComponent extends PracticeableBasePage
     return getAllPassCerts(startedTestsWithPassOutcome) || [];
   });
 
-  commonPageState: CommonPassFinalisationPageState;
   testOutcome: ActivityCodes = ActivityCodes.PASS;
-  subscription: Subscription;
 
   protected constructor(@Inject(false) public loginRequired = false) {
     super(loginRequired);
@@ -209,33 +185,10 @@ export abstract class PassFinalisationPageComponent extends PracticeableBasePage
 
   onInitialisation(): void {
     super.ngOnInit();
-
-    // Backwards-compatible observable adapter for pages not yet migrated to signals.
-    this.commonPageState = {
-      candidateName$: toObservable(this.candidateName),
-      isAutomaticConfirmed$: toObservable(this.isAutomaticConfirmed),
-      candidateUntitledName$: toObservable(this.candidateUntitledName),
-      candidateDriverNumber$: toObservable(this.candidateDriverNumber),
-      testOutcomeText$: toObservable(this.testOutcomeText),
-      testOutcome$: toObservable(this.testOutcomeCode),
-      applicationNumber$: toObservable(this.applicationNumber),
-      provisionalLicense$: toObservable(this.provisionalLicense),
-      passCertificateNumber$: toObservable(this.passCertificateNumber),
-      transmission$: toObservable(this.transmissionSignal),
-      debriefWitnessed$: toObservable(this.debriefWitnessed),
-      d255$: toObservable(this.d255),
-      conductedLanguage$: toObservable(this.conductedLanguage),
-      eyesightTestFailed$: toObservable(this.eyesightTestFailed),
-      testCategory$: toObservable(this.testCategorySignal),
-      pastPassCerts$: toObservable(this.pastPassCerts),
-    };
   }
 
   ionViewDidLeave(): void {
     super.ionViewDidLeave();
-    if (this.subscription) {
-      this.subscription.unsubscribe();
-    }
   }
 
   ionViewWillEnter() {

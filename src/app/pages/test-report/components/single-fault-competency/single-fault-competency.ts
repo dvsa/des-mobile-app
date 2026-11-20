@@ -1,14 +1,11 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
-import { Store, select } from '@ngrx/store';
+import { Component, Input, computed } from '@angular/core';
+import { Store } from '@ngrx/store';
 import { SingleFaultCompetencyNames } from '@store/tests/test-data/test-data.constants';
-import { Observable, Subscription, merge } from 'rxjs';
-import { map, takeUntil, tap } from 'rxjs/operators';
 
 import { NgClass } from '@angular/common';
 import { DangerousFaultBadgeComponent } from '@components/common/dangerous-fault-badge/dangerous-fault-badge';
 import { DrivingFaultsBadgeComponent } from '@components/common/driving-faults-badge/driving-faults-badge';
 import { SeriousFaultBadgeComponent } from '@components/common/serious-fault-badge/serious-fault-badge';
-import { trDestroy$ } from '@shared/classes/test-flow-base-pages/test-report/test-report-base-page';
 import { competencyLabels } from '@shared/constants/competencies/competencies';
 import { CompetencyOutcome } from '@shared/models/competency-outcome';
 import { StoreModel } from '@shared/models/store.model';
@@ -32,16 +29,6 @@ import { getTestReportState } from '../../test-report.reducer';
 import { isDangerousMode, isRemoveFaultMode, isSeriousMode } from '../../test-report.selector';
 import { CompetencyButtonComponent } from '../competency-button/competency-button';
 
-interface SingleFaultCompetencyState {
-  isRemoveFaultMode$: Observable<boolean>;
-  isSeriousMode$: Observable<boolean>;
-  isDangerousMode$: Observable<boolean>;
-
-  hasDrivingFault$: Observable<boolean>;
-  hasSeriousFault$: Observable<boolean>;
-  hasDangerousFault$: Observable<boolean>;
-}
-
 @Component({
   selector: 'single-fault-competency',
   templateUrl: 'single-fault-competency.html',
@@ -54,75 +41,39 @@ interface SingleFaultCompetencyState {
     DangerousFaultBadgeComponent,
   ],
 })
-export class SingleFaultCompetencyComponent implements OnInit, OnDestroy {
+export class SingleFaultCompetencyComponent {
   @Input()
   competency: SingleFaultCompetencyNames;
 
-  singleFaultCompetencyState: SingleFaultCompetencyState;
-  subscription: Subscription;
+  private readonly tests = this.store$.selectSignal(getTests);
+  private readonly currentTest = computed(() => getCurrentTest(this.tests()));
+  private readonly testData = computed(() => getTestData(this.currentTest()));
+  private readonly singleFaultCompetencies = computed(() => getSingleFaultCompetencies(this.testData()));
+  private readonly testReportState = this.store$.selectSignal(getTestReportState);
 
-  isRemoveFaultMode = false;
-  hasDrivingFault = false;
-
-  isSeriousMode = false;
-  hasSeriousFault = false;
-
-  isDangerousMode = false;
-  hasDangerousFault = false;
-
-  allowRipple = true;
+  get isRemoveFaultMode(): boolean {
+    return isRemoveFaultMode(this.testReportState());
+  }
+  get hasDrivingFault(): boolean {
+    return hasCompetencyDrivingFault(this.singleFaultCompetencies(), this.competency);
+  }
+  get isSeriousMode(): boolean {
+    return isSeriousMode(this.testReportState());
+  }
+  get hasSeriousFault(): boolean {
+    return hasCompetencySeriousFault(this.singleFaultCompetencies(), this.competency);
+  }
+  get isDangerousMode(): boolean {
+    return isDangerousMode(this.testReportState());
+  }
+  get hasDangerousFault(): boolean {
+    return hasCompetencyDangerousFault(this.singleFaultCompetencies(), this.competency);
+  }
+  get allowRipple(): boolean {
+    return this.canButtonRipple();
+  }
 
   constructor(private store$: Store<StoreModel>) {}
-
-  ngOnInit(): void {
-    const singleFaultCompetencies$ = this.store$.pipe(
-      select(getTests),
-      select(getCurrentTest),
-      select(getTestData),
-      select(getSingleFaultCompetencies)
-    );
-
-    this.singleFaultCompetencyState = {
-      isRemoveFaultMode$: this.store$.pipe(select(getTestReportState), select(isRemoveFaultMode)),
-      isSeriousMode$: this.store$.pipe(select(getTestReportState), select(isSeriousMode)),
-      isDangerousMode$: this.store$.pipe(select(getTestReportState), select(isDangerousMode)),
-      hasDrivingFault$: singleFaultCompetencies$.pipe(
-        select((singleFaultCompetencies) => hasCompetencyDrivingFault(singleFaultCompetencies, this.competency))
-      ),
-      hasSeriousFault$: singleFaultCompetencies$.pipe(
-        select((singleFaultCompetencies) => hasCompetencySeriousFault(singleFaultCompetencies, this.competency))
-      ),
-      hasDangerousFault$: singleFaultCompetencies$.pipe(
-        select((singleFaultCompetencies) => hasCompetencyDangerousFault(singleFaultCompetencies, this.competency))
-      ),
-    };
-
-    const {
-      isRemoveFaultMode$,
-      isSeriousMode$,
-      isDangerousMode$,
-      hasDrivingFault$,
-      hasSeriousFault$,
-      hasDangerousFault$,
-    } = this.singleFaultCompetencyState;
-
-    const merged$ = merge(
-      isRemoveFaultMode$.pipe(map((toggle) => (this.isRemoveFaultMode = toggle))),
-      isSeriousMode$.pipe(map((toggle) => (this.isSeriousMode = toggle))),
-      isDangerousMode$.pipe(map((toggle) => (this.isDangerousMode = toggle))),
-      hasDrivingFault$.pipe(map((hasfault) => (this.hasDrivingFault = hasfault))),
-      hasSeriousFault$.pipe(map((hasfault) => (this.hasSeriousFault = hasfault))),
-      hasDangerousFault$.pipe(map((hasfault) => (this.hasDangerousFault = hasfault)))
-    ).pipe(tap(this.canButtonRipple));
-
-    this.subscription = merged$.pipe(takeUntil(trDestroy$)).subscribe();
-  }
-
-  ngOnDestroy(): void {
-    if (this.subscription) {
-      this.subscription.unsubscribe();
-    }
-  }
 
   onTap = () => {
     this.addOrRemoveFault();
@@ -132,33 +83,28 @@ export class SingleFaultCompetencyComponent implements OnInit, OnDestroy {
     this.addOrRemoveFault(true);
   };
 
-  canButtonRipple = (): void => {
+  canButtonRipple = (): boolean => {
     if (this.isRemoveFaultMode) {
       if (this.hasDangerousFault && this.isDangerousMode) {
-        this.allowRipple = true;
-        return;
+        return true;
       }
 
       if (this.hasSeriousFault && this.isSeriousMode) {
-        this.allowRipple = true;
-        return;
+        return true;
       }
 
       if (!this.isSeriousMode && !this.isDangerousMode && this.hasDrivingFault) {
-        this.allowRipple = true;
-        return;
+        return true;
       }
 
-      this.allowRipple = false;
-      return;
+      return false;
     }
 
     if (this.competencyHasFault()) {
-      this.allowRipple = false;
-      return;
+      return false;
     }
 
-    this.allowRipple = true;
+    return true;
   };
 
   getLabel = (): string => competencyLabels[this.competency];

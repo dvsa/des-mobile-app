@@ -1,5 +1,6 @@
-import { AsyncPipe, DatePipe } from '@angular/common';
-import { Component, EventEmitter, Input, OnChanges, Output, ViewChild } from '@angular/core';
+import { DatePipe } from '@angular/common';
+import { Component, EventEmitter, Input, OnChanges, Output, ViewChild, signal } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { SearchablePicklistComponentWrapper } from '@components/common/searchable-picklist-wrapper/searchable-picklist-wrapper';
 import { TestSlotComponent } from '@components/test-slot/test-slot/test-slot';
 import { Candidate, TestCentre, TestSlot } from '@dvsa/mes-journal-schema';
@@ -36,7 +37,6 @@ export type CandidateData = {
     IonCol,
     IonList,
     TestSlotComponent,
-    AsyncPipe,
     DatePipe,
   ],
 })
@@ -73,13 +73,14 @@ export class CandidateSearchCardComponent implements OnChanges {
 
   today: DateTime = new DateTime();
   tomorrow: DateTime = new DateTime().add(1, Duration.DAY);
-  candidateTestSlots: CandidateTestSlot[] = [];
-  todaySlots: CandidateTestSlot[];
-  tomorrowSlots: CandidateTestSlot[];
-  shouldShowCandidateResults: boolean;
-  selectedCandidateName: string;
-  selectedCandidate: CandidateData;
-  enableShowBookingButton = false;
+  candidateTestSlots = signal<CandidateTestSlot[]>([]);
+  todaySlots = signal<CandidateTestSlot[]>([]);
+  tomorrowSlots = signal<CandidateTestSlot[]>([]);
+  shouldShowCandidateResults = signal(false);
+  selectedCandidateName = signal<string>(null);
+  selectedCandidate = signal<CandidateData>(null);
+  enableShowBookingButton = signal(false);
+  readonly isPortrait = toSignal(this.orientationMonitorProvider.isPortraitMode$, { initialValue: false });
 
   constructor(
     private store$: Store<StoreModel>,
@@ -117,7 +118,7 @@ export class CandidateSearchCardComponent implements OnChanges {
   };
 
   createCandidateSlots(examinersData: Examiner[], candidateName: string): void {
-    this.candidateTestSlots = [];
+    const candidateTestSlots: CandidateTestSlot[] = [];
     examinersData.forEach((examiner) => {
       if (examiner.journal?.testSlots && examiner.journal.testSlots.length > 0) {
         examiner.journal?.testSlots
@@ -125,7 +126,7 @@ export class CandidateSearchCardComponent implements OnChanges {
           .forEach((testSlot) => {
             const { candidate } = testSlot.booking;
             if (this.getCandidateName(candidate) === candidateName) {
-              this.candidateTestSlots.push({
+              candidateTestSlots.push({
                 slot: testSlot,
                 examinerName: examiner.name,
               });
@@ -133,16 +134,17 @@ export class CandidateSearchCardComponent implements OnChanges {
           });
       }
     });
+    this.candidateTestSlots.set(candidateTestSlots);
     this.createTodayTomorrowSlots();
   }
 
   createTodayTomorrowSlots(): void {
-    this.todaySlots = this.filterTestSlotsByDay(this.today);
-    this.tomorrowSlots = this.filterTestSlotsByDay(this.tomorrow);
+    this.todaySlots.set(this.filterTestSlotsByDay(this.today));
+    this.tomorrowSlots.set(this.filterTestSlotsByDay(this.tomorrow));
   }
 
   private filterTestSlotsByDay = (dateTime: DateTime): CandidateTestSlot[] => {
-    return this.candidateTestSlots.filter((candidateTestSlot: CandidateTestSlot) => {
+    return this.candidateTestSlots().filter((candidateTestSlot: CandidateTestSlot) => {
       return DateTime.at(candidateTestSlot.slot.slotDetail.start).daysDiff(dateTime) === 0;
     });
   };
@@ -151,15 +153,15 @@ export class CandidateSearchCardComponent implements OnChanges {
     `${candidate.candidateName.firstName} ${candidate.candidateName.lastName}`;
 
   onCandidateDidChange(candidate: CandidateData): void {
-    this.shouldShowCandidateResults = false;
+    this.shouldShowCandidateResults.set(false);
     const isValidCandidate: boolean = !!candidate?.name;
-    this.enableShowBookingButton = isValidCandidate;
+    this.enableShowBookingButton.set(isValidCandidate);
 
     if (isValidCandidate) {
-      this.selectedCandidate = candidate;
-      this.selectedCandidateName = candidate.name;
+      this.selectedCandidate.set(candidate);
+      this.selectedCandidateName.set(candidate.name);
       this.store$.dispatch(TestCentreJournalSelectCandidate());
-      this.createCandidateSlots(this.testCentreResults.examiners, this.selectedCandidateName);
+      this.createCandidateSlots(this.testCentreResults.examiners, this.selectedCandidateName());
     }
   }
 
@@ -171,14 +173,14 @@ export class CandidateSearchCardComponent implements OnChanges {
   }
 
   showResults(): void {
-    this.shouldShowCandidateResults = true;
+    this.shouldShowCandidateResults.set(true);
     this.store$.dispatch(TestCentreJournalShowBookings());
   }
 
   onManualRefresh(): void {
     // reset all values on refresh
-    this.shouldShowCandidateResults = false;
-    this.enableShowBookingButton = false;
+    this.shouldShowCandidateResults.set(false);
+    this.enableShowBookingButton.set(false);
     this.candidateTypeAheadDropDown.clearInput();
   }
 

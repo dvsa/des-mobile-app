@@ -1,9 +1,8 @@
-import { Injectable } from '@angular/core';
+import { Injectable, computed } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { Device } from '@capacitor/device';
-import { BatteryInfo, DeviceId, DeviceInfo } from '@capacitor/device/dist/esm/definitions';
-import { Store, select } from '@ngrx/store';
-import { from, merge } from 'rxjs';
-import { concatAll, map, tap, toArray } from 'rxjs/operators';
+import { Store } from '@ngrx/store';
+import { from } from 'rxjs';
 
 import { NetworkConnectionStatus, NetworkStateProvider } from '@providers/network-state/network-state';
 import { serialiseLogMessage } from '@shared/helpers/serialise-log-message';
@@ -15,44 +14,17 @@ import { selectEmployeeId, selectVersionNumber } from '@store/app-info/app-info.
   providedIn: 'root',
 })
 export class LogHelper {
-  private appVersion: string;
-  private employeeId: string;
-  private deviceId: string;
-  private iosVersion: string;
-  private deviceInfo: DeviceInfo;
-  private battery: number;
+  private readonly appVersion = this.store$.selectSignal(selectVersionNumber);
+  private readonly employeeId = this.store$.selectSignal(selectEmployeeId);
+  private readonly deviceDetails = toSignal(
+    from(Promise.all([Device.getId(), Device.getInfo(), Device.getBatteryInfo()]))
+  );
+  private readonly deviceInfo = computed(() => this.deviceDetails()?.[1]);
 
   constructor(
     private store$: Store<StoreModel>,
     private networkStateProvider: NetworkStateProvider
-  ) {
-    const versionNumber$ = this.store$.pipe(
-      select(selectVersionNumber),
-      map((appVersion) => {
-        this.appVersion = appVersion;
-      })
-    );
-
-    const employeeId$ = this.store$.pipe(
-      select(selectEmployeeId),
-      map((employeeId) => {
-        this.employeeId = employeeId;
-      })
-    );
-
-    const deviceInfo$ = from([Device.getId(), Device.getInfo(), Device.getBatteryInfo()]).pipe(
-      concatAll(),
-      toArray(),
-      tap(([id, deviceInfo, battery]) => {
-        this.deviceId = (id as DeviceId).identifier;
-        this.iosVersion = (deviceInfo as DeviceInfo).osVersion?.toString();
-        this.deviceInfo = deviceInfo as DeviceInfo;
-        this.battery = (battery as BatteryInfo).batteryLevel;
-      })
-    );
-
-    merge(versionNumber$, employeeId$, deviceInfo$).subscribe();
-  }
+  ) {}
 
   createLog(logType: LogType, desc: string, msg: unknown): Log {
     return {
@@ -60,14 +32,14 @@ export class LogHelper {
       type: logType,
       timestamp: Date.now(),
       description: desc,
-      appVersion: this.appVersion,
-      iosVersion: this.iosVersion,
-      deviceId: this.deviceId,
-      drivingExaminerId: this.employeeId,
+      appVersion: this.appVersion(),
+      iosVersion: this.deviceInfo()?.osVersion?.toString(),
+      deviceId: this.deviceDetails()?.[0].identifier,
+      drivingExaminerId: this.employeeId(),
       metaData: {
         online: this.networkStateProvider.getNetworkState() === NetworkConnectionStatus.ONLINE,
-        batteryLevel: this.battery,
-        memUsed: this.deviceInfo?.memUsed,
+        batteryLevel: this.deviceDetails()?.[2].batteryLevel,
+        memUsed: this.deviceInfo()?.memUsed,
       },
     };
   }

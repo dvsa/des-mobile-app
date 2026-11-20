@@ -15,7 +15,6 @@ import {
   SafetyQuestionSelected,
 } from '@store/tests/test-data/cat-a-mod2/safety-and-balance/safety-and-balance.cat-a-mod2.actions';
 import { MockComponent } from 'ng-mocks';
-import { Subscription } from 'rxjs';
 import * as vehicleChecksModalActions from '../vehicle-checks-modal.cat-a-mod2.actions';
 import { VehicleChecksCatAMod2Modal } from '../vehicle-checks-modal.cat-a-mod2.page';
 
@@ -44,15 +43,6 @@ describe('VehicleChecksCatAMod2Modal', () => {
   describe('Class', () => {
     it('should compile', () => {
       expect(component).toBeDefined();
-    });
-
-    describe('ionViewDidLeave', () => {
-      it('should unsubscribe from the subscription if there is one', () => {
-        component.subscription = new Subscription();
-        vi.spyOn(component.subscription, 'unsubscribe').mockReturnValue(undefined);
-        component.ionViewDidLeave();
-        expect(component.subscription.unsubscribe).toHaveBeenCalled();
-      });
     });
 
     describe('safetyQuestionChanged', () => {
@@ -129,17 +119,13 @@ describe('VehicleChecksCatAMod2Modal', () => {
 
     describe('shouldDisplayBanner', () => {
       it('should return false if there are no riding faults', () => {
-        component.safetyAndBalanceQuestionsScore = {
-          drivingFaults: 0,
-        };
+        vi.spyOn(component, 'safetyAndBalanceQuestionsScore').mockReturnValue({ drivingFaults: 0 });
 
         expect(component.shouldDisplayBanner()).toBeFalsy();
       });
 
       it('should return true if there is 1 riding fault', () => {
-        component.safetyAndBalanceQuestionsScore = {
-          drivingFaults: 1,
-        };
+        vi.spyOn(component, 'safetyAndBalanceQuestionsScore').mockReturnValue({ drivingFaults: 1 });
 
         expect(component.shouldDisplayBanner()).toBeTruthy();
       });

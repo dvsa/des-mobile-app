@@ -1,4 +1,5 @@
-import { TestBed } from '@angular/core/testing';
+import { Component } from '@angular/core';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TestResultSchemasUnion } from '@dvsa/mes-test-schema/categories';
 import { ModalController, Platform } from '@ionic/angular';
@@ -6,7 +7,6 @@ import { ActivatedRouteMock, ModalControllerMock, PlatformMock, RouterMock } fro
 import { provideMockStore } from '@ngrx/store/testing';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 
-import { Injector } from '@angular/core';
 import { CatADI2UniqueTypes } from '@dvsa/mes-test-schema/categories/ADI2';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { TestFlowPageNames } from '@pages/page-names.constants';
@@ -37,9 +37,20 @@ import { TestStatus } from '@store/tests/test-status/test-status.model';
 import { TestsModel } from '@store/tests/tests.model';
 import { TestReportBasePageComponent } from '../test-report-base-page';
 
+@Component({
+  standalone: true,
+  template: '',
+})
+class TestReportBasePageTestComponent extends TestReportBasePageComponent {
+  constructor() {
+    super(false);
+  }
+}
+
 describe('TestReportBasePageComponent', () => {
-  let injector: Injector;
-  let basePageComponent: TestReportBasePageComponent;
+  let fixture: ComponentFixture<TestReportBasePageTestComponent>;
+  let basePageComponent: TestReportBasePageTestComponent;
+  let validator: TestReportValidatorProviderMock;
   const initialState = {
     tests: {
       currentTest: { slotId: '1234' },
@@ -54,6 +65,7 @@ describe('TestReportBasePageComponent', () => {
               },
             },
           },
+          testData: {},
         } as TestResultSchemasUnion,
       },
       testStatus: { 1234: TestStatus.Booked },
@@ -62,6 +74,7 @@ describe('TestReportBasePageComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
+      imports: [TestReportBasePageTestComponent],
       providers: [
         {
           provide: Platform,
@@ -103,7 +116,10 @@ describe('TestReportBasePageComponent', () => {
       ],
     });
 
-    injector = TestBed.inject(Injector);
+    validator = TestBed.inject(TestReportValidatorProvider) as unknown as TestReportValidatorProviderMock;
+    fixture = TestBed.createComponent(TestReportBasePageTestComponent);
+    basePageComponent = fixture.componentInstance;
+    fixture.detectChanges();
   });
 
   describe('getTestRequirements', () => {
@@ -217,15 +233,6 @@ describe('TestReportBasePageComponent', () => {
     });
   });
 
-  describe('cancelSubscription', () => {
-    it('should unsubscribe from the subscription if there is one', () => {
-      basePageComponent.subscription = new Subscription();
-      vi.spyOn(basePageComponent.subscription, 'unsubscribe').mockReturnValue(undefined);
-      basePageComponent.cancelSubscription();
-      expect(basePageComponent.subscription.unsubscribe).toHaveBeenCalled();
-    });
-  });
-
   describe('toggleReportOverlay', () => {
     it('should toggle displayOverlay', () => {
       basePageComponent.displayOverlay = false;
@@ -236,13 +243,13 @@ describe('TestReportBasePageComponent', () => {
 
   describe('onEndTestClick', () => {
     it('should create LegalRequirementsModal if test report is invalid', async () => {
-      basePageComponent.isTestReportValid = false;
+      validator.isTestReportValid.mockReturnValue(false);
       vi.spyOn(basePageComponent.modalController, 'create');
       await basePageComponent.onEndTestClick();
       expect(basePageComponent.modalController.create).toHaveBeenCalledWith({
         component: LegalRequirementsModal,
         componentProps: {
-          legalRequirements: basePageComponent.missingLegalRequirements,
+          legalRequirements: basePageComponent.missingLegalRequirements(),
           isDelegated: basePageComponent.isDelegated,
         },
         cssClass: 'mes-modal-alert text-zoom-regular',
@@ -250,8 +257,7 @@ describe('TestReportBasePageComponent', () => {
     });
 
     it('should create EtaInvalidModal if ETA is invalid', async () => {
-      basePageComponent.isTestReportValid = true;
-      basePageComponent.isEtaValid = false;
+      validator.isETAValid.mockReturnValue(false);
       vi.spyOn(basePageComponent.modalController, 'create');
       await basePageComponent.onEndTestClick();
       expect(basePageComponent.modalController.create).toHaveBeenCalledWith({
@@ -261,10 +267,7 @@ describe('TestReportBasePageComponent', () => {
     });
 
     it('should create SpecialLegalRequirementModal if manoeuvres are not completed and category is F, G, or H', async () => {
-      basePageComponent.isTestReportValid = true;
-      basePageComponent.isEtaValid = true;
-      basePageComponent.manoeuvresCompleted = false;
-      basePageComponent.testCategory = TestCategory.F;
+      basePageComponent.category = TestCategory.F;
       vi.spyOn(basePageComponent.modalController, 'create');
       await basePageComponent.onEndTestClick();
       expect(basePageComponent.modalController.create).toHaveBeenCalledWith({
@@ -274,9 +277,7 @@ describe('TestReportBasePageComponent', () => {
     });
 
     it('should create EndTestModal if all conditions are met', async () => {
-      basePageComponent.isTestReportValid = true;
-      basePageComponent.isEtaValid = true;
-      basePageComponent.manoeuvresCompleted = true;
+      basePageComponent.category = TestCategory.B;
       vi.spyOn(basePageComponent.modalController, 'create');
       await basePageComponent.onEndTestClick();
       expect(basePageComponent.modalController.create).toHaveBeenCalledWith({
@@ -287,9 +288,7 @@ describe('TestReportBasePageComponent', () => {
 
     it('should call onModalDismiss with data from modal onWillDismiss', async () => {
       const modalData = { data: ModalEvent.CONTINUE };
-      basePageComponent.isTestReportValid = true;
-      basePageComponent.isEtaValid = true;
-      basePageComponent.manoeuvresCompleted = true;
+      basePageComponent.category = TestCategory.B;
       vi.spyOn(basePageComponent.modalController, 'create').mockReturnValue(
         Promise.resolve({
           present: () => Promise.resolve(),
@@ -352,21 +351,7 @@ describe('TestReportBasePageComponent', () => {
   });
 
   describe('ionViewDidEnter', () => {
-    it('should setup subscription if none exists', () => {
-      basePageComponent.subscription = null;
-      vi.spyOn(basePageComponent, 'setupSubscription').mockReturnValue(undefined);
-      basePageComponent.ionViewDidEnter();
-      expect(basePageComponent.setupSubscription).toHaveBeenCalled();
-    });
-    it('should setup subscription if existing subscription is closed', () => {
-      basePageComponent.subscription = new Subscription();
-      basePageComponent.subscription.unsubscribe(); // Manually close the subscription
-      vi.spyOn(basePageComponent, 'setupSubscription').mockReturnValue(undefined);
-      basePageComponent.ionViewDidEnter();
-      expect(basePageComponent.setupSubscription).toHaveBeenCalled();
-    });
     it('should dispatch TestReportViewDidEnter action', () => {
-      basePageComponent.subscription = new Subscription();
       vi.spyOn(basePageComponent.store$, 'dispatch').mockReturnValue(undefined);
       basePageComponent.ionViewDidEnter();
       expect(basePageComponent.store$.dispatch).toHaveBeenCalledWith(TestReportViewDidEnter());

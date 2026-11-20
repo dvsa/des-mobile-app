@@ -1,5 +1,9 @@
+import { createSelector } from '@ngrx/store';
+import { getFormattedApplicationReference } from '@shared/helpers/formatters';
+import { getApplicationNumber } from '@store/tests/journal-data/common/application-reference/application-reference.selector';
+import { selectCurrentTest } from '@store/tests/tests.selector';
 import { isEmpty } from 'lodash-es';
-import { RekeySearchModel } from './rekey-search.reducer';
+import { RekeySearchModel, getRekeySearchState } from './rekey-search.reducer';
 
 export const getIsLoading = (rekeySearch: RekeySearchModel) => rekeySearch.isLoading;
 
@@ -22,3 +26,17 @@ export const getBookedTestSlot = (rekeySearch: RekeySearchModel) => {
 
   return rekeySearch.bookedTestSlot;
 };
+
+export const selectIsCurrentTestFromRekeySearch = createSelector(
+  getRekeySearchState,
+  selectCurrentTest,
+  (searchState, currentTest) => {
+    const slot = getBookedTestSlot(searchState);
+    return (
+      !isEmpty(slot) &&
+      !!currentTest &&
+      getFormattedApplicationReference(slot.booking?.application) ===
+        getApplicationNumber(currentTest.journalData.applicationReference)
+    );
+  }
+);

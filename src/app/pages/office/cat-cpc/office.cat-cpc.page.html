@@ -21,10 +21,10 @@
 
 <ion-content force-overscroll="false">
   <office-candidate-section
-    [candidateName]="pageState.candidateName$ | async"
-    [driverNumber]="pageState.candidateDriverNumber$ | async"
-    [startTime]="pageState.startTime$ | async"
-    [testOutcomeText]="pageState.testOutcomeText$ | async"
+    [candidateName]="candidateName()"
+    [driverNumber]="candidateDriverNumber()"
+    [startTime]="startTime()"
+    [testOutcomeText]="testOutcomeText()"
   >
   </office-candidate-section>
 
@@ -38,7 +38,7 @@
         <ion-grid class="grid">
           @if (isDelegated || isRekey) {
             <date-of-test
-              [dateOfTest]="pageState.startDate$ | async"
+              [dateOfTest]="startDate()"
               (setIsValidStartDateTime)="setIsValidStartDateTime($event)"
               (dateOfTestChange)="dateOfTestChanged($event)"
             >
@@ -54,7 +54,7 @@
                 <label>Booking reference</label>
               </ion-col>
               <ion-col class="ion-padding-start">
-                <span class="mes-data">{{ pageState.applicationNumber$ | async }}</span>
+                <span class="mes-data">{{ applicationNumber() }}</span>
               </ion-col>
             </ion-row>
           }
@@ -62,7 +62,7 @@
           <activity-code
             id="activity-code-card"
             [formGroup]="form"
-            [activityCodeModel]="pageState.activityCode$ | async"
+            [activityCodeModel]="activityCode()"
             [activityCodeOptions]="activityCodeOptions"
             (activityCodeChange)="activityCodeChanged($event)"
             [disabled]="!isDelegated"
@@ -73,7 +73,7 @@
             @if (isDelegated && isPass()) {
               <pass-certificate-number
                 [form]="form"
-                [passCertificateNumberInput]="pageState.passCertificateNumber$ | async"
+                [passCertificateNumberInput]="passCertificateNumber()"
                 (passCertificateNumberChange)="passCertificateNumberChanged($event)"
               >
               </pass-certificate-number>
@@ -81,7 +81,7 @@
               <pass-certificate-declaration
                 [label]="'Pass certificate declaration'"
                 [formGroup]="form"
-                [passCertificateNumberReceived]="pageState.passCertificateNumberReceived$ | async"
+                [passCertificateNumberReceived]="passCertificateNumberReceived()"
                 (passCertificateDeclarationChange)="passCertificateDeclarationChanged($event)"
               >
               </pass-certificate-declaration>
@@ -101,16 +101,16 @@
               [display]="isDelegated"
               [isDelegated]="isDelegated"
               [formGroup]="form"
-              [debriefWitnessed]="pageState.debriefWitnessed$ | async"
-              [outcome]="pageState.testOutcome$ | async"
+              [debriefWitnessed]="debriefWitnessed()"
+              [outcome]="testOutcome()"
               (debriefWitnessedChange)="debriefWitnessedChanged($event)"
             >
             </debrief-witnessed>
 
-            @if ((pageState.displayCandidateDescription$ | async) && !isDelegated) {
+            @if ((displayCandidateDescription()) && !isDelegated) {
               <true-likeness
                 [formGroup]="form"
-                [trueLikeness]="pageState.trueLikenessToPhoto$ | async"
+                [trueLikeness]="trueLikenessToPhoto()"
                 (trueLikenessChange)="trueLikenessToPhotoChanged($event)"
               >
               </true-likeness>
@@ -118,45 +118,45 @@
 
             @if (!isDelegated) {
               <candidate-description
-                [display]="(pageState.displayCandidateDescription$ | async)"
+                [display]="(displayCandidateDescription())"
                 [formGroup]="form"
-                [candidateDescription]="pageState.candidateDescription$ | async"
-                [outcome]="pageState.testOutcome$ | async"
-                [trueLikenessToPhoto]="pageState.trueLikenessToPhoto$ | async"
+                [candidateDescription]="candidateDescription()"
+                [outcome]="testOutcome()"
+                [trueLikenessToPhoto]="trueLikenessToPhoto()"
                 (candidateDescriptionChange)="candidateDescriptionChanged($event)"
               >
               </candidate-description>
 
               <identification
-                [display]="(pageState.displayIdentification$ | async)"
+                [display]="(displayIdentification())"
                 [formGroup]="form"
-                [identification]="pageState.identification$ | async"
-                [outcome]="pageState.testOutcome$ | async"
+                [identification]="identification()"
+                [outcome]="testOutcome()"
                 (identificationChange)="identificationChanged($event)"
               >
               </identification>
             }
 
             <office-registration-and-mot
-              [registrationNumber]="pageState.registrationNumber$ | async"
-              [previousVRNs]="pageState.previouslySearchedVRNs$ | async"
-              [vehicleMake]="pageState.vehicleMake$ | async"
-              [motStatus]="pageState.motStatus$ | async"
-              [motTestExpiryDate]="pageState.motTestExpiryDate$ | async"
-              [vehicleModel]="pageState.vehicleModel$ | async"
+              [registrationNumber]="registrationNumber()"
+              [previousVRNs]="previouslySearchedVRNs()"
+              [vehicleMake]="vehicleMake()"
+              [motStatus]="motStatus()"
+              [motTestExpiryDate]="motTestExpiryDate()"
+              [vehicleModel]="vehicleModel()"
             ></office-registration-and-mot>
 
-            @if ((pageState.motAlternativeEvidenceProvided$ | async) != null) {
+            @if ((motAlternativeEvidenceProvided()) != null) {
               <alternate-mot-evidence-provided
-                [alternativeEvidenceProvided]="pageState.motAlternativeEvidenceProvided$ | async"
-                [shouldHaveSeparator]="(pageState.motAlternativeEvidenceProvided$ | async) || (pageState.displayAdditionalInformation$ | async)"
+                [alternativeEvidenceProvided]="motAlternativeEvidenceProvided()"
+                [shouldHaveSeparator]="(motAlternativeEvidenceProvided()) || (displayAdditionalInformation())"
               ></alternate-mot-evidence-provided>
             }
 
-            @if (pageState.motAlternativeEvidenceProvided$ | async) {
+            @if (motAlternativeEvidenceProvided()) {
               <alternate-mot-evidence-description
-                [shouldHaveSeparator]="pageState.displayAdditionalInformation$ | async"
-                [alternateEvidenceDescription]="pageState.motAlternativeEvidenceDescription$ | async"
+                [shouldHaveSeparator]="displayAdditionalInformation()"
+                [alternateEvidenceDescription]="motAlternativeEvidenceDescription()"
                 (evidenceDescriptionTestResultChange)="alternativeMOTEvidenceDescriptionUpdated($event)"
                 [formGroup]="form"
               >
@@ -164,18 +164,18 @@
             }
 
             <additional-information
-              [display]="pageState.displayAdditionalInformation$ | async"
-              [additionalInformation]="pageState.additionalInformation$ | async"
+              [display]="displayAdditionalInformation()"
+              [additionalInformation]="additionalInformation()"
               [formGroup]="form"
-              [outcome]="pageState.testOutcome$ | async"
+              [outcome]="testOutcome()"
               (additionalInformationChange)="additionalInformationChanged($event)"
             >
             </additional-information>
 
-            @if (pageState.hasEnteredTeamsOnThisTest$ | async) {
+            @if (hasEnteredTeamsOnThisTest()) {
               <reason-for-entering-teams
-                [display]="pageState.hasEnteredTeamsOnThisTest$ | async"
-                [reasonForOpeningTeams]="pageState.reasonForEnteringTeams$ | async"
+                [display]="hasEnteredTeamsOnThisTest()"
+                [reasonForOpeningTeams]="reasonForEnteringTeams()"
                 [formGroup]="form"
                 (reasonForOpeningTeamsChange)="reasonForEnteringTeamsChanged($event)"
               ></reason-for-entering-teams>
@@ -183,16 +183,16 @@
 
             <accompaniment-card-cat-cpc
               [formGroup]="form"
-              [supervisorAccompaniment]="pageState.supervisorAccompaniment$ | async"
-              [interpreterAccompaniment]="pageState.interpreterAccompaniment$ | async"
+              [supervisorAccompaniment]="supervisorAccompaniment()"
+              [interpreterAccompaniment]="interpreterAccompaniment()"
               (supervisorAccompanimentChange)="supervisorAccompanimentToggledCPC()"
               (interpreterAccompanimentChange)="interpreterAccompanimentToggledCPC()"
             >
             </accompaniment-card-cat-cpc>
 
             <combination-office
-              [combination]="pageState.combination$ | async"
-              [combinationAdditionalText]="getCombinationAdditionalText(pageState.combination$ | async)"
+              [combination]="combination()"
+              [combinationAdditionalText]="getCombinationAdditionalText(combination())"
             >
             </combination-office>
 
@@ -200,19 +200,19 @@
               @if (!isDelegated) {
                 <assessment-report
                   [formGroup]="form"
-                  [assessmentReport]="pageState.assessmentReport$ | async"
+                  [assessmentReport]="assessmentReport()"
                   (assessmentReportChange)="assessmentReportChanged($event)"
                 >
                 </assessment-report>
               }
-              @if (pageState.combination$ | async) {
+              @if (combination()) {
                 <cpc-debrief-card
-                  [overallScore]="pageState.overallScore$ | async"
-                  [question1]="pageState.question1$ | async"
-                  [question2]="pageState.question2$ | async"
-                  [question3]="pageState.question3$ | async"
-                  [question4]="pageState.question4$ | async"
-                  [question5]="pageState.question5$ | async"
+                  [overallScore]="overallScore()"
+                  [question1]="question1()"
+                  [question2]="question2()"
+                  [question3]="question3()"
+                  [question4]="question4()"
+                  [question5]="question5()"
                   [testOutcome]="outcome"
                 >
                 </cpc-debrief-card>

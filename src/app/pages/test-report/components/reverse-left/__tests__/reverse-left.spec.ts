@@ -46,7 +46,7 @@ describe('ReverseLeftComponent', () => {
                 testData: {
                   dangerousFaults: {},
                   drivingFaults: {},
-                  manoeuvres: {},
+                  manoeuvres: { reverseLeft: { selected: true } },
                   seriousFaults: {},
                   testRequirements: {},
                   ETA: {},
@@ -97,26 +97,35 @@ describe('ReverseLeftComponent', () => {
   });
 
   describe('Class', () => {
+    it('updates the selection when a category input arrives after the first read', () => {
+      expect(component.completedReverseLeft).toBe(false);
+      expect(component.hasFaults()).toBe(false);
+
+      fixture.componentRef.setInput('testCategory', TestCategory.C);
+
+      expect(component.completedReverseLeft).toBe(true);
+    });
+
     describe('hasFaults', () => {
       it('should return TRUE if there are any driving faults', () => {
-        component.drivingFaults = 1;
+        vi.spyOn(component, 'drivingFaults', 'get').mockReturnValue(1);
         const result = component.hasFaults();
         expect(result).toEqual(true);
       });
       it('should return TRUE if there is a serious fault', () => {
-        component.hasSeriousFault = true;
+        vi.spyOn(component, 'hasSeriousFault', 'get').mockReturnValue(true);
         const result = component.hasFaults();
         expect(result).toEqual(true);
       });
       it('should return TRUE if there is a dangerous fault', () => {
-        component.hasDangerousFault = true;
+        vi.spyOn(component, 'hasDangerousFault', 'get').mockReturnValue(true);
         const result = component.hasFaults();
         expect(result).toEqual(true);
       });
       it('should return FALSE if there are no faults', () => {
-        component.drivingFaults = 0;
-        component.hasSeriousFault = false;
-        component.hasDangerousFault = false;
+        vi.spyOn(component, 'drivingFaults', 'get').mockReturnValue(0);
+        vi.spyOn(component, 'hasSeriousFault', 'get').mockReturnValue(false);
+        vi.spyOn(component, 'hasDangerousFault', 'get').mockReturnValue(false);
         const result = component.hasFaults();
         expect(result).toEqual(false);
       });
@@ -149,10 +158,7 @@ describe('ReverseLeftComponent', () => {
       describe('when reverseLeft is selected and there are no faults', () => {
         it('should deselect the manoeuvre', () => {
           const storeDispatchSpy = vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
-          component.testCategory = TestCategory.C;
-          // Test category has to be defined otherwise provider will throw an error trying to fetch an undefined cat
-          component.ngOnInit();
-          component.completedReverseLeft = true;
+          fixture.componentRef.setInput('testCategory', TestCategory.C);
           component.toggleReverseLeft();
           expect(storeDispatchSpy).toHaveBeenCalledWith(RecordManoeuvresDeselection(ManoeuvreTypes.reverseLeft));
         });
@@ -160,7 +166,7 @@ describe('ReverseLeftComponent', () => {
       describe('when reverseLeft is not selected', () => {
         it('should record the manoeuvre', () => {
           const storeDispatchSpy = vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
-          component.completedReverseLeft = false;
+          vi.spyOn(component, 'completedReverseLeft', 'get').mockReturnValue(false);
           component.toggleReverseLeft();
           expect(storeDispatchSpy).toHaveBeenCalledWith(RecordManoeuvresSelection(ManoeuvreTypes.reverseLeft));
         });

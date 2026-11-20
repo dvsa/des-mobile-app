@@ -3,72 +3,74 @@
     <ion-grid>
       <ion-row class="flex-center">
         <ion-text id="activity-code-{{applicationId}}" class="des-header-style-2 activity-code"
-          >{{activityCode}}</ion-text
-          >
-        </ion-row>
-      </ion-grid>
-    </div>
-  }
-  @if (showTestActionButton && !showOutcome()) {
-    <div>
-      @if (showRekeyButton()) {
+        >{{ activityCode }}
+        </ion-text
+        >
+      </ion-row>
+    </ion-grid>
+  </div>
+}
+@if (showTestActionButton && !showOutcome()) {
+  <div>
+    @if (showRekeyButton()) {
+      <ion-col class="flex-center">
+        <ion-button
+          id="rekey-button-{{applicationId}}"
+          class="generic-button mes-rekey-button"
+          (click)="rekeyTest()"
+          [disabled]="!canStartTest"
+        >
+          <ion-text class="des-header-style-3 write-up-label">Rekey</ion-text>
+        </ion-button>
+      </ion-col>
+    } @else {
+      @if (showDelegatedExaminerRekeyButton()) {
         <ion-col class="flex-center">
           <ion-button
-            id="rekey-button-{{applicationId}}"
+            id="write-up-rekey-button-{{applicationId}}"
             class="generic-button mes-rekey-button"
-            (click)="rekeyTest()"
-            [disabled]="!canStartTest"
-            >
+            (click)="rekeyDelegatedTest()"
+          >
             <ion-text class="des-header-style-3 write-up-label">Rekey</ion-text>
           </ion-button>
         </ion-col>
-      } @else {
-        @if (showDelegatedExaminerRekeyButton()) {
-          <ion-col class="flex-center">
-            <ion-button
-              id="write-up-rekey-button-{{applicationId}}"
-              class="generic-button mes-rekey-button"
-              (click)="rekeyDelegatedTest()"
-              >
-              <ion-text class="des-header-style-3 write-up-label">Rekey</ion-text>
-            </ion-button>
-          </ion-col>
-        }
-        @if (showResumeButton()) {
-          <ion-col class="flex-center">
-            <ion-button
-              id="resume-button-{{applicationId}}"
-              class="generic-button mes-secondary-button"
-              (click)="clickStartOrResumeTest()"
-              >
-              <ion-text class="des-header-style-3 write-up-label">Resume</ion-text>
-            </ion-button>
-          </ion-col>
-        }
-        @if (showStartTestButton()) {
-          }
-        @if (showStartTestButton()) {<ion-col class="flex-center">
-            <ion-button
-              id="start-test-button-{{applicationId}}"
-              class="mes-primary-button"
-              (click)="clickStartOrResumeTest()"
-              [disabled]="!canStartTest"
-              >
-              <ion-text class="des-header-style-3">Start test</ion-text>
-            </ion-button>
-          </ion-col>
-        }
-        @if (showWriteUpButton()) {
-          <ion-col class="display-flex">
-            <ion-button
-        class="mes-secondary-buttonmes-warning-button mes-warning-button"
-        (click)="writeUpTest()"
-        id="write-up-button-{{applicationId}}"
-            >
-              <ion-text class="mes-black des-header-style-3">Write-up</ion-text>
-            </ion-button>
-          </ion-col>
-        }
       }
-    </div>
-  }
+      @if (showResumeButton()) {
+        <ion-col class="flex-center">
+          <ion-button
+            id="resume-button-{{applicationId}}"
+            class="generic-button mes-secondary-button"
+            (click)="clickStartOrResumeTest()"
+          >
+            <ion-text class="des-header-style-3 write-up-label">Resume</ion-text>
+          </ion-button>
+        </ion-col>
+      }
+      @if (showStartTestButton()) {
+      }
+      @if (showStartTestButton()) {
+        <ion-col class="flex-center">
+          <ion-button
+            id="start-test-button-{{applicationId}}"
+            class="mes-primary-button"
+            (click)="clickStartOrResumeTest()"
+            [disabled]="!canStartTest"
+          >
+            <ion-text class="des-header-style-3">Start test</ion-text>
+          </ion-button>
+        </ion-col>
+      }
+      @if (showWriteUpButton()) {
+        <ion-col class="display-flex">
+          <ion-button
+            class="mes-secondary-button mes-warning-button"
+            (click)="writeUpTest()"
+            id="write-up-button-{{applicationId}}"
+          >
+            <ion-text class="mes-black des-header-style-3">Write-up</ion-text>
+          </ion-button>
+        </ion-col>
+      }
+    }
+  </div>
+}

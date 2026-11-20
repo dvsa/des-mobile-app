@@ -13,8 +13,11 @@ import { JOURNAL_PAGE } from '@pages/page-names.constants';
 import { RouteByCategoryProviderMock } from '@providers/route-by-category/__mocks__/route-by-category.mock';
 import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
 import { BasePageComponent } from '@shared/classes/base-page';
+import { trDestroy$ } from '@shared/classes/test-flow-base-pages/test-report/test-report-base-page';
+import { wrtcDestroy$ } from '@shared/classes/test-flow-base-pages/waiting-room-to-car/waiting-room-to-car-base-page';
 import { StoreModel } from '@shared/models/store.model';
 import { MockComponent } from 'ng-mocks';
+import { take } from 'rxjs';
 
 import { BackToOfficePage, NavigationTarget } from '../back-to-office.page';
 
@@ -60,6 +63,24 @@ describe('BackToOfficePage', () => {
   });
 
   describe('Class', () => {
+    it('notifies waiting-room and test-report subscribers on successive visits', () => {
+      for (let visit = 0; visit < 2; visit++) {
+        const waitingRoomCleanup = vi.fn();
+        const testReportCleanup = vi.fn();
+        const waitingRoomSubscription = wrtcDestroy$.pipe(take(1)).subscribe(waitingRoomCleanup);
+        const testReportSubscription = trDestroy$.pipe(take(1)).subscribe(testReportCleanup);
+
+        try {
+          component.ngOnInit();
+          expect(waitingRoomCleanup).toHaveBeenCalledOnce();
+          expect(testReportCleanup).toHaveBeenCalledOnce();
+        } finally {
+          waitingRoomSubscription.unsubscribe();
+          testReportSubscription.unsubscribe();
+        }
+      }
+    });
+
     describe('ionViewDidEnter', () => {
       it('should disable test inhibitions when in practice mode', async () => {
         vi.spyOn(BasePageComponent.prototype, 'unlockDevice').mockReturnValue(undefined);

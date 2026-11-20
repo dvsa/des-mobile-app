@@ -1,5 +1,5 @@
-import { AsyncPipe } from '@angular/common';
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, Injector, OnInit, Signal } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { FormsModule, ReactiveFormsModule, UntypedFormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ScreenOrientation } from '@capawesome/capacitor-screen-orientation';
@@ -29,7 +29,7 @@ import {
   ModalController,
 } from '@ionic/angular';
 import { ScrollDetail } from '@ionic/core';
-import { Store, select } from '@ngrx/store';
+import { Store } from '@ngrx/store';
 import { ExaminerRecordsLearnMoreModal } from '@pages/examiner-records/components/examiner-records-learn-more-modal/examiner-records-learn-more-modal';
 import { ExaminerReportsCardClick } from '@pages/examiner-records/components/examiner-reports-card/examiner-reports-card';
 import {
@@ -89,7 +89,7 @@ import { TestStatus } from '@store/tests/test-status/test-status.model';
 import { getTests } from '@store/tests/tests.reducer';
 import { getStartedTests, getTestStatuses } from '@store/tests/tests.selector';
 import { BehaviorSubject, Observable, Subscription, combineLatest, merge, of } from 'rxjs';
-import { map, switchMap, take, tap, withLatestFrom } from 'rxjs/operators';
+import { map, switchMap, tap, withLatestFrom } from 'rxjs/operators';
 import { ColourFilterRadioComponent } from './components/colour-filter-radio/colour-filter-radio';
 import { ExaminerRecordsLabelTextComponent } from './components/examiner-records-label-text/examiner-records-label-text';
 import { ExaminerReportsCard } from './components/examiner-reports-card/examiner-reports-card';
@@ -107,23 +107,6 @@ export interface ExaminerRecordsPageStateData {
   circuits: ExaminerRecordDataWithPercentage<string>[];
   locationList: ExaminerRecordData<TestCentre>[];
   categoryList: ExaminerRecordData<TestCategory>[];
-}
-
-interface ExaminerRecordsState {
-  cachedRecords$: Observable<ExaminerRecordModel[]>;
-  isLoadingRecords$: Observable<boolean>;
-  routeNumbers$: Observable<ExaminerRecordDataWithPercentage<string>[]>;
-  manoeuvres$: Observable<ExaminerRecordDataWithPercentage<string>[]>;
-  showMeQuestions$: Observable<ExaminerRecordDataWithPercentage<string>[]>;
-  tellMeQuestions$: Observable<ExaminerRecordDataWithPercentage<string>[]>;
-  safetyQuestions$: Observable<ExaminerRecordDataWithPercentage<string>[]>;
-  balanceQuestions$: Observable<ExaminerRecordDataWithPercentage<string>[]>;
-  independentDriving$: Observable<ExaminerRecordDataWithPercentage<string>[]>;
-  testCount$: Observable<number>;
-  locationList$: Observable<ExaminerRecordData<TestCentre>[]>;
-  categoryList$: Observable<ExaminerRecordData<TestCategory>[]>;
-  emergencyStops$: Observable<ExaminerRecordDataWithPercentage<string>[]>;
-  circuits$: Observable<ExaminerRecordDataWithPercentage<string>[]>;
 }
 
 @Component({
@@ -155,7 +138,6 @@ interface ExaminerRecordsState {
     IonCardHeader,
     IonCardTitle,
     IonCardContent,
-    AsyncPipe,
   ],
 })
 export class ExaminerRecordsPage implements OnInit {
@@ -167,7 +149,18 @@ export class ExaminerRecordsPage implements OnInit {
   rangeSubject$: BehaviorSubject<DateRange> = new BehaviorSubject<DateRange>(null);
   locationSubject$: BehaviorSubject<string> = new BehaviorSubject<string>(null);
   categorySubject$: BehaviorSubject<TestCategory> = new BehaviorSubject<TestCategory>(null);
-  pageState: ExaminerRecordsState;
+  routeNumbers: Signal<ExaminerRecordDataWithPercentage<string>[]>;
+  manoeuvres: Signal<ExaminerRecordDataWithPercentage<string>[]>;
+  showMeQuestions: Signal<ExaminerRecordDataWithPercentage<string>[]>;
+  tellMeQuestions: Signal<ExaminerRecordDataWithPercentage<string>[]>;
+  safetyQuestions: Signal<ExaminerRecordDataWithPercentage<string>[]>;
+  balanceQuestions: Signal<ExaminerRecordDataWithPercentage<string>[]>;
+  independentDriving: Signal<ExaminerRecordDataWithPercentage<string>[]>;
+  testCount: Signal<number>;
+  locationList: Signal<ExaminerRecordData<TestCentre>[]>;
+  categoryList: Signal<ExaminerRecordData<TestCategory>[]>;
+  emergencyStops: Signal<ExaminerRecordDataWithPercentage<string>[]>;
+  circuits: Signal<ExaminerRecordDataWithPercentage<string>[]>;
   hideMainContent = false;
   colourOption: ColourScheme = this.getColour(this.store$.selectSignal(selectColourScheme)());
   categoryPlaceholder: string;
@@ -203,6 +196,7 @@ export class ExaminerRecordsPage implements OnInit {
 
   darkModeListener: EventListener = null;
   windowMedia: MediaQueryList = window.matchMedia('(prefers-color-scheme: dark)');
+  readonly isPortrait: Signal<boolean>;
 
   constructor(
     public store$: Store<StoreModel>,
@@ -213,8 +207,11 @@ export class ExaminerRecordsPage implements OnInit {
     public examinerRecordsProvider: ExaminerRecordsProvider,
     public searchProvider: SearchProvider,
     private cdr: ChangeDetectorRef,
-    private modalController: ModalController
-  ) {}
+    private modalController: ModalController,
+    private injector: Injector
+  ) {
+    this.isPortrait = toSignal(this.orientationProvider.isPortraitMode$, { initialValue: false });
+  }
 
   /**
    * Initializes the component and sets up the necessary data and subscriptions.
@@ -244,29 +241,35 @@ export class ExaminerRecordsPage implements OnInit {
       this.locationSelectPristine = false;
     }
 
-    this.pageState = {
-      cachedRecords$: this.store$.select(selectCachedExaminerRecords),
-      isLoadingRecords$: this.store$.select(getIsLoadingRecords),
-      routeNumbers$: this.getTestsByParameters(getRouteNumbers),
-      manoeuvres$: this.getTestsByParameters(getManoeuvresUsed),
-      balanceQuestions$: this.getTestsByParameters(getBalanceQuestions),
-      safetyQuestions$: this.getTestsByParameters(getSafetyQuestions),
-      independentDriving$: this.getTestsByParameters(getIndependentDrivingStats),
-      showMeQuestions$: this.getTestsByParameters(getShowMeQuestions),
-      tellMeQuestions$: this.getTestsByParameters(getTellMeQuestions),
-      testCount$: this.getTestsByParameters(getStartedTestCount),
-      circuits$: this.getTestsByParameters(getCircuits),
-      locationList$: this.getLocationsByParameters(getLocations).pipe(
+    const cachedRecords$ = this.store$.select(selectCachedExaminerRecords);
+    const isLoadingRecords$ = this.store$.select(getIsLoadingRecords);
+    this.routeNumbers = this.toPageSignal(this.getTestsByParameters(getRouteNumbers), []);
+    this.manoeuvres = this.toPageSignal(this.getTestsByParameters(getManoeuvresUsed), []);
+    this.balanceQuestions = this.toPageSignal(this.getTestsByParameters(getBalanceQuestions), []);
+    this.safetyQuestions = this.toPageSignal(this.getTestsByParameters(getSafetyQuestions), []);
+    this.independentDriving = this.toPageSignal(this.getTestsByParameters(getIndependentDrivingStats), []);
+    this.showMeQuestions = this.toPageSignal(this.getTestsByParameters(getShowMeQuestions), []);
+    this.tellMeQuestions = this.toPageSignal(this.getTestsByParameters(getTellMeQuestions), []);
+    this.testCount = this.toPageSignal(this.getTestsByParameters(getStartedTestCount), 0);
+    this.circuits = this.toPageSignal(this.getTestsByParameters(getCircuits), []);
+    this.locationList = this.toPageSignal(
+      this.getLocationsByParameters(getLocations).pipe(
         tap((value: ExaminerRecordData<TestCentre>[]) => {
           this.setupLocationSelectList(value);
         })
       ),
-      categoryList$: this.getCategoriesByParameters(getCategories).pipe(
+      []
+    );
+    this.categoryList = this.toPageSignal(
+      this.getCategoriesByParameters(getCategories).pipe(
         tap((value: ExaminerRecordData<TestCategory>[]) => {
           this.setupCategorySelectList(value);
         })
       ),
-      emergencyStops$: this.getTestsByParameters(getStartedNonEyesightFailureTestCount).pipe(
+      []
+    );
+    this.emergencyStops = this.toPageSignal(
+      this.getTestsByParameters(getStartedNonEyesightFailureTestCount).pipe(
         withLatestFrom(this.getTestsByParameters(getEmergencyStopCount)),
         //Turn emergency stop count into two objects containing tests with stops and tests without
         map(([testCount, emergencyStopCount]) => [
@@ -283,9 +286,8 @@ export class ExaminerRecordsPage implements OnInit {
           },
         ])
       ),
-    };
-
-    const { cachedRecords$, isLoadingRecords$ } = this.pageState;
+      []
+    );
 
     this.merged$ = merge(
       //listen for changes to test result and send the result to the behaviour subject
@@ -310,6 +312,10 @@ export class ExaminerRecordsPage implements OnInit {
 
     this.setLocationFilter();
     await this.getOnlineRecords();
+  }
+
+  private toPageSignal<T>(source: Observable<T>, initialValue: T): Signal<T> {
+    return toSignal(source, { initialValue, injector: this.injector });
   }
 
   /**
@@ -559,60 +565,31 @@ export class ExaminerRecordsPage implements OnInit {
    * @returns {ExaminerRecordModel[]} The array of formatted examiner records.
    */
   getLocalResults(): ExaminerRecordModel[] {
-    let testStatuses: { [slotId: string]: TestStatus } = null;
-    this.store$
-      .pipe(select(getTests), select(getTestStatuses))
-      .subscribe((result) => {
-        testStatuses = result;
-      })
-      .unsubscribe();
+    const tests = this.store$.selectSignal(getTests)();
+    const testStatuses = getTestStatuses(tests);
+    const employeeId = this.store$.selectSignal(selectEmployeeId)();
 
-    let result: ExaminerRecordModel[] = [];
-    this.store$
-      .pipe(
-        select(getTests),
-        map(getStartedTests),
-        take(1),
-        map((value) => Object.values(value)),
-        map((value) => {
-          const employeeId = this.store$.selectSignal(selectEmployeeId)();
-          //Filter out tests the user rekeyed for other users
-          return value.filter((test) => {
-            // if the test is a rekey, it must be submitted or completed
-            if (
-              test.rekey &&
-              ![TestStatus.Submitted, TestStatus.Completed].includes(
-                testStatuses[test.journalData.testSlotAttributes.slotId]
-              )
-            ) {
-              return false;
-            }
-            return test?.examinerConducted ? test.examinerConducted.toString() === employeeId : true;
-          });
-        }),
-        map((value) => {
-          const recordArray: ExaminerRecordModel[] = [];
-          //format tests into ExaminerRecordModel
-          value
-            .filter((test) => [1, 2, 3, 4, 5].includes(Number(test.activityCode)))
-            .filter(
-              (test) =>
-                !(
-                  test.journalData.testSlotAttributes.extendedTest ||
-                  test.journalData.testSlotAttributes.specialNeedsExtendedTest
-                )
-            )
-            .forEach((test) => {
-              recordArray.push(this.examinerRecordsProvider.formatForExaminerRecords(test));
-            });
-          return recordArray;
-        })
-      )
-      .subscribe((value) => {
-        result = value;
+    return Object.values(getStartedTests(tests))
+      .filter((test) => {
+        if (
+          test.rekey &&
+          ![TestStatus.Submitted, TestStatus.Completed].includes(
+            testStatuses[test.journalData.testSlotAttributes.slotId]
+          )
+        ) {
+          return false;
+        }
+        return test?.examinerConducted ? test.examinerConducted.toString() === employeeId : true;
       })
-      .unsubscribe();
-    return result;
+      .filter((test) => [1, 2, 3, 4, 5].includes(Number(test.activityCode)))
+      .filter(
+        (test) =>
+          !(
+            test.journalData.testSlotAttributes.extendedTest ||
+            test.journalData.testSlotAttributes.specialNeedsExtendedTest
+          )
+      )
+      .map((test) => this.examinerRecordsProvider.formatForExaminerRecords(test));
   }
 
   /**
@@ -738,16 +715,9 @@ export class ExaminerRecordsPage implements OnInit {
   setLocationFilter() {
     if (!this.locationFilterOptions) {
       this.locationFilterOptions = [];
-      let mostUsed = null;
-
-      this.pageState.locationList$
-        .subscribe((value) => {
-          //populate location filter options
-          this.locationFilterOptions = value.map((val) => val.item);
-          //find most common location and set it as the default
-          mostUsed = this.setDefault(value);
-        })
-        .unsubscribe();
+      const value = this.locationList();
+      this.locationFilterOptions = value.map((val) => val.item);
+      const mostUsed = this.setDefault(value);
 
       if (mostUsed) {
         this.locationPlaceholder = mostUsed.item.centreName;

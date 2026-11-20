@@ -22,11 +22,11 @@
       <ion-grid class="ion-no-padding">
         <ipad-issue
           [formGroup]="formGroup"
-          [selected]="(pageState.ipadIssue$ | async).selected"
-          [technicalFault]="(pageState.ipadIssue$ | async).technicalFault"
-          [lost]="(pageState.ipadIssue$ | async).lost"
-          [stolen]="(pageState.ipadIssue$ | async).stolen"
-          [broken]="(pageState.ipadIssue$ | async).broken"
+          [selected]="ipadIssue().selected"
+          [technicalFault]="ipadIssue().technicalFault"
+          [lost]="ipadIssue().lost"
+          [stolen]="ipadIssue().stolen"
+          [broken]="ipadIssue().broken"
           (selectedChange)="ipadIssueSelected($event)"
           (technicalFaultChange)="ipadIssueTechnicalFaultChanged()"
           (lostChange)="ipadIssueLostChanged()"
@@ -37,8 +37,8 @@
 
         <transfer
           [formGroup]="formGroup"
-          [selected]="(pageState.transfer$ | async).selected"
-          [staffNumber]="examinerConducted"
+          [selected]="transfer().selected"
+          [staffNumber]="examinerConducted()"
           [isStaffNumberInvalid]="isStaffNumberInvalid"
           (selectedChange)="transferSelected($event)"
           (staffNumberChange)="staffNumberChanged($event)"
@@ -47,8 +47,8 @@
 
         <other-reason
           [formGroup]="formGroup"
-          [selected]="(pageState.other$ | async).selected"
-          [reason]="(pageState.other$ | async).reason"
+          [selected]="other().selected"
+          [reason]="other().reason"
           (selectedChange)="otherSelected($event)"
           (reasonChange)="otherReasonChanged($event)"
         >
@@ -66,9 +66,9 @@
         class="mes-primary-button uploadRekeyButton"
         id="rekey-reason-upload-rekey-btn"
         [disabled]="!canClickUploadRekeyTest(
-                        pageState.ipadIssue$ | async,
-                        pageState.transfer$ | async,
-                        pageState.other$ | async
+                        ipadIssue(),
+                        transfer(),
+                        other()
                     )"
         (click)="onUploadPressed()"
       >

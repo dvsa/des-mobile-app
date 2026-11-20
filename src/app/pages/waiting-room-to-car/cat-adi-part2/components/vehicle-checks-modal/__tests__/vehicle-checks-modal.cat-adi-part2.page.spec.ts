@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { WarningBannerComponent } from '@components/common/warning-banner/warning-banner';
 import { CatADI2UniqueTypes } from '@dvsa/mes-test-schema/categories/ADI2';
@@ -18,8 +18,6 @@ import {
 } from '@store/tests/test-data/cat-adi-part2/vehicle-checks/vehicle-checks.cat-adi-part2.action';
 import { TestsModel } from '@store/tests/tests.model';
 import { MockComponent } from 'ng-mocks';
-import { Subscription } from 'rxjs';
-import { take } from 'rxjs/operators';
 import * as vehicleChecksModalActions from '../vehicle-checks-modal.cat-adi-part2.actions';
 import { VehicleChecksCatADIPart2Modal } from '../vehicle-checks-modal.cat-adi-part2.page';
 
@@ -130,42 +128,13 @@ describe('VehicleChecksCatADIPart2Modal', () => {
       expect(component).toBeDefined();
     });
 
-    describe('ngOnInit', () => {
-      afterEach(() => {
-        // clean up subs
-        component.subscription.unsubscribe();
-      });
-      it('should define subscription', () => {
-        component.ngOnInit();
-        expect(component.subscription).toBeDefined();
-      });
-      it('should resolve state variables', () => {
-        component.ngOnInit();
-        component.pageState.candidateName$.pipe(take(1)).subscribe((res) => expect(res).toEqual('Firstname Lastname'));
-        component.pageState.tellMeQuestions$.pipe(take(1)).subscribe((res) =>
-          expect(res).toEqual([
-            {
-              code: 'Q3',
-              outcome: 'P',
-              description: 'Safety factors while loading',
-            },
-          ])
-        );
-        component.pageState.vehicleChecksScore$.pipe(take(1)).subscribe((res) =>
-          expect(res).toEqual({
-            seriousFaults: 0,
-            drivingFaults: 1,
-          })
-        );
-      });
-    });
-
-    describe('ionViewDidLeave', () => {
-      it('should unsubscribe from the subscription if there is one', () => {
-        component.subscription = new Subscription();
-        vi.spyOn(component.subscription, 'unsubscribe').mockReturnValue(undefined);
-        component.ionViewDidLeave();
-        expect(component.subscription.unsubscribe).toHaveBeenCalled();
+    describe('signal state', () => {
+      it('resolves state variables', () => {
+        expect(component.candidateName()).toEqual('Firstname Lastname');
+        expect(component.selectedTellMeQuestions()).toEqual([
+          { code: 'Q3', outcome: 'P', description: 'Safety factors while loading' },
+        ]);
+        expect(component.vehicleChecksScore()).toEqual({ seriousFaults: 0, drivingFaults: 1 });
       });
     });
 

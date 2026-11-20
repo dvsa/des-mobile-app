@@ -6,7 +6,7 @@
 
 <ion-content [scrollY]="false" id="rekey-upload-outcome-page">
   <ion-grid>
-    @if (pageState.duplicateUpload$ | async) {
+    @if (duplicateUpload()) {
       <ion-row class="message-wrapper ion-align-items-center">
         <ion-col class="ion-no-padding">
           <ion-row class="ion-justify-content-center">

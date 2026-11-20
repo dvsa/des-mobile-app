@@ -1,11 +1,10 @@
-import { AsyncPipe, NgClass } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { NgClass } from '@angular/common';
+import { Component, OnInit, computed } from '@angular/core';
 import { FormsModule, ReactiveFormsModule, UntypedFormGroup } from '@angular/forms';
 import { BikeCategoryTypeComponent } from '@components/common/bike-category-type/bike-category-type';
 import { OfflineBannerComponent } from '@components/common/offline-banner/offline-banner';
 import { TestFlowHeaderComponent } from '@components/common/test-flow-header/test-flow-header.component';
 import { TransmissionComponent } from '@components/common/transmission/transmission';
-import { SafetyAndBalanceQuestions } from '@dvsa/mes-test-schema/categories/AM2';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import {
   IonButton,
@@ -18,23 +17,17 @@ import {
   IonText,
   IonToolbar,
 } from '@ionic/angular';
-import { select } from '@ngrx/store';
 import { ClearCandidateLicenceData } from '@pages/candidate-licence/candidate-licence.actions';
 import { TestFlowPageNames } from '@pages/page-names.constants';
 import { WaitingRoomToCarValidationError } from '@pages/waiting-room-to-car/waiting-room-to-car.actions';
 import { BikeTestType } from '@providers/bike-category-detail/bike-category-detail.model';
 import { WaitingRoomToCarBasePageComponent } from '@shared/classes/test-flow-base-pages/waiting-room-to-car/waiting-room-to-car-base-page';
-import { SafetyQuestionsScore } from '@shared/models/safety-questions-score.model';
 import { getSafetyAndBalanceQuestions } from '@store/tests/test-data/cat-a-mod2/safety-and-balance/safety-and-balance.cat-a-mod2.selector';
 import { getTestData } from '@store/tests/test-data/cat-a-mod2/test-data.cat-a-mod2.reducer';
 import { EyesightTestReset } from '@store/tests/test-data/common/eyesight-test/eyesight-test.actions';
-import { getTests } from '@store/tests/tests.reducer';
-import { getCurrentTest } from '@store/tests/tests.selector';
 import { getSchoolBike } from '@store/tests/vehicle-details/cat-a-mod1/vehicle-details.cat-a-mod1.selector';
 import { MotEvidenceProvidedReset } from '@store/tests/vehicle-details/vehicle-details.actions';
 import { getVehicleDetails } from '@store/tests/vehicle-details/vehicle-details.reducer';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
 import { AccompanimentCardComponent } from '../components/accompaniment-card/accompaniment-card';
 import { EyesightFailureConfirmationComponent } from '../components/eyesight-failure-confirmation/eyesight-failure-confirmation';
 import { EyesightTestComponent } from '../components/eyesight-test/eyesight-test';
@@ -42,12 +35,6 @@ import { MotNoEvidenceConfirmationComponent } from '../components/mot-components
 import { VehicleDetailsCardComponent } from '../components/vehicle-details-card/vehicle-details-card';
 import { VehicleRegistrationComponent } from '../components/vehicle-registration/vehicle-registration';
 import { VehicleChecksCatAMod2Component } from './components/vehicle-checks/vehicle-checks';
-
-interface CatMod2WaitingRoomToCarPageState {
-  schoolBike$: Observable<boolean>;
-  safetyAndBalanceQuestionsScore$: Observable<SafetyQuestionsScore>;
-  safetyAndBalanceQuestions$: Observable<SafetyAndBalanceQuestions>;
-}
 
 @Component({
   selector: 'app-waiting-room-to-car-cat-a-mod2',
@@ -77,11 +64,14 @@ interface CatMod2WaitingRoomToCarPageState {
     IonFooter,
     IonButton,
     IonText,
-    AsyncPipe,
   ],
 })
 export class WaitingRoomToCarCatAMod2Page extends WaitingRoomToCarBasePageComponent implements OnInit {
-  pageState: CatMod2WaitingRoomToCarPageState;
+  schoolBike = computed(() => getSchoolBike(getVehicleDetails(this.currentTest())));
+  safetyAndBalanceQuestions = computed(() => getSafetyAndBalanceQuestions(getTestData(this.currentTest())));
+  safetyAndBalanceQuestionsScore = computed(() =>
+    this.faultCountProvider.getSafetyAndBalanceFaultCount(TestCategory.EUAM2, this.safetyAndBalanceQuestions())
+  );
   form: UntypedFormGroup;
   submitClicked: boolean;
 
@@ -92,20 +82,6 @@ export class WaitingRoomToCarCatAMod2Page extends WaitingRoomToCarBasePageCompon
 
   ngOnInit(): void {
     super.onInitialisation();
-
-    const currentTest$ = this.store$.pipe(select(getTests), select(getCurrentTest));
-
-    this.pageState = {
-      schoolBike$: currentTest$.pipe(select(getVehicleDetails), select(getSchoolBike)),
-      safetyAndBalanceQuestionsScore$: currentTest$.pipe(
-        select(getTestData),
-        select(getSafetyAndBalanceQuestions),
-        map((safetyAndBalanceQuestions) =>
-          this.faultCountProvider.getSafetyAndBalanceFaultCount(TestCategory.EUAM2, safetyAndBalanceQuestions)
-        )
-      ),
-      safetyAndBalanceQuestions$: currentTest$.pipe(select(getTestData), select(getSafetyAndBalanceQuestions)),
-    };
   }
 
   motNoEvidenceCancelled = (): void => {

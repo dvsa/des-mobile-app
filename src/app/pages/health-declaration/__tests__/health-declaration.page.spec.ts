@@ -1,4 +1,4 @@
-import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, signal } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { By } from '@angular/platform-browser';
@@ -32,7 +32,7 @@ import { candidateMock } from '@store/tests/__mocks__/tests.mock';
 import * as PassCompletionActions from '@store/tests/pass-completion/pass-completion.actions';
 import * as PostTestDeclarationsActions from '@store/tests/post-test-declarations/post-test-declarations.actions';
 import { MockComponent } from 'ng-mocks';
-import { Subscription, firstValueFrom, of } from 'rxjs';
+import { Subscription, firstValueFrom } from 'rxjs';
 
 describe('HealthDeclarationPage', () => {
   let fixture: ComponentFixture<HealthDeclarationPage>;
@@ -144,7 +144,7 @@ describe('HealthDeclarationPage', () => {
       describe('persistAndNavigate', () => {
         it('should dispatch a ProvisionalLicenseNotReceived if passed true and licenseProvided is true', async () => {
           vi.spyOn(router, 'navigate').mockReturnValue(Promise.resolve(true));
-          component.licenseProvided = true;
+          component.licenseProvided = signal(true);
           await component.persistAndNavigate(true);
           expect(store$.dispatch).toHaveBeenCalledWith(PassCompletionActions.ProvisionalLicenseNotReceived());
         });
@@ -157,11 +157,10 @@ describe('HealthDeclarationPage', () => {
           vi.spyOn(component, 'persistAndNavigate').mockReturnValue(undefined);
           const { formGroup } = component;
           fixture.detectChanges();
-          component.pageState.healthDeclarationAccepted$ = of(true);
-          component.pageState.receiptDeclarationAccepted$ = of(true);
-          component.pageState.signature$ = of('sig');
+          component.healthDeclarationAccepted = signal(true);
+          component.receiptDeclarationAccepted = signal(true);
+          component.signature = signal('sig');
           component.formGroup.controls.signature.patchValue('heuhrheru');
-          component.healthDeclarationAccepted = true;
           component.onSubmit();
           fixture.detectChanges();
           expect(formGroup.valid).toEqual(true);
@@ -178,9 +177,8 @@ describe('HealthDeclarationPage', () => {
           vi.spyOn(component, 'showConfirmHealthDeclarationModal').mockReturnValue(undefined);
           const { formGroup } = component;
           fixture.detectChanges();
-          component.pageState.healthDeclarationAccepted$ = of(false);
-          component.pageState.receiptDeclarationAccepted$ = of(true);
-          component.pageState.signature$ = of('sig');
+          component.receiptDeclarationAccepted = signal(true);
+          component.signature = signal('sig');
           component.formGroup.controls.signature.patchValue('heuhrheru');
           component.onSubmit();
           fixture.detectChanges();

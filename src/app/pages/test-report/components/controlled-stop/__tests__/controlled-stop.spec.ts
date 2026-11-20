@@ -67,7 +67,7 @@ describe('ControlledStopComponent', () => {
         expect(storeDispatchSpy).not.toHaveBeenCalledWith(ControlledStopAddDrivingFault());
       });
       it('should not dispatch an CONTROLLED_STOP_ADD_DRIVING_FAULT action if there is already a driving fault', () => {
-        component.controlledStopOutcome = CompetencyOutcome.DF;
+        vi.spyOn(component, 'controlledStopOutcome', 'get').mockReturnValue(CompetencyOutcome.DF);
 
         const storeDispatchSpy = vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
         component.addOrRemoveFault(true);
@@ -75,7 +75,7 @@ describe('ControlledStopComponent', () => {
         expect(storeDispatchSpy).not.toHaveBeenCalledWith(ControlledStopAddDrivingFault());
       });
       it('should not dispatch an ADD_MANOEUVRE_DRIVING_FAULT action if there is a serious fault', () => {
-        component.controlledStopOutcome = CompetencyOutcome.S;
+        vi.spyOn(component, 'controlledStopOutcome', 'get').mockReturnValue(CompetencyOutcome.S);
 
         const storeDispatchSpy = vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
         component.addOrRemoveFault();
@@ -83,7 +83,7 @@ describe('ControlledStopComponent', () => {
         expect(storeDispatchSpy).not.toHaveBeenCalledWith(ControlledStopAddDrivingFault());
       });
       it('should not dispatch an ADD_MANOEUVRE_DRIVING_FAULT action if serious mode is active', () => {
-        component.isSeriousMode = true;
+        vi.spyOn(component, 'isSeriousMode', 'get').mockReturnValue(true);
 
         const storeDispatchSpy = vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
         component.addOrRemoveFault();
@@ -91,7 +91,7 @@ describe('ControlledStopComponent', () => {
         expect(storeDispatchSpy).not.toHaveBeenCalledWith(ControlledStopAddDrivingFault());
       });
       it('should not dispatch an ADD_MANOEUVRE_DRIVING_FAULT action if there is a dangerous fault', () => {
-        component.controlledStopOutcome = CompetencyOutcome.D;
+        vi.spyOn(component, 'controlledStopOutcome', 'get').mockReturnValue(CompetencyOutcome.D);
 
         const storeDispatchSpy = vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
         component.addOrRemoveFault();
@@ -99,7 +99,7 @@ describe('ControlledStopComponent', () => {
         expect(storeDispatchSpy).not.toHaveBeenCalledWith(ControlledStopAddDrivingFault());
       });
       it('should not dispatch an ADD_MANOEUVRE_DRIVING_FAULT action if dangerous mode is active', () => {
-        component.isDangerousMode = true;
+        vi.spyOn(component, 'isDangerousMode', 'get').mockReturnValue(true);
 
         const storeDispatchSpy = vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
         component.addOrRemoveFault();
@@ -110,8 +110,8 @@ describe('ControlledStopComponent', () => {
 
     describe('removeManoeuvreDrivingFault', () => {
       it('should dispatch a REMOVE_MANOEUVRE_FAULT action for press', () => {
-        component.isRemoveFaultMode = true;
-        component.controlledStopOutcome = CompetencyOutcome.DF;
+        vi.spyOn(component, 'isRemoveFaultMode', 'get').mockReturnValue(true);
+        vi.spyOn(component, 'controlledStopOutcome', 'get').mockReturnValue(CompetencyOutcome.DF);
 
         const storeDispatchSpy = vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
         component.addOrRemoveFault(true);
@@ -119,8 +119,8 @@ describe('ControlledStopComponent', () => {
         expect(storeDispatchSpy).toHaveBeenCalledWith(ControlledStopRemoveFault(CompetencyOutcome.DF));
       });
       it('should dispatch a REMOVE_MANOEUVRE_FAULT action for tap', () => {
-        component.isRemoveFaultMode = true;
-        component.controlledStopOutcome = CompetencyOutcome.DF;
+        vi.spyOn(component, 'isRemoveFaultMode', 'get').mockReturnValue(true);
+        vi.spyOn(component, 'controlledStopOutcome', 'get').mockReturnValue(CompetencyOutcome.DF);
 
         const storeDispatchSpy = vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
         component.addOrRemoveFault();
@@ -128,9 +128,9 @@ describe('ControlledStopComponent', () => {
         expect(storeDispatchSpy).toHaveBeenCalledWith(ControlledStopRemoveFault(CompetencyOutcome.DF));
       });
       it('should not dispatch a REMOVE_MANOEUVRE_FAULT action if in the wrong mode', () => {
-        component.isRemoveFaultMode = true;
-        component.isSeriousMode = true;
-        component.controlledStopOutcome = CompetencyOutcome.D;
+        vi.spyOn(component, 'isRemoveFaultMode', 'get').mockReturnValue(true);
+        vi.spyOn(component, 'isSeriousMode', 'get').mockReturnValue(true);
+        vi.spyOn(component, 'controlledStopOutcome', 'get').mockReturnValue(CompetencyOutcome.D);
 
         const storeDispatchSpy = vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
         component.addOrRemoveFault();
@@ -139,9 +139,9 @@ describe('ControlledStopComponent', () => {
       });
 
       it('should dispatch a REMOVE_MANOEUVRE_FAULT action if there is a serious fault', () => {
-        component.isRemoveFaultMode = true;
-        component.isSeriousMode = true;
-        component.controlledStopOutcome = CompetencyOutcome.S;
+        vi.spyOn(component, 'isRemoveFaultMode', 'get').mockReturnValue(true);
+        vi.spyOn(component, 'isSeriousMode', 'get').mockReturnValue(true);
+        vi.spyOn(component, 'controlledStopOutcome', 'get').mockReturnValue(CompetencyOutcome.S);
 
         const storeDispatchSpy = vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
         component.addOrRemoveFault(true);
@@ -149,9 +149,9 @@ describe('ControlledStopComponent', () => {
         expect(storeDispatchSpy).toHaveBeenCalledWith(ControlledStopRemoveFault(CompetencyOutcome.S));
       });
       it('should dispatch a REMOVE_MANOEUVRE_FAULT action if there is a dangerous fault', () => {
-        component.isRemoveFaultMode = true;
-        component.isDangerousMode = true;
-        component.controlledStopOutcome = CompetencyOutcome.D;
+        vi.spyOn(component, 'isRemoveFaultMode', 'get').mockReturnValue(true);
+        vi.spyOn(component, 'isDangerousMode', 'get').mockReturnValue(true);
+        vi.spyOn(component, 'controlledStopOutcome', 'get').mockReturnValue(CompetencyOutcome.D);
 
         const storeDispatchSpy = vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
         component.addOrRemoveFault();

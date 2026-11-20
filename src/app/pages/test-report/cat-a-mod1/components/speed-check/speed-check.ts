@@ -1,13 +1,7 @@
-import { Component, Input } from '@angular/core';
-import {
-  Avoidance,
-  EmergencyStop,
-  SpeedRequirementCompetencyOutcome,
-  TestData,
-} from '@dvsa/mes-test-schema/categories/AM1';
+import { Component, Input, computed } from '@angular/core';
+import { Avoidance, EmergencyStop, SpeedRequirementCompetencyOutcome } from '@dvsa/mes-test-schema/categories/AM1';
 import { IonCol, IonRow } from '@ionic/angular';
-import { Store, select } from '@ngrx/store';
-import { trDestroy$ } from '@shared/classes/test-flow-base-pages/test-report/test-report-base-page';
+import { Store } from '@ngrx/store';
 import { competencyLabels } from '@shared/constants/competencies/competencies';
 import {
   FieldValidators,
@@ -38,9 +32,6 @@ import { getTestData } from '@store/tests/test-data/cat-a-mod1/test-data.cat-a-m
 import { Competencies, SingleFaultCompetencyNames } from '@store/tests/test-data/test-data.constants';
 import { getTests } from '@store/tests/tests.reducer';
 import { getCurrentTest } from '@store/tests/tests.selector';
-import { isEmpty } from 'lodash-es';
-import { Subscription, merge } from 'rxjs';
-import { map, takeUntil } from 'rxjs/operators';
 import { CompetencyButtonComponent } from '../../../components/competency-button/competency-button';
 import { SingleFaultCompetencyComponent } from '../../../components/single-fault-competency/single-fault-competency';
 
@@ -51,11 +42,6 @@ import { SingleFaultCompetencyComponent } from '../../../components/single-fault
   imports: [IonRow, IonCol, SingleFaultCompetencyComponent, CompetencyButtonComponent],
 })
 export class SpeedCheckComponent {
-  subscription: Subscription;
-  firstAttempt: number;
-  secondAttempt: number;
-  outcome: SpeedRequirementCompetencyOutcome;
-
   @Input()
   competency: Competencies;
 
@@ -63,42 +49,26 @@ export class SpeedCheckComponent {
   pairedCompetency?: SingleFaultCompetencyNames;
 
   readonly speedCheckValidator: FieldValidators = getSpeedCheckValidator();
+  private readonly tests = this.store$.selectSignal(getTests);
+  private readonly currentTest = computed(() => getCurrentTest(this.tests()));
+  private readonly testData = computed(() => getTestData(this.currentTest()));
+  private readonly speedCheckData = computed((): EmergencyStop | Avoidance => {
+    if (this.competency === Competencies.speedCheckEmergency) {
+      return getEmergencyStop(this.testData());
+    }
+    return getAvoidance(this.testData());
+  });
+  get firstAttempt(): number {
+    return this.speedCheckData()?.firstAttempt;
+  }
+  get secondAttempt(): number {
+    return this.speedCheckData()?.secondAttempt;
+  }
+  get outcome(): SpeedRequirementCompetencyOutcome {
+    return this.speedCheckData()?.outcome;
+  }
 
   constructor(private store$: Store<StoreModel>) {}
-
-  ngOnInit(): void {
-    const speedCheckData$ = this.store$.pipe(
-      select(getTests),
-      select(getCurrentTest),
-      select(getTestData),
-      map((testData: TestData): void => {
-        let speedCheckData: EmergencyStop | Avoidance;
-        if (this.competency === Competencies.speedCheckEmergency) {
-          speedCheckData = getEmergencyStop(testData);
-        }
-
-        if (this.competency === Competencies.speedCheckAvoidance) {
-          speedCheckData = getAvoidance(testData);
-        }
-
-        if (isEmpty(speedCheckData)) {
-          return;
-        }
-
-        this.firstAttempt = speedCheckData.firstAttempt;
-        this.secondAttempt = speedCheckData.secondAttempt;
-        this.outcome = speedCheckData.outcome;
-      })
-    );
-
-    this.subscription = merge(speedCheckData$).pipe(takeUntil(trDestroy$)).subscribe();
-  }
-
-  ngOnDestroy(): void {
-    if (this.subscription) {
-      this.subscription.unsubscribe();
-    }
-  }
 
   toggleNotMet = (): void => {
     if (this.competency === Competencies.speedCheckEmergency) {

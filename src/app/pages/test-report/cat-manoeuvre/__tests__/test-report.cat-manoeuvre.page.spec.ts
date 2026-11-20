@@ -1,4 +1,4 @@
-import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, signal } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ToastController } from '@ionic/angular';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
@@ -24,7 +24,6 @@ import { candidateMock } from '@store/tests/__mocks__/tests.mock';
 import { initialState } from '@store/tests/test-data/cat-b/test-data.reducer';
 import { RecordManoeuvresSelection } from '@store/tests/test-data/common/manoeuvres/manoeuvres.actions';
 import { ManoeuvreCompetencies, ManoeuvreTypes } from '@store/tests/test-data/test-data.constants';
-import { Observable, Subscription } from 'rxjs';
 import { testReportReducer } from '../../test-report.reducer';
 import { TestReportCatManoeuvrePage } from '../test-report.cat-manoeuvre.page';
 
@@ -110,12 +109,12 @@ describe('TestReportCatManoeuvrePage', () => {
   });
   describe('toggleReverseManoeuvre', () => {
     it('should not dispatch select action when faults exist', () => {
-      component.manoeuvresHasFaults = true;
+      component.manoeuvresHasFaults = signal(true);
       component.toggleReverseManoeuvre();
       expect(store$.dispatch).not.toHaveBeenCalled();
     });
     it('should dispatch select action when no faults exist', () => {
-      component.manoeuvresHasFaults = false;
+      component.manoeuvresHasFaults = signal(false);
       component.toggleReverseManoeuvre();
       expect(store$.dispatch).toHaveBeenCalledWith(RecordManoeuvresSelection(ManoeuvreTypes.reverseManoeuvre));
     });
@@ -147,30 +146,11 @@ describe('TestReportCatManoeuvrePage', () => {
     });
   });
   describe('ionViewWillEnter', () => {
-    it('should setup manoeuvreSubscription if merged is present', async () => {
-      component.merged$ = new Observable<boolean>();
-      await component.ionViewWillEnter();
-
-      expect(component.manoeuvreSubscription).toBeDefined();
-    });
     it('should call base page ionViewWillEnter', async () => {
       vi.spyOn(TestReportBasePageComponent.prototype, 'ionViewWillEnter').mockReturnValue(undefined);
       await component.ionViewWillEnter();
 
       expect(TestReportBasePageComponent.prototype.ionViewWillEnter).toHaveBeenCalled();
-    });
-  });
-  describe('ionViewDidLeave', () => {
-    it('should call basePage functions and unsubscribe from subscription if there is one', () => {
-      component.manoeuvreSubscription = new Subscription();
-      vi.spyOn(TestReportBasePageComponent.prototype, 'ionViewDidLeave').mockReturnValue(undefined);
-      vi.spyOn(TestReportBasePageComponent.prototype, 'cancelSubscription').mockReturnValue(undefined);
-      vi.spyOn(component.manoeuvreSubscription, 'unsubscribe').mockReturnValue(undefined);
-
-      component.ionViewDidLeave();
-      expect(TestReportBasePageComponent.prototype.ionViewDidLeave).toHaveBeenCalled();
-      expect(TestReportBasePageComponent.prototype.cancelSubscription).toHaveBeenCalled();
-      expect(component.manoeuvreSubscription.unsubscribe).toHaveBeenCalled();
     });
   });
 });

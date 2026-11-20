@@ -108,8 +108,8 @@
                     (onCloseVehicleChecksModal)="closeVehicleChecksModal()"
                     [formGroup]="form"
                     [isPracticeMode]="isEndToEndPracticeMode"
-                    [safetyAndBalanceQuestionsScore]="pageState.safetyAndBalanceQuestionsScore$ | async"
-                    [safetyAndBalanceQuestions]="pageState.safetyAndBalanceQuestions$ | async"
+                    [safetyAndBalanceQuestionsScore]="safetyAndBalanceQuestionsScore()"
+                    [safetyAndBalanceQuestions]="safetyAndBalanceQuestions()"
                     [submitClicked]="submitClicked"
                   ></vehicle-checks-cat-a-mod2>
 
@@ -131,7 +131,7 @@
                     [formGroup]="form"
                     [hideSchoolBikeRow]="false"
                     [hideSchoolVehicleAndDualControlRow]="true"
-                    [schoolBikeVehicleDetails]="pageState.schoolBike$ | async"
+                    [schoolBikeVehicleDetails]="schoolBike()"
                   >
                   </vehicle-details-card>
                 </div>

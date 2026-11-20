@@ -58,7 +58,7 @@
           okText="Submit"
           placeholder="Driving faults"
           >
-          @for (number of (componentState.drivingFaultsNumberOptions$ | async); track number) {
+          @for (number of drivingFaultsNumberOptions(); track number) {
             <ion-select-option
               [id]="'driving-fault-' + number"
               [value]="number"

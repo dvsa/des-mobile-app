@@ -1,15 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Signal, computed } from '@angular/core';
 import { FormsModule, ReactiveFormsModule, UntypedFormGroup } from '@angular/forms';
-import { select } from '@ngrx/store';
-import { Observable, merge } from 'rxjs';
-import { map } from 'rxjs/operators';
 
-import { AsyncPipe, NgClass } from '@angular/common';
+import { NgClass } from '@angular/common';
 import { TestFlowHeaderComponent } from '@components/common/test-flow-header/test-flow-header.component';
 import { DebriefWitnessedComponent } from '@components/test-finalisation/debrief-witnessed/debrief-witnessed';
 import { FinalisationHeaderComponent } from '@components/test-finalisation/finalisation-header/finalisation-header';
 import { LanguagePreferencesComponent } from '@components/test-finalisation/language-preference/language-preference';
-import { CategoryCode } from '@dvsa/mes-test-schema/categories/common';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import {
   IonButton,
@@ -29,22 +25,10 @@ import {
   PassFinalisationReportActivityCode,
   PassFinalisationValidationError,
 } from '@pages/pass-finalisation/pass-finalisation.actions';
-import {
-  CommonPassFinalisationPageState,
-  PassFinalisationPageComponent,
-} from '@shared/classes/test-flow-base-pages/pass-finalisation/pass-finalisation-base-page';
-import { getTestCategory } from '@store/tests/category/category.reducer';
+import { PassFinalisationPageComponent } from '@shared/classes/test-flow-base-pages/pass-finalisation/pass-finalisation-base-page';
 import { PersistTests } from '@store/tests/tests.actions';
-import { getTests } from '@store/tests/tests.reducer';
-import { getCurrentTest } from '@store/tests/tests.selector';
 import { ApplicationReferenceComponent } from '../components/application-reference/application-reference';
 import { PassCertificateNumberComponent } from '../components/pass-certificate-number/pass-certificate-number';
-
-interface CatCPCPassFinalisationPageState {
-  testCategory$: Observable<CategoryCode>;
-}
-
-type PassFinalisationPageState = CommonPassFinalisationPageState & CatCPCPassFinalisationPageState;
 
 @Component({
   selector: 'app-pass-finalisation-cat-cpc',
@@ -69,14 +53,11 @@ type PassFinalisationPageState = CommonPassFinalisationPageState & CatCPCPassFin
     IonCol,
     IonButton,
     IonText,
-    AsyncPipe,
   ],
 })
 export class PassFinalisationCatCPCPage extends PassFinalisationPageComponent implements OnInit {
   form: UntypedFormGroup;
-  pageState: PassFinalisationPageState;
-  merged$: Observable<string | boolean>;
-  testCategory: TestCategory;
+  testCategory: Signal<TestCategory> = computed(() => this.currentTest()?.category as TestCategory);
 
   constructor() {
     super();
@@ -86,24 +67,10 @@ export class PassFinalisationCatCPCPage extends PassFinalisationPageComponent im
 
   ngOnInit(): void {
     super.onInitialisation();
-
-    const currentTest$ = this.store$.pipe(select(getTests), select(getCurrentTest));
-
-    this.pageState = {
-      ...this.commonPageState,
-      testCategory$: currentTest$.pipe(select(getTestCategory)),
-    };
-
-    const { testCategory$ } = this.pageState;
-
-    this.merged$ = merge(testCategory$.pipe(map((value) => (this.testCategory = value as TestCategory))));
   }
 
   ionViewWillEnter(): boolean {
     super.ionViewWillEnter();
-    if (this.merged$) {
-      this.subscription = this.merged$.subscribe();
-    }
     return true;
   }
 

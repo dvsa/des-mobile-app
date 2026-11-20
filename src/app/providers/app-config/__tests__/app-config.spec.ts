@@ -6,9 +6,10 @@ import { environment } from '@environments/environment';
 import { TestersEnvironmentFile } from '@environments/models/environment.model';
 import { Platform } from '@ionic/angular';
 import { IsDebugMock, PlatformMock } from '@mocks/index.mock';
-import { StoreModule } from '@ngrx/store';
+import { Store, StoreModule } from '@ngrx/store';
 import { AppConfigError } from '@providers/app-config/app-config.constants';
 import { AppConfig } from '@providers/app-config/app-config.model';
+import { LoadAppConfig } from '@store/app-config/app-config.actions';
 import { appConfigReducer } from '@store/app-config/app-config.reducer';
 import { testsReducer } from '@store/tests/tests.reducer';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
@@ -96,6 +97,17 @@ describe('AppConfigProvider', () => {
 
   afterEach(() => {
     httpMock.verify();
+  });
+
+  it('follows changes to store configuration until logout detaches it', () => {
+    const store = TestBed.inject(Store);
+    const loading = { ...appConfig.getAppConfig(), configUrl: 'before-logout' };
+    store.dispatch(LoadAppConfig({ appConfig: loading }));
+    expect(appConfig.getAppConfig().configUrl).toBe('before-logout');
+
+    appConfig.shutDownStoreSubscription();
+    store.dispatch(LoadAppConfig({ appConfig: { ...loading, configUrl: 'after-logout' } }));
+    expect(appConfig.getAppConfig().configUrl).toBe('before-logout');
   });
 
   describe('initialiseAppConfig', () => {

@@ -32,19 +32,9 @@ import { SlotProvider } from '@providers/slot/slot';
 import { BasePageComponent } from '@shared/classes/base-page';
 import { DateTime } from '@shared/helpers/date-time';
 import { StoreModel } from '@shared/models/store.model';
-import { selectLiveAppVersion, selectRole } from '@store/app-config/app-config.selectors';
-import {
-  HasSeenUpdateAvailablePopup,
-  LoadAppVersionSuccess,
-  UpdateAvailableBadgeClicked,
-} from '@store/app-info/app-info.actions';
+import { HasSeenUpdateAvailablePopup, UpdateAvailableBadgeClicked } from '@store/app-info/app-info.actions';
 import { appInfoReducer } from '@store/app-info/app-info.reducer';
-import {
-  selectEmployeeId,
-  selectEmployeeName,
-  selectUpdateAvailablePresented,
-  selectVersionNumber,
-} from '@store/app-info/app-info.selectors';
+import { selectUpdateAvailablePresented } from '@store/app-info/app-info.selectors';
 import { LoadJournalSilent } from '@store/journal/journal.actions';
 import { MockComponent } from 'ng-mocks';
 import { Subscription, of } from 'rxjs';
@@ -173,7 +163,6 @@ describe('DashboardPage', () => {
     store$ = TestBed.inject(MockStore);
     modalController = TestBed.inject(ModalController);
     vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
-    store$.dispatch(LoadAppVersionSuccess({ versionNumber: '4.0.0.0' }));
   });
 
   it('should create', () => {
@@ -182,14 +171,14 @@ describe('DashboardPage', () => {
 
   describe('Class', () => {
     describe('ngOnInit', () => {
-      it('should get the selectVersionNumber and selectEmployeeName from store on init', () => {
+      it('should expose selector state as signals', () => {
         vi.spyOn(store$, 'select').mockReturnValue(of({}));
         component.ngOnInit();
-        expect(store$.select).toHaveBeenCalledWith(selectVersionNumber);
-        expect(store$.select).toHaveBeenCalledWith(selectEmployeeName);
-        expect(store$.select).toHaveBeenCalledWith(selectEmployeeId);
-        expect(store$.select).toHaveBeenCalledWith(selectRole);
-        expect(store$.select).toHaveBeenCalledWith(selectLiveAppVersion);
+        expect(component.appVersion()).toBe(initialState.appInfo.versionNumber);
+        expect(component.employeeName()).toBe('Some One');
+        expect(component.employeeId()).toBe('1234567');
+        store$.setState({ ...initialState, appInfo: { ...initialState.appInfo, versionNumber: '4.0.0.0' } });
+        expect(component.appVersion()).toBe('4.0.0.0');
         expect(store$.select).toHaveBeenCalledWith(selectUpdateAvailablePresented);
       });
     });

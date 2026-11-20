@@ -1,10 +1,10 @@
+import { signal } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { SlotDetail } from '@dvsa/mes-journal-schema';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { Store, StoreModule } from '@ngrx/store';
-import { Subscription } from 'rxjs';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { MockAppComponent } from '@app/__mocks__/app.component.mock';
@@ -507,7 +507,7 @@ describe('TestOutcomeComponent', () => {
       it('should return true for a booked test on the rekey search page', () => {
         component.slotDetail = testSlotDetail;
         component.testStatus = TestStatus.Booked;
-        component.isTestSlotOnRekeySearch = true;
+        component.isTestSlotOnRekeySearch = signal(true);
 
         component.showRekeyButton();
 
@@ -516,7 +516,7 @@ describe('TestOutcomeComponent', () => {
       it('should return false for a completed test on the rekey search page', () => {
         component.slotDetail = testSlotDetail;
         component.testStatus = TestStatus.Completed;
-        component.isTestSlotOnRekeySearch = true;
+        component.isTestSlotOnRekeySearch = signal(true);
 
         component.showRekeyButton();
 
@@ -595,15 +595,6 @@ describe('TestOutcomeComponent', () => {
         component.showRekeyButton();
 
         expect(component.showRekeyButton()).toEqual(false);
-      });
-    });
-
-    describe('ionViewDidLeave', () => {
-      it('should unsubscribe from the subscription if there is one', () => {
-        component.subscription = new Subscription();
-        vi.spyOn(component.subscription, 'unsubscribe').mockReturnValue(undefined);
-        component.ionViewDidLeave();
-        expect(component.subscription.unsubscribe).toHaveBeenCalled();
       });
     });
 
@@ -771,10 +762,11 @@ describe('TestOutcomeComponent', () => {
       it('should call the writeUpTest method when `Write-up` is clicked', () => {
         component.testStatus = TestStatus.Autosaved;
         component.slotDetail = testSlotDetail;
+        component.testExistsAsRekey = signal(false);
         fixture.detectChanges();
         vi.spyOn(component, 'writeUpTest').mockReturnValue(undefined);
 
-        const writeUpButton = fixture.debugElement.query(By.css('.mes-secondary-button'));
+        const writeUpButton = fixture.debugElement.query(By.css('[id^="write-up-button-"]'));
         writeUpButton.triggerEventHandler('click', null);
 
         expect(component.writeUpTest).toHaveBeenCalled();
@@ -880,7 +872,7 @@ describe('TestOutcomeComponent', () => {
     });
     it('should dispatch RemoveTestBySlotId and call startTest when testExistsAsRekey is true', async () => {
       component.testStatus = TestStatus.Booked;
-      component.testExistsAsRekey = true;
+      component.testExistsAsRekey = signal(true);
       vi.spyOn(component.store$, 'dispatch').mockReturnValue(undefined);
       vi.spyOn(component, 'startTest').mockReturnValue(Promise.resolve());
 
@@ -892,7 +884,7 @@ describe('TestOutcomeComponent', () => {
 
     it('should only call startTest when testStatus is Booked and testExistsAsRekey is false', async () => {
       component.testStatus = TestStatus.Booked;
-      component.testExistsAsRekey = false;
+      component.testExistsAsRekey = signal(false);
       vi.spyOn(component.store$, 'dispatch').mockReturnValue(undefined);
       vi.spyOn(component, 'startTest').mockReturnValue(Promise.resolve());
 
@@ -904,7 +896,7 @@ describe('TestOutcomeComponent', () => {
 
     it('should call resumeTest when testStatus is not Booked and testExistsAsRekey is false', async () => {
       component.testStatus = TestStatus.Started;
-      component.testExistsAsRekey = false;
+      component.testExistsAsRekey = signal(false);
       vi.spyOn(component, 'resumeTest').mockReturnValue(Promise.resolve());
 
       await component.startOrResumeTestDependingOnStatus();
@@ -914,7 +906,7 @@ describe('TestOutcomeComponent', () => {
 
     it('should dispatch RemoveTestBySlotId and call startTest when testExistsAsRekey is true and testStatus is not Booked', async () => {
       component.testStatus = TestStatus.Started;
-      component.testExistsAsRekey = true;
+      component.testExistsAsRekey = signal(true);
       vi.spyOn(component.store$, 'dispatch').mockReturnValue(undefined);
       vi.spyOn(component, 'startTest').mockReturnValue(Promise.resolve());
 
@@ -922,15 +914,6 @@ describe('TestOutcomeComponent', () => {
 
       expect(component.store$.dispatch).toHaveBeenCalledWith(RemoveTestBySlotId(component.slotDetail.slotId));
       expect(component.startTest).toHaveBeenCalled();
-    });
-  });
-
-  describe('ionViewDidLeave', () => {
-    it('should unsubscribe from the subscription if there is one', () => {
-      component.subscription = new Subscription();
-      vi.spyOn(component.subscription, 'unsubscribe').mockReturnValue(undefined);
-      component.ionViewDidLeave();
-      expect(component.subscription.unsubscribe).toHaveBeenCalled();
     });
   });
 });

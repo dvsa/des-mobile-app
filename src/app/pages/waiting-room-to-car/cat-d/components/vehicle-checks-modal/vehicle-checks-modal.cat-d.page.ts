@@ -1,19 +1,15 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, computed } from '@angular/core';
 import { FormsModule, ReactiveFormsModule, UntypedFormGroup } from '@angular/forms';
-import { QuestionOutcome, QuestionResult, SafetyQuestionResult } from '@dvsa/mes-test-schema/categories/common';
+import { QuestionOutcome, QuestionResult } from '@dvsa/mes-test-schema/categories/common';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
-import { Store, select } from '@ngrx/store';
+import { Store } from '@ngrx/store';
 import { QuestionProvider } from '@providers/question/question';
 import { SafetyQuestion } from '@providers/question/safety-question.model';
 import { VehicleChecksQuestion } from '@providers/question/vehicle-checks-question.model';
 import { isAnyOf } from '@shared/helpers/simplifiers';
 import { StoreModel } from '@shared/models/store.model';
-import { getCandidate } from '@store/tests/journal-data/cat-d/candidate/candidate.cat-d.reducer';
-import { getUntitledCandidateName } from '@store/tests/journal-data/common/candidate/candidate.selector';
-import { getTests } from '@store/tests/tests.reducer';
-import { getCurrentTest, getJournalData } from '@store/tests/tests.selector';
-import { Observable, Subscription, merge } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { selectUntitledCandidateName } from '@store/tests/journal-data/common/candidate/candidate.selector';
+import { selectCurrentTest } from '@store/tests/tests.selector';
 
 import { getTestData } from '@store/tests/test-data/cat-d/test-data.cat-d.reducer';
 
@@ -29,7 +25,6 @@ import { SafetyQuestionOutcomeChanged } from '@store/tests/test-data/cat-d/safet
 
 import { NUMBER_OF_SAFETY_QUESTIONS } from '@shared/constants/safety-questions.cat-d.constants';
 
-import { AsyncPipe } from '@angular/common';
 import { Style } from '@capacitor/status-bar';
 import { WarningBannerComponent } from '@components/common/warning-banner/warning-banner';
 import {
@@ -63,7 +58,6 @@ import {
   NUMBER_OF_TELL_ME_QUESTIONS_EXTRA as NUMBER_OF_TELL_ME_QUESTIONS_TRAILER_EXTRA,
 } from '@shared/constants/tell-me-questions/tell-me-questions.vocational-trailer.constants';
 import { NUMBER_OF_TELL_ME_QUESTIONS as NUMBER_OF_TELL_ME_QUESTIONS_NON_TRAILER } from '@shared/constants/tell-me-questions/tell-me-questions.vocational.constants';
-import { SafetyQuestionsScore } from '@shared/models/safety-questions-score.model';
 import { VehicleChecksScore } from '@shared/models/vehicle-checks-score.model';
 import {
   getSafetyQuestions,
@@ -80,19 +74,6 @@ import { FullLicenceHeldComponent } from '../../../components/full-licence-held-
 import { VehicleChecksQuestionComponent } from '../../../components/vehicle-checks-question/vehicle-checks-question';
 import { SafetyQuestionComponent } from '../safety-question/safety-question';
 import * as vehicleChecksModalActions from './vehicle-checks-modal.cat-d.actions';
-
-interface VehicleChecksModalCatDState {
-  candidateName$: Observable<string>;
-  showMeQuestions$: Observable<QuestionResult[]>;
-  tellMeQuestions$: Observable<QuestionResult[]>;
-  safetyQuestions$: Observable<SafetyQuestionResult[]>;
-  vehicleChecksScore$: Observable<VehicleChecksScore>;
-  vehicleChecks$: Observable<CatDVehicleChecks>;
-  safetyQuestionsScore$: Observable<SafetyQuestionsScore>;
-  fullLicenceHeld$: Observable<boolean>;
-  showFullLicenceHeld$: Observable<boolean>;
-  fullLicenceHeldSelection$: Observable<string>;
-}
 
 @Component({
   selector: 'vehicle-checks-modal-cat-d',
@@ -121,11 +102,35 @@ interface VehicleChecksModalCatDState {
     IonRow,
     IonCol,
     IonText,
-    AsyncPipe,
   ],
 })
 export class VehicleChecksCatDModal {
-  pageState: VehicleChecksModalCatDState;
+  private viewCurrentTest = this.store$.selectSignal(selectCurrentTest);
+  private viewTestData = computed(() => getTestData(this.viewCurrentTest() as never));
+  private viewVehicleChecks = computed(() => getVehicleChecksCatD(this.viewTestData()));
+  private checksScore = computed(() =>
+    this.faultCountProvider.getVehicleChecksFaultCount(this.category, this.viewVehicleChecks())
+  );
+  get vehicleChecksScore(): VehicleChecksScore {
+    return this.checksScore();
+  }
+  get vehicleChecks(): CatDVehicleChecks {
+    return this.viewVehicleChecks();
+  }
+  get fullLicenceHeld(): boolean {
+    return getFullLicenceHeld(this.viewVehicleChecks());
+  }
+  safetyQuestionsScore = computed(() =>
+    this.faultCountProvider.getSafetyQuestionsFaultCount(this.category, getSafetyQuestionsCatD(this.viewTestData()))
+  );
+  candidateName = this.store$.selectSignal(selectUntitledCandidateName);
+  selectedShowMeQuestions = computed(() => getSelectedShowMeQuestions(this.viewVehicleChecks()));
+  selectedTellMeQuestions = computed(() => getSelectedTellMeQuestions(this.viewVehicleChecks()));
+  showFullLicenceHeldInStore = computed(() => getFullLicenceHeld(this.viewVehicleChecks()) !== null);
+  fullLicenceHeldSelection = computed(() =>
+    this.hasFullLicenceHeldBeenSelected(getFullLicenceHeld(this.viewVehicleChecks()))
+  );
+  selectedSafetyQuestions = computed(() => getSafetyQuestions(getSafetyQuestionsCatD(this.viewTestData())));
   formGroup: UntypedFormGroup;
 
   showMeQuestions: VehicleChecksQuestion[];
@@ -143,14 +148,7 @@ export class VehicleChecksCatDModal {
   tellMeQuestionsNumberArray: number[];
   safetyQuestionsNumberArray: number[];
 
-  vehicleChecksScore: VehicleChecksScore;
-  vehicleChecks: CatDVehicleChecks;
-  safetyQuestionsScore: SafetyQuestionsScore;
-
-  subscription: Subscription;
-
   fullLicenceHeldSelected: string = null;
-  fullLicenceHeld: boolean = null;
 
   constructor(
     public store$: Store<StoreModel>,
@@ -167,63 +165,6 @@ export class VehicleChecksCatDModal {
     this.showMeQuestions = this.questionProvider.getShowMeQuestions(this.category);
     this.tellMeQuestions = this.questionProvider.getTellMeQuestions(this.category);
     this.safetyQuestions = this.questionProvider.getVocationalSafetyQuestions(this.category);
-    const currentTest$ = this.store$.pipe(select(getTests), select(getCurrentTest));
-    this.pageState = {
-      candidateName$: currentTest$.pipe(select(getJournalData), select(getCandidate), select(getUntitledCandidateName)),
-      showMeQuestions$: currentTest$.pipe(
-        select(getTestData),
-        select(getVehicleChecksCatD),
-        select(getSelectedShowMeQuestions)
-      ),
-      tellMeQuestions$: currentTest$.pipe(
-        select(getTestData),
-        select(getVehicleChecksCatD),
-        select(getSelectedTellMeQuestions)
-      ),
-      safetyQuestions$: currentTest$.pipe(
-        select(getTestData),
-        select(getSafetyQuestionsCatD),
-        select(getSafetyQuestions)
-      ),
-      vehicleChecksScore$: currentTest$.pipe(
-        select(getTestData),
-        select(getVehicleChecksCatD),
-        map((vehicleChecks) => this.faultCountProvider.getVehicleChecksFaultCount(this.category, vehicleChecks))
-      ),
-      vehicleChecks$: currentTest$.pipe(select(getTestData), select(getVehicleChecksCatD)),
-      safetyQuestionsScore$: currentTest$.pipe(
-        select(getTestData),
-        select(getSafetyQuestionsCatD),
-        map((safetyQuestions) => this.faultCountProvider.getSafetyQuestionsFaultCount(this.category, safetyQuestions))
-      ),
-      fullLicenceHeld$: currentTest$.pipe(
-        select(getTestData),
-        select(getVehicleChecksCatD),
-        select(getFullLicenceHeld)
-      ),
-      showFullLicenceHeld$: currentTest$.pipe(
-        select(getTestData),
-        select(getVehicleChecksCatD),
-        select(getFullLicenceHeld),
-        map((licenceHeld: boolean) => licenceHeld !== null)
-      ),
-      fullLicenceHeldSelection$: currentTest$.pipe(
-        select(getTestData),
-        select(getVehicleChecksCatD),
-        select(getFullLicenceHeld),
-        map((licenceHeld) => this.hasFullLicenceHeldBeenSelected(licenceHeld))
-      ),
-    };
-
-    const { vehicleChecksScore$, safetyQuestionsScore$, vehicleChecks$, fullLicenceHeld$ } = this.pageState;
-
-    const merged$ = merge(
-      vehicleChecksScore$.pipe(map((score) => (this.vehicleChecksScore = score))),
-      safetyQuestionsScore$.pipe(map((score) => (this.safetyQuestionsScore = score))),
-      vehicleChecks$.pipe(map((checks) => (this.vehicleChecks = checks))),
-      fullLicenceHeld$.pipe(map((held) => (this.fullLicenceHeld = held)))
-    );
-    this.subscription = merged$.subscribe();
 
     this.setNumberOfShowMeTellMeQuestions(this.fullLicenceHeld);
   }
@@ -248,12 +189,6 @@ export class VehicleChecksCatDModal {
     }
     this.showMeQuestionsNumberArray = Array(numberOfShowMeQuestions);
     this.tellMeQuestionsNumberArray = Array(numberOfTellMeQuestions);
-  }
-
-  ionViewDidLeave(): void {
-    if (this.subscription) {
-      this.subscription.unsubscribe();
-    }
   }
 
   async onClose() {
@@ -310,12 +245,8 @@ export class VehicleChecksCatDModal {
   }
 
   fullLicenceHeldChange = (licenceHeld: boolean): void => {
-    this.fullLicenceHeld = licenceHeld;
     this.store$.dispatch(SetFullLicenceHeld(licenceHeld));
     this.setNumberOfShowMeTellMeQuestions(licenceHeld);
-
-    // on licence held toggle change, we need to re-evaluate the vehicleChecksScore to control the banner display
-    this.vehicleChecksScore = this.faultCountProvider.getVehicleChecksFaultCount(this.category, this.vehicleChecks);
   };
 
   showFullLicenceHeld = (): boolean => isAnyOf(this.category, [TestCategory.DE, TestCategory.D1E]);

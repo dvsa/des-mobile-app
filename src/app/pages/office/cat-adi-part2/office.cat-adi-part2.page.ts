@@ -1,5 +1,5 @@
-import { AsyncPipe, NgClass } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { NgClass } from '@angular/common';
+import { Component, OnInit, computed } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ActivityCodeComponent } from '@components/common/activity-code/activity-code';
 import { TestFlowHeaderComponent } from '@components/common/test-flow-header/test-flow-header.component';
@@ -15,16 +15,12 @@ import {
   IonHeader,
   IonToolbar,
 } from '@ionic/angular';
-import { select } from '@ngrx/store';
 import { behaviourMap } from '@pages/office/office-behaviour-map.cat-adi-part2';
 import { AppConfigProvider } from '@providers/app-config/app-config';
 import { ExaminerRole } from '@providers/app-config/constants/examiner-role.constants';
 import { QuestionProvider } from '@providers/question/question';
 import { VehicleChecksQuestion } from '@providers/question/vehicle-checks-question.model';
-import {
-  CommonOfficePageState,
-  OfficeBasePageComponent,
-} from '@shared/classes/test-flow-base-pages/office/office-base-page';
+import { OfficeBasePageComponent, mapOfficeValue } from '@shared/classes/test-flow-base-pages/office/office-base-page';
 import { getActivityCodeOptions } from '@shared/constants/activity-code/activity-code.constants';
 import { CompetencyOutcome } from '@shared/models/competency-outcome';
 import { CommentSource, FaultSummary } from '@shared/models/fault-marking.model';
@@ -58,11 +54,8 @@ import {
   getFuelEfficientDriving,
 } from '@store/tests/test-data/common/test-data.selector';
 import { AddUncoupleRecoupleComment } from '@store/tests/test-data/common/uncouple-recouple/uncouple-recouple.actions';
-import { getTests } from '@store/tests/tests.reducer';
-import { getCurrentTest, getTestOutcome, getTestOutcomeText } from '@store/tests/tests.selector';
+import { getTestOutcome, getTestOutcomeText } from '@store/tests/tests.selector';
 import { startsWith } from 'lodash-es';
-import { Observable, combineLatest } from 'rxjs';
-import { map, withLatestFrom } from 'rxjs/operators';
 import { AccompanimentCardComponent } from '../../waiting-room-to-car/components/accompaniment-card/accompaniment-card';
 import { VehicleDetailsCardComponent } from '../../waiting-room-to-car/components/vehicle-details-card/vehicle-details-card';
 import { AdditionalInformationComponent } from '../components/additional-information/additional-information';
@@ -88,24 +81,6 @@ import { EcoRelatedFaultComponent } from './components/eco-related-fault/eco-rel
 import { FuelEfficientDriving } from './components/fuel-efficient-driving/fuel-efficient-driving';
 import { ShowMeQuestionsCatADI2Component } from './components/show-me-questions/show-me-questions';
 import { VehicleChecksOfficeCardCatADI2Component } from './components/vehicle-checks/vehicle-checks-office-card';
-
-interface CatADI2OfficePageState {
-  displayDrivingFaultComments$: Observable<boolean>;
-  displayTellMeQuestions$: Observable<boolean>;
-  showMeQuestions$: Observable<QuestionResult[]>;
-  vehicleChecks$: Observable<QuestionResult[]>;
-  vehicleChecksSerious$: Observable<boolean>;
-  vehicleChecksDangerous$: Observable<boolean>;
-  showMeQuestionsFaults$: Observable<number>;
-  adi2DrivingFaults$: Observable<FaultSummary[]>;
-  fuelEfficientDriving$: Observable<boolean>;
-  ecoRelatedFault$: Observable<string>;
-  ecoCaptureReason$: Observable<string>;
-  displayFuelEfficient$: Observable<boolean>;
-  allowDrivingFaultComment$: Observable<boolean>;
-}
-
-type OfficePageState = CommonOfficePageState & CatADI2OfficePageState;
 
 @Component({
   selector: 'app-office-cat-adi-part2',
@@ -150,11 +125,98 @@ type OfficePageState = CommonOfficePageState & CatADI2OfficePageState;
     DrivingFaultsComponent,
     IonFooter,
     OfficeFooterComponent,
-    AsyncPipe,
   ],
 })
 export class OfficeCatADI2Page extends OfficeBasePageComponent implements OnInit {
-  pageState: OfficePageState;
+  displayDrivingFaultComments = computed(() =>
+    mapOfficeValue(
+      [getTestData(this.officeCurrentTest() as never), getTestOutcomeText(this.officeCurrentTest() as never)] as const,
+      ([testData, testOutcomeText]) =>
+        this.faultCountProvider.shouldDisplayDrivingFaultComments(testData, TestCategory.ADI2, 0, testOutcomeText)
+    )
+  );
+  displayTellMeQuestions = computed(() =>
+    mapOfficeValue(
+      [getTestOutcome(this.officeCurrentTest() as never), getTestData(this.officeCurrentTest() as never)] as const,
+      ([outcome, data]) =>
+        this.outcomeBehaviourProvider.isVisible(outcome, 'tellMeQuestion', vehicleChecksExist(data.vehicleChecks)) &&
+        (data.vehicleChecks?.tellMeQuestions
+          ? data.vehicleChecks?.tellMeQuestions.filter((value: QuestionResult) => Object.keys(value).length > 0)
+              .length > 0
+          : false)
+    )
+  );
+  vehicleChecks = computed(() =>
+    mapOfficeValue(getVehicleChecksCatADI2(getTestData(this.officeCurrentTest() as never) as never), (checks) => [
+      ...checks.tellMeQuestions,
+    ])
+  );
+  recordedShowMeQuestions = computed(() =>
+    getSelectedShowMeQuestions(
+      getVehicleChecksCatADI2(getTestData(this.officeCurrentTest() as never) as never) as never
+    )
+  );
+  vehicleChecksSerious = computed(() =>
+    getVehicleChecksSerious(getVehicleChecksCatADI2(getTestData(this.officeCurrentTest() as never) as never) as never)
+  );
+  vehicleChecksDangerous = computed(() =>
+    getVehicleChecksDangerous(getVehicleChecksCatADI2(getTestData(this.officeCurrentTest() as never) as never) as never)
+  );
+  showMeQuestionsFaults = computed(() =>
+    mapOfficeValue(
+      getVehicleChecksCatADI2(getTestData(this.officeCurrentTest() as never) as never),
+      (data) => this.faultCountProvider.getShowMeFaultCount(TestCategory.ADI2, data).drivingFaults
+    )
+  );
+  adi2DrivingFaults = computed(() =>
+    mapOfficeValue([getTestData(this.officeCurrentTest() as never), this.testCategory()] as const, ([data, category]) =>
+      this.faultSummaryProvider.getDrivingFaultsList(data, category as TestCategory, false)
+    )
+  );
+  fuelEfficientDriving = computed(() =>
+    getFuelEfficientDriving(getEco(getTestData(this.officeCurrentTest() as never) as never) as never)
+  );
+  ecoRelatedFault = computed(() =>
+    getEcoRelatedFault(getEco(getTestData(this.officeCurrentTest() as never) as never) as never)
+  );
+  ecoCaptureReason = computed(() =>
+    getEcoCaptureReason(getEco(getTestData(this.officeCurrentTest() as never) as never) as never)
+  );
+  displayFuelEfficient = computed(() =>
+    mapOfficeValue(
+      [
+        mapOfficeValue(
+          [getTestData(this.officeCurrentTest() as never), this.testCategory()] as const,
+          ([testData, category]) => this.faultSummaryProvider.getSeriousFaultsList(testData, category as TestCategory)
+        ),
+        mapOfficeValue(
+          [getTestData(this.officeCurrentTest() as never), this.testCategory()] as const,
+          ([testData, category]) => this.faultSummaryProvider.getDangerousFaultsList(testData, category as TestCategory)
+        ),
+        mapOfficeValue(
+          [getTestData(this.officeCurrentTest() as never), this.testCategory()] as const,
+          ([data, category]) => this.faultSummaryProvider.getDrivingFaultsList(data, category as TestCategory, false)
+        ),
+      ] as const,
+      ([seriousF, dangerousF, drivingF]) =>
+        !!(seriousF?.length === 0 && dangerousF?.length === 0 && drivingF?.length === 0)
+    )
+  );
+  allowDrivingFaultComment = computed(() =>
+    mapOfficeValue(
+      [
+        mapOfficeValue(
+          [getTestData(this.officeCurrentTest() as never), this.testCategory()] as const,
+          ([testData, category]) => this.faultSummaryProvider.getSeriousFaultsList(testData, category as TestCategory)
+        ),
+        mapOfficeValue(
+          [getTestData(this.officeCurrentTest() as never), this.testCategory()] as const,
+          ([testData, category]) => this.faultSummaryProvider.getDangerousFaultsList(testData, category as TestCategory)
+        ),
+      ] as const,
+      ([seriousF, dangerousF]) => !!(seriousF?.length === 0 && dangerousF?.length === 0)
+    )
+  );
   static readonly maxFaultCount = 6;
   showMeQuestions: VehicleChecksQuestion[];
 
@@ -170,113 +232,6 @@ export class OfficeCatADI2Page extends OfficeBasePageComponent implements OnInit
 
   ngOnInit(): void {
     super.onInitialisation();
-
-    const currentTest$ = this.store$.pipe(select(getTests), select(getCurrentTest));
-
-    this.pageState = {
-      ...this.commonPageState,
-      displayDrivingFaultComments$: currentTest$.pipe(
-        select(getTestData),
-        withLatestFrom(currentTest$.pipe(select(getTestOutcomeText))),
-        map(([testData, testOutcomeText]) =>
-          this.faultCountProvider.shouldDisplayDrivingFaultComments(testData, TestCategory.ADI2, 0, testOutcomeText)
-        )
-      ),
-      displayTellMeQuestions$: currentTest$.pipe(
-        select(getTestOutcome),
-        withLatestFrom(currentTest$.pipe(select(getTestData))),
-        map(
-          ([outcome, data]) =>
-            this.outcomeBehaviourProvider.isVisible(
-              outcome,
-              'tellMeQuestion',
-              vehicleChecksExist(data.vehicleChecks)
-            ) &&
-            (data.vehicleChecks?.tellMeQuestions
-              ? data.vehicleChecks?.tellMeQuestions.filter((value: QuestionResult) => Object.keys(value).length > 0)
-                  .length > 0
-              : false)
-        )
-      ),
-      vehicleChecks$: currentTest$.pipe(
-        select(getTestData),
-        select(getVehicleChecksCatADI2),
-        map((checks) => [...checks.tellMeQuestions])
-      ),
-      showMeQuestions$: currentTest$.pipe(
-        select(getTestData),
-        select(getVehicleChecksCatADI2),
-        select(getSelectedShowMeQuestions)
-      ),
-      vehicleChecksSerious$: currentTest$.pipe(
-        select(getTestData),
-        select(getVehicleChecksCatADI2),
-        select(getVehicleChecksSerious)
-      ),
-      vehicleChecksDangerous$: currentTest$.pipe(
-        select(getTestData),
-        select(getVehicleChecksCatADI2),
-        select(getVehicleChecksDangerous)
-      ),
-      showMeQuestionsFaults$: currentTest$.pipe(
-        select(getTestData),
-        select(getVehicleChecksCatADI2),
-        map((data) => this.faultCountProvider.getShowMeFaultCount(TestCategory.ADI2, data).drivingFaults)
-      ),
-      adi2DrivingFaults$: currentTest$.pipe(
-        select(getTestData),
-        withLatestFrom(this.commonPageState.testCategory$),
-        map(([data, category]) => this.faultSummaryProvider.getDrivingFaultsList(data, category as TestCategory, false))
-      ),
-      fuelEfficientDriving$: currentTest$.pipe(select(getTestData), select(getEco), select(getFuelEfficientDriving)),
-      ecoRelatedFault$: currentTest$.pipe(select(getTestData), select(getEco), select(getEcoRelatedFault)),
-      ecoCaptureReason$: currentTest$.pipe(select(getTestData), select(getEco), select(getEcoCaptureReason)),
-      displayFuelEfficient$: combineLatest([
-        currentTest$.pipe(
-          select(getTestData),
-          withLatestFrom(this.commonPageState.testCategory$),
-          map(([testData, category]) =>
-            this.faultSummaryProvider.getSeriousFaultsList(testData, category as TestCategory)
-          )
-        ),
-        currentTest$.pipe(
-          select(getTestData),
-          withLatestFrom(this.commonPageState.testCategory$),
-          map(([testData, category]) =>
-            this.faultSummaryProvider.getDangerousFaultsList(testData, category as TestCategory)
-          )
-        ),
-        currentTest$.pipe(
-          select(getTestData),
-          withLatestFrom(this.commonPageState.testCategory$),
-          map(([data, category]) =>
-            this.faultSummaryProvider.getDrivingFaultsList(data, category as TestCategory, false)
-          )
-        ),
-      ]).pipe(
-        map(
-          ([seriousF, dangerousF, drivingF]) =>
-            !!(seriousF?.length === 0 && dangerousF?.length === 0 && drivingF?.length === 0)
-        )
-      ),
-      allowDrivingFaultComment$: combineLatest([
-        currentTest$.pipe(
-          select(getTestData),
-          withLatestFrom(this.commonPageState.testCategory$),
-          map(([testData, category]) =>
-            this.faultSummaryProvider.getSeriousFaultsList(testData, category as TestCategory)
-          )
-        ),
-        currentTest$.pipe(
-          select(getTestData),
-          withLatestFrom(this.commonPageState.testCategory$),
-          map(([testData, category]) =>
-            this.faultSummaryProvider.getDangerousFaultsList(testData, category as TestCategory)
-          )
-        ),
-      ]).pipe(map(([seriousF, dangerousF]) => !!(seriousF?.length === 0 && dangerousF?.length === 0))),
-    };
-    this.setupSubscription();
   }
 
   async ionViewWillEnter() {
@@ -285,10 +240,6 @@ export class OfficeCatADI2Page extends OfficeBasePageComponent implements OnInit
     if (!this.isPracticeMode && super.isIos()) {
       await this.deviceProvider.disableSingleAppMode();
     }
-  }
-
-  setupSubscription() {
-    super.setupSubscriptions();
   }
 
   ionViewDidLeave(): void {

@@ -1,6 +1,7 @@
-import { AsyncPipe, NgClass } from '@angular/common';
+import { NgClass } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, computed } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import {
   AbstractControl,
   FormsModule,
@@ -51,20 +52,13 @@ import { BasePageComponent } from '@shared/classes/base-page';
 import { bookingReferenceMask, formatBookingReferenceForBackend, maskPredicate } from '@shared/helpers/formatters';
 import { ErrorTypes } from '@shared/models/error-message';
 import { isEmpty } from 'lodash-es';
-import { Observable, Subscription } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { distinctUntilChanged, map } from 'rxjs/operators';
 import {
   DelegatedRekeySearchClearState,
   DelegatedRekeySearchViewDidEnter,
   SearchBookedDelegatedTest,
 } from './delegated-rekey-search.actions';
-
-interface DelegatedRekeySearchPageState {
-  isLoading$: Observable<boolean>;
-  hasSearched$: Observable<boolean>;
-  bookedTestSlot$: Observable<TestSlot>;
-  rekeySearchErr$: Observable<DelegatedRekeySearchError | HttpErrorResponse>;
-}
 
 @Component({
   selector: 'page-delegated-rekey-search',
@@ -92,11 +86,15 @@ interface DelegatedRekeySearchPageState {
     IonIcon,
     IonSpinner,
     TestSlotComponent,
-    AsyncPipe,
   ],
 })
 export class DelegatedRekeySearchPage extends BasePageComponent implements OnInit {
-  pageState: DelegatedRekeySearchPageState;
+  private readonly searchState = this.store$.selectSignal(getDelegatedRekeySearchState);
+  readonly isLoading = computed(() => getIsLoading(this.searchState()));
+  readonly hasSearched = computed(() => getHasSearched(this.searchState()));
+  readonly bookedTestSlot = computed(() => getBookedTestSlot(this.searchState()));
+  readonly rekeySearchErr = computed(() => getDelegatedRekeySearchError(this.searchState()));
+  readonly isPortrait = toSignal(this.orientationMonitorProvider.isPortraitMode$, { initialValue: false });
   delegatedRekeyForm: UntypedFormGroup;
   hasClickedSearch = false;
   maxCallStackHandler = {
@@ -121,14 +119,6 @@ export class DelegatedRekeySearchPage extends BasePageComponent implements OnIni
 
   ngOnInit(): void {
     this.store$.dispatch(DelegatedRekeySearchClearState());
-    const rekeySearch$ = this.store$.pipe(select(getDelegatedRekeySearchState));
-    this.pageState = {
-      isLoading$: rekeySearch$.pipe(map(getIsLoading)),
-      hasSearched$: rekeySearch$.pipe(map(getHasSearched)),
-      bookedTestSlot$: rekeySearch$.pipe(map(getBookedTestSlot)),
-      rekeySearchErr$: rekeySearch$.pipe(map(getDelegatedRekeySearchError), distinctUntilChanged()),
-    };
-
     this.delegatedRekeyForm = new UntypedFormGroup({});
     this.delegatedRekeyForm.addControl(
       'applicationReferenceInput',
@@ -158,11 +148,14 @@ export class DelegatedRekeySearchPage extends BasePageComponent implements OnIni
   }
 
   setUpSubscription() {
-    this.subscription = this.pageState.rekeySearchErr$.subscribe((error) => {
-      if (!this.hasBookingAlreadyBeenCompleted(error) && this.pageState.hasSearched$) {
-        this.showError(error);
-      }
-    });
+    this.subscription.unsubscribe();
+    this.subscription = this.store$
+      .pipe(select(getDelegatedRekeySearchState), map(getDelegatedRekeySearchError), distinctUntilChanged())
+      .subscribe((error) => {
+        if (!this.hasBookingAlreadyBeenCompleted(error)) {
+          this.showError(error);
+        }
+      });
   }
 
   ionViewDidLeave(): void {

@@ -7,11 +7,11 @@
       (onPress)="toggleEco()"
       [allowRipple]="false"
       [ngClass]="{
-        'checked': componentState.completed$ | async
+        'checked': completed()
       }"
     >
       <span class="tickwrapper">
-        <tick-indicator [ticked]="componentState.completed$ | async"></tick-indicator>
+        <tick-indicator [ticked]="completed()"></tick-indicator>
       </span>
     </competency-button>
   </ion-col>
@@ -23,7 +23,7 @@
       (onPress)="toggleEcoControl()"
       [allowRipple]="false"
       [ngClass]="{
-        'complete': componentState.adviceGivenControl$ | async
+        'complete': adviceGivenControl()
       }"
     >
       <div class="competency-label">ECO: C</div>
@@ -37,7 +37,7 @@
       (onPress)="toggleEcoPlanning()"
       [allowRipple]="false"
       [ngClass]="{
-        'complete': componentState.adviceGivenPlanning$ | async
+        'complete': adviceGivenPlanning()
       }"
     >
       <div class="competency-label">ECO: P</div>

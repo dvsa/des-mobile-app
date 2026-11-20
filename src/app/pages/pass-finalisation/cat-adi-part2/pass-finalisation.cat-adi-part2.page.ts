@@ -1,4 +1,4 @@
-import { AsyncPipe, NgClass } from '@angular/common';
+import { NgClass } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormsModule, ReactiveFormsModule, UntypedFormGroup } from '@angular/forms';
 import { TestFlowHeaderComponent } from '@components/common/test-flow-header/test-flow-header.component';
@@ -23,16 +23,10 @@ import {
   PassFinalisationValidationError,
   PassFinalisationViewDidEnter,
 } from '@pages/pass-finalisation/pass-finalisation.actions';
-import {
-  CommonPassFinalisationPageState,
-  PassFinalisationPageComponent,
-} from '@shared/classes/test-flow-base-pages/pass-finalisation/pass-finalisation-base-page';
+import { PassFinalisationPageComponent } from '@shared/classes/test-flow-base-pages/pass-finalisation/pass-finalisation-base-page';
 import { D255No } from '@store/tests/test-summary/test-summary.actions';
 import { PersistTests } from '@store/tests/tests.actions';
-import { Observable, Subscription } from 'rxjs';
 import { behaviourMap } from '../../office/office-behaviour-map.cat-adi-part2';
-
-type PassFinalisationPageState = CommonPassFinalisationPageState;
 
 @Component({
   selector: 'app-pass-finalisation-cat-adi-part2',
@@ -56,14 +50,10 @@ type PassFinalisationPageState = CommonPassFinalisationPageState;
     IonCol,
     IonButton,
     IonText,
-    AsyncPipe,
   ],
 })
 export class PassFinalisationCatADI2Page extends PassFinalisationPageComponent implements OnInit {
-  pageState: PassFinalisationPageState;
   form: UntypedFormGroup;
-  merged$: Observable<string | boolean>;
-  subscription: Subscription;
 
   constructor() {
     super();
@@ -73,10 +63,6 @@ export class PassFinalisationCatADI2Page extends PassFinalisationPageComponent i
 
   ngOnInit(): void {
     super.onInitialisation();
-
-    this.pageState = {
-      ...this.commonPageState,
-    };
 
     // Dispatching this action as D255 is not present in ADI pt2, but it is a mandatory field in TARS
     this.store$.dispatch(D255No());

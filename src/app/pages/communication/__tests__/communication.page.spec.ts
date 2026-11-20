@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 
-import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, signal } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
@@ -25,7 +25,6 @@ import * as communicationPreferencesActions from '@store/tests/communication-pre
 import { ValidPassCertChanged } from '@store/tests/pre-test-declarations/pre-test-declarations.actions';
 import { initialState as preTestDeclarationInitialState } from '@store/tests/pre-test-declarations/pre-test-declarations.reducer';
 import { MockComponent } from 'ng-mocks';
-import { Subscription } from 'rxjs';
 
 describe('CommunicationPage', () => {
   let fixture: ComponentFixture<CommunicationPage>;
@@ -92,7 +91,6 @@ describe('CommunicationPage', () => {
     translate.setFallbackLang('en');
     store$ = TestBed.inject(Store);
     vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
-    component.subscription = new Subscription();
   });
 
   describe('Class', () => {
@@ -129,7 +127,7 @@ describe('CommunicationPage', () => {
 
     describe('dispatchCandidateChoseProvidedEmail', () => {
       it('should dispatch a CandidateChoseEmailAsCommunicationPreference action', () => {
-        component.candidateProvidedEmail = candidateMock.emailAddress;
+        component.candidateProvidedEmail = signal(candidateMock.emailAddress);
         component.dispatchCandidateChoseProvidedEmail();
         expect(store$.dispatch).toHaveBeenCalledWith(
           communicationPreferencesActions.CandidateChoseEmailAsCommunicationPreference(
@@ -218,15 +216,6 @@ describe('CommunicationPage', () => {
     });
   });
 
-  describe('ionViewDidLeave', () => {
-    it('should unsubscribe from subscription if there is one', () => {
-      component.subscription = new Subscription();
-      vi.spyOn(component.subscription, 'unsubscribe').mockReturnValue(undefined);
-      component.ionViewDidLeave();
-      expect(component.subscription.unsubscribe).toHaveBeenCalled();
-    });
-  });
-
   describe('shouldPreselectADefaultValue', () => {
     it('should return true if communicationType is equal to CommunicationPage.notProvided', () => {
       component.communicationType = CommunicationPage.notProvided;
@@ -251,19 +240,19 @@ describe('CommunicationPage', () => {
       expect(component.communicationType).toEqual(CommunicationPage.email);
     });
     it('should set emailType to CommunicationPage.providedEmail ' + 'if candidateProvidedEmail is present', () => {
-      component.candidateProvidedEmail = 'test';
+      component.candidateProvidedEmail = signal('test');
       component.initialiseDefaultSelections();
 
       expect(component.emailType).toEqual(CommunicationPage.providedEmail);
     });
     it('should set radioCtrl to true if candidateProvidedEmail is present', () => {
-      component.candidateProvidedEmail = 'test';
+      component.candidateProvidedEmail = signal('test');
       component.initialiseDefaultSelections();
 
       expect(component.form.controls.radioCtrl.value).toEqual(true);
     });
     it('should call dispatchCandidateChoseProvidedEmail if candidateProvidedEmail is present', () => {
-      component.candidateProvidedEmail = 'test';
+      component.candidateProvidedEmail = signal('test');
       vi.spyOn(component, 'dispatchCandidateChoseProvidedEmail').mockReturnValue(undefined);
 
       component.initialiseDefaultSelections();
@@ -277,8 +266,8 @@ describe('CommunicationPage', () => {
       'should set emailType to CommunicationPage.providedEmail if communicationEmail' +
         'is equal to candidateProvidedEmail and candidateProvidedEmail is not blank',
       () => {
-        component.candidateProvidedEmail = 'test';
-        component.communicationEmail = 'test';
+        component.candidateProvidedEmail = signal('test');
+        component.communicationEmail = signal('test');
         component.assertEmailType();
         expect(component.emailType).toEqual(CommunicationPage.providedEmail);
       }
@@ -287,8 +276,8 @@ describe('CommunicationPage', () => {
       'should set emailType to CommunicationPage.updatedEmail if communicationEmail' +
         'is not equal to candidateProvidedEmail',
       () => {
-        component.candidateProvidedEmail = 'test1';
-        component.communicationEmail = 'test';
+        component.candidateProvidedEmail = signal('test1');
+        component.communicationEmail = signal('test');
         component.assertEmailType();
         expect(component.emailType).toEqual(CommunicationPage.updatedEmail);
       }
@@ -302,7 +291,7 @@ describe('CommunicationPage', () => {
       () => {
         vi.spyOn(component, 'isNewEmailSelected').mockReturnValue(true);
         vi.spyOn(component, 'dispatchCandidateChoseNewEmail').mockReturnValue(undefined);
-        component.communicationEmail = 'test@mail.com';
+        component.communicationEmail = signal('test@mail.com');
         component.conditionalDispatchCandidateChoseNewEmail();
         expect(component.dispatchCandidateChoseNewEmail).toHaveBeenCalled();
       }

@@ -18,6 +18,7 @@ import { OrientationMonitorProviderMock } from '@providers/orientation-monitor/_
 import { OrientationMonitorProvider } from '@providers/orientation-monitor/orientation-monitor.provider';
 import { SlotProviderMock } from '@providers/slot/__mocks__/slot.mock';
 import { SlotProvider } from '@providers/slot/slot';
+import { of } from 'rxjs';
 import { type MockedObject, beforeEach, describe, expect, it, vi } from 'vitest';
 import { UnuploadedTestsViewDidEnter } from '../unuploaded-tests.actions';
 import { UnuploadedTestsPage } from '../unuploaded-tests.page';
@@ -38,7 +39,10 @@ describe('UnuploadedTestsPage', () => {
         { provide: AppConfigProvider, useValue: AppConfigProviderMock },
         { provide: DateTimeProvider, useValue: DateTimeProviderMock },
         { provide: SlotProvider, useValue: SlotProviderMock },
-        { provide: OrientationMonitorProvider, useValue: OrientationMonitorProviderMock },
+        {
+          provide: OrientationMonitorProvider,
+          useValue: Object.assign(new OrientationMonitorProviderMock(), { isPortraitMode$: of(false) }),
+        },
       ],
     }).compileComponents();
 

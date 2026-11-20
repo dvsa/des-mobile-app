@@ -50,7 +50,7 @@
 <ion-row class="mes-full-width-card">
   <ion-button
     (click)="onShowJournalClick()"
-    [disabled]="!hasSelectedExaminer"
+    [disabled]="!hasSelectedExaminer()"
     class="mes-primary-button full-width"
     id="show-journal-button"
     mode="ios"
@@ -59,11 +59,11 @@
   </ion-button>
 </ion-row>
 
-@if (hasSelectedExaminer) {
+@if (hasSelectedExaminer()) {
   <section>
-    @if (journal) {
+    @if (journal()) {
       <div>
-        @if (hasClickedShowJournal) {
+        @if (hasClickedShowJournal()) {
           <journal-navigation
             (nextDayClicked)="onNextDayClick()"
             (previousDayClicked)="onPreviousDayClick()"
@@ -71,26 +71,25 @@
             [canNavigateToPreviousDay]="canNavigateToPreviousDay()"
             [fromTestCentreJournal]="true"
             [isSelectedDateToday]="isSelectedDateToday()"
-            [selectedDate]="currentSelectedDate"
+            [selectedDate]="currentSelectedDate()"
           >
           </journal-navigation>
         }
-        @if (shouldShowBanner() && hasClickedShowJournal) {
+        @if (shouldShowBanner() && hasClickedShowJournal()) {
           <div class="no-results">
             <p class="no-results-text">{{ warningText }}</p>
           </div>
         }
-        @let slotItems = slotItems$ | async;
-        @if (hasClickedShowJournal && slotItems?.length > 0) {
+        @if (hasClickedShowJournal() && slotItems().length > 0) {
           <journal-slots
-            [isPortrait]="orientationMonitorProvider.isPortraitMode$ | async"
+            [isPortrait]="isPortrait()"
             [isTeamJournal]="true"
-            [slots]="slotItems">
+            [slots]="slotItems()">
           </journal-slots>
         }
       </div>
     } @else {
-      @if (hasClickedShowJournal) {
+      @if (hasClickedShowJournal()) {
         <div class="no-results">
           <p class="no-results-text" id="examiner-no-journal-to-display-message">
             This examiner does not have any journal information to display

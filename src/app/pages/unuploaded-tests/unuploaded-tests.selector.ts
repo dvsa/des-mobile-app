@@ -7,6 +7,17 @@ import { TestsModel } from '@store/tests/tests.model';
 import { Observable, combineLatest } from 'rxjs';
 import { map } from 'rxjs/operators';
 
+export const getUnsubmittedTestSlots = (
+  journal: JournalModel,
+  tests: TestsModel,
+  dateTimeProvider: DateTimeProvider,
+  slotProvider: SlotProvider,
+  daysToView = 14
+): SlotItem[] =>
+  getIncompleteTests(journal, tests, dateTimeProvider.now(), slotProvider, daysToView).sort(
+    (a, b) => new Date(a.slotData.slotDetail.start).getTime() - new Date(b.slotData.slotDetail.start).getTime()
+  );
+
 export const unsubmittedTestSlots$ = (
   journal$: Observable<JournalModel>,
   tests$: Observable<TestsModel>,
@@ -15,13 +26,7 @@ export const unsubmittedTestSlots$ = (
   daysToView = 14
 ): Observable<SlotItem[]> => {
   return combineLatest([journal$, tests$]).pipe(
-    map(([journal, tests]) => {
-      return getIncompleteTests(journal, tests, dateTimeProvider.now(), slotProvider, daysToView).sort(
-        (a, b) =>
-          // sort oldest to newest
-          new Date(a.slotData.slotDetail.start).getTime() - new Date(b.slotData.slotDetail.start).getTime()
-      );
-    })
+    map(([journal, tests]) => getUnsubmittedTestSlots(journal, tests, dateTimeProvider, slotProvider, daysToView))
   );
 };
 

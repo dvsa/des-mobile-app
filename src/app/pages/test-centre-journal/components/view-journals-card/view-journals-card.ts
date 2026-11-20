@@ -1,11 +1,8 @@
-import { Component, EventEmitter, Input, OnChanges, Output, ViewChild, ViewContainerRef } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, Output, ViewChild, ViewContainerRef, signal } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { Examiner, ExaminerWorkSchedule, TestCentre } from '@dvsa/mes-journal-schema';
-import { SearchResultTestSchema } from '@dvsa/mes-search-schema';
 import { IonButton, IonCol, IonRow, IonSelect, IonSelectOption, IonText } from '@ionic/angular';
-import { Observable, of } from 'rxjs';
-import { first, map } from 'rxjs/operators';
 
-import { AsyncPipe } from '@angular/common';
 import { SearchablePicklistComponentWrapper } from '@components/common/searchable-picklist-wrapper/searchable-picklist-wrapper';
 import { Store } from '@ngrx/store';
 import { JournalNavigationComponent } from '@pages/journal/components/journal-navigation/journal-navigation';
@@ -48,7 +45,6 @@ export enum Day {
     IonText,
     JournalNavigationComponent,
     JournalSlotComponent,
-    AsyncPipe,
   ],
 })
 export class ViewJournalsCardComponent implements OnChanges {
@@ -82,16 +78,16 @@ export class ViewJournalsCardComponent implements OnChanges {
   @Output()
   testCentreChanged = new EventEmitter<TestCentre>();
 
-  hasSelectedExaminer = false;
-  hasClickedShowJournal = false;
-  journal: ExaminerWorkSchedule | null = null;
-  examinerName: string = null;
-  examinerSlotItemsByDate: ExaminerSlotItemsByDate;
-  completedTests: SearchResultTestSchema[];
+  hasSelectedExaminer = signal(false);
+  hasClickedShowJournal = signal(false);
+  journal = signal<ExaminerWorkSchedule>(null);
+  examinerName = signal<string>(null);
+  examinerSlotItemsByDate = signal<ExaminerSlotItemsByDate>(null);
   private dateFormat = 'YYYY-MM-DD';
   today: string = new DateTime().format(this.dateFormat);
-  currentSelectedDate: string = this.today;
-  slotItems$: Observable<SlotItem[]>;
+  currentSelectedDate = signal(this.today);
+  slotItems = signal<SlotItem[]>([]);
+  readonly isPortrait = toSignal(this.orientationMonitorProvider.isPortraitMode$, { initialValue: false });
   protected readonly transformStringForID = transformStringForID;
 
   constructor(
@@ -118,10 +114,12 @@ export class ViewJournalsCardComponent implements OnChanges {
   }
 
   onManualRefresh = (): void => {
-    this.journal = null;
-    this.examinerName = null;
-    this.hasSelectedExaminer = false;
-    this.hasClickedShowJournal = false;
+    this.journal.set(null);
+    this.examinerName.set(null);
+    this.hasSelectedExaminer.set(false);
+    this.hasClickedShowJournal.set(false);
+    this.examinerSlotItemsByDate.set(null);
+    this.slotItems.set([]);
     if (this.examinerSelect) {
       this.examinerSelect.value = null;
     }
@@ -141,76 +139,71 @@ export class ViewJournalsCardComponent implements OnChanges {
     }
 
     const { journal, name } = this.testCentreResults.examiners.find((examiner) => examiner.staffNumber === staffNumber);
-    this.currentSelectedDate = this.today;
-    this.journal = journal;
-    this.examinerName = name;
-    this.hasSelectedExaminer = true;
-    this.hasClickedShowJournal = false;
+    this.currentSelectedDate.set(this.today);
+    this.journal.set(journal);
+    this.examinerName.set(name);
+    this.hasSelectedExaminer.set(true);
+    this.hasClickedShowJournal.set(false);
+    this.examinerSlotItemsByDate.set(null);
+    this.slotItems.set([]);
     this.slotContainer?.clear();
   };
 
   onShowJournalClick = (): void => {
-    this.hasClickedShowJournal = true;
+    this.hasClickedShowJournal.set(true);
 
-    if (!this.journal) {
+    const journal = this.journal();
+    if (!journal) {
       // if no journal, then don't try to pass value into slot creation method
       return;
     }
 
     this.store$.dispatch(TestCentreJournalShowJournals());
 
-    // createSlots with the selected journal
-    this.slotItems$ = of(this.journal).pipe(
-      first(), // auto unsubscribe after first emission
-      map(
-        (journalData: ExaminerWorkSchedule): ExaminerSlotItems => ({
-          examiner: journalData.examiner as Required<Examiner>,
-          slotItems: this.slotProvider.detectSlotChanges({}, journalData),
-        })
-      ),
-      map(
-        (examinerSlotItems: ExaminerSlotItems): ExaminerSlotItemsByDate => ({
-          examiner: examinerSlotItems.examiner,
-          slotItemsByDate: this.slotProvider.getRelevantSlotItemsByDate(examinerSlotItems.slotItems),
-        })
-      ),
-      map((examinerSlotItemsByDate: ExaminerSlotItemsByDate) => {
-        this.examinerSlotItemsByDate = examinerSlotItemsByDate;
-        return examinerSlotItemsByDate?.slotItemsByDate[this.currentSelectedDate];
-      })
-    );
+    const examinerSlotItems: ExaminerSlotItems = {
+      examiner: journal.examiner as Required<Examiner>,
+      slotItems: this.slotProvider.detectSlotChanges({}, journal),
+    };
+    const examinerSlotItemsByDate: ExaminerSlotItemsByDate = {
+      examiner: examinerSlotItems.examiner,
+      slotItemsByDate: this.slotProvider.getRelevantSlotItemsByDate(examinerSlotItems.slotItems),
+    };
+    this.examinerSlotItemsByDate.set(examinerSlotItemsByDate);
+    this.slotItems.set(examinerSlotItemsByDate.slotItemsByDate[this.currentSelectedDate()] ?? []);
   };
 
   canNavigateToNextDay = (): boolean => {
-    const nextDay = DateTime.at(this.currentSelectedDate).add(1, Duration.DAY).format(this.dateFormat);
+    const nextDay = DateTime.at(this.currentSelectedDate()).add(1, Duration.DAY).format(this.dateFormat);
     const today = DateTime.at(this.today);
-    const isInRange = DateTime.at(this.currentSelectedDate).daysDiff(today) === 0;
-    return this.examinerSlotItemsByDate?.slotItemsByDate[nextDay]?.length > 0 || isInRange;
+    const isInRange = DateTime.at(this.currentSelectedDate()).daysDiff(today) === 0;
+    return this.examinerSlotItemsByDate()?.slotItemsByDate[nextDay]?.length > 0 || isInRange;
   };
 
   canNavigateToPreviousDay = (): boolean => {
-    const dayBefore = DateTime.at(this.currentSelectedDate).subtract(1, Duration.DAY).format(this.dateFormat);
+    const dayBefore = DateTime.at(this.currentSelectedDate()).subtract(1, Duration.DAY).format(this.dateFormat);
     return (
-      this.examinerSlotItemsByDate?.slotItemsByDate[dayBefore]?.length > 0 || this.currentSelectedDate > this.today
+      this.examinerSlotItemsByDate()?.slotItemsByDate[dayBefore]?.length > 0 || this.currentSelectedDate() > this.today
     );
   };
 
-  isSelectedDateToday = (): boolean => this.currentSelectedDate === this.today;
+  isSelectedDateToday = (): boolean => this.currentSelectedDate() === this.today;
 
   onPreviousDayClick = (): void => {
     this.store$.dispatch(TestCentreJournalDateNavigation(Day.TODAY));
-    this.currentSelectedDate = this.today;
+    this.currentSelectedDate.set(this.today);
     this.onShowJournalClick();
   };
 
   onNextDayClick = (): void => {
     this.store$.dispatch(TestCentreJournalDateNavigation(Day.TOMORROW));
-    this.currentSelectedDate = new DateTime().add(1, Duration.DAY).format(this.dateFormat);
+    this.currentSelectedDate.set(new DateTime().add(1, Duration.DAY).format(this.dateFormat));
     this.onShowJournalClick();
   };
 
   shouldShowBanner = (): boolean => {
-    return this.examinerName && this.examinerSlotItemsByDate?.slotItemsByDate[this.currentSelectedDate]?.length === 0;
+    return (
+      this.examinerName() && this.examinerSlotItemsByDate()?.slotItemsByDate[this.currentSelectedDate()]?.length === 0
+    );
   };
 
   onTestCentreDidChange(testCentre: TestCentre): void {
@@ -226,6 +219,6 @@ export class ViewJournalsCardComponent implements OnChanges {
 
   get warningText(): string {
     const message = 'does not have any test bookings at';
-    return `${this.examinerName} ${message} ${this.testCentreName.replace(/,/g, '/')} ${this.dayLabel}`;
+    return `${this.examinerName()} ${message} ${this.testCentreName.replace(/,/g, '/')} ${this.dayLabel}`;
   }
 }

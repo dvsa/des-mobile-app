@@ -13,29 +13,27 @@
   </ion-toolbar>
 </ion-header>
 
-@if ({
-  slots: pageState.unSubmittedTestSlots$ | async
-  }; as state) {
+@if (slots(); as incompleteSlots) {
   <ion-content
     class="ion-padding"
     >
     <div>
       <profile-header
-        [employeeId]="pageState.employeeId$ | async"
-        [name]="pageState.employeeName$ | async"
-        [role]="pageState.role$ | async"
+        [employeeId]="employeeId()"
+        [name]="employeeName()"
+        [role]="role()"
         >
       </profile-header>
     </div>
     <div class="header-divider"></div>
     <ion-text class="des-header-style-2">
-      You have {{ state.slots?.length || 0 }} incomplete {{ getTestsText(state.slots?.length) }} (over 1 day old)
+      You have {{ incompleteSlots.length }} incomplete {{ getTestsText(incompleteSlots.length) }} (over 1 day old)
     </ion-text>
-    @for (slot of state.slots; track slot; let count = $count) {
+    @for (slot of incompleteSlots; track slot) {
       <test-slot
-        [slots]="pageState.unSubmittedTestSlotData$ | async"
+        [slots]="slotData()"
         [slot]="slot?.slotData"
-        [isPortrait]="orientationMonitorProvider.isPortraitMode$ | async"
+        [isPortrait]="isPortrait()"
         [isUnSubmittedTestSlotView]="true"
         >
       </test-slot>

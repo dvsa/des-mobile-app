@@ -6,7 +6,8 @@
       'toolbar-no-padding': isExitSAMBannerActivated,
       'ion-no-padding-important': isEndToEndPracticeMode
     }"
-    mode="ios">
+    mode="ios"
+  >
     <test-flow-header
       class="display-flex flex-direction-column"
       [pageName]="'test-report-page-cat-cpc'"
@@ -20,7 +21,8 @@
       (setupLeaveSubscription)="setupEscapeSAMLeaveSubscription()"
       (setupResumeSubscription)="setupEscapeSAMResumeSubscription()"
       (endTestButtonClicked)="onEndTestClick()"
-      (onExitSAMActivatedChanged)="isSamActivatedChanged($event)">
+      (onExitSAMActivatedChanged)="isSamActivatedChanged($event)"
+    >
       Test report - {{candidateUntitledName}}
     </test-flow-header>
   </ion-toolbar>
@@ -30,61 +32,55 @@
   <module-assessment [combinationCode]="combinationCode()"></module-assessment>
 
   @if (!isDelegated) {
-    <div>
-      @if (pageNumber === 1) {
-        <question-card
-          (answerPayload)="populateAnswer($event)"
-          [question]="question1()"
-          [questionNumber]="pageNumber"
-          >
-        </question-card>
-      }
-      @if (pageNumber === 2) {
-        <question-card
-          (answerPayload)="populateAnswer($event)"
-          [question]="question2()"
-          [questionNumber]="pageNumber"
-          >
-        </question-card>
-      }
-      @if (pageNumber === 3) {
-        <question-card
-          (answerPayload)="populateAnswer($event)"
-          [question]="question3()"
-          [questionNumber]="pageNumber"
-          >
-        </question-card>
-      }
-      @if (pageNumber === 4) {
-        <question-card
-          (answerPayload)="populateAnswer($event)"
-          [question]="question4()"
-          [questionNumber]="pageNumber"
-          >
-        </question-card>
-      }
-      @if (pageNumber === 5) {
-        <question-five-card
-          (answerPayload)="populateAnswer($event)"
-          [question]="question5()"
-          >
-        </question-five-card>
-      }
-    </div>
-  }
-
-  @if (isDelegated) {
-    <div>
-      @for (number of [1,2,3,4,5]; track number) {
-        <question-del-ex-radio-card
-          [formGroup]="form"
-          (questionScore)="populateScore($event)"
-          [question]="pageState['question' + number + '$'] | async"
-          [questionNumber]="number"
-          >
-        </question-del-ex-radio-card>
-      }
-    </div>
+  <div>
+    @if (pageNumber === 1) {
+    <question-card
+      (answerPayload)="populateAnswer($event)"
+      [question]="question1()"
+      [questionNumber]="pageNumber"
+    >
+    </question-card>
+    } @if (pageNumber === 2) {
+    <question-card
+      (answerPayload)="populateAnswer($event)"
+      [question]="question2()"
+      [questionNumber]="pageNumber"
+    >
+    </question-card>
+    } @if (pageNumber === 3) {
+    <question-card
+      (answerPayload)="populateAnswer($event)"
+      [question]="question3()"
+      [questionNumber]="pageNumber"
+    >
+    </question-card>
+    } @if (pageNumber === 4) {
+    <question-card
+      (answerPayload)="populateAnswer($event)"
+      [question]="question4()"
+      [questionNumber]="pageNumber"
+    >
+    </question-card>
+    } @if (pageNumber === 5) {
+    <question-five-card
+      (answerPayload)="populateAnswer($event)"
+      [question]="question5()"
+    >
+    </question-five-card>
+    }
+  </div>
+  } @if (isDelegated) {
+  <div>
+    @for (number of [1,2,3,4,5]; track number) {
+    <question-del-ex-radio-card
+      [formGroup]="form"
+      (questionScore)="populateScore($event)"
+      [question]="questions()[number - 1]"
+      [questionNumber]="number"
+    >
+    </question-del-ex-radio-card>
+    }
+  </div>
   }
 </ion-content>
 
@@ -94,5 +90,5 @@
   (testSummaryRequested)="onEndTestClick()"
   [isDelegated]="isDelegated"
   [formGroup]="form"
-  >
+>
 </question-footer>

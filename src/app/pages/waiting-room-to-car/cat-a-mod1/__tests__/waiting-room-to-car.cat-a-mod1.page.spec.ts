@@ -11,7 +11,7 @@ import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/
 
 import { provideBasePageMocks } from '@mocks/test-providers';
 import { Store } from '@ngrx/store';
-import { provideMockStore } from '@ngrx/store/testing';
+import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { TestFlowPageNames } from '@pages/page-names.constants';
 import { AccompanimentCardComponent } from '@pages/waiting-room-to-car/components/accompaniment-card/accompaniment-card';
 import { AccompanimentComponent } from '@pages/waiting-room-to-car/components/accompaniment/accompaniment';
@@ -101,6 +101,21 @@ describe('WaitingRoomToCarCatAMod1Page', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('updates school bike state when the current test changes', () => {
+    expect(component.schoolBike()).toBeUndefined();
+    TestBed.inject(MockStore).setState({
+      ...initialState,
+      tests: {
+        ...initialState.tests,
+        startedTests: {
+          ...initialState.tests.startedTests,
+          123: { ...initialState.tests.startedTests[123], vehicleDetails: { schoolBike: true } },
+        },
+      },
+    });
+    expect(component.schoolBike()).toBe(true);
   });
 
   describe('Class', () => {

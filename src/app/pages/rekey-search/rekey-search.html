@@ -8,7 +8,7 @@
 </ion-header>
 
 <ion-content>
-  <offline-banner [isOffline]="pageState.isOffline$ | async"></offline-banner>
+  <offline-banner [isOffline]="isOffline()"></offline-banner>
 
   <div class="search-inputs">
     <tabs>
@@ -72,8 +72,8 @@
           <ion-row class="ion-padding-top">
             <ion-button
               [disabled]="
-                (pageState.isLoading$ | async) ||
-                (pageState.isOffline$ | async) ||
+                isLoading() ||
+                isOffline() ||
                 disableSearch(applicationReference, staffNumber, isLDTM)"
               class="mes-primary-button search-tests"
               id="rekey-search-search-tests-btn"
@@ -84,7 +84,7 @@
                 Search booked tests
               </ion-text>
             </ion-button>
-            @if ((pageState.isLoading$ | async)) {
+            @if (isLoading()) {
               <ion-spinner
                 class="search-spinner"
                 name="bubbles"
@@ -97,9 +97,9 @@
       </tab>
     </tabs>
 
-    @if ((pageState.hasSearched$ | async)
-    && isBookedTestSlotEmpty(pageState.bookedTestSlot$ | async)
-    && !(hasBookingAlreadyBeenCompleted(pageState.rekeySearchErr$ | async))) {
+    @if (hasSearched()
+    && isBookedTestSlotEmpty(bookedTestSlot())
+    && !hasBookingAlreadyBeenCompleted(rekeySearchErr())) {
       <div
         class="results-error"
         >
@@ -108,10 +108,10 @@
       </div>
     }
 
-    @if ((pageState.hasSearched$ | async)
-    && blockTestFromBeingRekeyed(pageState.isBookedLessThanHalfAnHourLate$ | async, pageState.employeeId$ | async, staffNumber)
-    && !isBookedTestSlotEmpty(pageState.bookedTestSlot$ | async)
-    && !(hasBookingAlreadyBeenCompleted(pageState.rekeySearchErr$ | async))) {
+    @if (hasSearched()
+    && blockTestFromBeingRekeyed(isBookedLessThanHalfAnHourLate(), employeeId(), staffNumber)
+    && !isBookedTestSlotEmpty(bookedTestSlot())
+    && !hasBookingAlreadyBeenCompleted(rekeySearchErr())) {
       <div
         class="results-error"
         >
@@ -120,8 +120,7 @@
       </div>
     }
 
-    @if ((pageState.hasSearched$ | async)
-    && (hasBookingAlreadyBeenCompleted(pageState.rekeySearchErr$ | async))) {
+    @if (hasSearched() && hasBookingAlreadyBeenCompleted(rekeySearchErr())) {
       <div
         class="results-error"
         >
@@ -132,13 +131,13 @@
       </div>
     }
 
-    @if (!isBookedTestSlotEmpty(pageState.bookedTestSlot$ | async)
-    && !blockTestFromBeingRekeyed(pageState.isBookedLessThanHalfAnHourLate$ | async, pageState.employeeId$ | async, staffNumber)) {
+    @if (!isBookedTestSlotEmpty(bookedTestSlot())
+    && !blockTestFromBeingRekeyed(isBookedLessThanHalfAnHourLate(), employeeId(), staffNumber)) {
       <p class="results-message"
         >
         <test-slot
-          [slot]="(pageState.bookedTestSlot$ | async)"
-          [isPortrait]="orientationMonitorProvider.isPortraitMode$ | async"
+          [slot]="bookedTestSlot()"
+          [isPortrait]="isPortrait()"
           [hasSlotChanged]="false"
           [hasSeenCandidateDetails]="true"
           [showLocation]="false"

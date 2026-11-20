@@ -20,8 +20,8 @@ import { PassFinalisationValidationError } from '@pages/pass-finalisation/pass-f
 import { OutcomeBehaviourMapProvider } from '@providers/outcome-behaviour-map/outcome-behaviour-map';
 import { StoreModel } from '@shared/models/store.model';
 import { PersistTests } from '@store/tests/tests.actions';
+import { initialState as initialTestsState } from '@store/tests/tests.reducer';
 import { MockComponent } from 'ng-mocks';
-import { Observable, Subscription } from 'rxjs';
 import { PassFinalisationCatCPCPage } from '../pass-finalisation.cat-cpc.page';
 
 describe('PassFinalisationCatCPCPage', () => {
@@ -43,33 +43,20 @@ describe('PassFinalisationCatCPCPage', () => {
         MockComponent(LanguagePreferencesComponent),
         MockComponent(WarningBannerComponent),
       ],
-      providers: [provideBasePageMocks(), provideMockStore(), OutcomeBehaviourMapProvider],
+      providers: [
+        provideBasePageMocks(),
+        provideMockStore({ initialState: { tests: initialTestsState } }),
+        OutcomeBehaviourMapProvider,
+      ],
     });
 
     fixture = TestBed.createComponent(PassFinalisationCatCPCPage);
     component = fixture.componentInstance;
     store$ = TestBed.inject(Store);
     vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
-    component.subscription = new Subscription();
   });
 
   describe('Class', () => {
-    describe('ionViewDidLeave', () => {
-      it('should unsubscribe from subscription if there is one', () => {
-        component.subscription = new Subscription();
-        vi.spyOn(component.subscription, 'unsubscribe').mockReturnValue(undefined);
-        component.ionViewDidLeave();
-        expect(component.subscription.unsubscribe).toHaveBeenCalled();
-      });
-    });
-    describe('ionViewWillEnter', () => {
-      it('should setup subscription if merged is present', () => {
-        component.merged$ = new Observable<string | boolean>();
-        component.ionViewWillEnter();
-
-        expect(component.subscription).toBeDefined();
-      });
-    });
     describe('onSubmit', () => {
       it('should dispatch the PersistTests action', () => {
         component.onSubmit();

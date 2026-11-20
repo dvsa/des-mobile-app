@@ -1,4 +1,4 @@
-import { AsyncPipe, NgClass } from '@angular/common';
+import { NgClass } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormsModule, ReactiveFormsModule, UntypedFormGroup } from '@angular/forms';
 import { TestFlowHeaderComponent } from '@components/common/test-flow-header/test-flow-header.component';
@@ -24,15 +24,10 @@ import {
   PassFinalisationValidationError,
   PassFinalisationViewDidEnter,
 } from '@pages/pass-finalisation/pass-finalisation.actions';
-import {
-  CommonPassFinalisationPageState,
-  PassFinalisationPageComponent,
-} from '@shared/classes/test-flow-base-pages/pass-finalisation/pass-finalisation-base-page';
+import { PassFinalisationPageComponent } from '@shared/classes/test-flow-base-pages/pass-finalisation/pass-finalisation-base-page';
 import { PersistTests } from '@store/tests/tests.actions';
 import { ApplicationReferenceComponent } from '../components/application-reference/application-reference';
 import { PassCertificateNumberComponent } from '../components/pass-certificate-number/pass-certificate-number';
-
-type PassFinalisationPageState = CommonPassFinalisationPageState;
 
 @Component({
   selector: 'app-pass-finalisation-cat-manoeuvre',
@@ -57,12 +52,10 @@ type PassFinalisationPageState = CommonPassFinalisationPageState;
     IonCol,
     IonButton,
     IonText,
-    AsyncPipe,
   ],
 })
 export class PassFinalisationCatManoeuvrePage extends PassFinalisationPageComponent implements OnInit {
   form: UntypedFormGroup;
-  pageState: PassFinalisationPageState;
 
   constructor() {
     super();
@@ -72,10 +65,6 @@ export class PassFinalisationCatManoeuvrePage extends PassFinalisationPageCompon
 
   ngOnInit(): void {
     super.onInitialisation();
-
-    this.pageState = {
-      ...this.commonPageState,
-    };
   }
 
   ionViewDidEnter() {

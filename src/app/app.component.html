@@ -12,7 +12,7 @@
           <ion-label class="burger-menu-item" [id]="page.descriptor | formatToID: 'side-menu'">{{
             page.descriptor
           }}</ion-label>
-          @if (page.showUnSubmittedCount && (pageState?.unSubmittedTestSlotsCount$ | async)) {
+          @if (page.showUnSubmittedCount && unsubmittedTestSlotsCount()) {
             <ion-badge
               slot="end"
               color="danger"

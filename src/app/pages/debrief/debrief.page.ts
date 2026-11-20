@@ -5,7 +5,6 @@ import { PracticeableBasePageComponent } from '@shared/classes/practiceable-base
 import { FaultSummary } from '@shared/models/fault-marking.model';
 import { getETA, getEco, selectTestData } from '@store/tests/test-data/common/test-data.selector';
 import { selectCurrentTest } from '@store/tests/tests.selector';
-import { Subscription } from 'rxjs';
 
 import { KeepAwake as Insomnia } from '@capacitor-community/keep-awake';
 import { CategoryCode } from '@dvsa/mes-test-schema/categories/common';
@@ -20,7 +19,7 @@ import { Language } from '@store/tests/communication-preferences/communication-p
 import { selectConductedLanguage } from '@store/tests/communication-preferences/communication-preferences.selector';
 import { selectUntitledCandidateName } from '@store/tests/journal-data/common/candidate/candidate.selector';
 
-import { AsyncPipe, NgClass } from '@angular/common';
+import { NgClass } from '@angular/common';
 import { Style } from '@capacitor/status-bar';
 import { Adi3DebriefCard } from '@components/common/adi3-debrief-card/adi3-debrief-card';
 import { CPCDebriefCardComponent } from '@components/common/cpc-debrief-card/cpc-debrief-card';
@@ -108,7 +107,6 @@ import { VehicleChecksCardComponent } from './components/vehicle-checks-card/veh
     IonButton,
     IonText,
     AddOrRemoveLangCyDirective,
-    AsyncPipe,
     TranslatePipe,
   ],
 })
@@ -120,32 +118,23 @@ export class DebriefPage extends PracticeableBasePageComponent implements OnInit
   private testDataByCategoryProvider = inject(TestDataByCategoryProvider);
   private accessibilityService = inject(AccessibilityService);
 
-  subscription: Subscription;
-  isPassed: boolean;
-  testCategory: TestCategory;
-
-  // Used for now to test displaying pass/fail/terminated messages
-  public outcome: string;
-
-  public hasPhysicalEta = false;
-  public hasVerbalEta = false;
-
-  public adviceGivenControl = false;
-  public adviceGivenPlanning = false;
-
   currentTest = this.store$.selectSignal(selectCurrentTest);
   category: Signal<CategoryCode> = this.store$.selectSignal(selectTestCategory);
   testData = this.store$.selectSignal(selectTestData);
   conductedLanguage = this.store$.selectSignal(selectConductedLanguage);
   candidateName = this.store$.selectSignal(selectUntitledCandidateName);
 
-  testResult = computed(() => {
+  outcome: Signal<string> = computed(() => {
     const test = this.currentTest();
     return test ? getTestOutcome(test as never) : null;
   });
 
   etaFaults = computed(() => getETA(this.testData() as never));
   ecoFaults = computed(() => getEco(this.testData() as never));
+  hasPhysicalEta = computed(() => !!this.etaFaults()?.physical);
+  hasVerbalEta = computed(() => !!this.etaFaults()?.verbal);
+  adviceGivenControl = computed(() => !!this.ecoFaults()?.adviceGivenControl);
+  adviceGivenPlanning = computed(() => !!this.ecoFaults()?.adviceGivenPlanning);
 
   seriousFaults = computed(() => {
     if (!this.testData() || !this.category()) return [];
@@ -310,27 +299,6 @@ export class DebriefPage extends PracticeableBasePageComponent implements OnInit
     super(false);
 
     effect(() => {
-      const category = this.category();
-      this.testCategory = category as TestCategory;
-    });
-
-    effect(() => {
-      this.outcome = this.testResult();
-    });
-
-    effect(() => {
-      const eta = this.etaFaults();
-      this.hasPhysicalEta = !!eta?.physical;
-      this.hasVerbalEta = !!eta?.verbal;
-    });
-
-    effect(() => {
-      const eco = this.ecoFaults();
-      this.adviceGivenControl = !!eco?.adviceGivenControl;
-      this.adviceGivenPlanning = !!eco?.adviceGivenPlanning;
-    });
-
-    effect(() => {
       const language = this.conductedLanguage();
       if (language) {
         configureI18N(language as Language, this.translate);
@@ -353,10 +321,6 @@ export class DebriefPage extends PracticeableBasePageComponent implements OnInit
       await ScreenOrientation.unlock();
       await Insomnia.allowSleep();
     }
-
-    if (this.subscription) {
-      this.subscription.unsubscribe();
-    }
   }
 
   async endDebrief(): Promise<void> {
@@ -367,34 +331,37 @@ export class DebriefPage extends PracticeableBasePageComponent implements OnInit
     }
     this.store$.dispatch(EndDebrief());
 
-    if (this.outcome === TestOutcome.PASS) {
-      await this.routeByCategoryProvider.navigateToPage(TestFlowPageNames.PASS_FINALISATION_PAGE, this.testCategory);
+    if (this.outcome() === TestOutcome.PASS) {
+      await this.routeByCategoryProvider.navigateToPage(
+        TestFlowPageNames.PASS_FINALISATION_PAGE,
+        this.category() as TestCategory
+      );
       return;
     }
     await this.router.navigate([TestFlowPageNames.POST_DEBRIEF_HOLDING_PAGE]);
   }
 
   isCategoryBTest(): boolean {
-    return this.testCategory === TestCategory.B;
+    return this.category() === TestCategory.B;
   }
 
   isTerminated(): boolean {
-    return this.outcome === OutcomeType.Terminated;
+    return this.outcome() === OutcomeType.Terminated;
   }
 
   public isCatD = (): boolean =>
-    isAnyOf(this.testCategory, [TestCategory.D, TestCategory.D1, TestCategory.D1E, TestCategory.DE]);
+    isAnyOf(this.category() as TestCategory, [TestCategory.D, TestCategory.D1, TestCategory.D1E, TestCategory.DE]);
 
   showCPCDebriefCard(): boolean {
-    return isAnyOf(this.testCategory, [TestCategory.CCPC, TestCategory.DCPC]);
+    return isAnyOf(this.category() as TestCategory, [TestCategory.CCPC, TestCategory.DCPC]);
   }
 
   showADI3DebriefCard(): boolean {
-    return isAnyOf(this.testCategory, [TestCategory.ADI3, TestCategory.SC]);
+    return isAnyOf(this.category() as TestCategory, [TestCategory.ADI3, TestCategory.SC]);
   }
 
   showVehicleChecksArrayCard(): boolean {
-    return isAnyOf(this.testCategory, [
+    return isAnyOf(this.category() as TestCategory, [
       // Cat BE
       TestCategory.BE,
       // Cat C

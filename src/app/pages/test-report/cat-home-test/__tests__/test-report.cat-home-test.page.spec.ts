@@ -96,23 +96,21 @@ describe('TestReportCatHomeTestPage', () => {
   });
 
   describe('ionViewDidLeave', () => {
-    it('should call parent ionViewDidLeave and cancelSubscription', () => {
+    it('should call parent ionViewDidLeave', () => {
       vi.spyOn(TestReportBasePageComponent.prototype, 'ionViewDidLeave');
-      vi.spyOn(TestReportBasePageComponent.prototype, 'cancelSubscription');
       component.ionViewDidLeave();
       expect(TestReportBasePageComponent.prototype.ionViewDidLeave).toHaveBeenCalled();
-      expect(TestReportBasePageComponent.prototype.cancelSubscription).toHaveBeenCalled();
     });
   });
 
   describe('showManoeuvreButton', () => {
     it('should return false if testCategory is K', () => {
-      component.testCategory = TestCategory.K;
+      component.category = TestCategory.K;
       expect(component.showManoeuvreButton()).toBe(false);
     });
 
     it('should return true if testCategory is not K', () => {
-      component.testCategory = TestCategory.F;
+      component.category = TestCategory.F;
       expect(component.showManoeuvreButton()).toBe(true);
     });
   });

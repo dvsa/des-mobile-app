@@ -1,13 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, computed } from '@angular/core';
 import { FormsModule, ReactiveFormsModule, UntypedFormGroup } from '@angular/forms';
-import { CategoryCode, GearboxCategory, QuestionResult } from '@dvsa/mes-test-schema/categories/common';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
-import { select } from '@ngrx/store';
 import { startsWith } from 'lodash-es';
-import { Observable, Subscription, merge } from 'rxjs';
-import { map, withLatestFrom } from 'rxjs/operators';
 
-import { AsyncPipe, NgClass } from '@angular/common';
+import { NgClass } from '@angular/common';
 import { ActivityCodeComponent } from '@components/common/activity-code/activity-code';
 import { HealthDeclarationSignedComponent } from '@components/common/health-declaration-signed/health-declaration-signed';
 import { TestFlowHeaderComponent } from '@components/common/test-flow-header/test-flow-header.component';
@@ -30,10 +26,7 @@ import {
 import { behaviourMap } from '@pages/office/office-behaviour-map.cat-c';
 import { AppConfigProvider } from '@providers/app-config/app-config';
 import { ExaminerRole } from '@providers/app-config/constants/examiner-role.constants';
-import {
-  CommonOfficePageState,
-  OfficeBasePageComponent,
-} from '@shared/classes/test-flow-base-pages/office/office-base-page';
+import { OfficeBasePageComponent, mapOfficeValue } from '@shared/classes/test-flow-base-pages/office/office-base-page';
 import { ActivityCodeModel, getActivityCodeOptions } from '@shared/constants/activity-code/activity-code.constants';
 import { CompetencyOutcome } from '@shared/models/competency-outcome';
 import { CommentSource, FaultSummary } from '@shared/models/fault-marking.model';
@@ -55,8 +48,7 @@ import { AddManoeuvreComment } from '@store/tests/test-data/common/manoeuvres/ma
 import { AddSeriousFaultComment } from '@store/tests/test-data/common/serious-faults/serious-faults.actions';
 import { AddUncoupleRecoupleComment } from '@store/tests/test-data/common/uncouple-recouple/uncouple-recouple.actions';
 import { TestOutcome } from '@store/tests/tests.constants';
-import { getTests } from '@store/tests/tests.reducer';
-import { getCurrentTest, getTestOutcome } from '@store/tests/tests.selector';
+import { getTestOutcome } from '@store/tests/tests.selector';
 import { getVehicleDetails } from '@store/tests/vehicle-details/cat-c/vehicle-details.cat-c.reducer';
 import { getGearboxCategory } from '@store/tests/vehicle-details/vehicle-details.selector';
 import { LicenseProvidedComponent } from '../../pass-finalisation/components/license-provided/license-provided';
@@ -81,17 +73,6 @@ import { RouteNumberComponent } from '../components/route-number/route-number';
 import { TrueLikenessComponent } from '../components/true-likeness/true-likeness';
 import { VehicleChecksOfficeCardComponent } from '../components/vehicle-checks/vehicle-checks-office-card';
 import { WeatherConditionsComponent } from '../components/weather-conditions/weather-conditions';
-
-interface CatCOfficePageState {
-  conductedLanguage$: Observable<string>;
-  transmission$: Observable<GearboxCategory>;
-  provisionalLicense$: Observable<boolean>;
-  displayDrivingFaultComments$: Observable<boolean>;
-  displayVehicleChecks$: Observable<boolean>;
-  vehicleChecks$: Observable<QuestionResult[]>;
-}
-
-type OfficePageState = CommonOfficePageState & CatCOfficePageState;
 
 @Component({
   selector: '.office-cat-c-page',
@@ -140,20 +121,38 @@ type OfficePageState = CommonOfficePageState & CatCOfficePageState;
     DrivingFaultsComponent,
     IonFooter,
     OfficeFooterComponent,
-    AsyncPipe,
   ],
 })
 export class OfficeCatCPage extends OfficeBasePageComponent implements OnInit {
-  pageState: OfficePageState;
-  pageSubscription: Subscription;
+  conductedLanguage = computed(() =>
+    getConductedLanguage(getCommunicationPreference(this.officeCurrentTest() as never) as never)
+  );
+  transmission = computed(() => getGearboxCategory(getVehicleDetails(this.officeCurrentTest() as never) as never));
+  provisionalLicense = computed(() =>
+    mapOfficeValue(getPassCompletion(this.officeCurrentTest() as never), isProvisionalLicenseProvided)
+  );
+  displayDrivingFaultComments = computed(() =>
+    mapOfficeValue(getTestData(this.officeCurrentTest() as never), (data) =>
+      this.faultCountProvider.shouldDisplayDrivingFaultComments(data, TestCategory.C, OfficeCatCPage.maxFaultCount)
+    )
+  );
+  displayVehicleChecks = computed(() =>
+    mapOfficeValue(
+      [getTestOutcome(this.officeCurrentTest() as never), getTestData(this.officeCurrentTest() as never)] as const,
+      ([outcome, data]) =>
+        this.outcomeBehaviourProvider.isVisible(outcome, 'vehicleChecks', vehicleChecksExist(data.vehicleChecks))
+    )
+  );
+  vehicleChecks = computed(() =>
+    mapOfficeValue(getVehicleChecks(getTestData(this.officeCurrentTest() as never) as never), (checks) => [
+      ...checks.tellMeQuestions,
+      ...checks.showMeQuestions,
+    ])
+  );
   form: UntypedFormGroup;
   static readonly maxFaultCount = 12;
 
   activityCodeOptions: ActivityCodeModel[];
-  testCategory: CategoryCode;
-  testOutcome: string;
-  testOutcomeText: string;
-  conductedLanguage: string;
 
   constructor(private appConfig: AppConfigProvider) {
     super();
@@ -163,48 +162,6 @@ export class OfficeCatCPage extends OfficeBasePageComponent implements OnInit {
 
   ngOnInit(): void {
     super.onInitialisation();
-
-    const currentTest$ = this.store$.pipe(select(getTests), select(getCurrentTest));
-
-    this.pageState = {
-      ...this.commonPageState,
-      conductedLanguage$: currentTest$.pipe(select(getCommunicationPreference), select(getConductedLanguage)),
-      transmission$: currentTest$.pipe(select(getVehicleDetails), select(getGearboxCategory)),
-      provisionalLicense$: currentTest$.pipe(select(getPassCompletion), map(isProvisionalLicenseProvided)),
-      displayDrivingFaultComments$: currentTest$.pipe(
-        select(getTestData),
-        map((data) =>
-          this.faultCountProvider.shouldDisplayDrivingFaultComments(data, TestCategory.C, OfficeCatCPage.maxFaultCount)
-        )
-      ),
-      displayVehicleChecks$: currentTest$.pipe(
-        select(getTestOutcome),
-        withLatestFrom(currentTest$.pipe(select(getTestData))),
-        map(([outcome, data]) =>
-          this.outcomeBehaviourProvider.isVisible(outcome, 'vehicleChecks', vehicleChecksExist(data.vehicleChecks))
-        )
-      ),
-      vehicleChecks$: currentTest$.pipe(
-        select(getTestData),
-        select(getVehicleChecks),
-        map((checks) => [...checks.tellMeQuestions, ...checks.showMeQuestions])
-      ),
-    };
-
-    this.setupSubscription();
-  }
-
-  setupSubscription() {
-    super.setupSubscriptions();
-
-    const { testCategory$, testOutcome$, testOutcomeText$, conductedLanguage$ } = this.pageState;
-
-    this.pageSubscription = merge(
-      conductedLanguage$.pipe(map((result) => (this.conductedLanguage = result))),
-      testOutcomeText$.pipe(map((result) => (this.testOutcomeText = result))),
-      testOutcome$.pipe(map((result) => (this.testOutcome = result))),
-      testCategory$.pipe(map((result) => (this.testCategory = result)))
-    ).subscribe();
   }
 
   async ionViewWillEnter() {
@@ -215,20 +172,12 @@ export class OfficeCatCPage extends OfficeBasePageComponent implements OnInit {
     }
   }
 
-  ionViewDidLeave(): void {
-    super.ionViewDidLeave();
-
-    if (this.pageSubscription) {
-      this.pageSubscription.unsubscribe();
-    }
-  }
-
   isPass(): boolean {
-    return this.testOutcomeText === TestOutcome.Passed;
+    return this.testOutcomeText() === TestOutcome.Passed;
   }
 
   isWelsh(): boolean {
-    return this.conductedLanguage === Language.CYMRAEG;
+    return this.conductedLanguage() === Language.CYMRAEG;
   }
 
   passCertificateNumberChanged(passCertificateNumber: string): void {

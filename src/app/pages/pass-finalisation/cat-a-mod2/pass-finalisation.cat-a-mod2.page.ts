@@ -1,4 +1,4 @@
-import { AsyncPipe, NgClass } from '@angular/common';
+import { NgClass } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormsModule, ReactiveFormsModule, UntypedFormGroup } from '@angular/forms';
 import { BikeCategoryTypeComponent } from '@components/common/bike-category-type/bike-category-type';
@@ -9,7 +9,6 @@ import { D255Component } from '@components/test-finalisation/d255/d255';
 import { DebriefWitnessedComponent } from '@components/test-finalisation/debrief-witnessed/debrief-witnessed';
 import { FinalisationHeaderComponent } from '@components/test-finalisation/finalisation-header/finalisation-header';
 import { LanguagePreferencesComponent } from '@components/test-finalisation/language-preference/language-preference';
-import { GearboxCategory } from '@dvsa/mes-test-schema/categories/common';
 import {
   IonButton,
   IonCol,
@@ -28,21 +27,14 @@ import {
   PassFinalisationValidationError,
   PassFinalisationViewDidEnter,
 } from '@pages/pass-finalisation/pass-finalisation.actions';
-import {
-  CommonPassFinalisationPageState,
-  PassFinalisationPageComponent,
-} from '@shared/classes/test-flow-base-pages/pass-finalisation/pass-finalisation-base-page';
+import { PassFinalisationPageComponent } from '@shared/classes/test-flow-base-pages/pass-finalisation/pass-finalisation-base-page';
 import { TransmissionType } from '@shared/models/transmission-type';
 import { PersistTests } from '@store/tests/tests.actions';
-import { Observable, merge } from 'rxjs';
-import { map } from 'rxjs/operators';
 import { behaviourMap } from '../../office/office-behaviour-map.cat-a-mod2';
 import { ApplicationReferenceComponent } from '../components/application-reference/application-reference';
 import { LicenceProvidedWarningBannerComponent } from '../components/licence-provided-warning-banner/licence-provided-warning-banner';
 import { LicenseProvidedComponent } from '../components/license-provided/license-provided';
 import { PassCertificateNumberComponent } from '../components/pass-certificate-number/pass-certificate-number';
-
-type PassFinalisationPageState = CommonPassFinalisationPageState;
 
 @Component({
   selector: 'app-pass-finalisation-cat-a-mod2',
@@ -73,14 +65,10 @@ type PassFinalisationPageState = CommonPassFinalisationPageState;
     IonCol,
     IonButton,
     IonText,
-    AsyncPipe,
   ],
 })
 export class PassFinalisationCatAMod2Page extends PassFinalisationPageComponent implements OnInit {
-  pageState: PassFinalisationPageState;
   form: UntypedFormGroup;
-  merged$: Observable<string | boolean>;
-  transmission: GearboxCategory;
 
   constructor() {
     super();
@@ -90,28 +78,17 @@ export class PassFinalisationCatAMod2Page extends PassFinalisationPageComponent 
 
   ngOnInit(): void {
     super.onInitialisation();
-
-    this.pageState = {
-      ...this.commonPageState,
-    };
-
-    const { transmission$ } = this.pageState;
-
-    this.merged$ = merge(transmission$.pipe(map((value) => (this.transmission = value))));
   }
 
   ionViewWillEnter(): boolean {
     super.ionViewWillEnter();
     this.store$.dispatch(PassFinalisationViewDidEnter());
 
-    if (this.merged$) {
-      this.subscription = this.merged$.subscribe();
-    }
     return true;
   }
 
   displayTransmissionBanner(): boolean {
-    return !this.form.controls.transmissionCtrl.pristine && this.transmission === TransmissionType.Automatic;
+    return !this.form.controls.transmissionCtrl.pristine && this.transmissionSignal() === TransmissionType.Automatic;
   }
 
   async onSubmit(): Promise<void> {

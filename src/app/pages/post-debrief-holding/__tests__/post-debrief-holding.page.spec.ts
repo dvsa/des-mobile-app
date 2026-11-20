@@ -7,8 +7,9 @@ import { Router, RouterModule } from '@angular/router';
 import { PracticeModeOptionsBar } from '@components/common/practice-mode-options-bar/practice-mode-options-bar';
 
 import { provideBasePageMocks } from '@mocks/test-providers';
-import { StoreModule } from '@ngrx/store';
+import { provideMockStore } from '@ngrx/store/testing';
 import { TestFlowPageNames } from '@pages/page-names.constants';
+import { initialState } from '@store/tests/tests.reducer';
 import { MockComponent } from 'ng-mocks';
 import { PostDebriefHoldingPage } from '../post-debrief-holding.page';
 
@@ -20,15 +21,8 @@ describe('PostDebriefHoldingPage', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      imports: [
-        RouterModule.forRoot([]),
-        StoreModule.forRoot({}),
-
-        StoreModule.forFeature('tests', () => ({})),
-        PostDebriefHoldingPage,
-        MockComponent(PracticeModeOptionsBar),
-      ],
-      providers: [provideBasePageMocks()],
+      imports: [RouterModule.forRoot([]), PostDebriefHoldingPage, MockComponent(PracticeModeOptionsBar)],
+      providers: [provideBasePageMocks(), provideMockStore({ initialState: { tests: initialState } })],
     });
 
     fixture = TestBed.createComponent(PostDebriefHoldingPage);

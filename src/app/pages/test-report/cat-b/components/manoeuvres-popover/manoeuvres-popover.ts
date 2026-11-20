@@ -1,8 +1,6 @@
-import { AsyncPipe } from '@angular/common';
-import { Component } from '@angular/core';
-import { CatBUniqueTypes } from '@dvsa/mes-test-schema/categories/B';
+import { Component, computed } from '@angular/core';
 import { IonCol, IonGrid, IonRow } from '@ionic/angular';
-import { Store, select } from '@ngrx/store';
+import { Store } from '@ngrx/store';
 import { StoreModel } from '@shared/models/store.model';
 import { getManoeuvres } from '@store/tests/test-data/cat-b/test-data.cat-b.selector';
 import { getTestData } from '@store/tests/test-data/cat-b/test-data.reducer';
@@ -11,8 +9,6 @@ import { ManoeuvreCompetencies, ManoeuvreTypes } from '@store/tests/test-data/te
 import { getTests } from '@store/tests/tests.reducer';
 import { getCurrentTest } from '@store/tests/tests.selector';
 import { some } from 'lodash-es';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
 import { ManoeuvreCompetencyComponent } from '../../../components/manoeuvre-competency/manoeuvre-competency';
 
 interface ManoeuvresFaultState {
@@ -28,32 +24,26 @@ interface ManoeuvresFaultState {
   templateUrl: 'manoeuvres-popover.html',
   styleUrls: ['./manoeuvres-popover.scss'],
   standalone: true,
-  imports: [IonGrid, IonRow, IonCol, ManoeuvreCompetencyComponent, AsyncPipe],
+  imports: [IonGrid, IonRow, IonCol, ManoeuvreCompetencyComponent],
 })
 export class ManoeuvresPopoverComponent {
   manoeuvreTypes = ManoeuvreTypes;
-  manoeuvres$: Observable<CatBUniqueTypes.Manoeuvres>;
   competencies = ManoeuvreCompetencies;
-  manoeuvresWithFaults$: Observable<ManoeuvresFaultState>;
+  private readonly tests = this.store$.selectSignal(getTests);
+  private readonly currentTest = computed(() => getCurrentTest(this.tests()));
+  private readonly testData = computed(() => getTestData(this.currentTest()));
+  manoeuvres = computed(() => getManoeuvres(this.testData()));
+  manoeuvresWithFaults = computed<ManoeuvresFaultState>(() => {
+    const manoeuvres = this.manoeuvres();
+    return {
+      reverseRight: this.manoeuvreHasFaults(manoeuvres.reverseRight),
+      reverseParkRoad: this.manoeuvreHasFaults(manoeuvres.reverseParkRoad),
+      reverseParkCarpark: this.manoeuvreHasFaults(manoeuvres.reverseParkCarpark),
+      forwardPark: this.manoeuvreHasFaults(manoeuvres.forwardPark),
+    };
+  });
 
   constructor(private store$: Store<StoreModel>) {}
-
-  ngOnInit(): void {
-    this.manoeuvres$ = this.store$.pipe(
-      select(getTests),
-      select(getCurrentTest),
-      select(getTestData),
-      select(getManoeuvres)
-    );
-    this.manoeuvresWithFaults$ = this.manoeuvres$.pipe(
-      map((manoeuvres: CatBUniqueTypes.Manoeuvres) => ({
-        reverseRight: this.manoeuvreHasFaults(manoeuvres.reverseRight),
-        reverseParkRoad: this.manoeuvreHasFaults(manoeuvres.reverseParkRoad),
-        reverseParkCarpark: this.manoeuvreHasFaults(manoeuvres.reverseParkCarpark),
-        forwardPark: this.manoeuvreHasFaults(manoeuvres.forwardPark),
-      }))
-    );
-  }
 
   recordManoeuvreSelection(manoeuvre: ManoeuvreTypes): void {
     this.store$.dispatch(RecordManoeuvresSelection(manoeuvre));
@@ -66,13 +56,9 @@ export class ManoeuvresPopoverComponent {
    * Tells the input whether it needs to be disabled based on whether
    * or not another manoeuvre has a fault recorded
    */
-  shouldManoeuvreDisable(manoeuvre: Exclude<ManoeuvreTypes, ManoeuvreTypes.reverseManoeuvre>): Observable<boolean> {
-    return this.manoeuvresWithFaults$.pipe(
-      map((manoeuvresWithFaults: ManoeuvresFaultState) => {
-        const { [manoeuvre]: manoeuvreToOmit, ...otherManoeuvres } = manoeuvresWithFaults;
-        return some(otherManoeuvres, (value: boolean) => value);
-      })
-    );
+  shouldManoeuvreDisable(manoeuvre: Exclude<ManoeuvreTypes, ManoeuvreTypes.reverseManoeuvre>): boolean {
+    const { [manoeuvre]: manoeuvreToOmit, ...otherManoeuvres } = this.manoeuvresWithFaults();
+    return some(otherManoeuvres, (value: boolean) => value);
   }
 
   manoeuvreHasFaults = (manoeuvre): boolean =>

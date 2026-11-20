@@ -26,8 +26,8 @@ import {
 import { OutcomeBehaviourMapProvider } from '@providers/outcome-behaviour-map/outcome-behaviour-map';
 import { StoreModel } from '@shared/models/store.model';
 import { PersistTests } from '@store/tests/tests.actions';
+import { initialState as initialTestsState } from '@store/tests/tests.reducer';
 import { MockComponent } from 'ng-mocks';
-import { Subscription } from 'rxjs';
 import { PassFinalisationCatADI2Page } from '../pass-finalisation.cat-adi-part2.page';
 
 describe('PassFinalisationCatADI2Page', () => {
@@ -52,14 +52,17 @@ describe('PassFinalisationCatADI2Page', () => {
         MockComponent(WarningBannerComponent),
         MockComponent(LicenceProvidedWarningBannerComponent),
       ],
-      providers: [provideBasePageMocks(), provideMockStore(), OutcomeBehaviourMapProvider],
+      providers: [
+        provideBasePageMocks(),
+        provideMockStore({ initialState: { tests: initialTestsState } }),
+        OutcomeBehaviourMapProvider,
+      ],
     });
 
     fixture = TestBed.createComponent(PassFinalisationCatADI2Page);
     component = fixture.componentInstance;
     store$ = TestBed.inject(Store);
     vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
-    component.subscription = new Subscription();
   });
 
   describe('Class', () => {

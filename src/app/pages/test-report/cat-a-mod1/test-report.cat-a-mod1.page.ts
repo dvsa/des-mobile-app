@@ -1,6 +1,6 @@
 import { Component, OnInit, computed } from '@angular/core';
 
-import { AsyncPipe, NgClass } from '@angular/common';
+import { NgClass } from '@angular/common';
 import { TestFlowHeaderComponent } from '@components/common/test-flow-header/test-flow-header.component';
 import { TestData } from '@dvsa/mes-test-schema/categories/AM1';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
@@ -46,7 +46,6 @@ import { SpeedCheckComponent } from './components/speed-check/speed-check';
     EtaComponent,
     SpeedCheckHeaderComponent,
     SpeedCheckComponent,
-    AsyncPipe,
   ],
 })
 export class TestReportCatAMod1Page extends TestReportBasePageComponent implements OnInit, ViewDidLeave {

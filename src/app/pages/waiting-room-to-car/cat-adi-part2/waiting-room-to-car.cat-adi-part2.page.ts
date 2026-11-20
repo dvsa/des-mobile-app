@@ -1,14 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, computed } from '@angular/core';
 import { FormsModule, ReactiveFormsModule, UntypedFormGroup } from '@angular/forms';
-import { select } from '@ngrx/store';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
 
-import { AsyncPipe, NgClass } from '@angular/common';
+import { NgClass } from '@angular/common';
 import { OfflineBannerComponent } from '@components/common/offline-banner/offline-banner';
 import { TestFlowHeaderComponent } from '@components/common/test-flow-header/test-flow-header.component';
 import { TransmissionComponent } from '@components/common/transmission/transmission';
-import { CatADI2UniqueTypes } from '@dvsa/mes-test-schema/categories/ADI2';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import {
   IonButton,
@@ -25,12 +21,9 @@ import { ClearCandidateLicenceData } from '@pages/candidate-licence/candidate-li
 import { TestFlowPageNames } from '@pages/page-names.constants';
 import { WaitingRoomToCarValidationError } from '@pages/waiting-room-to-car/waiting-room-to-car.actions';
 import { WaitingRoomToCarBasePageComponent } from '@shared/classes/test-flow-base-pages/waiting-room-to-car/waiting-room-to-car-base-page';
-import { VehicleChecksScore } from '@shared/models/vehicle-checks-score.model';
 import { getTestData } from '@store/tests/test-data/cat-adi-part2/test-data.cat-adi-part2.reducer';
 import { getVehicleChecksCatADIPart2 } from '@store/tests/test-data/cat-adi-part2/test-data.cat-adi-part2.selector';
 import { EyesightTestReset } from '@store/tests/test-data/common/eyesight-test/eyesight-test.actions';
-import { getTests } from '@store/tests/tests.reducer';
-import { getCurrentTest } from '@store/tests/tests.selector';
 import { getTrainerDetails } from '@store/tests/trainer-details/cat-adi-part2/trainer-details.cat-adi-part2.reducer';
 import {
   getOrditTrained,
@@ -48,13 +41,6 @@ import { VehicleDetailsCardComponent } from '../components/vehicle-details-card/
 import { VehicleRegistrationComponent } from '../components/vehicle-registration/vehicle-registration';
 import { OrditTrainerCatAdiPart2Component } from './components/ordit-trainer/ordit-trainer.cat-adi-part2';
 import { TrainerRegistrationNumberCatAdiPart2Component } from './components/trainer-registration-number/trainer-registration-number.cat-adi-part2';
-
-interface CatAdi2WaitingRoomToCarPageState {
-  orditTrained$: Observable<boolean>;
-  trainerRegistrationNumber$: Observable<number>;
-  vehicleChecks$: Observable<CatADI2UniqueTypes.VehicleChecks>;
-  vehicleChecksScore$: Observable<VehicleChecksScore>;
-}
 
 @Component({
   selector: 'app-waiting-room-to-car-cat-adi-part2',
@@ -87,11 +73,15 @@ interface CatAdi2WaitingRoomToCarPageState {
     IonFooter,
     IonButton,
     IonText,
-    AsyncPipe,
   ],
 })
 export class WaitingRoomToCarCatADIPart2Page extends WaitingRoomToCarBasePageComponent implements OnInit {
-  pageState: CatAdi2WaitingRoomToCarPageState;
+  orditTrained = computed(() => getOrditTrained(getTrainerDetails(this.currentTest())));
+  trainerRegistrationNumber = computed(() => getTrainerRegistrationNumber(getTrainerDetails(this.currentTest())));
+  vehicleChecks = computed(() => getVehicleChecksCatADIPart2(getTestData(this.currentTest())));
+  vehicleChecksScore = computed(() =>
+    this.faultCountProvider.getTellMeFaultCount(TestCategory.ADI2, this.vehicleChecks())
+  );
   form: UntypedFormGroup;
   submitClicked: boolean;
 
@@ -102,19 +92,6 @@ export class WaitingRoomToCarCatADIPart2Page extends WaitingRoomToCarBasePageCom
 
   ngOnInit(): void {
     super.onInitialisation();
-
-    const currentTest$ = this.store$.pipe(select(getTests), select(getCurrentTest));
-
-    this.pageState = {
-      orditTrained$: currentTest$.pipe(select(getTrainerDetails), select(getOrditTrained)),
-      trainerRegistrationNumber$: currentTest$.pipe(select(getTrainerDetails), select(getTrainerRegistrationNumber)),
-      vehicleChecks$: currentTest$.pipe(select(getTestData), select(getVehicleChecksCatADIPart2)),
-      vehicleChecksScore$: currentTest$.pipe(
-        select(getTestData),
-        select(getVehicleChecksCatADIPart2),
-        map((vehicleChecks) => this.faultCountProvider.getTellMeFaultCount(TestCategory.ADI2, vehicleChecks))
-      ),
-    };
   }
 
   motNoEvidenceCancelled = (): void => {

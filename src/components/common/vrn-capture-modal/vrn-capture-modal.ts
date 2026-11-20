@@ -10,24 +10,16 @@ import {
 import { EmojiBlockDirective } from '@directives/emoji-block.directive';
 import { PasteSanitiserDirective } from '@directives/paste-sanitiser';
 import { IonButton, IonCard, IonCol, IonInput, IonRow, IonText, ModalController } from '@ionic/angular';
-import { Store, select } from '@ngrx/store';
+import { Store } from '@ngrx/store';
 import {
   FieldValidators,
   getRegistrationNumberValidator,
   nonAlphaNumericValues,
 } from '@shared/constants/field-validators/field-validators';
 import { StoreModel } from '@shared/models/store.model';
-import { getTests } from '@store/tests/tests.reducer';
-import { getCurrentTest } from '@store/tests/tests.selector';
+import { selectCurrentTest } from '@store/tests/tests.selector';
 import { getVehicleDetails } from '@store/tests/vehicle-details/vehicle-details.reducer';
 import { getRegistrationNumber } from '@store/tests/vehicle-details/vehicle-details.selector';
-import { Observable, Subscription, merge } from 'rxjs';
-import { map } from 'rxjs/operators';
-
-interface ComponentState {
-  vehicleRegistration$: Observable<string>;
-}
-
 @Component({
   selector: 'vrn-capture-modal',
   templateUrl: './vrn-capture-modal.html',
@@ -48,9 +40,7 @@ interface ComponentState {
 export class VRNCaptureModal implements OnInit {
   @Input()
   public textZoom: string;
-  componentState: ComponentState;
-  merged$: Observable<string>;
-  subscription: Subscription;
+  private readonly currentTest = this.store$.selectSignal(selectCurrentTest);
   vehicleRegistrationNumber: string;
   formGroup: UntypedFormGroup;
   vehicleRegistrationFormControlName = 'vehicleRegistration';
@@ -74,17 +64,7 @@ export class VRNCaptureModal implements OnInit {
   }
 
   ngOnInit(): void {
-    const currentTest$ = this.store$.pipe(select(getTests), select(getCurrentTest));
-
-    this.componentState = {
-      vehicleRegistration$: currentTest$.pipe(select(getVehicleDetails), select(getRegistrationNumber)),
-    };
-
-    const { vehicleRegistration$ } = this.componentState;
-
-    this.merged$ = merge(vehicleRegistration$.pipe(map((regNum) => (this.vehicleRegistrationNumber = regNum))));
-
-    this.subscription = this.merged$?.subscribe();
+    this.vehicleRegistrationNumber = getRegistrationNumber(getVehicleDetails(this.currentTest()));
   }
 
   inputChange(input: string) {

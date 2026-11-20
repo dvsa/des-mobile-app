@@ -70,7 +70,7 @@ describe('HighwayCodeSafetyComponent', () => {
         expect(storeDispatchSpy).not.toHaveBeenCalledWith(HighwayCodeSafetyAddDrivingFault());
       });
       it('should not dispatch an HIGHWAY_CODE_SAFETY_ADD_DRIVING_FAULT action if already a driving fault', () => {
-        component.highwayCodeSafetyDrivingFault = true;
+        vi.spyOn(component, 'highwayCodeSafetyDrivingFault', 'get').mockReturnValue(true);
 
         const storeDispatchSpy = vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
         component.addOrRemoveFault(true);
@@ -78,7 +78,7 @@ describe('HighwayCodeSafetyComponent', () => {
         expect(storeDispatchSpy).not.toHaveBeenCalledWith(HighwayCodeSafetyAddDrivingFault());
       });
       it('should not dispatch an HIGHWAY_CODE_SAFETY_ADD_DRIVING_FAULT action if there is a serious fault', () => {
-        component.highwayCodeSafetySeriousFault = true;
+        vi.spyOn(component, 'highwayCodeSafetySeriousFault', 'get').mockReturnValue(true);
 
         const storeDispatchSpy = vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
         component.addOrRemoveFault();
@@ -86,7 +86,7 @@ describe('HighwayCodeSafetyComponent', () => {
         expect(storeDispatchSpy).not.toHaveBeenCalledWith(HighwayCodeSafetyAddDrivingFault());
       });
       it('should not dispatch an HIGHWAY_CODE_SAFETY_ADD_DRIVING_FAULT action if serious mode is active', () => {
-        component.isSeriousMode = true;
+        vi.spyOn(component, 'isSeriousMode', 'get').mockReturnValue(true);
 
         const storeDispatchSpy = vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
         component.addOrRemoveFault();
@@ -94,7 +94,7 @@ describe('HighwayCodeSafetyComponent', () => {
         expect(storeDispatchSpy).not.toHaveBeenCalledWith(HighwayCodeSafetyAddDrivingFault());
       });
       it('should not dispatch an HIGHWAY_CODE_SAFETY_ADD_DRIVING_FAULT action if dangerous mode is active', () => {
-        component.isDangerousMode = true;
+        vi.spyOn(component, 'isDangerousMode', 'get').mockReturnValue(true);
 
         const storeDispatchSpy = vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
         component.addOrRemoveFault();
@@ -105,8 +105,8 @@ describe('HighwayCodeSafetyComponent', () => {
 
     describe('removeHighwayCodeSafetyDrivingFault', () => {
       it('should dispatch a HIGHWAY_CODE_SAFETY_REMOVE_FAULT action for press', () => {
-        component.isRemoveFaultMode = true;
-        component.highwayCodeSafetyDrivingFault = true;
+        vi.spyOn(component, 'isRemoveFaultMode', 'get').mockReturnValue(true);
+        vi.spyOn(component, 'highwayCodeSafetyDrivingFault', 'get').mockReturnValue(true);
 
         const storeDispatchSpy = vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
         component.addOrRemoveFault(true);
@@ -114,8 +114,8 @@ describe('HighwayCodeSafetyComponent', () => {
         expect(storeDispatchSpy).toHaveBeenCalledWith(HighwayCodeSafetyRemoveFault());
       });
       it('should dispatch a HIGHWAY_CODE_SAFETY_REMOVE_FAULT action for tap', () => {
-        component.isRemoveFaultMode = true;
-        component.highwayCodeSafetyDrivingFault = true;
+        vi.spyOn(component, 'isRemoveFaultMode', 'get').mockReturnValue(true);
+        vi.spyOn(component, 'highwayCodeSafetyDrivingFault', 'get').mockReturnValue(true);
 
         const storeDispatchSpy = vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
         component.addOrRemoveFault();
@@ -123,9 +123,9 @@ describe('HighwayCodeSafetyComponent', () => {
         expect(storeDispatchSpy).toHaveBeenCalledWith(HighwayCodeSafetyRemoveFault());
       });
       it('should not dispatch a HIGHWAY_CODE_SAFETY_REMOVE_FAULT action if in the wrong mode', () => {
-        component.isRemoveFaultMode = true;
-        component.isSeriousMode = true;
-        component.highwayCodeSafetyDrivingFault = true;
+        vi.spyOn(component, 'isRemoveFaultMode', 'get').mockReturnValue(true);
+        vi.spyOn(component, 'isSeriousMode', 'get').mockReturnValue(true);
+        vi.spyOn(component, 'highwayCodeSafetyDrivingFault', 'get').mockReturnValue(true);
 
         const storeDispatchSpy = vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
         component.addOrRemoveFault();
@@ -134,9 +134,9 @@ describe('HighwayCodeSafetyComponent', () => {
       });
 
       it('should dispatch a HIGHWAY_CODE_SAFETY_REMOVE_FAULT action if there is a serious fault', () => {
-        component.isRemoveFaultMode = true;
-        component.isSeriousMode = true;
-        component.highwayCodeSafetySeriousFault = true;
+        vi.spyOn(component, 'isRemoveFaultMode', 'get').mockReturnValue(true);
+        vi.spyOn(component, 'isSeriousMode', 'get').mockReturnValue(true);
+        vi.spyOn(component, 'highwayCodeSafetySeriousFault', 'get').mockReturnValue(true);
 
         const storeDispatchSpy = vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
         component.addOrRemoveFault(true);

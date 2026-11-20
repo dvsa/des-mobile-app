@@ -11,7 +11,9 @@ describe('VRNCaptureModal', () => {
   let fixture: ComponentFixture<VRNCaptureModal>;
   let component: VRNCaptureModal;
 
-  class StoreMock {}
+  class StoreMock {
+    selectSignal = () => () => ({ vehicleDetails: {} });
+  }
 
   beforeEach(() => {
     TestBed.configureTestingModule({

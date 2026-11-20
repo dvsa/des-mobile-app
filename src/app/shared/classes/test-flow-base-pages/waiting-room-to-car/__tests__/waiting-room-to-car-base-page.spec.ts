@@ -67,6 +67,12 @@ import { Subscription } from 'rxjs';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { WaitingRoomToCarBasePageComponent } from '../waiting-room-to-car-base-page';
 
+class TestWaitingRoomToCarBasePage extends WaitingRoomToCarBasePageComponent {
+  constructor() {
+    super(false);
+  }
+}
+
 describe('WaitingRoomToCarBasePageComponent', () => {
   let router: Router;
   let store$: Store<StoreModel>;
@@ -159,6 +165,7 @@ describe('WaitingRoomToCarBasePageComponent', () => {
     store$ = TestBed.inject(MockStore);
 
     vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
+    basePageComponent = TestBed.runInInjectionContext(() => new TestWaitingRoomToCarBasePage());
   });
 
   describe('onInitialisation', () => {

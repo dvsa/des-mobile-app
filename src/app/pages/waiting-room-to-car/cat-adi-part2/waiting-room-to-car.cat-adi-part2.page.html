@@ -62,8 +62,8 @@
               [category]="category()"
               [formGroup]="form"
               [fullLicenceHeld]="false"
-              [vehicleChecksScore]="pageState.vehicleChecksScore$ | async"
-              [vehicleChecks]="pageState.vehicleChecks$ | async"
+              [vehicleChecksScore]="vehicleChecksScore()"
+              [vehicleChecks]="vehicleChecks()"
               [submitClicked]="submitClicked"
             >
             </vehicle-checks-vocational>
@@ -133,14 +133,14 @@
               <ordit-trainer-cat-adi-part2
                 (orditTrainedOutcomeChange)="orditTrainedOutcomeChanged($event)"
                 [formGroup]="form"
-                [orditTrainedRadioChecked]="pageState.orditTrained$ | async"
+                [orditTrainedRadioChecked]="orditTrained()"
               >
               </ordit-trainer-cat-adi-part2>
 
               <trainer-registration-number-cat-adi-part2
                 (trainerRegistrationChange)="trainerRegistrationNumberChanged($event)"
                 [formGroup]="form"
-                [trainerRegistration]="pageState.trainerRegistrationNumber$ | async"
+                [trainerRegistration]="trainerRegistrationNumber()"
                 [trainerLabel]="'Trainer\'s PRN (optional)'"
               >
               </trainer-registration-number-cat-adi-part2>

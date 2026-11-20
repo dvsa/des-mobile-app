@@ -48,7 +48,7 @@ describe('CandidateSearchCardComponent', () => {
   describe('createCandidateSlots', () => {
     it('should create an array of all the test slots for the selected candidate name', () => {
       component.createCandidateSlots(mockData.mockMultipleExaminerTestSlots, 'Joe Bloggs');
-      expect(component.candidateTestSlots.length).toEqual(2);
+      expect(component.candidateTestSlots().length).toEqual(2);
     });
   });
 
@@ -63,21 +63,21 @@ describe('CandidateSearchCardComponent', () => {
         name: candidateName,
       } as CandidateData;
       component.onCandidateDidChange(candidate);
-      expect(component.shouldShowCandidateResults).toEqual(false);
-      expect(component.selectedCandidateName).toEqual(candidateName);
+      expect(component.shouldShowCandidateResults()).toEqual(false);
+      expect(component.selectedCandidateName()).toEqual(candidateName);
       expect(component.createCandidateSlots).toHaveBeenCalledWith([], candidateName);
-      expect(component.enableShowBookingButton).toEqual(true);
+      expect(component.enableShowBookingButton()).toEqual(true);
     });
     it('should disable the show results button if invalid candidate entered', () => {
       component.onCandidateDidChange(null);
-      expect(component.enableShowBookingButton).toEqual(false);
+      expect(component.enableShowBookingButton()).toEqual(false);
     });
   });
 
   describe('showResults', () => {
     it('should set the local property', () => {
       component.showResults();
-      expect(component.shouldShowCandidateResults).toEqual(true);
+      expect(component.shouldShowCandidateResults()).toEqual(true);
     });
   });
 
@@ -110,8 +110,8 @@ describe('CandidateSearchCardComponent', () => {
   describe('onManualRefresh', () => {
     it('should reset page flags', () => {
       component.onManualRefresh();
-      expect(component.shouldShowCandidateResults).toEqual(false);
-      expect(component.enableShowBookingButton).toEqual(false);
+      expect(component.shouldShowCandidateResults()).toEqual(false);
+      expect(component.enableShowBookingButton()).toEqual(false);
     });
   });
 });

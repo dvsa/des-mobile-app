@@ -1,18 +1,14 @@
-import { AsyncPipe } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, computed, inject } from '@angular/core';
 import { AddOrRemoveLangCyDirective } from '@directives/add-or-remove-lang-cy.directive';
 import { QuestionResult } from '@dvsa/mes-test-schema/categories/common';
 import { IonCard, IonCardContent, IonCardHeader, IonCardTitle, IonCol, IonGrid, IonRow, IonText } from '@ionic/angular';
-import { Store, select } from '@ngrx/store';
+import { Store } from '@ngrx/store';
 import { TranslatePipe } from '@ngx-translate/core';
 import { CompetencyOutcome } from '@shared/models/competency-outcome';
 import { StoreModel } from '@shared/models/store.model';
 import { getTestData } from '@store/tests/test-data/cat-a-mod2/test-data.cat-a-mod2.reducer';
 import { getSafetyAndBalanceQuestions } from '@store/tests/test-data/cat-a-mod2/test-data.cat-a-mod2.selector';
-import { getTests } from '@store/tests/tests.reducer';
-import { getCurrentTest } from '@store/tests/tests.selector';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { selectCurrentTest } from '@store/tests/tests.selector';
 
 @Component({
   selector: 'safety-and-balance-card-cat-a-mod2',
@@ -28,24 +24,21 @@ import { map } from 'rxjs/operators';
     IonGrid,
     IonRow,
     IonCol,
-    AsyncPipe,
     TranslatePipe,
   ],
 })
-export class SafetyAndBalanceCardCatAMod2Component implements OnInit {
-  safetyAndBalanceQuestions$: Observable<QuestionResult[]>;
-  constructor(private store$: Store<StoreModel>) {}
+export class SafetyAndBalanceCardCatAMod2Component {
+  private store$ = inject<Store<StoreModel>>(Store);
+  private currentTest = this.store$.selectSignal(selectCurrentTest);
 
-  ngOnInit(): void {
-    this.safetyAndBalanceQuestions$ = this.store$.pipe(
-      select(getTests),
-      select(getCurrentTest),
-      select(getTestData),
-      select(getSafetyAndBalanceQuestions),
-      map((questions) => [...questions.safetyQuestions, ...questions.balanceQuestions]),
-      map((checks) => checks.filter((c) => c.code !== undefined))
+  safetyAndBalanceQuestions = computed<QuestionResult[]>(() => {
+    const test = this.currentTest();
+    if (!test) return [];
+    const questions = getSafetyAndBalanceQuestions(getTestData(test as never) as never);
+    return [...questions.safetyQuestions, ...questions.balanceQuestions].filter(
+      (question) => question.code !== undefined
     );
-  }
+  });
 
   questionHasFault = (result: QuestionResult): boolean => result.outcome !== CompetencyOutcome.P;
 }

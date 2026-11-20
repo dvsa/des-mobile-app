@@ -21,7 +21,7 @@
 <searchable-picklist-wrapper
   #candidatePicklist
   [dataList]="getCandidateList()"
-  [model]="selectedCandidate"
+  [model]="selectedCandidate()"
   [fieldLabel]="'Candidate name'"
   [primaryKey]="'name'"
   [displayKey]="'name'"
@@ -38,7 +38,7 @@
   <ion-button
     mode="ios"
     class="mes-primary-button full-width"
-    [disabled]="!enableShowBookingButton"
+    [disabled]="!enableShowBookingButton()"
     (click)="showResults()"
     id="show-booking-button"
     >
@@ -46,7 +46,7 @@
   </ion-button>
 </ion-row>
 
-@if (shouldShowCandidateResults) {
+@if (shouldShowCandidateResults()) {
   <section>
     <!--TODAY'S SLOTS-->
     <div>
@@ -60,7 +60,7 @@
       </ion-grid>
     </div>
     <div>
-      @if (!todaySlots || todaySlots.length === 0) {
+      @if (!todaySlots() || todaySlots().length === 0) {
         <p
           id="candidate-no-booking-at-test-centre-today-message"
           class="ion-padding-top ion-text-center no-results"
@@ -69,10 +69,10 @@
         </p>
       }
     </div>
-    @for (candidateSlot of todaySlots; track candidateSlot) {
+    @for (candidateSlot of todaySlots(); track candidateSlot) {
       <ion-list>
         <test-slot
-          [isPortrait]="orientationMonitorProvider.isPortraitMode$ | async"
+          [isPortrait]="isPortrait()"
           [slot]="candidateSlot.slot"
           [teamJournalCandidateResult]="true"
           [examinerName]="candidateSlot.examinerName"
@@ -92,7 +92,7 @@
       </ion-grid>
     </div>
     <div class="no-results">
-      @if (!tomorrowSlots || tomorrowSlots.length === 0) {
+      @if (!tomorrowSlots() || tomorrowSlots().length === 0) {
         <p
           id="candidate-no-booking-at-test-centre-tomorrow-message"
           class="ion-padding-top ion-text-center no-results"
@@ -101,10 +101,10 @@
         </p>
       }
     </div>
-    @for (candidateSlot of tomorrowSlots; track candidateSlot) {
+    @for (candidateSlot of tomorrowSlots(); track candidateSlot) {
       <ion-list>
         <test-slot
-          [isPortrait]="orientationMonitorProvider.isPortraitMode$ | async"
+          [isPortrait]="isPortrait()"
           [slot]="candidateSlot.slot"
           [teamJournalCandidateResult]="true"
           [examinerName]="candidateSlot.examinerName"

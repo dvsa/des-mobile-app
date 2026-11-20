@@ -77,10 +77,10 @@ describe('ViewJournalsCardComponent', () => {
           value: 'something',
         } as IonSelect;
         component.onManualRefresh();
-        expect(component.journal).toEqual(null);
-        expect(component.examinerName).toEqual(null);
-        expect(component.hasSelectedExaminer).toEqual(false);
-        expect(component.hasClickedShowJournal).toEqual(false);
+        expect(component.journal()).toEqual(null);
+        expect(component.examinerName()).toEqual(null);
+        expect(component.hasSelectedExaminer()).toEqual(false);
+        expect(component.hasClickedShowJournal()).toEqual(false);
         expect(component.examinerSelect.value).toEqual(null);
         expect(component.slotContainer.clear).toHaveBeenCalled();
       });
@@ -106,7 +106,7 @@ describe('ViewJournalsCardComponent', () => {
       });
       it('should use the staffNumber to do a lookup and retrieve appropriate journal', () => {
         component.examinerChanged('456');
-        expect(component.journal).toEqual({ examiner: { individualId: 2 } } as ExaminerWorkSchedule);
+        expect(component.journal()).toEqual({ examiner: { individualId: 2 } } as ExaminerWorkSchedule);
         expect(component.slotContainer.clear).toHaveBeenCalled();
       });
       it('should not call slotContainer.clear when undefined staff number passed in', () => {
@@ -127,30 +127,28 @@ describe('ViewJournalsCardComponent', () => {
         } as {
           [date: string]: SlotItem[];
         });
-        component.currentSelectedDate = '2021-03-27';
-        component.hasClickedShowJournal = false;
+        component.currentSelectedDate.set('2021-03-27');
+        component.hasClickedShowJournal.set(false);
       });
       it('should set hasClickedShowJournal but not run slot creation when journal is null', () => {
-        component.journal = null;
+        component.journal.set(null);
         component.onShowJournalClick();
-        expect(component.hasClickedShowJournal).toEqual(true);
+        expect(component.hasClickedShowJournal()).toEqual(true);
         expect(slotProvider.detectSlotChanges).not.toHaveBeenCalled();
       });
       it(
         'should call detectSlotChanges and call getRelevantSlotItemsByDate and return nothing when there' +
           ' are no slot items',
         () => {
-          component.journal = {
+          component.journal.set({
             examiner: {
               staffNumber: '123456',
             },
-          } as ExaminerWorkSchedule;
+          } as ExaminerWorkSchedule);
           component.onShowJournalClick();
-          component.slotItems$.subscribe(() => {
-            expect(slotProvider.getRelevantSlotItemsByDate).toHaveBeenCalledWith([]);
-            expect(component.hasClickedShowJournal).toEqual(true);
-            expect(slotProvider.detectSlotChanges).toHaveBeenCalledWith({}, component.journal as ExaminerWorkSchedule);
-          });
+          expect(slotProvider.getRelevantSlotItemsByDate).toHaveBeenCalledWith([]);
+          expect(component.hasClickedShowJournal()).toEqual(true);
+          expect(slotProvider.detectSlotChanges).toHaveBeenCalledWith({}, component.journal() as ExaminerWorkSchedule);
         }
       );
     });
@@ -158,78 +156,78 @@ describe('ViewJournalsCardComponent', () => {
 
   describe('canNavigateToNextDay', () => {
     it('should return true when nextDay is not empty', () => {
-      component.currentSelectedDate = '2021-03-25';
+      component.currentSelectedDate.set('2021-03-25');
       component.today = '2021-03-24';
-      component.examinerSlotItemsByDate = {
+      component.examinerSlotItemsByDate.set({
         examiner: {},
         slotItemsByDate: {
           '2021-03-26': [{} as SlotItem],
         } as {
           [date: string]: SlotItem[];
         },
-      } as ExaminerSlotItemsByDate;
+      } as ExaminerSlotItemsByDate);
       expect(component.canNavigateToNextDay()).toEqual(true);
     });
     it('should return true when isInRange', () => {
-      component.currentSelectedDate = '2021-03-24';
+      component.currentSelectedDate.set('2021-03-24');
       component.today = '2021-03-24';
-      component.examinerSlotItemsByDate = {
+      component.examinerSlotItemsByDate.set({
         examiner: {},
         slotItemsByDate: {
           '2021-03-25': [],
         } as {
           [date: string]: SlotItem[];
         },
-      } as ExaminerSlotItemsByDate;
+      } as ExaminerSlotItemsByDate);
       expect(component.canNavigateToNextDay()).toEqual(true);
     });
     it('should return false when nextDay is empty and not isInRange', () => {
-      component.currentSelectedDate = '2021-03-25';
-      component.examinerSlotItemsByDate = {
+      component.currentSelectedDate.set('2021-03-25');
+      component.examinerSlotItemsByDate.set({
         examiner: {},
         slotItemsByDate: {
           '2021-03-24': [],
         } as {
           [date: string]: SlotItem[];
         },
-      } as ExaminerSlotItemsByDate;
+      } as ExaminerSlotItemsByDate);
       expect(component.canNavigateToNextDay()).toEqual(false);
     });
   });
   describe('canNavigateToPreviousDay', () => {
     it('should return true when dayBefore is not empty', () => {
-      component.currentSelectedDate = '2021-03-25';
-      component.examinerSlotItemsByDate = {
+      component.currentSelectedDate.set('2021-03-25');
+      component.examinerSlotItemsByDate.set({
         examiner: {},
         slotItemsByDate: {
           '2021-03-24': [{} as SlotItem],
         } as {
           [date: string]: SlotItem[];
         },
-      } as ExaminerSlotItemsByDate;
+      } as ExaminerSlotItemsByDate);
       expect(component.canNavigateToPreviousDay()).toEqual(true);
     });
     it('should return false when dayBefore is empty', () => {
-      component.currentSelectedDate = '2021-03-25';
-      component.examinerSlotItemsByDate = {
+      component.currentSelectedDate.set('2021-03-25');
+      component.examinerSlotItemsByDate.set({
         examiner: {},
         slotItemsByDate: {
           '2021-03-24': [],
         } as {
           [date: string]: SlotItem[];
         },
-      } as ExaminerSlotItemsByDate;
+      } as ExaminerSlotItemsByDate);
       expect(component.canNavigateToPreviousDay()).toEqual(false);
     });
   });
   describe('isSelectedDateToday', () => {
     it('should return true when currentSelectedDate is same as today', () => {
-      component.currentSelectedDate = '2021-03-25';
+      component.currentSelectedDate.set('2021-03-25');
       component.today = '2021-03-25';
       expect(component.isSelectedDateToday()).toEqual(true);
     });
     it('should return false when currentSelectedDate is not same as today', () => {
-      component.currentSelectedDate = '2021-03-25';
+      component.currentSelectedDate.set('2021-03-25');
       component.today = '2021-03-24';
       expect(component.isSelectedDateToday()).toEqual(false);
     });
@@ -239,35 +237,35 @@ describe('ViewJournalsCardComponent', () => {
       vi.spyOn(component, 'onShowJournalClick').mockReturnValue(undefined);
       component.today = '2021-03-24';
       component.onPreviousDayClick();
-      expect(component.currentSelectedDate).toEqual('2021-03-24');
+      expect(component.currentSelectedDate()).toEqual('2021-03-24');
       expect(component.onShowJournalClick).toHaveBeenCalled();
     });
   });
   describe('shouldShowBanner', () => {
     it('should return true meaning slots are empty for currentSelectedDate', () => {
-      component.examinerName = 'name';
-      component.currentSelectedDate = '2021-03-25';
-      component.examinerSlotItemsByDate = {
+      component.examinerName.set('name');
+      component.currentSelectedDate.set('2021-03-25');
+      component.examinerSlotItemsByDate.set({
         examiner: {},
         slotItemsByDate: {
           '2021-03-25': [],
         } as {
           [date: string]: SlotItem[];
         },
-      } as ExaminerSlotItemsByDate;
+      } as ExaminerSlotItemsByDate);
       expect(component.shouldShowBanner()).toEqual(true);
     });
     it('should return false meaning slots are not empty for currentSelectedDate', () => {
-      component.examinerName = 'name';
-      component.currentSelectedDate = '2021-03-25';
-      component.examinerSlotItemsByDate = {
+      component.examinerName.set('name');
+      component.currentSelectedDate.set('2021-03-25');
+      component.examinerSlotItemsByDate.set({
         examiner: {},
         slotItemsByDate: {
           '2021-03-25': [{} as SlotItem],
         } as {
           [date: string]: SlotItem[];
         },
-      } as ExaminerSlotItemsByDate;
+      } as ExaminerSlotItemsByDate);
       expect(component.shouldShowBanner()).toEqual(false);
     });
   });
@@ -285,7 +283,7 @@ describe('ViewJournalsCardComponent', () => {
     it('should generate a string indicating examiner has no slots at test centre on given day', () => {
       vi.spyOn(component, 'dayLabel', 'get').mockReturnValue('today');
       component.testCentreName = 'Some centre';
-      component.examinerName = 'Some name';
+      component.examinerName.set('Some name');
       expect(component.warningText).toEqual('Some name does not have any test bookings at Some centre today');
     });
   });

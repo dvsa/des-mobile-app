@@ -1,4 +1,3 @@
-import { Injector } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { ActivatedRoute, Data, Router } from '@angular/router';
 import { KeepAwake as Insomnia } from '@capacitor-community/keep-awake';
@@ -23,10 +22,15 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { unitTestErrorCause } from '../../../../test-setup.vitest';
 import { BasePageComponent } from '../base-page';
 
+class TestBasePage extends BasePageComponent {
+  constructor() {
+    super(true);
+  }
+}
+
 describe('BasePageComponent', () => {
   let platform: Platform;
   let authenticationProvider: AuthenticationProvider;
-  let injector: Injector;
   let router: Router;
   let deviceProvider: DeviceProvider;
   let logHelper: LogHelper;
@@ -72,7 +76,7 @@ describe('BasePageComponent', () => {
     });
 
     platform = TestBed.inject(Platform);
-    injector = TestBed.inject(Injector);
+    basePageComponent = TestBed.runInInjectionContext(() => new TestBasePage());
     authenticationProvider = TestBed.inject(AuthenticationProvider);
     router = TestBed.inject(Router);
     deviceProvider = TestBed.inject(DeviceProvider);
@@ -85,8 +89,8 @@ describe('BasePageComponent', () => {
   });
 
   afterEach(() => {
-    basePageComponent.destroyLeaveAppSubscription();
-    basePageComponent.destroyReturnToAppSubscription();
+    basePageComponent?.destroyLeaveAppSubscription();
+    basePageComponent?.destroyReturnToAppSubscription();
   });
 
   describe('ionViewWillEnter', () => {
@@ -117,11 +121,13 @@ describe('BasePageComponent', () => {
     it('should allow user access if authenticated , is an ios device and is required', async () => {
       vi.useFakeTimers();
       try {
-        vi.spyOn(authenticationProvider, 'isAuthenticated').mockResolvedValue(false);
+        basePageComponent.isIos = vi.fn().mockReturnValue(true);
+        vi.spyOn(authenticationProvider, 'isAuthenticated').mockResolvedValue(true);
         basePageComponent.ionViewWillEnter();
         await vi.advanceTimersByTimeAsync(0);
 
         expect(router.navigate).not.toHaveBeenCalled();
+        expect(authenticationProvider.isAuthenticated).toHaveBeenCalled();
       } finally {
         vi.useRealTimers();
       }

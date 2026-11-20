@@ -17,6 +17,7 @@ import { SafetyQuestionsCatDComponent } from '@pages/test-report/cat-d/component
 import { VehicleChecksCompactCatDComponent } from '@pages/test-report/cat-d/components/vehicle-checks-compact/vehicle-checks-compact.cat-d';
 import { MultiLegalRequirementComponent } from '@pages/test-report/components/multi-legal-requirement/multi-legal-requirement';
 import { UncoupleRecoupleComponent } from '@pages/test-report/components/uncouple-recouple/uncouple-recouple';
+import { ToggleDangerousFaultMode, ToggleSeriousFaultMode } from '../../test-report.actions';
 
 import { DateTimeProviderMock } from '@providers/date-time/__mocks__/date-time.mock';
 import { DateTimeProvider } from '@providers/date-time/date-time';
@@ -106,13 +107,13 @@ describe('TestReportCatDPage', () => {
         expect(fixture.debugElement.query(By.css('.dangerous-mode'))).toBeNull();
       });
       it('should have serious fault mode styles applied when serious mode is enabled', () => {
-        component.isSeriousMode = true;
+        component.store$.dispatch(ToggleSeriousFaultMode());
         fixture.detectChanges();
         expect(fixture.debugElement.query(By.css('.serious-mode'))).toBeDefined();
         expect(fixture.debugElement.query(By.css('.dangerous-mode'))).toBeNull();
       });
       it('should have dangerous fault mode styles applied when dangerous mode is enabled', () => {
-        component.isDangerousMode = true;
+        component.store$.dispatch(ToggleDangerousFaultMode());
         fixture.detectChanges();
         expect(fixture.debugElement.query(By.css('.serious-mode'))).toBeNull();
         expect(fixture.debugElement.query(By.css('.dangerous-mode'))).toBeDefined();
@@ -145,7 +146,7 @@ describe('TestReportCatDPage', () => {
     ].forEach(({ cat, show }) => {
       it(`should ${show ? 'show' : 'not show'} uncouple/recouple for cat ${cat}`, () => {
         component.isDelegated = true;
-        component.testCategory = cat;
+        component.category = cat;
         expect(component.showUncoupleRecouple()).toEqual(show);
       });
     });

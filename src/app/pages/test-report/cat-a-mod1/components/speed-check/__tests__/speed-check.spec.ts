@@ -6,7 +6,6 @@ import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { Store, StoreModule } from '@ngrx/store';
-import { CompetencyOutcome } from '@shared/models/competency-outcome';
 import { StoreModel } from '@shared/models/store.model';
 import {
   AddAvoidanceSeriousFault,
@@ -28,7 +27,6 @@ import { Competencies } from '@store/tests/test-data/test-data.constants';
 import { StartTest } from '@store/tests/tests.actions';
 import { testsReducer } from '@store/tests/tests.reducer';
 import { MockComponent } from 'ng-mocks';
-import { Subscription } from 'rxjs';
 import { CompetencyButtonComponent } from '../../../../components/competency-button/competency-button';
 import { SingleFaultCompetencyComponent } from '../../../../components/single-fault-competency/single-fault-competency';
 import { testReportReducer } from '../../../../test-report.reducer';
@@ -63,7 +61,7 @@ describe('SpeedCheckComponent', () => {
     describe('toggleNotMet function dispatching right actions', () => {
       it('should dispatch AddEmergencyStopSeriousFault when Emergency Stop is the speed check', () => {
         component.competency = Competencies.speedCheckEmergency;
-        component.outcome = null;
+        store$.dispatch(RecordEmergencyStopFirstAttempt(undefined));
         const storeDispatchSpy = vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
         component.toggleNotMet();
         expect(storeDispatchSpy).toHaveBeenCalledWith(AddEmergencyStopSeriousFault());
@@ -73,7 +71,7 @@ describe('SpeedCheckComponent', () => {
           'Emergency Stop is the speed check and outcome is "S"',
         () => {
           component.competency = Competencies.speedCheckEmergency;
-          component.outcome = CompetencyOutcome.S;
+          store$.dispatch(AddEmergencyStopSeriousFault());
           const storeDispatchSpy = vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
           component.toggleNotMet();
           expect(storeDispatchSpy).toHaveBeenCalledWith(RemoveEmergencyStopSeriousFault());
@@ -82,14 +80,14 @@ describe('SpeedCheckComponent', () => {
 
       it('should dispatch AddAvoidanceSeriousFault when Avoidance is the speed check', () => {
         component.competency = Competencies.speedCheckAvoidance;
-        component.outcome = null;
+        store$.dispatch(RecordAvoidanceFirstAttempt(undefined));
         const storeDispatchSpy = vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
         component.toggleNotMet();
         expect(storeDispatchSpy).toHaveBeenCalledWith(AddAvoidanceSeriousFault());
       });
       it('should dispatch RemoveAvoidanceSeriousFault when Avoidance is the speed check and outcome is "S"', () => {
         component.competency = Competencies.speedCheckAvoidance;
-        component.outcome = CompetencyOutcome.S;
+        store$.dispatch(AddAvoidanceSeriousFault());
         const storeDispatchSpy = vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
         component.toggleNotMet();
         expect(storeDispatchSpy).toHaveBeenCalledWith(RemoveAvoidanceSeriousFault());
@@ -104,7 +102,8 @@ describe('SpeedCheckComponent', () => {
 
       it('should return the speed attempt that has been set', () => {
         const attemptedSpeed = 49;
-        component.firstAttempt = attemptedSpeed;
+        component.competency = Competencies.speedCheckEmergency;
+        store$.dispatch(RecordEmergencyStopFirstAttempt(attemptedSpeed));
         const result = component.getFirstAttempt();
         expect(result).toBe(attemptedSpeed);
       });
@@ -118,26 +117,10 @@ describe('SpeedCheckComponent', () => {
 
       it('should return the speed attempt that has been set', () => {
         const attemptedSpeed = 49;
-        component.secondAttempt = attemptedSpeed;
+        component.competency = Competencies.speedCheckEmergency;
+        store$.dispatch(RecordEmergencyStopSecondAttempt(attemptedSpeed));
         const result = component.getSecondAttempt();
         expect(result).toBe(attemptedSpeed);
-      });
-    });
-
-    describe('ngOnDestroy', () => {
-      it('should unsubscribe from the subscription if there is one', () => {
-        component.subscription = new Subscription();
-        vi.spyOn(component.subscription, 'unsubscribe').mockReturnValue(undefined);
-        component.ngOnDestroy();
-        expect(component.subscription.unsubscribe).toHaveBeenCalled();
-      });
-    });
-
-    describe('ngOnInit', () => {
-      it('should setup subscription if merged is present', () => {
-        component.ngOnInit();
-
-        expect(component.subscription).toBeDefined();
       });
     });
 
@@ -150,11 +133,12 @@ describe('SpeedCheckComponent', () => {
 
     describe('getNotMet', () => {
       it('should return true if outcome is S', () => {
-        component.outcome = CompetencyOutcome.S;
+        component.competency = Competencies.speedCheckEmergency;
+        store$.dispatch(AddEmergencyStopSeriousFault());
         expect(component.getNotMet()).toEqual(true);
       });
       it('should return true if outcome is not S', () => {
-        component.outcome = null;
+        component.competency = Competencies.speedCheckEmergency;
         expect(component.getNotMet()).toEqual(false);
       });
     });
@@ -330,19 +314,23 @@ describe('SpeedCheckComponent', () => {
 
   describe('firstAttemptValid', () => {
     it('should return false if first attempt is null', () => {
-      component.firstAttempt = null;
+      component.competency = Competencies.speedCheckEmergency;
+      store$.dispatch(RecordEmergencyStopFirstAttempt(null));
       expect(component.firstAttemptValid()).toEqual(false);
     });
     it('should return true if the first attempt is 0', () => {
-      component.firstAttempt = 0;
+      component.competency = Competencies.speedCheckEmergency;
+      store$.dispatch(RecordEmergencyStopFirstAttempt(0));
       expect(component.firstAttemptValid()).toEqual(true);
     });
     it('should return false if the first attempt is undefined', () => {
-      component.firstAttempt = undefined;
+      component.competency = Competencies.speedCheckEmergency;
+      store$.dispatch(RecordEmergencyStopFirstAttempt(undefined));
       expect(component.firstAttemptValid()).toEqual(false);
     });
     it('should return true if the first attempt is a positive number', () => {
-      component.firstAttempt = 25;
+      component.competency = Competencies.speedCheckEmergency;
+      store$.dispatch(RecordEmergencyStopFirstAttempt(25));
       expect(component.firstAttemptValid()).toEqual(true);
     });
   });

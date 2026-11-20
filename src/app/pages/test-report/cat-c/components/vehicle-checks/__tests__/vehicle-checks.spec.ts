@@ -2,7 +2,6 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { DrivingFaultsBadgeComponent } from '@components/common/driving-faults-badge/driving-faults-badge';
 import { SeriousFaultBadgeComponent } from '@components/common/serious-fault-badge/serious-fault-badge';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
-import { firstValueFrom } from 'rxjs';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { Store, StoreModule } from '@ngrx/store';
@@ -49,17 +48,17 @@ describe('VehicleChecksComponent', () => {
       vi.spyOn(component.faultCountProvider, 'getVehicleChecksFaultCount').mockReturnValue(vehicleChecksScore);
     });
 
-    it('should set the vehicle checks driving fault count', async () => {
+    it('should set the vehicle checks driving fault count', () => {
       component.testCategory = TestCategory.C;
-      component.ngOnInit();
-      const result = await firstValueFrom(component.componentState.vehicleChecksDrivingFaultCount$);
+      fixture.detectChanges();
+      const result = component.vehicleChecksDrivingFaultCount();
       expect(component.faultCountProvider.getVehicleChecksFaultCount).toHaveBeenCalled();
       expect(result).toEqual(4);
     });
-    it('should set the vehicle checks serious fault count', async () => {
+    it('should set the vehicle checks serious fault count', () => {
       component.testCategory = TestCategory.C;
-      component.ngOnInit();
-      const result = await firstValueFrom(component.componentState.vehicleChecksSeriousFaultCount$);
+      fixture.detectChanges();
+      const result = component.vehicleChecksSeriousFaultCount();
       expect(component.faultCountProvider.getVehicleChecksFaultCount).toHaveBeenCalled();
       expect(result).toEqual(1);
     });

@@ -7,7 +7,7 @@ import { Store } from '@ngrx/store';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 
-import { Injector } from '@angular/core';
+import { Injector, runInInjectionContext } from '@angular/core';
 import { AuthenticationProviderMock } from '@providers/authentication/__mocks__/authentication.mock';
 import { AuthenticationProvider } from '@providers/authentication/authentication';
 import { DeviceProviderMock } from '@providers/device/__mocks__/device.mock';
@@ -36,6 +36,12 @@ import { TestStatus } from '@store/tests/test-status/test-status.model';
 import { D255No, D255Yes, DebriefUnWitnessed, DebriefWitnessed } from '@store/tests/test-summary/test-summary.actions';
 import { TestsModel } from '@store/tests/tests.model';
 import { GearboxCategoryChanged } from '@store/tests/vehicle-details/vehicle-details.actions';
+
+class TestPassFinalisationPageComponent extends PassFinalisationPageComponent {
+  constructor() {
+    super(false);
+  }
+}
 
 describe('PassFinalisationPageComponent', () => {
   let injector: Injector;
@@ -102,6 +108,7 @@ describe('PassFinalisationPageComponent', () => {
     });
 
     injector = TestBed.inject(Injector);
+    basePageComponent = runInInjectionContext(injector, () => new TestPassFinalisationPageComponent());
     store$ = TestBed.inject(MockStore);
 
     vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
@@ -110,7 +117,7 @@ describe('PassFinalisationPageComponent', () => {
   describe('onInitialisation', () => {
     it('should resolve state variables', () => {
       basePageComponent.onInitialisation();
-      basePageComponent.commonPageState.candidateName$.subscribe((res) => expect(res).toEqual('Mr Tim Burr'));
+      expect(basePageComponent.candidateName()).toEqual('Mr Tim Burr');
     });
   });
 

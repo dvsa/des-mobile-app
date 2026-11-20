@@ -1,12 +1,11 @@
-import { Injectable } from '@angular/core';
+import { Injectable, linkedSignal, signal } from '@angular/core';
 import { IsDebug } from '@awesome-cordova-plugins/is-debug/ngx';
 import { GetResult, ManagedConfigurations } from '@capawesome/capacitor-managed-configurations';
 import { Platform } from '@ionic/angular';
 import { Store } from '@ngrx/store';
 import { ValidationError, ValidatorResult } from 'jsonschema';
 import { isEmpty, merge } from 'lodash-es';
-import { Subscription } from 'rxjs';
-import { map, timeout } from 'rxjs/operators';
+import { timeout } from 'rxjs/operators';
 
 import { MdmConfig } from '@dvsa/mes-config-schema/mdm-config';
 import { RemoteConfig } from '@dvsa/mes-config-schema/remote-config';
@@ -68,9 +67,21 @@ import { AppConfigError } from './app-config.constants';
 })
 export class AppConfigProvider {
   isDebugMode = false;
-  storeSubscription: Subscription;
   environmentFile: EnvironmentFile = environment as EnvironmentFile;
-  private appConfig: AppConfig;
+  private readonly storedConfig = this.store$.selectSignal(getAppConfigState);
+  private readonly followStoreConfig = signal(true);
+  private readonly currentConfig = linkedSignal({
+    source: () => (this.followStoreConfig() ? { config: this.storedConfig() } : null),
+    computation: (source, previous): AppConfig => (source ? source.config : previous?.value),
+  });
+
+  private get appConfig(): AppConfig {
+    return this.currentConfig();
+  }
+
+  private set appConfig(config: AppConfig) {
+    this.currentConfig.set(config);
+  }
 
   constructor(
     private platform: Platform,
@@ -82,9 +93,7 @@ export class AppConfigProvider {
     private store$: Store<StoreModel>,
     private logHelper: LogHelper,
     private isDebug: IsDebug
-  ) {
-    this.setStoreSubscription();
-  }
+  ) {}
 
   public initialiseAppConfig = async (): Promise<void> => {
     try {
@@ -105,17 +114,11 @@ export class AppConfigProvider {
     }
   };
 
-  public setStoreSubscription(): void {
-    this.storeSubscription = this.store$
-      .select(getAppConfigState)
-      .pipe(map((appConfig: AppConfig) => (this.appConfig = appConfig)))
-      .subscribe();
-  }
-
   public shutDownStoreSubscription(): void {
-    if (this.storeSubscription) {
-      this.storeSubscription.unsubscribe();
-    }
+    // Keep the last effective config when logout detaches it from the store.
+    const config = this.appConfig;
+    this.followStoreConfig.set(false);
+    this.appConfig = config;
   }
 
   public getAppConfig = (): AppConfig => {

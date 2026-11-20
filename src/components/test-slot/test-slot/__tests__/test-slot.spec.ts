@@ -19,6 +19,7 @@ import { TestSlot } from '@dvsa/mes-journal-schema';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { afterAll, beforeEach, describe, expect, it, vi } from 'vitest';
 
+import { signal } from '@angular/core';
 import { Store, StoreModule } from '@ngrx/store';
 import { AccessibilityService } from '@providers/accessibility/accessibility.service';
 import { AppConfigProviderMock } from '@providers/app-config/__mocks__/app-config.mock';
@@ -36,7 +37,6 @@ import { StartTest } from '@store/tests/tests.actions';
 import { testsReducer } from '@store/tests/tests.reducer';
 import { cloneDeep } from 'lodash-es';
 import { MockComponent } from 'ng-mocks';
-import { of } from 'rxjs';
 
 import { IonButton, IonCard, IonCol, IonGrid, IonIcon, IonRow, IonText } from '@ionic/angular';
 import { AccessibilityServiceMock } from '@providers/accessibility/__mocks__/accessibility-service.mock';
@@ -168,6 +168,20 @@ describe('TestSlotComponent', () => {
   });
 
   describe('Class', () => {
+    it('updates the displayed result when the completed record input arrives', () => {
+      expect(component.testStatus()).toBe(TestStatus.Booked);
+
+      component.completedTestRecord = {
+        ...component.completedTestRecord,
+        activityCode: ActivityCodes.PASS,
+        passCertificateNumber: 'C123456X',
+      };
+
+      expect(component.testStatus()).toBe(TestStatus.Submitted);
+      expect(component.testActivityCode()).toBe(ActivityCodes.PASS);
+      expect(component.testPassCertificate()).toBe('C123456X');
+    });
+
     describe('isIndicatorNeededForSlot', () => {
       it('should return true if specialNeeds is a non-blank string', () => {
         expect(component.isIndicatorNeededForSlot()).toBe(true);
@@ -372,13 +386,11 @@ describe('TestSlotComponent', () => {
 
         it('should pass something to sub-component test-outcome input', () => {
           fixture.detectChanges();
-          component.componentState = {
-            testStatus$: of(TestStatus.Booked),
-            testActivityCode$: of(ActivityCodes.PASS),
-            testPassCertificate$: of('C123456X'),
-            isRekey$: of(false),
-            isRehydrated$: of(false),
-          };
+          component.testStatus = signal(TestStatus.Booked);
+          component.testActivityCode = signal(ActivityCodes.PASS);
+          component.testPassCertificate = signal('C123456X');
+          component.isRekey = signal(false);
+          component.isRehydrated = signal(false);
           fixture.detectChanges();
           const subByDirective = fixture.debugElement.query(
             By.directive(MockComponent(TestOutcomeComponent))

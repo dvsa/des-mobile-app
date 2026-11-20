@@ -1,10 +1,9 @@
-import { AsyncPipe, NgClass } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { NgClass } from '@angular/common';
+import { Component, OnInit, computed } from '@angular/core';
 import { FormsModule, ReactiveFormsModule, UntypedFormGroup } from '@angular/forms';
 import { OfflineBannerComponent } from '@components/common/offline-banner/offline-banner';
 import { TestFlowHeaderComponent } from '@components/common/test-flow-header/test-flow-header.component';
 import { WarningBannerComponent } from '@components/common/warning-banner/warning-banner';
-import { CatDUniqueTypes } from '@dvsa/mes-test-schema/categories/D';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import {
   IonButton,
@@ -17,16 +16,12 @@ import {
   IonText,
   IonToolbar,
 } from '@ionic/angular';
-import { select } from '@ngrx/store';
 import { ClearCandidateLicenceData } from '@pages/candidate-licence/candidate-licence.actions';
 import { TestFlowPageNames } from '@pages/page-names.constants';
 import { WaitingRoomToCarValidationError } from '@pages/waiting-room-to-car/waiting-room-to-car.actions';
 import { WaitingRoomToCarBasePageComponent } from '@shared/classes/test-flow-base-pages/waiting-room-to-car/waiting-room-to-car-base-page';
 import { isAnyOf } from '@shared/helpers/simplifiers';
 import { CompetencyOutcome } from '@shared/models/competency-outcome';
-import { SafetyQuestionsScore } from '@shared/models/safety-questions-score.model';
-import { VehicleChecksScore } from '@shared/models/vehicle-checks-score.model';
-import { getTestCategory } from '@store/tests/category/category.reducer';
 import { getPreTestDeclarations } from '@store/tests/pre-test-declarations/pre-test-declarations.reducer';
 import {
   getCandidateDeclarationSignedStatus,
@@ -48,11 +43,7 @@ import {
   getVehicleChecksCompleted,
   hasFullLicenceHeldBeenSelected,
 } from '@store/tests/test-data/cat-d/vehicle-checks/vehicle-checks.cat-d.selector';
-import { getTests } from '@store/tests/tests.reducer';
-import { getCurrentTest } from '@store/tests/tests.selector';
 import { MotEvidenceProvidedReset } from '@store/tests/vehicle-details/vehicle-details.actions';
-import { Observable, merge } from 'rxjs';
-import { map, withLatestFrom } from 'rxjs/operators';
 import { AccompanimentCardComponent } from '../components/accompaniment-card/accompaniment-card';
 import { CandidateDeclarationSignedComponent } from '../components/candidate-declaration/candidate-declaration';
 import { FullLicenceHeldComponent } from '../components/full-licence-held-toggle/full-licence-held-toggle';
@@ -61,19 +52,6 @@ import { TestCategoryComponent } from '../components/test-category/test-category
 import { VehicleChecksToggleComponent } from '../components/vehicle-checks-completed/vehicle-checks-completed';
 import { VehicleChecksComponent } from '../components/vehicle-checks/vehicle-checks';
 import { VehicleRegistrationComponent } from '../components/vehicle-registration/vehicle-registration';
-
-interface CatDWaitingRoomToCarPageState {
-  candidateDeclarationSigned$: Observable<boolean>;
-  insuranceDeclarationAccepted$: Observable<boolean>;
-  residencyDeclarationAccepted$: Observable<boolean>;
-  vehicleChecksCompleted$: Observable<boolean>;
-  vehicleChecksScore$: Observable<VehicleChecksScore>;
-  safetyQuestionsScore$: Observable<SafetyQuestionsScore>;
-  vehicleChecks$: Observable<CatDUniqueTypes.VehicleChecks>;
-  safetyQuestions$: Observable<CatDUniqueTypes.SafetyQuestions>;
-  fullLicenceHeld$: Observable<boolean>;
-  fullLicenceHeldSelection$: Observable<string>;
-}
 
 @Component({
   selector: '.waiting-room-to-car-cat-d-page',
@@ -103,13 +81,30 @@ interface CatDWaitingRoomToCarPageState {
     IonFooter,
     IonButton,
     IonText,
-    AsyncPipe,
   ],
 })
 export class WaitingRoomToCarCatDPage extends WaitingRoomToCarBasePageComponent implements OnInit {
   form: UntypedFormGroup;
-  pageState: CatDWaitingRoomToCarPageState;
-  fullLicenceHeld: boolean = null;
+  insuranceDeclarationAccepted = computed(() =>
+    getInsuranceDeclarationStatus(getPreTestDeclarations(this.currentTest()))
+  );
+  residencyDeclarationAccepted = computed(() =>
+    getResidencyDeclarationStatus(getPreTestDeclarations(this.currentTest()))
+  );
+  candidateDeclarationSigned = computed(() =>
+    getCandidateDeclarationSignedStatus(getPreTestDeclarations(this.currentTest()))
+  );
+  vehicleChecks = computed(() => getVehicleChecksCatD(getTestData(this.currentTest())));
+  vehicleChecksCompleted = computed(() => getVehicleChecksCompleted(this.vehicleChecks()));
+  fullLicenceHeld = computed(() => getFullLicenceHeld(this.vehicleChecks()));
+  fullLicenceHeldSelection = computed(() => hasFullLicenceHeldBeenSelected(this.fullLicenceHeld()));
+  vehicleChecksScore = computed(() =>
+    this.faultCountProvider.getVehicleChecksFaultCount(this.category() as TestCategory, this.vehicleChecks())
+  );
+  safetyQuestions = computed(() => getSafetyQuestionsCatD(getTestData(this.currentTest())));
+  safetyQuestionsScore = computed(() =>
+    this.faultCountProvider.getSafetyQuestionsFaultCount(this.category() as TestCategory, this.safetyQuestions())
+  );
   submitClicked = false;
 
   constructor() {
@@ -119,79 +114,12 @@ export class WaitingRoomToCarCatDPage extends WaitingRoomToCarBasePageComponent 
 
   ngOnInit(): void {
     super.onInitialisation();
-
-    const currentTest$ = this.store$.pipe(select(getTests), select(getCurrentTest));
-
-    this.pageState = {
-      insuranceDeclarationAccepted$: currentTest$.pipe(
-        select(getPreTestDeclarations),
-        select(getInsuranceDeclarationStatus)
-      ),
-      residencyDeclarationAccepted$: currentTest$.pipe(
-        select(getPreTestDeclarations),
-        select(getResidencyDeclarationStatus)
-      ),
-      candidateDeclarationSigned$: currentTest$.pipe(
-        select(getPreTestDeclarations),
-        select(getCandidateDeclarationSignedStatus)
-      ),
-      vehicleChecksCompleted$: currentTest$.pipe(
-        select(getTestData),
-        select(getVehicleChecksCatD),
-        select(getVehicleChecksCompleted)
-      ),
-      fullLicenceHeld$: currentTest$.pipe(
-        select(getTestData),
-        select(getVehicleChecksCatD),
-        select(getFullLicenceHeld)
-      ),
-      vehicleChecks$: currentTest$.pipe(select(getTestData), select(getVehicleChecksCatD)),
-      vehicleChecksScore$: currentTest$.pipe(
-        select(getTestData),
-        select(getVehicleChecksCatD),
-        withLatestFrom(currentTest$.pipe(select(getTestCategory))),
-        map(([vehicleChecks, category]) =>
-          this.faultCountProvider.getVehicleChecksFaultCount(category as TestCategory, vehicleChecks)
-        )
-      ),
-      fullLicenceHeldSelection$: currentTest$.pipe(
-        select(getTestData),
-        select(getVehicleChecksCatD),
-        select(getFullLicenceHeld),
-        map((licenceHeld) => hasFullLicenceHeldBeenSelected(licenceHeld))
-      ),
-      safetyQuestions$: currentTest$.pipe(select(getTestData), select(getSafetyQuestionsCatD)),
-      safetyQuestionsScore$: currentTest$.pipe(
-        select(getTestData),
-        select(getSafetyQuestionsCatD),
-        withLatestFrom(currentTest$.pipe(select(getTestCategory))),
-        map(([safetyQuestions, category]) =>
-          this.faultCountProvider.getSafetyQuestionsFaultCount(category as TestCategory, safetyQuestions)
-        )
-      ),
-    };
-
-    this.setupSubscription();
   }
 
   motNoEvidenceCancelled = (): void => {
     this.form.get('alternateEvidenceCtrl')?.reset();
     this.store$.dispatch(MotEvidenceProvidedReset());
   };
-
-  ionViewDidLeave(): void {
-    super.ionViewDidLeave();
-
-    if (this.subscription) {
-      this.subscription.unsubscribe();
-    }
-  }
-
-  setupSubscription(): void {
-    const { fullLicenceHeld$ } = this.pageState;
-
-    this.subscription = merge(fullLicenceHeld$.pipe(map((result) => (this.fullLicenceHeld = result)))).subscribe();
-  }
 
   vehicleChecksCompletedOutcomeChanged(toggled: boolean): void {
     this.store$.dispatch(VehicleChecksCompletedToggled(toggled));
@@ -204,7 +132,6 @@ export class WaitingRoomToCarCatDPage extends WaitingRoomToCarBasePageComponent 
   }
 
   fullLicenceHeldChange = (licenceHeld: boolean): void => {
-    this.fullLicenceHeld = licenceHeld;
     this.store$.dispatch(SetFullLicenceHeld(licenceHeld));
   };
 
@@ -212,7 +139,7 @@ export class WaitingRoomToCarCatDPage extends WaitingRoomToCarBasePageComponent 
     Object.keys(this.form.controls).forEach((controlName: string) => this.form.controls[controlName].markAsDirty());
 
     if (this.form.valid) {
-      if (this.fullLicenceHeld && isAnyOf(this.testCategory, [TestCategory.DE, TestCategory.D1E])) {
+      if (this.fullLicenceHeld() && isAnyOf(this.testCategory, [TestCategory.DE, TestCategory.D1E])) {
         this.store$.dispatch(this.isDelegated ? DropExtraVehicleChecksDelegated() : DropExtraVehicleChecks());
       }
       this.store$.dispatch(ClearCandidateLicenceData());

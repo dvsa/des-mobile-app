@@ -1,5 +1,4 @@
-import { AsyncPipe } from '@angular/common';
-import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, Output, computed } from '@angular/core';
 import { FormsModule, ReactiveFormsModule, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { CategoryCode } from '@dvsa/mes-test-schema/categories/common';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
@@ -12,37 +11,32 @@ import { getTestData } from '@store/tests/test-data/cat-c/test-data.cat-c.reduce
 import {
   getFullLicenceHeld,
   getVehicleChecksCatC,
-  hasFullLicenceHeldBeenSelected,
 } from '@store/tests/test-data/cat-c/vehicle-checks/vehicle-checks.cat-c.selector';
 import { getTests } from '@store/tests/tests.reducer';
-import { getCurrentTest } from '@store/tests/tests.selector';
-import { Observable, Subscription, merge } from 'rxjs';
-import { map, takeUntil, tap } from 'rxjs/operators';
+import { getCurrentTest, selectCurrentTest } from '@store/tests/tests.selector';
+import { Subscription } from 'rxjs';
+import { takeUntil, tap } from 'rxjs/operators';
 
 enum VehicleChecksCompletedResult {
   COMPLETED = 'Completed',
   NOT_COMPLETED = 'Not completed',
 }
 
-interface ComponentState {
-  fullLicenceHeld$: Observable<boolean>;
-  fullLicenceHeldSelection$: Observable<string>;
-  drivingFaultsNumberOptions$: Observable<number[]>;
-}
-
 @Component({
   selector: 'vehicle-checks-completed',
   templateUrl: 'vehicle-checks-completed.html',
   styleUrls: ['vehicle-checks-completed.scss'],
-  imports: [IonRow, FormsModule, ReactiveFormsModule, IonCol, IonSelect, IonSelectOption, AsyncPipe],
+  imports: [IonRow, FormsModule, ReactiveFormsModule, IonCol, IonSelect, IonSelectOption],
 })
 export class VehicleChecksToggleComponent implements OnChanges {
   formControl: UntypedFormControl;
-  componentState: ComponentState;
   drivingFaultNumberFormControl: UntypedFormControl;
   subscription: Subscription;
-  merged$: Observable<boolean>;
-  drivingFaultsNumberOptions: number[] = [];
+  private currentTest = this.store$.selectSignal(selectCurrentTest);
+  drivingFaultsNumberOptions = computed(() => {
+    const licenceHeld = getFullLicenceHeld(getVehicleChecksCatC(getTestData(this.currentTest())));
+    return Array.from({ length: vehicleChecksQuestionsByLicenceHeld(licenceHeld) + 1 }, (_, index) => index);
+  });
 
   @Input()
   vehicleChecksCompleted: boolean;
@@ -62,45 +56,21 @@ export class VehicleChecksToggleComponent implements OnChanges {
   constructor(private store$: Store<StoreModel>) {}
 
   ngOnInit() {
-    const currentTest$ = this.store$.pipe(select(getTests), select(getCurrentTest));
-
-    this.componentState = {
-      fullLicenceHeld$: currentTest$.pipe(
-        select(getTestData),
-        select(getVehicleChecksCatC),
-        select(getFullLicenceHeld)
-      ),
-      fullLicenceHeldSelection$: currentTest$.pipe(
+    this.subscription = this.store$
+      .pipe(
+        select(getTests),
+        select(getCurrentTest),
         select(getTestData),
         select(getVehicleChecksCatC),
         select(getFullLicenceHeld),
-        map((licenceHeld: boolean) => hasFullLicenceHeldBeenSelected(licenceHeld))
-      ),
-      drivingFaultsNumberOptions$: currentTest$.pipe(
-        select(getTestData),
-        select(getVehicleChecksCatC),
-        select(getFullLicenceHeld),
-        map((licenceHeld) =>
-          Array(vehicleChecksQuestionsByLicenceHeld(licenceHeld) + 1)
-            .fill(null)
-            .map((v, i) => i)
-        )
-      ),
-    };
-
-    const { fullLicenceHeld$ } = this.componentState;
-
-    const merged$ = merge(
-      fullLicenceHeld$.pipe(
         tap(() => {
           // when fullLicenceHeld changes, then set the fault count dropdown back to a null in it's default state
           this.drivingFaultNumberFormControl.markAsPristine({ onlySelf: true });
           this.drivingFaultNumberFormControl.patchValue(null);
-        })
+        }),
+        takeUntil(wrtcDestroy$)
       )
-    );
-
-    this.subscription = merged$.pipe(takeUntil(wrtcDestroy$)).subscribe();
+      .subscribe();
   }
 
   ngOnDestroy(): void {

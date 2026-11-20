@@ -66,10 +66,10 @@
               <test-category [testCategory]="category()"></test-category>
 
               <dimensions-card
-                [numberOfSeats]="pageState.numberOfSeats$ | async"
-                [vehicleHeight]="pageState.vehicleHeight$ | async"
-                [vehicleLength]="pageState.vehicleLength$ | async"
-                [vehicleWidth]="pageState.vehicleWidth$ | async"
+                [numberOfSeats]="numberOfSeats()"
+                [vehicleHeight]="vehicleHeight()"
+                [vehicleLength]="vehicleLength()"
+                [vehicleWidth]="vehicleWidth()"
                 >
               </dimensions-card>
 

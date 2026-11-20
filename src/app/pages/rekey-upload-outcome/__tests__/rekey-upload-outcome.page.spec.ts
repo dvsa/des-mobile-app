@@ -5,7 +5,6 @@ import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { provideBasePageMocks } from '@mocks/test-providers';
 import { Store, StoreModule } from '@ngrx/store';
-import { Subscription, of } from 'rxjs';
 
 import { JOURNAL_PAGE, REKEY_SEARCH_PAGE } from '@pages/page-names.constants';
 import { RekeyUploadOutcomeViewDidEnter } from '@pages/rekey-upload-outcome/rekey-upload-outcome.actions';
@@ -20,6 +19,7 @@ import { StoreModel } from '@shared/models/store.model';
 import { EndRekey } from '@store/tests/rekey/rekey.actions';
 import { testsReducer } from '@store/tests/tests.reducer';
 import { rekeyReasonReducer } from '../../rekey-reason/rekey-reason.reducer';
+import { rekeySearchReducer } from '../../rekey-search/rekey-search.reducer';
 
 describe('RekeyUploadOutcomePage', () => {
   let fixture: ComponentFixture<RekeyUploadOutcomePage>;
@@ -34,6 +34,7 @@ describe('RekeyUploadOutcomePage', () => {
         StoreModule.forRoot({
           tests: testsReducer,
           rekeyReason: rekeyReasonReducer,
+          rekeySearch: rekeySearchReducer,
         }),
         RekeyUploadOutcomePage,
       ],
@@ -69,12 +70,11 @@ describe('RekeyUploadOutcomePage', () => {
 
     describe('goToJournal', () => {
       it('should navigate to rekey search when fromRekeySearch is true', async () => {
-        component.fromRekeySearch = true;
+        component.fromRekeySearch = signal(true);
         await component.goToJournal();
         expect(router.navigate).toHaveBeenCalledWith([REKEY_SEARCH_PAGE]);
       });
       it('should navigate to journal when fromRekeySearch is false', async () => {
-        component.fromRekeySearch = false;
         await component.goToJournal();
         expect(router.navigate).toHaveBeenCalledWith([JOURNAL_PAGE]);
       });
@@ -84,23 +84,5 @@ describe('RekeyUploadOutcomePage', () => {
       });
     });
   });
-
-  describe('ionViewWillEnter', () => {
-    it('should subscribe to merged if it exists', () => {
-      component.subscription = null;
-      component.merged$ = of(true);
-      vi.spyOn(component.merged$, 'subscribe').mockReturnValue(undefined);
-      component.ionViewWillEnter();
-      expect(component.subscription).not.toEqual(null);
-    });
-  });
-
-  describe('ionViewDidLeave', () => {
-    it('should unsubscribe from the subscription if there is one', () => {
-      component.subscription = new Subscription();
-      vi.spyOn(component.subscription, 'unsubscribe').mockReturnValue(undefined);
-      component.ionViewDidLeave();
-      expect(component.subscription.unsubscribe).toHaveBeenCalled();
-    });
-  });
 });
+import { signal } from '@angular/core';

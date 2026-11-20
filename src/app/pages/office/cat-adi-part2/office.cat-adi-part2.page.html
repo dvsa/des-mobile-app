@@ -21,10 +21,10 @@
 
 <ion-content force-overscroll="false">
   <office-candidate-section
-    [candidateName]="pageState.candidateName$ | async"
-    [driverNumber]="pageState.candidateDriverNumber$ | async"
-    [startTime]="pageState.startTime$ | async"
-    [testOutcomeText]="pageState.testOutcomeText$ | async"
+    [candidateName]="candidateName()"
+    [driverNumber]="candidateDriverNumber()"
+    [startTime]="startTime()"
+    [testOutcomeText]="testOutcomeText()"
     >
   </office-candidate-section>
 
@@ -38,7 +38,7 @@
         <ion-grid class="grid">
           @if (isRekey) {
             <date-of-test
-              [dateOfTest]="pageState.startDate$ | async"
+              [dateOfTest]="startDate()"
               (setIsValidStartDateTime)="setIsValidStartDateTime($event)"
               (dateOfTestChange)="dateOfTestChanged($event)"
               >
@@ -48,80 +48,80 @@
           <activity-code
             id="activity-code-card"
             [formGroup]="form"
-            [activityCodeModel]="pageState.activityCode$ | async"
+            [activityCodeModel]="activityCode()"
             [activityCodeOptions]="activityCodeOptions"
             (activityCodeChange)="activityCodeChanged($event)"
             [disabled]="true"
             >
           </activity-code>
 
-          <div class="ion-no-padding" [hidden]="!(pageState.isTestOutcomeSet$ | async)">
+          <div class="ion-no-padding" [hidden]="!(isTestOutcomeSet())">
             <route-number
-              [display]="pageState.displayRouteNumber$ | async"
-              [routeNumber]="pageState.routeNumber$ | async"
-              [outcome]="pageState.testOutcome$ | async"
+              [display]="displayRouteNumber()"
+              [routeNumber]="routeNumber()"
+              [outcome]="testOutcome()"
               (routeNumberChange)="routeNumberChanged($event)"
               [formGroup]="form"
               >
             </route-number>
 
             <independent-driving
-              [display]="pageState.displayIndependentDriving$ | async"
+              [display]="displayIndependentDriving()"
               option1="Sat nav"
               option1label="Sat nav"
               option2="Traffic signs"
               option2label="Traffic signs"
               [formGroup]="form"
-              [outcome]="pageState.testOutcome$ | async"
-              [independentDriving]="pageState.independentDriving$ | async"
+              [outcome]="testOutcome()"
+              [independentDriving]="independentDriving()"
               (independentDrivingChange)="independentDrivingChanged($event)"
               >
             </independent-driving>
 
-            @if (pageState.displayCandidateDescription$ | async) {
+            @if (displayCandidateDescription()) {
               <true-likeness
                 [formGroup]="form"
-                [trueLikeness]="pageState.trueLikenessToPhoto$ | async"
+                [trueLikeness]="trueLikenessToPhoto()"
                 (trueLikenessChange)="trueLikenessToPhotoChanged($event)"
                 >
               </true-likeness>
             }
 
             <candidate-description
-              [display]="pageState.displayCandidateDescription$ | async"
+              [display]="displayCandidateDescription()"
               [formGroup]="form"
-              [candidateDescription]="pageState.candidateDescription$ | async"
-              [outcome]="pageState.testOutcome$ | async"
-              [trueLikenessToPhoto]="pageState.trueLikenessToPhoto$ | async"
+              [candidateDescription]="candidateDescription()"
+              [outcome]="testOutcome()"
+              [trueLikenessToPhoto]="trueLikenessToPhoto()"
               (candidateDescriptionChange)="candidateDescriptionChanged($event)"
               >
             </candidate-description>
 
             <identification
-              [display]="pageState.displayIdentification$ | async"
+              [display]="displayIdentification()"
               [formGroup]="form"
-              [identification]="pageState.identification$ | async"
-              [outcome]="pageState.testOutcome$ | async"
+              [identification]="identification()"
+              [outcome]="testOutcome()"
               (identificationChange)="identificationChanged($event)"
               >
             </identification>
 
             <vehicle-checks-office-card-cat-adi2
-              [display]="pageState.displayTellMeQuestions$ | async"
-              [checks]="pageState.vehicleChecks$ | async"
+              [display]="displayTellMeQuestions()"
+              [checks]="vehicleChecks()"
               >
             </vehicle-checks-office-card-cat-adi2>
 
             <show-me-questions-cat-adi2
               [formGroup]="form"
               [questionNumber]="1"
-              [questionResult]="(pageState.showMeQuestions$ | async)[0]"
+              [questionResult]="(recordedShowMeQuestions())[0]"
               [questions]="showMeQuestions"
-              [questionsToDisable]="pageState.showMeQuestions$ | async"
-              [outcome]="pageState.testOutcome$ | async"
-              [serious]="pageState.vehicleChecksSerious$ | async"
-              [dangerous]="pageState.vehicleChecksDangerous$ | async"
-              [drivingFaults]="pageState.showMeQuestionsFaults$ | async"
+              [questionsToDisable]="recordedShowMeQuestions()"
+              [outcome]="testOutcome()"
+              [serious]="vehicleChecksSerious()"
+              [dangerous]="vehicleChecksDangerous()"
+              [drivingFaults]="showMeQuestionsFaults()"
               (showMeQuestionsChange)="showMeQuestionsChanged($event, 0)"
               >
             </show-me-questions-cat-adi2>
@@ -129,22 +129,22 @@
             <show-me-questions-cat-adi2
               [formGroup]="form"
               [questionNumber]="2"
-              [questionResult]="(pageState.showMeQuestions$ | async)[1]"
+              [questionResult]="(recordedShowMeQuestions())[1]"
               [questions]="showMeQuestions"
-              [questionsToDisable]="pageState.showMeQuestions$ | async"
-              [outcome]="pageState.testOutcome$ | async"
-              [serious]="pageState.vehicleChecksSerious$ | async"
-              [dangerous]="pageState.vehicleChecksDangerous$ | async"
-              [drivingFaults]="pageState.showMeQuestionsFaults$ | async"
+              [questionsToDisable]="recordedShowMeQuestions()"
+              [outcome]="testOutcome()"
+              [serious]="vehicleChecksSerious()"
+              [dangerous]="vehicleChecksDangerous()"
+              [drivingFaults]="showMeQuestionsFaults()"
               (showMeQuestionsChange)="showMeQuestionsChanged($event, 1)"
               >
             </show-me-questions-cat-adi2>
 
             <weather-conditions
-              [display]="pageState.displayWeatherConditions$ | async"
-              [weatherConditions]="pageState.weatherConditions$ | async"
+              [display]="displayWeatherConditions()"
+              [weatherConditions]="selectedWeatherConditions()"
               [formGroup]="form"
-              [outcome]="pageState.testOutcome$ | async"
+              [outcome]="testOutcome()"
               [weatherConditionsOptions]="weatherConditions"
               (weatherConditionsChange)="weatherConditionsChanged($event)"
               >
@@ -152,10 +152,10 @@
 
             <accompaniment-card
               [formGroup]="form"
-              [instructorAccompaniment]="pageState.instructorAccompaniment$ | async"
-              [supervisorAccompaniment]="pageState.supervisorAccompaniment$ | async"
-              [otherAccompaniment]="pageState.otherAccompaniment$ | async"
-              [interpreterAccompaniment]="pageState.interpreterAccompaniment$ | async"
+              [instructorAccompaniment]="instructorAccompaniment()"
+              [supervisorAccompaniment]="supervisorAccompaniment()"
+              [otherAccompaniment]="otherAccompaniment()"
+              [interpreterAccompaniment]="interpreterAccompaniment()"
               (instructorAccompanimentChange)="instructorAccompanimentToggled()"
               (supervisorAccompanimentChange)="supervisorAccompanimentToggled()"
               (otherAccompanimentChange)="otherAccompanimentToggled()"
@@ -165,33 +165,33 @@
 
             <vehicle-details-card
               [formGroup]="form"
-              [schoolVehicleDetails]="pageState.schoolCar$ | async"
-              [dualVehicleDetails]="pageState.dualControls$ | async"
+              [schoolVehicleDetails]="schoolCar()"
+              [dualVehicleDetails]="dualControls()"
               (schoolVehicleDetailsChange)="schoolCarToggled()"
               (dualVehicleDetailsChange)="dualControlsToggled()"
               >
             </vehicle-details-card>
 
             <office-registration-and-mot
-              [registrationNumber]="pageState.registrationNumber$ | async"
-              [previousVRNs]="pageState.previouslySearchedVRNs$ | async"
-              [vehicleMake]="pageState.vehicleMake$ | async"
-              [motStatus]="pageState.motStatus$ | async"
-              [motTestExpiryDate]="pageState.motTestExpiryDate$ | async"
-              [vehicleModel]="pageState.vehicleModel$ | async"
+              [registrationNumber]="registrationNumber()"
+              [previousVRNs]="previouslySearchedVRNs()"
+              [vehicleMake]="vehicleMake()"
+              [motStatus]="motStatus()"
+              [motTestExpiryDate]="motTestExpiryDate()"
+              [vehicleModel]="vehicleModel()"
             ></office-registration-and-mot>
 
-            @if ((pageState.motAlternativeEvidenceProvided$ | async) != null) {
+            @if ((motAlternativeEvidenceProvided()) != null) {
               <alternate-mot-evidence-provided
-                [alternativeEvidenceProvided]="pageState.motAlternativeEvidenceProvided$ | async"
-                [shouldHaveSeparator]="(pageState.motAlternativeEvidenceProvided$ | async) || (pageState.displayAdditionalInformation$ | async)"
+                [alternativeEvidenceProvided]="motAlternativeEvidenceProvided()"
+                [shouldHaveSeparator]="(motAlternativeEvidenceProvided()) || (displayAdditionalInformation())"
               ></alternate-mot-evidence-provided>
             }
 
-            @if (pageState.motAlternativeEvidenceProvided$ | async) {
+            @if (motAlternativeEvidenceProvided()) {
               <alternate-mot-evidence-description
-                [shouldHaveSeparator]="pageState.displayAdditionalInformation$ | async"
-                [alternateEvidenceDescription]="pageState.motAlternativeEvidenceDescription$ | async"
+                [shouldHaveSeparator]="displayAdditionalInformation()"
+                [alternateEvidenceDescription]="motAlternativeEvidenceDescription()"
                 (evidenceDescriptionTestResultChange)="alternativeMOTEvidenceDescriptionUpdated($event)"
                 [formGroup]="form"
                 >
@@ -199,18 +199,18 @@
             }
 
             <additional-information
-              [display]="pageState.displayAdditionalInformation$ | async"
-              [additionalInformation]="pageState.additionalInformation$ | async"
+              [display]="displayAdditionalInformation()"
+              [additionalInformation]="additionalInformation()"
               [formGroup]="form"
-              [outcome]="pageState.testOutcome$ | async"
+              [outcome]="testOutcome()"
               (additionalInformationChange)="additionalInformationChanged($event)"
               >
             </additional-information>
 
-            @if (pageState.hasEnteredTeamsOnThisTest$ | async) {
+            @if (hasEnteredTeamsOnThisTest()) {
               <reason-for-entering-teams
-                [display]="pageState.hasEnteredTeamsOnThisTest$ | async"
-                [reasonForOpeningTeams]="pageState.reasonForEnteringTeams$ | async"
+                [display]="hasEnteredTeamsOnThisTest()"
+                [reasonForOpeningTeams]="reasonForEnteringTeams()"
                 [formGroup]="form"
                 (reasonForOpeningTeamsChange)="reasonForEnteringTeamsChanged($event)"
               ></reason-for-entering-teams>
@@ -220,11 +220,11 @@
       </ion-card-content>
     </ion-card>
 
-    <div class="ion-no-padding" [hidden]="!(pageState.isTestOutcomeSet$ | async)">
-      @if ((pageState.etaFaults$ | async) && (pageState.displayEta$ | async)) {
+    <div class="ion-no-padding" [hidden]="!(isTestOutcomeSet())">
+      @if ((etaFaults()) && (displayEta())) {
         <eta-card
           [formGroup]="form"
-          [faults]="pageState.etaFaults$ | async"
+          [faults]="etaFaults()"
           [steeringETA]="steeringControlETA()"
           [handbrakeETA]="handbrakeETA()"
           [footbrakeETA]="footbrakeETA()"
@@ -238,37 +238,37 @@
         </eta-card>
       }
 
-      @if ((pageState.ecoFaults$ | async) && (pageState.displayEco$ | async)) {
+      @if ((ecoFaults()) && (displayEco())) {
         <ion-card>
           <ion-card-content>
             <ion-grid>
               <eco-card
-                [displaySeperator]="((pageState.adi2DrivingFaults$ | async).length > 0) || (pageState.displayFuelEfficient$ | async)"
-                [ecoFaults]="pageState.ecoFaults$ | async"
+                [displaySeperator]="((adi2DrivingFaults()).length > 0) || (displayFuelEfficient())"
+                [ecoFaults]="ecoFaults()"
                 [isADI2]="true"
               ></eco-card>
-              @if ((pageState.adi2DrivingFaults$ | async).length > 0 || (pageState.displayFuelEfficient$ | async)) {
+              @if ((adi2DrivingFaults()).length > 0 || (displayFuelEfficient())) {
                 <fuel-efficient-driving
                   [formGroup]="form"
-                  [disabled]="pageState.displayFuelEfficient$ | async"
-                  [fuelEfficientDriving]="pageState.fuelEfficientDriving$ | async"
+                  [disabled]="displayFuelEfficient()"
+                  [fuelEfficientDriving]="fuelEfficientDriving()"
                   (fedChange)="fedChanged($event)"
                 ></fuel-efficient-driving>
               }
-              @if ((pageState.adi2DrivingFaults$ | async).length > 0) {
+              @if ((adi2DrivingFaults()).length > 0) {
                 <eco-related-fault
                   [formGroup]="form"
-                  [drivingFaults]="pageState.adi2DrivingFaults$ | async"
-                  [ecoRelatedFault]="pageState.ecoRelatedFault$ | async"
-                  [fuelEfficientDriving]="pageState.fuelEfficientDriving$ | async"
+                  [drivingFaults]="adi2DrivingFaults()"
+                  [ecoRelatedFault]="ecoRelatedFault()"
+                  [fuelEfficientDriving]="fuelEfficientDriving()"
                   (ecoFaultChange)="ecoFaultChanged($event)"
                   >
                 </eco-related-fault>
               }
               <eco-capture-reason
                 [formGroup]="form"
-                [ecoCaptureReason]="pageState.ecoCaptureReason$ | async"
-                [fuelEfficientDriving]="pageState.fuelEfficientDriving$ | async"
+                [ecoCaptureReason]="ecoCaptureReason()"
+                [fuelEfficientDriving]="fuelEfficientDriving()"
                 (ecoCaptureReasonChange)="ecoCaptureReasonChanged($event)"
                 >
               </eco-capture-reason>
@@ -279,24 +279,24 @@
 
       <fault-comment-card
         [formGroup]="form"
-        [faultComments]="pageState.dangerousFaults$ | async"
-        [shouldRender]="(pageState?.dangerousFaults$ | async)?.length > 0 && pageState.displayDangerousFault$ | async"
-        [outcome]="pageState.testOutcome$ | async"
+        [faultComments]="dangerousFaults()"
+        [shouldRender]="(dangerousFaults())?.length > 0 && displayDangerousFault()"
+        [outcome]="testOutcome()"
         faultType="dangerous"
         header="Dangerous faults"
-        [testCategory]="pageState.testCategory$ | async"
+        [testCategory]="testCategory()"
         (faultCommentsChange)="dangerousFaultCommentChanged($event)"
         >
       </fault-comment-card>
 
       <fault-comment-card
         [formGroup]="form"
-        [faultComments]="pageState.seriousFaults$ | async"
-        [shouldRender]="(pageState?.seriousFaults$ | async)?.length > 0  && pageState.displaySeriousFault$ | async"
-        [outcome]="pageState.testOutcome$ | async"
+        [faultComments]="seriousFaults()"
+        [shouldRender]="(seriousFaults())?.length > 0  && displaySeriousFault()"
+        [outcome]="testOutcome()"
         faultType="serious"
         header="Serious faults"
-        [testCategory]="pageState.testCategory$ | async"
+        [testCategory]="testCategory()"
         (faultCommentsChange)="seriousFaultCommentChanged($event)"
         >
       </fault-comment-card>
@@ -304,25 +304,25 @@
       <fault-comment-card
         id="driving-fault-comment-card"
         [formGroup]="form"
-        [testCategory]="pageState.testCategory$ | async"
-        [faultComments]="pageState.drivingFaults$ | async"
-        [shouldRender]="(pageState.displayDrivingFaultComments$ | async) &&
-                    (pageState.displayDrivingFault$ | async) &&
-                    (pageState.allowDrivingFaultComment$ | async)"
-        [outcome]="pageState.testOutcome$ | async"
+        [testCategory]="testCategory()"
+        [faultComments]="drivingFaults()"
+        [shouldRender]="(displayDrivingFaultComments()) &&
+                    (displayDrivingFault()) &&
+                    (allowDrivingFaultComment())"
+        [outcome]="testOutcome()"
         faultType="driving"
         header="Driving"
         badgeLabel="Driving"
-        [faultCount]="pageState.drivingFaultCount$ | async"
+        [faultCount]="drivingFaultCount()"
         (faultCommentsChange)="drivingFaultCommentChanged($event)"
         >
       </fault-comment-card>
-      @if (!((pageState.displayDrivingFaultComments$ | async) && (pageState.displayDrivingFault$ | async) && (pageState.allowDrivingFaultComment$ | async)) && (pageState?.drivingFaults$ | async)?.length > 0) {
+      @if (!((displayDrivingFaultComments()) && (displayDrivingFault()) && (allowDrivingFaultComment())) && (drivingFaults())?.length > 0) {
         <driving-faults
           [label]="'Driving faults'"
           badgeLabel="Driving"
-          [testCategory]="pageState.testCategory$ | async"
-          [faults]="(pageState.drivingFaults$ | async)"
+          [testCategory]="testCategory()"
+          [faults]="(drivingFaults())"
           >
         </driving-faults>
       }

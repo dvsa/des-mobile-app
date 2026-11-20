@@ -28,6 +28,7 @@ import { NetworkStateProviderMock } from '@providers/network-state/__mocks__/net
 import { NetworkStateProvider } from '@providers/network-state/network-state';
 import { SlotProvider } from '@providers/slot/slot';
 import { translateServiceMock } from '@shared/helpers/__mocks__/translate.mock';
+import { journalReducer } from '@store/journal/journal.reducer';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { AppResumed, AppSuspended, LoadAppVersion } from '@store/app-info/app-info.actions';
@@ -65,7 +66,7 @@ describe('AppComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      imports: [StoreModule.forRoot({ tests: testsReducer }), AppComponent],
+      imports: [StoreModule.forRoot({ journal: journalReducer, tests: testsReducer }), AppComponent],
       providers: [
         {
           provide: Platform,

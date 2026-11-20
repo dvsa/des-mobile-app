@@ -1,5 +1,6 @@
-import { AsyncPipe, NgClass } from '@angular/common';
-import { Component, OnInit, Signal, computed } from '@angular/core';
+import { NgClass } from '@angular/common';
+import { Component, Injector, OnInit, Signal, computed, inject } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { InappropriateUseBannerComponent } from '@components/common/inappropriate-use-banner/inappropriate-use-banner';
@@ -46,7 +47,7 @@ import { selectTrueLikenessToPhoto } from '@store/tests/test-summary/test-summar
 import { getTests } from '@store/tests/tests.reducer';
 import { getCurrentTest, getJournalData, selectCurrentTest, selectIsRekey } from '@store/tests/tests.selector';
 import { get } from 'lodash-es';
-import { Observable, of } from 'rxjs';
+import { of } from 'rxjs';
 import { catchError, filter, switchMap, tap, withLatestFrom } from 'rxjs/operators';
 import { TrueLikenessComponent } from '../office/components/true-likeness/true-likeness';
 import { LicenceDataError } from './components/licence-data-error/licence-data-error';
@@ -77,7 +78,6 @@ import { LicencePhoto } from './components/licence-photo/licence-photo';
     IonCol,
     IonButton,
     IonText,
-    AsyncPipe,
   ],
 })
 export class CandidateLicencePage extends PracticeableBasePageComponent implements OnInit {
@@ -100,21 +100,8 @@ export class CandidateLicencePage extends PracticeableBasePageComponent implemen
   age: Signal<number> = computed(() =>
     this.dateOfBirth() ? new DateTime().diff(this.dateOfBirth(), Duration.YEAR) : null
   );
-  // candidateData: WritableSignal<DriverLicenceSchema | null> = signal(null);
-
-  candidateData$: Observable<DriverLicenceSchema>;
-
-  // candidateDataRequest = computed(() => {
-  //   const currentTest = this.currentTest();
-  //   const driverNumber = currentTest?.journalData?.candidate?.driverNumber;
-  //   const appRef = getApplicationNumber(currentTest?.journalData?.applicationReference);
-  //
-  //   if (this.isPracticeMode || this.isRekeySignal() || !driverNumber || !appRef) {
-  //     return null;
-  //   }
-  //
-  //   return {driverNumber, appRef};
-  // });
+  private readonly injector = inject(Injector);
+  candidateData: Signal<DriverLicenceSchema | null>;
 
   constructor(
     private candidateLicenceProvider: CandidateLicenceProvider,
@@ -127,7 +114,7 @@ export class CandidateLicencePage extends PracticeableBasePageComponent implemen
   ngOnInit() {
     super.ngOnInit();
     const currentTest$ = this.store$.pipe(select(getTests), select(getCurrentTest));
-    this.candidateData$ = currentTest$.pipe(
+    const candidateData$ = currentTest$.pipe(
       select(getJournalData),
       select(getCandidate),
       select(getCandidateDriverNumber),
@@ -148,6 +135,7 @@ export class CandidateLicencePage extends PracticeableBasePageComponent implemen
       }),
       tap(() => (this.driverDataReturned = true))
     );
+    this.candidateData = toSignal(candidateData$, { injector: this.injector, initialValue: null });
   }
 
   ionViewDidEnter(): void {

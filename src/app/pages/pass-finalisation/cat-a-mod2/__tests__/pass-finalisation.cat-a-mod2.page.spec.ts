@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 
-import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, signal } from '@angular/core';
 import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 
@@ -31,8 +31,8 @@ import { PassFinalisationPageComponent } from '@shared/classes/test-flow-base-pa
 import { StoreModel } from '@shared/models/store.model';
 import { TransmissionType } from '@shared/models/transmission-type';
 import { PersistTests } from '@store/tests/tests.actions';
+import { initialState as initialTestsState } from '@store/tests/tests.reducer';
 import { MockComponent } from 'ng-mocks';
-import { Subscription } from 'rxjs';
 import { PassFinalisationCatAMod2Page } from '../pass-finalisation.cat-a-mod2.page';
 
 describe('PassFinalisationCatAMod2Page', () => {
@@ -59,12 +59,15 @@ describe('PassFinalisationCatAMod2Page', () => {
         MockComponent(WarningBannerComponent),
         MockComponent(LicenceProvidedWarningBannerComponent),
       ],
-      providers: [provideBasePageMocks(), provideMockStore(), OutcomeBehaviourMapProvider],
+      providers: [
+        provideBasePageMocks(),
+        provideMockStore({ initialState: { tests: initialTestsState } }),
+        OutcomeBehaviourMapProvider,
+      ],
     });
 
     fixture = TestBed.createComponent(PassFinalisationCatAMod2Page);
     component = fixture.componentInstance;
-    component.subscription = new Subscription();
     store$ = TestBed.inject(Store);
     vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
   });
@@ -112,21 +115,12 @@ describe('PassFinalisationCatAMod2Page', () => {
       });
     });
 
-    describe('ionViewDidLeave', () => {
-      it('should unsubscribe when subscription', () => {
-        component.subscription = new Subscription();
-        vi.spyOn(component.subscription, 'unsubscribe').mockReturnValue(undefined);
-        component.ionViewDidLeave();
-        expect(component.subscription.unsubscribe).toHaveBeenCalled();
-      });
-    });
-
     describe('displayTransmissionBanner', () => {
       it('return false if transmissionCtrl is pristine and transmission is automatic', () => {
         component.form = new UntypedFormGroup({ transmissionCtrl: new UntypedFormControl(null) });
 
         component.form.controls.transmissionCtrl.markAsPristine();
-        component.transmission = TransmissionType.Automatic;
+        component.transmissionSignal = signal(TransmissionType.Automatic);
 
         expect(component.displayTransmissionBanner()).toEqual(false);
       });
@@ -134,7 +128,7 @@ describe('PassFinalisationCatAMod2Page', () => {
         component.form = new UntypedFormGroup({ transmissionCtrl: new UntypedFormControl(null) });
 
         component.form.controls.transmissionCtrl.markAsDirty();
-        component.transmission = TransmissionType.Manual;
+        component.transmissionSignal = signal(TransmissionType.Manual);
 
         expect(component.displayTransmissionBanner()).toEqual(false);
       });
@@ -142,7 +136,7 @@ describe('PassFinalisationCatAMod2Page', () => {
         component.form = new UntypedFormGroup({ transmissionCtrl: new UntypedFormControl(null) });
 
         component.form.controls.transmissionCtrl.markAsDirty();
-        component.transmission = TransmissionType.Automatic;
+        component.transmissionSignal = signal(TransmissionType.Automatic);
 
         expect(component.displayTransmissionBanner()).toEqual(true);
       });

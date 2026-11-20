@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, computed, signal } from '@angular/core';
 import { map } from 'rxjs/operators';
 
 import { Style } from '@capacitor/status-bar';
@@ -20,9 +20,9 @@ import {
 import { TranslateService } from '@ngx-translate/core';
 import * as SentryAngular from '@sentry/angular';
 import * as Sentry from '@sentry/capacitor';
-import { Observable, Subscription, merge } from 'rxjs';
+import { Subscription, merge } from 'rxjs';
 
-import { AsyncPipe, NgClass } from '@angular/common';
+import { NgClass } from '@angular/common';
 import { SENTRY_ERRORS } from '@app/sentry-error-handler';
 import { SideMenuClosed, SideMenuItemSelected, SideMenuOpened } from '@pages/dashboard/dashboard.actions';
 import {
@@ -32,7 +32,7 @@ import {
   UNUPLOADED_TESTS_PAGE,
   USEFUL_LINKS_PAGE,
 } from '@pages/page-names.constants';
-import { unsubmittedTestSlotsCount$ } from '@pages/unuploaded-tests/unuploaded-tests.selector';
+import { getUnsubmittedTestSlots } from '@pages/unuploaded-tests/unuploaded-tests.selector';
 import { AccessibilityService } from '@providers/accessibility/accessibility.service';
 import { AppConfigProvider } from '@providers/app-config/app-config';
 import { ExaminerRole } from '@providers/app-config/constants/examiner-role.constants';
@@ -52,10 +52,6 @@ import { StartSendingLogs, StopLogPolling } from '@store/logs/logs.actions';
 import { StartSendingCompletedTests, StopSendingCompletedTests } from '@store/tests/tests.actions';
 import { getTests } from '@store/tests/tests.reducer';
 import { addIcons } from 'ionicons';
-
-interface AppComponentPageState {
-  unSubmittedTestSlotsCount$: Observable<number>;
-}
 
 export interface Page {
   title: string;
@@ -82,7 +78,6 @@ export interface Page {
     IonFooter,
     IonList,
     IonRouterOutlet,
-    AsyncPipe,
     FormatIdPipe,
   ],
 })
@@ -113,7 +108,21 @@ export class AppComponent extends LogoutBasePageComponent implements OnInit {
     // },
   ];
 
-  pageState: AppComponentPageState;
+  private readonly journal = this.store$.selectSignal(getJournalState);
+  private readonly tests = this.store$.selectSignal(getTests);
+  private readonly initialised = signal(false);
+  readonly unsubmittedTestSlotsCount = computed(() => {
+    if (!this.initialised()) {
+      return 0;
+    }
+    return getUnsubmittedTestSlots(
+      this.journal(),
+      this.tests(),
+      this.dateTimeProvider,
+      this.slotProvider,
+      this.appConfigProvider.getAppConfig()?.journal?.numberOfDaysToView
+    ).length;
+  });
 
   platformSubscription: Subscription;
 
@@ -166,15 +175,7 @@ export class AppComponent extends LogoutBasePageComponent implements OnInit {
       }
       await this.disableMenuSwipe();
 
-      this.pageState = {
-        unSubmittedTestSlotsCount$: unsubmittedTestSlotsCount$(
-          this.store$.select(getJournalState),
-          this.store$.select(getTests),
-          this.dateTimeProvider,
-          this.slotProvider,
-          this.appConfigProvider.getAppConfig()?.journal?.numberOfDaysToView
-        ),
-      };
+      this.initialised.set(true);
     } catch {
       await this.router.navigate([LOGIN_PAGE], { replaceUrl: true });
     }

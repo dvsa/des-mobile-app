@@ -26,7 +26,7 @@
 <ion-content>
   <offline-banner [isOffline]="!!offlineError"></offline-banner>
 
-  @if ({ candidateLicence: candidateData$ | async }; as data) {
+  @if ({ candidateLicence: candidateData() }; as data) {
     <ion-grid>
       <inappropriate-use-banner></inappropriate-use-banner>
       <licence-photo

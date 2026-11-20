@@ -1,5 +1,5 @@
-import { AsyncPipe } from '@angular/common';
-import { Component, HostListener } from '@angular/core';
+import { Component, HostListener, signal } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { Style } from '@capacitor/status-bar';
 import { PracticeModeBanner } from '@components/common/practice-mode-banner/practice-mode-banner';
 import { PracticeModeExitButton } from '@components/common/practice-mode-exit-button/practice-mode-exit-button';
@@ -37,14 +37,14 @@ import { JournalNavigationComponent } from '../journal/components/journal-naviga
     VehicleRecallsBanner,
     LocationComponent,
     TestSlotComponent,
-    AsyncPipe,
   ],
 })
 export class FakeJournalPage extends BasePageComponent {
   dateToDisplay: string;
-  slots: TestSlot[] = fakeJournalTestSlots;
-  selectedDate: string;
-  displayExitPracticeMode = false;
+  slots = signal<TestSlot[]>(fakeJournalTestSlots);
+  selectedDate = signal<string>(null);
+  displayExitPracticeMode = signal(false);
+  readonly isPortrait = toSignal(this.orientationMonitorProvider.isPortraitMode$, { initialValue: false });
 
   constructor(
     private dateTimeProvider: DateTimeProvider,
@@ -53,7 +53,7 @@ export class FakeJournalPage extends BasePageComponent {
   ) {
     super();
 
-    this.selectedDate = this.dateTimeProvider.now().format('YYYY-MM-DD');
+    this.selectedDate.set(this.dateTimeProvider.now().format('YYYY-MM-DD'));
     this.dateToDisplay = new DateTime().format('dddd D MMMM YYYY');
   }
 
@@ -63,6 +63,7 @@ export class FakeJournalPage extends BasePageComponent {
     //so we can regenerate the fake tests whenever the user opens the page.
     if (document.visibilityState === 'visible') {
       regenerateFakeTests();
+      this.slots.set([...fakeJournalTestSlots]);
     }
   }
 
@@ -74,6 +75,7 @@ export class FakeJournalPage extends BasePageComponent {
     await this.accessibilityService.configureStatusBar(Style.Light);
     await this.orientationMonitorProvider.monitorOrientation();
     regenerateFakeTests();
+    this.slots.set([...fakeJournalTestSlots]);
   }
 
   async ionViewWillLeave() {
@@ -84,13 +86,13 @@ export class FakeJournalPage extends BasePageComponent {
    * Opens the exit practice mode row
    */
   onEndPracticeModeClicked() {
-    this.displayExitPracticeMode = true;
+    this.displayExitPracticeMode.set(true);
   }
 
   /**
    * Closes the exit practice mode row
    */
   closeExitPracticeMode() {
-    this.displayExitPracticeMode = false;
+    this.displayExitPracticeMode.set(false);
   }
 }

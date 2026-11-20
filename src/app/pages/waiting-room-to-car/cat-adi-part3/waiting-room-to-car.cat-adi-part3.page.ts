@@ -1,9 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, computed } from '@angular/core';
 import { FormsModule, ReactiveFormsModule, UntypedFormGroup } from '@angular/forms';
-import { select } from '@ngrx/store';
-import { Observable } from 'rxjs';
 
-import { AsyncPipe, NgClass } from '@angular/common';
+import { NgClass } from '@angular/common';
 import { OfflineBannerComponent } from '@components/common/offline-banner/offline-banner';
 import { TestFlowHeaderComponent } from '@components/common/test-flow-header/test-flow-header.component';
 import { TransmissionComponent } from '@components/common/transmission/transmission';
@@ -29,8 +27,6 @@ import { getAccompaniment } from '@store/tests/accompaniment/cat-adi3/accompanim
 import { getTrainerAccompaniment } from '@store/tests/accompaniment/cat-adi3/accompaniment.cat-adi3.selector';
 import { EndTimeChanged } from '@store/tests/test-data/cat-adi-part3/end-time/end-time.actions';
 import { StartTimeChanged } from '@store/tests/test-data/cat-adi-part3/start-time/start-time.actions';
-import { getTests } from '@store/tests/tests.reducer';
-import { getCurrentTest } from '@store/tests/tests.selector';
 import {
   getOrditTrained,
   getTrainerRegistrationNumber,
@@ -58,14 +54,6 @@ import { VehicleRegistrationComponent } from '../components/vehicle-registration
 import { AccompanimentCardADI3Component } from './components/accompaniment-card/accompaniment-card';
 import { DualControlsComponent } from './components/dual-controls/dual-controls';
 import { TraineeLicenceComponent } from './components/trainee-licence/trainee-licence';
-
-interface CatAdi3WaitingRoomToCarPageState {
-  orditTrained$: Observable<boolean>;
-  trainerRegistrationNumber$: Observable<number>;
-  pdiLogbook$: Observable<boolean>;
-  traineeLicence$: Observable<boolean>;
-  trainerAccompaniment$: Observable<boolean>;
-}
 
 @Component({
   selector: 'app-waiting-room-to-car-cat-adi-part3',
@@ -96,11 +84,14 @@ interface CatAdi3WaitingRoomToCarPageState {
     IonFooter,
     IonButton,
     IonText,
-    AsyncPipe,
   ],
 })
 export class WaitingRoomToCarCatADIPart3Page extends WaitingRoomToCarBasePageComponent implements OnInit {
-  pageState: CatAdi3WaitingRoomToCarPageState;
+  orditTrained = computed(() => getOrditTrained(getTrainerDetails(this.currentTest())));
+  trainerRegistrationNumber = computed(() => getTrainerRegistrationNumber(getTrainerDetails(this.currentTest())));
+  pdiLogbook = computed(() => getPDILogbook(getTrainerDetails(this.currentTest())));
+  traineeLicence = computed(() => getTraineeLicence(getTrainerDetails(this.currentTest())));
+  trainerAccompaniment = computed(() => getTrainerAccompaniment(getAccompaniment(this.currentTest())));
   form: UntypedFormGroup;
 
   constructor() {
@@ -110,16 +101,6 @@ export class WaitingRoomToCarCatADIPart3Page extends WaitingRoomToCarBasePageCom
 
   ngOnInit(): void {
     super.onInitialisation();
-
-    const currentTest$ = this.store$.pipe(select(getTests), select(getCurrentTest));
-
-    this.pageState = {
-      orditTrained$: currentTest$.pipe(select(getTrainerDetails), select(getOrditTrained)),
-      trainerRegistrationNumber$: currentTest$.pipe(select(getTrainerDetails), select(getTrainerRegistrationNumber)),
-      pdiLogbook$: currentTest$.pipe(select(getTrainerDetails), select(getPDILogbook)),
-      traineeLicence$: currentTest$.pipe(select(getTrainerDetails), select(getTraineeLicence)),
-      trainerAccompaniment$: currentTest$.pipe(select(getAccompaniment), select(getTrainerAccompaniment)),
-    };
   }
 
   motNoEvidenceCancelled = (): void => {

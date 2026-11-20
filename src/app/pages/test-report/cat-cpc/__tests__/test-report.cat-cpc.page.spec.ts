@@ -1,18 +1,17 @@
+import { signal } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { ModalController } from '@ionic/angular';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { provideBasePageMocks } from '@mocks/test-providers';
 import { Store, StoreModule } from '@ngrx/store';
 import { MockComponent } from 'ng-mocks';
-import { Subscription, of } from 'rxjs';
 
 import { PracticeModeOptionsBar } from '@components/common/practice-mode-options-bar/practice-mode-options-bar';
 import { TestFlowHeaderComponent } from '@components/common/test-flow-header/test-flow-header.component';
 import { OverlayEventDetail } from '@ionic/core';
 import { ModalEvent } from '@pages/dashboard/components/practice-test-modal/practice-test-modal.constants';
-import { catCPCTestData, mockToggleEvent } from '@pages/test-report/cat-cpc/__mocks__/test-report.cat-cpc.mock';
+import { mockToggleEvent } from '@pages/test-report/cat-cpc/__mocks__/test-report.cat-cpc.mock';
 import { CPCEndTestModal } from '@pages/test-report/cat-cpc/components/cpc-end-test-modal/cpc-end-test-modal';
 import { ModuleAssessmentComponent } from '@pages/test-report/cat-cpc/components/module-assessment/module-assessment';
 import { QuestionCardComponent } from '@pages/test-report/cat-cpc/components/question-card/question-card';
@@ -29,7 +28,7 @@ import { TestReportValidatorProvider } from '@providers/test-report-validator/te
 import { TestResultProviderMock } from '@providers/test-result/__mocks__/test-result.mock';
 import { TestResultProvider } from '@providers/test-result/test-result';
 import { TestReportBasePageComponent } from '@shared/classes/test-flow-base-pages/test-report/test-report-base-page';
-import { lgvQuestion5, lgvQuestions } from '@shared/constants/cpc-questions/cpc-lgv-questions.constants';
+import { lgvQuestions } from '@shared/constants/cpc-questions/cpc-lgv-questions.constants';
 import { QuestionNumber } from '@shared/constants/cpc-questions/cpc-question-combinations.constants';
 import { ActivityCodes } from '@shared/models/activity-codes';
 import { StoreModel } from '@shared/models/store.model';
@@ -121,26 +120,8 @@ describe('TestReportCatCPCPage', () => {
   describe('ionViewWillEnter', () => {
     it('should call the correct functions', async () => {
       vi.spyOn(TestReportBasePageComponent.prototype, 'ionViewWillEnter').mockReturnValue(undefined);
-      vi.spyOn(component, 'setUpSubscription').mockReturnValue(undefined);
       await component.ionViewWillEnter();
       expect(TestReportBasePageComponent.prototype.ionViewWillEnter).toHaveBeenCalled();
-      expect(component.setUpSubscription).toHaveBeenCalled();
-    });
-  });
-
-  describe('ionViewDidLeave', () => {
-    it('should unsubscribe from the localSubscription if there is one', () => {
-      vi.spyOn(TestReportBasePageComponent.prototype, 'ionViewDidLeave').mockReturnValue(undefined);
-      vi.spyOn(TestReportBasePageComponent.prototype, 'cancelSubscription').mockReturnValue(undefined);
-
-      component.localSubscription = new Subscription();
-      vi.spyOn(component.localSubscription, 'unsubscribe').mockReturnValue(undefined);
-
-      component.ionViewDidLeave();
-
-      expect(component.localSubscription.unsubscribe).toHaveBeenCalled();
-      expect(TestReportBasePageComponent.prototype.ionViewDidLeave).toHaveBeenCalled();
-      expect(TestReportBasePageComponent.prototype.cancelSubscription).toHaveBeenCalled();
     });
   });
 
@@ -152,14 +133,14 @@ describe('TestReportCatCPCPage', () => {
           onDidDismiss: () => ({ data: ModalEvent.CANCEL }) as OverlayEventDetail,
         } as HTMLIonModalElement)
       );
-      component.questions = [lgvQuestions[0]];
-      component.overallPercentage = 90;
+      component.questions = signal([lgvQuestions[0]]);
+      component.overallPercentage = signal(90);
       await component.onEndTestClick();
       expect(modalController.create).toHaveBeenCalledWith({
         component: CPCEndTestModal,
         cssClass: 'mes-modal-alert text-zoom-regular',
         componentProps: {
-          cpcQuestions: component.questions,
+          cpcQuestions: component.questions(),
           totalPercentage: 90,
           testResult: ActivityCodes.PASS,
         },
@@ -181,7 +162,6 @@ describe('TestReportCatCPCPage', () => {
       vi.spyOn(cpcQuestionProvider, 'getQuestionScore').mockReturnValue(5);
       vi.spyOn(cpcQuestionProvider, 'getTotalQuestionScore').mockReturnValue(40);
 
-      component.testData = catCPCTestData;
       component.populateAnswer(mockToggleEvent);
 
       expect(store$.dispatch).toHaveBeenCalledWith(AnswerToggled(true, QuestionNumber.ONE, '2'));
@@ -211,39 +191,5 @@ describe('TestReportCatCPCPage', () => {
         expect(component.store$.dispatch).toHaveBeenCalledWith(PopulateTestScore(1));
       }
     );
-  });
-
-  describe('setUpSubscription', () => {
-    it('should subscribe to all observables and update class properties', () => {
-      component.pageState = {
-        combinationCode$: of(null),
-        question1$: of(lgvQuestions[0]),
-        question2$: of(lgvQuestions[1]),
-        question3$: of(lgvQuestions[2]),
-        question4$: of(lgvQuestions[3]),
-        question5$: of(lgvQuestion5[0]),
-        overallPercentage$: of(10),
-        testDataCPC$: of(null),
-        candidateUntitledName$: of(null),
-        isRemoveFaultMode$: of(null),
-        isSeriousMode$: of(null),
-        isDangerousMode$: of(null),
-        manoeuvres$: of(null),
-        testData$: of(null),
-        testRequirements$: of(null),
-        category$: of(TestCategory.CCPC),
-      };
-
-      component.setUpSubscription();
-      expect(component.questions).toEqual([
-        lgvQuestions[0],
-        lgvQuestions[1],
-        lgvQuestions[2],
-        lgvQuestions[3],
-        lgvQuestion5[0],
-      ]);
-      expect(component.overallPercentage).toEqual(10);
-      expect(component.category).toEqual(TestCategory.CCPC);
-    });
   });
 });

@@ -12,7 +12,7 @@
       id="vehicle-checks-modal-title"
       class="ion-text-center fullscreen-modal-toolbar-item-padding"
       >
-      Tell me questions - {{ pageState.candidateName$ | async }}
+      Tell me questions - {{ candidateName() }}
     </ion-title>
   </ion-toolbar>
 </ion-header>
@@ -28,9 +28,9 @@
       @for (question of tellMeQuestionsNumberArray; track question; let i = $index; let l = $last) {
         <vehicle-checks-question
           [formGroup]="formGroup"
-          [questionResult]="(pageState.tellMeQuestions$ | async)[i]"
+          [questionResult]="(selectedTellMeQuestions())[i]"
           [questions]="tellMeQuestions"
-          [questionsToDisable]="pageState.tellMeQuestions$ | async"
+          [questionsToDisable]="selectedTellMeQuestions()"
           [isLastQuestion]="l"
           [submitClicked]="submitClicked"
           (vehicleChecksQuestionChange)="tellMeQuestionChanged($event, i)"

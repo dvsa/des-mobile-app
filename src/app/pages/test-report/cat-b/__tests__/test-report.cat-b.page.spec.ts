@@ -112,21 +112,11 @@ describe('TestReportCatBPage', () => {
   });
 
   describe('Class', () => {
-    describe('ngOnInit', () => {
-      it('should call setupSubscription on ngOnInit', () => {
-        vi.spyOn(component, 'setupSubscription').mockReturnValue(undefined);
-        component.ngOnInit();
-        expect(component.setupSubscription).toHaveBeenCalled();
-      });
-    });
-
     describe('ionViewDidLeave', () => {
-      it("should call the base page's ionViewDidLeave and cancelSubscription", () => {
+      it("should call the base page's ionViewDidLeave", () => {
         vi.spyOn(TestReportBasePageComponent.prototype, 'ionViewDidLeave').mockReturnValue(undefined);
-        vi.spyOn(TestReportBasePageComponent.prototype, 'cancelSubscription').mockReturnValue(undefined);
         component.ionViewDidLeave();
         expect(TestReportBasePageComponent.prototype.ionViewDidLeave).toHaveBeenCalled();
-        expect(TestReportBasePageComponent.prototype.cancelSubscription).toHaveBeenCalled();
       });
     });
   });

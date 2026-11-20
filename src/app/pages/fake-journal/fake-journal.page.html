@@ -2,7 +2,7 @@
   <ion-toolbar
     mode="ios"
     class="header-height-76 toolbar-no-padding practice-theme no-internal-padding">
-    @if (!displayExitPracticeMode) {
+    @if (!displayExitPracticeMode()) {
       <practice-mode-banner class="display-flex flex-direction-column"></practice-mode-banner>
       <ion-row>
         <ion-col>
@@ -30,17 +30,17 @@
 </ion-header>
 
 <ion-content>
-  <journal-navigation [isSelectedDateToday]="true" [selectedDate]="selectedDate"></journal-navigation>
+  <journal-navigation [isSelectedDateToday]="true" [selectedDate]="selectedDate()"></journal-navigation>
 
   <vehicle-recalls-banner></vehicle-recalls-banner>
 
   <location location="Example Test Centre"></location>
 
-  @for (slot of slots; track slot) {
+  @for (slot of slots(); track slot) {
     <test-slot
-      [slots]="slots"
+      [slots]="slots()"
       [slot]="slot"
-      [isPortrait]="orientationMonitorProvider.isPortraitMode$ | async"
+      [isPortrait]="isPortrait()"
       [isPracticeMode]="true"
       [hasSlotChanged]="false"
       >

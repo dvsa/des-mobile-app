@@ -1,3 +1,4 @@
+import { signal } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule, UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { By } from '@angular/platform-browser';
@@ -49,7 +50,6 @@ import { AddUncoupleRecoupleComment } from '@store/tests/test-data/common/uncoup
 import { Competencies, ExaminerActions } from '@store/tests/test-data/test-data.constants';
 import { TestOutcome } from '@store/tests/tests.constants';
 import { MockComponent } from 'ng-mocks';
-import { Subscription } from 'rxjs';
 
 import { AdditionalInformationComponent } from '../../components/additional-information/additional-information';
 import { CandidateDescriptionComponent } from '../../components/candidate-description/candidate-description';
@@ -149,6 +149,21 @@ describe('OfficeCatManoeuvrePage', () => {
     store$ = TestBed.inject(Store);
     vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
     vi.spyOn(component.deviceProvider, 'disableSingleAppMode');
+  });
+
+  it('keeps the first displayed fault lists as snapshots', () => {
+    const dangerous = signal<FaultSummary[]>([]);
+    const serious = signal<FaultSummary[]>([]);
+    component.dangerousFaults = dangerous;
+    component.seriousFaults = serious;
+    component.ngOnInit();
+    expect(component.dangerousFaults()).toEqual([]);
+    expect(component.seriousFaults()).toEqual([]);
+
+    dangerous.set([{} as FaultSummary]);
+    serious.set([{} as FaultSummary]);
+    expect(component.dangerousFaults()).toEqual([]);
+    expect(component.seriousFaults()).toEqual([]);
   });
 
   describe('DOM', () => {
@@ -288,15 +303,6 @@ describe('OfficeCatManoeuvrePage', () => {
     });
   });
 
-  describe('ionViewDidLeave', () => {
-    it('should unsubscribe from the subscription if there is one', () => {
-      component.subscription = new Subscription();
-      vi.spyOn(component.subscription, 'unsubscribe').mockReturnValue(undefined);
-      component.ionViewDidLeave();
-      expect(component.subscription.unsubscribe).toHaveBeenCalled();
-    });
-  });
-
   describe('passCertificateNumberChanged', () => {
     it(
       'should dispatch PassCertificateNumberChanged with ' +
@@ -325,22 +331,22 @@ describe('OfficeCatManoeuvrePage', () => {
 
   describe('isPass', () => {
     it('should return true is testOutcomeText is passed', () => {
-      component.testOutcomeText = TestOutcome.Passed;
+      component.testOutcomeText = signal(TestOutcome.Passed);
       expect(component.isPass()).toEqual(true);
     });
     it('should return true is testOutcomeText is not passed', () => {
-      component.testOutcomeText = TestOutcome.Failed;
+      component.testOutcomeText = signal(TestOutcome.Failed);
       expect(component.isPass()).toEqual(false);
     });
   });
 
   describe('isWelsh', () => {
     it('should return true is conductedLanguage is Cymraeg', () => {
-      component.conductedLanguage = Language.CYMRAEG;
+      component.conductedLanguage = signal(Language.CYMRAEG);
       expect(component.isWelsh()).toEqual(true);
     });
     it('should return true is testOutcomeText is not Cymraeg', () => {
-      component.conductedLanguage = Language.ENGLISH;
+      component.conductedLanguage = signal(Language.ENGLISH);
       expect(component.isWelsh()).toEqual(false);
     });
   });

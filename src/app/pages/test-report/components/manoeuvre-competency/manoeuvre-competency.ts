@@ -1,12 +1,10 @@
 import { NgClass } from '@angular/common';
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, Input, computed } from '@angular/core';
 import { DangerousFaultBadgeComponent } from '@components/common/dangerous-fault-badge/dangerous-fault-badge';
 import { DrivingFaultsBadgeComponent } from '@components/common/driving-faults-badge/driving-faults-badge';
 import { SeriousFaultBadgeComponent } from '@components/common/serious-fault-badge/serious-fault-badge';
-import { CatBUniqueTypes } from '@dvsa/mes-test-schema/categories/B';
 import { ManoeuvreOutcome } from '@dvsa/mes-test-schema/categories/common';
-import { Store, select } from '@ngrx/store';
-import { trDestroy$ } from '@shared/classes/test-flow-base-pages/test-report/test-report-base-page';
+import { Store } from '@ngrx/store';
 import { manoeuvreCompetencyLabels } from '@shared/constants/competencies/catb-manoeuvres';
 import { CompetencyOutcome } from '@shared/models/competency-outcome';
 import { StoreModel } from '@shared/models/store.model';
@@ -23,20 +21,10 @@ import {
 import { ManoeuvreCompetencies, ManoeuvreTypes } from '@store/tests/test-data/test-data.constants';
 import { getTests } from '@store/tests/tests.reducer';
 import { getCurrentTest } from '@store/tests/tests.selector';
-import { Observable, Subscription, merge } from 'rxjs';
-import { map, takeUntil } from 'rxjs/operators';
 import { ToggleDangerousFaultMode, ToggleRemoveFaultMode, ToggleSeriousFaultMode } from '../../test-report.actions';
 import { getTestReportState } from '../../test-report.reducer';
 import { isDangerousMode, isRemoveFaultMode, isSeriousMode } from '../../test-report.selector';
 import { CompetencyButtonComponent } from '../competency-button/competency-button';
-
-interface ManoeuvreCompetencyComponentState {
-  isRemoveFaultMode$: Observable<boolean>;
-  isSeriousMode$: Observable<boolean>;
-  isDangerousMode$: Observable<boolean>;
-  manoeuvreCompetencyOutcome$: Observable<ManoeuvreOutcome | null>;
-  delegatedTest$: Observable<boolean>;
-}
 
 @Component({
   selector: 'manoeuvre-competency',
@@ -51,7 +39,7 @@ interface ManoeuvreCompetencyComponentState {
     DangerousFaultBadgeComponent,
   ],
 })
-export class ManoeuvreCompetencyComponent implements OnInit, OnDestroy {
+export class ManoeuvreCompetencyComponent {
   @Input()
   competency: ManoeuvreCompetencies;
 
@@ -71,62 +59,31 @@ export class ManoeuvreCompetencyComponent implements OnInit, OnDestroy {
 
   rippleEffectAnimationDuration = 300;
 
-  componentState: ManoeuvreCompetencyComponentState;
-  subscription: Subscription;
-
-  isRemoveFaultMode = false;
-  isSeriousMode = false;
-  isDangerousMode = false;
-  isDelegated = false;
-  manoeuvreCompetencyOutcome: ManoeuvreOutcome | null;
-  label: string;
+  private readonly tests = this.store$.selectSignal(getTests);
+  private readonly currentTest = computed(() => getCurrentTest(this.tests()));
+  private readonly testData = computed(() => getTestData(this.currentTest()));
+  private readonly manoeuvres = computed(() => getManoeuvres(this.testData()));
+  private readonly testReportState = this.store$.selectSignal(getTestReportState);
+  get isRemoveFaultMode(): boolean {
+    return isRemoveFaultMode(this.testReportState());
+  }
+  get isSeriousMode(): boolean {
+    return isSeriousMode(this.testReportState());
+  }
+  get isDangerousMode(): boolean {
+    return isDangerousMode(this.testReportState());
+  }
+  get isDelegated(): boolean {
+    return isDelegatedTest(getDelegatedTestIndicator(this.currentTest()));
+  }
+  get manoeuvreCompetencyOutcome(): ManoeuvreOutcome | null {
+    return this.manoeuvres()?.[this.manoeuvre]?.[this.competency] ?? null;
+  }
+  get label(): string {
+    return manoeuvreCompetencyLabels[this.competency];
+  }
 
   constructor(private store$: Store<StoreModel>) {}
-
-  ngOnInit(): void {
-    this.label = manoeuvreCompetencyLabels[this.competency];
-
-    const currentTest$ = this.store$.pipe(select(getTests), select(getCurrentTest));
-
-    this.componentState = {
-      isRemoveFaultMode$: this.store$.pipe(select(getTestReportState), select(isRemoveFaultMode)),
-      isSeriousMode$: this.store$.pipe(select(getTestReportState), select(isSeriousMode)),
-      isDangerousMode$: this.store$.pipe(select(getTestReportState), select(isDangerousMode)),
-      manoeuvreCompetencyOutcome$: currentTest$.pipe(
-        select(getTestData),
-        select(getManoeuvres),
-        select((manoeuvres: CatBUniqueTypes.Manoeuvres) => {
-          if (manoeuvres) {
-            const manoeuvre = manoeuvres[this.manoeuvre];
-            if (typeof manoeuvre !== 'undefined') {
-              return manoeuvre[this.competency];
-            }
-          }
-          return null;
-        })
-      ),
-      delegatedTest$: currentTest$.pipe(select(getDelegatedTestIndicator), select(isDelegatedTest)),
-    };
-
-    const { isRemoveFaultMode$, isSeriousMode$, isDangerousMode$, manoeuvreCompetencyOutcome$, delegatedTest$ } =
-      this.componentState;
-
-    const merged$ = merge(
-      isRemoveFaultMode$.pipe(map((toggle) => (this.isRemoveFaultMode = toggle))),
-      isSeriousMode$.pipe(map((toggle) => (this.isSeriousMode = toggle))),
-      isDangerousMode$.pipe(map((toggle) => (this.isDangerousMode = toggle))),
-      delegatedTest$.pipe(map((toggle) => (this.isDelegated = toggle))),
-      manoeuvreCompetencyOutcome$.pipe(map((outcome) => (this.manoeuvreCompetencyOutcome = outcome)))
-    );
-
-    this.subscription = merged$.pipe(takeUntil(trDestroy$)).subscribe();
-  }
-
-  ngOnDestroy(): void {
-    if (this.subscription) {
-      this.subscription.unsubscribe();
-    }
-  }
 
   // Not a very good practice to use a boolean variable like wasPress
   // Because at this point it takes effort to understand what does it represents

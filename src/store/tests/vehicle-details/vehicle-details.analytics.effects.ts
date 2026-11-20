@@ -23,7 +23,7 @@ import {
 } from '@store/tests/vehicle-details/vehicle-details.actions';
 import { getVehicleDetails } from '@store/tests/vehicle-details/vehicle-details.reducer';
 import { of } from 'rxjs';
-import { concatMap, filter, switchMap, take, withLatestFrom } from 'rxjs/operators';
+import { concatMap, filter, map, withLatestFrom } from 'rxjs/operators';
 
 @Injectable()
 export class VehicleDetailsAnalyticsEffects {
@@ -45,20 +45,13 @@ export class VehicleDetailsAnalyticsEffects {
       filter(([, , practiceMode]) =>
         !practiceMode ? true : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics
       ),
-      switchMap(([, tests]: [ReturnType<typeof SchoolCarToggled>, TestsModel, boolean]) => {
-        this.store$
-          .pipe(select(getTests), select(getCurrentTest), select(getVehicleDetails), select(getSchoolCar), take(1))
-          .subscribe((value) => {
-            //GA4 Analytics
-            this.analytics.logGAEvent(
-              analyticsEventTypePrefix(GoogleAnalyticsEvents.VEHICLE_DETAILS, tests),
-              value ? GoogleAnalyticsEventsTitles.SELECTION : GoogleAnalyticsEventsTitles.UNSELECTED,
-              GoogleAnalyticsEventsValues.SCHOOL_CAR
-            );
-          })
-          .unsubscribe();
-        return of(AnalyticRecorded());
-      })
+      map(([, tests]) =>
+        this.recordVehicleDetail(
+          tests,
+          getSchoolCar(getVehicleDetails(getCurrentTest(tests))),
+          GoogleAnalyticsEventsValues.SCHOOL_CAR
+        )
+      )
     )
   );
 
@@ -73,20 +66,13 @@ export class VehicleDetailsAnalyticsEffects {
       filter(([, , practiceMode]) =>
         !practiceMode ? true : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics
       ),
-      switchMap(([, tests]: [ReturnType<typeof DualControlsToggled>, TestsModel, boolean]) => {
-        this.store$
-          .pipe(select(getTests), select(getCurrentTest), select(getVehicleDetails), select(getDualControls), take(1))
-          .subscribe((value) => {
-            //GA4 Analytics
-            this.analytics.logGAEvent(
-              analyticsEventTypePrefix(GoogleAnalyticsEvents.VEHICLE_DETAILS, tests),
-              value ? GoogleAnalyticsEventsTitles.SELECTION : GoogleAnalyticsEventsTitles.UNSELECTED,
-              GoogleAnalyticsEventsValues.DUAL_CONTROLS
-            );
-          })
-          .unsubscribe();
-        return of(AnalyticRecorded());
-      })
+      map(([, tests]) =>
+        this.recordVehicleDetail(
+          tests,
+          getDualControls(getVehicleDetails(getCurrentTest(tests))),
+          GoogleAnalyticsEventsValues.DUAL_CONTROLS
+        )
+      )
     )
   );
 
@@ -101,20 +87,22 @@ export class VehicleDetailsAnalyticsEffects {
       filter(([, , practiceMode]) =>
         !practiceMode ? true : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics
       ),
-      switchMap(([, tests]: [ReturnType<typeof SchoolBikeToggled>, TestsModel, boolean]) => {
-        this.store$
-          .pipe(select(getTests), select(getCurrentTest), select(getVehicleDetails), select(getSchoolBike), take(1))
-          .subscribe((value) => {
-            //GA4 Analytics
-            this.analytics.logGAEvent(
-              analyticsEventTypePrefix(GoogleAnalyticsEvents.VEHICLE_DETAILS, tests),
-              value ? GoogleAnalyticsEventsTitles.SELECTION : GoogleAnalyticsEventsTitles.UNSELECTED,
-              GoogleAnalyticsEventsValues.SCHOOL_BIKE
-            );
-          })
-          .unsubscribe();
-        return of(AnalyticRecorded());
-      })
+      map(([, tests]) =>
+        this.recordVehicleDetail(
+          tests,
+          getSchoolBike(getVehicleDetails(getCurrentTest(tests))),
+          GoogleAnalyticsEventsValues.SCHOOL_BIKE
+        )
+      )
     )
   );
+
+  private recordVehicleDetail(tests: TestsModel, selected: boolean, value: GoogleAnalyticsEventsValues) {
+    this.analytics.logGAEvent(
+      analyticsEventTypePrefix(GoogleAnalyticsEvents.VEHICLE_DETAILS, tests),
+      selected ? GoogleAnalyticsEventsTitles.SELECTION : GoogleAnalyticsEventsTitles.UNSELECTED,
+      value
+    );
+    return AnalyticRecorded();
+  }
 }

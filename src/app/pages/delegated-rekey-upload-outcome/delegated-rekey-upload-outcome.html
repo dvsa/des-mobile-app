@@ -5,7 +5,7 @@
 </ion-header>
 
 <ion-content [scrollY]="false" id="dlg-rekey-upload-outcome-page">
-  @if (pageState.isUploading$ | async) {
+  @if (isUploading()) {
     <ion-grid>
       <ion-row class="message-wrapper ion-align-items-center">
         <ion-col class="ion-no-padding">
@@ -17,9 +17,9 @@
     </ion-grid>
   }
 
-  @if (!(pageState.isUploading$ | async)) {
+  @if (!isUploading()) {
     <ion-grid>
-      @if (isStatusSubmitted(pageState.testStatus$ | async)) {
+      @if (isStatusSubmitted(testStatus())) {
         <ion-row class="message-wrapper ion-align-items-center">
           <ion-col class="ion-no-padding">
             <ion-row class="ion-justify-content-center">
@@ -64,7 +64,7 @@
         id="dlg-return-to-dashboard-btn"
         class="mes-grey-button"
         (click)="goToDashboard()"
-        [disabled]="pageState.isUploading$ | async"
+        [disabled]="isUploading()"
         >
         <ion-text id="dlg-return-to-dashboard-label" class="des-header-style-3">Return to dashboard</ion-text>
       </ion-button>
@@ -75,7 +75,7 @@
         id="dlg-rekey-another-btn"
         class="mes-primary-button"
         (click)="goToDelegatedSearch()"
-        [disabled]="pageState.isUploading$ | async"
+        [disabled]="isUploading()"
         >
         <ion-text id="dlg-rekey-another-label" class="des-header-style-3">Rekey another test</ion-text>
       </ion-button>

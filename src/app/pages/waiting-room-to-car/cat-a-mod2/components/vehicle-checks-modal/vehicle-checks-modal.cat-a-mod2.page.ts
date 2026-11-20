@@ -1,5 +1,4 @@
-import { AsyncPipe } from '@angular/common';
-import { Component, Input } from '@angular/core';
+import { Component, Input, computed } from '@angular/core';
 import { FormsModule, ReactiveFormsModule, UntypedFormGroup } from '@angular/forms';
 import { Style } from '@capacitor/status-bar';
 import { WarningBannerComponent } from '@components/common/warning-banner/warning-banner';
@@ -24,17 +23,15 @@ import {
   IonToolbar,
   ModalController,
 } from '@ionic/angular';
-import { Store, select } from '@ngrx/store';
+import { Store } from '@ngrx/store';
 import { AccessibilityService } from '@providers/accessibility/accessibility.service';
 import { FaultCountProvider } from '@providers/fault-count/fault-count';
 import { QuestionProvider } from '@providers/question/question';
 import { VehicleChecksQuestion } from '@providers/question/vehicle-checks-question.model';
 import { NUMBER_OF_BALANCE_QUESTIONS } from '@shared/constants/balance-questions.cat-a-mod2.constants';
 import { NUMBER_OF_SAFETY_QUESTIONS } from '@shared/constants/safety-questions.cat-a-mod2.constants';
-import { SafetyQuestionsScore } from '@shared/models/safety-questions-score.model';
 import { StoreModel } from '@shared/models/store.model';
-import { getCandidate } from '@store/tests/journal-data/common/candidate/candidate.reducer';
-import { getUntitledCandidateName } from '@store/tests/journal-data/common/candidate/candidate.selector';
+import { selectUntitledCandidateName } from '@store/tests/journal-data/common/candidate/candidate.selector';
 import {
   BalanceQuestionOutcomeChanged,
   BalanceQuestionSelected,
@@ -43,19 +40,9 @@ import {
 } from '@store/tests/test-data/cat-a-mod2/safety-and-balance/safety-and-balance.cat-a-mod2.actions';
 import * as safetyAndBalance from '@store/tests/test-data/cat-a-mod2/safety-and-balance/safety-and-balance.cat-a-mod2.selector';
 import { getTestData } from '@store/tests/test-data/cat-a-mod2/test-data.cat-a-mod2.reducer';
-import { getTests } from '@store/tests/tests.reducer';
-import { getCurrentTest, getJournalData } from '@store/tests/tests.selector';
-import { Observable, Subscription, merge } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { selectCurrentTest } from '@store/tests/tests.selector';
 import { VehicleChecksQuestionCatAMod2Component } from '../vehicle-checks-question/vehicle-checks-question';
 import * as vehicleChecksModalActions from './vehicle-checks-modal.cat-a-mod2.actions';
-
-interface VehicleChecksModalState {
-  candidateName$: Observable<string>;
-  safetyQuestions$: Observable<QuestionResult[]>;
-  balanceQuestions$: Observable<QuestionResult[]>;
-  safetyAndBalanceQuestionsScore$: Observable<SafetyQuestionsScore>;
-}
 
 @Component({
   selector: 'vehicle-checks-modal-cat-a-mod2',
@@ -82,11 +69,19 @@ interface VehicleChecksModalState {
     IonRow,
     IonCol,
     IonText,
-    AsyncPipe,
   ],
 })
 export class VehicleChecksCatAMod2Modal {
-  pageState: VehicleChecksModalState;
+  private currentTest = this.store$.selectSignal(selectCurrentTest);
+  private questions = computed(() =>
+    safetyAndBalance.getSafetyAndBalanceQuestions(getTestData(this.currentTest() as never))
+  );
+  candidateName = this.store$.selectSignal(selectUntitledCandidateName);
+  selectedSafetyQuestions = computed(() => safetyAndBalance.getSelectedSafetyQuestions(this.questions()));
+  selectedBalanceQuestions = computed(() => safetyAndBalance.getSelectedBalanceQuestions(this.questions()));
+  safetyAndBalanceQuestionsScore = computed(() =>
+    this.faultCountProvider.getSafetyAndBalanceFaultCount(TestCategory.EUAM2, this.questions())
+  );
   formGroup: UntypedFormGroup;
   @Input()
   submitClicked: boolean;
@@ -99,10 +94,6 @@ export class VehicleChecksCatAMod2Modal {
   readonly safetyQuestionsNumberArray: number[] = Array(NUMBER_OF_SAFETY_QUESTIONS);
   readonly balanceQuestionsNumberArray: number[] = Array(NUMBER_OF_BALANCE_QUESTIONS);
 
-  safetyAndBalanceQuestionsScore: SafetyQuestionsScore;
-
-  subscription: Subscription;
-
   constructor(
     public store$: Store<StoreModel>,
     public accessibilityService: AccessibilityService,
@@ -113,44 +104,6 @@ export class VehicleChecksCatAMod2Modal {
     this.formGroup = new UntypedFormGroup({});
     this.safetyQuestions = questionProvider.getSafetyQuestions(TestCategory.EUAM2);
     this.balanceQuestions = questionProvider.getBalanceQuestions(TestCategory.EUAM2);
-  }
-
-  ngOnInit(): void {
-    const currentTest$ = this.store$.pipe(select(getTests), select(getCurrentTest));
-    this.pageState = {
-      candidateName$: currentTest$.pipe(select(getJournalData), select(getCandidate), select(getUntitledCandidateName)),
-      safetyQuestions$: currentTest$.pipe(
-        select(getTestData),
-        select(safetyAndBalance.getSafetyAndBalanceQuestions),
-        select(safetyAndBalance.getSelectedSafetyQuestions)
-      ),
-      balanceQuestions$: currentTest$.pipe(
-        select(getTestData),
-        select(safetyAndBalance.getSafetyAndBalanceQuestions),
-        select(safetyAndBalance.getSelectedBalanceQuestions)
-      ),
-      safetyAndBalanceQuestionsScore$: currentTest$.pipe(
-        select(getTestData),
-        select(safetyAndBalance.getSafetyAndBalanceQuestions),
-        map((safetyAndBalanceQuestions) =>
-          this.faultCountProvider.getSafetyAndBalanceFaultCount(TestCategory.EUAM2, safetyAndBalanceQuestions)
-        )
-      ),
-    };
-
-    const { safetyAndBalanceQuestionsScore$ } = this.pageState;
-
-    const merged$ = merge(
-      safetyAndBalanceQuestionsScore$.pipe(map((score) => (this.safetyAndBalanceQuestionsScore = score)))
-    );
-
-    this.subscription = merged$.subscribe();
-  }
-
-  ionViewDidLeave(): void {
-    if (this.subscription) {
-      this.subscription.unsubscribe();
-    }
   }
 
   async onClose() {
@@ -189,6 +142,6 @@ export class VehicleChecksCatAMod2Modal {
   }
 
   shouldDisplayBanner = (): boolean => {
-    return this.safetyAndBalanceQuestionsScore.drivingFaults === 1;
+    return this.safetyAndBalanceQuestionsScore().drivingFaults === 1;
   };
 }

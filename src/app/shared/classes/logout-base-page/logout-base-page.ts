@@ -1,4 +1,4 @@
-import { inject } from '@angular/core';
+import { computed, inject } from '@angular/core';
 import { LogoutModal, LogoutModalEvent } from '@components/common/logout-modal/logout-modal';
 import { ModalController } from '@ionic/angular';
 import { OverlayEventDetail } from '@ionic/core';
@@ -12,59 +12,54 @@ import {
 import { TestStatus } from '@store/tests/test-status/test-status.model';
 import { getTests } from '@store/tests/tests.reducer';
 import { getTestStatuses } from '@store/tests/tests.selector';
-import { Observable } from 'rxjs';
-import { map, take } from 'rxjs/operators';
+import { map, pairwise } from 'rxjs/operators';
 import { BasePageComponent } from '../base-page';
+
+const countUnuploadedTests = (statuses: ReturnType<typeof getTestStatuses>): number =>
+  Object.values(statuses).filter((status) => status === TestStatus.Completed).length;
 
 export abstract class LogoutBasePageComponent extends BasePageComponent {
   protected modalController = inject(ModalController);
   protected accessibilityService = inject(AccessibilityService);
 
-  previousUploadedTestCount = 0;
+  private readonly logoutTests = this.store$.selectSignal(getTests);
+  private readonly unuploadedTestCount = computed(() => countUnuploadedTests(getTestStatuses(this.logoutTests())));
 
   protected constructor() {
     super();
   }
 
   async openLogoutModal() {
-    const unuploadedTestCount: Observable<number> = this.store$.select(getTests).pipe(
-      select(getTestStatuses),
-      map((statuses) => {
-        return Object.values(statuses).filter((testStasus: TestStatus) => {
-          return testStasus === TestStatus.Completed;
-        }).length;
-      })
-    );
-
-    unuploadedTestCount
-      .pipe(take(1))
-      .subscribe((value) => (this.previousUploadedTestCount = value))
-      .unsubscribe();
-
-    unuploadedTestCount.subscribe((count) => {
-      if (count !== this.previousUploadedTestCount) {
-        this.store$.dispatch(LogoutModalChanged(count));
-      }
-      this.previousUploadedTestCount = count;
-    });
-
     const modal: HTMLIonModalElement = await this.modalController.create({
       id: 'logOutModal',
       component: LogoutModal,
       componentProps: {
-        unuploadedTestCount: unuploadedTestCount,
+        unuploadedTestCount: this.unuploadedTestCount,
       },
       cssClass: `${this.accessibilityService.getTextZoomClass()} mes-modal-alert`,
       backdropDismiss: false,
       showBackdrop: true,
     });
-    await modal.present();
-    const { data }: OverlayEventDetail = await modal.onDidDismiss<LogoutModalEvent>();
-    if (data.event === LogoutModalEvent.LOGOUT) {
-      unuploadedTestCount.pipe(take(1)).subscribe((value) => this.store$.dispatch(LogoutConfirmed(value)));
+    const countChanges = this.store$
+      .pipe(select(getTests), select(getTestStatuses), map(countUnuploadedTests), pairwise())
+      .subscribe(([previous, count]) => {
+        if (previous !== count) {
+          this.store$.dispatch(LogoutModalChanged(count));
+        }
+      });
+    let result: OverlayEventDetail<{ event: LogoutModalEvent }>;
+    try {
+      await modal.present();
+      result = await modal.onDidDismiss<{ event: LogoutModalEvent }>();
+    } finally {
+      countChanges.unsubscribe();
+    }
+
+    if (result.data?.event === LogoutModalEvent.LOGOUT) {
+      this.store$.dispatch(LogoutConfirmed(this.unuploadedTestCount()));
       await this.logout();
     } else {
-      unuploadedTestCount.pipe(take(1)).subscribe((value) => this.store$.dispatch(LogoutCancelled(value)));
+      this.store$.dispatch(LogoutCancelled(this.unuploadedTestCount()));
     }
   }
 }

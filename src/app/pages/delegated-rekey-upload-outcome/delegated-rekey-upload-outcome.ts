@@ -1,11 +1,6 @@
-import { Component, Injector, OnInit } from '@angular/core';
+import { Component, Injector, computed } from '@angular/core';
 import { KeepAwake as Insomnia } from '@capacitor-community/keep-awake';
 import { ScreenOrientation } from '@capawesome/capacitor-screen-orientation';
-import { select } from '@ngrx/store';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
-
-import { AsyncPipe } from '@angular/common';
 import {
   IonButton,
   IonCol,
@@ -30,11 +25,6 @@ import { getCurrentTestStatus } from '@store/tests/tests.selector';
 import { getDelegatedRekeySearchState } from '../delegated-rekey-search/delegated-rekey-search.reducer';
 import { getIsLoading } from '../delegated-rekey-search/delegated-rekey-search.selector';
 
-interface DelegatedRekeyUploadOutcomePageState {
-  testStatus$: Observable<TestStatus>;
-  isUploading$: Observable<boolean>;
-}
-
 @Component({
   selector: 'page-delegated-rekey-upload-outcome',
   templateUrl: 'delegated-rekey-upload-outcome.html',
@@ -52,21 +42,16 @@ interface DelegatedRekeyUploadOutcomePageState {
     IonText,
     IonButton,
     IonFooter,
-    AsyncPipe,
   ],
 })
-export class DelegatedRekeyUploadOutcomePage extends BasePageComponent implements OnInit, ViewDidEnter {
-  pageState: DelegatedRekeyUploadOutcomePageState;
+export class DelegatedRekeyUploadOutcomePage extends BasePageComponent implements ViewDidEnter {
+  private readonly tests = this.store$.selectSignal(getTests);
+  private readonly searchState = this.store$.selectSignal(getDelegatedRekeySearchState);
+  readonly testStatus = computed(() => getCurrentTestStatus(this.tests()));
+  readonly isUploading = computed(() => getIsLoading(this.searchState()));
 
   constructor(public injector: Injector) {
     super();
-  }
-
-  ngOnInit(): void {
-    this.pageState = {
-      testStatus$: this.store$.pipe(select(getTests), map(getCurrentTestStatus)),
-      isUploading$: this.store$.pipe(select(getDelegatedRekeySearchState), map(getIsLoading)),
-    };
   }
 
   async ionViewDidEnter(): Promise<void> {

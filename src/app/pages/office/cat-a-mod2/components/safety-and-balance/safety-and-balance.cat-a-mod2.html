@@ -4,7 +4,7 @@
   </ion-col>
   <ion-col class="align-self-center padding-left">
     <ion-row class="spacing-row"></ion-row>
-    @for (question of safetyAndBalanceQuestions$| async; track question) {
+    @for (question of safetyAndBalanceQuestions(); track question) {
       <ion-row class="mes-data align-items-center">
         <ion-col size="8" class="no-padding align-self-start">
           <div class="counter-icon padding-bottom">

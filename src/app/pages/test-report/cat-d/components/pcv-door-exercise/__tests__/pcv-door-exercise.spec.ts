@@ -110,7 +110,7 @@ describe('PcvDoorExerciseComponent', () => {
 
   describe('addOrRemoveFault', () => {
     it('should call removeFault when isRemoveFaultMode is true', () => {
-      component.isRemoveFaultMode = true;
+      vi.spyOn(component, 'isRemoveFaultMode', 'get').mockReturnValue(true);
       const removeFaultSpy = vi.spyOn(component, 'removeFault').mockReturnValue(undefined);
       const addFaultSpy = vi.spyOn(component, 'addFault').mockReturnValue(undefined);
 
@@ -121,7 +121,7 @@ describe('PcvDoorExerciseComponent', () => {
     });
 
     it('should call addFault when isRemoveFaultMode is false', () => {
-      component.isRemoveFaultMode = false;
+      vi.spyOn(component, 'isRemoveFaultMode', 'get').mockReturnValue(false);
       const removeFaultSpy = vi.spyOn(component, 'removeFault').mockReturnValue(undefined);
       const addFaultSpy = vi.spyOn(component, 'addFault').mockReturnValue(undefined);
 
@@ -132,7 +132,7 @@ describe('PcvDoorExerciseComponent', () => {
     });
 
     it('should call addFault with true when wasPress is true', () => {
-      component.isRemoveFaultMode = false;
+      vi.spyOn(component, 'isRemoveFaultMode', 'get').mockReturnValue(false);
       const addFaultSpy = vi.spyOn(component, 'addFault').mockReturnValue(undefined);
 
       component.addOrRemoveFault(true);
@@ -143,20 +143,20 @@ describe('PcvDoorExerciseComponent', () => {
 
   describe('addFault', () => {
     it('should dispatch a THROTTLE_ADD_DRIVING_FAULT action for press', () => {
-      component.pcvDoorExercise = { drivingFault: false };
+      vi.spyOn(component, 'pcvDoorExercise', 'get').mockReturnValue({ drivingFault: false });
       const storeDispatchSpy = vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
       component.addFault(true);
       expect(storeDispatchSpy).toHaveBeenCalledWith(PcvDoorExerciseAddDrivingFault());
     });
     it('should not dispatch an ADD_DRIVING_FAULT action if there is a serious fault', () => {
-      component.pcvDoorExercise = { seriousFault: true };
+      vi.spyOn(component, 'pcvDoorExercise', 'get').mockReturnValue({ seriousFault: true });
       const storeDispatchSpy = vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
       component.addFault(false);
 
       expect(storeDispatchSpy).not.toHaveBeenCalledWith(PcvDoorExerciseAddDrivingFault());
     });
     it('should not dispatch an ADD_DRIVING_FAULT action if serious mode is active', () => {
-      component.isSeriousMode = true;
+      vi.spyOn(component, 'isSeriousMode', 'get').mockReturnValue(true);
 
       const storeDispatchSpy = vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
       component.addFault(false);
@@ -164,7 +164,7 @@ describe('PcvDoorExerciseComponent', () => {
       expect(storeDispatchSpy).not.toHaveBeenCalledWith(PcvDoorExerciseAddDrivingFault());
     });
     it('should not dispatch an ADD_DRIVING_FAULT action if there is a dangerous fault', () => {
-      component.pcvDoorExercise = { dangerousFault: true };
+      vi.spyOn(component, 'pcvDoorExercise', 'get').mockReturnValue({ dangerousFault: true });
 
       const storeDispatchSpy = vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
       component.addFault(false);
@@ -172,7 +172,7 @@ describe('PcvDoorExerciseComponent', () => {
       expect(storeDispatchSpy).not.toHaveBeenCalledWith(PcvDoorExerciseAddDrivingFault());
     });
     it('should not dispatch an ADD_DRIVING_FAULT action if dangerous mode is active', () => {
-      component.isDangerousMode = true;
+      vi.spyOn(component, 'isDangerousMode', 'get').mockReturnValue(true);
 
       const storeDispatchSpy = vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
       component.addFault(false);
@@ -181,7 +181,7 @@ describe('PcvDoorExerciseComponent', () => {
     });
 
     it('should dispatch a ADD_DANGEROUS_FAULT action if dangerous mode is active on press', () => {
-      component.isDangerousMode = true;
+      vi.spyOn(component, 'isDangerousMode', 'get').mockReturnValue(true);
 
       const storeDispatchSpy = vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
       component.addFault(false);
@@ -190,8 +190,8 @@ describe('PcvDoorExerciseComponent', () => {
       expect(storeDispatchSpy).toHaveBeenCalledWith(ToggleDangerousFaultMode());
     });
     it('should not dispatch a ADD_DANGEROUS_FAULT action if there is a dangerous fault', () => {
-      component.pcvDoorExercise = { dangerousFault: true };
-      component.isDangerousMode = true;
+      vi.spyOn(component, 'pcvDoorExercise', 'get').mockReturnValue({ dangerousFault: true });
+      vi.spyOn(component, 'isDangerousMode', 'get').mockReturnValue(true);
 
       const storeDispatchSpy = vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
       component.addFault(false);
@@ -201,7 +201,7 @@ describe('PcvDoorExerciseComponent', () => {
     });
 
     it('should dispatch an ADD_SERIOUS_FAULT action if serious mode is active', () => {
-      component.isSeriousMode = true;
+      vi.spyOn(component, 'isSeriousMode', 'get').mockReturnValue(true);
 
       const storeDispatchSpy = vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
       component.addFault(false);
@@ -210,8 +210,8 @@ describe('PcvDoorExerciseComponent', () => {
       expect(storeDispatchSpy).toHaveBeenCalledWith(ToggleSeriousFaultMode());
     });
     it('should not dispatch a ADD_SERIOUS_FAULT action if there is a serious fault', () => {
-      component.pcvDoorExercise = { seriousFault: true };
-      component.isSeriousMode = true;
+      vi.spyOn(component, 'pcvDoorExercise', 'get').mockReturnValue({ seriousFault: true });
+      vi.spyOn(component, 'isSeriousMode', 'get').mockReturnValue(true);
 
       const storeDispatchSpy = vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
       component.addFault(false);
@@ -220,7 +220,7 @@ describe('PcvDoorExerciseComponent', () => {
       expect(storeDispatchSpy).not.toHaveBeenCalledWith(ToggleSeriousFaultMode());
     });
     it('should not dispatch a ADD_SERIOUS_FAULT action if dangerous mode is active', () => {
-      component.isDangerousMode = true;
+      vi.spyOn(component, 'isDangerousMode', 'get').mockReturnValue(true);
 
       const storeDispatchSpy = vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
       component.addFault(false);
@@ -229,8 +229,8 @@ describe('PcvDoorExerciseComponent', () => {
       expect(storeDispatchSpy).not.toHaveBeenCalledWith(ToggleSeriousFaultMode());
     });
     it('should not dispatch a ADD_SERIOUS_FAULT action if there is a dangerous fault', () => {
-      component.pcvDoorExercise = { dangerousFault: true };
-      component.isSeriousMode = true;
+      vi.spyOn(component, 'pcvDoorExercise', 'get').mockReturnValue({ dangerousFault: true });
+      vi.spyOn(component, 'isSeriousMode', 'get').mockReturnValue(true);
 
       const storeDispatchSpy = vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
       component.addFault(false);
@@ -245,8 +245,8 @@ describe('PcvDoorExerciseComponent', () => {
       vi.spyOn(component, 'hasDangerousFault').mockReturnValue(false);
       vi.spyOn(component, 'hasSeriousFault').mockReturnValue(false);
       vi.spyOn(component, 'hasDrivingFault').mockReturnValue(true);
-      component.pcvDoorExercise = { drivingFault: true };
-      component.isRemoveFaultMode = true;
+      vi.spyOn(component, 'pcvDoorExercise', 'get').mockReturnValue({ drivingFault: true });
+      vi.spyOn(component, 'isRemoveFaultMode', 'get').mockReturnValue(true);
 
       const storeDispatchSpy = vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
       component.removeFault();
@@ -257,8 +257,8 @@ describe('PcvDoorExerciseComponent', () => {
       vi.spyOn(component, 'hasDangerousFault').mockReturnValue(false);
       vi.spyOn(component, 'hasSeriousFault').mockReturnValue(false);
       vi.spyOn(component, 'hasDrivingFault').mockReturnValue(false);
-      component.pcvDoorExercise = { dangerousFault: false };
-      component.isRemoveFaultMode = true;
+      vi.spyOn(component, 'pcvDoorExercise', 'get').mockReturnValue({ dangerousFault: false });
+      vi.spyOn(component, 'isRemoveFaultMode', 'get').mockReturnValue(true);
 
       const storeDispatchSpy = vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
       component.removeFault();
@@ -269,9 +269,9 @@ describe('PcvDoorExerciseComponent', () => {
       vi.spyOn(component, 'hasDangerousFault').mockReturnValue(false);
       vi.spyOn(component, 'hasSeriousFault').mockReturnValue(true);
       vi.spyOn(component, 'hasDrivingFault').mockReturnValue(false);
-      component.pcvDoorExercise = { drivingFault: true };
-      component.isSeriousMode = true;
-      component.isRemoveFaultMode = true;
+      vi.spyOn(component, 'pcvDoorExercise', 'get').mockReturnValue({ drivingFault: true });
+      vi.spyOn(component, 'isSeriousMode', 'get').mockReturnValue(true);
+      vi.spyOn(component, 'isRemoveFaultMode', 'get').mockReturnValue(true);
 
       const storeDispatchSpy = vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
       component.removeFault();
@@ -282,9 +282,9 @@ describe('PcvDoorExerciseComponent', () => {
       vi.spyOn(component, 'hasDangerousFault').mockReturnValue(false);
       vi.spyOn(component, 'hasSeriousFault').mockReturnValue(false);
       vi.spyOn(component, 'hasDrivingFault').mockReturnValue(true);
-      component.pcvDoorExercise = { drivingFault: true };
-      component.isDangerousMode = true;
-      component.isRemoveFaultMode = true;
+      vi.spyOn(component, 'pcvDoorExercise', 'get').mockReturnValue({ drivingFault: true });
+      vi.spyOn(component, 'isDangerousMode', 'get').mockReturnValue(true);
+      vi.spyOn(component, 'isRemoveFaultMode', 'get').mockReturnValue(true);
 
       const storeDispatchSpy = vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
       component.removeFault();
@@ -296,9 +296,9 @@ describe('PcvDoorExerciseComponent', () => {
       vi.spyOn(component, 'hasDangerousFault').mockReturnValue(false);
       vi.spyOn(component, 'hasSeriousFault').mockReturnValue(true);
       vi.spyOn(component, 'hasDrivingFault').mockReturnValue(false);
-      component.pcvDoorExercise = { seriousFault: true };
-      component.isSeriousMode = true;
-      component.isRemoveFaultMode = true;
+      vi.spyOn(component, 'pcvDoorExercise', 'get').mockReturnValue({ seriousFault: true });
+      vi.spyOn(component, 'isSeriousMode', 'get').mockReturnValue(true);
+      vi.spyOn(component, 'isRemoveFaultMode', 'get').mockReturnValue(true);
       const storeDispatchSpy = vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
       component.removeFault();
 
@@ -309,9 +309,9 @@ describe('PcvDoorExerciseComponent', () => {
       vi.spyOn(component, 'hasDangerousFault').mockReturnValue(false);
       vi.spyOn(component, 'hasSeriousFault').mockReturnValue(false);
       vi.spyOn(component, 'hasDrivingFault').mockReturnValue(false);
-      component.pcvDoorExercise = { seriousFault: false };
-      component.isSeriousMode = true;
-      component.isRemoveFaultMode = true;
+      vi.spyOn(component, 'pcvDoorExercise', 'get').mockReturnValue({ seriousFault: false });
+      vi.spyOn(component, 'isSeriousMode', 'get').mockReturnValue(true);
+      vi.spyOn(component, 'isRemoveFaultMode', 'get').mockReturnValue(true);
 
       const storeDispatchSpy = vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
       component.removeFault();
@@ -324,9 +324,9 @@ describe('PcvDoorExerciseComponent', () => {
       vi.spyOn(component, 'hasDangerousFault').mockReturnValue(false);
       vi.spyOn(component, 'hasSeriousFault').mockReturnValue(true);
       vi.spyOn(component, 'hasDrivingFault').mockReturnValue(false);
-      component.pcvDoorExercise = { dangerousFault: true };
-      component.isSeriousMode = true;
-      component.isRemoveFaultMode = true;
+      vi.spyOn(component, 'pcvDoorExercise', 'get').mockReturnValue({ dangerousFault: true });
+      vi.spyOn(component, 'isSeriousMode', 'get').mockReturnValue(true);
+      vi.spyOn(component, 'isRemoveFaultMode', 'get').mockReturnValue(true);
 
       const storeDispatchSpy = vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
       component.removeFault();
@@ -338,9 +338,9 @@ describe('PcvDoorExerciseComponent', () => {
       vi.spyOn(component, 'hasDangerousFault').mockReturnValue(false);
       vi.spyOn(component, 'hasSeriousFault').mockReturnValue(false);
       vi.spyOn(component, 'hasDrivingFault').mockReturnValue(false);
-      component.pcvDoorExercise = { dangerousFault: false };
-      component.isDangerousMode = true;
-      component.isRemoveFaultMode = true;
+      vi.spyOn(component, 'pcvDoorExercise', 'get').mockReturnValue({ dangerousFault: false });
+      vi.spyOn(component, 'isDangerousMode', 'get').mockReturnValue(true);
+      vi.spyOn(component, 'isRemoveFaultMode', 'get').mockReturnValue(true);
 
       const storeDispatchSpy = vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
       component.removeFault();
@@ -351,118 +351,118 @@ describe('PcvDoorExerciseComponent', () => {
 
   describe('canButtonRipple', () => {
     it('should allow ripple when in remove dangerous mode and there is a dangerous fault', () => {
-      component.isRemoveFaultMode = true;
-      component.isDangerousMode = true;
-      component.pcvDoorExercise = { dangerousFault: true };
+      vi.spyOn(component, 'isRemoveFaultMode', 'get').mockReturnValue(true);
+      vi.spyOn(component, 'isDangerousMode', 'get').mockReturnValue(true);
+      vi.spyOn(component, 'pcvDoorExercise', 'get').mockReturnValue({ dangerousFault: true });
 
       component.canButtonRipple();
       expect(component.allowRipple).toEqual(true);
     });
 
     it('should not allow ripple when in remove dangerous mode and there is not a dangerous fault', () => {
-      component.isRemoveFaultMode = true;
-      component.isDangerousMode = true;
-      component.pcvDoorExercise = { dangerousFault: false };
+      vi.spyOn(component, 'isRemoveFaultMode', 'get').mockReturnValue(true);
+      vi.spyOn(component, 'isDangerousMode', 'get').mockReturnValue(true);
+      vi.spyOn(component, 'pcvDoorExercise', 'get').mockReturnValue({ dangerousFault: false });
 
       component.canButtonRipple();
       expect(component.allowRipple).toEqual(false);
     });
 
     it('should allow ripple when in remove serious mode and there is a serious fault', () => {
-      component.isRemoveFaultMode = true;
-      component.isSeriousMode = true;
-      component.pcvDoorExercise = { seriousFault: true };
+      vi.spyOn(component, 'isRemoveFaultMode', 'get').mockReturnValue(true);
+      vi.spyOn(component, 'isSeriousMode', 'get').mockReturnValue(true);
+      vi.spyOn(component, 'pcvDoorExercise', 'get').mockReturnValue({ seriousFault: true });
 
       component.canButtonRipple();
       expect(component.allowRipple).toEqual(true);
     });
 
     it('should not allow ripple when in remove serious mode and there is not a serious fault', () => {
-      component.isRemoveFaultMode = true;
-      component.isSeriousMode = true;
-      component.pcvDoorExercise = { seriousFault: false };
+      vi.spyOn(component, 'isRemoveFaultMode', 'get').mockReturnValue(true);
+      vi.spyOn(component, 'isSeriousMode', 'get').mockReturnValue(true);
+      vi.spyOn(component, 'pcvDoorExercise', 'get').mockReturnValue({ seriousFault: false });
 
       component.canButtonRipple();
       expect(component.allowRipple).toEqual(false);
     });
 
     it('should allow ripple when in remove fault mode and there is a driving fault', () => {
-      component.isRemoveFaultMode = true;
-      component.pcvDoorExercise = { drivingFault: true };
+      vi.spyOn(component, 'isRemoveFaultMode', 'get').mockReturnValue(true);
+      vi.spyOn(component, 'pcvDoorExercise', 'get').mockReturnValue({ drivingFault: true });
 
       component.canButtonRipple();
       expect(component.allowRipple).toEqual(true);
     });
 
     it('should not allow ripple when in remove fault mode and there is not a driving fault', () => {
-      component.isRemoveFaultMode = true;
-      component.pcvDoorExercise = { drivingFault: false };
+      vi.spyOn(component, 'isRemoveFaultMode', 'get').mockReturnValue(true);
+      vi.spyOn(component, 'pcvDoorExercise', 'get').mockReturnValue({ drivingFault: false });
 
       component.canButtonRipple();
       expect(component.allowRipple).toEqual(false);
     });
 
     it('should not allow ripple when in remove fault mode and driving fault is undefined', () => {
-      component.isRemoveFaultMode = true;
+      vi.spyOn(component, 'isRemoveFaultMode', 'get').mockReturnValue(true);
 
       component.canButtonRipple();
       expect(component.allowRipple).toEqual(false);
     });
 
     it('should not allow ripple when in add dangerous mode and there is a dangerous fault', () => {
-      component.isRemoveFaultMode = false;
-      component.isDangerousMode = true;
-      component.pcvDoorExercise = { dangerousFault: true };
+      vi.spyOn(component, 'isRemoveFaultMode', 'get').mockReturnValue(false);
+      vi.spyOn(component, 'isDangerousMode', 'get').mockReturnValue(true);
+      vi.spyOn(component, 'pcvDoorExercise', 'get').mockReturnValue({ dangerousFault: true });
 
       component.canButtonRipple();
       expect(component.allowRipple).toEqual(false);
     });
 
     it('should allow ripple when in add dangerous mode and there is not a dangerous fault', () => {
-      component.isRemoveFaultMode = false;
-      component.isDangerousMode = true;
-      component.pcvDoorExercise = { dangerousFault: false };
+      vi.spyOn(component, 'isRemoveFaultMode', 'get').mockReturnValue(false);
+      vi.spyOn(component, 'isDangerousMode', 'get').mockReturnValue(true);
+      vi.spyOn(component, 'pcvDoorExercise', 'get').mockReturnValue({ dangerousFault: false });
 
       component.canButtonRipple();
       expect(component.allowRipple).toEqual(true);
     });
 
     it('should not allow ripple when in add serious mode and there is a serious fault', () => {
-      component.isRemoveFaultMode = false;
-      component.isSeriousMode = true;
-      component.pcvDoorExercise = { seriousFault: true };
+      vi.spyOn(component, 'isRemoveFaultMode', 'get').mockReturnValue(false);
+      vi.spyOn(component, 'isSeriousMode', 'get').mockReturnValue(true);
+      vi.spyOn(component, 'pcvDoorExercise', 'get').mockReturnValue({ seriousFault: true });
 
       component.canButtonRipple();
       expect(component.allowRipple).toEqual(false);
     });
 
     it('should allow ripple when in add serious mode and there is not a serious fault', () => {
-      component.isRemoveFaultMode = false;
-      component.isSeriousMode = true;
-      component.pcvDoorExercise = { seriousFault: false };
+      vi.spyOn(component, 'isRemoveFaultMode', 'get').mockReturnValue(false);
+      vi.spyOn(component, 'isSeriousMode', 'get').mockReturnValue(true);
+      vi.spyOn(component, 'pcvDoorExercise', 'get').mockReturnValue({ seriousFault: false });
 
       component.canButtonRipple();
       expect(component.allowRipple).toEqual(true);
     });
 
     it('should allow ripple when in add fault mode and there is a driving fault', () => {
-      component.isRemoveFaultMode = false;
-      component.pcvDoorExercise = { drivingFault: true };
+      vi.spyOn(component, 'isRemoveFaultMode', 'get').mockReturnValue(false);
+      vi.spyOn(component, 'pcvDoorExercise', 'get').mockReturnValue({ drivingFault: true });
 
       component.canButtonRipple();
       expect(component.allowRipple).toEqual(true);
     });
 
     it('should allow ripple when in add fault mode and there is not a driving fault', () => {
-      component.isRemoveFaultMode = false;
-      component.pcvDoorExercise = { drivingFault: false };
+      vi.spyOn(component, 'isRemoveFaultMode', 'get').mockReturnValue(false);
+      vi.spyOn(component, 'pcvDoorExercise', 'get').mockReturnValue({ drivingFault: false });
 
       component.canButtonRipple();
       expect(component.allowRipple).toEqual(true);
     });
 
     it('should allow ripple when in add fault mode and driving fault is undefined', () => {
-      component.isRemoveFaultMode = false;
+      vi.spyOn(component, 'isRemoveFaultMode', 'get').mockReturnValue(false);
 
       component.canButtonRipple();
       expect(component.allowRipple).toEqual(true);
@@ -505,51 +505,51 @@ describe('PcvDoorExerciseComponent', () => {
 
   describe('hasDrivingFault', () => {
     it('returns true when drivingFault is true', () => {
-      component.pcvDoorExercise = { drivingFault: true };
+      vi.spyOn(component, 'pcvDoorExercise', 'get').mockReturnValue({ drivingFault: true });
       expect(component.hasDrivingFault()).toBe(true);
     });
 
     it('returns false when drivingFault is false', () => {
-      component.pcvDoorExercise = { drivingFault: false };
+      vi.spyOn(component, 'pcvDoorExercise', 'get').mockReturnValue({ drivingFault: false });
       expect(component.hasDrivingFault()).toBe(false);
     });
 
     it('returns false when drivingFault is undefined', () => {
-      component.pcvDoorExercise = {};
+      vi.spyOn(component, 'pcvDoorExercise', 'get').mockReturnValue({});
       expect(component.hasDrivingFault()).toBe(false);
     });
   });
 
   describe('hasSeriousFault', () => {
     it('returns true when seriousFault is true', () => {
-      component.pcvDoorExercise = { seriousFault: true };
+      vi.spyOn(component, 'pcvDoorExercise', 'get').mockReturnValue({ seriousFault: true });
       expect(component.hasSeriousFault()).toBe(true);
     });
 
     it('returns false when seriousFault is false', () => {
-      component.pcvDoorExercise = { seriousFault: false };
+      vi.spyOn(component, 'pcvDoorExercise', 'get').mockReturnValue({ seriousFault: false });
       expect(component.hasSeriousFault()).toBe(false);
     });
 
     it('returns false when seriousFault is undefined', () => {
-      component.pcvDoorExercise = {};
+      vi.spyOn(component, 'pcvDoorExercise', 'get').mockReturnValue({});
       expect(component.hasSeriousFault()).toBe(false);
     });
   });
 
   describe('hasDangerousFault', () => {
     it('returns true when dangerousFault is true', () => {
-      component.pcvDoorExercise = { dangerousFault: true };
+      vi.spyOn(component, 'pcvDoorExercise', 'get').mockReturnValue({ dangerousFault: true });
       expect(component.hasDangerousFault()).toBe(true);
     });
 
     it('returns false when dangerousFault is false', () => {
-      component.pcvDoorExercise = { dangerousFault: false };
+      vi.spyOn(component, 'pcvDoorExercise', 'get').mockReturnValue({ dangerousFault: false });
       expect(component.hasDangerousFault()).toBe(false);
     });
 
     it('returns false when dangerousFault is undefined', () => {
-      component.pcvDoorExercise = {};
+      vi.spyOn(component, 'pcvDoorExercise', 'get').mockReturnValue({});
       expect(component.hasDangerousFault()).toBe(false);
     });
   });

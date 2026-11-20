@@ -21,10 +21,10 @@
 
 <ion-content>
   <office-candidate-section
-    [candidateName]="pageState.candidateName$ | async"
-    [driverNumber]="pageState.candidateDriverNumber$ | async"
-    [startTime]="pageState.startTime$ | async"
-    [testOutcomeText]="pageState.testOutcomeText$ | async"
+    [candidateName]="candidateName()"
+    [driverNumber]="candidateDriverNumber()"
+    [startTime]="startTime()"
+    [testOutcomeText]="testOutcomeText()"
     >
   </office-candidate-section>
 
@@ -38,7 +38,7 @@
         <ion-grid class="grid">
           @if (isRekey) {
             <date-of-test
-              [dateOfTest]="pageState.startDate$ | async"
+              [dateOfTest]="startDate()"
               (setIsValidStartDateTime)="setIsValidStartDateTime($event)"
               (dateOfTestChange)="dateOfTestChanged($event)"
               >
@@ -48,50 +48,50 @@
           <activity-code
             id="activity-code-card"
             [formGroup]="form"
-            [activityCodeModel]="pageState.activityCode$ | async"
+            [activityCodeModel]="activityCode()"
             [activityCodeOptions]="activityCodeOptions"
             (activityCodeChange)="activityCodeChanged($event)"
             [disabled]="true"
           ></activity-code>
 
-          <div class="ion-no-padding" [hidden]="!(pageState.isTestOutcomeSet$ | async)">
-            @if (pageState.displayCandidateDescription$ | async) {
+          <div class="ion-no-padding" [hidden]="!(isTestOutcomeSet())">
+            @if (displayCandidateDescription()) {
               <true-likeness
                 [formGroup]="form"
-                [trueLikeness]="pageState.trueLikenessToPhoto$ | async"
+                [trueLikeness]="trueLikenessToPhoto()"
                 (trueLikenessChange)="trueLikenessToPhotoChanged($event)"
                 >
               </true-likeness>
             }
 
             <candidate-description
-              [display]="pageState.displayCandidateDescription$ | async"
+              [display]="displayCandidateDescription()"
               [formGroup]="form"
-              [candidateDescription]="pageState.candidateDescription$ | async"
-              [outcome]="pageState.testOutcome$ | async"
-              [trueLikenessToPhoto]="pageState.trueLikenessToPhoto$ | async"
+              [candidateDescription]="candidateDescription()"
+              [outcome]="testOutcome()"
+              [trueLikenessToPhoto]="trueLikenessToPhoto()"
               (candidateDescriptionChange)="candidateDescriptionChanged($event)"
             ></candidate-description>
 
             <identification
-              [display]="pageState.displayIdentification$ | async"
+              [display]="displayIdentification()"
               [formGroup]="form"
-              [identification]="pageState.identification$ | async"
-              [outcome]="pageState.testOutcome$ | async"
+              [identification]="identification()"
+              [outcome]="testOutcome()"
               (identificationChange)="identificationChanged($event)"
               >
             </identification>
 
             <vehicle-checks-office-card
-              [display]="pageState.displayVehicleChecks$ | async"
-              [checks]="pageState.vehicleChecks$ | async"
+              [display]="displayVehicleChecks()"
+              [checks]="vehicleChecks()"
             ></vehicle-checks-office-card>
 
             <weather-conditions
-              [display]="pageState.displayWeatherConditions$ | async"
-              [weatherConditions]="pageState.weatherConditions$ | async"
+              [display]="displayWeatherConditions()"
+              [weatherConditions]="selectedWeatherConditions()"
               [formGroup]="form"
-              [outcome]="pageState.testOutcome$ | async"
+              [outcome]="testOutcome()"
               [weatherConditionsOptions]="weatherConditions"
               (weatherConditionsChange)="weatherConditionsChanged($event)"
               >
@@ -99,10 +99,10 @@
 
             <accompaniment-card
               [formGroup]="form"
-              [instructorAccompaniment]="pageState.instructorAccompaniment$ | async"
-              [supervisorAccompaniment]="pageState.supervisorAccompaniment$ | async"
-              [otherAccompaniment]="pageState.otherAccompaniment$ | async"
-              [interpreterAccompaniment]="pageState.interpreterAccompaniment$ | async"
+              [instructorAccompaniment]="instructorAccompaniment()"
+              [supervisorAccompaniment]="supervisorAccompaniment()"
+              [otherAccompaniment]="otherAccompaniment()"
+              [interpreterAccompaniment]="interpreterAccompaniment()"
               (instructorAccompanimentChange)="instructorAccompanimentToggled()"
               (supervisorAccompanimentChange)="supervisorAccompanimentToggled()"
               (otherAccompanimentChange)="otherAccompanimentToggled()"
@@ -111,25 +111,25 @@
             </accompaniment-card>
 
             <office-registration-and-mot
-              [registrationNumber]="pageState.registrationNumber$ | async"
-              [previousVRNs]="pageState.previouslySearchedVRNs$ | async"
-              [vehicleMake]="pageState.vehicleMake$ | async"
-              [motStatus]="pageState.motStatus$ | async"
-              [motTestExpiryDate]="pageState.motTestExpiryDate$ | async"
-              [vehicleModel]="pageState.vehicleModel$ | async"
+              [registrationNumber]="registrationNumber()"
+              [previousVRNs]="previouslySearchedVRNs()"
+              [vehicleMake]="vehicleMake()"
+              [motStatus]="motStatus()"
+              [motTestExpiryDate]="motTestExpiryDate()"
+              [vehicleModel]="vehicleModel()"
             ></office-registration-and-mot>
 
-            @if ((pageState.motAlternativeEvidenceProvided$ | async) != null) {
+            @if ((motAlternativeEvidenceProvided()) != null) {
               <alternate-mot-evidence-provided
-                [alternativeEvidenceProvided]="pageState.motAlternativeEvidenceProvided$ | async"
-                [shouldHaveSeparator]="(pageState.motAlternativeEvidenceProvided$ | async) || (pageState.displayAdditionalInformation$ | async)"
+                [alternativeEvidenceProvided]="motAlternativeEvidenceProvided()"
+                [shouldHaveSeparator]="(motAlternativeEvidenceProvided()) || (displayAdditionalInformation())"
               ></alternate-mot-evidence-provided>
             }
 
-            @if (pageState.motAlternativeEvidenceProvided$ | async) {
+            @if (motAlternativeEvidenceProvided()) {
               <alternate-mot-evidence-description
-                [shouldHaveSeparator]="pageState.displayAdditionalInformation$ | async"
-                [alternateEvidenceDescription]="pageState.motAlternativeEvidenceDescription$ | async"
+                [shouldHaveSeparator]="displayAdditionalInformation()"
+                [alternateEvidenceDescription]="motAlternativeEvidenceDescription()"
                 (evidenceDescriptionTestResultChange)="alternativeMOTEvidenceDescriptionUpdated($event)"
                 [formGroup]="form"
                 >
@@ -137,17 +137,17 @@
             }
 
             <additional-information
-              [display]="pageState.displayAdditionalInformation$ | async"
-              [additionalInformation]="pageState.additionalInformation$ | async"
+              [display]="displayAdditionalInformation()"
+              [additionalInformation]="additionalInformation()"
               [formGroup]="form"
-              [outcome]="pageState.testOutcome$ | async"
+              [outcome]="testOutcome()"
               (additionalInformationChange)="additionalInformationChanged($event)"
             ></additional-information>
 
-            @if (pageState.hasEnteredTeamsOnThisTest$ | async) {
+            @if (hasEnteredTeamsOnThisTest()) {
               <reason-for-entering-teams
-                [display]="pageState.hasEnteredTeamsOnThisTest$ | async"
-                [reasonForOpeningTeams]="pageState.reasonForEnteringTeams$ | async"
+                [display]="hasEnteredTeamsOnThisTest()"
+                [reasonForOpeningTeams]="reasonForEnteringTeams()"
                 [formGroup]="form"
                 (reasonForOpeningTeamsChange)="reasonForEnteringTeamsChanged($event)"
               ></reason-for-entering-teams>
@@ -158,11 +158,11 @@
       </ion-card-content>
     </ion-card>
 
-    <div no-padding [hidden]="!(pageState.isTestOutcomeSet$ | async)">
-      @if ((pageState.etaFaults$ | async) && (pageState.displayEta$ | async)) {
+    <div no-padding [hidden]="!(isTestOutcomeSet())">
+      @if ((etaFaults()) && (displayEta())) {
         <eta-card
           [formGroup]="form"
-          [faults]="pageState.etaFaults$ | async"
+          [faults]="etaFaults()"
           [steeringETA]="steeringControlETA()"
           [handbrakeETA]="handbrakeETA()"
           [footbrakeETA]="footbrakeETA()"
@@ -176,18 +176,18 @@
         </eta-card>
       }
 
-      @if ((pageState.ecoFaults$ | async) && (pageState.displayEco$ | async)) {
+      @if ((ecoFaults()) && (displayEco())) {
         <eco-card
-          [ecoFaults]="pageState.ecoFaults$ | async"
+          [ecoFaults]="ecoFaults()"
         ></eco-card>
       }
 
       <fault-comment-card
         [formGroup]="form"
-        [faultComments]="pageState.dangerousFaults$ | async"
-        [shouldRender]="(pageState.dangerousFaults$ | async)?.length > 0 && pageState.displayDangerousFault$ | async"
-        [outcome]="pageState.testOutcome$ | async"
-        [testCategory]="pageState.testCategory$ | async"
+        [faultComments]="dangerousFaults()"
+        [shouldRender]="(dangerousFaults())?.length > 0 && displayDangerousFault()"
+        [outcome]="testOutcome()"
+        [testCategory]="testCategory()"
         faultType="dangerous"
         header="Dangerous faults"
         [maxFaultCount]="maxFaultCount"
@@ -197,10 +197,10 @@
 
       <fault-comment-card
         [formGroup]="form"
-        [faultComments]="pageState.seriousFaults$ | async"
-        [shouldRender]="(pageState.seriousFaults$ | async)?.length > 0  && pageState.displaySeriousFault$ | async"
-        [outcome]="pageState.testOutcome$ | async"
-        [testCategory]="pageState.testCategory$ | async"
+        [faultComments]="seriousFaults()"
+        [shouldRender]="(seriousFaults())?.length > 0  && displaySeriousFault()"
+        [outcome]="testOutcome()"
+        [testCategory]="testCategory()"
         faultType="serious"
         header="Serious faults"
         [maxFaultCount]="maxFaultCount"
@@ -211,25 +211,25 @@
       <fault-comment-card
         id="driving-fault-comment-card"
         [formGroup]="form"
-        [faultComments]="pageState.drivingFaults$ | async"
-        [shouldRender]="(pageState.displayDrivingFaultComments$ | async) && (pageState.displayDrivingFault$ | async)"
-        [outcome]="pageState.testOutcome$ | async"
-        [testCategory]="pageState.testCategory$ | async"
+        [faultComments]="drivingFaults()"
+        [shouldRender]="(displayDrivingFaultComments()) && (displayDrivingFault())"
+        [outcome]="testOutcome()"
+        [testCategory]="testCategory()"
         faultType="driving"
         header="Driving"
         badgeLabel="Driving"
-        [faultCount]="pageState.drivingFaultCount$ | async"
+        [faultCount]="drivingFaultCount()"
         [maxFaultCount]="maxFaultCount"
         (faultCommentsChange)="drivingFaultCommentChanged($event)"
         >
       </fault-comment-card>
 
-      @if ((!(pageState.displayDrivingFaultComments$ | async) && (pageState.drivingFaultCount$ | async) > 0 && pageState.displayDrivingFault$ | async)) {
+      @if ((!(displayDrivingFaultComments()) && (drivingFaultCount()) > 0 && displayDrivingFault())) {
         <driving-faults
           [label]="'Driving faults'"
           badgeLabel="Driving"
-          [testCategory]="pageState.testCategory$ | async"
-          [faults]="(pageState.drivingFaults$ | async)"
+          [testCategory]="testCategory()"
+          [faults]="(drivingFaults())"
           >
         </driving-faults>
       }

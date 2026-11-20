@@ -8,6 +8,7 @@ import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { Injector } from '@angular/core';
+import { signal } from '@angular/core';
 import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { Identification, IndependentDriving, WeatherConditions } from '@dvsa/mes-test-schema/categories/common';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
@@ -37,7 +38,7 @@ import { OutcomeBehaviourMapProvider } from '@providers/outcome-behaviour-map/ou
 import { WeatherConditionProvider } from '@providers/weather-conditions/weather-condition';
 import { trDestroy$ } from '@shared/classes/test-flow-base-pages/test-report/test-report-base-page';
 import { wrtcDestroy$ } from '@shared/classes/test-flow-base-pages/waiting-room-to-car/waiting-room-to-car-base-page';
-import { ActivityCodeModel, activityCodeModelList } from '@shared/constants/activity-code/activity-code.constants';
+import { activityCodeModelList } from '@shared/constants/activity-code/activity-code.constants';
 import { NavControllerMock } from '@shared/mocks/nav-controller.mock';
 import { ToastControllerMock } from '@shared/mocks/toast-controller.mock';
 import { StoreModel } from '@shared/models/store.model';
@@ -84,9 +85,13 @@ import {
   SchoolBikeToggled,
   SchoolCarToggled,
 } from '@store/tests/vehicle-details/vehicle-details.actions';
-import { Subscription, of } from 'rxjs';
-import { take } from 'rxjs/operators';
-import { CommonOfficePageState, OfficeBasePageComponent } from '../office-base-page';
+import { OfficeBasePageComponent } from '../office-base-page';
+
+class TestOfficeBasePage extends OfficeBasePageComponent {
+  constructor() {
+    super(false);
+  }
+}
 
 describe('OfficeBasePageComponent', () => {
   let injector: Injector;
@@ -188,39 +193,45 @@ describe('OfficeBasePageComponent', () => {
     store$ = TestBed.inject(MockStore);
     navController = TestBed.inject(NavController);
     vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
+    basePageComponent = TestBed.runInInjectionContext(() => new TestOfficeBasePage());
   });
 
   describe('onInitialisation', () => {
+    it('updates common signals when the current test changes', () => {
+      basePageComponent.onInitialisation();
+      expect(basePageComponent.routeNumber()).toBe(3);
+
+      TestBed.inject(MockStore).setState({
+        ...initialState,
+        tests: {
+          ...initialState.tests,
+          startedTests: {
+            ...initialState.tests.startedTests,
+            1234: {
+              ...initialState.tests.startedTests[1234],
+              category: TestCategory.B,
+              testSummary: { routeNumber: 8 },
+            } as TestResultSchemasUnion,
+          },
+        },
+      });
+
+      expect(basePageComponent.routeNumber()).toBe(8);
+      expect(basePageComponent.testCategory()).toBe(TestCategory.B);
+    });
+
     it('should resolve state variables', () => {
       basePageComponent.onInitialisation();
-      basePageComponent.commonPageState.activityCode$
-        .pipe(take(1))
-        .subscribe((res: ActivityCodeModel) => expect(res.activityCode).toEqual('1'));
-      basePageComponent.commonPageState.routeNumber$.pipe(take(1)).subscribe((res: number) => expect(res).toEqual(3));
-      basePageComponent.commonPageState.independentDriving$
-        .pipe(take(1))
-        .subscribe((res: string) => expect(res).toEqual('Sat nav'));
-      basePageComponent.commonPageState.candidateDescription$
-        .pipe(take(1))
-        .subscribe((res: string) => expect(res).toEqual('description'));
-      basePageComponent.commonPageState.identification$
-        .pipe(take(1))
-        .subscribe((res: Identification) => expect(res).toEqual('Licence'));
-      basePageComponent.commonPageState.displayDrivingFault$
-        .pipe(take(1))
-        .subscribe((res: boolean) => expect(!!res).toEqual(false));
-      basePageComponent.commonPageState.displayDangerousFault$
-        .pipe(take(1))
-        .subscribe((res: boolean) => expect(!!res).toEqual(false));
-      basePageComponent.commonPageState.displaySeriousFault$
-        .pipe(take(1))
-        .subscribe((res: boolean) => expect(!!res).toEqual(false));
-      basePageComponent.commonPageState.displayEta$
-        .pipe(take(1))
-        .subscribe((res: boolean) => expect(!!res).toEqual(false));
-      basePageComponent.commonPageState.displayEco$
-        .pipe(take(1))
-        .subscribe((res: boolean) => expect(!!res).toEqual(false));
+      expect(basePageComponent.activityCode().activityCode).toEqual('1');
+      expect(basePageComponent.routeNumber()).toEqual(3);
+      expect(basePageComponent.independentDriving()).toEqual('Sat nav');
+      expect(basePageComponent.candidateDescription()).toEqual('description');
+      expect(basePageComponent.identification()).toEqual('Licence');
+      expect(!!basePageComponent.displayDrivingFault()).toEqual(false);
+      expect(!!basePageComponent.displayDangerousFault()).toEqual(false);
+      expect(!!basePageComponent.displaySeriousFault()).toEqual(false);
+      expect(!!basePageComponent.displayEta()).toEqual(false);
+      expect(!!basePageComponent.displayEco()).toEqual(false);
     });
   });
 
@@ -290,27 +301,20 @@ describe('OfficeBasePageComponent', () => {
 
   describe('categoryIncludesRouteNumber', () => {
     it('returns true when testCategory is in categoriesWithRouteNumbers', () => {
-      basePageComponent.commonPageState = {
-        testCategory$: of(TestCategory.B),
-      } as any;
+      basePageComponent.testCategory = signal(TestCategory.B);
       expect(basePageComponent.categoryIncludesRouteNumber()).toBe(true);
     });
 
     it('returns false when testCategory is not in categoriesWithRouteNumbers', () => {
-      basePageComponent.commonPageState = {
-        testCategory$: of(TestCategory.ADI3),
-      } as any;
+      basePageComponent.testCategory = signal(TestCategory.ADI3);
       expect(basePageComponent.categoryIncludesRouteNumber()).toBe(false);
     });
   });
 
   describe('dispatchTestConfirmedActions', () => {
     it('should dispatch the route number', async () => {
-      basePageComponent.commonPageState = {
-        routeNumber$: of(123),
-        displayRouteNumber$: of(true),
-        // other properties not needed for this test
-      } as CommonOfficePageState;
+      basePageComponent.routeNumber = signal(123);
+      basePageComponent.displayRouteNumber = signal(true);
       vi.spyOn(basePageComponent, 'categoryIncludesRouteNumber').mockReturnValue(true);
       basePageComponent.dispatchTestConfirmedActions();
       expect(store$.dispatch).toHaveBeenCalledWith(RouteNumberConfirmed(123));
@@ -349,26 +353,6 @@ describe('OfficeBasePageComponent', () => {
       expect(basePageComponent.popToRoot).toHaveBeenCalled();
       expect(store$.dispatch).toHaveBeenCalledWith(SavingWriteUpForLater());
       expect(store$.dispatch).toHaveBeenCalledWith(PersistTests());
-    });
-  });
-
-  describe('setupSubscriptions', () => {
-    it('should assign store values to variables', () => {
-      basePageComponent.commonPageState = {
-        ...basePageComponent.commonPageState,
-        startDateTime$: of('2022-01-01T12:00:00'),
-      };
-      basePageComponent.setupSubscriptions();
-      expect(basePageComponent.startDateTime).toEqual('2022-01-01T12:00:00');
-    });
-  });
-
-  describe('ionViewDidLeave', () => {
-    it('should unsubscribe when subscription', () => {
-      basePageComponent.subscription = new Subscription();
-      vi.spyOn(basePageComponent.subscription, 'unsubscribe').mockReturnValue(undefined);
-      basePageComponent.ionViewDidLeave();
-      expect(basePageComponent.subscription.unsubscribe).toHaveBeenCalled();
     });
   });
 
@@ -425,7 +409,7 @@ describe('OfficeBasePageComponent', () => {
 
   describe('dateOfTestChanged', () => {
     it('should ', () => {
-      basePageComponent.startDateTime = '2022-01-01T12:00:00';
+      basePageComponent.startDateTime = signal('2022-01-01T12:00:00');
       basePageComponent.dateOfTestChanged('2022-01-02');
       expect(store$.dispatch).toHaveBeenCalledWith(TestStartDateChanged('2022-01-01T12:00:00', '2022-01-02T12:00:00'));
       expect(store$.dispatch).toHaveBeenCalledWith(SetStartDate('2022-01-02T12:00:00'));

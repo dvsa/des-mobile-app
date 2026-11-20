@@ -18,7 +18,7 @@
       (setupLeaveSubscription)="setupEscapeSAMLeaveSubscription()"
       (setupResumeSubscription)="setupEscapeSAMResumeSubscription()"
       (onExitSAMActivatedChanged)="isSamActivatedChanged($event)">
-      {{ 'healthDeclaration.title' | translate }} - {{pageState.candidateUntitledName$ | async}}
+      {{ 'healthDeclaration.title' | translate }} - {{ candidateUntitledName() }}
     </test-flow-header>
   </ion-toolbar>
 </ion-header>
@@ -28,10 +28,10 @@
 
   <form [formGroup]="formGroup">
     <candidate-section
-      [candidateName]="pageState.candidateName$ | async"
-      [candidateDriverNumber]="pageState.candidateDriverNumber$ | async"
-      [candidatePrnNumber]="pageState.prn$ | async"
-      [isStandardsCheck]="pageState.isStandardsCheck$ | async"
+      [candidateName]="candidateName()"
+      [candidateDriverNumber]="candidateDriverNumber()"
+      [candidatePrnNumber]="prn()"
+      [isStandardsCheck]="isStandardsCheck()"
       (continueClickEvent)="onSubmit()"
       [showVRNButton]="false"
       >
@@ -48,10 +48,10 @@
           </ion-col>
         </ion-row>
 
-        @if (pageState.showHealthDec$ | async) {
+        @if (showHealthDec()) {
           <health-declaration
             [formGroup]="formGroup"
-            [selected]="pageState.healthDeclarationAccepted$ | async"
+            [selected]="healthDeclarationAccepted()"
             (healthDeclarationChange)="healthDeclarationChanged($event)"
             >
           </health-declaration>
@@ -59,19 +59,19 @@
 
         <receipt-declaration
           [formGroup]="formGroup"
-          [selected]="pageState.receiptDeclarationAccepted$ | async"
+          [selected]="receiptDeclarationAccepted()"
           (receiptDeclarationChange)="receiptDeclarationChanged($event)"
-          [certificateNumber]="pageState.passCertificateNumber$ | async"
+          [certificateNumber]="passCertificateNumber()"
           >
         </receipt-declaration>
 
-        @if (!(pageState.showHealthDec$ | async)) {
+        @if (!showHealthDec()) {
           <div class="signature-area-padding"></div>
         }
 
         <signature
           [formGroup]="formGroup"
-          [signature]="pageState.signature$ | async"
+          [signature]="signature()"
           (signatureDataChange)="getSignatureDrawCompleteAction($event)"
           (signatureCleared)="getSignatureClearAction()"
           >

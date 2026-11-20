@@ -1,24 +1,19 @@
 import { ModalController, NavController, ToastController } from '@ionic/angular';
-import { select } from '@ngrx/store';
 import { ActivityCodeModel, activityCodeModelList } from '@shared/constants/activity-code/activity-code.constants';
-import { getTests } from '@store/tests/tests.reducer';
 import {
   getActivityCode,
-  getCurrentTest,
   getJournalData,
   getTestOutcome,
   getTestOutcomeText,
   isPassed,
   isTestOutcomeSet,
+  selectCurrentTest,
 } from '@store/tests/tests.selector';
-import { Observable, Subscription, merge } from 'rxjs';
 
-import { Inject, Signal, inject } from '@angular/core';
+import { Inject, Signal, computed, inject } from '@angular/core';
 import { UntypedFormGroup } from '@angular/forms';
-import { MotStatusCodes } from '@dvsa/mes-mot-schema';
 import { Circuit } from '@dvsa/mes-test-schema/categories/AM1';
 import {
-  ETA,
   GearboxCategory,
   Identification,
   IndependentDriving,
@@ -49,7 +44,6 @@ import { PracticeableBasePageComponent } from '@shared/classes/practiceable-base
 import { trDestroy$ } from '@shared/classes/test-flow-base-pages/test-report/test-report-base-page';
 import { wrtcDestroy$ } from '@shared/classes/test-flow-base-pages/waiting-room-to-car/waiting-room-to-car-base-page';
 import { getNewTestStartTime } from '@shared/helpers/test-start-time';
-import { FaultSummary } from '@shared/models/fault-marking.model';
 import {
   InstructorAccompanimentToggled,
   InterpreterAccompanimentToggled,
@@ -142,7 +136,6 @@ import {
   isDebriefWitnessed,
 } from '@store/tests/test-summary/test-summary.selector';
 import { PersistTests, SendCurrentTest } from '@store/tests/tests.actions';
-import { TestOutcome } from '@store/tests/tests.constants';
 import { SetReasonForExitingApp } from '@store/tests/user-exited-app/user-exited-app.actions';
 import { getUserExitedApp } from '@store/tests/user-exited-app/user-exited-app.reducer';
 import { getReasonForExitingApp, getUserHasExitedApp } from '@store/tests/user-exited-app/user-exited-app.selector';
@@ -165,67 +158,9 @@ import {
   getVehicleMake,
   getVehicleModel,
 } from '@store/tests/vehicle-details/vehicle-details.selector';
-import { map, withLatestFrom } from 'rxjs/operators';
 
-export interface CommonOfficePageState {
-  testCategory$: Observable<TestCategory>;
-  activityCode$: Observable<ActivityCodeModel>;
-  registrationNumber$: Observable<string>;
-  previouslySearchedVRNs$: Observable<string[]>;
-  vehicleMake$: Observable<string>;
-  vehicleModel$: Observable<string>;
-  motStatus$: Observable<MotStatusCodes>;
-  motTestExpiryDate$: Observable<string>;
-  startTime$: Observable<string>;
-  startDate$: Observable<string>;
-  startDateTime$: Observable<string>;
-  testOutcome$: Observable<string>;
-  testOutcomeText$: Observable<TestOutcome>;
-  isPassed$: Observable<boolean>;
-  isTestOutcomeSet$: Observable<boolean>;
-  candidateName$: Observable<string>;
-  candidateDriverNumber$: Observable<string>;
-  routeNumber$: Observable<number>;
-  displayRouteNumber$: Observable<boolean>;
-  displayIndependentDriving$: Observable<boolean>;
-  displayCandidateDescription$: Observable<boolean>;
-  displayIdentification$: Observable<boolean>;
-  weatherConditions$: Observable<WeatherConditions[]>;
-  displayAdditionalInformation$: Observable<boolean>;
-  displayEco$: Observable<boolean>;
-  displayEta$: Observable<boolean>;
-  candidateDescription$: Observable<string>;
-  independentDriving$: Observable<IndependentDriving>;
-  identification$: Observable<Identification>;
-  trueLikenessToPhoto$: Observable<boolean>;
-  additionalInformation$: Observable<string>;
-  displayWeatherConditions$: Observable<boolean>;
-  displayDrivingFault$: Observable<boolean>;
-  displaySeriousFault$: Observable<boolean>;
-  displayDangerousFault$: Observable<boolean>;
-  drivingFaults$: Observable<FaultSummary[]>;
-  drivingFaultCount$: Observable<number>;
-  dangerousFaults$: Observable<FaultSummary[]>;
-  seriousFaults$: Observable<FaultSummary[]>;
-  applicationNumber$: Observable<string>;
-  healthDeclarationAccepted$: Observable<boolean>;
-  d255$: Observable<boolean>;
-  debriefWitnessed$: Observable<boolean>;
-  passCertificateNumber$: Observable<string>;
-  etaFaults$: Observable<ETA>;
-  ecoFaults$: Observable<string>;
-  seriousFaultCount$: Observable<number>;
-  dangerousFaultCount$: Observable<number>;
-  schoolCar$: Observable<boolean>;
-  dualControls$: Observable<boolean>;
-  instructorAccompaniment$: Observable<boolean>;
-  supervisorAccompaniment$: Observable<boolean>;
-  otherAccompaniment$: Observable<boolean>;
-  interpreterAccompaniment$: Observable<boolean>;
-  motAlternativeEvidenceProvided$: Observable<boolean>;
-  hasEnteredTeamsOnThisTest$: Observable<boolean>;
-  reasonForEnteringTeams$: Observable<string>;
-  motAlternativeEvidenceDescription$: Observable<string>;
+export function mapOfficeValue<T, R>(value: T, project: (value: T) => R): R {
+  return project(value);
 }
 
 export abstract class OfficeBasePageComponent extends PracticeableBasePageComponent {
@@ -244,11 +179,256 @@ export abstract class OfficeBasePageComponent extends PracticeableBasePageCompon
   otherETA: Signal<boolean> = this.store$.selectSignal(getOtherETAPhysicalType);
   otherTextETA: Signal<string> = this.store$.selectSignal(getOtherTextETAPhysicalType);
 
-  commonPageState: CommonOfficePageState;
+  protected officeCurrentTest = this.store$.selectSignal(selectCurrentTest);
+  testCategory = computed(() =>
+    mapOfficeValue(getTestCategory(this.officeCurrentTest()), (testCategory) => testCategory as TestCategory)
+  );
+  registrationNumber = computed(() =>
+    getRegistrationNumber(getVehicleDetails(this.officeCurrentTest() as never) as never)
+  );
+  motStatus = computed(() => getMotStatus(getVehicleDetails(this.officeCurrentTest() as never) as never));
+  motTestExpiryDate = computed(() => getTestExpiryDate(getVehicleDetails(this.officeCurrentTest() as never) as never));
+  previouslySearchedVRNs = computed(() =>
+    getSearchedVRNListNoDuplicates(getVehicleDetails(this.officeCurrentTest() as never) as never)
+  );
+  vehicleMake = computed(() => getVehicleMake(getVehicleDetails(this.officeCurrentTest() as never) as never));
+  vehicleModel = computed(() => getVehicleModel(getVehicleDetails(this.officeCurrentTest() as never) as never));
+  motAlternativeEvidenceProvided = computed(() =>
+    getMotEvidenceProvided(getVehicleDetails(this.officeCurrentTest() as never) as never)
+  );
+  motAlternativeEvidenceDescription = computed(() =>
+    getMotEvidenceDescription(getVehicleDetails(this.officeCurrentTest() as never) as never)
+  );
+  hasEnteredTeamsOnThisTest = computed(() =>
+    getUserHasExitedApp(getUserExitedApp(this.officeCurrentTest() as never) as never)
+  );
+  reasonForEnteringTeams = computed(() =>
+    getReasonForExitingApp(getUserExitedApp(this.officeCurrentTest() as never) as never)
+  );
+  activityCode = computed(() => getActivityCode(this.officeCurrentTest() as never));
+  testOutcome = computed(() => getTestOutcome(this.officeCurrentTest() as never));
+  testOutcomeText = computed(() => getTestOutcomeText(this.officeCurrentTest() as never));
+  isPassed = computed(() => isPassed(this.officeCurrentTest() as never));
+  isTestOutcomeSet = computed(() => isTestOutcomeSet(this.officeCurrentTest() as never));
+  startTime = computed(() =>
+    getTestTime(getTestSlotAttributes(getJournalData(this.officeCurrentTest() as never) as never) as never)
+  );
+  startDate = computed(() =>
+    getTestDate(getTestSlotAttributes(getJournalData(this.officeCurrentTest() as never) as never) as never)
+  );
+  startDateTime = computed(() =>
+    getTestStartDateTime(getTestSlotAttributes(getJournalData(this.officeCurrentTest() as never) as never) as never)
+  );
+  candidateName = computed(() =>
+    getCandidateName(getCandidate(getJournalData(this.officeCurrentTest() as never) as never) as never)
+  );
+  candidateDriverNumber = computed(() =>
+    mapOfficeValue(
+      getCandidateDriverNumber(getCandidate(getJournalData(this.officeCurrentTest() as never) as never) as never),
+      formatDriverNumber
+    )
+  );
+  routeNumber = computed(() => getRouteNumber(getTestSummary(this.officeCurrentTest() as never) as never));
+  displayRouteNumber = computed(() =>
+    mapOfficeValue(
+      [
+        getTestOutcome(this.officeCurrentTest() as never),
+        getRouteNumber(getTestSummary(this.officeCurrentTest() as never) as never),
+      ] as const,
+      ([outcome, route]) => this.outcomeBehaviourProvider.isVisible(outcome, 'routeNumber', route)
+    )
+  );
+  displayIndependentDriving = computed(() =>
+    mapOfficeValue(
+      [
+        getTestOutcome(this.officeCurrentTest() as never),
+        getIndependentDriving(getTestSummary(this.officeCurrentTest() as never) as never),
+      ] as const,
+      ([outcome, independent]) => this.outcomeBehaviourProvider.isVisible(outcome, 'independentDriving', independent)
+    )
+  );
+  displayCandidateDescription = computed(() =>
+    mapOfficeValue(
+      [
+        getTestOutcome(this.officeCurrentTest() as never),
+        getCandidateDescription(getTestSummary(this.officeCurrentTest() as never) as never),
+      ] as const,
+      ([outcome, candidate]) => this.outcomeBehaviourProvider.isVisible(outcome, 'candidateDescription', candidate)
+    )
+  );
+  displayIdentification = computed(() =>
+    mapOfficeValue(
+      [
+        getTestOutcome(this.officeCurrentTest() as never),
+        getIdentification(getTestSummary(this.officeCurrentTest() as never) as never),
+      ] as const,
+      ([outcome, identification]) => this.outcomeBehaviourProvider.isVisible(outcome, 'identification', identification)
+    )
+  );
+  trueLikenessToPhoto = computed(() =>
+    getTrueLikenessToPhoto(getTestSummary(this.officeCurrentTest() as never) as never)
+  );
+  displayWeatherConditions = computed(() =>
+    mapOfficeValue(
+      [
+        getTestOutcome(this.officeCurrentTest() as never),
+        getWeatherConditions(getTestSummary(this.officeCurrentTest() as never) as never),
+      ] as const,
+      ([outcome, weather]) => this.outcomeBehaviourProvider.isVisible(outcome, 'weatherConditions', weather)
+    )
+  );
+  displayAdditionalInformation = computed(() =>
+    mapOfficeValue(
+      [
+        getTestOutcome(this.officeCurrentTest() as never),
+        getAdditionalInformation(getTestSummary(this.officeCurrentTest() as never) as never),
+      ] as const,
+      ([outcome, additional]) => this.outcomeBehaviourProvider.isVisible(outcome, 'additionalInformation', additional)
+    )
+  );
+  displayEco = computed(() =>
+    mapOfficeValue(
+      [
+        getTestOutcome(this.officeCurrentTest() as never),
+        getEco(getTestData(this.officeCurrentTest() as never) as never),
+      ] as const,
+      ([outcome, eco]) => this.outcomeBehaviourProvider.isVisible(outcome, 'eco', eco)
+    )
+  );
+  displayEta = computed(() =>
+    mapOfficeValue(
+      [
+        getTestOutcome(this.officeCurrentTest() as never),
+        getETA(getTestData(this.officeCurrentTest() as never) as never),
+      ] as const,
+      ([outcome, eta]) => this.outcomeBehaviourProvider.isVisible(outcome, 'eta', eta)
+    )
+  );
+  candidateDescription = computed(() =>
+    getCandidateDescription(getTestSummary(this.officeCurrentTest() as never) as never)
+  );
+  independentDriving = computed(() =>
+    getIndependentDriving(getTestSummary(this.officeCurrentTest() as never) as never)
+  );
+  identification = computed(() => getIdentification(getTestSummary(this.officeCurrentTest() as never) as never));
+  additionalInformation = computed(() =>
+    getAdditionalInformation(getTestSummary(this.officeCurrentTest() as never) as never)
+  );
+  selectedWeatherConditions = computed(() =>
+    getWeatherConditions(getTestSummary(this.officeCurrentTest() as never) as never)
+  );
+  displayDrivingFault = computed(() =>
+    mapOfficeValue(
+      [
+        getTestOutcome(this.officeCurrentTest() as never),
+        getTestData(this.officeCurrentTest() as never),
+        getTestCategory(this.officeCurrentTest()),
+      ] as const,
+      ([outcome, testData, category]) =>
+        this.outcomeBehaviourProvider.isVisible(
+          outcome,
+          'faultComment',
+          this.faultSummaryProvider.getDrivingFaultsList(testData, category as TestCategory)
+        )
+    )
+  );
+  displaySeriousFault = computed(() =>
+    mapOfficeValue(
+      [
+        getTestOutcome(this.officeCurrentTest() as never),
+        getTestData(this.officeCurrentTest() as never),
+        getTestCategory(this.officeCurrentTest()),
+      ] as const,
+      ([outcome, testData, category]) =>
+        this.outcomeBehaviourProvider.isVisible(
+          outcome,
+          'faultComment',
+          this.faultSummaryProvider.getSeriousFaultsList(testData, category as TestCategory)
+        )
+    )
+  );
+  displayDangerousFault = computed(() =>
+    mapOfficeValue(
+      [
+        getTestOutcome(this.officeCurrentTest() as never),
+        getTestData(this.officeCurrentTest() as never),
+        getTestCategory(this.officeCurrentTest()),
+      ] as const,
+      ([outcome, testData, category]) =>
+        this.outcomeBehaviourProvider.isVisible(
+          outcome,
+          'faultComment',
+          this.faultSummaryProvider.getDangerousFaultsList(testData, category as TestCategory)
+        )
+    )
+  );
+  dangerousFaults = computed(() =>
+    mapOfficeValue(
+      [getTestData(this.officeCurrentTest() as never), getTestCategory(this.officeCurrentTest())] as const,
+      ([testData, category]) => this.faultSummaryProvider.getDangerousFaultsList(testData, category as TestCategory)
+    )
+  );
+  seriousFaults = computed(() =>
+    mapOfficeValue(
+      [getTestData(this.officeCurrentTest() as never), getTestCategory(this.officeCurrentTest())] as const,
+      ([testData, category]) => this.faultSummaryProvider.getSeriousFaultsList(testData, category as TestCategory)
+    )
+  );
+  drivingFaults = computed(() =>
+    mapOfficeValue(
+      [getTestData(this.officeCurrentTest() as never), getTestCategory(this.officeCurrentTest())] as const,
+      ([testData, category]) => this.faultSummaryProvider.getDrivingFaultsList(testData, category as TestCategory)
+    )
+  );
+  drivingFaultCount = computed(() =>
+    mapOfficeValue(
+      [getTestData(this.officeCurrentTest() as never), getTestCategory(this.officeCurrentTest())] as const,
+      ([testData, category]) => {
+        return this.faultCountProvider.getDrivingFaultSumCount(category as TestCategory, testData);
+      }
+    )
+  );
+  seriousFaultCount = computed(() =>
+    mapOfficeValue(
+      [getTestData(this.officeCurrentTest() as never), getTestCategory(this.officeCurrentTest())] as const,
+      ([data, category]) => this.faultCountProvider.getSeriousFaultSumCount(category as TestCategory, data)
+    )
+  );
+  dangerousFaultCount = computed(() =>
+    mapOfficeValue(
+      [getTestData(this.officeCurrentTest() as never), getTestCategory(this.officeCurrentTest())] as const,
+      ([data, category]) => this.faultCountProvider.getDangerousFaultSumCount(category as TestCategory, data)
+    )
+  );
+  applicationNumber = computed(() =>
+    getApplicationNumber(getApplicationReference(getJournalData(this.officeCurrentTest() as never) as never) as never)
+  );
+  healthDeclarationAccepted = computed(() =>
+    getHealthDeclarationStatus(getPostTestDeclarations(this.officeCurrentTest() as never) as never)
+  );
+  d255 = computed(() => getD255(getTestSummary(this.officeCurrentTest() as never) as never));
+  debriefWitnessed = computed(() => isDebriefWitnessed(getTestSummary(this.officeCurrentTest() as never) as never));
+  passCertificateNumber = computed(() =>
+    getPassCertificateNumber(getPassCompletion(this.officeCurrentTest() as never) as never)
+  );
+  etaFaults = computed(() => getETA(getTestData(this.officeCurrentTest() as never) as never));
+  ecoFaults = computed(() => getEcoFaultText(getEco(getTestData(this.officeCurrentTest() as never) as never) as never));
+  schoolCar = computed(() => getSchoolCar(getVehicleDetails(this.officeCurrentTest() as never) as never));
+  dualControls = computed(() => getDualControls(getVehicleDetails(this.officeCurrentTest() as never) as never));
+  instructorAccompaniment = computed(() =>
+    getInstructorAccompaniment(getAccompaniment(this.officeCurrentTest() as never) as never)
+  );
+  supervisorAccompaniment = computed(() =>
+    getSupervisorAccompaniment(getAccompaniment(this.officeCurrentTest() as never) as never)
+  );
+  otherAccompaniment = computed(() =>
+    getOtherAccompaniment(getAccompaniment(this.officeCurrentTest() as never) as never)
+  );
+  interpreterAccompaniment = computed(() =>
+    getInterpreterAccompaniment(getAccompaniment(this.officeCurrentTest() as never) as never)
+  );
   form: UntypedFormGroup;
   toast: HTMLIonToastElement;
-  subscription: Subscription;
-  startDateTime: string;
   hasNavigatedFromUnsubmitted = false;
   isValidStartDateTime = true;
   activityCodeOptions: ActivityCodeModel[];
@@ -273,203 +453,9 @@ export abstract class OfficeBasePageComponent extends PracticeableBasePageCompon
 
   onInitialisation(): void {
     super.ngOnInit();
-    const currentTest$ = this.store$.pipe(select(getTests), select(getCurrentTest));
-    const category$ = currentTest$.pipe(select(getTestCategory));
-
-    this.commonPageState = {
-      testCategory$: category$.pipe(map((testCategory) => testCategory as TestCategory)),
-      registrationNumber$: currentTest$.pipe(select(getVehicleDetails), select(getRegistrationNumber)),
-      motStatus$: currentTest$.pipe(select(getVehicleDetails), select(getMotStatus)),
-      motTestExpiryDate$: currentTest$.pipe(select(getVehicleDetails), select(getTestExpiryDate)),
-      previouslySearchedVRNs$: currentTest$.pipe(select(getVehicleDetails), select(getSearchedVRNListNoDuplicates)),
-      vehicleMake$: currentTest$.pipe(select(getVehicleDetails), select(getVehicleMake)),
-      vehicleModel$: currentTest$.pipe(select(getVehicleDetails), select(getVehicleModel)),
-      motAlternativeEvidenceProvided$: currentTest$.pipe(select(getVehicleDetails), select(getMotEvidenceProvided)),
-      motAlternativeEvidenceDescription$: currentTest$.pipe(
-        select(getVehicleDetails),
-        select(getMotEvidenceDescription)
-      ),
-      hasEnteredTeamsOnThisTest$: currentTest$.pipe(select(getUserExitedApp), select(getUserHasExitedApp)),
-      reasonForEnteringTeams$: currentTest$.pipe(select(getUserExitedApp), select(getReasonForExitingApp)),
-      activityCode$: currentTest$.pipe(select(getActivityCode)),
-      testOutcome$: currentTest$.pipe(select(getTestOutcome)),
-      testOutcomeText$: currentTest$.pipe(select(getTestOutcomeText)),
-      isPassed$: currentTest$.pipe(select(isPassed)),
-      isTestOutcomeSet$: currentTest$.pipe(select(isTestOutcomeSet)),
-      startTime$: currentTest$.pipe(select(getJournalData), select(getTestSlotAttributes), select(getTestTime)),
-      startDate$: currentTest$.pipe(select(getJournalData), select(getTestSlotAttributes), select(getTestDate)),
-      startDateTime$: currentTest$.pipe(
-        select(getJournalData),
-        select(getTestSlotAttributes),
-        select(getTestStartDateTime)
-      ),
-      candidateName$: currentTest$.pipe(select(getJournalData), select(getCandidate), select(getCandidateName)),
-      candidateDriverNumber$: currentTest$.pipe(
-        select(getJournalData),
-        select(getCandidate),
-        select(getCandidateDriverNumber),
-        map(formatDriverNumber)
-      ),
-      routeNumber$: currentTest$.pipe(select(getTestSummary), select(getRouteNumber)),
-      displayRouteNumber$: currentTest$.pipe(
-        select(getTestOutcome),
-        withLatestFrom(currentTest$.pipe(select(getTestSummary), select(getRouteNumber))),
-        map(([outcome, route]) => this.outcomeBehaviourProvider.isVisible(outcome, 'routeNumber', route))
-      ),
-      displayIndependentDriving$: currentTest$.pipe(
-        select(getTestOutcome),
-        withLatestFrom(currentTest$.pipe(select(getTestSummary), select(getIndependentDriving))),
-        map(([outcome, independent]) =>
-          this.outcomeBehaviourProvider.isVisible(outcome, 'independentDriving', independent)
-        )
-      ),
-      displayCandidateDescription$: currentTest$.pipe(
-        select(getTestOutcome),
-        withLatestFrom(currentTest$.pipe(select(getTestSummary), select(getCandidateDescription))),
-        map(([outcome, candidate]) =>
-          this.outcomeBehaviourProvider.isVisible(outcome, 'candidateDescription', candidate)
-        )
-      ),
-      displayIdentification$: currentTest$.pipe(
-        select(getTestOutcome),
-        withLatestFrom(currentTest$.pipe(select(getTestSummary), select(getIdentification))),
-        map(([outcome, identification]) =>
-          this.outcomeBehaviourProvider.isVisible(outcome, 'identification', identification)
-        )
-      ),
-      trueLikenessToPhoto$: currentTest$.pipe(select(getTestSummary), select(getTrueLikenessToPhoto)),
-      displayWeatherConditions$: currentTest$.pipe(
-        select(getTestOutcome),
-        withLatestFrom(currentTest$.pipe(select(getTestSummary), select(getWeatherConditions))),
-        map(([outcome, weather]) => this.outcomeBehaviourProvider.isVisible(outcome, 'weatherConditions', weather))
-      ),
-      displayAdditionalInformation$: currentTest$.pipe(
-        select(getTestOutcome),
-        withLatestFrom(currentTest$.pipe(select(getTestSummary), select(getAdditionalInformation))),
-        map(([outcome, additional]) =>
-          this.outcomeBehaviourProvider.isVisible(outcome, 'additionalInformation', additional)
-        )
-      ),
-      displayEco$: currentTest$.pipe(
-        select(getTestOutcome),
-        withLatestFrom(currentTest$.pipe(select(getTestData), select(getEco))),
-        map(([outcome, eco]) => this.outcomeBehaviourProvider.isVisible(outcome, 'eco', eco))
-      ),
-      displayEta$: currentTest$.pipe(
-        select(getTestOutcome),
-        withLatestFrom(currentTest$.pipe(select(getTestData), select(getETA))),
-        map(([outcome, eta]) => this.outcomeBehaviourProvider.isVisible(outcome, 'eta', eta))
-      ),
-      candidateDescription$: currentTest$.pipe(select(getTestSummary), select(getCandidateDescription)),
-      independentDriving$: currentTest$.pipe(select(getTestSummary), select(getIndependentDriving)),
-      identification$: currentTest$.pipe(select(getTestSummary), select(getIdentification)),
-      additionalInformation$: currentTest$.pipe(select(getTestSummary), select(getAdditionalInformation)),
-      weatherConditions$: currentTest$.pipe(select(getTestSummary), select(getWeatherConditions)),
-      displayDrivingFault$: currentTest$.pipe(
-        select(getTestOutcome),
-        withLatestFrom(currentTest$.pipe(select(getTestData)), category$),
-        map(([outcome, testData, category]) =>
-          this.outcomeBehaviourProvider.isVisible(
-            outcome,
-            'faultComment',
-            this.faultSummaryProvider.getDrivingFaultsList(testData, category as TestCategory)
-          )
-        )
-      ),
-      displaySeriousFault$: currentTest$.pipe(
-        select(getTestOutcome),
-        withLatestFrom(currentTest$.pipe(select(getTestData)), category$),
-        map(([outcome, testData, category]) =>
-          this.outcomeBehaviourProvider.isVisible(
-            outcome,
-            'faultComment',
-            this.faultSummaryProvider.getSeriousFaultsList(testData, category as TestCategory)
-          )
-        )
-      ),
-      displayDangerousFault$: currentTest$.pipe(
-        select(getTestOutcome),
-        withLatestFrom(currentTest$.pipe(select(getTestData)), category$),
-        map(([outcome, testData, category]) =>
-          this.outcomeBehaviourProvider.isVisible(
-            outcome,
-            'faultComment',
-            this.faultSummaryProvider.getDangerousFaultsList(testData, category as TestCategory)
-          )
-        )
-      ),
-      dangerousFaults$: currentTest$.pipe(
-        select(getTestData),
-        withLatestFrom(category$),
-        map(([testData, category]) =>
-          this.faultSummaryProvider.getDangerousFaultsList(testData, category as TestCategory)
-        )
-      ),
-      seriousFaults$: currentTest$.pipe(
-        select(getTestData),
-        withLatestFrom(category$),
-        map(([testData, category]) =>
-          this.faultSummaryProvider.getSeriousFaultsList(testData, category as TestCategory)
-        )
-      ),
-      drivingFaults$: currentTest$.pipe(
-        select(getTestData),
-        withLatestFrom(category$),
-        map(([testData, category]) =>
-          this.faultSummaryProvider.getDrivingFaultsList(testData, category as TestCategory)
-        )
-      ),
-      drivingFaultCount$: currentTest$.pipe(
-        select(getTestData),
-        withLatestFrom(category$),
-        map(([testData, category]) => {
-          return this.faultCountProvider.getDrivingFaultSumCount(category as TestCategory, testData);
-        })
-      ),
-      seriousFaultCount$: currentTest$.pipe(
-        select(getTestData),
-        withLatestFrom(category$),
-        map(([data, category]) => this.faultCountProvider.getSeriousFaultSumCount(category as TestCategory, data))
-      ),
-      dangerousFaultCount$: currentTest$.pipe(
-        select(getTestData),
-        withLatestFrom(category$),
-        map(([data, category]) => this.faultCountProvider.getDangerousFaultSumCount(category as TestCategory, data))
-      ),
-      applicationNumber$: currentTest$.pipe(
-        select(getJournalData),
-        select(getApplicationReference),
-        select(getApplicationNumber)
-      ),
-      healthDeclarationAccepted$: currentTest$.pipe(
-        select(getPostTestDeclarations),
-        select(getHealthDeclarationStatus)
-      ),
-      d255$: currentTest$.pipe(select(getTestSummary), select(getD255)),
-      debriefWitnessed$: currentTest$.pipe(select(getTestSummary), select(isDebriefWitnessed)),
-      passCertificateNumber$: currentTest$.pipe(select(getPassCompletion), select(getPassCertificateNumber)),
-      etaFaults$: currentTest$.pipe(select(getTestData), select(getETA)),
-      ecoFaults$: currentTest$.pipe(select(getTestData), select(getEco), select(getEcoFaultText)),
-      schoolCar$: currentTest$.pipe(select(getVehicleDetails), select(getSchoolCar)),
-      dualControls$: currentTest$.pipe(select(getVehicleDetails), select(getDualControls)),
-      instructorAccompaniment$: currentTest$.pipe(select(getAccompaniment), select(getInstructorAccompaniment)),
-      supervisorAccompaniment$: currentTest$.pipe(select(getAccompaniment), select(getSupervisorAccompaniment)),
-      otherAccompaniment$: currentTest$.pipe(select(getAccompaniment), select(getOtherAccompaniment)),
-      interpreterAccompaniment$: currentTest$.pipe(select(getAccompaniment), select(getInterpreterAccompaniment)),
-    };
   }
 
-  setupSubscriptions() {
-    const { startDateTime$ } = this.commonPageState;
-
-    this.subscription = merge(startDateTime$.pipe(map((value) => (this.startDateTime = value)))).subscribe();
-  }
-
-  ionViewDidLeave(): void {
-    if (this.subscription) {
-      this.subscription.unsubscribe();
-    }
-  }
+  ionViewDidLeave(): void {}
 
   async onSubmit(isDelegated = false) {
     if (await this.isFormValid()) {
@@ -492,8 +478,9 @@ export abstract class OfficeBasePageComponent extends PracticeableBasePageCompon
   }
 
   dateOfTestChanged(inputDate: string) {
-    const customStartDate = getNewTestStartTime(inputDate, this.startDateTime);
-    this.store$.dispatch(TestStartDateChanged(this.startDateTime, customStartDate));
+    const startDateTime = this.startDateTime();
+    const customStartDate = getNewTestStartTime(inputDate, startDateTime);
+    this.store$.dispatch(TestStartDateChanged(startDateTime, customStartDate));
     this.store$.dispatch(SetStartDate(customStartDate));
   }
 
@@ -516,30 +503,12 @@ export abstract class OfficeBasePageComponent extends PracticeableBasePageCompon
       TestCategory.EUAM2,
       TestCategory.EUAMM2,
     ];
-    let includesRouteNumber = true;
-    if (this.commonPageState) {
-      this.commonPageState?.testCategory$
-        .subscribe((value) => {
-          includesRouteNumber = categoriesWithRouteNumbers.includes(value);
-        })
-        .unsubscribe();
-    }
-    return includesRouteNumber;
+    return categoriesWithRouteNumbers.includes(this.testCategory());
   }
 
   dispatchTestConfirmedActions() {
-    if (this.categoryIncludesRouteNumber()) {
-      this.commonPageState?.displayRouteNumber$
-        .subscribe((shouldDisplay) => {
-          if (shouldDisplay) {
-            this.commonPageState?.routeNumber$
-              .subscribe((routeNumber) => {
-                this.store$.dispatch(RouteNumberConfirmed(routeNumber));
-              })
-              .unsubscribe();
-          }
-        })
-        .unsubscribe();
+    if (this.categoryIncludesRouteNumber() && this.displayRouteNumber()) {
+      this.store$.dispatch(RouteNumberConfirmed(this.routeNumber()));
     }
   }
 

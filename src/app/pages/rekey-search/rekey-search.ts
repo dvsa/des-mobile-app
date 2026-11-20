@@ -1,12 +1,10 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, computed } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { TestSlot } from '@dvsa/mes-journal-schema';
-import { select } from '@ngrx/store';
 import { isEmpty } from 'lodash-es';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
 
-import { AsyncPipe, NgClass } from '@angular/common';
+import { NgClass } from '@angular/common';
 import { OfflineBannerComponent } from '@components/common/offline-banner/offline-banner';
 import { TabComponent } from '@components/common/tab/tab';
 import { TabsComponent } from '@components/common/tabs/tabs';
@@ -54,16 +52,6 @@ import { BasePageComponent } from '@shared/classes/base-page';
 import { bookingReferenceMask, formatBookingReferenceForBackend, maskPredicate } from '@shared/helpers/formatters';
 import { selectEmployeeId } from '@store/app-info/app-info.selectors';
 
-interface RekeySearchPageState {
-  isLoading$: Observable<boolean>;
-  hasSearched$: Observable<boolean>;
-  bookedTestSlot$: Observable<TestSlot>;
-  rekeySearchErr$: Observable<RekeySearchError | HttpErrorResponse>;
-  isOffline$: Observable<boolean>;
-  isBookedLessThanHalfAnHourLate$: Observable<boolean>;
-  employeeId$: Observable<string>;
-}
-
 @Component({
   selector: 'page-rekey-search',
   templateUrl: './rekey-search.html',
@@ -92,11 +80,18 @@ interface RekeySearchPageState {
     IonIcon,
     IonSpinner,
     TestSlotComponent,
-    AsyncPipe,
   ],
 })
 export class RekeySearchPage extends BasePageComponent implements OnInit {
-  pageState: RekeySearchPageState;
+  private readonly searchState = this.store$.selectSignal(getRekeySearchState);
+  readonly isLoading = computed(() => getIsLoading(this.searchState()));
+  readonly hasSearched = computed(() => getHasSearched(this.searchState()));
+  readonly bookedTestSlot = computed(() => getBookedTestSlot(this.searchState()));
+  readonly rekeySearchErr = computed(() => getRekeySearchError(this.searchState()));
+  readonly isBookedLessThanHalfAnHourLate = computed(() => getIsHalfAnHourLate(this.searchState()));
+  readonly employeeId = this.store$.selectSignal(selectEmployeeId);
+  readonly isOffline = toSignal(this.networkStateProvider.isOffline$, { initialValue: false });
+  readonly isPortrait = toSignal(this.orientationMonitorProvider.isPortraitMode$, { initialValue: false });
   staffNumber = '';
   applicationReference = '';
   searchResults: TestSlot[] = [];
@@ -117,17 +112,6 @@ export class RekeySearchPage extends BasePageComponent implements OnInit {
 
   ngOnInit(): void {
     this.store$.dispatch(RekeySearchClearState());
-    const rekeySearch$ = this.store$.pipe(select(getRekeySearchState));
-    this.pageState = {
-      isLoading$: rekeySearch$.pipe(map(getIsLoading)),
-      hasSearched$: rekeySearch$.pipe(map(getHasSearched)),
-      bookedTestSlot$: rekeySearch$.pipe(map(getBookedTestSlot)),
-      rekeySearchErr$: rekeySearch$.pipe(map(getRekeySearchError)),
-      isBookedLessThanHalfAnHourLate$: rekeySearch$.pipe(map(getIsHalfAnHourLate)),
-      isOffline$: this.networkStateProvider.isOffline$,
-      employeeId$: this.store$.select(selectEmployeeId),
-    };
-
     this.isLDTM = this.appConfig.getAppConfig()?.role === ExaminerRole.LDTM;
   }
 

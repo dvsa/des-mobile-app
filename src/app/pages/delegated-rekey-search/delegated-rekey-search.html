@@ -66,7 +66,7 @@
 
           <ion-row class="ion-padding-top">
             <ion-button
-              [disabled]="(pageState.isLoading$ | async)"
+              [disabled]="isLoading()"
               class="mes-primary-button search-tests"
               id="delegated-rekey-search-search-tests-btn"
               (click)="searchTests()"
@@ -80,7 +80,7 @@
               </ion-col>
               <ion-col class="display-flex">
                 <ion-col class="ion-justify-content-end display-flex">
-                  @if ((pageState.isLoading$ | async)) {
+                  @if (isLoading()) {
                     <ion-spinner
                       id="delegated-rekey-search-page-spinner"
                       name="bubbles">
@@ -94,7 +94,7 @@
       </tab>
     </tabs>
 
-    @if ((pageState.hasSearched$ | async) && isBookedTestSlotEmpty(pageState.bookedTestSlot$ | async) && !(hasBookingAlreadyBeenCompleted(pageState.rekeySearchErr$ | async))) {
+    @if (hasSearched() && isBookedTestSlotEmpty(bookedTestSlot()) && !hasBookingAlreadyBeenCompleted(rekeySearchErr())) {
       <div
         class="results-error"
         >
@@ -103,7 +103,7 @@
       </div>
     }
 
-    @if ((pageState.hasSearched$ | async) && (hasBookingAlreadyBeenCompleted(pageState.rekeySearchErr$ | async))) {
+    @if (hasSearched() && hasBookingAlreadyBeenCompleted(rekeySearchErr())) {
       <div
         class="results-error"
         >
@@ -114,12 +114,12 @@
       </div>
     }
 
-    @if (!isBookedTestSlotEmpty(pageState.bookedTestSlot$ | async)) {
+    @if (!isBookedTestSlotEmpty(bookedTestSlot())) {
       <p class="results-message">
         <test-slot
           [delegatedTest]="true"
-          [isPortrait]="orientationMonitorProvider.isPortraitMode$ | async"
-          [slot]="(pageState.bookedTestSlot$ | async)"
+          [isPortrait]="isPortrait()"
+          [slot]="bookedTestSlot()"
           [hasSlotChanged]="false"
           [hasSeenCandidateDetails]="true"
           [showLocation]="false"

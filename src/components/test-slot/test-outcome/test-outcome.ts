@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output, computed, signal } from '@angular/core';
 import { Router } from '@angular/router';
 import { SlotDetail, TestSlot } from '@dvsa/mes-journal-schema';
 import { ActivityCode } from '@dvsa/mes-test-schema/categories/common';
@@ -16,7 +16,7 @@ import { end2endPracticeSlotId } from '@shared/mocks/test-slot-ids.mock';
 import { ActivityCodes } from '@shared/models/activity-codes';
 import { StoreModel } from '@shared/models/store.model';
 import { isEmpty, isEqual, startsWith } from 'lodash-es';
-import { Subscription, firstValueFrom, merge } from 'rxjs';
+import { firstValueFrom } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { PreviewModeModal } from '@pages/fake-journal/components/preview-mode-modal/preview-mode-modal';
@@ -36,7 +36,7 @@ import { extractTestSlotAttributes } from '@store/tests/journal-data/common/test
 import { TestStatus } from '@store/tests/test-status/test-status.model';
 import { ActivateTest, RemoveStartedTest, RemoveTestBySlotId, StartTest } from '@store/tests/tests.actions';
 import { getTests } from '@store/tests/tests.reducer';
-import { StartedTests, getStartedTests, getTestById } from '@store/tests/tests.selector';
+import { getTestById } from '@store/tests/tests.selector';
 
 @Component({
   selector: 'test-outcome',
@@ -44,12 +44,19 @@ import { StartedTests, getStartedTests, getTestById } from '@store/tests/tests.s
   styleUrls: ['test-outcome.scss'],
   imports: [IonGrid, IonRow, IonText, IonCol, IonButton],
 })
-export class TestOutcomeComponent implements OnDestroy, OnInit {
+export class TestOutcomeComponent {
   @Input()
   applicationId: string;
 
+  private readonly selectedSlot = signal<SlotDetail>(null);
+
   @Input()
-  slotDetail: SlotDetail;
+  set slotDetail(value: SlotDetail) {
+    this.selectedSlot.set(value);
+  }
+  get slotDetail(): SlotDetail {
+    return this.selectedSlot();
+  }
 
   @Input()
   canStartTest: boolean;
@@ -97,9 +104,16 @@ export class TestOutcomeComponent implements OnDestroy, OnInit {
   cancelFutureTestModal = new EventEmitter<void>();
 
   startTestAsRekey = false;
-  isTestSlotOnRekeySearch = false;
-  subscription: Subscription;
-  testExistsAsRekey = false;
+  private readonly tests = this.store$.selectSignal(getTests);
+  private readonly rekeySearchState = this.store$.selectSignal(getRekeySearchState);
+  isTestSlotOnRekeySearch = computed(() => {
+    const slot = getBookedTestSlot(this.rekeySearchState());
+    return !isEmpty(slot) && !!this.slotDetail && slot.slotDetail?.slotId === this.slotDetail.slotId;
+  });
+  testExistsAsRekey = computed(() => {
+    const slotId = this.slotDetail?.slotId;
+    return slotId ? getTestById(this.tests(), String(slotId))?.rekey ?? false : false;
+  });
 
   constructor(
     public store$: Store<StoreModel>,
@@ -109,48 +123,6 @@ export class TestOutcomeComponent implements OnDestroy, OnInit {
     private accessibilityService: AccessibilityService,
     public categoryWhitelistProvider: CategoryWhitelistProvider
   ) {}
-
-  ngOnInit() {
-    const bookedTestSlot$ = this.store$.pipe(select(getRekeySearchState), map(getBookedTestSlot));
-    const startedTests$ = this.store$.pipe(select(getTests), map(getStartedTests));
-
-    const merged$ = merge(
-      startedTests$.pipe(
-        map((startedTests: StartedTests) => {
-          const startedTest = this.slotDetail?.slotId ? startedTests?.[this.slotDetail.slotId] : undefined;
-          this.testExistsAsRekey = startedTest?.rekey ?? false;
-        })
-      ),
-      bookedTestSlot$.pipe(
-        map((testSlot: TestSlot) => {
-          if (isEmpty(testSlot)) {
-            this.isTestSlotOnRekeySearch = false;
-            return;
-          }
-
-          if (testSlot?.slotDetail?.slotId === this.slotDetail?.slotId) {
-            this.isTestSlotOnRekeySearch = true;
-          }
-        })
-      )
-    );
-
-    this.subscription = merged$.subscribe();
-  }
-
-  unsubscribe() {
-    if (this.subscription) {
-      this.subscription.unsubscribe();
-    }
-  }
-
-  ionViewDidLeave(): void {
-    this.unsubscribe();
-  }
-
-  ngOnDestroy(): void {
-    this.unsubscribe();
-  }
 
   showOutcome(): boolean {
     return [TestStatus.Completed, TestStatus.Submitted].includes(this.testStatus);
@@ -165,7 +137,7 @@ export class TestOutcomeComponent implements OnDestroy, OnInit {
       return false;
     }
 
-    if (this.isTestSlotOnRekeySearch) {
+    if (this.isTestSlotOnRekeySearch()) {
       return true; // because the test is incomplete AND this is the rekey search
     }
 
@@ -181,7 +153,7 @@ export class TestOutcomeComponent implements OnDestroy, OnInit {
   showStartTestButton(): boolean {
     return (
       (!this.isDelegatedTest && this.testStatus === TestStatus.Booked) ||
-      (this.testStatus !== TestStatus.Booked && this.testExistsAsRekey)
+      (this.testStatus !== TestStatus.Booked && this.testExistsAsRekey())
     );
   }
 
@@ -191,13 +163,13 @@ export class TestOutcomeComponent implements OnDestroy, OnInit {
 
   showResumeButton(): boolean {
     return (
-      (this.testStatus === TestStatus.Started || this.testStatus === TestStatus.Decided) && !this.testExistsAsRekey
+      (this.testStatus === TestStatus.Started || this.testStatus === TestStatus.Decided) && !this.testExistsAsRekey()
     );
   }
 
   showWriteUpButton(): boolean {
     return (
-      (this.testStatus === TestStatus.WriteUp || this.testStatus === TestStatus.Autosaved) && !this.testExistsAsRekey
+      (this.testStatus === TestStatus.WriteUp || this.testStatus === TestStatus.Autosaved) && !this.testExistsAsRekey()
     );
   }
 
@@ -426,8 +398,8 @@ export class TestOutcomeComponent implements OnDestroy, OnInit {
   }
 
   async startOrResumeTestDependingOnStatus() {
-    if (this.testStatus === TestStatus.Booked || this.testExistsAsRekey) {
-      if (this.testExistsAsRekey) {
+    if (this.testStatus === TestStatus.Booked || this.testExistsAsRekey()) {
+      if (this.testExistsAsRekey()) {
         this.store$.dispatch(RemoveTestBySlotId(this.slotDetail.slotId));
       }
       await this.startTest();

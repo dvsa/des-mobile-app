@@ -10,7 +10,6 @@ import { TestResultCatADI3Schema } from '@dvsa/mes-test-schema/categories/ADI3';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { provideBasePageMocks } from '@mocks/test-providers';
 import { Action, Store, StoreModule } from '@ngrx/store';
-import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { LessonThemeComponent } from '@pages/test-report/cat-adi-part3/components/lesson-theme/lesson-theme';
 import { StudentComponent } from '@pages/test-report/cat-adi-part3/components/student/student';
 import { TestReportAssessmentCard } from '@pages/test-report/cat-adi-part3/components/tr-assessment-card/tr-assessment-card';
@@ -46,7 +45,9 @@ describe('TestReportCatADI3Page', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
-        StoreModule.forRoot({}),
+        StoreModule.forRoot({
+          appInfo: () => ({ versionNumber: '4.0' }) as AppInfoStateModel,
+        }),
 
         StoreModule.forFeature('tests', () => ({
           currentTest: {
@@ -85,17 +86,12 @@ describe('TestReportCatADI3Page', () => {
           provide: NavController,
           useClass: NavControllerMock,
         },
-        provideMockStore({
-          initialState: {
-            appInfo: { versionNumber: '4.0' } as AppInfoStateModel,
-          },
-        }),
       ],
     });
 
     fixture = TestBed.createComponent(TestReportCatADI3Page);
     component = fixture.componentInstance;
-    store$ = TestBed.inject(MockStore);
+    store$ = TestBed.inject(Store);
     vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
   });
 
@@ -151,11 +147,9 @@ describe('TestReportCatADI3Page', () => {
     describe('ionViewDidLeave', () => {
       it('should run basePageComponent functions', () => {
         vi.spyOn(TestReportBasePageComponent.prototype, 'ionViewDidLeave').mockReturnValue(undefined);
-        vi.spyOn(TestReportBasePageComponent.prototype, 'cancelSubscription').mockReturnValue(undefined);
         component.ionViewDidLeave();
 
         expect(TestReportBasePageComponent.prototype.ionViewDidLeave).toHaveBeenCalled();
-        expect(TestReportBasePageComponent.prototype.cancelSubscription).toHaveBeenCalled();
       });
     });
     describe('teachingLearningStrategyChanged', () => {

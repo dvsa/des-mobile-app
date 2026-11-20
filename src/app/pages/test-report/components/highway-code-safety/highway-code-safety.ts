@@ -1,6 +1,4 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
-import { Observable, Subscription, merge } from 'rxjs';
-import { map, takeUntil } from 'rxjs/operators';
+import { Component, Input, computed } from '@angular/core';
 
 import { NgClass } from '@angular/common';
 import { DangerousFaultBadgeComponent } from '@components/common/dangerous-fault-badge/dangerous-fault-badge';
@@ -10,9 +8,8 @@ import { TickIndicatorComponent } from '@components/common/tick-indicator/tick-i
 import { CategoryCode } from '@dvsa/mes-test-schema/categories/common';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { IonCol, IonRow } from '@ionic/angular';
-import { Store, select } from '@ngrx/store';
+import { Store } from '@ngrx/store';
 import { TestDataByCategoryProvider } from '@providers/test-data-by-category/test-data-by-category';
-import { trDestroy$ } from '@shared/classes/test-flow-base-pages/test-report/test-report-base-page';
 import { StoreModel } from '@shared/models/store.model';
 import * as highwayCodeSafetyAction from '@store/tests/test-data/common/highway-code-safety/highway-code-safety.actions';
 import { getHighwayCodeSafety } from '@store/tests/test-data/common/highway-code-safety/highway-code-safety.reducer';
@@ -27,15 +24,6 @@ import { ToggleRemoveFaultMode, ToggleSeriousFaultMode } from '../../test-report
 import { getTestReportState } from '../../test-report.reducer';
 import { isDangerousMode, isRemoveFaultMode, isSeriousMode } from '../../test-report.selector';
 import { CompetencyButtonComponent } from '../competency-button/competency-button';
-
-interface HighwayCodeSafetyComponentState {
-  isRemoveFaultMode$: Observable<boolean>;
-  isSeriousMode$: Observable<boolean>;
-  isDangerousMode$: Observable<boolean>;
-  selectedHighwayCodeSafety$: Observable<boolean>;
-  highwayCodeSafetySeriousFault$: Observable<boolean>;
-  highwayCodeSafetyDrivingFault$: Observable<boolean>;
-}
 
 @Component({
   selector: 'highway-code-safety',
@@ -52,77 +40,41 @@ interface HighwayCodeSafetyComponentState {
     DangerousFaultBadgeComponent,
   ],
 })
-export class HighwayCodeSafetyComponent implements OnInit, OnDestroy {
+export class HighwayCodeSafetyComponent {
   @Input()
   testCategory: TestCategory | CategoryCode;
 
-  componentState: HighwayCodeSafetyComponentState;
-  subscription: Subscription;
+  private readonly tests = this.store$.selectSignal(getTests);
+  private readonly currentTest = computed(() => getCurrentTest(this.tests()));
+  private readonly testData = computed(() =>
+    this.testDataByCategoryProvider.getTestDataByCategoryCode(this.testCategory)(this.currentTest())
+  );
+  private readonly highwayCodeSafety = computed(() => getHighwayCodeSafety(this.testData()));
+  private readonly testReportState = this.store$.selectSignal(getTestReportState);
 
-  isRemoveFaultMode = false;
-  isSeriousMode = false;
-  isDangerousMode = false;
-
-  selectedHighwayCodeSafety = false;
-  highwayCodeSafetySeriousFault = false;
-  highwayCodeSafetyDrivingFault = false;
-  merged$: Observable<boolean>;
+  get isRemoveFaultMode(): boolean {
+    return isRemoveFaultMode(this.testReportState());
+  }
+  get isSeriousMode(): boolean {
+    return isSeriousMode(this.testReportState());
+  }
+  get isDangerousMode(): boolean {
+    return isDangerousMode(this.testReportState());
+  }
+  get selectedHighwayCodeSafety(): boolean {
+    return isHighwayCodeSafetySelected(this.highwayCodeSafety());
+  }
+  get highwayCodeSafetySeriousFault(): boolean {
+    return getHighwayCodeSafetySeriousFault(this.highwayCodeSafety());
+  }
+  get highwayCodeSafetyDrivingFault(): boolean {
+    return getHighwayCodeSafetyDrivingFault(this.highwayCodeSafety());
+  }
 
   constructor(
     private store$: Store<StoreModel>,
     private testDataByCategoryProvider: TestDataByCategoryProvider
   ) {}
-
-  ngOnInit(): void {
-    const currentTest$ = this.store$.pipe(select(getTests), select(getCurrentTest));
-
-    this.componentState = {
-      isRemoveFaultMode$: this.store$.pipe(select(getTestReportState), select(isRemoveFaultMode)),
-      isSeriousMode$: this.store$.pipe(select(getTestReportState), select(isSeriousMode)),
-      isDangerousMode$: this.store$.pipe(select(getTestReportState), select(isDangerousMode)),
-      selectedHighwayCodeSafety$: currentTest$.pipe(
-        map((data) => this.testDataByCategoryProvider.getTestDataByCategoryCode(this.testCategory)(data)),
-        select(getHighwayCodeSafety),
-        select(isHighwayCodeSafetySelected)
-      ),
-      highwayCodeSafetySeriousFault$: currentTest$.pipe(
-        map((data) => this.testDataByCategoryProvider.getTestDataByCategoryCode(this.testCategory)(data)),
-        select(getHighwayCodeSafety),
-        select(getHighwayCodeSafetySeriousFault)
-      ),
-      highwayCodeSafetyDrivingFault$: currentTest$.pipe(
-        map((data) => this.testDataByCategoryProvider.getTestDataByCategoryCode(this.testCategory)(data)),
-        select(getHighwayCodeSafety),
-        select(getHighwayCodeSafetyDrivingFault)
-      ),
-    };
-
-    const {
-      isRemoveFaultMode$,
-      isSeriousMode$,
-      isDangerousMode$,
-      selectedHighwayCodeSafety$,
-      highwayCodeSafetySeriousFault$,
-      highwayCodeSafetyDrivingFault$,
-    } = this.componentState;
-
-    this.subscription = merge(
-      isRemoveFaultMode$.pipe(map((toggle) => (this.isRemoveFaultMode = toggle))),
-      isSeriousMode$.pipe(map((toggle) => (this.isSeriousMode = toggle))),
-      isDangerousMode$.pipe(map((toggle) => (this.isDangerousMode = toggle))),
-      selectedHighwayCodeSafety$.pipe(map((value) => (this.selectedHighwayCodeSafety = value))),
-      highwayCodeSafetySeriousFault$.pipe(map((value) => (this.highwayCodeSafetySeriousFault = value))),
-      highwayCodeSafetyDrivingFault$.pipe(map((value) => (this.highwayCodeSafetyDrivingFault = value)))
-    )
-      .pipe(takeUntil(trDestroy$))
-      .subscribe();
-  }
-
-  ngOnDestroy(): void {
-    if (this.subscription) {
-      this.subscription.unsubscribe();
-    }
-  }
 
   onTap = () => {
     this.addOrRemoveFault();

@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { beforeEach, describe, expect, it } from 'vitest';
 
 import { PracticeModeOptionsBar } from '@components/common/practice-mode-options-bar/practice-mode-options-bar';
 import { TestFlowHeaderComponent } from '@components/common/test-flow-header/test-flow-header.component';
@@ -14,12 +14,12 @@ import { ManoeuvresPopoverComponentAdiPart2 } from '@pages/test-report/cat-adi-p
 import { ManoeuvresComponent } from '@pages/test-report/cat-adi-part2/components/manoeuvres/manoeuvres';
 import { VehicleCheckComponent } from '@pages/test-report/cat-adi-part2/components/vehicle-check/vehicle-check';
 import { TestReportCatADI2Page } from '@pages/test-report/cat-adi-part2/test-report.cat-adi-part2.page';
+import { ToggleDangerousFaultMode, ToggleSeriousFaultMode } from '../../test-report.actions';
 
 import { DateTimeProviderMock } from '@providers/date-time/__mocks__/date-time.mock';
 import { DateTimeProvider } from '@providers/date-time/date-time';
 import { TestReportValidatorProviderMock } from '@providers/test-report-validator/__mocks__/test-report-validator.mock';
 import { TestReportValidatorProvider } from '@providers/test-report-validator/test-report-validator';
-import { TestReportBasePageComponent } from '@shared/classes/test-flow-base-pages/test-report/test-report-base-page';
 import { candidateMock } from '@store/tests/__mocks__/tests.mock';
 import { initialState } from '@store/tests/test-data/cat-b/test-data.reducer';
 import { MockComponent } from 'ng-mocks';
@@ -101,28 +101,17 @@ describe('TestReportCatADI2Page', () => {
         expect(fixture.debugElement.query(By.css('.dangerous-mode'))).toBeNull();
       });
       it('should have serious fault mode styles applied when serious mode is enabled', () => {
-        component.isSeriousMode = true;
+        component.store$.dispatch(ToggleSeriousFaultMode());
         fixture.detectChanges();
         expect(fixture.debugElement.query(By.css('.serious-mode'))).toBeDefined();
         expect(fixture.debugElement.query(By.css('.dangerous-mode'))).toBeNull();
       });
       it('should have dangerous fault mode styles applied when dangerous mode is enabled', () => {
-        component.isDangerousMode = true;
+        component.store$.dispatch(ToggleDangerousFaultMode());
         fixture.detectChanges();
         expect(fixture.debugElement.query(By.css('.serious-mode'))).toBeNull();
         expect(fixture.debugElement.query(By.css('.dangerous-mode'))).toBeDefined();
       });
-    });
-  });
-
-  describe('ionViewDidLeave', () => {
-    it('should run basePageComponent functions', () => {
-      vi.spyOn(TestReportBasePageComponent.prototype, 'ionViewDidLeave').mockReturnValue(undefined);
-      vi.spyOn(TestReportBasePageComponent.prototype, 'cancelSubscription').mockReturnValue(undefined);
-      component.ionViewDidLeave();
-
-      expect(TestReportBasePageComponent.prototype.ionViewDidLeave).toHaveBeenCalled();
-      expect(TestReportBasePageComponent.prototype.cancelSubscription).toHaveBeenCalled();
     });
   });
 });

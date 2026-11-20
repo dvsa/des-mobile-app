@@ -28,7 +28,7 @@ import { TestsModel } from '@store/tests/tests.model';
 import { getTests } from '@store/tests/tests.reducer';
 import { getCurrentTest, isPracticeMode } from '@store/tests/tests.selector';
 import { of } from 'rxjs';
-import { concatMap, filter, switchMap, take, withLatestFrom } from 'rxjs/operators';
+import { concatMap, filter, map, withLatestFrom } from 'rxjs/operators';
 
 @Injectable()
 export class AccompanimentAnalyticsEffects {
@@ -50,26 +50,13 @@ export class AccompanimentAnalyticsEffects {
       filter(([, , practiceMode]) =>
         !practiceMode ? true : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics
       ),
-      switchMap(([, tests]: [ReturnType<typeof InstructorAccompanimentToggled>, TestsModel, boolean]) => {
-        this.store$
-          .pipe(
-            select(getTests),
-            select(getCurrentTest),
-            select(getAccompaniment),
-            select(getInstructorAccompaniment),
-            take(1)
-          )
-          .subscribe((value) => {
-            //GA4 Analytics
-            this.analytics.logGAEvent(
-              analyticsEventTypePrefix(GoogleAnalyticsEvents.ACCOMPANIED_BY, tests),
-              value ? GoogleAnalyticsEventsTitles.SELECTION : GoogleAnalyticsEventsTitles.UNSELECTED,
-              GoogleAnalyticsEventsValues.INSTRUCTOR
-            );
-          })
-          .unsubscribe();
-        return of(AnalyticRecorded());
-      })
+      map(([, tests]) =>
+        this.recordAccompaniment(
+          tests,
+          getInstructorAccompaniment(getAccompaniment(getCurrentTest(tests))),
+          GoogleAnalyticsEventsValues.INSTRUCTOR
+        )
+      )
     )
   );
 
@@ -84,26 +71,13 @@ export class AccompanimentAnalyticsEffects {
       filter(([, , practiceMode]) =>
         !practiceMode ? true : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics
       ),
-      switchMap(([, tests]: [ReturnType<typeof SupervisorAccompanimentToggled>, TestsModel, boolean]) => {
-        this.store$
-          .pipe(
-            select(getTests),
-            select(getCurrentTest),
-            select(getAccompaniment),
-            select(getSupervisorAccompaniment),
-            take(1)
-          )
-          .subscribe((value) => {
-            //GA4 Analytics
-            this.analytics.logGAEvent(
-              analyticsEventTypePrefix(GoogleAnalyticsEvents.ACCOMPANIED_BY, tests),
-              value ? GoogleAnalyticsEventsTitles.SELECTION : GoogleAnalyticsEventsTitles.UNSELECTED,
-              GoogleAnalyticsEventsValues.SUPERVISOR
-            );
-          })
-          .unsubscribe();
-        return of(AnalyticRecorded());
-      })
+      map(([, tests]) =>
+        this.recordAccompaniment(
+          tests,
+          getSupervisorAccompaniment(getAccompaniment(getCurrentTest(tests))),
+          GoogleAnalyticsEventsValues.SUPERVISOR
+        )
+      )
     )
   );
 
@@ -118,26 +92,13 @@ export class AccompanimentAnalyticsEffects {
       filter(([, , practiceMode]) =>
         !practiceMode ? true : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics
       ),
-      switchMap(([, tests]: [ReturnType<typeof OtherAccompanimentToggled>, TestsModel, boolean]) => {
-        this.store$
-          .pipe(
-            select(getTests),
-            select(getCurrentTest),
-            select(getAccompaniment),
-            select(getOtherAccompaniment),
-            take(1)
-          )
-          .subscribe((value) => {
-            //GA4 Analytics
-            this.analytics.logGAEvent(
-              analyticsEventTypePrefix(GoogleAnalyticsEvents.ACCOMPANIED_BY, tests),
-              value ? GoogleAnalyticsEventsTitles.SELECTION : GoogleAnalyticsEventsTitles.UNSELECTED,
-              GoogleAnalyticsEventsValues.OTHER
-            );
-          })
-          .unsubscribe();
-        return of(AnalyticRecorded());
-      })
+      map(([, tests]) =>
+        this.recordAccompaniment(
+          tests,
+          getOtherAccompaniment(getAccompaniment(getCurrentTest(tests))),
+          GoogleAnalyticsEventsValues.OTHER
+        )
+      )
     )
   );
 
@@ -152,26 +113,22 @@ export class AccompanimentAnalyticsEffects {
       filter(([, , practiceMode]) =>
         !practiceMode ? true : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics
       ),
-      switchMap(([, tests]: [ReturnType<typeof InterpreterAccompanimentToggled>, TestsModel, boolean]) => {
-        this.store$
-          .pipe(
-            select(getTests),
-            select(getCurrentTest),
-            select(getAccompaniment),
-            select(getInterpreterAccompaniment),
-            take(1)
-          )
-          .subscribe((value) => {
-            //GA4 Analytics
-            this.analytics.logGAEvent(
-              analyticsEventTypePrefix(GoogleAnalyticsEvents.ACCOMPANIED_BY, tests),
-              value ? GoogleAnalyticsEventsTitles.SELECTION : GoogleAnalyticsEventsTitles.UNSELECTED,
-              GoogleAnalyticsEventsValues.INTERPRETER
-            );
-          })
-          .unsubscribe();
-        return of(AnalyticRecorded());
-      })
+      map(([, tests]) =>
+        this.recordAccompaniment(
+          tests,
+          getInterpreterAccompaniment(getAccompaniment(getCurrentTest(tests))),
+          GoogleAnalyticsEventsValues.INTERPRETER
+        )
+      )
     )
   );
+
+  private recordAccompaniment(tests: TestsModel, selected: boolean, value: GoogleAnalyticsEventsValues) {
+    this.analytics.logGAEvent(
+      analyticsEventTypePrefix(GoogleAnalyticsEvents.ACCOMPANIED_BY, tests),
+      selected ? GoogleAnalyticsEventsTitles.SELECTION : GoogleAnalyticsEventsTitles.UNSELECTED,
+      value
+    );
+    return AnalyticRecorded();
+  }
 }

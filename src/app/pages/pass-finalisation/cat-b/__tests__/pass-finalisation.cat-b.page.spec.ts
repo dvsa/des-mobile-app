@@ -1,4 +1,4 @@
-import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, signal } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { RouterModule } from '@angular/router';
@@ -28,7 +28,6 @@ import { ProvisionalLicenseNotReceived } from '@store/tests/pass-completion/pass
 import { PersistTests } from '@store/tests/tests.actions';
 import { TestsModel } from '@store/tests/tests.model';
 import { MockComponent } from 'ng-mocks';
-import { Subscription } from 'rxjs';
 import { PassFinalisationValidationError, PassFinalisationViewDidEnter } from '../../pass-finalisation.actions';
 import { PassFinalisationCatBPage } from '../pass-finalisation.cat-b.page';
 
@@ -133,24 +132,19 @@ describe('PassFinalisationCatBPage', () => {
       providers: [provideBasePageMocks(), provideMockStore({ initialState }), OutcomeBehaviourMapProvider],
     });
 
+    TestBed.overrideTemplate(PassFinalisationCatBPage, '');
     fixture = TestBed.createComponent(PassFinalisationCatBPage);
     component = fixture.componentInstance;
     store$ = TestBed.inject(Store);
     vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
-    component.subscription = new Subscription();
   });
 
   describe('Class', () => {
     describe('ngOnInit', () => {
-      it('should define subscription', () => {
-        component.ngOnInit();
-        expect(component.subscription).toBeDefined();
-      });
       it('should set transmissionCtrl correctly', () => {
         component.form = new UntypedFormGroup({ transmissionCtrl: new UntypedFormControl() });
 
-        component.ngOnInit();
-        component.pageState.transmissionManualRadioChecked$.subscribe();
+        fixture.detectChanges();
 
         expect(component.form.controls.transmissionCtrl.value).toEqual('Manual');
       });
@@ -165,7 +159,7 @@ describe('PassFinalisationCatBPage', () => {
     });
     describe('onSubmit', () => {
       it('should dispatch the ProvisionalLicenseNotReceived action', async () => {
-        component.candidateDriverNumber = '1234567';
+        component.candidateDriverNumber = signal('1234567');
         await component.onSubmit();
         expect(store$.dispatch).toHaveBeenCalledWith(ProvisionalLicenseNotReceived());
       });
@@ -210,15 +204,6 @@ describe('PassFinalisationCatBPage', () => {
     });
     it('should return false if driving licence is Northern Ireland', () => {
       expect(component.isNorthernIreland(UKlicence)).toEqual(false);
-    });
-  });
-
-  describe('ionViewDidLeave', () => {
-    it('should unsubscribe from subscription if there is one', () => {
-      component.subscription = new Subscription();
-      vi.spyOn(component.subscription, 'unsubscribe').mockReturnValue(undefined);
-      component.ionViewDidLeave();
-      expect(component.subscription.unsubscribe).toHaveBeenCalled();
     });
   });
 });

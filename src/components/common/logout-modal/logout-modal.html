@@ -9,7 +9,7 @@
   <ion-row class="ion-justify-content-center">
     <ion-col class="message-container flex-center no-padding message-padding">
       <ion-text id="unsubmitted-warning" class="mes-data ion-text-center">
-        {{ (unuploadedTestCount | async) > 0 ?
+        {{ unuploadedTestCount?.() > 0 ?
           'You have tests that have not been uploaded. If you logout, you will lose these tests.' :
           'All completed tests have been uploaded.'
           }}</ion-text>

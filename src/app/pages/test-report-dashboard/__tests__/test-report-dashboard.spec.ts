@@ -4,7 +4,6 @@ import { FormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { TestFlowHeaderComponent } from '@components/common/test-flow-header/test-flow-header.component';
-import { CatBUniqueTypes } from '@dvsa/mes-test-schema/categories/B';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 
 import { provideBasePageMocks } from '@mocks/test-providers';
@@ -27,9 +26,8 @@ import { TestReportBasePageComponent } from '@shared/classes/test-flow-base-page
 import { StoreModel } from '@shared/models/store.model';
 import { SetActivityCode } from '@store/tests/activity-code/activity-code.actions';
 import { FeedbackChanged, GradeChanged } from '@store/tests/test-data/cat-adi-part3/review/review.actions';
-import { TestsModel } from '@store/tests/tests.model';
+import { testDataCatADI3Reducer } from '@store/tests/test-data/cat-adi-part3/test-data.cat-adi-part3.reducer';
 import { MockComponent } from 'ng-mocks';
-import { Subscription } from 'rxjs';
 
 describe('TestReportDashboardPage', () => {
   let fixture: ComponentFixture<TestReportDashboardPage>;
@@ -45,7 +43,7 @@ describe('TestReportDashboardPage', () => {
       testStatus: {},
       startedTests: {
         123: {
-          category: TestCategory.B,
+          category: TestCategory.ADI3,
           journalData: {
             candidate: {
               candidateName: {
@@ -57,27 +55,10 @@ describe('TestReportDashboardPage', () => {
           communicationPreferences: {
             conductedLanguage: 'English',
           },
-          testData: {
-            ETA: {
-              physical: true,
-            },
-            eco: {
-              completed: true,
-            },
-            seriousFaults: {
-              controlsAccelerator: true,
-            },
-            dangerousFaults: {
-              positioningNormalDriving: true,
-            },
-            drivingFaults: {
-              controlsAccelerator: 1,
-              judgementOvertaking: 1,
-            },
-          },
-        } as CatBUniqueTypes.TestResult,
+          testData: testDataCatADI3Reducer(undefined, { type: '[Test] Initialize ADI3 data' }),
+        },
       },
-    } as TestsModel,
+    },
     testReport: {
       seriousMode: false,
       dangerousMode: false,
@@ -121,31 +102,22 @@ describe('TestReportDashboardPage', () => {
 
   describe('isValidDashboard', () => {
     it('should return true if testReportState is 17 and lessonAndThemeState and form are' + 'both valid', () => {
-      component.testReportState = 17;
-      component.lessonAndThemeState = {
-        valid: true,
-        score: 0,
-      };
+      vi.spyOn(component, 'testReportState').mockReturnValue(17);
+      vi.spyOn(component, 'lessonAndThemeState').mockReturnValue({ valid: true, score: 0 });
       component.form.clearValidators();
       expect(component.isValidDashboard).toEqual(true);
     });
     it('should return false if testReportState is not 17 and lessonAndThemeState and form are' + 'both valid', () => {
-      component.testReportState = 0;
-      component.lessonAndThemeState = {
-        valid: true,
-        score: 0,
-      };
+      vi.spyOn(component, 'testReportState').mockReturnValue(0);
+      vi.spyOn(component, 'lessonAndThemeState').mockReturnValue({ valid: true, score: 0 });
       component.form.clearValidators();
       expect(component.isValidDashboard).toEqual(false);
     });
     it(
       'should return false if testReportState is 17 and lessonAndThemeState is not valid and form is ' + 'valid',
       () => {
-        component.testReportState = 17;
-        component.lessonAndThemeState = {
-          valid: false,
-          score: 0,
-        };
+        vi.spyOn(component, 'testReportState').mockReturnValue(17);
+        vi.spyOn(component, 'lessonAndThemeState').mockReturnValue({ valid: false, score: 0 });
         component.form.clearValidators();
         expect(component.isValidDashboard).toEqual(false);
       }
@@ -153,11 +125,8 @@ describe('TestReportDashboardPage', () => {
     it(
       'should return false if testReportState is 17 and lessonAndThemeState is valid and form is ' + 'not valid',
       () => {
-        component.testReportState = 17;
-        component.lessonAndThemeState = {
-          valid: true,
-          score: 0,
-        };
+        vi.spyOn(component, 'testReportState').mockReturnValue(17);
+        vi.spyOn(component, 'lessonAndThemeState').mockReturnValue({ valid: true, score: 0 });
         component.form = new UntypedFormGroup({
           field: new FormControl(null, Validators.required),
         });
@@ -225,14 +194,14 @@ describe('TestReportDashboardPage', () => {
       'should call empty displayEndTestModal with no data if isTestReportPopulated is false' +
         ' or riskManagement.score is more than 8',
       async () => {
-        vi.spyOn(component, 'displayEndTestModal');
-        component.isTestReportPopulated = false;
-        component.testDataADI3 = {
+        vi.spyOn(component, 'displayEndTestModal').mockResolvedValue(undefined);
+        vi.spyOn(component, 'isTestReportPopulated').mockReturnValue(false);
+        vi.spyOn(component, 'testDataADI3').mockReturnValue({
           lessonPlanning: { score: 10 },
           riskManagement: { score: 10 },
-        };
+        } as any);
         await component.onContinueClick();
-        expect(component.displayEndTestModal).toHaveBeenCalled();
+        expect(component.displayEndTestModal).toHaveBeenCalledExactlyOnceWith();
       }
     );
     it(
@@ -249,11 +218,11 @@ describe('TestReportDashboardPage', () => {
           } as HTMLIonModalElement)
         );
         vi.spyOn(component.modalController, 'dismiss');
-        component.isTestReportPopulated = true;
-        component.testDataADI3 = {
+        vi.spyOn(component, 'isTestReportPopulated').mockReturnValue(true);
+        vi.spyOn(component, 'testDataADI3').mockReturnValue({
           lessonPlanning: { score: 10 },
           riskManagement: { score: 4 },
-        };
+        } as any);
         await component.onContinueClick();
         expect(component.modalController.create).toHaveBeenCalled();
         expect(component.displayEndTestModal).toHaveBeenCalledWith(true);
@@ -261,16 +230,11 @@ describe('TestReportDashboardPage', () => {
     );
   });
   describe('ionViewDidLeave', () => {
-    it('should call basePage functions and unsubscribe from subscription if there is one', () => {
-      component.localSubscription = new Subscription();
+    it('should call basePage leave handler', () => {
       vi.spyOn(TestReportBasePageComponent.prototype, 'ionViewDidLeave').mockReturnValue(undefined);
-      vi.spyOn(TestReportBasePageComponent.prototype, 'cancelSubscription').mockReturnValue(undefined);
-      vi.spyOn(component.localSubscription, 'unsubscribe').mockReturnValue(undefined);
 
       component.ionViewDidLeave();
       expect(TestReportBasePageComponent.prototype.ionViewDidLeave).toHaveBeenCalled();
-      expect(TestReportBasePageComponent.prototype.cancelSubscription).toHaveBeenCalled();
-      expect(component.localSubscription.unsubscribe).toHaveBeenCalled();
     });
   });
   describe('navigateToPage', () => {
@@ -280,8 +244,8 @@ describe('TestReportDashboardPage', () => {
       expect(component.store$.dispatch).toHaveBeenCalledWith(TestReportDashboardNavigateToPage('lessonTheme'));
     });
     it('should call navigateToPage with the correct parameters', async () => {
-      component.testCategory = TestCategory.ADI3;
-      component.testReportState = 16;
+      component.category = TestCategory.ADI3;
+      vi.spyOn(component, 'testReportState').mockReturnValue(16);
       await component.navigateToPage('lessonTheme');
       expect(routeByCategory.navigateToPage).toHaveBeenCalledWith(
         TestFlowPageNames.TEST_REPORT_PAGE,
@@ -325,7 +289,7 @@ describe('TestReportDashboardPage', () => {
         vi.spyOn(component.store$, 'dispatch').mockReturnValue(undefined);
         vi.spyOn(component.router, 'navigate');
 
-        component.isTestReportPopulated = true;
+        vi.spyOn(component, 'isTestReportPopulated').mockReturnValue(true);
         await component.onModalDismiss(ModalEvent.TERMINATE, 'test', true);
 
         expect(component.store$.dispatch).toHaveBeenCalledWith(TerminateTestFromTestReport());
@@ -339,7 +303,7 @@ describe('TestReportDashboardPage', () => {
       async () => {
         vi.spyOn(component.router, 'navigate');
 
-        component.isTestReportPopulated = false;
+        vi.spyOn(component, 'isTestReportPopulated').mockReturnValue(false);
         await component.onModalDismiss(ModalEvent.TERMINATE, 'test', true);
 
         expect(component.router.navigate).toHaveBeenCalledWith([TestFlowPageNames.NON_PASS_FINALISATION_PAGE]);

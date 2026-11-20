@@ -1,4 +1,4 @@
-@if (componentState.hasVehicleChecksFault$ | async) {
+@if (hasVehicleChecksFault()) {
   <ion-card id="vehicle-checks">
     <ion-card-content>
       <ion-grid>
@@ -10,16 +10,16 @@
               >
             </ion-col>
             <ion-col class="down-padding ion-align-items-start">
-              @if (componentState.tellMeQuestionHasFault$ | async) {
+              @if (tellMeQuestionHasFault()) {
                 <div addOrRemoveLangCy id="tell-me-question">
                   {{ 'debrief.tellMeQuestion' | translate }} - {{ 'debrief.incorrect' | translate }}
                 </div>
               }
-              @if (componentState.hasShowMeFault$ | async) {
+              @if (hasShowMeFault()) {
                 <div
                   id="show-me-question"
                   >
-                  @switch (componentState.showMeQuestionOutcome$ | async) {
+                  @switch (showMeQuestionOutcome()) {
                     @case ('DF') {
                       <span addOrRemoveLangCy id="show-me-question-outcome-df">
                         {{ 'debrief.showMeQuestion' | translate }} - {{ 'debrief.incorrect' | translate }}

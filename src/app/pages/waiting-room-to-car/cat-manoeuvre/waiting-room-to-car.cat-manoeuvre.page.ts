@@ -1,9 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, computed } from '@angular/core';
 import { FormsModule, ReactiveFormsModule, UntypedFormGroup } from '@angular/forms';
-import { select } from '@ngrx/store';
-import { Observable } from 'rxjs';
 
-import { AsyncPipe, NgClass } from '@angular/common';
+import { NgClass } from '@angular/common';
 import { OfflineBannerComponent } from '@components/common/offline-banner/offline-banner';
 import { TestFlowHeaderComponent } from '@components/common/test-flow-header/test-flow-header.component';
 import { WarningBannerComponent } from '@components/common/warning-banner/warning-banner';
@@ -22,8 +20,6 @@ import { ClearCandidateLicenceData } from '@pages/candidate-licence/candidate-li
 import { TestFlowPageNames } from '@pages/page-names.constants';
 import { WaitingRoomToCarValidationError } from '@pages/waiting-room-to-car/waiting-room-to-car.actions';
 import { WaitingRoomToCarBasePageComponent } from '@shared/classes/test-flow-base-pages/waiting-room-to-car/waiting-room-to-car-base-page';
-import { getTests } from '@store/tests/tests.reducer';
-import { getCurrentTest } from '@store/tests/tests.selector';
 import { getVehicleDetails } from '@store/tests/vehicle-details/cat-manoeuvres/vehicle-details.cat-manoeuvre.reducer';
 import {
   getNumberOfSeats,
@@ -37,13 +33,6 @@ import { MotNoEvidenceConfirmationComponent } from '../components/mot-components
 import { TestCategoryComponent } from '../components/test-category/test-category';
 import { VehicleRegistrationComponent } from '../components/vehicle-registration/vehicle-registration';
 import { DimensionsComponent } from './components/dimensions/dimensions';
-
-interface CatManoeuvreWaitingRoomToCarPageState {
-  vehicleLength$: Observable<number>;
-  vehicleWidth$: Observable<number>;
-  vehicleHeight$: Observable<number>;
-  numberOfSeats$: Observable<number>;
-}
 
 @Component({
   selector: 'app-waiting-room-to-car-cat-manoeuvre',
@@ -70,12 +59,14 @@ interface CatManoeuvreWaitingRoomToCarPageState {
     IonFooter,
     IonButton,
     IonText,
-    AsyncPipe,
   ],
 })
 export class WaitingRoomToCarCatManoeuvrePage extends WaitingRoomToCarBasePageComponent implements OnInit {
   form: UntypedFormGroup;
-  pageState: CatManoeuvreWaitingRoomToCarPageState;
+  vehicleLength = computed(() => getVehicleLength(getVehicleDetails(this.currentTest())));
+  vehicleWidth = computed(() => getVehicleWidth(getVehicleDetails(this.currentTest())));
+  vehicleHeight = computed(() => getVehicleHeight(getVehicleDetails(this.currentTest())));
+  numberOfSeats = computed(() => getNumberOfSeats(getVehicleDetails(this.currentTest())));
   fullLicenceHeld: boolean = null;
 
   constructor() {
@@ -85,15 +76,6 @@ export class WaitingRoomToCarCatManoeuvrePage extends WaitingRoomToCarBasePageCo
 
   ngOnInit(): void {
     super.onInitialisation();
-
-    const currentTest$ = this.store$.pipe(select(getTests), select(getCurrentTest));
-
-    this.pageState = {
-      vehicleLength$: currentTest$.pipe(select(getVehicleDetails), select(getVehicleLength)),
-      vehicleWidth$: currentTest$.pipe(select(getVehicleDetails), select(getVehicleWidth)),
-      vehicleHeight$: currentTest$.pipe(select(getVehicleDetails), select(getVehicleHeight)),
-      numberOfSeats$: currentTest$.pipe(select(getVehicleDetails), select(getNumberOfSeats)),
-    };
   }
 
   motNoEvidenceCancelled = (): void => {

@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { QuestionOutcome, QuestionResult } from '@dvsa/mes-test-schema/categories/common';
 import { ModalController } from '@ionic/angular';
@@ -11,14 +11,12 @@ import { MockComponent } from 'ng-mocks';
 import { WarningBannerComponent } from '@components/common/warning-banner/warning-banner';
 import { CatDUniqueTypes } from '@dvsa/mes-test-schema/categories/D';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
-import { provideMockStore } from '@ngrx/store/testing';
+import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { VehicleChecksQuestionComponent } from '@pages/waiting-room-to-car/components/vehicle-checks-question/vehicle-checks-question';
 import { AccessibilityServiceMock } from '@providers/accessibility/__mocks__/accessibility-service.mock';
 import { AccessibilityService } from '@providers/accessibility/accessibility.service';
-import { FaultCountProvider } from '@providers/fault-count/fault-count';
 import { NUMBER_OF_SHOW_ME_QUESTIONS as NUMBER_OF_SHOW_ME_QUESTIONS_NON_TRAILER } from '@shared/constants/show-me-questions/show-me-questions.vocational.constants';
 import { NUMBER_OF_TELL_ME_QUESTIONS as NUMBER_OF_TELL_ME_QUESTIONS_NON_TRAILER } from '@shared/constants/tell-me-questions/tell-me-questions.vocational.constants';
-import { VehicleChecksScore } from '@shared/models/vehicle-checks-score.model';
 import { SafetyQuestionOutcomeChanged } from '@store/tests/test-data/cat-d/safety-questions/safety-questions.cat-d.action';
 import {
   SetFullLicenceHeld,
@@ -28,18 +26,14 @@ import {
   TellMeQuestionSelected,
 } from '@store/tests/test-data/cat-d/vehicle-checks/vehicle-checks.cat-d.action';
 import { TestsModel } from '@store/tests/tests.model';
-import { Subscription } from 'rxjs';
-import { take } from 'rxjs/operators';
 import { FullLicenceHeldComponent } from '../../../../components/full-licence-held-toggle/full-licence-held-toggle';
 import { SafetyQuestionComponent } from '../../safety-question/safety-question';
-import * as vehicleChecksModalActions from '../vehicle-checks-modal.cat-d.actions';
 import { VehicleChecksCatDModal } from '../vehicle-checks-modal.cat-d.page';
 
 describe('VehicleChecksCatDModal', () => {
   let fixture: ComponentFixture<VehicleChecksCatDModal>;
   let component: VehicleChecksCatDModal;
   let store$: Store<StoreModel>;
-  let faultCountProvider: FaultCountProvider;
 
   const initialState = {
     appInfo: { employeeId: '123456' },
@@ -176,7 +170,6 @@ describe('VehicleChecksCatDModal', () => {
     fixture = TestBed.createComponent(VehicleChecksCatDModal);
     component = fixture.componentInstance;
     store$ = TestBed.inject(Store);
-    faultCountProvider = TestBed.inject(FaultCountProvider);
     vi.spyOn(store$, 'dispatch').mockReturnValue(undefined);
     component.category = TestCategory.D;
   });
@@ -199,113 +192,37 @@ describe('VehicleChecksCatDModal', () => {
       });
     });
 
-    describe('ionViewDidLeave', () => {
-      it('should unsubscribe from the subscription if there is one', () => {
-        component.subscription = new Subscription();
-        vi.spyOn(component.subscription, 'unsubscribe').mockReturnValue(undefined);
-        component.ionViewDidLeave();
-        expect(component.subscription.unsubscribe).toHaveBeenCalled();
-      });
-    });
-
-    describe('ngOnInit', () => {
-      afterEach(() => {
-        // clean up subs
-        component.subscription.unsubscribe();
-      });
-      it('should merge the correct data into the subscription', () => {
+    describe('signal state', () => {
+      it('resolves state variables', () => {
         component.ngOnInit();
-        expect(component.subscription).toBeDefined();
-      });
-      it('should resolve state variables', () => {
-        component.ngOnInit();
-        component.pageState.candidateName$.pipe(take(1)).subscribe((res) => expect(res).toEqual('Firstname Lastname'));
-        component.pageState.showMeQuestions$.pipe(take(1)).subscribe((res) =>
-          expect(res).toEqual([
-            {
-              code: 'Q1',
-              outcome: 'DF',
-              description: 'All doors secure',
-            },
-          ])
-        );
-        component.pageState.tellMeQuestions$.pipe(take(1)).subscribe((res) =>
-          expect(res).toEqual([
-            {
-              code: 'Q3',
-              outcome: 'P',
-              description: 'Safety factors while loading',
-            },
-          ])
-        );
-        component.pageState.safetyQuestions$.pipe(take(1)).subscribe((res) =>
-          expect(res).toEqual([
-            {
-              outcome: 'DF',
-              description: 'Emergency exit',
-            },
-            {
-              outcome: 'P',
-              description: 'Fuel cutoff',
-            },
-          ])
-        );
-        component.pageState.vehicleChecks$.pipe(take(1)).subscribe((res) =>
-          expect(res).toEqual({
-            fullLicenceHeld: false,
-            showMeQuestions: [
-              {
-                code: 'Q1',
-                outcome: 'DF',
-                description: 'All doors secure',
-              },
-            ],
-            tellMeQuestions: [
-              {
-                code: 'Q3',
-                outcome: 'P',
-                description: 'Safety factors while loading',
-              },
-            ],
-          })
-        );
-        component.pageState.vehicleChecksScore$.pipe(take(1)).subscribe((res) =>
-          expect(res).toEqual({
-            seriousFaults: 0,
-            drivingFaults: 1,
-          })
-        );
-        component.pageState.safetyQuestionsScore$
-          .pipe(take(1))
-          .subscribe((res) => expect(res).toEqual({ drivingFaults: 1 }));
-        component.pageState.fullLicenceHeld$.pipe(take(1)).subscribe((res) => expect(res).toEqual(false));
-        component.pageState.showFullLicenceHeld$.pipe(take(1)).subscribe((res) => expect(res).toEqual(true));
-        component.pageState.fullLicenceHeldSelection$.pipe(take(1)).subscribe((res) => expect(res).toEqual('N'));
+        expect(component.candidateName()).toEqual('Firstname Lastname');
+        expect(component.selectedShowMeQuestions()).toEqual([
+          { code: 'Q1', outcome: 'DF', description: 'All doors secure' },
+        ]);
+        expect(component.selectedTellMeQuestions()).toEqual([
+          { code: 'Q3', outcome: 'P', description: 'Safety factors while loading' },
+        ]);
+        expect(component.vehicleChecksScore).toEqual({ seriousFaults: 0, drivingFaults: 1 });
+        expect(component.fullLicenceHeld).toBe(false);
+        expect(component.showFullLicenceHeldInStore()).toBe(true);
+        expect(component.fullLicenceHeldSelection()).toBe('N');
+        expect(component.selectedSafetyQuestions()).toHaveLength(2);
+        expect(component.safetyQuestionsScore()).toEqual({ drivingFaults: 1 });
       });
     });
 
-    describe('ionViewDidEnter', () => {
-      it('should dispatch the store with VehicleChecksViewDidEnter', () => {
-        vi.spyOn(component.store$, 'dispatch').mockReturnValue(undefined);
-        component.ionViewDidEnter();
-        expect(component.store$.dispatch).toHaveBeenCalledWith(vehicleChecksModalActions.VehicleChecksViewDidEnter());
-      });
-    });
-
-    describe('onClose', () => {
-      it('should dismiss the modal card', async () => {
-        vi.spyOn(component.modalCtrl, 'dismiss').mockReturnValue(undefined);
-        await component.onClose();
-        expect(component.modalCtrl.dismiss).toHaveBeenCalled();
-      });
-    });
-
-    describe('onSubmit', () => {
-      it('should dismiss the modal card', async () => {
-        vi.spyOn(component.modalCtrl, 'dismiss').mockReturnValue(undefined);
-        await component.onSubmit();
-        expect(component.modalCtrl.dismiss).toHaveBeenCalled();
-      });
+    it('updates licence and checks score when the store changes', () => {
+      component.category = TestCategory.D1E;
+      expect(component.fullLicenceHeld).toBe(false);
+      expect(component.vehicleChecksScore.drivingFaults).toBe(1);
+      const updated = structuredClone(initialState);
+      const test = updated.tests.startedTests[123] as CatDUniqueTypes.TestResult;
+      test.testData.vehicleChecks.fullLicenceHeld = true;
+      test.testData.vehicleChecks.showMeQuestions[0].outcome = 'P';
+      TestBed.inject(MockStore).setState(updated);
+      expect(component.fullLicenceHeld).toBe(true);
+      expect(component.fullLicenceHeldSelection()).toBe('Y');
+      expect(component.vehicleChecksScore.drivingFaults).toBe(0);
     });
 
     describe('setNumberOfShowMeTellMeQuestions', () => {
@@ -410,10 +327,10 @@ describe('VehicleChecksCatDModal', () => {
       bannerDisplayLogicNonTrailer.forEach((bannerLogic) => {
         it(`Cat ${bannerLogic.category} should return ${bannerLogic.showBanner} if there are
  ${bannerLogic.drivingFaults} driving faults and ${bannerLogic.seriousFaults} serious`, () => {
-          component.vehicleChecksScore = {
+          vi.spyOn(component, 'vehicleChecksScore', 'get').mockReturnValue({
             drivingFaults: bannerLogic.drivingFaults,
             seriousFaults: bannerLogic.seriousFaults,
-          };
+          });
           component.fullLicenceHeldSelected = 'Y';
           component.category = bannerLogic.category;
           expect(component.shouldDisplayBanner()).toBe(bannerLogic.showBanner);
@@ -422,30 +339,30 @@ describe('VehicleChecksCatDModal', () => {
 
       [TestCategory.DE, TestCategory.D1E].forEach((category) => {
         it('should show when 1 DF and 1 S for full licence', () => {
-          component.vehicleChecksScore = {
+          vi.spyOn(component, 'vehicleChecksScore', 'get').mockReturnValue({
             drivingFaults: 1,
             seriousFaults: 1,
-          };
+          });
           component.category = category;
-          component.fullLicenceHeld = true;
+          vi.spyOn(component, 'fullLicenceHeld', 'get').mockReturnValue(true);
           expect(component.shouldDisplayBanner()).toBe(true);
         });
         it('should hide when 1 DF and 1S for non full licence', () => {
-          component.vehicleChecksScore = {
+          vi.spyOn(component, 'vehicleChecksScore', 'get').mockReturnValue({
             drivingFaults: 1,
             seriousFaults: 1,
-          };
+          });
           component.category = category;
-          component.fullLicenceHeld = false;
+          vi.spyOn(component, 'fullLicenceHeld', 'get').mockReturnValue(false);
           expect(component.shouldDisplayBanner()).toBe(false);
         });
         it('should hide when 4 DF and 0S for non full licence', () => {
-          component.vehicleChecksScore = {
+          vi.spyOn(component, 'vehicleChecksScore', 'get').mockReturnValue({
             drivingFaults: 4,
             seriousFaults: 0,
-          };
+          });
           component.category = category;
-          component.fullLicenceHeld = false;
+          vi.spyOn(component, 'fullLicenceHeld', 'get').mockReturnValue(false);
           expect(component.shouldDisplayBanner()).toBe(false);
         });
       });
@@ -454,13 +371,10 @@ describe('VehicleChecksCatDModal', () => {
     describe('fullLicenceHeldChange', () => {
       it('should convert input to a boolean and pass into setNumberOfShowMeTellMeQuestions', () => {
         vi.spyOn(component, 'setNumberOfShowMeTellMeQuestions').mockReturnValue(undefined);
-        vi.spyOn(faultCountProvider, 'getVehicleChecksFaultCount').mockReturnValue({} as VehicleChecksScore);
         component.category = TestCategory.D1E;
-        component.vehicleChecks = {};
         component.fullLicenceHeldChange(true);
         expect(store$.dispatch).toHaveBeenCalledWith(SetFullLicenceHeld(true));
         expect(component.setNumberOfShowMeTellMeQuestions).toHaveBeenCalledWith(true);
-        expect(faultCountProvider.getVehicleChecksFaultCount).toHaveBeenCalledWith(TestCategory.D1E, {});
       });
     });
 

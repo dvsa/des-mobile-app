@@ -1,4 +1,4 @@
-import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, signal } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { RouterModule } from '@angular/router';
@@ -30,7 +30,6 @@ import {
 import { StartTimeChanged } from '@store/tests/test-data/cat-adi-part3/start-time/start-time.actions';
 import { TestsModel } from '@store/tests/tests.model';
 import { MockComponent } from 'ng-mocks';
-import { Subscription } from 'rxjs';
 import { PassFinalisationCatADIPart3Page } from '../pass-finalisation.cat-adi-part3.page';
 
 describe('PassFinalisationCatADIPart3Page', () => {
@@ -147,9 +146,9 @@ describe('PassFinalisationCatADIPart3Page', () => {
     describe('ngOnInit', () => {
       it('should resolve state variables', () => {
         component.ngOnInit();
-        component.pageState.isStandardsCheck$.subscribe((res) => expect(res).toEqual(true));
-        component.pageState.testStartTime$.subscribe((res) => expect(res).toEqual('1111-01-01T01:01:01'));
-        component.pageState.testEndTime$.subscribe((res) => expect(res).toEqual('4444-04-04T04:44:44'));
+        expect(component.isStandardsCheck()).toEqual(true);
+        expect(component.testStartTime()).toEqual('1111-01-01T01:01:01');
+        expect(component.testEndTime()).toEqual('4444-04-04T04:44:44');
       });
 
       it('should default standards check end time to now plus 45 minutes when none exists', () => {
@@ -164,19 +163,10 @@ describe('PassFinalisationCatADIPart3Page', () => {
 
         component.ngOnInit();
 
-        component.pageState.testEndTime$.subscribe((res) => expect(res).toEqual('mock-end-time'));
+        expect(component.testEndTime()).toEqual('mock-end-time');
         expect(DateTime.prototype.add).toHaveBeenCalledWith(45, 'minute');
 
         testResult.testData.endTime = originalEndTime;
-      });
-    });
-
-    describe('ionViewDidLeave', () => {
-      it('should unsubscribe from the subscription if there is one', () => {
-        component.subscription = new Subscription();
-        vi.spyOn(component.subscription, 'unsubscribe').mockReturnValue(undefined);
-        component.ionViewDidLeave();
-        expect(component.subscription.unsubscribe).toHaveBeenCalled();
       });
     });
 
@@ -214,7 +204,7 @@ describe('PassFinalisationCatADIPart3Page', () => {
     describe('onSubmit', () => {
       it('should call adviceReasonChanged with null if form is valid and furtherDevelopment is true', () => {
         component.form.clearValidators();
-        component.furtherDevelopment = true;
+        component.furtherDevelopment = signal(true);
         vi.spyOn(component, 'adviceReasonChanged').mockReturnValue(undefined);
         component.onSubmit();
 

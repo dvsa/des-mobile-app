@@ -1,13 +1,9 @@
-import { AsyncPipe, NgClass } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { NgClass } from '@angular/common';
+import { Component, OnInit, computed } from '@angular/core';
 import { FormsModule, ReactiveFormsModule, UntypedFormGroup } from '@angular/forms';
 import { OfflineBannerComponent } from '@components/common/offline-banner/offline-banner';
 import { TestFlowHeaderComponent } from '@components/common/test-flow-header/test-flow-header.component';
 import { WarningBannerComponent } from '@components/common/warning-banner/warning-banner';
-import { CatFUniqueTypes } from '@dvsa/mes-test-schema/categories/F';
-import { CatGUniqueTypes } from '@dvsa/mes-test-schema/categories/G';
-import { CatHUniqueTypes } from '@dvsa/mes-test-schema/categories/H';
-import { CatKUniqueTypes } from '@dvsa/mes-test-schema/categories/K';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import {
   IonButton,
@@ -20,13 +16,10 @@ import {
   IonText,
   IonToolbar,
 } from '@ionic/angular';
-import { select } from '@ngrx/store';
 import { ClearCandidateLicenceData } from '@pages/candidate-licence/candidate-licence.actions';
 import { TestFlowPageNames } from '@pages/page-names.constants';
 import { WaitingRoomToCarValidationError } from '@pages/waiting-room-to-car/waiting-room-to-car.actions';
 import { WaitingRoomToCarBasePageComponent } from '@shared/classes/test-flow-base-pages/waiting-room-to-car/waiting-room-to-car-base-page';
-import { VehicleChecksScore } from '@shared/models/vehicle-checks-score.model';
-import { getTestCategory } from '@store/tests/category/category.reducer';
 import { getPreTestDeclarations } from '@store/tests/pre-test-declarations/pre-test-declarations.reducer';
 import {
   getCandidateDeclarationSignedStatus,
@@ -36,11 +29,7 @@ import {
 import { getTestData } from '@store/tests/test-data/cat-home/test-data.cat-h.reducer';
 import { getVehicleChecksCatHomeTest } from '@store/tests/test-data/cat-home/vehicle-checks/vehicle-checks.cat-home.selector';
 import { EyesightTestReset } from '@store/tests/test-data/common/eyesight-test/eyesight-test.actions';
-import { getTests } from '@store/tests/tests.reducer';
-import { getCurrentTest } from '@store/tests/tests.selector';
 import { MotEvidenceProvidedReset } from '@store/tests/vehicle-details/vehicle-details.actions';
-import { Observable } from 'rxjs';
-import { map, withLatestFrom } from 'rxjs/operators';
 import { AccompanimentCardComponent } from '../components/accompaniment-card/accompaniment-card';
 import { EyesightFailureConfirmationComponent } from '../components/eyesight-failure-confirmation/eyesight-failure-confirmation';
 import { EyesightTestComponent } from '../components/eyesight-test/eyesight-test';
@@ -48,20 +37,6 @@ import { MotNoEvidenceConfirmationComponent } from '../components/mot-components
 import { TestCategoryComponent } from '../components/test-category/test-category';
 import { VehicleChecksComponent } from '../components/vehicle-checks/vehicle-checks';
 import { VehicleRegistrationComponent } from '../components/vehicle-registration/vehicle-registration';
-
-interface CatHomeWaitingRoomToCarPageState {
-  candidateDeclarationSigned$: Observable<boolean>;
-  insuranceDeclarationAccepted$: Observable<boolean>;
-  residencyDeclarationAccepted$: Observable<boolean>;
-  vehicleChecksScore$: Observable<VehicleChecksScore>;
-  vehicleChecks$: Observable<HomeCatVehicleChecksUnion>;
-}
-
-type HomeCatVehicleChecksUnion =
-  | CatFUniqueTypes.VehicleChecks
-  | CatGUniqueTypes.VehicleChecks
-  | CatHUniqueTypes.VehicleChecks
-  | CatKUniqueTypes.VehicleChecks;
 
 @Component({
   selector: 'app-waiting-room-to-car-cat-home-test',
@@ -90,12 +65,23 @@ type HomeCatVehicleChecksUnion =
     IonFooter,
     IonButton,
     IonText,
-    AsyncPipe,
   ],
 })
 export class WaitingRoomToCarCatHomeTestPage extends WaitingRoomToCarBasePageComponent implements OnInit {
   form: UntypedFormGroup;
-  pageState: CatHomeWaitingRoomToCarPageState;
+  insuranceDeclarationAccepted = computed(() =>
+    getInsuranceDeclarationStatus(getPreTestDeclarations(this.currentTest()))
+  );
+  residencyDeclarationAccepted = computed(() =>
+    getResidencyDeclarationStatus(getPreTestDeclarations(this.currentTest()))
+  );
+  candidateDeclarationSigned = computed(() =>
+    getCandidateDeclarationSignedStatus(getPreTestDeclarations(this.currentTest()))
+  );
+  vehicleChecks = computed(() => getVehicleChecksCatHomeTest(getTestData(this.currentTest())));
+  vehicleChecksScore = computed(() =>
+    this.faultCountProvider.getVehicleChecksFaultCount(this.category() as TestCategory, this.vehicleChecks())
+  );
   submitClicked: boolean;
 
   constructor() {
@@ -105,32 +91,6 @@ export class WaitingRoomToCarCatHomeTestPage extends WaitingRoomToCarBasePageCom
 
   ngOnInit(): void {
     super.onInitialisation();
-
-    const currentTest$ = this.store$.pipe(select(getTests), select(getCurrentTest));
-
-    this.pageState = {
-      insuranceDeclarationAccepted$: currentTest$.pipe(
-        select(getPreTestDeclarations),
-        select(getInsuranceDeclarationStatus)
-      ),
-      residencyDeclarationAccepted$: currentTest$.pipe(
-        select(getPreTestDeclarations),
-        select(getResidencyDeclarationStatus)
-      ),
-      candidateDeclarationSigned$: currentTest$.pipe(
-        select(getPreTestDeclarations),
-        select(getCandidateDeclarationSignedStatus)
-      ),
-      vehicleChecks$: currentTest$.pipe(select(getTestData), select(getVehicleChecksCatHomeTest)),
-      vehicleChecksScore$: currentTest$.pipe(
-        select(getTestData),
-        select(getVehicleChecksCatHomeTest),
-        withLatestFrom(currentTest$.pipe(select(getTestCategory))),
-        map(([vehicleChecks, category]) =>
-          this.faultCountProvider.getVehicleChecksFaultCount(category as TestCategory, vehicleChecks)
-        )
-      ),
-    };
   }
 
   motNoEvidenceCancelled = (): void => {
