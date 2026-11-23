@@ -280,12 +280,15 @@ describe('TestsEffects', () => {
         // ACT
         actions$.next(testsActions.StartTest(1001, TestCategory.B));
         // ASSERT
-        effects.startTestEffect$.pipe(bufferCount(13)).subscribe(([, res1, , , , , , res7, res8, res9]) => {
+        effects.startTestEffect$.pipe(bufferCount(14)).subscribe((results) => {
           try {
-            expect(res1).toEqual(PopulateExaminer(examiner));
-            expect(res7).toEqual(SetExaminerBooked(Number.parseInt(examiner.staffNumber, 10)));
-            expect(res8).toEqual(SetExaminerConducted(Number.parseInt(examiner.staffNumber, 10)));
-            expect(res9).toEqual(SetExaminerKeyed(Number.parseInt(authenticationProviderMock.getEmployeeId(), 10)));
+            expect(results).toContainEqual(PopulateExaminer(examiner));
+            expect(results).toContainEqual(SetExaminerBooked(Number.parseInt(examiner.staffNumber, 10)));
+            expect(results).toContainEqual(SetExaminerConducted(Number.parseInt(examiner.staffNumber, 10)));
+            expect(results).toContainEqual(
+              SetExaminerKeyed(Number.parseInt(authenticationProviderMock.getEmployeeId(), 10))
+            );
+            expect(results).toContainEqual(testStatusActions.SetTestStatusStarted('1001'));
             done();
           } catch (error) {
             reject(error);
@@ -316,20 +319,21 @@ describe('TestsEffects', () => {
         // ACT
         actions$.next(testsActions.StartTest(1001, TestCategory.B, true));
         // ASSERT
-        effects.startTestEffect$
-          .pipe(bufferCount(14))
-          .subscribe(([, res1, , , , , , res7, res8, res9, , , , res13]) => {
-            try {
-              expect(res1).toEqual(PopulateExaminer(examiner));
-              expect(res7).toEqual(SetExaminerBooked(Number.parseInt(examiner.staffNumber, 10)));
-              expect(res8).toEqual(SetExaminerConducted(Number.parseInt(examiner.staffNumber, 10)));
-              expect(res9).toEqual(SetExaminerKeyed(Number.parseInt(authenticationProviderMock.getEmployeeId(), 10)));
-              expect(res13).toEqual(rekeyActions.MarkAsRekey());
-              done();
-            } catch (error) {
-              reject(error);
-            }
-          }, reject);
+        effects.startTestEffect$.pipe(bufferCount(14)).subscribe((results) => {
+          try {
+            expect(results).toContainEqual(PopulateExaminer(examiner));
+            expect(results).toContainEqual(SetExaminerBooked(Number.parseInt(examiner.staffNumber, 10)));
+            expect(results).toContainEqual(SetExaminerConducted(Number.parseInt(examiner.staffNumber, 10)));
+            expect(results).toContainEqual(
+              SetExaminerKeyed(Number.parseInt(authenticationProviderMock.getEmployeeId(), 10))
+            );
+            expect(results).toContainEqual(rekeyActions.MarkAsRekey());
+            expect(results).toContainEqual(testStatusActions.SetTestStatusStarted('1001'));
+            done();
+          } catch (error) {
+            reject(error);
+          }
+        }, reject);
       });
     });
 
@@ -341,23 +345,26 @@ describe('TestsEffects', () => {
         // ACT
         actions$.next(testsActions.StartTest(1001, testSlot.booking.application.testCategory as TestCategory, true));
         // ASSERT
-        effects.startTestEffect$
-          .pipe(bufferCount(14))
-          .subscribe(([res0, res1, res2, res3, , , , res7, res8, res9, , , , res13]) => {
-            try {
-              expect(res0).toEqual(PopulateTestCategory(testSlot.booking.application.testCategory as CategoryCode));
-              expect(res1).toEqual(PopulateExaminer({ staffNumber }));
-              expect(res2).toEqual(PopulateApplicationReference(testSlot.booking.application));
-              expect(res3).toEqual(PopulateCandidateDetails(testSlot.booking.candidate));
-              expect(res7).toEqual(SetExaminerBooked(Number.parseInt(staffNumber, 10)));
-              expect(res8).toEqual(SetExaminerConducted(Number.parseInt(staffNumber, 10)));
-              expect(res9).toEqual(SetExaminerKeyed(Number.parseInt(authenticationProviderMock.getEmployeeId(), 10)));
-              expect(res13).toEqual(rekeyActions.MarkAsRekey());
-              done();
-            } catch (error) {
-              reject(error);
-            }
-          }, reject);
+        effects.startTestEffect$.pipe(bufferCount(14)).subscribe((results) => {
+          try {
+            expect(results).toContainEqual(
+              PopulateTestCategory(testSlot.booking.application.testCategory as CategoryCode)
+            );
+            expect(results).toContainEqual(PopulateExaminer({ staffNumber }));
+            expect(results).toContainEqual(PopulateApplicationReference(testSlot.booking.application));
+            expect(results).toContainEqual(PopulateCandidateDetails(testSlot.booking.candidate));
+            expect(results).toContainEqual(SetExaminerBooked(Number.parseInt(staffNumber, 10)));
+            expect(results).toContainEqual(SetExaminerConducted(Number.parseInt(staffNumber, 10)));
+            expect(results).toContainEqual(
+              SetExaminerKeyed(Number.parseInt(authenticationProviderMock.getEmployeeId(), 10))
+            );
+            expect(results).toContainEqual(rekeyActions.MarkAsRekey());
+            expect(results).toContainEqual(testStatusActions.SetTestStatusStarted('1001'));
+            done();
+          } catch (error) {
+            reject(error);
+          }
+        }, reject);
       });
     });
 
@@ -369,13 +376,12 @@ describe('TestsEffects', () => {
         // ACT
         actions$.next(testsActions.StartTest(1001, TestCategory.B, false, true));
         // ASSERT
-        effects.startTestEffect$
-          .pipe(bufferCount(17))
-          .subscribe(([, , , , , , , , , , , , , , res13, res14, res15]) => {
-            expect(res13).toEqual(StartDelegatedTest());
-            expect(res14).toEqual(OtherSelected(true));
-            expect(res15).toEqual(OtherReasonUpdated('Delegated Examiner'));
-          });
+        effects.startTestEffect$.pipe(bufferCount(17)).subscribe((results) => {
+          expect(results).toContainEqual(StartDelegatedTest());
+          expect(results).toContainEqual(OtherSelected(true));
+          expect(results).toContainEqual(OtherReasonUpdated('Delegated Examiner'));
+          expect(results).toContainEqual(testStatusActions.SetTestStatusStarted('1001'));
+        });
       } finally {
         vi.useRealTimers();
       }

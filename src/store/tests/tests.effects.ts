@@ -255,7 +255,6 @@ export class TestsEffects {
             createPopulateCandidateDetailsAction(startTestAction.category, slot.booking),
             PopulateTestSlotAttributes(testSlotAttributes),
             PopulateTestCentre(extractTestCentre(slot)),
-            testStatusActions.SetTestStatusStarted(startTestAction.slotId.toString()),
             SetExaminerBooked(Number.parseInt(examinerBooked, 10) ? Number.parseInt(examinerBooked, 10) : null),
             SetExaminerConducted(Number.parseInt(examinerBooked, 10) ? Number.parseInt(examinerBooked, 10) : null),
             SetExaminerKeyed(Number.parseInt(examinerKeyed, 10) ? Number.parseInt(examinerKeyed, 10) : null),
@@ -288,6 +287,8 @@ export class TestsEffects {
             arrayOfActions.push(OtherSelected(true));
             arrayOfActions.push(OtherReasonUpdated('Delegated Examiner'));
           }
+
+          arrayOfActions.push(testStatusActions.SetTestStatusStarted(startTestAction.slotId.toString()));
 
           if (
             startTestAction.category === TestCategory.C ||
