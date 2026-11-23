@@ -1,7 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { Action, Store, StoreModule } from '@ngrx/store';
-import * as testStatusActions from '@store/tests/test-status/test-status.actions';
 import * as testsActions from '@store/tests/tests.actions';
 import { ReplaySubject } from 'rxjs';
 import { beforeEach, describe, expect, it } from 'vitest';
@@ -34,12 +33,9 @@ describe('CommunicationEffects', () => {
   });
 
   describe('submitCommunicationInfoEffect', () => {
-    it('should return SET_STATUS_DECIDED & PERSIST_TESTS actions', () => {
+    it('should return PERSIST_TESTS action', () => {
       actions$.next(communicationActions.CommunicationSubmitInfo());
       effects.communicationSubmitInfoEffect$.subscribe((result) => {
-        if (result.type === testStatusActions.SetTestStatusStarted.type) {
-          expect(result.type).toEqual(testStatusActions.SetTestStatusStarted(currentSlotId).type);
-        }
         if (result.type === testsActions.PersistTests.type) {
           expect(result.type).toEqual(testsActions.PersistTests().type);
         }
