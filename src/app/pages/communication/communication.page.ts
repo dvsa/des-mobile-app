@@ -1,4 +1,4 @@
-import { AsyncPipe, NgClass } from '@angular/common';
+import { NgClass } from '@angular/common';
 import { Component, OnInit, inject } from '@angular/core';
 import { FormsModule, ReactiveFormsModule, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { CandidateSectionComponent } from '@components/common/candidate-section/candidate-section';
@@ -68,7 +68,6 @@ import { ValidCertificateComponent } from './components/valid-certificate/valid-
     ProvidedEmailComponent,
     NewEmailComponent,
     PostalAddressComponent,
-    AsyncPipe,
     TranslatePipe,
   ],
 })
@@ -229,15 +228,11 @@ export class CommunicationPage extends PracticeableBasePageComponent implements 
   }
 
   initialiseDefaultSelections() {
-    this.communicationType = CommunicationPage.email;
     if (this.candidateProvidedEmail()) {
-      this.emailType = CommunicationPage.providedEmail;
       this.form.controls.radioCtrl.setValue(true);
       this.dispatchCandidateChoseProvidedEmail();
-    }
-
-    if (!this.candidateProvidedEmail) {
-      this.emailType = CommunicationPage.updatedEmail;
+    } else {
+      this.setCommunicationType(CommunicationPage.email, CommunicationPage.updatedEmail);
       this.form.controls.radioCtrl.setValue(true);
     }
   }

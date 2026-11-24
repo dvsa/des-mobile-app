@@ -1,4 +1,4 @@
-import { AsyncPipe, DatePipe, NgClass } from '@angular/common';
+import { DatePipe, NgClass } from '@angular/common';
 import { Component, OnInit, Signal, computed, effect } from '@angular/core';
 import { DataRowCustomComponent } from '@components/common/data-row-custom/data-row-custom';
 import { DataRowComponent } from '@components/common/data-row/data-row';
@@ -105,7 +105,6 @@ enum D255 {
     IonCol,
     IonButton,
     IonText,
-    AsyncPipe,
     DatePipe,
   ],
 })

@@ -1,4 +1,4 @@
-import { AsyncPipe, NgClass } from '@angular/common';
+import { NgClass } from '@angular/common';
 import { Component, OnInit, Signal, computed, effect } from '@angular/core';
 import { FormsModule, ReactiveFormsModule, UntypedFormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
@@ -115,7 +115,6 @@ import { TestFinalisationInvalidTestDataModal } from '../test-report/components/
     IonCol,
     IonButton,
     IonText,
-    AsyncPipe,
   ],
 })
 export class NonPassFinalisationPage extends PracticeableBasePageComponent implements OnInit {

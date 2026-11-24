@@ -30,7 +30,7 @@ import { selectRekey } from '@store/tests/rekey/rekey.selector';
 import { selectJournalData } from '@store/tests/tests.selector';
 import { isEmpty } from 'lodash-es';
 
-import { AsyncPipe, NgClass } from '@angular/common';
+import { NgClass } from '@angular/common';
 import { CandidateSectionComponent } from '@components/common/candidate-section/candidate-section';
 import { LockScreenIndicator } from '@components/common/screen-lock-indicator/lock-screen-indicator';
 import { SignatureComponent } from '@components/common/signature/signature';
@@ -86,7 +86,6 @@ import * as waitingRoomActions from './waiting-room.actions';
     InsuranceDeclarationComponent,
     ResidencyDeclarationComponent,
     SignatureComponent,
-    AsyncPipe,
     TranslatePipe,
   ],
 })

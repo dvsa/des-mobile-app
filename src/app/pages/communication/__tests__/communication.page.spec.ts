@@ -259,6 +259,19 @@ describe('CommunicationPage', () => {
 
       expect(component.dispatchCandidateChoseProvidedEmail).toHaveBeenCalled();
     });
+
+    it('should select and require a new email when no booking email is provided', () => {
+      component.candidateProvidedEmail = signal('');
+      fixture.detectChanges();
+
+      component.initialiseDefaultSelections();
+
+      expect(component.isNewEmailSelected()).toBe(true);
+      expect(component.form.controls.newEmailCtrl.hasError('required')).toBe(true);
+      expect(store$.dispatch).not.toHaveBeenCalledWith(
+        communicationPreferencesActions.CandidateChoseEmailAsCommunicationPreference('', CommunicationPage.email)
+      );
+    });
   });
 
   describe('assertEmailType', () => {
@@ -314,6 +327,36 @@ describe('CommunicationPage', () => {
   });
 
   describe('DOM', () => {
+    it('renders and selects the booking email when one is provided', () => {
+      component.communicationType = CommunicationPage.notProvided;
+      component.communicationEmail = signal(candidateMock.emailAddress);
+      fixture.detectChanges();
+      component.ionViewWillEnter();
+      fixture.detectChanges();
+
+      expect(fixture.debugElement.query(By.css('#providedEmailInput')).nativeElement.textContent.trim()).toBe(
+        candidateMock.emailAddress
+      );
+      expect(store$.dispatch).toHaveBeenCalledWith(
+        communicationPreferencesActions.CandidateChoseEmailAsCommunicationPreference(
+          candidateMock.emailAddress,
+          CommunicationPage.email
+        )
+      );
+    });
+
+    it('hides the booking email option when no email is provided', () => {
+      component.candidateProvidedEmail = signal('');
+      component.communicationType = CommunicationPage.notProvided;
+      fixture.detectChanges();
+      component.ionViewWillEnter();
+      fixture.detectChanges();
+
+      expect(fixture.debugElement.query(By.css('#providedEmail'))).toBeNull();
+      expect(component.isNewEmailSelected()).toBe(true);
+      expect(component.form.controls.newEmailCtrl.hasError('required')).toBe(true);
+    });
+
     describe('i18n', () => {
       it('should render the page in English by default', () => {
         fixture.detectChanges();
