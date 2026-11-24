@@ -280,7 +280,7 @@ describe('TestsEffects', () => {
         // ACT
         actions$.next(testsActions.StartTest(1001, TestCategory.B));
         // ASSERT
-        effects.startTestEffect$.pipe(bufferCount(13)).subscribe(([, res1, , , , , , res7, res8, res9]) => {
+        effects.startTestEffect$.pipe(bufferCount(13)).subscribe(([, res1, , , , , res7, res8, res9]) => {
           try {
             expect(res1).toEqual(PopulateExaminer(examiner));
             expect(res7).toEqual(SetExaminerBooked(Number.parseInt(examiner.staffNumber, 10)));
@@ -316,20 +316,18 @@ describe('TestsEffects', () => {
         // ACT
         actions$.next(testsActions.StartTest(1001, TestCategory.B, true));
         // ASSERT
-        effects.startTestEffect$
-          .pipe(bufferCount(14))
-          .subscribe(([, res1, , , , , , res7, res8, res9, , , , res13]) => {
-            try {
-              expect(res1).toEqual(PopulateExaminer(examiner));
-              expect(res7).toEqual(SetExaminerBooked(Number.parseInt(examiner.staffNumber, 10)));
-              expect(res8).toEqual(SetExaminerConducted(Number.parseInt(examiner.staffNumber, 10)));
-              expect(res9).toEqual(SetExaminerKeyed(Number.parseInt(authenticationProviderMock.getEmployeeId(), 10)));
-              expect(res13).toEqual(rekeyActions.MarkAsRekey());
-              done();
-            } catch (error) {
-              reject(error);
-            }
-          }, reject);
+        effects.startTestEffect$.pipe(bufferCount(14)).subscribe(([, res1, , , , , res7, res8, res9, , , , res13]) => {
+          try {
+            expect(res1).toEqual(PopulateExaminer(examiner));
+            expect(res7).toEqual(SetExaminerBooked(Number.parseInt(examiner.staffNumber, 10)));
+            expect(res8).toEqual(SetExaminerConducted(Number.parseInt(examiner.staffNumber, 10)));
+            expect(res9).toEqual(SetExaminerKeyed(Number.parseInt(authenticationProviderMock.getEmployeeId(), 10)));
+            expect(res13).toEqual(rekeyActions.MarkAsRekey());
+            done();
+          } catch (error) {
+            reject(error);
+          }
+        }, reject);
       });
     });
 
@@ -343,7 +341,7 @@ describe('TestsEffects', () => {
         // ASSERT
         effects.startTestEffect$
           .pipe(bufferCount(14))
-          .subscribe(([res0, res1, res2, res3, , , , res7, res8, res9, , , , res13]) => {
+          .subscribe(([res0, res1, res2, res3, , , res7, res8, res9, , , , res13]) => {
             try {
               expect(res0).toEqual(PopulateTestCategory(testSlot.booking.application.testCategory as CategoryCode));
               expect(res1).toEqual(PopulateExaminer({ staffNumber }));

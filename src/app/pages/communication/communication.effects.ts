@@ -5,9 +5,10 @@ import { concatMap, switchMap, withLatestFrom } from 'rxjs/operators';
 import { Store, select } from '@ngrx/store';
 import { StoreModel } from '@shared/models/store.model';
 import * as testStatusActions from '@store/tests/test-status/test-status.actions';
+import { TestStatus } from '@store/tests/test-status/test-status.model';
 import * as testsActions from '@store/tests/tests.actions';
 import { getTests } from '@store/tests/tests.reducer';
-import { getCurrentTestSlotId } from '@store/tests/tests.selector';
+import { getCurrentTestSlotId, getCurrentTestStatus } from '@store/tests/tests.selector';
 import { of } from 'rxjs';
 import * as communicationActions from './communication.actions';
 
@@ -22,10 +23,17 @@ export class CommunicationEffects {
     this.actions$.pipe(
       ofType(communicationActions.CommunicationSubmitInfo),
       concatMap((action) =>
-        of(action).pipe(withLatestFrom(this.store$.pipe(select(getTests), select(getCurrentTestSlotId))))
+        of(action).pipe(
+          withLatestFrom(
+            this.store$.pipe(select(getTests), select(getCurrentTestSlotId)),
+            this.store$.pipe(select(getTests), select(getCurrentTestStatus))
+          )
+        )
       ),
-      switchMap(([, slotId]) => {
-        return [testStatusActions.SetTestStatusStarted(slotId), testsActions.PersistTests()];
+      switchMap(([, slotId, status]) => {
+        return status === TestStatus.Booked
+          ? [testStatusActions.SetTestStatusStarted(slotId), testsActions.PersistTests()]
+          : [testsActions.PersistTests()];
       })
     )
   );
